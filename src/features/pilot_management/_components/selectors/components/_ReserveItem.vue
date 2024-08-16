@@ -4,7 +4,7 @@
       <v-col cols="auto">
         <cc-tooltip simple content="Add Reserve">
           <v-btn icon variant="plain" color="accent" class="mt-n4" @click="$emit('click')">
-            <v-icon size="60">mdi-plus</v-icon>
+            <v-icon size="60">mdi-plus-box</v-icon>
           </v-btn>
         </cc-tooltip>
       </v-col>

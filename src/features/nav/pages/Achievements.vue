@@ -316,7 +316,7 @@ export default {
   },
   computed: {
     user() {
-      return UserStore().UserProfile;
+      return UserStore().User;
     },
     userAchievements() {
       return this.user.Achievements;
@@ -370,7 +370,11 @@ export default {
       }
     },
     hiddenAchievements() {
-      return this.nsAchievements.length - this.shownAchievements.length;
+      return this.nsAchievements.length - this.shownAchievements.length - this.extras;
+    },
+    extras() {
+      // todo: mark in data
+      return 3;
     },
     nsAchievements() {
       return this.achievements.filter((a) => !a.secret);

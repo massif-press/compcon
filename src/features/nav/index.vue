@@ -7,6 +7,16 @@
     class="clipped-large no-print"
     density="compact"
     style="z-index: 50">
+    <!-- <v-menu location="bottom" open-on-hover open-delay="500ms">
+      <template #activator="{ props }">
+        <v-btn icon variant="plain" size="45" v-bind="props">
+          <v-icon icon="mdi-menu" />
+        </v-btn>
+      </template>
+      <v-list density="compact" :items="navItems" />
+    </v-menu>
+    <v-divider vertical dark class="mx-2" /> -->
+
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
         <v-btn icon variant="plain" size="45" v-bind="props" @click="historyNav(-1)">
@@ -55,12 +65,7 @@
 
     <v-dialog v-model="qrDialog">
       <template #activator="{ props }">
-        <v-btn
-          icon
-          variant="plain"
-          size="45"
-          v-bind="props"
-          @click="$router.push({ path: '/srd' })">
+        <v-btn icon variant="plain" size="45" v-bind="props">
           <v-tooltip location="bottom" open-delay="500ms">
             <template #activator="{ props }">
               <v-icon v-bind="props" color="white" icon="mdi-contain" />

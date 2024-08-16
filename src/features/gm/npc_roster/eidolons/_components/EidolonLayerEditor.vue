@@ -9,9 +9,9 @@
         color="accent"
         prepend-icon="mdi-plus"
         style="width: 300px"
-        @click="($refs.layerSelector as any).show()"
-        >add layer</v-btn
-      >
+        @click="($refs.layerSelector as any).show()">
+        add layer
+      </v-btn>
       <v-tooltip location="top">
         <template #activator="{ props }">
           <v-btn icon v-bind="props" class="fade-select" @click="addRandomLayer()">
@@ -71,9 +71,9 @@
               size="x-small"
               prepend-icon="mdi-delete"
               :disabled="layer.ID === 'el_core' || index === 0"
-              @click="removeLayer(index)"
-              >remove</v-btn
-            >
+              @click="removeLayer(index)">
+              remove
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-window-item>

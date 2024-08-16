@@ -9,7 +9,8 @@
       </template>
       <v-card max-width="60vw">
         <v-toolbar density="compact" :color="item.Color">
-          <v-icon size="x-large" :icon="item.Icon" /><span class="heading h3" v-text="item.Name" />
+          <v-icon size="x-large" :icon="item.Icon" />
+          <span class="heading h3" v-text="item.Name" />
         </v-toolbar>
         <div class="pa-2">
           <cc-item-card :item="item" :tier="tier" readonly active />

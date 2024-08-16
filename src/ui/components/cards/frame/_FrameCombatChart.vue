@@ -1,7 +1,7 @@
 <template>
   <v-row align="center">
     <v-col cols="6">
-      <Radar :data="chartData" :options="chartOptions" style="max-height: 600px" />
+      <Radar :data="chartData" :options="chartOptions" style="max-height: 45vh" />
       <div class="px-4 mt-2">
         <v-row align="center" justify="space-around">
           <v-col cols="auto">
@@ -10,8 +10,8 @@
                 Absolute
                 <cc-tooltip inline content="Chart raw stat values ">
                   <v-icon size="small" variant="plain">mdi-information-outline</v-icon>
-                </cc-tooltip></v-col
-              >
+                </cc-tooltip>
+              </v-col>
               <v-col cols="auto">
                 <v-switch v-model="relative" density="compact" hide-details />
               </v-col>

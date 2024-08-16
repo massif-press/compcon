@@ -1,7 +1,7 @@
 <template>
   <v-menu open-on-hover bottom offset-y width="70vw">
     <template #activator="{ props }">
-      <v-chip :color="deployable.Color" v-bind="props">
+      <v-chip :color="deployable.Color" variant="flat" v-bind="props">
         <span class="text-white">
           <v-icon start dark>{{ deployable.Icon }}</v-icon>
           {{ deployable.Name }}

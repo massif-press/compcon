@@ -197,7 +197,8 @@ code {
 }
 
 code.horus {
-  font-size: 1.1em;
+  font-size: 1em;
+  padding: 2px;
   background-color: rgba(0, 0, 0, 0.7) !important;
   box-shadow: none;
   color: white;

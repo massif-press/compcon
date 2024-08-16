@@ -109,7 +109,7 @@
               style="height: 100%; cursor: pointer"
               @click="($refs as any).selectorDialog.show()">
               <v-row style="height: 100%">
-                <div class="heading h2 text-disabled my-auto py-3" style="width: 100%">
+                <div class="heading h2 text-disabled my-auto py-5" style="width: 100%">
                   // EMPTY //
                 </div>
               </v-row>

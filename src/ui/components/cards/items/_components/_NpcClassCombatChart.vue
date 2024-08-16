@@ -8,8 +8,8 @@
             Absolute
             <cc-tooltip inline content="Chart raw stat values ">
               <v-icon size="small" variant="plain">mdi-information-outline</v-icon>
-            </cc-tooltip></v-col
-          >
+            </cc-tooltip>
+          </v-col>
           <v-col cols="auto">
             <v-switch v-model="relative" density="compact" hide-details />
           </v-col>

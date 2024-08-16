@@ -65,23 +65,25 @@
         </v-row>
       </v-toolbar>
 
-      <v-row v-if="item" class="px-2" align="center">
-        <v-col class="h2 heading">
-          {{ item.Name }}
-          <cc-tooltip v-if="item.Note" simple inline :content="item.Note">
-            <v-icon size="x-small" color="active">mdi-note</v-icon>
-          </cc-tooltip>
-        </v-col>
-        <v-col cols="auto">
-          <slot name="title-items" />
-        </v-col>
-      </v-row>
+      <div @click="$emit('propagate-click')" style="cursor: pointer">
+        <v-row v-if="item" class="px-2" align="center">
+          <v-col class="h2 heading">
+            {{ item.Name }}
+            <cc-tooltip v-if="item.Note" simple inline :content="item.Note">
+              <v-icon size="x-small" color="active">mdi-note</v-icon>
+            </cc-tooltip>
+          </v-col>
+          <v-col cols="auto">
+            <slot name="title-items" />
+          </v-col>
+        </v-row>
 
-      <v-card v-if="item && item.FlavorDescription" variant="tonal" class="mx-1 py-1 px-2 mb-n2">
-        {{ item.FlavorDescription }}
-      </v-card>
+        <v-card v-if="item && item.FlavorDescription" variant="tonal" class="mx-1 py-1 px-2 mb-n2">
+          <p v-html-safe="item.FlavorDescription" />
+        </v-card>
+      </div>
 
-      <v-card-text>
+      <v-card-text style="height: 100%">
         <div v-if="item">
           <slot @click="($refs as any).detailDialog.show()" />
           <div v-if="item.Deployables.length">
@@ -102,12 +104,14 @@
         </div>
         <div
           v-else
-          class="py-3 text-center fade-select"
-          style="cursor: pointer"
+          class="text-center fade-select"
+          style="height: 100%; position: relative; cursor: pointer"
           @click="($refs as any).selectorDialog.show()">
-          <v-row>
-            <v-col class="heading h2 text-disabled">// EMPTY //</v-col>
-          </v-row>
+          <div
+            class="heading h2 text-disabled"
+            style="position: absolute; top: calc(50% - 38px); left: 0; right: 0">
+            // EMPTY //
+          </div>
         </div>
       </v-card-text>
     </v-card>
@@ -119,7 +123,7 @@
       fullscreen>
       <slot name="selector" />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
+    <cc-solo-dialog ref="detailDialog" no-confirm :title="itemTitle" large>
       <div class="py-2 px-4">
         <cc-item-card :item="item" />
         <slot name="detail" />
@@ -179,6 +183,14 @@ export default {
     },
     readonly: {
       type: Boolean,
+    },
+  },
+  emits: ['propagate-click', 'remove', 'save'],
+  computed: {
+    itemTitle() {
+      if (!this.item) return '';
+      if (this.item.Name !== this.item.TrueName) return `${this.item.Name} (${this.item.TrueName})`;
+      return this.item.TrueName;
     },
   },
   methods: {

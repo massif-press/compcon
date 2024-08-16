@@ -1,120 +1,111 @@
 <template>
-  <div>
-    <div>
-      <div>
-        <div v-if="group === 'lcp'">
-          <div class="text-center">
-            <v-btn
-              v-for="(lcp, i) in lcpFilter"
-              :active="lcpTab === i"
-              :color="lcpTab === i ? 'accent' : ''"
-              variant="tonal"
-              size="small"
-              rounded="0"
-              @click="lcpTab = i">
-              {{ lcp }}
-            </v-btn>
-          </div>
-
-          <v-window v-model="lcpTab">
-            <v-window-item v-for="lcp in lcpFilter" eager>
-              <div class="heading mech" v-text="lcp" />
-              <div :style="`height: calc(100vh - ${short ? '400px' : '180px'})`">
-                <bar :options="options" :data="getChartData(getItems(undefined, lcp as string))" />
-              </div>
-            </v-window-item>
-          </v-window>
-        </div>
-
-        <div v-else-if="group === 'source'">
-          <div class="text-center">
-            <v-btn
-              v-for="(m, i) in manufacturers"
-              :active="mfTab === i"
-              :color="mfTab === i ? 'primary' : ''"
-              variant="tonal"
-              size="small"
-              rounded="0"
-              @click="mfTab = i">
-              <cc-logo
-                v-if="m && mf(m as string).LogoIsExternal"
-                size="small"
-                :source="mf(m as string)"
-                :color="mfTab == i ? 'white' : 'black'" />
-              <v-icon v-else-if="!!m" size="20" :icon="mf(m as string).Icon" />
-
-              {{ !m ? 'None' : mf(m as string).Name }}
-            </v-btn>
-          </div>
-
-          <v-window v-model="mfTab">
-            <v-window-item v-for="manufacturer in manufacturers" eager>
-              <v-row v-if="manufacturer" align="center">
-                <v-col cols="auto">
-                  <cc-logo
-                    v-if="mf(manufacturer as string).LogoIsExternal"
-                    :source="mf(manufacturer as string)"
-                    size="x-large"
-                    class="pt-3 mb-n1" />
-                  <v-icon
-                    v-else
-                    size="60"
-                    :icon="mf(manufacturer as string).Icon"
-                    :color="mf(manufacturer as string).GetColor($vuetify.theme.current.dark)" />
-                </v-col>
-                <v-col>
-                  <div class="heading mech" v-text="manufacturer" />
-                </v-col>
-              </v-row>
-              <div v-else>
-                <div class="heading mech" v-text="'No Manufacturer'" />
-              </div>
-              <v-row class="mt-n8">
-                <v-col style="height: calc(100vh - 225px)">
-                  <bar :data="getChartData(getItems(manufacturer as string))" :options="options" />
-                </v-col>
-              </v-row>
-            </v-window-item>
-          </v-window>
-        </div>
-
-        <div v-else-if="group === 'license'">
-          <div class="text-center">
-            <v-btn
-              v-for="(l, i) in licenses"
-              :active="licenseTab === i"
-              :color="licenseTab === i ? 'primary' : ''"
-              variant="tonal"
-              size="small"
-              rounded="0"
-              @click="licenseTab = i">
-              {{ !l ? 'None' : l }}
-            </v-btn>
-          </div>
-
-          <v-window v-model="licenseTab">
-            <v-window-item v-for="l in licenses" eager>
-              <div class="heading h2 text-primary mt-4" v-text="l" />
-              <v-row class="mt-n8">
-                <v-col style="height: calc(100vh - 225px)">
-                  <bar :data="getChartData(getLicenseItems(l as string))" :options="options" />
-                </v-col>
-              </v-row>
-            </v-window-item>
-          </v-window>
-        </div>
-
-        <div v-else :style="`height: calc(100vh - ${short ? '300px' : '130px'})`">
-          <bar :data="getChartData(items)" :options="options" />
-        </div>
-      </div>
+  <div v-if="group === 'lcp'">
+    <div class="text-center">
+      <v-btn
+        v-for="(lcp, i) in lcpFilter"
+        :active="lcpTab === i"
+        :color="lcpTab === i ? 'accent' : ''"
+        variant="tonal"
+        size="small"
+        rounded="0"
+        @click="lcpTab = i">
+        {{ lcp }}
+      </v-btn>
     </div>
+
+    <v-window v-model="lcpTab">
+      <v-window-item v-for="lcp in lcpFilter" eager>
+        <div class="heading mech" v-text="lcp" />
+        <div :style="`height: calc(100vh - ${short ? '400px' : '180px'})`">
+          <bar :options="options" :data="getChartData(getItems(undefined, lcp as string))" />
+        </div>
+      </v-window-item>
+    </v-window>
   </div>
-  <v-footer
-    border
-    class="bg-primary pb-2 pt-3 px-5"
-    app
-    style="margin-left: 325px; width: calc(100vw - 335px)">
+
+  <div v-else-if="group === 'source'">
+    <div class="text-center">
+      <v-btn
+        v-for="(m, i) in manufacturers"
+        :active="mfTab === i"
+        :color="mfTab === i ? 'primary' : ''"
+        variant="tonal"
+        size="small"
+        rounded="0"
+        @click="mfTab = i">
+        <cc-logo
+          v-if="m && mf(m as string).LogoIsExternal"
+          size="small"
+          :source="mf(m as string)"
+          :color="mfTab == i ? 'white' : 'black'" />
+        <v-icon v-else-if="!!m" size="20" :icon="mf(m as string).Icon" />
+
+        {{ !m ? 'None' : mf(m as string).Name }}
+      </v-btn>
+    </div>
+
+    <v-window v-model="mfTab">
+      <v-window-item v-for="manufacturer in manufacturers" eager>
+        <v-row v-if="manufacturer" align="center">
+          <v-col cols="auto">
+            <cc-logo
+              v-if="mf(manufacturer as string).LogoIsExternal"
+              :source="mf(manufacturer as string)"
+              size="x-large"
+              class="pt-3 mb-n1" />
+            <v-icon
+              v-else
+              size="60"
+              :icon="mf(manufacturer as string).Icon"
+              :color="mf(manufacturer as string).GetColor($vuetify.theme.current.dark)" />
+          </v-col>
+          <v-col>
+            <div class="heading mech" v-text="manufacturer" />
+          </v-col>
+        </v-row>
+        <div v-else>
+          <div class="heading mech" v-text="'No Manufacturer'" />
+        </div>
+        <v-row class="mt-n8">
+          <v-col style="height: calc(100vh - 225px)">
+            <bar :data="getChartData(getItems(manufacturer as string))" :options="options" />
+          </v-col>
+        </v-row>
+      </v-window-item>
+    </v-window>
+  </div>
+
+  <div v-else-if="group === 'license'">
+    <div class="text-center">
+      <v-btn
+        v-for="(l, i) in licenses"
+        :active="licenseTab === i"
+        :color="licenseTab === i ? 'primary' : ''"
+        variant="tonal"
+        size="small"
+        rounded="0"
+        @click="licenseTab = i">
+        {{ !l ? 'None' : l }}
+      </v-btn>
+    </div>
+
+    <v-window v-model="licenseTab">
+      <v-window-item v-for="l in licenses" eager>
+        <div class="heading h2 text-primary mt-4" v-text="l" />
+        <v-row class="mt-n8">
+          <v-col style="height: calc(100vh - 225px)">
+            <bar :data="getChartData(getLicenseItems(l as string))" :options="options" />
+          </v-col>
+        </v-row>
+      </v-window-item>
+    </v-window>
+  </div>
+
+  <div v-else :style="`height: calc(100vh - ${short ? '300px' : '130px'})`">
+    <bar :data="getChartData(items)" :options="options" />
+  </div>
+
+  <v-footer class="pb-2 pt-3 px-5">
     <v-row>
       <v-col>
         <v-select

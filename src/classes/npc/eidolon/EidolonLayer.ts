@@ -42,6 +42,8 @@ class EidolonLayer {
   public readonly Features: NpcFeature[];
   public readonly Shards: EidolonShard;
 
+  public readonly Color: string = 'deep-purple';
+
   private _id: string;
   private _name: string;
   private _rules: string;

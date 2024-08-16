@@ -4,7 +4,7 @@
     :headers="<any[]>headers"
     :items="<any[]>items"
     :items-per-page="-1"
-    style="max-width: calc(100vw - 390px)">
+    style="width: 100%">
     <template v-slot:item="{ item }">
       <tr :id="item.ID">
         <td

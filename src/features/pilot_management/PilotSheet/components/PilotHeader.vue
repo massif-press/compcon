@@ -48,7 +48,7 @@
                 </div>
               </v-col>
               <v-col cols="auto">
-                <div class="text-overline mb-n3" style="opacity: 0.4">rm-4://(IDENT)</div>
+                <div class="text-overline mb-n3" style="opacity: 0.4">rm-4://IDENT</div>
                 <div class="stat-text mt-n2 mb-n1">
                   <v-dialog max-width="1200px">
                     <template #activator="{ props }">
@@ -61,8 +61,28 @@
                 </div>
               </v-col>
               <v-col v-if="pilot.BrewController.Brews.length" cols="auto">
-                <div class="text-overline mb-n3" style="opacity: 0.4">RM-6://(DATA)</div>
+                <div class="text-overline mb-n3" style="opacity: 0.4">RM-6://DATA</div>
                 <cc-brew-info :controller="pilot.BrewController" color="" />
+              </v-col>
+              <v-col class="">
+                <div class="text-overline mb-n3" style="opacity: 0.4">
+                  NDAP/SR-01://STATUS REPORT
+                </div>
+                <div class="text-caption pt-1">
+                  <v-icon size="20" class="ml-1 mt-n1 mr-n1" icon="mdi-shield-outline" />
+                  {{ pilot.Armor }}
+                  <v-icon size="20" class="ml-1 mt-n1 mr-n1" icon="mdi-heart" />
+                  {{ pilot.MaxHP }}
+                  <v-icon size="23" class="ml-1 mt-n1 mr-n1" icon="cc:e_def" />
+                  {{ pilot.EDefense }}
+                  <v-icon size="23" class="ml-1 mt-n1 mr-n1" icon="cc:evasion" />
+                  {{ pilot.Evasion }}
+                  <v-icon
+                    size="18"
+                    class="ml-1 mt-n1 mr-n1"
+                    icon="mdi-arrow-right-bold-hexagon-outline" />
+                  {{ pilot.Speed }}
+                </div>
               </v-col>
             </v-row>
           </v-col>

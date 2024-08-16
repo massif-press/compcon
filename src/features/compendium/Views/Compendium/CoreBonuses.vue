@@ -23,8 +23,8 @@ export default {
       { title: 'Name', key: 'Name' },
     ],
     options: {
-      views: ['list', 'table', 'cards'],
-      initialView: 'cards',
+      views: ['list', 'table'],
+      initialView: 'list',
       groups: ['source', 'lcp'],
       initialGroup: 'source',
     },

@@ -1,13 +1,16 @@
 <template>
-  <v-row>
-    <v-col cols="3" style="max-width: 325px !important">
-      <v-list
-        density="compact"
-        nav
-        class="side-fixed"
-        color="panel"
-        v-model:opened="open"
-        :class="dialog ? 'mt-4' : ''">
+  <v-layout>
+    <v-btn
+      icon
+      size="25"
+      variant="tonal"
+      color="primary"
+      :style="`position: absolute; z-index: 999; left: ${showNav ? '352' : '3'}px; top: 12px`"
+      @click="(showNav as any) = !showNav">
+      <v-icon size="25" :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'" />
+    </v-btn>
+    <v-navigation-drawer v-model="showNav" class="mt-2" width="350">
+      <v-list density="compact" nav v-model:opened="open">
         <v-alert
           v-show="!!$slots.header"
           variant="outlined"
@@ -57,7 +60,9 @@
 
             <b-list-item
               v-if="options.noSource"
-              v-for="item in itemsByLcp[lcp]"
+              v-for="item in itemsByLcp[lcp].filter((i) =>
+                search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
+              )"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -106,10 +111,19 @@
             <b-list-group
               v-else-if="itemType === 'NpcFeature'"
               v-for="origin in originsByLcp[lcp]"
+              v-show="
+                search
+                  ? getOriginItems(origin, lcp).filter((i) =>
+                      i.Name.toLowerCase().includes(search.toLowerCase())
+                    ).length > 0
+                  : true
+              "
               :parent="lcp"
               :collection="origin">
               <b-list-item
-                v-for="item in getOriginItems(origin, lcp)"
+                v-for="item in getOriginItems(origin, lcp).filter((i) =>
+                  search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
+                )"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -370,10 +384,13 @@
           </b-list-item>
         </div>
       </v-list>
-    </v-col>
+    </v-navigation-drawer>
 
-    <v-col class="pl-6">
-      <v-container id="content" style="height: calc(100vh - 65px) !important; overflow-y: scroll">
+    <v-main class="mt-2">
+      <div
+        id="content"
+        :style="`padding: 16px ${horizPadding}px 16px ${horizPadding}px`"
+        style="height: calc(100vh - 65px) !important; overflow-y: scroll">
         <v-alert
           v-show="!!$slots.top"
           variant="outlined"
@@ -500,7 +517,7 @@
             </div>
           </div>
 
-          <div v-else-if="group === 'source'" cols="12">
+          <div v-else-if="group === 'source'">
             <div v-for="manufacturer in manufacturers">
               <v-row align="center">
                 <v-col cols="auto">
@@ -519,14 +536,11 @@
                   <div class="heading mech" v-text="manufacturer" />
                 </v-col>
               </v-row>
-              <v-row>
-                <v-col>
-                  <selector-table
-                    :headers="tableHeaders"
-                    :items="getItems(manufacturer)"
-                    :selected="<CompendiumItem>selectedItem" />
-                </v-col>
-              </v-row>
+
+              <selector-table
+                :headers="tableHeaders"
+                :items="getItems(manufacturer)"
+                :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
 
@@ -534,70 +548,54 @@
             <div v-for="license in licenses">
               <div class="heading h2 text-accent mt-4" v-text="license" />
 
-              <v-row>
-                <v-col>
-                  <selector-table
-                    :headers="tableHeaders"
-                    :items="getLicenseItems(license)"
-                    :selected="<CompendiumItem>selectedItem" />
-                </v-col>
-              </v-row>
+              <selector-table
+                :headers="tableHeaders"
+                :items="getLicenseItems(license)"
+                :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
 
           <div v-else-if="group === 'type'" cols="12">
             <div v-for="subtype in subtypes">
               <div class="heading h2 text-accent mt-4" v-text="subtype" />
-              <v-row>
-                <v-col>
-                  <selector-table
-                    :headers="getMultiHeader(subtype)"
-                    :items="getSubtypeItems(subtype)"
-                    :selected="<CompendiumItem>selectedItem" />
-                </v-col>
-              </v-row>
+
+              <selector-table
+                :headers="getMultiHeader(subtype)"
+                :items="getSubtypeItems(subtype)"
+                :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
 
           <div v-else-if="group === 'role'" cols="12">
             <div v-for="role in roles">
               <div class="heading h2 text-accent mt-4" v-text="role" />
-              <v-row>
-                <v-col>
-                  <selector-table
-                    :headers="tableHeaders"
-                    :items="getRoleItems(role)"
-                    :selected="<CompendiumItem>selectedItem" />
-                </v-col>
-              </v-row>
+
+              <selector-table
+                :headers="tableHeaders"
+                :items="getRoleItems(role)"
+                :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
 
           <div v-else-if="group === 'featureType'" cols="12">
             <div v-for="featureType in featureTypes">
               <div class="heading h2 text-accent mt-4" v-text="featureType" />
-              <v-row>
-                <v-col>
-                  <selector-table
-                    :headers="tableHeaders"
-                    :items="getFeatureItems(featureType)"
-                    :selected="<CompendiumItem>selectedItem" />
-                </v-col>
-              </v-row>
+
+              <selector-table
+                :headers="tableHeaders"
+                :items="getFeatureItems(featureType)"
+                :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
 
           <div v-else-if="group === 'origin'" cols="12">
             <div v-for="origin in origins">
               <div class="heading h2 text-accent mt-4" v-text="origin" />
-              <v-row>
-                <v-col>
-                  <selector-table
-                    :headers="tableHeaders"
-                    :items="getOriginItems(origin)"
-                    :selected="<CompendiumItem>selectedItem" />
-                </v-col>
-              </v-row>
+
+              <selector-table
+                :headers="tableHeaders"
+                :items="getOriginItems(origin)"
+                :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
 
@@ -610,6 +608,10 @@
         </div>
 
         <div v-else-if="view === 'cards'">
+          <v-pagination
+            v-model="page"
+            total-visible="8"
+            :length="Math.ceil(shownItems.length / itemsPerPage)" />
           <v-row>
             <selector-card-item
               v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
@@ -634,9 +636,9 @@
         </div>
 
         <div style="height: 30px" />
-      </v-container>
-    </v-col>
-  </v-row>
+      </div>
+    </v-main>
+  </v-layout>
 </template>
 
 <script lang="ts">
@@ -656,8 +658,9 @@ import bGroupToggle from './components/_b-group-toggle.vue';
 import bFilterSet from './components/_b-filter-set.vue';
 import bListGroup from './components/_b-list-group.vue';
 
-import { CompendiumItem, License } from '@/class';
+import { CompendiumItem, License, LicensedItem, Manufacturer } from '@/class';
 import { CompendiumStore, UserStore } from '@/stores';
+import { ManufacturerSort } from '@/util/ManufacturerSort';
 
 type BrowserOptions = {
   views: string[];
@@ -674,6 +677,25 @@ const sortFn = (a: any, b: any): number => {
   if (!a || excl.includes(a.toLowerCase())) return 1;
   if (!b || excl.includes(b.toLowerCase())) return -1;
   return a.localeCompare(b);
+};
+
+const manufacturerSortFn = (a: string, b: string): number => {
+  const order = ['gms', 'ips-n', 'ssc', 'horus', 'ha'];
+  const excl = ['exotic'];
+
+  if (!a || excl.includes(a.toLowerCase())) return 1;
+  if (!b || excl.includes(b.toLowerCase())) return -1;
+
+  const indexA = order.indexOf(a.toLowerCase());
+  const indexB = order.indexOf(b.toLowerCase());
+
+  if (indexA !== -1 && indexB !== -1) {
+    return indexA - indexB;
+  } else if (indexA !== -1) {
+    return -1;
+  } else if (indexB !== -1) {
+    return 1;
+  } else return a.toLowerCase().localeCompare(b.toLowerCase());
 };
 
 export default {
@@ -729,11 +751,6 @@ export default {
       required: false,
       default: 1,
     },
-    dialog: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   data: () => ({
     open: [] as string[],
@@ -746,10 +763,18 @@ export default {
     comparisons: [] as CompendiumItem[],
     page: 1,
     itemsPerPage: 15,
+    showNav: null,
   }),
   watch: {
     group() {
-      this.open = [...this.lcps, ...this.manufacturers, ...this.subtypes, ...this.licenses];
+      this.open = [
+        ...this.lcps,
+        ...this.manufacturers,
+        ...this.subtypes,
+        ...this.licenses,
+        ...this.allOrigins,
+        ...this.allRoles,
+      ];
     },
     comparisons() {
       const idx = this.comparisons.findIndex((x) => x.ID === this.selectedItem?.ID);
@@ -757,10 +782,27 @@ export default {
     },
     items() {
       this.lcpFilter = this.lcps;
-      this.open = [...this.lcps, ...this.manufacturers, ...this.subtypes, ...this.licenses];
+      this.open = [
+        ...this.lcps,
+        ...this.manufacturers,
+        ...this.subtypes,
+        ...this.licenses,
+        ...this.allOrigins,
+        ...this.allRoles,
+      ];
     },
     view() {
       this.$emit('view-change', this.view);
+    },
+    search() {
+      this.open = [
+        ...this.lcps,
+        ...this.manufacturers,
+        ...this.subtypes,
+        ...this.licenses,
+        ...this.allOrigins,
+        ...this.allRoles,
+      ];
     },
   },
   created() {
@@ -782,7 +824,9 @@ export default {
       return _.groupBy(this.items as CompendiumItem[], 'LcpName');
     },
     manufacturers() {
-      return _.uniq(this.shownItems.map((x: any) => x.Source)).sort((a, b) => sortFn(a, b));
+      return _.uniq(this.shownItems.map((x: any) => x.Source)).sort((a, b) =>
+        manufacturerSortFn(a, b)
+      );
     },
     manufacturersByLcp() {
       const m = {} as any;
@@ -795,6 +839,15 @@ export default {
     },
     roles() {
       return _.uniq(this.shownItems.map((x: any) => x.Role)).sort((a, b) => sortFn(a, b));
+    },
+    allRoles() {
+      if (this.itemType === 'NpcClass')
+        return _.uniq(
+          Object.entries(this.rolesByLcp).flatMap(([key, arr]) =>
+            (arr as string[]).map((str) => str)
+          )
+        );
+      return [];
     },
     rolesByLcp() {
       const m = {} as any;
@@ -818,6 +871,15 @@ export default {
     origins() {
       return _.uniq(this.shownItems.map((x: any) => x.Origin.Name)).sort((a, b) => sortFn(a, b));
     },
+    allOrigins() {
+      if (this.itemType === 'NpcFeature')
+        return _.uniq(
+          Object.entries(this.originsByLcp).flatMap(([key, arr]) =>
+            (arr as string[]).map((str) => `${key}_${str}`)
+          )
+        );
+      return [];
+    },
     originsByLcp() {
       const m = {} as any;
       for (const lcp of this.lcps) {
@@ -825,6 +887,7 @@ export default {
           sortFn(a, b)
         );
       }
+      console.log(m);
       return m;
     },
     lcps() {
@@ -842,16 +905,27 @@ export default {
     shownItems() {
       let shown = this.items as CompendiumItem[];
       shown = shown.filter((i: any) => this.lcpFilter.includes(i.LcpName));
+
       if (this.search) {
         shown = shown.filter((i: any) => i.Name.toLowerCase().includes(this.search.toLowerCase()));
       }
+
       if (Object.keys(this.otherFilter).length) {
         shown = ItemFilter.Filter(shown, this.otherFilter);
       }
 
       if (!this.showExotics) shown = shown.filter((i: CompendiumItem) => !i.IsExotic);
 
+      if (shown.some((x: any) => x.Source)) shown = ManufacturerSort(shown);
+
       return shown;
+    },
+    horizPadding() {
+      if (this.view === 'table') return 12;
+      if (this.$vuetify.display.xl) return 160;
+      if (this.$vuetify.display.lg) return 90;
+      if (this.$vuetify.display.md) return 24;
+      return 24;
     },
   },
   methods: {
@@ -933,14 +1007,7 @@ export default {
 
 <style scoped>
 .side-fixed {
-  height: calc(100vh - 64px);
   overflow-y: scroll;
-  top: 48px;
-  bottom: 0;
-  /* padding-bottom: 35px; */
-  position: fixed;
-  width: 23vw;
-  max-width: 325px !important;
 }
 
 .img-hover {

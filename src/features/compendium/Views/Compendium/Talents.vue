@@ -5,8 +5,8 @@
     :table-headers="headers"
     :options="options">
     <template #header>
-      <div class="heading h3 text-center text-accent">Pilot Talents</div></template
-    >
+      <div class="heading h3 text-center text-accent">Pilot Talents</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
@@ -22,6 +22,7 @@ export default {
     headers: [
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
+      { title: 'Overview', key: 'Terse' },
     ],
     options: {
       views: ['list', 'table'],

@@ -3,6 +3,7 @@
     title=""
     :class="selected && !equippable ? 'bg-primary' : ''"
     :style="selected && equippable ? 'border: 3px solid rgb(var(--v-theme-primary)' : ''"
+    height="0px"
     @click="$emit('clicked')">
     <template #title>
       <span class="text-button">
