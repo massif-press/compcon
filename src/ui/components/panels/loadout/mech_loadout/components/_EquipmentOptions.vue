@@ -52,6 +52,7 @@
       v-if="item"
       ref="cDesc"
       multiline
+      auto-grow
       :placeholder="item.FlavorDescription || item.Description"
       label="Custom Item Description"
       @save="save('FlavorDescription', $event)"

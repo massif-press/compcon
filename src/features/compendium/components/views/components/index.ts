@@ -8,6 +8,7 @@ import PilotWeaponContent from './_PilotWeaponContent.vue';
 import CoreBonusContent from './_CoreBonusContent.vue';
 import NpcClassContent from './_NpcClassContent.vue';
 import EidolonLayerContent from './_EidolonLayerContent.vue';
+import ReserveContent from './_ReserveContent.vue';
 
 export {
   FrameContent,
@@ -20,4 +21,5 @@ export {
   WeaponModContent,
   NpcClassContent,
   EidolonLayerContent,
+  ReserveContent,
 };

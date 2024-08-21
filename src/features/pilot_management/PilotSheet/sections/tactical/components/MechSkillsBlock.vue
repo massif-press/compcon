@@ -6,8 +6,7 @@
         :current="pilot.MechSkillsController.CurrentHASEPoints"
         :max="pilot.MechSkillsController.MaxHASEPoints"
         :label="`Edit Pilot Mech Skills (${pilot.MechSkillsController.CurrentHASEPoints}/${pilot.MechSkillsController.MaxHASEPoints})`"
-        @open-selector="($refs as any).mechskillsSelector.show()"
-      />
+        @open-selector="($refs as any).mechskillsSelector.show()" />
     </section-header>
 
     <cc-solo-dialog
@@ -15,10 +14,9 @@
       icon="cc:frame"
       no-confirm
       title="Set Pilot Mech Skills"
-      fullscreen
-    >
+      fullscreen>
       <v-container>
-        <mech-skills-selector :pilot="(pilot as Pilot)" />
+        <mech-skills-selector :pilot="<Pilot>pilot" />
       </v-container>
     </cc-solo-dialog>
     <v-row dense class="py-3" justify="space-around">

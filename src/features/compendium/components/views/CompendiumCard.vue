@@ -16,10 +16,20 @@
             :hover="isHovering"
             :highlighted="highlighted"
             :small="small" />
+          <v-btn
+            v-if="selectable"
+            block
+            color="secondary"
+            size="small"
+            rounded="0"
+            prepend-icon="mdi-plus-box"
+            @click.stop="$emit('select')">
+            Select {{ item.Name }}
+          </v-btn>
         </v-card>
       </template>
     </v-hover>
-    <cc-solo-dialog ref="dialog" :title="`${item.Source} ${item.Name}`" large>
+    <cc-solo-dialog ref="dialog" :icon="item.Icon" :title="itemDialogTitle" large>
       <v-card-text>
         <cc-item-card :item="item" />
       </v-card-text>
@@ -41,6 +51,9 @@ export default {
       type: Boolean,
     },
     highlighted: {
+      type: Boolean,
+    },
+    selectable: {
       type: Boolean,
     },
   },
@@ -66,6 +79,10 @@ export default {
       }
 
       return content[t];
+    },
+    itemDialogTitle() {
+      if (this.item.Source) return `${this.item.Source} ${this.item.Name}`;
+      return this.item.Name;
     },
   },
 };

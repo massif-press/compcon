@@ -9,8 +9,7 @@
         icon
         variant="plain"
         size="small"
-        @click="$emit('remove')"
-      >
+        @click="$emit('remove')">
         <v-icon size="x-large" icon="mdi-minus" />
       </v-btn>
       <v-icon v-if="filled" v-for="n in filled" color="accent" size="x-large" icon="mdi-hexagon" />
@@ -19,16 +18,14 @@
         v-for="n in empty"
         color="accent"
         size="x-large"
-        icon="mdi-hexagon-outline"
-      />
+        icon="mdi-hexagon-outline" />
       <v-btn
         :disabled="!isMissingHASE"
         color="secondary"
         icon
         variant="plain"
         size="small"
-        @click="$emit('add')"
-      >
+        @click="$emit('add')">
         <v-icon size="x-large" icon="mdi-plus" />
       </v-btn>
     </v-col>
@@ -37,7 +34,7 @@
     <v-col cols="auto" class="ml-auto mr-auto text-center">
       <span v-for="b in bonuses" class="heading h3 px-4">
         {{ b.text }}
-        <span class="text-accent"> +{{ b.value }} </span>
+        <span class="text-accent">+{{ b.value }}</span>
       </span>
     </v-col>
   </v-row>

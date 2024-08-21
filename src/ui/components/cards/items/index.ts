@@ -20,6 +20,9 @@ import SitrepCard from './_SitrepCard.vue';
 import NpcClassCard from './_NpcClassCard.vue';
 import NpcTemplateCard from './_NpcTemplateCard.vue';
 import EidolonLayerCard from './_EidolonLayerCard.vue';
+import BondCard from './_BondCard.vue';
+import StatusCard from './_StatusCard.vue';
+import TagCard from './_TagCard.vue';
 
 export {
   EquipmentCardBase,
@@ -44,4 +47,7 @@ export {
   NpcClassCard,
   NpcTemplateCard,
   EidolonLayerCard,
+  BondCard,
+  StatusCard,
+  TagCard,
 };

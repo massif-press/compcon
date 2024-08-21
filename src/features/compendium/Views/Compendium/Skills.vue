@@ -23,6 +23,7 @@ export default {
     headers: [
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
+      { title: 'Description', key: 'Description' },
     ],
     options: {
       views: ['list', 'table'],

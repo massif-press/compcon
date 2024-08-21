@@ -40,6 +40,10 @@ const theme = {
     'reserve--organization': '#3ec2c2',
     'reserve--bonus': '#455A64',
     'action--reaction': '#be51ed',
+
+    // tooltips
+    'surface-variant': '#131b1f',
+    'on-surface-variant': '#ffffff',
   },
 };
 export default theme;

@@ -64,6 +64,7 @@
         item-type="PilotArmor"
         :options="options"
         equippable
+        :table-headers="headers"
         @equip="equip($event)">
         <template #header>
           <div class="heading h4 text-center text-accent">Select Pilot Armor</div>
@@ -141,6 +142,7 @@ export default {
       { title: 'E-Defense', key: 'EdefString' },
       { title: 'Evasion', key: 'EvasionString' },
       { title: 'Speed', key: 'SpeedString' },
+      { title: 'Tags', align: 'center', key: 'Tags' },
     ],
     options: {
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],

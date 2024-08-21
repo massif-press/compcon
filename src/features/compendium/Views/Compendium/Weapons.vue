@@ -23,7 +23,7 @@ export default {
       initialGroup: 'license',
     },
     headers: [
-      { title: 'Manufacturer', align: 'left', key: 'Source' },
+      { title: '', align: 'left', key: 'Source' },
       { title: 'Weapon', align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'LicenseString' },
       { title: 'Size', align: 'left', key: 'Size' },
@@ -36,6 +36,8 @@ export default {
           if (a.SizeInt > b.SizeInt) return 1;
         },
       },
+      { title: 'Tags', align: 'center', key: 'Tags' },
+
       { title: 'Range', align: 'left', key: 'Range' },
       { title: 'Damage', align: 'left', key: 'Damage' },
     ],
@@ -43,13 +45,6 @@ export default {
   computed: {
     weapons() {
       let items = CompendiumStore().MechWeapons;
-
-      // TODO: profile
-
-      // const canShowExotics =
-      //   this.profile && Object.keys(this.profile).length > 0 && this.profile.GetView('showExotics');
-
-      // if (!canShowExotics) i = i.filter((x) => !x.IsExotic);
 
       return _.orderBy(
         items.filter((x) => !x.IsHidden),

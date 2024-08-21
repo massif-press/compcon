@@ -1,7 +1,6 @@
 <template>
   <v-btn-toggle
-    :value="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    v-model="internalValue"
     mandatory
     divided
     variant="plain"
@@ -17,9 +16,9 @@
           :value="g"
           icon
           size="small"
-          :style="`width: ${100 / (options.groups.length + 1)}%`"
-          ><v-icon size="25" :icon="groupIcon(g)"
-        /></v-btn>
+          :style="`width: ${100 / (options.groups.length + 1)}%`">
+          <v-icon size="25" :icon="groupIcon(g)" />
+        </v-btn>
       </template>
     </v-tooltip>
     <v-tooltip text="No Grouping" location="top">
@@ -29,9 +28,9 @@
           value="none"
           size="small"
           icon
-          :style="`width: ${100 / (options.groups.length + 1)}%`"
-          ><v-icon icon="mdi-cancel"
-        /></v-btn>
+          :style="`width: ${100 / (options.groups.length + 1)}%`">
+          <v-icon icon="mdi-cancel" />
+        </v-btn>
       </template>
     </v-tooltip>
   </v-btn-toggle>
@@ -48,6 +47,16 @@ export default {
     options: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    internalValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
     },
   },
   emits: ['update:modelValue'],

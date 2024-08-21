@@ -25,6 +25,10 @@ class Background {
   public get Icon(): string {
     return 'cc:orbit';
   }
+
+  public get Terse(): string {
+    return this.Description.split('<i>')[0];
+  }
 }
 
 export { Background };

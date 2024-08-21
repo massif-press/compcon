@@ -5,8 +5,8 @@
         v-bind="props"
         :color="isHovering ? 'panel lighten-1' : 'panel'"
         @click="($refs.dialog as any).show()"
-        @keydown.enter="($refs.dialog as any).show()"
-      >
+        @keydown.enter="($refs.dialog as any).show()">
+        TODO: REMOVE
         <frame-card-content
           v-if="item.ItemType === 'Frame'"
           :item="item"
@@ -16,8 +16,7 @@
           :equipment-add="equipmentAdd"
           :equipped="isEquippedItem"
           @add="$emit('add', $event)"
-          @equip="$emit('equip', $event)"
-        />
+          @equip="$emit('equip', $event)" />
         <weapon-card-content
           v-else-if="item.ItemType === 'MechWeapon'"
           :item="item"
@@ -27,8 +26,7 @@
           :equipment-add="equipmentAdd"
           :equipped="isEquippedItem"
           @add="$emit('add', $event)"
-          @equip="$emit('equip', $event)"
-        />
+          @equip="$emit('equip', $event)" />
         <system-card-content
           v-else-if="item.ItemType === 'MechSystem'"
           :item="item"
@@ -38,8 +36,7 @@
           :equipment-add="equipmentAdd"
           :equipped="isEquippedItem"
           @add="$emit('add', $event)"
-          @equip="$emit('equip', $event)"
-        />
+          @equip="$emit('equip', $event)" />
         <gear-card-content
           v-else
           :item="item"
@@ -47,8 +44,7 @@
           :highlighted="highlighted"
           :small="small"
           :equipped="isEquippedItem"
-          @equip="$emit(equipmentAdd ? 'add' : 'equip', $event)"
-        />
+          @equip="$emit(equipmentAdd ? 'add' : 'equip', $event)" />
       </v-card>
     </v-hover>
     <cc-solo-dialog ref="dialog" :title="item.Name" :icon="item.Icon" large>
@@ -64,6 +60,7 @@ import FrameCardContent from './_FrameCardContent.vue';
 import WeaponCardContent from './_WeaponCardContent.vue';
 import GearCardContent from './_GearCardContent.vue';
 import SystemCardContent from './_SystemCardContent.vue';
+import _ReserveCardContent from './_ReserveCardContent.vue';
 
 export default {
   name: 'compendium-large-card',
@@ -72,6 +69,7 @@ export default {
     WeaponCardContent,
     GearCardContent,
     SystemCardContent,
+    _ReserveCardContent,
   },
   props: {
     item: {

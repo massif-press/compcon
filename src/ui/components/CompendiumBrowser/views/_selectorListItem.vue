@@ -2,7 +2,8 @@
   <div v-if="item">
     <div
       v-if="!hideTitle"
-      class="heading h1 my-n2"
+      class="heading h2"
+      style="font-size: 2.3em"
       :class="highlighted ? 'text-secondary' : 'text-accent'">
       {{ item.Name }}
     </div>
@@ -32,6 +33,17 @@
     <cc-talent v-else-if="item.ItemType === 'Talent'" :talent="item" hide-change />
 
     <cc-item-card v-else :item="item" charts />
+
+    <div v-if="selectable">
+      <v-btn
+        block
+        color="secondary"
+        prepend-icon="mdi-plus-box"
+        rounded="0"
+        @click="$emit('select', item)">
+        Select {{ item.Name }}
+      </v-btn>
+    </div>
   </div>
   <div v-else style="height: 100px">
     <div class="heading h2 light-text-panel text-center" style="margin-top: calc(50vh - 150px)">
@@ -54,7 +66,11 @@ export default {
     hideTitle: {
       type: Boolean,
     },
+    selectable: {
+      type: Boolean,
+    },
   },
+  emits: ['select'],
   computed: {
     useVCard(): boolean {
       switch (this.item && this.item.ItemType) {

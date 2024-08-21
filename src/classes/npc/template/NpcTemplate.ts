@@ -74,6 +74,10 @@ class NpcTemplate {
     return this._description;
   }
 
+  public get Terse(): string {
+    return this.Description.split('.').slice(0, 2).join(' ') + '.';
+  }
+
   public get Tactics(): string {
     return this._tactics;
   }

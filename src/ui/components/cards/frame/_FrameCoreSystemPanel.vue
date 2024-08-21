@@ -12,8 +12,7 @@
             <cc-action
               v-for="(a, i) in cs.PassiveActions"
               :action="a"
-              :panel="$vuetify.display.lgAndUp"
-            />
+              :panel="$vuetify.display.lgAndUp" />
           </v-col>
         </v-row>
       </div>
@@ -24,16 +23,12 @@
         <span class="heading sub">ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <!-- <v-chip
-          v-if="
-            cs.Duration !== 'Mission' || cs.Duration !== 'Unlimited' || cs.Duration !== 'Mission'
-          "
-          small
+        <v-chip
+          size="small"
           label
-          variant="outlined"         >
-          {{ cs.Duration.toUpperCase() }}
-        </v-chip> -->
-        <v-chip size="small" label>
+          variant="elevated"
+          elevation="0"
+          :color="`action--${cs.Activation.toLowerCase()}`">
           {{ cs.Activation.toUpperCase() }}
         </v-chip>
       </v-col>
@@ -44,8 +39,7 @@
         v-for="a in cs.ActiveActions"
         :action="a"
         :panel="$vuetify.display.lgAndUp"
-        class="ma-2"
-      />
+        class="ma-2" />
     </div>
 
     <span v-if="cs.IntegratedEquipment.length || cs.Deployables.length" class="heading sub">

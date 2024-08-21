@@ -5,8 +5,8 @@
     :table-headers="headers"
     :options="options">
     <template #header>
-      <div class="heading h3 text-center text-accent">Statuses & Conditions</div></template
-    >
+      <div class="heading h3 text-center text-accent">Statuses & Conditions</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
@@ -25,6 +25,7 @@ export default {
       { title: 'Icon', key: 'Icon', sortable: false },
       { title: 'Name', key: 'Name' },
       { title: 'Type', key: 'StatusType' },
+      { title: '', key: 'Terse' },
     ],
     options: {
       views: ['list', 'table'],

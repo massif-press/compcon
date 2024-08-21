@@ -1,7 +1,6 @@
 <template>
   <v-btn-toggle
-    :value="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    v-model="internalValue"
     mandatory
     divided
     variant="plain"
@@ -17,9 +16,9 @@
           :value="v"
           icon
           size="small"
-          :style="`width: ${100 / options.views.length}%`"
-          ><v-icon size="25" :icon="viewIcon(v)"
-        /></v-btn>
+          :style="`width: ${100 / options.views.length}%`">
+          <v-icon size="25" :icon="viewIcon(v)" />
+        </v-btn>
       </template>
     </v-tooltip>
   </v-btn-toggle>
@@ -36,6 +35,16 @@ export default {
     options: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    internalValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
     },
   },
   emits: ['update:modelValue'],

@@ -36,6 +36,7 @@
         item-type="PilotWeapon"
         :options="options"
         equippable
+        :table-headers="headers"
         @equip="equip($event)">
         <template #header>
           <div class="heading h4 text-center text-accent">Select Pilot Weapon</div>
@@ -110,6 +111,7 @@ export default {
       { title: 'Item', key: 'Name' },
       { title: 'Range', key: 'Range' },
       { title: 'Damage', key: 'Damage' },
+      { title: 'Tags', align: 'center', key: 'Tags' },
     ],
     options: {
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
@@ -137,6 +139,7 @@ export default {
   methods: {
     equip(item: PilotWeapon) {
       this.$emit('equip', CompendiumItem.Clone(item));
+
       (this.$refs.base as any).closeSelector();
       this.$notify({
         title: 'Pilot Weapon Equipped',

@@ -67,7 +67,7 @@
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="$emit('equip', item)"
+              @equip="handleEquip(item)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
@@ -92,7 +92,7 @@
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-                @equip="$emit('equip', item)"
+                @equip="handleEquip(item)"
                 :item="<CompendiumItem>item"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
@@ -127,7 +127,7 @@
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-                @equip="$emit('equip', item)"
+                @equip="handleEquip(item)"
                 :item="<CompendiumItem>item"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
@@ -154,7 +154,7 @@
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-                @equip="$emit('equip', item)"
+                @equip="handleEquip(item as any)"
                 :item="<CompendiumItem>item"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
@@ -205,7 +205,7 @@
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="$emit('equip', item)"
+              @equip="handleEquip(item as any)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
@@ -228,7 +228,7 @@
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="$emit('equip', item)"
+              @equip="handleEquip(item)"
               :item="<CompendiumItem>item"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
@@ -255,7 +255,7 @@
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="$emit('equip', item)"
+              @equip="handleEquip(item)"
               :item="<CompendiumItem>item"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
@@ -279,7 +279,7 @@
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="$emit('equip', item)"
+              @equip="handleEquip(item)"
               :item="<CompendiumItem>item"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
@@ -313,7 +313,7 @@
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="$emit('equip', item)"
+              @equip="handleEquip(item)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
@@ -346,7 +346,7 @@
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="$emit('equip', item)"
+              @equip="handleEquip(item)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
@@ -368,7 +368,7 @@
             :selected="!!selectedItem && selectedItem.ID === item.ID"
             :compare="view === 'compare'"
             :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-            @equip="$emit('equip', item)"
+            @equip="handleEquip(item)"
             :item="<CompendiumItem>item"
             @clicked="
               selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
@@ -403,6 +403,8 @@
           <v-col cols="12">
             <selector-list-item
               :hide-title="options.hideTitle"
+              :selectable="equippable"
+              @select="$emit('equip', $event)"
               :item="<CompendiumItem>selectedItem" />
           </v-col>
         </v-row>
@@ -501,6 +503,8 @@
               <selector-list-item
                 :hide-title="options.hideTitle"
                 :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
+                :selectable="equippable"
+                @select="$emit('equip', $event)"
                 :item="item" />
             </v-card>
           </v-col>
@@ -513,6 +517,8 @@
               <selector-table
                 :headers="tableHeaders"
                 :items="itemsByLcp[lcp]"
+                :selectable="equippable"
+                @select="$emit('equip', $event)"
                 :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
@@ -540,6 +546,8 @@
               <selector-table
                 :headers="tableHeaders"
                 :items="getItems(manufacturer)"
+                :selectable="equippable"
+                @select="$emit('equip', $event)"
                 :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
@@ -551,6 +559,8 @@
               <selector-table
                 :headers="tableHeaders"
                 :items="getLicenseItems(license)"
+                :selectable="equippable"
+                @select="$emit('equip', $event)"
                 :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
@@ -562,6 +572,8 @@
               <selector-table
                 :headers="getMultiHeader(subtype)"
                 :items="getSubtypeItems(subtype)"
+                :selectable="equippable"
+                @select="$emit('equip', $event)"
                 :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
@@ -573,6 +585,8 @@
               <selector-table
                 :headers="tableHeaders"
                 :items="getRoleItems(role)"
+                :selectable="equippable"
+                @select="$emit('equip', $event)"
                 :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
@@ -584,6 +598,8 @@
               <selector-table
                 :headers="tableHeaders"
                 :items="getFeatureItems(featureType)"
+                :selectable="equippable"
+                @select="$emit('equip', $event)"
                 :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
@@ -595,6 +611,8 @@
               <selector-table
                 :headers="tableHeaders"
                 :items="getOriginItems(origin)"
+                :selectable="equippable"
+                @select="$emit('equip', $event)"
                 :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
@@ -603,6 +621,8 @@
             <selector-table
               :headers="tableHeaders"
               :items="shownItems"
+              :selectable="equippable"
+              @select="$emit('equip', $event)"
               :selected="<CompendiumItem>selectedItem" />
           </div>
         </div>
@@ -617,7 +637,9 @@
               v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
               :id="item.ID"
               :item="item"
-              :highlighted="selectedItem ? selectedItem.ID === item.ID : false" />
+              :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
+              :selectable="equippable"
+              @select="$emit('equip', item)" />
           </v-row>
           <v-pagination
             v-model="page"
@@ -643,7 +665,7 @@
 
 <script lang="ts">
 import ItemFilter from '@/classes/utility/ItemFilter';
-import _, { min } from 'lodash';
+import _ from 'lodash';
 
 import SelectorListItem from './views/_selectorListItem.vue';
 import SelectorCardItem from './views/_selectorCardItem.vue';
@@ -661,6 +683,7 @@ import bListGroup from './components/_b-list-group.vue';
 import { CompendiumItem, License, LicensedItem, Manufacturer } from '@/class';
 import { CompendiumStore, UserStore } from '@/stores';
 import { ManufacturerSort } from '@/util/ManufacturerSort';
+import { handleError } from 'vue';
 
 type BrowserOptions = {
   views: string[];
@@ -766,7 +789,7 @@ export default {
     showNav: null,
   }),
   watch: {
-    group() {
+    group(val) {
       this.open = [
         ...this.lcps,
         ...this.manufacturers,
@@ -775,6 +798,7 @@ export default {
         ...this.allOrigins,
         ...this.allRoles,
       ];
+      UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_group`, val);
     },
     comparisons() {
       const idx = this.comparisons.findIndex((x) => x.ID === this.selectedItem?.ID);
@@ -791,8 +815,9 @@ export default {
         ...this.allRoles,
       ];
     },
-    view() {
-      this.$emit('view-change', this.view);
+    view(val) {
+      this.$emit('view-change', val);
+      UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_view`, val);
     },
     search() {
       this.open = [
@@ -805,13 +830,20 @@ export default {
       ];
     },
   },
-  created() {
-    this.view = this.options.initialView;
-    this.group = this.options.initialGroup;
-  },
+
   mounted() {
     this.lcpFilter = this.lcps;
     this.open = [...this.lcps, ...this.manufacturers, ...this.subtypes, ...this.licenses];
+
+    const user = UserStore().User;
+    this.view = user.View(
+      `compendium_${this.itemType.toLowerCase()}_view`,
+      this.options.initialView
+    );
+    this.group = user.View(
+      `compendium_${this.itemType.toLowerCase()}_group`,
+      this.options.initialView
+    );
   },
   computed: {
     minSliceIndex() {
@@ -887,7 +919,6 @@ export default {
           sortFn(a, b)
         );
       }
-      console.log(m);
       return m;
     },
     lcps() {
@@ -1001,6 +1032,14 @@ export default {
         ? this.multiHeaders[subtype.replace(/\s/g, '')]
         : this.tableHeaders;
     },
+    handleEquip(item: CompendiumItem) {
+      this.$emit('equip', item);
+
+      if (this.selectedItem && this.selectedItem.ID === item.ID) {
+        this.selectItem(null);
+        this.selectedItem = null;
+      }
+    },
   },
 };
 </script>
@@ -1011,7 +1050,7 @@ export default {
 }
 
 .img-hover {
-  filter: brightness(60%) saturate(0.7);
+  filter: brightness(80%) saturate(0.3);
   transition: all 0.15s ease-in-out;
 }
 

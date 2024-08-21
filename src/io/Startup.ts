@@ -29,42 +29,47 @@ export default async function (): Promise<void> {
   // TODO: remove when finished exhibiting npcs
   // sideload start
 
-  if (CompendiumStore().ContentPacks.some((x) => x.Name === 'Lancer CORE NPCs')) {
-    console.log('core NPCs loaded already');
-  } else {
-    const npcExhibitionData = await getLcpPresigned('lancer-npc-data.lcp');
-    const npcData = npcExhibitionData.data.data;
-    const uint8Array = new Uint8Array(npcData);
+  try {
+    if (CompendiumStore().ContentPacks.some((x) => x.Name === 'Lancer CORE NPCs')) {
+      console.log('core NPCs loaded already');
+    } else {
+      const npcExhibitionData = await getLcpPresigned('lancer-npc-data.lcp');
+      const npcData = npcExhibitionData.data.data;
+      const uint8Array = new Uint8Array(npcData);
 
-    let binaryString = '';
-    uint8Array.forEach((byte) => {
-      binaryString += String.fromCharCode(byte);
-    });
+      let binaryString = '';
+      uint8Array.forEach((byte) => {
+        binaryString += String.fromCharCode(byte);
+      });
 
-    const contentPack = await parseContentPack(binaryString as string);
-    contentPack.active = true;
-    await CompendiumStore().installContentPack(contentPack);
+      const contentPack = await parseContentPack(binaryString as string);
+      contentPack.active = true;
+      await CompendiumStore().installContentPack(contentPack);
 
-    console.info('core NPCs loaded');
-  }
+      console.info('core NPCs loaded');
+    }
 
-  if (CompendiumStore().ContentPacks.some((x) => x.Name === 'No Room for a Wallflower NPCs')) {
-    console.log('eidolon test loaded already');
-  } else {
-    const npcExhibitionData = await getLcpPresigned('eidolon_test.lcp');
-    const npcData = npcExhibitionData.data.data;
-    const uint8Array = new Uint8Array(npcData);
+    if (CompendiumStore().ContentPacks.some((x) => x.Name === 'No Room for a Wallflower NPCs')) {
+      console.log('eidolon test loaded already');
+    } else {
+      const npcExhibitionData = await getLcpPresigned('eidolon_test.lcp');
+      const npcData = npcExhibitionData.data.data;
+      const uint8Array = new Uint8Array(npcData);
 
-    let binaryString = '';
-    uint8Array.forEach((byte) => {
-      binaryString += String.fromCharCode(byte);
-    });
+      let binaryString = '';
+      uint8Array.forEach((byte) => {
+        binaryString += String.fromCharCode(byte);
+      });
 
-    const contentPack = await parseContentPack(binaryString as string);
-    contentPack.active = true;
-    await CompendiumStore().installContentPack(contentPack);
+      const contentPack = await parseContentPack(binaryString as string);
+      contentPack.active = true;
+      await CompendiumStore().installContentPack(contentPack);
 
-    console.info('Eidolon test loaded');
+      console.info('Eidolon test loaded');
+    }
+  } catch (error) {
+    console.error('error sideloading npcs');
+    console.error(error);
   }
 
   // sideload end

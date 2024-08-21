@@ -1,7 +1,15 @@
 <template>
   <v-col :cols="cols">
     <cc-tooltip inline :title="name" :content="glossary(name)" delayed>
-      <v-card flat tile color="light-panel" class="text-center" height="100%" width="100%">
+      <v-card
+        flat
+        tile
+        :color="color"
+        :variant="variant"
+        elevation="0"
+        class="text-center"
+        height="100%"
+        width="100%">
         <v-row class="heading h3 py-1" dense align="center" justify="center">
           <v-col cols="auto">
             <v-icon size="30" :icon="icon" />
@@ -45,6 +53,14 @@ export default {
     inline: {
       type: Boolean,
       required: false,
+    },
+    color: {
+      type: String,
+      default: 'light-panel',
+    },
+    variant: {
+      type: String,
+      default: 'elevated',
     },
   },
   computed: {

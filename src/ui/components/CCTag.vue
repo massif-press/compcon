@@ -13,7 +13,7 @@
         :color="getColor"
         dark
         label
-        :size="small ? 'small' : ''"
+        :size="small ? 'small' : xSmall ? 'x-small' : ''"
         :outlined="outlined">
         <v-avatar>
           <v-icon v-if="tag.err" size="small" icon="mdi-label-off" :color="getColor" />
@@ -31,6 +31,10 @@ export default {
   name: 'CCTag',
   props: {
     small: {
+      type: Boolean,
+      required: false,
+    },
+    xSmall: {
       type: Boolean,
       required: false,
     },

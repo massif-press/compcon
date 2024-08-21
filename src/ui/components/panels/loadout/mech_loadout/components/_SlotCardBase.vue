@@ -16,13 +16,28 @@
             <slot name="header-items" />
           </v-col>
         </v-row>
-        <v-card-text class="`px-2 py-0 text-center`">
-          <v-card
-            v-if="item && item.FlavorDescription"
-            variant="tonal"
-            class="mx-1 mt-1 py-1 px-2 mb-n2">
-            {{ item.FlavorDescription }}
+        <v-card-text class="px-2 py-0">
+          <v-card v-if="item && item.FlavorDescription" variant="tonal" class="mx-1 py-1 my-2 px-2">
+            <p v-if="item.FlavorDescription.length < 600" v-html-safe="item.FlavorDescription" />
+            <div v-else>
+              <div :style="`max-height: ${showAllFlavor ? '' : '60px'}`">
+                <p v-html-safe="item.FlavorDescription" style="white-space: pre-wrap" />
+              </div>
+              <div class="text-right">
+                <v-btn
+                  @click.stop="showAllFlavor = !showAllFlavor"
+                  icon
+                  color="accent"
+                  class="fade-select"
+                  size="x-small">
+                  <v-icon
+                    size="30"
+                    :icon="showAllFlavor ? 'mdi-chevron-double-up' : 'mdi-chevron-double-down'" />
+                </v-btn>
+              </div>
+            </div>
           </v-card>
+
           <div>
             <slot />
             <div v-if="item">
@@ -156,6 +171,9 @@ export default {
       default: 'primary',
     },
   },
+  data: () => ({
+    showAllFlavor: false,
+  }),
   computed: {
     small() {
       return this.$vuetify.display.smAndDown;

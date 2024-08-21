@@ -22,6 +22,7 @@ class MechLoadoutController implements IFeatureContainer {
   }
 
   private _init() {
+    console.log(`Initializing MechLoadoutController for ${this.Parent.Name}`);
     this._loadouts = [new MechLoadout(this.Parent)];
     this._active_loadout = this._loadouts[0];
   }

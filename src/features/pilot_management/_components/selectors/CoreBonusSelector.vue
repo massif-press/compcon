@@ -1,9 +1,18 @@
 <template>
   <selector
-    title="Pilot CORE Bonuses"
+    title="Pilot Core Bonuses"
     height="60vh"
     :success="!pilot.CoreBonusController.IsMissingCBs">
     <template #left-column>
+      <v-text-field
+        v-model="search"
+        prepend-inner-icon="mdi-magnify"
+        density="compact"
+        variant="outlined"
+        clearable
+        hide-details
+        class="ma-1" />
+      <v-divider class="ma-2" />
       <v-row
         v-for="b in pilot.CoreBonusController.CoreBonuses"
         dense
@@ -61,15 +70,13 @@
     </template>
 
     <template #right-column>
-      <v-expansion-panels class="pr-4 pt-2">
-        <v-expansion-panel
-          v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs"
-          class="no-shadow">
-          <v-expansion-panel-title color="panel" class="px-1">
+      <v-expansion-panels v-model="open" multiple class="pt-2">
+        <v-expansion-panel v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs">
+          <v-expansion-panel-title color="light-panel" class="px-1">
             <div>
               <v-row
                 align="center"
-                class="heading h1"
+                class="heading h1 px-4"
                 :style="`color: ${manufacturer.GetColor($vuetify.theme.current.dark)}`">
                 <v-col cols="auto">
                   <v-icon :icon="manufacturer.Icon" />
@@ -81,7 +88,7 @@
               <v-card
                 variant="outlined"
                 :color="manufacturer.GetColor($vuetify.theme.current.dark)"
-                class="my-1 pa-3">
+                class="my-1 pa-3 ml-6">
                 <div class="flavor-text text-text text-center" v-html="requirement(manufacturer)" />
               </v-card>
             </div>
@@ -122,9 +129,17 @@ export default {
     levelUp: { type: Boolean, default: false },
     modal: { type: Boolean, default: false },
   },
+  data: () => ({
+    search: '',
+    open: [] as number[],
+  }),
   computed: {
     coreBonuses(): CoreBonus[] {
-      return CompendiumStore().CoreBonuses.filter((x) => !x.IsHidden);
+      const cbs = CompendiumStore().CoreBonuses.filter((x) => !x.IsHidden);
+      if (this.search) {
+        return cbs.filter((x) => x.Name.toLowerCase().includes(this.search.toLowerCase()));
+      }
+      return cbs;
     },
     manufacturersWithCBs(): {
       manufacturer: Manufacturer;
@@ -153,6 +168,10 @@ export default {
     },
     selectionComplete(bool) {
       if (bool) window.scrollTo(0, document.body.scrollHeight);
+    },
+    search(newval: string) {
+      if (!newval) this.open = [];
+      else this.open = this.manufacturersWithCBs.map((x, i) => i);
     },
   },
   methods: {

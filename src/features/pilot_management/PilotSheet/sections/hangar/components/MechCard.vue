@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12" style="min-width: 20%; max-width: 32%">
+  <v-col cols="12" style="min-width: 500px; max-width: 32%">
     <div
       :style="`border: 2px solid ${mech.Frame.Manufacturer.GetColor(
         $vuetify.theme.current.dark
