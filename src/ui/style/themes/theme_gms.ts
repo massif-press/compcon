@@ -42,6 +42,11 @@ const theme = {
     'reserve--organization': '#455A64',
     'reserve--bonus': '#455A64',
     'action--reaction': '#512DA8',
+
+    // tooltips
+    surface: '#e8e8e8',
+    'surface-variant': '#dbdbdb',
+    'on-surface-variant': '#212121',
   },
 };
 export default theme;

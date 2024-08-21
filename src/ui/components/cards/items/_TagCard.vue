@@ -1,10 +1,10 @@
 <template>
-  <p v-html-safe="item.Description" />
+  <div v-html="item.GetDescription()" />
 </template>
 
 <script lang="ts">
 export default {
-  name: 'cc-background-card',
+  name: 'cc-tag-card',
   props: {
     item: {
       type: Object,

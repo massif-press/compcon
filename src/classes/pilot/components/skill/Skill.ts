@@ -22,6 +22,10 @@ class Skill extends CompendiumItem {
     return this._name;
   }
 
+  public get Color(): string {
+    return 'skill';
+  }
+
   public static Deserialize(id: string): Skill {
     return CompendiumStore().referenceByID('Skills', id);
   }

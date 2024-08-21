@@ -2,8 +2,8 @@
   <v-row
     no-gutters
     justify="center"
-    :style="`max-height: ${small ? '150px' : '200px'}; min-height: ${small ? '75px' : '200px'}`"
-  >
+    class="d-flex align-center justify-center"
+    :style="`max-height: ${small ? '150px' : '200px'}; min-height: ${small ? '75px' : '200px'}`">
     <v-col>
       <div>
         <slot name="top" />
@@ -16,10 +16,9 @@
   <v-toolbar
     density="compact"
     :color="`${highlighted ? 'secondary' : 'primary'}${hover ? ' lighten-1' : ''}`"
-    class="px-3 pb-1"
-  >
+    class="px-3">
     <div>
-      <div class="text-overline mb-n2">
+      <div v-if="item.Source || $slots.overline" class="text-overline mb-n3">
         <span v-if="item.Source">{{ item.Source }}&nbsp;</span>
         <slot name="overline" />
       </div>
@@ -27,8 +26,7 @@
         :class="small ? 'font-weight-bold' : 'heading h3'"
         :style="`overflow: hidden; width: ${
           small ? '73vw' : '25vw'
-        }; text-overflow: ellipsis; white-space: nowrap;`"
-      >
+        }; text-overflow: ellipsis; white-space: nowrap;`">
         {{ item.Name }}
       </div>
     </div>

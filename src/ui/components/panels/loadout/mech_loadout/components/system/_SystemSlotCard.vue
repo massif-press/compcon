@@ -7,11 +7,16 @@
           color="accent"
           variant="tonal"
           prepend-icon="mdi-plus"
-          @click.stop="($refs as any).selectorDialog.show()">
+          @click.stop="($refs as any).additionalSelect.show()">
           Add Additional System
         </v-btn>
-        <cc-solo-dialog ref="selectorDialog" no-confirm title="SELECT EQUIPMENT" fullscreen no-pad>
-          <system-selector :mech="mech" @equip="($refs as any).selectorDialog.hide()" />
+        <cc-solo-dialog
+          ref="additionalSelect"
+          no-confirm
+          title="SELECT EQUIPMENT"
+          fullscreen
+          no-pad>
+          <system-selector :mech="mech" @equip="handleEquip($event)" />
         </cc-solo-dialog>
       </v-col>
     </v-row>
@@ -24,7 +29,7 @@
           </v-col>
           <v-col cols="auto">
             {{ item.Name }}
-            <span v-if="item.FlavorName" class="text-caption text-disabled text-uppercase">
+            <span v-if="item.FlavorName" class="text-caption text-uppercase" style="opacity: 0.6">
               //{{ item.TrueName }}
             </span>
           </v-col>
@@ -34,7 +39,7 @@
       <template #header-items>
         <v-row v-if="item" align="center" no-gutters>
           <v-col cols="auto" class="pr-4">
-            <v-icon v-for="n in item.SP" icon="cc:system_point" class="mr-1" />
+            <span>{{ item.SP }}SP</span>
           </v-col>
           <v-col cols="auto" style="border-left: 1px solid #616161">
             <v-btn
@@ -64,10 +69,7 @@
         </div>
       </div>
       <template #selector>
-        <system-selector
-          :mech="mech"
-          :equipped="item"
-          @equip="(($refs as any).base.$refs.selectorDialog as any).hide()" />
+        <system-selector :mech="mech" :equipped="item" @equip="handleEquip($event)" />
       </template>
     </slot-card-base>
   </div>
@@ -96,11 +98,6 @@ export default {
       required: false,
       default: null,
     },
-    index: {
-      type: Number,
-      required: false,
-      default: -1,
-    },
     color: {
       type: String,
       required: false,
@@ -113,6 +110,16 @@ export default {
   methods: {
     remove(sys: MechSystem) {
       this.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys);
+    },
+    handleEquip(sys: MechSystem) {
+      this.$notify({
+        title: 'Mech System Installed',
+        text: `${sys.Name} added.`,
+        data: { icon: 'cc:system', color: 'system' },
+      });
+
+      if (this.mech.FreeSP <= 0 && (this.$refs as any).additionalSelect)
+        (this.$refs as any).additionalSelect.hide();
     },
   },
 };

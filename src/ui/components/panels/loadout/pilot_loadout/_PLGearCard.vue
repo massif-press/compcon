@@ -33,6 +33,7 @@
         item-type="PilotGear"
         :options="options"
         equippable
+        :table-headers="headers"
         @equip="equip($event)">
         <template #header>
           <div class="heading h4 text-center text-accent">Select Pilot Equipment</div>
@@ -106,6 +107,7 @@ export default {
       { title: 'Type', key: 'Type' },
       { title: 'Item', key: 'Name' },
       { title: 'Uses', key: 'MaxUses' },
+      { title: 'Tags', align: 'center', key: 'Tags' },
     ],
     options: {
       views: ['single', 'table', 'cards'],

@@ -48,10 +48,10 @@
     <br />
     <div class="text-overline ml-n2 text-text">AVAILABLE WEAPON MOUNTS</div>
     <v-row justify="space-around" class="mb-3">
-      <v-col v-for="(m, i) in item.Mounts">
+      <v-col v-for="m in item.Mounts">
         <v-card color="primary" dark class="clipped">
           <cc-tooltip simple inline :content="get_mount_tooltip(m)">
-            <v-card-text class="heading h3 px-8">{{ m }} Mount</v-card-text>
+            <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} Mount</v-card-text>
           </cc-tooltip>
         </v-card>
       </v-col>

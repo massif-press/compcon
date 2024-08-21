@@ -146,14 +146,14 @@
               </cc-tooltip>
             </template>
           </v-switch>
-          <v-switch
+          <!-- <v-switch
             v-model="userAllowQuickstart"
             color="exotic"
             inset
             density="compact"
             hide-details>
             <template #label>Enable quick pilot creation and level-up</template>
-          </v-switch>
+          </v-switch> -->
           <h3 class="heading text-accent mt-2">Theme</h3>
           <v-select
             v-model="theme"

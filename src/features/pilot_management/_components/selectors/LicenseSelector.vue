@@ -5,6 +5,15 @@
     :success="!pilot.LicenseController.IsMissingLicenses"
     :modal="modal">
     <template #left-column>
+      <v-text-field
+        v-model="search"
+        prepend-inner-icon="mdi-magnify"
+        density="compact"
+        variant="outlined"
+        clearable
+        hide-details
+        class="ma-1" />
+      <v-divider class="ma-2" />
       <v-row v-for="pl in pilot.LicenseController.Licenses" dense align="center" class="px-2">
         <v-col cols="auto">
           <v-icon :color="mf(pl.License.Source).Color" :icon="`cc:rank_${pl.Rank}`" />
@@ -55,7 +64,14 @@
     <template #right-column>
       <v-row v-for="m in Object.keys(licenses)">
         <v-col v-if="!!mf(m)" class="text-center pa-3">
-          <v-row align="center" justify="center">
+          <v-row
+            v-show="
+              !search
+                ? true
+                : licenses[m].some((x) => x.Name.toLowerCase().includes(search.toLowerCase()))
+            "
+            align="center"
+            justify="center">
             <v-col cols="auto">
               <cc-logo
                 v-if="mf(m).LogoIsExternal"
@@ -76,7 +92,11 @@
             </v-col>
           </v-row>
           <v-expansion-panels accordion focusable>
-            <v-expansion-panel v-for="item in licenses[m]" :id="`license_${item.FrameID}`">
+            <v-expansion-panel
+              v-for="item in licenses[m].filter((x) =>
+                !search ? true : x.Name.toLowerCase().includes(search.toLowerCase())
+              )"
+              :id="`license_${item.FrameID}`">
               <v-expansion-panel-title class="hover-parent py-0 pr-0 pl-3" hide-actions>
                 <div>
                   <div>
@@ -142,6 +162,7 @@ export default {
   },
   data: () => ({
     licenses: [] as any,
+    search: '',
   }),
   computed: {
     selectionComplete(): boolean {

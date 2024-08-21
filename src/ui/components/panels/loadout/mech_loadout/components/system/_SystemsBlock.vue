@@ -16,7 +16,7 @@
       </div>
 
       <system-slot-card
-        v-for="s in mech.MechLoadoutController.ActiveLoadout.IntegratedSystems"
+        v-for="s in integratedSystems"
         :mech="mech"
         :item="s"
         :color="color"
@@ -32,12 +32,12 @@
         @remove="w.Mod = null" />
 
       <system-slot-card
-        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
+        v-for="s in activeSystems"
         :mech="mech"
         :item="s"
         :color="color"
-        :index="i"
         :readonly="readonly" />
+
       <system-slot-card v-if="!readonly" :mech="mech" empty />
     </fieldset>
   </v-card>
@@ -66,6 +66,12 @@ export default {
   computed: {
     moddedWeapons() {
       return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod);
+    },
+    activeSystems() {
+      return this.mech.MechLoadoutController.ActiveLoadout.Systems;
+    },
+    integratedSystems() {
+      return this.mech.MechLoadoutController.ActiveLoadout.IntegratedSystems;
     },
   },
 };

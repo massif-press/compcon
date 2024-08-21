@@ -7,12 +7,13 @@
       :large="$vuetify.display.mdAndUp"
       :fullscreen="$vuetify.display.smAndDown"
       :small-btn="smallBtn"
+      :block="block"
       :icon="item.Icon">
       <template #button>
         <v-icon v-if="item.IsExotic" start color="exotic">mdi-star</v-icon>
         <v-icon v-if="!hideType" start :icon="item.Icon" />
         {{ truncate(item.Name) }}
-        <span v-if="!hideType">{{ item.ItemType === 'Frame' ? 'FRAME' : '' }}</span>
+        <span v-if="!hideType">{{ item.ItemType === 'Frame' ? '&nbsp;FRAME' : '' }}</span>
       </template>
 
       <template #title>
@@ -44,6 +45,9 @@ export default {
       type: Boolean,
     },
     hideType: {
+      type: Boolean,
+    },
+    block: {
       type: Boolean,
     },
   },

@@ -48,6 +48,15 @@ export default {
   data: () => ({
     page: 0,
   }),
+  watch: {
+    page(val) {
+      localStorage.setItem('cc_pilot_sheet_page', val.toString());
+    },
+  },
+  mounted() {
+    const setPage = localStorage.getItem('cc_pilot_sheet_page');
+    if (setPage) this.page = parseInt(setPage);
+  },
   computed: {
     pilot() {
       return PilotStore().getPilotByID(this.pilotID);

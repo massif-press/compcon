@@ -47,13 +47,15 @@
           :color="color" />
 
         <mount-block
-          v-for="(m, k) in mech.MechLoadoutController.ActiveLoadout.EquippableMounts"
+          v-for="m in mech.MechLoadoutController.ActiveLoadout.EquippableMounts"
           :readonly="readonly"
           :mount="m"
           :mech="mech"
           :color="color" />
       </v-row>
+
       <v-divider class="my-2" />
+
       <systems-block :mech="mech" :color="color" :readonly="readonly" />
     </cc-loadout-panel>
   </div>

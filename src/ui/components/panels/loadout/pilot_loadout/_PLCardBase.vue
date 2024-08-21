@@ -78,8 +78,25 @@
           </v-col>
         </v-row>
 
-        <v-card v-if="item && item.FlavorDescription" variant="tonal" class="mx-1 py-1 px-2 mb-n2">
-          <p v-html-safe="item.FlavorDescription" />
+        <v-card v-if="item && item.FlavorDescription" variant="tonal" class="mx-1 py-1 px-2">
+          <p v-if="item.FlavorDescription.length < 600" v-html-safe="item.FlavorDescription" />
+          <div v-else>
+            <div :style="`max-height: ${showAllFlavor ? '' : '60px'}`">
+              <p v-html-safe="item.FlavorDescription" style="white-space: pre-wrap" />
+            </div>
+            <div class="text-right">
+              <v-btn
+                @click.stop="showAllFlavor = !showAllFlavor"
+                icon
+                color="accent"
+                class="fade-select"
+                size="x-small">
+                <v-icon
+                  size="30"
+                  :icon="showAllFlavor ? 'mdi-chevron-double-up' : 'mdi-chevron-double-down'" />
+              </v-btn>
+            </div>
+          </div>
         </v-card>
       </div>
 
@@ -153,6 +170,7 @@
       v-if="item"
       ref="cDesc"
       multiline
+      auto-grow
       :placeholder="item.FlavorDescription || item.Description"
       label="Custom Item Description"
       @save="save('FlavorDescription', $event)"
@@ -185,6 +203,9 @@ export default {
       type: Boolean,
     },
   },
+  data: () => ({
+    showAllFlavor: false,
+  }),
   emits: ['propagate-click', 'remove', 'save'],
   computed: {
     itemTitle() {

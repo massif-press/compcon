@@ -51,6 +51,7 @@ export default {
         initialView: 'single',
         groups: this.exotic ? ['lcp'] : ['source', 'lcp', 'license'],
         initialGroup: this.exotic ? 'none' : 'lcp',
+        showExotics: this.exotic,
       };
     },
     availableItems(): CompendiumItem[] {

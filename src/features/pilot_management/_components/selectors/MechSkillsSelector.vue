@@ -1,41 +1,40 @@
 <template>
-  <div class="text-center mb-4">
-    <v-alert
-      :value="true"
-      :type="pilot.MechSkillsController.IsMissingHASE ? 'info' : 'success'"
-      variant="outlined"
-      class="stat-text"
-    >
-      {{ pilot.MechSkillsController.CurrentHASEPoints }}/{{
-        pilot.MechSkillsController.MaxHASEPoints
-      }}
-      Mech Skills selected
-    </v-alert>
-    <v-btn
-      size="small"
-      class="fade-select mt-2"
-      color="info"
-      variant="outlined"
-      @click="pilot.MechSkillsController.Reset()"
-    >
-      Reset Mech Skills
-    </v-btn>
-  </div>
+  <div style="max-width: 1600px" class="mx-auto">
+    <div class="text-center mb-4">
+      <v-alert
+        :value="true"
+        :type="pilot.MechSkillsController.IsMissingHASE ? 'info' : 'success'"
+        variant="outlined"
+        class="stat-text">
+        {{ pilot.MechSkillsController.CurrentHASEPoints }}/{{
+          pilot.MechSkillsController.MaxHASEPoints
+        }}
+        Mech Skills selected
+      </v-alert>
+      <v-btn
+        size="small"
+        class="fade-select mt-2"
+        color="info"
+        variant="outlined"
+        @click="pilot.MechSkillsController.Reset()">
+        Reset Mech Skills
+      </v-btn>
+    </div>
 
-  <v-row align="center">
-    <v-col v-for="s in skills" cols="6">
-      <hase-skill-item
-        :val="s.val"
-        :text="s.text"
-        :description="s.description"
-        :bonuses="s.bonuses"
-        :mech-skills="pilot.MechSkillsController.MechSkills"
-        :isMissingHASE="isMissingHASE"
-        @add="add(s.val)"
-        @remove="remove(s.val)"
-      />
-    </v-col>
-  </v-row>
+    <v-row align="center">
+      <v-col v-for="s in skills" xs="12" sm="12" md="6">
+        <hase-skill-item
+          :val="s.val"
+          :text="s.text"
+          :description="s.description"
+          :bonuses="s.bonuses"
+          :mech-skills="pilot.MechSkillsController.MechSkills"
+          :isMissingHASE="isMissingHASE"
+          @add="add(s.val)"
+          @remove="remove(s.val)" />
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script lang="ts">

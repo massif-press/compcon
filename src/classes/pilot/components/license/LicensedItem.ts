@@ -35,6 +35,7 @@ abstract class LicensedItem extends CompendiumItem {
   }
 
   public get Manufacturer(): Manufacturer {
+    if (this.Source === 'EXOTIC') return undefined as any;
     return CompendiumStore().referenceByID('Manufacturers', this.Source);
   }
 

@@ -101,36 +101,19 @@ export default {
   data: () => ({
     loading: false,
   }),
-  async mounted() {
-    // await Auth.currentAuthenticatedUser();
-  },
+
   computed: {
-    lastLoaded() {
-      const store = PilotStore();
-      return null;
-      // TODO: Fix this
-      // return this.pilot.Mechs.some((x) => x.ID === store.LoadedMechID)
-      //   ? store.LoadedMechID
-      //   : this.pilot.ActiveMech
-      //   ? this.pilot.ActiveMech.ID
-      //   : null;
-    },
     isAuthed() {
-      return UserStore().IsLoggedIn;
+      return false;
+      // return UserStore().IsLoggedIn;
     },
     hasBonds() {
       return CompendiumStore().Bonds.length > 0;
     },
   },
   methods: {
-    toMech() {
-      this.$router.push(`../mech/${this.lastLoaded}`);
-    },
-    toActive() {
-      this.$router.push(`/active/${this.pilot.ID}`);
-    },
     delete_pilot() {
-      this.pilot.SaveController.delete();
+      this.pilot.SaveController.Delete();
       this.$router.push('/pilot_management');
     },
     async remoteUpdate() {

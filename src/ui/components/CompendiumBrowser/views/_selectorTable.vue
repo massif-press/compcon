@@ -9,19 +9,60 @@
       <tr :id="item.ID">
         <td
           v-for="h in <any[]>headers"
-          class="text-left"
-          :class="selected && (selected as any).ID === item.ID ? 'bg-primary' : ''">
-          <div v-if="h.key === 'Size'">
+          class="text-left px-2"
+          :class="`text-${h.align} ${
+            selected && (selected as any).ID === item.ID ? 'bg-primary' : ''
+          }`">
+          <div v-if="h.key === 'Source'">
+            <span v-if="item.Source">
+              <cc-logo
+                v-if="item.Manufacturer?.LogoIsExternal"
+                :source="item.Manufacturer"
+                size="x-large"
+                class="pt-3 mb-n1" />
+              <v-icon
+                v-else-if="item.Manufacturer"
+                size="x-large"
+                :icon="item.Manufacturer.Icon"
+                :color="item.Manufacturer.GetColor($vuetify.theme.current.dark)" />
+            </span>
+          </div>
+          <div v-else-if="h.key === 'Size'">
             <span v-text="item.Size === 0.5 ? '½' : item.Size" />
           </div>
+
           <div v-else-if="h.key === 'Name'">
-            <cc-item-modal small-btn style="display: inline-block" hide-type :item="item" />
+            <cc-item-modal small-btn block class="d-inline-block" hide-type :item="item" />
+
+            <v-icon
+              v-if="selectable"
+              class="fade-select"
+              icon="mdi-plus-box"
+              color="secondary"
+              size="35"
+              @click="$emit('select', item)" />
           </div>
           <div v-else-if="h.key === 'Origin'">
             <cc-item-modal small-btn hide-type :item="item.Origin" />
           </div>
           <div v-else-if="h.key === 'Icon'">
             <v-icon :icon="item.Icon" />
+          </div>
+          <div v-else-if="h.key === 'SizeIcon'">
+            <v-icon :icon="item.SizeIcon" size="35" color="primary" />
+          </div>
+          <div v-else-if="h.key === 'Mounts'" style="white-space: nowrap">
+            <v-chip
+              v-for="m in item.Mounts"
+              :key="m"
+              size="x-small"
+              label
+              style="margin: 1px"
+              variant="elevated"
+              elevation="0"
+              color="primary">
+              {{ m }}
+            </v-chip>
           </div>
           <div v-else-if="h.key === 'Range'">
             <cc-range-element small :range="(item as any).Range" />
@@ -33,6 +74,11 @@
             <span v-if="item.MaxUses" v-text="item.MaxUses" />
             <v-icon v-else size="x-small" color="subtle">mdi-infinity</v-icon>
           </div>
+
+          <div v-else-if="h.key === 'Tags'">
+            <cc-tags :tags="item.Tags" x-small />
+          </div>
+
           <div v-else-if="h.key === 'T1'">
             <cc-item-modal
               v-for="e in (item as License).Unlocks[0]"
@@ -88,6 +134,10 @@ export default {
       type: Object,
       required: false,
     },
+    selectable: {
+      type: Boolean,
+    },
   },
+  emits: ['select'],
 };
 </script>

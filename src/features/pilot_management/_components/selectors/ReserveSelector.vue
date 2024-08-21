@@ -1,29 +1,51 @@
 <template>
-  <v-tabs v-model="tab" color="accent" grow>
-    <v-tab>
-      <b>Pilot Bonuses</b>
-    </v-tab>
-    <v-tab>
-      <b>Resource Reserves</b>
-    </v-tab>
-    <v-tab>
-      <b>Tactical Reserves</b>
-    </v-tab>
-    <v-tab>
-      <b>Mech Reserves</b>
-    </v-tab>
-    <v-tab>
-      <b>Custom Reserve</b>
-    </v-tab>
-    <v-tab>
-      <b>Project</b>
-    </v-tab>
-    <v-tab>
-      <b>Organization</b>
-    </v-tab>
-  </v-tabs>
-  <v-container>
-    <v-window v-model="tab">
+  <cc-compendium-browser
+    :items="reserves"
+    item-type="Reserve"
+    :table-headers="headers"
+    :options="options"
+    equippable
+    @equip="add($event)">
+    <template #header>
+      <v-btn
+        size="small"
+        height="20"
+        color="secondary"
+        class="mb-1"
+        block
+        @click="CustomDialog = true">
+        Add Custom Reserve
+      </v-btn>
+      <v-btn
+        size="small"
+        height="20"
+        color="secondary"
+        class="mb-1"
+        block
+        @click="ProjectDialog = true">
+        Add Downtime Project
+      </v-btn>
+      <v-btn
+        size="small"
+        height="20"
+        color="secondary"
+        class="mb-1"
+        block
+        @click="OrgDialog = true">
+        Add Organization
+      </v-btn>
+    </template>
+  </cc-compendium-browser>
+
+  <v-dialog v-model="CustomDialog" width="60vw">
+    <custom-reserve-panel @add="add($event)" />
+  </v-dialog>
+  <v-dialog v-model="ProjectDialog" width="60vw">
+    <downtime-project-panel @add="add($event)" />
+  </v-dialog>
+  <v-dialog v-model="OrgDialog" width="60vw"><organization-panel @add="addOrg($event)" /></v-dialog>
+
+  <!-- <v-window v-model="tab">
       <v-window-item :value="0">
         <v-row density="compact">
           <v-col v-for="r in reserves['Bonus']" cols="12" md="6">
@@ -65,16 +87,9 @@
         </v-row>
       </v-window-item>
       <v-window-item :value="4">
-        <custom-reserve-panel @add="add($event)" />
+
       </v-window-item>
-      <v-window-item :value="5">
-        <downtime-project-panel @add="add($event)" />
-      </v-window-item>
-      <v-window-item :value="6">
-        <organization-panel @add="addOrg($event)" />
-      </v-window-item>
-    </v-window>
-  </v-container>
+    </v-window> -->
 </template>
 
 <script lang="ts">
@@ -103,10 +118,28 @@ export default {
   emits: ['close'],
   data: () => ({
     tab: 0,
+    headers: [
+      { title: 'Content Pack', key: 'LcpName' },
+      { title: 'Name', key: 'Name' },
+      { title: 'Type', key: 'Type' },
+    ],
+    options: {
+      views: ['list', 'cards', 'table'],
+      initialView: 'cards',
+      groups: ['lcp', 'type'],
+      initialGroup: 'type',
+      noSource: true,
+    },
+    CustomDialog: false,
+    ProjectDialog: false,
+    OrgDialog: false,
   }),
   computed: {
-    reserves(): Dictionary<Reserve[]> {
-      return _.groupBy(CompendiumStore().Reserves, 'Type');
+    reserves() {
+      return _.orderBy(
+        CompendiumStore().Reserves.filter((x) => !x.IsHidden),
+        'Name'
+      );
     },
   },
   methods: {

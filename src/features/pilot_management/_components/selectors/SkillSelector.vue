@@ -110,6 +110,7 @@ export default {
   data: () => ({
     staticSkills: [] as any,
     headers: [] as any[],
+    search: '',
   }),
   computed: {
     skills() {

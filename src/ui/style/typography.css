@@ -214,6 +214,23 @@ code.horus:hover {
   font-weight: bold;
 }
 
+.horus-quill {
+  padding: 2px;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  box-shadow: none;
+  color: white;
+  font-style: normal;
+  letter-spacing: 0.05em;
+  border-radius: 1px;
+}
+
+.horus-quill:hover {
+  background-color: black !important;
+  animation: distort-subtle 2.5s infinite;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
 .horus--subtle {
   animation: distort-subtle 5s infinite;
 }

@@ -4,6 +4,7 @@
       v-if="flat"
       :size="smallBtn || $vuetify.display.smAndDown ? 'small' : 'default'"
       :color="color"
+      :block="block"
       variant="text"
       :dark="dark"
       @click="dialog = true">
@@ -13,12 +14,13 @@
       v-else
       tile
       flat
+      :block="block"
       :size="smallBtn || $vuetify.display.smAndDown ? 'small' : 'default'"
       :color="color"
       @click="dialog = true">
       <slot name="button" />
     </v-btn>
-    <v-dialog v-model="dialog" :fullscreen="fullscreen">
+    <v-dialog v-model="dialog" :fullscreen="fullscreen" :max-width="fullscreen ? '' : '1600px'">
       <v-card tile class="background">
         <cc-titlebar :color="color" :icon="icon">
           <template #title>
@@ -96,6 +98,11 @@ export default {
       default: false,
     },
     hasConfirm: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    block: {
       type: Boolean,
       required: false,
       default: false,

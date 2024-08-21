@@ -19,17 +19,19 @@ export default {
 
   data: () => ({
     options: {
-      views: ['single', 'table', 'cards'],
+      views: ['single', 'table'],
       initialView: 'single',
       groups: ['source', 'lcp', 'license'],
       initialGroup: 'license',
     },
     headers: [
-      { title: 'Manufacturer', align: 'left', key: 'Source' },
+      { title: '', align: 'left', key: 'Source' },
       { title: 'System', align: 'left', key: 'Name' },
-      { title: 'License', align: 'left', key: 'License' },
-      { title: 'License Level', align: 'left', key: 'LicenseLevel' },
-      { title: 'SP Cost', align: 'left', key: 'SP' },
+      { title: 'License', key: 'License' },
+      { title: 'License Level', align: 'center', key: 'LicenseLevel' },
+      { title: 'Tags', align: 'center', key: 'Tags' },
+
+      { title: 'SP Cost', align: 'center', key: 'SP' },
     ],
   }),
   computed: {

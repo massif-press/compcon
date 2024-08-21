@@ -1,5 +1,5 @@
 <template>
-  <info-card-base :item="item" :notes="notes" :charts="charts"> </info-card-base>
+  <p v-html-safe="item.Description" />
 </template>
 
 <script lang="ts">

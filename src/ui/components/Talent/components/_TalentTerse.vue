@@ -7,16 +7,14 @@
           border: 1px solid rgb(var(--v-theme-primary));
           border-radius: 1px;
         "
-        class="pa-3"
-      >
+        class="pa-3">
         <talent-emblem :url="talent.Image" :name="talent.Name" large />
       </div>
     </v-col>
     <v-col>
       <div
         class="sliced text-white heading h2 px-3 mt-n1 mb-1"
-        style="background-color: rgb(var(--v-theme-primary))"
-      >
+        style="background-color: rgb(var(--v-theme-primary))">
         <v-row dense align="center" class="mt-1">
           <v-col cols="auto">
             {{ talent.Name }}
@@ -29,8 +27,7 @@
             v-if="talent.InLcp"
             cols="auto"
             align-self="center"
-            class="heading h3 ml-auto mr-3 mt-n1"
-          >
+            class="heading h3 ml-auto mr-3 mt-n1">
             {{ talent.LcpName }}
           </v-col>
           <v-col v-if="!hideChange" cols="auto" class="mr-8 mt-n1">
@@ -51,11 +48,8 @@
                   :block="$vuetify.display.smAndDown"
                   tile
                   :color="rankColor(n)"
-                  v-bind="props"
-                >
-                  <v-icon v-if="!rank || (rank && Number(rank) >= n)" start>
-                    cc:rank_{{ n }}
-                  </v-icon>
+                  v-bind="props">
+                  <v-icon v-if="!rank || (rank && Number(rank) >= n)" start>cc:rank_{{ n }}</v-icon>
                   <v-icon v-else-if="!rank || (rank && Number(rank) + 1 === n)" left>
                     mdi-lock-open
                   </v-icon>
@@ -73,8 +67,7 @@
                 <v-card-text>
                   <talent-rank-contents
                     :talent-rank="talent.Rank(n)"
-                    :unlocked="!rank || Number(rank) >= (selectable ? n - 1 : n)"
-                  />
+                    :unlocked="!rank || Number(rank) >= (selectable ? n - 1 : n)" />
                 </v-card-text>
                 <v-divider v-if="selectable" />
                 <v-card-actions v-if="selectable">
@@ -84,8 +77,7 @@
                     small
                     color="secondary"
                     :disabled="!canAdd"
-                    @click="$emit('add')"
-                  >
+                    @click="$emit('add')">
                     <v-icon start>mdi-lock-open</v-icon>
                     Unlock {{ talent.Rank(n).Name }}
                   </v-btn>
@@ -97,8 +89,7 @@
                     v-else-if="selectable && Number(rank) === n"
                     color="error"
                     variant="plain"
-                    @click="$emit('remove')"
-                  >
+                    @click="$emit('remove')">
                     <v-icon start>mdi-close</v-icon>
                     Remove
                   </v-btn>

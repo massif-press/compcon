@@ -28,7 +28,6 @@
       <v-row
         v-for="n in 3"
         v-show="showFull || (!showFull && rank && Number(rank) >= n)"
-        dense
         :class="rank && Number(rank) < n ? 'text--disabled' : 'text-stark'"
         :style="isUnlocked(n - 1) ? '' : 'opacity: 0.35'">
         <v-col cols="auto">

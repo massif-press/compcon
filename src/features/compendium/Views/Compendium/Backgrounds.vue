@@ -1,5 +1,9 @@
 <template>
-  <cc-compendium-browser :items="backgrounds" item-type="Background" :options="options">
+  <cc-compendium-browser
+    :items="backgrounds"
+    item-type="Background"
+    :table-headers="headers"
+    :options="options">
     <template #header>
       <div class="heading h3 text-center text-accent">Pilot Background</div>
     </template>
@@ -23,6 +27,11 @@ export default {
       initialGroup: 'lcp',
       noSource: true,
     },
+    headers: [
+      { title: 'Content Pack', key: 'LcpName' },
+      { title: 'Name', key: 'Name' },
+      { title: '', key: 'Terse' },
+    ],
   }),
   computed: {
     backgrounds(): Background[] {

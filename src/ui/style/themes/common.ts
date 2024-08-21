@@ -20,6 +20,7 @@ export default {
   background: '#f4f4f4',
   tech: '#007674',
   reaction: '#512DA8',
+  skill: '#524f3b',
 
   'npc--trait': '#991E2A',
 

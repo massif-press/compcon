@@ -4,17 +4,14 @@
       title="Reserves and Bonuses"
       label="Add Reserves and Bonuses"
       editable
-      @edit="($refs as any).dtSelector.show()"
-    />
+      @edit="($refs as any).dtSelector.show()" />
 
     <cc-solo-dialog
       ref="dtSelector"
       icon="cc:barrage"
       no-confirm
-      title="Edit Reserves and Bonuses"
-      fullscreen
-      no-pad
-    >
+      title="&nbsp;&nbsp;Edit Reserves and Bonuses"
+      fullscreen>
       <reserve-selector :pilot="pilot" @close="($refs as any).dtSelector.hide()" />
     </cc-solo-dialog>
     <v-container>
@@ -22,19 +19,16 @@
         v-if="
           !pilot.ReservesController.Reserves.length &&
           !pilot.ReservesController.Organizations.length
-        "
-      />
+        " />
       <v-row v-else>
         <cc-reserve-item
           v-for="(r, i) in pilot.ReservesController.Reserves"
           :reserve="r"
-          @remove="pilot.ReservesController.RemoveReserve(i)"
-        />
+          @remove="pilot.ReservesController.RemoveReserve(i)" />
         <cc-org-item
           v-for="(o, i) in pilot.ReservesController.Organizations"
           :org="o"
-          @remove="pilot.ReservesController.RemoveOrganization(i)"
-        />
+          @remove="pilot.ReservesController.RemoveOrganization(i)" />
       </v-row>
     </v-container>
   </div>

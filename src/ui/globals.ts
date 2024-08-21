@@ -19,7 +19,6 @@ import CCMechStatusAlert from './components/CCMechStatusAlert.vue';
 import CCNotification from './components/CCNotification.vue';
 import CCPopup from './components/CCPopup.vue';
 import CCRangeElement from './components/CCRangeElement.vue';
-import CCRating from './components/CCRating.vue';
 import CCRollableTable from './components/CCRollableTable.vue';
 import CCShortStringEditor from './components/CCShortStringEditor.vue';
 import CCSimpleSelect from './components/CCSimpleSelect.vue';
@@ -115,7 +114,6 @@ export {
   CCNotification,
   CCPopup,
   CCRangeElement,
-  CCRating,
   CCRollableTable,
   CCShortStringEditor,
   CCSimpleSelect,

@@ -12,6 +12,7 @@
       v-for="t in <Tag[]>tags"
       :tag="t"
       :small="small"
+      :x-small="xSmall"
       :density="density"
       :outlined="outlined"
       :color="color"
@@ -27,6 +28,10 @@ export default {
   name: 'CCTags',
   props: {
     small: {
+      type: Boolean,
+      required: false,
+    },
+    xSmall: {
       type: Boolean,
       required: false,
     },

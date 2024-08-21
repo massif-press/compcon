@@ -52,7 +52,7 @@ class BondController {
   public set Bond(bond: Bond | null) {
     this._bond = bond;
     if (!bond) return;
-    this._answers = bond.Questions ? new Array(bond.Questions.length) : ['', ''];
+    this._answers = bond?.Questions ? new Array(bond.Questions.length).fill('') : ['', ''];
     this.Parent.SaveController.save();
   }
 
@@ -242,7 +242,7 @@ class BondController {
         `BondController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`
       );
 
-    parent.BondController.Bond = data.bondId ? Bond.Deserialize(data.bondId) : null;
+    parent.BondController._bond = data.bondId ? Bond.Deserialize(data.bondId) : null;
     parent.BondController._xp = data.xp || 0;
     parent.BondController._stress = data.stress || 0;
     parent.BondController._maxStress = data.maxStress || 8;

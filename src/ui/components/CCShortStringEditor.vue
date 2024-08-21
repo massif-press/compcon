@@ -5,7 +5,7 @@
         <slot />
       </v-col>
       <v-col v-if="!readonly" cols="auto">
-        <v-btn size="x-small" icon variant="plain" class="mb-n1" @click="edit()">
+        <v-btn size="x-small" icon variant="plain" class="mb-n1" color="white" @click="edit()">
           <v-icon size="15" icon="mdi-circle-edit-outline" />
         </v-btn>
       </v-col>

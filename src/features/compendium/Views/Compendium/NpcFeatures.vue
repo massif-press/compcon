@@ -40,6 +40,7 @@ export default {
         { title: 'Content Pack', key: 'LcpName' },
         { title: 'Origin', key: 'Origin' },
         { title: 'Name', key: 'Name' },
+        { title: 'Tags', key: 'Tags' },
       ] as any[];
       return h;
     },

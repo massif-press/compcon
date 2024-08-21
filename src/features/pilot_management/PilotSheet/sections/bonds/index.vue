@@ -4,8 +4,7 @@
       variant="flat"
       height="calc(100vh - 140px)"
       width="100vw"
-      style="opacity: 0.5; position: absolute; top: 140px"
-    >
+      style="opacity: 0.5; position: absolute; top: 140px">
       <v-row justify="center" align="center" style="height: 100%">
         <v-col cols="auto">
           <span class="heading h2 text--disabled">Bonds available after License Level 1</span>
@@ -23,8 +22,7 @@
           icon
           variant="plain"
           class="mb-n3 ml-n3"
-          @click="($refs as any).chooseBond.show()"
-        >
+          @click="($refs as any).chooseBond.show()">
           <v-icon icon="mdi-circle-edit-outline" />
         </v-btn>
       </div>
@@ -34,8 +32,7 @@
           block
           color="primary"
           prepend-icon="mdi-vector-link"
-          @click="($refs as any).chooseBond.show()"
-        >
+          @click="($refs as any).chooseBond.show()">
           Select Bond
         </v-btn>
       </div>
@@ -44,12 +41,11 @@
     <v-container v-if="pilot.BondController.Bond">
       <v-row
         class="flavor-text mr-3"
-        :style="$vuetify.display.lgAndUp ? 'width: calc(100vw - 300px)' : ''"
-      >
+        :style="$vuetify.display.lgAndUp ? 'width: calc(100vw - 300px)' : ''">
         <v-col md="6" sm="12">
           Major Ideals
           <ul>
-            <li v-for="(m, n) in pilot.BondController.Bond.MajorIdeals" v-text="m" />
+            <li v-for="m in pilot.BondController.Bond.MajorIdeals" v-text="m" />
           </ul>
         </v-col>
         <v-col md="6" sm="12">
@@ -59,8 +55,7 @@
             :items="pilot.BondController.Bond.MinorIdeals"
             density="compact"
             hide-details
-            filled
-          />
+            variant="outlined" />
         </v-col>
         <v-col md="6" sm="12" v-for="(q, i) in pilot.BondController.Bond.Questions">
           {{ q.question }}
@@ -69,8 +64,7 @@
             :items="pilot.BondController.Bond.Questions[i].options"
             density="compact"
             hide-details
-            filled
-          />
+            variant="outlined" />
         </v-col>
       </v-row>
     </v-container>
@@ -81,13 +75,7 @@
           <v-col cols="auto">
             <v-row density="compact">
               <v-col cols="auto" class="text-center">
-                <cc-tick-bar
-                  :current="pilot.BondController.XP"
-                  :max="8"
-                  large
-                  color="accent"
-                  @update="pilot.BondController.XP = $event"
-                >
+                <cc-tick-bar v-model="pilot.BondController.XP" :max="8" color="accent">
                   <span class="heading h4">Pilot XP</span>
                 </cc-tick-bar>
                 <v-menu v-model="resetXpMenu" offset-y offset-x bottom left>
@@ -98,8 +86,7 @@
                       variant="plain"
                       class="mt-2"
                       :disabled="pilot.BondController.XP < 8"
-                      v-bind="props"
-                    >
+                      v-bind="props">
                       <v-icon start>mdi-plus</v-icon>
                       Gain Bond Power
                     </v-btn>
@@ -109,14 +96,12 @@
                     @confirm="
                       resetXpMenu = false;
                       pilot.BondController.LevelUp();
-                    "
-                  />
+                    " />
                 </v-menu>
               </v-col>
               <v-col
                 cols="auto"
-                :style="pilot.BondController.TotalPowerSelections ? 'opacity: 1' : 'opacity: 0.4'"
-              >
+                :style="pilot.BondController.TotalPowerSelections ? 'opacity: 1' : 'opacity: 0.4'">
                 <fieldset style="border-radius: 5px" class="px-3">
                   <legend>
                     <span class="px-2 heading h4 text-accent">Bond Powers Available</span>
@@ -128,8 +113,7 @@
                     <v-btn
                       size="x-small"
                       variant="plain"
-                      @click="pilot.BondController.PowerSelections = 0"
-                    >
+                      @click="pilot.BondController.PowerSelections = 0">
                       Reset
                     </v-btn>
                   </div>
@@ -141,21 +125,18 @@
             <v-row density="compact" align="center">
               <v-col cols="auto">
                 <cc-tick-bar
-                  :current="pilot.BondController.Stress"
+                  v-model="pilot.BondController.Stress"
                   :max="pilot.BondController.MaxStress"
-                  large
                   empty-icon="mdi-heart"
                   full-icon="cc:eclipse"
-                  color="overcharge"
-                  @update="pilot.BondController.Stress = $event"
-                >
+                  color="overcharge">
                   <span class="heading h4">Pilot Stress</span>
                 </cc-tick-bar>
                 <v-menu offset-y offset-x bottom left :close-on-content-click="false">
                   <template #activator="{ props }">
-                    <v-btn size="small" variant="plain" class="mt-2" v-bind="props"
-                      >Set Maximum Stress</v-btn
-                    >
+                    <v-btn size="small" variant="plain" class="mt-2" v-bind="props">
+                      Set Maximum Stress
+                    </v-btn>
                   </template>
                   <v-card width="400px">
                     <v-card-text class="text-center">
@@ -171,11 +152,10 @@
                         color="accent"
                         variant="outlined"
                         label="Maximum Stress"
-                        class="my-3"
-                      />
-                      <v-btn variant="plain" small @click="pilot.BondController.MaxStress = 8"
-                        >Reset</v-btn
-                      >
+                        class="my-3" />
+                      <v-btn variant="plain" small @click="pilot.BondController.MaxStress = 8">
+                        Reset
+                      </v-btn>
                     </v-card-text>
                   </v-card>
                 </v-menu>
@@ -183,8 +163,7 @@
               <v-col
                 cols="auto"
                 class="text-center"
-                :style="pilot.BondController.AtMaxStress ? 'opacity: 1' : 'opacity: 0.7'"
-              >
+                :style="pilot.BondController.AtMaxStress ? 'opacity: 1' : 'opacity: 0.7'">
                 <div>
                   <v-icon v-if="pilot.BondController.AtMaxStress" size="60" color="overcharge">
                     mdi-heart-broken
@@ -210,8 +189,7 @@
                           !pilot.BondController.AtMaxStress || pilot.BondController.AtMaxBurdens
                         "
                         prepend-icon="mdi-plus"
-                        v-bind="props"
-                      >
+                        v-bind="props">
                         <span v-if="pilot.BondController.AtMaxBurdens">Burden Limit Reached</span>
                         <span v-else>Add Burden</span>
                       </v-btn>
@@ -221,8 +199,7 @@
                       @confirm="
                         addBondMenu = false;
                         pilot.BondController.AddNewBurden();
-                      "
-                    />
+                      " />
                   </v-menu>
                 </div>
               </v-col>
@@ -239,8 +216,7 @@
           :current="pilot.BondController.PowerSelections"
           :max="pilot.BondController.TotalPowerSelections"
           :label="`Edit Pilot Bonds (${pilot.SkillsController.CurrentSkillPoints}/${pilot.SkillsController.MaxSkillPoints})`"
-          @open-selector="($refs.powerSelector as any).show()"
-        />
+          @open-selector="($refs.powerSelector as any).show()" />
       </section-header>
       <v-container v-if="hasBond">
         <v-row justify="center">
@@ -251,17 +227,16 @@
           <v-col v-if="boon" cols="12">
             <v-card
               variant="outlined"
-              :style="!pilot.BondController.HasVeteranPower ? 'opacity: 0.4' : ''"
-            >
-              <v-row no-gutters class="deep-purple darken-3 text-white heading h4 py-1 px-3">
+              :style="!pilot.BondController.HasVeteranPower ? 'opacity: 0.4' : ''">
+              <v-row no-gutters class="bg-deep-purple-darken-3 heading h4 py-1 px-3">
                 <v-col>{{ boon.name }}</v-col>
                 <v-col v-if="boon.frequency" cols="auto">
                   <v-chip small v-text="boon.frequency" />
                 </v-col>
               </v-row>
-              <v-card-text v-html="boon.description" class="px-4 pt-1" />
+              <v-card-text v-html="boon.description" class="pa-3" />
             </v-card>
-            <div v-if="!pilot.BondController.HasVeteranPower" class="caption text-right">
+            <div v-if="!pilot.BondController.HasVeteranPower" class="text-caption text-right">
               <i v-text="'Requires Veteran Power'" />
             </div>
           </v-col>
@@ -276,8 +251,7 @@
             class="mx-1 my-2"
             color="overcharge"
             @delete="pilot.BondController.Burdens.splice(i, 1)"
-            @change="pilot.SaveController.save()"
-          />
+            @change="pilot.SaveController.save()" />
         </div>
         <v-row justify="end">
           <v-col cols="auto">
@@ -285,8 +259,7 @@
               size="small"
               color="accent"
               variant="plain"
-              @click="pilot.BondController.AddNewBurden()"
-            >
+              @click="pilot.BondController.AddNewBurden()">
               Add New Burden
             </v-btn>
           </v-col>
@@ -302,8 +275,7 @@
             class="mx-1 my-2"
             color="overcharge"
             @delete="pilot.BondController.Clocks.splice(i, 1)"
-            @change="pilot.SaveController.save()"
-          />
+            @change="pilot.SaveController.save()" />
         </div>
         <v-row justify="end">
           <v-col cols="auto">
@@ -311,8 +283,7 @@
               size="small"
               color="accent"
               variant="plain"
-              @click="pilot.BondController.AddClock()"
-            >
+              @click="pilot.BondController.AddClock()">
               Add New Clock
             </v-btn>
           </v-col>

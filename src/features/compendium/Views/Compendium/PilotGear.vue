@@ -26,6 +26,7 @@ export default {
         { title: 'E-Defense', key: 'EdefString' },
         { title: 'Evasion', key: 'EvasionString' },
         { title: 'Speed', key: 'SpeedString' },
+        { title: 'Tags', align: 'center', key: 'Tags' },
       ],
       PilotWeapon: [
         { title: 'Content Pack', key: 'LcpName' },
@@ -33,12 +34,14 @@ export default {
         { title: 'Item', key: 'Name' },
         { title: 'Range', key: 'Range' },
         { title: 'Damage', key: 'Damage' },
+        { title: 'Tags', align: 'center', key: 'Tags' },
       ],
       PilotGear: [
         { title: 'Content Pack', key: 'LcpName' },
         { title: 'Type', key: 'Type' },
         { title: 'Item', key: 'Name' },
         { title: 'Uses', key: 'MaxUses' },
+        { title: 'Tags', align: 'center', key: 'Tags' },
       ],
     },
     options: {

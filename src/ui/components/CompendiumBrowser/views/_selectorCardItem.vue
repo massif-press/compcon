@@ -1,5 +1,9 @@
 <template>
-  <compendium-card :item="item" :highlighted="highlighted" />
+  <compendium-card
+    :item="item"
+    :highlighted="highlighted"
+    :selectable="selectable"
+    @select="$emit('select')" />
 </template>
 
 <script lang="ts">
@@ -16,6 +20,10 @@ export default {
     highlighted: {
       type: Boolean,
     },
+    selectable: {
+      type: Boolean,
+    },
   },
+  emits: ['select'],
 };
 </script>

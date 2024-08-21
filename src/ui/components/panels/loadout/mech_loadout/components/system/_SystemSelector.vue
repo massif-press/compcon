@@ -5,7 +5,7 @@
     :table-headers="headers"
     :options="options"
     equippable
-    @equip="equip($event)">
+    @equip="handleEquip($event)">
     <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
     <template #top>
       <v-row>
@@ -107,12 +107,14 @@ export default {
       { title: 'Manufacturer', align: 'left', key: 'Source' },
       { title: 'System', align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'License' },
+      { title: 'Tags', align: 'center', key: 'Tags' },
       { title: 'License Level', align: 'left', key: 'LicenseLevel' },
       { title: 'SP Cost', align: 'left', key: 'SP' },
     ],
     showUnlicensed: false,
     showOverSP: false,
   }),
+  emits: ['equip'],
   computed: {
     freeSP(): number {
       return this.equipped ? this.mech.FreeSP + this.equipped.SP : this.mech.FreeSP;
@@ -158,7 +160,7 @@ export default {
     fID(template: string): string {
       return flavorID(template);
     },
-    equip(sys: MechSystem) {
+    handleEquip(sys: MechSystem) {
       if (this.equipped) {
         this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(
           this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.indexOf(this.equipped),
@@ -167,7 +169,8 @@ export default {
       } else {
         this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys);
       }
-      this.$emit('equip');
+
+      this.$emit('equip', sys);
     },
   },
 };

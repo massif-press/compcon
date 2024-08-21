@@ -327,7 +327,7 @@ export default {
           },
           datalabels: {
             color: '#fff',
-            backgroundColor: 'rgba(0,0,0,0.6)',
+            backgroundColor: 'rgba(0,0,0,0.8)',
             borderRadius: 4,
             anchor: 'start',
             offset: 8,
@@ -382,7 +382,7 @@ export default {
       const data = this.mapItems(items).map((x) => ({
         label: x.label,
         value: x.stats[this.xAxis.value],
-        color: x.color,
+        color: this.$vuetify.theme.current.colors.primary,
       }));
 
       return {

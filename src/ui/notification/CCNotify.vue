@@ -1,7 +1,7 @@
 <template>
   <notifications position="bottom right" width="40%" pause-on-hover :duration="3000">
     <template #body="props">
-      <v-card :color="props.item.data.type || 'info'" class="pa-3 ma-1">
+      <v-card :color="props.item.data.color || 'info'" class="pa-3 ma-1">
         <v-row>
           <v-col>
             <div class="heading h3">

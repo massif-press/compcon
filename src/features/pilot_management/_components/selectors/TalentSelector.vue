@@ -4,6 +4,15 @@
     :success="pilot.TalentsController.HasFullTalents && enoughSelections"
     :modal="modal">
     <template #left-column>
+      <v-text-field
+        v-model="search"
+        prepend-inner-icon="mdi-magnify"
+        density="compact"
+        variant="outlined"
+        clearable
+        hide-details
+        class="ma-1" />
+      <v-divider class="ma-2" />
       <v-row
         v-for="pTalent in pilot.TalentsController.Talents"
         dense
@@ -70,21 +79,6 @@
     </template>
 
     <template #right-column>
-      <v-row dense align="center" class="pt-2">
-        <v-col cols="5">
-          <v-text-field
-            v-model="search"
-            prepend-icon="mdi-magnify"
-            color="accent"
-            label="Search Talents"
-            density="compact"
-            hide-details
-            class="mb-2"
-            variant="outlined"
-            clearable />
-        </v-col>
-      </v-row>
-
       <cc-talent
         v-for="t in talents"
         :id="`talent_${t.ID}`"

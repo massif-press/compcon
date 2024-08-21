@@ -21,6 +21,7 @@ export default {
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Manufacturer', key: 'Source' },
       { title: 'Name', key: 'Name' },
+      { title: 'Effect', key: 'Effect' },
     ],
     options: {
       views: ['list', 'table'],

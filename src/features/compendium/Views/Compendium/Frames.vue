@@ -23,20 +23,21 @@ export default {
       initialGroup: 'source',
     },
     headers: [
-      { title: 'Manufacturer', key: 'Source' },
+      { title: '', key: 'Source' },
       { title: 'Name', key: 'Name' },
-      { title: 'Size', key: 'Size' },
-      { title: 'Armor', key: 'Armor' },
-      { title: 'HP', key: 'HP' },
-      { title: 'Evasion', key: 'Evasion' },
-      { title: 'EDef', key: 'EDefense' },
-      { title: 'HeatCap', key: 'HeatCap' },
-      { title: 'RepCap', key: 'RepCap' },
-      { title: 'Sensors', key: 'SensorRange' },
-      { title: 'TechAtk', key: 'TechAttack' },
-      { title: 'Save', key: 'SaveTarget' },
-      { title: 'Speed', key: 'Speed' },
-      { title: 'SP', key: 'SP' },
+      { title: 'Size', key: 'SizeIcon', align: 'center' },
+      { title: 'Mounts', key: 'Mounts' },
+      { title: 'Armor', key: 'Armor', align: 'center' },
+      { title: 'HP', key: 'HP', align: 'center' },
+      { title: 'Evasion', key: 'Evasion', align: 'center' },
+      { title: 'EDef', key: 'EDefense', align: 'center' },
+      { title: 'HeatCap', key: 'HeatCap', align: 'center' },
+      { title: 'RepCap', key: 'RepCap', align: 'center' },
+      { title: 'Sensors', key: 'SensorRange', align: 'center' },
+      { title: 'TechAtk', key: 'TechAttack', align: 'center' },
+      { title: 'Save', key: 'SaveTarget', align: 'center' },
+      { title: 'Speed', key: 'Speed', align: 'center' },
+      { title: 'SP', key: 'SP', align: 'center' },
     ],
   }),
   computed: {
@@ -58,3 +59,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-data-table-header th {
+  white-space: nowrap;
+}
+</style>

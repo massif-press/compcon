@@ -1,10 +1,11 @@
 <template>
-  <p v-html-safe="item.Description" />
+  <div class="heading h3" v-text="item.StatusType" />
+  <div v-html="item.Effects" />
 </template>
 
 <script lang="ts">
 export default {
-  name: 'cc-background-card',
+  name: 'cc-bond-card',
   props: {
     item: {
       type: Object,

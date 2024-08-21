@@ -1,19 +1,31 @@
 <template>
-  <v-row>
-    <v-col cols="3">
+  <v-layout>
+    <v-btn
+      icon
+      size="25"
+      border
+      :variant="showNav ? 'tonal' : 'elevated'"
+      color="primary"
+      :style="`position: absolute; z-index: 999; left: ${showNav ? '352' : '3'}px; top: 12px`"
+      @click="(showNav as any) = !showNav">
+      <v-icon size="24" :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'" />
+    </v-btn>
+    <v-navigation-drawer v-model="showNav" class="mt-2 pa-2" width="350">
       <div id="float" :class="success ? 'bordered-success' : 'bordered-primary'">
         <div>
           <cc-title x-small :color="success ? 'success' : 'primary'" block>{{ title }}</cc-title>
           <slot name="left-column" />
         </div>
       </div>
-    </v-col>
-    <v-col ref="content" cols="9">
+    </v-navigation-drawer>
+    <v-main ref="content" class="py-2">
       <div id="content" :class="modal ? 'fixed-window' : ''">
-        <slot name="right-column" />
+        <div class="px-12 mx-auto" style="max-width: 1400px">
+          <slot name="right-column" />
+        </div>
       </div>
-    </v-col>
-  </v-row>
+    </v-main>
+  </v-layout>
 </template>
 
 <script lang="ts">
@@ -48,6 +60,7 @@ export default {
   data: () => ({
     floating: false,
     listener: () => {},
+    showNav: null,
   }),
   mounted() {
     window.addEventListener('scroll', handleScroll);

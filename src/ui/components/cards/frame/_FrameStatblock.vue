@@ -6,13 +6,12 @@
     <cc-statblock-panel icon="cc:reactor" name="Stress" :value="frame.HeatStress" cols="4" />
     <cc-statblock-panel icon="cc:heat" name="Heat Capacity" :value="frame.HeatCap" cols="8" />
     <cc-statblock-panel icon="cc:evasion" name="Evasion" :value="frame.Evasion" cols="6" />
-    <cc-statblock-panel icon="cc:e_def" name="E-Defense" :value="frame.EDefense" cols="6" />
     <cc-statblock-panel
       icon="mdi-arrow-right-bold-hexagon-outline"
       name="Speed"
       :value="frame.Speed"
-      cols="5"
-    />
+      cols="6" />
+    <cc-statblock-panel icon="cc:e_def" name="E-Defense" :value="frame.EDefense" cols="5" />
     <cc-statblock-panel icon="cc:full_tech" name="Tech Attack" :value="frame.TechAttack" cols="7" />
 
     <cc-statblock-panel icon="cc:sensor" name="Sensors" :value="frame.SensorRange" cols="4" />

@@ -2,26 +2,17 @@
   <v-toolbar
     :color="color"
     :class="{ 'clipped-large': clipped }"
-    :style="fixed ? 'position: fixed; width: 100%; z-index:99' : ''"
+    :style="fixed ? 'position: fixed; width: 100%; z-index:' : ''"
     :density="<any>density">
-    <v-row
-      align="center"
-      :class="`heading ${$vuetify.display.mdAndDown ? 'h3' : 'h2'} px-2`"
-      style="text-transform: uppercase">
-      <v-col cols="auto">
-        <v-icon v-if="icon" size="50" :icon="icon" />
-      </v-col>
-      <v-col cols="auto">
-        <slot name="title" />
-      </v-col>
-      <v-col cols="auto">
-        <slot name="title-chips" />
-      </v-col>
-      <v-spacer />
-      <v-col cols="auto" class="mr-5">
-        <slot name="title-items" />
-      </v-col>
-    </v-row>
+    <v-toolbar-title style="text-transform: uppercase" class="heading h2 mt-1">
+      <v-icon v-if="icon" size="x-large" class="mt-n2" :icon="icon" />
+      <slot name="title" />
+    </v-toolbar-title>
+    <slot name="title-chips" />
+    <v-spacer />
+    <span class="pr-5">
+      <slot name="title-items" />
+    </span>
   </v-toolbar>
 </template>
 

@@ -1,12 +1,5 @@
 <template>
-  <v-btn-toggle
-    mandatory
-    divided
-    variant="plain"
-    border
-    color="accent"
-    density="compact"
-    style="width: 100%; height: 30px">
+  <v-btn-toggle divided variant="plain" border density="compact" style="width: 100%; height: 30px">
     <v-menu offset-y :close-on-content-click="false" max-width="500px">
       <template v-slot:activator="{ props }">
         <v-btn v-bind="props" size="small" style="width: 50%">
@@ -14,9 +7,9 @@
             <template v-slot:activator="{ props }">
               <span v-bind="props">
                 <v-icon size="x-large" icon="cc:content_manager" start />
-                <v-chip size="x-small"
-                  ><b>{{ lcpFilter.length }}</b></v-chip
-                >
+                <v-chip size="x-small">
+                  <b>{{ lcpFilter.length }}</b>
+                </v-chip>
               </span>
             </template>
           </v-tooltip>
@@ -54,9 +47,9 @@
             <template v-slot:activator="{ props }">
               <span v-bind="props">
                 <v-icon size="large" icon="mdi-filter" start />
-                <v-chip size="x-small"
-                  ><b>{{ otherFilterCount }}</b></v-chip
-                >
+                <v-chip size="x-small">
+                  <b>{{ otherFilterCount }}</b>
+                </v-chip>
               </span>
             </template>
           </v-tooltip>
