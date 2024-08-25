@@ -133,6 +133,10 @@ class Deployable {
     return `cc:size_${this.Size === 0.5 ? 'half' : this.Size}`;
   }
 
+  public get Color(): string {
+    return 'deployable';
+  }
+
   public static Serialize(deployable: Deployable): IDeployableData {
     return {
       id: deployable.Name,

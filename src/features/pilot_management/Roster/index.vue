@@ -36,12 +36,11 @@
       <group-panel v-for="group in pilotGroups" :group="group" />
     </div>
     <v-divider />
-    <div class="pa-4">
+    <div class="pa-4 text-right">
       <v-btn
-        block
         variant="tonal"
         color="accent"
-        size="large"
+        prepend-icon="mdi-plus"
         @click="($refs as any).newGroup.show()">
         Create New Group
       </v-btn>

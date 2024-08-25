@@ -13,10 +13,13 @@
         height="30px"
         class="text-white pa-1 pr-3">
         <span class="heading">
-          <v-icon>{{ item.Icon }}</v-icon>
+          <v-icon class="mt-n1">{{ item.Icon }}</v-icon>
           {{ item.Name }}
         </span>
         <v-spacer />
+        <div v-if="item.FeatureType" class="heading" style="font-size: 0.85em">
+          {{ item.WeaponType ? item.WeaponType : item.FeatureType }}
+        </div>
         <v-spacer />
         <div class="text-overline text-right text-white" style="line-height: 11px !important">
           <cc-tooltip inline :content="item.LcpName">

@@ -1,6 +1,6 @@
 <template>
   <div class="text-overline pt-2">FEATURES</div>
-  <div v-if="item.NpcClassController.HasClass">
+  <div v-if="item.NpcClassController?.HasClass">
     <npc-feature-alerts
       v-if="!readonly"
       :template-controller="item.NpcTemplateController"

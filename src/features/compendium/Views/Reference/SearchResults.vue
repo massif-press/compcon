@@ -193,8 +193,6 @@ export default {
   methods: {
     highlightText(sourceText: string) {
       const text = sourceText.replace(/<[^>]*>/g, '');
-      console.log(text);
-      console.log(this.searchText);
       const regex = new RegExp(this.searchText, 'gi');
       return text.replace(regex, (match) => `<span class="highlight">${match}</span>`);
     },

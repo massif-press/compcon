@@ -21,6 +21,7 @@ export default {
   tech: '#007674',
   reaction: '#512DA8',
   skill: '#524f3b',
+  deployable: '#47525C',
 
   'npc--trait': '#991E2A',
 

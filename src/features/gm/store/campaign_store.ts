@@ -2,12 +2,35 @@ import { defineStore } from 'pinia';
 import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
 
 import { Campaign, ICampaignData } from '@/classes/campaign/Campaign';
+import path from 'path';
 
 export const CampaignStore = defineStore('campaign', {
   state: () => ({
     Campaigns: [] as Campaign[],
     CampaignCollection: [] as ICampaignData[],
   }),
+  getters: {
+    editableCampaignIndexes: (state: any) => {
+      return state.Campaigns.map((x: Campaign) => ({
+        id: x.ID,
+        title: x.Title,
+        type: 'Campaign (Unpublished)',
+        pack: '',
+        path: `/gm/campaigns/edit/${x.ID}`,
+        icon: 'mdi-pencil-circle-outline',
+      }));
+    },
+    publishedCampaignIndexes: (state: any) => {
+      return state.CampaignCollection.map((x: ICampaignData) => ({
+        id: x.id,
+        title: x.title,
+        type: 'Campaign (Published)',
+        pack: '',
+        path: `/srd/campaign/${x.id}`,
+        icon: 'cc:campaign',
+      }));
+    },
+  },
   actions: {
     async LoadCampaigns(): Promise<void> {
       let campaignData = await GetAll('campaigns');

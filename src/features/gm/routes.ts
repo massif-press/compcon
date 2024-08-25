@@ -25,11 +25,19 @@ const routes = [
         path: '',
         name: 'gm-toolkit-home',
         component: Home,
+        searchData: {
+          title: 'GM Toolkit',
+          icon: 'cc:encounter',
+        },
       },
       {
         path: 'campaigns',
         name: 'gm-campaigns',
         component: Campaigns,
+        searchData: {
+          title: 'Campaign Editor',
+          icon: 'cc:encounter',
+        },
       },
       {
         path: 'campaigns/edit/:id',
@@ -38,19 +46,34 @@ const routes = [
         props: true,
       },
       {
-        path: 'npcs',
+        path: 'npcs/:type?/:id?',
         name: 'gm-npcs',
+        props: true,
         component: NpcRoster,
+        searchData: {
+          title: 'NPC Roster',
+          icon: 'cc:encounter',
+        },
       },
       {
-        path: 'encounters',
+        path: 'encounters/:id?',
         name: 'gm-encounters',
         component: Encounters,
+        props: true,
+        searchData: {
+          title: 'Encounter Editor',
+          icon: 'cc:encounter',
+        },
       },
       {
-        path: 'narrative',
+        path: 'narrative/:type?/:id?',
         name: 'gm-narrative',
+        props: true,
         component: NarrativeIndex,
+        searchData: {
+          title: 'Narrative Item Manager',
+          icon: 'cc:encounter',
+        },
       },
       {
         path: 'narrative/graph',

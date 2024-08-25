@@ -10,8 +10,10 @@
     </template>
     <v-card flat tile>
       <v-toolbar density="compact" flat :color="deployable.Color" class="text-white">
-        <v-icon start large dark>{{ deployable.Icon }}</v-icon>
-        <span class="heading h3">{{ deployable.Name }}</span>
+        <v-toolbar-title>
+          <v-icon start large dark>{{ deployable.Icon }}</v-icon>
+          <span class="heading h3">{{ deployable.Name }}</span>
+        </v-toolbar-title>
       </v-toolbar>
       <v-card-text class="mt-n3">
         <deployable-info-base :deployable="deployable" :tier="tier" />

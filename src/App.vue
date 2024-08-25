@@ -3,7 +3,7 @@
     <cc-notify />
     <navbar />
     <div style="height: 40px" class="no-print" />
-    <router-view />
+    <router-view :key="$route.fullPath" />
   </v-app>
 </template>
 

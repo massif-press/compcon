@@ -22,16 +22,18 @@
     </template>
 
     <div class="text-caption mt-1">
-      <stat-chips :stat-controller="item.npc.StatController" />
+      <stat-chips
+        :stat-controller="item.npc.StatController"
+        :bonuses="item.npc.FeatureController.Bonuses" />
     </div>
     <div class="text-caption">
       <cc-item-chip
         v-for="f in item.npc.NpcFeatureController.Features"
         :item="f"
         :tier="item.npc.NpcClassController.Tier"
-        size="x-small"
+        size="small"
         variant="elevated"
-        class="ma-1" />
+        style="margin: 2px" />
     </div>
   </c-list-item-base>
 </template>

@@ -27,12 +27,14 @@
       </template>
 
       <cc-item-card :item="item" />
+      <item-card-link :item="item" />
     </cc-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import _ from 'lodash';
+import ItemCardLink from './items/_components/ItemCardLink.vue';
 
 export default {
   name: 'CCItemModal',
@@ -50,6 +52,9 @@ export default {
     block: {
       type: Boolean,
     },
+  },
+  components: {
+    ItemCardLink,
   },
   methods: {
     startCase(str: string): string {

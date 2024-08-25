@@ -87,6 +87,7 @@ abstract class NpcFeature extends CompendiumItem {
     super(data as ICompendiumItemData, pack);
     this._originID = data.origin;
     this._effect = data.effect || data.detail || '';
+
     this._hide_active = data.hide_active || false;
     this.Base = data.base || false;
     this.Deprecated = data.deprecated || false;

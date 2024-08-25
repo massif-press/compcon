@@ -3,10 +3,7 @@
   <div class="px-2">
     <v-card variant="outlined" class="pa-1" style="border-color: rgb(var(--v-theme-panel))">
       <v-row dense v-if="item.StatController.DisplayKeys.length">
-        <v-col
-          v-for="kvp in item.StatController.DisplayKeys"
-          v-show="kvp.key !== 'sizes'"
-          style="min-width: 10vw">
+        <v-col v-for="kvp in displayKeys" v-show="kvp.key !== 'sizes'" style="min-width: 12vw">
           <editable-attribute
             v-if="kvp.key !== 'sizes'"
             :readonly="readonly"
@@ -27,8 +24,9 @@
       <v-col cols="auto">
         <v-menu v-model="coreMenu" :close-on-content-click="false">
           <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" color="accent" variant="tonal" class="mr-2"
-              ><v-icon start icon="cc:compendium" />Add Core Stat
+            <v-btn v-bind="props" color="accent" variant="tonal" class="mr-2">
+              <v-icon start icon="cc:compendium" />
+              Add Core Stat
             </v-btn>
           </template>
           <v-card style="min-width: 30vw">
@@ -54,8 +52,9 @@
       <v-col cols="auto">
         <v-menu v-model="customMenu" :close-on-content-click="false">
           <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" color="secondary" variant="tonal"
-              ><v-icon start icon="mdi-flask" />Add Custom Stat
+            <v-btn v-bind="props" color="secondary" variant="tonal">
+              <v-icon start icon="mdi-flask" />
+              Add Custom Stat
             </v-btn>
           </template>
           <v-card style="min-width: 20vw">
@@ -70,9 +69,9 @@
             <v-divider />
             <v-card-actions>
               <v-spacer />
-              <v-btn variant="tonal" color="accent" size="small" @click="addCustomStat()"
-                >Add</v-btn
-              >
+              <v-btn variant="tonal" color="accent" size="small" @click="addCustomStat()">
+                Add
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -85,8 +84,8 @@
               color="error"
               size="x-small"
               variant="outlined"
-              class="fade-select"
-              >Reset Stats
+              class="fade-select">
+              Reset Stats
             </v-btn>
           </template>
           <v-card style="min-width: 30vw">
@@ -103,9 +102,9 @@
                 @click="
                   controller.ResetStats();
                   resetMenu = false;
-                "
-                >Reset</v-btn
-              >
+                ">
+                Reset
+              </v-btn>
               <v-spacer />
             </v-card-actions>
           </v-card>
@@ -119,6 +118,26 @@
 import { StatController } from '@/classes/components/combat/stats/StatController';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
 import { Bonus } from '@/classes/components';
+
+const npcStatOrder = [
+  'activations',
+  'size',
+  'sizes',
+  'structure',
+  'hull',
+  'agi',
+  'sys',
+  'eng',
+  'hp',
+  'armor',
+  'stress',
+  'heat',
+  'speed',
+  'evasion',
+  'edef',
+  'sensorRange',
+  'saveTarget',
+];
 
 export default {
   name: 'stat-editor',
@@ -146,6 +165,11 @@ export default {
       return StatController.CoreStats.filter(
         (x) => !this.item.StatController.DisplayKeys.some((y) => y.key === x.key)
       ).filter((x) => x.key !== 'sizes');
+    },
+    displayKeys() {
+      return this.item.StatController.DisplayKeys.sort(
+        (a, b) => npcStatOrder.indexOf(a.key) - npcStatOrder.indexOf(b.key)
+      );
     },
   },
   methods: {

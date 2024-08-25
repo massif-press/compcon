@@ -34,6 +34,8 @@
 
     <cc-item-card v-else :item="item" charts />
 
+    <item-card-link :item="item" />
+
     <div v-if="selectable">
       <v-btn
         block
@@ -53,6 +55,8 @@
 </template>
 
 <script lang="ts">
+import ItemCardLink from '../../cards/items/_components/ItemCardLink.vue';
+
 export default {
   name: 'selector-list-item',
   props: {
@@ -71,6 +75,9 @@ export default {
     },
   },
   emits: ['select'],
+  components: {
+    ItemCardLink,
+  },
   computed: {
     useVCard(): boolean {
       switch (this.item && this.item.ItemType) {

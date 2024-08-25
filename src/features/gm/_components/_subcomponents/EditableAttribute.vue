@@ -1,33 +1,36 @@
 <template>
   <v-card :color="cardColor" variant="tonal" class="text-center" style="height: 100%">
-    <div class="heading pt-1">
-      {{ stat.title }}
-      <v-icon v-if="overwriteVal" icon="mdi-lock" color="secondary" size="x-small" />
-      <v-btn
-        v-if="!readonly && deletable"
-        icon
-        size="xs"
-        class="fade-select ml-1 mt-n1"
-        @click="$emit('remove', stat.key)"
-        ><v-icon icon="mdi-delete" size="x-small" color="error"
-      /></v-btn>
-    </div>
-    <v-card-text class="px-3 pb-1 pt-0">
+    <v-toolbar density="compact" height="40">
+      <v-toolbar-title class="heading text-uppercase" style="font-size: 16px">
+        {{ stat.title }}
+        <v-icon v-if="overwriteVal" icon="mdi-lock" color="secondary" size="x-small" />
+        <v-btn
+          v-if="!readonly && deletable"
+          icon
+          size="xs"
+          class="fade-select ml-1 mt-n1"
+          @click="$emit('remove', stat.key)">
+          <v-icon icon="mdi-delete" size="x-small" color="error" />
+        </v-btn>
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-card-text class="px-2 pb-1 pt-0" style="position: relative">
       <div v-if="overwriteVal">
         <div class="heading h3 text-center my-2">{{ overwriteVal }}</div>
       </div>
       <div v-else-if="readonly">
         <v-divider />
-        <div class="heading h2 text-center py-1">{{ model }}</div>
+        <div class="heading h2 text-center py-1">{{ totalWithBonus }}</div>
       </div>
       <div v-else-if="stat.key === 'size'">
-        <v-select
-          v-if="selections.length"
+        <v-combobox
           v-model="model"
           :items="selections"
           density="compact"
           variant="outlined"
           hide-details
+          center-affix
+          type="number"
           @input="$emit('set', { value: model, tier: model })"
           @blur="editMode = false"
           @keyup.enter="editMode = false"
@@ -61,22 +64,32 @@
       <div v-if="bonuses.length" v-for="bonus in bonuses" class="text-right">
         <v-menu open-on-hover>
           <template v-slot:activator="{ props }">
+            <v-icon
+              v-if="readonly"
+              v-bind="props"
+              :icon="bonus.Icon"
+              color="exotic"
+              style="position: absolute; right: 2px; bottom: 0" />
             <v-chip
+              v-else
               dense
-              variant="tonal"
+              variant="elevated"
+              elevation="0"
               size="x-small"
               class="mt-1"
-              color="secondary"
+              color="exotic"
               v-bind="props">
-              <b class="pr-2">{{ bonus.Symbol }}{{ bonus.Value }}</b> {{ stat.title }}
+              <b class="pr-2">{{ bonus.Symbol }}{{ bonus.Value }}</b>
+              {{ stat.title }}
             </v-chip>
           </template>
           <v-card>
             <v-toolbar density="compact" color="exotic">
               <v-toolbar-title>
-                <v-icon start :icon="bonus.Icon" /> {{ bonus.Title }}
-              </v-toolbar-title></v-toolbar
-            >
+                <v-icon start :icon="bonus.Icon" />
+                {{ bonus.Title }}
+              </v-toolbar-title>
+            </v-toolbar>
             <v-card-text class="pt-1 pb-3">
               <div>
                 {{ bonus.Detail }}
@@ -153,6 +166,9 @@ export default {
       const overwrite = this.bonuses.find((x) => x.Overwrite);
       if (overwrite) return overwrite.Value;
       return '';
+    },
+    totalWithBonus() {
+      return this.val + this.bonuses.reduce((acc, x) => acc + x.Value, 0);
     },
   },
   methods: {

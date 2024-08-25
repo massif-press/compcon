@@ -5,6 +5,7 @@ import { Pilot } from '@/class';
 import { PilotGroup, PilotGroupData } from './PilotGroup';
 import { PortraitController, SaveController } from '@/classes/components';
 import _ from 'lodash';
+import { IndexItem } from '@/stores';
 
 export const PilotStore = defineStore('pilot', {
   state: () => ({
@@ -49,6 +50,30 @@ export const PilotStore = defineStore('pilot', {
     },
     getMissingDataPilots: (state: any) => {
       return state.Pilots.filter((x: Pilot) => x.BrewController.MissingContent);
+    },
+    pilotIndexes: (state: any): IndexItem[] => {
+      const pilots = state.Pilots.filter((x: Pilot) => !x.SaveController.IsDeleted);
+      return pilots.map((x: Pilot) => ({
+        id: x.ID,
+        title: `${x.Callsign} (${x.Name})`,
+        type: 'Pilot',
+        pack: '',
+        path: `/pilot/${x.ID}`,
+        icon: 'cc:pilot',
+      }));
+    },
+    mechIndexes: (state: any): IndexItem[] => {
+      const pilots = state.Pilots.filter((x: Pilot) => !x.SaveController.IsDeleted);
+      return pilots.flatMap((x: Pilot) =>
+        x.Mechs.map((m) => ({
+          id: m.ID,
+          title: m.Name,
+          type: `Mech (${x.Callsign} // ${x.Name})`,
+          pack: '',
+          path: `/pilot/${x.ID}/mech/${m.ID}`,
+          icon: 'cc:mech',
+        }))
+      );
     },
   },
   actions: {

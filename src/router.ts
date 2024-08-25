@@ -7,6 +7,7 @@ import activeModeRoutes from './features/active_mode/routes';
 
 import MainMenu from './features/main_menu/index.vue';
 import UITest from './features/ui_test/index.vue';
+import ItemLink from './features/main_menu/itemLink.vue';
 
 // import updateChecker from './util/UpdateChecker';
 
@@ -17,6 +18,12 @@ const router = createRouter({
       path: '/',
       name: 'main-menu',
       component: MainMenu,
+    },
+    {
+      path: '/link/:pack/:type/:id',
+      name: 'item_link',
+      component: ItemLink,
+      props: true,
     },
     {
       path: '/ui-test',

@@ -8,7 +8,7 @@
 
   <v-window v-model="tab">
     <v-window-item v-for="itemType in itemTypes">
-      <narrative-collection :itemType="itemType" />
+      <narrative-collection :itemType="itemType" :id="id" />
     </v-window-item>
   </v-window>
 
@@ -25,9 +25,10 @@
     <cc-solo-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
       <importer @complete="($refs as any).import.hide()" />
     </cc-solo-dialog>
-    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()"
-      ><v-icon start icon="mdi-queue-first-in-last-out" />Organize</v-btn
-    >
+    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()">
+      <v-icon start icon="mdi-queue-first-in-last-out" />
+      Organize
+    </v-btn>
     <cc-solo-dialog
       ref="organize"
       icon="mdi-queue-first-in-last-out"
@@ -51,9 +52,24 @@ export default {
     Organizer,
     Importer,
   },
+  props: {
+    type: {
+      type: String,
+      required: false,
+    },
+    id: {
+      type: String,
+      required: false,
+    },
+  },
   data: () => ({
     tab: 0,
     itemTypes: ['Character', 'Location', 'Faction'],
   }),
+  created() {
+    if (this.type) {
+      this.tab = ['character', 'location', 'faction'].indexOf(this.type);
+    }
+  },
 };
 </script>

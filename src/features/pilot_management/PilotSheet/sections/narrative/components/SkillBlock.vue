@@ -6,19 +6,17 @@
         :current="pilot.SkillsController.CurrentSkillPoints"
         :max="pilot.SkillsController.MaxSkillPoints"
         :label="`Edit Pilot Skill Triggers (${pilot.SkillsController.CurrentSkillPoints}/${pilot.SkillsController.MaxSkillPoints})`"
-        @open-selector="($refs as any).skillSelector.show()"
-      />
+        @open-selector="($refs as any).skillSelector.show()" />
     </section-header>
     <cc-solo-dialog
       ref="skillSelector"
       icon="cc:skill"
       no-confirm
       title="Set Pilot Skill Triggers"
-      fullscreen
-    >
-      <skill-selector :pilot="(pilot as Pilot)" modal />
+      fullscreen>
+      <skill-selector :pilot="<Pilot>pilot" modal />
     </cc-solo-dialog>
-    <v-row style="width: calc(100vw - 250px)" density="compact" class="mt-2 pl-10">
+    <v-row style="width: calc(100vw - 350px)" density="compact" class="my-2 pl-10">
       <v-col cols="12" md="auto" class="mr-2 text-center">
         <div class="stat-text">PILOT GRIT</div>
         <div class="heading h1 text-secondary" style="font-size: 80px; line-height: 50px">
@@ -32,8 +30,7 @@
           v-else
           :bonus="s.Bonus"
           :skill="s.Skill"
-          pilot
-        />
+          pilot />
       </v-col>
     </v-row>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="item">
     <v-row class="text-text">
       <v-col cols="2">
         <cc-img :src="item.PortraitController.Image" />
@@ -55,7 +55,7 @@ export default {
     item() {
       const refElement = NarrativeStore()
         .CollectionItems.filter((x) => !x.SaveController.IsDeleted)
-        .find((x) => x.ID === this.data.ID);
+        .find((x) => x.ID === this.data?.ID);
       if (refElement) return refElement;
       return this.data;
     },

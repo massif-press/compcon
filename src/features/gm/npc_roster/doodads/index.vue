@@ -44,10 +44,25 @@ import { Doodad } from '@/classes/npc/doodad/Doodad';
 export default {
   name: 'doodad-roster',
   components: { GmCollectionView, Editor, Builder },
+  props: {
+    id: {
+      type: String,
+      required: false,
+    },
+  },
   data: () => ({
     dialog: false,
     selected: null as Doodad | null,
   }),
+  mounted() {
+    if (this.id) {
+      const item = NpcStore().getNpcByID(this.id);
+      if (item) {
+        this.selected = item;
+        this.dialog = true;
+      }
+    }
+  },
   computed: {
     groupings() {
       const allLabelTitles = new Set(

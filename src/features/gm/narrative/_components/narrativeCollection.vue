@@ -38,11 +38,24 @@ export default {
       type: String,
       required: true,
     },
+    id: {
+      type: String,
+      required: false,
+    },
   },
   data: () => ({
     dialog: false,
     selected: null as INarrativeElement | null,
   }),
+  mounted() {
+    if (this.id) {
+      const item = NarrativeStore().getItemByID(this.id);
+      if (item) {
+        this.selected = item;
+        this.dialog = true;
+      }
+    }
+  },
   computed: {
     allNarrativeItems() {
       return NarrativeStore().CollectionItems.length;

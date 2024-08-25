@@ -24,14 +24,14 @@
       v-if="!readonly"
       cols="auto"
       :class="item.NpcTemplateController.Templates.length ? 'ml-auto' : ''">
-      <v-btn color="accent" variant="tonal" @click="dialog = true"
-        >{{ item.NpcTemplateController.Templates.length ? 'Edit' : 'Assign' }} NPC Templates</v-btn
-      >
+      <v-btn color="accent" variant="tonal" @click="dialog = true">
+        {{ item.NpcTemplateController.Templates.length ? 'Edit' : 'Assign' }} NPC Templates
+      </v-btn>
     </v-col>
   </v-row>
 
-  <v-dialog v-model="dialog">
-    <v-card>
+  <v-dialog v-model="dialog" height="95vh">
+    <v-card height="95vh">
       <v-toolbar density="compact" color="primary">
         <v-toolbar-title class="heading">SELECT TEMPLATE</v-toolbar-title>
         <v-spacer />
@@ -45,9 +45,12 @@
             NPC data are included with the paid version of the LANCER Core Book and are therefore
             not included with COMP/CON by default. You can find NPC Class, Template, and Feature
             data as additional downloadable content on the
-            <a href="https://massif-press.itch.io/corebook-pdf" target="_blank"
-              >LANCER: Core Book itch.io page</a
-            >.<br /><br />
+            <a href="https://massif-press.itch.io/corebook-pdf" target="_blank">
+              LANCER: Core Book itch.io page
+            </a>
+            .
+            <br />
+            <br />
             If you have already downloaded the NPC data, you can import it into COMP/CON via the
             Content Manager available on the Main Menu or in the Options menu on the right side of
             the nav bar.
@@ -56,57 +59,24 @@
             If you purchased a physical copy of the LANCER Core Book, but have not received
             instructions on how to redeem your copy of the digital version and its associated
             assets, including core NPC data, please contact Massif Press at
-            <a href="mailto:massifpress@gmail.com">massifpress@gmail.com</a>.
+            <a href="mailto:massifpress@gmail.com">massifpress@gmail.com</a>
+            .
           </div>
         </v-container>
       </v-card-text>
-      <panel-view v-else ref="view">
-        <template #title>
-          <v-row density="compact" align="center" class="mt-n8 mb-n6">
-            <v-col cols="4" class="my-3">
-              <v-text-field
-                v-model="search"
-                prepend-inner-icon="mdi-magnify"
-                density="compact"
-                hide-details
-                variant="outlined"
-                clearable />
-            </v-col>
-            <v-col>
-              <v-btn
-                v-if="isAssigned(selected)"
-                large
-                block
-                variant="tonal"
-                color="error"
-                @click="item.NpcTemplateController.RemoveTemplate(selected)">
-                <v-icon start>mdi-minus</v-icon>
-                Remove Template
-              </v-btn>
-
-              <v-btn v-else-if="templateConflict(selected).length" large block disabled>
-                <v-icon start icon="mdi-cancel" />
-                Cannot assign (conflicts with {{ templateConflict(selected) }})
-              </v-btn>
-
-              <v-btn
-                v-else
-                large
-                block
-                variant="tonal"
-                color="secondary"
-                @click="item.NpcTemplateController.AddTemplate(selected)">
-                <v-icon start>mdi-plus</v-icon>
-                Assign Template
-              </v-btn>
-            </v-col>
-          </v-row>
-        </template>
-        <template #left>
-          <v-list style="width: 100%; overflow-y: scroll" class="bg-transparent mt-n5">
+      <v-layout>
+        <v-navigation-drawer class="pa-2">
+          <v-text-field
+            v-model="search"
+            prepend-inner-icon="mdi-magnify"
+            density="compact"
+            hide-details
+            variant="outlined"
+            clearable />
+          <v-list>
             <v-list-item
               v-for="item in templates"
-              color="accent"
+              :color="selected === item ? '' : 'accent'"
               :class="isAssigned(item) ? 'bg-primary rounded-sm' : ''"
               :value="item"
               @click="selected = item">
@@ -114,12 +84,43 @@
                 <v-scroll-x-transition leave-absolute>
                   <v-icon v-if="selected === item" start>mdi-chevron-triple-right</v-icon>
                 </v-scroll-x-transition>
-                <span class="heading"> {{ item.Name }} </span>
+                <span class="heading">{{ item.Name }}</span>
+              </template>
+              <template #append>
+                <v-tooltip v-if="isAssigned(item)" location="top">
+                  <template #activator="{ props }">
+                    <v-icon
+                      v-bind="props"
+                      size="large"
+                      color="error"
+                      icon="mdi-minus-box"
+                      @click="removeTemplate(item)"></v-icon>
+                  </template>
+                  Remove Template
+                </v-tooltip>
+
+                <v-icon
+                  v-else-if="templateConflict(item).length"
+                  icon="mdi-cancel"
+                  size="large"
+                  disabled></v-icon>
+
+                <v-tooltip v-else>
+                  <template #activator="{ props }">
+                    <v-icon
+                      v-bind="props"
+                      size="large"
+                      icon="mdi-plus-box"
+                      color="secondary"
+                      @click="addTemplate(item)"></v-icon>
+                  </template>
+                  Assign Template
+                </v-tooltip>
               </template>
             </v-list-item>
           </v-list>
-        </template>
-        <template #right>
+        </v-navigation-drawer>
+        <v-main style="overflow-y: scroll">
           <v-container v-if="selected">
             <v-row dense align="center" class="mt-n8">
               <v-col cols="auto">
@@ -127,21 +128,40 @@
                   {{ selected.Name }}
                 </span>
               </v-col>
-              <v-col v-if="selected.InLcp" class="ml-auto">
+              <v-col v-if="selected.InLcp" cols="auto" class="ml-auto">
                 <div class="heading h3 text-text">
                   {{ selected.LcpName }}
                 </div>
               </v-col>
             </v-row>
             <cc-item-card :item="selected" />
+            <v-btn
+              v-if="isAssigned(selected)"
+              size="large"
+              block
+              color="error"
+              @click="removeTemplate(selected)">
+              <v-icon start>mdi-minus</v-icon>
+              Remove Template
+            </v-btn>
+
+            <v-btn v-else-if="templateConflict(selected).length" size="large" block disabled>
+              <v-icon start icon="mdi-cancel" />
+              Cannot assign (conflicts with {{ templateConflict(selected) }})
+            </v-btn>
+
+            <v-btn v-else size="large" block color="secondary" @click="addTemplate(selected)">
+              <v-icon start>mdi-plus</v-icon>
+              Assign Template
+            </v-btn>
           </v-container>
           <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
             <v-col cols="auto">
               <span class="heading h1 text-disabled text--lighten-2">select npc template</span>
             </v-col>
           </v-row>
-        </template>
-      </panel-view>
+        </v-main>
+      </v-layout>
     </v-card>
   </v-dialog>
 </template>
@@ -179,6 +199,14 @@ export default {
     isAssigned(t) {
       if (!t) return false;
       return this.item.NpcTemplateController.Templates.some((x) => x.ID === t.ID);
+    },
+    addTemplate(t) {
+      if (!t) return;
+      this.item.NpcTemplateController.AddTemplate(t);
+    },
+    removeTemplate(t) {
+      if (!t) return;
+      this.item.NpcTemplateController.RemoveTemplate(t);
     },
   },
 };

@@ -29,9 +29,10 @@
         </v-card>
       </template>
     </v-hover>
-    <cc-solo-dialog ref="dialog" :icon="item.Icon" :title="itemDialogTitle" large>
-      <v-card-text>
+    <cc-solo-dialog ref="dialog" :icon="item.Icon" :title="itemDialogTitle" large no-actions>
+      <v-card-text style="position: relative">
         <cc-item-card :item="item" />
+        <item-card-link :item="item" />
       </v-card-text>
     </cc-solo-dialog>
   </v-col>
@@ -39,6 +40,7 @@
 
 <script lang="ts">
 import * as content from './components';
+import ItemCardLink from '@/ui/components/cards/items/_components/ItemCardLink.vue';
 
 export default {
   name: 'compendium-large-card',
@@ -56,6 +58,9 @@ export default {
     selectable: {
       type: Boolean,
     },
+  },
+  components: {
+    ItemCardLink,
   },
   computed: {
     componentLoader(): any {

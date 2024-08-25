@@ -21,7 +21,7 @@
     </template>
 
     <v-card width="40vw">
-      <v-card-title v-if="license.missing" class="error text-white font-weight-bolder py-1 my-0">
+      <v-card-title v-if="license.missing" class="bg-error font-weight-bolder py-1 my-0">
         WARNING: LICENSE MISSING&emsp;
       </v-card-title>
       <v-card-text class="pa-2 text-text">

@@ -115,6 +115,8 @@
           <v-list-item
             v-if="showDeleted && !showDeleteConfirm"
             title="Delete Permanently"
+            variant="elevated"
+            elevation="0"
             subtitle="Delete these items permanently"
             prepend-icon="mdi-delete-forever-outline"
             base-color="warning"

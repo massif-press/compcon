@@ -2,6 +2,7 @@ import { GetAll, SetItem, RemoveItem } from '@/io/Storage';
 import { defineStore } from 'pinia';
 import _ from 'lodash';
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter';
+import { IndexItem } from '@/stores';
 
 export const EncounterStore = defineStore('encounter', {
   state: () => ({
@@ -26,6 +27,17 @@ export const EncounterStore = defineStore('encounter', {
           )
         ).filter((x) => !!x)
       ) as string[],
+    encounterIndexes: (state: any): IndexItem[] => {
+      const encounters = state.Encounters.filter((x: any) => x && !x.SaveController.IsDeleted);
+      return encounters.map((x: any) => ({
+        id: x.ID,
+        title: x.Name,
+        type: 'Encounter',
+        pack: '',
+        path: `/gm/encounters/${x.ID}`,
+        icon: x.Icon || 'cc:encounter',
+      }));
+    },
   },
   actions: {
     async LoadEncounters(): Promise<void> {

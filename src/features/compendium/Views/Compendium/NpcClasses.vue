@@ -78,7 +78,8 @@ export default {
           key,
           tier: this.selectedTier,
           sortRaw: (a: NpcClass, b: NpcClass) =>
-            a.Stats.Stat(key, this.selectedTier) - b.Stats.Stat(key, this.selectedTier),
+            Number(a.Stats.Stat(key, this.selectedTier)) -
+            Number(b.Stats.Stat(key, this.selectedTier)),
           align: 'center',
         });
       }

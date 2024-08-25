@@ -53,6 +53,10 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     'size',
     'sizes',
     'structure',
+    'hull',
+    'agi',
+    'sys',
+    'eng',
     'hp',
     'armor',
     'stress',
@@ -62,10 +66,6 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     'edef',
     'sensorRange',
     'saveTarget',
-    'hull',
-    'agi',
-    'sys',
-    'eng',
   ];
 
   public constructor(data?: UnitData) {

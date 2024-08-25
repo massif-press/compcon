@@ -10,16 +10,16 @@
         <div>
           <div v-if="item.Flavor">
             <cc-titled-divider title="Description" />
-            <v-card variant="tonal" class="mt-1"
-              ><v-card-text class="pa-2" v-html-safe="item.Flavor"
-            /></v-card>
+            <v-card variant="tonal" class="mt-1">
+              <v-card-text class="pa-2" v-html-safe="item.Flavor" />
+            </v-card>
             <br />
           </div>
           <div v-if="item.Tactics">
             <cc-titled-divider title="Tactics" />
-            <v-card variant="tonal" class="mt-1"
-              ><v-card-text class="pa-2" v-html-safe="item.Tactics"
-            /></v-card>
+            <v-card variant="tonal" class="mt-1">
+              <v-card-text class="pa-2" v-html-safe="item.Tactics" />
+            </v-card>
             <br />
           </div>
           <div v-if="item.ClassFeatureSelectionInfo">
@@ -40,6 +40,12 @@
     </v-row>
 
     <cc-titled-divider title="Class Stats" />
+    <v-row no-gutters class="mt-n2">
+      <v-col cols="1" />
+      <v-col class="mx-8">
+        <div class="text-caption">T1 / T2 / T3</div>
+      </v-col>
+    </v-row>
     <v-row dense>
       <cc-tiered-attribute v-for="i in statArr" :title="i" :arr="item.Stats.StatArr(i)" />
     </v-row>

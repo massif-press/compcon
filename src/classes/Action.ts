@@ -16,6 +16,7 @@ interface IActionData {
   trigger?: string;
   terse?: string;
   detail: string;
+  effect?: string;
   pilot?: boolean;
   mech?: boolean;
   damage?: IDamageData[];
@@ -153,7 +154,7 @@ class Action {
     this.Log = data.log || '';
     this.Activation = data.activation || ActivationType.Quick;
     this.Terse = data.terse || '';
-    this._detail = data.detail || '';
+    this._detail = data.detail || data.effect || '';
     this.Cost = data.cost || 1;
     this.HeatCost = heat && isNumber(heat) ? heat : 0;
     // heat cost override

@@ -30,6 +30,12 @@ import { NpcStore } from '@/stores';
 export default {
   name: 'eidolon-roster',
   components: { GmCollectionView, Editor, Builder },
+  props: {
+    id: {
+      type: String,
+      required: false,
+    },
+  },
   data: () => ({
     dialog: false,
     selected: null as Eidolon | null,
@@ -61,6 +67,15 @@ export default {
     eidolons() {
       return NpcStore().getEidolons.filter((x) => !x.SaveController.IsDeleted);
     },
+  },
+  mounted() {
+    if (this.id) {
+      const item = NpcStore().getNpcByID(this.id);
+      if (item) {
+        this.selected = item;
+        this.dialog = true;
+      }
+    }
   },
   methods: {
     openItem(item) {
