@@ -6,6 +6,11 @@
     hide-overlay
     opacity="0.7"
     transition="dialog-top-transition">
+    <template #activator="{ props }">
+      <v-btn v-bind="props" variant="plain" size="small" dark prepend-icon="mdi-magnify">
+        <v-chip label size="x-small" class="px-1 ml-1">{{ hasCmdKey ? 'CMD' : 'CTRL' }} + /</v-chip>
+      </v-btn>
+    </template>
     <v-card border>
       <v-text-field
         v-model="search"
