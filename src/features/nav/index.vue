@@ -7,16 +7,6 @@
     class="clipped-large no-print"
     density="compact"
     style="z-index: 50">
-    <!-- <v-menu location="bottom" open-on-hover open-delay="500ms">
-      <template #activator="{ props }">
-        <v-btn icon variant="plain" size="45" v-bind="props">
-          <v-icon icon="mdi-menu" />
-        </v-btn>
-      </template>
-      <v-list density="compact" :items="navItems" />
-    </v-menu>
-    <v-divider vertical dark class="mx-2" /> -->
-
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
         <v-btn
@@ -184,9 +174,7 @@
 
     <v-spacer />
 
-    <v-btn variant="plain" size="small" dark prepend-icon="mdi-magnify">
-      <v-chip label size="x-small" class="px-1 ml-1">{{ hasCmdKey ? 'CMD' : 'CTRL' }} + /</v-chip>
-    </v-btn>
+    <search />
 
     <v-divider v-if="$vuetify.display.mdAndUp" vertical dark class="mx-2" />
 
@@ -266,7 +254,6 @@
       title="Achievements">
       <achievements-page />
     </cc-solo-dialog>
-    <search />
   </v-app-bar>
 </template>
 
