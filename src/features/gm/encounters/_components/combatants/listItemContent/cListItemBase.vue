@@ -4,7 +4,8 @@
       <v-row
         v-bind="props"
         dense
-        :style="`position: relative; cursor: pointer; border-radius: 2px; background-color: ${
+        class="mb-2"
+        :style="`border: 1px solid rgb(var(--v-theme-primary); position: relative; cursor: pointer; border-radius: 3px; background-color: ${
           isHovering
             ? odd
               ? 'rgba(255,255,255,0.03)'
@@ -14,15 +15,15 @@
               : 'rgba(255,255,255,0.05'
         };`"
         @click="$emit('open', item)">
-        <v-col cols="auto">
+        <v-col cols="auto" class="pb-0">
           <v-badge :content="item.index + 1" bordered color="panel">
             <v-card variant="tonal" class="rounded-0">
-              <cc-img :aspect-ratio="1" :src="item.npc.PortraitController.Image" width="95" />
+              <cc-img :aspect-ratio="1" :src="item.npc.PortraitController.Image" width="100" />
             </v-card>
           </v-badge>
         </v-col>
 
-        <v-col>
+        <v-col class="pb-0">
           <v-toolbar density="compact" color="panel" class="pr-1" style="height: 40px">
             <div class="mt-n1" style="width: 100%">
               <v-row dense>

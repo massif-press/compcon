@@ -25,7 +25,9 @@
       </span>
     </template>
     <div class="text-caption pt-1">
-      <stat-chips :stat-controller="item.StatController" />
+      <stat-chips
+        :stat-controller="item.StatController"
+        :bonuses="item.FeatureController.Bonuses" />
     </div>
   </gm-list-item-base>
 </template>

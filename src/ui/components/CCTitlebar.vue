@@ -5,7 +5,7 @@
     :style="fixed ? 'position: fixed; width: 100%; z-index:' : ''"
     :density="<any>density">
     <v-toolbar-title style="text-transform: uppercase" class="heading h2 mt-1">
-      <v-icon v-if="icon" size="x-large" class="mt-n2" :icon="icon" />
+      <v-icon v-if="icon" size="large" class="mt-n1 mr-2" :icon="icon" />
       <slot name="title" />
     </v-toolbar-title>
     <slot name="title-chips" />

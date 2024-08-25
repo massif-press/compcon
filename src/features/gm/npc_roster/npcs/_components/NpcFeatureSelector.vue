@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-btn size="x-large" block color="primary" class="mt-1" @click="dialog = true"
-      >Set NPC Features</v-btn
-    >
+    <v-btn size="x-large" block color="primary" class="mt-1" @click="dialog = true">
+      Set NPC Features
+    </v-btn>
     <v-row no-gutters justify="end">
       <v-col cols="auto">
         <v-btn
@@ -17,21 +17,32 @@
     </v-row>
     <v-dialog v-model="dialog" fullscreen style="overflow-y: hidden">
       <v-card style="overflow-y: hidden">
-        <v-toolbar flat tile density="compact" color="blue-grey-darken-3" class="text-white">
-          <v-toolbar-title
-            >Set NPC Features
+        <v-toolbar flat tile density="compact" color="primary" class="text-white">
+          <v-toolbar-title>
+            Set NPC Features
 
             <npc-feature-alerts
               :template-controller="npc.NpcTemplateController"
               hide-complete
-              class="d-inline ml-12" />
+              class="d-inline" />
           </v-toolbar-title>
 
           <v-spacer />
           <v-btn icon dark @click="dialog = false"><v-icon icon="mdi-close" /></v-btn>
         </v-toolbar>
-        <v-row no-gutters>
-          <v-col cols="3" style="max-width: 325px !important">
+        <v-layout>
+          <v-btn
+            icon
+            size="25"
+            variant="tonal"
+            color="primary"
+            :style="`position: absolute; z-index: 999; left: ${showNav ? '352' : '3'}px; top: 12px`"
+            @click="(showNav as any) = !showNav">
+            <v-icon
+              size="25"
+              :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'" />
+          </v-btn>
+          <v-navigation-drawer v-model="showNav" class="mt-2" width="350">
             <v-list density="compact" nav class="side-fixed mt-n1" color="panel">
               <v-list-item
                 color="accent"
@@ -62,11 +73,9 @@
                   <span class="text-button">{{ npc.NpcClassController.Class.Name }} Features</span>
                 </template>
               </v-list-item>
-              <v-list-subheader class="mb-n4"
-                >SELECTED TEMPLATE{{
-                  npc.NpcTemplateController.Templates.length > 1 ? 'S' : ''
-                }}</v-list-subheader
-              >
+              <v-list-subheader class="mb-n4">
+                SELECTED TEMPLATE{{ npc.NpcTemplateController.Templates.length > 1 ? 'S' : '' }}
+              </v-list-subheader>
               <v-list-item
                 v-for="t in npc.NpcTemplateController.Templates"
                 prepend-icon="cc:npc_template"
@@ -85,8 +94,8 @@
                       <span class="text-button">
                         <b>Other NPC Classes</b>
                       </span>
-                    </template></v-list-item
-                  >
+                    </template>
+                  </v-list-item>
                 </template>
 
                 <v-list-item
@@ -108,8 +117,8 @@
                       <span class="text-button">
                         <b>Other NPC Templates</b>
                       </span>
-                    </template></v-list-item
-                  >
+                    </template>
+                  </v-list-item>
                 </template>
 
                 <v-list-item
@@ -125,10 +134,10 @@
               </v-list-group>
             </v-list>
             <div style="height: 20px" />
-          </v-col>
+          </v-navigation-drawer>
 
-          <v-col class="pl-6">
-            <v-container style="height: calc(100vh - 35px) !important; overflow-y: scroll">
+          <v-main style="height: calc(100vh - 35px) !important; overflow-y: scroll">
+            <v-container class="px-10">
               <v-row dense align="start" class="mt-n3">
                 <v-col>
                   <span class="heading h3">{{ currentSelection }} Features</span>
@@ -176,9 +185,9 @@
                   <div class="button-border">
                     <v-btn
                       v-if="!hasItem(f) || allowDupes"
-                      color="accent"
+                      color="secondary"
                       block
-                      variant="tonal"
+                      size="small"
                       tile
                       @click="npc.NpcFeatureController.AddFeature(f)">
                       <v-icon start>mdi-plus</v-icon>
@@ -189,7 +198,7 @@
                       color="warning darken-1"
                       class="text-white"
                       block
-                      variant="tonal"
+                      size="small"
                       tile
                       @click="npc.NpcFeatureController.RemoveFeature(f)">
                       <v-icon start>mdi-minus</v-icon>
@@ -227,8 +236,8 @@
               </v-row>
               <div style="height: 30px" />
             </v-container>
-          </v-col>
-        </v-row>
+          </v-main>
+        </v-layout>
       </v-card>
     </v-dialog>
   </div>
@@ -254,6 +263,7 @@ export default {
     ignoreLimit: false,
     allowDupes: false,
     shownOrigins: [] as string[],
+    showNav: true,
   }),
   mounted() {
     this.shownOrigins = this.availableOrigins.map((x: any) => x.ID);
@@ -331,17 +341,6 @@ export default {
 </script>
 
 <style scoped>
-.side-fixed {
-  height: calc(100vh - 45px);
-  overflow-y: scroll;
-  top: 51.5px;
-  bottom: 0;
-  /* padding-bottom: 35px; */
-  position: fixed;
-  width: 23vw;
-  max-width: 325px !important;
-}
-
 .button-border {
   border-bottom: 1px solid white;
   border-left: 1px solid white;

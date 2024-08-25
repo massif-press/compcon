@@ -1,4 +1,5 @@
 import {
+  NavStore,
   CompendiumStore,
   PilotStore,
   NpcStore,
@@ -95,6 +96,8 @@ export default async function (): Promise<void> {
   console.log('removing old data');
   const results = await UserStore().removeOldItems();
   console.info(results);
+
+  NavStore().CreateIndex();
 
   console.info('loading complete');
 }

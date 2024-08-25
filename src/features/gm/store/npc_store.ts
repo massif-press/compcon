@@ -5,6 +5,8 @@ import { Doodad, DoodadData } from '@/classes/npc/doodad/Doodad';
 import { Unit, UnitData } from '@/classes/npc/unit/Unit';
 import _ from 'lodash';
 import { Npc } from '@/classes/npc/Npc';
+import { IndexItem } from '@/stores';
+import path from 'path';
 
 export const NpcStore = defineStore('npc', {
   state: () => ({
@@ -34,6 +36,47 @@ export const NpcStore = defineStore('npc', {
       ) as string[],
     getMissingDataNpcs: (state: any) => {
       return state.Npcs.filter((x: Npc) => x.BrewController.MissingContent);
+    },
+    unitIndexes: (state: any): IndexItem[] => {
+      const units = state.Npcs.filter((x: any) => x instanceof Unit && !x.SaveController.IsDeleted);
+      return units.map((x: Unit) => ({
+        id: x.ID,
+        title: `${x.Name} ${
+          x.NpcClassController.HasClass
+            ? `(T${x.NpcClassController.Tier} ${x.NpcClassController.Class?.Name || ''})`
+            : ''
+        }`,
+        type: 'Unit',
+        pack: x.BrewController.Brews.map((x) => x.LcpName).join(', '),
+        path: `/gm/npcs/unit/${x.ID}`,
+        icon: x.Icon || 'cc:encounter',
+      }));
+    },
+    doodadIndexes: (state: any): IndexItem[] => {
+      const doodads = state.Npcs.filter(
+        (x: any) => x instanceof Doodad && !x.SaveController.IsDeleted
+      );
+      return doodads.map((x: Doodad) => ({
+        id: x.ID,
+        title: x.Name,
+        type: 'Doodad',
+        pack: '',
+        path: `/gm/npcs/doodad/${x.ID}`,
+        icon: x.Icon || 'cc:generic_item',
+      }));
+    },
+    eidolonIndexes: (state: any): IndexItem[] => {
+      const eidolons = state.Npcs.filter(
+        (x: any) => x instanceof Eidolon && !x.SaveController.IsDeleted
+      );
+      return eidolons.map((x: Eidolon) => ({
+        id: x.ID,
+        title: x.Name,
+        type: 'Eidolon',
+        pack: x.BrewController.Brews.map((x) => x.LcpName).join(', '),
+        path: `/gm/npcs/eidolon/${x.ID}`,
+        icon: x.Icon || 'cc:monist',
+      }));
     },
   },
   actions: {

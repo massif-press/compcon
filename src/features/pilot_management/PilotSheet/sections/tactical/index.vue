@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <v-container>
     <license-block :pilot="pilot" class="mb-4" />
     <special-block :pilot="pilot" class="mb-4" />
     <mech-skills-block :pilot="pilot" class="my-4" />
     <core-bonus-block :pilot="pilot" class="my-4" />
     <talent-block :pilot="pilot" class="mt-4" />
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">

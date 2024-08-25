@@ -19,11 +19,16 @@
     </v-alert>
     <v-menu v-else v-for="item in templateController.FeatureRequirements" open-on-hover>
       <template v-slot:activator="{ props }">
-        <v-icon
+        <v-btn
+          icon
+          variant="elevated"
+          color="stark-panel"
+          size="x-small"
+          class="ml-2"
           v-show="showItem(item)"
-          v-bind="props"
-          :icon="getIcon(item)"
-          :color="getColor(item)" />
+          v-bind="props">
+          <v-icon size="33" class="mt-n1" :icon="getIcon(item)" :color="getColor(item)" />
+        </v-btn>
       </template>
       <v-card>
         <v-toolbar density="compact" :color="getColor(item)">
@@ -61,6 +66,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    color: {
+      type: String,
+      required: false,
     },
   },
   methods: {

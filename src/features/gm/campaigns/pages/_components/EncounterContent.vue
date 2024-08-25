@@ -1,5 +1,5 @@
 <template>
-  <div class="text-text">
+  <div v-if="item" class="text-text">
     <v-row>
       <v-col>
         <v-row dense>
@@ -92,7 +92,7 @@ export default {
     item() {
       const refElement = EncounterStore()
         .Encounters.filter((x) => !x.SaveController.IsDeleted)
-        .find((x) => x.ID === this.data.ID);
+        .find((x) => x.ID === this.data?.ID);
       if (refElement) return refElement;
       return this.data;
     },

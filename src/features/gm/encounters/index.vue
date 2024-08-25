@@ -206,6 +206,12 @@ export default {
     EncounterEditor,
     Importer,
   },
+  props: {
+    id: {
+      type: String,
+      required: false,
+    },
+  },
   data: () => ({
     search: '',
     view: 'list',
@@ -227,6 +233,16 @@ export default {
     this.grouping = user.View('encountersGrouping', 'None');
     this.filters = user.View('encountersFilters', []) as any[];
     this.hideFolders = user.View('encountersHideFolders', false);
+
+    if (this.id) {
+      console.log(this.id);
+      const item = EncounterStore().getEncounterByID(this.id);
+      if (item) {
+        console.log(item);
+        this.selected = item;
+        this.editDialog = true;
+      }
+    }
   },
   watch: {
     view(val) {

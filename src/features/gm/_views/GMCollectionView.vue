@@ -4,7 +4,10 @@
       <v-toolbar class="px-2 rounded-b-0">
         <v-row dense align="center">
           <v-col cols="auto">
-            <div class="heading h2">{{ title }} <slot name="tooltip" /></div>
+            <div class="heading h2">
+              {{ title }}
+              <slot name="tooltip" />
+            </div>
           </v-col>
           <v-col class="pl-4">
             <v-autocomplete
@@ -111,12 +114,13 @@
 
         <v-card v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0">
           <v-toolbar density="compact" style="height: 40px" class="mt-n2">
-            <v-btn size="x-small" icon @click="showNoFolder = !showNoFolder"
-              ><v-icon
+            <v-btn size="x-small" icon @click="showNoFolder = !showNoFolder">
+              <v-icon
                 size="30"
                 icon="mdi-menu-right"
-                :class="showNoFolder ? 'mdi-rotate-90' : ''" /></v-btn
-            ><v-toolbar-title class="heading h3">No Folder</v-toolbar-title>
+                :class="showNoFolder ? 'mdi-rotate-90' : ''" />
+            </v-btn>
+            <v-toolbar-title class="heading h3">No Folder</v-toolbar-title>
             <v-spacer />
             <div class="px-2 text-disabled text-caption">
               {{ filteredItems.filter((x: any) => !x.FolderController?.Folder).length }}

@@ -24,7 +24,10 @@
               <v-divider />
               <slot />
               <v-divider />
-              <stat-chips v-if="item.StatController" :stat-controller="item.StatController" />
+              <stat-chips
+                v-if="item.StatController"
+                :stat-controller="item.StatController"
+                :bonuses="item.FeatureController?.Bonuses || []" />
             </div>
           </v-card>
         </v-fade-transition>

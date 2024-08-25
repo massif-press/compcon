@@ -12,12 +12,15 @@
         <v-col cols="auto">
           <v-icon :size="dense ? 25 : 35" :color="damageColor(d)" :icon="damageIcon(d)" />
         </v-col>
-        <v-col cols="auto" class="heading text-text" :style="`font-size: ${dense ? '20' : '24'}pt`">
+        <v-col
+          cols="auto"
+          class="heading text-text mb-n2"
+          :style="`font-size: ${dense ? '20' : '24'}pt;`">
           {{ `${added ? '+' : ''}${d.Value}` }}
         </v-col>
       </v-row>
     </cc-tooltip>
-    <div v-if="!small" class="text-caption text-text text-uppercase mt-n1">
+    <div v-if="!small" class="text-caption text-text text-uppercase">
       <b>{{ typeOverride ? typeOverride : d.Type }}</b>
     </div>
   </div>

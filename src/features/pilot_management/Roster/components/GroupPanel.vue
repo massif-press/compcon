@@ -45,7 +45,7 @@
     <v-expand-transition>
       <v-card v-if="group.Expanded">
         <div class="pa-2">
-          <v-row align="start">
+          <v-row v-if="!noGroup" align="start">
             <v-col>
               <v-expand-transition>
                 <fieldset
@@ -68,14 +68,6 @@
                   </div>
                 </fieldset>
               </v-expand-transition>
-              <v-card-text class="px-2 pb-0">
-                <component
-                  v-for="pilot in pilots"
-                  :is="pilotCardType"
-                  :pilot="pilot"
-                  :small="rosterView === 'small-cards'"
-                  @goTo="toPilotSheet($event)" />
-              </v-card-text>
             </v-col>
             <v-col v-if="group.PortraitController.CloudImage || edit" cols="3" class="text-right">
               <cc-img :src="group.Portrait" />
@@ -99,6 +91,14 @@
               </div>
             </v-col>
           </v-row>
+          <v-card-text class="px-2 pb-0">
+            <component
+              v-for="pilot in pilots"
+              :is="pilotCardType"
+              :pilot="pilot"
+              :small="rosterView === 'small-cards'"
+              @goTo="toPilotSheet($event)" />
+          </v-card-text>
           <v-expand-transition>
             <v-row v-if="edit" justify="end" class="pa-4">
               <v-col cols="auto">
@@ -165,6 +165,7 @@
                       </v-btn>
                       <v-spacer />
                       <v-btn
+                        v-if="!noGroup"
                         color="error"
                         variant="tonal"
                         prepend-icon="mdi-delete"

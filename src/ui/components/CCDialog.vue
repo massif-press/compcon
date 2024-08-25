@@ -37,7 +37,7 @@
           </template>
         </cc-titlebar>
 
-        <v-card-text>
+        <v-card-text style="position: relative">
           <slot />
         </v-card-text>
 

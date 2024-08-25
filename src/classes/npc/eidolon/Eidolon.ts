@@ -126,6 +126,10 @@ class Eidolon extends Npc implements IInstanceable {
     if (index > -1) this._layers.splice(index, 1);
   }
 
+  public MoveLayer(from: number, to: number) {
+    this._layers.splice(to, 0, this._layers.splice(from, 1)[0]);
+  }
+
   public static Serialize(eidolon: Eidolon, asInstance: boolean): EidolonData {
     let data = {
       npcType: 'eidolon',

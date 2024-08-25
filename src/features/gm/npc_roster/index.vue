@@ -8,13 +8,13 @@
 
   <v-window v-model="tab">
     <v-window-item>
-      <npc-index />
+      <npc-index :id="id" />
     </v-window-item>
     <v-window-item>
-      <doodad-index />
+      <doodad-index :id="id" />
     </v-window-item>
     <v-window-item>
-      <eidolon-index />
+      <eidolon-index :id="id" />
     </v-window-item>
   </v-window>
 
@@ -52,8 +52,23 @@ import Importer from '../_components/Importer.vue';
 export default {
   name: 'npc-roster',
   components: { NpcIndex, DoodadIndex, EidolonIndex, Organizer, Importer },
+  props: {
+    type: {
+      type: String,
+      required: false,
+    },
+    id: {
+      type: String,
+      required: false,
+    },
+  },
   data: () => ({
     tab: 0,
   }),
+  created() {
+    if (this.type) {
+      this.tab = ['npc', 'doodad', 'eidolon'].indexOf(this.type);
+    }
+  },
 };
 </script>

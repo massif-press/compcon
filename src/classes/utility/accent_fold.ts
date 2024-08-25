@@ -644,21 +644,25 @@ const accentMap = {
   Ǯ: 'z',
   ǯ: 'z',
   ƺ: 'z',
-}
+};
 
 export default function accentFold(s: string): string {
   if (!s) {
-    return ''
+    return '';
   }
-  let ret = ''
+  let ret = '';
   for (let i = 0; i < s.length; i++) {
-    ret += accentMap[s.charAt(i)] || s.charAt(i)
+    ret += accentMap[s.charAt(i)] || s.charAt(i);
   }
-  return ret
+  return ret;
 }
 
 export function accentInclude(haystack: string, needle: string): boolean {
-  const searchIn = accentFold(haystack.toLowerCase())
-  const searchFor = accentFold(needle.toLowerCase())
-  return searchIn.includes(searchFor)
+  const searchIn = accentFold(haystack.toLowerCase());
+  const searchFor = accentFold(needle.toLowerCase());
+  return searchIn.includes(searchFor);
+}
+
+export function unCamelCase(str: string): string {
+  return str.replace(/([a-z])([A-Z])/g, '$1 $2');
 }

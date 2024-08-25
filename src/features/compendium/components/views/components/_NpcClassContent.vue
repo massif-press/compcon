@@ -9,23 +9,29 @@
       <div class="text-center">
         <v-tooltip v-for="s in stats" location="top" open-delay="300">
           <template #activator="{ props }">
-            <v-chip v-bind="props" label color="stark" size="small" class="ma-1"
-              ><span class="text-caption"
-                ><v-icon :icon="s.icon" size="small" start /> {{ s.t[0] }}<cc-slashes />{{ s.t[1]
-                }}<cc-slashes />{{ s.t[2] }}</span
-              >
+            <v-chip v-bind="props" label color="stark" size="small" class="ma-1">
+              <span class="text-caption">
+                <v-icon :icon="s.icon" size="small" start />
+                {{ s.t[0] }}
+                <cc-slashes />
+                {{ s.t[1] }}
+                <cc-slashes />
+                {{ s.t[2] }}
+              </span>
             </v-chip>
           </template>
           <div class="text-center">
-            {{ s.title }}<br />
-            <span v-for="i in 3" class="px-3"
-              >T{{ i }}: <b>{{ s.t[i - 1] }}</b></span
-            >
+            {{ s.title }}
+            <br />
+            <span v-for="i in 3" class="px-3">
+              T{{ i }}:
+              <b>{{ s.t[i - 1] }}</b>
+            </span>
           </div>
         </v-tooltip>
       </div>
     </template>
-    <template #overline> &mdash; NPC Class </template>
+    <template #overline>&mdash; NPC Class</template>
   </c-card-base>
 </template>
 
@@ -85,5 +91,6 @@ export default {
   -webkit-box-orient: vertical;
 
   -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 </style>

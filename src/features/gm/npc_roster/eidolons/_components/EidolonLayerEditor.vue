@@ -14,8 +14,14 @@
       </v-btn>
       <v-tooltip location="top">
         <template #activator="{ props }">
-          <v-btn icon v-bind="props" class="fade-select" @click="addRandomLayer()">
-            <v-icon size="30" icon="mdi-dice-d20-outline" />
+          <v-btn
+            icon
+            v-bind="props"
+            size="x-small"
+            flat
+            class="fade-select"
+            @click="addRandomLayer()">
+            <v-icon size="30" color="accent" icon="mdi-dice-d20-outline" />
           </v-btn>
         </template>
         <span>Add random layer</span>
@@ -27,8 +33,32 @@
   </v-card>
   <div v-else>
     <v-tabs v-model="tab" density="compact" class="mt-2" fixed-tabs bg-color="primary">
-      <v-tab v-for="layer in item.Layers">
+      <v-tab v-for="(layer, idx) in item.Layers">
+        <v-tooltip v-if="idx > 1" location="top">
+          <template #activator="{ props }">
+            <v-icon
+              v-bind="props"
+              size="small"
+              icon="mdi-chevron-left"
+              class="mx-1 fade-select"
+              @click.stop="item.MoveLayer(idx, idx - 1)" />
+          </template>
+          <span>Order Lower</span>
+        </v-tooltip>
+        <span v-else class="mx-3" />
         {{ layer.Layer.Name }}
+        <v-tooltip v-if="idx && idx < item.Layers.length - 1" location="top">
+          <template #activator="{ props }">
+            <v-icon
+              v-bind="props"
+              size="small"
+              icon="mdi-chevron-right"
+              class="mx-1 fade-select"
+              @click.stop="item.MoveLayer(idx, idx + 1)" />
+          </template>
+          <span>Order Higher</span>
+        </v-tooltip>
+        <span v-else class="mx-3" />
       </v-tab>
     </v-tabs>
     <v-window v-model="tab">

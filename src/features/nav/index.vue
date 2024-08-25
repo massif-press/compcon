@@ -19,31 +19,13 @@
 
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
-        <v-btn icon variant="plain" size="45" v-bind="props" @click="historyNav(-1)">
-          <v-icon icon="mdi-arrow-left" />
-        </v-btn>
-      </template>
-      <span>Back</span>
-    </v-tooltip>
-
-    <v-tooltip location="bottom" open-delay="500ms">
-      <template #activator="{ props }">
-        <v-btn icon variant="plain" size="45" v-bind="props" @click="historyNav(1)">
-          <v-icon icon="mdi-arrow-right" />
-        </v-btn>
-      </template>
-      <span>Forward</span>
-    </v-tooltip>
-
-    <v-tooltip location="bottom" open-delay="500ms">
-      <template #activator="{ props }">
         <v-btn
           icon
           variant="plain"
           size="45"
           v-bind="props"
           @click="$router.push({ name: 'main-menu' })">
-          <v-icon color="white" icon="mdi-home" />
+          <v-icon icon="mdi-home" />
         </v-btn>
       </template>
       <span>Main Menu</span>
@@ -57,10 +39,56 @@
           size="45"
           v-bind="props"
           @click="$router.push({ path: '/srd' })">
-          <v-icon color="white" icon="mdi-book" />
+          <v-icon icon="mdi-book" />
         </v-btn>
       </template>
       <span>Compendium</span>
+    </v-tooltip>
+
+    <v-tooltip location="bottom" open-delay="500ms">
+      <template #activator="{ props }">
+        <v-btn
+          icon
+          variant="plain"
+          size="45"
+          v-bind="props"
+          @click="$router.push({ path: '/pilot_management' })">
+          <v-icon size="33" class="mt-n1" icon="cc:pilot" />
+        </v-btn>
+      </template>
+      <span>Pilot Roster</span>
+    </v-tooltip>
+
+    <v-menu location="bottom" open-on-hover>
+      <template #activator="{ props }">
+        <v-btn icon variant="plain" size="45" v-bind="props" @click="$router.push({ path: '/gm' })">
+          <v-icon size="33" class="mt-n1" icon="cc:encounter" />
+        </v-btn>
+      </template>
+      <v-list density="compact" class="text-caption pa-0">
+        <v-list-item slim @click="$router.push({ path: '/gm/npcs' })">NPC Roster</v-list-item>
+        <v-list-item slim @click="$router.push({ path: '/gm/encounters' })">Encounters</v-list-item>
+        <v-list-item slim @click="$router.push({ path: '/gm/narrative' })">
+          Narrative Elements
+        </v-list-item>
+        <v-list-item slim @click="$router.push({ path: '/gm/campaigns' })">
+          Campaign Manager
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
+    <v-tooltip location="bottom" open-delay="500ms">
+      <template #activator="{ props }">
+        <v-btn
+          icon
+          variant="plain"
+          size="45"
+          v-bind="props"
+          @click="$router.push({ path: '/active-mode' })">
+          <v-icon size="33" class="mt-n1" icon="cc:campaign" />
+        </v-btn>
+      </template>
+      <span>Active Mode</span>
     </v-tooltip>
 
     <v-dialog v-model="qrDialog">
@@ -68,7 +96,7 @@
         <v-btn icon variant="plain" size="45" v-bind="props">
           <v-tooltip location="bottom" open-delay="500ms">
             <template #activator="{ props }">
-              <v-icon v-bind="props" color="white" icon="mdi-contain" />
+              <v-icon v-bind="props" icon="mdi-contain" />
             </template>
             <span>Quick Reference</span>
           </v-tooltip>
@@ -151,24 +179,20 @@
         </v-dialog>
       </span>
       <span class="heading">COMP/CON</span>
-      <span class="flavor-text text-white" style="opacity: 0.4">&nbsp;{{ $appVersion }}</span>
+      <span class="flavor-text text-white" style="opacity: 0.4">&nbsp;{{ appVersion }}</span>
     </v-toolbar-title>
 
     <v-spacer />
+
+    <v-btn variant="plain" size="small" dark prepend-icon="mdi-magnify">
+      <v-chip label size="x-small" class="px-1 ml-1">{{ hasCmdKey ? 'CMD' : 'CTRL' }} + /</v-chip>
+    </v-btn>
 
     <v-divider v-if="$vuetify.display.mdAndUp" vertical dark class="mx-2" />
 
     <cc-tooltip v-if="$vuetify.display.mdAndUp" location="bottom" content="Open cloud account menu">
       <v-btn icon variant="plain" size="45" dark @click="($refs.cloudModal as any).show()">
         <v-icon icon="mdi-cloud-sync-outline" />
-      </v-btn>
-    </cc-tooltip>
-
-    <v-divider vertical dark class="mx-2" />
-
-    <cc-tooltip location="bottom" content="Help &amp; FAQ">
-      <v-btn icon variant="plain" size="45" dark @click="($refs.helpModal as any).show()">
-        <v-icon icon="mdi-help-circle-outline" />
       </v-btn>
     </cc-tooltip>
 
@@ -242,6 +266,7 @@
       title="Achievements">
       <achievements-page />
     </cc-solo-dialog>
+    <search />
   </v-app-bar>
 </template>
 
@@ -258,7 +283,8 @@ import Reference from '../compendium/Views/Reference/Reference.vue';
 
 import { PilotStore, UserStore } from '@/stores';
 
-import { Pilot } from '@/classes/pilot/Pilot';
+import Search from './search/index.vue';
+
 // import { Auth } from 'aws-amplify';
 
 export default {
@@ -272,6 +298,7 @@ export default {
     CloudPage,
     AchievementsPage,
     Reference,
+    Search,
   },
   props: {
     pilotManagement: { type: Boolean },
@@ -284,11 +311,14 @@ export default {
     storageWarningDialog: false,
     storageFullDialog: false,
     qrDialog: false,
+    hasCmdKey: false,
   }),
+  created() {
+    this.hasCmdKey = navigator.userAgent.includes('Mac');
+  },
   mounted() {
     this.storageFullDialog = this.StorageMax;
   },
-
   computed: {
     hide(): boolean {
       if (this.$route.path === '/') return true;
@@ -300,10 +330,8 @@ export default {
     StorageMax(): boolean {
       return UserStore().StorageFull;
     },
-  },
-  methods: {
-    historyNav(dir: number) {
-      this.$router.go(dir);
+    appVersion(): string {
+      return import.meta.env.VITE_APP_VERSION;
     },
   },
 };

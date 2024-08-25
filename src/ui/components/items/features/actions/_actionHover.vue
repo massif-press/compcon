@@ -11,7 +11,7 @@
     <v-card>
       <v-toolbar density="compact" :color="action.Color" class="text-white">
         <v-icon size="40" dark class="mx-2">{{ action.Icon }}</v-icon>
-        <span class="heading h3 pr-2">{{ action.Name }}</span>
+        <span class="heading h3 pr-6">{{ action.Name }}</span>
         <v-spacer />
         <v-chip
           v-if="!action.Frequency.Unlimited"

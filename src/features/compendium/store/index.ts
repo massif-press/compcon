@@ -22,6 +22,7 @@ import {
   Environment,
   Sitrep,
   LicensedItem,
+  CompendiumItem,
 } from '@/class';
 import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
 import { FrameComparison } from '@/classes/mech/components/frame/Frame';
@@ -31,6 +32,7 @@ import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
 import { NpcClass, NpcComparison } from '@/classes/npc/class/NpcClass';
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
 import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer';
+import { IndexItem } from '@/stores';
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -54,6 +56,40 @@ const hydratedKeys = {
   sitreps: 'Sitreps',
   pilot_gear: 'PilotGear',
   eidolon_layers: 'EidolonLayers',
+};
+
+const itemTypeMap = {
+  npcclass: 'NpcClasses',
+  npctemplate: 'NpcTemplates',
+  npcfeature: 'NpcFeatures',
+  npctrait: 'NpcFeatures',
+  npcreaction: 'NpcFeatures',
+  npcweapon: 'NpcFeatures',
+  npcsystem: 'NpcFeatures',
+  npctech: 'NpcFeatures',
+  bond: 'Bonds',
+  background: 'Backgrounds',
+  talent: 'Talents',
+  corebonus: 'CoreBonuses',
+  frame: 'Frames',
+  manufacturer: 'Manufacturers',
+  weapon: 'MechWeapons',
+  mechweapon: 'MechWeapons',
+  mod: 'WeaponMods',
+  weaponmod: 'WeaponMods',
+  system: 'MechSystems',
+  mechsystem: 'MechSystems',
+  skill: 'Skills',
+  action: 'Actions',
+  tag: 'Tags',
+  reserve: 'Reserves',
+  statuse: 'Statuses',
+  environment: 'Environments',
+  sitrep: 'Sitreps',
+  pilotarmor: 'PilotGear',
+  pilotweapon: 'PilotGear',
+  pilotgear: 'PilotGear',
+  eidolonlayer: 'EidolonLayers',
 };
 
 function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }): T[] {
@@ -118,6 +154,7 @@ export const CompendiumStore = defineStore('compendium', {
     ContentPacks: [] as ContentPack[],
     nfErr: { err: 'ID not found' },
     packData: [] as IContentPack[],
+    loaded: false,
   }),
   getters: {
     NpcClasses: (state) => collect<NpcClass>(state, 'npc_classes', NpcClass),
@@ -212,6 +249,21 @@ export const CompendiumStore = defineStore('compendium', {
       };
     },
 
+    // TODO: reference FROM ID maps the object-held ItemType to Compendium ItemType. This should be changed so all types are equivalent across items and item arrays, but for now this is a workaround.
+    referenceFromID(): any {
+      return (itemType: string, id: string) => {
+        console.log('itemType', itemType, 'id', id);
+        const mappedType = itemTypeMap[itemType];
+
+        if (this[mappedType] && this[mappedType] instanceof Array) {
+          const i = this[mappedType].find((x: any) => x.ID === id || x.id === id);
+          if (i) return i;
+          throw new Error(`ID not found: ${id}`);
+        }
+        throw new Error(`Invalid item type: ${mappedType}`);
+      };
+    },
+
     getItemCollection(): any {
       return (itemType: string) => {
         return this[itemType].filter((x) => x && !x.IsHidden);
@@ -237,6 +289,43 @@ export const CompendiumStore = defineStore('compendium', {
         .concat(this.MechSystems as LicensedItem[])
         .concat(this.Frames as LicensedItem[])
         .filter((x) => !x.IsHidden);
+    },
+
+    referenceLink(): any {
+      return (item: CompendiumItem, internal: boolean = false) => {
+        const prepend = internal
+          ? ''
+          : import.meta.env.DEV
+            ? 'localhost:5173'
+            : 'https://compcon.app';
+        return `${prepend}/link/${item.Brew?.LcpName || 'core'}/${item.ItemType.toLowerCase()}/${
+          item.ID
+        }`;
+      };
+    },
+
+    itemIndexes(): IndexItem[] {
+      const index: IndexItem[] = [];
+      const keys = _.uniq(Object.values(itemTypeMap));
+
+      keys.forEach((key) => {
+        index.push(
+          ...this[key]
+            .filter((x) => x.ItemType)
+            .map((item) => {
+              return {
+                id: item.ID,
+                title: item.Name,
+                type: item.ItemType,
+                pack: item.Brew?.LcpName || 'core',
+                path: this.referenceLink(item, true),
+                icon: item.Icon,
+              };
+            })
+        );
+      });
+
+      return index;
     },
   },
   actions: {
@@ -307,6 +396,7 @@ export const CompendiumStore = defineStore('compendium', {
     async refreshExtraContent(): Promise<void> {
       this.ContentPacks = [];
       await this.loadExtraContent();
+      this.loaded = true;
     },
   },
 });

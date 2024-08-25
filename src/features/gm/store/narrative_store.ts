@@ -3,6 +3,7 @@ import { CollectionItem } from '@/classes/narrative/CollectionItem';
 import { Faction, FactionData } from '@/classes/narrative/Faction';
 import { Location, LocationData } from '@/classes/narrative/Location';
 import { GetAll, RemoveItem, SetItem } from '@/io/Storage';
+import { IndexItem } from '@/stores';
 import _ from 'lodash';
 import { defineStore } from 'pinia';
 
@@ -35,6 +36,17 @@ export const NarrativeStore = defineStore('narrative', {
           state.CollectionItems.flatMap((x: any) => x.FolderController.Folder)
         ).filter((x) => !!x)
       ),
+    narrativeIndexes: (state: any): IndexItem[] => {
+      const units = state.CollectionItems.filter((x: any) => x && !x.SaveController.IsDeleted);
+      return units.map((x: any) => ({
+        id: x.ID,
+        title: x.Name,
+        type: x.ItemType,
+        pack: '',
+        path: `/gm/narrative/${x.ItemType.toLowerCase()}/${x.ID}`,
+        icon: x.Icon || 'cc:generic_item',
+      }));
+    },
   },
   actions: {
     async LoadCollectionItems(): Promise<void> {

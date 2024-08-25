@@ -1,15 +1,10 @@
 <template>
   <v-col class="text-center" style="min-width: 15vw">
     <div class="heading text-accent">{{ title.toUpperCase() }}</div>
-    <div class="mb-n2 mt-n1">
-      <span v-for="(v, i) in arr" class="text-caption text-disabled">
-        T{{ i }}{{ i + 1 < arr.length ? ' /' : '' }}
-      </span>
-    </div>
-    <div>
+    <div class="mt-n2">
       <span v-for="(v, i) in arr" class="heading h3 text-stark">
-        {{ cleanValue(v) }}
-        <span v-if="i + 1 < arr.length" class="text-disabled pr-1">/</span>
+        <span v-html="cleanValue(v)" />
+        <span v-if="i + 1 < arr.length" class="text-disabled px-1">/</span>
       </span>
     </div>
   </v-col>

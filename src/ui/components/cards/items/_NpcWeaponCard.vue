@@ -17,9 +17,9 @@
           </div>
           <div v-else>
             <cc-damage-element :damage="item.Damage(1)" inline :small="dense" />
-            <span>/</span>
+            <span class="text-disabled">/</span>
             <cc-damage-element :damage="item.Damage(2)" inline :small="dense" />
-            <span>/</span>
+            <span class="text-disabled">/</span>
             <cc-damage-element :damage="item.Damage(3)" inline :small="dense" />
           </div>
         </div>
@@ -28,19 +28,22 @@
         <div class="heading" :style="dense ? '' : 'font-size: 24pt'">
           <v-tooltip location="top">
             <template v-slot:activator="{ props }">
-              <v-icon :size="dense ? '20' : '35'" :start="!dense" class="mt-n1" v-bind="props"
-                >cc:reticle</v-icon
-              >
+              <v-icon :size="dense ? '20' : '35'" :start="!dense" class="mt-n1" v-bind="props">
+                cc:reticle
+              </v-icon>
             </template>
             <span>Attack Bonus</span>
           </v-tooltip>
           <span v-if="tier">
-            +<b>{{ item.AttackBonus(tier) }}</b>
+            +
+            <b>{{ item.AttackBonus(tier) }}</b>
           </span>
           <span v-else v-for="n in 3">
-            +<b>{{ item.AttackBonus(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
+            +
+            <b>{{ item.AttackBonus(n) }}</b>
+            {{ n < 3 ? '&nbsp;/' : '' }}
           </span>
-          <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
+          <div v-if="!dense" class="text-overline" style="line-height: 0; margin-top: 2px">
             Attack Bonus
           </div>
         </div>
@@ -59,10 +62,13 @@
             <span>{{ item.Accuracy(1) < 0 ? 'Difficulty' : 'Accuracy' }}</span>
           </v-tooltip>
           <span v-if="tier">
-            +<b>{{ item.Accuracy(tier) }}</b>
+            +
+            <b>{{ item.Accuracy(tier) }}</b>
           </span>
           <span v-else v-for="n in 3">
-            +<b>{{ item.Accuracy(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
+            +
+            <b>{{ item.Accuracy(n) }}</b>
+            {{ n < 3 ? '&nbsp;/' : '' }}
           </span>
           <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
             {{ item.Accuracy(1) < 0 ? 'Difficulty' : 'Accuracy' }}

@@ -25,7 +25,7 @@
         </template>
       </v-dialog>
     </template>
-    <div v-if="item.NpcClassController.Class">
+    <div v-if="item.NpcClassController?.HasClass">
       <npc-tier-selector :item="item" :readonly="readonly" class="mb-n8" />
       <stat-editor
         :item="item"

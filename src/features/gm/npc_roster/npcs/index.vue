@@ -33,10 +33,25 @@ import { NpcStore } from '@/stores';
 export default {
   name: 'npc-roster',
   components: { GmCollectionView, Editor, Builder, Features },
+  props: {
+    id: {
+      type: String,
+      required: false,
+    },
+  },
   data: () => ({
     dialog: false,
     selected: null as Unit | null,
   }),
+  mounted() {
+    if (this.id) {
+      const item = NpcStore().getNpcByID(this.id);
+      if (item) {
+        this.selected = item;
+        this.dialog = true;
+      }
+    }
+  },
   computed: {
     groupings() {
       const allLabelTitles = new Set(

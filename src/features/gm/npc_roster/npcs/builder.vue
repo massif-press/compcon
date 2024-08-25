@@ -1,6 +1,6 @@
 <template>
   <v-row dense class="heading mech mt-n3" style="min-width: 30vw" align="center">
-    <v-col v-if="item.NpcClassController.HasClass" cols="auto">
+    <v-col v-if="item.NpcClassController?.HasClass" cols="auto">
       <v-icon size="70" :icon="item.NpcClassController.Class.Icon" class="mt-n4" />
     </v-col>
     <v-col>
@@ -16,7 +16,7 @@
       </cc-short-string-editor>
     </v-col>
     <v-col cols="auto">
-      <span class="text-disabled pr-12">T{{ item.NpcClassController.Tier }}</span>
+      <span class="text-disabled pr-12">T{{ item.NpcClassController?.Tier || '' }}</span>
     </v-col>
   </v-row>
   <div class="pr-12 mt-1">
@@ -36,18 +36,20 @@
       <div class="text-caption mb-1">NPC CLASS</div>
       <div v-if="readonly" class="heading h2 ml-2 mt-n2 text-accent">
         {{
-          item.NpcClassController.HasClass ? item.NpcClassController.Class.Name : 'Set NPC Class'
+          item.NpcClassController?.HasClass ? item.NpcClassController.Class.Name : 'Set NPC Class'
         }}
       </div>
       <v-btn
         v-else
         size="large"
         block
-        :color="!item.NpcClassController.HasClass ? 'error' : 'accent'"
+        :color="!item.NpcClassController?.HasClass ? 'error' : 'accent'"
         variant="tonal"
         class="px-12"
         @click="($refs.classSelector as any).show()">
-        {{ item.NpcClassController.HasClass ? item.NpcClassController.Class.Name : 'No NPC Class' }}
+        {{
+          item.NpcClassController?.HasClass ? item.NpcClassController.Class.Name : 'No NPC Class'
+        }}
       </v-btn>
       <npc-class-selector ref="classSelector" :item="item" />
     </v-col>
@@ -57,7 +59,7 @@
     </v-col>
   </v-row>
 
-  <div v-if="item.NpcClassController.HasClass">
+  <div v-if="item.NpcClassController?.HasClass">
     <npc-template-selector :readonly="readonly" :item="item" />
   </div>
 </template>

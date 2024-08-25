@@ -1,12 +1,31 @@
 <template>
-  <v-tooltip location="top">
+  <v-menu open-on-hover>
     <template #activator="{ props }">
       <v-chip variant="outlined" size="small" v-bind="props">
-        <v-icon size="large" :icon="item.npc.TagIcon" :color="sideColor" style="margin-top: -2px" />
+        <v-tooltip location="top">
+          <template #activator="{ props }">
+            <v-icon
+              size="large"
+              :icon="item.npc.TagIcon"
+              :color="sideColor"
+              style="margin-top: -2px" />
+          </template>
+          <span class="text-capitalize">{{ item.side }} {{ item.npc.Tag }}</span>
+        </v-tooltip>
       </v-chip>
     </template>
-    <span class="text-capitalize">{{ item.side }} {{ item.npc.Tag }}</span>
-  </v-tooltip>
+    <v-card>
+      <v-btn-toggle v-model="item.side" density="compact">
+        <v-btn
+          v-for="side in ['enemy', 'ally', 'other']"
+          :value="side"
+          size="small"
+          @click="item.side = side">
+          {{ side }}
+        </v-btn>
+      </v-btn-toggle>
+    </v-card>
+  </v-menu>
   <span v-if="item.playerCount">
     <cc-slashes class="mx-2" />
     <v-tooltip location="top">

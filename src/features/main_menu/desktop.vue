@@ -8,48 +8,42 @@
           icon="cc:compendium"
           :to="'/srd'"
           help="Equipment Database"
-          @hover="ccLog('compendium')"
-        >
+          @hover="ccLog('compendium')">
           Compendium
         </main-btn>
         <main-btn
           icon="cc:pilot"
           :to="'/pilot_management'"
           help="Manage Pilots"
-          @hover="ccLog('pilot')"
-        >
+          @hover="ccLog('pilot')">
           Pilot Roster
         </main-btn>
         <main-btn
           icon="cc:encounter"
           :to="'/gm'"
           help="Manage Campaigns, Encounters, and NPCs"
-          @hover="ccLog('gm')"
-        >
+          @hover="ccLog('gm')">
           GM Toolkit
         </main-btn>
         <main-btn
           icon="cc:content_manager"
           help="Import Content Packs"
           @hover="ccLog('content')"
-          @clicked="($refs.contentModal as any).show()"
-        >
+          @clicked="($refs.contentModal as any).show()">
           Content Manager
           <cc-tooltip
             v-if="missingContent"
             inline
             title="Unloadable Content Detected"
-            content="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager."
-          >
+            content="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager.">
             <v-avatar color="white"><v-icon color="error" large>mdi-folder-off</v-icon></v-avatar>
           </cc-tooltip>
         </main-btn>
         <main-btn
-          icon="cc:encounter"
+          icon="cc:campaign"
           :to="'/active-mode'"
           help="Run an Encounter or Active Character Sheet"
-          @hover="ccLog('encounter')"
-        >
+          @hover="ccLog('encounter')">
           Active Mode
         </main-btn>
       </v-row>
@@ -63,8 +57,7 @@
             light
             elevation="0"
             class="pulse"
-            @click="($refs.loginModal as any).show()"
-          >
+            @click="($refs.loginModal as any).show()">
             <v-icon start>
               {{ userstore.IsLoggedIn ? 'cc:pilot' : 'mdi-account-off-outline' }}
             </v-icon>
@@ -78,8 +71,7 @@
             Create Data Backup
             <cc-tooltip
               inline
-              content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-            >
+              content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
               <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
             </cc-tooltip>
           </v-btn>
@@ -96,8 +88,7 @@
                   Settings, utilities, and other applications can erase your
                   browser's localStorage cache, resulting in the loss of your
                   COMP/CON data. It is <b>strongly</b> recommended to back up
-                  your data often."
-                >
+                  your data often.">
                   <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </v-btn>
@@ -122,8 +113,7 @@
                   autofocus
                   placeholder="Select COMP/CON Bulk Export File"
                   prepend-icon="mdi-paperclip"
-                  @change="bulkImport"
-                />
+                  @change="bulkImport" />
               </v-card-text>
             </v-card>
           </v-dialog>
@@ -137,8 +127,7 @@
                 dark
                 variant="text"
                 @mouseenter="ccLog('options')"
-                @click="($refs.optionsModal as any).show()"
-              >
+                @click="($refs.optionsModal as any).show()">
                 Options
               </v-btn>
             </v-col>
@@ -149,8 +138,7 @@
                 dark
                 variant="text"
                 @mouseenter="ccLog('about')"
-                @click="($refs.aboutModal as any).show()"
-              >
+                @click="($refs.aboutModal as any).show()">
                 About
               </v-btn>
             </v-col>
@@ -161,8 +149,7 @@
                 dark
                 variant="text"
                 @mouseenter="ccLog('about')"
-                @click="($refs.creditsModal as any).show()"
-              >
+                @click="($refs.creditsModal as any).show()">
                 Credits
               </v-btn>
             </v-col>
@@ -173,8 +160,7 @@
                 dark
                 variant="text"
                 @mouseenter="ccLog('help')"
-                @click="($refs.helpModal as any).show()"
-              >
+                @click="($refs.helpModal as any).show()">
                 Help
               </v-btn>
             </v-col>
@@ -187,8 +173,7 @@
                 dark
                 variant="text"
                 href="https://www.patreon.com/compcon"
-                tabindex="0"
-              >
+                tabindex="0">
                 Support This Project
               </v-btn>
             </v-col>
@@ -205,8 +190,7 @@
       no-confirm
       no-pad
       no-title-clip
-      title="Options & User Profile"
-    >
+      title="Options & User Profile">
       <options-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
@@ -220,8 +204,7 @@
       no-pad
       large
       no-confirm
-      title="Manage Content Packs"
-    >
+      title="Manage Content Packs">
       <content-page />
     </cc-solo-dialog>
   </div>

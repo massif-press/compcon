@@ -831,9 +831,8 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     this.lcpFilter = this.lcps;
-    this.open = [...this.lcps, ...this.manufacturers, ...this.subtypes, ...this.licenses];
 
     const user = UserStore().User;
     this.view = user.View(
