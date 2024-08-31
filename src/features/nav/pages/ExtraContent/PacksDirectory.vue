@@ -21,8 +21,7 @@
             content to be featured in this directory, please
             <a
               href="https://github.com/massif-press/lancer-data#lancer-community-content-packs"
-              target="_blank"
-            >
+              target="_blank">
               click here
             </a>
             .
@@ -48,7 +47,7 @@ export default {
     communityPacks: [],
     loading: true,
   }),
-  async mounted(): Promise<void> {
+  async created(): Promise<void> {
     scan()
       .then((res: any) => {
         this.communityPacks = res.data.community.Items;

@@ -1,6 +1,6 @@
 <template>
   <div v-show="item">
-    <v-card class="rounded-0 pb-12 elevation-0">
+    <v-card class="rounded-0 pb-12 elevation-0" color="transparent">
       <v-toolbar
         v-if="!readonly && !hideToolbar"
         density="compact"
@@ -16,7 +16,7 @@
         </v-btn>
       </v-toolbar>
       <v-container style="position: relative">
-        <div style="position: absolute; top: 4px; right: -12px">
+        <div style="position: absolute; top: 4px; right: -10px">
           <cc-brew-info v-if="item.BrewController" :controller="item.BrewController" />
         </div>
         <v-row>
@@ -129,7 +129,11 @@
       </v-container>
     </v-card>
   </div>
-  <v-footer v-if="!readonly && !hideFooter" app color="panel">
+  <v-footer
+    v-if="!readonly && !hideFooter"
+    app
+    color="panel"
+    :style="footerOffset ? 'margin-bottom: 30px' : ''">
     <v-btn variant="tonal" size="small" @click="routePrint(item.ID)">
       <v-icon start icon="mdi-printer" />
       Print
@@ -182,6 +186,7 @@ export default {
     readonly: { type: Boolean, default: false },
     hideToolbar: { type: Boolean, default: false },
     hideFooter: { type: Boolean, default: false },
+    footerOffset: { type: Boolean, default: false },
   },
   emits: ['exit', 'save', 'add-new', 'copy', 'delete', 'export'],
   data: () => ({

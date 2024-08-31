@@ -29,8 +29,31 @@
     </v-col>
     <v-col>
       <div class="text-overline mb-n3 pb-1 text-disabled">STATUS</div>
-      <span :class="`stat-text ${statusColor()}text-`" class="pr-2">{{ pilot.Status }}</span>
-      <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />
+      <v-menu offset-y :close-on-content-click="false" width="300">
+        <template #activator="{ props }">
+          <v-chip
+            v-bind="props"
+            label
+            :color="statusColor"
+            class="stat-text"
+            v-text="pilot.Status" />
+        </template>
+        <template v-slot:default="{ isActive }">
+          <v-card outlined>
+            <v-card-text>
+              <v-select
+                v-model="pilot.Status"
+                autofocus
+                density="compact"
+                variant="outlined"
+                hide-details
+                :items="pilotStatuses"
+                item-value="value"
+                @update:modelValue="isActive.value = false" />
+            </v-card-text>
+          </v-card>
+        </template>
+      </v-menu>
     </v-col>
   </v-row>
 </template>
@@ -64,12 +87,12 @@ export default {
     syncing: false,
     currentAuthedUser: null,
   }),
-  async mounted() {
+  async created() {
     // await Auth.currentAuthenticatedUser().then((res) => {
     //   this.currentAuthedUser = !!res.username;
     // });
   },
-  methods: {
+  computed: {
     statusColor(): string {
       switch (this.pilot.Status.toLowerCase()) {
         case 'active':

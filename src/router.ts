@@ -9,8 +9,6 @@ import MainMenu from './features/main_menu/index.vue';
 import UITest from './features/ui_test/index.vue';
 import ItemLink from './features/main_menu/itemLink.vue';
 
-// import updateChecker from './util/UpdateChecker';
-
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -48,9 +46,5 @@ const router = createRouter({
     })),
   ],
 });
-
-// router.afterEach(() => {
-//   updateChecker.checkUpdates();
-// });
 
 export default router;

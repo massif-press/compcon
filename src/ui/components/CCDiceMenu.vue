@@ -5,8 +5,7 @@
     :close-on-content-click="false"
     right
     offset-x
-    nudge-bottom="-200px"
-  >
+    nudge-bottom="-200px">
     <template #activator="{ props }">
       <v-btn icon @click.stop="menu = true" v-bind="props">
         <v-icon icon="mdi-dice-multiple" />
@@ -19,8 +18,7 @@
         density="compact"
         flat
         :color="critical ? 'exotic' : 'primary'"
-        class="text-white heading h3"
-      >
+        class="text-white heading h3">
         {{ title }}
         <span v-if="critical" class="flavor-text text-white text--secondary">// CRITICAL</span>
         <span v-if="overkill" class="flavor-text text-white text--secondary">// OVERKILL</span>
@@ -31,8 +29,7 @@
             <v-row
               density="compact"
               justify="center"
-              style="border: 1px solid rgb(var(--v-theme-primary)); border-radius: 2px"
-            >
+              style="border: 1px solid rgb(var(--v-theme-primary)); border-radius: 2px">
               <v-col v-show="moreDice" cols="auto">
                 <cc-tooltip content="Add coin flip (d2)">
                   <v-btn icon color="accent" @click="addDice(2)">
@@ -113,8 +110,7 @@
                   class="mx-1"
                   close
                   close-icon="mdi-close"
-                  @click:close="removeDice(d.sides)"
-                >
+                  @click:close="removeDice(d.sides)">
                   {{ d.count }}d{{ d.sides }}
                 </v-chip>
                 <v-icon icon="mdi-plus" />
@@ -128,8 +124,7 @@
                   variant="outlined"
                   :prepend-icon="!dice.length ? 'mdi-plus' : ''"
                   type="number"
-                  style="width: 100px"
-                />
+                  style="width: 100px" />
               </v-col>
             </v-row>
             <v-slide-y-reverse-transition>
@@ -142,16 +137,15 @@
                     small
                     close
                     close-icon="mdi-close"
-                    @click:close="removeMod()"
-                  >
+                    @click:close="removeMod()">
                     <span v-html="accString" />
                   </v-chip>
                 </v-col>
               </v-row>
             </v-slide-y-reverse-transition>
-            <v-btn block variant="outlined" color="secondary" class="my-3" @click="roll"
-              >Roll</v-btn
-            >
+            <v-btn block variant="outlined" color="secondary" class="my-3" @click="roll">
+              Roll
+            </v-btn>
             <v-divider v-if="result" />
             <div style="min-height: 20px">
               <div v-if="result">
@@ -163,8 +157,7 @@
                         x-small
                         label
                         :style="r.class[i] === 'low' ? 'opacity: 0.4' : ''"
-                        :color="r.class[i] === 'overkill' ? 'heat' : ''"
-                      >
+                        :color="r.class[i] === 'overkill' ? 'heat' : ''">
                         {{ val }}
                       </v-chip>
                       <v-icon v-if="i + 1 < r.rolls.length" small>mdi-plus</v-icon>
@@ -206,8 +199,7 @@
                         x-small
                         label
                         :color="a === Math.abs(accTotal) ? 'primary' : 'grey'"
-                        dark
-                      >
+                        dark>
                         {{ a }}
                       </v-chip>
                       <cc-slashes v-if="i + 1 < accRolls.length" small />
@@ -220,8 +212,7 @@
                 <v-row
                   no-gutters
                   class="pa-1 ma-1"
-                  style="border: 1px solid rgb(var(--v-theme-secondary)); border-radius: 2px"
-                >
+                  style="border: 1px solid rgb(var(--v-theme-secondary)); border-radius: 2px">
                   <v-col cols="auto" class="ml-auto text-stark text-right">
                     <div class="caption">TOTAL</div>
                     <div class="heading h2">{{ total }}</div>
@@ -231,8 +222,7 @@
                   v-if="overkill && overkillRolls"
                   no-gutters
                   class="pa-1 ma-1"
-                  style="border: 1px solid rgb(var(--v-theme-heat)); border-radius: 2px"
-                >
+                  style="border: 1px solid rgb(var(--v-theme-heat)); border-radius: 2px">
                   <v-col cols="auto" class="ml-auto text-stark text-right">
                     <div class="caption">// OVERKILL //</div>
                     <v-chip v-for="n in overkillRolls" x-small color="heat">
@@ -259,8 +249,7 @@
                     class="ml-3"
                     color="secondary"
                     :disabled="!result && !flat"
-                    @click="commit"
-                  >
+                    @click="commit">
                     Commit Result
                   </v-btn>
                 </v-col>
@@ -332,7 +321,7 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     this.reset();
     if (this.autoroll) this.$nextTick(this.autoRoll);
   },

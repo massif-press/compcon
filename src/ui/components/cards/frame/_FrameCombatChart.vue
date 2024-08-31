@@ -24,32 +24,6 @@
                 </cc-tooltip>
               </v-col>
             </v-row>
-            <!-- <v-row align="center" class="text-overline mt-n5" dense>
-              <v-col cols="auto">
-                Standard
-                <cc-tooltip inline content="Chart standard Frame stats">
-                  <v-icon size="small" variant="plain"
-                    >mdi-information-outline</v-icon
-                  >
-                </cc-tooltip></v-col
-              >
-              <v-col cols="auto">
-                <v-switch v-model="aggregate" density="compact" hide-details />
-              </v-col>
-              <v-col cols="auto">
-                Aggregated*
-
-                <cc-tooltip
-                  inline
-                  title="Experimental Feature"
-                  content="Selecting this option aggregates Frame stats into aptitude ratings for Survivability, Mobility, Offense, and Utility. This is an experimental feature and may not be accurate, but is actively being developed into a more useful indicator of Frame capability."
-                >
-                  <v-icon size="small" color="warning" variant="plain"
-                    >mdi-alert</v-icon
-                  >
-                </cc-tooltip>
-              </v-col>
-            </v-row> -->
           </v-col>
           <v-col>
             <v-autocomplete
@@ -121,7 +95,7 @@ export default {
     aggregateLabels: ['Survivability', 'Mobility', 'Offense', 'Utility'],
     colors: [] as string[],
   }),
-  mounted() {
+  created() {
     this.colors = GenerateContrastingColors(this.frames.length + 1);
   },
   computed: {

@@ -101,7 +101,7 @@ export default {
     dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
   }),
   emits: ['published'],
-  mounted() {
+  created() {
     if (!this.versionHistory.length) {
       this.major = 1;
       this.minor = 0;

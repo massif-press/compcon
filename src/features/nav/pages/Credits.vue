@@ -56,7 +56,7 @@
       </div>
 
       <div class="mt-6">
-        <span class="heading h2"> Along with: </span>
+        <span class="heading h2">Along with:</span>
       </div>
 
       <p class="flavor-text text-text">
@@ -65,14 +65,9 @@
 
       <div class="heading h2 mt-4">Special Thanks to:</div>
       <div class="my-2">
-        <v-chip
-          v-for="c in credits.special_thanks"
-          variant="tonal"
-          size="large"
-          label
-          class="ma-1"
-          >{{ c }}</v-chip
-        >
+        <v-chip v-for="c in credits.special_thanks" variant="tonal" size="large" label class="ma-1">
+          {{ c }}
+        </v-chip>
       </div>
     </div>
   </v-container>
@@ -97,7 +92,7 @@ export default {
     cols: [12, 6, 4, 4, 4],
     loading: true,
   }),
-  async mounted() {
+  async created() {
     const p = await patrons();
 
     const all = p.data.flat(1);

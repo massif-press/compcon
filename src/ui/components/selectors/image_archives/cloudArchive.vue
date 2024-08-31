@@ -13,8 +13,7 @@
             :color="isSelected(image.url) ? 'primary' : ''"
             :class="{ selected: image === selectedImage }"
             style="border-width: 3px"
-            @click="isSelected(image.url) ? (selectedImage = null) : (selectedImage = image)"
-          >
+            @click="isSelected(image.url) ? (selectedImage = null) : (selectedImage = image)">
             <div class="background">
               <v-img :src="image.url" contain max-height="200px" />
             </div>
@@ -31,8 +30,7 @@
                 </template>
                 <cc-confirmation
                   content="This will permanently delete this image from storage.</span> Do you want to continue?"
-                  @confirm="deleteCloudImage(image)"
-                />
+                  @confirm="deleteCloudImage(image)" />
               </v-menu>
             </v-card>
           </v-scale-transition>
@@ -42,8 +40,7 @@
         v-model="currentUserPage"
         :length="totalUserPages"
         total-visible="9"
-        @input="currentUserPage = $event"
-      />
+        @input="currentUserPage = $event" />
       <v-divider class="my-3" />
       <v-card-text>
         <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
@@ -58,16 +55,14 @@
               accept="image/*"
               class="mt-1 mb-2"
               :disabled="loading || isOverCapacity || !isAuthed"
-              @change="$emit('set-staged', $event)"
-            />
+              @change="$emit('set-staged', $event)" />
           </v-col>
           <v-col cols="auto">
             <v-btn
               color="secondary"
               :disabled="!stagedImage || isOverCapacity || !isAuthed"
               :loading="loading"
-              @click="uploadImage()"
-            >
+              @click="uploadImage()">
               Upload
             </v-btn>
           </v-col>
@@ -77,8 +72,7 @@
             ACCOUNT USAGE
             <cc-tooltip
               inline
-              :content="`Free accounts are restricted to ${accountMax}MB of storage. In an upcoming release you will be able to link your Patreon account, and COMP/CON supporters will not be subject to any storage limits.`"
-            >
+              :content="`Free accounts are restricted to ${accountMax}MB of storage. In an upcoming release you will be able to link your Patreon account, and COMP/CON supporters will not be subject to any storage limits.`">
               <v-icon small>mdi-information-outline</v-icon>
             </cc-tooltip>
           </div>
@@ -136,7 +130,7 @@ export default {
     showAll: false,
     imageUrl: '',
   }),
-  async mounted() {
+  async created() {
     if (!this.iid) await this.getStorageInfo();
   },
   computed: {

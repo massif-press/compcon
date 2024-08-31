@@ -53,7 +53,7 @@ export default {
       localStorage.setItem('cc_pilot_sheet_page', val.toString());
     },
   },
-  mounted() {
+  created() {
     const setPage = localStorage.getItem('cc_pilot_sheet_page');
     if (setPage) this.page = parseInt(setPage);
   },

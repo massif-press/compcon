@@ -80,7 +80,7 @@ export default {
       { title: 'A4', icon: 'mdi-file-star-four-points-outline' },
     ],
   }),
-  mounted() {
+  created() {
     this.$emit('set', this.options);
   },
   methods: {

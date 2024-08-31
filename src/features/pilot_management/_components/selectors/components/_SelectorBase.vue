@@ -62,7 +62,7 @@ export default {
     listener: () => {},
     showNav: null,
   }),
-  mounted() {
+  created() {
     window.addEventListener('scroll', handleScroll);
   },
   beforeDestroy() {

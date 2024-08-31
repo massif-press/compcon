@@ -21,9 +21,6 @@ export default async function (): Promise<void> {
   navigator.storage.estimate().then((res) => console.log(res));
 
   await UserStore().loadUser();
-  console.log('loaded user profile');
-  console.log('checking storage limits');
-  console.log(UserStore().User);
 
   await CompendiumStore().refreshExtraContent();
 
@@ -97,7 +94,7 @@ export default async function (): Promise<void> {
   const results = await UserStore().removeOldItems();
   console.info(results);
 
-  NavStore().CreateIndex();
+  await NavStore().CreateIndex();
 
   console.info('loading complete');
 }

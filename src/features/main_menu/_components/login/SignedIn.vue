@@ -223,7 +223,7 @@ export default {
       return this.userProfile && _.has(this.userProfile.SyncFrequency, 'cloudSync_v2');
     },
   },
-  mounted() {
+  created() {
     // Auth.currentAuthenticatedUser()
     //   .then((user) => {
     //     this.authedUser = user;

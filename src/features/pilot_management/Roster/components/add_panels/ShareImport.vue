@@ -139,7 +139,7 @@ export default {
     isSameUser: false,
     searchResults: null,
   }),
-  async mounted() {
+  async created() {
     // this.cid = await Auth.currentUserCredentials()
     //   .then((res) => res.identityId)
     //   .catch(() => '');

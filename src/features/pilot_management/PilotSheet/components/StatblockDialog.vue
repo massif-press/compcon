@@ -92,7 +92,7 @@ export default {
     discordEmoji: false,
     genRadios: 'full',
   }),
-  mounted() {
+  created() {
     if (this.defaultMechID == null) {
       this.genRadios = 'pilotBuild';
     }

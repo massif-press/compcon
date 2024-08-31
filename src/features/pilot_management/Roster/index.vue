@@ -72,7 +72,7 @@ export default {
     newGroupName: '',
     rosterView: 'list',
   }),
-  mounted() {
+  created() {
     this.rosterView = this.profile.View('roster', 'list');
   },
   computed: {

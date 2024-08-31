@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+      class="bg-primary"
       style="
         position: absolute;
         z-index: 2;
@@ -9,49 +10,39 @@
         right: 0;
         top: 0;
         bottom: 20px;
-        background-color: rgb(var(--v-theme-primary));
         text-align: right;
-      "
-    >
+      ">
       <div class="pa-1">
-        <update-checker @mouseenter="$emit('logupdate')" />
-        <div
-          style="
-            display: inline-block;
-            position: relative;
-            z-index: 999 !important;
-          "
-          class="pr-1 pl-2"
-        >
-          <v-btn
-            target="_blank"
-            href="https://github.com/massif-press/compcon/blob/master/CHANGELOG.md"
-            color="white"
-            variant="outlined"
-            size="small"
-            @mouseenter="$emit('logupdate')"
-          >
-            View Changelog
-          </v-btn>
+        <div style="display: inline-block; position: relative" class="mr-1">
+          <v-tooltip location="bottom">
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                size="small"
+                rounded="0"
+                variant="tonal"
+                style="font-family: 'Consolas', monospace"
+                target="_blank"
+                color="white"
+                href="https://github.com/massif-press/compcon/blob/master/CHANGELOG.md"
+                @mouseenter="$emit('logupdate')">
+                v.{{ $appVersion }}
+              </v-btn>
+            </template>
+            <span>View changelog</span>
+          </v-tooltip>
         </div>
       </div>
     </div>
-    <div
-      class="clipped pl-4 pt-2"
-      style="position: absolute; height: 80px; left: 0; top: 0"
-    >
+    <div class="clipped pl-4 pt-3" style="position: absolute; height: 74px; left: 0; top: 0">
       <div id="title">COMP/CON</div>
-      <div id="subtitle">v.{{ $appVersion }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import UpdateChecker from './UpdateChecker.vue';
-
 export default {
   name: 'cc:banner',
-  components: { UpdateChecker },
 };
 </script>
 
@@ -60,20 +51,8 @@ export default {
   position: relative;
   background-color: rgb(var(--v-theme-primary));
   width: 70%;
-  clip-path: polygon(
-    100% 0,
-    100% calc(100% - 50px),
-    calc(100% - 50px) 100%,
-    0 100%,
-    0 0
-  );
-  -webkit-clip-path: polygon(
-    100% 0,
-    100% calc(100% - 50px),
-    calc(100% - 50px) 100%,
-    0 100%,
-    0 0
-  );
+  clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
+  -webkit-clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
   opacity: 1;
   z-index: 2;
 }

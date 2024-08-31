@@ -42,7 +42,7 @@ export default {
     selected: null,
     campaign: null as any,
   }),
-  async mounted() {
+  async created() {
     await CampaignStore().LoadCampaigns();
     const data = CampaignStore().CampaignCollection.find((c) => c.id === this.id);
     this.campaign = new Campaign(data);

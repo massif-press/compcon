@@ -303,7 +303,7 @@ export default {
   created() {
     this.hasCmdKey = navigator.userAgent.includes('Mac');
   },
-  mounted() {
+  created() {
     this.storageFullDialog = this.StorageMax;
   },
   computed: {

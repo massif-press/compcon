@@ -90,7 +90,7 @@ export default {
     selectedEncounter: null as Encounter | null,
     options: {} as any,
   }),
-  mounted() {
+  created() {
     if (!this.id) return;
     this.selectedEncounter = EncounterStore().Encounters.find((p) => p.ID === this.id) as Encounter;
   },

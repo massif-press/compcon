@@ -192,7 +192,7 @@ export default {
       { title: '1 Year', value: 365 },
     ],
   }),
-  async mounted() {
+  async created() {
     this.storageRange[0] = this.user.StorageWarning;
     this.storageRange[1] = this.user.StorageMax;
     this.deleteDays = this.user.AutoDeleteDays;

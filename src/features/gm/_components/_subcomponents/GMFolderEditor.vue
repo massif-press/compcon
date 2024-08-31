@@ -54,7 +54,7 @@ export default {
     stagedName: '',
     menu: false,
   }),
-  mounted() {
+  created() {
     this.stagedName = this.item.FolderController.Folder;
   },
   methods: {

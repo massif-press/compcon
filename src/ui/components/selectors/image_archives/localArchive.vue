@@ -9,8 +9,7 @@
           :color="selectedImage === image.url ? 'primary' : ''"
           :class="{ selected: image === selectedImage }"
           style="border-width: 3px"
-          @click="selectedImage === image.url ? (selectedImage = null) : stage(image)"
-        >
+          @click="selectedImage === image.url ? (selectedImage = null) : stage(image)">
           <div class="background">
             <v-img :src="image.url" contain max-height="200px" />
           </div>
@@ -22,21 +21,19 @@
             color="subtle"
             variant="outlined"
             class="pa-1"
-            tile
-          >
+            tile>
             <div class="text-caption pb-1 text-center">
               {{ image.key }}
             </div>
             <v-menu offset-y offset-x top left>
               <template v-slot:activator="{ props }">
-                <v-btn block variant="outlined" color="error" size="x-small" v-bind="props"
-                  >Delete</v-btn
-                >
+                <v-btn block variant="outlined" color="error" size="x-small" v-bind="props">
+                  Delete
+                </v-btn>
               </template>
               <cc-confirmation
                 content="This will permanently delete this image from storage.</span> Do you want to continue?"
-                @confirm="deleteLocalImage(image.key)"
-              />
+                @confirm="deleteLocalImage(image.key)" />
             </v-menu>
           </v-card>
         </v-scale-transition>
@@ -46,15 +43,14 @@
       v-model="currentUserPage"
       :length="totalUserPages"
       total-visible="9"
-      @input="currentUserPage = $event"
-    />
+      @input="currentUserPage = $event" />
     <v-divider class="my-3" />
-    <v-alert density="compact" class="my-2 text-caption" style="opacity: 0.5"
-      ><i
-        >Images in this gallery are saved as COMP/CON app data and will count towards the app
-        storage limit set by your browser.
-      </i></v-alert
-    >
+    <v-alert density="compact" class="my-2 text-caption" style="opacity: 0.5">
+      <i>
+        Images in this gallery are saved as COMP/CON app data and will count towards the app storage
+        limit set by your browser.
+      </i>
+    </v-alert>
     <v-card-text>
       <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
       <v-row align="center">
@@ -67,11 +63,10 @@
             label="Add New Image"
             accept="image/*"
             class="mt-1 mb-2"
-            @change="$emit('set-staged', $event)"
-          />
+            @change="$emit('set-staged', $event)" />
         </v-col>
         <v-col cols="auto">
-          <v-btn color="secondary" :loading="loading" @click="uploadImage()"> Upload </v-btn>
+          <v-btn color="secondary" :loading="loading" @click="uploadImage()">Upload</v-btn>
         </v-col>
       </v-row>
       <div>
@@ -79,8 +74,7 @@
           STORAGE USAGE
           <cc-tooltip
             inline
-            :content="`This represents the total amount of local disk spaced used by COMP/CON. This includes all images, data files, and other assets.`"
-          >
+            :content="`This represents the total amount of local disk spaced used by COMP/CON. This includes all images, data files, and other assets.`">
             <v-icon small>mdi-information-outline</v-icon>
           </cc-tooltip>
         </div>
@@ -121,7 +115,7 @@ export default {
     urls: [] as string[],
   }),
   emits: ['set-staged'],
-  async mounted() {
+  async created() {
     await this.getStorageInfo();
     await this.getUserImages();
   },

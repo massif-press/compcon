@@ -26,8 +26,7 @@
           variant="outlined"
           color="accent"
           class="my-2"
-          @click="$emit('select', m)"
-        >
+          @click="$emit('select', m)">
           {{ m.Name }}
         </v-btn>
         <div v-if="superheavySelect">
@@ -64,7 +63,7 @@ export default {
     dialog: false,
     availableMounts: [],
   }),
-  mounted() {
+  created() {
     let candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
       this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
       false

@@ -4,28 +4,15 @@
       <sign-in
         v-if="state === 'sign-in'"
         @set-state="state = $event"
-        @reverify="verifyFlow($event)"
-      />
-      <password-reset
-        v-else-if="state === 'reset'"
-        @set-state="state = $event"
-      />
+        @reverify="verifyFlow($event)" />
+      <password-reset v-else-if="state === 'reset'" @set-state="state = $event" />
       <sign-up
         v-else-if="state === 'sign-up'"
         :oauth-code="oauthCode"
         @set-state="state = $event"
-        @success="verifyFlow($event)"
-      />
-      <verify
-        v-else-if="state === 'verify'"
-        :email="email"
-        @set-state="state = $event"
-      />
-      <signed-in
-        v-else-if="state === 'signed-in'"
-        :email="email"
-        @set-state="state = $event"
-      />
+        @success="verifyFlow($event)" />
+      <verify v-else-if="state === 'verify'" :email="email" @set-state="state = $event" />
+      <signed-in v-else-if="state === 'signed-in'" :email="email" @set-state="state = $event" />
     </v-slide-x-transition>
   </div>
 </template>
@@ -48,7 +35,7 @@ export default {
     currentAuthedUser: null,
     oauthCode: null,
   }),
-  async mounted() {
+  async created() {
     await this.getAuthedUser();
     // const userstore =UserStore();
     // if (userstore.IsPatron) {

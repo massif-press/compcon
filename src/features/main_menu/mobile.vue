@@ -9,8 +9,7 @@
       no-confirm
       no-pad
       no-title-clip
-      title="Options & User Profile"
-    >
+      title="Options & User Profile">
       <options-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About">
@@ -26,8 +25,7 @@
       no-pad
       large
       no-confirm
-      title="Manage Content Packs"
-    >
+      title="Manage Content Packs">
       <content-page />
     </cc-solo-dialog>
     <v-container fluid>
@@ -35,8 +33,7 @@
         <div
           v-resize-text="{ ratio: 0.75 }"
           class="heading mech mt-n5 text-center"
-          style="letter-spacing: 8px"
-        >
+          style="letter-spacing: 8px">
           COMP/CON
         </div>
       </div>
@@ -55,40 +52,36 @@
           icon="mdi-book"
           title="Compendium"
           text="Equipment Database"
-          :to="'/compendium'"
-        />
+          :to="'/compendium'" />
         <mobile-btn icon="cc:pilot" title="Roster" text="Manage Pilots" :to="'/pilot_management'" />
         <mobile-btn
           icon="mdi-flask-empty-plus-outline"
           title="Content"
           text="Manage LCP Data"
-          @clicked="($refs as any).contentModal.show()"
-        />
+          @clicked="($refs as any).contentModal.show()" />
         <mobile-btn
           :icon="userstore.IsLoggedIn ? 'mdi-account-check' : 'mdi-account-off-outline'"
           :title="userstore.IsLoggedIn ? 'Connected' : 'Log In'"
           text="COMP/CON Account"
-          @clicked="($refs as any).loginModal.show()"
-        />
+          @clicked="($refs as any).loginModal.show()" />
       </v-row>
       <div style="height: 40px" />
 
       <v-footer
         color="primary"
         fixed
-        style="padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px))"
-      >
-        <v-btn x-small dark variant="outlined" @click="($refs as any).optionsModal.show()"
-          >Options</v-btn
-        >
+        style="padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px))">
+        <v-btn x-small dark variant="outlined" @click="($refs as any).optionsModal.show()">
+          Options
+        </v-btn>
         <v-spacer />
-        <v-btn x-small dark variant="outlined" @click="($refs as any).aboutModal.show()"
-          >About</v-btn
-        >
+        <v-btn x-small dark variant="outlined" @click="($refs as any).aboutModal.show()">
+          About
+        </v-btn>
         <v-spacer />
-        <v-btn x-small dark variant="outlined" @click="($refs as any).creditsModal.show()"
-          >Credits</v-btn
-        >
+        <v-btn x-small dark variant="outlined" @click="($refs as any).creditsModal.show()">
+          Credits
+        </v-btn>
         <v-spacer />
         <v-btn x-small dark variant="outlined" @click="($refs as any).helpModal.show()">Help</v-btn>
         <v-spacer />
@@ -98,8 +91,7 @@
           color="warning"
           x-small
           dark
-          variant="outlined"
-        >
+          variant="outlined">
           Support
         </v-btn>
       </v-footer>
@@ -108,7 +100,6 @@
 </template>
 
 <script lang="ts">
-import UpdateChecker from './_components/UpdateChecker.vue';
 import MobileBtn from './_components/MobileBtn.vue';
 import ContentPage from '../nav/pages/ExtraContent/index.vue';
 import CreditsPage from '../nav/pages/Credits.vue';
@@ -121,7 +112,6 @@ import SignIn from './_components/login/index.vue';
 export default {
   name: 'landing-page-mobile',
   components: {
-    UpdateChecker,
     MobileBtn,
     ContentPage,
     AboutPage,
