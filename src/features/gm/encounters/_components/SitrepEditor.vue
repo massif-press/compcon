@@ -96,9 +96,9 @@
           variant="tonal"
           class="fade-select"
           color="error"
-          size="x-small"
-          ><v-icon icon="mdi-delete" size="large"
-        /></v-btn>
+          size="x-small">
+          <v-icon icon="mdi-delete" size="large" />
+        </v-btn>
       </v-col>
     </v-row>
 
@@ -232,7 +232,7 @@ export default {
       return CompendiumStore().Sitreps;
     },
   },
-  mounted() {
+  created() {
     this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
   },
   methods: {

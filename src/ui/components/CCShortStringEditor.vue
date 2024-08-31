@@ -39,7 +39,7 @@ export default {
     newStr: '',
     editing: false,
   }),
-  mounted() {
+  created() {
     if (this.placeholder) this.newStr = this.placeholder;
   },
   methods: {

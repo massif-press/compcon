@@ -142,15 +142,6 @@
           </cc-dialog>
         </v-col>
       </v-row>
-      <v-row class="my-2">
-        <v-col>
-          <!-- <cc-popup small @confirm="dialog1Confirm()">
-            <template #button>popup</template>
-            <template #title>CC-Popup</template>
-            popup content
-          </cc-popup> -->
-        </v-col>
-      </v-row>
     </v-container>
 
     <!-- Global Notifier -->

@@ -71,9 +71,6 @@
           <v-divider class="my-4" />
           <v-row dense>
             <v-col>
-              <v-btn variant="tonal" block color="info" @click="reload">Check for Updates</v-btn>
-            </v-col>
-            <v-col>
               <v-btn block color="accent" variant="tonal" @click="$emit('show-message')">
                 Show Latest Update Message
               </v-btn>
@@ -258,7 +255,7 @@ export default {
       return Object.keys(allThemes).map((x) => ({ name: allThemes[x].name, value: x }));
     },
   },
-  mounted() {
+  created() {
     this.logLevel =
       this.logLevels.find((x) => x.name.toLowerCase() === this.user.LogLevel) || this.logLevels[2];
   },

@@ -41,7 +41,7 @@ export default {
       return '45px';
     },
   },
-  mounted() {
+  created() {
     this.src = this.url;
   },
   methods: {

@@ -1,9 +1,9 @@
 <template>
   <div class="d-inline">
     <cc-tooltip inline simple content="Edit">
-      <v-icon :color="color" dark :class="color ? '' : 'fade-select'" @click="show()"
-        >mdi-circle-edit-outline</v-icon
-      >
+      <v-icon :color="color" dark :class="color ? '' : 'fade-select'" @click="show()">
+        mdi-circle-edit-outline
+      </v-icon>
     </cc-tooltip>
     <cc-solo-dialog
       ref="dialog"
@@ -41,7 +41,7 @@ export default {
     title: '',
     text: '',
   }),
-  mounted() {
+  created() {
     if (this.original) this.text = this.original;
   },
   methods: {

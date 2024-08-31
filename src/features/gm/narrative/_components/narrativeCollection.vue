@@ -1,22 +1,24 @@
 <template>
-  <gm-collection-view
+  <component
+    :is="viewComponent"
+    ref="view"
     :title="itemType + 's'"
     :item-type="itemType"
     :items="items"
     :groupings="groupings"
     :sortings="sortings"
     @add-new="addNew()"
-    @open="openItem($event)"></gm-collection-view>
-  <v-dialog v-model="dialog" fullscreen>
-    <v-card flat>
-      <component
-        v-if="dialog && selected"
-        :is="editorComponent"
-        :item="selected"
-        @exit="dialog = false"
-        @save="SaveAndClose()" />
-    </v-card>
-  </v-dialog>
+    @open="openItem($event)">
+    <component
+      v-if="selected"
+      :is="editorComponent"
+      :item="selected"
+      :footer-offset="view !== 'collection'"
+      :hide-toolbar="view !== 'collection'"
+      @exit="($refs as any).view.dialog = false"
+      @save="SaveAndClose()" />
+    <no-gm-item v-else />
+  </component>
 </template>
 
 <script lang="ts">
@@ -29,10 +31,12 @@ import { Faction } from '@/classes/narrative/Faction';
 import CharacterEditor from './characterEditor.vue';
 import LocationEditor from './locationEditor.vue';
 import FactionEditor from './factionEditor.vue';
+import GMSplitView from '../../_views/GMSplitView.vue';
+import NoGmItem from '../../_views/_components/NoGmItem.vue';
 
 export default {
   name: 'character-roster',
-  components: { GmCollectionView },
+  components: { GmCollectionView, GMSplitView, NoGmItem },
   props: {
     itemType: {
       type: String,
@@ -42,9 +46,13 @@ export default {
       type: String,
       required: false,
     },
+    view: {
+      type: String,
+      required: false,
+      default: 'collection',
+    },
   },
   data: () => ({
-    dialog: false,
     selected: null as INarrativeElement | null,
   }),
   mounted() {
@@ -52,11 +60,14 @@ export default {
       const item = NarrativeStore().getItemByID(this.id);
       if (item) {
         this.selected = item;
-        this.dialog = true;
+        (this.$refs as any).view.dialog = true;
       }
     }
   },
   computed: {
+    viewComponent() {
+      return this.view === 'collection' ? GmCollectionView : GMSplitView;
+    },
     allNarrativeItems() {
       return NarrativeStore().CollectionItems.length;
     },
@@ -108,7 +119,7 @@ export default {
   methods: {
     openItem(item) {
       this.selected = item;
-      this.dialog = true;
+      (this.$refs as any).view.dialog = true;
     },
     addNew() {
       let e;
@@ -125,11 +136,11 @@ export default {
       }
       NarrativeStore().AddItem(e);
       this.selected = e;
-      this.dialog = true;
+      (this.$refs as any).view.dialog = true;
     },
     SaveAndClose() {
       this.selected = null;
-      this.dialog = false;
+      (this.$refs as any).view.dialog = true;
     },
   },
 };

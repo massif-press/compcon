@@ -27,9 +27,9 @@
             </div>
             <v-menu offset-y offset-x top left>
               <template v-slot:activator="{ props }">
-                <v-btn block variant="outlined" color="error" size="x-small" v-bind="props"
-                  >Delete</v-btn
-                >
+                <v-btn block variant="outlined" color="error" size="x-small" v-bind="props">
+                  Delete
+                </v-btn>
               </template>
               <cc-confirmation
                 content="This will delete this image link from your library.</span> Do you want to continue?"
@@ -50,12 +50,12 @@
       class="my-2 text-caption"
       prominent
       icon="mdi-alert"
-      style="opacity: 0.5"
-      ><i
-        >Images in this gallery are links to remote resources and are not managed by COMP/CON. If
-        you do not control the remote host, items may be removed or changed at any time.
-      </i></v-alert
-    >
+      style="opacity: 0.5">
+      <i>
+        Images in this gallery are links to remote resources and are not managed by COMP/CON. If you
+        do not control the remote host, items may be removed or changed at any time.
+      </i>
+    </v-alert>
 
     <v-card-text>
       <div class="heading h3">
@@ -121,7 +121,7 @@ export default {
     urls: [] as string[],
   }),
   emits: ['set-staged'],
-  async mounted() {
+  async created() {
     await this.getRemoteImages();
   },
   computed: {

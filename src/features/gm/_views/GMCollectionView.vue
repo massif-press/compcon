@@ -1,4 +1,9 @@
 <template>
+  <v-dialog v-model="dialog" fullscreen>
+    <v-card flat>
+      <slot />
+    </v-card>
+  </v-dialog>
   <v-container>
     <v-card variant="tonal">
       <v-toolbar class="px-2 rounded-b-0">
@@ -196,9 +201,10 @@ export default {
     openFolders: [] as string[],
     showNoFolder: true,
     hideFolders: false,
+    dialog: false,
   }),
   emits: ['open', 'add-new'],
-  mounted() {
+  created() {
     const user = UserStore().User;
     if (!user || !user.View) return;
     this.view = user.View(this.itemType.toLowerCase() + 'View', 'list');

@@ -26,7 +26,7 @@
         </div>
       </v-alert>
       <v-card-actions>
-        <v-btn color="white" text variant="plain" @click="show = false"> Close </v-btn>
+        <v-btn color="white" text variant="plain" @click="show = false">Close</v-btn>
       </v-card-actions>
     </v-card>
     <v-fade-transition>
@@ -47,7 +47,7 @@ export default {
     allowedStorageState: '',
     hasQuota: false,
   }),
-  async mounted() {
+  async created() {
     this.hasStorage = await this.hasPermanentStorage();
     this.allowedStorageState = await this.hasPermanentStoragePermission();
     this.allowedStorage = this.allowedStorageState === 'granted';

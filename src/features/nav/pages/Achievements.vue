@@ -311,7 +311,7 @@ export default {
       deep: true,
     },
   },
-  mounted() {
+  created() {
     this.updateAchievements();
   },
   computed: {

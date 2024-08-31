@@ -270,7 +270,7 @@ export default {
       UserStore().User.SetView('combatantSelectorView', val);
     },
   },
-  mounted() {
+  created() {
     const user = UserStore().User;
     if (!user || !user.View) return;
     this.selectorView = user.View('combatantSelectorView', 'list');

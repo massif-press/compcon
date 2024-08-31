@@ -163,7 +163,7 @@ class ContentPack {
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     );
 
-    self._EidolonLayers = self._data.eidolonLayers.map((x) => new EidolonLayer(x));
+    self._EidolonLayers = self._data.eidolonLayers?.map((x) => new EidolonLayer(x)) || [];
 
     self._Environments = self._data.environments?.map((x) => new Environment(x, self)) || [];
 

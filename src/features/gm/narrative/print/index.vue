@@ -87,7 +87,7 @@ export default {
     selectedItems: [] as CollectionItem[],
     options: {} as any,
   }),
-  mounted() {
+  created() {
     if (!this.ids) return;
     let idArr = typeof this.ids === 'string' ? JSON.parse(this.ids) : this.ids;
     this.selectedItems = idArr.map(

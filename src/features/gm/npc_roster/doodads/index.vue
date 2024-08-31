@@ -1,8 +1,11 @@
 <template>
-  <gm-collection-view
+  <component
+    :is="viewComponent"
+    ref="view"
     title="Doodads"
     item-type="Doodad"
     :items="doodads"
+    :selected="selected"
     :groupings="groupings"
     :sortings="sortings"
     @add-new="addNew()"
@@ -22,48 +25,57 @@
         </template>
       </v-tooltip>
     </template>
-  </gm-collection-view>
-  <v-dialog v-model="dialog" fullscreen>
-    <v-card flat>
-      <editor
-        v-if="dialog && selected"
-        :item="selected"
-        @exit="dialog = false"
-        @save="SaveAndClose()" />
-    </v-card>
-  </v-dialog>
+
+    <editor
+      v-if="selected"
+      :item="selected"
+      :footer-offset="view !== 'collection'"
+      :hide-toolbar="view !== 'collection'"
+      @exit="($refs as any).view.dialog = false"
+      @save="SaveAndClose()" />
+    <no-gm-item v-else />
+  </component>
 </template>
 
 <script lang="ts">
+import GMSplitView from '../../_views/GMSplitView.vue';
 import GmCollectionView from '../../_views/GMCollectionView.vue';
 import Editor from './editor.vue';
 import Builder from './builder.vue';
 import { NpcStore } from '../../store/npc_store';
 import { Doodad } from '@/classes/npc/doodad/Doodad';
+import NoGmItem from '../../_views/_components/NoGmItem.vue';
 
 export default {
   name: 'doodad-roster',
-  components: { GmCollectionView, Editor, Builder },
+  components: { GmCollectionView, Editor, Builder, NoGmItem },
   props: {
     id: {
       type: String,
       required: false,
     },
+    view: {
+      type: String,
+      required: false,
+      default: 'collection',
+    },
   },
   data: () => ({
-    dialog: false,
     selected: null as Doodad | null,
   }),
   mounted() {
     if (this.id) {
       const item = NpcStore().getNpcByID(this.id);
-      if (item) {
+      if (item && item instanceof Doodad) {
         this.selected = item;
-        this.dialog = true;
+        (this.$refs as any).view.dialog = true;
       }
     }
   },
   computed: {
+    viewComponent() {
+      return this.view === 'collection' ? GmCollectionView : GMSplitView;
+    },
     groupings() {
       const allLabelTitles = new Set(
         NpcStore()
@@ -102,17 +114,17 @@ export default {
   methods: {
     openItem(item) {
       this.selected = item;
-      this.dialog = true;
+      (this.$refs as any).view.dialog = true;
     },
     addNew() {
       const d = new Doodad();
       NpcStore().AddNpc(d);
       this.selected = d;
-      this.dialog = true;
+      (this.$refs as any).view.dialog = true;
     },
     SaveAndClose() {
       this.selected = null;
-      this.dialog = false;
+      (this.$refs as any).view.dialog = true;
     },
   },
 };

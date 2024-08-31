@@ -75,7 +75,7 @@ export default {
     },
     color: {
       type: String,
-      default: 'accent',
+      default: '',
       required: false,
     },
   },

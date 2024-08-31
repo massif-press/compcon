@@ -10,8 +10,7 @@
         :items="imageTags"
         multiple
         chips
-        closable-chips
-      />
+        closable-chips />
     </v-col>
   </v-row>
   <v-card>
@@ -24,8 +23,7 @@
           :color="isSelected(image.url) ? 'primary' : ''"
           :class="{ selected: image === selectedImage }"
           style="border-width: 3px"
-          @click="isSelected(image.url) ? (selectedImage = null) : stage(image)"
-        >
+          @click="isSelected(image.url) ? (selectedImage = null) : stage(image)">
           <div class="background">
             <v-img :src="image.url" contain max-height="200px" />
           </div>
@@ -44,8 +42,7 @@
                 variant="plain"
                 :href="image.website"
                 target="_blank"
-                class="mx-2"
-              >
+                class="mx-2">
                 <v-icon>mdi-web</v-icon>
               </v-btn>
               <v-btn
@@ -55,8 +52,7 @@
                 variant="plain"
                 :href="`https://twitter.com/${image.twitter}`"
                 target="_blank"
-                class="mx-2"
-              >
+                class="mx-2">
                 <v-icon>mdi-twitter</v-icon>
               </v-btn>
             </div>
@@ -68,8 +64,7 @@
       v-model="currentArtistPage"
       :length="totalArtistPages"
       total-visible="9"
-      @input="currentArtistPage = $event"
-    />
+      @input="currentArtistPage = $event" />
   </v-card>
 </template>
 
@@ -105,7 +100,7 @@ export default {
     selectedTags: [] as string[],
   }),
   emits: ['set-staged'],
-  async mounted() {
+  async created() {
     this.selectedTags = [this.type];
   },
   computed: {

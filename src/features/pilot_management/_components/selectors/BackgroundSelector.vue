@@ -9,26 +9,21 @@
       @equip="
         $emit('select', $event.Name);
         ($refs.dialog as any).hide();
-      "
-    >
+      ">
       <template #header>
-        <div class="heading h4 text-center text-primary mt-2">
-          Select Pilot Background
-        </div></template
-      >
+        <div class="heading h4 text-center text-primary mt-2">Select Pilot Background</div>
+      </template>
     </cc-compendium-browser>
   </cc-solo-dialog>
 </template>
 
 <script lang="ts">
 import { Background } from '@/class';
-import SidebarArrayView from '@/features/compendium/components/SidebarArrayView.vue';
 
 import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'background-selector',
-  components: { SidebarArrayView },
   props: {
     small: {
       type: Boolean,

@@ -238,16 +238,23 @@
           @blur="$emit('update')" />
       </v-col>
       <v-col cols="auto" class="pr-3 py-2" style="position: relative; min-height: 65px">
-        <cc-tooltip left content="Move Up">
-          <v-icon icon="mdi-arrow-up" class="fade-select" @click="item.MoveUp()" />
-        </cc-tooltip>
-        <cc-tooltip left content="Move Down">
-          <v-icon
-            icon="mdi-arrow-down"
-            class="fade-select"
-            style="position: absolute; bottom: 8px"
-            @click="item.MoveDown()" />
-        </cc-tooltip>
+        <v-tooltip>
+          <template #activator="{ props }">
+            <v-icon v-bind="props" icon="mdi-arrow-up" class="fade-select" @click="item.MoveUp()" />
+            <span v-text="'Move Up'" />
+          </template>
+        </v-tooltip>
+        <v-tooltip left>
+          <template #activator="{ props }">
+            <v-icon
+              v-bind="props"
+              icon="mdi-arrow-down"
+              class="fade-select"
+              style="position: absolute; bottom: 8px"
+              @click="item.MoveDown()" />
+            <span v-text="'Move Down'" />
+          </template>
+        </v-tooltip>
       </v-col>
     </v-row>
   </v-card>

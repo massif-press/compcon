@@ -48,6 +48,7 @@ const NavStore = defineStore('nav', {
       this._language = lang;
     },
     async CreateIndex(): Promise<void> {
+      console.log('Creating Index');
       const index: IndexItem[] = [];
 
       index.push(

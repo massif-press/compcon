@@ -86,7 +86,7 @@ export default {
     ],
     colors: [] as string[],
   }),
-  mounted() {
+  created() {
     this.colors = GenerateContrastingColors(this.npcClasses.length + 1);
   },
   computed: {

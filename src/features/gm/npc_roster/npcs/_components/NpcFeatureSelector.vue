@@ -265,7 +265,7 @@ export default {
     shownOrigins: [] as string[],
     showNav: true,
   }),
-  mounted() {
+  created() {
     this.shownOrigins = this.availableOrigins.map((x: any) => x.ID);
   },
   watch: {

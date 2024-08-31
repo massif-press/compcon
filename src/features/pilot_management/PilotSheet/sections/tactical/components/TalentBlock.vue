@@ -64,7 +64,7 @@ export default {
   data: () => ({
     view: 'terse',
   }),
-  mounted() {
+  created() {
     const user = UserStore().User;
     if (!user || !user.View) return;
     this.view = user.View('talentBlockStyle', 'terse');

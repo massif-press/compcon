@@ -1,14 +1,15 @@
 <template>
   <v-card class="my-1">
     <v-toolbar density="compact" color="primary" style="height: 40px" class="mt-n3">
-      <v-btn size="x-small" icon
-        ><v-icon
+      <v-btn size="x-small" icon>
+        <v-icon
           size="30"
           icon="mdi-menu-right"
           class="mt-1"
           :class="open ? 'mdi-rotate-90' : ''"
-          @click="open = !open" /></v-btn
-      ><v-toolbar-title class="heading h3">
+          @click="open = !open" />
+      </v-btn>
+      <v-toolbar-title class="heading h3">
         <cc-short-string-editor justify="start" @set="$emit('set-folder-name', $event)">
           {{ folder }}
         </cc-short-string-editor>
@@ -26,9 +27,9 @@
             size="small"
             color="error"
             class="mx-1 fade-select"
-            v-bind="props"
-            ><v-icon size="20" icon="mdi-delete"
-          /></v-btn>
+            v-bind="props">
+            <v-icon size="20" icon="mdi-delete" />
+          </v-btn>
         </template>
         <cc-confirmation
           :content="`This will delete the '${folder}' folder. All items will be sent to the 'No Folder' group`"
@@ -74,7 +75,7 @@ export default {
     open: true,
     deleteMenu: false,
   }),
-  mounted() {
+  created() {
     this.open = this.folderItems.length > 0;
   },
   computed: {

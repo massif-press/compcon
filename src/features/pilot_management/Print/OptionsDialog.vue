@@ -4,8 +4,7 @@
     icon="mdi-printer"
     large
     title="Print Options"
-    @confirm="$emit('set', options)"
-  >
+    @confirm="$emit('set', options)">
     <v-card-text class="flavor-text">
       <v-card flat tile>
         <fieldset class="pa-2">
@@ -14,40 +13,35 @@
             v-model="options.layout"
             mandatory
             title="Layout"
-            :items="layoutOptions"
-          />
+            :items="layoutOptions" />
           <v-row v-if="options.layout.title !== 'Cards'">
             <v-col>
               <print-option-select
                 v-model="options.paper"
                 mandatory
                 title="Paper"
-                :items="paperOptions"
-              />
+                :items="paperOptions" />
             </v-col>
             <v-col>
               <print-option-select
                 v-model="options.content"
                 mandatory
                 title="Content"
-                :items="contentOptions"
-              />
+                :items="contentOptions" />
             </v-col>
             <v-col>
               <print-option-select
                 v-model="options.orientation"
                 mandatory
                 title="Orientation"
-                :items="orientationOptions"
-              />
+                :items="orientationOptions" />
             </v-col>
             <v-col>
               <print-option-select
                 v-model="options.bonds"
                 mandatory
                 title="Bonds"
-                :items="bondsOptions"
-              />
+                :items="bondsOptions" />
             </v-col>
           </v-row>
           <v-row v-else>
@@ -56,15 +50,13 @@
                 v-model="options.paper"
                 mandatory
                 title="Paper"
-                :items="paperOptions"
-              />
+                :items="paperOptions" />
               <v-col>
                 <print-option-select
                   v-model="options.card"
                   mandatory
                   title="Card Options"
-                  :items="cardOptions"
-                />
+                  :items="cardOptions" />
               </v-col>
             </v-col>
           </v-row>
@@ -78,8 +70,7 @@
               v-model="options.pilotInclude"
               multiple
               widen
-              :items="pilotIncludeOptions"
-            />
+              :items="pilotIncludeOptions" />
           </fieldset>
         </v-card>
       </v-scroll-y-transition>
@@ -91,8 +82,7 @@
               v-model="options.mechInclude"
               multiple
               widen
-              :items="mechIncludeOptions"
-            />
+              :items="mechIncludeOptions" />
           </fieldset>
         </v-card>
       </v-scroll-y-transition>
@@ -166,7 +156,7 @@ export default {
       { title: 'Include Status/Condition Cards', icon: 'cc:eclipse' },
     ],
   }),
-  mounted() {
+  created() {
     this.$emit('set', this.options);
   },
   methods: {

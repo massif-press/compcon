@@ -123,7 +123,7 @@ export default {
     lastSave: '',
     selected: null,
   }),
-  mounted() {
+  created() {
     this.lastSave = this.campaign.SaveController.LastModified;
   },
   computed: {

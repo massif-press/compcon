@@ -225,7 +225,7 @@ export default {
     editDialog: false,
   }),
   emits: ['open', 'add-new'],
-  mounted() {
+  created() {
     const user = UserStore().User;
     if (!user || !user.View) return;
     this.view = user.View('encountersView', 'list');
@@ -235,10 +235,8 @@ export default {
     this.hideFolders = user.View('encountersHideFolders', false);
 
     if (this.id) {
-      console.log(this.id);
       const item = EncounterStore().getEncounterByID(this.id);
       if (item) {
-        console.log(item);
         this.selected = item;
         this.editDialog = true;
       }

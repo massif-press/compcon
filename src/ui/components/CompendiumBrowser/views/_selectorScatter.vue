@@ -95,7 +95,7 @@ export default {
     yAxis: { title: '', value: '' },
     colors: [] as string[],
   }),
-  mounted() {
+  created() {
     this.xAxis = this.axes[0];
     this.yAxis = this.axes[1];
     this.colors = Array.from(

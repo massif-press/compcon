@@ -158,7 +158,7 @@ export default {
       },
     },
   },
-  mounted() {
+  created() {
     this.model = this.val;
   },
   computed: {

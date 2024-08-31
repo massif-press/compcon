@@ -21,7 +21,7 @@ export default {
       default: 200,
     },
   },
-  async mounted() {
+  async created() {
     if (!this.avatar.image.src.startsWith('http') || !this.avatar.image.src.startsWith('blob')) {
       const blob = await GetBlob('images', this.avatar.image.src);
       this.avatar.image.src = URL.createObjectURL(blob);
