@@ -68,7 +68,7 @@
                       <v-list-item-title>Export {{ item.Name }}</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
-                  <v-list-item disabled>
+                  <v-list-item @click="printNpc(item)">
                     <v-list-item-icon class="ma-0 mr-2 mt-2">
                       <v-icon>mdi-printer</v-icon>
                     </v-list-item-icon>
@@ -277,6 +277,10 @@ export default class NpcManager extends Vue {
       JSON.stringify(Npc.Serialize(npc)),
       'Save NPC'
     )
+  }
+
+  printNpc(npc: Npc) {
+    this.$router.push(`/printNpc/${npc.ID}`)
   }
 
   @Watch('npcImportFile')

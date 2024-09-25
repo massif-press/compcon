@@ -19,6 +19,7 @@ import MissionRunner from './mission/runner/Active.vue'
 import MissionDebriefing from './mission/runner/Debriefing.vue'
 
 import { RouteConfig } from 'vue-router'
+import NpcPrint from './npc/print/NpcPrint.vue'
 
 const routes: RouteConfig[] = [
   {
@@ -99,6 +100,12 @@ const routes: RouteConfig[] = [
             component: MissionDebriefing,
           },
         ],
+      },
+      {
+        path: '/printNpc/:npcId',
+        name: 'Print',
+        component: NpcPrint,
+        props: true,
       },
     ],
   },

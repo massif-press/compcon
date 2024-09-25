@@ -45,6 +45,21 @@ export class NpcTech extends NpcFeature {
   public AttackBonus(tier: number): number {
     return this._attack_bonus[tier - 1]
   }
+  
+  public AttackSummary(tier: number): String {
+    let output: String = ''
+    if(this.AttackBonus(tier)<=0) {
+      output += `${this.AttackBonus(tier)}`
+    } else {
+      output += `+${this.AttackBonus(tier)}`
+    }
+    if(this.Accuracy(tier)<0) {
+      output += `, ${this.Accuracy(tier)} DIF`
+    } else if(this.Accuracy(tier)>0) {
+      output += `, ${this.Accuracy(tier)} ACC`
+    }
+    return output
+  }
 
   public generateSummary(tier: number): string {
     let output: string = ''
@@ -56,18 +71,7 @@ export class NpcTech extends NpcFeature {
       output += '\n    '
     }
 
-    output += 'Attack Bonus: '
-    if(this.AttackBonus(tier)<0) {
-      output += `${this.AttackBonus(tier)}`
-    } else {
-      output += `+${this.AttackBonus(tier)}`
-    }
-    output += ', '
-    if(this.Accuracy(tier)<0) {
-      output += `${this.Accuracy(tier)} DIF`
-    } else if(this.Accuracy(tier)>0) {
-      output += `${this.Accuracy(tier)} ACC`
-    }
+    output += `Attack Bonus: ${this.AttackSummary(tier)}`
 
     if(this.EffectByTier(tier)){
       output += `\n    ${this.EffectByTier(tier)}`

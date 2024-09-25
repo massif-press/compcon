@@ -81,6 +81,21 @@ export class NpcWeapon extends NpcFeature {
     return this._attack_bonus[tier - 1]
   }
 
+  public AttackSummary(tier: number): String {
+    let output: String = ''
+    if(this.AttackBonus(tier)<=0) {
+      output += `${this.AttackBonus(tier)}`
+    } else {
+      output += `+${this.AttackBonus(tier)}`
+    }
+    if(this.Accuracy(tier)<0) {
+      output += `, ${this.Accuracy(tier)} DIF`
+    } else if(this.Accuracy(tier)>0) {
+      output += `, ${this.Accuracy(tier)} ACC`
+    }
+    return output
+  }
+
   public generateSummary(tier: number): string {
     let output = ''
     output += `${this.WeaponType}\n    `
@@ -102,18 +117,8 @@ export class NpcWeapon extends NpcFeature {
       (item) =>
         `${item.Value} ${item.Type}`
     ).join(' ')
-    output += ' | Attack Bonus: '
-    if(this.AttackBonus(tier)<0) {
-      output += `${this.AttackBonus(tier)}`
-    } else {
-      output += `+${this.AttackBonus(tier)}`
-    }
-    output += ', '
-    if(this.Accuracy(tier)<0) {
-      output += `${this.Accuracy(tier)} DIF`
-    } else if(this.Accuracy(tier)>0) {
-      output += `${this.Accuracy(tier)} ACC`
-    }
+    output += ` | Attack Bonus: ${this.AttackSummary(tier)}`
+
 
     if(this.OnHit) {
       output += `\n    On Hit: ${this.OnHit}`
