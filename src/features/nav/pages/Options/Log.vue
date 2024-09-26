@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="px-12">
     <div style="max-height: 525px; overflow-y: scroll">
       <div class="text-caption">
         Log level:

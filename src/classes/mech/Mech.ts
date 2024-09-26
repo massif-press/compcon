@@ -23,7 +23,6 @@ import { CompendiumItem } from '../CompendiumItem';
 import { ILicenseRequirement } from '../pilot/components/license/LicensedItem';
 
 class IMechData implements IMechLoadoutSaveData {
-  save!: ISaveData;
   img!: IPortraitData;
   id!: string;
   name!: string;
@@ -33,11 +32,10 @@ class IMechData implements IMechLoadoutSaveData {
   active_loadout_index!: number;
 }
 
-class Mech implements IPortraitContainer, ISaveable, IFeatureController {
+class Mech implements IPortraitContainer, IFeatureController {
   public readonly ItemType: string = 'mech';
   public readonly StorageType: string = 'Mechs';
 
-  public SaveController: SaveController;
   public PortraitController: PortraitController;
   public ImageTag = ImageTag.Mech;
   public FeatureController: FeatureController;
@@ -54,7 +52,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     this._frame = frame;
     this._pilot = pilot;
 
-    this.SaveController = new SaveController(this.Pilot);
     this.PortraitController = new PortraitController(this);
     this.FeatureController = new FeatureController(this);
     this.MechLoadoutController = new MechLoadoutController(this);
@@ -73,6 +70,10 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   }
 
   // -- Passthroughs ------------------------------------------------------------------------------
+  public get SaveController(): SaveController {
+    return this._pilot.SaveController;
+  }
+
   public get Portrait(): string {
     return this.PortraitController.Portrait;
   }
@@ -522,7 +523,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
       frame: m.Frame.ID,
     };
 
-    SaveController.Serialize(m, data);
     PortraitController.Serialize(m, data);
     MechLoadoutController.Serialize(m, data);
 
@@ -556,7 +556,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     m._name = data.name;
     m._notes = data.notes;
 
-    SaveController.Deserialize(m, data.save);
     PortraitController.Deserialize(m, data.img);
 
     return m;

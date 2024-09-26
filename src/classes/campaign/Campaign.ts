@@ -1,5 +1,11 @@
 import { v4 as uuid } from 'uuid';
-import { ISaveData, ISaveable, SaveController } from '../components';
+import {
+  CloudController,
+  ICloudSyncable,
+  ISaveData,
+  ISaveable,
+  SaveController,
+} from '../components';
 import { ICampaignSectionData, CampaignSection } from './CampaignSection';
 import _ from 'lodash';
 import { EncounterDataContainer } from './EncounterDataContainer';
@@ -31,9 +37,10 @@ type ICampaignData = {
   save: ISaveData;
 };
 
-class Campaign implements ISaveable {
+class Campaign implements ISaveable, ICloudSyncable {
   public readonly ID: string;
   public readonly ItemType: string = 'Campaign';
+  public readonly DataType: string = 'savedata';
   public readonly StorageType: string = 'campaigns';
   public readonly Published: boolean = false;
 
@@ -55,6 +62,7 @@ class Campaign implements ISaveable {
   public Contents: CampaignSection[];
 
   public SaveController: SaveController;
+  public CloudController: CloudController;
 
   constructor(data?: ICampaignData) {
     this.Published = data?.published || false;
@@ -113,6 +121,7 @@ class Campaign implements ISaveable {
         : [];
 
     this.SaveController = new SaveController(this);
+    this.CloudController = new CloudController(this);
   }
 
   public save(): void {

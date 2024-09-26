@@ -5,8 +5,7 @@
       variant="outlined"
       class="text-center"
       color="subtle"
-      density="compact"
-    >
+      density="compact">
       <span>No items found</span>
     </v-alert>
     <v-table v-if="items.length" class="text-left pa-2">
@@ -27,14 +26,14 @@
               color="accent"
               variant="plain"
               size="small"
-              @click="item.SaveController.Restore()"
-              >Restore</v-btn
-            >
+              @click="item.SaveController.Restore()">
+              Restore
+            </v-btn>
           </td>
           <td class="text-right">
-            <v-btn color="error" variant="plain" size="small" @click="permanentlyDelete(item)"
-              >Permanently Delete</v-btn
-            >
+            <v-btn color="error" variant="plain" size="small" @click="permanentlyDelete(item)">
+              Permanently Delete
+            </v-btn>
           </td>
         </tr>
       </tbody>
@@ -43,14 +42,14 @@
         <tr>
           <td colspan="3" />
           <td>
-            <v-btn size="small" variant="tonal" color="accent" @click="restoreAll()"
-              >Restore All</v-btn
-            >
+            <v-btn size="small" variant="tonal" color="accent" @click="restoreAll()">
+              Restore All
+            </v-btn>
           </td>
           <td>
-            <v-btn size="small" variant="tonal" color="error" @click="deleteAll()"
-              >Permanently Delete All</v-btn
-            >
+            <v-btn size="small" variant="tonal" color="error" @click="deleteAll()">
+              Permanently Delete All
+            </v-btn>
           </td>
         </tr>
       </tfoot>
@@ -82,7 +81,7 @@ export default {
         //   const ns = NpcStore();
         //   ns.deleteNpcPermanent(ns.AllNpcs.find((x) => x.ID === item.ID));
         //   break;
-        case 'pilot':
+        case 'Pilot':
           const pilot = ps.Pilots.find((x) => x.ID === item.ID) as Pilot;
           ps.DeletePilotPermanent(pilot);
           break;

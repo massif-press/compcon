@@ -41,7 +41,7 @@
       <div>
         <v-card variant="tonal" v-for="item in allItems" class="mt-1 mb-2">
           <v-toolbar density="compact" style="height: 40px" class="mt-n2" color="pilot">
-            <v-toolbar-title v-if="item.ItemType === 'pilot'" class="text-caption">
+            <v-toolbar-title v-if="item.ItemType === 'Pilot'" class="text-caption">
               Pilot Data:
               <b>
                 {{ item.Callsign }}
@@ -183,7 +183,7 @@ export default {
   },
   methods: {
     deleteItem(item) {
-      if (item.ItemType === 'pilot') PilotStore().DeletePilotPermanent(item);
+      if (item.ItemType === 'Pilot') PilotStore().DeletePilotPermanent(item);
       else if (item.ItemType === 'npc') NpcStore().DeleteNpcPermanent(item);
     },
     fixMissing(item) {

@@ -118,28 +118,36 @@ export const PilotStore = defineStore('pilot', {
         this.TransferPilot(p as Pilot);
       });
     },
-    AddPilot(pilot: Pilot, groupID?: string): void {
+    async AddPilot(pilot: Pilot, groupID?: string): Promise<void> {
       // pilot.SaveController.IsDirty = true;
       // if (!this.Pilots) this.Pilots = [];
 
+      if (this.Pilots.some((x) => x.ID === pilot.ID)) {
+        console.log('Pilot already exists');
+        // also saves
+        this.SetPilot(
+          this.Pilots.findIndex((x) => x.ID === pilot.ID),
+          pilot
+        );
+        return;
+      }
+
       this.Pilots.push(pilot);
 
-      this.TransferPilot(pilot, groupID);
-
-      this.SavePilotData();
+      await this.TransferPilot(pilot, groupID); // also saves
     },
-    SetPilot(index: number, pilot: Pilot): void {
+    async SetPilot(index: number, pilot: Pilot): Promise<void> {
       if (!this.Pilots[index]) return;
       this.Pilots.splice(index, 1, pilot);
-      this.SavePilotData();
+      await this.SavePilotData();
     },
-    AddGroup(group: PilotGroup): void {
+    async AddGroup(group: PilotGroup): Promise<void> {
       this.PilotGroups.push(group);
-      this.SavePilotData();
+      await this.SavePilotData();
     },
-    DeleteGroup(group: PilotGroup, deletePilots: boolean): void {
+    async DeleteGroup(group: PilotGroup, deletePilots: boolean): Promise<void> {
       for (const p of group.Pilots) {
-        this.TransferPilot(this.getPilotByID(p.id));
+        await this.TransferPilot(this.getPilotByID(p.id));
       }
 
       if (deletePilots) {
@@ -149,7 +157,7 @@ export const PilotStore = defineStore('pilot', {
       }
 
       group.SaveController.Delete();
-      this.SavePilotData();
+      await this.SavePilotData();
     },
     async DeleteGroupPermanent(group: PilotGroup): Promise<void> {
       this.PilotGroups.splice(this.PilotGroups.indexOf(group), 1);
@@ -194,7 +202,7 @@ export const PilotStore = defineStore('pilot', {
 
       RemoveItem('pilots', pilot.ID);
     },
-    TransferPilot(p: Pilot, destinationID?: string): void {
+    async TransferPilot(p: Pilot, destinationID?: string): Promise<void> {
       const dest = destinationID ? destinationID : 'no_group';
       const destinationIndex = this.PilotGroups.findIndex((x) => x.ID === dest);
       const sourceIndex = this.PilotGroups.findIndex((x) =>
@@ -210,7 +218,7 @@ export const PilotStore = defineStore('pilot', {
         if (pilotIndex > -1) this.PilotGroups[sourceIndex].Pilots.splice(pilotIndex, 1);
       }
 
-      this.SaveGroupData();
+      await this.SaveGroupData();
     },
     movePilotIndex(group: PilotGroup, from: number, to: number): void {
       this._moveItemInArray(group.Pilots, from, to);

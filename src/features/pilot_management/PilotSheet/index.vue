@@ -27,6 +27,7 @@ import InfoView from './sections/info/index.vue';
 import TacticalView from './sections/tactical/index.vue';
 import MechHangarView from './sections/hangar/index.vue';
 import BondsView from './sections/bonds/index.vue';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'pilot-sheet',
@@ -50,12 +51,12 @@ export default {
   }),
   watch: {
     page(val) {
-      localStorage.setItem('cc_pilot_sheet_page', val.toString());
+      if (!val) return;
+      UserStore().User.SetView('pilotSheetPage', val);
     },
   },
   created() {
-    const setPage = localStorage.getItem('cc_pilot_sheet_page');
-    if (setPage) this.page = parseInt(setPage);
+    this.page = parseInt(UserStore().User.View('pilotSheetPage', 0));
   },
   computed: {
     pilot() {

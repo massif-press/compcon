@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="px-12">
     <div style="max-height: 525px; overflow-y: scroll">
       <h3 class="heading text-accent">Storage</h3>
       <v-card-text v-if="size.usage && size.quota" class="flavor-text">
@@ -17,7 +17,7 @@
         <p class="px-2">
           COMP/CON is currently using {{ bytesToSize(size.usage) }} of
           {{ bytesToSize(size.quota) }}, or
-          <b class="text-accent">{{ ((size.usage / size.quota) * 100).toFixed(2) }}%</b>
+          <b class="text-accent">{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</b>
           of your available storage. This includes space reserved by COMP/CON for app management.
         </p>
 
@@ -33,6 +33,7 @@
             strict
             type="number"
             track-fill-color="secondary"
+            color="primary"
             @end="updateUserStorage" />
           <div class="text-caption text-right text-stark">
             COMP/CON will display a warning message when {{ storageRange[0].toFixed(2) }}% of

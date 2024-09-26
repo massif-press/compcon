@@ -108,7 +108,8 @@ class Pilot
     IFeatureController,
     IBrewable
 {
-  public readonly ItemType: string = 'pilot';
+  public readonly ItemType: string = 'Pilot';
+  public readonly DataType: string = 'savedata';
   public readonly StorageType: string = 'pilots';
 
   public SortIndex: number;
@@ -547,14 +548,17 @@ class Pilot
     return Pilot.Serialize(this);
   }
 
-  public static AddNew(data: PilotData, sync?: boolean): Pilot {
-    const p = Pilot.Deserialize(data);
-    if (sync) p.CloudController.MarkSync();
-    return p;
+  public static AddNew(data: PilotData): Pilot {
+    return Pilot.Deserialize(data);
   }
 
   public static Deserialize(pilotData: PilotData): Pilot {
     return new Pilot(pilotData);
+  }
+
+  public Overwrite(data: PilotData): void {
+    const index = PilotStore().Pilots.findIndex((p) => p.ID === this.ID);
+    PilotStore().SetPilot(index, new Pilot(data));
   }
 
   public Clone(): Pilot {
