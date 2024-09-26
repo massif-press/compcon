@@ -54,69 +54,10 @@
         <v-col cols="auto" class="text-center mr-3">
           <v-btn
             size="small"
-            light
-            elevation="0"
-            class="pulse"
+            :prepend-icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
             @click="($refs.loginModal as any).show()">
-            <v-icon start>
-              {{ userstore.IsLoggedIn ? 'cc:pilot' : 'mdi-account-off-outline' }}
-            </v-icon>
-            <span>{{ userstore.IsLoggedIn ? 'Connected' : 'Log In' }}</span>
+            <span>{{ isLoggedIn ? 'Connected' : 'Log In' }}</span>
           </v-btn>
-        </v-col>
-        <v-col cols="auto" class="ml-1 mr-3"><v-divider vertical class="d-inline" /></v-col>
-        <v-col cols="auto" class="text-center mr-3">
-          <v-btn size="small" dark variant="outlined" @click="bulkExport">
-            <v-icon start>mdi-database</v-icon>
-            Create Data Backup
-            <cc-tooltip
-              inline
-              content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
-              <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
-            </cc-tooltip>
-          </v-btn>
-        </v-col>
-        <v-col cols="auto" class="text-center">
-          <v-dialog v-model="importDialog" width="50%">
-            <template #activator="{ props }">
-              <v-btn size="small" dark variant="outlined" v-bind="props">
-                <v-icon start>mdi-database-refresh</v-icon>
-                Load Data Backup
-                <cc-tooltip
-                  inline
-                  content="COMP/CON relies on your browser to save and load its data.
-                  Settings, utilities, and other applications can erase your
-                  browser's localStorage cache, resulting in the loss of your
-                  COMP/CON data. It is <b>strongly</b> recommended to back up
-                  your data often.">
-                  <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
-                </cc-tooltip>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-text class="pa-6">
-                <p class="text-center heading h3 text-text">
-                  This will OVERWRITE
-                  <b class="text-accent">ALL</b>
-                  local COMP/CON data.
-                  <br />
-                  This
-                  <b class="text-accent">cannot</b>
-                  be undone.
-                </p>
-                <v-file-input
-                  v-model="fileValue"
-                  accept=".compcon"
-                  variant="outlined"
-                  density="compact"
-                  hide-details
-                  autofocus
-                  placeholder="Select COMP/CON Bulk Export File"
-                  prepend-icon="mdi-paperclip"
-                  @change="bulkImport" />
-              </v-card-text>
-            </v-card>
-          </v-dialog>
         </v-col>
 
         <v-col cols="auto" class="ml-auto text-right">
@@ -181,8 +122,8 @@
         </v-col>
       </v-row>
     </v-footer>
-    <cc-solo-dialog ref="loginModal" large no-confirm title="CLOUD ACCOUNT">
-      <sign-in />
+    <cc-solo-dialog ref="loginModal" large no-actions title="CLOUD ACCOUNT">
+      <sign-in @close="($refs as any).loginModal.hide()" />
     </cc-solo-dialog>
     <cc-solo-dialog
       ref="optionsModal"
@@ -211,8 +152,6 @@
 </template>
 
 <script lang="ts">
-import { exportAll, importAll } from '@/io/BulkData';
-import { saveFile } from '@/io/Data';
 import MainTitle from './_components/MainTitle.vue';
 import MainBtn from './_components/MainBtn.vue';
 import CCLog from './_components/CCLog.vue';
@@ -242,34 +181,22 @@ export default {
     fileValue: undefined,
   }),
   computed: {
-    userstore() {
-      return UserStore();
+    isLoggedIn() {
+      return UserStore().IsLoggedIn;
     },
     missingContent() {
-      const mc = CompendiumStore().MissingContent;
-      let b = false;
-      if (!mc || !mc.pilots || !mc.npcs) return b;
-      for (const key in mc) {
-        if (mc[key].length) b = true;
-      }
-      return b;
+      //TODO: reimplement missingcontent check
+      // const mc = CompendiumStore().MissingContent;
+      // let b = false;
+      // if (!mc || !mc.pilots || !mc.npcs) return b;
+      // for (const key in mc) {
+      //   if (mc[key].length) b = true;
+      // }
+      // return b;
+      return false;
     },
   },
   methods: {
-    async bulkExport() {
-      const result = await exportAll();
-      await saveFile(
-        `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
-        JSON.stringify(result),
-        'Save COMP/CON Archive'
-      );
-    },
-    async bulkImport(file) {
-      await importAll(file)
-        .then(() => this.$notify('Data import successful', 'confirmation'))
-        .catch((err) => this.$notify(`ERROR: Unable to import: ${err}`, 'error'));
-      this.importDialog = false;
-    },
     ccLog(btn: string) {
       switch (btn) {
         case 'compendium':

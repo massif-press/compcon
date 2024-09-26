@@ -53,6 +53,11 @@ const storeRegistry = {
     storeName: 'remote_images',
     description: 'Stores remotely hosted image urls',
   }),
+  cloud_data: localforage.createInstance({
+    name: dbName,
+    storeName: 'cloud_data',
+    description: 'Stores downloaded cloud data',
+  }),
 };
 
 const Initialize = async function () {
@@ -70,7 +75,7 @@ const SetItem = async function (collection: string, item: any) {
   }
 
   let save = true;
-  const id = item.ID ? item.ID : item.id;
+  let id = item.ID ? item.ID : item.sortkey ? item.sortkey : item.id;
 
   if (item.SaveController) {
     save = item.SaveController.IsDirty;

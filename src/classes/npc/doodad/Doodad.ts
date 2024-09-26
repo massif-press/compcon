@@ -23,7 +23,7 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
   public InstanceID?: string;
 
   public StatController: StatController;
-  public ItemType: string = 'doodad';
+  public ItemType: string = 'Doodad';
   public MandatoryStats: string[] = [];
 
   public constructor(data?: DoodadData) {

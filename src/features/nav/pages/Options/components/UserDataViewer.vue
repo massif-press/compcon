@@ -10,15 +10,17 @@
 
     <v-table class="text-left pa-2 mt-2">
       <thead>
-        <th>Item</th>
-        <th>Value</th>
+        <tr>
+          <th>Item</th>
+          <th>Value</th>
+        </tr>
       </thead>
       <tbody>
         <tr v-for="key in Object.keys(user)">
           <td v-text="key.replace('_', '')" />
           <td v-if="key === '_options'">
             <v-row dense>
-              <v-col cols="auto" v-for="viewKey in Object.keys(user[key].views)">
+              <v-col cols="4" v-for="viewKey in Object.keys(user[key].views)">
                 {{ viewKey }}:
                 <b class="text-accent">{{ user[key].views[viewKey] }}</b>
               </v-col>

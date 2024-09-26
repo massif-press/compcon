@@ -48,6 +48,7 @@ abstract class Npc
 {
   public readonly IsInstance: boolean = false;
   public readonly ItemType: string = 'npc';
+  public readonly DataType: string = 'savedata';
   public readonly StorageType: string = 'npcs';
 
   public ImageTag!: ImageTag.NPC;

@@ -14,8 +14,8 @@ const theme = {
     pilot: '#424242',
     error: '#F44336',
     info: '#1565C0',
-    success: '#00C853',
-    warning: '#FFAB00',
+    success: '#007b33',
+    warning: '#C28200',
 
     weapon: '#212121',
     'mech-weapon': '#212121',

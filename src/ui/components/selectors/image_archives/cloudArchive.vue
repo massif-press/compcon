@@ -109,7 +109,7 @@
 // import { UserStore } from '@/store';
 import _ from 'lodash';
 import { storageInfo, getPresignedLink, s3api, deleteStorage } from '@/user/api';
-import { Auth } from '@aws-amplify/auth';
+// import { Auth } from '@aws-amplify/auth';
 
 export default {
   name: 'cloud-image-archive',
@@ -173,14 +173,14 @@ export default {
   methods: {
     async getStorageInfo() {
       if (this.isAuthed) {
-        const res = await Auth.currentUserCredentials();
-        this.iid = res.identityId;
-        const info = await storageInfo(this.iid);
-        this.userStorageData = info.data;
-        if (this.userStorageData) {
-          this.accountUsage = info.data.totalSize / 1000000;
-          this.accountMax = info.data.max / 1000000;
-        }
+        // const res = await Auth.currentUserCredentials();
+        // this.iid = res.identityId;
+        // const info = await storageInfo(this.iid);
+        // this.userStorageData = info.data;
+        // if (this.userStorageData) {
+        //   this.accountUsage = info.data.totalSize / 1000000;
+        //   this.accountMax = info.data.max / 1000000;
+        // }
       }
     },
     isSelected(url) {

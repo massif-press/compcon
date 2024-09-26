@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import {
+  CloudController,
   IPortraitData,
   ISaveData,
   ISaveable,
@@ -20,7 +21,7 @@ import { Doodad, DoodadData } from '../npc/doodad/Doodad';
 import { Eidolon, EidolonData } from '../npc/eidolon/Eidolon';
 
 interface IEncounterData {
-  itemType: 'encounter';
+  itemType: 'Encounter';
   id: string;
   name: string;
   note?: string;
@@ -58,6 +59,7 @@ type CombatantSaveData = {
 
 class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   public readonly ItemType: string = 'encounter';
+  public readonly DataType: string = 'savedata';
   public readonly StorageType: string = 'encounters';
 
   private _id: string;
@@ -73,6 +75,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public ImageTag: ImageTag = ImageTag.Map;
   public SaveController: SaveController;
+  public CloudController: CloudController;
   public PortraitController: PortraitController;
   public NarrativeController: NarrativeController;
   public FolderController: FolderController;
@@ -128,6 +131,8 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     }
 
     this.SaveController = new SaveController(this);
+    this.CloudController = new CloudController(this);
+
     this.PortraitController = new PortraitController(this);
     this.NarrativeController = new NarrativeController(this);
     this.FolderController = new FolderController(this);
@@ -263,7 +268,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public static Serialize(enc: Encounter): IEncounterData {
     const data = {
-      itemType: 'encounter',
+      itemType: 'Encounter',
       id: enc.ID,
       name: enc.Name,
       note: enc.Note,

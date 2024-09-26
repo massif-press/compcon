@@ -20,6 +20,35 @@ import VueSecureHTML from 'vue-html-secure';
 
 import Startup from './io/Startup';
 
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: import.meta.env.VITE_APP_USER_POOL_ID,
+      userPoolClientId: import.meta.env.VITE_APP_USER_POOL_CLIENT_ID,
+      identityPoolId: import.meta.env.VITE_APP_IDENTITY_POOL_ID,
+      loginWith: {
+        email: true,
+      },
+      signUpVerificationMethod: 'code',
+      userAttributes: {
+        email: {
+          required: true,
+        },
+      },
+      allowGuestAccess: false,
+      passwordFormat: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireNumbers: true,
+        requireSpecialCharacters: true,
+      },
+    },
+  },
+});
+
 const compcon = createApp(App);
 
 compcon.use(createPinia());

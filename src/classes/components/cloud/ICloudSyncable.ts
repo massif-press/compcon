@@ -5,10 +5,12 @@ interface ICloudSyncable {
   ID: string;
   Name: string;
   ItemType: string;
+  DataType: string;
   CloudController: CloudController;
   SaveController: SaveController;
 
   Serialize(item: any);
+  Overwrite(data: any);
 }
 
 export type { ICloudSyncable };

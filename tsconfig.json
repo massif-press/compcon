@@ -20,7 +20,13 @@
     "noEmitOnError": false,
     "outDir": "dist"
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/ui/components/panels/loadout/CCLoadoutPanel.vue"
+  ],
   "exclude": ["dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
