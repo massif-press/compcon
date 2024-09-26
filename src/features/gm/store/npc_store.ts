@@ -119,26 +119,35 @@ export const NpcStore = defineStore('npc', {
       if (idx >= 0) this.Folders.splice(idx, 1);
     },
 
-    AddNpc(payload: Unit | Doodad | Eidolon): void {
-      this.Npcs.push(payload);
-      this.SaveNpcData();
+    async AddNpc(payload: Unit | Doodad | Eidolon): Promise<void> {
+      if (this.Npcs.some((x) => x.ID === payload.ID)) {
+        console.log('NPC already exists');
+        this.SetNpc(
+          this.Npcs.findIndex((x) => x.ID === payload.ID),
+          payload
+        );
+        return;
+      }
+
+      await this.SaveNpcData();
+    },
+    async SetNpc(index: number, payload: Unit | Doodad | Eidolon): Promise<void> {
+      if (!this.Npcs[index]) return;
+      this.Npcs.splice(index, 1, payload);
+      await this.SaveNpcData();
     },
 
-    CloneNpc(payload: Unit | Doodad | Eidolon): void {
+    async CloneNpc(payload: Unit | Doodad | Eidolon): Promise<void> {
       this.Npcs.push(payload.Clone());
 
-      this.SaveNpcData();
+      await this.SaveNpcData();
     },
 
     async DeleteNpcPermanent(payload: Unit | Doodad | Eidolon): Promise<void> {
       const idx = this.Npcs.findIndex((x) => x.ID === payload.ID);
       if (idx >= 0) this.Npcs.splice(idx, 1);
       await RemoveItem('npcs', payload.ID);
-      this.SaveNpcData();
-    },
-
-    SetNpc(payload: Unit | Doodad | Eidolon): void {
-      console.error('SetNpc not implemented');
+      await this.SaveNpcData();
     },
 
     async SaveNpcData(): Promise<void> {

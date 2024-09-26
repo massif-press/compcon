@@ -10,11 +10,13 @@
     </v-alert>
     <v-table v-if="items.length" class="text-left pa-2">
       <thead>
-        <th>Item Type</th>
-        <th>Item Name</th>
-        <th>Deleted On</th>
-        <th />
-        <th />
+        <tr>
+          <th>Item Type</th>
+          <th>Item Name</th>
+          <th>Deleted On</th>
+          <th />
+          <th />
+        </tr>
       </thead>
       <tbody>
         <tr v-for="item in items">

@@ -53,11 +53,6 @@ const storeRegistry = {
     storeName: 'remote_images',
     description: 'Stores remotely hosted image urls',
   }),
-  cloud_data: localforage.createInstance({
-    name: dbName,
-    storeName: 'cloud_data',
-    description: 'Stores downloaded cloud data',
-  }),
 };
 
 const Initialize = async function () {
