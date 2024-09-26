@@ -67,12 +67,27 @@ export const EncounterStore = defineStore('encounter', {
       if (idx >= 0) this.Folders.splice(idx, 1);
     },
 
-    AddEncounter(payload: Encounter): void {
+    async AddEncounter(payload: Encounter): Promise<void> {
+      if (this.Encounters.some((x) => x.ID === payload.ID)) {
+        console.log('Encounter already exists');
+        this.SetEncounter(
+          this.Encounters.findIndex((x) => x.ID === payload.ID),
+          payload
+        );
+        return;
+      }
+
       this.Encounters.push(payload);
       this.SaveEncounterData();
     },
 
-    CloneEncounter(payload: Encounter): void {
+    async SetEncounter(index: number, payload: Encounter): Promise<void> {
+      if (!this.Encounters[index]) return;
+      this.Encounters.splice(index, 1, payload);
+      await this.SaveEncounterData();
+    },
+
+    async CloneEncounter(payload: Encounter): Promise<void> {
       this.Encounters.push(payload.Clone());
 
       this.SaveEncounterData();
@@ -83,10 +98,6 @@ export const EncounterStore = defineStore('encounter', {
       if (idx >= 0) this.Encounters.splice(idx, 1);
       await RemoveItem('Encounters', payload.ID);
       this.SaveEncounterData();
-    },
-
-    SetEncounter(payload: Encounter): void {
-      console.error('SetEncounter not implemented');
     },
 
     async SaveEncounterData(): Promise<void> {

@@ -96,5 +96,7 @@ export default async function (): Promise<void> {
 
   await NavStore().CreateIndex();
 
+  await UserStore().refreshDbData();
+
   console.info('loading complete');
 }

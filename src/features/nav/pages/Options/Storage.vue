@@ -69,8 +69,10 @@
 
         <v-table class="text-left mt-4" density="compact">
           <thead>
-            <th v-for="item in data" v-text="item.title" />
-            <th />
+            <tr>
+              <th v-for="item in data" v-text="item.title" />
+              <th />
+            </tr>
           </thead>
           <tbody>
             <tr>

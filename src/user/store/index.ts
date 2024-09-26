@@ -24,7 +24,7 @@ export const UserStore = defineStore('cloud', {
     CloudItems: [] as any[],
     LastQuery: 0,
     CloudStorageUsed: 0,
-    MaxCloudStorage: 5000000, //TODO: set based on patreon tier
+    MaxCloudStorage: 500 * 1024 * 1024, //TODO: set based on patreon tier
     StorageWarning: false,
     StorageFull: false,
     IsLoggedIn: false,
@@ -44,12 +44,6 @@ export const UserStore = defineStore('cloud', {
 
       await this.setCognito();
 
-      if (this.IsLoggedIn) {
-        await this.getUserMetadata();
-        if (!this.UserMetadata.SyncSettings)
-          this.UserMetadata.SyncSettings = { ...DefaultSyncSettings };
-      }
-
       const est = await navigator.storage.estimate();
       const currentPct = ((est.usage || 0) / (est.quota || 1)) * 100;
       if (currentPct > this.User.StorageWarning) {
@@ -58,8 +52,6 @@ export const UserStore = defineStore('cloud', {
       if (currentPct > this.User.StorageMax) {
         this.setStorageFull(true);
       }
-
-      await this.loadCloudDataItems();
     },
     async setCognito(): Promise<void> {
       try {
@@ -77,7 +69,15 @@ export const UserStore = defineStore('cloud', {
       this.Cognito = {};
     },
     async refreshDbData(): Promise<void> {
+      if (!this.IsLoggedIn) {
+        console.error('User is not logged in');
+        return;
+      }
+
+      console.log('User is logged in');
       await this.getUserMetadata();
+      if (!this.UserMetadata.SyncSettings)
+        this.UserMetadata.SyncSettings = { ...DefaultSyncSettings };
       await this.setMetadataFromDynamo();
     },
     async getUserMetadata(): Promise<void> {
@@ -127,9 +127,7 @@ export const UserStore = defineStore('cloud', {
           break;
       }
     },
-    async loadCloudDataItems(): Promise<void> {
-      this.CloudItems = await GetAll('cloud_data');
-    },
+
     setCloudDataItem(item: any): void {
       let idx = this.CloudItems.findIndex((i) => i.sortkey === item.sortkey);
       if (idx > -1) this.CloudItems[idx] = { ...this.CloudItems[idx], ...item };

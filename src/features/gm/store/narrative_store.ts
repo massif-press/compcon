@@ -89,14 +89,29 @@ export const NarrativeStore = defineStore('narrative', {
     },
 
     async AddItem(payload: Character | Location | Faction): Promise<void> {
+      if (this.CollectionItems.some((x) => x.ID === payload.ID)) {
+        console.log('CollectionItem already exists');
+        this.SetItem(
+          this.CollectionItems.findIndex((x) => x.ID === payload.ID),
+          payload
+        );
+        return;
+      }
+
       this.CollectionItems.push(payload);
       await this.SaveItemData();
     },
 
-    CloneItem(payload: Character | Location | Faction): void {
+    async SetItem(index: number, payload: Character | Location | Faction): Promise<void> {
+      if (!this.CollectionItems[index]) return;
+      this.CollectionItems.splice(index, 1, payload);
+      await this.SaveItemData();
+    },
+
+    async CloneItem(payload: Character | Location | Faction): Promise<void> {
       this.CollectionItems.push(payload.Clone());
 
-      this.SaveItemData();
+      await this.SaveItemData();
     },
 
     async DeleteItemPermanent(payload: Character | Location | Faction): Promise<void> {
@@ -104,10 +119,6 @@ export const NarrativeStore = defineStore('narrative', {
       if (idx >= 0) this.CollectionItems.splice(idx, 1);
       await RemoveItem('narrative', payload.ID);
       this.SaveItemData();
-    },
-
-    SetItem(payload: Character | Location | Faction): void {
-      console.error('SetItem not implemented');
     },
 
     async SaveItemData(): Promise<void> {
