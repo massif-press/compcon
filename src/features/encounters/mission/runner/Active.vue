@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid style="margin-top: 40px; overflow-y: hidden" class="pb-0">
+  <v-container v-if="activeMission" fluid style="margin-top: 40px; overflow-y: hidden" class="pb-0">
     <div class="overline my-n2">
       <b>{{ mission.Name }}</b>
       //{{ activeMission.Step.toString().padStart(2, '0') }}:{{
@@ -17,6 +17,11 @@
       :rest="activeMission.Encounter"
       @finish="next()"
     />
+  </v-container>
+  <v-container v-else-if="activeMissionCount > 0" fluid style="margin-top: 40px; overflow-y: hidden" class="pb-0">
+    <div class="overline my-nw">
+      Loading failed.  Please retry.
+    </div>
   </v-container>
 </template>
 
@@ -40,6 +45,11 @@ export default Vue.extend({
     activeMission() {
       const store = getModule(MissionStore, this.$store)
       return store.ActiveMissions.find(x => x.ID === this.id)
+    },
+    activeMissionCount() {
+      const store = getModule(MissionStore, this.$store)
+      console.log(store.ActiveMissions.length)
+      return store.ActiveMissions.length
     },
     mission() {
       return this.activeMission.Mission
