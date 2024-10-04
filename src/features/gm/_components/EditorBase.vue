@@ -24,7 +24,7 @@
             <slot name="builder" />
             <div v-if="!readonly || (readonly && item.Description?.length > 0)">
               <div class="text-overline">{{ typeText }} DESCRIPTION</div>
-              <cc-rich-text-area :readonly="readonly" :item="item" note-property="Description" />
+              <cc-rich-text-area :readonly="readonly" v-model="item.Description" />
             </div>
             <slot name="stats" />
           </v-col>
@@ -124,7 +124,7 @@
               </span>
             </v-tooltip>
           </div>
-          <cc-rich-text-area :item="item" :readonly="readonly" note-property="Note" />
+          <cc-rich-text-area :readonly="readonly" v-model="item.Note" />
         </div>
       </v-container>
     </v-card>

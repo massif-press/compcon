@@ -69,7 +69,7 @@
           style="border-color: rgb(var(--v-theme-primary))">
           <v-card-text class="my-0 py-0">
             <div class="text-overline">Layer Description</div>
-            <cc-rich-text-area :item="layer" note-property="Description" :readonly="readonly" />
+            <cc-rich-text-area v-model="layer.Description" :readonly="readonly" />
           </v-card-text>
           <v-card-text class="mt-n2 pt-0">
             <stat-editor

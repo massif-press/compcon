@@ -231,11 +231,7 @@
           v-else-if="item.ContentType === 'narrative'"
           :item="item.Content" />
         <encounter-container v-else-if="item.ContentType === 'encounter'" :item="item.Content" />
-        <cc-rich-text-area
-          v-else
-          :item="item.Content"
-          note-property="Body"
-          @blur="$emit('update')" />
+        <cc-rich-text-area v-else v-model="item.Body" @blur="$emit('update')" />
       </v-col>
       <v-col cols="auto" class="pr-3 py-2" style="position: relative; min-height: 65px">
         <v-tooltip>

@@ -103,6 +103,19 @@ const GetAll = async function (collection: string) {
   return output;
 };
 
+const SetAll = async function (collection: string, items: any[]) {
+  const db = await storeRegistry[collection.toLowerCase()];
+  await db.clear();
+
+  const promises = items.map((item) => SetItem(collection, item));
+  await Promise.all(promises);
+};
+
+const ClearAll = async function (collection: string) {
+  const db = await storeRegistry[collection.toLowerCase()];
+  return await db.clear();
+};
+
 const GetLength = async function (collection: string) {
   const db = await storeRegistry[collection.toLowerCase()];
 
@@ -137,4 +150,17 @@ const GetBlob = async function (collection: string, key: string) {
 //   }
 // };
 
-export { Initialize, SetItem, GetItem, RemoveItem, GetAll, GetLength, GetKeys, AddBlob, GetBlob };
+export {
+  storeRegistry,
+  Initialize,
+  SetItem,
+  GetItem,
+  RemoveItem,
+  GetAll,
+  SetAll,
+  GetLength,
+  GetKeys,
+  AddBlob,
+  GetBlob,
+  ClearAll,
+};

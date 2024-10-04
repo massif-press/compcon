@@ -556,11 +556,6 @@ class Pilot
     return new Pilot(pilotData);
   }
 
-  public Overwrite(data: PilotData): void {
-    const index = PilotStore().Pilots.findIndex((p) => p.ID === this.ID);
-    PilotStore().SetPilot(index, new Pilot(data));
-  }
-
   public Clone(): Pilot {
     const newPilot = Pilot.Deserialize(Pilot.Serialize(this));
     newPilot.RenewID();

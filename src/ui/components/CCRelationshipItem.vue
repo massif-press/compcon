@@ -101,9 +101,9 @@
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn size="small" color="error" @click="$emit('delete', item.id)"
-                      >Confirm Deletion</v-btn
-                    >
+                    <v-btn size="small" color="error" @click="$emit('delete', item.id)">
+                      Confirm Deletion
+                    </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-menu>
@@ -112,19 +112,21 @@
         </v-toolbar>
         <v-card-text class="pt-1">
           <div class="text-caption">DETAIL</div>
-          <cc-rich-text-area :item="item" note-property="notes" />
+          <cc-rich-text-area v-model="item.notes" />
         </v-card-text>
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn text size="small" color="accent" @click="dialog = false">Save and Close</v-btn>
+          <v-btn variant="text" size="small" color="accent" @click="dialog = false">
+            Save and Close
+          </v-btn>
         </v-card-actions>
       </v-card>
       <v-card v-else>
         <cc-narrative-item-content :item="item" :origin-item="originItem" />
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" variant="text" @click="dialog = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

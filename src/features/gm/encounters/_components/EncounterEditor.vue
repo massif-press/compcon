@@ -4,7 +4,8 @@
       <v-card class="rounded-0 pb-12 elevation-0">
         <v-toolbar density="compact" class="rounded-0 pl-2" color="primary">
           <div class="heading h3 pa-1 text-white">
-            <v-icon start size="large" icon="cc:encounter" /> ENCOUNTER EDITOR
+            <v-icon start size="large" icon="cc:encounter" />
+            ENCOUNTER EDITOR
           </div>
           <v-spacer />
           <v-btn icon @click="$emit('exit')">
@@ -31,7 +32,7 @@
               </v-row>
 
               <div class="text-overline">ENCOUNTER DETAILS</div>
-              <cc-rich-text-area :item="item" note-property="Description" />
+              <cc-rich-text-area v-model="item.Description" />
 
               <sitrep-editor :item="item" />
 
@@ -46,8 +47,8 @@
                   <v-tab>Image</v-tab>
                 </v-tabs>
                 <v-window v-model="mapTab">
-                  <v-window-item
-                    ><v-card style="height: 100%" variant="outlined">
+                  <v-window-item>
+                    <v-card style="height: 100%" variant="outlined">
                       <map-preview ref="mapPreview" v-if="item.Map" :map="item.Map" />
                       <v-row
                         v-else
@@ -68,9 +69,9 @@
                       block
                       color="accent"
                       @click="($refs as any).mapEditor.show()">
-                      Edit Map</v-btn
-                    ></v-window-item
-                  >
+                      Edit Map
+                    </v-btn>
+                  </v-window-item>
                   <v-window-item>
                     <cc-img :src="item.PortraitController.Image" />
                     <v-btn
@@ -137,39 +138,44 @@
           </v-row>
           <v-divider class="my-2" />
           <div class="text-caption mb-2">ADDITIONAL NOTES</div>
-          <cc-rich-text-area :item="item" note-property="Note" />
+          <cc-rich-text-area v-model="item.Note" />
         </v-container>
       </v-card>
     </div>
     <v-footer app color="panel">
-      <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
-        ><v-icon start icon="mdi-printer" />Print</v-btn
-      >
-      <v-btn variant="tonal" size="small" class="ml-2" @click="exportItem(item)"
-        ><v-icon start icon="mdi-upload" />Export</v-btn
-      >
+      <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`">
+        <v-icon start icon="mdi-printer" />
+        Print
+      </v-btn>
+      <v-btn variant="tonal" size="small" class="ml-2" @click="exportItem(item)">
+        <v-icon start icon="mdi-upload" />
+        Export
+      </v-btn>
       <v-spacer />
       <v-menu v-model="dupeMenu" offset-y offset-x top left>
         <template #activator="{ props }">
-          <v-btn variant="tonal" size="small" class="mx-3" v-bind="props"
-            ><v-icon start icon="mdi-content-copy" />Duplicate</v-btn
-          >
+          <v-btn variant="tonal" size="small" class="mx-3" v-bind="props">
+            <v-icon start icon="mdi-content-copy" />
+            Duplicate
+          </v-btn>
         </template>
         <cc-confirmation content="Confirm duplication of this NPC" @confirm="dupe()" />
       </v-menu>
       <v-menu v-model="deleteMenu" offset-y offset-x top left>
         <template #activator="{ props }">
-          <v-btn variant="tonal" size="small" color="error" class="mx-3" v-bind="props"
-            ><v-icon start icon="mdi-delete" />Delete</v-btn
-          >
+          <v-btn variant="tonal" size="small" color="error" class="mx-3" v-bind="props">
+            <v-icon start icon="mdi-delete" />
+            Delete
+          </v-btn>
         </template>
         <cc-confirmation
           content="This will reset delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
           @confirm="deleteItem()" />
       </v-menu>
-      <v-btn variant="tonal" size="small" color="secondary" class="mx-3" @click="save()"
-        ><v-icon start icon="mdi-content-save" />Save and Exit</v-btn
-      >
+      <v-btn variant="tonal" size="small" color="secondary" class="mx-3" @click="save()">
+        <v-icon start icon="mdi-content-save" />
+        Save and Exit
+      </v-btn>
     </v-footer>
   </v-card>
 </template>

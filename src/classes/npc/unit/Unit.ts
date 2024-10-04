@@ -12,10 +12,7 @@ import { FolderController } from '@/classes/components/folder/FolderController';
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
 import { IInstanceableData } from '@/classes/components/instance/IInstancableData';
 import { NpcStore } from '@/stores';
-import {
-  CompendiumItemInstance,
-  CompendiumItemInstanceData,
-} from '@/classes/CompendiumItemInstance';
+import { CompendiumItemInstanceData } from '@/classes/CompendiumItemInstance';
 
 class UnitData
   extends NpcData
@@ -144,6 +141,9 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
       gmDescription: unit.GmDescription,
     } as UnitData;
 
+    // TODO: this shouldn't be an object, have to find why it is being polluted
+    if (typeof data.instance === 'object') data.instance = false;
+
     SaveController.Serialize(unit, data);
     CloudController.Serialize(unit, data);
     PortraitController.Serialize(unit, data);
@@ -159,6 +159,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
   }
 
   public Serialize(asInstance: boolean = false): UnitData {
+    console.log('Unit Serialize');
     return Unit.Serialize(this, asInstance);
   }
 

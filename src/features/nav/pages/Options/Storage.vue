@@ -234,7 +234,7 @@ export default {
       return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`;
     },
     async deleteAll() {
-      await clearAllData(false);
+      await clearAllData();
       this.deleteDialog = false;
     },
     async GetLength(db: string): Promise<any> {

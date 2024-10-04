@@ -839,6 +839,7 @@ export default {
       `compendium_${this.itemType.toLowerCase()}_view`,
       this.options.initialView
     );
+
     this.group = user.View(
       `compendium_${this.itemType.toLowerCase()}_group`,
       this.options.initialView

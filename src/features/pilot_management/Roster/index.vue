@@ -73,6 +73,7 @@ export default {
     rosterView: 'list',
   }),
   created() {
+    console.log(this.profile);
     this.rosterView = this.profile.View('roster', 'list');
   },
   computed: {

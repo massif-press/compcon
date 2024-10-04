@@ -1,84 +1,49 @@
 import { readFile, writeFile } from './Data';
 import PromisifyFileReader from 'promisify-file-reader';
 import Startup from './Startup';
-
-// import { DeleteAll } from '@/cloud/item_sync';
 import _ from 'lodash';
-import { CompendiumStore } from '@/stores';
 import localForage from 'localforage';
+import { GetAll, storeRegistry, ClearAll, SetAll } from './Storage';
 
-const files = [
-  'user.config',
-  'active_missions',
-  'missions',
-  'encounters',
-  'pilots',
-  'npcs',
-  'extra_content',
-  'pilot_groups',
-];
-
-const exportV1Pilots = async function (): Promise<string> {
-  return readFile('pilots.json');
+type exportArchive = {
+  data: [
+    {
+      collection: string;
+      items: any[];
+    },
+  ];
 };
 
-interface IBulkExport {
-  filename: string;
-  data: string;
-}
+const exportAll = async function (): Promise<exportArchive> {
+  let data = { data: [] as { collection: string; items: any[] }[] };
+  const promises = [] as Promise<any>[];
 
-const exportAll = async function (): Promise<IBulkExport[]> {
-  const promises = files.map((file) => readFile(file));
+  Object.keys(storeRegistry).forEach((store) => {
+    promises.push(GetAll(store).then((items) => data.data.push({ collection: store, items })));
+  });
 
-  const res = await Promise.all(promises);
+  data = await Promise.all(promises).then(() => data);
 
-  return res.map((data, i) => ({ filename: files[i], data }));
+  return data as exportArchive;
 };
 
-const importAll = async function (file): Promise<void> {
-  const text = await PromisifyFileReader.readAsText(file);
-  const arr = JSON.parse(text);
+const importAll = async function (data: any): Promise<void> {
   console.info('Loading import data...');
-  const promises = arr.map((o) => writeFile(o.filename, o.data));
-  await Promise.all(promises);
-  // await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
+  const items = data.data;
+  items.forEach((e) => {
+    console.log(e);
+    const collection = e.collection;
+    if (!storeRegistry[collection.toLowerCase()]) return;
+    ClearAll(collection);
+    if (e.items?.length) SetAll(collection, e.items);
+  });
+
   console.info('Import data loaded! Running startup...');
-  await Startup();
+  await Startup(true);
 };
 
-const clearAllData = async function (clear_cloud: boolean): Promise<void> {
-  console.info('Erasing all COMP/CON data...');
-  for (const file of files) {
-    await localForage.removeItem(file);
-  }
-
-  if (clear_cloud) {
-    // await DeleteAll();
-  }
-
-  console.info('All data erased! Running startup...');
-  await Startup();
+const clearAllData = async function (): Promise<void> {
+  await localForage.clear();
 };
 
-const SaveAllLocalUpdates = () => {
-  debounced();
-};
-
-const globalSave = () => {
-  // TODO
-  // store.dispatch('saveNpcData');
-  // store.dispatch('savePilotData');
-};
-
-const debounced = _.debounce(globalSave, 500, {
-  maxWait: 1000,
-  trailing: true,
-});
-
-export {
-  exportV1Pilots,
-  exportAll,
-  importAll,
-  clearAllData,
-  SaveAllLocalUpdates,
-};
+export { exportAll, importAll, clearAllData };

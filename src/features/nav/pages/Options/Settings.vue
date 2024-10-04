@@ -223,7 +223,7 @@ export default {
       this.importDialog = false;
     },
     async deleteAll() {
-      await clearAllData(false);
+      await clearAllData();
       this.deleteDialog = false;
     },
   },

@@ -16,11 +16,10 @@ import { FeatureController } from '../components/feature/FeatureController';
 import { BrewController, BrewInfo } from '../components/brew/BrewController';
 import { IBrewable } from '../components/brew/IBrewable';
 import { CompendiumItem } from '../CompendiumItem';
-import { Label, NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
+import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
 import { INarrativeElement } from '../narrative/INarrativeElement';
 import { FolderController, IFolderData } from '../components/folder/FolderController';
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
-import { IInstanceable } from '../components/instance/IInstanceable';
 
 class NpcData {
   id!: string;
