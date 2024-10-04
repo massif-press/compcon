@@ -192,14 +192,7 @@ export default {
         return;
       }
 
-      await this.addLoginLog(`Applying user sync rules...`);
-
-      // TODO: sync based on user settings
-
-      // if we have user sync settings
-      await this.addLoginLog('Auto-syncing based on user settings...');
-
-      await this.addLoginLog('Sync complete. Redirecting to account menu...');
+      await this.addLoginLog('Redirecting to account menu...');
 
       await setTimeout(() => {}, 2000);
 

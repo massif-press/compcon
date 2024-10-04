@@ -44,13 +44,6 @@ export default {
     frames() {
       let items = CompendiumStore().Frames;
 
-      // TODO: profile
-
-      // const canShowExotics =
-      //   this.profile && Object.keys(this.profile).length > 0 && this.profile.GetView('showExotics');
-
-      // if (!canShowExotics) i = i.filter((x) => !x.IsExotic);
-
       return _.orderBy(
         items.filter((x) => !x.IsHidden),
         'Name'

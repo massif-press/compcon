@@ -22,6 +22,7 @@ interface IUserProfile {
   storage_warning: number;
   storage_max: number;
   auto_delete_days: number;
+  latest_change: number;
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -32,6 +33,7 @@ const defaultOptions = (): IUserOptions => ({
 
 class UserProfile {
   public readonly ID: string;
+  public latest_change: number;
   private _welcome_hash: string;
   private _theme: string;
   private _achievement_unlocks: { id: string; unlocked: number }[];
@@ -47,10 +49,12 @@ class UserProfile {
     this._welcome_hash = 'none';
     this._options = defaultOptions();
     this._achievement_unlocks = [];
+    this.latest_change = Date.now();
   }
 
   private save(): void {
     logger.log('Saving user profile', 'debug', this);
+    this.latest_change = Date.now();
     localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(UserProfile.Serialize(this)));
   }
 
@@ -160,6 +164,12 @@ class UserProfile {
     this.save();
   }
 
+  public SwitchTheme(): void {
+    this._theme = 'gms';
+    this.localSave('theme', this._theme);
+    this.save();
+  }
+
   public get WelcomeHash(): string {
     return this._welcome_hash || 'none';
   }
@@ -189,6 +199,7 @@ class UserProfile {
       storage_warning: data.StorageWarning,
       storage_max: data.StorageMax,
       auto_delete_days: data.AutoDeleteDays,
+      latest_change: data.latest_change,
     };
   }
 
@@ -203,6 +214,7 @@ class UserProfile {
     profile._storageWarning = data.storage_warning || 40;
     profile._storageMax = data.storage_max || 60;
     profile._autoDeleteDays = data.auto_delete_days || 30;
+    profile.latest_change = data.latest_change || Date.now();
     return profile;
   }
 }

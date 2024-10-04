@@ -10,12 +10,32 @@
 <script lang="ts">
 import CcNotify from '@/ui/notification/CCNotify.vue';
 import Navbar from './features/nav/index.vue';
+import { UserStore } from './stores';
 
 export default {
   name: 'compcon',
   components: {
     CcNotify,
     Navbar,
+  },
+  watch: {
+    'user.Theme': {
+      handler: function (newVal) {
+        if (!newVal) return;
+        console.log('Theme changed to', newVal);
+        // @ts-ignore
+        this.$vuetify.theme.global.name = newVal;
+      },
+      immediate: true,
+    },
+  },
+  computed: {
+    user() {
+      return UserStore().User;
+    },
+  },
+  created() {
+    window.addEventListener('beforeunload', UserStore().OnUnload);
   },
 };
 </script>

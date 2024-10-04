@@ -139,6 +139,7 @@ export default {
   methods: {
     equip(item: PilotWeapon) {
       this.$emit('equip', CompendiumItem.Clone(item));
+      this.$emit('save');
 
       (this.$refs.base as any).closeSelector();
       this.$notify({

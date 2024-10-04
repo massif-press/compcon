@@ -44,13 +44,6 @@ const saveDelta = async function <T>(collection: string, data: T[]): Promise<voi
   writeFile(collection, JSON.stringify(mem));
 };
 
-// const saveDeltaPersistent = async function <T>(collection: string, data: T[]): Promise<void> {
-
-// }
-
-// const saveDeltaLocal = async function <T>(collection: string, data: T[]): Promise<void> {
-// }
-
 const deleteDataById = async function (collection: string, ids: string[]): Promise<void> {
   if (!ids.length) return;
   const item = await localForage.getItem(collection);

@@ -26,7 +26,7 @@
                 color="white"
                 href="https://github.com/massif-press/compcon/blob/master/CHANGELOG.md"
                 @mouseenter="$emit('logupdate')">
-                v.{{ $appVersion }}
+                v.{{ version }}
               </v-btn>
             </template>
             <span>View changelog</span>
@@ -41,8 +41,15 @@
 </template>
 
 <script lang="ts">
+import * as p from '../../../../package.json';
+
 export default {
   name: 'cc:banner',
+  computed: {
+    version() {
+      return p.version;
+    },
+  },
 };
 </script>
 

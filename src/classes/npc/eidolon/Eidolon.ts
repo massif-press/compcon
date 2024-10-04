@@ -155,6 +155,9 @@ class Eidolon extends Npc implements IInstanceable {
       });
     }
 
+    // TODO: this shouldn't be an object, have to find why it is being polluted
+    if (typeof data.instance === 'object') data.instance = false;
+
     SaveController.Serialize(eidolon, data);
     CloudController.Serialize(eidolon, data);
     PortraitController.Serialize(eidolon, data);

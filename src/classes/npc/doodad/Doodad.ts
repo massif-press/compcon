@@ -66,6 +66,9 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
       note: doodad.Note,
     };
 
+    // TODO: this shouldn't be an object, have to find why it is being polluted
+    if (typeof data.instance === 'object') data.instance = false;
+
     SaveController.Serialize(doodad, data);
     CloudController.Serialize(doodad, data);
     PortraitController.Serialize(doodad, data);

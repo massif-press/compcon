@@ -35,10 +35,17 @@ class ICollectionItemData {
 }
 
 abstract class CollectionItem
-  implements INarrativeElement, ICloudSyncable, ISaveable, IPortraitContainer, IFolderPlaceable
+  implements
+    INarrativeElement,
+    ICloudSyncable,
+    ISaveable,
+    IPortraitContainer,
+    IFolderPlaceable,
+    ICloudSyncable
 {
   public readonly StorageType: string = 'narrative';
-  public ItemType: string = 'collection-item';
+  public readonly DataType: string = 'savedata';
+  public ItemType: string = 'collectionitem';
 
   public ImageTag!: ImageTag.NPC;
   public CloudController: CloudController;
@@ -48,7 +55,7 @@ abstract class CollectionItem
   public FolderController: FolderController;
 
   private _id: string;
-  protected _name: string = 'New NPC';
+  protected _name: string = 'New Narrative Item';
   private _note: string = '';
   private _description: string = '';
   static ID: string;

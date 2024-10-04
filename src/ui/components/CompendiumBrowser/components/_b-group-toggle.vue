@@ -10,7 +10,7 @@
     style="width: 100%; height: 30px"
     class="mb-2">
     <v-tooltip v-for="g in options.groups" :text="groupTooltip(g)" location="top">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn
           v-bind="props"
           :value="g"
@@ -22,7 +22,7 @@
       </template>
     </v-tooltip>
     <v-tooltip text="No Grouping" location="top">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn
           v-bind="props"
           value="none"

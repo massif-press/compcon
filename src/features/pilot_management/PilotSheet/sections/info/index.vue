@@ -11,13 +11,13 @@
         <clone-block :pilot="pilot" />
 
         <section-header title="Pilot Biography" />
-        <cc-rich-text-area :item="pilot" note-property="History" class="pt-2 mb-3" />
+        <cc-rich-text-area v-model="pilot.History" class="pt-2 mb-3" />
 
         <section-header title="Pilot Appearance" />
-        <cc-rich-text-area :item="pilot" note-property="TextAppearance" class="pt-2 mb-3" />
+        <cc-rich-text-area v-model="pilot.TextAppearance" class="pt-2 mb-3" />
 
         <section-header title="Pilot Notes" />
-        <cc-rich-text-area :item="pilot" note-property="Notes" class="pt-2 mb-3" />
+        <cc-rich-text-area v-model="pilot.Notes" class="pt-2 mb-3" />
       </v-col>
       <v-col cols="4">
         <image-block :pilot="pilot" />

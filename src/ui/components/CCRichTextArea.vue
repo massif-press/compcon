@@ -5,54 +5,33 @@
       variant="outlined"
       class="pa-2"
       style="border-color: rgb(var(--v-theme-panel))">
-      <p v-html-safe="notes" />
+      <p v-html-safe="modelValue" />
     </v-card>
     <quill-editor
       v-else
-      v-model:content="notes"
+      :content="modelValue"
       :options="editorOptions"
       content-type="html"
-      @ready="onEditorReady"
-      @text-change="item[noteProperty] = notes"
-      @blur="$emit('blur')" />
+      @ready="quill = $event"
+      @blur="set($event)"
+      @update:content="set($event)" />
   </div>
 </template>
 
 <script lang="ts">
-// import { Quill } from '@vueup/vue-quill';
-
-// const Inline = Quill.import('blots/inline');
-
-// class HorusCode extends Inline {
-//   static blotName = 'horusCode';
-//   static tagName = 'span';
-
-//   static create(value) {
-//     let node = super.create();
-//     node.setAttribute('class', 'horus-quill');
-//     return node;
-//   }
-// }
-
-// Quill.register(HorusCode);
-
 export default {
   name: 'cc-rich-text-area',
   props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    noteProperty: {
+    modelValue: {
       type: String,
-      default: 'Notes',
+      required: true,
     },
     readonly: {
       type: Boolean,
     },
   },
   data: () => ({
-    notes: '',
+    quill: null as any,
     editorOptions: {
       modules: {
         toolbar: {
@@ -73,13 +52,10 @@ export default {
       },
     },
   }),
-  created() {
-    this.notes = this.item[this.noteProperty] || '';
-  },
   methods: {
-    onEditorReady(editor) {
-      // const toolbar = editor.getModule('toolbar');
-      // toolbar.container.querySelector('.ql-horusText').replaceWith(horusText);
+    set(e) {
+      if (!this.quill) return;
+      this.$emit('update:modelValue', this.quill.root.innerHTML);
     },
   },
 };

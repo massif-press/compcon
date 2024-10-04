@@ -52,7 +52,7 @@
           </v-menu>
         </v-toolbar>
         <div class="pa-2">
-          <cc-rich-text-area :item="s" note-property="body" />
+          <cc-rich-text-area v-model="s.body" />
         </div>
       </v-card>
     </div>

@@ -12,8 +12,7 @@
         <p
           id="completed"
           ref="completed"
-          class="flavor-text text-disabled text--darken-1 py-0 my-0"
-        ></p>
+          class="flavor-text text-disabled text--darken-1 py-0 my-0"></p>
         <p id="output" ref="output" class="flavor-text text-disabled text--darken-1 py-0 my-0"></p>
       </v-col>
       <v-col cols="auto" class="ml-2">
@@ -44,7 +43,7 @@ export default {
   }),
   computed: {
     theme(): string {
-      return JSON.parse(localStorage.getItem('cc_theme') as string) || 'gms';
+      return UserStore().User.Theme || 'gms';
     },
   },
   watch: {
@@ -58,28 +57,28 @@ export default {
   },
   methods: {
     restart() {
-      if (this.typer.hasOwnProperty('destroy')) this.typer.destroy(true);
-      if (this.$refs.completed.innerHTML) this.$refs.completed.innerHTML = '';
-      if (this.$refs.output.innerHTML) this.$refs.output.innerHTML = '';
+      if (this.typer.hasOwnProperty('destroy')) (this.typer as any).destroy(true);
+      if ((this.$refs as any).completed.innerHTML) (this.$refs as any).completed.innerHTML = '';
+      if ((this.$refs as any).output.innerHTML) (this.$refs as any).output.innerHTML = '';
       this.start();
     },
     async start() {
       await this.$nextTick();
-      this.typer = new TypeIt(this.$refs.output, {
+      this.typer = new TypeIt((this.$refs as any).output, {
         speed: 2,
         nextStringDelay: 5,
         lifeLike: false,
         cursor: false,
         startDelete: false,
         beforeString: () => {
-          this.$refs.output?.scrollIntoView({ block: 'end' });
+          (this.$refs as any).output?.scrollIntoView({ block: 'end' });
         },
         afterString: () => {
-          this.$refs.output?.scrollIntoView({ block: 'end' });
+          (this.$refs as any).output?.scrollIntoView({ block: 'end' });
         },
         afterComplete: async () => {
           if (this.theme === 'horus') {
-            await HorusChat(this.$refs.output);
+            await HorusChat((this.$refs as any).output);
           } else {
             this.lock = false;
           }
@@ -103,23 +102,24 @@ export default {
       if (this.lock) return;
       this.lock = true;
 
-      this.typer.destroy();
+      (this.typer as any).destroy();
 
       //collect written strings so TypeIt doesn't erase them
-      if (this.$refs.completed.innerHTML) this.$refs.completed.innerHTML += '<br>';
-      this.$refs.completed.innerHTML += this.$refs.output.innerHTML;
-      this.$refs.output.innerHTML = '';
+      if ((this.$refs as any).completed.innerHTML)
+        (this.$refs as any).completed.innerHTML += '<br>';
+      (this.$refs as any).completed.innerHTML += (this.$refs as any).output.innerHTML;
+      (this.$refs as any).output.innerHTML = '';
 
-      this.typer = new TypeIt(this.$refs.output, {
+      this.typer = new TypeIt((this.$refs as any).output, {
         speed: 32,
         lifeLike: true,
         nextStringDelay: 7,
         cursor: false,
         beforeString: () => {
-          this.$refs.output?.scrollIntoView({ block: 'end' });
+          (this.$refs as any).output?.scrollIntoView({ block: 'end' });
         },
         afterString: () => {
-          this.$refs.output?.scrollIntoView({ block: 'end' });
+          (this.$refs as any).output?.scrollIntoView({ block: 'end' });
         },
         afterComplete: () => {
           this.lock = false;

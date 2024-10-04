@@ -1,35 +1,18 @@
-//TODO:
-// - don't save cloud data (including name, etc). This should be refreshed on app start/login/data viewer open
-// - only download latest on item update or open diff editor
-
-/* NOTES
-- sync process:
-0) load saved local data (done as part of parent data load process)
-  0.a) do not save/load last cloud update
-  0.b) default status to LOCAL ONLY
-1) GET data from cloud as batch get elsewhere. Sync part 1 fn should use this data by item ID (sortkey)
-2) check db data
-  2.a) IF savecontroller.lastModified === item_modified, set status to SYNCED
-  2.b) ELSE IF DB item_modified > savecontroller.lastModified, set status to CLOUDNEWER/CONFLICT
-  2.c) ELSE IF DB item_modified < savecontroller.lastModified, set status to LOCALNEWER/CONFLICT
-3) receive STAGE UPDATE call
-  3.a) IF status === SYNCED, LOCALNEWER, or NONE, (CONFLICT === false) ignore
-  3.b) ELSE IF cloud data is NEWER, download cloud data into cloudcoutroller and WAIT. This data should be SAVED LOCALLY
-    3.b.I) SAVE cloud data timestamp as lastUpdateCloud
-    3.b.II) staged cloud data should be overwritten IFF lastUpdateCloud is later than new DB update pull
-3.5) IF in conflict -- user can edit saved data FROM CLOUDCONTROLLER. this should be saved here.
-4) receive COMMIT UPDATE CALL.
-  4.a) this comes from elsewhere. can be automatic or user triggered. Might come from diff editor.
-  4.b) Check status
-    4.b.I) IF SYNCED, ignore
-    4.b.II) IF LOCALNEWER or NONE, upload local data to cloud (meta to db, data to uri), return promise
-    4.b.III) IF CLOUDNEWER, UPDATE local data with cloudcontroller data. Clear cloudcontroller data.
-*/
-
 import _ from 'lodash';
 import { ICloudSyncable } from './ICloudSyncable';
-import { UserStore } from '@/stores';
+import {
+  CampaignStore,
+  EncounterStore,
+  NarrativeStore,
+  NpcStore,
+  PilotStore,
+  UserStore,
+} from '@/stores';
 import { downloadFromS3, updateItem, uploadToS3 } from '@/io/apis/account';
+import { Pilot } from '@/class';
+import { Doodad } from '@/classes/npc/doodad/Doodad';
+import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
+import { Unit } from '@/classes/npc/unit/Unit';
 
 interface ICloudData {
   metadata: dbItemMeta;
@@ -56,6 +39,8 @@ type dbItemMeta = {
   deleted?: number;
   code?: string;
   ttl?: number; // update on local delete/perm delete
+
+  preserve?: boolean; // archive only
 };
 
 class DbItemMetadata {
@@ -145,12 +130,16 @@ class CloudController {
   }
 
   public GenerateMetadata(): DbItemMetadata {
+    return CloudController.GenerateMetadata(this);
+  }
+
+  public static GenerateMetadata(controller: CloudController) {
     return new DbItemMetadata({
       user_id: UserStore().Cognito.userId,
-      sortkey: this.GenerateSortKey(),
-      name: this.Parent.Name,
-      uri: `${UserStore().Cognito.userId}/${this.GenerateSortKey()}.json`,
-      item_modified: this.Parent.SaveController.LastModified,
+      sortkey: controller.GenerateSortKey(),
+      name: controller.Parent.Name,
+      uri: `${UserStore().Cognito.userId}/${controller.GenerateSortKey()}.json`,
+      item_modified: controller.Parent.SaveController.LastModified,
     });
   }
 
@@ -161,7 +150,6 @@ class CloudController {
     this.Metadata.Name = this.Parent.Name;
     this.Metadata.Size = JSON.stringify(savedata).length;
     // TODO: item deleted && TTL
-    console.log(this.Metadata.Serialize());
     const res = await updateItem(this.Metadata.Serialize());
     if (res.error) return res.error;
     if (res.data) {
@@ -173,6 +161,26 @@ class CloudController {
       const uploadResult = await uploadToS3(savedata, res.presign.upload);
       return uploadResult;
     } else throw new Error('No presign returned.');
+  }
+
+  public static async MarkCloudDeleted(metadata: DbItemMetadata) {
+    metadata.Deleted = Date.now();
+    const tdlDays = Number(UserStore().SyncSettings.itemRetention);
+    if (tdlDays > -1) {
+      metadata.TTL = new Date().setDate(new Date().getDate() + tdlDays);
+    }
+    const res = await updateItem(metadata.Serialize());
+    if (res.data) return res.data;
+    if (res.error) throw new Error(res.error);
+  }
+
+  public static async Undelete(metadata: DbItemMetadata) {
+    metadata.Deleted = 0;
+    metadata.TTL = -1;
+
+    const res = await updateItem(metadata.Serialize());
+    if (res.data) return res.data;
+    if (res.error) throw new Error(res.error);
   }
 
   public async Download() {
@@ -191,13 +199,6 @@ class CloudController {
     return this.Parent.SaveController.LastModified;
   }
 
-  // should we download cloud data, but not necessarily sync?
-  // public get RequiresUpdate() {
-  //   if (this.CloudData && this.CloudData.save.lastModified === this.Metadata.ItemModified)
-  //     return false;
-  //   return this.SyncStatus !== SyncStatus.Synced;
-  // }
-
   public static Serialize(parent: ICloudSyncable, target: any) {
     if (!target.cloud) target.cloud = {};
     // target.cloud.metadata = parent.CloudController.Metadata.raw;
@@ -213,6 +214,90 @@ class CloudController {
     // if (data.metadata) parent.CloudController.Metadata = data.metadata;
     // if (data?.cloud_data) parent.CloudController.CloudData = JSON.parse(data.cloud_data);
   }
+
+  public static async AutoSync(item: any): Promise<void> {
+    if (item.CloudController.SyncStatus === 'Synced') return;
+    const strategy = UserStore().SyncSettings.resolutionStrategy;
+    if (strategy === 'manual') return;
+    switch (strategy) {
+      case 'local':
+        if (item.IsCloudOnly) await CloudController.SyncToCloud(item);
+        else await CloudController.SyncToLocal(item);
+        break;
+      case 'cloud':
+        await CloudController.SyncToCloud(item);
+        break;
+      case 'newest':
+        await CloudController.SyncToNewest(item);
+        break;
+      default:
+        console.error('Unknown sync strategy:', strategy);
+        break;
+    }
+  }
+
+  public static async SyncToNewest(item: any) {
+    if (item.IsCloudOnly || item.CloudController.SyncStatus === 'CloudNewer')
+      await CloudController.SyncToCloud(item);
+    else await CloudController.SyncToLocal(item);
+  }
+
+  // download latest cloud data and sync local
+  public static async SyncToCloud(item: any) {
+    if (UserStore().StorageFull) throw new Error('Storage full! Unable to download.');
+
+    if (!item.CloudController?.Metadata?.SortKey) {
+      console.error('Item cannot be synced:', item);
+      return;
+    }
+    const itemType = item.CloudController.Metadata.SortKey.split('_')[1].toLowerCase();
+
+    let data = item.IsCloudOnly
+      ? await downloadFromS3(item.raw.uri)
+      : await item.CloudController.Download();
+
+    console.log(data);
+    console.log(itemType);
+
+    switch (itemType.toLowerCase()) {
+      case 'pilot':
+        PilotStore().AddPilot(new Pilot(data));
+        break;
+      case 'unit':
+        await NpcStore().AddNpc(new Unit(data));
+        break;
+      case 'doodad':
+        await NpcStore().AddNpc(new Doodad(data));
+        break;
+      case 'eidolon':
+        await NpcStore().AddNpc(new Eidolon(data));
+        break;
+      case 'collectionitem':
+        await NarrativeStore().AddItem(data);
+        break;
+      case 'encounter':
+        await EncounterStore().AddEncounter(data);
+        break;
+      case 'campaign':
+        await CampaignStore().AddCampaign(data);
+        break;
+      default:
+        console.error('Unknown item type:', itemType);
+        break;
+    }
+  }
+
+  // upload local data to cloud
+  public static async SyncToLocal(item: ICloudSyncable) {
+    if (UserStore().CloudStorageFull) throw new Error('Cloud storage full! Unable to sync.');
+
+    if (!item.SaveController) {
+      console.error('Item cannot be synced (has no local instance):', item);
+      return;
+    }
+    const res = await item.CloudController.UpdateCloud();
+  }
 }
+
 export { CloudController, DbItemMetadata };
-export type { ICloudData };
+export type { ICloudData, dbItemMeta };

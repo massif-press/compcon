@@ -15,7 +15,7 @@ import { Initialize, SetItem, GetItem, RemoveItem } from './Storage';
 // TODO: remove when finished exhibiting npcs
 import { parseContentPack } from '@/io/ContentPackParser';
 
-export default async function (): Promise<void> {
+export default async function (skipSync = false): Promise<void> {
   await Initialize();
 
   navigator.storage.estimate().then((res) => console.log(res));
@@ -96,7 +96,33 @@ export default async function (): Promise<void> {
 
   await NavStore().CreateIndex();
 
-  await UserStore().refreshDbData();
+  if (UserStore().Cognito.userId) {
+    const frequency = UserStore().SyncSettings?.frequency;
+
+    if (!frequency || !frequency.toLowerCase().includes('start')) {
+      UserStore().refreshDbData();
+    }
+
+    console.info(`Applying user sync rules.`);
+    try {
+      await UserStore().AutoSync(undefined, skipSync);
+      console.info('Auto sync complete!');
+    } catch (error: any) {
+      console.error('Failed to sync');
+      console.error(error);
+      return;
+    }
+
+    console.info('checking auto backups');
+    try {
+      await UserStore().PruneBackups();
+      await UserStore().AutoBackup();
+    } catch (error: any) {
+      console.error('Failed to backup');
+      console.error(error);
+      return;
+    }
+  }
 
   console.info('loading complete');
 }

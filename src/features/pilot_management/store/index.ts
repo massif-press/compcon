@@ -119,6 +119,7 @@ export const PilotStore = defineStore('pilot', {
       });
     },
     async AddPilot(pilot: Pilot, groupID?: string): Promise<void> {
+      console.log('Adding pilot', pilot);
       // pilot.SaveController.IsDirty = true;
       // if (!this.Pilots) this.Pilots = [];
 
@@ -134,7 +135,8 @@ export const PilotStore = defineStore('pilot', {
 
       this.Pilots.push(pilot);
 
-      await this.TransferPilot(pilot, groupID); // also saves
+      await this.TransferPilot(pilot, groupID);
+      await this.SavePilotData();
     },
     async SetPilot(index: number, pilot: Pilot): Promise<void> {
       if (!this.Pilots[index]) return;

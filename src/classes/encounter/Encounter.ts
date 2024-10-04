@@ -58,7 +58,7 @@ type CombatantSaveData = {
 };
 
 class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
-  public readonly ItemType: string = 'encounter';
+  public readonly ItemType: string = 'Encounter';
   public readonly DataType: string = 'savedata';
   public readonly StorageType: string = 'encounters';
 
