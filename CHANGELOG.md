@@ -1,5 +1,12 @@
 # COMP/CON Changelog
 
+## [2.3.22] (2024-10-14)
+
+### Features
+
+- **GM Tools** NPC printables (thanks Suji!)
+- **Pilot Creation** Suggested skills button now works (thanks again Suji!!)
+
 ## [2.3.21] (2024-03-20)
 
 ### Bug Fixes
