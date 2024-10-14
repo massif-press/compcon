@@ -15,8 +15,8 @@
         &nbsp;RM-4b Pilot Self Assessment (1/3)
       </h2>
       <div style="position: absolute; right: 16px; top: 16px">
-        <cc-tooltip simple content="Feature In Development">
-          <v-btn small outlined disabled>Suggest Skills</v-btn>
+        <cc-tooltip content="Import Triggers from Background">
+          <v-btn small outlined @click="suggestSkills()">Suggest Skills</v-btn>
         </cc-tooltip>
       </div>
       <v-container class="flavor-text" style="font-size: 14px">
@@ -48,6 +48,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { CompendiumStore } from '@/store'
+import { getModule } from 'vuex-module-decorators'
 
 export default Vue.extend({
   name: 'skills-page',
@@ -57,6 +59,41 @@ export default Vue.extend({
       required: true,
     },
     quickstart: { type: Boolean },
+  },
+  methods: {
+    suggestSkills() {
+      let backgroundList = getModule(CompendiumStore, this.$store).Backgrounds
+      let skillsList = getModule(CompendiumStore, this.$store).Skills
+
+      try {
+        backgroundList.find(bg => bg.Name === this.pilot.Background).Skills
+      } catch (error) {
+        const errormsg = `Background "${this.pilot.Background}" not found.`
+        console.error(errormsg)
+        Vue.prototype.$notify(errormsg, 'error')
+        return
+      }
+
+      let suggestedSkills = backgroundList
+        .find(bg => bg.Name === this.pilot.Background)
+        .Skills.map(skId => {
+          return skillsList.find(sk => sk.ID === skId)
+        })
+
+      if (suggestedSkills.length == 0) {
+        let notifmsg = `Example triggers for background "${this.pilot.Background}" does not exist.`
+        Vue.prototype.$notify(notifmsg, 'error')
+        return
+      }
+
+      this.pilot.SkillsController.ClearSkills()
+      suggestedSkills.forEach(sgSk => {
+        this.pilot.SkillsController.AddSkill(sgSk)
+      })
+
+      let notifmsg = `Skills successfully imported from ${this.pilot.Background}.`
+      Vue.prototype.$notify(notifmsg, 'success')
+    },
   },
   computed: {
     canContinue(): boolean {
