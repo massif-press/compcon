@@ -18,7 +18,7 @@
       {{ action.Frequency.ToString() }}
     </v-chip>
 
-    <action-base :action="action" />
+    <action-base :action="action" :displayDescription="true" />
   </cc-dialog>
 </template>
 
@@ -33,6 +33,11 @@ export default Vue.extend({
     action: {
       type: Object,
       required: true,
+    },
+    displayDescription: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
 })
