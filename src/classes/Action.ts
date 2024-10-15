@@ -15,6 +15,7 @@ interface IActionData {
   trigger?: string
   terse?: string
   detail: string
+  description?: string
   pilot?: boolean
   mech?: boolean
   damage?: IDamageData[]
@@ -115,6 +116,7 @@ class Action {
   public readonly Activation: ActivationType
   public readonly Terse: string
   public readonly Detail: string
+  public readonly Description: string
   public readonly Cost: number
   public readonly HeatCost: number
   public readonly Frequency: Frequency
@@ -155,6 +157,7 @@ class Action {
     this.Activation = data.activation || ActivationType.Quick
     this.Terse = data.terse || ''
     this.Detail = data.detail || ''
+    this.Description = data.description || ''
     this.Cost = data.cost || 1
     this.HeatCost = heat && isNumber(heat) ? heat : 0
     // heat cost override
@@ -279,6 +282,7 @@ class Action {
       trigger: action.Trigger,
       terse: action.Terse,
       detail: action.Detail,
+      description: action.Description,
       pilot: action.IsPilotAction,
       mech: action.IsMechAction,
       damage: action.Damage ? action.Damage.map(x => Damage.Serialize(x)) : null,
