@@ -21,6 +21,10 @@
     item-key="name"
     :loading="loading"
     :items-per-page="50">
+    <template #item.Name="{ item }">
+      <cc-missing-content-hover :controller="item.BrewController" />
+      {{ item.Name }}
+    </template>
     <template #item.lastSync="{ item }">
       <span v-if="item.CloudController.Metadata?.Updated">
         {{ new Date(item.CloudController.Metadata.Updated).toLocaleString() }}
@@ -120,6 +124,24 @@
         </v-tooltip>
       </span>
     </template>
+    <template #item.code="{ item }">
+      <span v-if="item.CloudController?.Metadata?.Code?.length > 0">
+        {{ item.CloudController.Metadata.Code }}
+        <v-tooltip max-width="300px" location="top">
+          <template #activator="{ props }">
+            <v-icon
+              v-bind="props"
+              color="accent"
+              size="small"
+              end
+              icon="mdi-content-copy"
+              class="fade-select"
+              @click="copy(item.CloudController.Metadata.Code)" />
+          </template>
+          <div class="text-center">Copy Share Code</div>
+        </v-tooltip>
+      </span>
+    </template>
     <template #item.actions="{ item }">
       <div v-if="item.CloudController.Metadata.Deleted">
         <v-tooltip max-width="300px" location="top">
@@ -157,7 +179,7 @@
                 <template #activator="{ props }">
                   <v-icon size="24" v-bind="props">mdi-delete-forever</v-icon>
                 </template>
-                <div class="text-center">Delete Permanently</div>
+                <div class="text-center">Delete Immediately</div>
               </v-tooltip>
             </v-btn>
           </template>
@@ -165,7 +187,7 @@
             <v-card>
               <v-toolbar flat color="error">
                 <v-toolbar-title>
-                  <span class="heading h3">Delete Permanently</span>
+                  <span class="heading h3">Delete Immediately</span>
                 </v-toolbar-title>
                 <v-spacer />
                 <v-btn icon @click="isActive.value = false">
@@ -173,8 +195,8 @@
                 </v-btn>
               </v-toolbar>
               <v-card-text>
-                Deleting this item will permanently remove it from cloud storage. This will not
-                modify any local copies of this item.
+                Deleting this item will remove it from cloud storage. This will not modify any local
+                copies of this item.
                 <v-checkbox
                   v-model="skipDeleteWarningPerm"
                   label="Do not show this warning again"
@@ -189,7 +211,7 @@
                   variant="elevated"
                   color="error"
                   :loading="loading">
-                  Delete Permanently
+                  Delete
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -259,7 +281,31 @@
 
         <v-dialog max-width="600px">
           <template #activator="{ props }">
+            <v-tooltip
+              v-if="item.CloudController.SyncStatus === 'LocalOnly'"
+              max-width="300px"
+              location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  size="small"
+                  color="warning"
+                  icon
+                  variant="text"
+                  v-bind="props"
+                  @click="item.SaveController.Delete()">
+                  <v-icon size="x-large">mdi-delete-outline</v-icon>
+                </v-btn>
+              </template>
+              <div class="text-center">Delete Local Data</div>
+              <div class="text-center text-caption">
+                <i>
+                  This marks this item as deleted locally, and will be removed from this table and
+                  will not be synced. Deleted item recovery options can be found in user settings.
+                </i>
+              </div>
+            </v-tooltip>
             <v-btn
+              v-else
               size="small"
               color="accent"
               icon
@@ -270,7 +316,8 @@
                 <template #activator="{ props }">
                   <v-icon size="x-large" v-bind="props">mdi-delete-outline</v-icon>
                 </template>
-                <div class="text-center">Delete Archive</div>
+
+                <div class="text-center">Delete Cloud Data</div>
               </v-tooltip>
             </v-btn>
           </template>
@@ -394,6 +441,12 @@ export default {
             order.indexOf(b.CloudController.SyncStatus)
           );
         },
+      },
+      {
+        title: 'Share Code',
+        key: 'code',
+        align: 'center',
+        sortable: false,
       },
       { title: '', key: 'actions', width: '155px', align: 'end' },
     ],
@@ -610,6 +663,14 @@ export default {
         });
       }
       this.deleteLoading = false;
+    },
+    copy(text: string) {
+      navigator.clipboard.writeText(text);
+      this.$notify({
+        title: 'Copied',
+        text: 'Share code copied to clipboard.',
+        data: { icon: 'mdi-content-copy', color: 'success' },
+      });
     },
   },
 };

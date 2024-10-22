@@ -1,35 +1,41 @@
 <template>
   <v-card>
-    <v-alert v-if="!isAuthed" color="subtle" variant="outlined" class="ma-2" icon="mdi-cloud-alert">
+    <v-alert
+      v-if="!store.IsLoggedIn"
+      color="subtle"
+      variant="outlined"
+      class="ma-2"
+      icon="mdi-cloud-alert">
       Requires COMP/CON Account
     </v-alert>
     <div v-else>
       <v-row dense align="center">
-        <v-col v-for="image in displayedUserImages" :key="image.url" cols="4" md="3">
+        <v-col v-for="image in displayedUserImages" cols="4" md="3">
           <v-card
             class="ma-2"
             outlined
             tile
-            :color="isSelected(image.url) ? 'primary' : ''"
+            :color="isSelected(image.uri) ? 'primary' : ''"
             :class="{ selected: image === selectedImage }"
             style="border-width: 3px"
-            @click="isSelected(image.url) ? (selectedImage = null) : (selectedImage = image)">
+            @click="handleImageClick(image)">
             <div class="background">
-              <v-img :src="image.url" contain max-height="200px" />
+              <v-img :src="`${distributor}/${image.uri}`" contain max-height="200px" />
             </div>
           </v-card>
           <v-scale-transition>
-            <v-card v-if="isSelected(image.url)" flat outlined class="pa-1" tile>
-              <div class="caption pb-1">
-                {{ image.filename }} &mdash; {{ image.size.toFixed(2) }}MB
-                <span v-if="showAll">&mdash; {{ image.tag }}</span>
+            <v-card v-if="isSelected(image.uri)" flat outlined class="pa-1" tile>
+              <div class="text-caption pb-1 text-center">
+                {{ image.name }} &mdash; {{ (image.size / 1024 / 1024).toFixed(2) }}MB
               </div>
               <v-menu offset-y offset-x top left>
-                <template v-slot:activator="{ on }">
-                  <v-btn block outlined color="error" x-small v-on="on">Delete</v-btn>
+                <template v-slot:activator="{ props }">
+                  <v-btn block variant="tonal" color="error" size="x-small" v-bind="props">
+                    Delete
+                  </v-btn>
                 </template>
                 <cc-confirmation
-                  content="This will permanently delete this image from storage.</span> Do you want to continue?"
+                  content="This will permanently delete this image from cloud storage. Do you want to continue?"
                   @confirm="deleteCloudImage(image)" />
               </v-menu>
             </v-card>
@@ -47,20 +53,19 @@
         <v-row align="center">
           <v-col>
             <v-file-input
-              v-model="stagedImage"
               dense
               hide-details
               outlined
               label="Add New Image"
               accept="image/*"
               class="mt-1 mb-2"
-              :disabled="loading || isOverCapacity || !isAuthed"
-              @change="$emit('set-staged', $event)" />
+              :disabled="loading || store.CloudStorageFull || !store.IsLoggedIn"
+              @change="onFileChange($event)" />
           </v-col>
           <v-col cols="auto">
             <v-btn
               color="secondary"
-              :disabled="!stagedImage || isOverCapacity || !isAuthed"
+              :disabled="!stagedImage || store.CloudStorageFull || !store.IsLoggedIn"
               :loading="loading"
               @click="uploadImage()">
               Upload
@@ -68,14 +73,7 @@
           </v-col>
         </v-row>
         <div>
-          <div class="text-caption">
-            ACCOUNT USAGE
-            <cc-tooltip
-              inline
-              :content="`Free accounts are restricted to ${accountMax}MB of storage. In an upcoming release you will be able to link your Patreon account, and COMP/CON supporters will not be subject to any storage limits.`">
-              <v-icon small>mdi-information-outline</v-icon>
-            </cc-tooltip>
-          </div>
+          <div class="text-caption">ACCOUNT USAGE</div>
 
           <v-progress-linear :value="(accountUsage / accountMax) * 100" height="20px">
             <template v-slot:default="{ value }">
@@ -89,7 +87,13 @@
             </template>
           </v-progress-linear>
         </div>
-        <v-alert v-show="isOverCapacity" color="error" prominent outlined tile icon="mdi-alert">
+        <v-alert
+          v-show="store.CloudStorageFull"
+          color="error"
+          prominent
+          outlined
+          tile
+          icon="mdi-alert">
           <div class="heading h3">CAPACITY EXCEEDED</div>
           <span>
             Your account is over capacity. Free accounts are restricted to
@@ -109,7 +113,12 @@
 // import { UserStore } from '@/store';
 import _ from 'lodash';
 import { storageInfo, getPresignedLink, s3api, deleteStorage } from '@/user/api';
+import { UserStore } from '@/stores';
+import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account';
+import { CloudController } from '@/classes/components';
 // import { Auth } from '@aws-amplify/auth';
+
+const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR;
 
 export default {
   name: 'cloud-image-archive',
@@ -122,18 +131,26 @@ export default {
     imageSelectTab: 0,
     remoteInput: '',
     remoteError: '',
-    accountUsage: 0,
-    accountMax: 250,
     iid: '',
     userStorageData: null as unknown as any,
     stagedImage: null as unknown as any,
     showAll: false,
-    imageUrl: '',
+    imageuri: '',
   }),
-  async created() {
-    if (!this.iid) await this.getStorageInfo();
-  },
+  emits: ['set-staged'],
   computed: {
+    store() {
+      return UserStore();
+    },
+    distributor() {
+      return distributor;
+    },
+    accountUsage() {
+      return this.store.CloudStorageUsed / 1024 / 1024;
+    },
+    accountMax() {
+      return this.store.MaxCloudStorage / 1024 / 1024;
+    },
     displayedUserImages() {
       const startIndex = (this.currentUserPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
@@ -142,87 +159,66 @@ export default {
     totalUserPages() {
       return Math.ceil(this.userImages.length / this.itemsPerPage);
     },
-    isAuthed() {
-      return false;
-      // TODO
-      // return getModule(UserStore, this.$store).IsLoggedIn;
-    },
-    isOverCapacity() {
-      return;
-      this.isAuthed &&
-        this.userStorageData &&
-        this.userStorageData.totalSize >= this.userStorageData.max;
-    },
     userImages() {
-      if (!this.userStorageData || this.userStorageData.contents.length === 0) return [];
-      const contents = this.userStorageData.contents
-        .flatMap((x) => x.objects)
-        .map((x) => ({
-          url: `https://d1nurxym97qk9o.cloudfront.net/${x.Key}`,
-          filename: x.Key.split('/').pop(),
-          tag: x.Key.split('/').slice(-2, -1)[0],
-          size: x.Size / 1000000,
-          key: x.Key,
-        }));
-      return contents;
+      return UserStore().CloudImages;
     },
-    selectedImageUrl() {
-      return this.selectedImage ? this.selectedImage.url : '';
+    selectedImageUri() {
+      return this.selectedImage ? this.selectedImage.uri : '';
     },
   },
   methods: {
-    async getStorageInfo() {
-      if (this.isAuthed) {
-        // const res = await Auth.currentUserCredentials();
-        // this.iid = res.identityId;
-        // const info = await storageInfo(this.iid);
-        // this.userStorageData = info.data;
-        // if (this.userStorageData) {
-        //   this.accountUsage = info.data.totalSize / 1000000;
-        //   this.accountMax = info.data.max / 1000000;
-        // }
-      }
+    async handleImageClick(image) {
+      this.isSelected(image.uri) ? (this.selectedImage = null) : (this.selectedImage = image);
+      if (this.selectedImage) this.$emit('set-staged', this.selectedImage);
     },
-    isSelected(url) {
-      return this.selectedImageUrl === url;
+    onFileChange(e) {
+      this.stagedImage = e.target.files[0];
     },
-    uploadImage() {
+    isSelected(uri) {
+      return this.selectedImageUri === uri;
+    },
+    async uploadImage() {
       if (!this.stagedImage) return;
       this.loading = true;
 
-      getPresignedLink(this.iid, 'image', '', this.stagedImage.name)
-        .then((res) => {
-          const sUrl = res.data;
+      const filename = this.stagedImage.name
+        .split('.')
+        .shift()
+        .replace(/[^a-zA-Z0-9]/g, '');
+      const ext = this.stagedImage.type.split('/').pop();
+      const type = this.stagedImage.type;
+      const size = this.stagedImage.size;
 
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            s3api
-              .put(sUrl, reader.result)
-              .then(() => {
-                this.loading = false;
-              })
-              .then(() => {
-                this.stagedImage = null;
-                this.getStorageInfo();
-              })
-              .catch((err) => {
-                this.loading = false;
-                console.error(err);
-              });
-          };
+      const res = await updateItem(CloudController.ImageMetadata(filename, ext, size));
+      if (!res.presign.upload) throw new Error('Failed to get presigned uri');
 
-          reader.readAsArrayBuffer(this.stagedImage);
-        })
-        .catch((err) => {
-          this.loading = false;
-          console.error(err);
-        });
+      await uploadToS3(this.stagedImage, res.presign.upload, type);
+      await UserStore().refreshDbData();
+      this.loading = false;
     },
-    async deleteCloudImage(image) {
-      deleteStorage(image.key).then(() => {
-        this.selectedImage = null;
-        this.getStorageInfo();
-      });
+    async deleteCloudImage(item) {
+      this.loading = true;
+      try {
+        const { user_id, sortkey, uri } = item;
+        await cloudDelete(user_id, sortkey, uri);
+
+        await UserStore().refreshDbData();
+        this.$notify({
+          title: `Image Deleted`,
+          text: `Removed ${item.ItemType} ${item.Name}.`,
+          data: { icon: 'mdi-delete', color: 'success' },
+        });
+        this.loading = false;
+        return true;
+      } catch (err) {
+        console.error(err);
+        this.$notify({
+          title: `Deletion Failed`,
+          text: `Unable to communicate with server. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        });
+      }
+      this.loading = false;
     },
   },
 };

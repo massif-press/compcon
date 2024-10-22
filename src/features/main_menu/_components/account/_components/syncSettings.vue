@@ -50,7 +50,6 @@
                     v-for="option in syncOptions"
                     :title="option.title"
                     :subtitle="option.subtitle"
-                    :disabled="option.disabled"
                     @click="settings.frequency = option.value" />
                 </v-list>
               </v-menu>
@@ -320,33 +319,23 @@ export default {
       },
       {
         title: 'Every Hour',
-        value: 'hour',
-        disabled: true,
-        subtitle: 'Data is synced every hour.',
+        value: 'start_minutes_60',
+        subtitle: 'Data is synced on startup, then every 60 minutes thereafter.',
       },
       {
         title: 'Every 30 Minutes',
-        value: 'minutes_30',
-        disabled: true,
-        subtitle: 'Data is synced every 30 minutes.',
+        value: 'start_minutes_30',
+        subtitle: 'Data is synced on startup, then every 30 minutes thereafter.',
       },
       {
         title: 'Every 10 Minutes',
-        value: 'minutes_10',
-        disabled: true,
-        subtitle: 'Data is synced every 10 minutes.',
+        value: 'start_minutes_10',
+        subtitle: 'Data is synced on startup, then every 10 minutes thereafter.',
       },
       {
         title: 'Every 5 Minutes',
-        value: 'minutes_5',
-        disabled: true,
-        subtitle: 'Data is synced every 5 minutes.',
-      },
-      {
-        title: 'On Data Change',
-        value: 'dataChange',
-        disabled: true,
-        subtitle: 'Data is synced whenever you make a change',
+        value: 'start_minutes_5',
+        subtitle: 'Data is synced on startup, then every 5 minutes thereafter.',
       },
     ],
     syncItems: [
@@ -379,7 +368,10 @@ export default {
       return UserStore().UserMetadata.SyncSettings;
     },
     itemsPendingSync() {
-      return UserStore().AllItemsToSync.length;
+      const userItems = UserStore().AllItemsToSync.length;
+      const remoteItems = UserStore().AllRemoteItemsToSync.length;
+      if (!UserStore().SyncSettings.includeShared) return userItems;
+      return userItems + remoteItems;
     },
     cloudStorageFull() {
       return UserStore().CloudStorageFull;
@@ -397,6 +389,7 @@ export default {
     async updateSyncSettings() {
       this.loadingSync = true;
       await UserStore().setUserMetadata();
+      UserStore().setSyncTimer();
       this.settingsDirty = false;
       this.loadingSync = false;
     },

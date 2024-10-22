@@ -11,35 +11,30 @@
               </template>
               You can subscribe to COMP/CON data content authors to receive updates when they
               publish new content. This can include pilots, GM data like NPCs and Narrative
-              Elements, and limited or reserved stream content, such as table-specific homebrew. You
-              can add new subscriptions by adding the author's Content Stream ID (CSID) to the list
-              below.
+              Elements, and limited or reserved collection content, such as table-specific homebrew.
+              You can add new subscriptions by adding the author's Content collection ID (CSID) to
+              the list below.
               <br />
               <br />
               <strong>
                 Neither Massif Press nor the COMP/CON developer take any responsibility for any
-                content published to any author's content stream. Subscribe to authors at your own
-                discretion.
+                content published to any author's content collection. Subscribe to authors at your
+                own discretion.
               </strong>
             </v-tooltip>
           </span>
         </div>
       </v-toolbar-title>
       <v-select
+        v-model="cloudUser.CollectionSubscriptionSettings.updateOn"
         density="compact"
         hide-details
-        label="Check for New Data"
-        class="mx-4"
-        style="max-width: 225px"
-        :items="['On Startup', 'Daily', 'Weekly', 'Never']" />
-
-      <v-select
-        density="compact"
-        hide-details
-        label="Update to"
-        class="mx-4"
-        style="max-width: 225px"
-        :items="['Major Version Only', 'All Versions']" />
+        label="Updates"
+        class="mx-2"
+        style="max-width: 200px"
+        :items="update_on"
+        :loading="loading"
+        @update:model-value="saveUserMetadata()" />
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
           <v-btn size="small" color="accent" icon v-bind="props">
@@ -63,40 +58,97 @@
     </v-toolbar>
     <v-divider />
     <v-data-table
+      v-model:expanded="expanded"
       density="compact"
-      :headers="streamHeaders"
-      :items="streamItems"
+      :headers="collectionHeaders"
+      :items="collectionItems"
+      show-expand
       item-key="name"
-      :items-per-page="-1">
-      <template #item.unsub="{ item }">
-        <v-btn color="error" size="small" prepend-icon="mdi-broadcast-off" flat>Unsubscribe</v-btn>
+      :items-per-page="-1"
+      hide-default-footer>
+      <template #item.actions="{ item }">
+        <v-tooltip max-width="300px" location="top">
+          <template #activator="{ props }">
+            <v-btn variant="text" size="small" icon v-bind="props">
+              <v-icon color="error" size="large" icon="mdi-broadcast-off" />
+            </v-btn>
+          </template>
+          Unsubscribe
+        </v-tooltip>
+      </template>
+      <template v-slot:expanded-row="{ columns, item }">
+        <td :colspan="columns.length" class="pa-4 w-100 bg-light-panel">
+          <v-row dense>
+            <v-col cols="3">
+              author -- author contact
+              <br />
+              share code - copy code
+            </v-col>
+            <v-col>description</v-col>
+          </v-row>
+          <v-divider class="my-2" />
+          <v-table>contents</v-table>
+        </td>
       </template>
     </v-data-table>
-    <div class="text-right pa-2">
-      <v-btn color="primary" size="small" prepend-icon="mdi-plus">Add New Content Stream</v-btn>
-    </div>
+    <v-divider />
+    <v-card-actions>
+      <v-spacer />
+      <v-btn color="primary" size="small" variant="tonal" prepend-icon="mdi-plus">
+        Add New Subscription
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
+import { UserStore } from '@/stores';
+
 export default {
-  name: 'stream-subscriptions',
+  name: 'collection-subscriptions',
   data: () => ({
-    streamHeaders: [
-      { title: 'Content Stream', key: 'name' },
+    loading: false,
+    expanded: [],
+    collectionHeaders: [
+      { title: '', key: 'data-table-expand', width: '0' },
+      { title: 'Content Collection', key: 'name' },
+      { title: 'Author', key: 'author' },
       { title: 'Description', key: 'description' },
       { title: 'Latest Update', key: 'last_update' },
       { title: 'Version', key: 'version' },
-      { title: '', key: 'unsub', width: '135px' },
+      { title: '', key: 'actions' },
     ],
-    streamItems: [
+    update_on: [
       {
-        name: 'TEST STREAM 1',
-        description: 'This is a test stream',
+        title: 'On Startup',
+        value: 'auto',
+      },
+      {
+        title: 'Manual Only',
+        value: 'manual',
+      },
+    ],
+    collectionItems: [
+      {
+        name: 'TEST collection 1',
+        author: 'test author',
+        description: 'This is a test collection',
         last_update: '2021-01-01',
         version: '1.0',
       },
     ],
   }),
+  computed: {
+    cloudUser() {
+      return UserStore().UserMetadata;
+    },
+  },
+  methods: {
+    async saveUserMetadata() {
+      this.loading = true;
+      await UserStore().setUserMetadata();
+      this.loading = false;
+    },
+  },
 };
 </script>

@@ -1,4 +1,5 @@
 <template>
+  <!-- {{ lcpSaveData }} -->
   <v-card flat border class="mb-4">
     <v-toolbar density="compact">
       <v-toolbar-title>
@@ -9,28 +10,22 @@
               <template #activator="{ props }">
                 <v-icon v-bind="props" size="x-small" class="mt-n1">mdi-help-circle-outline</v-icon>
               </template>
-              This setting is device-based and will not sync between devices. Some LCPs may require
-              a purchase via itch.io before they can be auto-updated.
+              This setting is device-based and will not sync between devices. LCPs must be installed
+              before they can be auto-updated. Some paid LCPs may require an itch.io purchase before
+              allowing for automatic updates.
             </v-tooltip>
           </span>
         </div>
       </v-toolbar-title>
-
       <v-select
+        v-model="lcpSaveData.updateOn"
         density="compact"
         hide-details
-        label="Check for New Data"
-        class="mx-4"
-        style="max-width: 225px"
-        :items="['On Startup', 'Daily', 'Weekly', 'Never']" />
-
-      <v-select
-        density="compact"
-        hide-details
-        label="Update to"
-        class="mx-4"
-        style="max-width: 225px"
-        :items="['Major Version Only', 'All Versions']" />
+        label="Updates"
+        class="mx-2"
+        style="max-width: 200px"
+        :items="update_on"
+        @update:model-value="user.save()" />
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
           <v-btn size="small" color="accent" icon v-bind="props">
@@ -56,41 +51,118 @@
     <v-divider />
     <v-data-table
       density="compact"
-      :headers="lcpHeaders"
-      :items="lcpItems"
+      :headers="<any>lcpHeaders"
+      :items="lcpSaveData.items"
       item-key="name"
-      :items-per-page="-1">
+      :items-per-page="-1"
+      hide-default-footer>
+      <template #item.Name="{ item }">
+        {{ packDataItem(item)!.Name || 'Unknown' }}
+      </template>
+      <template #item.Author="{ item }">
+        {{ packDataItem(item)!.Author || 'Unknown' }}
+      </template>
+      <template #item.last_update="{ item }">
+        {{ packDataItem(item)!.LastUpdated || '' }}
+      </template>
+      <template #item.Version="{ item }">
+        {{ packDataItem(item)!.Version || 'Unknown' }}
+      </template>
       <template #item.auto="{ item }">
-        <v-checkbox
-          v-model="item.auto"
-          density="compact"
-          hide-details
-          color="accent"
-          class="pr-6"
-          style="justify-content: end" />
+        <v-row no-gutters justify="center">
+          <v-checkbox
+            v-model="item.auto"
+            density="compact"
+            hide-details
+            color="accent"
+            @update:model-value="user.save()" />
+        </v-row>
+      </template>
+      <template #item.actions="{ item }">
+        <v-tooltip max-width="300px" location="top">
+          <template #activator="{ props }">
+            <v-btn
+              icon
+              variant="text"
+              size="small"
+              color="accent"
+              v-bind="props"
+              @click=""
+              disabled>
+              <v-icon size="large" icon="mdi-download" />
+            </v-btn>
+          </template>
+          <div class="text-center">Manual update</div>
+        </v-tooltip>
+        <v-tooltip max-width="300px" location="top">
+          <template #activator="{ props }">
+            <v-btn
+              icon
+              variant="text"
+              size="small"
+              color="accent"
+              v-bind="props"
+              target="_blank"
+              :href="packDataItem(item)!.Website || ''">
+              <v-icon size="large" icon="mdi-open-in-new" />
+            </v-btn>
+          </template>
+          <div class="text-center">Open Website</div>
+        </v-tooltip>
       </template>
     </v-data-table>
+    <v-divider />
+    <v-card-actions>
+      <v-spacer />
+      <v-btn color="primary" size="small" variant="tonal" prepend-icon="mdi-open-in-app">
+        Browse LCP Directory
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
+import { CompendiumStore, UserStore } from '@/stores';
+
 export default {
   name: 'lcp-subscriptions',
   data: () => ({
     lcpHeaders: [
-      { title: 'LCP', key: 'name' },
-      { title: 'Latest Update', key: 'last_update' },
-      { title: 'Version', key: 'version' },
-      { title: 'Auto-Update', key: 'auto', width: '135px' },
+      { title: 'LCP', key: 'Name' },
+      { title: 'Author', key: 'Author' },
+      { title: 'Installed Version', key: 'Version', align: 'center', sortable: false },
+      { title: 'Latest Version', key: 'Version', align: 'center', sortable: false },
+      { title: 'Latest Update', key: 'last_update', align: 'center', sortable: false },
+      { title: 'Auto Update', key: 'auto', align: 'center', sortable: false },
+      { title: '', key: 'actions', align: 'end', sortable: false },
     ],
-    lcpItems: [
+    update_on: [
       {
-        name: 'TEST LCP 1',
-        last_update: '2021-01-01',
-        version: '1.0',
-        auto: true,
+        title: 'On Startup',
+        value: 'auto',
+      },
+      {
+        title: 'Manual Only',
+        value: 'manual',
       },
     ],
   }),
+  created() {},
+  computed: {
+    contentPacks() {
+      return CompendiumStore().ContentPacks;
+    },
+    lcpSaveData() {
+      return UserStore().User.LcpSubscriptionData;
+    },
+    user() {
+      return UserStore().User;
+    },
+  },
+  methods: {
+    packDataItem(save) {
+      return this.contentPacks.find((pack) => pack.ID === save.packId);
+    },
+  },
 };
 </script>

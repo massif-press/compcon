@@ -6,23 +6,25 @@
     closeable
     no-confirm
     icon="mdi-image"
-    title="Select Image"
-  >
+    title="Select Image">
+    <div
+      class="bg-primary"
+      style="position: absolute; top: 0; left: 0; right: 0; height: 40px; z-index: -1" />
+    <v-tabs v-model="imageSelectTab" density="compact" grow bg-color="primary">
+      <v-tab>Cloud Account</v-tab>
+      <v-tab>Local Image Archive</v-tab>
+      <v-tab>COMP/CON Image Archive</v-tab>
+      <v-tab>Remote Images</v-tab>
+    </v-tabs>
     <v-container>
       <v-row align="center">
         <v-col cols="12" md="6" style="min-height: 800px">
-          <v-tabs v-model="imageSelectTab">
-            <v-tab>Local Image Archive</v-tab>
-            <v-tab>Cloud Account</v-tab>
-            <v-tab>COMP/CON Image Archive</v-tab>
-            <v-tab>Remote Images</v-tab>
-          </v-tabs>
           <v-window v-model="imageSelectTab">
             <v-window-item>
-              <local-archive @set-staged="setLocalImage($event)" />
+              <cloud-archive @set-staged="setCloudImage($event)" />
             </v-window-item>
             <v-window-item>
-              <cloud-archive @set-staged="stagedImage = $event" />
+              <local-archive @set-staged="setLocalImage($event)" />
             </v-window-item>
             <v-window-item>
               <library-archive :item="item" :type="type" @set-staged="setLibImage($event)" />
@@ -39,37 +41,34 @@
               contain
               max-width="500px"
               max-height="500px"
-              class="ml-auto mr-auto"
-            >
+              class="ml-auto mr-auto">
               <v-card v-if="avatar" id="avatar-inset" variant="outlined" color="primary">
                 <cc-avatar
                   v-if="item.PortraitController.Avatar"
-                  :avatar="item.PortraitController.Avatar"
-                />
+                  :avatar="item.PortraitController.Avatar" />
                 <div v-else class="text-overline pt-2">
-                  no avatar set<br />
+                  no avatar set
+                  <br />
                   <div
                     v-if="!item.PortraitController.CloudImage"
                     v-text="'Requires Image Selection'"
-                    class="pt-4"
-                  />
+                    class="pt-4" />
                 </div>
               </v-card>
             </v-img>
             <v-row justify="space-around" class="mt-2">
               <v-col cols="auto" class="text-left">
-                <v-btn color="secondary" @click="saveImage()"> Set Image </v-btn>
+                <v-btn color="secondary" @click="saveImage()">Set Image</v-btn>
                 <br />
-                <v-btn size="small" class="mt-2" variant="outlined" @click="clearImage()"
-                  >clear image</v-btn
-                >
+                <v-btn size="small" class="mt-2" variant="outlined" @click="clearImage()">
+                  clear image
+                </v-btn>
               </v-col>
               <v-col v-if="avatar" cols="auto" class="text-right">
                 <v-btn
                   color="secondary"
                   :disabled="!item.PortraitController.CloudImage"
-                  @click="($refs.crop_dialog as any).show()"
-                >
+                  @click="($refs.crop_dialog as any).show()">
                   Set Avatar
                 </v-btn>
                 <cc-solo-dialog
@@ -78,19 +77,17 @@
                   color="primary"
                   large
                   title="Set Avatar"
-                  no-actions
-                >
+                  no-actions>
                   <image-crop
                     :src="displayImage"
                     :img-key="selectedImageKey"
                     @hide="($refs.crop_dialog as any).hide()"
-                    @confirm="setAvatar($event)"
-                  />
+                    @confirm="setAvatar($event)" />
                 </cc-solo-dialog>
                 <br />
-                <v-btn size="small" class="mt-2" variant="outlined" @click="clearCrop()"
-                  >clear avatar</v-btn
-                >
+                <v-btn size="small" class="mt-2" variant="outlined" @click="clearCrop()">
+                  clear avatar
+                </v-btn>
               </v-col>
             </v-row>
           </div>
@@ -107,6 +104,8 @@ import CloudArchive from './image_archives/cloudArchive.vue';
 import LocalArchive from './image_archives/localArchive.vue';
 import LibraryArchive from './image_archives/libraryArchive.vue';
 import RemoteArchive from './image_archives/remoteArchive.vue';
+
+const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR;
 
 export default {
   name: 'image-selector',
@@ -136,7 +135,8 @@ export default {
     displayImage() {
       if (this.selectedImage) {
         if (typeof this.selectedImage === 'string') return this.selectedImage;
-        return this.selectedImage.url;
+        if (this.selectedImage.url) return this.selectedImage.url;
+        return `${distributor}/${this.selectedImage.uri}`;
       }
       if (this.item.Portrait) return this.item.Portrait;
       else return 'https://via.placeholder.com/550';
@@ -159,8 +159,13 @@ export default {
       if (!this.avatar) this.close();
     },
     saveImage() {
-      this.item.PortraitController.CloudImage =
-        typeof this.selectedImage === 'string' ? this.selectedImage : this.selectedImage.key;
+      if (!this.selectedImage) return;
+      let img;
+      if (typeof this.selectedImage === 'string') img = this.selectedImage;
+      else if (this.selectedImage.url) img = this.selectedImage.url;
+      else img = `${distributor}/${this.selectedImage.uri}`;
+
+      this.item.PortraitController.CloudImage = img;
       if (!this.avatar) this.close();
     },
     open() {
@@ -186,6 +191,10 @@ export default {
     },
     setRemoteImage(img: any) {
       this.selectedImageKey = '';
+      this.selectedImage = img;
+    },
+    setCloudImage(img: any) {
+      this.selectedImageKey = `${distributor}/${img.uri}`;
       this.selectedImage = img;
     },
   },

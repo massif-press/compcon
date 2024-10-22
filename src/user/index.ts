@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 
 import logger from './logger';
+import { CompendiumStore } from '@/stores';
 
 const CONFIG_FILE_NAME = 'cc_user';
 
@@ -11,6 +12,11 @@ interface IUserOptions {
   showExotics: boolean;
   quickstart: boolean;
 }
+
+type LcpSubscriptionData = {
+  updateOn: 'manual' | 'auto';
+  items: { packId: string; auto: boolean }[];
+};
 
 interface IUserProfile {
   id: string;
@@ -23,6 +29,7 @@ interface IUserProfile {
   storage_max: number;
   auto_delete_days: number;
   latest_change: number;
+  lcp_subscription_data?: LcpSubscriptionData;
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -34,6 +41,8 @@ const defaultOptions = (): IUserOptions => ({
 class UserProfile {
   public readonly ID: string;
   public latest_change: number;
+  public LcpSubscriptionData: LcpSubscriptionData;
+
   private _welcome_hash: string;
   private _theme: string;
   private _achievement_unlocks: { id: string; unlocked: number }[];
@@ -50,9 +59,13 @@ class UserProfile {
     this._options = defaultOptions();
     this._achievement_unlocks = [];
     this.latest_change = Date.now();
+    this.LcpSubscriptionData = {
+      updateOn: 'manual',
+      items: [],
+    };
   }
 
-  private save(): void {
+  public save(): void {
     logger.log('Saving user profile', 'debug', this);
     this.latest_change = Date.now();
     localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(UserProfile.Serialize(this)));
@@ -188,6 +201,20 @@ class UserProfile {
     this.save();
   }
 
+  setLcpSubscriptionData(): void {
+    const allPacks = CompendiumStore().ContentPacks.map((p) => ({
+      packId: p.ID,
+      auto: false,
+    }));
+
+    allPacks.forEach((p) => {
+      if (!this.LcpSubscriptionData.items.some((i) => i && i.packId === p.packId))
+        this.LcpSubscriptionData.items.push(p);
+    });
+
+    console.log('LCP Subscription Data:', this.LcpSubscriptionData);
+  }
+
   public static Serialize(data: UserProfile): IUserProfile {
     return {
       id: data.ID,
@@ -200,6 +227,7 @@ class UserProfile {
       storage_max: data.StorageMax,
       auto_delete_days: data.AutoDeleteDays,
       latest_change: data.latest_change,
+      lcp_subscription_data: data.LcpSubscriptionData,
     };
   }
 
@@ -215,6 +243,10 @@ class UserProfile {
     profile._storageMax = data.storage_max || 60;
     profile._autoDeleteDays = data.auto_delete_days || 30;
     profile.latest_change = data.latest_change || Date.now();
+    profile.LcpSubscriptionData = data.lcp_subscription_data || {
+      updateOn: 'manual',
+      items: [],
+    };
     return profile;
   }
 }

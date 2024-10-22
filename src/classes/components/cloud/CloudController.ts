@@ -13,6 +13,11 @@ import { Pilot } from '@/class';
 import { Doodad } from '@/classes/npc/doodad/Doodad';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 import { Unit } from '@/classes/npc/unit/Unit';
+import { Encounter } from '@/classes/encounter/Encounter';
+import { Campaign } from '@/classes/campaign/Campaign';
+import { Character } from '@/classes/narrative/Character';
+import { Faction } from '@/classes/narrative/Faction';
+import { Location } from '@/classes/narrative/Location';
 
 interface ICloudData {
   metadata: dbItemMeta;
@@ -31,6 +36,7 @@ type dbItemMeta = {
   user_id: string;
   sortkey: string;
   name: string;
+  author: string;
   item_modified: number; // latest saveController lastModified
   uri: string;
   size?: number;
@@ -48,6 +54,7 @@ class DbItemMetadata {
   public UserId: string;
   public SortKey: string;
   public Name: string;
+  public Author: string;
   public ItemModified: number;
   public Uri: string;
   public Size?: number;
@@ -62,6 +69,7 @@ class DbItemMetadata {
     this.UserId = data.user_id;
     this.SortKey = data.sortkey;
     this.Name = data.name;
+    this.Author = data.author;
     this.Uri = data.uri;
     this.ItemModified = data.item_modified;
     if (data.size) this.Size = data.size;
@@ -77,6 +85,7 @@ class DbItemMetadata {
       user_id: this.UserId,
       sortkey: this.SortKey,
       name: this.Name,
+      author: this.Author,
       item_modified: this.ItemModified,
       uri: this.Uri,
       size: this.Size,
@@ -92,11 +101,11 @@ class DbItemMetadata {
 class CloudController {
   public readonly Parent: ICloudSyncable;
 
-  private _metadata: DbItemMetadata;
+  private _metadata!: DbItemMetadata;
 
   public constructor(parent: ICloudSyncable) {
     this.Parent = parent;
-    this._metadata = this.GenerateMetadata();
+    this.GenerateMetadata();
   }
 
   public GenerateSortKey(): string {
@@ -116,11 +125,6 @@ class CloudController {
     return SyncStatus.Synced;
   }
 
-  public get IsRemote(): boolean {
-    if (!this.Metadata) return false;
-    return this.Metadata.UserId !== UserStore().Cognito.userId;
-  }
-
   public get Metadata(): DbItemMetadata {
     return this._metadata;
   }
@@ -129,13 +133,14 @@ class CloudController {
     this._metadata = new DbItemMetadata(data);
   }
 
-  public GenerateMetadata(): DbItemMetadata {
-    return CloudController.GenerateMetadata(this);
+  public GenerateMetadata(): void {
+    this._metadata = CloudController.GenerateMetadata(this);
   }
 
   public static GenerateMetadata(controller: CloudController) {
     return new DbItemMetadata({
       user_id: UserStore().Cognito.userId,
+      author: UserStore().UserMetadata.Username,
       sortkey: controller.GenerateSortKey(),
       name: controller.Parent.Name,
       uri: `${UserStore().Cognito.userId}/${controller.GenerateSortKey()}.json`,
@@ -201,6 +206,7 @@ class CloudController {
 
   public static Serialize(parent: ICloudSyncable, target: any) {
     if (!target.cloud) target.cloud = {};
+    // if (target.cloud.metadata && target.cloud.metadata.is_remote)
     // target.cloud.metadata = parent.CloudController.Metadata.raw;
     // target.cloud.cloud_data = JSON.stringify(parent.CloudController.CloudData);
   }
@@ -242,6 +248,23 @@ class CloudController {
     else await CloudController.SyncToLocal(item);
   }
 
+  public static async UpdateRemote(item: any) {
+    if (item.CloudController.SyncStatus === 'Synced') return;
+
+    const itemType = item.CloudController.Metadata.SortKey.split('_')[1].toLowerCase();
+    const meta = { ...item.CloudController.Metadata.raw };
+    let data = await downloadFromS3(item.CloudController.Metadata.Uri);
+    const updatedItem = CloudController.NewByType(itemType, data);
+    updatedItem.CloudController.setRemoteMetadata(meta);
+
+    await CloudController.AddByType(itemType, updatedItem);
+  }
+
+  public setRemoteMetadata(meta: any) {
+    this.Metadata = meta;
+    this.Parent.SaveController.SetRemote(meta.code, meta.author || '', meta.collection || '');
+  }
+
   // download latest cloud data and sync local
   public static async SyncToCloud(item: any) {
     if (UserStore().StorageFull) throw new Error('Storage full! Unable to download.');
@@ -256,30 +279,61 @@ class CloudController {
       ? await downloadFromS3(item.raw.uri)
       : await item.CloudController.Download();
 
-    console.log(data);
-    console.log(itemType);
+    await CloudController.AddByType(itemType, this.NewByType(itemType, data));
+  }
 
+  public static NewByType(itemType: string, data: any): ICloudSyncable {
     switch (itemType.toLowerCase()) {
       case 'pilot':
-        PilotStore().AddPilot(new Pilot(data));
+        return new Pilot(data);
+      case 'unit':
+        return new Unit(data);
+      case 'doodad':
+        return new Doodad(data);
+      case 'eidolon':
+        return new Eidolon(data);
+      case 'collectionitem':
+        switch (data.type) {
+          case 'character':
+            return new Character(data);
+          case 'faction':
+            return new Faction(data);
+          case 'location':
+            return new Location(data);
+          default:
+            throw new Error('Unknown collection item type: ' + data.type);
+        }
+      case 'encounter':
+        return new Encounter(data);
+      case 'campaign':
+        return new Campaign(data);
+      default:
+        throw new Error('Unknown item type: ' + itemType);
+    }
+  }
+
+  public static async AddByType(itemType: string, item: any) {
+    switch (itemType.toLowerCase()) {
+      case 'pilot':
+        PilotStore().AddPilot(item);
         break;
       case 'unit':
-        await NpcStore().AddNpc(new Unit(data));
+        await NpcStore().AddNpc(item);
         break;
       case 'doodad':
-        await NpcStore().AddNpc(new Doodad(data));
+        await NpcStore().AddNpc(item);
         break;
       case 'eidolon':
-        await NpcStore().AddNpc(new Eidolon(data));
+        await NpcStore().AddNpc(item);
         break;
       case 'collectionitem':
-        await NarrativeStore().AddItem(data);
+        await NarrativeStore().AddItem(item);
         break;
       case 'encounter':
-        await EncounterStore().AddEncounter(data);
+        await EncounterStore().AddEncounter(item);
         break;
       case 'campaign':
-        await CampaignStore().AddCampaign(data);
+        await CampaignStore().AddCampaign(item);
         break;
       default:
         console.error('Unknown item type:', itemType);
@@ -296,6 +350,17 @@ class CloudController {
       return;
     }
     const res = await item.CloudController.UpdateCloud();
+  }
+
+  public static ImageMetadata(filename: string, fileExt: string, size: number): any {
+    const cleanedFilename = filename.replace(/[^a-zA-Z0-9]/g, '');
+    return {
+      user_id: UserStore().Cognito.userId,
+      sortkey: `image_${cleanedFilename}.${fileExt}`,
+      name: cleanedFilename,
+      uri: `${UserStore().Cognito.userId}/images/${cleanedFilename}.${fileExt}`,
+      size: size,
+    };
   }
 }
 

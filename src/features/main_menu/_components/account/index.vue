@@ -2,8 +2,8 @@
   <v-tabs v-model="tab" density="compact">
     <v-tab>Account Management</v-tab>
     <v-tab>Cloud Data</v-tab>
-    <v-tab disabled>Content Subscriptions</v-tab>
-    <v-tab disabled>Content Publishing</v-tab>
+    <v-tab>Content Subscriptions</v-tab>
+    <v-tab>Content Publishing</v-tab>
   </v-tabs>
   <v-window v-model="tab">
     <v-window-item>

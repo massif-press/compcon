@@ -74,6 +74,7 @@ import CCSitrepDisplay from './components/CCSitrepDisplay.vue';
 import CCEnvironmentDisplay from './components/CCEnvironmentDisplay.vue';
 import CCBrewInfo from './components/CCBrewInfo.vue';
 import CCMissingContentList from './components/CCMissingContentList.vue';
+import CCMissingContentHover from './components/CCMissingContentHover.vue';
 
 export {
   CCImg,
@@ -152,4 +153,5 @@ export {
   CCEnvironmentDisplay,
   CCBrewInfo,
   CCMissingContentList,
+  CCMissingContentHover,
 };

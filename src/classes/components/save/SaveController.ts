@@ -7,6 +7,9 @@ interface ISaveData {
   lastModified: number;
   deleteTime: number;
   created: number;
+  remote_code?: string;
+  remote_author?: string;
+  remote_collection?: string;
 }
 
 class SaveController {
@@ -17,6 +20,9 @@ class SaveController {
   public DeleteTime: number;
 
   public IsDirty = false;
+  public RemoteCode = '';
+  public RemoteAuthor = '';
+  public RemoteCollection = '';
 
   public constructor(parent: ISaveable) {
     this.Parent = parent;
@@ -48,7 +54,6 @@ class SaveController {
 
   public Restore() {
     this.DeleteTime = 0;
-    // store.dispatch(`restore_${this.Parent.ItemType}`, this.Parent);
   }
 
   public get IsDeleted(): boolean {
@@ -64,11 +69,24 @@ class SaveController {
     this.save();
   }
 
+  public SetRemote(code, author = '', collection = '') {
+    this.RemoteCode = code;
+    this.RemoteAuthor = author;
+    this.RemoteCollection = collection;
+  }
+
+  public get IsRemote() {
+    return this.RemoteCode.length > 0;
+  }
+
   public static Serialize(parent: ISaveable, target: any) {
     if (!target.save) target.save = {};
     target.save.lastModified = parent.SaveController.LastModified;
     target.save.deleteTime = parent.SaveController.DeleteTime;
     target.save.created = parent.SaveController.Created;
+    target.save.remote_code = parent.SaveController.RemoteCode;
+    target.save.remote_author = parent.SaveController.RemoteAuthor;
+    target.save.remote_collection = parent.SaveController.RemoteCollection;
   }
 
   public static Deserialize(parent: ISaveable, data: ISaveData) {
@@ -80,6 +98,9 @@ class SaveController {
     parent.SaveController.LastModified = data.lastModified;
     parent.SaveController.DeleteTime = data.deleteTime;
     parent.SaveController.Created = data.created;
+    parent.SaveController.RemoteCode = data.remote_code || '';
+    parent.SaveController.RemoteAuthor = data.remote_author || '';
+    parent.SaveController.RemoteCollection = data.remote_collection || '';
   }
 }
 
