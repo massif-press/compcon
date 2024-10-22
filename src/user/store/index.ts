@@ -1,10 +1,24 @@
 import { defineStore } from 'pinia';
 import * as Client from '../index';
-import { CampaignStore, EncounterStore, NarrativeStore, NpcStore, PilotStore } from '@/stores';
+import {
+  CampaignStore,
+  CompendiumStore,
+  EncounterStore,
+  NarrativeStore,
+  NpcStore,
+  PilotStore,
+} from '@/stores';
 import { Pilot } from '@/classes/pilot/Pilot';
 import { Encounter } from '@/classes/encounter/Encounter';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
-import { getUser, updateUser, getUserData, cloudDelete } from '@/io/apis/account';
+import {
+  getUser,
+  updateUser,
+  getUserData,
+  cloudDelete,
+  GetFromCode,
+  downloadFromS3,
+} from '@/io/apis/account';
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController';
 import { PostCloudArchive } from '@/classes/components/cloud/CloudArchive';
 
@@ -21,6 +35,16 @@ const DefaultSyncSettings = {
   lastBackupTime: 0,
 };
 
+type CollectionSubscriptionSettings = {
+  updateOn: string;
+  items: { code: string; auto: boolean }[];
+};
+
+const DefaultCollectionSettings = {
+  updateOn: 'manual',
+  items: [] as any[],
+};
+
 class UserMetadata {
   public static readonly Sortkey = 'meta';
   public UserID: string;
@@ -29,6 +53,8 @@ class UserMetadata {
   public UpdatedAt: Number;
   public SyncSettings: any;
   public UserSettingData: Client.IUserProfile;
+  public CollectionSubscriptionSettings: CollectionSubscriptionSettings;
+  public RemoteItems: string[];
   public UserMigrated: boolean;
 
   public constructor(data: any) {
@@ -38,7 +64,11 @@ class UserMetadata {
     this.UpdatedAt = data.updated_at;
     if (!data.sync_settings) this.SyncSettings = DefaultSyncSettings;
     else this.SyncSettings = data.sync_settings;
+    if (!data.collection_subscription_settings)
+      this.CollectionSubscriptionSettings = DefaultCollectionSettings;
+    else this.CollectionSubscriptionSettings = data.collection_subscription_settings;
     this.UserSettingData = data.user_setting_data;
+    this.RemoteItems = data.remote_items || [];
     this.UserMigrated = data.user_migrated || false;
   }
 }
@@ -50,9 +80,12 @@ export const UserStore = defineStore('cloud', {
     Cognito: {} as any,
     CloudItems: [] as any[],
     CloudArchives: [] as any[],
+    CloudImages: [] as any[],
+    UserPublishedCollections: [] as any[],
     LastQuery: 0,
     CloudStorageUsed: 0,
     MaxCloudStorage: 100 * 1024 * 1024, //TODO: set based on patreon tier
+    CollectionPublishLimit: 3, //TODO: set based on patreon tier
     StorageWarning: false,
     StorageFull: false,
     IsLoggedIn: false,
@@ -72,7 +105,7 @@ export const UserStore = defineStore('cloud', {
         return item.CloudController.SyncStatus !== 'Synced';
       });
     },
-    AllLocalItems(): any[] {
+    AllItems(): any[] {
       return [
         ...PilotStore().Pilots,
         ...NpcStore().Npcs,
@@ -80,6 +113,12 @@ export const UserStore = defineStore('cloud', {
         ...EncounterStore().Encounters,
         ...CampaignStore().Campaigns,
       ].filter((x) => !x.SaveController.IsDeleted);
+    },
+    AllLocalItems(): any[] {
+      return this.AllItems.filter((x) => !x.SaveController.IsDeleted && !x.SaveController.IsRemote);
+    },
+    AllRemoteItems(): any[] {
+      return this.AllItems.filter((x) => !x.SaveController.IsDeleted && x.SaveController.IsRemote);
     },
     CloudOnlyItems(): any[] {
       const raw = UserStore().CloudItems.filter((x) => {
@@ -99,11 +138,17 @@ export const UserStore = defineStore('cloud', {
         },
       }));
     },
+    // does not include remote items
     AllSyncableItems(): any[] {
       return this.AllLocalItems.concat(this.CloudOnlyItems);
     },
     AllItemsToSync(): any[] {
       return this.AllSyncableItems.filter((x) => {
+        return this.SyncItemTypes.includes(x.ItemType.toLowerCase());
+      }).filter((x) => x.CloudController.SyncStatus !== 'Synced');
+    },
+    AllRemoteItemsToSync(): any[] {
+      return this.AllRemoteItems.filter((x) => {
         return this.SyncItemTypes.includes(x.ItemType.toLowerCase());
       }).filter((x) => x.CloudController.SyncStatus !== 'Synced');
     },
@@ -197,6 +242,8 @@ export const UserStore = defineStore('cloud', {
     async setUserMetadata(): Promise<void> {
       const userSettings = await Client.getLocalProfile();
       const payload = {
+        collection_subscription_settings: this.UserMetadata.CollectionSubscriptionSettings,
+        remote_items: [...new Set(this.UserMetadata.RemoteItems)],
         sync_settings: this.UserMetadata.SyncSettings,
         user_setting_data: Client.UserProfile.Serialize(userSettings),
       };
@@ -206,6 +253,8 @@ export const UserStore = defineStore('cloud', {
     async setMetadataFromDynamo(): Promise<void> {
       this.CloudArchives = [];
       this.CloudItems = [];
+      this.CloudImages = [];
+      this.UserPublishedCollections = [];
 
       const data = await getUserData(this.Cognito.userId);
       this.LastQuery = Date.now();
@@ -221,10 +270,42 @@ export const UserStore = defineStore('cloud', {
         }
       });
       this.CloudStorageUsed = totalSizeBytes;
+      await this.setMetadataForRemotes();
+    },
+    async setMetadataForRemotes(): Promise<void> {
+      const remotes = this.UserMetadata.RemoteItems;
+      console.log('remotes:', remotes);
+      const promises = [] as Promise<any>[];
+
+      remotes.forEach((r) => {
+        promises.push(GetFromCode(r));
+      });
+
+      const missingItemPromises = [] as Promise<any>[];
+
+      const data = await Promise.all(promises);
+
+      for (const idx in data) {
+        const item = data[idx];
+        let localItem = this.getLocalItem(item.sortkey);
+        if (localItem) {
+          localItem.CloudController.Metadata = item;
+        } else {
+          console.log(item);
+          const itemData = await downloadFromS3(item.uri);
+          const itemType = item.sortkey.split('_')[1];
+          const newItem = CloudController.NewByType(itemType, itemData);
+          newItem.CloudController.setRemoteMetadata(item);
+
+          await CloudController.AddByType(itemType, newItem);
+        }
+      }
     },
     getLocalItem(sortkey: string): any {
-      if (sortkey.includes('meta')) return;
-      if (sortkey.includes('archive')) return;
+      const datatype = sortkey.split('_')[0];
+      if (datatype.includes('meta')) return;
+      if (datatype.includes('archive')) return;
+      if (datatype.includes('image')) return;
 
       const itemType = sortkey.split('_')[1];
       const id = sortkey.split('_')[2];
@@ -255,15 +336,37 @@ export const UserStore = defineStore('cloud', {
       if (item.sortkey === 'meta') return;
 
       const datatype = item.sortkey.split('_')[0];
-      const arrType = datatype === 'savedata' ? 'CloudItems' : 'CloudArchives';
+      let arrType = '';
+      switch (datatype) {
+        case 'savedata':
+          arrType = 'CloudItems';
+          break;
+        case 'archive':
+          arrType = 'CloudArchives';
+          break;
+        case 'image':
+          arrType = 'CloudImages';
+          break;
+        case 'collection':
+          arrType = 'UserPublishedCollections';
+          break;
+      }
 
       let idx = this[arrType].findIndex((i) => i.sortkey === item.sortkey);
       if (idx > -1) this[arrType][idx] = { ...this[arrType][idx], ...item };
       else idx = this[arrType].push(item) - 1;
     },
-    async AutoSync(overrideTo?: 'cloud' | 'local' | 'newest', skipSync = false): Promise<any[]> {
+    async AutoSync(
+      overrideTo?: 'cloud' | 'local' | 'newest',
+      isStartup = false,
+      skipSync = false
+    ): Promise<any[]> {
       await this.refreshDbData();
       if (skipSync) return [];
+      if (isStartup) {
+        const frequency = this.SyncSettings.frequency.toLowerCase();
+        if (!frequency.includes('start')) return [];
+      }
       const strategy = this.SyncSettings.resolutionStrategy;
       if (strategy === 'manual') return [];
       const items = this.AllItemsToSync;
@@ -281,6 +384,17 @@ export const UserStore = defineStore('cloud', {
           failures.push({ item, error: e });
         }
       }
+
+      if (this.SyncSettings.includeShared)
+        for (const idx in this.AllRemoteItems) {
+          const item = this.AllRemoteItems[idx];
+          try {
+            await CloudController.UpdateRemote(item);
+          } catch (e) {
+            console.error('AutoSync Error:', e);
+            failures.push({ item, error: e });
+          }
+        }
 
       await this.setMetadataFromDynamo();
       return failures;
@@ -328,11 +442,33 @@ export const UserStore = defineStore('cloud', {
       this.SyncSettings.lastBackupTime = new Date().getTime();
       await this.setUserMetadata();
     },
+    setSyncTimer(): void {
+      const frequency = this.SyncSettings.frequency.toLowerCase();
+      if (!frequency.includes('minutes')) return;
+      const minutes = parseInt(frequency.split('_').pop());
+      console.info('Setting sync timer for', minutes, 'minutes');
+      const ms = minutes * 60 * 1000;
+
+      setInterval(() => {
+        console.info('AutoSync Timer Triggered');
+        this.AutoSync();
+      }, ms);
+    },
     setStorageWarning(warning: boolean): void {
       this.StorageWarning = warning;
     },
     setStorageFull(full: boolean): void {
       this.StorageFull = full;
+    },
+    addRemoteItem(code: string) {
+      this.UserMetadata.RemoteItems.push(code);
+      this.setUserMetadata();
+    },
+    deleteRemoteItem(code: string) {
+      const idx = this.UserMetadata.RemoteItems.findIndex((x) => x === code);
+      if (idx === -1) return;
+      this.UserMetadata.RemoteItems.splice(idx, 1);
+      this.setUserMetadata();
     },
     async removeOldItems(): Promise<string> {
       const removeThreshold = new Date().setDate(new Date().getDate() - this.User.AutoDeleteDays);

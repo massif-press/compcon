@@ -45,11 +45,13 @@
       total-visible="9"
       @input="currentUserPage = $event" />
     <v-divider class="my-3" />
-    <v-alert density="compact" class="my-2 text-caption" style="opacity: 0.5">
+    <v-alert density="compact" variant="tonal" class="my-2 text-caption">
       <i>
-        Images in this gallery are saved as COMP/CON app data and will count towards the app storage
-        limit set by your browser.
+        Images in this gallery are saved as local app data and will count towards the app storage
+        limit set by your browser, not your cloud account.
       </i>
+      <br />
+      <strong>This may not work on all browsers or devices.</strong>
     </v-alert>
     <v-card-text>
       <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
@@ -71,7 +73,7 @@
       </v-row>
       <div>
         <div class="text-caption">
-          STORAGE USAGE
+          BROWSER STORAGE USAGE
           <cc-tooltip
             inline
             :content="`This represents the total amount of local disk spaced used by COMP/CON. This includes all images, data files, and other assets.`">

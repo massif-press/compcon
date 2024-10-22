@@ -32,7 +32,8 @@ import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
 import { NpcClass, NpcComparison } from '@/classes/npc/class/NpcClass';
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
 import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer';
-import { IndexItem } from '@/stores';
+import { IndexItem, UserStore } from '@/stores';
+import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -152,6 +153,7 @@ export const CompendiumStore = defineStore('compendium', {
     LancerVersion: '',
     CCVersion: '',
     ContentPacks: [] as ContentPack[],
+    ContentCollections: [] as ContentCollection[],
     nfErr: { err: 'ID not found' },
     packData: [] as IContentPack[],
     loaded: false,
@@ -355,6 +357,7 @@ export const CompendiumStore = defineStore('compendium', {
       }
       const pack = new ContentPack(packData);
       this.ContentPacks = [...this.ContentPacks, pack];
+      UserStore().User.setLcpSubscriptionData();
       await this.saveUserData();
       await this.refreshExtraContent();
     },
@@ -365,7 +368,11 @@ export const CompendiumStore = defineStore('compendium', {
       await this.refreshExtraContent();
     },
     async loadExtraContent(): Promise<void> {
-      let content = (await GetAll('content')) as IContentPack[];
+      let content = await GetAll('content');
+      //filter out user publishable collections
+      content = content.filter(
+        (x) => !x.__content_type || x.__content_type !== 'collection'
+      ) as IContentPack[];
 
       content.forEach((pack) => {
         if (!pack.manifest.dependencies) pack.manifest.dependencies = [];
@@ -396,7 +403,14 @@ export const CompendiumStore = defineStore('compendium', {
     async refreshExtraContent(): Promise<void> {
       this.ContentPacks = [];
       await this.loadExtraContent();
+
       this.loaded = true;
+    },
+    async loadContentCollections(): Promise<void> {
+      const collections = (await GetAll('content')).filter(
+        (x) => x.__content_type && x.__content_type === 'collection'
+      ) as any[];
+      this.ContentCollections = collections.map((c) => new ContentCollection(c));
     },
   },
 });

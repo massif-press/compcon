@@ -50,6 +50,7 @@ export default {
   async created(): Promise<void> {
     scan()
       .then((res: any) => {
+        console.log(res);
         this.communityPacks = res.data.community.Items;
         this.massifPacks = res.data.massif.Items;
         this.loading = false;

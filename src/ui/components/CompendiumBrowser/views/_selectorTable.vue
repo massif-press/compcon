@@ -4,6 +4,7 @@
     :headers="<any[]>headers"
     :items="<any[]>items"
     :items-per-page="-1"
+    hide-default-footer
     style="width: 100%">
     <template v-slot:item="{ item }">
       <tr :id="item.ID">

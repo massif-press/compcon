@@ -97,15 +97,8 @@ export default async function (skipSync = false): Promise<void> {
   await NavStore().CreateIndex();
 
   if (UserStore().Cognito.userId) {
-    const frequency = UserStore().SyncSettings?.frequency;
-
-    if (!frequency || !frequency.toLowerCase().includes('start')) {
-      UserStore().refreshDbData();
-    }
-
-    console.info(`Applying user sync rules.`);
     try {
-      await UserStore().AutoSync(undefined, skipSync);
+      await UserStore().AutoSync(undefined, true, skipSync);
       console.info('Auto sync complete!');
     } catch (error: any) {
       console.error('Failed to sync');
@@ -122,6 +115,10 @@ export default async function (skipSync = false): Promise<void> {
       console.error(error);
       return;
     }
+
+    UserStore().User.setLcpSubscriptionData();
+    CompendiumStore().loadContentCollections();
+    UserStore().setSyncTimer();
   }
 
   console.info('loading complete');

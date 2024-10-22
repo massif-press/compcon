@@ -44,10 +44,10 @@ export const getUserData = async (id: string): Promise<any> => {
   return data;
 };
 
-export async function updateItem(metadata: any): Promise<any> {
+export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
   const url = new URL(`${invoke}/user`);
   url.searchParams.append('userID', metadata.user_id);
-  url.searchParams.append('scope', 'item');
+  url.searchParams.append('scope', scope);
 
   const body = typeof metadata === 'string' ? metadata : JSON.stringify(metadata);
 
@@ -84,15 +84,20 @@ export async function updateUser(id: string, payload: any): Promise<any> {
   return response;
 }
 
-export async function uploadToS3(data, presignedUrl) {
+export async function uploadToS3(data, presignedUrl, type = 'application/json') {
   console.log('Uploading data to S3:', data);
 
   if (data.cloud?.cloud_data) delete data.cloud.cloud_data;
 
+  const body = type === 'application/json' ? JSON.stringify(data) : data;
+
   try {
     const response = await fetch(presignedUrl, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body,
+      headers: {
+        'Content-Type': type,
+      },
     });
     console.log('Upload response:', response);
 
@@ -139,4 +144,24 @@ export async function cloudDelete(user_id: string, sortkey: string, uri?: string
   }
 
   return response;
+}
+
+export async function GetFromCode(codes: string | string[]) {
+  const url = new URL(`${invoke}/code`);
+  const isArray = Array.isArray(codes);
+  url.searchParams.append('scope', isArray ? 'items' : 'item');
+  url.searchParams.append('codes', JSON.stringify(isArray ? codes : [codes]));
+
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
 }

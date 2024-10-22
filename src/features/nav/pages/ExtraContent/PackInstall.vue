@@ -8,7 +8,6 @@
         type="file"
         accept=".lcp"
         prepend-inner-icon="cc:content_manager"
-        prepend-icon
         clearable
         @click:clear="reset()"
         @change="fileChange($event)" />
@@ -84,7 +83,6 @@
 </template>
 
 <script lang="ts">
-import PromisifyFileReader from 'promisify-file-reader';
 import { parseContentPack } from '@/io/ContentPackParser';
 
 import { CompendiumStore } from '@/stores';

@@ -59,6 +59,7 @@ interface IContentPackManifest {
   website?: string;
   image_url?: string;
   dependencies?: ContentPackDependency[];
+  last_updated?: number;
 }
 
 interface IContentPackData {
@@ -100,6 +101,7 @@ interface IContentPack {
 }
 
 class ContentPack {
+  public readonly ItemType: string = 'Content Pack';
   private _manifest!: IContentPackManifest;
   private _id!: string;
   private _active!: boolean;
@@ -115,8 +117,6 @@ class ContentPack {
 
     const self = this;
     const { id, manifest, data, active } = pack;
-
-    console.info(`Loading content pack: ${manifest.name}`);
 
     self._missing = pack.missing_content || false;
     self._active = self._missing ? false : active;
@@ -190,6 +190,10 @@ class ContentPack {
   }
   public get Version(): string {
     return this._manifest.version;
+  }
+  public get LastUpdated(): number {
+    if (this._manifest.last_updated) return this._manifest.last_updated;
+    return 0;
   }
   public get Description(): string | undefined {
     return this._manifest.description;

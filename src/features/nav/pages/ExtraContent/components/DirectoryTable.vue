@@ -3,36 +3,34 @@
     v-model:expanded="expanded"
     density="compact"
     no-data-text="No content packs available."
-    :headers="tableHeaders"
+    :headers="<any>tableHeaders"
     :items="items"
     show-expand
     item-value="name"
     :loading="loading"
     loading-text="Loading Content Pack Data..."
-    items-per-page="-1"
-  >
+    items-per-page="-1">
     <!-- Download -->
     <template v-slot:item.website="{ item }">
       <cc-tooltip content="Download">
-        <v-btn target="_blank" :href="item.link" icon variant="plain" color="secondary">
+        <v-btn target="_blank" :href="(item as any).link" icon variant="plain" color="secondary">
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
       </cc-tooltip>
     </template>
     <!-- Name -->
     <template v-slot:item.name="{ item }">
-      {{ item.columns.name }}
+      {{ (item as any).name }}
     </template>
     <!-- Version -->
     <template v-slot:item.version="{ item }">
-      {{ item.columns.version }}
+      {{ (item as any).version }}
       <span v-if="packInstalled(item)">
         <cc-tooltip
           v-if="packOutdated(item)"
           inline
           title="Pack Outdated"
-          content="This content pack is installed but out of date, and may cause errors with the latest version of COMP/CON. Click this pack's Download button to get the latest version."
-        >
+          content="This content pack is installed but out of date, and may cause errors with the latest version of COMP/CON. Click this pack's Download button to get the latest version.">
           <v-icon color="accent">mdi-alert</v-icon>
         </cc-tooltip>
         <cc-tooltip v-else inline content="This content pack is installed and up-to-date">
@@ -42,7 +40,7 @@
     </template>
     <!-- Version -->
     <template v-slot:item.cost="{ item }">
-      {{ item.columns.cost }}
+      {{ (item as any).cost }}
     </template>
     <!-- Expanded view -->
     <template v-slot:expanded-row="{ columns, item }">
@@ -50,20 +48,24 @@
         <v-row>
           <v-col>
             <p class="body-text text-text pa-2 mb-1">
-              <span v-if="item.raw.description" v-html-safe="item.raw.description" />
+              <span v-if="(item as any).description" v-html-safe="(item as any).description" />
               <span v-else>No description given.</span>
             </p>
 
-            <div v-if="item.raw.website" class="mt-2">
+            <div v-if="(item as any).website" class="mt-2">
               <v-divider class="ma-1" />
-              <v-btn target="_blank" :href="item.raw.website" variant="plain" color="secondary">
+              <v-btn
+                target="_blank"
+                :href="(item as any).website"
+                variant="plain"
+                color="secondary">
                 <v-icon prepend start>mdi-open-in-new</v-icon>
                 Author's Website
               </v-btn>
             </div>
           </v-col>
-          <v-col v-if="item.raw.img" cols="2">
-            <cc-img :src="item.raw.img" alt="Pack image" />
+          <v-col v-if="(item as any).img" cols="2">
+            <cc-img :src="(item as any).img" alt="Pack image" />
           </v-col>
         </v-row>
       </td>
@@ -125,14 +127,14 @@ export default {
   },
   methods: {
     packInstalled(item) {
-      return this.contentPacks.some((x) => x.Name === item.raw.name || x.Name === item.raw.title);
+      return this.contentPacks.some((x) => x.Name === item.name || x.Name === item.title);
     },
     packOutdated(item) {
       const installedPack = this.contentPacks.find(
-        (x) => x.Name === item.raw.name || x.Name === item.raw.title
+        (x) => x.Name === item.name || x.Name === item.title
       );
       if (!installedPack) return true;
-      return !semver.gte(semver.coerce(installedPack.Version), semver.coerce(item.raw.version));
+      return !semver.gte(semver.coerce(installedPack.Version), semver.coerce(item.version));
     },
   },
 };

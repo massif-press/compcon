@@ -19,13 +19,13 @@
           </template>
           <span v-if="b.Status === 'MISSING'">
             The {{ b.LcpName }} Lancer Content Pack is not installed. Non-instanced Pilots and NPCs
-            that include content from this LCP will not be able to be accessed until the required
-            LCP is installed or the missing data is removed via the Manage Content menu.
+            that include content from this LCP cannot be accessed until the required LCP is
+            installed or the missing data is removed via the Manage Content menu.
           </span>
           <span v-else-if="b.Status === 'OFF'">
             The {{ b.LcpName }} Lancer Content Pack is installed but is currently disabled.
-            Non-instanced Pilots and NPCs that include content from this LCP will not be able to be
-            accessed until the required LCP is activated via the Manage Content menu.
+            Non-instanced Pilots and NPCs that include content from this LCP cannot be accessed
+            until the required LCP is activated via the Manage Content menu.
           </span>
           <span v-else-if="b.Status === 'OLD'">
             This item requires a version of the {{ b.LcpName }} Lancer Content Pack newer than the
