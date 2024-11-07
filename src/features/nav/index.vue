@@ -12,7 +12,7 @@
   >
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
-        <v-btn text icon v-on="on" @click="historyNav(-1)">
+        <v-btn text icon v-on="on" @click="historyNav(-1)" aria-label="Back">
           <v-icon dark>mdi-arrow-left</v-icon>
         </v-btn>
       </template>
@@ -21,7 +21,7 @@
 
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
-        <v-btn text icon v-on="on" @click="historyNav(1)">
+        <v-btn text icon v-on="on" @click="historyNav(1)" aria-label="Forward">
           <v-icon dark>mdi-arrow-right</v-icon>
         </v-btn>
       </template>
@@ -30,7 +30,7 @@
 
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
-        <v-btn text icon v-on="on" @click="home()">
+        <v-btn text icon v-on="on" @click="home()" aria-label="Main Menu">
           <v-icon dark>mdi-home</v-icon>
         </v-btn>
       </template>
@@ -39,12 +39,9 @@
 
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
-        <!-- Using <a> around the button lets it link properly without breaking the button styling like `to` does.-->
-        <router-link to="/compendium">
-          <v-btn text icon v-on="on">
-            <v-icon dark>mdi-book</v-icon>
-          </v-btn>
-        </router-link>
+        <v-btn text icon v-on="on" @click="compendium()" aria-label="Compendium">
+          <v-icon dark>mdi-book</v-icon>
+        </v-btn>
       </template>
       <span>Compendium</span>
     </v-tooltip>
@@ -79,7 +76,7 @@
     <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="mx-2" />
 
     <cc-tooltip bottom content="Help &amp; FAQ">
-      <v-btn icon dark @click="$refs.helpModal.show()">
+      <v-btn icon dark @click="$refs.helpModal.show()" aria-label="Help &amp; FAQ">
         <v-icon>mdi-help-circle-outline</v-icon>
       </v-btn>
     </cc-tooltip>
@@ -87,8 +84,8 @@
     <v-divider vertical dark class="mx-2" />
 
     <v-menu nudge-bottom="40px">
-      <template v-slot:activator="{ on }">
-        <v-btn text icon v-on="on">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn text icon v-on="on" aria-label="Options" v-bind="attrs">
           <v-icon dark>mdi-dots-vertical</v-icon>
         </v-btn>
       </template>
@@ -213,6 +210,9 @@ export default vueMixins(activePilot).extend({
     },
     home() {
       this.$router.push('/')
+    },
+    compendium() {
+      this.$router.push('/compendium')
     },
     historyNav(dir: number) {
       this.$router.go(dir)
