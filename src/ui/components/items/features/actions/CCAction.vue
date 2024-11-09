@@ -6,6 +6,7 @@
     :activations="activations"
     :unusable="unusable"
     :disabled="disabled"
+    :displayDescription="displayDescription"
     @use="$emit('use', $event)"
     @undo="$emit('undo')"
   />
@@ -25,6 +26,10 @@ export default Vue.extend({
     action: {
       type: Object,
       required: true,
+    },
+    displayDescription: {
+      type: Boolean,
+      required: false,
     },
     hover: { type: Boolean },
     popup: {

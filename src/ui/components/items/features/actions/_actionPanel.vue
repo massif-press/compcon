@@ -31,7 +31,7 @@
         </v-chip>
       </v-col>
     </v-row>
-    <action-base :action="action" class="mt-n6 mb-n2" />
+    <action-base :action="action" :displayDescription="displayDescription" class="mt-n6 mb-n2" />
   </v-alert>
 </template>
 
@@ -46,6 +46,11 @@ export default Vue.extend({
     action: {
       type: Object,
       required: true,
+    },
+    displayDescription: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 })

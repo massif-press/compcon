@@ -22,7 +22,7 @@
       <div class="overline ml-n2 subtle--text">EQUIPMENT ACTIONS</div>
       <v-row no-gutters justify="center">
         <v-col v-for="(a, i) in item.Actions" :key="`${item.Name}_action_${i}`" cols="auto">
-          <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+          <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" :displayDescription="true" class="ma-2" />
         </v-col>
       </v-row>
     </div>
