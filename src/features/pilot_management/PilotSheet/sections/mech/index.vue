@@ -1,7 +1,11 @@
 <template>
   <div v-if="mech.ID">
     <div class="mt-8" :style="`background-color: ${color}`">
-      <cc-short-string-editor large :placeholder="mech.Name" @set="mech.Name = $event">
+      <cc-short-string-editor
+        large
+        :readonly="mech.Pilot.IsRemote"
+        :placeholder="mech.Name"
+        @set="mech.Name = $event">
         <span class="heading text-white" style="font-size: 75px; line-height: 85px">
           {{ mech.Name }}
         </span>
@@ -47,14 +51,18 @@
       <v-row align="start">
         <v-col>
           <section-header title="Operator Notes" />
-          <cc-rich-text-area v-model="mech.Notes" class="mb-3 mt-2" />
+          <cc-rich-text-area
+            v-model="mech.Notes"
+            :readonly="mech.Pilot.IsRemote"
+            class="mb-3 mt-2" />
           <license-requirement-block :mech="mech" :color="color" />
           <trait-block :mech="mech" :color="color" />
         </v-col>
         <v-col cols="auto">
           <cc-img :src="mech.Portrait" width="22vw" position="top center" />
-          <div class="text-right mt-n6">
+          <div class="text-right mt-n3">
             <v-btn
+              v-if="!mech.Pilot.IsRemote"
               variant="tonal"
               color="secondary"
               size="small"

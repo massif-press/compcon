@@ -69,14 +69,30 @@ class SaveController {
     this.save();
   }
 
-  public SetRemote(code, author = '', collection = '') {
+  public SetRemote(code, author = '', collection = '', item_modified = 0) {
     this.RemoteCode = code;
     this.RemoteAuthor = author;
     this.RemoteCollection = collection;
+    this.LastModified = item_modified;
+  }
+
+  public SetRemoteCollection(collection) {
+    this.RemoteCollection = collection;
+  }
+
+  public ClearRemote() {
+    this.RemoteCode = '';
+    this.RemoteAuthor = '';
+    this.RemoteCollection = '';
+    this.save();
   }
 
   public get IsRemote() {
-    return this.RemoteCode.length > 0;
+    return this.IsCollectionItem || this.RemoteCode.length > 0;
+  }
+
+  public get IsCollectionItem() {
+    return !!this.RemoteCollection;
   }
 
   public static Serialize(parent: ISaveable, target: any) {

@@ -4,8 +4,8 @@
     ref="view"
     title="Eidolons"
     item-type="Eidolon"
-    :selected="selected"
     :items="eidolons"
+    :selected="<any>selected"
     :groupings="groupings"
     :sortings="sortings"
     @add-new="addNew()"
@@ -15,7 +15,7 @@
       :item="selected"
       :footer-offset="view !== 'collection'"
       :hide-toolbar="view !== 'collection'"
-      @exit="($refs as any).view.dialog = false"
+      @exit="exit()"
       @save="SaveAndClose()">
       <builder slot="upper" :item="selected" />
     </editor>
@@ -94,15 +94,19 @@ export default {
       this.selected = item;
       (this.$refs as any).view.dialog = true;
     },
-    addNew() {
+    async addNew() {
       const e = new Eidolon();
-      NpcStore().AddNpc(e);
+      await NpcStore().AddNpc(e);
       this.selected = e;
       (this.$refs as any).view.dialog = true;
     },
     SaveAndClose() {
       this.selected = null;
-      (this.$refs as any).view.dialog = true;
+      (this.$refs as any).view.dialog = false;
+    },
+    exit() {
+      this.selected = null;
+      (this.$refs as any).view.dialog = false;
     },
   },
 };

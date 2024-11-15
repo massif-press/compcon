@@ -8,16 +8,19 @@
     </v-row>
     <v-row>
       <v-col cols="8" class="mt-n2">
-        <clone-block :pilot="pilot" />
+        <clone-block :pilot="pilot" :readonly="pilot.IsRemote" />
 
         <section-header title="Pilot Biography" />
-        <cc-rich-text-area v-model="pilot.History" class="pt-2 mb-3" />
+        <cc-rich-text-area v-model="pilot.History" :readonly="pilot.IsRemote" class="pt-2 mb-3" />
 
         <section-header title="Pilot Appearance" />
-        <cc-rich-text-area v-model="pilot.TextAppearance" class="pt-2 mb-3" />
+        <cc-rich-text-area
+          v-model="pilot.TextAppearance"
+          :readonly="pilot.IsRemote"
+          class="pt-2 mb-3" />
 
         <section-header title="Pilot Notes" />
-        <cc-rich-text-area v-model="pilot.Notes" class="pt-2 mb-3" />
+        <cc-rich-text-area v-model="pilot.Notes" :readonly="pilot.IsRemote" class="pt-2 mb-3" />
       </v-col>
       <v-col cols="4">
         <image-block :pilot="pilot" />

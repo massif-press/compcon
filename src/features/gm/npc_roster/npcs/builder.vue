@@ -1,5 +1,6 @@
 <template>
-  <v-row dense class="heading mech mt-n3" style="min-width: 30vw" align="center">
+  <v-row dense class="heading mech" style="min-width: 30vw; line-height: 1em" align="center">
+    <cc-remote-hover :item="item" />
     <v-col v-if="item.NpcClassController?.HasClass" cols="auto">
       <v-icon size="70" :icon="item.NpcClassController.Class.Icon" class="mt-n4" />
     </v-col>

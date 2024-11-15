@@ -14,6 +14,8 @@ class Location extends CollectionItem {
   public constructor(data?: LocationData) {
     super(data);
     this._name = data?.name || 'New Location';
+
+    this.CloudController = new CloudController(this);
   }
 
   public get SectionSuggestions(): string[] {

@@ -165,11 +165,16 @@
         Add Folder
       </v-btn>
       <v-spacer />
-      <v-btn color="secondary" @click="$emit('add-new')">
-        <v-icon size="large" start icon="mdi-plus" />
-        Add New {{ itemType }}
-      </v-btn>
+      <div class="text-end">
+        <v-btn color="secondary" :disabled="!canAddNpc" @click="$emit('add-new')">
+          <v-icon size="large" start icon="mdi-plus" />
+          Add New {{ itemType }}
+        </v-btn>
+      </div>
     </v-footer>
+    <v-alert v-if="!canAddNpc">
+      <cc-missing-gm-lcp-text />
+    </v-alert>
   </v-container>
 </template>
 
@@ -180,7 +185,7 @@ import GmCollectionFilter from './_components/GMCollectionFilter.vue';
 import GmCollectionFolder from './_components/GMCollectionFolder.vue';
 import { NpcStore } from '../store/npc_store';
 import { NarrativeStore } from '../store/narrative_store';
-import { UserStore } from '@/stores';
+import { CompendiumStore, UserStore } from '@/stores';
 
 export default {
   name: 'gm-collection-view',
@@ -191,6 +196,7 @@ export default {
     title: { type: String, required: true },
     groupings: { type: Array, required: true, default: ['None'] },
     sortings: { type: Array, required: true, default: ['Name'] },
+    selected: { type: Object, default: null },
   },
   data: () => ({
     search: '',
@@ -244,6 +250,9 @@ export default {
         default:
           return NarrativeStore();
       }
+    },
+    canAddNpc(): boolean {
+      return CompendiumStore().hasNpcAccess;
     },
     folders(): string[] {
       return this.folderStore.getFolders;

@@ -4,6 +4,7 @@
       <v-col cols="auto">
         <section-header title="Talents">
           <section-edit-chip
+            v-if="!pilot.IsRemote"
             :highlight="!pilot.TalentsController.HasFullTalents"
             :current="pilot.TalentsController.CurrentTalentPoints"
             :max="pilot.TalentsController.MaxTalentPoints"

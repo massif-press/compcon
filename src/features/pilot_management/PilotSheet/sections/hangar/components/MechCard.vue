@@ -11,7 +11,7 @@
               density="compact"
               :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
               class="mb-n10 px-2">
-              <span class="heading h2" style="letter-spacing: 3px">
+              <span class="heading h2" style="letter-spacing: 3px; line-height: 23px">
                 {{ mech.Name }}
               </span>
               <v-spacer />
@@ -113,7 +113,7 @@
                     </v-alert>
                   </v-expand-transition>
                   <v-divider />
-                  <v-card-actions>
+                  <v-card-actions v-if="!mech.Pilot.IsRemote">
                     <v-spacer />
                     <v-tooltip text="Delete Mech">
                       <template #activator="{ props }">

@@ -66,6 +66,7 @@ class PilotData
     ILicenseSaveData,
     IBrewData
 {
+  itemType: string = 'pilot';
   id!: string;
 
   save!: ISaveData;
@@ -260,8 +261,7 @@ class Pilot
   }
 
   public LoadError(err: any, message: string): void {
-    console.error(err);
-    console.error(`Pilot ${this.ID} (${this.Callsign}) failed to load ${message}`);
+    console.error(`Pilot ${this.ID} (${this.Callsign}) failed to load ${message}`, err);
     this.BrewController.MissingContent = true;
   }
 
@@ -285,6 +285,10 @@ class Pilot
   public RemoveBrewable(item: CompendiumItem): void {
     this.Mechs.forEach((m) => m.MechLoadoutController.RemoveBrewable(item as MechEquipment));
     this.PilotLoadoutController.RemoveBrewable(item as PilotEquipment);
+  }
+
+  public get IsRemote(): boolean {
+    return this.SaveController.IsRemote;
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -512,6 +516,7 @@ class Pilot
 
   public static Serialize(p: Pilot): PilotData {
     const data = {
+      itemType: 'pilot',
       id: p.ID,
       level: p.Level,
       callsign: p.Callsign,

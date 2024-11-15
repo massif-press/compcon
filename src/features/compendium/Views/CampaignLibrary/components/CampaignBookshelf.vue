@@ -78,9 +78,25 @@
 
     <v-dialog v-model="importDialog" max-width="750px">
       <template #activator="{ props }">
-        <v-btn v-bind="props" color="accent" variant="tonal" class="mx-2" size="small">
+        <v-btn
+          v-bind="props"
+          color="accent"
+          variant="tonal"
+          class="mx-2"
+          size="small"
+          @click="importType = 'file'">
           <v-icon start icon="mdi-import" />
           File Import
+        </v-btn>
+        <v-btn
+          v-bind="props"
+          color="accent"
+          variant="tonal"
+          class="mx-2"
+          size="small"
+          @click="importType = 'code'">
+          <v-icon start icon="mdi-import" />
+          Code Import
         </v-btn>
       </template>
       <v-card>
@@ -173,6 +189,7 @@ export default {
     errorMessage: '',
     sort: 'title',
     asc: true,
+    importType: 'file',
   }),
 
   computed: {

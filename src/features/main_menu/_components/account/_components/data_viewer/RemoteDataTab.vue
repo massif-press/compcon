@@ -22,13 +22,27 @@
     :loading="loading"
     :items-per-page="50">
     <template #item.Name="{ item }">
-      <cc-missing-content-hover :controller="item.BrewController" />
+      <cc-missing-content-hover :item="item" />
       {{ item.Name }}
+    </template>
+    <template #item.author="{ item }">
+      <span v-if="item.SaveController.RemoteCollection">
+        {{ item.SaveController.RemoteCollection.author }}
+      </span>
+      <span v-else-if="item.SaveController.RemoteAuthor">
+        {{ item.SaveController.RemoteAuthor }}
+      </span>
+    </template>
+    <template #item.collection="{ item }">
+      <span v-if="item.SaveController.RemoteCollection">
+        {{ item.SaveController.RemoteCollection.name }}
+        <v-chip size="x-small">v.{{ item.SaveController.RemoteCollection.version }}</v-chip>
+      </span>
     </template>
 
     <template #item.cloudLastModified="{ item }">
-      <span v-if="item.CloudController.Metadata?.Updated">
-        {{ new Date(item.CloudController.Metadata.Updated).toLocaleString() }}
+      <span v-if="item.CloudController.Metadata?.ItemModified">
+        {{ new Date(item.CloudController.Metadata.ItemModified).toLocaleString() }}
       </span>
       <i v-else class="text-disabled">No Data</i>
     </template>
@@ -166,8 +180,26 @@ export default {
     dataHeaders: [
       { title: 'Name', key: 'Name' },
       { title: 'Type', key: 'ItemType' },
-      { title: 'Author', key: 'SaveController.RemoteAuthor' },
-      { title: 'Collection', key: 'SaveController.RemoteCollection' },
+      {
+        title: 'Author',
+        key: 'author',
+        sortRaw: (a, b) => {
+          if (a.SaveController.RemoteCollection) {
+            return a.SaveController.RemoteCollection.author.localeCompare(
+              b.SaveController.RemoteCollection.author
+            );
+          }
+          return a.SaveController.RemoteAuthor.localeCompare(b.SaveController.RemoteAuthor);
+        },
+      },
+      {
+        title: 'Collection',
+        key: 'collection',
+        sortRaw: (a, b) =>
+          (a.SaveController.RemoteCollection?.name || '').localeCompare(
+            b.SaveController.RemoteCollection?.name || ''
+          ),
+      },
       {
         title: 'Latest Update',
         key: 'cloudLastModified',
@@ -206,6 +238,7 @@ export default {
   }),
   computed: {
     remoteItems() {
+      console.log(UserStore().AllRemoteItems);
       return UserStore().AllRemoteItems;
     },
     shownItems() {

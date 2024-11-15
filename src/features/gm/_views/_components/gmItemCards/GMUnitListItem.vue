@@ -7,6 +7,8 @@
     :sorting="sorting"
     @open="$emit('open', item)">
     <template #title>
+      <cc-missing-content-hover :item="item" />
+      <cc-remote-hover :item="item" color="accent" />
       {{ item.Name }}
       <span v-if="item.NpcClassController.Class">
         &mdash; T{{ item.NpcClassController.Tier }} {{ item.NpcClassController.Class.Name }}

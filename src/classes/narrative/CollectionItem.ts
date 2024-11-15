@@ -48,7 +48,7 @@ abstract class CollectionItem
   public ItemType: string = 'collectionitem';
 
   public ImageTag!: ImageTag.NPC;
-  public CloudController: CloudController;
+  public CloudController!: CloudController;
   public SaveController: SaveController;
   public PortraitController: PortraitController;
   public NarrativeController: NarrativeController;
@@ -67,7 +67,6 @@ abstract class CollectionItem
     this._description = data?.description || '';
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
-    this.CloudController = new CloudController(this);
     this.NarrativeController = new NarrativeController(this);
     this.FolderController = new FolderController(this);
   }

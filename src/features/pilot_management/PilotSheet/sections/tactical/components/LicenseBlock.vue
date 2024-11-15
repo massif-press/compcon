@@ -2,6 +2,7 @@
   <div>
     <section-header title="Licenses">
       <section-edit-chip
+        v-if="!pilot.IsRemote"
         :highlight="!pilot.LicenseController.HasLicenses"
         :current="pilot.LicenseController.CurrentLicensePoints"
         :max="pilot.LicenseController.MaxLicensePoints"

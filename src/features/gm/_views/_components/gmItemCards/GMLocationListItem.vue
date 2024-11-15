@@ -7,7 +7,8 @@
     :sorting="sorting"
     @open="$emit('open', item)">
     <template #title>
-      <div>{{ item.Name }}</div>
+      <cc-remote-hover :item="item" color="accent" />
+      {{ item.Name }}
     </template>
   </gm-list-item-base>
 </template>

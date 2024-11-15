@@ -22,8 +22,12 @@
     :loading="loading"
     :items-per-page="50">
     <template #item.Name="{ item }">
-      <cc-missing-content-hover :controller="item.BrewController" />
+      <cc-missing-content-hover :item="item" />
       {{ item.Name }}
+    </template>
+    <template #item.ItemType="{ item }">
+      <span v-if="item.ItemType === 'Campaign'">Campaign Data</span>
+      <span v-else v-text="item.ItemType" />
     </template>
     <template #item.lastSync="{ item }">
       <span v-if="item.CloudController.Metadata?.Updated">
@@ -125,8 +129,11 @@
       </span>
     </template>
     <template #item.code="{ item }">
-      <span v-if="item.CloudController?.Metadata?.Code?.length > 0">
-        {{ item.CloudController.Metadata.Code }}
+      <span v-if="item.ItemType === 'Campaign'" />
+      <span v-else-if="item.CloudController?.Metadata?.Code?.length > 0">
+        {{ item.CloudController.Metadata.Code.substring(0, 4) }}&ndash;{{
+          item.CloudController.Metadata.Code.substring(4, 8)
+        }}
         <v-tooltip max-width="300px" location="top">
           <template #activator="{ props }">
             <v-icon

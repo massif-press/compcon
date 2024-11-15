@@ -4,6 +4,7 @@
       <cc-img v-if="pilot.Portrait" :src="pilot.Portrait" max-width="100%" />
     </div>
     <v-btn
+      v-if="!pilot.IsRemote"
       color="secondary"
       size="small"
       block

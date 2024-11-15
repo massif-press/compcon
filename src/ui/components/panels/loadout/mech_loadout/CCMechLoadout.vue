@@ -4,6 +4,7 @@
       :loadouts="mech.MechLoadoutController.Loadouts"
       :active-loadout="mech.MechLoadoutController.ActiveLoadout"
       :color="color"
+      :readonly="readonly"
       @set-active="mech.MechLoadoutController.ActiveLoadout = $event"
       @add-loadout="mech.MechLoadoutController.AddLoadout()"
       @clone-loadout="mech.MechLoadoutController.CloneLoadout()"
@@ -11,6 +12,7 @@
       <v-row density="compact">
         <mount-block
           v-for="im in mech.MechLoadoutController.ActiveLoadout.IntegratedMounts"
+          :readonly="readonly"
           integrated
           :mount="im"
           :mech="mech"

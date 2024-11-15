@@ -19,6 +19,7 @@
       :grouping="grouping"
       :sorting="sorting"
       :selected-id="selectedId"
+      :disabled="disabled"
       @open="$emit('open', item)" />
   </v-list>
 </template>
@@ -46,6 +47,7 @@ export default {
     sorting: { type: String, required: false, default: 'Name' },
     sortDir: { type: String, required: false, default: 'asc' },
     allFolders: { type: Array, required: false, default: () => [] },
+    disabled: { type: Boolean, required: false, default: false },
   },
   emits: ['open', 'add-new'],
   computed: {

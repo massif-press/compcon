@@ -5,6 +5,17 @@
         <v-row align="center">
           <v-col cols="auto">
             <v-row dense align="center">
+              <v-col cols="auto" class="ml-3">
+                <cc-tooltip
+                  v-if="pilot.IsRemote"
+                  inline
+                  bottom
+                  title="Remote Resource"
+                  content="This pilot is a remote resource linked to another user's account. It is
+                    read-only and will receive updates from the linked account.">
+                  <v-icon class="ml-n5 mr-1 fade-select" size="40">mdi-broadcast</v-icon>
+                </cc-tooltip>
+              </v-col>
               <v-col cols="auto">
                 <div
                   :class="`heading h1`"
@@ -16,16 +27,6 @@
                   ">
                   {{ pilot.Callsign }}
                 </div>
-              </v-col>
-              <v-col cols="auto" class="ml-3">
-                <cc-tooltip
-                  v-if="pilot.CloudController.IsRemoteResource"
-                  inline
-                  bottom
-                  title="Remote Resource"
-                  content="The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.">
-                  <v-icon dark class="mb-n2 ml-n5 fadeSelect">mdi-cloud-braces</v-icon>
-                </cc-tooltip>
               </v-col>
             </v-row>
             <v-row class="mt-n9 pt-0 text-white">
@@ -94,7 +95,7 @@
               </v-col>
               <v-col cols="auto">
                 <cc-tooltip
-                  v-if="!isLevelingUp"
+                  v-if="!pilot.IsRemote && !isLevelingUp"
                   delayed
                   simple
                   inline
@@ -108,7 +109,7 @@
             </v-row>
 
             <v-btn
-              v-if="!isLevelingUp && pilot.Level < 12"
+              v-if="!pilot.IsRemote && !isLevelingUp && pilot.Level < 12"
               block
               variant="tonal"
               @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID } })">
@@ -135,7 +136,6 @@
       </v-col>
     </v-row>
   </div>
-  <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" />
   <level-edit-dialog ref="levelEdit" :pilot="pilot" />
 </template>
 

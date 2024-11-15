@@ -3,7 +3,7 @@
     <section-header
       title="Reserves and Bonuses"
       label="Add Reserves and Bonuses"
-      editable
+      :editable="!pilot.IsRemote"
       @edit="($refs as any).dtSelector.show()" />
 
     <cc-solo-dialog

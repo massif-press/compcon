@@ -46,17 +46,23 @@ class Eidolon extends Npc implements IInstanceable {
 
     this._layers = [];
 
-    if (data) {
-      if (!data.instance && data.layer_data) {
-        this._layers = data.layer_data.map((l) => new EidolonLayerSaveData(l, this));
-      } else if (data.instance && data.layer_instance_data) {
-        this._layers =
-          data.layer_instance_data.map((l) => EidolonLayerSaveData.Deserialize(l, this)) || [];
+    if (data && CompendiumStore().hasEidolonAccess && !data.instance) {
+      try {
+        if (data.layer_data?.length) {
+          this._layers = data.layer_data.map((l) => new EidolonLayerSaveData(l, this));
+        } else if (data.layer_instance_data?.length) {
+          this._layers =
+            data.layer_instance_data.map((l) => EidolonLayerSaveData.Deserialize(l, this)) || [];
+        }
+      } catch (e) {
+        Npc.LoadError(this, e, 'Eidolon Layer data');
       }
     }
 
     if (!data || this._layers.length === 0)
       this._layers.push(new EidolonLayerSaveData({ id: 'el_core', description: '' }, this));
+
+    this.CloudController = new CloudController(this);
   }
 
   public CreateInstance<EidolonData>(): EidolonData {
@@ -148,7 +154,7 @@ class Eidolon extends Npc implements IInstanceable {
     } else {
       eidolon._layers.forEach((layer) => {
         data.layer_data.push({
-          id: (layer.Layer as EidolonLayer).ID,
+          id: (layer.Layer as EidolonLayer)?.ID || 'ERR',
           description: layer.Description,
           stats: EidolonLayerSaveData.Serialize(layer, false),
         });
@@ -176,8 +182,11 @@ class Eidolon extends Npc implements IInstanceable {
     const eidolon = new Eidolon(data);
 
     SaveController.Deserialize(eidolon, data.save);
-    PortraitController.Deserialize(eidolon, data.img);
     BrewController.Deserialize(eidolon, data);
+    if (!CompendiumStore().hasEidolonAccess) {
+      eidolon.BrewController.MissingContent = true;
+    }
+    PortraitController.Deserialize(eidolon, data.img);
     NarrativeController.Deserialize(eidolon, data.narrative);
     FolderController.Deserialize(eidolon, data.folder);
     return eidolon;

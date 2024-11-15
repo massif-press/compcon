@@ -26,15 +26,17 @@
                   icon
                   flat
                   size="small"
-                  :value="selected.length === items.length"
+                  :value="selected.length === contentItems.length"
                   hide-details
                   @click="
-                    selected.length ? (selected = []) : (selected = items.map((x: any) => x.ID))
+                    selected.length
+                      ? (selected = [])
+                      : (selected = contentItems.map((x: any) => x.ID))
                   ">
                   <v-icon
                     size="x-large"
                     :icon="
-                      selected.length === items.length
+                      selected.length === contentItems.length
                         ? 'mdi-checkbox-outline'
                         : selected.length > 0
                           ? 'mdi-minus-box-outline'
@@ -48,7 +50,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in items">
+            <tr v-for="item in contentItems">
               <td>
                 <v-checkbox v-model="selected" multiple :value="(item as any).ID" hide-details />
               </td>
@@ -72,6 +74,26 @@
                   v-for="label in (item as any).NarrativeController.Labels"
                   :label="label"
                   class="mr-1 mb-1" />
+              </td>
+            </tr>
+
+            <tr v-for="item in missingContentItems">
+              <td>
+                <cc-missing-content-hover :item="item" />
+              </td>
+              <td class="text-disabled">
+                {{ (item as any).Name }}
+              </td>
+              <td />
+              <td>
+                <v-btn
+                  size="x-small"
+                  color="error"
+                  variant="tonal"
+                  prepend-icon="mdi-delete"
+                  @click="deleteItemPermanent(item)">
+                  Delete Non-loadable Item
+                </v-btn>
               </td>
             </tr>
           </tbody>
@@ -264,12 +286,12 @@
 
 <script lang="ts">
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
-import { StatController } from '@/classes/components/combat/stats/StatController';
 import _ from 'lodash';
 import { NarrativeStore } from '../store/narrative_store';
 import { NpcStore } from '../store/npc_store';
 import exportAsJson from '@/util/jsonExport';
 import { EncounterStore } from '@/stores';
+import { DeleteItemPermanent, GenerateExportCollection } from '@/io/Importer';
 
 export default {
   name: 'Organizer',
@@ -310,28 +332,35 @@ export default {
   },
   computed: {
     items() {
+      let items = [] as any[];
       if (this.type === 'npc')
-        return NpcStore().Npcs.filter(
+        items = NpcStore().Npcs.filter(
+          (x: any) =>
+            this.shownTypes.includes(x.ItemType.toLowerCase()) &&
+            (this.showDeleted || !x.SaveController.IsDeleted)
+        );
+      else if (this.type === 'narrative')
+        items = NarrativeStore().CollectionItems.filter(
+          (x: any) =>
+            this.shownTypes.includes(x.ItemType.toLowerCase()) &&
+            (this.showDeleted || !x.SaveController.IsDeleted)
+        );
+      else if (this.type === 'encounter')
+        items = EncounterStore().Encounters.filter(
           (x: any) =>
             this.shownTypes.includes(x.ItemType.toLowerCase()) &&
             (this.showDeleted || !x.SaveController.IsDeleted)
         );
 
-      if (this.type === 'narrative')
-        return NarrativeStore().CollectionItems.filter(
-          (x: any) =>
-            this.shownTypes.includes(x.ItemType.toLowerCase()) &&
-            (this.showDeleted || !x.SaveController.IsDeleted)
-        );
+      items = items.sort((a: any, b: any) => a.Name.localeCompare(b.Name));
 
-      if (this.type === 'encounter')
-        return EncounterStore().Encounters.filter(
-          (x: any) =>
-            this.shownTypes.includes(x.ItemType.toLowerCase()) &&
-            (this.showDeleted || !x.SaveController.IsDeleted)
-        );
-
-      return [];
+      return items;
+    },
+    contentItems() {
+      return this.items.filter((x: any) => !x.BrewController || !x.BrewController.IsUnableToLoad);
+    },
+    missingContentItems() {
+      return this.items.filter((x: any) => x.BrewController && x.BrewController.IsUnableToLoad);
     },
     allFolders() {
       return NpcStore().getFolders.concat(NarrativeStore().getFolders);
@@ -403,23 +432,15 @@ export default {
       NpcStore().SaveNpcData();
     },
     exportItems() {
-      let json = {} as any;
-      let filename = '';
-      if (this.selected.length === 1) {
-        const item = this.items.find((x: any) => x.ID === this.selected[0]);
-        if (item) {
-          json = (item as any).Serialize();
-          filename = (item as any).Name + '.json';
-        }
-      } else {
-        const data = this.items.filter((x: any) => this.selected.includes(x.ID));
-        json = {
-          type: `${this.type}_collection`,
-          item_count: data.length,
-          data: data.map((x: any) => x.Serialize()),
-        };
-        filename = `GM_export_${new Date().toLocaleDateString().replaceAll('/', '-')}.json`;
-      }
+      const json = GenerateExportCollection(
+        this.selected.map((x) => this.items.find((y) => y.ID === x)),
+        this.type
+      );
+
+      let filename =
+        this.selected.length === 1
+          ? this.items.find((x: any) => x.ID === this.selected[0]).Name
+          : `GM_export_${new Date().toLocaleDateString().replaceAll('/', '-')}.json`;
 
       exportAsJson(json, filename);
     },
@@ -439,19 +460,15 @@ export default {
     async deleteItemsPermanent() {
       const promises = [] as Promise<any>[];
       this.selected.forEach((id) => {
-        const item = this.items.find((x: any) => x.ID === id) as any;
-        if (item && item.SaveController.IsDeleted) {
-          if (item.StorageType === 'narrative')
-            promises.push(NarrativeStore().DeleteItemPermanent(item));
-          else if (item.StorageType === 'encounters')
-            promises.push(EncounterStore().DeleteEncounterPermanent(item));
-          else if (item.StorageType === 'npcs') promises.push(NpcStore().DeleteNpcPermanent(item));
-        }
+        promises.push(this.deleteItemPermanent(this.items.find((x: any) => x.ID === id)));
       });
       await Promise.all(promises);
 
       this.selected = [];
       this.showDeleteConfirm = false;
+    },
+    async deleteItemPermanent(item: any) {
+      await DeleteItemPermanent(item);
     },
     routePrint() {
       if (this.type === 'narrative')

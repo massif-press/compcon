@@ -70,6 +70,7 @@
 </template>
 
 <script lang="ts">
+import { UserStore } from '@/stores';
 import { deleteUser } from 'aws-amplify/auth';
 
 export default {
@@ -87,10 +88,9 @@ export default {
     async handleDeleteUser() {
       this.loading = true;
       try {
-        //TODO: delete local data
-        //TODO: delete remote data
-        //FINALLy:
+        await UserStore().deleteAllCloudData();
         await deleteUser();
+        location.reload();
       } catch (error) {
         console.log(error);
       }

@@ -28,8 +28,8 @@
           </cc-tooltip>
         </v-btn>
       </template>
-      <v-list two-line subheader class="bg-panel">
-        <div class="heading h2 text-white primary py-0 px-2">Mech Options</div>
+      <v-list lines="two">
+        <div class="heading h2 bg-primary py-0 px-2">Mech Options</div>
         <v-divider />
 
         <v-list-item
@@ -44,9 +44,10 @@
           subtitle="Get a plaintext representation of this mech configuration"
           @click="($refs as any).statblockDialog.show()" />
 
-        <v-divider />
+        <v-divider v-if="!pilot.IsRemote" />
 
         <v-list-item
+          v-if="!pilot.IsRemote"
           class="text-error"
           prepend-icon="mdi-delete"
           title="Delete Mech"
@@ -55,11 +56,7 @@
       </v-list>
     </v-menu>
 
-    <statblock-dialog
-      ref="statblockDialog"
-      class="unskew"
-      :pilot="pilot as Pilot"
-      :mechID="mechID" />
+    <statblock-dialog ref="statblockDialog" class="unskew" :pilot="<Pilot>pilot" :mechID="mechID" />
   </div>
 </template>
 

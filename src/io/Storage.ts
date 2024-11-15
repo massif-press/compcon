@@ -18,6 +18,11 @@ const storeRegistry = {
     storeName: 'content',
     description: 'Stores LCP data',
   }),
+  content_collection: localforage.createInstance({
+    name: dbName,
+    storeName: 'content_collection',
+    description: 'Stores user-published content collection data',
+  }),
   campaigns: localforage.createInstance({
     name: dbName,
     storeName: 'campaigns',
@@ -77,6 +82,7 @@ const SetItem = async function (collection: string, item: any) {
   }
 
   if (!save) return;
+
   storeRegistry[collection.toLowerCase()].setItem(id, JSON.stringify(item));
 };
 

@@ -49,7 +49,7 @@
             Remote Items
             <v-tooltip max-width="300px" location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" size="small" end color="primary">
+                <v-icon v-bind="props" size="small" end color="accent">
                   mdi-information-outline
                 </v-icon>
               </template>

@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
 
 import { Campaign, ICampaignData } from '@/classes/campaign/Campaign';
-import path from 'path';
 
 export const CampaignStore = defineStore('campaign', {
   state: () => ({

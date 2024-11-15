@@ -13,13 +13,16 @@
           </v-btn>
         </v-toolbar>
         <v-container>
-          <v-row>
+          <v-row density="compact">
             <v-col cols="9">
-              <v-row dense>
+              <v-row class="heading mech" dense>
+                <cc-remote-hover :item="item" color="accent" />
+                <cc-missing-content-hover :item="item" />
                 <v-col>
-                  <div class="heading mech mt-n5" style="min-width: 30vw">
+                  <div class="mt-n3" style="min-width: 30vw">
                     <cc-short-string-editor
                       large
+                      :readonly="isRemote"
                       justify="start"
                       :placeholder="item.Name"
                       @set="item.Name = $event">
@@ -32,15 +35,15 @@
               </v-row>
 
               <div class="text-overline">ENCOUNTER DETAILS</div>
-              <cc-rich-text-area v-model="item.Description" />
+              <cc-rich-text-area :readonly="isRemote" v-model="item.Description" />
 
-              <sitrep-editor :item="item" />
+              <sitrep-editor :readonly="isRemote" :item="item" />
 
-              <environment-editor :item="item" />
+              <environment-editor :readonly="isRemote" :item="item" />
             </v-col>
             <v-col cols="3" class="text-center ml-auto">
-              <gm-folder-editor :item="item" class="mb-1" />
-              <gm-label-editor :item="item" class="mb-4" />
+              <gm-folder-editor :readonly="isRemote" :item="item" class="mb-1" />
+              <gm-label-editor :readonly="isRemote" :item="item" class="mb-4" />
               <v-card>
                 <v-tabs v-model="mapTab" grow color="secondary" bg-color="panel" density="compact">
                   <v-tab>Map</v-tab>
@@ -64,6 +67,7 @@
                       <map-editor :encounter="item" @exit="exitMapEditor" />
                     </cc-solo-dialog>
                     <v-btn
+                      v-if="!isRemote"
                       small
                       variant="outlined"
                       block
@@ -75,6 +79,7 @@
                   <v-window-item>
                     <cc-img :src="item.PortraitController.Image" />
                     <v-btn
+                      v-if="!isRemote"
                       small
                       variant="outlined"
                       block
@@ -93,19 +98,20 @@
             </v-col>
           </v-row>
 
-          <combatant-editor :encounter="item" />
+          <combatant-editor :encounter="item" :readonly="isRemote" />
 
           <cc-icon-divider icon="mdi-robot-industrial" class="mt-2" />
           <div class="text-caption">ADDITIONAL DETAIL</div>
-          <section-editor :item="item" />
+          <section-editor :readonly="isRemote" :item="item" />
           <v-divider class="my-2" />
           <div class="text-caption">CLOCKS</div>
           <cc-clock
             v-for="c in item.NarrativeController.Clocks"
+            :readonly="isRemote"
             :clock="c"
             class="mx-1 my-2"
             @delete="item.NarrativeController.DeleteClock(c)" />
-          <v-row justify="end">
+          <v-row v-if="!isRemote" justify="end">
             <v-col cols="auto">
               <v-btn
                 color="accent"
@@ -121,10 +127,11 @@
           <div class="text-caption">TABLES</div>
           <cc-rollable-table
             v-for="t in item.NarrativeController.Tables"
+            :readonly="isRemote"
             :table="t"
             class="mx-1 my-2"
             @delete="item.NarrativeController.DeleteTable(t)" />
-          <v-row justify="end">
+          <v-row v-if="!isRemote" justify="end">
             <v-col cols="auto">
               <v-btn
                 color="accent"
@@ -138,7 +145,7 @@
           </v-row>
           <v-divider class="my-2" />
           <div class="text-caption mb-2">ADDITIONAL NOTES</div>
-          <cc-rich-text-area v-model="item.Note" />
+          <cc-rich-text-area :readonly="isRemote" v-model="item.Note" />
         </v-container>
       </v-card>
     </div>
@@ -152,7 +159,104 @@
         Export
       </v-btn>
       <v-spacer />
-      <v-menu v-model="dupeMenu" offset-y offset-x top left>
+      <v-dialog max-width="800px">
+        <template #activator="{ props }">
+          <v-btn
+            v-if="!isRemote && isAuthed"
+            color="accent"
+            v-bind="props"
+            variant="tonal"
+            size="small">
+            <v-icon start icon="mdi-broadcast" />
+            Share Code
+          </v-btn>
+        </template>
+        <template #default="{ isActive }">
+          <v-card>
+            <v-toolbar color="primary" density="compact">
+              <v-toolbar-title>Share Code</v-toolbar-title>
+              <v-spacer />
+              <v-btn icon @click="isActive.value = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <v-card-text>
+              <v-alert variant="tonal" density="compact" border prominent icon="mdi-alert">
+                A share code will allow other users with COMP/CON cloud accounts to download a copy
+                of this item and subscribe to updates you make. Please be conscientious when
+                updating data that is shared with others.
+              </v-alert>
+              <div v-if="item.CloudController.ShareCode">
+                <v-row justify="center">
+                  <v-col cols="auto">
+                    <div class="text-overline mb-n6">item SHARE CODE</div>
+                    <b
+                      class="text-accent"
+                      style="font-size: 80px; letter-spacing: 15px"
+                      v-text="
+                        `${item.CloudController.ShareCode.substring(
+                          0,
+                          4
+                        )}&ndash;${item.CloudController.ShareCode.substring(4, 8)}`
+                      " />
+                    <v-tooltip text="Copy share code to clipboard">
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          icon
+                          size="small"
+                          variant="text"
+                          class="ml-n3"
+                          @click="copyCode()">
+                          <v-icon>mdi-clipboard-text-outline</v-icon>
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                  </v-col>
+                </v-row>
+              </div>
+            </v-card-text>
+          </v-card>
+        </template>
+      </v-dialog>
+      <v-spacer v-if="!isRemote && isAuthed" />
+
+      <v-menu v-if="isRemote" v-model="convertMenu" offset-y offset-x top left>
+        <template #activator="{ props }">
+          <v-btn variant="tonal" size="small" class="mx-3" v-bind="props">
+            <v-icon start icon="mdi-content-copy" />
+            Convert
+          </v-btn>
+        </template>
+        <cc-confirmation
+          content="Converting this item to local data will allow local editing but remove its remote link to the
+      author's cloud account, and prevent any further updates from being received. To re-enable
+      remote syncing, you will have to re-import this item via its share code."
+          @confirm="convert()" />
+      </v-menu>
+
+      <v-tooltip v-if="isRemote">
+        <template #activator="{ props }">
+          <v-btn
+            variant="tonal"
+            size="small"
+            :disabled="item.CloudController.SyncStatus === 'Synced'"
+            class="mx-3"
+            v-bind="props">
+            <v-icon start>mdi-cloud-sync</v-icon>
+            Update
+          </v-btn>
+        </template>
+        {{
+          isAuthed
+            ? item.CloudController.SyncStatus === 'Synced'
+              ? 'Item is up to date with remote changes'
+              : 'Download all remote changes to this item, overwriting local data.'
+            : 'Must be logged in to update'
+        }}
+      </v-tooltip>
+
+      <v-menu v-if="!isRemote" v-model="dupeMenu" offset-y offset-x top left>
         <template #activator="{ props }">
           <v-btn variant="tonal" size="small" class="mx-3" v-bind="props">
             <v-icon start icon="mdi-content-copy" />
@@ -161,7 +265,8 @@
         </template>
         <cc-confirmation content="Confirm duplication of this NPC" @confirm="dupe()" />
       </v-menu>
-      <v-menu v-model="deleteMenu" offset-y offset-x top left>
+
+      <v-menu v-if="!isRemote" v-model="deleteMenu" offset-y offset-x top left>
         <template #activator="{ props }">
           <v-btn variant="tonal" size="small" color="error" class="mx-3" v-bind="props">
             <v-icon start icon="mdi-delete" />
@@ -181,7 +286,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore, EncounterStore } from '@/stores';
+import { CompendiumStore, EncounterStore, UserStore } from '@/stores';
 import NoteEditor from '../../_components/NoteEditor.vue';
 import SectionEditor from '../../_components/SectionEditor.vue';
 import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue';
@@ -194,6 +299,7 @@ import { Encounter } from '@/classes/encounter/Encounter';
 import exportAsJson from '@/util/jsonExport';
 
 import CombatantEditor from './combatants/CombatantEditor.vue';
+import { CloudController } from '@/classes/components';
 
 export default {
   name: 'gm-encounter-editor',
@@ -218,7 +324,9 @@ export default {
     printDialog: false,
     dupeMenu: false,
     deleteMenu: false,
+    convertMenu: false,
     mapTab: 0,
+    loading: false,
   }),
   computed: {
     typeText() {
@@ -227,6 +335,12 @@ export default {
     },
     sitreps() {
       return CompendiumStore().Sitreps;
+    },
+    isRemote() {
+      return (this.item as any).SaveController.IsRemote;
+    },
+    isAuthed() {
+      return UserStore().IsLoggedIn;
     },
   },
   methods: {
@@ -256,6 +370,39 @@ export default {
     },
     exportItem(item) {
       exportAsJson(Encounter.Serialize(item), `${item.Name}.json`);
+    },
+    async remoteUpdate() {
+      try {
+        await CloudController.UpdateRemote(this.item);
+        await UserStore().refreshDbData();
+        this.$notify({
+          title: `Sync Complete`,
+          text: `${this.item.ItemType} ${this.item.Name} synced.`,
+          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+        });
+      } catch (err) {
+        this.$notify({
+          title: `Sync Failed`,
+          text: `Failed to sync ${this.item.ItemType} ${this.item.Name}. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        });
+      }
+    },
+    async convert() {
+      this.loading = true;
+      UserStore().deleteRemoteItem(this.item.SaveController.RemoteCode);
+      this.item.CloudController.GenerateMetadata();
+      this.item.SaveController.ClearRemote();
+      await UserStore().refreshDbData();
+      this.loading = false;
+    },
+    copyCode() {
+      navigator.clipboard.writeText(this.item.CloudController.ShareCode);
+      this.$notify({
+        title: 'Copied',
+        text: 'Share code copied to clipboard',
+        data: { icon: 'mdi-clipboard-check', color: 'success' },
+      });
     },
   },
 };

@@ -18,13 +18,12 @@
           item-text="name"
           return-object
           class="mb-1"
-          @change="setSelection($event)"
-        />
+          @change="setSelection($event)" />
       </v-col>
       <v-col v-if="selected.cost" class="ml-auto pl-4 pr-3 text-left">
         <div class="text-overline my-n2">COST::AMMO CASE</div>
         <div>
-          <v-icon v-for="n in selected.cost"> mdi-hexagon-slice-6 </v-icon>
+          <v-icon v-for="n in selected.cost">mdi-hexagon-slice-6</v-icon>
         </div>
       </v-col>
     </v-row>
@@ -75,8 +74,7 @@ export default {
         name: 'Hellfire',
         cost: 2,
         damage: 'energy',
-        effect:
-          'This weapon deals Energy damage and deals any bonus damage as Burn.',
+        effect: 'This weapon deals Energy damage and deals any bonus damage as Burn.',
       },
       {
         name: 'Jager',

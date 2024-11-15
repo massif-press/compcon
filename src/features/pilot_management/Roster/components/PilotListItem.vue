@@ -56,6 +56,9 @@
               </div>
             </v-menu>
             <v-col class="heading text-white">
+              <cc-remote-hover :item="pilot" />
+              <cc-missing-content-hover :item="pilot" simple />
+
               {{ pilot.Callsign }}
             </v-col>
             <v-col cols="auto" class="mr-4">
@@ -158,6 +161,9 @@ export default {
   computed: {
     missingContent() {
       return this.pilot.BrewController.IsUnableToLoad;
+    },
+    remoteResource() {
+      return this.pilot.SaveController.IsRemote;
     },
   },
   methods: {

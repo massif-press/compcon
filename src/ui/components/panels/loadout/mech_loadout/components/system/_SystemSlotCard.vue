@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-if="empty && mech.FreeSP <= 0" no-gutters justify="end">
+    <v-row v-if="!readonly && empty && mech.FreeSP <= 0" no-gutters justify="end">
       <v-col cols="auto">
         <v-btn
           size="small"
@@ -25,7 +25,7 @@
       <template #header>
         <v-row v-if="item" dense align="center">
           <v-col cols="auto">
-            <equipment-options :item="item" />
+            <equipment-options v-if="!readonly" :item="item" />
           </v-col>
           <v-col cols="auto">
             {{ item.Name }}
@@ -41,7 +41,7 @@
           <v-col cols="auto" class="pr-4">
             <span>{{ item.SP }}SP</span>
           </v-col>
-          <v-col cols="auto" style="border-left: 1px solid #616161">
+          <v-col v-if="!readonly" cols="auto" style="border-left: 1px solid #616161">
             <v-btn
               v-if="item"
               size="small"
@@ -61,13 +61,18 @@
           </v-col>
         </v-row>
       </template>
-      <div v-if="item && item.Ammo && item.Ammo.length">
-        <div v-for="a in item.Ammo" class="body-text">
-          <b>{{ a.name }}</b>
-          :
-          <span v-html-safe="a.detail" />
-        </div>
-      </div>
+      <v-table v-if="item && item.Ammo && item.Ammo.length" class="mt-2" hover density="compact">
+        <tbody>
+          <tr v-for="a in item.Ammo">
+            <td style="min-width: 120px">
+              <v-icon icon="cc:ammo" class="mt-n1 mr-1" />
+              <b>{{ a.name }}</b>
+            </td>
+
+            <td><span v-html-safe="a.detail" /></td>
+          </tr>
+        </tbody>
+      </v-table>
       <template #selector>
         <system-selector :mech="mech" :equipped="item" @equip="handleEquip($event)" />
       </template>
@@ -104,6 +109,9 @@ export default {
       default: 'primary',
     },
     empty: {
+      type: Boolean,
+    },
+    readonly: {
       type: Boolean,
     },
   },

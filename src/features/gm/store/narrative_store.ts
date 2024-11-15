@@ -99,6 +99,7 @@ export const NarrativeStore = defineStore('narrative', {
       }
 
       this.CollectionItems.push(payload);
+
       await this.SaveItemData();
     },
 

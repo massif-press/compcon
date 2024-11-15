@@ -18,7 +18,7 @@ type BrewInfo = {
 class BrewController {
   public readonly Parent: IBrewable;
   private _savedBrewData: BrewInfo[] = [];
-  public MissingContent: Boolean = false;
+  public MissingContent: boolean = false;
 
   public constructor(parent: IBrewable) {
     this.Parent = parent;
@@ -44,11 +44,14 @@ class BrewController {
   }
 
   get HasError(): boolean {
-    return this.MissingBrews.length + this.OutdatedBrews.length + this.DeactivatedBrews.length > 0;
+    return (
+      this.MissingContent ||
+      this.MissingBrews.length + this.OutdatedBrews.length + this.DeactivatedBrews.length > 0
+    );
   }
 
   get IsUnableToLoad(): boolean {
-    return this.MissingBrews.length + this.DeactivatedBrews.length > 0;
+    return this.MissingContent || this.MissingBrews.length + this.DeactivatedBrews.length > 0;
   }
 
   get DeactivatedBrews(): BrewInfo[] {
@@ -61,6 +64,10 @@ class BrewController {
 
   get OutdatedBrews(): BrewInfo[] {
     return this.Brews.filter((x) => x.Status === 'OLD');
+  }
+
+  get NonfunctionalBrews(): BrewInfo[] {
+    return this.Brews.filter((x) => x.Status === 'MISSING' || x.Status === 'OFF');
   }
 
   public FixMissing() {

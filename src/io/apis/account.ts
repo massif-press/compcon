@@ -115,6 +115,7 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
 
 export async function downloadFromS3(s3Url) {
   const url = `${import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR}/${s3Url}`;
+
   try {
     const response = await fetch(url);
     if (response.ok) {

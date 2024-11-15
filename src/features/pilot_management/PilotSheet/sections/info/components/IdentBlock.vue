@@ -2,28 +2,40 @@
   <v-row dense class="stat-text text-center">
     <v-col>
       <div class="text-overline mb-n3 pb-1 text-disabled">CALLSIGN</div>
-      <cc-short-string-editor :placeholder="pilot.Callsign" @set="pilot.Callsign = $event">
+      <cc-short-string-editor
+        :readonly="pilot.IsRemote"
+        :placeholder="pilot.Callsign"
+        @set="pilot.Callsign = $event">
         {{ pilot.Callsign }}
       </cc-short-string-editor>
     </v-col>
     <v-col>
       <div class="text-overline mb-n3 pb-1 text-disabled">NAME</div>
-      <cc-short-string-editor :placeholder="pilot.Name" @set="pilot.Name = $event">
+      <cc-short-string-editor
+        :readonly="pilot.IsRemote"
+        :placeholder="pilot.Name"
+        @set="pilot.Name = $event">
         {{ pilot.Name }}
       </cc-short-string-editor>
     </v-col>
     <v-col>
       <div class="text-overline mb-n3 pb-1 text-disabled">
         BACKGROUND
-        <background-selector small @select="pilot.Background = $event" />
+        <background-selector v-if="!pilot.IsRemote" small @select="pilot.Background = $event" />
       </div>
-      <cc-short-string-editor :placeholder="pilot.Background" @set="pilot.Background = $event">
+      <cc-short-string-editor
+        :readonly="pilot.IsRemote"
+        :placeholder="pilot.Background"
+        @set="pilot.Background = $event">
         {{ pilot.Background }}
       </cc-short-string-editor>
     </v-col>
     <v-col>
       <div class="text-overline mb-n3 pb-1 text-disabled">PLAYER</div>
-      <cc-short-string-editor :placeholder="pilot.PlayerName" @set="pilot.PlayerName = $event">
+      <cc-short-string-editor
+        :readonly="pilot.IsRemote"
+        :placeholder="pilot.PlayerName"
+        @set="pilot.PlayerName = $event">
         {{ pilot.PlayerName || '---' }}
       </cc-short-string-editor>
     </v-col>
@@ -32,7 +44,7 @@
       <v-menu offset-y :close-on-content-click="false" width="300">
         <template #activator="{ props }">
           <v-chip
-            v-bind="props"
+            v-bind="!pilot.IsRemote ? props : ''"
             label
             :color="statusColor"
             class="stat-text"
@@ -62,8 +74,6 @@
 import { Pilot } from '@/class';
 import BackgroundSelector from '../../../../_components/selectors/BackgroundSelector.vue';
 
-// import { Auth } from 'aws-amplify';
-
 export default {
   name: 'ident-block',
   components: { BackgroundSelector },
@@ -84,14 +94,7 @@ export default {
     ],
     noteColor: '',
     notification: '',
-    syncing: false,
-    currentAuthedUser: null,
   }),
-  async created() {
-    // await Auth.currentAuthenticatedUser().then((res) => {
-    //   this.currentAuthedUser = !!res.username;
-    // });
-  },
   computed: {
     statusColor(): string {
       switch (this.pilot.Status.toLowerCase()) {

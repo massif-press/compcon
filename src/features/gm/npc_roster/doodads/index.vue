@@ -5,7 +5,7 @@
     title="Doodads"
     item-type="Doodad"
     :items="doodads"
-    :selected="selected"
+    :selected="<any>selected"
     :groupings="groupings"
     :sortings="sortings"
     @add-new="addNew()"
@@ -31,7 +31,7 @@
       :item="selected"
       :footer-offset="view !== 'collection'"
       :hide-toolbar="view !== 'collection'"
-      @exit="($refs as any).view.dialog = false"
+      @exit="exit()"
       @save="SaveAndClose()" />
     <no-gm-item v-else />
   </component>
@@ -116,15 +116,19 @@ export default {
       this.selected = item;
       (this.$refs as any).view.dialog = true;
     },
-    addNew() {
+    async addNew() {
       const d = new Doodad();
-      NpcStore().AddNpc(d);
+      await NpcStore().AddNpc(d);
       this.selected = d;
       (this.$refs as any).view.dialog = true;
     },
     SaveAndClose() {
       this.selected = null;
-      (this.$refs as any).view.dialog = true;
+      (this.$refs as any).view.dialog = false;
+    },
+    exit() {
+      this.selected = null;
+      (this.$refs as any).view.dialog = false;
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="heading mech" style="min-width: 30vw">
+  <div class="heading mech" style="min-width: 30vw; line-height: 1em">
     <cc-short-string-editor
       :readonly="readonly"
       large

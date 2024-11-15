@@ -6,24 +6,22 @@
       density="compact"
       variant="outlined"
       color="error"
-      class="mx-4 mb-4"
-    >
+      class="mx-4 mb-4">
       <template #prepend>
         <v-icon size="80" icon="mdi-skull" />
       </template>
       <div class="heading h1 text-center">KILLED IN ACTION</div>
-      <div style="position: relative" class="mb-4">
+      <div v-if="!pilot.IsRemote" style="position: relative" class="mb-4">
         <div style="position: absolute; bottom: -16px; right: -8px">
           <v-menu offset-y offset-x>
             <template #activator="{ props }">
-              <v-btn color="secondary" size="x-small" variant="text" v-bind="props"
-                >Flash Clone Pilot</v-btn
-              >
+              <v-btn color="secondary" size="x-small" variant="text" v-bind="props">
+                Flash Clone Pilot
+              </v-btn>
             </template>
             <cc-confirmation
               content="This will clone the selected pilot. Cloned characters can’t join a mission in progress, and cloned characters receive a random quirk. Additional cloning and subjectivity imprinting adds further quirks."
-              @confirm="setQuirk"
-            />
+              @confirm="setQuirk" />
           </v-menu>
           <v-menu offset-y offset-x>
             <template #activator="{ props }">
@@ -33,8 +31,7 @@
             </template>
             <cc-confirmation
               content="This will restore the selected pilot and clear the KIA status."
-              @confirm="pilot.Status = 'Active'"
-            />
+              @confirm="pilot.Status = 'Active'" />
           </v-menu>
         </div>
       </div>
@@ -53,8 +50,7 @@
               auto-grow
               variant="solo-filled"
               :readonly="readonly"
-              @blur="pilot.SaveController.save()"
-            />
+              @blur="pilot.SaveController.save()" />
           </v-alert>
         </v-col>
         <v-col cols="auto">

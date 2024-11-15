@@ -5,12 +5,13 @@
       <v-col>
         <cc-short-string-editor
           justify="start"
+          :readonly="readonly"
           :placeholder="item.Sitrep.Name"
           @set="item.Sitrep.Name = $event">
           <span class="heading h3">{{ item.Sitrep.Name }}</span>
         </cc-short-string-editor>
       </v-col>
-      <v-col cols="auto">
+      <v-col v-if="!readonly" cols="auto">
         <v-dialog v-model="dialog">
           <template #activator="{ props }">
             <v-btn v-bind="props" color="accent" variant="tonal">Load Preset</v-btn>
@@ -82,14 +83,14 @@
             </v-row>
             <v-divider />
             <v-card-actions>
-              <v-btn text @click="dialog = false">Cancel</v-btn>
+              <v-btn variant="text" @click="dialog = false">Cancel</v-btn>
               <v-spacer />
               <v-btn color="accent" @click="assignPreset()">Assign</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-col>
-      <v-col cols="auto">
+      <v-col v-if="!readonly" cols="auto">
         <v-btn
           @click="staged = null"
           icon
@@ -104,6 +105,7 @@
 
     <v-textarea
       v-model="item.Sitrep.Description"
+      :readonly="readonly"
       label="Description"
       density="compact"
       rows="1"
@@ -114,6 +116,7 @@
     <v-textarea
       v-if="shownKeys.includes('Deployment')"
       v-model="item.Sitrep.Deployment"
+      :readonly="readonly"
       label="Deployment"
       density="compact"
       rows="1"
@@ -122,12 +125,17 @@
       hide-details
       class="mb-2">
       <template #append-inner>
-        <v-icon icon="mdi-close" class="fade-select" @click="removeKey('Deployment')" />
+        <v-icon
+          v-if="!readonly"
+          icon="mdi-close"
+          class="fade-select"
+          @click="removeKey('Deployment')" />
       </template>
     </v-textarea>
     <v-textarea
       v-if="shownKeys.includes('Objective')"
       v-model="item.Sitrep.Objective"
+      :readonly="readonly"
       label="Objective"
       density="compact"
       rows="1"
@@ -136,12 +144,17 @@
       hide-details
       class="mb-2">
       <template #append-inner>
-        <v-icon icon="mdi-close" class="fade-select" @click="removeKey('Objective')" />
+        <v-icon
+          v-if="!readonly"
+          icon="mdi-close"
+          class="fade-select"
+          @click="removeKey('Objective')" />
       </template>
     </v-textarea>
     <v-textarea
       v-if="shownKeys.includes('ControlZone')"
       v-model="item.Sitrep.ControlZone"
+      :readonly="readonly"
       label="Control Zone"
       density="compact"
       rows="1"
@@ -150,12 +163,17 @@
       hide-details
       class="mb-2">
       <template #append-inner>
-        <v-icon icon="mdi-close" class="fade-select" @click="removeKey('ControlZone')" />
+        <v-icon
+          v-if="!readonly"
+          icon="mdi-close"
+          class="fade-select"
+          @click="removeKey('ControlZone')" />
       </template>
     </v-textarea>
     <v-textarea
       v-if="shownKeys.includes('Extraction')"
       v-model="item.Sitrep.Extraction"
+      :readonly="readonly"
       label="Extraction"
       density="compact"
       rows="1"
@@ -164,18 +182,33 @@
       hide-details
       class="mb-2">
       <template #append-inner>
-        <v-icon icon="mdi-close" class="fade-select" @click="removeKey('Extraction')" />
+        <v-icon
+          v-if="!readonly"
+          icon="mdi-close"
+          class="fade-select"
+          @click="removeKey('Extraction')" />
       </template>
     </v-textarea>
 
     <v-card v-for="(c, i) in item.Sitrep.Conditions" class="pa-2">
-      <v-text-field v-model="c.title" label="Title" density="compact" hide-details class="mb-2">
+      <v-text-field
+        v-model="c.title"
+        :readonly="readonly"
+        label="Title"
+        density="compact"
+        hide-details
+        class="mb-2">
         <template #append>
-          <v-icon icon="mdi-delete" class="fade-select" @click="item.Sitrep.Conditions.splice(i)" />
+          <v-icon
+            v-if="!readonly"
+            icon="mdi-delete"
+            class="fade-select"
+            @click="item.Sitrep.Conditions.splice(i)" />
         </template>
       </v-text-field>
       <v-textarea
         v-model="c.condition"
+        :readonly="readonly"
         label="Conditions"
         density="compact"
         rows="1"
@@ -185,7 +218,7 @@
         class="mb-2" />
     </v-card>
 
-    <v-row>
+    <v-row v-if="!readonly">
       <v-col v-for="key in keys.filter((x) => !item.Sitrep[x])" cols="auto">
         <v-btn
           variant="tonal"
@@ -220,6 +253,7 @@ export default {
   name: 'gm-sitrep-editor',
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   data: () => ({
     dialog: false,

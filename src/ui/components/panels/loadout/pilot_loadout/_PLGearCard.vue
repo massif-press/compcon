@@ -22,7 +22,7 @@
       class="text-left"
       style="cursor: pointer !important"
       @click="($refs as any).base.openDetail()">
-      <v-card-text v-if="!readonly" class="py-0">
+      <v-card-text class="py-0">
         <div v-html-safe="item.Description" />
       </v-card-text>
       <cc-tags small :tags="item.Tags" color="secondary" />

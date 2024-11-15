@@ -9,7 +9,7 @@
     @delete="removeRelationship(idx)" />
 
   <div class="text-right">
-    <v-btn variant="tonal" size="small" color="accent" @click="addRelationship()">
+    <v-btn v-if="!readonly" variant="tonal" size="small" color="accent" @click="addRelationship()">
       <v-icon start icon="mdi-heart-plus-outline" />
       Add Relationship
     </v-btn>
@@ -28,6 +28,10 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

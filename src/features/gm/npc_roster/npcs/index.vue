@@ -5,7 +5,7 @@
     title="NPCs"
     item-type="Unit"
     :items="npcs"
-    :selected="selected"
+    :selected="<any>selected"
     :groupings="groupings"
     :sortings="sortings"
     @add-new="addNew()"
@@ -13,12 +13,13 @@
     <editor
       v-if="selected"
       :item="selected"
+      :readonly="selected.Readonly"
       :footer-offset="view !== 'collection'"
       :hide-toolbar="view !== 'collection'"
-      @exit="($refs as any).view.dialog = false"
+      @exit="exit()"
       @save="SaveAndClose()">
-      <builder slot="upper" :item="selected" />
-      <features slot="lower" :item="selected" />
+      <builder slot="upper" :item="selected" :readonly="selected.Readonly" />
+      <features slot="lower" :item="selected" :readonly="selected.Readonly" />
     </editor>
     <no-gm-item v-else />
   </component>
@@ -105,13 +106,17 @@ export default {
       this.selected = item;
       (this.$refs as any).view.dialog = true;
     },
-    addNew() {
+    async addNew() {
       const u = new Unit();
-      NpcStore().AddNpc(u);
+      await NpcStore().AddNpc(u);
       this.selected = u;
       (this.$refs as any).view.dialog = true;
     },
     SaveAndClose() {
+      this.selected = null;
+      (this.$refs as any).view.dialog = false;
+    },
+    exit() {
       this.selected = null;
       (this.$refs as any).view.dialog = false;
     },

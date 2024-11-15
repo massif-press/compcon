@@ -56,13 +56,16 @@
                   <div class="px-4">
                     <v-row dense>
                       <v-col cols="7">
-                        <v-text-field v-model="collection.Name" density="compact" label="Name" />
+                        <v-text-field
+                          v-model="collection.Name"
+                          :label="!collection.Name ? 'Name (required)' : 'Name'"
+                          density="compact" />
                       </v-col>
                       <v-col>
                         <v-text-field
                           v-model="collection.Author"
                           density="compact"
-                          label="Author" />
+                          :label="!collection.Author ? 'Author (required)' : 'Author'" />
                       </v-col>
                       <v-col>
                         <div class="text-center">
@@ -167,24 +170,181 @@
                       v-model="collection.NextChangelog"
                       density="compact"
                       rows="3"
-                      auto-grow
-                      hide-details />
+                      hide-details
+                      auto-grow />
                   </div>
-                  <v-divider />
+                  <div class="text-right">
+                    <v-dialog max-width="600px">
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          size="x-small"
+                          class="my-2"
+                          color="accent"
+                          prepend-icon="mdi-note-multiple-outline">
+                          View Full Changelog
+                        </v-btn>
+                      </template>
+                      <template #default="{ isActive }">
+                        <v-card v-show="isActive">
+                          <v-toolbar color="accent" density="compact">
+                            <v-toolbar-title class="heading h3">
+                              {{ collection.Name.toUpperCase() }} CHANGELOG
+                            </v-toolbar-title>
+                            <v-btn icon @click="isActive.value = false">
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                          </v-toolbar>
+                          <v-card-text>
+                            <div v-for="entry in collection.Changelog">
+                              <div class="heading h4">version {{ entry.version }}</div>
+                              <v-textarea
+                                v-model="entry.changes"
+                                density="compact"
+                                rows="2"
+                                hide-details
+                                auto-grow
+                                readonly />
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </template>
+                    </v-dialog>
+                  </div>
+                  <v-divider class="mb-3" />
                   <v-footer>
                     <v-btn color="accent" size="small" @click="collection.Save()">Save Draft</v-btn>
+
                     <v-spacer />
                     <v-btn
                       color="accent"
+                      :loading="loading"
                       size="small"
                       class="mx-4"
-                      @click="collection.Publish('minor')">
+                      :disabled="!canPublish(collection)"
+                      @click="Publish('minor')">
                       Publish Minor Version ({{ collection.NextVersion('minor') }})
                     </v-btn>
-                    <v-btn color="accent" size="small" @click="collection.Publish('major')">
+                    <v-btn
+                      color="accent"
+                      :loading="loading"
+                      size="small"
+                      :disabled="!canPublish(collection)"
+                      @click="Publish('major')">
                       Publish Major Version ({{ collection.NextVersion('major') }})
                     </v-btn>
                   </v-footer>
+                  <div class="my-2">
+                    <span class="text-caption">COLLECTION SHARE CODE</span>
+                    <div v-if="collection.Metadata?.code" class="text-center">
+                      <v-chip
+                        color="accent"
+                        class="mt-1 mx-1"
+                        size="x-large"
+                        label
+                        v-for="n in collection.Metadata.code.substring(0, 4)">
+                        <span class="heading h2">{{ n }}</span>
+                      </v-chip>
+                      <v-chip variant="text" class="mt-1" size="x-large" label>
+                        <span class="heading h2">&ndash;</span>
+                      </v-chip>
+                      <v-chip
+                        color="accent"
+                        class="mt-1 mx-1"
+                        size="x-large"
+                        label
+                        v-for="n in collection.Metadata.code.substring(4, 8)">
+                        <span class="heading h2">{{ n }}</span>
+                      </v-chip>
+                      <v-chip variant="text" class="mt-1" size="x-large" label>
+                        <span class="heading h2">&ndash;</span>
+                      </v-chip>
+                      <v-chip
+                        color="accent"
+                        class="mt-1 mx-1"
+                        size="x-large"
+                        label
+                        v-for="n in collection.Metadata.code.substring(8, 12)">
+                        <span class="heading h2">{{ n }}</span>
+                      </v-chip>
+                      <v-tooltip max-width="300px" location="top">
+                        <template #activator="{ props }">
+                          <v-icon
+                            v-bind="props"
+                            color="accent"
+                            size="small"
+                            end
+                            icon="mdi-content-copy"
+                            class="fade-select"
+                            @click="copy(collection.Metadata.code)" />
+                        </template>
+                        <div class="text-center">Copy Share Code</div>
+                      </v-tooltip>
+                      <div class="text-left text-caption text-disabled">
+                        Last update on
+                        {{ new Date(collection.Metadata?.updated || 0).toLocaleString() }}
+                      </div>
+                    </div>
+                    <div v-else class="text-caption text-disabled">
+                      <i>Collection must be published to generate a share code.</i>
+                    </div>
+                  </div>
+                  <v-card-actions>
+                    <v-dialog max-width="600px">
+                      <template #activator="{ props }">
+                        <v-btn
+                          color="error"
+                          variant="tonal"
+                          size="small"
+                          prepend-icon="mdi-delete"
+                          v-bind="props">
+                          Delete Collection
+                        </v-btn>
+                      </template>
+                      <template #default="{ isActive }">
+                        <v-card v-show="isActive">
+                          <v-toolbar color="error" density="compact">
+                            <v-toolbar-title class="heading h3">DELETE COLLECTION</v-toolbar-title>
+                          </v-toolbar>
+                          <v-card-text v-if="collection.Metadata?.code">
+                            <div>
+                              <p>
+                                Deleting this collection will remove the collection from your local
+                                and cloud data, and will delete the collection archive from cloud
+                                storage. Users will not be able to subscribe to this content and
+                                current subscribers will no longer be able to update collection
+                                data. It
+                                <strong>will not</strong>
+                                delete any collection content, either locally or on the cloud for
+                                you or collection subscribers.
+                              </p>
+                              <span class="text-caption">This action cannot be undone.</span>
+                            </div>
+                          </v-card-text>
+                          <v-card-text v-else>
+                            <div>
+                              <p>Are you sure you want to delete this collection?</p>
+                              <span class="text-caption">This action cannot be undone.</span>
+                            </div>
+                          </v-card-text>
+                          <v-divider />
+                          <v-card-actions>
+                            <v-btn color="error" @click="isActive.value = false">Cancel</v-btn>
+                            <v-spacer />
+                            <v-btn
+                              color="error"
+                              variant="elevated"
+                              flat
+                              prepend-icon="mdi-delete"
+                              :loading="loading"
+                              @click="deleteCollection(collection, isActive)">
+                              delete collection
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </template>
+                    </v-dialog>
+                  </v-card-actions>
                 </v-card>
               </v-window-item>
             </v-window>
@@ -204,6 +364,7 @@ export default {
   name: 'cloud-publish',
   components: { CollectionItemSelector },
   data: () => ({
+    loading: false,
     colIdx: 0,
     dataHeaders: [
       { title: 'Name', key: 'name' },
@@ -217,10 +378,13 @@ export default {
       return UserStore().CollectionPublishLimit;
     },
     collections(): ContentCollection[] {
-      return CompendiumStore().ContentCollections as ContentCollection[];
+      return UserStore().UserCollections;
     },
   },
   methods: {
+    canPublish(collection) {
+      return collection.Contents.length > 0 && collection.Name && collection.Author;
+    },
     AddNew() {
       if (this.collections.length >= this.collectionLimit) {
         return;
@@ -234,6 +398,42 @@ export default {
       if (!this.hasLocalData(item)) return false;
       if (!item.data.SaveController) return false;
       return item.last_updated !== item.data.SaveController.LastModified;
+    },
+    async Publish(version: 'minor' | 'major') {
+      this.loading = true;
+      const collection = this.collections[this.colIdx];
+      try {
+        await collection.Publish(version);
+        await UserStore().refreshDbData();
+        this.$notify({
+          title: 'Published',
+          text: `Collection ${collection.Name} published as version ${collection.Version}`,
+          data: { color: 'success', icon: 'mdi-check-circle-outline' },
+        });
+      } catch (e) {
+        console.error(e);
+        this.$notify({
+          title: 'Error',
+          text: `Failed to publish collection ${collection.Name}`,
+          data: { color: 'error', icon: 'mdi-alert' },
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
+    copy(code) {
+      navigator.clipboard.writeText(code);
+      this.$notify({
+        title: 'Copied',
+        text: 'Collection share code copied to clipboard',
+        data: { color: 'success', icon: 'mdi-check-circle-outline' },
+      });
+    },
+    async deleteCollection(collection, isActive) {
+      this.loading = true;
+      await ContentCollection.Delete(collection);
+      isActive.value = false;
+      this.loading = false;
     },
   },
 };

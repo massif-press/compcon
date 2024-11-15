@@ -7,12 +7,19 @@
     :sorting="sorting"
     @open="$emit('open', item)">
     <template #title>
+      <cc-missing-content-hover :item="item" />
+      <cc-remote-hover :item="item" color="accent" />
       {{ item.Name }}&mdash; T{{ item.Tier }}
       <cc-slashes />
       CLASS {{ item.Class }}
     </template>
-    <v-chip v-for="l in item.Layers" label prepend-icon="mdi-layers" class="mx-1 my-1">
-      {{ l.Layer.Name }}
+    <v-chip
+      v-if="!item.BrewController.IsUnableToLoad"
+      v-for="l in item.Layers"
+      label
+      prepend-icon="mdi-layers"
+      class="mx-1 my-1">
+      {{ l.Layer?.Name || 'Unknown' }}
     </v-chip>
   </gm-list-item-base>
 </template>

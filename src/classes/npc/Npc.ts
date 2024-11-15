@@ -51,7 +51,7 @@ abstract class Npc
   public readonly StorageType: string = 'npcs';
 
   public ImageTag!: ImageTag.NPC;
-  public CloudController: CloudController;
+  public CloudController!: CloudController;
   public SaveController: SaveController;
   public PortraitController: PortraitController;
   public BrewController: BrewController;
@@ -75,7 +75,6 @@ abstract class Npc
 
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
-    this.CloudController = new CloudController(this);
     this.BrewController = new BrewController(this);
     this.NarrativeController = new NarrativeController(this);
     this.FeatureController = new FeatureController(this);
@@ -106,8 +105,7 @@ abstract class Npc
   }
 
   public static LoadError(self: Npc, err: any, message: string): void {
-    console.error(err);
-    console.error(`${self.ItemType} ${self.ID} (${self.Name}) failed to load ${message}`);
+    console.error(`${self.ItemType} ${self.ID} (${self.Name}) failed to load ${message}`, err);
     self.BrewController.MissingContent = true;
   }
 
@@ -165,6 +163,10 @@ abstract class Npc
   public set GmDescription(val: string) {
     this._gmDescription = val;
     this.save();
+  }
+
+  public get Readonly(): boolean {
+    return this.SaveController.IsRemote;
   }
 
   // Instance Utilities
