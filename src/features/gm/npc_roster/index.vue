@@ -67,7 +67,7 @@ import NpcIndex from './npcs/index.vue';
 import DoodadIndex from './doodads/index.vue';
 import EidolonIndex from './eidolons/index.vue';
 import Organizer from '../_components/Organizer.vue';
-import Importer from '../_components/Importer.vue';
+import Importer from '../_components/NpcImporter.vue';
 import { UserStore } from '@/stores';
 
 export default {

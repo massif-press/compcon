@@ -6,7 +6,7 @@
           <v-col v-if="item" cols="auto">
             <v-menu>
               <template #activator="{ props }">
-                <v-btn size="small" icon variant="plain" v-bind="props">
+                <v-btn v-if="!readonly" size="small" icon variant="plain" v-bind="props">
                   <v-icon size="x-large" icon="mdi-cog" />
                 </v-btn>
               </template>

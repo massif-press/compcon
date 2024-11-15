@@ -2,7 +2,6 @@
   <div id="output-container">
     <v-row no-gutters>
       <v-col cols="auto" class="mr-2">
-        <!-- <v-divider vertical /> -->
         <div class="sidebar" />
         <div>
           <img src="../../../assets/ui/sb_l.png" />
@@ -26,6 +25,7 @@
 </template>
 
 <script lang="ts">
+import { markRaw } from 'vue';
 import TypeIt from 'typeit';
 import GmsStart from './startup_logs/gms';
 import MsmcStart from './startup_logs/msmc';
@@ -64,32 +64,34 @@ export default {
     },
     async start() {
       await this.$nextTick();
-      this.typer = new TypeIt((this.$refs as any).output, {
-        speed: 2,
-        nextStringDelay: 5,
-        lifeLike: false,
-        cursor: false,
-        startDelete: false,
-        beforeString: () => {
-          (this.$refs as any).output?.scrollIntoView({ block: 'end' });
-        },
-        afterString: () => {
-          (this.$refs as any).output?.scrollIntoView({ block: 'end' });
-        },
-        afterComplete: async () => {
-          if (this.theme === 'horus') {
-            await HorusChat((this.$refs as any).output);
-          } else {
-            this.lock = false;
-          }
-        },
-      });
+      this.typer = markRaw(
+        new TypeIt((this.$refs as any).output, {
+          speed: 2,
+          nextStringDelay: 5,
+          lifeLike: false,
+          cursor: false,
+          startDelete: false,
+          beforeString: () => {
+            (this.$refs as any).output?.scrollIntoView({ block: 'end' });
+          },
+          afterString: () => {
+            (this.$refs as any).output?.scrollIntoView({ block: 'end' });
+          },
+          afterComplete: async () => {
+            if (this.theme === 'horus') {
+              await HorusChat((this.$refs as any).output);
+            } else {
+              this.lock = false;
+            }
+          },
+        })
+      );
+
+      console.log(this.typer);
 
       switch (this.theme) {
         case 'horus':
-          // this.typer.go()
           await HorusStart(this.typer);
-          // HorusChat(this.typer)
           break;
         case 'msmc':
           await MsmcStart(this.typer);
@@ -110,21 +112,23 @@ export default {
       (this.$refs as any).completed.innerHTML += (this.$refs as any).output.innerHTML;
       (this.$refs as any).output.innerHTML = '';
 
-      this.typer = new TypeIt((this.$refs as any).output, {
-        speed: 32,
-        lifeLike: true,
-        nextStringDelay: 7,
-        cursor: false,
-        beforeString: () => {
-          (this.$refs as any).output?.scrollIntoView({ block: 'end' });
-        },
-        afterString: () => {
-          (this.$refs as any).output?.scrollIntoView({ block: 'end' });
-        },
-        afterComplete: () => {
-          this.lock = false;
-        },
-      })
+      this.typer = markRaw(
+        new TypeIt((this.$refs as any).output, {
+          speed: 32,
+          lifeLike: true,
+          nextStringDelay: 7,
+          cursor: false,
+          beforeString: () => {
+            (this.$refs as any).output?.scrollIntoView({ block: 'end' });
+          },
+          afterString: () => {
+            (this.$refs as any).output?.scrollIntoView({ block: 'end' });
+          },
+          afterComplete: () => {
+            this.lock = false;
+          },
+        })
+      )
         .type(`$ `)
         .type(`<span class="stark-text-text">${user}</span>↵`)
         .pause(100)

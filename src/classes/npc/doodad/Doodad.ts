@@ -34,6 +34,7 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
 
     this._name = data?.name || 'New Doodad';
     this.StatController = new StatController(this);
+    this.CloudController = new CloudController(this);
   }
 
   public CreateInstance<DoodadData>(): DoodadData {
@@ -87,8 +88,8 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
   public static Deserialize(data: DoodadData): Doodad {
     const doodad = new Doodad(data);
     SaveController.Deserialize(doodad, data.save);
-    PortraitController.Deserialize(doodad, data.img);
     BrewController.Deserialize(doodad, data);
+    PortraitController.Deserialize(doodad, data.img);
     NarrativeController.Deserialize(doodad, data.narrative);
     StatController.Deserialize(doodad, data.stats);
     FolderController.Deserialize(doodad, data.folder);

@@ -7,6 +7,7 @@
     :sorting="sorting"
     @open="$emit('open', item)">
     <template #title>
+      <cc-remote-hover :item="item" color="accent" />
       {{ item.Name }}
     </template>
     <div class="text-caption">

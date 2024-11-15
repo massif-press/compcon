@@ -9,10 +9,10 @@
     @delete="deleteItem()"
     @export="exportItem($event)"
     @copy="dupe()">
-    <template v-slot:builder>
+    <template #builder>
       <builder :item="item" :readonly="readonly" />
     </template>
-    <template v-slot:stats>
+    <template #stats>
       <stat-editor :item="item" :controller="item" :readonly="readonly" />
     </template>
   </editor-base>

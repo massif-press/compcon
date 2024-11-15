@@ -17,6 +17,7 @@
     },
     "noImplicitAny": false,
     "allowJs": true,
+    "checkJs": false,
     "noEmitOnError": false,
     "outDir": "dist"
   },

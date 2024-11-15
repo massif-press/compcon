@@ -15,7 +15,7 @@ interface IUserOptions {
 
 type LcpSubscriptionData = {
   updateOn: 'manual' | 'auto';
-  items: { packId: string; auto: boolean }[];
+  items: { packId: string; manifest: any; auto: boolean }[];
 };
 
 interface IUserProfile {
@@ -204,6 +204,7 @@ class UserProfile {
   setLcpSubscriptionData(): void {
     const allPacks = CompendiumStore().ContentPacks.map((p) => ({
       packId: p.ID,
+      manifest: p.Manifest,
       auto: false,
     }));
 

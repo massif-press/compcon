@@ -33,6 +33,7 @@
     <v-row justify="center">
       <v-col cols="auto">
         <v-btn
+          v-if="!pilot.IsRemote"
           color="accent"
           prepend-icon="mdi-plus"
           class="px-10"

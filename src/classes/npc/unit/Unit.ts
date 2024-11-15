@@ -11,7 +11,7 @@ import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer
 import { FolderController } from '@/classes/components/folder/FolderController';
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
 import { IInstanceableData } from '@/classes/components/instance/IInstancableData';
-import { NpcStore } from '@/stores';
+import { CompendiumStore, NpcStore } from '@/stores';
 import { CompendiumItemInstanceData } from '@/classes/CompendiumItemInstance';
 
 class UnitData
@@ -79,6 +79,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     this.StatController = new StatController(this);
 
     this.FeatureController.Register(this.NpcFeatureController);
+    this.CloudController = new CloudController(this);
   }
 
   public get IsBiological(): boolean {
@@ -159,33 +160,36 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
   }
 
   public Serialize(asInstance: boolean = false): UnitData {
-    console.log('Unit Serialize');
     return Unit.Serialize(this, asInstance);
   }
 
   public static Deserialize(data: UnitData): Unit {
     const unit = new Unit(data);
     SaveController.Deserialize(unit, data.save);
+    BrewController.Deserialize(unit, data);
     PortraitController.Deserialize(unit, data.img);
-    try {
-      NpcClassController.Deserialize(unit, data as any);
-    } catch (e) {
-      Npc.LoadError(unit, e, 'Npc Class Controller');
-    }
-    try {
-      NpcTemplateController.Deserialize(unit, data as any);
-    } catch (e) {
-      Npc.LoadError(unit, e, 'Npc Template Controller');
-    }
-    try {
-      NpcFeatureController.Deserialize(unit, data as any);
-    } catch (e) {
-      Npc.LoadError(unit, e, 'Npc Feature Controller');
+    if (!CompendiumStore().hasNpcAccess && !data.instance) {
+      unit.BrewController.MissingContent = true;
+    } else {
+      try {
+        NpcClassController.Deserialize(unit, data as any);
+      } catch (e) {
+        Npc.LoadError(unit, e, 'Npc Class Controller');
+      }
+      try {
+        NpcTemplateController.Deserialize(unit, data as any);
+      } catch (e) {
+        Npc.LoadError(unit, e, 'Npc Template Controller');
+      }
+      try {
+        NpcFeatureController.Deserialize(unit, data as any);
+      } catch (e) {
+        Npc.LoadError(unit, e, 'Npc Feature Controller');
+      }
     }
     NarrativeController.Deserialize(unit, data.narrative);
     StatController.Deserialize(unit, data.stats);
     FolderController.Deserialize(unit, data.folder);
-    BrewController.Deserialize(unit, data);
     return unit;
   }
 

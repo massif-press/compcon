@@ -1,4 +1,5 @@
-import { updateItem, uploadToS3 } from '@/io/apis/account';
+import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account';
+import { GenerateExportCollection } from '@/io/Importer';
 import { RemoveItem, SetItem } from '@/io/Storage';
 import {
   CampaignStore,
@@ -55,14 +56,16 @@ type CollectionMetadata = {
 
 class ContentCollection {
   public readonly ID: string;
-  public static readonly Sortkey = 'content';
-  public static readonly StorageType = 'content';
+  public static readonly Sortkey = 'content_collection';
+  public static readonly StorageType = 'content_collection';
 
   public Name: string;
   public Author: string;
   public Description: string;
   public Version: string;
   public Changelog: ChangelogItem[];
+
+  public Metadata?: CollectionMetadata;
 
   public NextChangelog: string = '';
 
@@ -109,7 +112,7 @@ class ContentCollection {
   }
 
   public Save() {
-    SetItem(ContentCollection.StorageType, ContentCollection.Serialize(this));
+    CompendiumStore().saveContentCollection(this);
   }
 
   public Delete() {
@@ -180,6 +183,8 @@ class ContentCollection {
       version: this.Version,
       changes: this.GenerateChangelog().split('\n'),
     });
+    this.NextChangelog = '';
+
     this.Save();
 
     const serialized = ContentCollection.Serialize(this);
@@ -194,13 +199,18 @@ class ContentCollection {
       changelog: JSON.stringify(serialized.changelog),
       contents: JSON.stringify(serialized.items),
       uri: `${UserStore().Cognito.userId}/collections/collection_${serialized.id}.json`,
-    };
+    } as any;
+
+    if (this.Metadata) metadata.created = this.Metadata.created;
+    if (this.Metadata) metadata.code = this.Metadata.code;
 
     try {
-      const res = await updateItem(metadata);
-      console.log(res);
-      // TODO: take res data and overwrite local metadata (code etc)
-      const collectedData = {}; // TODO: collect all contents data into new archive type
+      const res = await updateItem(metadata, 'collection');
+      const collectedData = GenerateExportCollection(
+        this._contents.map((x) => x.data),
+        'collection'
+      );
+      console.log(collectedData);
       await uploadToS3(collectedData, res.presign.upload);
     } catch (e) {
       throw new Error('Error while publishing collection ' + e);
@@ -231,6 +241,16 @@ class ContentCollection {
 
   public static Deserialize(data: CollectionData): ContentCollection {
     return new ContentCollection(data);
+  }
+
+  public static async Delete(collection: ContentCollection) {
+    await CompendiumStore().deleteContentCollection(collection);
+    if (collection.Metadata)
+      await cloudDelete(
+        collection.Metadata.user_id,
+        collection.Metadata.sortkey,
+        collection.Metadata?.uri
+      );
   }
 }
 

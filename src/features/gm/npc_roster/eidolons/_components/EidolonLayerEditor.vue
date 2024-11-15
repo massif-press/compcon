@@ -31,6 +31,13 @@
   <v-card v-if="!item.Layers.length" variant="outlined" color="primary" class="pa-2">
     no layers
   </v-card>
+  <v-card
+    v-else-if="!item.Layers.some((x) => x.Layer)"
+    variant="outlined"
+    color="primary"
+    class="pa-2">
+    no layers
+  </v-card>
   <div v-else>
     <v-tabs v-model="tab" density="compact" class="mt-2" fixed-tabs bg-color="primary">
       <v-tab v-for="(layer, idx) in item.Layers">
@@ -46,7 +53,7 @@
           <span>Order Lower</span>
         </v-tooltip>
         <span v-else class="mx-3" />
-        {{ layer.Layer.Name }}
+        {{ layer.Layer?.Name }}
         <v-tooltip v-if="idx && idx < item.Layers.length - 1" location="top">
           <template #activator="{ props }">
             <v-icon
@@ -79,7 +86,7 @@
               :readonly="readonly"
               prefix="layer" />
           </v-card-text>
-          <cc-dense-card :item="layer.Layer" :tier="item.Tier">
+          <cc-dense-card v-if="layer.Layer" :item="layer.Layer" :tier="item.Tier">
             <template v-if="layer.Layer.Shards.Count !== 0" #extra>
               <v-card-text class="mt-n2 pt-0">
                 <stat-editor
@@ -129,6 +136,9 @@ export default {
   data: () => ({
     tab: 0,
   }),
+  created() {
+    console.log(this.item);
+  },
   methods: {
     removeLayer(index: number) {
       this.item.RemoveLayer(index);

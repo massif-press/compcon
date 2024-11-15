@@ -5,6 +5,7 @@
         <v-row v-if="item" dense align="center">
           <v-col cols="auto">
             <equipment-options
+              v-if="!readonly"
               :item="item"
               @swap="($refs as any).base.$refs.selectorDialog.show()"
               @remove="remove()" />
@@ -45,7 +46,7 @@
               <span>{{ item.SP }}SP</span>
             </div>
           </v-col>
-          <v-col cols="auto">
+          <v-col cols="auto" v-if="!readonly">
             <div class="ml-2" style="border-left: 1px solid rgba(155, 155, 155, 0.3)">
               <v-btn
                 v-if="item"
@@ -74,7 +75,7 @@
           :color="color"
           :use-bonus="mech.LimitedBonus">
           <template #left>
-            <div v-if="!intWeapon && !mod && !item.NoMods">
+            <div v-if="!readonly && !intWeapon && !mod && !item.NoMods">
               <v-btn
                 variant="plain"
                 size="small"

@@ -1,7 +1,7 @@
 <template>
   <div class="pb-3">
     <section-header title="Gear Loadout" />
-    <cc-pilot-loadout :pilot="pilot" />
+    <cc-pilot-loadout :pilot="pilot" :readonly="pilot.IsRemote" />
   </div>
 </template>
 

@@ -2,6 +2,7 @@
   <div>
     <section-header title="Skill Triggers">
       <section-edit-chip
+        v-if="!pilot.IsRemote"
         :highlight="!pilot.SkillsController.HasFullSkills"
         :current="pilot.SkillsController.CurrentSkillPoints"
         :max="pilot.SkillsController.MaxSkillPoints"

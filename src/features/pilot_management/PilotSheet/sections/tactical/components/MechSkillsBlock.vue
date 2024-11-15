@@ -2,6 +2,7 @@
   <div>
     <section-header title="Mech Skills">
       <section-edit-chip
+        v-if="!pilot.IsRemote"
         :highlight="!pilot.MechSkillsController.HasFullHASE"
         :current="pilot.MechSkillsController.CurrentHASEPoints"
         :max="pilot.MechSkillsController.MaxHASEPoints"

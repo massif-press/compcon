@@ -24,6 +24,8 @@ class Character extends CollectionItem {
     this._alias = data?.alias || '';
     this._title = data?.title || '';
     this._pronouns = data?.pronouns || 'They/Them';
+
+    this.CloudController = new CloudController(this);
   }
 
   public get Alias(): string {

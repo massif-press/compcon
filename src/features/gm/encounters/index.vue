@@ -194,7 +194,7 @@ import { EncounterStore, UserStore } from '@/stores';
 import { Encounter } from '@/classes/encounter/Encounter';
 import EncounterEditor from './_components/EncounterEditor.vue';
 import Organizer from '../_components/Organizer.vue';
-import Importer from '../_components/Importer.vue';
+import Importer from '../_components/NpcImporter.vue';
 
 export default {
   name: 'gm-encounter-view',

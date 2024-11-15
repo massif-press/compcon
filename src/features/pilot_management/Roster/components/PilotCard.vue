@@ -22,8 +22,10 @@
                 small && isHovering ? 'opacity: 1' : 'opacity: 0.6'
               }; transition: opacity 0.2s;`">
             <div
-              :class="`heading ${small ? 'h3' : 'h2'} text-white flavor-text ml-2 mt-1`"
+              :class="`heading h3 text-white flavor-text ml-2 mt-1`"
               style="letter-spacing: 3px; text-overflow: ellipsis">
+              <v-icon v-if="remoteResource" size="small">mdi-broadcast</v-icon>
+              <v-icon v-if="missingContent" size="small">mdi-alert-rhombus</v-icon>
               {{ pilot.Callsign }}
             </div>
           </div>
@@ -46,7 +48,14 @@
                   v-if="isHovering && !small"
                   class="flavor-text bg-grey-darken-3 pa-3"
                   style="height: 100%; max-width: 100%; opacity: 0.85">
-                  <br />
+                  <div v-if="remoteResource" class="mt-6" style="letter-spacing: 6px !important">
+                    <v-chip label size="x-small">
+                      <v-icon start class="mr-3">mdi-broadcast</v-icon>
+                      REMOTE RESOURCE
+                    </v-chip>
+                  </div>
+
+                  <br v-else />
                   {{ pilot.Name }}
                   <br />
                   <b>{{ pilot.Callsign }}</b>
@@ -58,12 +67,15 @@
                   {{ pilot.MechSkillsController.MechSkills.Sys }} ENG
                   {{ pilot.MechSkillsController.MechSkills.Eng }}
                   <v-divider />
-                  <div v-if="missingContent">
-                    <v-icon color="error">mdi-alert-rhombus</v-icon>
-                    <b>ERR: Missing Content</b>
+                  <v-alert
+                    v-if="missingContent"
+                    density="compact"
+                    icon="mdi-alert-rhombus"
+                    color="error">
+                    <b>Missing Content</b>
                     <br />
-                    COMP/CON is unable to load this pilot due to one or more missing Content Packs.
-                  </div>
+                    COMP/CON is unable to load this pilot due to missing Content Packs.
+                  </v-alert>
                   <div v-else>
                     <div v-for="s in pilot.TalentsController.Talents">
                       {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
@@ -101,7 +113,10 @@ export default {
   emits: ['goTo'],
   computed: {
     missingContent() {
-      return this.pilot.BrewController.MissingContent;
+      return this.pilot.BrewController.IsUnableToLoad;
+    },
+    remoteResource() {
+      return this.pilot.SaveController.IsRemote;
     },
     minWidth() {
       return this.small ? '10vw' : '20vw';

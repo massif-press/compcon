@@ -29,24 +29,28 @@
 
     <div id="divider" />
     <cc-tooltip
-      v-if="pilot.CloudController.IsRemoteResource"
+      v-if="pilot.IsRemote"
       inline
       delayed
       title="Download Latest Data"
       :content="
         isAuthed
-          ? 'Download all remote changes to this pilot, overwriting local data.'
-          : 'Requires Cloud Account'
+          ? pilot.CloudController.SyncStatus === 'Synced'
+            ? 'Pilot is up to date with remote data'
+            : 'Download all remote changes to this pilot, overwriting local data.'
+          : 'Must be logged in to update'
       ">
       <v-btn
         icon
+        variant="text"
         class="unskew ml-6"
-        :disabled="!isAuthed"
+        :disabled="!isAuthed || pilot.CloudController.SyncStatus === 'Synced'"
         :loading="loading"
         @click="remoteUpdate()">
-        <v-icon color="white">mdi-cloud-sync</v-icon>
+        <v-icon>mdi-cloud-sync</v-icon>
       </v-btn>
     </cc-tooltip>
+
     <cc-tooltip
       v-else
       inline
@@ -58,14 +62,14 @@
         class="unskew ml-6"
         :disabled="!isAuthed"
         @click="($refs as any).share.show()">
-        <v-icon color="white">mdi-code-json</v-icon>
+        <v-icon color="white">mdi-broadcast</v-icon>
       </v-btn>
     </cc-tooltip>
     <cc-tooltip inline delayed content="Pilot Options">
       <edit-menu :pilot="pilot" class="unskew" style="display: inline-block" />
     </cc-tooltip>
 
-    <cc-solo-dialog title="Share Code Management" ref="share" no-confirm>
+    <cc-solo-dialog title="Share Code" ref="share" no-confirm>
       <share-dialog :pilot="pilot" />
     </cc-solo-dialog>
   </div>
@@ -77,8 +81,7 @@ import ShareDialog from './ShareDialog.vue';
 import { Pilot } from '@/class';
 import { PilotStore, CompendiumStore, UserStore } from '@/stores';
 import NavItem from '../../_components/NavItem.vue';
-// import { Auth } from 'aws-amplify';
-// import { RemoteSyncItem } from '@/cloud/item_sync';
+import { CloudController } from '@/classes/components';
 
 export default {
   name: 'pilot-nav',
@@ -104,8 +107,7 @@ export default {
 
   computed: {
     isAuthed() {
-      return false;
-      // return UserStore().IsLoggedIn;
+      return UserStore().IsLoggedIn;
     },
     hasBonds() {
       return CompendiumStore().Bonds.length > 0;
@@ -117,15 +119,21 @@ export default {
       this.$router.push('/pilot_management');
     },
     async remoteUpdate() {
-      // this.loading = true;
-      // try {
-      //   await RemoteSyncItem(this.pilot);
-      //   this.$notify('Pilot synced to remote', 'success');
-      // } catch (error) {
-      //   console.error(error);
-      //   this.$notify('An error occurred while attempting to download remote data', 'error');
-      // }
-      // this.loading = false;
+      try {
+        await CloudController.UpdateRemote(this.pilot);
+        await UserStore().refreshDbData();
+        this.$notify({
+          title: `Sync Complete`,
+          text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
+          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+        });
+      } catch (err) {
+        this.$notify({
+          title: `Sync Failed`,
+          text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        });
+      }
     },
   },
 };

@@ -58,7 +58,7 @@
 <script lang="ts">
 import NarrativeCollection from './_components/narrativeCollection.vue';
 import Organizer from '../_components/Organizer.vue';
-import Importer from '../_components/Importer.vue';
+import Importer from '../_components/NpcImporter.vue';
 import { UserStore } from '@/stores';
 
 export default {

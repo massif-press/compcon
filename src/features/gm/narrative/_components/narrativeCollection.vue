@@ -140,7 +140,7 @@ export default {
     },
     SaveAndClose() {
       this.selected = null;
-      (this.$refs as any).view.dialog = true;
+      (this.$refs as any).view.dialog = false;
     },
   },
 };

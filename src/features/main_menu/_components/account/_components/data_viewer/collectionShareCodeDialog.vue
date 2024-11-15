@@ -1,14 +1,14 @@
 <template>
-  <v-dialog max-width="70vw">
+  <v-dialog max-width="70vw" min-width="1020px">
     <template #activator="{ props }">
-      <v-btn color="accent" size="small" prepend-icon="mdi-plus" v-bind="props">
-        Add Remote Item
+      <v-btn color="accent" size="small" prepend-icon="mdi-plus" variant="tonal" v-bind="props">
+        Add New Subscription
       </v-btn>
     </template>
     <template #default="{ isActive }">
       <v-card>
         <v-toolbar color="primary" density="compact">
-          <v-toolbar-title class="heading h3">ADD REMOTE ITEM</v-toolbar-title>
+          <v-toolbar-title class="heading h3">SUBSCRIBE TO CONTENT COLLECTION</v-toolbar-title>
           <v-spacer />
           <v-btn icon @click="isActive.value = false">
             <v-icon>mdi-close</v-icon>
@@ -16,7 +16,7 @@
         </v-toolbar>
         <v-card-text class="pt-0">
           <div class="text-center">
-            <div class="text-overline">Item Share Code</div>
+            <div class="text-overline">Collection Share Code</div>
             <div class="code-input mb-2">
               <span v-for="(digit, index) in code">
                 <input
@@ -27,7 +27,7 @@
                   @input="onInput(index)"
                   @paste="onPaste($event, index)"
                   @keydown.backspace="onBackspace(index)" />
-                <span v-if="index === 3" class="heading h1 px-4">&ndash;</span>
+                <span v-if="index === 3 || index === 7" class="heading h1 px-4">&ndash;</span>
               </span>
             </div>
             <v-row no-gutters justify="center">
@@ -42,7 +42,7 @@
                   :disabled="hasCode"
                   :loading="loading"
                   @click="getFromCode()">
-                  Find Item
+                  Find Collection
                 </v-btn>
               </v-col>
               <v-col cols="auto">
@@ -79,27 +79,8 @@
           <v-scroll-y-reverse-transition>
             <div v-if="queryResult">
               <v-divider class="my-4" />
-              <span class="flavor-text">// ITEM DATA FOUND</span>
-              <v-row dense class="mb-n2">
-                <v-col cols="auto" class="heading h4 text-accent mr-2">Name</v-col>
-                <v-col cols="9">{{ queryResult.name }}</v-col>
-              </v-row>
-              <v-row dense class="my-n2">
-                <v-col cols="auto" class="heading h4 text-accent mr-2">Author</v-col>
-                <v-col cols="9">{{ queryResult.author }}</v-col>
-              </v-row>
-              <v-row dense class="my-n2">
-                <v-col cols="auto" class="heading h4 text-accent mr-2">Type</v-col>
-                <v-col cols="9">{{ queryResult.sortkey.split('_')[1] }}</v-col>
-              </v-row>
-              <v-row dense class="my-n2">
-                <v-col cols="auto" class="heading h4 text-accent mr-2">Created</v-col>
-                <v-col cols="9">{{ new Date(queryResult.created).toLocaleString() }}</v-col>
-              </v-row>
-              <v-row dense class="my-n2">
-                <v-col cols="auto" class="heading h4 text-accent mr-2">Last Updated</v-col>
-                <v-col cols="9">{{ new Date(queryResult.item_modified).toLocaleString() }}</v-col>
-              </v-row>
+              <span class="flavor-text">// COLLECTION DATA FOUND</span>
+              <collection-info :collection="queryResult" />
               <v-alert
                 v-if="isUserOwned || remoteItemExists"
                 type="error"
@@ -109,10 +90,10 @@
                 class="my-2"
                 icon="mdi-information-outline">
                 <span v-if="isUserOwned">
-                  You are the author of this item. You cannot add your own items as remote
-                  resources.
+                  You are the author of this collection. You cannot add your own collections as
+                  remote resources.
                 </span>
-                <span v-else>This item has already been added as a remote resource.</span>
+                <span v-else>This collection has already been added as a remote resource.</span>
               </v-alert>
               <div class="text-right">
                 <v-btn
@@ -120,45 +101,9 @@
                   color="accent"
                   class="mb-1"
                   :loading="dlLoading"
-                  :disabled="!canDownload"
-                  @click="downloadAsRemote(isActive)">
-                  add as remote resource
-                  <v-tooltip location="top" max-width="300px">
-                    <template v-slot:activator="{ props }">
-                      <v-icon end class="fade-select" v-bind="props">
-                        mdi-help-circle-outline
-                      </v-icon>
-                    </template>
-                    <span>
-                      Adding this item as a remote resource will create a readonly version of this
-                      item linked to the author's original data. When the author saves an update to
-                      this item to their COMP/CON cloud account, your local version can receive
-                      those changes.
-                    </span>
-                  </v-tooltip>
-                </v-btn>
-                <br />
-                <v-btn
-                  size="small"
-                  flat
-                  color="accent"
-                  :loading="dlLoading"
-                  :disabled="!canDownload"
-                  @click="downloadAsCopy(false, isActive)">
-                  add as local copy
-                  <v-tooltip location="top" max-width="300px">
-                    <template v-slot:activator="{ props }">
-                      <v-icon end class="fade-select" v-bind="props">
-                        mdi-help-circle-outline
-                      </v-icon>
-                    </template>
-                    <span>
-                      Adding this item as a local copy will create a new, editable version of this
-                      item saved to your local COMP/CON data. Changes made to this item will not
-                      affect the author's original data, and you will not receive updates from the
-                      author.
-                    </span>
-                  </v-tooltip>
+                  :disabled="isUserOwned || remoteItemExists || !canDownload"
+                  @click="subscribe(isActive)">
+                  subscribe
                 </v-btn>
               </div>
             </div>
@@ -170,21 +115,25 @@
 </template>
 
 <script lang="ts">
-import { CloudController, ISaveable } from '@/classes/components';
-import { downloadFromS3, GetFromCode } from '@/io/apis/account';
+import { GetFromCode } from '@/io/apis/account';
 import { UserStore } from '@/stores';
+import CollectionInfo from './collectionInfo.vue';
 
 export default {
   name: 'share-code-dialog',
+  components: { CollectionInfo },
   data: () => ({
     codeSearch: '',
-    code: Array(8).fill(''),
+    code: Array(12).fill(''),
     queryResult: null as any,
     badCode: '',
     loading: false,
     dlLoading: false,
   }),
   computed: {
+    isCampaign() {
+      return this.queryResult && this.queryResult.sortkey.startsWith('campaign');
+    },
     hasCode() {
       return this.code.some((char) => char === '');
     },
@@ -197,7 +146,9 @@ export default {
     remoteItemExists() {
       return (
         this.queryResult &&
-        UserStore().UserMetadata.RemoteItems.some((ri) => ri === this.queryResult.code)
+        UserStore().UserMetadata.CollectionSubscriptionSettings.items.some(
+          (r) => r.code === this.queryResult.code
+        )
       );
     },
   },
@@ -210,9 +161,9 @@ export default {
     onPaste(event: ClipboardEvent, index: number) {
       let pastedData = event.clipboardData?.getData('Text') || '';
       pastedData = pastedData.replace(/-/g, '');
-      const pasteArray = pastedData.slice(0, 8).split('');
+      const pasteArray = pastedData.slice(0, 12).split('');
       pasteArray.forEach((char, i) => {
-        if (index + i < 8) {
+        if (index + i < 12) {
           this.code[index + i] = char;
         }
       });
@@ -244,28 +195,19 @@ export default {
           this.loading = false;
         });
     },
-    async downloadAsRemote(isActive) {
-      await this.downloadAsCopy(true, isActive);
-    },
-    async downloadAsCopy(remote = false, isActive) {
+    async subscribe(isActive) {
       this.dlLoading = true;
-      const itemData = await downloadFromS3(this.queryResult.uri);
-      const itemType = this.queryResult.sortkey.split('_')[1];
-      const item = await CloudController.NewByType(itemType, itemData);
-      if (remote) {
-        item.CloudController.setRemoteMetadata(this.queryResult);
-        UserStore().addRemoteItem(this.queryResult.code);
-      } else {
-        item.CloudController.GenerateMetadata();
-      }
-      await CloudController.AddByType(itemType, item);
 
+      if (!this.queryResult) return;
+      await UserStore().addContentSubscription(this.queryResult);
+      await UserStore().updateRemoteCollection(this.queryResult);
       this.dlLoading = false;
       this.reset();
       isActive.value = false;
     },
+
     reset() {
-      this.code = Array(8).fill('');
+      this.code = Array(12).fill('');
       this.queryResult = null;
       this.badCode = '';
     },

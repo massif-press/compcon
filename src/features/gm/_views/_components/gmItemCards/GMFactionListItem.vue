@@ -8,6 +8,7 @@
     @open="$emit('open', item)">
     <template #title>
       <div>
+        <cc-remote-hover :item="item" color="accent" />
         {{ item.Name }}
         <span class="text-caption text-uppercase text-disabled">
           <cc-slashes class="mx-1" />

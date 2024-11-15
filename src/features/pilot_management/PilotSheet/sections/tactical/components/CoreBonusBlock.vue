@@ -2,6 +2,7 @@
   <div>
     <section-header title="CORE Bonuses">
       <section-edit-chip
+        v-if="!pilot.IsRemote"
         :highlight="!pilot.CoreBonusController.HasCBs"
         :current="pilot.CoreBonusController.CurrentCBPoints"
         :max="pilot.CoreBonusController.MaxCBPoints"

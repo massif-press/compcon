@@ -19,6 +19,18 @@ import { Character } from '@/classes/narrative/Character';
 import { Faction } from '@/classes/narrative/Faction';
 import { Location } from '@/classes/narrative/Location';
 
+const syncableTypes = [
+  'pilot',
+  'unit',
+  'doodad',
+  'eidolon',
+  'character',
+  'faction',
+  'location',
+  'encounter',
+  'campaign',
+];
+
 interface ICloudData {
   metadata: dbItemMeta;
   cloud_data: string;
@@ -109,6 +121,7 @@ class CloudController {
   }
 
   public GenerateSortKey(): string {
+    let type = this.Parent.ItemType;
     return `${this.Parent.DataType}_${this.Parent.ItemType}_${this.Parent.ID}`;
   }
 
@@ -262,14 +275,21 @@ class CloudController {
 
   public setRemoteMetadata(meta: any) {
     this.Metadata = meta;
-    this.Parent.SaveController.SetRemote(meta.code, meta.author || '', meta.collection || '');
+    this.Parent.SaveController.SetRemote(
+      meta.code,
+      meta.author || '',
+      meta.collection || '',
+      meta.item_modified
+    );
   }
 
   // download latest cloud data and sync local
   public static async SyncToCloud(item: any) {
     if (UserStore().StorageFull) throw new Error('Storage full! Unable to download.');
 
-    if (!item.CloudController?.Metadata?.SortKey) {
+    console.log(item);
+
+    if (!item.CloudController?.Metadata?.SortKey || !syncableTypes.includes(item.ItemType)) {
       console.error('Item cannot be synced:', item);
       return;
     }
@@ -287,26 +307,21 @@ class CloudController {
       case 'pilot':
         return new Pilot(data);
       case 'unit':
-        return new Unit(data);
+        return Unit.Deserialize(data);
       case 'doodad':
-        return new Doodad(data);
+        return Doodad.Deserialize(data);
       case 'eidolon':
-        return new Eidolon(data);
-      case 'collectionitem':
-        switch (data.type) {
-          case 'character':
-            return new Character(data);
-          case 'faction':
-            return new Faction(data);
-          case 'location':
-            return new Location(data);
-          default:
-            throw new Error('Unknown collection item type: ' + data.type);
-        }
+        return Eidolon.Deserialize(data);
+      case 'character':
+        return Character.Deserialize(data);
+      case 'faction':
+        return Faction.Deserialize(data);
+      case 'location':
+        return Location.Deserialize(data);
       case 'encounter':
-        return new Encounter(data);
+        return Encounter.Deserialize(data);
       case 'campaign':
-        return new Campaign(data);
+        return Campaign.Deserialize(data);
       default:
         throw new Error('Unknown item type: ' + itemType);
     }
@@ -326,7 +341,9 @@ class CloudController {
       case 'eidolon':
         await NpcStore().AddNpc(item);
         break;
-      case 'collectionitem':
+      case 'character':
+      case 'faction':
+      case 'location':
         await NarrativeStore().AddItem(item);
         break;
       case 'encounter':

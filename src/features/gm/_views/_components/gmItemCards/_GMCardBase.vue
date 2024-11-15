@@ -19,6 +19,15 @@
             style="position: absolute; bottom: 0; left: 0; right: 0"
             class="pa-2 text-center">
             <div class="heading">{{ item.Name }}</div>
+            <div
+              v-if="item.SaveController.IsRemote"
+              class="mb-1"
+              :style="`letter-spacing: ${big ? '6' : '3'}px !important`">
+              <v-chip label color="accent" size="x-small">
+                <v-icon v-if="big" start class="mr-3">mdi-broadcast</v-icon>
+                REMOTE RESOURCE
+              </v-chip>
+            </div>
             <cc-missing-content-list v-if="missingContent" :controller="item.BrewController" />
             <div v-if="big">
               <v-divider />

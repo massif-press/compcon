@@ -75,6 +75,8 @@ import CCEnvironmentDisplay from './components/CCEnvironmentDisplay.vue';
 import CCBrewInfo from './components/CCBrewInfo.vue';
 import CCMissingContentList from './components/CCMissingContentList.vue';
 import CCMissingContentHover from './components/CCMissingContentHover.vue';
+import CCRemoteHover from './components/CCRemoteHover.vue';
+import CCMissingGmLcpText from './components/CCMissingGmLcpText.vue';
 
 export {
   CCImg,
@@ -154,4 +156,6 @@ export {
   CCBrewInfo,
   CCMissingContentList,
   CCMissingContentHover,
+  CCRemoteHover,
+  CCMissingGmLcpText,
 };

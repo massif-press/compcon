@@ -23,6 +23,7 @@
         <v-col v-for="i in pilot.SpecialEquipment" cols="4" class="text-center">
           <cc-item-modal :item="i" style="display: inline-block" />
           <v-btn
+            v-if="!pilot.IsRemote"
             icon
             size="small"
             color="error"
@@ -38,6 +39,7 @@
       <v-row class="my-1">
         <v-col>
           <v-btn
+            v-if="!pilot.IsRemote"
             color="accent"
             variant="tonal"
             block
@@ -46,7 +48,12 @@
           </v-btn>
         </v-col>
         <v-col>
-          <v-btn color="accent" variant="tonal" block @click="($refs as any).exoticSelector.show()">
+          <v-btn
+            v-if="!pilot.IsRemote"
+            color="accent"
+            variant="tonal"
+            block
+            @click="($refs as any).exoticSelector.show()">
             Add Exotic Equipment
           </v-btn>
         </v-col>

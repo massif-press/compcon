@@ -1,6 +1,6 @@
 <template>
   <!-- {{ lcpSaveData }} -->
-  <v-card flat border class="mb-4">
+  <v-card flat border class="mb-4" disabled>
     <v-toolbar density="compact">
       <v-toolbar-title>
         <div class="heading h3">
@@ -15,6 +15,7 @@
               allowing for automatic updates.
             </v-tooltip>
           </span>
+          <v-chip color="secondary" size="small">Coming soon!</v-chip>
         </div>
       </v-toolbar-title>
       <v-select
@@ -52,21 +53,21 @@
     <v-data-table
       density="compact"
       :headers="<any>lcpHeaders"
-      :items="lcpSaveData.items"
+      :items="installedPacks"
       item-key="name"
       :items-per-page="-1"
       hide-default-footer>
       <template #item.Name="{ item }">
-        {{ packDataItem(item)!.Name || 'Unknown' }}
+        {{ item.manifest.name || 'Unknown' }}
       </template>
       <template #item.Author="{ item }">
-        {{ packDataItem(item)!.Author || 'Unknown' }}
+        {{ item.manifest.author || 'Unknown' }}
       </template>
       <template #item.last_update="{ item }">
-        {{ packDataItem(item)!.LastUpdated || '' }}
+        {{ item.manifest.LastUpdated || '' }}
       </template>
       <template #item.Version="{ item }">
-        {{ packDataItem(item)!.Version || 'Unknown' }}
+        {{ item.manifest.version || 'Unknown' }}
       </template>
       <template #item.auto="{ item }">
         <v-row no-gutters justify="center">
@@ -103,7 +104,7 @@
               color="accent"
               v-bind="props"
               target="_blank"
-              :href="packDataItem(item)!.Website || ''">
+              :href="item.manifest.Website || ''">
               <v-icon size="large" icon="mdi-open-in-new" />
             </v-btn>
           </template>
@@ -131,7 +132,7 @@ export default {
       { title: 'LCP', key: 'Name' },
       { title: 'Author', key: 'Author' },
       { title: 'Installed Version', key: 'Version', align: 'center', sortable: false },
-      { title: 'Latest Version', key: 'Version', align: 'center', sortable: false },
+      { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
       { title: 'Latest Update', key: 'last_update', align: 'center', sortable: false },
       { title: 'Auto Update', key: 'auto', align: 'center', sortable: false },
       { title: '', key: 'actions', align: 'end', sortable: false },
@@ -147,13 +148,18 @@ export default {
       },
     ],
   }),
-  created() {},
   computed: {
     contentPacks() {
       return CompendiumStore().ContentPacks;
     },
     lcpSaveData() {
       return UserStore().User.LcpSubscriptionData;
+    },
+    installedPacks() {
+      return this.lcpSaveData.items.filter((item) => !!this.packDataItem(item));
+    },
+    missingPacks() {
+      return this.lcpSaveData.items.filter((item) => !this.packDataItem(item));
     },
     user() {
       return UserStore().User;

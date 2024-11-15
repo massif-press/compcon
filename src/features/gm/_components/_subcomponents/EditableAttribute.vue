@@ -189,7 +189,7 @@ export default {
 </script>
 
 <style scoped>
-.v-text-field >>> input {
+.v-text-field:deep(input) {
   text-align: center;
   margin-right: -12px;
 }

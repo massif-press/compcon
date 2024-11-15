@@ -91,7 +91,7 @@
               </div>
             </v-col>
           </v-row>
-          <v-card-text class="px-2 pb-0">
+          <v-card-text class="px-2 py-0" :class="rosterView.includes('card') ? 'text-center' : ''">
             <component
               v-for="pilot in pilots"
               :is="pilotCardType"

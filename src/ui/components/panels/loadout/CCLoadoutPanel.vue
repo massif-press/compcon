@@ -12,26 +12,27 @@
           <v-list-item
             v-for="l in loadouts"
             :title="(l as Loadout).Name"
-            @click="$emit('set-active', l)"
-          />
-          <v-divider />
+            @click="$emit('set-active', l)" />
+          <v-divider v-if="!readonly" />
           <v-list-item
+            v-if="!readonly"
             prepend-icon="mdi-plus"
             title="Add New Loadout"
-            @click="$emit('add-loadout')"
-          />
+            @click="$emit('add-loadout')" />
         </v-list>
       </v-menu>
-      <cc-short-string-editor :placeholder="activeLoadout.Name" @set="activeLoadout.Name = $event">
+      <cc-short-string-editor
+        :readonly="readonly"
+        :placeholder="activeLoadout.Name"
+        @set="activeLoadout.Name = $event">
         <span class="heading h3">{{ activeLoadout.Name }}</span>
       </cc-short-string-editor>
       <v-btn
-        v-if="loadouts.length > 1"
+        v-if="!readonly && loadouts.length > 1"
         size="small"
         variant="plain"
         icon
-        @click="$emit('remove-loadout')"
-      >
+        @click="$emit('remove-loadout')">
         <v-icon icon="mdi-delete" />
       </v-btn>
     </v-toolbar>
@@ -45,6 +46,7 @@
 
 <script lang="ts">
 import { Loadout } from '@/class';
+import { readonly } from 'vue';
 
 export default {
   name: 'cc-loadout-panel',
@@ -61,6 +63,9 @@ export default {
       type: String,
       required: false,
       default: 'primary',
+    },
+    readonly: {
+      type: Boolean,
     },
   },
   data: () => ({

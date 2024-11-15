@@ -46,7 +46,7 @@
                   <v-icon :icon="item.Icon" start />
                   EQUIPMENT EFFECT
                 </div>
-                <p v-html-safe="item.Effect" class="text-text body-text mb-1" />
+                <p v-html-safe="item.Effect" class="text-text mb-1" />
               </div>
               <v-row class="text-left" density="compact" align="end">
                 <v-col>

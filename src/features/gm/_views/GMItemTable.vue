@@ -6,6 +6,13 @@
       item-key="ID"
       :headers="headers"
       :items-per-page="25">
+      <template v-slot:item.Name="{ item }">
+        <div style="min-width: 200px">
+          <cc-remote-hover :item="item" color="accent" />
+          <cc-missing-content-hover :item="item" />
+          {{ (item as any).Name }}
+        </div>
+      </template>
       <template v-slot:item.ItemType="{ item }">
         <v-btn
           icon
@@ -19,7 +26,7 @@
       </template>
       <template v-slot:item.Layers="{ item }">
         <v-chip
-          v-for="l in item.Layers"
+          v-for="l in (item as any).Layers"
           label
           size="x-small"
           prepend-icon="mdi-layers"
@@ -29,7 +36,7 @@
       </template>
       <template v-slot:item.Templates="{ item }">
         <v-chip
-          v-for="t in item.NpcTemplateController.Templates"
+          v-for="t in (item as any).NpcTemplateController.Templates"
           label
           size="x-small"
           prepend-icon="cc:npc_template"

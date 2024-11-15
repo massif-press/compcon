@@ -5,12 +5,13 @@
       <v-col>
         <cc-short-string-editor
           justify="start"
+          :readonly="readonly"
           :placeholder="item.Environment.Name"
           @set="item.Environment.Name = $event">
           <span class="heading h3">{{ item.Environment.Name }}</span>
         </cc-short-string-editor>
       </v-col>
-      <v-col cols="auto">
+      <v-col v-if="!readonly" cols="auto">
         <v-dialog v-model="dialog">
           <template #activator="{ props }">
             <v-btn v-bind="props" color="accent" variant="tonal">Load Preset</v-btn>
@@ -50,28 +51,29 @@
             </v-row>
             <v-divider />
             <v-card-actions>
-              <v-btn text @click="dialog = false">Cancel</v-btn>
+              <v-btn variant="text" @click="dialog = false">Cancel</v-btn>
               <v-spacer />
               <v-btn color="accent" @click="assignPreset()">Assign</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-col>
-      <v-col cols="auto">
+      <v-col v-if="!readonly" cols="auto">
         <v-btn
           @click="staged = null"
           icon
           variant="tonal"
           class="fade-select"
           color="error"
-          size="x-small"
-          ><v-icon icon="mdi-delete" size="large"
-        /></v-btn>
+          size="x-small">
+          <v-icon icon="mdi-delete" size="large" />
+        </v-btn>
       </v-col>
     </v-row>
 
     <v-textarea
       v-model="item.Environment.Description"
+      :readonly="readonly"
       label="Description"
       density="compact"
       rows="1"
@@ -93,6 +95,7 @@ export default {
   name: 'gm-environment-editor',
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   data: () => ({
     dialog: false,

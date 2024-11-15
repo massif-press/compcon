@@ -5,7 +5,7 @@
       <v-menu activator="parent">
         <v-card>
           <v-toolbar density="compact" color="primary">
-            <div v-if="!dense" class="heading h2 text-white primary py-0 px-2">Pilot Options</div>
+            <div v-if="!dense" class="heading h2 py-0 px-2">Pilot Options</div>
           </v-toolbar>
           <v-list two-line subheader color="panel">
             <v-list-item
@@ -14,36 +14,50 @@
               subtitle="Print tabletop-ready character and mech sheets"
               @click="$router.push(`/print/${pilot.ID}`)" />
             <v-list-item
-              prepend-icon="mdi-dna"
-              title="Clone"
-              subtitle="Duplicate or Flash Clone this character"
-              @click="($refs.cloneDialog as any).show()" />
-            <v-list-item
               prepend-icon="mdi-file-document-outline"
               title="Generate Statblock"
               subtitle="Get a plaintext representation of this character's build"
               @click="($refs.statblockDialog as any).show()" />
             <v-list-item
-              v-if="pilot.CloudController.IsRemoteResource"
+              v-if="!pilot.IsRemote"
+              prepend-icon="mdi-export-variant"
+              title="Export Pilot"
+              subtitle="Export this pilot as a JSON file"
+              @click="exportPilot()" />
+            <v-list-item
+              v-if="pilot.IsRemote"
+              prepend-icon="mdi-content-copy"
+              title="Convert to Local"
+              subtitle="Convert this Pilot to an editable local data instance."
+              @click="($refs.convertLocalDialog as any).show()" />
+            <v-list-item
+              v-else
+              prepend-icon="mdi-dna"
+              title="Clone"
+              subtitle="Duplicate or Flash Clone this character"
+              @click="($refs.cloneDialog as any).show()" />
+            <v-list-item
+              v-if="pilot.IsRemote"
               :loading="loading"
+              :disabled="pilot.CloudController.SyncStatus === 'Synced'"
               prepend-icon="mdi-cloud-sync"
               title="Download Latest Data"
-              subtitle="Download all remote changes to this pilot, overwriting local data"
+              :subtitle="
+                pilot.CloudController.SyncStatus === 'Synced'
+                  ? 'Pilot is up to date with remote data'
+                  : 'Download all remote changes to this pilot, overwriting local data.'
+              "
               @click="remoteUpdate()" />
             <v-list-item
               v-else
               prepend-icon="mdi-code-json"
               title="Get Share Code"
-              subtitle="Generate a share code that other users can use to import and sync this character"
+              subtitle="Get a share code that other users can use to import and sync this character"
               @click="($refs.shareDialog as any).show()" />
-            <v-list-item
-              prepend-icon="mdi-export-variant"
-              title="Export Pilot"
-              subtitle="Export this pilot as a JSON file"
-              @click="exportPilot()" />
 
-            <v-divider />
+            <v-divider v-if="!pilot.IsRemote" />
             <v-list-item
+              v-if="!pilot.IsRemote"
               title="Delete Pilot"
               subtitle="Remove this pilot from the roster"
               @click="($refs.deleteDialog as any).show()">
@@ -60,8 +74,15 @@
     <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
     <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="delete_pilot()" />
     <clone-dialog ref="cloneDialog" :pilot="pilot" />
-    <cc-solo-dialog title="Share Code Management" ref="shareDialog" no-confirm>
+    <cc-solo-dialog title="Share Code" ref="shareDialog" no-confirm>
       <share-dialog :pilot="pilot" />
+    </cc-solo-dialog>
+    <cc-solo-dialog
+      title="Convert to Local "
+      ref="convertLocalDialog"
+      no-confirm
+      @close="($refs as any).convertLocalDialog.hide()">
+      <convert-dialog :pilot="pilot" />
     </cc-solo-dialog>
   </div>
 </template>
@@ -76,6 +97,8 @@ import ShareDialog from './ShareDialog.vue';
 import DeleteDialog from './DeletePilotDialog.vue';
 
 import { UserStore } from '@/stores';
+import ConvertDialog from './ConvertDialog.vue';
+import { CloudController } from '@/classes/components';
 // import { RemoteSyncItem } from '@/cloud/item_sync';
 
 export default {
@@ -86,6 +109,7 @@ export default {
     DeleteDialog,
     CloneDialog,
     ShareDialog,
+    ConvertDialog,
   },
   props: {
     pilot: {
@@ -132,24 +156,21 @@ export default {
       }
     },
     async remoteUpdate() {
-      this.loading = true;
       try {
-        // await RemoteSyncItem(this.pilot);
-
+        await CloudController.UpdateRemote(this.pilot);
+        await UserStore().refreshDbData();
         this.$notify({
-          title: 'Sync Success',
-          text: 'Pilot synced to remote',
-          data: { type: 'success', icon: 'mdi-check' },
+          title: `Sync Complete`,
+          text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
+          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         });
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
         this.$notify({
-          title: 'Sync Error',
-          text: 'An error occurred while attempting to download remote data',
-          data: { type: 'error', icon: 'mdi-alert' },
+          title: `Sync Failed`,
+          text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
         });
       }
-      this.loading = false;
     },
   },
 };

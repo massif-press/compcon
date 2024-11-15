@@ -16,7 +16,11 @@
         <v-col>
           <v-row dense class="pl-1 pr-3">
             <v-col cols="auto" :class="`heading h3 ${isHovering ? 'text-accent' : ''}`">
-              <div>{{ item.Name }}</div>
+              <div>
+                <cc-remote-hover :item="item" color="accent" />
+                <cc-missing-content-hover :item="item" />
+                {{ item.Name }}
+              </div>
             </v-col>
           </v-row>
           <sitrep-chip :sitrep="item.Sitrep" />

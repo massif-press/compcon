@@ -21,6 +21,7 @@ import {
 } from '@/io/apis/account';
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController';
 import { PostCloudArchive } from '@/classes/components/cloud/CloudArchive';
+import { ImportStagedData, StageImport } from '@/io/Importer';
 
 const DefaultSyncSettings = {
   frequency: 'manual',
@@ -37,7 +38,7 @@ const DefaultSyncSettings = {
 
 type CollectionSubscriptionSettings = {
   updateOn: string;
-  items: { code: string; auto: boolean }[];
+  items: { code: string; metadata: any }[];
 };
 
 const DefaultCollectionSettings = {
@@ -82,6 +83,7 @@ export const UserStore = defineStore('cloud', {
     CloudArchives: [] as any[],
     CloudImages: [] as any[],
     UserPublishedCollections: [] as any[],
+    RemoteCollections: [] as any[],
     LastQuery: 0,
     CloudStorageUsed: 0,
     MaxCloudStorage: 100 * 1024 * 1024, //TODO: set based on patreon tier
@@ -89,6 +91,7 @@ export const UserStore = defineStore('cloud', {
     StorageWarning: false,
     StorageFull: false,
     IsLoggedIn: false,
+    IsSyncing: false,
   }),
   getters: {
     CloudStorageFull: (state) => state.CloudStorageUsed >= state.MaxCloudStorage,
@@ -111,7 +114,7 @@ export const UserStore = defineStore('cloud', {
         ...NpcStore().Npcs,
         ...NarrativeStore().CollectionItems,
         ...EncounterStore().Encounters,
-        ...CampaignStore().Campaigns,
+        // ...CampaignStore().Campaigns,
       ].filter((x) => !x.SaveController.IsDeleted);
     },
     AllLocalItems(): any[] {
@@ -137,6 +140,14 @@ export const UserStore = defineStore('cloud', {
           SyncStatus: 'CloudOnly',
         },
       }));
+    },
+    UserCollections(): any[] {
+      const data = CompendiumStore().ContentCollections;
+      data.forEach((c) => {
+        const meta = this.UserPublishedCollections.find((x) => x.sortkey.split('_')[1] === c.ID);
+        if (meta) c.Metadata = meta;
+      });
+      return data;
     },
     // does not include remote items
     AllSyncableItems(): any[] {
@@ -240,6 +251,7 @@ export const UserStore = defineStore('cloud', {
       }
     },
     async setUserMetadata(): Promise<void> {
+      this.User.save();
       const userSettings = await Client.getLocalProfile();
       const payload = {
         collection_subscription_settings: this.UserMetadata.CollectionSubscriptionSettings,
@@ -262,26 +274,24 @@ export const UserStore = defineStore('cloud', {
       let totalSizeBytes = 0;
       dynamo.forEach((item) => {
         let localItem = this.getLocalItem(item.sortkey);
-        totalSizeBytes += item.size;
+        if (item.size && !isNaN(item.size)) totalSizeBytes += item.size;
         if (localItem) {
           localItem.CloudController.Metadata = item;
         } else {
           this.setCloudDataItem(item);
         }
       });
+
       this.CloudStorageUsed = totalSizeBytes;
       await this.setMetadataForRemotes();
     },
     async setMetadataForRemotes(): Promise<void> {
       const remotes = this.UserMetadata.RemoteItems;
-      console.log('remotes:', remotes);
       const promises = [] as Promise<any>[];
 
       remotes.forEach((r) => {
         promises.push(GetFromCode(r));
       });
-
-      const missingItemPromises = [] as Promise<any>[];
 
       const data = await Promise.all(promises);
 
@@ -291,7 +301,6 @@ export const UserStore = defineStore('cloud', {
         if (localItem) {
           localItem.CloudController.Metadata = item;
         } else {
-          console.log(item);
           const itemData = await downloadFromS3(item.uri);
           const itemType = item.sortkey.split('_')[1];
           const newItem = CloudController.NewByType(itemType, itemData);
@@ -301,11 +310,72 @@ export const UserStore = defineStore('cloud', {
         }
       }
     },
+    async getRemoteCollectionMetadata(startup = false): Promise<void> {
+      const collectionSettings = this.UserMetadata.CollectionSubscriptionSettings;
+      const data = [] as any[];
+      const seen = [] as string[];
+
+      for (const item of collectionSettings.items) {
+        if (seen.includes(item.code)) return;
+        seen.push(item.code);
+        try {
+          const e = await GetFromCode(item.code);
+          data.push(e);
+        } catch (e) {
+          console.error('Error getting remote collection:', item, e);
+        }
+      }
+
+      this.RemoteCollections = data;
+
+      if (startup && collectionSettings.updateOn === 'startup') {
+        for (const idx in this.RemoteCollections) {
+          const item = this.RemoteCollections[idx];
+          try {
+            await this.updateRemoteCollection(item);
+          } catch (e) {
+            console.error('Unable to update collection:', item, e);
+          }
+        }
+      }
+    },
+    async updateRemoteCollection(collection): Promise<string[]> {
+      const uri = collection.uri;
+      if (!uri) {
+        throw new Error('Collection has no uri:', collection);
+      }
+
+      const data = await downloadFromS3(uri);
+      const staged = await StageImport(data);
+      const errors = await ImportStagedData(staged, collection);
+      const settingsIndex = this.UserMetadata.CollectionSubscriptionSettings.items.findIndex(
+        (item) => item.code === collection.code
+      );
+      if (settingsIndex > -1) {
+        this.UserMetadata.CollectionSubscriptionSettings.items[settingsIndex].metadata = collection;
+        await this.setUserMetadata();
+      }
+      return errors;
+    },
+    updateAllRemoteCollections(): void {
+      for (let item of this.UserMetadata.CollectionSubscriptionSettings.items) {
+        const localSubscription = this.UserMetadata.CollectionSubscriptionSettings.items.find(
+          (x) => x.metadata.id === item.metadata.id
+        );
+
+        if (localSubscription && localSubscription.metadata.version === item.metadata.version) {
+          console.info('Collection is up to date:', item);
+        } else {
+          this.updateRemoteCollection(item);
+        }
+      }
+    },
     getLocalItem(sortkey: string): any {
       const datatype = sortkey.split('_')[0];
       if (datatype.includes('meta')) return;
       if (datatype.includes('archive')) return;
       if (datatype.includes('image')) return;
+      if (datatype.includes('collection')) return;
 
       const itemType = sortkey.split('_')[1];
       const id = sortkey.split('_')[2];
@@ -326,7 +396,7 @@ export const UserStore = defineStore('cloud', {
         case 'location':
           return NarrativeStore().CollectionItems.find((n) => n.ID === id);
         case 'campaign':
-          return CampaignStore().Campaigns.find((n) => n.ID === id);
+        // return CampaignStore().Campaigns.find((n) => n.ID === id);
         default:
           console.error('Get Local Item/Unknown item type:', itemType);
           break;
@@ -348,6 +418,14 @@ export const UserStore = defineStore('cloud', {
           arrType = 'CloudImages';
           break;
         case 'collection':
+          const localOwnedCollection = CompendiumStore().ContentCollections.find(
+            (x) => x.ID === item.sortkey.split('_')[1]
+          );
+          if (localOwnedCollection) {
+            localOwnedCollection.Metadata = item;
+          } else {
+            console.error('Unable to find local collection:', item);
+          }
           arrType = 'UserPublishedCollections';
           break;
       }
@@ -470,6 +548,23 @@ export const UserStore = defineStore('cloud', {
       this.UserMetadata.RemoteItems.splice(idx, 1);
       this.setUserMetadata();
     },
+    async addContentSubscription(metadata: any) {
+      this.UserMetadata.CollectionSubscriptionSettings.items.push({
+        code: metadata.code,
+        metadata,
+      });
+      this.RemoteCollections.push(metadata);
+      await this.setUserMetadata();
+    },
+    async removeContentSubscription(collection: any) {
+      const idx = this.UserMetadata.CollectionSubscriptionSettings.items.findIndex(
+        (x) => x.code === collection.code
+      );
+      if (idx === -1) return;
+      this.UserMetadata.CollectionSubscriptionSettings.items.splice(idx, 1);
+      this.RemoteCollections = this.RemoteCollections.filter((x) => x.code !== collection.code);
+      await this.setUserMetadata();
+    },
     async removeOldItems(): Promise<string> {
       const removeThreshold = new Date().setDate(new Date().getDate() - this.User.AutoDeleteDays);
       let out = `removing items older than ${new Date(removeThreshold).toLocaleString()}...\n`;
@@ -510,6 +605,26 @@ export const UserStore = defineStore('cloud', {
       else out += 'No items to remove\n';
 
       return out;
+    },
+    async deleteAllCloudData(): Promise<void> {
+      const promises = [] as Promise<any>[];
+      this.CloudItems.forEach((item) => {
+        promises.push(cloudDelete(this.UserMetadata.UserID, item.sortkey, item.uri));
+      });
+      this.CloudArchives.forEach((item) => {
+        promises.push(cloudDelete(this.UserMetadata.UserID, item.sortkey, item.uri));
+      });
+      this.CloudImages.forEach((item) => {
+        promises.push(cloudDelete(this.UserMetadata.UserID, item.sortkey, item.uri));
+      });
+
+      await Promise.all(promises);
+      this.CloudItems = [];
+      this.CloudArchives = [];
+      this.CloudImages = [];
+      this.UserPublishedCollections = [];
+      this.UserMetadata.RemoteItems = [];
+      this.setUserMetadata();
     },
   },
 });

@@ -109,44 +109,44 @@ function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }):
   ];
 }
 
-function sortByDependencies(packs: IContentPack[]): IContentPack[] {
-  function dfs(node, visited, stack) {
-    if (!visited[node.id]) {
-      visited[node.id] = true;
-      for (const dependencyId of node.manifest.dependencies) {
-        const dependentNode = packs.find((obj) => obj.id === dependencyId);
-        if (dependentNode) {
-          dfs(dependentNode, visited, stack);
-        }
-      }
-      stack.push(node);
-    }
-  }
+// function sortByDependencies(packs: IContentPack[]): IContentPack[] {
+//   function dfs(node, visited, stack) {
+//     if (!visited[node.id]) {
+//       visited[node.id] = true;
+//       for (const dependencyId of node.manifest.dependencies) {
+//         const dependentNode = packs.find((obj) => obj.id === dependencyId);
+//         if (dependentNode) {
+//           dfs(dependentNode, visited, stack);
+//         }
+//       }
+//       stack.push(node);
+//     }
+//   }
 
-  const sortedStack = [];
-  const visited = {};
+//   const sortedStack = [];
+//   const visited = {};
 
-  for (const pack of packs) {
-    dfs(pack, visited, sortedStack);
-  }
+//   for (const pack of packs) {
+//     dfs(pack, visited, sortedStack);
+//   }
 
-  return sortedStack.reverse();
-}
+//   return sortedStack.reverse();
+// }
 
-//iterate through the content packs and find the ones missing an installed dependency
-function findMissingDependencies(packs: IContentPack[]): IContentPack[] {
-  const missing = [] as IContentPack[];
-  for (const pack of packs) {
-    if (!pack.manifest.dependencies) continue;
-    for (const dependency of pack.manifest.dependencies) {
-      const dependentNode = packs.some((pack) => pack.manifest.name === dependency.name);
-      if (!dependentNode) {
-        missing.push(pack);
-      }
-    }
-  }
-  return missing;
-}
+// //iterate through the content packs and find the ones missing an installed dependency
+// function findMissingDependencies(packs: IContentPack[]): IContentPack[] {
+//   const missing = [] as IContentPack[];
+//   for (const pack of packs) {
+//     if (!pack.manifest.dependencies) continue;
+//     for (const dependency of pack.manifest.dependencies) {
+//       const dependentNode = packs.some((pack) => pack.manifest.name === dependency.name);
+//       if (!dependentNode) {
+//         missing.push(pack);
+//       }
+//     }
+//   }
+//   return missing;
+// }
 
 export const CompendiumStore = defineStore('compendium', {
   state: () => ({
@@ -159,6 +159,18 @@ export const CompendiumStore = defineStore('compendium', {
     loaded: false,
   }),
   getters: {
+    hasNpcAccess(): boolean {
+      if (!this.loaded) return false;
+      return this.NpcClasses.length > 0;
+    },
+    hasBondsAccess(): boolean {
+      if (!this.loaded) return false;
+      return this.Bonds.length > 0;
+    },
+    hasEidolonAccess(): boolean {
+      if (!this.loaded) return false;
+      return this.EidolonLayers.length > 0;
+    },
     NpcClasses: (state) => collect<NpcClass>(state, 'npc_classes', NpcClass),
     NpcTemplates: (state) => collect<NpcTemplate>(state, 'npc_templates', NpcTemplate),
     NpcFeatures: (state) => collect<NpcFeature>(state, 'npc_features'),
@@ -336,6 +348,23 @@ export const CompendiumStore = defineStore('compendium', {
         .then(() => console.info('LCP data saved'))
         .catch((err) => console.error('Error while saving LCP data', err));
     },
+    async saveContentCollection(collection: ContentCollection): Promise<void> {
+      const index = this.ContentCollections.findIndex((x) => x.ID === collection.ID);
+      if (index === -1) {
+        this.ContentCollections.push(collection);
+      } else {
+        this.ContentCollections[index] = collection;
+      }
+      await SetItem('content_collection', ContentCollection.Serialize(collection));
+    },
+    async installCollectionContent(collection: ContentCollection): Promise<void> {
+      // TODO
+    },
+    async deleteContentCollection(collection: ContentCollection): Promise<void> {
+      this.ContentCollections = this.ContentCollections.filter((x) => x.ID !== collection.ID);
+      await RemoveItem('content_collection', collection.ID);
+      await this.saveUserData();
+    },
     async togglePackActive(payload: string): Promise<void> {
       const pack = this.ContentPacks.find((pack) => pack.ID === payload);
       if (pack) pack.SetActive(!pack.Active);
@@ -363,54 +392,50 @@ export const CompendiumStore = defineStore('compendium', {
     },
     async deleteContentPack(packID: string): Promise<void> {
       this.ContentPacks = this.ContentPacks.filter((pack) => pack.ID !== packID);
-      RemoveItem('content', packID);
+      await RemoveItem('content', packID);
       await this.saveUserData();
       await this.refreshExtraContent();
     },
     async loadExtraContent(): Promise<void> {
       let content = await GetAll('content');
-      //filter out user publishable collections
-      content = content.filter(
-        (x) => !x.__content_type || x.__content_type !== 'collection'
-      ) as IContentPack[];
 
-      content.forEach((pack) => {
-        if (!pack.manifest.dependencies) pack.manifest.dependencies = [];
-      });
+      // content.forEach((pack) => {
+      //   if (!pack.manifest.dependencies) pack.manifest.dependencies = [];
+      // });
 
-      content = sortByDependencies(content);
+      // content = sortByDependencies(content);
 
-      const packsMissingContent = findMissingDependencies(content);
-      packsMissingContent.forEach((pack) => {
-        pack.missing_content = true;
-      });
+      // const packsMissingContent = findMissingDependencies(content);
+      // packsMissingContent.forEach((pack) => {
+      //   pack.missing_content = true;
+      // });
 
       try {
         this.ContentPacks = [...this.ContentPacks, ...content.map((c) => new ContentPack(c))];
 
-        FrameComparison.NormalizeReferenceSet(
-          this.Frames.filter((x) => !x.ID.startsWith('missing_'))
-        );
-        NpcComparison.NormalizeReferenceSet(this.NpcClasses);
+        // FrameComparison.NormalizeReferenceSet(
+        //   this.Frames.filter((x) => !x.ID.startsWith('missing_'))
+        // );
+        // NpcComparison.NormalizeReferenceSet(this.NpcClasses);
 
-        this.NpcFeatures.forEach((feature) => {
-          feature.SetOrigin();
-        });
+        // this.NpcFeatures.forEach((feature) => {
+        //   feature.SetOrigin();
+        // });
       } catch (err) {
         console.error(err);
       }
     },
     async refreshExtraContent(): Promise<void> {
+      this.loaded = false;
       this.ContentPacks = [];
       await this.loadExtraContent();
+      await this.loadContentCollections();
 
       this.loaded = true;
     },
     async loadContentCollections(): Promise<void> {
-      const collections = (await GetAll('content')).filter(
-        (x) => x.__content_type && x.__content_type === 'collection'
-      ) as any[];
-      this.ContentCollections = collections.map((c) => new ContentCollection(c));
+      let content = await GetAll('content_collection');
+      this.ContentCollections = content.map((x) => ContentCollection.Deserialize(x));
     },
   },
 });

@@ -1,10 +1,10 @@
 <template>
   <v-list-item
     border
-    :class="selectedId === item.ID ? 'bg-primary' : ''"
+    :class="`${selectedId === item.ID ? 'bg-primary' : ''} ${disabled ? 'disabled' : ''}`"
     rounded
     style="margin-bottom: 2px"
-    @click="$emit('open')">
+    @click="disabled ? '' : $emit('open')">
     <template #prepend>
       <v-avatar>
         <v-icon
@@ -38,8 +38,11 @@
     </template>
 
     <template #append>
-      <cc-missing-content-list v-if="missingContent" :controller="item.BrewController" />
-      <cc-brew-info v-if="item.BrewController" :controller="item.BrewController" />
+      <cc-remote-hover :item="item" />
+      <cc-missing-content-hover :item="item" />
+      <cc-brew-info
+        v-if="item.BrewController && !item.BrewController.IsUnableToLoad"
+        :controller="item.BrewController" />
     </template>
   </v-list-item>
 </template>
@@ -56,6 +59,7 @@ export default {
     grouping: { type: String, required: false, default: 'None' },
     sorting: { type: String, required: false, default: 'Name' },
     selectedId: { type: String, required: false },
+    disabled: { type: Boolean, required: false, default: false },
   },
   emits: ['open'],
   computed: {
@@ -109,3 +113,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.disabled {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(182, 184, 191, 0.3),
+    rgba(182, 184, 191, 0.3) 10px,
+    rgba(142, 147, 165, 0.3) 10px,
+    rgba(142, 147, 165, 0.3) 20px
+  );
+}
+</style>

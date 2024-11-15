@@ -96,7 +96,7 @@ export default {
       { title: 'NPCs', value: 'npcs' },
       { title: 'Encounters', value: 'encounters' },
       { title: 'Narrative Elements', value: 'narrative' },
-      { title: 'Campaigns', value: 'campaigns' },
+      // { title: 'Campaigns', value: 'campaigns' },
       // { title: 'LCPs', value: 'lcps' },
     ],
   }),
@@ -123,6 +123,13 @@ export default {
           items = CompendiumStore().ContentPacks;
           break;
       }
+
+      items = items.filter(
+        (item: any) =>
+          !item.SaveController.IsDeleted &&
+          !item.SaveController.IsRemote &&
+          (!item.BrewController || (item.BrewController && !item.BrewController.IsUnableToLoad))
+      );
 
       items = items.filter((item: any) => !this.addedItems.includes(item.ID));
 

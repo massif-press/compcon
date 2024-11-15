@@ -63,7 +63,7 @@
               <v-col cols="auto">
                 <v-icon
                   size="40"
-                  :color="item.BrewController.MissingBrews.length ? 'error' : 'warning'"
+                  :color="item.BrewController.IsUnableToLoad ? 'error' : 'warning'"
                   icon="mdi-alert-rhombus" />
               </v-col>
               <v-col>
@@ -109,6 +109,40 @@
                     <div v-if="brew.Website" class="text-caption pl-4">
                       It may be possible to download this pack at:
                       <a target="_blank" :href="brew.Website" v-text="brew.Website" />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  v-if="
+                    item.BrewController.IsUnableToLoad &&
+                    !item.BrewController.NonfunctionalBrews.length
+                  ">
+                  <b>MISSING CORE CONTENT</b>
+                  <div>
+                    <span class="text-caption">
+                      COMP/CON is unable to load this item due to missing or non-loadable core
+                      content, such as the core rules or GM content pack.
+                    </span>
+                    <div v-if="item.ItemType === 'Unit'">
+                      <b class="text-accent" v-text="`LANCER CORE BOOK`" />
+                      <div class="text-caption pl-4">
+                        This pack is included in the Lancer Core Book paid content:
+                        <a
+                          target="_blank"
+                          href="https://massif-press.itch.io/corebook-pdf"
+                          v-text="`https://massif-press.itch.io/corebook-pdf`" />
+                      </div>
+                    </div>
+                    <div v-else-if="item.ItemType === 'Eidolon'">
+                      <b class="text-accent" v-text="`LANCER CORE BOOK`" />
+                      <div class="text-caption pl-4">
+                        This pack is included in the No Room for a Wallflower: Act 1 paid content:
+                        <a
+                          target="_blank"
+                          href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1"
+                          v-text="`https://massif-press.itch.io/no-room-for-a-wallflower-act-1`" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -168,7 +202,6 @@ export default {
 
     missingLength() {
       return this.allPilots.length + this.allNpcs.length;
-      // + this.missingPacks.length;
     },
 
     allPilots() {

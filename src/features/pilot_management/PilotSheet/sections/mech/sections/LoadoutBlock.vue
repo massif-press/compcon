@@ -1,7 +1,7 @@
 <template>
   <div class="mt-5">
     <section-header title="Equipment Loadout" class="mb-5" />
-    <cc-mech-loadout :mech="mech" class="px-3" />
+    <cc-mech-loadout :mech="mech" :readonly="mech.Pilot.IsRemote" class="px-3" />
   </div>
 </template>
 

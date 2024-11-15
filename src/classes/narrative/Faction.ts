@@ -17,6 +17,8 @@ class Faction extends CollectionItem {
     super(data);
     this._factionType = data?.factionType || '';
     this._name = data?.name || 'New Faction';
+
+    this.CloudController = new CloudController(this);
   }
 
   public get TypeSuggestions(): string[] {

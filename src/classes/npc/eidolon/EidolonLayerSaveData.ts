@@ -136,7 +136,7 @@ class EidolonLayerSaveData implements IFeatureContainer {
   public InstanceID?: string;
 
   public readonly Parent: Eidolon;
-  public Layer: EidolonLayer | EidolonLayerProxy;
+  public Layer: EidolonLayer | EidolonLayerProxy = new EidolonLayerProxy();
   public StatController: StatController;
   public SaveController: SaveController;
   public FeatureController: FeatureController;
@@ -184,14 +184,19 @@ class EidolonLayerSaveData implements IFeatureContainer {
       if (!data.stats) this._setStats(parent.Tier);
     }
 
-    if (this.Layer.Shards) this.Layer.Shards.Tier = parent.Tier;
+    if (this.Layer && this.Layer.Shards) this.Layer.Shards.Tier = parent.Tier;
 
     this.FeatureController = new FeatureController(this);
     this.FeatureController.Register(this);
   }
 
   public get FeatureSource(): NpcFeature[] {
-    return this.Layer.Features;
+    try {
+      return this.Layer.Features;
+    } catch (e) {
+      this.Parent.BrewController.MissingContent = true;
+      return [];
+    }
   }
 
   public get Description(): string {

@@ -40,7 +40,7 @@
             <v-col>
               <v-menu offset-y>
                 <template #activator="{ props }">
-                  <v-btn size="small" block v-bind="props">
+                  <v-btn size="small" variant="tonal" block v-bind="props">
                     {{ syncOptions.find((opt) => opt.value === settings.frequency)?.title || '' }}
                     <v-icon>mdi-chevron-down</v-icon>
                   </v-btn>
@@ -120,6 +120,7 @@
             <v-col>
               <v-btn
                 block
+                variant="tonal"
                 size="small"
                 @click="settings.includeSettings = !settings.includeSettings">
                 {{ settings.includeSettings ? 'ON' : 'OFF' }}
@@ -143,7 +144,11 @@
               </div>
             </v-col>
             <v-col>
-              <v-btn block size="small" @click="settings.includeShared = !settings.includeShared">
+              <v-btn
+                block
+                size="small"
+                variant="tonal"
+                @click="settings.includeShared = !settings.includeShared">
                 {{ settings.includeShared ? 'ON' : 'OFF' }}
               </v-btn>
             </v-col>

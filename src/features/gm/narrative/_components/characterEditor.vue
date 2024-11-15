@@ -1,6 +1,7 @@
 <template>
   <editor-base
     :item="item"
+    :readonly="isRemote"
     @exit="$emit('exit')"
     @save="save()"
     @delete="deleteItem()"
@@ -13,6 +14,7 @@
             <cc-short-string-editor
               large
               justify="start"
+              :readonly="isRemote"
               :placeholder="item.Name"
               @set="item.Name = $event">
               <div class="heading-block">
@@ -21,13 +23,14 @@
             </cc-short-string-editor>
           </div>
           <v-row class="heading h3">
-            <v-col><v-text-field label="Title" v-model="item.Title" /></v-col>
-            <v-col><v-text-field label="Alias" v-model="item.Alias" /></v-col>
+            <v-col><v-text-field :readonly="isRemote" label="Title" v-model="item.Title" /></v-col>
+            <v-col><v-text-field :readonly="isRemote" label="Alias" v-model="item.Alias" /></v-col>
           </v-row>
         </v-col>
         <v-col cols="auto">
           <v-combobox
             v-model="item.Pronouns"
+            :readonly="isRemote"
             density="compact"
             :items="['He/Him', 'She/Her', 'They/Them']"
             variant="outlined"
@@ -39,7 +42,7 @@
     </template>
     <template v-slot:stats>
       <v-divider class="mt-4 mb-1" />
-      <relationship-editor :item="item" />
+      <relationship-editor :readonly="isRemote" :item="item" />
     </template>
   </editor-base>
 </template>
@@ -58,6 +61,11 @@ export default {
     item: { type: Object, required: true },
   },
   emits: ['exit'],
+  computed: {
+    isRemote() {
+      return (this.item as any).SaveController.IsRemote;
+    },
+  },
   methods: {
     exit() {
       this.$emit('exit');

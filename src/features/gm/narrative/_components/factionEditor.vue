@@ -1,6 +1,7 @@
 <template>
   <editor-base
     :item="item"
+    :readonly="isRemote"
     @exit="$emit('exit')"
     @save="save()"
     @delete="deleteItem()"
@@ -12,6 +13,7 @@
           <div class="heading mech mt-n5" style="min-width: 30vw">
             <cc-short-string-editor
               large
+              :readonly="isRemote"
               justify="start"
               :placeholder="item.Name"
               @set="item.Name = $event">
@@ -24,6 +26,7 @@
         <v-col cols="auto">
           <v-combobox
             v-model="item.FactionType"
+            :readonly="isRemote"
             density="compact"
             :items="item.TypeSuggestions"
             variant="outlined"
@@ -35,7 +38,7 @@
     </template>
     <template v-slot:stats>
       <v-divider class="mt-4 mb-1" />
-      <relationship-editor :item="item" />
+      <relationship-editor :readonly="isRemote" :item="item" />
     </template>
   </editor-base>
 </template>
@@ -54,6 +57,11 @@ export default {
     item: { type: Object, required: true },
   },
   emits: ['exit'],
+  computed: {
+    isRemote() {
+      return (this.item as any).SaveController.IsRemote;
+    },
+  },
   methods: {
     exit() {
       this.$emit('exit');

@@ -64,6 +64,7 @@
           :sorting="sorting"
           :selected-id="selected?.ID || ''"
           :all-folders="folders"
+          :disabled="!canAddNpc"
           @open="$emit('open', $event)" />
 
         <div v-if="hidden" class="text-right pa-2 text-disabled">
@@ -78,6 +79,7 @@
             variant="tonal"
             class="mb-1"
             prepend-icon="mdi-plus"
+            :disabled="!canAddNpc"
             block
             @click="$emit('add-new')">
             Add New {{ itemType }}
@@ -100,7 +102,7 @@ import GmCollectionFilter from './_components/GMCollectionFilter.vue';
 import GmCollectionFolder from './_components/GMCollectionFolder.vue';
 import { NpcStore } from '../store/npc_store';
 import { NarrativeStore } from '../store/narrative_store';
-import { UserStore } from '@/stores';
+import { CompendiumStore, UserStore } from '@/stores';
 
 export default {
   name: 'gm-collection-view',
@@ -154,6 +156,9 @@ export default {
         default:
           return NarrativeStore();
       }
+    },
+    canAddNpc(): boolean {
+      return CompendiumStore().hasNpcAccess;
     },
     folders(): string[] {
       return this.folderStore.getFolders;

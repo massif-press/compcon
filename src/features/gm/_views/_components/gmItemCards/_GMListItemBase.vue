@@ -5,7 +5,7 @@
         v-bind="props"
         dense
         :class="`${isHovering && !missingContent ? 'cOutline' : ''} ${
-          missingContent ? 'cToolbar-missing' : ''
+          missingContent ? 'cToolbar-missing bg-missing' : ''
         }`"
         style="position: relative; cursor: pointer; border-radius: 2px"
         :style="`background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}; ${
@@ -87,5 +87,15 @@ export default {
 
 .cToolbar-missing {
   border: 3px double rgb(var(--v-theme-error));
+}
+
+.bg-missing {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(182, 184, 191, 0.3),
+    rgba(182, 184, 191, 0.3) 10px,
+    rgba(142, 147, 165, 0.3) 10px,
+    rgba(142, 147, 165, 0.3) 20px
+  );
 }
 </style>

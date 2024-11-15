@@ -22,7 +22,8 @@ export default {
     },
   },
   async created() {
-    if (!this.avatar.image.src.startsWith('http') || !this.avatar.image.src.startsWith('blob')) {
+    if (this.avatar.image.src.startsWith('http')) return;
+    if (!this.avatar.image.src.startsWith('blob')) {
       const blob = await GetBlob('images', this.avatar.image.src);
       this.avatar.image.src = URL.createObjectURL(blob);
     }
