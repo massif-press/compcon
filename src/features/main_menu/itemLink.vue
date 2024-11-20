@@ -97,7 +97,7 @@ export default {
           try {
             this.item = CompendiumStore().referenceFromID(this.type, this.id);
           } catch (e) {
-            console.log(e);
+            console.error(e);
           }
         }
       },

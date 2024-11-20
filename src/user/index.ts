@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import logger from './logger';
 import { CompendiumStore } from '@/stores';
+import { getPatronProfile } from './patreon';
 
 const CONFIG_FILE_NAME = 'cc_user';
 
@@ -18,6 +19,29 @@ type LcpSubscriptionData = {
   items: { packId: string; manifest: any; auto: boolean }[];
 };
 
+type PatreonData = {
+  token: {
+    access_token: string;
+    token_type: string;
+    expires_in: number;
+    refresh_token: string;
+    scope: string;
+    version: string;
+  };
+  profile: {
+    full_name: string;
+    thumb_url: string;
+    patron_status: string;
+    currently_entitled_amount_cents: number;
+    is_follower: boolean;
+    tierData: {
+      amount_cents: number;
+      title: string;
+    };
+  };
+  hasPatreon: boolean;
+};
+
 interface IUserProfile {
   id: string;
   welcome_hash: string;
@@ -30,6 +54,7 @@ interface IUserProfile {
   auto_delete_days: number;
   latest_change: number;
   lcp_subscription_data?: LcpSubscriptionData;
+  patreon_data?: PatreonData;
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -51,6 +76,7 @@ class UserProfile {
   private _storageWarning: number = 40;
   private _storageMax: number = 60;
   private _autoDeleteDays: number = 30;
+  private _patreonData: any = { hasPatreon: false };
 
   public constructor(id?: string) {
     this.ID = id || uuid();
@@ -163,6 +189,33 @@ class UserProfile {
     return fallback;
   }
 
+  public async setPatreonData(data: any): Promise<void> {
+    this._patreonData.token = data;
+    const profile = await getPatronProfile(data.access_token);
+    this._patreonData.profile = profile;
+    this._patreonData.hasPatreon = true;
+
+    console.log('Patreon Profile:', profile);
+    this.save();
+  }
+
+  public async refreshPatreonData(): Promise<string> {
+    if (!this._patreonData.token) return '';
+    try {
+      await this.setPatreonData(this._patreonData.token);
+      return 'success';
+    } catch (err) {
+      console.error('Error refreshing Patreon data:', err);
+      this._patreonData = { hasPatreon: false };
+      this.save();
+      return 'error';
+    }
+  }
+
+  public get Patreon(): PatreonData {
+    return this._patreonData;
+  }
+
   public get AllViews() {
     return this._options.views;
   }
@@ -229,6 +282,7 @@ class UserProfile {
       auto_delete_days: data.AutoDeleteDays,
       latest_change: data.latest_change,
       lcp_subscription_data: data.LcpSubscriptionData,
+      patreon_data: data._patreonData,
     };
   }
 
@@ -248,6 +302,7 @@ class UserProfile {
       updateOn: 'manual',
       items: [],
     };
+    profile._patreonData = data.patreon_data || {};
     return profile;
   }
 }

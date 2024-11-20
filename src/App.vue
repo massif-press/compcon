@@ -22,7 +22,6 @@ export default {
     'user.Theme': {
       handler: function (newVal) {
         if (!newVal) return;
-        console.log('Theme changed to', newVal);
         // @ts-ignore
         this.$vuetify.theme.global.name = newVal;
       },

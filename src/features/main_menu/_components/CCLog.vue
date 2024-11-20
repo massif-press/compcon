@@ -87,8 +87,6 @@ export default {
         })
       );
 
-      console.log(this.typer);
-
       switch (this.theme) {
         case 'horus':
           await HorusStart(this.typer);
