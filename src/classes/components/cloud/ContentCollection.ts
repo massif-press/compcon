@@ -210,7 +210,6 @@ class ContentCollection {
         this._contents.map((x) => x.data),
         'collection'
       );
-      console.log(collectedData);
       await uploadToS3(collectedData, res.presign.upload);
     } catch (e) {
       throw new Error('Error while publishing collection ' + e);

@@ -384,7 +384,6 @@ export default {
       this.loading = true;
       const data = await downloadFromS3(item.uri);
 
-      console.log(data);
       await importAll(data);
 
       this.loading = false;

@@ -175,7 +175,6 @@ class CloudController {
       this.Parent.SaveController.saveSilent();
     }
     if (res.presign.upload) {
-      console.log('Uploading data to S3:', savedata);
       const uploadResult = await uploadToS3(savedata, res.presign.upload);
       return uploadResult;
     } else throw new Error('No presign returned.');
@@ -225,7 +224,6 @@ class CloudController {
   }
 
   public static Deserialize(parent: ICloudSyncable, data: ICloudData) {
-    // console.log(data);
     if (!parent.CloudController)
       throw new Error(
         `CloudController not found on parent (${typeof parent}). New CloudControllers must be instantiated in the parent's constructor method.`
@@ -286,8 +284,6 @@ class CloudController {
   // download latest cloud data and sync local
   public static async SyncToCloud(item: any) {
     if (UserStore().StorageFull) throw new Error('Storage full! Unable to download.');
-
-    console.log(item);
 
     if (!item.CloudController?.Metadata?.SortKey || !syncableTypes.includes(item.ItemType)) {
       console.error('Item cannot be synced:', item);

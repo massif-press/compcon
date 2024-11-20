@@ -147,9 +147,14 @@
           </v-card>
         </v-col>
         <v-col>
-          <v-card size="small" color="#FF424D" @click="loginWithPatreon" disabled>
+          <patreon-card v-if="patreon.hasPatreon" />
+          <v-card v-else size="small" color="#FF424D" @click="loginWithPatreon">
             <b>Patreon account:</b>
-            <div class="text-disabled">Unlinked</div>
+
+            <div v-if="loadPatreon" class="ma-2">
+              <v-progress-linear indeterminate color="white" height="12" rounded="md" />
+            </div>
+            <div v-else class="text-disabled">Unlinked</div>
             Link Patreon
             <v-tooltip max-width="400px">
               <template #activator="{ props }">
@@ -218,16 +223,18 @@
 <script lang="ts">
 import { UserStore } from '@/stores';
 import _ from 'lodash';
-import axios from 'axios';
 import { getUser, updateUser } from '@/io/apis/account';
 import { signOut, updatePassword } from 'aws-amplify/auth';
 import DeleteAccount from './_components/deleteAccount.vue';
+import { authPatreon } from '@/user/patreon';
+import PatreonCard from './_components/patreonCard.vue';
 
 export default {
   name: 'account-management',
-  components: { DeleteAccount },
+  components: { DeleteAccount, PatreonCard },
   data: () => ({
     loading: false,
+    loadPatreon: false,
     showAccountMigration: true,
     nameLoading: false,
     nameDirty: false,
@@ -256,6 +263,9 @@ export default {
     },
     meta() {
       return UserStore().UserMetadata;
+    },
+    patreon() {
+      return UserStore().User.Patreon;
     },
     passMatch() {
       return () =>
@@ -290,7 +300,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (err) {
-        console.log(err);
+        console.error(err);
         this.$notify({
           title: 'Password update failed',
           text: 'The server returned an error',
@@ -336,46 +346,48 @@ export default {
       this.nameLoading = false;
       this.nameDirty = false;
     },
+    openOAuthPopup(url, name, width = 500, height = 600) {
+      const left = window.screenX + (window.outerWidth - width) / 2;
+      const top = window.screenY + (window.outerHeight - height) / 2;
 
-    loginWithPatreon() {
+      return window.open(
+        url,
+        name,
+        `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no`
+      );
+    },
+
+    async loginWithPatreon() {
       const clientId = import.meta.env.VITE_APP_PATREON_CLIENT_ID;
-      const redirectUri = import.meta.env.VITE_APP_PATREON_CALLBACK_URI;
+      const redirectUri = 'http://localhost:5173/oauth/callback';
+      const state = Math.random().toString(36).substring(2); // Simple state generation
 
-      const patreonOAuthUrl = `https://www.patreon.com/oauth2/authorize?response_data=t{color: oken&}client_id=${clientId}&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}&scope=identity`;
+      const oauthUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identity&state=${state}`;
 
-      // Open a popup for OAuth login
-      const popup = window.open(patreonOAuthUrl, 'patreon-login', 'width=600,height=600');
-      let data = null;
+      this.openOAuthPopup(oauthUrl, 'Patreon Login');
 
       // Listen for messages from the popup
-      window.addEventListener('message', (event) => {
-        console.log('Message received:', event);
-        if (event.origin !== window.location.origin) {
-          // Ensure the message is coming from the expected origin
-          return;
+      const handleMessage = (event) => {
+        if (event.origin !== window.location.origin) return; // Ensure message is from the same origin
+        if (event.data.type === 'patreon-code') {
+          this.exchangeToken(event.data.code);
+          window.removeEventListener('message', handleMessage);
         }
+      };
 
-        const { accessToken } = event.data;
+      window.addEventListener('message', handleMessage);
+    },
 
-        if (accessToken) {
-          // Fetch user data using the access token
-          axios
-            .get('https://www.patreon.com/api/oauth2/v2/identity', {
-              headers: { Authorization: `Bearer ${accessToken}` },
-            })
-            .then((response) => {
-              console.log('User data:', response.data.data);
-              data = response.data.data;
-            })
-            .catch((error) => {
-              console.error('Error fetching user data:', error);
-            });
-
-          popup!.close();
-        }
-      });
+    async exchangeToken(code) {
+      this.loadPatreon = true;
+      try {
+        const data = await authPatreon(code);
+        await UserStore().User.setPatreonData(data);
+        this.loadPatreon = false;
+      } catch (error) {
+        console.error('Token Exchange Error:', error);
+        this.loadPatreon = false;
+      }
     },
   },
 };

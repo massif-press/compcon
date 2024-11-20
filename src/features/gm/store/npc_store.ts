@@ -95,9 +95,6 @@ export const NpcStore = defineStore('npc', {
             .filter((x) => x.npcType === 'eidolon')
             .map((x) => Eidolon.Deserialize(x as EidolonData)) as any[]
         );
-
-      console.log('Npcs loaded', this.Npcs);
-      console.log('Npcs loaded', this.Npcs);
     },
 
     AddFolder(payload: string): void {

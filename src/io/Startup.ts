@@ -122,6 +122,13 @@ export default async function (skipSync = false): Promise<void> {
       return;
     }
 
+    const patreonStatus = await UserStore().User.refreshPatreonData();
+    if (patreonStatus === 'success') {
+      console.info('Patreon data refreshed');
+    } else {
+      console.error('Failed to refresh Patreon data');
+    }
+
     CompendiumStore().loadContentCollections();
     UserStore().User.setLcpSubscriptionData();
     UserStore().setSyncTimer();
