@@ -23,7 +23,7 @@
       </v-row>
     </v-card-text>
   </v-card>
-  <v-dialog v-model="dialog" max-width="800">
+  <v-dialog v-model="dialog" max-width="1000">
     <v-card>
       <v-toolbar density="compact" color="primary">
         <v-toolbar-title class="heading h3">Membership Benefits</v-toolbar-title>

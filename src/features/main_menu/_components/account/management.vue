@@ -130,19 +130,24 @@
     <div class="flavor-text">
       <v-row class="text-center py-4">
         <v-col>
-          <v-card size="small" color="#fa5c5c" disabled>
+          <itch-card v-if="itch.hasItch" />
+
+          <v-card v-else size="small" color="itch" @click="loginWithItch">
             <b>itch.io account:</b>
-            <div class="text-disabled">Unlinked</div>
+            <div v-if="loadPatreon" class="ma-2">
+              <v-progress-linear indeterminate color="white" height="12" rounded="md" />
+            </div>
+            <div v-else class="text-disabled">Unlinked</div>
             Link itch.io
             <v-tooltip max-width="400px">
               <template #activator="{ props }">
                 <v-icon v-bind="props" size="x-small">mdi-help-circle-outline</v-icon>
               </template>
-              Linking your itch.io account will allow you to download Massif and community-approved
-              homebrew content from the itch.io store with one click.
+              Linking your itch.io account will allow you to download Massif content from the
+              itch.io store with one click.
               <br />
-              You can also subscribe to LCPs to auto-update your local copy when the author releases
-              a new version.
+              You can also subscribe to Massif LCPs to auto-update your local copy when the author
+              releases a new version.
             </v-tooltip>
           </v-card>
         </v-col>
@@ -223,18 +228,20 @@
 <script lang="ts">
 import { UserStore } from '@/stores';
 import _ from 'lodash';
-import { getUser, updateUser } from '@/io/apis/account';
+import { updateUser } from '@/io/apis/account';
 import { signOut, updatePassword } from 'aws-amplify/auth';
 import DeleteAccount from './_components/deleteAccount.vue';
-import { authPatreon } from '@/user/patreon';
+import { authPatreon, authItch } from '@/user/oauth';
 import PatreonCard from './_components/patreonCard.vue';
+import ItchCard from './_components/itchCard.vue';
 
 export default {
   name: 'account-management',
-  components: { DeleteAccount, PatreonCard },
+  components: { DeleteAccount, PatreonCard, ItchCard },
   data: () => ({
     loading: false,
     loadPatreon: false,
+    loadItch: false,
     showAccountMigration: true,
     nameLoading: false,
     nameDirty: false,
@@ -266,6 +273,9 @@ export default {
     },
     patreon() {
       return UserStore().User.Patreon;
+    },
+    itch() {
+      return UserStore().User.Itch;
     },
     passMatch() {
       return () =>
@@ -359,7 +369,7 @@ export default {
 
     async loginWithPatreon() {
       const clientId = import.meta.env.VITE_APP_PATREON_CLIENT_ID;
-      const redirectUri = import.meta.env.VITE_APP_PATREON_CALLBACK_URI;
+      const redirectUri = import.meta.env.VITE_APP_OAUTH_CALLBACK_URI;
       const state = Math.random().toString(36).substring(2); // Simple state generation
 
       const oauthUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identity&state=${state}`;
@@ -369,8 +379,8 @@ export default {
       // Listen for messages from the popup
       const handleMessage = (event) => {
         if (event.origin !== window.location.origin) return; // Ensure message is from the same origin
-        if (event.data.type === 'patreon-code') {
-          this.exchangeToken(event.data.code);
+        if (event.data.type === 'oauth-code') {
+          this.exchangePatreonToken(event.data.code);
           window.removeEventListener('message', handleMessage);
         }
       };
@@ -378,7 +388,29 @@ export default {
       window.addEventListener('message', handleMessage);
     },
 
-    async exchangeToken(code) {
+    async loginWithItch() {
+      const clientId = import.meta.env.VITE_APP_ITCH_CLIENT_ID;
+      const redirectUri = import.meta.env.VITE_APP_OAUTH_CALLBACK_URI;
+      let scope = 'profile:me';
+      scope = encodeURIComponent(scope);
+
+      const oauthUrl = `https://itch.io/user/oauth?client_id=${clientId}&scope=${scope}&response_type=token&redirect_uri=${redirectUri}`;
+
+      this.openOAuthPopup(oauthUrl, 'Itch.io Login');
+
+      // Listen for messages from the popup
+      const handleMessage = (event) => {
+        if (event.origin !== window.location.origin) return; // Ensure message is from the same origin
+        if (event.data.type === 'access_token') {
+          this.exchangeItchToken(event.data.access_token);
+          window.removeEventListener('message', handleMessage);
+        }
+      };
+
+      window.addEventListener('message', handleMessage);
+    },
+
+    async exchangePatreonToken(code) {
       this.loadPatreon = true;
       try {
         const data = await authPatreon(code);
@@ -387,6 +419,18 @@ export default {
       } catch (error) {
         console.error('Token Exchange Error:', error);
         this.loadPatreon = false;
+      }
+    },
+
+    async exchangeItchToken(access_token) {
+      this.loadItch = true;
+      try {
+        const data = await authItch(access_token);
+        await UserStore().User.setItchData(access_token, data);
+        this.loadItch = false;
+      } catch (error) {
+        console.error('Token Exchange Error:', error);
+        this.loadItch = false;
       }
     },
   },

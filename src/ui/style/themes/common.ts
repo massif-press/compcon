@@ -60,4 +60,5 @@ export default {
 
   // brand colors
   patreon: '#FF424D',
+  itch: '#fa5c5c',
 };

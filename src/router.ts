@@ -9,7 +9,7 @@ import MainMenu from './features/main_menu/index.vue';
 import UITest from './features/ui_test/index.vue';
 import ItemLink from './features/main_menu/itemLink.vue';
 
-import PatreonRedirect from './features/main_menu/_components/oauth/PatreonRedirect.vue';
+import Redirect from './features/main_menu/_components/oauth/Redirect.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -33,7 +33,7 @@ const router = createRouter({
     {
       path: '/oauth/callback',
       name: 'OAuthCallback',
-      component: PatreonRedirect,
+      component: Redirect,
     },
     ...compendiumRoutes.map((route) => ({
       ...route,

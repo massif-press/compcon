@@ -1,10 +1,10 @@
 //  This is the local user profile class. Cloud/cognito user information should be stored in a new class.
 import { v4 as uuid } from 'uuid';
-import _ from 'lodash';
+import _, { has } from 'lodash';
 
 import logger from './logger';
 import { CompendiumStore } from '@/stores';
-import { getPatronProfile } from './patreon';
+import { authItch, getPatronProfile } from './oauth';
 
 const CONFIG_FILE_NAME = 'cc_user';
 
@@ -55,6 +55,7 @@ interface IUserProfile {
   latest_change: number;
   lcp_subscription_data?: LcpSubscriptionData;
   patreon_data?: PatreonData;
+  itch_data?: any;
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -77,6 +78,7 @@ class UserProfile {
   private _storageMax: number = 60;
   private _autoDeleteDays: number = 30;
   private _patreonData: any = { hasPatreon: false };
+  private _itchData: any = { hasItch: false };
 
   public constructor(id?: string) {
     this.ID = id || uuid();
@@ -216,6 +218,33 @@ class UserProfile {
     return this._patreonData;
   }
 
+  public setItchData(access_token: string, data: any): void {
+    console.log('itch data:', data);
+    this._itchData = data;
+    this._itchData.hasItch = true;
+    this._itchData.token = access_token;
+    this._itchData.lastUpdate = Date.now();
+    this.save();
+  }
+
+  public async refreshItchData(): Promise<string> {
+    try {
+      if (!this._itchData.token) throw new Error('No itch.io token found');
+      const data = await authItch(this._itchData.token);
+      this.setItchData(this._itchData.token, data);
+      return 'success';
+    } catch (err) {
+      console.error('Error refreshing Itch data:', err);
+      this._itchData = { hasItch: false };
+      this.save();
+      return 'error';
+    }
+  }
+
+  public get Itch(): any {
+    return this._itchData;
+  }
+
   public get AllViews() {
     return this._options.views;
   }
@@ -283,6 +312,7 @@ class UserProfile {
       latest_change: data.latest_change,
       lcp_subscription_data: data.LcpSubscriptionData,
       patreon_data: data._patreonData,
+      itch_data: data._itchData,
     };
   }
 
@@ -302,7 +332,8 @@ class UserProfile {
       updateOn: 'manual',
       items: [],
     };
-    profile._patreonData = data.patreon_data || {};
+    profile._patreonData = data.patreon_data || { hasPatreon: false };
+    profile._itchData = data.itch_data || { hasItch: false };
     return profile;
   }
 }
