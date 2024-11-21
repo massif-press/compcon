@@ -1,5 +1,8 @@
 <template>
-  <v-card @click="dialog = true">
+  <v-card
+    @click="dialog = true"
+    variant="outlined"
+    style="border-color: rgb(var(--v-theme-patreon))">
     <div class="bg-patreon text-caption" style="letter-spacing: 4px !important">
       <cc-slashes />
       <b class="px-2">PATREON LINKED</b>
@@ -8,7 +11,7 @@
     <v-card-text class="py-2">
       <v-row>
         <v-col cols="auto">
-          <v-avatar size="40">
+          <v-avatar size="40" color="primary">
             <v-img :src="patreon.profile.thumb_url" />
           </v-avatar>
         </v-col>
