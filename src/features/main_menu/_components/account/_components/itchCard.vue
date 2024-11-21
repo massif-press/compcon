@@ -1,5 +1,5 @@
 <template>
-  <v-card @click="dialog = true">
+  <v-card @click="dialog = true" variant="outlined" style="border-color: rgb(var(--v-theme-itch))">
     <div class="bg-itch text-caption" style="letter-spacing: 4px !important">
       <cc-slashes />
       <b class="px-2">ITCH LINKED</b>
@@ -8,7 +8,7 @@
     <v-card-text class="py-2">
       <v-row>
         <v-col cols="auto">
-          <v-avatar size="40">
+          <v-avatar size="40" color="primary">
             <v-img :src="itch.user.cover_url" />
           </v-avatar>
         </v-col>
