@@ -1,7 +1,7 @@
 const lcp_meta_key = import.meta.env.VITE_LCP_META_KEY;
 
 // garbage api. awful api. terrible api. bad api. no good. no good at all. this is a dog's api.
-const cleanData = (data: any) => {
+const cleanPatreonData = (data: any) => {
   const { full_name, thumb_url } = data.data.attributes;
   const membership = data.included.find((i: any) => i.type === 'member');
   const tiers = data.included.filter((i: any) => i.type === 'tier');
@@ -22,14 +22,25 @@ const cleanData = (data: any) => {
 };
 
 const authPatreon = async (code: string) => {
-  console.log(import.meta.env.VITE_APP_PATREON_CALLBACK_URI);
-
   const response = await fetch(`${import.meta.env.VITE_APP_OAUTH_API}/patreon/callback/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       code,
-      redirect_uri: import.meta.env.VITE_APP_PATREON_CALLBACK_URI,
+      redirect_uri: import.meta.env.VITE_APP_OAUTH_CALLBACK_URI,
+    }),
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+const authItch = async (access_token: string) => {
+  const response = await fetch(`${import.meta.env.VITE_APP_OAUTH_API}/itch/callback/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      access_token,
     }),
   });
 
@@ -44,13 +55,12 @@ const getPatronProfile = async (access_token: string) => {
     headers: { 'Content-Type': 'application/json', 'x-api-key': lcp_meta_key },
   });
   const json = await response.json();
-  console.log('Response JSON:', json);
 
   if (json.errors) {
     throw new Error(json.errors[0]);
   }
 
-  return cleanData(json);
+  return cleanPatreonData(json);
 };
 
-export { authPatreon, getPatronProfile };
+export { authPatreon, authItch, getPatronProfile };
