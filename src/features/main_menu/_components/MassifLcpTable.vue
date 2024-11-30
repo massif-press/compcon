@@ -67,7 +67,10 @@
           <v-icon v-else v-bind="props" class="fade-select mr-2" icon="mdi-cancel" />
         </template>
         <div class="text-center" v-if="canDownload(item)">Download and install latest version</div>
-        <div class="text-center" v-else>Requires linked itch.io purchase.</div>
+        <div class="text-center" v-else-if="!loggedIn">
+          Direct download requires a COMP/CON account
+        </div>
+        <div class="text-center" v-else>Requires linked itch.io purchase</div>
       </v-tooltip>
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
@@ -196,6 +199,9 @@ export default {
     user() {
       return UserStore().User;
     },
+    loggedIn() {
+      return UserStore().IsLoggedIn;
+    },
   },
   methods: {
     async refresh() {
@@ -214,6 +220,7 @@ export default {
       );
     },
     canDownload(pack) {
+      if (!this.loggedIn) return false;
       if (!pack.paid) return true;
       if (!this.user.Itch || !this.user.Itch.gamedata?.length) return false;
       return this.user.Itch.gamedata?.some((purchase) => purchase.game_id === pack.game_id);

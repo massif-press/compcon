@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter';
 import { IndexItem } from '@/stores';
 import { cloudDelete } from '@/io/apis/account';
+import { CloudController } from '@/classes/components';
 
 export const EncounterStore = defineStore('encounter', {
   state: () => ({
@@ -100,8 +101,7 @@ export const EncounterStore = defineStore('encounter', {
       await RemoveItem('Encounters', payload.ID);
       this.SaveEncounterData();
       if (payload.CloudController.ShareCode) {
-        const { user_id, sortkey, uri } = payload.CloudController.Metadata.Serialize();
-        await cloudDelete(user_id, sortkey, uri);
+        await CloudController.MarkCloudDeleted(payload.CloudController.Metadata);
       }
     },
 

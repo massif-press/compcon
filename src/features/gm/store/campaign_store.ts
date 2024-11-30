@@ -4,6 +4,7 @@ import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
 import { Campaign, ICampaignData } from '@/classes/campaign/Campaign';
 import { cloudDelete } from '@/io/apis/account';
 import { UserStore } from '@/stores';
+import { CloudController } from '@/classes/components';
 
 export const CampaignStore = defineStore('campaign', {
   state: () => ({
@@ -71,8 +72,7 @@ export const CampaignStore = defineStore('campaign', {
       await RemoveItem('Campaigns', payload.ID);
       this.SaveCampaigns();
       if (payload.CloudController.ShareCode) {
-        const { user_id, sortkey, uri } = payload.CloudController.Metadata.Serialize();
-        await cloudDelete(user_id, sortkey, uri);
+        await CloudController.MarkCloudDeleted(payload.CloudController.Metadata);
       }
     },
     async DeleteCollectionCampaign(payload: ICampaignData): Promise<void> {

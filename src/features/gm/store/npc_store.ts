@@ -8,6 +8,7 @@ import { Npc } from '@/classes/npc/Npc';
 import { IndexItem } from '@/stores';
 import path from 'path';
 import { cloudDelete } from '@/io/apis/account';
+import { CloudController } from '@/classes/components';
 
 export const NpcStore = defineStore('npc', {
   state: () => ({
@@ -152,8 +153,7 @@ export const NpcStore = defineStore('npc', {
       await RemoveItem('npcs', payload.ID);
       await this.SaveNpcData();
       if (payload.CloudController.ShareCode) {
-        const { user_id, sortkey, uri } = payload.CloudController.Metadata.Serialize();
-        await cloudDelete(user_id, sortkey, uri);
+        await CloudController.MarkCloudDeleted(payload.CloudController.Metadata);
       }
     },
 
