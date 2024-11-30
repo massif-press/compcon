@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="key in Object.keys(user)">
+        <tr v-for="key in userDataKeys">
           <td v-text="key.replace('_', '')" />
           <td v-if="key === '_options'">
             <v-row dense>
@@ -51,6 +51,11 @@ export default {
   computed: {
     user() {
       return UserStore().User;
+    },
+    userDataKeys() {
+      const skipKeys = ['LcpSubscriptionData', '_patreonData', '_itchData'];
+      const data = [...Object.keys(UserStore().User)];
+      return data.filter((key) => !skipKeys.includes(key));
     },
   },
   methods: {

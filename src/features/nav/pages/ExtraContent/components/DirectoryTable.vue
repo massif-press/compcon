@@ -13,7 +13,7 @@
     <!-- Download -->
     <template v-slot:item.website="{ item }">
       <cc-tooltip content="Download">
-        <v-btn target="_blank" :href="(item as any).link" icon variant="plain" color="secondary">
+        <v-btn target="_blank" :href="(item as any).link" icon variant="plain" color="accent">
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
       </cc-tooltip>
@@ -108,17 +108,16 @@ export default {
         ];
       return [
         { title: '', key: 'data-table-expand', width: '0' },
+        { title: 'Name', key: 'title' },
+        { title: 'Author', key: 'author' },
+        { title: 'Version', key: 'version' },
+        { title: 'Cost', key: 'cost' },
         {
-          title: 'Download',
           key: 'website',
           sortable: false,
           align: 'center',
           width: '0',
         },
-        { title: 'Name', key: 'name' },
-        { title: 'Author', key: 'author' },
-        { title: 'Version', key: 'version' },
-        { title: 'Cost', key: 'cost' },
       ];
     },
     contentPacks() {

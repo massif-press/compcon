@@ -3,8 +3,8 @@
     <v-row justify="center" align="start">
       <v-col cols="12">
         <v-card variant="outlined" class="my-1">
-          <v-img v-if="campaign.BannerImageUrl" :src="campaign.BannerImageUrl" height="187" />
-          <v-row v-else justify="center" align="center" style="height: 100%; min-height: 200px">
+          <v-img v-if="campaign.BannerImageUrl" :src="campaign.BannerImageUrl" height="187" cover />
+          <v-row v-else justify="center" align="center" style="min-height: 200px">
             <v-col class="text-center">
               <div class="text-disabled">
                 <i>Campaign Banner Image</i>
@@ -211,7 +211,7 @@
                 </v-col>
                 <v-col>
                   <v-card variant="outlined">
-                    <v-img :src="coverPreview || campaign.CoverImageUrl" height="100" />
+                    <v-img :src="coverPreview || campaign.CoverImageUrl" height="100" cover />
                   </v-card>
                 </v-col>
               </v-row>

@@ -64,6 +64,7 @@
           :title="userstore.IsLoggedIn ? 'Connected' : 'Log In'"
           text="COMP/CON Account"
           @clicked="($refs as any).loginModal.show()" />
+        <cloud-notifications />
       </v-row>
       <div style="height: 40px" />
 
@@ -108,6 +109,7 @@ import HelpPage from '../nav/pages/Help.vue';
 import OptionsPage from '../nav/pages/Options/index.vue';
 import { UserStore } from '@/stores';
 import SignIn from './_components/login/index.vue';
+import CloudNotifications from '../nav/CloudNotifications.vue';
 
 export default {
   name: 'landing-page-mobile',
@@ -119,6 +121,7 @@ export default {
     HelpPage,
     OptionsPage,
     SignIn,
+    CloudNotifications,
   },
   computed: {
     userstore() {

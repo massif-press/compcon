@@ -18,10 +18,14 @@ import {
   cloudDelete,
   GetFromCode,
   downloadFromS3,
+  getFromPresignDirect,
 } from '@/io/apis/account';
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController';
 import { PostCloudArchive } from '@/classes/components/cloud/CloudArchive';
 import { ImportStagedData, StageImport } from '@/io/Importer';
+import { getPatronProfile, authItch } from '../oauth';
+import { getItemDownloadLink } from '../api';
+import { parseContentPack } from '@/io/ContentPackParser';
 
 const DefaultSyncSettings = {
   frequency: 'manual',
@@ -29,7 +33,6 @@ const DefaultSyncSettings = {
   includeSettings: true,
   includeShared: true,
   resolutionStrategy: 'newest',
-  itemRetention: 30,
   autoBackupFrequency: 'none',
   autoBackupLimit: 30,
   autoBackupPrunePct: 30,
@@ -57,6 +60,8 @@ class UserMetadata {
   public CollectionSubscriptionSettings: CollectionSubscriptionSettings;
   public RemoteItems: string[];
   public UserMigrated: boolean;
+  public PatreonData: any;
+  public ItchData: any;
 
   public constructor(data: any) {
     this.UserID = data.user_id;
@@ -71,11 +76,14 @@ class UserMetadata {
     this.UserSettingData = data.user_setting_data;
     this.RemoteItems = data.remote_items || [];
     this.UserMigrated = data.user_migrated || false;
+    this.PatreonData = data.patreon_data || { hasPatreon: false };
+    this.ItchData = data.itch_data || { hasItch: false, user: { id: 1 }, gamedata: [] };
   }
 }
 
 export const UserStore = defineStore('cloud', {
   state: () => ({
+    IsLoading: false,
     User: {} as Client.UserProfile,
     UserMetadata: {} as UserMetadata,
     Cognito: {} as any,
@@ -86,15 +94,50 @@ export const UserStore = defineStore('cloud', {
     RemoteCollections: [] as any[],
     LastQuery: 0,
     CloudStorageUsed: 0,
-    MaxCloudStorage: 100 * 1024 * 1024, //TODO: set based on patreon tier
-    CollectionPublishLimit: 3, //TODO: set based on patreon tier
+    CollectionPublishLimit: 3,
     StorageWarning: false,
     StorageFull: false,
     IsLoggedIn: false,
     IsSyncing: false,
+    CloudNotifications: [] as any[],
   }),
   getters: {
-    CloudStorageFull: (state) => state.CloudStorageUsed >= state.MaxCloudStorage,
+    MaxCloudStorage: (state) => {
+      let baseMbVal;
+      switch (state.User.PatreonTierValue) {
+        case 1:
+          baseMbVal = 1000;
+          break;
+        case 2:
+          baseMbVal = 5000;
+          break;
+        case 3:
+        case 4:
+        case 5:
+          baseMbVal = 10000;
+          break;
+        default:
+          baseMbVal = 100;
+          break;
+      }
+      return baseMbVal * 1024 * 1024;
+    },
+    CollectionPublishLimit: (state) => {
+      switch (state.User.PatreonTierValue) {
+        case 1:
+          return 3;
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+          return -1;
+        default:
+          return 0;
+      }
+    },
+    CloudStorageFull(): boolean {
+      return this.CloudStorageUsed > this.MaxCloudStorage;
+    },
     SyncItemTypes: (state) => {
       const types = [...state.UserMetadata.SyncSettings.itemTypes];
       if (types.includes('npc')) types.push('unit', 'doodad', 'eidolon');
@@ -114,7 +157,7 @@ export const UserStore = defineStore('cloud', {
         ...NpcStore().Npcs,
         ...NarrativeStore().CollectionItems,
         ...EncounterStore().Encounters,
-        // ...CampaignStore().Campaigns,
+        ...CampaignStore().Campaigns,
       ].filter((x) => !x.SaveController.IsDeleted);
     },
     AllLocalItems(): any[] {
@@ -258,6 +301,8 @@ export const UserStore = defineStore('cloud', {
         remote_items: [...new Set(this.UserMetadata.RemoteItems)],
         sync_settings: this.UserMetadata.SyncSettings,
         user_setting_data: Client.UserProfile.Serialize(userSettings),
+        patreon_data: this.UserMetadata.PatreonData,
+        itch_data: this.UserMetadata.ItchData,
       };
 
       await updateUser(this.Cognito.userId, payload);
@@ -293,7 +338,10 @@ export const UserStore = defineStore('cloud', {
         promises.push(GetFromCode(r));
       });
 
-      const data = await Promise.all(promises);
+      const results = await Promise.allSettled(promises);
+      const data = results
+        .filter((result) => result.status === 'fulfilled')
+        .map((result) => result.value);
 
       for (const idx in data) {
         const item = data[idx];
@@ -355,6 +403,9 @@ export const UserStore = defineStore('cloud', {
         this.UserMetadata.CollectionSubscriptionSettings.items[settingsIndex].metadata = collection;
         await this.setUserMetadata();
       }
+      this.addCloudNotification(
+        `Updated Collection: ${collection.name} to version ${collection.version}`
+      );
       return errors;
     },
     updateAllRemoteCollections(): void {
@@ -396,7 +447,7 @@ export const UserStore = defineStore('cloud', {
         case 'location':
           return NarrativeStore().CollectionItems.find((n) => n.ID === id);
         case 'campaign':
-        // return CampaignStore().Campaigns.find((n) => n.ID === id);
+          return CampaignStore().Campaigns.find((n) => n.ID === id);
         default:
           console.error('Get Local Item/Unknown item type:', itemType);
           break;
@@ -487,6 +538,7 @@ export const UserStore = defineStore('cloud', {
       const promises = [] as Promise<any>[];
       toDelete.forEach((b) => {
         promises.push(cloudDelete(this.UserMetadata.UserID, b.sortkey, b.uri));
+        UserStore().addCloudNotification(`Pruned cloud backup "${b.name}".`);
       });
 
       await Promise.all(promises);
@@ -517,6 +569,8 @@ export const UserStore = defineStore('cloud', {
       if (!shouldRun) return;
 
       await PostCloudArchive('Automatic');
+      UserStore().addCloudNotification(`Uploaded new cloud backup.`);
+
       this.SyncSettings.lastBackupTime = new Date().getTime();
       await this.setUserMetadata();
     },
@@ -625,6 +679,78 @@ export const UserStore = defineStore('cloud', {
       this.UserPublishedCollections = [];
       this.UserMetadata.RemoteItems = [];
       this.setUserMetadata();
+    },
+    async setPatreonData(data: any): Promise<void> {
+      this.UserMetadata.PatreonData.token = data;
+      const profile = await getPatronProfile(data.access_token);
+      this.UserMetadata.PatreonData.profile = profile;
+      this.UserMetadata.PatreonData.hasPatreon = true;
+
+      console.log('Patreon Profile:', profile);
+      this.setUserMetadata();
+    },
+
+    async refreshPatreonData(): Promise<string> {
+      if (!this.UserMetadata.PatreonData.token) return '';
+      try {
+        await this.setPatreonData(this.UserMetadata.PatreonData.token);
+        return 'success';
+      } catch (err) {
+        console.error('Error refreshing Patreon data:', err);
+        this.UserMetadata.PatreonData = { hasPatreon: false };
+        this.setUserMetadata();
+        return 'error';
+      }
+    },
+    setItchData(access_token: string, data: any): void {
+      this.UserMetadata.ItchData = data;
+      this.UserMetadata.ItchData.hasItch = true;
+      this.UserMetadata.ItchData.token = access_token;
+      this.UserMetadata.ItchData.lastUpdate = Date.now();
+      this.setUserMetadata();
+    },
+
+    async refreshItchData(): Promise<string> {
+      try {
+        if (!this.UserMetadata.ItchData.token) throw new Error('No itch.io token found');
+        const data = await authItch(this.UserMetadata.ItchData.token);
+        this.setItchData(this.UserMetadata.ItchData.token, data);
+        return 'success';
+      } catch (err) {
+        console.error('Error refreshing Itch data:', err);
+        this.UserMetadata.ItchData = { hasItch: false, user: { id: 1 }, gamedata: [] };
+        this.setUserMetadata();
+        return 'error';
+      }
+    },
+    async downloadLcp(dbItem: any): Promise<void> {
+      const presign = await getItemDownloadLink(
+        this.UserMetadata.ItchData.user.id,
+        dbItem.game_id,
+        dbItem.uri
+      );
+      const file = await getFromPresignDirect(presign);
+      const fileData = await this.readAsBinaryStringAsync(file);
+      const lcp = await parseContentPack(fileData as string);
+      lcp.active = true;
+      await CompendiumStore().installContentPack(lcp);
+    },
+    readAsBinaryStringAsync(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsBinaryString(file);
+      });
+    },
+    addCloudNotification(text: string, type = 'success'): void {
+      this.CloudNotifications.push({ text, type });
+    },
+    clearCloudNotifications(): void {
+      this.CloudNotifications = [];
+    },
+    removeCloudNotification(idx: number): void {
+      this.CloudNotifications.splice(idx, 1);
     },
   },
 });

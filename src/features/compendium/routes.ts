@@ -43,6 +43,7 @@ const routes = [
   {
     path: '',
     component: Main,
+    props: true,
     searchData: {
       title: 'Compendium',
       icon: 'mdi-book-variant',

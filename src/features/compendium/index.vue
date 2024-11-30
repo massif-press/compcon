@@ -31,6 +31,11 @@ export default {
       return NavStore().SrdTab;
     },
   },
+  mounted() {
+    if (this.$route.query.tab) {
+      this.setTab(parseInt(this.$route.query.tab as string));
+    }
+  },
   methods: {
     setTab(tab: number) {
       NavStore().setSrdTab(tab);

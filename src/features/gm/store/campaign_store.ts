@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
 
 import { Campaign, ICampaignData } from '@/classes/campaign/Campaign';
+import { cloudDelete } from '@/io/apis/account';
+import { UserStore } from '@/stores';
 
 export const CampaignStore = defineStore('campaign', {
   state: () => ({
@@ -68,6 +70,10 @@ export const CampaignStore = defineStore('campaign', {
       if (idx >= 0) this.Campaigns.splice(idx, 1);
       await RemoveItem('Campaigns', payload.ID);
       this.SaveCampaigns();
+      if (payload.CloudController.ShareCode) {
+        const { user_id, sortkey, uri } = payload.CloudController.Metadata.Serialize();
+        await cloudDelete(user_id, sortkey, uri);
+      }
     },
     async DeleteCollectionCampaign(payload: ICampaignData): Promise<void> {
       const idx = this.CampaignCollection.findIndex((x) => x.id === payload.id);

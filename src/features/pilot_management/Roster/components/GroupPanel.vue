@@ -187,28 +187,9 @@
               <v-icon size="small" :icon="edit ? 'mdi-pencil-off' : 'mdi-pencil'" />
             </v-btn>
           </cc-tooltip>
-
-          <v-spacer />
           <v-btn
             color="accent"
-            prepend-icon="mdi-plus"
-            variant="tonal"
-            class="mx-5"
-            @click="$router.push({ name: 'new', params: { groupID: group.ID } })">
-            Create New Pilot
-          </v-btn>
-
-          <v-btn
-            color="accent"
-            prepend-icon="mdi-import"
-            variant="tonal"
-            class="mx-5"
-            @click="($refs as any).import.show()">
-            Import Pilot
-          </v-btn>
-
-          <v-btn
-            color="accent"
+            size="small"
             prepend-icon="mdi-transfer"
             variant="tonal"
             class="ml-5 mr-2"
@@ -223,12 +204,55 @@
               </v-list>
             </v-menu>
           </v-btn>
+          <v-spacer />
+          <v-btn
+            color="accent"
+            size="small"
+            prepend-icon="mdi-plus"
+            variant="tonal"
+            class="mx-5"
+            @click="$router.push({ name: 'new', params: { groupID: group.ID } })">
+            Create New Pilot
+          </v-btn>
+          <v-spacer />
+
+          <v-menu offset-y>
+            <template #activator="{ props }">
+              <v-btn
+                color="accent"
+                size="small"
+                prepend-icon="mdi-dots-vertical"
+                variant="tonal"
+                v-bind="props">
+                Import
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text>
+                <v-dialog max-width="70vw">
+                  <template #activator="{ props }">
+                    <v-btn
+                      color="accent"
+                      size="small"
+                      block
+                      prepend-icon="mdi-import"
+                      variant="tonal"
+                      v-bind="props">
+                      File Import
+                    </v-btn>
+                  </template>
+                  <template #default="{ isActive }">
+                    <file-import :group-id="group.ID" />
+                  </template>
+                </v-dialog>
+                <br />
+                <share-code-dialog import-type="pilot" />
+              </v-card-text>
+            </v-card>
+          </v-menu>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
-    <cc-solo-dialog ref="import" icon="cc:pilot" no-confirm large title="Import Pilot">
-      <import-dialog :group-id="group.ID" />
-    </cc-solo-dialog>
   </div>
 </template>
 
@@ -236,10 +260,11 @@
 import { PilotStore, UserStore } from '@/stores';
 import PilotCard from './PilotCard.vue';
 import PilotListItem from './PilotListItem.vue';
-import ImportDialog from './ImportDialog.vue';
 import { Pilot, PilotGroup } from '@/class';
 import { saveFile } from '@/io/Data';
 import _ from 'lodash';
+import FileImport from './add_panels/FileImport.vue';
+import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
 
 export default {
   name: 'group-panel',
@@ -249,7 +274,7 @@ export default {
       required: true,
     },
   },
-  components: { PilotCard, PilotListItem, ImportDialog },
+  components: { PilotCard, PilotListItem, FileImport, ShareCodeDialog },
   data: () => ({
     edit: false,
     deleteDialog: false,

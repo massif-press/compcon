@@ -26,6 +26,7 @@ type ICampaignData = {
   publish_info?: {
     origin_id: string;
     version_history: { ver: string; changes: string; date: number }[];
+    code?: string;
   };
 
   published: boolean;
@@ -35,6 +36,8 @@ type ICampaignData = {
   content: ICampaignSectionData[];
 
   save: ISaveData;
+
+  hasUpdate?: boolean; // used for flagging updates
 };
 
 class Campaign implements ISaveable, ICloudSyncable {
@@ -296,6 +299,10 @@ class Campaign implements ISaveable, ICloudSyncable {
     return this._versionHistory || [];
   }
 
+  public get Version(): string {
+    return this.Latest?.ver || '0.0.0';
+  }
+
   public get Latest(): {
     ver: string;
     changes: string;
@@ -340,10 +347,13 @@ class Campaign implements ISaveable, ICloudSyncable {
       content: c.Contents.map((x) => CampaignSection.Serialize(x)),
     } as ICampaignData;
 
+    console.log(c.CloudController.ShareCode);
+
     if (c.VersionHistory.length) {
       data.publish_info = {
         origin_id: c.OriginID,
         version_history: c.VersionHistory,
+        code: c.CloudController.ShareCode,
       };
     }
 

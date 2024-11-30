@@ -1,6 +1,6 @@
 <template>
   <!-- {{ lcpSaveData }} -->
-  <v-card flat border class="mb-4" disabled>
+  <v-card flat border class="mb-4">
     <v-toolbar density="compact">
       <v-toolbar-title>
         <div class="heading h3">
@@ -10,26 +10,15 @@
               <template #activator="{ props }">
                 <v-icon v-bind="props" size="x-small" class="mt-n1">mdi-help-circle-outline</v-icon>
               </template>
-              This setting is device-based and will not sync between devices. LCPs must be installed
-              before they can be auto-updated. Some paid LCPs may require an itch.io purchase before
-              allowing for automatic updates.
+              Paid LCP content requires a linked itch.io purchase before they can be automatically
+              updated. At this time, only Massif-published LCPs are supported.
             </v-tooltip>
           </span>
-          <v-chip color="secondary" size="small">Coming soon!</v-chip>
         </div>
       </v-toolbar-title>
-      <v-select
-        v-model="lcpSaveData.updateOn"
-        density="compact"
-        hide-details
-        label="Updates"
-        class="mx-2"
-        style="max-width: 200px"
-        :items="update_on"
-        @update:model-value="user.save()" />
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
-          <v-btn size="small" color="accent" icon v-bind="props">
+          <v-btn size="small" color="accent" icon v-bind="props" @click="refresh">
             <v-icon size="x-large">mdi-refresh</v-icon>
           </v-btn>
         </template>
@@ -41,7 +30,7 @@
       </v-tooltip>
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
-          <v-btn size="small" color="accent" icon v-bind="props">
+          <v-btn size="small" color="accent" icon v-bind="props" @click="updateAll">
             <v-icon size="x-large">mdi-download-multiple-outline</v-icon>
           </v-btn>
         </template>
@@ -50,124 +39,117 @@
     </v-toolbar>
 
     <v-divider />
-    <v-data-table
-      density="compact"
-      :headers="<any>lcpHeaders"
-      :items="installedPacks"
-      item-key="name"
-      :items-per-page="-1"
-      hide-default-footer>
-      <template #item.Name="{ item }">
-        {{ item.manifest.name || 'Unknown' }}
-      </template>
-      <template #item.Author="{ item }">
-        {{ item.manifest.author || 'Unknown' }}
-      </template>
-      <template #item.last_update="{ item }">
-        {{ item.manifest.LastUpdated || '' }}
-      </template>
-      <template #item.Version="{ item }">
-        {{ item.manifest.version || 'Unknown' }}
-      </template>
-      <template #item.auto="{ item }">
-        <v-row no-gutters justify="center">
-          <v-checkbox
-            v-model="item.auto"
-            density="compact"
-            hide-details
-            color="accent"
-            @update:model-value="user.save()" />
-        </v-row>
-      </template>
-      <template #item.actions="{ item }">
-        <v-tooltip max-width="300px" location="top">
-          <template #activator="{ props }">
-            <v-btn
-              icon
-              variant="text"
-              size="small"
-              color="accent"
-              v-bind="props"
-              @click=""
-              disabled>
-              <v-icon size="large" icon="mdi-download" />
-            </v-btn>
-          </template>
-          <div class="text-center">Manual update</div>
-        </v-tooltip>
-        <v-tooltip max-width="300px" location="top">
-          <template #activator="{ props }">
-            <v-btn
-              icon
-              variant="text"
-              size="small"
-              color="accent"
-              v-bind="props"
-              target="_blank"
-              :href="item.manifest.Website || ''">
-              <v-icon size="large" icon="mdi-open-in-new" />
-            </v-btn>
-          </template>
-          <div class="text-center">Open Website</div>
-        </v-tooltip>
-      </template>
-    </v-data-table>
-    <v-divider />
-    <v-card-actions>
-      <v-spacer />
-      <v-btn color="primary" size="small" variant="tonal" prepend-icon="mdi-open-in-app">
-        Browse LCP Directory
-      </v-btn>
-    </v-card-actions>
+    <massif-lcp-table />
   </v-card>
 </template>
 
 <script lang="ts">
 import { CompendiumStore, UserStore } from '@/stores';
+import { collectionDataQuery } from '@/user/api';
+import MassifLcpTable from '../../MassifLcpTable.vue';
 
 export default {
   name: 'lcp-subscriptions',
+  components: { MassifLcpTable },
   data: () => ({
     lcpHeaders: [
-      { title: 'LCP', key: 'Name' },
-      { title: 'Author', key: 'Author' },
-      { title: 'Installed Version', key: 'Version', align: 'center', sortable: false },
+      { title: 'LCP', key: 'title' },
+      { title: 'Author', key: 'author' },
       { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
-      { title: 'Latest Update', key: 'last_update', align: 'center', sortable: false },
+      { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
       { title: 'Auto Update', key: 'auto', align: 'center', sortable: false },
       { title: '', key: 'actions', align: 'end', sortable: false },
     ],
-    update_on: [
-      {
-        title: 'On Startup',
-        value: 'auto',
-      },
-      {
-        title: 'Manual Only',
-        value: 'manual',
-      },
-    ],
+    packs: [] as any[],
+    loading: true,
   }),
+  async mounted() {
+    await this.refresh();
+  },
   computed: {
     contentPacks() {
       return CompendiumStore().ContentPacks;
     },
-    lcpSaveData() {
-      return UserStore().User.LcpSubscriptionData;
+    lcpSubscriptions() {
+      return UserStore().User.LcpSubscriptions;
     },
     installedPacks() {
-      return this.lcpSaveData.items.filter((item) => !!this.packDataItem(item));
-    },
-    missingPacks() {
-      return this.lcpSaveData.items.filter((item) => !this.packDataItem(item));
+      return CompendiumStore().ContentPacks;
     },
     user() {
       return UserStore().User;
     },
   },
   methods: {
+    async refresh() {
+      this.loading = true;
+      this.packs = await collectionDataQuery('lcp');
+
+      this.loading = false;
+    },
     packDataItem(save) {
       return this.contentPacks.find((pack) => pack.ID === save.packId);
+    },
+    getInstalledPack(pack) {
+      return this.contentPacks.find(
+        (p) => p.Manifest.name === pack.name || p.Manifest.name === pack.title
+      );
+    },
+    canDownload(pack) {
+      return !pack.paid
+        ? true
+        : this.user.Itch.gamedata.some((purchase) => purchase.game_id === pack.game_id);
+    },
+    hasSubscription(pack) {
+      return this.lcpSubscriptions.includes(pack.sortkey);
+    },
+    async toggleSubscription(pack) {
+      if (this.hasSubscription(pack)) {
+        this.lcpSubscriptions.splice(this.lcpSubscriptions.indexOf(pack.sortkey), 1);
+        this.user.save();
+      } else {
+        this.lcpSubscriptions.push(pack.sortkey);
+        this.user.save();
+        if (
+          !this.getInstalledPack(pack) ||
+          this.getInstalledPack(pack)?.Manifest.version !== pack.version
+        ) {
+          await this.installLatest(pack);
+        }
+      }
+    },
+    async installLatest(pack) {
+      this.loading = true;
+      try {
+        await UserStore().downloadLcp(pack);
+        this.$notify({
+          title: 'LCP Updated',
+          text: `The latest version of ${pack.title} has been downloaded and installed.`,
+          data: { color: 'success', icon: 'mdi-check-bold' },
+        });
+      } catch (err) {
+        console.error(err);
+        this.$notify({
+          title: 'Error Updating LCP',
+          text: `An error occurred while attempting to download ${pack.title}.`,
+          data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
+    async updateAll() {
+      this.loading = true;
+      for (const pack of this.packs) {
+        if (this.hasSubscription(pack)) {
+          if (
+            !this.getInstalledPack(pack) ||
+            this.getInstalledPack(pack)?.Manifest.version !== pack.version
+          )
+            await this.installLatest(pack);
+        }
+      }
+      this.loading = false;
     },
   },
 };

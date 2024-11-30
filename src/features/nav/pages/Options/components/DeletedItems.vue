@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { NpcStore, PilotStore } from '@/stores';
+import { CampaignStore, EncounterStore, NpcStore, PilotStore } from '@/stores';
 import { Pilot, PilotGroup } from '@/class';
 
 export default {
@@ -68,28 +68,32 @@ export default {
   computed: {
     items() {
       return [
-        // ...NpcStore().AllNpcs.filter((x) => x.SaveController.IsDeleted),
+        ...NpcStore().Npcs.filter((x) => x.SaveController.IsDeleted),
         ...PilotStore().Pilots.filter((x) => x.SaveController.IsDeleted),
         ...PilotStore().PilotGroups.filter((x) => x.SaveController.IsDeleted),
+        ...EncounterStore().Encounters.filter((x) => x.SaveController.IsDeleted),
+        ...CampaignStore().Campaigns.filter((x) => x.SaveController.IsDeleted),
       ];
     },
   },
   methods: {
     permanentlyDelete(item) {
-      const ps = PilotStore();
-
       switch (item.ItemType) {
-        // case 'npc':
-        //   const ns = NpcStore();
-        //   ns.deleteNpcPermanent(ns.AllNpcs.find((x) => x.ID === item.ID));
-        //   break;
+        case 'npc':
+          NpcStore().DeleteNpcPermanent(item);
+          break;
         case 'Pilot':
-          const pilot = ps.Pilots.find((x) => x.ID === item.ID) as Pilot;
-          ps.DeletePilotPermanent(pilot);
+          PilotStore().DeletePilotPermanent(item);
           break;
         case 'pilot_group':
-          const group = ps.PilotGroups.find((x) => x.ID === item.ID) as PilotGroup;
-          ps.DeleteGroupPermanent(group);
+          const group = PilotStore().PilotGroups.find((x) => x.ID === item.ID) as PilotGroup;
+          PilotStore().DeleteGroupPermanent(group);
+          break;
+        case 'encounter':
+          EncounterStore().DeleteEncounterPermanent(item);
+          break;
+        case 'campaign':
+          CampaignStore().DeleteCampaign(item);
           break;
         default:
           break;

@@ -39,6 +39,24 @@
       </v-alert>
     </v-fade-transition>
 
+    <v-expansion-panels class="mb-4" flat color="panel">
+      <v-expansion-panel>
+        <template #title>
+          <v-row dense>
+            <v-col>
+              <div class="text-caption font-weight-bold my-1">NOTIFICATIONS</div>
+            </v-col>
+            <v-col cols="auto">
+              <v-chip size="small" color="accent">{{ notifications.length }}</v-chip>
+            </v-col>
+          </v-row>
+        </template>
+        <template #text>
+          <cloud-notification-list />
+        </template>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
     <v-row>
       <v-col cols="6">
         <div class="font-weight-bold text-accent">
@@ -100,7 +118,7 @@
           :loading="nameLoading"
           density="compact"
           hide-details
-          autocomplete="cc-meta-username"
+          autocomplete="one-time-code"
           @update:model-value="nameDirty = true">
           <template v-if="nameDirty" #append>
             <v-btn
@@ -134,7 +152,7 @@
 
           <v-card v-else size="small" color="itch" @click="loginWithItch">
             <b>itch.io account:</b>
-            <div v-if="loadPatreon" class="ma-2">
+            <div v-if="loadItch" class="ma-2">
               <v-progress-linear indeterminate color="white" height="12" rounded="md" />
             </div>
             <div v-else class="text-disabled">Unlinked</div>
@@ -234,10 +252,11 @@ import DeleteAccount from './_components/deleteAccount.vue';
 import { authPatreon, authItch } from '@/user/oauth';
 import PatreonCard from './_components/patreonCard.vue';
 import ItchCard from './_components/itchCard.vue';
+import CloudNotificationList from '@/features/nav/_components/CloudNotificationList.vue';
 
 export default {
   name: 'account-management',
-  components: { DeleteAccount, PatreonCard, ItchCard },
+  components: { DeleteAccount, PatreonCard, ItchCard, CloudNotificationList },
   data: () => ({
     loading: false,
     loadPatreon: false,
@@ -284,6 +303,9 @@ export default {
     },
     user() {
       return UserStore().User;
+    },
+    notifications() {
+      return UserStore().CloudNotifications;
     },
   },
   methods: {
@@ -414,11 +436,21 @@ export default {
       this.loadPatreon = true;
       try {
         const data = await authPatreon(code);
-        await UserStore().User.setPatreonData(data);
+        await UserStore().setPatreonData(data);
         this.loadPatreon = false;
+        this.$notify({
+          title: 'Patreon Linked',
+          text: 'Your Patreon account has been linked',
+          data: { color: 'success' },
+        });
       } catch (error) {
         console.error('Token Exchange Error:', error);
         this.loadPatreon = false;
+        this.$notify({
+          title: 'Patreon Link Failed',
+          text: 'There was an error linking your Patreon account',
+          data: { color: 'error' },
+        });
       }
     },
 
@@ -426,11 +458,21 @@ export default {
       this.loadItch = true;
       try {
         const data = await authItch(access_token);
-        await UserStore().User.setItchData(access_token, data);
+        await UserStore().setItchData(access_token, data);
         this.loadItch = false;
+        this.$notify({
+          title: 'Itch.io Linked',
+          text: 'Your itch.io account has been linked',
+          data: { color: 'success' },
+        });
       } catch (error) {
         console.error('Token Exchange Error:', error);
         this.loadItch = false;
+        this.$notify({
+          title: 'Itch.io Link Failed',
+          text: 'There was an error linking your itch.io account',
+          data: { color: 'error' },
+        });
       }
     },
   },

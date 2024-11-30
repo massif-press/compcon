@@ -7,7 +7,7 @@
       </v-tab>
       <v-tab>
         <v-icon start icon="mdi-download" />
-        Install Content
+        Install .LCP File
       </v-tab>
       <v-tab>
         <v-icon start icon="mdi-format-list-text" />

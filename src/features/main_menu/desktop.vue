@@ -54,10 +54,12 @@
         <v-col cols="auto" class="text-center mr-3">
           <v-btn
             size="small"
+            :loading="startingUp"
             :prepend-icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
             @click="($refs.loginModal as any).show()">
             <span>{{ isLoggedIn ? 'Connected' : 'Log In' }}</span>
           </v-btn>
+          <cloud-notifications />
         </v-col>
 
         <v-col cols="auto" class="ml-auto text-right">
@@ -162,6 +164,7 @@ import CreditsPage from '../nav/pages/Credits.vue';
 import HelpPage from '../nav/pages/Help.vue';
 import OptionsPage from '../nav/pages/Options/index.vue';
 import { UserStore, CompendiumStore } from '@/stores';
+import CloudNotifications from '../nav/CloudNotifications.vue';
 
 export default {
   name: 'landing-page',
@@ -175,6 +178,7 @@ export default {
     HelpPage,
     OptionsPage,
     SignIn,
+    CloudNotifications,
   },
   data: () => ({
     importDialog: false,
@@ -183,6 +187,9 @@ export default {
   computed: {
     isLoggedIn() {
       return UserStore().IsLoggedIn;
+    },
+    startingUp() {
+      return UserStore().IsLoading;
     },
     missingContent() {
       //TODO: reimplement missingcontent check

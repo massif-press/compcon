@@ -164,14 +164,25 @@
   </v-container>
   <v-footer app>
     <v-spacer />
-    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).import.show()">
+    <v-btn
+      variant="tonal"
+      size="small"
+      color="accent"
+      class="mx-4"
+      @click="($refs as any).import.show()">
       <v-icon start icon="mdi-download" />
       Import
     </v-btn>
     <cc-solo-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
       <importer @complete="($refs as any).import.hide()" />
     </cc-solo-dialog>
-    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()">
+    <share-code-dialog import-type="encounter" />
+    <v-btn
+      variant="tonal"
+      size="small"
+      color="accent"
+      class="mx-4"
+      @click="($refs as any).organize.show()">
       <v-icon start icon="mdi-queue-first-in-last-out" />
       Organize
     </v-btn>
@@ -195,6 +206,7 @@ import { Encounter } from '@/classes/encounter/Encounter';
 import EncounterEditor from './_components/EncounterEditor.vue';
 import Organizer from '../_components/Organizer.vue';
 import Importer from '../_components/NpcImporter.vue';
+import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
 
 export default {
   name: 'gm-encounter-view',
@@ -205,6 +217,7 @@ export default {
     GmCollectionFolder,
     EncounterEditor,
     Importer,
+    ShareCodeDialog,
   },
   props: {
     id: {

@@ -49,6 +49,17 @@
             </v-col>
           </v-row>
         </v-card>
+        <div v-if="tierValue < 5" class="text-right">
+          <v-btn
+            color="exotic"
+            size="x-small"
+            variant="tonal"
+            prepend-icon="mdi-star"
+            href="https://www.patreon.com/compcon"
+            target="_blank">
+            Upgrade
+          </v-btn>
+        </div>
       </v-card-text>
       <v-divider />
       <v-card-actions>
@@ -68,29 +79,34 @@ export default {
     tiers: [
       {
         title: 'Free',
+        value: 0,
         benefits: [
           '100 MB cloud storage',
-          'Ability to join active mode tables as a player or observer',
-          'Ability to subscribe to LCP or content stream updates',
+          'Auto-sync cloud data',
+          'Join active mode tables as a player or observer',
+          'Share and subscribe to remote items',
+          'Cloud image storage',
+          'Access to community spotlight content',
+          'Subscribe to LCP and content collection updates',
         ],
       },
       {
         title: 'Diasporan',
+        value: 1,
         benefits: [
-          'Auto-sync options',
-          '+1GB cloud storage',
-          'Ability to host an active mode table as GM',
-          'Time-based auto-sync',
-          'Permanent deleted item retention in the cloud',
+          '1 GB cloud storage',
+          'Additional auto-sync options',
+          'Host an active mode table as GM',
           'Cloud backups',
           'Publish up to 3 content collections',
-          'Eligible for future public feeds and community spotlight content',
+          'Eligible for submissions to community spotlight content',
         ],
       },
       {
         title: 'Cosmopolitan',
+        value: 2,
         benefits: [
-          '+4 GB cloud storage',
+          '5 GB cloud storage',
           'Additional auto-sync options',
           'Multiple concurrent active mode tables',
           'Unlimited content feed publishing',
@@ -98,7 +114,8 @@ export default {
       },
       {
         title: 'Lancer (and above)',
-        benefits: ['+4 GB cloud storage', 'Unlimited active mode table hosting'],
+        value: 3,
+        benefits: ['10 GB cloud storage', 'Unlimited active mode table hosting'],
       },
     ],
   }),
@@ -107,7 +124,10 @@ export default {
       return UserStore().User.Patreon;
     },
     tier() {
-      return this.patreon.profile.tierData.title;
+      return this.patreon.profile.tierData.title || 'Free';
+    },
+    tierValue() {
+      return UserStore().User.PatreonTierValue || 0;
     },
     supportText() {
       if (this.tier === 'Free') {
@@ -119,12 +139,7 @@ export default {
   },
   methods: {
     missingTier(t: string) {
-      return (
-        this.tiers.indexOf(this.tiers.find((x) => x.title === t) || { title: '', benefits: [] }) >
-        this.tiers.indexOf(
-          this.tiers.find((x) => x.title === this.tier) || { title: '', benefits: [] }
-        )
-      );
+      return this.tierValue < this.tiers.find((x) => x.title === t)!.value;
     },
   },
 };

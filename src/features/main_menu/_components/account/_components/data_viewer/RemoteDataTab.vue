@@ -91,14 +91,15 @@
     </template>
     <template #item.code="{ item }">
       <span v-if="item.SaveController?.RemoteCode?.length > 0">
-        {{ item.SaveController.RemoteCode }}
+        {{
+          `${item.SaveController.RemoteCode.slice(0, 4)}-${item.SaveController.RemoteCode.slice(4, 8)}-${item.SaveController.RemoteCode.slice(8, 12)}`
+        }}
         <v-tooltip max-width="300px" location="top">
           <template #activator="{ props }">
             <v-icon
               v-bind="props"
               color="accent"
               size="small"
-              end
               icon="mdi-content-copy"
               class="fade-select"
               @click="copy(item.SaveController.RemoteCode)" />
@@ -223,17 +224,17 @@ export default {
         title: 'Share Code',
         key: 'code',
         align: 'center',
+        width: '175px',
         sortable: false,
       },
       { title: '', key: 'actions', width: '155px', align: 'end' },
     ],
-    itemTypeFilter: ['pilot', 'npc', 'collectionItem', 'encounter', 'campaign'],
+    itemTypeFilter: ['pilot', 'npc', 'collectionItem', 'encounter'],
     syncableItemTypes: [
       { title: 'Pilot', value: 'pilot' },
       { title: 'NPC', value: 'npc' },
       { title: 'Narrative Element', value: 'collectionItem' },
       { title: 'Encounter', value: 'encounter' },
-      { title: 'Campaign', value: 'campaign' },
     ],
   }),
   computed: {
@@ -262,7 +263,6 @@ export default {
       'npc',
       'collectionItem',
       'encounter',
-      'campaign',
     ]);
   },
   watch: {

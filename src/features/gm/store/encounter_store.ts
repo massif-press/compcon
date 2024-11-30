@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import _ from 'lodash';
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter';
 import { IndexItem } from '@/stores';
+import { cloudDelete } from '@/io/apis/account';
 
 export const EncounterStore = defineStore('encounter', {
   state: () => ({
@@ -98,6 +99,10 @@ export const EncounterStore = defineStore('encounter', {
       if (idx >= 0) this.Encounters.splice(idx, 1);
       await RemoveItem('Encounters', payload.ID);
       this.SaveEncounterData();
+      if (payload.CloudController.ShareCode) {
+        const { user_id, sortkey, uri } = payload.CloudController.Metadata.Serialize();
+        await cloudDelete(user_id, sortkey, uri);
+      }
     },
 
     async SaveEncounterData(): Promise<void> {

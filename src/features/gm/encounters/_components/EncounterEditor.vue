@@ -192,12 +192,12 @@
                     <div class="text-overline mb-n6">item SHARE CODE</div>
                     <b
                       class="text-accent"
-                      style="font-size: 80px; letter-spacing: 15px"
+                      style="font-size: 50px; letter-spacing: 15px"
                       v-text="
                         `${item.CloudController.ShareCode.substring(
                           0,
                           4
-                        )}&ndash;${item.CloudController.ShareCode.substring(4, 8)}`
+                        )}&ndash;${item.CloudController.ShareCode.substring(4, 8)}&ndash;${item.CloudController.ShareCode.substring(8, 12)}`
                       " />
                     <v-tooltip text="Copy share code to clipboard">
                       <template #activator="{ props }">

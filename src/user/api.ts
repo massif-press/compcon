@@ -6,8 +6,6 @@ if (!lcp_meta_key) lcp_meta_key = import.meta.env.VITE_LCP_META_KEY;
 const headers = {
   headers: {
     'Content-Type': 'application/json',
-    // 'Access-Control-Allow-Origin': '*',
-    // 'Access-Control-Allow-Credentials': true,
     'x-api-key': lcp_meta_key,
   },
 };
@@ -48,4 +46,56 @@ const getLcpPresigned = (packName: string) => {
   return api.get('/lcp', { params: { packName } });
 };
 
-export { get, storageInfo, getPresignedLink, s3api, deleteStorage, getLcpPresigned };
+const collectionDataQuery = async (itemtype) => {
+  const collectionHeaders = {
+    'Content-Type': 'application/json',
+    'x-api-key': import.meta.env.VITE_LCP_META_KEY as string,
+  };
+
+  const result = await fetch(
+    'https://jefxcgrkd0.execute-api.us-east-1.amazonaws.com/prod/content',
+    {
+      method: 'POST',
+      headers: collectionHeaders,
+      body: JSON.stringify({ itemtype }),
+    }
+  );
+
+  if (!result.ok) {
+    throw new Error(`HTTP error! status: ${result.status}`);
+  }
+  const data = await result.json();
+  return data;
+};
+
+const getItemDownloadLink = async (itch_userid, game_id, item_uri) => {
+  const collectionHeaders = {
+    'Content-Type': 'application/json',
+    'x-api-key': import.meta.env.VITE_LCP_META_KEY as string,
+  };
+
+  let url = 'https://jefxcgrkd0.execute-api.us-east-1.amazonaws.com/prod/content';
+  url += `?itch_userid=${itch_userid}&game_id=${game_id}&item_uri=${item_uri}`;
+
+  const result = await fetch(url, {
+    method: 'GET',
+    headers: collectionHeaders,
+  });
+
+  if (!result.ok) {
+    throw new Error(`HTTP error! status: ${result.status}`);
+  }
+  const data = await result.json();
+  return data;
+};
+
+export {
+  get,
+  storageInfo,
+  getPresignedLink,
+  s3api,
+  deleteStorage,
+  getLcpPresigned,
+  collectionDataQuery,
+  getItemDownloadLink,
+};

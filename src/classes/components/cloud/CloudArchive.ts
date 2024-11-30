@@ -39,6 +39,7 @@ export const PostCloudArchive = async (source: 'Automatic' | 'Manual') => {
   const res = await updateItem(meta);
   if (res.presign?.upload) {
     const uploadResult = await uploadToS3(archive, res.presign.upload);
+    UserStore().addCloudNotification(`Archive ${new Date().toLocaleString()} uploaded to cloud.`);
     return uploadResult;
   } else {
     throw new Error('No presign returned.');

@@ -1,23 +1,12 @@
 //  This is the local user profile class. Cloud/cognito user information should be stored in a new class.
 import { v4 as uuid } from 'uuid';
-import _, { has } from 'lodash';
+import _ from 'lodash';
 
 import logger from './logger';
-import { CompendiumStore } from '@/stores';
-import { authItch, getPatronProfile } from './oauth';
+import { CompendiumStore, UserStore } from '@/stores';
+import itchMap from '@/assets/itchMap.json';
 
 const CONFIG_FILE_NAME = 'cc_user';
-
-interface IUserOptions {
-  views: any;
-  showExotics: boolean;
-  quickstart: boolean;
-}
-
-type LcpSubscriptionData = {
-  updateOn: 'manual' | 'auto';
-  items: { packId: string; manifest: any; auto: boolean }[];
-};
 
 type PatreonData = {
   token: {
@@ -42,6 +31,12 @@ type PatreonData = {
   hasPatreon: boolean;
 };
 
+interface IUserOptions {
+  views: any;
+  showExotics: boolean;
+  quickstart: boolean;
+}
+
 interface IUserProfile {
   id: string;
   welcome_hash: string;
@@ -53,9 +48,7 @@ interface IUserProfile {
   storage_max: number;
   auto_delete_days: number;
   latest_change: number;
-  lcp_subscription_data?: LcpSubscriptionData;
-  patreon_data?: PatreonData;
-  itch_data?: any;
+  lcp_subscriptions: string[];
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -67,7 +60,7 @@ const defaultOptions = (): IUserOptions => ({
 class UserProfile {
   public readonly ID: string;
   public latest_change: number;
-  public LcpSubscriptionData: LcpSubscriptionData;
+  public LcpSubscriptions: string[] = [];
 
   private _welcome_hash: string;
   private _theme: string;
@@ -77,8 +70,6 @@ class UserProfile {
   private _storageWarning: number = 40;
   private _storageMax: number = 60;
   private _autoDeleteDays: number = 30;
-  private _patreonData: any = { hasPatreon: false };
-  private _itchData: any = { hasItch: false };
 
   public constructor(id?: string) {
     this.ID = id || uuid();
@@ -87,10 +78,7 @@ class UserProfile {
     this._options = defaultOptions();
     this._achievement_unlocks = [];
     this.latest_change = Date.now();
-    this.LcpSubscriptionData = {
-      updateOn: 'manual',
-      items: [],
-    };
+    this.LcpSubscriptions = [];
   }
 
   public save(): void {
@@ -191,58 +179,43 @@ class UserProfile {
     return fallback;
   }
 
-  public async setPatreonData(data: any): Promise<void> {
-    this._patreonData.token = data;
-    const profile = await getPatronProfile(data.access_token);
-    this._patreonData.profile = profile;
-    this._patreonData.hasPatreon = true;
-
-    console.log('Patreon Profile:', profile);
-    this.save();
-  }
-
-  public async refreshPatreonData(): Promise<string> {
-    if (!this._patreonData.token) return '';
-    try {
-      await this.setPatreonData(this._patreonData.token);
-      return 'success';
-    } catch (err) {
-      console.error('Error refreshing Patreon data:', err);
-      this._patreonData = { hasPatreon: false };
-      this.save();
-      return 'error';
-    }
-  }
-
   public get Patreon(): PatreonData {
-    return this._patreonData;
+    return UserStore().UserMetadata.PatreonData;
   }
 
-  public setItchData(access_token: string, data: any): void {
-    console.log('itch data:', data);
-    this._itchData = data;
-    this._itchData.hasItch = true;
-    this._itchData.token = access_token;
-    this._itchData.lastUpdate = Date.now();
-    this.save();
+  public get PatreonTier(): string {
+    return this.Patreon.profile?.tierData.title || '';
   }
 
-  public async refreshItchData(): Promise<string> {
-    try {
-      if (!this._itchData.token) throw new Error('No itch.io token found');
-      const data = await authItch(this._itchData.token);
-      this.setItchData(this._itchData.token, data);
-      return 'success';
-    } catch (err) {
-      console.error('Error refreshing Itch data:', err);
-      this._itchData = { hasItch: false };
-      this.save();
-      return 'error';
+  public get PatreonTierValue(): number {
+    switch (this.PatreonTier.toLocaleLowerCase()) {
+      case 'diasporan':
+        return 1;
+      case 'cosmopolitan':
+        return 2;
+      case 'lancer':
+        return 3;
+      case 'nhp':
+        return 4;
+      case 'monist':
+        return 5;
+      default:
+        return 0;
     }
   }
 
   public get Itch(): any {
-    return this._itchData;
+    return UserStore().UserMetadata.ItchData;
+  }
+
+  public get ItchMap(): any {
+    const map = [...itchMap];
+    map.forEach((item: any) => {
+      if (!item.paid) item.enabled = true;
+      else if (this.Itch.gamedata.some((g: any) => g.game_id === item.game_id)) item.enabled = true;
+      else item.enabled = false;
+    });
+    return map;
   }
 
   public get AllViews() {
@@ -283,21 +256,6 @@ class UserProfile {
     this.save();
   }
 
-  setLcpSubscriptionData(): void {
-    const allPacks = CompendiumStore().ContentPacks.map((p) => ({
-      packId: p.ID,
-      manifest: p.Manifest,
-      auto: false,
-    }));
-
-    allPacks.forEach((p) => {
-      if (!this.LcpSubscriptionData.items.some((i) => i && i.packId === p.packId))
-        this.LcpSubscriptionData.items.push(p);
-    });
-
-    console.log('LCP Subscription Data:', this.LcpSubscriptionData);
-  }
-
   public static Serialize(data: UserProfile): IUserProfile {
     return {
       id: data.ID,
@@ -310,9 +268,7 @@ class UserProfile {
       storage_max: data.StorageMax,
       auto_delete_days: data.AutoDeleteDays,
       latest_change: data.latest_change,
-      lcp_subscription_data: data.LcpSubscriptionData,
-      patreon_data: data._patreonData,
-      itch_data: data._itchData,
+      lcp_subscriptions: data.LcpSubscriptions,
     };
   }
 
@@ -328,12 +284,7 @@ class UserProfile {
     profile._storageMax = data.storage_max || 60;
     profile._autoDeleteDays = data.auto_delete_days || 30;
     profile.latest_change = data.latest_change || Date.now();
-    profile.LcpSubscriptionData = data.lcp_subscription_data || {
-      updateOn: 'manual',
-      items: [],
-    };
-    profile._patreonData = data.patreon_data || { hasPatreon: false };
-    profile._itchData = data.itch_data || { hasItch: false };
+    profile.LcpSubscriptions = data.lcp_subscriptions || [];
     return profile;
   }
 }
