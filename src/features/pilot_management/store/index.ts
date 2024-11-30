@@ -3,7 +3,7 @@ import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
 import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator';
 import { Pilot } from '@/class';
 import { PilotGroup, PilotGroupData } from './PilotGroup';
-import { PortraitController, SaveController } from '@/classes/components';
+import { CloudController, PortraitController, SaveController } from '@/classes/components';
 import _ from 'lodash';
 import { IndexItem } from '@/stores';
 import { cloudDelete } from '@/io/apis/account';
@@ -206,8 +206,7 @@ export const PilotStore = defineStore('pilot', {
       RemoveItem('pilots', pilot.ID);
 
       if (pilot.CloudController.ShareCode) {
-        const { user_id, sortkey, uri } = pilot.CloudController.Metadata.Serialize();
-        await cloudDelete(user_id, sortkey, uri);
+        await CloudController.MarkCloudDeleted(pilot.CloudController.Metadata);
       }
     },
     async TransferPilot(p: Pilot, destinationID?: string): Promise<void> {
