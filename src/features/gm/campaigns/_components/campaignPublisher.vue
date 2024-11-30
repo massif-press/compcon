@@ -11,12 +11,18 @@
         <v-divider />
         <v-card-text>
           <div class="mx-auto" style="width: 80%">
-            <current-version-export :campaign="campaign" />
+            <current-version-export v-if="campaign.Latest" :campaign="campaign" />
+            <v-alert v-else color="accent" variant="tonal" border icon="mdi-information">
+              <div class="text-caption">
+                This campaign has not been published. Publish a first version of this campaign to
+                export a campaign package via file or share code.
+              </div>
+            </v-alert>
           </div>
           <div class="my-2 text-center">
             <div class="text-caption">Release for</div>
             <div class="mb-1 text-accent">
-              {{ new Date().toLocaleDateString('en-us', dOptions as any) }}
+              {{ new Date().toLocaleDateString(undefined, dOptions as any) }}
             </div>
             <div class="text-caption">Version</div>
             <v-row style="width: 400px" class="mx-auto">
@@ -68,7 +74,7 @@
               class="my-2"
               :disabled="!verifyVersion"
               @click="publishCampaign()">
-              Publish Campaign Package
+              Publish New Version
             </v-btn>
           </div>
         </v-card-text>
@@ -85,7 +91,6 @@
 import { Campaign } from '@/classes/campaign/Campaign';
 import CurrentVersionExport from './currentVersionExport.vue';
 import JSZip from 'jszip';
-import { CampaignStore } from '../../store/campaign_store';
 
 export default {
   name: 'campaign-publisher',
@@ -139,7 +144,15 @@ export default {
   methods: {
     async publishCampaign() {
       (this.campaign as Campaign).Publish(this.version, this.changes);
+      if (this.campaign.CloudController.ShareCode) {
+        await this.campaign.CloudController.UpdateCloud('campaign');
+      }
       this.$emit('published');
+      this.$notify({
+        title: 'Campaign Published',
+        text: `Version ${this.version} of ${this.campaign.Name} has been published.`,
+        data: { color: 'success' },
+      });
     },
     async exportLcd() {
       const filename = `${this.campaign.Name} - ${this.version}.lcd`;

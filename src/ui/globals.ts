@@ -77,6 +77,7 @@ import CCMissingContentList from './components/CCMissingContentList.vue';
 import CCMissingContentHover from './components/CCMissingContentHover.vue';
 import CCRemoteHover from './components/CCRemoteHover.vue';
 import CCMissingGmLcpText from './components/CCMissingGmLcpText.vue';
+import CCShareCodeImporter from './components/CCShareCodeImporter.vue';
 
 export {
   CCImg,
@@ -158,4 +159,5 @@ export {
   CCMissingContentHover,
   CCRemoteHover,
   CCMissingGmLcpText,
+  CCShareCodeImporter,
 };

@@ -18,6 +18,7 @@ import { Campaign } from '@/classes/campaign/Campaign';
 import { Character } from '@/classes/narrative/Character';
 import { Faction } from '@/classes/narrative/Faction';
 import { Location } from '@/classes/narrative/Location';
+import { error } from 'console';
 
 const syncableTypes = [
   'pilot',
@@ -161,14 +162,13 @@ class CloudController {
     });
   }
 
-  public async UpdateCloud() {
+  public async UpdateCloud(scope = 'item') {
     const savedata = this.Parent.Serialize(this.Parent);
     // called after we're sure cloud needs to be updated
     this.Metadata.ItemModified = this.Parent.SaveController.LastModified;
     this.Metadata.Name = this.Parent.Name;
     this.Metadata.Size = JSON.stringify(savedata).length;
-    // TODO: item deleted && TTL
-    const res = await updateItem(this.Metadata.Serialize());
+    const res = await updateItem(this.Metadata.Serialize(), scope);
     if (res.error) return res.error;
     if (res.data) {
       this.Metadata = res.data;
@@ -182,10 +182,6 @@ class CloudController {
 
   public static async MarkCloudDeleted(metadata: DbItemMetadata) {
     metadata.Deleted = Date.now();
-    const tdlDays = Number(UserStore().SyncSettings.itemRetention);
-    if (tdlDays > -1) {
-      metadata.TTL = new Date().setDate(new Date().getDate() + tdlDays);
-    }
     const res = await updateItem(metadata.Serialize());
     if (res.data) return res.data;
     if (res.error) throw new Error(res.error);
@@ -285,7 +281,11 @@ class CloudController {
   public static async SyncToCloud(item: any) {
     if (UserStore().StorageFull) throw new Error('Storage full! Unable to download.');
 
-    if (!item.CloudController?.Metadata?.SortKey || !syncableTypes.includes(item.ItemType)) {
+    if (
+      !item.CloudController?.Metadata?.SortKey ||
+      !syncableTypes.includes(item.ItemType.toLowerCase())
+    ) {
+      UserStore().addCloudNotification(`Unable to sync ${item.ItemType} ${item.Name}.`, 'error');
       console.error('Item cannot be synced:', item);
       return;
     }
@@ -294,6 +294,9 @@ class CloudController {
     let data = item.IsCloudOnly
       ? await downloadFromS3(item.raw.uri)
       : await item.CloudController.Download();
+
+    if (data && item.IsCloudOnly)
+      UserStore().addCloudNotification(`Added ${item.ItemType} "${item.Name}" from cloud data.`);
 
     await CloudController.AddByType(itemType, this.NewByType(itemType, data));
   }

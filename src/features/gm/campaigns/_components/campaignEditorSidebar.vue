@@ -39,7 +39,7 @@
         @click="save">
         Save Campaign
       </v-btn>
-      <v-dialog max-width="650px">
+      <v-dialog max-width="850px">
         <template #activator="{ props }">
           <v-btn v-bind="props" block size="small" variant="tonal" class="my-2 pa-2">
             Export Campaign

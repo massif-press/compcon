@@ -54,6 +54,7 @@ class SaveController {
 
   public Restore() {
     this.DeleteTime = 0;
+    this.save();
   }
 
   public get IsDeleted(): boolean {

@@ -1,61 +1,62 @@
 <template>
-  <v-container>
-    <v-row align="center" justify="center">
-      <v-col cols="6">
-        <v-file-input
-          v-model="fileValue"
-          accept="text/json"
-          variant="outlined"
-          label="Select Pilot Data File"
-          prepend-icon="mdi-paperclip"
-          density="compact"
-          @change="stageImport"
-          @click:clear="reset"
-        />
-      </v-col>
-    </v-row>
-    <v-card v-if="missingContent.length">
-      <p v-if="oldBrewsWarning" class="heading h3 text-accent">
-        WARNING: The imported Pilot was created using an older version of COMP/CON. Lancer Content
-        Pack analysis may not be comprehensive and there is a chance COMP/CON will be unable to
-        correctly load this data. Export the original file in the latest version of COMP/CON to
-        guarantee LCP validation.
-      </p>
-      <v-card-text class="text-center">
-        <p class="heading h4 text-accent">
-          The imported Pilot requires the following content packs that are not currently
-          installed/active, or have mismatching versions:
-        </p>
-        <p class="effect-text text-center" v-html="missingContent" />
-        <p class="text-text">
-          This Pilot cannot be imported until the missing content packs are installed and activated,
-          or the content pack versions are synchronized.
-        </p>
-      </v-card-text>
-      <v-divider />
-      <v-card-actions>
-        <v-spacer />
-        <v-btn text color="primary" @click="reset">Abort Import</v-btn>
-      </v-card-actions>
-    </v-card>
-    <div class="mt-2">
-      <p v-if="alreadyPresent" class="text-center" v-text="alreadyPresent" />
-      <v-slide-x-reverse-transition>
-        <v-row v-if="stagedData" align="center" justify="center">
-          <v-col cols="auto">
-            <v-btn
-              color="accent"
-              prepend-icon="mdi-plus"
-              :disabled="missingContent.length > 0"
-              @click="importFile()"
-            >
-              Import {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-slide-x-reverse-transition>
-    </div>
-  </v-container>
+  <v-card>
+    <v-toolbar flat density="compact" color="primary">
+      <v-toolbar-title class="heading h3">IMPORT PILOT</v-toolbar-title>
+      <v-spacer />
+      <v-btn icon @click="reset">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <v-card-text>
+      <v-row align="center" justify="center">
+        <v-col cols="6">
+          <v-file-input
+            v-model="fileValue"
+            accept="text/json"
+            variant="outlined"
+            label="Select Pilot Data File"
+            prepend-icon="mdi-paperclip"
+            density="compact"
+            @change="stageImport"
+            @click:clear="reset" />
+        </v-col>
+      </v-row>
+      <v-card v-if="missingContent.length">
+        <v-card-text class="text-center">
+          <p class="heading h4 text-accent">
+            The imported Pilot requires the following content packs that are not currently
+            installed/active, or have mismatching versions:
+          </p>
+          <p class="effect-text text-center" v-html="missingContent" />
+          <p class="text-text">
+            This Pilot cannot be imported until the missing content packs are installed and
+            activated, or the content pack versions are synchronized.
+          </p>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn variant="text" color="primary" @click="reset">Abort Import</v-btn>
+        </v-card-actions>
+      </v-card>
+      <div class="mt-2">
+        <p v-if="alreadyPresent" class="text-center" v-text="alreadyPresent" />
+        <v-slide-x-reverse-transition>
+          <v-row v-if="stagedData" align="center" justify="center">
+            <v-col cols="auto">
+              <v-btn
+                color="accent"
+                prepend-icon="mdi-plus"
+                :disabled="missingContent.length > 0"
+                @click="importFile()">
+                Import {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-slide-x-reverse-transition>
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -78,7 +79,6 @@ export default {
   data: () => ({
     // fileValue is just used to clear the file input
     fileValue: null,
-    oldBrewsWarning: false,
     missingContent: '',
     stagedData: null as PilotData | null,
     alreadyPresent: '',
@@ -86,7 +86,6 @@ export default {
   methods: {
     reset() {
       this.fileValue = null;
-      this.oldBrewsWarning = false;
       this.missingContent = '';
       this.stagedData = null;
       this.alreadyPresent = '';
@@ -98,8 +97,6 @@ export default {
       if (!pilotData.brews) pilotData.brews = [];
       // catch old style brews
       if (pilotData.brews.length && !pilotData.brews[0].LcpId) {
-        this.oldBrewsWarning = true;
-
         const installedPacks = CompendiumStore()
           .ContentPacks.filter((x) => x.Active)
           .map((x) => `${x.Name} @ ${x.Version}`);
@@ -130,7 +127,6 @@ export default {
     importFile() {
       try {
         const importPilot = Pilot.Deserialize(this.stagedData as PilotData);
-        importPilot.CloudController.reset();
         importPilot.RenewID();
         PilotStore().AddPilot(importPilot, this.groupId);
         this.reset();

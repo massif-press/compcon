@@ -1,3 +1,5 @@
+import { UserStore } from '@/stores';
+
 const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL}`;
 
 const headers = {
@@ -46,7 +48,7 @@ export const getUserData = async (id: string): Promise<any> => {
 
 export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
   const url = new URL(`${invoke}/user`);
-  url.searchParams.append('userID', metadata.user_id);
+  url.searchParams.append('userID', UserStore().User.ID);
   url.searchParams.append('scope', scope);
 
   const body = typeof metadata === 'string' ? metadata : JSON.stringify(metadata);
@@ -121,6 +123,20 @@ export async function downloadFromS3(s3Url) {
     if (response.ok) {
       const jsonData = await response.json();
       return jsonData;
+    } else {
+      console.error('Download failed:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error downloading JSON:', error);
+  }
+}
+
+export async function getFromPresignDirect(url) {
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+      const rawData = await response.blob();
+      return rawData;
     } else {
       console.error('Download failed:', response.statusText);
     }

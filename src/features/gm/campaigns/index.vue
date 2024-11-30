@@ -1,26 +1,25 @@
 <template>
   <v-container>
-    <div class="heading">
-      <v-icon start icon="cc:campaign" class="mt-n1" />
-      CAMPAIGN COLLECTION
-    </div>
-    <campaign-bookshelf density="compact" />
+    <v-alert color="accent" class="ma-4" border icon="cc:campaign" dense>
+      Imported campaigns are managed in the
+      <v-btn size="small" class="mx-1" to="/srd?tab=2">Campaign Library</v-btn>
+    </v-alert>
 
     <v-card class="mt-5">
       <v-card-title>
-        <div class="heading h3 text-accent">Unpublished Campaigns</div>
+        <div class="heading h3 text-accent">Your Campaigns</div>
       </v-card-title>
       <v-card-text>
-        <div v-if="!unpublished.length" class="text-center text-disabled pa-5">
+        <div v-if="!campaigns.length" class="text-center text-disabled pa-5">
           <i>No data</i>
         </div>
         <v-card
           v-else
-          v-for="(c, i) in unpublished"
+          v-for="(c, i) in campaigns"
           class="px-2 py-3"
           elevation="0"
           :color="i % 2 == 0 ? 'rgba(125, 125, 125, 0.05)' : 'rgba(125, 125, 125, 0.16)'">
-          <v-row>
+          <v-row align="center">
             <v-col v-if="c.CoverImageUrl" cols="auto">
               <v-avatar>
                 <v-img :src="c.CoverImageUrl" height="100" />
@@ -29,6 +28,9 @@
             <v-col>
               <div class="heading h6">{{ c.Title }}</div>
               <div class="text-caption">{{ c.Subtitle }}</div>
+              <div class="text-caption">
+                <i>v{{ c.Version || 'Unpublished' }}</i>
+              </div>
             </v-col>
             <v-col cols="auto">
               <v-btn
@@ -112,7 +114,7 @@
             </v-btn>
           </template>
           <v-card>
-            <v-card-title>Import Unpublished Campaign JSON Data</v-card-title>
+            <v-card-title>Import Campaign JSON Data</v-card-title>
             <v-divider />
             <v-card-text>
               <p class="text-caption text-center">
@@ -217,11 +219,7 @@ export default {
   }),
   computed: {
     campaigns() {
-      return CampaignStore().Campaigns;
-    },
-
-    unpublished() {
-      return CampaignStore().Campaigns;
+      return CampaignStore().Campaigns.filter((x) => !x.SaveController.IsDeleted);
     },
 
     importSameId() {

@@ -35,6 +35,8 @@
     <cc-solo-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
       <importer @complete="($refs as any).import.hide()" />
     </cc-solo-dialog>
+    <share-code-dialog import-type="narrative" />
+
     <v-btn
       size="small"
       variant="tonal"
@@ -60,6 +62,7 @@ import NarrativeCollection from './_components/narrativeCollection.vue';
 import Organizer from '../_components/Organizer.vue';
 import Importer from '../_components/NpcImporter.vue';
 import { UserStore } from '@/stores';
+import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
 
 export default {
   name: 'narrative-roster',
@@ -67,6 +70,7 @@ export default {
     NarrativeCollection,
     Organizer,
     Importer,
+    ShareCodeDialog,
   },
   props: {
     type: {

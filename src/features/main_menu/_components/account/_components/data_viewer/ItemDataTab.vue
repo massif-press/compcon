@@ -53,10 +53,7 @@
           <template #activator="{ props }">
             <v-icon start color="error" v-bind="props" icon="mdi-delete-clock" />
           </template>
-          <div class="text-center">
-            This item has been marked as deleted and will be permanently removed from the cloud on
-            {{ new Date(item.CloudController.Metadata.TTL).toLocaleString() }}.
-          </div>
+          <div class="text-center">This item has been marked as deleted.</div>
         </v-tooltip>
       </span>
       <span v-else-if="item.CloudController.SyncStatus === 'Synced'">
@@ -129,10 +126,21 @@
       </span>
     </template>
     <template #item.code="{ item }">
-      <span v-if="item.ItemType === 'Campaign'" />
+      <span v-if="item.ItemType === 'Campaign'">
+        <v-tooltip max-width="400px" location="top">
+          <template #activator="{ props }">
+            <v-icon icon="mdi-information-outline" class="fade-select" v-bind="props" />
+          </template>
+          <div class="text-center">
+            This is an editable campaign you have created in the GM Campaign Editor. This data can
+            be synced to the cloud for safekeeping and sharing with other devices, but are not
+            sharable via the Share Code system.
+          </div>
+        </v-tooltip>
+      </span>
       <span v-else-if="item.CloudController?.Metadata?.Code?.length > 0">
-        {{ item.CloudController.Metadata.Code.substring(0, 4) }}&ndash;{{
-          item.CloudController.Metadata.Code.substring(4, 8)
+        {{
+          `${item.CloudController.Metadata.Code.slice(0, 4)}-${item.CloudController.Metadata.Code.slice(4, 8)}-${item.CloudController.Metadata.Code.slice(8, 12)}`
         }}
         <v-tooltip max-width="300px" location="top">
           <template #activator="{ props }">
@@ -140,7 +148,6 @@
               v-bind="props"
               color="accent"
               size="small"
-              end
               icon="mdi-content-copy"
               class="fade-select"
               @click="copy(item.CloudController.Metadata.Code)" />
@@ -344,12 +351,6 @@
                 item locally, but will prevent it from syncing to the cloud or to other devices.
                 Deleted items can be recovered via the "Deleted Items" tab. Recoverable items still
                 count towards your storage limit.
-                <br />
-                <br />
-                Items marked as deleted will be
-                <b>permanently removed</b>
-                from your cloud storage based on your "Deleted Item Retention" settings, or by
-                permanent deletion in the "Deleted Items" tab.
                 <v-checkbox
                   v-model="skipDeleteWarning"
                   label="Do not show this warning again"
@@ -453,6 +454,7 @@ export default {
         title: 'Share Code',
         key: 'code',
         align: 'center',
+        width: '175px',
         sortable: false,
       },
       { title: '', key: 'actions', width: '155px', align: 'end' },

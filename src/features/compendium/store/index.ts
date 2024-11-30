@@ -385,7 +385,6 @@ export const CompendiumStore = defineStore('compendium', {
       }
       const pack = new ContentPack(packData);
       this.ContentPacks = [...this.ContentPacks, pack];
-      UserStore().User.setLcpSubscriptionData();
       await this.saveUserData();
       await this.refreshExtraContent();
     },

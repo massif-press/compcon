@@ -50,7 +50,7 @@
           <cc-slashes />
           {{
             new Date(getLatest(campaigns[slide].publish_info).date).toLocaleDateString(
-              'en-us',
+              undefined,
               dOptions as any
             )
           }}

@@ -1,7 +1,7 @@
 <template>
   <div class="packsList" style="min-height: 300px">
-    <div class="heading h2 text-stark mt-3 px-2">Official Massif LANCER Content</div>
-    <directory-table :items="massifPacks" :loading="loading" no-author />
+    <div class="heading h2 text-stark mt-3 px-2">Official MASSIF LANCER Content</div>
+    <massif-lcp-table :headers="massifHeaders" />
     <v-divider class="my-6" />
     <div class="heading h2 text-stark mt-3 px-2">
       LANCER Community Content
@@ -36,23 +36,30 @@
 <script lang="ts">
 import DirectoryTable from './components/DirectoryTable.vue';
 import { scan } from './api';
+import MassifLcpTable from '@/features/main_menu/_components/MassifLcpTable.vue';
 
 export default {
   name: 'PacksDirectory',
   components: {
     DirectoryTable,
+    MassifLcpTable,
   },
   data: () => ({
-    massifPacks: [],
     communityPacks: [],
     loading: true,
+    massifHeaders: [
+      { title: '', key: 'data-table-expand', width: '0' },
+      { title: 'LCP', key: 'title' },
+      { title: 'Collection', key: 'collection' },
+      { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
+      { title: '', key: 'actions', align: 'end', sortable: false },
+    ],
   }),
   async created(): Promise<void> {
     scan()
       .then((res: any) => {
         console.log(res);
         this.communityPacks = res.data.community.Items;
-        this.massifPacks = res.data.massif.Items;
         this.loading = false;
       })
       .catch((err) => {

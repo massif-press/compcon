@@ -42,20 +42,41 @@
           hide-details />
         <v-spacer />
         <v-tabs v-model="tab">
-          <v-tab>Data</v-tab>
-          <v-tab>Images</v-tab>
-          <v-divider vertical />
           <v-tab>
-            Remote Items
             <v-tooltip max-width="300px" location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" size="small" end color="accent">
-                  mdi-information-outline
-                </v-icon>
+                <span v-bind="props">Data</span>
+              </template>
+              <div class="text-center">PC and GM data stored in your COMP/CON account.</div>
+            </v-tooltip>
+          </v-tab>
+          <v-tab>
+            <v-tooltip max-width="300px" location="top">
+              <template #activator="{ props }">
+                <span v-bind="props">Images</span>
+              </template>
+              <div class="text-center">
+                All image data you have uploaded to your COMP/CON account.
+              </div>
+            </v-tooltip>
+          </v-tab>
+          <v-divider vertical />
+          <v-tab>
+            <v-tooltip max-width="300px" location="top">
+              <template #activator="{ props }">
+                <span v-bind="props">Remote Items</span>
               </template>
               <div class="text-center">
                 Remote Items are items imported from other users via share codes.
               </div>
+            </v-tooltip>
+          </v-tab>
+          <v-tab>
+            <v-tooltip max-width="300px" location="top">
+              <template #activator="{ props }">
+                <span v-bind="props">Campaigns</span>
+              </template>
+              <div class="text-center">Published campaigns imported from via share codes.</div>
             </v-tooltip>
           </v-tab>
         </v-tabs>
@@ -70,6 +91,12 @@
       </v-window-item>
       <v-window-item value="Remote">
         <remote-data-tab :search="search" @refresh="refresh" :loading="loading" />
+      </v-window-item>
+      <v-window-item value="Campaigns">
+        <v-alert color="accent" class="ma-4" border icon="cc:campaign" dense>
+          Published campaigns are managed in the
+          <v-btn size="small" class="mx-1" to="/srd?tab=2">Campaign Library</v-btn>
+        </v-alert>
       </v-window-item>
     </v-window>
   </v-card>

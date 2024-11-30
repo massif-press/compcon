@@ -1,11 +1,12 @@
 <template>
   <v-card v-if="latest" variant="tonal">
+    <div class="text-overline ml-2">LATEST VERSION</div>
     <v-toolbar density="compact">
       <v-toolbar-title>
         {{ latest.ver }}
         <span class="text-caption text-disabled">
           <cc-slashes />
-          {{ new Date(latest.date).toLocaleDateString('en-us', dOptions as any) }}
+          {{ new Date(latest.date).toLocaleDateString(undefined, dOptions as any) }}
         </span>
       </v-toolbar-title>
     </v-toolbar>
@@ -21,6 +22,7 @@
           <v-btn
             v-bind="props"
             color="primary"
+            size="small"
             variant="elevated"
             prepend-icon="mdi-upload"
             @click="exportLcd()">
@@ -38,6 +40,7 @@
         <template #activator="{ props }">
           <v-btn
             v-bind="props"
+            size="small"
             color="primary"
             variant="elevated"
             prepend-icon="mdi-content-save"
@@ -51,6 +54,52 @@
         </span>
       </v-tooltip>
       <v-spacer />
+      <div v-if="shareCode">
+        <v-tooltip max-width="300px" location="top">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              size="small"
+              color="primary"
+              variant="elevated"
+              prepend-icon="mdi-code-block-brackets"
+              @click="copyShareCode">
+              Copy Share Code
+            </v-btn>
+          </template>
+          <div class="text-center">
+            <b class="text-accent">
+              {{ shareCode.substring(0, 4) }}-{{ shareCode.substring(4, 8) }}
+            </b>
+            <v-divider />
+            <span class="text-caption">
+              Copy this share code for this campaign to your clipboard. Share codes can be used to
+              import this campaign into another COMP/CON instance.
+            </span>
+          </div>
+        </v-tooltip>
+      </div>
+      <v-tooltip v-else-if="isLoggedIn" location="top" max-width="300px">
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            size="small"
+            color="primary"
+            variant="elevated"
+            prepend-icon="mdi-code-block-brackets"
+            :loading="uploading"
+            @click="upload">
+            Generate Share Code
+          </v-btn>
+        </template>
+        <span>
+          Upload this campaign to the cloud repository to generate a share code for other users to
+          import this campaign into their COMP/CON instance. Generating a share code will
+          automatically update the cloud repository with the latest version of this campaign
+          whenever a new version is published.
+        </span>
+      </v-tooltip>
+      <v-spacer v-if="isLoggedIn" />
     </v-card-actions>
   </v-card>
 </template>
@@ -59,6 +108,7 @@
 import { Campaign } from '@/classes/campaign/Campaign';
 import JSZip from 'jszip';
 import { CampaignStore } from '../../store/campaign_store';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'campaign-current-version-export',
@@ -67,12 +117,19 @@ export default {
   },
   data: () => ({
     dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+    uploading: false,
   }),
   computed: {
     latest() {
       return this.campaign.VersionHistory.length
         ? this.campaign.VersionHistory[this.campaign.VersionHistory.length - 1]
         : null;
+    },
+    isLoggedIn() {
+      return UserStore().IsLoggedIn;
+    },
+    shareCode() {
+      return this.campaign.CloudController.ShareCode;
     },
   },
 
@@ -109,6 +166,43 @@ export default {
           data: { icon: 'cc:campaign', color: 'error' },
         });
       }
+    },
+    async upload() {
+      if (!this.isLoggedIn) {
+        this.$notify({
+          title: 'Login Required',
+          text: `You must be logged in to upload campaign data to the cloud repository.`,
+          data: { icon: 'cc:campaign', color: 'error' },
+        });
+        return;
+      }
+      console.log(this.campaign);
+      try {
+        this.uploading = true;
+        await this.campaign.CloudController.UpdateCloud('campaign');
+        this.$notify({
+          title: 'Upload Success',
+          text: `Cloud data updated!`,
+          data: { icon: 'cc:campaign', color: 'success' },
+        });
+        console.log(this.campaign);
+      } catch (error) {
+        this.$notify({
+          title: 'Upload Error',
+          text: `Unable to update cloud: ${error}`,
+          data: { icon: 'cc:campaign', color: 'error' },
+        });
+      } finally {
+        this.uploading = false;
+      }
+    },
+    copyShareCode() {
+      navigator.clipboard.writeText(this.shareCode);
+      this.$notify({
+        title: 'Share Code Copied',
+        text: `Share code copied to clipboard!`,
+        data: { icon: 'cc:campaign', color: 'success' },
+      });
     },
   },
 };

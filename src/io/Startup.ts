@@ -8,14 +8,12 @@ import {
   EncounterStore,
   CampaignStore,
 } from '@/stores';
-import { getLcpPresigned } from '@/user/api';
+import { collectionDataQuery, getLcpPresigned } from '@/user/api';
 
 import { Initialize, SetItem, GetItem, RemoveItem } from './Storage';
 
-// TODO: remove when finished exhibiting npcs
-import { parseContentPack } from '@/io/ContentPackParser';
-
 export default async function (skipSync = false): Promise<void> {
+  UserStore().IsLoading = true;
   await Initialize();
 
   navigator.storage.estimate().then((res) => console.log(res));
@@ -26,54 +24,6 @@ export default async function (skipSync = false): Promise<void> {
   console.log('refreshing extra content');
   await CompendiumStore().refreshExtraContent();
   console.log('extra content refreshed');
-
-  // TODO: remove when finished exhibiting npcs
-  // sideload start
-
-  try {
-    if (CompendiumStore().ContentPacks.some((x) => x.Name === 'Lancer CORE NPCs')) {
-      console.log('core NPCs loaded already');
-    } else {
-      const npcExhibitionData = await getLcpPresigned('lancer-npc-data.lcp');
-      const npcData = npcExhibitionData.data.data;
-      const uint8Array = new Uint8Array(npcData);
-
-      let binaryString = '';
-      uint8Array.forEach((byte) => {
-        binaryString += String.fromCharCode(byte);
-      });
-
-      const contentPack = await parseContentPack(binaryString as string);
-      contentPack.active = true;
-      await CompendiumStore().installContentPack(contentPack);
-
-      console.info('core NPCs loaded');
-    }
-
-    if (CompendiumStore().ContentPacks.some((x) => x.Name === 'No Room for a Wallflower NPCs')) {
-      console.log('eidolon test loaded already');
-    } else {
-      const npcExhibitionData = await getLcpPresigned('eidolon_test.lcp');
-      const npcData = npcExhibitionData.data.data;
-      const uint8Array = new Uint8Array(npcData);
-
-      let binaryString = '';
-      uint8Array.forEach((byte) => {
-        binaryString += String.fromCharCode(byte);
-      });
-
-      const contentPack = await parseContentPack(binaryString as string);
-      contentPack.active = true;
-      await CompendiumStore().installContentPack(contentPack);
-
-      console.info('Eidolon test loaded');
-    }
-  } catch (error) {
-    console.error('error sideloading npcs');
-    console.error(error);
-  }
-
-  // sideload end
 
   await PilotStore().LoadPilots();
   console.log('pilots loaded');
@@ -122,18 +72,44 @@ export default async function (skipSync = false): Promise<void> {
       return;
     }
 
-    const patreonStatus = await UserStore().User.refreshPatreonData();
-    if (patreonStatus === 'success') {
-      console.info('Patreon data refreshed');
-    } else {
+    try {
+      const patreonStatus = await UserStore().refreshPatreonData();
+      if (patreonStatus === 'success') {
+        console.info('Patreon data refreshed');
+      } else {
+        console.error('Failed to refresh Patreon data');
+      }
+    } catch (error: any) {
       console.error('Failed to refresh Patreon data');
+      console.error(error);
+    }
+
+    const subscribedLcps = UserStore().User.LcpSubscriptions;
+    if (subscribedLcps.length > 0) {
+      const remoteLcps = await collectionDataQuery('lcp');
+      for (const lcp of remoteLcps) {
+        if (!subscribedLcps.includes(lcp.sortkey)) continue;
+        const installedPack = CompendiumStore().ContentPacks.find(
+          (p) => p.Manifest.name === lcp.name || p.Manifest.name === lcp.title
+        );
+        if (!installedPack || installedPack.Manifest.version < lcp.version) {
+          try {
+            await UserStore().downloadLcp(lcp);
+            UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`);
+          } catch (error: any) {
+            console.error('Failed to download lcp:', lcp.name);
+            UserStore().addCloudNotification(`Failed to download ${lcp.name}!`, 'error');
+            console.error(error);
+          }
+        }
+      }
     }
 
     CompendiumStore().loadContentCollections();
-    UserStore().User.setLcpSubscriptionData();
     UserStore().setSyncTimer();
     UserStore().IsSyncing = false;
   }
 
   console.info('loading complete');
+  UserStore().IsLoading = false;
 }

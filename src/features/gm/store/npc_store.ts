@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { Npc } from '@/classes/npc/Npc';
 import { IndexItem } from '@/stores';
 import path from 'path';
+import { cloudDelete } from '@/io/apis/account';
 
 export const NpcStore = defineStore('npc', {
   state: () => ({
@@ -150,6 +151,10 @@ export const NpcStore = defineStore('npc', {
       if (idx >= 0) this.Npcs.splice(idx, 1);
       await RemoveItem('npcs', payload.ID);
       await this.SaveNpcData();
+      if (payload.CloudController.ShareCode) {
+        const { user_id, sortkey, uri } = payload.CloudController.Metadata.Serialize();
+        await cloudDelete(user_id, sortkey, uri);
+      }
     },
 
     async SaveNpcData(): Promise<void> {

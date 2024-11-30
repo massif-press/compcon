@@ -180,7 +180,13 @@
 
     <cc-tooltip v-if="$vuetify.display.mdAndUp" location="bottom" content="Open cloud account menu">
       <v-btn icon variant="plain" size="45" dark @click="($refs.cloudModal as any).show()">
-        <v-icon icon="mdi-cloud-sync-outline" />
+        <v-badge
+          :model-value="notifications.length > 0"
+          overlap
+          color="secondary"
+          :content="notifications.length">
+          <v-icon icon="mdi-cloud-sync-outline" />
+        </v-badge>
       </v-btn>
     </cc-tooltip>
 
@@ -302,8 +308,6 @@ export default {
   }),
   created() {
     this.hasCmdKey = navigator.userAgent.includes('Mac');
-  },
-  created() {
     this.storageFullDialog = this.StorageMax;
   },
   computed: {
@@ -319,6 +323,9 @@ export default {
     },
     appVersion(): string {
       return import.meta.env.VITE_APP_VERSION;
+    },
+    notifications() {
+      return UserStore().CloudNotifications;
     },
   },
 };

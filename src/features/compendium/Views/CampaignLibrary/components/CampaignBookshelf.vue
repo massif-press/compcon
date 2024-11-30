@@ -76,6 +76,8 @@
       </v-card>
     </v-dialog>
 
+    <campaign-share-code-dialog />
+
     <v-dialog v-model="importDialog" max-width="750px">
       <template #activator="{ props }">
         <v-btn
@@ -87,16 +89,6 @@
           @click="importType = 'file'">
           <v-icon start icon="mdi-import" />
           File Import
-        </v-btn>
-        <v-btn
-          v-bind="props"
-          color="accent"
-          variant="tonal"
-          class="mx-2"
-          size="small"
-          @click="importType = 'code'">
-          <v-icon start icon="mdi-import" />
-          Code Import
         </v-btn>
       </template>
       <v-card>
@@ -168,14 +160,16 @@
 </template>
 
 <script lang="ts">
-import { CampaignStore } from '@/stores';
+import { CampaignStore, UserStore } from '@/stores';
 import DenseShelf from './denseShelf.vue';
 import CompendiumShelf from './compendiumShelf.vue';
 import JSZip from 'jszip';
+import CampaignShareCodeDialog from './campaignShareCodeDialog.vue';
+import { GetFromCode } from '@/io/apis/account';
 
 export default {
   name: 'campaign-bookshelf',
-  components: { DenseShelf, CompendiumShelf },
+  components: { DenseShelf, CompendiumShelf, CampaignShareCodeDialog },
   props: {
     density: { type: String, default: 'default' },
     search: { type: String, default: '' },
@@ -191,6 +185,10 @@ export default {
     asc: true,
     importType: 'file',
   }),
+
+  mounted() {
+    this.checkForUpdates();
+  },
 
   computed: {
     campaigns() {
@@ -253,6 +251,16 @@ export default {
       CampaignStore().AddCollectionCampaign(this.stagedData);
       this.reset();
       this.importDialog = false;
+    },
+
+    async checkForUpdates() {
+      if (!UserStore().IsLoggedIn) return;
+      for (const campaign of CampaignStore().CampaignCollection) {
+        if (campaign.publish_info?.code) {
+          const metadata = await GetFromCode(campaign.publish_info.code);
+          if (metadata.item_modified !== campaign.save.lastModified) campaign.hasUpdate = true;
+        }
+      }
     },
   },
 };

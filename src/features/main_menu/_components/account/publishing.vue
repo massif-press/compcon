@@ -5,7 +5,7 @@
         <v-toolbar-title>
           <div class="heading h3">
             <span class="text-accent">
-              CONTENT COLLECTION EDITOR
+              CONTENT COLLECTION PUBLISHING
               <v-tooltip max-width="500px" location="top">
                 <template #activator="{ props }">
                   <v-icon v-bind="props" size="x-small" class="mt-n1">
@@ -26,12 +26,36 @@
           </div>
         </v-toolbar-title>
       </v-toolbar>
-      <v-card-text>
+      <v-card-text v-if="!collectionLimit">
+        <v-alert
+          color="secondary"
+          border
+          variant="tonal"
+          icon="mdi-information-outline"
+          density="compact"
+          prominent>
+          <div class="heading h4">You do not have access to the collection publishing tool.</div>
+          <div>
+            Due to the server costs associated with the creation and distribution of these
+            collections, this tool is only available to Patreon subscribers. If you would like to
+            access this tool and create and distribute collections of your COMP/CON content, please
+            consider
+            <a href="https://www.patreon.com/compcon" target="_blank">subscribing</a>
+            to support the development of COMP/CON and gain access to additional features.
+            <br />
+            <br />
+            However, you can still view and subscribe to collections created by other users.
+          </div>
+        </v-alert>
+      </v-card-text>
+      <v-card-text v-else>
         <v-row dense>
           <v-col style="max-width: 250px">
             <v-tabs v-model="colIdx" color="accent" direction="vertical">
               <div class="heading text-accent mb-2">
-                COLLECTIONS ({{ collections.length }}/{{ collectionLimit }})
+                COLLECTIONS ({{ collections.length }}/{{
+                  collectionLimit > -1 ? collectionLimit : '∞'
+                }})
               </div>
               <v-tab
                 v-for="collection in collections"
@@ -45,7 +69,9 @@
                 prepend-icon="mdi-plus"
                 text="Add New"
                 class="mt-2"
-                :disabled="collections.length >= collectionLimit"
+                :disabled="
+                  collections.length >= (collectionLimit > -1 ? collectionLimit : Infinity)
+                "
                 @click="AddNew()" />
             </v-tabs>
           </v-col>

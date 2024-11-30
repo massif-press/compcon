@@ -17,7 +17,7 @@
         </div>
       </v-toolbar-title>
       <v-spacer />
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip v-if="hasArchiveAccess" max-width="300px" location="top">
         <template #activator="{ props }">
           <v-btn size="small" icon v-bind="props" @click="refresh">
             <v-icon size="x-large">mdi-refresh</v-icon>
@@ -30,7 +30,25 @@
         </div>
       </v-tooltip>
     </v-toolbar>
-    <v-data-table :items="archives" :headers="headers" :loading="loading" density="compact">
+    <v-card-text v-if="!hasArchiveAccess">
+      <v-alert
+        color="secondary"
+        border
+        variant="tonal"
+        icon="mdi-information-outline"
+        density="compact"
+        prominent>
+        <div class="heading h4">You do not have access to remote backups.</div>
+        <div>
+          Due to the server costs associated the creation and storage of backup data, this feature
+          is only available to Patreon subscribers. If you would like access to automated cloud
+          backups, please consider
+          <a href="https://www.patreon.com/compcon" target="_blank">subscribing</a>
+          to support the development of COMP/CON and gain access to additional features.
+        </div>
+      </v-alert>
+    </v-card-text>
+    <v-data-table v-else :items="archives" :headers="headers" :loading="loading" density="compact">
       <template #item.created="{ item }">
         {{ new Date(item.created).toLocaleString() }}
       </template>
@@ -168,7 +186,7 @@
         </v-dialog>
       </template>
     </v-data-table>
-    <v-row dense class="ma-2">
+    <v-row v-if="hasArchiveAccess" dense class="ma-2">
       <v-col>
         <v-card
           ripple
@@ -213,6 +231,7 @@
                 <v-select
                   v-model="settings.autoBackupFrequency"
                   :items="backupFrequency"
+                  :loading="updateLoading"
                   density="compact"
                   hide-details />
 
@@ -228,6 +247,7 @@
                 <v-select
                   density="compact"
                   hide-details
+                  :loading="updateLoading"
                   v-model="settings.autoBackupLimit"
                   :items="pruneOptions" />
                 <i
@@ -276,6 +296,7 @@ export default {
   name: 'cloud-archive',
   data: () => ({
     loading: false,
+    updateLoading: false,
     working: false,
     headers: [
       { title: 'Created', key: 'created' },
@@ -284,16 +305,16 @@ export default {
       { title: 'Preserve', key: 'preserve' },
       { title: '', key: 'actions', width: '155px' },
     ],
-    pruneSetting: '30',
+    pruneSetting: 30,
     pruneOptions: [
-      { title: 'Keep All', subtitle: 'Do not automatically delete any archives.', value: '-1' },
-      { title: 'Last 30', subtitle: 'Keep the 30 newest archives.', value: '30' },
-      { title: 'Last 10', subtitle: 'Keep the 10 newest archives.', value: '10' },
-      { title: 'Last 5', subtitle: 'Keep the 5 newest archives.', value: '5' },
+      { title: 'Keep All', subtitle: 'Do not automatically delete any archives.', value: -1 },
+      { title: 'Last 30', subtitle: 'Keep the 30 newest archives.', value: 30 },
+      { title: 'Last 10', subtitle: 'Keep the 10 newest archives.', value: 10 },
+      { title: 'Last 5', subtitle: 'Keep the 5 newest archives.', value: 5 },
       {
         title: 'Most Recent Only',
         subtitle: 'Keep only the most recent archive.',
-        value: '1',
+        value: 1,
       },
     ],
     backupFrequency: [
@@ -306,6 +327,9 @@ export default {
     prunePct: 50,
   }),
   computed: {
+    hasArchiveAccess() {
+      return UserStore().User.PatreonTierValue > 0;
+    },
     archives() {
       return UserStore().CloudArchives;
     },
@@ -324,6 +348,18 @@ export default {
       },
       set(val) {
         UserStore().User.SetView('skipDeleteWarning_archive', val);
+      },
+    },
+  },
+  watch: {
+    'settings.autoBackupLimit': {
+      async handler(val) {
+        await this.updateUserMetadata();
+      },
+    },
+    'settings.autoBackupFrequency': {
+      async handler(val) {
+        await this.updateUserMetadata();
       },
     },
   },
@@ -399,6 +435,11 @@ export default {
       item.preserve = !item.preserve;
       await updateItem(item);
       this.loading = false;
+    },
+    async updateUserMetadata() {
+      this.updateLoading = true;
+      await UserStore().setUserMetadata();
+      this.updateLoading = false;
     },
   },
 };

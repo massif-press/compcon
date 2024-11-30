@@ -6,6 +6,7 @@ import { PilotGroup, PilotGroupData } from './PilotGroup';
 import { PortraitController, SaveController } from '@/classes/components';
 import _ from 'lodash';
 import { IndexItem } from '@/stores';
+import { cloudDelete } from '@/io/apis/account';
 
 export const PilotStore = defineStore('pilot', {
   state: () => ({
@@ -203,6 +204,11 @@ export const PilotStore = defineStore('pilot', {
       this.Pilots.splice(this.Pilots.indexOf(pilot), 1);
 
       RemoveItem('pilots', pilot.ID);
+
+      if (pilot.CloudController.ShareCode) {
+        const { user_id, sortkey, uri } = pilot.CloudController.Metadata.Serialize();
+        await cloudDelete(user_id, sortkey, uri);
+      }
     },
     async TransferPilot(p: Pilot, destinationID?: string): Promise<void> {
       const dest = destinationID ? destinationID : 'no_group';
