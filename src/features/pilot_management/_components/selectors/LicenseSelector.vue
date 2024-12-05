@@ -1,7 +1,6 @@
 <template>
   <selector
     title="Pilot Licenses"
-    height="60vh"
     :success="!pilot.LicenseController.IsMissingLicenses"
     :modal="modal">
     <template #left-column>

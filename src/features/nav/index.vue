@@ -6,7 +6,7 @@
     color="primary"
     class="clipped-large no-print"
     density="compact"
-    style="z-index: 50">
+    style="z-index: 998">
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
         <v-btn

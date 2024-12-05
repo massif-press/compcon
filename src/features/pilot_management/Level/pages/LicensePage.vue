@@ -4,8 +4,7 @@
     :exit="`/pilot/${pilot.ID}`"
     back
     @back="$emit('back')"
-    @complete="$emit('next')"
-  >
+    @complete="$emit('next')">
     <cc-title large class="ml-n6">Unlock License&emsp;</cc-title>
     <h2 class="heading">
       MV-2 License Acquisition Request
@@ -28,7 +27,7 @@
         </span>
       </v-alert>
     </v-container>
-    <license-selector level-up :pilot="(pilot as Pilot)" />
+    <license-selector level-up :pilot="<Pilot>pilot" />
   </stepper-content>
 </template>
 
