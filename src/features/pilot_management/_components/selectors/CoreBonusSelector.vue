@@ -1,8 +1,5 @@
 <template>
-  <selector
-    title="Pilot Core Bonuses"
-    height="60vh"
-    :success="!pilot.CoreBonusController.IsMissingCBs">
+  <selector title="Pilot Core Bonuses" :success="!pilot.CoreBonusController.IsMissingCBs">
     <template #left-column>
       <v-text-field
         v-model="search"
