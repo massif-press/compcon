@@ -178,6 +178,7 @@
             </v-col>
             <v-col>
               <span v-html-safe="t.Talent.Ranks[n - 1].Description" />
+              <print-action v-if="t.Talent.Ranks[n - 1].Actions.length && t.Talent.Ranks[n - 1].Description.includes(t.Talent.Ranks[n - 1].Actions[0].Name+'</b> '+t.Talent.Ranks[n - 1].Actions[0].Activation)" :actions="t.Talent.Ranks[n - 1].Actions" class="talent-action"/>
             </v-col>
           </v-row>
         </fieldset>
@@ -269,9 +270,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import PrintAction from './components/PrintAction.vue'
 
 export default Vue.extend({
   name: 'pilot-print',
+  components: { PrintAction },
   props: {
     pilot: {
       type: Object,
@@ -305,5 +308,14 @@ fieldset {
   height: 100%;
   border-radius: 3px;
   border-color: var(--v-grey-lighten2);
+}
+
+.talent-action{
+  border-width: thin;
+  border-style: solid;
+  border-color: rgba(0,0,0,.12);
+  padding-top: 5px;
+  border-radius: 4px;
+  margin-bottom: 3px;
 }
 </style>
