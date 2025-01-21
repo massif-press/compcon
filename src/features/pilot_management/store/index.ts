@@ -167,16 +167,12 @@ export const PilotStore = defineStore('pilot', {
       await RemoveItem('pilot_groups', group.ID);
     },
     async SavePilotData(): Promise<void> {
-      // TODO: reactivate dirty
-
       Promise.all(this.Pilots.map((y) => SetItem('pilots', Pilot.Serialize(y as Pilot))))
         .then(() => this.SaveGroupData())
         .then(() => console.info('Pilot data saved'))
         .catch((err) => console.error('Error while saving Pilot data', err));
     },
     async SaveGroupData(): Promise<void> {
-      // TODO: reactivate dirty
-
       Promise.all([
         this.PilotGroups.map((x) => SetItem('pilot_groups', PilotGroup.Serialize(x as PilotGroup))),
       ])
@@ -185,8 +181,6 @@ export const PilotStore = defineStore('pilot', {
     },
 
     ClonePilot(payload: Pilot): void {
-      //TODO: add group setting
-
       this.AddPilot(payload.Clone(), this.getGroupByPilotID(payload.ID));
     },
     async DeletePilotPermanent(pilot: Pilot): Promise<void> {

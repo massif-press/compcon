@@ -7,6 +7,7 @@
   </v-btn-toggle>
   <v-data-table
     density="compact"
+    :mobile="mobile"
     :headers="headers"
     :items="images"
     item-key="name"
@@ -123,6 +124,9 @@ export default {
     ],
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     allImages() {
       return UserStore().CloudImages;
     },

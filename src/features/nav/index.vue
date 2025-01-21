@@ -7,6 +7,27 @@
     class="clipped-large no-print"
     density="compact"
     style="z-index: 998">
+    <div v-if="standalone">
+      <v-tooltip location="bottom" open-delay="500ms">
+        <template #activator="{ props }">
+          <v-btn icon variant="plain" size="45" v-bind="props" @click="$router.go(-1)">
+            <v-icon icon="mdi-arrow-left" />
+          </v-btn>
+        </template>
+        <span>Navigate Back</span>
+      </v-tooltip>
+
+      <v-tooltip location="bottom" open-delay="500ms">
+        <template #activator="{ props }">
+          <v-btn icon variant="plain" size="45" v-bind="props" @click="$router.go(1)">
+            <v-icon icon="mdi-arrow-right" />
+          </v-btn>
+        </template>
+        <span>Navigate Forward</span>
+      </v-tooltip>
+      <v-divider vertical dark class="mx-2" />
+    </div>
+
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
         <v-btn
@@ -326,6 +347,9 @@ export default {
     },
     notifications() {
       return UserStore().CloudNotifications;
+    },
+    standalone(): boolean {
+      return window.matchMedia('(display-mode: standalone)').matches;
     },
   },
 };

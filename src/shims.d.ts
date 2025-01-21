@@ -33,7 +33,3 @@ declare module 'lancer-data' {
   const environments: any;
   const sitreps: any;
 }
-
-// declare module 'promisify-file-reader'
-// declare module 'file-saver'
-// declare module 'uuid/v4'

@@ -92,6 +92,11 @@ export default {
     queryResult: null as any,
     dlLoading: false,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     async downloadAsRemote() {
       await this.downloadAsCopy(true);

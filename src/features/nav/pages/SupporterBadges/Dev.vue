@@ -1,16 +1,22 @@
 <template>
-  <v-col>
+  <v-col cols="12" md="">
     <v-card variant="tonal">
       <v-card-text>
         <v-row align="center">
-          <v-col cols="auto" class="mr-2 ml-2">
+          <v-col cols="auto">
             <v-avatar size="80px">
               <v-img v-if="info.image" :src="info.image" />
-              <span v-else class="text-white headline">{{ info.name.substring(0, 1) }}</span>
+              <span
+                v-else
+                class="text-white heading"
+                :style="`font-size: ${mobile ? '12vw' : '3.5vw'}`">
+                {{ info.name.split(' ')[0].substring(0, 1)
+                }}{{ info.name.split(' ')[1].substring(0, 1) }}
+              </span>
             </v-avatar>
           </v-col>
           <v-col>
-            <div class="heading h2 mb-2 text-text">
+            <div class="heading h2 mb-1" :style="`font-size: ${mobile ? '4vw' : '1.5vw'}`">
               {{ info.name }}
             </div>
             <a v-if="info.website" target="_blank" :href="`${info.website}`">
@@ -43,6 +49,11 @@ export default {
       required: true,
     },
     cols: { type: Number, default: 6 },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
   },
 };
 </script>

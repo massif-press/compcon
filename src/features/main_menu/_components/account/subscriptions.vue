@@ -1,5 +1,5 @@
 <template>
-  <v-container class="px-12">
+  <v-container :class="!mobile && 'px-12'">
     <lcp-subscriptions />
     <author-subscriptions />
   </v-container>
@@ -12,5 +12,10 @@ import LcpSubscriptions from './_components/lcpSubscriptions.vue';
 export default {
   name: 'cloud-subscriptions',
   components: { LcpSubscriptions, AuthorSubscriptions },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>

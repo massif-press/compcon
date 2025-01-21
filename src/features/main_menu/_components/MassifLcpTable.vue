@@ -3,6 +3,7 @@
     v-model:expanded="expanded"
     density="compact"
     no-data-text="No content packs available."
+    :mobile="mobile"
     :headers="<any>tableHeaders"
     :items="packs"
     :loading="loading"
@@ -25,7 +26,10 @@
       <i v-else class="text-disabled">Not Installed</i>
     </template>
     <template #item.auto="{ item }">
-      <v-row v-if="canDownload(item) && getInstalledPack(item)" no-gutters justify="center">
+      <v-row
+        v-if="canDownload(item) && getInstalledPack(item)"
+        no-gutters
+        :justify="mobile ? 'end' : 'center'">
         <v-tooltip max-width="300px" location="top">
           <template #activator="{ props }">
             <v-btn
@@ -184,6 +188,9 @@ export default {
     await this.refresh();
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     tableHeaders() {
       return this.headers || this.lcpHeaders;
     },

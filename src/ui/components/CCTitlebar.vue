@@ -2,7 +2,7 @@
   <v-toolbar
     :color="color"
     :class="{ 'clipped-large': clipped }"
-    :style="fixed ? 'position: fixed; width: 100%; z-index:' : ''"
+    :style="`${fixed ? 'position: fixed; width: 100%; z-index: 2' : ''}`"
     :density="<any>density">
     <v-toolbar-title style="text-transform: uppercase" class="heading h2 mt-1">
       <v-icon v-if="icon" size="large" class="mt-n1 mr-2" :icon="icon" />
@@ -53,5 +53,16 @@ export default {
       default: 'default',
     },
   },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>
+
+<style>
+.v-toolbar-title__placeholder {
+  overflow: visible;
+}
+</style>

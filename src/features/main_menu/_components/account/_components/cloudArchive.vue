@@ -35,7 +35,7 @@
         color="secondary"
         border
         variant="tonal"
-        icon="mdi-information-outline"
+        :icon="mobile ? false : 'mdi-information-outline'"
         density="compact"
         prominent>
         <div class="heading h4">You do not have access to remote backups.</div>
@@ -327,6 +327,9 @@ export default {
     prunePct: 50,
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     hasArchiveAccess() {
       return UserStore().User.PatreonTierValue > 0;
     },

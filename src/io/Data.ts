@@ -1,5 +1,5 @@
-import PromisifyFileReader from 'promisify-file-reader';
 import localForage from 'localforage';
+import logger from '@/user/logger';
 
 const canPersistData = async function (): Promise<boolean> {
   const capable = await navigator.storage.persist();
@@ -24,8 +24,11 @@ const exists = async function (name: string): Promise<boolean> {
 const saveData = async function <T>(collection: string, data: T): Promise<void> {
   const p = await canPersistData();
 
-  // TODO: backup to localstorage
-  if (!p) throw new Error('Cannot persist data');
+  if (!p) {
+    console.error('Cannot persist data');
+    logger.error('Cannot persist data');
+    return;
+  }
 
   const isStringified = typeof data === 'string';
 
@@ -60,9 +63,13 @@ const loadData = async function <T>(collection: string): Promise<T[]> {
   if (fileExists) {
     try {
       const dataText = await readFile(collection);
+      if (!dataText) {
+        throw new Error('No data found for collection: ' + collection);
+      }
       return (JSON.parse(dataText) || []) as T[];
     } catch (err) {
-      console.error(err);
+      logger.error(err as string);
+      return [];
     }
   } else {
     return [];

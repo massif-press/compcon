@@ -1,5 +1,5 @@
 <template>
-  <v-container class="px-12">
+  <v-container :class="!mobile && 'px-12'">
     <v-fade-transition>
       <v-alert
         v-if="showAccountMigration"
@@ -58,7 +58,7 @@
     </v-expansion-panels>
 
     <v-row>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <div class="font-weight-bold text-accent">
           CC-ID
           <v-tooltip max-width="300px" location="top">
@@ -80,7 +80,7 @@
         </div>
         {{ cognito.userId }}
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <div class="font-weight-bold text-accent">
           ACCOUNT EMAIL
           <v-tooltip max-width="300px" location="top">
@@ -97,7 +97,7 @@
         </div>
         {{ cognito.signInDetails.loginId }}
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <div class="font-weight-bold text-accent">
           CC-USERNAME
           <v-tooltip max-width="300px" location="top">
@@ -132,7 +132,7 @@
           </template>
         </v-text-field>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <div class="font-weight-bold text-accent">ACCOUNT DETAILS</div>
         <div class="text-caption">
           <b>Account created (v3):</b>
@@ -147,7 +147,7 @@
 
     <div class="flavor-text">
       <v-row class="text-center py-4">
-        <v-col>
+        <v-col cols="12" md="6">
           <itch-card v-if="itch.hasItch" />
 
           <v-card v-else size="small" color="itch" @click="loginWithItch">
@@ -169,7 +169,7 @@
             </v-tooltip>
           </v-card>
         </v-col>
-        <v-col>
+        <v-col cols="12" md="6">
           <patreon-card v-if="patreon.hasPatreon" />
           <v-card v-else size="small" color="#FF424D" @click="loginWithPatreon">
             <b>Patreon account:</b>
@@ -194,7 +194,7 @@
 
     <div class="text-caption font-weight-bold my-1">CHANGE PASSWORD</div>
     <v-row dense>
-      <v-col>
+      <v-col cols="12" md="">
         <v-text-field
           v-model="oldPass"
           variant="outlined"
@@ -204,7 +204,7 @@
           :append-inner-icon="showOld ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append-inner="showOld = !showOld" />
       </v-col>
-      <v-col>
+      <v-col cols="12" md="">
         <v-text-field
           v-model="newPass"
           variant="outlined"
@@ -215,9 +215,12 @@
           :append-inner-icon="showNew ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append-inner="showNew = !showNew" />
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="12" md="auto">
         <v-btn
           color="accent"
+          :block="mobile"
+          :size="mobile ? 'small' : 'default'"
+          :class="{ 'mt-n2 mb-4': mobile }"
           :disabled="!oldPass || !newPass || oldPass === newPass"
           :loading="loading"
           @click="changePass">
@@ -229,7 +232,7 @@
     <v-btn block color="warning" :loading="loading" @click="ccSignOut">Sign Out</v-btn>
 
     <div class="text-right mt-12">
-      <v-dialog width="70vw">
+      <v-dialog :fullscreen="mobile" :width="mobile ? '' : '70vw'">
         <template #activator="{ props }">
           <v-btn v-bind="props" size="small" color="error" prepend-icon="mdi-skull">
             Delete Cloud Account
@@ -306,6 +309,9 @@ export default {
     },
     notifications() {
       return UserStore().CloudNotifications;
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

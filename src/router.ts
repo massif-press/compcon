@@ -6,7 +6,8 @@ import compendiumRoutes from './features/compendium/routes';
 import activeModeRoutes from './features/active_mode/routes';
 
 import MainMenu from './features/main_menu/index.vue';
-import UITest from './features/ui_test/index.vue';
+import UITest from './features/ui_test/old.vue';
+import UITestv3 from './features/ui_test/index.vue';
 import ItemLink from './features/main_menu/itemLink.vue';
 
 import Redirect from './features/main_menu/_components/oauth/Redirect.vue';
@@ -29,6 +30,11 @@ const router = createRouter({
       path: '/ui-test',
       name: 'ui-test',
       component: UITest,
+    },
+    {
+      path: '/ui-test-new',
+      name: 'ui-test-new',
+      component: UITestv3,
     },
     {
       path: '/oauth/callback',

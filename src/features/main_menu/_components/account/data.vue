@@ -1,5 +1,5 @@
 <template>
-  <v-container class="px-12">
+  <v-container :class="!mobile && 'px-12'">
     <v-progress-linear
       :model-value="(cloudUseMb / cloudMaxMb) * 100"
       color="secondary"
@@ -51,6 +51,9 @@ export default {
     },
     cloudMaxMb() {
       return UserStore().MaxCloudStorage / 1024 / 1024;
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

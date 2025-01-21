@@ -16,6 +16,7 @@
   </v-row>
   <v-data-table
     density="compact"
+    :mobile="mobile"
     :headers="<any>dataHeaders"
     :items="shownItems"
     item-key="name"
@@ -238,6 +239,9 @@ export default {
     ],
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     remoteItems() {
       console.log(UserStore().AllRemoteItems);
       return UserStore().AllRemoteItems;

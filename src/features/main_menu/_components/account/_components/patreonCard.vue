@@ -26,7 +26,7 @@
       </v-row>
     </v-card-text>
   </v-card>
-  <v-dialog v-model="dialog" max-width="1000">
+  <v-dialog v-model="dialog" :fullscreen="mobile" max-width="1000">
     <v-card>
       <v-toolbar density="compact" color="primary">
         <v-toolbar-title class="heading h3">Membership Benefits</v-toolbar-title>
@@ -135,6 +135,9 @@ export default {
       } else {
         return 'Thank you for your generous support of COMP/CON!';
       }
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

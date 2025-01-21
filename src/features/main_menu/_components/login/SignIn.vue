@@ -1,5 +1,5 @@
 <template>
-  <v-container class="px-12" style="min-height: 200px">
+  <v-container :class="!mobile && 'px-12'" style="min-height: 200px">
     <v-fade-transition>
       <div v-if="signingIn" class="flavor-text">
         <v-row no-gutters v-for="l in loginLog">
@@ -58,9 +58,10 @@
               @click:append="show = !show" />
           </v-col>
         </v-row>
-        <div class="text-center mt-2">
+        <div class="text-center mt-4">
           <v-btn
             size="large"
+            :block="mobile"
             color="secondary"
             type="submit"
             :loading="loading"
@@ -68,29 +69,35 @@
             @click="signIn">
             Sign In
           </v-btn>
-          <div class="mt-2">
-            <v-btn
-              color="accent"
-              class="mx-2"
-              variant="outlined"
-              @click="$emit('set-state', 'sign-up')">
-              Create Account
-            </v-btn>
-          </div>
-        </div>
-        <div style="position: absolute; bottom: 6px; left: 6px">
-          <v-btn prepend-icon="mdi-email-check" color="accent" @click="$emit('reverify')">
-            Verify E-Mail
+          <br />
+          <v-btn
+            color="accent"
+            :block="mobile"
+            :class="!mobile && 'mt-2'"
+            variant="outlined"
+            @click="$emit('set-state', 'sign-up')">
+            Create Account
           </v-btn>
         </div>
-        <div style="position: absolute; bottom: 6px; right: 6px">
+        <v-footer style="position: absolute; bottom: 0; left: 0; right: 0">
           <v-btn
+            :size="mobile ? 'small' : 'default'"
+            :stacked="mobile"
+            prepend-icon="mdi-email-check"
+            color="accent"
+            @click="$emit('reverify')">
+            Verify E-Mail
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            :size="mobile ? 'small' : 'default'"
+            :stacked="mobile"
             prepend-icon="mdi-lock-reset"
             color="accent"
             @click="$emit('set-state', 'sign-up')">
             Password Recovery
           </v-btn>
-        </div>
+        </v-footer>
       </div>
     </v-fade-transition>
   </v-container>
@@ -114,6 +121,11 @@ export default {
     loginLog: [] as { str: string; time: number }[],
     signingIn: false,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     async signIn() {
       this.signingIn = true;

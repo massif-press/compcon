@@ -21,7 +21,7 @@
 
     <div class="px-6">
       <v-row align="center" justify="space-around">
-        <v-col cols="6">
+        <v-col cols="12" md="6">
           <v-row align="center" class="mt-1">
             <v-col cols="auto">
               <div class="font-weight-bold text-right">
@@ -57,8 +57,8 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="6">
-          <v-row align="center">
+        <v-col cols="12" md="6">
+          <v-row dense align="center">
             <v-col cols="auto">
               <div class="font-weight-bold text-right">
                 Snyc User Settings
@@ -75,7 +75,7 @@
                 </v-tooltip>
               </div>
             </v-col>
-            <v-col>
+            <v-col cols="12" md="">
               <v-btn
                 block
                 variant="tonal"
@@ -86,8 +86,8 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="6">
-          <v-row align="center">
+        <v-col cols="12" md="6">
+          <v-row dense align="center">
             <v-col cols="auto">
               <div class="font-weight-bold text-right">
                 Snyc Shared Items
@@ -101,7 +101,7 @@
                 </v-tooltip>
               </div>
             </v-col>
-            <v-col>
+            <v-col cols="12" md="">
               <v-btn
                 block
                 size="small"
@@ -112,8 +112,8 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="6">
-          <v-row align="center">
+        <v-col cols="12" md="6">
+          <v-row dense align="center">
             <v-col cols="auto">
               <div class="font-weight-bold text-right">
                 Resolution Strategy
@@ -129,7 +129,7 @@
                 </v-tooltip>
               </div>
             </v-col>
-            <v-col>
+            <v-col cols="12" md="">
               <v-select
                 v-model="settings.resolutionStrategy"
                 :items="resolutionOptions"
@@ -139,7 +139,7 @@
           </v-row>
         </v-col>
         <v-col cols="12">
-          <v-row align="center">
+          <v-row dense align="center">
             <v-col cols="auto">
               <div class="font-weight-bold text-right">
                 Sync Items
@@ -155,7 +155,7 @@
                 </v-tooltip>
               </div>
             </v-col>
-            <v-col>
+            <v-col cols="12" md="">
               <v-select
                 v-model="settings.itemTypes"
                 multiple
@@ -222,17 +222,19 @@
             </v-row>
           </v-card>
         </v-col>
-        <v-col cols="auto">
+        <v-col cols="12" md="auto">
           <v-menu>
             <template #activator="{ props }">
               <v-btn
-                size="52"
+                :size="mobile ? 'small' : '52'"
+                :block="mobile"
                 icon
                 variant="tonal"
                 rounded="0"
                 :disabled="cloudStorageFull"
                 v-bind="props">
-                <v-icon>mdi-dots-vertical</v-icon>
+                <v-icon v-if="!mobile" icon="mdi-dots-vertical" />
+                <span v-else class="ml-2">Sync Overrides</span>
               </v-btn>
             </template>
             <v-list max-width="500" lines="two">
@@ -275,6 +277,9 @@ export default {
     selectedItems: [] as string[],
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     metadata() {
       return UserStore().UserMetadata;
     },
