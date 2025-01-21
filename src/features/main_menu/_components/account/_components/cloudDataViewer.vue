@@ -31,6 +31,7 @@
       </v-tooltip>
       <template #extension>
         <v-text-field
+          v-if="!mobile"
           v-model="search"
           variant="outlined"
           prepend-inner-icon="mdi-magnify"
@@ -82,6 +83,17 @@
         </v-tabs>
       </template>
     </v-toolbar>
+    <v-text-field
+      v-if="mobile"
+      v-model="search"
+      variant="outlined"
+      prepend-inner-icon="mdi-magnify"
+      label="Search"
+      single-line
+      density="compact"
+      class="mx-1"
+      clearable
+      hide-details />
     <v-window v-model="tab">
       <v-window-item value="Data">
         <item-data-tab :search="search" @refresh="refresh" :loading="loading" />
@@ -122,6 +134,11 @@ export default {
     search: '',
     loading: false,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     async refresh() {
       this.loading = true;

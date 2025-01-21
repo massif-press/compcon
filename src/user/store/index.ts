@@ -26,6 +26,7 @@ import { ImportStagedData, StageImport } from '@/io/Importer';
 import { getPatronProfile, authItch } from '../oauth';
 import { getItemDownloadLink } from '../api';
 import { parseContentPack } from '@/io/ContentPackParser';
+import logger from '../logger';
 
 const DefaultSyncSettings = {
   frequency: 'manual',
@@ -686,7 +687,6 @@ export const UserStore = defineStore('cloud', {
       this.UserMetadata.PatreonData.profile = profile;
       this.UserMetadata.PatreonData.hasPatreon = true;
 
-      console.log('Patreon Profile:', profile);
       this.setUserMetadata();
     },
 
@@ -696,7 +696,7 @@ export const UserStore = defineStore('cloud', {
         await this.setPatreonData(this.UserMetadata.PatreonData.token);
         return 'success';
       } catch (err) {
-        console.error('Error refreshing Patreon data:', err);
+        logger.error('Error refreshing Patreon data:', err);
         this.UserMetadata.PatreonData = { hasPatreon: false };
         this.setUserMetadata();
         return 'error';

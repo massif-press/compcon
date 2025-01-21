@@ -127,6 +127,10 @@ class Logger {
       'background-color: RGBA(0,0,0,0.4); padding:2px; font-weight: bold;'
     );
   }
+
+  public error = (message: string, caller?: any) => this.log(message, 'error', caller);
+  public warn = (message: string, caller?: any) => this.log(message, 'warn', caller);
+  public info = (message: string, caller?: any) => this.log(message, 'info', caller);
 }
 
 const logger = Logger.getInstance();

@@ -1,6 +1,5 @@
 <template>
-  <v-container class="px-12">
-    <h3 class="heading text-accent">User Options</h3>
+  <v-container :class="!mobile && 'px-12'">
     <v-row align="center" justify="space-between">
       <v-col cols="auto">
         <v-switch v-model="userViewExotics" color="exotic" density="compact" hide-details>
@@ -15,21 +14,9 @@
           </template>
         </v-switch>
       </v-col>
-      <v-col cols="auto">
-        <v-btn color="accent" size="small" variant="tonal" @click="$emit('show-message')">
-          Show Latest Update Message
-        </v-btn>
-      </v-col>
+      <v-col cols="auto"></v-col>
     </v-row>
 
-    <!-- <v-switch
-            v-model="userAllowQuickstart"
-            color="exotic"
-            inset
-            density="compact"
-            hide-details>
-            <template #label>Enable quick pilot creation and level-up</template>
-          </v-switch> -->
     <h3 class="heading text-accent mt-2">Theme</h3>
     <v-select
       v-model="theme"
@@ -61,6 +48,10 @@
         </v-list-item>
       </v-list>
     </v-menu>
+
+    <v-btn color="accent" size="small" variant="tonal" class="mt-6" @click="$emit('show-message')">
+      Show Latest Update Message
+    </v-btn>
 
     <v-row class="mt-4">
       <v-col>
@@ -116,7 +107,8 @@
     </v-row>
 
     <div class="text-right">
-      <v-btn size="x-small" variant="text" to="/ui-test">UI Test</v-btn>
+      <v-btn size="x-small" variant="text" to="/ui-test">UI Test I</v-btn>
+      <v-btn size="x-small" variant="text" to="/ui-test-new">UI Test II</v-btn>
     </div>
   </v-container>
 </template>
@@ -148,6 +140,9 @@ export default {
   }),
   emits: ['show-message'],
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     user() {
       return UserStore().User;
     },

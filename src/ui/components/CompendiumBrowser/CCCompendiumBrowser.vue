@@ -682,8 +682,6 @@ import bListGroup from './components/_b-list-group.vue';
 
 import { CompendiumItem, License, LicensedItem, Manufacturer } from '@/class';
 import { CompendiumStore, UserStore } from '@/stores';
-import { ManufacturerSort } from '@/util/ManufacturerSort';
-import { handleError } from 'vue';
 
 type BrowserOptions = {
   views: string[];
@@ -694,6 +692,22 @@ type BrowserOptions = {
   hideTitle?: boolean;
   showExotics?: boolean;
 };
+
+const mfOrder = ['gms', 'ips-n', 'ssc', 'horus', 'ha'];
+
+export const ManufacturerSort = (mArr: any[]) =>
+  mArr.sort((a, b) => {
+    const indexA = mfOrder.indexOf(a.Source.toLowerCase());
+    const indexB = mfOrder.indexOf(b.Source.toLowerCase());
+
+    if (indexA !== -1 && indexB !== -1) {
+      return indexA - indexB;
+    } else if (indexA !== -1) {
+      return -1;
+    } else if (indexB !== -1) {
+      return 1;
+    } else return a.Source.toLowerCase().localeCompare(b.Source.toLowerCase());
+  });
 
 const sortFn = (a: any, b: any): number => {
   const excl = ['exotic'];

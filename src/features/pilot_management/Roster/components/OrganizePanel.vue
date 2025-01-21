@@ -342,8 +342,6 @@ export default {
       this.dirty = true;
     },
     moveGroup(event) {
-      // TODO: move pilots in between groups
-
       moveItemInArray(this.list, event.oldIndex, event.newIndex);
 
       this.dirty = true;

@@ -263,7 +263,8 @@ export const CompendiumStore = defineStore('compendium', {
       };
     },
 
-    // TODO: reference FROM ID maps the object-held ItemType to Compendium ItemType. This should be changed so all types are equivalent across items and item arrays, but for now this is a workaround.
+    // TODO: reference FROM ID maps the object-held ItemType to Compendium ItemType.
+    // This should be changed so all types are equivalent across items and item arrays, but for now this is a workaround.
     referenceFromID(): any {
       return (itemType: string, id: string) => {
         const mappedType = itemTypeMap[itemType];

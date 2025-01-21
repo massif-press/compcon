@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar color="error">
-      <v-toolbar-title class="heading h2">ACCOUNT DELETION TOOL</v-toolbar-title>
+      <v-toolbar-title class="heading h2">ACCOUNT DELETION</v-toolbar-title>
       <v-spacer />
       <v-btn icon @click="$emit('close')">
         <v-icon size="x-large">mdi-close</v-icon>

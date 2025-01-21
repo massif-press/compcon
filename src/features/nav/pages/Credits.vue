@@ -24,7 +24,7 @@
       <dev-badge v-for="c in credits.art" :info="c" />
     </v-row>
     <div class="text-center mt-8">
-      <span class="heading h2">
+      <span class="heading h3">
         The continued development of COMP/CON would not be possible without the generous
         <a target="_blank" href="https://www.patreon.com/compcon" v-html="'support'" />
         of:
@@ -56,14 +56,14 @@
       </div>
 
       <div class="mt-6">
-        <span class="heading h2">Along with:</span>
+        <span class="heading h3">Along with:</span>
       </div>
 
       <p class="flavor-text text-text">
         {{ lapsed.map((x) => cleanName(x.attributes.full_name)).join(', ') }}
       </p>
 
-      <div class="heading h2 mt-4">Special Thanks to:</div>
+      <div class="heading h3 mt-4">Special Thanks to:</div>
       <div class="my-2">
         <v-chip v-for="c in credits.special_thanks" variant="tonal" size="large" label class="ma-1">
           {{ c }}
@@ -92,7 +92,7 @@ export default {
     cols: [12, 6, 4, 4, 4],
     loading: true,
   }),
-  async created() {
+  async mounted() {
     const p = await patrons();
 
     const all = p.data.flat(1);
@@ -153,5 +153,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

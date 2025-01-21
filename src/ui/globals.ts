@@ -1,3 +1,6 @@
+import CCButton from './components/buttons/CCButton.vue';
+import CCHeading from './components/headings/CCHeading.vue';
+
 import CCCompendiumBrowser from './components/CompendiumBrowser/CCCompendiumBrowser.vue';
 import CCBondInfo from './components/CCBondInfo.vue';
 import CCBondPowerCard from './components/CCBondPowerCard.vue';
@@ -80,6 +83,8 @@ import CCMissingGmLcpText from './components/CCMissingGmLcpText.vue';
 import CCShareCodeImporter from './components/CCShareCodeImporter.vue';
 
 export {
+  CCButton,
+  CCHeading,
   CCImg,
   CCCompendiumBrowser,
   CCAvatar,

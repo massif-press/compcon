@@ -36,7 +36,7 @@
             inline
             title="Unloadable Content Detected"
             content="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager.">
-            <v-avatar color="white"><v-icon color="error" large>mdi-folder-off</v-icon></v-avatar>
+            <v-icon color="warning" size="30" icon="mdi-alert" class="mb-2" />
           </cc-tooltip>
         </main-btn>
         <main-btn
@@ -163,7 +163,7 @@ import AboutPage from '../nav/pages/About.vue';
 import CreditsPage from '../nav/pages/Credits.vue';
 import HelpPage from '../nav/pages/Help.vue';
 import OptionsPage from '../nav/pages/Options/index.vue';
-import { UserStore, CompendiumStore } from '@/stores';
+import { UserStore, CompendiumStore, PilotStore, NpcStore } from '@/stores';
 import CloudNotifications from '../nav/CloudNotifications.vue';
 
 export default {
@@ -192,15 +192,10 @@ export default {
       return UserStore().IsLoading;
     },
     missingContent() {
-      //TODO: reimplement missingcontent check
-      // const mc = CompendiumStore().MissingContent;
-      // let b = false;
-      // if (!mc || !mc.pilots || !mc.npcs) return b;
-      // for (const key in mc) {
-      //   if (mc[key].length) b = true;
-      // }
-      // return b;
-      return false;
+      return (
+        PilotStore().Pilots.some((x) => x.BrewController.HasError) ||
+        NpcStore().Npcs.some((x) => x.BrewController.HasError)
+      );
     },
   },
   methods: {

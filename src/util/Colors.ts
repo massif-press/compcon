@@ -1,7 +1,7 @@
 const GenerateContrastingColors = (
   n,
   g = 0.618033988749895,
-  c = [],
+  c = [] as string[],
   hsl = (h, s, l) => {
     if (s === 0) return `#${(l * 255).toString(16).repeat(3)}`;
     const q = l < 0.5 ? l * (1 + s) : l + s - l * s,

@@ -1,103 +1,65 @@
 <template>
-  <div id="wrapper">
-    <cc-solo-dialog ref="loginModal" large no-confirm title="CLOUD ACCOUNT">
-      <sign-in />
-    </cc-solo-dialog>
-    <cc-solo-dialog
-      ref="optionsModal"
-      large
-      no-confirm
-      no-pad
-      no-title-clip
-      title="Options & User Profile">
-      <options-page />
-    </cc-solo-dialog>
-    <cc-solo-dialog ref="aboutModal" large no-confirm title="About">
-      <about-page />
-    </cc-solo-dialog>
-    <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
-      <credits-page />
-    </cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
-    <cc-solo-dialog
-      ref="contentModal"
-      no-title-clip
-      no-pad
-      large
-      no-confirm
-      title="Manage Content Packs">
-      <content-page />
-    </cc-solo-dialog>
-    <v-container fluid>
-      <div class="mt-n5">
-        <div
-          v-resize-text="{ ratio: 0.75 }"
-          class="heading mech mt-n5 text-center"
-          style="letter-spacing: 8px">
-          COMP/CON
-        </div>
-      </div>
-      <v-row density="compact" align="center" class="my-1 px-2 primary py-2">
-        <v-col cols="auto">
-          <div class="flavor-text text-white">
-            <span>v.{{ $appVersion }}</span>
-          </div>
-        </v-col>
-        <v-col cols="auto ml-auto">
-          <update-checker small />
-        </v-col>
-      </v-row>
-      <v-row density="compact" justify="space-around">
-        <mobile-btn
-          icon="mdi-book"
-          title="Compendium"
-          text="Equipment Database"
-          :to="'/compendium'" />
+  <v-container style="margin-top: -40px">
+    <div class="heading mech text-center" style="letter-spacing: 3vw; line-height: 10vw">
+      COMP/CON
+    </div>
+    <div class="flavor-text text-right">v.{{ appVersion }}</div>
+
+    <div class="d-flex justify-center align-center" style="height: calc(100vh - 10vw - 140px)">
+      <v-row dense justify="space-around" style="height: 100%">
+        <mobile-btn icon="cc:compendium" title="Compendium" :to="'/compendium'" />
         <mobile-btn icon="cc:pilot" title="Roster" text="Manage Pilots" :to="'/pilot_management'" />
         <mobile-btn
-          icon="mdi-flask-empty-plus-outline"
+          icon="cc:content_manager"
           title="Content"
-          text="Manage LCP Data"
           @clicked="($refs as any).contentModal.show()" />
-        <mobile-btn
-          :icon="userstore.IsLoggedIn ? 'mdi-account-check' : 'mdi-account-off-outline'"
-          :title="userstore.IsLoggedIn ? 'Connected' : 'Log In'"
-          text="COMP/CON Account"
-          @clicked="($refs as any).loginModal.show()" />
-        <cloud-notifications />
+        <mobile-btn icon="cc:campaign" title="Active Mode" :to="'/active-mode'" />
       </v-row>
-      <div style="height: 40px" />
+    </div>
 
-      <v-footer
-        color="primary"
-        fixed
-        style="padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px))">
-        <v-btn x-small dark variant="outlined" @click="($refs as any).optionsModal.show()">
-          Options
-        </v-btn>
-        <v-spacer />
-        <v-btn x-small dark variant="outlined" @click="($refs as any).aboutModal.show()">
-          About
-        </v-btn>
-        <v-spacer />
-        <v-btn x-small dark variant="outlined" @click="($refs as any).creditsModal.show()">
-          Credits
-        </v-btn>
-        <v-spacer />
-        <v-btn x-small dark variant="outlined" @click="($refs as any).helpModal.show()">Help</v-btn>
-        <v-spacer />
-        <v-btn
-          target="_blank"
-          href="https://www.patreon.com/compcon"
-          color="warning"
-          x-small
-          dark
-          variant="outlined">
-          Support
-        </v-btn>
-      </v-footer>
-    </v-container>
-  </div>
+    <v-footer app density="compact" fixed>
+      <v-spacer />
+      <v-btn
+        size="small"
+        flat
+        :loading="startingUp"
+        :prepend-icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
+        @click="($refs.loginModal as any).show()">
+        <span>{{ isLoggedIn ? 'Connected' : 'Log In' }}</span>
+      </v-btn>
+      <cloud-notifications />
+      <v-spacer />
+    </v-footer>
+
+    <v-bottom-navigation app density="compact">
+      <v-btn @click="($refs as any).optionsModal.show()">Options</v-btn>
+      <v-btn @click="($refs as any).aboutModal.show()">About</v-btn>
+      <v-btn @click="($refs as any).creditsModal.show()">Credits</v-btn>
+      <v-btn @click="($refs as any).helpModal.show()">Help</v-btn>
+    </v-bottom-navigation>
+  </v-container>
+  <cc-solo-dialog ref="loginModal" no-confirm title="CLOUD ACCOUNT">
+    <sign-in />
+  </cc-solo-dialog>
+  <cc-solo-dialog ref="optionsModal" no-confirm no-title-clip title="Options & User Profile">
+    <options-page />
+  </cc-solo-dialog>
+  <cc-solo-dialog ref="aboutModal" no-confirm title="About">
+    <about-page />
+  </cc-solo-dialog>
+  <cc-solo-dialog ref="creditsModal" no-confirm title="Credits">
+    <credits-page />
+  </cc-solo-dialog>
+  <cc-solo-dialog ref="helpModal" no-confirm title="Help"><help-page /></cc-solo-dialog>
+  <cc-solo-dialog
+    ref="contentModal"
+    no-title-clip
+    no-pad
+    large
+    no-confirm
+    title="Manage Content Packs">
+    <content-page />
+  </cc-solo-dialog>
 </template>
 
 <script lang="ts">
@@ -126,6 +88,15 @@ export default {
   computed: {
     userstore() {
       return UserStore();
+    },
+    isLoggedIn() {
+      return UserStore().IsLoggedIn;
+    },
+    startingUp() {
+      return UserStore().IsLoading;
+    },
+    appVersion(): string {
+      return import.meta.env.VITE_APP_VERSION;
     },
   },
 };

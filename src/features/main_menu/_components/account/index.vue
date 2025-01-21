@@ -34,5 +34,10 @@ export default {
     tab: 0,
   }),
   emits: ['set-state'],
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>

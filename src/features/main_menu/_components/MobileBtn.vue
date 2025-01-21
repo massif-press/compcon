@@ -1,23 +1,21 @@
 <template>
   <v-col cols="6">
     <v-card
-      :ripple="!disabled"
-      variant="outlined"
+      variant="tonal"
       tile
       class="text-center"
+      height="100%"
       @click="to ? $router.push(to) : $emit('clicked')">
-      <div :class="disabled ? 'grey py-4' : 'primary fade py-4'">
-        <v-icon dark size="125">
-          {{ icon }}
-        </v-icon>
+      <div class="d-flex justify-center align-center" style="height: 90%">
+        <div class="primary py-4">
+          <v-icon dark size="45vw">
+            {{ icon }}
+          </v-icon>
+          <div class="heading no-wrap pb-4" style="font-size: 5.5vw">
+            {{ title }}
+          </div>
+        </div>
       </div>
-      <h2 v-resize-text="{ minFontSize: '18px' }" class="heading mt-1 no-wrap">
-        {{ title }}
-      </h2>
-      <v-divider class="my-1" />
-      <span v-resize-text class="flavor-text px-2 no-wrap">
-        {{ text }}
-      </span>
     </v-card>
   </v-col>
 </template>
@@ -29,19 +27,8 @@ export default {
     to: { type: String, required: false, default: '' },
     title: { type: String, required: true },
     icon: { type: String, required: true },
-    text: { type: String, required: true },
     disabled: { type: Boolean },
     loading: { type: Boolean },
   },
 };
 </script>
-
-<style scoped>
-.fade {
-  transition: all ease-in-out 0.2s;
-}
-
-.fade:hover {
-  background-color: rgb(var(--v-theme-active)) !important;
-}
-</style>

@@ -74,8 +74,7 @@ class TalentsController implements IFeatureContainer {
     this.talentSort();
     this.updateIntegratedTalents();
 
-    // TODO: fix save
-    // this.Parent.SaveController.save();
+    this.Parent.SaveController.save();
   }
 
   public RemoveTalent(talent: Talent): void {

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="px-12">
+  <v-container :class="!mobile && 'px-12'">
     <div style="max-height: 525px; overflow-y: scroll">
       <div class="text-caption">
         Log level:
@@ -48,8 +48,9 @@
       </v-expansion-panels>
       <v-card-actions>
         <v-spacer />
-        <v-btn icon :disabled="!history.length" @click="exportLog">
-          <v-icon>mdi-file-download</v-icon>
+        <v-btn size="small" :disabled="!history.length" @click="exportLog">
+          Export Log
+          <v-icon end icon="mdi-file-download" />
         </v-btn>
       </v-card-actions>
     </div>
@@ -67,6 +68,9 @@ export default {
     },
     logger() {
       return logger;
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

@@ -1,5 +1,4 @@
 <template>
-  <!-- {{ lcpSaveData }} -->
   <v-card flat border class="mb-4">
     <v-toolbar density="compact">
       <v-toolbar-title>
@@ -67,6 +66,9 @@ export default {
     await this.refresh();
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     contentPacks() {
       return CompendiumStore().ContentPacks;
     },

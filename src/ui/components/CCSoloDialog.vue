@@ -1,16 +1,12 @@
 <template>
   <v-dialog
     v-model="dialog"
-    :fullscreen="fullscreen"
-    :width="fullscreen ? '' : small ? '30vw' : large ? '85vw' : '50vw'"
-    :style="fullscreen ? `x-overflow: hidden` : ''">
-    <v-card tile>
-      <cc-titlebar
-        :clipped="!noTitleClip"
-        :icon="icon"
-        :color="color"
-        :density="density"
-        :fixed="fullscreen">
+    :fullscreen="isFullscreen"
+    :width="isFullscreen ? '' : small ? '30vw' : large ? '85vw' : '50vw'"
+    :height="isFullscreen ? '' : small ? '30vh' : large ? '85vh' : '50vh'"
+    :style="isFullscreen ? `x-overflow: hidden` : ''">
+    <v-card tile :height="isFullscreen ? '' : small ? '30vh' : large ? '85vh' : '50vh'">
+      <cc-titlebar :clipped="!noTitleClip" :icon="icon" :color="color" :density="density" fixed>
         <template #title>
           {{ title }}
         </template>
@@ -21,10 +17,10 @@
         </template>
       </cc-titlebar>
 
-      <div :style="fullscreen ? 'margin-top: 40px' : ''">
+      <div style="margin-top: 50px">
         <slot />
       </div>
-      <div v-if="!noActions">
+      <div v-if="!hideActions">
         <v-divider />
 
         <v-card-actions v-if="noConfirm">
@@ -89,9 +85,6 @@ export default {
       type: String,
       required: false,
     },
-    noPad: {
-      type: Boolean,
-    },
   },
   data: () => ({
     dialog: false,
@@ -99,6 +92,15 @@ export default {
   computed: {
     dense() {
       return this.density === 'dense';
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+    isFullscreen() {
+      return this.fullscreen || this.mobile;
+    },
+    hideActions() {
+      return this.noActions || (this.noConfirm && this.mobile);
     },
   },
   methods: {

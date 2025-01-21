@@ -21,7 +21,7 @@
       </v-row>
     </v-card-text>
   </v-card>
-  <v-dialog v-model="dialog" max-width="1000">
+  <v-dialog v-model="dialog" :fullscreen="mobile" max-width="1000">
     <v-card :loading="loading">
       <v-toolbar density="compact" color="primary">
         <v-toolbar-title class="heading h3">Linked Massif Content</v-toolbar-title>
@@ -119,11 +119,14 @@ export default {
     map() {
       return UserStore().User.ItchMap;
     },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
   },
   methods: {
     async updateItch() {
       this.loading = true;
-      await UserStore().User.refreshItchData();
+      await UserStore().refreshItchData();
       this.loading = false;
     },
   },

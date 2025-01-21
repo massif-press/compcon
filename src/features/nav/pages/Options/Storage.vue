@@ -1,158 +1,155 @@
 <template>
-  <v-container class="px-12">
-    <div style="max-height: 525px; overflow-y: scroll">
-      <h3 class="heading text-accent">Storage</h3>
-      <v-card-text v-if="size.usage && size.quota" class="flavor-text">
-        <v-progress-linear
-          :model-value="((size.usage / size.quota) * 100).toFixed(3)"
-          height="20"
-          class="mb-5"
-          rounded
-          color="primary">
-          <v-chip small variant="elevated" color="primary-lighten-5" style="opacity: 0.5">
-            {{ ((size.usage / size.quota) * 100).toFixed(3) }}%
-          </v-chip>
-        </v-progress-linear>
+  <v-container :class="!mobile && 'px-12'">
+    <v-card-text v-if="size.usage && size.quota" class="flavor-text">
+      <v-progress-linear
+        :model-value="((size.usage / size.quota) * 100).toFixed(3)"
+        height="20"
+        class="mb-5"
+        rounded
+        color="primary">
+        <v-chip small variant="elevated" color="primary-lighten-5" style="opacity: 0.5">
+          {{ ((size.usage / size.quota) * 100).toFixed(3) }}%
+        </v-chip>
+      </v-progress-linear>
 
-        <p class="px-2">
-          COMP/CON is currently using {{ bytesToSize(size.usage) }} of
-          {{ bytesToSize(size.quota) }}, or
-          <b class="text-accent">{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</b>
-          of your available storage. This includes space reserved by COMP/CON for app management.
-        </p>
+      <p class="px-2">
+        COMP/CON is currently using {{ bytesToSize(size.usage) }} of {{ bytesToSize(size.quota) }},
+        or
+        <b class="text-accent">{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</b>
+        of your available storage. This includes space reserved by COMP/CON for app management.
+      </p>
 
-        <div class="mb-4">
-          <h3 class="heading text-accent my-2">Storage Settings</h3>
-          <div class="text-caption mb-n2">
-            <b>STORAGE THRESHOLDS</b>
-          </div>
-          <v-range-slider
-            v-model="storageRange"
-            thumb-label
-            hide-details
-            strict
-            type="number"
-            track-fill-color="secondary"
-            color="primary"
-            @end="updateUserStorage" />
-          <div class="text-caption text-right text-stark">
-            COMP/CON will display a warning message when {{ storageRange[0].toFixed(2) }}% of
-            available system storage (
-            <b class="text-accent">{{ bytesToSize((storageRange[0] / 100) * size.quota) }}</b>
-            ) has been used
-          </div>
-          <div class="text-caption text-right text-stark">
-            COMP/CON will prevent the creation of new data after {{ storageRange[1].toFixed(2) }}%
-            of available system storage (
-            <b class="text-accent">{{ bytesToSize((storageRange[1] / 100) * size.quota) }}</b>
-            ) has been used
-          </div>
+      <div class="mb-4">
+        <h3 class="heading text-accent my-2">Storage Settings</h3>
+        <div class="text-caption mb-n2">
+          <b>STORAGE THRESHOLDS</b>
         </div>
-
-        <div class="mb-8">
-          <div class="text-caption mb-n2">
-            <b>AUTO-DELETE</b>
-          </div>
-          <v-select
-            v-model="deleteDays"
-            :items="deleteDaySelections"
-            hide-details
-            density="compact"
-            class="mt-2"
-            @update:modelValue="updateDeleteDays()" />
-          <div class="text-caption text-right text-stark">
-            COMP/CON will permanently delete data after it has been marked as deleted for at least
-            <b class="text-accent">{{ deleteDays }} days.</b>
-            This will not affect items not already marked for deletion.
-          </div>
+        <v-range-slider
+          v-model="storageRange"
+          thumb-label
+          hide-details
+          strict
+          type="number"
+          track-fill-color="secondary"
+          color="primary"
+          @end="updateUserStorage" />
+        <div class="text-caption text-right text-stark">
+          COMP/CON will display a warning message when {{ storageRange[0].toFixed(2) }}% of
+          available system storage (
+          <b class="text-accent">{{ bytesToSize((storageRange[0] / 100) * size.quota) }}</b>
+          ) has been used
         </div>
+        <div class="text-caption text-right text-stark">
+          COMP/CON will prevent the creation of new data after {{ storageRange[1].toFixed(2) }}% of
+          available system storage (
+          <b class="text-accent">{{ bytesToSize((storageRange[1] / 100) * size.quota) }}</b>
+          ) has been used
+        </div>
+      </div>
 
-        <v-table class="text-left mt-4" density="compact">
-          <thead>
-            <tr>
-              <th v-for="item in data" v-text="item.title" />
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td v-for="item in data">{{ item.length }} items</td>
-            </tr>
-          </tbody>
-        </v-table>
-      </v-card-text>
-      <v-card-text v-else class="flavor-text">
-        COMP/CON is unable to access device storage. This may be due to a browser setting or
-        extension. COMP/CON will fall back to using local storage, which is limited to 5MB. This may
-        result in COMP/CON being unable to save data. Please check your browser settings, or allow
-        COMP/CON to access "Persistent Storage" if prompted. If you are using a browser extension
-        that blocks storage access, please disable it for COMP/CON. If neither of these options
-        work, please consider downloading COMP/CON as a PWA.
-      </v-card-text>
+      <div class="mb-8">
+        <div class="text-caption mb-n2">
+          <b>AUTO-DELETE</b>
+        </div>
+        <v-select
+          v-model="deleteDays"
+          :items="deleteDaySelections"
+          hide-details
+          density="compact"
+          class="mt-2"
+          @update:modelValue="updateDeleteDays()" />
+        <div class="text-caption text-right text-stark">
+          COMP/CON will permanently delete data after it has been marked as deleted for at least
+          <b class="text-accent">{{ deleteDays }} days.</b>
+          This will not affect items not already marked for deletion.
+        </div>
+      </div>
 
-      <v-divider class="my-4" />
+      <v-table class="text-left mt-4" density="compact">
+        <thead>
+          <tr>
+            <th v-for="item in data" v-text="item.title" />
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td v-for="item in data">{{ item.length }} items</td>
+          </tr>
+        </tbody>
+      </v-table>
+    </v-card-text>
+    <v-card-text v-else class="flavor-text">
+      COMP/CON is unable to access device storage. This may be due to a browser setting or
+      extension. COMP/CON will fall back to using local storage, which is limited to 5MB. This may
+      result in COMP/CON being unable to save data. Please check your browser settings, or allow
+      COMP/CON to access "Persistent Storage" if prompted. If you are using a browser extension that
+      blocks storage access, please disable it for COMP/CON. If neither of these options work,
+      please consider downloading COMP/CON as a PWA.
+    </v-card-text>
 
-      <h3 class="heading text-accent">Deleted Items (local data only)</h3>
-      <v-card-text>
-        <deleted-items />
-      </v-card-text>
+    <v-divider class="my-4" />
 
-      <v-divider class="my-4" />
+    <h3 class="heading text-accent">Deleted Items (local data only)</h3>
+    <v-card-text>
+      <deleted-items />
+    </v-card-text>
 
-      <h3 class="heading text-accent">User Data</h3>
-      <v-card-text>
-        <user-data-viewer />
-      </v-card-text>
+    <v-divider class="my-4" />
 
-      <v-dialog v-model="deleteDialog" width="80%">
-        <template #activator="{ props }">
-          <div class="text-center">
-            <v-btn size="small" variant="outlined" color="error" class="my-6" v-bind="props">
-              <v-icon start size="x-large" icon="mdi-alert-outline" />
-              Clear All Data
-              <v-icon end size="x-large" icon="mdi-alert-outline" />
-            </v-btn>
-          </div>
-        </template>
-        <v-card flat tile>
-          <v-card-text>
-            <v-alert
-              prominent
-              dark
-              color="error"
-              icon="mdi-alert-circle"
-              border="bottom"
-              class="my-3">
-              <span class="heading h2">WARNING // WARNING // WARNING</span>
-            </v-alert>
-            <p class="text-center heading h2 text-text">
-              This will delete
-              <b class="text-accent">ALL</b>
-              local COMP/CON data.
-              <br />
-              This
-              <b class="text-accent">cannot</b>
-              be undone.
-              <br />
-              <br />
-              <b class="text-accent">Are you sure you want to continue?</b>
-            </p>
-          </v-card-text>
-          <v-divider />
-          <v-card-actions>
-            <v-btn color="secondary" variant="text" large @click="deleteDialog = false">
-              Dismiss
-            </v-btn>
-            <v-spacer />
-            <v-btn color="error" variant="text" @click="deleteAll">
-              <v-icon start size="x-large" icon="mdi-alert-outline" />
-              Delete All User Data
-              <v-icon end size="x-large" icon="mdi-alert-outline" />
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
+    <h3 class="heading text-accent">User Data</h3>
+    <v-card-text>
+      <user-data-viewer />
+    </v-card-text>
+
+    <v-dialog v-model="deleteDialog" width="80%">
+      <template #activator="{ props }">
+        <div class="text-center">
+          <v-btn size="small" variant="outlined" color="error" class="my-6" v-bind="props">
+            <v-icon start size="x-large" icon="mdi-alert-outline" />
+            Clear All Data
+            <v-icon end size="x-large" icon="mdi-alert-outline" />
+          </v-btn>
+        </div>
+      </template>
+      <v-card flat tile>
+        <v-card-text>
+          <v-alert
+            prominent
+            dark
+            color="error"
+            icon="mdi-alert-circle"
+            border="bottom"
+            class="my-3">
+            <span class="heading h2">WARNING // WARNING // WARNING</span>
+          </v-alert>
+          <p class="text-center heading h2 text-text">
+            This will delete
+            <b class="text-accent">ALL</b>
+            local COMP/CON data.
+            <br />
+            This
+            <b class="text-accent">cannot</b>
+            be undone.
+            <br />
+            <br />
+            <b class="text-accent">Are you sure you want to continue?</b>
+          </p>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-btn color="secondary" variant="text" large @click="deleteDialog = false">
+            Dismiss
+          </v-btn>
+          <v-spacer />
+          <v-btn color="error" variant="text" @click="deleteAll">
+            <v-icon start size="x-large" icon="mdi-alert-outline" />
+            Delete All User Data
+            <v-icon end size="x-large" icon="mdi-alert-outline" />
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -223,6 +220,9 @@ export default {
   computed: {
     user() {
       return UserStore().User;
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {
