@@ -4,18 +4,23 @@
       <v-col>
         <span :class="`light ${size} ${bgColor}`" />
         <v-card
-          :class="`${colorClass} ${sizeStyle} ${outlined && `border-sm text-${color}`} pl-4 pr-4 pb-1`"
+          :class="`${colorClass} ${sizeStyle} ${outlined && `border-sm text-${color}`}  px-4 pb-1`"
           :style="outlined ? `border-color: ${borderColor}!important;` : ''"
           style="padding: 2px 0 2px 0"
           tile
+          :ripple="{ class: `text-${color}` }"
           :loading="loading"
-          :disabled="disabled">
+          :disabled="disabled"
+          @click.stop>
           <v-row :align="alignment" dense>
-            <v-col v-if="prependIcon" cols="auto">
-              <v-icon :size="iconSize" :icon="prependIcon" start />
+            <v-col cols="auto">
+              <v-icon v-if="prependIcon" :size="iconSize" :icon="prependIcon" start />
+              <span v-else-if="size !== 'small' && size !== 'x-small'">&nbsp;</span>
             </v-col>
             <v-col>
-              <div :style="`font-size: ${size}`"><slot /></div>
+              <div :style="`font-size: ${size}; margin-top: 1px`">
+                <slot />
+              </div>
               <div class="text-caption mt-n1"><slot name="subtitle" /></div>
             </v-col>
             <v-col cols="auto">
@@ -24,8 +29,8 @@
             <v-col v-if="appendIcon" cols="auto">
               <v-icon :size="iconSize" :icon="appendIcon" start />
             </v-col>
-            <v-col v-if="tooltip" cols="auto">
-              <v-tooltip location="top" max-width="300px">
+            <v-col cols="auto">
+              <v-tooltip v-if="tooltip" location="top" max-width="300px">
                 <template v-slot:activator="{ props }">
                   <v-icon
                     v-bind="props"
@@ -34,24 +39,25 @@
                 </template>
                 {{ tooltip }}
               </v-tooltip>
+              <div v-else style="height: 14px" />
             </v-col>
           </v-row>
         </v-card>
       </v-col>
 
-      <v-col cols="auto" v-if="hasOptions">
+      <v-col cols="auto" v-if="$slots.options">
         <v-menu>
           <template #activator="{ props }">
             <v-btn
-              style="height: 100%; margin-left: -1px; container-type: inline-size"
+              style="height: 100%; margin-left: -1px; container-type: size"
               :variant="outlined ? 'outlined' : 'tonal'"
               :color="outlined ? color : ''"
               rounded="0"
               icon
               v-bind="props">
-              <span style="font-size: 60cqw; padding-bottom: 1px">
-                <v-icon :icon="optionsIcon || 'mdi-dots-vertical'" />
-              </span>
+              <v-icon
+                style="font-size: 90cqh; padding-bottom: 1px"
+                :icon="optionsIcon || 'mdi-dots-vertical'" />
             </v-btn>
           </template>
           <slot name="options" />
@@ -81,9 +87,6 @@ export default {
     sizeStyle() {
       return this.size ? `size-${this.size}` : 'size-default';
     },
-    optionsSize() {
-      return this.size ? `options-${this.size}` : 'options-default';
-    },
     iconSize() {
       if (this.size === 'xx-large') return '42';
       return this.size;
@@ -93,10 +96,6 @@ export default {
         return 'bg-transparent';
       }
       return this.bgColor;
-    },
-
-    hasOptions() {
-      return !!this.$slots.options;
     },
     bgColor() {
       return `bg-${this.color}`;
@@ -176,21 +175,21 @@ export default {
 
 .size-default {
   clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
+  letter-spacing: 2px;
 }
 
 .size-large {
   clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
+  letter-spacing: 3px;
 }
 
 .size-x-large {
   clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
+  letter-spacing: 4px;
 }
 
 .size-xx-large {
   clip-path: polygon(36px 0, 100% 0, 100% 100%, 0 100%, 0 36px);
-}
-
-.text-x-small {
-  font-size: x-small;
+  letter-spacing: 4px;
 }
 </style>

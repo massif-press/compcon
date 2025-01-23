@@ -1,9 +1,8 @@
 <template>
+  <!-- TODO: remove -->
   <v-menu v-model="menu" :close-on-content-click="false" offset-y>
     <template #activator="{ props }">
-      <v-icon size="18" icon :dark="dark" variant="plain" v-bind="props">
-        mdi-circle-edit-outline
-      </v-icon>
+      <v-icon size="18" :dark="dark" variant="plain" v-bind="props">mdi-circle-edit-outline</v-icon>
     </template>
 
     <v-card tile min-width="50vw">
@@ -12,7 +11,7 @@
       </v-card-text>
       <v-divider />
       <v-card-actions class="px-2 py-1">
-        <v-btn text @click="menu = false">Cancel</v-btn>
+        <v-btn variant="text" @click="menu = false">Cancel</v-btn>
         <cc-btn class="ml-auto" color="success" text @click="save()">Save</cc-btn>
       </v-card-actions>
     </v-card>

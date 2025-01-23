@@ -1,5 +1,10 @@
 import CCButton from './components/buttons/CCButton.vue';
 import CCHeading from './components/headings/CCHeading.vue';
+import CCSelect from './components/inputs/selector/CCSelect.vue';
+import CCTextArea from './components/inputs/text/CCTextArea.vue';
+import CCTextField from './components/inputs/text/CCTextField.vue';
+import CCTextLabel from './components/inputs/text/CCTextLabel.vue';
+import CCNumberField from './components/inputs/text/CCNumberField.vue';
 
 import CCCompendiumBrowser from './components/CompendiumBrowser/CCCompendiumBrowser.vue';
 import CCBondInfo from './components/CCBondInfo.vue';
@@ -85,6 +90,11 @@ import CCShareCodeImporter from './components/CCShareCodeImporter.vue';
 export {
   CCButton,
   CCHeading,
+  CCSelect,
+  CCTextArea,
+  CCTextField,
+  CCTextLabel,
+  CCNumberField,
   CCImg,
   CCCompendiumBrowser,
   CCAvatar,

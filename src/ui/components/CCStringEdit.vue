@@ -1,3 +1,4 @@
+<!-- TODO: REMOVE -->
 <template>
   <edit-button :dark="dark" @save="save()">
     <v-text-field
@@ -7,8 +8,7 @@
       variant="outlined"
       hide-details
       autofocus
-      @focus="$event.target.select()"
-    />
+      @focus="$event.target.select()" />
   </edit-button>
 </template>
 
