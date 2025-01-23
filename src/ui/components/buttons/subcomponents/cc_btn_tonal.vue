@@ -25,7 +25,7 @@
         {{ tooltip }}
       </v-tooltip>
     </v-btn>
-    <v-menu v-if="hasOptions" offset-y>
+    <v-menu v-if="$slots.options" offset-y>
       <template v-slot:activator="{ props }">
         <v-btn
           icon
@@ -69,9 +69,6 @@ export default {
     },
     optionsSize() {
       return this.size ? `options-${this.size}` : 'options-default';
-    },
-    hasOptions() {
-      return !!this.$slots.options;
     },
   },
 };

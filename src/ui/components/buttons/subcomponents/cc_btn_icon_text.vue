@@ -1,11 +1,7 @@
 <template>
-  <v-icon
-    class="fade-select"
-    :color="color"
-    :size="iconSize"
-    :disabled="disabled"
-    :class="iconOffset"
-    :icon="icon" />
+  <v-btn variant="text" icon :color="color" :disabled="disabled" :size="iconSize" class="pa-0">
+    <v-icon :class="iconOffset" :size="iconSize" :icon="icon" />
+  </v-btn>
 </template>
 
 <script lang="ts">

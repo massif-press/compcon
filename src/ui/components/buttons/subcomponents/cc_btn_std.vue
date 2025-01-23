@@ -34,7 +34,7 @@
       </v-tooltip>
     </v-btn>
 
-    <v-menu v-if="hasOptions" offset-y>
+    <v-menu v-if="$slots.options" offset-y>
       <template v-slot:activator="{ props }">
         <v-btn
           icon
@@ -83,9 +83,6 @@ export default {
     },
     bgColor() {
       return `bg-${this.color}`;
-    },
-    hasOptions() {
-      return !!this.$slots.options;
     },
     outlined() {
       return this.variant === 'outlined';

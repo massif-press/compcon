@@ -23,13 +23,15 @@
         {{ tooltip }}
       </v-tooltip>
     </v-btn>
+
     <v-menu v-if="hasOptions" offset-y>
       <template v-slot:activator="{ props }">
         <v-btn
           icon
           variant="text"
-          class="fade-select"
+          :class="`${optionsSize}`"
           style="opacity: 0.5"
+          :style="` ${block ? 'position: absolute; right: 0; top: 0' : ''}`"
           tile
           flat
           v-bind="props">

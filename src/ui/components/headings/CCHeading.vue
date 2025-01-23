@@ -3,6 +3,7 @@
     :is="component"
     :color="color"
     :block="block"
+    :line="line"
     :icon="icon"
     :size="size"
     :tooltip="tooltip"
@@ -22,6 +23,7 @@ export default {
   props: {
     color: { type: String, default: 'primary' },
     block: { type: Boolean },
+    line: { type: Boolean },
     icon: { type: String, required: false },
     size: { type: String, required: false },
     variant: { type: String, required: false },
@@ -30,7 +32,6 @@ export default {
     prependIcon: { type: String, default: '' },
     appendIcon: { type: String, default: '' },
     border: { type: Boolean },
-    line: { type: Boolean },
   },
   computed: {
     component() {
