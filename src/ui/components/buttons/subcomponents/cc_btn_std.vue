@@ -146,13 +146,12 @@ export default {
 }
 
 .light.x-small {
-  top: 5px;
+  top: 2px;
   width: 8px;
   height: 8px;
 }
 
 .light.small {
-  top: 2px;
   width: 9.5px;
   height: 9.5px;
 }

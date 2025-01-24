@@ -31,7 +31,7 @@
       @update:model-value="$emit('update:model-value', $event)">
       <template #prepend>
         <div
-          :class="`prepend bg-${color} ${isFocused && 'color-rotate'} mr-n1`"
+          :class="`prepend bg-${color} ${isFocused && 'color-rotate'} ${(icon || label) && 'mr-n1'}`"
           :style="`min-width: ${icon ? '30' : '12'}px`">
           <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2 mt-n1'" />
           <div

@@ -422,12 +422,47 @@
     <v-card flat border>
       <v-row justify="center">
         <v-col class="text-center" align-self="center">
-          <v-card-text>todo</v-card-text>
+          <v-card-text>
+            <v-row justify="center">
+              <cc-tickbar
+                v-model="tickValue"
+                :color="color"
+                :bg-color="bgColor"
+                :icon="icon"
+                :size="size"
+                :ticks="ticks"
+                :label="label"
+                :display="showDisplay"
+                :tooltip="showTooltip ? 'This is a tooltip' : undefined"
+                :clearable="showClearable"
+                :value-tooltips="showValTooltips"
+                :details="
+                  showDetails
+                    ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+                    : undefined
+                "
+                :controls="showControls">
+                <template v-if="showOptions" #options>
+                  <v-list>
+                    <v-list-item title="Example" />
+                    <v-list-item title="Example" />
+                    <v-list-item title="Example" />
+                  </v-list>
+                </template>
+              </cc-tickbar>
+            </v-row>
+          </v-card-text>
         </v-col>
         <v-divider vertical />
         <v-col cols="3" style="min-width: 500px">
           <v-card flat>
             <v-card-text>
+              <v-text-field
+                density="compact"
+                hide-details
+                v-model="label"
+                clearable
+                label="label" />
               <v-select density="compact" label="icon" hide-details v-model="icon" :items="icons" />
               <v-select
                 density="compact"
@@ -438,11 +473,13 @@
                 :items="colors" />
               <v-select
                 density="compact"
-                label="size"
+                label="bg-color"
                 hide-details
                 clearable
-                v-model="size"
-                :items="sizes" />
+                v-model="bgColor"
+                :items="colors" />
+              <v-select density="compact" label="size" hide-details v-model="size" :items="sizes" />
+              <v-text-field density="compact" hide-details v-model.number="ticks" label="length" />
 
               <v-row dense>
                 <v-col cols="auto">
@@ -484,6 +521,22 @@
                     v-model="showDisplay"
                     label="display" />
                 </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
+                    density="compact"
+                    hide-details
+                    clearable
+                    v-model="showClearable"
+                    label="clearable" />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
+                    density="compact"
+                    hide-details
+                    clearable
+                    v-model="showValTooltips"
+                    label="show value tooltips" />
+                </v-col>
               </v-row>
             </v-card-text>
           </v-card>
@@ -497,19 +550,19 @@
 </template>
 
 <script lang="ts">
-import { min } from 'lodash';
-
 export default {
   name: 'ui-test-buttons',
   data: () => ({
     label: '',
     selectedItem: 'item-1',
     selectedNumber: 50,
+    tickValue: 0,
     inputText: 'hello world',
     rteText: '<p>hello world</p>',
     inputType: 'label',
     selectType: 'select',
     color: undefined,
+    bgColor: undefined,
     variant: undefined,
     block: false,
     prependIcon: undefined,
@@ -523,8 +576,9 @@ export default {
     selectChipVariant: undefined,
     lightChip: false,
     showControls: false,
-    showDisplay: false,
-    size: undefined,
+    showDisplay: true,
+    showValTooltips: false,
+    size: 'default',
     icons: [
       '',
       'cc:campaign',
@@ -539,9 +593,10 @@ export default {
     colors: ['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'],
     variants: ['default', 'outlined'],
     chipVariants: ['tonal', 'outlined', 'text'],
-    sizes: ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'],
+    sizes: ['x-small', 'small', 'default', 'large', 'x-large'],
     min: 0,
     max: 100,
+    ticks: 6,
   }),
 };
 </script>

@@ -105,7 +105,6 @@ export default {
 }
 
 .light.x-small {
-  margin-top: 2px;
   width: 8.5px;
   height: 4px;
 }

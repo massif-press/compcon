@@ -14,7 +14,7 @@
                   :color="color"
                   :size="size"
                   :variant="variant"
-                  :block="block && buttonType !== 'stk'"
+                  :block="block && buttonType === 'std'"
                   :tooltip="showTooltip ? 'This is a tooltip' : undefined"
                   :prepend-icon="prependIcon"
                   :append-icon="appendIcon">
@@ -26,6 +26,12 @@
                       <v-list-item title="Example" />
                     </v-list>
                   </template>
+                  <template v-if="subtitle" #subtitle>
+                    {{ infotext }}
+                  </template>
+                  <template v-if="infotext" #info>
+                    {{ subtitle }}
+                  </template>
                 </cc-button>
               </v-col>
             </v-row>
@@ -35,11 +41,35 @@
         <v-col cols="3" style="min-width: 400px">
           <v-card flat>
             <v-card-text>
-              <v-btn-toggle v-model="buttonType" density="compact" hide-details>
+              <v-btn-toggle
+                v-model="buttonType"
+                density="compact"
+                hide-details
+                @update:model-value="block = false">
                 <v-btn value="std">standard</v-btn>
                 <v-btn value="stk">stacked</v-btn>
                 <v-btn value="icn">icon</v-btn>
               </v-btn-toggle>
+              <v-text-field
+                density="compact"
+                label="label"
+                hide-details
+                v-model="label"
+                clearable />
+              <v-text-field
+                v-if="buttonType === 'std' && block"
+                density="compact"
+                label="subtitle"
+                hide-details
+                v-model="subtitle"
+                clearable />
+              <v-text-field
+                v-if="buttonType === 'std' && block"
+                density="compact"
+                label="info text"
+                hide-details
+                v-model="infotext"
+                clearable />
               <v-text-field
                 density="compact"
                 label="label"
@@ -111,6 +141,8 @@ export default {
   name: 'ui-test-buttons',
   data: () => ({
     label: 'button text',
+    subtitle: 'subtitle',
+    infotext: 'info text',
     buttonType: 'std',
     color: 'primary',
     size: 'default',
