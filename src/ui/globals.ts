@@ -5,6 +5,7 @@ import CCTextArea from './components/inputs/text/CCTextArea.vue';
 import CCTextField from './components/inputs/text/CCTextField.vue';
 import CCTextLabel from './components/inputs/text/CCTextLabel.vue';
 import CCNumberField from './components/inputs/text/CCNumberField.vue';
+import CCTickbar from './components/inputs/tickbar/CCTickbar.vue';
 
 import CCCompendiumBrowser from './components/CompendiumBrowser/CCCompendiumBrowser.vue';
 import CCBondInfo from './components/CCBondInfo.vue';
@@ -95,6 +96,7 @@ export {
   CCTextField,
   CCTextLabel,
   CCNumberField,
+  CCTickbar,
   CCImg,
   CCCompendiumBrowser,
   CCAvatar,

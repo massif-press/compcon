@@ -22,7 +22,7 @@
         @update:model-value="setVal($event)">
         <template #prepend>
           <div
-            :class="`prepend bg-${color} ${isFocused && 'color-rotate'} mr-n2`"
+            :class="`prepend bg-${color} ${isFocused && 'color-rotate'} ${(icon || label) && 'mr-n2'}`"
             :style="`min-width: ${icon ? '30' : '12'}px`">
             <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2 mt-n1'" />
             <div
@@ -35,8 +35,8 @@
           </div>
         </template>
         <template v-if="controls" #prepend-inner>
-          <v-btn icon variant="text" tile size="x-small">
-            <v-icon size="x-large" icon="mdi-minus" @click="setVal(<number>modelValue - 1)" />
+          <v-btn icon variant="text" tile size="x-small" @click="setVal(<number>modelValue - 1)">
+            <v-icon size="x-large" icon="mdi-minus" />
           </v-btn>
         </template>
         <template #append>
