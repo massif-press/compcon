@@ -3,8 +3,8 @@
     <v-row no-gutters class="top-element" style="position: relative">
       <div
         v-if="label"
-        class="text-overline"
-        style="position: absolute; top: -24px; right: 0; opacity: 0.6">
+        class="text-cc-overline"
+        style="position: absolute; top: -16px; right: 0; opacity: 0.6">
         {{ label }}
       </div>
       <v-col v-if="controls" cols="auto" align-self="center">
@@ -29,7 +29,7 @@
                   {{ modelValue }}
                   <div
                     v-if="size !== 'x-small'"
-                    class="text-overline d-inline-block ml-n2"
+                    class="text-cc-overline d-inline-block ml-n2"
                     style="line-height: 0; opacity: 0.5">
                     /{{ ticks }}
                   </div>
@@ -203,7 +203,7 @@ export default {
 }
 
 .offset {
-  margin-top: -5px;
+  margin-top: -10px;
 }
 
 .light {

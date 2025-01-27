@@ -26,8 +26,8 @@
         <template #prepend>
           <div v-if="label">
             <div
-              class="text-overline"
-              style="position: absolute; top: -5px; z-index: 1; font-size: 0.7rem !important"
+              class="text-cc-overline"
+              style="position: absolute; top: 2px; z-index: 1; font-size: 0.7rem !important"
               :style="`left: ${icon ? '38px' : '18px'}`">
               {{ label }}
               <cc-slashes />

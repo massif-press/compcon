@@ -33,6 +33,7 @@ const theme = {
     background: '#f4f4f4',
     panel: '#ccc',
     tooltip: '#e8e8e8',
+
     'light-panel': '#dbdbdb',
     'dark-panel': '#d6d6d6',
     'panel-border': '#8a949e',

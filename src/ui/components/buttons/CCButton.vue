@@ -56,7 +56,9 @@ export default {
     component() {
       if (this.stacked) return stk;
       if (this.icon) {
-        return this.variant === 'text' ? txt_icn : icn;
+        if (this.variant === 'text') return txt_icn;
+        if (this.variant === 'outlined') return txt_icn;
+        return icn;
       }
       if (this.block) {
         if (this.variant === 'text') return txt;

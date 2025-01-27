@@ -1,7 +1,7 @@
 <template>
   <v-window-item>
     <cc-heading size="large">buttons</cc-heading>
-
+    <cc-heading line>standard</cc-heading>
     <v-card flat border>
       <v-row justify="center">
         <v-col align-self="center">
@@ -133,6 +133,129 @@
         </v-col>
       </v-row>
     </v-card>
+    <cc-heading line>toggles</cc-heading>
+    <v-card flat border>
+      <v-row justify="center">
+        <v-col align-self="center">
+          <v-card-text>
+            <v-row justify="center">
+              <v-col :cols="block ? '' : 'auto'">
+                <cc-switch
+                  v-if="toggleType === 'swi'"
+                  v-model="toggle"
+                  :label="toggleLabel"
+                  :color="toggleColor"
+                  :active-color="toggleActiveColor"
+                  :bg-color="bgColor"
+                  :size="size"
+                  :variant="variant"
+                  :tooltip="showTooltip ? 'This is a tooltip' : undefined"
+                  :prepend-icon="prependIcon"
+                  :on-icon="onIcon"
+                  :off-icon="offIcon" />
+                <cc-checkbox
+                  v-else-if="toggleType === 'chk'"
+                  v-model="toggle"
+                  :label="toggleLabel"
+                  :color="toggleColor"
+                  :active-color="toggleActiveColor"
+                  :bg-color="bgColor"
+                  :size="size"
+                  :variant="variant"
+                  :tooltip="showTooltip ? 'This is a tooltip' : undefined"
+                  :prepend-icon="prependIcon"
+                  :on-icon="onIcon"
+                  :off-icon="offIcon" />
+                <cc-radio
+                  v-else-if="toggleType === 'rad'"
+                  v-model="toggle"
+                  :label="toggleLabel"
+                  :color="toggleColor"
+                  :active-color="toggleActiveColor"
+                  :bg-color="bgColor"
+                  :size="size"
+                  :variant="variant"
+                  :tooltip="showTooltip ? 'This is a tooltip' : undefined"
+                  :prepend-icon="prependIcon"
+                  :on-icon="onIcon"
+                  :off-icon="offIcon" />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-col>
+        <v-divider vertical />
+        <v-col cols="3" style="min-width: 400px">
+          <v-card flat>
+            <v-card-text>
+              <v-btn-toggle
+                v-model="toggleType"
+                density="compact"
+                hide-details
+                @update:model-value="block = false">
+                <v-btn value="swi">switch</v-btn>
+                <v-btn value="chk">checkbox</v-btn>
+                <v-btn value="rad">radio</v-btn>
+              </v-btn-toggle>
+
+              <v-text-field
+                density="compact"
+                label="label"
+                hide-details
+                v-model="toggleLabel"
+                clearable />
+
+              <v-select
+                density="compact"
+                label="background color"
+                hide-details
+                v-model="bgColor"
+                clearable
+                :items="colors" />
+              <v-select
+                density="compact"
+                label="active color"
+                hide-details
+                v-model="toggleActiveColor"
+                clearable
+                :items="colors" />
+              <v-select
+                density="compact"
+                label="inactive color"
+                hide-details
+                clearable
+                v-model="toggleColor"
+                :items="colors" />
+              <v-select density="compact" label="size" hide-details v-model="size" :items="sizes" />
+              <v-select
+                density="compact"
+                label="prepend icon"
+                hide-details
+                clearable
+                v-model="prependIcon"
+                :items="icons" />
+              <v-select
+                v-if="toggleType === 'swi' || toggleType === 'chk'"
+                density="compact"
+                label="on icon"
+                hide-details
+                clearable
+                v-model="onIcon"
+                :items="icons" />
+              <v-select
+                v-if="toggleType === 'swi' || toggleType === 'chk'"
+                density="compact"
+                label="off icon"
+                hide-details
+                clearable
+                v-model="offIcon"
+                :items="icons" />
+
+              <v-checkbox density="compact" hide-details v-model="showTooltip" label="tooltip" />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card>
   </v-window-item>
 </template>
 
@@ -140,9 +263,11 @@
 export default {
   name: 'ui-test-buttons',
   data: () => ({
+    toggle: false,
     label: 'button text',
+    toggleLabel: '',
     subtitle: 'subtitle',
-    infotext: 'info text',
+    infotext: 'details',
     buttonType: 'std',
     color: 'primary',
     size: 'default',
@@ -153,6 +278,13 @@ export default {
     icon: 'cc:campaign',
     showTooltip: false,
     showOptions: false,
+    toggleType: 'swi',
+    bgColor: 'panel',
+    toggleActiveColor: 'success',
+    toggleColor: 'error',
+    onIcon: '',
+    offIcon: '',
+
     icons: [
       'cc:campaign',
       'mdi-alert',
@@ -162,8 +294,23 @@ export default {
       'mdi-content-save',
       'cc:encounter',
       'mdi-help',
+      'mdi-cancel',
+      'cc:monist',
     ],
-    colors: ['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'],
+    colors: [
+      'primary',
+      'secondary',
+      'accent',
+      'damage--heat',
+      'damage--energy',
+      'exotic',
+      'cyan',
+      'panel',
+      'overcharge',
+      'success',
+      'warning',
+      'error',
+    ],
     sizes: ['default', 'x-small', 'small', 'large', 'x-large', 'xx-large'],
   }),
 };

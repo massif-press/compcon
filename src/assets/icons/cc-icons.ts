@@ -132,6 +132,7 @@ import ha from './svg/ha.vue';
 import ipsn from './svg/ipsn.vue';
 import ssc from './svg/ssc.vue';
 import horus from './svg/horus.vue';
+import hex_thin from './svg/hex_thin.vue';
 
 const svgs: any = {
   accuracy,
@@ -265,6 +266,7 @@ const svgs: any = {
   monist,
   nhp,
   thanks,
+  hex_thin,
 };
 
 const ccIcons: IconSet = {
