@@ -307,23 +307,38 @@ code.horus:hover {
   }
 }
 
-.keyboard-shortcut {
-  font-family: monospace;
-  font-weight: bold;
-  font-size: 0.9em;
-  padding: 3px 5px;
-  background-color: #727272;
-  border: 1px solid black;
-  color: #f6f6f6;
-  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.4);
-  min-height: 14px;
-  min-width: 14px;
-  padding: 3px 6px 5px 6px;
-  text-align: center;
-  display: inline-block;
-  border-radius: 2px;
-  margin: 0 2px;
-  text-transform: uppercase;
+
+.text-cc-overline {
+  font-size: 0.75rem !important;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.17em !important;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase !important;
+}
+
+.text-cc-flavor {
+  font-family: 'Consolas', monospace;
+  font-size: .95rem!important;
+  letter-spacing: -0.01rem!important;
+}
+
+.text-cc-fluff {
+  font-family: 'Helvetica Oblique', sans-serif;
+  font-style: italic;
+  font-size: .95rem!important;
+}
+
+.text-cc-emphasis {
+  font-family: 'Helvetica Bold', sans-serif;
+  font-size: 1rem!important;
+  line-height: 125%!important;
+}
+
+.text-cc-subtle {
+  font-family: 'Helvetica Light', sans-serif;
+  font-size: .8rem!important;
+  opacity: 0.7!important;
 }
 
 

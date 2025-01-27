@@ -71,7 +71,7 @@
 export default {
   name: 'cc-btn-block',
   props: {
-    color: { type: String, default: 'primary' },
+    color: { type: String, default: 'panel' },
     disabled: { type: Boolean },
     block: { type: Boolean },
     loading: { type: Boolean },

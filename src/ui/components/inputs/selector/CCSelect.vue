@@ -36,7 +36,7 @@
           <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2 mt-n1'" />
           <div
             v-if="label"
-            class="d-inline-block text-overline ml-3"
+            class="d-inline-block text-cc-overline ml-3"
             style="line-height: 0; margin-top: 16px">
             {{ label }}
             <cc-slashes class="ml-1 mr-2" />

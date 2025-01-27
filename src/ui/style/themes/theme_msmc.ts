@@ -31,7 +31,8 @@ const theme = {
     background: '#1f282b',
     panel: '#293940',
     tooltip: '#121d21',
-    'light-panel': '#2e3e45',
+
+    'light-panel': '#222729',
     'dark-panel': '#1b2529',
     'panel-border': '#8a949e',
     'stark-panel': '#131b1f',

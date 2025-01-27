@@ -48,7 +48,7 @@
             :icon="prependIcon"
             class="mr-1"
             :class="[iconOffset(prependIcon), label && 'ml-2 mt-n1']" />
-          <div v-if="label" class="d-inline-block text-overline mx-1" style="line-height: 0">
+          <div v-if="label" class="d-inline-block text-cc-overline mx-1" style="line-height: 0">
             {{ label }}
             <cc-slashes />
           </div>

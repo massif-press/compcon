@@ -25,7 +25,7 @@
 export default {
   name: 'cc-btn-icon',
   props: {
-    color: { type: String, default: 'primary' },
+    color: { type: String, default: 'panel' },
     disabled: { type: Boolean },
     block: { type: Boolean },
     size: { type: String },
