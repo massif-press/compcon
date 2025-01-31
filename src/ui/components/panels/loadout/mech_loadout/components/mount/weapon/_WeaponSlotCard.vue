@@ -232,7 +232,7 @@ export default {
   }),
   computed: {
     small() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
     item() {
       return this.weaponSlot.Weapon;

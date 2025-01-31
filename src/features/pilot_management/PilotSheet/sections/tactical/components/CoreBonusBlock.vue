@@ -25,7 +25,7 @@
           v-for="(b, i) in pilot.CoreBonusController.CoreBonuses"
           cols="12"
           md=""
-          :style="$vuetify.display.mdAndUp ? 'min-width: 500px;' : ''">
+          :style="!$vuetify.display.mdAndDown ? 'min-width: 500px;' : ''">
           <cc-core-bonus-item :bonus="b" />
         </v-col>
       </v-row>

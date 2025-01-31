@@ -4,12 +4,11 @@
     tile
     variant="outlined"
     color="primary"
-    :width="$vuetify.display.mdAndUp ? '225px' : '100%'"
-    :min-width="$vuetify.display.mdAndUp ? '225px' : '100%'"
-    :height="$vuetify.display.mdAndUp ? '100%' : ''"
-  >
+    :width="!$vuetify.display.mdAndDown ? '225px' : '100%'"
+    :min-width="!$vuetify.display.mdAndDown ? '225px' : '100%'"
+    :height="!$vuetify.display.mdAndDown ? '100%' : ''">
     <v-toolbar density="compact" flat color="primary" class="text-white">
-      <div :class="$vuetify.display.mdAndUp ? 'heading h3' : 'heading h4'">
+      <div :class="!$vuetify.display.mdAndDown ? 'heading h3' : 'heading h4'">
         {{ counter.Name }}
       </div>
       <v-spacer />
@@ -33,8 +32,7 @@
             icon
             color="accent"
             :disabled="counter.Value <= counter.Min"
-            @click="counter.Decrement()"
-          >
+            @click="counter.Decrement()">
             <v-icon icon="remove" />
           </v-btn>
         </v-col>
@@ -51,8 +49,7 @@
             :value="counter.Value"
             @blur="onInputEnterOrLeave($event)"
             @keypress.enter="onInputEnterOrLeave($event)"
-            @input="onInput"
-          />
+            @input="onInput" />
         </v-col>
 
         <v-col cols="auto">
@@ -62,8 +59,7 @@
             elevation="0"
             color="accent"
             :disabled="counter.Value >= counter.Max"
-            @click="counter.Increment()"
-          >
+            @click="counter.Increment()">
             <v-icon icon="add" />
           </v-btn>
         </v-col>

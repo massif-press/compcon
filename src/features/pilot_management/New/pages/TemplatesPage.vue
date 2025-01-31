@@ -7,13 +7,13 @@
     @back="$emit('back')"
     @complete="setTemplate()">
     <cc-title large>New Pilot Registration&emsp;</cc-title>
-    <h2 v-show="$vuetify.display.mdAndUp" class="heading">
+    <h2 v-show="!$vuetify.display.mdAndDown" class="heading">
       UAD IDENT Service
       <cc-slashes />
       &nbsp;PRM-ALT QUICK ACCESS SELECTION
     </h2>
     <v-row density="compact" justify="start" align="center">
-      <v-col v-show="$vuetify.display.mdAndUp">
+      <v-col v-show="!$vuetify.display.mdAndDown">
         <div class="flavor-text mt-n2" style="font-size: 14px">
           Per the 5017 PRM-ALT Act, the Union Administrative Department's IDENT registration service
           provides a Quick Access Selection module, created and curated by UAD Armored Cavalary
@@ -45,7 +45,7 @@
           contain />
       </v-col>
     </v-row>
-    <v-row :class="$vuetify.display.mdAndUp ? 'mx-6' : 'mx-2'">
+    <v-row :class="!$vuetify.display.mdAndDown ? 'mx-6' : 'mx-2'">
       <template-item
         v-for="t in templates"
         :template="t"

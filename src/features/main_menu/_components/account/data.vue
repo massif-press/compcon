@@ -53,7 +53,7 @@ export default {
       return UserStore().MaxCloudStorage / 1024 / 1024;
     },
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
   },
 };

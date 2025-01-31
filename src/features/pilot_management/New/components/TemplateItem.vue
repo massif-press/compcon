@@ -10,10 +10,10 @@
     <v-col cols="12" md="">
       <v-row dense :class="`px-2 ${isSelected ? 'selected-gradient' : 'gradient'}`">
         <v-col class="text-white">
-          <div v-show="$vuetify.display.mdAndUp" class="text-overline mt-n1">
+          <div v-show="!$vuetify.display.mdAndDown" class="text-overline mt-n1">
             {{ template.code }}
           </div>
-          <div :class="$vuetify.display.mdAndUp ? 'heading h1 mt-n6 mb-0 pb-0' : 'heading h2'">
+          <div :class="!$vuetify.display.mdAndDown ? 'heading h1 mt-n6 mb-0 pb-0' : 'heading h2'">
             {{ template.name }}
           </div>
         </v-col>

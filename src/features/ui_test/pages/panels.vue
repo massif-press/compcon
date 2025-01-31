@@ -8,7 +8,7 @@
       <v-row justify="center">
         <v-col align-self="center">
           <v-card-text>
-            <cc-panel :border="border" :variant="variant">
+            <cc-panel :border="border" :variant="variant" :title="title">
               <span v-html="loremIpsum" />
             </cc-panel>
           </v-card-text>
@@ -25,11 +25,19 @@
                 v-model="variant"
                 :items="variants" />
               <v-checkbox density="compact" hide-details v-model="border" label="border" />
+              <v-text-field
+                density="compact"
+                hide-details
+                clearable
+                v-model="title"
+                label="title" />
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
     </v-card>
+
+    <div class="my-12" />
 
     <!-- <cc-heading size="small" line>expandable</cc-heading>
 
@@ -82,6 +90,7 @@
 export default {
   name: 'ui-test-panels',
   data: () => ({
+    title: '',
     label: 'button text',
     subtitle: 'subtitle',
     infotext: 'info text',

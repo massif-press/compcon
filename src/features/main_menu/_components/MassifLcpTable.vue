@@ -189,7 +189,7 @@ export default {
   },
   computed: {
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
     tableHeaders() {
       return this.headers || this.lcpHeaders;

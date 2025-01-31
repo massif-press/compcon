@@ -94,7 +94,7 @@ export default {
       return this.density === 'dense';
     },
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
     isFullscreen() {
       return this.fullscreen || this.mobile;

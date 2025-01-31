@@ -1,9 +1,8 @@
 <template>
   <div
     :style="
-      $vuetify.display.smAndDown ? 'z-index:2; position: fixed; bottom: 28px; right: 28px' : ''
-    "
-  >
+      $vuetify.display.mdAndDown ? 'z-index:2; position: fixed; bottom: 28px; right: 28px' : ''
+    ">
     <v-badge :value="filterCount" overlap right color="secondary">
       <template #badge>
         <b>{{ filterCount }}</b>

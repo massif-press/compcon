@@ -1,6 +1,18 @@
 <template>
-  <v-card class="cc-panel-clip" :color="color" flat tile :border="border">
-    <slot name="toolbar" />
+  <v-card class="parent cc-panel-clip" :color="color" flat tile :border="border">
+    <v-toolbar v-if="hasTitle" flat density="compact" color="panel" class="ma-0 pa-0">
+      <v-toolbar-title class="mt-n1">
+        <span class="text-cc-overline">
+          <v-icon v-if="icon" icon="cc:pilot" class="mt-n1" />
+          <span v-if="title" v-text="title" />
+          <slot v-else-if="$slots.title" name="title" />
+        </span>
+      </v-toolbar-title>
+      <v-spacer />
+      <v-toolbar-items>
+        <slot name="toolbar-items" />
+      </v-toolbar-items>
+    </v-toolbar>
     <v-card-text :class="[densityClass, variantClass]" style="opacity: 0.8">
       <slot>Default Content</slot>
     </v-card-text>
@@ -28,8 +40,20 @@ export default {
       type: String,
       default: 'fluff',
     },
+    title: {
+      type: String,
+      default: '',
+    },
+    icon: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
+    hasTitle() {
+      console.log(this.$slots.title, this.title, this.icon, this.$slots['toolbar-items']);
+      return this.$slots.title || this.title || this.icon || this.$slots['toolbar-items'];
+    },
     densityClass() {
       switch (this.density) {
         case 'no-gutters':
@@ -78,5 +102,9 @@ export default {
   bottom: 8px;
   right: -6px;
   transform: rotate(-45deg);
+}
+
+.parent:deep(.v-toolbar__content) {
+  height: 22px !important;
 }
 </style>

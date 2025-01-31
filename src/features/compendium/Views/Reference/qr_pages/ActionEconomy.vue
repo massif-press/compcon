@@ -4,7 +4,7 @@
     <v-card color="panel" elevation-10>
       <v-card-text>
         <v-row justify="center" density="compact">
-          <v-col :cols="$vuetify.display.smAndDown ? 12 : 4" class="effect-text text-center">
+          <v-col :cols="$vuetify.display.mdAndDown ? 12 : 4" class="effect-text text-center">
             Full Action
             <i class="text-disabled text--darken-1">or&nbsp</i>
             2 Quick Actions

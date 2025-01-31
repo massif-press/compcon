@@ -10,11 +10,11 @@ const theme = {
     exotic: '#673AB7',
     active: '#d93f4e',
     accent: '#8c1420',
-    secondary: '#283593',
+    secondary: '#1E998D',
     pilot: '#424242',
     error: '#F44336',
     info: '#1565C0',
-    success: '#007b33',
+    success: '#68991E',
     warning: '#C28200',
 
     weapon: '#212121',

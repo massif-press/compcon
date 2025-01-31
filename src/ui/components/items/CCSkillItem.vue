@@ -8,15 +8,14 @@
     <v-expansion-panels v-else focusable accordion style="border-radius: 0px">
       <v-expansion-panel
         :class="`text-center no-shadow ${noBorder ? '' : 'border-thin-primary '}`"
-        :style="pilot ? 'border-color: rgb(var(--v-theme-pilot))' : ''"
-      >
-        <v-expansion-panel-title :class="$vuetify.display.mdAndUp ? 'px-2' : 'py-1 px-2'">
+        :style="pilot ? 'border-color: rgb(var(--v-theme-pilot))' : ''">
+        <v-expansion-panel-title :class="!$vuetify.display.mdAndDown ? 'px-2' : 'py-1 px-2'">
           <v-row no-gutters>
             <v-col cols="12" md="3">
               <div class="centered text-left pl-2">
                 <span class="stat-text">{{ skill.Trigger }}</span>
-                <div v-if="bonus && $vuetify.display.mdAndUp">
-                  <v-icon v-for="n in bonus" color="secondary" small> mdi-hexagon </v-icon>
+                <div v-if="bonus && !$vuetify.display.mdAndDown">
+                  <v-icon v-for="n in bonus" color="secondary" small>mdi-hexagon</v-icon>
                   <span class="flavor-text text-disabled">(+{{ bonus }})</span>
                 </div>
                 <span v-else-if="bonus" class="font-weight-bold text-accent pl-2">

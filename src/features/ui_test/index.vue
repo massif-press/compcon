@@ -4,7 +4,7 @@
     <v-tab>Buttons</v-tab>
     <v-tab>Inputs</v-tab>
     <v-tab>Panels</v-tab>
-    <v-tab disabled>Titles</v-tab>
+    <v-tab>Titles</v-tab>
     <v-tab disabled>Chips</v-tab>
     <v-tab disabled>Typography</v-tab>
     <v-tab disabled>Modals</v-tab>

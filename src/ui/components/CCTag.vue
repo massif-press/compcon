@@ -1,15 +1,13 @@
 <template>
   <div
     v-if="!tag.IsHidden"
-    :class="`text-center d-inline-block ${
-      density === `compact` || $vuetify.display.mdAndDown ? '' : 'my-2'
-    }`">
+    :class="`text-center d-inline-block ${density === `compact` || $vuetify.display.mdAndDown ? '' : 'my-2'}`">
     <cc-tooltip
       :err="tag.err"
       :title="tag.GetName(bonus, tier)"
       :content="tag.GetDescription(bonus, tier)">
       <v-chip
-        :class="$vuetify.display.mdAndUp ? 'px-2 mx-1' : 'ma-1'"
+        :class="!$vuetify.display.mdAndDown ? 'px-2 mx-1' : 'ma-1'"
         :color="getColor"
         dark
         label

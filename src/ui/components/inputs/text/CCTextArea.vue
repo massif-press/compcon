@@ -41,7 +41,7 @@
           </div>
         </template>
         <template v-if="prependInnerIcon" #prepend-inner>
-          <v-icon :class="iconOffset(prependInnerIcon)" :icon="prependInnerIcon" />
+          <v-icon :icon="prependInnerIcon" />
         </template>
         <template #append>
           <div
@@ -65,7 +65,7 @@
           </v-tooltip>
         </template>
         <template v-if="appendInnerIcon" #append-inner>
-          <v-icon :class="iconOffset(appendInnerIcon)" :icon="appendInnerIcon" />
+          <v-icon :icon="appendInnerIcon" />
         </template>
       </v-textarea>
       <v-menu v-if="$slots.options" offset-y>
@@ -125,11 +125,6 @@ export default {
   data: () => ({
     isFocused: false,
   }),
-  methods: {
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
-    },
-  },
 };
 </script>
 

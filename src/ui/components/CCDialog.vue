@@ -2,7 +2,7 @@
   <div>
     <v-btn
       v-if="flat"
-      :size="smallBtn || $vuetify.display.smAndDown ? 'small' : 'default'"
+      :size="smallBtn || $vuetify.display.mdAndDown ? 'small' : 'default'"
       :color="color"
       :block="block"
       variant="text"
@@ -15,7 +15,7 @@
       tile
       flat
       :block="block"
-      :size="smallBtn || $vuetify.display.smAndDown ? 'small' : 'default'"
+      :size="smallBtn || $vuetify.display.mdAndDown ? 'small' : 'default'"
       :color="color"
       @click="dialog = true">
       <slot name="button" />

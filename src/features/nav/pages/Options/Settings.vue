@@ -1,29 +1,24 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-row align="center" justify="space-between">
+    <v-row align="center" justify="end" dense>
       <v-col cols="auto">
-        <v-switch v-model="userViewExotics" color="exotic" density="compact" hide-details>
-          <template #label>
-            Show Exotic items in the Compendium
-            <cc-tooltip
-              title="SPOILER ALERT"
-              content="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED if you are not the GM"
-              inline>
-              <v-icon end size="small" color="deep-orange" icon="mdi-alert" />
-            </cc-tooltip>
-          </template>
-        </v-switch>
+        <cc-button color="primary" size="small" @click="$emit('show-message')">
+          Show Latest Update Message
+        </cc-button>
       </v-col>
-      <v-col cols="auto"></v-col>
+      <v-spacer />
+      <v-col cols="auto">
+        <cc-switch
+          v-model="userViewExotics"
+          color="exotic"
+          density="compact"
+          tooltip="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED if you are not the GM"
+          label="Show Exotic items in the Compendium"></cc-switch>
+      </v-col>
     </v-row>
 
     <h3 class="heading text-accent mt-2">Theme</h3>
-    <v-select
-      v-model="theme"
-      density="compact"
-      variant="outlined"
-      :items="themes"
-      item-title="name" />
+    <cc-select v-model="theme" :items="themes" item-title="name" />
     <h3 class="heading text-accent mt-2">Log Level</h3>
     <v-menu>
       <template #activator="{ props }">
@@ -49,35 +44,31 @@
       </v-list>
     </v-menu>
 
-    <v-btn color="accent" size="small" variant="tonal" class="mt-6" @click="$emit('show-message')">
-      Show Latest Update Message
-    </v-btn>
-
     <v-row class="mt-4">
       <v-col>
-        <v-btn block large color="primary" @click="bulkExport">
-          <v-icon start>mdi-database</v-icon>
+        <cc-button
+          block
+          size="large"
+          color="primary"
+          prepend-icon="mdi-database"
+          tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
+          @click="bulkExport">
           Create Data Backup
-          <cc-tooltip
-            inline
-            content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
-            <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
-          </cc-tooltip>
-        </v-btn>
+        </cc-button>
       </v-col>
 
       <v-col>
         <v-dialog v-model="importDialog" width="50%">
           <template #activator="{ props }">
-            <v-btn block large color="primary" v-bind="props">
-              <v-icon start>mdi-database-refresh</v-icon>
+            <cc-button
+              v-bind="props"
+              block
+              size="large"
+              color="primary"
+              prepend-icon="mdi-database"
+              tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
               Load Data Backup
-              <cc-tooltip
-                inline
-                content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
-                <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
-              </cc-tooltip>
-            </v-btn>
+            </cc-button>
           </template>
           <v-card>
             <v-card-text class="pa-6">
@@ -141,7 +132,7 @@ export default {
   emits: ['show-message'],
   computed: {
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
     user() {
       return UserStore().User;

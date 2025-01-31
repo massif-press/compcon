@@ -152,7 +152,7 @@ export default {
   name: 'help-page',
   computed: {
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
   },
 };

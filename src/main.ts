@@ -2,7 +2,7 @@ import { version } from '../package.json';
 import { QuillEditor } from '@vueup/vue-quill';
 import lancerData from '@massif/lancer-data';
 import _ from 'lodash';
-import { createApp } from 'vue';
+import { createApp, computed } from 'vue';
 import { createPinia } from 'pinia';
 
 import './assets/css/global.css';
@@ -17,7 +17,6 @@ import * as globals from './ui/globals';
 import Notifications from '@kyvg/vue3-notification';
 
 import VueSecureHTML from 'vue-html-secure';
-
 import Startup from './io/Startup';
 
 import { Amplify } from 'aws-amplify';

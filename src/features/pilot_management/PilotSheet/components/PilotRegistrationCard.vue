@@ -42,7 +42,7 @@
                 </b>
               </span>
             </v-col>
-            <v-col v-if="$vuetify.display.mdAndUp">
+            <v-col v-if="!$vuetify.display.mdAndDown">
               <span class="flavor-text text-disabled">
                 {{ pilot.Callsign ? 'CALLSIGN AVAILABLE' : '--' }}
                 <br />
@@ -91,8 +91,7 @@
                 class="ma-1"
                 variant="outlined"
                 label
-                small
-              >
+                small>
                 <v-icon start>cc:skill</v-icon>
                 {{ s.Skill.Trigger }}
               </v-chip>
@@ -110,8 +109,7 @@
                 class="ma-1"
                 variant="outlined"
                 label
-                small
-              >
+                small>
                 <v-icon start>cc:talent</v-icon>
                 {{ t.Talent.Name }} {{ 'I'.repeat(t.Rank) }}
               </v-chip>
@@ -129,14 +127,12 @@
             <cc-avatar
               v-if="pilot.PortraitController.Avatar"
               :avatar="pilot.PortraitController.Avatar"
-              :size="300"
-            />
+              :size="300" />
             <cc-img
               v-else-if="pilot.Portrait"
               :src="pilot.Portrait"
               aspect-ratio="1"
-              position="top center"
-            />
+              position="top center" />
           </div>
         </v-col>
       </v-row>

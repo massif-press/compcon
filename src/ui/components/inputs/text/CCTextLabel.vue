@@ -47,7 +47,7 @@
             v-if="prependIcon"
             :icon="prependIcon"
             class="mr-1"
-            :class="[iconOffset(prependIcon), label && 'ml-2 mt-n1']" />
+            :class="[label && 'ml-2 mt-n1']" />
           <div v-if="label" class="d-inline-block text-cc-overline mx-1" style="line-height: 0">
             {{ label }}
             <cc-slashes />
@@ -58,7 +58,7 @@
           {{ modelValue }}
         </span>
         <i v-else class="flavor-text" style="opacity: 0.5">NO DATA</i>
-        <v-icon v-if="appendIcon" :class="iconOffset(appendIcon)" :icon="appendIcon" class="mr-1" />
+        <v-icon v-if="appendIcon" :icon="appendIcon" class="mr-1" />
       </v-chip>
 
       <v-menu v-if="$slots.options" offset-y>
@@ -130,11 +130,6 @@ export default {
     },
     text() {
       return this.variant === 'text';
-    },
-  },
-  methods: {
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
     },
   },
 };

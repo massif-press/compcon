@@ -4,8 +4,8 @@
       ref="dialog"
       no-confirm
       :color="item.Color ? item.Color : 'primary'"
-      :large="$vuetify.display.mdAndUp"
-      :fullscreen="$vuetify.display.smAndDown"
+      :large="!$vuetify.display.mdAndDown"
+      :fullscreen="$vuetify.display.mdAndDown"
       :small-btn="smallBtn"
       :block="block"
       :icon="item.Icon">

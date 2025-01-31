@@ -2,15 +2,13 @@
   <cc-titled-panel :title="bonus.Name" density="compact">
     <p v-if="bonus.InLcp" v-html-safe="bonus.LcpName" class="text-stat heading h3" />
     <p
-      v-show="$vuetify.display.mdAndUp"
+      v-show="!$vuetify.display.mdAndDown"
       v-html-safe="bonus.Description"
-      class="flavor-text pb-0 mb-2 mt-0"
-    />
+      class="flavor-text pb-0 mb-2 mt-0" />
     <p
-      v-if="$vuetify.display.mdAndUp"
+      v-if="!$vuetify.display.mdAndDown"
       v-html-safe="bonus.Effect"
-      class="effect-text pa-2 mx-2 mb-2 light-panel clipped"
-    />
+      class="effect-text pa-2 mx-2 mb-2 light-panel clipped" />
     <div v-else v-html-safe="bonus.Effect" class="body-text mt-n1 pb-1" />
     <div v-if="bonus.Actions.length">
       <div class="text-overline ml-n2 mb-n2 text-disabled">CORE BONUS ACTIONS</div>
@@ -29,8 +27,7 @@
             :deployable="d"
             :panel="$vuetify.display.lgAndUp"
             :name-override="bonus.Name"
-            class="ma-2"
-          />
+            class="ma-2" />
         </v-col>
       </v-row>
     </div>

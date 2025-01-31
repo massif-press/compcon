@@ -24,7 +24,7 @@
           <div
             :class="`prepend bg-${color} ${isFocused && 'color-rotate'} ${(icon || label) && 'mr-n2'}`"
             :style="`min-width: ${icon ? '30' : '12'}px`">
-            <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2 mt-n1'" />
+            <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2'" class="mt-1" />
             <div
               v-if="label"
               class="d-inline-block text-cc-overline ml-3"
@@ -122,9 +122,6 @@ export default {
   }),
   emits: ['update:model-value'],
   methods: {
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
-    },
     setVal(val: string | number) {
       const value = max([min([val, this.max]), this.min]);
       this.$emit('update:model-value', value);

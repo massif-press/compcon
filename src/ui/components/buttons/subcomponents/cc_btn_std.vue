@@ -1,28 +1,20 @@
 <template>
-  <div
-    class="top-element"
-    :style="`display: ${block ? 'block' : 'inline-block'}; position: relative`">
-    <span :class="`light ${size} ${bgColor}`" />
+  <div class="top-element" style="display: inline-block; position: relative">
+    <div :class="`light ${size} ${lightColor}`" />
     <v-btn
       :class="`${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`}`"
       :style="outlined ? `border-color: ${borderColor}!important` : ''"
       color="transparent"
       tile
       :loading="loading"
-      :disabled="disabled">
-      <v-icon
-        v-if="prependIcon"
-        start
-        :icon="prependIcon"
-        :size="iconSize(prependIcon)"
-        :class="iconOffset(prependIcon)" />
+      :disabled="disabled"
+      :to="to"
+      :href="href"
+      :target="target"
+      @click="$emit('click')">
+      <v-icon v-if="prependIcon" start :icon="prependIcon" :size="iconSize(prependIcon)" />
       <slot />
-      <v-icon
-        v-if="appendIcon"
-        class="mx-1"
-        :icon="appendIcon"
-        :size="iconSize(appendIcon)"
-        :class="iconOffset(appendIcon)" />
+      <v-icon v-if="appendIcon" class="mx-1" :icon="appendIcon" :size="iconSize(appendIcon)" />
       <v-tooltip v-if="tooltip" location="top" max-width="300px">
         <template v-slot:activator="{ props }">
           <v-icon
@@ -30,7 +22,7 @@
             class="fade-select mx-1"
             :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
         </template>
-        {{ tooltip }}
+        <p v-html="tooltip" />
       </v-tooltip>
     </v-btn>
 
@@ -56,6 +48,7 @@
 export default {
   name: 'cc-btn-std',
   props: {
+    pipColor: { type: String },
     color: { type: String, default: 'panel' },
     disabled: { type: Boolean },
     block: { type: Boolean },
@@ -67,6 +60,9 @@ export default {
     optionsIcon: { type: String },
     tooltip: { type: String },
     tooltipIcon: { type: String },
+    to: { type: [String, Object] },
+    href: { type: String },
+    target: { type: String },
   },
   computed: {
     sizeStyle() {
@@ -82,6 +78,10 @@ export default {
       return this.bgColor;
     },
     bgColor() {
+      return `bg-${this.color}`;
+    },
+    lightColor() {
+      if (this.pipColor) return `bg-${this.pipColor}`;
       return `bg-${this.color}`;
     },
     outlined() {
@@ -115,29 +115,18 @@ export default {
       if (icon.includes('cc:')) size += 4;
       return `${size}px`;
     },
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
-    },
   },
 };
 </script>
 
 <style scoped>
-.v-btn {
-  position: relative;
-}
-
 .offset {
   margin-top: -5px;
 }
 
 .light {
-  top: 0px;
-  width: 13.5px;
-  height: 13.5px;
   position: absolute;
   clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-  border-top-left-radius: 1px;
   transition: filter 0.2s ease-in-out;
 }
 
@@ -154,6 +143,11 @@ export default {
 .light.small {
   width: 9.5px;
   height: 9.5px;
+}
+
+.light.default {
+  width: 13.5px;
+  height: 13.5px;
 }
 
 .light.large {
@@ -175,18 +169,20 @@ export default {
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
   font-size: 0.6rem;
   letter-spacing: 3px;
-  height: 16px !important;
+  height: 1px !important;
   padding-left: 10px !important;
   padding-right: 4px !important;
 }
 
 .size-small {
   clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-  font-size: 0.75rem;
+  font-size: 10pt !important;
   letter-spacing: 4px;
-  height: 22px !important;
+  height: 23px !important;
   padding-left: 10px !important;
   padding-right: 4px !important;
+  margin-top: 0 !important;
+  padding-top: 2px !important;
 }
 
 .size-default {

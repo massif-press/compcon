@@ -36,7 +36,7 @@ export default {
   emits: ['set-state'],
   computed: {
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
   },
 };

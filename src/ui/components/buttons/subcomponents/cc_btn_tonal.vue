@@ -2,7 +2,7 @@
   <div
     class="top-element"
     :style="`display: ${block ? 'block' : 'inline-block'}; position: relative`">
-    <span :class="`light ${size} ${colorClass}`" />
+    <span :class="`light ${size} ${lightColor}`" />
     <v-btn
       :class="`${sizeStyle} pr-2`"
       :color="color"
@@ -10,7 +10,11 @@
       tile
       :disabled="disabled"
       :block="block"
-      variant="tonal">
+      variant="tonal"
+      :href="href"
+      :to="to"
+      :target="target"
+      @click="$emit('click')">
       <v-icon v-if="prependIcon" start :icon="prependIcon" />
       <slot />
       <v-icon v-if="appendIcon" end :icon="appendIcon" />
@@ -48,7 +52,8 @@
 export default {
   name: 'cc-btn-std',
   props: {
-    color: { type: String, default: 'accent' },
+    color: { type: String, default: '' },
+    pipColor: { type: String },
     disabled: { type: Boolean },
     block: { type: Boolean },
     loading: { type: Boolean },
@@ -59,13 +64,17 @@ export default {
     optionsIcon: { type: String },
     tooltip: { type: String },
     tooltipIcon: { type: String },
+    href: { type: String },
+    to: { type: [String, Object] },
+    target: { type: String },
   },
   computed: {
     sizeStyle() {
       return this.size ? `size-${this.size}` : 'size-default';
     },
-    colorClass() {
-      return `bg-${this.color}`;
+    lightColor() {
+      if (this.pipColor) return `bg-${this.pipColor}`;
+      return `bg-${this.color || 'panel'}`;
     },
     optionsSize() {
       return this.size ? `options-${this.size}` : 'options-default';

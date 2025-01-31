@@ -24,7 +24,7 @@
               :class="`bg-${bgColor} ${size}`"
               v-bind="props">
               <span class="pr-7 heading">
-                <v-icon v-if="icon" :icon="icon" :class="iconOffset" />
+                <v-icon v-if="icon" :icon="icon" :class="iconOffset" class="mr-2" />
                 <span v-if="display">
                   {{ modelValue }}
                   <div
@@ -158,10 +158,8 @@ export default {
   }),
   computed: {
     iconOffset() {
-      if (this.size === 'x-large')
-        return this.icon && this.icon.includes('cc:') ? 'mt-n5' : 'mt-n2';
-
-      return this.icon && this.icon.includes('cc:') ? 'offset' : '';
+      if (this.size === 'x-large') return this.icon && 'mt-n2';
+      return this.icon && 'mt-n1';
     },
     optionsSize() {
       switch (this.size) {
