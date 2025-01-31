@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
     <main-title @logupdate="ccLog('update')" />
-    <c-c-log v-show="$vuetify.display.mdAndUp" ref="log" />
+    <c-c-log v-show="!$vuetify.display.mdAndDown" ref="log" />
     <v-container fluid style="height: calc(100vh - 135px); margin-top: 40px">
       <v-row justify="space-between" align="center" style="height: 100%">
         <main-btn
@@ -49,76 +49,73 @@
       </v-row>
     </v-container>
 
-    <v-footer color="primary" app fixed>
+    <v-footer color="primary" app fixed height="32">
       <v-row no-gutters justify="space-around" align="center">
         <v-col cols="auto" class="text-center mr-3">
-          <v-btn
+          <cc-button
             size="small"
+            :color="isLoggedIn ? 'success' : ''"
             :loading="startingUp"
             :prepend-icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
+            class="mr-2"
             @click="($refs.loginModal as any).show()">
             <span>{{ isLoggedIn ? 'Connected' : 'Log In' }}</span>
-          </v-btn>
+          </cc-button>
           <cloud-notifications />
         </v-col>
 
         <v-col cols="auto" class="ml-auto text-right">
-          <v-row no-gutters justify="space-between">
+          <v-row dense justify="space-between">
             <v-col cols="auto">
-              <v-btn
+              <cc-button
                 size="small"
-                dark
-                variant="text"
+                variant="tonal"
                 @mouseenter="ccLog('options')"
                 @click="($refs.optionsModal as any).show()">
                 Options
-              </v-btn>
+              </cc-button>
             </v-col>
 
             <v-col cols="auto">
-              <v-btn
+              <cc-button
                 size="small"
-                dark
-                variant="text"
+                variant="tonal"
                 @mouseenter="ccLog('about')"
                 @click="($refs.aboutModal as any).show()">
                 About
-              </v-btn>
+              </cc-button>
             </v-col>
 
             <v-col cols="auto">
-              <v-btn
+              <cc-button
                 size="small"
-                dark
-                variant="text"
+                variant="tonal"
                 @mouseenter="ccLog('about')"
                 @click="($refs.creditsModal as any).show()">
                 Credits
-              </v-btn>
+              </cc-button>
             </v-col>
 
             <v-col cols="auto">
-              <v-btn
+              <cc-button
                 size="small"
-                dark
-                variant="text"
+                variant="tonal"
                 @mouseenter="ccLog('help')"
                 @click="($refs.helpModal as any).show()">
                 Help
-              </v-btn>
+              </cc-button>
             </v-col>
 
             <v-col cols="auto">
-              <v-btn
+              <cc-button
                 target="_blank"
                 color="warning"
                 size="small"
-                dark
-                variant="text"
+                variant="tonal"
                 href="https://www.patreon.com/compcon"
                 tabindex="0">
                 Support This Project
-              </v-btn>
+              </cc-button>
             </v-col>
           </v-row>
         </v-col>
@@ -127,13 +124,7 @@
     <cc-solo-dialog ref="loginModal" large no-actions title="CLOUD ACCOUNT">
       <sign-in @close="($refs as any).loginModal.hide()" />
     </cc-solo-dialog>
-    <cc-solo-dialog
-      ref="optionsModal"
-      large
-      no-confirm
-      no-pad
-      no-title-clip
-      title="Options & User Profile">
+    <cc-solo-dialog ref="optionsModal" large no-confirm no-pad no-title-clip title="Options">
       <options-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
@@ -163,7 +154,7 @@ import AboutPage from '../nav/pages/About.vue';
 import CreditsPage from '../nav/pages/Credits.vue';
 import HelpPage from '../nav/pages/Help.vue';
 import OptionsPage from '../nav/pages/Options/index.vue';
-import { UserStore, CompendiumStore, PilotStore, NpcStore } from '@/stores';
+import { UserStore, PilotStore, NpcStore } from '@/stores';
 import CloudNotifications from '../nav/CloudNotifications.vue';
 
 export default {

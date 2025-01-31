@@ -4,21 +4,19 @@
       tile
       color="panel clipped"
       :height="collapsed ? '' : '100%'"
-      style="transition: all 0.2s"
-    >
+      style="transition: all 0.2s">
       <v-card-title class="pa-0 pl-2 pr-2" :class="color">
         <v-icon v-if="collapsible" left dark variant="plain" @click="collapsed = !collapsed">
           {{ collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
         </v-icon>
         <span
           :class="` ${
-            $vuetify.display.smAndDown
+            $vuetify.display.mdAndDown
               ? 'body-text font-weight-bold'
               : $vuetify.display.lgAndUp
-              ? 'heading h3'
-              : 'heading h2'
-          } text-white`"
-        >
+                ? 'heading h3'
+                : 'heading h2'
+          } text-white`">
           {{ header }}
         </span>
         <v-divider v-if="content && prominent" class="mx-3 subtle" style="opacity: 0.5" />

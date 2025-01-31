@@ -33,7 +33,7 @@
         <div
           :class="`prepend bg-${color} ${isFocused && 'color-rotate'} ${(icon || label) && 'mr-n1'}`"
           :style="`min-width: ${icon ? '30' : '12'}px`">
-          <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2 mt-n1'" />
+          <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2'" class="mt-1" />
           <div
             v-if="label"
             class="d-inline-block text-cc-overline ml-3"
@@ -44,7 +44,7 @@
         </div>
       </template>
       <template v-if="prependInnerIcon" #prepend-inner>
-        <v-icon :class="iconOffset(prependInnerIcon)" :icon="prependInnerIcon" />
+        <v-icon :icon="prependInnerIcon" />
       </template>
       <template #chip="{ item }">
         <v-chip
@@ -85,7 +85,7 @@
         </v-tooltip>
       </template>
       <template v-if="appendInnerIcon" #append-inner>
-        <v-icon :class="iconOffset(appendInnerIcon)" :icon="appendInnerIcon" />
+        <v-icon :icon="appendInnerIcon" />
       </template>
     </component>
     <v-slide-y-transition>
@@ -124,7 +124,7 @@ export default {
     itemTitle: { type: String },
     itemValue: { type: String },
     multiple: { type: Boolean },
-    chipVariant: { type: String },
+    chipVariant: { type: String, default: 'text' },
     lightChip: { type: Boolean },
     combobox: { type: Boolean },
     autocomplete: { type: Boolean },
@@ -143,11 +143,6 @@ export default {
     },
     component() {
       return this.combobox ? VCombobox : this.autocomplete ? VAutocomplete : VSelect;
-    },
-  },
-  methods: {
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
     },
   },
 };
@@ -184,10 +179,6 @@ export default {
   margin-right: -1px;
   clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
   z-index: 1;
-}
-
-.offset {
-  margin-top: -5px;
 }
 
 .light {

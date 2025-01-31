@@ -4,7 +4,6 @@
       v-if="prependIcon"
       style="align-self: center"
       :size="iconSize(prependIcon)"
-      :class="iconOffset(prependIcon)"
       :start="!label"
       :icon="prependIcon" />
     <div v-if="label" class="d-inline-block text-cc-overline ml-3" style="align-self: center">
@@ -122,9 +121,6 @@ export default {
       }
       if (icon.includes('cc:')) size += 4;
       return `${size}px`;
-    },
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
     },
     getLightColor(isHovering: null | boolean) {
       if (isHovering && !this.isOn) return this.activeColor;

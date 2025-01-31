@@ -12,12 +12,12 @@
       :size="size"
       stacked
       :loading="loading"
-      :disabled="disabled">
-      <v-icon
-        v-if="prependIcon"
-        :icon="prependIcon"
-        :size="iconSize(prependIcon)"
-        :class="iconOffset(prependIcon)" />
+      :disabled="disabled"
+      :href="href"
+      :to="to"
+      :target="target"
+      @click="$emit('click')">
+      <v-icon v-if="prependIcon" :icon="prependIcon" :size="iconSize(prependIcon)" />
       <slot />
     </v-btn>
 
@@ -59,6 +59,9 @@ export default {
     tooltip: { type: String },
     tooltipIcon: { type: String },
     optionsText: { type: String },
+    href: { type: String },
+    to: { type: [String, Object] },
+    target: { type: String },
   },
   computed: {
     sizeStyle() {
@@ -125,10 +128,6 @@ export default {
       }
       if (icon.includes('cc:')) size += 2;
       return `${size}px`;
-    },
-
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
     },
   },
 };

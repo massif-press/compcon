@@ -12,10 +12,14 @@
       :disabled="disabled"
       :block="block"
       :prepend-icon="'mdi-alert'"
-      :append-icon="'mdi-alert'">
+      :append-icon="'mdi-alert'"
+      :href="href"
+      :to="to"
+      :target="target"
+      @click="$emit('click')">
       <v-icon
+        style="font-size: 70cqw; margin-top: -4cqw"
         :color="tonal ? color : ''"
-        :style="`font-size: ${isCcIcon ? '85cqw' : '70cqw'}; margin-top: ${isCcIcon ? '-15cqw' : '-4cqw'}`"
         :icon="icon" />
     </v-btn>
   </div>
@@ -33,6 +37,9 @@ export default {
     prependIcon: { type: String },
     appendIcon: { type: String },
     icon: { type: String, required: true, default: 'mdi-help' },
+    href: { type: String },
+    to: { type: [String, Object] },
+    target: { type: String },
   },
   computed: {
     getColor() {
@@ -40,9 +47,6 @@ export default {
     },
     tonal() {
       return this.variant === 'tonal';
-    },
-    isCcIcon() {
-      return this.icon.includes('cc:');
     },
     colorClass() {
       if (this.tonal) return '';

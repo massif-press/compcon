@@ -5,7 +5,7 @@
     exit="pilot_management"
     @complete="$emit('next')">
     <cc-title large>New Pilot Registration&emsp;</cc-title>
-    <div v-show="$vuetify.display.mdAndUp">
+    <div v-show="!$vuetify.display.mdAndDown">
       <h2 class="heading">
         UAD IDENT Service
         <cc-slashes />
@@ -43,7 +43,7 @@
     <v-row>
       <v-col cols="12" md="5" class="mr-auto">
         <div class="my-2">
-          <div v-if="$vuetify.display.mdAndUp" class="text-caption">
+          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
             RM-4-01 // FULL NAME OR PRIMARY ALIAS
           </div>
           <v-text-field
@@ -66,7 +66,7 @@
         </div>
 
         <div class="my-4">
-          <div v-if="$vuetify.display.mdAndUp" class="text-caption">
+          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
             RM-4-02 // APPROVED CALLSIGN (OR CADET DESIGNATION, IF APPLICABLE)
           </div>
 
@@ -90,7 +90,7 @@
         </div>
 
         <div class="my-4">
-          <div v-if="$vuetify.display.mdAndUp" class="text-caption">
+          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
             RM-4-03 // PRIOR OCCUPATION OR POSITION (ANSWER 17b ON RM-2-C)
           </div>
           <v-text-field
@@ -113,7 +113,7 @@
         </div>
 
         <div class="my-4">
-          <div v-if="$vuetify.display.mdAndUp" class="text-caption">
+          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
             RM-4-04 // ATTACHED BIOGRAPHICAL DOSSIER (RM-4b SUPPLEMENTAL)
           </div>
           <v-row align="center">
@@ -139,7 +139,7 @@
         </div>
 
         <div class="my-4">
-          <div v-if="$vuetify.display.mdAndUp" class="text-caption">
+          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
             RM-4-05 // ATTACHED OHM HEALTH EXAMINATION RESULTS
           </div>
           {{ pilot.textAppearance }}
@@ -170,7 +170,7 @@
         </div>
       </v-col>
       <v-col cols="12" md="5" class="ml-auto">
-        <div v-if="$vuetify.display.mdAndUp" class="text-caption">
+        <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
           RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)
         </div>
         <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">

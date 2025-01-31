@@ -3,13 +3,17 @@
     class="top-element"
     :style="`display: ${block ? 'block' : 'inline-block'}; position: relative`">
     <v-btn
-      :class="`${sizeStyle} pr-2 fade-select`"
+      :class="`${sizeStyle} px-0 fade-select`"
       :color="color"
       :loading="loading"
       tile
       :disabled="disabled"
       :block="block"
-      variant="text">
+      variant="text"
+      :to="to"
+      :href="href"
+      :target="target"
+      @click="$emit('click')">
       <v-icon v-if="prependIcon" start :icon="prependIcon" />
       <slot />
       <v-icon v-if="appendIcon" end :icon="appendIcon" />
@@ -58,6 +62,9 @@ export default {
     optionsIcon: { type: String },
     tooltip: { type: String },
     tooltipIcon: { type: String },
+    to: { type: [String, Object] },
+    href: { type: String },
+    target: { type: String },
   },
   computed: {
     sizeStyle() {
@@ -126,8 +133,8 @@ export default {
 }
 
 .size-small {
-  font-size: 0.75rem;
-  letter-spacing: 4px;
+  font-size: 0.75rem !important;
+  letter-spacing: 2px;
   height: 20px !important;
 }
 

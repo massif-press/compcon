@@ -1,6 +1,6 @@
 <template>
   <div>
-    <landing-page-mobile v-if="$vuetify.display.smAndDown" />
+    <landing-page-mobile v-if="$vuetify.display.mdAndDown" />
     <landing-page-desktop v-else />
     <storage-warning />
     <welcome-message />

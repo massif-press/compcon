@@ -1,17 +1,21 @@
 <template>
-  <v-col cols="6">
+  <v-col :cols="landscape ? 3 : 6">
+    <div class="pip bg-accent" />
     <v-card
       variant="tonal"
       tile
       class="text-center"
       height="100%"
+      style="clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px)"
       @click="to ? $router.push(to) : $emit('clicked')">
-      <div class="d-flex justify-center align-center" style="height: 90%">
+      <div
+        class="d-flex justify-center align-center"
+        style="height: 90%; container-type: inline-size">
         <div class="primary py-4">
-          <v-icon dark size="45vw">
+          <v-icon color="accent" size="100cqw">
             {{ icon }}
           </v-icon>
-          <div class="heading no-wrap pb-4" style="font-size: 5.5vw">
+          <div class="heading no-wrap pb-4" style="font-size: 13cqw">
             {{ title }}
           </div>
         </div>
@@ -30,5 +34,20 @@ export default {
     disabled: { type: Boolean },
     loading: { type: Boolean },
   },
+  computed: {
+    landscape() {
+      return this.$vuetify.display.smAndUp;
+    },
+  },
 };
 </script>
+
+<style scoped>
+.pip {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+  transition: filter 0.2s ease-in-out;
+}
+</style>

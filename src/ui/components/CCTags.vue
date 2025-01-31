@@ -1,5 +1,5 @@
 <template>
-  <div v-if="extended && $vuetify.display.mdAndUp" v-for="t in <Tag[]>tags">
+  <div v-if="extended && !$vuetify.display.mdAndDown" v-for="t in <Tag[]>tags">
     <cc-extended-tag :tag="t" :color="t.IsExotic ? 'exotic' : color" />
   </div>
   <div v-else-if="print">

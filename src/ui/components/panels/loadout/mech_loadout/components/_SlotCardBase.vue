@@ -176,7 +176,7 @@ export default {
   }),
   computed: {
     small() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
     synergyLocation() {
       if (!this.item) return 'none';

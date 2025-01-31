@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     requirement(m: Manufacturer): string {
-      const br = this.$vuetify.display.smAndDown ? '<br>' : '&emsp;//&emsp;';
+      const br = this.$vuetify.display.mdAndDown ? '<br>' : '&emsp;//&emsp;';
       const abbr = `<b>${m.ID}</b>`;
       const name = `<b>${m.Name}</b>`;
       if (m.ID === 'GMS')

@@ -197,9 +197,12 @@
 
     <search />
 
-    <v-divider v-if="$vuetify.display.mdAndUp" vertical dark class="mx-2" />
+    <v-divider v-if="!$vuetify.display.mdAndDown" vertical dark class="mx-2" />
 
-    <cc-tooltip v-if="$vuetify.display.mdAndUp" location="bottom" content="Open cloud account menu">
+    <cc-tooltip
+      v-if="!$vuetify.display.mdAndDown"
+      location="bottom"
+      content="Open cloud account menu">
       <v-btn icon variant="plain" size="45" dark @click="($refs.cloudModal as any).show()">
         <v-badge
           :model-value="notifications.length > 0"
@@ -253,13 +256,7 @@
       <content-page />
     </cc-solo-dialog>
 
-    <cc-solo-dialog
-      ref="optionsModal"
-      large
-      no-confirm
-      no-pad
-      no-title-clip
-      title="Options & User Profile">
+    <cc-solo-dialog ref="optionsModal" large no-confirm no-pad no-title-clip title="Options">
       <options-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>

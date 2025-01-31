@@ -3,8 +3,7 @@
     <v-icon
       v-if="prependIcon"
       style="align-self: center"
-      :size="iconSize(prependIcon)"
-      :class="iconOffset(prependIcon)"
+      :size="size"
       :start="!label"
       :icon="prependIcon" />
     <div v-if="label" class="d-inline-block text-cc-overline ml-3" style="align-self: center">
@@ -16,7 +15,7 @@
         <div
           v-bind="props"
           class="top-element"
-          :style="`display: inline-block; position: relative`">
+          style="display: inline-block; position: relative; align-self: center">
           <span :class="`light ${size} bg-${getLightColor(isHovering)}`" />
           <div
             class="toggle"
@@ -28,27 +27,15 @@
       </template>
     </v-hover>
     <v-slide-x-transition leave-absolute>
-      <v-icon
-        v-if="isOn && onIcon"
-        style="align-self: center"
-        end
-        :size="iconSize(onIcon)"
-        :class="iconOffset(onIcon)"
-        :icon="onIcon" />
-      <v-icon
-        v-if="!isOn && offIcon"
-        style="align-self: center"
-        end
-        :size="iconSize(offIcon)"
-        :class="iconOffset(offIcon)"
-        :icon="offIcon" />
+      <v-icon v-if="isOn && onIcon" style="align-self: center" end :size="size" :icon="onIcon" />
+      <v-icon v-if="!isOn && offIcon" style="align-self: center" end :size="size" :icon="offIcon" />
     </v-slide-x-transition>
 
     <v-tooltip v-if="tooltip" location="top" max-width="300px">
       <template v-slot:activator="{ props }">
         <v-icon
           style="align-self: center"
-          :size="iconSize('tt')"
+          :size="size"
           v-bind="props"
           class="fade-select mx-1"
           :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
@@ -110,31 +97,7 @@ export default {
     toggle() {
       this.$emit('update:modelValue', !this.isOn);
     },
-    iconSize(icon: string) {
-      let size = 24;
-      switch (this.size) {
-        case 'x-small':
-          size = 11;
-          break;
-        case 'small':
-          size = 16;
-          break;
-        case 'large':
-          size = 20;
-          break;
-        case 'x-large':
-          size = 32;
-          break;
-        case 'xx-large':
-          size = 40;
-          break;
-      }
-      if (icon.includes('cc:')) size += 4;
-      return `${size}px`;
-    },
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
-    },
+
     getLightColor(isHovering: null | boolean) {
       if (isHovering && !this.isOn) return this.activeColor;
       return this.isOn ? this.activeColor : this.color;
@@ -200,33 +163,33 @@ export default {
 }
 
 .toggle.x-small {
-  width: 40px;
-  height: 12px;
+  width: 30px;
+  height: 10px;
 }
 
 .toggle.small {
-  width: 60px;
-  height: 20px;
+  width: 40px;
+  height: 14px;
 }
 
 .toggle.default {
-  width: 80px;
-  height: 24px;
+  width: 60px;
+  height: 18px;
 }
 
 .toggle.large {
+  width: 80px;
+  height: 22px;
+}
+
+.toggle.x-large {
   width: 120px;
   height: 30px;
 }
 
-.toggle.x-large {
+.toggle.xx-large {
   width: 160px;
   height: 36px;
-}
-
-.toggle.xx-large {
-  width: 250px;
-  height: 42px;
 }
 
 .toggle-knob {
@@ -244,7 +207,7 @@ export default {
 }
 
 .toggle-knob.default {
-  width: 13px;
+  width: 14px;
 }
 
 .toggle-knob.large {
@@ -265,27 +228,27 @@ export default {
 }
 
 .toggle.on .toggle-knob.x-small {
-  transform: translateX(32px);
+  transform: translateX(22px);
 }
 
 .toggle.on .toggle-knob.small {
-  transform: translateX(50px);
+  transform: translateX(30px);
 }
 
 .toggle.on .toggle-knob.default {
-  transform: translateX(70px);
+  transform: translateX(50px);
 }
 
 .toggle.on .toggle-knob.large {
-  transform: translateX(105px);
+  transform: translateX(70px);
 }
 
 .toggle.on .toggle-knob.x-large {
-  transform: translateX(140px);
+  transform: translateX(105px);
 }
 
 .toggle.on .toggle-knob.xx-large {
-  transform: translateX(230px);
+  transform: translateX(140px);
 }
 
 .size-x-small {

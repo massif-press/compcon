@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters style="min-width: 100%" class="my-2">
-    <v-col v-if="$vuetify.display.mdAndUp" cols="auto">
+    <v-col v-if="!$vuetify.display.mdAndDown" cols="auto">
       <div
         style="
           position: relative;
@@ -45,7 +45,7 @@
             <v-menu open-on-hover top offset-y open-delay="100">
               <template #activator="{ props }">
                 <v-btn
-                  :block="$vuetify.display.smAndDown"
+                  :block="$vuetify.display.mdAndDown"
                   tile
                   :color="rankColor(n)"
                   v-bind="props">

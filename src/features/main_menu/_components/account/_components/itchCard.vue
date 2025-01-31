@@ -120,7 +120,7 @@ export default {
       return UserStore().User.ItchMap;
     },
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
   },
   methods: {

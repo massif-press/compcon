@@ -30,7 +30,7 @@ export default {
   }),
   computed: {
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
   },
 };

@@ -5,10 +5,9 @@
     exit="pilot_management"
     back
     @back="$emit('back')"
-    @complete="$emit('next')"
-  >
+    @complete="$emit('next')">
     <cc-title large>Pilot Talents&emsp;</cc-title>
-    <div v-show="$vuetify.display.mdAndUp">
+    <div v-show="!$vuetify.display.mdAndDown">
       <h2 class="heading">
         UAD IDENT Service
         <cc-slashes />
@@ -35,7 +34,7 @@
         </v-alert>
       </v-container>
     </div>
-    <talent-selector :pilot="(pilot as Pilot)" />
+    <talent-selector :pilot="pilot as Pilot" />
   </stepper-content>
 </template>
 

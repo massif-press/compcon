@@ -15,7 +15,7 @@
   <v-container>
     <v-row
       density="compact"
-      :justify="$vuetify.display.smAndDown ? 'space-between' : 'space-around'"
+      :justify="$vuetify.display.mdAndDown ? 'space-between' : 'space-around'"
       align="center">
       <compendium-page-button
         color="exotic"

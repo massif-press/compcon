@@ -34,7 +34,7 @@
           </div>
         </template>
         <template v-if="prependInnerIcon" #prepend-inner>
-          <v-icon :class="iconOffset(prependInnerIcon)" :icon="prependInnerIcon" />
+          <v-icon :icon="prependInnerIcon" />
         </template>
         <template #append>
           <v-menu v-if="$slots.options" offset-y>
@@ -74,7 +74,7 @@
           </v-tooltip>
         </template>
         <template v-if="appendInnerIcon" #append-inner>
-          <v-icon :class="iconOffset(appendInnerIcon)" :icon="appendInnerIcon" />
+          <v-icon :icon="appendInnerIcon" />
         </template>
       </v-text-field>
       <v-slide-y-transition>
@@ -114,11 +114,6 @@ export default {
     isFocused: false,
   }),
   emits: ['update:model-value'],
-  methods: {
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
-    },
-  },
 };
 </script>
 

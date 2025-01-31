@@ -319,26 +319,25 @@ code.horus:hover {
 
 .text-cc-flavor {
   font-family: 'Consolas', monospace;
-  font-size: .95rem!important;
+  font-size: 1rem!important;
   letter-spacing: -0.01rem!important;
 }
 
 .text-cc-fluff {
   font-family: 'Helvetica Oblique', sans-serif;
   font-style: italic;
-  font-size: .95rem!important;
 }
 
 .text-cc-emphasis {
   font-family: 'Helvetica Bold', sans-serif;
   font-size: 1rem!important;
-  line-height: 125%!important;
+  line-height: 135%!important;
+  letter-spacing: 0.1rem!important;
 }
 
 .text-cc-subtle {
   font-family: 'Helvetica Light', sans-serif;
-  font-size: .8rem!important;
-  opacity: 0.7!important;
+  opacity: 0.6!important;
 }
 
 

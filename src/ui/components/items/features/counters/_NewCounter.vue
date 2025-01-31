@@ -4,37 +4,25 @@
     color="primary"
     style="position: relative"
     :elevation="creating ? 12 : 0"
-    :class="
-      $vuetify.display.mdAndUp ? 'clipped-large text-center' : 'text-center'
-    "
-    :height="$vuetify.display.mdAndUp ? '118px' : '100%'"
-    :width="$vuetify.display.mdAndUp ? '225px' : '100%'"
-    :min-width="$vuetify.display.mdAndUp ? '225px' : '100%'"
-  >
+    :class="!$vuetify.display.mdAndDown ? 'clipped-large text-center' : 'text-center'"
+    :height="!$vuetify.display.mdAndDown ? '118px' : '100%'"
+    :width="!$vuetify.display.mdAndDown ? '225px' : '100%'"
+    :min-width="!$vuetify.display.mdAndDown ? '225px' : '100%'">
     <transition name="fade">
       <v-card-text
         v-if="creating"
         class="background"
-        style="height: 100%; display: flex; flex-direction: column"
-      >
+        style="height: 100%; display: flex; flex-direction: column">
         <v-text-field
           ref="nameField"
           v-model="name"
           placeholder="Counter name"
           density="compact"
           @keypress.esc="cancel"
-          @keypress.enter="create"
-        ></v-text-field>
+          @keypress.enter="create"></v-text-field>
         <v-row class="mt-auto">
           <v-col class="py-0">
-            <v-btn
-              color="secondary"
-              style="height: 100%"
-              block
-              tile
-              elevation="0"
-              @click="cancel"
-            >
+            <v-btn color="secondary" style="height: 100%" block tile elevation="0" @click="cancel">
               CANCEL
             </v-btn>
           </v-col>
@@ -46,8 +34,7 @@
               tile
               elevation="0"
               :disabled="!name"
-              @click="create"
-            >
+              @click="create">
               Add
             </v-btn>
           </v-col>
@@ -60,11 +47,10 @@
         color="primary"
         class="ml-n1"
         style="height: 100%"
-        @click="startCreating"
-      >
+        @click="startCreating">
         <div class="py-1">
           <div>Add Custom Counter</div>
-          <v-icon :v-if="$vuetify.display.mdAndUp">add</v-icon>
+          <v-icon :v-if="!$vuetify.display.mdAndDown">add</v-icon>
         </div>
       </v-btn>
     </transition>

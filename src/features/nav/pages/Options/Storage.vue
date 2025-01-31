@@ -222,7 +222,7 @@ export default {
       return UserStore().User;
     },
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
   },
   methods: {

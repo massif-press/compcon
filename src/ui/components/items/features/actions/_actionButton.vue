@@ -3,7 +3,7 @@
     <v-btn
       :color="usable ? 'grey darken-2' : action.Color"
       block
-      :small="$vuetify.display.smAndDown"
+      :small="$vuetify.display.mdAndDown"
       :disabled="disabled"
       @click="($refs.dialog as any).show()">
       <v-icon v-if="!noAction" dark left :icon="action.Icon" />

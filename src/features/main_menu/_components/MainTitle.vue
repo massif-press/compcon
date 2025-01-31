@@ -16,18 +16,17 @@
         <div style="display: inline-block; position: relative" class="mr-1">
           <v-tooltip location="bottom">
             <template #activator="{ props }">
-              <v-btn
+              <cc-button
                 v-bind="props"
                 size="small"
-                rounded="0"
-                variant="tonal"
+                variant="text"
                 style="font-family: 'Consolas', monospace"
                 target="_blank"
                 color="white"
                 href="https://github.com/massif-press/compcon/blob/master/CHANGELOG.md"
                 @mouseenter="$emit('logupdate')">
                 v.{{ version }}
-              </v-btn>
+              </cc-button>
             </template>
             <span>View changelog</span>
           </v-tooltip>

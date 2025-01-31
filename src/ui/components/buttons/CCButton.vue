@@ -1,21 +1,5 @@
 <template>
-  <component
-    :is="component"
-    :color="color"
-    :stacked="stacked"
-    :disabled="disabled"
-    :block="block"
-    :loading="loading"
-    :icon="icon"
-    :size="size"
-    :tooltip="tooltip"
-    :variant="variant"
-    :tooltip-icon="tooltipIcon"
-    :prepend-icon="prependIcon"
-    :append-icon="appendIcon"
-    :options-icon="optionsIcon"
-    :to="to"
-    :href="href">
+  <component :is="component" v-bind="$props">
     <slot />
     <template #options v-if="!!$slots.options"><slot name="options" /></template>
     <template #subtitle v-if="!!$slots.subtitle"><slot name="subtitle" /></template>
@@ -36,12 +20,13 @@ import stk from './subcomponents/cc_btn_stk.vue';
 export default {
   name: 'cc-button',
   props: {
-    color: { type: String, default: 'primary' },
+    color: { type: String, default: '' },
+    pipColor: { type: String, required: false },
     disabled: { type: Boolean },
     block: { type: Boolean },
     stacked: { type: Boolean },
     loading: { type: Boolean },
-    icon: { type: String, required: false },
+    icon: { type: [String, Boolean], required: false },
     size: { type: String, required: false },
     variant: { type: String, required: false },
     tooltip: { type: String, required: false },
@@ -51,11 +36,13 @@ export default {
     optionsIcon: { type: String },
     to: { type: [String, Object] },
     href: { type: String },
+    target: { type: String },
   },
   computed: {
     component() {
       if (this.stacked) return stk;
       if (this.icon) {
+        console.log(this.icon);
         if (this.variant === 'text') return txt_icn;
         if (this.variant === 'outlined') return txt_icn;
         return icn;

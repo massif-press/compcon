@@ -4,7 +4,6 @@
       v-if="prependIcon"
       style="align-self: center"
       :size="iconSize(prependIcon)"
-      :class="iconOffset(prependIcon)"
       :start="!label"
       :icon="prependIcon" />
     <div v-if="label" class="d-inline-block text-cc-overline ml-3" style="align-self: center">
@@ -30,14 +29,12 @@
                 style="align-self: center"
                 :color="activeColor"
                 :size="iconSize(onIcon || 'mdi-check-bold')"
-                :class="iconOffset(onIcon || 'mdi-check-bold')"
                 :icon="onIcon || 'mdi-check-bold'" />
               <v-icon
                 v-if="!isOn && offIcon"
                 style="align-self: center; opacity: 0.5"
                 :color="color"
                 :size="iconSize(offIcon || 'mdi-cancel')"
-                :class="iconOffset(offIcon || 'mdi-cancel')"
                 :icon="offIcon || 'mdi-cancel'" />
             </v-slide-x-transition>
           </v-btn>
@@ -142,9 +139,6 @@ export default {
       }
       if (icon.includes('cc:')) size += 4;
       return `${size}px`;
-    },
-    iconOffset(icon: string) {
-      return icon.includes('cc:') ? 'offset' : '';
     },
     getLightColor(isHovering: null | boolean) {
       if (isHovering && !this.isOn) return this.activeColor;

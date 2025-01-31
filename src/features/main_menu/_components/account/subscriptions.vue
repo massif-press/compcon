@@ -14,7 +14,7 @@ export default {
   components: { LcpSubscriptions, AuthorSubscriptions },
   computed: {
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
   },
 };

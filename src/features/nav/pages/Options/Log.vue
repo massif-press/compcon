@@ -70,7 +70,7 @@ export default {
       return logger;
     },
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
   },
   methods: {

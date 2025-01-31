@@ -11,7 +11,10 @@
           :ripple="{ class: `text-${color}` }"
           :loading="loading"
           :disabled="disabled"
-          @click.stop>
+          :to="to"
+          :href="href"
+          :target="target"
+          @click="$emit('click')">
           <v-row :align="alignment" dense>
             <v-col cols="auto">
               <v-icon v-if="prependIcon" :size="iconSize" :icon="prependIcon" start />
@@ -82,6 +85,9 @@ export default {
     optionsIcon: { type: String },
     tooltip: { type: String },
     tooltipIcon: { type: String },
+    to: { type: [String, Object] },
+    href: { type: String },
+    target: { type: String },
   },
   computed: {
     sizeStyle() {

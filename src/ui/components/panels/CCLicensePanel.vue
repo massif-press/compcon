@@ -6,8 +6,7 @@
       lg="4"
       md="6"
       sm="12"
-      :class="{ locked: ranked && rank < n }"
-    >
+      :class="{ locked: ranked && rank < n }">
       <div class="text-center">
         <p class="pt-1 mb-1">
           <span class="stat-text text-disabled text--darken-1">

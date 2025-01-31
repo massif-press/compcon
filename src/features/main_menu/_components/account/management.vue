@@ -311,7 +311,7 @@ export default {
       return UserStore().CloudNotifications;
     },
     mobile() {
-      return this.$vuetify.display.smAndDown;
+      return this.$vuetify.display.mdAndDown;
     },
   },
   methods: {

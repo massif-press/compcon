@@ -4,8 +4,7 @@
       <cc-titled-panel
         title="New Organization"
         icon="mdi-account-group"
-        color="reserve--organization darken-2"
-      >
+        color="reserve--organization darken-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
@@ -13,8 +12,7 @@
               color="accent"
               label="Name"
               variant="outlined"
-              hide-details
-            />
+              hide-details />
           </v-col>
           <v-col cols="6">
             <v-select
@@ -23,8 +21,7 @@
               color="accent"
               :items="orgTypes"
               variant="outlined"
-              hide-details
-            />
+              hide-details />
           </v-col>
         </v-row>
         <v-textarea
@@ -35,8 +32,7 @@
           rows="2"
           filled
           hide-details
-          class="mt-2"
-        />
+          class="mt-2" />
         <br />
         <span class="heading h4">Start with:</span>
         <v-row justify="center" class="mx-4 py-1">
@@ -46,8 +42,7 @@
               block
               variant="outlined"
               color="secondary"
-              @click="orgStart = 'efficiency'"
-            >
+              @click="orgStart = 'efficiency'">
               Efficiency
               <cc-tooltip
                 simple
@@ -56,8 +51,7 @@
                 organization with high efficiency would be good at combat, for example).
                 <br />Efficiency can be used to perform activities related to your organization’s
                 purpose (science, military, etc). You can use these advantages as
-                <strong>reserves.</strong>"
-              >
+                <strong>reserves.</strong>">
                 <v-icon size="small" end>mdi-help-circle-outline</v-icon>
               </cc-tooltip>
             </v-btn>
@@ -67,23 +61,21 @@
               <span>Organization Efficiency</span>
             </div>
           </v-col>
-          <v-divider v-show="$vuetify.display.mdAndUp" vertical class="mx-5" />
+          <v-divider v-show="!$vuetify.display.mdAndDown" vertical class="mx-5" />
           <v-col cols="12" md="" class="text-center">
             <v-btn
               v-if="!orgStart"
               block
               variant="outlined"
               color="secondary"
-              @click="orgStart = 'influence'"
-            >
+              @click="orgStart = 'influence'">
               Influence
               <cc-tooltip
                 simple
                 inline
                 content="Influence is your organization’s size, reach, wealth, and reputation.
                 Influence be used to acquire assets, create opportunities, or sway public
-                opinion."
-              >
+                opinion.">
                 <v-icon size="small" end>mdi-help-circle-outline</v-icon>
               </cc-tooltip>
             </v-btn>
@@ -102,8 +94,7 @@
           class="mb-2 mt-n2"
           color="primary"
           :disabled="!orgName || !orgType || !orgStart"
-          @click="add()"
-        >
+          @click="add()">
           <v-icon start>mdi-plus</v-icon>
           Add Organization
         </v-btn>
