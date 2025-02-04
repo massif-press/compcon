@@ -1,6 +1,6 @@
 <template>
   <v-hover #default="{ isHovering, props }">
-    <div class="top-element" style="display: block; position: relative" v-bind="props">
+    <div class="top-element mx-1" style="display: block; position: relative" v-bind="props">
       <v-text-field
         :model-value="modelValue"
         :color="color"
@@ -12,18 +12,21 @@
         :placeholder="placeholder"
         :clearable="clearable"
         :autofocus="autofocus"
+        :width="width"
         clear-icon="mdi-close-circle-outline"
         density="compact"
         hide-details
+        :autocomplete="autocomplete"
+        :type="type"
         rounded="0"
         :bg-color="isFocused ? 'surface-variant' : 'panel'"
         @update:focused="isFocused = $event"
         @update:model-value="$emit('update:model-value', $event)">
         <template #prepend>
           <div
-            :class="`prepend bg-${color} ${isFocused && 'color-rotate'} mr-n2`"
-            :style="`min-width: ${icon ? '30' : '12'}px`">
-            <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2 mt-n1'" />
+            :class="`prepend bg-${color} ${isFocused && 'color-rotate'} `"
+            :style="`min-width: ${icon ? '30' : '16'}px`">
+            <v-icon v-if="icon" :icon="icon" class="mt-1 ml-3 mr-2" />
             <div
               v-if="label"
               class="d-inline-block text-cc-overline ml-3"
@@ -74,7 +77,7 @@
           </v-tooltip>
         </template>
         <template v-if="appendInnerIcon" #append-inner>
-          <v-icon :icon="appendInnerIcon" />
+          <v-icon :icon="appendInnerIcon" @click.stop="$emit('click-append-inner')" />
         </template>
       </v-text-field>
       <v-slide-y-transition>
@@ -109,11 +112,14 @@ export default {
     details: { type: String },
     readonly: { type: Boolean },
     optionsIcon: { type: String },
+    type: { type: String },
+    autocomplete: { type: String },
+    width: { type: String, default: '100%' },
   },
   data: () => ({
     isFocused: false,
   }),
-  emits: ['update:model-value'],
+  emits: ['update:model-value', 'click-append-inner'],
 };
 </script>
 
@@ -136,12 +142,13 @@ export default {
 }
 
 .color-rotate {
-  filter: brightness(3) saturate(200%) hue-rotate(40deg);
+  filter: brightness(1.5) saturate(200%) hue-rotate(40deg);
 }
 
 .prepend {
   height: 100%;
   margin-right: -1px;
+  min-width: 16px;
   clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
   z-index: 1;
   transition: all 0.1s ease-in-out;

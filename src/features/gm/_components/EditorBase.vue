@@ -174,7 +174,7 @@
             </v-alert>
             <div v-if="item.CloudController.ShareCode">
               <v-row justify="center">
-                <v-col cols="auto">
+                <v-col sm="1">
                   <div class="text-overline mb-n6">item SHARE CODE</div>
                   <b
                     class="text-accent"

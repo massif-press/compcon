@@ -15,7 +15,7 @@
           size="large"
           :source="m"
           :color="tabModel == i ? 'white' : 'black'" />
-        <v-icon v-else size="40" :icon="m.Icon" />
+        <v-icon v-else size="35" :icon="m.Icon" start />
         {{ m.ID }}
       </v-tab>
     </v-tabs>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <i class="text-disabled">
+  <v-card-text class="pa-2">
+    <i class="text-cc-subtle">
       This is the locally-saved user data. These items should generally not have to be reset, but
       may be useful in debugging or clearing a persistent loading issue.
       <br />
@@ -8,7 +8,7 @@
       Browser).
     </i>
 
-    <v-table class="text-left pa-2 mt-2">
+    <v-table class="text-left mt-2" density="compact">
       <thead>
         <tr>
           <th>Item</th>
@@ -33,11 +33,11 @@
     </v-table>
 
     <div class="text-right">
-      <v-btn size="small" variant="plain" color="error" @click="resetUserData()">
+      <cc-button size="small" variant="tonal" color="error" @click="resetUserData()">
         Reset User Data
-      </v-btn>
+      </cc-button>
     </div>
-  </div>
+  </v-card-text>
 </template>
 
 <script lang="ts">
@@ -54,8 +54,14 @@ export default {
     },
     userDataKeys() {
       const skipKeys = ['LcpSubscriptionData', '_patreonData', '_itchData'];
+      if (this.mobile) {
+        skipKeys.push('_options');
+      }
       const data = [...Object.keys(UserStore().User)];
       return data.filter((key) => !skipKeys.includes(key));
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

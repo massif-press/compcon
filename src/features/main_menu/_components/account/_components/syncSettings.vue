@@ -1,267 +1,122 @@
 <template>
   <v-progress-linear v-if="!metadata" indeterminate color="accent" />
-  <v-card v-else flat border class="mb-4">
-    <v-toolbar density="compact">
+  <v-card v-else flat border tile class="mb-4">
+    <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
-        <div class="heading h3">
-          <span class="text-accent">
-            SYNC SETTINGS
-            <v-tooltip max-width="300px" location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-small" class="mt-n1">mdi-help-circle-outline</v-icon>
-              </template>
-              These options control how and when your data is synchronized with the cloud. By
+        <cc-heading
+          title
+          text="Sync Settings"
+          tooltip=" These options control how and when your data is synchronized with the cloud. By
               default, data is only synced manually. Unlike other user settings, these settings are
-              stored in the cloud and are applied to all devices you use.
-            </v-tooltip>
-          </span>
-        </div>
+              stored in the cloud and are applied to all devices you use." />
       </v-toolbar-title>
     </v-toolbar>
 
     <div class="px-6">
-      <v-row align="center" justify="space-around">
+      <v-row align="center" justify="space-around" class="mt-1">
         <v-col cols="12" md="6">
-          <v-row align="center" class="mt-1">
-            <v-col cols="auto">
-              <div class="font-weight-bold text-right">
-                Sync Frequency
-                <v-tooltip max-width="600px" location="top">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props" size="x-small" class="mt-n1" color="primary">
-                      mdi-help-circle-outline
-                    </v-icon>
-                  </template>
-                  Controls how often your data is synchronized with the cloud. Due to server costs,
-                  certain options are only available to Patreon subscribers.
-                </v-tooltip>
-              </div>
-            </v-col>
-            <v-col>
-              <v-menu offset-y>
-                <template #activator="{ props }">
-                  <v-btn size="small" variant="tonal" block v-bind="props">
-                    {{ syncOptions.find((opt) => opt.value === settings.frequency)?.title || '' }}
-                    <v-icon>mdi-chevron-down</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-for="option in syncOptions"
-                    :title="option.title"
-                    :subtitle="option.subtitle"
-                    :disabled="option.disabled"
-                    @click="settings.frequency = option.value" />
-                </v-list>
-              </v-menu>
-            </v-col>
-          </v-row>
+          <cc-select
+            v-model="settings.frequency"
+            label="sync frequency"
+            :items="syncOptions"
+            tooltip="Controls how often your data is synchronized with the cloud. Due to server costs,
+                  certain options are only available to Patreon subscribers." />
         </v-col>
         <v-col cols="12" md="6">
-          <v-row dense align="center">
-            <v-col cols="auto">
-              <div class="font-weight-bold text-right">
-                Snyc User Settings
-                <v-tooltip max-width="600px" location="top">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props" size="x-small" class="mt-n1" color="primary">
-                      mdi-help-circle-outline
-                    </v-icon>
-                  </template>
-                  On sync events, COMP/CON will sync user settings, such as theme, selected view
-                  options, etc. User settings are always synced to the latest version in the cloud,
-                  regardless of the resolution strategy, and can be managed in the "Other" tab of
-                  the Cloud Data Viewer.
-                </v-tooltip>
-              </div>
-            </v-col>
-            <v-col cols="12" md="">
-              <v-btn
-                block
-                variant="tonal"
-                size="small"
-                @click="settings.includeSettings = !settings.includeSettings">
-                {{ settings.includeSettings ? 'ON' : 'OFF' }}
-              </v-btn>
-            </v-col>
-          </v-row>
+          <cc-select
+            v-model="settings.includeSettings"
+            label="sync user settings"
+            tooltip="On sync events, COMP/CON will also update all shared items to the latest version."
+            :items="[
+              { title: 'On', value: true },
+              { title: 'Off', value: false },
+            ]" />
         </v-col>
         <v-col cols="12" md="6">
-          <v-row dense align="center">
-            <v-col cols="auto">
-              <div class="font-weight-bold text-right">
-                Snyc Shared Items
-                <v-tooltip max-width="600px" location="top">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props" size="x-small" class="mt-n1" color="primary">
-                      mdi-help-circle-outline
-                    </v-icon>
-                  </template>
-                  On sync events, COMP/CON will also update all shared items to the latest version.
-                </v-tooltip>
-              </div>
-            </v-col>
-            <v-col cols="12" md="">
-              <v-btn
-                block
-                size="small"
-                variant="tonal"
-                @click="settings.includeShared = !settings.includeShared">
-                {{ settings.includeShared ? 'ON' : 'OFF' }}
-              </v-btn>
-            </v-col>
-          </v-row>
+          <cc-select
+            v-model="settings.includeShared"
+            label="Snyc Shared Items"
+            tooltip="On sync events, COMP/CON will also update all shared items to the latest version."
+            :items="[
+              { title: 'On', value: true },
+              { title: 'Off', value: false },
+            ]" />
         </v-col>
         <v-col cols="12" md="6">
-          <v-row dense align="center">
-            <v-col cols="auto">
-              <div class="font-weight-bold text-right">
-                Resolution Strategy
-                <v-tooltip max-width="600px" location="top">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props" size="x-small" class="mt-n1" color="primary">
-                      mdi-help-circle-outline
-                    </v-icon>
-                  </template>
-                  This setting controls how conflicts between local and cloud data are resolved. By
-                  default, the most recently modified data is kept. If "Manual" is selected, you can
-                  use the Cloud Data Viewer to determine which data to keep.
-                </v-tooltip>
-              </div>
-            </v-col>
-            <v-col cols="12" md="">
-              <v-select
-                v-model="settings.resolutionStrategy"
-                :items="resolutionOptions"
-                density="compact"
-                hide-details />
-            </v-col>
-          </v-row>
+          <cc-select
+            v-model="settings.resolutionStrategy"
+            label="Resolution Strategy"
+            tooltip="This setting controls how conflicts between local and cloud data are resolved. By
+                  default, the most recently modified data is kept. If 'Manual' is selected, you can
+                  use the Cloud Data Viewer to determine which data to keep."
+            :items="resolutionOptions" />
         </v-col>
         <v-col cols="12">
-          <v-row dense align="center">
-            <v-col cols="auto">
-              <div class="font-weight-bold text-right">
-                Sync Items
-                <v-tooltip max-width="600px" location="top">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props" size="x-small" class="mt-n1" color="primary">
-                      mdi-help-circle-outline
-                    </v-icon>
-                  </template>
-                  Controls which data is synced with the cloud. By default, all data is synced. If
+          <cc-select
+            v-model="settings.itemTypes"
+            multiple
+            clearable
+            chip-variant="tonal"
+            label="Sync Items"
+            tooltip="Controls which data is synced with the cloud. By default, all data is synced. If
                   no item types are selected, only marked items are synced. You can mark items in
-                  the Cloud Data Viewer.
-                </v-tooltip>
-              </div>
-            </v-col>
-            <v-col cols="12" md="">
-              <v-select
-                v-model="settings.itemTypes"
-                multiple
-                small-chips
-                :items="syncItems"
-                density="compact"
-                hide-details>
-                <template #prepend-inner>
-                  <v-chip v-if="!settings.itemTypes.length" size="small">
-                    <span>Marked Items Only</span>
-                  </v-chip>
-                </template>
-
-                <template #selection="{ item, index }">
-                  <v-chip size="small" v-if="index < 3">
-                    <span>{{ item.title }}</span>
-                  </v-chip>
-                  <span v-if="index === 3" class="text-grey text-caption align-self-center">
-                    &emsp;(+{{ settings.itemTypes.length - 3 }} others)
-                  </span>
-                </template>
-              </v-select>
-            </v-col>
-          </v-row>
+                  the Cloud Data Viewer."
+            :items="syncItems" />
         </v-col>
       </v-row>
       <v-fade-transition>
         <div v-if="settingsDirty" class="text-right mt-2">
-          <v-btn
-            size="small"
+          <cc-button
             prepend-icon="mdi-cog-sync"
-            color="accent"
+            color="primary"
+            size="small"
             :loading="loadingSync"
             @click="updateSyncSettings">
             Update Sync Settings
-          </v-btn>
+          </cc-button>
         </div>
       </v-fade-transition>
     </div>
 
-    <v-card flat class="ma-4">
-      <v-row dense>
-        <v-col>
-          <v-card
-            ripple
-            color="accent"
-            class="py-2 px-4"
-            :loading="syncing"
-            :disabled="!itemsPendingSync || cloudStorageFull"
-            @click="runSync()">
-            <v-row align="center" dense>
-              <v-col cols="auto">
-                <v-icon size="x-large" icon="mdi-sync" />
-              </v-col>
-              <v-col>
-                <div class="heading h3">sync with current settings</div>
-                <div v-if="cloudStorageFull" class="text-caption">
-                  Cloud storage is full! Unable to create new archives.
-                </div>
-              </v-col>
-              <v-col cols="auto">
-                <div class="text-button">{{ itemsPendingSync }} items</div>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-        <v-col cols="12" md="auto">
-          <v-menu>
-            <template #activator="{ props }">
-              <v-btn
-                :size="mobile ? 'small' : '52'"
-                :block="mobile"
-                icon
-                variant="tonal"
-                rounded="0"
-                :disabled="cloudStorageFull"
-                v-bind="props">
-                <v-icon v-if="!mobile" icon="mdi-dots-vertical" />
-                <span v-else class="ml-2">Sync Overrides</span>
-              </v-btn>
-            </template>
-            <v-list max-width="500" lines="two">
-              <div class="px-2 pb-2">
-                <div class="heading">SYNC OVERRIDES</div>
-                <div class="text-caption text-accent">
-                  The following operations override sync settings and should be used with caution.
-                </div>
-              </div>
-              <v-divider />
-              <v-list-item
-                title="Force to Newest"
-                subtitle="Overwrites all local and cloud items with their most recently modified versions."
-                @click="runSync('newest')" />
-              <v-list-item
-                title="Force to Local"
-                subtitle="Overwrites all cloud items with the current locally-saved data, regardless of when the items were last modified."
-                @click="runSync('local')" />
-              <v-list-item
-                title="Overwite to Cloud"
-                subtitle="Overwrites all local items with cloud data, regardless of when the items were last modified."
-                @click="runSync('cloud')" />
-            </v-list>
-          </v-menu>
-        </v-col>
-      </v-row>
-    </v-card>
+    <cc-button
+      block
+      color="primary"
+      class="my-4 mx-6"
+      :loading="syncing"
+      :disabled="!itemsPendingSync || cloudStorageFull"
+      prepend-icon="mdi-sync"
+      @click="runSync()">
+      sync with current settings
+      <template #info>
+        <span class="text-cc-overline">{{ itemsPendingSync }} items</span>
+      </template>
+      <template #subtitle v-if="cloudStorageFull">
+        <span class="text-cc-overline">Cloud storage is full! Unable to create new archives</span>
+      </template>
+      <template #options>
+        <v-list max-width="500" lines="two" border>
+          <div class="px-2 pb-2">
+            <div class="heading">SYNC OVERRIDES</div>
+            <div class="text-caption text-accent">
+              The following operations override sync settings and should be used with caution.
+            </div>
+          </div>
+          <v-divider />
+          <v-list-item
+            title="Force to Newest"
+            subtitle="Overwrites all local and cloud items with their most recently modified versions."
+            @click="runSync('newest')" />
+          <v-list-item
+            title="Force to Local"
+            subtitle="Overwrites all cloud items with the current locally-saved data, regardless of when the items were last modified."
+            @click="runSync('local')" />
+          <v-list-item
+            title="Overwite to Cloud"
+            subtitle="Overwrites all local items with cloud data, regardless of when the items were last modified."
+            @click="runSync('cloud')" />
+        </v-list>
+      </template>
+    </cc-button>
   </v-card>
 </template>
 
@@ -277,9 +132,6 @@ export default {
     selectedItems: [] as string[],
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
     metadata() {
       return UserStore().UserMetadata;
     },

@@ -3,21 +3,23 @@
     <v-icon
       v-if="outlined"
       :size="iconSize * 2"
-      :color="color"
+      :color="getColor"
+      :disabled="disabled"
       icon="cc:hex_thin"
-      class="hover outline-hover"
+      :class="!disabled && 'hover outline-hover'"
       style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" />
     <v-btn
       variant="text"
       icon
       :disabled="disabled"
       :size="iconSize"
-      :style="outlined && `border-color: ${color}`"
-      :class="`pa-0 hover text-${color}`"
+      :loading="loading"
+      :class="`pa-0 ${!disabled && 'hover'} text-${getColor}`"
       :to="to"
       :href="href"
-      :target="target">
-      <v-icon :size="iconSize" :icon="icon" />
+      :target="target"
+      @click.stop="!disabled && !loading && $emit('click')">
+      <v-icon :size="iconSize" :icon="icon" :disabled="disabled" />
     </v-btn>
   </div>
 </template>
@@ -26,7 +28,8 @@
 export default {
   name: 'cc-btn-icon',
   props: {
-    color: { type: String, default: 'panel' },
+    color: { type: String },
+    loading: { type: Boolean },
     disabled: { type: Boolean },
     size: { type: String },
     icon: { type: String, required: true, default: 'mdi-help' },
@@ -35,7 +38,11 @@ export default {
     to: { type: [String, Object] },
     target: { type: String },
   },
+  emits: ['click'],
   computed: {
+    getColor() {
+      return this.disabled ? 'grey' : this.color;
+    },
     outlined() {
       return this.variant === 'outlined';
     },

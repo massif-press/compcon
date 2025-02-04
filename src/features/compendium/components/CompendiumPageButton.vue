@@ -1,24 +1,29 @@
 <template>
   <v-col :style="$vuetify.display.mdAndDown ? 'min-width: 50vw' : 'min-width: 30vw'">
-    <v-card
-      variant="tonal"
-      :color="color"
-      class="pa-2"
-      @click="$router.push(to)"
-      :disabled="disabled">
-      <v-row align="center">
-        <v-col cols="auto">
-          <v-icon class="icn" size="50" :color="`${color} lighten-1`">
-            {{ icon }}
-          </v-icon>
-        </v-col>
-        <v-col>
-          <div class="heading h2 text-stark">
-            {{ name }}
-          </div>
-        </v-col>
-      </v-row>
-    </v-card>
+    <div class="top-element">
+      <div :class="`pip bg-${color}`" />
+      <v-card
+        variant="tonal"
+        :color="color"
+        class="pa-2"
+        tile
+        @click="$router.push(to)"
+        style="clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px)"
+        :disabled="disabled">
+        <v-row align="center">
+          <v-col cols="auto">
+            <v-icon class="icn" size="50" :color="`${color} lighten-1`">
+              {{ icon }}
+            </v-icon>
+          </v-col>
+          <v-col>
+            <div class="heading h2 text-stark">
+              {{ name }}
+            </div>
+          </v-col>
+        </v-row>
+      </v-card>
+    </div>
   </v-col>
 </template>
 
@@ -58,22 +63,30 @@ export default {
 
 <style scoped>
 .v-card {
-  filter: brightness(100%);
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .v-card:hover {
-  filter: brightness(160%);
+  filter: brightness(140%) saturate(2) hue-rotate(40deg);
 }
 
 .icn {
   opacity: 0.7;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
 }
 
-.v-alert:hover > .icn {
+.pip {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  opacity: 0.5;
+  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+  transition: filter 0.2s ease-in-out;
+}
+
+.top-element:hover .pip {
   opacity: 1;
-  color: rgb(var(--v-theme-stark));
+  filter: brightness(2) saturate(200%) hue-rotate(20deg);
 }
 </style>

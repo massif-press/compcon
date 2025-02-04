@@ -16,7 +16,7 @@
       :href="href"
       :to="to"
       :target="target"
-      @click="$emit('click')">
+      @click.stop="!disabled && !loading && $emit('click')">
       <v-icon v-if="prependIcon" :icon="prependIcon" :size="iconSize(prependIcon)" />
       <slot />
     </v-btn>
@@ -47,7 +47,7 @@
 export default {
   name: 'cc-btn-std',
   props: {
-    color: { type: String, default: 'panel' },
+    color: { type: String },
     disabled: { type: Boolean },
     block: { type: Boolean },
     loading: { type: Boolean },
@@ -102,6 +102,7 @@ export default {
       return this.variant === 'tonal';
     },
     borderColor() {
+      if (!this.color) return '';
       if (this.color[0] === '#') return this.color;
       return `rgb(var(--v-theme-${this.color})`;
     },

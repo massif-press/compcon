@@ -2,6 +2,7 @@ import CCButton from './components/buttons/CCButton.vue';
 import CCSwitch from './components/buttons/CCSwitch.vue';
 import CCCheckbox from './components/buttons/CCCheckbox.vue';
 import CCRadio from './components/buttons/CCRadio.vue';
+
 import CCTickbar from './components/inputs/tickbar/CCTickbar.vue';
 
 import CCSelect from './components/inputs/selector/CCSelect.vue';
@@ -11,8 +12,17 @@ import CCTextLabel from './components/inputs/text/CCTextLabel.vue';
 import CCNumberField from './components/inputs/text/CCNumberField.vue';
 
 import CCPanel from './components/new_panels/CCPanel.vue';
+import CCAlert from './components/new_panels/CCAlert.vue';
 
 import CCHeading from './components/headings/CCHeading.vue';
+import CCToolbar from './components/headings/CCToolbar.vue';
+
+import CCModal from './components/modals/CCModal.vue';
+import CCDialog from './components/modals/CCDialog.vue';
+
+import CCTabs from './components/CCTabs.vue';
+
+import CCChip from './components/chips/CCChip.vue';
 
 import CCCompendiumBrowser from './components/CompendiumBrowser/CCCompendiumBrowser.vue';
 import CCBondInfo from './components/CCBondInfo.vue';
@@ -22,12 +32,11 @@ import CCClock from './components/CCClock.vue';
 import CCConfirmation from './components/CCConfirmation.vue';
 import CCDamageElement from './components/CCDamageElement.vue';
 import CCDamageTypePicker from './components/CCDamageTypePicker.vue';
-import CCDialog from './components/CCDialog.vue';
+// import CCDialog from './components/CCDialog.vue';
 import CCDiceMenu from './components/CCDiceMenu.vue';
 import CCExtendedTag from './components/CCExtendedTag.vue';
 import CCItemUses from './components/CCItemUses.vue';
 import CCMechStatusAlert from './components/CCMechStatusAlert.vue';
-import CCNotification from './components/CCNotification.vue';
 import CCRangeElement from './components/CCRangeElement.vue';
 import CCRollableTable from './components/CCRollableTable.vue';
 import CCShortStringEditor from './components/CCShortStringEditor.vue';
@@ -100,14 +109,23 @@ export {
   CCSwitch,
   CCCheckbox,
   CCRadio,
-  CCHeading,
   CCSelect,
   CCTextArea,
   CCTextField,
   CCTextLabel,
   CCNumberField,
   CCTickbar,
+  CCHeading,
+  CCToolbar,
   CCPanel,
+  CCAlert,
+  CCModal,
+  CCDialog,
+  // ---
+  CCTabs,
+  // --
+  CCChip,
+  // --
   CCImg,
   CCCompendiumBrowser,
   CCAvatar,
@@ -121,12 +139,11 @@ export {
   CCConfirmation,
   CCDamageElement,
   CCDamageTypePicker,
-  CCDialog,
+  // CCDialog,
   CCDiceMenu,
   CCExtendedTag,
   CCItemUses,
   CCMechStatusAlert,
-  CCNotification,
   CCRangeElement,
   CCRollableTable,
   CCShortStringEditor,

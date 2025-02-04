@@ -1,9 +1,9 @@
 <template>
   <div>
+    <welcome-message />
     <landing-page-mobile v-if="$vuetify.display.mdAndDown" />
     <landing-page-desktop v-else />
     <storage-warning />
-    <welcome-message />
     <router-view />
   </div>
 </template>

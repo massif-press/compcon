@@ -1,29 +1,22 @@
 <template>
   <div class="top-element" style="display: inline-block; position: relative">
-    <div :class="`light ${size} ${lightColor}`" />
+    <div :class="`${disabled && 'disabled'} light ${size} ${lightColor}`" />
     <v-btn
-      :class="`${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`}`"
+      :class="`${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`} ${disabled && 'disabled'}`"
       :style="outlined ? `border-color: ${borderColor}!important` : ''"
       color="transparent"
       tile
+      flat
       :loading="loading"
       :disabled="disabled"
       :to="to"
       :href="href"
       :target="target"
-      @click="$emit('click')">
+      @click.stop="!disabled && !loading && $emit('click')">
       <v-icon v-if="prependIcon" start :icon="prependIcon" :size="iconSize(prependIcon)" />
       <slot />
       <v-icon v-if="appendIcon" class="mx-1" :icon="appendIcon" :size="iconSize(appendIcon)" />
-      <v-tooltip v-if="tooltip" location="top" max-width="300px">
-        <template v-slot:activator="{ props }">
-          <v-icon
-            v-bind="props"
-            class="fade-select mx-1"
-            :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
-        </template>
-        <p v-html="tooltip" />
-      </v-tooltip>
+      <cc-tooltip v-if="tooltip" :icon="tooltipIcon" :text="tooltip" end />
     </v-btn>
 
     <v-menu v-if="$slots.options" offset-y>
@@ -124,8 +117,15 @@ export default {
   margin-top: -5px;
 }
 
+.disabled {
+  filter: grayscale(100%);
+  opacity: 0.4 !important;
+}
+
 .light {
   position: absolute;
+  width: 13.5px;
+  height: 13.5px;
   clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
   transition: filter 0.2s ease-in-out;
 }
@@ -135,7 +135,6 @@ export default {
 }
 
 .light.x-small {
-  top: 2px;
   width: 8px;
   height: 8px;
 }
@@ -169,19 +168,18 @@ export default {
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
   font-size: 0.6rem;
   letter-spacing: 3px;
-  height: 1px !important;
+  height: 20px !important;
   padding-left: 10px !important;
   padding-right: 4px !important;
 }
 
 .size-small {
   clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-  font-size: 10pt !important;
-  letter-spacing: 4px;
-  height: 23px !important;
-  padding-left: 10px !important;
-  padding-right: 4px !important;
-  margin-top: 0 !important;
+  font-size: 9.5pt !important;
+  letter-spacing: 2px;
+  height: 26px !important;
+  padding-left: 14px !important;
+  padding-right: 12px !important;
   padding-top: 2px !important;
 }
 
@@ -189,9 +187,9 @@ export default {
   clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
   font-size: 0.85rem;
   letter-spacing: 3px;
-  height: 34px !important;
-  padding-left: 12px !important;
-  padding-right: 8px !important;
+  height: 32px !important;
+  padding-left: 16px !important;
+  padding-right: 12px !important;
 }
 
 .size-large {

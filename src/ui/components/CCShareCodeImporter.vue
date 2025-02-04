@@ -1,130 +1,114 @@
 <template>
-  <v-dialog v-model="dialog" max-width="70vw">
-    <template #activator="{ props }">
-      <v-btn
+  <cc-modal ref="modal" shrink title="add from share code" icon="mdi-code-block-brackets">
+    <template #activator="{ open }">
+      <cc-button
         color="accent"
         variant="tonal"
         size="small"
         prepend-icon="mdi-code-block-brackets"
-        v-bind="props">
+        @click="open">
         {{ title }}
-      </v-btn>
+      </cc-button>
     </template>
-    <v-card>
-      <v-toolbar color="primary" density="compact">
-        <v-toolbar-title class="heading h3">{{ title.toUpperCase() }}</v-toolbar-title>
-        <v-spacer />
-        <v-btn icon @click="dialog = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-card-text class="pt-0">
-        <div class="text-center">
-          <div class="text-overline text-capitalize">{{ importType }} Share Code</div>
-          <div class="code-input mb-2">
-            <span v-for="(digit, index) in code">
-              <input
-                :key="index"
-                v-model="code[index]"
-                maxlength="1"
-                ref="codeInputs"
-                @input="onInput(index)"
-                @paste="onPaste($event, index)"
-                @keydown.backspace="onBackspace(index)" />
-              <span v-if="codeLength === 10 && index === 4" class="heading h1 px-4">&ndash;</span>
-              <span
-                v-else-if="codeLength === 12 && (index === 3 || index === 7)"
-                class="heading h1 px-4">
-                &ndash;
-              </span>
-              <span v-else-if="codeLength === 8 && index === 3" class="heading h1 px-4">
-                &ndash;
-              </span>
-            </span>
+
+    <div class="text-center">
+      <cc-heading small line>Item Share Code</cc-heading>
+      <div class="code-input" :class="mobile && 'mobile'">
+        <span v-for="(digit, index) in code">
+          <input
+            :key="index"
+            v-model="code[index]"
+            maxlength="1"
+            ref="codeInputs"
+            @input="onInput(index)"
+            @paste="onPaste($event, index)"
+            @keydown.backspace="onBackspace(index)" />
+          <span v-if="codeLength === 10 && index === 4" class="heading h1 px-4">
+            &ndash;
+            <br v-if="mobile" />
+          </span>
+          <span
+            v-else-if="codeLength === 12 && (index === 3 || index === 7)"
+            class="heading h1 px-4">
+            &ndash;
+            <br v-if="mobile" />
+          </span>
+          <span v-else-if="codeLength === 8 && index === 3" class="heading h1 px-4">
+            &ndash;
+            <br v-if="mobile" />
+          </span>
+        </span>
+        <span class="heading h1 px-5 text-transparent">&ndash;</span>
+      </div>
+      <v-row no-gutters justify="center" class="my-4">
+        <v-col cols="auto">
+          <cc-button color="primary" :disabled="hasCode" :loading="loading" @click="getFromCode()">
+            Find Item
+          </cc-button>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn size="31.5" icon tile flat color="panel" @click="reset">
+            <v-icon icon="mdi-close" />
+          </v-btn>
+        </v-col>
+      </v-row>
+    </div>
+    <v-card-text>
+      <v-scroll-y-reverse-transition>
+        <div v-if="badCode">
+          <v-divider class="my-4" />
+          <div class="text-center">
+            <cc-alert
+              type="error"
+              prominent
+              density="compact"
+              icon="mdi-information-outline"
+              title="error">
+              No item found with code {{ formatCode(badCode) }}.
+            </cc-alert>
           </div>
-          <v-row no-gutters justify="center">
-            <v-col cols="4">
-              <v-btn
-                block
-                size="small"
-                flat
-                rounded="0"
-                class="rounded-s"
-                color="accent"
-                :disabled="hasCode"
-                :loading="loading"
-                @click="getFromCode()">
-                Find Item
-              </v-btn>
-            </v-col>
-            <v-col cols="auto">
-              <v-btn
-                size="small"
-                class="ma-0 rounded-e px-0"
-                style="min-width: 25px"
-                rounded="0"
-                variant="tonal"
-                flat
-                @click="reset">
-                <v-icon icon="mdi-close" />
-              </v-btn>
-            </v-col>
-          </v-row>
         </div>
-        <v-scroll-y-reverse-transition>
-          <div v-if="badCode">
-            <v-divider class="my-4" />
-            <div class="text-center">
-              <v-alert
-                type="error"
-                variant="tonal"
-                prominent
-                density="compact"
-                icon="mdi-information-outline">
-                No item found with code {{ formatCode(badCode) }}.
-              </v-alert>
-            </div>
+      </v-scroll-y-reverse-transition>
+      <v-scroll-y-reverse-transition>
+        <div v-if="queryResult">
+          <v-divider class="my-4" />
+          <span class="flavor-text">// {{ importType.toUpperCase() }} DATA FOUND</span>
+          <slot name="result" />
+          <cc-alert
+            v-if="isUserOwned || remoteItemExists"
+            color="error"
+            variant="tonal"
+            prominent
+            density="compact"
+            class="my-2"
+            icon="mdi-information-outline"
+            title="error">
+            <span v-if="isUserOwned">
+              You are the author of this item. You cannot add your own items as remote resources.
+            </span>
+            <span v-else>This item has already been added as a remote resource.</span>
+          </cc-alert>
+          <cc-alert
+            v-if="wrongType"
+            color="error"
+            variant="tonal"
+            prominent
+            density="compact"
+            class="my-2"
+            icon="mdi-information-outline"
+            title="warning">
+            <span>
+              This item is a {{ qrImportType }}. It can still be imported, but will appear in the
+              {{ qrImportType }} list, not the {{ importType }} list.
+            </span>
+          </cc-alert>
+          <div class="text-right">
+            <slot name="actions" />
           </div>
-        </v-scroll-y-reverse-transition>
-        <v-scroll-y-reverse-transition>
-          <div v-if="queryResult">
-            <v-divider class="my-4" />
-            <span class="flavor-text">// {{ importType.toUpperCase() }} DATA FOUND</span>
-            <slot name="result" />
-            <v-alert
-              v-if="isUserOwned || remoteItemExists"
-              type="error"
-              variant="tonal"
-              prominent
-              density="compact"
-              class="my-2"
-              icon="mdi-information-outline">
-              <span v-if="isUserOwned">
-                You are the author of this item. You cannot add your own items as remote resources.
-              </span>
-              <span v-else>This item has already been added as a remote resource.</span>
-            </v-alert>
-            <v-alert
-              v-if="wrongType"
-              type="error"
-              variant="tonal"
-              prominent
-              density="compact"
-              class="my-2"
-              icon="mdi-information-outline">
-              <span>
-                This item is a {{ qrImportType }}. It can still be imported, but will appear in the
-                {{ qrImportType }} list, not the {{ importType }} list.
-              </span>
-            </v-alert>
-            <div class="text-right">
-              <slot name="actions" />
-            </div>
-          </div>
-        </v-scroll-y-reverse-transition>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+        </div>
+      </v-scroll-y-reverse-transition>
+    </v-card-text>
+  </cc-modal>
 </template>
 
 <script lang="ts">
@@ -145,7 +129,6 @@ export default {
     },
   },
   data: () => ({
-    dialog: false,
     codeLength: 12,
     codeSearch: '',
     code: [] as string[],
@@ -175,6 +158,9 @@ export default {
     this.code = Array(this.codeLength).fill('');
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     qrImportType() {
       return this.queryResult && this.queryResult.sortkey.split('_')[1].toLowerCase();
     },
@@ -248,14 +234,10 @@ export default {
         this.loading = false;
       }
     },
-
     reset() {
       this.code = Array(this.codeLength).fill('');
       this.queryResult = null;
       this.badCode = '';
-    },
-    close() {
-      this.dialog = false;
     },
     formatCode(code: string) {
       if (code.length === 12)
@@ -276,6 +258,15 @@ export default {
   text-align: center;
   margin: 0.2rem;
   border: 2px solid rgb(var(--v-theme-primary));
-  border-radius: 8px;
+}
+
+.code-input.mobile input {
+  width: 3rem;
+  height: 3rem;
+  font-size: 2.5rem;
+  font-family: 'Helvetica Bold', sans-serif;
+  text-align: center;
+  margin: 0.15rem;
+  border: 2px solid rgb(var(--v-theme-primary));
 }
 </style>

@@ -9,7 +9,7 @@
     </template>
 
     <template #actions>
-      <v-btn
+      <cc-button
         flat
         color="accent"
         class="mb-1"
@@ -17,7 +17,7 @@
         :disabled="!($refs as any).importer.canDownload"
         @click="subscribe()">
         subscribe
-      </v-btn>
+      </cc-button>
     </template>
   </cc-share-code-importer>
 </template>

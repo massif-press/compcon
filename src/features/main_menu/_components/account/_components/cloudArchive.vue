@@ -1,20 +1,13 @@
 <template>
-  <v-card flat border class="my-4">
-    <v-toolbar density="compact">
+  <v-card flat border tile class="my-4">
+    <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
-        <div class="heading h3">
-          <span class="text-accent">
-            REMOTE BACKUPS
-            <v-tooltip max-width="300px" location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-small" class="mt-n1">mdi-help-circle-outline</v-icon>
-              </template>
-              This tool will capture a snapshot of your local COMP/CON data and store it in a cloud
+        <cc-heading
+          title
+          text="Remote Backups"
+          tooltip="This tool will capture a snapshot of your local COMP/CON data and store it in a cloud
               archive. You can use this to restore your COMP/CON data to a previous state. This
-              feature is only available to Patreon supporters.
-            </v-tooltip>
-          </span>
-        </div>
+              feature is only available to Patreon supporters." />
       </v-toolbar-title>
       <v-spacer />
       <v-tooltip v-if="hasArchiveAccess" max-width="300px" location="top">
@@ -31,258 +24,233 @@
       </v-tooltip>
     </v-toolbar>
     <v-card-text v-if="!hasArchiveAccess">
-      <v-alert
+      <cc-alert
         color="secondary"
-        border
-        variant="tonal"
-        :icon="mobile ? false : 'mdi-information-outline'"
-        density="compact"
-        prominent>
-        <div class="heading h4">You do not have access to remote backups.</div>
-        <div>
-          Due to the server costs associated the creation and storage of backup data, this feature
-          is only available to Patreon subscribers. If you would like access to automated cloud
-          backups, please consider
-          <a href="https://www.patreon.com/compcon" target="_blank">subscribing</a>
-          to support the development of COMP/CON and gain access to additional features.
-        </div>
-      </v-alert>
+        icon="mdi-information-outline"
+        prominent
+        title="You do not have access to remote backups.">
+        Due to the server costs associated the creation and storage of backup data, this feature is
+        only available to Patreon subscribers. If you would like access to automated cloud backups,
+        please consider
+        <a href="https://www.patreon.com/compcon" target="_blank">subscribing</a>
+        to support the development of COMP/CON and gain access to additional features.
+      </cc-alert>
     </v-card-text>
-    <v-data-table v-else :items="archives" :headers="headers" :loading="loading" density="compact">
-      <template #item.created="{ item }">
-        {{ new Date(item.created).toLocaleString() }}
-      </template>
-      <template #item.size="{ item }">
-        <span v-if="item.size > 1024 * 1024 + 1">
-          {{ (item.size / 1024 / 1024).toFixed(2) }} MB
-        </span>
-        <span v-else>{{ (item.size / 1024).toFixed(2) }} KB</span>
-      </template>
+    <div v-else>
+      <v-data-table :items="archives" :headers="headers" :loading="loading" density="compact">
+        <template #item.created="{ item }">
+          {{ new Date(item.created).toLocaleString() }}
+        </template>
+        <template #item.size="{ item }">
+          <span v-if="item.size > 1024 * 1024 + 1">
+            {{ (item.size / 1024 / 1024).toFixed(2) }} MB
+          </span>
+          <span v-else>{{ (item.size / 1024).toFixed(2) }} KB</span>
+        </template>
 
-      <template #item.preserve="{ item }">
-        <v-tooltip max-width="300px" location="top">
-          <template #activator="{ props }">
-            <v-checkbox
-              v-model="item.preserve"
-              density="compact"
-              hide-details
-              v-bind="props"
-              @click="setPreserve(item)" />
-          </template>
-          <div
-            class="text-center"
-            v-text="
-              !item.preserve
-                ? 'Prevent this item from being automatically pruned. Preserved archives will still count towards size and space limitations.'
-                : 'Remove auto-delete protections on this item'
-            " />
-        </v-tooltip>
-      </template>
+        <template #item.preserve="{ item }">
+          <v-tooltip max-width="300px" location="top">
+            <template #activator="{ props }">
+              <v-checkbox
+                v-model="item.preserve"
+                density="compact"
+                hide-details
+                v-bind="props"
+                @click="setPreserve(item)" />
+            </template>
+            <div
+              class="text-center"
+              v-text="
+                !item.preserve
+                  ? 'Prevent this item from being automatically pruned. Preserved archives will still count towards size and space limitations.'
+                  : 'Remove auto-delete protections on this item'
+              " />
+          </v-tooltip>
+        </template>
 
-      <template #item.actions="{ item }">
-        <v-dialog max-width="600px">
-          <template #activator="{ props }">
-            <v-btn size="small" color="accent" icon variant="text" v-bind="props">
-              <v-tooltip max-width="300px" location="top">
-                <template #activator="{ props }">
-                  <v-icon size="x-large" v-bind="props">mdi-undo-variant</v-icon>
-                </template>
-                <div class="text-center">Revert COMP/CON to this backup</div>
-              </v-tooltip>
-            </v-btn>
-          </template>
-          <template #default="{ isActive }">
-            <v-card>
-              <v-toolbar flat color="primary">
-                <v-toolbar-title>
-                  <span class="heading h3">Revert COMP/CON</span>
-                </v-toolbar-title>
-                <v-spacer />
-                <v-btn icon @click="isActive.value = false">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </v-toolbar>
-              <v-card-text>
-                This will replace your current COMP/CON data with the data from this archive. This
-                action cannot be automatically undone, so it is strongly recommended that you create
-                a new archive before proceeding.
-                <br />
-                <br />
-                This tool only affects your local data. It will not affect any data stored in the
-                cloud.
-              </v-card-text>
-              <v-divider />
-              <v-card-actions>
-                <v-btn variant="text" @click="isActive.value = false">Cancel</v-btn>
-                <v-spacer />
-                <v-btn @click="revertCC(item)" variant="elevated" color="accent" :loading="loading">
-                  Load Archive
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </template>
-        </v-dialog>
+        <template #item.actions="{ item }">
+          <v-dialog max-width="600px">
+            <template #activator="{ props }">
+              <v-btn size="small" color="accent" icon variant="text" v-bind="props">
+                <v-tooltip max-width="300px" location="top">
+                  <template #activator="{ props }">
+                    <v-icon size="x-large" v-bind="props">mdi-undo-variant</v-icon>
+                  </template>
+                  <div class="text-center">Revert COMP/CON to this backup</div>
+                </v-tooltip>
+              </v-btn>
+            </template>
+            <template #default="{ isActive }">
+              <v-card>
+                <v-toolbar flat color="primary">
+                  <v-toolbar-title>
+                    <span class="heading h3">Revert COMP/CON</span>
+                  </v-toolbar-title>
+                  <v-spacer />
+                  <v-btn icon @click="isActive.value = false">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-toolbar>
+                <v-card-text>
+                  This will replace your current COMP/CON data with the data from this archive. This
+                  action cannot be automatically undone, so it is strongly recommended that you
+                  create a new archive before proceeding.
+                  <br />
+                  <br />
+                  This tool only affects your local data. It will not affect any data stored in the
+                  cloud.
+                </v-card-text>
+                <v-divider />
+                <v-card-actions>
+                  <v-btn variant="text" @click="isActive.value = false">Cancel</v-btn>
+                  <v-spacer />
+                  <v-btn
+                    @click="revertCC(item)"
+                    variant="elevated"
+                    color="accent"
+                    :loading="loading">
+                    Load Archive
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
 
-        <v-tooltip max-width="300px" location="top">
-          <template #activator="{ props }">
-            <v-btn
-              size="small"
-              color="accent"
-              icon
-              variant="text"
-              :loading="item.downloading"
-              :disabled="item.downloading"
-              v-bind="props"
-              @click="downloadArchive(item)">
-              <v-icon size="x-large">mdi-download</v-icon>
-            </v-btn>
-          </template>
-          <div class="text-center">Download Copy</div>
-        </v-tooltip>
+          <v-tooltip max-width="300px" location="top">
+            <template #activator="{ props }">
+              <v-btn
+                size="small"
+                color="accent"
+                icon
+                variant="text"
+                :loading="item.downloading"
+                :disabled="item.downloading"
+                v-bind="props"
+                @click="downloadArchive(item)">
+                <v-icon size="x-large">mdi-download</v-icon>
+              </v-btn>
+            </template>
+            <div class="text-center">Download Copy</div>
+          </v-tooltip>
 
-        <v-dialog max-width="600px">
-          <template #activator="{ props }">
-            <v-btn size="small" color="accent" icon variant="text" v-bind="props">
-              <v-tooltip max-width="300px" location="top">
-                <template #activator="{ props }">
-                  <v-icon size="x-large" v-bind="props">mdi-delete-outline</v-icon>
-                </template>
-                <div class="text-center">Delete Archive</div>
-              </v-tooltip>
-            </v-btn>
-          </template>
-          <template #default="{ isActive }">
-            <v-card>
-              <v-toolbar flat color="error">
-                <v-toolbar-title>
-                  <span class="heading h3">Delete Archive</span>
-                </v-toolbar-title>
-                <v-spacer />
-                <v-btn icon @click="isActive.value = false">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </v-toolbar>
-              <v-card-text>
-                Are you sure you want to delete this archive? This action cannot be undone.
-                <v-checkbox
-                  v-model="skipDeleteWarning"
-                  label="Do not show this warning again"
-                  hide-details />
-              </v-card-text>
-              <v-divider />
-              <v-card-actions>
-                <v-btn variant="text" @click="isActive.value = false">Cancel</v-btn>
-                <v-spacer />
-                <v-btn
-                  @click="deleteArchive(item)"
-                  variant="elevated"
-                  color="error"
-                  :loading="loading">
-                  Delete
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </template>
-        </v-dialog>
-      </template>
-    </v-data-table>
-    <v-row v-if="hasArchiveAccess" dense class="ma-2">
-      <v-col>
-        <v-card
-          ripple
-          color="accent"
-          class="py-2 px-4"
-          :disabled="working || cloudStorageFull"
-          :loading="working"
-          @click="createNew()">
-          <v-row align="center" dense>
-            <v-col cols="auto">
-              <v-icon size="x-large" icon="mdi-cloud-upload" />
-            </v-col>
-            <v-col>
-              <div class="heading h3">Create New Backup</div>
-              <div v-if="cloudStorageFull" class="text-caption">
-                Cloud storage is full! Unable to create new archives.
+          <v-dialog max-width="600px">
+            <template #activator="{ props }">
+              <v-btn size="small" color="accent" icon variant="text" v-bind="props">
+                <v-tooltip max-width="300px" location="top">
+                  <template #activator="{ props }">
+                    <v-icon size="x-large" v-bind="props">mdi-delete-outline</v-icon>
+                  </template>
+                  <div class="text-center">Delete Archive</div>
+                </v-tooltip>
+              </v-btn>
+            </template>
+            <template #default="{ isActive }">
+              <v-card>
+                <v-toolbar flat color="error">
+                  <v-toolbar-title>
+                    <span class="heading h3">Delete Archive</span>
+                  </v-toolbar-title>
+                  <v-spacer />
+                  <v-btn icon @click="isActive.value = false">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-toolbar>
+                <v-card-text>
+                  Are you sure you want to delete this archive? This action cannot be undone.
+                  <v-checkbox
+                    v-model="skipDeleteWarning"
+                    label="Do not show this warning again"
+                    hide-details />
+                </v-card-text>
+                <v-divider />
+                <v-card-actions>
+                  <v-btn variant="text" @click="isActive.value = false">Cancel</v-btn>
+                  <v-spacer />
+                  <v-btn
+                    @click="deleteArchive(item)"
+                    variant="elevated"
+                    color="error"
+                    :loading="loading">
+                    Delete
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
+        </template>
+      </v-data-table>
+      <cc-button
+        block
+        color="primary"
+        prepend-icon="mdi-cloud-upload"
+        class="mx-3 mb-3"
+        :disabled="working || cloudStorageFull"
+        :loading="working"
+        @click="createNew()">
+        Create New Backup
+        <template #subtitle v-if="cloudStorageFull">
+          Cloud storage is full! Unable to create new archives.
+        </template>
+        <template #options>
+          <v-card tile border max-width="600px">
+            <v-toolbar density="compact" color="primary" tile>
+              <div class="heading h3 px-2">Archive Settings</div>
+            </v-toolbar>
+            <v-card-text>
+              <div class="text-caption mb-4">
+                COMP/CON can create and save a backup of your data at the selected interval. These
+                archives can be used to roll back your data to a previous state.
               </div>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-      <v-col cols="auto">
-        <v-menu :close-on-content-click="false" max-width="600px">
-          <template #activator="{ props }">
-            <v-btn size="50" icon variant="tonal" rounded="0" v-bind="props">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-          </template>
-          <template #default="{ isActive }">
-            <v-card>
-              <v-toolbar density="compact" color="primary">
-                <v-toolbar-title>Archive Settings</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <div class="text-caption mb-4">
-                  COMP/CON can create and save a backup of your data at the selected interval. These
-                  archives can be used to roll back your data to a previous state.
-                </div>
 
-                <div>Auto Backup Frequency</div>
+              <cc-select
+                v-model="settings.autoBackupFrequency"
+                label="Auto Backup Frequency"
+                :items="backupFrequency"
+                :loading="updateLoading" />
 
-                <v-select
-                  v-model="settings.autoBackupFrequency"
-                  :items="backupFrequency"
-                  :loading="updateLoading"
-                  density="compact"
-                  hide-details />
+              <v-divider class="my-4" />
 
-                <v-divider class="my-4" />
+              <div class="text-caption mb-4">
+                COMP/CON will automatically delete old archives to save space. This process runs
+                whenever a new archive is created, or can be manually triggered by clicking the
+                Prune Items button below.
+              </div>
 
-                <div class="text-caption mb-4">
-                  COMP/CON will automatically delete old archives to save space. This process runs
-                  whenever a new archive is created, or can be manually triggered by clicking the
-                  Prune Items button below.
-                </div>
+              <div></div>
+              <cc-select
+                v-model="settings.autoBackupLimit"
+                label="Item Limit"
+                :loading="updateLoading"
+                :items="pruneOptions"
+                :details="pruneOptions.find((o) => o.value === pruneSetting)?.subtitle" />
 
-                <div>Item Limit</div>
-                <v-select
-                  density="compact"
-                  hide-details
-                  :loading="updateLoading"
-                  v-model="settings.autoBackupLimit"
-                  :items="pruneOptions" />
-                <i
-                  class="text-caption"
-                  v-text="pruneOptions.find((o) => o.value === pruneSetting)?.subtitle || ''" />
-
-                <div class="mt-4">Storage Limit</div>
-                <v-slider
-                  v-model="settings.autoBackupPrunePct"
-                  :max="100"
-                  :min="1"
-                  step="1"
-                  thumb-label
-                  color="accent"
-                  hide-details />
-                <i
-                  class="text-caption"
-                  v-text="
-                    `Delete old archives if cloud archives take up more than ${prunePct}% of your total cloud storage limit`
-                  " />
-              </v-card-text>
-              <v-divider />
-              <v-card-actions>
-                <v-btn @click="isActive.value = false">Close</v-btn>
-                <v-spacer />
-                <v-btn @click="prune" :loading="loading" :disabled="!prunableItemCount">
-                  <span v-if="prunableItemCount">Prune {{ prunableItemCount }} Items</span>
-                  <span v-else>Nothing to Prune</span>
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </template>
-        </v-menu>
-      </v-col>
-    </v-row>
+              <div class="mt-4">Storage Limit</div>
+              <v-slider
+                v-model="settings.autoBackupPrunePct"
+                :max="100"
+                :min="1"
+                step="1"
+                thumb-label
+                color="accent"
+                hide-details />
+              <div
+                class="text-caption text-right mt-n2"
+                v-text="
+                  `Delete old archives if cloud archives take up more than ${prunePct}% of your total cloud storage limit`
+                " />
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-spacer />
+              <v-btn @click="prune" :loading="loading" :disabled="!prunableItemCount">
+                <span v-if="prunableItemCount">Prune {{ prunableItemCount }} Items</span>
+                <span v-else>Nothing to Prune</span>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </template>
+      </cc-button>
+    </div>
   </v-card>
 </template>
 
@@ -303,7 +271,7 @@ export default {
       { title: 'Source', key: 'source' },
       { title: 'Size', key: 'size' },
       { title: 'Preserve', key: 'preserve' },
-      { title: '', key: 'actions', width: '155px' },
+      { title: '', key: 'actions', sortable: false, width: '155px' },
     ],
     pruneSetting: 30,
     pruneOptions: [

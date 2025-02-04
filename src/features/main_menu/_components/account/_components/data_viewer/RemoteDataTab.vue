@@ -1,19 +1,27 @@
 <template>
-  <v-row dense justify="space-between">
-    <v-col cols="auto">
-      <v-btn-toggle v-model="itemTypeFilter" multiple density="compact" style="height: 20px">
-        <v-btn
-          v-for="itemType in syncableItemTypes"
-          size="small"
-          :key="itemType.value"
-          v-model="itemTypeFilter"
-          :value="itemType.value"
-          color="primary">
-          {{ itemType.title }}
-        </v-btn>
-      </v-btn-toggle>
-    </v-col>
-  </v-row>
+  <v-btn-toggle
+    v-if="!mobile"
+    v-model="itemTypeFilter"
+    multiple
+    tile
+    flat
+    style="height: 20px; margin-top: -6px; width: 100%">
+    <v-btn
+      v-for="itemType in syncableItemTypes"
+      size="small"
+      :key="itemType.value"
+      v-model="itemTypeFilter"
+      :value="itemType.value"
+      :style="`width: ${100 / syncableItemTypes.length}%`"
+      color="primary">
+      {{ itemType.title }}
+    </v-btn>
+  </v-btn-toggle>
+  <cc-select v-else v-model="itemTypeFilter" :items="syncableItemTypes" multiple color="primary">
+    <template #prepend-inner>
+      <v-icon>mdi-filter</v-icon>
+    </template>
+  </cc-select>
   <v-data-table
     density="compact"
     :mobile="mobile"

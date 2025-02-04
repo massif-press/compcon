@@ -24,13 +24,13 @@
                 clearable
                 v-model="variant"
                 :items="variants" />
-              <v-checkbox density="compact" hide-details v-model="border" label="border" />
               <v-text-field
                 density="compact"
                 hide-details
                 clearable
                 v-model="title"
                 label="title" />
+              <v-checkbox density="compact" hide-details v-model="border" label="border" />
             </v-card-text>
           </v-card>
         </v-col>
@@ -38,6 +38,33 @@
     </v-card>
 
     <div class="my-12" />
+
+    <v-card flat border>
+      <v-row justify="center">
+        <v-col align-self="center">
+          <v-card-text>
+            <cc-alert :title="title" :icon="icon" :prominent="prominent" closeable>
+              <span v-html="loremIpsum" />
+            </cc-alert>
+          </v-card-text>
+        </v-col>
+        <v-divider vertical />
+        <v-col cols="3" style="min-width: 400px">
+          <v-card flat>
+            <v-card-text>
+              <v-text-field
+                density="compact"
+                hide-details
+                clearable
+                v-model="title"
+                label="title" />
+              <v-select v-model="icon" :items="icons" label="icon" hide-details clearable />
+              <v-checkbox density="compact" hide-details v-model="prominent" label="prominent" />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card>
 
     <!-- <cc-heading size="small" line>expandable</cc-heading>
 
@@ -104,6 +131,7 @@ export default {
     icon: 'cc:campaign',
     showTooltip: false,
     border: false,
+    prominent: false,
     icons: [
       'cc:campaign',
       'mdi-alert',

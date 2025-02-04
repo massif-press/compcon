@@ -12,11 +12,12 @@
     <v-card-text>
       <v-row>
         <v-col cols="6">
-          <v-card flat border color="blue-grey-darken-4">
+          <v-card flat border tile color="blue-grey-darken-4">
             <div class="heading h3 px-1">
               Local
               <v-chip
                 v-if="localNewer"
+                tile
                 color="accent"
                 variant="elevated"
                 elevation="0"
@@ -47,7 +48,8 @@
             <template #activator="{ props }">
               <v-btn
                 block
-                color="accent"
+                tile
+                color="primary"
                 v-bind="props"
                 :loading="loading"
                 @click="$emit('take-local')">
@@ -64,11 +66,12 @@
         </v-col>
 
         <v-col cols="6">
-          <v-card flat border color="blue-grey-darken-4">
+          <v-card flat border tile color="blue-grey-darken-4">
             <div class="heading h3 px-1">
               Cloud
               <v-chip
                 v-if="!localNewer"
+                tile
                 color="accent"
                 variant="elevated"
                 elevation="0"
@@ -99,7 +102,8 @@
             <template #activator="{ props }">
               <v-btn
                 block
-                color="accent"
+                tile
+                color="primary"
                 v-bind="props"
                 :loading="loading"
                 @click="$emit('take-cloud')">

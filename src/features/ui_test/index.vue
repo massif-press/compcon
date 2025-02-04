@@ -5,9 +5,9 @@
     <v-tab>Inputs</v-tab>
     <v-tab>Panels</v-tab>
     <v-tab>Titles</v-tab>
-    <v-tab disabled>Chips</v-tab>
+    <v-tab>Modals</v-tab>
+    <v-tab>Chips</v-tab>
     <v-tab disabled>Typography</v-tab>
-    <v-tab disabled>Modals</v-tab>
     <v-tab disabled>Other</v-tab>
   </v-tabs>
   <v-container>
@@ -16,6 +16,8 @@
       <inputs />
       <panels />
       <titles />
+      <modals />
+      <chips />
     </v-window>
   </v-container>
 
@@ -31,6 +33,8 @@ import buttons from './pages/buttons.vue';
 import inputs from './pages/inputs.vue';
 import panels from './pages/panels.vue';
 import titles from './pages/titles.vue';
+import modals from './pages/modals.vue';
+import chips from './pages/chips.vue';
 
 export default {
   name: 'ui-test-new',
@@ -39,6 +43,8 @@ export default {
     inputs,
     panels,
     titles,
+    modals,
+    chips,
   },
   data: () => ({
     tab: 0,

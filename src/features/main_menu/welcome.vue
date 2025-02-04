@@ -1,55 +1,44 @@
 <template>
-  <cc-solo-dialog
-    ref="dialog"
-    no-confirm
-    large
-    :title="title"
-    @close="setHash()"
-  >
-    <div v-html-safe="body" class="mt-2 body-text text-text" />
-    <v-row no-gutters align="end" justify="end">
-      <v-col cols="auto">
-        <v-checkbox
-          v-model="noshow"
-          color="secondary"
-          hide-details
-          density="compact"
-        >
-          <span slot="label">Don't show this message again</span>
-        </v-checkbox>
-      </v-col>
-    </v-row>
-  </cc-solo-dialog>
+  <div class="sidePanel">
+    <cc-panel style="height: 100%">
+      <div v-html-safe="body" class="mt-2 body-text text-text" />
+      <v-row no-gutters align="end" justify="end">
+        <v-col cols="auto">
+          <v-checkbox v-model="noShow" color="secondary" hide-details density="compact">
+            <span slot="label">Don't show this message again</span>
+          </v-checkbox>
+        </v-col>
+      </v-row>
+    </cc-panel>
+  </div>
 </template>
 
 <script lang="ts">
 import { UserStore } from '@/stores';
-import { UserProfile } from '@/user';
 
 export default {
   name: 'welcome-dialog',
   data: () => ({
-    welcomeMessageUrl:
-      'https://compcon-text-assets.s3.amazonaws.com/welcome.json',
+    welcomeMessageUrl: 'https://compcon-text-assets.s3.amazonaws.com/welcome.json',
     title: '',
     body: '',
     hash: '',
-    noshow: true,
+    noShow: true,
   }),
   computed: {
-    profile(): UserProfile {
-      return UserStore().UserProfile;
+    profile() {
+      return UserStore().User;
     },
   },
   watch: {
-    noshow(newval) {
+    noShow(newVal) {
       if (!this.profile) return;
-      if (newval) this.profile.WelcomeHash = this.hash;
+      if (newVal) this.profile.WelcomeHash = this.hash;
       else this.profile.WelcomeHash = '';
     },
-    profile(newval) {
+    profile(newVal) {
       if (!this.profile) return;
-      if (newval.WelcomeHash !== undefined)
+      if (newVal.WelcomeHash !== undefined)
         fetch(this.welcomeMessageUrl, {
           method: 'GET',
           mode: 'cors',
@@ -75,16 +64,13 @@ export default {
             }
           })
           .catch((err) => {
-            console.error(
-              'There was an issue downloading the latest welcome message.',
-              err
-            );
+            console.error('There was an issue downloading the latest welcome message.', err);
           });
     },
   },
   methods: {
     setHash() {
-      if (this.noshow) {
+      if (this.noShow) {
         localStorage.setItem('cc-welcome-hash', this.hash);
         this.profile.WelcomeHash = this.hash;
       } else {
@@ -95,3 +81,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.sidePanel {
+  position: absolute;
+  top: 12vh;
+  left: 700px;
+  right: 5vw;
+  bottom: 8vh;
+  z-index: 2;
+}
+</style>

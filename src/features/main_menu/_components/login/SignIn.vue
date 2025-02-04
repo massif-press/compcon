@@ -1,11 +1,11 @@
 <template>
-  <v-container :class="!mobile && 'px-12'" style="min-height: 200px">
+  <v-container>
     <v-fade-transition>
       <div v-if="signingIn" class="flavor-text">
         <v-row no-gutters v-for="l in loginLog">
-          <v-col v-html="l.str" />
-          <v-col cols="auto">
-            <i class="text-caption text-disabled">{{ l.time }}</i>
+          <v-col cols="12" md="" v-html="l.str" />
+          <v-col cols="12" md="auto">
+            <i class="text-caption text-disabled ml-3">{{ l.time }}</i>
           </v-col>
         </v-row>
         <v-fade-transition>
@@ -20,15 +20,15 @@
                 Copy Log
               </v-btn>
             </div>
-            <v-row>
+            <v-row dense>
               <v-col>
-                <v-btn block color="primary" @click="abort">abort</v-btn>
+                <cc-button variant="tonal" block color="primary" @click="abort">abort</cc-button>
               </v-col>
               <v-col>
-                <v-btn block color="primary" @click="retry">retry</v-btn>
+                <cc-button variant="tonal" block color="primary" @click="retry">retry</cc-button>
               </v-col>
               <v-col>
-                <v-btn block color="primary" @click="fail">fail</v-btn>
+                <cc-button variant="tonal" block color="primary" @click="fail">fail</cc-button>
               </v-col>
             </v-row>
           </div>
@@ -39,64 +39,64 @@
       <div v-if="!signingIn">
         <v-row class="mt-1">
           <v-col lg="6" cols="12">
-            <v-text-field
+            <div class="text-cc-overline pl-3">E-Mail</div>
+            <cc-text-field
               v-model="email"
-              label="E-Mail Address"
-              density="compact"
-              variant="outlined"
-              hide-details />
+              icon="mdi-email-outline"
+              color="primary"
+              variant="outlined" />
           </v-col>
           <v-col lg="6" cols="12">
-            <v-text-field
+            <div class="text-cc-overline pl-3">Password</div>
+            <cc-text-field
               v-model="password"
-              label="Password"
-              density="compact"
+              icon="mdi-lock-outline"
+              color="primary"
               variant="outlined"
-              hide-details
               :type="show ? 'text' : 'password'"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-              @click:append="show = !show" />
+              :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              @click-append-inner="show = !show" />
           </v-col>
         </v-row>
         <div class="text-center mt-4">
-          <v-btn
-            size="large"
-            :block="mobile"
+          <cc-button
+            size="x-large"
+            block
             color="secondary"
             type="submit"
             :loading="loading"
             :disabled="loading || !email || !password"
             @click="signIn">
             Sign In
-          </v-btn>
-          <br />
-          <v-btn
+          </cc-button>
+          <cc-button
             color="accent"
-            :block="mobile"
-            :class="!mobile && 'mt-2'"
+            size="small"
+            block
+            class="mt-2"
             variant="outlined"
             @click="$emit('set-state', 'sign-up')">
             Create Account
-          </v-btn>
+          </cc-button>
         </div>
         <v-footer style="position: absolute; bottom: 0; left: 0; right: 0">
-          <v-btn
+          <cc-button
             :size="mobile ? 'small' : 'default'"
             :stacked="mobile"
             prepend-icon="mdi-email-check"
-            color="accent"
+            color="primary"
             @click="$emit('reverify')">
             Verify E-Mail
-          </v-btn>
+          </cc-button>
           <v-spacer />
-          <v-btn
+          <cc-button
             :size="mobile ? 'small' : 'default'"
             :stacked="mobile"
             prepend-icon="mdi-lock-reset"
-            color="accent"
-            @click="$emit('set-state', 'sign-up')">
+            color="primary"
+            @click="$emit('set-state', 'reset')">
             Password Recovery
-          </v-btn>
+          </cc-button>
         </v-footer>
       </div>
     </v-fade-transition>
@@ -104,9 +104,7 @@
 </template>
 
 <script lang="ts">
-import { getUser } from '@/io/apis/account';
 import { UserStore } from '@/stores';
-// import { Auth } from '@aws-amplify/auth';
 import { signIn } from 'aws-amplify/auth';
 
 export default {

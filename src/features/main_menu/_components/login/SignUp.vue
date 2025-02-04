@@ -1,64 +1,61 @@
 <template>
   <v-container>
-    <v-alert
-      variant="outlined"
-      border="start"
-      border-color="secondary"
+    <cc-alert
       color="secondary"
       prominent
-      icon="mdi-information-outline">
-      <div class="heading h3 text-text">COMP/CON Cloud Account</div>
+      icon="mdi-information-outline"
+      title="COMP/CON Cloud Account">
       <div class="text-caption text-text">
         The e-mail address input below will be used to send you a confirmation code to finalize the
         creation of your account. From there, your e-mail will only be used to log in to your
-        COMP/CON account. We are committed to keeping your e-mail address confidential. We do not
-        sell, rent, or lease contact data or lists to third parties, and we will never provide your
-        personal information to any third party individual, government agency, or company at any
-        time, for any reason.
+        COMP/CON account.
+        <br />
+        We are committed to keeping your e-mail address confidential. We do not sell, rent, or lease
+        contact data or lists to third parties, and we will never provide your personal information
+        to any third party individual, government agency, or company at any time, for any reason.
       </div>
-    </v-alert>
-    <div class="text-center mt-2">
-      <b style="letter-spacing: 5px">CREATE ACCOUNT</b>
+    </cc-alert>
+    <cc-heading type="h3" center class="my-2">Create Account</cc-heading>
+
+    <div class="my-4">
+      <v-row justify="center" align="center">
+        <v-col lg="6" cols="12">
+          <div class="text-cc-overline pl-3">E-Mail</div>
+          <cc-text-field
+            v-model="email"
+            icon="mdi-email-outline"
+            color="primary"
+            variant="outlined" />
+        </v-col>
+        <v-col lg="6" cols="12">
+          <div class="text-cc-overline pl-3">Password</div>
+          <cc-text-field
+            v-model="password"
+            icon="mdi-lock-outline"
+            color="primary"
+            variant="outlined"
+            :type="show ? 'text' : 'password'"
+            :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+            @click-append-inner="show = !show" />
+        </v-col>
+      </v-row>
+      <br />
+      <cc-button
+        block
+        size="small"
+        color="secondary"
+        type="submit"
+        class="my-6"
+        :loading="loading"
+        :disabled="!submitOk"
+        @click="createAccount">
+        submit
+      </cc-button>
+      <cc-button variant="text" color="error" @click="$emit('set-state', 'sign-in')">
+        Cancel
+      </cc-button>
     </div>
 
-    <div class="mt-2">
-      <v-row justify="center" align="center">
-        <v-col lg="4" cols="12">
-          <v-text-field
-            v-model="email"
-            label="E-Mail Address"
-            :rules="[rules.required, rules.emailMatch]"
-            solo />
-        </v-col>
-        <v-col lg="4" cols="12">
-          <v-text-field
-            v-model="password"
-            label="Password"
-            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="show ? 'text' : 'password'"
-            solo
-            :rules="[rules.required, rules.min]"
-            @click:append="show = !show" />
-        </v-col>
-      </v-row>
-      <v-row no-gutters justify="center">
-        <v-col cols="auto">
-          <v-btn
-            large
-            color="secondary"
-            type="submit"
-            :loading="loading"
-            :disabled="!submitOk"
-            @click="createAccount">
-            submit
-          </v-btn>
-          <br />
-          <v-btn variant="text" color="accent" class="mt-1" @click="$emit('set-state', 'sign-in')">
-            Cancel
-          </v-btn>
-        </v-col>
-      </v-row>
-    </div>
     <v-scroll-y-transition leave-absolute hide-on-leave>
       <v-alert
         v-if="error"
@@ -100,6 +97,9 @@ export default {
       return (
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(this.email) && this.password.length >= 6
       );
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

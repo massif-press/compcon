@@ -2,7 +2,7 @@
   <div id="wrapper">
     <main-title @logupdate="ccLog('update')" />
     <c-c-log v-show="!$vuetify.display.mdAndDown" ref="log" />
-    <v-container fluid style="height: calc(100vh - 135px); margin-top: 40px">
+    <v-container fluid style="height: calc(100vh - 85px); margin-top: 20px">
       <v-row justify="space-between" align="center" style="height: 100%">
         <main-btn
           icon="cc:compendium"
@@ -52,58 +52,79 @@
     <v-footer color="primary" app fixed height="32">
       <v-row no-gutters justify="space-around" align="center">
         <v-col cols="auto" class="text-center mr-3">
-          <cc-button
-            size="small"
-            :color="isLoggedIn ? 'success' : ''"
-            :loading="startingUp"
-            :prepend-icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
-            class="mr-2"
-            @click="($refs.loginModal as any).show()">
-            <span>{{ isLoggedIn ? 'Connected' : 'Log In' }}</span>
-          </cc-button>
+          <cc-modal title="Cloud Account" icon="mdi-satellite-uplink" extended>
+            <template #activator="{ open }">
+              <cc-button
+                size="small"
+                :color="isLoggedIn ? 'success' : ''"
+                :loading="startingUp"
+                :prepend-icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
+                class="mr-2"
+                @click="open">
+                <span>{{ isLoggedIn ? 'Connected' : 'Log In' }}</span>
+              </cc-button>
+            </template>
+            <sign-in />
+          </cc-modal>
           <cloud-notifications />
         </v-col>
 
         <v-col cols="auto" class="ml-auto text-right">
           <v-row dense justify="space-between">
             <v-col cols="auto">
-              <cc-button
-                size="small"
-                variant="tonal"
-                @mouseenter="ccLog('options')"
-                @click="($refs.optionsModal as any).show()">
-                Options
-              </cc-button>
+              <cc-modal title="Options" icon="mdi-cog" extended>
+                <template #activator="{ open }">
+                  <cc-button
+                    size="small"
+                    variant="tonal"
+                    @mouseenter="ccLog('options')"
+                    @click="open">
+                    Options
+                  </cc-button>
+                </template>
+                <options-page />
+              </cc-modal>
             </v-col>
 
             <v-col cols="auto">
-              <cc-button
-                size="small"
-                variant="tonal"
-                @mouseenter="ccLog('about')"
-                @click="($refs.aboutModal as any).show()">
-                About
-              </cc-button>
+              <cc-dialog title="About" icon="mdi-information" extended>
+                <template #activator="{ open }">
+                  <cc-button
+                    size="small"
+                    variant="tonal"
+                    @mouseenter="ccLog('about')"
+                    @click="open">
+                    About
+                  </cc-button>
+                </template>
+                <about-page />
+              </cc-dialog>
             </v-col>
 
             <v-col cols="auto">
-              <cc-button
-                size="small"
-                variant="tonal"
-                @mouseenter="ccLog('about')"
-                @click="($refs.creditsModal as any).show()">
-                Credits
-              </cc-button>
+              <cc-modal title="Credits" icon="cc:gms" extended>
+                <template #activator="{ open }">
+                  <cc-button
+                    size="small"
+                    variant="tonal"
+                    @mouseenter="ccLog('credits')"
+                    @click="open">
+                    Credits
+                  </cc-button>
+                </template>
+                <credits-page />
+              </cc-modal>
             </v-col>
 
             <v-col cols="auto">
-              <cc-button
-                size="small"
-                variant="tonal"
-                @mouseenter="ccLog('help')"
-                @click="($refs.helpModal as any).show()">
-                Help
-              </cc-button>
+              <cc-modal title="Help" icon="mdi-help-circle" extended>
+                <template #activator="{ open }">
+                  <cc-button size="small" variant="tonal" @mouseenter="ccLog('help')" @click="open">
+                    Help
+                  </cc-button>
+                </template>
+                <help-page />
+              </cc-modal>
             </v-col>
 
             <v-col cols="auto">
@@ -112,8 +133,7 @@
                 color="warning"
                 size="small"
                 variant="tonal"
-                href="https://www.patreon.com/compcon"
-                tabindex="0">
+                href="https://www.patreon.com/compcon">
                 Support This Project
               </cc-button>
             </v-col>
@@ -121,17 +141,6 @@
         </v-col>
       </v-row>
     </v-footer>
-    <cc-solo-dialog ref="loginModal" large no-actions title="CLOUD ACCOUNT">
-      <sign-in @close="($refs as any).loginModal.hide()" />
-    </cc-solo-dialog>
-    <cc-solo-dialog ref="optionsModal" large no-confirm no-pad no-title-clip title="Options">
-      <options-page />
-    </cc-solo-dialog>
-    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
-    <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
-      <credits-page />
-    </cc-solo-dialog>
     <cc-solo-dialog
       ref="contentModal"
       no-title-clip

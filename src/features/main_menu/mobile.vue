@@ -1,5 +1,5 @@
 <template>
-  <v-container style="height: calc(100vh - 60px)">
+  <v-container style="height: calc(100vh - 40px)">
     <div style="position: absolute; top: 0; left: 0; right: 0; container-type: inline-size">
       <div class="bg-primary text-center">
         <span
@@ -28,68 +28,77 @@
     <v-bottom-navigation density="compact" class="bg-primary">
       <v-row no-gutters align="center" justify="space-around">
         <v-col cols="auto">
-          <cc-button
-            v-if="$vuetify.display.smAndUp"
-            :loading="startingUp"
-            size="small"
-            class="mx-2"
-            :variant="isLoggedIn ? '' : 'outlined'"
-            :color="isLoggedIn ? 'success' : 'panel'"
-            @click="($refs.loginModal as any).show()">
-            {{ isLoggedIn ? 'Connected' : 'Sign In' }}
-          </cc-button>
+          <cc-modal title="Cloud Account" icon="mdi-satellite-uplink">
+            <template #activator="{ open }">
+              <cc-button
+                v-if="$vuetify.display.smAndUp"
+                :loading="startingUp"
+                size="small"
+                class="mx-2"
+                :variant="isLoggedIn ? '' : 'outlined'"
+                :color="isLoggedIn && 'success'"
+                @click="open">
+                {{ isLoggedIn ? 'Connected' : 'Sign In' }}
+              </cc-button>
 
-          <cc-button
-            v-else
-            :loading="startingUp"
-            size="small"
-            class="mx-2"
-            :variant="isLoggedIn ? '' : 'outlined'"
-            :color="isLoggedIn ? 'success' : ''"
-            :icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
-            @click="($refs.loginModal as any).show()" />
+              <cc-button
+                v-else
+                :loading="startingUp"
+                size="small"
+                class="mx-2"
+                :variant="isLoggedIn ? '' : 'outlined'"
+                :color="isLoggedIn ? 'success' : ''"
+                :icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
+                @click="open" />
+            </template>
+            <sign-in />
+          </cc-modal>
         </v-col>
 
         <v-divider vertical class="mr-2" />
 
         <v-col cols="auto">
-          <cc-button
-            class="text-uppercase pa-0"
-            size="small"
-            variant="text"
-            @click="($refs as any).optionsModal.show()">
-            Options
-          </cc-button>
+          <cc-modal title="Options" icon="mdi-cog">
+            <template #activator="{ open }">
+              <cc-button class="text-uppercase pa-0" size="small" variant="text" @click="open">
+                Options
+              </cc-button>
+            </template>
+            <options-page />
+          </cc-modal>
         </v-col>
 
         <v-col cols="auto">
-          <cc-button
-            class="text-uppercase pa-0"
-            size="small"
-            variant="text"
-            @click="($refs as any).aboutModal.show()">
-            About
-          </cc-button>
+          <cc-modal title="About" icon="mdi-information">
+            <template #activator="{ open }">
+              <cc-button class="text-uppercase pa-0" size="small" variant="text" @click="open">
+                About
+              </cc-button>
+            </template>
+            <about-page />
+          </cc-modal>
         </v-col>
 
         <v-col cols="auto">
-          <cc-button
-            class="text-uppercase pa-0"
-            size="small"
-            variant="text"
-            @click="($refs as any).creditsModal.show()">
-            Credits
-          </cc-button>
+          <cc-modal title="Credits" icon="cc:gms">
+            <template #activator="{ open }">
+              <cc-button class="text-uppercase pa-0" size="small" variant="text" @click="open">
+                Credits
+              </cc-button>
+            </template>
+            <credits-page />
+          </cc-modal>
         </v-col>
 
         <v-col cols="auto">
-          <cc-button
-            class="text-uppercase pa-0"
-            size="small"
-            variant="text"
-            @click="($refs as any).helpModal.show()">
-            Help
-          </cc-button>
+          <cc-modal title="Help" icon="mdi-help-circle">
+            <template #activator="{ open }">
+              <cc-button class="text-uppercase pa-0" size="small" variant="text" @click="open">
+                Help
+              </cc-button>
+            </template>
+            <help-page />
+          </cc-modal>
         </v-col>
       </v-row>
     </v-bottom-navigation>
@@ -97,16 +106,6 @@
   <cc-solo-dialog ref="loginModal" no-confirm title="CLOUD ACCOUNT">
     <sign-in />
   </cc-solo-dialog>
-  <cc-solo-dialog ref="optionsModal" no-confirm no-title-clip title="Options">
-    <options-page />
-  </cc-solo-dialog>
-  <cc-solo-dialog ref="aboutModal" no-confirm title="About">
-    <about-page />
-  </cc-solo-dialog>
-  <cc-solo-dialog ref="creditsModal" no-confirm title="Credits">
-    <credits-page />
-  </cc-solo-dialog>
-  <cc-solo-dialog ref="helpModal" no-confirm title="Help"><help-page /></cc-solo-dialog>
   <cc-solo-dialog
     ref="contentModal"
     no-title-clip

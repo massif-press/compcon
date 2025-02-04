@@ -1,9 +1,21 @@
 <template>
-  <v-btn-toggle v-model="itemSize" color="primary" mandatory density="compact" style="height: 20px">
-    <v-btn value="100" key="100" size="small"><v-icon size="x-large" icon="mdi-size-s" /></v-btn>
-    <v-btn value="200" key="200" size="small"><v-icon size="x-large" icon="mdi-size-m" /></v-btn>
-    <v-btn value="300" key="300" size="small"><v-icon size="x-large" icon="mdi-size-l" /></v-btn>
-    <v-btn value="450" key="450" size="small"><v-icon size="x-large" icon="mdi-size-xl" /></v-btn>
+  <v-btn-toggle
+    v-model="itemSize"
+    color="primary"
+    mandatory
+    style="height: 20px; margin-top: -6px; width: 100%">
+    <v-btn value="100" key="100" size="small" style="width: 25%">
+      <v-icon size="x-large" icon="mdi-size-s" />
+    </v-btn>
+    <v-btn value="200" key="200" size="small" style="width: 25%">
+      <v-icon size="x-large" icon="mdi-size-m" />
+    </v-btn>
+    <v-btn value="300" key="300" size="small" style="width: 25%">
+      <v-icon size="x-large" icon="mdi-size-l" />
+    </v-btn>
+    <v-btn value="450" key="450" size="small" style="width: 25%">
+      <v-icon size="x-large" icon="mdi-size-xl" />
+    </v-btn>
   </v-btn-toggle>
   <v-data-table
     density="compact"

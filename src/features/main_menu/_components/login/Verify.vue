@@ -1,31 +1,34 @@
 <template>
   <v-container class="text-center">
-    <div class="text-center heading" style="letter-spacing: 5px">VERIFY E-MAIL ADDRESS</div>
-    <div>
+    <cc-heading type="h3" center>VERIFY E-MAIL ADDRESS</cc-heading>
+    <div class="my-2">
       <div v-if="preFill">A verification code was sent to</div>
       <div v-else>Send a verification code to:</div>
       <v-row dense justify="center" align="center">
-        <v-col cols="4">
-          <v-text-field v-model="verifyEmail" density="compact" hide-details variant="outlined" />
+        <v-col cols="12" sm="6" lg="4">
+          <v-text-field
+            v-model="verifyEmail"
+            density="compact"
+            hide-details
+            variant="outlined"
+            tile />
         </v-col>
       </v-row>
-      <v-btn
-        :size="preFill ? 'x-small' : 'default'"
-        :variant="preFill ? 'tonal' : 'elevated'"
+      <cc-button
+        :size="preFill ? 'small' : 'default'"
         color="accent"
-        :class="preFill ? '' : 'mt-2'"
-        style="fade-select"
+        class="mt-2"
         @click="resend()">
         {{ preFill ? 'Re-send' : 'Send' }} Verification Code
-      </v-btn>
+      </cc-button>
     </div>
 
     <v-fade-transition>
       <div v-if="preFill">
-        <v-divider class="my-2" />
-        Input the verification code below to finalize your account
+        <v-divider class="my-4" />
+        Input the verification code to finish creating your account
         <v-row dense justify="center">
-          <v-col cols="4">
+          <v-col cols="12" sm="6" lg="4">
             <v-text-field
               v-model="verify"
               label="Verification Code"
@@ -35,27 +38,30 @@
               hide-details />
           </v-col>
         </v-row>
-        <v-btn size="large" color="success" :loading="loading" :disabled="!verify" @click="confirm">
+        <cc-button
+          color="secondary"
+          :loading="loading"
+          :disabled="!verify"
+          class="my-4"
+          @click="confirm">
           Confirm Verification Code
-        </v-btn>
+        </cc-button>
       </div>
     </v-fade-transition>
-    <v-btn variant="text" color="accent" class="mt-1" @click="$emit('set-state', 'sign-in')">
+    <cc-button variant="text" color="accent" @click="$emit('set-state', 'sign-in')">
       Cancel
-    </v-btn>
+    </cc-button>
     <v-scroll-y-transition leave-absolute hide-on-leave>
-      <v-alert
+      <cc-alert
         v-if="error"
         v-model="showError"
-        color="error darken-1"
-        density="compact"
+        color="error"
         prominent
-        class="mt-2"
         icon="mdi-alert"
-        closable>
-        <div class="font-weight-bold">ERROR</div>
+        closeable
+        title="error">
         <div v-html="error" />
-      </v-alert>
+      </cc-alert>
     </v-scroll-y-transition>
   </v-container>
 </template>
