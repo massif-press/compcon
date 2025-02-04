@@ -1,12 +1,12 @@
 <template>
-  <v-card tile flat class="top-element" color="transparent" style="text-transform: uppercase">
-    <v-row dense no-gutters :class="`${outlined && 'outlined'}`">
+  <v-card tile flat class="top-element pb-1" color="transparent" style="text-transform: uppercase">
+    <v-row dense no-gutters>
       <v-col>
-        <span :class="`light ${size} ${bgColor}`" />
+        <span :class="`light ${disabled && 'disabled'} ${size} ${bgColor}`" />
         <v-card
-          :class="`${colorClass} ${sizeStyle} ${outlined && `border-sm text-${color}`}  px-4 pb-1`"
+          :class="`${colorClass} ${sizeStyle} ${disabled && 'disabled'} ${outlined && `border-sm text-${color}`} px-4 mb-n1`"
           :style="outlined ? `border-color: ${borderColor}!important;` : ''"
-          style="padding: 2px 0 2px 0"
+          style="display: flex; justify-content: center; align-items: center"
           tile
           :ripple="{ class: `text-${color}` }"
           :loading="loading"
@@ -14,17 +14,15 @@
           :to="to"
           :href="href"
           :target="target"
-          @click="$emit('click')">
-          <v-row :align="alignment" dense>
+          @click.stop="!disabled && !loading && $emit('click')">
+          <v-row dense align="center" :class="mobile && 'py-2'">
             <v-col cols="auto">
               <v-icon v-if="prependIcon" :size="iconSize" :icon="prependIcon" start />
               <span v-else-if="size !== 'small' && size !== 'x-small'">&nbsp;</span>
             </v-col>
-            <v-col>
-              <div :style="`font-size: ${size}; margin-top: 1px`">
-                <slot />
-              </div>
-              <div class="text-caption mt-n1"><slot name="subtitle" /></div>
+            <v-col class="py-0" :style="`font-size: ${size}`">
+              <slot />
+              <div v-if="$slots.subtitle" class="text-caption mt-n1"><slot name="subtitle" /></div>
             </v-col>
             <v-col cols="auto">
               <div class="text-caption"><slot name="info" /></div>
@@ -33,15 +31,7 @@
               <v-icon :size="iconSize" :icon="appendIcon" start />
             </v-col>
             <v-col cols="auto">
-              <v-tooltip v-if="tooltip" location="top" max-width="300px">
-                <template v-slot:activator="{ props }">
-                  <v-icon
-                    v-bind="props"
-                    class="fade-select"
-                    :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
-                </template>
-                {{ tooltip }}
-              </v-tooltip>
+              <cc-tooltip v-if="tooltip" :icon="tooltipIcon" :text="tooltip" end />
               <div v-else style="height: 14px" />
             </v-col>
           </v-row>
@@ -49,17 +39,17 @@
       </v-col>
 
       <v-col cols="auto" v-if="$slots.options">
-        <v-menu>
+        <v-menu :close-on-content-click="false" offset-y>
           <template #activator="{ props }">
             <v-btn
-              style="height: 100%; margin-left: -1px; container-type: size"
+              style="height: 110%; margin-left: -1px; container-type: size"
               :variant="outlined ? 'outlined' : 'tonal'"
               :color="outlined ? color : ''"
               rounded="0"
               icon
               v-bind="props">
               <v-icon
-                style="font-size: 90cqh; padding-bottom: 1px"
+                style="font-size: min(60px, 90cqh)"
                 :icon="optionsIcon || 'mdi-dots-vertical'" />
             </v-btn>
           </template>
@@ -74,7 +64,7 @@
 export default {
   name: 'cc-btn-block',
   props: {
-    color: { type: String, default: 'panel' },
+    color: { type: String },
     disabled: { type: Boolean },
     block: { type: Boolean },
     loading: { type: Boolean },
@@ -90,6 +80,9 @@ export default {
     target: { type: String },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     sizeStyle() {
       return this.size ? `size-${this.size}` : 'size-default';
     },
@@ -110,6 +103,7 @@ export default {
       return this.variant === 'outlined';
     },
     borderColor() {
+      if (!this.color) return '';
       if (this.color[0] === '#') return this.color;
       return `var(--v-${this.color}-base)`;
     },
@@ -123,6 +117,11 @@ export default {
 </script>
 
 <style scoped>
+.disabled {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+
 .top-element {
   position: relative;
 }
@@ -177,25 +176,30 @@ export default {
   clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
   font-size: 0.75rem;
   letter-spacing: 4px;
+  min-height: 40px;
 }
 
 .size-default {
   clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
   letter-spacing: 2px;
+  min-height: 48px;
 }
 
 .size-large {
   clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
   letter-spacing: 3px;
+  min-height: 64px;
 }
 
 .size-x-large {
   clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
   letter-spacing: 4px;
+  min-height: 72px;
 }
 
 .size-xx-large {
   clip-path: polygon(36px 0, 100% 0, 100% 100%, 0 100%, 0 36px);
   letter-spacing: 4px;
+  min-height: 84px;
 }
 </style>

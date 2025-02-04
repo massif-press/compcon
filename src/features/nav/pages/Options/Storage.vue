@@ -5,9 +5,9 @@
         :model-value="((size.usage / size.quota) * 100).toFixed(3)"
         height="20"
         class="mb-5"
-        rounded
+        tile
         color="primary">
-        <v-chip small variant="elevated" color="primary-lighten-5" style="opacity: 0.5">
+        <v-chip small tile variant="elevated" color="primary-lighten-5" style="opacity: 0.5">
           {{ ((size.usage / size.quota) * 100).toFixed(3) }}%
         </v-chip>
       </v-progress-linear>
@@ -20,15 +20,14 @@
       </p>
 
       <div class="mb-4">
-        <h3 class="heading text-accent my-2">Storage Settings</h3>
-        <div class="text-caption mb-n2">
-          <b>STORAGE THRESHOLDS</b>
-        </div>
+        <cc-heading title text="Storage Settings" />
+        <cc-heading title small text="Storage Thresholds" />
         <v-range-slider
           v-model="storageRange"
           thumb-label
           hide-details
           strict
+          tile
           type="number"
           track-fill-color="secondary"
           color="primary"
@@ -48,15 +47,13 @@
       </div>
 
       <div class="mb-8">
-        <div class="text-caption mb-n2">
-          <b>AUTO-DELETE</b>
-        </div>
-        <v-select
+        <cc-heading title small text="Auto-delete" />
+
+        <cc-select
           v-model="deleteDays"
           :items="deleteDaySelections"
           hide-details
           density="compact"
-          class="mt-2"
           @update:modelValue="updateDeleteDays()" />
         <div class="text-caption text-right text-stark">
           COMP/CON will permanently delete data after it has been marked as deleted for at least
@@ -64,20 +61,6 @@
           This will not affect items not already marked for deletion.
         </div>
       </div>
-
-      <v-table class="text-left mt-4" density="compact">
-        <thead>
-          <tr>
-            <th v-for="item in data" v-text="item.title" />
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td v-for="item in data">{{ item.length }} items</td>
-          </tr>
-        </tbody>
-      </v-table>
     </v-card-text>
     <v-card-text v-else class="flavor-text">
       COMP/CON is unable to access device storage. This may be due to a browser setting or
@@ -90,26 +73,29 @@
 
     <v-divider class="my-4" />
 
-    <h3 class="heading text-accent">Deleted Items (local data only)</h3>
+    <cc-heading title text="Deleted Items (local data only)" />
     <v-card-text>
       <deleted-items />
     </v-card-text>
 
     <v-divider class="my-4" />
 
-    <h3 class="heading text-accent">User Data</h3>
-    <v-card-text>
-      <user-data-viewer />
-    </v-card-text>
+    <cc-heading title text="User Data" />
+    <user-data-viewer />
 
     <v-dialog v-model="deleteDialog" width="80%">
       <template #activator="{ props }">
         <div class="text-center">
-          <v-btn size="small" variant="outlined" color="error" class="my-6" v-bind="props">
-            <v-icon start size="x-large" icon="mdi-alert-outline" />
+          <cc-button
+            size="large"
+            variant="outlined"
+            color="error"
+            class="my-6"
+            append-icon="mdi-alert-outline"
+            prepend-icon="mdi-alert-outline"
+            v-bind="props">
             Clear All Data
-            <v-icon end size="x-large" icon="mdi-alert-outline" />
-          </v-btn>
+          </cc-button>
         </div>
       </template>
       <v-card flat tile>

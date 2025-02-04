@@ -1,63 +1,69 @@
 <template>
-  <v-tooltip :location="(location as any)" :open-delay="delayed ? 500 : 150" :max-width="maxWidth">
+  <v-tooltip v-if="!mobile" max-width="350px">
     <template #activator="{ props }">
-      <div :class="{ 'd-inline': inline }" v-bind="props">
-        <slot />
-      </div>
+      <v-icon
+        v-bind="showTooltip ? props : ''"
+        :icon="getIcon"
+        :start="start"
+        :end="end"
+        style="align-self: center; margin-top: -3px"
+        :size="small ? 'x-small' : undefined" />
     </template>
-    <div>
-      <div v-if="err">
-        Unable to load tooltip information. This may be due to malformed data or an unloaded content
-        package.
-      </div>
-      <div v-else>
-        <div v-if="!title">
-          <div v-html="content" />
-        </div>
-        <div v-else>
-          <span class="heading h3">{{ title }}</span>
-          <v-divider class="my-1" />
-          <div v-html="content" />
-        </div>
-      </div>
-    </div>
+    <template #default>
+      <span v-if="text" v-html="text" />
+      <slot v-else />
+    </template>
   </v-tooltip>
+  <v-menu v-else bottom max-width="350px">
+    <template #activator="{ props }">
+      <v-icon
+        v-bind.stop="showTooltip ? props : ''"
+        :icon="getIcon"
+        :start="start"
+        :end="end"
+        style="align-self: center; margin-top: -3px"
+        :size="small ? 'x-small' : undefined" />
+    </template>
+    <v-card class="pa-2">
+      <span v-if="text" v-html="text" />
+      <slot v-else />
+    </v-card>
+  </v-menu>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'CCTooltip',
   props: {
-    err: {
+    text: {
       type: String,
-      required: false,
       default: '',
     },
-    location: {
+    icon: {
       type: String,
-      required: false,
-      default: 'top',
+      default: '',
     },
-    inline: {
+    start: {
       type: Boolean,
-      required: false,
+      default: false,
     },
-    delayed: {
+    end: {
       type: Boolean,
-      required: false,
+      default: false,
     },
-    title: {
-      type: String,
-      required: false,
+    small: {
+      type: Boolean,
+      default: false,
     },
-    content: {
-      type: String,
-      required: true,
+  },
+  computed: {
+    getIcon() {
+      return this.icon || 'mdi-information-slab-box-outline';
     },
-    maxWidth: {
-      type: String,
-      required: false,
-      default: '350px',
+    showTooltip() {
+      return this.text || this.$slots.default;
+    },
+    mobile(): boolean {
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     },
   },
 };

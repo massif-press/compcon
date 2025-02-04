@@ -1,5 +1,5 @@
 <template>
-  <v-card flat border>
+  <v-card flat border tile>
     <v-list v-if="store.CloudNotifications.length" density="compact">
       <v-list-item
         v-for="(notification, idx) in store.CloudNotifications"
@@ -9,20 +9,19 @@
         <template #append>
           <v-tooltip location="top">
             <template #activator="{ props }">
-              <v-btn
+              <cc-button
                 v-bind="props"
-                size="x-small"
-                icon
+                icon="mdi-close"
+                size="small"
                 variant="text"
-                @click="store.removeCloudNotification(idx)">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
+                class="ml-2"
+                @click="store.removeCloudNotification(idx)" />
             </template>
             <span>Dismiss</span>
           </v-tooltip>
         </template>
       </v-list-item>
-      <v-btn size="x-small" variant="tonal" block @click="store.clearCloudNotifications()">
+      <v-btn size="x-small" variant="tonal" block tile @click="store.clearCloudNotifications()">
         Dismiss All Notifications
       </v-btn>
     </v-list>

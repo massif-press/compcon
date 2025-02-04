@@ -39,7 +39,7 @@
       </v-alert>
     </v-fade-transition>
 
-    <v-expansion-panels class="mb-4" flat color="panel">
+    <v-expansion-panels class="mb-4" flat color="panel" tile>
       <v-expansion-panel>
         <template #title>
           <v-row dense>
@@ -59,81 +59,54 @@
 
     <v-row>
       <v-col cols="12" md="6">
-        <div class="font-weight-bold text-accent">
-          CC-ID
-          <v-tooltip max-width="300px" location="top">
-            <template #activator="{ props }">
-              <v-icon
-                v-bind="props"
-                size="x-small"
-                color="primary"
-                class="mt-n1"
-                @click="copy(cognito.userId)">
-                mdi-help-circle-outline
-              </v-icon>
-            </template>
-            Your unique account ID. This is used to identify your account in the cloud and may be
-            requested for troubleshooting purposes.
-            <v-divider class="my-1" />
-            Click to copy your CC-ID to the clipboard.
-          </v-tooltip>
-        </div>
+        <cc-heading
+          title
+          text="CC-ID"
+          tooltip="Your unique account ID. This is used to identify your account in the cloud and may be
+          requested for troubleshooting purposes." />
         {{ cognito.userId }}
       </v-col>
       <v-col cols="12" md="6">
-        <div class="font-weight-bold text-accent">
-          ACCOUNT EMAIL
-          <v-tooltip max-width="300px" location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props" size="x-small" class="mt-n1" color="primary">
-                mdi-help-circle-outline
-              </v-icon>
-            </template>
-            This is the e-mail address associated with your account. You can use this to log in to
+        <cc-heading
+          title
+          text="Account Email"
+          tooltip="This is the e-mail address associated with your account. You can use this to log in to
             COMP/CON, Nautilus, and other Massif apps. This address is only visible to you and and
             <b>will not</b>
-            be shown to other users in active mode or in shared data.
-          </v-tooltip>
-        </div>
+            be shown to other users in active mode or in shared data." />
+
         {{ cognito.signInDetails.loginId }}
       </v-col>
       <v-col cols="12" md="6">
-        <div class="font-weight-bold text-accent">
-          CC-USERNAME
-          <v-tooltip max-width="300px" location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props" size="x-small" class="mt-n1" color="primary">
-                mdi-help-circle-outline
-              </v-icon>
-            </template>
-            This is an
-            <b>optional</b>
-            field that you can use to set a custom name for your account. This username
-            <b>will</b>
-            be visible to other users in active mode and when sharing data.
-          </v-tooltip>
-        </div>
-        <v-text-field
-          v-model="meta.Username"
-          :loading="nameLoading"
-          density="compact"
-          hide-details
-          autocomplete="one-time-code"
-          @update:model-value="nameDirty = true">
-          <template v-if="nameDirty" #append>
-            <v-btn
-              size="x-small"
-              variant="plain"
-              color="success"
-              icon
-              @click="userUpdate('username')">
-              <v-icon size="35" icon="mdi-content-save" />
-            </v-btn>
-          </template>
-        </v-text-field>
+        <cc-heading
+          title
+          text="CC-username"
+          tooltip="This is an <b>optional</b> field that you can use to set a custom name for your account. This username <b>will</b> be visible to other users in active mode and when sharing data." />
+
+        <v-row dense align="center">
+          <v-col>
+            <cc-text-field
+              v-model="meta.Username"
+              :loading="nameLoading"
+              color="primary"
+              autocomplete="one-time-code"
+              @update:model-value="nameDirty = true" />
+          </v-col>
+          <v-col cols="auto">
+            <cc-button
+              size="small"
+              class="ml-2"
+              color="primary"
+              icon="mdi-content-save"
+              variant="outlined"
+              :loading="nameLoading"
+              :disabled="!nameDirty"
+              @click="userUpdate('username')" />
+          </v-col>
+        </v-row>
       </v-col>
       <v-col cols="12" md="6">
-        <div class="font-weight-bold text-accent">ACCOUNT DETAILS</div>
+        <cc-heading title text="Account Details" />
         <div class="text-caption">
           <b>Account created (v3):</b>
           <i class="text-accent ml-1">{{ new Date(Number(meta.CreatedAt)).toLocaleString() }}</i>
@@ -148,100 +121,67 @@
     <div class="flavor-text">
       <v-row class="text-center py-4">
         <v-col cols="12" md="6">
-          <itch-card v-if="itch.hasItch" />
-
-          <v-card v-else size="small" color="itch" @click="loginWithItch">
-            <b>itch.io account:</b>
-            <div v-if="loadItch" class="ma-2">
-              <v-progress-linear indeterminate color="white" height="12" rounded="md" />
-            </div>
-            <div v-else class="text-disabled">Unlinked</div>
-            Link itch.io
-            <v-tooltip max-width="400px">
-              <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-small">mdi-help-circle-outline</v-icon>
-              </template>
-              Linking your itch.io account will allow you to download Massif content from the
-              itch.io store with one click.
-              <br />
-              You can also subscribe to Massif LCPs to auto-update your local copy when the author
-              releases a new version.
-            </v-tooltip>
-          </v-card>
+          <itch-card />
         </v-col>
         <v-col cols="12" md="6">
-          <patreon-card v-if="patreon.hasPatreon" />
-          <v-card v-else size="small" color="#FF424D" @click="loginWithPatreon">
-            <b>Patreon account:</b>
-
-            <div v-if="loadPatreon" class="ma-2">
-              <v-progress-linear indeterminate color="white" height="12" rounded="md" />
-            </div>
-            <div v-else class="text-disabled">Unlinked</div>
-            Link Patreon
-            <v-tooltip max-width="400px">
-              <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-small">mdi-help-circle-outline</v-icon>
-              </template>
-              If you are subscribed to the COMP/CON Patreon, linking your Patreon account will
-              increase your maximum cloud storage space and unlock realtime table creation in GM
-              mode.
-            </v-tooltip>
-          </v-card>
+          <patreon-card />
         </v-col>
       </v-row>
     </div>
 
-    <div class="text-caption font-weight-bold my-1">CHANGE PASSWORD</div>
-    <v-row dense>
+    <cc-heading small line>Change password</cc-heading>
+    <v-row dense align="center">
       <v-col cols="12" md="">
-        <v-text-field
+        <cc-text-field
           v-model="oldPass"
-          variant="outlined"
-          density="compact"
           label="Old Password"
+          color="primary"
+          variant="outlined"
           :type="showOld ? 'text' : 'password'"
           :append-inner-icon="showOld ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append-inner="showOld = !showOld" />
+          @click-append-inner="showOld = !showOld" />
       </v-col>
       <v-col cols="12" md="">
-        <v-text-field
+        <cc-text-field
           v-model="newPass"
-          variant="outlined"
-          density="compact"
           label="New Password"
-          :rules="[rules.passLength, passMatch]"
+          color="primary"
+          variant="outlined"
           :type="showNew ? 'text' : 'password'"
           :append-inner-icon="showNew ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append-inner="showNew = !showNew" />
+          @click-append-inner="showNew = !showNew" />
       </v-col>
       <v-col cols="12" md="auto">
-        <v-btn
-          color="accent"
-          :block="mobile"
-          :size="mobile ? 'small' : 'default'"
-          :class="{ 'mt-n2 mb-4': mobile }"
-          :disabled="!oldPass || !newPass || oldPass === newPass"
-          :loading="loading"
-          @click="changePass">
-          Submit
-        </v-btn>
+        <div class="text-right">
+          <cc-button
+            color="accent"
+            :disabled="!oldPass || !newPass || oldPass === newPass"
+            :loading="loading"
+            @click="changePass">
+            Submit
+          </cc-button>
+        </div>
       </v-col>
     </v-row>
 
-    <v-btn block color="warning" :loading="loading" @click="ccSignOut">Sign Out</v-btn>
+    <cc-button block color="secondary" :loading="loading" @click="ccSignOut" class="my-12">
+      Sign Out
+      <template #info>
+        <v-icon icon="mdi-logout" />
+      </template>
+    </cc-button>
 
-    <div class="text-right mt-12">
-      <v-dialog :fullscreen="mobile" :width="mobile ? '' : '70vw'">
-        <template #activator="{ props }">
-          <v-btn v-bind="props" size="small" color="error" prepend-icon="mdi-skull">
+    <div class="text-right">
+      <cc-modal title="Account Deletion" max-width="50vw" shrink>
+        <template #activator="{ open }">
+          <cc-button @click="open" variant="tonal" color="error" prepend-icon="mdi-skull">
             Delete Cloud Account
-          </v-btn>
+          </cc-button>
         </template>
         <template #default="{ isActive }">
           <delete-account @close="isActive.value = false" />
         </template>
-      </v-dialog>
+      </cc-modal>
     </div>
   </v-container>
 </template>
@@ -252,7 +192,6 @@ import _ from 'lodash';
 import { updateUser } from '@/io/apis/account';
 import { signOut, updatePassword } from 'aws-amplify/auth';
 import DeleteAccount from './_components/deleteAccount.vue';
-import { authPatreon, authItch } from '@/user/oauth';
 import PatreonCard from './_components/patreonCard.vue';
 import ItchCard from './_components/itchCard.vue';
 import CloudNotificationList from '@/features/nav/_components/CloudNotificationList.vue';
@@ -262,8 +201,6 @@ export default {
   components: { DeleteAccount, PatreonCard, ItchCard, CloudNotificationList },
   data: () => ({
     loading: false,
-    loadPatreon: false,
-    loadItch: false,
     showAccountMigration: true,
     nameLoading: false,
     nameDirty: false,
@@ -292,12 +229,6 @@ export default {
     },
     meta() {
       return UserStore().UserMetadata;
-    },
-    patreon() {
-      return UserStore().User.Patreon;
-    },
-    itch() {
-      return UserStore().User.Itch;
     },
     passMatch() {
       return () =>
@@ -383,103 +314,6 @@ export default {
 
       this.nameLoading = false;
       this.nameDirty = false;
-    },
-    openOAuthPopup(url, name, width = 500, height = 600) {
-      const left = window.screenX + (window.outerWidth - width) / 2;
-      const top = window.screenY + (window.outerHeight - height) / 2;
-
-      return window.open(
-        url,
-        name,
-        `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no`
-      );
-    },
-
-    async loginWithPatreon() {
-      const clientId = import.meta.env.VITE_APP_PATREON_CLIENT_ID;
-      const redirectUri = import.meta.env.VITE_APP_OAUTH_CALLBACK_URI;
-      const state = Math.random().toString(36).substring(2); // Simple state generation
-
-      const oauthUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identity&state=${state}`;
-
-      this.openOAuthPopup(oauthUrl, 'Patreon Login');
-
-      // Listen for messages from the popup
-      const handleMessage = (event) => {
-        if (event.origin !== window.location.origin) return; // Ensure message is from the same origin
-        if (event.data.type === 'oauth-code') {
-          this.exchangePatreonToken(event.data.code);
-          window.removeEventListener('message', handleMessage);
-        }
-      };
-
-      window.addEventListener('message', handleMessage);
-    },
-
-    async loginWithItch() {
-      const clientId = import.meta.env.VITE_APP_ITCH_CLIENT_ID;
-      const redirectUri = import.meta.env.VITE_APP_OAUTH_CALLBACK_URI;
-      let scope = 'profile:me';
-      scope = encodeURIComponent(scope);
-
-      const oauthUrl = `https://itch.io/user/oauth?client_id=${clientId}&scope=${scope}&response_type=token&redirect_uri=${redirectUri}`;
-
-      this.openOAuthPopup(oauthUrl, 'Itch.io Login');
-
-      // Listen for messages from the popup
-      const handleMessage = (event) => {
-        if (event.origin !== window.location.origin) return; // Ensure message is from the same origin
-        if (event.data.type === 'access_token') {
-          this.exchangeItchToken(event.data.access_token);
-          window.removeEventListener('message', handleMessage);
-        }
-      };
-
-      window.addEventListener('message', handleMessage);
-    },
-
-    async exchangePatreonToken(code) {
-      this.loadPatreon = true;
-      try {
-        const data = await authPatreon(code);
-        await UserStore().setPatreonData(data);
-        this.loadPatreon = false;
-        this.$notify({
-          title: 'Patreon Linked',
-          text: 'Your Patreon account has been linked',
-          data: { color: 'success' },
-        });
-      } catch (error) {
-        console.error('Token Exchange Error:', error);
-        this.loadPatreon = false;
-        this.$notify({
-          title: 'Patreon Link Failed',
-          text: 'There was an error linking your Patreon account',
-          data: { color: 'error' },
-        });
-      }
-    },
-
-    async exchangeItchToken(access_token) {
-      this.loadItch = true;
-      try {
-        const data = await authItch(access_token);
-        await UserStore().setItchData(access_token, data);
-        this.loadItch = false;
-        this.$notify({
-          title: 'Itch.io Linked',
-          text: 'Your itch.io account has been linked',
-          data: { color: 'success' },
-        });
-      } catch (error) {
-        console.error('Token Exchange Error:', error);
-        this.loadItch = false;
-        this.$notify({
-          title: 'Itch.io Link Failed',
-          text: 'There was an error linking your itch.io account',
-          data: { color: 'error' },
-        });
-      }
     },
   },
 };

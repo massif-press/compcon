@@ -1,36 +1,33 @@
 <template>
-  <notifications position="bottom right" width="40%" pause-on-hover :duration="3000">
+  <notifications
+    position="bottom right"
+    :width="mobile ? '100vw' : '30vw'"
+    min-width="400px"
+    pause-on-hover
+    :duration="3000">
     <template #body="props">
-      <v-card :color="props.item.data.color || 'info'" class="pa-3 ma-1">
-        <v-row>
-          <v-col>
-            <div class="heading h3">
-              {{ props.item.title }}
-            </div>
-          </v-col>
-          <v-col cols="auto">
-            <v-icon
-              size="large"
-              icon="mdi-close"
-              variant="plain"
-              @click.stop="closePopup(props.close)" />
-          </v-col>
-        </v-row>
-        <v-row dense align="center">
-          <v-col cols="auto">
-            <v-icon
-              v-if="props.item.data.icon"
-              :color="props.item.data.iconColor"
-              :size="props.item.data.iconSize"
-              :class="props.item.data.iconClass">
-              {{ props.item.data.icon }}
-            </v-icon>
-          </v-col>
-          <v-col>
-            <div v-html="props.item.text" />
-          </v-col>
-        </v-row>
-      </v-card>
+      <cc-alert
+        :color="props.item.data.color || 'info'"
+        :icon="props.item.data.icon || 'mdi-bell'"
+        class="ma-2 pb-2 border-s-lg"
+        style="position: relative"
+        tile
+        :title="props.item.title"
+        @click.stop="closePopup(props.close)">
+        <div v-html="props.item.text" />
+        <div
+          class="text-center text-cc-overline"
+          style="
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-size: 7pt !important;
+            opacity: 0.6;
+          ">
+          {{ mobile ? 'TAP' : 'CLICK' }} TO CLOSE
+        </div>
+      </cc-alert>
     </template>
   </notifications>
 </template>
@@ -38,6 +35,11 @@
 <script lang="ts">
 export default {
   name: 'cc-notify',
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     closePopup(close: () => void) {
       close();

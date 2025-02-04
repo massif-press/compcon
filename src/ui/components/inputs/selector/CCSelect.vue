@@ -1,5 +1,12 @@
 <template>
   <div class="top-element" style="display: block; position: relative">
+    <div
+      v-if="mobile && label"
+      class="text-cc-overline"
+      style="position: absolute; top: -14px; left: 10px">
+      <cc-slashes />
+      {{ label }}
+    </div>
     <span :class="`light bg-${color || 'stark'}`" />
     <component
       :is="component"
@@ -35,7 +42,7 @@
           :style="`min-width: ${icon ? '30' : '12'}px`">
           <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2'" class="mt-1" />
           <div
-            v-if="label"
+            v-if="label && !mobile"
             class="d-inline-block text-cc-overline ml-3"
             style="line-height: 0; margin-top: 16px">
             {{ label }}
@@ -46,12 +53,19 @@
       <template v-if="prependInnerIcon" #prepend-inner>
         <v-icon :icon="prependInnerIcon" />
       </template>
+      <template v-if="items && typeof items[0] === 'object'" #item="{ props, item }">
+        <v-list-item
+          v-bind="props"
+          :subtitle="item.raw.subtitle"
+          :prepend-icon="item.raw.icon"
+          :disabled="item.raw.disabled" />
+      </template>
       <template #chip="{ item }">
         <v-chip
-          style="margin-top: -5px; position: relative"
+          style="margin-top: -4px; margin-bottom: -4px; position: relative"
           size="large"
-          rounded="0"
-          class="chip-clip px-3"
+          rounded="sm"
+          class="chip-clip pl-1 pr-3 mx-1"
           :style="!isSelect && 'margin-bottom: 6px'"
           :variant="<any>chipVariant">
           <v-icon v-if="(item as any).icon" :icon="(item as any).icon" />
@@ -74,15 +88,9 @@
           :class="`bg-${color} end-light`"
           style="width: 3px; height: 100%; margin-left: 3px; z-index: 1" />
 
-        <v-tooltip v-if="tooltip" location="top" max-width="300px">
-          <template v-slot:activator="{ props }">
-            <v-icon
-              v-bind="props"
-              class="fade-select mx-1"
-              :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
-          </template>
+        <cc-tooltip v-if="tooltip" location="top" max-width="300px">
           {{ tooltip }}
-        </v-tooltip>
+        </cc-tooltip>
       </template>
       <template v-if="appendInnerIcon" #append-inner>
         <v-icon :icon="appendInnerIcon" />
@@ -124,7 +132,7 @@ export default {
     itemTitle: { type: String },
     itemValue: { type: String },
     multiple: { type: Boolean },
-    chipVariant: { type: String, default: 'text' },
+    chipVariant: { type: String, default: 'tonal' },
     lightChip: { type: Boolean },
     combobox: { type: Boolean },
     autocomplete: { type: Boolean },
@@ -135,6 +143,9 @@ export default {
   }),
   emits: ['update:model-value'],
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     getChipClass() {
       return this.lightChip ? 'chip-light' : 'chip-dark';
     },
@@ -162,8 +173,8 @@ export default {
 }
 
 .top-element >>> .v-field__input {
-  min-height: auto !important;
-  height: 30px;
+  height: auto !important;
+  min-height: 30px;
 }
 
 ::v-deep(.v-combobox input) {
@@ -176,7 +187,7 @@ export default {
 
 .prepend {
   height: 100%;
-  margin-right: -1px;
+  min-width: 16px;
   clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
   z-index: 1;
 }

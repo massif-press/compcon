@@ -31,45 +31,29 @@
       </div>
     </template>
     <template #actions>
-      <v-btn
-        flat
-        color="accent"
+      <cc-button
+        color="primary"
         class="mb-1"
         :loading="dlLoading"
         :disabled="!($refs as any).importer.canDownload"
+        tooltip="Adding this item as a remote resource will create a readonly version of this item linked
+            to the author's original data. When the author saves an update to this item to their
+            COMP/CON cloud account, your local version can receive those changes."
         @click="downloadAsRemote()">
         add as remote resource
-        <v-tooltip location="top" max-width="300px">
-          <template v-slot:activator="{ props }">
-            <v-icon end class="fade-select" v-bind="props">mdi-help-circle-outline</v-icon>
-          </template>
-          <span>
-            Adding this item as a remote resource will create a readonly version of this item linked
-            to the author's original data. When the author saves an update to this item to their
-            COMP/CON cloud account, your local version can receive those changes.
-          </span>
-        </v-tooltip>
-      </v-btn>
+      </cc-button>
       <br />
-      <v-btn
+      <cc-button
         size="small"
-        flat
-        color="accent"
+        color="primary"
         :loading="dlLoading"
         :disabled="!($refs as any).importer.canDownload"
+        tooltip="Adding this item as a local copy will create a new, editable version of this item saved
+            to your local COMP/CON data. Changes made to this item will not affect the author's
+            original data, and you will not receive updates from the author."
         @click="downloadAsCopy(false)">
         add as local copy
-        <v-tooltip location="top" max-width="300px">
-          <template v-slot:activator="{ props }">
-            <v-icon end class="fade-select" v-bind="props">mdi-help-circle-outline</v-icon>
-          </template>
-          <span>
-            Adding this item as a local copy will create a new, editable version of this item saved
-            to your local COMP/CON data. Changes made to this item will not affect the author's
-            original data, and you will not receive updates from the author.
-          </span>
-        </v-tooltip>
-      </v-btn>
+      </cc-button>
     </template>
   </cc-share-code-importer>
 </template>
@@ -88,6 +72,7 @@ export default {
       default: 'item',
     },
   },
+  emits: ['close'],
   data: () => ({
     queryResult: null as any,
     dlLoading: false,
@@ -116,7 +101,7 @@ export default {
 
       this.dlLoading = false;
       (this.$refs as any).importer.reset();
-      (this.$refs as any).importer.close();
+      ((this.$refs as any).importer as any).$refs.modal.close();
     },
   },
 };

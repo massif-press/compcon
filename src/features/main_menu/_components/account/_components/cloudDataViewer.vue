@@ -1,27 +1,25 @@
 <template>
-  <v-card flat border>
-    <v-toolbar extended density="compact">
+  <v-card flat border tile>
+    <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
-        <div class="heading h3">
-          <span class="text-accent">
-            DATA VIEWER
-            <v-tooltip max-width="300px" location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-small" class="mt-n1">mdi-help-circle-outline</v-icon>
-              </template>
-              This is a view of your COMP/CON data, stored both locally and in the cloud. You can
+        <cc-heading
+          title
+          text="Data Viewer"
+          tooltip="This is a view of your COMP/CON data, stored both locally and in the cloud. You can
               use this tool to manage the state of your data, and to sync changes between your local
-              data and the cloud.
-            </v-tooltip>
-          </span>
-        </div>
+              data and the cloud." />
       </v-toolbar-title>
       <v-spacer />
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
-          <v-btn size="small" icon v-bind="props" @click="refresh()">
-            <v-icon size="x-large">mdi-refresh</v-icon>
-          </v-btn>
+          <cc-button
+            v-bind="props"
+            variant="tonal"
+            :size="mobile && 'small'"
+            class="mx-2"
+            :loading="loading"
+            icon="mdi-refresh"
+            @click="refresh()" />
         </template>
         <div class="text-center">
           Reload Data
@@ -30,17 +28,15 @@
         </div>
       </v-tooltip>
       <template #extension>
-        <v-text-field
+        <cc-text-field
           v-if="!mobile"
           v-model="search"
           variant="outlined"
-          prepend-inner-icon="mdi-magnify"
-          label="Search"
-          single-line
-          density="compact"
-          class="mx-1"
-          clearable
-          hide-details />
+          color="primary"
+          icon="mdi-magnify"
+          placeholder="Search"
+          width="350px"
+          clearable />
         <v-spacer />
         <v-tabs v-model="tab">
           <v-tab>
@@ -51,6 +47,7 @@
               <div class="text-center">PC and GM data stored in your COMP/CON account.</div>
             </v-tooltip>
           </v-tab>
+          <v-divider vertical />
           <v-tab>
             <v-tooltip max-width="300px" location="top">
               <template #activator="{ props }">
@@ -72,6 +69,7 @@
               </div>
             </v-tooltip>
           </v-tab>
+          <v-divider vertical />
           <v-tab>
             <v-tooltip max-width="300px" location="top">
               <template #activator="{ props }">
@@ -105,10 +103,10 @@
         <remote-data-tab :search="search" @refresh="refresh" :loading="loading" />
       </v-window-item>
       <v-window-item value="Campaigns">
-        <v-alert color="accent" class="ma-4" border icon="cc:campaign" dense>
+        <cc-alert color="secondary" class="ma-4" dense>
           Published campaigns are managed in the
-          <v-btn size="small" class="mx-1" to="/srd?tab=2">Campaign Library</v-btn>
-        </v-alert>
+          <cc-button size="x-small" class="mx-1" to="/srd?tab=2">Campaign Library</cc-button>
+        </cc-alert>
       </v-window-item>
     </v-window>
   </v-card>

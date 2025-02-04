@@ -1,45 +1,30 @@
 <template>
-  <v-card flat border class="mb-4">
-    <v-toolbar density="compact">
+  <v-card flat border tile class="mb-4">
+    <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
-        <div class="heading h3">
-          <span class="text-accent">
-            AUTHOR CONTENT SUBSCRIPTIONS
-            <v-tooltip max-width="500px" location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-small" class="mt-n1">mdi-help-circle-outline</v-icon>
-              </template>
-              You can subscribe to COMP/CON data content authors to receive updates when they
+        <cc-heading
+          title
+          :text="mobile ? 'Author Content' : 'AUTHOR CONTENT SUBSCRIPTIONS'"
+          tooltip=" You can subscribe to COMP/CON data content authors to receive updates when they
               publish new content. This can include pilots, GM data like NPCs and Narrative
               Elements, and limited or reserved collection content, such as table-specific homebrew.
               You can add new subscriptions by adding the author's Content collection ID (CSID) to
-              the list below.
-              <br />
-              <br />
+              the list below. <br /> <br />
               <strong>
                 Neither Massif Press nor the COMP/CON developer take any responsibility for any
                 content published to any author's content collection. Subscribe to authors at your
                 own discretion.
-              </strong>
-            </v-tooltip>
-          </span>
-        </div>
+              </strong>" />
       </v-toolbar-title>
-      <v-select
-        v-model="cloudUser.CollectionSubscriptionSettings.updateOn"
-        density="compact"
-        hide-details
-        label="Updates"
-        class="mx-2"
-        style="max-width: 200px"
-        :items="update_on"
-        :loading="loading"
-        @update:model-value="saveUserMetadata()" />
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
-          <v-btn size="small" color="accent" icon v-bind="props" @click="refresh">
-            <v-icon size="x-large">mdi-refresh</v-icon>
-          </v-btn>
+          <cc-button
+            icon="mdi-refresh"
+            variant="tonal"
+            class="mx-1"
+            :size="mobile && 'small'"
+            v-bind="props"
+            @click="refresh" />
         </template>
         <div class="text-center">
           Refresh List
@@ -49,14 +34,25 @@
       </v-tooltip>
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
-          <v-btn size="small" color="accent" icon v-bind="props" @click="updateAll">
-            <v-icon size="x-large">mdi-download-multiple-outline</v-icon>
-          </v-btn>
+          <cc-button
+            icon="mdi-download-multiple-outline"
+            variant="tonal"
+            class="mx-1"
+            :size="mobile && 'small'"
+            v-bind="props"
+            @click="updateAll" />
         </template>
         <div class="text-center">Update All</div>
       </v-tooltip>
     </v-toolbar>
     <v-divider />
+    <cc-select
+      v-model="cloudUser.CollectionSubscriptionSettings.updateOn"
+      label="Updates"
+      color="primary"
+      :items="update_on"
+      :loading="loading"
+      @update:model-value="saveUserMetadata()" />
     <v-data-table
       v-model:expanded="expanded"
       density="compact"
@@ -208,6 +204,9 @@ export default {
     ],
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     cloudUser() {
       return UserStore().UserMetadata;
     },

@@ -99,7 +99,7 @@
             <v-card-text>
               <v-row>
                 <v-col cols="auto">
-                  <v-chip label variant="outlined" size="small">
+                  <v-chip label variant="outlined" tile size="small">
                     <span v-if="item.paid">{{ item.cost }}</span>
                     <span v-else-if="item.pwyw">Pay What You Want</span>
                     <span v-else>Free</span>
@@ -108,7 +108,7 @@
                 <v-col cols="auto" class="heading h3">{{ item.title }}</v-col>
                 <v-spacer />
                 <v-col cols="auto">
-                  <v-chip>{{ item.collection }}</v-chip>
+                  <cc-chip icon="cc:campaign" :label="item.collection" />
                 </v-col>
               </v-row>
               <div class="text-caption mt-n3">
@@ -137,22 +137,28 @@
             </v-card-text>
 
             <v-divider class="ma-1" />
-            <v-btn target="_blank" :href="item.website" flat size="small" class="ma-1" color="itch">
-              <v-icon prepend start>mdi-open-in-new</v-icon>
-              itch.io Store Page
-            </v-btn>
-            <v-btn
+            <cc-button
               target="_blank"
               :href="item.website"
               flat
               size="small"
               class="ma-1"
-              color="secondary">
+              color="itch">
+              <v-icon prepend start>mdi-open-in-new</v-icon>
+              itch.io Store Page
+            </cc-button>
+            <cc-button
+              target="_blank"
+              :href="item.website"
+              flat
+              size="small"
+              class="ma-1"
+              color="primary">
               <v-icon prepend start>mdi-open-in-new</v-icon>
               Author's Website
-            </v-btn>
+            </cc-button>
           </v-col>
-          <v-col v-if="(item as any).img" cols="2">
+          <v-col v-if="(item as any).img && !mobile" cols="2">
             <cc-img :src="(item as any).img" alt="Pack image" />
           </v-col>
         </v-row>

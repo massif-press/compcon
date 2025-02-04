@@ -1,13 +1,13 @@
 <template>
   <v-card class="parent cc-panel-clip" :color="color" flat tile :border="border">
     <v-toolbar v-if="hasTitle" flat density="compact" color="panel" class="ma-0 pa-0">
-      <v-toolbar-title class="mt-n1">
-        <span class="text-cc-overline">
+      <div class="mt-n1 px-2 pt-2 pb-1">
+        <div class="text-cc-overline">
           <v-icon v-if="icon" icon="cc:pilot" class="mt-n1" />
-          <span v-if="title" v-text="title" />
+          <div v-if="title" v-text="title" />
           <slot v-else-if="$slots.title" name="title" />
-        </span>
-      </v-toolbar-title>
+        </div>
+      </div>
       <v-spacer />
       <v-toolbar-items>
         <slot name="toolbar-items" />
@@ -51,7 +51,6 @@ export default {
   },
   computed: {
     hasTitle() {
-      console.log(this.$slots.title, this.title, this.icon, this.$slots['toolbar-items']);
       return this.$slots.title || this.title || this.icon || this.$slots['toolbar-items'];
     },
     densityClass() {
@@ -105,6 +104,6 @@ export default {
 }
 
 .parent:deep(.v-toolbar__content) {
-  height: 22px !important;
+  height: fit-content !important;
 }
 </style>

@@ -5,7 +5,7 @@
       variant="tonal"
       tile
       class="text-center"
-      height="100%"
+      height="95%"
       style="clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px)"
       @click="to ? $router.push(to) : $emit('clicked')">
       <div
@@ -15,7 +15,7 @@
           <v-icon color="accent" size="100cqw">
             {{ icon }}
           </v-icon>
-          <div class="heading no-wrap pb-4" style="font-size: 13cqw">
+          <div class="heading no-wrap" style="font-size: 13cqw">
             {{ title }}
           </div>
         </div>

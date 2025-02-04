@@ -14,7 +14,7 @@
   <v-container grid-list-lg class="mt-0 pt-0">
     <v-row
       density="compact"
-      :justify="$vuetify.display.mdAndDown ? 'space-between' : 'space-around'"
+      :justify="$vuetify.display.smAndDown ? 'space-between' : 'space-around'"
       align="center">
       <compendium-page-button
         icon="cc:manufacturer"

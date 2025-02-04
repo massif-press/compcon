@@ -13,14 +13,12 @@
       :block="block"
       :prepend-icon="'mdi-alert'"
       :append-icon="'mdi-alert'"
+      :loading="loading"
       :href="href"
       :to="to"
       :target="target"
-      @click="$emit('click')">
-      <v-icon
-        style="font-size: 70cqw; margin-top: -4cqw"
-        :color="tonal ? color : ''"
-        :icon="icon" />
+      @click.stop="!disabled && !loading && $emit('click')">
+      <v-icon style="font-size: 70cqw; margin-top: 4cqw" :color="tonal ? color : ''" :icon="icon" />
     </v-btn>
   </div>
 </template>
@@ -29,8 +27,9 @@
 export default {
   name: 'cc-btn-icon',
   props: {
-    color: { type: String, default: 'panel' },
+    color: { type: String },
     disabled: { type: Boolean },
+    loading: { type: Boolean },
     block: { type: Boolean },
     size: { type: String },
     variant: { type: String },
@@ -43,13 +42,14 @@ export default {
   },
   computed: {
     getColor() {
+      if (!this.color) return '';
       return this.tonal ? this.color : 'transparent';
     },
     tonal() {
       return this.variant === 'tonal';
     },
     colorClass() {
-      if (this.tonal) return '';
+      if (this.tonal || !this.color) return '';
       return `bg-${this.color}`;
     },
     buttonSize() {

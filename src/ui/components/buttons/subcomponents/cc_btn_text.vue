@@ -3,7 +3,7 @@
     class="top-element"
     :style="`display: ${block ? 'block' : 'inline-block'}; position: relative`">
     <v-btn
-      :class="`${sizeStyle} px-0 fade-select`"
+      :class="`${sizeStyle} px-0 `"
       :color="color"
       :loading="loading"
       tile
@@ -13,19 +13,11 @@
       :to="to"
       :href="href"
       :target="target"
-      @click="$emit('click')">
+      @click.stop="$emit('click')">
       <v-icon v-if="prependIcon" start :icon="prependIcon" />
       <slot />
       <v-icon v-if="appendIcon" end :icon="appendIcon" />
-      <v-tooltip v-if="tooltip" location="top">
-        <template v-slot:activator="{ props }">
-          <v-icon
-            v-bind="props"
-            class="fade-select"
-            :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
-        </template>
-        {{ tooltip }}
-      </v-tooltip>
+      <cc-tooltip v-if="tooltip" :icon="tooltipIcon" :text="tooltip" end />
     </v-btn>
 
     <v-menu v-if="hasOptions" offset-y>
@@ -51,7 +43,7 @@
 export default {
   name: 'cc-btn-std',
   props: {
-    color: { type: String, default: 'accent' },
+    color: { type: String },
     disabled: { type: Boolean },
     block: { type: Boolean },
     loading: { type: Boolean },
@@ -69,9 +61,6 @@ export default {
   computed: {
     sizeStyle() {
       return this.size ? `size-${this.size}` : 'size-default';
-    },
-    colorClass() {
-      return `bg-${this.color}`;
     },
     optionsSize() {
       return this.size ? `options-${this.size}` : 'options-default';

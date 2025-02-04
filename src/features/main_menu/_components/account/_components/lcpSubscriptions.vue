@@ -1,25 +1,23 @@
 <template>
-  <v-card flat border class="mb-4">
-    <v-toolbar density="compact">
+  <v-card flat border tile class="mb-4">
+    <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
-        <div class="heading h3">
-          <span class="text-accent">
-            LCP SUBSCRIPTIONS
-            <v-tooltip max-width="300px" location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-small" class="mt-n1">mdi-help-circle-outline</v-icon>
-              </template>
-              Paid LCP content requires a linked itch.io purchase before they can be automatically
-              updated. At this time, only Massif-published LCPs are supported.
-            </v-tooltip>
-          </span>
-        </div>
+        <cc-heading
+          title
+          :text="mobile ? 'LCPs' : 'LCP Subscriptions'"
+          tooltip="Paid LCP content requires a linked itch.io purchase before they can be automatically
+              updated. At this time, only Massif-published LCPs are supported." />
       </v-toolbar-title>
+      <v-spacer />
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
-          <v-btn size="small" color="accent" icon v-bind="props" @click="refresh">
-            <v-icon size="x-large">mdi-refresh</v-icon>
-          </v-btn>
+          <cc-button
+            icon="mdi-refresh"
+            class="mx-1"
+            variant="tonal"
+            :size="mobile && 'small'"
+            v-bind="props"
+            @click="refresh" />
         </template>
         <div class="text-center">
           Refresh List
@@ -29,9 +27,13 @@
       </v-tooltip>
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
-          <v-btn size="small" color="accent" icon v-bind="props" @click="updateAll">
-            <v-icon size="x-large">mdi-download-multiple-outline</v-icon>
-          </v-btn>
+          <cc-button
+            icon="mdi-download-multiple-outline"
+            class="mx-1"
+            variant="tonal"
+            :size="mobile && 'small'"
+            v-bind="props"
+            @click="updateAll" />
         </template>
         <div class="text-center">Update All</div>
       </v-tooltip>

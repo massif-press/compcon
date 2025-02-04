@@ -4,8 +4,9 @@
       :model-value="(cloudUseMb / cloudMaxMb) * 100"
       color="secondary"
       bg-color="primary"
+      tile
       height="35">
-      <v-chip size="small" variant="elevated" elevation="0">
+      <v-chip size="small" tile variant="elevated" elevation="0">
         {{ ((cloudUseMb / cloudMaxMb) * 100).toFixed(3) }}%
       </v-chip>
     </v-progress-linear>
@@ -14,21 +15,19 @@
       <cc-slashes />
       {{ (cloudUseMb >= 1 ? cloudUseMb : cloudUseKb).toFixed(2) }}
       {{ cloudUseMb >= 1 ? 'MB' : 'KB' }} of {{ cloudMaxMb.toFixed(2) }} MB
-      <v-btn size="x-small" variant="tonal" color="exotic">
-        <v-icon icon="mdi-star" start size="large" />
+      <cc-button size="small" variant="tonal" color="info" prepend-icon="mdi-star" class="my-1">
         Upgrade
-      </v-btn>
+      </cc-button>
     </div>
     <br />
-
     <sync-settings />
-
+    <br />
     <cloud-data-viewer />
-
+    <br />
     <cloud-archive />
 
     <div class="my-8 text-right">
-      <v-btn color="accent" size="small" disabled>Account Migration Tool</v-btn>
+      <cc-button color="accent" size="small" disabled>Account Migration Tool</cc-button>
     </div>
   </v-container>
 </template>

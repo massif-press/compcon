@@ -1,20 +1,18 @@
 <template>
-  <v-card :class="[paddingClass, clipClass]" :color="filled ? color : 'transparent'" flat tile>
-    <v-row dense align="center" :class="!filled && `text-${color}`">
-      <v-col v-if="isLine" cols="auto" style="width: 2.5vw; min-width: 20px"><v-divider /></v-col>
-      <v-col cols="auto">
-        <div class="text-overline" :style="`${compact ? 'line-height: 1.2' : ''}`">
-          <slot />
-        </div>
-      </v-col>
-      <v-col v-if="isLine"><v-divider /></v-col>
-    </v-row>
-  </v-card>
+  <v-row dense align="center" :class="!filled && `text-${color}`">
+    <v-col v-if="isLine" cols="auto" style="width: 2.5vw; min-width: 20px"><v-divider /></v-col>
+    <v-col cols="auto">
+      <div class="text-overline" :style="`${compact ? 'line-height: 1.2' : ''}`">
+        <slot />
+      </div>
+    </v-col>
+    <v-col v-if="isLine"><v-divider /></v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'cc-title',
+  name: 'cc-heading-minor',
   props: {
     color: { type: String, default: '' },
     density: { type: String, default: '' },

@@ -2,7 +2,7 @@
   <div
     class="top-element"
     :style="`display: ${block ? 'block' : 'inline-block'}; position: relative`">
-    <span :class="`light ${size} ${lightColor}`" />
+    <div :class="`light ${size} ${lightColor}`" />
     <v-btn
       :class="`${sizeStyle} pr-2`"
       :color="color"
@@ -14,20 +14,12 @@
       :href="href"
       :to="to"
       :target="target"
-      @click="$emit('click')">
-      <v-icon v-if="prependIcon" start :icon="prependIcon" />
+      @click.stop="!disabled && !loading && $emit('click')">
+      <v-icon v-if="prependIcon" class="mx-2" :icon="prependIcon" />
+      <span v-else>&nbsp;</span>
       <slot />
       <v-icon v-if="appendIcon" end :icon="appendIcon" />
-      <v-tooltip v-if="tooltip" location="top">
-        <template v-slot:activator="{ props }">
-          <v-icon
-            v-bind="props"
-            end
-            class="fade-select"
-            :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
-        </template>
-        {{ tooltip }}
-      </v-tooltip>
+      <cc-tooltip v-if="tooltip" :icon="tooltipIcon" :text="tooltip" end />
     </v-btn>
     <v-menu v-if="$slots.options" offset-y>
       <template v-slot:activator="{ props }">
@@ -52,7 +44,7 @@
 export default {
   name: 'cc-btn-std',
   props: {
-    color: { type: String, default: '' },
+    color: { type: String },
     pipColor: { type: String },
     disabled: { type: Boolean },
     block: { type: Boolean },
@@ -74,6 +66,7 @@ export default {
     },
     lightColor() {
       if (this.pipColor) return `bg-${this.pipColor}`;
+      if (!this.color) return '';
       return `bg-${this.color || 'panel'}`;
     },
     optionsSize() {
@@ -90,11 +83,10 @@ export default {
 
 .light {
   display: block;
-  top: 0;
-  width: 4px;
   height: 100%;
+  width: 6px;
   position: absolute;
-  opacity: 0.25;
+  opacity: 0.55;
   transition: all 0.2s ease-in-out;
 }
 
@@ -104,15 +96,15 @@ export default {
 }
 
 .light.x-small {
-  height: 16px;
-  margin-top: 5.25px;
   width: 2px;
 }
 
 .light.small {
-  height: 22px;
-  margin-top: 2.5px;
   width: 3px;
+}
+
+.light.default {
+  width: 4px;
 }
 
 .light.large {
@@ -136,7 +128,7 @@ export default {
 .size-small {
   font-size: 0.75rem;
   letter-spacing: 4px;
-  height: 20px !important;
+  height: 23px !important;
 }
 
 .size-default {

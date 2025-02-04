@@ -20,7 +20,7 @@ import stk from './subcomponents/cc_btn_stk.vue';
 export default {
   name: 'cc-button',
   props: {
-    color: { type: String, default: '' },
+    color: { type: String },
     pipColor: { type: String, required: false },
     disabled: { type: Boolean },
     block: { type: Boolean },
@@ -42,7 +42,6 @@ export default {
     component() {
       if (this.stacked) return stk;
       if (this.icon) {
-        console.log(this.icon);
         if (this.variant === 'text') return txt_icn;
         if (this.variant === 'outlined') return txt_icn;
         return icn;

@@ -1,12 +1,11 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-row align="center" justify="end" dense>
+    <v-row align="center" justify="space-between" dense>
       <v-col cols="auto">
-        <cc-button color="primary" size="small" @click="$emit('show-message')">
+        <cc-button block color="primary" size="small" @click="$emit('show-message')">
           Show Latest Update Message
         </cc-button>
       </v-col>
-      <v-spacer />
       <v-col cols="auto">
         <cc-switch
           v-model="userViewExotics"
@@ -17,9 +16,9 @@
       </v-col>
     </v-row>
 
-    <h3 class="heading text-accent mt-2">Theme</h3>
+    <cc-heading title text="Theme" />
     <cc-select v-model="theme" :items="themes" item-title="name" />
-    <h3 class="heading text-accent mt-2">Log Level</h3>
+    <cc-heading title text="Log Level" />
     <v-menu>
       <template #activator="{ props }">
         <v-list-item v-bind="props" three-line border>
@@ -37,15 +36,13 @@
           v-for="item in logLevels"
           :key="item.level"
           @click="setLogLevel(item)"
-          :class="{ 'primary--text': item.level === logLevel.level }">
-          <v-list-item-title>{{ item.name }}</v-list-item-title>
-          <v-list-item-subtitle>{{ item.detail }}</v-list-item-subtitle>
-        </v-list-item>
+          :title="item.name"
+          :subtitle="item.detail" />
       </v-list>
     </v-menu>
 
     <v-row class="mt-4">
-      <v-col>
+      <v-col cols="12" md="6">
         <cc-button
           block
           size="large"
@@ -57,7 +54,7 @@
         </cc-button>
       </v-col>
 
-      <v-col>
+      <v-col cols="12" md="6">
         <v-dialog v-model="importDialog" width="50%">
           <template #activator="{ props }">
             <cc-button
@@ -123,7 +120,7 @@ export default {
       detail: 'Record warning and error messages (recommended)',
     },
     logLevels: [
-      { name: 'Debug', level: 1, detail: 'Record all log messages (slow, use only for debugging)' },
+      { name: 'Debug', level: 1, detail: 'Record all log messages (very slow)' },
       { name: 'Info', level: 2, detail: 'Record info, warning, and error messages' },
       { name: 'Warning', level: 3, detail: 'Record warning and error messages (recommended)' },
       { name: 'Error', level: 4, detail: 'Record only error messages' },

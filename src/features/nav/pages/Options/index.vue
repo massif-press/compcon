@@ -1,10 +1,10 @@
 <template>
-  <v-tabs v-model="tab" color="accent" density="compact">
-    <v-tab>Settings</v-tab>
-    <v-tab>Storage</v-tab>
-    <v-tab>Log</v-tab>
-  </v-tabs>
-  <v-window v-model="tab">
+  <cc-tabs modal>
+    <template #tabs>
+      <v-tab>Settings</v-tab>
+      <v-tab>Storage</v-tab>
+      <v-tab>Log</v-tab>
+    </template>
     <v-window-item>
       <settings />
     </v-window-item>
@@ -14,7 +14,7 @@
     <v-window-item>
       <log />
     </v-window-item>
-  </v-window>
+  </cc-tabs>
 </template>
 
 <script lang="ts">
@@ -25,13 +25,5 @@ import Log from './Log.vue';
 export default {
   name: 'options',
   components: { Settings, Storage, Log },
-  data: () => ({
-    tab: 0,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
 };
 </script>

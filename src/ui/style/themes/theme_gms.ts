@@ -6,16 +6,21 @@ const theme = {
   name: 'GMS Red (Default)',
   colors: {
     ...themeDefaults,
+
     primary: '#991E2A',
-    exotic: '#673AB7',
     active: '#d93f4e',
     accent: '#8c1420',
     secondary: '#1E998D',
-    pilot: '#424242',
+    tertiary: '#212d40',
+    highlight: '#c9cba3',
+
     error: '#F44336',
     info: '#1565C0',
     success: '#68991E',
     warning: '#C28200',
+
+    pilot: '#424242',
+    exotic: '#673AB7',
 
     weapon: '#212121',
     'mech-weapon': '#212121',

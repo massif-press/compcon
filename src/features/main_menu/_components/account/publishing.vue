@@ -1,18 +1,12 @@
 <template>
-  <v-container class="px-12">
-    <v-card flat border class="mb-4">
-      <v-toolbar density="compact">
+  <v-container :class="!mobile && 'px-12'">
+    <v-card flat border tile class="mb-4">
+      <v-toolbar density="compact" color="panel">
         <v-toolbar-title>
-          <div class="heading h3">
-            <span class="text-accent">
-              CONTENT COLLECTION PUBLISHING
-              <v-tooltip max-width="500px" location="top">
-                <template #activator="{ props }">
-                  <v-icon v-bind="props" size="x-small" class="mt-n1">
-                    mdi-help-circle-outline
-                  </v-icon>
-                </template>
-                Through this tool you can create and publish collections of COMP/CON content to
+          <cc-heading
+            title
+            :text="mobile ? 'COLLECTION PUBLISHING' : 'CONTENT COLLECTION PUBLISHING'"
+            tooltip="Through this tool you can create and publish collections of COMP/CON content to
                 other users, who can then subscribe to your content collections and automatically
                 receive updates when you publish new content. This tool is intended for GMs and
                 LANCER content creators, and is not required for general use or LANCER gameplay.
@@ -20,37 +14,28 @@
                 <br />
                 Please use this tool responsibly. Publishing inappropriate or harmful content, or
                 content you do not have permission to distribute, may result in your account being
-                banned from the COMP/CON cloud service.
-              </v-tooltip>
-            </span>
-          </div>
+                banned from the COMP/CON cloud service." />
         </v-toolbar-title>
       </v-toolbar>
       <v-card-text v-if="!collectionLimit">
-        <v-alert
+        <cc-alert
           color="secondary"
-          border
-          variant="tonal"
-          icon="mdi-information-outline"
-          density="compact"
-          prominent>
-          <div class="heading h4">You do not have access to the collection publishing tool.</div>
-          <div>
-            Due to the server costs associated with the creation and distribution of these
-            collections, this tool is only available to Patreon subscribers. If you would like to
-            access this tool and create and distribute collections of your COMP/CON content, please
-            consider
-            <a href="https://www.patreon.com/compcon" target="_blank">subscribing</a>
-            to support the development of COMP/CON and gain access to additional features.
-            <br />
-            <br />
-            However, you can still view and subscribe to collections created by other users.
-          </div>
-        </v-alert>
+          prominent
+          title="You do not have access to the collection publishing tool.">
+          Due to the server costs associated with the creation and distribution of these
+          collections, this tool is only available to Patreon subscribers. If you would like to
+          access this tool and create and distribute collections of your COMP/CON content, please
+          consider
+          <a href="https://www.patreon.com/compcon" target="_blank">subscribing</a>
+          to support the development of COMP/CON and gain access to additional features.
+          <br />
+          <br />
+          However, you can still view and subscribe to collections created by other users.
+        </cc-alert>
       </v-card-text>
       <v-card-text v-else>
         <v-row dense>
-          <v-col style="max-width: 250px">
+          <v-col :style="!mobile && 'max-width: 250px'">
             <v-tabs v-model="colIdx" color="accent" direction="vertical">
               <div class="heading text-accent mb-2">
                 COLLECTIONS ({{ collections.length }}/{{
@@ -63,31 +48,35 @@
                 prepend-icon="mdi-broadcast"
                 size="small"
                 :text="collection.Name" />
-              <v-btn
-                color="accent"
+              <cc-button
+                color="primary"
                 size="small"
+                tile
+                block
                 prepend-icon="mdi-plus"
-                text="Add New"
                 class="mt-2"
                 :disabled="
                   collections.length >= (collectionLimit > -1 ? collectionLimit : Infinity)
                 "
-                @click="AddNew()" />
+                @click="AddNew()">
+                Add New
+              </cc-button>
             </v-tabs>
           </v-col>
+          <v-divider v-if="mobile" class="my-1" />
           <v-col>
             <v-window v-model="colIdx">
               <v-window-item v-for="collection in collections">
                 <v-card flat>
                   <div class="px-4">
                     <v-row dense>
-                      <v-col cols="7">
+                      <v-col cols="12" lg="7">
                         <v-text-field
                           v-model="collection.Name"
                           :label="!collection.Name ? 'Name (required)' : 'Name'"
                           density="compact" />
                       </v-col>
-                      <v-col>
+                      <v-col cols="12" lg="">
                         <v-text-field
                           v-model="collection.Author"
                           density="compact"
@@ -112,13 +101,15 @@
                     <v-row dense align="center">
                       <v-col class="heading text-accent">CONTENTS</v-col>
                       <v-col cols="auto">
-                        <v-btn
+                        <cc-button
                           color="accent"
                           variant="tonal"
                           size="x-small"
+                          tile
+                          flat
                           prepend-icon="mdi-update">
                           Update All
-                        </v-btn>
+                        </cc-button>
                       </v-col>
                     </v-row>
                     <v-data-table
@@ -130,7 +121,7 @@
                       <template #item.update="{ item }">
                         <v-tooltip v-if="newLocalData(item)" max-width="300px" location="top">
                           <template #activator="{ props }">
-                            <v-icon v-bind="props" color="accent">mdi-update</v-icon>
+                            <v-icon v-bind="props" color="primary">mdi-update</v-icon>
                           </template>
                           This item has been modified locally and will be updated to the newest
                           version on publishing.
@@ -153,15 +144,15 @@
                       <template #item.actions="{ item }">
                         <v-tooltip max-width="300px" location="top">
                           <template #activator="{ props }">
-                            <v-btn
+                            <cc-button
                               size="small"
-                              color="accent"
+                              color="primary"
                               variant="text"
                               v-bind="props"
                               icon
                               @click="collection.RemoveItem(item)">
                               <v-icon size="x-large">mdi-delete-outline</v-icon>
-                            </v-btn>
+                            </cc-button>
                           </template>
                           <div class="text-center">
                             Remove this item from this collection. This does not remove the item
@@ -178,15 +169,14 @@
                       <v-col cols="auto">
                         <v-tooltip max-width="300px" location="top">
                           <template #activator="{ props }">
-                            <v-btn
+                            <cc-button
                               color="accent"
-                              variant="text"
-                              icon
+                              variant="outlined"
+                              icon="mdi-auto-fix"
                               size="small"
+                              class="mb-2"
                               v-bind="props"
-                              @click="collection.NextChangelog = collection.GenerateChangelog()">
-                              <v-icon icon="mdi-auto-fix" />
-                            </v-btn>
+                              @click="collection.NextChangelog = collection.GenerateChangelog()" />
                           </template>
                           <div class="text-center">Automatically generate this changelog</div>
                         </v-tooltip>
@@ -200,26 +190,26 @@
                       auto-grow />
                   </div>
                   <div class="text-right">
-                    <v-dialog max-width="600px">
-                      <template #activator="{ props }">
-                        <v-btn
-                          v-bind="props"
+                    <cc-dialog title="Changelog">
+                      <template #activator="{ open }">
+                        <cc-button
                           size="x-small"
                           class="my-2"
-                          color="accent"
-                          prepend-icon="mdi-note-multiple-outline">
+                          variant="tonal"
+                          prepend-icon="mdi-note-multiple-outline"
+                          @click="open">
                           View Full Changelog
-                        </v-btn>
+                        </cc-button>
                       </template>
                       <template #default="{ isActive }">
                         <v-card v-show="isActive">
-                          <v-toolbar color="accent" density="compact">
+                          <v-toolbar color="primary" density="compact">
                             <v-toolbar-title class="heading h3">
                               {{ collection.Name.toUpperCase() }} CHANGELOG
                             </v-toolbar-title>
-                            <v-btn icon @click="isActive.value = false">
+                            <cc-button icon @click="isActive.value = false">
                               <v-icon>mdi-close</v-icon>
-                            </v-btn>
+                            </cc-button>
                           </v-toolbar>
                           <v-card-text>
                             <div v-for="entry in collection.Changelog">
@@ -235,36 +225,38 @@
                           </v-card-text>
                         </v-card>
                       </template>
-                    </v-dialog>
+                    </cc-dialog>
                   </div>
                   <v-divider class="mb-3" />
                   <v-footer>
-                    <v-btn color="accent" size="small" @click="collection.Save()">Save Draft</v-btn>
+                    <cc-button color="primary" size="small" @click="collection.Save()">
+                      Save Draft
+                    </cc-button>
 
                     <v-spacer />
-                    <v-btn
-                      color="accent"
+                    <cc-button
+                      color="primary"
                       :loading="loading"
                       size="small"
                       class="mx-4"
                       :disabled="!canPublish(collection)"
                       @click="Publish('minor')">
                       Publish Minor Version ({{ collection.NextVersion('minor') }})
-                    </v-btn>
-                    <v-btn
-                      color="accent"
+                    </cc-button>
+                    <cc-button
+                      color="primary"
                       :loading="loading"
                       size="small"
                       :disabled="!canPublish(collection)"
                       @click="Publish('major')">
                       Publish Major Version ({{ collection.NextVersion('major') }})
-                    </v-btn>
+                    </cc-button>
                   </v-footer>
                   <div class="my-2">
                     <span class="text-caption">COLLECTION SHARE CODE</span>
                     <div v-if="collection.Metadata?.code" class="text-center">
                       <v-chip
-                        color="accent"
+                        color="primary"
                         class="mt-1 mx-1"
                         size="x-large"
                         label
@@ -275,7 +267,7 @@
                         <span class="heading h2">&ndash;</span>
                       </v-chip>
                       <v-chip
-                        color="accent"
+                        color="primary"
                         class="mt-1 mx-1"
                         size="x-large"
                         label
@@ -286,7 +278,7 @@
                         <span class="heading h2">&ndash;</span>
                       </v-chip>
                       <v-chip
-                        color="accent"
+                        color="primary"
                         class="mt-1 mx-1"
                         size="x-large"
                         label
@@ -297,7 +289,7 @@
                         <template #activator="{ props }">
                           <v-icon
                             v-bind="props"
-                            color="accent"
+                            color="primary"
                             size="small"
                             end
                             icon="mdi-content-copy"
@@ -316,60 +308,58 @@
                     </div>
                   </div>
                   <v-card-actions>
-                    <v-dialog max-width="600px">
-                      <template #activator="{ props }">
-                        <v-btn
+                    <v-spacer />
+                    <cc-dialog title="delete collection" color="error" :close-on-click="false">
+                      <template #activator="{ open }">
+                        <cc-button
                           color="error"
                           variant="tonal"
                           size="small"
                           prepend-icon="mdi-delete"
-                          v-bind="props">
+                          @click="open">
                           Delete Collection
-                        </v-btn>
+                        </cc-button>
                       </template>
-                      <template #default="{ isActive }">
-                        <v-card v-show="isActive">
-                          <v-toolbar color="error" density="compact">
-                            <v-toolbar-title class="heading h3">DELETE COLLECTION</v-toolbar-title>
-                          </v-toolbar>
-                          <v-card-text v-if="collection.Metadata?.code">
-                            <div>
-                              <p>
-                                Deleting this collection will remove the collection from your local
-                                and cloud data, and will delete the collection archive from cloud
-                                storage. Users will not be able to subscribe to this content and
-                                current subscribers will no longer be able to update collection
-                                data. It
-                                <strong>will not</strong>
-                                delete any collection content, either locally or on the cloud for
-                                you or collection subscribers.
-                              </p>
-                              <span class="text-caption">This action cannot be undone.</span>
-                            </div>
-                          </v-card-text>
-                          <v-card-text v-else>
-                            <div>
-                              <p>Are you sure you want to delete this collection?</p>
-                              <span class="text-caption">This action cannot be undone.</span>
-                            </div>
-                          </v-card-text>
-                          <v-divider />
-                          <v-card-actions>
-                            <v-btn color="error" @click="isActive.value = false">Cancel</v-btn>
-                            <v-spacer />
-                            <v-btn
-                              color="error"
-                              variant="elevated"
-                              flat
-                              prepend-icon="mdi-delete"
-                              :loading="loading"
-                              @click="deleteCollection(collection, isActive)">
-                              delete collection
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
+                      <template #default="{ close }">
+                        <v-card-text v-if="collection.Metadata?.code">
+                          <div>
+                            <p>
+                              Deleting this collection will remove the collection from your local
+                              and cloud data, and will delete the collection archive from cloud
+                              storage. Users will not be able to subscribe to this content and
+                              current subscribers will no longer be able to update collection data.
+                              It
+                              <strong>will not</strong>
+                              delete any collection content, either locally or on the cloud for you
+                              or collection subscribers.
+                            </p>
+                            <span class="text-caption">This action cannot be undone.</span>
+                          </div>
+                        </v-card-text>
+                        <v-card-text v-else>
+                          <div>
+                            <p>Are you sure you want to delete this collection?</p>
+                            <span class="text-caption">This action cannot be undone.</span>
+                          </div>
+                        </v-card-text>
+                        <v-divider />
+                        <v-card-actions>
+                          <cc-button variant="text" @click="close">Cancel</cc-button>
+                          <v-spacer />
+                          <cc-button
+                            color="error"
+                            prepend-icon="mdi-delete"
+                            variant="tonal"
+                            :loading="loading"
+                            @click="
+                              deleteCollection(collection);
+                              close;
+                            ">
+                            delete collection
+                          </cc-button>
+                        </v-card-actions>
                       </template>
-                    </v-dialog>
+                    </cc-dialog>
                   </v-card-actions>
                 </v-card>
               </v-window-item>
@@ -400,6 +390,9 @@ export default {
     ],
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     collectionLimit(): number {
       return UserStore().CollectionPublishLimit;
     },
@@ -455,10 +448,9 @@ export default {
         data: { color: 'success', icon: 'mdi-check-circle-outline' },
       });
     },
-    async deleteCollection(collection, isActive) {
+    async deleteCollection(collection) {
       this.loading = true;
       await ContentCollection.Delete(collection);
-      isActive.value = false;
       this.loading = false;
     },
   },

@@ -1,11 +1,11 @@
 <template>
-  <v-tabs v-model="tab" density="compact">
-    <v-tab>Account Management</v-tab>
-    <v-tab>Cloud Data</v-tab>
-    <v-tab>Content Subscriptions</v-tab>
-    <v-tab>Content Publishing</v-tab>
-  </v-tabs>
-  <v-window v-model="tab">
+  <cc-tabs modal>
+    <template #tabs>
+      <v-tab>Account Management</v-tab>
+      <v-tab>Cloud Data</v-tab>
+      <v-tab>Content Subscriptions</v-tab>
+      <v-tab>Content Publishing</v-tab>
+    </template>
     <v-window-item>
       <Management @set-state="$emit('set-state', $event)" />
     </v-window-item>
@@ -18,7 +18,7 @@
     <v-window-item>
       <Publishing />
     </v-window-item>
-  </v-window>
+  </cc-tabs>
 </template>
 
 <script lang="ts">
