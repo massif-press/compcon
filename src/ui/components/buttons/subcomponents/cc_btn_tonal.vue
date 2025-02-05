@@ -4,7 +4,7 @@
     :style="`display: ${block ? 'block' : 'inline-block'}; position: relative`">
     <div :class="`light ${size} ${lightColor}`" />
     <v-btn
-      :class="`${sizeStyle} pr-2`"
+      :class="`${sizeStyle} px-2`"
       :color="color"
       :loading="loading"
       tile
@@ -96,27 +96,27 @@ export default {
 }
 
 .light.x-small {
-  width: 2px;
-}
-
-.light.small {
-  width: 3px;
-}
-
-.light.default {
   width: 4px;
 }
 
-.light.large {
+.light.small {
   width: 5px;
 }
 
+.light.default {
+  width: 7px;
+}
+
+.light.large {
+  width: 9px;
+}
+
 .light.x-large {
-  width: 6.5px;
+  width: 12px;
 }
 
 .light.xx-large {
-  width: 8px;
+  width: 14px;
 }
 
 .size-x-small {

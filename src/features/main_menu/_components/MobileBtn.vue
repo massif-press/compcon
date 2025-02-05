@@ -1,11 +1,11 @@
 <template>
-  <v-col :cols="landscape ? 3 : 6">
+  <v-col :cols="landscape ? '' : 6">
     <div class="pip bg-accent" />
     <v-card
       variant="tonal"
       tile
       class="text-center"
-      height="95%"
+      height="100%"
       style="clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px)"
       @click="to ? $router.push(to) : $emit('clicked')">
       <div

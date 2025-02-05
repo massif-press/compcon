@@ -7,16 +7,22 @@
           style="letter-spacing: 3cqw; line-height: 38pt; font-size: 33pt">
           COMP/CON
         </span>
-      </div>
-      <div class="text-cc-overline px-1 pt-1 text-right" style="opacity: 0.8">
-        v.{{ appVersion }}
+        <div class="text-cc-overline" style="position: absolute; right: 2px; opacity: 0.8">
+          v.{{ appVersion }}
+        </div>
       </div>
     </div>
 
-    <div class="d-flex justify-center align-center py-3" style="height: 100%">
+    <div class="d-flex justify-center align-center py-3" style="height: calc(100% - 30px)">
       <v-row dense justify="space-around" style="height: 100%">
         <mobile-btn icon="cc:compendium" title="Compendium" :to="'/compendium'" />
         <mobile-btn icon="cc:pilot" title="Roster" text="Manage Pilots" :to="'/pilot_management'" />
+        <mobile-btn
+          v-if="landscape"
+          icon="cc:encounter"
+          title="GM Toolkit"
+          text="Manage Pilots"
+          :to="'/gm'" />
         <mobile-btn
           icon="cc:content_manager"
           title="Content"
@@ -31,7 +37,7 @@
           <cc-modal title="Cloud Account" icon="mdi-satellite-uplink">
             <template #activator="{ open }">
               <cc-button
-                v-if="$vuetify.display.smAndUp"
+                v-if="landscape"
                 :loading="startingUp"
                 size="small"
                 class="mx-2"
@@ -152,6 +158,9 @@ export default {
     },
     appVersion(): string {
       return import.meta.env.VITE_APP_VERSION;
+    },
+    landscape() {
+      return this.$vuetify.display.smAndUp;
     },
   },
 };

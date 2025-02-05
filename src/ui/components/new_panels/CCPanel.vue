@@ -1,5 +1,5 @@
 <template>
-  <v-card class="parent cc-panel-clip" :color="color" flat tile :border="border">
+  <v-card class="parent cc-panel-clip" :color="color" flat tile :border="border" :height="height">
     <v-toolbar v-if="hasTitle" flat density="compact" color="panel" class="ma-0 pa-0">
       <div class="mt-n1 px-2 pt-2 pb-1">
         <div class="text-cc-overline">
@@ -13,7 +13,10 @@
         <slot name="toolbar-items" />
       </v-toolbar-items>
     </v-toolbar>
-    <v-card-text :class="[densityClass, variantClass]" style="opacity: 0.8">
+    <v-card-text
+      :class="[densityClass, variantClass]"
+      :style="height && `height: ${height}`"
+      style="opacity: 0.8; overflow-y: scroll">
       <slot>Default Content</slot>
     </v-card-text>
     <div v-if="border" class="clip-fix" />
@@ -47,6 +50,9 @@ export default {
     icon: {
       type: String,
       default: '',
+    },
+    height: {
+      type: String,
     },
   },
   computed: {
