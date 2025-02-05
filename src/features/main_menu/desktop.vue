@@ -77,6 +77,7 @@
                   <cc-button
                     size="small"
                     variant="tonal"
+                    color="highlight"
                     @mouseenter="ccLog('options')"
                     @click="open">
                     Options
@@ -92,6 +93,7 @@
                   <cc-button
                     size="small"
                     variant="tonal"
+                    color="highlight"
                     @mouseenter="ccLog('about')"
                     @click="open">
                     About
@@ -107,6 +109,7 @@
                   <cc-button
                     size="small"
                     variant="tonal"
+                    color="highlight"
                     @mouseenter="ccLog('credits')"
                     @click="open">
                     Credits

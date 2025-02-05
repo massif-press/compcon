@@ -168,8 +168,9 @@ export default {
 
 .size-x-small {
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-  font-size: 0.6rem;
+  font-size: 1.2rem;
   letter-spacing: 3px;
+  min-height: 25px;
 }
 
 .size-small {
