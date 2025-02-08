@@ -1,19 +1,20 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <div
+      v-if="!mobile"
       class="font-weight-light text-center my-n4"
       style="letter-spacing: 2vw !important; font-size: 3.6vw !important">
       COMPENDIUM
     </div>
-    <v-row density="compact" justify="center">
+    <v-row justify="center">
       <v-col lg="8" xs="12">
         <search-bar />
       </v-col>
     </v-row>
   </v-container>
-  <v-container grid-list-lg class="mt-0 pt-0">
+  <v-container class="mt-0 pt-0">
     <v-row
-      density="compact"
+      :dense="mobile"
       :justify="$vuetify.display.smAndDown ? 'space-between' : 'space-around'"
       align="center">
       <compendium-page-button
@@ -71,7 +72,7 @@
         to="/srd/compendium/bonds" />
     </v-row>
     <cc-icon-divider icon="cc:campaign" class="mb-n4" />
-    <v-row>
+    <v-row :dense="mobile">
       <compendium-page-button
         color="error"
         icon="cc:npc_class"
@@ -103,5 +104,10 @@ import CompendiumPageButton from '../../components/CompendiumPageButton.vue';
 export default {
   name: 'compendium-home',
   components: { SearchBar, CompendiumPageButton },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>

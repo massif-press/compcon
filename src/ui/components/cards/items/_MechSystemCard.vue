@@ -1,12 +1,12 @@
 <template>
   <equipment-card-base :item="item" :notes="notes">
-    <v-row align="center">
+    <v-row align="center" no-gutters>
       <v-col v-if="item.SP" cols="auto" class="text-center">
-        <div class="heading h2 mb-n2">
+        <div class="heading" style="font-size: 24pt">
           {{ item.SP }}
-          <v-icon icon="cc:system_point" class="mt-n2 ml-n2" />
+          <v-icon size="32" class="mt-n1 ml-n1" icon="cc:system_point" />
         </div>
-        <span class="text-overline">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</span>
+        <div class="text-cc-overline mt-n1">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</div>
       </v-col>
       <v-col v-if="item.LicenseString" cols="auto" class="ml-auto text-right">
         <div class="heading h2">{{ item.Type }}</div>

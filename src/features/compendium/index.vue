@@ -1,10 +1,12 @@
 <template>
-  <v-tabs :model-value="tab" density="compact" class="mt-2" fixed-tabs color="accent">
-    <v-tab @click="setTab(0)">Compendium</v-tab>
-    <v-tab @click="setTab(1)">System Reference</v-tab>
-    <v-tab @click="setTab(2)">Campaign Library</v-tab>
-  </v-tabs>
-  <v-window v-model="tab">
+  <cc-tabs ref="tabs" fixed @changed="setTab($event)">
+    <template #tabs>
+      <v-tab>Compendium</v-tab>
+      <v-tab>System Reference</v-tab>
+      <v-tab>Campaign Library</v-tab>
+    </template>
+    <div :class="mobile ? 'my-2' : 'my-4'" />
+
     <v-window-item>
       <compendium-view />
     </v-window-item>
@@ -14,7 +16,7 @@
     <v-window-item>
       <campaign-library />
     </v-window-item>
-  </v-window>
+  </cc-tabs>
 </template>
 
 <script lang="ts">
@@ -30,9 +32,13 @@ export default {
     tab(): number {
       return NavStore().SrdTab;
     },
+    mobile(): boolean {
+      return this.$vuetify.display.smAndDown;
+    },
   },
   mounted() {
     if (this.$route.query.tab) {
+      (this.$refs.tabs as any).setTab(parseInt(this.$route.query.tab as string));
       this.setTab(parseInt(this.$route.query.tab as string));
     }
   },

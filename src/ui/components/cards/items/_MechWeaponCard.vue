@@ -8,14 +8,11 @@
       </v-tabs>
     </div>
 
-    <v-row dense align="center">
+    <v-row dense align="center" justify="space-around">
       <v-col cols="auto">
         <cc-range-element :range="item.Profiles[tab].Range" />
       </v-col>
-      <v-col v-if="item.Range.length && item.Damage.length" cols="auto">
-        <v-divider vertical class="px-4 py-8" />
-      </v-col>
-      <v-col cols="auto">
+      <v-col cols="auto" :offset="portrait && item.Range.length && item.Damage.length ? 0 : 1">
         <cc-damage-element
           :damage="item.Profiles[tab].Damage"
           :type-override="item.Profiles[tab].DamageTypeOverride" />
@@ -31,7 +28,7 @@
         <span class="text-overline">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</span>
       </v-col>
 
-      <v-col cols="auto" class="ml-auto text-right">
+      <v-col cols="12" sm="auto" :class="portrait ? 'text-center' : 'ml-auto text-right'">
         <div class="heading h2">{{ item.Size }} {{ item.WeaponType }}</div>
         <div v-if="item.Source" class="flavor-text text-disabled">// {{ item.LicenseString }}</div>
         <div v-if="item.InLcp" class="flavor-text text-disabled">
@@ -107,5 +104,10 @@ export default {
   data: () => ({
     tab: 0,
   }),
+  computed: {
+    portrait(): boolean {
+      return this.$vuetify.display.xs;
+    },
+  },
 };
 </script>

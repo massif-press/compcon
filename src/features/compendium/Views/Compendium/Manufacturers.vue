@@ -1,46 +1,65 @@
 <template>
-  <v-container px-5>
-    <div class="heading h1">MANUFACTURERS</div>
-    <v-tabs
-      v-model="tabModel"
-      :vertical="$vuetify.display.lgAndUp"
-      background-color="accent"
-      :slider-size="12"
-      slider-color="active"
-      icons-and-text
-      show-arrows>
-      <v-tab v-for="(m, i) in manufacturers" ripple>
-        <cc-logo
-          v-if="m.LogoIsExternal"
-          size="large"
-          :source="m"
-          :color="tabModel == i ? 'white' : 'black'" />
-        <v-icon v-else size="35" :icon="m.Icon" start />
-        {{ m.ID }}
-      </v-tab>
-    </v-tabs>
-    <v-window v-model="tabModel">
-      <v-window-item v-for="m in manufacturers">
-        <v-card flat class="px-3 py-3 panel clipped-x-large">
-          <v-card-title
-            :class="`heading ${$vuetify.display.lgAndUp ? 'mech pb-3' : 'h2'}`"
-            :style="`color: ${m.Color}; word-break: break-word!important`">
-            <span style="overflow-wrap: normal !important">
-              {{ m.Name }}
-            </span>
-          </v-card-title>
-          <v-card-text class="mt-1 pr-4 pt-0">
-            <cc-logo-splash
-              v-if="$vuetify.display.lgAndUp"
+  <v-container>
+    <div class="heading" :class="mobile ? 'h2 mt-n6' : 'h1 mt-n4'">MANUFACTURERS</div>
+    <v-row>
+      <v-col cols="12" lg="auto">
+        <v-tabs
+          v-model="tabModel"
+          :direction="$vuetify.display.lgAndUp ? 'vertical' : 'horizontal'"
+          :vertical="$vuetify.display.lgAndUp"
+          :slider-height="12"
+          slider-color="secondary"
+          density="compact"
+          icons-and-text
+          show-arrows>
+          <v-tab v-for="(m, i) in manufacturers" ripple>
+            <cc-logo
+              v-if="m.LogoIsExternal"
+              size="large"
               :source="m"
-              style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw" />
-            <blockquote v-html-safe="m.Quote" class="quote-block" />
-            <v-divider class="ma-2" style="width: 30vw" />
-            <p v-html-safe="m.Description" class="body-text stark-text-text mb-2" />
-          </v-card-text>
-        </v-card>
-      </v-window-item>
-    </v-window>
+              :color="tabModel == i ? 'white' : 'black'" />
+            <v-icon v-else size="35" :icon="m.Icon" start />
+            {{ m.ID }}
+          </v-tab>
+        </v-tabs>
+      </v-col>
+      <v-col>
+        <v-window v-model="tabModel">
+          <v-window-item v-for="m in manufacturers">
+            <cc-panel color="panel-dark">
+              <div
+                :class="`heading ${$vuetify.display.lgAndUp ? 'mech' : 'h2'}`"
+                :style="`color: ${m.Color};`">
+                <span style="overflow-wrap: normal !important">
+                  {{ m.Name }}
+                </span>
+              </div>
+              <v-card-text class="pr-4 pt-0">
+                <svg
+                  v-if="!mobile && isSvg(m) && isCorsSafe(m)"
+                  :data-src="m.Logo + '#Content'"
+                  style="float: right; min-height: 22vw"
+                  :style="`width:22vw; height:22vw; fill:${iconColor}; stroke:#fff; stroke-width: 8px;`"></svg>
+                <img
+                  v-else-if="!mobile"
+                  :src="m.Logo"
+                  :alt="m.Name"
+                  :style="{
+                    maxWidth: '22vw',
+                    height: '22vw',
+                    filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
+                  }"
+                  style="float: right; min-height: 22vw" />
+
+                <blockquote v-html-safe="m.Quote" class="quote-block" />
+                <v-divider class="ma-2" style="width: 30vw" />
+                <p v-html-safe="m.Description" class="body-text stark-text-text mb-2" />
+              </v-card-text>
+            </cc-panel>
+          </v-window-item>
+        </v-window>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -52,8 +71,22 @@ export default {
     tabModel: 0,
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     manufacturers() {
       return CompendiumStore().Manufacturers.filter((x) => !x.IsHidden);
+    },
+  },
+  methods: {
+    iconColor(m): string {
+      return m.Color;
+    },
+    isSvg(m): boolean {
+      return m.isSvg;
+    },
+    isCorsSafe(m): boolean {
+      return m.isCorsSafe;
     },
   },
 };
@@ -63,8 +96,7 @@ export default {
 .quote-block {
   border-left: 6px solid rgb(var(--v-theme-panel));
   border-radius: 3px;
-  padding-left: 6px;
-  font-size: 22px;
-  line-height: 26px;
+  padding-left: 12px;
+  font-size: 1.3rem;
 }
 </style>

@@ -2,15 +2,16 @@
   <v-app-bar
     v-show="!hide"
     app
-    top
     color="primary"
-    class="clipped-large no-print"
+    :class="!mobile && 'clipped-large'"
+    class="no-print"
     density="compact"
+    :height="mobile ? '40' : '58'"
     style="z-index: 998">
     <div v-if="standalone">
       <v-tooltip location="bottom" open-delay="500ms">
         <template #activator="{ props }">
-          <v-btn icon variant="plain" size="45" v-bind="props" @click="$router.go(-1)">
+          <v-btn icon v-bind="props" @click="$router.go(-1)">
             <v-icon icon="mdi-arrow-left" />
           </v-btn>
         </template>
@@ -19,62 +20,59 @@
 
       <v-tooltip location="bottom" open-delay="500ms">
         <template #activator="{ props }">
-          <v-btn icon variant="plain" size="45" v-bind="props" @click="$router.go(1)">
+          <v-btn icon v-bind="props" @click="$router.go(1)">
             <v-icon icon="mdi-arrow-right" />
           </v-btn>
         </template>
         <span>Navigate Forward</span>
       </v-tooltip>
-      <v-divider vertical dark class="mx-2" />
+      <v-divider v-if="!mobile" vertical class="mx-1" />
     </div>
 
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
-        <v-btn
-          icon
-          variant="plain"
-          size="45"
+        <cc-button
+          :size="mobile ? 'small' : 'default'"
+          icon="mdi-home"
+          class="mx-1"
           v-bind="props"
-          @click="$router.push({ name: 'main-menu' })">
-          <v-icon icon="mdi-home" />
-        </v-btn>
+          @click="$router.push({ name: 'main-menu' })"></cc-button>
       </template>
       <span>Main Menu</span>
     </v-tooltip>
 
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
-        <v-btn
-          icon
-          variant="plain"
-          size="45"
+        <cc-button
+          :size="mobile ? 'small' : 'default'"
+          icon="mdi-book"
+          class="mx-1"
           v-bind="props"
-          @click="$router.push({ path: '/srd' })">
-          <v-icon icon="mdi-book" />
-        </v-btn>
+          @click="$router.push({ path: '/srd' })"></cc-button>
       </template>
       <span>Compendium</span>
     </v-tooltip>
 
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
-        <v-btn
-          icon
-          variant="plain"
-          size="45"
+        <cc-button
+          :size="mobile ? 'small' : 'default'"
+          icon="cc:pilot"
+          class="mx-1"
           v-bind="props"
-          @click="$router.push({ path: '/pilot_management' })">
-          <v-icon size="33" class="mt-n1" icon="cc:pilot" />
-        </v-btn>
+          @click="$router.push({ path: '/pilot_management' })"></cc-button>
       </template>
       <span>Pilot Roster</span>
     </v-tooltip>
 
     <v-menu location="bottom" open-on-hover>
       <template #activator="{ props }">
-        <v-btn icon variant="plain" size="45" v-bind="props" @click="$router.push({ path: '/gm' })">
-          <v-icon size="33" class="mt-n1" icon="cc:encounter" />
-        </v-btn>
+        <cc-button
+          :size="mobile ? 'small' : 'default'"
+          icon="cc:encounter"
+          class="mx-1"
+          v-bind="props"
+          @click="$router.push({ path: '/gm' })"></cc-button>
       </template>
       <v-list density="compact" class="text-caption pa-0">
         <v-list-item slim @click="$router.push({ path: '/gm/npcs' })">NPC Roster</v-list-item>
@@ -90,45 +88,39 @@
 
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
-        <v-btn
-          icon
-          variant="plain"
-          size="45"
+        <cc-button
+          :size="mobile ? 'small' : 'default'"
+          icon="cc:campaign"
+          class="mx-1"
           v-bind="props"
           @click="$router.push({ path: '/active-mode' })">
-          <v-icon size="33" class="mt-n1" icon="cc:campaign" />
-        </v-btn>
+          <v-icon />
+        </cc-button>
       </template>
       <span>Active Mode</span>
     </v-tooltip>
 
-    <v-dialog v-model="qrDialog">
-      <template #activator="{ props }">
-        <v-btn icon variant="plain" size="45" v-bind="props">
+    <cc-modal title="Quick Reference">
+      <template #activator="{ open }">
+        <cc-button
+          :size="mobile ? 'small' : 'default'"
+          icon="mdi-contain"
+          class="mx-1"
+          @click="open">
           <v-tooltip location="bottom" open-delay="500ms">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-contain" />
+              <v-icon v-bind="props" />
             </template>
             <span>Quick Reference</span>
           </v-tooltip>
-        </v-btn>
+        </cc-button>
       </template>
-      <v-card id="content">
-        <v-toolbar color="primary" density="compact" style="position: fixed; z-index: 2">
-          <v-toolbar-title class="heading h3 text-uppercase">Quick Reference</v-toolbar-title>
-          <v-spacer />
-          <v-btn icon @click="qrDialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <div style="min-height: 22px" />
-        <reference :is-modal="true" />
-      </v-card>
-    </v-dialog>
+      <reference />
+    </cc-modal>
 
-    <v-divider vertical dark class="mx-2" />
+    <v-divider v-if="!mobile" vertical class="ml-4 mr-1" />
 
-    <v-toolbar-title>
+    <v-toolbar-title v-if="!mobile">
       <span v-if="StorageWarning">
         <v-tooltip location="bottom" max-width="300px">
           <template #activator="{ props }">
@@ -189,46 +181,68 @@
           </v-card>
         </v-dialog>
       </span>
-      <span class="heading">COMP/CON</span>
-      <span class="flavor-text text-white" style="opacity: 0.4">&nbsp;{{ appVersion }}</span>
+      <span v-if="!mobile">
+        <span class="heading">COMP/CON</span>
+        <span class="flavor-text text-white" style="opacity: 0.4">&nbsp;{{ appVersion }}</span>
+      </span>
     </v-toolbar-title>
 
     <v-spacer />
 
     <search />
 
-    <v-divider v-if="!$vuetify.display.mdAndDown" vertical dark class="mx-2" />
+    <v-divider v-if="!portrait" vertical class="mx-1" />
 
-    <cc-tooltip
-      v-if="!$vuetify.display.mdAndDown"
-      location="bottom"
-      content="Open cloud account menu">
-      <v-btn icon variant="plain" size="45" dark @click="($refs.cloudModal as any).show()">
-        <v-badge
-          :model-value="notifications.length > 0"
-          overlap
-          color="secondary"
-          :content="notifications.length">
-          <v-icon icon="mdi-cloud-sync-outline" />
-        </v-badge>
-      </v-btn>
-    </cc-tooltip>
-
-    <v-divider vertical dark class="mx-2" />
-
-    <cc-tooltip location="bottom" content="Achievements">
-      <v-btn icon variant="plain" size="45" dark @click="($refs.achievementsModal as any).show()">
-        <v-icon icon="cc:achievement_1" size="30" />
-      </v-btn>
-    </cc-tooltip>
-
-    <v-divider vertical dark class="mx-2" />
-
-    <v-menu nudge-location="40px">
+    <v-tooltip location="bottom">
       <template #activator="{ props }">
-        <v-btn icon variant="plain" size="45" v-bind="props">
-          <v-icon dark>mdi-dots-vertical</v-icon>
-        </v-btn>
+        <cc-modal title="Cloud Account" icon="mdi-cloud-sync-outline">
+          <template #activator="{ open }">
+            <cc-button
+              v-bind="props"
+              class="mx-1"
+              :size="mobile && 'small'"
+              icon="mdi-cloud-sync-outline"
+              @click="open" />
+            <v-badge
+              :model-value="notifications.length > 0"
+              dot
+              color="secondary"
+              :content="notifications.length" />
+          </template>
+          <cloud-page />
+        </cc-modal>
+      </template>
+      Cloud Account
+    </v-tooltip>
+
+    <v-divider v-if="!mobile" vertical class="mx-1" />
+
+    <v-tooltip location="bottom">
+      <template #activator="{ props }">
+        <cc-modal title="Achievements" icon="cc:achievement_1">
+          <template #activator="{ open }">
+            <cc-button
+              v-bind="props"
+              class="mx-1"
+              :size="mobile && 'small'"
+              icon="cc:achievement_1"
+              @click="open" />
+          </template>
+          <achievements-page />
+        </cc-modal>
+      </template>
+      Achievements
+    </v-tooltip>
+
+    <v-divider v-if="!mobile" vertical class="mx-1" />
+
+    <v-menu>
+      <template #activator="{ props }">
+        <cc-button
+          class="mx-1"
+          :size="mobile && 'small'"
+          icon="mdi-dots-vertical"
+          @click="props.onClick($event)" />
       </template>
 
       <v-list density="compact">
@@ -244,7 +258,7 @@
       </v-list>
     </v-menu>
 
-    <v-spacer style="max-width: 20px" />
+    <v-spacer v-if="!mobile" style="max-width: 20px" />
 
     <cc-solo-dialog
       ref="contentModal"
@@ -270,14 +284,6 @@
     <cc-solo-dialog ref="cloudModal" large no-confirm title="Cloud Account">
       <cloud-page />
     </cc-solo-dialog>
-    <cc-solo-dialog
-      ref="achievementsModal"
-      fullscreen
-      no-confirm
-      no-title-clip
-      title="Achievements">
-      <achievements-page />
-    </cc-solo-dialog>
   </v-app-bar>
 </template>
 
@@ -295,8 +301,6 @@ import Reference from '../compendium/Views/Reference/Reference.vue';
 import { PilotStore, UserStore } from '@/stores';
 
 import Search from './search/index.vue';
-
-// import { Auth } from 'aws-amplify';
 
 export default {
   name: 'cc-nav',
@@ -332,6 +336,15 @@ export default {
     hide(): boolean {
       if (this.$route.path === '/') return true;
       return false;
+    },
+    landscape(): boolean {
+      return this.$vuetify.display.smAndUp && !this.$vuetify.display.mdAndUp;
+    },
+    portrait(): boolean {
+      return !this.$vuetify.display.smAndUp;
+    },
+    mobile() {
+      return this.portrait || this.landscape;
     },
     StorageWarning(): boolean {
       return UserStore().StorageWarning;

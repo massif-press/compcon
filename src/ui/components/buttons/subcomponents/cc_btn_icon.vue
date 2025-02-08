@@ -17,7 +17,7 @@
       :href="href"
       :to="to"
       :target="target"
-      @click.stop="!disabled && !loading && $emit('click')">
+      @click.stop="!disabled && !loading && $emit('click', $event)">
       <v-icon style="font-size: 70cqw; margin-top: 4cqw" :color="tonal ? color : ''" :icon="icon" />
     </v-btn>
   </div>
@@ -40,6 +40,7 @@ export default {
     to: { type: [String, Object] },
     target: { type: String },
   },
+  emits: ['click'],
   computed: {
     getColor() {
       if (!this.color) return '';

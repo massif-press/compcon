@@ -1,42 +1,49 @@
 <template>
-  <div
-    v-if="!tag.IsHidden"
-    :class="`text-center d-inline-block ${density === `compact` || $vuetify.display.mdAndDown ? '' : 'my-2'}`">
-    <cc-tooltip
-      :err="tag.err"
-      :title="tag.GetName(bonus, tier)"
-      :content="tag.GetDescription(bonus, tier)">
-      <v-chip
-        :class="!$vuetify.display.mdAndDown ? 'px-2 mx-1' : 'ma-1'"
-        :color="getColor"
-        dark
-        label
-        :size="small ? 'small' : xSmall ? 'x-small' : ''"
-        :outlined="outlined">
+  <v-tooltip v-if="!mobile" max-width="350px">
+    <template #activator="{ props }">
+      <v-chip v-bind="props" class="ma-1 cc-tag-clip" :color="getColor" tile :size="size">
         <v-avatar>
-          <v-icon v-if="tag.err" size="small" icon="mdi-label-off" :color="getColor" />
-          <v-icon v-else size="small" start icon="mdi-label" :color="getColor" />
+          <v-icon v-if="tag.err" icon="mdi-label-off" />
+          <v-icon v-else start icon="mdi-label" />
         </v-avatar>
         <span v-if="tag.err">MISSING DATA</span>
         <span v-else>{{ tag.GetName(bonus, tier).toUpperCase() }}</span>
       </v-chip>
-    </cc-tooltip>
-  </div>
+    </template>
+    <div class="heading h3">{{ tag.GetName(bonus, tier) }}</div>
+    <v-divider class="my-2" />
+    <div v-html-safe="tag.GetDescription(bonus, tier)" />
+  </v-tooltip>
+  <v-menu v-else bottom max-width="350px">
+    <template #activator="{ props }">
+      <v-chip
+        v-bind.stop="props"
+        class="ma-1 cc-tag-clip"
+        :color="getColor"
+        tile
+        :size="size"
+        variant="elevated">
+        <v-avatar>
+          <v-icon v-if="tag.err" icon="mdi-label-off" />
+          <v-icon v-else start icon="mdi-label" />
+        </v-avatar>
+        <span v-if="tag.err">MISSING DATA</span>
+        <span v-else>{{ tag.GetName(bonus, tier).toUpperCase() }}</span>
+      </v-chip>
+    </template>
+    <v-card color="surface-variant" class="pa-2">
+      <div class="heading h3">{{ tag.GetName(bonus, tier) }}</div>
+      <v-divider class="my-2" />
+      <div v-html-safe="tag.GetDescription(bonus, tier)" />
+    </v-card>
+  </v-menu>
 </template>
 
 <script lang="ts">
 export default {
   name: 'CCTag',
   props: {
-    small: {
-      type: Boolean,
-      required: false,
-    },
-    xSmall: {
-      type: Boolean,
-      required: false,
-    },
-    density: {
+    size: {
       type: String,
       required: false,
     },
@@ -47,7 +54,7 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'accent',
+      default: 'primary',
     },
     tag: {
       type: Object,
@@ -70,9 +77,19 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     getColor(): string {
       return this.tag.err ? 'error' : this.tag.IsExotic ? 'exotic' : this.color;
     },
   },
 };
 </script>
+
+<style scoped>
+.cc-tag-clip {
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+  padding-right: 16px;
+}
+</style>

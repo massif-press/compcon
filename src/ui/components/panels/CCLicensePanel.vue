@@ -16,7 +16,7 @@
           </span>
         </p>
         <div v-for="i in license.Unlocks[n - 1]">
-          <cc-item-modal :item="i" :small-btn="$vuetify.display.mdAndDown" class="ma-1" />
+          <cc-item-modal :item="i" block />
         </div>
       </div>
     </v-col>

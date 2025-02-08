@@ -1,130 +1,119 @@
 <template>
-  <v-row no-gutters style="height: 100%">
-    <v-col cols="12">
-      <slot />
+  <slot />
 
-      <v-row v-if="item.Mod && item.Mod.Target" align="center" class="pt-1 pb-2">
-        <v-col><v-divider /></v-col>
-        <v-col cols="auto">
-          <v-chip color="secondary" variant="outlined">
-            <v-icon start icon="cc:weaponmod" />
-            Modifies: {{ item.Mod.Target.Name }}
-          </v-chip>
-        </v-col>
-        <v-col><v-divider /></v-col>
-      </v-row>
+  <cc-heading v-if="item.Mod" size="small" line>
+    <v-chip color="secondary" variant="outlined">
+      <v-icon start icon="cc:weaponmod" />
+      Modifies: {{ item.Mod.Target.Name }}
+    </v-chip>
+  </cc-heading>
 
-      <cc-icon-divider v-if="item.LicenseString" :icon="item.Icon" />
+  <cc-icon-divider v-if="item.LicenseString" :icon="item.Icon" dense />
 
-      <slot name="statblock" />
+  <slot name="statblock" />
 
-      <div v-if="item.Effect">
-        <div v-show="!dense" class="text-overline text-disabled mb-n2">//EQUIPMENT EFFECT</div>
-        <p v-if="tier" v-html-safe="item.EffectByTier(tier)" class="text-text mb-1" />
-        <p v-else v-html-safe="item.Effect" class="text-text mb-1" />
-      </div>
+  <div v-if="item.Effect" class="my-2">
+    <div v-show="!dense" class="text-cc-overline text-disabled">//EQUIPMENT EFFECT</div>
+    <p v-if="tier" v-html-safe="item.EffectByTier(tier)" class="text-text" />
+    <p v-else v-html-safe="item.Effect" class="text-text" />
+  </div>
 
-      <div v-if="item.Actions && item.Actions.length">
-        <div v-show="!dense" class="text-overline text-disabled mb-n4">
-          <v-icon size="small" icon="cc:activate" />
-          EQUIPMENT ACTIONS
-        </div>
-        <v-row dense justify="center">
-          <v-col v-for="a in item.Actions" cols="auto">
-            <cc-action
-              :action="a"
-              :panel="!collapseActions || $vuetify.display.lgAndUp"
-              :hover="dense && collapseActions"
-              :tier="tier"
-              class="ma-2" />
-          </v-col>
-        </v-row>
-      </div>
+  <div v-if="item.Actions && item.Actions.length">
+    <div v-show="!dense" class="text-cc-overline text-disabled mb-n4">
+      <v-icon size="small" icon="cc:activate" />
+      EQUIPMENT ACTIONS
+    </div>
+    <v-row dense justify="center">
+      <v-col v-for="a in item.Actions" cols="auto">
+        <cc-action
+          :action="a"
+          :panel="!collapseActions || $vuetify.display.lgAndUp"
+          :hover="dense && collapseActions"
+          :tier="tier"
+          class="ma-2" />
+      </v-col>
+    </v-row>
+  </div>
 
-      <div v-if="item && item.Ammo && item.Ammo.length">
-        <div v-for="a in item.Ammo">
-          <b>{{ a.name }}</b>
-          :
-          <span v-html-safe="a.detail" />
-        </div>
-      </div>
+  <div v-if="item && item.Ammo && item.Ammo.length">
+    <div v-for="a in item.Ammo">
+      <b>{{ a.name }}</b>
+      :
+      <span v-html-safe="a.detail" />
+    </div>
+  </div>
 
-      <div v-if="item.Deployables && item.Deployables.length">
-        <div v-show="!dense" class="text-overline text-disabled mb-n2">
-          <v-icon size="small" icon="cc:drone" />
-          EQUIPMENT DEPLOYABLES
-        </div>
-        <v-row dense justify="center">
-          <v-col v-for="d in item.Deployables" cols="auto">
-            <cc-deployable-info
-              :deployable="d"
-              :panel="!collapseActions || $vuetify.display.lgAndUp"
-              :hover="dense && collapseActions"
-              :tier="tier"
-              class="ma-2" />
-          </v-col>
-        </v-row>
-      </div>
+  <div v-if="item.Deployables && item.Deployables.length">
+    <div v-show="!dense" class="text-cc-overline text-disabled">
+      <v-icon size="small" icon="cc:drone" />
+      EQUIPMENT DEPLOYABLES
+    </div>
+    <v-row dense justify="center">
+      <v-col v-for="d in item.Deployables" cols="auto">
+        <cc-deployable-info
+          :deployable="d"
+          :panel="!collapseActions || $vuetify.display.lgAndUp"
+          :hover="dense && collapseActions"
+          :tier="tier"
+          class="ma-2" />
+      </v-col>
+    </v-row>
+  </div>
 
-      <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
-        <div v-show="!dense" class="text-overline text-disabled mb-n2">
-          //EQUIPMENT INTEGRATIONS
-        </div>
-        <v-row dense justify="center">
-          <v-col v-for="x in item.IntegratedEquipment" cols="auto">
-            <cc-integrated-info :item="x" :panel="!collapseActions || $vuetify.display.lgAndUp" />
-          </v-col>
-        </v-row>
-      </div>
+  <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
+    <div v-show="!dense" class="text-cc-overline text-disabled">//EQUIPMENT INTEGRATIONS</div>
+    <v-row dense justify="center">
+      <v-col v-for="x in item.IntegratedEquipment" cols="auto">
+        <cc-integrated-info :item="x" :panel="!collapseActions || $vuetify.display.lgAndUp" />
+      </v-col>
+    </v-row>
+  </div>
 
-      <slot name="profile" />
+  <slot name="profile" />
 
-      <slot name="charts" />
+  <slot name="charts" />
 
-      <div v-if="!footer && showFooter && item.Tags?.length">
-        <div v-show="!dense" class="text-overline text-disabled mb-n2">//EQUIPMENT TAGS</div>
+  <div v-if="!footer && showFooter && item.Tags?.length">
+    <div v-show="!dense" class="text-cc-overline text-disabled">//EQUIPMENT TAGS</div>
+    <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" :tier="tier" />
+  </div>
+
+  <div v-if="item.Description?.length" class="my-4">
+    <div v-show="!dense" class="text-cc-overline text-disabled">//COMPENDIUM DATA</div>
+    <div v-html-safe="item.Description" class="flavor-text" />
+  </div>
+
+  <div v-if="item.FlavorDescription?.length">
+    <div v-show="!dense" class="text-cc-overline text-disabled">//FIELD DATA</div>
+    <div v-html-safe="item.FlavorDescription" class="flavor-text" />
+  </div>
+
+  <div v-if="notes">
+    <v-textarea
+      v-model="item.Note"
+      variant="outlined"
+      auto-grow
+      rows="2"
+      filled
+      density="compact"
+      hide-details
+      prepend-icon="mdi-note"
+      label="Equipment Notes"
+      class="mt-2" />
+  </div>
+
+  <v-footer v-if="footer && showFooter" color="panel" class="mx-n4 py-0 mt-2">
+    <v-row>
+      <v-col v-if="!hideTags" cols="auto">
         <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" :tier="tier" />
-      </div>
-
-      <div v-if="item.Description?.length">
-        <div v-show="!dense" class="text-overline text-disabled mb-n2">//COMPENDIUM DATA</div>
-        <div v-html-safe="item.Description" class="flavor-text px-2 pb-2" />
-      </div>
-
-      <div v-if="item.FlavorDescription?.length">
-        <div v-show="!dense" class="text-overline text-disabled mb-n2">//FIELD DATA</div>
-        <div v-html-safe="item.FlavorDescription" class="flavor-text px-2 pb-2" />
-      </div>
-
-      <div v-if="notes">
-        <v-textarea
-          v-model="item.Note"
-          variant="outlined"
-          auto-grow
-          rows="2"
-          filled
-          density="compact"
-          hide-details
-          prepend-icon="mdi-note"
-          label="Equipment Notes"
-          class="mt-2" />
-      </div>
-    </v-col>
-    <v-col align-self="end">
-      <v-footer v-if="footer && showFooter" color="panel" class="mx-n4 py-0 mt-2">
-        <v-row>
-          <v-col v-if="!hideTags" cols="auto">
-            <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" :tier="tier" />
-          </v-col>
-          <v-col v-if="!hideBonuses" cols="auto" class="ml-auto">
-            <div>
-              <cc-bonus v-for="b in item.Bonuses" :bonus="b" chip :tier="tier" />
-            </div>
-          </v-col>
-        </v-row>
-      </v-footer>
-    </v-col>
-  </v-row>
+      </v-col>
+      <v-col v-if="!hideBonuses" cols="auto" class="ml-auto">
+        <div>
+          <cc-bonus v-for="b in item.Bonuses" :bonus="b" chip :tier="tier" />
+        </div>
+      </v-col>
+    </v-row>
+  </v-footer>
 </template>
 
 <script lang="ts">

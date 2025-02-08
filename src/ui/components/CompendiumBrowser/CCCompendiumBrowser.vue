@@ -1,15 +1,12 @@
 <template>
   <v-layout>
-    <v-btn
-      icon
-      size="25"
-      variant="tonal"
+    <cc-button
+      :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+      size="small"
       color="primary"
-      :style="`position: absolute; z-index: 999; left: ${showNav ? '352' : '3'}px; top: 12px`"
-      @click="(showNav as any) = !showNav">
-      <v-icon size="25" :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'" />
-    </v-btn>
-    <v-navigation-drawer v-model="showNav" class="mt-2" width="350">
+      :style="`position: absolute; z-index: 999; left: ${showNav ? (mobile ? '322' : '352') : '3'}px; top: 6px`"
+      @click="(showNav as any) = !showNav" />
+    <v-navigation-drawer v-model="showNav" :width="mobile ? 320 : 350">
       <v-list density="compact" nav v-model:opened="open">
         <v-alert
           v-show="!!$slots.header"
@@ -860,6 +857,9 @@ export default {
     );
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     minSliceIndex() {
       return (this.page - 1) * this.itemsPerPage;
     },

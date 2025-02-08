@@ -1,6 +1,6 @@
 <template>
-  <v-row align="center">
-    <v-col cols="6">
+  <v-row align="center" dense>
+    <v-col v-if="!mobile" cols="6">
       <Radar :data="chartData" :options="chartOptions" style="max-height: 45vh" />
       <div class="px-4 mt-2">
         <v-row align="center" justify="space-around">
@@ -41,7 +41,6 @@
         </v-row>
       </div>
     </v-col>
-    <v-divider vertical class="mx-2" />
     <v-col>
       <frame-statblock :frame="frame" />
     </v-col>
@@ -99,6 +98,9 @@ export default {
     this.colors = GenerateContrastingColors(this.frames.length + 1);
   },
   computed: {
+    mobile(): boolean {
+      return this.$vuetify.display.smAndDown;
+    },
     labels() {
       return this.aggregate ? this.aggregateLabels : this.standardLabels;
     },

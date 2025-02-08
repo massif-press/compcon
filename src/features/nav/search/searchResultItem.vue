@@ -7,7 +7,7 @@
     class="my-1"
     :subtitle="unCamelCase(indexItem.type)"
     @click="navTo(indexItem.path)">
-    <template #append>
+    <template v-if="!mobile" #append>
       <i class="text-caption">{{ indexItem.pack }}</i>
     </template>
   </v-list-item>
@@ -23,6 +23,10 @@ export default {
     indexItem: {
       type: Object,
       required: true,
+    },
+    mobile: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

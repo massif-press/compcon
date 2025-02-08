@@ -1,7 +1,7 @@
 <template>
   <v-chip :color="bgColor" :variant="<any>variant" :size="size" tile class="pa-0">
-    <span :class="`bg-${color} py-2 ${title ? 'px-2' : 'px-1'}`">
-      <v-icon v-if="icon" :icon="icon" />
+    <span :class="`py-2 ${title ? 'px-2' : 'px-1'}`" :style="`background-color: ${hexColor}`">
+      <v-icon v-if="icon" :icon="icon" :start="!!title" />
       <span v-if="title" v-text="title" />
     </span>
     <span v-if="label" class="px-2" v-text="label" />
@@ -39,6 +39,12 @@ export default {
     },
     variant: {
       type: String,
+    },
+  },
+  computed: {
+    hexColor() {
+      if (this.color[0] === '#') return this.color;
+      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name][this.color];
     },
   },
 };

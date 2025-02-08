@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
     $vuetify: Framework;
     $notify: Notify;
     $router: Router;
+    $route: Route;
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div style="position: absolute; bottom: 2px; right: 4px">
+  <div style="position: fixed; bottom: 2px; right: 8px">
     <v-tooltip location="top" open-delay="300">
       <template #activator="{ props }">
         <v-icon

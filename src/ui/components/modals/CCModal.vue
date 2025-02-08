@@ -19,10 +19,15 @@
         :icon="icon"
         :color="color"
         style="position: sticky; top: 0; z-index: 10"
+        class="border-b-sm"
         :extended="extended"
         @close="close">
-        <slot name="title" />
-        <slot name="toolbar-items" />
+        <template #title>
+          <slot name="title" />
+        </template>
+        <template #toolbar-items>
+          <slot name="toolbar-items" />
+        </template>
       </cc-toolbar>
       <v-card-text class="pa-0">
         <slot v-bind="{ modal, close }" />

@@ -63,6 +63,7 @@ export default {
     to: { type: [String, Object] },
     target: { type: String },
   },
+  emits: ['click'],
   computed: {
     sizeStyle() {
       return this.size ? `size-${this.size}` : 'size-default';
