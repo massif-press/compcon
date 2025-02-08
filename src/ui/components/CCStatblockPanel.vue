@@ -1,29 +1,29 @@
 <template>
-  <v-col :cols="cols">
-    <cc-tooltip inline :title="name" :content="glossary(name)" delayed>
-      <v-card
-        flat
-        tile
-        :color="color"
-        :variant="variant"
-        elevation="0"
-        class="text-center"
-        height="100%"
-        width="100%">
-        <v-row class="heading h3 py-1" dense align="center" justify="center">
-          <v-col cols="auto">
-            <v-icon size="30" :icon="icon" />
-          </v-col>
-          <v-col cols="auto">
+  <v-col :cols="portrait ? '12' : cols">
+    <v-tooltip max-width="400">
+      <template #activator="{ props }">
+        <v-card
+          v-bind="props"
+          flat
+          tile
+          :color="color"
+          :variant="<any>variant"
+          class="text-center"
+          width="100%">
+          <div class="heading h3 py-1">
+            <v-icon :icon="icon" start />
             <span>{{ name }}</span>
-            <span v-if="inline" class="pl-2">{{ value }}</span>
-          </v-col>
-        </v-row>
-        <div v-if="!inline" class="heading pb-4" style="font-size: 26px">
-          {{ isArray ? (value as string[]).join('/') : value }}
-        </div>
-      </v-card>
-    </cc-tooltip>
+            <span v-if="isInline" class="pl-2">{{ value }}</span>
+          </div>
+          <div v-if="!isInline" class="heading mt-n2" style="font-size: 26px">
+            {{ isArray ? (value as string[]).join('/') : value }}
+          </div>
+        </v-card>
+      </template>
+      <div class="heading h3">{{ name }}</div>
+      <v-divider class="my-2" />
+      <div v-html-safe="glossary" />
+    </v-tooltip>
   </v-col>
 </template>
 
@@ -64,13 +64,17 @@ export default {
     },
   },
   computed: {
+    portrait(): boolean {
+      return this.$vuetify.display.xs;
+    },
+    isInline(): boolean {
+      return this.inline || this.$vuetify.display.smAndDown;
+    },
     isArray(): boolean {
       return isArray(this.value);
     },
-  },
-  methods: {
-    glossary(name: string): string {
-      const n = glossary.find((x) => x.name.toLowerCase() === name.toLowerCase());
+    glossary() {
+      const n = glossary.find((x) => x.name.toLowerCase() === this.name.toLowerCase());
       return n ? n.description : 'MISSING';
     },
   },

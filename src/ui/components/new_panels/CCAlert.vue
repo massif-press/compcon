@@ -40,7 +40,7 @@ export default {
   props: {
     color: {
       type: String,
-      default: 'primary',
+      default: 'panel',
     },
     title: {
       type: String,

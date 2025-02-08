@@ -4,14 +4,16 @@
     width="800px"
     max-width="90vw"
     hide-overlay
-    opacity="0.7"
+    opacity="0.65"
     transition="dialog-top-transition">
     <template #activator="{ props }">
-      <v-btn v-bind="props" variant="plain" size="small" dark prepend-icon="mdi-magnify">
+      <cc-button v-if="mobile" v-bind="props" icon="mdi-magnify" size="small" class="mx-1" />
+
+      <v-btn v-else v-bind="props" variant="plain" size="small" prepend-icon="mdi-magnify">
         <v-chip label size="x-small" class="px-1 ml-1">{{ hasCmdKey ? 'CMD' : 'CTRL' }} + /</v-chip>
       </v-btn>
     </template>
-    <v-card border>
+    <v-card border tile>
       <v-text-field
         v-model="search"
         label="Search"
@@ -20,10 +22,13 @@
         autofocus
         hide-details>
         <template #append-inner>
-          <v-chip label size="x-small" class="px-1" @click="searchDialog = false">ESC</v-chip>
+          <v-btn v-if="mobile" icon="mdi-close" variant="text" @click="searchDialog = false" />
+          <v-chip v-else label size="x-small" class="px-1" @click="searchDialog = false">
+            ESC
+          </v-chip>
         </template>
       </v-text-field>
-      <v-card-text>
+      <v-card-text :class="mobile && 'py-0 px-2'">
         <div v-if="search">
           <v-list density="compact">
             <div class="text-caption font-weight-bold text-uppercase">search results</div>
@@ -32,6 +37,7 @@
                 v-for="r in searchResults"
                 :key="r.path"
                 :indexItem="r"
+                :mobile="mobile"
                 @onNav="
                   search = '';
                   searchDialog = false;
@@ -83,6 +89,9 @@ export default {
     window.removeEventListener('keydown', this.handleSearch);
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     searchResults() {
       if (!this.search || this.search.length < 3) return [];
 

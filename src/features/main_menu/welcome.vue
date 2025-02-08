@@ -1,9 +1,9 @@
 <template>
   <v-scale-transition leave-absolute mode="out-in">
     <div v-if="showWelcome" :class="mobile ? 'takeover' : 'sidePanel'">
-      <v-row no-gutters justify="center" align="center" style="height: 100%; position: relative">
+      <v-row no-gutters justify="center" align="center" style="height: 100%">
         <v-col cols="auto">
-          <div style="min-width: 600px; max-width: 600px">
+          <div :style="!mobile && 'min-width: 600px'" style="max-width: 600px">
             <cc-toolbar
               title="CC.SYSADMIN// NOTIFY"
               color="primary"
@@ -43,18 +43,19 @@
             <cc-panel height="70vh" color="panel" border style="margin-top: -2px">
               <v-window v-model="tab">
                 <v-window-item v-for="m in messages" :key="m.timestamp">
-                  <cc-heading small line>
+                  <div class="text-cc-overline">
                     {{
                       new Date(m.timestamp).toLocaleString(undefined, {
                         dateStyle: 'full',
                         timeStyle: 'long',
                       })
                     }}
-                  </cc-heading>
+                  </div>
+                  <v-divider class="my-2" />
                   <cc-heading type="h3">{{ m.title }}</cc-heading>
                   <p class="pa-2" v-html="m.body" />
-                  <cc-button class="my-4" block color="primary" size="x-small" @click="ack(m)">
-                    Acknowledge
+                  <cc-button class="mt-8" block color="primary" size="x-small" @click="ack(m)">
+                    Dismiss
                   </cc-button>
                 </v-window-item>
               </v-window>

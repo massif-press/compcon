@@ -61,7 +61,6 @@ import CCItemModal from './components/cards/CCItemModal.vue';
 import CCSearchResultModal from './components/cards/CCSearchResultModal.vue';
 import CCCoreBonusItem from './components/items/CCCoreBonusItem.vue';
 import CCLogo from './components/items/CCLogo.vue';
-import CCLogoSplash from './components/items/CCLogoSplash.vue';
 import CCOrgItem from './components/items/CCOrgItem.vue';
 import CCPilotLicenseItem from './components/items/CCPilotLicenseItem.vue';
 import CCReserveItem from './components/items/CCReserveItem.vue';
@@ -117,8 +116,10 @@ export {
   CCTickbar,
   CCHeading,
   CCToolbar,
+  // ---
   CCPanel,
   CCAlert,
+  // ---
   CCModal,
   CCDialog,
   // ---
@@ -168,7 +169,6 @@ export {
   CCSearchResultModal,
   CCCoreBonusItem,
   CCLogo,
-  CCLogoSplash,
   CCOrgItem,
   CCPilotLicenseItem,
   CCReserveItem,

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="extended && !$vuetify.display.mdAndDown" v-for="t in <Tag[]>tags">
+  <div v-if="extended && !mobile" v-for="t in <Tag[]>tags">
     <cc-extended-tag :tag="t" :color="t.IsExotic ? 'exotic' : color" />
   </div>
   <div v-else-if="print">
@@ -54,7 +54,6 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'accent',
     },
     tags: {
       type: Array,
@@ -69,6 +68,11 @@ export default {
       type: Number,
       required: false,
       default: 1,
+    },
+  },
+  computed: {
+    mobile(): boolean {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

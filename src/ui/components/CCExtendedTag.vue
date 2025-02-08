@@ -1,18 +1,14 @@
 <template>
   <span v-if="tag.err">ERR: {{ tag.err.toUpperCase() }}</span>
-  <v-alert
+  <cc-alert
     v-show="!tag.IsHidden"
     icon="mdi-label"
     :color="tag.isExotic ? 'exotic' : color"
-    variant="outlined"
     density="compact"
-    class="my-1"
-  >
-    <h3 :class="`heading ${tag.IsExotic ? 'exotic' : 'accent'}text-`">
-      {{ tag.GetName(bonus) }}
-    </h3>
+    :title="tag.GetName(bonus)"
+    class="my-1">
     <div class="text-text" v-html="tag.GetDescription(bonus)" />
-  </v-alert>
+  </cc-alert>
 </template>
 
 <script lang="ts">
@@ -26,7 +22,6 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'accent',
     },
     bonus: {
       type: Number,

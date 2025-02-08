@@ -1,5 +1,5 @@
 <template>
-  <cc-tabs modal>
+  <cc-tabs>
     <template #tabs>
       <v-tab>Settings</v-tab>
       <v-tab>Storage</v-tab>

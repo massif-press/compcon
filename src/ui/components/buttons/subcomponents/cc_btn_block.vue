@@ -79,6 +79,7 @@ export default {
     href: { type: String },
     target: { type: String },
   },
+  emits: ['click'],
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
@@ -168,14 +169,12 @@ export default {
 
 .size-x-small {
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-  font-size: 1.2rem;
   letter-spacing: 3px;
   min-height: 25px;
 }
 
 .size-small {
   clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-  font-size: 0.75rem;
   letter-spacing: 4px;
   min-height: 40px;
 }

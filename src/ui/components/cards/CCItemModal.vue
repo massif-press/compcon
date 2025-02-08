@@ -1,35 +1,37 @@
 <template>
-  <div>
-    <cc-dialog
-      ref="dialog"
-      no-confirm
-      :color="item.Color ? item.Color : 'primary'"
-      :large="!$vuetify.display.mdAndDown"
-      :fullscreen="$vuetify.display.mdAndDown"
-      :small-btn="smallBtn"
-      :block="block"
-      :icon="item.Icon">
-      <template #button>
+  <cc-modal
+    ref="dialog"
+    :color="item.Color ? item.Color : 'primary'"
+    :title="`${item.Name}`"
+    :icon="item.Icon">
+    <template #activator="{ open }">
+      <cc-button
+        :color="item.Color ? item.Color : 'primary'"
+        class="ma-1"
+        :block="block"
+        size="small"
+        @click="open">
         <v-icon v-if="item.IsExotic" start color="exotic">mdi-star</v-icon>
         <v-icon v-if="!hideType" start :icon="item.Icon" />
         {{ truncate(item.Name) }}
         <span v-if="!hideType">{{ item.ItemType === 'Frame' ? '&nbsp;FRAME' : '' }}</span>
-      </template>
+      </cc-button>
+    </template>
 
-      <template #title>
-        {{ item.Name }}
-      </template>
+    <template v-if="!mobile" #toolbar-items>
+      <cc-chip
+        :icon="item.Manufacturer.Icon"
+        :title="item.Source || ''"
+        :label="startCase(item.ItemType)"
+        :color="item.Manufacturer.Color" />
+    </template>
 
-      <template #title-chips>
-        <v-chip class="stat-text mt-n1" size="small" variant="outlined" label>
-          {{ item.Source || '' }} {{ startCase(item.ItemType) }}
-        </v-chip>
-      </template>
-
+    <v-card-text class="pt-2" :class="wide && 'px-12'">
       <cc-item-card :item="item" />
-      <item-card-link :item="item" />
-    </cc-dialog>
-  </div>
+    </v-card-text>
+
+    <item-card-link :item="item" />
+  </cc-modal>
 </template>
 
 <script lang="ts">
@@ -43,9 +45,6 @@ export default {
       type: Object,
       required: true,
     },
-    smallBtn: {
-      type: Boolean,
-    },
     hideType: {
       type: Boolean,
     },
@@ -56,11 +55,20 @@ export default {
   components: {
     ItemCardLink,
   },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+    wide() {
+      return this.$vuetify.display.lgAndUp;
+    },
+  },
   methods: {
     startCase(str: string): string {
       return _.startCase(str);
     },
     truncate(str): string {
+      if (this.block) return str;
       if (str.length > 26) return str.substring(0, 24) + '…';
       return str;
     },

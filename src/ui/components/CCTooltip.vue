@@ -7,7 +7,7 @@
         :start="start"
         :end="end"
         style="align-self: center; margin-top: -3px"
-        :size="small ? 'x-small' : undefined" />
+        :size="size" />
     </template>
     <template #default>
       <span v-if="text" v-html="text" />
@@ -22,9 +22,9 @@
         :start="start"
         :end="end"
         style="align-self: center; margin-top: -3px"
-        :size="small ? 'x-small' : undefined" />
+        :size="size" />
     </template>
-    <v-card class="pa-2">
+    <v-card class="pa-2" color="surface-variant">
       <span v-if="text" v-html="text" />
       <slot v-else />
     </v-card>
@@ -50,8 +50,8 @@ export default {
       type: Boolean,
       default: false,
     },
-    small: {
-      type: Boolean,
+    size: {
+      type: [String, Number],
       default: false,
     },
   },

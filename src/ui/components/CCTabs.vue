@@ -1,15 +1,19 @@
 <template>
   <v-tabs
     v-model="tab"
+    :class="`tabs ${fixed ? 'fixed' : 'sticky'} ${mobile ? 'mobile' : 'desktop'}`"
     :bg-color="color"
     slider-color="secondary"
-    :height="mobile ? '24' : '32'"
+    :height="mobile ? '24px' : '32px'"
     density="compact"
-    style="position: sticky; top: 28px; z-index: 10"
-    :style="!mobile ? { top: '40px!important' } : {}">
-    <slot name="tabs" />
+    grow>
+    <slot name="tabs" v-bind="{ setTab }" />
   </v-tabs>
-  <v-window v-model="tab">
+  <div
+    v-if="fixed"
+    style="position: absolute; top: 0; left: 0; right: 0; height: 45px"
+    :class="`bg-${color}`" />
+  <v-window v-model="tab" v-bind="{ setTab }">
     <slot />
   </v-window>
 </template>
@@ -20,16 +24,52 @@ export default {
   props: {
     color: { type: String, default: 'primary' },
     sliderColor: { type: String, default: 'secondary' },
-    modal: { type: Boolean, default: false },
+    fixed: { type: Boolean, default: false },
   },
-
+  emits: ['changed'],
   data: () => ({
     tab: 0,
   }),
+  watch: {
+    tab() {
+      this.$emit('changed', this.tab);
+    },
+  },
   computed: {
     mobile() {
-      return this.$vuetify.display.mdAndDown;
+      return this.$vuetify.display.smAndDown;
+    },
+  },
+  methods: {
+    setTab(tab: number) {
+      this.tab = tab;
     },
   },
 };
 </script>
+
+<style scoped>
+.tabs {
+  z-index: 10;
+  height: 32px;
+  max-height: 32px;
+}
+.fixed {
+  position: fixed;
+  width: 100%;
+}
+
+.sticky {
+  position: sticky;
+}
+
+.mobile {
+  top: 28px;
+  height: 24px;
+  max-height: 24px;
+}
+
+.desktop {
+  top: 42px !important;
+}
+</style>

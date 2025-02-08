@@ -9,16 +9,17 @@
       <v-col cols="auto">
         <v-icon v-if="icon" :icon="icon" start />
       </v-col>
-      <v-col cols="auto">
-        <span class="heading h3">
-          <span v-text="title" />
-        </span>
+      <v-col>
+        <div
+          class="heading h3"
+          :style="portrait && 'max-width: 250px'"
+          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+          v-text="title" />
       </v-col>
-      <v-spacer />
       <v-divider
-        v-if="$slots['toolbar-items'] && !mobile && !extended"
+        v-if="hasToolbarItemContent && !extended"
         vertical
-        class="mx-6"
+        class="ts mx-6"
         style="transform: skew(-45deg); opacity: 1 !important" />
       <v-col cols="auto">
         <v-toolbar-items>
@@ -49,8 +50,18 @@ export default {
     extended: { type: Boolean, default: false },
   },
   computed: {
+    portrait() {
+      return this.$vuetify.display.xs;
+    },
     mobile() {
       return this.$vuetify.display.smAndDown;
+    },
+    hasToolbarItemContent() {
+      const slot = this.$slots['toolbar-items'];
+      if (slot && slot()[0] && slot()[0].children) {
+        return (slot()[0].children as any).length > 0;
+      }
+      return false;
     },
   },
 };

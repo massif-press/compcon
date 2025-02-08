@@ -1,66 +1,61 @@
 <template>
-  <v-card-text>
-    <v-row dense align="start">
-      <v-col>
-        <div class="heading h2 text-text">{{ item.Source }} {{ item.MechTypeString }} Frame</div>
-      </v-col>
-      <v-col cols="auto" class="mt-n5">
-        <cc-tooltip
-          :title="`Size ${item.Size === 0.5 ? '½' : item.Size}`"
-          :content="glossary('size')">
-          <v-icon size="65" color="accent" :icon="item.SizeIcon" />
+  <v-row dense align="center">
+    <v-col>
+      <div class="heading h2">{{ item.Source }} {{ item.MechTypeString }} Frame</div>
+      <div class="heading h4 text-text">
+        {{ item.LcpName }}
+      </div>
+    </v-col>
+    <v-col cols="auto">
+      <cc-tooltip :icon="item.SizeIcon" size="65">
+        <div class="heading h3">Size {{ item.Size === 0.5 ? '½' : item.Size }}</div>
+        <v-divider class="my-1" />
+        {{ glossary('size') }}
+      </cc-tooltip>
+    </v-col>
+  </v-row>
+  <v-row align="start" dense>
+    <v-col>
+      <div v-if="item.Description">
+        <div class="text-overline ml-n2 my-1 text-text">COMPENDIUM ENTRY</div>
+        <p v-html-safe="item.Description" class="flavor-text" />
+      </div>
+    </v-col>
+    <v-col :order="mobile ? 'first' : 'last'" cols="12" md="5">
+      <v-img :src="item.DefaultImage" max-height="100vh" />
+    </v-col>
+  </v-row>
+
+  <div class="my-4">
+    <div class="text-overline ml-n2 text-text">COMBAT PROFILE</div>
+    <frame-combat-chart :frame="item" />
+  </div>
+
+  <div class="text-overline ml-n2 text-text">FRAME TRAITS</div>
+  <v-row>
+    <v-col v-for="t in item.Traits">
+      <cc-trait-item
+        :trait="t"
+        :color="item.Manufacturer.GetColor($vuetify.theme.current.dark)"
+        class="mb-2" />
+    </v-col>
+  </v-row>
+
+  <br />
+  <div class="text-overline ml-n2 text-text">AVAILABLE WEAPON MOUNTS</div>
+  <v-row justify="space-around" class="mb-3">
+    <v-col v-for="m in item.Mounts">
+      <v-card color="primary" dark class="clipped">
+        <cc-tooltip simple inline :content="get_mount_tooltip(m)">
+          <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} Mount</v-card-text>
         </cc-tooltip>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <div v-if="item.InLcp" class="heading h4 text-text">
-          {{ item.LcpName }}
-        </div>
-        <div v-if="item.Description">
-          <div class="text-overline ml-n2 my-1 text-text">COMPENDIUM ENTRY</div>
-          <p v-html-safe="item.Description" class="flavor-text" />
-        </div>
-      </v-col>
-      <v-col v-if="$vuetify.display.lgAndUp" cols="4">
-        <v-img :src="item.DefaultImage" max-width="35vw" />
-        <!-- <cc-tooltip simple content="Feature In Development"> -->
-        <!-- <frame-gallery-modal :frame="item" /> -->
-        <!-- </cc-tooltip> -->
-      </v-col>
-    </v-row>
+      </v-card>
+    </v-col>
+  </v-row>
 
-    <div>
-      <div class="text-overline ml-n2 text-text">COMBAT PROFILE</div>
-      <frame-combat-chart :frame="item" />
-    </div>
-
-    <div class="text-overline ml-n2 text-text">FRAME TRAITS</div>
-    <v-row>
-      <v-col v-for="t in item.Traits">
-        <cc-trait-item
-          :trait="t"
-          :color="item.Manufacturer.GetColor($vuetify.theme.current.dark)"
-          class="mb-2" />
-      </v-col>
-    </v-row>
-
-    <br />
-    <div class="text-overline ml-n2 text-text">AVAILABLE WEAPON MOUNTS</div>
-    <v-row justify="space-around" class="mb-3">
-      <v-col v-for="m in item.Mounts">
-        <v-card color="primary" dark class="clipped">
-          <cc-tooltip simple inline :content="get_mount_tooltip(m)">
-            <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} Mount</v-card-text>
-          </cc-tooltip>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <br />
-    <div class="text-overline ml-n2 text-text">ONBOARD CORE SYSTEM</div>
-    <frame-core-system-panel :cs="item.CoreSystem" />
-  </v-card-text>
+  <br />
+  <div class="text-overline ml-n2 text-text">ONBOARD CORE SYSTEM</div>
+  <frame-core-system-panel :cs="item.CoreSystem" />
 </template>
 
 <script lang="ts">
@@ -84,6 +79,11 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    mobile(): boolean {
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

@@ -1,24 +1,14 @@
 <template>
-  <div
-    style="position: relative; max-width: fit-content; display: inline-block"
-  >
-    <div
-      :class="disabled ? 'disabled' : ''"
-      class="wings"
-      :style="`background:${bgColor}`"
-    >
+  <div style="position: relative; max-width: fit-content; display: inline-block">
+    <div :class="disabled ? 'disabled' : ''" class="wings" :style="`background:${bgColor}`">
       <v-btn
         tile
         class="clipped-btn"
         v-bind="$props"
         style="visibility: visible"
         :style="`visibility: visible; background-color: ${bgColor} !important`"
-        @click.stop="$emit('click')"
-      >
-        <span
-          :class="!xLarge ? '' : 'heading h3 align'"
-          style="display: contents"
-        >
+        @click.stop="$emit('click')">
+        <span :class="!xLarge ? '' : 'heading h3 align'" style="display: contents">
           <slot></slot>
         </span>
       </v-btn>
@@ -99,7 +89,9 @@ export default {
   -webkit-clip-path: polygon(0 0, 0% 100%, 100% 0);
   background: inherit;
   z-index: 1;
-  transition: all 0.2s ease-in-out, background-color 1ms;
+  transition:
+    all 0.2s ease-in-out,
+    background-color 1ms;
 }
 
 .wings::after {
@@ -113,7 +105,9 @@ export default {
   clip-path: polygon(100% 100%, 0% 100%, 100% 0);
   background: inherit;
   z-index: 1;
-  transition: all 0.2s ease-in-out, background-color 1ms;
+  transition:
+    all 0.2s ease-in-out,
+    background-color 1ms;
 }
 .wings:not(.disabled):hover::before,
 .wings:not(.disabled):focus-within::before {

@@ -1,5 +1,8 @@
 <template>
   <component :is="component" v-bind="$props">
+    <template #title>
+      <slot name="title" />
+    </template>
     <template #toolbar-items>
       <slot name="toolbar-items" />
     </template>

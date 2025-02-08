@@ -58,6 +58,7 @@ export default {
     href: { type: String },
     target: { type: String },
   },
+  emits: ['click'],
   computed: {
     sizeStyle() {
       return this.size ? `size-${this.size}` : 'size-default';

@@ -2,7 +2,7 @@
   <v-app id="app">
     <cc-notify />
     <navbar />
-    <div style="height: 40px" class="no-print" />
+    <div :style="`height: ${mobile ? '24px' : '40px'}`" class="no-print" />
     <router-view :key="$route.fullPath" />
   </v-app>
 </template>
@@ -29,6 +29,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     user() {
       return UserStore().User;
     },
