@@ -14,7 +14,7 @@
     <div class="mod-border px-2">
       <equipment-header :item="mod" :use-bonus="mech.Pilot.LimitedBonus" />
       <div class="py-1">
-        <div class="text-overline mb-n2 text-disabled">
+        <div class="text-cc-overline text-disabled">
           <v-icon icon="cc:weaponmod" />
           EQUIPMENT EFFECT
         </div>

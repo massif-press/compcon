@@ -18,7 +18,7 @@
       :to="to"
       :target="target"
       @click.stop="!disabled && !loading && $emit('click', $event)">
-      <v-icon style="font-size: 70cqw; margin-top: 4cqw" :color="tonal ? color : ''" :icon="icon" />
+      <v-icon style="font-size: 75cqw; margin-top: 4cqw" :color="tonal ? color : ''" :icon="icon" />
     </v-btn>
   </div>
 </template>
@@ -83,21 +83,13 @@ export default {
   position: relative;
 }
 
-.off-5 {
-  margin-top: -6px;
-}
-
-.off-1 {
-  margin-top: -2px;
-}
-
 .light {
   width: 13px;
   height: 6.5px;
   position: absolute;
   top: 0;
   left: 0;
-  clip-path: polygon(0 25%, 15% 0, 100% 0, 0% 100%);
+  clip-path: polygon(0 25%, 0 0, 100% 0, 0% 100%);
   transition: filter 0.2s ease-in-out;
 }
 

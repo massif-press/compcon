@@ -1,20 +1,14 @@
 <template>
-  <cc-dialog no-dismiss :color="action.Color" large>
-    <template #button>
-      <span class="text-white" style="width: 100%">
-        <v-icon dark>{{ action.Icon }}</v-icon>
+  <cc-dialog
+    :color="action.Color"
+    :icon="action.Icon"
+    :title="action.Name"
+    :sub-title="action.Frequency.ToString()">
+    <template #activator="{ open }">
+      <cc-button :color="action.Color" @click="open">
+        <v-icon start>{{ action.Icon }}</v-icon>
         {{ action.Name }}
-      </span>
-    </template>
-
-    <template #title>
-      <v-icon start size="large">{{ action.Icon }}</v-icon>
-      {{ action.Name }}
-    </template>
-    <template #title-items>
-      <v-chip class="stat-text mt-4 mr-6" variant="outlined" label>
-        {{ action.Frequency.ToString() }}
-      </v-chip>
+      </cc-button>
     </template>
 
     <action-base :action="action" :tier="tier" />

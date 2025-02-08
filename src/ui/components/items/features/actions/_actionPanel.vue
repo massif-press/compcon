@@ -1,22 +1,22 @@
 <template>
-  <v-alert variant="outlined" density="compact" :color="action.Color">
+  <cc-alert density="compact" :color="action.Color">
     <v-row dense align="center">
       <v-col cols="auto">
-        <v-icon size="large" color="stark" :icon="action.Icon" />
+        <v-icon size="large" :icon="action.Icon" />
       </v-col>
       <v-col cols="auto">
-        <span class="heading h2 text-text">
+        <span class="heading h3">
           {{ action.Name }}
         </span>
       </v-col>
-      <v-col cols="auto" class="ml-auto pl-5">
-        <v-chip size="small" label class="text-text">
+      <v-col cols="auto" class="ml-auto mr-2">
+        <cc-chip size="small">
           {{ action.Activation.toUpperCase() }}
-        </v-chip>
+        </cc-chip>
       </v-col>
     </v-row>
     <action-base :action="action" :tier="tier" />
-  </v-alert>
+  </cc-alert>
 </template>
 
 <script lang="ts">

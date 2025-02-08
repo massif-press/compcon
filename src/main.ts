@@ -8,6 +8,7 @@ import { createPinia } from 'pinia';
 import './assets/css/global.css';
 import './ui/style/_style.css';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import MasonryWall from '@yeger/vue-masonry-wall';
 
 import App from './App.vue';
 
@@ -55,6 +56,7 @@ compcon.use(vuetify);
 compcon.use(router);
 compcon.use(VueSecureHTML);
 compcon.use(Notifications);
+compcon.use(MasonryWall);
 
 compcon.component('QuillEditor', QuillEditor);
 

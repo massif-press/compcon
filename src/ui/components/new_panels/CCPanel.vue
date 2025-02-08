@@ -1,10 +1,10 @@
 <template>
   <v-card class="parent cc-panel-clip" :color="color" flat tile :border="border" :height="height">
-    <v-toolbar v-if="hasTitle" flat density="compact" color="panel" class="ma-0 pa-0">
+    <v-toolbar v-if="hasTitle" flat density="compact" :color="titleColor" class="ma-0 pa-0">
       <div class="mt-n1 px-2 pt-2 pb-1">
         <div class="text-cc-overline">
-          <v-icon v-if="icon" icon="cc:pilot" class="mt-n1" />
-          <div v-if="title" v-text="title" />
+          <v-icon v-if="icon" :icon="icon" start class="mt-n1" />
+          <span v-if="title" v-text="title" />
           <slot v-else-if="$slots.title" name="title" />
         </div>
       </div>
@@ -30,6 +30,10 @@ export default {
     color: {
       type: String,
       default: 'light-panel',
+    },
+    titleColor: {
+      type: String,
+      default: 'panel',
     },
     border: {
       type: Boolean,

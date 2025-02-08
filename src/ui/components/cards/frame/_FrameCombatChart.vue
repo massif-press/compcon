@@ -4,29 +4,9 @@
       <Radar :data="chartData" :options="chartOptions" style="max-height: 45vh" />
       <div class="px-4 mt-2">
         <v-row align="center" justify="space-around">
-          <v-col cols="auto">
-            <v-row align="center" class="text-overline" dense>
-              <v-col cols="auto">
-                Absolute
-                <cc-tooltip inline content="Chart raw stat values ">
-                  <v-icon size="small" variant="plain">mdi-information-outline</v-icon>
-                </cc-tooltip>
-              </v-col>
-              <v-col cols="auto">
-                <v-switch v-model="relative" density="compact" hide-details />
-              </v-col>
-              <v-col cols="auto">
-                Relative
-                <cc-tooltip
-                  inline
-                  content="Chart stat values relative to all other frames in the Compendium">
-                  <v-icon size="small" variant="plain">mdi-information-outline</v-icon>
-                </cc-tooltip>
-              </v-col>
-            </v-row>
-          </v-col>
           <v-col>
-            <v-autocomplete
+            <cc-select
+              autocomplete
               v-model="compareFrames"
               :items="frames"
               item-title="Name"

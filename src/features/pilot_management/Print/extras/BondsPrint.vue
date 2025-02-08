@@ -14,17 +14,17 @@
       <v-col class="text-right">
         <div class="text-overline text-primary mt-n2 mb-n3">XP</div>
         <div>
-          <v-icon v-for="n in 8" :size="31" color="primary" style="opacity: 0.5" class="mr-n1"
-            >mdi-hexagon-outline</v-icon
-          >
+          <v-icon v-for="n in 8" :size="31" color="primary" style="opacity: 0.5" class="mr-n1">
+            mdi-hexagon-outline
+          </v-icon>
         </div>
       </v-col>
       <v-col class="text-right">
         <div class="text-overline text-primary mt-n2 mb-n3 ml-n7">STRESS</div>
         <div>
-          <v-icon v-for="n in 8" :size="31" color="primary" style="opacity: 0.5"
-            >mdi-heart-outline</v-icon
-          >
+          <v-icon v-for="n in 8" :size="31" color="primary" style="opacity: 0.5">
+            mdi-heart-outline
+          </v-icon>
         </div>
       </v-col>
     </v-row>
@@ -32,7 +32,7 @@
     <div v-if="blank" dense class="mb-4">
       <div class="text-overline mt-n2 mb-n2 text-primary">MAJOR IDEAL</div>
       <blank-line :height="24" />
-      <div class="text-overline mb-n2 text-primary">MINOR IDEALS</div>
+      <div class="text-cc-overline text-primary">MINOR IDEALS</div>
       <blank-line :height="24" class="mt-n2 mb-1" />
       <blank-line :height="24" />
     </div>
@@ -63,8 +63,7 @@
         density="compact"
         justify="space-between"
         class="mt-n1 caption"
-        style="position: relative"
-      >
+        style="position: relative">
         <v-col>
           <fieldset>
             <legend class="heading ml-1 px-2">{{ b.Title }}</legend>
@@ -82,8 +81,7 @@
     <div
       v-if="bc.Clocks.length > 0 && !blank"
       class="text-overline text-primary mt-4"
-      style="line-height: 0"
-    >
+      style="line-height: 0">
       OTHER CLOCKS
     </div>
     <v-row
@@ -92,8 +90,7 @@
       density="compact"
       justify="space-between"
       class="mt-n1 caption"
-      style="position: relative"
-    >
+      style="position: relative">
       <v-col>
         <fieldset>
           <legend class="heading ml-1 px-2">{{ b.Title }}</legend>
@@ -118,8 +115,7 @@
             class="text-overline text-white bg-grey-lighten-1 text-center"
             :style="
               landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
-            "
-          >
+            ">
             VETERAN POWER
           </div>
 
@@ -130,8 +126,7 @@
             class="text-overline text-white bg-grey-lighten-1 text-center"
             :style="
               landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
-            "
-          >
+            ">
             MASTER POWER
           </div>
 

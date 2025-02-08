@@ -18,12 +18,15 @@
     :color="`${highlighted ? 'secondary' : 'primary'}${hover ? ' lighten-1' : ''}`"
     class="px-3">
     <div>
-      <div v-if="item.Source || $slots.overline" class="text-overline mb-n3">
+      <div
+        v-if="item.Source || $slots.overline"
+        class="text-cc-overline"
+        style="overflow: hidden; width: 100%; text-overflow: ellipsis; white-space: nowrap">
         <span v-if="item.Source">{{ item.Source }}&nbsp;</span>
         <slot name="overline" />
       </div>
       <div
-        :class="small ? 'font-weight-bold' : 'heading h3'"
+        :class="small ? 'font-weight-bold text-uppercase' : 'heading h3'"
         :style="`overflow: hidden; width: ${
           small ? '73vw' : '25vw'
         }; text-overflow: ellipsis; white-space: nowrap;`">
@@ -53,5 +56,6 @@ export default {
   -webkit-box-orient: vertical;
 
   -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 </style>

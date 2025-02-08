@@ -41,14 +41,14 @@ export default {
   computed: {
     component() {
       if (this.stacked) return stk;
+      if (this.block) {
+        if (this.variant === 'text') return txt;
+        return this.variant === 'tonal' ? ton : blk;
+      }
       if (this.icon) {
         if (this.variant === 'text') return txt_icn;
         if (this.variant === 'outlined') return txt_icn;
         return icn;
-      }
-      if (this.block) {
-        if (this.variant === 'text') return txt;
-        return this.variant === 'tonal' ? ton : blk;
       }
       if (this.variant === 'text') return txt;
       return this.variant === 'tonal' ? ton : std;

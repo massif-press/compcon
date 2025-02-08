@@ -1,34 +1,17 @@
 <template>
-  <v-card :color="color" variant="outlined">
-    <v-card-text>
-      <v-row>
-        <v-col cols="auto">
-          <div class="heading h3" :style="`color: ${color}`" v-text="trait.Name" />
-        </v-col>
-        <v-col v-if="trait.Use !== 'Mission'" cols="auto" class="ml-auto">
-          <v-chip size="small" variant="outlined">{{ trait.Use }}</v-chip>
-        </v-col>
-      </v-row>
-      <v-row dense align="center">
-        <v-col>
-          <div class="body-text text-text" v-html="trait.Description" />
-        </v-col>
-        <v-col cols="12">
-          <cc-action v-for="a in trait.Actions" :action="a" :panel="$vuetify.display.lgAndUp" />
-          <cc-deployable-info
-            v-for="d in trait.Deployables"
-            :deployable="d"
-            :panel="$vuetify.display.lgAndUp"
-          />
-          <cc-integrated-info
-            v-for="x in trait.Integrated"
-            :item="x"
-            :panel="$vuetify.display.lgAndUp"
-          />
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+  <cc-panel :title-color="color" :title="trait.Name" height="100%">
+    <template v-if="trait.Use" #toolbar-items>
+      <cc-chip size="small" icon="mdi-timer-sync-outline">{{ trait.Use }}</cc-chip>
+    </template>
+    <p v-html-safe="trait.Description" />
+    <cc-action v-for="a in trait.Actions" :action="a" :panel="!mobile" class="my-2" />
+    <cc-deployable-info
+      v-for="d in trait.Deployables"
+      :deployable="d"
+      :panel="!mobile"
+      class="my-2" />
+    <cc-integrated-info v-for="x in trait.Integrated" :item="x" :panel="!mobile" class="my-2" />
+  </cc-panel>
 </template>
 
 <script lang="ts">
@@ -43,6 +26,11 @@ export default {
       type: String,
       required: false,
       default: 'primary',
+    },
+  },
+  computed: {
+    mobile(): boolean {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

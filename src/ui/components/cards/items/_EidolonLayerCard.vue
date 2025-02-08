@@ -2,23 +2,23 @@
   <v-card-text>
     <div v-if="item.Appearance">
       <cc-titled-divider title="Reported Appearances" class="mt-n4" />
-      <v-card variant="tonal" class="mt-1"
-        ><v-card-text class="pa-2" v-html-safe="item.Appearance"
-      /></v-card>
+      <v-card variant="tonal" class="mt-1">
+        <v-card-text class="pa-2" v-html-safe="item.Appearance" />
+      </v-card>
       <br />
     </div>
     <div v-if="item.Hints">
       <cc-titled-divider title="Hints" />
-      <v-card variant="tonal" class="mt-1"
-        ><v-card-text class="pa-2" v-html-safe="item.Hints"
-      /></v-card>
+      <v-card variant="tonal" class="mt-1">
+        <v-card-text class="pa-2" v-html-safe="item.Hints" />
+      </v-card>
       <br />
     </div>
     <div v-if="item.Rules">
       <cc-titled-divider title="Rules" />
-      <v-card variant="tonal" class="mt-1"
-        ><v-card-text class="pa-2" v-html-safe="item.Rules"
-      /></v-card>
+      <v-card variant="tonal" class="mt-1">
+        <v-card-text class="pa-2" v-html-safe="item.Rules" />
+      </v-card>
       <br />
     </div>
 
@@ -39,9 +39,9 @@
       <cc-titled-divider
         title="Shards"
         :subtitle="`&emsp; New Shards: ${item.Shards.CountString}`" />
-      <v-card variant="tonal" class="mt-1"
-        ><v-card-text class="pa-2" v-html-safe="item.Shards.Detail"
-      /></v-card>
+      <v-card variant="tonal" class="mt-1">
+        <v-card-text class="pa-2" v-html-safe="item.Shards.Detail" />
+      </v-card>
       <div v-if="item.Shards.Features.length > 0">
         <cc-titled-divider
           title="Shard Features"
@@ -63,7 +63,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-frame-card',
+  name: 'cc-eidolon-layer-card',
   props: {
     item: {
       type: Object,

@@ -6,7 +6,8 @@
     :fullscreen="mobile"
     :max-width="mobile ? '100vw' : maxWidth"
     :min-height="mobile ? '100vh' : shrink ? '' : '95vh'"
-    persistent>
+    persistent
+    @keydown.esc="close">
     <v-card
       tile
       flat

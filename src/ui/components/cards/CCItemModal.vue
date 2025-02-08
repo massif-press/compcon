@@ -9,10 +9,9 @@
         :color="item.Color ? item.Color : 'primary'"
         class="ma-1"
         :block="block"
+        :prepend-icon="itemIcon"
         size="small"
         @click="open">
-        <v-icon v-if="item.IsExotic" start color="exotic">mdi-star</v-icon>
-        <v-icon v-if="!hideType" start :icon="item.Icon" />
         {{ truncate(item.Name) }}
         <span v-if="!hideType">{{ item.ItemType === 'Frame' ? '&nbsp;FRAME' : '' }}</span>
       </cc-button>
@@ -61,6 +60,11 @@ export default {
     },
     wide() {
       return this.$vuetify.display.lgAndUp;
+    },
+    itemIcon() {
+      if (this.item.IsExotic) return 'mdi-star';
+      if (this.hideType) return undefined;
+      return this.item.Icon;
     },
   },
   methods: {
