@@ -1,5 +1,5 @@
 <template>
-  <v-card style="max-width: calc(100vw - 390px) !important">
+  <v-card :style="`max-width: ${mobile ? '100vw' : 'calc(100vw - 390px)'} !important`">
     <v-card-text v-if="!selected" class="heading h2 py-12 my-12 text-center text-disabled">
       NO SELECTION
     </v-card-text>
@@ -77,6 +77,9 @@ export default {
   },
   emits: ['clear'],
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     isNpcClass() {
       return (this.selected as CompendiumItem).ItemType === 'NpcClass';
     },

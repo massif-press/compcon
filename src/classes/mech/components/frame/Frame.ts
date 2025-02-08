@@ -151,7 +151,9 @@ class Frame extends LicensedItem implements IFeatureContainer {
     this.YPosition = frameData.y_pos || 30;
     this.Mounts = frameData.mounts;
     this._stats = frameData.stats;
-    this.Traits = frameData.traits.map((x) => new FrameTrait(x));
+    this.Traits = frameData.traits
+      .map((x) => new FrameTrait(x))
+      .sort((a, b) => a.weight + b.weight);
     this.CoreSystem = new CoreSystem(frameData.core_system);
     this.ItemType = ItemType.Frame;
     this._image_url = frameData.image_url;

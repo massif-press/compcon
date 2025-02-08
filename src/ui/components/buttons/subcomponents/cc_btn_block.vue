@@ -20,7 +20,7 @@
               <v-icon v-if="prependIcon" :size="iconSize" :icon="prependIcon" start />
               <span v-else-if="size !== 'small' && size !== 'x-small'">&nbsp;</span>
             </v-col>
-            <v-col class="py-0" :style="`font-size: ${size}`">
+            <v-col :style="`font-size: ${size}`">
               <slot />
               <div v-if="$slots.subtitle" class="text-caption mt-n1"><slot name="subtitle" /></div>
             </v-col>

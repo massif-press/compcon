@@ -1,10 +1,8 @@
 <template>
-  <cc-dialog no-dismiss large>
-    <template #button>
-      <span class="text-white" style="width: 100%">
-        <v-icon dark>cc:drone</v-icon>
-        {{ deployable.Name }}
-      </span>
+  <cc-dialog :color="deployable.Color" :icon="`cc:${deployable.Icon}`" :title="deployable.Name">
+    <template #activator="{ open }">
+      <v-icon start>cc:drone</v-icon>
+      {{ deployable.Name }}
     </template>
 
     <template #title>

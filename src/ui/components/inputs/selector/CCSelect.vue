@@ -29,6 +29,7 @@
       center-affix
       chips
       flat
+      :return-object="returnObject"
       variant="default"
       clear-icon="mdi-close-circle-outline"
       density="compact"
@@ -39,12 +40,10 @@
       <template #prepend>
         <div
           :class="`prepend bg-${color} ${isFocused && 'color-rotate'} ${(icon || label) && 'mr-n1'}`"
-          :style="`min-width: ${icon ? '30' : '12'}px`">
+          :style="`min-width: ${icon ? '30' : '12'}px`"
+          style="	display:flex; align-items:center;'">
           <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2'" class="mt-1" />
-          <div
-            v-if="label && !mobile"
-            class="d-inline-block text-cc-overline ml-3"
-            style="line-height: 0; margin-top: 16px">
+          <div v-if="label && !mobile" class="d-inline-block text-cc-overline ml-3">
             {{ label }}
             <cc-slashes class="ml-1 mr-2" />
           </div>
@@ -62,11 +61,9 @@
       </template>
       <template #chip="{ item }">
         <v-chip
-          style="margin-top: -4px; margin-bottom: -4px; position: relative"
           size="large"
           rounded="sm"
           class="chip-clip pl-1 pr-3 mx-1"
-          :style="!isSelect && 'margin-bottom: 6px'"
           :variant="<any>chipVariant">
           <v-icon v-if="(item as any).icon" :icon="(item as any).icon" />
           <span>{{ item.title }}</span>
@@ -137,6 +134,7 @@ export default {
     combobox: { type: Boolean },
     autocomplete: { type: Boolean },
     optionsIcon: { type: String },
+    returnObject: { type: Boolean },
   },
   data: () => ({
     isFocused: false,
@@ -175,14 +173,6 @@ export default {
 .top-element >>> .v-field__input {
   height: auto !important;
   min-height: 30px;
-}
-
-::v-deep(.v-combobox input) {
-  margin-top: -10px !important;
-}
-
-::v-deep(.v-autocomplete input) {
-  margin-top: -10px !important;
 }
 
 .prepend {

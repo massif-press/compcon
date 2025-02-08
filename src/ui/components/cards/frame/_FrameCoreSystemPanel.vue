@@ -23,14 +23,12 @@
         <span class="heading sub">ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-chip
+        <cc-chip
           size="small"
-          label
           variant="elevated"
-          elevation="0"
-          :color="`action--${cs.Activation.toLowerCase()}`">
+          :bgColor="`action--${cs.Activation.toLowerCase()}`">
           {{ cs.Activation.toUpperCase() }}
-        </v-chip>
+        </cc-chip>
       </v-col>
     </v-row>
     <div class="light-panel pa-2 clipped mx-3 mt-1">

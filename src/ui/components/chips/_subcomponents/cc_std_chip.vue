@@ -1,16 +1,21 @@
 <template>
-  <component :is="component" v-bind="$props">
+  <base-chip v-bind="$props">
+    <template #content>
+      <span class="px-2">
+        <v-icon v-if="icon" :icon="icon" class="ml-2" />
+        <slot />
+      </span>
+    </template>
     <template #tooltip><slot name="tooltip" /></template>
-    <slot />
-  </component>
+  </base-chip>
 </template>
 
 <script lang="ts">
-import split from './_subcomponents/cc_split_chip.vue';
-import std from './_subcomponents/cc_std_chip.vue';
+import baseChip from './cc_base_chip.vue';
 
 export default {
   name: 'CCChip',
+  components: { baseChip },
   props: {
     color: {
       type: String,
@@ -41,14 +46,11 @@ export default {
     variant: {
       type: String,
     },
-    tooltip: {
-      type: String,
-    },
   },
   computed: {
-    component() {
-      if (this.title && this.label) return split;
-      return std;
+    hexColor() {
+      if (this.color[0] === '#') return this.color;
+      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name][this.color];
     },
   },
 };

@@ -1,40 +1,45 @@
 <template>
-  <v-col :cols="4">
+  <v-col :cols="portrait ? 12 : landscape ? 6 : 4">
     <v-hover>
       <template #default="{ isHovering, props }">
-        <v-card
-          v-bind="props"
-          class="clipped-large"
-          :color="isHovering ? '' : 'panel'"
-          variant="outlined"
-          @click="($refs.dialog as any).show()"
-          @keydown.enter="($refs.dialog as any).show()">
-          <component
-            :is="componentLoader"
-            v-if="componentLoader"
-            :item="item"
-            :hover="isHovering"
-            :highlighted="highlighted"
-            :small="small" />
-          <v-btn
-            v-if="selectable"
-            block
-            color="secondary"
-            size="small"
-            rounded="0"
-            prepend-icon="mdi-plus-box"
-            @click.stop="$emit('select')">
-            Select {{ item.Name }}
-          </v-btn>
-        </v-card>
+        <cc-modal :icon="item.Icon" :title="itemDialogTitle">
+          <template #activator="{ open }">
+            <div :class="`pip bg-${isHovering ? 'accent' : 'panel'}`" />
+            <v-card
+              v-bind="props"
+              :color="isHovering ? '' : 'panel'"
+              flat
+              tile
+              style="clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px)"
+              variant="outlined"
+              @click="open()"
+              @keydown.enter="open()">
+              <component
+                :is="componentLoader"
+                v-if="componentLoader"
+                :item="item"
+                :hover="isHovering"
+                :highlighted="highlighted"
+                :small="small || portrait || landscape" />
+              <v-btn
+                v-if="selectable"
+                block
+                color="secondary"
+                size="small"
+                rounded="0"
+                prepend-icon="mdi-plus-box"
+                @click.stop="$emit('select')">
+                Select {{ item.Name }}
+              </v-btn>
+            </v-card>
+          </template>
+          <v-card-text style="position: relative">
+            <cc-item-card :item="item" />
+            <item-card-link :item="item" />
+          </v-card-text>
+        </cc-modal>
       </template>
     </v-hover>
-    <cc-solo-dialog ref="dialog" :icon="item.Icon" :title="itemDialogTitle" large no-actions>
-      <v-card-text style="position: relative">
-        <cc-item-card :item="item" />
-        <item-card-link :item="item" />
-      </v-card-text>
-    </cc-solo-dialog>
   </v-col>
 </template>
 
@@ -63,6 +68,12 @@ export default {
     ItemCardLink,
   },
   computed: {
+    portrait() {
+      return this.$vuetify.display.xs;
+    },
+    landscape() {
+      return this.$vuetify.display.smAndDown;
+    },
     componentLoader(): any {
       if (!this.item) {
         console.error('No item provided to CompendiumCard');
@@ -92,3 +103,33 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-card {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.v-card:hover {
+  filter: brightness(1.1) saturate(110%);
+}
+
+.icn {
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.pip {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  opacity: 0.5;
+  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+  transition: filter 0.2s ease-in-out;
+}
+
+.top-element:hover .pip {
+  opacity: 1;
+  filter: brightness(1.2) saturate(150%) hue-rotate(20deg);
+}
+</style>

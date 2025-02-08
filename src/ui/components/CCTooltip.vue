@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip v-if="!mobile" max-width="350px">
+  <v-tooltip :open-on-hover="!mobile" :open-on-click="mobile" max-width="350px">
     <template #activator="{ props }">
       <v-icon
         v-bind="showTooltip ? props : ''"
@@ -14,21 +14,6 @@
       <slot v-else />
     </template>
   </v-tooltip>
-  <v-menu v-else bottom max-width="350px">
-    <template #activator="{ props }">
-      <v-icon
-        v-bind.stop="showTooltip ? props : ''"
-        :icon="getIcon"
-        :start="start"
-        :end="end"
-        style="align-self: center; margin-top: -3px"
-        :size="size" />
-    </template>
-    <v-card class="pa-2" color="surface-variant">
-      <span v-if="text" v-html="text" />
-      <slot v-else />
-    </v-card>
-  </v-menu>
 </template>
 
 <script lang="ts">

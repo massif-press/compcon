@@ -450,43 +450,8 @@
                   {{ mf(m).Name }}
                 </v-col>
               </v-row>
-              <v-expansion-panels accordion focusable>
-                <v-expansion-panel v-for="item in getItems(m)" :id="(item as License).ID">
-                  <v-expansion-panel-title class="hover-parent py-0 pr-0 pl-3" hide-actions>
-                    <template #default="{ expanded }">
-                      <div>
-                        <div>
-                          <div class="caption">{{ (item as License).Frame.Source }}</div>
-                          <div class="heading h2 font-weight-bold">
-                            {{ (item as License).Frame.Name }}
-                          </div>
-                        </div>
-                        <div style="min-width: 20vw">
-                          <v-chip
-                            v-for="f in (item as License).Frame.MechType"
-                            size="small"
-                            dark
-                            variant="outlined"
-                            color="accent"
-                            class="ma-1">
-                            {{ f }}
-                          </v-chip>
-                        </div>
-                      </div>
-                      <div
-                        :class="expanded ? 'img-expanded' : 'img-hover'"
-                        :style="`background-image: url('${
-                          (item as License).Frame.DefaultImage
-                        }'); height:110px;
-                    width:100%;  background-position: top ${
-                      (item as License).Frame.YPosition
-                    }% left 0`" />
-                    </template>
-                  </v-expansion-panel-title>
-                  <v-expansion-panel-text>
-                    <cc-license-panel :license="item" />
-                  </v-expansion-panel-text>
-                </v-expansion-panel>
+              <v-expansion-panels accordion focusable flat>
+                <license-expandable :items="getItems(m)" />
               </v-expansion-panels>
             </v-col>
           </v-row>
@@ -677,6 +642,8 @@ import bGroupToggle from './components/_b-group-toggle.vue';
 import bFilterSet from './components/_b-filter-set.vue';
 import bListGroup from './components/_b-list-group.vue';
 
+import LicenseExpandable from './components/_license-expandable.vue';
+
 import { CompendiumItem, License, LicensedItem, Manufacturer } from '@/class';
 import { CompendiumStore, UserStore } from '@/stores';
 
@@ -746,6 +713,7 @@ export default {
     bGroupToggle,
     bFilterSet,
     bListGroup,
+    LicenseExpandable,
   },
   emits: ['equip', 'view-change'],
   props: {
@@ -1065,11 +1033,6 @@ export default {
 
 .img-hover {
   filter: brightness(80%) saturate(0.3);
-  transition: all 0.15s ease-in-out;
-}
-
-.img-expanded {
-  filter: brightness(115%) saturate(1.1);
   transition: all 0.15s ease-in-out;
 }
 

@@ -33,7 +33,7 @@
           </div>
 
           <div v-else-if="h.key === 'Name'">
-            <cc-item-modal small-btn block class="d-inline-block" hide-type :item="item" />
+            <cc-item-modal hide-type :item="item" />
 
             <v-icon
               v-if="selectable"

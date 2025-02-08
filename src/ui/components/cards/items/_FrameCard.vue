@@ -32,28 +32,32 @@
   </div>
 
   <div class="text-overline ml-n2 text-text">FRAME TRAITS</div>
-  <v-row>
-    <v-col v-for="t in item.Traits">
-      <cc-trait-item
-        :trait="t"
-        :color="item.Manufacturer.GetColor($vuetify.theme.current.dark)"
-        class="mb-2" />
-    </v-col>
-  </v-row>
+  <masonry-wall
+    :items="item.Traits"
+    :column-width="500"
+    :gap="16"
+    :min-columns="1"
+    :max-columns="2">
+    <template #default="{ item, index }">
+      <cc-trait-item :trait="item" :color="mColor" style="height: 100%" />
+    </template>
+  </masonry-wall>
 
   <br />
   <div class="text-overline ml-n2 text-text">AVAILABLE WEAPON MOUNTS</div>
   <v-row justify="space-around" class="mb-3">
     <v-col v-for="m in item.Mounts">
-      <v-card color="primary" dark class="clipped">
-        <cc-tooltip simple inline :content="get_mount_tooltip(m)">
-          <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} Mount</v-card-text>
-        </cc-tooltip>
-      </v-card>
+      <v-tooltip location="bottom" max-width="300">
+        <template #activator="{ props }">
+          <v-card color="primary" dark class="clipped" tile v-bind:="props">
+            <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} Mount</v-card-text>
+          </v-card>
+        </template>
+        <p v-html="get_mount_tooltip(m)" />
+      </v-tooltip>
     </v-col>
   </v-row>
 
-  <br />
   <div class="text-overline ml-n2 text-text">ONBOARD CORE SYSTEM</div>
   <frame-core-system-panel :cs="item.CoreSystem" />
 </template>
@@ -84,6 +88,9 @@ export default {
   computed: {
     mobile(): boolean {
       return this.$vuetify.display.smAndDown;
+    },
+    mColor() {
+      this.item.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
     },
   },
   methods: {
