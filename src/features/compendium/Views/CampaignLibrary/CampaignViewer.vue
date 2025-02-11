@@ -1,15 +1,24 @@
 <template>
-  <div>
+  <v-layout style="position: relative">
+    <cc-button
+      :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+      size="small"
+      color="primary"
+      :style="`position: absolute; z-index: 999; left: ${showNav ? '258' : '4'}px; top: 6px`"
+      @click="(showNav as any) = !showNav" />
     <div v-if="!campaign">ERR: NO CAMPAIGN LOADED</div>
     <v-row v-else no-gutters>
-      <sidebar
-        :campaign="campaign"
-        :current-page="currentPage"
-        @set-selected="setSelected"
-        @set-page="setPage" />
+      <v-slide-x-transition>
+        <sidebar
+          v-if="showNav"
+          :campaign="campaign"
+          :current-page="currentPage"
+          @set-selected="setSelected"
+          @set-page="setPage" />
+      </v-slide-x-transition>
       <v-col>
         <v-fade-transition leave-absolute>
-          <div style="padding-left: 256px; padding-bottom: 45px">
+          <div :style="`padding-left: ${!mobile && showNav ? '256px' : 0}; padding-bottom: 45px`">
             <component
               v-if="itemComponent"
               :is="itemComponent"
@@ -19,7 +28,7 @@
         </v-fade-transition>
       </v-col>
     </v-row>
-  </div>
+  </v-layout>
 </template>
 
 <script lang="ts">
@@ -38,6 +47,7 @@ export default {
     id: { type: String, required: true },
   },
   data: () => ({
+    showNav: true,
     componentType: 'Credits',
     selected: null,
     campaign: null as any,
@@ -49,6 +59,9 @@ export default {
   },
 
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     itemComponent() {
       switch (this.componentType.toLowerCase()) {
         case 'credits':

@@ -1,13 +1,15 @@
 <template>
   <v-container>
-    <v-card variant="tonal">
-      <v-toolbar density="compact" color="primary">
-        <v-toolbar-title>Table of Contents</v-toolbar-title>
-      </v-toolbar>
+    <cc-panel variant="tonal" flat tile>
+      <template #toolbar>
+        <v-toolbar density="compact" color="primary" height="22px">
+          <v-toolbar-title class="heading h3 text-uppercase">Table of Contents</v-toolbar-title>
+        </v-toolbar>
+      </template>
       <v-card-text class="pt-2">
         <toc-item :items="campaign.Contents" :level="0" :selected="<any>campaign" />
       </v-card-text>
-    </v-card>
+    </cc-panel>
 
     <v-divider class="my-5" />
 

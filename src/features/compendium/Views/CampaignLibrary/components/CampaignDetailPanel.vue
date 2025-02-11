@@ -1,25 +1,16 @@
 <template>
   <div v-if="campaign != null">
     <v-row dense>
-      <v-col cols="5" v-if="campaign.cover_image_url">
-        <v-img :src="campaign.cover_image_url" max-height="500px" />
+      <v-col cols="12" md="5" v-if="campaign.cover_image_url">
+        <v-img :src="campaign.cover_image_url" :max-height="mobile ? '200px' : '500px'" cover />
       </v-col>
       <v-col>
-        <div
-          style="
-            overflow-y: scroll;
-            overflow-x: hidden;
-            height: 100%;
-            min-height: 400px;
-            position: relative;
-          "
-          class="py-2"
-          :class="campaign.cover_image_url ? '' : 'px-4'">
-          <div class="text-center">
-            <div class="heading h2">{{ campaign.title }}</div>
+        <v-card-text style="position: relative" :class="campaign.cover_image_url ? '' : 'px-4'">
+          <div class="text-center" style="container: inline-size">
+            <div class="heading" style="font-size: calc(20px + 2.5cqw)">{{ campaign.title }}</div>
             <div>{{ campaign.author }}</div>
           </div>
-          <div class="text-center my-1 text-caption">
+          <div class="text-center my-1 text-caption px-2">
             Version
             <b class="text-accent">{{ getLatest(campaign.publish_info).ver }}</b>
             <cc-slashes class="pl-1" />
@@ -33,7 +24,7 @@
               }}
             </b>
           </div>
-          <div class="text-center my-1">
+          <div class="text-center text-caption my-1 px-2">
             Recommended for
             {{ campaign.players[0] }}-{{ campaign.players[1] }} players at License Level
             {{ campaign.ll[0] }}-{{ campaign.ll[1] }}
@@ -47,16 +38,16 @@
             </a>
             <v-row dense justify="end">
               <v-col cols="auto" v-for="e in campaign.author_contact">
-                <v-chip variant="outlined" size="x-small">
+                <cc-chip>
                   {{ e.service }}
                   <cc-slashes class="mx-1" />
                   {{ e.contact }}
-                </v-chip>
+                </cc-chip>
               </v-col>
             </v-row>
           </div>
           <slot />
-        </div>
+        </v-card-text>
       </v-col>
     </v-row>
   </div>
@@ -69,9 +60,13 @@ export default {
     campaign: Object,
   },
   data: () => ({
-    campaign: null as any,
     dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     getLatest(publish_info) {
       return publish_info.version_history[publish_info.version_history.length - 1];

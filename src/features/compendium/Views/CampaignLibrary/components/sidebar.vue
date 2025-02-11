@@ -9,9 +9,10 @@
     <v-divider class="mb-3" />
     <div class="ma-2">
       <v-btn
-        variant="tonal"
         :color="currentPage === 'Credits' ? 'secondary' : ''"
         block
+        tile
+        flat
         size="small"
         @click="setPage('Credits')">
         Credits
@@ -24,9 +25,10 @@
         @clicked="setSelected($event)" />
 
       <v-btn
-        variant="tonal"
         :color="currentPage === 'index' ? 'secondary' : ''"
         block
+        tile
+        flat
         size="small"
         @click="setPage('index')">
         Index
@@ -37,10 +39,11 @@
     <div style="position: absolute; bottom: 0; left: 0; right: 0" class="px-2">
       <v-btn
         block
+        tile
+        flat
         size="small"
         class="my-2 pa-2"
-        color="accent"
-        variant="tonal"
+        color="primary"
         prepend-icon="mdi-arrow-left"
         to="/gm/campaigns">
         Return to Library
