@@ -19,10 +19,11 @@
 
     <template v-if="!mobile" #toolbar-items>
       <cc-chip
-        :icon="item.Manufacturer.Icon"
+        v-if="item.Source"
+        :icon="item.Manufacturer?.Icon || item.Icon || ''"
         :title="item.Source || ''"
         :label="startCase(item.ItemType)"
-        :color="item.Manufacturer.Color" />
+        :color="item.Manufacturer?.Color || item.Color || ''" />
     </template>
 
     <v-card-text class="pt-2" :class="wide && 'px-12'">

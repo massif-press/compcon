@@ -1,7 +1,13 @@
 <template>
-  <v-menu open-on-hover bottom offset-y max-width="700px">
+  <v-menu :open-on-hover="!mobile" :open-on-click="mobile" bottom offset-y max-width="700px">
     <template #activator="{ props }">
-      <v-chip :color="action.Color" v-bind="props" variant="flat">
+      <v-chip
+        :color="action.Color"
+        v-bind="props"
+        variant="flat"
+        tile
+        class="chip-interactive"
+        size="small">
         <span>
           <v-icon start dark>{{ action.Icon }}</v-icon>
           {{ action.Name }}
@@ -44,5 +50,17 @@ export default {
       required: false,
     },
   },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>
+
+<style scoped>
+.chip-interactive {
+  clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
+  cursor: pointer;
+}
+</style>

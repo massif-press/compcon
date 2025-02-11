@@ -6,7 +6,7 @@
       </v-row>
     </template>
     <template #statblock>
-      <v-row density="compact" justify="center">
+      <v-row dense justify="center">
         <cc-statblock-panel icon="mdi-shield" name="Armor" :value="item.ArmorString" />
         <cc-statblock-panel icon="mdi-heart" name="HP Bonus" :value="`+${item.HpString}`" />
         <cc-statblock-panel icon="cc:e_def" name="E-Defense" :value="item.EdefString" />

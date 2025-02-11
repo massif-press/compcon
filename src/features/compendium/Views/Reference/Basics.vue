@@ -1,9 +1,6 @@
 <template>
-  <div style="position: fixed; top: 60px; right: 30px">
-    <switch-lang-temp />
-  </div>
-  <h1 class="heading h1 ml-5">LANCER BASICS</h1>
-  <srd-view :content="basics" :pre-scroll="preScroll" />
+  <switch-lang-temp class="fixed" :class="mobile && 'mobile'" />
+  <srd-view title="Lancer Basics" :content="basics" :pre-scroll="preScroll" />
 </template>
 
 <script lang="ts">
@@ -28,6 +25,22 @@ export default {
     basics() {
       return basics;
     },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
   },
 };
 </script>
+
+<style scoped>
+.fixed {
+  position: fixed;
+  top: 50px;
+  right: 10px;
+}
+
+.fixed .mobile {
+  top: 10px !important;
+  right: 2px !important;
+}
+</style>

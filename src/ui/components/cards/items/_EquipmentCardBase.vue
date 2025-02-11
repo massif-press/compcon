@@ -2,15 +2,17 @@
   <slot />
 
   <cc-heading v-if="item.Mod" size="small" line>
-    <v-chip color="secondary" variant="outlined">
+    <cc-chip>
       <v-icon start icon="cc:weaponmod" />
       Modifies: {{ item.Mod.Target.Name }}
-    </v-chip>
+    </cc-chip>
   </cc-heading>
 
   <cc-icon-divider v-if="item.LicenseString" :icon="item.Icon" dense />
 
-  <slot name="statblock" />
+  <div class="mb-2">
+    <slot name="statblock" />
+  </div>
 
   <div v-if="item.Effect" class="my-2">
     <div v-show="!dense" class="text-cc-overline text-disabled">//EQUIPMENT EFFECT</div>
@@ -19,12 +21,12 @@
   </div>
 
   <div v-if="item.Actions && item.Actions.length">
-    <div v-show="!dense" class="text-cc-overline text-disabled mb-n4">
+    <div v-show="!dense" class="text-cc-overline text-disabled">
       <v-icon size="small" icon="cc:activate" />
       EQUIPMENT ACTIONS
     </div>
     <v-row dense justify="center">
-      <v-col v-for="a in item.Actions" cols="auto">
+      <v-col v-for="a in item.Actions">
         <cc-action
           :action="a"
           :panel="!collapseActions || $vuetify.display.lgAndUp"
@@ -102,7 +104,7 @@
       class="mt-2" />
   </div>
 
-  <v-footer v-if="footer && showFooter" color="panel" class="mx-n4 py-0 mt-2">
+  <v-footer v-if="footer && showFooter" color="transparent" class="mx-n4 py-0 mt-2">
     <v-row>
       <v-col v-if="!hideTags" cols="auto">
         <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" :tier="tier" />

@@ -1,6 +1,6 @@
 <template>
   <v-list-item
-    title=""
+    tile
     :class="selected && !equippable ? 'bg-primary' : ''"
     :style="selected && equippable ? 'border: 3px solid rgb(var(--v-theme-primary)' : ''"
     height="0px"

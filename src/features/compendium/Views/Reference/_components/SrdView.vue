@@ -1,22 +1,25 @@
 <template>
-  <v-container style="padding: 0 12vw 0 12vw">
-    <fieldset>
-      <legend class="text-overline px-4">CONTENTS</legend>
-      <v-card-text>
+  <div style="container: size">
+    <div class="heading" style="font-size: calc(25px + 2.5cqw); padding-left: 2.5vw">
+      {{ title }}
+    </div>
+  </div>
+  <v-container :style="mobile ? 'padding:0' : 'padding: 0 12vw 0 12vw'" class="pb-12">
+    <fieldset class="mx-1">
+      <legend class="text-cc-overline pa-1">CONTENTS</legend>
+      <v-card-text class="pa-0 my-2">
         <v-row justify="space-around">
           <v-col v-for="n in Math.ceil(content.length / 3)">
             <div v-for="item in content.slice(3 * (n - 1), 3 * n)">
-              <v-btn
-                variant="text"
-                color="accent"
-                class="heading h3"
+              <div
+                class="heading h3 my-2 text-link"
+                style="cursor: pointer"
                 @click="scrollTo(item)"
                 v-text="getLangItem(item, 'title')" />
               <div v-for="child in (item as any).children">
-                <v-btn
-                  variant="text"
+                <div
                   color="accent"
-                  class="heading h4 ml-4"
+                  class="heading h4 ml-4 my-1 text-link"
                   @click="scrollTo(child)"
                   v-text="getLangItem(child, 'title')" />
               </div>
@@ -25,18 +28,30 @@
         </v-row>
       </v-card-text>
     </fieldset>
-    <v-container class="px-12 pb-12">
+    <v-container :class="mobile ? 'px-4' : 'px-12 pb-12'">
       <div v-for="item in content" :id="`e_${(item as any).title.en.replace(/\W/g, '')}`">
         <cc-title
+          v-if="mobile"
+          small
+          color="primary"
+          class="mb-3 mt-6"
+          style="padding-left: 50px !important; margin-left: -60px !important; max-width: 100%">
+          {{ getLangItem(item, 'title') }}
+        </cc-title>
+        <cc-title
+          v-else
           small
           color="primary"
           class="mb-3 mt-6"
           style="padding-left: 300px !important; margin-left: -350px !important">
-          {{ getLangItem(item, 'title') }}</cc-title
-        >
+          {{ getLangItem(item, 'title') }}
+        </cc-title>
         <div v-html="getLangItem(item, 'content')" class="content" />
         <div v-for="child in (item as any).children" :id="`e_${child.title.en.replace(/\W/g, '')}`">
-          <h3 class="text-accent ml-n5 mt-4" v-text="getLangItem(child, 'title')" />
+          <h3
+            class="text-accent mt-4"
+            :class="mobile ? 'ml-n2' : 'ml-n5'"
+            v-text="getLangItem(child, 'title')" />
           <div v-html="getLangItem(child, 'content')" class="content" />
           <div
             v-for="subchild in (child as any).children"
@@ -71,6 +86,9 @@ export default {
   name: 'using-compcon',
   inheritAttrs: false,
   props: {
+    title: {
+      type: String,
+    },
     content: {
       type: Array,
       default: () => [],
@@ -86,6 +104,9 @@ export default {
     } else window.scrollTo({ top: 0 });
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     lang() {
       return NavStore().Language;
     },
@@ -123,5 +144,15 @@ fieldset {
 legend {
   border: 1px solid;
   border-radius: 5px;
+}
+
+.text-link {
+  cursor: pointer;
+  color: rgb(var(--v-theme-accent));
+  transition: color 0.2s ease;
+}
+
+.text-link:hover {
+  color: rgb(var(--v-theme-secondary));
 }
 </style>

@@ -40,18 +40,18 @@
         class="ma-2" />
     </div>
 
-    <span v-if="cs.IntegratedEquipment.length || cs.Deployables.length" class="heading sub">
+    <div v-if="cs.IntegratedEquipment.length || cs.Deployables.length" class="heading sub">
       CORE INTEGRATED EQUIPMENT
-    </span>
+    </div>
     <v-row v-if="cs.IntegratedEquipment.length" no-gutters justify="center">
-      <v-col v-for="(x, i) in cs.IntegratedEquipment" cols="auto">
-        <cc-integrated-info :item="x" :panel="$vuetify.display.lgAndUp" />
+      <v-col v-for="(x, i) in cs.IntegratedEquipment">
+        <cc-integrated-info :item="x" :panel="!mobile" />
       </v-col>
     </v-row>
 
     <v-row v-if="cs.Deployables.length" no-gutters justify="center">
       <v-col v-for="(d, i) in cs.Deployables" cols="auto">
-        <cc-deployable-info :deployable="d" :panel="$vuetify.display.lgAndUp" class="ma-2" />
+        <cc-deployable-info :deployable="d" panel class="ma-2" />
       </v-col>
     </v-row>
 
@@ -66,6 +66,11 @@ export default {
     cs: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

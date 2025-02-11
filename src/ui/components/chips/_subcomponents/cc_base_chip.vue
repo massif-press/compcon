@@ -67,6 +67,7 @@ export default {
   clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
   cursor: pointer;
 }
+
 .chip-readonly {
   clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%);
 

@@ -44,7 +44,7 @@
               @click="$emit('select', item)" />
           </div>
           <div v-else-if="h.key === 'Origin'">
-            <cc-item-modal small-btn hide-type :item="item.Origin" />
+            <cc-item-modal hide-type :item="item.Origin" />
           </div>
           <div v-else-if="h.key === 'Icon'">
             <v-icon :icon="item.Icon" />
@@ -77,27 +77,24 @@
           </div>
 
           <div v-else-if="h.key === 'Tags'">
-            <cc-tags :tags="item.Tags" x-small />
+            <cc-tags :tags="item.Tags" density="compact" size="small" />
           </div>
 
           <div v-else-if="h.key === 'T1'">
             <cc-item-modal
               v-for="e in (item as License).Unlocks[0]"
-              small-btn
               :item="e"
               style="padding: 2px" />
           </div>
           <div v-else-if="h.key === 'T2'">
             <cc-item-modal
               v-for="e in (item as License).Unlocks[1]"
-              small-btn
               :item="e"
               style="padding: 2px" />
           </div>
           <div v-else-if="h.key === 'T3'">
             <cc-item-modal
               v-for="e in (item as License).Unlocks[2]"
-              small-btn
               :item="e"
               style="padding: 2px" />
           </div>

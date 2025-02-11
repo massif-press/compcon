@@ -29,18 +29,18 @@
                 EQUIPMENT ACTIONS
               </div>
               <v-row no-gutters justify="center">
-                <v-col v-for="a in mod.Actions" cols="auto">
+                <v-col v-for="a in mod.Actions">
                   <cc-action :action="a" panel class="ma-2" />
                 </v-col>
               </v-row>
             </v-col>
-            <v-col v-if="mod.Deployables.length" cols="auto">
+            <v-col v-if="mod.Deployables.length">
               <div class="text-overline ml-n2 text-disabled">
                 <v-icon size="small" icon="cc:drone" />
                 EQUIPMENT DEPLOYABLES
               </div>
               <v-row no-gutters justify="center">
-                <v-col v-for="d in mod.Deployables" cols="auto">
+                <v-col v-for="d in mod.Deployables">
                   <cc-deployable-info
                     :deployable="d"
                     panel

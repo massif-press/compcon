@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-2" style="height: calc(100vh - 40px)">
+  <div class="pa-1 px-2" style="height: calc(100vh - 40px)">
     <div style="position: absolute; top: 0; left: 0; right: 0; container-type: inline-size">
       <div class="bg-primary text-center">
         <span
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="d-flex justify-center align-center py-3" style="height: calc(100% - 30px)">
+    <div class="d-flex justify-center align-center py-3 mt-4" style="height: calc(100% - 28px)">
       <v-row dense justify="space-around" style="height: 100%">
         <mobile-btn icon="cc:compendium" title="Compendium" :to="'/srd'" />
         <mobile-btn icon="cc:pilot" title="Roster" text="Manage Pilots" :to="'/pilot_management'" />

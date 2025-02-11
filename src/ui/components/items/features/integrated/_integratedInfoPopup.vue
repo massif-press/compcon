@@ -1,13 +1,10 @@
 <template>
-  <cc-dialog no-dismiss :color="item.Color">
-    <span slot="button" class="text-white" style="width: 100%">
-      <v-icon start dark>{{ item.Icon }}</v-icon>
-      {{ item.Name }}
-    </span>
-    <span slot="title">
-      <v-icon start large dark>{{ item.Icon }}</v-icon>
-      {{ item.Name }}
-    </span>
+  <cc-dialog :color="item.Color" :icon="item.Icon" :title="item.Name" :width="600">
+    <template #activator="{ open }">
+      <cc-button :color="item.Color" :prepend-icon="item.Icon" @click="open()">
+        {{ item.Name }}
+      </cc-button>
+    </template>
     <integrated-info-base :item="item" />
   </cc-dialog>
 </template>

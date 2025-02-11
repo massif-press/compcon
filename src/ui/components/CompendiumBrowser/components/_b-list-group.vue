@@ -1,7 +1,7 @@
 <template>
   <v-list-group :value="groupValue" color="accent" class="pt-0">
     <template v-slot:activator="{ props }">
-      <v-list-item v-bind="props">
+      <v-list-item tile v-bind="props">
         <template #title>
           <div v-if="manufacturer">
             <cc-logo

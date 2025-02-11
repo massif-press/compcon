@@ -11,10 +11,8 @@
     <cc-tag
       v-for="t in <Tag[]>tags"
       :tag="t"
-      :small="small"
-      :x-small="xSmall"
+      :size="size"
       :density="density"
-      :outlined="outlined"
       :color="color"
       :tier="tier"
       :bonus="bonus" />
@@ -27,12 +25,8 @@ import { Tag } from '@/class';
 export default {
   name: 'CCTags',
   props: {
-    small: {
-      type: Boolean,
-      required: false,
-    },
-    xSmall: {
-      type: Boolean,
+    size: {
+      type: String,
       required: false,
     },
     density: {

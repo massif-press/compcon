@@ -1,6 +1,7 @@
 <template>
   <v-container fluid>
     <div
+      v-if="!mobile"
       class="font-weight-light text-center my-n4"
       style="letter-spacing: 2vw !important; font-size: 3.6vw !important">
       REFERENCE
@@ -100,10 +101,13 @@
 import SearchBar from '../../SearchBar.vue';
 import CompendiumPageButton from '../../components/CompendiumPageButton.vue';
 
-import { CompendiumStore } from '@/stores';
-
 export default {
   name: 'compendium-home',
   components: { SearchBar, CompendiumPageButton },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <div>
     <v-img
       ref="img"
       :src="src"
@@ -17,7 +17,7 @@
       :style="`width: ${size}`">
       {{ backup }}
     </span>
-  </span>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,63 +1,56 @@
 <template>
-  <v-card-text>
-    <div v-if="item.Description">
-      <cc-titled-divider title="Description" class="mt-n4" />
-      <v-card variant="tonal" class="mt-1"
-        ><v-card-text class="pa-2" v-html-safe="item.Description"
-      /></v-card>
-      <br />
-    </div>
-    <div v-if="item.Tactics">
-      <cc-titled-divider title="Tactics" />
-      <v-card variant="tonal" class="mt-1"
-        ><v-card-text class="pa-2" v-html-safe="item.Tactics"
-      /></v-card>
-      <br />
-    </div>
+  <v-card-text class="pt-0" :class="{ 'px-0': mobile }">
+    <cc-panel v-if="item.Description" title="Description" :title-color="item.Color" class="mb-2">
+      <p v-html-safe="item.Description" />
+    </cc-panel>
 
-    <div v-if="item.ClassFeatureSelectionInfo || item.FeatureSelectionInfo">
-      <cc-titled-divider title="Feature Selection" />
-      <v-card variant="tonal" class="mt-1">
-        <v-card-text
-          v-if="item.ClassFeatureSelectionInfo"
-          class="pa-2"
-          v-html-safe="item.ClassFeatureSelectionInfo" />
-        <v-card-text
-          v-if="item.FeatureSelectionInfo"
-          class="pa-2"
-          v-html-safe="item.FeatureSelectionInfo" />
-      </v-card>
-      <br />
-    </div>
+    <cc-panel v-if="item.Tactics" title="Tactics" :title-color="item.Color" class="mb-2">
+      <p v-html-safe="item.Tactics" />
+    </cc-panel>
+
+    <cc-panel
+      v-if="item.ClassFeatureSelectionInfo || item.FeatureSelectionInfo"
+      title="Feature Selection"
+      :title-color="item.Color"
+      class="mb-2">
+      <p v-html-safe="item.ClassFeatureSelectionInfo" />
+      <p v-html-safe="item.FeatureSelectionInfo" />
+    </cc-panel>
 
     <div v-if="item.BaseFeatures.length > 0">
-      <cc-titled-divider
-        title="Template Base Features"
-        :subtitle="`(${item.BaseFeatures.length})`"
-        class="mt-2" />
-      <v-row dense>
-        <cc-dense-card
-          v-for="b in item.BaseFeatures"
-          :item="b"
-          class="my-1"
-          :min-width="getMinWidth(b)"
-          full-height />
-      </v-row>
+      <cc-heading small line dense>
+        Template Base Features
+        <span class="text-caption text-disabled">({{ item.BaseFeatures.length }})</span>
+      </cc-heading>
+
+      <masonry-wall
+        :items="item.BaseFeatures"
+        :column-width="400"
+        :gap="16"
+        :min-columns="1"
+        :max-columns="widescreen ? 3 : 2">
+        <template #default="{ item }">
+          <cc-dense-card :item="item" :collapse-actions="mobile" />
+        </template>
+      </masonry-wall>
     </div>
 
     <div v-if="item.OptionalFeatures.length > 0">
-      <cc-titled-divider
-        title="Template Optional Features"
-        :subtitle="`(${item.OptionalFeatures.length})`"
-        class="mt-2" />
-      <v-row dense>
-        <cc-dense-card
-          v-for="f in item.OptionalFeatures"
-          :item="f"
-          class="my-1"
-          :min-width="getMinWidth(f)"
-          full-height />
-      </v-row>
+      <cc-heading small line dense>
+        Template Optional Features
+        <span class="text-caption text-disabled">({{ item.OptionalFeatures.length }})</span>
+      </cc-heading>
+
+      <masonry-wall
+        :items="item.OptionalFeatures"
+        :column-width="400"
+        :gap="16"
+        :min-columns="1"
+        :max-columns="widescreen ? 3 : 2">
+        <template #default="{ item }">
+          <cc-dense-card :item="item" />
+        </template>
+      </masonry-wall>
     </div>
   </v-card-text>
 </template>
@@ -69,6 +62,14 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+    widescreen() {
+      return this.$vuetify.display.lgAndUp;
     },
   },
   methods: {

@@ -6,7 +6,7 @@
 import InfoCardBase from './_InfoCardBase.vue';
 
 export default {
-  name: 'cc-mech-weapon-card',
+  name: 'cc-core-bonus-card',
   components: { InfoCardBase },
   props: {
     item: {

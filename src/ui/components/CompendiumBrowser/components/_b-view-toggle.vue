@@ -4,6 +4,7 @@
     mandatory
     divided
     variant="plain"
+    tile
     border
     color="accent"
     density="compact"
@@ -14,6 +15,7 @@
         <v-btn
           v-bind="props"
           :value="v"
+          tile
           icon
           size="small"
           :style="`width: ${100 / options.views.length}%`">

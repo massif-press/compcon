@@ -1,49 +1,68 @@
 <template>
   <div>
-    <v-row>
-      <v-spacer />
-      <v-card v-if="campaigns.length">
-        <v-tooltip location="top" open-delay="300">
-          <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" class="rounded-e-0" @click="setSort('title')">
-              <v-icon icon="mdi-format-text" />
-              <v-icon v-if="sort === 'title'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
-            </v-btn>
-          </template>
-          <span>Sort by Title</span>
-        </v-tooltip>
+    <div v-if="campaigns.length" class="text-center">
+      <v-tooltip location="top" open-delay="300">
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            class="border-e-sm"
+            @click="setSort('title')">
+            <v-icon icon="mdi-format-text" />
+            <v-icon v-if="sort === 'title'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
+          </v-btn>
+        </template>
+        <span>Sort by Title</span>
+      </v-tooltip>
 
-        <v-tooltip location="top" open-delay="300">
-          <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" tile @click="setSort('author')">
-              <v-icon icon="mdi-fountain-pen" />
-              <v-icon v-if="sort === 'author'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
-            </v-btn>
-          </template>
-          <span>Sort by Author</span>
-        </v-tooltip>
+      <v-tooltip location="top" open-delay="300">
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            class="border-e-sm"
+            @click="setSort('author')">
+            <v-icon icon="mdi-fountain-pen" />
+            <v-icon v-if="sort === 'author'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
+          </v-btn>
+        </template>
+        <span>Sort by Author</span>
+      </v-tooltip>
 
-        <v-tooltip location="top" open-delay="300">
-          <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" tile @click="setSort('players')">
-              <v-icon size="24" icon="cc:pilot" />
-              <v-icon v-if="sort === 'players'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
-            </v-btn>
-          </template>
-          <span>Sort by Suggested Players</span>
-        </v-tooltip>
+      <v-tooltip location="top" open-delay="300">
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            class="border-e-sm"
+            @click="setSort('players')">
+            <v-icon size="24" icon="cc:pilot" />
+            <v-icon v-if="sort === 'players'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
+          </v-btn>
+        </template>
+        <span>Sort by Suggested Players</span>
+      </v-tooltip>
 
-        <v-tooltip location="top" open-delay="300">
-          <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" class="rounded-s-0" @click="setSort('ll')">
-              <v-icon size="28" icon="cc:license" />
-              <v-icon v-if="sort === 'll'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
-            </v-btn>
-          </template>
-          <span>Sort by License Level</span>
-        </v-tooltip>
-      </v-card>
-    </v-row>
+      <v-tooltip location="top" open-delay="300">
+        <template #activator="{ props }">
+          <v-btn v-bind="props" color="panel" flat tile size="small" c @click="setSort('ll')">
+            <v-icon size="28" icon="cc:license" />
+            <v-icon v-if="sort === 'll'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
+          </v-btn>
+        </template>
+        <span>Sort by License Level</span>
+      </v-tooltip>
+    </div>
+
     <dense-shelf v-if="density === 'compact'" :search="search" :sort="sort" :sort-dir="asc" />
     <compendium-shelf v-else :search="search" :sort="sort" :sort-dir="asc" />
   </div>
@@ -187,11 +206,12 @@ export default {
   }),
 
   mounted() {
-    this.checkForUpdates();
+    // this.checkForUpdates();
   },
 
   computed: {
     campaigns() {
+      if (!this.search) return CampaignStore().CampaignCollection;
       return CampaignStore().CampaignCollection.filter((c) =>
         c.title.toLowerCase().includes(this.search.toLowerCase())
       );

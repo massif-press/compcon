@@ -1,11 +1,16 @@
 <template>
-  <v-tooltip v-if="!mobile" max-width="350px">
+  <v-tooltip max-width="350px" :open-on-click="mobile" :open-on-hover="!mobile">
     <template #activator="{ props }">
-      <v-chip v-bind="props" class="ma-1 cc-tag-clip" :color="getColor" tile :size="size">
-        <v-avatar>
-          <v-icon v-if="tag.err" icon="mdi-label-off" />
-          <v-icon v-else start icon="mdi-label" />
-        </v-avatar>
+      <v-chip
+        v-bind="props"
+        v-show="!tag.IsHidden"
+        class="ma-1 cc-tag-clip pl-4 pr-2"
+        :color="getColor"
+        tile
+        variant="elevated"
+        :size="size">
+        <v-icon v-if="tag.err" icon="mdi-label-off" />
+        <v-icon v-else start icon="mdi-label" />
         <span v-if="tag.err">MISSING DATA</span>
         <span v-else>{{ tag.GetName(bonus, tier).toUpperCase() }}</span>
       </v-chip>
@@ -14,29 +19,6 @@
     <v-divider class="my-2" />
     <div v-html-safe="tag.GetDescription(bonus, tier)" />
   </v-tooltip>
-  <v-menu v-else bottom max-width="350px">
-    <template #activator="{ props }">
-      <v-chip
-        v-bind.stop="props"
-        class="ma-1 cc-tag-clip"
-        :color="getColor"
-        tile
-        :size="size"
-        variant="elevated">
-        <v-avatar>
-          <v-icon v-if="tag.err" icon="mdi-label-off" />
-          <v-icon v-else start icon="mdi-label" />
-        </v-avatar>
-        <span v-if="tag.err">MISSING DATA</span>
-        <span v-else>{{ tag.GetName(bonus, tier).toUpperCase() }}</span>
-      </v-chip>
-    </template>
-    <v-card color="surface-variant" class="pa-2">
-      <div class="heading h3">{{ tag.GetName(bonus, tier) }}</div>
-      <v-divider class="my-2" />
-      <div v-html-safe="tag.GetDescription(bonus, tier)" />
-    </v-card>
-  </v-menu>
 </template>
 
 <script lang="ts">

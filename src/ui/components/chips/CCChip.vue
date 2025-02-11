@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     component() {
-      if (this.title && this.label) return split;
+      if ((this.title || this.icon) && this.label) return split;
       return std;
     },
   },

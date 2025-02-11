@@ -24,7 +24,7 @@
     <br />
     <v-row align="center" justify="center">
       <v-col cols="auto">
-        <v-btn color="accent" to="/srd/compendium">Return to Compendium</v-btn>
+        <cc-button color="accent" to="/srd">Return to Compendium</cc-button>
       </v-col>
     </v-row>
   </v-container>

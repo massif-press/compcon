@@ -43,7 +43,6 @@ interface IFeatureModData {
 
 class NpcFeatureMod {
   _targetID: string;
-  Target?: NpcFeature;
   AddEffect: string;
   AddBonuses: Bonus[];
   AddTags: ITagData[];
@@ -61,11 +60,8 @@ class NpcFeatureMod {
       : [];
   }
 
-  public SetTarget() {
-    this.Target = CompendiumStore().referenceByID('NpcFeatures', this._targetID) as NpcFeature;
-    if ((this.Target as any).err) {
-      console.error(`Mod ${this._targetID} has no valid target data!`);
-    }
+  public get Target() {
+    return CompendiumStore().referenceByID('NpcFeatures', this._targetID) as NpcFeature;
   }
 }
 
@@ -80,8 +76,6 @@ abstract class NpcFeature extends CompendiumItem {
   public readonly Deprecated: boolean = false;
   public readonly BuildFeature: boolean = false;
   public readonly Mod?: NpcFeatureMod;
-  // set after all content packs have loaded
-  public Origin!: NpcClass | NpcTemplate;
 
   public constructor(data: INpcFeatureData, pack?: ContentPack) {
     super(data as ICompendiumItemData, pack);
@@ -98,23 +92,16 @@ abstract class NpcFeature extends CompendiumItem {
     return this._name;
   }
 
-  public SetOrigin() {
+  public get Origin() {
     // nested try/catch to preserve missing LCP error throws. Works but smells.
     try {
-      this.Origin = CompendiumStore().referenceByID('NpcClasses', this._originID) as NpcClass;
+      return CompendiumStore().referenceByID('NpcClasses', this._originID) as NpcClass;
     } catch (e) {
       try {
-        this.Origin = CompendiumStore().referenceByID(
-          'NpcTemplates',
-          this._originID
-        ) as NpcTemplate;
+        return CompendiumStore().referenceByID('NpcTemplates', this._originID) as NpcTemplate;
       } catch (e) {
         console.error(`Feature ${this._name} has no valid origin data!`);
       }
-    }
-
-    if (this.Mod) {
-      this.Mod.SetTarget();
     }
   }
 

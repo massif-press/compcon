@@ -7,11 +7,12 @@
       :style="`position: absolute; z-index: 999; left: ${showNav ? (mobile ? '322' : '352') : '3'}px; top: 6px`"
       @click="(showNav as any) = !showNav" />
     <v-navigation-drawer v-model="showNav" :width="mobile ? 320 : 350">
-      <v-list density="compact" nav v-model:opened="open">
+      <v-list density="compact" tile nav v-model:opened="open">
         <v-alert
           v-show="!!$slots.header"
           variant="outlined"
           class="mb-3 py-1"
+          tile
           style="border-color: rgb(var(--v-theme-primary))">
           <slot name="header"></slot>
         </v-alert>
@@ -46,7 +47,7 @@
             color="accent"
             class="pt-0">
             <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props">
+              <v-list-item v-bind="props" tile>
                 <template #title>
                   <span class="text-button">
                     <b>{{ lcp }}</b>
@@ -176,7 +177,7 @@
             color="accent"
             class="pt-0">
             <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props">
+              <v-list-item tile v-bind="props">
                 <template #title>
                   <cc-logo
                     v-if="mf(manufacturer).LogoIsExternal"
@@ -296,7 +297,7 @@
         <div v-else-if="group === 'license'">
           <v-list-group v-for="license in licenses" :value="license" color="accent" class="pt-0">
             <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props">
+              <v-list-item tile v-bind="props">
                 <template #title>
                   <span class="text-button">
                     <b>{{ license ? license : 'Other' }}</b>
@@ -329,7 +330,7 @@
         <div v-else-if="group === 'type'">
           <v-list-group v-for="subtype in subtypes" :value="subtype" color="accent" class="pt-0">
             <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props">
+              <v-list-item tile v-bind="props">
                 <template #title>
                   <span class="text-button">
                     <b>{{ subtype }}</b>
@@ -396,15 +397,13 @@
           <slot name="top" />
         </v-alert>
 
-        <v-row v-if="view === 'single'">
-          <v-col cols="12">
-            <selector-list-item
-              :hide-title="options.hideTitle"
-              :selectable="equippable"
-              @select="$emit('equip', $event)"
-              :item="<CompendiumItem>selectedItem" />
-          </v-col>
-        </v-row>
+        <div v-if="view === 'single'">
+          <selector-list-item
+            :hide-title="options.hideTitle"
+            :selectable="equippable"
+            @select="$emit('equip', $event)"
+            :item="<CompendiumItem>selectedItem" />
+        </div>
 
         <div v-else-if="view === 'scatter'">
           <selector-scatter
@@ -457,20 +456,14 @@
           </v-row>
         </div>
 
-        <v-row v-else-if="view === 'list'">
-          <v-col cols="12" v-for="item in <any[]>items" :id="item.ID">
-            <v-card
-              :variant="options.hideTitle ? 'flat' : 'outlined'"
-              :class="options.hideTitle ? '' : 'px-3'">
-              <selector-list-item
-                :hide-title="options.hideTitle"
-                :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
-                :selectable="equippable"
-                @select="$emit('equip', $event)"
-                :item="item" />
-            </v-card>
-          </v-col>
-        </v-row>
+        <div v-else-if="view === 'list'" v-for="item in <any[]>items" :id="item.ID" class="mb-4">
+          <selector-list-item
+            :hide-title="options.hideTitle"
+            :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
+            :selectable="equippable"
+            @select="$emit('equip', $event)"
+            :item="item" />
+        </div>
 
         <div v-else-if="view === 'table'">
           <div v-if="group === 'lcp'">

@@ -1,42 +1,17 @@
 <template>
   <Radar :data="chartData" :options="chartOptions" style="max-height: 600px" />
   <div class="px-4 mt-2">
-    <v-row align="center" justify="space-around">
-      <v-col cols="auto">
-        <v-row align="center" class="text-overline" dense>
-          <v-col cols="auto">
-            Absolute
-            <cc-tooltip inline content="Chart raw stat values ">
-              <v-icon size="small" variant="plain">mdi-information-outline</v-icon>
-            </cc-tooltip>
-          </v-col>
-          <v-col cols="auto">
-            <v-switch v-model="relative" density="compact" hide-details />
-          </v-col>
-          <v-col cols="auto">
-            Relative
-            <cc-tooltip
-              inline
-              content="Chart stat values relative to all other frames in the Compendium">
-              <v-icon size="small" variant="plain">mdi-information-outline</v-icon>
-            </cc-tooltip>
-          </v-col>
-        </v-row>
-      </v-col>
-      <v-col>
-        <v-autocomplete
-          v-model="compareClasses"
-          :items="npcClasses"
-          item-title="Name"
-          return-object
-          label="Compare to"
-          density="compact"
-          hide-details
-          clearable
-          multiple
-          style="min-width: 150px" />
-      </v-col>
-    </v-row>
+    <v-autocomplete
+      v-model="<any>compareClasses"
+      :items="npcClasses"
+      item-title="Name"
+      return-object
+      label="Compare to"
+      density="compact"
+      hide-details
+      clearable
+      multiple
+      style="min-width: 150px" />
   </div>
 </template>
 
@@ -67,7 +42,7 @@ export default {
     },
   },
   data: () => ({
-    relative: true,
+    relative: false,
     aggregate: false,
     compareClasses: [] as NpcClass[],
     labels: [
@@ -160,10 +135,10 @@ export default {
         label: npcClass.Name,
         backgroundColor: compare
           ? this.colors[idx as number] + '1A'
-          : this.$vuetify.theme.current.colors.secondary + '33',
+          : this.$vuetify.theme.current.colors.accent + '33',
         borderColor: compare
           ? this.colors[idx as number] + 'CC'
-          : this.$vuetify.theme.current.colors.secondary + 'B7',
+          : this.$vuetify.theme.current.colors.accent + 'B7',
         data: [] as any[],
       };
 

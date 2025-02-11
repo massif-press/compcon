@@ -1,41 +1,50 @@
 <template>
-  <v-card :variant="hideTitle ? 'flat' : 'outlined'" class="my-1">
-    <v-toolbar v-if="!hideTitle" color="primary">
-      <v-row dense align="center">
-        <v-col cols="auto" class="pl-4">
-          <talent-emblem :url="talent.Image" :name="talent.Name" white />
-        </v-col>
-        <v-col>
-          <div class="text-white heading h1">{{ talent.Name }}</div>
-        </v-col>
-        <v-col v-if="rank" cols="auto" class="ml-auto mr-3">
-          <v-icon size="45" color="white">cc:rank_{{ rank }}</v-icon>
-        </v-col>
-        <v-col v-if="talent.InLcp" cols="auto">
-          <div class="text-white heading pr-3">{{ talent.LcpName }}</div>
-        </v-col>
-        <v-col v-if="!hideChange" cols="auto" align-self="center" class="pr-4">
-          <v-icon color="white" variant="plain" @click="$emit('expand', 'terse')">
-            mdi-arrow-collapse
-          </v-icon>
-        </v-col>
-      </v-row>
-    </v-toolbar>
-    <v-card-text v-show="showFull" class="mb-0 pb-0">
-      <div v-html-safe="talent.Description" class="flavor-text" />
+  <cc-panel :variant="hideTitle ? 'flat' : 'outlined'" class="my-1" color="surface">
+    <template v-if="!hideTitle" #toolbar>
+      <v-toolbar color="primary" density="compact" style="position: relative">
+        <v-row dense align="center">
+          <v-col cols="auto" class="pl-4 mr-1 py-2">
+            <talent-emblem :url="talent.Image" :name="talent.Name" />
+          </v-col>
+          <v-col>
+            <div class="text-white heading h1" style="line-height: 40px">{{ talent.Name }}</div>
+          </v-col>
+          <v-col v-if="rank" cols="auto" class="ml-auto mr-3">
+            <v-icon size="45" color="white">cc:rank_{{ rank }}</v-icon>
+          </v-col>
+          <v-col cols="auto" align-self="start" class="pa-2">
+            <v-tooltip v-if="talent.InLcp" bottom>
+              <template #activator="{ props }">
+                <v-icon v-bind="props" icon="cc:content_manager" />
+              </template>
+              <span>{{ talent.LcpName }}</span>
+            </v-tooltip>
+          </v-col>
+          <v-col v-if="!hideChange" cols="auto" align-self="center" class="pr-4">
+            <v-icon color="white" variant="plain" @click="$emit('expand', 'terse')">
+              mdi-arrow-collapse
+            </v-icon>
+          </v-col>
+        </v-row>
+      </v-toolbar>
+    </template>
+    <v-card-text v-show="showFull" class="pa-0 mb-1">
+      <i v-html-safe="talent.Description" />
     </v-card-text>
-    <v-card-text>
+    <v-card-text class="px-0">
       <v-row
         v-for="n in 3"
+        dense
         v-show="showFull || (!showFull && rank && Number(rank) >= n)"
         :class="rank && Number(rank) < n ? 'text--disabled' : 'text-stark'"
         :style="isUnlocked(n - 1) ? '' : 'opacity: 0.35'">
-        <v-col cols="auto">
+        <v-col v-if="!mobile" cols="auto">
           <v-icon size="40">cc:rank_{{ n }}</v-icon>
         </v-col>
         <v-col>
           <v-row no-gutters class="heading h3" align="center">
             <v-col cols="auto">
+              <v-icon v-if="mobile">cc:rank_{{ n }}</v-icon>
               {{ talent.Rank(n).Name }}
             </v-col>
             <v-col>
@@ -76,7 +85,7 @@
         </v-btn>
       </cc-tooltip>
     </div>
-  </v-card>
+  </cc-panel>
 </template>
 
 <script lang="ts">
@@ -101,6 +110,9 @@ export default {
     showAll: false,
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     showFull() {
       if (this.hideLocked) return this.showAll;
       return true;

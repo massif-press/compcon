@@ -1,6 +1,11 @@
 <template>
   <equipment-card-base :item="item" :dense="dense" :hide-tags="dense">
-    <v-row align="center" :no-gutters="dense">
+    <template #title>
+      <v-row v-if="item.InLcp">
+        <div class="heading h3 text-text">{{ item.LcpName }}</div>
+      </v-row>
+    </template>
+    <v-row align="center" dense :no-gutters="dense" class="mt-n3 mb-2">
       <v-col cols="auto">
         <cc-range-element :range="item.Range" :dense="dense" />
       </v-col>
@@ -10,9 +15,6 @@
           :damage="item.Damage"
           :type-override="item.DamageTypeOverride"
           :dense="dense" />
-      </v-col>
-      <v-col v-if="item.InLcp && !dense" cols="auto" class="ml-auto text-right">
-        <div class="heading h3 text-text">{{ item.LcpName }}</div>
       </v-col>
       <v-col v-if="dense && item.Tags && item.Tags.length" cols="auto" class="ml-auto">
         <cc-tags :tags="item.Tags" small />

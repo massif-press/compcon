@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :class="mobile ? 'py-0 px-2' : 'px-12'" fluid>
     <v-row align="center">
       <v-col>
         <div class="heading h2">
@@ -9,65 +9,54 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <v-btn
+        <cc-button
           color="accent"
           size="small"
           variant="outlined"
           :to="`/srd/compendium/search?search=${searchText}`">
           Switch to compendium search
-        </v-btn>
+        </cc-button>
       </v-col>
     </v-row>
-
     <v-row justify="center">
-      <v-col cols="8">
-        <v-text-field
+      <v-col cols="12" sm="10" md="8">
+        <cc-text-field
           ref="input"
-          :value="searchText"
+          v-model="searchText"
+          color="primary"
           class="search-field"
-          prepend-icon="mdi-search"
-          solo
-          hide-details
-          single-line
-          placeholder="Search"
-          @update:modelValue="setSearch($event)" />
+          icon="mdi-magnify"
+          placeholder="Search" />
       </v-col>
     </v-row>
-    <v-row class="mx-3">
-      <v-col>
-        <i class="text-overline">
-          {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
-        </i>
-        <v-slide-y-reverse-transition mode="out-in">
-          <v-container>
-            <div v-for="result in searchResults" class="pa-3">
-              <v-card>
-                <v-card-title>
-                  <v-row dense>
-                    <v-col>
-                      <div class="result-headline" v-html-safe="highlightText(result.title)" />
-                    </v-col>
-                    <v-col cols="auto">
-                      <v-btn
-                        size="x-small"
-                        variant="flat"
-                        color="primary"
-                        @click="itemLink(result)">
-                        {{ result.location.replace(/-|_/g, ' ') }}
-                        <v-icon end icon="mdi-arrow-right" />
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </v-card-title>
-                <v-card-text class="px-12">
-                  <div class="result-body" v-html-safe="highlightText(result.content)" />
-                </v-card-text>
-              </v-card>
-            </div>
-          </v-container>
-        </v-slide-y-reverse-transition>
-      </v-col>
-    </v-row>
+    <i class="text-cc-overline">
+      {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
+    </i>
+    <v-card-text :style="!mobile && 'height: calc(100vh - 190px); overflow-y: scroll'">
+      <v-slide-y-reverse-transition mode="out-in">
+        <v-container>
+          <v-card v-for="result in searchResults" class="py-2 px-3 mb-4">
+            <v-row dense>
+              <v-col>
+                <div class="result-headline heading h4" v-html-safe="highlightText(result.title)" />
+              </v-col>
+              <v-col cols="auto" align-self="start">
+                <cc-button
+                  size="x-small"
+                  color="primary"
+                  append-icon="mdi-arrow-right"
+                  @click="itemLink(result)">
+                  {{ result.location.replace(/-|_/g, ' ') }}
+                </cc-button>
+              </v-col>
+            </v-row>
+            <v-card-text :class="!mobile && 'px-12'">
+              <div class="result-body" v-html-safe="highlightText(result.content)" />
+            </v-card-text>
+          </v-card>
+        </v-container>
+      </v-slide-y-reverse-transition>
+    </v-card-text>
   </v-container>
 </template>
 
@@ -78,7 +67,6 @@ import combat from '@/assets/srd/lib/combat.json';
 import mechs from '@/assets/srd/lib/mechs.json';
 import pilots from '@/assets/srd/lib/pilots.json';
 import narrative_play from '@/assets/srd/lib/narrative_play.json';
-// import using_compcon from '@/assets/srd/lib/using_compcon.json';
 
 function searchObject(obj, str) {
   const coll = [] as any[];
@@ -139,6 +127,31 @@ function countOccurrences(string, substring) {
   return matches ? matches.length : 0;
 }
 
+function extract(str) {
+  const pattern = '<span class="highlight">';
+  const maxLength = 500;
+
+  if (str.length <= maxLength) {
+    return str;
+  }
+
+  const patternIndex = str.indexOf(pattern);
+
+  if (patternIndex === -1) {
+    return str.substring(0, maxLength);
+  }
+
+  let start = Math.max(0, patternIndex - Math.floor(maxLength / 2));
+  let end = start + maxLength;
+
+  if (end > str.length) {
+    end = str.length;
+    start = end - maxLength;
+  }
+
+  return str.substring(start, end);
+}
+
 export default {
   name: 'search-results',
   data: () => ({
@@ -157,7 +170,15 @@ export default {
     ];
     this.data = flatten(this.data);
   },
+  watch: {
+    searchText(newVal) {
+      this.setSearch(newVal);
+    },
+  },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     searchResults(): any {
       if (this.searchText.length < 3) {
         return [];
@@ -187,14 +208,16 @@ export default {
   },
   mounted() {
     this.searchText = this.$route.query.search as string;
-    const input = this.$refs.input as HTMLInputElement;
-    input.focus();
   },
   methods: {
     highlightText(sourceText: string) {
       const text = sourceText.replace(/<[^>]*>/g, '');
       const regex = new RegExp(this.searchText, 'gi');
-      return text.replace(regex, (match) => `<span class="highlight">${match}</span>`);
+      let out = text.replace(regex, (match) => `<span class="highlight">${match}</span>`);
+      if (out.length > 500) {
+        out = extract(out);
+      }
+      return out;
     },
     setSearch(value: string) {
       if (value === this.searchText) {
@@ -219,10 +242,10 @@ export default {
 
 <style scoped>
 .result-body :deep(.highlight) {
-  background-color: yellow;
+  background-color: rgba(255, 230, 0, 0.336);
 }
 
 .result-headline :deep(.highlight) {
-  background-color: yellow;
+  background-color: rgba(255, 230, 0, 0.3);
 }
 </style>

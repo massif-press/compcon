@@ -2,7 +2,7 @@
   <v-window-item>
     <cc-heading size="large">panels</cc-heading>
 
-    <cc-heading size="small" line>standard</cc-heading>
+    <cc-heading small line>standard</cc-heading>
 
     <v-card flat border>
       <v-row justify="center">
@@ -66,7 +66,7 @@
       </v-row>
     </v-card>
 
-    <!-- <cc-heading size="small" line>expandable</cc-heading>
+    <!-- <cc-heading small line>expandable</cc-heading>
 
     <v-card flat border>
       <v-row justify="center">

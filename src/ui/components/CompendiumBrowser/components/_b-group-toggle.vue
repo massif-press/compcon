@@ -5,6 +5,7 @@
     divided
     variant="plain"
     border
+    tile
     color="accent"
     density="compact"
     style="width: 100%; height: 30px"
@@ -15,6 +16,7 @@
           v-bind="props"
           :value="g"
           icon
+          tile
           size="small"
           :style="`width: ${100 / (options.groups.length + 1)}%`">
           <v-icon size="25" :icon="groupIcon(g)" />
@@ -28,6 +30,7 @@
           value="none"
           size="small"
           icon
+          tile
           :style="`width: ${100 / (options.groups.length + 1)}%`">
           <v-icon icon="mdi-cancel" />
         </v-btn>

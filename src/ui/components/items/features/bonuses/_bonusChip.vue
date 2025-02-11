@@ -1,18 +1,30 @@
 <template>
   <v-menu open-on-hover>
     <template #activator="{ props }">
-      <v-chip v-bind="props" size="small" color="exotic" class="mx-1"
-        ><v-icon start :icon="bonus.Icon" /> {{ bonus.Title }}</v-chip
-      >
+      <cc-chip
+        v-bind="props"
+        size="small"
+        color="exotic"
+        class="mx-1"
+        :icon="bonus.Icon"
+        :label="bonus.Title" />
     </template>
-    <v-card>
-      <v-toolbar density="compact" color="exotic">
-        <v-toolbar-title>
-          <v-icon start :icon="bonus.Icon" /> {{ bonus.Title }}
-        </v-toolbar-title></v-toolbar
-      >
+    <cc-panel tile color="surface">
+      <template #toolbar>
+        <v-toolbar density="compact" color="exotic" height="54">
+          <div class="px-3 pt-1">
+            <div class="text-cc-overline text-disabled">
+              bonus
+              <cc-slashes />
+            </div>
+            <div class="heading h4 mt-n1">
+              {{ bonus.Title }}
+            </div>
+          </div>
+        </v-toolbar>
+      </template>
       <bonus-base :bonus="bonus" />
-    </v-card>
+    </cc-panel>
   </v-menu>
 </template>
 
