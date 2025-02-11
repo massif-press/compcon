@@ -1,5 +1,6 @@
 <template>
   <v-card class="parent cc-panel-clip" :color="color" flat tile :border="border" :height="height">
+    <slot name="toolbar" />
     <v-toolbar v-if="hasTitle" flat density="compact" :color="titleColor" class="ma-0 pa-0">
       <div class="mt-n1 px-2 pt-2 pb-1">
         <div class="text-cc-overline">
@@ -45,7 +46,7 @@ export default {
     },
     variant: {
       type: String,
-      default: 'fluff',
+      default: '',
     },
     title: {
       type: String,
@@ -58,7 +59,12 @@ export default {
     height: {
       type: String,
     },
+    clickable: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['click'],
   computed: {
     hasTitle() {
       return this.$slots.title || this.title || this.icon || this.$slots['toolbar-items'];

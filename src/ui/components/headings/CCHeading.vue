@@ -21,6 +21,7 @@ export default {
     title: { type: Boolean },
     text: { type: String, default: '' },
     small: { type: Boolean, default: false },
+    size: { type: String, default: 'small' },
     tooltip: { type: String, default: '' },
     dense: { type: Boolean, default: false },
     center: { type: Boolean, default: false },

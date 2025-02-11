@@ -1,43 +1,30 @@
 <template>
-  <v-col :style="`min-width: ${minWidth}`">
-    <v-card
-      tile
-      variant="outlined"
-      :style="`border-color: ${hexColor}`"
-      class="light-panel"
-      :height="fullHeight ? '100%' : ''">
-      <v-toolbar
-        density="compact"
-        :color="item.Color"
-        flat
-        height="30px"
-        class="text-white pa-1 pr-3">
-        <span class="heading">
-          <v-icon class="mt-n1">{{ item.Icon }}</v-icon>
-          {{ item.Name }}
-        </span>
-        <v-spacer />
-        <div v-if="item.FeatureType" class="heading" style="font-size: 0.85em">
-          {{ item.WeaponType ? item.WeaponType : item.FeatureType }}
-        </div>
-        <v-spacer />
-        <div class="text-overline text-right text-white" style="line-height: 11px !important">
-          <cc-tooltip inline :content="item.LcpName">
-            <v-icon small dark>cc:compendium</v-icon>
-          </cc-tooltip>
-        </div>
-      </v-toolbar>
-      <v-card-text class="pt-1 pb-0 px-3" style="min-height: 70px; height: calc(100% - 30px)">
-        <cc-item-card
-          :item="item"
-          dense
-          small-tags
-          :collapse-actions="collapseActions"
-          :tier="tier" />
-        <slot name="extra" />
-      </v-card-text>
-    </v-card>
-  </v-col>
+  <cc-panel :title="item.Name" :title-color="item.Color" :icon="item.Icon" class="mb-2">
+    <template #toolbar-items>
+      <span
+        v-if="item.FeatureType"
+        class="heading text-caption font-weight-bold text-uppercase pr-2">
+        {{ item.WeaponType ? item.WeaponType : item.FeatureType }}
+      </span>
+      <span class="text-cc-overline text-right">
+        <v-tooltip :open-on-hover="!mobile" :open-on-click="mobile" max-width="350px">
+          <template #activator="{ props }">
+            <v-icon icon="cc:content_manager" class="mr-2" v-bind="props" />
+          </template>
+          {{ item.LcpName }}
+        </v-tooltip>
+      </span>
+    </template>
+    <v-card-text class="px-0 pb-1">
+      <cc-item-card
+        :item="item"
+        dense
+        small-tags
+        :collapse-actions="collapseActions"
+        :tier="tier" />
+      <slot name="extra" />
+    </v-card-text>
+  </cc-panel>
 </template>
 
 <script lang="ts">
@@ -69,6 +56,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     hexColor(): string {
       return this.item.Color;
     },

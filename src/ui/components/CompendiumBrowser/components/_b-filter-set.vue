@@ -1,5 +1,11 @@
 <template>
-  <v-btn-toggle divided variant="plain" border density="compact" style="width: 100%; height: 30px">
+  <v-btn-toggle
+    divided
+    variant="plain"
+    border
+    density="compact"
+    tile
+    style="width: 100%; height: 30px">
     <v-menu offset-y :close-on-content-click="false" max-width="500px">
       <template v-slot:activator="{ props }">
         <v-btn v-bind="props" size="small" style="width: 50%">
@@ -18,7 +24,7 @@
       <v-card>
         <v-card-text>
           <v-list>
-            <v-list-item title="Select All">
+            <v-list-item tile title="Select All">
               <template v-slot:prepend>
                 <v-checkbox-btn
                   :model-value="lcpFilter.length === lcps.length"
@@ -27,7 +33,7 @@
               </template>
             </v-list-item>
             <v-divider />
-            <v-list-item v-for="lcp in lcps" :title="lcp">
+            <v-list-item tile v-for="lcp in lcps" :title="<any>lcp">
               <template v-slot:prepend>
                 <v-checkbox-btn
                   :value="lcp"

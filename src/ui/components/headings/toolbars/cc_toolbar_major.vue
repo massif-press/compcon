@@ -4,7 +4,9 @@
     density="compact"
     :color="color"
     class="ma-0 pa-0"
-    :class="mobile ? 'parent-mobile' : 'parent'">
+    :class="mobile ? 'parent-mobile' : 'parent'"
+    :extended="extended"
+    :extension-height="extensionHeight">
     <v-row no-gutters align="center" class="mx-2" :class="mobile && 'mt-n3'" style="height: 100%">
       <v-col cols="auto">
         <v-icon v-if="icon" :icon="icon" start />
@@ -13,8 +15,10 @@
         <div
           class="heading h3"
           :style="portrait && 'max-width: 250px'"
-          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
-          v-text="title" />
+          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+          {{ title }}
+          <slot name="title" />
+        </div>
       </v-col>
       <v-divider
         v-if="hasToolbarItemContent && !extended"
@@ -27,16 +31,19 @@
         </v-toolbar-items>
       </v-col>
       <v-divider
-        v-if="!mobile && !extended"
+        v-if="!mobile && !extended && !hideClose"
         vertical
         class="mx-6"
         style="transform: skew(-45deg); opacity: 1 !important" />
-      <v-col cols="auto">
+      <v-col cols="auto" v-if="!hideClose">
         <v-btn @click="$emit('close')" tile size="small" icon variant="text" class="fade-select">
           <v-icon :size="mobile ? 30 : 40">mdi-close</v-icon>
         </v-btn>
       </v-col>
     </v-row>
+    <template v-if="extended" #extension>
+      <slot name="extension" />
+    </template>
   </v-toolbar>
 </template>
 
@@ -47,7 +54,9 @@ export default {
     color: { type: String, default: 'primary' },
     title: { type: String, default: '' },
     icon: { type: String },
-    extended: { type: Boolean, default: false },
+    extended: { type: Boolean },
+    hideClose: { type: Boolean, default: false },
+    extensionHeight: { type: String, default: 'auto' },
   },
   computed: {
     portrait() {

@@ -1,64 +1,52 @@
 <template>
-  <v-container>
+  <v-container :class="mobile ? 'py-0 px-2' : 'px-12'" fluid>
     <v-row align="center">
-      <v-col
-        ><div class="heading h2">Search<cc-slashes />COMPENDIUM</div></v-col
-      >
-      <v-col cols="auto"
-        ><v-btn
+      <v-col>
+        <div class="heading h2">
+          Search
+          <cc-slashes />
+          COMPENDIUM
+        </div>
+      </v-col>
+      <v-col cols="auto">
+        <cc-button
           color="accent"
           size="small"
           variant="outlined"
-          :to="`/srd/reference/search?search=${searchText}`"
-          >Switch to reference search</v-btn
-        ></v-col
-      >
+          :to="`/srd/reference/search?search=${searchText}`">
+          Switch to reference search
+        </cc-button>
+      </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="8">
-        <v-text-field
+      <v-col cols="12" sm="10" md="8">
+        <cc-text-field
           ref="input"
-          :value="searchText"
+          v-model="searchText"
+          color="primary"
           class="search-field"
-          prepend-icon="search"
-          solo
-          hide-details
-          single-line
-          placeholder="Search"
-          @update:modelValue="setSearch($event)"
-        />
+          icon="mdi-magnify"
+          placeholder="Search" />
       </v-col>
     </v-row>
-    <v-row class="mx-3">
-      <v-col>
-        <i class="text-overline">
-          {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
-        </i>
-        <v-slide-y-reverse-transition mode="out-in">
-          <v-row :key="searchText" fill-height>
-            <v-col
-              v-for="(item, index) in searchResults"
-              :key="index"
-              style="width: fit-content; min-width: 30vw; max-width: 60vw"
-            >
-              <cc-titled-panel
-                :title="(item.ItemType === 'Frame' ? `${(item as Frame).Source} ` : '') + item.Name"
-                :icon="item.Icon"
-                :color="item.Color"
-                clickable
-                @click="onClick(item)"
-              >
-                <span
-                  v-html-safe="item.Description || (item as any).Effect || `${(item as LicensedItem).Source} ${item.ItemType}`"
-                  class="item-description"
-                />
-              </cc-titled-panel>
-              <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
-            </v-col>
-          </v-row>
-        </v-slide-y-reverse-transition>
-      </v-col>
-    </v-row>
+    <i class="text-overline">
+      {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
+    </i>
+    <v-card-text :style="!mobile && 'height: calc(100vh - 198px); overflow-y: scroll'">
+      <v-slide-y-reverse-transition mode="out-in">
+        <masonry-wall
+          :key="searchText"
+          :items="searchResults"
+          :column-width="400"
+          :gap="16"
+          :min-columns="1"
+          :max-columns="widescreen ? 3 : 2">
+          <template #default="{ item }">
+            <cc-search-result-modal :item="item" />
+          </template>
+        </masonry-wall>
+      </v-slide-y-reverse-transition>
+    </v-card-text>
   </v-container>
 </template>
 
@@ -71,10 +59,22 @@ import { CompendiumStore } from '@/stores';
 export default {
   name: 'search-results',
   data: () => ({
+    selected: null as any,
     searchText: '',
     loaded: false,
   }),
+  watch: {
+    searchText(newVal) {
+      this.setSearch(newVal);
+    },
+  },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+    widescreen() {
+      return this.$vuetify.display.lgAndUp;
+    },
     validResults(): CompendiumItem[] {
       return _.flatten(
         _.values(
@@ -102,8 +102,6 @@ export default {
   },
   mounted() {
     this.searchText = this.$route.query.search as string;
-    const input = this.$refs.input as HTMLInputElement;
-    input.focus();
   },
   methods: {
     setSearch(value: string) {
@@ -116,21 +114,6 @@ export default {
     forceInput() {
       this.setSearch((this.$refs.input as HTMLInputElement).value);
     },
-    onClick(item: CompendiumItem) {
-      ((this.$refs[`modal_${item.ID}`] as any)[0] as any).show();
-    },
   },
 };
 </script>
-
-<style scoped>
-.item-description {
-  display: block;
-  min-height: 65px;
-  max-height: 65px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  font-style: italic;
-  color: gray;
-}
-</style>

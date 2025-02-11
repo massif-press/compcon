@@ -6,6 +6,9 @@
     <template #toolbar-items>
       <slot name="toolbar-items" />
     </template>
+    <template #extension>
+      <slot name="extension" />
+    </template>
     <slot />
   </component>
 </template>
@@ -23,6 +26,7 @@ export default {
     minor: { type: Boolean },
     hideClose: { type: Boolean },
     extended: { type: Boolean },
+    extensionHeight: { type: String, default: 'auto' },
   },
   computed: {
     component() {

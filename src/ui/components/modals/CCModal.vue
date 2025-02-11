@@ -30,7 +30,7 @@
           <slot name="toolbar-items" />
         </template>
       </cc-toolbar>
-      <v-card-text class="pa-0">
+      <v-card-text class="pa-0" :class="!mobile && 'px-4'">
         <slot v-bind="{ modal, close }" />
       </v-card-text>
       <div v-if="$slots.actions">

@@ -34,7 +34,7 @@ export default {
     bonuses(): CoreBonus[] {
       return _.orderBy(
         CompendiumStore().CoreBonuses.filter((x: CoreBonus) => !x.IsHidden),
-        'Name'
+        'Manufacturer'
       );
     },
   },

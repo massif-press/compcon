@@ -1,5 +1,5 @@
 <template>
-  <v-card-text>
+  <v-card-text class="pa-1">
     {{ bonus.Detail }}
   </v-card-text>
 </template>

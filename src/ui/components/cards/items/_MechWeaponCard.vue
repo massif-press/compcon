@@ -1,9 +1,9 @@
 <template>
   <equipment-card-base :item="item" :notes="notes">
     <div v-show="item.Profiles.length > 1">
-      <v-tabs v-model="tab" grow height="40px">
-        <v-tab v-for="p in item.Profiles">
-          <b class="text-accent">{{ p.Name }}</b>
+      <v-tabs bg-color="primary" grow height="24px" density="compact" class="my-2">
+        <v-tab v-for="(p, index) in item.Profiles" @click.stop="tab = index" :key="p.Name">
+          <b>{{ p.Name }}</b>
         </v-tab>
       </v-tabs>
     </div>

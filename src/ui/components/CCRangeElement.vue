@@ -1,5 +1,5 @@
 <template>
-  <div v-for="r in <Range[]>range" class="text-center d-inline-block">
+  <div v-for="r in <Range[]>range" class="text-center d-inline-block mr-4">
     <v-tooltip max-width="600">
       <template #activator="{ props }">
         <span v-if="small" v-bind="props">

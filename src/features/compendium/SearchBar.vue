@@ -6,7 +6,6 @@
       class="search-field"
       tile
       flat
-      hide-details
       variant="solo"
       density="compact"
       :disabled="disabled"
@@ -40,10 +39,14 @@ export default {
     reference: {
       type: Boolean,
     },
+    campaign: {
+      type: Boolean,
+    },
     disabled: {
       type: Boolean,
     },
   },
+  emits: ['search'],
   data: () => ({
     searchText: '',
     isHovering: false,
@@ -56,6 +59,10 @@ export default {
   },
   methods: {
     search() {
+      if (this.campaign) {
+        this.$emit('search', this.searchText);
+        return;
+      }
       this.$router.push(`srd/${this.loc.toLowerCase()}/search?search=${this.searchText}`);
     },
   },

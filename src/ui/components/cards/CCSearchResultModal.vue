@@ -1,19 +1,30 @@
 <template>
-  <v-dialog v-model="dialog" width="90vw">
-    <v-card tile>
-      <cc-titlebar :icon="item.Icon" :color="item.Color">
-        <template #title> {{ item.Source }} {{ item.Name }} </template>
-      </cc-titlebar>
-      <v-card-text>
-        <cc-item-card :item="item" />
-      </v-card-text>
-      <v-divider />
-      <v-card-actions>
-        <v-spacer />
-        <v-btn variant="text" @click="dialog = false">dismiss</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <cc-modal :title="item.Name" :icon="item.Icon" :color="item.Color">
+    <template #activator="{ open }">
+      <div @click="open" class="clickable">
+        <v-hover>
+          <template #default="{ props, isHovering }">
+            <cc-panel
+              v-bind="props"
+              :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
+              :icon="item.Icon"
+              :title-color="item.Color"
+              :color="isHovering ? 'panel' : 'surface'"
+              class="item-description">
+              <div
+                style="max-height: 40vh; overflow: hidden; text-overflow: ellipsis"
+                v-html-safe="
+                  (item as any).Effect || item.Description || `${item.Source} ${item.ItemType}`
+                " />
+            </cc-panel>
+          </template>
+        </v-hover>
+      </div>
+    </template>
+    <v-card-text>
+      <cc-item-card :item="item" />
+    </v-card-text>
+  </cc-modal>
 </template>
 
 <script lang="ts">
@@ -23,16 +34,6 @@ export default {
     item: {
       type: Object,
       required: true,
-    },
-  },
-  data() {
-    return {
-      dialog: false,
-    };
-  },
-  methods: {
-    show() {
-      this.dialog = true;
     },
   },
 };

@@ -24,10 +24,10 @@ export default {
     selectedTier: 1,
     tieredView: false,
     options: {
-      views: ['single', 'table', 'cards'],
+      views: ['single', 'table'],
       initialView: 'single',
       groups: ['lcp', 'featureType', 'origin'],
-      initialGroup: 'lcp',
+      initialGroup: 'origin',
     },
   }),
 

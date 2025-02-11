@@ -2,7 +2,7 @@
   <v-window-item>
     <cc-heading size="large">Titles</cc-heading>
 
-    <cc-heading size="small" line>heading</cc-heading>
+    <cc-heading small line>heading</cc-heading>
 
     <v-card flat border>
       <v-row justify="center">
@@ -48,7 +48,7 @@
       </v-row>
     </v-card>
 
-    <cc-heading size="small" line>banner</cc-heading>
+    <cc-heading small line>banner</cc-heading>
 
     <v-card flat border>
       <v-row justify="center">
