@@ -1,180 +1,181 @@
 <template>
   <div>
-    <div v-if="campaigns.length" class="text-center">
-      <v-tooltip location="top" open-delay="300">
-        <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            class="border-e-sm"
-            @click="setSort('title')">
-            <v-icon icon="mdi-format-text" />
-            <v-icon v-if="sort === 'title'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
-          </v-btn>
-        </template>
-        <span>Sort by Title</span>
-      </v-tooltip>
+    <v-row v-if="campaigns.length" class="text-center" no-gutters justify="center">
+      <v-col lg="8" xs="12" :class="!mobile && 'px-1'">
+        <v-tooltip location="top" open-delay="300">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              color="panel"
+              flat
+              tile
+              size="small"
+              style="width: 25%"
+              class="border-e-sm"
+              @click="setSort('title')">
+              <v-icon icon="mdi-format-text" />
+              <v-icon v-if="sort === 'title'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
+            </v-btn>
+          </template>
+          <span>Sort by Title</span>
+        </v-tooltip>
 
-      <v-tooltip location="top" open-delay="300">
-        <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            class="border-e-sm"
-            @click="setSort('author')">
-            <v-icon icon="mdi-fountain-pen" />
-            <v-icon v-if="sort === 'author'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
-          </v-btn>
-        </template>
-        <span>Sort by Author</span>
-      </v-tooltip>
+        <v-tooltip location="top" open-delay="300">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              color="panel"
+              flat
+              tile
+              size="small"
+              style="width: 25%"
+              class="border-e-sm"
+              @click="setSort('author')">
+              <v-icon icon="mdi-fountain-pen" />
+              <v-icon v-if="sort === 'author'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
+            </v-btn>
+          </template>
+          <span>Sort by Author</span>
+        </v-tooltip>
 
-      <v-tooltip location="top" open-delay="300">
-        <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            class="border-e-sm"
-            @click="setSort('players')">
-            <v-icon size="24" icon="cc:pilot" />
-            <v-icon v-if="sort === 'players'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
-          </v-btn>
-        </template>
-        <span>Sort by Suggested Players</span>
-      </v-tooltip>
+        <v-tooltip location="top" open-delay="300">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              color="panel"
+              flat
+              tile
+              size="small"
+              style="width: 25%"
+              class="border-e-sm"
+              @click="setSort('players')">
+              <v-icon size="24" icon="cc:pilot" />
+              <v-icon v-if="sort === 'players'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
+            </v-btn>
+          </template>
+          <span>Sort by Suggested Players</span>
+        </v-tooltip>
 
-      <v-tooltip location="top" open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props" color="panel" flat tile size="small" c @click="setSort('ll')">
-            <v-icon size="28" icon="cc:license" />
-            <v-icon v-if="sort === 'll'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
-          </v-btn>
-        </template>
-        <span>Sort by License Level</span>
-      </v-tooltip>
-    </div>
+        <v-tooltip location="top" open-delay="300">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              color="panel"
+              flat
+              tile
+              size="small"
+              style="width: 25%"
+              @click="setSort('ll')">
+              <v-icon size="28" icon="cc:license" />
+              <v-icon v-if="sort === 'll'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
+            </v-btn>
+          </template>
+          <span>Sort by License Level</span>
+        </v-tooltip>
+      </v-col>
+    </v-row>
 
     <dense-shelf v-if="density === 'compact'" :search="search" :sort="sort" :sort-dir="asc" />
     <compendium-shelf v-else :search="search" :sort="sort" :sort-dir="asc" />
   </div>
 
   <v-footer :app="density !== 'compact'">
-    <v-spacer />
-    <v-dialog v-model="libDialog" width="50vw">
-      <template #activator="{ props }">
-        <v-btn v-bind="props" color="secondary" variant="tonal" class="mx-2" size="small">
-          <v-icon start icon="cc:campaign" />
+    <cc-dialog title="Not yet implemented">
+      <template #activator="{ open }">
+        <cc-button
+          @click="open"
+          color="secondary"
+          class="mx-2"
+          size="small"
+          :icon="mobile ? 'cc:campaign' : undefined"
+          prepend-icon="cc:campaign">
           LANCER Campaign Directory
-        </v-btn>
+        </cc-button>
       </template>
-      <v-card>
-        <v-card-title>Not yet implemented</v-card-title>
-        <v-card-text>
-          <p>
-            After v3 release this will be a searchable directory of Massif and community-created
-            campaigns. If you're logged in and have linked an itch.io account, you'll be able to
-            import campaigns directly from the directory. Otherwise you'll be directed to the
-            itch.io page to purchase and download the campaign.
-          </p>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="accent" @click="libDialog = false">Dismiss</v-btn>
-          <v-spacer />
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <v-card-text>
+        After v3 release this will be a searchable directory of Massif and community-created
+        campaigns. If you're logged in and have linked an itch.io account, you'll be able to import
+        campaigns directly from the directory. Otherwise you'll be directed to the itch.io page to
+        purchase and download the campaign.
+      </v-card-text>
+    </cc-dialog>
+    <v-spacer />
 
     <campaign-share-code-dialog />
 
-    <v-dialog v-model="importDialog" max-width="750px">
-      <template #activator="{ props }">
-        <v-btn
-          v-bind="props"
-          color="accent"
-          variant="tonal"
+    <cc-modal
+      v-model="importDialog"
+      title="Import Lancer Campaign Data"
+      max-width="50vw"
+      min-width="500">
+      <template #activator="{ open }">
+        <cc-button
+          color="primary"
           class="mx-2"
           size="small"
-          @click="importType = 'file'">
-          <v-icon start icon="mdi-import" />
+          :icon="mobile ? 'mdi-import' : undefined"
+          prepend-icon="mdi-import"
+          @click="open">
           File Import
-        </v-btn>
+        </cc-button>
       </template>
-      <v-card>
-        <v-card-title>Import Lancer Campaign Data</v-card-title>
-        <v-divider />
-        <v-card-text>
-          <v-row align="center" justify="center">
-            <v-col cols="10">
-              <v-file-input
-                v-model="<any>fileValue"
+      <v-card-text>
+        <v-row align="center" justify="center">
+          <v-col cols="10">
+            <v-file-input
+              v-model="<any>fileValue"
+              variant="outlined"
+              label="Select .lcd File"
+              accept=".lcd"
+              prepend-icon="mdi-paperclip"
+              @change="stageImport"
+              @click:clear="reset" />
+          </v-col>
+        </v-row>
+        <div v-if="errorMessage" class="text-error text-center mt-2">{{ errorMessage }}</div>
+        <div v-else-if="stagedData">
+          <div class="text-caption">Staged Campaign Data</div>
+          <v-card variant="tonal">
+            <v-card-title>{{ stagedData.title }}</v-card-title>
+            <v-card-subtitle>{{ stagedData.subtitle }}</v-card-subtitle>
+            <v-card-text class="pl-6">
+              <div class="text-center">
+                <i>{{ stagedData.author }}</i>
+              </div>
+              {{ stagedData.description }}
+
+              <v-alert
+                v-if="importSameId"
                 variant="outlined"
-                label="Select .lcd File"
-                accept=".lcd"
-                prepend-icon="mdi-paperclip"
-                @change="stageImport"
-                @click:clear="reset" />
-            </v-col>
-          </v-row>
-          <div v-if="errorMessage" class="text-error text-center mt-2">{{ errorMessage }}</div>
-          <div v-else-if="stagedData">
-            <div class="text-caption">Staged Campaign Data</div>
-            <v-card variant="tonal">
-              <v-card-title>{{ stagedData.title }}</v-card-title>
-              <v-card-subtitle>{{ stagedData.subtitle }}</v-card-subtitle>
-              <v-card-text class="pl-6">
-                <div class="text-center">
-                  <i>{{ stagedData.author }}</i>
+                :color="importIsOlder ? 'error' : 'warning'"
+                class="my-2"
+                density="compact"
+                icon="mdi-alert">
+                <div class="text-caption">Warning</div>
+                <div v-if="importIsOlder" class="my-2 font-weight-bold">
+                  The existing campaign is newer than the imported data.
                 </div>
-                {{ stagedData.description }}
+                This import data will overwrite an existing campaign with the same ID ({{
+                  importSameId.title
+                }}). The existing campaign was last updated on
+                {{ new Date(importSameId.save.lastModified).toLocaleString() }}.
+              </v-alert>
 
-                <v-alert
-                  v-if="importSameId"
-                  variant="outlined"
-                  :color="importIsOlder ? 'error' : 'warning'"
-                  class="my-2"
-                  density="compact"
-                  icon="mdi-alert">
-                  <div class="text-caption">Warning</div>
-                  <div v-if="importIsOlder" class="my-2 font-weight-bold">
-                    The existing campaign is newer than the imported data.
-                  </div>
-                  This import data will overwrite an existing campaign with the same ID ({{
-                    importSameId.title
-                  }}). The existing campaign was last updated on
-                  {{ new Date(importSameId.save.lastModified).toLocaleString() }}.
-                </v-alert>
-
-                <div class="text-caption text-right">
-                  Last Updated: &nbsp;
-                  <b>{{ new Date(stagedData.save.lastModified).toLocaleString() }}</b>
-                </div>
-              </v-card-text>
-              <v-divider />
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="accent" @click="importCampaign">Import Campaign</v-btn>
-                <v-spacer />
-              </v-card-actions>
-            </v-card>
-          </div>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-btn color="accent" @click="importDialog = false">Dismiss</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+              <div class="text-caption text-right">
+                Last Updated: &nbsp;
+                <b>{{ new Date(stagedData.save.lastModified).toLocaleString() }}</b>
+              </div>
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-spacer />
+              <v-btn color="accent" @click="importCampaign">Import Campaign</v-btn>
+              <v-spacer />
+            </v-card-actions>
+          </v-card>
+        </div>
+      </v-card-text>
+    </cc-modal>
   </v-footer>
 </template>
 
@@ -194,7 +195,6 @@ export default {
     search: { type: String, default: '' },
   },
   data: () => ({
-    libDialog: false,
     importDialog: false,
     deleteText: '',
     fileValue: null as any,
@@ -210,6 +210,9 @@ export default {
   },
 
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     campaigns() {
       if (!this.search) return CampaignStore().CampaignCollection;
       return CampaignStore().CampaignCollection.filter((c) =>

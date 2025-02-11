@@ -9,14 +9,12 @@
     </template>
 
     <template #actions>
-      <v-btn
-        flat
-        color="accent"
-        class="mb-1"
+      <cc-button
+        color="primary"
         :disabled="!($refs as any).importer.canDownload"
         @click="addCampaign()">
         Add Campaign
-      </v-btn>
+      </cc-button>
     </template>
   </cc-share-code-importer>
 </template>

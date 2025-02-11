@@ -2,9 +2,9 @@
   <cc-modal ref="modal" shrink title="add from share code" icon="mdi-code-block-brackets">
     <template #activator="{ open }">
       <cc-button
-        color="accent"
-        variant="tonal"
+        color="primary"
         size="small"
+        :icon="mobile ? 'mdi-code-block-brackets' : undefined"
         prepend-icon="mdi-code-block-brackets"
         @click="open">
         {{ title }}

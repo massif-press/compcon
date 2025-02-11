@@ -1,34 +1,42 @@
 <template>
   <v-container>
-    <v-card flat class="ma-n4">
+    <v-card flat class="ma-n4" style="container: inline-size">
       <v-img :src="campaign.BannerImageUrl || ''" cover>
         <v-row justify="center" align="center" style="height: 100%; min-height: 300px">
           <v-col class="text-center">
-            <div class="heading h1 text-outline" style="font-size: 45pt; letter-spacing: 8px">
+            <div
+              class="heading h1"
+              style="
+                font-size: calc(12px + 4cqw);
+                letter-spacing: calc(4px + 0.6cqw);
+                background-color: rgba(122, 122, 122, 0.3);
+              ">
               {{ campaign.Title }}
             </div>
-            <v-card flat class="rounded-0" style="opacity: 0.85">
-              <div>
-                {{ campaign.Subtitle }}
-              </div>
-              <v-divider />
-              <div>By {{ campaign.Author }}</div>
-              <div class="text-center text-caption">
-                A
-                <i>Lancer</i>
-                campaign for
-                {{
-                  campaign.MinPlayers === campaign.MaxPlayers
-                    ? campaign.MaxPlayers
-                    : `${campaign.MinPlayers}-${campaign.MaxPlayers}`
-                }}
-                pilots starting at License Level
-                {{
-                  campaign.MinLL === campaign.MaxLL
-                    ? campaign.MaxLL
-                    : `${campaign.MinLL}-${campaign.MaxLL}`
-                }}.
-              </div>
+            <v-card flat tile style="opacity: 0.85">
+              <v-card-text>
+                <div>
+                  {{ campaign.Subtitle }}
+                </div>
+                <v-divider />
+                <div>By {{ campaign.Author }}</div>
+                <div class="text-center text-caption">
+                  A
+                  <i>Lancer</i>
+                  campaign for
+                  {{
+                    campaign.MinPlayers === campaign.MaxPlayers
+                      ? campaign.MaxPlayers
+                      : `${campaign.MinPlayers}-${campaign.MaxPlayers}`
+                  }}
+                  pilots starting at License Level
+                  {{
+                    campaign.MinLL === campaign.MaxLL
+                      ? campaign.MaxLL
+                      : `${campaign.MinLL}-${campaign.MaxLL}`
+                  }}.
+                </div>
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>

@@ -44,9 +44,7 @@
       </v-col>
     </v-row>
 
-    <v-container>
-      <campaign-bookshelf :search="search" />
-    </v-container>
+    <campaign-bookshelf :search="search" />
   </v-container>
 </template>
 
