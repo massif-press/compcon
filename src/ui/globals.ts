@@ -18,6 +18,7 @@ import CCHeading from './components/headings/CCHeading.vue';
 import CCToolbar from './components/headings/CCToolbar.vue';
 
 import CCModal from './components/modals/CCModal.vue';
+import CCSoloModal from './components/modals/CCSoloModal.vue';
 import CCDialog from './components/modals/CCDialog.vue';
 
 import CCTabs from './components/CCTabs.vue';
@@ -121,6 +122,7 @@ export {
   CCAlert,
   // ---
   CCModal,
+  CCSoloModal,
   CCDialog,
   // ---
   CCTabs,

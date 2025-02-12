@@ -226,10 +226,12 @@ export const CompendiumStore = defineStore('compendium', {
     },
 
     packAlreadyInstalled(): any {
-      return (packStr: string, version?: string) => {
-        let candidates = this.ContentPacks.filter(
-          (pack) => packStr.toLowerCase() === pack.Name.toLowerCase()
-        );
+      return (packId: string, version?: string) => {
+        console.log(this.ContentPacks);
+        console.log(packId);
+        let candidates = this.ContentPacks.filter((pack) => packId === pack.ID);
+
+        console.log(candidates);
 
         if (!version || version === '*') return candidates.length > 0;
         if (version.startsWith('='))

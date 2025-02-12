@@ -1,16 +1,21 @@
 <template>
-  <div class="packsList" style="min-height: 300px">
-    <div class="heading h2 text-stark mt-3 px-2">Official MASSIF LANCER Content</div>
-    <massif-lcp-table :headers="massifHeaders" />
-    <v-divider class="my-6" />
-    <div class="heading h2 text-stark mt-3 px-2">
-      LANCER Community Content
-      <v-menu bottom open-on-hover>
-        <template #activator="{ props }">
-          <v-icon variant="plain" v-bind="props">mdi-information-outline</v-icon>
-        </template>
-        <v-card max-width="500px">
-          <v-card-title>LANCER Community Content Packs</v-card-title>
+  <v-card-text :style="mobile ? 'margin-top: 14px' : 'margin-top: 16px'">
+    <div class="packsList" style="min-height: 300px">
+      <div class="heading h2 text-stark mt-3 px-2">
+        Official
+        <a href="https://massifpress.com/shop" target="_blank">MASSIF PRESS</a>
+        Content
+      </div>
+      <massif-lcp-table :headers="massifHeaders" />
+      <v-divider class="my-6" />
+      <div class="heading h2 text-stark mt-3 px-2">
+        LANCER Community Content
+        <cc-dialog title="LANCER Community Content Packs">
+          <template #activator="{ open }">
+            <v-icon size="x-small" class="mt-n1 fade-select" @click="open">
+              mdi-information-slab-box-outline
+            </v-icon>
+          </template>
           <v-card-text>
             <span v-if="communityPacks.length">
               COMP/CON is proud to collaborate with the LANCER community in making these unofficial
@@ -22,15 +27,14 @@
             <a
               href="https://github.com/massif-press/lancer-data#lancer-community-content-packs"
               target="_blank">
-              click here
+              click here.
             </a>
-            .
           </v-card-text>
-        </v-card>
-      </v-menu>
+        </cc-dialog>
+      </div>
+      <directory-table :items="communityPacks" :loading="loading" />
     </div>
-    <directory-table :items="communityPacks" :loading="loading" />
-  </div>
+  </v-card-text>
 </template>
 
 <script lang="ts">
@@ -47,7 +51,7 @@ export default {
   data: () => ({
     communityPacks: [],
     loading: true,
-    massifHeaders: [
+    _massifHeaders: [
       { title: '', key: 'data-table-expand', width: '0' },
       { title: 'LCP', key: 'title' },
       { title: 'Collection', key: 'collection' },
@@ -55,6 +59,14 @@ export default {
       { title: '', key: 'actions', align: 'end', sortable: false },
     ],
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+    massifHeaders() {
+      return this.mobile ? this._massifHeaders.slice(1) : this._massifHeaders;
+    },
+  },
   async created(): Promise<void> {
     scan()
       .then((res: any) => {

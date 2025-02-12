@@ -1,38 +1,34 @@
 <template>
-  <v-card flat tile>
-    <v-tabs v-model="tabs" background-color="panel" color="accent" icons-and-text>
-      <v-tab>
-        <v-icon start icon="mdi-list-box" />
-        Content Packs
-      </v-tab>
-      <v-tab>
-        <v-icon start icon="mdi-download" />
-        Install .LCP File
-      </v-tab>
-      <v-tab>
-        <v-icon start icon="mdi-format-list-text" />
-        LCP Directory
-      </v-tab>
-    </v-tabs>
-    <v-window v-model="tabs">
+  <cc-solo-modal v-model="modal" title="Content Pack Management" icon="cc:content_manager">
+    <cc-tabs modal fixed>
+      <template #tabs>
+        <v-tab>
+          <v-icon start icon="mdi-list-box" />
+          Content Packs
+        </v-tab>
+        <v-tab>
+          <v-icon start icon="mdi-download" />
+          Install .LCP File
+        </v-tab>
+        <v-tab>
+          <v-icon start icon="mdi-format-list-text" />
+          LCP Directory
+        </v-tab>
+      </template>
       <v-window-item>
-        <v-container>
+        <v-card-text :style="mobile ? 'margin-top: 8px' : 'margin-top: 20px'">
           <packs-list />
           <missing-content />
-        </v-container>
+        </v-card-text>
       </v-window-item>
       <v-window-item>
-        <v-container>
-          <pack-install @installed="onInstalled" />
-        </v-container>
+        <pack-install @installed="onInstalled" />
       </v-window-item>
       <v-window-item>
-        <v-container>
-          <packs-directory />
-        </v-container>
+        <packs-directory />
       </v-window-item>
-    </v-window>
-  </v-card>
+    </cc-tabs>
+  </cc-solo-modal>
 </template>
 
 <script lang="ts">
@@ -44,12 +40,30 @@ import PacksDirectory from './PacksDirectory.vue';
 export default {
   name: 'ExtraContent',
   components: { PacksList, PackInstall, PacksDirectory, MissingContent },
-  data: () => {
-    return {
-      tabs: 0,
-    };
+  props: {
+    modelValue: Boolean,
   },
-
+  data: () => ({
+    tabs: 0,
+    modal: false,
+  }),
+  watch: {
+    modelValue: {
+      handler(val) {
+        this.modal = val;
+      },
+      immediate: true,
+    },
+    modal(val) {
+      this.$emit('update:modelValue', val);
+    },
+  },
+  emits: ['update:modelValue'],
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     onInstalled(): void {
       (this.$refs.pl as any as any).reload();

@@ -1,5 +1,5 @@
 <template>
-  <v-card-text>
+  <v-card-text :class="mobile && 'pa-0 pb-2'">
     <v-row>
       <v-col>
         <p class="body-text text-text light-panel pa-2 mb-1">
@@ -7,34 +7,26 @@
           <span v-else>No description given.</span>
         </p>
         <div>
-          <h4>Content</h4>
+          <cc-heading line>CONTENT</cc-heading>
           <div>
             <v-chip
               v-for="item in packContents"
               variant="outlined"
-              color="secondary"
+              color="accent"
               size="small"
-              class="mr-2 mb-1 text-overline">
-              <v-avatar color="secondary" start v-text="item.count" />
+              class="mr-2 mb-1 text-overline rounded-s-full rounded-e-0">
+              <v-avatar color="primary" start v-text="item.count" />
               {{ item.name }}
             </v-chip>
           </div>
         </div>
         <div class="pt-2">
-          <h4>
-            Dependencies
-            <v-tooltip location="top" max-width="300px">
-              <template v-slot:activator="{ props }">
-                <v-icon
-                  v-bind="props"
-                  size="small"
-                  icon="mdi-information-outline"
-                  variant="plain" />
-              </template>
-              Dependencies are other content packs that this pack requires to function properly.
-              They must be installed and activated for this pack to load correctly.
-            </v-tooltip>
-          </h4>
+          <cc-heading line>
+            DEPENDENCIES
+            <cc-tooltip
+              text="Dependencies are other content packs that this pack requires to function properly.
+              They must be installed and activated for this pack to load correctly." />
+          </cc-heading>
           <i v-if="packDependencies.length === 0" class="pl-2">None</i>
           <div v-else>
             <v-card
@@ -71,17 +63,11 @@
       </v-col>
       <v-col cols="12" md="4">
         <v-img :src="manifest.image_url" max-height="300px" />
-        <div v-if="manifest.website" class="mt-2">
-          <v-btn
-            target="_blank"
-            :href="manifest.website"
-            color="secondary"
-            variant="outlined"
-            size="small"
-            block>
+        <div v-if="manifest.website" class="mt-2 text-center">
+          <cc-button target="_blank" :href="manifest.website" color="primary" size="small">
             <v-icon prepend class="mr-1">mdi-open-in-new</v-icon>
-            &nbsp;Website
-          </v-btn>
+            Author's Website
+          </cc-button>
         </div>
       </v-col>
     </v-row>
@@ -127,6 +113,9 @@ export default {
   }),
 
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     manifest() {
       return (this.pack as IContentPack).manifest
         ? (this.pack as IContentPack).manifest

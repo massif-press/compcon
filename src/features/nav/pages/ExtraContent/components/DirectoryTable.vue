@@ -8,15 +8,25 @@
     show-expand
     item-value="name"
     :loading="loading"
+    :mobile="mobile"
     loading-text="Loading Content Pack Data..."
     items-per-page="-1">
     <!-- Download -->
     <template v-slot:item.website="{ item }">
-      <cc-tooltip content="Download">
-        <v-btn target="_blank" :href="(item as any).link" icon variant="plain" color="accent">
-          <v-icon>mdi-open-in-new</v-icon>
-        </v-btn>
-      </cc-tooltip>
+      <v-tooltip content="Download">
+        <template #activator="{ props }">
+          <v-btn
+            size="x-small"
+            target="_blank"
+            :href="(item as any).link"
+            icon
+            variant="text"
+            color="accent"
+            v-bind="props">
+            <v-icon size="x-large">mdi-open-in-new</v-icon>
+          </v-btn>
+        </template>
+      </v-tooltip>
     </template>
     <!-- Name -->
     <template v-slot:item.name="{ item }">
@@ -44,24 +54,33 @@
     </template>
     <!-- Expanded view -->
     <template v-slot:expanded-row="{ columns, item }">
-      <td :colspan="columns.length" class="pa-4 w-100 bg-light-panel">
+      <td :colspan="columns.length" class="pa-4 bg-panel">
         <v-row>
           <v-col>
-            <p class="body-text text-text pa-2 mb-1">
+            <p class="text-text pa-2 mb-1">
               <span v-if="(item as any).description" v-html-safe="(item as any).description" />
               <span v-else>No description given.</span>
             </p>
 
-            <div v-if="(item as any).website" class="mt-2">
-              <v-divider class="ma-1" />
-              <v-btn
+            <div v-if="(item as any).link" class="mt-2">
+              <v-divider class="mt-1 mb-2" />
+              <cc-button
+                target="_blank"
+                :href="(item as any).website"
+                variant="plain"
+                color="itch"
+                class="mr-3">
+                <v-icon prepend start>mdi-open-in-new</v-icon>
+                itch.io page
+              </cc-button>
+              <cc-button
                 target="_blank"
                 :href="(item as any).website"
                 variant="plain"
                 color="secondary">
                 <v-icon prepend start>mdi-open-in-new</v-icon>
                 Author's Website
-              </v-btn>
+              </cc-button>
             </div>
           </v-col>
           <v-col v-if="(item as any).img" cols="2">
@@ -91,10 +110,13 @@ export default {
     loading: { type: Boolean },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     tableHeaders() {
       if (this.noAuthor)
         return [
-          { title: '', key: 'data-table-expand', width: '0' },
+          { title: '', key: !this.mobile && 'data-table-expand', width: '0' },
           {
             title: 'Download',
             width: '0',
@@ -107,7 +129,7 @@ export default {
           { title: 'Cost', key: 'cost' },
         ];
       return [
-        { title: '', key: 'data-table-expand', width: '0' },
+        { title: '', key: !this.mobile && 'data-table-expand', width: '0' },
         { title: 'Name', key: 'title' },
         { title: 'Author', key: 'author' },
         { title: 'Version', key: 'version' },
