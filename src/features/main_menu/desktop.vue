@@ -29,7 +29,7 @@
           icon="cc:content_manager"
           help="Import Content Packs"
           @hover="ccLog('content')"
-          @clicked="($refs.contentModal as any).show()">
+          @clicked="extraContentModal = true">
           Content Manager
           <cc-tooltip
             v-if="missingContent"
@@ -38,6 +38,7 @@
             content="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager.">
             <v-icon color="warning" size="30" icon="mdi-alert" class="mb-2" />
           </cc-tooltip>
+          <extra-content v-model="extraContentModal" />
         </main-btn>
         <main-btn
           icon="cc:campaign"
@@ -144,15 +145,6 @@
         </v-col>
       </v-row>
     </v-footer>
-    <cc-solo-dialog
-      ref="contentModal"
-      no-title-clip
-      no-pad
-      large
-      no-confirm
-      title="Manage Content Packs">
-      <content-page />
-    </cc-solo-dialog>
   </div>
 </template>
 
@@ -161,7 +153,7 @@ import MainTitle from './_components/MainTitle.vue';
 import MainBtn from './_components/MainBtn.vue';
 import CCLog from './_components/CCLog.vue';
 import SignIn from './_components/login/index.vue';
-import ContentPage from '../nav/pages/ExtraContent/index.vue';
+import ExtraContent from '../nav/pages/ExtraContent/index.vue';
 import AboutPage from '../nav/pages/About.vue';
 import CreditsPage from '../nav/pages/Credits.vue';
 import HelpPage from '../nav/pages/Help.vue';
@@ -175,7 +167,7 @@ export default {
     MainTitle,
     MainBtn,
     CCLog,
-    ContentPage,
+    ExtraContent,
     CreditsPage,
     AboutPage,
     HelpPage,
@@ -186,6 +178,7 @@ export default {
   data: () => ({
     importDialog: false,
     fileValue: undefined,
+    extraContentModal: false,
   }),
   computed: {
     isLoggedIn() {

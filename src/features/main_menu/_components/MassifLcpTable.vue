@@ -8,7 +8,7 @@
     :items="packs"
     :loading="loading"
     item-key="name"
-    show-expand
+    :show-expand="mobile"
     item-value="name"
     :items-per-page="-1"
     hide-default-footer>
@@ -195,10 +195,11 @@ export default {
   },
   computed: {
     mobile() {
-      return this.$vuetify.display.mdAndDown;
+      return this.$vuetify.display.smAndDown;
     },
     tableHeaders() {
-      return this.headers || this.lcpHeaders;
+      if (this.headers) return this.headers;
+      return this.mobile ? this.lcpHeaders.slice(1) : this.lcpHeaders;
     },
     contentPacks() {
       return CompendiumStore().ContentPacks;

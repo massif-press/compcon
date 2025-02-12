@@ -3,6 +3,9 @@
     <template #title>
       <slot name="title" />
     </template>
+    <template #subtitle>
+      <slot name="subtitle" />
+    </template>
     <template #toolbar-items>
       <slot name="toolbar-items" />
     </template>

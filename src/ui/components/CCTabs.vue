@@ -6,7 +6,8 @@
     slider-color="secondary"
     :height="mobile ? '24px' : '32px'"
     density="compact"
-    grow>
+    grow
+    :style="modal && 'left: 1px; width: calc(100% - 2px);'">
     <slot name="tabs" v-bind="{ setTab }" />
   </v-tabs>
   <div
@@ -25,6 +26,7 @@ export default {
     color: { type: String, default: 'primary' },
     sliderColor: { type: String, default: 'secondary' },
     fixed: { type: Boolean, default: false },
+    modal: { type: Boolean, default: false },
   },
   emits: ['changed'],
   data: () => ({

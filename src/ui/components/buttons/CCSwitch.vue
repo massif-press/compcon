@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex">
+  <div style="display: inline-flex">
     <v-icon
       v-if="prependIcon"
       style="align-self: center"
@@ -16,7 +16,9 @@
           v-bind="props"
           class="top-element"
           style="display: inline-block; position: relative; align-self: center">
-          <span :class="`light ${size} bg-${getLightColor(isHovering)}`" />
+          <span
+            :class="`light ${size} bg-${getLightColor(isHovering)}`"
+            style="position: absolute; left: 0" />
           <div
             class="toggle"
             :class="`${size} ${isOn && 'on'} size-${size} bg-${bgColor}`"
@@ -52,6 +54,9 @@ export default {
     modelValue: {
       type: Boolean,
       required: true,
+    },
+    value: {
+      type: Boolean,
     },
     size: {
       type: String,
@@ -90,7 +95,7 @@ export default {
   },
   computed: {
     isOn() {
-      return this.modelValue;
+      return this.value || this.modelValue;
     },
   },
   methods: {

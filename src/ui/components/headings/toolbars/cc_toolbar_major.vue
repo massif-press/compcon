@@ -19,9 +19,12 @@
           {{ title }}
           <slot name="title" />
         </div>
+        <div v-if="hasSubtitleContent" class="text-cc-overline text-disabled pb-2">
+          <slot name="subtitle" />
+        </div>
       </v-col>
       <v-divider
-        v-if="hasToolbarItemContent && !extended"
+        v-if="hasToolbarItemContent && !extended && !mobile"
         vertical
         class="ts mx-6"
         style="transform: skew(-45deg); opacity: 1 !important" />
@@ -48,6 +51,8 @@
 </template>
 
 <script lang="ts">
+import { has } from 'lodash';
+
 export default {
   name: 'cc-title',
   props: {
@@ -66,7 +71,18 @@ export default {
       return this.$vuetify.display.smAndDown;
     },
     hasToolbarItemContent() {
-      const slot = this.$slots['toolbar-items'];
+      return this._hasContent('toolbar-items');
+    },
+    hasExtensionContent() {
+      return this._hasContent('extension');
+    },
+    hasSubtitleContent() {
+      return this._hasContent('subtitle');
+    },
+  },
+  methods: {
+    _hasContent(prop) {
+      const slot = this.$slots[prop];
       if (slot && slot()[0] && slot()[0].children) {
         return (slot()[0].children as any).length > 0;
       }

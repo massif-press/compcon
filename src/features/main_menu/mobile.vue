@@ -23,10 +23,8 @@
           title="GM Toolkit"
           text="Manage Pilots"
           :to="'/gm'" />
-        <mobile-btn
-          icon="cc:content_manager"
-          title="Content"
-          @clicked="($refs as any).contentModal.show()" />
+        <mobile-btn icon="cc:content_manager" title="Content" @clicked="extraContentModal = true" />
+        <extra-content v-model="extraContentModal" />
         <mobile-btn icon="cc:campaign" title="Active Mode" :to="'/active-mode'" />
       </v-row>
     </div>
@@ -109,23 +107,11 @@
       </v-row>
     </v-bottom-navigation>
   </div>
-  <cc-solo-dialog ref="loginModal" no-confirm title="CLOUD ACCOUNT">
-    <sign-in />
-  </cc-solo-dialog>
-  <cc-solo-dialog
-    ref="contentModal"
-    no-title-clip
-    no-pad
-    large
-    no-confirm
-    title="Manage Content Packs">
-    <content-page />
-  </cc-solo-dialog>
 </template>
 
 <script lang="ts">
 import MobileBtn from './_components/MobileBtn.vue';
-import ContentPage from '../nav/pages/ExtraContent/index.vue';
+import ExtraContent from '../nav/pages/ExtraContent/index.vue';
 import CreditsPage from '../nav/pages/Credits.vue';
 import AboutPage from '../nav/pages/About.vue';
 import HelpPage from '../nav/pages/Help.vue';
@@ -136,9 +122,12 @@ import CloudNotifications from '../nav/CloudNotifications.vue';
 
 export default {
   name: 'landing-page-mobile',
+  data: () => ({
+    extraContentModal: false,
+  }),
   components: {
     MobileBtn,
-    ContentPage,
+    ExtraContent,
     AboutPage,
     CreditsPage,
     HelpPage,

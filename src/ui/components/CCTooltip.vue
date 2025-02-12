@@ -21,11 +21,9 @@ export default {
   props: {
     text: {
       type: String,
-      default: '',
     },
     icon: {
       type: String,
-      default: '',
     },
     start: {
       type: Boolean,
@@ -37,7 +35,7 @@ export default {
     },
     size: {
       type: [String, Number],
-      default: false,
+      default: undefined,
     },
   },
   computed: {
