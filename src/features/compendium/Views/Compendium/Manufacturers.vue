@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="heading" :class="mobile ? 'h2 mt-n6' : 'h1 mt-n4'">MANUFACTURERS</div>
+    <div class="heading mt-n4" :class="mobile ? 'h2' : 'h1'">MANUFACTURERS</div>
     <v-row>
       <v-col cols="12" lg="auto">
         <v-tabs

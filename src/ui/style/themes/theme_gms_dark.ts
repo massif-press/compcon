@@ -12,7 +12,7 @@ const theme = {
     accent: '#dd5562',
     secondary: '#225560',
     tertiary: '#99941e',
-    highlight: '#fffcf2',
+    highlight: '#E4E5D1',
 
     error: '#E84855',
     info: '#0072BB',

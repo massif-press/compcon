@@ -1,0 +1,157 @@
+[
+  {
+    "keys": ["armor"],
+    "definition": "A mech’s ARMOR reduces all incoming damage by that amount, excluding some special types of damage. ARMOR mostly depends on your mech’s FRAME, and never goes above four."
+  },
+  {
+    "keys": ["system points", "sp"],
+    "icon": "cc:sp",
+    "definition": "Mech FRAMES also have a set number of SYSTEM POINTS (SP). SP can be spent to add extra systems to your mech, and some heavier weapons require both mounts and SP. You cannot add systems to your mech that would cause you to exceed your available SP. Your pilot’s GRIT, equal to half their LL, is added to your total SP, and you gain an additional SP for every two points of SYSTEMS."
+  },
+  {
+    "keys": ["bonus damage"],
+    "definition": "Extra damage – kinetic, energy or explosive– that is added onto melee or ranged attacks. Attacks that target more than one character only deal half bonus damage."
+  },
+  {
+    "keys": ["character"],
+    "definition": "A player character (PC), non-player character, (NPC), or any other entity capable of acting (or reacting) independently, such as DRONES."
+  },
+  {
+    "keys": ["e-defense", "edef", "e-def"],
+    "definition": "E-DEFENSE is how hard it is for electronic and guided weapons and systems to hit you."
+  },
+  {
+    "keys": ["evasion"],
+    "definition": "EVASION is how hard it is for ranged and melee attacks to hit you."
+  },
+  {
+    "keys": ["grit"],
+    "definition": "Half of a character’s LL (rounded up), representing their experience in combat. GRIT provides bonuses to some rolls and traits."
+  },
+  {
+    "keys": ["heat damage"],
+    "definition": "Heat taken by a target represents harm to internal systems and reactor shielding. It fills in HEAT CAP. Heat ignores ARMOR, and doesn't count as damage."
+  },
+  {
+    "keys": ["heat cap", "heatcap", "heat capacity"],
+    "definition": "Your mech can take heat from tech attacks and some of its own systems. If it takes more heat than its HEAT CAP, it overheats. Mechs also have STRESS, which is similar to STRUCTURE – when they exceed their HEAT CAP, they take 1 STRESS and clear all heat. When they lose STRESS like this, mechs have to make a special stress damage check and receive a consequence based on the roll. Most mechs have 4 STRESS, and are destroyed when they reach 0 STRESS.<br><br>If a character without a HEAT CAP would take heat, they instead take an equivalent amount of energy damage."
+  },
+  {
+    "keys": ["hit points", "hp"],
+    "definition": "The amount of damage a pilot can receive before going DOWN AND OUT, and the amount of damage a mech can receive before it takes structure damage. When Mechs reach 0 HP, they take 1 structure damage and their HP resets. When they lose STRUCTURE like this, mechs have to make a special structure damage check and receive a consequence based on the roll. Most mechs have 4 STRUCTURE and are destroyed when they reach 0 STRUCTURE."
+  },
+  {
+    "keys": ["immunity"],
+    "definition": "Characters with IMMUNITY ignore all damage and effects from whatever they are immune to."
+  },
+  {
+    "keys": ["range"],
+    "icon": "cc:range",
+    "definition": "The maximum range at which a weapon can be used for ranged attacks, measured from the attacking character."
+  },
+  {
+    "keys": ["repairs", "repair points", "repair capacity", "repair cap"],
+    "definition": "REPAIRS are a kind of currency that you can use to heal and repair your mech. If your mech runs out of REPAIRS, you can no longer regain HP or fix damaged systems in the field."
+  },
+  {
+    "keys": ["resistance"],
+    "definition": "Characters with RESISTANCE reduce damage, heat, or a type of damage, by half, after ARMOR has been applied. RESISTANCE to the same type of damage does not stack."
+  },
+  {
+    "keys": ["save target"],
+    "icon": "cc:save",
+    "definition": "When you force another character to make a save, they must match or beat your mech’s SAVE TARGET or take consequences."
+  },
+  {
+    "keys": ["stress"],
+    "icon": "cc:stress",
+    "definition": "All PC mechs (and some NPCs) have a certain amount of STRESS – generally 4 STRESS for PCs. This is the amount of stress damage they can take before they suffer a reactor meltdown. When mechs exceed their HEAT CAP, they take 1 stress damage and make an overheating check."
+  },
+  {
+    "keys": ["structure"],
+    "definition": "All PC mechs (and some NPCs) have a certain amount of STRUCTURE – generally 4 STRUCTURE for PCs. This is the amount of structure damage they can take before they are destroyed. When mechs reach 0 HP, they take 1 structure damage and make a structure check."
+  },
+  {
+    "keys": ["sensors"],
+    "icon": "cc:sensors",
+    "definition": "Your mech’s SENSORS is the maximum distance (in spaces) over which a mech can detect enemies, use tech systems, and make tech attacks. If a character is within your SENSORS and isn’t hiding, you know they’re there – even if you can’t directly see them."
+  },
+  {
+    "keys": ["size"],
+    "definition": "All mechs, characters, and objects on the battlefield have a SIZE that describes how large they are, in grid spaces, on each side (rounded up to 1 if smaller, so a SIZE 1/2 and SIZE 1 character occupy the same space). SIZE is an abstract measurement – it doesn’t describe a precise height and width in feet, but the space a character controls around them. Humans and the smallest mechs are SIZE 1/2. Most mechs are SIZE 1, but some are as large as SIZE 3."
+  },
+  {
+    "keys": ["speed"],
+    "definition": "Your mech’s SPEED determines how far you can move on your turn, in spaces, when you make a standard move or BOOST."
+  },
+  {
+    "keys": ["tech attack"],
+    "definition": "You add your mech’s TECH ATTACK as a bonus instead of GRIT when you conduct electronic warfare"
+  },
+  {
+    "keys": ["threat"],
+    "icon": "cc:threat",
+    "definition": "The maximum range at which melee and overwatch attacks can be made with certain weapons, measured from the attacking character. All weapons have THREAT 1 unless specified otherwise."
+  },
+  {
+    "keys": ["line"],
+    "icon": "cc:line",
+    "definition": "Equipment with a LINE attack pattern affects all targets within a straight line, X spaces long. A separate attack roll is made for each target, but damage is only rolled once and bonus damage is halved if there are multiple characters affected. For any ability or effect calling for you to choose a target or targets within RANGE, this equipment can choose any target that could be hit by its pattern.<br><br>Additionally, some LINE, CONE, BURST, and BLAST attacks list a RANGE. In these cases, the attack’s origin point can be drawn from a point within the range specified and line of sight. For example, an attack with Line 5 and Range 10 would affect a LINE 5 area starting from any point within RANGE 10."
+  },
+  {
+    "keys": ["cone"],
+    "icon": "cc:cone",
+    "definition": "Equipment with a CONE attack pattern affects characters within a cone X spaces long and X spaces wide at its furthest point. The cone begins at one space wide. A separate attack roll is made for each target, but damage is only rolled once and bonus damage is halved if there are multiple characters affected. For any ability or effect calling for you to choose a target or targets within RANGE, this equipment can choose any target that could be hit by its pattern.<br><br>Additionally, some LINE, CONE, BURST, and BLAST attacks list a RANGE. In these cases, the attack’s origin point can be drawn from a point within the range specified and line of sight. For example, an attack with Cone 3 and Range 10 would affect a CONE 3 area starting from any point within RANGE 10. "
+  },
+  {
+    "keys": ["blast"],
+    "icon": "cc:blast",
+    "definition": "Equipment with a BLAST attack pattern affects characters within a radius of X spaces, drawn from a point within RANGE and line of sight. Cover and line of sight for the attacks are calculated based on the center of the blast, rather than the position of the attacker. A separate attack roll is made for each target, but damage is only rolled once and bonus damage is halved if there are multiple characters affected. For any ability or effect calling for you to choose a target or targets within RANGE, this equipment can choose any target that could be hit by its pattern.<br><br>Additionally, some LINE, CONE, BURST, and BLAST attacks list a RANGE. In these cases, the attack’s origin point can be drawn from a point within the range specified and line of sight. For example, an attack with Blast 3 and Range 10 would affect a BLAST 3 area starting from any point within RANGE 10."
+  },
+  {
+    "keys": ["burst"],
+    "icon": "cc:burst",
+    "definition": "Equipment with a BURST attack pattern affects characters within a radius of X spaces, centered on and including the space occupied by the user (or target). If the Burst is an attack, the user or target is not affected by the attack unless specified. Cover and line of sight are calculated from the character. If a BURST effect is ongoing, it moves with the character at its center. A separate attack roll is made for each target, but damage is only rolled once and bonus damage is halved if there are multiple characters affected. For any ability or effect calling for you to choose a target or targets within RANGE, this equipment can choose any target that could be hit by its pattern.<br><br>Additionally, some LINE, CONE, BURST, and Blast attacks list a RANGE. In these cases, the attack’s origin point can be drawn from a point within the range specified and line of sight. For example, an attack with Burst 2 and Range 10 would affect a BURST 2 area starting from any point within RANGE 10."
+  },
+  {
+    "keys": ["invountary movement", "knockback"],
+    "definition": "When characters are pushed, pulled, or knocked in certain directions, it is called involuntary movement. Involuntary movement forces the affected character to move in a straight line, in a specified direction. When moving involuntarily, mechs do not provoke reactions or engagement unless specified otherwise but are still blocked by obstructions."
+  },
+  {
+    "keys": ["difficult terrain"],
+    "definition": "All movement through difficult terrain is at half speed – each space of difficult terrain they move into is equivalent to two spaces of movement."
+  },
+  {
+    "keys": ["dangerous terrain"],
+    "definition": "When characters end their turn in dangerous terrain or move into it for the first time in a round, they must make an ENGINEERING check. On a failure, they take 5 damage – kinetic, energy, explosive, or burn, depending on the hazard. Each character only needs to make one such check per round."
+  },
+  {
+    "keys": ["lifting", "dragging"],
+    "definition": "Mechs can drag characters or objects up to twice their SIZE but are SLOWED while doing so. They can also lift characters or objects of equal or lesser SIZE overhead but are IMMOBILIZED while doing so. While dragging or lifting, characters can’t take reactions. The same rules apply to pilots and other characters on foot, but they can’t drag or lift anything above SIZE 1/2.<br><br>While flying, mechs cannot carry characters or objects with a total SIZE larger than SIZE 1/2 -- there's just not enough thrust."
+  },
+  {
+    "keys": ["jumping", "climbing"],
+    "definition": "Characters with legs can jump instead of their standard move. They may jump horizontally, moving half their speed in a straight line and ignoring obstructions at ground level that they could jump over (such as pits or gaps), or they may can jump vertically, moving 1 space adjacent and moving up by spaces equivalent to their SIZE. For example, a SIZE 1 mech could jump up to 1 space high, and 1 space over. Characters that jump and end the jump mid air automatically fall at the end of the move (see below).<br><br>Like moving through difficult terrain, characters climb at half their usual SPEED – each space moved is equivalent to moving 2 spaces normally. A successful HULL or AGILITY check might be required to climb particularly difficult surfaces without falling."
+  },
+  {
+    "keys": ["falling", "fall damage"],
+    "definition": "Unless specified otherwise, characters start to fall at the end of the current turn, and fall at the end of each of their turns thereafter. They take 3 AP kinetic damage for every three spaces fallen, to a maximum of 9. Falling counts as involuntary movement."
+  },
+  {
+    "keys": ["flying", "hovering", "flight", "hover"],
+    "definition": "Flying characters can move vertically and horizontally up to their SPEED. For example, a mech with a flight system and 6 SPEED could end its movement anywhere within six spaces of its starting location, up to a maximum of 6 spaces high. When flying, characters must move at least 1 space on their turn or begin falling. Flight movement must follow a straight line; however, if a character takes additional movement actions, such as BOOST, these can be used to move in a different direction. <br><br>Flying characters have IMMUNITY to PRONE. Flying characters begin falling if they become IMMOBILIZED, STUNNED, or otherwise can’t move. Flying characters that take structure damage or stress must succeed on an AGILITY save or begin falling. <br><br>Some advanced mechs can HOVER. HOVER is an advanced form of FLIGHT. Hovering characters do not need to fly in a straight line, and can remain stationary while airborne without falling."
+  },
+  {
+    "keys": ["teleporting", "teleport"],
+    "definition": "Characters must start and end a teleport on a surface they can normally move on; for example, a character that can’t fly can’t teleport mid-air. Teleportation ignores obstructions, does not require line of sight, ignores engagement, and does not provoke reactions; however, it still counts as movement and so is affected by conditions like IMMOBILIZED. A teleporting character counts as moving 1 space, no matter how far they travel. Characters can attempt to teleport to spaces they can’t see, but if a space is already occupied, the teleport fails."
+  },
+  {
+    "keys": ["crit", "critical hit"],
+    "definition": "A 20+ on a melee or ranged attack causes a critical hit. On a critical hit, all damage dice are rolled twice (including bonus damage) and the highest result from each source of damage is used. For example, if a player got a critical hit on an attack that would normally deal 2d6 damage, they would instead roll 4d6 and pick the two highest results."
+  },
+  {
+    "keys": ["burn"],
+    "icon": "cc:burn",
+    "definition": "When characters take BURN, it has two effects: first, they immediately take BURN damage, ignoring ARMOR, and then the character marks the burn they just took. At the end of their turn, characters with burn marked must roll an ENGINEERING check. On a success, they clear all burn currently marked; otherwise, they take BURN damage equal to the amount of burn currently marked.<br><br>Failing the ENGINEERING check does not increase how much burn is marked, it just prevents the currently marked burn from being cleared. Also, if a character is hit by multiple sources of BURN, the character still only makes one ENGINEERING check."
+  }
+]

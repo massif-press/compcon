@@ -1,5 +1,5 @@
 <template>
-  <cc-tabs modal>
+  <cc-tabs modal fixed>
     <template #tabs>
       <v-tab>Account Management</v-tab>
       <v-tab>Cloud Data</v-tab>

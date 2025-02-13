@@ -14,6 +14,8 @@
     v-if="fixed"
     style="position: absolute; top: 0; left: 0; right: 0; height: 45px"
     :class="`bg-${color}`" />
+  <div v-if="fixed" :class="mobile ? 'mt-4' : 'mt-6'" />
+
   <v-window v-model="tab" v-bind="{ setTab }">
     <slot />
   </v-window>

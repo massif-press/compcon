@@ -175,7 +175,7 @@ class UserProfile {
   }
 
   public View(view: string, fallback: any): any {
-    if (this._options?.views[view]) return this._options.views[view];
+    if (this._options?.views[view] !== undefined) return this._options.views[view];
     return fallback;
   }
 

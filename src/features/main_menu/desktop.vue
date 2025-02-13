@@ -123,7 +123,12 @@
             <v-col cols="auto">
               <cc-modal title="Help" icon="mdi-help-circle" extended>
                 <template #activator="{ open }">
-                  <cc-button size="small" variant="tonal" @mouseenter="ccLog('help')" @click="open">
+                  <cc-button
+                    size="small"
+                    variant="tonal"
+                    color="highlight"
+                    @mouseenter="ccLog('help')"
+                    @click="open">
                     Help
                   </cc-button>
                 </template>
