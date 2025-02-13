@@ -1,14 +1,16 @@
 <template>
   <v-scale-transition leave-absolute mode="out-in">
-    <div v-if="showWelcome" :class="mobile ? 'takeover' : 'sidePanel'">
+    <div v-if="panel" :class="mobile ? 'takeover' : 'sidePanel'">
       <v-row no-gutters justify="center" align="center" style="height: 100%">
         <v-col cols="auto">
           <div :style="!mobile && 'min-width: 600px'" style="max-width: 600px">
+            hello {{ panel }}
             <cc-toolbar
               title="CC.SYSADMIN// NOTIFY"
               color="primary"
               icon="cc:gms"
-              class="border-b-sm">
+              class="border-b-sm"
+              @close="close">
               <template #toolbar-items>
                 <v-tooltip max-width="300" location="top">
                   <template #activator="{ props }">
@@ -73,7 +75,7 @@ import { CompendiumStore, UserStore } from '@/stores';
 export default {
   name: 'welcome-dialog',
   data: () => ({
-    showWelcome: true,
+    panel: false,
     tab: 0,
     messages: [
       {
@@ -85,27 +87,17 @@ export default {
       },
     ],
   }),
+  mounted() {
+    this.panel = UserStore().User.View('WelcomePanel', true);
+  },
   computed: {
-    profile() {
-      return UserStore().User;
-    },
     loaded() {
       return CompendiumStore().loaded;
     },
     mobile() {
       return this.$vuetify.display.mdAndDown;
     },
-    showPanel: {
-      get() {
-        if (!this.profile) return false;
-        return UserStore().User.View('WelcomePanel', true);
-      },
-      set(value) {
-        UserStore().User.View('WelcomePanel', value);
-      },
-    },
   },
-  watch: {},
   methods: {
     ack(message) {
       message.read = true;
@@ -113,12 +105,14 @@ export default {
       this.close();
     },
     close() {
-      this.showWelcome = false;
+      UserStore().User.SetView('WelcomePanel', false);
+      this.panel = false;
     },
     markAllAsRead() {
       this.messages.forEach((message) => {
         message.read = true;
       });
+      this.close();
     },
   },
 };

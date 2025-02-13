@@ -15,7 +15,7 @@
         </v-tooltip>
       </span>
     </template>
-    <v-card-text class="px-0 pb-1">
+    <v-card-text class="px-0 pb-1 py-0">
       <cc-item-card
         :item="item"
         dense

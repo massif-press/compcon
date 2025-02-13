@@ -101,6 +101,7 @@ abstract class NpcFeature extends CompendiumItem {
         return CompendiumStore().referenceByID('NpcTemplates', this._originID) as NpcTemplate;
       } catch (e) {
         console.error(`Feature ${this._name} has no valid origin data!`);
+        return { ID: 'err' };
       }
     }
   }

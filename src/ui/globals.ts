@@ -25,6 +25,8 @@ import CCTabs from './components/CCTabs.vue';
 
 import CCChip from './components/chips/CCChip.vue';
 
+import CCText from './components/CCText.vue';
+
 import CCCompendiumBrowser from './components/CompendiumBrowser/CCCompendiumBrowser.vue';
 import CCBondInfo from './components/CCBondInfo.vue';
 import CCBondPowerCard from './components/CCBondPowerCard.vue';
@@ -128,6 +130,8 @@ export {
   CCTabs,
   // --
   CCChip,
+  // --
+  CCText,
   // --
   CCImg,
   CCCompendiumBrowser,

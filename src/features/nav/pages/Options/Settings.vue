@@ -2,8 +2,8 @@
   <v-container :class="!mobile && 'px-12'">
     <v-row align="center" justify="space-between" dense>
       <v-col cols="auto">
-        <cc-button block color="primary" size="small" @click="$emit('show-message')">
-          Show Latest Update Message
+        <cc-button block color="primary" size="small" @click="showUpdates">
+          Show Update Messages
         </cc-button>
       </v-col>
       <v-col cols="auto">
@@ -174,6 +174,10 @@ export default {
   methods: {
     reload() {
       location.reload();
+    },
+    showUpdates() {
+      this.user.SetView('WelcomePanel', true);
+      this.reload();
     },
     setLogLevel(item) {
       this.logLevel = item;
