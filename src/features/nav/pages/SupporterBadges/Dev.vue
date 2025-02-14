@@ -1,7 +1,7 @@
 <template>
   <v-col cols="12" md="">
-    <v-card variant="tonal">
-      <v-card-text>
+    <v-card variant="tonal" class="rounded-ts-xl rounded-be-xl">
+      <v-card-text class="pa-1">
         <v-row align="center">
           <v-col cols="auto">
             <v-avatar size="80px">

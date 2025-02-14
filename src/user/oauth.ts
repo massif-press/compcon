@@ -63,4 +63,22 @@ const getPatronProfile = async (access_token: string) => {
   return cleanPatreonData(json);
 };
 
-export { authPatreon, authItch, getPatronProfile };
+async function getPatreonSubscribers() {
+  const url = `${import.meta.env.VITE_APP_OAUTH_API}/patreon/${import.meta.env.VITE_APP_SUBSCRIBERS_ENDPOINT}`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': lcp_meta_key },
+  });
+  const json = await response.json();
+
+  console.log(json);
+
+  if (json.errors) {
+    throw new Error(json.errors[0]);
+  }
+
+  return json;
+}
+
+export { authPatreon, authItch, getPatronProfile, getPatreonSubscribers };

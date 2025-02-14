@@ -35,39 +35,28 @@
       <v-progress-circular :size="80" :width="5" color="primary" indeterminate />
     </div>
     <div v-else>
-      <div v-for="t in tiers" v-show="active[t]" class="mb-6">
+      <div v-for="t in tiers" class="mb-6">
         <cc-title small class="my-2">{{ t.toUpperCase() }} TIER</cc-title>
-        <v-row align="center">
-          <v-col v-for="p in active[t]" cols="auto" class="ma-1">
-            <v-row no-gutters>
-              <v-col cols="auto">
-                <v-icon :icon="`cc:${t.toLowerCase()}`" size="40px" color="accent" class="mt-n1" />
-              </v-col>
-              <v-col cols="auto">
-                <div class="heading h3">{{ cleanName(p.attributes.full_name) }}</div>
-                <div class="text-caption mt-n2 pl-1 text-disabled">
-                  since
-                  <b>{{ new Date(p.attributes.pledge_relationship_start).toLocaleDateString() }}</b>
-                </div>
-              </v-col>
-            </v-row>
+        <v-row align="center" justify="space-around" dense>
+          <v-col
+            v-for="p in patrons.filter((x) => x.tier.toLowerCase().includes(t.toLowerCase()))"
+            cols="12"
+            :md="getCols(t)">
+            <v-chip
+              border
+              class="heading h3 rounded-e-0 cc-panel-clip"
+              :class="t.toLowerCase()"
+              :size="!mobile ? 'x-large' : 'default'"
+              color="background"
+              variant="elevated"
+              style="width: 100%">
+              <v-avatar :color="getColor(t)" start>
+                <v-icon :icon="`cc:${t.toLowerCase()}`" :size="mobile ? 32 : 40" />
+              </v-avatar>
+              {{ cleanName(p) }}
+            </v-chip>
           </v-col>
         </v-row>
-      </div>
-
-      <div class="mt-6">
-        <span class="heading h3">Along with:</span>
-      </div>
-
-      <p class="flavor-text text-text">
-        {{ lapsed.map((x) => cleanName(x.attributes.full_name)).join(', ') }}
-      </p>
-
-      <div class="heading h3 mt-4">Special Thanks to:</div>
-      <div class="my-2">
-        <v-chip v-for="c in credits.special_thanks" variant="tonal" size="large" label class="ma-1">
-          {{ c }}
-        </v-chip>
       </div>
     </div>
   </v-container>
@@ -77,66 +66,36 @@
 import _ from 'lodash';
 import credits from './credits.json';
 import DevBadge from './SupporterBadges/Dev.vue';
-import { patrons } from './credits_api';
+import { getPatreonSubscribers } from '@/user/oauth';
 
 export default {
   name: 'credits',
   components: { DevBadge },
   data: () => ({
-    patronsUrl: 'https://compcon-text-assets.s3.amazonaws.com/patrons.csv',
     credits: credits,
-    // patrons: [],
-    active: {},
-    lapsed: [] as any[],
+    patrons: [] as any[],
     tiers: ['MONIST', 'NHP', 'Lancer', 'Cosmopolitan', 'Diasporan'],
     cols: [12, 6, 4, 4, 4],
     loading: true,
   }),
   async mounted() {
-    const p = await patrons();
-
-    const all = p.data.flat(1);
-
-    const current = all.filter((x) => x.attributes.patron_status === 'active_patron');
-    this.lapsed = _.orderBy(
-      all.filter(
-        (x) =>
-          x.attributes.patron_status === 'former_patron' ||
-          x.attributes.patron_status === 'declined_patron'
-      ),
-      [(x) => x.attributes.lifetime_support_cents, (x) => x.attributes.pledge_relationship_start],
-      ['desc', 'desc']
-    );
-
-    this.active = _.groupBy(current, (x) => x.relationships.currently_entitled_tiers.data[0].id);
-
-    const TierIdMap = {
-      '4485311': 'NHP',
-      '4485280': 'Lancer',
-      '4485260': 'Cosmopolitan',
-      '4485242': 'Diasporan',
-      '4485271': 'MONIST',
-    };
-
-    for (const key in this.active) {
-      delete Object.assign(this.active, { [TierIdMap[key]]: this.active[key] })[key];
-    }
-
-    for (const key in this.active) {
-      this.active[key] = _.orderBy(
-        this.active[key],
-        [(x) => x.attributes.lifetime_support_cents, (x) => x.attributes.pledge_relationship_start],
-        ['desc', 'desc']
-      );
-    }
+    const data = await getPatreonSubscribers();
+    this.patrons = data;
 
     this.loading = false;
   },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
-    cleanName(name: string) {
-      const str = name.trim();
-      if (str.includes(' ')) {
-        const arr = str.split(' ');
+    cleanName(patron: any) {
+      if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim();
+
+      const name = patron.name.trim();
+      if (name.includes(' ')) {
+        const arr = name.split(' ');
         return arr
           .map((x, i) => {
             if (i === arr.length - 1) {
@@ -147,9 +106,76 @@ export default {
           })
           .join(' ');
       } else {
-        return str;
+        return name;
+      }
+    },
+    getColor(tier: string) {
+      switch (tier) {
+        case 'MONIST':
+          return 'exotic';
+        case 'NHP':
+          return 'secondary';
+        case 'Lancer':
+          return 'primary';
+        case 'Cosmopolitan':
+          return 'info';
+        case 'Diasporan':
+          return 'success';
+        default:
+          return 'grey';
+      }
+    },
+    getCols(tier: string) {
+      switch (tier) {
+        case 'MONIST':
+          return 12;
+        case 'NHP':
+        case 'Lancer':
+          return 6;
+        case 'Cosmopolitan':
+          return 4;
+        default:
+          return 4;
       }
     },
   },
 };
 </script>
+
+<style scoped>
+.monist {
+  background: linear-gradient(
+    to right,
+    rgb(var(--v-theme-exotic)) 0%,
+    rgb(var(--v-theme-surface)) 99%
+  );
+}
+.nhp {
+  background: linear-gradient(
+    to right,
+    rgb(var(--v-theme-secondary)) 0%,
+    rgb(var(--v-theme-surface)) 99%
+  );
+}
+.lancer {
+  background: linear-gradient(
+    to right,
+    rgb(var(--v-theme-primary)) 0%,
+    rgb(var(--v-theme-surface)) 99%
+  );
+}
+.cosmopolitan {
+  background: linear-gradient(
+    to right,
+    rgb(var(--v-theme-info)) 0%,
+    rgb(var(--v-theme-surface)) 99%
+  );
+}
+.diasporan {
+  background: linear-gradient(
+    to right,
+    rgb(var(--v-theme-success)) 0%,
+    rgb(var(--v-theme-surface)) 99%
+  );
+}
+</style>

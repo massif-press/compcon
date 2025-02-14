@@ -1,58 +1,53 @@
 <template>
-  <v-container>
-    <v-row align="end">
+  <v-container class="pb-12" :class="mobile && 'mt-2'">
+    <v-row align="center">
       <v-col cols="12" md="auto">
-        <div class="heading h1 mb-n3">Pilot Roster</div>
+        <div class="heading h1" style="line-height: 0">Pilot Roster</div>
       </v-col>
+      <v-spacer />
       <v-col cols="auto">
-        <v-btn-toggle v-model="rosterView" mandatory class="mt-n4">
-          <v-btn icon value="list" @click="profile.SetView('roster', 'list')">
+        <v-btn-toggle v-model="rosterView" mandatory tile>
+          <v-btn icon class="pa-0" value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn icon value="cards" @click="profile.SetView('roster', 'cards')">
+          <v-btn icon class="pa-0" value="cards" @click="profile.SetView('roster', 'cards')">
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
-          <v-btn icon value="small-cards" @click="profile.SetView('roster', 'small-cards')">
+          <v-btn
+            icon
+            class="pa-0"
+            value="small-cards"
+            @click="profile.SetView('roster', 'small-cards')">
             <v-icon color="accent">mdi-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
-      </v-col>
-      <v-col cols="auto" align-self="center">
-        <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()">
-          <v-icon start icon="mdi-queue-first-in-last-out" />
-          Organize
-        </v-btn>
-        <cc-solo-dialog
-          ref="organize"
-          icon="mdi-queue-first-in-last-out"
-          no-confirm
-          large
-          title="Organize">
-          <organizer type="encounter" />
-        </cc-solo-dialog>
       </v-col>
     </v-row>
     <div class="my-3">
       <group-panel v-for="group in pilotGroups" :group="group" />
     </div>
     <v-divider />
-    <div class="pa-4 text-right">
-      <v-btn
-        variant="tonal"
-        color="accent"
-        prepend-icon="mdi-plus"
-        @click="($refs as any).newGroup.show()">
-        Create New Group
-      </v-btn>
-      <cc-solo-dialog
-        ref="newGroup"
-        icon="mdi-account-multiple"
-        no-confirm
-        large
-        title="Add Pilot Group">
-        <group-menu @close="($refs as any).newGroup.hide()" />
-      </cc-solo-dialog>
-    </div>
+    <v-footer app density="compact" class="border-t">
+      <cc-modal title="Organize" icon="mdi-queue-first-in-last-out">
+        <template #activator="{ open }">
+          <cc-button size="small" color="primary" @click="open">
+            <v-icon start icon="mdi-queue-first-in-last-out" />
+            Organize
+          </cc-button>
+        </template>
+        <organizer type="pilot" />
+      </cc-modal>
+      <v-spacer />
+      <cc-modal title="Create Pilot Group" icon="mdi-account-group">
+        <template #activator="{ open }">
+          <cc-button size="small" color="primary" @click="open">
+            <v-icon start icon="mdi-plus" />
+            Add Group
+          </cc-button>
+        </template>
+        <group-menu />
+      </cc-modal>
+    </v-footer>
   </v-container>
 </template>
 
@@ -73,10 +68,12 @@ export default {
     rosterView: 'list',
   }),
   created() {
-    console.log(this.profile);
     this.rosterView = this.profile.View('roster', 'list');
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     pilotGroups() {
       return PilotStore().getPilotGroups();
     },

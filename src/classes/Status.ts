@@ -27,7 +27,8 @@ class Status {
     this.Name = data.name;
     this.Effects = data.effects;
     if (data.terse) this.Terse = data.terse;
-    else this.Terse = data.effects.join(', ');
+    else if (Array.isArray(data.effects)) this.Terse = data.effects.join(', ');
+    else this.Terse = data.effects;
     this._icon = data.icon;
     this.StatusType = data.type;
     this.LcpName = pack?.Name || 'LANCER Core Book';
@@ -35,6 +36,7 @@ class Status {
   }
 
   public get Icon(): string {
+    if (!this._icon) return 'cc:talent';
     return `cc:${this.StatusType.toLowerCase()}_${this._icon.replaceAll(/-|_/g, '').toLowerCase()}`;
   }
 }
