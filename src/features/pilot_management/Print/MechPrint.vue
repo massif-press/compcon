@@ -266,6 +266,9 @@
             </v-icon>
           </span>
         </v-row>
+        <p v-if="w.ProfileOnAttack" class="caption mb-n1" v-html="`<b>ON ATTACK:</b> ${w.ProfileOnAttack}<p/>`" />
+        <p v-if="w.ProfileOnHit" class="caption mb-n1" v-html="`<b>ON HIT:</b> ${w.ProfileOnHit}<p/>`" />
+
         <div v-for="p in w.Profiles" :key="`${w.ID}_${p.Name}`">
           <div class="caption">
             <b v-for="(r, k) in p.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
