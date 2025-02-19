@@ -1,98 +1,112 @@
 <template>
-  <cc-solo-dialog ref="dialog" icon="mdi-dna" large no-confirm title="Clone Pilot">
-    <v-card-text>
-      <div class="text-center body-text light-panel mb-4" style="border-radius: 3px">
-        Duplicating or Cloning a pilot will remove any Vault links, saving the copied Pilot as a new
-        character on your account
+  <v-card-text>
+    <div class="text-center body-text light-panel mb-4" style="border-radius: 3px">
+      Duplicating or Cloning a pilot will remove any Vault links, saving the copied Pilot as a new
+      character on your account
+    </div>
+
+    <v-row justify="space-around">
+      <v-col cols="12" md="6">
+        <cc-button
+          prepend-icon="mdi-content-copy"
+          details="test"
+          block
+          color="primary"
+          tooltip="This will create a copy of this pilot data, registered to your pilot roster."
+          @click="copyPilot">
+          Duplicate Pilot
+        </cc-button>
+      </v-col>
+      <v-col cols="12" md="6">
+        <cc-button
+          prepend-icon="mdi-dna"
+          large
+          block
+          color="primary"
+          tooltip="This will clone the selected pilot. Cloned characters can’t join a mission in progress,
+            and cloned characters receive a random quirk. Additional cloning and subjectivity
+            imprinting adds further quirks."
+          :disabled="!!quirk"
+          @click="rollQuirk">
+          Flash Clone Pilot
+        </cc-button>
+      </v-col>
+    </v-row>
+    <v-scale-transition>
+      <div v-if="quirk">
+        <cc-alert color="deep-orange" variant="tonal" class="my-4">
+          <div class="text-center heading h3 mb-2">
+            <v-icon size="small" class="pb-1" start icon="mdi-alert" />
+            <b style="letter-spacing: 15px">WARNING</b>
+            <v-icon size="small" class="pb-1" icon="mdi-alert" />
+          </div>
+          <div class="text-cc-overline" :class="!mobile && 'px-2'">
+            Any organizations, individuals, or technologies engaging in or facilitating whole-body
+            facsimile cloning are bound by the First Contact Accords of 3002. Any activities that
+            violate the principles set forth in the Accords are prohibited, including but not
+            limited to:
+            <ul class="pb-1">
+              <li>
+                Reproduction of the subjective personage of a sentient being or other subjective
+                continuity in whole or in part.
+              </li>
+              <li>
+                Transfer or the subjective personage of a sentient being or other subjective
+                continuity into a manufactured or cultivated substrate.
+              </li>
+              <li>
+                Emulation of a sentient individual's subjective personage in a manufactured or
+                cultivated substrate.
+              </li>
+              <li>
+                Intentional decorporealization of a sentient being or other subjective continuity.
+              </li>
+              <li>
+                Engaging in any activity that could potentially subject a sentient being or other
+                subjective continuity to process deordering, schizo-ontological dissonance,
+                personality dissolution, or other any form of subjective disintegration.
+              </li>
+            </ul>
+            <v-divider class="pb-1" />
+            <div class="text-center">
+              All forms of whole-subjectivity rapid process cloning are prohibited under Union
+              jurisdiction. Any persons found to be in violation of this statute will be subject to
+              prosecution by the Union Department of Justice and Human Resource Facsimile Rights
+              Department.
+            </div>
+          </div>
+        </cc-alert>
+
+        <v-row align="center" justify="center">
+          <v-col cols="12" md="8">
+            <div class="text-overline">CLONE QUIRK</div>
+            <cc-alert density="compact" color="primary">
+              <v-card-text :class="mobile && 'px-0'">
+                {{ quirk }}
+              </v-card-text>
+            </cc-alert>
+          </v-col>
+          <v-col cols="auto">
+            <cc-button
+              v-if="!mobile"
+              icon="mdi-dice-6"
+              variant="outlined"
+              tooltip="Reroll quirk"
+              @click="rollQuirk" />
+            <cc-button v-else prepend-icon="mdi-dice-6" @click="rollQuirk">Reroll Quirk</cc-button>
+          </v-col>
+        </v-row>
+
+        <v-row v-if="quirk" align="center" justify="center">
+          <v-col cols="12" md="8">
+            <cc-button large block tile color="secondary" @click="clonePilot">
+              Decant Flash Clone
+            </cc-button>
+          </v-col>
+        </v-row>
       </div>
-
-      <v-row density="compact" justify="space-around">
-        <v-col cols="5" class="text-center">
-          <cc-tooltip
-            inline
-            title="Duplication"
-            content="This will create a copy of this pilot data, registered to your pilot roster."
-          >
-            <v-btn large block color="primary" @click="copyPilot">Duplicate Pilot</v-btn>
-          </cc-tooltip>
-        </v-col>
-        <v-col cols="5" class="text-center">
-          <cc-tooltip
-            inline
-            title="Clone"
-            content="This will clone the selected pilot. Cloned characters can’t join a mission in progress, and cloned characters receive a random quirk. Additional cloning and subjectivity imprinting adds further quirks."
-          >
-            <v-btn large block color="primary" :disabled="!!quirk" @click="rollQuirk">
-              Flash Clone Pilot
-            </v-btn>
-          </cc-tooltip>
-        </v-col>
-      </v-row>
-      <v-scale-transition>
-        <div v-if="quirk">
-          <v-alert color="deep-orange" variant="tonal" density="compact" class="my-4">
-            <div class="text-center pb-1">
-              <v-icon size="small" icon="mdi-alert" /><b style="letter-spacing: 10px"> WARNING</b>
-              <v-icon size="small" icon="mdi-alert" />
-            </div>
-            <div class="text-overline" style="line-height: 18px">
-              Any organizations, individuals, or technologies facilitating whole-body facsimile
-              cloning are bound by the First Contact Accords of 3002. Any activities that violate
-              the principles set forth in the Accords are prohibited, including, but not limited to:
-              <ul class="pb-1">
-                <li>
-                  Reproducing the subjective personage of a sentient being in whole or in part.
-                </li>
-                <li>
-                  Transferring the subjective personage of a sentient being into a manufactured or
-                  cultivated substrate.
-                </li>
-                <li>
-                  Emulation of a sentient being's subjective personage in a manufactured or
-                  cultivated substrate.
-                </li>
-                <li>
-                  Intentional decorporealization of a sentient being or other subjective continuity.
-                </li>
-              </ul>
-              <v-divider class="pb-1" />
-              <div class="text-center">
-                All forms of whole-subjectivity rapid process cloning are prohibited under Union
-                jurisdiction. Any persons found to be in violation of this statute will be subject
-                to prosecution by the Union Department of Justice and Human Resource's Facsimile
-                Rights Department.
-              </div>
-            </div>
-          </v-alert>
-
-          <v-row align="center">
-            <v-col>
-              <div class="text-overline">CLONE QUIRK</div>
-              <v-alert density="compact" color="primary" variant="outlined" left>
-                <div class="body-text text-stark font-weight-bold">
-                  {{ quirk }}
-                </div>
-              </v-alert>
-            </v-col>
-            <v-col cols="auto">
-              <cc-tooltip simple content="Reroll quirk">
-                <v-btn icon large @click="rollQuirk">
-                  <v-icon color="secondary" large>mdi-dice-6</v-icon>
-                </v-btn>
-              </cc-tooltip>
-            </v-col>
-          </v-row>
-          <v-row v-if="quirk" align="center" justify="center">
-            <v-col cols="6">
-              <v-btn large block tile color="secondary darken-2" @click="clonePilot">
-                Decant Flash Clone
-              </v-btn>
-            </v-col>
-          </v-row>
-        </div>
-      </v-scale-transition>
-    </v-card-text>
-  </cc-solo-dialog>
+    </v-scale-transition>
+  </v-card-text>
 </template>
 
 <script lang="ts">
@@ -111,6 +125,11 @@ export default {
   data: () => ({
     quirk: null,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     show() {
       (this.$refs.dialog as any).show();
@@ -125,7 +144,6 @@ export default {
     },
     clonePilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot as Pilot));
-      newPilot.CloudController.reset();
       newPilot.RenewID();
       this.pilot.Name += '※';
       this.pilot.AddQuirk(this.quirk);
@@ -138,7 +156,6 @@ export default {
     },
     copyPilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot as Pilot));
-      newPilot.CloudController.reset();
       newPilot.RenewID();
       newPilot.Callsign += '″';
       newPilot.Name += ' (COPY)';

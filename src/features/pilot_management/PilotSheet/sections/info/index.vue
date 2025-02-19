@@ -1,13 +1,10 @@
 <template>
-  <v-container>
-    <v-row style="height: 129px" class="pt-5">
-      <v-col>
-        <ident-block :pilot="pilot" />
-      </v-col>
-      <v-col style="min-width: 215px; max-width: 215px" />
-    </v-row>
+  <div :class="mobile && 'px-4'">
+    <div :style="!mobile && 'height: 129px; padding-right: 250px'">
+      <ident-block :pilot="pilot" />
+    </div>
     <v-row>
-      <v-col cols="8" class="mt-n2">
+      <v-col :class="!mobile && 'mt-n10'">
         <clone-block :pilot="pilot" :readonly="pilot.IsRemote" />
 
         <section-header title="Pilot Biography" />
@@ -17,16 +14,16 @@
         <cc-rich-text-area
           v-model="pilot.TextAppearance"
           :readonly="pilot.IsRemote"
-          class="pt-2 mb-3" />
+          class="pt-2 mb-2" />
 
         <section-header title="Pilot Notes" />
         <cc-rich-text-area v-model="pilot.Notes" :readonly="pilot.IsRemote" class="pt-2 mb-3" />
       </v-col>
-      <v-col cols="4">
+      <v-col cols="12" sm="4" :order="mobile && '-1'" :class="!mobile && 'pt-6'">
         <image-block :pilot="pilot" />
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
@@ -50,6 +47,11 @@ export default {
     IdentBlock,
     ImageBlock,
     CloneBlock,
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
   },
 };
 </script>

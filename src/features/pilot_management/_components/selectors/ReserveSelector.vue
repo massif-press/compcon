@@ -7,89 +7,43 @@
     equippable
     @equip="add($event)">
     <template #header>
-      <v-btn
-        size="small"
-        height="20"
-        color="secondary"
-        class="mb-1"
-        block
-        @click="CustomDialog = true">
+      <cc-button size="x-small" color="secondary" class="mb-1" block @click="CustomDialog = true">
         Add Custom Reserve
-      </v-btn>
-      <v-btn
-        size="small"
-        height="20"
-        color="secondary"
-        class="mb-1"
-        block
-        @click="ProjectDialog = true">
+      </cc-button>
+      <cc-button size="x-small" color="secondary" class="mb-1" block @click="ProjectDialog = true">
         Add Downtime Project
-      </v-btn>
-      <v-btn
-        size="small"
-        height="20"
-        color="secondary"
-        class="mb-1"
-        block
-        @click="OrgDialog = true">
+      </cc-button>
+      <cc-button size="x-small" color="secondary" class="mb-1" block @click="OrgDialog = true">
         Add Organization
-      </v-btn>
+      </cc-button>
     </template>
   </cc-compendium-browser>
 
-  <v-dialog v-model="CustomDialog" width="60vw">
+  <cc-solo-modal
+    v-model="CustomDialog"
+    max-width="60vw"
+    shrink
+    title="Add Custom Reserve"
+    icon="cc:orbital">
     <custom-reserve-panel @add="add($event)" />
-  </v-dialog>
-  <v-dialog v-model="ProjectDialog" width="60vw">
+  </cc-solo-modal>
+  <cc-solo-modal
+    v-model="ProjectDialog"
+    max-width="60vw"
+    shrink
+    title="Add Project"
+    icon="cc:orbital">
+    >
     <downtime-project-panel @add="add($event)" />
-  </v-dialog>
-  <v-dialog v-model="OrgDialog" width="60vw"><organization-panel @add="addOrg($event)" /></v-dialog>
-
-  <!-- <v-window v-model="tab">
-      <v-window-item :value="0">
-        <v-row density="compact">
-          <v-col v-for="r in reserves['Bonus']" cols="12" md="6">
-            <reserve-item :reserve="r" icon="cc:pilot" color="pilot" @click="add(r)" />
-          </v-col>
-        </v-row>
-      </v-window-item>
-      <v-window-item :value="1">
-        <v-row density="compact">
-          <v-col v-for="r in reserves['Resource']" cols="12" md="6">
-            <reserve-item
-              :reserve="r"
-              icon="cc:reserve_resource"
-              color="reserve--resource"
-              @click="add(r)" />
-          </v-col>
-        </v-row>
-      </v-window-item>
-      <v-window-item :value="2">
-        <v-row density="compact">
-          <v-col v-for="r in reserves['Tactical']" cols="12" md="6">
-            <reserve-item
-              :reserve="r"
-              icon="cc:reserve_tactical"
-              color="reserve--tactical"
-              @click="add(r)" />
-          </v-col>
-        </v-row>
-      </v-window-item>
-      <v-window-item :value="3">
-        <v-row density="compact">
-          <v-col v-for="r in reserves['Mech']" cols="12" md="6">
-            <reserve-item
-              :reserve="r"
-              icon="cc:reserve_mech"
-              color="reserve--mech"
-              @click="add(r)" />
-          </v-col>
-        </v-row>
-      </v-window-item>
-      <v-window-item :value="4">
-
-      </v-window-item>
-    </v-window> -->
+  </cc-solo-modal>
+  <cc-solo-modal
+    v-model="OrgDialog"
+    max-width="60vw"
+    shrink
+    title="Add Organization"
+    icon="cc:orbital">
+    <organization-panel @add="addOrg($event)" />
+  </cc-solo-modal>
 </template>
 
 <script lang="ts">
@@ -98,7 +52,7 @@ import CustomReservePanel from './components/_CustomReservePanel.vue';
 import DowntimeProjectPanel from './components/_DowntimeProjectPanel.vue';
 import OrganizationPanel from './components/_OrganizationPanel.vue';
 import { Reserve, Organization, Pilot, CompendiumItem } from '@/class';
-import _, { Dictionary } from 'lodash';
+import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 
 export default {

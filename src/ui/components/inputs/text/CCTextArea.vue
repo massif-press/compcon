@@ -4,7 +4,6 @@
       <v-textarea
         :model-value="modelValue"
         :color="color"
-        :label="label ? '0' : undefined"
         :base-color="color"
         :variant="<any>variant"
         :loading="loading"
@@ -21,14 +20,19 @@
         rounded="0"
         :bg-color="isFocused ? 'surface-variant' : 'panel'"
         style="position: relative"
-        @update:focused="isFocused = $event"
         @update:model-value="$emit('update:model-value', $event)">
         <template #prepend>
           <div v-if="label">
             <div
               class="text-cc-overline"
-              style="position: absolute; top: 2px; z-index: 1; font-size: 0.7rem !important"
-              :style="`left: ${icon ? '38px' : '18px'}`">
+              style="
+                position: absolute;
+                top: 0px;
+                z-index: 1;
+                font-size: 0.7rem !important;
+                opacity: 0.5;
+              "
+              :style="`left: ${icon ? '38px' : '22px'}`">
               {{ label }}
               <cc-slashes />
             </div>
@@ -36,7 +40,7 @@
 
           <div
             :class="`prepend bg-${color} ${isFocused && 'color-rotate'}  pt-1`"
-            :style="`min-width: ${icon ? '30' : '12'}px`">
+            :style="`min-width: ${icon ? '30' : '16'}px`">
             <v-icon v-if="icon" :icon="icon" />
           </div>
         </template>

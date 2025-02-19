@@ -8,12 +8,9 @@
     @remove="$emit('remove', item)"
     @save="$emit('save')">
     <template v-if="item" #title-items>
-      <div class="text-overline mb-n4">ITEM USES</div>
+      <div class="text-cc-overline pt-1">ITEM USES</div>
       <div class="text-right">
-        <v-icon
-          color="secondary"
-          class="mt-2"
-          :icon="!item.MaxUses ? 'mdi-infinity' : 'mdi-hexagon-slice-6'" />
+        <v-icon color="secondary" :icon="!item.MaxUses ? 'mdi-infinity' : 'mdi-hexagon-slice-6'" />
       </div>
     </template>
 
@@ -25,8 +22,9 @@
       <v-card-text class="py-0">
         <div v-html-safe="item.Description" />
       </v-card-text>
-      <cc-tags small :tags="item.Tags" color="secondary" />
+      <cc-tags size="small" :tags="item.Tags" color="secondary" />
     </div>
+
     <template #selector>
       <cc-compendium-browser
         :items="gear"
@@ -41,7 +39,7 @@
 
         <template #top>
           <div v-if="item">
-            <span class="text-overline">
+            <span class="text-cc-overline">
               GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success text--darken-1">
                 [ PILOT MATERIEL REGISTRATION VERIFIED ]
@@ -52,7 +50,9 @@
               <cc-slashes />
               {{ item.Name }}
             </div>
-            <div class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</div>
+            <div class="flavor-text text-cc-overline mt-n1" style="display: block">
+              CURRENTLY EQUIPPED
+            </div>
           </div>
           <div v-else>
             <span class="text-overline">
@@ -62,7 +62,7 @@
             <span class="heading h1 text-disabled text--lighten-1" style="line-height: 20px">
               NO SELECTION
             </span>
-            <span class="flavor-text overline mt-n1 text-error" style="display: block">
+            <span class="flavor-text text-cc-overline mt-n1 text-error" style="display: block">
               [ EQUIPMENT ID INVALID OR MISSING ]
             </span>
           </div>

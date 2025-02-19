@@ -13,7 +13,7 @@
       :to="to"
       :href="href"
       :target="target"
-      @click.stop="$emit('click')">
+      @click.stop="!disabled && !loading && $emit('click', $event)">
       <v-icon v-if="prependIcon" start :icon="prependIcon" />
       <slot />
       <v-icon v-if="appendIcon" end :icon="appendIcon" />

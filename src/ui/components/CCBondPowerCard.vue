@@ -1,5 +1,6 @@
 <template>
   <cc-panel
+    v-if="power"
     :style="flexHeight ? '' : 'height: calc(100% - 35px) !important'"
     variant="outlined"
     :disabled="disabled">

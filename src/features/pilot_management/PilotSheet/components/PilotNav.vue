@@ -3,75 +3,115 @@
     <div id="cap" />
     <div class="d-inline">
       <nav-item :selected="selected === 0" @click="$emit('to', 0)">
-        <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
-          DOSSIER
-        </cc-tooltip>
+        <v-tooltip
+          open-delay="300"
+          location="top"
+          text="Pilot IDENT, Status, and Biographical Information">
+          <template #activator="{ props }">
+            <span v-bind="props">DOSSIER</span>
+          </template>
+        </v-tooltip>
       </nav-item>
       <nav-item :selected="selected === 1" @click="$emit('to', 1)">
-        <cc-tooltip inline delayed content="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout">
-          NARRATIVE PROFILE
-        </cc-tooltip>
+        <v-tooltip
+          open-delay="300"
+          location="top"
+          text="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout">
+          <template #activator="{ props }">
+            <span v-bind="props">NARRATIVE PROFILE</span>
+          </template>
+        </v-tooltip>
       </nav-item>
       <nav-item v-if="hasBonds" :selected="selected === 2" @click="$emit('to', 2)">
-        <cc-tooltip inline delayed content="Pilot Bonds">BONDS</cc-tooltip>
+        <v-tooltip open-delay="300" location="top" text="Pilot Bonds">
+          <template #activator="{ props }">
+            <span v-bind="props">BONDS</span>
+          </template>
+        </v-tooltip>
       </nav-item>
       <nav-item :selected="selected === 3" @click="$emit('to', 3)">
-        <cc-tooltip inline delayed content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
-          TACTICAL PROFILE
-        </cc-tooltip>
+        <v-tooltip
+          open-delay="300"
+          location="top"
+          text="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
+          <template #activator="{ props }">
+            <span v-bind="props">TACTICAL PROFILE</span>
+          </template>
+        </v-tooltip>
       </nav-item>
       <nav-item :selected="selected === 4" @click="$emit('to', 4)">
-        <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
-          MECH HANGAR
-        </cc-tooltip>
+        <v-tooltip
+          open-delay="300"
+          location="top"
+          text="Create and Modify Mechs and their Loadouts">
+          <template #activator="{ props }">
+            <span v-bind="props">MECH HANGAR</span>
+          </template>
+        </v-tooltip>
       </nav-item>
     </div>
 
     <div id="divider" />
-    <cc-tooltip
+
+    <v-tooltip
       v-if="pilot.IsRemote"
-      inline
-      delayed
-      title="Download Latest Data"
-      :content="
+      open-delay="300"
+      :text="
         isAuthed
           ? pilot.CloudController.SyncStatus === 'Synced'
             ? 'Pilot is up to date with remote data'
             : 'Download all remote changes to this pilot, overwriting local data.'
           : 'Must be logged in to update'
       ">
-      <v-btn
-        icon
-        variant="text"
-        class="unskew ml-6"
-        :disabled="!isAuthed || pilot.CloudController.SyncStatus === 'Synced'"
-        :loading="loading"
-        @click="remoteUpdate()">
-        <v-icon>mdi-cloud-sync</v-icon>
-      </v-btn>
-    </cc-tooltip>
+      <template #activator="{ props }">
+        <v-btn
+          icon
+          variant="text"
+          size="x-small"
+          class="unskew ml-3"
+          :disabled="!isAuthed || pilot.CloudController.SyncStatus === 'Synced'"
+          :loading="loading"
+          v-bind="props"
+          @click="remoteUpdate()">
+          <v-icon>mdi-cloud-sync</v-icon>
+        </v-btn>
+      </template>
+    </v-tooltip>
 
-    <cc-tooltip
-      v-else
-      inline
-      delayed
-      :content="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'">
-      <v-btn
-        icon
-        variant="plain"
-        class="unskew ml-6"
-        :disabled="!isAuthed"
-        @click="($refs as any).share.show()">
-        <v-icon color="white">mdi-broadcast</v-icon>
-      </v-btn>
-    </cc-tooltip>
-    <cc-tooltip inline delayed content="Pilot Options">
-      <edit-menu :pilot="pilot" class="unskew" style="display: inline-block" />
-    </cc-tooltip>
-
-    <cc-solo-dialog title="Share Code" ref="share" no-confirm>
+    <cc-dialog v-else title="Share Pilot Data" icon="cc:pilot">
+      <template #activator="{ open }">
+        <v-tooltip
+          open-delay="300"
+          :text="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'">
+          <template #activator="{ props }">
+            <v-btn
+              icon
+              variant="plain"
+              size="x-small"
+              class="unskew ml-6"
+              :disabled="!isAuthed"
+              v-bind="props"
+              @click="open">
+              <v-icon color="white">mdi-broadcast</v-icon>
+            </v-btn>
+          </template>
+        </v-tooltip>
+      </template>
       <share-dialog :pilot="pilot" />
-    </cc-solo-dialog>
+    </cc-dialog>
+
+    <v-tooltip open-delay="300" text="Pilot Options">
+      <template #activator="{ props }">
+        <edit-menu
+          :pilot="pilot"
+          class="unskew"
+          size="x-small"
+          v-bind="props"
+          style="display: inline-block" />
+      </template>
+    </v-tooltip>
+
+    <div id="end-cap" />
   </div>
 </template>
 
@@ -143,8 +183,8 @@ export default {
 .nav-body {
   position: fixed;
   bottom: 20px;
-  left: 16px;
-  min-height: 40px;
+  left: 12px;
+  min-height: 19px;
   padding-left: 20px;
   padding-right: 20px;
   transform: skew(-0.65rad);
@@ -157,17 +197,28 @@ export default {
   background-color: rgb(var(--v-theme-primary));
   position: absolute;
   width: 70px;
-  height: 45px;
+  height: 30px;
   left: -50px;
   top: 0;
   z-index: 9;
 }
 
+#end-cap {
+  background-color: rgb(var(--v-theme-primary));
+  position: absolute;
+  width: 5px;
+  height: 32px;
+  left: 730px;
+  top: 0;
+  z-index: 9;
+  transition: filter 0.2s ease-in-out;
+}
+
 #divider {
   width: 2px;
   min-width: 2px;
-  height: 47px;
-  right: 120px;
+  height: 32px;
+  right: 95px;
   top: 0;
   z-index: 11;
   background-color: white;
@@ -176,5 +227,9 @@ export default {
 
 .unskew {
   transform: translateZ(0) skew(0.65rad);
+}
+
+.nav-body:hover #end-cap {
+  filter: brightness(2) saturate(200%) hue-rotate(20deg);
 }
 </style>

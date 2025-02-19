@@ -1,41 +1,70 @@
 <template>
   <div>
-    <v-btn icon size="small" variant="plain" @click.native.stop>
+    <v-btn icon :size="size" variant="plain" @click.native.stop>
       <v-icon icon="mdi-cog" color="white" size="large" />
       <v-menu activator="parent">
-        <v-card>
-          <v-toolbar density="compact" color="primary">
-            <div v-if="!dense" class="heading h2 py-0 px-2">Pilot Options</div>
+        <v-card tile border>
+          <v-toolbar density="compact" color="primary" height="46">
+            <div v-if="!dense" class="heading h3 py-0 px-2">Pilot Options</div>
           </v-toolbar>
-          <v-list two-line subheader color="panel">
+          <v-list :lines="mobile ? 'one' : 'two'" subheader color="panel" density="compact" slim>
             <v-list-item
               title="Print"
               prepend-icon="mdi-printer"
               subtitle="Print tabletop-ready character and mech sheets"
               @click="$router.push(`/print/${pilot.ID}`)" />
-            <v-list-item
-              prepend-icon="mdi-file-document-outline"
-              title="Generate Statblock"
-              subtitle="Get a plaintext representation of this character's build"
-              @click="($refs.statblockDialog as any).show()" />
+            <cc-modal title="Statblock Generator" icon="mdi-code-block-tags">
+              <template #activator="{ open }">
+                <v-list-item
+                  prepend-icon="mdi-file-document-outline"
+                  title="Generate Statblock"
+                  subtitle="Get a plaintext representation of this character's build"
+                  @click.stop="open" />
+              </template>
+              <statblock-dialog :pilot="pilot" />
+            </cc-modal>
             <v-list-item
               v-if="!pilot.IsRemote"
               prepend-icon="mdi-export-variant"
               title="Export Pilot"
               subtitle="Export this pilot as a JSON file"
               @click="exportPilot()" />
-            <v-list-item
+
+            <cc-dialog
               v-if="pilot.IsRemote"
-              prepend-icon="mdi-content-copy"
-              title="Convert to Local"
-              subtitle="Convert this Pilot to an editable local data instance."
-              @click="($refs.convertLocalDialog as any).show()" />
-            <v-list-item
-              v-else
-              prepend-icon="mdi-dna"
-              title="Clone"
-              subtitle="Duplicate or Flash Clone this character"
-              @click="($refs.cloneDialog as any).show()" />
+              :close-on-click="false"
+              title="convert remote pilot"
+              icon="cc:pilot">
+              <template #activator="{ open }">
+                <v-list-item
+                  prepend-icon="mdi-content-copy"
+                  title="Convert to Local"
+                  subtitle="Convert this Pilot to an editable local data instance."
+                  @click.stop="open" />
+              </template>
+              <template #default="{ close }">
+                <cc-confirmation
+                  content="Converting this pilot to local data will allow local editing but remove its
+                    remote link to the author's cloud account, and prevent any further updates from
+                    being received. To re-enable remote syncing, you will have to re-import this
+                    pilot via its share code."
+                  cancellable
+                  @confirm="convert()"
+                  @cancel="close" />
+              </template>
+            </cc-dialog>
+
+            <cc-modal v-else title="Clone Pilot" icon="mdi-dna">
+              <template #activator="{ open }">
+                <v-list-item
+                  prepend-icon="mdi-dna"
+                  title="Clone"
+                  subtitle="Duplicate or Flash Clone this character"
+                  @click.stop="open" />
+              </template>
+              <clone-dialog :pilot="pilot" />
+            </cc-modal>
+
             <v-list-item
               v-if="pilot.IsRemote"
               :loading="loading"
@@ -48,68 +77,68 @@
                   : 'Download all remote changes to this pilot, overwriting local data.'
               "
               @click="remoteUpdate()" />
-            <v-list-item
-              v-else
-              prepend-icon="mdi-code-json"
-              title="Get Share Code"
-              subtitle="Get a share code that other users can use to import and sync this character"
-              @click="($refs.shareDialog as any).show()" />
+
+            <cc-dialog v-else icon="mdi-code-json" title="get share code">
+              <template #activator="{ open }">
+                <v-list-item
+                  prepend-icon="mdi-code-json"
+                  title="Get Share Code"
+                  subtitle="Get a share code that other users can use to import and sync this character"
+                  @click.stop="open" />
+              </template>
+              <template #default="{ close }">
+                <share-dialog :pilot="pilot" />
+              </template>
+            </cc-dialog>
 
             <v-divider v-if="!pilot.IsRemote" />
-            <v-list-item
-              v-if="!pilot.IsRemote"
-              title="Delete Pilot"
-              subtitle="Remove this pilot from the roster"
-              @click="($refs.deleteDialog as any).show()">
-              <template #prepend>
-                <v-icon color="error">mdi-delete</v-icon>
+            <cc-dialog :close-on-click="false" title="confirm pilot deletion" icon="cc:pilot">
+              <template #activator="{ open }">
+                <v-list-item
+                  v-if="!pilot.IsRemote"
+                  title="Delete Pilot"
+                  subtitle="Remove this pilot from the roster"
+                  @click.stop="open">
+                  <template #prepend>
+                    <v-icon color="error">mdi-delete</v-icon>
+                  </template>
+                </v-list-item>
               </template>
-            </v-list-item>
+              <template #default="{ close }">
+                <cc-confirmation
+                  :content="`Lancer, please confirm deletion of Pilot Registration Information for:<br/>
+          <span class='text-accent'>
+            ${pilot.Callsign} (${pilot.Name}, LL${pilot.Level})
+          </span>`"
+                  cancellable
+                  @confirm="delete_pilot()"
+                  @cancel="close" />
+              </template>
+            </cc-dialog>
           </v-list>
         </v-card>
       </v-menu>
     </v-btn>
-
-    <statblock-dialog ref="statblockDialog" :pilot="pilot" />
-    <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
-    <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="delete_pilot()" />
-    <clone-dialog ref="cloneDialog" :pilot="pilot" />
-    <cc-solo-dialog title="Share Code" ref="shareDialog" no-confirm>
-      <share-dialog :pilot="pilot" />
-    </cc-solo-dialog>
-    <cc-solo-dialog
-      title="Convert to Local "
-      ref="convertLocalDialog"
-      no-confirm
-      @close="($refs as any).convertLocalDialog.hide()">
-      <convert-dialog :pilot="pilot" />
-    </cc-solo-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { saveFile } from '@/io/Data';
 import { Pilot } from '@/class';
+import { UserStore } from '@/stores';
+import { CloudController } from '@/classes/components';
 import CloneDialog from './CloneDialog.vue';
 import StatblockDialog from './StatblockDialog.vue';
-import Roll20Dialog from './Roll20Dialog.vue';
 import ShareDialog from './ShareDialog.vue';
-import DeleteDialog from './DeletePilotDialog.vue';
 
-import { UserStore } from '@/stores';
-import ConvertDialog from './ConvertDialog.vue';
-import { CloudController } from '@/classes/components';
 // import { RemoteSyncItem } from '@/cloud/item_sync';
 
 export default {
   name: 'edit-menu',
   components: {
     StatblockDialog,
-    Roll20Dialog,
-    DeleteDialog,
     CloneDialog,
     ShareDialog,
-    ConvertDialog,
   },
   props: {
     pilot: {
@@ -122,10 +151,20 @@ export default {
     dense: {
       type: Boolean,
     },
+    size: {
+      type: String,
+      default: 'small',
+    },
   },
   data: () => ({
     loading: false,
+    deleteDialog: false,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     delete_pilot() {
       this.pilot.SaveController.Delete();
@@ -171,6 +210,15 @@ export default {
           data: { icon: 'mdi-alert', color: 'error' },
         });
       }
+    },
+    async convert() {
+      this.loading = true;
+      UserStore().deleteRemoteItem(this.pilot.SaveController.RemoteCode);
+      this.pilot.CloudController.GenerateMetadata();
+      this.pilot.SaveController.ClearRemote();
+      await UserStore().refreshDbData();
+      this.loading = false;
+      this.$emit('close');
     },
   },
 };

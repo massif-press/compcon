@@ -29,41 +29,29 @@
       <v-divider v-if="!mobile" vertical class="mx-1" />
     </div>
 
-    <v-tooltip location="bottom" open-delay="500ms">
-      <template #activator="{ props }">
-        <cc-button
-          :size="mobile ? 'small' : 'default'"
-          icon="mdi-home"
-          class="mx-1"
-          v-bind="props"
-          @click="$router.push({ name: 'main-menu' })"></cc-button>
-      </template>
-      <span>Main Menu</span>
-    </v-tooltip>
+    <cc-button
+      :size="mobile ? 'small' : 'default'"
+      icon="mdi-home"
+      class="mx-1"
+      tooltip="Main Menu"
+      tooltip-location="bottom"
+      @click="$router.push({ name: 'main-menu' })" />
 
-    <v-tooltip location="bottom" open-delay="500ms">
-      <template #activator="{ props }">
-        <cc-button
-          :size="mobile ? 'small' : 'default'"
-          icon="mdi-book"
-          class="mx-1"
-          v-bind="props"
-          @click="$router.push({ path: '/srd' })"></cc-button>
-      </template>
-      <span>Compendium</span>
-    </v-tooltip>
+    <cc-button
+      :size="mobile ? 'small' : 'default'"
+      icon="mdi-book"
+      class="mx-1"
+      tooltip="Compendium"
+      tooltip-location="bottom"
+      @click="$router.push({ path: '/srd' })" />
 
-    <v-tooltip location="bottom" open-delay="500ms">
-      <template #activator="{ props }">
-        <cc-button
-          :size="mobile ? 'small' : 'default'"
-          icon="cc:pilot"
-          class="mx-1"
-          v-bind="props"
-          @click="$router.push({ path: '/pilot_management' })"></cc-button>
-      </template>
-      <span>Pilot Roster</span>
-    </v-tooltip>
+    <cc-button
+      :size="mobile ? 'small' : 'default'"
+      icon="cc:pilot"
+      class="mx-1"
+      tooltip="Pilot Management"
+      tooltip-location="bottom"
+      @click="$router.push({ path: '/pilot_management' })" />
 
     <v-menu location="bottom" open-on-hover>
       <template #activator="{ props }">
@@ -86,19 +74,13 @@
       </v-list>
     </v-menu>
 
-    <v-tooltip location="bottom" open-delay="500ms">
-      <template #activator="{ props }">
-        <cc-button
-          :size="mobile ? 'small' : 'default'"
-          icon="cc:campaign"
-          class="mx-1"
-          v-bind="props"
-          @click="$router.push({ path: '/active-mode' })">
-          <v-icon />
-        </cc-button>
-      </template>
-      <span>Active Mode</span>
-    </v-tooltip>
+    <cc-button
+      :size="mobile ? 'small' : 'default'"
+      icon="cc:campaign"
+      class="mx-1"
+      tooltip="Active Mode"
+      tooltip-location="bottom"
+      @click="$router.push({ path: '/active-mode' })" />
 
     <cc-modal title="Quick Reference">
       <template #activator="{ open }">
@@ -246,11 +228,36 @@
       </template>
 
       <v-list density="compact">
-        <v-list-item @click="($refs.contentModal as any).show()">Manage Content</v-list-item>
-        <v-list-item @click="($refs.optionsModal as any).show()">Options</v-list-item>
-        <v-list-item @click="($refs.aboutModal as any).show()">About</v-list-item>
-        <v-list-item @click="($refs.creditsModal as any).show()">Credits</v-list-item>
-        <v-list-item @click="($refs.helpModal as any).show()">Help</v-list-item>
+        <cc-modal title="Content Pack Management" icon="cc:content_manager">
+          <template #activator="{ open }">
+            <v-list-item @click.stop="open">Manage Content</v-list-item>
+          </template>
+          <content-page />
+        </cc-modal>
+        <cc-modal title="options" icon="mdi-cog">
+          <template #activator="{ open }">
+            <v-list-item @click.stop="open">Options</v-list-item>
+          </template>
+          <options-page />
+        </cc-modal>
+        <cc-modal title="about" icon="mdi-information-outline">
+          <template #activator="{ open }">
+            <v-list-item @click.stop="open">About</v-list-item>
+          </template>
+          <about-page />
+        </cc-modal>
+        <cc-modal title="title" icon="cc:gms">
+          <template #activator="{ open }">
+            <v-list-item @click.stop="open">Credits</v-list-item>
+          </template>
+          <credits-page />
+        </cc-modal>
+        <cc-modal title="title" icon="mdi-help-circle-outline">
+          <template #activator="{ open }">
+            <v-list-item @click.stop="open">Help</v-list-item>
+          </template>
+          <help-page />
+        </cc-modal>
         <v-divider />
         <v-list-item target="_blank" href="https://www.patreon.com/compcon">
           Support COMP/CON
@@ -259,31 +266,6 @@
     </v-menu>
 
     <v-spacer v-if="!mobile" style="max-width: 20px" />
-
-    <cc-solo-dialog
-      ref="contentModal"
-      no-title-clip
-      no-pad
-      large
-      no-confirm
-      title="Manage Content Packs">
-      <content-page />
-    </cc-solo-dialog>
-
-    <cc-solo-dialog ref="optionsModal" large no-confirm no-pad no-title-clip title="Options">
-      <options-page />
-    </cc-solo-dialog>
-    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
-    <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
-      <credits-page />
-    </cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
-    <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
-      <credits-page />
-    </cc-solo-dialog>
-    <cc-solo-dialog ref="cloudModal" large no-confirm title="Cloud Account">
-      <cloud-page />
-    </cc-solo-dialog>
   </v-app-bar>
 </template>
 
@@ -338,10 +320,10 @@ export default {
       return false;
     },
     landscape(): boolean {
-      return this.$vuetify.display.smAndUp && !this.$vuetify.display.mdAndUp;
+      return this.$vuetify.display.mdAndDown;
     },
     portrait(): boolean {
-      return !this.$vuetify.display.smAndUp;
+      return this.$vuetify.display.xs;
     },
     mobile() {
       return this.portrait || this.landscape;

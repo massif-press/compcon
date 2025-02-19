@@ -14,7 +14,7 @@
       :href="href"
       :to="to"
       :target="target"
-      @click.stop="!disabled && !loading && $emit('click')">
+      @click.stop="!disabled && !loading && $emit('click', $event)">
       <v-icon v-if="prependIcon" class="mx-2" :icon="prependIcon" />
       <span v-else>&nbsp;</span>
       <slot />

@@ -12,6 +12,7 @@ import CCTextLabel from './components/inputs/text/CCTextLabel.vue';
 import CCNumberField from './components/inputs/text/CCNumberField.vue';
 
 import CCPanel from './components/new_panels/CCPanel.vue';
+import CCClickablePanel from './components/new_panels/CCClickablePanel.vue';
 import CCAlert from './components/new_panels/CCAlert.vue';
 
 import CCHeading from './components/headings/CCHeading.vue';
@@ -121,6 +122,7 @@ export {
   CCToolbar,
   // ---
   CCPanel,
+  CCClickablePanel,
   CCAlert,
   // ---
   CCModal,

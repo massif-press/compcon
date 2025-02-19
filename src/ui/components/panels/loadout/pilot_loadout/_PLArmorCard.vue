@@ -51,11 +51,13 @@
           <span class="stat-text">{{ item.Speed(pilot) }}</span>
         </v-col>
       </v-row>
-      <v-row v-if="item.Tags && item.Tags.length">
-        <v-col>
-          <cc-tags small :tags="item.Tags" color="secondary" />
-        </v-col>
-      </v-row>
+
+      <cc-tags
+        v-if="item.Tags && item.Tags.length"
+        size="small"
+        :tags="item.Tags"
+        color="secondary"
+        class="py-3" />
     </div>
 
     <template #selector>
@@ -79,21 +81,21 @@
               </span>
             </span>
             <br />
-            <div class="heading h2 text-accent mt-n2">
+            <div class="heading h2 text-accent">
               <cc-slashes />
               {{ item.Name }}
             </div>
-            <div class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</div>
+            <div class="flavor-text overline" style="display: block">CURRENTLY EQUIPPED</div>
           </div>
           <div v-else>
-            <span class="text-overline">
+            <span class="text-cc-overline">
               GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMOR::TI - TVII-A
             </span>
             <br />
-            <span class="heading h1 text-disabled text--lighten-1" style="line-height: 20px">
+            <span class="heading h1 text-disabled text--lighten-1" style="line-height: 35px">
               NO SELECTION
             </span>
-            <span class="flavor-text overline mt-n1 text-error" style="display: block">
+            <span class="flavor-text text-cc-overline text-error" style="display: block">
               [ MATERIEL ID INVALID OR MISSING ]
             </span>
           </div>

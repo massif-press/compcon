@@ -1,6 +1,5 @@
 <template>
-  <h1 class="heading h1 ml-5">NARRATIVE PLAY</h1>
-  <srd-view :content="narrative" :pre-scroll="preScroll" />
+  <srd-view title="narrative play" :content="narrative" :pre-scroll="preScroll" />
 </template>
 
 <script lang="ts">

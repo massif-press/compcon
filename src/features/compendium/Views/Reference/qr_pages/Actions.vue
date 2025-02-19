@@ -1,20 +1,49 @@
 <template>
   <v-container class="pb-12">
-    <h1 class="heading" id="mechactions">Mech Actions</h1>
-    <v-row justify="center">
-      <action-card v-for="a in actions" :action="a" />
+    <v-row dense>
+      <v-col>
+        <h1 class="heading" id="mechactions">Mech Actions</h1>
+      </v-col>
+      <v-col v-if="!mobile" cols="auto">
+        <cc-switch v-model="expanded" label="Show Full" />
+      </v-col>
     </v-row>
+    <masonry-wall
+      :items="actions"
+      :column-width="400"
+      :gap="16"
+      :min-columns="1"
+      :max-columns="widescreen ? 3 : 2">
+      <template #default="{ item }">
+        <action-card :action="item" :clickable="!expanded" />
+      </template>
+    </masonry-wall>
 
     <h1 class="heading" id="pilotactions">Pilot Actions</h1>
-    <v-row justify="center">
-      <action-card v-for="a in pilotActions" :action="a" />
-    </v-row>
+    <masonry-wall
+      :items="pilotActions"
+      :column-width="400"
+      :gap="16"
+      :min-columns="1"
+      :max-columns="widescreen ? 3 : 2">
+      <template #default="{ item }">
+        <action-card :action="item" :clickable="!expanded" />
+      </template>
+    </masonry-wall>
 
     <h1 class="heading" id="downtimeactions">Downtime Actions</h1>
-    <v-row justify="center">
-      <action-card v-for="a in downtimeActions" :action="a" downtime />
-    </v-row>
+    <masonry-wall
+      :items="downtimeActions"
+      :column-width="400"
+      :gap="16"
+      :min-columns="1"
+      :max-columns="widescreen ? 3 : 2">
+      <template #default="{ item }">
+        <action-card :action="item" :clickable="!expanded" />
+      </template>
+    </masonry-wall>
   </v-container>
+
   <v-footer border app class="py-0 bg-primary">
     <v-tabs density="compact" center-active grow>
       <v-tab v-for="item in content" v-text="item" @click="scrollTo(item)" />
@@ -53,8 +82,18 @@ export default {
       { action: 'reaction', icon: 'cc:reaction' },
       { action: 'free', icon: 'cc:free' },
     ],
+    expanded: false,
   }),
+  created() {
+    this.expanded = this.widescreen;
+  },
   computed: {
+    widescreen() {
+      return this.$vuetify.display.lgAndUp;
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     actions() {
       return CompendiumStore().Actions.filter((a) => a && !a.IsDowntimeAction && !a.IsPilotAction);
     },

@@ -2,9 +2,11 @@
   <div
     class="top-element"
     :style="`display: ${block ? 'block' : 'inline-block'}; position: relative`">
-    <span v-if="!text" :class="`light ${size} ${bgColor} ${tonal && 'light-tonal'}`" />
+    <span
+      v-if="!text"
+      :class="`${disabled && 'disabled'} light ${size} ${bgColor} ${tonal && 'light-tonal'}`" />
     <v-btn
-      :class="`${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`}`"
+      :class="`${disabled && 'disabled'} ${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`}`"
       :style="outlined ? `border-color: ${borderColor}!important` : ''"
       :color="text || tonal || outlined ? color : 'transparent'"
       :variant="<any>variant"
@@ -16,7 +18,7 @@
       :href="href"
       :to="to"
       :target="target"
-      @click.stop="!disabled && !loading && $emit('click')">
+      @click.stop="!disabled && !loading && $emit('click', $event)">
       <v-icon v-if="prependIcon" :icon="prependIcon" :size="iconSize(prependIcon)" />
       <slot />
     </v-btn>
@@ -136,6 +138,11 @@ export default {
 </script>
 
 <style scoped>
+.disabled {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+
 .v-btn {
   position: relative;
 }
@@ -202,7 +209,8 @@ export default {
   letter-spacing: 4px;
   height: 45px !important;
   padding-left: 10px !important;
-  padding-right: 4px !important;
+  padding-right: 6px !important;
+  height: 48px !important;
 }
 
 .size-default {

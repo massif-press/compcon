@@ -1,8 +1,10 @@
 <template>
-  <div style="position: relative">
+  <div style="position: relative" class="li-top-element">
+    <div class="light" style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
     <v-row
       no-gutters
-      class="lighten-select mb-4"
+      class="lighten-select"
+      :class="mobile ? 'mb-2' : 'mb-4'"
       @click="!missingContent ? toPilotSheet() : null"
       :style="missingContent ? 'cursor: not-allowed' : ''">
       <v-col cols="auto" style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double">
@@ -10,18 +12,21 @@
           <cc-avatar
             v-if="pilot.PortraitController.Avatar"
             :avatar="pilot.PortraitController.Avatar"
-            :size="150" />
+            :size="mobile ? 75 : 150" />
           <cc-img
             v-else-if="pilot.PortraitController.Portrait"
             :src="pilot.PortraitController.Portrait"
             aspect-ratio="1"
             position="top center"
-            height="150px"
-            width="150px" />
+            :height="mobile ? '75px' : '150px'"
+            :width="mobile ? '75px' : '150px'" />
         </v-card>
       </v-col>
       <v-col style="position: relative">
-        <div class="clipped-large-invert" :class="missingContent ? 'cToolbar-missing' : 'cToolbar'">
+        <v-toolbar
+          density="compact"
+          :class="missingContent ? 'cToolbar-missing' : 'cToolbar'"
+          :height="mobile ? '40' : '46'">
           <v-row no-gutters align="center" class="px-2">
             <v-menu location="left">
               <template v-slot:activator="{ props }">
@@ -61,13 +66,21 @@
 
               {{ pilot.Callsign }}
             </v-col>
-            <v-col cols="auto" class="mr-4">
+            <v-col cols="auto" class="mr-n2">
               <edit-menu density="compact" :pilot="pilot" />
             </v-col>
           </v-row>
+        </v-toolbar>
+
+        <div v-if="mobile" class="detail-row-mobile pa-2">
+          <b class="text-stark">{{ pilot.Name }}</b>
+          <div class="text-cc-overline">
+            <span class="text-disabled">License Level</span>
+            {{ pilot.Level }}
+          </div>
         </div>
 
-        <div class="px-3">
+        <div v-else class="px-3">
           <v-row class="detail-row">
             <v-col class="flavor-text">
               <div class="mt-1 ml-n2">
@@ -159,6 +172,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     missingContent() {
       return this.pilot.BrewController.IsUnableToLoad;
     },
@@ -196,7 +212,16 @@ export default {
   border-right: 1px rgb(var(--v-theme-primary)) solid;
   border-left: 1px rgb(var(--v-theme-primary)) solid;
   margin-left: -13px;
-  min-height: 128px;
+  min-height: 138px;
+}
+
+.detail-row-mobile {
+  background-color: rgb(var(--v-theme-light-panel));
+  border-bottom: 1px rgb(var(--v-theme-primary)) solid;
+  border-right: 1px rgb(var(--v-theme-primary)) solid;
+  border-left: 1px rgb(var(--v-theme-primary)) solid;
+  margin-left: -1px;
+  min-height: 57px;
 }
 
 .cToolbar {
@@ -211,5 +236,14 @@ export default {
     rgb(var(--v-theme-error-darken-3)) 10px,
     rgb(var(--v-theme-error-darken-3)) 20px
   );
+}
+
+.light {
+  transition: background-color 0.2s ease-in-out;
+  background-color: rgb(var(--v-theme-primary));
+}
+
+.li-top-element:hover .light {
+  background-color: rgb(var(--v-theme-success));
 }
 </style>

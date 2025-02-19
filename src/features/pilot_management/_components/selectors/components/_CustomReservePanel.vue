@@ -1,52 +1,32 @@
 <template>
-  <v-row justify="center">
-    <v-col>
-      <cc-titled-panel
-        title="Custom Reserve"
-        :icon="`cc:reserve_${customType.toLowerCase()}`"
-        :color="`reserve--${customType.toLowerCase()}`"
-      >
-        <div class="text-center">
-          <v-btn-toggle v-model="customType" mandatory color="secondary">
-            <v-btn variant="tonal" value="Resource">Resource</v-btn>
-            <v-divider vertical class="mx-4" />
-            <v-btn variant="tonal" value="Mech">Mech</v-btn>
-            <v-divider vertical class="mx-4" />
-            <v-btn variant="tonal" value="Tactical">Tactical</v-btn>
-          </v-btn-toggle>
-        </div>
-        <div class="mx-4 my-2">
-          <v-text-field
-            v-model="customName"
-            variant="outlined"
-            label="Resource Name"
-            hide-details
-          />
-          <v-textarea
-            v-model="details"
-            auto-grow
-            rows="2"
-            label="Details"
-            filled
-            hide-details
-            class="my-3"
-          />
-        </div>
-        <v-btn
-          block
-          tile
-          large
-          class="my-3"
-          color="accent"
-          prepend-icon="mdi-plus"
-          :disabled="!customType || !customName"
-          @click="add()"
-        >
-          Add Reserve
-        </v-btn>
-      </cc-titled-panel>
-    </v-col>
-  </v-row>
+  <div class="text-center px-2 pt-2 pb-4">
+    <v-btn-toggle
+      v-model="customType"
+      mandatory
+      base-color="panel"
+      color="primary"
+      flat
+      tile
+      style="width: 100%">
+      <v-btn size="small" height="30" width="33.33%" value="Resource">Resource</v-btn>
+      <v-btn size="small" height="30" width="33.33%" value="Mech">Mech</v-btn>
+      <v-btn size="small" height="30" width="33.33%" value="Tactical">Tactical</v-btn>
+    </v-btn-toggle>
+    <cc-text-field v-model="customName" color="primary" variant="outlined" label="Resource Name" />
+    <div class="mt-4" />
+    <cc-text-area v-model="details" color="primary" label="Details" />
+    <cc-button
+      block
+      tile
+      class="mt-4"
+      color="primary"
+      prepend-icon="cc:orbital"
+      append-icon="mdi-plus"
+      :disabled="!customType || !customName"
+      @click="add()">
+      Add Reserve
+    </cc-button>
+  </div>
 </template>
 
 <script lang="ts">

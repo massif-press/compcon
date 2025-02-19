@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <div :class="mobile ? '' : 'pt-2'">
     <skill-block :pilot="pilot" />
     <dt-resources-block :pilot="pilot" />
     <pilot-loadout-block :pilot="pilot" />
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
@@ -18,6 +18,11 @@ export default {
     pilot: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
     },
   },
 };

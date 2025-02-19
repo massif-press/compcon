@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pb-12">
     <h1 class="heading text-center mb-4">Damage Tables</h1>
 
     <v-row justify="center">

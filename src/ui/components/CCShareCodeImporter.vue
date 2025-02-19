@@ -4,6 +4,7 @@
       <cc-button
         color="primary"
         size="small"
+        :block="blockBtn"
         :icon="mobile ? 'mdi-code-block-brackets' : undefined"
         prepend-icon="mdi-code-block-brackets"
         @click="open">
@@ -126,6 +127,9 @@ export default {
       type: String,
       required: false,
       default: 'Add from Share Code',
+    },
+    blockBtn: {
+      type: Boolean,
     },
   },
   data: () => ({

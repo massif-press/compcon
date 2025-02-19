@@ -52,7 +52,7 @@
 
     <v-footer color="primary" app fixed height="32">
       <v-row no-gutters justify="space-around" align="center">
-        <v-col cols="auto" class="text-center mr-3">
+        <v-col cols="auto" class="text-center mr-1">
           <cc-modal title="Cloud Account" icon="mdi-satellite-uplink" extended>
             <template #activator="{ open }">
               <cc-button
@@ -67,6 +67,8 @@
             </template>
             <sign-in />
           </cc-modal>
+        </v-col>
+        <v-col cols="auto" class="text-center">
           <cloud-notifications />
         </v-col>
 

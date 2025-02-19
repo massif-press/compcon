@@ -66,6 +66,10 @@
               margin-left: 4px;
               z-index: 1;
             " />
+          <span v-if="$slots.extra" class="pl-4">
+            <slot name="extra" />
+          </span>
+
           <v-tooltip v-if="tooltip" location="top" max-width="300px">
             <template v-slot:activator="{ props }">
               <v-icon

@@ -1,9 +1,9 @@
 <template>
-  <div v-if="item">
+  <div v-if="item" class="px-1 pb-3" style="border: 1px solid rgba(155, 155, 155, 0.1)">
     <v-row
       v-if="!hideTitle"
       no-gutters
-      class="heading h2 px-2 bg-surface"
+      class="heading h2 bg-surface"
       style="font-size: calc(14px + 1vw)"
       :class="highlighted ? 'text-secondary' : 'text-accent'">
       <v-col>
@@ -47,14 +47,18 @@
     <item-card-link :item="item" />
 
     <div v-if="selectable">
-      <v-btn
+      <cc-button
         block
+        size="x-small"
         color="secondary"
-        prepend-icon="mdi-plus-box"
-        rounded="0"
+        :prepend-icon="item.Icon || undefined"
+        class="mx-4 mt-n1"
         @click="$emit('select', item)">
         Select {{ item.Name }}
-      </v-btn>
+        <template #info>
+          <v-icon icon="mdi-plus" />
+        </template>
+      </cc-button>
     </div>
   </div>
   <div v-else style="height: 100px">

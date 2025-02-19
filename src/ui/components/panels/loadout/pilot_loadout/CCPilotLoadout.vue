@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-3 px-10">
-    <v-row>
+  <div :class="mobile ? 'px-2' : 'px-10'" class="mt-3">
+    <v-row :dense="mobile">
       <pilot-armor-card
         v-for="i in controller.MaxArmorSlots"
         :item="controller.Loadout.Armor[i - 1]"
@@ -49,6 +49,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     controller() {
       return this.pilot.PilotLoadoutController;
     },

@@ -1,9 +1,11 @@
 <template>
-  <div style="position: relative">
+  <div style="position: relative" class="top-element">
+    <div class="light bg-primary" />
     <v-toolbar
       density="compact"
       class="mt-2 px-4 title-hover"
-      style="position: relative"
+      height="48"
+      style="position: relative; clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px)"
       @click="setGroupExpand()">
       <v-avatar v-if="group.PortraitController.HasImage" size="36px" class="mr-2">
         <cc-img :src="group.Portrait" />
@@ -40,6 +42,11 @@
         ({{ pilots.length }} Pilot{{ pilots.length === 1 ? '' : 's' }})
       </span>
       <v-spacer />
+      <v-divider
+        v-if="!mobile"
+        vertical
+        class="ts mx-4"
+        style="transform: skew(-45deg); opacity: 1 !important" />
       <v-icon :icon="group.Expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
     </v-toolbar>
     <v-expand-transition>
@@ -47,6 +54,7 @@
         <div class="pa-2">
           <v-row v-if="!noGroup" align="start">
             <v-col>
+              {{ group.Description }}
               <v-expand-transition>
                 <fieldset
                   v-if="group.Description || edit"
@@ -54,7 +62,7 @@
                   style="border-radius: 4px">
                   <legend class="text-overline px-2" style="line-height: 0">Description</legend>
                   <div class="py-1 px-2 flavor-text">
-                    <v-textarea hide-details v-if="edit" v-model="group.Description" />
+                    <quill-editor hide-details v-if="edit" v-model:content="group.Description" />
                     <div v-else v-html-safe="group.Description" />
                   </div>
                 </fieldset>
@@ -63,7 +71,7 @@
                 <fieldset v-if="group.History || edit" class="pa-1 my-4" style="border-radius: 4px">
                   <legend class="text-overline px-2" style="line-height: 0">History</legend>
                   <div class="py-1 px-2 flavor-text">
-                    <v-textarea hide-details v-if="edit" v-model="group.History" />
+                    <quill-editor hide-details v-if="edit" v-model:content="group.History" />
                     <div v-else v-html-safe="group.History" />
                   </div>
                 </fieldset>
@@ -71,11 +79,9 @@
             </v-col>
             <v-col v-if="group.PortraitController.CloudImage || edit" cols="3" class="text-right">
               <cc-img :src="group.Portrait" />
-              <div v-if="edit">
-                <v-btn
-                  variant="outlined"
+              <div v-if="edit" class="text-center">
+                <cc-button
                   size="small"
-                  block
                   color="secondary"
                   @click="($refs.imageSelector as any).open()">
                   <div v-if="!group.Portrait">
@@ -86,12 +92,14 @@
                     <v-icon start>mdi-circle-edit-outline</v-icon>
                     Edit group emblem
                   </div>
-                </v-btn>
+                </cc-button>
                 <cc-image-selector ref="imageSelector" :item="group" type="emblem" />
               </div>
             </v-col>
           </v-row>
-          <v-card-text class="px-2 py-0" :class="rosterView.includes('card') ? 'text-center' : ''">
+          <v-card-text
+            class="py-0"
+            :class="[rosterView.includes('card') ? 'text-center' : '', mobile ? 'px-0' : 'px-2']">
             <component
               v-for="pilot in pilots"
               :is="pilotCardType"
@@ -100,28 +108,23 @@
               @goTo="toPilotSheet($event)" />
           </v-card-text>
           <v-expand-transition>
-            <v-row v-if="edit" justify="end" class="pa-4">
+            <v-row v-if="edit" class="pa-1">
               <v-col cols="auto">
-                <v-btn
-                  variant="tonal"
-                  color="accent"
+                <cc-button
+                  color="primary"
                   size="small"
                   prepend-icon="mdi-export"
                   @click="exportGroup()">
                   Export Group
-                </v-btn>
+                </cc-button>
               </v-col>
+              <v-spacer />
               <v-col cols="auto">
                 <v-dialog v-model="deleteDialog" width="auto">
                   <template v-slot:activator="{ props }">
-                    <v-btn
-                      variant="tonal"
-                      color="error"
-                      size="small"
-                      prepend-icon="mdi-delete"
-                      v-bind="props">
+                    <cc-button color="error" size="small" prepend-icon="mdi-delete" v-bind="props">
                       Delete Group
-                    </v-btn>
+                    </cc-button>
                   </template>
 
                   <v-card>
@@ -180,77 +183,111 @@
           </v-expand-transition>
         </div>
 
-        <v-divider class="" />
-        <v-card-actions>
-          <cc-tooltip v-if="!noGroup" :content="edit ? 'Finish Editing' : 'Edit Group Information'">
-            <v-btn icon color="accent" variant="tonal" size="35" class="mx-2" @click="edit = !edit">
-              <v-icon size="small" :icon="edit ? 'mdi-pencil-off' : 'mdi-pencil'" />
-            </v-btn>
-          </cc-tooltip>
-          <v-btn
-            color="accent"
-            size="small"
-            prepend-icon="mdi-transfer"
-            variant="tonal"
-            class="ml-5 mr-2"
-            :disabled="!transferrable.length">
-            Transfer Pilot
-            <v-menu activator="parent">
-              <v-list max-height="400px">
-                <v-list-item
-                  v-for="pilot in transferrable"
-                  :title="pilot.Name"
-                  @click="transferPilot(pilot as Pilot)" />
-              </v-list>
-            </v-menu>
-          </v-btn>
-          <v-spacer />
-          <v-btn
-            color="accent"
-            size="small"
-            prepend-icon="mdi-plus"
-            variant="tonal"
-            class="mx-5"
-            @click="$router.push({ name: 'new', params: { groupID: group.ID } })">
-            Create New Pilot
-          </v-btn>
-          <v-spacer />
+        <v-divider />
+        <v-row justify="space-between" align="center" class="py-2 px-4 text-center" :dense="mobile">
+          <v-col cols="12" sm="auto" v-if="!noGroup">
+            <v-tooltip :text="edit ? 'Finish Editing' : 'Edit Group Information'">
+              <template #activator="{ props }">
+                <cc-button
+                  v-if="mobile"
+                  :prepend-icon="edit ? 'mdi-pencil-off' : 'mdi-pencil'"
+                  color="primary"
+                  size="x-small"
+                  block
+                  @click="edit = !edit"
+                  v-bind="props">
+                  Edit Group
+                </cc-button>
+                <cc-button
+                  v-else
+                  :icon="edit ? 'mdi-pencil-off' : 'mdi-pencil'"
+                  color="primary"
+                  size="small"
+                  variant="outlined"
+                  @click="edit = !edit"
+                  v-bind="props" />
+              </template>
+            </v-tooltip>
+          </v-col>
 
-          <v-menu offset-y>
-            <template #activator="{ props }">
-              <v-btn
-                color="accent"
-                size="small"
-                prepend-icon="mdi-dots-vertical"
-                variant="tonal"
-                v-bind="props">
-                Import
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-text>
-                <v-dialog max-width="70vw">
-                  <template #activator="{ props }">
-                    <v-btn
-                      color="accent"
-                      size="small"
-                      block
-                      prepend-icon="mdi-import"
-                      variant="tonal"
-                      v-bind="props">
-                      File Import
-                    </v-btn>
-                  </template>
-                  <template #default="{ isActive }">
-                    <file-import :group-id="group.ID" />
-                  </template>
-                </v-dialog>
-                <br />
-                <share-code-dialog import-type="pilot" />
-              </v-card-text>
-            </v-card>
-          </v-menu>
-        </v-card-actions>
+          <v-col cols="auto" v-if="transferrable.length" :order="mobile ? 1 : ''">
+            <cc-button
+              color="primary"
+              :size="mobile ? 'x-small' : 'small'"
+              :stacked="!mobile"
+              :block="mobile"
+              prepend-icon="mdi-transfer"
+              :disabled="!transferrable.length">
+              {{ mobile ? 'Transfer' : 'Transfer Pilots' }}
+              <v-menu activator="parent">
+                <v-list max-height="400px">
+                  <v-list-item
+                    v-for="pilot in transferrable"
+                    :title="pilot.Name"
+                    @click="transferPilot(pilot as Pilot)" />
+                </v-list>
+              </v-menu>
+            </cc-button>
+          </v-col>
+
+          <v-col cols="12" md="" class="text-left">
+            <cc-button
+              color="success"
+              block
+              prepend-icon="mdi-plus"
+              @click="$router.push({ name: 'new', params: { groupID: group.ID } })">
+              Create New Pilot
+              <template #info>
+                <v-icon size="small" icon="cc:pilot" />
+              </template>
+              <template #subtitle>
+                <div
+                  class="text-cc-overline"
+                  style="font-size: max(8px, calc(8px + 0.2vw)) !important">
+                  <span v-if="group.ID === 'no_group'">Add a new pilot to the roster</span>
+                  <span v-else>Add a new pilot to {{ group.Name }}</span>
+                </div>
+              </template>
+            </cc-button>
+          </v-col>
+
+          <v-col cols="auto">
+            <v-menu offset-y>
+              <template #activator="{ props }">
+                <cc-button
+                  color="primary"
+                  :size="mobile ? 'x-small' : 'small'"
+                  :stacked="!mobile"
+                  :block="mobile"
+                  prepend-icon="mdi-dots-vertical"
+                  @click="props.onClick($event)">
+                  Import
+                </cc-button>
+              </template>
+              <v-card tile border>
+                <v-card-text>
+                  <cc-modal title="Import" icon="mdi-import">
+                    <template #activator="{ open }">
+                      <cc-button
+                        color="primary"
+                        size="small"
+                        block
+                        prepend-icon="mdi-import"
+                        @click="open">
+                        File Import
+                      </cc-button>
+                    </template>
+                    <template #default="{ close }">
+                      <file-import :group-id="group.ID" />
+                    </template>
+                  </cc-modal>
+                  <br />
+                  <share-code-dialog import-type="pilot" block-btn />
+                </v-card-text>
+              </v-card>
+            </v-menu>
+          </v-col>
+        </v-row>
       </v-card>
     </v-expand-transition>
   </div>
@@ -281,6 +318,9 @@ export default {
     deletePilotsToggle: false,
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     noGroup(): boolean {
       return this.group.ID === 'no_group';
     },
@@ -356,5 +396,15 @@ export default {
 .title-hover:hover {
   cursor: pointer;
   background-color: rgb(var(--v-theme-active));
+}
+.light {
+  position: absolute;
+  width: 13.5px;
+  height: 13.5px;
+  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+  transition: filter 0.2s ease-in-out;
+}
+.top-element:hover .light {
+  filter: brightness(2) saturate(200%) hue-rotate(20deg);
 }
 </style>

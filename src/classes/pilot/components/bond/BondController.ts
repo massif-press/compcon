@@ -165,6 +165,10 @@ class BondController {
     return this._powerSelections;
   }
 
+  public get PowerSelectionsRemaining(): number {
+    return this.TotalPowerSelections - this.BondPowers.length;
+  }
+
   public set PowerSelections(val: number) {
     this._powerSelections = val;
     this.Parent.SaveController.save();
@@ -172,6 +176,10 @@ class BondController {
 
   public get TotalPowerSelections(): number {
     return Math.max(this.PowerSelections + this.MinPowerSelections - this.BondPowers.length, 0);
+  }
+
+  public get MaxPowerSelections(): number {
+    return this.PowerSelections + this.MinPowerSelections;
   }
 
   public get MinPowerSelections(): number {

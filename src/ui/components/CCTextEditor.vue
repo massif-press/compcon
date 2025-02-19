@@ -1,19 +1,20 @@
 <template>
   <div class="d-inline">
-    <cc-tooltip inline simple content="Edit">
-      <v-icon :color="color" dark :class="color ? '' : 'fade-select'" @click="show()">
-        mdi-circle-edit-outline
-      </v-icon>
-    </cc-tooltip>
-    <cc-solo-dialog
-      ref="dialog"
-      icon="mdi-circle-edit-outline"
-      color="primary"
-      large
-      :title="label"
-      @confirm="save()">
+    <cc-modal :title="label" icon="mdi-circle-edit-outline">
+      <template #activator="{ open }">
+        <v-tooltip inline simple content="Edit">
+          <template #activator="{ props }">
+            <v-icon
+              v-bind="props"
+              :color="color"
+              icon="mdi-circle-edit-outline"
+              :class="color ? '' : 'fade-select'"
+              @click="open" />
+          </template>
+        </v-tooltip>
+      </template>
       <quill-editor theme="snow" v-model:content="text" content-type="html" />
-    </cc-solo-dialog>
+    </cc-modal>
   </div>
 </template>
 
@@ -43,6 +44,11 @@ export default {
   }),
   created() {
     if (this.original) this.text = this.original;
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
   },
   methods: {
     save() {

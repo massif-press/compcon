@@ -2,7 +2,7 @@
   <v-toolbar flat density="compact" :color="color" class="ma-0 pa-0 parent">
     <v-toolbar-title class="mt-n1">
       <span class="text-cc-overline">
-        <v-icon v-if="icon" :icon="icon" start />
+        <v-icon v-if="icon" :icon="icon" start style="padding-bottom: 2px" />
         <span v-text="title" />
       </span>
     </v-toolbar-title>
