@@ -2,6 +2,7 @@
   <cc-share-code-importer
     ref="importer"
     :importType="importType"
+    :blockBtn="blockBtn"
     @set-query-result="queryResult = $event">
     <template #result>
       <div v-if="queryResult === null" class="text-center">
@@ -70,6 +71,9 @@ export default {
       type: String,
       required: false,
       default: 'item',
+    },
+    blockBtn: {
+      type: Boolean,
     },
   },
   emits: ['close'],

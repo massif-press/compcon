@@ -1,6 +1,5 @@
 <template>
-  <h1 class="heading h1 ml-5">COMBAT</h1>
-  <srd-view :content="combat" :pre-scroll="preScroll" />
+  <srd-view title="combat" :content="combat" :pre-scroll="preScroll" />
 </template>
 
 <script lang="ts">

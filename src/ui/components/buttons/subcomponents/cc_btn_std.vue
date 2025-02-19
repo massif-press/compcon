@@ -1,5 +1,5 @@
 <template>
-  <div class="top-element" style="display: inline-block; position: relative">
+  <div class="top-element" style="display: flex; position: relative">
     <div :class="`${disabled && 'disabled'} light ${size} ${lightColor}`" />
     <v-btn
       :class="`${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`} ${disabled && 'disabled'}`"
@@ -12,7 +12,7 @@
       :to="to"
       :href="href"
       :target="target"
-      @click.stop="!disabled && !loading && $emit('click')">
+      @click.stop="!disabled && !loading && $emit('click', $event)">
       <v-icon v-if="prependIcon" start :icon="prependIcon" :size="iconSize(prependIcon)" />
       <slot />
       <v-icon v-if="appendIcon" class="mx-1" :icon="appendIcon" :size="iconSize(appendIcon)" />

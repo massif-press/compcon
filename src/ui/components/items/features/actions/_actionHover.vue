@@ -1,7 +1,7 @@
 <template>
   <v-menu :open-on-hover="!mobile" :open-on-click="mobile" bottom offset-y max-width="700px">
     <template #activator="{ props }">
-      <v-chip
+      <cc-chip
         :color="action.Color"
         v-bind="props"
         variant="flat"
@@ -12,7 +12,7 @@
           <v-icon start dark>{{ action.Icon }}</v-icon>
           {{ action.Name }}
         </span>
-      </v-chip>
+      </cc-chip>
     </template>
     <v-card>
       <v-toolbar density="compact" :color="action.Color" class="text-white">

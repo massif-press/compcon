@@ -122,7 +122,6 @@ a {
 }
 
 .bordered-primary {
-  background: rgb(var(--v-theme-stark-panel)) !important;
   border: 5px double rgb(var(--v-theme-primary)) !important;
   border-radius: 2px !important;
 }

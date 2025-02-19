@@ -1,12 +1,12 @@
 <template>
   <v-menu open-on-hover bottom offset-y width="70vw">
     <template #activator="{ props }">
-      <v-chip :color="deployable.Color" variant="flat" v-bind="props">
+      <cc-chip :color="deployable.Color" variant="flat" v-bind="props">
         <span class="text-white">
           <v-icon start dark>{{ deployable.Icon }}</v-icon>
           {{ deployable.Name }}
         </span>
-      </v-chip>
+      </cc-chip>
     </template>
     <v-card flat tile>
       <v-toolbar density="compact" flat :color="deployable.Color" class="text-white">

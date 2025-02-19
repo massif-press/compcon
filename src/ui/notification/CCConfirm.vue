@@ -3,9 +3,8 @@
     v-model="dialog"
     :max-width="options.width"
     :style="{ zIndex: options.zIndex }"
-    @keydown.esc="cancel"
-  >
-    <v-card>
+    @keydown.esc="cancel">
+    <v-card flat tile>
       <v-toolbar dark :color="options.color" density="compact" flat>
         <v-toolbar-title class="text-white">{{ title }}</v-toolbar-title>
       </v-toolbar>

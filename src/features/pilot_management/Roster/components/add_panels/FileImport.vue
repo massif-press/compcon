@@ -1,62 +1,53 @@
 <template>
-  <v-card>
-    <v-toolbar flat density="compact" color="primary">
-      <v-toolbar-title class="heading h3">IMPORT PILOT</v-toolbar-title>
-      <v-spacer />
-      <v-btn icon @click="reset">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-    </v-toolbar>
-    <v-card-text>
-      <v-row align="center" justify="center">
-        <v-col cols="6">
-          <v-file-input
-            v-model="fileValue"
-            accept="text/json"
-            variant="outlined"
-            label="Select Pilot Data File"
-            prepend-icon="mdi-paperclip"
-            density="compact"
-            @change="stageImport"
-            @click:clear="reset" />
-        </v-col>
-      </v-row>
-      <v-card v-if="missingContent.length">
-        <v-card-text class="text-center">
-          <p class="heading h4 text-accent">
-            The imported Pilot requires the following content packs that are not currently
-            installed/active, or have mismatching versions:
-          </p>
-          <p class="effect-text text-center" v-html="missingContent" />
-          <p class="text-text">
-            This Pilot cannot be imported until the missing content packs are installed and
-            activated, or the content pack versions are synchronized.
-          </p>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" color="primary" @click="reset">Abort Import</v-btn>
-        </v-card-actions>
-      </v-card>
-      <div class="mt-2">
-        <p v-if="alreadyPresent" class="text-center" v-text="alreadyPresent" />
-        <v-slide-x-reverse-transition>
-          <v-row v-if="stagedData" align="center" justify="center">
-            <v-col cols="auto">
-              <v-btn
-                color="accent"
-                prepend-icon="mdi-plus"
-                :disabled="missingContent.length > 0"
-                @click="importFile()">
-                Import {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-slide-x-reverse-transition>
-      </div>
-    </v-card-text>
-  </v-card>
+  <v-card-text>
+    <v-row align="center" justify="center">
+      <v-col cols="6">
+        <v-file-input
+          v-model="fileValue"
+          accept="text/json"
+          variant="outlined"
+          label="Select Pilot Data File"
+          prepend-icon="mdi-paperclip"
+          density="compact"
+          @change="stageImport"
+          @click:clear="reset" />
+      </v-col>
+    </v-row>
+    <v-card v-if="missingContent.length">
+      <v-card-text class="text-center">
+        <p class="heading h4 text-accent">
+          The imported Pilot requires the following content packs that are not currently
+          installed/active, or have mismatching versions:
+        </p>
+        <p class="effect-text text-center" v-html="missingContent" />
+        <p class="text-text">
+          This Pilot cannot be imported until the missing content packs are installed and activated,
+          or the content pack versions are synchronized.
+        </p>
+      </v-card-text>
+      <v-divider />
+      <v-card-actions>
+        <v-spacer />
+        <v-btn variant="text" color="primary" @click="reset">Abort Import</v-btn>
+      </v-card-actions>
+    </v-card>
+    <div class="mt-2">
+      <p v-if="alreadyPresent" class="text-center" v-text="alreadyPresent" />
+      <v-slide-x-reverse-transition>
+        <v-row v-if="stagedData" align="center" justify="center">
+          <v-col cols="auto">
+            <v-btn
+              color="accent"
+              prepend-icon="mdi-plus"
+              :disabled="missingContent.length > 0"
+              @click="importFile()">
+              Import {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-slide-x-reverse-transition>
+    </div>
+  </v-card-text>
 </template>
 
 <script lang="ts">

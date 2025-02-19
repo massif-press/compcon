@@ -1,11 +1,14 @@
 <template>
   <v-layout>
-    <cc-button
-      :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
-      size="small"
-      color="primary"
-      :style="`position: absolute; z-index: 999; left: ${showNav ? (mobile ? '322' : '352') : '3'}px; top: 6px`"
-      @click="(showNav as any) = !showNav" />
+    <div
+      style="position: absolute; z-index: 999"
+      :style="`left: ${showNav ? (mobile ? '322' : '352') : '3'}px; top: 6px`">
+      <cc-button
+        :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+        size="small"
+        color="primary"
+        @click="(showNav as any) = !showNav" />
+    </div>
     <v-navigation-drawer v-model="showNav" :width="mobile ? 320 : 350">
       <v-list density="compact" tile nav v-model:opened="open">
         <v-alert

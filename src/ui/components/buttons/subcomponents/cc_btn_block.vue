@@ -14,7 +14,7 @@
           :to="to"
           :href="href"
           :target="target"
-          @click.stop="!disabled && !loading && $emit('click')">
+          @click.stop="!disabled && !loading && $emit('click', $event)">
           <v-row dense align="center" :class="mobile && 'py-2'">
             <v-col cols="auto">
               <v-icon v-if="prependIcon" :size="iconSize" :icon="prependIcon" start />
@@ -22,10 +22,10 @@
             </v-col>
             <v-col :style="`font-size: ${size}`">
               <slot />
-              <div v-if="$slots.subtitle" class="text-caption mt-n1"><slot name="subtitle" /></div>
+              <div v-if="$slots.subtitle" class="mt-n1"><slot name="subtitle" /></div>
             </v-col>
             <v-col cols="auto">
-              <div class="text-caption"><slot name="info" /></div>
+              <div><slot name="info" /></div>
             </v-col>
             <v-col v-if="appendIcon" cols="auto">
               <v-icon :size="iconSize" :icon="appendIcon" start />
@@ -170,7 +170,7 @@ export default {
 .size-x-small {
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
   letter-spacing: 3px;
-  min-height: 25px;
+  height: 25px;
 }
 
 .size-small {

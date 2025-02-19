@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="50vw" min-width="600px">
+  <v-dialog v-model="dialog" :width="mobile ? '100vw' : '50vw'">
     <v-card tile>
       <component
         :is="multiline ? 'v-textarea' : 'v-text-field'"
@@ -59,6 +59,11 @@ export default {
     newString: '',
     dialog: false,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     save() {
       if (this.newString) this.$emit('save', this.newString);

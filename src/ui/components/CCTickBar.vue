@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters align="center" :justify="justify">
+  <v-row no-gutters align="center" :justify="<any>justify">
     <v-col cols="auto">
       <slot />
     </v-col>
@@ -23,7 +23,7 @@
       </v-fade-transition>
     </v-col>
   </v-row>
-  <v-row no-gutters align="center" :justify="justify" class="my-n4">
+  <v-row no-gutters align="center" :justify="<any>justify" class="my-n4">
     <v-col cols="auto" class="mx-n1">
       <v-btn icon size="small" variant="plain" @click="$emit('update:modelValue', modelValue - 1)">
         <v-icon :color="color" icon="mdi-minus" />

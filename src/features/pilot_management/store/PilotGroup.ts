@@ -54,7 +54,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
 
-    this._name = data?.name || 'New Group';
+    this._name = data?.name || '';
     this._pilots = data?.pilots || ([] as PilotIndexItem[]);
     this._description = data?.description || '';
     this._history = data?.history || '';

@@ -1,6 +1,5 @@
 <template>
-  <h1 class="heading h1 ml-5">USING COMP/CON</h1>
-  <srd-view :content="using_compcon" :pre-scroll="preScroll" />
+  <srd-view title="using comp/con" :content="using_compcon" :pre-scroll="preScroll" />
 </template>
 
 <script lang="ts">

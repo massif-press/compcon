@@ -1,6 +1,5 @@
 <template>
-  <h1 class="heading h1 ml-5">PILOTS</h1>
-  <srd-view :content="pilots" :pre-scroll="preScroll" />
+  <srd-view title="pilots" :content="pilots" :pre-scroll="preScroll" />
 </template>
 
 <script lang="ts">

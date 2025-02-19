@@ -1,26 +1,37 @@
 <template>
-  <div class="top-element" style="display: inline-block; position: relative">
-    <span :class="`light ${size} bg-${color} ${tonal && 'tonal-light'}`" />
-    <v-btn
-      :class="`hex ${size} ${colorClass}`"
-      style="container-type: inline-size"
-      :variant="variant ? 'tonal' : undefined"
-      :color="getColor"
-      icon
-      :size="buttonSize"
-      rounded="0"
-      :disabled="disabled"
-      :block="block"
-      :prepend-icon="'mdi-alert'"
-      :append-icon="'mdi-alert'"
-      :loading="loading"
-      :href="href"
-      :to="to"
-      :target="target"
-      @click.stop="!disabled && !loading && $emit('click', $event)">
-      <v-icon style="font-size: 75cqw; margin-top: 4cqw" :color="tonal ? color : ''" :icon="icon" />
-    </v-btn>
-  </div>
+  <v-tooltip
+    :disabled="!tooltip"
+    :text="tooltip"
+    :location="<any>tooltipLocation"
+    style="display: inline-block; position: relative">
+    <template #activator="{ props }">
+      <div class="top-element" v-bind="props">
+        <span :class="`light ${size} bg-${color} ${tonal && 'tonal-light'}`" />
+        <v-btn
+          :class="`hex ${size} ${colorClass}`"
+          style="container-type: inline-size"
+          :variant="variant ? 'tonal' : undefined"
+          :color="getColor"
+          icon
+          :size="buttonSize"
+          rounded="0"
+          :disabled="disabled"
+          :block="block"
+          :prepend-icon="'mdi-alert'"
+          :append-icon="'mdi-alert'"
+          :loading="loading"
+          :href="href"
+          :to="to"
+          :target="target"
+          @click.stop="!disabled && !loading && $emit('click', $event)">
+          <v-icon
+            style="font-size: 75cqw; margin-top: 4cqw"
+            :color="tonal ? color : ''"
+            :icon="icon" />
+        </v-btn>
+      </div>
+    </template>
+  </v-tooltip>
 </template>
 
 <script lang="ts">
@@ -39,6 +50,8 @@ export default {
     href: { type: String },
     to: { type: [String, Object] },
     target: { type: String },
+    tooltip: { type: String },
+    tooltipLocation: { type: String },
   },
   emits: ['click'],
   computed: {

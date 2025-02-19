@@ -1,17 +1,20 @@
 <template>
-  <cc-tooltip inline simple :content="label">
-    <v-chip
-      size="small"
-      label
-      class="mr-2"
-      :class="{ 'fade-select': !highlight }"
-      :color="highlight ? 'warning' : 'white'"
-      @click="$emit('open-selector')"
-    >
-      {{ current }}/{{ max }}&nbsp;
-      <v-icon icon="mdi-circle-edit-outline" />
-    </v-chip>
-  </cc-tooltip>
+  <v-tooltip :text="label">
+    <template #activator="{ props }">
+      <v-chip
+        v-bind="props"
+        size="small"
+        label
+        tile
+        class="mr-2 ml-n2"
+        :class="{ 'fade-select': !highlight }"
+        :color="highlight ? 'warning' : ''"
+        @click.stop="$emit('open-selector')">
+        {{ current }}/{{ max }}&nbsp;
+        <v-icon icon="mdi-circle-edit-outline" />
+      </v-chip>
+    </template>
+  </v-tooltip>
 </template>
 
 <script lang="ts">
@@ -35,5 +38,6 @@ export default {
       required: true,
     },
   },
+  emits: ['open-selector'],
 };
 </script>

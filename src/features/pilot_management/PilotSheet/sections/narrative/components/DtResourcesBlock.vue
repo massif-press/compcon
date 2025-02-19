@@ -1,19 +1,18 @@
 <template>
   <div class="my-3">
-    <section-header
-      title="Reserves and Bonuses"
-      label="Add Reserves and Bonuses"
-      :editable="!pilot.IsRemote"
-      @edit="($refs as any).dtSelector.show()" />
+    <cc-modal title="Add Reserves and Bonuses" icon="cc:barrage">
+      <template #activator="{ open }">
+        <section-header
+          title="Reserves and Bonuses"
+          label="Add Reserves and Bonuses"
+          :editable="!pilot.IsRemote"
+          @edit="open" />
+      </template>
+      <template #default="{ close }">
+        <reserve-selector :pilot="pilot" @close="close" />
+      </template>
+    </cc-modal>
 
-    <cc-solo-dialog
-      ref="dtSelector"
-      icon="cc:barrage"
-      no-confirm
-      title="&nbsp;&nbsp;Edit Reserves and Bonuses"
-      fullscreen>
-      <reserve-selector :pilot="pilot" @close="($refs as any).dtSelector.hide()" />
-    </cc-solo-dialog>
     <v-container>
       <no-data-block
         v-if="
@@ -21,14 +20,12 @@
           !pilot.ReservesController.Organizations.length
         " />
       <v-row v-else>
-        <cc-reserve-item
-          v-for="(r, i) in pilot.ReservesController.Reserves"
-          :reserve="r"
-          @remove="pilot.ReservesController.RemoveReserve(i)" />
-        <cc-org-item
-          v-for="(o, i) in pilot.ReservesController.Organizations"
-          :org="o"
-          @remove="pilot.ReservesController.RemoveOrganization(i)" />
+        <v-col cols="12" md="6" lg="4" v-for="(r, i) in pilot.ReservesController.Reserves">
+          <cc-reserve-item :reserve="r" @remove="pilot.ReservesController.RemoveReserve(i)" />
+        </v-col>
+        <v-col cols="12" md="6" lg="4" v-for="(o, i) in pilot.ReservesController.Organizations">
+          <cc-org-item :org="o" @remove="pilot.ReservesController.RemoveOrganization(i)" />
+        </v-col>
       </v-row>
     </v-container>
   </div>

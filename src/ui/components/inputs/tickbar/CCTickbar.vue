@@ -61,7 +61,7 @@
       <v-col cols="auto">
         <div class="mr-1 d-inline-block" style="height: 100%" v-for="i in ticks">
           <v-tooltip location="top">
-            <template v-slot:activator="{ props }">
+            <template #activator="{ props }">
               <v-btn
                 v-bind="valueTooltips ? props : ''"
                 tile
@@ -82,7 +82,7 @@
       </v-col>
       <v-col cols="auto" v-if="$slots.options">
         <v-menu offset-y>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn
               :size="optionsSize"
               :color="bgColor"
@@ -112,7 +112,7 @@
       </v-col>
       <v-col cols="auto" v-if="tooltip" align-self="center">
         <v-tooltip location="top" max-width="300px">
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-icon
               v-bind="props"
               class="fade-select mx-1"

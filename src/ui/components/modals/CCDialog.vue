@@ -9,7 +9,7 @@
       style="position: relative"
       border="sm"
       :ripple="false"
-      @click.stop="closeOnClick ? close() : null">
+      @click.stop="closeOnClick ? close() : undefined">
       <cc-toolbar
         minor
         :title="title"
@@ -19,7 +19,9 @@
         hide-close
         @close="close">
         <slot name="title" />
-        <slot name="toolbar-items" />
+        <template #toolbar-items>
+          <slot name="toolbar-items" v-bind="{ close }" />
+        </template>
       </cc-toolbar>
       <v-card-text class="pt-1 pb-4 px-4">
         <slot v-bind="{ dialog, open, close }" />

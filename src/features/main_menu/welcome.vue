@@ -4,7 +4,6 @@
       <v-row no-gutters justify="center" align="center" style="height: 100%">
         <v-col cols="auto">
           <div :style="!mobile && 'min-width: 600px'" style="max-width: 600px">
-            hello {{ panel }}
             <cc-toolbar
               title="CC.SYSADMIN// NOTIFY"
               color="primary"

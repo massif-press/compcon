@@ -1,46 +1,28 @@
 <template>
   <v-container class="pb-12">
     <h1 class="heading" id="statuses">Statuses</h1>
-    <v-container class="px-12">
-      <v-row justify="center">
-        <v-col v-for="s in statuses" style="min-width: 35%">
-          <v-card border flat>
-            <v-toolbar dense color="primary" density="compact">
-              <v-toolbar-title class="text-uppercase heading h3">
-                <v-icon :icon="s.Icon" class="mt-n2" size="x-large" />
-                {{ s.Name }}
-              </v-toolbar-title>
-            </v-toolbar>
-            <v-card-text class="pa-2">
-              <p v-text="s.Terse" class="text-center font-weight-bold body-text" />
-              <v-divider class="my-1" />
-              <p v-html="s.Effects" />
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+    <masonry-wall
+      :items="statuses"
+      :column-width="400"
+      :gap="16"
+      :min-columns="1"
+      :max-columns="widescreen ? 3 : 2">
+      <template #default="{ item }">
+        <status-card :status="item" />
+      </template>
+    </masonry-wall>
 
     <h1 class="heading" id="conditions">Conditions</h1>
-    <v-container class="px-12">
-      <v-row justify="center">
-        <v-col v-for="s in conditions" style="min-width: 35%">
-          <v-card border flat>
-            <v-toolbar dense color="primary" density="compact">
-              <v-toolbar-title class="text-uppercase heading h3">
-                <v-icon :icon="s.Icon" class="mt-n2" size="x-large" />
-                {{ s.Name }}
-              </v-toolbar-title>
-            </v-toolbar>
-            <v-card-text class="pa-2">
-              <p v-text="s.Terse" class="text-center font-weight-bold body-text" />
-              <v-divider class="my-1" />
-              <p v-html="s.Effects" />
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+    <masonry-wall
+      :items="conditions"
+      :column-width="400"
+      :gap="16"
+      :min-columns="1"
+      :max-columns="widescreen ? 3 : 2">
+      <template #default="{ item }">
+        <status-card :status="item" />
+      </template>
+    </masonry-wall>
   </v-container>
   <v-footer border app class="py-0 bg-primary">
     <v-tabs density="compact" center-active grow>
@@ -60,16 +42,16 @@
 </template>
 
 <script lang="ts">
-import ActionCard from '../_components/ActionCard.vue';
 import scrollTo from '@/util/scrollTo';
 import _ from 'lodash';
 
 import { CompendiumStore } from '@/stores';
 import { Status } from '@/classes/Status';
+import StatusCard from '../_components/StatusCard.vue';
 
 export default {
   name: 'action-economy',
-  components: { ActionCard },
+  components: { StatusCard },
   props: {
     isModal: {
       type: Boolean,
@@ -79,6 +61,9 @@ export default {
     content: ['statuses', 'conditions'],
   }),
   computed: {
+    widescreen() {
+      return this.$vuetify.display.xlAndUp;
+    },
     statuses() {
       return _.sortBy(
         CompendiumStore().Statuses.filter((s: Status) => s && s.StatusType !== 'Condition'),

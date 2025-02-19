@@ -1,7 +1,7 @@
 <template>
-  <v-row dense class="stat-text text-center">
-    <v-col>
-      <div class="text-overline mb-n3 pb-1 text-disabled">CALLSIGN</div>
+  <v-row dense class="stat-text text-center" justify="space-around">
+    <v-col cols="auto" md="">
+      <div class="text-overline mb-n4 text-disabled">CALLSIGN</div>
       <cc-short-string-editor
         :readonly="pilot.IsRemote"
         :placeholder="pilot.Callsign"
@@ -9,8 +9,8 @@
         {{ pilot.Callsign }}
       </cc-short-string-editor>
     </v-col>
-    <v-col>
-      <div class="text-overline mb-n3 pb-1 text-disabled">NAME</div>
+    <v-col cols="auto" md="">
+      <div class="text-overline mb-n4 text-disabled">NAME</div>
       <cc-short-string-editor
         :readonly="pilot.IsRemote"
         :placeholder="pilot.Name"
@@ -18,8 +18,8 @@
         {{ pilot.Name }}
       </cc-short-string-editor>
     </v-col>
-    <v-col>
-      <div class="text-overline mb-n3 pb-1 text-disabled">
+    <v-col cols="auto" md="">
+      <div class="text-overline mb-n4 text-disabled">
         BACKGROUND
         <background-selector v-if="!pilot.IsRemote" small @select="pilot.Background = $event" />
       </div>
@@ -27,20 +27,24 @@
         :readonly="pilot.IsRemote"
         :placeholder="pilot.Background"
         @set="pilot.Background = $event">
-        {{ pilot.Background }}
+        <i v-if="!pilot.Background" class="text-cc-overline" style="opacity: 0.2">NO DATA</i>
+        <span v-else>
+          {{ pilot.Background }}
+        </span>
       </cc-short-string-editor>
     </v-col>
-    <v-col>
-      <div class="text-overline mb-n3 pb-1 text-disabled">PLAYER</div>
+    <v-col cols="auto" md="">
+      <div class="text-overline mb-n4 text-disabled">PLAYER</div>
       <cc-short-string-editor
         :readonly="pilot.IsRemote"
         :placeholder="pilot.PlayerName"
         @set="pilot.PlayerName = $event">
-        {{ pilot.PlayerName || '---' }}
+        <i v-if="!pilot.PlayerName" class="text-cc-overline" style="opacity: 0.2">NO DATA</i>
+        <span v-else>{{ pilot.PlayerName }}</span>
       </cc-short-string-editor>
     </v-col>
-    <v-col>
-      <div class="text-overline mb-n3 pb-1 text-disabled">STATUS</div>
+    <v-col cols="auto" md="">
+      <div class="text-overline mb-n4 text-disabled">STATUS</div>
       <v-menu offset-y :close-on-content-click="false" width="300">
         <template #activator="{ props }">
           <v-chip
@@ -96,6 +100,9 @@ export default {
     notification: '',
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     statusColor(): string {
       switch (this.pilot.Status.toLowerCase()) {
         case 'active':

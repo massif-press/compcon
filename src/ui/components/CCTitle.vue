@@ -1,11 +1,11 @@
 <template>
   <div
-    :class="block ? 'text-white' : `clipped${size} text-white`"
+    :class="block ? '' : 'clip'"
+    style="height: fit-content"
     :style="`width: ${
       block ? '100%' : 'max-content'
-    };  background-color: rgb(var(--v-theme-${color}));`"
-  >
-    <div :class="`px-5 py-1 ctitle${size}`">
+    };  background-color: rgb(var(--v-theme-${color}));`">
+    <div class="pl-2 pr-8 heading">
       <slot />
     </div>
   </div>
@@ -18,19 +18,10 @@ export default {
     block: {
       type: Boolean,
     },
-    large: {
-      type: Boolean,
-    },
-    small: {
-      type: Boolean,
-    },
-    xSmall: {
-      type: Boolean,
-    },
-    dark: {
-      type: Boolean,
+    size: {
+      type: String,
       required: false,
-      default: true,
+      default: '',
     },
     color: {
       type: String,
@@ -39,48 +30,15 @@ export default {
     },
   },
   computed: {
-    size() {
-      if (this.xSmall) return '-x-small';
-      return this.large ? '-large' : this.small ? '-small' : '';
+    mobile() {
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
 };
 </script>
 
 <style scoped>
-.ctitle-x-small {
-  font-family: 'Helvetica Bold', sans-serif;
-  font-weight: 900;
-  font-size: 14pt;
-  line-height: 13pt;
-  /* letter-spacing: 10px; */
-  text-transform: uppercase;
-}
-
-.ctitle-small {
-  font-family: 'Helvetica Bold', sans-serif;
-  font-weight: 900;
-  font-size: 16pt;
-  line-height: 15pt;
-  /* letter-spacing: 10px; */
-  text-transform: uppercase;
-}
-
-.ctitle {
-  font-family: 'Helvetica Bold', sans-serif;
-  font-weight: 900;
-  font-size: 30pt;
-  line-height: 25pt;
-  /* letter-spacing: 10px; */
-  text-transform: uppercase;
-}
-
-.ctitle-large {
-  font-family: 'Helvetica Bold', sans-serif;
-  font-weight: 900;
-  font-size: 50pt;
-  line-height: 38pt;
-  /* letter-spacing: 10px; */
-  text-transform: uppercase;
+.clip {
+  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0% 100%);
 }
 </style>

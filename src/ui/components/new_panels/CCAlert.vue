@@ -1,13 +1,13 @@
 <template>
   <v-card
-    :style="closed && 'display:none'"
+    :style="[closed && 'display:none', `border-inline-start-color: ${color}!important`]"
     class="parent cc-panel-clip border-s-xl"
     :color="color"
     flat
     tile>
     <v-row no-gutters>
       <v-col cols="auto" v-if="icon && prominent && !mobile">
-        <v-icon size="60" class="mt-2 ml-1 mr-n2">{{ icon }}</v-icon>
+        <v-icon size="60" class="mt-2 ml-2">{{ icon }}</v-icon>
       </v-col>
       <v-col>
         <div v-if="title" class="heading h3 px-4 pt-2">

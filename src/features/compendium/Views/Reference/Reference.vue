@@ -1,26 +1,23 @@
 <template>
-  <div class="pt-5">
-    <v-tabs v-model="tab" fixed-tabs bg-color="primary" density="compact">
-      <v-tab value="0">Action Economy</v-tab>
-      <v-tab value="1">Actions</v-tab>
-      <v-tab value="2">Statuses & Conditions</v-tab>
-      <v-tab value="3">Damage Tables</v-tab>
-    </v-tabs>
-    <v-window v-model="tab">
-      <v-window-item>
-        <action-economy :is-modal="isModal" />
-      </v-window-item>
-      <v-window-item>
-        <actions :is-modal="isModal" />
-      </v-window-item>
-      <v-window-item>
-        <statuses :is-modal="isModal" />
-      </v-window-item>
-      <v-window-item>
-        <damage-tables :is-modal="isModal" />
-      </v-window-item>
-    </v-window>
-  </div>
+  <div style="position: absolute; top: 0; left: 0; right: 0; height: 45px" class="bg-primary" />
+  <cc-tabs v-model="tab" fixed-tabs bg-color="primary" density="compact">
+    <template #tabs>
+      <v-tab>Action Economy</v-tab>
+      <v-tab>Actions</v-tab>
+      <v-tab>Statuses & Conditions</v-tab>
+      <v-tab>Damage Tables</v-tab>
+    </template>
+    <action-economy :is-modal="isModal" />
+    <v-window-item>
+      <actions :is-modal="isModal" />
+    </v-window-item>
+    <v-window-item>
+      <statuses :is-modal="isModal" />
+    </v-window-item>
+    <v-window-item>
+      <damage-tables :is-modal="isModal" />
+    </v-window-item>
+  </cc-tabs>
 </template>
 
 <script lang="ts">

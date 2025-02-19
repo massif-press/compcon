@@ -1,27 +1,38 @@
 <template>
-  <div class="top-element d-inline-block" style="position: relative; align-content: center">
-    <v-icon
-      v-if="outlined"
-      :size="iconSize * 2"
-      :color="getColor"
-      :disabled="disabled"
-      icon="cc:hex_thin"
-      :class="!disabled && 'hover outline-hover'"
-      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" />
-    <v-btn
-      variant="text"
-      icon
-      :disabled="disabled"
-      :size="iconSize"
-      :loading="loading"
-      :class="`pa-0 ${!disabled && 'hover'} text-${getColor}`"
-      :to="to"
-      :href="href"
-      :target="target"
-      @click.stop="!disabled && !loading && $emit('click')">
-      <v-icon :size="iconSize" :icon="icon" :disabled="disabled" />
-    </v-btn>
-  </div>
+  <v-tooltip
+    :disabled="!tooltip"
+    :text="tooltip"
+    :location="<any>tooltipLocation"
+    style="display: inline-block; position: relative">
+    <template #activator="{ props }">
+      <div
+        class="top-element d-inline-block"
+        style="position: relative; align-content: center"
+        v-bind="props">
+        <v-icon
+          v-if="outlined"
+          :size="iconSize * 1.5"
+          :color="getColor"
+          :disabled="disabled"
+          icon="cc:hex_thin"
+          :class="!disabled && 'hover outline-hover'"
+          style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" />
+        <v-btn
+          variant="text"
+          icon
+          :disabled="disabled"
+          :size="iconSize"
+          :loading="loading"
+          :class="`pa-0 ${!disabled && 'hover'} text-${getColor}`"
+          :to="to"
+          :href="href"
+          :target="target"
+          @click.stop="!disabled && !loading && $emit('click', $event)">
+          <v-icon :size="iconSize" :icon="icon" :disabled="disabled" />
+        </v-btn>
+      </div>
+    </template>
+  </v-tooltip>
 </template>
 
 <script lang="ts">
@@ -37,6 +48,8 @@ export default {
     href: { type: String },
     to: { type: [String, Object] },
     target: { type: String },
+    tooltip: { type: String },
+    tooltipLocation: { type: String },
   },
   emits: ['click'],
   computed: {

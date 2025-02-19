@@ -1,11 +1,17 @@
 <template>
-  <span>
-    <cc-tooltip inline simple :content="label">
-      <v-btn size="40" variant="plain" icon @click="$emit('open-selector')">
-        <v-icon size="small">mdi-circle-edit-outline</v-icon>
+  <v-tooltip :text="label" location="top">
+    <template #activator="{ props }">
+      <v-btn
+        v-bind="props"
+        size="x-small"
+        variant="plain"
+        class="my-n1"
+        icon
+        @click="$emit('open-selector')">
+        <v-icon size="20" icon="mdi-circle-edit-outline" />
       </v-btn>
-    </cc-tooltip>
-  </span>
+    </template>
+  </v-tooltip>
 </template>
 
 <script lang="ts">

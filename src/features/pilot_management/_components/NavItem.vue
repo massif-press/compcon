@@ -1,5 +1,6 @@
 <template>
   <v-btn
+    size="small"
     variant="flat"
     rounded="0"
     :color="selected ? 'white' : 'primary'"

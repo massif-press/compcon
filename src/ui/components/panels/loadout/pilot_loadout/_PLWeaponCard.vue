@@ -9,10 +9,10 @@
     @save="$emit('save')">
     <div
       v-if="item"
-      class="text-left"
+      class="text-left mt-n4"
       style="cursor: pointer !important"
       @click="($refs as any).base.openDetail()">
-      <v-row align="center" justify="space-around">
+      <v-row align="center" justify="space-around" dense>
         <v-col cols="auto">
           <cc-range-element :range="item.Range" />
         </v-col>
@@ -20,7 +20,7 @@
           <cc-damage-element :damage="item.Damage" :type-override="item.DamageTypeOverride" />
         </v-col>
       </v-row>
-      <cc-tags small :tags="item.Tags" color="secondary" />
+      <cc-tags size="small" :tags="item.Tags" color="secondary" />
       <v-row v-if="item.notes">
         <v-col v-for="n in item.notes">
           <cc-tooltip simple inline :content="n">
@@ -44,7 +44,7 @@
 
         <template #top>
           <div v-if="item">
-            <span class="text-overline">
+            <span class="text-cc-overline">
               GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success text--darken-1">
                 [ PILOT MATERIEL REGISTRATION VERIFIED ]
@@ -55,17 +55,19 @@
               <cc-slashes />
               {{ item.Name }}
             </div>
-            <div class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</div>
+            <div class="flavor-text text-cc-overline mt-n1" style="display: block">
+              CURRENTLY EQUIPPED
+            </div>
           </div>
           <div v-else>
-            <span class="text-overline">
+            <span class="text-text-cc-overline">
               GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 - S3(LTD)
             </span>
             <br />
             <span class="heading h1 text-disabled text--lighten-1" style="line-height: 20px">
               NO SELECTION
             </span>
-            <span class="flavor-text overline mt-n1 text-error" style="display: block">
+            <span class="flavor-text text-cc-overline mt-n1 text-error" style="display: block">
               [ MATERIEL ID INVALID OR MISSING ]
             </span>
           </div>

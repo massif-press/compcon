@@ -1,5 +1,5 @@
 <template>
-  <div class="bordered-primary pa-2">
+  <div class="bordered-primary px-2 pt-2 pb-6">
     <v-row dense>
       <v-col>
         <div class="heading h1 mt-n3">

@@ -1,33 +1,39 @@
 <template>
-  <v-col lg="4" md="6" xs="12">
-    <cc-titled-panel
-      clickable
-      :title="`${action.Name}${exclusive}`"
-      :icon="action.Icon"
-      :color="action.Color"
-      @click="($refs.dialog as any).show()">
-      <p v-html-safe="action.Terse" class="body-text mb-2 pa-2" />
-    </cc-titled-panel>
-    <cc-solo-dialog
-      ref="dialog"
-      :title="`${action.Name}${exclusive}`"
-      :icon="action.Icon"
-      :color="action.Color"
-      no-actions
-      width="80vw">
-      <v-container>
-        <p v-html-safe="action.Detail" class="body-text text-text mt-n3" />
-        <div v-if="action.SubActions && action.SubActions.length">
-          <div class="text-overline text-disabled">OPTIONS</div>
-          <v-row no-gutters justify="center">
-            <v-col v-for="a in action.SubActions" cols="auto">
-              <cc-action :action="a" :panel="false" class="ma-2" />
-            </v-col>
-          </v-row>
+  <cc-dialog :title="`${action.Name}${exclusive}`" :icon="action.Icon" :color="action.Color">
+    <template #activator="{ open }">
+      <component
+        :is="component"
+        :title="action.Name"
+        :icon="action.Icon"
+        :title-color="action.Color"
+        clickable
+        @click="open">
+        <p v-if="clickable" v-html-safe="action.Terse" />
+        <div v-else>
+          <p v-html-safe="action.Detail" />
+          <div v-if="action.SubActions && action.SubActions.length">
+            <div class="text-overline text-disabled">OPTIONS</div>
+            <v-row no-gutters justify="center">
+              <v-col v-for="a in action.SubActions" cols="auto">
+                <cc-action :action="a" :panel="false" class="ma-2" />
+              </v-col>
+            </v-row>
+          </div>
         </div>
-      </v-container>
-    </cc-solo-dialog>
-  </v-col>
+      </component>
+    </template>
+    <v-card-text class="pa-2">
+      <p v-html-safe="action.Detail" />
+      <div v-if="action.SubActions && action.SubActions.length">
+        <div class="text-overline text-disabled">OPTIONS</div>
+        <v-row no-gutters justify="center">
+          <v-col v-for="a in action.SubActions" cols="auto">
+            <cc-action :action="a" :panel="false" class="ma-2" />
+          </v-col>
+        </v-row>
+      </div>
+    </v-card-text>
+  </cc-dialog>
 </template>
 
 <script lang="ts">
@@ -42,8 +48,15 @@ export default {
       type: Boolean,
       required: false,
     },
+    clickable: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
+    component() {
+      return this.clickable ? 'cc-clickable-panel' : 'cc-panel';
+    },
     exclusive() {
       if (this.action.IsPilotAction && !this.action.IsMechAction) return ' (Pilot Only)';
       return '';

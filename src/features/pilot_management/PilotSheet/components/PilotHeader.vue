@@ -2,19 +2,17 @@
   <div id="header-container">
     <v-row class="pr-0 pl-2">
       <v-col>
-        <v-row align="center">
+        <v-row align="center" dense class="ml-n3">
           <v-col cols="auto">
             <v-row dense align="center">
-              <v-col cols="auto" class="ml-3">
-                <cc-tooltip
-                  v-if="pilot.IsRemote"
-                  inline
-                  bottom
-                  title="Remote Resource"
-                  content="This pilot is a remote resource linked to another user's account. It is
+              <v-col v-if="pilot.IsRemote" cols="auto">
+                <v-tooltip
+                  text="This pilot is a remote resource linked to another user's account. It is
                     read-only and will receive updates from the linked account.">
-                  <v-icon class="ml-n5 mr-1 fade-select" size="40">mdi-broadcast</v-icon>
-                </cc-tooltip>
+                  <template #activator="{ props }">
+                    <v-icon class="fade-select" size="40" icon="mdi-broadcast" v-bind="props" />
+                  </template>
+                </v-tooltip>
               </v-col>
               <v-col cols="auto">
                 <div
@@ -29,58 +27,60 @@
                 </div>
               </v-col>
             </v-row>
-            <v-row class="mt-n9 pt-0 text-white">
-              <v-col cols="auto">
+            <v-row class="mt-n9 pt-0 pb-0">
+              <v-col cols="auto" class="mr-4">
                 <div class="text-overline mb-n3" style="opacity: 0.4">name</div>
                 <div class="stat-text mt-n2 mb-n1">
                   {{ pilot.Name }}
                 </div>
               </v-col>
-              <v-col v-if="pilot.Background" cols="auto">
+              <v-col v-if="pilot.Background" cols="auto" class="mr-4 pb-0">
                 <div class="text-overline mb-n3" style="opacity: 0.4">background</div>
                 <div class="stat-text mt-n2 mb-n1">
                   {{ pilot.Background }}
                 </div>
               </v-col>
-              <v-col v-if="pilot.PlayerName" cols="auto">
+              <v-col v-if="pilot.PlayerName" cols="auto" class="mr-4 pb-0">
                 <div class="text-overline mb-n3" style="opacity: 0.4">player</div>
                 <div class="stat-text mt-n2 mb-n1">
                   {{ pilot.PlayerName }}
                 </div>
               </v-col>
-              <v-col cols="auto">
+              <v-col cols="auto" class="mr-4 pb-0">
                 <div class="text-overline mb-n3" style="opacity: 0.4">rm-4://IDENT</div>
                 <div class="stat-text mt-n2 mb-n1">
                   <v-dialog max-width="1200px">
                     <template #activator="{ props }">
-                      <v-icon dark variant="plain" v-bind="props">mdi-card-bulleted-outline</v-icon>
+                      <v-icon variant="plain" v-bind="props">mdi-card-bulleted-outline</v-icon>
                     </template>
-                    <v-sheet class="transparent">
+                    <v-card tile>
                       <pilot-registration-card :pilot="pilot" pilot-ready />
-                    </v-sheet>
+                    </v-card>
                   </v-dialog>
                 </div>
               </v-col>
-              <v-col v-if="pilot.BrewController.Brews.length" cols="auto">
+              <v-col v-if="pilot.BrewController.Brews.length" cols="auto" class="pb-0">
                 <div class="text-overline mb-n3" style="opacity: 0.4">RM-6://DATA</div>
-                <cc-brew-info :controller="pilot.BrewController" color="" />
+                <cc-brew-info :controller="pilot.BrewController" />
               </v-col>
-              <v-col class="">
+              <v-col class="pb-0">
                 <div class="text-overline mb-n3" style="opacity: 0.4">
                   NDAP/SR-01://STATUS REPORT
                 </div>
-                <div class="text-caption pt-1">
-                  <v-icon size="20" class="ml-1 mt-n1 mr-n1" icon="mdi-shield-outline" />
+                <div class="heading" style="padding-top: 4px; font-size: 14px">
+                  <v-icon size="18" class="ml-1 mt-n1" icon="mdi-star-four-points-outline" />
+                  {{ pilot.Grit }}
+                  <v-icon size="18" class="ml-1 mt-n1" icon="mdi-shield-outline" />
                   {{ pilot.Armor }}
-                  <v-icon size="20" class="ml-1 mt-n1 mr-n1" icon="mdi-heart" />
+                  <v-icon size="18" class="ml-1 mt-n1" icon="mdi-heart" />
                   {{ pilot.MaxHP }}
-                  <v-icon size="23" class="ml-1 mt-n1 mr-n1" icon="cc:e_def" />
+                  <v-icon size="18" class="ml-1 mt-n1" icon="cc:e_def" />
                   {{ pilot.EDefense }}
-                  <v-icon size="23" class="ml-1 mt-n1 mr-n1" icon="cc:evasion" />
+                  <v-icon size="18" class="ml-1 mt-n1" icon="cc:evasion" />
                   {{ pilot.Evasion }}
                   <v-icon
                     size="18"
-                    class="ml-1 mt-n1 mr-n1"
+                    class="ml-1 mt-n1"
                     icon="mdi-arrow-right-bold-hexagon-outline" />
                   {{ pilot.Speed }}
                 </div>
@@ -89,33 +89,35 @@
           </v-col>
           <v-col cols="auto" class="ml-auto" style="margin-right: 225px">
             <v-row dense align="center" justify="end">
-              <v-col cols="auto" class="heading h3">license level</v-col>
-              <v-col cols="auto" class="heading h2">
+              <v-col cols="auto" class="heading h4 mt-1">license level</v-col>
+              <v-col cols="auto" class="heading h2 text-highlight">
                 {{ pilot.Level }}
               </v-col>
               <v-col cols="auto">
-                <cc-tooltip
-                  v-if="!pilot.IsRemote && !isLevelingUp"
-                  delayed
-                  simple
-                  inline
-                  bottom
-                  content="Edit License Level">
-                  <v-icon size="15" class="fade-select" @click="($refs as any).levelEdit.show()">
-                    mdi-circle-edit-outline
-                  </v-icon>
-                </cc-tooltip>
+                <v-tooltip v-if="!pilot.IsRemote && !isLevelingUp" text="Edit License Level">
+                  <template #activator="{ props }">
+                    <v-icon
+                      size="15"
+                      class="fade-select"
+                      @click="($refs as any).levelEdit.show()"
+                      v-bind="props">
+                      mdi-circle-edit-outline
+                    </v-icon>
+                  </template>
+                </v-tooltip>
               </v-col>
             </v-row>
 
-            <v-btn
+            <cc-button
               v-if="!pilot.IsRemote && !isLevelingUp && pilot.Level < 12"
+              size="x-small"
+              color="panel"
               block
-              variant="tonal"
+              class="mt-n2"
+              prepend-icon="mdi-arrow-up-bold"
               @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID } })">
               Level Up
-              <v-icon size="large" end>mdi-arrow-up-bold-hexagon-outline</v-icon>
-            </v-btn>
+            </cc-button>
           </v-col>
 
           <v-col cols="auto">
@@ -169,7 +171,6 @@ export default {
   left: 0;
   width: 100vw;
   background-color: rgb(var(--v-theme-primary));
-  color: white;
 }
 
 #image {
