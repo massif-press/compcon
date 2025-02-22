@@ -391,7 +391,7 @@
       <div
         id="content"
         :style="`padding: 16px ${horizPadding}px 16px ${horizPadding}px`"
-        style="height: calc(100vh - 65px) !important; overflow-y: scroll">
+        style="height: calc(100vh - 45px) !important; overflow-y: scroll">
         <v-alert
           v-show="!!$slots.top"
           variant="outlined"

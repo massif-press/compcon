@@ -1,30 +1,28 @@
 <template>
   <div>
     <section-header title="Licenses">
-      <section-edit-chip
-        v-if="!pilot.IsRemote"
-        :highlight="!pilot.LicenseController.HasLicenses"
-        :current="pilot.LicenseController.CurrentLicensePoints"
-        :max="pilot.LicenseController.MaxLicensePoints"
-        :label="`Edit Pilot Licenses (${pilot.LicenseController.CurrentLicensePoints}/${pilot.LicenseController.MaxLicensePoints})`"
-        @open-selector="($refs as any).licenseSelector.show()" />
+      <cc-modal title="Set Pilot Licenses" icon="cc:frame" ref="licenseSelector">
+        <template #activator="{ open }">
+          <section-edit-chip
+            v-if="!pilot.IsRemote"
+            :highlight="!pilot.LicenseController.HasLicenses"
+            :current="pilot.LicenseController.CurrentLicensePoints"
+            :max="pilot.LicenseController.MaxLicensePoints"
+            :label="`Edit Pilot Licenses (${pilot.LicenseController.CurrentLicensePoints}/${pilot.LicenseController.MaxLicensePoints})`"
+            @open-selector="open" />
+        </template>
+        <license-selector :pilot="<Pilot>pilot" />
+      </cc-modal>
     </section-header>
-    <cc-solo-dialog
-      ref="licenseSelector"
-      icon="cc:frame"
-      no-confirm
-      title="Set Pilot Licenses"
-      fullscreen>
-      <license-selector :pilot="<Pilot>pilot" modal />
-    </cc-solo-dialog>
-    <v-container style="padding-right: 180px">
+
+    <div class="mt-4 mb-6" :style="!mobile && 'padding-right: 180px'">
       <no-data-block v-if="!pilot.LicenseController.Licenses.length" />
       <v-row v-else>
         <v-col v-for="l in pilot.LicenseController.Licenses" cols="12" md="4">
           <cc-pilot-license-item :pilot-license="l" title />
         </v-col>
       </v-row>
-    </v-container>
+    </div>
   </div>
 </template>
 
@@ -42,6 +40,11 @@ export default {
     pilot: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

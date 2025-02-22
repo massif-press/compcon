@@ -9,14 +9,14 @@
           class="gradient-background py-2"
           :class="{ mobile: mobile }">
           <v-col class="px-2" cols="auto">
-            <div class="text-cc-overline">{{ (item as License).Frame.Source }}</div>
+            <div class="text-cc-overline">{{ item.Frame.Source }}</div>
             <div class="heading h2 font-weight-bold">
-              {{ (item as License).Frame.Name }}
+              {{ item.Frame.Name }}
             </div>
           </v-col>
           <v-col cols="auto" md="12" class="px-2 ml-auto">
             <cc-chip
-              v-for="f in (item as License).Frame.MechType"
+              v-for="f in item.Frame.MechType"
               :size="mobile ? 'x-small' : 'small'"
               bg-color="primary"
               variant="elevated"
@@ -28,16 +28,61 @@
         <div
           class="img"
           :class="expanded && !mobile ? 'img-expanded' : 'img-hover'"
-          :style="getBgStyle(item as License)" />
+          :style="getBgStyle(item)" />
       </template>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
-      <cc-license-panel :license="item" />
+      <v-alert
+        v-if="item && item.Prerequisite"
+        variant="outlined"
+        density="compact"
+        class="text-center mx-10 mt-2 mb-n1"
+        color="warning">
+        <div v-if="item.Prerequisite.cumulative">
+          This License requires at least
+          {{ item.Prerequisite.min_rank }} cumulative Ranks of
+          {{ item.Prerequisite.source }} licenses
+        </div>
+        <div v-else>
+          This License requires at least one other
+          {{ item.Prerequisite.source }} License at Rank {{ item.Prerequisite.min_rank }} or above
+        </div>
+      </v-alert>
+
+      <cc-license-panel
+        :license="item"
+        :ranked="isRanked"
+        :rank="isRanked ? getControllerRank(item) : undefined" />
+
+      <v-row dense>
+        <v-col v-if="getControllerRank(item)" cols="12" md="">
+          <cc-button
+            block
+            size="x-small"
+            color="error"
+            prepend-icon="mdi-minus"
+            @click="$emit('remove', item)">
+            Remove {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
+          </cc-button>
+        </v-col>
+
+        <v-col v-if="getControllerRank(item) < item.Unlocks.length && selectable" cols="12" md="">
+          <cc-button
+            block
+            :disabled="!controller.IsMissingLicenses"
+            size="x-small"
+            color="secondary"
+            prepend-icon="mdi-plus"
+            @click="$emit('add', item)">
+            Unlock {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) + 1) }}
+          </cc-button>
+        </v-col>
+      </v-row>
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 
-<script lang="ts">
+<script>
 import { License } from '@/class';
 
 export default {
@@ -47,20 +92,35 @@ export default {
       type: Array,
       required: true,
     },
+    controller: {
+      type: Object,
+      required: false,
+    },
+    selectable: {
+      type: Boolean,
+    },
   },
+  emits: ['add', 'remove'],
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
     },
+    isRanked() {
+      return !!this.controller;
+    },
   },
   methods: {
-    getBgStyle(item: License) {
+    getBgStyle(item) {
       let style = `background-image: url('${item.Frame.DefaultImage}');`;
       if (this.mobile)
         style += `height:50px; width:100%; background-position: top ${item.Frame.YPosition}% left calc(50% + 8vw);`;
       else
         style += `height:80px; width:100%; background-position: top ${item.Frame.YPosition}% left calc(50% + 8vw)`;
       return style;
+    },
+    getControllerRank(item) {
+      if (!this.controller) return 0;
+      return this.controller.getLicenseRank(item.Name);
     },
   },
 };

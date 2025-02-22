@@ -1,34 +1,23 @@
 <template>
   <div>
     <section-header title="CORE Bonuses">
-      <section-edit-chip
-        v-if="!pilot.IsRemote"
-        :highlight="!pilot.CoreBonusController.HasCBs"
-        :current="pilot.CoreBonusController.CurrentCBPoints"
-        :max="pilot.CoreBonusController.MaxCBPoints"
-        :label="`Edit Pilot CORE Bonuses (${pilot.CoreBonusController.CurrentCBPoints}/${pilot.CoreBonusController.MaxCBPoints})`"
-        @open-selector="($refs as any).bonusSelector.show()" />
+      <cc-modal title="Set Pilot CORE Bonuses" icon="cc:corebonus">
+        <template #activator="{ open }">
+          <section-edit-chip
+            v-if="!pilot.IsRemote"
+            :highlight="!pilot.CoreBonusController.HasCBs"
+            :current="pilot.CoreBonusController.CurrentCBPoints"
+            :max="pilot.CoreBonusController.MaxCBPoints"
+            :label="`Edit Pilot CORE Bonuses (${pilot.CoreBonusController.CurrentCBPoints}/${pilot.CoreBonusController.MaxCBPoints})`"
+            @open-selector="open" />
+        </template>
+        <core-bonus-selector :pilot="pilot" />
+      </cc-modal>
     </section-header>
 
-    <cc-solo-dialog
-      ref="bonusSelector"
-      icon="cc:corebonus"
-      no-confirm
-      title="Set Pilot CORE Bonuses"
-      fullscreen>
-      <core-bonus-selector :pilot="pilot" modal />
-    </cc-solo-dialog>
     <v-container class="px-0">
       <no-data-block v-if="!pilot.CoreBonusController.CoreBonuses.length" />
-      <v-row v-else density="compact" justify="center">
-        <v-col
-          v-for="(b, i) in pilot.CoreBonusController.CoreBonuses"
-          cols="12"
-          md=""
-          :style="!$vuetify.display.mdAndDown ? 'min-width: 500px;' : ''">
-          <cc-core-bonus-item :bonus="b" />
-        </v-col>
-      </v-row>
+      <cc-core-bonus-item v-for="b in pilot.CoreBonusController.CoreBonuses" :bonus="b" terse />
     </v-container>
   </div>
 </template>

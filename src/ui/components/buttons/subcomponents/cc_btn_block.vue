@@ -15,7 +15,7 @@
           :href="href"
           :target="target"
           @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-row dense align="center" :class="mobile && 'py-2'">
+          <v-row dense align="center" :class="mobile && 'py-2'" justify="space-around">
             <v-col cols="auto">
               <v-icon v-if="prependIcon" :size="iconSize" :icon="prependIcon" start />
               <span v-else-if="size !== 'small' && size !== 'x-small'">&nbsp;</span>
@@ -24,13 +24,13 @@
               <slot />
               <div v-if="$slots.subtitle" class="mt-n1"><slot name="subtitle" /></div>
             </v-col>
-            <v-col cols="auto">
+            <v-col v-if="hasInfoContent" cols="auto">
               <div><slot name="info" /></div>
             </v-col>
             <v-col v-if="appendIcon" cols="auto">
               <v-icon :size="iconSize" :icon="appendIcon" start />
             </v-col>
-            <v-col cols="auto">
+            <v-col v-if="hasTooltipContent" cols="auto">
               <cc-tooltip v-if="tooltip" :icon="tooltipIcon" :text="tooltip" end />
               <div v-else style="height: 14px" />
             </v-col>
@@ -61,6 +61,8 @@
 </template>
 
 <script lang="ts">
+import { has } from 'lodash';
+
 export default {
   name: 'cc-btn-block',
   props: {
@@ -112,6 +114,21 @@ export default {
       if (this.size === 'x-small' || this.size === 'small')
         return !!this.$slots.subtitle ? 'center' : 'start';
       return 'center';
+    },
+    hasInfoContent() {
+      return this._hasContent('info');
+    },
+    hasTooltipContent() {
+      return this._hasContent('tooltip');
+    },
+  },
+  methods: {
+    _hasContent(prop) {
+      const slot = this.$slots[prop];
+      if (slot && slot()[0] && slot()[0].children) {
+        return (slot()[0].children as any).length > 0;
+      }
+      return false;
     },
   },
 };

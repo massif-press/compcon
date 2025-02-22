@@ -1,37 +1,52 @@
 <template>
   <div>
     <section-header title="Mech Skills">
-      <section-edit-chip
-        v-if="!pilot.IsRemote"
-        :highlight="!pilot.MechSkillsController.HasFullHASE"
-        :current="pilot.MechSkillsController.CurrentHASEPoints"
-        :max="pilot.MechSkillsController.MaxHASEPoints"
-        :label="`Edit Pilot Mech Skills (${pilot.MechSkillsController.CurrentHASEPoints}/${pilot.MechSkillsController.MaxHASEPoints})`"
-        @open-selector="($refs as any).mechskillsSelector.show()" />
+      <cc-modal title="Set Pilot Mech Skills" icon="cc:frame" shrink>
+        <template #activator="{ open }">
+          <section-edit-chip
+            v-if="!pilot.IsRemote"
+            :highlight="!pilot.MechSkillsController.HasFullHASE"
+            :current="pilot.MechSkillsController.CurrentHASEPoints"
+            :max="pilot.MechSkillsController.MaxHASEPoints"
+            :label="`Edit Pilot Mech Skills (${pilot.MechSkillsController.CurrentHASEPoints}/${pilot.MechSkillsController.MaxHASEPoints})`"
+            @open-selector="open" />
+        </template>
+        <mech-skills-selector :pilot="<Pilot>pilot" />
+      </cc-modal>
     </section-header>
 
-    <cc-solo-dialog
-      ref="mechskillsSelector"
-      icon="cc:frame"
-      no-confirm
-      title="Set Pilot Mech Skills"
-      fullscreen>
-      <v-container>
-        <mech-skills-selector :pilot="<Pilot>pilot" />
-      </v-container>
-    </cc-solo-dialog>
-    <v-row dense class="py-3" justify="space-around">
+    <v-row class="mt-1 mb-5" justify="space-around">
       <v-col cols="auto">
-        <hase-pips title="hull" :skill-points="pilot.MechSkillsController.MechSkills.Hull" />
+        <cc-tickbar
+          label="hull"
+          :size="mobile ? 'small' : 'default'"
+          readonly
+          icon="mdi-alpha-h-box-outline"
+          v-model="pilot.MechSkillsController.MechSkills.Hull" />
       </v-col>
       <v-col cols="auto">
-        <hase-pips title="agility" :skill-points="pilot.MechSkillsController.MechSkills.Agi" />
+        <cc-tickbar
+          label="agility"
+          :size="mobile ? 'small' : 'default'"
+          readonly
+          icon="mdi-alpha-a-box-outline"
+          v-model="pilot.MechSkillsController.MechSkills.Agi" />
       </v-col>
       <v-col cols="auto">
-        <hase-pips title="systems" :skill-points="pilot.MechSkillsController.MechSkills.Sys" />
+        <cc-tickbar
+          label="systems"
+          :size="mobile ? 'small' : 'default'"
+          readonly
+          icon="mdi-alpha-s-box-outline"
+          v-model="pilot.MechSkillsController.MechSkills.Sys" />
       </v-col>
       <v-col cols="auto">
-        <hase-pips title="engineering" :skill-points="pilot.MechSkillsController.MechSkills.Eng" />
+        <cc-tickbar
+          label="engineering"
+          :size="mobile ? 'small' : 'default'"
+          readonly
+          icon="mdi-alpha-e-box-outline"
+          v-model="pilot.MechSkillsController.MechSkills.Eng" />
       </v-col>
     </v-row>
   </div>
@@ -51,6 +66,11 @@ export default {
     pilot: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

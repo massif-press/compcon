@@ -1,7 +1,7 @@
 <template>
   <v-card flat tile>
     <v-card-text class="pa-0 flavor-text">
-      <span class="text-overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
+      <span class="text-cc-overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
       <br />
       <span v-if="!noCc" style="opacity: 0.4">>>COMP/CON//&nbsp;</span>
       <span v-html="content" />

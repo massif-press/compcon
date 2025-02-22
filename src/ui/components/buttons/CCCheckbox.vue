@@ -42,7 +42,7 @@
       </template>
     </v-hover>
 
-    <v-tooltip v-if="tooltip" location="top" max-width="300px">
+    <v-tooltip v-if="tooltip" location="top" max-width="300px" :open-on-click="mobile">
       <template v-slot:activator="{ props }">
         <v-icon
           style="align-self: center"
@@ -101,6 +101,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     isOn() {
       return this.modelValue;
     },

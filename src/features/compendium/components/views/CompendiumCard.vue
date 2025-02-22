@@ -4,34 +4,36 @@
       <template #default="{ isHovering, props }">
         <cc-modal :icon="item.Icon" :title="itemDialogTitle">
           <template #activator="{ open }">
-            <div :class="`pip bg-${isHovering ? 'accent' : 'panel'}`" />
-            <v-card
-              v-bind="props"
-              :color="isHovering ? '' : 'panel'"
-              flat
-              tile
-              style="clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px)"
-              variant="outlined"
-              @click="open()"
-              @keydown.enter="open()">
-              <component
-                :is="componentLoader"
-                v-if="componentLoader"
-                :item="item"
-                :hover="isHovering"
-                :highlighted="highlighted"
-                :small="small || portrait || landscape" />
-              <v-btn
-                v-if="selectable"
-                block
-                color="secondary"
-                size="small"
-                rounded="0"
-                prepend-icon="mdi-plus-box"
-                @click.stop="$emit('select')">
-                Select {{ item.Name }}
-              </v-btn>
-            </v-card>
+            <div style="position: relative">
+              <div :class="`pip bg-${isHovering ? 'accent' : 'panel'}`" />
+              <v-card
+                v-bind="props"
+                :color="isHovering ? '' : 'panel'"
+                flat
+                tile
+                style="clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px)"
+                variant="outlined"
+                @click="open()"
+                @keydown.enter="open()">
+                <component
+                  :is="componentLoader"
+                  v-if="componentLoader"
+                  :item="item"
+                  :hover="isHovering"
+                  :highlighted="highlighted"
+                  :small="small || portrait || landscape" />
+                <v-btn
+                  v-if="selectable"
+                  block
+                  color="secondary"
+                  size="small"
+                  rounded="0"
+                  prepend-icon="mdi-plus-box"
+                  @click.stop="$emit('select')">
+                  Select {{ item.Name }}
+                </v-btn>
+              </v-card>
+            </div>
           </template>
           <v-card-text style="position: relative">
             <cc-item-card :item="item" />

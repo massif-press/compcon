@@ -10,7 +10,6 @@
         {{ action.Name }}
       </cc-button>
     </template>
-
     <action-base :action="action" :tier="tier" />
   </cc-dialog>
 </template>

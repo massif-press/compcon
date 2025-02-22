@@ -1,17 +1,13 @@
 <template>
   <v-col class="text-center flavor-text">
-    <v-card flat tile class="ma-1 clipped" color="panel darken-1">
-      <v-card-text
-        class="text-white heading h3 pa-0"
-        :style="`letter-spacing: 3px; background-color: ${color}`"
-      >
+    <v-card flat tile class="clipped" color="panel">
+      <v-toolbar :color="color" class="heading h3" height="24">
         <contributor
           :label="attr"
           :value="signed ? (val > -1 ? '+' : '') + val : val"
-          :contributors="contributors"
-        />
-      </v-card-text>
-      <v-card-text class="pt-2 pb-0">
+          :contributors="contributors" />
+      </v-toolbar>
+      <v-card-text class="pa-0">
         <span class="text-text font-weight-black" style="font-size: 32px">
           {{ `${signed ? (val > -1 ? '+' : '-') : ''}${Math.abs(val)}` }}
         </span>

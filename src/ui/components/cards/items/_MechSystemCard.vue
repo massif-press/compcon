@@ -9,8 +9,13 @@
         <div class="text-cc-overline mt-n1">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</div>
       </v-col>
       <v-col v-if="item.LicenseString" cols="auto" class="ml-auto text-right">
-        <div class="heading h2">{{ item.Type }}</div>
-        <span class="flavor-text text-disabled">// {{ item.LicenseString }}</span>
+        <div class="heading h3">
+          {{ item.Type }}
+          <span class="flavor-text text-disabled">
+            <cc-slashes />
+            {{ item.LicenseString }}
+          </span>
+        </div>
         <div v-if="item.InLcp" class="flavor-text text-disabled">
           {{ item.LcpName }}
         </div>

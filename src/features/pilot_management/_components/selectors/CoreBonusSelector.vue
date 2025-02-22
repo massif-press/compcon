@@ -67,25 +67,21 @@
     </template>
 
     <template #right-column>
-      <v-expansion-panels v-model="open" multiple class="pt-2">
+      <v-expansion-panels v-model="open" multiple flat tile>
         <v-expansion-panel v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs">
-          <v-expansion-panel-title color="light-panel" class="px-1">
-            <div>
-              <v-row
-                align="center"
-                class="heading h1 px-4"
-                :style="`color: ${manufacturer.GetColor($vuetify.theme.current.dark)}`">
-                <v-col cols="auto">
-                  <v-icon :icon="manufacturer.Icon" />
-                </v-col>
-                <v-col cols="auto">
-                  {{ manufacturer.Name }}
-                </v-col>
-              </v-row>
+          <v-expansion-panel-title>
+            <div class="pr-5">
+              <div
+                class="heading h1"
+                :style="`color: ${manufacturer.Color}`"
+                style="font-size: calc(20px + 1vw)">
+                <v-icon :icon="manufacturer.Icon" class="mt-n1" />
+                {{ manufacturer.Name }}
+              </div>
               <v-card
                 variant="outlined"
                 :color="manufacturer.GetColor($vuetify.theme.current.dark)"
-                class="my-1 pa-3 ml-6">
+                class="my-1 pa-3">
                 <div class="flavor-text text-text text-center" v-html="requirement(manufacturer)" />
               </v-card>
             </div>

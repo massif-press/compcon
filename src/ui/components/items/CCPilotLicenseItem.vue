@@ -1,46 +1,36 @@
 <template>
-  <v-dialog v-model="dialog" width="90vw">
-    <template #activator="{ props }">
-      <v-btn
-        variant="outlined"
+  <cc-modal
+    shrink
+    :title="`${pilotLicense.License.Source} ${pilotLicense.License.Name}`"
+    :icon="`cc:rank_${pilotLicense.Rank}`"
+    :color="pilotLicense.License.Manufacturer.Color">
+    <template #activator="{ open }">
+      <cc-button
+        :size="mobile ? 'x-small' : 'small'"
         :prepend-icon="`cc:rank_${pilotLicense.Rank}`"
-        :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.current.dark)"
+        color="panel"
+        class="text-center"
         block
-        v-bind="props"
-      >
+        @click="open">
         <span class="pr-2">
           {{ pilotLicense.License.Source }}
           {{ pilotLicense.License.Name }}
           {{ 'I'.repeat(pilotLicense.Rank) }}
         </span>
-        <v-icon
-          size="x-large"
-          :icon="pilotLicense.License.Manufacturer.Icon"
-          :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.current.dark)"
-        />
-      </v-btn>
+        <template #info>
+          <v-icon
+            size="x-large"
+            :icon="pilotLicense.License.Manufacturer.Icon"
+            :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.current.dark)" />
+        </template>
+      </cc-button>
     </template>
-    <v-card class="pb-2">
-      <v-toolbar
-        density="compact"
-        flat
-        :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.current.dark)"
-      >
-        <v-icon size="large" :icon="`cc:rank_${pilotLicense.Rank}`" class="ml-3" />
-        <v-toolbar-title class="heading h3">
-          {{ pilotLicense.License.Source }}
-          {{ pilotLicense.License.Name }}
-        </v-toolbar-title>
-        <v-spacer />
-        <v-btn icon size="large" variant="plain" @click="dialog = false">
-          <v-icon icon="mdi-close" />
-        </v-btn>
-      </v-toolbar>
+    <v-card class="pb-2" flat>
       <v-card-text>
         <cc-license-panel :license="pilotLicense.License" ranked :rank="pilotLicense.Rank" />
       </v-card-text>
     </v-card>
-  </v-dialog>
+  </cc-modal>
 </template>
 
 <script lang="ts">
@@ -58,5 +48,10 @@ export default {
     dialog: false,
     color: 'primary',
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>

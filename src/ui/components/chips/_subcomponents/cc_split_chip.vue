@@ -1,7 +1,9 @@
 <template>
   <base-chip v-bind="$props">
     <template #content>
-      <span :class="`py-2 ${title ? 'px-2' : 'px-1'}`" :style="`background-color: ${hexColor}`">
+      <span
+        :class="`py-2 ${title ? 'px-2' : 'px-1'}`"
+        :style="`background-color: ${hexColor(bgColor)}`">
         <v-icon v-if="icon" :icon="icon" :start="!!title" />
         <span v-if="title" v-text="title" />
       </span>
@@ -49,10 +51,11 @@ export default {
       type: String,
     },
   },
-  computed: {
-    hexColor() {
-      if (this.color[0] === '#') return this.color;
-      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name].colors[this.color];
+  methods: {
+    hexColor(color) {
+      if (!color) return '';
+      if (color[0] === '#') return color;
+      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name][color];
     },
   },
 };

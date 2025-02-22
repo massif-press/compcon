@@ -2,7 +2,7 @@
   <v-menu :open-on-hover="!mobile" :open-on-click="mobile" bottom offset-y max-width="700px">
     <template #activator="{ props }">
       <cc-chip
-        :color="action.Color"
+        :bg-color="action.Color"
         v-bind="props"
         variant="flat"
         tile
@@ -14,18 +14,12 @@
         </span>
       </cc-chip>
     </template>
-    <v-card>
-      <v-toolbar density="compact" :color="action.Color" class="text-white">
-        <v-icon size="40" dark class="mx-2">{{ action.Icon }}</v-icon>
+    <v-card flat tile border>
+      <v-toolbar density="compact" :color="action.Color" height="44">
+        <v-icon dark class="mx-2">{{ action.Icon }}</v-icon>
         <span class="heading h3 pr-6">{{ action.Name }}</span>
         <v-spacer />
-        <v-chip
-          v-if="!action.Frequency.Unlimited"
-          slot="title-items"
-          color="white"
-          class="stat-text mr-6"
-          variant="outlined"
-          label>
+        <v-chip v-if="!action.Frequency.Unlimited" class="text-caption" label tile>
           {{ action.Frequency.ToString() }}
         </v-chip>
       </v-toolbar>

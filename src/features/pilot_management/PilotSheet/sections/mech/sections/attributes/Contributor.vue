@@ -1,7 +1,12 @@
 <template>
-  <cc-tooltip :title="title" :content="content">
-    <span class="pa-1">{{ label?.toUpperCase() }}</span>
-  </cc-tooltip>
+  <v-tooltip>
+    <template #activator="{ props }">
+      <span class="pa-1" v-bind="props">{{ label?.toUpperCase() }}</span>
+    </template>
+    <div class="heading h5" v-text="title" />
+    <v-divider />
+    <p class="py-2" v-html="content" />
+  </v-tooltip>
 </template>
 
 <script lang="ts">

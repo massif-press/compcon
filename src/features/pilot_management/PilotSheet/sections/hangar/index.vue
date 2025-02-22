@@ -1,15 +1,19 @@
 <template>
   <div>
-    <cc-title large color="pilot" class="pr-8 mb-2">Hangar</cc-title>
-    <v-btn-toggle id="viewToggle" :value="view" mandatory>
-      <v-btn small icon value="cards" @click="profile.SetView('hangar', 'cards')">
+    <div class="heading h1">Mech Hangar</div>
+    <v-btn-toggle
+      id="viewToggle"
+      :value="view"
+      mandatory
+      style="height: 20px"
+      flat
+      tile
+      class="mb-4">
+      <v-btn size="small" icon value="cards" @click="profile.SetView('hangar', 'cards')">
         <v-icon color="accent">mdi-view-grid</v-icon>
       </v-btn>
-      <v-btn small icon value="list" @click="profile.SetView('hangar', 'list')">
+      <v-btn size="small" icon value="list" @click="profile.SetView('hangar', 'list')">
         <v-icon color="accent">mdi-view-list</v-icon>
-      </v-btn>
-      <v-btn small icon value="table" @click="profile.SetView('hangar', 'table')">
-        <v-icon color="accent">mdi-format-align-justify</v-icon>
       </v-btn>
     </v-btn-toggle>
     <v-container class="mt-2">
@@ -21,6 +25,13 @@
           @copy="pilot.CloneMech($event)"
           @go="toMechSheet($event)" />
       </v-row>
+      <mech-list-item-mobile
+        v-else-if="view === 'list' && mobile"
+        v-for="m in pilot.Mechs"
+        :mech="m"
+        @delete="pilot.RemoveMech($event)"
+        @copy="pilot.CloneMech($event)"
+        @go="toMechSheet($event)" />
       <mech-list-item
         v-else-if="view === 'list'"
         v-for="m in pilot.Mechs"
@@ -30,37 +41,36 @@
         @go="toMechSheet($event)" />
       <mech-table v-else :mechs="pilot.Mechs" @go="toMechSheet($event)" />
     </v-container>
-    <v-row justify="center">
-      <v-col cols="auto">
-        <v-btn
-          v-if="!pilot.IsRemote"
-          color="accent"
-          prepend-icon="mdi-plus"
-          class="px-10"
-          variant="tonal"
-          size="large"
-          @click="($refs as any).dialog.show()">
+    <cc-modal v-if="!pilot.IsRemote" icon="cc:frame" title="Add New Mech">
+      <template #activator="{ open }">
+        <cc-button
+          color="primary"
+          class="mx-6"
+          block
+          prepend-icon="cc:frame"
+          append-icon="mdi-plus"
+          @click="open">
           Add New Mech
-        </v-btn>
-      </v-col>
-    </v-row>
-    <cc-solo-dialog ref="dialog" icon="cc:frame" no-confirm title="Add New Mech" fullscreen>
-      <new-mech-menu :pilot="pilot" @close="($refs as any).dialog.hide()" />
-    </cc-solo-dialog>
+        </cc-button>
+      </template>
+      <template #default="{ close }">
+        <new-mech-menu :pilot="pilot" @close="close" />
+      </template>
+    </cc-modal>
   </div>
 </template>
 
 <script lang="ts">
 import MechCard from './components/MechCard.vue';
 import MechListItem from './components/MechListItem.vue';
-import MechTable from './components/MechTable.vue';
+import MechListItemMobile from './components/MechListItemMobile.vue';
 import NewMechMenu from './components/NewMechMenu.vue';
 import { UserStore } from '@/stores';
 import { Pilot } from '@/class';
 
 export default {
   name: 'mech-hangar-view',
-  components: { MechCard, MechListItem, MechTable, NewMechMenu },
+  components: { MechCard, MechListItem, MechListItemMobile, NewMechMenu },
   props: {
     pilot: {
       type: Pilot,
@@ -68,6 +78,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     profile() {
       return UserStore().User;
     },

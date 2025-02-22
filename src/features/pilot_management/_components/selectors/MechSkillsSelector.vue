@@ -1,49 +1,58 @@
 <template>
-  <div style="max-width: 1600px" class="mx-auto">
-    <div class="text-center mb-4">
-      <v-alert
-        :value="true"
-        :type="pilot.MechSkillsController.IsMissingHASE ? 'info' : 'success'"
-        variant="outlined"
-        class="stat-text">
+  <v-card-text>
+    <div class="mb-4">
+      <cc-alert
+        :color="pilot.MechSkillsController.IsMissingHASE ? 'warning' : 'success'"
+        class="stat-text text-center">
         {{ pilot.MechSkillsController.CurrentHASEPoints }}/{{
           pilot.MechSkillsController.MaxHASEPoints
         }}
         Mech Skills selected
-      </v-alert>
-      <v-btn
-        size="small"
-        class="fade-select mt-2"
-        color="info"
-        variant="outlined"
-        @click="pilot.MechSkillsController.Reset()">
-        Reset Mech Skills
-      </v-btn>
+        <div class="text-right">
+          <v-btn size="x-small" variant="text" @click="pilot.MechSkillsController.Reset()">
+            Reset Mech Skills
+          </v-btn>
+        </div>
+      </cc-alert>
     </div>
 
     <v-row align="center">
-      <v-col v-for="s in skills" xs="12" sm="12" md="6">
-        <hase-skill-item
-          :val="s.val"
-          :text="s.text"
-          :description="s.description"
-          :bonuses="s.bonuses"
-          :mech-skills="pilot.MechSkillsController.MechSkills"
-          :isMissingHASE="isMissingHASE"
-          @add="add(s.val)"
-          @remove="remove(s.val)" />
+      <v-col v-for="s in skills" cols="12" md="6" class="mb-6">
+        <div class="heading h3 text-accent">
+          {{ s.text }}
+        </div>
+        <p v-html="s.description" class="flavor-text px-2 mb-3" />
+        <v-row no-gutters justify="center" align="start">
+          <v-col cols="auto">
+            <cc-tickbar
+              :icon="!mobile && s.icon"
+              :size="mobile ? 'small' : 'default'"
+              controls
+              :stop-add="pilot.MechSkillsController.HasFullHASE"
+              :max-selectable="
+                pilot.MechSkillsController.MaxHASEPoints -
+                pilot.MechSkillsController.CurrentHASEPoints
+              "
+              v-model="pilot.MechSkillsController.MechSkills[s.val]" />
+          </v-col>
+        </v-row>
+        <div class="text-center py-2">
+          <span v-for="(b, i) in s.bonuses" class="heading h3">
+            {{ b.text }}
+            <span class="text-accent">+{{ b.value }}</span>
+            <cc-slashes v-if="s.bonuses.length > i + 1" class="mx-2" />
+          </span>
+        </div>
       </v-col>
     </v-row>
-  </div>
+  </v-card-text>
 </template>
 
 <script lang="ts">
 import { Pilot, HASE } from '@/class';
-import HaseSkillItem from './components/_HaseSkillItem.vue';
 
 export default {
   name: 'mech-skills-selector',
-  components: { HaseSkillItem },
   props: {
     pilot: { type: Pilot, required: true },
   },
@@ -53,13 +62,14 @@ export default {
     },
   },
   computed: {
-    isMissingHASE(): boolean {
-      return this.pilot.MechSkillsController.IsMissingHASE;
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
     skills() {
       return [
         {
           val: 'Hull',
+          icon: 'mdi-alpha-h-box-outline',
           text: 'Hull',
           description:
             'Your HULL skill describes your ability to build and pilot durable, heavy mechs that can take punches and keep going',
@@ -73,6 +83,7 @@ export default {
         },
         {
           val: 'Agi',
+          icon: 'mdi-alpha-a-box-outline',
           text: 'Agility',
           description:
             'Your AGILITY skill describes your ability to build and pilot fast, evasive mechs',
@@ -86,6 +97,7 @@ export default {
         },
         {
           val: 'Sys',
+          icon: 'mdi-alpha-s-box-outline',
           text: 'Systems',
           description:
             'Your SYSTEMS skill describes your ability to build and pilot technical mechs with powerful electronic warfare tools',
@@ -103,6 +115,7 @@ export default {
         },
         {
           val: 'Eng',
+          icon: 'mdi-alpha-e-box-outline',
           text: 'Engineering',
           description:
             'Your ENGINEERING skill describes your ability to build and pilot mechs with powerful reactors, supplies and support systems',

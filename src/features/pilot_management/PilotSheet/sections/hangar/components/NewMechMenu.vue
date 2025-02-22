@@ -6,58 +6,56 @@
     equippable
     @equip="select($event)">
     <template #header>
-      <div class="heading h4 text-center text-primary">Select New Frame</div>
+      <div class="heading h4 text-center text-accent">Select New Frame</div>
     </template>
 
     <template #top>
       <v-row justify="end">
         <v-col cols="auto">
-          <v-switch
-            v-model="showAll"
-            label="Show All"
-            inset
-            hide-details
-            density="compact"
-            color="accent" />
+          <cc-switch v-model="showAll" label="Show All Frames" color="error" />
         </v-col>
       </v-row>
     </template>
   </cc-compendium-browser>
 
-  <v-dialog v-model="nameDialog">
-    <v-card>
-      <v-toolbar color="primary" density="compact">
-        <div class="heading h3 pl-4">Register New Mech</div>
-        <v-spacer />
-        <v-btn icon @click="nameDialog = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-card-text>
-        <v-row justify="center">
-          <v-col cols="8">
-            <span class="text-overline">XK-4-01 // REGISTER MECH NAME</span>
-            <v-text-field v-model="mechName" variant="outlined" label="Name" hide-details>
-              <template #prepend>
-                <cc-tooltip simple content="Generate Random Name">
-                  <v-icon color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
-                </cc-tooltip>
+  <cc-solo-modal v-model="nameDialog" shrink title="register new mech" icon="cc:frame">
+    <v-row justify="center">
+      <v-col cols="11" md="8">
+        <span class="text-overline">XK-4-01 // REGISTER MECH NAME</span>
+        <v-text-field v-model="mechName" variant="outlined" label="Name" hide-details tile>
+          <template #prepend>
+            <v-tooltip text="Generate Random Name" location="top">
+              <template #activator="{ props }">
+                <cc-button
+                  v-bind="props"
+                  color="accent"
+                  icon="mdi-dice-multiple"
+                  variant="outlined"
+                  @click="randomName()"></cc-button>
               </template>
-              <template #append>
-                <v-icon v-if="!mechName" color="error">mdi-alert</v-icon>
-                <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
-              </template>
-            </v-text-field>
-          </v-col>
-        </v-row>
-        <div class="text-center py-4">
-          <v-btn size="large" color="accent" class="px-10" :disabled="!mechName" @click="addMech()">
-            Register New Mech
-          </v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+            </v-tooltip>
+          </template>
+          <template #append>
+            <v-icon v-if="!mechName" color="error">mdi-alert</v-icon>
+            <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
+          </template>
+        </v-text-field>
+      </v-col>
+    </v-row>
+    <div class="py-4">
+      <cc-button
+        block
+        color="accent"
+        size="small"
+        prepend-icon="cc:frame"
+        append-icon="mdi-check"
+        class="px-10"
+        :disabled="!mechName"
+        @click="addMech()">
+        Register New Mech
+      </cc-button>
+    </div>
+  </cc-solo-modal>
 </template>
 
 <script lang="ts">
