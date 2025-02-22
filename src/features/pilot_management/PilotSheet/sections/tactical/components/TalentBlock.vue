@@ -1,25 +1,19 @@
 <template>
   <div class="mb-4">
-    <v-row no-gutters>
-      <v-col cols="auto">
-        <section-header title="Talents">
+    <section-header title="Talents">
+      <cc-modal v-if="!pilot.IsRemote" title="Set Pilot Talents" icon="cc:trait">
+        <template #activator="{ open }">
           <section-edit-chip
             v-if="!pilot.IsRemote"
             :highlight="!pilot.TalentsController.HasFullTalents"
             :current="pilot.TalentsController.CurrentTalentPoints"
             :max="pilot.TalentsController.MaxTalentPoints"
             :label="`Edit Pilot Talents (${pilot.TalentsController.CurrentTalentPoints}/${pilot.TalentsController.MaxTalentPoints})`"
-            @open-selector="($refs as any).talentSelector.show()" />
-        </section-header>
-      </v-col>
-      <v-col cols="auto" class="ml-auto">
-        <v-btn-toggle v-model="view" mandatory>
-          <v-btn value="full"><v-icon icon="mdi-view-stream" /></v-btn>
-          <v-btn value="terse"><v-icon icon="mdi-view-list" /></v-btn>
-          <v-btn value="small"><v-icon icon="mdi-view-comfy" /></v-btn>
-        </v-btn-toggle>
-      </v-col>
-    </v-row>
+            @open-selector="open" />
+        </template>
+        <talent-selector :pilot="pilot" />
+      </cc-modal>
+    </section-header>
 
     <v-container class="px-0">
       <no-data-block v-if="!pilot.TalentsController.Talents.length" />
@@ -33,14 +27,6 @@
         in-column
         hide-change />
     </v-container>
-    <cc-solo-dialog
-      ref="talentSelector"
-      icon="cc:trait"
-      no-confirm
-      title="Set Pilot Talents"
-      fullscreen>
-      <talent-selector :pilot="pilot" modal />
-    </cc-solo-dialog>
   </div>
 </template>
 
@@ -63,18 +49,7 @@ export default {
     },
   },
   data: () => ({
-    view: 'terse',
+    view: 'full',
   }),
-  created() {
-    const user = UserStore().User;
-    if (!user || !user.View) return;
-    this.view = user.View('talentBlockStyle', 'terse');
-  },
-  watch: {
-    view(val) {
-      if (!val) return;
-      UserStore().User.SetView('talentBlockStyle', val);
-    },
-  },
 };
 </script>

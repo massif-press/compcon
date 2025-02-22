@@ -14,7 +14,7 @@
         <skill-selector :pilot="<Pilot>pilot" modal />
       </cc-modal>
     </section-header>
-    <div :style="!mobile && 'width: calc(100vw - 250px)'" dense class="my-2 px-4">
+    <div :style="!mobile && 'width: calc(100vw - 275px)'" dense class="my-2 px-4">
       <no-data-block v-if="!pilot.SkillsController.Skills.length" />
       <cc-skill-item
         v-for="s in pilot.SkillsController.Skills"

@@ -38,7 +38,7 @@ export default {
     size() {
       if (this.large) return '100px';
       if (this.small) return '50px';
-      return '45px';
+      return 'calc(30px + 1vw)';
     },
   },
   created() {

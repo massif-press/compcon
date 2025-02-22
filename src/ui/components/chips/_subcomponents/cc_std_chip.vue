@@ -47,11 +47,5 @@ export default {
       type: String,
     },
   },
-  computed: {
-    hexColor() {
-      if (this.color[0] === '#') return this.color;
-      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name][this.color];
-    },
-  },
 };
 </script>

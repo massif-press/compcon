@@ -1,50 +1,27 @@
 <template>
-  <v-row density="compact">
-    <v-col v-if="!$vuetify.display.mdAndDown" cols="12" md="auto" class="pr-0">
-      <v-btn
-        tile
-        block
-        variant="outlined"
-        min-height="calc(100% - 8px)"
-        class="pa-0"
-        :color="color"
-        :disabled="!isSelected && !isSelectable"
-        @click="$emit(isSelected ? 'remove' : 'add', bonus)">
-        <cc-tooltip simple inline :content="ttContent()">
-          <v-icon v-if="isSelected" size="80" color="error">mdi-minus</v-icon>
-          <v-icon v-else-if="isSelectable" size="80" color="secondary">mdi-plus</v-icon>
-          <v-icon v-else size="80" color="grey">mdi-lock</v-icon>
-        </cc-tooltip>
-      </v-btn>
-    </v-col>
-    <v-col cols="12" md="" class="pl-0">
-      <cc-core-bonus-item :bonus="bonus" />
-    </v-col>
-    <v-col v-if="$vuetify.display.mdAndDown" cols="12" md="auto" class="mb-4 mt-n2">
-      <v-btn
-        tile
-        block
-        :dark="isSelectable || isSelected"
-        :color="color"
-        :disabled="!isSelected && !isSelectable"
-        @click="$emit(isSelected ? 'remove' : 'add', bonus)">
-        <span>
-          <span v-if="isSelected">
-            <v-icon start>cc:difficulty</v-icon>
-            Remove Bonus
-          </span>
-          <span v-else-if="isSelectable">
-            <v-icon start>cc:accuracy</v-icon>
-            Add Bonus
-          </span>
-          <span v-else>
-            <v-icon start>mdi-lock</v-icon>
-            Unavailable
-          </span>
-        </span>
-      </v-btn>
-    </v-col>
-  </v-row>
+  <cc-core-bonus-item :bonus="bonus" />
+  <cc-button
+    size="x-small"
+    block
+    :color="isSelected ? 'error' : 'secondary'"
+    class="mb-6"
+    :disabled="!isSelected && !isSelectable"
+    @click="$emit(isSelected ? 'remove' : 'add', bonus)">
+    <span>
+      <span v-if="isSelected">
+        <v-icon start>cc:difficulty</v-icon>
+        Remove {{ bonus.Name }}
+      </span>
+      <span v-else-if="isSelectable">
+        <v-icon start>cc:accuracy</v-icon>
+        Add {{ bonus.Name }}
+      </span>
+      <span v-else>
+        <v-icon start>mdi-lock</v-icon>
+        Unavailable
+      </span>
+    </span>
+  </cc-button>
 </template>
 
 <script lang="ts">

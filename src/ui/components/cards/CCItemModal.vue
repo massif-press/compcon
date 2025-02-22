@@ -3,11 +3,12 @@
     ref="dialog"
     :color="item.Color ? item.Color : 'primary'"
     :title="`${item.Name}`"
-    :icon="item.Icon">
+    :icon="item.Icon"
+    shrink>
     <template #activator="{ open }">
       <cc-button
         :color="item.Color ? item.Color : 'primary'"
-        class="ma-1"
+        class="ma-1 d-inline-block"
         :block="block"
         :prepend-icon="itemIcon"
         size="small"

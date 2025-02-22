@@ -1,5 +1,5 @@
 <template>
-  <div :class="mobile && 'px-4'">
+  <div :class="mobile ? 'px-4' : 'px-12'">
     <div :style="!mobile && 'height: 129px; padding-right: 250px'">
       <ident-block :pilot="pilot" />
     </div>

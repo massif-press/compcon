@@ -90,50 +90,17 @@
               {{ mf(m).Name }}
             </v-col>
           </v-row>
-          <v-expansion-panels accordion focusable>
-            <v-expansion-panel
-              v-for="item in licenses[m].filter((x) =>
-                !search ? true : x.Name.toLowerCase().includes(search.toLowerCase())
-              )"
-              :id="`license_${item.FrameID}`">
-              <v-expansion-panel-title class="hover-parent py-0 pr-0 pl-3" hide-actions>
-                <div>
-                  <div>
-                    <div class="caption">{{ (item as License).Frame.Source }}</div>
-                    <div class="heading h2 font-weight-bold">
-                      {{ (item as License).Frame.Name }}
-                    </div>
-                  </div>
-                  <div style="min-width: 20vw">
-                    <v-chip
-                      v-for="f in (item as License).Frame.MechType"
-                      size="small"
-                      dark
-                      variant="outlined"
-                      color="accent"
-                      class="ma-1">
-                      {{ f }}
-                    </v-chip>
-                  </div>
-                </div>
-                <div
-                  class="img-hover"
-                  :style="`background-image: url('${
-                    (item as License).Frame.DefaultImage
-                  }'); height:110px;
-                    width:100%;  background-position: top ${
-                      (item as License).Frame.YPosition
-                    }% left 0`" />
-              </v-expansion-panel-title>
-              <v-expansion-panel-text>
-                <license-select-item
-                  :license="item"
-                  :is-selectable="item.CanSelect(pilot)"
-                  :rank="pilot.LicenseController.getLicenseRank(item.Name)"
-                  @add="pilot.LicenseController.AddLicense(item)"
-                  @remove="pilot.LicenseController.RemoveLicense(item)" />
-              </v-expansion-panel-text>
-            </v-expansion-panel>
+          <v-expansion-panels accordion focusable flat>
+            <license-expandable
+              :items="
+                licenses[m].filter((x) =>
+                  !search ? true : x.Name.toLowerCase().includes(search.toLowerCase())
+                )
+              "
+              :controller="pilot.LicenseController"
+              selectable
+              @add="pilot.LicenseController.AddLicense($event)"
+              @remove="pilot.LicenseController.RemoveLicense($event)" />
           </v-expansion-panels>
         </v-col>
       </v-row>
@@ -145,7 +112,7 @@
 import _ from 'lodash';
 import Selector from './components/_SelectorBase.vue';
 import MissingItem from './components/_MissingItem.vue';
-import LicenseSelectItem from './components/_LicenseSelectItem.vue';
+import LicenseExpandable from '@/ui/components/CompendiumBrowser/components/_license-expandable.vue';
 
 import { CompendiumStore } from '@/stores';
 import { Pilot, License } from '@/class';
@@ -153,32 +120,30 @@ import scrollTo from '@/util/scrollTo';
 
 export default {
   name: 'license-selector',
-  components: { Selector, LicenseSelectItem, MissingItem },
+  components: { Selector, MissingItem, LicenseExpandable },
   props: {
     pilot: { type: Pilot, required: true },
     levelUp: Boolean,
     modal: Boolean,
   },
   data: () => ({
-    licenses: [] as any,
     search: '',
   }),
   computed: {
     selectionComplete(): boolean {
       return this.levelUp && !this.pilot.LicenseController.IsMissingLicenses;
     },
+    licenses() {
+      return _.groupBy(
+        CompendiumStore().Licenses.filter((x) => !x.Hidden),
+        'Source'
+      );
+    },
   },
   watch: {
     selectionComplete(bool) {
       if (bool) window.scrollTo(0, document.body.scrollHeight);
     },
-  },
-  created() {
-    const compendium = CompendiumStore();
-    this.licenses = _.groupBy(
-      compendium.Licenses.filter((x) => !x.Hidden),
-      'Source'
-    );
   },
   methods: {
     scroll(id) {

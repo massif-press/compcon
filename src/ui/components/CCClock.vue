@@ -1,6 +1,6 @@
 <template>
-  <v-card variant="tonal" :class="dense ? 'rounded-0' : ''">
-    <v-card-text :class="dense ? 'ma-0 py-1' : 'px-2 pb-3 py-0 ma-0'">
+  <v-card variant="tonal" tile flat style="position: relative" class="rounded-s-xl">
+    <v-card-text class="py-1 px-2">
       <v-row :dense="dense" :align="clock.Linear ? 'start' : 'center'">
         <v-col v-if="!clock.Linear" cols="auto">
           <v-progress-circular
@@ -16,34 +16,39 @@
           <div :class="`heading ${dense ? 'h3' : 'h2'}`">
             {{ clock.Title }}
             <span v-if="!print">
-              <v-btn v-if="!readonly" size="small" icon variant="plain" @click="editDialog = true">
-                <v-icon icon="mdi-circle-edit-outline" />
-              </v-btn>
-              <v-menu offset-x left>
-                <template #activator="{ props }">
-                  <v-btn
-                    v-if="!readonly"
-                    size="small"
-                    icon
-                    color="error"
-                    variant="plain"
-                    v-bind="props">
-                    <v-icon icon="mdi-delete" />
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-text>
-                    Do you want to delete this clock? This action cannot be undone.
-                  </v-card-text>
-                  <v-divider />
-                  <v-card-actions>
-                    <v-spacer />
-                    <v-btn size="small" color="error" @click="$emit('delete')">
-                      Confirm Deletion
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-menu>
+              <span class="d-inline-block ml-2">
+                <cc-button
+                  v-if="!readonly"
+                  size="x-small"
+                  variant="text"
+                  icon="mdi-circle-edit-outline"
+                  @click="editDialog = true" />
+              </span>
+              <span class="d-inline-block ml-2">
+                <v-menu offset-x left>
+                  <template #activator="{ props }">
+                    <cc-button
+                      v-if="!readonly"
+                      size="x-small"
+                      variant="text"
+                      icon="mdi-delete"
+                      color="error"
+                      v-bind="props" />
+                  </template>
+                  <v-card>
+                    <v-card-text>
+                      Do you want to delete this clock? This action cannot be undone.
+                    </v-card-text>
+                    <v-divider />
+                    <v-card-actions>
+                      <v-spacer />
+                      <cc-button size="small" color="error" @click="$emit('delete')">
+                        Confirm Deletion
+                      </cc-button>
+                    </v-card-actions>
+                  </v-card>
+                </v-menu>
+              </span>
             </span>
           </div>
 
@@ -68,65 +73,53 @@
           </div>
         </v-col>
         <v-col v-if="!print && !dense && !readonly" cols="auto">
-          <v-btn
-            size="x-large"
-            variant="plain"
-            icon
-            @click="
-              clock.Increment();
-              $emit('change');
-            ">
-            <v-icon size="50" color="accent">mdi-plus</v-icon>
-          </v-btn>
-          <br />
-          <v-btn
-            size="x-large"
-            variant="plain"
-            icon
-            @click="
-              clock.Decrement();
-              $emit('change');
-            ">
-            <v-icon size="50" color="accent">mdi-minus</v-icon>
-          </v-btn>
+          <div style="position: absolute; right: 12px; top: 10px">
+            <cc-button
+              variant="outlined"
+              icon="mdi-plus"
+              @click="
+                clock.Increment();
+                $emit('change');
+              " />
+          </div>
+
+          <div style="position: absolute; right: 12px; bottom: 10px">
+            <cc-button
+              variant="outlined"
+              icon="mdi-minus"
+              @click="
+                clock.Decrement();
+                $emit('change');
+              " />
+          </div>
         </v-col>
         <v-col v-else-if="dense && !readonly" cols="auto" align-self="end">
-          <v-btn
+          <cc-button
             variant="tonal"
-            icon
+            icon="mdi-plus"
             color="accent"
             style="width: 26px; height: 26px"
             class="mr-2"
             @click="
               clock.Increment();
               $emit('change');
-            ">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-          <v-btn
+            " />
+          <cc-button
             variant="tonal"
-            icon
+            icon="mdi-minus"
             color="accent"
             style="width: 26px; height: 26px"
             @click="
               clock.Decrement();
               $emit('change');
-            ">
-            <v-icon>mdi-minus</v-icon>
-          </v-btn>
+            " />
         </v-col>
       </v-row>
     </v-card-text>
-    <v-dialog v-model="editDialog" width="70vw">
+
+    <cc-solo-modal v-model="editDialog" shrink title="clock editor" icon="mdi-clock">
       <v-card>
-        <v-toolbar density="compact" color="primary" class="text-white">
-          <v-toolbar-title class="heading h3">CLOCK EDITOR</v-toolbar-title>
-          <v-spacer />
-          <v-btn icon class="text-white" @click="editDialog = false">
-            <v-icon large>mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text>
+        <v-card-text class="pa-2">
           <div class="text-center ma-2">
             <div v-if="clock.Linear">
               <v-progress-linear
@@ -143,24 +136,24 @@
               </v-progress-circular>
             </div>
           </div>
-          <v-row align="center">
-            <v-col>
-              <v-text-field
+          <v-row align="center" dense justify="space-around">
+            <v-col cols="12" md="5">
+              <cc-text-field
                 v-model="clock.Title"
                 label="Title"
-                hide-details
+                color="panel"
                 @change="$emit('change')" />
             </v-col>
-            <v-col cols="2">
-              <v-text-field
-                v-model="clock.Segments"
+            <v-col cols="12" md="3">
+              <cc-text-field
+                v-model.number="clock.Segments"
                 label="Segments"
-                number
-                hide-details
+                type="number"
+                color="panel"
                 @change="$emit('change')" />
             </v-col>
             <v-col cols="auto">
-              <v-switch
+              <cc-switch
                 v-model="clock.Linear"
                 label="Linear"
                 hide-details
@@ -168,49 +161,35 @@
             </v-col>
             <v-col cols="auto">
               <div>
-                <v-checkbox-btn v-model="clock.GmOnly" hide-details>
-                  <template #label>
-                    GM Only
-                    <v-tooltip location="top">
-                      <template #activator="{ props }">
-                        <v-icon
-                          class="fade-select"
-                          size="x-small"
-                          end
-                          icon="mdi-information-outline"
-                          v-bind="props" />
-                      </template>
-                      <div>
-                        Marking a field or item "GM Only" will hide it from player-facing exports
-                        and print output
-                      </div>
-                    </v-tooltip>
-                  </template>
-                </v-checkbox-btn>
+                <cc-checkbox
+                  label="GM Only"
+                  v-model="clock.GmOnly"
+                  tooltip="Marking a field or item 'GM Only' will hide it from player-facing exports
+                        and print output"></cc-checkbox>
               </div>
             </v-col>
           </v-row>
-          <v-textarea
+          <cc-text-area
             v-model="clock.Description"
             variant="outlined"
             rows="3"
+            color="primary"
             auto-grow
             label="Description"
             class="mx-1 my-4"
-            hide-details
             @change="$emit('change')" />
-          <v-textarea
+          <cc-text-area
             v-model="clock.Resolution"
             variant="outlined"
+            color="primary"
             rows="3"
             auto-grow
             label="Resolution"
             class="mx-1 my-4"
-            hide-details
             @change="$emit('change')" />
         </v-card-text>
       </v-card>
-    </v-dialog>
+    </cc-solo-modal>
   </v-card>
 </template>
 

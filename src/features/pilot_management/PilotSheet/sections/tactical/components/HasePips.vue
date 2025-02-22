@@ -1,16 +1,24 @@
 <template>
   <span class="text-uppercase stat-text">{{ title }}</span>
   <span class="flavor-text text--disabled pl-2">({{ skillPoints || 0 }})</span>
-  <cc-tooltip simple :content="tooltip()">
-    <v-icon v-if="filled" v-for="n in filled" color="secondary" size="large" icon="mdi-hexagon" />
-    <v-icon
-      v-if="empty"
-      v-for="n in empty"
-      color="secondary"
-      size="large"
-      icon="mdi-hexagon-outline"
-    />
-  </cc-tooltip>
+  <v-tooltip :text="tooltip()">
+    <template #activator="{ props }">
+      <span v-bind="props">
+        <v-icon
+          v-if="filled"
+          v-for="n in filled"
+          color="secondary"
+          size="large"
+          icon="mdi-hexagon" />
+        <v-icon
+          v-if="empty"
+          v-for="n in empty"
+          color="secondary"
+          size="large"
+          icon="mdi-hexagon-outline" />
+      </span>
+    </template>
+  </v-tooltip>
 </template>
 
 <script lang="ts">

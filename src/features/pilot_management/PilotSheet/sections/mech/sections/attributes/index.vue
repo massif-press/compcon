@@ -1,6 +1,6 @@
 <template>
   <v-row dense>
-    <v-col cols="auto" class="mr-3">
+    <v-col cols="12" md="auto" class="mr-3">
       <hase-pips
         :mech="mech"
         attr="hull"
@@ -24,11 +24,16 @@
       <div>
         <v-divider class="mt-2" />
         <span class="text-overline no-height">System Points</span>
-        <cc-tooltip
-          :title="`${mech.MaxSP} System Points`"
-          :content="mech.SPContributors.join('<br />')">
-          <span class="heading h3 no-height">&nbsp;{{ mech.MaxSP }}</span>
-        </cc-tooltip>
+        <v-tooltip>
+          <template #activator="{ props }">
+            <span v-bind="props" class="heading h3 no-height text-accent">
+              &nbsp;{{ mech.MaxSP }}
+            </span>
+          </template>
+          <div class="heading h4" v-text="`${mech.MaxSP} System Points`" />
+          <v-divider />
+          <p class="py-2" v-html="mech.SPContributors.join('<br />')" />
+        </v-tooltip>
       </div>
     </v-col>
     <v-col>

@@ -1,141 +1,146 @@
 <template>
-  <v-dialog v-model="dialog" fullscreen style="overflow-y: hidden">
-    <v-card>
-      <v-toolbar flat tile density="compact" color="blue-grey darken-4" class="text-white pl-4">
-        <span class="heading h3">Select Bond powers</span>
-        <v-spacer />
-        <v-btn icon dark @click="dialog = false"><v-icon icon="mdi-close" /></v-btn>
-      </v-toolbar>
-      <v-row no-gutters>
-        <v-col cols="3" style="max-width: 325px !important">
-          <v-list density="compact" nav class="side-fixed mt-n1" color="panel">
-            <v-list-item color="accent" selectable @click="featureSet = 'all'">
-              <template #title>
-                <div class="text-button">
-                  <b>{{ pilot.BondController.Bond.Name }}</b>
-                  Powers
-                </div>
-              </template>
-            </v-list-item>
-            <v-list-item color="accent" selectable @click="featureSet = 'assigned'">
-              <template #title>
-                <div class="text-button">
-                  <b>All Selected Powers</b>
-                </div>
-              </template>
-            </v-list-item>
-            <v-divider />
+  <cc-solo-modal v-model="dialog" color="blue-grey darken-4" title="Select Bond powers">
+    <v-layout :style="!mobile && 'overflow-y: scroll; height: 89vh'">
+      <div
+        style="position: absolute; z-index: 999"
+        :style="`left: ${showNav ? (mobile ? '322' : '238') : '0'}px; top: 6px`">
+        <cc-button
+          :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+          size="small"
+          color="primary"
+          @click="(showNav as any) = !showNav" />
+      </div>
+      <v-navigation-drawer
+        v-model="showNav"
+        :width="mobile ? 320 : 250"
+        style="overflow-y: scroll"
+        :style="[
+          mobile ? 'height:95.5vh; top:30px' : 'height: 89vh; top: 40px',
+          showNav && ' position: fixed',
+        ]">
+        <v-list density="compact" slim>
+          <v-list-item color="accent" selectable @click="featureSet = 'all'">
+            <template #title>
+              <div class="text-button">
+                <b class="text-accent">{{ pilot.BondController.Bond.Name }}</b>
+                Powers
+              </div>
+            </template>
+          </v-list-item>
+          <v-list-item color="accent" selectable @click="featureSet = 'assigned'">
+            <template #title>
+              <div class="text-button">
+                <b>All Selected Powers</b>
+              </div>
+            </template>
+          </v-list-item>
+          <v-divider />
 
-            <v-divider />
+          <v-divider />
 
-            <v-list-group color="accent" class="pt-0">
-              <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props">
-                  <template #title>
-                    <span class="text-button">
-                      <b>Other Bonds</b>
-                    </span>
-                  </template></v-list-item
-                >
-              </template>
-
-              <v-list-item
-                v-for="b in Bonds"
-                color="accent"
-                class="pl-6"
-                @click="featureSet = b.ID"
-              >
+          <v-list-group color="accent" class="pt-0">
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props">
                 <template #title>
-                  <b class="text-button">{{ b.Name }}</b>
+                  <span class="text-button">
+                    <b>Other Bonds</b>
+                  </span>
                 </template>
               </v-list-item>
-            </v-list-group>
-          </v-list>
-          <div style="height: 20px" />
-        </v-col>
+            </template>
 
-        <v-col class="pl-6 pr-8">
-          <v-container style="height: calc(100vh - 35px) !important; overflow-y: scroll">
-            <v-row density="compact" align="start" class="mt-n3">
-              <v-col>
-                <span class="heading h3">{{ currentSelection }} Powers</span>
-              </v-col>
-              <v-col>
-                <span class="heading h3">
-                  <b class="text-accent">{{ pilot.BondController.TotalPowerSelections }}</b>
-                  Selections Available
-                </span>
-              </v-col>
-              <v-col cols="auto">
-                <v-switch
-                  v-model="ignoreLimit"
-                  inset
-                  density="compact"
-                  hide-details
-                  class="ma-0"
-                  color="accent"
-                  label="Ignore Limit"
-                />
-              </v-col>
-            </v-row>
-            <v-divider class="mt-2 mb-4" />
-            <v-row>
-              <v-col v-for="(p, i) in shownPowers" xl="6" lg="6" cols="12">
-                <cc-bond-power-card :power="p" />
-                <v-btn
-                  v-if="!p.veteran && (!hasPower(p) || allowDupes)"
+            <v-list-item v-for="b in Bonds" color="accent" class="pl-6" @click="featureSet = b.ID">
+              <template #title>
+                <b class="text-button">{{ b.Name }}</b>
+              </template>
+            </v-list-item>
+          </v-list-group>
+        </v-list>
+        <div style="height: 20px" />
+      </v-navigation-drawer>
+      <v-main>
+        <v-card-text class="py-2">
+          <v-row density="compact" align="start" class="ml-4">
+            <v-col>
+              <span class="heading h3">
+                <span class="text-accent">{{ currentSelection }}</span>
+                Powers
+              </span>
+            </v-col>
+            <v-col>
+              <span class="heading h3">
+                <b class="text-accent">{{ pilot.BondController.TotalPowerSelections }}</b>
+                Selections Available
+              </span>
+            </v-col>
+            <v-col cols="auto">
+              <cc-switch
+                v-model="ignoreLimit"
+                inset
+                density="compact"
+                hide-details
+                class="ma-0"
+                color="accent"
+                label="Ignore Limit" />
+            </v-col>
+          </v-row>
+          <v-divider class="mt-2 mb-4" />
+          <v-row>
+            <masonry-wall
+              :items="shownPowers"
+              :column-width="400"
+              :gap="16"
+              :min-columns="1"
+              :max-columns="widescreen ? 3 : 2">
+              <template #default="{ item }">
+                <cc-bond-power-card :power="item" />
+                <cc-button
+                  v-if="!(item as any).veteran && (!hasPower(item) || allowDupes)"
                   color="primary"
                   block
-                  tile
-                  @click="pilot.BondController.AddPower(p)"
-                >
+                  size="x-small"
+                  @click="pilot.BondController.AddPower(item)">
                   <v-icon start>mdi-plus</v-icon>
-                  Add {{ p.name }}
-                </v-btn>
-                <v-btn
-                  v-if="hasPower(p)"
+                  Add {{ (item as any).name }}
+                </cc-button>
+                <cc-button
+                  v-if="hasPower(item)"
                   color="warning darken-1"
-                  class="text-white"
                   block
-                  tile
-                  @click="pilot.BondController.RemovePower(p)"
-                >
+                  size="x-small"
+                  @click="pilot.BondController.RemovePower(item)">
                   <v-icon start>mdi-minus</v-icon>
-                  Remove {{ p.name }}
-                </v-btn>
-              </v-col>
-              <v-col v-if="!shownPowers.length" cols="12">
-                <v-alert v-if="featureSet === 'all'" variant="outlined" class="text-center">
-                  No Bond Power selections remaining
-                  <br />
-                  <span class="caption text--secondary">
-                    Additional features beyond the recommended guidelines can be added by toggling
-                    the "Ignore Limit" option above
-                  </span>
-                </v-alert>
-                <v-alert
-                  v-else-if="featureSet === 'assigned'"
-                  variant="outlined"
-                  class="text-center"
-                >
-                  No Bond Powers assigned
-                </v-alert>
-                <v-alert v-else variant="outlined" class="text-center">
-                  No Bond Powers available
-                  <br />
-                  <span class="caption text--secondary">
-                    Additional features beyond the recommended guidelines can be added by toggling
-                    the "Ignore Limit" option above
-                  </span>
-                </v-alert>
-              </v-col>
-            </v-row>
-            <div style="height: 30px" />
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-card>
-  </v-dialog>
+                  Remove {{ (item as any).name }}
+                </cc-button>
+              </template>
+            </masonry-wall>
+
+            <v-col v-if="!shownPowers.length" cols="12">
+              <v-alert v-if="featureSet === 'all'" variant="outlined" class="text-center">
+                No Bond Power selections remaining
+                <br />
+                <span class="caption text--secondary">
+                  Additional features beyond the recommended guidelines can be added by toggling the
+                  "Ignore Limit" option above
+                </span>
+              </v-alert>
+              <v-alert v-else-if="featureSet === 'assigned'" variant="outlined" class="text-center">
+                No Bond Powers assigned
+              </v-alert>
+              <v-alert v-else variant="outlined" class="text-center">
+                No Bond Powers available
+                <br />
+                <span class="caption text--secondary">
+                  Additional features beyond the recommended guidelines can be added by toggling the
+                  "Ignore Limit" option above
+                </span>
+              </v-alert>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-main>
+    </v-layout>
+  </cc-solo-modal>
 </template>
 
 <script lang="ts">
@@ -151,8 +156,18 @@ export default {
     featureSet: 'all',
     ignoreLimit: false,
     allowDupes: false,
+    showNav: true,
   }),
+  mounted() {
+    this.showNav = !this.mobile;
+  },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+    widescreen() {
+      return this.$vuetify.display.lgAndUp;
+    },
     currentSelection() {
       switch (this.featureSet) {
         case 'all':
@@ -205,16 +220,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.side-fixed {
-  height: calc(100vh - 45px);
-  overflow-y: scroll;
-  top: 51.5px;
-  bottom: 0;
-  /* padding-bottom: 35px; */
-  position: fixed;
-  width: 23vw;
-  max-width: 325px !important;
-}
-</style>

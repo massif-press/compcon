@@ -1,5 +1,5 @@
 <template>
-  <div :class="mobile ? '' : 'pt-2'">
+  <div :class="mobile ? '' : 'pt-2 px-12'">
     <skill-block :pilot="pilot" />
     <dt-resources-block :pilot="pilot" />
     <pilot-loadout-block :pilot="pilot" />

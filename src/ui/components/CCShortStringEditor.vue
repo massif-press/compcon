@@ -1,11 +1,17 @@
 <template>
   <v-fade-transition leave-absolute>
-    <v-row no-gutters v-if="!editing" :justify="justify" align="end" key="str">
-      <v-col cols="auto">
+    <v-row
+      no-gutters
+      v-if="!editing"
+      :justify="<any>justify"
+      align="end"
+      key="str"
+      style="position: relative">
+      <v-col cols="auto" :style="{ maxWidth: maxWidth }">
         <slot />
       </v-col>
-      <v-col v-if="!readonly" cols="auto">
-        <v-btn size="x-small" icon variant="plain" class="mb-n1" color="stark" @click="edit()">
+      <v-col v-if="!readonly" cols="auto" :style="absolute && { position: 'absolute', right: '0' }">
+        <v-btn size="x-small" icon variant="plain" @click="edit()">
           <v-icon size="15" icon="mdi-circle-edit-outline" />
         </v-btn>
       </v-col>
@@ -32,8 +38,10 @@ export default {
   props: {
     placeholder: { type: String, required: false },
     large: { type: Boolean },
+    absolute: { type: Boolean },
     readonly: { type: Boolean },
     justify: { type: String, required: false, default: 'center' },
+    maxWidth: { type: String, required: false },
   },
   data: () => ({
     newStr: '',

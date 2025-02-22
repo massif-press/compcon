@@ -51,8 +51,6 @@
 </template>
 
 <script lang="ts">
-import { has } from 'lodash';
-
 export default {
   name: 'cc-title',
   props: {
@@ -78,6 +76,10 @@ export default {
     },
     hasSubtitleContent() {
       return this._hasContent('subtitle');
+    },
+    hexColor() {
+      if (this.color[0] === '#') return this.color;
+      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name][this.color];
     },
   },
   methods: {

@@ -204,6 +204,8 @@ export default {
 
 .chip-clip {
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  height: auto;
+  white-space: normal;
 }
 
 .chip-diagonal {

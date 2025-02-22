@@ -1,5 +1,5 @@
 <template>
-  <div :class="mobile ? 'px-4' : 'px-8'">
+  <div :class="mobile ? 'px-4' : 'px-12'">
     <div
       v-if="underlevel"
       style="opacity: 0.5; position: absolute; top: 50%; left: 0; right: 0"
@@ -69,7 +69,7 @@
             <cc-tickbar
               v-model="pilot.BondController.XP"
               :ticks="8"
-              :size="mobile ? 'x-small' : 'default'"
+              :size="mobile ? 'small' : 'default'"
               class="mt-4"
               color="secondary"
               label="pilot xp" />
@@ -124,7 +124,7 @@
             <cc-tickbar
               v-model="pilot.BondController.Stress"
               :ticks="pilot.BondController.MaxStress"
-              :size="mobile ? 'x-small' : 'default'"
+              :size="mobile ? 'small' : 'default'"
               class="mt-4"
               color="overcharge"
               label="pilot stress" />
@@ -265,13 +265,9 @@
           </div>
           <v-row justify="end">
             <v-col cols="auto">
-              <v-btn
-                size="small"
-                color="accent"
-                variant="plain"
-                @click="pilot.BondController.AddNewBurden()">
+              <cc-button size="small" color="primary" @click="pilot.BondController.AddNewBurden()">
                 Add New Burden
-              </v-btn>
+              </cc-button>
             </v-col>
           </v-row>
         </div>
@@ -289,13 +285,9 @@
           </div>
           <v-row justify="end">
             <v-col cols="auto">
-              <v-btn
-                size="small"
-                color="accent"
-                variant="plain"
-                @click="pilot.BondController.AddClock()">
+              <cc-button size="small" color="primary" @click="pilot.BondController.AddClock()">
                 Add New Clock
-              </v-btn>
+              </cc-button>
             </v-col>
           </v-row>
         </div>

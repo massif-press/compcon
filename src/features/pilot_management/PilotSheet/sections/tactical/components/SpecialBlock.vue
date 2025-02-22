@@ -1,64 +1,53 @@
 <template>
   <div>
-    <section-header title="Special Equipment" />
-    <cc-solo-dialog
-      ref="specialSelector"
-      icon="mdi-star-circle-outline"
-      no-actions
-      title="Manage Special Equipment"
-      fullscreen>
-      <equipment-selector :pilot="pilot" @select="addItem($event)" />
-    </cc-solo-dialog>
-    <cc-solo-dialog
-      ref="exoticSelector"
-      icon="mdi-star-circle-outline"
-      no-confirm
-      title="Manage Exotic Equipment"
-      fullscreen>
-      <equipment-selector :pilot="pilot" exotic @select="addItem($event)" />
-    </cc-solo-dialog>
-    <v-container>
-      <no-data-block v-if="!pilot.SpecialEquipment.length" />
-      <v-row v-else density="compact" justify="space-around">
-        <v-col v-for="i in pilot.SpecialEquipment" cols="4" class="text-center">
-          <cc-item-modal :item="i" style="display: inline-block" />
-          <v-btn
-            v-if="!pilot.IsRemote"
-            icon
-            size="small"
-            color="error"
-            variant="text"
-            class="fade-select"
-            style="display: inline-block"
-            @click="removeItem(i)">
-            <v-icon icon="mdi-delete" />
-          </v-btn>
+    <section-header title="Special Equipment" class="mb-4" />
+    <no-data-block v-if="!pilot.SpecialEquipment.length" />
+    <v-card v-else flat tile border>
+      <v-row density="compact" justify="space-around">
+        <v-col v-for="i in pilot.SpecialEquipment" cols="12" md="6" lg="4" class="text-center">
+          <v-chip tile class="ma-2">
+            <cc-item-modal :item="i" />
+            <cc-button
+              v-if="!pilot.IsRemote"
+              icon="mdi-delete"
+              size="small"
+              color="error"
+              variant="text"
+              style="display: inline-block"
+              @click="removeItem(i)"></cc-button>
+          </v-chip>
         </v-col>
       </v-row>
+    </v-card>
 
-      <v-row class="my-1">
-        <v-col>
-          <v-btn
-            v-if="!pilot.IsRemote"
-            color="accent"
-            variant="tonal"
-            block
-            @click="($refs as any).specialSelector.show()">
-            Add Standard Equipment
-          </v-btn>
-        </v-col>
-        <v-col>
-          <v-btn
-            v-if="!pilot.IsRemote"
-            color="accent"
-            variant="tonal"
-            block
-            @click="($refs as any).exoticSelector.show()">
-            Add Exotic Equipment
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-row class="mt-1 mb-5" v-if="!pilot.IsRemote">
+      <v-col>
+        <cc-modal title="Add Standard Equipment" icon="mdi-star-circle-outline">
+          <template #activator="{ open }">
+            <cc-button
+              v-if="!pilot.IsRemote"
+              size="x-small"
+              color="primary"
+              block
+              prepend-icon="mdi-plus"
+              @click="open">
+              Add Equipment
+            </cc-button>
+          </template>
+          <equipment-selector :pilot="pilot" @select="addItem($event)" />
+        </cc-modal>
+      </v-col>
+      <v-col>
+        <cc-modal title="Add Exotic Equipment" icon="mdi-star-circle-outline">
+          <template #activator="{ open }">
+            <cc-button size="x-small" color="exotic" block prepend-icon="mdi-plus" @click="open">
+              Add Exotic Equipment
+            </cc-button>
+          </template>
+          <equipment-selector :pilot="pilot" exotic @select="addItem($event)" />
+        </cc-modal>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

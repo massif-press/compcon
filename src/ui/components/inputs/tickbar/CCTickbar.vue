@@ -7,7 +7,7 @@
         style="position: absolute; top: -16px; right: 0; opacity: 0.6">
         {{ label }}
       </div>
-      <v-col v-if="controls" cols="auto" align-self="center">
+      <v-col v-if="controls && !readonly" cols="auto" align-self="center" class="mr-2">
         <v-btn icon variant="text" tile :size="optionsSize" @click="setVal(<number>modelValue - 1)">
           <v-icon :size="optionsSize" icon="mdi-minus" />
         </v-btn>
@@ -20,6 +20,7 @@
               :size="size"
               tile
               flat
+              :readonly="readonly"
               class="pl-4 btn-body"
               :class="`bg-${bgColor} ${size}`"
               v-bind="props">
@@ -35,7 +36,7 @@
                   </div>
                 </span>
                 <v-icon
-                  v-else-if="!icon"
+                  v-else-if="!icon && !readonly"
                   icon="mdi-keyboard-variant"
                   :class="iconOffset"
                   size="small"
@@ -66,6 +67,12 @@
                 v-bind="valueTooltips ? props : ''"
                 tile
                 flat
+                :readonly="
+                  readonly ||
+                  disabled ||
+                  loading ||
+                  (!!maxSelectable && modelValue + i - 1 >= maxSelectable)
+                "
                 :size="size"
                 @mouseover="hover = i"
                 @mouseleave="hover = null"
@@ -100,7 +107,7 @@
       <v-col cols="auto">
         <div :class="`bg-${color} tail`" />
       </v-col>
-      <v-col v-if="controls" cols="auto" align-self="center" class="ml-3">
+      <v-col v-if="controls && !readonly" cols="auto" align-self="center" class="ml-1">
         <v-btn icon variant="text" tile :size="optionsSize" @click="setVal(<number>modelValue + 1)">
           <v-icon :size="optionsSize" icon="mdi-plus" />
         </v-btn>
@@ -145,13 +152,16 @@ export default {
     icon: { type: String },
     tooltip: { type: String },
     tooltipIcon: { type: String },
-    ticks: { type: Number, default: 5 },
+    ticks: { type: Number, default: 6 },
     optionsIcon: { type: String, default: 'mdi-dots-vertical' },
     details: { type: String },
     controls: { type: Boolean },
     clearable: { type: Boolean },
     display: { type: Boolean, default: true },
     valueTooltips: { type: Boolean, default: false },
+    stopAdd: { type: Boolean },
+    maxSelectable: { type: Number },
+    readonly: { type: Boolean },
   },
   data: () => ({
     hover: null as number | null,
@@ -187,6 +197,7 @@ export default {
       return this.modelValue && this.modelValue >= i;
     },
     setVal(val: number) {
+      if (this.stopAdd && val > this.modelValue) return;
       if (val > this.ticks) val = this.ticks;
       if (val < 0) val = 0;
       this.$emit('update:model-value', val);

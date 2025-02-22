@@ -21,6 +21,9 @@
         <slot name="title" />
         <template #toolbar-items>
           <slot name="toolbar-items" v-bind="{ close }" />
+          <v-btn v-if="!closeOnClick && mobile" icon @click="close">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
         </template>
       </cc-toolbar>
       <v-card-text class="pt-1 pb-4 px-4">

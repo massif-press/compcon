@@ -5,7 +5,7 @@
       v-show="license.Unlocks[n - 1].length"
       lg="4"
       md="6"
-      sm="12"
+      cols="12"
       :class="{ locked: ranked && rank < n }">
       <div class="text-center">
         <p class="pa-0">

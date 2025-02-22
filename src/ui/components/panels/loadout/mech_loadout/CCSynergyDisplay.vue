@@ -3,9 +3,16 @@
     <div v-if="!synergies.length && showNone" class="text-center" style="opacity: 0.5">
       <i>None</i>
     </div>
-    <cc-tooltip v-for="(s, i) in synergies" inline :title="s.Origin" :content="s.Detail">
-      <v-icon :size="small ? 'small' : large ? 'large' : ''" color="accent">cc:talent</v-icon>
-    </cc-tooltip>
+    <v-tooltip v-for="s in synergies">
+      <template #activator="{ props }">
+        <v-icon v-bind="props" :size="small ? 'small' : large ? 'large' : ''" color="accent">
+          cc:talent
+        </v-icon>
+      </template>
+      <div class="heading h5" v-text="s.Origin" />
+      <v-divider />
+      <p class="py-2" v-html="s.Detail" />
+    </v-tooltip>
   </div>
 </template>
 

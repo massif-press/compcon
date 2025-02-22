@@ -1,44 +1,58 @@
 <template>
   <div v-if="mech.ID">
-    <div class="mt-8" :style="`background-color: ${color}`">
+    <div class="mt-4 text-center" :style="`background-color: ${color}`">
       <cc-short-string-editor
-        large
         :readonly="mech.Pilot.IsRemote"
         :placeholder="mech.Name"
+        :max-width="mobile && '90vw'"
+        justify="center"
+        :absolute="mobile"
         @set="mech.Name = $event">
-        <span class="heading text-white" style="font-size: 75px; line-height: 85px">
+        <span class="heading" style="font-size: clamp(12px, 6.5vw, 50px)">
           {{ mech.Name }}
         </span>
       </cc-short-string-editor>
     </div>
 
-    <v-row align="center" justify="center" dense class="heading h2">
-      <v-col cols="auto">
-        <v-icon :icon="mech.Frame.Manufacturer.Icon" />
-      </v-col>
-      <v-col cols="auto">
-        <span :style="`color: ${color}`">
-          {{ mech.Frame.Manufacturer.Name }}
-        </span>
-        <span class="text-text pl-2">{{ mech.Frame.Name }}</span>
-      </v-col>
-      <v-col cols="auto" class="px-0 ml-n2">
-        <v-btn icon size="small" variant="plain" @click="($refs as any).frameInfoDialog.show()">
-          <v-icon icon="mdi-information-outline" />
-        </v-btn>
-        <cc-solo-dialog
-          ref="frameInfoDialog"
-          icon="cc:frame"
-          :color="color"
-          no-actions
-          large
-          :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`">
-          <v-container class="px-12 pt-1">
-            <p v-html-safe="mech.Frame.Description" class="flavor-text text-text" />
-          </v-container>
-        </cc-solo-dialog>
-      </v-col>
-    </v-row>
+    <div class="heading h3 text-center pt-1" style="line-height: 0">
+      <v-icon start size="small" class="mb-1" :icon="mech.Frame.Manufacturer.Icon" />
+      <span :style="`color: ${color}`">
+        {{ mech.Frame.Manufacturer.Name }}
+      </span>
+      <br v-if="mobile" />
+      <span class="text-text pl-2">{{ mech.Frame.Name }}</span>
+      <cc-dialog
+        ref="frameInfoDialog"
+        icon="cc:frame"
+        :color="color"
+        no-actions
+        large
+        :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`">
+        <template #activator="{ open }">
+          <v-btn icon size="x-small" variant="plain" @click="open">
+            <v-icon size="large" icon="mdi-information-outline" />
+          </v-btn>
+        </template>
+
+        <p class="pa-2" v-html-safe="mech.Frame.Description" />
+      </cc-dialog>
+    </div>
+
+    <div v-if="mobile" class="mb-2">
+      <cc-img :src="mech.Portrait" />
+      <div class="text-right mt-n3">
+        <cc-button
+          v-if="!mech.Pilot.IsRemote"
+          variant="tonal"
+          color="secondary"
+          size="small"
+          prepend-icon="mdi-circle-edit-outline"
+          @click="($refs as any).imageSelector.open()">
+          Set Mech Image
+        </cc-button>
+      </div>
+      <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
+    </div>
 
     <mech-nav
       :selected="0"
@@ -55,23 +69,29 @@
             v-model="mech.Notes"
             :readonly="mech.Pilot.IsRemote"
             class="mb-3 mt-2" />
-          <license-requirement-block :mech="mech" :color="color" />
-          <trait-block :mech="mech" :color="color" />
+
+          <section-header title="Licenses Required" />
+          <div class="pt-1 mb-4">
+            <requirement-item v-for="l in reqLicenses" :license="l" />
+          </div>
+
+          <section-header :title="`${mech.Frame.Source} ${mech.Frame.Name} Frame Traits`" />
+          <cc-trait-item v-for="t in mech.Frame.Traits" :trait="t" :color="color" class="ma-3" />
         </v-col>
-        <v-col cols="auto">
+
+        <v-col v-if="!mobile" cols="auto">
           <cc-img :src="mech.Portrait" width="22vw" position="top center" />
           <div class="text-right mt-n3">
-            <v-btn
+            <cc-button
               v-if="!mech.Pilot.IsRemote"
               variant="tonal"
               color="secondary"
               size="small"
+              prepend-icon="mdi-circle-edit-outline"
               @click="($refs as any).imageSelector.open()">
-              <v-icon start>mdi-circle-edit-outline</v-icon>
               Set Mech Image
-            </v-btn>
+            </cc-button>
           </div>
-
           <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
         </v-col>
       </v-row>
@@ -81,18 +101,14 @@
       <core-block :mech="mech" :color="color" />
 
       <loadout-block :mech="mech" />
-
-      <delete-mech-dialog ref="deleteDialog" :mech="mech" @delete="deleteMech()" />
     </v-container>
   </div>
 </template>
 
 <script lang="ts">
 import MechNav from './components/MechNav.vue';
-import LicenseRequirementBlock from './sections/license_requirements/index.vue';
-import TraitBlock from './sections/TraitBlock.vue';
+import RequirementItem from './components/RequirementItem.vue';
 import AttributesBlock from './sections/attributes/index.vue';
-import DeleteMechDialog from '../hangar/components/DeleteMechDialog.vue';
 import { Pilot, Mech } from '@/class';
 import { PilotStore } from '@/stores';
 import CoreBlock from './sections/CoreBlock.vue';
@@ -103,10 +119,8 @@ export default {
   name: 'mech-sheet',
   components: {
     MechNav,
-    LicenseRequirementBlock,
-    TraitBlock,
+    RequirementItem,
     AttributesBlock,
-    DeleteMechDialog,
     CoreBlock,
     LoadoutBlock,
     SectionHeader,
@@ -122,6 +136,9 @@ export default {
     },
   },
   computed: {
+    mobile(): Boolean {
+      return this.$vuetify.display.smAndDown;
+    },
     pilot(): Pilot {
       return PilotStore().Pilots.find((p) => p.ID === this.pilotID) as Pilot;
     },
@@ -131,6 +148,9 @@ export default {
     },
     color() {
       return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
+    },
+    reqLicenses() {
+      return this.mech.RequiredLicenses;
     },
   },
   methods: {

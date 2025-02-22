@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <cc-tooltip simple inline :content="`${attr.toUpperCase()}: ${val}`">
-      <span class="text-overline no-height ml-n1">
-        {{ attr }}
-      </span>
-    </cc-tooltip>
+  <div :class="mobile && 'd-inline-block mr-11'">
+    <v-tooltip :text="`${attr.toUpperCase()}: ${val}`">
+      <template #activator="{ props }">
+        <span class="text-overline no-height ml-n1" v-bind="props">
+          {{ attr }}
+        </span>
+      </template>
+    </v-tooltip>
     <cc-synergy-display :location="attr" :mech="mech" class="d-inline" />
     <div class="mt-n2 ml-1">
       <span class="no-height">
@@ -43,6 +45,11 @@ export default {
     // TODO: get from rules
     maxHASE: 6,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>
 

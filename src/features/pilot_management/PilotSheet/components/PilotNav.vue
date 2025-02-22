@@ -189,7 +189,6 @@ export default {
   padding-right: 20px;
   transform: skew(-0.65rad);
   background-color: rgb(var(--v-theme-primary));
-  color: white;
   z-index: 10;
 }
 
@@ -208,7 +207,7 @@ export default {
   position: absolute;
   width: 5px;
   height: 32px;
-  left: 730px;
+  left: 740px;
   top: 0;
   z-index: 9;
   transition: filter 0.2s ease-in-out;

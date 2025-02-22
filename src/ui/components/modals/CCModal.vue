@@ -19,7 +19,7 @@
         :title="title"
         :icon="icon"
         :color="color"
-        style="position: sticky; top: 0; z-index: 10"
+        style="position: sticky; top: 0; z-index: 999"
         class="border-b-sm"
         :extended="extended"
         @close="close">

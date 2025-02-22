@@ -1,7 +1,7 @@
 <template>
   <v-menu open-on-hover bottom offset-y>
     <template #activator="{ props }">
-      <cc-chip :color="item.Color" v-bind="props" variant="flat">
+      <cc-chip :bg-color="item.Color" v-bind="props" variant="flat">
         <span class="text-white">
           <v-icon start dark>{{ item.Icon }}</v-icon>
           {{ item.Name }}

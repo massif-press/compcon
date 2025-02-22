@@ -2,7 +2,7 @@ import themeDefaults from './common';
 
 const theme = {
   dark: true,
-  id: 'gms',
+  id: 'gms_dark',
   name: 'GMS Dark',
   colors: {
     ...themeDefaults,

@@ -1,32 +1,35 @@
 <template>
-  <cc-panel
-    v-if="power"
-    :style="flexHeight ? '' : 'height: calc(100% - 35px) !important'"
-    variant="outlined"
-    :disabled="disabled">
+  <cc-panel v-if="power" variant="outlined" :disabled="disabled">
     <template #toolbar>
-      <cc-toolbar hide-close :color="headerColor" :extended="power.veteran || power.master">
+      <cc-toolbar
+        :title="power.name"
+        hide-close
+        minor
+        :color="headerColor"
+        :extended="power.veteran || power.master">
         <template #title>
           {{ power.name }}
         </template>
         <template #toolbar-items>
-          <span v-if="power.frequency" class="text-caption">
+          <span v-if="power.frequency" class="text-caption mr-1">
             {{ power.frequency }}
           </span>
         </template>
         <template #extension>
-          <div class="text-cc-overline pl-2 mt-n1 py-1">
-            <b v-if="power.veteran">Veteran Power</b>
-            <b v-if="power.master">Master Power</b>
+          <div
+            class="text-cc-overline pl-2 text-disabled mt-n1"
+            style="letter-spacing: 7px !important">
+            <i v-if="power.veteran">Veteran Power</i>
+            <i v-if="power.master">Master Power</i>
           </div>
         </template>
       </cc-toolbar>
     </template>
 
-    <div v-if="power.prerequisite" class="caption pa-3 text--disabled">
+    <div v-if="power.prerequisite" class="caption pa-1 pt-0 pb-2 text--disabled text-text">
       <i v-text="power.prerequisite" />
     </div>
-    <v-card-text v-html="power.description" class="pa-3" />
+    <v-card-text v-html="power.description" class="pa-1 pt-0" />
   </cc-panel>
 </template>
 

@@ -1,16 +1,15 @@
 <template>
   <v-layout>
-    <v-btn
-      icon
-      size="25"
-      border
-      :variant="showNav ? 'tonal' : 'elevated'"
-      color="primary"
-      :style="`position: absolute; z-index: 999; left: ${showNav ? '352' : '3'}px; top: 12px`"
-      @click="(showNav as any) = !showNav">
-      <v-icon size="24" :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'" />
-    </v-btn>
-    <v-navigation-drawer v-model="showNav" class="mt-2 pa-2" width="350">
+    <div
+      style="position: absolute; z-index: 999"
+      :style="`left: ${showNav ? (mobile ? '322' : '352') : '0'}px; top: 6px`">
+      <cc-button
+        :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+        size="small"
+        color="primary"
+        @click="(showNav as any) = !showNav" />
+    </div>
+    <v-navigation-drawer v-model="showNav" class="mt-2 pr-4 py-2" width="350">
       <div id="float" :class="success ? 'bordered-success' : 'bordered-primary'">
         <div>
           <cc-title x-small :color="success ? 'success' : 'primary'" block>{{ title }}</cc-title>
@@ -20,7 +19,7 @@
     </v-navigation-drawer>
     <v-main ref="content" class="py-2">
       <div id="content" :class="modal ? 'fixed-window' : ''">
-        <div class="px-12 mx-auto" style="max-width: 1400px">
+        <div class="mx-auto" :class="!mobile && 'px-12'" style="max-width: 1400px">
           <slot name="right-column" />
         </div>
       </div>
@@ -42,7 +41,6 @@ function handleScroll() {
 
 export default {
   name: 'selector',
-
   props: {
     title: {
       type: String,
@@ -62,6 +60,11 @@ export default {
     listener: () => {},
     showNav: null,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   created() {
     window.addEventListener('scroll', handleScroll);
   },

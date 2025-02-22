@@ -19,7 +19,10 @@
       </template>
       <slot name="tooltip" />
     </v-tooltip>
-    <div v-if="variant === 'outlined'" :class="`bg-${bgColor}`" class="clip-fix" />
+    <div
+      v-if="variant === 'outlined'"
+      :style="`background-color: ${hexColor(bgColor)}`"
+      class="clip-fix" />
   </div>
 </template>
 
@@ -57,6 +60,13 @@ export default {
         return (slot()[0].children as any).length > 0;
       }
       return false;
+    },
+  },
+  methods: {
+    hexColor(color) {
+      if (!color) return '';
+      if (color[0] === '#') return color;
+      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name][color];
     },
   },
 };
