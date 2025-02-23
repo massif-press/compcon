@@ -1,55 +1,43 @@
 <template>
-  <slot-card-base ref="base" :item="mod" :mech="mech" :readonly="readonly">
+  <slot-card-base
+    ref="base"
+    :item="item"
+    :mech="mech"
+    :readonly="readonly"
+    title-color="weapon-mod">
     <template #header>
-      <v-row v-if="mod" dense align="center">
-        <v-col cols="auto">
-          <v-icon icon="cc:weaponmod" />
-        </v-col>
-        <v-col cols="auto">
-          {{ mod.Name }}
-          <span v-if="mod.FlavorName" class="text-caption text-disabled text-uppercase">
-            //{{ mod.TrueName }}
-          </span>
-        </v-col>
-      </v-row>
+      <v-icon icon="cc:weaponmod" class="py-1 mr-2" />
+      {{ item.Name }}
+      <span v-if="item.FlavorName" class="text-caption text-disabled text-uppercase">
+        //{{ item.TrueName }}
+      </span>
     </template>
-    <template #header-items>
-      <v-row v-if="mod" align="center" no-gutters>
-        <v-col cols="auto" class="pr-4">
-          <v-icon v-for="n in mod.SP" icon="cc:system_point" class="mr-1" />
-        </v-col>
-        <v-col cols="auto" style="border-left: 1px solid #616161">
-          <v-btn
-            v-if="mod"
-            size="small"
-            icon
-            variant="plain"
-            color="error"
-            @click.stop="$emit('remove')">
-            <v-icon icon="mdi-delete" />
-          </v-btn>
-        </v-col>
-      </v-row>
+    <template v-if="item" #header-items>
+      {{ item.SP }}
+      <span style="font-size: 13px; margin-left: 2px">SP</span>
+      <v-divider v-if="!readonly" vertical class="ml-3" />
+      <div v-if="!readonly">
+        <v-btn v-if="item" size="x-small" icon variant="plain" @click.stop="$emit('remove')">
+          <v-icon icon="mdi-delete" />
+        </v-btn>
+      </div>
     </template>
-    <v-slide-y-transition>
-      <v-row v-if="!hide" density="compact" no-gutters style="height: 100%">
-        <v-col cols="auto">
-          <v-alert
-            v-if="mod.IsCascading"
-            density="compact"
-            tile
-            color="error"
-            class="text-center text-white stat-text"
-            style="letter-spacing: 3px">
-            / / AI IN CASCADE / /
-          </v-alert>
-          <div class="text-caption mt-2">APPLIED TO</div>
-          <div class="heading h3 text-disabled ml-3">
-            {{ weapon.Name }}
-          </div>
-        </v-col>
-      </v-row>
-    </v-slide-y-transition>
+
+    <v-alert
+      v-if="item.IsCascading"
+      density="compact"
+      tile
+      color="error"
+      class="text-center text-white stat-text"
+      style="letter-spacing: 3px">
+      / / AI IN CASCADE / /
+    </v-alert>
+    <div class="text-caption mt-1">
+      APPLIED TO:
+      <b class="heading text-accent">
+        {{ weapon.Name }}
+      </b>
+    </div>
   </slot-card-base>
 </template>
 
@@ -74,7 +62,7 @@ export default {
       required: false,
       default: null,
     },
-    mod: {
+    item: {
       type: Object,
       required: false,
       default: null,

@@ -110,7 +110,7 @@
             </div>
 
             <div v-if="item.Profiles[item.ProfileIndex].Actions.length">
-              <div class="text-overline ml-n2 text-disabled">//PROFILE ACTIONS</div>
+              <div class="text-cc-overline text-disabled">//PROFILE ACTIONS</div>
               <v-row no-gutters justify="center">
                 <v-col v-for="a in item.Profiles[item.ProfileIndex].Actions" cols="auto">
                   <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
@@ -119,7 +119,7 @@
             </div>
 
             <div v-if="item.Profiles[item.ProfileIndex].Deployables.length">
-              <div class="text-overline ml-n2 text-disabled">//PROFILE DEPLOYABLES</div>
+              <div class="text-cc-overline text-disabled">//PROFILE DEPLOYABLES</div>
               <v-row no-gutters justify="center">
                 <v-col v-for="(d, i) in item.Profiles[item.ProfileIndex].Deployables" cols="auto">
                   <cc-deployable-info
@@ -131,7 +131,7 @@
               </v-row>
             </div>
             <div v-if="item.Profiles[item.ProfileIndex].Tags.length">
-              <div class="text-overline ml-n2 mb-n1 text-disabled">//PROFILE TAGS</div>
+              <div class="text-cc-overline mb-n1 text-disabled">//PROFILE TAGS</div>
               <cc-tags :tags="item.Profiles[item.ProfileIndex].Tags" extended />
             </div>
             <on-element
@@ -289,6 +289,7 @@ export default {
     install(mod: WeaponMod) {
       this.item.Mod = mod;
       (this.$refs.modDialog as any).hide();
+      this.mech.Pilot.SaveController.save();
     },
     uninstall() {
       this.item.Mod = null;

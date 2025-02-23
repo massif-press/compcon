@@ -39,7 +39,7 @@
     </div>
 
     <div v-if="mobile" class="mb-2">
-      <cc-img :src="mech.Portrait" />
+      <cc-img :src="mech.Portrait" style="max-height: 80vh" />
       <div class="text-right mt-n3">
         <cc-button
           v-if="!mech.Pilot.IsRemote"
@@ -98,6 +98,11 @@
 
       <attributes-block :color="color" :mech="mech" :pilot="pilot" />
 
+      <section-header
+        :title="`${mech.Frame.Source} ${mech.Frame.Name} Core System`"
+        class="mt-6 mb-1" />
+      <frame-core-system-panel :cs="mech.Frame.CoreSystem" />
+
       <core-block :mech="mech" :color="color" />
 
       <loadout-block :mech="mech" />
@@ -111,9 +116,9 @@ import RequirementItem from './components/RequirementItem.vue';
 import AttributesBlock from './sections/attributes/index.vue';
 import { Pilot, Mech } from '@/class';
 import { PilotStore } from '@/stores';
-import CoreBlock from './sections/CoreBlock.vue';
 import LoadoutBlock from './sections/LoadoutBlock.vue';
 import SectionHeader from '../components/SectionHeader.vue';
+import { FrameCoreSystemPanel } from '@/ui/components/cards/frame';
 
 export default {
   name: 'mech-sheet',
@@ -121,9 +126,9 @@ export default {
     MechNav,
     RequirementItem,
     AttributesBlock,
-    CoreBlock,
     LoadoutBlock,
     SectionHeader,
+    FrameCoreSystemPanel,
   },
   props: {
     pilotID: {

@@ -142,7 +142,7 @@ class MechWeapon extends MechEquipment {
     this.ModType = data.mod_type_override ? data.mod_type_override : data.type;
     this.Skirmish =
       data.skirmish != undefined ? data.skirmish : data.mount !== WeaponSize.Superheavy;
-    this.Barrage = data.barrage != undefined ? data.skirmish ?? false : true;
+    this.Barrage = data.barrage != undefined ? (data.skirmish ?? false) : true;
     this.NoAttack = data.no_attack || false;
     this.NoCoreBonus = data.no_core_bonus || false;
     if (data.profiles && data.profiles.length) {

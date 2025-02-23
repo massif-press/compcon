@@ -22,7 +22,6 @@
       <v-card-text class="py-0">
         <div v-html-safe="item.Description" />
       </v-card-text>
-      <cc-tags size="small" :tags="item.Tags" color="secondary" />
     </div>
 
     <template #selector>

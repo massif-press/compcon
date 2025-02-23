@@ -56,7 +56,7 @@
       </div>
 
       <div v-if="item.Profiles[tab].Actions.length">
-        <div class="text-overline ml-n2 text-disabled">//PROFILE ACTIONS</div>
+        <div class="text-cc-overline text-disabled">//PROFILE ACTIONS</div>
         <v-row no-gutters justify="center">
           <v-col v-for="a in item.Profiles[tab].Actions" cols="auto">
             <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
@@ -65,7 +65,7 @@
       </div>
 
       <div v-if="item.Profiles[tab].Deployables.length">
-        <div class="text-overline ml-n2 text-disabled">//PROFILE DEPLOYABLES</div>
+        <div class="text-cc-overline text-disabled">//PROFILE DEPLOYABLES</div>
         <v-row no-gutters justify="center">
           <v-col v-for="(d, i) in item.Profiles[tab].Deployables" cols="auto">
             <cc-deployable-info
@@ -77,7 +77,7 @@
         </v-row>
       </div>
       <div v-if="item.Profiles[tab].Tags.length">
-        <div class="text-overline ml-n2 mb-n1 text-disabled">//PROFILE TAGS</div>
+        <div class="text-cc-overline mb-n1 text-disabled">//PROFILE TAGS</div>
         <cc-tags :tags="item.Profiles[tab].Tags" extended />
       </div>
     </template>
