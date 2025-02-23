@@ -3,7 +3,7 @@ import themeDefaults from './common';
 const theme = {
   dark: true,
   id: 'horizon',
-  name: 'HORIZON Terminal',
+  name: 'HORIZON Operative',
   colors: {
     ...themeDefaults,
     primary: '#233943',
@@ -46,7 +46,7 @@ const theme = {
     'action--reaction': '#441151',
 
     // tooltips
-    'surface-variant': '#040F11',
+    'surface-variant': '#111',
     'on-surface-variant': '#96a0a0',
   },
 };

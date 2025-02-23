@@ -16,30 +16,36 @@
       </v-col>
     </v-row>
 
-    <cc-heading title text="Theme" />
-    <cc-select v-model="theme" :items="themes" item-title="name" />
-    <cc-heading title text="Log Level" />
-    <v-menu>
-      <template #activator="{ props }">
-        <v-list-item v-bind="props" three-line border>
-          <v-list-item-title>Log level:</v-list-item-title>
-          <v-list-item-subtitle>
-            <b class="text-uppercase">{{ logLevel.name }}</b>
-          </v-list-item-subtitle>
-          <template #append>
-            <v-icon>mdi-chevron-down</v-icon>
+    <v-row dense>
+      <v-col cols="12" sm="6">
+        <cc-heading title text="Theme" />
+        <cc-select v-model="theme" :items="themes" item-title="name" />
+      </v-col>
+      <v-col cols="12" sm="6">
+        <cc-heading title text="Log Level" />
+        <v-menu>
+          <template #activator="{ props }">
+            <v-list-item v-bind="props" three-line border>
+              <v-list-item-title>Log level:</v-list-item-title>
+              <v-list-item-subtitle>
+                <b class="text-uppercase">{{ logLevel.name }}</b>
+              </v-list-item-subtitle>
+              <template #append>
+                <v-icon>mdi-chevron-down</v-icon>
+              </template>
+            </v-list-item>
           </template>
-        </v-list-item>
-      </template>
-      <v-list>
-        <v-list-item
-          v-for="item in logLevels"
-          :key="item.level"
-          @click="setLogLevel(item)"
-          :title="item.name"
-          :subtitle="item.detail" />
-      </v-list>
-    </v-menu>
+          <v-list>
+            <v-list-item
+              v-for="item in logLevels"
+              :key="item.level"
+              @click="setLogLevel(item)"
+              :title="item.name"
+              :subtitle="item.detail" />
+          </v-list>
+        </v-menu>
+      </v-col>
+    </v-row>
 
     <v-row class="mt-4">
       <v-col cols="12" md="6">

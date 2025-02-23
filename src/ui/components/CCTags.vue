@@ -7,11 +7,11 @@
       {{ t.GetName(bonus, tier) }}
     </v-chip>
   </div>
-  <div v-else class="text-center">
+  <div>
     <cc-tag
       v-for="t in <Tag[]>tags"
       :tag="t"
-      :size="size"
+      :size="size ? size : mobile ? 'x-small' : 'small'"
       :density="density"
       :color="color"
       :tier="tier"

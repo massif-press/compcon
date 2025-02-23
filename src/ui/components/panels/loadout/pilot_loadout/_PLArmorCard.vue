@@ -9,7 +9,7 @@
     @save="$emit('save')"
     @propagate-click="($refs as any).base.openDetail()">
     <div v-if="item" style="cursor: pointer !important" @click="($refs as any).base.openDetail()">
-      <v-row align="center" justify="space-around">
+      <v-row align="center" justify="space-around" class="my-1">
         <v-col class="my-auto">
           <v-tooltip text="Armor Bonus">
             <template #activator="{ props }">
@@ -51,13 +51,6 @@
           <span class="stat-text">{{ item.Speed(pilot) }}</span>
         </v-col>
       </v-row>
-
-      <cc-tags
-        v-if="item.Tags && item.Tags.length"
-        size="small"
-        :tags="item.Tags"
-        color="secondary"
-        class="py-3" />
     </div>
 
     <template #selector>

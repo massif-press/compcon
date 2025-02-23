@@ -71,7 +71,7 @@
         </v-row>
       </v-toolbar>
 
-      <div class="px-2 pb-1" @click.stop="detailDialog = true">
+      <div class="px-2 pb-1" style="height: 100%" @click.stop="detailDialog = true">
         <div style="cursor: pointer">
           <v-row v-if="item">
             <v-col class="h2 heading pb-0">
@@ -115,6 +115,9 @@
                 <cc-deployable-info :deployable="d" hover :name-override="item.Name" class="mx-2" />
               </v-col>
             </v-row>
+          </div>
+          <div v-if="item.Tags && item.Tags.length" class="text-left mt-1">
+            <cc-tags :size="mobile ? 'x-small' : 'small'" :tags="item.Tags" color="secondary" />
           </div>
         </div>
 

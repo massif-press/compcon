@@ -1,83 +1,64 @@
 <template>
-  <div>
-    <v-row v-if="!readonly && empty && mech.FreeSP <= 0" no-gutters justify="end">
-      <v-col cols="auto">
+  <slot-card-base ref="base" :item="item" :color="color" :mech="mech" :empty="empty">
+    <template #header>
+      <span v-if="item">
+        <equipment-options v-if="!readonly" :item="item" />
+        {{ item.Name }}
+        <span
+          v-if="item.FlavorName && !mobile"
+          class="text-caption text-uppercase"
+          style="opacity: 0.6">
+          //{{ item.TrueName }}
+        </span>
+      </span>
+      <span v-else class="text-disabled">&nbsp;EMPTY SYSTEM SLOT</span>
+    </template>
+
+    <template v-if="item" #header-items>
+      <span v-if="!mobile">
+        {{ item.SP }}
+        <span style="font-size: 13px; margin-left: 2px">SP</span>
+      </span>
+      <v-divider v-if="!readonly && !mobile" vertical class="ml-3" />
+      <div v-if="!readonly">
         <v-btn
-          size="small"
-          color="accent"
-          variant="tonal"
-          prepend-icon="mdi-plus"
-          @click.stop="($refs as any).additionalSelect.show()">
-          Add Additional System
+          v-if="item"
+          size="x-small"
+          icon
+          variant="plain"
+          color="error"
+          class="d-inline"
+          @click.stop="remove(item as MechSystem)">
+          <v-icon icon="mdi-delete" />
         </v-btn>
-        <cc-solo-dialog
-          ref="additionalSelect"
-          no-confirm
-          title="SELECT EQUIPMENT"
-          fullscreen
-          no-pad>
-          <system-selector :mech="mech" @equip="handleEquip($event)" />
-        </cc-solo-dialog>
-      </v-col>
-    </v-row>
+        <v-btn
+          size="x-small"
+          icon
+          class="d-inline"
+          variant="plain"
+          @click.stop="($refs as any).base.selectorDialog = true">
+          <v-icon :icon="item ? 'mdi-swap-vertical-variant' : 'add'" />
+        </v-btn>
+      </div>
+    </template>
 
-    <slot-card-base v-else ref="base" :item="item" :color="color" :mech="mech" :empty="empty">
-      <template #header>
-        <v-row v-if="item" dense align="center">
-          <v-col cols="auto">
-            <equipment-options v-if="!readonly" :item="item" />
-          </v-col>
-          <v-col cols="auto">
-            {{ item.Name }}
-            <span v-if="item.FlavorName" class="text-caption text-uppercase" style="opacity: 0.6">
-              //{{ item.TrueName }}
-            </span>
-          </v-col>
-        </v-row>
-        <span v-else>System</span>
-      </template>
-      <template #header-items>
-        <v-row v-if="item" align="center" no-gutters>
-          <v-col cols="auto" class="pr-4">
-            <span>{{ item.SP }}SP</span>
-          </v-col>
-          <v-col v-if="!readonly" cols="auto" style="border-left: 1px solid #616161">
-            <v-btn
-              v-if="item"
-              size="small"
-              icon
-              variant="plain"
-              color="error"
-              @click.stop="remove(item as MechSystem)">
-              <v-icon icon="mdi-delete" />
-            </v-btn>
-            <v-btn
-              size="small"
-              icon
-              variant="plain"
-              @click.stop="($refs as any).base.$refs.selectorDialog.show()">
-              <v-icon :icon="item ? 'mdi-swap-vertical-variant' : 'add'" />
-            </v-btn>
-          </v-col>
-        </v-row>
-      </template>
-      <v-table v-if="item && item.Ammo && item.Ammo.length" class="mt-2" hover density="compact">
-        <tbody>
-          <tr v-for="a in item.Ammo">
-            <td style="min-width: 120px">
-              <v-icon icon="cc:ammo" class="mt-n1 mr-1" />
-              <b>{{ a.name }}</b>
-            </td>
+    <v-table v-if="item && item.Ammo && item.Ammo.length" class="mt-2" hover density="compact">
+      <tbody>
+        <tr v-for="a in item.Ammo">
+          <td style="min-width: 120px">
+            <v-icon icon="cc:ammo" class="mt-n1 mr-1" />
+            <b>{{ a.name }}</b>
+          </td>
 
-            <td><span v-html-safe="a.detail" /></td>
-          </tr>
-        </tbody>
-      </v-table>
-      <template #selector>
-        <system-selector :mech="mech" :equipped="item" @equip="handleEquip($event)" />
-      </template>
-    </slot-card-base>
-  </div>
+          <td><span v-html-safe="a.detail" /></td>
+        </tr>
+      </tbody>
+    </v-table>
+
+    <template #selector>
+      <system-selector :mech="mech" :equipped="item" @equip="handleEquip($event)" />
+    </template>
+  </slot-card-base>
 </template>
 
 <script lang="ts">
@@ -113,6 +94,11 @@ export default {
     },
     readonly: {
       type: Boolean,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

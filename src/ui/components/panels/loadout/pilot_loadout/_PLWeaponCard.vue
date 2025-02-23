@@ -20,7 +20,6 @@
           <cc-damage-element :damage="item.Damage" :type-override="item.DamageTypeOverride" />
         </v-col>
       </v-row>
-      <cc-tags size="small" :tags="item.Tags" color="secondary" />
       <v-row v-if="item.notes">
         <v-col v-for="n in item.notes">
           <cc-tooltip simple inline :content="n">

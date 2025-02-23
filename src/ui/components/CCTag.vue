@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip max-width="350px" :open-on-click="mobile" :open-on-hover="!mobile">
+  <v-tooltip max-width="350px" location="top" :open-on-click="mobile" :open-on-hover="!mobile">
     <template #activator="{ props }">
       <v-chip
         v-bind="props"

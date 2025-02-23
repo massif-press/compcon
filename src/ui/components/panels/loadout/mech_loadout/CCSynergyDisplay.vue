@@ -3,7 +3,7 @@
     <div v-if="!synergies.length && showNone" class="text-center" style="opacity: 0.5">
       <i>None</i>
     </div>
-    <v-tooltip v-for="s in synergies">
+    <v-tooltip v-for="s in synergies" max-width="350" location="top">
       <template #activator="{ props }">
         <v-icon v-bind="props" :size="small ? 'small' : large ? 'large' : ''" color="accent">
           cc:talent

@@ -2,8 +2,14 @@
   <span v-if="item">
     <v-menu offset-y top @click.stop>
       <template #activator="{ props }">
-        <v-btn size="x-small" variant="plain" icon v-bind="props" @click.stop>
-          <v-icon size="20" icon="mdi-cog" />
+        <v-btn
+          size="x-small"
+          :class="mobile ? 'mr-n2 ml-n2' : ''"
+          variant="plain"
+          icon
+          v-bind="props"
+          @click.stop>
+          <v-icon :size="mobile ? 'default' : 'x-large'" icon="mdi-cog" />
         </v-btn>
       </template>
       <v-list density="compact">
@@ -79,6 +85,11 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

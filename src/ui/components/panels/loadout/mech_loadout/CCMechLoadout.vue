@@ -9,7 +9,7 @@
       @add-loadout="mech.MechLoadoutController.AddLoadout()"
       @clone-loadout="mech.MechLoadoutController.CloneLoadout()"
       @remove-loadout="mech.MechLoadoutController.RemoveLoadout()">
-      <v-row density="compact">
+      <v-row dense>
         <mount-block
           v-for="im in mech.MechLoadoutController.ActiveLoadout.IntegratedMounts"
           :readonly="readonly"

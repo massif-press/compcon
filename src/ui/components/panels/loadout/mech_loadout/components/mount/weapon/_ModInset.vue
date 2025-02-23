@@ -24,7 +24,7 @@
         <v-col>
           <v-row justify="space-around" density="compact">
             <v-col v-if="mod.Actions.length" cols="auto">
-              <div class="text-overline ml-n2 text-disabled">
+              <div class="text-cc-overline text-disabled">
                 <v-icon size="small" icon="cc:activate" />
                 EQUIPMENT ACTIONS
               </div>
@@ -35,7 +35,7 @@
               </v-row>
             </v-col>
             <v-col v-if="mod.Deployables.length">
-              <div class="text-overline ml-n2 text-disabled">
+              <div class="text-cc-overline text-disabled">
                 <v-icon size="small" icon="cc:drone" />
                 EQUIPMENT DEPLOYABLES
               </div>

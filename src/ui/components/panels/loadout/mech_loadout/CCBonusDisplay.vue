@@ -1,8 +1,16 @@
 <template>
   <div v-show="!item.NoBonus">
-    <cc-tooltip v-for="b in item.Bonuses" inline :title="`Bonus: ${b.Title}`" :content="b.Detail">
-      <v-icon size="x-large" color="accent">cc:accuracy</v-icon>
-    </cc-tooltip>
+    <v-tooltip v-for="b in item.Bonuses">
+      <template #activator="{ props }">
+        <v-icon size="large" color="accent" icon="cc:accuracy" v-bind="props" />
+      </template>
+      <div class="heading h4">
+        Bonus:
+        <span class="text-accent" v-text="b.Title" />
+      </div>
+      <v-divider />
+      <p v-text="b.Detail" />
+    </v-tooltip>
   </div>
 </template>
 

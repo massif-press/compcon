@@ -17,7 +17,7 @@
   <v-row align="start" dense>
     <v-col>
       <div v-if="item.Description">
-        <div class="text-overline ml-n2 my-1 text-text">COMPENDIUM ENTRY</div>
+        <div class="text-cc-overline my-1 text-text">COMPENDIUM ENTRY</div>
         <p v-html-safe="item.Description" class="flavor-text" />
       </div>
     </v-col>
@@ -27,11 +27,11 @@
   </v-row>
 
   <div class="my-4">
-    <div class="text-overline ml-n2 text-text">COMBAT PROFILE</div>
+    <div class="text-cc-overline text-text">COMBAT PROFILE</div>
     <frame-combat-chart :frame="item" />
   </div>
 
-  <div class="text-overline ml-n2 text-text">FRAME TRAITS</div>
+  <div class="text-cc-overline text-text">FRAME TRAITS</div>
   <masonry-wall
     :items="item.Traits"
     :column-width="500"
@@ -44,7 +44,7 @@
   </masonry-wall>
 
   <br />
-  <div class="text-overline ml-n2 text-text">AVAILABLE WEAPON MOUNTS</div>
+  <div class="text-cc-overline text-text">AVAILABLE WEAPON MOUNTS</div>
   <v-row justify="space-around" class="mb-3">
     <v-col v-for="m in item.Mounts">
       <v-tooltip location="bottom" max-width="300">
@@ -58,7 +58,7 @@
     </v-col>
   </v-row>
 
-  <div class="text-overline ml-n2 text-text">ONBOARD CORE SYSTEM</div>
+  <div class="text-cc-overline text-text">ONBOARD CORE SYSTEM</div>
   <frame-core-system-panel :cs="item.CoreSystem" />
 </template>
 

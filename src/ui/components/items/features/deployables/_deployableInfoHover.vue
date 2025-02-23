@@ -1,7 +1,13 @@
 <template>
-  <v-menu open-on-hover bottom offset-y width="70vw">
+  <v-menu :open-on-hover="!mobile" :open-on-click="mobile" bottom offset-y max-width="700px">
     <template #activator="{ props }">
-      <cc-chip :color="deployable.Color" variant="flat" v-bind="props">
+      <cc-chip
+        :bg-color="deployable.Color"
+        v-bind="props"
+        variant="flat"
+        tile
+        class="chip-interactive"
+        size="small">
         <span class="text-white">
           <v-icon start dark>{{ deployable.Icon }}</v-icon>
           {{ deployable.Name }}
@@ -36,6 +42,11 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

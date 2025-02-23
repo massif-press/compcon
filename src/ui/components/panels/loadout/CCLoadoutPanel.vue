@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar :color="color" flat density="compact">
+    <v-toolbar :color="color" flat :height="mobile ? 22 : 36">
       <v-menu offset-y top>
         <template #activator="{ props }">
           <v-btn size="small" icon variant="plain" v-bind="props">
@@ -36,8 +36,8 @@
         <v-icon icon="mdi-delete" />
       </v-btn>
     </v-toolbar>
-    <v-card flat variant="outlined" class="rounded-0" :color="color">
-      <v-card-text>
+    <v-card flat tile variant="outlined" :color="color">
+      <v-card-text :class="mobile && 'px-0'">
         <slot />
       </v-card-text>
     </v-card>
@@ -46,7 +46,6 @@
 
 <script lang="ts">
 import { Loadout } from '@/class';
-import { readonly } from 'vue';
 
 export default {
   name: 'cc-loadout-panel',
@@ -71,6 +70,11 @@ export default {
   data: () => ({
     confirmMenu: false,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     removeConfirm() {
       this.confirmMenu = false;

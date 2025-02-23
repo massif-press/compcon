@@ -1,8 +1,14 @@
 <template>
-  <cc-dialog :color="deployable.Color" :icon="`cc:${deployable.Icon}`" :title="deployable.Name">
+  <cc-dialog :color="deployable.Color" :icon="deployable.Icon" :title="deployable.Name">
     <template #activator="{ open }">
-      <v-icon start>cc:drone</v-icon>
-      {{ deployable.Name }}
+      <cc-button
+        size="small"
+        :color="deployable.Color"
+        :prepend-icon="deployable.Icon"
+        class="ma-1 d-inline-block"
+        @click="open">
+        {{ deployable.Name }}
+      </cc-button>
     </template>
 
     <template #title>
@@ -17,6 +23,7 @@
         </v-chip>
       </v-chip>
     </template>
+
     <deployable-info-base :deployable="deployable" :tier="tier" />
   </cc-dialog>
 </template>

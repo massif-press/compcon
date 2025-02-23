@@ -7,7 +7,7 @@
         tile
         :color="license.missing ? 'warning' : 'success'"
         class="ma-1"
-        @click="props.onClick($event)">
+        v-bind="props">
         <span v-if="license.source === 'GMS'">
           <v-icon start size="large" icon="cc:gms" />
           GMS
@@ -28,7 +28,8 @@
         <b v-else>{{ license.name }} RANK {{ license.rank }}</b>
         <v-divider class="my-1" />
         <i>Required for:&nbsp;</i>
-        {{ license.items.join(', ') }}
+        <br />
+        <cc-chip size="small" v-for="item in license.items" class="ma-1">{{ item }}</cc-chip>
       </v-card-text>
     </v-card>
   </v-menu>

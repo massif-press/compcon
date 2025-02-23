@@ -1,7 +1,7 @@
 <template>
   <div>
     <span class="heading h2 text-text">{{ cs.Name }}</span>
-    <p v-html-safe="cs.Description" class="flavor-text px-3 pb-4" />
+    <p v-html-safe="cs.Description" class="flavor-text px-3" />
 
     <div v-if="cs.PassiveName">
       <span class="heading sub">PASSIVE {{ cs.PassiveName ? ` - ${cs.PassiveName}` : '' }}</span>
@@ -18,9 +18,12 @@
       </div>
     </div>
 
-    <v-row>
+    <v-row dense>
       <v-col cols="auto">
-        <span class="heading sub">ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span>
+        <span class="heading sub">
+          <v-chip tile size="small">ACTIVE</v-chip>
+          {{ cs.ActiveName || '' }}
+        </span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <cc-chip

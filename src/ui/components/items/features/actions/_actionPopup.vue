@@ -5,8 +5,12 @@
     :title="action.Name"
     :sub-title="action.Frequency.ToString()">
     <template #activator="{ open }">
-      <cc-button :color="action.Color" @click="open">
-        <v-icon start>{{ action.Icon }}</v-icon>
+      <cc-button
+        size="small"
+        :color="action.Color"
+        :prepend-icon="action.Icon"
+        @click="open"
+        class="ma-1 d-inline-block">
         {{ action.Name }}
       </cc-button>
     </template>
