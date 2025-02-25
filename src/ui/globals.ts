@@ -40,7 +40,6 @@ import CCDamageTypePicker from './components/CCDamageTypePicker.vue';
 import CCDiceMenu from './components/CCDiceMenu.vue';
 import CCExtendedTag from './components/CCExtendedTag.vue';
 import CCItemUses from './components/CCItemUses.vue';
-import CCMechStatusAlert from './components/CCMechStatusAlert.vue';
 import CCRangeElement from './components/CCRangeElement.vue';
 import CCRollableTable from './components/CCRollableTable.vue';
 import CCShortStringEditor from './components/CCShortStringEditor.vue';
@@ -154,7 +153,6 @@ export {
   CCDiceMenu,
   CCExtendedTag,
   CCItemUses,
-  CCMechStatusAlert,
   CCRangeElement,
   CCRollableTable,
   CCShortStringEditor,
