@@ -111,9 +111,6 @@ export default {
   created() {
     window.addEventListener('scroll', handleScroll);
   },
-  mounted() {
-    this.expanded = !this.mobile;
-  },
   beforeDestroy() {
     window.removeEventListener('scroll', handleScroll);
   },
