@@ -1,5 +1,5 @@
 import { CompendiumStore } from '@/stores';
-import { CompendiumItem, PilotArmor, PilotGear, PilotWeapon } from '@/class';
+import { CompendiumItem, ContentPack, PilotArmor, PilotGear, PilotWeapon } from '@/class';
 import {
   ICompendiumItemData,
   IContentPack,
@@ -12,6 +12,7 @@ import {
 interface IPilotEquipmentData extends ICompendiumItemData {
   type?: string;
   tags: ITagData[];
+  effect?: string;
 }
 
 abstract class PilotEquipment extends CompendiumItem {
@@ -38,12 +39,12 @@ abstract class PilotEquipment extends CompendiumItem {
 
   public constructor(data: IPilotEquipmentData, pack?: ContentPack) {
     super(data, pack);
-
     this._used = false;
     this._destroyed = false;
     this._cascading = false;
     this._loaded = true;
     this._custom_damage_type = null;
+    this.Effect = data.effect || '';
     if (data.tags) {
       const ltd = data.tags.find((x) => x.id === 'tg_limited');
       this.IsLimited = !!ltd;

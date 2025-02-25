@@ -2,7 +2,7 @@
   <stepper-content
     :complete="pilotReady"
     mandatory
-    exit="pilot_management"
+    exit="../pilot_management"
     back
     no-confirm
     @back="$emit('back')">

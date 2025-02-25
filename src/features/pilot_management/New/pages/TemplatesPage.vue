@@ -1,7 +1,7 @@
 <template>
   <stepper-content
     :complete="selectionComplete"
-    exit="pilot_management"
+    exit="../pilot_management"
     back
     mandatory
     @back="$emit('back')"

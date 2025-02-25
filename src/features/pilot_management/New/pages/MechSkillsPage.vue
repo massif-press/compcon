@@ -2,7 +2,7 @@
   <stepper-content
     :complete="canContinue"
     mandatory
-    exit="pilot_management"
+    exit="../pilot_management"
     back
     @back="$emit('back')"
     @complete="$emit('next')">

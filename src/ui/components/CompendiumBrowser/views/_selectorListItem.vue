@@ -98,7 +98,6 @@ export default {
     },
     useCard(): boolean {
       switch (this.item && this.item.ItemType) {
-        case 'Background':
         case 'Skill':
         case 'Tag':
           return true;

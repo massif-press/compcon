@@ -149,10 +149,12 @@ class Statblock {
         output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`;
 
         output += '[ WEAPONS ]\n';
-        for (const im of mech.FeatureController.IntegratedWeapons) {
-          output += '  INTEGRATED MOUNT: ';
-          output = addWeaponToOutput(output, discordEmoji, im);
-          output += '\n';
+        for (const im of mech.MechLoadoutController.ActiveLoadout.IntegratedMounts) {
+          for (const mw of im.Weapons) {
+            output += '  INTEGRATED MOUNT: ';
+            output = addWeaponToOutput(output, discordEmoji, mw);
+            output += '\n';
+          }
         }
         const loadout = mech.MechLoadoutController.ActiveLoadout
           ? mech.MechLoadoutController.ActiveLoadout
@@ -232,24 +234,24 @@ class Statblock {
     mech.SaveTarget
   }
 [ WEAPONS ]
-  ${mech.FeatureController.IntegratedWeapons.map(
-    (weapon) =>
-      `Integrated: ${weapon ? weapon.TrueName : 'N/A  '}${
-        discordEmoji && weapon && weapon.Range
+  ${mech.MechLoadoutController.ActiveLoadout.IntegratedMounts.map(
+    (mount) =>
+      `Integrated: ${mount.Weapon ? mount.Weapon.TrueName : 'N/A  '}${
+        discordEmoji && mount.Weapon && mount.Weapon.Range
           ? ' ' +
-            weapon.Range.filter(Boolean)
+            mount.Weapon.Range.filter(Boolean)
               .map((r) => `${r.DiscordEmoji}${r.Value}`)
               .join(' ')
           : ''
       }${
-        discordEmoji && weapon && weapon.Damage
+        discordEmoji && mount.Weapon && mount.Weapon.Damage
           ? ' ' +
-            weapon.Damage.filter(Boolean)
+            mount.Weapon.Damage.filter(Boolean)
               .map((d) => `${d.DiscordEmoji}${d.Value}`)
               .join(' ')
           : ''
       }\n  `
-  )}${mechLoadout
+  ).join('')}${mechLoadout
     .AllEquippableMounts(
       pilot.has('CoreBonus', 'cb_improved_armament'),
       pilot.has('CoreBonus', 'cb_integrated_weapon')
