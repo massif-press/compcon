@@ -186,6 +186,7 @@ export default {
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
   letter-spacing: 3px;
   height: 25px;
+  line-height: 10px !important;
 }
 
 .size-small {
