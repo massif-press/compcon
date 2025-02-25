@@ -52,6 +52,10 @@ class SkillsController {
     return this.CurrentSkillPoints === this.MaxSkillPoints;
   }
 
+  public GetSkill(id: string): PilotSkill | undefined {
+    return this._skills.find((x) => x.Skill.ID === id);
+  }
+
   public CanAddSkill(skill: Skill | CustomSkill): boolean {
     const hasMinSkills = this._skills.length >= Rules.MinimumPilotSkills;
     return (

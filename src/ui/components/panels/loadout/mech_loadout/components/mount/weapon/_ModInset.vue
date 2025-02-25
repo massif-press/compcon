@@ -1,58 +1,41 @@
 <template>
-  <v-card flat tile color="transparent" class="mx-4 my-2 mod-border">
-    <v-toolbar class="bg-mod heading h3" density="compact" style="height: 26px">
-      <v-row dense align="center" style="margin-top: -26px; padding-top: 0px">
-        <equipment-options slot="options" :item="mod" />
-        {{ mod.Name }}
-        <v-spacer />
-        <span v-if="mod.SP" class="pr-3">{{ mod.SP }}SP</span>
-        <v-btn size="x-small" icon color="error" variant="plain" @click.stop="$emit('remove-mod')">
-          <v-icon size="20" icon="mdi-delete" />
-        </v-btn>
-      </v-row>
-    </v-toolbar>
-    <div class="mod-border px-2">
+  <cc-panel flat tile :title="mod.Name" title-color="mod" icon="cc:weaponmod" class="mb-1">
+    <template #toolbar-items>
+      <v-btn size="x-small" icon variant="plain" @click.stop="$emit('remove-mod')">
+        <v-icon size="20" class="pt-1" icon="mdi-delete" />
+      </v-btn>
+    </template>
+    <v-card-text class="pa-0 pb-1">
       <equipment-header :item="mod" :use-bonus="mech.Pilot.LimitedBonus" />
-      <div class="py-1">
-        <div class="text-cc-overline text-disabled">
-          <v-icon icon="cc:weaponmod" />
-          EQUIPMENT EFFECT
-        </div>
-        <div class="mb-1 mr-3 ml-7" v-html-safe="mod.Effect" />
+
+      <div class="text-cc-overline text-disabled">
+        <v-icon icon="cc:weaponmod" />
+        EQUIPMENT EFFECT
       </div>
-      <v-row class="text-left" density="compact" align="end">
-        <v-col>
-          <v-row justify="space-around" density="compact">
-            <v-col v-if="mod.Actions.length" cols="auto">
-              <div class="text-cc-overline text-disabled">
-                <v-icon size="small" icon="cc:activate" />
-                EQUIPMENT ACTIONS
-              </div>
-              <v-row no-gutters justify="center">
-                <v-col v-for="a in mod.Actions">
-                  <cc-action :action="a" panel class="ma-2" />
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col v-if="mod.Deployables.length">
-              <div class="text-cc-overline text-disabled">
-                <v-icon size="small" icon="cc:drone" />
-                EQUIPMENT DEPLOYABLES
-              </div>
-              <v-row no-gutters justify="center">
-                <v-col v-for="d in mod.Deployables">
-                  <cc-deployable-info
-                    :deployable="d"
-                    panel
-                    :name-override="mod.Name"
-                    class="ma-2" />
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-      <v-row no-gutters class="mr-3 mt-n3">
+      <div class="mb-1" :class="!mobile && 'px-4'" v-html-safe="mod.Effect" />
+
+      <div v-if="mod.Actions.length">
+        <div class="text-cc-overline text-disabled">
+          <v-icon size="small" icon="cc:activate" />
+          EQUIPMENT ACTIONS
+        </div>
+        <cc-action v-for="a in mod.Actions" :action="a" :panel="!mobile" class="ma-1" />
+      </div>
+
+      <div v-if="mod.Deployables.length">
+        <div class="text-cc-overline text-disabled">
+          <v-icon size="small" icon="cc:drone" />
+          EQUIPMENT DEPLOYABLES
+        </div>
+        <cc-deployable-info
+          v-for="d in mod.Deployables"
+          :deployable="d"
+          :panel="!mobile"
+          :name-override="mod.Name"
+          class="ma-1" />
+      </div>
+
+      <v-row no-gutters>
         <v-col cols="auto">
           <cc-tags small :tags="mod.Tags" />
         </v-col>
@@ -64,11 +47,12 @@
           <cc-synergy-display :item="mod" location="mod" :mech="mech" large />
         </v-col>
       </v-row>
-    </div>
-    <cc-solo-dialog ref="detailDialog" no-confirm :title="mod.Name" large>
-      <cc-item-card :item="mod" />
-    </cc-solo-dialog>
-  </v-card>
+
+      <cc-solo-modal v-model="detailDialog" :title="mod.Name" icon="cc:weaponmod" shrink>
+        <cc-item-card :item="mod" />
+      </cc-solo-modal>
+    </v-card-text>
+  </cc-panel>
 </template>
 
 <script lang="ts">
@@ -91,6 +75,14 @@ export default {
       type: String,
       required: false,
       default: 'primary',
+    },
+  },
+  data: () => ({
+    detailDialog: false,
+  }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

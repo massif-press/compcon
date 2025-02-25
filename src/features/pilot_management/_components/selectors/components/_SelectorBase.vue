@@ -1,6 +1,7 @@
 <template>
   <v-layout>
     <div
+      v-if="!flat"
       style="position: absolute; z-index: 999"
       :style="`left: ${showNav ? (mobile ? '322' : '352') : '0'}px; top: 6px`">
       <cc-button
@@ -9,7 +10,7 @@
         color="primary"
         @click="(showNav as any) = !showNav" />
     </div>
-    <v-navigation-drawer v-model="showNav" class="mt-2 pr-4 py-2" width="350">
+    <v-navigation-drawer v-if="!flat" v-model="showNav" class="mt-2 pr-4 py-2" width="350">
       <div id="float" :class="success ? 'bordered-success' : 'bordered-primary'">
         <div>
           <cc-title x-small :color="success ? 'success' : 'primary'" block>{{ title }}</cc-title>
@@ -25,6 +26,39 @@
       </div>
     </v-main>
   </v-layout>
+  <div
+    :style="`position: fixed; bottom: ${mobile ? 24 : 35}px; left: ${mobile ? 4 : 20}px; right: ${floatSize}; z-index: 901; transition: right 0.2s ease`">
+    <v-card flat tile class="px-2 py-1" border>
+      <v-row :no-gutters="!expanded" align="center" justify="space-between">
+        <v-col v-if="!expanded" cols="auto">
+          <v-icon
+            :color="success ? 'success' : 'error'"
+            :icon="success ? 'mdi-check' : 'mdi-alert-box-outline'" />
+        </v-col>
+        <v-col v-if="expanded" cols="12" md="" class="text-center">
+          <slot name="float" />
+        </v-col>
+        <v-col v-if="expanded" cols="12" md="" class="text-center">
+          <slot name="jump" />
+        </v-col>
+
+        <v-col :cols="expanded ? 12 : 'auto'" md="auto" class="text-right">
+          <v-btn
+            size="x-small"
+            @click="expanded = !expanded"
+            :icon="!mobile || (mobile && !expanded)"
+            :block="mobile && expanded"
+            flat
+            tile>
+            <v-icon size="x-large">
+              {{ expanded ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right' }}
+            </v-icon>
+            <span v-if="mobile && expanded">collapse</span>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -54,9 +88,14 @@ export default {
       type: Boolean,
       required: false,
     },
+    flat: {
+      type: Boolean,
+      required: false,
+    },
   },
   data: () => ({
     floating: false,
+    expanded: false,
     listener: () => {},
     showNav: null,
   }),
@@ -64,9 +103,16 @@ export default {
     mobile() {
       return this.$vuetify.display.smAndDown;
     },
+    floatSize() {
+      if (this.mobile) return this.expanded ? '4px' : 'calc(100vw - 78px)';
+      return this.expanded ? '20px' : 'calc(100vw - 100px)';
+    },
   },
   created() {
     window.addEventListener('scroll', handleScroll);
+  },
+  mounted() {
+    this.expanded = !this.mobile;
   },
   beforeDestroy() {
     window.removeEventListener('scroll', handleScroll);

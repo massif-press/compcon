@@ -34,6 +34,10 @@
         </v-col>
       </v-row>
     </div>
+    <v-alert v-else prominent color="warning" tile class="mt-4 text-center">
+      This pilot does not have a share code. To share this pilot, you must first upload it to your
+      cloud account.
+    </v-alert>
   </v-card-text>
 </template>
 

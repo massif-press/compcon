@@ -7,22 +7,20 @@
     </v-card>
     <v-expansion-panels v-else focusable accordion tile flat>
       <v-expansion-panel class="border-sm">
-        <v-expansion-panel-title :class="!$vuetify.display.mdAndDown ? 'px-2' : 'px-2'">
+        <v-expansion-panel-title class="pl-1 pr-3">
           <v-row no-gutters>
             <v-col cols="12" md="3">
               <div class="centered text-left pl-2">
-                <span class="stat-text">{{ skill.Trigger }}</span>
-                <div v-if="bonus && !$vuetify.display.mdAndDown" class="mb-n4 mt-1">
+                <div class="stat-text">{{ skill.Trigger }}</div>
+                <div v-if="bonus" class="pa-1">
                   <v-icon v-for="n in bonus" color="accent" size="small">mdi-hexagon</v-icon>
-                  <span class="flavor-text text-disabled">(+{{ bonus }})</span>
+                  <span class="text-cc-overline text-disabled">(+{{ bonus }})</span>
                 </div>
-                <span v-else-if="bonus" class="font-weight-bold text-accent pl-2">
-                  +{{ bonus }}
-                </span>
+                <div v-else-if="bonus" class="font-weight-bold text-accent pl-2">+{{ bonus }}</div>
               </div>
             </v-col>
             <v-col cols="12" md="9" align-self="center">
-              <span class="body-text pl-2">{{ skill.Description }}</span>
+              <div class="body-text pl-2">{{ skill.Description }}</div>
             </v-col>
           </v-row>
         </v-expansion-panel-title>

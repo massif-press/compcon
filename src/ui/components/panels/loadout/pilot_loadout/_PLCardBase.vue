@@ -124,11 +124,11 @@
         <div
           v-else
           class="text-center fade-select"
-          style="height: 100%; position: relative; cursor: pointer"
+          style="height: 60px; position: relative; cursor: pointer"
           @click.stop="selectorDialog = true">
           <div
             class="heading h2 text-disabled"
-            style="position: absolute; top: 50%; transform: translateY(100%); left: 0; right: 0">
+            style="position: absolute; transform: translateY(40%); left: 0; right: 0">
             <cc-slashes />
             EMPTY
             <cc-slashes />

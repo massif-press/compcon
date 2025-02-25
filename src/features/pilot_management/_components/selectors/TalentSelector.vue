@@ -2,6 +2,7 @@
   <selector
     title="Pilot Talents"
     :success="pilot.TalentsController.HasFullTalents && enoughSelections"
+    :flat="flat"
     :modal="modal">
     <template #left-column>
       <v-text-field
@@ -78,6 +79,52 @@
       </v-row>
     </template>
 
+    <template #float>
+      <v-card
+        v-if="pilot.TalentsController.HasFullTalents && enoughSelections"
+        flat
+        tile
+        class="text-cc-overline"
+        :class="mobile ? 'pa-1' : 'pa-2'"
+        variant="outlined"
+        density="compact"
+        color="success"
+        v-text="'Talent Selection Complete'" />
+      <v-card
+        v-if="pilot.TalentsController.MaxTalentPoints > pilot.TalentsController.CurrentTalentPoints"
+        flat
+        tile
+        class="text-cc-overline"
+        :class="mobile ? 'pa-1' : 'pa-2'"
+        variant="outlined"
+        density="compact"
+        color="accent"
+        v-text="
+          `${pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints}
+            Talent Selections remaining`
+        " />
+
+      <cc-button
+        variant="text"
+        size="x-small"
+        block
+        :disabled="!pilot.TalentsController.Talents.length"
+        @click="pilot.TalentsController.ClearTalents()">
+        Reset
+      </cc-button>
+    </template>
+
+    <template #jump>
+      <div class="px-2">
+        <cc-select
+          v-model="jump"
+          label="jump to"
+          color="primary"
+          variant="outlined"
+          :items="jumpItems" />
+      </div>
+    </template>
+
     <template #right-column>
       <cc-talent
         v-for="t in talents"
@@ -110,12 +157,17 @@ export default {
     pilot: { type: Pilot, required: true },
     levelUp: Boolean,
     modal: Boolean,
+    flat: Boolean,
   },
   data: () => ({
     search: '',
     ctype: 'full',
+    jump: '',
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     newPilot(): boolean {
       return this.pilot.Level === 0;
     },
@@ -137,10 +189,25 @@ export default {
 
       return talents;
     },
+    jumpItems() {
+      return [
+        ...this.pilot.TalentsController.Talents.map((x) => ({
+          title: x.Talent.Name,
+          value: x.Talent.ID,
+          subtitle: `// Pilot Rank ${x.Rank}`,
+        })),
+        ...this.talents
+          .filter((x) => !this.pilot.TalentsController.Talents.some((y) => y.Talent.ID === x.ID))
+          .map((x) => ({
+            title: x.Name,
+            value: x.ID,
+          })),
+      ];
+    },
   },
   watch: {
-    selectionComplete(bool) {
-      if (bool) window.scrollTo(0, document.body.scrollHeight);
+    jump(val) {
+      this.scroll(val);
     },
   },
   methods: {

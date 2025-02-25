@@ -19,16 +19,15 @@
       </v-chip>
     </template>
 
-    <v-card>
-      <v-card-title v-if="license.missing" class="bg-error font-weight-bolder py-1 my-0">
-        WARNING: LICENSE MISSING&emsp;
-      </v-card-title>
+    <v-card flat tile border>
+      <v-toolbar v-if="license.missing" color="error" class="px-2 heading h3" height="32">
+        WARNING: LICENSE MISSING
+      </v-toolbar>
       <v-card-text class="pa-2 text-text">
         <b v-if="license.source === 'GMS'">GMS STANDARD PILOT'S LICENSE</b>
         <b v-else>{{ license.name }} RANK {{ license.rank }}</b>
         <v-divider class="my-1" />
-        <i>Required for:&nbsp;</i>
-        <br />
+        <div class="text-cc-overline text-disabled">Required for:</div>
         <cc-chip size="small" v-for="item in license.items" class="ma-1">{{ item }}</cc-chip>
       </v-card-text>
     </v-card>

@@ -61,8 +61,6 @@
 </template>
 
 <script lang="ts">
-import { has } from 'lodash';
-
 export default {
   name: 'cc-btn-block',
   props: {
@@ -193,7 +191,7 @@ export default {
 .size-small {
   clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
   letter-spacing: 4px;
-  min-height: 40px;
+  min-height: 34px;
 }
 
 .size-default {

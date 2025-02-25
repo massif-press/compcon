@@ -27,6 +27,7 @@
             <cc-tickbar
               :icon="!mobile && s.icon"
               :size="mobile ? 'small' : 'default'"
+              color="accent"
               controls
               :stop-add="pilot.MechSkillsController.HasFullHASE"
               :max-selectable="
@@ -59,6 +60,9 @@ export default {
   watch: {
     'pilot.MechSkillsController.IsMissingHASE': function (newVal) {
       if (newVal === false) window.scrollTo(0, document.body.scrollHeight);
+    },
+    'pilot.MechSkillsController.CurrentHASEPoints': function () {
+      this.pilot.SaveController.save();
     },
   },
   computed: {
@@ -128,17 +132,6 @@ export default {
           ],
         },
       ];
-    },
-  },
-  methods: {
-    add(field: string) {
-      this.pilot.MechSkillsController.MechSkills.Increment(field as HASE);
-    },
-    remove(field: string) {
-      this.pilot.MechSkillsController.MechSkills.Decrement(field as HASE);
-    },
-    close() {
-      this.$emit('close');
     },
   },
 };

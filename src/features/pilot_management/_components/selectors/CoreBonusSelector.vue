@@ -66,6 +66,52 @@
       </v-row>
     </template>
 
+    <template #float>
+      <v-card
+        v-if="!pilot.CoreBonusController.IsMissingCBs"
+        flat
+        tile
+        class="text-cc-overline"
+        :class="mobile ? 'pa-1' : 'pa-2'"
+        variant="outlined"
+        density="compact"
+        color="success"
+        v-text="'Core Bonus Selection Complete'" />
+      <v-card
+        v-if="pilot.CoreBonusController.MaxCBPoints > pilot.CoreBonusController.CurrentCBPoints"
+        flat
+        tile
+        class="text-cc-overline"
+        :class="mobile ? 'pa-1' : 'pa-2'"
+        variant="outlined"
+        density="compact"
+        color="accent"
+        v-text="
+          `${pilot.CoreBonusController.MaxCBPoints - pilot.CoreBonusController.CurrentCBPoints}
+            Core Bonus Selections remaining`
+        " />
+
+      <cc-button
+        variant="text"
+        size="x-small"
+        block
+        :disabled="!pilot.CoreBonusController.CoreBonuses.length"
+        @click="pilot.CoreBonusController.ClearCoreBonuses()">
+        Reset
+      </cc-button>
+    </template>
+
+    <template #jump>
+      <div class="px-2">
+        <cc-select
+          v-model="jump"
+          label="jump to"
+          color="primary"
+          variant="outlined"
+          :items="jumpItems" />
+      </div>
+    </template>
+
     <template #right-column>
       <v-expansion-panels v-model="open" multiple flat tile>
         <v-expansion-panel v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs">
@@ -125,14 +171,33 @@ export default {
   data: () => ({
     search: '',
     open: [] as number[],
+    jump: '',
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     coreBonuses(): CoreBonus[] {
       const cbs = CompendiumStore().CoreBonuses.filter((x) => !x.IsHidden);
       if (this.search) {
         return cbs.filter((x) => x.Name.toLowerCase().includes(this.search.toLowerCase()));
       }
       return cbs;
+    },
+    jumpItems(): { title: string; value: string; subtitle?: string }[] {
+      return [
+        ...this.pilot.CoreBonusController.CoreBonuses.map((x) => ({
+          title: x.Name,
+          value: x.ID,
+          subtitle: `// Unlocked`,
+        })),
+        ...this.coreBonuses
+          .filter((x) => !this.pilot.has('CoreBonus', x.ID))
+          .map((x) => ({
+            title: x.Name,
+            value: x.ID,
+          })),
+      ];
     },
     manufacturersWithCBs(): {
       manufacturer: Manufacturer;
@@ -159,8 +224,8 @@ export default {
       },
       deep: true,
     },
-    selectionComplete(bool) {
-      if (bool) window.scrollTo(0, document.body.scrollHeight);
+    jump(val) {
+      this.scroll(val);
     },
     search(newval: string) {
       if (!newval) this.open = [];

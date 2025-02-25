@@ -390,8 +390,8 @@
     <v-main class="mt-2">
       <div
         id="content"
-        :style="`padding: 16px ${horizPadding}px 16px ${horizPadding}px`"
-        style="height: calc(100vh - 45px) !important; overflow-y: scroll">
+        :style="`padding: 16px ${horizPadding}px 16px ${horizPadding}px; height: calc(100vh - ${getHeight}px)!important;`"
+        style="overflow-y: scroll">
         <v-alert
           v-show="!!$slots.top"
           variant="outlined"
@@ -929,12 +929,28 @@ export default {
 
       return shown;
     },
+    isInModal() {
+      //determine if we're in a modal
+      const scrim = document.querySelector('.v-overlay__scrim');
+      return scrim && window.getComputedStyle(scrim).display !== 'none';
+    },
     horizPadding() {
-      if (this.view === 'table') return 12;
-      if (this.$vuetify.display.xl) return 160;
-      if (this.$vuetify.display.lg) return 90;
-      if (this.$vuetify.display.md) return 24;
-      return 24;
+      let pad = 24;
+      if (this.view === 'table') pad = 12;
+      if (this.$vuetify.display.xl) pad = 180;
+      if (this.$vuetify.display.lg) pad = 60;
+      if (this.$vuetify.display.md) pad = 24;
+      if (this.$vuetify.display.sm) pad = 8;
+      if (this.$vuetify.display.xs) pad = 8;
+
+      if (this.isInModal) pad = pad / 1.6;
+
+      return Math.round(pad);
+    },
+    getHeight() {
+      if (this.$vuetify.display.xs) return 40;
+      if (this.isInModal) return 98;
+      return 50;
     },
   },
   methods: {

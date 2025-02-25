@@ -60,7 +60,7 @@
               size="12"
               class="fade-select"
               end
-              @click="($refs as any).levelEdit.show()">
+              @click="levelEdit = true">
               mdi-circle-edit-outline
             </v-icon>
           </div>
@@ -91,7 +91,14 @@
       </v-col>
     </v-row>
   </div>
-  <level-edit-dialog ref="levelEdit" :pilot="pilot" />
+  <cc-solo-modal
+    v-model="levelEdit"
+    title="edit license level"
+    icon="cc:pilot"
+    shrink
+    width="600px">
+    <level-edit-dialog :pilot="pilot" @close="levelEdit = false" />
+  </cc-solo-modal>
 </template>
 
 <script lang="ts">
@@ -106,6 +113,9 @@ export default {
   props: {
     pilot: { type: Pilot, required: true },
   },
+  data: () => ({
+    levelEdit: false,
+  }),
   computed: {
     portrait() {
       return this.$vuetify.display.xs;

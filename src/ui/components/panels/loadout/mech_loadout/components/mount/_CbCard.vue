@@ -1,17 +1,9 @@
 <template>
-  <v-card color="pilot" class="mt-2 mx-2">
-    <v-card-text>
-      <v-row dense>
-        <v-col cols="auto">
-          <v-icon slot="prepend" size="40" class="mr-3" icon="cc:corebonus" />
-        </v-col>
-        <v-col>
-          <div class="heading h3">{{ bonus.Name }}</div>
-          <div class="flavor-text text-white">{{ bonus.MountedEffect }}</div>
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+  <cc-panel class="mt-1 mb-2" :title="bonus.Name" icon="cc:corebonus" title-color="secondary">
+    <div class="text-disabled" :class="mobile ? 'text-cc-overline' : 'flavor-text'">
+      {{ bonus.MountedEffect }}
+    </div>
+  </cc-panel>
 </template>
 
 <script lang="ts">
@@ -21,6 +13,11 @@ export default {
     bonus: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

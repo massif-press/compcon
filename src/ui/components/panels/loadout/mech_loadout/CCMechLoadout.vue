@@ -9,52 +9,19 @@
       @add-loadout="mech.MechLoadoutController.AddLoadout()"
       @clone-loadout="mech.MechLoadoutController.CloneLoadout()"
       @remove-loadout="mech.MechLoadoutController.RemoveLoadout()">
-      <v-row dense>
-        <mount-block
-          v-for="im in mech.MechLoadoutController.ActiveLoadout.IntegratedMounts"
-          :readonly="readonly"
-          integrated
-          :mount="im"
-          :mech="mech"
-          :color="color" />
-
-        <mount-block
-          v-if="mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')"
-          int-weapon
-          :readonly="readonly"
-          :mount="mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount"
-          :mech="mech"
-          :color="color" />
-
-        <mount-block
-          v-if="
-            mech.Pilot.has('CoreBonus', 'cb_improved_armament') &&
-            mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3
-          "
-          imp-arm
-          :readonly="readonly"
-          :mount="mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount"
-          :mech="mech"
-          :color="color" />
-
-        <mount-block
-          v-if="
-            mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting') &&
-            mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3
-          "
-          superheavy
-          :readonly="readonly"
-          :mount="mech.MechLoadoutController.ActiveLoadout.SuperheavyMount"
-          :mech="mech"
-          :color="color" />
-
-        <mount-block
-          v-for="m in mech.MechLoadoutController.ActiveLoadout.EquippableMounts"
-          :readonly="readonly"
-          :mount="m"
-          :mech="mech"
-          :color="color" />
-      </v-row>
+      <masonry-wall :items="mounts" :column-width="600" :gap="16" :min-columns="1" :max-columns="2">
+        <template #default="{ item }">
+          <mount-block
+            :readonly="readonly"
+            :integrated="item.isIntegrated"
+            :int-weapon="item.isIntWeapon"
+            :imp-arm="item.isImpArm"
+            :superheavy="item.isSuperheavy"
+            :mount="<any>item.mount"
+            :mech="mech"
+            :color="color" />
+        </template>
+      </masonry-wall>
 
       <v-divider class="my-2" />
 
@@ -85,6 +52,64 @@ export default {
   computed: {
     color() {
       return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
+    },
+    mounts(): {
+      mount: any;
+      isIntegrated: boolean;
+      isIntWeapon: boolean;
+      isImpArm: boolean;
+      isSuperheavy: boolean;
+    }[] {
+      let items = [] as {
+        mount: any;
+        isIntegrated: boolean;
+        isIntWeapon: boolean;
+        isImpArm: boolean;
+        isSuperheavy: boolean;
+      }[];
+
+      for (const im in this.mech.MechLoadoutController.ActiveLoadout.IntegratedMounts) {
+        items.push({
+          mount: im,
+          isIntegrated: true,
+          isIntWeapon: false,
+          isImpArm: false,
+          isSuperheavy: false,
+        });
+      }
+
+      if (this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
+        items.push({
+          mount: this.mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount,
+          isIntegrated: false,
+          isIntWeapon: true,
+          isImpArm: false,
+          isSuperheavy: false,
+        });
+
+      if (
+        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting') &&
+        this.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3
+      )
+        items.push({
+          mount: this.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
+          isIntegrated: false,
+          isIntWeapon: false,
+          isImpArm: false,
+          isSuperheavy: true,
+        });
+
+      for (const m of this.mech.MechLoadoutController.ActiveLoadout.EquippableMounts) {
+        items.push({
+          mount: m,
+          isIntegrated: false,
+          isIntWeapon: false,
+          isImpArm: false,
+          isSuperheavy: false,
+        });
+      }
+
+      return items;
     },
   },
 };

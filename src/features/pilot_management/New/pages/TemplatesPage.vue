@@ -6,23 +6,23 @@
     mandatory
     @back="$emit('back')"
     @complete="setTemplate()">
-    <cc-title large>New Pilot Registration&emsp;</cc-title>
-    <h2 v-show="!$vuetify.display.mdAndDown" class="heading">
+    <cc-title offset>New Pilot Registration</cc-title>
+    <div class="heading h2">
       UAD IDENT Service
       <cc-slashes />
       &nbsp;PRM-ALT QUICK ACCESS SELECTION
-    </h2>
-    <v-row density="compact" justify="start" align="center">
-      <v-col v-show="!$vuetify.display.mdAndDown">
-        <div class="flavor-text mt-n2" style="font-size: 14px">
+    </div>
+    <v-row density="compact" justify="start">
+      <v-col>
+        <p class="flavor-text" style="font-size: 14px">
           Per the 5017 PRM-ALT Act, the Union Administrative Department's IDENT registration service
           provides a Quick Access Selection module, created and curated by UAD Armored Cavalary
           Support. The UAD-ACS NHP staff have generated a selection of Combat Doctrine Templates
           based on the results of your OHM Health Examination//CR-2 Brain Activity Scan. Each of
           these templates will populate the remainder of your IDENT Combat Registration with a
           tailored set of combat-role-optimal responses.
-        </div>
-        <v-alert density="compact" variant="outlined" color="accent" class="ma-2">
+        </p>
+        <v-alert color="accent" variant="outlined" density="compact" class="mt-2" tile>
           <div class="text-center text-stark">
             Selecting a template will complete the New Pilot interface and start your Pilot with a
             curated set of skills and talents and an outfitted GMS EVEREST mech, tailored to the
@@ -34,24 +34,24 @@
         </v-alert>
       </v-col>
       <v-col cols="12" md="4">
-        <b class="caption text-accent mt-n2">MECH ART COURTESY OF</b>
+        <b class="heading h3 text-accent">MECH ART COURTESY OF</b>
         <v-img
           target="_blank"
           href="https://www.retrogrademinis.com/"
-          src="./src/assets/img/misc/retrograde_logo.png"
+          src="/public/retrograde_logo.png"
           class="img-select"
           max-height="131px"
           max-width="478px"
           contain />
       </v-col>
     </v-row>
-    <v-row :class="!$vuetify.display.mdAndDown ? 'mx-6' : 'mx-2'">
+    <div class="my-4">
       <template-item
         v-for="t in templates"
         :template="t"
         :isSelected="selected && t.name === selected.name"
         @select="selected = t" />
-    </v-row>
+    </div>
   </stepper-content>
 </template>
 

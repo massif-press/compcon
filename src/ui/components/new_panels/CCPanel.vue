@@ -16,8 +16,8 @@
     </v-toolbar>
     <v-card-text
       :class="[densityClass, variantClass]"
-      :style="height && `height: ${height}`"
-      style="opacity: 0.8; overflow-y: scroll">
+      :style="[height && `height: ${height}`, stark ? '' : 'opacity: 0.8']"
+      style="overflow-y: scroll">
       <slot>Default Content</slot>
     </v-card-text>
     <div v-if="border" class="clip-fix" />
@@ -60,6 +60,10 @@ export default {
       type: String,
     },
     clickable: {
+      type: Boolean,
+      default: false,
+    },
+    stark: {
       type: Boolean,
       default: false,
     },

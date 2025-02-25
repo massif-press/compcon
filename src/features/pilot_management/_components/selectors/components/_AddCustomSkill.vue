@@ -3,45 +3,31 @@
   <v-row dense align="center">
     <v-col>
       <div>
-        <v-text-field
+        <cc-text-field
           v-model="newSkill"
           variant="outlined"
+          color="primary"
           density="compact"
           hide-details
           label="New Skill Trigger" />
-        <v-textarea
-          v-model="newDesc"
-          variant="outlined"
-          density="compact"
-          hide-details
-          rows="1"
-          auto-grow
-          class="pl-4 mt-1"
-          label="Description" />
-        <v-textarea
-          v-model="newDetail"
-          variant="outlined"
-          density="compact"
-          hide-details
-          rows="3"
-          auto-grow
-          class="pl-4 mt-1"
-          label="Detail" />
+        <cc-text-area v-model="newDesc" class="my-2" label="Description" />
+        <cc-text-area v-model="newDetail" class="my-2" label="Detail" />
       </div>
     </v-col>
     <v-col cols="auto" md="1" class="text-center">
       <div class="mt-2 ml-auto mr-auto">
-        <cc-tooltip simple content="Add Skill">
-          <v-btn
-            icon
-            size="x-large"
-            variant="text"
-            :color="newSkill === '' || !canAdd ? '' : 'secondary'"
-            :disabled="newSkill === '' || !canAdd"
-            @click="addSkill">
-            <v-icon size="50" icon="mdi-plus" />
-          </v-btn>
-        </cc-tooltip>
+        <v-tooltip text="Add Skill">
+          <template #activator="{ props }">
+            <cc-button
+              v-bind="props"
+              size="large"
+              icon="mdi-plus"
+              variant="outlined"
+              color="success"
+              :disabled="newSkill === '' || !canAdd"
+              @click="addSkill" />
+          </template>
+        </v-tooltip>
       </div>
     </v-col>
   </v-row>

@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="block ? '' : 'clip'"
+    :class="[block ? '' : 'clip', offset && 'offset']"
     style="height: fit-content"
     :style="`width: ${
       block ? '100%' : 'max-content'
@@ -28,6 +28,11 @@ export default {
       required: false,
       default: 'primary',
     },
+    offset: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   computed: {
     mobile() {
@@ -40,5 +45,10 @@ export default {
 <style scoped>
 .clip {
   clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0% 100%);
+}
+
+.offset {
+  padding-left: 600px !important;
+  margin-left: -600px !important;
 }
 </style>

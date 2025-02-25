@@ -148,14 +148,6 @@ export default {
         this.user.SetOption('showExotics', newVal);
       },
     },
-    userAllowQuickstart: {
-      get: function () {
-        return this.user.Option('quickstart');
-      },
-      set: function (newVal) {
-        this.user.SetOption('quickstart', newVal);
-      },
-    },
     theme: {
       get: function () {
         return this.user.Theme;

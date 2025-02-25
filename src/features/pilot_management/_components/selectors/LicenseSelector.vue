@@ -60,6 +60,54 @@
       </v-row>
     </template>
 
+    <template #float>
+      <v-card
+        v-if="!pilot.LicenseController.IsMissingLicenses"
+        flat
+        tile
+        class="text-cc-overline"
+        :class="mobile ? 'pa-1' : 'pa-2'"
+        variant="outlined"
+        density="compact"
+        color="success"
+        v-text="'License Selection Complete'" />
+      <v-card
+        v-if="
+          pilot.LicenseController.MaxLicensePoints > pilot.LicenseController.CurrentLicensePoints
+        "
+        flat
+        tile
+        class="text-cc-overline"
+        :class="mobile ? 'pa-1' : 'pa-2'"
+        variant="outlined"
+        density="compact"
+        color="accent"
+        v-text="
+          `${pilot.LicenseController.MaxLicensePoints - pilot.LicenseController.CurrentLicensePoints}
+            License Selections remaining`
+        " />
+
+      <cc-button
+        variant="text"
+        size="x-small"
+        block
+        :disabled="!pilot.LicenseController.Licenses.length"
+        @click="pilot.LicenseController.ClearLicenses()">
+        Reset
+      </cc-button>
+    </template>
+
+    <template #jump>
+      <div class="px-2">
+        <cc-select
+          v-model="jump"
+          label="jump to"
+          color="primary"
+          variant="outlined"
+          :items="jumpItems" />
+      </div>
+    </template>
+
     <template #right-column>
       <v-row v-for="m in Object.keys(licenses)">
         <v-col v-if="!!mf(m)" class="text-center pa-3">
@@ -128,8 +176,12 @@ export default {
   },
   data: () => ({
     search: '',
+    jump: '',
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     selectionComplete(): boolean {
       return this.levelUp && !this.pilot.LicenseController.IsMissingLicenses;
     },
@@ -139,15 +191,31 @@ export default {
         'Source'
       );
     },
+    jumpItems() {
+      return [
+        ...this.pilot.LicenseController.Licenses.map((x) => ({
+          title: x.License.Name,
+          value: x.License.FrameID,
+          subtitle: `// Pilot Rank: ${x.Rank}`,
+        })),
+        ...CompendiumStore()
+          .Licenses.filter((x) => !x.Hidden)
+          .filter((x) => !this.pilot.LicenseController.Licenses.some((y) => y.License.ID === x.ID))
+          .map((x) => ({
+            title: x.Name,
+            value: x.FrameID,
+          })),
+      ];
+    },
   },
   watch: {
-    selectionComplete(bool) {
-      if (bool) window.scrollTo(0, document.body.scrollHeight);
+    jump(val) {
+      this.scroll(val);
     },
   },
   methods: {
     scroll(id) {
-      this.scrollTo(`license_${id}`);
+      this.scrollTo(id);
     },
     scrollTo(e: any): void {
       const el = document.getElementById(e);

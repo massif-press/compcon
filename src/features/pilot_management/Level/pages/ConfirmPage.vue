@@ -4,15 +4,13 @@
     :exit="`/pilot/${pilot.ID}`"
     back
     no-confirm
-    @back="$emit('back')"
-  >
-    <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" class="mt-4" />
-    <br />
-    <v-alert v-if="!pilotReady" type="error" variant="outlined">
-      <span class="stat-text text-accent">
+    @back="$emit('back')">
+    <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" />
+    <cc-alert v-if="!pilotReady" color="error">
+      <div class="stat-text">
         WARNING: Submission for IDENT record {{ pilot.ID }} has the following issue(s):
-      </span>
-      <ul class="flavor-text text-error">
+      </div>
+      <ul class="flavor-text text-stark">
         <li v-if="!pilot.Callsign">PILOT CALLSIGN blank or invalid</li>
         <li v-if="!pilot.Name">PILOT NAME blank or invalid</li>
         <li v-if="!pilot.SkillsController.HasFullSkills">
@@ -25,10 +23,10 @@
         <li v-if="!pilot.LicenseController.HasLicenses">PILOT LICENSES incomplete or invalid</li>
         <li v-if="!pilot.CoreBonusController.HasCBs">PILOT CORE BONUSES incomplete or invalid</li>
       </ul>
-    </v-alert>
-    <v-btn x-large block color="secondary" tile class="mx-2 my-8" @click="savePilot()">
+    </cc-alert>
+    <cc-button block color="success" class="my-6" prepend-icon="cc:orbital" @click="savePilot()">
       Update Pilot Record // {{ pilot.Callsign }} ({{ pilot.Name }})
-    </v-btn>
+    </cc-button>
   </stepper-content>
 </template>
 

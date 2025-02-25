@@ -1,13 +1,20 @@
 <template>
   <v-row
-    dense
+    no-gutters
     align="start"
-    class="rounded-lg mb-2"
-    style="border: 1px solid rgb(var(--v-theme-primary))">
-    <v-col cols="auto" class="mr-2 text-center">
-      <v-img :src="frameImage" width="152px" max-height="206px" />
-    </v-col>
-    <v-col cols="12" md="">
+    class="rounded-s-xl mb-2"
+    style="position: relative; border: 1px solid rgb(var(--v-theme-primary))">
+    <v-slide-x-reverse-transition>
+      <v-col
+        v-if="!mobile || (mobile && !expanded)"
+        cols="auto"
+        class="mr-2 pa-2text-center border-e-sm"
+        style="border-color: rgb(var(--v-theme-primary))">
+        <v-img :src="frameImage" width="152px" max-height="206px" />
+      </v-col>
+    </v-slide-x-reverse-transition>
+
+    <v-col class="pt-1 ml-n1">
       <v-row dense :class="`px-2 ${isSelected ? 'selected-gradient' : 'gradient'}`">
         <v-col class="text-white">
           <div v-show="!$vuetify.display.mdAndDown" class="text-overline mt-n1">
@@ -17,13 +24,18 @@
             {{ template.name }}
           </div>
         </v-col>
-        <v-col cols="auto">
-          <v-btn :color="isSelected ? 'secondary' : 'accent'" class="mt-1" @click="$emit('select')">
-            <v-icon :icon="isSelected ? 'mdi-check' : 'mdi-chevron-triple-right'" class="mr-1" />
+        <div
+          :style="mobile ? 'margin-top: -6px' : 'position: absolute; right: 0; top: 0'"
+          class="ml-3">
+          <cc-button
+            :size="portrait ? 'x-small' : 'small'"
+            :color="isSelected ? 'success' : 'accent'"
+            :prepend-icon="isSelected ? 'mdi-check' : 'mdi-chevron-triple-right'"
+            @click="$emit('select')">
             <span v-if="!isSelected">SELECT {{ template.name }} TEMPLATE</span>
             <span v-else>{{ template.name }} TEMPLATE SELECTED</span>
-          </v-btn>
-        </v-col>
+          </cc-button>
+        </div>
       </v-row>
       <div v-html-safe="template.description" class="pa-2" />
       <div class="sidebar-box ml-2" :style="`max-height:${expanded ? '100%' : '80px;'}`">
@@ -36,39 +48,45 @@
             <v-col>
               <div class="caption text-accent">
                 PILOT
-                <cc-slashes />
+                <cc-slashes class="pr-1" />
                 <b>SKILLS</b>
               </div>
               <v-row dense justify="center" class="px-2 text-center">
                 <v-col v-for="s in template.build.skills">
-                  <cc-tooltip
-                    delayed
-                    :title="`${item('Skills', s).Name} (+2)`"
-                    :content="item('Skills', s).Detail">
-                    <v-chip variant="outlined" color="info" label>
-                      {{ item('Skills', s).Name }}
-                    </v-chip>
-                  </cc-tooltip>
+                  <v-tooltip location="top" max-width="600px" :open-on-click="mobile">
+                    <template #activator="{ props }">
+                      <cc-chip v-bind="props" bg-color="info">
+                        {{ item('Skills', s).Name }}
+                      </cc-chip>
+                    </template>
+                    <div class="heading h3">{{ item('Skills', s).Name }}</div>
+                    <v-divider />
+                    <div v-html-safe="item('Skills', s).Detail" />
+                  </v-tooltip>
                 </v-col>
               </v-row>
             </v-col>
             <v-col>
               <div class="caption text-accent">
                 PILOT
-                <cc-slashes />
+                <cc-slashes class="pr-1" />
                 <b>TALENTS</b>
               </div>
               <v-row dense justify="center" class="px-2 text-center">
                 <v-col v-for="t in template.build.talents" cols="12" md="auto" class="mx-1">
-                  <cc-tooltip
-                    delayed
-                    :title="`${item('Talents', t).Name} I: ${item('Talents', t).Rank(1).Name}`"
-                    :content="item('Talents', t).Rank(1).Description">
-                    <v-chip variant="outlined" color="accent" label>
-                      <v-icon start>cc:rank_1</v-icon>
-                      {{ item('Talents', t).Name }}
-                    </v-chip>
-                  </cc-tooltip>
+                  <v-tooltip location="top" max-width="600px" :open-on-click="mobile">
+                    <template #activator="{ props }">
+                      <cc-chip v-bind="props" bg-color="accent">
+                        <v-icon start>cc:rank_1</v-icon>
+                        {{ item('Talents', t).Name }}
+                      </cc-chip>
+                    </template>
+                    <div class="heading h3">
+                      {{ item('Talents', t).Name }} I: {{ item('Talents', t).Rank(1).Name }}
+                    </div>
+                    <v-divider />
+                    <div v-html-safe="item('Talents', t).Rank(1).Description" />
+                  </v-tooltip>
                 </v-col>
               </v-row>
             </v-col>
@@ -77,7 +95,7 @@
         <div class="panel clipped py-1 px-2 my-2">
           <div class="caption text-accent mt-1">
             GMS EVEREST
-            <cc-slashes />
+            <cc-slashes class="pr-1" />
             <b>LOADOUT</b>
           </div>
           <v-row dense justify="center" class="px-2 text-center">
@@ -99,17 +117,19 @@
         </div>
         <p class="read-more">
           <v-btn
+            size="x-small"
             icon
+            border
             class="mb-n3"
             style="background-color: rgb(var(--v-theme-stark-panel))"
             @click="expanded = !expanded">
-            <v-icon large color="accent">mdi-chevron-double-{{ expanded ? 'up' : 'down' }}</v-icon>
+            <v-icon size="30" color="accent">
+              mdi-chevron-double-{{ expanded ? 'up' : 'down' }}
+            </v-icon>
           </v-btn>
         </p>
         <div v-if="expanded" style="min-height: 40px" />
       </div>
-
-      <div class="text-center"></div>
     </v-col>
   </v-row>
 </template>
@@ -127,6 +147,12 @@ export default {
     expanded: false,
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+    portrait() {
+      return this.$vuetify.display.xs;
+    },
     frameImage() {
       return this.template.image;
     },
@@ -176,11 +202,12 @@ export default {
 .sidebar-box {
   position: relative;
   overflow: hidden;
-  transition: max-height cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
+  transition: all 0.2s ease;
 }
+
 .sidebar-box .read-more {
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
   left: 0;
   width: 100%;
   text-align: center;

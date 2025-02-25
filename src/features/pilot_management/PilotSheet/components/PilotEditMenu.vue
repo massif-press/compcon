@@ -111,7 +111,10 @@
             ${pilot.Callsign} (${pilot.Name}, LL${pilot.Level})
           </span>`"
                   cancellable
-                  @confirm="delete_pilot()"
+                  @confirm="
+                    delete_pilot(close);
+                    close;
+                  "
                   @cancel="close" />
               </template>
             </cc-dialog>
@@ -166,8 +169,9 @@ export default {
     },
   },
   methods: {
-    delete_pilot() {
+    delete_pilot(close?: Function) {
       this.pilot.SaveController.Delete();
+      if (close) close();
       if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management');
     },
     exportPilot() {

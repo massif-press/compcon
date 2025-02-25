@@ -44,14 +44,12 @@
                 placeholder="Name"
                 :icon="group.Name ? 'mdi-check-circle-outline' : 'mdi-alert'"
                 :color="group.Name ? 'success' : 'error'"
-                hide-details
-                density="compact"
                 class="my-1 d-inline">
                 <template #extra>
                   <cc-button
                     icon="mdi-dice-multiple"
                     variant="outlined"
-                    size="x-small"
+                    size="small"
                     tooltip="Generate random name"
                     @click="randomName()" />
                 </template>

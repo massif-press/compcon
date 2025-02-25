@@ -33,7 +33,6 @@ Brazil
 Brick
 Brimstone
 Broadwater
-Brokenboring
 Brooks
 Brugge
 Bulldozer
@@ -83,7 +82,6 @@ Condor
 Copenhagen
 Copland
 Coppermine
-Copperriver
 Cornbread
 Corona
 Cortland
@@ -123,7 +121,6 @@ Edison
 Egret
 Eierspass
 Eiger
-Einstein
 Elixir
 Emerald
 Equinox
@@ -218,7 +215,6 @@ Kyoto
 Kyrene
 Legend
 Leopard
-Liberation
 Liberty
 Lightweight
 Lilac

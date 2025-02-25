@@ -1,25 +1,23 @@
 <template>
-  <v-dialog v-model="dialog" width="50vw">
-    <v-card tile>
-      <cc-titlebar large icon="cc:role-striker" color="primary">
-        Select Bracing Mount
-        <v-btn slot="items" dark icon @click="dialog = false">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
-      <v-card-text class="text-center flavor-text mt-2">
-        <span class="text-overline">// PROCESS INTERRUPT: PILOT INPUT REQUIRED //</span>
-        <br />
-        //[COMP/CON:
-        <b class="text-stark">
+  <cc-solo-modal
+    v-model="dialog"
+    width="50vw"
+    shrink
+    icon="cc:role_striker"
+    title="Select Bracing Mount">
+    <v-card-text class="text-center pt-0">
+      <span class="text-cc-overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
+      <div class="flavor-text">
+        <span style="opacity: 0.4">>>COMP/CON//&nbsp;</span>
+        <span>
           Lancer, Superheavy-class armament requires two mounts. Please select a
           <span class="text-accent">bracing mount.</span>
           This bracing mount will be not be able to field armament until the Superheavy weapon is
           removed.
-        </b>
-        ]
-        <br />
-        <v-btn
+        </span>
+      </div>
+      <div class="heading">
+        <cc-button
           v-for="m in availableMounts"
           x-large
           block
@@ -28,24 +26,17 @@
           class="my-2"
           @click="$emit('select', m)">
           {{ m.Name }}
-        </v-btn>
-        <div v-if="superheavySelect">
-          <i>The SUPERHEAVY MOUNTING Core Bonus requires bracing on a Heavy Mount, if available.</i>
-        </div>
-      </v-card-text>
-
-      <v-divider />
-
-      <v-card-actions>
-        <v-spacer />
-        <v-btn text @click="dialog = false">dismiss</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+        </cc-button>
+      </div>
+      <div v-if="superheavySelect">
+        <i>The SUPERHEAVY MOUNTING Core Bonus requires bracing on a Heavy Mount, if available.</i>
+      </div>
+    </v-card-text>
+  </cc-solo-modal>
 </template>
 
 <script lang="ts">
-import { EquippableMount } from '@/class';
+import { EquippableMount, MountType } from '@/class';
 
 export default {
   name: 'sh-lock-dialog',
@@ -61,21 +52,21 @@ export default {
   },
   data: () => ({
     dialog: false,
-    availableMounts: [],
   }),
-  created() {
-    let candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-      this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
-      false
-    ) as EquippableMount[];
-    if (this.superheavySelect) {
-      candidates = this.mech.MechLoadoutController.ActiveLoadout.Mounts.filter(
-        (m) => m.Type === MountType.Heavy
-      );
-    }
-    this.availableMounts = candidates.filter((x) => x.Name !== this.mount.Name);
-  },
+  created() {},
   computed: {
+    availableMounts() {
+      let candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+        this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
+        false
+      ) as EquippableMount[];
+      if (this.superheavySelect) {
+        candidates = this.mech.MechLoadoutController.ActiveLoadout.Mounts.filter(
+          (m) => m.Type === MountType.Heavy
+        );
+      }
+      return candidates.filter((x) => x.Name !== this.mount.Name);
+    },
     superheavySelect() {
       return (
         this.mech.Pilot.has('corebonus', 'cb_superheavy_mounting') &&

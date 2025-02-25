@@ -1,6 +1,9 @@
 <template>
   <v-card flat tile color="transparent">
-    <fieldset class="px-3" :class="mobile && 'border-0'">
+    <fieldset
+      class="px-3"
+      :class="mobile && 'border-0'"
+      style="border-color: rgba(155, 155, 155, 0.6)">
       <legend :style="`color: ${color}`" class="heading h3">Systems</legend>
       <div style="position: relative">
         <div class="side-legend">
@@ -8,7 +11,7 @@
             :class="`heading h3 ${
               mech.FreeSP < 0 ? 'text-error' : 'text-disabled text--darken-3'
             }`">
-            <v-icon v-if="mech.FreeSP < 0" color="error" left>mdi-alert</v-icon>
+            <v-icon v-if="mech.FreeSP < 0" color="error" size="small">mdi-alert</v-icon>
             {{ mech.FreeSP }} / {{ mech.MaxSP }}
             <span class="text-cc-overline">SP</span>
           </span>
@@ -40,17 +43,12 @@
             color="accent"
             variant="tonal"
             prepend-icon="mdi-plus"
-            @click.stop="($refs as any).additionalSelect.show()">
+            @click.stop="additionalSelect = true">
             Add Additional System
           </cc-button>
-          <cc-solo-dialog
-            ref="additionalSelect"
-            no-confirm
-            title="SELECT EQUIPMENT"
-            fullscreen
-            no-pad>
+          <cc-solo-modal v-model="additionalSelect" icon="cc:system" title="SELECT EQUIPMENT">
             <system-selector :mech="mech" />
-          </cc-solo-dialog>
+          </cc-solo-modal>
         </v-col>
       </v-row>
     </fieldset>
@@ -61,10 +59,11 @@ integratedSystems
 <script lang="ts">
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
+import SystemSelector from './_SystemSelector.vue';
 
 export default {
   name: 'systems-block',
-  components: { SystemSlotCard, ModEquippedCard },
+  components: { SystemSlotCard, ModEquippedCard, SystemSelector },
   props: {
     mech: {
       type: Object,
@@ -80,6 +79,7 @@ export default {
   },
   data: () => ({
     systemItems: [] as { component: any; props: any; item: any; weapon?: any; empty?: boolean }[],
+    additionalSelect: false,
   }),
   mounted() {
     this.getSystemItems();
@@ -183,7 +183,7 @@ legend {
 .side-legend {
   position: absolute;
   right: 20px;
-  top: -35px;
+  top: -34px;
   background-color: rgb(var(--v-theme-background));
   padding: 0px 8px;
   height: 28px;

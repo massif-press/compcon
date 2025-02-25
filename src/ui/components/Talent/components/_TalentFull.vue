@@ -14,10 +14,10 @@
           <v-col v-if="rank" cols="auto" class="ml-auto mr-3">
             <v-icon color="white">cc:rank_{{ rank }}</v-icon>
           </v-col>
-          <v-col cols="auto" align-self="start" class="pa-2">
+          <v-col cols="auto" align-self="start" class="mr-2">
             <v-tooltip v-if="talent.InLcp" bottom>
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="cc:content_manager" />
+                <v-icon v-bind="props" size="20" icon="cc:content_manager" />
               </template>
               <span>{{ talent.LcpName }}</span>
             </v-tooltip>
@@ -71,7 +71,7 @@
                 <cc-button
                   v-else-if="selectable && Number(rank) + 1 === n"
                   :size="mobile ? 'x-small' : 'small'"
-                  color="secondary"
+                  color="success"
                   :block="mobile"
                   prepend-icon="mdi-lock-open"
                   :disabled="!canAdd"

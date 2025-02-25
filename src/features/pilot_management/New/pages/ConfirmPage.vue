@@ -1,21 +1,30 @@
 <template>
   <stepper-content
     :complete="pilotReady"
-    :mandatory="!quickstart"
+    mandatory
     exit="pilot_management"
     back
     no-confirm
-    @back="$emit('back')"
-  >
+    @back="$emit('back')">
     <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" />
     <br />
-    <v-alert type="error" variant="outlined" v-if="!pilotReady">
+    <v-alert type="error" variant="outlined" tile v-if="!pilotReady">
       <span class="stat-text text-accent">
         WARNING: Submission for IDENT record {{ pilot.ID }} has the following issue(s):
       </span>
       <ul class="flavor-text text-error">
-        <li v-if="!pilot.Callsign">PILOT CALLSIGN blank or invalid</li>
-        <li v-if="!pilot.Name">PILOT NAME blank or invalid</li>
+        <li v-if="!pilot.Callsign">
+          <v-icon icon="mdi-alert" size="small" class="mx-n1" />
+          CRITICAL
+          <v-icon icon="mdi-alert" size="small" class="mx-n1" />
+          &nbsp;PILOT CALLSIGN blank or invalid
+        </li>
+        <li v-if="!pilot.Name">
+          <v-icon icon="mdi-alert" size="small" class="mx-n1" />
+          CRITICAL
+          <v-icon icon="mdi-alert" size="small" class="mx-n1" />
+          &nbsp;PILOT NAME blank or invalid
+        </li>
         <li v-if="!pilot.SkillsController.HasFullSkills">
           PILOT SKILL TRIGGERS missing or incomplete
         </li>
@@ -25,21 +34,31 @@
         </li>
       </ul>
     </v-alert>
-    <v-btn
-      size="x-large"
+    <cc-button
       block
-      :disabled="!pilotReady && !quickstart"
-      color="secondary-darken-2"
-      tile
-      class="mx-2 my-8"
-      @click="savePilot()"
-    >
+      color="success"
+      class="my-6"
+      prepend-icon="cc:orbital"
+      :disabled="!pilotReady"
+      @click="savePilot()">
       <span>
         Register New Pilot // {{ pilot.Callsign || default_callsign }} ({{
           pilot.Name || default_name
         }})
       </span>
-    </v-btn>
+    </cc-button>
+    <div v-if="!pilotReady" class="text-right">
+      <div class="d-inline-block">
+        <cc-button
+          size="small"
+          color="primary"
+          tooltip="Force pilot registration"
+          :disabled="missingBasicInfo"
+          @click="savePilot()">
+          Registration Override
+        </cc-button>
+      </div>
+    </div>
   </stepper-content>
 </template>
 
@@ -58,7 +77,6 @@ export default {
       type: Object,
       required: true,
     },
-    quickstart: { type: Boolean },
     groupID: { type: String },
   },
   data: () => ({
@@ -73,6 +91,9 @@ export default {
         this.pilot.TalentsController.HasFullTalents &&
         this.pilot.MechSkillsController.HasFullHASE
       );
+    },
+    missingBasicInfo(): boolean {
+      return !this.pilot.Callsign || !this.pilot.Name;
     },
   },
   methods: {

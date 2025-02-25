@@ -1,83 +1,54 @@
 <template>
   <cc-confirm ref="confirm" />
-  <div
-    style="
-      background-color: rgb(var(--v-theme-primary));
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 50px;
-    "
-  />
-  <v-tabs v-model="step" grow stacked bg-color="primary">
-    <v-tab>
-      <span class="heading h3 pt-3">
-        <v-icon v-show="pilot.HasIdent" icon="mdi-check-circle-outline" />
-        Identification</span
-      ></v-tab
-    >
-    <v-tab>
-      <span class="heading h3 pt-3">
-        <v-icon
-          v-show="pilot.SkillsController.HasFullSkills"
-          icon="mdi-check-circle-outline"
-        />Skills</span
-      ></v-tab
-    >
-    <v-tab>
-      <span class="heading h3 pt-3">
-        <v-icon
-          v-show="pilot.TalentsController.HasFullTalents"
-          icon="mdi-check-circle-outline"
-        />Talents</span
-      ></v-tab
-    >
-    <v-tab>
-      <span class="heading h3 pt-3">
-        <v-icon
-          v-show="pilot.MechSkillsController.HasFullHASE"
-          icon="mdi-check-circle-outline"
-        />Mech Skills</span
-      ></v-tab
-    >
-    <v-tab><span class="heading h3 pt-3">Confirm</span></v-tab>
-  </v-tabs>
-  <v-container>
-    <v-window v-model="step">
-      <v-window-item :value="0">
-        <identification-page
-          :pilot="pilot"
-          :quickstart="quickstart"
-          @next="step++"
-          @templates="step = 5"
-          @set="pilot[$event.attr] = $event.val"
-        />
-      </v-window-item>
-      <v-window-item :value="1">
-        <skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
-      </v-window-item>
-      <v-window-item :value="2">
-        <talents-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
-      </v-window-item>
-      <v-window-item :value="3">
-        <mech-skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
-      </v-window-item>
-      <v-window-item :value="4">
-        <confirm-page
-          :pilot="pilot"
-          :quickstart="quickstart"
-          :groupID="groupID"
-          @next="step++"
-          @back="step--"
-          @done="onDone"
-        />
-      </v-window-item>
-      <v-window-item :value="5">
-        <templates-page :pilot="pilot" @next="step = 4" @back="step = 1" />
-      </v-window-item>
-    </v-window>
-  </v-container>
+  <cc-tabs ref="tabs" fixed>
+    <template #tabs>
+      <v-tab>
+        <v-icon v-show="pilot.HasIdent" icon="mdi-check" />
+        Identification
+      </v-tab>
+      <v-tab>
+        <v-icon v-show="pilot.SkillsController.HasFullSkills" icon="mdi-check" />
+        Skills
+      </v-tab>
+      <v-tab>
+        <v-icon v-show="pilot.TalentsController.HasFullTalents" icon="mdi-check" />
+        Talents
+      </v-tab>
+      <v-tab>
+        <v-icon v-show="pilot.MechSkillsController.HasFullHASE" icon="mdi-check" />
+        Mech Skills
+      </v-tab>
+      <v-tab>Confirm</v-tab>
+    </template>
+    <v-container>
+      <template #default>
+        <v-window-item>
+          <identification-page
+            :pilot="pilot"
+            :groupID="groupID"
+            @done="onDone()"
+            @next="step = 1"
+            @templates="step = 5"
+            @set="pilot[$event.attr] = $event.val" />
+        </v-window-item>
+        <v-window-item>
+          <skills-page :pilot="pilot" @next="step = 2" @back="step = 0" />
+        </v-window-item>
+        <v-window-item>
+          <talents-page :pilot="pilot" @next="step = 3" @back="step = 1" />
+        </v-window-item>
+        <v-window-item>
+          <mech-skills-page :pilot="pilot" @next="step = 4" @back="step = 2" />
+        </v-window-item>
+        <v-window-item>
+          <confirm-page :pilot="pilot" :groupID="groupID" @back="step = 3" @done="onDone()" />
+        </v-window-item>
+        <v-window-item>
+          <templates-page :pilot="pilot" @next="step = 4" @back="step = 1" />
+        </v-window-item>
+      </template>
+    </v-container>
+  </cc-tabs>
 </template>
 
 <script lang="ts">
@@ -89,8 +60,6 @@ import ConfirmPage from './pages/ConfirmPage.vue';
 import TemplatesPage from './pages/TemplatesPage.vue';
 import { Pilot } from '@/class';
 import CcConfirm from '@/ui/notification/CCConfirm.vue';
-
-import { UserStore } from '@/stores';
 
 export default {
   name: 'new-pilot-wizard',
@@ -115,15 +84,9 @@ export default {
     pilot: {} as Pilot,
     done: false,
   }),
-  computed: {
-    quickstart() {
-      return false;
-      // return !!UserStore().UserProfile.GetView('quickstart');
-    },
-  },
   watch: {
-    step() {
-      window.scrollTo(0, 0);
+    step(newval) {
+      (this.$refs as any).tabs.setTab(newval);
     },
   },
   created() {
@@ -132,7 +95,7 @@ export default {
   methods: {
     onDone() {
       this.done = true;
-      this.$router.push({ name: 'pilot_roster' });
+      this.$router.push(`/pilot/${this.pilot.ID}`);
     },
   },
   beforeRouteLeave(to, from, next) {

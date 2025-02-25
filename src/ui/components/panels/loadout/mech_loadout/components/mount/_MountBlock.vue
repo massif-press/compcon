@@ -1,29 +1,23 @@
 <template>
-  <v-col style="min-width: 44vw">
-    <fieldset style="height: 100%">
-      <legend :style="`color: ${color}`" class="heading h3">
-        <cc-tooltip title="Available Mount Fittings" :content="`${mount.AvailableFittings}`">
-          {{ mount.Name }}
-          <span v-if="impArm">(IMPROVED ARMAMENT)</span>
-          <span v-if="superheavy">(SUPERHEAVY MOUNTING)</span>
-        </cc-tooltip>
-      </legend>
-      <cb-mount-menu v-if="!intWeapon && !integrated && !readonly" :mech="mech" :mount="mount" />
-      <cb-card v-for="b in mount.Bonuses" :bonus="b" />
-      <sh-lock-card v-if="mount.IsLocked" />
-      <v-row v-else no-gutters align="center">
-        <v-col>
-          <weapon-slot-card
-            v-for="(s, i) in mount.Slots"
-            :weapon-slot="s"
-            :mech="mech"
-            :mount="mount"
-            :readonly="integrated || readonly"
-            :int-weapon="intWeapon || integrated" />
-        </v-col>
-      </v-row>
-    </fieldset>
-  </v-col>
+  <fieldset class="pb-2 px-3" style="border-color: rgba(155, 155, 155, 0.6)">
+    <legend :style="`color: ${color}`" class="heading h4 mx-2">
+      {{ mount.Name }}
+      <span class="text-cc-overline" v-if="impArm">(IMPROVED ARMAMENT)</span>
+      <span class="text-cc-overline" v-if="superheavy">(SUPERHEAVY MOUNTING)</span>
+    </legend>
+
+    <cb-mount-menu v-if="!intWeapon && !integrated && !readonly" :mech="mech" :mount="mount" />
+    <cb-card v-for="b in mount.Bonuses" :bonus="b" />
+    <sh-lock-card v-if="mount.IsLocked" />
+    <weapon-slot-card
+      v-if="!mount.IsLocked"
+      v-for="s in mount.Slots"
+      :weapon-slot="s"
+      :mech="mech"
+      :mount="mount"
+      :readonly="integrated || readonly"
+      :int-weapon="intWeapon || integrated" />
+  </fieldset>
 </template>
 
 <script lang="ts">
