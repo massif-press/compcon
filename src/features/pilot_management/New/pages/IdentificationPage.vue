@@ -2,7 +2,7 @@
   <stepper-content
     :complete="pilot.HasIdent"
     mandatory
-    exit="pilot_management"
+    exit="../pilot_management"
     @complete="$emit('next')">
     <cc-title offset>New Pilot Registration</cc-title>
     <div class="heading h2">

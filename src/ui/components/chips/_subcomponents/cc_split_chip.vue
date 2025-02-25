@@ -2,8 +2,8 @@
   <base-chip v-bind="$props">
     <template #content>
       <span
-        :class="`py-2 ${title ? 'px-2' : 'px-1'}`"
-        :style="`background-color: ${hexColor(bgColor)}`">
+        :class="`py-2 ${title ? 'px-2' : 'px-1'} bg=${color}`"
+        :style="`background-color: ${hexColor(color)}`">
         <v-icon v-if="icon" :icon="icon" :start="!!title" />
         <span v-if="title" v-text="title" />
       </span>

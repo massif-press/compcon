@@ -10,6 +10,7 @@ interface IActionData {
   id?: string;
   name: string;
   activation: ActivationType;
+  description?: string;
   cost?: number;
   frequency?: string;
   init?: string;
@@ -117,6 +118,7 @@ class Action {
   public readonly Origin: string;
   public readonly Activation: ActivationType;
   public readonly Terse: string;
+  public readonly Description: string;
   public readonly Cost: number;
   public readonly HeatCost: number;
   public readonly Frequency: Frequency;
@@ -141,6 +143,7 @@ class Action {
   public constructor(data: IActionData, origin?: string, heat?: number) {
     if (data.name) this.Name = data.name;
     else this.Name = `Activate ${origin}` || 'Unknown Action';
+    this.Description = data.description || '';
     this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}_${uuid()}`;
     this.Origin = origin || '';
     this.IsItemAction = !!origin;

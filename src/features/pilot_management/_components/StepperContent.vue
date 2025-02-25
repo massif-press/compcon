@@ -5,9 +5,7 @@
     :height="mobile ? 20 : 26"
     class="border-t-sm"
     style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 901">
-    <router-link :to="exit">
-      <cc-button :size="mobile ? 'x-small' : 'small'" variant="text">EXIT</cc-button>
-    </router-link>
+    <cc-button :size="mobile ? 'x-small' : 'small'" variant="text" :to="exit">EXIT</cc-button>
     <v-spacer />
     <cc-button
       color="primary"

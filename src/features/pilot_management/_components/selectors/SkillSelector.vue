@@ -95,7 +95,10 @@
         size="x-small"
         block
         :disabled="!pilot.SkillsController.Skills.length"
-        @click="pilot.SkillsController.ClearSkills()">
+        @click="
+          pilot.SkillsController.ClearSkills();
+          $emit('reset');
+        ">
         Reset
       </cc-button>
     </template>
@@ -161,6 +164,7 @@ export default {
     search: '',
     jump: '',
   }),
+  emits: ['reset'],
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;

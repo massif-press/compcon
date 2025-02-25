@@ -104,8 +104,8 @@ export default {
     } else {
       (this.$refs as any).confirm
         .open(
-          'Exit Wizard',
-          'Are you sure you want to exit the wizard? Your pilot will be discarded.'
+          'EXIT REGISTRATION',
+          'Are you sure you want to exit the Pilot Registration process? Your pilot will be discarded.'
         )
         .then((confirmed) => {
           if (confirmed) {

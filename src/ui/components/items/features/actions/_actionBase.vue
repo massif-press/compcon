@@ -24,6 +24,10 @@
       <div class="text-disabled text-cc-overline">Effect</div>
       <div v-html-safe="action.getDetail(tier)" class="ml-2" />
     </div>
+    <div v-if="action.Description">
+      <div class="text-disabled text-cc-overline">Compendium Entry</div>
+      <div v-html-safe="action.Description" class="ml-2" />
+    </div>
   </div>
 </template>
 

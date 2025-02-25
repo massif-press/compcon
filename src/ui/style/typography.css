@@ -186,7 +186,6 @@
 }
 
 .ra-quiet {
-  color: #eeeeee;
   font-family: 'Consolas', monospace;
   font-size: 12pt;
   font-weight: bolder;
@@ -201,7 +200,6 @@ code.horus {
   padding: 2px;
   background-color: rgba(0, 0, 0, 0.7) !important;
   box-shadow: none;
-  color: white;
   font-style: normal;
   letter-spacing: 0.05em;
   border-radius: 0;
@@ -218,7 +216,6 @@ code.horus:hover {
   padding: 2px;
   background-color: rgba(0, 0, 0, 0.7) !important;
   box-shadow: none;
-  color: white;
   font-style: normal;
   letter-spacing: 0.05em;
   border-radius: 1px;

@@ -2,7 +2,7 @@
   <stepper-content
     :complete="canContinue"
     mandatory
-    exit="pilot_management"
+    exit="../pilot_management"
     back
     @back="$emit('back')"
     @complete="$emit('next')">
@@ -33,11 +33,31 @@
         under DoJ/HR AR 303-J.
       </p>
     </v-alert>
-    <skill-selector flat :pilot="<Pilot>pilot" />
+    <cc-alert class="my-2" icon="mdi-orbit" title="Skill Suggestions Available">
+      <p class="text-cc-overline text-disabled">
+        IDENT.SERVICE.PRIMARY has generated a list of suggested Skill Triggers. These suggestions
+        are based on your answer to RM-4-03 (PRIOR OCCUPATION OR POSITION) and compatible with the
+        results of your OHM/CR-2 Brain Activity Scan and uptake responses as reported to the Union
+        Office of Psychological and Ontological Health.
+      </p>
+      <div class="mx-3 mt-2">
+        <cc-button
+          size="small"
+          :color="suggestedSet ? 'success' : 'accent'"
+          block
+          prepend-icon="mdi-auto-mode"
+          :append-icon="suggestedSet ? 'mdi-check' : undefined"
+          @click="setSuggestedSkills()">
+          {{ suggestedSet ? 'Suggested Skills Added.' : 'Add Suggested Skills' }}
+        </cc-button>
+      </div>
+    </cc-alert>
+    <skill-selector flat :pilot="<Pilot>pilot" @reset="reset" />
   </stepper-content>
 </template>
 
 <script lang="ts">
+import { CompendiumStore } from '@/stores';
 import StepperContent from '../../_components/StepperContent.vue';
 import SkillSelector from '../../_components/selectors/SkillSelector.vue';
 import { Pilot } from '@/class';
@@ -48,6 +68,9 @@ export default {
     StepperContent,
     SkillSelector,
   },
+  data: () => ({
+    suggestedSet: false,
+  }),
   props: {
     pilot: {
       type: Object,
@@ -82,6 +105,22 @@ export default {
         'sixteen',
       ];
       return words[this.count];
+    },
+  },
+  methods: {
+    setSuggestedSkills() {
+      const bgItem = CompendiumStore().Backgrounds.find(
+        (b) => b.Name.toLowerCase() === this.pilot.Background.toLowerCase()
+      );
+      if (!bgItem || !bgItem.SuggestedSkills?.length) return;
+      this.pilot.SkillsController.ClearSkills();
+      bgItem.SuggestedSkills.forEach((skill) => {
+        this.pilot.SkillsController.AddSkill(skill);
+      });
+      this.suggestedSet = true;
+    },
+    reset() {
+      this.suggestedSet = false;
     },
   },
 };
