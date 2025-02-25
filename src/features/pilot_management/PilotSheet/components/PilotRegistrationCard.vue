@@ -11,32 +11,35 @@
           {{ pilot.ID }}
         </div>
       </v-col>
-      <v-col cols="auto">
+      <v-col v-if="!portrait" md="auto">
         <v-icon size="70" icon="cc:orbital" />
       </v-col>
     </v-row>
 
     <div class="px-4">
-      <v-row dense>
+      <div>
         <span v-if="!pilot.Name" class="flavor-text">
           ERR NAME NOT FOUND UNABLE TO GENERATE UUID
         </span>
         <span v-else class="flavor-text">
           {{ flipName(pilot.Name) }}:{{ pilot.ID }}//NDL-C-{{ missionName() }}
         </span>
-      </v-row>
+      </div>
       <v-row dense>
         <v-col cols="12" md="8">
           <v-row density="compact">
             <v-col cols="12" md="8">
               <span class="flavor-text">
                 Callsign:
+                <br v-if="portrait" />
                 <b class="text-accent">{{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }}</b>
                 <br />
-                Name (or legal alias):
+                Name (or legal alias)
+                <br v-if="portrait" />
                 <b class="text-accent">{{ pilot.Name || 'ERR NAME NOT FOUND' }}</b>
                 <br />
-                Background:
+                Background
+                <br v-if="portrait" />
                 <b class="text-accent">
                   {{ pilot.Background || 'PILOT HISTORY NOT REGISTERED' }}
                 </b>
@@ -56,7 +59,7 @@
             FRAME CONFIGURATION OPTIONS
             <span class="text-disabled">("H.A.S.E" OMNINET VAULT REMIT)</span>
           </div>
-          <v-row class="my-1">
+          <div class="my-1">
             <span class="flavor-text ml-3" style="font-size: 22px; line-height: 15px">
               [ HULL:
               <span class="stat-text text-accent" style="font-size: 24px">
@@ -76,7 +79,7 @@
               </span>
               ]
             </span>
-          </v-row>
+          </div>
           <v-row class="mt-2">
             <v-col cols="12" md="6">
               <span class="flavor-text">PILOT SKILL TRIGGER AUDIT</span>
@@ -166,6 +169,11 @@ export default {
     },
     pilotReady: {
       type: Boolean,
+    },
+  },
+  computed: {
+    portrait(): boolean {
+      return this.$vuetify.display.xs;
     },
   },
   methods: {

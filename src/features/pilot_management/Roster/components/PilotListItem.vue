@@ -94,14 +94,30 @@
                 <cc-slashes />
                 <span class="text-text">
                   [
-                  <b>H</b>
-                  :{{ pilot.MechSkillsController.MechSkills.Hull }}
-                  <b>A</b>
-                  :{{ pilot.MechSkillsController.MechSkills.Agi }}
-                  <b>S</b>
-                  :{{ pilot.MechSkillsController.MechSkills.Sys }}
-                  <b>E</b>
-                  :{{ pilot.MechSkillsController.MechSkills.Eng }}
+                  <b>
+                    H:
+                    <span class="text-weight-normal text-accent">
+                      {{ pilot.MechSkillsController.MechSkills.Hull }}
+                    </span>
+                  </b>
+                  <b>
+                    A:
+                    <span class="text-weight-normal text-accent">
+                      {{ pilot.MechSkillsController.MechSkills.Agi }}
+                    </span>
+                  </b>
+                  <b>
+                    S:
+                    <span class="text-weight-normal text-accent">
+                      {{ pilot.MechSkillsController.MechSkills.Sys }}
+                    </span>
+                  </b>
+                  <b>
+                    E:
+                    <span class="text-weight-normal text-accent">
+                      {{ pilot.MechSkillsController.MechSkills.Eng }}
+                    </span>
+                  </b>
                   ]
                 </span>
               </div>
@@ -109,7 +125,11 @@
               <cc-missing-content-list v-if="missingContent" :controller="pilot.BrewController" />
               <div v-else style="font-size: 14px">
                 <div>
-                  <v-icon icon="cc:skill" start class="mt-n1" />
+                  <v-icon icon="cc:skill" start />
+                  <span
+                    v-if="!pilot.SkillsController.Skills.length"
+                    style="opacity: 0.6"
+                    v-text="`[ NO DATA ]`" />
                   <span v-for="(s, i) in pilot.SkillsController.Skills">
                     {{ s.Skill.Name }} {{ 'I'.repeat(s.Rank) }}
                     <cc-slashes
@@ -120,7 +140,11 @@
                 </div>
 
                 <div>
-                  <v-icon icon="cc:talent" start class="mt-n1" />
+                  <v-icon icon="cc:talent" start />
+                  <span
+                    v-if="!pilot.TalentsController.Talents.length"
+                    style="opacity: 0.6"
+                    v-text="`[ NO DATA ]`" />
                   <span v-for="(s, i) in pilot.TalentsController.Talents">
                     {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
                     <cc-slashes

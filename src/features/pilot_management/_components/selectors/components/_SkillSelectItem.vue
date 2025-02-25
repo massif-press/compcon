@@ -1,25 +1,38 @@
 <template>
-  <v-row dense class="pa-0" align="center">
-    <v-col class="pa-0">
+  <v-row no-gutters align="center">
+    <v-col>
       <cc-skill-item :bonus="bonus" :skill="skill" />
     </v-col>
-    <v-col cols="auto">
-      <cc-tooltip simple content="Increase Skill Bonus" inline>
-        <v-btn
-          size="x-small"
-          class="mr-1"
-          icon
-          variant="text"
-          :disabled="!canAdd"
-          @click="$emit('add')">
-          <v-icon size="40" :color="canAdd ? 'secondary' : ''" class="mt-n1">mdi-plus</v-icon>
-        </v-btn>
-      </cc-tooltip>
-      <cc-tooltip simple content="Decrease Skill Bonus" inline>
-        <v-btn size="x-small" icon variant="plain" :disabled="!canRemove" @click="$emit('remove')">
-          <v-icon size="40" :color="canRemove ? 'error' : ''" class="mt-n1">mdi-minus</v-icon>
-        </v-btn>
-      </cc-tooltip>
+    <v-col cols="auto" class="py-2">
+      <span class="px-2">
+        <v-tooltip location="top" text="Increase Skill Bonus">
+          <template #activator="{ props }">
+            <cc-button
+              v-bind="props"
+              icon="mdi-plus"
+              size="small"
+              color="success"
+              variant="outlined"
+              :disabled="!canAdd"
+              @click="$emit('add')" />
+          </template>
+        </v-tooltip>
+      </span>
+      <div v-if="mobile" class="my-2" />
+      <span class="px-2">
+        <v-tooltip location="top" text="Decrease Skill Bonus">
+          <template #activator="{ props }">
+            <cc-button
+              v-bind="props"
+              icon="mdi-minus"
+              size="small"
+              color="error"
+              variant="outlined"
+              :disabled="!canRemove"
+              @click="$emit('remove')" />
+          </template>
+        </v-tooltip>
+      </span>
     </v-col>
   </v-row>
 </template>
@@ -44,6 +57,11 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

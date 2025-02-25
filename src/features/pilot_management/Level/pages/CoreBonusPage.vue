@@ -4,33 +4,29 @@
     :exit="`/pilot/${pilot.ID}`"
     back
     @back="$emit('back')"
-    @complete="$emit('next')"
-  >
-    <cc-title large class="ml-n6">Add CORE Bonus&emsp;</cc-title>
-    <h2 class="heading">
+    @complete="$emit('next')">
+    <cc-title large offset>Add CORE Bonus</cc-title>
+    <div class="heading h2">
       MV-2 License Acquisition Request
       <cc-slashes />
       &nbsp;MV-2(a) CORE Supplemental
-    </h2>
-    <v-container class="flavor-text" style="font-size: 14px">
-      <span>
-        The MV-2(a) Supplemental Amendment registers a major CORE modification, upgrade, retrofit,
-        or enhancement. The Union Naval Intelligence Board, the Union Naval Licensing Board, the
-        Union Administrative Pilot Advocacy Council, and The Union Department of Justice and Human
-        Resources Ethical Engineering Subcommittee only recognize CORE augmentation from a
-        Union-approved and registered Lincensor.
-      </span>
-      <v-alert v-if="cbEligible" color="accent" outlined density="compact" class="mt-2">
-        <b>Select a CORE Bonus</b>
-        <br />
-        <span class="text-overline">
-          Implementing CORE augmentation protocols from a nonrecognized, phohibited, or unregistered
-          Licensor or Licensors renders the operating pilot liable for any and all damages resultant
-          from CORE malfunction, up to and including reactor meltdown.
-        </span>
-      </v-alert>
-    </v-container>
-    <core-bonus-selector v-if="cbEligible" level-up :pilot="pilot" />
+    </div>
+    <p class="flavor-text" style="font-size: 14px">
+      The MV-2(a) Supplemental Amendment registers a major CORE modification, upgrade, retrofit, or
+      enhancement. The Union Naval Intelligence Board, the Union Naval Licensing Board, the Union
+      Administrative Pilot Advocacy Council, and The Union Department of Justice and Human Resources
+      Ethical Engineering Subcommittee only recognize CORE augmentation from a Union-approved and
+      registered Lincensor.
+    </p>
+    <v-alert color="accent" variant="outlined" density="compact" class="mt-2" tile>
+      <div class="heading">Select a CORE Bonus</div>
+      <p class="text-cc-overline">
+        Implementing CORE augmentation protocols from a nonrecognized, phohibited, or unregistered
+        Licensor or Licensors renders the operating pilot liable for any and all damages resultant
+        from CORE malfunction, up to and including reactor meltdown.
+      </p>
+    </v-alert>
+    <core-bonus-selector v-if="cbEligible" level-up flat :pilot="pilot" />
     <v-card v-else flat tile color="panel">
       <v-card-text class="flavor-text text-center py-5 px-3">
         <span class="heading h2 text-disabled text--darken-1">PILOT INELIGIBLE FOR CORE BONUS</span>

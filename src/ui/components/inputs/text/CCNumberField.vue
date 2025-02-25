@@ -69,7 +69,7 @@
             <template v-slot:activator="{ props }">
               <v-icon
                 v-bind="props"
-                class="fade-select mx-1"
+                class="fade-select mr-1 ml-3"
                 :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
             </template>
             {{ tooltip }}

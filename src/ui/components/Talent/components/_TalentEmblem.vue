@@ -11,12 +11,9 @@
         white ? 'white-emblem' : $vuetify.theme.current.dark ? 'white-emblem' : 'black-emblem'
       "
       @error="imageLoadFailed()" />
-    <span
-      v-if="backup"
-      :class="`banner ${small ? 'overline' : 'caption'}`"
-      :style="`width: ${size}`">
+    <div v-if="backup" :class="`banner text-cc-overline`">
       {{ backup }}
-    </span>
+    </div>
   </div>
 </template>
 
@@ -46,7 +43,7 @@ export default {
   },
   methods: {
     imageLoadFailed() {
-      this.src = '/src/assets/img/talent/GENERIC TALENT.svg';
+      this.src = '/public/talent/GENERIC TALENT.svg';
       this.backup = this.name;
     },
     getImageLoc() {
@@ -66,12 +63,15 @@ export default {
 }
 
 .banner {
-  background-color: rgb(var(--v-theme-primary));
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   text-align: center;
   position: absolute;
-  top: 0;
-  left: 0;
+  bottom: 6px;
+  left: 6px;
+  right: 0;
+  width: 100%;
+  font-size: 10px !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

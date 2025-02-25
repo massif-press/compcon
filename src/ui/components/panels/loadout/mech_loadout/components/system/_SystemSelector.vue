@@ -8,67 +8,62 @@
     @equip="handleEquip($event)">
     <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
     <template #top>
-      <v-row>
+      <v-row dense>
         <v-col>
           <div v-if="equipped">
-            <span class="text-overline">
+            <div v-if="!mobile" class="text-cc-overline">
               UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-              <span class="text-success text--darken-1">
-                [ FRAME EQUIPMENT REGISTRATION VERIFIED ]
-              </span>
-            </span>
-            <br />
-            <span class="heading h1 text-accent" style="line-height: 20px">
+              <span class="text-success">[ FRAME EQUIPMENT REGISTRATION VERIFIED ]</span>
+            </div>
+            <div class="heading h2 text-accent">
               {{ equipped.Name }}
-            </span>
-            <span class="flavor-text overline mt-n1" style="display: block">
-              CURRENTLY EQUIPPED
-            </span>
+            </div>
+            <div class="flavor-text overline" style="display: block">CURRENTLY EQUIPPED</div>
           </div>
-          <div v-else>
-            <span class="text-overline">
+          <div v-else-if="!mobile">
+            <div class="text-cc-overline">
               UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
-            </span>
-            <br />
-            <span class="heading h1 text-disabled text--lighten-1" style="line-height: 20px">
-              NO SELECTION
-            </span>
-            <span class="flavor-text overline mt-n1 text-error" style="display: block">
+            </div>
+            <div class="heading h2 text-disabled">NO SELECTION</div>
+            <div class="flavor-text overline text-error" style="display: block">
               [ EQUIPMENT ID INVALID OR MISSING ]
-            </span>
+            </div>
           </div>
         </v-col>
-        <v-col cols="auto">
-          <v-switch v-model="showUnlicensed" density="compact" inset hide-details color="warning">
-            <template #label>
-              <cc-tooltip
-                slot="label"
-                simple
-                inline
-                :content="
-                  showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
-                ">
-                <v-icon
-                  :color="showUnlicensed ? 'warning' : 'success'"
-                  :icon="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'" />
-              </cc-tooltip>
-            </template>
-          </v-switch>
-          <v-switch v-model="showOverSP" density="compact" inset hide-details color="warning">
-            <template #label>
-              <cc-tooltip
-                slot="label"
-                simple
-                inline
-                :content="
-                  showOverSP
-                    ? 'Systems exceeding SP Capacity: SHOWN'
-                    : 'Systems exceeding SP Capacity: HIDDEN'
-                ">
-                <v-icon :color="showOverSP ? 'warning' : 'success'" icon="cc:system_point" />
-              </cc-tooltip>
-            </template>
-          </v-switch>
+        <v-col cols="12" md="auto">
+          <div class="text-right">
+            <cc-switch
+              v-model="showUnlicensed"
+              :label="mobile && 'Show Unlicensed'"
+              color="error"
+              :tooltip="
+                !mobile && showUnlicensed
+                  ? 'Unlicensed equipment: SHOWN'
+                  : 'Unlicensed equipment: HIDDEN'
+              "
+              :prepend-icon="!mobile && 'cc:system'"
+              on-icon="mdi-lock-open"
+              off-icon="mdi-lock" />
+            <br />
+            <cc-switch
+              v-model="showOverSP"
+              :label="mobile && 'Show Exceeds SP'"
+              color="error"
+              :tooltip="
+                !mobile && showOverSP
+                  ? 'Systems exceeding SP Capacity: SHOWN'
+                  : 'Systems exceeding SP Capacity: HIDDEN'
+              "
+              :prepend-icon="!mobile && 'cc:system_point'"
+              on-icon="mdi-lock-open"
+              off-icon="mdi-lock">
+              <template #label>
+                <v-tooltip>
+                  <v-icon :color="showOverSP ? 'warning' : 'success'" icon="cc:system_point" />
+                </v-tooltip>
+              </template>
+            </cc-switch>
+          </div>
         </v-col>
       </v-row>
     </template>
@@ -98,7 +93,7 @@ export default {
   },
   data: () => ({
     options: {
-      views: ['single', 'table', 'cards'],
+      views: ['list', 'single', 'table', 'cards'],
       initialView: 'single',
       groups: ['source', 'lcp', 'license'],
       initialGroup: 'license',
@@ -115,7 +110,13 @@ export default {
     showOverSP: false,
   }),
   emits: ['equip'],
+  mounted() {
+    this.options.initialView = this.mobile ? 'list' : 'single';
+  },
   computed: {
+    mobile(): boolean {
+      return this.$vuetify.display.smAndDown;
+    },
     freeSP(): number {
       return this.equipped ? this.mech.FreeSP + this.equipped.SP : this.mech.FreeSP;
     },

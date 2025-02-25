@@ -1,20 +1,28 @@
 <template>
   <v-card class="clipped-large" tile>
     <v-toolbar
-      :height="mobile ? 18 : 26"
+      :height="getHeight"
       style="cursor: pointer"
       :color="titleColor"
+      :extended="extended"
+      extension-height="10"
       @click="empty ? '' : (detailDialog = true)">
-      <v-toolbar-title
-        class="ml-0"
+      <div
+        class="d-inline-flex ml-0"
         :class="mobile ? 'text-cc-overline line-short' : 'heading h3 text-uppercase'">
         <slot name="header" />
-      </v-toolbar-title>
+      </div>
+      <v-spacer />
       <v-toolbar-items
         v-if="!portrait"
         :class="mobile ? 'text-cc-overline line-short' : 'heading h3 text-uppercase'">
         <slot name="header-items" />
       </v-toolbar-items>
+      <template v-if="extended" #extension>
+        <v-spacer />
+
+        <slot name="extension" />
+      </template>
     </v-toolbar>
     <div v-if="portrait" style="position: absolute; top: 12px; right: -4px">
       <slot name="header-items" />
@@ -33,7 +41,7 @@
             <v-icon :icon="item.Icon" size="small" class="mt-n1" />
             EQUIPMENT EFFECT
           </div>
-          <p v-html-safe="item.Effect" class="text-text mb-1" />
+          <p v-html-safe="item.Effect" class="mb-1 px-2" />
         </div>
 
         <div v-if="item.Actions?.length" class="mb-2 mt-1">
@@ -148,6 +156,14 @@ export default {
       type: String,
       required: false,
     },
+    extended: {
+      type: Boolean,
+      default: false,
+    },
+    weapon: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     detailDialog: false,
@@ -163,6 +179,11 @@ export default {
     synergyLocation() {
       if (!this.item) return 'none';
       return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system';
+    },
+    getHeight() {
+      let h = this.mobile ? 18 : 24;
+      if (this.weapon) h += 12;
+      return h;
     },
   },
 };

@@ -5,63 +5,59 @@
     :table-headers="headers"
     :options="options"
     equippable
-    @equip="$emit('equip', $event)">
+    @equip="handleEquip($event)">
     <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
     <template #top>
       <v-row>
         <v-col>
           <div v-if="weaponSlot.Weapon">
-            <div class="text-overline">
+            <div v-if="!mobile" class="text-cc-overline">
               UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-              <div class="text-success text--darken-1">
-                [ FRAME EQUIPMENT REGISTRATION VERIFIED ]
-              </div>
+              <span class="text-success">[ FRAME EQUIPMENT REGISTRATION VERIFIED ]</span>
             </div>
-            <div class="heading h1 text-accent" style="line-height: 30px">
+            <div class="heading h2 text-accent">
               {{ weaponSlot.Weapon.Name }}
             </div>
-            <div class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</div>
+            <div class="flavor-text overline" style="display: block">CURRENTLY EQUIPPED</div>
           </div>
-          <div v-else>
-            <div class="text-overline">
-              UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//ARMAMENT::{{ weaponSlot.Size }}
-              MOUNT
+          <div v-else-if="!mobile">
+            <div class="text-cc-overline">
+              UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
             </div>
-            <div class="heading h1 text-disabled text--lighten-1" style="line-height: 30px">
-              NO SELECTION
-            </div>
-            <div class="flavor-text overline mt-n1 text-error" style="display: block">
+            <div class="heading h2 text-disabled">NO SELECTION</div>
+            <div class="flavor-text overline text-error" style="display: block">
               [ EQUIPMENT ID INVALID OR MISSING ]
             </div>
           </div>
         </v-col>
-        <v-col cols="auto">
-          <v-switch v-model="showUnlicensed" density="compact" inset hide-details color="warning">
-            <template #label>
-              <cc-tooltip
-                inline
-                :content="
-                  showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
-                ">
-                <v-icon
-                  :color="showUnlicensed ? 'warning' : 'success'"
-                  :icon="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'" />
-              </cc-tooltip>
-            </template>
-          </v-switch>
-          <v-switch v-model="showOverSP" density="compact" inset hide-details color="warning">
-            <template #label>
-              <cc-tooltip
-                inline
-                :content="
-                  showOverSP
-                    ? 'Systems exceeding SP Capacity: SHOWN'
-                    : 'Systems exceeding SP Capacity: HIDDEN'
-                ">
-                <v-icon :color="showOverSP ? 'warning' : 'success'" :icon="'cc:system_point'" />
-              </cc-tooltip>
-            </template>
-          </v-switch>
+        <v-col cols="12" md="auto">
+          <div class="text-right">
+            <cc-switch
+              v-model="showUnlicensed"
+              :label="mobile && 'Show Unlicensed'"
+              color="error"
+              :tooltip="
+                !mobile && showUnlicensed
+                  ? 'Unlicensed equipment: SHOWN'
+                  : 'Unlicensed equipment: HIDDEN'
+              "
+              :prepend-icon="!mobile && 'cc:system'"
+              on-icon="mdi-lock-open"
+              off-icon="mdi-lock" />
+            <br />
+            <cc-switch
+              v-model="showOverSP"
+              :label="mobile && 'Show Exceeds SP'"
+              color="error"
+              :tooltip="
+                !mobile && showOverSP
+                  ? 'Systems exceeding SP Capacity: SHOWN'
+                  : 'Systems exceeding SP Capacity: HIDDEN'
+              "
+              :prepend-icon="!mobile && 'cc:system_point'"
+              on-icon="mdi-lock-open"
+              off-icon="mdi-lock" />
+          </div>
         </v-col>
       </v-row>
     </template>
@@ -90,7 +86,7 @@ export default {
   },
   data: () => ({
     options: {
-      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+      views: ['list', 'single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'single',
       groups: ['source', 'lcp', 'license'],
       initialGroup: 'license',
@@ -108,7 +104,13 @@ export default {
     showUnlicensed: false,
     showOverSP: false,
   }),
+  mounted() {
+    this.options.initialView = this.mobile ? 'list' : 'single';
+  },
   computed: {
+    mobile(): boolean {
+      return this.$vuetify.display.smAndDown;
+    },
     freeSP(): number {
       return this.weaponSlot.Weapon
         ? this.mech.FreeSP + this.weaponSlot.Weapon.SP
@@ -161,6 +163,9 @@ export default {
   methods: {
     fID(template: string): string {
       return flavorID(template);
+    },
+    handleEquip(event) {
+      this.$emit('equip', event);
     },
   },
 };

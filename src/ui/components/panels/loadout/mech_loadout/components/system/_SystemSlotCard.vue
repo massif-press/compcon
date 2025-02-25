@@ -1,30 +1,25 @@
 <template>
   <slot-card-base ref="base" :item="item" :color="color" :mech="mech" :empty="empty">
     <template #header>
-      <span v-if="item">
+      <div v-if="item" class="pt-1">
         <equipment-options v-if="!readonly" :item="item" />
         {{ item.Name }}
-        <span
-          v-if="item.FlavorName && !mobile"
-          class="text-caption text-uppercase"
-          style="opacity: 0.6">
-          //{{ item.TrueName }}
-        </span>
-      </span>
-      <span v-else class="text-disabled">&nbsp;EMPTY SYSTEM SLOT</span>
+      </div>
+      <div v-else class="text-disabled">&nbsp;EMPTY SYSTEM SLOT</div>
     </template>
 
     <template v-if="item" #header-items>
-      <span v-if="!mobile">
+      <div v-if="!mobile" style="margin-top: -2px">
         {{ item.SP }}
         <span style="font-size: 13px; margin-left: 2px">SP</span>
-      </span>
+      </div>
       <v-divider v-if="!readonly && !mobile" vertical class="ml-3" />
-      <div v-if="!readonly">
+      <div v-if="!readonly" :class="!mobile && 'mt-n1'">
         <v-btn
           v-if="item"
           size="x-small"
           icon
+          tile
           variant="plain"
           color="error"
           class="d-inline"
@@ -35,6 +30,7 @@
           size="x-small"
           icon
           class="d-inline"
+          tile
           variant="plain"
           @click.stop="($refs as any).base.selectorDialog = true">
           <v-icon :icon="item ? 'mdi-swap-vertical-variant' : 'add'" />
@@ -45,12 +41,18 @@
     <v-table v-if="item && item.Ammo && item.Ammo.length" class="mt-2" hover density="compact">
       <tbody>
         <tr v-for="a in item.Ammo">
-          <td style="min-width: 120px">
-            <v-icon icon="cc:ammo" class="mt-n1 mr-1" />
+          <td v-if="!portrait" style="min-width: 120px" class="text-accent">
+            <v-icon icon="cc:ammo" size="small" class="mt-n1 mr-1" />
             <b>{{ a.name }}</b>
           </td>
 
-          <td><span v-html-safe="a.detail" /></td>
+          <td>
+            <div v-if="portrait" class="text-accent">
+              <v-icon icon="cc:ammo" size="small" start />
+              <b>{{ a.name }}</b>
+            </div>
+            <span v-html-safe="a.detail" />
+          </td>
         </tr>
       </tbody>
     </v-table>
@@ -99,6 +101,9 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
+    },
+    portrait() {
+      return this.$vuetify.display.xs;
     },
   },
   methods: {

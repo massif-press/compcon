@@ -96,11 +96,7 @@
               <v-col cols="auto">
                 <v-tooltip v-if="!pilot.IsRemote && !isLevelingUp" text="Edit License Level">
                   <template #activator="{ props }">
-                    <v-icon
-                      size="15"
-                      class="fade-select"
-                      @click="($refs as any).levelEdit.show()"
-                      v-bind="props">
+                    <v-icon size="15" class="fade-select" @click="levelEdit = true" v-bind="props">
                       mdi-circle-edit-outline
                     </v-icon>
                   </template>
@@ -138,7 +134,14 @@
       </v-col>
     </v-row>
   </div>
-  <level-edit-dialog ref="levelEdit" :pilot="pilot" />
+  <cc-solo-modal
+    v-model="levelEdit"
+    title="edit license level"
+    icon="cc:pilot"
+    shrink
+    width="600px">
+    <level-edit-dialog :pilot="pilot" @close="levelEdit = false" />
+  </cc-solo-modal>
 </template>
 
 <script lang="ts">
@@ -153,6 +156,9 @@ export default {
   props: {
     pilot: { type: Pilot, required: true },
   },
+  data: () => ({
+    levelEdit: false,
+  }),
   computed: {
     isLevelingUp(): boolean {
       return this.$route.name === 'pilot-level-wizard';

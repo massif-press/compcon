@@ -54,7 +54,6 @@
         <div class="pa-2">
           <v-row v-if="!noGroup" align="start">
             <v-col>
-              {{ group.Description }}
               <v-expand-transition>
                 <fieldset
                   v-if="group.Description || edit"
@@ -62,8 +61,11 @@
                   style="border-radius: 4px">
                   <legend class="text-overline px-2" style="line-height: 0">Description</legend>
                   <div class="py-1 px-2 flavor-text">
-                    <quill-editor hide-details v-if="edit" v-model:content="group.Description" />
-                    <div v-else v-html-safe="group.Description" />
+                    <cc-text-editor-inline
+                      v-if="edit"
+                      :original="group.Description"
+                      @save="group.Description = $event" />
+                    <p v-else v-html-safe="group.Description" />
                   </div>
                 </fieldset>
               </v-expand-transition>
@@ -71,17 +73,21 @@
                 <fieldset v-if="group.History || edit" class="pa-1 my-4" style="border-radius: 4px">
                   <legend class="text-overline px-2" style="line-height: 0">History</legend>
                   <div class="py-1 px-2 flavor-text">
-                    <quill-editor hide-details v-if="edit" v-model:content="group.History" />
-                    <div v-else v-html-safe="group.History" />
+                    <cc-text-editor-inline
+                      v-if="edit"
+                      :original="group.History"
+                      @save="group.History = $event" />
+                    <p v-else v-html-safe="group.History" />
                   </div>
                 </fieldset>
               </v-expand-transition>
             </v-col>
             <v-col v-if="group.PortraitController.CloudImage || edit" cols="3" class="text-right">
               <cc-img :src="group.Portrait" />
-              <div v-if="edit" class="text-center">
+              <div v-if="edit" class="text-right mb-2">
                 <cc-button
                   size="small"
+                  variant="tonal"
                   color="secondary"
                   @click="($refs.imageSelector as any).open()">
                   <div v-if="!group.Portrait">
@@ -127,28 +133,21 @@
                     </cc-button>
                   </template>
 
-                  <v-card>
+                  <v-card tile>
                     <v-card-text>
-                      <v-alert
-                        color="warning"
-                        variant="outlined"
-                        prominent
-                        icon="mdi-alert"
-                        width="500px">
-                        <p class="text-text">
-                          This will delete {{ group.Name }}
-                          <span v-if="pilots.length">
-                            <span v-if="deletePilotsToggle">
-                              and delete all pilots assigned to the group.
-                            </span>
-                            <span v-else>
-                              <br />
-                              All pilots assigned to this group will be moved to the "No Group"
-                              section
-                            </span>
+                      <cc-alert color="warning" prominent icon="mdi-alert" width="500px">
+                        <div class="heading h3">This will delete {{ group.Name }}</div>
+                        <span v-if="pilots.length">
+                          <span v-if="deletePilotsToggle">
+                            and delete all pilots assigned to the group.
                           </span>
-                        </p>
-                      </v-alert>
+                          <span v-else>
+                            <br />
+                            All pilots assigned to this group will be moved to the "No Group"
+                            section
+                          </span>
+                        </span>
+                      </cc-alert>
                       <v-row v-if="pilots.length" justify="end">
                         <v-col cols="auto">
                           <v-switch
@@ -163,18 +162,18 @@
                     </v-card-text>
                     <v-divider />
                     <v-card-actions>
-                      <v-btn color="accent" variant="plain" @click="deleteDialog = false">
+                      <v-btn color="accent" variant="plain" tile @click="deleteDialog = false">
                         Dismiss
                       </v-btn>
                       <v-spacer />
-                      <v-btn
+                      <cc-button
                         v-if="!noGroup"
                         color="error"
                         variant="tonal"
                         prepend-icon="mdi-delete"
                         @click="deleteGroup()">
                         Delete Group
-                      </v-btn>
+                      </cc-button>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>

@@ -1,41 +1,35 @@
 <template>
-  <div>
-    <slot />
-    <v-divider class="ma-3" />
-    <v-row density="compact" class="mx-3">
-      <v-col cols="auto">
-        <router-link :to="exit">
-          <v-btn large variant="text">EXIT</v-btn>
-        </router-link>
-      </v-col>
-      <v-col cols="auto" class="ml-auto">
-        <v-btn
-          color="primary"
-          :disabled="!back"
-          large
-          variant="text"
-          class="ml-auto mr-2"
-          @click="$emit('back')">
-          BACK
-        </v-btn>
-      </v-col>
-      <v-col cols="auto">
-        <slot name="other" />
-      </v-col>
-      <v-col cols="auto" class="ml-auto">
-        <v-btn
-          v-if="!noConfirm"
-          :color="complete || mandatory ? 'success' : ''"
-          large
-          :disabled="mandatory && !complete"
-          :variant="!(complete || mandatory) ? 'text' : 'elevated'"
-          :tile="complete || mandatory"
-          @click="$emit('complete')">
-          {{ complete || mandatory ? 'CONTINUE' : 'SKIP STEP' }}
-        </v-btn>
-      </v-col>
-    </v-row>
-  </div>
+  <slot />
+  <v-footer
+    density="compact"
+    :height="mobile ? 20 : 26"
+    class="border-t-sm"
+    style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 901">
+    <router-link :to="exit">
+      <cc-button :size="mobile ? 'x-small' : 'small'" variant="text">EXIT</cc-button>
+    </router-link>
+    <v-spacer />
+    <cc-button
+      color="primary"
+      :disabled="!back"
+      :size="mobile ? 'x-small' : 'small'"
+      class="ml-auto mr-2"
+      @click="$emit('back')">
+      BACK
+    </cc-button>
+    <v-spacer />
+    <slot name="other" />
+    <cc-button
+      v-if="!noConfirm"
+      :color="complete || mandatory ? 'success' : ''"
+      :size="mobile ? 'x-small' : 'small'"
+      :disabled="mandatory && !complete"
+      :variant="!(complete || mandatory) ? 'text' : 'elevated'"
+      :tile="complete || mandatory"
+      @click="$emit('complete')">
+      {{ complete || mandatory ? 'CONTINUE' : 'SKIP STEP' }}
+    </cc-button>
+  </v-footer>
 </template>
 
 <script lang="ts">
@@ -61,6 +55,11 @@ export default {
     exit: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

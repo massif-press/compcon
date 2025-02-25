@@ -2,16 +2,11 @@
   <span v-if="item">
     <v-menu offset-y top @click.stop>
       <template #activator="{ props }">
-        <v-btn
-          size="x-small"
-          :class="mobile ? 'mr-n2 ml-n2' : ''"
-          variant="plain"
-          icon
-          v-bind="props"
-          @click.stop>
-          <v-icon :size="mobile ? 'default' : 'x-large'" icon="mdi-cog" />
+        <v-btn size="small" class="mx-n2 mt-n1" variant="plain" icon v-bind="props" @click.stop>
+          <v-icon icon="mdi-cog" />
         </v-btn>
       </template>
+
       <v-list density="compact">
         <v-list-item
           v-if="!item.IsIntegrated"

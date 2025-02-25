@@ -34,7 +34,6 @@ type PatreonData = {
 interface IUserOptions {
   views: any;
   showExotics: boolean;
-  quickstart: boolean;
 }
 
 interface IUserProfile {
@@ -54,7 +53,6 @@ interface IUserProfile {
 const defaultOptions = (): IUserOptions => ({
   views: {},
   showExotics: false,
-  quickstart: false,
 });
 
 class UserProfile {

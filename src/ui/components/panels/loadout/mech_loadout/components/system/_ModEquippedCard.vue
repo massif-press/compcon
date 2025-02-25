@@ -6,32 +6,34 @@
     :readonly="readonly"
     title-color="weapon-mod">
     <template #header>
-      <v-icon icon="cc:weaponmod" class="py-1 mr-2" />
-      {{ item.Name }}
-      <span v-if="item.FlavorName" class="text-caption text-disabled text-uppercase">
-        //{{ item.TrueName }}
-      </span>
+      <div v-if="item" class="pt-1">
+        <v-icon icon="cc:weaponmod" />
+        {{ item.Name }}
+      </div>
+      <div v-else class="text-disabled">&nbsp;EMPTY SYSTEM SLOT</div>
     </template>
+
     <template v-if="item" #header-items>
-      {{ item.SP }}
-      <span style="font-size: 13px; margin-left: 2px">SP</span>
-      <v-divider v-if="!readonly" vertical class="ml-3" />
-      <div v-if="!readonly">
-        <v-btn v-if="item" size="x-small" icon variant="plain" @click.stop="$emit('remove')">
+      <div v-if="!mobile" style="margin-top: -2px">
+        {{ item.SP }}
+        <span style="font-size: 13px; margin-left: 2px">SP</span>
+      </div>
+      <v-divider v-if="!readonly && !mobile" vertical class="ml-3" />
+      <div v-if="!readonly" :class="!mobile && 'mt-n1'">
+        <v-btn
+          v-if="item"
+          size="x-small"
+          icon
+          tile
+          variant="plain"
+          color="error"
+          class="d-inline"
+          @click.stop="$emit('remove')">
           <v-icon icon="mdi-delete" />
         </v-btn>
       </div>
     </template>
 
-    <v-alert
-      v-if="item.IsCascading"
-      density="compact"
-      tile
-      color="error"
-      class="text-center text-white stat-text"
-      style="letter-spacing: 3px">
-      / / AI IN CASCADE / /
-    </v-alert>
     <div class="text-caption mt-1">
       APPLIED TO:
       <b class="heading text-accent">
@@ -77,5 +79,10 @@ export default {
   data: () => ({
     hide: false,
   }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>

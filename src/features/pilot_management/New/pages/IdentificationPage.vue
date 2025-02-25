@@ -1,137 +1,129 @@
 <template>
   <stepper-content
     :complete="pilot.HasIdent"
-    :mandatory="!quickstart"
+    mandatory
     exit="pilot_management"
     @complete="$emit('next')">
-    <cc-title large>New Pilot Registration&emsp;</cc-title>
-    <div v-show="!$vuetify.display.mdAndDown">
-      <h2 class="heading">
-        UAD IDENT Service
-        <cc-slashes />
-        &nbsp;RM-4 Personnel::Pilot (C)
-      </h2>
-      <v-container class="flavor-text" style="font-size: 14px">
-        <div class="mt-n2">
-          Welcome to the Union Administrative Department's IDENT registration service. IDENT is the
-          omninet-based certification system that guides the user through the UAD's pilot
-          registration process. IDENT helps ensure pilots meet regulatory and policy requirements
-          through the use of NHP-directed data validation protocols. Union Regulars that have
-          already been issued an RM-4 IDENT fingerprint should not complete this form unless
-          instructed to by their commanding officer.
-        </div>
-        <v-alert
-          type="warning"
-          color="accent"
-          variant="outlined"
-          class="mt-2 mb-1"
-          density="compact"
-          prominent>
-          <b>
-            All fields marked with the
-            <v-icon color="error">mdi-alert</v-icon>
-            glyph must be populated.
-          </b>
-          <div class="text-overline" style="line-height: 13px">
-            By submitting this form you attest that your responses are truthful and accurate to the
-            best of your knowledge. Knowingly providing false or or incomplete information is
-            punishable under DoJ/HR AR 303-J.
-          </div>
-        </v-alert>
-      </v-container>
+    <cc-title offset>New Pilot Registration</cc-title>
+    <div class="heading h2">
+      UAD IDENT Service
+      <cc-slashes />
+      RM-4 Personnel::Pilot (C)
     </div>
-    <v-row>
+    <p class="flavor-text" style="font-size: 14px">
+      Welcome to the Union Administrative Department's IDENT registration service. IDENT is the
+      omninet-based certification system that guides the user through the UAD's pilot registration
+      process. IDENT helps ensure pilots meet regulatory and policy requirements through the use of
+      NHP-directed data validation protocols. Union Regulars that have already been issued an RM-4
+      IDENT fingerprint should not complete this form unless instructed to by their commanding
+      officer.
+    </p>
+    <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
+      <div class="heading">
+        All fields marked with the
+        <v-icon color="error" size="small" class="mt-n1">mdi-alert</v-icon>
+        glyph must be populated.
+      </div>
+      <p class="text-cc-overline">
+        By submitting this form you attest that your responses are truthful and accurate to the best
+        of your knowledge. Knowingly providing false or or incomplete information is punishable
+        under DoJ/HR AR 303-J.
+      </p>
+    </v-alert>
+
+    <v-row dense>
       <v-col cols="12" md="5" class="mr-auto">
         <div class="my-2">
-          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
-            RM-4-01 // FULL NAME OR PRIMARY ALIAS
-          </div>
-          <v-text-field
+          <div v-if="!mobile" class="text-caption">RM-4-01 // FULL NAME OR PRIMARY ALIAS</div>
+          <div v-else class="text-caption">PILOT NAME</div>
+          <cc-text-field
             v-model="pilot.Name"
             variant="outlined"
-            label="Name"
-            hide-details
-            density="compact"
-            class="my-1">
-            <template #prepend>
-              <cc-tooltip simple content="Generate Random Name">
-                <v-icon color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
-              </cc-tooltip>
+            placeholder="Name"
+            :icon="pilot.Name ? 'mdi-check-circle-outline' : 'mdi-alert'"
+            :color="pilot.Name ? 'success' : 'error'"
+            class="my-1 d-inline">
+            <template #extra>
+              <cc-button
+                icon="mdi-dice-multiple"
+                variant="outlined"
+                size="small"
+                tooltip="Generate random name"
+                @click="randomName()" />
             </template>
-            <template #append>
-              <v-icon v-if="!pilot.Name" color="error">mdi-alert</v-icon>
-              <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
-            </template>
-          </v-text-field>
+          </cc-text-field>
         </div>
 
         <div class="my-4">
-          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
+          <div v-if="!mobile" class="text-caption">
             RM-4-02 // APPROVED CALLSIGN (OR CADET DESIGNATION, IF APPLICABLE)
           </div>
-
-          <v-text-field
+          <div v-else class="text-caption">CALLSIGN</div>
+          <cc-text-field
             v-model="pilot.Callsign"
             variant="outlined"
-            label="Callsign"
-            density="compact"
-            class="my-1"
-            hide-details>
-            <template #prepend>
-              <cc-tooltip simple content="Generate Random Callsign">
-                <v-icon color="secondary" @click="randomCallsign()">mdi-dice-multiple</v-icon>
-              </cc-tooltip>
+            placeholder="Callsign"
+            :icon="pilot.Callsign ? 'mdi-check-circle-outline' : 'mdi-alert'"
+            :color="pilot.Callsign ? 'success' : 'error'"
+            class="my-1 d-inline">
+            <template #extra>
+              <cc-button
+                icon="mdi-dice-multiple"
+                variant="outlined"
+                size="small"
+                tooltip="Generate random callsign"
+                @click="randomCallsign()" />
             </template>
-            <template #append>
-              <v-icon v-if="!pilot.Callsign" color="error">mdi-alert</v-icon>
-              <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
-            </template>
-          </v-text-field>
+          </cc-text-field>
         </div>
 
         <div class="my-4">
-          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
+          <div v-if="!mobile" class="text-caption">
             RM-4-03 // PRIOR OCCUPATION OR POSITION (ANSWER 17b ON RM-2-C)
           </div>
-          <v-text-field
+          <div v-else class="text-caption">BACKGROUND</div>
+          <cc-text-field
             v-model="pilot.Background"
             variant="outlined"
-            label="Background"
-            density="compact"
-            class="my-1"
-            hide-details>
-            <template #prepend>
-              <cc-tooltip simple content="Select Predefined Background">
-                <background-selector @select="$emit('set', { attr: 'Background', val: $event })" />
-              </cc-tooltip>
+            placeholder="Background"
+            :icon="pilot.Background ? 'mdi-check-circle-outline' : 'mdi-circle-outline'"
+            :color="pilot.Background ? 'success' : 'light-panel'"
+            class="my-1 d-inline">
+            <template #extra>
+              <v-tooltip text="Select Predefined Background">
+                <template #activator="{ props }">
+                  <span v-bind="props">
+                    <background-selector
+                      @select="$emit('set', { attr: 'Background', val: $event })" />
+                  </span>
+                </template>
+              </v-tooltip>
             </template>
-            <template #append>
-              <v-icon v-if="!pilot.Background" color="grey">mdi-circle-outline</v-icon>
-              <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
-            </template>
-          </v-text-field>
+          </cc-text-field>
         </div>
 
         <div class="my-4">
-          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
+          <div v-if="!mobile" class="text-caption">
             RM-4-04 // ATTACHED BIOGRAPHICAL DOSSIER (RM-4b SUPPLEMENTAL)
           </div>
-          <v-row align="center">
-            <v-col cols="auto">
-              <cc-text-editor
-                ref="bio"
-                label="Pilot Biography"
-                color="secondary"
-                :original="pilot.History"
-                @save="$emit('set', { attr: 'History', val: $event })" />
-            </v-col>
+          <div v-else class="text-caption">BIOGRAPHY</div>
+          <v-row align="center" dense>
             <v-col>
-              <v-btn variant="outlined" block color="secondary" @click="($refs.bio as any).show()">
+              <cc-button
+                block
+                size="small"
+                :color="!pilot.History ? 'light-panel' : 'success'"
+                @click="bioDialog = true">
                 <div v-if="!pilot.History">Add Pilot Biography</div>
                 <div v-else>Edit Pilot Biography</div>
-              </v-btn>
+                <cc-text-editor-dialog
+                  v-model="bioDialog"
+                  title="edit Pilot Biography"
+                  :original="pilot.History"
+                  @save="$emit('set', { attr: 'History', val: $event })" />
+              </cc-button>
             </v-col>
-            <v-col cols="auto">
+            <v-col cols="auto" class="ml-2">
               <v-icon v-if="!pilot.History" color="grey">mdi-circle-outline</v-icon>
               <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
             </v-col>
@@ -139,81 +131,107 @@
         </div>
 
         <div class="my-4">
-          <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
+          <div v-if="!mobile" class="text-caption">
             RM-4-05 // ATTACHED OHM HEALTH EXAMINATION RESULTS
           </div>
-          {{ pilot.textAppearance }}
-          <v-row align="center">
-            <v-col cols="auto">
-              <cc-text-editor
-                ref="appearance"
-                label="Pilot Description"
-                color="secondary"
-                :original="pilot.TextAppearance"
-                @save="$emit('set', { attr: 'TextAppearance', val: $event })" />
-            </v-col>
+          <div v-else class="text-caption">APPEARANCE</div>
+          <v-row align="center" dense>
             <v-col>
-              <v-btn
-                variant="outlined"
+              <cc-button
                 block
-                color="secondary"
-                @click="($refs.appearance as any).show()">
+                size="small"
+                :color="!pilot.TextAppearance ? 'light-panel' : 'success'"
+                @click="appearanceDialog = true">
                 <div v-if="!pilot.TextAppearance">Add Pilot Description</div>
                 <div v-else>Edit Pilot Description</div>
-              </v-btn>
+                <cc-text-editor-dialog
+                  v-model="appearanceDialog"
+                  title="edit Pilot Description"
+                  :original="pilot.TextAppearance"
+                  @save="$emit('set', { attr: 'TextAppearance', val: $event })" />
+              </cc-button>
             </v-col>
-            <v-col cols="auto">
+            <v-col cols="auto" class="ml-2">
               <v-icon v-if="!pilot.TextAppearance" color="grey">mdi-circle-outline</v-icon>
               <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
             </v-col>
           </v-row>
         </div>
+
+        <div class="my-4">
+          <div v-if="!mobile" class="text-caption">
+            RM-4-δ // EXTERNAL LICENSE DATA TRANSFER (IF APPLICABLE)
+          </div>
+          <div v-else class="text-caption">STARTING LL</div>
+          <cc-number-field
+            v-model.number="pilot.Level"
+            type="number"
+            label="Starting License Level"
+            :max="12"
+            :min="0"
+            :color="pilot.Level ? 'warning' : 'success'"
+            tooltip="Start this Pilot at a specific license level. Recommended for advanced users."
+            tooltip-icon="mdi-alert"
+            class="my-1 d-inline" />
+        </div>
       </v-col>
-      <v-col cols="12" md="5" class="ml-auto">
-        <div v-if="!$vuetify.display.mdAndDown" class="text-caption">
-          RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)
+      <v-col cols="12" md="auto" class="mx-auto mt-2" style="max-width: 325px">
+        <div v-if="!mobile" class="text-caption">
+          RM-4-06 // ATTACHED OHM IMAGING SCAN
+          <div class="mt-n1 text-disabled">(MUST INCLUDE RETINAL DATA)</div>
         </div>
         <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
           <cc-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
         </div>
-        <div class="mr-8 mt-3">
-          <v-btn
-            variant="outlined"
-            large
+        <div class="mt-3">
+          <cc-button
             block
-            color="secondary"
+            size="small"
+            :color="pilot.Portrait ? 'success' : 'panel'"
+            :append-icon="pilot.Portrait ? '' : 'mdi-check-circle-outline'"
+            :prepend-icon="pilot.Portrait ? 'mdi-circle-edit-outline' : 'mdi-plus'"
             @click="($refs.imageSelector as any).open()">
-            <div v-if="!pilot.Portrait">
-              <v-icon start>mdi-plus</v-icon>
-              Add Pilot Image
-            </div>
-            <div v-else>
-              <v-icon start>mdi-circle-edit-outline</v-icon>
-              Edit Pilot Image
-            </div>
-            <div style="position: absolute; right: -53px">
-              <v-icon v-if="!pilot.Portrait" color="grey">mdi-circle-outline</v-icon>
-              <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
-            </div>
-          </v-btn>
+            {{ pilot.Portrait ? 'Edit Pilot Image' : 'Add Pilot Image' }}
+          </cc-button>
           <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" />
         </div>
       </v-col>
     </v-row>
-    <div slot="other" class="text-center mt-4">
-      <v-btn color="accent" variant="tonal" @click="$emit('templates')">
-        Select Character Template
-      </v-btn>
-      <div class="text-caption text-disabled"><i>Recommended for New Players</i></div>
-    </div>
+    <v-row dense class="text-center mt-6 pt-2 pb-1 px-3 bg-surface">
+      <v-col cols="12" sm="6">
+        <cc-button
+          size="x-small"
+          block
+          color="primary"
+          :disabled="!pilot.HasIdent"
+          @click="savePilot">
+          Skip New Pilot Registration
+        </cc-button>
+        <div class="text-caption text-disabled"><i>Recommended for Advanced Users</i></div>
+      </v-col>
+      <v-spacer />
+      <v-col cols="12" sm="6">
+        <cc-button
+          size="x-small"
+          block
+          color="primary"
+          :disabled="!pilot.HasIdent"
+          @click="$emit('templates')">
+          Select Character Template
+        </cc-button>
+        <div class="text-caption text-disabled"><i>Recommended for New Players</i></div>
+      </v-col>
+    </v-row>
   </stepper-content>
 </template>
 
 <script lang="ts">
+import { PilotStore } from '@/stores';
 import StepperContent from '../../_components/StepperContent.vue';
 import BackgroundSelector from '../../_components/selectors/BackgroundSelector.vue';
 import { name, callsign } from '@/io/Generators';
 import { CCTextEditor } from '@/ui/globals';
+import { Pilot } from '@/class';
 
 export default {
   name: 'identification-page',
@@ -223,9 +241,18 @@ export default {
       type: Object,
       required: true,
     },
-    quickstart: { type: Boolean },
+    groupID: { type: String },
   },
-  emits: ['set', 'templates', 'next'],
+  data: () => ({
+    bioDialog: false,
+    appearanceDialog: false,
+  }),
+  emits: ['set', 'templates', 'next', 'done'],
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
   methods: {
     async randomCallsign() {
       const generatedCallsign = await callsign();
@@ -236,6 +263,12 @@ export default {
       const generatedName = await name();
       this.$emit('set', { attr: 'Name', val: generatedName });
       this.$forceUpdate();
+    },
+    async savePilot() {
+      this.pilot.Callsign = this.pilot.Callsign;
+      this.pilot.Name = this.pilot.Name;
+      PilotStore().AddPilot(this.pilot as Pilot, this.groupID);
+      await this.$emit('done');
     },
   },
 };

@@ -7,74 +7,69 @@
     equippable>
     <template #header><div class="heading h3 text-center text-accent">Weapon Mods</div></template>
     <template #top>
-      <v-row>
+      <v-row dense align="center">
         <v-col>
           <div v-if="weapon.Mod">
-            <div class="text-overline">
+            <div v-if="!mobile" class="text-cc-overline">
               UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-              <div class="text-success text--darken-1">[ EQUIPMENT MODIFICATION REGISTERED ]</div>
+              <span class="text-success">[ FRAME EQUIPMENT REGISTRATION VERIFIED ]</span>
             </div>
-            <br />
-            <div class="heading h1 text-accent" style="line-height: 30px">
+            <div class="heading h2 text-accent">
               {{ weapon.Mod.Name }}
             </div>
-            <div class="flavor-text overline mt-n1" style="display: block">CURRENTLY INSTALLED</div>
+            <div class="flavor-text overline" style="display: block">CURRENTLY EQUIPPED</div>
           </div>
-          <div v-else>
-            <div class="text-overline">
-              UNION ARMORY EQUIPMENT AUGMENTATION AUTHORIZATION: FRAME ARMAMENT//MODIFICATION
+          <div v-else-if="!mobile">
+            <div class="text-cc-overline">
+              UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
             </div>
-            <div class="heading h1 text-disabled text--lighten-1" style="line-height: 30px">
-              NO SELECTION
-            </div>
+            <div class="heading h2 text-disabled">NO SELECTION</div>
             <div class="flavor-text overline text-error" style="display: block">
-              [ MODIFICATION DATA INVALID OR MISSING ]
+              [ EQUIPMENT ID INVALID OR MISSING ]
             </div>
           </div>
         </v-col>
-        <v-col cols="auto">
-          <v-switch v-model="showUnlicensed" density="compact" inset hide-details color="warning">
-            <template #label>
-              <cc-tooltip
-                slot="label"
-                inline
-                :content="
-                  showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
-                ">
-                <v-icon
-                  :color="showUnlicensed ? 'warning' : 'success'"
-                  :icon="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'" />
-              </cc-tooltip>
-            </template>
-          </v-switch>
-          <v-switch v-model="showOverSP" density="compact" inset hide-details color="warning">
-            <template #label>
-              <cc-tooltip
-                slot="label"
-                inline
-                :content="
-                  showOverSP
-                    ? 'Systems exceeding SP Capacity: SHOWN'
-                    : 'Systems exceeding SP Capacity: HIDDEN'
-                ">
-                <v-icon :color="showOverSP ? 'warning' : 'success'" :icon="'cc:system_point'" />
-              </cc-tooltip>
-            </template>
-          </v-switch>
-          <v-switch v-model="showIncompatible" density="compact" inset hide-details color="warning">
-            <template #label>
-              <cc-tooltip
-                slot="label"
-                inline
-                :content="
-                  showIncompatible ? 'Incompatible Mods: SHOWN' : 'Incompatible Mods: HIDDEN'
-                ">
-                <v-icon
-                  :color="showIncompatible ? 'warning' : 'success'"
-                  :icon="'cc:status_downandout'" />
-              </cc-tooltip>
-            </template>
-          </v-switch>
+        <v-col cols="12" md="auto">
+          <div class="text-right">
+            <cc-switch
+              v-model="showUnlicensed"
+              :label="mobile && 'Show Unlicensed'"
+              color="error"
+              :tooltip="
+                !mobile && showUnlicensed
+                  ? 'Unlicensed equipment: SHOWN'
+                  : 'Unlicensed equipment: HIDDEN'
+              "
+              :prepend-icon="!mobile && 'cc:system'"
+              on-icon="mdi-lock-open"
+              off-icon="mdi-lock" />
+            <br />
+            <cc-switch
+              v-model="showOverSP"
+              :label="mobile && 'Show Exceeds SP'"
+              color="error"
+              :tooltip="
+                !mobile && showOverSP
+                  ? 'Systems exceeding SP Capacity: SHOWN'
+                  : 'Systems exceeding SP Capacity: HIDDEN'
+              "
+              :prepend-icon="!mobile && 'cc:system_point'"
+              on-icon="mdi-lock-open"
+              off-icon="mdi-lock" />
+            <br />
+            <cc-switch
+              v-model="showIncompatible"
+              :label="mobile && 'Show Exceeds SP'"
+              color="error"
+              :tooltip="
+                !mobile && showIncompatible
+                  ? 'Incompatible Mods: SHOWN'
+                  : 'Incompatible Mods: HIDDEN'
+              "
+              :prepend-icon="!mobile && 'cc:status_downandout'"
+              on-icon="mdi-lock-open"
+              off-icon="mdi-lock" />
+          </div>
         </v-col>
       </v-row>
     </template>
@@ -101,7 +96,7 @@ export default {
   },
   data: () => ({
     options: {
-      views: ['single', 'table', 'cards'],
+      views: ['list', 'single', 'table', 'cards'],
       initialView: 'single',
       groups: ['source', 'lcp', 'license'],
       initialGroup: 'none',
@@ -117,7 +112,13 @@ export default {
     showIncompatible: false,
     showOverSP: false,
   }),
+  mounted() {
+    this.options.initialView = this.mobile ? 'list' : 'single';
+  },
   computed: {
+    mobile(): boolean {
+      return this.$vuetify.display.smAndDown;
+    },
     freeSP(): number {
       return this.weapon.Mod ? this.mech.FreeSP + this.weapon.Mod.SP : this.mech.FreeSP;
     },
