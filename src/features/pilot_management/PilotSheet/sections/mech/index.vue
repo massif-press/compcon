@@ -71,11 +71,15 @@
             class="mb-3 mt-2" />
 
           <section-header title="Licenses Required" />
-          <div class="pt-1 mb-4">
+          <div class="pt-1">
             <requirement-item v-for="l in reqLicenses" :license="l" />
           </div>
 
-          <section-header :title="`${mech.Frame.Source} ${mech.Frame.Name} Frame Traits`" />
+          <status-alerts :mech="mech" />
+
+          <section-header
+            :title="`${mech.Frame.Source} ${mech.Frame.Name} Frame Traits`"
+            class="mt-2" />
           <cc-trait-item v-for="t in mech.Frame.Traits" :trait="t" :color="color" class="ma-3" />
         </v-col>
 
@@ -119,6 +123,7 @@ import { PilotStore } from '@/stores';
 import LoadoutBlock from './sections/LoadoutBlock.vue';
 import SectionHeader from '../components/SectionHeader.vue';
 import { FrameCoreSystemPanel } from '@/ui/components/cards/frame';
+import StatusAlerts from './components/StatusAlerts.vue';
 
 export default {
   name: 'mech-sheet',
@@ -129,6 +134,7 @@ export default {
     LoadoutBlock,
     SectionHeader,
     FrameCoreSystemPanel,
+    StatusAlerts,
   },
   props: {
     pilotID: {
