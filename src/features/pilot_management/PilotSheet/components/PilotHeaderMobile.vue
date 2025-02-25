@@ -1,5 +1,5 @@
 <template>
-  <div id="header-container">
+  <div id="header-container" class="bg-primary">
     <v-row dense>
       <v-col style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
         <div class="heading h3 mt-n2">
@@ -136,7 +136,6 @@ export default {
   padding-bottom: 4px;
   left: 0;
   right: 0;
-  background-color: rgb(var(--v-theme-primary));
 }
 
 #image {

@@ -1,5 +1,5 @@
 <template>
-  <div id="header-container">
+  <div id="header-container" class="bg-primary">
     <v-row class="pr-0 pl-2">
       <v-col>
         <v-row align="center" dense class="ml-n3">
@@ -176,7 +176,6 @@ export default {
   padding-bottom: 8px;
   left: 0;
   width: 100vw;
-  background-color: rgb(var(--v-theme-primary));
 }
 
 #image {

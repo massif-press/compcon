@@ -1,10 +1,8 @@
 <template>
   <div
-    :class="[block ? '' : 'clip', offset && 'offset']"
+    :class="[block ? '' : 'clip', offset && 'offset', `bg-${color}`]"
     style="height: fit-content"
-    :style="`width: ${
-      block ? '100%' : 'max-content'
-    };  background-color: rgb(var(--v-theme-${color}));`">
+    :style="`width: ${block ? '100%' : 'max-content'};`">
     <div class="pl-2 pr-8 heading">
       <slot />
     </div>
