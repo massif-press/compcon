@@ -113,6 +113,15 @@ export default {
         (b) => b.Name.toLowerCase() === this.pilot.Background.toLowerCase()
       );
       if (!bgItem || !bgItem.SuggestedSkills?.length) return;
+
+      if (this.suggestedSet) {
+        bgItem.SuggestedSkills.forEach((skill) => {
+          this.pilot.SkillsController.RemoveSkill(skill);
+        });
+        this.suggestedSet = false;
+        return;
+      }
+
       this.pilot.SkillsController.ClearSkills();
       bgItem.SuggestedSkills.forEach((skill) => {
         this.pilot.SkillsController.AddSkill(skill);

@@ -4,67 +4,6 @@
     :success="!pilot.SkillsController.IsMissingSkills && enoughSelections"
     :flat="flat"
     :modal="modal">
-    <template #left-column>
-      <v-row v-for="pSkill in pilot.SkillsController.Skills" dense align="center" class="px-2">
-        <v-col cols="auto">
-          <v-chip color="accent" size="small">
-            +
-            <b>{{ pSkill.Bonus }}</b>
-          </v-chip>
-        </v-col>
-        <v-col>
-          <b class="text-stark">{{ pSkill.Skill.Trigger }}</b>
-        </v-col>
-        <v-col cols="auto">
-          <v-btn icon size="x-small" variant="plain" @click="scroll(pSkill.Skill.ID)">
-            <v-icon size="25" icon="mdi-menu-right" />
-          </v-btn>
-        </v-col>
-      </v-row>
-      <v-divider v-if="pilot.SkillsController.Skills.length" class="ma-2" />
-      <v-row>
-        <v-col class="ma-1">
-          <v-alert
-            v-show="!pilot.SkillsController.IsMissingSkills && enoughSelections"
-            variant="outlined"
-            density="compact"
-            color="success"
-            icon="mdi-check-circle"
-            class="stat-text py-1 mb-2"
-            text="Skill Selection Complete" />
-          <v-alert
-            v-show="
-              pilot.SkillsController.MaxSkillPoints > pilot.SkillsController.CurrentSkillPoints
-            "
-            variant="outlined"
-            density="compact"
-            color="accent"
-            icon="mdi-alert"
-            class="stat-text py-1 mb-2"
-            :text="`${
-              pilot.SkillsController.MaxSkillPoints - pilot.SkillsController.CurrentSkillPoints
-            }
-            Skill Points remaining`" />
-
-          <v-alert
-            v-show="!enoughSelections"
-            variant="outlined"
-            density="compact"
-            color="accent"
-            icon="mdi-alert"
-            class="stat-text py-1 mb-2"
-            :text="`Must select a minimum of ${selectedMin} skills`" />
-          <v-btn
-            block
-            variant="text"
-            :disabled="!pilot.SkillsController.Skills.length"
-            @click="pilot.SkillsController.ClearSkills()">
-            Reset
-          </v-btn>
-        </v-col>
-      </v-row>
-    </template>
-
     <template #float>
       <v-card
         v-if="!pilot.SkillsController.IsMissingSkills && enoughSelections"

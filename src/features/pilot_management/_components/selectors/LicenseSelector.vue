@@ -3,63 +3,6 @@
     title="Pilot Licenses"
     :success="!pilot.LicenseController.IsMissingLicenses"
     :modal="modal">
-    <template #left-column>
-      <v-text-field
-        v-model="search"
-        prepend-inner-icon="mdi-magnify"
-        density="compact"
-        variant="outlined"
-        clearable
-        hide-details
-        class="ma-1" />
-      <v-divider class="ma-2" />
-      <v-row v-for="pl in pilot.LicenseController.Licenses" dense align="center" class="px-2">
-        <v-col cols="auto">
-          <v-icon :color="mf(pl.License.Source).Color" :icon="`cc:rank_${pl.Rank}`" />
-        </v-col>
-        <v-col>
-          <strong>{{ pl.License.Name }}</strong>
-        </v-col>
-        <v-col cols="auto">
-          <v-btn icon size="x-small" variant="plain" @click="scroll(pl.License.FrameID)">
-            <v-icon size="25" icon="mdi-menu-right" />
-          </v-btn>
-        </v-col>
-      </v-row>
-      <v-divider v-if="pilot.LicenseController.Licenses.length" class="ma-2 ml-4 mr-4" />
-      <v-row>
-        <v-col class="ma-1">
-          <v-alert
-            v-if="!pilot.LicenseController.IsMissingLicenses"
-            variant="outlined"
-            color="success"
-            icon="mdi-check-circle"
-            class="stat-text">
-            License Selection Complete
-          </v-alert>
-          <v-alert
-            v-if="pilot.LicenseController.IsMissingLicenses"
-            variant="outlined"
-            color="accent"
-            icon="mdi-alert"
-            class="stat-text">
-            {{ pilot.LicenseController.CurrentLicensePoints }} /
-            {{ pilot.LicenseController.MaxLicensePoints }} Licenses selected
-          </v-alert>
-          <div class="my-2">
-            <v-btn
-              block
-              variant="text"
-              small
-              :disabled="!pilot.LicenseController.Licenses.length"
-              @click="pilot.LicenseController.ClearLicenses()">
-              Reset
-            </v-btn>
-          </div>
-        </v-col>
-      </v-row>
-    </template>
-
     <template #float>
       <v-card
         v-if="!pilot.LicenseController.IsMissingLicenses"

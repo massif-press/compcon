@@ -2,15 +2,15 @@
   <slot />
   <v-footer
     density="compact"
-    :height="mobile ? 20 : 26"
+    :height="mobile ? 26 : 46"
     class="border-t-sm"
     style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 901">
-    <cc-button :size="mobile ? 'x-small' : 'small'" variant="text" :to="exit">EXIT</cc-button>
+    <cc-button :size="mobile ? 'small' : 'default'" variant="text" :to="exit">EXIT</cc-button>
     <v-spacer />
     <cc-button
       color="primary"
       :disabled="!back"
-      :size="mobile ? 'x-small' : 'small'"
+      :size="mobile ? 'small' : 'default'"
       class="ml-auto mr-2"
       @click="$emit('back')">
       BACK
@@ -20,7 +20,7 @@
     <cc-button
       v-if="!noConfirm"
       :color="complete || mandatory ? 'success' : ''"
-      :size="mobile ? 'x-small' : 'small'"
+      :size="mobile ? 'small' : 'default'"
       :disabled="mandatory && !complete"
       :variant="!(complete || mandatory) ? 'text' : 'elevated'"
       :tile="complete || mandatory"
