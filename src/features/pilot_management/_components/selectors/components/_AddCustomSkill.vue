@@ -1,5 +1,4 @@
 <template>
-  <div class="text-stark flavor-text font-weight-bold mt-n2">NEW CUSTOM TRIGGER</div>
   <v-row dense align="center">
     <v-col>
       <div>
