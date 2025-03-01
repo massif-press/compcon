@@ -50,7 +50,7 @@
               tile
               variant="tonal"
               size="small"
-              to="https://github.com/aritsune/lancer-faq"
+              href="https://github.com/aritsune/lancer-faq"
               target="_blank">
               lancer-faq repository
             </v-chip>
@@ -59,7 +59,7 @@
               tile
               variant="tonal"
               size="small"
-              to="https://lancer-faq.netlify.app/"
+              href="https://lancer-faq.netlify.app/"
               target="_blank">
               lancer-faq.netlify.app/
             </v-chip>
