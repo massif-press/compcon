@@ -41,17 +41,28 @@
       </v-navigation-drawer>
       <h1 class="heading h1 ml-8">FAQ & ERRATA</h1>
       <v-container>
-        <cc-alert color="info" class="mb-5">
+        <cc-alert color="panel" class="mb-5">
           <div class="heading h4">Please note:</div>
           <div>
             This FAQ and Errata is a community-driven project and is not part of an official Massif
             Press LANCER release. This page is furnished by FAQ data from the
-            <a href="https://github.com/aritsune/lancer-faq" target="_blank">
-              <b>lancer-faq</b>
-              repository on GitHub
-            </a>
-            , currently maintained by lenaleciel. This document is also available at
-            <a href="https://lancer-faq.netlify.app/" target="_blank">lancer-faq.netlify.app/</a>
+            <v-chip
+              tile
+              variant="tonal"
+              size="small"
+              to="https://github.com/aritsune/lancer-faq"
+              target="_blank">
+              lancer-faq repository
+            </v-chip>
+            on GitHub, currently maintained by lenaleciel. This document is also available at
+            <v-chip
+              tile
+              variant="tonal"
+              size="small"
+              to="https://lancer-faq.netlify.app/"
+              target="_blank">
+              lancer-faq.netlify.app/
+            </v-chip>
             .
           </div>
         </cc-alert>
