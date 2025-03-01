@@ -137,12 +137,7 @@
       </div>
     </v-card>
 
-    <cc-solo-modal
-      v-model="selectorDialog"
-      no-actions
-      density="compact"
-      :title="`Equip ${title}`"
-      fullscreen>
+    <cc-solo-modal v-model="selectorDialog" :title="`Equip ${title}`">
       <slot name="selector" />
     </cc-solo-modal>
 

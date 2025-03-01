@@ -174,7 +174,7 @@ export default {
       location.reload();
     },
     showUpdates() {
-      this.user.SetView('WelcomePanel', true);
+      this.user.ReadMessages = [];
       this.reload();
     },
     setLogLevel(item) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="d-inline-flex ma-2" :style="`width: ${minWidth};`">
+  <div class="d-inline-flex" :class="small ? 'ma-1' : 'ma-2'" :style="`width: ${minWidth};`">
     <v-hover>
       <template v-slot="{ isHovering, props }">
         <v-card
@@ -106,12 +106,12 @@ export default {
       type: Object,
       required: true,
     },
-    small: {
-      type: Boolean,
-    },
   },
   emits: ['goTo'],
   computed: {
+    small() {
+      return this.$vuetify.display.smAndDown;
+    },
     missingContent() {
       return this.pilot.BrewController.IsUnableToLoad;
     },
@@ -119,7 +119,8 @@ export default {
       return this.pilot.SaveController.IsRemote;
     },
     minWidth() {
-      return this.small ? '10vw' : '20vw';
+      if (this.$vuetify.display.xs) return '26vw';
+      return this.small ? '22vw' : '17vw';
     },
   },
   methods: {

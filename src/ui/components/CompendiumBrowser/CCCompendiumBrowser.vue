@@ -805,7 +805,6 @@ export default {
       ];
     },
   },
-
   created() {
     this.lcpFilter = this.lcps;
 
@@ -819,6 +818,9 @@ export default {
       `compendium_${this.itemType.toLowerCase()}_group`,
       this.options.initialView
     );
+  },
+  mounted() {
+    if (this.mobile && this.view === 'single') this.view = 'list';
   },
   computed: {
     mobile() {
@@ -991,6 +993,7 @@ export default {
     },
     scrollTo(id: string): void {
       const el = document.getElementById(id);
+      console.log(el);
       if (el) {
         const yOffset = -70;
         const mEl = document.getElementById('content');

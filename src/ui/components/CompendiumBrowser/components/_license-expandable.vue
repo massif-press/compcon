@@ -1,10 +1,6 @@
 <template>
   <v-expansion-panel v-for="item in items" flat tile :height="mobile ? 50 : 80">
-    <v-expansion-panel-title
-      :id="item.FrameID"
-      class="hover-parent py-0 pr-0 pl-3"
-      hide-actions
-      flat>
+    <v-expansion-panel-title :id="item.ID" class="hover-parent py-0 pr-0 pl-3" hide-actions flat>
       <template #default="{ expanded }">
         <v-row
           :align="mobile ? 'center' : 'start'"

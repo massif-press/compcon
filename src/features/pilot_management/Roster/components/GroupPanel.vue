@@ -110,7 +110,6 @@
               v-for="pilot in pilots"
               :is="pilotCardType"
               :pilot="pilot"
-              :small="rosterView === 'small-cards'"
               @goTo="toPilotSheet($event)" />
           </v-card-text>
           <v-expand-transition>
@@ -336,7 +335,6 @@ export default {
     pilotCardType(): string {
       switch (this.rosterView) {
         case 'cards':
-        case 'small-cards':
           return 'pilot-card';
         case 'list':
         default:

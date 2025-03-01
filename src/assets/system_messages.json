@@ -1,0 +1,9 @@
+[
+  {
+    "id": "1",
+    "title": "Debug Message",
+    "body": "This is a <b>debug message</b> testing the functionality of the messaging system.",
+    "level": "info",
+    "created": 1740845129
+  }
+]

@@ -9,16 +9,13 @@
               color="primary"
               icon="cc:gms"
               class="border-b-sm"
-              @close="close">
+              @close="panel = false">
               <template #toolbar-items>
                 <v-tooltip max-width="300" location="top">
                   <template #activator="{ props }">
-                    <cc-button
-                      v-bind="props"
-                      tile
-                      variant="text"
-                      icon="mdi-check-all"
-                      @click="markAllAsRead" />
+                    <span v-bind="props">
+                      <cc-button tile variant="text" icon="mdi-check-all" @click="markAllAsRead" />
+                    </span>
                   </template>
                   <span>Mark all messages as Read</span>
                 </v-tooltip>
@@ -34,29 +31,30 @@
                 bg-color="primary"
                 slider-color="secondary"
                 height="26">
-                <v-tab v-for="m in messages">
-                  <v-badge v-model="m.showDot" dot floating class="mt-1" color="warning">
-                    {{ new Date(m.timestamp).toLocaleDateString() }}
+                <v-tab v-for="m in systemMessages">
+                  <v-badge v-if="isUnread(m)" dot floating class="mt-1" color="warning">
+                    {{ new Date(m.created * 1000).toLocaleDateString() }}
                   </v-badge>
+                  <span v-else>{{ new Date(m.created * 1000).toLocaleDateString() }}</span>
                 </v-tab>
               </v-tabs>
             </div>
             <cc-panel height="70vh" color="panel" border style="margin-top: -2px">
               <v-window v-model="tab">
-                <v-window-item v-for="m in messages" :key="m.timestamp">
+                <v-window-item v-for="m in systemMessages">
                   <div class="text-cc-overline">
                     {{
-                      new Date(m.timestamp).toLocaleString(undefined, {
+                      new Date(m.created * 1000).toLocaleString(undefined, {
                         dateStyle: 'full',
                         timeStyle: 'long',
                       })
                     }}
                   </div>
                   <v-divider class="my-2" />
-                  <cc-heading type="h3">{{ m.title }}</cc-heading>
+                  <div class="heading h3 text-accent">{{ m.title }}</div>
                   <p class="pa-2" v-html="m.body" />
-                  <cc-button class="mt-8" block color="primary" size="x-small" @click="ack(m)">
-                    Dismiss
+                  <cc-button class="ma-4" block color="accent" size="x-small" @click="ack(m)">
+                    Mark as Read
                   </cc-button>
                 </v-window-item>
               </v-window>
@@ -70,26 +68,30 @@
 
 <script lang="ts">
 import { CompendiumStore, UserStore } from '@/stores';
+import systemMessages from '@/assets/system_messages.json';
 
 export default {
   name: 'welcome-dialog',
   data: () => ({
     panel: false,
     tab: 0,
-    messages: [
-      {
-        timestamp: 1738796694000,
-        title: 'Debug Message',
-        body: 'Debug message contents',
-        read: false,
-        showDot: true,
-      },
-    ],
   }),
   mounted() {
-    this.panel = UserStore().User.View('WelcomePanel', true);
+    console.log('unreadMessages', this.unreadMessages);
+    console.log('systemMessages', this.systemMessages);
+    this.panel = this.unreadMessages.length > 0;
+    this.tab = this.systemMessages.findIndex((message) =>
+      this.unreadMessages.find((m) => m.id === message.id)
+    );
   },
   computed: {
+    systemMessages() {
+      return systemMessages;
+    },
+    unreadMessages() {
+      const userReadMessages = UserStore().User.ReadMessages;
+      return this.systemMessages.filter((message) => !userReadMessages.includes(message.id));
+    },
     loaded() {
       return CompendiumStore().loaded;
     },
@@ -98,20 +100,20 @@ export default {
     },
   },
   methods: {
-    ack(message) {
-      message.read = true;
-      message.showDot = false;
-      this.close();
+    isUnread(message) {
+      return !UserStore().User.ReadMessages.includes(message.id);
     },
-    close() {
-      UserStore().User.SetView('WelcomePanel', false);
-      this.panel = false;
+    ack(message) {
+      UserStore().User.SetMessageRead(message.id);
+      if (this.unreadMessages.length)
+        this.tab = this.systemMessages.findIndex((m) =>
+          this.unreadMessages.find((um) => um.id === m.id)
+        );
+      else this.panel = false;
     },
     markAllAsRead() {
-      this.messages.forEach((message) => {
-        message.read = true;
-      });
-      this.close();
+      UserStore().User.ReadMessages = this.systemMessages.map((m) => m.id);
+      this.panel = false;
     },
   },
 };

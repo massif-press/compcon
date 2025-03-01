@@ -29,7 +29,7 @@ class License {
     this.FrameID = frame.ID;
     this.FrameName = frame.Name.toLowerCase();
     this.ID = `${frame.ID}_License`;
-    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.LcpName = frame.LcpName;
     this.InLcp = !!pack;
 
     this.Specialty = !!frame.Specialty;
