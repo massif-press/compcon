@@ -52,8 +52,7 @@
         color="exotic"
         icon="cc:repair"
         name="FAQ & Errata"
-        to="srd/reference/errata"
-        disabled />
+        to="srd/reference/errata" />
       <compendium-page-button
         color="exotic"
         icon="cc:compendium"
