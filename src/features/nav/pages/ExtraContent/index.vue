@@ -16,7 +16,7 @@
         </v-tab>
       </template>
       <v-window-item>
-        <v-card-text :style="mobile ? 'margin-top: 8px' : 'margin-top: 20px'">
+        <v-card-text :style="mobile ? 'margin-top: 8px' : ''">
           <packs-list />
           <missing-content />
         </v-card-text>

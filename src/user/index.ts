@@ -38,7 +38,7 @@ interface IUserOptions {
 
 interface IUserProfile {
   id: string;
-  welcome_hash: string;
+  read_messages: string[];
   theme: string;
   options: IUserOptions;
   achievement_unlocks: { id: string; unlocked: number }[];
@@ -60,7 +60,7 @@ class UserProfile {
   public latest_change: number;
   public LcpSubscriptions: string[] = [];
 
-  private _welcome_hash: string;
+  private _readMessages: string[];
   private _theme: string;
   private _achievement_unlocks: { id: string; unlocked: number }[];
   private _options: IUserOptions;
@@ -72,7 +72,7 @@ class UserProfile {
   public constructor(id?: string) {
     this.ID = id || uuid();
     this._theme = 'gms';
-    this._welcome_hash = 'none';
+    this._readMessages = [];
     this._options = defaultOptions();
     this._achievement_unlocks = [];
     this.latest_change = Date.now();
@@ -102,6 +102,22 @@ class UserProfile {
     logger.level = level as any;
     this._logLevel = level;
     this.save();
+  }
+
+  public get ReadMessages(): string[] {
+    return this._readMessages;
+  }
+
+  public set ReadMessages(data: string[]) {
+    this._readMessages = data;
+    this.save();
+  }
+
+  public SetMessageRead(id: string): void {
+    if (!this._readMessages.includes(id)) {
+      this._readMessages.push(id);
+      this.save();
+    }
   }
 
   public get StorageWarning(): number {
@@ -236,19 +252,10 @@ class UserProfile {
     this.save();
   }
 
-  public get WelcomeHash(): string {
-    return this._welcome_hash || 'none';
-  }
-
-  public set WelcomeHash(id: string) {
-    this._welcome_hash = id;
-    this.save();
-  }
-
   public Reset() {
     this._theme = 'gms';
     this.localSave('theme', this._theme);
-    this._welcome_hash = 'none';
+    this._readMessages = [];
     this._options = defaultOptions();
     this._logLevel = 'warn';
     this.save();
@@ -258,7 +265,7 @@ class UserProfile {
     return {
       id: data.ID,
       theme: data.Theme,
-      welcome_hash: data.WelcomeHash,
+      read_messages: data._readMessages,
       achievement_unlocks: data._achievement_unlocks,
       options: data._options,
       logLevel: data.LogLevel,
@@ -272,7 +279,7 @@ class UserProfile {
 
   public static Deserialize(data: IUserProfile): UserProfile {
     const profile = new UserProfile(data.id);
-    profile._welcome_hash = data.welcome_hash || 'none';
+    profile._readMessages = data.read_messages || [];
     profile._theme = data.theme || 'gms';
     profile._achievement_unlocks = data.achievement_unlocks || [];
     profile._options = data.options ? data.options : defaultOptions();

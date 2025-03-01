@@ -13,13 +13,6 @@
           <v-btn icon class="pa-0" value="cards" @click="profile.SetView('roster', 'cards')">
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
-          <v-btn
-            icon
-            class="pa-0"
-            value="small-cards"
-            @click="profile.SetView('roster', 'small-cards')">
-            <v-icon color="accent">mdi-grid</v-icon>
-          </v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>

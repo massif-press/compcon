@@ -228,12 +228,8 @@
       </template>
 
       <v-list density="compact">
-        <cc-modal title="Content Pack Management" icon="cc:content_manager">
-          <template #activator="{ open }">
-            <v-list-item @click.stop="open">Manage Content</v-list-item>
-          </template>
-          <content-page />
-        </cc-modal>
+        <v-list-item @click.stop="contentModal = true">Manage Content</v-list-item>
+        <content-page v-model="contentModal" />
         <cc-modal title="options" icon="mdi-cog">
           <template #activator="{ open }">
             <v-list-item @click.stop="open">Options</v-list-item>
@@ -305,6 +301,7 @@ export default {
     aboutDialog: false,
     helpDialog: false,
     optionsDialog: false,
+    contentModal: false,
     storageWarningDialog: false,
     storageFullDialog: false,
     qrDialog: false,
