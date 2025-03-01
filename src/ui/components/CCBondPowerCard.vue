@@ -18,7 +18,7 @@
         <template #extension>
           <div
             class="text-cc-overline pl-2 text-disabled mt-n1"
-            style="letter-spacing: 7px !important">
+            style="letter-spacing: 3px !important">
             <i v-if="power.veteran">Veteran Power</i>
             <i v-if="power.master">Master Power</i>
           </div>
