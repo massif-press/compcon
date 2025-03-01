@@ -3,7 +3,7 @@
     :disabled="!tooltip"
     :text="tooltip"
     :location="<any>tooltipLocation"
-    style="display: inline-block; position: relative">
+    style="position: relative">
     <template #activator="{ props }">
       <div class="top-element" v-bind="props">
         <span :class="`light ${size} bg-${color} ${tonal && 'tonal-light'}`" />

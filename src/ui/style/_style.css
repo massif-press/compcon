@@ -1,10 +1,8 @@
-@import 'spacers.css';
 @import 'typography.css';
 @import 'clip.css';
 @import 'animation.css';
 
 body {
-  overflow: overlay;
   font-family: 'Helvetica Regular', sans-serif;
 }
 /* width */

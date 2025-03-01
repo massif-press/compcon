@@ -3,15 +3,15 @@
     :disabled="!tooltip"
     :text="tooltip"
     :location="<any>tooltipLocation"
-    style="display: inline-block; position: relative">
+    style="position: relative">
     <template #activator="{ props }">
       <div
-        class="top-element d-inline-block"
+        class="top-element d-inline"
         style="position: relative; align-content: center"
         v-bind="props">
         <v-icon
           v-if="outlined"
-          :size="iconSize * 1.5"
+          :size="iconSize * 2"
           :color="getColor"
           :disabled="disabled"
           icon="cc:hex_thin"
@@ -24,6 +24,7 @@
           :size="iconSize"
           :loading="loading"
           :class="`pa-0 ${!disabled && 'hover'} text-${getColor}`"
+          style="margin-top: -2px"
           :to="to"
           :href="href"
           :target="target"
@@ -65,17 +66,17 @@ export default {
     iconSize() {
       switch (this.size) {
         case 'x-small':
-          return 15;
+          return 14;
         case 'small':
-          return 24;
+          return 22;
         case 'large':
-          return 36;
+          return 32;
         case 'x-large':
           return 42;
         case 'xx-large':
           return 50;
         default:
-          return 32;
+          return 28;
       }
     },
   },
