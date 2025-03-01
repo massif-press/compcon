@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    v-show="!hide"
+    v-if="!hide"
     app
     color="primary"
     :class="!mobile && 'clipped-large'"

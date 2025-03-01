@@ -43,18 +43,10 @@
     </v-alert>
   </v-container>
   <v-footer app density="compact" color="primary">
-    <v-btn
-      prepend-icon="mdi-arrow-left"
-      size="x-small"
-      variant="tonal"
-      color="anti"
-      class="mr-2"
-      @click="$router.go(-1)">
+    <cc-button prepend-icon="mdi-arrow-left" size="small" class="mr-2" @click="$router.go(-1)">
       Back
-    </v-btn>
-    <v-btn prepend-icon="mdi-home" size="x-small" variant="tonal" color="anti" to="/">
-      Main Menu
-    </v-btn>
+    </cc-button>
+    <cc-button prepend-icon="mdi-home" size="small" to="/">Main Menu</cc-button>
     <v-spacer />
     <v-tooltip location="top" open-delay="300">
       <template #activator="{ props }">
