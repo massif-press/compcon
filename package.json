@@ -23,6 +23,7 @@
     "jszip": "3.10.1",
     "localforage": "1.10.0",
     "lodash": "4.17.21",
+    "marked": "^15.0.7",
     "pinia": "2.2.5",
     "prettier": "3.3.3",
     "promisify-file-reader": "4.1.0",
