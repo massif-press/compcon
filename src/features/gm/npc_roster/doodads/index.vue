@@ -1,6 +1,5 @@
 <template>
-  <component
-    :is="viewComponent"
+  <gm-split-view
     ref="view"
     title="Doodads"
     item-type="Doodad"
@@ -11,19 +10,16 @@
     @add-new="addNew()"
     @open="openItem($event)">
     <template #tooltip>
-      <v-tooltip
-        text="Non-character objects (such as terrain items) that can be tracked in combat encounters. Doodads cannot take NPC items or features, but have stats and can be given narrative content."
-        location="bottom"
-        max-width="400">
-        <template v-slot:activator="{ props }">
-          <v-icon
-            v-bind="props"
-            end
-            icon="mdi-information-outline"
-            class="fade-select ml-n1 mb-n1"
-            size="15" />
-        </template>
-      </v-tooltip>
+      <div class="text-center mt-n1 mb-1">
+        <v-tooltip
+          text="Non-character objects (such as terrain items) that can be tracked in combat encounters."
+          location="bottom"
+          max-width="400">
+          <template v-slot:activator="{ props }">
+            <v-chip v-bind="props" size="x-small" block>What is a Doodad?</v-chip>
+          </template>
+        </v-tooltip>
+      </div>
     </template>
 
     <editor
@@ -34,12 +30,11 @@
       @exit="exit()"
       @save="SaveAndClose()" />
     <no-gm-item v-else />
-  </component>
+  </gm-split-view>
 </template>
 
 <script lang="ts">
-import GMSplitView from '../../_views/GMSplitView.vue';
-import GmCollectionView from '../../_views/GMCollectionView.vue';
+import GmSplitView from '../../_views/GMSplitView.vue';
 import Editor from './editor.vue';
 import Builder from './builder.vue';
 import { NpcStore } from '../../store/npc_store';
@@ -48,7 +43,7 @@ import NoGmItem from '../../_views/_components/NoGmItem.vue';
 
 export default {
   name: 'doodad-roster',
-  components: { GmCollectionView, Editor, Builder, NoGmItem },
+  components: { GmSplitView, Editor, Builder, NoGmItem },
   props: {
     id: {
       type: String,
@@ -73,9 +68,6 @@ export default {
     }
   },
   computed: {
-    viewComponent() {
-      return this.view === 'collection' ? GmCollectionView : GMSplitView;
-    },
     groupings() {
       const allLabelTitles = new Set(
         NpcStore()

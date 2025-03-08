@@ -1,34 +1,12 @@
 <template>
   <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
     <template #top>
-      <div class="text-center mt-2 text-stark">
-        <v-icon size="30" class="mt-n3" start>{{ item.Icon }}</v-icon>
-        <span class="heading h3">{{ item.Role }}</span>
+      <div class="text-text mt-2 px-1">
+        <v-icon start class="mt-n1">{{ item.Icon }}</v-icon>
+        <span class="heading h4">{{ item.Role }}</span>
       </div>
-      <v-divider class="my-2" />
-      <div class="text-center">
-        <v-tooltip v-for="s in stats" location="top" open-delay="300">
-          <template #activator="{ props }">
-            <v-chip v-bind="props" label color="stark" size="small" class="ma-1">
-              <span class="text-caption">
-                <v-icon :icon="s.icon" size="small" start />
-                {{ s.t[0] }}
-                <cc-slashes />
-                {{ s.t[1] }}
-                <cc-slashes />
-                {{ s.t[2] }}
-              </span>
-            </v-chip>
-          </template>
-          <div class="text-center">
-            {{ s.title }}
-            <br />
-            <span v-for="i in 3" class="px-3">
-              T{{ i }}:
-              <b>{{ s.t[i - 1] }}</b>
-            </span>
-          </div>
-        </v-tooltip>
+      <div class="pa-1">
+        <cc-item-modal v-for="f in item.Features" size="x-small" :item="f" density="compact" />
       </div>
     </template>
     <template #overline>&mdash; NPC Class</template>

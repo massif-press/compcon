@@ -1,11 +1,5 @@
 <template>
-  <equipment-card-base
-    :item="item"
-    :dense="dense"
-    :collapse-actions="collapseActions"
-    small-tags
-    :footer="dense"
-    :tier="tier" />
+  <equipment-card-base :item="item" :dense="dense" small-tags :footer="dense" :tier="tier" />
 </template>
 
 <script lang="ts">

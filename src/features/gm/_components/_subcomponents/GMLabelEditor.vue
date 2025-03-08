@@ -1,5 +1,5 @@
 <template>
-  <fieldset class="rounded-s pb-2" style="position: relative">
+  <fieldset class="pb-2 px-2" style="position: relative">
     <legend class="text-caption text-left ml-2 px-2">GM LABELS</legend>
     <v-dialog v-model="dialog" width="75vw">
       <template #activator="{ props }">
@@ -8,17 +8,18 @@
           size="x-small"
           color="primary"
           style="position: absolute; top: -20px; right: 8px"
-          v-bind="props"
-          ><v-icon start icon="mdi-pencil" />Edit Labels
+          v-bind="props">
+          <v-icon start icon="mdi-pencil" />
+          Edit Labels
         </v-btn>
       </template>
       <v-card style="min-height: 40vh">
-        <v-toolbar density="compact" class="heading h3"
-          ><v-toolbar-title
-            >Labels<cc-slashes class="px-2" /><span class="text-accent">{{
-              item.Name
-            }}</span></v-toolbar-title
-          >
+        <v-toolbar density="compact" class="heading h3">
+          <v-toolbar-title>
+            Labels
+            <cc-slashes class="px-2" />
+            <span class="text-accent">{{ item.Name }}</span>
+          </v-toolbar-title>
           <v-spacer />
           <v-btn icon @click="dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -28,8 +29,8 @@
           <v-col>
             <v-card-text>
               <v-row dense class="mb-n4 text-caption">
-                <v-col cols="9"> Label </v-col>
-                <v-col cols="3"> Value (optional) </v-col>
+                <v-col cols="9">Label</v-col>
+                <v-col cols="3">Value (optional)</v-col>
               </v-row>
               <v-row v-for="label in item.NarrativeController.Labels" dense align="center">
                 <v-col cols="9">
@@ -59,30 +60,25 @@
                     size="small"
                     color="error"
                     class="mb-n1 fade-select"
-                    @click="item.NarrativeController.Labels.splice(index, 1)"
-                    ><v-icon>mdi-delete</v-icon></v-btn
-                  >
+                    @click="item.NarrativeController.Labels.splice(index, 1)">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
                 </v-col>
               </v-row>
-              <v-btn variant="tonal" size="small" color="accent" class="mt-4" @click="addLabel()"
-                ><v-icon icon="mdi-plus" start />Add Label</v-btn
-              >
+              <v-btn variant="tonal" size="small" color="accent" class="mt-4" @click="addLabel()">
+                <v-icon icon="mdi-plus" start />
+                Add Label
+              </v-btn>
             </v-card-text>
           </v-col>
-          <v-col cols="auto" align-self="center">
+          <v-col cols="auto" align-self="center" class="mr-4">
             <v-tooltip location="bottom">
               <template #activator="{ props }">
-                <v-btn
-                  size="x-small"
-                  variant="flat"
-                  icon
-                  class="mr-4"
+                <cc-button
+                  variant="outlined"
+                  :icon="labelExpand ? 'mdi-chevron-right' : 'mdi-chevron-left'"
                   v-bind="props"
-                  @click="labelExpand = !labelExpand">
-                  <v-icon
-                    size="20"
-                    :icon="labelExpand ? 'mdi-chevron-right' : 'mdi-chevron-left'" />
-                </v-btn>
+                  @click="labelExpand = !labelExpand" />
               </template>
               <span>{{ labelExpand ? 'Hide' : 'Show' }} Label Palette</span>
             </v-tooltip>
@@ -97,9 +93,9 @@
                     v-for="label in availableLabels"
                     size="small"
                     color="accent"
-                    @click="addPaletteChip(label.title)"
-                    >{{ label.title }}</v-chip
-                  >
+                    @click="addPaletteChip(label.title)">
+                    {{ label.title }}
+                  </v-chip>
                 </v-chip-group>
                 <div v-else class="text-caption text-center pa-2"><i>No Labels Available</i></div>
               </div>

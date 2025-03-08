@@ -7,7 +7,7 @@
     :smallTags="smallTags"
     :dense="dense"
     :charts="charts"
-    :collapse-actions="collapseActions"
+    :collapse-actions="collapseActions || mobile"
     :tier="tier" />
 </template>
 
@@ -62,6 +62,9 @@ export default {
       }
 
       return cards[t];
+    },
+    mobile() {
+      return this.$vuetify.display.smAndDown;
     },
   },
 };

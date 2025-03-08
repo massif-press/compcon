@@ -1,52 +1,43 @@
 <template>
-  <v-dialog v-model="dialog" fullscreen>
-    <v-card style="overflow-y: hidden">
-      <v-toolbar density="compact" color="primary">
-        <v-toolbar-title class="heading">SELECT CLASS</v-toolbar-title>
-        <v-spacer />
-        <v-btn icon color="white" @click="dialog = false"><v-icon large>mdi-close</v-icon></v-btn>
-      </v-toolbar>
-      <v-card-text v-if="!classes.length" class="mt-n4">
-        <v-container>
-          <cc-missing-gm-lcp-text />
-        </v-container>
-      </v-card-text>
-      <cc-compendium-browser
-        v-else
-        ref="browser"
-        :items="classes"
-        item-type="NpcClass"
-        :table-headers="headers"
-        :tier="selectedTier"
-        :options="options"
-        equippable
-        @equip="SetClass($event)"
-        @view-change="toggleTieredView">
-        <template #header>
-          <div class="heading h3 text-center text-accent">NPC Classes</div>
-          <v-slide-y-transition>
-            <div v-if="tieredView" class="text-center my-n1">
-              <v-btn-toggle
-                v-model="selectedTier"
-                density="compact"
-                color="secondary-darken-3"
-                mandatory
-                style="height: 15px">
-                <v-btn size="x-small" :value="1">Tier 1</v-btn>
-                <v-btn size="x-small" :value="2">Tier 2</v-btn>
-                <v-btn size="x-small" :value="3">Tier 3</v-btn>
-              </v-btn-toggle>
-            </div>
-          </v-slide-y-transition>
-        </template>
-      </cc-compendium-browser>
-    </v-card>
-  </v-dialog>
+  <v-card-text v-if="!classes.length" class="mt-n4">
+    <v-container>
+      <cc-missing-gm-lcp-text />
+    </v-container>
+  </v-card-text>
+  <div v-else style="height: 90vh; overflow-y: hidden">
+    <cc-compendium-browser
+      ref="browser"
+      :items="classes"
+      item-type="NpcClass"
+      :table-headers="headers"
+      :tier="selectedTier"
+      :options="options"
+      equippable
+      @equip="SetClass($event)"
+      @view-change="toggleTieredView">
+      <template #header>
+        <div class="heading h3 text-center text-accent">NPC Classes</div>
+        <v-slide-y-transition>
+          <div v-if="tieredView" class="text-center my-n1">
+            <v-btn-toggle
+              v-model="selectedTier"
+              density="compact"
+              color="secondary-darken-3"
+              mandatory
+              style="height: 15px">
+              <v-btn size="x-small" :value="1">Tier 1</v-btn>
+              <v-btn size="x-small" :value="2">Tier 2</v-btn>
+              <v-btn size="x-small" :value="3">Tier 3</v-btn>
+            </v-btn-toggle>
+          </div>
+        </v-slide-y-transition>
+      </template>
+    </cc-compendium-browser>
+  </div>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import PanelView from '../../../_components/PanelView.vue';
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 import _ from 'lodash';
 
@@ -70,7 +61,6 @@ export default {
   props: {
     item: { type: Object, required: true },
   },
-  components: { PanelView },
   data: () => ({
     selectedTier: 1,
     tieredView: false,
@@ -80,9 +70,8 @@ export default {
       groups: ['lcp', 'role'],
       initialGroup: 'role',
     },
-
-    dialog: false,
   }),
+  emits: ['close'],
   created() {
     this.selectedTier = this.item.NpcClassController?.Tier || 1;
   },
@@ -115,15 +104,13 @@ export default {
       if (role.toLowerCase() === 'biological') return 'mdi-heart-pulse';
       return `cc:role_${role.toLowerCase()}`;
     },
-    show() {
-      this.dialog = true;
-    },
+
     toggleTieredView(evt) {
       this.tieredView = evt === 'table' || evt === 'scatter' || evt === 'bar' || evt === 'compare';
     },
     SetClass(c) {
       this.item.NpcClassController.SetClass(c, this.item.NpcClassController.Tier);
-      this.dialog = false;
+      this.$emit('close');
     },
   },
 };

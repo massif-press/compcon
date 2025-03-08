@@ -2,6 +2,7 @@
 
 import { ISaveable } from './ISaveable';
 import { SetItem } from '@/io/Storage';
+import { debounce } from 'lodash';
 
 interface ISaveData {
   lastModified: number;
@@ -45,7 +46,7 @@ class SaveController {
       console.trace();
     }
 
-    SetItem(this.Parent.StorageType, this.Parent.Serialize());
+    debounce(() => SetItem(this.Parent.StorageType, this.Parent.Serialize()));
   }
 
   public saveSilent() {

@@ -8,10 +8,12 @@
     <template #activator="{ open }">
       <cc-button
         :color="item.Color ? item.Color : 'primary'"
-        class="ma-1 d-inline-block"
+        class="d-inline-block"
+        :class="density === 'compact' ? '' : 'ma-1'"
+        style="margin: 1px"
         :block="block"
         :prepend-icon="itemIcon"
-        size="small"
+        :size="size"
         @click="open">
         {{ truncate(item.Name) }}
         <span v-if="!hideType">{{ item.ItemType === 'Frame' ? '&nbsp;FRAME' : '' }}</span>
@@ -51,6 +53,14 @@ export default {
     },
     block: {
       type: Boolean,
+    },
+    size: {
+      type: String,
+      default: 'small',
+    },
+    density: {
+      type: String,
+      default: '',
     },
   },
   components: {

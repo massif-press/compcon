@@ -17,7 +17,7 @@
   {
     "name": "Biological",
     "description": "These NPCs don’t have a Heat Cap, are immune to tech actions other than Scan and Lock On (including beneficial ones), and can’t take tech actions unless specified.",
-    "icon": "cc:biological"
+    "icon": "mdi-heart-outline"
   },
   {
     "name": "Squad",

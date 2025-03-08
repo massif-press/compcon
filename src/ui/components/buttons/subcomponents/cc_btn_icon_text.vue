@@ -24,12 +24,11 @@
           :size="iconSize"
           :loading="loading"
           :class="`pa-0 ${!disabled && 'hover'} text-${getColor}`"
-          style="margin-top: -2px"
           :to="to"
           :href="href"
           :target="target"
           @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-icon :size="iconSize" :icon="icon" :disabled="disabled" />
+          <v-icon :size="iconSize + 4" style="margin-top: -2px" :icon="icon" :disabled="disabled" />
         </v-btn>
       </div>
     </template>

@@ -1,22 +1,19 @@
 <template>
-  <v-row dense align="center" :class="readonly ? 'pb-4' : ''">
-    <v-col cols="1"><v-divider /></v-col>
+  <v-row dense align="center" class="heading h3 mb-1" :class="readonly ? 'pb-4' : ''">
+    <v-col cols="auto" style="margin-bottom: -2px">Tier</v-col>
     <v-col cols="auto">
-      <div v-if="readonly">
-        <v-icon start>cc:rank_{{ item.NpcClassController.Tier }}</v-icon>
-      </div>
       <v-btn
-        v-else
         v-for="i in 3"
         @click="updateTier(i)"
-        :variant="item.NpcClassController.Tier === i ? 'tonal' : 'text'"
-        :color="item.NpcClassController.Tier === i ? 'accent' : ''"
-        class="mx-1">
-        <v-icon start>cc:rank_{{ i }}</v-icon>
-        Tier {{ i }}
+        flat
+        tile
+        size="small"
+        icon
+        variant="tonal"
+        :color="item.NpcClassController.Tier === i ? 'accent' : ''">
+        <span class="heading h3">{{ i }}</span>
       </v-btn>
     </v-col>
-    <v-col><v-divider /></v-col>
     <v-dialog v-model="showConfirmation">
       <cc-confirmation
         cancellable

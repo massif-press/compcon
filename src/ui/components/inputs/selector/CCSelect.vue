@@ -1,7 +1,7 @@
 <template>
   <div class="top-element" style="display: block; position: relative">
     <div
-      v-if="mobile && label"
+      v-if="(mobile || small) && label"
       class="text-cc-overline"
       style="position: absolute; top: -14px; left: 10px">
       <cc-slashes />
@@ -43,7 +43,7 @@
           :style="`min-width: ${icon ? '30' : '12'}px`"
           style="	display:flex; align-items:center;'">
           <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2'" class="mt-1" />
-          <div v-if="label && !mobile" class="d-inline-block text-cc-overline ml-3">
+          <div v-if="label && !mobile && !small" class="d-inline-block text-cc-overline ml-3">
             {{ label }}
             <cc-slashes class="ml-1 mr-2" />
           </div>
@@ -135,6 +135,7 @@ export default {
     autocomplete: { type: Boolean },
     optionsIcon: { type: String },
     returnObject: { type: Boolean },
+    small: { type: Boolean },
   },
   data: () => ({
     isFocused: false,

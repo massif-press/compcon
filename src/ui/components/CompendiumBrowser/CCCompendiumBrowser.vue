@@ -388,234 +388,232 @@
     </v-navigation-drawer>
 
     <v-main class="mt-2">
-      <div
-        id="content"
-        :style="`padding: 16px ${horizPadding}px 16px ${horizPadding}px; height: calc(100vh - ${getHeight}px)!important;`"
-        style="overflow-y: scroll">
-        <v-alert
-          v-show="!!$slots.top"
-          variant="outlined"
-          class="mb-3 py-1"
-          style="border-color: rgb(var(--v-theme-primary))">
-          <slot name="top" />
-        </v-alert>
+      <div :style="`height: calc(100vh - ${getHeight}px)!important;`" style="overflow-y: scroll">
+        <div id="content" style="max-width: 1200px" class="pa-4 mx-auto">
+          <v-alert
+            v-show="!!$slots.top"
+            variant="outlined"
+            class="mb-3 py-1"
+            style="border-color: rgb(var(--v-theme-primary))">
+            <slot name="top" />
+          </v-alert>
 
-        <div v-if="view === 'single'">
-          <selector-list-item
-            :hide-title="options.hideTitle"
-            :selectable="equippable"
-            @select="$emit('equip', $event)"
-            :item="<CompendiumItem>selectedItem" />
-        </div>
-
-        <div v-else-if="view === 'scatter'">
-          <selector-scatter
-            :items="shownItems"
-            :selected="<CompendiumItem>selectedItem"
-            :group="group"
-            :tier="tier"
-            :short="!!$slots.top" />
-        </div>
-
-        <div v-else-if="view === 'bar'">
-          <selector-bar
-            :items="shownItems"
-            :group="group"
-            :manufacturers="manufacturers"
-            :licenses="licenses"
-            :lcp-filter="lcpFilter"
-            :selected="<CompendiumItem>selectedItem"
-            :tier="tier"
-            :short="!!$slots.top" />
-        </div>
-
-        <div v-if="view === 'list' && itemType === 'License'">
-          <v-row v-for="m in manufacturers">
-            <v-col v-if="!!mf(m)" class="text-center pa-3">
-              <v-row align="center" justify="center">
-                <v-col cols="auto">
-                  <cc-logo
-                    v-if="mf(m).LogoIsExternal"
-                    :source="mf(m)"
-                    :size="$vuetify.display.mdAndDown ? 'large' : 'xLarge'"
-                    class="pt-3 mb-n1" />
-                  <v-icon
-                    v-else
-                    size="60"
-                    :icon="mf(m).Icon"
-                    :color="mf(m).GetColor($vuetify.theme.current.dark)" />
-                </v-col>
-                <v-col
-                  cols="auto"
-                  :class="$vuetify.display.mdAndDown ? 'heading h2' : 'heading mech'"
-                  :style="`color: ${mf(m).GetColor($vuetify.theme.current.dark)}`">
-                  {{ mf(m).Name }}
-                </v-col>
-              </v-row>
-              <v-expansion-panels accordion focusable flat>
-                <license-expandable :items="getItems(m)" />
-              </v-expansion-panels>
-            </v-col>
-          </v-row>
-        </div>
-
-        <div v-else-if="view === 'list'" v-for="item in <any[]>items" :id="item.ID" class="mb-4">
-          <selector-list-item
-            :hide-title="options.hideTitle"
-            :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
-            :selectable="equippable"
-            @select="$emit('equip', $event)"
-            :item="item" />
-        </div>
-
-        <div v-else-if="view === 'table'">
-          <div v-if="group === 'lcp'">
-            <div v-for="lcp in lcpFilter">
-              <div class="heading mech" v-text="lcp" />
-              <selector-table
-                :headers="tableHeaders"
-                :items="itemsByLcp[lcp]"
-                :selectable="equippable"
-                @select="$emit('equip', $event)"
-                :selected="<CompendiumItem>selectedItem" />
-            </div>
-          </div>
-
-          <div v-else-if="group === 'source'">
-            <div v-for="manufacturer in manufacturers">
-              <v-row align="center">
-                <v-col cols="auto">
-                  <cc-logo
-                    v-if="mf(manufacturer).LogoIsExternal"
-                    :source="mf(manufacturer)"
-                    size="x-large"
-                    class="pt-3 mb-n1" />
-                  <v-icon
-                    v-else
-                    size="60"
-                    :icon="mf(manufacturer).Icon"
-                    :color="mf(manufacturer).GetColor($vuetify.theme.current.dark)" />
-                </v-col>
-                <v-col>
-                  <div class="heading mech" v-text="manufacturer" />
-                </v-col>
-              </v-row>
-
-              <selector-table
-                :headers="tableHeaders"
-                :items="getItems(manufacturer)"
-                :selectable="equippable"
-                @select="$emit('equip', $event)"
-                :selected="<CompendiumItem>selectedItem" />
-            </div>
-          </div>
-
-          <div v-else-if="group === 'license'" cols="12">
-            <div v-for="license in licenses">
-              <div class="heading h2 text-accent mt-4" v-text="license" />
-
-              <selector-table
-                :headers="tableHeaders"
-                :items="getLicenseItems(license)"
-                :selectable="equippable"
-                @select="$emit('equip', $event)"
-                :selected="<CompendiumItem>selectedItem" />
-            </div>
-          </div>
-
-          <div v-else-if="group === 'type'" cols="12">
-            <div v-for="subtype in subtypes">
-              <div class="heading h2 text-accent mt-4" v-text="subtype" />
-
-              <selector-table
-                :headers="getMultiHeader(subtype)"
-                :items="getSubtypeItems(subtype)"
-                :selectable="equippable"
-                @select="$emit('equip', $event)"
-                :selected="<CompendiumItem>selectedItem" />
-            </div>
-          </div>
-
-          <div v-else-if="group === 'role'" cols="12">
-            <div v-for="role in roles">
-              <div class="heading h2 text-accent mt-4" v-text="role" />
-
-              <selector-table
-                :headers="tableHeaders"
-                :items="getRoleItems(role)"
-                :selectable="equippable"
-                @select="$emit('equip', $event)"
-                :selected="<CompendiumItem>selectedItem" />
-            </div>
-          </div>
-
-          <div v-else-if="group === 'featureType'" cols="12">
-            <div v-for="featureType in featureTypes">
-              <div class="heading h2 text-accent mt-4" v-text="featureType" />
-
-              <selector-table
-                :headers="tableHeaders"
-                :items="getFeatureItems(featureType)"
-                :selectable="equippable"
-                @select="$emit('equip', $event)"
-                :selected="<CompendiumItem>selectedItem" />
-            </div>
-          </div>
-
-          <div v-else-if="group === 'origin'" cols="12">
-            <div v-for="origin in origins">
-              <div class="heading h2 text-accent mt-4" v-text="origin" />
-
-              <selector-table
-                :headers="tableHeaders"
-                :items="getOriginItems(origin)"
-                :selectable="equippable"
-                @select="$emit('equip', $event)"
-                :selected="<CompendiumItem>selectedItem" />
-            </div>
-          </div>
-
-          <div v-else cols="12">
-            <selector-table
-              :headers="tableHeaders"
-              :items="shownItems"
+          <div v-if="view === 'single'">
+            <selector-list-item
+              :hide-title="options.hideTitle"
               :selectable="equippable"
               @select="$emit('equip', $event)"
-              :selected="<CompendiumItem>selectedItem" />
+              :item="<CompendiumItem>selectedItem" />
           </div>
-        </div>
 
-        <div v-else-if="view === 'cards'">
-          <v-pagination
-            v-model="page"
-            total-visible="8"
-            :length="Math.ceil(shownItems.length / itemsPerPage)" />
-          <v-row>
-            <selector-card-item
-              v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
-              :id="item.ID"
-              :item="item"
+          <div v-else-if="view === 'scatter'">
+            <selector-scatter
+              :items="shownItems"
+              :selected="<CompendiumItem>selectedItem"
+              :group="group"
+              :tier="tier"
+              :short="!!$slots.top" />
+          </div>
+
+          <div v-else-if="view === 'bar'">
+            <selector-bar
+              :items="shownItems"
+              :group="group"
+              :manufacturers="manufacturers"
+              :licenses="licenses"
+              :lcp-filter="lcpFilter"
+              :selected="<CompendiumItem>selectedItem"
+              :tier="tier"
+              :short="!!$slots.top" />
+          </div>
+
+          <div v-if="view === 'list' && itemType === 'License'">
+            <v-row v-for="m in manufacturers">
+              <v-col v-if="!!mf(m)" class="text-center pa-3">
+                <v-row align="center" justify="center">
+                  <v-col cols="auto">
+                    <cc-logo
+                      v-if="mf(m).LogoIsExternal"
+                      :source="mf(m)"
+                      :size="$vuetify.display.mdAndDown ? 'large' : 'xLarge'"
+                      class="pt-3 mb-n1" />
+                    <v-icon
+                      v-else
+                      size="60"
+                      :icon="mf(m).Icon"
+                      :color="mf(m).GetColor($vuetify.theme.current.dark)" />
+                  </v-col>
+                  <v-col
+                    cols="auto"
+                    :class="$vuetify.display.mdAndDown ? 'heading h2' : 'heading mech'"
+                    :style="`color: ${mf(m).GetColor($vuetify.theme.current.dark)}`">
+                    {{ mf(m).Name }}
+                  </v-col>
+                </v-row>
+                <v-expansion-panels accordion focusable flat>
+                  <license-expandable :items="getItems(m)" />
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
+          </div>
+
+          <div v-else-if="view === 'list'" v-for="item in <any[]>items" :id="item.ID" class="mb-4">
+            <selector-list-item
+              :hide-title="options.hideTitle"
               :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
               :selectable="equippable"
-              @select="$emit('equip', item)" />
-          </v-row>
-          <v-pagination
-            v-model="page"
-            total-visible="8"
-            class="mt-8"
-            :length="Math.ceil(shownItems.length / itemsPerPage)" />
-          <!-- @input="scrollToTop()" /> -->
-        </div>
+              @select="$emit('equip', $event)"
+              :item="item" />
+          </div>
 
-        <div v-else-if="view === 'compare'">
-          <selector-compare
-            :items="comparisons"
-            :selected="<CompendiumItem>selectedItem"
-            :tier="tier"
-            @clear="comparisons = []" />
-        </div>
+          <div v-else-if="view === 'table'">
+            <div v-if="group === 'lcp'">
+              <div v-for="lcp in lcpFilter">
+                <div class="heading mech" v-text="lcp" />
+                <selector-table
+                  :headers="tableHeaders"
+                  :items="itemsByLcp[lcp]"
+                  :selectable="equippable"
+                  @select="$emit('equip', $event)"
+                  :selected="<CompendiumItem>selectedItem" />
+              </div>
+            </div>
 
-        <div style="height: 30px" />
+            <div v-else-if="group === 'source'">
+              <div v-for="manufacturer in manufacturers">
+                <v-row align="center">
+                  <v-col cols="auto">
+                    <cc-logo
+                      v-if="mf(manufacturer).LogoIsExternal"
+                      :source="mf(manufacturer)"
+                      size="x-large"
+                      class="pt-3 mb-n1" />
+                    <v-icon
+                      v-else
+                      size="60"
+                      :icon="mf(manufacturer).Icon"
+                      :color="mf(manufacturer).GetColor($vuetify.theme.current.dark)" />
+                  </v-col>
+                  <v-col>
+                    <div class="heading mech" v-text="manufacturer" />
+                  </v-col>
+                </v-row>
+
+                <selector-table
+                  :headers="tableHeaders"
+                  :items="getItems(manufacturer)"
+                  :selectable="equippable"
+                  @select="$emit('equip', $event)"
+                  :selected="<CompendiumItem>selectedItem" />
+              </div>
+            </div>
+
+            <div v-else-if="group === 'license'" cols="12">
+              <div v-for="license in licenses">
+                <div class="heading h2 text-accent mt-4" v-text="license" />
+
+                <selector-table
+                  :headers="tableHeaders"
+                  :items="getLicenseItems(license)"
+                  :selectable="equippable"
+                  @select="$emit('equip', $event)"
+                  :selected="<CompendiumItem>selectedItem" />
+              </div>
+            </div>
+
+            <div v-else-if="group === 'type'" cols="12">
+              <div v-for="subtype in subtypes">
+                <div class="heading h2 text-accent mt-4" v-text="subtype" />
+
+                <selector-table
+                  :headers="getMultiHeader(subtype)"
+                  :items="getSubtypeItems(subtype)"
+                  :selectable="equippable"
+                  @select="$emit('equip', $event)"
+                  :selected="<CompendiumItem>selectedItem" />
+              </div>
+            </div>
+
+            <div v-else-if="group === 'role'" cols="12">
+              <div v-for="role in roles">
+                <div class="heading h2 text-accent mt-4" v-text="role" />
+
+                <selector-table
+                  :headers="tableHeaders"
+                  :items="getRoleItems(role)"
+                  :selectable="equippable"
+                  @select="$emit('equip', $event)"
+                  :selected="<CompendiumItem>selectedItem" />
+              </div>
+            </div>
+
+            <div v-else-if="group === 'featureType'" cols="12">
+              <div v-for="featureType in featureTypes">
+                <div class="heading h2 text-accent mt-4" v-text="featureType" />
+
+                <selector-table
+                  :headers="tableHeaders"
+                  :items="getFeatureItems(featureType)"
+                  :selectable="equippable"
+                  @select="$emit('equip', $event)"
+                  :selected="<CompendiumItem>selectedItem" />
+              </div>
+            </div>
+
+            <div v-else-if="group === 'origin'" cols="12">
+              <div v-for="origin in origins">
+                <div class="heading h2 text-accent mt-4" v-text="origin" />
+
+                <selector-table
+                  :headers="tableHeaders"
+                  :items="getOriginItems(origin)"
+                  :selectable="equippable"
+                  @select="$emit('equip', $event)"
+                  :selected="<CompendiumItem>selectedItem" />
+              </div>
+            </div>
+
+            <div v-else cols="12">
+              <selector-table
+                :headers="tableHeaders"
+                :items="shownItems"
+                :selectable="equippable"
+                @select="$emit('equip', $event)"
+                :selected="<CompendiumItem>selectedItem" />
+            </div>
+          </div>
+
+          <div v-else-if="view === 'cards'">
+            <v-pagination
+              v-model="page"
+              total-visible="8"
+              :length="Math.ceil(shownItems.length / itemsPerPage)" />
+            <v-row>
+              <selector-card-item
+                v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
+                :id="item.ID"
+                :item="item"
+                :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
+                :selectable="equippable"
+                @select="$emit('equip', item)" />
+            </v-row>
+            <v-pagination
+              v-model="page"
+              total-visible="8"
+              class="mt-8"
+              :length="Math.ceil(shownItems.length / itemsPerPage)" />
+            <!-- @input="scrollToTop()" /> -->
+          </div>
+
+          <div v-else-if="view === 'compare'">
+            <selector-compare
+              :items="comparisons"
+              :selected="<CompendiumItem>selectedItem"
+              :tier="tier"
+              @clear="comparisons = []" />
+          </div>
+          <div style="height: 30px" />
+        </div>
       </div>
     </v-main>
   </v-layout>

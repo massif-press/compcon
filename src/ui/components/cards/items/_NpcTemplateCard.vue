@@ -30,7 +30,7 @@
         :min-columns="1"
         :max-columns="widescreen ? 3 : 2">
         <template #default="{ item }">
-          <cc-dense-card :item="item" :collapse-actions="mobile" />
+          <cc-dense-card :item="item" />
         </template>
       </masonry-wall>
     </div>

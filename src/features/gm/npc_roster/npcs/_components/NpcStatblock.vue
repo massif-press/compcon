@@ -1,49 +1,23 @@
 <template>
-  <v-card>
-    <v-toolbar density="compact" color="primary">
-      <v-toolbar-title class="heading h3">
-        <v-icon start icon="mdi-text-account" />
-        NPC STATBLOCK
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon @click="$emit('close')">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-    </v-toolbar>
-    <v-card-text>
-      <v-row class="px-3 mb-1" justify="end">
-        <v-col cols="auto">
-          <v-switch v-model="narrativeElements" inset color="accent" density="compact" hide-details>
-            <template #label>
-              <div>Include Narrative Elements</div>
-            </template>
-          </v-switch>
-        </v-col>
-      </v-row>
+  <v-card-text>
+    <div class="text-right mb-2">
+      <cc-switch v-model="narrativeElements" label="Include Narrative Elements" />
+    </div>
 
-      <v-textarea
-        :value="statblock"
-        auto-grow
-        readonly
-        rows="20"
-        hide-details
-        variant="outlined"
-        class="flavor-text" />
-      <v-tooltip text="Copy stat block to clipboard">
-        <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
-            variant="tonal"
-            prepend-icon="mdi-clipboard-text-outline"
-            color="accent"
-            size="small"
-            @click="copy()">
-            Copy to Clipboard
-          </v-btn>
-        </template>
-      </v-tooltip>
-    </v-card-text>
-  </v-card>
+    <v-textarea
+      :value="statblock"
+      auto-grow
+      readonly
+      rows="20"
+      hide-details
+      variant="outlined"
+      class="flavor-text" />
+    <div class="text-right my-4">
+      <cc-button prepend-icon="mdi-clipboard-text-outline" color="accent" @click="copy()">
+        Copy to Clipboard
+      </cc-button>
+    </div>
+  </v-card-text>
 </template>
 
 <script lang="ts">

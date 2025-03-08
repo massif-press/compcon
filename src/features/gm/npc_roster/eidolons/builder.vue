@@ -23,17 +23,6 @@
       </div>
     </v-col>
   </v-row>
-  <div class="pr-12 mt-1">
-    <v-textarea
-      density="compact"
-      variant="outlined"
-      label="Summary (GM Only)"
-      hide-detail
-      rows="1"
-      auto-grow
-      :readonly="readonly"
-      v-model="item.GmDescription" />
-  </div>
 </template>
 
 <script lang="ts">

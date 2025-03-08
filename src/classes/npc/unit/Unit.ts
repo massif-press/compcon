@@ -67,7 +67,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
 
   public constructor(data?: UnitData) {
     super(data);
-    this._name = data?.name || 'New NPC';
+    this._name = data?.name || '';
     this._tag = data?.tag || 'Mech';
 
     this.IsInstance = data?.instance || false;
@@ -80,6 +80,24 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
 
     this.FeatureController.Register(this.NpcFeatureController);
     this.CloudController = new CloudController(this);
+  }
+
+  public get Name(): string {
+    if (this._name) return this._name;
+    return this.DefaultName;
+  }
+
+  public set Name(val: string) {
+    this._name = val;
+    this.save();
+  }
+
+  public get DefaultName(): string {
+    return `${this.NpcTemplateController.Templates.map((x) => x.Name).join(' ')} ${this.NpcClassController.Class?.Name || 'NPC'} ${this.Tag}`;
+  }
+
+  public get IsNameless(): boolean {
+    return !this._name;
   }
 
   public get IsBiological(): boolean {
@@ -135,7 +153,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
       id: unit.ID,
       instance: unit.IsInstance || asInstance,
       instanceId: unit.InstanceID,
-      name: unit.Name,
+      name: unit._name,
       tag: unit.Tag,
       note: unit.Note,
       description: unit.Description,
@@ -197,7 +215,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     const itemData = Unit.Serialize(this, false);
     const newItem = Unit.Deserialize(itemData);
     newItem.RenewID();
-    newItem.Name += ' (COPY)';
+    if (newItem._name) newItem._name += ' (COPY)';
     return newItem as Unit;
   }
 

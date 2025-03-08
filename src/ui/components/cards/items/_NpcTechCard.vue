@@ -1,11 +1,5 @@
 <template>
-  <equipment-card-base
-    :item="item"
-    :dense="dense"
-    :collapse-actions="collapseActions"
-    small-tags
-    :footer="dense"
-    :tier="tier">
+  <equipment-card-base :item="item" :dense="dense" small-tags :footer="dense" :tier="tier">
     <v-row
       v-if="item.HasAttackBonus && item.HasAccuracy"
       justify="space-around"
@@ -15,17 +9,20 @@
         <div class="heading" :style="dense ? '' : 'font-size: 24pt'">
           <v-tooltip location="top">
             <template v-slot:activator="{ props }">
-              <v-icon :size="dense ? '20' : '35'" :start="!dense" class="mt-n1" v-bind="props"
-                >cc:reticle</v-icon
-              >
+              <v-icon :size="dense ? '20' : '35'" :start="!dense" class="mt-n1" v-bind="props">
+                cc:reticle
+              </v-icon>
             </template>
             <span>Attack Bonus</span>
           </v-tooltip>
           <span v-if="tier">
-            +<b>{{ item.AttackBonus(tier) }}</b>
+            +
+            <b>{{ item.AttackBonus(tier) }}</b>
           </span>
           <span v-else v-for="n in 3">
-            +<b>{{ item.AttackBonus(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
+            +
+            <b>{{ item.AttackBonus(n) }}</b>
+            {{ n < 3 ? '&nbsp;/' : '' }}
           </span>
           <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
             Attack Bonus
@@ -46,10 +43,13 @@
             <span>{{ item.Accuracy(1) < 0 ? 'Difficulty' : 'Accuracy' }}</span>
           </v-tooltip>
           <span v-if="tier">
-            +<b>{{ item.Accuracy(tier) }}</b>
+            +
+            <b>{{ item.Accuracy(tier) }}</b>
           </span>
           <span v-else v-for="n in 3">
-            +<b>{{ item.Accuracy(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
+            +
+            <b>{{ item.Accuracy(n) }}</b>
+            {{ n < 3 ? '&nbsp;/' : '' }}
           </span>
           <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
             {{ item.Accuracy(1) < 0 ? 'Difficulty' : 'Accuracy' }}

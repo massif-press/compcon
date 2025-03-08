@@ -5,8 +5,15 @@
   </v-chip>
   <v-menu v-else offset-y>
     <template #activator="{ props }">
-      <v-btn size="large" variant="tonal" color="secondary" v-bind="props">
-        <v-icon start :icon="getTagIcon" />
+      <v-btn
+        flat
+        tile
+        size="48"
+        style="width: auto; margin-left: -1px"
+        class="px-4 border-s-sm"
+        color="primary"
+        v-bind="props">
+        <v-icon :icon="getTagIcon" class="mr-2" />
         {{ item.Tag ? item.Tag : 'Set NPC Tag' }}
         <v-tooltip location="top">
           <template #activator="{ props }">
@@ -16,21 +23,20 @@
         </v-tooltip>
       </v-btn>
     </template>
-    <v-card max-width="40vw">
-      <v-list lines="two">
-        <v-list-subheader v-if="locked && locked.length > 0"
-          >Tag selection limited by template ({{ locked }})</v-list-subheader
-        >
+    <v-card max-width="550px" border tile>
+      <v-list lines="two" density="compact" slim>
+        <v-list-subheader v-if="locked && locked.length > 0">
+          Tag selection limited by template ({{ locked }})
+        </v-list-subheader>
         <v-list-subheader v-else>Select NPC Tag</v-list-subheader>
         <v-divider />
         <v-list-item
           v-for="t in tags"
           :title="t.name"
           :subtitle="t.description"
+          :prepend-icon="t.icon"
           @click="item.Tag = t.name"
-          :disabled="
-            locked && locked.length > 0 && t.name.toLowerCase() !== item.Tag.toLowerCase()
-          " />
+          :disabled="tagDisabled(t)" />
       </v-list>
     </v-card>
   </v-menu>
@@ -62,6 +68,12 @@ export default {
       const tag = this.tags.find((t) => t.name.toLowerCase() === this.item.Tag.toLowerCase());
       if (!tag) return 'mdi-tag-outline';
       return tag.icon;
+    },
+  },
+  methods: {
+    tagDisabled(tag) {
+      if (!this.locked) return false;
+      return this.locked !== tag.name;
     },
   },
 };
