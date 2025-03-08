@@ -2,38 +2,34 @@
   <v-list-item
     border
     :class="`${selectedId === item.ID ? 'bg-primary' : ''} ${disabled ? 'disabled' : ''}`"
-    rounded
     style="margin-bottom: 2px"
     @click="disabled ? '' : $emit('open')">
     <template #prepend>
-      <v-avatar>
+      <v-avatar class="ml-n2 mr-1">
         <v-icon
           v-if="item.NpcClassController?.HasClass"
           size="36"
-          class="mt-n1"
           :icon="item.NpcClassController.Class.Icon" />
         <cc-img
           v-else-if="item.PortraitController.HasImage"
           :aspect-ratio="1"
           :src="item.PortraitController.Image" />
-        <v-icon v-else size="36" class="mt-n1" :icon="item.Icon" />
+        <v-icon v-else size="36" :icon="item.Icon" />
       </v-avatar>
     </template>
     <template #title>
-      <div class="heading">{{ item.Name }}</div>
-      <div v-if="item.NpcClassController?.HasClass" class="text-caption text-uppercase mt-n1">
+      <span class="heading">{{ item.Name }}</span>
+      <span v-if="item.NpcClassController?.HasClass" class="text-cc-overline">
+        <cc-slashes class="pl-2" />
         T{{ item.NpcClassController.Tier }} {{ item.NpcClassController.Class.Name }}
-      </div>
-      <div v-if="item.NpcTemplateController" class="mt-n1">
-        <v-chip
-          v-for="t in item.NpcTemplateController.Templates"
-          size="x-small"
-          variant="flat"
-          label
-          color="primary"
-          style="margin-right: 1px">
+      </span>
+    </template>
+    <template #subtitle>
+      <div v-if="item.NpcTemplateController">
+        <cc-chip v-for="t in item.NpcTemplateController.Templates" size="x-small">
+          <v-icon icon="cc:npc_template" />
           {{ t.Name }}
-        </v-chip>
+        </cc-chip>
       </div>
     </template>
 

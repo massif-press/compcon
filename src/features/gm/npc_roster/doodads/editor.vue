@@ -2,7 +2,7 @@
   <editor-base
     :item="item"
     :readonly="readonly"
-    :hide-toolbar="hideToolbar"
+    hide-toolbar
     :hide-footer="hideFooter"
     @exit="$emit('exit')"
     @save="save()"
@@ -13,6 +13,7 @@
       <builder :item="item" :readonly="readonly" />
     </template>
     <template #stats>
+      <div class="my-6" />
       <stat-editor :item="item" :controller="item" :readonly="readonly" />
     </template>
   </editor-base>

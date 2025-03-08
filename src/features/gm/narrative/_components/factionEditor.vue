@@ -40,6 +40,54 @@
       <v-divider class="mt-4 mb-1" />
       <relationship-editor :readonly="isRemote" :item="item" />
     </template>
+
+    <div v-if="!readonly || (readonly && item.NarrativeController.TextItems.length)">
+      <div class="text-cc-overline mb-2">ADDITIONAL DETAIL</div>
+      <section-editor :item="item" :readonly="readonly" />
+    </div>
+
+    <div v-if="!readonly || (readonly && item.NarrativeController.Clocks.length)">
+      <v-divider class="my-2" />
+      <div class="text-cc-overline mb-2">CLOCKS</div>
+      <cc-clock
+        v-for="c in item.NarrativeController.Clocks"
+        :clock="c"
+        class="mx-1 my-2"
+        :readonly="readonly"
+        @delete="item.NarrativeController.DeleteClock(c)" />
+      <cc-button
+        v-if="!readonly"
+        color="primary"
+        block
+        prepend-icon="mdi-plus"
+        size="x-small"
+        @click="item.NarrativeController.AddClock()">
+        Add New Clock
+      </cc-button>
+    </div>
+
+    <div v-if="!readonly || (readonly && item.NarrativeController.Tables.length)">
+      <v-divider class="my-2" />
+      <div
+        v-if="!readonly || (readonly && item.NarrativeController.Tables.length)"
+        class="text-cc-overline mb-2">
+        TABLES
+      </div>
+      <cc-rollable-table
+        v-for="t in item.NarrativeController.Tables"
+        :table="t"
+        class="mx-1 my-2"
+        :readonly="readonly"
+        @delete="item.NarrativeController.DeleteTable(t)" />
+      <cc-button
+        color="primary"
+        block
+        prepend-icon="mdi-plus"
+        size="x-small"
+        @click="item.NarrativeController.AddTable()">
+        Add New Table
+      </cc-button>
+    </div>
   </editor-base>
 </template>
 
@@ -56,6 +104,9 @@ export default {
   props: {
     item: { type: Object, required: true },
   },
+  data: () => ({
+    readonly: false,
+  }),
   emits: ['exit'],
   computed: {
     isRemote() {

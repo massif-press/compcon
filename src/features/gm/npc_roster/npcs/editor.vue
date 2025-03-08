@@ -12,26 +12,27 @@
     <template #builder>
       <builder :item="item" :readonly="readonly" />
     </template>
-    <template #footer>
-      <v-dialog>
-        <template #activator="{ props }">
-          <v-btn v-bind="props" variant="tonal" size="small" class="ml-2">
-            <v-icon start icon="mdi-text-account" />
-            Statblock
-          </v-btn>
-        </template>
-        <template #default="{ isActive }">
-          <npc-statblock :item="<Unit>item" @close="isActive.value = false" />
-        </template>
-      </v-dialog>
-    </template>
-    <div v-if="item.NpcClassController?.HasClass">
-      <npc-tier-selector :item="item" :readonly="readonly" class="mb-n8" />
+    <template #stats>
+      <npc-tier-selector :item="item" :readonly="readonly" class="mt-4" />
       <stat-editor
         :item="item"
         :controller="item.NpcClassController"
         :bonuses="item.FeatureController.Bonuses"
         :readonly="readonly" />
+    </template>
+    <template #footer>
+      <cc-modal title="NPC Statblock" icon="mdi-text-account" shrink max-width="1200px">
+        <template #activator="{ open }">
+          <cc-button @click="open" prepend-icon="mdi-text-account" size="small" class="ml-2">
+            Statblock
+          </cc-button>
+        </template>
+        <template #default="{ close }">
+          <npc-statblock :item="<Unit>item" @close="close" />
+        </template>
+      </cc-modal>
+    </template>
+    <div v-if="item.NpcClassController?.HasClass">
       <features :item="item" :readonly="readonly" />
     </div>
   </editor-base>

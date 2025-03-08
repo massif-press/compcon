@@ -12,7 +12,7 @@
         </v-chip>
       </v-col>
     </v-row>
-    <div v-if="options.include.includes('gm summary')" class="text-caption mt-1 pl-3">
+    <div v-if="options.include.includes('gm notes')" class="text-caption mt-1 pl-3">
       {{ npc.GmDescription }}
     </div>
 

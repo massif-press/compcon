@@ -6,16 +6,16 @@
       :template-controller="item.NpcTemplateController"
       expanded />
 
-    <v-row dense>
-      <cc-dense-card
-        v-for="f in item.NpcFeatureController.Features"
-        :item="f"
-        class="my-1"
-        :min-width="getMinWidth(f)"
-        full-height
-        collapse-actions
-        :tier="item.NpcClassController.Tier" />
-    </v-row>
+    <masonry-wall
+      :items="item.NpcFeatureController.Features"
+      :column-width="400"
+      :gap="14"
+      :min-columns="1"
+      :max-columns="2">
+      <template #default="{ item }">
+        <cc-dense-card :item="item" />
+      </template>
+    </masonry-wall>
 
     <npc-feature-selector v-if="!readonly" :npc="item" />
   </div>

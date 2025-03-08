@@ -105,7 +105,6 @@ export default {
         default:
           return [
             { title: 'Include Image' },
-            { title: 'GM Summary' },
             { title: 'Additional Detail' },
             { title: 'Clocks' },
             { title: 'Tables' },

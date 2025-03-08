@@ -16,12 +16,7 @@
       </span>
     </template>
     <v-card-text class="px-0 pb-1 py-0">
-      <cc-item-card
-        :item="item"
-        dense
-        small-tags
-        :collapse-actions="collapseActions"
-        :tier="tier" />
+      <cc-item-card :item="item" dense small-tags :tier="tier" />
       <slot name="extra" />
     </v-card-text>
   </cc-panel>

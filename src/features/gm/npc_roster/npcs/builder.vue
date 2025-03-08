@@ -1,9 +1,7 @@
 <template>
-  <v-row dense class="heading mech" style="min-width: 30vw; line-height: 1em" align="center">
+  <v-row dense class="heading h1 mt-n4" align="center">
     <cc-remote-hover :item="item" />
-    <v-col v-if="item.NpcClassController?.HasClass" cols="auto">
-      <v-icon size="70" :icon="item.NpcClassController.Class.Icon" class="mt-n4" />
-    </v-col>
+
     <v-col>
       <cc-short-string-editor
         large
@@ -11,56 +9,60 @@
         :placeholder="item.Name"
         :readonly="readonly"
         @set="item.Name = $event">
-        <div class="heading-block">
+        <div style="line-height: 0.9em">
           {{ item.Name }}
         </div>
       </cc-short-string-editor>
     </v-col>
     <v-col cols="auto">
-      <span class="text-disabled pr-12">T{{ item.NpcClassController?.Tier || '' }}</span>
+      <span class="text-disabled pr-6">T{{ item.NpcClassController?.Tier || '' }}</span>
     </v-col>
   </v-row>
-  <div class="pr-12 mt-1">
-    <v-textarea
-      density="compact"
-      variant="outlined"
-      label="Summary (GM Only)"
-      hide-detail
-      rows="1"
-      auto-grow
-      :readonly="readonly"
-      v-model="item.GmDescription" />
+  <div
+    v-if="!item.IsNameless"
+    class="heading h4 text-disabled mb-2 mt-n2"
+    style="letter-spacing: 3px">
+    {{ item.DefaultName }}
   </div>
 
-  <v-row dense class="mt-n5">
+  <v-row no-gutters class="mb-4">
     <v-col>
-      <div class="text-caption mb-1">NPC CLASS</div>
+      <div class="text-cc-overline mt-1">NPC CLASS</div>
       <div v-if="readonly" class="heading h2 ml-2 mt-n2 text-accent">
-        {{
-          item.NpcClassController?.HasClass ? item.NpcClassController.Class.Name : 'Set NPC Class'
-        }}
-      </div>
-      <v-btn
-        v-else
-        size="large"
-        block
-        :color="!item.NpcClassController?.HasClass ? 'error' : 'accent'"
-        variant="tonal"
-        class="px-12"
-        @click="($refs.classSelector as any).show()">
         {{
           item.NpcClassController?.HasClass ? item.NpcClassController.Class.Name : 'No NPC Class'
         }}
-      </v-btn>
-      <npc-class-selector ref="classSelector" :item="item" />
+      </div>
+      <div v-else>
+        <cc-modal title="select NPC class" icon="cc:encounter">
+          <template #activator="{ open }">
+            <cc-button
+              block
+              :prepend-icon="item.NpcClassController.Class?.Icon || undefined"
+              :color="!item.NpcClassController?.HasClass ? 'error' : 'primary'"
+              @click="open">
+              {{
+                item.NpcClassController?.HasClass
+                  ? item.NpcClassController.Class.Name
+                  : 'Set NPC Class'
+              }}
+            </cc-button>
+          </template>
+          <template #default="{ close }">
+            <npc-class-selector :item="item" @close="close" />
+          </template>
+        </cc-modal>
+      </div>
     </v-col>
+
     <v-col cols="auto">
-      <div class="text-caption mb-1">NPC TAG</div>
+      <div class="text-cc-overline mt-1">NPC TAG</div>
       <npc-tag-selector :readonly="readonly" :item="item" />
     </v-col>
   </v-row>
 
-  <div v-if="item.NpcClassController?.HasClass">
+  <div v-if="item.NpcClassController?.HasClass" class="mb-4">
+    <div class="text-cc-overline">TEMPLATES</div>
     <npc-template-selector :readonly="readonly" :item="item" />
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-alert
+    <cc-alert
       v-if="expanded"
       v-for="item in templateController.FeatureRequirements"
       v-show="showItem(item)"
@@ -9,14 +9,14 @@
       variant="tonal"
       :color="getColor(item)"
       :icon="getIcon(item)"
-      class="mb-1">
+      class="mb-4">
       <div class="heading">{{ item.source }}</div>
       <div v-if="!item.complete">Select {{ item.max - item.selected }} additional features</div>
       <div v-else-if="!item.optional_complete">
         You may select up to {{ item.optionalMax - item.selected }} additional features
       </div>
       <div v-else>{{ item.source }} selections complete</div>
-    </v-alert>
+    </cc-alert>
     <v-menu v-else v-for="item in templateController.FeatureRequirements" open-on-hover>
       <template v-slot:activator="{ props }">
         <v-btn

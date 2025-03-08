@@ -31,13 +31,14 @@
           @hover="ccLog('content')"
           @clicked="extraContentModal = true">
           Content Manager
-          <cc-tooltip
+          <v-tooltip
             v-if="missingContent"
-            inline
-            title="Unloadable Content Detected"
-            content="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager.">
-            <v-icon color="warning" size="30" icon="mdi-alert" class="mb-2" />
-          </cc-tooltip>
+            max-width="300px"
+            text="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager.">
+            <template #activator="{ props }">
+              <v-icon color="warning" size="30" icon="mdi-alert" class="mb-2" v-bind="props" />
+            </template>
+          </v-tooltip>
           <extra-content v-model="extraContentModal" />
         </main-btn>
         <main-btn

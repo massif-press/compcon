@@ -15,147 +15,89 @@
           <v-icon large color="white">mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
+
       <v-container style="position: relative">
-        <div style="position: absolute; top: 4px; right: -10px">
+        <div style="position: absolute; top: 0; right: 0">
           <cc-brew-info v-if="item.BrewController" :controller="item.BrewController" />
         </div>
         <v-row>
           <v-col cols="9">
             <slot name="builder" />
             <div v-if="!readonly || (readonly && item.Description?.length > 0)">
-              <div class="text-overline">{{ typeText }} DESCRIPTION</div>
+              <div class="text-cc-overline">{{ typeText }} DESCRIPTION</div>
               <cc-rich-text-area :readonly="readonly" v-model="item.Description" />
             </div>
             <slot name="stats" />
           </v-col>
-          <v-col cols="3" class="text-center ml-auto">
+          <v-col cols="3" class="ml-auto pt-4">
             <gm-folder-editor :readonly="readonly" :item="item" class="mb-1" />
             <gm-label-editor :readonly="readonly" :item="item" class="mb-4" />
             <cc-img :src="item.PortraitController.Image" />
             <div v-if="!readonly">
-              <v-btn
-                small
-                variant="outlined"
+              <cc-button
+                size="x-small"
                 block
-                color="accent"
+                prepend-icon="mdi-image-edit"
+                color="primary"
                 @click="($refs as any).imageSelector.open()">
                 Change Image
-              </v-btn>
+              </cc-button>
               <cc-image-selector
                 ref="imageSelector"
                 :item="item"
                 type="doodad"
                 @set="item.PortraitController.Image = $event" />
             </div>
+            <div v-if="!readonly || (readonly && item.Note.length)">
+              <v-divider class="my-3" />
+              <cc-text-area
+                :readonly="readonly"
+                v-model="item.Note"
+                color="primary"
+                variant="outlined"
+                label="gm notes" />
+            </div>
           </v-col>
         </v-row>
         <slot />
-        <cc-icon-divider v-if="!readonly" icon="mdi-robot-industrial" />
-
-        <div v-if="!readonly || (readonly && item.NarrativeController.TextItems.length)">
-          <div class="text-caption">ADDITIONAL DETAIL</div>
-          <section-editor :item="item" :readonly="readonly" />
-        </div>
-
-        <div v-if="!readonly || (readonly && item.NarrativeController.Clocks.length)">
-          <v-divider class="my-2" />
-          <div class="text-caption">CLOCKS</div>
-          <cc-clock
-            v-for="c in item.NarrativeController.Clocks"
-            :clock="c"
-            class="mx-1 my-2"
-            :readonly="readonly"
-            @delete="item.NarrativeController.DeleteClock(c)" />
-          <v-row v-if="!readonly" justify="end">
-            <v-col cols="auto">
-              <v-btn
-                color="accent"
-                variant="outlined"
-                size="small"
-                @click="item.NarrativeController.AddClock()">
-                <v-icon start>mdi-plus</v-icon>
-                Add New Clock
-              </v-btn>
-            </v-col>
-          </v-row>
-        </div>
-
-        <div v-if="!readonly || (readonly && item.NarrativeController.Tables.length)">
-          <v-divider class="my-2" />
-          <div
-            v-if="!readonly || (readonly && item.NarrativeController.Tables.length)"
-            class="text-caption">
-            TABLES
-          </div>
-          <cc-rollable-table
-            v-for="t in item.NarrativeController.Tables"
-            :table="t"
-            class="mx-1 my-2"
-            :readonly="readonly"
-            @delete="item.NarrativeController.DeleteTable(t)" />
-          <v-row v-if="!readonly" justify="end">
-            <v-col cols="auto">
-              <v-btn
-                color="accent"
-                variant="outlined"
-                size="small"
-                @click="item.NarrativeController.AddTable()">
-                <v-icon start>mdi-plus</v-icon>
-                Add New Table
-              </v-btn>
-            </v-col>
-          </v-row>
-        </div>
-
-        <div v-if="!readonly || (readonly && item.Note.length)">
-          <v-divider class="my-2" />
-          <div class="text-caption mb-2">
-            GM NOTES
-            <v-tooltip location="top" :open-delay="300">
-              <template #activator="{ props }">
-                <v-icon
-                  v-bind="props"
-                  size="13"
-                  icon="mdi-information-outline"
-                  class="mt-n1 fade-select" />
-              </template>
-              <span>
-                This is only visible to the GM and will be hidden in player-facing material.
-              </span>
-            </v-tooltip>
-          </div>
-          <cc-rich-text-area :readonly="readonly" v-model="item.Note" />
-        </div>
       </v-container>
     </v-card>
   </div>
-  <v-footer
-    v-if="isRemote || (!readonly && !hideFooter)"
-    app
-    color="panel"
-    :style="footerOffset ? 'margin-bottom: 30px' : ''">
-    <v-btn variant="tonal" size="small" @click="routePrint(item.ID)">
-      <v-icon start icon="mdi-printer" />
-      Print
-    </v-btn>
-    <v-btn variant="tonal" size="small" class="ml-2" @click="$emit('export', item)">
-      <v-icon start icon="mdi-upload" />
-      Export
-    </v-btn>
-    <slot name="footer" />
+  <v-footer v-if="isRemote || (!readonly && !hideFooter)" app color="surface" class="px-3">
+    <v-menu v-if="!isRemote" v-model="deleteMenu" max-width="500px">
+      <template #activator="{ props }">
+        <cc-button prepend-icon="mdi-delete" size="small" color="error" v-bind="props">
+          Delete
+        </cc-button>
+      </template>
+      <v-card-text>
+        <cc-confirmation
+          content="This will reset delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
+          @confirm="deleteItem()" />
+      </v-card-text>
+    </v-menu>
+
     <v-spacer />
+
+    <cc-button prepend-icon="mdi-printer" size="small" @click="routePrint(item.ID)">
+      Print
+    </cc-button>
+    <cc-button prepend-icon="mdi-upload" size="small" class="ml-2" @click="$emit('export', item)">
+      Export
+    </cc-button>
+    <slot name="footer" />
 
     <v-dialog max-width="800px">
       <template #activator="{ props }">
-        <v-btn
+        <cc-button
           v-if="!isRemote && isAuthed"
           color="accent"
-          v-bind="props"
+          @click="props.onClick($event)"
           variant="tonal"
           size="small">
           <v-icon start icon="mdi-broadcast" />
           Share Code
-        </v-btn>
+        </cc-button>
       </template>
       <template #default="{ isActive }">
         <v-card>
@@ -209,10 +151,10 @@
 
     <v-menu v-if="isRemote" v-model="convertMenu" offset-y offset-x top left>
       <template #activator="{ props }">
-        <v-btn variant="tonal" size="small" class="mx-3" v-bind="props">
+        <cc-button variant="tonal" size="small" class="mx-3" v-bind="props">
           <v-icon start icon="mdi-content-copy" />
           Convert
-        </v-btn>
+        </cc-button>
       </template>
       <cc-confirmation
         content="Converting this item to local data will allow local editing but remove its remote link to the
@@ -223,15 +165,14 @@
 
     <v-tooltip v-if="isRemote">
       <template #activator="{ props }">
-        <v-btn
-          variant="tonal"
+        <cc-button
           size="small"
           :disabled="item.CloudController.SyncStatus === 'Synced'"
           class="mx-3"
           v-bind="props">
           <v-icon start>mdi-cloud-sync</v-icon>
           Update
-        </v-btn>
+        </cc-button>
       </template>
       {{
         isAuthed
@@ -244,27 +185,15 @@
 
     <v-menu v-if="!isRemote" v-model="dupeMenu" offset-y offset-x top left>
       <template #activator="{ props }">
-        <v-btn variant="tonal" size="small" class="mx-3" v-bind="props">
+        <cc-button size="small" class="ml-3" v-bind="props">
           <v-icon start icon="mdi-content-copy" />
           Duplicate
-        </v-btn>
+        </cc-button>
       </template>
       <cc-confirmation content="Confirm duplication of this NPC" @confirm="copy()" />
     </v-menu>
 
-    <v-menu v-if="!isRemote" v-model="deleteMenu" offset-y offset-x top left>
-      <template #activator="{ props }">
-        <v-btn variant="tonal" size="small" color="error" class="mx-3" v-bind="props">
-          <v-icon start icon="mdi-delete" />
-          Delete
-        </v-btn>
-      </template>
-      <cc-confirmation
-        content="This will reset delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
-        @confirm="deleteItem()" />
-    </v-menu>
-
-    <v-btn
+    <cc-button
       v-if="isRemote"
       variant="tonal"
       size="small"
@@ -273,11 +202,7 @@
       @click="$emit('exit')">
       <v-icon start icon="mdi-arrow-left" />
       Exit
-    </v-btn>
-    <v-btn v-else variant="tonal" size="small" color="secondary" class="mx-3" @click="saveExit()">
-      <v-icon start icon="mdi-content-save" />
-      Save and Exit
-    </v-btn>
+    </cc-button>
   </v-footer>
 </template>
 
@@ -327,9 +252,6 @@ export default {
     copy() {
       this.$emit('copy');
       this.$emit('exit');
-    },
-    saveExit() {
-      this.$emit('save');
     },
     routePrint(id: string) {
       const narrativeTypes = ['character', 'location', 'faction'];

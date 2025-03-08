@@ -1,9 +1,9 @@
 <template>
-  <v-card :color="cardColor" variant="tonal" class="text-center" style="height: 100%">
-    <v-toolbar density="compact" height="40">
-      <v-toolbar-title class="heading text-uppercase" style="font-size: 16px">
+  <v-card flat tile :color="cardColor" variant="tonal" class="text-center" style="height: 100%">
+    <v-toolbar density="compact" height="38" color="primary">
+      <div class="heading h4 text-center" style="font-size: 18px; width: 100%">
         {{ stat.title }}
-        <v-icon v-if="overwriteVal" icon="mdi-lock" color="secondary" size="x-small" />
+        <v-icon v-if="overwriteVal" icon="mdi-lock" class="pb-1" size="x-small" />
         <v-btn
           v-if="!readonly && deletable"
           icon
@@ -12,58 +12,63 @@
           @click="$emit('remove', stat.key)">
           <v-icon icon="mdi-delete" size="x-small" color="error" />
         </v-btn>
-      </v-toolbar-title>
+      </div>
     </v-toolbar>
     <v-card-text class="px-2 pb-1 pt-0" style="position: relative">
-      <div v-if="overwriteVal">
-        <div class="heading h3 text-center my-2">{{ overwriteVal }}</div>
-      </div>
-      <div v-else-if="readonly">
-        <v-divider />
-        <div class="heading h2 text-center py-1">{{ totalWithBonus }}</div>
-      </div>
-      <div v-else-if="stat.key === 'size'">
-        <v-combobox
-          v-model="model"
-          :items="selections"
-          density="compact"
-          variant="outlined"
-          hide-details
-          center-affix
-          type="number"
-          @input="$emit('set', { value: model, tier: model })"
-          @blur="editMode = false"
-          @keyup.enter="editMode = false"
-          @focus="$event.target.select()" />
-      </div>
-      <div v-else>
-        <v-select
-          v-if="selections.length"
-          v-model="model"
-          :items="selections"
-          density="compact"
-          variant="outlined"
-          hide-details
-          @input="$emit('set', { value: model, tier: model })"
-          @blur="editMode = false"
-          @keyup.enter="editMode = false"
-          @focus="$event.target.select()" />
-        <v-text-field
-          v-else
-          v-model="model"
-          variant="outlined"
-          density="compact"
-          hide-details
-          autofocus
-          type="number"
-          @input="$emit('set', { value: Number(model), tier: 0 })"
-          @blur="editMode = false"
-          @keyup.enter="editMode = false"
-          @focus="$event.target.select()" />
-      </div>
+      <v-row dense align="center" justify="center" class="heading h4">
+        <v-col cols="auto">
+          <v-icon :icon="stat.icon" size="x-large" class="text-disabled" />
+        </v-col>
+        <v-col v-if="overwriteVal" cols="auto">
+          <div class="heading h3 text-center my-2">{{ overwriteVal }}</div>
+        </v-col>
+        <v-col v-else-if="readonly" cols="auto">
+          <div class="heading h2 text-center py-1">{{ totalWithBonus }}</div>
+        </v-col>
+        <v-col v-else-if="stat.key === 'size'">
+          <v-combobox
+            v-model="model"
+            :items="selections"
+            density="compact"
+            variant="outlined"
+            hide-details
+            center-affix
+            type="number"
+            @input="$emit('set', { value: model, tier: model })"
+            @blur="editMode = false"
+            @keyup.enter="editMode = false"
+            @focus="$event.target.select()" />
+        </v-col>
+        <v-col v-else>
+          <v-select
+            v-if="selections.length"
+            v-model="model"
+            :items="selections"
+            density="compact"
+            variant="outlined"
+            hide-details
+            @input="$emit('set', { value: model, tier: model })"
+            @blur="editMode = false"
+            @keyup.enter="editMode = false"
+            @focus="$event.target.select()" />
+          <v-text-field
+            v-else
+            v-model="model"
+            variant="outlined"
+            density="compact"
+            hide-details
+            autofocus
+            type="number"
+            @input="$emit('set', { value: Number(model), tier: 0 })"
+            @blur="editMode = false"
+            @keyup.enter="editMode = false"
+            @focus="$event.target.select()" />
+        </v-col>
+      </v-row>
+
       <div v-if="bonuses.length" v-for="bonus in bonuses" class="text-right">
         <v-menu open-on-hover>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-icon
               v-if="readonly"
               v-bind="props"
@@ -84,17 +89,17 @@
             </v-chip>
           </template>
           <v-card>
-            <v-toolbar density="compact" color="exotic">
-              <v-toolbar-title>
+            <v-toolbar density="compact" color="exotic" height="46">
+              <div class="heading h4 px-2">
                 <v-icon start :icon="bonus.Icon" />
                 {{ bonus.Title }}
-              </v-toolbar-title>
+              </div>
             </v-toolbar>
             <v-card-text class="pt-1 pb-3">
               <div>
                 {{ bonus.Detail }}
               </div>
-              <div class="text-right">
+              <div class="text-right text-disabled">
                 <i>From {{ bonus.Source }}</i>
               </div>
             </v-card-text>

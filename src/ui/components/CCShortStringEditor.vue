@@ -1,21 +1,19 @@
 <template>
   <v-fade-transition leave-absolute>
-    <v-row
-      no-gutters
-      v-if="!editing"
-      :justify="<any>justify"
-      align="end"
-      key="str"
-      style="position: relative">
-      <v-col cols="auto" :style="{ maxWidth: maxWidth }">
+    <div v-if="!editing" class="d-inline-block" key="str" style="position: relative">
+      <span style="width: fit-content">
         <slot />
-      </v-col>
-      <v-col v-if="!readonly" cols="auto" :style="absolute && { position: 'absolute', right: '0' }">
-        <v-btn size="x-small" icon variant="plain" @click="edit()">
-          <v-icon size="15" icon="mdi-circle-edit-outline" />
-        </v-btn>
-      </v-col>
-    </v-row>
+      </span>
+      <v-btn
+        v-if="!readonly"
+        size="x-small"
+        icon
+        variant="plain"
+        style="position: absolute; right: -30px; bottom: -10px"
+        @click="edit">
+        <v-icon size="15" icon="mdi-circle-edit-outline" />
+      </v-btn>
+    </div>
     <div v-else key="editname">
       <v-text-field
         v-model="newStr"
@@ -98,11 +96,5 @@ export default {
 .label {
   font-size: 1em;
   font-weight: bold;
-}
-</style>
-
-<style>
-.v-input input {
-  max-height: fit-content !important;
 }
 </style>

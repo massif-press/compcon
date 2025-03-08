@@ -56,45 +56,46 @@
         </div>
       </v-card>
     </div>
-    <v-row v-if="!readonly" justify="end">
-      <v-col cols="auto">
-        <v-menu
-          v-model="textItemMenu"
-          offset-x
-          left
-          :close-on-click="false"
-          :close-on-content-click="false">
-          <template #activator="{ props }">
-            <v-btn color="accent" variant="outlined" size="small" v-bind="props">
-              <v-icon start>mdi-plus</v-icon>
-              Add New Text Section
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-text>
-              <v-combobox
-                v-if="item.SectionSuggestions"
-                v-model="newTextItemHeader"
-                label="Title"
-                :items="item.SectionSuggestions" />
-              <v-text-field
-                v-else
-                v-model="newTextItemHeader"
-                label="New Title"
-                density="compact"
-                hide-details
-                variant="outlined" />
-            </v-card-text>
-            <v-divider />
-            <v-card-actions>
-              <v-btn variant="text" @click="textItemMenu = false">Cancel</v-btn>
-              <v-spacer />
-              <v-btn color="secondary" @click="addTextItem">Add</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-      </v-col>
-    </v-row>
+    <v-menu
+      v-if="!readonly"
+      v-model="textItemMenu"
+      offset-x
+      left
+      :close-on-click="false"
+      :close-on-content-click="false">
+      <template #activator="{ props }">
+        <cc-button
+          block
+          size="x-small"
+          prepend-icon="mdi-plus"
+          color="primary"
+          @click="props.onClick($event)">
+          Add New Text Section
+        </cc-button>
+      </template>
+      <v-card>
+        <v-card-text>
+          <v-combobox
+            v-if="item.SectionSuggestions"
+            v-model="newTextItemHeader"
+            label="Title"
+            :items="item.SectionSuggestions" />
+          <v-text-field
+            v-else
+            v-model="newTextItemHeader"
+            label="New Title"
+            density="compact"
+            hide-details
+            variant="outlined" />
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-btn variant="text" @click="textItemMenu = false">Cancel</v-btn>
+          <v-spacer />
+          <v-btn color="secondary" @click="addTextItem">Add</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-menu>
   </div>
 </template>
 

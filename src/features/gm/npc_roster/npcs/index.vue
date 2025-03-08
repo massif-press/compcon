@@ -1,6 +1,5 @@
 <template>
-  <component
-    :is="viewComponent"
+  <gm-split-view
     ref="view"
     title="NPCs"
     item-type="Unit"
@@ -14,20 +13,18 @@
       v-if="selected"
       :item="selected"
       :readonly="selected.Readonly"
-      :footer-offset="view !== 'collection'"
-      :hide-toolbar="view !== 'collection'"
+      hide-toolbar
       @exit="exit()"
       @save="SaveAndClose()">
       <builder slot="upper" :item="selected" :readonly="selected.Readonly" />
       <features slot="lower" :item="selected" :readonly="selected.Readonly" />
     </editor>
     <no-gm-item v-else />
-  </component>
+  </gm-split-view>
 </template>
 
 <script lang="ts">
-import GmCollectionView from '../../_views/GMCollectionView.vue';
-import GMSplitView from '../../_views/GMSplitView.vue';
+import GmSplitView from '../../_views/GMSplitView.vue';
 import Editor from './editor.vue';
 import Builder from './builder.vue';
 import Features from './features.vue';
@@ -38,16 +35,11 @@ import NoGmItem from '../../_views/_components/NoGmItem.vue';
 
 export default {
   name: 'npc-roster',
-  components: { GmCollectionView, NoGmItem, Editor, Builder, Features },
+  components: { GmSplitView, NoGmItem, Editor, Builder, Features },
   props: {
     id: {
       type: String,
       required: false,
-    },
-    view: {
-      type: String,
-      required: false,
-      default: 'collection',
     },
   },
   data: () => ({
@@ -63,9 +55,6 @@ export default {
     }
   },
   computed: {
-    viewComponent() {
-      return this.view === 'collection' ? GmCollectionView : GMSplitView;
-    },
     groupings() {
       const allLabelTitles = new Set(
         NpcStore()

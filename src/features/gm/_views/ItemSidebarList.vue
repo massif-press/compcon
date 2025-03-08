@@ -1,5 +1,5 @@
 <template>
-  <v-list v-for="key in Object.keys(groupings)" class="mb-4 mt-n2">
+  <v-list v-for="key in Object.keys(groupings)" class="mb-4 mt-n2" slim density="compact">
     <v-row dense align="center">
       <v-col cols="auto" style="width: 2vw"><v-divider /></v-col>
       <v-col cols="auto" class="heading h3">

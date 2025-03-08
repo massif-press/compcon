@@ -1,24 +1,33 @@
 <template>
-  <v-layout style="height: calc(100vh - 90px)">
-    <v-navigation-drawer app width="350">
-      <div class="heading h2 text-center">
-        {{ title }}
+  <v-layout :style="`height: calc(100vh - ${mobile ? '42px' : '68px'})`">
+    <div
+      style="position: absolute; z-index: 999"
+      :style="`left: ${showNav ? (mobile ? '615' : '354') : '3'}px; top: 6px`">
+      <cc-button
+        :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+        size="small"
+        color="primary"
+        @click="(showNav as any) = !showNav" />
+    </div>
+    <v-navigation-drawer v-model="showNav" app :width="mobile ? 600 : 350">
+      <div class="mt-2">
         <slot name="tooltip" />
       </div>
       <div class="px-2">
-        <v-row density="compact" no-gutters>
+        <v-row density="compact" no-gutters align="center">
           <v-col class="mr-1">
-            <v-autocomplete
+            <cc-text-field
+              type="autocomplete"
               v-model="search"
               :placeholder="`Search ${title}`"
               :items="items"
               item-title="Name"
               item-value="Name"
-              density="compact"
+              variant="outlined"
+              color="primary"
               hide-details
               clearable
-              variant="outlined"
-              prepend-inner-icon="mdi-magnify" />
+              icon="mdi-magnify" />
           </v-col>
           <v-col cols="auto">
             <gm-collection-filter
@@ -29,28 +38,38 @@
               @set-filters="filters = $event" />
           </v-col>
         </v-row>
-        <v-row density="compact" no-gutters class="mt-2">
+
+        <v-row density="compact" no-gutters class="mt-5">
           <v-col>
-            <v-select
+            <cc-select
               v-model="grouping"
               :items="groupings"
+              small
+              chip-variant="text"
               label="Group"
-              hide-details
-              variant="outlined"
-              class="mr-1"
-              density="compact" />
+              class="mr-1" />
           </v-col>
           <v-col>
-            <v-select
+            <cc-select
               v-model="sorting"
               :items="sortings"
+              small
+              chip-variant="text"
               label="Sort"
-              hide-details
-              class="ml-1"
-              variant="outlined"
-              density="compact" />
+              class="ml-1" />
           </v-col>
         </v-row>
+        <v-btn
+          prepend-icon="mdi-queue-first-in-last-out"
+          color="primary"
+          block
+          flat
+          tile
+          size="x-small"
+          class="mt-1"
+          @click="$emit('open-organizer')">
+          ORGANIZE NPCS
+        </v-btn>
         <v-divider class="my-1" />
 
         <item-sidebar-list
@@ -71,25 +90,63 @@
           <i>{{ hidden }} items hidden by filter</i>
         </div>
 
-        <div style="position: absolute; bottom: 30px; left: 8px; right: 8px">
-          <v-divider class="my-1" />
-          <v-btn
-            color="secondary"
-            size="small"
-            variant="tonal"
-            class="mb-1"
-            prepend-icon="mdi-plus"
-            :disabled="!canAddNpc"
-            block
-            @click="$emit('add-new')">
-            Add New {{ itemType }}
-          </v-btn>
+        <div style="position: absolute; bottom: 4px; left: 4px; right: 4px">
+          <v-menu>
+            <template #activator="{ props }">
+              <cc-button
+                color="success"
+                size="small"
+                prepend-icon="mdi-plus"
+                :disabled="!canAddNpc"
+                block
+                @click="props.onClick($event)">
+                Add {{ itemType }}
+              </cc-button>
+            </template>
+            <template #default="{ isActive }">
+              <v-card class="pa-1" border>
+                <cc-button
+                  block
+                  prepend-icon="mdi-plus"
+                  size="small"
+                  color="primary"
+                  @click="
+                    $emit('add-new');
+                    isActive.value = false;
+                  ">
+                  Create New {{ itemType }}
+                </cc-button>
+                <div class="my-1" />
+                <cc-button
+                  block
+                  prepend-icon="mdi-download"
+                  size="small"
+                  color="primary"
+                  @click="
+                    $emit('open-import');
+                    isActive.value = false;
+                  ">
+                  File Import
+                </cc-button>
+                <div class="my-1" />
+                <share-code-dialog import-type="npc" block-btn />
+              </v-card>
+            </template>
+          </v-menu>
         </div>
       </div>
     </v-navigation-drawer>
     <v-main>
-      <div style="height: calc(100vh - 65px) !important; overflow-y: scroll; padding-bottom: 100px">
-        <slot />
+      <div
+        style="
+          height: calc(100vh - 65px) !important;
+          overflow-y: scroll;
+          padding-bottom: 100px;
+          overflow-x: hidden;
+        ">
+        <div class="mx-auto pt-2 px-6" style="max-width: 1400px">
+          <slot />
+        </div>
       </div>
     </v-main>
   </v-layout>
@@ -103,10 +160,17 @@ import GmCollectionFolder from './_components/GMCollectionFolder.vue';
 import { NpcStore } from '../store/npc_store';
 import { NarrativeStore } from '../store/narrative_store';
 import { CompendiumStore, UserStore } from '@/stores';
+import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
 
 export default {
   name: 'gm-collection-view',
-  components: { ItemSidebarList, Organizer, GmCollectionFilter, GmCollectionFolder },
+  components: {
+    ItemSidebarList,
+    Organizer,
+    GmCollectionFilter,
+    GmCollectionFolder,
+    ShareCodeDialog,
+  },
   props: {
     items: { type: Array, required: true },
     itemType: { type: String, required: true },
@@ -123,8 +187,9 @@ export default {
     filters: [] as any[],
     openFolders: [] as string[],
     showNoFolder: true,
+    showNav: true,
   }),
-  emits: ['open', 'add-new'],
+  emits: ['open', 'add-new', 'open-import', 'open-organizer'],
   created() {
     const user = UserStore().User;
     if (!user || !user.View) return;
@@ -146,6 +211,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     folderStore(): any {
       switch (this.itemType.toLowerCase()) {
         case 'npc':
