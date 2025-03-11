@@ -271,10 +271,10 @@
             <b v-for="(r, k) in p.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
             <span v-if="p.Damage && p.Damage.length">|</span>
             <b v-for="(d, k) in p.Damage" :key="`mmwd_${i}_${j}_${k}`">{{ d.Text }}&nbsp;</b>
-            <p v-if="p.Effect" :v-html-safe="p.Effect" print />
-            <p v-if="p.OnAttack" :v-html-safe="`<b>ON ATTACK:</b> ${p.OnAttack}`" print />
-            <p v-if="p.OnHit" :v-html-safe="`<b>ON HIT:</b> ${p.OnHit}`" print />
-            <p v-if="p.OnCrit" :v-html-safe="`<b>ON CRIT:</b> ${p.OnCrit}`" print />
+            <p v-if="p.Effect" print>{{ p.Effect }}</p>
+            <p v-if="p.OnAttack" print><b>ON ATTACK:</b> {{ p.OnAttack }}</p>
+            <p v-if="p.OnHit" print><b>ON HIT:</b> {{ p.OnHit }}</p>
+            <p v-if="p.OnCrit" print><b>ON CRIT:</b> {{ p.OnCrit }}</p>
             <print-action :actions="p.Actions" />
             <print-deployable :deployables="p.Deployables" />
           </div>
