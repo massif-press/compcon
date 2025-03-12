@@ -1,8 +1,8 @@
 <template>
   <div class="text-overline mt-1">COMBATANTS</div>
 
-  <v-card variant="outlined" style="border-color: rgb(var(--v-theme-panel))">
-    <v-card-text class="pa-1">
+  <v-card flat tile>
+    <v-card-text class="py-2 px-4">
       <div v-if="encounter.Combatants.filter((x) => x.side === 'enemy').length > 0">
         <v-row dense align="center">
           <v-col cols="auto" style="width: 30px"><v-divider /></v-col>
@@ -31,15 +31,15 @@
         :readonly="readonly"
         @open="editUnit"
         @remove="encounter.RemoveCombatant(i)" />
-      <div v-if="encounter.Combatants.filter((x) => x.side === 'other').length > 0" class="mt-3">
+      <div v-if="encounter.Combatants.filter((x) => x.side === 'neutral').length > 0" class="mt-3">
         <v-row dense align="center">
           <v-col cols="auto" style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto" class="text-caption text-disabled">OTHER</v-col>
+          <v-col cols="auto" class="text-caption text-disabled">NEUTRAL</v-col>
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
       <combatant-list-item
-        v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'other')"
+        v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'neutral')"
         :item="c"
         :odd="i % 2 === 0"
         :readonly="readonly"
@@ -55,12 +55,17 @@
         {{ encounter.Combatants.filter((x) => x.side === 'ally').length }}
         <cc-slashes class="mx-2" />
         <v-icon icon="cc:mech" class="mt-n1" />
-        {{ encounter.Combatants.filter((x) => x.side === 'other').length }}
+        {{ encounter.Combatants.filter((x) => x.side === 'neutral').length }}
       </v-toolbar-title>
       <v-spacer />
-      <v-btn v-if="!readonly" color="secondary" prepend-icon="mdi-plus" @click="addDialog = true">
+      <cc-button
+        v-if="!readonly"
+        color="accent"
+        prepend-icon="mdi-plus"
+        class="mr-2"
+        @click="addDialog = true">
         Add NPC
-      </v-btn>
+      </cc-button>
     </v-toolbar>
   </v-card>
 

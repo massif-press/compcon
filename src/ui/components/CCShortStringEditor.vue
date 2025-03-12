@@ -9,7 +9,7 @@
         size="x-small"
         icon
         variant="plain"
-        style="position: absolute; right: -30px; bottom: -10px"
+        style="position: absolute; right: -30px; bottom: 0px"
         @click="edit">
         <v-icon size="15" icon="mdi-circle-edit-outline" />
       </v-btn>

@@ -13,9 +13,9 @@
         <v-col cols="auto" style="width: 2vw"><v-divider /></v-col>
         <v-col cols="auto" class="heading h3">
           {{ key === '0' ? 'All' : key }}
-          <span class="text-caption text-disabled"
-            >({{ groupedItems(groupings[key]).length }}/{{ items.length }})</span
-          >
+          <span class="text-caption text-disabled">
+            ({{ groupedItems(groupings[key]).length }}/{{ items.length }})
+          </span>
         </v-col>
         <v-col>
           <v-divider />
@@ -52,7 +52,6 @@ import FolderMenu from './_components/FolderMenu.vue';
 import GmItemTable from './GMItemTable.vue';
 import _ from 'lodash';
 import { Unit } from '@/classes/npc/unit/Unit';
-import { NpcStore } from '../store/npc_store';
 
 export default {
   name: 'item-card-grid',

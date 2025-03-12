@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card>
     <div v-show="item">
       <v-card class="rounded-0 pb-12 elevation-0">
         <v-toolbar density="compact" class="rounded-0 pl-2" color="primary">
@@ -15,11 +15,11 @@
         <v-container>
           <v-row density="compact">
             <v-col cols="9">
-              <v-row class="heading mech" dense>
+              <v-row class="heading h1" dense>
                 <cc-remote-hover :item="item" color="accent" />
                 <cc-missing-content-hover :item="item" />
                 <v-col>
-                  <div class="mt-n3" style="min-width: 30vw">
+                  <div class="mt-n3">
                     <cc-short-string-editor
                       large
                       :readonly="isRemote"
@@ -44,8 +44,14 @@
             <v-col cols="3" class="text-center ml-auto">
               <gm-folder-editor :readonly="isRemote" :item="item" class="mb-1" />
               <gm-label-editor :readonly="isRemote" :item="item" class="mb-4" />
-              <v-card>
-                <v-tabs v-model="mapTab" grow color="secondary" bg-color="panel" density="compact">
+              <v-card flat tile>
+                <v-tabs
+                  v-model="mapTab"
+                  grow
+                  color="secondary"
+                  bg-color="panel"
+                  density="compact"
+                  height="20">
                   <v-tab>Map</v-tab>
                   <v-tab>Image</v-tab>
                 </v-tabs>
@@ -63,35 +69,41 @@
                         </v-col>
                       </v-row>
                     </v-card>
-                    <cc-solo-dialog ref="mapEditor" title="Map Editor" fullscreen no-actions>
-                      <map-editor :encounter="item" @exit="exitMapEditor" />
-                    </cc-solo-dialog>
-                    <v-btn
-                      v-if="!isRemote"
-                      small
-                      variant="outlined"
-                      block
-                      color="accent"
-                      @click="($refs as any).mapEditor.show()">
-                      Edit Map
-                    </v-btn>
+                    <cc-modal title="Map Editor">
+                      <template #activator="{ open }">
+                        <cc-button
+                          v-if="!isRemote"
+                          size="x-small"
+                          block
+                          color="primary"
+                          @click="open">
+                          Edit Map
+                        </cc-button>
+                      </template>
+                      <template #default="{ close }">
+                        <map-editor :encounter="item" @exit="close" />
+                      </template>
+                    </cc-modal>
                   </v-window-item>
                   <v-window-item>
                     <cc-img :src="item.PortraitController.Image" />
-                    <v-btn
-                      v-if="!isRemote"
-                      small
-                      variant="outlined"
-                      block
-                      color="accent"
-                      @click="($refs as any).imageSelector.open()">
-                      Change Image
-                    </v-btn>
-                    <cc-image-selector
-                      ref="imageSelector"
-                      :item="item"
-                      type="doodad"
-                      @set="item.PortraitController.Image = $event" />
+                    <cc-modal title="Set Map Image">
+                      <template #activator="{ open }">
+                        <cc-button
+                          v-if="!isRemote"
+                          size="x-small"
+                          block
+                          color="primary"
+                          @click="open">
+                          Change Image
+                        </cc-button>
+                      </template>
+                      <cc-image-selector
+                        ref="imageSelector"
+                        :item="item"
+                        type="doodad"
+                        @set="item.PortraitController.Image = $event" />
+                    </cc-modal>
                   </v-window-item>
                 </v-window>
               </v-card>
@@ -113,14 +125,10 @@
             @delete="item.NarrativeController.DeleteClock(c)" />
           <v-row v-if="!isRemote" justify="end">
             <v-col cols="auto">
-              <v-btn
-                color="accent"
-                variant="outlined"
-                size="small"
-                @click="item.NarrativeController.AddClock()">
+              <cc-button color="primary" size="small" @click="item.NarrativeController.AddClock()">
                 <v-icon start>mdi-plus</v-icon>
                 Add New Clock
-              </v-btn>
+              </cc-button>
             </v-col>
           </v-row>
           <v-divider class="my-2" />
@@ -133,14 +141,10 @@
             @delete="item.NarrativeController.DeleteTable(t)" />
           <v-row v-if="!isRemote" justify="end">
             <v-col cols="auto">
-              <v-btn
-                color="accent"
-                variant="outlined"
-                size="small"
-                @click="item.NarrativeController.AddTable()">
+              <cc-button color="primary" size="small" @click="item.NarrativeController.AddTable()">
                 <v-icon start>mdi-plus</v-icon>
                 Add New Table
-              </v-btn>
+              </cc-button>
             </v-col>
           </v-row>
           <v-divider class="my-2" />
@@ -149,39 +153,37 @@
         </v-container>
       </v-card>
     </div>
-    <v-footer app color="panel">
-      <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`">
+    <v-footer app color="panel" height="28" class="border-t-sm">
+      <cc-button
+        size="small"
+        color="primary"
+        :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`">
         <v-icon start icon="mdi-printer" />
         Print
-      </v-btn>
-      <v-btn variant="tonal" size="small" class="ml-2" @click="exportItem(item)">
+      </cc-button>
+      <cc-button size="small" color="primary" class="ml-2" @click="exportItem(item)">
         <v-icon start icon="mdi-upload" />
         Export
-      </v-btn>
+      </cc-button>
       <v-spacer />
       <v-dialog max-width="800px">
         <template #activator="{ props }">
-          <v-btn
-            v-if="!isRemote && isAuthed"
-            color="accent"
-            v-bind="props"
-            variant="tonal"
-            size="small">
+          <cc-button v-if="!isRemote && isAuthed" color="accent" v-bind="props" size="small">
             <v-icon start icon="mdi-broadcast" />
             Share Code
-          </v-btn>
+          </cc-button>
         </template>
         <template #default="{ isActive }">
           <v-card>
             <v-toolbar color="primary" density="compact">
               <v-toolbar-title>Share Code</v-toolbar-title>
               <v-spacer />
-              <v-btn icon @click="isActive.value = false">
+              <cc-button icon @click="isActive.value = false">
                 <v-icon>mdi-close</v-icon>
-              </v-btn>
+              </cc-button>
             </v-toolbar>
             <v-card-text>
-              <v-alert variant="tonal" density="compact" border prominent icon="mdi-alert">
+              <v-alert density="compact" border prominent icon="mdi-alert">
                 A share code will allow other users with COMP/CON cloud accounts to download a copy
                 of this item and subscribe to updates you make. Please be conscientious when
                 updating data that is shared with others.
@@ -201,7 +203,7 @@
                       " />
                     <v-tooltip text="Copy share code to clipboard">
                       <template #activator="{ props }">
-                        <v-btn
+                        <cc-button
                           v-bind="props"
                           icon
                           size="small"
@@ -209,7 +211,7 @@
                           class="ml-n3"
                           @click="copyCode()">
                           <v-icon>mdi-clipboard-text-outline</v-icon>
-                        </v-btn>
+                        </cc-button>
                       </template>
                     </v-tooltip>
                   </v-col>
@@ -223,10 +225,10 @@
 
       <v-menu v-if="isRemote" v-model="convertMenu" offset-y offset-x top left>
         <template #activator="{ props }">
-          <v-btn variant="tonal" size="small" class="mx-3" v-bind="props">
+          <cc-button size="small" class="mx-3" v-bind="props">
             <v-icon start icon="mdi-content-copy" />
             Convert
-          </v-btn>
+          </cc-button>
         </template>
         <cc-confirmation
           content="Converting this item to local data will allow local editing but remove its remote link to the
@@ -237,15 +239,14 @@
 
       <v-tooltip v-if="isRemote">
         <template #activator="{ props }">
-          <v-btn
-            variant="tonal"
+          <cc-button
             size="small"
             :disabled="item.CloudController.SyncStatus === 'Synced'"
             class="mx-3"
             v-bind="props">
             <v-icon start>mdi-cloud-sync</v-icon>
             Update
-          </v-btn>
+          </cc-button>
         </template>
         {{
           isAuthed
@@ -258,29 +259,29 @@
 
       <v-menu v-if="!isRemote" v-model="dupeMenu" offset-y offset-x top left>
         <template #activator="{ props }">
-          <v-btn variant="tonal" size="small" class="mx-3" v-bind="props">
+          <cc-button size="small" color="primary" class="mx-3" v-bind="props">
             <v-icon start icon="mdi-content-copy" />
             Duplicate
-          </v-btn>
+          </cc-button>
         </template>
         <cc-confirmation content="Confirm duplication of this NPC" @confirm="dupe()" />
       </v-menu>
 
       <v-menu v-if="!isRemote" v-model="deleteMenu" offset-y offset-x top left>
         <template #activator="{ props }">
-          <v-btn variant="tonal" size="small" color="error" class="mx-3" v-bind="props">
+          <cc-button size="small" color="error" class="mx-3" v-bind="props">
             <v-icon start icon="mdi-delete" />
             Delete
-          </v-btn>
+          </cc-button>
         </template>
         <cc-confirmation
           content="This will reset delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
           @confirm="deleteItem()" />
       </v-menu>
-      <v-btn variant="tonal" size="small" color="secondary" class="mx-3" @click="save()">
+      <cc-button size="small" color="secondary" class="mx-3" @click="save()">
         <v-icon start icon="mdi-content-save" />
         Save and Exit
-      </v-btn>
+      </cc-button>
     </v-footer>
   </v-card>
 </template>

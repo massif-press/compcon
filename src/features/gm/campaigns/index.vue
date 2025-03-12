@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <v-alert color="accent" class="ma-4" border icon="cc:campaign" dense>
+    <cc-alert color="info" class="my-4" border icon="cc:campaign" dense>
       Imported campaigns are managed in the
-      <v-btn size="small" class="mx-1" to="/srd?tab=2">Campaign Library</v-btn>
-    </v-alert>
+      <v-btn size="x-small" class="mx-1" flat tile to="/srd?tab=2">Campaign Library</v-btn>
+    </cc-alert>
 
     <v-card class="mt-5">
       <v-card-title>
@@ -21,7 +21,7 @@
           :color="i % 2 == 0 ? 'rgba(125, 125, 125, 0.05)' : 'rgba(125, 125, 125, 0.16)'">
           <v-row align="center">
             <v-col v-if="c.CoverImageUrl" cols="auto">
-              <v-avatar>
+              <v-avatar rounded="sm">
                 <v-img :src="c.CoverImageUrl" height="100" />
               </v-avatar>
             </v-col>
@@ -33,26 +33,20 @@
               </div>
             </v-col>
             <v-col cols="auto">
-              <v-btn
+              <cc-button
                 color="accent"
                 size="small"
-                variant="tonal"
                 prepend-icon="mdi-pencil"
                 @click="openEditCampaign(<Campaign>c)">
                 Edit
-              </v-btn>
+              </cc-button>
             </v-col>
             <v-col cols="auto">
               <v-dialog width="50vw">
                 <template #activator="{ props }">
-                  <v-btn
-                    v-bind="props"
-                    color="error"
-                    size="small"
-                    variant="tonal"
-                    prepend-icon="mdi-delete">
+                  <cc-button v-bind="props" color="error" size="small" prepend-icon="mdi-delete">
                     Delete
-                  </v-btn>
+                  </cc-button>
                 </template>
                 <template v-slot:default="{ isActive }">
                   <v-card>
@@ -80,16 +74,16 @@
                     </v-card-text>
                     <v-divider />
                     <v-card-actions>
-                      <v-btn color="accent" @click="isActive.value = false">Dismiss</v-btn>
+                      <cc-button color="primary" @click="isActive.value = false">Dismiss</cc-button>
                       <v-spacer />
-                      <v-btn
+                      <cc-button
                         :color="deleteText !== c.Title ? '' : 'error'"
                         variant="elevated"
                         prepend-icon="mdi-delete"
                         :disabled="deleteText !== c.Title"
                         @click="deleteCampaign(<Campaign>c, isActive)">
                         Delete campaign permanently
-                      </v-btn>
+                      </cc-button>
                     </v-card-actions>
                   </v-card>
                 </template>
@@ -102,16 +96,12 @@
 
       <v-footer>
         <v-spacer />
-        <v-btn color="accent" variant="tonal" class="mx-2" size="small" @click="addCampaign">
-          <v-icon start icon="mdi-plus" />
-          New Campaign
-        </v-btn>
         <v-dialog v-model="importDialog" max-width="750px">
           <template #activator="{ props }">
-            <v-btn v-bind="props" color="accent" variant="tonal" class="mx-2" size="small">
+            <cc-button v-bind="props" color="primary" class="mx-2" size="small">
               <v-icon start icon="mdi-import" />
-              File Import
-            </v-btn>
+              Import
+            </cc-button>
           </template>
           <v-card>
             <v-card-title>Import Campaign JSON Data</v-card-title>
@@ -147,7 +137,7 @@
               <div v-if="errorMessage" class="text-error text-center mt-2">{{ errorMessage }}</div>
               <div v-else-if="stagedData">
                 <div class="text-caption">Staged Campaign Data</div>
-                <v-card variant="tonal">
+                <v-card>
                   <v-card-title>{{ stagedData.Title }}</v-card-title>
                   <v-card-subtitle>{{ stagedData.Subtitle }}</v-card-subtitle>
                   <v-card-text class="pl-6">
@@ -181,7 +171,7 @@
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn color="accent" @click="importCampaign">Import Campaign</v-btn>
+                    <cc-button color="accent" @click="importCampaign">Import Campaign</cc-button>
                     <v-spacer />
                   </v-card-actions>
                 </v-card>
@@ -189,10 +179,14 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn color="accent" @click="importDialog = false">Dismiss</v-btn>
+              <cc-button color="accent" @click="importDialog = false">Dismiss</cc-button>
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <cc-button color="primary" class="mx-2" size="small" @click="addCampaign">
+          <v-icon start icon="mdi-plus" />
+          New Campaign
+        </cc-button>
       </v-footer>
     </v-card>
   </v-container>

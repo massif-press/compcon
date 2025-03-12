@@ -1,12 +1,11 @@
 <template>
-  <v-container fluid style="overflow: hidden; height: calc(100vh - 50px)">
-    <v-row justify="space-around" align="center" class="mt-0">
+  <v-container fluid :style="`overflow: hidden; height: calc(100vh - ${mobile ? '20px' : '50px'})`">
+    <v-row dense justify="space-around" align="center" class="mt-n1">
       <v-col><v-divider /></v-col>
       <v-col cols="auto">
         <div
           class="font-weight-light text-center my-n2"
-          style="letter-spacing: 2vw !important; font-size: 2vw !important"
-        >
+          style="letter-spacing: 2vw !important; font-size: 2vw !important">
           GM TOOLKIT
         </div>
       </v-col>
@@ -19,8 +18,7 @@
         name="Campaign Manager"
         description="Create, modify, and browse LANCER campaigns"
         img="campaign"
-        max-height="84.7vh"
-      />
+        :max-height="mobile ? '82vh' : '88vh'" />
 
       <v-col>
         <v-row>
@@ -29,15 +27,13 @@
             name="NPCS"
             description="Manage non-player combat units"
             img="npcs"
-            max-height="41vh"
-          />
+            :max-height="mobile ? '38vh' : '42.73vh'" />
           <landing-card
             to="gm/encounters"
             name="Encounters"
             description="Create combat encounters"
             img="encounters"
-            max-height="41vh"
-          />
+            :max-height="mobile ? '38vh' : '42.73vh'" />
         </v-row>
         <v-row>
           <landing-card
@@ -45,8 +41,7 @@
             name="Narrative Elements"
             description="Manage characters, locations, and factions"
             img="location"
-            max-height="41vh"
-          />
+            :max-height="mobile ? '38vh' : '42.73vh'" />
         </v-row>
       </v-col>
     </v-row>
@@ -59,5 +54,10 @@ import LandingCard from './_components/LandingCard.vue';
 export default {
   name: 'home',
   components: { LandingCard },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+  },
 };
 </script>

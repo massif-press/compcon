@@ -1,47 +1,78 @@
 <template>
-  <v-chip :label="!isSmall" :variant="variant" :size="size" :color="item.Color">
-    <v-menu open-on-hover open-delay="300" close-on-click close-on-content-click width="60vw">
-      <template #activator="{ props }">
-        <div v-bind="props">
-          <v-icon :icon="item.Icon" start :class="isSmall ? '' : 'mt-n2'" />
-          <span :class="isSmall ? '' : 'heading h3'">{{ item.Name }}</span>
-        </div>
-      </template>
-      <v-card max-width="60vw">
-        <v-toolbar density="compact" :color="item.Color">
-          <v-icon size="x-large" :icon="item.Icon" />
-          <span class="heading h3" v-text="item.Name" />
-        </v-toolbar>
-        <div class="pa-2">
-          <cc-item-card :item="item" :tier="tier" readonly active />
-        </div>
-      </v-card>
-    </v-menu>
-  </v-chip>
+  <v-menu :open-on-hover="!mobile" :open-on-click="mobile" max-width="600px">
+    <template #activator="{ props }">
+      <cc-button
+        :color="item.Color ? item.Color : 'primary'"
+        class="d-inline-block"
+        :class="density === 'compact' ? '' : 'ma-1'"
+        style="margin: 1px"
+        :block="block"
+        :prepend-icon="itemIcon"
+        :size="size"
+        v-bind="props">
+        {{ truncate(item.Name) }}
+        <span v-if="!hideType">{{ item.ItemType === 'Frame' ? '&nbsp;FRAME' : '' }}</span>
+      </cc-button>
+    </template>
+
+    <v-card class="pt-2 pb-4 px-4">
+      <cc-item-card :item="item" />
+    </v-card>
+
+    <item-card-link :item="item" />
+  </v-menu>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
+import ItemCardLink from './items/_components/ItemCardLink.vue';
+
 export default {
-  name: 'CCItemChip',
+  name: 'CCItemModal',
   props: {
     item: {
       type: Object,
       required: true,
     },
+    hideType: {
+      type: Boolean,
+    },
+    block: {
+      type: Boolean,
+    },
     size: {
       type: String,
+      default: 'small',
     },
-    variant: {
+    density: {
       type: String,
-      default: 'outlined',
-    },
-    tier: {
-      type: Number,
+      default: '',
     },
   },
+  components: {
+    ItemCardLink,
+  },
   computed: {
-    isSmall() {
-      return this.size?.includes('small');
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
+    wide() {
+      return this.$vuetify.display.lgAndUp;
+    },
+    itemIcon() {
+      if (this.item.IsExotic) return 'mdi-star';
+      if (this.hideType) return undefined;
+      return this.item.Icon;
+    },
+  },
+  methods: {
+    startCase(str: string): string {
+      return _.startCase(str);
+    },
+    truncate(str): string {
+      if (this.block) return str;
+      if (str.length > 26) return str.substring(0, 24) + '…';
+      return str;
     },
   },
 };

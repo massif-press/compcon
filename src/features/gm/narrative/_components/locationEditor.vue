@@ -8,26 +8,27 @@
     @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
-      <v-row dense>
-        <v-col>
-          <div class="heading mech mt-n5" style="min-width: 30vw">
-            <cc-short-string-editor
-              large
-              justify="start"
-              :readonly="isRemote"
-              :placeholder="item.Name"
-              @set="item.Name = $event">
-              <div class="heading-block">
-                {{ item.Name }}
-              </div>
-            </cc-short-string-editor>
-          </div>
+      <v-row dense class="my-n4" align="center">
+        <cc-remote-hover :item="item" />
+
+        <v-col class="heading h1">
+          <cc-short-string-editor
+            large
+            justify="start"
+            :readonly="isRemote"
+            :placeholder="item.Name"
+            @set="item.Name = $event">
+            <div style="line-height: 0.9em">
+              {{ item.Name }}
+            </div>
+          </cc-short-string-editor>
         </v-col>
       </v-row>
     </template>
     <template v-slot:stats>
       <v-divider class="mt-4 mb-1" />
       <relationship-editor :readonly="isRemote" :item="item" />
+      <narrative-block :readonly="isRemote" :item="item" />
     </template>
   </editor-base>
 </template>
@@ -35,13 +36,14 @@
 <script lang="ts">
 import { Location } from '@/classes/narrative/Location';
 import EditorBase from '../../../gm/_components/EditorBase.vue';
+import NarrativeBlock from './narrativeBlock.vue';
 import { NarrativeStore } from '@/stores';
 import RelationshipEditor from '../../_components/RelationshipEditor.vue';
 import exportAsJson from '@/util/jsonExport';
 
 export default {
   name: 'gm-location-editor-base',
-  components: { EditorBase, RelationshipEditor },
+  components: { EditorBase, RelationshipEditor, NarrativeBlock },
   props: {
     item: { type: Object, required: true },
   },

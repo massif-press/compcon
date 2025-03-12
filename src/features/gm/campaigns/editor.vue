@@ -1,26 +1,27 @@
 <template>
   <div>
     <div v-if="!campaign">ERR: NO CAMPAIGN LOADED</div>
-    <v-row v-else no-gutters>
+    <v-layout
+      v-else
+      style="position: relative"
+      :style="{ height: mobile ? 'calc(100vh - 24px)' : 'calc(100vh - 40px)' }">
       <campaign-editor-sidebar
         :campaign="campaign"
         :current-page="currentPage"
         @set-selected="setSelected"
         @set-page="setPage" />
-      <v-col>
+      <v-main style="padding-bottom: 45px; overflow: scroll">
         <v-fade-transition leave-absolute>
-          <div style="padding-left: 256px; padding-bottom: 45px">
-            <component
-              v-if="itemComponent"
-              :is="itemComponent"
-              :campaign="campaign"
-              :item="selected"
-              @delete="deleteCampaignPage(selected)"
-              @preview="showPreview($event)" />
-          </div>
+          <component
+            v-if="itemComponent"
+            :is="itemComponent"
+            :campaign="campaign"
+            :item="selected"
+            @delete="deleteCampaignPage(selected)"
+            @preview="showPreview($event)" />
         </v-fade-transition>
-      </v-col>
-    </v-row>
+      </v-main>
+    </v-layout>
   </div>
   <v-dialog v-if="campaign" v-model="previewDialog" fullscreen>
     <v-card class="pb-6">
@@ -79,6 +80,9 @@ export default {
   }),
 
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     itemComponent() {
       switch (this.componentType.toLowerCase()) {
         case 'overview':

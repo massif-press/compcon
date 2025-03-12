@@ -21,6 +21,7 @@ import CCToolbar from './components/headings/CCToolbar.vue';
 import CCModal from './components/modals/CCModal.vue';
 import CCSoloModal from './components/modals/CCSoloModal.vue';
 import CCDialog from './components/modals/CCDialog.vue';
+import CCSoloDialog from './components/modals/CCSoloDialog.vue';
 
 import CCTabs from './components/CCTabs.vue';
 
@@ -44,7 +45,6 @@ import CCRangeElement from './components/CCRangeElement.vue';
 import CCRollableTable from './components/CCRollableTable.vue';
 import CCShortStringEditor from './components/CCShortStringEditor.vue';
 import CCSlashes from './components/CCSlashes.vue';
-import CCSoloDialog from './components/CCSoloDialog.vue';
 import CCStatblockPanel from './components/CCStatblockPanel.vue';
 import CCStringEdit from './components/CCStringEdit.vue';
 import CCStringEditDialog from './components/CCStringEditDialog.vue';
@@ -129,6 +129,7 @@ export {
   CCModal,
   CCSoloModal,
   CCDialog,
+  CCSoloDialog,
   // ---
   CCTabs,
   // --
@@ -157,7 +158,6 @@ export {
   CCRollableTable,
   CCShortStringEditor,
   CCSlashes,
-  CCSoloDialog,
   CCStatblockPanel,
   CCStringEdit,
   CCStringEditDialog,

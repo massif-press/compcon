@@ -9,13 +9,13 @@
     mandatory
     bg-color="primary">
     <v-tab selected-class="bg-accent">
-      <span>NPCs</span>
+      <b>NPCs</b>
     </v-tab>
     <v-tab selected-class="bg-accent">
-      <span>Doodads</span>
+      <b>Doodads</b>
     </v-tab>
     <v-tab selected-class="bg-accent">
-      <span>Eidolons</span>
+      <b>Eidolons</b>
     </v-tab>
   </v-tabs>
 
@@ -24,10 +24,10 @@
       <npc-index :id="id" @open-import="importModal = true" @open-organizer="orgModal = true" />
     </v-window-item>
     <v-window-item>
-      <doodad-index :id="id" />
+      <doodad-index :id="id" @open-import="importModal = true" @open-organizer="orgModal = true" />
     </v-window-item>
     <v-window-item>
-      <eidolon-index :id="id" />
+      <eidolon-index :id="id" @open-import="importModal = true" @open-organizer="orgModal = true" />
     </v-window-item>
   </v-window>
 

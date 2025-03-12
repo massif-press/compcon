@@ -41,17 +41,20 @@
     <div v-if="mobile" class="mb-2">
       <cc-img :src="mech.Portrait" style="max-height: 80vh" />
       <div class="text-right mt-n3">
-        <cc-button
-          v-if="!mech.Pilot.IsRemote"
-          variant="tonal"
-          color="secondary"
-          size="small"
-          prepend-icon="mdi-circle-edit-outline"
-          @click="($refs as any).imageSelector.open()">
-          Set Mech Image
-        </cc-button>
+        <cc-modal v-if="!mech.Pilot.IsRemote" title="set mech image" icon="cc:frame">
+          <template #activator="{ open }">
+            <cc-button
+              variant="tonal"
+              color="secondary"
+              size="small"
+              prepend-icon="mdi-circle-edit-outline"
+              @click="open">
+              Set Mech Image
+            </cc-button>
+          </template>
+          <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
+        </cc-modal>
       </div>
-      <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
     </div>
 
     <mech-nav
@@ -86,17 +89,20 @@
         <v-col v-if="!mobile" cols="auto">
           <cc-img :src="mech.Portrait" width="22vw" position="top center" />
           <div class="text-right mt-n3">
-            <cc-button
-              v-if="!mech.Pilot.IsRemote"
-              variant="tonal"
-              color="secondary"
-              size="small"
-              prepend-icon="mdi-circle-edit-outline"
-              @click="($refs as any).imageSelector.open()">
-              Set Mech Image
-            </cc-button>
+            <cc-modal v-if="!mech.Pilot.IsRemote" title="set mech image" icon="cc:frame">
+              <template #activator="{ open }">
+                <cc-button
+                  variant="tonal"
+                  color="secondary"
+                  size="small"
+                  prepend-icon="mdi-circle-edit-outline"
+                  @click="open">
+                  Set Mech Image
+                </cc-button>
+              </template>
+              <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
+            </cc-modal>
           </div>
-          <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
         </v-col>
       </v-row>
 

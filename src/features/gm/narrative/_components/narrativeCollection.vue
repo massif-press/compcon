@@ -1,7 +1,5 @@
 <template>
-  <component
-    :is="viewComponent"
-    ref="view"
+  <gm-split-view
     :title="itemType + 's'"
     :item-type="itemType"
     :items="items"
@@ -14,16 +12,13 @@
       :is="editorComponent"
       :item="selected"
       :footer-offset="view !== 'collection'"
-      :hide-toolbar="view !== 'collection'"
-      @exit="($refs as any).view.dialog = false"
-      @save="SaveAndClose()" />
+      hide-toolbar />
     <no-gm-item v-else />
-  </component>
+  </gm-split-view>
 </template>
 
 <script lang="ts">
 import { INarrativeElement } from '@/classes/narrative/INarrativeElement';
-import GmCollectionView from '../../_views/GMCollectionView.vue';
 import { NarrativeStore } from '../../store/narrative_store';
 import { Character } from '@/classes/narrative/Character';
 import { Location } from '@/classes/narrative/Location';
@@ -31,12 +26,12 @@ import { Faction } from '@/classes/narrative/Faction';
 import CharacterEditor from './characterEditor.vue';
 import LocationEditor from './locationEditor.vue';
 import FactionEditor from './factionEditor.vue';
-import GMSplitView from '../../_views/GMSplitView.vue';
+import GmSplitView from '../../_views/GMSplitView.vue';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
 
 export default {
   name: 'character-roster',
-  components: { GmCollectionView, GMSplitView, NoGmItem },
+  components: { GmSplitView, NoGmItem },
   props: {
     itemType: {
       type: String,
@@ -60,14 +55,10 @@ export default {
       const item = NarrativeStore().getItemByID(this.id);
       if (item) {
         this.selected = item;
-        (this.$refs as any).view.dialog = true;
       }
     }
   },
   computed: {
-    viewComponent() {
-      return this.view === 'collection' ? GmCollectionView : GMSplitView;
-    },
     allNarrativeItems() {
       return NarrativeStore().CollectionItems.length;
     },
@@ -119,7 +110,6 @@ export default {
   methods: {
     openItem(item) {
       this.selected = item;
-      (this.$refs as any).view.dialog = true;
     },
     addNew() {
       let e;
@@ -136,11 +126,6 @@ export default {
       }
       NarrativeStore().AddItem(e);
       this.selected = e;
-      (this.$refs as any).view.dialog = true;
-    },
-    SaveAndClose() {
-      this.selected = null;
-      (this.$refs as any).view.dialog = false;
     },
   },
 };

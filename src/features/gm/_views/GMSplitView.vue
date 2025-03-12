@@ -90,6 +90,8 @@
           <i>{{ hidden }} items hidden by filter</i>
         </div>
 
+        <div class="my-12" />
+
         <div style="position: absolute; bottom: 4px; left: 4px; right: 4px">
           <v-menu>
             <template #activator="{ props }">
@@ -251,6 +253,11 @@ export default {
     },
     hidden() {
       return this.items.length - this.filteredItems.length;
+    },
+  },
+  methods: {
+    minimize() {
+      this.showNav = false;
     },
   },
 };

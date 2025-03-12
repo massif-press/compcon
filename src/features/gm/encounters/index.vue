@@ -1,11 +1,22 @@
 <template>
   <v-container>
-    <v-card variant="tonal">
+    <v-row>
+      <v-col class="heading h2">Encounters</v-col>
+      <v-col cols="auto">
+        <cc-modal title="organize encounters" icon="mdi-queue-first-in-last-out">
+          <template #activator="{ open }">
+            <cc-button size="small" color="primary" class="mx-4" @click="open">Organize</cc-button>
+          </template>
+          <template #default="{ close }">
+            <organizer type="encounter" @exit="close" />
+          </template>
+        </cc-modal>
+      </v-col>
+    </v-row>
+    <v-card flat tile>
       <v-toolbar class="px-2 rounded-b-0">
         <v-row dense align="center">
-          <v-col cols="auto">
-            <div class="heading h2">Encounters</div>
-          </v-col>
+          <v-col cols="auto"></v-col>
           <v-col class="pl-4">
             <v-autocomplete
               v-model="search"
@@ -16,7 +27,8 @@
               density="compact"
               hide-details
               clearable
-              prepend-icon="mdi-magnify" />
+              tile
+              prepend-inner-icon="mdi-magnify" />
           </v-col>
           <v-col cols="3" class="ml-auto">
             <v-select
@@ -24,9 +36,9 @@
               :items="groupings"
               label="Group By"
               hide-details
+              tile
               variant="outlined"
-              density="compact"
-              :disabled="view === 'table'" />
+              density="compact" />
           </v-col>
           <v-col cols="3">
             <v-select
@@ -34,9 +46,9 @@
               :items="sortings"
               label="Sort By"
               hide-details
+              tile
               variant="outlined"
-              density="compact"
-              :disabled="view === 'table'" />
+              density="compact" />
           </v-col>
           <v-col cols="auto">
             <gm-collection-filter
@@ -48,94 +60,51 @@
           </v-col>
         </v-row>
       </v-toolbar>
-      <v-row justify="space-between">
-        <v-col cols="auto">
-          <v-btn-toggle
-            v-model="view"
-            density="compact"
-            mandatory
-            tile
-            class="rounded-t-0 rounded-s-0">
-            <v-btn value="list">
-              <v-icon color="accent">mdi-view-list</v-icon>
-            </v-btn>
-            <v-btn value="table">
-              <v-icon color="accent">mdi-table</v-icon>
-            </v-btn>
-          </v-btn-toggle>
-        </v-col>
-        <v-col cols="auto" class="ml-auto">
-          <v-btn-toggle density="compact" tile class="rounded-t-0 rounded-e-0">
-            <v-btn v-model="hideFolders" @click="hideFolders = !hideFolders">
-              <v-icon
-                color="accent"
-                :icon="!hideFolders ? 'mdi-folder-eye-outline' : 'mdi-folder-off-outline'" />
-            </v-btn>
-          </v-btn-toggle>
-        </v-col>
-      </v-row>
 
-      <v-card-text v-if="!folders.length || hideFolders">
-        <item-card-grid
-          item-type="Encounter"
-          :items="filteredItems"
-          :search="search"
-          :big="view === 'big-grid'"
-          :list="view === 'list'"
-          :table="view === 'table'"
-          :grouping="grouping"
-          :sorting="sorting"
-          :all-folders="folders"
-          @open="openItem($event)" />
-      </v-card-text>
-      <v-card-text v-else>
-        <gm-collection-folder
-          v-for="folder in folders"
-          :folder="folder"
-          :filteredItems="filteredItems"
-          :items="items"
-          item-type="Encounter"
-          :search="search"
-          :view="view"
-          :grouping="grouping"
-          :sorting="sorting"
-          :all-folders="folders"
-          @set-folder-name="setFolderName(folder, $event)"
-          @remove-folder="removeFolder($event)"
-          @open="openItem($event)" />
+      <gm-collection-folder
+        v-for="folder in folders"
+        :folder="folder"
+        :filteredItems="filteredItems"
+        :items="items"
+        item-type="Encounter"
+        :search="search"
+        :view="view"
+        :grouping="grouping"
+        :sorting="sorting"
+        :all-folders="folders"
+        @set-folder-name="setFolderName(folder, $event)"
+        @remove-folder="removeFolder($event)"
+        @open="openItem($event)" />
 
-        <v-card v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0">
-          <v-toolbar density="compact" style="height: 40px" class="mt-n2">
-            <v-btn size="x-small" icon @click="showNoFolder = !showNoFolder">
-              <v-icon
-                size="30"
-                icon="mdi-menu-right"
-                :class="showNoFolder ? 'mdi-rotate-90' : ''" />
-            </v-btn>
-            <v-toolbar-title class="heading h3">No Folder</v-toolbar-title>
-            <v-spacer />
-            <div class="px-2 text-disabled text-caption">
-              {{ filteredItems.filter((x: any) => !x.FolderController?.Folder).length }}
-              ({{ items.filter((x: any) => !x.FolderController?.Folder).length }})
-            </div>
-          </v-toolbar>
-          <v-expand-transition>
-            <v-card-text v-if="showNoFolder">
-              <item-card-grid
-                item-type="Encounter"
-                :items="filteredItems.filter((x: any) => !x.FolderController?.Folder)"
-                :search="search"
-                :big="view === 'big-grid'"
-                :list="view === 'list'"
-                :table="view === 'table'"
-                :grouping="grouping"
-                :sorting="sorting"
-                :all-folders="folders"
-                @open="openItem($event)" />
-            </v-card-text>
-          </v-expand-transition>
-        </v-card>
-      </v-card-text>
+      <v-card
+        v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0"
+        flat
+        tile>
+        <v-toolbar density="compact" style="height: 40px" class="mt-n2">
+          <v-btn size="x-small" icon @click="showNoFolder = !showNoFolder">
+            <v-icon size="30" icon="mdi-menu-right" :class="showNoFolder ? 'mdi-rotate-90' : ''" />
+          </v-btn>
+          <v-toolbar-title class="heading h3">No Folder</v-toolbar-title>
+          <v-spacer />
+          <div class="px-2 text-disabled text-caption">
+            {{ filteredItems.filter((x: any) => !x.FolderController?.Folder).length }}
+            ({{ items.filter((x: any) => !x.FolderController?.Folder).length }})
+          </div>
+        </v-toolbar>
+        <v-expand-transition>
+          <v-card-text v-if="showNoFolder">
+            <item-card-grid
+              item-type="Encounter"
+              :items="filteredItems.filter((x: any) => !x.FolderController?.Folder)"
+              :search="search"
+              :list="view === 'list'"
+              :grouping="grouping"
+              :sorting="sorting"
+              :all-folders="folders"
+              @open="openItem($event)" />
+          </v-card-text>
+        </v-expand-transition>
+      </v-card>
 
       <div v-if="hidden" class="text-right pa-2 text-disabled">
         <i>{{ hidden }} items hidden by filter</i>
@@ -147,54 +116,36 @@
     </v-dialog>
 
     <v-footer fixed>
-      <v-btn
-        :value="true"
+      <cc-button
+        size="small"
         prepend-icon="mdi-folder-multiple-plus"
-        variant="tonal"
-        color="accent"
+        color="primary"
         @click="addFolder">
         Add Folder
-      </v-btn>
+      </cc-button>
       <v-spacer />
-      <v-btn color="secondary" @click="addNew()">
-        <v-icon size="large" start icon="mdi-plus" />
+      <cc-modal title="import data" icon="mdi-download" ref="import" no-confirm>
+        <template #activator="{ open }">
+          <cc-button
+            size="small"
+            color="primary"
+            prepend-icon="mdi-download"
+            class="mx-4"
+            @click="open">
+            Import
+          </cc-button>
+        </template>
+        <template #default="{ close }">
+          <importer @complete="close" />
+        </template>
+      </cc-modal>
+
+      <share-code-dialog import-type="encounter" />
+      <cc-button size="small" class="mx-4" prepend-icon="mdi-plus" color="accent" @click="addNew()">
         Add New Encounter
-      </v-btn>
+      </cc-button>
     </v-footer>
   </v-container>
-  <v-footer app>
-    <v-spacer />
-    <v-btn
-      variant="tonal"
-      size="small"
-      color="accent"
-      class="mx-4"
-      @click="($refs as any).import.show()">
-      <v-icon start icon="mdi-download" />
-      Import
-    </v-btn>
-    <cc-solo-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
-      <importer @complete="($refs as any).import.hide()" />
-    </cc-solo-dialog>
-    <share-code-dialog import-type="encounter" />
-    <v-btn
-      variant="tonal"
-      size="small"
-      color="accent"
-      class="mx-4"
-      @click="($refs as any).organize.show()">
-      <v-icon start icon="mdi-queue-first-in-last-out" />
-      Organize
-    </v-btn>
-    <cc-solo-dialog
-      ref="organize"
-      icon="mdi-queue-first-in-last-out"
-      no-confirm
-      large
-      title="Organize">
-      <organizer type="encounter" />
-    </cc-solo-dialog>
-  </v-footer>
 </template>
 
 <script lang="ts">

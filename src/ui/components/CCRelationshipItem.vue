@@ -37,9 +37,9 @@
       </v-card>
     </v-menu>
 
-    <v-dialog v-model="dialog" :width="editable ? '90vw' : ''">
-      <v-card v-if="editable">
-        <v-toolbar class="px-3">
+    <v-dialog v-model="dialog" :max-width="editable ? '1200px' : ''">
+      <v-card v-if="editable" tile>
+        <v-toolbar class="px-3" tile>
           <v-row dense>
             <v-col cols="5">
               <v-autocomplete

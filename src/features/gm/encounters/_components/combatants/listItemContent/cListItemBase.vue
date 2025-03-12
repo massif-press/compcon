@@ -23,7 +23,7 @@
           </v-badge>
         </v-col>
 
-        <v-col class="pb-0">
+        <v-col class="pb-0 pl-2">
           <v-toolbar density="compact" color="panel" class="pr-1" style="height: 40px">
             <div class="mt-n1" style="width: 100%">
               <v-row dense>
@@ -37,16 +37,18 @@
                   <combatant-settings-menu :readonly="readonly" :item="item" />
                 </v-col>
 
-                <v-divider vertical />
-
                 <v-col v-if="!readonly" cols="auto">
                   <v-menu v-model="deleteMenu">
                     <template #activator="{ props }">
-                      <v-icon
+                      <v-btn
                         v-bind.stop="props"
                         color="error"
-                        icon="mdi-delete"
-                        class="fade-select mx-2 mt-n1" />
+                        text="Remove"
+                        size="x-small"
+                        flat
+                        tile
+                        variant="plain"
+                        class="pt-1" />
                     </template>
                     <cc-confirmation
                       cancellable
@@ -71,7 +73,7 @@
           </template>
           <span v-if="item.npc.IsLinked">
             The source of this NPC instance is present in your NPC roster (
-            <b class="text-primary">{{ item.npc.GetLinkedItem().Name }}</b>
+            <b class="text-accent">{{ item.npc.GetLinkedItem().Name }}</b>
             ) and can receive updates from the original
           </span>
           <span v-else>This NPC instance is not linked to a valid source in your NPC roster</span>

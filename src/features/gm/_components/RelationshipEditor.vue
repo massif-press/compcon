@@ -8,11 +8,15 @@
     editable
     @delete="removeRelationship(idx)" />
 
-  <div class="text-right">
-    <v-btn v-if="!readonly" variant="tonal" size="small" color="accent" @click="addRelationship()">
-      <v-icon start icon="mdi-heart-plus-outline" />
+  <div class="d-flex justify-end">
+    <cc-button
+      v-if="!readonly"
+      prepend-icon="mdi-heart-plus-outline"
+      size="small"
+      color="accent"
+      @click="addRelationship()">
       Add Relationship
-    </v-btn>
+    </cc-button>
   </div>
 
   <div class="text-overline">LINKED ENTITIES</div>

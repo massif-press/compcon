@@ -3,18 +3,15 @@
     <div class="border">
       <cc-img v-if="pilot.Portrait" :src="pilot.Portrait" max-width="100%" />
     </div>
-    <v-btn
-      v-if="!pilot.IsRemote"
-      color="secondary"
-      size="small"
-      block
-      variant="tonal"
-      @click="($refs as any).imageSelector.open()">
-      <v-icon start>mdi-circle-edit-outline</v-icon>
-      Set Pilot Portrait
-    </v-btn>
-
-    <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" avatar />
+    <cc-modal v-if="!pilot.IsRemote" title="set pilot portrait" icon="cc:pilot">
+      <template #activator="{ open }">
+        <v-btn color="secondary" size="small" block variant="tonal" @click="open">
+          <v-icon start>mdi-circle-edit-outline</v-icon>
+          Set Pilot Portrait
+        </v-btn>
+      </template>
+      <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" avatar />
+    </cc-modal>
   </div>
 </template>
 

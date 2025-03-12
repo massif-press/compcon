@@ -4,6 +4,7 @@ import { ContentPack } from './ContentPack';
 
 interface IEnvironmentData {
   id?: string;
+  modified: boolean;
   name: string;
   description: string;
 }
@@ -35,6 +36,7 @@ class EnvironmentInstance {
 
   public _name: string = 'New Environment';
   public _description: string = 'A new Environment';
+  public modified: boolean = false;
 
   public constructor(parent: Encounter, environment?: Environment) {
     this.Parent = parent;
@@ -44,6 +46,7 @@ class EnvironmentInstance {
     } else {
       this.Environment = new Environment({
         name: 'Default',
+        modified: false,
         description: 'A standard environment with no special combat conditions',
       });
     }
@@ -62,6 +65,7 @@ class EnvironmentInstance {
 
   public set Name(val: string) {
     this._name = val;
+    this.modified = true;
     this.Parent.save();
   }
 
@@ -71,17 +75,20 @@ class EnvironmentInstance {
 
   public set Description(val: string) {
     this._description = val;
+    this.modified = true;
     this.Parent.save();
   }
 
   public Reset(): void {
     this.setInstanceData();
+    this.modified = true;
     this.Parent.save();
   }
 
   public static Serialize(env: EnvironmentInstance): IEnvironmentData {
     return {
       name: env.Name,
+      modified: env.modified,
       description: env.Description,
     };
   }
