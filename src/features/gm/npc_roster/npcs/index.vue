@@ -9,13 +9,7 @@
     :sortings="sortings"
     @add-new="addNew()"
     @open="openItem($event)">
-    <editor
-      v-if="selected"
-      :item="selected"
-      :readonly="selected.Readonly"
-      hide-toolbar
-      @exit="exit()"
-      @save="SaveAndClose()">
+    <editor v-if="selected" :item="selected" :readonly="selected.Readonly" hide-toolbar>
       <builder slot="upper" :item="selected" :readonly="selected.Readonly" />
       <features slot="lower" :item="selected" :readonly="selected.Readonly" />
     </editor>
@@ -55,6 +49,9 @@ export default {
     }
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     groupings() {
       const allLabelTitles = new Set(
         NpcStore()
@@ -93,21 +90,13 @@ export default {
   methods: {
     openItem(item) {
       this.selected = item;
-      (this.$refs as any).view.dialog = true;
+      if (this.mobile) (this.$refs as any).view.minimize();
     },
     async addNew() {
       const u = new Unit();
       await NpcStore().AddNpc(u);
       this.selected = u;
-      (this.$refs as any).view.dialog = true;
-    },
-    SaveAndClose() {
-      this.selected = null;
-      (this.$refs as any).view.dialog = false;
-    },
-    exit() {
-      this.selected = null;
-      (this.$refs as any).view.dialog = false;
+      if (this.mobile) (this.$refs as any).view.minimize();
     },
   },
 };

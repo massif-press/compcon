@@ -1,84 +1,37 @@
 <template>
-  <v-menu open-on-hover>
+  <v-menu :close-on-content-click="false">
     <template #activator="{ props }">
-      <v-chip variant="outlined" size="small" v-bind="props">
+      <v-chip
+        size="small"
+        style="margin-top: 3px"
+        class="mr-2"
+        label
+        :color="sideColor"
+        v-bind="props">
         <v-tooltip location="top">
           <template #activator="{ props }">
-            <v-icon
-              size="large"
-              :icon="item.npc.TagIcon"
-              :color="sideColor"
-              style="margin-top: -2px" />
+            <span class="text-capitalize">
+              {{ item.side }} {{ item.npc.Tag }}&nbsp;&mdash;&nbsp;
+            </span>
+            <span v-if="item.reinforcement">Reinforcement</span>
+            <span v-else>Main Force</span>
+            <span v-if="item.playerCount > 1">({{ item.playerCount }}+ PCs)</span>
           </template>
-          <span class="text-capitalize">{{ item.side }} {{ item.npc.Tag }}</span>
+          Click to Edit
         </v-tooltip>
       </v-chip>
     </template>
     <v-card>
-      <v-btn-toggle v-model="item.side" density="compact">
-        <v-btn
-          v-for="side in ['enemy', 'ally', 'other']"
-          :value="side"
-          size="small"
-          @click="item.side = side">
-          {{ side }}
-        </v-btn>
-      </v-btn-toggle>
-    </v-card>
-  </v-menu>
-  <span v-if="item.playerCount">
-    <cc-slashes class="mx-2" />
-    <v-tooltip location="top">
-      <template #activator="{ props }">
-        <v-chip variant="outlined" size="small" v-bind="props">
-          <v-icon icon="cc:pilot" class="mx-n1" style="margin-top: -2px" />
-          <v-icon size="x-small" icon="mdi-close" />
-          {{ item.playerCount }}
-        </v-chip>
-      </template>
-      <span>Added to encounter if there are {{ item.playerCount }} or more PCs</span>
-    </v-tooltip>
-  </span>
-  <span v-if="item.reinforcement">
-    <cc-slashes class="mx-2" />
-    <v-tooltip location="top">
-      <template #activator="{ props }">
-        <v-chip variant="outlined" size="small" v-bind="props">
-          <v-icon icon="mdi-expand-all-outline" />
-          <span v-if="item.reinforcementTurn">
-            <v-icon size="small" icon="mdi-at" />
-            {{ item.reinforcementTurn }}
-          </span>
-        </v-chip>
-      </template>
-      <div>
-        This NPC will join the encounter as a reinforcement
-        <span v-if="item.reinforcementTurn">
-          &mdash; Reinforces on turn {{ item.reinforcementTurn }}
-        </span>
-      </div>
-    </v-tooltip>
-  </span>
-  <v-menu :close-on-content-click="false">
-    <template #activator="{ props }">
-      <v-btn
-        v-if="!readonly"
-        icon
-        size="x-small"
-        variant="text"
-        color="accent"
-        class="ml-1"
-        v-bind.stop="props">
-        <v-tooltip max-width="300px" open-delay="900">
-          <template #activator="{ props }">
-            <v-icon v-bind="props" size="large" icon="mdi-pencil" />
-          </template>
-          <span>Edit this NPC's side, reinforcement, and player count status</span>
-        </v-tooltip>
-      </v-btn>
-    </template>
-    <v-card>
       <v-card-text>
+        <v-btn-toggle v-model="item.side" density="compact">
+          <v-btn
+            v-for="side in ['enemy', 'ally', 'neutral']"
+            :value="side"
+            size="small"
+            @click="item.side = side">
+            {{ side }}
+          </v-btn>
+        </v-btn-toggle>
         <div class="text-caption">Side</div>
         <v-select
           v-model="item.side"
@@ -87,7 +40,7 @@
           :items="[
             { title: 'Enemy', value: 'enemy' },
             { title: 'Ally', value: 'ally' },
-            { title: 'Other', value: 'other' },
+            { title: 'Neutral', value: 'neutral' },
           ]"
           dense />
 

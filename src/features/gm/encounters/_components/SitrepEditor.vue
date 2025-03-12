@@ -1,7 +1,7 @@
 <template>
   <div class="text-overline">SITREP</div>
-  <v-card class="pa-2" variant="outlined" style="border-color: rgb(var(--v-theme-panel))">
-    <v-row dense>
+  <v-card class="py-2 px-4" variant="outlined" style="border-color: rgb(var(--v-theme-panel))">
+    <v-row align="center">
       <v-col>
         <cc-short-string-editor
           justify="start"
@@ -11,97 +11,32 @@
           <span class="heading h3">{{ item.Sitrep.Name }}</span>
         </cc-short-string-editor>
       </v-col>
-      <v-col v-if="!readonly" cols="auto">
-        <v-dialog v-model="dialog">
-          <template #activator="{ props }">
-            <v-btn v-bind="props" color="accent" variant="tonal">Load Preset</v-btn>
-          </template>
-          <v-card>
-            <v-toolbar density="compact">
-              <v-toolbar-title>Load Preset</v-toolbar-title>
-              <v-spacer />
-              <v-btn icon @click="dialog = false">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </v-toolbar>
-            <v-row>
-              <v-col cols="2">
-                <v-list>
-                  <v-list-item
-                    v-for="sitrep in sitreps"
-                    :title="sitrep.Name"
-                    @click="staged = sitrep" />
-                </v-list>
-              </v-col>
-              <v-col v-if="staged">
-                <v-card-text>
-                  <div class="text-caption">SITREP</div>
-                  <div class="heading h2">{{ staged.Name }}</div>
-                  <fieldset class="my-2">
-                    <legend class="ml-2">
-                      <span class="mx-1 text-caption">Description</span>
-                    </legend>
-                    <p v-html="staged.Description" class="px-2 pb-2" />
-                  </fieldset>
-
-                  <fieldset v-if="staged.Deployment" class="my-2">
-                    <legend class="ml-2">
-                      <span class="mx-1 text-caption">Deployment</span>
-                    </legend>
-                    <p v-html="staged.Deployment" class="px-2 pb-2" />
-                  </fieldset>
-
-                  <fieldset v-if="staged.Objective" class="my-2">
-                    <legend class="ml-2">
-                      <span class="mx-1 text-caption">Objective</span>
-                    </legend>
-                    <p v-html="staged.Objective" class="px-2 pb-2" />
-                  </fieldset>
-
-                  <fieldset v-if="staged.ControlZone" class="my-2">
-                    <legend class="ml-2">
-                      <span class="mx-1 text-caption">Control Zone</span>
-                    </legend>
-                    <p v-html="staged.ControlZone" class="px-2 pb-2" />
-                  </fieldset>
-
-                  <fieldset v-if="staged.Extraction" class="my-2">
-                    <legend class="ml-2">
-                      <span class="mx-1 text-caption">Extraction</span>
-                    </legend>
-                    <p v-html="staged.Extraction" class="px-2 pb-2" />
-                  </fieldset>
-
-                  <fieldset v-if="staged.Conditions && staged.Conditions.length" class="my-2">
-                    <legend class="ml-2">
-                      <span class="mx-1 text-caption">Conditions</span>
-                    </legend>
-                    <p v-html="staged.Conditions" class="px-2 pb-2" />
-                  </fieldset>
-                </v-card-text>
-              </v-col>
-            </v-row>
-            <v-divider />
-            <v-card-actions>
-              <v-btn variant="text" @click="dialog = false">Cancel</v-btn>
-              <v-spacer />
-              <v-btn color="accent" @click="assignPreset()">Assign</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-col>
-      <v-col v-if="!readonly" cols="auto">
-        <v-btn
-          @click="staged = null"
-          icon
-          variant="tonal"
-          class="fade-select"
-          color="error"
-          size="x-small">
-          <v-icon icon="mdi-delete" size="large" />
-        </v-btn>
+      <v-col cols="auto">
+        <cc-button
+          color="primary"
+          size="small"
+          :prepend-icon="showPresets ? 'mdi-chevron-double-down' : 'mdi-chevron-double-right'"
+          @click="showPresets = !showPresets">
+          PRESETS
+        </cc-button>
       </v-col>
     </v-row>
+
+    <v-slide-y-transition>
+      <v-card v-if="showPresets" flat tile variant="tonal" color="secondary" class="px-1">
+        <v-chip-group>
+          <v-chip
+            v-for="sitrep in sitreps"
+            :key="sitrep.Name"
+            size="small"
+            class="rounded-0"
+            label
+            @click="setSitrep(sitrep)">
+            {{ sitrep.Name }}
+          </v-chip>
+        </v-chip-group>
+      </v-card>
+    </v-slide-y-transition>
 
     <v-textarea
       v-model="item.Sitrep.Description"
@@ -218,34 +153,45 @@
         class="mb-2" />
     </v-card>
 
-    <v-row v-if="!readonly">
+    <v-row v-if="!readonly" justify="space-around">
       <v-col v-for="key in keys.filter((x) => !item.Sitrep[x])" cols="auto">
-        <v-btn
-          variant="tonal"
-          color="accent"
-          size="small"
-          prepend-icon="mdi-plus"
-          @click="showKey(key)">
+        <cc-button color="primary" size="small" prepend-icon="mdi-plus" @click="showKey(key)">
           {{ key }}
-        </v-btn>
+        </cc-button>
       </v-col>
       <v-col>
-        <v-btn
-          variant="tonal"
-          color="accent"
+        <cc-button
+          color="primary"
           size="small"
           prepend-icon="mdi-plus"
           @click="item.Sitrep.Conditions.push({ title: 'New Condition', condition: '' })">
           Condition
-        </v-btn>
+        </cc-button>
       </v-col>
     </v-row>
+
+    <cc-solo-dialog
+      v-model="confirmDialog"
+      title="sitrep modified"
+      icon="mdi-undo-variant"
+      :close-on-click="false"
+      color="error">
+      <v-card-text class="text-center">
+        This sitrep has been modified. Loading a new preset will delete these changes. Are you sure
+        you want to continue?
+      </v-card-text>
+      <div class="d-flex justify-between px-6">
+        <cc-button color="primary" size="small" @click="confirmDialog = false">cancel</cc-button>
+        <v-spacer />
+        <cc-button color="success" size="small" @click="confirm(item.Sitrep)">confirm</cc-button>
+      </div>
+    </cc-solo-dialog>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Encounter } from '@/classes/encounter/Encounter';
-import { SitrepInstance } from '@/classes/encounter/Sitrep';
+import { Sitrep, SitrepInstance } from '@/classes/encounter/Sitrep';
 import { CompendiumStore } from '@/stores';
 import _ from 'lodash';
 
@@ -256,10 +202,10 @@ export default {
     readonly: { type: Boolean, default: false },
   },
   data: () => ({
-    dialog: false,
-    staged: null as any,
     keys: ['Deployment', 'Objective', 'ControlZone', 'Extraction'],
     shownKeys: [] as string[],
+    confirmDialog: false,
+    showPresets: false,
   }),
   computed: {
     sitreps() {
@@ -270,17 +216,27 @@ export default {
     this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
   },
   methods: {
-    assignPreset() {
-      this.item.Sitrep = new SitrepInstance(this.item as Encounter, this.staged);
-      this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
-      this.dialog = false;
-    },
     showKey(key: string) {
       if (!this.shownKeys.includes(key)) this.shownKeys.push(key);
     },
     removeKey(key: string) {
       this.item.Sitrep[key] = '';
       this.shownKeys = this.shownKeys.filter((x) => x !== key);
+    },
+    setSitrep(sitrep: Sitrep) {
+      if (this.item.Sitrep.modified) {
+        this.confirmDialog = true;
+        return;
+      }
+      this._setSitrep(sitrep);
+    },
+    confirm(sitrep: Sitrep) {
+      this.confirmDialog = false;
+      this._setSitrep(sitrep);
+    },
+    _setSitrep(sitrep) {
+      this.item.Sitrep = new SitrepInstance(this.item as Encounter, sitrep);
+      this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
     },
   },
 };

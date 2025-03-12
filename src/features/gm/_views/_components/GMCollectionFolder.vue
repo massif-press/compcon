@@ -1,6 +1,6 @@
 <template>
-  <v-card class="my-1">
-    <v-toolbar density="compact" color="primary" style="height: 40px" class="mt-n3">
+  <v-card class="my-1" tile>
+    <v-toolbar density="compact" color="primary" style="height: 40px" class="mt-n3" tile>
       <v-btn size="x-small" icon>
         <v-icon
           size="30"
@@ -21,14 +21,8 @@
       </div>
       <v-menu v-model="deleteMenu" offset-y offset-x top left>
         <template #activator="{ props }">
-          <v-btn
-            icon
-            variant="tonal"
-            size="small"
-            color="error"
-            class="mx-1 fade-select"
-            v-bind="props">
-            <v-icon size="20" icon="mdi-delete" />
+          <v-btn variant="tonal" size="x-small" color="error" icon flat tile v-bind="props">
+            <v-icon size="x-large" icon="mdi-delete" />
           </v-btn>
         </template>
         <cc-confirmation
@@ -42,9 +36,7 @@
           :item-type="itemType"
           :items="folderItems"
           :search="search"
-          :big="view === 'big-grid'"
-          :list="view === 'list'"
-          :table="view === 'table'"
+          list
           :grouping="grouping"
           :sorting="sorting"
           :all-folders="allFolders"

@@ -100,7 +100,7 @@ export default {
       return {
         Enemies: this.item.Combatants.filter((x) => x.side === 'enemy'),
         Allies: this.item.Combatants.filter((x) => x.side === 'ally'),
-        Other: this.item.Combatants.filter((x) => x.side === 'other'),
+        Neutral: this.item.Combatants.filter((x) => x.side === 'neutral'),
       };
     },
   },

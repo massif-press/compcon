@@ -4,6 +4,7 @@ import { ContentPack } from '../ContentPack';
 
 interface ISitrepData {
   id?: string;
+  modified: boolean;
   name: string;
   description: string;
   conditions?: { title: string; condition: string }[];
@@ -51,6 +52,8 @@ class SitrepInstance {
   public readonly Parent: Encounter;
   public readonly InstanceID: string;
 
+  public modified: boolean = false;
+
   private _name: string = 'New Sitrep';
   private _description: string = 'A new Sitrep';
   private _conditions: { title: string; condition: string }[] = [];
@@ -67,6 +70,7 @@ class SitrepInstance {
     } else {
       this.Sitrep = new Sitrep({
         name: 'STANDARD COMBAT',
+        modified: false,
         description:
           'A simple affair, with two sides facing off against each other until one of them is broken or destroyed.',
       });
@@ -86,6 +90,7 @@ class SitrepInstance {
   }
 
   private save() {
+    this.modified = true;
     this.Parent.save();
   }
 
@@ -160,6 +165,7 @@ class SitrepInstance {
   public static Serialize(sitrep: SitrepInstance): ISitrepData {
     return {
       id: sitrep.Sitrep.ID,
+      modified: sitrep.modified,
       name: sitrep.Name,
       description: sitrep.Description,
       deployment: sitrep.Deployment,
@@ -175,6 +181,7 @@ class SitrepInstance {
       parent,
       new Sitrep({
         id: data.id,
+        modified: data.modified || false,
         name: data.name,
         description: data.description,
         deployment: data.deployment,

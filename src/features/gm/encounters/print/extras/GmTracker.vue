@@ -16,8 +16,8 @@
       <npc-tracker v-for="c in Enemies" :combatant="c" />
     </v-col>
   </v-row>
-  <div v-if="Other.length > 0">
-    <div class="text-caption mt-1">OTHER</div>
+  <div v-if="Neutral.length > 0">
+    <div class="text-caption mt-1">NEUTRAL</div>
     <npc-tracker v-for="c in Enemies" :combatant="c" />
   </div>
 </template>
@@ -57,8 +57,8 @@ export default {
     Allies() {
       return this.SortedCombatants.filter((x) => x.side === 'ally');
     },
-    Other() {
-      return this.SortedCombatants.filter((x) => x.side === 'other');
+    Neutral() {
+      return this.SortedCombatants.filter((x) => x.side === 'neutral');
     },
   },
 };

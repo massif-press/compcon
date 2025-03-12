@@ -4,11 +4,11 @@
       <v-icon :icon="item.npc.NpcClassController.Class.Icon" class="mt-n1 ml-1" />
       {{ item.npc.Name }}
 
-      <span v-if="item.npc.NpcClassController.HasClass">
+      <span v-if="item.npc.NpcClassController.HasClass && !item.npc.IsNameless">
         &mdash; T{{ item.npc.NpcClassController.Tier }} {{ item.npc.NpcClassController.Class.Name }}
       </span>
       <span class="px-4">
-        <v-chip
+        <cc-chip
           v-for="t in item.npc.NpcTemplateController.Templates"
           size="x-small"
           variant="flat"
@@ -16,23 +16,16 @@
           color="primary"
           class="mr-3 mt-n1">
           <v-icon icon="cc:npc_template" start />
-          {{ t.Name }}
-        </v-chip>
+          {{ t.Name }}&emsp;
+        </cc-chip>
       </span>
     </template>
 
-    <div class="text-caption mt-1">
-      <stat-chips
-        :stat-controller="item.npc.StatController"
-        :bonuses="item.npc.FeatureController.Bonuses" />
-    </div>
-    <div class="text-caption">
+    <div class="py-1">
       <cc-item-chip
         v-for="f in item.npc.NpcFeatureController.Features"
         :item="f"
         :tier="item.npc.NpcClassController.Tier"
-        size="small"
-        variant="elevated"
         style="margin: 2px" />
     </div>
   </c-list-item-base>

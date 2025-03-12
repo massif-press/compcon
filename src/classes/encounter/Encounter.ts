@@ -41,7 +41,7 @@ type CombatantData = {
   index: number;
   type: 'unit' | 'doodad' | 'eidolon';
   npc: Unit | Doodad | Eidolon;
-  side: 'enemy' | 'ally' | 'other';
+  side: 'enemy' | 'ally' | 'neutral';
   playerCount: number;
   reinforcement: boolean;
   reinforcementTurn: number;
@@ -51,7 +51,7 @@ type CombatantSaveData = {
   index: number;
   type: 'unit' | 'doodad' | 'eidolon';
   npc: UnitData | DoodadData | EidolonData;
-  side?: 'enemy' | 'ally' | 'other';
+  side?: 'enemy' | 'ally' | 'neutral';
   playerCount?: number;
   reinforcement?: boolean;
   reinforcementTurn?: number;
@@ -84,7 +84,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public constructor(data?: IEncounterData) {
     this._id = data?.id || uuid();
-    this._name = data?.name || 'New Encounter';
+    this._name = data?.name || '';
     this._note = data?.note || '';
     this._description = data?.description || '';
     this._gmDescription = data?.gmDescription || '';
@@ -156,7 +156,14 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public get Name(): string {
+    if (!this._name) {
+      return this.DefaultName;
+    }
     return this._name;
+  }
+
+  public get DefaultName(): string {
+    return `${this.Environment.Name} - ${this.Sitrep.Name}`;
   }
 
   public set Name(val: string) {

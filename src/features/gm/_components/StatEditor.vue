@@ -2,7 +2,10 @@
   <div class="px-2">
     <v-card flat tile class="pa-1">
       <v-row dense v-if="item.StatController.DisplayKeys.length">
-        <v-col v-for="kvp in displayKeys" v-show="kvp.key !== 'sizes'" style="min-width: 12vw">
+        <v-col
+          v-for="kvp in displayKeys"
+          v-show="kvp.key !== 'sizes'"
+          :style="`min-width: ${mobile ? 'fit-content' : '12vw'}`">
           <editable-attribute
             v-if="kvp.key !== 'sizes'"
             :readonly="readonly || !editing"
@@ -59,61 +62,60 @@
       </v-col>
       <v-spacer />
       <v-col cols="auto">
-        <v-menu v-model="coreMenu" :close-on-content-click="false">
+        <v-menu :close-on-content-click="false">
           <template v-slot:activator="{ props }">
             <cc-button v-bind="props" size="small" color="primary" prepend-icon="cc:compendium">
-              Add Core Stat
+              Add Stat
             </cc-button>
           </template>
+
           <v-card width="300px" flat tile border>
+            <v-tabs v-model="menuTab" height="24" bg-color="primary" density="compact">
+              <v-tab>Core</v-tab>
+              <v-tab>Custom</v-tab>
+            </v-tabs>
+
             <v-card-text>
-              <v-select
-                v-model="statsToAdd"
-                :items="availableCoreStats"
-                item-value="key"
-                multiple
-                clearable
-                density="compact"
-                hide-details
-                chips />
+              <v-window v-model="menuTab">
+                <v-window-item>
+                  <v-select
+                    v-model="statsToAdd"
+                    :items="availableCoreStats"
+                    item-value="key"
+                    multiple
+                    clearable
+                    density="compact"
+                    hide-details
+                    chips />
+                  <cc-button
+                    block
+                    class="my-2"
+                    color="primary"
+                    size="small"
+                    :disabled="!statsToAdd.length"
+                    @click="addCoreStats()">
+                    Add
+                    <span v-if="statsToAdd.length">{{ statsToAdd.length }} Stat(s)</span>
+                  </cc-button>
+                </v-window-item>
+                <v-window-item>
+                  <v-text-field
+                    v-model="customTitle"
+                    clearable
+                    density="compact"
+                    label="Stat Name"
+                    hide-details />
+                  <cc-button
+                    block
+                    color="primary"
+                    class="my-2"
+                    size="small"
+                    @click="addCustomStat()">
+                    Add
+                  </cc-button>
+                </v-window-item>
+              </v-window>
             </v-card-text>
-            <cc-button
-              block
-              class="px-4 mb-2"
-              color="primary"
-              size="small"
-              :disabled="!statsToAdd.length"
-              @click="addCoreStats()">
-              Add
-              <span v-if="statsToAdd.length">{{ statsToAdd.length }} Stat(s)</span>
-            </cc-button>
-          </v-card>
-        </v-menu>
-      </v-col>
-      <v-col cols="auto">
-        <v-menu v-model="customMenu" :close-on-content-click="false">
-          <template v-slot:activator="{ props }">
-            <cc-button v-bind="props" color="secondary" size="small" prepend-icon="mdi-flask">
-              Add Custom Stat
-            </cc-button>
-          </template>
-          <v-card width="300px" flat tile border>
-            <v-card-text>
-              <v-text-field
-                v-model="customTitle"
-                clearable
-                density="compact"
-                label="Stat Name"
-                hide-details />
-            </v-card-text>
-            <cc-button
-              block
-              color="primary"
-              class="px-4 mb-2"
-              size="small"
-              @click="addCustomStat()">
-              Add
-            </cc-button>
           </v-card>
         </v-menu>
       </v-col>
@@ -159,13 +161,15 @@ export default {
   },
   data: () => ({
     statsToAdd: [],
-    coreMenu: false,
+    menuTab: 0,
     customTitle: '',
-    customMenu: false,
     resetMenu: false,
     editing: false,
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     coreStats() {
       return StatController.CoreStats;
     },
@@ -187,12 +191,10 @@ export default {
     addCoreStats() {
       this.statsToAdd.forEach((x) => this.item.StatController.AddCoreStat(x));
       this.statsToAdd = [];
-      this.coreMenu = false;
     },
     addCustomStat() {
       this.item.StatController.AddCustomStat(this.customTitle);
       this.customTitle = '';
-      this.customMenu = false;
     },
   },
 };

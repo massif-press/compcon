@@ -93,7 +93,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
   }
 
   public get DefaultName(): string {
-    return `${this.NpcTemplateController.Templates.map((x) => x.Name).join(' ')} ${this.NpcClassController.Class?.Name || 'NPC'} ${this.Tag}`;
+    return `T${this.NpcClassController.Tier} ${this.NpcTemplateController.Templates.map((x) => x.Name).join(' ')} ${this.NpcClassController.Class?.Name || 'NPC'} ${this.Tag}`;
   }
 
   public get IsNameless(): boolean {

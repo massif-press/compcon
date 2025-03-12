@@ -1,15 +1,5 @@
 <template>
-  <cc-solo-dialog
-    id="image-selector-dialog"
-    ref="dialog"
-    fullscreen
-    closeable
-    no-confirm
-    icon="mdi-image"
-    title="Select Image">
-    <div
-      class="bg-primary"
-      style="position: absolute; top: 0; left: 0; right: 0; height: 40px; z-index: -1" />
+  <div>
     <v-tabs v-model="imageSelectTab" density="compact" grow bg-color="primary">
       <v-tab>Cloud Account</v-tab>
       <v-tab>Local Image Archive</v-tab>
@@ -94,7 +84,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </cc-solo-dialog>
+  </div>
 </template>
 
 <script lang="ts">

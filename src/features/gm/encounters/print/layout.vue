@@ -80,8 +80,8 @@
       ALLIES
       <cc-slashes class="mx-2" />
       <v-icon icon="cc:mech" class="mt-n1" />
-      {{ encounter.Combatants.filter((x) => x.side === 'other').length }}
-      OTHER
+      {{ encounter.Combatants.filter((x) => x.side === 'neutral').length }}
+      NEUTRAL
     </legend>
     <div v-for="(n, i) in SortedCombatants">
       <v-card class="pa-2" color="transparent">

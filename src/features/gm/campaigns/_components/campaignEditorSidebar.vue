@@ -1,5 +1,14 @@
 <template>
-  <v-navigation-drawer permanent fixed style="overflow-y: scroll" class="pb-8">
+  <div
+    style="position: absolute; z-index: 999"
+    :style="`left: ${showNav ? '260' : '4'}px; top: 6px`">
+    <cc-button
+      :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+      size="small"
+      color="primary"
+      @click="(showNav as any) = !showNav" />
+  </div>
+  <v-navigation-drawer v-if="showNav" app permanent fixed style="overflow-y: scroll" class="pb-8">
     <v-row density="compact" class="pa-2" justify="center" align="center">
       <v-col cols="auto" class="heading h3 text-center">
         {{ campaign.Title }}
@@ -122,6 +131,7 @@ export default {
   data: () => ({
     lastSave: '',
     selected: null,
+    showNav: true,
   }),
   created() {
     this.lastSave = this.campaign.SaveController.LastModified;
