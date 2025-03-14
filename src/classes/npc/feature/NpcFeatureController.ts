@@ -84,7 +84,15 @@ class NpcFeatureController implements IFeatureContainer {
 
   public AddFeature(feat: NpcFeature): void {
     this._selectedFeatures.push(feat.ID);
-    this.Parent.save();
+    this.Parent.SaveController.save();
+  }
+
+  public GetModifiers(feat: NpcFeature): NpcFeature[] {
+    return this.Features.filter((x) => x.Mod?._targetID === feat.ID);
+  }
+
+  public get Passives(): NpcFeature[] {
+    return this.Features.filter((x) => x.Passive);
   }
 
   public RemoveFeature(feat: NpcFeature): void {
@@ -97,7 +105,7 @@ class NpcFeatureController implements IFeatureContainer {
       this._instancedFeatures.splice(j, 1);
     }
 
-    this.Parent.save();
+    this.Parent.SaveController.save();
   }
 
   public ClearFeatures(): void {
@@ -119,7 +127,7 @@ class NpcFeatureController implements IFeatureContainer {
         this._selectedFeatures.push(f.ID);
       });
     });
-    this.Parent.save();
+    this.Parent.SaveController.save();
   }
 
   public static Serialize(parent: Unit, target: any) {

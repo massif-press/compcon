@@ -11,7 +11,7 @@
     @open="openItem($event)">
     <editor v-if="selected" :item="selected" :readonly="selected.Readonly" hide-toolbar>
       <builder slot="upper" :item="selected" :readonly="selected.Readonly" />
-      <features slot="lower" :item="selected" :readonly="selected.Readonly" />
+      <features slot="lower" :npc="selected" :readonly="selected.Readonly" />
     </editor>
     <no-gm-item v-else />
   </gm-split-view>
