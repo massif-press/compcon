@@ -33,7 +33,7 @@
       </cc-modal>
     </template>
     <div v-if="item.NpcClassController?.HasClass">
-      <features :item="item" :readonly="readonly" />
+      <features :npc="item" :readonly="readonly" />
     </div>
   </editor-base>
 </template>

@@ -77,6 +77,7 @@ class StatController {
 
   public AddCoreStat(key: string): void {
     this._maxStats[key] = Stats.DefaultStats[key];
+    this.Parent.SaveController.save();
   }
 
   public AddCustomStat(title: string, type: string): void {
@@ -88,11 +89,13 @@ class StatController {
       default:
         this._maxStats[key] = Array(3).fill(0);
     }
+    this.Parent.SaveController.save();
   }
 
   public RemoveStat(key: string): void {
     if (this.Parent.MandatoryStats.includes(key)) return;
     delete this._maxStats[key];
+    this.Parent.SaveController.save();
   }
 
   public get MaxStats(): any {
@@ -118,6 +121,7 @@ class StatController {
     } else {
       this._maxStats[k] = val;
     }
+    this.Parent.SaveController.save();
   }
 
   public get SizeIcon(): string {

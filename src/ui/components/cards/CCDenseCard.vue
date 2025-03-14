@@ -16,6 +16,7 @@
       </span>
     </template>
     <v-card-text class="px-0 pb-1 py-0">
+      <slot name="pre" />
       <cc-item-card :item="item" dense small-tags :tier="tier" />
       <slot name="extra" />
     </v-card-text>

@@ -6,8 +6,6 @@ import { Unit, UnitData } from '@/classes/npc/unit/Unit';
 import _ from 'lodash';
 import { Npc } from '@/classes/npc/Npc';
 import { IndexItem } from '@/stores';
-import path from 'path';
-import { cloudDelete } from '@/io/apis/account';
 import { CloudController } from '@/classes/components';
 
 export const NpcStore = defineStore('npc', {

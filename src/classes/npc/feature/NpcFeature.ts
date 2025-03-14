@@ -147,6 +147,10 @@ abstract class NpcFeature extends CompendiumItem {
     return this._hide_active;
   }
 
+  public get Passive(): boolean {
+    return this.BuildFeature || this.Deprecated || !!this.Mod || this.HideActive;
+  }
+
   Serialize(): INpcFeatureData {
     const data = Compendium.CreateInstanceData() as INpcFeatureData;
     data.origin = this._originID;

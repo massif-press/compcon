@@ -126,8 +126,16 @@ class Bonus {
     let valStr = bonus.Value;
     const ll = source.FeatureController.getRootProperty('Level')?.toString() || '0';
     const grit = source.FeatureController.getRootProperty('Grit')?.toString() || '0';
+    const hull = source.FeatureController.getRootProperty('Hull')?.toString() || '0';
+    const agi = source.FeatureController.getRootProperty('Agi')?.toString() || '0';
+    const eng = source.FeatureController.getRootProperty('Eng')?.toString() || '0';
+    const sys = source.FeatureController.getRootProperty('Sys')?.toString() || '0';
     valStr = valStr.replace(/{ll}/g, ll);
     valStr = valStr.replace(/{grit}/g, grit);
+    valStr = valStr.replace(/{hull}/g, hull);
+    valStr = valStr.replace(/{agi}/g, agi);
+    valStr = valStr.replace(/{eng}/g, eng);
+    valStr = valStr.replace(/{sys}/g, sys);
     valStr = valStr.replace(/[^-()\d/*+.]/g, '');
     return Math.ceil(eval(valStr));
   }

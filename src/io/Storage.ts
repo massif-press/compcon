@@ -68,6 +68,8 @@ const Initialize = async function () {
 };
 
 const SetItem = async function (collection: string, item: any) {
+  console.log('SetItem', collection, item);
+
   if (typeof item === 'string') {
     const sr = await storeRegistry[collection.toLowerCase()];
     sr.setItem(item, item);
@@ -80,6 +82,8 @@ const SetItem = async function (collection: string, item: any) {
   if (item.SaveController) {
     save = item.SaveController.IsDirty;
   }
+
+  console.log('Saving', collection, id, item, save);
 
   if (!save) return;
 

@@ -2,7 +2,7 @@
 
 import { ISaveable } from './ISaveable';
 import { SetItem } from '@/io/Storage';
-import { debounce } from 'lodash';
+import _ from 'lodash';
 
 interface ISaveData {
   lastModified: number;
@@ -28,6 +28,8 @@ class SaveController {
   public constructor(parent: ISaveable) {
     this.Parent = parent;
     this.DeleteTime = 0;
+
+    this.save = _.throttle(this._save, 1500).bind(this);
   }
 
   public static NewSaveData(): ISaveData {
@@ -38,7 +40,9 @@ class SaveController {
     };
   }
 
-  public save(silent = false) {
+  public save(silent = false) {}
+
+  private async _save(silent = false) {
     if (!silent) {
       this.IsDirty = true;
       this.LastModified = new Date().getTime();
@@ -46,7 +50,7 @@ class SaveController {
       console.trace();
     }
 
-    debounce(() => SetItem(this.Parent.StorageType, this.Parent.Serialize()));
+    SetItem(this.Parent.StorageType, this.Parent.Serialize());
   }
 
   public saveSilent() {
