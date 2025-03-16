@@ -50,6 +50,7 @@
                 " />
               <div v-if="d(item).link" class="text-caption px-2 text-right">
                 <v-btn
+                  v-if="!d(item).installed"
                   flat
                   tile
                   :href="d(item).link"
@@ -170,7 +171,7 @@ export default {
         name: dep.name,
         version: this.parseVersion(dep.version),
         link: dep.link,
-        installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version),
+        installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true),
       };
     },
   },
