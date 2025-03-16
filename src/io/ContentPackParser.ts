@@ -15,14 +15,15 @@ import {
   IActionData,
   IBackgroundData,
   IReserveData,
-  IEnvironmentData,
   ISitrepData,
   IStatusData,
+  ISkillData,
 } from '@/interface';
 import { INpcClassData } from '@/classes/npc/class/NpcClass';
 import { INpcFeatureData } from '@/classes/npc/feature/NpcFeature';
 import { INpcTemplateData } from '@/classes/npc/template/NpcTemplate';
 import CoreLayerData from '@/classes/npc/eidolon/core_layer.json';
+import { IEnvironmentData } from '@/classes/Environment';
 
 const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
@@ -92,11 +93,8 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
 
   const manufacturers = await getZipData<IManufacturerData>(zip, 'manufacturers.json');
   const backgrounds = await getZipData<IBackgroundData>(zip, 'backgrounds.json');
+  const skills = await getZipData<ISkillData>(zip, 'skills.json');
   const coreBonuses = generateIDs(await getZipData<ICoreBonusData>(zip, 'core_bonuses.json'), 'cb');
-  const frames = generateIDs(await getZipData<IFrameData>(zip, 'frames.json'), 'mf');
-  const weapons = generateIDs(await getZipData<IMechWeaponData>(zip, 'weapons.json'), 'mw');
-  const systems = generateIDs(await getZipData<IMechSystemData>(zip, 'systems.json'), 'ms');
-  const mods = generateIDs(await getZipData<IWeaponModData>(zip, 'mods.json'), 'wm');
   const pilotGear = generateIDs(
     await getZipData<IPilotEquipmentData>(zip, 'pilot_gear.json'),
     'pg'
@@ -112,6 +110,38 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   const bonds = (await readZipJSON<any[]>(zip, 'bonds.json')) || [];
   const reserves = (await readZipJSON<IReserveData[]>(zip, 'reserves.json')) || [];
 
+  // library style data for PCs
+  const frames = generateIDs(await getZipData<IFrameData>(zip, 'frames.json'), 'mf');
+  const weapons = generateIDs(await getZipData<IMechWeaponData>(zip, 'weapons.json'), 'mw');
+  const systems = generateIDs(await getZipData<IMechSystemData>(zip, 'systems.json'), 'ms');
+  const mods = generateIDs(await getZipData<IWeaponModData>(zip, 'mods.json'), 'wm');
+
+  // collection style data for PCs
+  if (files.some((x) => x.toLowerCase().startsWith('license_'))) {
+    const licenseDataPromises = files
+      .filter((x) => x.startsWith('license_'))
+      .map(async (x) => (await readZipJSON<any[]>(zip, x)) || []);
+
+    const licenseDataCollections = await Promise.all(licenseDataPromises);
+
+    licenseDataCollections.forEach((x) => {
+      const addFrame = x.find((y) => y.mechtype);
+      if (addFrame) {
+        frames.push(addFrame);
+        x.filter((x) => x.id !== addFrame.id).forEach((e) => {
+          e.license_id = addFrame.id;
+          e.source = addFrame.source;
+          e.license = addFrame.name;
+          e.origin = addFrame.id;
+          if (e.data_type === 'weapon' || e.mount || e.type) weapons.push(e);
+          else if (e.data_type === 'mod' || e.allowed_types) mods.push(e);
+          else systems.push(e);
+        });
+      }
+    });
+  }
+
+  // library style data for NPCs
   const npcClasses = (await readZipJSON<INpcClassData[]>(zip, 'npc_classes.json')) || [];
   const npcTemplates = (await readZipJSON<INpcTemplateData[]>(zip, 'npc_templates.json')) || [];
 
@@ -119,8 +149,9 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
     .filter((x) => x.startsWith('npc_') && !x.includes('classes') && !x.includes('templates'))
     .map(async (x) => (await readZipJSON<INpcFeatureData[]>(zip, x)) || []);
 
-  const npcFeatures = (await Promise.all(npcFeaturePromises)).flat();
+  let npcFeatures = (await Promise.all(npcFeaturePromises)).flat();
 
+  // collection style data for NPCs
   if (files.some((x) => x.toLowerCase().startsWith('npcc_'))) {
     const npcClassDataPromises = files
       .filter((x) => x.startsWith('npcc_'))
@@ -159,6 +190,55 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
     });
   }
 
+  const failedFeatures = [] as any[];
+  // assign library and v2 features to classes and template origins
+  // v2 style data will not contain origins, and so must be assigned backwards from the class/template
+  npcFeatures
+    .filter((x) => !x.origin || typeof x.origin !== 'string')
+    .forEach((item: any) => {
+      // attempt to add via origin object
+      if (item.origin?.type.toLowerCase() === 'template') {
+        const template = npcTemplates.find(
+          (x) => x.name.toLowerCase() === item.origin.name.toLowerCase()
+        );
+        if (template) {
+          item.origin = template.id;
+          return;
+        }
+      } else if (item.origin?.type.toLowerCase() === 'class') {
+        const npcClass = npcClasses.find(
+          (x) => x.name.toLowerCase() === item.origin.name.toLowerCase()
+        );
+        if (npcClass) {
+          item.origin = npcClass.id;
+          return;
+        }
+      }
+      // attempt to assign from v2 style library data
+      const template = npcTemplates.find(
+        (x: any) => x.optional_features.includes(item.id) || x.base_features.includes(item.id)
+      );
+      if (template) {
+        item.origin = template.id;
+        return;
+      }
+      const npcClass = npcClasses.find(
+        (x: any) => x.optional_features.includes(item.id) || x.base_features.includes(item.id)
+      );
+      if (npcClass) {
+        item.origin = npcClass.id;
+        return;
+      }
+
+      console.error(`Failed to assign origin to item`, item);
+      failedFeatures.push(item);
+    });
+
+  if (failedFeatures.length) {
+    console.error(`Failed to assign origin to ${failedFeatures.length} items`, failedFeatures);
+    npcFeatures = npcFeatures.filter((x) => !failedFeatures.includes(x));
+  }
+
   const eidolonLayers = (await readZipJSON<any[]>(zip, 'eidolon_layers.json')) || [];
   if (eidolonLayers.length) {
     eidolonLayers.push(CoreLayerData);
@@ -173,6 +253,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
     data: {
       manufacturers,
       backgrounds,
+      skills,
       coreBonuses,
       frames,
       weapons,

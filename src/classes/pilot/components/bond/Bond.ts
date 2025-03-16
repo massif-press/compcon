@@ -1,5 +1,6 @@
 import { ContentPack } from '@/class';
 import { CompendiumStore } from '../../../../stores';
+import { BrewInfo } from '@/classes/components/brew/BrewController';
 
 type prompt = {
   question: string;
@@ -21,6 +22,7 @@ interface IBondData {
   minor_ideals: string[];
   questions: prompt[];
   powers: BondPower[];
+  brew?: BrewInfo;
 }
 
 class Bond {
@@ -33,6 +35,7 @@ class Bond {
   public readonly LcpName: string;
   public readonly InLcp: boolean;
   public readonly ItemType: string = 'Bond';
+  public readonly Brew: BrewInfo;
 
   public constructor(data: IBondData, pack?: ContentPack) {
     this.ID = data.id;
@@ -43,11 +46,21 @@ class Bond {
     this._powers = data.powers;
     this.LcpName = pack?.Name || 'LANCER Core Book';
     this.InLcp = !!pack;
+    if (data.brew) {
+      this.Brew = data.brew;
+    }
+    if (pack) {
+      this.Brew = {
+        LcpId: pack.ID,
+        LcpName: pack.Name,
+        LcpVersion: pack.Version,
+        Website: pack.Website || '',
+        Status: 'OK',
+      };
+    } else this.Brew = {} as BrewInfo;
   }
 
   public get Powers() {
-    // filter veteran powers including "boon" -- preserve KTB mechanics while also allowing for homebrew veteran powers that don't follow format.
-    // return this._powers.filter(x => !x.veteran && !x.name.includes('boon'))
     return this._powers;
   }
 
@@ -69,8 +82,7 @@ class Bond {
   }
 
   public static Deserialize(id: string): Bond {
-    const res = CompendiumStore().referenceByID('Bonds', id);
-    return res.err ? null : res;
+    return CompendiumStore().referenceByID('Bonds', id);
   }
 }
 

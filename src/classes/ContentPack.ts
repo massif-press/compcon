@@ -35,7 +35,7 @@ import { Action } from './Action';
 import { Background, IBackgroundData } from './Background';
 import { Status, IStatusData } from './Status';
 import { Bond, IBondData } from './pilot/components/bond/Bond';
-import { IReserveData } from './pilot/components';
+import { IReserveData, ISkillData, Skill } from './pilot/components';
 import { IEnvironmentData } from './Environment';
 import { ISitrepData } from './encounter/Sitrep';
 import { INpcClassData, NpcClass } from './npc/class/NpcClass';
@@ -74,6 +74,7 @@ interface IContentPackData {
   talents: ITalentData[];
   tags: ITagCompendiumData[];
   reserves: IReserveData[];
+  skills: ISkillData[];
 
   npcClasses: INpcClassData[];
   npcFeatures: INpcFeatureData[];
@@ -130,6 +131,8 @@ class ContentPack {
     self._id = id;
 
     self._Tags = self._data.tags?.map((x) => new Tag(x, self)) || [];
+
+    self._Skills = self._data.skills?.map((x) => new Skill(x, self)) || [];
 
     self._Manufacturers =
       self._data.manufacturers?.map((x) => {
@@ -217,6 +220,11 @@ class ContentPack {
   private _Backgrounds: Background[] = [];
   public get Backgrounds(): Background[] {
     return this._Backgrounds;
+  }
+
+  private _Skills: Skill[] = [];
+  public get Skills(): Skill[] {
+    return this._Skills;
   }
 
   private _CoreBonuses: CoreBonus[] = [];

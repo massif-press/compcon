@@ -67,7 +67,6 @@ abstract class Npc
 
   public constructor(data?: NpcData) {
     if ((data as any)?.instance) this.IsInstance = true;
-    console.log(this.IsInstance, data);
 
     this._id = data ? data.id : uuid();
     this._note = data ? data.note : '';

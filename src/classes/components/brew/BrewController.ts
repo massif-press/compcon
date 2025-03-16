@@ -1,7 +1,7 @@
 import _ from 'lodash';
+import { coerce, gte } from 'semver';
 import { IBrewable } from './IBrewable';
 import { CompendiumStore } from '@/stores';
-import { CompendiumItem } from '@/class';
 
 interface IBrewData {
   brews: BrewInfo[];
@@ -36,8 +36,16 @@ class BrewController {
 
     out.forEach((brew) => {
       const p = CompendiumStore().ContentPacks.find((x) => x.ID === brew.LcpId);
-      if (!p) return;
-      brew.Status = p.Version === brew.LcpVersion ? (!!p.Active ? 'OK' : 'OFF') : 'OLD';
+      if (!p) {
+        brew.Status = 'MISSING';
+        return;
+      }
+      if (!p.Active) {
+        brew.Status = 'OFF';
+        return;
+      }
+      const compVer = gte(coerce(p.Version), coerce(brew.LcpVersion));
+      brew.Status = compVer ? 'OK' : 'OLD';
     });
 
     return _.uniqBy(out, 'LcpId');
@@ -68,6 +76,13 @@ class BrewController {
 
   get NonfunctionalBrews(): BrewInfo[] {
     return this.Brews.filter((x) => x.Status === 'MISSING' || x.Status === 'OFF');
+  }
+
+  get OtherError(): boolean {
+    return (
+      this.MissingContent &&
+      this.MissingBrews.length + this.DeactivatedBrews.length + this.OutdatedBrews.length === 0
+    );
   }
 
   public FixMissing() {
