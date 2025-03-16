@@ -67,7 +67,8 @@ class NpcFeatureMod {
 
 abstract class NpcFeature extends CompendiumItem {
   public InLcp: boolean = true;
-  private _originID: string;
+  // this needs to be public (for now) to support v2 style NPC data
+  public _originID: string;
   private _effect: string;
   private _hide_active: boolean;
   public FeatureType: NpcFeatureType = NpcFeatureType.Trait;

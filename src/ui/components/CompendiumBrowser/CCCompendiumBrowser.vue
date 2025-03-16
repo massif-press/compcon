@@ -991,7 +991,6 @@ export default {
     },
     scrollTo(id: string): void {
       const el = document.getElementById(id);
-      console.log(el);
       if (el) {
         const yOffset = -70;
         const mEl = document.getElementById('content');

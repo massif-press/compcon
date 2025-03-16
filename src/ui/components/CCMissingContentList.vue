@@ -1,6 +1,11 @@
 <template>
-  <v-card variant="tonal" color="error" :max-width="width" style="font-size: 13px">
-    <v-row v-for="b in controller.Brews" dense align="center" class="ml-1 pt-1">
+  <v-card variant="outlined" color="error" class="py-1" :max-width="width" style="font-size: 13px">
+    <v-row
+      v-if="!controller.OtherError"
+      v-for="b in controller.Brews"
+      dense
+      align="center"
+      class="ml-1">
       <v-col cols="auto">
         <v-tooltip location="top" open-delay="300" max-width="300">
           <template #activator="{ props }">
@@ -12,7 +17,7 @@
                 icon="mdi-power-plug-off-outline" />
               <v-icon
                 v-else-if="b.Status === 'OLD'"
-                color="secondary"
+                color="accent"
                 icon="mdi-clock-alert-outline" />
               <v-icon v-else color="success" icon="mdi-check-bold" />
             </span>
@@ -31,6 +36,7 @@
             This item requires a version of the {{ b.LcpName }} Lancer Content Pack newer than the
             one that is currently installed.
           </span>
+          <span v-else>The {{ b.LcpName }} Lancer Content Pack is installed and active.</span>
         </v-tooltip>
       </v-col>
       <v-col cols="auto">
@@ -59,13 +65,19 @@
           :href="b.Website"
           target="_blank"
           rel="noopener noreferrer"
-          variant="tonal"
+          flat
+          tile
           color="secondary">
           <v-icon icon="mdi-open-in-new" start />
           Update LCP
         </v-btn>
       </v-col>
     </v-row>
+    <p v-if="controller.OtherError" class="text-center">
+      COMP/CON encountered an error while loading this item.
+      <br />
+      Please check the error log in the "Log" tab of the Options menu for more information
+    </p>
   </v-card>
 </template>
 

@@ -279,6 +279,7 @@ class Pilot
     return [
       ...this.Mechs.flatMap((m) => m.BrewableItems),
       this.PilotLoadoutController.Loadout.Items,
+      this.BondController.Bond,
     ] as CompendiumItem[];
   }
 

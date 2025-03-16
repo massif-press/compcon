@@ -22,7 +22,7 @@
         </v-card-text>
       </v-window-item>
       <v-window-item>
-        <pack-install @installed="onInstalled" />
+        <pack-install />
       </v-window-item>
       <v-window-item>
         <packs-directory />
@@ -62,12 +62,6 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
-    },
-  },
-  methods: {
-    onInstalled(): void {
-      (this.$refs.pl as any as any).reload();
-      this.tabs = 0;
     },
   },
 };

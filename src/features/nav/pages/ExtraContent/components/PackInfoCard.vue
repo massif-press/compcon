@@ -31,15 +31,12 @@
           <div v-else>
             <v-card
               v-for="item in packDependencies"
-              :variant="d(item).installed ? 'outlined' : 'tonal'"
-              :color="d(item).installed ? 'secondary' : 'error'"
+              :variant="d(item).installed ? 'flat' : 'text'"
+              :color="d(item).installed ? 'success' : 'error'"
               size="small"
               class="ma-1 pa-1">
               <div class="font-weight-bold">
-                <v-icon
-                  :icon="d(item).installed ? 'mdi-check' : 'mdi-close'"
-                  :color="d(item).installed ? 'success' : 'error'"
-                  class="mr-1" />
+                <v-icon :icon="d(item).installed ? 'mdi-check' : 'mdi-close'" class="mr-1" />
                 {{ d(item).name }} @ {{ d(item).version }}
               </div>
               <div
@@ -52,10 +49,16 @@
                       } at version ${d(item).version}</b> to be installed before it can be loaded.`
                 " />
               <div v-if="d(item).link" class="text-caption px-2 text-right">
-                <a :href="d(item).link" target="_blank" rel="noopener noreferrer">
-                  <v-icon size="small" icon="mdi-download" />
+                <v-btn
+                  flat
+                  tile
+                  :href="d(item).link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  prepend-icon="mdi-download"
+                  size="x-small">
                   {{ d(item).name }}
-                </a>
+                </v-btn>
               </div>
             </v-card>
           </div>
@@ -63,11 +66,17 @@
       </v-col>
       <v-col cols="12" md="4">
         <v-img :src="manifest.image_url" max-height="300px" />
-        <div v-if="manifest.website" class="mt-2 text-center">
-          <cc-button target="_blank" :href="manifest.website" color="primary" size="small">
-            <v-icon prepend class="mr-1">mdi-open-in-new</v-icon>
+        <div v-if="manifest.website" class="mt-2 d-flex">
+          <v-spacer />
+          <cc-button
+            target="_blank"
+            prepend-icon="mdi-open-in-new"
+            :href="manifest.website"
+            color="primary"
+            size="small">
             Author's Website
           </cc-button>
+          <v-spacer />
         </div>
       </v-col>
     </v-row>
@@ -126,6 +135,7 @@ export default {
       const data = (this.pack as IContentPack).data
         ? (this.pack as IContentPack).data
         : (this.pack as ContentPack).Data;
+
       return _.toPairs(data)
         .map(([key, value]: [string, object[]]) => {
           const count = value.length;

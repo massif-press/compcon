@@ -35,8 +35,13 @@ abstract class LicensedItem extends CompendiumItem {
   }
 
   public get Manufacturer(): Manufacturer {
-    if (this.Source === 'EXOTIC') return undefined as any;
-    return CompendiumStore().referenceByID('Manufacturers', this.Source);
+    try {
+      if (this.Source === 'EXOTIC') return undefined as any;
+      return CompendiumStore().referenceByID('Manufacturers', this.Source);
+    } catch (e) {
+      console.error(`Error getting manufacturer for item ${this.Name}: ${e}`);
+      return undefined as any;
+    }
   }
 
   public get License(): string {

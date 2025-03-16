@@ -225,24 +225,6 @@ export const CompendiumStore = defineStore('compendium', {
         });
     },
 
-    packAlreadyInstalled(): any {
-      return (packId: string, version?: string) => {
-        console.log(this.ContentPacks);
-        console.log(packId);
-        let candidates = this.ContentPacks.filter((pack) => packId === pack.ID);
-
-        console.log(candidates);
-
-        if (!version || version === '*') return candidates.length > 0;
-        if (version.startsWith('='))
-          return candidates.some((pack) => pack.Version === version.slice(1));
-
-        return candidates.some((pack) => {
-          return semver.gte(semver.coerce(pack.Version), semver.coerce(version));
-        });
-      };
-    },
-
     instantiate(): any {
       return (itemType: string, id: string) => {
         if (this[itemType] && this[itemType] instanceof Array) {
@@ -437,6 +419,24 @@ export const CompendiumStore = defineStore('compendium', {
     async loadContentCollections(): Promise<void> {
       let content = await GetAll('content_collection');
       this.ContentCollections = content.map((x) => ContentCollection.Deserialize(x));
+    },
+    packAlreadyInstalled(packName: string, version?: string): boolean {
+      console.log(packName, '---', version);
+      console.log(this.ContentPacks.map((x) => x.Name.toLowerCase()));
+
+      let candidate = this.ContentPacks.find(
+        (pack) => pack.Name.toLowerCase() === packName.toLowerCase()
+      );
+
+      console.log(candidate);
+
+      if (!candidate) return false;
+
+      if (!version || version === '*') return !!candidate;
+
+      if (version.startsWith('=')) return candidate.Version === version.slice(1);
+
+      return semver.gte(semver.coerce(candidate.Version), semver.coerce(version));
     },
   },
 });

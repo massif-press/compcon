@@ -113,8 +113,15 @@
                   </div>
                 </div>
 
+                <div v-if="item.BrewController.OtherError && item.ItemType !== 'Eidolon'">
+                  COMP/CON encountered an error while loading this item.
+                  <br />
+                  Please check the error log in the "Log" tab of the Options menu for more
+                  information
+                </div>
+
                 <div
-                  v-if="
+                  v-else-if="
                     item.BrewController.IsUnableToLoad &&
                     !item.BrewController.NonfunctionalBrews.length
                   ">
@@ -135,7 +142,7 @@
                       </div>
                     </div>
                     <div v-else-if="item.ItemType === 'Eidolon'">
-                      <b class="text-accent" v-text="`LANCER CORE BOOK`" />
+                      <b class="text-accent" v-text="`NO ROOM FOR A WALLFLOWER`" />
                       <div class="text-caption pl-4">
                         This pack is included in the No Room for a Wallflower: Act 1 paid content:
                         <a

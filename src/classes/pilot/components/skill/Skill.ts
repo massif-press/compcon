@@ -1,5 +1,5 @@
 import { CompendiumStore } from '../../../../stores';
-import { CompendiumItem, SkillFamily, ItemType } from '../../../../class';
+import { CompendiumItem, SkillFamily, ItemType, ContentPack } from '../../../../class';
 import { ICompendiumItemData } from '../../../../interface';
 
 interface ISkillData extends ICompendiumItemData {
@@ -11,8 +11,8 @@ class Skill extends CompendiumItem {
   public readonly Detail: string;
   public readonly Family: SkillFamily;
 
-  public constructor(data: ISkillData) {
-    super(data);
+  public constructor(data: ISkillData, pack?: ContentPack) {
+    super(data, pack);
     this.Detail = data.detail;
     this.Family = SkillFamily[data.family] as SkillFamily;
     this.ItemType = ItemType.Skill;

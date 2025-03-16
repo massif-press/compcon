@@ -1,17 +1,19 @@
 <template>
   <v-card-text :style="mobile ? 'margin-top: 24px; padding: 8px' : 'margin-top: 32px'">
     <v-row class="packInstaller" style="height: 100%">
-      <v-col style="height: 100%" cols="12" md="3" class="px-3 py-4">
+      <v-col style="height: 100%" cols="12" md="4" class="px-3 py-4">
         <v-file-input
           v-model="value"
           placeholder="Select an .LCP file"
           variant="outlined"
           type="file"
           accept=".lcp"
-          prepend-inner-icon="cc:content_manager"
+          prepend-icon="cc:content_manager"
           clearable
+          multiple
           clear-icon="mdi-close"
           tile
+          chips
           density="compact"
           @click:clear="reset()"
           @change="fileChange($event)" />
@@ -19,56 +21,137 @@
           block
           type="flat"
           size="small"
-          :disabled="!contentPack || installing || uninstalledDependencies.length > 0"
-          :color="done ? 'success' : 'primary'"
+          :disabled="disableInstall"
+          color="primary"
           @click="install">
           <template #info>
             <v-icon icon="mdi-tray-arrow-down" />
           </template>
-          <v-fade-transition mode="out-in">
-            <svg
-              v-show="done"
-              class="check"
-              xmlns="http://www.w3.org/2000/svg"
-              width="32px"
-              height="32px"
-              viewBox="0 0 154 154">
-              <polyline
-                points="43.5,77.8 63.7,97.9 112.2,49.4 "
-                style="stroke: white; fill: none; stroke-width: 12px" />
-            </svg>
-          </v-fade-transition>
-          <span v-show="!done">{{ packAlreadyInstalled ? 'Replace' : 'Install' }}</span>
+
+          <span>Install</span>
         </cc-button>
-        <p v-if="error" style="color: red">{{ error }}</p>
-        <cc-alert
-          v-show="packAlreadyInstalled && !(installing || done)"
-          color="info"
-          class="transition-swing"
-          transition="slide-y-reverse-transition">
-          A pack with this same name and author is already installed. It will be replaced by this
-          copy.
-        </cc-alert>
-        <cc-alert
-          v-show="uninstalledDependencies.length > 0 && !(installing || done)"
-          color="error"
-          class="transition-swing"
-          transition="slide-y-reverse-transition">
-          This LCP requires the following content to be installed before it can be added:
-          <div v-for="dep in uninstalledDependencies" :key="dep.id" class="text-caption">
-            <v-chip size="small">{{ dep.name }}</v-chip>
-            @ {{ parseVersion(dep.version) }}
-            <v-btn v-if="dep.link" icon variant="plain" size="x-small" @click="openLink(dep.link)">
-              <v-icon>mdi-open-in-new</v-icon>
-            </v-btn>
+        <cc-alert v-if="hasAlreadyInstalled" color="warning" class="my-3">
+          <span class="text-caption">
+            The following content pack(s) are already installed and will be replaced:
+          </span>
+          <div
+            v-for="pack in contentPacks.filter((x) => packAlreadyInstalled(x))"
+            :key="pack.id"
+            class="text-caption">
+            <b>{{ pack.manifest.name }}</b>
+            by {{ pack.manifest.author }} @ {{ alreadyInstalledVersion(pack) }}
+            <div class="ml-3 mb-2" style="margin-top: -2px">
+              <v-chip
+                v-if="gradeType(pack) === 'upgrade'"
+                color="success"
+                size="x-small"
+                variant="elevated"
+                class="elevation-0">
+                <v-icon start icon="mdi-arrow-up" />
+                Upgrade from {{ alreadyInstalledVersion(pack) }} to {{ pack.manifest.version }}
+              </v-chip>
+              <v-chip
+                color="error"
+                size="x-small"
+                variant="elevated"
+                class="elevation-0"
+                v-else-if="gradeType(pack) === 'downgrade'">
+                <v-icon start icon="mdi-arrow-down" />
+                Downgrade to {{ pack.manifest.version }}
+              </v-chip>
+              <i v-else>
+                <v-icon class="pb-1" icon="mdi-swap-horizontal" />
+                No change ({{ pack.manifest.version }} to {{ pack.manifest.version }})
+              </i>
+            </div>
           </div>
         </cc-alert>
+
+        <cc-alert v-if="hasUninstalledDependencies" color="error" class="my-3">
+          <span class="text-caption">
+            The following content pack(s) have uninstalled dependencies and cannot be installed yet.
+            They will be skipped:
+          </span>
+          <div
+            v-for="pack in contentPacks.filter((x) => uninstalledDependencies(x).length > 0)"
+            :key="pack.id"
+            class="text-caption">
+            <b>{{ pack.manifest.name }}</b>
+            by {{ pack.manifest.author }} requires
+            <div v-for="dep in uninstalledDependencies(pack)" :key="dep.id" class="text-caption">
+              <v-chip
+                size="x-small"
+                variant="elevated"
+                class="elevation-0"
+                @click="openLink(dep.link)">
+                {{ dep.name }} @ {{ parseVersion(dep.version) }}
+              </v-chip>
+            </div>
+          </div>
+        </cc-alert>
+
+        <v-fade-transition mode="out-in">
+          <cc-alert v-if="installing" type="info" class="mt-3">
+            Installing {{ contentPacks.length }} content pack(s)...
+          </cc-alert>
+        </v-fade-transition>
+
+        <p v-if="error" style="color: red">{{ error }}</p>
       </v-col>
       <v-divider v-if="!mobile" vertical class="mx-3" />
-      <v-col class="px-3 py-4" :style="mobile ? '' : 'height: calc(95vh - 83px)'">
-        <v-fade-transition mode="out-in">
-          <div v-if="contentPack" key="pack">
+      <v-col
+        class="px-3 py-4"
+        :style="mobile ? '' : 'height: calc(95vh - 83px)'"
+        style="overflow-y: scroll">
+        <v-fade-transition mode="out-in" v-for="contentPack in contentPacks">
+          <div v-if="contentPack" :key="contentPack.id" class="mb-4">
             <pack-info :pack="contentPack" />
+            <v-alert
+              v-show="packAlreadyInstalled(contentPack) && !installing"
+              flat
+              tile
+              :color="
+                gradeType(contentPack) === 'upgrade'
+                  ? 'success'
+                  : gradeType(contentPack) === 'downgrade'
+                    ? 'error'
+                    : ''
+              "
+              class="transition-swing"
+              transition="slide-y-reverse-transition">
+              A pack with this same name and author is already installed.
+              <span v-if="gradeType(contentPack) === 'upgrade'">
+                It will be upgraded to v.{{ contentPack.manifest.version }}
+              </span>
+              <span v-else-if="gradeType(contentPack) === 'downgrade'">
+                It will be downgraded to {{ contentPack.manifest.version }}
+              </span>
+              <span v-else>It will be replaced by this copy.</span>
+            </v-alert>
+            <v-alert
+              v-show="uninstalledDependencies(contentPack).length > 0 && !installing"
+              flat
+              tile
+              color="error"
+              class="transition-swing"
+              transition="slide-y-reverse-transition">
+              This LCP requires the following content to be installed before it can be added:
+              <div
+                v-for="dep in uninstalledDependencies(contentPack)"
+                :key="dep.id"
+                class="text-caption">
+                <v-chip size="small">{{ dep.name }}</v-chip>
+                @ {{ parseVersion(dep.version) }}
+                <v-btn
+                  v-if="dep.link"
+                  icon
+                  variant="plain"
+                  size="x-small"
+                  @click="openLink(dep.link)">
+                  <v-icon>mdi-open-in-new</v-icon>
+                </v-btn>
+              </div>
+            </v-alert>
           </div>
           <div v-else key="nopack" class="text-center my-6">
             <div class="heading h3 font-italic text-disabled">No content pack selected</div>
@@ -85,7 +168,10 @@ import { parseContentPack } from '@/io/ContentPackParser';
 import { CompendiumStore } from '@/stores';
 
 import PackInfo from './PackInfo.vue';
-import { IContentPack } from '@/classes/ContentPack';
+import { ContentPack, IContentPack } from '@/classes/ContentPack';
+
+import { compare, coerce } from 'semver';
+import { set } from 'lodash';
 
 export default {
   name: 'PackInstall',
@@ -93,31 +179,34 @@ export default {
   data: () => ({
     value: null,
     installing: false,
-    done: false,
-    contentPack: null as unknown as IContentPack,
+    contentPacks: [] as IContentPack[],
     error: '',
   }),
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
     },
-    packAlreadyInstalled() {
-      return !!this.contentPack && CompendiumStore().packAlreadyInstalled(this.contentPack.id);
+    hasAlreadyInstalled() {
+      return this.contentPacks.some((pack) => this.packAlreadyInstalled(pack));
     },
-    uninstalledDependencies() {
-      if (!this.contentPack) return [];
-      const pack = this.contentPack as any;
-      const deps = pack.manifest ? pack.manifest.dependencies : [];
-      if (!deps) return [];
-      return deps.filter((dep) => !CompendiumStore().packAlreadyInstalled(dep.name, dep.version));
+    hasUninstalledDependencies() {
+      if (!this.contentPacks.length) return false;
+      return this.contentPacks.some((pack) => this.uninstalledDependencies(pack).length > 0);
+    },
+    disableInstall() {
+      return (
+        this.installing ||
+        this.contentPacks.length === 0 ||
+        this.contentPacks.filter((pack) => this.uninstalledDependencies(pack).length > 0).length ===
+          this.contentPacks.length
+      );
     },
   },
   methods: {
     async reset() {
-      this.contentPack = null as unknown as IContentPack;
+      this.contentPacks = [];
       this.error = '';
       this.value = null;
-      this.done = false;
       await this.$nextTick();
     },
     openLink(link) {
@@ -128,16 +217,19 @@ export default {
       if (version.includes('=')) return version.replace('=', '');
       return version + ' or later';
     },
-    fileChange(event) {
-      const file = event.target.files[0];
-      if (file) {
-        this.readFileAsBinaryString(file);
+    async fileChange(event) {
+      const files = event.target.files;
+      if (files?.length) {
+        for (let i = 0; i < files.length; i++) {
+          await this.readFileAsBinaryString(files[i]);
+        }
       }
     },
     async readFileAsBinaryString(file) {
       try {
         const fileData = await this.readAsBinaryStringAsync(file);
-        this.contentPack = await parseContentPack(fileData as string);
+        const pack = await parseContentPack(fileData as string);
+        this.contentPacks.push(pack);
       } catch (error) {
         console.error('Error reading the file:', error);
       }
@@ -151,22 +243,49 @@ export default {
       });
     },
     async install(): Promise<void> {
-      if (this.done || this.installing) return;
+      if (this.installing) return;
       this.$emit('start-load');
       this.installing = true;
-      this.contentPack.active = true;
-      await CompendiumStore().installContentPack(this.contentPack);
+      const promises = [] as Promise<void>[];
+      this.contentPacks.forEach((contentPack) => {
+        if (!this.uninstalledDependencies(contentPack).length) {
+          contentPack.active = true;
+          promises.push(CompendiumStore().installContentPack(contentPack));
+        } else {
+          console.warn(`Skipping ${contentPack.manifest.name} due to uninstalled dependencies.`);
+        }
+      });
+      await Promise.all(promises);
       this.installing = false;
 
-      this.done = true;
-      setTimeout(() => {
-        this.$emit('installed');
-        this.contentPack = null as unknown as IContentPack;
-        this.error = '';
-        this.value = null;
-        this.done = false;
-        this.$emit('end-load');
-      }, 500);
+      this.contentPacks = [];
+      this.error = '';
+      this.value = null;
+
+      this.$notify({
+        title: 'Success',
+        text: 'Content packs installed successfully',
+        data: { color: 'success' },
+      });
+    },
+    packAlreadyInstalled(pack) {
+      return CompendiumStore().packAlreadyInstalled(pack.id);
+    },
+    alreadyInstalledVersion(pack) {
+      return CompendiumStore().ContentPacks.find((x) => x.ID === pack.id)?.Manifest.version || '0';
+    },
+    uninstalledDependencies(pack) {
+      const deps = pack.manifest ? pack.manifest.dependencies : [];
+      if (!deps) return [];
+      return deps.filter((dep) => !CompendiumStore().packAlreadyInstalled(dep.name, dep.version));
+    },
+    gradeType(pack) {
+      const installed = this.alreadyInstalledVersion(pack);
+      const staged = pack.manifest.version || '0';
+      const c = compare(coerce(installed), coerce(staged));
+      if (c === -1) return 'upgrade';
+      if (c === 0) return 'same';
+      if (c === 1) return 'downgrade';
     },
   },
 };
