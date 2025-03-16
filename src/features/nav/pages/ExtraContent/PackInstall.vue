@@ -1,7 +1,12 @@
 <template>
-  <v-card-text :style="mobile ? 'margin-top: 24px; padding: 8px' : 'margin-top: 32px'">
+  <v-card-text :style="mobile ? 'margin-top: 24px; padding: 8px' : 'margin-top: 8px'">
     <v-row class="packInstaller" style="height: 100%">
-      <v-col style="height: 100%" cols="12" md="4" class="px-3 py-4">
+      <v-col
+        :style="mobile ? '' : 'height: calc(95vh - 83px)'"
+        style="overflow-y: scroll"
+        cols="12"
+        md="4"
+        class="px-3 py-4">
         <v-file-input
           v-model="value"
           placeholder="Select an .LCP file"
@@ -272,12 +277,14 @@ export default {
       return CompendiumStore().packAlreadyInstalled(pack.id);
     },
     alreadyInstalledVersion(pack) {
-      return CompendiumStore().ContentPacks.find((x) => x.ID === pack.id)?.Manifest.version || '0';
+      return CompendiumStore().ContentPacks.find((x) => x.ID === pack.id)?.Version || '0';
     },
     uninstalledDependencies(pack) {
       const deps = pack.manifest ? pack.manifest.dependencies : [];
       if (!deps) return [];
-      return deps.filter((dep) => !CompendiumStore().packAlreadyInstalled(dep.name, dep.version));
+      return deps.filter(
+        (dep) => !CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true)
+      );
     },
     gradeType(pack) {
       const installed = this.alreadyInstalledVersion(pack);

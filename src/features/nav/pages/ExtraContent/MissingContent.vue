@@ -237,7 +237,7 @@ export default {
             ? dep.version.replace('=', '')
             : dep.version + ' or later',
           link: dep.link,
-          installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version),
+          installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true),
         };
       }).filter((x) => !x.installed);
     },

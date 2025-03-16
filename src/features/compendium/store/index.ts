@@ -420,13 +420,16 @@ export const CompendiumStore = defineStore('compendium', {
       let content = await GetAll('content_collection');
       this.ContentCollections = content.map((x) => ContentCollection.Deserialize(x));
     },
-    packAlreadyInstalled(packName: string, version?: string): boolean {
-      console.log(packName, '---', version);
-      console.log(this.ContentPacks.map((x) => x.Name.toLowerCase()));
+    packAlreadyInstalled(packId: string, version?: string, searchOnName = false): boolean {
+      console.log(packId, '---', version);
 
-      let candidate = this.ContentPacks.find(
-        (pack) => pack.Name.toLowerCase() === packName.toLowerCase()
-      );
+      let candidate;
+
+      if (searchOnName)
+        candidate = this.ContentPacks.find(
+          (pack) => pack.Name.toLowerCase() === packId.toLowerCase()
+        );
+      else candidate = this.ContentPacks.find((pack) => pack.ID === packId);
 
       console.log(candidate);
 
