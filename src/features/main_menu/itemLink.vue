@@ -95,6 +95,9 @@ export default {
       },
     },
   },
+  created() {
+    document.title = (this.item as any)?.Name || 'Item Link';
+  },
   computed: {
     compendiumLoaded() {
       return CompendiumStore().loaded;
