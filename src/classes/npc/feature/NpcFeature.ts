@@ -22,6 +22,7 @@ interface INpcFeatureData extends ICompendiumItemData {
   name: string;
   origin: string;
   base?: boolean;
+  kit?: string;
   effect?: string;
   detail?: string;
   bonus?: object;
@@ -76,6 +77,7 @@ abstract class NpcFeature extends CompendiumItem {
   public readonly Base: boolean;
   public readonly Deprecated: boolean = false;
   public readonly BuildFeature: boolean = false;
+  public readonly Kit?: string;
   public readonly Mod?: NpcFeatureMod;
 
   public constructor(data: INpcFeatureData, pack?: ContentPack) {
@@ -86,6 +88,7 @@ abstract class NpcFeature extends CompendiumItem {
     this._hide_active = data.hide_active || false;
     this.Base = data.base || false;
     this.Deprecated = data.deprecated || false;
+    if (data.kit) this.Kit = data.kit;
     if (data.mod) this.Mod = new NpcFeatureMod(data.mod, this);
   }
 
