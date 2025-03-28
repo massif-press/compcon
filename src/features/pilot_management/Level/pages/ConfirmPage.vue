@@ -63,7 +63,10 @@ export default {
     savePilot() {
       const originalIndex = PilotStore().Pilots.findIndex((p) => p.ID === this.pilot.ID);
       PilotStore().SetPilot(originalIndex, this.pilot as Pilot);
-      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID: this.pilot.ID } });
+      this.$router.push({
+        name: 'pilot_sheet_redirect',
+        params: { pilotID: this.pilot.ID, callsign: this.pilot.Callsign },
+      });
     },
     canContinue() {
       return (

@@ -69,7 +69,12 @@
             v-if="!pilot.IsRemote && !isLevelingUp && pilot.Level < 12"
             size="x-small"
             color="accent"
-            @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID } })">
+            @click="
+              $router.push({
+                name: 'level-up',
+                params: { pilotID: pilot.ID, callsign: pilot.Callsign },
+              })
+            ">
             Level Up
           </cc-button>
         </div>

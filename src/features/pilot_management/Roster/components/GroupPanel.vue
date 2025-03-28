@@ -110,7 +110,7 @@
               v-for="pilot in pilots"
               :is="pilotCardType"
               :pilot="pilot"
-              @goTo="toPilotSheet($event)" />
+              @goTo="toPilotSheet(pilot.ID, pilot.Callsign)" />
           </v-card-text>
           <v-expand-transition>
             <v-row v-if="edit" class="pa-1">
@@ -348,8 +348,8 @@ export default {
     },
   },
   methods: {
-    toPilotSheet(pilotId: string) {
-      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID: pilotId } });
+    toPilotSheet(pilotID: string, callsign: string) {
+      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID, callsign } });
     },
     transferPilot(pilot: Pilot) {
       PilotStore().TransferPilot(pilot, this.group.ID);

@@ -48,10 +48,12 @@ const routes = [
       title: 'Compendium',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Compendium' },
   },
   {
     path: 'compendium/search',
     component: CompendiumSearch,
+    meta: { title: 'Search' },
   },
   {
     path: 'compendium/licenses',
@@ -60,6 +62,7 @@ const routes = [
       title: 'Licenses',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Licenses' },
   },
   {
     path: 'compendium/manufacturers',
@@ -68,6 +71,7 @@ const routes = [
       title: 'Manufacturers',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Manufacturers' },
   },
   {
     path: 'compendium/frames',
@@ -76,6 +80,7 @@ const routes = [
       title: 'Frames',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Frames' },
   },
   {
     path: 'compendium/weapons',
@@ -84,6 +89,7 @@ const routes = [
       title: 'Mech Weapons',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Mech Weapons' },
   },
   {
     path: 'compendium/systems',
@@ -92,6 +98,7 @@ const routes = [
       title: 'Mech Systems',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Mech Systems' },
   },
   {
     path: 'compendium/pilot_gear',
@@ -100,6 +107,7 @@ const routes = [
       title: 'Pilot Gear',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Pilot Gear' },
   },
   {
     path: 'compendium/skills',
@@ -108,6 +116,7 @@ const routes = [
       title: 'Skill Triggers',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Skill Triggers' },
   },
   {
     path: 'compendium/npc_classes',
@@ -116,6 +125,7 @@ const routes = [
       title: 'NPC Classes',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'NPC Classes' },
   },
   {
     path: 'compendium/npc_features',
@@ -124,6 +134,7 @@ const routes = [
       title: 'NPC Features',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'NPC Features' },
   },
   {
     path: 'compendium/npc_templates',
@@ -132,6 +143,7 @@ const routes = [
       title: 'NPC Templates',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'NPC Templates' },
   },
   {
     path: 'compendium/eidolon_layers',
@@ -140,6 +152,7 @@ const routes = [
       title: 'Eidolon Layers',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Eidolon Layers' },
   },
   {
     path: 'compendium/statuses',
@@ -148,6 +161,7 @@ const routes = [
       title: 'Statuses & Conditions',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Statuses & Conditions' },
   },
   {
     path: 'compendium/tags',
@@ -156,10 +170,12 @@ const routes = [
       title: 'Equipment Tags',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Equipment Tags' },
   },
   {
     path: 'compendium/reference',
     component: Reference,
+    meta: { title: 'Reference' },
   },
   {
     path: 'compendium/corebonuses',
@@ -168,6 +184,7 @@ const routes = [
       title: 'Core Bonuses',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Core Bonuses' },
   },
   {
     path: 'compendium/talents',
@@ -176,6 +193,7 @@ const routes = [
       title: 'Pilot Talents',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Pilot Talents' },
   },
   {
     path: 'compendium/backgrounds',
@@ -184,6 +202,7 @@ const routes = [
       title: 'Pilot Backgrounds',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Pilot Backgrounds' },
   },
   {
     path: 'compendium/glossary',
@@ -192,6 +211,7 @@ const routes = [
       title: 'Glossary',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Glossary' },
   },
   {
     path: 'compendium/reserves',
@@ -200,6 +220,7 @@ const routes = [
       title: 'Reserves',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Reserves' },
   },
   {
     path: 'compendium/bonds',
@@ -208,6 +229,7 @@ const routes = [
       title: 'Bonds',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Bonds' },
   },
   {
     path: 'compendium/environments',
@@ -216,18 +238,21 @@ const routes = [
       title: 'Environments',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'Environments' },
   },
   {
     path: 'compendium/sitreps',
     component: Sitreps,
     searchData: {
-      title: 'Sitreps',
+      title: 'SITREPs',
       icon: 'mdi-book-variant',
     },
+    meta: { title: 'SITREPs' },
   },
   {
     path: 'compendium/tables',
     component: Tables,
+    meta: { title: 'Tables' },
   },
   {
     path: 'reference',
@@ -243,6 +268,7 @@ const routes = [
       title: 'Reference: Basics',
       icon: 'mdi-book-open-variant-outline',
     },
+    meta: { title: 'Reference: Basics' },
   },
   {
     path: 'reference/compcon',
@@ -253,6 +279,7 @@ const routes = [
       title: 'Reference: COMP/CON',
       icon: 'mdi-book-open-variant-outline',
     },
+    meta: { title: 'Reference: COMP/CON' },
   },
   {
     path: 'reference/pilots',
@@ -263,6 +290,7 @@ const routes = [
       title: 'Reference: Pilots',
       icon: 'mdi-book-open-variant-outline',
     },
+    meta: { title: 'Reference: Pilots' },
   },
   {
     path: 'reference/mechs',
@@ -273,6 +301,7 @@ const routes = [
       title: 'Reference: Mechs',
       icon: 'mdi-book-open-variant-outline',
     },
+    meta: { title: 'Reference: Mechs' },
   },
   {
     path: 'reference/combat',
@@ -283,6 +312,7 @@ const routes = [
       title: 'Reference: Combat',
       icon: 'mdi-book-open-variant-outline',
     },
+    meta: { title: 'Reference: Combat' },
   },
   {
     path: 'reference/narrative',
@@ -293,6 +323,7 @@ const routes = [
       title: 'Reference: Narrative Play',
       icon: 'mdi-book-open-variant-outline',
     },
+    meta: { title: 'Reference: Narrative Play' },
   },
   {
     path: 'reference/errata',
@@ -303,6 +334,7 @@ const routes = [
       title: 'Reference: Errata',
       icon: 'mdi-book-open-variant-outline',
     },
+    meta: { title: 'Reference: Errata' },
   },
   {
     path: 'reference/glossary',
@@ -313,6 +345,7 @@ const routes = [
       title: 'Reference: Glossary',
       icon: 'mdi-book-open-variant-outline',
     },
+    meta: { title: 'Reference: Glossary' },
   },
   {
     path: 'reference/reference',
