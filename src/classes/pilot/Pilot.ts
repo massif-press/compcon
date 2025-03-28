@@ -292,6 +292,14 @@ class Pilot
     return this.SaveController.IsRemote;
   }
 
+  public get Created(): number {
+    return this.SaveController.Created;
+  }
+
+  public get Updated(): number {
+    return this.SaveController.LastModified;
+  }
+
   // -- Attributes --------------------------------------------------------------------------------
   public get ID(): string {
     return this._id;

@@ -272,7 +272,7 @@ export default {
           .map((x: any) => x.title)
       );
 
-      const baseSortings = ['Name', 'Sitrep', 'Environment', 'Created', 'Updated'];
+      const baseSortings = ['Name', 'Created', 'Updated', 'Sitrep', 'Environment'];
 
       return [...baseSortings, ...allLabelTitles];
     },

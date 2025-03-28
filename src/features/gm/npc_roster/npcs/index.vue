@@ -74,7 +74,7 @@ export default {
           .map((x: any) => x.title)
       );
 
-      const baseSortings = ['Name', 'Tier', 'Role', 'Tag'];
+      const baseSortings = ['Name', 'Created', 'Updated', 'Tier', 'Role', 'Tag'];
 
       const statSortings = new Set(
         this.npcs.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))

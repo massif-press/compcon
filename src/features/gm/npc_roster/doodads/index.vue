@@ -94,7 +94,7 @@ export default {
         this.doodads.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
       );
 
-      const baseSortings = ['Name'];
+      const baseSortings = ['Name', 'Created', 'Updated'];
 
       return [...baseSortings, ...statSortings, ...allLabelTitles];
     },

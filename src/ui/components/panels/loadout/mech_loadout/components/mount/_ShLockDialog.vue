@@ -53,7 +53,6 @@ export default {
   data: () => ({
     dialog: false,
   }),
-  created() {},
   computed: {
     availableMounts() {
       let candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(

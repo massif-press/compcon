@@ -91,6 +91,8 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
 
   const files = await getZipFiles(zip);
 
+  const tags = generateIDs(await getZipData<ITagCompendiumData>(zip, 'tags.json'), 'tg');
+
   const manufacturers = await getZipData<IManufacturerData>(zip, 'manufacturers.json');
   const backgrounds = await getZipData<IBackgroundData>(zip, 'backgrounds.json');
   const skills = await getZipData<ISkillData>(zip, 'skills.json');
@@ -100,7 +102,6 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
     'pg'
   );
   const talents = generateIDs(await getZipData<ITalentData>(zip, 'talents.json'), 't');
-  const tags = generateIDs(await getZipData<ITagCompendiumData>(zip, 'tags.json'), 'tg');
 
   const actions = (await readZipJSON<IActionData[]>(zip, 'actions.json')) || [];
   const statuses = (await readZipJSON<IStatusData[]>(zip, 'statuses.json')) || [];

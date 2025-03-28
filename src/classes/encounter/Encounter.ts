@@ -142,6 +142,14 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     this.SaveController.save();
   }
 
+  public get Created(): number {
+    return this.SaveController.Created;
+  }
+
+  public get Updated(): number {
+    return this.SaveController.LastModified;
+  }
+
   public get Portrait(): string {
     return this.PortraitController.Portrait;
   }
