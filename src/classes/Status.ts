@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { ContentPack } from './ContentPack';
 
 interface IStatusData {
+  id?: string;
   name: string;
   type: string;
   icon: string;
@@ -22,7 +23,7 @@ class Status {
   private _icon: string;
 
   public constructor(data: IStatusData, pack?: ContentPack) {
-    this.ID = `${pack?.Name || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
+    this.ID = data.id || `${pack?.Name || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
     this.InstanceID = uuid();
     this.Name = data.name;
     this.Effects = data.effects;

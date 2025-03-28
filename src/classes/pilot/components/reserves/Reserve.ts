@@ -49,7 +49,7 @@ class Reserve extends CompendiumItem {
   public constructor(data: any, pack?: ContentPack) {
     super(data, pack);
     this.ID = data.id;
-    this.ResourceLabel = data.label || '';
+    this.ResourceLabel = data.label || data.name || '';
     this.Consumable = data.consumable;
     this.Type = (data.type as ReserveType) || ReserveType.Resources;
     this._name = data.name || '';

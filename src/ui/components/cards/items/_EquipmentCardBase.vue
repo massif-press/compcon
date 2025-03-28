@@ -8,6 +8,15 @@
     </cc-chip>
   </cc-heading>
 
+  <v-row v-if="item.Kit" dense align="center" class="text-cc-overline mt-2">
+    <v-col><v-divider /></v-col>
+    <v-col cols="auto">
+      <v-icon size="small" icon="mdi-package-variant" />
+      {{ item.Kit }} Kit
+    </v-col>
+    <v-col><v-divider /></v-col>
+  </v-row>
+
   <cc-icon-divider v-if="item.LicenseString" :icon="item.Icon" dense />
 
   <div class="mb-2">
