@@ -78,7 +78,7 @@ export default {
           .map((x: any) => x.title)
       );
 
-      const baseSortings = ['Name'];
+      const baseSortings = ['Name', 'Created', 'Updated'];
 
       return [...baseSortings, ...allLabelTitles];
     },

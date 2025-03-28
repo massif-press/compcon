@@ -77,6 +77,14 @@ abstract class CollectionItem
     return this.PortraitController.Portrait;
   }
 
+  public get Created(): number {
+    return this.SaveController.Created;
+  }
+
+  public get Updated(): number {
+    return this.SaveController.LastModified;
+  }
+
   // -------------------------------------------------------------------------------------------------
 
   public get ID(): string {
