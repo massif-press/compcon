@@ -29,6 +29,7 @@ const routes = [
           title: 'GM Toolkit',
           icon: 'cc:encounter',
         },
+        meta: { title: 'GM Toolkit' },
       },
       {
         path: 'campaigns',
@@ -38,6 +39,7 @@ const routes = [
           title: 'Campaign Editor',
           icon: 'cc:encounter',
         },
+        meta: { title: 'Campaign Editor' },
       },
       {
         path: 'campaigns/edit/:id',
@@ -54,6 +56,7 @@ const routes = [
           title: 'NPC Roster',
           icon: 'cc:encounter',
         },
+        meta: { title: 'NPC Roster' },
       },
       {
         path: 'encounters/:id?',
@@ -64,6 +67,7 @@ const routes = [
           title: 'Encounter Editor',
           icon: 'cc:encounter',
         },
+        meta: { title: 'Encounter Editor' },
       },
       {
         path: 'narrative/:type?/:id?',
@@ -74,6 +78,7 @@ const routes = [
           title: 'Narrative Item Manager',
           icon: 'cc:encounter',
         },
+        meta: { title: 'Narrative Item Manager' },
       },
       {
         path: 'narrative/graph',

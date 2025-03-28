@@ -111,7 +111,12 @@
               block
               class="mt-n2"
               prepend-icon="mdi-arrow-up-bold"
-              @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID } })">
+              @click="
+                $router.push({
+                  name: 'level-up',
+                  params: { pilotID: pilot.ID, callsign: pilot.Callsign },
+                })
+              ">
               Level Up
             </cc-button>
           </v-col>

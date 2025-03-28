@@ -63,6 +63,7 @@ export default {
   },
   created() {
     this.page = parseInt(UserStore().User.View('pilotSheetPage', 0));
+    document.title = `${this.pilot.Callsign} (${this.pilot.Name})`;
   },
   computed: {
     mobile() {

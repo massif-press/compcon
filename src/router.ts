@@ -30,11 +30,13 @@ const router = createRouter({
       path: '/ui-test',
       name: 'ui-test',
       component: UITest,
+      meta: { title: 'UI Test' },
     },
     {
       path: '/ui-test-new',
       name: 'ui-test-new',
       component: UITestv3,
+      meta: { title: 'v3 UI Test' },
     },
     {
       path: '/oauth/callback',
@@ -58,6 +60,15 @@ const router = createRouter({
       path: (route.path = '/gm/' + route.path),
     })),
   ],
+});
+
+router.afterEach((to) => {
+  if (!to.meta?.title) {
+    document.title = 'COMP/CON';
+    return;
+  }
+  if (typeof to.meta.title === 'function') document.title = `CC - ${to.meta.title(to)}`;
+  else document.title = `C/C - ${to.meta.title}`;
 });
 
 export default router;
