@@ -7,6 +7,13 @@
         <cc-text :text="sample" />
       </v-card-text>
     </v-card>
+
+    <cc-heading size="large">Spoiler Text</cc-heading>
+    <p>
+      Text that
+      <span class="spoiler">is hidden until revealed</span>
+      can be used to hide spoilers.
+    </p>
   </v-window-item>
 </template>
 
