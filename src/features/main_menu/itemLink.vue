@@ -95,7 +95,7 @@ export default {
       },
     },
   },
-  created() {
+  mounted() {
     document.title = (this.item as any)?.Name || 'Item Link';
   },
   computed: {

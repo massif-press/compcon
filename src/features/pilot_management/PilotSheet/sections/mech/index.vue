@@ -152,8 +152,9 @@ export default {
       required: true,
     },
   },
-  created() {
-    document.title = `${this.mech.Name} (${this.mech.Frame.Source} ${this.mech.Frame.Name})`;
+  mounted() {
+    if (this.mech)
+      document.title = `${this.mech.Name} (${this.mech.Frame.Source} ${this.mech.Frame.Name})`;
   },
   computed: {
     mobile(): Boolean {

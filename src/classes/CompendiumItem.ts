@@ -23,6 +23,7 @@ interface ICompendiumItemData {
   tags?: ITagData[];
   flavorDescription?: string;
   brew?: BrewInfo;
+  deprecated?: boolean;
 }
 
 abstract class CompendiumItem {
@@ -41,6 +42,7 @@ abstract class CompendiumItem {
   // public readonly Tags: Tag[]
   public readonly Err: string;
   public IsHidden: boolean = false;
+  public IsDeprecated: boolean = false;
   public IsExotic: boolean = false;
   protected _special_equipment: string[] = [];
   protected _integrated: string[] = [];
@@ -104,6 +106,10 @@ abstract class CompendiumItem {
       this._integrated = data.integrated ? data.integrated : [];
       this._special_equipment = data.special_equipment ? data.special_equipment : [];
       this.Err = '';
+      if (data.deprecated) {
+        this.IsDeprecated = true;
+        this.IsHidden = true;
+      }
     } else {
       this.ID = `err_${Math.random().toString(36).substring(2)}`;
       this._name = this._description = this._note = '';

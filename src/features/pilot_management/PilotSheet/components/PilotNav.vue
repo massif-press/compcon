@@ -207,7 +207,7 @@ export default {
   position: absolute;
   width: 5px;
   height: 32px;
-  left: 670px;
+  left: 740px;
   top: 0;
   z-index: 9;
   transition: filter 0.2s ease-in-out;

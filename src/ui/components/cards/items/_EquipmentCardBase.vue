@@ -1,6 +1,10 @@
 <template>
   <slot />
 
+  <v-toolbar v-if="item && item.IsDeprecated" color="error" class="text-center heading" dense>
+    This item is deprecated and can be removed.
+  </v-toolbar>
+
   <cc-heading v-if="item.Mod" size="small" line>
     <cc-chip>
       <v-icon start icon="cc:weaponmod" />
