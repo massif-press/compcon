@@ -34,6 +34,10 @@ class ItemFilter {
         items = (items as NpcFeature[]).filter((feat) => filter[p].includes(feat.FeatureType));
       } else if (p === 'Origin') {
         items = (items as NpcFeature[]).filter((feat) => filter[p].includes(feat.Origin.ID));
+      } else if (p === 'WeaponType') {
+        items = (items as MechWeapon[]).filter((w) =>
+          filter[p].some((t) => w.WeaponTypes.includes(t))
+        );
       } else if (filter[p].length)
         items = items.filter((x) => filter[p].some((e) => x[p].includes(e)));
     });
