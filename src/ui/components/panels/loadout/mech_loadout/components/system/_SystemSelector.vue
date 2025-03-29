@@ -6,7 +6,7 @@
     :options="options"
     equippable
     @equip="handleEquip($event)">
-    <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
+    <template #header><div class="heading h3 text-center text-accent">Mech SYSTEMS</div></template>
     <template #top>
       <v-row dense>
         <v-col>

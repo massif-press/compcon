@@ -16,6 +16,17 @@ class MechSystem extends MechEquipment {
   }
 
   public get Type(): SystemType {
+    if (this.Tags.length) {
+      let mType = '';
+      console.log(
+        'Tags:',
+        this.Tags.map((x) => x.ID)
+      );
+      if (this.Tags.some((x) => x.ID === 'tg_mine')) mType = SystemType.Mine;
+      if (this.Tags.some((x) => x.ID === 'tg_grenade'))
+        mType = mType.length ? SystemType.Charge : SystemType.Grenade;
+      if (mType) return mType as SystemType;
+    }
     return this._system_type;
   }
 

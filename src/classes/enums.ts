@@ -102,6 +102,9 @@ enum SystemType {
   FlightSystem = 'Flight System',
   Integrated = 'Integrated',
   Mod = 'Mod',
+  Mine = 'Mine',
+  Grenade = 'Grenade',
+  Charge = 'Charge',
 }
 
 enum SkillFamily {
