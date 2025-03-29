@@ -32,7 +32,7 @@ import { IDeployableData } from '@/classes/components/feature/deployable/Deploya
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize;
-  type: WeaponType;
+  type: WeaponType | WeaponType[];
   skirmish?: boolean;
   barrage?: boolean;
   cost?: number;
@@ -123,7 +123,7 @@ class WeaponProfile extends CompendiumItem {
 class MechWeapon extends MechEquipment {
   public readonly Size: WeaponSize;
   public readonly ModSize: WeaponSize;
-  public readonly WeaponType: WeaponType;
+  public readonly WeaponTypes: WeaponType[];
   public readonly ModType: WeaponType;
   public readonly Profiles: WeaponProfile[];
   public readonly Skirmish: boolean;
@@ -138,8 +138,12 @@ class MechWeapon extends MechEquipment {
     super(data, pack);
     this.Size = data.mount;
     this.ModSize = data.mod_size_override ? data.mod_size_override : data.mount;
-    this.WeaponType = data.type;
-    this.ModType = data.mod_type_override ? data.mod_type_override : data.type;
+    this.WeaponTypes = Array.isArray(data.type) ? data.type : [data.type];
+    this.ModType = data.mod_type_override
+      ? data.mod_type_override
+      : Array.isArray(data.type)
+        ? data.type[0]
+        : data.type;
     this.Skirmish =
       data.skirmish != undefined ? data.skirmish : data.mount !== WeaponSize.Superheavy;
     this.Barrage = data.barrage != undefined ? (data.skirmish ?? false) : true;

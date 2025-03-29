@@ -30,7 +30,7 @@ export default {
       {
         title: 'Type',
         align: 'left',
-        key: 'WeaponType',
+        key: 'WeaponTypes',
         sortRaw(a, b) {
           if (a.SizeInt < b.SizeInt) return -1;
           if (a.SizeInt > b.SizeInt) return 1;

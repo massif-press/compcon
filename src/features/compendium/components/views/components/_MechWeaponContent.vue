@@ -10,7 +10,7 @@
         </v-col>
       </v-row>
     </template>
-    <template #overline>{{ item.Size }} {{ item.WeaponType }}</template>
+    <template #overline>{{ item.Size }} {{ item.WeaponTypes.join('/') }}</template>
   </c-card-base>
 </template>
 
