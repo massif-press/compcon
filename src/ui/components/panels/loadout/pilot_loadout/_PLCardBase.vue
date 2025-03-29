@@ -71,6 +71,10 @@
         </v-row>
       </v-toolbar>
 
+      <v-toolbar v-if="item && item.IsDeprecated" color="error" class="text-center heading" dense>
+        This item is deprecated and can be removed.
+      </v-toolbar>
+
       <div class="px-2 pb-1" style="height: 100%" @click.stop="detailDialog = true">
         <div style="cursor: pointer">
           <v-row v-if="item">

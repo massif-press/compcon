@@ -61,9 +61,9 @@ export default {
       UserStore().User.SetView('pilotSheetPage', val);
     },
   },
-  created() {
+  mounted() {
     this.page = parseInt(UserStore().User.View('pilotSheetPage', 0));
-    document.title = `${this.pilot.Callsign} (${this.pilot.Name})`;
+    if (this.pilot) document.title = `${this.pilot.Callsign} (${this.pilot.Name})`;
   },
   computed: {
     mobile() {
