@@ -153,7 +153,7 @@ export default {
     },
   },
   mounted() {
-    if (this.mech)
+    if (this.mech && this.mech.Frame)
       document.title = `${this.mech.Name} (${this.mech.Frame.Source} ${this.mech.Frame.Name})`;
   },
   computed: {
