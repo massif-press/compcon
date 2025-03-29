@@ -14,19 +14,23 @@
         <span class="text-overline text-primary mb-2" style="line-height: 0">OVERCHARGE:</span>
         <span class="px-1">
           [+1
-          <v-icon size="small" color="red" icon="mdi-fire" />]
+          <v-icon size="small" color="red" icon="mdi-fire" />
+          ]
         </span>
         <span class="px-1">
           [+1d3
-          <v-icon size="small" color="red" icon="mdi-fire" />]
+          <v-icon size="small" color="red" icon="mdi-fire" />
+          ]
         </span>
         <span class="px-1">
           [+1d6
-          <v-icon size="small" color="red" icon="mdi-fire" />]
+          <v-icon size="small" color="red" icon="mdi-fire" />
+          ]
         </span>
         <span class="px-1">
           [+1d6+4
-          <v-icon size="small" color="red" icon="mdi-fire" />]
+          <v-icon size="small" color="red" icon="mdi-fire" />
+          ]
         </span>
       </v-col>
     </v-row>
@@ -35,33 +39,36 @@
       <v-col cols="auto">
         <b>HULL:</b>
         <blank-line v-if="blank" class="d-inline-block mb-n1" :height="20" :width="30" />
-        <b v-else> {{ mech.Hull }}</b>
+        <b v-else>{{ mech.Hull }}</b>
       </v-col>
       <v-col cols="auto">
-        <b>AGI: </b>
+        <b>AGI:</b>
         <blank-line v-if="blank" class="d-inline-block mb-n1" :height="20" :width="30" />
-        <b v-else> {{ mech.Agi }}</b>
+        <b v-else>{{ mech.Agi }}</b>
       </v-col>
       <v-col cols="auto">
-        <b>SYS: </b>
+        <b>SYS:</b>
         <blank-line v-if="blank" class="d-inline-block mb-n1" :height="20" :width="30" />
-        <b v-else> {{ mech.Sys }}</b>
+        <b v-else>{{ mech.Sys }}</b>
       </v-col>
       <v-col cols="auto">
-        <b>ENG: </b>
+        <b>ENG:</b>
         <blank-line v-if="blank" class="d-inline-block mb-n1" :height="20" :width="30" />
-        <b v-else> {{ mech.Eng }}</b>
+        <b v-else>{{ mech.Eng }}</b>
       </v-col>
       <v-col cols="auto">
         <b>SIZE:</b>
         <blank-line v-if="blank" class="d-inline-block mb-n1" :height="20" :width="30" />
-        <b v-else> {{ mech.Size }}</b>
+        <b v-else>{{ mech.Size }}</b>
       </v-col>
 
       <v-spacer />
 
       <v-col class="text-center" cols="auto">
-        <div>CORE POWER: <v-icon icon="mdi-checkbox-blank-outline" class="mt-n1" /></div>
+        <div>
+          CORE POWER:
+          <v-icon icon="mdi-checkbox-blank-outline" class="mt-n1" />
+        </div>
       </v-col>
 
       <v-col class="text-center" cols="auto">
@@ -70,7 +77,7 @@
           <blank-line :width="40" :height="20" class="d-inline-block" />
           <span class="d-inline-block mx-1" style="font-size: 24px; line-height: 0">/</span>
           <blank-line v-if="blank" :width="40" :height="20" class="d-inline-block" />
-          <span v-else> {{ mech.RepairCapacity }}</span>
+          <span v-else>{{ mech.RepairCapacity }}</span>
         </div>
       </v-col>
     </v-row>
@@ -86,8 +93,7 @@
           <div
             v-else
             class="d-inline-block flavor-text font-weight-bold"
-            v-text="`${mech.MaxStructure}`"
-          />
+            v-text="`${mech.MaxStructure}`" />
         </div>
       </v-col>
 
@@ -103,8 +109,7 @@
               <div
                 v-else
                 class="d-inline-block flavor-text font-weight-bold"
-                v-text="`${mech.MaxHP}`"
-              />
+                v-text="`${mech.MaxHP}`" />
             </div>
           </v-col>
         </v-row>
@@ -134,8 +139,7 @@
         <div
           v-else
           class="d-inline-block flavor-text font-weight-bold"
-          v-text="`${mech.MaxStress}`"
-        />
+          v-text="`${mech.MaxStress}`" />
       </v-col>
 
       <v-col :cols="'auto'" class="text-center">
@@ -148,8 +152,7 @@
           <div
             v-else
             class="d-inline-block flavor-text font-weight-bold"
-            v-text="`${mech.HeatCapacity}`"
-          />
+            v-text="`${mech.HeatCapacity}`" />
         </div>
       </v-col>
     </v-row>
@@ -203,8 +206,7 @@
         <v-row dense v-if="blank">
           <v-col v-for="n in 4" cols="6">
             <blank-line
-              :height="landscape ? (options.mechInclude.includes('mech image') ? 80 : 40) : 64"
-            />
+              :height="landscape ? (options.mechInclude.includes('mech image') ? 80 : 40) : 64" />
           </v-col>
         </v-row>
         <v-row v-else dense justify="space-between" class="caption mt-n1">
@@ -219,8 +221,7 @@
         <div class="text-overline mb-n1 text-primary mt-n1">CORE SYSTEM</div>
         <div dense v-if="blank" class="">
           <blank-line
-            :height="landscape ? (options.mechInclude.includes('mech image') ? 92 : 40) : 64"
-          />
+            :height="landscape ? (options.mechInclude.includes('mech image') ? 92 : 40) : 64" />
         </div>
         <fieldset v-else class="mt-n2" style="height: fit-content">
           <legend class="caption font-weight-bold ml-1 px-2">
@@ -275,14 +276,13 @@
     <div v-if="blank">
       <fieldset
         v-for="n in options.mechInclude.includes('extra mount panel') ? 5 : 4"
-        class="my-1 pb-1"
-      >
+        class="my-1 pb-1">
         <legend class="caption ml-1 px-2">
           <v-row dense align="center">
             <v-col cols="auto">
               <blank-line :width="160" :height="20" />
             </v-col>
-            <v-col cols="auto" class="text-primary"> MOUNT </v-col>
+            <v-col cols="auto" class="text-primary">MOUNT</v-col>
           </v-row>
         </legend>
         <v-row dense>
@@ -328,15 +328,14 @@
                 </v-col>
                 <v-col>
                   <span class="caption" style="line-height: 0">
-                    {{ w.Size }} {{ w.WeaponType }}
+                    {{ w.Size }} {{ w.WeaponTypes.join('/') }}
                   </span>
                 </v-col>
                 <v-col v-if="w.Uses" cols="auto">
                   <v-icon
                     v-for="n in w.getTotalUses(mech.Pilot.LimitedBonus)"
                     size="small"
-                    color="primary"
-                  >
+                    color="primary">
                     mdi-hexagon-outline
                   </v-icon>
                 </v-col>
@@ -348,20 +347,31 @@
               <div v-for="p in w.Profiles">
                 <div class="caption">
                   <span v-if="w.Profiles.length > 1 && p.Name" class="heading">
-                    {{ p.Name }}:&nbsp;</span
-                  >
-                  <span v-for="r in p.Range"
-                    ><v-icon size="15" :icon="r.Icon" /> {{ r.Value }}</span
-                  >
-                  <span v-for="d in p.Damage"
-                    ><v-icon size="20" :icon="d.Icon" :color="d.Color" /> {{ d.Value }}</span
-                  >
+                    {{ p.Name }}:&nbsp;
+                  </span>
+                  <span v-for="r in p.Range">
+                    <v-icon size="15" :icon="r.Icon" />
+                    {{ r.Value }}
+                  </span>
+                  <span v-for="d in p.Damage">
+                    <v-icon size="20" :icon="d.Icon" :color="d.Color" />
+                    {{ d.Value }}
+                  </span>
                   <div v-if="p.Effect && !showCollectedEffect(w)" class="caption">
                     {{ p.Effect }}
                   </div>
-                  <div v-if="p.OnAttack" class="caption"><b>ON ATTACK:</b> {{ p.OnAttack }}</div>
-                  <div v-if="p.OnHit" class="caption"><b>ON HIT:</b> {{ p.OnHit }}</div>
-                  <div v-if="p.OnCrit" class="caption"><b>ON CRIT:</b> {{ p.OnCrit }}</div>
+                  <div v-if="p.OnAttack" class="caption">
+                    <b>ON ATTACK:</b>
+                    {{ p.OnAttack }}
+                  </div>
+                  <div v-if="p.OnHit" class="caption">
+                    <b>ON HIT:</b>
+                    {{ p.OnHit }}
+                  </div>
+                  <div v-if="p.OnCrit" class="caption">
+                    <b>ON CRIT:</b>
+                    {{ p.OnCrit }}
+                  </div>
                   <print-action :actions="p.Actions" />
                   <print-deployable :deployables="p.Deployables" />
                 </div>
@@ -371,8 +381,7 @@
                     size="x-small"
                     label
                     variant="outlined"
-                    class="mx-1 bg-white"
-                  >
+                    class="mx-1 bg-white">
                     {{ t.Name }}
                   </v-chip>
                 </div>
@@ -396,8 +405,7 @@
     <v-row v-if="blank" dense>
       <v-col
         v-for="n in options.mechInclude.includes('extra system space') ? 8 : 6"
-        style="min-width: 20vw"
-      >
+        style="min-width: 20vw">
         <v-card variant="outlined" class="pa-1" style="border-color: rgba(0, 0, 0, 0.3)">
           <v-row dense>
             <v-col>
@@ -424,14 +432,13 @@
       variant="outlined"
       class="px-1"
       :class="s.Tags ? 'pb-1 mb-1' : ''"
-      style="position: relative; border-color: rgba(0, 0, 0, 0.2)"
-    >
+      style="position: relative; border-color: rgba(0, 0, 0, 0.2)">
       <v-row dense class="my-n2">
         <v-col cols="auto">
           <b class="text-overline font-weight-bold" style="line-height: 0">{{ s.Name }}</b>
         </v-col>
         <v-col>
-          <span class="text-overline" style="line-height: 0"> {{ s.Source }} {{ s.Type }} </span>
+          <span class="text-overline" style="line-height: 0">{{ s.Source }} {{ s.Type }}</span>
         </v-col>
         <v-col v-if="s.Uses" cols="auto">
           <v-icon v-for="n in s.getTotalUses(mech.Pilot.LimitedBonus)" size="small" color="primary">
@@ -449,8 +456,7 @@
           size="x-small"
           label
           variant="outlined"
-          class="mx-1 bg-white"
-        >
+          class="mx-1 bg-white">
           {{ t.GetName() }}
         </v-chip>
       </div>

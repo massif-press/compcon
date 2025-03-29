@@ -16,7 +16,7 @@
           class="text-cc-overline text-disabled ml-10"
           style="line-height: 4px; margin-top: -6px">
           {{ item.Size }}
-          {{ item.WeaponType }}
+          {{ item.WeaponTypes.join('/') }}
         </div>
       </div>
       <div v-else class="px-2">{{ weaponSlot.Size }} Weapon</div>

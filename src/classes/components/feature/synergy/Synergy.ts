@@ -42,8 +42,10 @@ class Synergy {
       if (item.ItemType === ItemType.MechWeapon) {
         sArr = sArr.filter((s) => {
           if (s.WeaponTypes.includes('any')) return true;
-          if ((item as MechWeapon).WeaponType === WeaponType.All) return true;
-          return s.WeaponTypes.includes((item as MechWeapon).WeaponType);
+          if ((item as MechWeapon).WeaponTypes.includes(WeaponType.All)) return true;
+          return s.WeaponTypes.some((t) =>
+            (item as MechWeapon).WeaponTypes.includes(t as WeaponType)
+          );
         });
         sArr = sArr.filter((s) => {
           if (s.WeaponSizes.includes('any')) return true;

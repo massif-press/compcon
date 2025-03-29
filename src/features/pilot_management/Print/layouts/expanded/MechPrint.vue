@@ -372,7 +372,7 @@
           </v-col>
           <v-col>
             <span class="text-overline" style="line-height: 0">
-              {{ w.Source }} {{ w.Size }} {{ w.WeaponType }}
+              {{ w.Source }} {{ w.Size }} {{ w.WeaponTypes.join('/') }}
             </span>
           </v-col>
           <v-col v-if="w.Uses" cols="auto">

@@ -75,7 +75,8 @@ class Damage {
       if (d.Override) return;
       let bonus = 0;
       bonuses.forEach((b) => {
-        if (b.WeaponTypes.length && !b.WeaponTypes.some((wt) => item.WeaponType === wt)) return;
+        if (b.WeaponTypes.length && !b.WeaponTypes.some((wt) => item.WeaponTypes.includes(wt)))
+          return;
         if (b.WeaponSizes.length && !b.WeaponSizes.some((ws) => item.Size === ws)) return;
         if (b.RangeTypes.length && !b.RangeTypes.some((rt) => item.RangeType.some((x) => x === rt)))
           return;

@@ -90,7 +90,8 @@ class Range {
     output.forEach((r) => {
       if (r.Override) return;
       bonuses.forEach((b) => {
-        if (b.WeaponTypes.length && !b.WeaponTypes.some((wt) => item.WeaponType === wt)) return;
+        if (b.WeaponTypes.length && !b.WeaponTypes.some((wt) => item.WeaponTypes.includes(wt)))
+          return;
         if (b.WeaponSizes.length && !b.WeaponSizes.some((ws) => item.Size === ws)) return;
         if (
           b.DamageTypes.length &&
