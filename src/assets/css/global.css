@@ -1,5 +1,4 @@
 @media print {
-
   .no-print,
   .no-print * {
     display: none !important;
@@ -15,7 +14,7 @@ a {
 }
 
 .overline {
-  line-height: 1.4rem!important;
+  line-height: 1.4rem !important;
 }
 
 .clickable {
@@ -146,11 +145,13 @@ a {
 }
 
 .destroyed-bg {
-  background: repeating-linear-gradient(45deg,
-      rgba(255, 196, 0, 0.1),
-      rgba(255, 196, 0, 0.1) 20px,
-      rgba(0, 0, 0, 0.1) 20px,
-      rgba(0, 0, 0, 0.1) 40px);
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 196, 0, 0.1),
+    rgba(255, 196, 0, 0.1) 20px,
+    rgba(0, 0, 0, 0.1) 20px,
+    rgba(0, 0, 0, 0.1) 40px
+  );
 }
 
 .spin-enter-active,
@@ -225,3 +226,15 @@ a {
 .v-slide-group__prev {
   display: none !important;
 } */
+
+.spoiler {
+  color: transparent;
+  text-shadow: 0 0 7px rgba(155, 155, 155, 0.8);
+  background-color: rgb(var(--v-theme-panel));
+  transition: all 0.2s ease;
+}
+
+.spoiler:hover {
+  color: rgb(var(--v-theme-text));
+  text-shadow: none;
+}

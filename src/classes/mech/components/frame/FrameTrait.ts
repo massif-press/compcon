@@ -6,6 +6,7 @@ import { ISynergyData, Synergy } from '../../../components/feature/synergy/Syner
 import { ICounterData } from '../../../components/combat/counters/Counter';
 import { MechEquipment } from '../equipment/MechEquipment';
 import { Deployable, IDeployableData } from '../../../components/feature/deployable/Deployable';
+import { IResistanceData, Resistance } from '@/classes/EffectObject';
 
 interface IFrameTraitData {
   name: string;
@@ -18,6 +19,7 @@ interface IFrameTraitData {
   counters?: ICounterData[];
   integrated?: string[];
   special_equipment?: string[];
+  resistances?: IResistanceData[];
 }
 
 class FrameTrait {
@@ -29,6 +31,7 @@ class FrameTrait {
   public readonly Synergies: Synergy[];
   public readonly Deployables: Deployable[];
   public readonly Counters: ICounterData[];
+  public readonly Resistances: Resistance[];
   public readonly weight: number = 0;
   private _integrated: string[];
   private _special_equipment: string[];
@@ -49,6 +52,7 @@ class FrameTrait {
       );
     }
     this.Counters = data.counters ? data.counters : [];
+    this.Resistances = data.resistances ? data.resistances.map((x) => new Resistance(x)) : [];
     this._integrated = data.integrated ? data.integrated : [];
     this._special_equipment = data.special_equipment || [];
 
