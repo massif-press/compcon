@@ -5,17 +5,15 @@
       style="opacity: 0.5; position: absolute; top: 50%; left: 0; right: 0"
       class="text-center">
       <span class="heading h2" style="opacity: 0.4">Bonds available after License Level 1</span>
+      <cc-button size="x-small" block @click="pilot.BondController.ForceBonds = true">
+        [OVERRIDE]:// Allow LL0 Bond
+      </cc-button>
     </div>
 
     <div v-else>
       <div v-if="hasBond" class="heading" :class="mobile ? 'h2' : 'h1'">
         {{ pilot.BondController.Bond.Name }}
-        <v-btn
-          size="x-small"
-          icon
-          variant="plain"
-          class="mb-n3 ml-n3"
-          @click="($refs as any).chooseBond.show()">
+        <v-btn size="x-small" icon variant="plain" class="mb-n3 ml-n3" @click="bondModal = true">
           <v-icon icon="mdi-circle-edit-outline" />
         </v-btn>
       </div>
@@ -25,7 +23,7 @@
           block
           color="primary"
           prepend-icon="mdi-vector-link"
-          @click="($refs as any).chooseBond.show()">
+          @click="bondModal = true">
           Select Bond
         </cc-button>
       </div>
@@ -295,9 +293,9 @@
 
       <bond-power-selector ref="powerSelector" :pilot="pilot" @set="setBond($event)" />
 
-      <cc-solo-dialog ref="chooseBond" fullscreen no-confirm title="Select Pilot Bond">
+      <cc-solo-modal v-model="bondModal" title="Select Pilot Bond">
         <bond-selector @set="setBond($event)" />
-      </cc-solo-dialog>
+      </cc-solo-modal>
     </div>
   </div>
 </template>
@@ -323,6 +321,7 @@ export default {
     resetXpMenu: false,
     addBondMenu: false,
     masonryBondItems: [],
+    bondModal: false,
   }),
   mounted() {
     this.masonryBondItems = this.pilot.BondController.BondPowers;
@@ -351,7 +350,7 @@ export default {
       return this.pilot.BondController.Bond ? this.pilot.BondController.Bond.ID : 'none';
     },
     underlevel() {
-      return this.pilot.Level < 1;
+      return this.pilot.Level < 1 && !this.pilot.BondController.ForceBonds;
     },
     boon() {
       return this.pilot.BondController.Bond.Boon;

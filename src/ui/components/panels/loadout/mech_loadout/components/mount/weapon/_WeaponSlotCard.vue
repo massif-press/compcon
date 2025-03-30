@@ -8,13 +8,15 @@
     :weapon="true"
     :extended="mobile">
     <template #header>
-      <div v-if="item" class="mt-n2">
+      <div v-if="item" class="mt-n2 pl-1">
         <equipment-options v-if="!readonly" :item="item" />
         {{ item.Name }}
         <div
           v-if="!mobile"
           class="text-cc-overline text-disabled ml-10"
-          style="line-height: 4px; margin-top: -6px">
+          style="line-height: 4px"
+          :style="`margin-top: ${readonly ? '2px' : '-6px'}`">
+          {{ item.WeaponType }}
           {{ item.Size }}
           {{ item.WeaponTypes.join('/') }}
         </div>

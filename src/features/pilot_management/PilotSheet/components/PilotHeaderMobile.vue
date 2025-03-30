@@ -86,7 +86,8 @@
         <div id="image" class="border">
           <cc-avatar
             v-if="pilot.PortraitController.Avatar"
-            :avatar="pilot.PortraitController.Avatar" />
+            :avatar="pilot.PortraitController.Avatar"
+            :size="75" />
           <cc-img
             v-else-if="pilot.PortraitController.Portrait"
             :src="pilot.PortraitController.Portrait"

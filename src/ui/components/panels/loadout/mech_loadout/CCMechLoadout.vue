@@ -68,7 +68,7 @@ export default {
         isSuperheavy: boolean;
       }[];
 
-      for (const im in this.mech.MechLoadoutController.ActiveLoadout.IntegratedMounts) {
+      this.mech.MechLoadoutController.ActiveLoadout.IntegratedMounts.forEach((im) => {
         items.push({
           mount: im,
           isIntegrated: true,
@@ -76,7 +76,7 @@ export default {
           isImpArm: false,
           isSuperheavy: false,
         });
-      }
+      });
 
       if (this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
         items.push({

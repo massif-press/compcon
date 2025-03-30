@@ -25,13 +25,7 @@
     <div v-if="item.Features.length > 0">
       <cc-titled-divider title="Features" :subtitle="`(${item.Features.length})`" class="mt-2" />
       <v-row dense>
-        <cc-dense-card
-          v-for="b in item.Features"
-          :item="b"
-          class="my-1"
-          :min-width="getMinWidth(b)"
-          :tier="tier"
-          full-height />
+        <cc-dense-card v-for="b in item.Features" :item="b" class="my-1" :tier="tier" full-height />
       </v-row>
     </div>
 
@@ -52,7 +46,6 @@
             v-for="b in item.Shards.Features"
             :item="b"
             class="my-1"
-            :min-width="getMinWidth(b)"
             :tier="tier"
             full-height />
         </v-row>
@@ -72,13 +65,6 @@ export default {
     tier: {
       type: Number,
       required: false,
-    },
-  },
-  methods: {
-    getMinWidth(b: any) {
-      if (b.EffectLength > 600) return '60vw';
-      if (b.EffectLength > 400) return '40vw';
-      return '30vw';
     },
   },
 };

@@ -72,12 +72,5 @@ export default {
       return this.$vuetify.display.lgAndUp;
     },
   },
-  methods: {
-    getMinWidth(b: any) {
-      if (b.EffectLength > 600) return '60vw';
-      if (b.EffectLength > 400) return '40vw';
-      return '30vw';
-    },
-  },
 };
 </script>

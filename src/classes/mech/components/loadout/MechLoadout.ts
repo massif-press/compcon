@@ -54,9 +54,8 @@ class MechLoadout extends Loadout {
     this.Parent.SaveController.save();
   }
 
-  public SetAllIntegrated(save?: boolean) {
+  public SetAllIntegrated() {
     const im = [
-      ...this.Parent.FeatureController.IntegratedWeapons.map((x) => new IntegratedMount(x, this)),
       ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(
         (x) => new IntegratedMount(x, this)
       ),
@@ -67,7 +66,6 @@ class MechLoadout extends Loadout {
     ];
     this._integratedSystems = is;
     this._integratedMounts = im;
-    if (save) this.saveMechLoadout();
   }
 
   public get IntegratedMounts(): IntegratedMount[] {
@@ -308,7 +306,7 @@ class MechLoadout extends Loadout {
     ml._integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux, ml)
       : EquippableMount.Deserialize(loadoutData.integratedWeapon, ml);
-    if (!loadoutData.integratedSystems) ml.SetAllIntegrated();
+    ml.SetAllIntegrated();
     return ml;
   }
 }

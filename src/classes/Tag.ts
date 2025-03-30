@@ -222,7 +222,10 @@ class Tag {
       else {
         if (!packTags) throw new Error(`LCP data not provided for tag id: ${x.id}`);
         const pt = packTags.find((t) => t.id === x.id);
-        if (!pt) throw new Error(`Tag ${x.id} not found in pack`);
+        if (!pt) {
+          console.error(`Tag ${x.id} not found in pack`);
+          return;
+        }
         t = new Tag(pt);
       }
 
