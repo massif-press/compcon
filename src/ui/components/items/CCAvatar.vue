@@ -18,6 +18,7 @@ export default {
     },
     size: {
       type: Number,
+      required: false,
       default: 200,
     },
   },

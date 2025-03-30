@@ -71,6 +71,11 @@ class NpcFeatureController implements IFeatureContainer {
 
     if (this.Parent.NpcClassController.HasClass) {
       classFeatures = (this.Parent.NpcClassController.Class as NpcClass)!.OptionalFeatures;
+      classFeatures = classFeatures.concat(
+        (this.Parent.NpcClassController.Class as NpcClass)!.BaseFeatures.filter(
+          (x) => !this.Features.some((y) => y.ID === x.ID)
+        )
+      ); // Include base features that have been removed
     }
 
     const templateFeatures = this.Parent.NpcTemplateController.Templates.flatMap(

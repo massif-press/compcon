@@ -6,6 +6,7 @@ import { IBonusDataContainer } from './IBonusDataContainer';
 interface IBonusData {
   id: string;
   val: string | number | string[];
+  accuracy?: number;
   damage_types?: DamageType[];
   range_types?: RangeType[];
   weapon_types?: WeaponType[];
@@ -18,6 +19,7 @@ class Bonus {
   public readonly ID: string;
   public readonly Source: string;
   public readonly Value: string | number | string[];
+  public readonly Accuracy: number;
   public readonly Title: string | number;
   public readonly Detail: string | number;
   public readonly DamageTypes: DamageType[];
@@ -32,6 +34,7 @@ class Bonus {
     this.ID = data.id;
     this.Source = source;
     this.Value = data.val;
+    this.Accuracy = data.accuracy || 0;
     this.DamageTypes = data.damage_types || [];
     this.RangeTypes = data.range_types || [];
     this.WeaponTypes = data.weapon_types || [];

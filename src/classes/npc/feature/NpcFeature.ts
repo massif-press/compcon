@@ -1,5 +1,5 @@
 import { CompendiumItem, ContentPack, Tag } from '@/class';
-import { ICompendiumItemData, IContentPack, ITagData } from '@/interface';
+import { Action, IActionData, ICompendiumItemData, IContentPack, ITagData } from '@/interface';
 import { NpcClass } from '../class/NpcClass';
 import { NpcTemplate } from '../template/NpcTemplate';
 import { CompendiumStore } from '@/stores';
@@ -40,6 +40,7 @@ interface IFeatureModData {
   add_bonuses?: IBonusData[];
   add_tags?: ITagData[];
   add_deployables?: IDeployableData[];
+  add_actions?: IActionData[];
 }
 
 class NpcFeatureMod {
@@ -48,6 +49,7 @@ class NpcFeatureMod {
   AddBonuses: Bonus[];
   AddTags: ITagData[];
   AddDeployables: Deployable[];
+  AddActions: Action[];
 
   constructor(data: IFeatureModData, parent: NpcFeature) {
     this._targetID = data.target;
@@ -58,6 +60,9 @@ class NpcFeatureMod {
     this.AddTags = data.add_tags || [];
     this.AddDeployables = data.add_deployables
       ? data.add_deployables.map((x) => new Deployable(x))
+      : [];
+    this.AddActions = data.add_actions
+      ? data.add_actions.map((x) => new Action(x, parent.Name))
       : [];
   }
 
@@ -108,14 +113,6 @@ abstract class NpcFeature extends CompendiumItem {
         return { ID: 'err' };
       }
     }
-  }
-
-  public get EffectLength(): number {
-    return (
-      this._effect.length +
-      this.Actions.map((x) => x.Detail.length + x.Trigger.length || 0).reduce((a, b) => a + b, 0) +
-      this.Deployables.map((x) => x.Detail.length).reduce((a, b) => a + b, 0)
-    );
   }
 
   public get Effect(): string {

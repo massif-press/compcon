@@ -296,17 +296,13 @@ export default {
 
           out = out.filter((x) => this.shownOrigins.includes(x.Origin.ID));
 
-          return _.orderBy(out, 'EffectLength');
+          return out;
         } else return [];
       }
 
-      if (this.featureSet === 'assigned')
-        return _.orderBy(this.npc.NpcFeatureController.Features, 'EffectLength');
+      if (this.featureSet === 'assigned') return this.npc.NpcFeatureController.Features;
 
-      return _.orderBy(
-        CompendiumStore().NpcFeatures.filter((x) => x.Origin.ID === this.featureSet),
-        'EffectLength'
-      );
+      return CompendiumStore().NpcFeatures.filter((x) => x.Origin.ID === this.featureSet);
     },
     allClasses() {
       return CompendiumStore().NpcClasses;

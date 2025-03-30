@@ -709,7 +709,7 @@ export default {
     bListGroup,
     LicenseExpandable,
   },
-  emits: ['equip', 'view-change'],
+  emits: ['equip', 'select', 'view-change'],
   props: {
     items: {
       type: Array,
@@ -988,6 +988,7 @@ export default {
         );
         this.$nextTick(() => this.scrollTo(item.ID));
       }
+      this.$emit('select', item);
     },
     scrollTo(id: string): void {
       const el = document.getElementById(id);

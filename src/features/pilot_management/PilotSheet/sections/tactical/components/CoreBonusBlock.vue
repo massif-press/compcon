@@ -17,7 +17,16 @@
 
     <v-container class="px-0">
       <no-data-block v-if="!pilot.CoreBonusController.CoreBonuses.length" />
-      <cc-core-bonus-item v-for="b in pilot.CoreBonusController.CoreBonuses" :bonus="b" terse />
+      <masonry-wall
+        :items="pilot.CoreBonusController.CoreBonuses"
+        :column-width="400"
+        :gap="16"
+        :min-columns="1"
+        :max-columns="widescreen ? 3 : 2">
+        <template #default="{ item }">
+          <cc-core-bonus-item :bonus="item" terse />
+        </template>
+      </masonry-wall>
     </v-container>
   </div>
 </template>
@@ -35,6 +44,11 @@ export default {
     pilot: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    widescreen() {
+      return this.$vuetify.display.lgAndUp;
     },
   },
 };

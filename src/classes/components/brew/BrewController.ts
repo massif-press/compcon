@@ -12,7 +12,7 @@ type BrewInfo = {
   LcpName: string;
   LcpVersion: string;
   Website: string;
-  Status: 'OK' | 'OLD' | 'MISSING' | 'OFF';
+  Status: 'OK' | 'OLD' | 'MISSING' | 'OFF' | 'ERR';
 };
 
 class BrewController {
@@ -44,8 +44,18 @@ class BrewController {
         brew.Status = 'OFF';
         return;
       }
-      const compVer = gte(coerce(p.Version), coerce(brew.LcpVersion));
-      brew.Status = compVer ? 'OK' : 'OLD';
+
+      try {
+        const compVer = gte(coerce(p.Version), coerce(brew.LcpVersion));
+        brew.Status = compVer ? 'OK' : 'OLD';
+      } catch (e) {
+        console.error(
+          `Error comparing versions for ${brew.LcpName}. Version string ${brew.LcpVersion} may break semver`,
+          e
+        );
+        console.log(brew);
+        brew.Status = 'ERR';
+      }
     });
 
     return _.uniqBy(out, 'LcpId');

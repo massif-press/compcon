@@ -5,6 +5,7 @@
     :table-headers="headers"
     :options="options"
     equippable
+    @select="stageSelect($event)"
     @equip="handleEquip($event)">
     <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
     <template #top>
@@ -12,22 +13,53 @@
         <v-col>
           <div v-if="weaponSlot.Weapon">
             <div v-if="!mobile" class="text-cc-overline">
-              UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-              <span class="text-success">[ FRAME EQUIPMENT REGISTRATION VERIFIED ]</span>
+              UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }}
             </div>
             <div class="heading h2 text-accent">
               {{ weaponSlot.Weapon.Name }}
+              <span v-if="selected" class="text-success">
+                <v-icon icon="mdi-chevron-triple-right" class="pb-1" />
+                {{ selected.Name }}
+              </span>
             </div>
-            <div class="flavor-text overline" style="display: block">CURRENTLY EQUIPPED</div>
+            <div v-if="!selected" class="flavor-text text-cc-overline">CURRENTLY EQUIPPED</div>
+            <div v-else class="flavor-text text-cc-overline">
+              <div v-if="!eq(weaponSlot.Weapon.Range, <Range[]>selected.Range)">
+                <span class="text-accent" v-html="getRangeDisplay(weaponSlot.Weapon)" />
+                <v-icon color="success" size="small" icon="mdi-chevron-triple-right" class="mx-1" />
+                <span class="text-success" v-html="getRangeDisplay(<MechWeapon>selected)" />
+              </div>
+              <div v-if="!eq(weaponSlot.Weapon.Damage, <Damage[]>selected.Damage)">
+                <span class="text-accent" v-html="getDamageDisplay(weaponSlot.Weapon)" />
+                <v-icon color="success" size="small" icon="mdi-chevron-triple-right" class="mx-1" />
+                <span class="text-success" v-html="getDamageDisplay(<MechWeapon>selected)" />
+              </div>
+              <div v-if="!eq(weaponSlot.Weapon.Tags, <Tag[]>selected.Tags)">
+                <span
+                  v-for="t in weaponSlot.Weapon.Tags.filter(
+                    (x) => !(<any>selected!.Tags.some((y) => y.ID === x.ID))
+                  )"
+                  class="text-error">
+                  <v-icon icon="mdi-minus" size="x-small" class="mr-n1" />
+                  [{{ t.Name }}]
+                </span>
+                <span
+                  v-for="t in selected.Tags.filter(
+                    (x) => !weaponSlot.Weapon.Tags.some((y) => y.ID === x.ID)
+                  )"
+                  class="text-success">
+                  <v-icon icon="mdi-plus" size="x-small" class="mr-n1" />
+                  [{{ t.Name }}]
+                </span>
+              </div>
+            </div>
           </div>
           <div v-else-if="!mobile">
             <div class="text-cc-overline">
               UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
             </div>
             <div class="heading h2 text-disabled">NO SELECTION</div>
-            <div class="flavor-text overline text-error" style="display: block">
-              [ EQUIPMENT ID INVALID OR MISSING ]
-            </div>
+            <div class="flavor-text overline text-error">[ EQUIPMENT ID INVALID OR MISSING ]</div>
           </div>
         </v-col>
         <v-col cols="12" md="auto">
@@ -68,7 +100,7 @@
 import _ from 'lodash';
 
 import { CompendiumStore } from '@/stores';
-import { Rules, MechWeapon, Mech } from '@/class';
+import { Rules, MechWeapon, Mech, Range, Damage, Tag } from '@/class';
 import { flavorID } from '@/io/Generators';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
@@ -103,6 +135,7 @@ export default {
     ],
     showUnlicensed: false,
     showOverSP: false,
+    selected: null as unknown as MechWeapon | null,
   }),
   mounted() {
     this.options.initialView = this.mobile ? 'list' : 'single';
@@ -166,6 +199,38 @@ export default {
     },
     handleEquip(event) {
       this.$emit('equip', event);
+    },
+    stageSelect(event) {
+      if (event) {
+        this.selected = event;
+      } else {
+        this.selected = null;
+      }
+    },
+    getRangeDisplay(item: MechWeapon): string {
+      if (!item.Range) return '---';
+      let rangeStrs = [] as string[];
+      item.Range.forEach((r) => {
+        rangeStrs.push(`${r.Type} ${r.Value}`);
+      });
+      return rangeStrs.join('/');
+    },
+    getDamageDisplay(item: MechWeapon): string {
+      if (!item.Damage) return '---';
+      let damageStrs = [] as string[];
+      item.Damage.forEach((d) => {
+        damageStrs.push(`${d.Type} ${d.Value}`);
+      });
+      return damageStrs.join('/');
+    },
+    eq(a: Range[] | Damage[] | Tag[], b: Range[] | Damage[] | Tag[]): boolean {
+      if (!a || !b) return false;
+      if (a.length !== b.length) return false;
+
+      const aIDs = a.map((x) => (x as any).ID || x.Value || x.Type);
+      const bIDs = b.map((x) => (x as any).ID || x.Value || x.Type);
+
+      return _.isEqual(_.sortBy(aIDs), _.sortBy(bIDs));
     },
   },
 };

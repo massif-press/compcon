@@ -55,25 +55,23 @@
                 </v-btn>
               </v-col>
               <v-col v-if="avatar" cols="auto" class="text-right">
-                <v-btn
-                  color="secondary"
-                  :disabled="!item.PortraitController.CloudImage"
-                  @click="($refs.crop_dialog as any).show()">
-                  Set Avatar
-                </v-btn>
-                <cc-solo-dialog
-                  ref="crop_dialog"
-                  icon="mdi-crop"
-                  color="primary"
-                  large
-                  title="Set Avatar"
-                  no-actions>
-                  <image-crop
-                    :src="displayImage"
-                    :img-key="selectedImageKey"
-                    @hide="($refs.crop_dialog as any).hide()"
-                    @confirm="setAvatar($event)" />
-                </cc-solo-dialog>
+                <cc-modal ref="crop_dialog" icon="mdi-crop" color="primary" title="Set Avatar">
+                  <template #activator="{ open }">
+                    <v-btn
+                      color="secondary"
+                      :disabled="!item.PortraitController.CloudImage"
+                      @click="open">
+                      Set Avatar
+                    </v-btn>
+                  </template>
+                  <template #default="{ close }">
+                    <image-crop
+                      :src="displayImage"
+                      :img-key="selectedImageKey"
+                      @hide="close"
+                      @confirm="setAvatar($event, close)" />
+                  </template>
+                </cc-modal>
                 <br />
                 <v-btn size="small" class="mt-2" variant="outlined" @click="clearCrop()">
                   clear avatar
@@ -167,9 +165,9 @@ export default {
     clearCrop() {
       this.item.PortraitController.Avatar = undefined;
     },
-    setAvatar(avatar) {
+    setAvatar(avatar, closeFn: Function) {
       this.item.PortraitController.Avatar = avatar;
-      (this.$refs.crop_dialog as any).hide();
+      closeFn();
     },
     setLocalImage(img: any) {
       this.selectedImage = img;

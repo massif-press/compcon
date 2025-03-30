@@ -1,4 +1,4 @@
-import { ActivationType } from '@/class';
+import { ActivationType, Tag } from '@/class';
 import { ICounterData, ISynergyData, ITagData } from '@/interface';
 import { IActionData, Action } from '../../../Action';
 import { Bonus, IBonusData } from '../bonus/Bonus';
@@ -63,6 +63,7 @@ class Deployable {
   public readonly Recall: ActivationType | null;
   public readonly Redeploy: ActivationType | null;
   public readonly Actions: Action[] = [];
+  public readonly Tags: Tag[] = [];
 
   private _detail: string;
 
@@ -98,6 +99,8 @@ class Deployable {
 
     this.IsPilotDeployable = data.pilot || false;
     this.IsMechDeployable = data.mech || !data.pilot;
+
+    if (data.tags) this.Tags = Tag.Deserialize(data.tags);
   }
 
   public get Detail(): string {

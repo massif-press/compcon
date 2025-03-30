@@ -90,6 +90,8 @@
         </v-col>
       </v-row>
     </div>
+
+    <cc-tags v-if="deployable.Tags && deployable.Tags.length" :tags="deployable.Tags" />
   </div>
 </template>
 

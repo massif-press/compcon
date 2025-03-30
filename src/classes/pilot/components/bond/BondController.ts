@@ -14,6 +14,7 @@ interface IPilotBondData {
   clocks: IClockData[];
   minorIdeal: string;
   bondAnswers: string[];
+  force: boolean;
 }
 
 class BondController {
@@ -29,6 +30,8 @@ class BondController {
   private _burdens: Clock[];
   private _bondPowers: BondPower[];
   private _clocks: Clock[];
+
+  public ForceBonds: boolean = false;
 
   public constructor(parent: Pilot) {
     this.Parent = parent;
@@ -242,6 +245,7 @@ class BondController {
     target.bond.bondAnswers = parent.BondController._answers;
     target.bond.minorIdeal = parent.BondController._minorIdeal;
     target.bond.clocks = parent.BondController._clocks.map((x) => Clock.Serialize(x));
+    target.bond.force = parent.BondController.ForceBonds;
   }
 
   public static Deserialize(parent: Pilot, data: IPilotBondData) {
@@ -263,6 +267,7 @@ class BondController {
     parent.BondController._clocks = data.clocks ? data.clocks.map((x) => Clock.Deserialize(x)) : [];
     parent.BondController._answers = data.bondAnswers || [];
     parent.BondController._minorIdeal = data.minorIdeal || '';
+    parent.BondController.ForceBonds = !!data.force;
   }
 }
 
