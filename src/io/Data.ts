@@ -100,10 +100,13 @@ const _importFile = async function <T>(file: File): Promise<T> {
 
 const ImportData = async function <T>(file: File): Promise<T> {
   const json = await _importFile(file);
+  console.log('Importing data:', json);
   try {
-    if ((json as any).EXPORT_TYPE) return JSON.parse((json as any).data) as T;
+    const item = json as { EXPORT_TYPE?: string; data: T };
+    if (item.EXPORT_TYPE) return item.data as T;
     else return json as T;
   } catch (error) {
+    console.error('Error parsing imported data:', error);
     throw new Error('Invalid JSON');
   }
 };

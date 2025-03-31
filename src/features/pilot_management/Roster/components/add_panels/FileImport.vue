@@ -84,6 +84,7 @@ export default {
     async stageImport(file) {
       if (!file) return;
       const pilotData = await ImportData<PilotData>(file.target.files[0]);
+      console.log(pilotData);
 
       if (!pilotData.brews) pilotData.brews = [];
       // catch old style brews

@@ -229,8 +229,8 @@ export default {
       return this.contentPacks.find((pack) => pack.ID === save.packId);
     },
     getInstalledPack(pack) {
-      return this.contentPacks.find(
-        (p) => p.Manifest.name === pack.name || p.Manifest.name === pack.title
+      return this.contentPacks.find(({ Manifest }) =>
+        [pack.name, pack.title].some((p) => Manifest.name?.toLowerCase().includes(p?.toLowerCase()))
       );
     },
     canDownload(pack) {

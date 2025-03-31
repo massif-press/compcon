@@ -229,26 +229,6 @@
               <cc-bond-power-card :power="item" />
             </template>
           </masonry-wall>
-
-          <v-card
-            v-if="boon"
-            border
-            tile
-            flat
-            :style="!pilot.BondController.HasVeteranPower ? 'opacity: 0.4' : ''">
-            <v-row no-gutters class="bg-deep-purple-darken-3 heading h4 py-1 px-3">
-              <v-col>{{ boon.name }}</v-col>
-              <v-col v-if="boon.frequency" cols="auto">
-                <v-chip small v-text="boon.frequency" />
-              </v-col>
-            </v-row>
-            <v-card-text v-html="boon.description" class="pa-3" />
-          </v-card>
-          <div
-            v-if="!pilot.BondController.HasVeteranPower"
-            class="text-caption text-right text-disabled">
-            <i v-text="'Requires Veteran Power'" />
-          </div>
         </div>
 
         <section-header title="Burdens" />
@@ -320,17 +300,17 @@ export default {
   data: () => ({
     resetXpMenu: false,
     addBondMenu: false,
-    masonryBondItems: [],
+    masonryBondItems: [] as any[],
     bondModal: false,
   }),
   mounted() {
-    this.masonryBondItems = this.pilot.BondController.BondPowers;
+    this.masonryBondItems = [...this.pilot.BondController.BondPowers];
   },
   watch: {
     'pilot.BondController.BondPowers': {
       handler(val) {
         console.log('Bond Powers changed', val);
-        this.masonryBondItems = this.pilot.BondController.BondPowers;
+        this.masonryBondItems = [...this.pilot.BondController.BondPowers];
       },
       immediate: true,
       deep: true,

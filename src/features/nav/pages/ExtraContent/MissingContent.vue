@@ -197,8 +197,7 @@
 
 <script lang="ts">
 import { CompendiumStore, PilotStore, NpcStore } from '@/stores';
-import { Pilot, ContentPack } from '@/class';
-import { IBrewable } from '@/classes/components/brew/IBrewable';
+import { ContentPack } from '@/class';
 
 export default {
   name: 'missing-content-pane',
@@ -212,10 +211,14 @@ export default {
     },
 
     allPilots() {
-      return PilotStore().Pilots.filter((x) => x.BrewController.HasError);
+      return PilotStore().Pilots.filter(
+        (x) => !x.SaveController.IsDeleted && x.BrewController.HasError
+      );
     },
     allNpcs() {
-      return NpcStore().Npcs.filter((x) => x.BrewController.HasError);
+      return NpcStore().Npcs.filter(
+        (x) => !x.SaveController.IsDeleted && x.BrewController.HasError
+      );
     },
     allItems() {
       return (this.allPilots as any[]).concat(this.allNpcs as any[]);

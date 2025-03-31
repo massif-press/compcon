@@ -95,7 +95,7 @@
               <template #default="{ item }">
                 <cc-bond-power-card :power="item" />
                 <cc-button
-                  v-if="!(item as any).veteran && (!hasPower(item) || allowDupes)"
+                  v-if="!hasPower(item) || allowDupes"
                   color="primary"
                   block
                   size="x-small"

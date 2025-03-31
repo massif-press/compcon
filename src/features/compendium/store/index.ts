@@ -219,7 +219,7 @@ export const CompendiumStore = defineStore('compendium', {
       }
 
       return (this.Frames as any)
-        .filter((x) => x.Source !== 'GMS' && !x.IsHidden)
+        .filter((x) => x.LicenseLevel !== 0 && !x.IsHidden)
         .map((frame) => {
           return new License(frame);
         });

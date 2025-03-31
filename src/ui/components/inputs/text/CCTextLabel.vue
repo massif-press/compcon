@@ -1,4 +1,3 @@
-<!-- TODO: REMOVE -->
 <template>
   <v-hover #default="{ isHovering, props }">
     <div class="d-inline top-element" style="position: relative">
