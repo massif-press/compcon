@@ -1,6 +1,10 @@
+<script lang="ts">
+</script>
+
 <template>
   <v-container fluid>
-    <v-row dense align="top">
+    <fieldset>
+    <v-row dense align="top" class="mt-1">
       <v-col cols="auto">
         <div class="overline my-n2 grey--text">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
         <div class="heading h2 mt-n4 font-weight-bolder">{{ mech.Name }}</div>
@@ -26,7 +30,7 @@
       </v-col>
     </v-row>
 
-    <v-row dense align="center" justify="space-around" class="mt-n5 mb-1">
+    <v-row dense align="center" justify="space-around" class="mt-n5 mb-2">
       <v-col cols="auto">
         <span class="font-weight-bold overline pr-3">HULL</span>
         <div class="ml-4 mt-n3" style="position: relative; width: max-content">
@@ -184,12 +188,12 @@
       </v-col>
     </v-row>
 
-    <div class="overline mb-n2">FRAME TRAITS</div>
-    <v-row dense justify="space-between" class="caption mt-n1">
+    <div class="overline mt-2 mb-0">FRAME TRAITS</div>
+    <v-row dense justify="space-between" class="caption mt-n1 mb-2">
       <v-col v-for="(t, i) in mech.Frame.Traits" :key="`mt_${i}`" class="mt-n1">
         <fieldset>
           <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
-          <p v-html-safe="t.Description" class="ml-6 mb-0" />
+          <p v-html-safe="t.Description" class="ml-6 mb-2" />
         </fieldset>
       </v-col>
     </v-row>
@@ -223,7 +227,7 @@
       </div>
     </fieldset>
 
-    <v-row dense class="mb-n3">
+    <v-row dense class="mt-2 mb-n3">
       <v-col cols="1">
         <v-divider class="mt-3" />
       </v-col>
@@ -265,20 +269,33 @@
               mdi-hexagon-outline
             </v-icon>
           </span>
+          <div class="caption mb-n0">
+            {{ w.Effect }}
+          </div>
         </v-row>
         <div v-for="p in w.Profiles" :key="`${w.ID}_${p.Name}`">
-          <div class="caption">
-            <b v-for="(r, k) in p.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
-            <span v-if="p.Damage && p.Damage.length">|</span>
-            <b v-for="(d, k) in p.Damage" :key="`mmwd_${i}_${j}_${k}`">{{ d.Text }}&nbsp;</b>
-            <p v-if="p.Effect" :v-html-safe="p.Effect" print />
-            <p v-if="p.OnAttack" :v-html-safe="`<b>ON ATTACK:</b> ${p.OnAttack}`" print />
-            <p v-if="p.OnHit" :v-html-safe="`<b>ON HIT:</b> ${p.OnHit}`" print />
-            <p v-if="p.OnCrit" :v-html-safe="`<b>ON CRIT:</b> ${p.OnCrit}`" print />
+          <div class="caption mb-n0">
+            <b v-for="(r, k) in p.Range" :key="`mmwr_${i}_${j}_${k}`">
+              <span v-for="rangeType in Object.values(rangeTypes)" v-if="r.Text.includes(rangeType)">
+                <i :class="`cci-`+ rangeType.toLowerCase()"></i>
+                {{r.Text.replace(rangeType, '')}}
+              </span>
+            </b>
+            <span v-if="p.Damage && p.Damage.length">|&nbsp;</span>
+            <b v-for="(d, k) in p.Damage" :key="`mmwd_${i}_${j}_${k}`">
+              <span v-for="damageType in Object.values(damageTypes)" v-if="d.Text.includes(damageType)">
+                <i :class="`cci-`+ damageType.toLowerCase()"></i>
+                {{d.Text.replace(damageType + ' Damage', '')}}
+              </span>
+            </b>
+            <p v-if="p.Effect" print>{{ p.Effect }}</p>
+            <p v-if="p.OnAttack" print><b>ON ATTACK:</b> {{ p.OnAttack }}</p>
+            <p v-if="p.OnHit" print><b>ON HIT:</b> {{ p.OnHit }}</p>
+            <p v-if="p.OnCrit" print><b>ON CRIT:</b> {{ p.OnCrit }}</p>
             <print-action :actions="p.Actions" />
             <print-deployable :deployables="p.Deployables" />
           </div>
-          <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0">
+          <div class="text-right mt-n2" style="position: relative; bottom: 0; left: 0; right: 0">
             <cc-tags :tags="p.Tags" :bonus="mech.Pilot.LimitedBonus" print />
           </div>
         </div>
@@ -293,7 +310,7 @@
       </div>
     </fieldset>
 
-    <fieldset>
+    <fieldset class="mt-1">
       <legend class="heading ml-1 px-2">Systems</legend>
       <div
         v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.AllActiveSystems"
@@ -322,6 +339,7 @@
         </div>
       </div>
     </fieldset>
+  </fieldset>
   </v-container>
 </template>
 
@@ -329,6 +347,8 @@
 import Vue from 'vue'
 import PrintAction from './components/PrintAction.vue'
 import PrintDeployable from './components/PrintDeployable.vue'
+import { DamageType } from '@/class'
+import { RangeType } from '@/class'
 
 export default Vue.extend({
   name: 'mech-print',
@@ -337,6 +357,16 @@ export default Vue.extend({
     mech: {
       type: Object,
       required: true,
+    },
+    damageTypes: {
+      type: Array,
+      required: true,
+      default: Object.values(DamageType),
+    },
+    rangeTypes: {
+      type: Array,
+      required: true,
+      default: Object.values(RangeType),
     },
   },
   computed: {
