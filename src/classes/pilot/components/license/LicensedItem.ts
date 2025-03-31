@@ -5,6 +5,7 @@ import { ICompendiumItemData, IContentPack, ITagCompendiumData } from '../../../
 interface ILicenseRequirement {
   source: string;
   name: string;
+  license_id: string;
   rank: number;
   items: string[];
   missing?: boolean;
@@ -66,6 +67,7 @@ abstract class LicensedItem extends CompendiumItem {
       source: this.Source,
       name: this.getLicenseName(),
       rank: this.LicenseLevel,
+      license_id: this.LicenseID,
       items: [this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name],
     };
   }

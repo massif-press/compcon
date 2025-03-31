@@ -228,8 +228,11 @@ class BondController {
   }
 
   public get HasVeteranPower() {
-    if (!this._bond) return false;
-    return this._bondPowers.some((x) => !this._bond!._powers.map((y) => y.name).includes(x.name));
+    return this._bondPowers.some((x) => x.veteran);
+  }
+
+  public get HasMasterPower() {
+    return this._bondPowers.some((x) => x.veteran);
   }
 
   public static Serialize(parent: Pilot, target: any) {

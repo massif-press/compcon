@@ -36,16 +36,19 @@
     <template v-slot:item.version="{ item }">
       {{ (item as any).version }}
       <span v-if="packInstalled(item)">
-        <cc-tooltip
+        <v-tooltip
           v-if="packOutdated(item)"
-          inline
-          title="Pack Outdated"
-          content="This content pack is installed but out of date, and may cause errors with the latest version of COMP/CON. Click this pack's Download button to get the latest version.">
-          <v-icon color="accent">mdi-alert</v-icon>
-        </cc-tooltip>
-        <cc-tooltip v-else inline content="This content pack is installed and up-to-date">
-          <v-icon color="success">mdi-check</v-icon>
-        </cc-tooltip>
+          max-width="300px"
+          text="This content pack is installed but out of date, and may cause errors with the latest version of COMP/CON. Click this pack's Download button to get the latest version.">
+          <template #activator="{ props }">
+            <v-icon v-bind="props" color="accent">mdi-alert</v-icon>
+          </template>
+        </v-tooltip>
+        <v-tooltip v-else max-width="300px" text="This content pack is installed and up-to-date">
+          <template #activator="{ props }">
+            <v-icon v-bind="props" color="success">mdi-check</v-icon>
+          </template>
+        </v-tooltip>
       </span>
     </template>
     <!-- Version -->
@@ -148,7 +151,11 @@ export default {
   },
   methods: {
     packInstalled(item) {
-      return this.contentPacks.some((x) => x.Name === item.name || x.Name === item.title);
+      return this.contentPacks.some(({ Name, Manifest }) =>
+        [Name, Manifest.name].some((n) =>
+          [item.name, item.title].some((i) => n?.toLowerCase() === i?.toLowerCase())
+        )
+      );
     },
     packOutdated(item) {
       const installedPack = this.contentPacks.find(

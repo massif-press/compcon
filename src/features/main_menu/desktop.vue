@@ -197,8 +197,8 @@ export default {
     },
     missingContent() {
       return (
-        PilotStore().Pilots.some((x) => x.BrewController.HasError) ||
-        NpcStore().Npcs.some((x) => x.BrewController.HasError)
+        PilotStore().Pilots.some((x) => !x.SaveController.IsDeleted && x.BrewController.HasError) ||
+        NpcStore().Npcs.some((x) => !x.SaveController.IsDeleted && x.BrewController.HasError)
       );
     },
   },

@@ -209,11 +209,10 @@ class MechLoadout extends Loadout {
 
     equippedSystems.concat(equippedWeapons).forEach((item) => {
       if (!item) return;
-      //TODO: change from GMS to LL0
-      if (item.Source === 'GMS') {
-        const GMSIndex = requirements.findIndex((x) => x.source === 'GMS');
-        if (GMSIndex > -1) {
-          requirements[GMSIndex].items.push((item as any).Name);
+      if (item.LicenseLevel === 0) {
+        const LL0Index = requirements.findIndex((x) => x.rank === 0);
+        if (LL0Index > -1) {
+          requirements[LL0Index].items.push(item.Name);
         } else {
           requirements.push(item.RequiredLicense);
         }

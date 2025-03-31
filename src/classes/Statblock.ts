@@ -62,19 +62,21 @@ class Statblock {
             output += `${loadout.Items[i].TrueName}${linebreak(i, loadout.Items.length)}`;
             if (discordEmoji) {
               const weapon = loadout.Items[i] as PilotWeapon;
+              let str = weapon.TrueName;
               if ('Range' in weapon) {
                 const ranges: string[] = [];
                 weapon.Range.forEach((r) => {
                   ranges.push(`${r.DiscordEmoji} ${r.Value}`);
                 });
-                output += ` ${ranges.join(' ')}`;
+                str += ` ${ranges.join(' ')}`;
               }
               if ('Damage' in weapon) {
                 const damages: string[] = [];
                 weapon.Damage.forEach((d) => {
                   damages.push(`${d.DiscordEmoji} ${d.Value}`);
                 });
-                output += ` ${damages.join(' ')}`;
+                str += ` ${damages.join(' ')}`;
+                output += `${str}${linebreak(i, loadout.Items.length)}`;
               }
             }
           }
