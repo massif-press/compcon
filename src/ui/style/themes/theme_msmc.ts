@@ -4,6 +4,7 @@ const theme = {
   dark: true,
   id: 'msmc',
   name: 'MSMC Solarized',
+  community: false,
   colors: {
     ...themeDefaults,
     primary: '#146464',

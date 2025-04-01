@@ -19,7 +19,19 @@
     <v-row dense>
       <v-col cols="12" sm="6">
         <cc-heading title text="Theme" />
-        <cc-select v-model="theme" :items="themes" item-title="name" />
+        <cc-select
+          v-model="theme"
+          :items="themes.sort((a, b) => a.community - b.community)"
+          :item-title="(item) => `${item.name}${item.community ? ' (Community)' : ''}`" />
+
+        <i class="text-caption" style="opacity: 0.75">
+          Community themes by
+          <a target="_blank" href="https://github.com/vialra">vialra,</a>
+          Asger Toft,
+          <a target="_blank" href="https://github.com/Lunardog15">thecrystalwoods,</a>
+          and
+          <a target="_blank" href="https://github.com/nimoooos">Suji</a>
+        </i>
       </v-col>
       <v-col cols="12" sm="6">
         <cc-heading title text="Log Level" />
@@ -109,6 +121,7 @@
 
 <script lang="ts">
 import * as allThemes from '@/ui/style/themes';
+import _ from 'lodash';
 
 import { UserStore } from '@/stores';
 import { exportAll, importAll, clearAllData } from '@/io/BulkData';
@@ -162,7 +175,11 @@ export default {
       return this.user.ID;
     },
     themes() {
-      return Object.keys(allThemes).map((x) => ({ name: allThemes[x].name, value: x }));
+      return Object.keys(allThemes).map((x) => ({
+        name: allThemes[x].name,
+        value: x,
+        community: allThemes[x].community,
+      }));
     },
   },
   created() {

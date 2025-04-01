@@ -30,6 +30,10 @@ import TypeIt from 'typeit';
 import GmsStart from './startup_logs/gms';
 import MsmcStart from './startup_logs/msmc';
 import { HorusStart, HorusChat } from './startup_logs/horus';
+import SscStart from './startup_logs/ssc';
+import IpsnStart from './startup_logs/ipsn';
+import HaStart from './startup_logs/ha';
+import GalsimStart from './startup_logs/galsim';
 
 import { UserStore } from '@/stores';
 import { UserProfile } from '@/user';
@@ -87,12 +91,26 @@ export default {
         })
       );
 
+      console.log(this.theme);
       switch (this.theme) {
         case 'horus':
           await HorusStart(this.typer);
           break;
         case 'msmc':
           await MsmcStart(this.typer);
+          break;
+        case 'ssc':
+          SscStart(this.typer);
+          break;
+        case 'ipsn':
+          IpsnStart(this.typer);
+          break;
+        case 'ha':
+          HaStart(this.typer);
+          break;
+        case 'galsim':
+          GalsimStart(this.typer);
+          break;
         default:
           GmsStart(this.typer);
           break;

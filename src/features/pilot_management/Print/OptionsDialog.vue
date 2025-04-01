@@ -1,99 +1,92 @@
 <template>
-  <cc-solo-dialog
-    ref="dialog"
-    icon="mdi-printer"
-    large
-    title="Print Options"
-    @confirm="$emit('set', options)">
-    <v-card-text class="flavor-text">
-      <v-card flat tile>
+  <v-card-text class="flavor-text">
+    <v-card flat tile>
+      <fieldset class="pa-2">
+        <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
+        <print-option-select
+          v-model="options.layout"
+          mandatory
+          title="Layout"
+          :items="layoutOptions" />
+        <v-row v-if="options.layout.title !== 'Cards'">
+          <v-col>
+            <print-option-select
+              v-model="options.paper"
+              mandatory
+              title="Paper"
+              :items="paperOptions" />
+          </v-col>
+          <v-col>
+            <print-option-select
+              v-model="options.content"
+              mandatory
+              title="Content"
+              :items="contentOptions" />
+          </v-col>
+          <v-col>
+            <print-option-select
+              v-model="options.orientation"
+              mandatory
+              title="Orientation"
+              :items="orientationOptions" />
+          </v-col>
+          <v-col>
+            <print-option-select
+              v-model="options.bonds"
+              mandatory
+              title="Bonds"
+              :items="bondsOptions" />
+          </v-col>
+        </v-row>
+        <v-row v-else>
+          <v-col>
+            <print-option-select
+              v-model="options.paper"
+              mandatory
+              title="Paper"
+              :items="paperOptions" />
+            <v-col>
+              <print-option-select
+                v-model="options.card"
+                mandatory
+                title="Card Options"
+                :items="cardOptions" />
+            </v-col>
+          </v-col>
+        </v-row>
+      </fieldset>
+    </v-card>
+    <v-scroll-y-transition>
+      <v-card v-if="pilotIncludeOptions.length > 0" flat tile>
         <fieldset class="pa-2">
-          <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
+          <legend class="clipped-small heading h3">Pilot Sheet Options&emsp;</legend>
           <print-option-select
-            v-model="options.layout"
-            mandatory
-            title="Layout"
-            :items="layoutOptions" />
-          <v-row v-if="options.layout.title !== 'Cards'">
-            <v-col>
-              <print-option-select
-                v-model="options.paper"
-                mandatory
-                title="Paper"
-                :items="paperOptions" />
-            </v-col>
-            <v-col>
-              <print-option-select
-                v-model="options.content"
-                mandatory
-                title="Content"
-                :items="contentOptions" />
-            </v-col>
-            <v-col>
-              <print-option-select
-                v-model="options.orientation"
-                mandatory
-                title="Orientation"
-                :items="orientationOptions" />
-            </v-col>
-            <v-col>
-              <print-option-select
-                v-model="options.bonds"
-                mandatory
-                title="Bonds"
-                :items="bondsOptions" />
-            </v-col>
-          </v-row>
-          <v-row v-else>
-            <v-col>
-              <print-option-select
-                v-model="options.paper"
-                mandatory
-                title="Paper"
-                :items="paperOptions" />
-              <v-col>
-                <print-option-select
-                  v-model="options.card"
-                  mandatory
-                  title="Card Options"
-                  :items="cardOptions" />
-              </v-col>
-            </v-col>
-          </v-row>
+            v-model="options.pilotInclude"
+            multiple
+            widen
+            :items="pilotIncludeOptions" />
         </fieldset>
       </v-card>
-      <v-scroll-y-transition>
-        <v-card v-if="pilotIncludeOptions.length > 0" flat tile>
-          <fieldset class="pa-2">
-            <legend class="clipped-small heading h3">Pilot Sheet Options&emsp;</legend>
-            <print-option-select
-              v-model="options.pilotInclude"
-              multiple
-              widen
-              :items="pilotIncludeOptions" />
-          </fieldset>
-        </v-card>
-      </v-scroll-y-transition>
-      <v-scroll-y-transition>
-        <v-card v-if="mechIncludeOptions.length > 0" flat tile>
-          <fieldset class="pa-2">
-            <legend class="clipped-small heading h3">Mech Sheet Options&emsp;</legend>
-            <print-option-select
-              v-model="options.mechInclude"
-              multiple
-              widen
-              :items="mechIncludeOptions" />
-          </fieldset>
-        </v-card>
-      </v-scroll-y-transition>
-      <v-card flat tile>
+    </v-scroll-y-transition>
+    <v-scroll-y-transition>
+      <v-card v-if="mechIncludeOptions.length > 0" flat tile>
         <fieldset class="pa-2">
-          <legend>Extras</legend>
-          <print-option-select v-model="options.extras" multiple :items="extraOptions" />
+          <legend class="clipped-small heading h3">Mech Sheet Options&emsp;</legend>
+          <print-option-select
+            v-model="options.mechInclude"
+            multiple
+            widen
+            :items="mechIncludeOptions" />
         </fieldset>
       </v-card>
-    </v-card-text>
-  </cc-solo-dialog>
+    </v-scroll-y-transition>
+    <v-card flat tile>
+      <fieldset class="pa-2">
+        <legend>Extras</legend>
+        <print-option-select v-model="options.extras" multiple :items="extraOptions" />
+      </fieldset>
+    </v-card>
+  </v-card-text>
 </template>
 
 <script lang="ts">

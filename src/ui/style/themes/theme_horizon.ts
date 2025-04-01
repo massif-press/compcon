@@ -4,6 +4,7 @@ const theme = {
   dark: true,
   id: 'horizon',
   name: 'HORIZON Operative',
+  community: false,
   colors: {
     ...themeDefaults,
     primary: '#233943',
