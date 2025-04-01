@@ -13,10 +13,7 @@
             class="text-accent"
             style="font-size: calc(30px + 2vw)"
             v-text="
-              `${pilot.CloudController.ShareCode.substring(
-                0,
-                4
-              )}&ndash;${pilot.CloudController.ShareCode.substring(4, 8)}`
+              `${pilot.CloudController.ShareCode.slice(0, 4)}-${pilot.CloudController.ShareCode.slice(4, 8)}-${pilot.CloudController.ShareCode.slice(8, 12)}`
             " />
           <v-tooltip text="Copy share code to clipboard">
             <template #activator="{ props }">

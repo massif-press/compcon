@@ -6,7 +6,6 @@
       v-show="showItem(item)"
       density="compact"
       prominent
-      variant="tonal"
       :color="getColor(item)"
       :icon="getIcon(item)"
       class="mb-4">
@@ -19,16 +18,14 @@
     </cc-alert>
     <v-menu v-else v-for="item in templateController.FeatureRequirements" open-on-hover>
       <template v-slot:activator="{ props }">
-        <v-btn
-          icon
-          variant="elevated"
-          color="stark-panel"
-          size="x-small"
-          class="ml-2"
-          v-show="showItem(item)"
-          v-bind="props">
-          <v-icon size="33" class="mt-n1" :icon="getIcon(item)" :color="getColor(item)" />
-        </v-btn>
+        <span v-bind="props">
+          <cc-button
+            :icon="getIcon(item)"
+            :color="getColor(item)"
+            variant="outlined"
+            size="small"
+            v-show="showItem(item)" />
+        </span>
       </template>
       <v-card>
         <v-toolbar density="compact" :color="getColor(item)">

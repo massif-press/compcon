@@ -14,13 +14,22 @@
             tile />
         </v-col>
       </v-row>
-      <cc-button
-        :size="preFill ? 'small' : 'default'"
-        color="accent"
-        class="mt-2"
-        @click="resend()">
-        {{ preFill ? 'Re-send' : 'Send' }} Verification Code
-      </cc-button>
+      <div class="d-flex align-center justify-center">
+        <cc-button
+          :size="preFill ? 'small' : 'default'"
+          color="accent"
+          class="mt-2"
+          @click="resend()">
+          {{ preFill ? 'Re-send' : 'Send' }} Verification Code
+        </cc-button>
+      </div>
+      <v-fade-transition>
+        <div v-if="!preFill" class="text-center mt-1">
+          <v-btn size="x-small" flat tile :disabled="!verifyEmail" @click="preFill = true">
+            I already have a verification code
+          </v-btn>
+        </div>
+      </v-fade-transition>
     </div>
 
     <v-fade-transition>
@@ -38,14 +47,16 @@
               hide-details />
           </v-col>
         </v-row>
-        <cc-button
-          color="secondary"
-          :loading="loading"
-          :disabled="!verify"
-          class="my-4"
-          @click="confirm">
-          Confirm Verification Code
-        </cc-button>
+        <div class="d-flex align-center justify-center">
+          <cc-button
+            color="secondary"
+            :loading="loading"
+            :disabled="!verify || !verifyEmail"
+            class="my-4"
+            @click="confirm">
+            Confirm Verification Code
+          </cc-button>
+        </div>
       </div>
     </v-fade-transition>
     <cc-button variant="text" color="accent" @click="$emit('set-state', 'sign-in')">

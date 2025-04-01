@@ -184,16 +184,20 @@
           <cc-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
         </div>
         <div class="mt-3">
-          <cc-button
-            block
-            size="small"
-            :color="pilot.Portrait ? 'success' : 'panel'"
-            :append-icon="pilot.Portrait ? '' : 'mdi-check-circle-outline'"
-            :prepend-icon="pilot.Portrait ? 'mdi-circle-edit-outline' : 'mdi-plus'"
-            @click="($refs.imageSelector as any).open()">
-            {{ pilot.Portrait ? 'Edit Pilot Image' : 'Add Pilot Image' }}
-          </cc-button>
-          <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" />
+          <cc-modal title="set pilot portrait" icon="cc:pilot">
+            <template #activator="{ open }">
+              <cc-button
+                block
+                size="small"
+                :color="pilot.Portrait ? 'success' : 'panel'"
+                :append-icon="pilot.Portrait ? '' : 'mdi-check-circle-outline'"
+                :prepend-icon="pilot.Portrait ? 'mdi-circle-edit-outline' : 'mdi-plus'"
+                @click="open">
+                {{ pilot.Portrait ? 'Edit Pilot Image' : 'Add Pilot Image' }}
+              </cc-button>
+            </template>
+            <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" avatar />
+          </cc-modal>
         </div>
       </v-col>
     </v-row>

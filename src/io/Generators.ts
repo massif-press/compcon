@@ -67,4 +67,65 @@ function flavorID(template: string): string {
   return output;
 }
 
-export { name, callsign, mechname, teamName, mission, tracert, encryption, flavorID };
+async function shipname_ipsn(): Promise<string> {
+  const shipnames_ipsnData = (
+    await import('@/assets/generators/shipnames_ipsn.txt?raw')
+  ).default.split('\n');
+  return pullRandom(shipnames_ipsnData, 1)[0];
+}
+
+async function planet(): Promise<string> {
+  const planetsData = (await import('@/assets/generators/planets.txt?raw')).default.split('\n');
+  return pullRandom(planetsData, 1)[0];
+}
+
+async function station(): Promise<string> {
+  const stationsData = (await import('@/assets/generators/stations.txt?raw')).default.split('\n');
+  return pullRandom(stationsData, 1)[0];
+}
+
+async function location(): Promise<string> {
+  if (Math.random() > 0.5) {
+    return await planet();
+  } else {
+    return await station();
+  }
+}
+
+async function cargo(): Promise<string> {
+  const cargoData = (await import('@/assets/generators/cargo.txt?raw')).default.split('\n');
+  return pullRandom(cargoData, 1)[0];
+}
+
+async function cargo_formatted(): Promise<string> {
+  const cargoData = (await import('@/assets/generators/cargo.txt?raw')).default.split('\n');
+
+  const secrets = ['Redacted', 'Classified', 'None of your business'];
+  const chance = Math.random();
+  let cargo = '';
+
+  if (chance <= 0.05) {
+    cargo = '<span class="horus--subtle">' + _.sample(secrets) + '</span>';
+  } else {
+    cargo = pullRandom(cargoData, 1)[0];
+  }
+
+  cargo = cargo.concat(` - ${Math.floor(Math.random() * (30 - 1) + 1)} units`);
+
+  return cargo;
+}
+
+export {
+  name,
+  callsign,
+  mechname,
+  teamName,
+  mission,
+  tracert,
+  encryption,
+  flavorID,
+  shipname_ipsn,
+  location,
+  cargo,
+  cargo_formatted,
+};

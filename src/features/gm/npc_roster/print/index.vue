@@ -53,11 +53,15 @@
 
         <v-spacer />
 
-        <v-btn @click="($refs as any).options.show()">
-          <span>Options</span>
-          <v-icon icon="mdi-cog" />
-        </v-btn>
-        <options-dialog ref="options" @set="setOptions($event)" />
+        <cc-modal>
+          <template #activator="{ open }">
+            <v-btn @click="open">
+              <span>Options</span>
+              <v-icon icon="mdi-cog" />
+            </v-btn>
+          </template>
+          <options-dialog ref="options" @set="setOptions($event)" />
+        </cc-modal>
         <v-btn @click="print()">
           <span>Print</span>
           <v-icon icon="mdi-printer" />

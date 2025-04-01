@@ -78,19 +78,6 @@
               "
               @click="remoteUpdate()" />
 
-            <cc-dialog v-else icon="mdi-code-json" title="get share code">
-              <template #activator="{ open }">
-                <v-list-item
-                  prepend-icon="mdi-code-json"
-                  title="Get Share Code"
-                  subtitle="Get a share code that other users can use to import and sync this character"
-                  @click.stop="open" />
-              </template>
-              <template #default="{ close }">
-                <share-dialog :pilot="pilot" />
-              </template>
-            </cc-dialog>
-
             <v-divider v-if="!pilot.IsRemote" />
             <cc-dialog :close-on-click="false" title="confirm pilot deletion" icon="cc:pilot">
               <template #activator="{ open }">

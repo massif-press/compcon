@@ -18,7 +18,7 @@
     </v-tooltip>
   </v-card>
 
-  <cc-dialog title="Linked Massif Content" max-width="800">
+  <cc-dialog v-if="itch && itch.hasItch" title="Linked Massif Content" max-width="800">
     <template #activator="{ open }">
       <v-card
         @click="open"

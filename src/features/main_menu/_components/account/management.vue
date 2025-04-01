@@ -288,6 +288,7 @@ export default {
             data: { color: 'success' },
           });
           UserStore().signOut();
+          window.location.reload();
           this.$emit('set-state', 'sign-in');
         })
         .catch((err) => {

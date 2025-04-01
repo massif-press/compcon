@@ -5,29 +5,25 @@
       flat
       :class="options.orientation"
       class="print-card"
-      style="margin-left: auto; margin-right: auto"
-    >
+      style="margin-left: auto; margin-right: auto">
       <div>
         <component
           :is="options.layout"
           :options="options"
-          :selected-mech="(selectedMech as Mech)"
-          :selected-pilot="(selectedPilot as Pilot)"
-          :hasBonds="hasBondData"
-        />
+          :selected-mech="selectedMech as Mech"
+          :selected-pilot="selectedPilot as Pilot"
+          :hasBonds="hasBondData" />
         <div v-if="selectedPilot && options && options.extras">
           <combat-ref v-if="options.extras.includes('combat quick reference')" />
           <action-ref v-if="options.extras.includes('action reference')" />
           <downtime-ref v-if="options.extras.includes('downtime quick reference')" />
           <trigger-info-print
             v-if="options.extras.includes('relevant trigger reference')"
-            :pilot="(selectedPilot as Pilot)"
-          />
+            :pilot="selectedPilot as Pilot" />
           <tag-info-print
             v-if="options.extras.includes('relevant tag reference')"
-            :pilot="(selectedPilot as Pilot)"
-            :mech="(selectedMech as Mech)"
-          />
+            :pilot="selectedPilot as Pilot"
+            :mech="selectedMech as Mech" />
         </div>
       </div>
 
@@ -48,8 +44,7 @@
           label="Pilot"
           class="mx-3"
           clearable
-          style="width: 10vw"
-        />
+          style="width: 10vw" />
         <v-select
           v-model="selectedMech"
           :items="pilotMechs"
@@ -61,15 +56,18 @@
           label="Mech"
           class="mx-3"
           clearable
-          style="width: 10vw"
-        />
+          style="width: 10vw" />
         <v-spacer />
 
-        <v-btn @click="($refs as any).options.show()">
-          <span>Options</span>
-          <v-icon icon="mdi-cog" />
-        </v-btn>
-        <options-dialog ref="options" :hasBonds="hasBondData" @set="setOptions($event)" />
+        <cc-modal>
+          <template #activator="{ open }">
+            <v-btn @click="open">
+              <span>Options</span>
+              <v-icon icon="mdi-cog" />
+            </v-btn>
+          </template>
+          <options-dialog :has-bonds="hasBondData" @set="setOptions($event)" />
+        </cc-modal>
         <v-btn @click="print()">
           <span>Print</span>
           <v-icon icon="mdi-printer" />

@@ -4,6 +4,7 @@ const theme = {
   dark: true,
   id: 'horus',
   name: 'HORUS Terminal',
+  community: false,
   colors: {
     ...themeDefaults,
     primary: '#126127',

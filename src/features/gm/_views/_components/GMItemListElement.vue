@@ -3,7 +3,7 @@
     border
     :class="`${selectedId === item.ID ? 'bg-primary' : ''} ${disabled ? 'disabled' : ''}`"
     style="margin-bottom: 2px"
-    @click="disabled ? '' : $emit('open')">
+    @click="disabled || missingContent ? '' : $emit('open')">
     <template #prepend>
       <v-avatar class="ml-n2 mr-1">
         <v-icon
