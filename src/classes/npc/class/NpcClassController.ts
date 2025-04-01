@@ -124,6 +124,7 @@ class NpcClassController {
     }
     if (!this.HasClass) this.Parent.Tag = 'Mech';
     if (npcClass.Role.toLowerCase() === 'biological') this.Parent.Tag = 'Biological';
+    if (npcClass.ForceTag) this.Parent.Tag = npcClass.ForceTag;
     this._class = npcClass;
     this.ResetStats(tier);
     this.Parent.NpcFeatureController.ResetFeatures();

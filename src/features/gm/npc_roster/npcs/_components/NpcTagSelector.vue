@@ -54,10 +54,19 @@ export default {
   computed: {
     locked() {
       let lockTemplate = '';
+      if (this.item.NpcClassController) {
+        lockTemplate = this.item.NpcClassController.ForceTag;
+      }
+
+      if (lockTemplate && lockTemplate.length > 0) {
+        return lockTemplate;
+      }
+
       if (this.item.NpcTemplateController) {
         if (this.item.NpcTemplateController.Templates)
           lockTemplate = this.item.NpcTemplateController.Templates.find((t) => t.ForceTag)?.Name;
       }
+
       return lockTemplate;
     },
     tags() {

@@ -14,6 +14,7 @@ interface INpcClassData {
   optionalClassMin?: number;
   optionalClassMax?: number;
   optionalClassPerTier?: number;
+  forceTag?: string;
 }
 
 class NpcComparison {
@@ -78,6 +79,7 @@ class NpcClass {
   public readonly ItemType = 'NpcClass';
   public readonly LcpName: string;
   public readonly InLcp: boolean;
+  public readonly ForceTag: string;
   private _id: string;
   private _name: string;
   private _role: string;
@@ -101,6 +103,7 @@ class NpcClass {
     this._role = data.role;
     this._info = data.info;
     this._stats = new NpcClassStats(data.stats);
+    this.ForceTag = data.forceTag || '';
     this.LcpName = pack?.Name || 'LANCER Core Book';
     this.InLcp = !!pack;
     this.OptionalClassMin = data.optionalClassMin || 0;

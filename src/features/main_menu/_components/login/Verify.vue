@@ -100,7 +100,7 @@ export default {
 
       try {
         const { isSignUpComplete, nextStep } = await confirmSignUp({
-          username: this.email,
+          username: this.verifyEmail,
           confirmationCode: this.verify,
         });
 
