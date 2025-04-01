@@ -23,7 +23,7 @@ class Status {
   private _icon: string;
 
   public constructor(data: IStatusData, pack?: ContentPack) {
-    this.ID = data.id || `${pack?.Name || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
+    this.ID = data.id || `${pack?.Name || 'Lancer Core Book'}_${data.name}`.replace(/ /g, '_');
     this.InstanceID = uuid();
     this.Name = data.name;
     this.Effects = data.effects;
@@ -32,7 +32,7 @@ class Status {
     else this.Terse = data.effects;
     this._icon = data.icon;
     this.StatusType = data.type;
-    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
   }
 

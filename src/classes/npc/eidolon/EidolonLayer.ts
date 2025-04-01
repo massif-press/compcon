@@ -57,7 +57,7 @@ class EidolonLayer {
     this._name = data.name;
     this._stats = new NpcClassStats(layer_stats);
     this._rules = data.rules;
-    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
 
     this.Appearance = data.appearance;

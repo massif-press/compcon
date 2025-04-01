@@ -1,4 +1,5 @@
 import { getImagePath, ImageTag } from '@/io/ImageManagement';
+import { ContentPack } from './ContentPack';
 
 interface IManufacturerData {
   id: string;
@@ -18,12 +19,14 @@ class Manufacturer {
   public readonly Quote: string;
   public readonly Light: string;
   public readonly Dark: string;
+  public readonly InLcp: boolean;
+  public readonly LcpName: string;
   public IsHidden: boolean;
   private _logo: string;
   private _logo_url?: string;
   private _is_cors_safe: boolean;
 
-  public constructor(data: IManufacturerData) {
+  public constructor(data: IManufacturerData, lcp?: ContentPack) {
     this.ID = data.id.toUpperCase();
     this.Name = data.name;
     this.Description = data.description;
@@ -34,6 +37,8 @@ class Manufacturer {
     this._logo_url = data.logo_url;
     this._is_cors_safe = false;
     this.IsHidden = false;
+    this.InLcp = !!lcp;
+    this.LcpName = lcp?.Name || 'Lancer Core Book';
   }
 
   public get Color(): string {

@@ -1,20 +1,24 @@
 <template>
-  <div v-if="item" class="px-1 pb-3" style="border: 1px solid rgba(155, 155, 155, 0.1)">
+  <div v-if="item" class="pa-1" style="border: 1px solid rgba(155, 155, 155, 0.1)">
     <v-row
       v-if="!hideTitle"
       no-gutters
       class="heading h2 bg-surface"
+      align="start"
       style="font-size: calc(14px + 1vw)"
       :class="highlighted ? 'text-secondary' : 'text-accent'">
-      <v-col>
-        <v-icon v-if="item.Icon" :icon="item.Icon" />
-        {{ item.Name }}
-      </v-col>
-      <v-col v-if="item.Manufacturer" cols="auto">
+      <v-col v-if="item.Manufacturer" cols="auto" class="px-2">
         <v-icon
           v-if="item.Manufacturer.Icon"
           :icon="item.Manufacturer.Icon"
           :color="item.Manufacturer.Color" />
+      </v-col>
+      <v-col>
+        <v-icon v-if="item.Icon && !item.Manufacturer" :icon="item.Icon" />
+        {{ item.Name }}
+      </v-col>
+      <v-col cols="auto" class="ml-auto text-caption px-2">
+        <cc-lcp-info :item="item" />
       </v-col>
     </v-row>
 

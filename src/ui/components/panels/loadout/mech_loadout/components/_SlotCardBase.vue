@@ -67,11 +67,7 @@
 
         <v-row dense align="center">
           <v-col cols="auto">
-            <cc-tags
-              v-if="item.Tags"
-              :tags="item.Tags"
-              :color="color"
-              :bonus="mech.Pilot.LimitedBonus" />
+            <cc-tags v-if="item.Tags" :tags="item.Tags" :color="color" :bonus="mech.LimitedBonus" />
           </v-col>
 
           <v-col
@@ -81,11 +77,7 @@
             cols="auto">
             <div v-if="p.Tags.length">
               <div class="text-cc-overline" v-text="p.Name" />
-              <cc-tags
-                v-if="p.Tags"
-                :tags="p.Tags"
-                :color="color"
-                :bonus="mech.Pilot.LimitedBonus" />
+              <cc-tags v-if="p.Tags" :tags="p.Tags" :color="color" :bonus="mech.LimitedBonus" />
             </div>
           </v-col>
 
@@ -94,7 +86,7 @@
               v-if="item.Mod"
               :tags="item.Mod.AddedTags"
               color="mod"
-              :bonus="mech.Pilot.LimitedBonus" />
+              :bonus="mech.LimitedBonus" />
           </v-col>
           <v-col cols="auto" class="ml-auto mr-4">
             <cc-bonus-display :item="item" />

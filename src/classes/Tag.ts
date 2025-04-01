@@ -53,7 +53,7 @@ class Tag {
     this.IsOverkill = this.ID === 'tg_overkill';
     this.IsExotic = this.ID === 'tg_exotic';
 
-    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
   }
 

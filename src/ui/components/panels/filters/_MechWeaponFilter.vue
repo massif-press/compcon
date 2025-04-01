@@ -13,8 +13,7 @@
         chips
         clearable
         multiple
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
       <v-select
@@ -31,8 +30,7 @@
         item-value="ID"
         multiple
         item-title="Name"
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
       <v-select
@@ -46,8 +44,7 @@
         variant="outlined"
         label="Weapon Type"
         :items="weaponTypes"
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
       <v-select
@@ -61,8 +58,7 @@
         variant="outlined"
         label="Required Mount"
         :items="weaponSizes"
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
       <v-select
@@ -77,8 +73,7 @@
         label="Attack Type"
         :items="attackTypes"
         multiple
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
       <v-select
@@ -93,8 +88,22 @@
         label="Damage Type"
         :items="damageTypes"
         multiple
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
+    </v-col>
+    <v-col cols="12">
+      <v-select
+        v-model="llFilter"
+        density="compact"
+        hide-details
+        class="px-2"
+        prepend-icon="cc:pilot"
+        clearable
+        chips
+        multiple
+        variant="outlined"
+        label="License Level"
+        :items="[0, 1, 2, 3]"
+        @update:modelValue="updateFilters()" />
     </v-col>
   </v-row>
   <v-divider class="my-4" />
@@ -113,8 +122,7 @@
         divided
         density="compact"
         style="height: 30px"
-        @update:modelValue="updateFilters()"
-      >
+        @update:modelValue="updateFilters()">
         <v-btn value="less" size="small">Less Than</v-btn>
         <v-btn value="eq" size="small">Equal To</v-btn>
         <v-btn value="greater" size="small">Greater Than</v-btn>
@@ -141,8 +149,7 @@
           sp++;
           updateFilters();
         "
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
       <v-btn
         size="x-small"
         variant="plain"
@@ -150,9 +157,9 @@
           sp = 0;
           spType = '';
           updateFilters();
-        "
-        >Reset</v-btn
-      >
+        ">
+        Reset
+      </v-btn>
     </v-col>
   </v-row>
 </template>
@@ -178,6 +185,7 @@ export default {
     weaponSizeFilter: [] as WeaponSize[],
     attackTypeFilter: [] as RangeType[],
     damageTypeFilter: [] as DamageType[],
+    llFilter: [] as number[],
     sp: 0,
     spType: '',
   }),
@@ -250,6 +258,9 @@ export default {
         fObj.RangeType = this.attackTypeFilter;
       if (this.damageTypeFilter && this.damageTypeFilter.length)
         fObj.DamageType = this.damageTypeFilter;
+      if (this.llFilter && this.llFilter.length) {
+        fObj.LicenseLevel = this.llFilter.map((x) => Number(x));
+      }
       this.$emit('set-filters', fObj);
     },
   },

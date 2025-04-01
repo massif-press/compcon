@@ -44,7 +44,7 @@ class Bond {
     this.MinorIdeals = data.minor_ideals;
     this.Questions = data.questions;
     this._powers = data.powers;
-    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
     if (data.brew) {
       this.Brew = data.brew;

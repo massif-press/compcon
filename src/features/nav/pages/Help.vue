@@ -65,8 +65,8 @@
     <v-row class="body-text text-text">
       <v-col cols="12" md="6">
         <cc-panel title="Where are the NPCs?">
-          If you bought the LANCER Core Book, you'll find a downloadable data package that contains
-          all Core NPC data on the LANCER Core Book's itch.io page, which you can access through the
+          If you bought the Lancer Core Book, you'll find a downloadable data package that contains
+          all Core NPC data on the Lancer Core Book's itch.io page, which you can access through the
           Content Manager. You can use the Content Manager's
           <b>Install LCP</b>
           tab to import the package and start building and running encounters.

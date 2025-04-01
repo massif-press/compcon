@@ -136,7 +136,7 @@ class ContentPack {
 
     self._Manufacturers =
       self._data.manufacturers?.map((x) => {
-        const m = new Manufacturer(x);
+        const m = new Manufacturer(x, self);
         m.setCorsSafe();
         return m;
       }) || [];
@@ -166,7 +166,7 @@ class ContentPack {
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     );
 
-    self._EidolonLayers = self._data.eidolonLayers?.map((x) => new EidolonLayer(x)) || [];
+    self._EidolonLayers = self._data.eidolonLayers?.map((x) => new EidolonLayer(x, self)) || [];
 
     self._Environments = self._data.environments?.map((x) => new Environment(x, self)) || [];
 
