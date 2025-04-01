@@ -24,9 +24,11 @@
       <cc-short-string-editor
         :readonly="readonly"
         :placeholder="activeLoadout.Name"
+        min-width="250px"
         @set="activeLoadout.Name = $event">
         <span class="heading h3">{{ activeLoadout.Name }}</span>
       </cc-short-string-editor>
+      <v-spacer />
       <v-btn
         v-if="!readonly && loadouts.length > 1"
         size="small"

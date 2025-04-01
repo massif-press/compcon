@@ -23,6 +23,7 @@
         required
         hide-details
         autofocus
+        :min-width="minWidth"
         @blur="submit()"
         @keyup.enter="submit()"
         @focus="$event.target.select()" />
@@ -40,6 +41,7 @@ export default {
     readonly: { type: Boolean },
     justify: { type: String, required: false, default: 'center' },
     maxWidth: { type: String, required: false },
+    minWidth: { type: String, required: false },
   },
   data: () => ({
     newStr: '',
