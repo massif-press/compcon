@@ -21,10 +21,10 @@ class Environment {
   public constructor(data: IEnvironmentData, pack?: ContentPack) {
     this.ID = data.id
       ? data.id
-      : `${pack?.Name || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
+      : `${pack?.Name || 'Lancer Core Book'}_${data.name}`.replace(/ /g, '_');
     this.Name = data.name;
     this.Description = data.description;
-    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
   }
 }

@@ -6,7 +6,7 @@
       </v-btn>
     </template>
     <v-card-text class="pa-0 pb-1">
-      <equipment-header :item="mod" :use-bonus="mech.Pilot.LimitedBonus" />
+      <equipment-header :item="mod" :use-bonus="mech.LimitedBonus" />
 
       <div class="text-cc-overline text-disabled">
         <v-icon icon="cc:weaponmod" />

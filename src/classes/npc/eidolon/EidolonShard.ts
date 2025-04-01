@@ -47,7 +47,7 @@ class EidolonShard implements IStatContainer {
   public static EidolonShardBaseStats = shard_stats;
 
   public constructor(data: IEidolonShardData, pack?: ContentPack, tier?: number) {
-    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
 
     this.Count = data.count;

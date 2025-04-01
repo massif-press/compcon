@@ -38,6 +38,8 @@ class ItemFilter {
         items = (items as MechWeapon[]).filter((w) =>
           filter[p].some((t) => w.WeaponTypes.includes(t))
         );
+      } else if (p === 'LicenseLevel') {
+        items = items.filter((i: LicensedItem) => filter[p].includes(i.LicenseLevel));
       } else if (filter[p].length)
         items = items.filter((x) => filter[p].some((e) => x[p].includes(e)));
     });

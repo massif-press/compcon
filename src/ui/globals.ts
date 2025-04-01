@@ -37,6 +37,8 @@ import CCClock from './components/CCClock.vue';
 import CCConfirmation from './components/CCConfirmation.vue';
 import CCDamageElement from './components/CCDamageElement.vue';
 import CCDamageTypePicker from './components/CCDamageTypePicker.vue';
+
+import CCLcpInfo from './components/CCLcpInfo.vue';
 // import CCDialog from './components/CCDialog.vue';
 import CCDiceMenu from './components/CCDiceMenu.vue';
 import CCExtendedTag from './components/CCExtendedTag.vue';
@@ -137,6 +139,7 @@ export {
   // --
   CCText,
   // --
+  CCLcpInfo,
   CCImg,
   CCCompendiumBrowser,
   CCAvatar,

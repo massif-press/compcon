@@ -68,7 +68,7 @@ abstract class CompendiumItem {
       this._flavor_description = data.flavorDescription || '';
       this.Brew = {
         LcpId: '',
-        LcpName: 'LANCER Core Book',
+        LcpName: 'Lancer Core Book',
         LcpVersion: '',
         Website: '',
         Status: 'OK',
@@ -86,7 +86,7 @@ abstract class CompendiumItem {
         };
       }
       this.InLcp = !!lcp;
-      this.LcpName = lcp?.Name || 'LANCER Core Book';
+      this.LcpName = lcp?.Name || 'Lancer Core Book';
       this._baseTags = Tag.Deserialize(data.tags || [], lcp?.Data.tags || []);
       this.IsExotic = this._baseTags.some((x) => x.IsExotic);
       const heatTag = this.Tags.find((x) => x.IsHeatCost);

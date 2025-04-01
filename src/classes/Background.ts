@@ -23,7 +23,7 @@ class Background {
     this.Name = data.name;
     this.Description = data.description;
     this.Skills = data.skills ? data.skills : [];
-    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
   }
 

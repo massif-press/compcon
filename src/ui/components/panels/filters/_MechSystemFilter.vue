@@ -15,22 +15,36 @@
         multiple
         item-title="Name"
         item-value="ID"
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
       <v-select
-        v-model="systemTypeFilter"
+        v-model="<any>systemTypeFilter"
         class="px-2"
         density="compact"
         prepend-icon="cc:system"
         variant="outlined"
+        hide-details
         label="System Type"
         :items="systemTypes"
         chips
         clearable
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
+    </v-col>
+    <v-col cols="12">
+      <v-select
+        v-model="llFilter"
+        density="compact"
+        hide-details
+        class="px-2"
+        prepend-icon="cc:pilot"
+        clearable
+        chips
+        multiple
+        variant="outlined"
+        label="License Level"
+        :items="[0, 1, 2, 3]"
+        @update:modelValue="updateFilters()" />
     </v-col>
   </v-row>
   <v-divider class="my-4" />
@@ -49,8 +63,7 @@
         divided
         density="compact"
         style="height: 30px"
-        @update:modelValue="updateFilters()"
-      >
+        @update:modelValue="updateFilters()">
         <v-btn value="less" size="small">Less Than</v-btn>
         <v-btn value="eq" size="small">Equal To</v-btn>
         <v-btn value="greater" size="small">Greater Than</v-btn>
@@ -77,8 +90,7 @@
           sp++;
           updateFilters();
         "
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
   </v-row>
 </template>
@@ -100,6 +112,7 @@ export default {
   data: () => ({
     tagFilter: [],
     systemTypeFilter: [] as SystemType[],
+    llFilter: [] as number[],
     sp: 0,
     spType: '',
   }),
@@ -145,6 +158,9 @@ export default {
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
       if (this.systemTypeFilter && this.systemTypeFilter.length)
         fObj.Type = [this.systemTypeFilter];
+      if (this.llFilter && this.llFilter.length) {
+        fObj.LicenseLevel = this.llFilter.map((x) => Number(x));
+      }
       this.$emit('set-filters', fObj);
     },
   },

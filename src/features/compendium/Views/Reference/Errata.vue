@@ -165,7 +165,7 @@ export default {
     srdFormat(arr) {
       return arr.map((item) => {
         let out = {
-          book: 'LANCER Core Book',
+          book: 'Lancer Core Book',
         };
         const titleMatch = item.heading.match(/^page (\d+), (.+)$/i);
         if (titleMatch) {

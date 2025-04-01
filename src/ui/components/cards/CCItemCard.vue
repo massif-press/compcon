@@ -1,7 +1,7 @@
 <template>
   <component
-    :is="componentLoader"
     v-if="componentLoader"
+    :is="componentLoader"
     :item="item"
     :notes="notes"
     :smallTags="smallTags"

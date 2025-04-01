@@ -26,7 +26,8 @@
       <v-col>
         <v-window v-model="tabModel">
           <v-window-item v-for="m in manufacturers">
-            <cc-panel color="panel-dark">
+            <cc-panel color="panel-dark" style="position: relative">
+              <cc-lcp-info :item="m" style="position: absolute; top: 4px; right: 4px" />
               <div
                 :class="`heading ${$vuetify.display.lgAndUp ? 'mech' : 'h2'}`"
                 :style="`color: ${m.Color};`">

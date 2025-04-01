@@ -104,7 +104,7 @@ class NpcClass {
     this._info = data.info;
     this._stats = new NpcClassStats(data.stats);
     this.ForceTag = data.forceTag || '';
-    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
     this.OptionalClassMin = data.optionalClassMin || 0;
     this.OptionalClassMax = data.optionalClassMax || 0;

@@ -333,7 +333,7 @@
                 </v-col>
                 <v-col v-if="w.Uses" cols="auto">
                   <v-icon
-                    v-for="n in w.getTotalUses(mech.Pilot.LimitedBonus)"
+                    v-for="n in w.getTotalUses(mech.LimitedBonus)"
                     size="small"
                     color="primary">
                     mdi-hexagon-outline
@@ -441,7 +441,7 @@
           <span class="text-overline" style="line-height: 0">{{ s.Source }} {{ s.Type }}</span>
         </v-col>
         <v-col v-if="s.Uses" cols="auto">
-          <v-icon v-for="n in s.getTotalUses(mech.Pilot.LimitedBonus)" size="small" color="primary">
+          <v-icon v-for="n in s.getTotalUses(mech.LimitedBonus)" size="small" color="primary">
             mdi-hexagon-outline
           </v-icon>
         </v-col>
