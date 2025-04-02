@@ -8,7 +8,7 @@
           border-radius: 1px;
         "
         class="pa-3">
-        <talent-emblem :url="talent.Image" :name="talent.Name" large />
+        <talent-emblem :talent="talent" size="large" />
       </div>
     </v-col>
     <v-col>

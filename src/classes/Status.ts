@@ -8,6 +8,7 @@ interface IStatusData {
   icon: string;
   effects: string[];
   terse?: string;
+  svg?: string;
 }
 
 class Status {
@@ -21,6 +22,7 @@ class Status {
   public readonly ItemType: string = 'Status';
   public readonly StatusType: string = 'Status';
   private _icon: string;
+  private _svg: string;
 
   public constructor(data: IStatusData, pack?: ContentPack) {
     this.ID = data.id || `${pack?.Name || 'Lancer Core Book'}_${data.name}`.replace(/ /g, '_');
@@ -31,9 +33,14 @@ class Status {
     else if (Array.isArray(data.effects)) this.Terse = data.effects.join(', ');
     else this.Terse = data.effects;
     this._icon = data.icon;
+    this._svg = data.svg || '';
     this.StatusType = data.type;
     this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
+  }
+
+  public get Svg(): string {
+    return this._svg;
   }
 
   public get Icon(): string {

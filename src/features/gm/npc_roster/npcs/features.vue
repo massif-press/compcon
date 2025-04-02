@@ -57,6 +57,7 @@ import { UserStore } from '@/stores';
 import { NpcFeatureSelector } from './_components';
 import NpcFeatureAlerts from './_components/NpcFeatureAlerts.vue';
 import NpcModInset from './_components/NpcModInset.vue';
+import _ from 'lodash';
 
 export default {
   name: 'npc-builder-content',
@@ -82,9 +83,10 @@ export default {
       return this.npc.NpcFeatureController.Passives.length;
     },
     shownFeatures() {
-      return this.showPassives
+      const arr = this.showPassives
         ? this.npc.NpcFeatureController.Features
         : this.npc.NpcFeatureController.Features.filter((f: any) => !f.Passive);
+      return _.orderBy(arr, 'FeatureType', 'desc');
     },
   },
 };

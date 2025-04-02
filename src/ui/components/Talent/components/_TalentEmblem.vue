@@ -1,15 +1,19 @@
 <template>
   <div>
+    <div
+      v-if="talent.Svg"
+      v-html="cleanSvg(talent.Svg)"
+      style="float: right; max-width: 22vw; max-height: 22vw; stroke: #fff; stroke-width: 8px" />
+
     <v-img
+      v-else
       ref="img"
       :src="src"
       class="pa-2"
-      :width="size"
+      :width="iconSize"
       min-height="100%"
       contain
-      :class="
-        white ? 'white-emblem' : $vuetify.theme.current.dark ? 'white-emblem' : 'black-emblem'
-      "
+      :class="$vuetify.theme.current.dark ? 'white-emblem' : 'black-emblem'"
       @error="imageLoadFailed()" />
     <div v-if="backup" :class="`banner text-cc-overline`">
       {{ backup }}
@@ -18,36 +22,38 @@
 </template>
 
 <script lang="ts">
+import DOMPurify from 'dompurify';
+
 export default {
   name: 'talent-emblem',
   props: {
-    url: { type: String, required: true },
-    name: { type: String, required: true },
-    small: { type: Boolean },
-    large: { type: Boolean },
-    white: { type: Boolean },
+    talent: { type: Object, required: true },
+    size: { type: String, default: 'default' },
   },
   data: () => ({
     backup: '',
     src: '',
   }),
   computed: {
-    size() {
-      if (this.large) return '100px';
-      if (this.small) return '50px';
+    iconSize() {
+      if (this.size === 'large') return '100px';
+      if (this.size === 'small') return '50px';
       return 'calc(30px + 1vw)';
     },
   },
   created() {
-    this.src = this.url;
+    this.src = this.talent.Image;
   },
   methods: {
     imageLoadFailed() {
       this.src = '/public/talent/GENERIC TALENT.svg';
-      this.backup = this.name;
+      this.backup = this.talent.Name;
     },
     getImageLoc() {
       return new URL(this.src, import.meta.url).href;
+    },
+    cleanSvg(svg: string): string {
+      return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
     },
   },
 };

@@ -30,23 +30,32 @@ class Synergy {
 
   public static Collect(location: string, mech: Mech, item?: CompendiumItem): Synergy[] {
     let sArr = [
-      ...mech.FeatureController.Synergies.filter((s) =>
-        s.Locations.includes(location.toLowerCase())
-      ),
-      ...mech.Parent.FeatureController.Synergies.filter((s) =>
+      ...mech.Pilot.FeatureController.Synergies.filter((s) =>
         s.Locations.includes(location.toLowerCase())
       ),
     ];
 
     if (item) {
       if (item.ItemType === ItemType.MechWeapon) {
+        let types = (item as MechWeapon).WeaponTypes;
+
+        if (types.includes('???' as WeaponType)) {
+          console.log('mimic gun');
+          types = [
+            WeaponType.CQB,
+            WeaponType.Cannon,
+            WeaponType.Launcher,
+            WeaponType.Nexus,
+            WeaponType.Rifle,
+          ];
+        }
+        if (types.includes('any' as WeaponType)) types = [WeaponType.All];
+
         sArr = sArr.filter((s) => {
-          if (s.WeaponTypes.includes('any')) return true;
-          if ((item as MechWeapon).WeaponTypes.includes(WeaponType.All)) return true;
-          return s.WeaponTypes.some((t) =>
-            (item as MechWeapon).WeaponTypes.includes(t as WeaponType)
-          );
+          if (types.includes(WeaponType.All)) return true;
+          return s.WeaponTypes.some((t) => types.includes(t as WeaponType));
         });
+
         sArr = sArr.filter((s) => {
           if (s.WeaponSizes.includes('any')) return true;
           return s.WeaponSizes.includes((item as MechWeapon).Size);

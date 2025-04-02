@@ -4,7 +4,7 @@
       <v-toolbar color="primary" density="compact" style="position: relative">
         <v-row dense align="center" justify="space-between" style="font-size: calc(20px + 1vw)">
           <v-col cols="auto" class="pl-4 mr-1 py-2" style="position: relative">
-            <talent-emblem :url="talent.Image" :name="talent.Name" />
+            <talent-emblem :talent="talent" />
           </v-col>
           <v-col>
             <div class="text-white heading">

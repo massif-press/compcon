@@ -109,7 +109,7 @@ export default {
     showUnlicensed: false,
     showOverSP: false,
   }),
-  emits: ['equip'],
+  emits: ['equip', 'done'],
   mounted() {
     this.options.initialView = this.mobile ? 'list' : 'single';
   },

@@ -1,6 +1,7 @@
 import { CompendiumStore } from '../../../../stores';
 import { CompendiumItem, ContentPack, ItemType } from '../../../../class';
 import { ICompendiumItemData, IContentPack, ITagCompendiumData } from '../../../../interface';
+import DOMPurify from 'dompurify';
 
 interface ITalentRankData extends ICompendiumItemData {
   exclusive: boolean;
@@ -9,6 +10,8 @@ interface ITalentRankData extends ICompendiumItemData {
 interface ITalentData extends ICompendiumItemData {
   terse: string;
   ranks: ITalentRankData[];
+  icon_url?: string;
+  svg?: string;
 }
 
 class TalentRank extends CompendiumItem {
@@ -24,11 +27,13 @@ class Talent extends CompendiumItem {
   public readonly Terse: string;
   private _ranks: TalentRank[];
   private _icon_url: string;
+  private _icon_svg: string;
 
   public constructor(data: any, pack?: ContentPack) {
     super(data, pack);
     this.Terse = data.terse || '';
     this._icon_url = data.icon_url || '';
+    this._icon_svg = data.icon_svg ? DOMPurify.sanitize(data.icon_svg) : '';
     this._ranks = data.ranks.map((x) => new TalentRank(x));
     this.ItemType = ItemType.Talent;
   }
@@ -37,8 +42,13 @@ class Talent extends CompendiumItem {
     return this._ranks;
   }
 
+  public get Svg(): string {
+    return this._icon_svg;
+  }
+
   public get Image(): string {
     if (this._icon_url) return this._icon_url;
+
     return `/talent/${this.Name.toUpperCase()}.svg`;
   }
 

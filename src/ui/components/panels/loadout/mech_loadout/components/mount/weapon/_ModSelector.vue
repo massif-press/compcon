@@ -126,7 +126,7 @@ export default {
       return CompendiumStore().WeaponMods as WeaponMod[];
     },
     availableMods(): WeaponMod[] {
-      let i = this.mods.filter((x) => !x.IsHidden);
+      let i = this.mods.filter((x) => !x.IsHidden && !x.IsExotic);
 
       if (!this.showIncompatible) {
         // filter by applied_to

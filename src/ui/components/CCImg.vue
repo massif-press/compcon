@@ -1,6 +1,7 @@
 <template>
   <v-img
     :src="image"
+    :key="src"
     @error="handleImageError"
     :cover="cover"
     :aspect-ratio="aspectRatio"
@@ -65,10 +66,13 @@ export default {
       required: false,
     },
   },
-  data: () => {
-    return {
-      imageUrl: '',
-    };
+  data: () => ({
+    imageUrl: '',
+  }),
+  watch: {
+    src(newVal) {
+      this.imageUrl = newVal;
+    },
   },
   computed: {
     image() {

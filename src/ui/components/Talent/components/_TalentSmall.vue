@@ -14,7 +14,7 @@
         class="my-1 mx-3"
         style="position: relative; width: fit-content; display: inline-block"
         v-bind="props">
-        <talent-emblem :url="talent.Image" :name="talent.Name" large />
+        <talent-emblem :talent="talent" size="large" />
         <span v-if="rank" class="triangle" />
         <div
           v-if="rank"

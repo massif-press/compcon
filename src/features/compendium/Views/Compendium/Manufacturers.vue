@@ -14,7 +14,7 @@
           show-arrows>
           <v-tab v-for="(m, i) in manufacturers" ripple>
             <cc-logo
-              v-if="m.LogoIsExternal"
+              v-if="m.Svg || m.LogoIsExternal"
               size="large"
               :source="m"
               :color="tabModel == i ? 'white' : 'black'" />
@@ -36,21 +36,28 @@
                 </span>
               </div>
               <v-card-text class="pr-4 pt-0">
+                <div
+                  v-if="m.Svg"
+                  v-html="cleanSvg(m.Svg)"
+                  style="
+                    float: right;
+                    max-width: 22vw;
+                    max-height: 22vw;
+                    stroke: #fff;
+                    stroke-width: 8px;
+                  " />
                 <svg
-                  v-if="!mobile && isSvg(m) && isCorsSafe(m)"
+                  v-else-if="!mobile && m.isExternalSvg && m.isCorsSafe"
                   :data-src="m.Logo + '#Content'"
-                  style="float: right; min-height: 22vw"
-                  :style="`width:22vw; height:22vw; fill:${iconColor}; stroke:#fff; stroke-width: 8px;`"></svg>
+                  style="float: right; min-height: 22vw; max-width: 22vw; max-height: 22vw"></svg>
                 <img
                   v-else-if="!mobile"
                   :src="m.Logo"
                   :alt="m.Name"
                   :style="{
-                    maxWidth: '22vw',
-                    height: '22vw',
                     filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
                   }"
-                  style="float: right; min-height: 22vw" />
+                  style="float: right; max-width: 22vw; max-height: 22vw" />
 
                 <blockquote v-html-safe="m.Quote" class="quote-block" />
                 <v-divider class="ma-2" style="width: 30vw" />
@@ -65,7 +72,9 @@
 </template>
 
 <script lang="ts">
+import DOMPurify from 'dompurify';
 import { CompendiumStore } from '@/stores';
+
 export default {
   name: 'manufacturers',
   data: () => ({
@@ -83,11 +92,8 @@ export default {
     iconColor(m): string {
       return m.Color;
     },
-    isSvg(m): boolean {
-      return m.isSvg;
-    },
-    isCorsSafe(m): boolean {
-      return m.isCorsSafe;
+    cleanSvg(svg: string): string {
+      return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
     },
   },
 };
