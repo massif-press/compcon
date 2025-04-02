@@ -3,7 +3,7 @@
     <v-menu open-on-hover bottom offset-y open-delay="100">
       <template #activator="{ props }">
         <div style="position: relative" class="pa-1 mx-n2" v-bind="props">
-          <talent-emblem :url="talent.Image" :name="talent.Name" small />
+          <talent-emblem :talent="talent" size="small" />
         </div>
       </template>
       <v-card>

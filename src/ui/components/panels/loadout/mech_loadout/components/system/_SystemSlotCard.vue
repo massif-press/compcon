@@ -1,5 +1,11 @@
 <template>
-  <slot-card-base ref="base" :item="item" :color="color" :mech="mech" :empty="empty">
+  <slot-card-base
+    ref="base"
+    :item="item"
+    :color="color"
+    :mech="mech"
+    :empty="empty"
+    @selector-close="$emit('done')">
     <template #header>
       <div v-if="item" class="pt-1">
         <equipment-options v-if="!readonly" :item="item" />
@@ -98,6 +104,7 @@ export default {
       type: Boolean,
     },
   },
+  emits: ['done'],
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
@@ -109,6 +116,7 @@ export default {
   methods: {
     remove(sys: MechSystem) {
       this.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys);
+      this.$emit('done');
     },
     handleEquip(sys: MechSystem) {
       this.$notify({
@@ -117,8 +125,7 @@ export default {
         data: { icon: 'cc:system', color: 'system' },
       });
 
-      if (this.mech.FreeSP <= 0 && (this.$refs as any).additionalSelect)
-        (this.$refs as any).additionalSelect.hide();
+      if (this.mech.FreeSP <= 0) this.$emit('done');
     },
   },
 };

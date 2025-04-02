@@ -1,12 +1,15 @@
 <template>
   <span v-if="!source || !source.Logo || source.Logo === 'undefined'" />
+  <div
+    v-if="source.Svg"
+    v-html="cleanSvg(source.Svg)"
+    style="float: right; max-width: 22vw; max-height: 22vw; stroke: #fff; stroke-width: 8px" />
   <svg
-    v-else-if="isSvg && isCorsSafe"
+    v-else-if="source.isExternalSvg && source.isCorsSafe"
     :data-src="source.Logo + '#Content'"
     :style="`width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
       stroke ? 'stroke-width: 25px;' : ''
-    }`"
-  ></svg>
+    }`"></svg>
   <img
     v-else
     :src="source.Logo"
@@ -15,12 +18,11 @@
       maxWidth: iconSize,
       height: 'auto',
       filter: getFilter,
-    }"
-  />
+    }" />
 </template>
 
 <script lang="ts">
-// import 'external-svg-loader';
+import DOMPurify from 'dompurify';
 
 enum sizeMap {
   xSmall = '16px',
@@ -68,11 +70,10 @@ export default {
       if (this.$vuetify.theme.current.dark) return 'brightness(0) invert(1)';
       return 'brightness(0)';
     },
-    isSvg(): boolean {
-      return this.source.isSvg;
-    },
-    isCorsSafe(): boolean {
-      return this.source.isCorsSafe;
+  },
+  methods: {
+    cleanSvg(svg: string): string {
+      return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
     },
   },
 };

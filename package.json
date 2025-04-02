@@ -19,6 +19,7 @@
     "chart.js": "4.4.6",
     "chartjs-plugin-annotation": "3.1.0",
     "chartjs-plugin-datalabels": "2.2.0",
+    "dompurify": "^3.2.4",
     "ef-infinite-canvas": "0.6.7",
     "jszip": "3.10.1",
     "localforage": "1.10.0",

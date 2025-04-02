@@ -1,5 +1,5 @@
 <template>
-  <v-card flat tile color="transparent">
+  <v-card id="container" flat tile color="transparent">
     <fieldset
       class="px-3"
       :class="mobile && 'border-0'"
@@ -23,7 +23,8 @@
         :column-width="400"
         :gap="16"
         :min-columns="1"
-        :max-columns="2">
+        :max-columns="2"
+        :scroll-container="scrollContainer">
         <template #default="{ item }">
           <component
             :is="item.component"
@@ -32,11 +33,12 @@
             :color="item.props.color"
             :readonly="item.props.readonly"
             :weapon="item.weapon"
-            :empty="item.props.empty" />
+            :empty="item.props.empty"
+            @done="getSystemItems()" />
         </template>
       </masonry-wall>
 
-      <v-row v-if="!readonly && mech.FreeSP <= 0" justify="end" class="mt-1">
+      <v-row v-if="mech.FreeSP <= 0" justify="end" class="mt-1">
         <v-col cols="auto">
           <cc-button
             size="small"
@@ -46,15 +48,14 @@
             @click.stop="additionalSelect = true">
             Add Additional System
           </cc-button>
-          <cc-solo-modal v-model="additionalSelect" icon="cc:system" title="SELECT EQUIPMENT">
-            <system-selector :mech="mech" />
+          <cc-solo-modal v-model="additionalSelect" icon="cc:system" title="SELECT EQUIPMENTaa">
+            <system-selector :mech="mech" @equip="getSystemItems()" />
           </cc-solo-modal>
         </v-col>
       </v-row>
     </fieldset>
   </v-card>
 </template>
-integratedSystems
 
 <script lang="ts">
 import SystemSlotCard from './_SystemSlotCard.vue';
@@ -80,9 +81,11 @@ export default {
   data: () => ({
     systemItems: [] as { component: any; props: any; item: any; weapon?: any; empty?: boolean }[],
     additionalSelect: false,
+    scrollContainer: null as HTMLElement | null,
   }),
   mounted() {
     this.getSystemItems();
+    this.scrollContainer = document.querySelector('#container');
   },
   computed: {
     mobile() {
@@ -100,21 +103,12 @@ export default {
   },
   watch: {
     moddedWeapons: {
-      immediate: true,
-      deep: true,
-      handler() {
-        this.getSystemItems();
-      },
-    },
-    activeSystems: {
-      immediate: true,
       deep: true,
       handler() {
         this.getSystemItems();
       },
     },
     integratedSystems: {
-      immediate: true,
       deep: true,
       handler() {
         this.getSystemItems();

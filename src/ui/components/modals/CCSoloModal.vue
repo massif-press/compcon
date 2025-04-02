@@ -70,7 +70,7 @@ export default {
       default: false,
     },
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'close'],
   watch: {
     modelValue: {
       handler(val) {
@@ -80,6 +80,7 @@ export default {
     },
     modal(val) {
       this.$emit('update:modelValue', val);
+      if (!val) this.$emit('close');
     },
   },
   computed: {
