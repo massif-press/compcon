@@ -19,7 +19,7 @@
           v-model="selectedItems"
           multiple
           :items="allItems"
-          :item-title="(x: CollectionItem) => `${x.Name} `"
+          item-title="Name"
           return-object
           density="compact"
           hide-details
@@ -89,9 +89,16 @@ export default {
   },
   data: () => ({
     selectedItems: [] as CollectionItem[],
-    options: {} as any,
+    options: {
+      layout: { title: 'Standard', icon: 'mdi-book-open' },
+      orientation: { title: 'Portrait', icon: 'mdi-file' },
+      paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
+      include: [],
+      extras: [],
+      card: [],
+    } as any,
   }),
-  created() {
+  mounted() {
     if (!this.ids) return;
     let idArr = typeof this.ids === 'string' ? JSON.parse(this.ids) : this.ids;
     this.selectedItems = idArr.map(

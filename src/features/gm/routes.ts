@@ -87,8 +87,8 @@ const routes = [
       },
 
       {
-        path: '/gm/print/:ids',
-        name: 'gm-print',
+        path: '/gm/print/npcs/:ids',
+        name: 'gm-npc-print',
         component: GmPrint,
         props: true,
       },

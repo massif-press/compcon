@@ -22,7 +22,7 @@
     <cc-button
       prepend-icon="mdi-printer"
       :size="mobile ? 'x-small' : 'small'"
-      @click="routePrint(item.ID)">
+      @click="$emit('print', item.ID)">
       Print
     </cc-button>
     <cc-button
@@ -182,9 +182,6 @@ export default {
     dupe() {
       this.item.SaveController.Dupe();
       this.$emit('exit');
-    },
-    exportItem(item) {
-      this.$emit('export', item);
     },
   },
 };

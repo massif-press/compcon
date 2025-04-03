@@ -68,7 +68,11 @@
     </v-card>
   </div>
 
-  <editor-footer v-if="!hideFooter && !readonly" :item="item" />
+  <editor-footer
+    v-if="!hideFooter && !readonly"
+    :item="item"
+    @print="routePrint($event)"
+    @export="$emit('export', $event)" />
 </template>
 
 <script lang="ts">
@@ -132,7 +136,7 @@ export default {
       const narrativeTypes = ['character', 'location', 'faction'];
       if (narrativeTypes.includes(this.item.ItemType.toLowerCase()))
         this.$router.push(`/gm/print/narrative/${JSON.stringify([id])}`);
-      else this.$router.push(`/gm/print/${JSON.stringify([id])}`);
+      else this.$router.push(`/gm/print/npcs/${JSON.stringify([id])}`);
     },
     async remoteUpdate() {
       try {
