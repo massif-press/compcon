@@ -21,9 +21,9 @@
       </v-col>
       <v-col cols="auto" class="text-right ml-4">
         <div class="text-caption mr-9 text-primary">GRIT&nbsp;</div>
-        <v-icon v-if="blank" size="60" color="primary" style="opacity: 0.5" class="mt-n4 mr-0"
-          >mdi-hexagon-outline</v-icon
-        >
+        <v-icon v-if="blank" size="60" color="primary" style="opacity: 0.5" class="mt-n4 mr-0">
+          mdi-hexagon-outline
+        </v-icon>
         <div v-else class="heading mt-n5" style="font-size: 65px; line-height: 60px">
           +{{ pilot.Grit }}
         </div>
@@ -82,7 +82,7 @@
           <div class="text-overline text-primary" style="line-height: 0">SESSION</div>
           <blank-line :height="600" class="mt-3" />
         </v-col>
-        <v-col cols="auto"> &nbsp; </v-col>
+        <v-col cols="auto">&nbsp;</v-col>
         <v-col>
           <div class="text-overline text-primary" style="line-height: 0">DETAIL</div>
           <blank-line :height="600" class="mt-3" />
@@ -92,14 +92,15 @@
 
     <fieldset v-if="options.pilotInclude.includes('expanded mission log')" class="pa-1">
       <legend class="heading ml-1 px-2">
-        Mission Log <span class="caption font-weight-regular">(CONT.)</span>
+        Mission Log
+        <span class="caption font-weight-regular">(CONT.)</span>
       </legend>
       <v-row no-gutters class="mt-1">
         <v-col cols="2">
           <div class="text-overline text-primary" style="line-height: 0">SESSION</div>
           <blank-line :height="1000" class="mt-3" />
         </v-col>
-        <v-col cols="auto"> &nbsp; </v-col>
+        <v-col cols="auto">&nbsp;</v-col>
         <v-col>
           <div class="text-overline text-primary" style="line-height: 0">DETAIL</div>
           <blank-line :height="1000" class="mt-3" />
@@ -112,9 +113,9 @@
       <v-row dense v-if="blank" class="mt-n2">
         <v-col v-for="n in 8" cols="6">
           <v-row dense align="center">
-            <v-col cols="9"> <blank-line :height="32" inline /></v-col
-            ><v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col
-            ><v-col cols="2"><blank-line :height="32" inline /> </v-col>
+            <v-col cols="9"><blank-line :height="32" inline /></v-col>
+            <v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col>
+            <v-col cols="2"><blank-line :height="32" inline /></v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -125,7 +126,7 @@
         class="my-2 py-1 px-2">
         <v-row>
           <v-col cols="auto">
-            <span class="heading" style="font-size: 33px"> +{{ s.Bonus }} </span>
+            <span class="heading" style="font-size: 33px">+{{ s.Bonus }}</span>
           </v-col>
           <v-col>
             <div class="heading">{{ s.Skill.Trigger }}</div>
@@ -148,7 +149,8 @@
       variant="outlined"
       size="small"
       class="caption mx-1 mt-1">
-      <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" /> {{ t.Talent.Name }}
+      <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" />
+      {{ t.Talent.Name }}
       {{ 'I'.repeat(t.Rank) }}
     </v-chip>
     <div
@@ -166,12 +168,22 @@
           </v-col>
           <v-col>
             <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
+            <print-action
+              v-if="t.Talent.Ranks[n - 1].Actions.length"
+              :actions="t.Talent.Ranks[n - 1].Actions" />
+            <print-deployable
+              v-if="t.Talent.Ranks[n - 1].Deployables.length"
+              :deployables="t.Talent.Ranks[n - 1].Deployables" />
           </v-col>
         </v-row>
       </fieldset>
     </div>
 
-    <div class="text-caption mb-n2 mt-2 text-primary">CORE BONUSES</div>
+    <div
+      class="text-caption mb-n2 mt-2 text-primary"
+      v-if="pilot.CoreBonusController.length || blank">
+      CORE BONUSES
+    </div>
     <v-row dense v-if="blank">
       <v-col v-for="n in 4" cols="6">
         <blank-line :height="80" inline />
@@ -206,7 +218,7 @@
           </div>
           <v-row dense align="center" class="mb-n2">
             <v-col><v-divider /></v-col>
-            <v-col cols="auto"><span class="text-primary caption"> MAX HP </span></v-col>
+            <v-col cols="auto"><span class="text-primary caption">MAX HP</span></v-col>
             <v-col><v-divider /></v-col>
           </v-row>
           <div v-if="!blank" class="text-center heading h3" v-text="pilot.MaxHP" />
@@ -218,30 +230,30 @@
         <v-row class="text-center" justify="space-between">
           <v-col>
             <div class="font-weight-bold caption text-primary mb-n3">ARMOR</div>
-            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2">
+              mdi-hexagon-outline
+            </v-icon>
             <div v-else class="heading p-stat" v-text="pilot.Armor" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary mb-n3">E-DEFENSE</div>
-            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2">
+              mdi-hexagon-outline
+            </v-icon>
             <div v-else class="heading p-stat" v-text="pilot.EDefense" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary mb-n3">EVASION</div>
-            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2">
+              mdi-hexagon-outline
+            </v-icon>
             <div v-else class="heading p-stat" v-text="pilot.Evasion" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary mb-n3">SPEED</div>
-            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2">
+              mdi-hexagon-outline
+            </v-icon>
             <div v-else class="heading p-stat" v-text="pilot.Speed" />
           </v-col>
         </v-row>
@@ -310,10 +322,8 @@
                 <span v-text="`${a.Speed(pilot) ? `Speed: ${a.Speed(pilot)}` : ''}`" />
               </v-col>
             </v-row>
-            <v-card v-for="act in a.Actions" variant="outlined" class="pa-1 mt-1 mb-3"
-              ><b>{{ act.Name }}</b
-              >: {{ act.Detail }}</v-card
-            >
+            <print-action :actions="a.Actions" />
+            <print-deployable :deployables="a.Deployables" />
             <tag-block :tags="a.Tags" :options="options" />
           </div>
         </fieldset>
@@ -332,19 +342,18 @@
           </legend>
           <div v-if="blank" style="height: 150px" />
           <div v-else>
-            <b v-for="r in w.Range" class="px-1"
-              ><v-icon class="mt-n1" :icon="r.Icon" />{{ r.Text }}</b
-            >
+            <b v-for="r in w.Range" class="px-1">
+              <v-icon class="mt-n1" :icon="r.Icon" />
+              {{ r.Text }}
+            </b>
             <span v-if="w.Damage && w.Damage.length" class="pl-2 pr-1"><cc-slashes /></span>
             <b v-for="d in w.Damage">
               <v-icon class="mt-n1" :icon="d.Icon" :color="d.Color" />
-              {{ d.Text }}</b
-            >
+              {{ d.Text }}
+            </b>
             <div v-if="w.Effect" v-html-safe="w.Effect" />
-            <v-card v-for="act in w.Actions" variant="outlined" class="pa-1 mt-1 mb-3"
-              ><b>{{ act.Name }}</b
-              >: {{ act.Detail }}</v-card
-            >
+            <print-action :actions="w.Actions" />
+            <print-deployable :deployables="w.Deployables" />
             <tag-block :tags="w.Tags" :options="options" />
           </div>
         </fieldset>
@@ -363,6 +372,8 @@
           <div v-if="blank" style="height: 150px" />
           <div v-else class="pb-1">
             <div v-if="g.Description" v-html-safe="g.Description" />
+            <print-action :actions="g.Actions" />
+            <print-deployable :deployables="g.Deployables" />
             <tag-block :tags="g.Tags" :options="options" />
           </div>
         </fieldset>
@@ -389,7 +400,7 @@
     <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
     <fieldset v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')">
       <legend class="px-1 mb-n2">
-        <span class="heading caption text-primary"> {{ r.Name }}</span>
+        <span class="heading caption text-primary">{{ r.Name }}</span>
         <i class="caption text-grey">&nbsp;({{ r.Type }})</i>
       </legend>
       <div v-if="r.ResourceName || r.Note || r.ResourceCost">
@@ -411,20 +422,21 @@
         <blank-line :height="26" :width="200" />
       </legend>
       <div style="position: absolute; top: -26px; right: 10px">
-        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
-          >BONUS</v-chip
-        ><v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
-          >RESOURCE</v-chip
-        >
-        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
-          >TACTICAL</v-chip
-        >
-        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
-          >MECH</v-chip
-        >
-        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
-          >OTHER</v-chip
-        >
+        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+          BONUS
+        </v-chip>
+        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+          RESOURCE
+        </v-chip>
+        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+          TACTICAL
+        </v-chip>
+        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+          MECH
+        </v-chip>
+        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+          OTHER
+        </v-chip>
       </div>
 
       <blank-line :height="80" class="my-1" style="min-height: 80px; height: 85%" />
@@ -461,6 +473,8 @@
 </template>
 
 <script lang="ts">
+import PrintAction from '../standard/components/PrintAction.vue';
+import PrintDeployable from '../standard/components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 import tagBlock from './components/TagBlock.vue';
@@ -471,6 +485,8 @@ export default {
     blankLine,
     notes,
     tagBlock,
+    PrintAction,
+    PrintDeployable,
   },
   props: {
     pilot: {

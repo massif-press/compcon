@@ -258,10 +258,14 @@
           </v-col>
         </v-row>
         <v-row v-else dense justify="space-between" class="caption mt-n1">
-          <v-col v-for="t in mech.Frame.Traits">
+          <v-col
+            :cols="t.Actions.length + t.Deployables.length > 0 ? '12' : ''"
+            v-for="t in mech.Frame.Traits">
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
+              <print-action :actions="t.Actions" />
+              <print-deployable :deployables="t.Deployables" />
             </fieldset>
           </v-col>
         </v-row>
@@ -283,6 +287,7 @@
               }}
             </span>
             <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect" class="caption ml-6 mb-1" />
+            <print-action :actions="mech.Frame.CoreSystem.PassiveActions" />
           </div>
           <div v-if="mech.Frame.CoreSystem.PassiveEffect" class="heading ml-4">
             {{
@@ -292,6 +297,9 @@
             }}
           </div>
           <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="caption ml-6 mb-1" />
+          <print-action :actions="mech.Frame.CoreSystem.ActiveActions" />
+          <print-deployable :deployables="mech.Frame.CoreSystem.Deployables" />
+
           <div v-if="mech.Frame.CoreSystem.Tags" class="text-right">
             <tag-block :tags="mech.Frame.CoreSystem.Tags" :options="options" mech />
           </div>
@@ -357,8 +365,8 @@
       </fieldset>
     </div>
 
-    <fieldset v-else v-for="m in mounts" style="position: relative">
-      <legend class="heading h3 ml-1 px-2">{{ m.Name }}</legend>
+    <fieldset v-else v-for="m in mounts">
+      <legend class="heading h4 ml-1 px-2">{{ m.Name }}</legend>
       <div v-if="m.IsLocked" class="text-center flavor-text">
         MOUNT LOCKED
         <br />
@@ -368,10 +376,10 @@
         <v-row dense align="center">
           <v-col cols="auto"><v-icon icon="cc:weapon" /></v-col>
           <v-col cols="auto">
-            <b class="heading h4" style="line-height: 0">{{ w.Name }}</b>
+            <b class="heading h4">{{ w.Name }}</b>
           </v-col>
           <v-col>
-            <span class="text-overline" style="line-height: 0">
+            <span class="text-cc-overline">
               {{ w.Source }} {{ w.Size }} {{ w.WeaponTypes.join('/') }}
             </span>
           </v-col>
@@ -381,28 +389,8 @@
             </v-icon>
           </v-col>
         </v-row>
-        <!-- <div
-          v-if="!w.NoBonus && options.mechInclude.includes('show bonuses')"
-          class="caption text-right"
-        >
-          <v-chip v-for="b in w.Bonuses" color="primary" size="x-small"
-            ><v-icon start icon="cc:accuracy" /><b>{{ b.Title }}:</b> {{ b.Detail }}
-          </v-chip>
-        </div>
-        <div
-          v-if="options.mechInclude.includes('show synergies') && synergies('weapon', w).length"
-          class="caption mb-2"
-        >
-          <v-card variant="tonal">
-            <v-row v-for="s in synergies('weapon', w)" no-gutters>
-              <v-col cols="auto"
-                ><v-icon icon="cc:talent" class="my-n1 mr-1" /><b>{{ s.Origin }}:</b></v-col
-              ><v-col class="pl-1">{{ s.Detail }}</v-col>
-            </v-row>
-          </v-card>
-        </div> -->
 
-        <div class="pl-7">
+        <div class="pl-7 mt-n2 mb-2">
           <div v-if="showCollectedEffect(w)" class="caption mb-1">{{ w.Profiles[0].Effect }}</div>
           <div v-for="p in w.Profiles" class="mb-n4">
             <div class="flavor-text text-black mt-n1" style="font-size: 16px">
@@ -410,12 +398,12 @@
                 {{ p.Name }}:&nbsp;
               </span>
               <b v-for="r in p.Range" class="px-1">
-                <v-icon class="mt-n1" :icon="r.Icon" />
+                <v-icon size="small" class="mt-n1" :icon="r.Icon" />
                 {{ r.Text }}
               </b>
               <span v-if="p.Damage && p.Damage.length" class="pl-2 pr-1"><cc-slashes /></span>
               <b v-for="d in p.Damage">
-                <v-icon class="mt-n1 mr-n2" :icon="d.Icon" :color="d.Color" />
+                <v-icon size="small" class="mt-n1 mr-n2" :icon="d.Icon" :color="d.Color" />
                 {{ d.Text }}
               </b>
               <div v-if="p.Effect && !showCollectedEffect(w)" class="caption">{{ p.Effect }}</div>

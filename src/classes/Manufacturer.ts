@@ -64,8 +64,7 @@ class Manufacturer {
   public get Logo(): string {
     if (this._logo_url) return this._logo_url;
     else if (this._logo) return `/img/logo/${this._logo}.svg`;
-    // else if (this._logo) return this._logo
-    return ''; // TODO: placeholder logo?
+    return '/img/logo/generic.svg';
   }
 
   public get Icon(): string {

@@ -10,8 +10,8 @@
         <component
           :is="options.layout"
           :options="options"
-          :selected-mech="selectedMech as Mech"
-          :selected-pilot="selectedPilot as Pilot"
+          :selected-mech="<Mech>selectedMech"
+          :selected-pilot="<Pilot>selectedPilot"
           :hasBonds="hasBondData" />
         <div v-if="selectedPilot && options && options.extras">
           <combat-ref v-if="options.extras.includes('combat quick reference')" />
@@ -19,15 +19,14 @@
           <downtime-ref v-if="options.extras.includes('downtime quick reference')" />
           <trigger-info-print
             v-if="options.extras.includes('relevant trigger reference')"
-            :pilot="selectedPilot as Pilot" />
+            :pilot="<Pilot>selectedPilot" />
           <tag-info-print
             v-if="options.extras.includes('relevant tag reference')"
-            :pilot="selectedPilot as Pilot"
-            :mech="selectedMech as Mech" />
+            :pilot="<Pilot>selectedPilot"
+            :mech="<Mech>selectedMech" />
         </div>
       </div>
 
-      <!-- {{ options }} -->
       <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
         <v-btn stacked @click="$router.go(-1)">
           <span>Close Preview</span>
@@ -128,14 +127,25 @@ export default {
     selectedPilot: null as Pilot | null,
     selectedMech: null as Mech | null,
     blank: false,
-    options: {} as any,
+    options: {
+      layout: { title: 'Standard', icon: 'mdi-book-open' },
+      orientation: { title: 'Portrait', icon: 'mdi-file' },
+      content: { title: 'Pilot', icon: 'cc:pilot' },
+      bonds: { title: 'Include', icon: 'mdi-link' },
+      paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
+      pilotInclude: [],
+      mechInclude: [],
+      extras: [],
+      card: [],
+    } as any,
   }),
-  created() {
+  mounted() {
     if (!this.presetPilot) return;
     if (this.presetPilot)
       this.selectedPilot = PilotStore().Pilots.find((p) => p.ID === this.presetPilot) as Pilot;
     if (this.presetMech)
       this.selectedMech = this.selectedPilot?.Mechs.find((m) => m.ID === this.presetMech) || null;
+    this.setOptions(this.options);
   },
   computed: {
     allPilots() {
@@ -153,6 +163,7 @@ export default {
       window.print();
     },
     setOptions(options) {
+      if (!options) return;
       let out = {};
       for (const key in options) {
         if (Array.isArray(options[key])) {

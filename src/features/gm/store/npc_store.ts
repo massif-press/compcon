@@ -147,6 +147,7 @@ export const NpcStore = defineStore('npc', {
 
     async DeleteNpcPermanent(payload: Unit | Doodad | Eidolon): Promise<void> {
       const idx = this.Npcs.findIndex((x) => x.ID === payload.ID);
+      console.log('Deleting NPC', payload.ID, idx);
       if (idx >= 0) this.Npcs.splice(idx, 1);
       await RemoveItem('npcs', payload.ID);
       await this.SaveNpcData();

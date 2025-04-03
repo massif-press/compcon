@@ -22,31 +22,36 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          ARMOR:<blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
+          ARMOR:
+          <blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
           <b v-else>{{ pilot.Armor }}</b>
         </div>
       </v-col>
       <v-col cols="auto">
         <div>
-          E-DEF:<blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
+          E-DEF:
+          <blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
           <b v-else>{{ pilot.EDefense }}</b>
         </div>
       </v-col>
       <v-col cols="auto">
         <div>
-          EVASION:<blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
+          EVASION:
+          <blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
           <b v-else>{{ pilot.Evasion }}</b>
         </div>
       </v-col>
       <v-col cols="auto">
         <div>
-          SPEED:<blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
+          SPEED:
+          <blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
           <b v-else>{{ pilot.Speed }}</b>
         </div>
       </v-col>
       <v-col cols="auto">
         <div>
-          GRIT:<blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
+          GRIT:
+          <blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
           <b v-else>+{{ pilot.Grit }}</b>
         </div>
       </v-col>
@@ -69,9 +74,8 @@
             label
             variant="outlined"
             size="small"
-            class="mx-1"
-          >
-            <span class="stat-text ml-n1 mr-1"> +{{ s.Bonus }} </span>
+            class="mx-1">
+            <span class="stat-text ml-n1 mr-1">+{{ s.Bonus }}</span>
             <span>{{ s.Skill.Trigger }}</span>
           </v-chip>
         </div>
@@ -79,25 +83,29 @@
 
       <v-col cols="auto" class="px-1">
         <div>
-          HULL:<blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
+          HULL:
+          <blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
           <b v-else>{{ pilot.MechSkillsController.MechSkills.Hull }}</b>
         </div>
       </v-col>
       <v-col cols="auto" class="px-1">
         <div>
-          AGI:<blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
+          AGI:
+          <blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
           <b v-else>{{ pilot.MechSkillsController.MechSkills.Agi }}</b>
         </div>
       </v-col>
       <v-col cols="auto" class="px-1">
         <div>
-          SYS:<blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
+          SYS:
+          <blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
           <b v-else>{{ pilot.MechSkillsController.MechSkills.Sys }}</b>
         </div>
       </v-col>
       <v-col cols="auto" class="px-1">
         <div>
-          ENG:<blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
+          ENG:
+          <blank-line v-if="blank" :width="30" :height="24" class="d-inline-block mb-n1" />
           <b v-else>{{ pilot.MechSkillsController.MechSkills.Eng }}</b>
         </div>
       </v-col>
@@ -117,17 +125,16 @@
           label
           variant="outlined"
           size="small"
-          class="caption mx-1"
-        >
-          <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" /> {{ t.Talent.Name }}
+          class="caption mx-1">
+          <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" />
+          {{ t.Talent.Name }}
           {{ 'I'.repeat(t.Rank) }}
         </v-chip>
       </v-col>
       <v-col :cols="blank ? '' : 'auto'">
         <div
           v-if="pilot.CoreBonusController.CoreBonuses.length"
-          class="text-caption mb-n1 text-primary"
-        >
+          class="text-caption mb-n1 text-primary">
           CORE BONUSES
         </div>
 
@@ -143,8 +150,7 @@
           label
           variant="outlined"
           size="small"
-          class="caption mx-1"
-        >
+          class="caption mx-1">
           {{ b.Name }}
         </v-chip>
       </v-col>
@@ -165,13 +171,16 @@
           <div v-else class="pb-2">
             <v-row dense justify="space-around">
               <v-col cols="auto">
-                <v-icon icon="mdi-shield-outline" /> <span v-text="`+${a.Armor(pilot)}`" />
+                <v-icon icon="mdi-shield-outline" />
+                <span v-text="`+${a.Armor(pilot)}`" />
               </v-col>
               <v-col cols="auto">
-                <v-icon icon="cc:e_def" /> <span v-text="`${a.EDefense(pilot)}`" />
+                <v-icon icon="cc:e_def" />
+                <span v-text="`${a.EDefense(pilot)}`" />
               </v-col>
               <v-col cols="auto">
-                <v-icon icon="cc:evasion" /><span v-text="`${a.Evasion(pilot)}`" />
+                <v-icon icon="cc:evasion" />
+                <span v-text="`${a.Evasion(pilot)}`" />
               </v-col>
               <v-col cols="auto">
                 <v-icon icon="mdi-heart-outline" />
@@ -182,19 +191,16 @@
                 <span v-text="`${a.Speed(pilot) ? `${a.Speed(pilot)}` : ''}`" />
               </v-col>
             </v-row>
-            <v-card v-for="act in a.Actions" variant="outlined" class="pa-1 mt-1 mb-3"
-              ><b>{{ act.Name }}</b
-              >: {{ act.Detail }}</v-card
-            >
-            <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
+            <print-action :actions="a.Actions" />
+            <print-deployable :deployables="a.Deployables" />
+            <div class="text-right mb-n2">
               <v-chip
                 v-for="t in a.Tags"
                 size="x-small"
                 v-show="showTag(t.ID)"
                 label
                 variant="outlined"
-                class="mx-1 bg-white"
-              >
+                class="ml-1 bg-white">
                 {{ t.GetName() }}
               </v-chip>
             </div>
@@ -212,14 +218,16 @@
           </legend>
           <div v-if="blank" style="height: 75px" />
           <div v-else>
-            <span v-for="r in w.Range"><v-icon size="15" :icon="r.Icon" /> {{ r.Value }}</span>
-            <span v-for="d in w.Damage"
-              ><v-icon size="20" :icon="d.Icon" :color="d.Color" /> {{ d.Value }}</span
-            >
-            <v-card v-for="act in w.Actions" variant="outlined" class="pa-1 mt-1 mb-3"
-              ><b>{{ act.Name }}</b
-              >: {{ act.Detail }}</v-card
-            >
+            <span v-for="r in w.Range">
+              <v-icon size="15" :icon="r.Icon" />
+              {{ r.Value }}
+            </span>
+            <span v-for="d in w.Damage">
+              <v-icon size="20" :icon="d.Icon" :color="d.Color" />
+              {{ d.Value }}
+            </span>
+            <print-action :actions="w.Actions" />
+            <print-deployable :deployables="w.Deployables" />
             <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
               <v-chip
                 v-for="t in w.Tags"
@@ -227,8 +235,7 @@
                 v-show="showTag(t.ID)"
                 label
                 variant="outlined"
-                class="mx-1 bh-white"
-              >
+                class="mx-1 bh-white">
                 {{ t.GetName() }}
               </v-chip>
             </div>
@@ -250,26 +257,19 @@
           <div v-if="blank" style="height: 75px" />
           <div v-else class="pb-1">
             <div v-if="g.Description" v-html-safe="g.Description" />
-            <!-- <v-card
-              v-for="act in g.Actions"
-              v-show="act.Detail"
+            <print-action :actions="g.Actions" />
+            <print-deployable :deployables="g.Deployables" />
+          </div>
+          <div class="text-right">
+            <v-chip
+              v-for="t in g.Tags"
+              v-show="showTag(t.ID)"
+              size="x-small"
+              label
               variant="outlined"
-              class="pa-1 mt-1 mb-3"
-              ><b>{{ act.Name }}</b
-              >: {{ act.Detail }}</v-card
-            > -->
-            <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
-              <v-chip
-                v-for="t in g.Tags"
-                v-show="showTag(t.ID)"
-                size="x-small"
-                label
-                variant="outlined"
-                class="mx-1 bg-white"
-              >
-                {{ t.GetName() }}
-              </v-chip>
-            </div>
+              class="ml-1 bg-white">
+              {{ t.GetName() }}
+            </v-chip>
           </div>
         </fieldset>
       </v-col>
@@ -283,8 +283,7 @@
           label
           variant="outlined"
           size="small"
-          class="caption mx-1"
-        >
+          class="caption mx-1">
           <v-icon :icon="r.Icon" start />
           <div class="text-caption mb-n1 text-primary">{{ r.Name }}</div>
         </v-chip>
@@ -305,12 +304,16 @@
 <script lang="ts">
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
+import PrintAction from './components/PrintAction.vue';
+import PrintDeployable from './components/PrintDeployable.vue';
 
 export default {
   name: 'pilot-print',
   components: {
     blankLine,
     notes,
+    PrintAction,
+    PrintDeployable,
   },
   props: {
     pilot: {
