@@ -9,9 +9,10 @@
         :damage="damage"
         :type-override="item.DamageTypeOverride" />
     </v-col>
-    <v-col v-if="item && item.SP" cols="auto">
+    <v-col v-if="item && item.SP" cols="auto" class="pl-3">
+      <cc-slashes />
       {{ item.SP }}
-      <span style="font-size: 13px; margin-left: 2px">SP</span>
+      <span style="font-size: 13px; margin-left: -4px">SP</span>
     </v-col>
     <v-col cols="auto" v-if="!readonly">
       <div class="ml-2" style="border-left: 1px solid rgba(155, 155, 155, 0.3)">
