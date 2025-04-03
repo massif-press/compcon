@@ -62,7 +62,7 @@
         <v-card height="100%" variant="outlined" color="grey">
           <v-row style="height: 100%" align="center">
             <v-col>
-              <cc-img v-if="!blank" :src="pilot.Portrait" cover />
+              <cc-img v-if="!blank && pilot.HasPortrait" :src="pilot.Portrait" cover />
             </v-col>
           </v-row>
         </v-card>

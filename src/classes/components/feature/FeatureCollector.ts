@@ -1,6 +1,7 @@
 abstract class FeatureCollector {
   private static extract<T>(collection: string, element: object): T[] {
     let out = [] as T[];
+    if (!collection || !element) return out;
 
     let property = collection;
     // override for profiled weapons
