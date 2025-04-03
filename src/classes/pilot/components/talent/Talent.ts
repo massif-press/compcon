@@ -33,7 +33,7 @@ class Talent extends CompendiumItem {
     super(data, pack);
     this.Terse = data.terse || '';
     this._icon_url = data.icon_url || '';
-    this._icon_svg = data.icon_svg ? DOMPurify.sanitize(data.icon_svg) : '';
+    this._icon_svg = data.svg ? DOMPurify.sanitize(data.svg) : '';
     this._ranks = data.ranks.map((x) => new TalentRank(x));
     this.ItemType = ItemType.Talent;
   }

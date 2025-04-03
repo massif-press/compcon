@@ -2,7 +2,7 @@
   <div class="text-black pa-2">
     <v-row dense align="start">
       <v-col class="mr-4" cols="auto">
-        <div class="text-caption text-primary mb-n1">CALLSIGN</div>
+        <div class="text-caption text-primary mb-n3">CALLSIGN</div>
         <div v-if="blank" style="min-width: 250px">
           <blank-line :height="40" />
         </div>
@@ -187,6 +187,12 @@
                 </v-col>
                 <v-col>
                   <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
+                  <print-action
+                    v-if="t.Talent.Ranks[n - 1].Actions.length"
+                    :actions="t.Talent.Ranks[n - 1].Actions" />
+                  <print-deployable
+                    v-if="t.Talent.Ranks[n - 1].Deployables.length"
+                    :deployables="t.Talent.Ranks[n - 1].Deployables" />
                 </v-col>
               </v-row>
             </fieldset>
@@ -204,7 +210,9 @@
       </v-col>
     </v-row>
 
-    <div class="text-caption mb-n2 text-primary">CORE BONUSES</div>
+    <div v-if="pilot.CoreBonusController.length || blank" class="text-caption mb-n2 text-primary">
+      CORE BONUSES
+    </div>
     <v-row dense v-if="blank">
       <v-col
         v-for="n in 4"
@@ -227,7 +235,7 @@
       </v-col>
     </v-row>
 
-    <div class="text-caption mb-n2 mt-1 text-primary">PILOT LOADOUT</div>
+    <div class="text-caption mb-n3 text-primary">PILOT LOADOUT</div>
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col
         v-for="a in pilot.Loadout.Armor.filter((x) => x)"
@@ -244,26 +252,29 @@
           <div v-else>
             <v-row dense justify="space-around">
               <v-col cols="auto">
-                <span v-text="`+${a.Armor(pilot) || 0} Armor`" />
+                <v-icon icon="mdi-shield-outline" />
+                <span v-text="`+${a.Armor(pilot)}`" />
               </v-col>
               <v-col cols="auto">
-                <span v-text="`E-Def: ${a.EDefense(pilot) || 'N/A'} `" />
+                <v-icon icon="cc:e_def" />
+                <span v-text="`${a.EDefense(pilot)}`" />
               </v-col>
               <v-col cols="auto">
-                <span v-text="`Evasion: ${a.Evasion(pilot) || 'N/A'}`" />
+                <v-icon icon="cc:evasion" />
+                <span v-text="`${a.Evasion(pilot)}`" />
               </v-col>
               <v-col cols="auto">
-                <span v-text="`${a.HPBonus(pilot) ? `HP Bonus: +${a.HPBonus(pilot)}` : ''}`" />
+                <v-icon icon="mdi-heart-outline" />
+                <span v-text="`${a.HPBonus(pilot) ? `+${a.HPBonus(pilot)}` : ''}`" />
               </v-col>
               <v-col cols="auto">
-                <span v-text="`${a.Speed(pilot) ? `Speed: ${a.Speed(pilot)}` : ''}`" />
+                <v-icon icon="mdi-arrow-right-bold-hexagon-outline" />
+                <span v-text="`${a.Speed(pilot) ? `${a.Speed(pilot)}` : ''}`" />
               </v-col>
             </v-row>
-            <v-card v-for="act in a.Actions" variant="outlined" class="pa-1 mt-1 mb-3">
-              <b>{{ act.Name }}</b>
-              : {{ act.Detail }}
-            </v-card>
-            <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
+            <print-action :actions="a.Actions" />
+            <print-deployable :deployables="a.Deployables" />
+            <div class="text-right">
               <v-chip
                 v-for="t in a.Tags"
                 size="x-small"
@@ -288,15 +299,18 @@
           </legend>
           <div v-if="blank" style="height: 150px" />
           <div v-else>
-            <b v-for="r in w.Range">{{ r.Text }}</b>
-            |
-            <b v-for="d in w.Damage">{{ d.Text }}</b>
-            <div v-if="w.Effect" v-html-safe="w.Effect" class="mb-5" />
-            <v-card v-for="act in w.Actions" variant="outlined" class="pa-1 mt-1 mb-3">
-              <b>{{ act.Name }}</b>
-              : {{ act.Detail }}
-            </v-card>
-            <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
+            <span v-for="r in w.Range">
+              <v-icon size="15" :icon="r.Icon" />
+              {{ r.Value }}
+            </span>
+            <span v-for="d in w.Damage">
+              <v-icon size="20" :icon="d.Icon" :color="d.Color" />
+              {{ d.Value }}
+            </span>
+            <div v-if="w.Effect" v-html-safe="w.Effect" />
+            <print-action :actions="w.Actions" />
+            <print-deployable :deployables="w.Deployables" />
+            <div class="text-right">
               <v-chip
                 v-for="t in w.Tags"
                 size="x-small"
@@ -323,16 +337,10 @@
           </legend>
           <div v-if="blank" style="height: 150px" />
           <div v-else class="pb-1">
-            <div v-if="g.Description" v-html-safe="g.Description" class="mb-5" />
-            <!-- <v-card
-              v-for="act in g.Actions"
-              v-show="act.Detail"
-              variant="outlined"
-              class="pa-1 mt-1 mb-3"
-              ><b>{{ act.Name }}</b
-              >: {{ act.Detail }}</v-card
-            > -->
-            <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
+            <div v-if="g.Description" v-html-safe="g.Description" />
+            <print-action :actions="g.Actions" />
+            <print-deployable :deployables="g.Deployables" />
+            <div class="text-right">
               <v-chip
                 v-for="t in g.Tags"
                 v-show="showTag(t.ID)"
@@ -424,7 +432,7 @@
   <div
     v-if="options.pilotInclude.includes('separate talent detail')"
     v-for="t in pilot.TalentsController.Talents"
-    dense
+    no-gutters
     justify="space-between"
     class="mt-n1 caption px-2"
     style="position: relative">
@@ -436,6 +444,12 @@
         </v-col>
         <v-col>
           <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
+          <print-action
+            v-if="t.Talent.Ranks[n - 1].Actions.length"
+            :actions="t.Talent.Ranks[n - 1].Actions" />
+          <print-deployable
+            v-if="t.Talent.Ranks[n - 1].Deployables.length"
+            :deployables="t.Talent.Ranks[n - 1].Deployables" />
         </v-col>
       </v-row>
     </fieldset>
@@ -445,12 +459,16 @@
 <script lang="ts">
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
+import PrintAction from '../minimal/components/PrintAction.vue';
+import PrintDeployable from '../minimal/components/PrintDeployable.vue';
 
 export default {
   name: 'pilot-print',
   components: {
     blankLine,
     notes,
+    PrintAction,
+    PrintDeployable,
   },
   props: {
     pilot: {

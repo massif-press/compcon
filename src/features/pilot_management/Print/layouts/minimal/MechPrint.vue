@@ -214,6 +214,8 @@
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
+              <print-action :actions="t.Actions" />
+              <print-deployable :deployables="t.Deployables" />
             </fieldset>
           </v-col>
         </v-row>
@@ -227,6 +229,7 @@
           <legend class="caption font-weight-bold ml-1 px-2">
             {{ mech.Frame.CoreSystem.Name }}
           </legend>
+          <print-action :actions="mech.Frame.CoreSystem.PassiveActions" />
           <div v-if="mech.Frame.CoreSystem.PassiveEffect">
             <span class="heading ml-4">
               {{
@@ -245,6 +248,9 @@
             }}
           </div>
           <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="caption ml-6 mb-1" />
+          <print-action :actions="mech.Frame.CoreSystem.ActiveActions" />
+          <print-deployable :deployables="mech.Frame.CoreSystem.Deployables" />
+
           <div v-if="mech.Frame.CoreSystem.Tag" class="text-right">
             <span v-for="t in mech.Frame.CoreSystem.Tags" class="mx-1">
               {{ t.Name() }}
@@ -449,7 +455,7 @@
       <div v-if="s.Effect" class="caption mb-n1" v-html="s.Effect" />
       <print-action :actions="s.Actions" />
       <print-deployable :deployables="s.Deployables" />
-      <div class="text-right" style="position: absolute; bottom: -2px; left: 0; right: 0">
+      <div class="text-right">
         <v-chip
           v-for="t in s.Tags"
           v-show="showTag(t.ID)"

@@ -41,33 +41,33 @@
     </v-row>
 
     <v-row justify="space-around" align="center" class="mt-n5">
-      <v-col cols="auto">
+      <v-col cols="auto" class="mt-n5">
         <div class="font-weight-bold overline text-primary">HULL</div>
         <blank-line v-if="blank" :width="landscape ? 100 : 60" :height="35" class="mt-n1" />
         <div v-else class="heading h2" style="line-height: 10px" v-text="mech.Hull" />
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="auto" class="mt-n5">
         <div class="font-weight-bold overline text-primary">
           {{ landscape ? 'AGILITY' : 'AGI' }}
         </div>
         <blank-line v-if="blank" :width="landscape ? 90 : 60" :height="35" class="mt-n1" />
         <div v-else class="heading h2" style="line-height: 10px" v-text="mech.Agi" />
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="auto" class="mt-n5">
         <div class="font-weight-bold overline text-primary">
           {{ landscape ? 'SYSTEMS' : 'SYS' }}
         </div>
         <blank-line v-if="blank" :width="landscape ? 90 : 60" :height="35" class="mt-n1" />
         <div v-else class="heading h2" style="line-height: 10px" v-text="mech.Sys" />
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="auto" class="mt-n5">
         <div class="font-weight-bold overline text-primary">
           {{ landscape ? 'ENGINEERING' : 'ENG' }}
         </div>
         <blank-line v-if="blank" :width="landscape ? 90 : 60" :height="35" class="mt-n1" />
         <div v-else class="heading h2" style="line-height: 10px" v-text="mech.Eng" />
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="auto" class="mt-n5">
         <div v-if="blank">
           <div class="font-weight-bold overline text-primary">SIZE</div>
           <blank-line v-if="blank" :width="landscape ? 90 : 60" :height="35" class="mt-n1" />
@@ -315,6 +315,8 @@
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
+              <print-action :actions="t.Actions" />
+              <print-deployable :deployables="t.Deployables" />
             </fieldset>
           </v-col>
         </v-row>
@@ -337,6 +339,8 @@
               }}
             </span>
             <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect" class="caption ml-6 mb-1" />
+            +
+            <print-action :actions="mech.Frame.CoreSystem.PassiveActions" />
           </div>
           <div v-if="mech.Frame.CoreSystem.PassiveEffect" class="heading ml-4">
             {{
@@ -346,6 +350,9 @@
             }}
           </div>
           <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="caption ml-6 mb-1" />
+          <print-action :actions="mech.Frame.CoreSystem.ActiveActions" />
+          <print-deployable :deployables="mech.Frame.CoreSystem.Deployables" />
+
           <div v-if="mech.Frame.CoreSystem.Tag" class="text-right">
             <span v-for="t in mech.Frame.CoreSystem.Tags" class="mx-1">
               {{ t.Name() }}
@@ -413,8 +420,12 @@
       </fieldset>
     </div>
 
-    <fieldset v-else v-for="m in mounts" style="position: relative; break-inside: avoid">
-      <legend class="heading h4 ml-1 px-2">{{ m.Name }}</legend>
+    <fieldset
+      v-else
+      v-for="m in mounts"
+      style="position: relative; break-inside: avoid"
+      class="pb-1">
+      <legend class="heading h4 ml-1 px-2 mb-n1">{{ m.Name }}</legend>
       <div v-if="m.IsLocked" class="text-center flavor-text">
         MOUNT LOCKED
         <br />
@@ -423,10 +434,10 @@
       <div v-else v-for="w in m.Weapons" class="px-1 caption">
         <v-row dense>
           <v-col cols="auto">
-            <b class="text-overline font-weight-black" style="line-height: 0">{{ w.Name }}</b>
+            <b class="text-cc-overline font-weight-black">{{ w.Name }}</b>
           </v-col>
           <v-col>
-            <span class="text-overline" style="line-height: 0">
+            <span class="text-cc-overline">
               {{ w.Source }} {{ w.Size }} {{ w.WeaponTypes.join('/') }}
             </span>
           </v-col>
@@ -438,7 +449,7 @@
         </v-row>
 
         <div v-if="showCollectedEffect(w)" class="caption mb-1">{{ w.Profiles[0].Effect }}</div>
-        <div v-for="p in w.Profiles" class="mb-n2">
+        <div v-for="p in w.Profiles">
           <div class="caption">
             <span v-if="w.Profiles.length > 1 && p.Name" class="heading">{{ p.Name }}:&nbsp;</span>
             <b v-for="r in p.Range" class="px-1">{{ r.Text }}</b>
@@ -460,7 +471,7 @@
             <print-action :actions="p.Actions" />
             <print-deployable :deployables="p.Deployables" />
           </div>
-          <div class="text-right" style="position: absolute; bottom: 5px; right: 5px">
+          <div class="text-right">
             <v-chip
               v-for="t in p.Tags"
               size="x-small"
@@ -530,7 +541,7 @@
         <p v-if="s.Effect" class="caption mb-n1" v-html="s.Effect" />
         <print-action :actions="s.Actions" />
         <print-deployable :deployables="s.Deployables" />
-        <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0">
+        <div class="text-right mb-n2">
           <v-chip
             v-for="t in s.Tags"
             v-show="showTag(t.ID)"
@@ -555,8 +566,8 @@
 </template>
 
 <script lang="ts">
-import PrintAction from './components/PrintAction.vue';
-import PrintDeployable from './components/PrintDeployable.vue';
+import PrintAction from '../minimal/components/PrintAction.vue';
+import PrintDeployable from '../minimal/components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 

@@ -1,8 +1,8 @@
 <template>
-  <div v-for="a in actions">
+  <div v-if="actions?.length > 0" v-for="a in actions">
     <div>
       <v-icon size="small" :icon="(a as Action).Icon" :color="(a as Action).Color" />
-      <span class="flavor-text text-black pl-1" style="font-size: 15px">
+      <span class="flavor-text text-black pl-1" style="font-size: 13px">
         <b>{{ (a as Action).Name }}</b>
         ({{ (a as Action).Activation }})
       </span>
@@ -14,10 +14,10 @@
         <v-col cols="auto" class="caption font-weight-bold">Trigger:&nbsp;</v-col>
         <v-col><div v-html-safe="(a as Action).Trigger" class="caption" /></v-col>
       </v-row>
-      <v-row dense v-if="(a as Action).Detail">
-        <v-col v-if="(a as Action).Trigger" cols="auto" class="caption font-weight-bold"
-          >Effect:&nbsp;</v-col
-        >
+      <v-row dense v-if="(a as Action).Detail" class="mt-n1">
+        <v-col v-if="(a as Action).Trigger" cols="auto" class="caption font-weight-bold">
+          Effect:&nbsp;
+        </v-col>
         <v-col><div v-html-safe="(a as Action).Detail" class="caption" /></v-col>
       </v-row>
     </div>

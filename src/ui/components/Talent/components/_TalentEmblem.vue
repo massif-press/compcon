@@ -3,7 +3,7 @@
     <div
       v-if="talent.Svg"
       v-html="cleanSvg(talent.Svg)"
-      style="float: right; max-width: 22vw; max-height: 22vw; stroke: #fff; stroke-width: 8px" />
+      :style="`width: ${iconSize}; height: ${iconSize}; fill: #fff`" />
 
     <v-img
       v-else
@@ -13,7 +13,7 @@
       :width="iconSize"
       min-height="100%"
       contain
-      :class="$vuetify.theme.current.dark ? 'white-emblem' : 'black-emblem'"
+      :class="$vuetify.theme.current.dark && !dark ? 'white-emblem' : 'black-emblem'"
       @error="imageLoadFailed()" />
     <div v-if="backup" :class="`banner text-cc-overline`">
       {{ backup }}
@@ -29,6 +29,7 @@ export default {
   props: {
     talent: { type: Object, required: true },
     size: { type: String, default: 'default' },
+    dark: { type: Boolean, default: false },
   },
   data: () => ({
     backup: '',

@@ -158,7 +158,10 @@
                 <v-tooltip location="top" text="Permanently delete this item from local data">
                   <template #activator="{ props }">
                     <v-btn
-                      v-if="item.BrewController.MissingBrews.length"
+                      v-if="
+                        item.BrewController.MissingBrews.length ||
+                        item.BrewController.IsUnableToLoad
+                      "
                       v-bind="props"
                       size="small"
                       variant="plain"
@@ -169,7 +172,7 @@
                     </v-btn>
                   </template>
                 </v-tooltip>
-                <v-tooltip
+                <!-- <v-tooltip
                   location="top"
                   max-width="300"
                   text="Let COMP/CON fix this item by clearing missing data. Please note that this will modify this item by removing all non-loadable attributes and equipment">
@@ -185,7 +188,7 @@
                       <v-icon size="x-large" icon="mdi-auto-fix" />
                     </v-btn>
                   </template>
-                </v-tooltip>
+                </v-tooltip> -->
               </v-col>
             </v-row>
           </v-card-text>
@@ -227,7 +230,8 @@ export default {
   methods: {
     deleteItem(item) {
       if (item.ItemType === 'Pilot') PilotStore().DeletePilotPermanent(item);
-      else if (item.ItemType === 'npc') NpcStore().DeleteNpcPermanent(item);
+      else if (item.ItemType === 'Unit' || item.ItemType === 'Eidolon')
+        NpcStore().DeleteNpcPermanent(item);
     },
     fixMissing(item) {
       item.BrewController.FixMissing();

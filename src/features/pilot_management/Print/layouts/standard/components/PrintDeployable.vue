@@ -1,76 +1,66 @@
 <template>
-  <div class="mt-1 mb-3 mx-2">
-    <div
-      v-for="d in deployables"
-      class="pa-1"
-      style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px"
-    >
-      <div class="text-center mb-2">
-        <v-chip size="x-small"
-          ><b>{{ (d as any).name }}</b></v-chip
-        >
-      </div>
-
-      <v-row justify="center" dense class="text-center">
-        <v-col v-if="(d as any).size" cols="auto">
+  <div v-if="deployables?.length > 0" class="mb-3 mx-2 mt-2">
+    <div v-for="d in deployables" class="py-1">
+      <v-row dense class="mt-n4 pl-2">
+        <v-col v-if="(d as any).Size" cols="auto">
           <div
             class="caption font-weight-bold"
-            v-html="`Size ${(d as any).size === 0.5 ? '½' : (d as any).size}`"
-          />
+            v-html="`Size ${(d as any).Size === 0.5 ? '½' : (d as any).Size}`" />
         </v-col>
-        <v-col v-if="(d as any).armor" cols="auto">
-          <div class="caption" v-html="`<b>Armor</b>: ${(d as any).armor}`" />
+        <v-col v-if="(d as any).Armor" cols="auto">
+          <div class="caption" v-html="`<b>Armor</b>: ${(d as any).Armor}`" />
         </v-col>
-        <v-col v-if="(d as any).hp || (d as any).size" cols="auto">
+        <v-col v-if="(d as any).MaxHP || (d as any).Size" cols="auto">
           <div
             class="caption"
             v-html="
               `<b>HP</b>: ${
-                (d as any).hp
-                  ? (d as any).hp.toString().replace(/[{}]/gim, '')
-                  : parseFloat((d as any).size || 0.5) * 10
+                (d as any).MaxHP
+                  ? (d as any).MaxHP.toString().replace(/[{}]/gim, '')
+                  : parseFloat((d as any).Size || 0.5) * 10
               }`
-            "
-          />
+            " />
         </v-col>
-        <v-col v-if="(d as any).size" cols="auto">
-          <div class="caption" v-html="`<b>Evasion:</b> ${(d as any).evasion || 10}`" />
+        <v-col v-if="(d as any).Evasion" cols="auto">
+          <div class="caption" v-html="`<b>Evasion:</b> ${(d as any).Evasion || 10}`" />
         </v-col>
-        <v-col v-if="(d as any).edef" cols="auto">
-          <div class="caption" v-html="`<b>E-Defense:</b> ${(d as any).edef}`" />
+        <v-col v-if="(d as any).EDefense" cols="auto">
+          <div class="caption" v-html="`<b>E-Defense:</b> ${(d as any).EDefense}`" />
         </v-col>
-        <v-col v-if="(d as any).heatcap" cols="auto">
-          <div class="caption" v-html="`<b>Heat Capacity:</b> ${(d as any).heatcap}`" />
+        <v-col v-if="(d as any).Heatcap" cols="auto">
+          <div class="caption" v-html="`<b>Heat Capacity:</b> ${(d as any).Heatcap}`" />
         </v-col>
-        <v-col v-if="(d as any).sensor" cols="auto">
-          <div class="caption" v-html="`<b>Sensor Range:</b> ${(d as any).sensor}`" />
+        <v-col v-if="(d as any).Sensors" cols="auto">
+          <div class="caption" v-html="`<b>Sensor Range:</b> ${(d as any).Sensors}`" />
         </v-col>
-        <v-col v-if="(d as any).techattack" cols="auto">
-          <div class="caption" v-html="`<b>Tech Attack:</b> ${(d as any).techattack}`" />
+        <v-col v-if="(d as any).TechAttack" cols="auto">
+          <div class="caption" v-html="`<b>Tech Attack:</b> ${(d as any).TechAttack}`" />
         </v-col>
-        <v-col v-if="(d as any).repcap" cols="auto">
-          <div class="caption" v-html="`<b>Repair Capacity:</b> ${(d as any).repcap}`" />
+        <v-col v-if="(d as any).Repcap" cols="auto">
+          <div class="caption" v-html="`<b>Repair Capacity:</b> ${(d as any).Repcap}`" />
         </v-col>
-        <v-col v-if="(d as any).save" cols="auto">
-          <div class="caption" v-html="`<b>Save Target:</b> ${(d as any).save}`" />
+        <v-col v-if="(d as any).Save" cols="auto">
+          <div class="caption" v-html="`<b>Save Target:</b> ${(d as any).Save}`" />
         </v-col>
-        <v-col v-if="(d as any).speed" cols="auto">
-          <div class="caption" v-html="`<b>Speed:</b> ${(d as any).speed}`" />
+        <v-col v-if="(d as any).Speed" cols="auto">
+          <div class="caption" v-html="`<b>Speed:</b> ${(d as any).Speed}`" />
         </v-col>
       </v-row>
       <div>
-        <p class="caption mb-0 px-2" v-html="(d as any).detail" />
+        <p class="caption mb-0 px-2" v-html="(d as any).Detail" />
       </div>
-      <div v-if="actions(d).length">
+      <v-card
+        v-if="actions(d).length"
+        variant="outlined"
+        class="mt-1 ml-3"
+        style="border-color: rgba(0, 0, 0, 0.4)">
         <print-action :actions="actions(d)" />
-      </div>
+      </v-card>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Action } from '@/classes/Action';
-
 import PrintAction from './PrintAction.vue';
 
 export default {
@@ -84,7 +74,7 @@ export default {
   },
   methods: {
     actions(deployable) {
-      return deployable.actions ? deployable.actions.map((x) => new Action(x)) : [];
+      return deployable.Actions;
     },
   },
 };

@@ -368,7 +368,7 @@
         <b class="heading caption">{{ s.Name }}</b>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <span class="caption">{{ s.Size }} {{ s.WeaponTypes.join('/') }}</span>
+        <span class="caption">{{ s.Size }} {{ s.WeaponTypes?.join('/') || '' }}</span>
       </v-col>
       <v-col><v-divider /></v-col>
     </v-row>
@@ -385,6 +385,22 @@
     </v-row>
 
     <div class="caption" v-html="s.Effect" />
+
+    <v-card v-for="action in s.Actions" variant="text" class="my-1 px-1 text-caption">
+      Gain
+      <v-chip label tile size="small">
+        <v-icon :icon="action.Icon" :color="action.Color" start />
+        <b>{{ action.Name }}</b>
+      </v-chip>
+    </v-card>
+
+    <v-card v-for="deployable in s.Deployables" variant="text" class="my-1 px-1 text-caption">
+      Gain
+      <v-chip label tile size="small">
+        <v-icon icon="cc:drone" color="primary" start />
+        <b>{{ deployable.Name }}</b>
+      </v-chip>
+    </v-card>
     <tag-block :tags="s.Tags" :options="options" mech />
   </card>
 

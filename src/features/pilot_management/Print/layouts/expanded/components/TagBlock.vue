@@ -1,26 +1,25 @@
 <template>
-  <div v-if="show()" class="px-4">
-    <v-card v-for="t in (tags as any[])" class="pa-1 my-n1" variant="plain">
+  <div v-if="show()" class="px-4" style="z-index: 3">
+    <v-card v-for="t in tags as any[]" class="pa-1 my-n1" variant="plain">
       <v-row no-gutters>
-        <v-col cols="auto"> <v-icon start size="x-small" icon="mdi-tag-outline" /> </v-col
-        ><v-col
-          ><div class="text-caption" style="line-height: 14px">
-            <b>{{ t.GetName() }}</b
-            >: {{ t.GetDescription() }}
-          </div></v-col
-        >
+        <v-col cols="auto"><v-icon start size="x-small" icon="mdi-tag-outline" /></v-col>
+        <v-col>
+          <div class="text-caption" style="line-height: 14px">
+            <b>{{ t.GetName() }}</b>
+            : {{ t.GetDescription() }}
+          </div>
+        </v-col>
       </v-row>
     </v-card>
   </div>
   <div v-else class="text-right pb-1">
     <v-chip
-      v-for="t in (tags as any[])"
+      v-for="t in tags as any[]"
       size="x-small"
       v-show="showTag(t.ID)"
       label
       variant="outlined"
-      class="mx-1 bg-white"
-    >
+      class="mx-1 bg-white">
       {{ t.GetName() }}
     </v-chip>
   </div>

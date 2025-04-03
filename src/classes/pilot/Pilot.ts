@@ -275,6 +275,10 @@ class Pilot
     return this.PortraitController.Portrait;
   }
 
+  public get HasPortrait(): boolean {
+    return this.PortraitController.HasImage;
+  }
+
   public get BrewableCollection(): CompendiumItem[] {
     return [
       ...this.Mechs.flatMap((m) => m.BrewableItems),

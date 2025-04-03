@@ -258,10 +258,14 @@
           </v-col>
         </v-row>
         <v-row v-else dense justify="space-between" class="caption mt-n1">
-          <v-col v-for="t in mech.Frame.Traits">
+          <v-col
+            :cols="t.Actions.length + t.Deployables.length > 0 ? '12' : ''"
+            v-for="t in mech.Frame.Traits">
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
+              <print-action :actions="t.Actions" />
+              <print-deployable :deployables="t.Deployables" />
             </fieldset>
           </v-col>
         </v-row>
@@ -281,6 +285,7 @@
                 }}
               </span>
               <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect" class="caption ml-6 mb-1" />
+              <print-action :actions="mech.Frame.CoreSystem.PassiveActions" />
             </div>
             <div v-if="mech.Frame.CoreSystem.PassiveEffect" class="heading ml-4">
               {{
@@ -290,6 +295,8 @@
               }}
             </div>
             <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="caption ml-6 mb-1" />
+            <print-action :actions="mech.Frame.CoreSystem.ActiveActions" />
+            <print-deployable :deployables="mech.Frame.CoreSystem.Deployables" />
             <div v-if="mech.Frame.CoreSystem.Tags" class="text-right">
               <tag-block :tags="mech.Frame.CoreSystem.Tags" :options="options" mech />
             </div>
@@ -416,14 +423,15 @@
             <tag-block :tags="p.Tags" :options="options" mech />
           </div>
 
-          <div v-if="w.Mod" class="px-2">
-            <span class="heading">
-              {{ w.Mod.Name }}
-            </span>
-            <span class="text-overline">&nbsp;//APPLIED MOD</span>
-            <br />
-            <p v-if="w.Mod.Effect" :v-html="w.Mod.Effect" print />
-          </div>
+          <v-card v-if="w.Mod" variant="outlined" color="mod" class="px-2 pb-1 mb-1">
+            <div class="text-black">
+              <span class="heading">
+                {{ w.Mod.Name }}
+              </span>
+              <span class="text-cc-overline">&nbsp;//APPLIED MOD</span>
+              <p v-if="w.Mod.Effect" v-html="w.Mod.Effect" class="caption mt-n1" print />
+            </div>
+          </v-card>
         </div>
       </div>
     </fieldset>
@@ -492,8 +500,8 @@
 </template>
 
 <script lang="ts">
-import PrintAction from './components/PrintAction.vue';
-import PrintDeployable from './components/PrintDeployable.vue';
+import PrintAction from '../standard/components/PrintAction.vue';
+import PrintDeployable from '../standard/components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 import tagBlock from './components/TagBlock.vue';

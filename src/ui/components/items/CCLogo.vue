@@ -1,9 +1,12 @@
 <template>
-  <span v-if="!source || !source.Logo || source.Logo === 'undefined'" />
   <div
     v-if="source.Svg"
     v-html="cleanSvg(source.Svg)"
-    style="float: right; max-width: 22vw; max-height: 22vw; stroke: #fff; stroke-width: 8px" />
+    :style="{
+      width: iconSize,
+      height: iconSize,
+      filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
+    }" />
   <svg
     v-else-if="source.isExternalSvg && source.isCorsSafe"
     :data-src="source.Logo + '#Content'"
@@ -11,7 +14,7 @@
       stroke ? 'stroke-width: 25px;' : ''
     }`"></svg>
   <img
-    v-else
+    v-else-if="source.Logo"
     :src="source.Logo"
     :alt="source.Name"
     :style="{
@@ -29,7 +32,7 @@ enum sizeMap {
   small = '20px',
   default = '28px',
   medium = '32px',
-  large = '40px',
+  large = '35px',
   xLarge = '56px',
 }
 

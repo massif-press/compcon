@@ -39,17 +39,14 @@
                 <div
                   v-if="m.Svg"
                   v-html="cleanSvg(m.Svg)"
-                  style="
-                    float: right;
-                    max-width: 22vw;
-                    max-height: 22vw;
-                    stroke: #fff;
-                    stroke-width: 8px;
-                  " />
+                  style="float: right; width: 22vw; height: 22vw"
+                  :style="{
+                    filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
+                  }" />
                 <svg
                   v-else-if="!mobile && m.isExternalSvg && m.isCorsSafe"
                   :data-src="m.Logo + '#Content'"
-                  style="float: right; min-height: 22vw; max-width: 22vw; max-height: 22vw"></svg>
+                  style="float: right; min-height: 22vw; width: 22vw; height: 22vw"></svg>
                 <img
                   v-else-if="!mobile"
                   :src="m.Logo"
@@ -57,7 +54,7 @@
                   :style="{
                     filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
                   }"
-                  style="float: right; max-width: 22vw; max-height: 22vw" />
+                  style="float: right; width: 22vw; height: 22vw" />
 
                 <blockquote v-html-safe="m.Quote" class="quote-block" />
                 <v-divider class="ma-2" style="width: 30vw" />

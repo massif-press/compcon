@@ -10,15 +10,16 @@
           <v-col><v-divider /></v-col>
         </v-row>
         <div
-          :style="`background-image: url('${pilot.Portrait}');`"
+          :style="pilot.hasImage ? `background-image: url('${pilot.Portrait}')` : ''"
           style="
             height: 100px;
             width: 100%;
             background-position: top 0%;
             background-size: cover;
             position: relative;
-          "
-        >
+            border-radius: 4px;
+            border: 1px solid dimgrey;
+          ">
           <v-avatar color="primary" size="small" style="position: absolute; bottom: 0; right: -4px">
             <b class="heading h3">+{{ pilot.Grit }}</b>
           </v-avatar>
@@ -36,8 +37,8 @@
             <v-col><v-divider /></v-col>
             <v-col cols="auto">
               <span class="text-center heading caption" v-text="pilot.MaxHP" />
-              <span class="text-primary caption"> MAX HP </span></v-col
-            >
+              <span class="text-primary caption">MAX HP</span>
+            </v-col>
           </v-row>
         </fieldset>
         <v-row class="text-center mt-4" justify="space-between" dense>
@@ -97,12 +98,11 @@
             v-for="s in pilot.SkillsController.Skills"
             label
             variant="tonal"
-            class="mx-2 mb-2"
-          >
+            class="mx-2 mb-2">
             <v-row dense style="font-size: 12px" align="center">
               <v-col cols="auto">
                 <v-avatar size="x-small" class="ma-1" color="teal-lighten-5">
-                  <b class="px-1"> +{{ s.Bonus }} </b>
+                  <b class="px-1">+{{ s.Bonus }}</b>
                 </v-avatar>
               </v-col>
               <v-col>
@@ -134,7 +134,7 @@
           <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
         </div>
         <v-avatar style="position: absolute; bottom: 1px; right: 1px">
-          <v-icon icon="cc:talent" color="primary" size="40" />
+          <talent-emblem :talent="t.Talent" dark />
         </v-avatar>
       </card>
 
@@ -215,17 +215,18 @@
         <v-row dense align="center" class="text-center">
           <v-col>
             <v-card variant="tonal" class="py-2">
-              <b v-for="r in w.Range" class="px-1"
-                ><v-icon class="mt-n1" :icon="r.Icon" />{{ r.Value }}</b
-              >
+              <b v-for="r in w.Range" class="px-1">
+                <v-icon class="mt-n1" :icon="r.Icon" />
+                {{ r.Value }}
+              </b>
             </v-card>
           </v-col>
           <v-col>
             <v-card variant="tonal" class="py-2">
               <b v-for="d in w.Damage">
                 <v-icon class="mt-n1" :icon="d.Icon" :color="d.Color" />
-                {{ d.Value }}</b
-              >
+                {{ d.Value }}
+              </b>
             </v-card>
           </v-col>
         </v-row>
@@ -264,9 +265,9 @@
             <v-icon :icon="r.Icon" color="primary" />
           </v-col>
         </v-row>
-        <v-card v-if="r.Description" class="caption pa-1 my-1" variant="tonal">{{
-          r.Description
-        }}</v-card>
+        <v-card v-if="r.Description" class="caption pa-1 my-1" variant="tonal">
+          {{ r.Description }}
+        </v-card>
         <div v-if="r.ResourceName || r.Note || r.ResourceCost">
           <div class="text-center">
             <b class="caption">{{ r.ResourceName }}</b>
@@ -289,6 +290,7 @@ import blankLine from '../../components/blank/line.vue';
 import ActionCard from './components/ActionCard.vue';
 import DeployableCard from './components/DeployableCard.vue';
 import TagBlock from './components/TagBlock.vue';
+import TalentEmblem from '@/ui/components/Talent/components/_TalentEmblem.vue';
 
 export default {
   name: 'pilot-print',
@@ -298,6 +300,7 @@ export default {
     DeployableCard,
     card,
     TagBlock,
+    TalentEmblem,
   },
   props: {
     pilot: {
@@ -327,7 +330,9 @@ export default {
         .flatMap((r) => r.Deployables);
     },
     gearActions() {
-      return this.pilot.Loadout.Items.filter((i) => i.Actions.length > 0).flatMap((i) => i.Actions);
+      return this.pilot.Loadout.Items.filter((i) => !!i && i.Actions.length > 0).flatMap(
+        (i) => i.Actions
+      );
     },
     gearDeployables() {
       return this.pilot.Loadout.Items.filter((i) => i.Deployables.length > 0).flatMap(
