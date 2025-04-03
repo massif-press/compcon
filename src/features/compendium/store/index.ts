@@ -34,6 +34,7 @@ import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
 import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer';
 import { IndexItem, UserStore } from '@/stores';
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
+import { BondPower } from '@/classes/pilot/components/bond/Bond';
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -69,6 +70,7 @@ const itemTypeMap = {
   npcsystem: 'NpcFeatures',
   npctech: 'NpcFeatures',
   bond: 'Bonds',
+  bondpowers: 'ExtraBondPowers',
   background: 'Backgrounds',
   talent: 'Talents',
   corebonus: 'CoreBonuses',
@@ -204,6 +206,14 @@ export const CompendiumStore = defineStore('compendium', {
         }
       });
       return tables;
+    },
+
+    ExtraBondPowers: (state) => {
+      const powers = [] as BondPower[];
+      state.ContentPacks.filter((pack) => pack.Active).forEach((pack) => {
+        powers.push(...pack.BondPowers);
+      });
+      return powers;
     },
 
     Licenses() {
@@ -421,8 +431,6 @@ export const CompendiumStore = defineStore('compendium', {
       this.ContentCollections = content.map((x) => ContentCollection.Deserialize(x));
     },
     packAlreadyInstalled(packId: string, version?: string, searchOnName = false): boolean {
-      console.log(packId, '---', version);
-
       let candidate;
 
       if (searchOnName)
@@ -430,8 +438,6 @@ export const CompendiumStore = defineStore('compendium', {
           (pack) => pack.Name.toLowerCase() === packId.toLowerCase()
         );
       else candidate = this.ContentPacks.find((pack) => pack.ID === packId);
-
-      console.log(candidate);
 
       if (!candidate) return false;
 

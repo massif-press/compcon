@@ -34,7 +34,7 @@ import {
 import { Action } from './Action';
 import { Background, IBackgroundData } from './Background';
 import { Status, IStatusData } from './Status';
-import { Bond, IBondData } from './pilot/components/bond/Bond';
+import { Bond, BondPower, IBondData } from './pilot/components/bond/Bond';
 import { IReserveData, ISkillData, Skill } from './pilot/components';
 import { IEnvironmentData } from './Environment';
 import { ISitrepData } from './encounter/Sitrep';
@@ -83,6 +83,7 @@ interface IContentPackData {
   eidolonLayers: IEidolonLayerData[];
 
   bonds: IBondData[];
+  bondPowers: BondPower[];
 
   actions: PlayerAction.IActionData[];
 
@@ -175,6 +176,8 @@ class ContentPack {
     self._Tables = self._data.tables || {};
 
     self._Bonds = self._data.bonds?.map((x) => new Bond(x, self)) || [];
+
+    self._BondPowers = self._data.bondPowers || [];
 
     self._Reserves = self._data.reserves?.map((x) => new Reserve(x, self)) || [];
   }
@@ -322,6 +325,11 @@ class ContentPack {
   private _Bonds: any = [];
   public get Bonds(): any {
     return this._Bonds;
+  }
+
+  private _BondPowers: BondPower[] = [];
+  public get BondPowers(): BondPower[] {
+    return this._BondPowers;
   }
 
   private _Reserves: any = [];

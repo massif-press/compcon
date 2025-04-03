@@ -109,6 +109,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   const sitreps = (await readZipJSON<ISitrepData[]>(zip, 'sitreps.json')) || [];
   const tables = (await readZipJSON<any[]>(zip, 'tables.json')) || [];
   const bonds = (await readZipJSON<any[]>(zip, 'bonds.json')) || [];
+  const bondPowers = (await readZipJSON<any[]>(zip, 'bond_powers.json')) || [];
   const reserves = (await readZipJSON<IReserveData[]>(zip, 'reserves.json')) || [];
 
   // library style data for PCs
@@ -272,6 +273,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
       sitreps,
       tables,
       bonds,
+      bondPowers,
       reserves,
       eidolonLayers,
     },
