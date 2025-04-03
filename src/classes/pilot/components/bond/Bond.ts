@@ -13,6 +13,7 @@ type BondPower = {
   frequency: string;
   veteran: boolean;
   master: boolean;
+  origin?: string;
 };
 
 interface IBondData {
@@ -61,7 +62,9 @@ class Bond {
   }
 
   public get Powers() {
-    return this._powers;
+    return this._powers.concat(
+      CompendiumStore().ExtraBondPowers.filter((x) => x.origin === this.ID)
+    );
   }
 
   public get Boon() {
