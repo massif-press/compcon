@@ -164,6 +164,12 @@ export default Vue.extend({
         )
       )
 
+      i = i.concat(
+        this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(
+          x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
+        )
+      )
+
       // filter unique
       i = i.filter(
         x =>
