@@ -239,7 +239,10 @@
     </v-row>
 
     <v-row dense>
-      <v-col :cols="options.mechInclude.includes('mech image') ? (landscape ? 9 : 8) : 12">
+      <v-col
+        :cols="
+          options.mechInclude.some((x) => x.title === 'Mech Image') ? (landscape ? 9 : 8) : 12
+        ">
         <v-row dense :class="blank ? 'mt-n3' : ''">
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`" style="min-width: 4vw">
             <fieldset>
@@ -307,7 +310,13 @@
         <v-row dense v-if="blank">
           <v-col v-for="n in 4" cols="6">
             <blank-line
-              :height="landscape ? (options.mechInclude.includes('mech image') ? 80 : 40) : 64" />
+              :height="
+                landscape
+                  ? options.mechInclude.some((x) => x.title === 'Mech Image')
+                    ? 80
+                    : 40
+                  : 64
+              " />
           </v-col>
         </v-row>
         <v-row v-else dense justify="space-between" class="caption mt-n1">
@@ -324,7 +333,9 @@
         <div class="text-overline mb-n1 text-primary mt-n1">CORE SYSTEM</div>
         <div dense v-if="blank" class="mb-n2">
           <blank-line
-            :height="landscape ? (options.mechInclude.includes('mech image') ? 92 : 40) : 64" />
+            :height="
+              landscape ? (options.mechInclude.some((x) => x.title === 'Mech Image') ? 92 : 40) : 64
+            " />
         </div>
         <fieldset v-else class="mt-n2" style="height: fit-content">
           <legend class="heading h4 ml-1 px-2">
@@ -360,13 +371,18 @@
           </div>
         </fieldset>
 
-        <div v-if="options.mechInclude.includes('mech notes') && mech.Notes && !blank" class="pt-2">
+        <div
+          v-if="options.mechInclude.some((x) => x.title === 'Mech Notes') && mech.Notes && !blank"
+          class="pt-2">
           <div class="text-overline text-primary mt-3" style="line-height: 0">NOTES</div>
           <div v-html-safe="mech.Notes" class="mt-2 caption" />
         </div>
       </v-col>
 
-      <v-col v-if="options.pilotInclude.includes('mech image')" cols="4" class="mt-5">
+      <v-col
+        v-if="options.pilotInclude.some((x) => x.title === 'Mech Image')"
+        cols="4"
+        class="mt-5">
         <v-card height="100%" variant="outlined" color="grey">
           <v-row style="height: 100%" align="center">
             <v-col>
@@ -377,7 +393,7 @@
       </v-col>
     </v-row>
 
-    <div v-if="options.mechInclude.includes('mech notes') && blank" class="pt-3">
+    <div v-if="options.mechInclude.some((x) => x.title === 'Mech Notes') && blank" class="pt-3">
       <div class="text-overline text-primary" style="line-height: 0">NOTES</div>
       <div class="mb-4"><notes :rows="5" lined /></div>
     </div>
@@ -386,7 +402,7 @@
 
     <div v-if="blank">
       <fieldset
-        v-for="n in options.mechInclude.includes('extra mount panel') ? 5 : 4"
+        v-for="n in options.mechInclude.some((x) => x.title === 'Extra Mount Panel') ? 5 : 4"
         class="my-1 pb-1">
         <legend class="heading h4 ml-1 px-2">
           <v-row dense align="center">
@@ -497,7 +513,7 @@
     <div v-if="blank">
       <fieldset>
         <legend class="heading h4 ml-1 px-2 py-1 text-primary">SYSTEMS</legend>
-        <div v-for="n in options.mechInclude.includes('extra system space') ? 8 : 6">
+        <div v-for="n in options.mechInclude.some((x) => x.title === 'Extra System Space') ? 8 : 6">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">SYSTEM</div>
@@ -555,11 +571,15 @@
       </v-card>
     </fieldset>
 
-    <fieldset v-if="options.mechInclude.includes('append lined section')" class="mx-1 my-3 px-3">
+    <fieldset
+      v-if="options.mechInclude.some((x) => x.title === 'Append Lined Section')"
+      class="mx-1 my-3 px-3">
       <div class="mb-4"><notes :rows="16" lined /></div>
     </fieldset>
 
-    <fieldset v-if="options.mechInclude.includes('append unlined section')" class="mx-1 my-3 px-3">
+    <fieldset
+      v-if="options.mechInclude.some((x) => x.title === 'Append Unlined Section')"
+      class="mx-1 my-3 px-3">
       <div class="mb-4"><notes :rows="16" /></div>
     </fieldset>
   </div>
@@ -593,10 +613,10 @@ export default {
       );
     },
     blank() {
-      return this.options.content === 'blank';
+      return this.options.content.title === 'Blank';
     },
     landscape() {
-      return this.options.orientation === 'landscape';
+      return this.options.orientation.title === 'Landscape';
     },
     getHpCols() {
       return 'auto';

@@ -3,14 +3,20 @@
   <v-row>
     <v-col>
       <v-expansion-panels color="primary">
-        <v-expansion-panel v-for="n in 4" :title="traits[n - 1].name" :text="traits[n - 1].detail">
-        </v-expansion-panel>
+        <v-expansion-panel
+          v-for="n in 4"
+          tile
+          :title="traits[n - 1].name"
+          :text="traits[n - 1].detail" />
       </v-expansion-panels>
     </v-col>
     <v-col>
       <v-expansion-panels color="primary">
-        <v-expansion-panel v-for="n in 3" :title="traits[n + 3].name" :text="traits[n + 3].detail">
-        </v-expansion-panel>
+        <v-expansion-panel
+          v-for="n in 3"
+          tile
+          :title="traits[n + 3].name"
+          :text="traits[n + 3].detail"></v-expansion-panel>
       </v-expansion-panels>
     </v-col>
   </v-row>

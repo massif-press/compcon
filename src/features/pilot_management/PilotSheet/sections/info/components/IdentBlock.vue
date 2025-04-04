@@ -1,75 +1,20 @@
 <template>
-  <v-row dense class="stat-text text-center" justify="space-around">
+  <v-row dense class="stat-text text-center" justify="space-between" align="center">
     <v-col cols="auto" md="">
-      <div class="text-overline mb-n4 text-disabled">CALLSIGN</div>
-      <cc-short-string-editor
-        :readonly="pilot.IsRemote"
-        :placeholder="pilot.Callsign"
-        @set="pilot.Callsign = $event">
-        {{ pilot.Callsign }}
-      </cc-short-string-editor>
+      <cc-text-label v-model="pilot.Callsign" :readonly="pilot.IsRemote" label="Callsign" />
     </v-col>
     <v-col cols="auto" md="">
-      <div class="text-overline mb-n4 text-disabled">NAME</div>
-      <cc-short-string-editor
-        :readonly="pilot.IsRemote"
-        :placeholder="pilot.Name"
-        @set="pilot.Name = $event">
-        {{ pilot.Name }}
-      </cc-short-string-editor>
+      <cc-text-label v-model="pilot.Name" :readonly="pilot.IsRemote" label="Name" />
     </v-col>
     <v-col cols="auto" md="">
-      <div class="text-overline mb-n4 text-disabled">
-        BACKGROUND
-        <background-selector v-if="!pilot.IsRemote" small @select="pilot.Background = $event" />
-      </div>
-      <cc-short-string-editor
-        :readonly="pilot.IsRemote"
-        :placeholder="pilot.Background"
-        @set="pilot.Background = $event">
-        <i v-if="!pilot.Background" class="text-cc-overline" style="opacity: 0.2">NO DATA</i>
-        <span v-else>
-          {{ pilot.Background }}
-        </span>
-      </cc-short-string-editor>
-    </v-col>
-    <v-col cols="auto" md="">
-      <div class="text-overline mb-n4 text-disabled">PLAYER</div>
-      <cc-short-string-editor
-        :readonly="pilot.IsRemote"
-        :placeholder="pilot.PlayerName"
-        @set="pilot.PlayerName = $event">
-        <i v-if="!pilot.PlayerName" class="text-cc-overline" style="opacity: 0.2">NO DATA</i>
-        <span v-else>{{ pilot.PlayerName }}</span>
-      </cc-short-string-editor>
-    </v-col>
-    <v-col cols="auto" md="">
-      <div class="text-overline mb-n4 text-disabled">STATUS</div>
-      <v-menu offset-y :close-on-content-click="false" width="300">
-        <template #activator="{ props }">
-          <v-chip
-            v-bind="!pilot.IsRemote ? props : ''"
-            label
-            :color="statusColor"
-            class="stat-text"
-            v-text="pilot.Status" />
+      <cc-text-label v-model="pilot.Background" :readonly="pilot.IsRemote" label="Background">
+        <template #append>
+          <background-selector v-if="!pilot.IsRemote" small @select="pilot.Background = $event" />
         </template>
-        <template v-slot:default="{ isActive }">
-          <v-card outlined>
-            <v-card-text>
-              <v-select
-                v-model="pilot.Status"
-                autofocus
-                density="compact"
-                variant="outlined"
-                hide-details
-                :items="pilotStatuses"
-                item-value="value"
-                @update:modelValue="isActive.value = false" />
-            </v-card-text>
-          </v-card>
-        </template>
-      </v-menu>
+      </cc-text-label>
+    </v-col>
+    <v-col cols="auto" md="">
+      <cc-text-label v-model="pilot.PlayerName" :readonly="pilot.IsRemote" label="Player" />
     </v-col>
   </v-row>
 </template>

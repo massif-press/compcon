@@ -13,7 +13,7 @@
       :width="iconSize"
       min-height="100%"
       contain
-      :class="$vuetify.theme.current.dark && !dark ? 'white-emblem' : 'black-emblem'"
+      :class="!dark ? 'white-emblem' : 'black-emblem'"
       @error="imageLoadFailed()" />
     <div v-if="backup" :class="`banner text-cc-overline`">
       {{ backup }}

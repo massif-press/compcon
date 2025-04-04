@@ -11,7 +11,7 @@ export class NpcTrait extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'npc--trait';
+    return this.Actions.length || this.Deployables.length ? 'npc--action' : 'npc--passive';
   }
 
   public get Icon(): string {

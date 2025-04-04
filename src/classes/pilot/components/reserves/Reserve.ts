@@ -114,7 +114,7 @@ class Reserve extends CompendiumItem {
   }
 
   public get Color(): string {
-    return this._used ? 'grey darken-1' : `reserve--${this.Type.toLowerCase()}`;
+    return this._used ? 'grey darken-1' : `reserve`;
   }
 
   public get Name(): string {

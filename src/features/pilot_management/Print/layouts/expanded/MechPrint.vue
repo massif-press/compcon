@@ -371,7 +371,7 @@
         <br />
         <span class="text-overline">// SUPERHEAVY WEAPON BRACING //</span>
       </div>
-      <div v-else v-for="w in m.Weapons" class="px-1">
+      <div v-else v-for="w in m.Weapons" class="px-1 pb-3">
         <v-row dense align="center">
           <v-col cols="auto"><v-icon icon="cc:weapon" /></v-col>
           <v-col cols="auto">
@@ -528,7 +528,7 @@ export default {
       );
     },
     blank() {
-      return this.options.content === 'blank';
+      return this.options.content.title === 'Blank';
     },
     landscape() {
       return this.options.orientation === 'landscape';

@@ -38,16 +38,13 @@
       <v-icon size="small" icon="cc:activate" />
       EQUIPMENT ACTIONS
     </div>
-    <v-row dense justify="center">
-      <v-col v-for="a in item.Actions">
-        <cc-action
-          :action="a"
-          :panel="!collapseActions || $vuetify.display.lgAndUp"
-          :hover="dense && collapseActions"
-          :tier="tier"
-          class="ma-2" />
-      </v-col>
-    </v-row>
+    <cc-action
+      v-for="a in item.Actions"
+      :action="a"
+      :panel="!collapseActions || $vuetify.display.lgAndUp"
+      :hover="dense && collapseActions"
+      :tier="tier"
+      class="ma-2" />
   </div>
 
   <div v-if="item && item.Ammo && item.Ammo.length">

@@ -3,25 +3,25 @@
     <v-card
       tile
       flat
-      :class="options.orientation"
+      :class="options.orientation.title"
       class="print-card"
       style="margin-left: auto; margin-right: auto">
       <div>
         <component
-          :is="options.layout"
+          :is="options.layout.title"
           :options="options"
           :selected-mech="<Mech>selectedMech"
           :selected-pilot="<Pilot>selectedPilot"
           :hasBonds="hasBondData" />
         <div v-if="selectedPilot && options && options.extras">
-          <combat-ref v-if="options.extras.includes('combat quick reference')" />
-          <action-ref v-if="options.extras.includes('action reference')" />
-          <downtime-ref v-if="options.extras.includes('downtime quick reference')" />
+          <combat-ref v-if="has('combat quick reference')" />
+          <action-ref v-if="has('action reference')" />
+          <downtime-ref v-if="has('downtime quick reference')" />
           <trigger-info-print
-            v-if="options.extras.includes('relevant trigger reference')"
+            v-if="has('relevant trigger reference')"
             :pilot="<Pilot>selectedPilot" />
           <tag-info-print
-            v-if="options.extras.includes('relevant tag reference')"
+            v-if="has('relevant tag reference')"
             :pilot="<Pilot>selectedPilot"
             :mech="<Mech>selectedMech" />
         </div>
@@ -65,7 +65,7 @@
               <v-icon icon="mdi-cog" />
             </v-btn>
           </template>
-          <options-dialog :has-bonds="hasBondData" @set="setOptions($event)" />
+          <options-dialog :has-bonds="hasBondData" :options="options" />
         </cc-modal>
         <v-btn @click="print()">
           <span>Print</span>
@@ -145,7 +145,15 @@ export default {
       this.selectedPilot = PilotStore().Pilots.find((p) => p.ID === this.presetPilot) as Pilot;
     if (this.presetMech)
       this.selectedMech = this.selectedPilot?.Mechs.find((m) => m.ID === this.presetMech) || null;
-    this.setOptions(this.options);
+  },
+  watch: {
+    selectedPilot(newPilot) {
+      if (newPilot) {
+        this.selectedMech = newPilot.Mechs[0] || null;
+      } else {
+        this.selectedMech = null;
+      }
+    },
   },
   computed: {
     allPilots() {
@@ -157,22 +165,30 @@ export default {
     hasBondData() {
       return CompendiumStore().Bonds.length > 0;
     },
+    optionsFields() {
+      const titles = [] as string[];
+
+      function traverse(value) {
+        if (Array.isArray(value)) {
+          value.forEach(traverse);
+        } else if (value && typeof value === 'object') {
+          if ('title' in value) {
+            titles.push(value.title.toLowerCase());
+          }
+          Object.values(value).forEach(traverse);
+        }
+      }
+
+      traverse(this.options);
+      return titles;
+    },
   },
   methods: {
     print() {
       window.print();
     },
-    setOptions(options) {
-      if (!options) return;
-      let out = {};
-      for (const key in options) {
-        if (Array.isArray(options[key])) {
-          out[key] = options[key].map((x) => x.title.toLowerCase());
-        } else {
-          out[key] = options[key].title.toLowerCase();
-        }
-      }
-      this.options = out;
+    has(str: string) {
+      return this.optionsFields.includes(str);
     },
   },
 };
@@ -185,12 +201,12 @@ export default {
 </style>
 
 <style scoped>
-.portrait {
+.Portrait {
   background-color: white !important;
   width: 210mm;
 }
 
-.landscape {
+.Landscape {
   background-color: white !important;
   width: 297mm;
 }

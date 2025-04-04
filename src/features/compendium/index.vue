@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { NavStore } from '@/stores';
+import { NavStore, UserStore } from '@/stores';
 import CompendiumView from './Views/Compendium/index.vue';
 import ReferenceView from './Views/Reference/index.vue';
 import CampaignLibrary from './Views/CampaignLibrary/index.vue';
@@ -29,9 +29,6 @@ export default {
   name: 'compendium-index',
   components: { CompendiumView, ReferenceView, CampaignLibrary },
   computed: {
-    tab(): number {
-      return NavStore().SrdTab;
-    },
     mobile(): boolean {
       return this.$vuetify.display.smAndDown;
     },
@@ -39,12 +36,15 @@ export default {
   mounted() {
     if (this.$route.query.tab) {
       (this.$refs.tabs as any).setTab(parseInt(this.$route.query.tab as string));
-      this.setTab(parseInt(this.$route.query.tab as string));
+    } else {
+      this.setTab(UserStore().User.View('CompendiumTab', 0));
     }
   },
   methods: {
     setTab(tab: number) {
-      NavStore().setSrdTab(tab);
+      if (!this.$refs.tabs) return;
+      UserStore().User.SetView('CompendiumTab', tab);
+      (this.$refs as any).tabs.setTab(tab);
     },
   },
 };

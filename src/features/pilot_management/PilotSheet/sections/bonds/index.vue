@@ -340,7 +340,7 @@ export default {
     async setBond(bond) {
       this.pilot.BondController.Bond = bond;
       await this.$forceUpdate();
-      (this.$refs.chooseBond as any).hide();
+      this.bondModal = false;
     },
   },
 };

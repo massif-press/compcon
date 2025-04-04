@@ -87,6 +87,10 @@ class Bond {
   public static Deserialize(id: string): Bond {
     return CompendiumStore().referenceByID('Bonds', id);
   }
+
+  public get Icon(): string {
+    return 'mdi-cards-playing-outline';
+  }
 }
 
 export { Bond };

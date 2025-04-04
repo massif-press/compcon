@@ -85,21 +85,23 @@
             <v-col v-if="group.PortraitController.CloudImage || edit" cols="3" class="text-right">
               <cc-img :src="group.Portrait" />
               <div v-if="edit" class="text-right mb-2">
-                <cc-button
-                  size="small"
-                  variant="tonal"
-                  color="secondary"
-                  @click="($refs.imageSelector as any).open()">
-                  <div v-if="!group.Portrait">
-                    <v-icon start>mdi-plus</v-icon>
-                    Add group emblem
-                  </div>
-                  <div v-else>
-                    <v-icon start>mdi-circle-edit-outline</v-icon>
-                    Edit group emblem
-                  </div>
-                </cc-button>
-                <cc-image-selector ref="imageSelector" :item="group" type="emblem" />
+                <cc-modal title="Set Group Emblem" icon="mdi-image">
+                  <template #activator="{ open }">
+                    <div class="d-flex justify-center">
+                      <cc-button size="small" color="secondary" @click="open">
+                        <div v-if="!group.Portrait">
+                          <v-icon start>mdi-plus</v-icon>
+                          Add group emblem
+                        </div>
+                        <div v-else>
+                          <v-icon start>mdi-circle-edit-outline</v-icon>
+                          Edit group emblem
+                        </div>
+                      </cc-button>
+                    </div>
+                  </template>
+                  <cc-image-selector ref="imageSelector" :item="group" type="emblem" />
+                </cc-modal>
               </div>
             </v-col>
           </v-row>
@@ -343,7 +345,8 @@ export default {
     },
     transferrable() {
       return PilotStore().Pilots.filter(
-        (pilot) => !this.group.Pilots.map((x) => x.id).includes(pilot.ID)
+        (pilot) =>
+          !pilot.SaveController.IsDeleted && !this.group.Pilots.map((x) => x.id).includes(pilot.ID)
       );
     },
   },

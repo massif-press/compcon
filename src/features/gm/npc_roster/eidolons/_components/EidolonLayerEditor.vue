@@ -1,17 +1,14 @@
 <template>
-  <v-row>
+  <v-row dense>
     <v-col>
       <div class="text-overline">LAYERS</div>
     </v-col>
     <v-col v-if="!readonly" cols="auto">
-      <v-btn
-        variant="tonal"
-        color="accent"
-        prepend-icon="mdi-plus"
-        style="width: 300px"
-        @click="($refs.layerSelector as any).show()">
+      <cc-button color="primary" prepend-icon="mdi-plus" @click="layerSelector = true">
         add layer
-      </v-btn>
+      </cc-button>
+    </v-col>
+    <v-col v-if="!readonly" cols="auto">
       <v-tooltip location="top">
         <template #activator="{ props }">
           <v-btn
@@ -72,45 +69,43 @@
       <v-window-item v-for="(layer, index) in item.Layers">
         <v-card
           variant="outlined"
-          class="rounded-0 rounded-b"
+          class="rounded-0 rounded-b bg-transparent"
           style="border-color: rgb(var(--v-theme-primary))">
           <v-card-text class="my-0 py-0">
             <div class="text-overline">Layer Description</div>
             <cc-rich-text-area v-model="layer.Description" :readonly="readonly" />
           </v-card-text>
-          <v-card-text class="mt-n2 pt-0">
+          <v-card-text class="pt-0 mt-2">
             <stat-editor
               :item="layer"
               :controller="layer"
               :bonuses="layer.FeatureController.Bonuses"
               :readonly="readonly"
               prefix="layer" />
+            <cc-dense-card v-if="layer.Layer" :item="layer.Layer" :tier="item.Tier">
+              <template v-if="layer.Layer.Shards.Count !== 0" #extra>
+                <v-card-text class="mt-n2 pt-0">
+                  <stat-editor
+                    :item="layer.Layer.Shards"
+                    :controller="layer.Layer.Shards.StatController"
+                    prefix="Shard"
+                    readonly />
+                </v-card-text>
+              </template>
+            </cc-dense-card>
           </v-card-text>
-          <cc-dense-card v-if="layer.Layer" :item="layer.Layer" :tier="item.Tier">
-            <template v-if="layer.Layer.Shards.Count !== 0" #extra>
-              <v-card-text class="mt-n2 pt-0">
-                <stat-editor
-                  :item="layer.Layer.Shards"
-                  :controller="layer.Layer.Shards.StatController"
-                  prefix="Shard"
-                  readonly />
-              </v-card-text>
-            </template>
-          </cc-dense-card>
           <v-divider />
           <v-card-actions class="my-n2">
             <v-spacer />
-            <v-btn
-              small
+            <cc-button
+              size="small"
               variant="outlined"
-              class="fade-select"
               color="error"
-              size="x-small"
               prepend-icon="mdi-delete"
               :disabled="layer.ID === 'el_core' || index === 0"
               @click="removeLayer(index)">
               remove
-            </v-btn>
+            </cc-button>
           </v-card-actions>
         </v-card>
       </v-window-item>
@@ -119,7 +114,9 @@
 
   <div class="my-4" />
 
-  <layer-selector ref="layerSelector" :item="item" @add-layer="tab = item.Layers.length - 1" />
+  <cc-solo-modal v-model="layerSelector" title="Select Layer" icon="mdi-layers-triple">
+    <layer-selector :item="item" @add-layer="addLayer($event)" />
+  </cc-solo-modal>
 </template>
 
 <script lang="ts">
@@ -135,14 +132,17 @@ export default {
   },
   data: () => ({
     tab: 0,
+    layerSelector: false,
   }),
-  created() {
-    console.log(this.item);
-  },
   methods: {
     removeLayer(index: number) {
       this.item.RemoveLayer(index);
       this.tab--;
+    },
+    addLayer(layer) {
+      this.item.AddLayer(layer.ID);
+      this.tab = this.item.Layers.length - 1;
+      this.layerSelector = false;
     },
     addRandomLayer() {
       this.item.AddRandomLayer();

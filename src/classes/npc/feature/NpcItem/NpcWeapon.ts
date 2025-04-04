@@ -96,7 +96,7 @@ export class NpcWeapon extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'weapon';
+    return 'npc--weapon';
   }
 
   public get Icon(): string {

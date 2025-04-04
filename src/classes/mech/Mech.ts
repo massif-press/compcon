@@ -89,6 +89,10 @@ class Mech implements IPortraitContainer, IFeatureController {
     return this.SaveController.Created;
   }
 
+  public get SpecialEquipment(): CompendiumItem[] {
+    return this.FeatureController.IntegratedSpecialEquipment.concat(this.Pilot.SpecialEquipment);
+  }
+
   // -- Info --------------------------------------------------------------------------------------
   public get ID(): string {
     return this._id;

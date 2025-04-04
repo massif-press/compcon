@@ -44,7 +44,12 @@ abstract class PilotEquipment extends CompendiumItem {
     this._cascading = false;
     this._loaded = true;
     this._custom_damage_type = null;
-    this.Effect = data.effect || '';
+    // todo: effectobject constructor
+    this.Effect = data?.effect
+      ? typeof data.effect === 'string'
+        ? data.effect
+        : (data.effect as any).description
+      : '';
     if (data.tags) {
       const ltd = data.tags.find((x) => x.id === 'tg_limited');
       this.IsLimited = !!ltd;

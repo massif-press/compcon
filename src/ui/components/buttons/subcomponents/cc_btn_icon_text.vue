@@ -16,7 +16,7 @@
           :disabled="disabled"
           icon="cc:hex_thin"
           :class="!disabled && 'hover outline-hover'"
-          style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" />
+          style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -45%)" />
         <v-btn
           variant="text"
           icon

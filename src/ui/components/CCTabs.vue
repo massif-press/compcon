@@ -48,6 +48,7 @@ export default {
   },
   methods: {
     setTab(tab: number) {
+      console.log('tab', tab);
       this.tab = tab;
     },
   },

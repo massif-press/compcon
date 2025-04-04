@@ -1,7 +1,7 @@
 <template>
   <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
     <template #top>
-      <v-row no-gutters justify="space-around" align="center">
+      <v-row no-gutters justify="space-around" align="center" class="text-text">
         <v-col v-if="item.Damage && item.Damage[0]" cols="auto">
           <cc-damage-element :damage="item.Damage" />
         </v-col>

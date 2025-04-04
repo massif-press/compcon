@@ -16,7 +16,7 @@ class NpcReaction extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'reaction';
+    return 'npc--reaction';
   }
 
   public get Icon(): string {

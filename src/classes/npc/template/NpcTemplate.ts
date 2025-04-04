@@ -132,6 +132,10 @@ class NpcTemplate {
   public get OptionalFeatures(): NpcFeature[] {
     return this.Features.filter((x) => !x.Base && !x.Deprecated);
   }
+
+  public get Icon(): string {
+    return 'cc:npc_template';
+  }
 }
 
 export { NpcTemplate };

@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col>
-      <cc-titled-panel title="New Project" icon="mdi-atom-variant" color="reserve--project">
+      <cc-titled-panel title="New Project" icon="mdi-atom-variant" color="reserve">
         <v-row density="compact">
           <v-col cols="12" md="">
             <v-text-field
@@ -9,8 +9,7 @@
               color="accent"
               label="Project Name"
               variant="outlined"
-              hide-details
-            />
+              hide-details />
           </v-col>
           <v-col cols="12" md="auto">
             <v-row no-gutters align="start">
@@ -21,15 +20,13 @@
                   inset
                   hide-details
                   color="secondary"
-                  class="mr-3"
-                >
+                  class="mr-3">
                   <template #label class="stat-text text-text">
                     Complicated
                     <cc-tooltip
                       simple
                       inline
-                      content="This project is complex, resource-intensive, or generally difficult to complete"
-                    >
+                      content="This project is complex, resource-intensive, or generally difficult to complete">
                       <v-icon size="small" end>mdi-help-circle-outline</v-icon>
                     </cc-tooltip>
                   </template>
@@ -42,8 +39,7 @@
                     <cc-tooltip
                       simple
                       inline
-                      content="This project is complete and available to use as a <strong>reserve</strong>"
-                    >
+                      content="This project is complete and available to use as a <strong>reserve</strong>">
                       <v-icon size="small" end>mdi-help-circle-outline</v-icon>
                     </cc-tooltip>
                   </template>
@@ -60,8 +56,7 @@
           filled
           hide-details
           color="accent"
-          class="my-3"
-        />
+          class="my-3" />
         <v-combobox
           v-model="costs"
           label="Requirements"
@@ -72,8 +67,7 @@
           color="accent"
           density="compact"
           class="mr-5 ml-5 mt-5"
-          :disabled="finished"
-        ></v-combobox>
+          :disabled="finished"></v-combobox>
         <v-btn
           block
           tile
@@ -81,8 +75,7 @@
           class="mb-2 mt-n2"
           color="primary"
           :disabled="!projectName"
-          @click="add()"
-        >
+          @click="add()">
           <v-icon start>mdi-plus</v-icon>
           Add Project
         </v-btn>

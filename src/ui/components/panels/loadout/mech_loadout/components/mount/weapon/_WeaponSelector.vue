@@ -177,7 +177,7 @@ export default {
       }
 
       i = i.concat(
-        this.mech.Pilot.SpecialEquipment.filter(
+        this.mech.SpecialEquipment.filter(
           (x) => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
         )
       );

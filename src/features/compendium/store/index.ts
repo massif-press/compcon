@@ -22,6 +22,7 @@ import {
   Environment,
   Sitrep,
   LicensedItem,
+  DowntimeAction,
   CompendiumItem,
 } from '@/class';
 import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
@@ -58,6 +59,7 @@ const hydratedKeys = {
   sitreps: 'Sitreps',
   pilot_gear: 'PilotGear',
   eidolon_layers: 'EidolonLayers',
+  downtime_actions: 'DowntimeActions',
 };
 
 const itemTypeMap = {
@@ -86,13 +88,15 @@ const itemTypeMap = {
   action: 'Actions',
   tag: 'Tags',
   reserve: 'Reserves',
-  statuse: 'Statuses',
+  statuses: 'Statuses',
+  status: 'Statuses',
   environment: 'Environments',
   sitrep: 'Sitreps',
   pilotarmor: 'PilotGear',
   pilotweapon: 'PilotGear',
   pilotgear: 'PilotGear',
   eidolonlayer: 'EidolonLayers',
+  downtimeActions: 'DowntimeActions',
 };
 
 function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }): T[] {
@@ -196,6 +200,7 @@ export const CompendiumStore = defineStore('compendium', {
     Sitreps: (state) => collect<Sitrep>(state, 'sitreps', Sitrep),
     PilotGear: (state) =>
       collect<IPilotEquipmentData>(state, 'pilot_gear').map((x) => PilotEquipment.Factory(x)),
+    DowntimeActions: (state) => collect<DowntimeAction>(state, 'downtime_actions', DowntimeAction),
 
     Tables: (state) => {
       const tables = lancerData.tables;

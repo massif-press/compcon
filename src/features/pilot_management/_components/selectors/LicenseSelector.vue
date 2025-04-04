@@ -162,7 +162,11 @@ export default {
     },
     scrollTo(e: any): void {
       const el = document.getElementById(e);
-      if (el) scrollTo(el, this.modal);
+      if (!el) {
+        console.warn(`Element with ID ${e} not found`);
+        return;
+      }
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     },
     mf(id: string) {
       return CompendiumStore().referenceByID('Manufacturers', id.toUpperCase());

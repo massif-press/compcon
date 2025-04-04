@@ -38,7 +38,9 @@
             Add Group
           </cc-button>
         </template>
-        <group-menu />
+        <template #default="{ close }">
+          <group-menu @close="close" />
+        </template>
       </cc-modal>
     </v-footer>
   </v-container>

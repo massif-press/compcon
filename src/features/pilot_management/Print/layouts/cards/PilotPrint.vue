@@ -314,7 +314,7 @@ export default {
   },
   computed: {
     blank() {
-      return this.options.content === 'blank';
+      return this.options.content.title === 'Blank';
     },
     landscape() {
       return this.options.orientation === 'landscape';

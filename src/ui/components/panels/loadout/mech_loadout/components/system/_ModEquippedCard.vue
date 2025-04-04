@@ -1,10 +1,5 @@
 <template>
-  <slot-card-base
-    ref="base"
-    :item="item"
-    :mech="mech"
-    :readonly="readonly"
-    title-color="weapon-mod">
+  <slot-card-base ref="base" :item="item" :mech="mech" :readonly="readonly" title-color="mod">
     <template #header>
       <div v-if="item" class="pt-1">
         <v-icon icon="cc:weaponmod" />

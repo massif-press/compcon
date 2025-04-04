@@ -43,6 +43,7 @@ import { INpcFeatureData, NpcFeature } from './npc/feature/NpcFeature';
 import { INpcTemplateData, NpcTemplate } from './npc/template/NpcTemplate';
 import { NpcFeatureFactory } from './npc/feature/NpcFeatureFactory';
 import { EidolonLayer, IEidolonLayerData } from './npc/eidolon/EidolonLayer';
+import { DowntimeAction, IDowntimeActionData } from './DowntimeAction';
 
 type ContentPackDependency = {
   name: string;
@@ -90,6 +91,8 @@ interface IContentPackData {
   statuses: IStatusData[];
   environments: IEnvironmentData[];
   sitreps: ISitrepData[];
+
+  downtimeActions: IDowntimeActionData[];
 
   tables: any;
 }
@@ -180,6 +183,9 @@ class ContentPack {
     self._BondPowers = self._data.bondPowers || [];
 
     self._Reserves = self._data.reserves?.map((x) => new Reserve(x, self)) || [];
+
+    self._DowntimeActions =
+      self._data.downtimeActions?.map((x) => new DowntimeAction(x, self)) || [];
   }
 
   public get ID(): string {
@@ -330,6 +336,11 @@ class ContentPack {
   private _BondPowers: BondPower[] = [];
   public get BondPowers(): BondPower[] {
     return this._BondPowers;
+  }
+
+  private _DowntimeActions: DowntimeAction[] = [];
+  public get DowntimeActions(): DowntimeAction[] {
+    return this._DowntimeActions;
   }
 
   private _Reserves: any = [];

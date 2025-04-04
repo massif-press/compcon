@@ -24,7 +24,6 @@ const theme = {
     pilot: '#061a1f',
     exotic: '#FFAB00',
     'action--downtime': '#1f9c9c',
-    'reserve--organization': '#3ec2c2',
     'action--reaction': '#823aa1',
 
     weapon: '#212121',
