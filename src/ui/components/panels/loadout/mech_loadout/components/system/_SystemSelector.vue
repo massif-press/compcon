@@ -161,6 +161,15 @@ export default Vue.extend({
             )
         )
 
+        i = i
+        .concat(this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(x => x.ItemType === 'MechSystem'))
+        .filter(
+          x =>
+            !this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(
+              x.ID
+            )
+        )
+
       return _.sortBy(i, ['Source', 'Name'])
     },
   },

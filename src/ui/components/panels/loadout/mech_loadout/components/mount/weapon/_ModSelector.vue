@@ -190,6 +190,7 @@ export default Vue.extend({
       // }
 
       i = i.concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
+      i = i.concat(this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
 
       return i
     },
