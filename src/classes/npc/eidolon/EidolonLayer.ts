@@ -113,6 +113,10 @@ class EidolonLayer {
   public get ShardCount(): string {
     return this.Shards.CountString;
   }
+
+  public get Icon(): string {
+    return 'mdi-layers-triple-outline';
+  }
 }
 
 export { EidolonLayer };

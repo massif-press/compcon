@@ -42,7 +42,12 @@ abstract class MechEquipment extends LicensedItem {
   public constructor(data: IMechEquipmentData, pack?: ContentPack) {
     super(data, pack);
     this.SP = parseInt(data.sp as any) || 0;
-    this.Effect = data.effect;
+    // todo: effectobject constructor
+    this.Effect = data?.effect
+      ? typeof data.effect === 'string'
+        ? data.effect
+        : (data.effect as any).description
+      : '';
     this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated');
     if (data.tags) {
       const ltd = data.tags.find((x) => x.id === 'tg_limited');

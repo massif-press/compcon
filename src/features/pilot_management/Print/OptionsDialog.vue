@@ -95,32 +95,18 @@ import PrintOptionSelect from './PrintOptionSelect.vue';
 export default {
   name: 'print-options-dialog',
   components: { PrintOptionSelect },
-  watch: {
-    options: {
-      handler() {
-        this.$emit('set', this.options);
-      },
-      deep: true,
-    },
-  },
+
   props: {
     hasBonds: {
       type: Boolean,
       required: true,
     },
+    options: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
-    options: {
-      layout: { title: 'Standard', icon: 'mdi-book-open' },
-      orientation: { title: 'Portrait', icon: 'mdi-file' },
-      content: { title: 'Pilot', icon: 'cc:pilot' },
-      bonds: { title: 'Include', icon: 'mdi-link' },
-      paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
-      pilotInclude: [],
-      mechInclude: [],
-      extras: [],
-      card: [],
-    },
     layoutOptions: [
       { title: 'Minimal', icon: 'mdi-text-short' },
       { title: 'Terse', icon: 'mdi-file-document-outline' },

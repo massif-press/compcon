@@ -13,7 +13,7 @@
         class="label-clip"
         :color="color"
         :variant="<any>variant">
-        <v-menu v-model="menu" :close-on-content-click="false" location="bottom">
+        <v-menu v-if="!readonly" v-model="menu" :close-on-content-click="false" location="bottom">
           <template #activator="{ props }">
             <v-slide-x-reverse-transition>
               <span
@@ -99,6 +99,7 @@
         </template>
         {{ tooltip }}
       </v-tooltip>
+      <slot name="append" />
     </div>
   </v-hover>
 </template>
@@ -118,6 +119,7 @@ export default {
     tooltip: { type: String },
     tooltipIcon: { type: String },
     optionsIcon: { type: String },
+    readonly: { type: Boolean, default: false },
   },
   emits: ['update:model-value'],
   data: () => ({

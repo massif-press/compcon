@@ -8,12 +8,16 @@
           pilot.MechSkillsController.MaxHASEPoints
         }}
         Mech Skills selected
-        <div class="text-right">
-          <v-btn size="x-small" variant="text" @click="pilot.MechSkillsController.Reset()">
-            Reset Mech Skills
-          </v-btn>
-        </div>
       </cc-alert>
+      <div class="text-right">
+        <v-btn
+          size="x-small"
+          color="accent"
+          variant="text"
+          @click="pilot.MechSkillsController.Reset()">
+          Reset Mech Skills
+        </v-btn>
+      </div>
     </div>
 
     <v-row align="center">

@@ -1,7 +1,7 @@
 <template>
   <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
     <template #top>
-      <div class="pt-8">
+      <div class="pt-8 text-text">
         <p
           v-if="item.Description"
           v-html-safe="item.Description"

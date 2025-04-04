@@ -12,7 +12,7 @@
           v-for="h in <any[]>headers"
           class="text-left px-2"
           :class="`text-${h.align} ${
-            selected && (selected as any).ID === item.ID ? 'bg-primary' : ''
+            selected && (selected as any).ID === item.ID ? 'bg-light-panel' : ''
           }`">
           <div v-if="h.key === 'Source'">
             <span v-if="item.Source">
@@ -26,6 +26,7 @@
                 size="x-large"
                 :icon="item.Manufacturer.Icon"
                 :color="item.Manufacturer.GetColor($vuetify.theme.current.dark)" />
+              <span v-if="!mobile" class="px-1">{{ item.Source }}</span>
             </span>
           </div>
           <div v-else-if="h.key === 'Size'">
@@ -46,7 +47,14 @@
           <div v-else-if="h.key === 'Origin'">
             <cc-item-modal hide-type :item="item.Origin" />
           </div>
-          <div v-else-if="h.key === 'Icon'">
+          <div
+            v-else-if="h.key === 'Effect' || h.key === 'Description' || h.key === 'Detail'"
+            class="my-1">
+            <p v-if="h.key === 'Effect'" v-html="item.Effect" />
+            <p v-else-if="h.key === 'Description'" v-html="item.Description" />
+            <p v-else-if="h.key === 'Detail'" v-html="item.Detail" />
+          </div>
+          <div v-else-if="h.key === 'Icon'" class="text-center">
             <v-icon :icon="item.Icon" />
           </div>
           <div v-else-if="h.key === 'SizeIcon'">
@@ -74,6 +82,9 @@
           <div v-else-if="h.key === 'MaxUses'">
             <span v-if="item.MaxUses" v-text="item.MaxUses" />
             <v-icon v-else size="x-small" color="subtle">mdi-infinity</v-icon>
+          </div>
+          <div v-else-if="h.key === 'WeaponTypes'">
+            <span v-if="item.WeaponTypes" v-text="item.WeaponTypes.join('/')" />
           </div>
 
           <div v-else-if="h.key === 'Tags'">
@@ -137,5 +148,10 @@ export default {
     },
   },
   emits: ['select'],
+  computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
+  },
 };
 </script>

@@ -15,7 +15,7 @@ export class NpcSystem extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'system';
+    return this.Actions.length || this.Deployables.length ? 'npc--action' : 'npc--passive';
   }
 
   public get Icon(): string {

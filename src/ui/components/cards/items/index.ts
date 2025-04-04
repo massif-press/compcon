@@ -23,6 +23,7 @@ import EidolonLayerCard from './_EidolonLayerCard.vue';
 import BondCard from './_BondCard.vue';
 import StatusCard from './_StatusCard.vue';
 import TagCard from './_TagCard.vue';
+import DowntimeActionCard from './_DowntimeActionCard.vue';
 
 export {
   EquipmentCardBase,
@@ -50,4 +51,5 @@ export {
   BondCard,
   StatusCard,
   TagCard,
+  DowntimeActionCard,
 };

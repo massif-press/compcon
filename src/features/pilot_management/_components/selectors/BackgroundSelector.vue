@@ -1,7 +1,9 @@
 <template>
   <cc-modal id="bs-dialog" ref="dialog" fullscreen no-confirm title="Select Pilot Background">
     <template #activator="{ open }">
-      <v-icon :small="small" color="accent" variant="plain" @click="open">cc:orbit</v-icon>
+      <v-icon :small="small" color="accent" variant="plain" class="ml-1" @click="open">
+        cc:orbit
+      </v-icon>
     </template>
     <template #default="{ close }">
       <cc-compendium-browser

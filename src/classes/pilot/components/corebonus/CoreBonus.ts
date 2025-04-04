@@ -13,7 +13,7 @@ import { IDeployableData } from '../../../components/feature/deployable/Deployab
 
 interface ICoreBonusData extends ICompendiumItemData {
   source: string;
-  effect: string;
+  effect: string | any;
   mounted_effect?: string;
   actions?: IActionData[];
   bonuses?: IBonusData[];
@@ -33,7 +33,12 @@ class CoreBonus extends CompendiumItem {
     super(data, pack);
     this.ItemType = ItemType.CoreBonus;
     this.Source = data?.source || '';
-    this.Effect = data?.effect || '';
+    // todo: effectobject constructor
+    this.Effect = data?.effect
+      ? typeof data.effect === 'string'
+        ? data.effect
+        : data.effect.description
+      : '';
     this.MountedEffect = data?.mounted_effect || '';
   }
 

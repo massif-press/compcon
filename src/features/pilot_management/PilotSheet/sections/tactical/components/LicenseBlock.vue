@@ -11,7 +11,11 @@
             :label="`Edit Pilot Licenses (${pilot.LicenseController.CurrentLicensePoints}/${pilot.LicenseController.MaxLicensePoints})`"
             @open-selector="open" />
         </template>
-        <license-selector :pilot="<Pilot>pilot" />
+        <template #default>
+          <div id="content">
+            <license-selector :pilot="<Pilot>pilot" modal />
+          </div>
+        </template>
       </cc-modal>
     </section-header>
 

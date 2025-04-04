@@ -2,7 +2,7 @@
   <div>
     <v-btn icon :size="size" variant="plain" @click.native.stop>
       <v-icon icon="mdi-cog" color="white" size="large" />
-      <v-menu activator="parent">
+      <v-menu v-model="menu" activator="parent">
         <v-card tile border>
           <v-toolbar density="compact" color="primary" height="46">
             <div v-if="!dense" class="heading h3 py-0 px-2">Pilot Options</div>
@@ -149,6 +149,7 @@ export default {
   data: () => ({
     loading: false,
     deleteDialog: false,
+    menu: false,
   }),
   computed: {
     mobile() {
@@ -157,6 +158,7 @@ export default {
   },
   methods: {
     delete_pilot(close?: Function) {
+      this.menu = false;
       this.pilot.SaveController.Delete();
       if (close) close();
       if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management');

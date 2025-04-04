@@ -388,8 +388,11 @@
     </v-navigation-drawer>
 
     <v-main class="mt-2">
-      <div :style="`height: calc(100vh - ${getHeight}px)!important;`" style="overflow-y: scroll">
-        <div id="content" style="max-width: 1200px" class="pa-4 mx-auto">
+      <div
+        id="content"
+        :style="`height: calc(100vh - ${getHeight}px)!important;`"
+        style="overflow-y: scroll">
+        <div id="content" :style="view === 'table' ? '' : 'max-width: 1200px'" class="pa-4 mx-auto">
           <v-alert
             v-show="!!$slots.top"
             variant="outlined"
@@ -993,10 +996,14 @@ export default {
     scrollTo(id: string): void {
       const el = document.getElementById(id);
       if (el) {
-        const yOffset = -70;
+        // const yOffset = -70;
         const mEl = document.getElementById('content');
         if (!mEl) return;
-        const y = el.getBoundingClientRect().top + mEl.scrollTop + yOffset;
+        // const y = el.getBoundingClientRect().top + mEl.scrollTop + yOffset;
+
+        const rect = el.getBoundingClientRect();
+        const y = rect.top + window.scrollY - window.innerHeight / 2 + rect.height / 2;
+
         mEl.scrollTo({ top: y, behavior: 'smooth' });
       }
     },

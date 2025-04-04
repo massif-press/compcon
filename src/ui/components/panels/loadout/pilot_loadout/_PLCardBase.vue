@@ -89,8 +89,11 @@
             </v-col>
           </v-row>
 
-          <v-card v-if="item && item.FlavorDescription" variant="tonal" class="mx-1 py-1">
-            <p v-if="item.FlavorDescription.length < 600" v-html-safe="item.FlavorDescription" />
+          <v-card v-if="item && item.FlavorDescription" variant="tonal" class="mx-1 px-2 py-1 mt-3">
+            <p
+              v-if="item.FlavorDescription.length < 600"
+              v-html-safe="item.FlavorDescription"
+              class="text-cc-overline" />
             <div v-else>
               <div :style="`max-height: ${showAllFlavor ? '' : '60px'}`">
                 <p v-html-safe="item.FlavorDescription" style="white-space: pre-wrap" />

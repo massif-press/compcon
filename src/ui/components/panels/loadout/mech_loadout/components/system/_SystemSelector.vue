@@ -146,7 +146,7 @@ export default {
       }
 
       i = i
-        .concat(this.mech.Pilot.SpecialEquipment.filter((x) => x.ItemType === 'MechSystem'))
+        .concat(this.mech.SpecialEquipment.filter((x) => x.ItemType === 'MechSystem'))
         .filter(
           (x) =>
             !this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.map((y) => y.ID).includes(

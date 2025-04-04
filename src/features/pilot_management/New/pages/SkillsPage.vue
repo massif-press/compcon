@@ -33,25 +33,31 @@
         under DoJ/HR AR 303-J.
       </p>
     </v-alert>
-    <cc-alert class="my-2" icon="mdi-orbit" title="Skill Suggestions Available">
-      <p class="text-cc-overline text-disabled">
-        IDENT.SERVICE.PRIMARY has generated a list of suggested Skill Triggers. These suggestions
-        are based on your answer to RM-4-03 (PRIOR OCCUPATION OR POSITION) and compatible with the
-        results of your OHM/CR-2 Brain Activity Scan and uptake responses as reported to the Union
-        Office of Psychological and Ontological Health.
-      </p>
-      <div class="mx-3 mt-2">
-        <cc-button
-          size="small"
-          :color="suggestedSet ? 'success' : 'accent'"
-          block
-          prepend-icon="mdi-auto-mode"
-          :append-icon="suggestedSet ? 'mdi-check' : undefined"
-          @click="setSuggestedSkills()">
-          {{ suggestedSet ? 'Suggested Skills Added.' : 'Add Suggested Skills' }}
-        </cc-button>
-      </div>
-    </cc-alert>
+    <v-scroll-y-reverse-transition>
+      <cc-alert
+        v-if="pilot.Background && !pilot.SkillsController.HasFullSkills"
+        class="my-2"
+        icon="mdi-orbit"
+        title="Skill Suggestions Available">
+        <p class="text-cc-overline text-disabled">
+          IDENT.SERVICE.PRIMARY has generated a list of suggested Skill Triggers. These suggestions
+          are based on your answer to RM-4-03 (PRIOR OCCUPATION OR POSITION) and compatible with the
+          results of your OHM/CR-2 Brain Activity Scan and uptake responses as reported to the Union
+          Office of Psychological and Ontological Health.
+        </p>
+        <div class="mx-3 mt-2">
+          <cc-button
+            size="small"
+            :color="suggestedSet ? 'success' : 'accent'"
+            block
+            prepend-icon="mdi-auto-mode"
+            :append-icon="suggestedSet ? 'mdi-check' : undefined"
+            @click="setSuggestedSkills()">
+            {{ suggestedSet ? 'Suggested Skills Added.' : 'Add Suggested Skills' }}
+          </cc-button>
+        </div>
+      </cc-alert>
+    </v-scroll-y-reverse-transition>
     <skill-selector flat :pilot="<Pilot>pilot" @reset="reset" />
   </stepper-content>
 </template>

@@ -18,6 +18,7 @@ import CoreBonuses from './Views/Compendium/CoreBonuses.vue';
 import Talents from './Views/Compendium/Talents.vue';
 import Backgrounds from './Views/Compendium/Backgrounds.vue';
 import Reserves from './Views/Compendium/Reserves.vue';
+import DowntimeActions from './Views/Compendium/DowntimeActions.vue';
 import Bonds from './Views/Compendium/Bonds.vue';
 import Environments from './Views/Compendium/Environments.vue';
 import Sitreps from './Views/Compendium/Sitreps.vue';
@@ -221,6 +222,15 @@ const routes = [
       icon: 'mdi-book-variant',
     },
     meta: { title: 'Reserves' },
+  },
+  {
+    path: 'compendium/downtime',
+    component: DowntimeActions,
+    searchData: {
+      title: 'Downtime Actions',
+      icon: 'mdi-book-variant',
+    },
+    meta: { title: 'DowntimeActions' },
   },
   {
     path: 'compendium/bonds',

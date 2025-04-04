@@ -23,7 +23,9 @@
           {{ action.Frequency.ToString() }}
         </v-chip>
       </v-toolbar>
-      <action-base :action="action" :tier="tier" />
+      <div class="px-2 pt-1 pb-2">
+        <action-base :action="action" :tier="tier" />
+      </div>
     </v-card>
   </v-menu>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <v-layout>
-    <v-main ref="content" class="py-2">
-      <div id="content" :class="modal ? 'pa-2 mb-10' : 'mb-10'">
+    <v-main class="py-2">
+      <div :class="modal ? 'pa-2 mb-10' : 'mb-10'">
         <div class="mx-auto" :class="!mobile && 'px-12'" style="max-width: 1400px">
           <slot name="right-column" />
         </div>
@@ -10,7 +10,8 @@
   </v-layout>
 
   <div
-    :style="`position: fixed; bottom: ${mobile ? 28 : 52}px; left: ${mobile ? 4 : 20}px; right: ${floatSize}; z-index: 901; transition: right 0.2s ease`">
+    :style="`position: fixed; bottom: ${mobile ? 28 : 52}px; left: ${mobile ? 4 : 20}px; right: ${floatSize}; z-index: 901; transition: right 0.2s ease'`"
+    style="min-width: 80px">
     <v-card flat tile class="px-2 py-1" :class="success ? 'border-success border-md' : 'border-sm'">
       <v-row :no-gutters="!expanded" align="center" justify="space-between">
         <v-col v-if="!expanded" cols="auto">
@@ -64,7 +65,6 @@ export default {
   data: () => ({
     floating: false,
     expanded: false,
-    listener: () => {},
     showNav: null,
   }),
   computed: {

@@ -293,7 +293,9 @@
     <div v-if="blank" class="pa-2 mt-n5">
       <div class="text-caption mb-n1 mt-1 text-primary">RESERVES</div>
       <v-row dense>
-        <v-col v-for="r in options.pilotInclude.includes('extra reserves space') ? 8 : 4" cols="3">
+        <v-col
+          v-for="r in options.pilotInclude.some((x) => x.title === 'Extra Reserves Space') ? 8 : 4"
+          cols="3">
           <blank-line :height="26" />
         </v-col>
       </v-row>
@@ -327,7 +329,7 @@ export default {
   },
   computed: {
     blank() {
-      return this.options.content === 'blank';
+      return this.options.content.title === 'Blank';
     },
     landscape() {
       return this.options.orientation === 'landscape';

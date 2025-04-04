@@ -23,7 +23,7 @@
       :size="mobile ? 'small' : 'default'"
       :disabled="mandatory && !complete"
       :variant="!(complete || mandatory) ? 'text' : 'elevated'"
-      :tile="complete || mandatory"
+      :class="complete && 'pulse'"
       @click="$emit('complete')">
       {{ complete || mandatory ? 'CONTINUE' : 'SKIP STEP' }}
     </cc-button>
@@ -62,3 +62,19 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.pulse {
+  animation: talent-pulse 1.7s infinite;
+  z-index: 2;
+}
+
+@keyframes talent-pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgb(var(--v-theme-success));
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+}
+</style>

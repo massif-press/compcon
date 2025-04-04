@@ -46,8 +46,6 @@ const theme = {
     'stark-panel': '#225560',
 
     'action--downtime': '#37474F',
-    'reserve--organization': '#455A64',
-    'reserve--bonus': '#455A64',
     'action--reaction': '#512DA8',
 
     surface: '#161C27',

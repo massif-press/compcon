@@ -234,6 +234,10 @@ class Tag {
     });
     return output;
   }
+
+  public get Icon(): string {
+    return 'mdi-tag-outline';
+  }
 }
 
 export default Tag;

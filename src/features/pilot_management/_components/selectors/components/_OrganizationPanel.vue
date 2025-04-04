@@ -1,10 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col>
-      <cc-titled-panel
-        title="New Organization"
-        icon="mdi-account-group"
-        color="reserve--organization darken-2">
+      <cc-titled-panel title="New Organization" icon="mdi-account-group" color="reserve">
         <v-row>
           <v-col cols="6">
             <v-text-field

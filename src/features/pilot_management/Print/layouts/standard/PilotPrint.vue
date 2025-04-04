@@ -155,7 +155,7 @@
         </v-row>
 
         <div>
-          <div v-if="options.pilotInclude.includes('appearance notes')" class="mt-1">
+          <div v-if="options.pilotInclude.some((x) => x.title === 'Appearance Notes')" class="mt-1">
             <div class="text-cc-overline text-primary">APPEARANCE</div>
             <div v-if="blank" class="mb-4"><notes :rows="5" lined /></div>
             <div v-else v-html-safe="pilot.Notes" class="caption" />
@@ -193,7 +193,7 @@
           </v-col>
         </v-row>
         <v-chip
-          v-else-if="options.pilotInclude.includes('separate talent detail')"
+          v-else-if="options.pilotInclude.some((x) => x.title === 'Separate Talent Detail')"
           v-for="t in pilot.TalentsController.Talents"
           label
           variant="outlined"
@@ -239,7 +239,9 @@
     <v-row dense v-if="blank">
       <v-col
         v-for="n in 4"
-        :cols="landscape ? (options.pilotInclude.includes('pilot portrait') ? 6 : 3) : 6">
+        :cols="
+          landscape ? (options.pilotInclude.some((x) => x.title === 'Pilot Portrait') ? 6 : 3) : 6
+        ">
         <blank-line :height="48" inline />
       </v-col>
     </v-row>
@@ -342,7 +344,7 @@
 
     <v-row dense justify="space-between" class="mt-n2 caption">
       <v-col
-        v-if="options.pilotInclude.includes('extra equipment space')"
+        v-if="options.pilotInclude.some((x) => x.title === 'Extra Equipment Space')"
         v-for="n in 3"
         style="position: relative"
         cols="12">
@@ -382,7 +384,9 @@
   <div v-if="blank" class="pa-2">
     <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
     <v-row>
-      <v-col v-for="r in options.pilotInclude.includes('extra reserves space') ? 9 : 6" cols="6">
+      <v-col
+        v-for="r in options.pilotInclude.some((x) => x.title === 'Extra Reserves Space') ? 9 : 6"
+        cols="6">
         <fieldset class="mt-2" style="position: relative">
           <legend class="px-1">
             <blank-line :height="26" :width="200" />
@@ -411,16 +415,20 @@
     </v-row>
   </div>
 
-  <fieldset v-if="options.pilotInclude.includes('append lined section')" class="mx-1 my-3 px-3">
+  <fieldset
+    v-if="options.pilotInclude.some((x) => x.title === 'Append Lined Section')"
+    class="mx-1 my-3 px-3">
     <div class="mb-4"><notes :rows="24" lined /></div>
   </fieldset>
 
-  <fieldset v-if="options.pilotInclude.includes('append unlined section')" class="mx-1 my-3 px-3">
+  <fieldset
+    v-if="options.pilotInclude.some((x) => x.title === 'Append Unined Section')"
+    class="mx-1 my-3 px-3">
     <div class="mb-4"><notes :rows="24" /></div>
   </fieldset>
 
   <div
-    v-if="options.pilotInclude.includes('separate talent detail')"
+    v-if="options.pilotInclude.some((x) => x.title === 'Separate Talent Detail')"
     v-for="t in pilot.TalentsController.Talents"
     dense
     justify="space-between"
@@ -474,7 +482,7 @@ export default {
   },
   computed: {
     blank() {
-      return this.options.content === 'blank';
+      return this.options.content.title === 'Blank';
     },
     landscape() {
       return this.options.orientation === 'landscape';

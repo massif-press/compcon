@@ -89,6 +89,11 @@
         to="/srd/compendium/sitreps" />
       <compendium-page-button
         color="primary"
+        icon="cc:downtime"
+        name="Downtime Actions"
+        to="/srd/compendium/downtime" />
+      <compendium-page-button
+        color="primary"
         icon="mdi-folder-table-outline"
         name="Table Browser"
         to="/srd/compendium/tables" />

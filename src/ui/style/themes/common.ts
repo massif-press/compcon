@@ -1,30 +1,24 @@
 export default {
   frame: '#673AB7',
   system: '#489928',
-  'pilot-gear': '#58b434',
-  trait: '#673AB7',
   protocol: '#1b6361',
   mod: '#00BFA5',
-  'weapon-mod': '#00BFA5',
   structure: '#F50057',
   hp: '#0284FF',
   armor: '#82B1FF',
-  'pilot-armor': '#82B1FF',
   heat: '#FF7043',
   stress: '#FF3D00',
   heatcap: '#EF5350',
   dangerzone: '#FF1744',
-  repcap: '#8E8E8E',
   overcharge: '#F50057',
-  corepower: '#00BFA5',
-  background: '#f4f4f4',
   tech: '#007674',
   reaction: '#512DA8',
   skill: '#524f3b',
   deployable: '#47525C',
 
-  'npc--trait': '#991E2A',
+  reserve: '#00695C',
 
+  // actions
   'action--move': '#C62828',
   'action--full': '#283593',
   'action--quick': '#3949AB',
@@ -34,6 +28,7 @@ export default {
   'action--tech': '#802475',
   'action--invade': '#222222',
 
+  // damage types
   'damage--kinetic': '#757575',
   'damage--energy': '#29B6F6',
   'damage--explosive': '#FFA726',
@@ -41,11 +36,13 @@ export default {
   'damage--heat': '#FF7043',
   'damage--variable': '#D500F9',
 
-  'reserve--resource': '#00695C',
-  'reserve--tactical': '#827717',
-  'reserve--mech': '#BF360C',
-  'reserve--project': '#5D4037',
-  'reserve--custom': '#D84315',
+  // npc colors
+  'npc--passive': '#991E2A',
+  'npc--action': '#5CB338',
+  'npc--tech': '#802475',
+  'npc--protocol': '#FF9149',
+  'npc--reaction': '#006A71',
+  'npc--weapon': '#222222',
 
   'role--striker': '#bd3f39',
   'role--defender': '#d67e08',
@@ -61,4 +58,7 @@ export default {
   // brand colors
   patreon: '#FF424D',
   itch: '#fa5c5c',
+
+  // UI Overrides
+  background: '#f4f4f4',
 };

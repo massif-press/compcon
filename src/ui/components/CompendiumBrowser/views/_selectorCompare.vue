@@ -157,7 +157,7 @@ export default {
     diff(metric: string, item: any) {
       const selectedValue = (this.selected as any).Stats[metric];
       const itemValue = item.Stats[metric];
-      if (selectedValue === itemValue) return '';
+      if (selectedValue === itemValue) return '<i class="text-caption text-disabled">(&mdash;)</i>';
 
       return `<i class="text-caption font-weight-bold  ${
         selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'

@@ -24,6 +24,7 @@ import { INpcFeatureData } from '@/classes/npc/feature/NpcFeature';
 import { INpcTemplateData } from '@/classes/npc/template/NpcTemplate';
 import CoreLayerData from '@/classes/npc/eidolon/core_layer.json';
 import { IEnvironmentData } from '@/classes/Environment';
+import { IDowntimeActionData } from '@/classes/DowntimeAction';
 
 const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
@@ -111,6 +112,8 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   const bonds = (await readZipJSON<any[]>(zip, 'bonds.json')) || [];
   const bondPowers = (await readZipJSON<any[]>(zip, 'bond_powers.json')) || [];
   const reserves = (await readZipJSON<IReserveData[]>(zip, 'reserves.json')) || [];
+  const downtimeActions =
+    (await readZipJSON<IDowntimeActionData[]>(zip, 'downtime_actions.json')) || [];
 
   // library style data for PCs
   const frames = generateIDs(await getZipData<IFrameData>(zip, 'frames.json'), 'mf');
@@ -276,6 +279,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
       bondPowers,
       reserves,
       eidolonLayers,
+      downtimeActions,
     },
   };
 };

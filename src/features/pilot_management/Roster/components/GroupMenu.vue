@@ -151,21 +151,23 @@
             <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
               <cc-img v-if="group.Portrait" :src="group.Portrait" aspect-ratio="1" />
               <div class="mt-3 text-center">
-                <cc-button color="secondary" @click="($refs.imageSelector as any).open()">
-                  <div v-if="!group.Portrait">
-                    <v-icon start>mdi-plus</v-icon>
-                    Add group emblem
-                  </div>
-                  <div v-else>
-                    <v-icon start>mdi-circle-edit-outline</v-icon>
-                    Edit group emblem
-                  </div>
-                  <div style="position: absolute; right: -30px">
-                    <v-icon v-if="!group.Portrait" color="grey">mdi-circle-outline</v-icon>
-                    <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
-                  </div>
-                </cc-button>
-                <cc-image-selector ref="imageSelector" :item="group" type="emblem" />
+                <cc-modal title="Set Group Emblem" icon="mdi-image">
+                  <template #activator="{ open }">
+                    <div class="d-flex justify-center">
+                      <cc-button size="small" color="secondary" @click="open">
+                        <div v-if="!group.Portrait">
+                          <v-icon start>mdi-plus</v-icon>
+                          Add group emblem
+                        </div>
+                        <div v-else>
+                          <v-icon start>mdi-circle-edit-outline</v-icon>
+                          Edit group emblem
+                        </div>
+                      </cc-button>
+                    </div>
+                  </template>
+                  <cc-image-selector ref="imageSelector" :item="group" type="emblem" />
+                </cc-modal>
               </div>
             </div>
           </v-col>

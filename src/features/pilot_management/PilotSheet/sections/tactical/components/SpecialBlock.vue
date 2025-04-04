@@ -34,7 +34,10 @@
               Add Equipment
             </cc-button>
           </template>
-          <equipment-selector :pilot="pilot" @select="addItem($event)" />
+          <template #default="{ close }">
+            "
+            <equipment-selector :pilot="pilot" @equip="addItem($event, close)" />
+          </template>
         </cc-modal>
       </v-col>
       <v-col>
@@ -44,7 +47,10 @@
               Add Exotic Equipment
             </cc-button>
           </template>
-          <equipment-selector :pilot="pilot" exotic @select="addItem($event)" />
+          <template #default="{ close }">
+            "
+            <equipment-selector :pilot="pilot" exotic @equip="addItem($event, close)" />
+          </template>
         </cc-modal>
       </v-col>
     </v-row>
@@ -66,10 +72,9 @@ export default {
     },
   },
   methods: {
-    addItem(item) {
+    addItem(item, close) {
       this.pilot.AddSpecialEquipment(item);
-      (this.$refs.specialSelector as any).hide();
-      (this.$refs.exoticSelector as any).hide();
+      close();
     },
     removeItem(item) {
       this.pilot.RemoveSpecialEquipment(item);
