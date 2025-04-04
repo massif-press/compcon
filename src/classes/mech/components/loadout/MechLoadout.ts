@@ -13,6 +13,7 @@ import {
   MechWeapon,
   WeaponMod,
 } from '@/class'
+import { CompendiumItem } from '../../../CompendiumItem'
 import { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
 interface IMechLoadoutData {
@@ -373,6 +374,10 @@ class MechLoadout extends Loadout {
 
   public get AICount(): number {
     return this.Equipment.filter(x => x.IsAI).length
+  }
+
+  public get SpecialEquipment(): CompendiumItem[] {
+    return (this.UniqueItems.filter(x => x.SpecialEquipment.length != 0).map(y => y.SpecialEquipment)).flat();
   }
 
   public static Serialize(ml: MechLoadout): IMechLoadoutData {
