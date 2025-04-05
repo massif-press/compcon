@@ -1,12 +1,11 @@
 <template>
   <v-card
     v-show="!item.Secret || item.Unlocked"
-    variant="tonal"
     :color="getColor"
     flat
     tile
     class="my-2 pr-2"
-    style="border: 2px solid; position: relative"
+    style="position: relative"
     :style="item.Secret ? `background: linear-gradient(90deg, #991E2A 0%, #673AB7 100%);` : ''">
     <v-row align="center" :style="item.Unlocked ? '' : 'opacity: 0.6'" dense>
       <v-col cols="auto">
@@ -85,13 +84,13 @@ export default {
       }
       switch (this.item.Rarity) {
         case 1:
-          return 'blue-accent-4';
+          return '#205781';
         case 2:
-          return 'purple-darken-2';
+          return '#4F1C51';
         case 3:
-          return 'deep-orange-accent-4';
+          return '#E83F25';
         case 4:
-          return 'red-accent-4';
+          return '#d4af37';
 
         default:
           return 'primary';
