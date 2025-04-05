@@ -11,6 +11,8 @@ import {
 import { collectionDataQuery, getLcpPresigned } from '@/user/api';
 
 import { Initialize, SetItem, GetItem, RemoveItem } from './Storage';
+import { AchievementManager } from '@/user/achievements/AchievementManager';
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 export default async function (skipSync = false): Promise<void> {
   UserStore().IsLoading = true;
@@ -110,6 +112,7 @@ export default async function (skipSync = false): Promise<void> {
     UserStore().IsSyncing = false;
   }
 
-  console.info('loading complete');
+  AchievementManager.Instantiate();
+
   UserStore().IsLoading = false;
 }

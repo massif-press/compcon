@@ -33,7 +33,7 @@
                     height="25px"
                     class="my-2"
                     tile
-                    :color="getColor({ unlocked: true, rarity: i + 1 })">
+                    :color="rarityColors[i]">
                     <span style="text-transform: capitalize">{{ r }}</span>
                   </v-progress-linear>
                   <div v-if="!mobile" class="text-caption font-italic mt-n2">
@@ -190,40 +190,8 @@
       </v-col>
     </v-row>
     <v-container class="pt-1" :class="mobile && 'px-0'">
-      <v-card
-        v-for="a in shownAchievements"
-        v-show="!a.secret || a.unlocked"
-        variant="tonal"
-        :color="getColor(a)"
-        flat
-        tile
-        class="my-2 pr-2"
-        style="border: 2px solid"
-        :style="a.secret ? `background: linear-gradient(90deg, #991E2A 0%, #673AB7 100%);` : ''">
-        <v-row align="center" :style="a.unlocked ? '' : 'opacity: 0.4'" dense>
-          <v-col cols="auto">
-            <v-icon
-              :size="mobile ? 50 : 70"
-              :icon="a.secret ? 'mdi-clippy' : `cc:achievement_${a.rarity}`" />
-          </v-col>
-          <v-col v-if="!a.hidden">
-            <div class="heading h3">{{ decode(a.name) }}</div>
-            <div>{{ decode(a.description) }}</div>
-          </v-col>
-          <v-col v-else>
-            <div class="heading h3">[ DATA REDACTED ]</div>
-            <div>This achievement is hidden and will be revealed once unlocked</div>
-          </v-col>
-          <v-col v-if="a.unlocked" cols="12" md="auto" class="text-right py-1 mx-2">
-            <div class="text-caption">
-              <span v-if="a.secret">SECRET ACHIEVEMENT</span>
-              UNLOCKED
-            </div>
-            <div :class="mobile ? 'text-cc-overline' : 'heading'">{{ formatDate(a.unlocked) }}</div>
-          </v-col>
-        </v-row>
-      </v-card>
-      <div v-if="hiddenAchievements" class="text-right text-caption px-4">
+      <achievement-item v-for="a in shownAchievements" :item="a" />
+      <div v-if="hiddenAchievements > 0" class="text-right text-caption px-4">
         <i>
           {{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} not shown
         </i>
@@ -240,7 +208,7 @@
       <v-col cols="auto">
         <cc-dialog v-model="importDialog" :close-on-click="false">
           <template #activator="{ open }">
-            <cc-button size="x-small" color="error" variant="outlined" class="mx-3" @click="open">
+            <cc-button size="x-small" color="primary" class="mx-3" @click="open">
               Load Achievement Backup
             </cc-button>
           </template>
@@ -268,31 +236,33 @@
               @change="importBackup()" />
           </v-card-text>
         </cc-dialog>
-
-        <cc-dialog v-model="clearDialog" :close-on-click="false">
+      </v-col>
+      <v-col cols="auto">
+        <cc-dialog :close-on-click="false" title="reset achievements">
           <template #activator="{ open }">
             <cc-button size="x-small" color="error" variant="outlined" @click="open()">
               Reset Achievements
             </cc-button>
           </template>
-          <v-card-text class="pa-6">
-            <p class="text-center">
-              This will
-              <b class="text-accent">ERASE ALL</b>
-              user achievement data.
-              <br />
-              <br />
-              This
-              <b class="text-accent">cannot</b>
-              be undone. It is strongly recommended to create a backup first.
-            </p>
-            <cc-button color="error" block class="mt-4" @click="clearAchievements()">
-              Reset Achievements
-              <template #info>
-                <v-icon icon="mdi-alert" />
-              </template>
-            </cc-button>
-          </v-card-text>
+          <template #default="{ close }">
+            <v-card-text class="pa-6">
+              <p class="text-center">
+                This will
+                <b class="text-accent">ERASE ALL</b>
+                user achievement data.
+                <br />
+                This
+                <b class="text-accent">cannot</b>
+                be undone. It is strongly recommended to create a backup first.
+              </p>
+              <cc-button color="error" block class="mt-4" @click="clearAchievements(close)">
+                Reset Achievements
+                <template #info>
+                  <v-icon icon="mdi-alert" />
+                </template>
+              </cc-button>
+            </v-card-text>
+          </template>
         </cc-dialog>
       </v-col>
     </v-row>
@@ -301,37 +271,32 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import * as dict from '@/assets/achievementsDict.json';
-import { decrypt, encrypt } from '@/util/Decode';
+import AchievementItem from './_components/AchievementItem.vue';
 
 import { UserStore } from '@/stores';
+import { AchievementManager } from '@/user/achievements/AchievementManager';
 
 export default {
   name: 'AchievementsViewer',
+  components: {
+    AchievementItem,
+  },
   data: () => ({
-    achievements: [] as any[],
     showRarity: [0, 1, 2, 3],
     showLock: [0, 1],
     showHidden: [0],
     showLabels: [] as string[],
-    sort: 'none',
+    sort: 'date_desc',
     showDetail: false,
     rarities: ['Common', 'Epic', 'Legendary', 'Mythic'],
     importDialog: false,
-    clearDialog: false,
     fileValue: null as any,
     search: '',
+    rarityColors: ['blue-accent-4', 'purple-darken-2', 'deep-orange-accent-4', 'red-accent-4'],
   }),
-  watch: {
-    userAchievements: {
-      handler() {
-        this.updateAchievements();
-      },
-      deep: true,
-    },
-  },
-  created() {
-    this.updateAchievements();
+  emits: ['close'],
+  mounted() {
+    this.showLabels = this.labels;
   },
   computed: {
     mobile() {
@@ -341,7 +306,10 @@ export default {
       return UserStore().User;
     },
     userAchievements() {
-      return this.user.Achievements;
+      return AchievementManager.Instance.UserUnlockedAchievements;
+    },
+    achievements() {
+      return AchievementManager.Instance.Achievements;
     },
     aRank() {
       const pct = this.allUnlocked.length / this.nsAchievements.length;
@@ -354,17 +322,14 @@ export default {
     },
     shownAchievements() {
       let shown = this.achievements.filter((a) => {
-        if (!this.showRarity.includes(a.rarity - 1)) return false;
-        if (!this.showLock.includes(a.unlocked ? 1 : 0)) return false;
-        if (!this.showHidden.length && a.hidden) return false;
+        if (!this.showRarity.includes(a.Rarity - 1)) return false;
+        if (!this.showLock.includes(a.Unlocked ? 1 : 0)) return false;
+        if (!this.showHidden.length && a.Hidden) return false;
 
         if (this.search) {
-          if (a.hidden && !a.unlocked) return false;
+          if (a.Hidden && !a.Unlocked) return false;
           const s = this.search.toLowerCase();
-          if (
-            !decrypt(a.name).toLowerCase().includes(s) &&
-            !decrypt(a.description).toLowerCase().includes(s)
-          ) {
+          if (!a.Name.toLowerCase().includes(s) && !a.Description.toLowerCase().includes(s)) {
             return false;
           }
         }
@@ -372,21 +337,21 @@ export default {
         return true;
       });
 
-      shown = shown.filter((a) => a.labels.some((l) => this.showLabels.includes(l)));
+      shown = shown.filter((a) => a.Labels.some((l) => this.showLabels.includes(l)));
 
       switch (this.sort) {
         case 'name_asc':
-          return _.orderBy(shown, (a) => decrypt(a.name).toLowerCase(), 'asc');
+          return _.orderBy(shown, (a) => a.Name.toLowerCase(), 'asc');
         case 'name_desc':
-          return _.orderBy(shown, (a) => decrypt(a.name).toLowerCase(), 'desc');
+          return _.orderBy(shown, (a) => a.Name.toLowerCase(), 'desc');
         case 'rarity_asc':
-          return _.orderBy(shown, (a) => a.rarity, 'asc');
+          return _.orderBy(shown, (a) => a.Rarity, 'asc');
         case 'rarity_desc':
-          return _.orderBy(shown, (a) => a.rarity, 'desc');
+          return _.orderBy(shown, (a) => a.Rarity, 'desc');
         case 'date_asc':
-          return _.orderBy(shown, (a) => a.unlocked, 'asc');
+          return _.orderBy(shown, (a) => a.Date || Infinity, 'asc');
         case 'date_desc':
-          return _.orderBy(shown, (a) => a.unlocked, 'desc');
+          return _.orderBy(shown, (a) => a.Date || -1, 'desc');
         default:
           return shown;
       }
@@ -395,70 +360,22 @@ export default {
       return this.nsAchievements.length - this.shownAchievements.length - this.extras;
     },
     extras() {
-      // todo: mark in data
-      return 3;
+      return this.achievements.filter((a) => a.Secret && !a.Unlocked).length;
     },
     nsAchievements() {
-      return this.achievements.filter((a) => !a.secret);
+      return this.achievements.filter((a) => !a.Secret);
     },
     labels() {
-      return _.uniq(this.achievements.flatMap((a) => a.labels));
+      return _.uniq(this.achievements.flatMap((a) => a.Labels));
     },
     allUnlocked() {
-      return this.achievements.filter((x) => x.unlocked);
+      return this.achievements.filter((x) => x.Unlocked);
     },
     allUnlockedSecret() {
-      return this.achievements.filter((x) => x.unlocked && x.secret);
+      return this.achievements.filter((x) => x.Unlocked && x.Secret);
     },
   },
   methods: {
-    updateAchievements() {
-      this.achievements = (dict as any).default;
-
-      this.userAchievements.forEach((ua) => {
-        const idx = this.achievements.findIndex((a) => a.id === encrypt(ua.id));
-        if (idx !== -1) {
-          this.achievements[idx].unlocked = ua.unlocked;
-        }
-      });
-
-      this.showLabels = this.labels;
-    },
-    getColor(a: any) {
-      if (!a.unlocked) {
-        return 'grey-darken-2';
-      }
-      if (a.secret) {
-        return '#FFDF00';
-      }
-      switch (a.rarity) {
-        case 1:
-          return 'blue-accent-4';
-        case 2:
-          return 'purple-darken-2';
-        case 3:
-          return 'deep-orange-accent-4';
-        case 4:
-          return 'red-accent-4';
-
-        default:
-          return 'primary';
-      }
-    },
-    formatDate(date: number) {
-      const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true,
-      };
-      return new Date(date).toLocaleString(undefined, options as any);
-    },
-    decode(str: any) {
-      return decrypt(str);
-    },
     setAllLabels() {
       if (this.showLabels.length === this.labels.length) {
         this.showLabels = [];
@@ -466,24 +383,21 @@ export default {
         this.showLabels = this.labels;
       }
     },
-    adddebug() {
-      this.user.AddAchievement('9999999999999999');
-    },
     byRarity(rarity: number) {
       return {
-        has: this.achievements.filter((a) => a.rarity === rarity).filter((a) => a.unlocked).length,
-        total: this.nsAchievements.filter((a) => a.rarity === rarity).length,
+        has: this.achievements.filter((a) => a.Rarity === rarity).filter((a) => a.Unlocked).length,
+        total: this.nsAchievements.filter((a) => a.Rarity === rarity).length,
       };
     },
     byLabel(label: string) {
       return {
-        has: this.achievements.filter((a) => a.labels.includes(label)).filter((a) => a.unlocked)
+        has: this.achievements.filter((a) => a.Labels.includes(label)).filter((a) => a.Unlocked)
           .length,
-        total: this.nsAchievements.filter((a) => a.labels.includes(label)).length,
+        total: this.nsAchievements.filter((a) => a.Labels.includes(label)).length,
       };
     },
     exportBackup() {
-      const jsonBlob = new Blob([JSON.stringify(this.user.Achievements)], {
+      const jsonBlob = new Blob([JSON.stringify(this.user.AchievementUnlocks)], {
         type: 'application/json',
       });
       const url = window.URL.createObjectURL(jsonBlob);
@@ -500,14 +414,17 @@ export default {
       const file = this.fileValue[0];
       const json = await file.text();
       const data = JSON.parse(json);
-      this.user.Achievements = data;
-      this.updateAchievements();
+      this.user.AchievementUnlocks = data;
       this.importDialog = false;
     },
-    clearAchievements() {
-      this.user.Achievements = [];
-      this.updateAchievements();
-      this.clearDialog = false;
+    async clearAchievements(close) {
+      console.log('clearing achievements');
+      this.user.AchievementUnlocks = [];
+      await this.user.save();
+      if (UserStore().IsLoggedIn && UserStore().SyncSettings.includeSettings) {
+        await UserStore().setUserMetadata();
+      }
+      window.location.reload();
     },
   },
 };

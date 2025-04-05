@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { Bonus } from '../../../components/feature/bonus/Bonus';
 import { Pilot } from '../../Pilot';
 import { CoreBonus } from './CoreBonus';
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 interface ICoreBonusSaveData {
   core_bonuses: string[];
@@ -48,6 +49,8 @@ class CoreBonusController implements IFeatureContainer {
 
   public AddCoreBonus(coreBonus: CoreBonus): void {
     this._core_bonuses.push(coreBonus);
+    if (!this.Parent.IsLevelEdit)
+      AchievementEventSystem.emit(`${coreBonus.Source.toLowerCase()}_core`);
     this.Parent.SaveController.save();
   }
 

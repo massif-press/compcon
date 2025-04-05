@@ -5,6 +5,7 @@ import _ from 'lodash';
 import logger from './logger';
 import { CompendiumStore, UserStore } from '@/stores';
 import itchMap from '@/assets/itchMap.json';
+import { AchievementSaveData } from './achievements/Achievement';
 
 const CONFIG_FILE_NAME = 'cc_user';
 
@@ -41,7 +42,7 @@ interface IUserProfile {
   read_messages: string[];
   theme: string;
   options: IUserOptions;
-  achievement_unlocks: { id: string; unlocked: number }[];
+  achievement_unlocks: AchievementSaveData[];
   logLevel: 'debug' | 'info' | 'warn' | 'error';
   storage_warning: number;
   storage_max: number;
@@ -62,7 +63,7 @@ class UserProfile {
 
   private _readMessages: string[];
   private _theme: string;
-  private _achievement_unlocks: { id: string; unlocked: number }[];
+  private _achievement_unlocks: AchievementSaveData[];
   private _options: IUserOptions;
   private _logLevel: 'debug' | 'info' | 'warn' | 'error' = 'warn';
   private _storageWarning: number = 40;
@@ -71,7 +72,7 @@ class UserProfile {
 
   public constructor(id?: string) {
     this.ID = id || uuid();
-    this._theme = 'gms';
+    this._theme = 'gms_dark';
     this._readMessages = [];
     this._options = defaultOptions();
     this._achievement_unlocks = [];
@@ -147,27 +148,23 @@ class UserProfile {
     this.save();
   }
 
-  public get Achievements(): { id: string; unlocked: number }[] {
+  public get AchievementUnlocks(): AchievementSaveData[] {
     return this._achievement_unlocks;
   }
 
-  public AddAchievement(id: string): void {
-    // TODO: call global achievement notifier
-
-    // Vue.prototype.$notify({
-    //   title: 'Achievement Unlocked!',
-    //   text: `Achievement Name and Description Here`,
-    //   data: { icon: 'mdi-trophy' },
-    // });
-
-    if (!this._achievement_unlocks.find((a) => a.id === id)) {
-      this._achievement_unlocks.push({ id, unlocked: Date.now() });
-      this.save();
-    }
+  public set AchievementUnlocks(data: AchievementSaveData[]) {
+    console.log('Setting achievement unlocks', data);
+    this._achievement_unlocks = data;
+    this.save();
   }
 
-  public set Achievements(data: { id: string; unlocked: number }[]) {
-    this._achievement_unlocks = data;
+  public SaveAchievementUnlock(item: AchievementSaveData): void {
+    const index = this._achievement_unlocks.findIndex((a) => a.id === item.id);
+    if (index !== -1) {
+      this._achievement_unlocks[index] = item;
+    } else {
+      this._achievement_unlocks.push(item);
+    }
     this.save();
   }
 
@@ -247,13 +244,13 @@ class UserProfile {
   }
 
   public SwitchTheme(): void {
-    this._theme = 'gms';
+    this._theme = 'gms_dark';
     this.localSave('theme', this._theme);
     this.save();
   }
 
   public Reset() {
-    this._theme = 'gms';
+    this._theme = 'gms_dark';
     this.localSave('theme', this._theme);
     this._readMessages = [];
     this._options = defaultOptions();
@@ -280,7 +277,7 @@ class UserProfile {
   public static Deserialize(data: IUserProfile): UserProfile {
     const profile = new UserProfile(data.id);
     profile._readMessages = data.read_messages || [];
-    profile._theme = data.theme || 'gms';
+    profile._theme = data.theme || 'gms_dark';
     profile._achievement_unlocks = data.achievement_unlocks || [];
     profile._options = data.options ? data.options : defaultOptions();
     profile._logLevel = data.logLevel || 'warn';

@@ -1,9 +1,14 @@
 <template>
   <v-card-text class="py-2 px-0">
-    <cc-alert icon="mdi-alert" title="warning" color="warning">
+    <cc-alert v-if="!pilot.IsLevelEdit" icon="mdi-alert" title="warning" color="warning">
       Editing this Pilot's level may prevent certain achievements from being unlocked with this
-      Pilot. If you want to use this Pilot to unlock related achievements normally, use the Level Up
+      Pilot. If you want to use this Pilot to unlock Pilot-related achievements, use the Level Up
       wizard instead.
+    </cc-alert>
+
+    <cc-alert v-else icon="mdi-alert" title="alert" color="error">
+      This pilot's level has been edited. This will prevent certain achievements from being unlocked
+      with this Pilot.
     </cc-alert>
 
     <v-card class="mt-2 pa-2 flavor-text" flat tile>
@@ -65,6 +70,7 @@ export default {
   methods: {
     setLevel() {
       this.pilot.Level = (this.newLevel as Number) || 0;
+      this.pilot.IsLevelEdit = true;
       this.$emit('close');
     },
   },

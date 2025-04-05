@@ -30,6 +30,18 @@
         <action-card :action="item" :clickable="!expanded" />
       </template>
     </masonry-wall>
+
+    <h1 class="heading" id="downtimeactions">Downtime Actions</h1>
+    <masonry-wall
+      :items="downtimeActions"
+      :column-width="400"
+      :gap="16"
+      :min-columns="1"
+      :max-columns="widescreen ? 3 : 2">
+      <template #default="{ item }">
+        <cc-dense-card :item="item" />
+      </template>
+    </masonry-wall>
   </v-container>
 
   <v-footer border app class="py-0 bg-primary">
@@ -87,6 +99,9 @@ export default {
     },
     pilotActions() {
       return CompendiumStore().Actions.filter((a) => a && a.IsPilotAction);
+    },
+    downtimeActions() {
+      return CompendiumStore().DowntimeActions;
     },
   },
   methods: {

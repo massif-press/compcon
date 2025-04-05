@@ -64,6 +64,7 @@ import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 import { Pilot, Frame, Mech, ItemType } from '@/class';
 import { mechname } from '@/io/Generators';
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 export default {
   name: 'new-mech-menu',
@@ -118,6 +119,7 @@ export default {
       const newMech = new Mech(this.selectedFrame, this.pilot);
       newMech.Name = this.mechName;
       this.pilot.AddMech(newMech);
+      AchievementEventSystem.emit('add_mech');
       this.mechName = '';
       this.selectedFrame = null;
       this.showAll = false;

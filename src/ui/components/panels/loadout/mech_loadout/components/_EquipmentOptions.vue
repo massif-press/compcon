@@ -74,6 +74,8 @@
 </template>
 
 <script lang="ts">
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
+
 export default {
   name: 'equipment-options-menu',
   props: {
@@ -89,6 +91,8 @@ export default {
   },
   methods: {
     save(prop, newName) {
+      AchievementEventSystem.emit('add_equipment_description');
+
       this.item[prop] = newName;
     },
   },

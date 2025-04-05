@@ -14,6 +14,7 @@ import {
 } from '@/class';
 import { IEquipmentData, IMechWeaponSaveData, IMountData } from '@/interface';
 import { ILicenseRequirement } from '@/classes/pilot/components/license/LicensedItem';
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 interface IMechLoadoutData {
   id: string;
@@ -52,6 +53,15 @@ class MechLoadout extends Loadout {
   public saveMechLoadout() {
     this.save();
     this.Parent.SaveController.save();
+  }
+
+  public get FullyEquipped() {
+    if (this.AllActiveMounts(this.Parent).some((x) => !x.Weapons.length)) {
+      return false;
+    }
+    if (this.Parent.FreeSP) return false;
+
+    return true;
   }
 
   public SetAllIntegrated() {
@@ -187,6 +197,7 @@ class MechLoadout extends Loadout {
   public AddSystem(system: MechSystem): void {
     const sys = _.clone(system) as MechSystem;
     this._systems.push(sys);
+    if (this.FullyEquipped) AchievementEventSystem.emit('full_equip');
     this.saveMechLoadout();
   }
 

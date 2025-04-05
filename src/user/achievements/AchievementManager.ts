@@ -1,61 +1,57 @@
-import * as dict from '@/assets/achievementsDict.json';
+import * as dict from './achievementsDict.json';
+import * as eventMap from './eventParameterMap.json';
 import { decrypt } from '@/util/Decode';
-
-enum Rarity {
-  Common = 1,
-  Epic = 2,
-  Legendary = 3,
-  Mythic = 4,
-}
-
-interface AchievementData {
-  id: string;
-  name: string;
-  description: string;
-  rarity: Rarity;
-  type: string;
-  secret: boolean;
-  hidden: boolean;
-}
-
-class Achievement {
-  public readonly ID: string;
-  public readonly Name: string;
-  public readonly Description: string;
-  public readonly Type: string;
-  public readonly Hidden: boolean;
-  public readonly Secret: boolean;
-  public readonly Date: string;
-
-  public constructor(data: AchievementData) {
-    this.ID = data.id;
-    this.Name = data.name;
-    this.Description = data.description;
-    this.Type = data.type;
-    this.Hidden = data.hidden;
-    this.Secret = data.secret;
-    this.Date = '';
-  }
-}
+import { Achievement, AchievementData, AchievementSaveData } from './Achievement';
+import { UserStore } from '../store';
 
 class AchievementManager {
+  public static Instance: AchievementManager;
   private _achievements: Achievement[];
+  private _eventMap: any[] = (eventMap as any).default;
 
   public constructor() {
-    this._achievements = [];
+    this._achievements = (dict as any).default.map((x) => {
+      x.id = decrypt(x.id);
+      x.name = decrypt(x.name);
+      x.description = decrypt(x.description);
+      const userAch = UserStore().User.AchievementUnlocks.find((y) => y.id === x.id);
+      return new Achievement(
+        x as AchievementData,
+        this.getEventType(x.id),
+        userAch as AchievementSaveData
+      );
+    });
+
+    console.log(`Achievements Loaded: ${this._achievements.length}`);
   }
 
-  public static AllAchievements(): Achievement[] {
-    return [];
+  private getEventType(id): string {
+    const event = this._eventMap.find((x) => x.achievement_ids.includes(id));
+    return event?.event || '';
+  }
+
+  public static Instantiate(): void {
+    AchievementManager.Instance = new AchievementManager();
   }
 
   public get Achievements(): Achievement[] {
     return this._achievements;
   }
 
-  public set Achievements(data: Achievement[]) {
-    this._achievements = data;
+  public get UserUnlockedAchievements(): Achievement[] {
+    return this._achievements.filter((x) => x.Unlocked);
+  }
+
+  public UpdateUnlockStatus(ach: Achievement) {
+    const idx = this._achievements.findIndex((x) => x.ID === ach.ID);
+    if (idx > -1) {
+      this._achievements[idx] = ach;
+    }
+  }
+
+  public SaveUserAchievement(ach: AchievementSaveData) {
+    UserStore().User.SaveAchievementUnlock(ach);
   }
 }
 
-export { Achievement, AchievementManager };
+export { AchievementManager };

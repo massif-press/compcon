@@ -68,6 +68,7 @@ class PilotData
 {
   itemType: string = 'pilot';
   id!: string;
+  le: boolean = false;
 
   save!: ISaveData;
   cloud!: ICloudData;
@@ -144,8 +145,11 @@ class Pilot
   private _special_equipment: CompendiumItem[];
   private _mechs: Mech[];
 
+  public IsLevelEdit: boolean = false;
+
   public constructor(data?: PilotData) {
     this._id = data?.id || uuid();
+    this.IsLevelEdit = data?.le || false;
     this.SaveController = new SaveController(this);
     this.CloudController = new CloudController(this);
     this.PortraitController = new PortraitController(this);
@@ -531,6 +535,7 @@ class Pilot
     const data = {
       itemType: 'pilot',
       id: p.ID,
+      le: p.IsLevelEdit,
       level: p.Level,
       callsign: p.Callsign,
       name: p.Name,

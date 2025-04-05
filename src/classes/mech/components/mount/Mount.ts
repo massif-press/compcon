@@ -21,6 +21,10 @@ abstract class Mount {
     this.generateSlots(mountType);
   }
 
+  public get Parent(): MechLoadout {
+    return this._parent;
+  }
+
   protected generateSlots(mountType: MountType): void {
     if (mountType === MountType.Integrated) {
       this.slots = [new WeaponSlot(FittingSize.Integrated, this)];

@@ -1,0 +1,126 @@
+[
+  {
+    "achievement_ids": ["mf6oxu1i1ag3vdz3"],
+    "event": "add_pilot"
+  },
+  {
+    "achievement_ids": ["kt79oh28e2hh0mb1"],
+    "event": "add_pilot"
+  },
+  {
+    "achievement_ids": ["yxh0evkcoyi5qonh"],
+    "event": "add_pilot"
+  },
+  {
+    "achievement_ids": ["mkdgntmj3i5xx34k"],
+    "event": "add_pilot"
+  },
+  {
+    "achievement_ids": ["je7eyrnx3ryti42z"],
+    "event": "add_template_pilot"
+  },
+  {
+    "achievement_ids": ["918gukg9v3b8aszf"],
+    "event": "add_mech"
+  },
+  {
+    "achievement_ids": ["5ge45pmjs03pz8te"],
+    "event": "full_equip"
+  },
+  {
+    "achievement_ids": ["8uf6sin1nykwfmwn"],
+    "event": "levelup_total"
+  },
+  {
+    "achievement_ids": ["39dh54gpzn6x3x8j"],
+    "event": "add_gear_description"
+  },
+  {
+    "achievement_ids": ["c661ei6k16aszv8x"],
+    "event": "add_equipment_description"
+  },
+  {
+    "achievement_ids": ["6f0qk5uk8uhyd5fq"],
+    "event": "gms_core"
+  },
+  {
+    "achievement_ids": ["98n6hedl2gkhipwe"],
+    "event": "gms_core"
+  },
+  {
+    "achievement_ids": ["nwzutuh79ga8f2ey"],
+    "event": "ips-n_core"
+  },
+  {
+    "achievement_ids": ["polu0q5ljavvxiem"],
+    "event": "ips-n_core"
+  },
+  {
+    "achievement_ids": ["vm1ngghd2fjpxtu2"],
+    "event": "ha_core"
+  },
+  {
+    "achievement_ids": ["j5x3am30m98zkazr"],
+    "event": "ha_core"
+  },
+  {
+    "achievement_ids": ["iyi2jvcdpx88hfrn"],
+    "event": "ssc_core"
+  },
+  {
+    "achievement_ids": ["yasn2s43ar1328p0"],
+    "event": "ssc_core"
+  },
+  {
+    "achievement_ids": ["gp0b6jj0m6tiojow"],
+    "event": "horus_core"
+  },
+  {
+    "achievement_ids": ["1pdhsqtnuivwndtg"],
+    "event": "horus_core"
+  },
+  {
+    "achievement_ids": ["7i8el1pgncz2ubjc"],
+    "event": "ll_any_single"
+  },
+  {
+    "achievement_ids": ["ycs5vrftodxqqdaj"],
+    "event": "ll_ips-n_single"
+  },
+  {
+    "achievement_ids": ["ndje8dh3k40fjd67"],
+    "event": "ll_ips-n"
+  },
+  {
+    "achievement_ids": ["ox1fg07orr01sqmy"],
+    "event": "ll_ssc_single"
+  },
+  {
+    "achievement_ids": ["nsdque635dh6ki99"],
+    "event": "ll_ssc"
+  },
+  {
+    "achievement_ids": ["8b86n6u4cwi52jf3"],
+    "event": "ll_horus_single"
+  },
+  {
+    "achievement_ids": ["papalcjeugn172j8"],
+    "event": "ll_horus"
+  },
+  {
+    "achievement_ids": ["nsap15isbr3lp9rm"],
+    "event": "ll_ha_single"
+  },
+  {
+    "achievement_ids": ["mvneiury776ghtui"],
+    "event": "ll_ha"
+  },
+  {
+    "achievement_ids": ["qd2y5oz8jb9h0ggx"],
+    "event": "rank_4_total"
+  },
+  {
+    "achievement_ids": ["lib4b5ifsght5pa1"],
+    "event": "multiclass"
+  }
+]

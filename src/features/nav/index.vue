@@ -208,9 +208,12 @@
               class="mx-1"
               :size="mobile && 'small'"
               icon="cc:achievement_1"
+              :disabled="UserStoreLoading"
               @click="open" />
           </template>
-          <achievements-page />
+          <template #default="{ close }">
+            <achievements-page @close="close()" />
+          </template>
         </cc-modal>
       </template>
       Achievements
@@ -339,6 +342,9 @@ export default {
     },
     standalone(): boolean {
       return window.matchMedia('(display-mode: standalone)').matches;
+    },
+    UserStoreLoading(): boolean {
+      return UserStore().IsLoading;
     },
   },
 };
