@@ -88,7 +88,7 @@ export default {
         case 2:
           return '#4F1C51';
         case 3:
-          return '#E83F25';
+          return '#A31D1D';
         case 4:
           return '#d4af37';
 
