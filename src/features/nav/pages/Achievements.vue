@@ -292,7 +292,13 @@ export default {
     importDialog: false,
     fileValue: null as any,
     search: '',
-    rarityColors: ['blue-accent-4', 'purple-darken-2', 'deep-orange-accent-4', 'red-accent-4'],
+    rarityColors: [
+      'blue-accent-4',
+      'purple-darken-2',
+      'deep-orange-accent-4',
+      '#d4af37',
+      'red-accent-4',
+    ],
   }),
   emits: ['close'],
   mounted() {
