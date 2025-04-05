@@ -289,9 +289,9 @@ export const UserStore = defineStore('cloud', {
         }
         if (
           this.UserMetadata.UserSettingData.achievement_unlocks.length >
-          this.User.Achievements.length
+          this.User.AchievementUnlocks.length
         )
-          this.User.Achievements = this.UserMetadata.UserSettingData.achievement_unlocks;
+          this.User.AchievementUnlocks = this.UserMetadata.UserSettingData.achievement_unlocks;
       }
     },
     async setUserMetadata(): Promise<void> {

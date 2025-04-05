@@ -63,6 +63,7 @@
 </template>
 
 <script lang="ts">
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 import PilotRegistrationCard from '../../PilotSheet/components/PilotRegistrationCard.vue';
 import StepperContent from '../../_components/StepperContent.vue';
 import { Pilot } from '@/classes/pilot/Pilot';
@@ -102,6 +103,10 @@ export default {
       this.pilot.Callsign = this.pilot.Callsign ? this.pilot.Callsign : this.default_callsign;
       this.pilot.Name = this.pilot.Name ? this.pilot.Name : this.default_name;
       store.AddPilot(this.pilot as Pilot, this.groupID);
+
+      if (this.pilot.isTemplate) AchievementEventSystem.emit('add_template_pilot');
+      AchievementEventSystem.emit('add_pilot');
+
       this.$emit('done');
     },
   },

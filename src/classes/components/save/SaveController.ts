@@ -46,8 +46,6 @@ class SaveController {
     if (!silent) {
       this.IsDirty = true;
       this.LastModified = new Date().getTime();
-      console.log('LastModified:', this.LastModified, new Date(this.LastModified).toLocaleString());
-      console.trace();
     }
 
     SetItem(this.Parent.StorageType, this.Parent.Serialize());

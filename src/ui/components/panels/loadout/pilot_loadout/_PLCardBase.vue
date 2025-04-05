@@ -193,6 +193,8 @@
 </template>
 
 <script lang="ts">
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
+
 export default {
   name: 'pl-pilot-card-base',
   props: {
@@ -237,6 +239,8 @@ export default {
     },
     save(prop, newName) {
       this.item[prop] = newName;
+      AchievementEventSystem.emit('add_gear_description');
+
       this.$emit('save');
     },
   },

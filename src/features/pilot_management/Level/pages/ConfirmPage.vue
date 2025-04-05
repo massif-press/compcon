@@ -35,6 +35,7 @@ import { Pilot } from '@/class';
 import { PilotStore } from '@/stores';
 import PilotRegistrationCard from '../../PilotSheet/components/PilotRegistrationCard.vue';
 import StepperContent from '../../_components/StepperContent.vue';
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 export default {
   name: 'confirm-page',
@@ -63,6 +64,13 @@ export default {
     savePilot() {
       const originalIndex = PilotStore().Pilots.findIndex((p) => p.ID === this.pilot.ID);
       PilotStore().SetPilot(originalIndex, this.pilot as Pilot);
+
+      if (this.pilot.Level === 12) {
+        // if (this.pilot.Level === 12 && !this.pilot.IsLevelEdit) {
+        console.log('Level 12 Achievements!');
+        AchievementEventSystem.emit('levelup_total', 12);
+      }
+
       this.$router.push({
         name: 'pilot_sheet_redirect',
         params: { pilotID: this.pilot.ID, callsign: this.pilot.Callsign },

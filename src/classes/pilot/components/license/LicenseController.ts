@@ -5,6 +5,7 @@ import License from './License';
 import { PilotLicense } from './PilotLicense';
 import { CompendiumItem, ItemType, LicensedItem } from '@/class';
 import { CompendiumStore } from '@/stores';
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 interface ILicenseSaveData {
   licenses: IRankedData[];
@@ -81,6 +82,63 @@ class LicenseController {
     } else {
       this._licenses[index].Increment();
     }
+
+    if (!this.Parent.IsLevelEdit) {
+      const index = this._licenses.findIndex((x) => x.License.FrameID === license.FrameID);
+      const source = this._licenses[index].License.Source.toLowerCase();
+      AchievementEventSystem.emit(`ll_${source}`, 1);
+
+      // the following are all per-pilot, so cannot use increments
+      const level = this._licenses[index].Rank;
+      if (level === 3) {
+        AchievementEventSystem.emit('ll_any_single', 3);
+        AchievementEventSystem.emit(`ll_${source}_single`, 3);
+      }
+
+      if (this.Parent.Level === 12 && !this.IsMissingLicenses) {
+        if (!this._licenses.filter((license) => license.Rank === 3).length) {
+          AchievementEventSystem.emit('multiclass');
+        }
+
+        if (this._licenses.filter((license) => license.Rank === 3).length === 4) {
+          console.log('hello');
+          AchievementEventSystem.emit('rank_4_total', 4);
+        }
+
+        console.log(this._licenses.filter((license) => license.Rank === 3).length);
+
+        // collect total license levels by source, for each source:
+        const sourceLevels = this._licenses.reduce(
+          (acc, license) => {
+            const source = license.License.Source.toLowerCase();
+            if (!acc[source]) {
+              acc[source] = 0;
+            }
+            acc[source] += license.Rank;
+            return acc;
+          },
+          {} as Record<string, number>
+        );
+
+        if (Object.keys(sourceLevels).length === 1) {
+          switch (Object.keys(sourceLevels)[0]) {
+            case 'ips-n':
+              AchievementEventSystem.emit('ll_ips-n', 12);
+              break;
+            case 'ssc':
+              AchievementEventSystem.emit('ll_ssc', 12);
+              break;
+            case 'ha':
+              AchievementEventSystem.emit('ll_ha', 12);
+              break;
+            case 'horus':
+              AchievementEventSystem.emit('ll_horus', 12);
+              break;
+          }
+        }
+      }
+    }
+
     this.Parent.SaveController.save();
   }
 

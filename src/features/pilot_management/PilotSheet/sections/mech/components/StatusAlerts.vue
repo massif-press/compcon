@@ -1,6 +1,6 @@
 <template>
-  <v-row v-if="statuses.length" class="pa-4">
-    <v-col v-for="status in statuses" cols="12" md="">
+  <v-row v-if="statuses.length" class="pa-4" dense>
+    <v-col v-for="status in statuses" style="min-width: 20vw">
       <cc-alert :color="status.color" :icon="status.icon" :title="status.title">
         <p v-text="status.text" />
       </cc-alert>

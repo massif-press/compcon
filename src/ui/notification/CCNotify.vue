@@ -10,6 +10,7 @@
         :color="props.item.data.color || 'info'"
         :icon="props.item.data.icon || 'mdi-bell'"
         class="ma-2 pb-2 border-s-lg"
+        :class="props.item.data.achievement ? 'achievement-pulse' : ''"
         style="position: relative"
         tile
         :title="props.item.title"
@@ -47,3 +48,19 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.achievement-pulse {
+  animation: talent-pulse 1.7s infinite;
+  z-index: 2;
+}
+
+@keyframes achievement-pulse {
+  0% {
+    box-shadow: 0 0 0 0px #d4af37;
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+}
+</style>

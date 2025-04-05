@@ -147,6 +147,8 @@ export default {
       });
       this.pilot.AddMech(mech);
 
+      this.pilot.isTemplate = true;
+
       this.$emit('next');
     },
   },

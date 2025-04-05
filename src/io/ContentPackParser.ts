@@ -65,7 +65,6 @@ async function getZipData<T>(zip: JSZip, filename: string): Promise<T[]> {
     readResult = await readZipJSON<T[]>(zip, filename);
   } catch (e) {
     console.error(`Error reading file ${filename} from package, skipping. Error follows:`);
-    console.trace(e);
     readResult = null;
   }
   return readResult || [];

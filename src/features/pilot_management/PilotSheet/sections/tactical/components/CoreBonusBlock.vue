@@ -17,16 +17,11 @@
 
     <v-container class="px-0">
       <no-data-block v-if="!pilot.CoreBonusController.CoreBonuses.length" />
-      <masonry-wall
-        :items="pilot.CoreBonusController.CoreBonuses"
-        :column-width="400"
-        :gap="16"
-        :min-columns="1"
-        :max-columns="widescreen ? 3 : 2">
-        <template #default="{ item }">
-          <cc-core-bonus-item :bonus="item" terse />
-        </template>
-      </masonry-wall>
+
+      <cc-core-bonus-item
+        v-for="item in pilot.CoreBonusController.CoreBonuses"
+        :bonus="item"
+        terse />
     </v-container>
   </div>
 </template>

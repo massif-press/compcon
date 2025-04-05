@@ -71,3 +71,5 @@ compcon.config.globalProperties.$lancerVersion = lancerData.info.version;
 compcon.mount('#app');
 
 await Startup();
+
+export { compcon };

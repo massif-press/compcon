@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 import { WeaponMod } from '@/class';
 import { IWeaponSlotData } from '@/interface';
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 class WeaponSlot {
   private _size: FittingSize;
@@ -34,6 +35,8 @@ class WeaponSlot {
   public EquipWeapon(weapon: MechWeapon, save = true): void {
     const w = _.clone(weapon);
     this._weapon = w;
+    if (this._parent.Parent.FullyEquipped) AchievementEventSystem.emit('full_equip');
+
     if (save) this.save();
   }
 
