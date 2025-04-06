@@ -11,6 +11,7 @@
 <script lang="ts">
 import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
+import { License } from '@/class';
 
 export default {
   name: 'licenses',
@@ -33,10 +34,9 @@ export default {
   }),
   computed: {
     licenses() {
-      return _.orderBy(
-        CompendiumStore().Licenses.filter((x) => !x.Hidden),
-        'Name'
-      );
+      return CompendiumStore()
+        .Licenses.filter((x) => !x.Hidden)
+        .sort((a, b) => License.LicenseSort(a, b));
     },
   },
 };

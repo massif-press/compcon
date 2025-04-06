@@ -126,6 +126,25 @@ class License {
   public static Deserialize(frameId: string): License {
     return new License(CompendiumStore().referenceByID('Frames', frameId));
   }
+
+  public static LicenseSort(a: License, b: License): number {
+    // Define sort group: 0 = not in LCP, 1 = in LCP, 2 = specialty
+    const groupA = a.Specialty ? 2 : a.InLcp ? 1 : 0;
+    const groupB = b.Specialty ? 2 : b.InLcp ? 1 : 0;
+
+    if (groupA !== groupB) return groupA - groupB;
+
+    // Sorting within each group
+    if (groupA === 0) {
+      // Not in LCP, sort by Name
+      return a.Name.localeCompare(b.Name);
+    } else {
+      // In LCP or Specialty, sort by LcpName then Name
+      const lcpCompare = a.LcpName.localeCompare(b.LcpName);
+      if (lcpCompare !== 0) return lcpCompare;
+      return a.Name.localeCompare(b.Name);
+    }
+  }
 }
 
 export default License;

@@ -130,7 +130,9 @@ export default {
     },
     licenses() {
       return _.groupBy(
-        CompendiumStore().Licenses.filter((x) => !x.Hidden),
+        CompendiumStore()
+          .Licenses.filter((x) => !x.Hidden)
+          .sort((a, b) => License.LicenseSort(a, b)),
         'Source'
       );
     },
