@@ -34,7 +34,7 @@ class License {
 
     this.Specialty = !!frame.Specialty;
     if (typeof frame.Specialty !== 'boolean') {
-      this.Prerequisite = frame.Specialty;
+      this.Prerequisite = frame.Specialty || 0;
     }
 
     if (frame.IsVariantFrame) this.Hidden = true;
@@ -128,21 +128,21 @@ class License {
   }
 
   public static LicenseSort(a: License, b: License): number {
-    // Define sort group: 0 = not in LCP, 1 = in LCP, 2 = specialty
     const groupA = a.Specialty ? 2 : a.InLcp ? 1 : 0;
     const groupB = b.Specialty ? 2 : b.InLcp ? 1 : 0;
 
     if (groupA !== groupB) return groupA - groupB;
 
-    // Sorting within each group
     if (groupA === 0) {
-      // Not in LCP, sort by Name
       return a.Name.localeCompare(b.Name);
-    } else {
-      // In LCP or Specialty, sort by LcpName then Name
+    } else if (groupA === 1) {
       const lcpCompare = a.LcpName.localeCompare(b.LcpName);
       if (lcpCompare !== 0) return lcpCompare;
       return a.Name.localeCompare(b.Name);
+    } else {
+      const lcpCompare = a.LcpName.localeCompare(b.LcpName);
+      if (lcpCompare !== 0) return lcpCompare;
+      return (a.Prerequisite?.min_rank || 0) - (b.Prerequisite?.min_rank || 0);
     }
   }
 }
