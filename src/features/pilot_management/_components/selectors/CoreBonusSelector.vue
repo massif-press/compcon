@@ -92,7 +92,6 @@ import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue';
 import { CompendiumStore } from '@/stores';
 import { Pilot, CoreBonus, Manufacturer } from '@/class';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
-import scrollTo from '@/util/scrollTo';
 
 export default {
   name: 'CoreBonusSelector',
@@ -202,6 +201,11 @@ export default {
       );
     },
     isSelectable(b: CoreBonus): boolean {
+      if (b.ID === 'cb_superheavy_mounting' && this.pilot.has('CoreBonus', 'cb_improved_armament'))
+        return false;
+      if (b.ID === 'cb_improved_armament' && this.pilot.has('CoreBonus', 'cb_superheavy_mounting'))
+        return false;
+
       return this.availableCount(b.Source) > 0 && this.pilot.CoreBonusController.IsMissingCBs;
     },
     isSelected(b: CoreBonus): boolean {

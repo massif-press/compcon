@@ -5,20 +5,43 @@ import { IPilotLoadoutData } from './PilotLoadout';
 import { Bonus } from '@/classes/components';
 
 interface IPilotLoadoutSaveData {
-  loadout: IPilotLoadoutData;
+  loadouts?: IPilotLoadoutData[];
+  loadout?: IPilotLoadoutData;
+  active_index?: number;
 }
 
 class PilotLoadoutController implements IFeatureContainer {
   public readonly Parent: Pilot;
-  private _loadout: PilotLoadout;
+  private _loadouts: PilotLoadout[];
+  private _activeIndex: number = 0;
 
   constructor(parent: Pilot) {
     this.Parent = parent;
-    this._loadout = new PilotLoadout(this);
+    this._loadouts = [new PilotLoadout(this)];
+  }
+
+  public get ActiveLoadout(): PilotLoadout {
+    const active = this.Loadouts[this._activeIndex];
+    if (!active) {
+      console.error(
+        `PilotLoadoutController: No active loadout found at index ${this._activeIndex}`
+      );
+      return this.Loadouts[0];
+    }
+    return active;
+  }
+
+  public set ActiveLoadout(loadout: PilotLoadout) {
+    this._activeIndex = this.Loadouts.indexOf(loadout);
+    if (this._activeIndex === -1) {
+      console.error(`PilotLoadoutController: Loadout not found in loadouts`);
+      return;
+    }
+    this.Parent.SaveController.save();
   }
 
   public RemoveBrewable(item: PilotEquipment): void {
-    this.Loadout.Remove(item);
+    this.ActiveLoadout.Remove(item);
     this.Parent.SaveController.save();
   }
 
@@ -35,20 +58,35 @@ class PilotLoadoutController implements IFeatureContainer {
   }
 
   public get FeatureSource(): any[] {
-    return this.Loadout.Items.filter((i) => !!i);
+    return this.ActiveLoadout.Items.filter((i) => !!i);
   }
 
-  public get Loadout(): PilotLoadout {
-    return this._loadout;
+  public get Loadouts(): PilotLoadout[] {
+    return this._loadouts;
   }
 
-  public set Loadout(l: PilotLoadout) {
-    this._loadout = l;
+  public set Loadouts(l: PilotLoadout[]) {
+    console.log('PilotLoadoutController: Loadouts set', l);
+    this._loadouts = l;
+    this.Parent.SaveController.save();
+  }
+
+  public AddLoadout(): void {
+    const newLoadout = new PilotLoadout(this);
+    newLoadout.Name = `Loadout ${this.Loadouts.length + 1}`;
+    this.Loadouts.push(newLoadout);
+    this.Parent.SaveController.save();
+  }
+
+  public RemoveLoadout(index: number): void {
+    if (this.Loadouts.length <= 1) return;
+    this.Loadouts.splice(index, 1);
     this.Parent.SaveController.save();
   }
 
   public static Serialize(parent: Pilot, target: any) {
-    target.loadout = PilotLoadout.Serialize(parent.PilotLoadoutController.Loadout);
+    target.loadouts = parent.PilotLoadoutController.Loadouts.map((x) => PilotLoadout.Serialize(x));
+    target.active_index = parent.PilotLoadoutController._activeIndex;
   }
 
   public static Deserialize(parent: Pilot, data: IPilotLoadoutSaveData) {
@@ -57,9 +95,19 @@ class PilotLoadoutController implements IFeatureContainer {
         `PilotLoadoutController not found on parent (${typeof parent}). New PilotLoadoutControllers must be instantiated in the parent's constructor method.`
       );
 
-    parent.PilotLoadoutController._loadout = data.loadout
-      ? PilotLoadout.Deserialize(data.loadout, parent.PilotLoadoutController)
-      : new PilotLoadout(parent.PilotLoadoutController);
+    if (data.loadouts) {
+      parent.PilotLoadoutController._loadouts = data.loadouts.map((x) =>
+        PilotLoadout.Deserialize(x, parent.PilotLoadoutController)
+      );
+    } else if (data.loadout) {
+      parent.PilotLoadoutController._loadouts = [
+        PilotLoadout.Deserialize(data.loadout, parent.PilotLoadoutController),
+      ];
+    } else {
+      parent.PilotLoadoutController._loadouts = [new PilotLoadout(parent.PilotLoadoutController)];
+    }
+
+    parent.PilotLoadoutController._activeIndex = data.active_index || 0;
   }
 }
 
