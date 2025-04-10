@@ -3,6 +3,7 @@ import { PilotLoadoutController } from './PilotLoadoutController';
 import { IEquipmentData } from '@/interface';
 
 declare interface IPilotLoadoutData {
+  name: string;
   armor: IEquipmentData[];
   weapons: IEquipmentData[];
   gear: IEquipmentData[];
@@ -10,6 +11,8 @@ declare interface IPilotLoadoutData {
 
 class PilotLoadout {
   public readonly Parent: PilotLoadoutController;
+
+  private _name: string = 'Default Loadout';
 
   private _armor: PilotArmor[];
   private _gear: PilotGear[];
@@ -20,6 +23,14 @@ class PilotLoadout {
     this._gear = [];
     this._weapons = [];
     this.Parent = parent;
+  }
+
+  public get Name(): string {
+    return this._name;
+  }
+  public set Name(name: string) {
+    this._name = name;
+    this.Parent.Parent.SaveController.save();
   }
 
   public get Armor(): PilotArmor[] {
@@ -103,6 +114,7 @@ class PilotLoadout {
 
   public static Serialize(pl: PilotLoadout): IPilotLoadoutData {
     return {
+      name: pl.Name,
       armor: pl.Armor.map((x) => PilotEquipment.Serialize(x)) as IEquipmentData[],
       weapons: pl.Weapons.map((x) => PilotEquipment.Serialize(x)) as IEquipmentData[],
       gear: pl.Gear.map((x) => PilotEquipment.Serialize(x)) as IEquipmentData[],
@@ -114,6 +126,7 @@ class PilotLoadout {
     parent: PilotLoadoutController
   ): PilotLoadout {
     const loadout = new PilotLoadout(parent);
+    loadout._name = loadoutData.name;
     loadout._armor = loadoutData.armor.map((x) => PilotEquipment.Deserialize(x) as PilotArmor);
     loadout._weapons = loadoutData.weapons.map((x) => PilotEquipment.Deserialize(x) as PilotWeapon);
     loadout._gear = loadoutData.gear.map((x) => PilotEquipment.Deserialize(x) as PilotGear);

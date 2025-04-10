@@ -5,7 +5,7 @@
     block
     :color="isSelected ? 'error' : 'secondary'"
     class="mb-6"
-    :disabled="!isSelected && !isSelectable"
+    :disabled="!isSelectable || (!isSelected && !isSelectable)"
     @click="$emit(isSelected ? 'remove' : 'add', bonus)">
     <span>
       <span v-if="isSelected">

@@ -54,7 +54,7 @@ class Statblock {
         )}`;
       }
 
-      const loadout = pilot.PilotLoadoutController.Loadout;
+      const loadout = pilot.PilotLoadoutController.ActiveLoadout;
       if (loadout) {
         output += '[ GEAR ]\n  ';
         for (let i = 0; i < loadout.Items.length; i++) {

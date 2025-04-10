@@ -1,31 +1,41 @@
 <template>
-  <div :class="mobile ? 'px-2' : 'px-10'" class="mt-3">
-    <v-row :dense="mobile">
-      <pilot-armor-card
-        v-for="i in controller.MaxArmorSlots"
-        :item="controller.Loadout.Armor[i - 1]"
-        :readonly="readonly"
-        :pilot="pilot"
-        @equip="controller.Loadout.Add($event, i - 1)"
-        @remove="controller.Loadout.Remove($event)"
-        @save="pilot.SaveController.save()" />
-      <pilot-weapon-card
-        v-for="i in controller.MaxWeaponSlots"
-        :item="controller.Loadout.Weapons[i - 1]"
-        :readonly="readonly"
-        :pilot="pilot"
-        @equip="controller.Loadout.Add($event, i - 1)"
-        @remove="controller.Loadout.Remove($event)"
-        @save="pilot.SaveController.save()" />
-      <pilot-gear-card
-        v-for="i in controller.MaxGearSlots"
-        :item="controller.Loadout.Gear[i - 1]"
-        :readonly="readonly"
-        :pilot="pilot"
-        @equip="controller.Loadout.Add($event, i - 1)"
-        @remove="controller.Loadout.Remove($event)"
-        @save="pilot.SaveController.save()" />
-    </v-row>
+  <div :class="mobile ? 'px-2' : 'px-6'" class="mt-3">
+    <cc-loadout-panel
+      :loadouts="controller.Loadouts"
+      :active-loadout="controller.ActiveLoadout"
+      color="primary"
+      :readonly="readonly"
+      @set-active="controller.ActiveLoadout = $event"
+      @add-loadout="controller.AddLoadout()"
+      @clone-loadout="controller.CloneLoadout()"
+      @remove-loadout="controller.RemoveLoadout()">
+      <v-row :dense="mobile">
+        <pilot-armor-card
+          v-for="i in controller.MaxArmorSlots"
+          :item="controller.ActiveLoadout.Armor[i - 1]"
+          :readonly="readonly"
+          :pilot="pilot"
+          @equip="controller.ActiveLoadout.Add($event, i - 1)"
+          @remove="controller.ActiveLoadout.Remove($event)"
+          @save="pilot.SaveController.save()" />
+        <pilot-weapon-card
+          v-for="i in controller.MaxWeaponSlots"
+          :item="controller.ActiveLoadout.Weapons[i - 1]"
+          :readonly="readonly"
+          :pilot="pilot"
+          @equip="controller.ActiveLoadout.Add($event, i - 1)"
+          @remove="controller.ActiveLoadout.Remove($event)"
+          @save="pilot.SaveController.save()" />
+        <pilot-gear-card
+          v-for="i in controller.MaxGearSlots"
+          :item="controller.ActiveLoadout.Gear[i - 1]"
+          :readonly="readonly"
+          :pilot="pilot"
+          @equip="controller.ActiveLoadout.Add($event, i - 1)"
+          @remove="controller.ActiveLoadout.Remove($event)"
+          @save="pilot.SaveController.save()" />
+      </v-row>
+    </cc-loadout-panel>
   </div>
 </template>
 

@@ -272,7 +272,7 @@ class Pilot
   // -- Passthroughs ----------------------------------------------------------------------
 
   public get Loadout(): PilotLoadout {
-    return this.PilotLoadoutController.Loadout;
+    return this.PilotLoadoutController.ActiveLoadout;
   }
 
   public get Portrait(): string {
@@ -286,7 +286,8 @@ class Pilot
   public get BrewableCollection(): CompendiumItem[] {
     return [
       ...this.Mechs.flatMap((m) => m.BrewableItems),
-      this.PilotLoadoutController.Loadout.Items,
+      this.PilotLoadoutController.Loadouts.flatMap((l) => l.Items),
+      ,
       this.BondController.Bond,
     ] as CompendiumItem[];
   }
