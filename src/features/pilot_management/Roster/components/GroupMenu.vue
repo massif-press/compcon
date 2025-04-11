@@ -78,10 +78,9 @@
                     </template>
                     <template #default="{ close }">
                       <v-card-text>
-                        <quill-editor
-                          theme="snow"
-                          v-model:content="group.Description"
-                          content-type="html" />
+                        <cc-text-editor-inline
+                          :original="group.Description"
+                          @save="group.Description = $event" />
                         <div class="text-right mt-3">
                           <cc-button color="primary" size="small" @click="close">
                             Save and Close
@@ -124,10 +123,9 @@
                     </template>
                     <template #default="{ close }">
                       <v-card-text>
-                        <quill-editor
-                          theme="snow"
-                          v-model:content="group.History"
-                          content-type="html" />
+                        <cc-text-editor-inline
+                          :original="group.History"
+                          @save="group.History = $event" />
                         <div class="text-right mt-3">
                           <cc-button color="primary" size="small" @click="close">
                             Save and Close

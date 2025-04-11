@@ -1,8 +1,10 @@
 <template>
-  <quill-editor theme="snow" v-model:content="text" content-type="html" />
+  <quill-editor :options="editorOptions" theme="snow" v-model:content="text" content-type="html" />
 </template>
 
 <script lang="ts">
+import { options } from '@/ui/style/quillSetup';
+
 export default {
   name: 'cc-text-editor',
   emits: ['save'],
@@ -23,6 +25,11 @@ export default {
   watch: {
     text(value) {
       this.$emit('save', value);
+    },
+  },
+  computed: {
+    editorOptions() {
+      return options;
     },
   },
 };

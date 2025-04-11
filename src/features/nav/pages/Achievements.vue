@@ -151,7 +151,9 @@
           </template>
         </v-select>
       </v-col>
-      <v-col cols="12">
+    </v-row>
+    <v-row align="end">
+      <v-col cols="12" md="8">
         <div class="text-cc-overline ml-n2">SORT:</div>
         <v-btn color="primary" size="x-small" flat tile @click="sort = 'none'">None</v-btn>
         <v-btn
@@ -187,6 +189,16 @@
             variant="outlined"
             icon="mdi-magnify" />
         </div>
+      </v-col>
+      <v-col cols="12" md="4">
+        <cc-text-field
+          v-model="addCode"
+          :loading="achLoading"
+          color="exotic"
+          variant="outlined"
+          append-inner-icon="mdi-plus"
+          @click-append-inner="addAchievement()"
+          icon="mdi-barcode-scan" />
       </v-col>
     </v-row>
     <v-container class="pt-1" :class="mobile && 'px-0'">
@@ -275,6 +287,7 @@ import AchievementItem from './_components/AchievementItem.vue';
 
 import { UserStore } from '@/stores';
 import { AchievementManager } from '@/user/achievements/AchievementManager';
+import { GetAchievement } from '@/io/apis/account';
 
 export default {
   name: 'AchievementsViewer',
@@ -299,6 +312,8 @@ export default {
       '#d4af37',
       'red-accent-4',
     ],
+    addCode: '',
+    achLoading: false,
   }),
   emits: ['close'],
   mounted() {
@@ -431,6 +446,24 @@ export default {
         await UserStore().setUserMetadata();
       }
       window.location.reload();
+    },
+    async addAchievement() {
+      this.achLoading = true;
+      if (!this.addCode) return;
+      try {
+        const code = this.addCode.trim().toUpperCase();
+        const res = await GetAchievement(code);
+        const alreadyUnlocked = AchievementManager.Instance.Unlock(res);
+        if (alreadyUnlocked) throw new Error('Already Unlocked');
+      } catch (e) {
+        console.error(e);
+        this.$notify({
+          title: `Cannot Add Achievement`,
+          text: `Code Invalid or already unlocked`,
+          data: { icon: 'mdi-star-off', color: 'error' },
+        });
+      }
+      this.achLoading = false;
     },
   },
 };

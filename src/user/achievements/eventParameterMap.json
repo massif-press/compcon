@@ -122,5 +122,9 @@
   {
     "achievement_ids": ["lib4b5ifsght5pa1"],
     "event": "multiclass"
+  },
+  {
+    "achievement_ids": ["a1d5w8g77e4d5yui"],
+    "event": "external"
   }
 ]

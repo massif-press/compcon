@@ -288,7 +288,6 @@
 
 <script lang="ts">
 import { CompendiumStore, EncounterStore, UserStore } from '@/stores';
-import NoteEditor from '../../_components/NoteEditor.vue';
 import SectionEditor from '../../_components/SectionEditor.vue';
 import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue';
 import GmFolderEditor from '../../_components/_subcomponents/GMFolderEditor.vue';
@@ -306,7 +305,6 @@ export default {
   name: 'gm-encounter-editor',
   components: {
     SectionEditor,
-    NoteEditor,
     GmLabelEditor,
     GmFolderEditor,
     MapEditor,

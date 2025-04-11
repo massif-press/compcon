@@ -85,7 +85,6 @@ class Achievement {
   }
 
   update(amount: number) {
-    console.log(amount, this.Unlocked);
     if (this.Unlocked) return;
     this.Progress += amount;
     if (this.Progress >= this.Goal) {
@@ -95,6 +94,7 @@ class Achievement {
   }
 
   unlock() {
+    if (this.Unlocked) return;
     console.log(`Achievement Unlocked: ${this.Name}`);
     compcon.config.globalProperties.$notify({
       title: 'Achievement Unlocked!',

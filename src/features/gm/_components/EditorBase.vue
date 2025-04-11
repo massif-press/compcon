@@ -76,7 +76,6 @@
 </template>
 
 <script lang="ts">
-import NoteEditor from './NoteEditor.vue';
 import SectionEditor from './SectionEditor.vue';
 import GmLabelEditor from './_subcomponents/GMLabelEditor.vue';
 import GmFolderEditor from './_subcomponents/GMFolderEditor.vue';
@@ -88,7 +87,6 @@ export default {
   name: 'gm-editor-base',
   components: {
     SectionEditor,
-    NoteEditor,
     GmLabelEditor,
     GmFolderEditor,
     EditorFooter,

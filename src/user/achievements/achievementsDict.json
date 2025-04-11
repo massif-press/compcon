@@ -401,5 +401,18 @@
     "hidden": true,
     "secret": false,
     "labels": ["Pilot"]
+  },
+  {
+    "id": "%06D%09W%18%5C%08PP%10Y%06Z%1D%1A%0E",
+    "name": "%24%1A%00%0F%1CD%20%09%0B%1C%03%07",
+    "description": "5%10%0C%06O%05O%03%02%03%01%0D%08",
+    "rarity": 2,
+    "event": "external",
+    "icon": "cc:gms",
+    "author": "Beeftime",
+    "goal": "1",
+    "hidden": true,
+    "secret": false,
+    "labels": ["Other"]
   }
 ]

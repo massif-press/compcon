@@ -1,6 +1,7 @@
 <template>
   <v-card
     v-show="!item.Secret || item.Unlocked"
+    :key="item.Unlocked"
     :color="getColor"
     flat
     tile

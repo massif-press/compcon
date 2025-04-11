@@ -100,11 +100,8 @@
 </template>
 
 <script lang="ts">
-import NoteEditor from './NoteEditor.vue';
-
 export default {
   name: 'campaign-item-textItem-editor',
-  components: { NoteEditor },
   props: {
     item: { type: Object, required: true },
     readonly: { type: Boolean, default: false },

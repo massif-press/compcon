@@ -19,6 +19,8 @@
 </template>
 
 <script lang="ts">
+import { options } from '@/ui/style/quillSetup';
+
 export default {
   name: 'cc-rich-text-area',
   props: {
@@ -32,30 +34,16 @@ export default {
   },
   data: () => ({
     quill: null as any,
-    editorOptions: {
-      modules: {
-        toolbar: {
-          container: [
-            [{ size: ['small', false, 'large', 'huge'] }],
-            ['bold'],
-            ['italic'],
-            ['underline'],
-            ['strike'],
-            [{ color: [] }],
-            [{ background: [] }],
-            [{ font: [] }],
-            [{ align: [] }],
-            // ['horusCode'],
-            ['clean'],
-          ],
-        },
-      },
-    },
   }),
   methods: {
     set(e) {
       if (!this.quill) return;
       this.$emit('update:modelValue', this.quill.root.innerHTML);
+    },
+  },
+  computed: {
+    editorOptions() {
+      return options;
     },
   },
 };

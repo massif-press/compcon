@@ -52,6 +52,14 @@ class AchievementManager {
   public SaveUserAchievement(ach: AchievementSaveData) {
     UserStore().User.SaveAchievementUnlock(ach);
   }
+
+  public Unlock(id: string) {
+    const ach = this._achievements.find((x) => x.ID === id);
+    if (ach) {
+      if (ach.Unlocked) return true;
+      else ach.update(1);
+    }
+  }
 }
 
 export { AchievementManager };
