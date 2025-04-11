@@ -234,12 +234,11 @@ import { PilotStore } from '@/stores';
 import StepperContent from '../../_components/StepperContent.vue';
 import BackgroundSelector from '../../_components/selectors/BackgroundSelector.vue';
 import { name, callsign } from '@/io/Generators';
-import { CCTextEditor } from '@/ui/globals';
 import { Pilot } from '@/class';
 
 export default {
   name: 'identification-page',
-  components: { CCTextEditor, StepperContent, BackgroundSelector },
+  components: { StepperContent, BackgroundSelector },
   props: {
     pilot: {
       type: Object,

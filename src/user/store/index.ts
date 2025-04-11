@@ -261,7 +261,7 @@ export const UserStore = defineStore('cloud', {
         await fetchAuthSession();
         this.IsLoggedIn = true;
       } catch (e) {
-        console.error(e);
+        console.warn('User not logged in or cannot autologin');
         this.IsLoggedIn = false;
       }
     },
@@ -298,6 +298,7 @@ export const UserStore = defineStore('cloud', {
       this.User.save();
       const userSettings = await Client.getLocalProfile();
       const payload = {
+        username: this.UserMetadata.Username,
         collection_subscription_settings: this.UserMetadata.CollectionSubscriptionSettings,
         remote_items: [...new Set(this.UserMetadata.RemoteItems)],
         sync_settings: this.UserMetadata.SyncSettings,

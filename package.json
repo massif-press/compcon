@@ -12,7 +12,7 @@
     "@kyvg/vue3-notification": "3.4.1",
     "@massif/lancer-data": "4.0.0-beta.2",
     "@mdi/font": "7.4.47",
-    "@vueup/vue-quill": "1.2.0",
+    "@vueup/vue-quill": "^1.2.0",
     "@yeger/vue-masonry-wall": "^5.0.18",
     "aws-amplify": "6.8.0",
     "axios": "1.7.7",
@@ -49,5 +49,8 @@
     "vite": "5.4.10",
     "vite-plugin-pwa": "^0.21.1",
     "vue-tsc": "2.1.10"
+  },
+  "resolutions": {
+    "quill": "^2.0.2"
   }
 }

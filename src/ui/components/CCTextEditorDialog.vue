@@ -6,12 +6,18 @@
     :max-width="width"
     shrink>
     <v-card-text class="px-0">
-      <quill-editor theme="snow" v-model:content="text" content-type="html" />
+      <quill-editor
+        :options="editorOptions"
+        theme="snow"
+        v-model:content="text"
+        content-type="html" />
     </v-card-text>
   </cc-solo-modal>
 </template>
 
 <script lang="ts">
+import { options } from '@/ui/style/quillSetup';
+
 export default {
   name: 'cc-text-editor',
   emits: ['save', 'update:modelValue'],
@@ -56,6 +62,9 @@ export default {
       set(value) {
         this.$emit('update:modelValue', value);
       },
+    },
+    editorOptions() {
+      return options;
     },
   },
 };

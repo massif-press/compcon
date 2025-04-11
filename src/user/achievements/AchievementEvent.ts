@@ -11,8 +11,6 @@ class AchievementEventSystem {
 
   static emit(eventType: string, event?: any) {
     if (this.observers[eventType]) {
-      console.log(`Event emitted: ${eventType}`, event);
-      console.log(`Observers: ${this.observers[eventType]}`);
       this.observers[eventType].forEach((callback) => callback(event));
     }
   }

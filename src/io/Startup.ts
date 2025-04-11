@@ -10,9 +10,8 @@ import {
 } from '@/stores';
 import { collectionDataQuery, getLcpPresigned } from '@/user/api';
 
-import { Initialize, SetItem, GetItem, RemoveItem } from './Storage';
+import { Initialize } from './Storage';
 import { AchievementManager } from '@/user/achievements/AchievementManager';
-import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 export default async function (skipSync = false): Promise<void> {
   UserStore().IsLoading = true;

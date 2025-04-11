@@ -85,12 +85,14 @@
 
         <v-row dense align="center">
           <v-col>
-            <cc-text-field
-              v-model="meta.Username"
-              :loading="nameLoading"
-              color="primary"
-              autocomplete="one-time-code"
-              @update:model-value="nameDirty = true" />
+            <form autocomplete="off">
+              <cc-text-field
+                v-model="meta.Username"
+                :loading="nameLoading"
+                color="primary"
+                autocomplete="one-time-code"
+                @update:model-value="nameDirty = true" />
+            </form>
           </v-col>
           <v-col cols="auto">
             <cc-button
@@ -164,6 +166,88 @@
       </v-col>
     </v-row>
 
+    <cc-heading small line>Change Account E-Mail</cc-heading>
+    <v-row dense align="center">
+      <v-col cols="12" md="">
+        <cc-text-field v-model="newEmail" label="New E-Mail" color="primary" variant="outlined" />
+      </v-col>
+      <v-col cols="12" md="">
+        <cc-text-field
+          v-model="newEmailConfirm"
+          label="Confirm New E-Mail"
+          color="primary"
+          variant="outlined" />
+      </v-col>
+      <v-col cols="auto">
+        <div class="text-right">
+          <cc-modal title="Change Account E-Mail" shrink max-width="50vw">
+            <template #activator="{ open }">
+              <cc-button
+                color="accent"
+                :disabled="!newEmail || newEmail !== newEmailConfirm"
+                :loading="loading"
+                @click="sendVerify(open)">
+                Submit
+              </cc-button>
+            </template>
+            <template #default="{ close }">
+              <div v-if="sendingVerify" class="text-center py-4">
+                <v-progress-circular indeterminate size="80" class="my-2" />
+                <div class="text-cc-overline">working...</div>
+              </div>
+              <div v-else>
+                <p class="mb-3">
+                  A verification e-mail has been sent to {{ newEmail }}. Please check your inbox and
+                  enter the verification code below to finalize your changes.
+                </p>
+                <cc-text-field
+                  v-model="verifyCode"
+                  label="Verification Code"
+                  color="primary"
+                  variant="outlined"
+                  autocomplete="one-time-code" />
+              </div>
+              <v-row class="my-3">
+                <v-col>
+                  <cc-button
+                    color="primary"
+                    block
+                    size="small"
+                    :disabled="!verifyCode"
+                    :loading="loading"
+                    @click="close">
+                    Cancel
+                  </cc-button>
+                </v-col>
+                <v-col>
+                  <cc-button
+                    color="primary"
+                    block
+                    size="small"
+                    :disabled="!verifyCode"
+                    :loading="loading"
+                    @click="resetEmail(close)">
+                    Reset
+                  </cc-button>
+                </v-col>
+                <v-col>
+                  <cc-button
+                    color="success"
+                    block
+                    size="small"
+                    :disabled="!verifyCode"
+                    :loading="loading"
+                    @click="completeVerify">
+                    Confirm
+                  </cc-button>
+                </v-col>
+              </v-row>
+            </template>
+          </cc-modal>
+        </div>
+      </v-col>
+    </v-row>
+
     <cc-button block color="secondary" :loading="loading" @click="ccSignOut" class="my-12">
       Sign Out
       <template #info>
@@ -190,7 +274,12 @@
 import { UserStore } from '@/stores';
 import _ from 'lodash';
 import { updateUser } from '@/io/apis/account';
-import { signOut, updatePassword } from 'aws-amplify/auth';
+import {
+  signOut,
+  updatePassword,
+  confirmUserAttribute,
+  updateUserAttributes,
+} from 'aws-amplify/auth';
 import DeleteAccount from './_components/deleteAccount.vue';
 import PatreonCard from './_components/patreonCard.vue';
 import ItchCard from './_components/itchCard.vue';
@@ -212,6 +301,10 @@ export default {
     showOld: false,
     newPass: '',
     showNew: false,
+    newEmail: '',
+    newEmailConfirm: '',
+    sendingVerify: false,
+    verifyCode: '',
     rules: {
       passLength: (v) => (v && v.length >= 6) || 'Minimum 6 characters',
     },
@@ -279,6 +372,25 @@ export default {
 
       this.loading = false;
     },
+    async sendVerify(open) {
+      open();
+      this.sendingVerify = true;
+      try {
+        await updateUserAttributes({ userAttributes: { email: this.newEmail } });
+        this.$notify({
+          title: 'Verification e-mail sent',
+          text: 'Please check your inbox for the verification code',
+          data: { color: 'success' },
+        });
+      } catch (err) {
+        this.$notify({
+          title: 'Failed to initiate email change',
+          text: 'The server returned an error',
+          data: { color: 'error' },
+        });
+      }
+      this.sendingVerify = false;
+    },
     ccSignOut() {
       signOut()
         .then(() => {
@@ -315,6 +427,41 @@ export default {
 
       this.nameLoading = false;
       this.nameDirty = false;
+    },
+    async completeVerify() {
+      this.loading = true;
+      try {
+        await confirmUserAttribute({
+          userAttributeKey: 'email',
+          confirmationCode: this.verifyCode,
+        });
+        this.$notify({
+          title: 'E-mail change complete',
+          text: 'Your e-mail address has been changed',
+          data: { color: 'success' },
+        });
+      } catch (err) {
+        console.error('Failed to initiate email change:', err);
+        this.$notify({
+          title: 'E-mail change failed',
+          text: 'The server returned an error',
+          data: { color: 'error' },
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
+    resetEmail(close) {
+      close();
+      this.sendingVerify = false;
+      this.verifyCode = '';
+      this.newEmail = '';
+      this.newEmailConfirm = '';
+      this.$notify({
+        title: 'E-mail change cancelled',
+        text: 'The e-mail change has been cancelled',
+        data: { color: 'info' },
+      });
     },
   },
 };

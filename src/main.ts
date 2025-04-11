@@ -1,13 +1,20 @@
 import { version } from '../package.json';
-import { QuillEditor } from '@vueup/vue-quill';
+
+import { QuillEditor, Quill } from '@vueup/vue-quill';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+import '@/ui/style/horusText.js';
+
+import { register } from '@/ui/style/quillSetup';
+register(Quill);
+
 import lancerData from '@massif/lancer-data';
 import _ from 'lodash';
-import { createApp, computed } from 'vue';
+import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 
 import './assets/css/global.css';
 import './ui/style/_style.css';
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import MasonryWall from '@yeger/vue-masonry-wall';
 
 import App from './App.vue';

@@ -182,3 +182,21 @@ export async function GetFromCode(codes: string | string[]) {
 
   return data;
 }
+
+export async function GetAchievement(code: string) {
+  const url = new URL(`${invoke}/achievement`);
+  url.searchParams.append('code', code);
+
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+}
