@@ -3,7 +3,7 @@
   "private": true,
   "version": "3.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "set NODE_ENV=development && vite",
     "build": "vue-tsc && vite build",
     "build-nocheck": "vite build",
     "preview": "vite preview"

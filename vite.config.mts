@@ -5,8 +5,14 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    hmr: {
+      overlay: true,
+    },
+  },
   plugins: [
     VitePWA({
+      disable: process.env.NODE_ENV === 'development',
       registerType: 'autoUpdate',
       manifest: {
         name: 'COMP/CON',
