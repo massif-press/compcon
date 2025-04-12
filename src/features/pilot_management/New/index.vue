@@ -60,6 +60,7 @@ import ConfirmPage from './pages/ConfirmPage.vue';
 import TemplatesPage from './pages/TemplatesPage.vue';
 import { Pilot } from '@/class';
 import CcConfirm from '@/ui/notification/CCConfirm.vue';
+import logger from '@/user/logger';
 
 export default {
   name: 'new-pilot-wizard',
@@ -115,7 +116,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(error);
+          logger.error(`Error in confirm dialog: ${error}`, this);
           next(false);
         });
     }

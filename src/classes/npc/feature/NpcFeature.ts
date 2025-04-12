@@ -8,6 +8,7 @@ import { Deployable, IDeployableData } from '@/classes/components/feature/deploy
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
 import Compendium from '@/assets/icons/svg/compendium.vue';
 import { BrewInfo } from '@/classes/components/brew/BrewController';
+import logger from '@/user/logger';
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -109,7 +110,7 @@ abstract class NpcFeature extends CompendiumItem {
       try {
         return CompendiumStore().referenceByID('NpcTemplates', this._originID) as NpcTemplate;
       } catch (e) {
-        console.error(`Feature ${this._name} has no valid origin data!`);
+        logger.error(`Feature ${this._name} has no valid origin data!`, this);
         return { ID: 'err' };
       }
     }

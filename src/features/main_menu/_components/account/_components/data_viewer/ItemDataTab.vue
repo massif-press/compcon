@@ -401,6 +401,7 @@ import { UserStore } from '@/stores';
 import DiffViewer from './diffViewer.vue';
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController';
 import { cloudDelete, downloadFromS3 } from '@/io/apis/account';
+import logger from '@/user/logger';
 
 export default {
   name: 'cloud-item-data-tab',
@@ -570,7 +571,7 @@ export default {
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         });
       } catch (err) {
-        console.error(err);
+        logger.error(`Error syncing to local: ${err}`, this);
         this.$notify({
           title: `Sync Failed`,
           text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
@@ -588,7 +589,7 @@ export default {
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         });
       } catch (err) {
-        console.error(err);
+        logger.error(`Error syncing to cloud: ${err}`, this);
         this.$notify({
           title: `Sync Failed`,
           text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
@@ -623,7 +624,6 @@ export default {
       this.deleteLoading = true;
       try {
         await CloudController.MarkCloudDeleted(item.CloudController.Metadata);
-        console.log('delete', item);
         this.$notify({
           title: `Item Deleted`,
           text: `Marked ${item.ItemType} ${item.Name} as deleted.`,
@@ -632,7 +632,7 @@ export default {
         this.deleteLoading = false;
         return true;
       } catch (err) {
-        console.error(err);
+        logger.error(`Error deleting item: ${err}`, this);
         this.$notify({
           title: `Delete Failed`,
           text: `Unable to communicate with server. ${err}`,
@@ -653,7 +653,7 @@ export default {
         this.deleteLoading = false;
         return true;
       } catch (err) {
-        console.error(err);
+        logger.error(`Error restoring item: ${err}`, this);
         this.$notify({
           title: `Restore Failed`,
           text: `Unable to communicate with server. ${err}`,
@@ -678,7 +678,7 @@ export default {
         this.deleteLoading = false;
         return true;
       } catch (err) {
-        console.error(err);
+        logger.error(`Error deleting item: ${err}`, this);
         this.$notify({
           title: `Deletion Failed`,
           text: `Unable to communicate with server. ${err}`,

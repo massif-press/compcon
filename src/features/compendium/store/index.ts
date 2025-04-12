@@ -36,6 +36,7 @@ import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer';
 import { IndexItem, UserStore } from '@/stores';
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
 import { BondPower } from '@/classes/pilot/components/bond/Bond';
+import logger from '@/user/logger';
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -344,8 +345,8 @@ export const CompendiumStore = defineStore('compendium', {
   actions: {
     async saveUserData(): Promise<void> {
       Promise.all([this.ContentPacks.map((y) => SetItem('content', y.Serialize()))])
-        .then(() => console.info('LCP data saved'))
-        .catch((err) => console.error('Error while saving LCP data', err));
+        .then(() => logger.info('LCP data saved'))
+        .catch((err) => logger.error('Error while saving LCP data', err));
     },
     async saveContentCollection(collection: ContentCollection): Promise<void> {
       const index = this.ContentCollections.findIndex((x) => x.ID === collection.ID);
@@ -378,8 +379,9 @@ export const CompendiumStore = defineStore('compendium', {
     },
     async installContentPack(packData: IContentPack): Promise<void> {
       if (this.packAlreadyInstalled(packData.id)) {
-        console.info(
-          `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`
+        logger.info(
+          `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`,
+          this
         );
         await this.deleteContentPack(packData.id);
       }
@@ -420,7 +422,7 @@ export const CompendiumStore = defineStore('compendium', {
         //   feature.SetOrigin();
         // });
       } catch (err) {
-        console.error(err);
+        logger.error(`Error loading content packs: ${err}`, this);
       }
     },
     async refreshExtraContent(): Promise<void> {

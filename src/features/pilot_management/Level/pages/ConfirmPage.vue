@@ -67,7 +67,6 @@ export default {
 
       if (this.pilot.Level === 12) {
         // if (this.pilot.Level === 12 && !this.pilot.IsLevelEdit) {
-        console.log('Level 12 Achievements!');
         AchievementEventSystem.emit('levelup_total', 12);
       }
 

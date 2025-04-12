@@ -177,6 +177,7 @@ import { ContentPack, IContentPack } from '@/classes/ContentPack';
 
 import { compare, coerce } from 'semver';
 import { set } from 'lodash';
+import logger from '@/user/logger';
 
 export default {
   name: 'PackInstall',
@@ -236,7 +237,7 @@ export default {
         const pack = await parseContentPack(fileData as string);
         this.contentPacks.push(pack);
       } catch (error) {
-        console.error('Error reading the file:', error);
+        logger.error(`Error reading file: ${error}`, this);
       }
     },
     readAsBinaryStringAsync(file) {
@@ -257,7 +258,10 @@ export default {
           contentPack.active = true;
           promises.push(CompendiumStore().installContentPack(contentPack));
         } else {
-          console.warn(`Skipping ${contentPack.manifest.name} due to uninstalled dependencies.`);
+          logger.warn(
+            `Skipping ${contentPack.manifest.name} due to uninstalled dependencies.`,
+            this
+          );
         }
       });
       await Promise.all(promises);

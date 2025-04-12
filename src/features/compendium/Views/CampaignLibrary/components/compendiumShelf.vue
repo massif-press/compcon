@@ -102,6 +102,7 @@ import { CampaignStore } from '@/stores';
 import _ from 'lodash';
 import CampaignDetailPanel from './CampaignDetailPanel.vue';
 import { downloadFromS3, GetFromCode } from '@/io/apis/account';
+import logger from '@/user/logger';
 
 export default {
   name: 'campaign-library-compendium',
@@ -164,7 +165,6 @@ export default {
         if (!code) throw new Error('No share code found');
         const queryResult = await GetFromCode(code);
         const campaign = await downloadFromS3(queryResult.uri);
-        console.log(queryResult, campaign);
         CampaignStore().AddCollectionCampaign(campaign);
         this.selected = campaign;
         this.$notify({
@@ -173,7 +173,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (err) {
-        console.error(err);
+        logger.error(`Error updating campaign: ${err}`, this);
         this.$notify({
           title: 'Error',
           text: 'Failed to update campaign',

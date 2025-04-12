@@ -2,6 +2,7 @@ import { CompendiumItem, ContentPack, ItemType } from '@/class';
 import { CompendiumStore } from '@/stores';
 import { ActivationType } from './enums';
 import { IContentPack, ITagData } from '@/interface';
+import logger from '@/user/logger';
 
 export interface ITagCompendiumData {
   id: string;
@@ -223,7 +224,7 @@ class Tag {
         if (!packTags) throw new Error(`LCP data not provided for tag id: ${x.id}`);
         const pt = packTags.find((t) => t.id === x.id);
         if (!pt) {
-          console.error(`Tag ${x.id} not found in pack`);
+          logger.error(`Tag ${x.id} not found in pack`, this);
           return;
         }
         t = new Tag(pt);

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { coerce, gte } from 'semver';
 import { IBrewable } from './IBrewable';
 import { CompendiumStore } from '@/stores';
+import logger from '@/user/logger';
 
 interface IBrewData {
   brews: BrewInfo[];
@@ -49,11 +50,10 @@ class BrewController {
         const compVer = gte(coerce(p.Version), coerce(brew.LcpVersion));
         brew.Status = compVer ? 'OK' : 'OLD';
       } catch (e) {
-        console.error(
+        logger.error(
           `Error comparing versions for ${brew.LcpName}. Version string ${brew.LcpVersion} may break semver`,
-          e
+          this
         );
-        console.log(brew);
         brew.Status = 'ERR';
       }
     });

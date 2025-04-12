@@ -4,6 +4,7 @@ import { Bonus } from '../../../components/feature/bonus/Bonus';
 import { Pilot } from '../../Pilot';
 import { CoreBonus } from './CoreBonus';
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
+import logger from '@/user/logger';
 
 interface ICoreBonusSaveData {
   core_bonuses: string[];
@@ -57,8 +58,9 @@ class CoreBonusController implements IFeatureContainer {
   public RemoveCoreBonus(coreBonus: CoreBonus): void {
     const index = this._core_bonuses.findIndex((x) => _.isEqual(coreBonus, x));
     if (index === -1) {
-      console.error(
-        `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this.Parent.Callsign}`
+      logger.error(
+        `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this.Parent.Callsign}`,
+        this
       );
     } else {
       this._core_bonuses.splice(index, 1);

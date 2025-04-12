@@ -6,6 +6,7 @@ import { Pilot } from '../../Pilot';
 import PilotTalent from './PilotTalent';
 import { Talent, TalentRank } from './Talent';
 import { CompendiumItem } from '@/class';
+import logger from '@/user/logger';
 
 interface ITalentsData {
   talents: IRankedData[];
@@ -80,7 +81,7 @@ class TalentsController implements IFeatureContainer {
   public RemoveTalent(talent: Talent): void {
     const index = this._talents.findIndex((x) => x.Talent.ID === talent.ID);
     if (index === -1) {
-      console.error(`Talent "${talent.Name}" does not exist on Pilot ${this.Parent.Callsign}`);
+      logger.error(`Talent "${talent.Name}" does not exist on Pilot ${this.Parent.Callsign}`, this);
     } else {
       if (this._talents[index].Rank > 1) {
         this._talents[index].Decrement();
@@ -98,8 +99,9 @@ class TalentsController implements IFeatureContainer {
       (x) => x.Talent.ID === pTalent.Talent.ID || (x.Talent as CompendiumItem).Err
     );
     if (index === -1) {
-      console.error(
-        `Talent "${pTalent.Talent.Name}" does not exist on Pilot ${this.Parent.Callsign}`
+      logger.error(
+        `Talent "${pTalent.Talent.Name}" does not exist on Pilot ${this.Parent.Callsign}`,
+        this
       );
     } else {
       this._talents.splice(index, 1);

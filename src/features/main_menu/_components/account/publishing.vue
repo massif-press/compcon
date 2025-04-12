@@ -375,6 +375,7 @@
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
 import { CompendiumStore, UserStore } from '@/stores';
 import CollectionItemSelector from './_components/collectionItemSelector.vue';
+import logger from '@/user/logger';
 
 export default {
   name: 'cloud-publish',
@@ -430,7 +431,7 @@ export default {
           data: { color: 'success', icon: 'mdi-check-circle-outline' },
         });
       } catch (e) {
-        console.error(e);
+        logger.error(`Failed to publish collection ${collection.Name}: ${e}`, this);
         this.$notify({
           title: 'Error',
           text: `Failed to publish collection ${collection.Name}`,

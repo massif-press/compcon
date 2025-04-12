@@ -115,6 +115,7 @@
 <script lang="ts">
 import { downloadFromS3, GetFromCode } from '@/io/apis/account';
 import { UserStore } from '@/stores';
+import logger from '@/user/logger';
 
 export default {
   name: 'share-code-importer',
@@ -233,7 +234,7 @@ export default {
       } catch (err) {
         this.badCode = this.code.join('');
         this.queryResult = null;
-        console.error(err);
+        logger.error(`Error getting code: ${err}`, this);
       } finally {
         this.loading = false;
       }

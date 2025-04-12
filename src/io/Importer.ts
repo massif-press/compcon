@@ -18,6 +18,7 @@ import { Doodad } from '@/classes/npc/doodad/Doodad';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 import { Unit } from '@/classes/npc/unit/Unit';
 import exportAsJson from '@/util/jsonExport';
+import logger from '@/user/logger';
 
 class StagedObject {
   collection: string;
@@ -132,7 +133,7 @@ export const ImportNpcData = async (data: any, collection?: any): Promise<void> 
       await NpcStore().AddNpc(eidolon);
       break;
     default:
-      console.error('Unknown item type:', data.npcType.toLowerCase());
+      logger.error('Unknown item type:', data.npcType.toLowerCase());
       break;
   }
 };

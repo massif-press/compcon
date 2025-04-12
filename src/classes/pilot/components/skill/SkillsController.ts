@@ -6,6 +6,7 @@ import { Pilot } from '../../Pilot';
 import PilotSkill from './PilotSkill';
 import { Skill } from './Skill';
 import { CompendiumItem } from '@/class';
+import logger from '@/user/logger';
 
 interface ISkillsData {
   skills: IRankedData[];
@@ -88,8 +89,9 @@ class SkillsController {
   public RemoveSkill(skill: Skill | CustomSkill): void {
     const index = this._skills.findIndex((x) => x.Skill.ID === skill.ID);
     if (index === -1) {
-      console.error(
-        `Skill Trigger "${skill.Name}" does not exist on Pilot ${this.Parent.Callsign}`
+      logger.error(
+        `Skill Trigger "${skill.Name}" does not exist on Pilot ${this.Parent.Callsign}`,
+        this
       );
     } else {
       if (this._skills[index].Rank > 1) {
@@ -107,8 +109,9 @@ class SkillsController {
       (x) => x.Skill.ID === pSkill.Skill.ID || (x.Skill as CompendiumItem).Err
     );
     if (index === -1) {
-      console.error(
-        `Skill Trigger "${pSkill.Skill.Name}" does not exist on Pilot ${this.Parent.Callsign}`
+      logger.error(
+        `Skill Trigger "${pSkill.Skill.Name}" does not exist on Pilot ${this.Parent.Callsign}`,
+        this
       );
     } else {
       this._skills.splice(index, 1);

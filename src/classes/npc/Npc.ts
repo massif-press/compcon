@@ -20,6 +20,7 @@ import { NarrativeController, NarrativeElementData } from '../narrative/Narrativ
 import { INarrativeElement } from '../narrative/INarrativeElement';
 import { FolderController, IFolderData } from '../components/folder/FolderController';
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
+import logger from '@/user/logger';
 
 class NpcData {
   id!: string;
@@ -105,7 +106,7 @@ abstract class Npc
   }
 
   public static LoadError(self: Npc, err: any, message: string): void {
-    console.error(`${self.ItemType} ${self.ID} (${self.Name}) failed to load ${message}`, err);
+    logger.error(`Error loading NPC ${self.Name}: ${message}; ${err}`, this);
     self.BrewController.MissingContent = true;
   }
 

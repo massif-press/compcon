@@ -41,6 +41,7 @@
 import DirectoryTable from './components/DirectoryTable.vue';
 import { scan } from './api';
 import MassifLcpTable from '@/features/main_menu/_components/MassifLcpTable.vue';
+import logger from '@/user/logger';
 
 export default {
   name: 'PacksDirectory',
@@ -70,12 +71,11 @@ export default {
   async created(): Promise<void> {
     scan()
       .then((res: any) => {
-        console.log(res);
         this.communityPacks = res.data.community.Items;
         this.loading = false;
       })
       .catch((err) => {
-        console.error('There was an issue downloading the community content packs.', err);
+        logger.error(`Error loading community packs: ${err}`, this);
         this.loading = false;
       });
   },

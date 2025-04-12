@@ -4,6 +4,7 @@ import Startup from './Startup';
 import _ from 'lodash';
 import localForage from 'localforage';
 import { GetAll, storeRegistry, ClearAll, SetAll } from './Storage';
+import logger from '@/user/logger';
 
 type exportArchive = {
   data: [
@@ -28,17 +29,15 @@ const exportAll = async function (): Promise<exportArchive> {
 };
 
 const importAll = async function (data: any): Promise<void> {
-  console.info('Loading import data...');
   const items = data.data;
   items.forEach((e) => {
-    console.log(e);
     const collection = e.collection;
     if (!storeRegistry[collection.toLowerCase()]) return;
     ClearAll(collection);
     if (e.items?.length) SetAll(collection, e.items);
   });
 
-  console.info('Import data loaded! Running startup...');
+  logger.info('Import data loaded! Running startup...');
   await Startup(true);
 };
 

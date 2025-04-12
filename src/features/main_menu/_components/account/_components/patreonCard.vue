@@ -86,6 +86,7 @@
 
 <script lang="ts">
 import { UserStore } from '@/stores';
+import logger from '@/user/logger';
 import { authPatreon } from '@/user/oauth';
 
 export default {
@@ -204,7 +205,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (error) {
-        console.error('Token Exchange Error:', error);
+        logger.error(`Error linking Patreon account: ${error}`, this);
         this.loadPatreon = false;
         this.$notify({
           title: 'Patreon Link Failed',

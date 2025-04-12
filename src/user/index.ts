@@ -81,13 +81,11 @@ class UserProfile {
   }
 
   public save(): void {
-    logger.log('Saving user profile', 'debug', this);
     this.latest_change = Date.now();
     localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(UserProfile.Serialize(this)));
   }
 
   private localSave(item: string, value: any): void {
-    logger.log(`Saving user ${item}`, 'debug', this);
     localStorage.setItem(`cc_${item}`, JSON.stringify(value));
   }
 
@@ -153,7 +151,6 @@ class UserProfile {
   }
 
   public set AchievementUnlocks(data: AchievementSaveData[]) {
-    console.log('Setting achievement unlocks', data);
     this._achievement_unlocks = data;
     this.save();
   }

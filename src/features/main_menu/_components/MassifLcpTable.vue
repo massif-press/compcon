@@ -170,6 +170,7 @@
 <script lang="ts">
 import { CompendiumStore, UserStore } from '@/stores';
 import { collectionDataQuery } from '@/user/api';
+import logger from '@/user/logger';
 
 export default {
   name: 'massif-lcp-table',
@@ -267,7 +268,7 @@ export default {
           data: { color: 'success', icon: 'mdi-check-bold' },
         });
       } catch (err) {
-        console.error(err);
+        logger.error(`Error downloading LCP: ${err}`, this);
         this.$notify({
           title: 'Error Updating LCP',
           text: `An error occurred while attempting to download ${pack.title}.`,

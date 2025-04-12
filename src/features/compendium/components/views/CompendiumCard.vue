@@ -46,6 +46,7 @@
 </template>
 
 <script lang="ts">
+import logger from '@/user/logger';
 import * as content from './components';
 import ItemCardLink from '@/ui/components/cards/items/_components/ItemCardLink.vue';
 
@@ -78,12 +79,12 @@ export default {
     },
     componentLoader(): any {
       if (!this.item) {
-        console.error('No item provided to CompendiumCard');
+        logger.error('No item provided to CompendiumCard', this);
         return null;
       }
 
       if (!this.item.ItemType && !this.item.type) {
-        console.error('No item type provided to CompendiumCard');
+        logger.error('No item type provided to CompendiumCard', this);
         return null;
       }
 
@@ -92,7 +93,7 @@ export default {
       t += 'Content';
 
       if (!content[t]) {
-        console.error(`No card found for item type ${t}`);
+        logger.error(`No card found for item type ${t}`, this);
         return null;
       }
 

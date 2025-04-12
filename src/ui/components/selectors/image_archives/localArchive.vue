@@ -100,6 +100,7 @@
 <script lang="ts">
 import _ from 'lodash';
 import { GetKeys, RemoveItem, AddBlob, GetBlob } from '@/io/Storage';
+import logger from '@/user/logger';
 
 export default {
   name: 'cloud-image-archive',
@@ -161,7 +162,7 @@ export default {
       const blob = new Blob(this.stagedImage, { type: 'image/jpeg' });
       AddBlob('images', this.stagedImage[0].name, blob)
         .then(() => this.getUserImages())
-        .catch((e) => console.error(e))
+        .catch((e) => logger.error(`Error uploading image: ${e}`, this))
         .finally(() => (this.loading = false));
     },
     async deleteLocalImage(key) {

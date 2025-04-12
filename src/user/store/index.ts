@@ -261,7 +261,7 @@ export const UserStore = defineStore('cloud', {
         await fetchAuthSession();
         this.IsLoggedIn = true;
       } catch (e) {
-        console.warn('User not logged in or cannot autologin');
+        logger.warn('User not logged in or cannot autologin');
         this.IsLoggedIn = false;
       }
     },
@@ -271,7 +271,7 @@ export const UserStore = defineStore('cloud', {
     },
     async refreshDbData(): Promise<void> {
       if (!this.IsLoggedIn) {
-        console.error('User is not logged in');
+        logger.error('User is not logged in');
         return;
       }
       await this.getUserMetadata();
@@ -372,7 +372,7 @@ export const UserStore = defineStore('cloud', {
           const e = await GetFromCode(item.code);
           data.push(e);
         } catch (e) {
-          console.error('Error getting remote collection:', item, e);
+          logger.error(`Unable to get remote collection metadata for ${item.code}`, e);
         }
       }
 
@@ -384,7 +384,7 @@ export const UserStore = defineStore('cloud', {
           try {
             await this.updateRemoteCollection(item);
           } catch (e) {
-            console.error('Unable to update collection:', item, e);
+            logger.error(`Unable to update remote collection ${item.code}`, e);
           }
         }
       }
@@ -417,7 +417,7 @@ export const UserStore = defineStore('cloud', {
         );
 
         if (localSubscription && localSubscription.metadata.version === item.metadata.version) {
-          console.info('Collection is up to date:', item);
+          logger.info('Collection is up to date:', item);
         } else {
           this.updateRemoteCollection(item);
         }
@@ -451,7 +451,7 @@ export const UserStore = defineStore('cloud', {
         case 'campaign':
           return CampaignStore().Campaigns.find((n) => n.ID === id);
         default:
-          console.error('Get Local Item/Unknown item type:', itemType);
+          logger.error('Get Local Item/Unknown item type:', itemType);
           break;
       }
     },
@@ -477,7 +477,7 @@ export const UserStore = defineStore('cloud', {
           if (localOwnedCollection) {
             localOwnedCollection.Metadata = item;
           } else {
-            console.error('Unable to find local collection:', item);
+            logger.error('Unable to find local collection:', item);
           }
           arrType = 'UserPublishedCollections';
           break;
@@ -511,7 +511,7 @@ export const UserStore = defineStore('cloud', {
             else await CloudController.SyncToNewest(item);
           } else await CloudController.AutoSync(item);
         } catch (e) {
-          console.error('AutoSync Error:', e);
+          logger.error('AutoSync Error:', e);
           failures.push({ item, error: e });
         }
       }
@@ -522,7 +522,7 @@ export const UserStore = defineStore('cloud', {
           try {
             await CloudController.UpdateRemote(item);
           } catch (e) {
-            console.error('AutoSync Error:', e);
+            logger.error('AutoSync Error:', e);
             failures.push({ item, error: e });
           }
         }
@@ -580,11 +580,11 @@ export const UserStore = defineStore('cloud', {
       const frequency = this.SyncSettings.frequency.toLowerCase();
       if (!frequency.includes('minutes')) return;
       const minutes = parseInt(frequency.split('_').pop());
-      console.info('Setting sync timer for', minutes, 'minutes');
+      logger.info(`Setting sync timer to ${minutes} minutes`);
       const ms = minutes * 60 * 1000;
 
       setInterval(() => {
-        console.info('AutoSync Timer Triggered');
+        logger.info('AutoSync Timer Triggered');
         this.AutoSync();
       }, ms);
     },
@@ -718,7 +718,7 @@ export const UserStore = defineStore('cloud', {
         this.setItchData(this.UserMetadata.ItchData.token, data);
         return 'success';
       } catch (err) {
-        console.error('Error refreshing Itch data:', err);
+        logger.error('Error refreshing Itch data:', err);
         this.UserMetadata.ItchData = { hasItch: false, user: { id: 1 }, gamedata: [] };
         this.setUserMetadata();
         return 'error';

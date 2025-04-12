@@ -32,21 +32,28 @@
         <!-- <v-col cols="auto">
           <v-icon size="small" icon="mdi-mouse-left-click-outline" class="mr-1" />Paint
         </v-col> -->
-        <v-col cols="auto"> <v-icon icon="mdi-mouse-left-click-outline" class="mr-1" />Pan </v-col>
-        <v-col cols="auto"> <v-icon icon="mdi-mouse-scroll-wheel" class="mr-1" />Zoom </v-col>
+        <v-col cols="auto">
+          <v-icon icon="mdi-mouse-left-click-outline" class="mr-1" />
+          Pan
+        </v-col>
+        <v-col cols="auto">
+          <v-icon icon="mdi-mouse-scroll-wheel" class="mr-1" />
+          Zoom
+        </v-col>
       </v-row>
     </v-col>
     <v-col cols="auto">
-      <v-btn @click="$refs.mapCanvas.resetView()" color="accent" size="x-small" variant="outlined"
-        >Reset View</v-btn
-      >
+      <v-btn @click="$refs.mapCanvas.resetView()" color="accent" size="x-small" variant="outlined">
+        Reset View
+      </v-btn>
     </v-col>
     <v-spacer />
     <v-col cols="auto">
       <v-menu offset-y>
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" color="accent" size="x-small" variant="outlined">
-            <v-icon size="small" icon="mdi-upload" start />Import
+            <v-icon size="small" icon="mdi-upload" start />
+            Import
           </v-btn>
         </template>
         <v-card>
@@ -64,9 +71,9 @@
           <v-card-actions>
             <v-btn color="accent" text @click="showImportDialog = false">Cancel</v-btn>
             <v-spacer />
-            <v-btn color="success" text :disabled="!stagedMap?.MapType" @click="importStagedMap()"
-              >Import</v-btn
-            >
+            <v-btn color="success" text :disabled="!stagedMap?.MapType" @click="importStagedMap()">
+              Import
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -75,7 +82,8 @@
       <v-menu>
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" color="accent" size="x-small" variant="outlined">
-            <v-icon size="small" icon="mdi-download" start /> Export
+            <v-icon size="small" icon="mdi-download" start />
+            Export
           </v-btn>
         </template>
         <v-list>
@@ -104,10 +112,10 @@
               <v-toolbar-title>Warning</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
-              <v-alert icon="mdi-alert" prominent variant="outlined"
-                >Clicking "Continue" will enable the experimental map editor. The map editor is
-                still under development and is presented in an unfinished state. You may encounter
-                bugs and other rough edges.
+              <v-alert icon="mdi-alert" prominent variant="outlined">
+                Clicking "Continue" will enable the experimental map editor. The map editor is still
+                under development and is presented in an unfinished state. You may encounter bugs
+                and other rough edges.
               </v-alert>
             </v-card-text>
             <v-divider />
@@ -126,11 +134,18 @@
     <v-row>
       <v-col>
         <v-btn-toggle v-model="gridType" density="compact" divided color="primary" mandatory>
-          <v-btn value="Square"><v-icon start icon="mdi-square-outline" />Square</v-btn>
-          <v-btn value="HexV"><v-icon start icon="mdi-hexagon-outline" />Hex (V)</v-btn>
-          <v-btn value="HexH"
-            ><v-icon start icon="mdi-hexagon-outline" class="mdi-rotate-90" />Hex (H)</v-btn
-          >
+          <v-btn value="Square">
+            <v-icon start icon="mdi-square-outline" />
+            Square
+          </v-btn>
+          <v-btn value="HexV">
+            <v-icon start icon="mdi-hexagon-outline" />
+            Hex (V)
+          </v-btn>
+          <v-btn value="HexH">
+            <v-icon start icon="mdi-hexagon-outline" class="mdi-rotate-90" />
+            Hex (H)
+          </v-btn>
         </v-btn-toggle>
       </v-col>
 
@@ -154,9 +169,9 @@
       </v-col>
 
       <v-col cols="auto" align-self="end">
-        <v-btn @click="clear" color="error" size="x-small" variant="tonal" fade-select
-          >Clear Map</v-btn
-        >
+        <v-btn @click="clear" color="error" size="x-small" variant="tonal" fade-select>
+          Clear Map
+        </v-btn>
       </v-col>
     </v-row>
     <v-divider class="my-2" />
@@ -169,14 +184,27 @@
           variant="outlined"
           color="accent"
           mandatory>
-          <v-btn value="deployment"><v-icon icon="mdi-square" color="red" start />Deployment</v-btn>
-          <v-btn value="ingress"><v-icon icon="mdi-square" color="blue" start />Ingress</v-btn>
-          <v-btn value="egress"><v-icon icon="mdi-square" color="green" start />Egress</v-btn>
-          <v-btn value="objective"><v-icon icon="mdi-square" color="amber" start />Objective</v-btn>
+          <v-btn value="deployment">
+            <v-icon icon="mdi-square" color="red" start />
+            Deployment
+          </v-btn>
+          <v-btn value="ingress">
+            <v-icon icon="mdi-square" color="blue" start />
+            Ingress
+          </v-btn>
+          <v-btn value="egress">
+            <v-icon icon="mdi-square" color="green" start />
+            Egress
+          </v-btn>
+          <v-btn value="objective">
+            <v-icon icon="mdi-square" color="amber" start />
+            Objective
+          </v-btn>
           <v-divider vertical />
-          <v-btn value="obstruction"
-            ><v-icon icon="mdi-square" color="grey" start />Obstruction</v-btn
-          >
+          <v-btn value="obstruction">
+            <v-icon icon="mdi-square" color="grey" start />
+            Obstruction
+          </v-btn>
         </v-btn-toggle>
       </v-col>
       <v-col>
@@ -188,8 +216,14 @@
           color="accent"
           :disabled="disableSubtype"
           multiple>
-          <v-btn value="player"><v-icon start icon="cc:pilot" />Player</v-btn>
-          <v-btn value="enemy"><v-icon start icon="cc:encounter" />Enemy</v-btn>
+          <v-btn value="player">
+            <v-icon start icon="cc:pilot" />
+            Player
+          </v-btn>
+          <v-btn value="enemy">
+            <v-icon start icon="cc:encounter" />
+            Enemy
+          </v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>
@@ -197,9 +231,9 @@
 
   <v-footer border app>
     <v-spacer />
-    <v-btn @click="saveAndExit" variant="tonal" color="accent" prepend-icon="mdi-content-save"
-      >Save and Exit</v-btn
-    >
+    <v-btn @click="saveAndExit" variant="tonal" color="accent" prepend-icon="mdi-content-save">
+      Save and Exit
+    </v-btn>
   </v-footer>
 </template>
 
@@ -210,6 +244,7 @@ import HexMapVerticalEditor from './HexMapVertical.vue';
 import { EncounterMap } from '@/classes/encounter/EncounterMap';
 import { UserStore } from '@/stores';
 import { ImportData } from '@/io/Data';
+import logger from '@/user/logger';
 
 export default {
   name: 'map-editor',
@@ -308,7 +343,7 @@ export default {
         const map = EncounterMap.Deserialize(data);
         this.stagedMap = map;
       } catch (e) {
-        console.error(e);
+        logger.error(`Error parsing map data: ${e}`, this);
         return;
       }
     },

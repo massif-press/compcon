@@ -347,8 +347,6 @@ class Campaign implements ISaveable, ICloudSyncable {
       content: c.Contents.map((x) => CampaignSection.Serialize(x)),
     } as ICampaignData;
 
-    console.log(c.CloudController.ShareCode);
-
     if (c.VersionHistory.length) {
       data.publish_info = {
         origin_id: c.OriginID,

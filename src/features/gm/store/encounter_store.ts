@@ -5,6 +5,7 @@ import { Encounter, IEncounterData } from '@/classes/encounter/Encounter';
 import { IndexItem } from '@/stores';
 import { cloudDelete } from '@/io/apis/account';
 import { CloudController } from '@/classes/components';
+import logger from '@/user/logger';
 
 export const EncounterStore = defineStore('encounter', {
   state: () => ({
@@ -71,7 +72,7 @@ export const EncounterStore = defineStore('encounter', {
 
     async AddEncounter(payload: Encounter): Promise<void> {
       if (this.Encounters.some((x) => x.ID === payload.ID)) {
-        console.log('Encounter already exists');
+        logger.warn(`Encounter with ID ${payload.ID} already exists, updating instead.`, this);
         this.SetEncounter(
           this.Encounters.findIndex((x) => x.ID === payload.ID),
           payload
@@ -107,8 +108,8 @@ export const EncounterStore = defineStore('encounter', {
 
     async SaveEncounterData(): Promise<void> {
       Promise.all((this.Encounters as any).map((y) => SetItem('encounters', y.Serialize())))
-        .then(() => console.info('Encounter data saved'))
-        .catch((err) => console.error('Error while saving Encounter data', err));
+        .then(() => logger.info('Encounter data saved'))
+        .catch((err) => logger.error('Error while saving Encounter data', err));
     },
   },
 });

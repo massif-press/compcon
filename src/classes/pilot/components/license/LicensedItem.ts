@@ -1,6 +1,7 @@
 import { CompendiumStore } from '../../../../stores';
 import { CompendiumItem, ContentPack, Frame, ItemType, Manufacturer } from '../../../../class';
 import { ICompendiumItemData, IContentPack, ITagCompendiumData } from '../../../../interface';
+import logger from '@/user/logger';
 
 interface ILicenseRequirement {
   source: string;
@@ -40,7 +41,7 @@ abstract class LicensedItem extends CompendiumItem {
       if (this.Source === 'EXOTIC') return undefined as any;
       return CompendiumStore().referenceByID('Manufacturers', this.Source);
     } catch (e) {
-      console.error(`Error getting manufacturer for item ${this.Name}: ${e}`);
+      logger.error(`Error getting manufacturer for item ${this.Name}: ${e}`, this);
       return undefined as any;
     }
   }

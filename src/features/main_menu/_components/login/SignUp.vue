@@ -74,6 +74,7 @@
 </template>
 
 <script lang="ts">
+import logger from '@/user/logger';
 import { signUp } from 'aws-amplify/auth';
 
 export default {
@@ -126,7 +127,7 @@ export default {
         this.showError = false;
         this.$emit('success', userEmail);
       } catch (error: any) {
-        console.error('error signing up:', error);
+        logger.error(`Error creating account: ${error}`, this);
         this.loading = false;
         this.showError = true;
         this.error = error.message;

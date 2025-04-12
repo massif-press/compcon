@@ -2,6 +2,7 @@ import { compcon } from '@/main';
 
 import { AchievementManager } from './AchievementManager';
 import { AchievementEventSystem } from './AchievementEvent';
+import logger from '../logger';
 
 enum Rarity {
   Common = 1,
@@ -95,7 +96,7 @@ class Achievement {
 
   unlock() {
     if (this.Unlocked) return;
-    console.log(`Achievement Unlocked: ${this.Name}`);
+    logger.info(`Achievement Unlocked: ${this.Name}`);
     compcon.config.globalProperties.$notify({
       title: 'Achievement Unlocked!',
       text: this.Name,

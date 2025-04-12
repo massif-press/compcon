@@ -176,7 +176,6 @@ export default {
         });
         return;
       }
-      console.log(this.campaign);
       try {
         this.uploading = true;
         await this.campaign.CloudController.UpdateCloud('campaign');
@@ -185,7 +184,6 @@ export default {
           text: `Cloud data updated!`,
           data: { icon: 'cc:campaign', color: 'success' },
         });
-        console.log(this.campaign);
       } catch (error) {
         this.$notify({
           title: 'Upload Error',

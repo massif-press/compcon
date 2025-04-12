@@ -47,6 +47,7 @@ import { PilotLoadoutController } from './components/Loadout/PilotLoadoutControl
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController';
 import { IBrewable } from '../components/brew/IBrewable';
 import { BondController, IPilotBondData } from './components/bond/BondController';
+import logger from '@/user/logger';
 
 interface IUnlockData {
   PilotGear: string[];
@@ -268,7 +269,7 @@ class Pilot
   }
 
   public LoadError(err: any, message: string): void {
-    console.error(`Pilot ${this.ID} (${this.Callsign}) failed to load ${message}`, err);
+    logger.error(`Pilot ${this.ID} (${this.Callsign}) failed to load ${message}; ${err}`, this);
     this.BrewController.MissingContent = true;
   }
 
@@ -491,7 +492,7 @@ class Pilot
   public RemoveMech(mech: Mech): void {
     const index = this._mechs.findIndex((x) => x.ID === mech.ID);
     if (index === -1) {
-      console.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`);
+      logger.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`, this);
     } else {
       this._mechs.splice(index, 1);
     }

@@ -178,6 +178,7 @@
 import { UserStore } from '@/stores';
 import CollectionShareCodeDialog from './data_viewer/collectionShareCodeDialog.vue';
 import CollectionInfo from './data_viewer/collectionInfo.vue';
+import logger from '@/user/logger';
 
 export default {
   name: 'collection-subscriptions',
@@ -234,7 +235,7 @@ export default {
       this.loading = true;
       let errors = await UserStore().updateRemoteCollection(item);
       if (errors.length > 0) {
-        console.error(errors);
+        logger.error(`Error updating collection: ${errors}`, this);
         this.$notify({
           title: 'Error Updating Collection',
           text: 'There was an error updating the collection. Please try again later.',

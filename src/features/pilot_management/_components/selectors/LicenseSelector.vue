@@ -108,6 +108,7 @@ import LicenseExpandable from '@/ui/components/CompendiumBrowser/components/_lic
 import { CompendiumStore } from '@/stores';
 import { Pilot, License } from '@/class';
 import scrollTo from '@/util/scrollTo';
+import logger from '@/user/logger';
 
 export default {
   name: 'license-selector',
@@ -165,7 +166,7 @@ export default {
     scrollTo(e: any): void {
       const el = document.getElementById(e);
       if (!el) {
-        console.warn(`Element with ID ${e} not found`);
+        logger.warn(`Element with ID ${e} not found`, this);
         return;
       }
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });

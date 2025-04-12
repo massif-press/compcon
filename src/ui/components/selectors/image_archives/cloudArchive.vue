@@ -116,6 +116,7 @@ import { storageInfo, getPresignedLink, s3api, deleteStorage } from '@/user/api'
 import { UserStore } from '@/stores';
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account';
 import { CloudController } from '@/classes/components';
+import logger from '@/user/logger';
 // import { Auth } from '@aws-amplify/auth';
 
 const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR;
@@ -211,7 +212,7 @@ export default {
         this.loading = false;
         return true;
       } catch (err) {
-        console.error(err);
+        logger.error(`Error deleting image: ${err}`, this);
         this.$notify({
           title: `Deletion Failed`,
           text: `Unable to communicate with server. ${err}`,

@@ -288,6 +288,7 @@ import AchievementItem from './_components/AchievementItem.vue';
 import { UserStore } from '@/stores';
 import { AchievementManager } from '@/user/achievements/AchievementManager';
 import { GetAchievement } from '@/io/apis/account';
+import logger from '@/user/logger';
 
 export default {
   name: 'AchievementsViewer',
@@ -439,7 +440,7 @@ export default {
       this.importDialog = false;
     },
     async clearAchievements(close) {
-      console.log('clearing achievements');
+      logger.info('clearing achievements');
       this.user.AchievementUnlocks = [];
       await this.user.save();
       if (UserStore().IsLoggedIn && UserStore().SyncSettings.includeSettings) {
@@ -456,7 +457,7 @@ export default {
         const alreadyUnlocked = AchievementManager.Instance.Unlock(res);
         if (alreadyUnlocked) throw new Error('Already Unlocked');
       } catch (e) {
-        console.error(e);
+        logger.error(`Error adding achievement: ${e}`, this);
         this.$notify({
           title: `Cannot Add Achievement`,
           text: `Code Invalid or already unlocked`,
