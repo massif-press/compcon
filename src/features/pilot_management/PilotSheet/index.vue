@@ -8,6 +8,7 @@
       <bonds-view v-else-if="page === 2" :pilot="pilot" />
       <tactical-view v-else-if="page === 3" :pilot="pilot" />
       <mech-hangar-view v-else-if="page === 4" :pilot="pilot" />
+      <mobile-options-view v-else-if="page === 5" :pilot="pilot" />
     </div>
     <pilot-nav-mobile v-if="mobile" :pilot="pilot" :selected="page" @to="page = $event" />
     <pilot-nav v-else :pilot="pilot" :selected="page" @to="page = $event" />
@@ -32,6 +33,7 @@ import MechHangarView from './sections/hangar/index.vue';
 import BondsView from './sections/bonds/index.vue';
 import { UserStore } from '@/stores';
 import PilotHeaderMobile from './components/PilotHeaderMobile.vue';
+import MobileOptionsView from './MobileOptions.vue';
 
 export default {
   name: 'pilot-sheet',
@@ -45,6 +47,7 @@ export default {
     TacticalView,
     MechHangarView,
     BondsView,
+    MobileOptionsView,
   },
   props: {
     pilotID: {
