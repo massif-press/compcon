@@ -260,6 +260,7 @@
         <v-row v-else dense justify="space-between" class="caption mt-n1">
           <v-col
             :cols="t.Actions.length + t.Deployables.length > 0 ? '12' : ''"
+            class="no-print-break"
             v-for="t in mech.Frame.Traits">
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
@@ -365,7 +366,7 @@
       </fieldset>
     </div>
 
-    <fieldset v-else v-for="m in mounts">
+    <fieldset v-else v-for="m in mounts" class="no-print-break">
       <legend class="heading h4 ml-1 px-2">{{ m.Name }}</legend>
       <div v-if="m.IsLocked" class="text-center flavor-text">
         MOUNT LOCKED
@@ -465,7 +466,7 @@
       <v-card
         v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems"
         variant="outlined"
-        class="pa-1 my-1"
+        class="pa-1 my-1 no-print-break"
         style="position: relative; border-color: rgba(0, 0, 0, 0.2)">
         <v-row>
           <v-col cols="auto">
@@ -490,11 +491,15 @@
       </v-card>
     </fieldset>
 
-    <fieldset v-if="options.mechInclude.includes('append lined section')" class="mx-1 my-3 px-3">
+    <fieldset
+      v-if="options.mechInclude.includes('Append Lined Section')"
+      class="mx-1 my-3 px-3 no-print-break">
       <div class="mb-4"><notes :rows="24" lined /></div>
     </fieldset>
 
-    <fieldset v-if="options.mechInclude.includes('append unlined section')" class="mx-1 my-3 px-3">
+    <fieldset
+      v-if="options.mechInclude.includes('Append Unlined Section')"
+      class="mx-1 my-3 px-3 no-print-break">
       <div class="mb-4"><notes :rows="24" /></div>
     </fieldset>
   </div>

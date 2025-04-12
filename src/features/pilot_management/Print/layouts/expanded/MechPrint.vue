@@ -322,7 +322,7 @@
 
     <fieldset class="py-1">
       <legend class="heading ml-1 px-2">Operator Notes</legend>
-      <notes v-if="blank || !mech.notes" :rows="8" lined />
+      <notes v-if="blank || !mech.notes" :rows="9" lined />
       <div v-else v-html-safe="mech.Notes" class="caption px-2" />
     </fieldset>
 
@@ -331,7 +331,7 @@
     <div v-if="blank">
       <fieldset
         v-for="n in options.mechInclude.includes('extra mount panel') ? 5 : 4"
-        class="my-1 pb-1">
+        class="my-1 pb-1 no-print-break">
         <legend class="heading h4 ml-1 px-2">
           <v-row dense align="center">
             <v-col cols="auto">
@@ -364,7 +364,7 @@
       </fieldset>
     </div>
 
-    <fieldset v-else v-for="m in mounts" style="position: relative">
+    <fieldset v-else v-for="m in mounts" style="position: relative" class="no-print-break">
       <legend class="heading h3 ml-1 px-2">{{ m.Name }}</legend>
       <div v-if="m.IsLocked" class="text-center flavor-text">
         MOUNT LOCKED
@@ -439,7 +439,9 @@
     <div v-if="blank">
       <fieldset>
         <legend class="heading h4 ml-1 px-2 py-1 text-primary">SYSTEMS</legend>
-        <div v-for="n in options.mechInclude.includes('extra system space') ? 8 : 6">
+        <div
+          v-for="n in options.mechInclude.includes('extra system space') ? 8 : 6"
+          class="no-print-break">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">SYSTEM</div>
@@ -464,7 +466,7 @@
       <v-card
         v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems"
         variant="outlined"
-        class="pa-1 my-1"
+        class="pa-1 my-1 no-print-break"
         style="position: relative; border-color: rgba(0, 0, 0, 0.2)">
         <v-row>
           <v-col cols="auto">
@@ -489,11 +491,15 @@
       </v-card>
     </fieldset>
 
-    <fieldset v-if="options.mechInclude.includes('append lined section')" class="mx-1 my-3 px-3">
+    <fieldset
+      v-if="options.mechInclude.includes('Append Lined Section')"
+      class="mx-1 my-3 px-3 no-print-break">
       <div class="mb-4"><notes :rows="48" lined /></div>
     </fieldset>
 
-    <fieldset v-if="options.mechInclude.includes('append unlined section')" class="mx-1 my-3 px-3">
+    <fieldset
+      v-if="options.mechInclude.includes('Append Unlined Section')"
+      class="mx-1 my-3 px-3 no-print-break">
       <div class="mb-4"><notes :rows="48" /></div>
     </fieldset>
   </div>

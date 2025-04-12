@@ -11,7 +11,7 @@ const theme = {
     primary: '#802932',
     active: '#d93f4e',
     accent: '#dd5562',
-    secondary: '#225560',
+    secondary: '#48A6A7',
     tertiary: '#99941e',
     highlight: '#E4E5D1',
 

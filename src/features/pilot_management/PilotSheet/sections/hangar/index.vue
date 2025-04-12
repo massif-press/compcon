@@ -40,7 +40,6 @@
         @delete="pilot.RemoveMech($event)"
         @copy="pilot.CloneMech($event)"
         @go="toMechSheet($event)" />
-      <mech-table v-else :mechs="sortedMechs" @go="toMechSheet($event)" />
     </v-container>
     <cc-modal v-if="!pilot.IsRemote" icon="cc:frame" title="Add New Mech">
       <template #activator="{ open }">

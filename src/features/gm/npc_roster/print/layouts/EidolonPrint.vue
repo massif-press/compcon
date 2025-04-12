@@ -17,15 +17,15 @@
         <v-chip label size="small" :prepend-icon="npc.TagIcon" class="mx-1">EIDOLON</v-chip>
       </v-col>
     </v-row>
-    <div v-if="options.include.includes('gm notes')" class="text-caption mt-1 pl-3">
+    <div v-if="options.include.some((x) => x.title === 'GM Notes')" class="text-caption mt-1 pl-3">
       {{ npc.GmDescription }}
     </div>
 
-    <v-row dense>
+    <v-row dense class="no-print-break">
       <v-col>
         <div v-if="npc.Description" class="mt-1 pl-3" v-html-safe="npc.Description" />
       </v-col>
-      <v-col cols="4" v-if="options.include.includes('include image')">
+      <v-col cols="4" v-if="options.include.some((x) => x.title === 'Include Image')">
         <div
           :style="`background-image: url('${npc.Portrait}');`"
           style="height: 300px; width: 100%; background-position: top 0%; background-size: cover" />
@@ -38,7 +38,7 @@
         style="line-height: 14px; border: 1px solid grey; border-radius: 3px">
         Persistent Traits
       </legend>
-      <div v-for="t in persistentTraits">
+      <div v-for="t in persistentTraits" class="no-print-break">
         <b class="text-caption font-weight-bold">
           <v-icon size="small" icon="cc:trait" class="mt-n1" />
           {{ t.name }}
@@ -47,7 +47,7 @@
       </div>
     </fieldset>
 
-    <fieldset class="mx-1 pa-1 mb-2" v-for="l in npc.Layers">
+    <fieldset class="mx-1 pa-1 mb-2 no-print-break" v-for="l in npc.Layers">
       <legend
         class="text-overline text-primary px-1"
         style="line-height: 14px; border: 1px solid grey; border-radius: 3px">
@@ -75,13 +75,15 @@
       <print-npc-stats :item="l.Layer.Shards" :bonuses="[]" :tier="npc.Tier" hide-zero />
       <div
         v-for="(f, i) in l.Layer.Shards.Features.filter((x) => !x.HideActive)"
-        class="mt-1 pl-3 caption">
+        class="mt-1 pl-3 caption no-print-break">
         <npc-feature-print :feature="f" :tier="npc.Tier" />
         <v-divider v-if="i + 1 < l.Layer.Shards.Features.length" class="mt-1" />
       </div>
     </fieldset>
 
-    <div v-if="options.include.includes('gm notes') && npc.Note.length" class="mb-1 mt-3">
+    <div
+      v-if="options.include.some((x) => x.title === 'GM Notes') && npc.Note.length"
+      class="mb-1 mt-3 no-print-break">
       <div class="text-overline text-primary" style="line-height: 0">GM NOTES</div>
       <div v-html-safe="npc.Note" class="mt-1 pl-3 caption" />
     </div>
@@ -90,22 +92,25 @@
   <div class="mt-n3">
     <fieldset
       v-if="
-        options.include.includes('additional detail') && npc.NarrativeController.TextItems.length
+        options.include.some((x) => x.title === 'Additional Detail') &&
+        npc.NarrativeController.TextItems.length
       "
-      class="mx-1 my-2 px-3">
-      <div v-for="t in npc.NarrativeController.TextItems">
+      class="mx-1 my-2 px-3 no-print-break">
+      <div v-for="t in npc.NarrativeController.TextItems" class="no-print-break">
         <div class="font-weight-bold mb-n2" v-text="t.header" />
         <div v-html-safe="t.body" class="pl-2" />
       </div>
     </fieldset>
 
     <div
-      v-if="options.include.includes('clocks') && npc.NarrativeController.Clocks.length"
+      v-if="
+        options.include.some((x) => x.title === 'Clocks') && npc.NarrativeController.Clocks.length
+      "
       class="mx-1 my-2">
       <v-card
         v-for="c in npc.NarrativeController.Clocks"
         variant="outlined"
-        class="text-caption px-2 pb-1">
+        class="text-caption px-2 pb-1 no-print-break">
         <div class="font-weight-bold text-caption" v-text="c.Title" />
         <v-row no-gutters>
           <v-col v-for="n in c.Segments" class="px-1">
@@ -120,12 +125,14 @@
     </div>
 
     <div
-      v-if="options.include.includes('tables') && npc.NarrativeController.Tables.length"
+      v-if="
+        options.include.some((x) => x.title === 'Tables') && npc.NarrativeController.Tables.length
+      "
       class="mx-1 my-2">
       <v-card
         v-for="t in npc.NarrativeController.Tables"
         variant="outlined"
-        class="text-caption px-2">
+        class="text-caption px-2 no-print-break">
         <div class="font-weight-bold text-caption" v-text="t.Title" />
         <div v-html-safe="t.Description" class="pl-2" />
         <v-row dense v-for="r in t.Results">
@@ -137,11 +144,15 @@
       </v-card>
     </div>
 
-    <fieldset v-if="options.include.includes('append lined section')" class="mx-1 my-2 px-3">
+    <fieldset
+      v-if="options.include.some((x) => x.title === 'Append Lined Section')"
+      class="mx-1 my-2 px-3 no-print-break">
       <div class="mb-4"><notes :rows="16" lined /></div>
     </fieldset>
 
-    <fieldset v-if="options.include.includes('append unlined section')" class="mx-1 my-2 px-3">
+    <fieldset
+      v-if="options.include.some((x) => x.title === 'Append Unlined Section')"
+      class="mx-1 my-2 px-3 no-print-break">
       <div class="mb-4"><notes :rows="16" /></div>
     </fieldset>
   </div>

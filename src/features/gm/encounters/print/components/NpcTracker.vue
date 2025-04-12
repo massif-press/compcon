@@ -1,5 +1,8 @@
 <template>
-  <v-card class="pa-2 text-caption mx-1 mb-1" variant="outlined" style="border-color: lightgray">
+  <v-card
+    class="pa-2 text-caption mx-1 mb-1 no-print-break"
+    variant="outlined"
+    :style="`border-color: ${borderColor}`">
     <div class="text-right">
       <span v-if="combatant.playerCount > 1" cols="auto">
         <v-icon icon="mdi-account-group" color="accent" class="mr-1 mt-n1" size="small" />
@@ -77,6 +80,13 @@ export default {
     },
     statuses() {
       return CompendiumStore().Statuses;
+    },
+    borderColor() {
+      return this.combatant.side === 'enemy'
+        ? 'red'
+        : this.combatant.side === 'ally'
+          ? 'green'
+          : 'lightgrey';
     },
   },
   methods: {

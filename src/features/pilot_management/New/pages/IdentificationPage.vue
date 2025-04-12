@@ -201,7 +201,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row dense class="text-center mt-6 pt-2 pb-1 px-3 bg-surface">
+    <v-row dense class="text-center my-6 pt-2 pb-1 px-3 bg-surface">
       <v-col cols="12" sm="6">
         <cc-button
           size="x-small"

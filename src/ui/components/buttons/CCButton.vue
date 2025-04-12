@@ -27,7 +27,7 @@ export default {
     stacked: { type: Boolean },
     loading: { type: Boolean },
     icon: { type: [String, Boolean], required: false },
-    size: { type: String, required: false },
+    size: { type: [String, Boolean], required: false },
     variant: { type: String, required: false },
     tooltip: { type: String, required: false },
     tooltipIcon: { type: String, required: false },

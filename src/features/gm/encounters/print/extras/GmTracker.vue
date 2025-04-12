@@ -13,12 +13,16 @@
     </v-col>
     <v-col>
       <div class="text-caption">PCS/ALLIES</div>
-      <npc-tracker v-for="c in Enemies" :combatant="c" />
+      <npc-tracker v-for="c in Allies" :combatant="c" />
     </v-col>
   </v-row>
   <div v-if="Neutral.length > 0">
     <div class="text-caption mt-1">NEUTRAL</div>
-    <npc-tracker v-for="c in Enemies" :combatant="c" />
+    <v-row dense>
+      <v-col cols="auto" v-for="c in Neutral" style="min-width: 30vw">
+        <npc-tracker :combatant="c" />
+      </v-col>
+    </v-row>
   </div>
 </template>
 

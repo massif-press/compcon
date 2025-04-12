@@ -91,7 +91,9 @@
       </v-row>
     </fieldset>
 
-    <fieldset v-if="options.pilotInclude.includes('expanded mission log')" class="pa-1">
+    <fieldset
+      v-if="options.pilotInclude.includes('expanded mission log')"
+      class="pa-1 no-print-break">
       <legend class="heading ml-1 px-2">
         Mission Log
         <span class="caption font-weight-regular">(CONT.)</span>
@@ -124,7 +126,7 @@
         v-else
         v-for="s in pilot.SkillsController.Skills"
         variant="outlined"
-        class="my-2 py-1 px-2">
+        class="my-2 py-1 px-2 no-print-break">
         <v-row>
           <v-col cols="auto">
             <span class="heading" style="font-size: 33px">+{{ s.Bonus }}</span>
@@ -149,7 +151,7 @@
       label
       variant="outlined"
       size="small"
-      class="caption mx-1 mt-1">
+      class="caption mx-1 mt-1 no-print-break">
       <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" />
       {{ t.Talent.Name }}
       {{ 'I'.repeat(t.Rank) }}
@@ -159,7 +161,7 @@
       v-for="t in pilot.TalentsController.Talents"
       dense
       justify="space-between"
-      class="mt-n1 caption"
+      class="mt-n1 caption no-print-break"
       style="position: relative">
       <fieldset class="pb-2 my-2">
         <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
@@ -195,7 +197,7 @@
       v-for="b in pilot.CoreBonusController.CoreBonuses"
       dense
       justify="space-between"
-      class="mt-n1 caption">
+      class="mt-n1 caption no-print-break">
       <fieldset class="pb-2 my-2">
         <legend class="heading h3 ml-1 px-2">{{ b.Name }}</legend>
         <v-row dense align="center">
@@ -295,7 +297,11 @@
 
     <div class="text-caption mb-n2 mt-1 text-primary">PILOT LOADOUT</div>
     <v-row dense justify="space-between" class="mt-n1 caption">
-      <v-col v-for="a in pilot.Loadout.Armor.filter((x) => x)" style="position: relative" cols="12">
+      <v-col
+        v-for="a in pilot.Loadout.Armor.filter((x) => x)"
+        style="position: relative"
+        cols="12"
+        class="no-print-break">
         <fieldset v-if="a">
           <legend class="heading h3 ml-1 px-1">
             <span v-if="!blank">
@@ -332,6 +338,7 @@
       <v-col
         v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
         style="position: relative"
+        class="no-print-break"
         cols="12">
         <fieldset v-if="w || blank">
           <legend class="heading h3 ml-1 px-1">
@@ -361,7 +368,11 @@
       </v-col>
     </v-row>
     <v-row dense justify="space-between" class="mt-n1 caption pb-3">
-      <v-col v-for="g in pilot.Loadout.Gear.filter((x) => x)" style="position: relative" cols="12">
+      <v-col
+        v-for="g in pilot.Loadout.Gear.filter((x) => x)"
+        style="position: relative"
+        cols="12"
+        class="no-print-break">
         <fieldset v-if="g || blank">
           <legend class="heading h3 ml-1 px-1">
             <span v-if="!blank">
@@ -397,7 +408,7 @@
     </v-row>
   </div>
 
-  <div v-if="!blank && pilot.ReservesController.Reserves.length" class="pa-2">
+  <div v-if="!blank && pilot.ReservesController.Reserves.length" class="pa-2 no-print-break">
     <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
     <fieldset v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')">
       <legend class="px-1 mb-n2">
@@ -446,13 +457,13 @@
 
   <fieldset
     v-if="options.pilotInclude.some((x) => x.title === 'Append Lined Section')"
-    class="mx-1 my-3 px-3">
+    class="mx-1 my-3 px-3 no-print-break">
     <div class="mb-4"><notes :rows="48" lined /></div>
   </fieldset>
 
   <fieldset
     v-if="options.pilotInclude.some((x) => x.title === 'Append Unined Section')"
-    class="mx-1 my-3 px-3">
+    class="mx-1 my-3 px-3 no-print-break">
     <div class="mb-4"><notes :rows="48" /></div>
   </fieldset>
 
@@ -461,7 +472,7 @@
     v-for="t in pilot.TalentsController.Talents"
     dense
     justify="space-between"
-    class="mt-n1 caption px-2"
+    class="mt-n1 caption px-2 no-print-break"
     style="position: relative">
     <fieldset class="pb-2 my-2">
       <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>

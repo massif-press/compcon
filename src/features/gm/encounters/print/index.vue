@@ -3,20 +3,22 @@
     <v-card
       tile
       flat
-      :class="options.orientation"
+      :class="options.orientation.title"
       class="print-card"
       style="margin-left: auto; margin-right: auto">
       <div v-if="selectedEncounter" class="pb-4">
         <layout :options="options" :encounter="selectedEncounter" />
         <div v-if="options && options.extras">
-          <page-break v-if="options.extras.includes('gm tracker')" />
-          <gm-tracker v-if="options.extras.includes('gm tracker')" :encounter="selectedEncounter" />
-          <page-break v-if="options.extras.includes('combat quick reference')" />
-          <combat-ref v-if="options.extras.includes('combat quick reference')" />
-          <page-break v-if="options.extras.includes('action reference')" />
-          <action-ref v-if="options.extras.includes('action reference')" />
-          <page-break v-if="options.extras.includes('tag reference')" />
-          <tag-info-print v-if="options.extras.includes('tag reference')" />
+          <page-break v-if="options.extras.some((x) => x.title === 'GM Tracker')" />
+          <gm-tracker
+            v-if="options.extras.some((x) => x.title === 'GM Tracker')"
+            :encounter="selectedEncounter" />
+          <page-break v-if="options.extras.some((x) => x.title === 'Combat Quick Reference')" />
+          <combat-ref v-if="options.extras.some((x) => x.title === 'Combat Quick Reference')" />
+          <page-break v-if="options.extras.some((x) => x.title === 'Action Reference')" />
+          <action-ref v-if="options.extras.some((x) => x.title === 'Action Reference')" />
+          <page-break v-if="options.extras.some((x) => x.title === 'Tag Reference')" />
+          <tag-info-print v-if="options.extras.some((x) => x.title === 'Tag Reference')" />
         </div>
       </div>
 
@@ -40,14 +42,14 @@
 
         <v-spacer />
 
-        <cc-modal>
+        <cc-modal title="Print Options" icon="mdi-cog">
           <template #activator="{ open }">
             <v-btn @click="open">
               <span>Options</span>
               <v-icon icon="mdi-cog" />
             </v-btn>
           </template>
-          <options-dialog ref="options" @set="setOptions($event)" />
+          <options-dialog :options="options" />
         </cc-modal>
         <v-btn @click="print()">
           <span>Print</span>
@@ -92,7 +94,14 @@ export default {
   },
   data: () => ({
     selectedEncounter: null as Encounter | null,
-    options: {} as any,
+    options: {
+      layout: { title: 'Standard', icon: 'mdi-book-open' },
+      orientation: { title: 'Portrait', icon: 'mdi-file' },
+      paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
+      include: [],
+      extras: [],
+      card: [],
+    },
   }),
   created() {
     if (!this.id) return;
@@ -107,17 +116,6 @@ export default {
     print() {
       window.print();
     },
-    setOptions(options) {
-      let out = {};
-      for (const key in options) {
-        if (Array.isArray(options[key])) {
-          out[key] = options[key].map((x) => x.title.toLowerCase());
-        } else {
-          out[key] = options[key].title.toLowerCase();
-        }
-      }
-      this.options = out;
-    },
   },
 };
 </script>
@@ -129,12 +127,12 @@ export default {
 </style>
 
 <style scoped>
-.portrait {
+.Portrait {
   background-color: white !important;
   width: 210mm;
 }
 
-.landscape {
+.Landscape {
   background-color: white !important;
   width: 297mm;
 }

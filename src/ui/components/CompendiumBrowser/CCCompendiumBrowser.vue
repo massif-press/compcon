@@ -762,7 +762,7 @@ export default {
     comparisons: [] as CompendiumItem[],
     page: 1,
     itemsPerPage: 15,
-    showNav: null,
+    showNav: true,
   }),
   watch: {
     group(val) {

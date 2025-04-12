@@ -10,18 +10,16 @@
         @focusout="mouseOver = false"
         @click="doAction"
         @keydown.enter="doAction"
-        tabindex="0"
-      >
+        tabindex="0">
         <div class="unskew heading">
-          <v-icon dark size="50" class="ml-n4 mt-n3">{{ icon }}</v-icon>
+          <v-icon size="50" class="ml-n4 mt-n3">{{ icon }}</v-icon>
           <slot />
         </div>
       </div>
     </div>
     <div
       class="d-inline text-overline help-text"
-      style="position: absolute; left: 150px; width: fit-content !important"
-    >
+      style="position: absolute; left: 150px; width: fit-content !important">
       > {{ help }}
     </div>
   </v-col>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="no-print-break">
     <v-row dense align="center">
       <v-col cols="auto" class="text-center heading caption my-1">
         {{ action.Name }}
@@ -14,8 +14,7 @@
         v-if="action.Init"
         class="pa-1 text-center mb-1"
         color="grey-darken-3"
-        variant="outlined"
-      >
+        variant="outlined">
         <span v-html-safe="action.Init" class="caption" />
       </v-card>
       <v-card v-if="action.Trigger" class="pa-1 mb-1" color="grey-lighten-2">
@@ -23,9 +22,9 @@
         <span v-html-safe="action.Trigger" class="caption" />
       </v-card>
       <div v-if="action.Detail">
-        <span v-if="action.Trigger" cols="auto" class="caption font-weight-bold"
-          >Effect:&nbsp;</span
-        >
+        <span v-if="action.Trigger" cols="auto" class="caption font-weight-bold">
+          Effect:&nbsp;
+        </span>
         <span v-html-safe="action.Detail" class="caption" />
       </div>
     </div>

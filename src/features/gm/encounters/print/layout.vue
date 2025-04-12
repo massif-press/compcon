@@ -150,11 +150,11 @@
       </v-card>
     </div>
 
-    <fieldset v-if="options.include.includes('append lined section')" class="mx-1 my-2 px-3">
+    <fieldset v-if="options.include?.includes('Append Lined Section')" class="mx-1 my-2 px-3">
       <div class="mb-4"><notes :rows="16" lined /></div>
     </fieldset>
 
-    <fieldset v-if="options.include.includes('append unlined section')" class="mx-1 my-2 px-3">
+    <fieldset v-if="options.include?.includes('Append Unlined Section')" class="mx-1 my-2 px-3">
       <div class="mb-4"><notes :rows="16" /></div>
     </fieldset>
   </div>

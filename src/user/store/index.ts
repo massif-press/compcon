@@ -95,7 +95,6 @@ export const UserStore = defineStore('cloud', {
     RemoteCollections: [] as any[],
     LastQuery: 0,
     CloudStorageUsed: 0,
-    CollectionPublishLimit: 3,
     StorageWarning: false,
     StorageFull: false,
     IsLoggedIn: false,

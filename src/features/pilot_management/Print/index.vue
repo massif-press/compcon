@@ -21,7 +21,7 @@
             v-if="has('relevant trigger reference')"
             :pilot="<Pilot>selectedPilot" />
           <tag-info-print
-            v-if="has('relevant tag reference')"
+            v-if="has('Relevant Tag Reference')"
             :pilot="<Pilot>selectedPilot"
             :mech="<Mech>selectedMech" />
         </div>

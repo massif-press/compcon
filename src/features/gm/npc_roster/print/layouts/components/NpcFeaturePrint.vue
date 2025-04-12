@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters align="center">
+  <v-row no-gutters align="center" class="no-print-break">
     <v-col cols="auto">
       <v-icon :icon="feature.Icon" class="mr-1" />
       <b v-text="feature.Name" />
