@@ -6,7 +6,7 @@
     :fullscreen="mobile"
     :max-width="mobile ? '100vw' : maxWidth"
     :min-height="mobile ? '100vh' : shrink ? '' : '95vh'"
-    persistent
+    :persistent="persistent"
     @keydown.esc="close">
     <v-card
       tile
@@ -99,6 +99,10 @@ export default {
       default: false,
     },
     shrink: {
+      type: Boolean,
+      default: false,
+    },
+    persistent: {
       type: Boolean,
       default: false,
     },

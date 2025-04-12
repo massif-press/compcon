@@ -1,6 +1,6 @@
 <template>
   <div v-if="mech.ID">
-    <div class="mt-4 text-center" :style="`background-color: ${color}`">
+    <div class="mt-4 text-center text-white" :style="`background-color: ${color}`">
       <cc-short-string-editor
         :readonly="mech.Pilot.IsRemote"
         :placeholder="mech.Name"

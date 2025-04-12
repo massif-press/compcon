@@ -29,9 +29,7 @@
         <v-toolbar
           class="px-1"
           height="22"
-          :style="`background-color: ${mech.Frame.Manufacturer.GetColor(
-            $vuetify.theme.current.dark
-          )}`">
+          :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)">
           <span class="heading text-cc-overline" style="margin-left: 75px">
             <v-icon :icon="mech.Frame.Manufacturer.Icon" />
             {{ mech.Name }}
