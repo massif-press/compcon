@@ -5,8 +5,7 @@
       <v-col cols="auto">
         <div
           class="font-weight-light text-center my-n2"
-          style="letter-spacing: 2vw !important; font-size: 2vw !important"
-        >
+          style="letter-spacing: 2vw !important; font-size: 2vw !important">
           ACTIVE MODE
         </div>
       </v-col>
@@ -27,8 +26,7 @@
               :title="e.title"
               :subtitle="e.subtitle"
               :to="e.to"
-              :disabled="e.disabled"
-            >
+              disabled>
               <template #prepend>
                 <v-avatar>
                   <v-icon size="x-large" color="primary" :icon="e.icon" />
