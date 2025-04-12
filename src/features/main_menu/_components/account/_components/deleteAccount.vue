@@ -61,6 +61,7 @@
 
 <script lang="ts">
 import { UserStore } from '@/stores';
+import logger from '@/user/logger';
 import { deleteUser } from 'aws-amplify/auth';
 
 export default {
@@ -82,7 +83,7 @@ export default {
         await deleteUser();
         location.reload();
       } catch (error) {
-        console.error(error);
+        logger.error(`Error deleting user: ${error}`, this);
       }
     },
   },

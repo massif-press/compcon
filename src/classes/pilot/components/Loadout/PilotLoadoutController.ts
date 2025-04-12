@@ -3,6 +3,7 @@ import { Rules, Pilot, PilotLoadout, CompendiumItem, PilotEquipment } from '@/cl
 
 import { IPilotLoadoutData } from './PilotLoadout';
 import { Bonus } from '@/classes/components';
+import logger from '@/user/logger';
 
 interface IPilotLoadoutSaveData {
   loadouts?: IPilotLoadoutData[];
@@ -23,8 +24,9 @@ class PilotLoadoutController implements IFeatureContainer {
   public get ActiveLoadout(): PilotLoadout {
     const active = this.Loadouts[this._activeIndex];
     if (!active) {
-      console.error(
-        `PilotLoadoutController: No active loadout found at index ${this._activeIndex}`
+      logger.error(
+        `PilotLoadoutController: No active loadout found at index ${this._activeIndex}`,
+        this
       );
       return this.Loadouts[0];
     }
@@ -34,7 +36,7 @@ class PilotLoadoutController implements IFeatureContainer {
   public set ActiveLoadout(loadout: PilotLoadout) {
     this._activeIndex = this.Loadouts.indexOf(loadout);
     if (this._activeIndex === -1) {
-      console.error(`PilotLoadoutController: Loadout not found in loadouts`);
+      logger.error(`PilotLoadoutController: Loadout not found in loadouts`, this);
       return;
     }
     this.Parent.SaveController.save();
@@ -66,7 +68,6 @@ class PilotLoadoutController implements IFeatureContainer {
   }
 
   public set Loadouts(l: PilotLoadout[]) {
-    console.log('PilotLoadoutController: Loadouts set', l);
     this._loadouts = l;
     this.Parent.SaveController.save();
   }

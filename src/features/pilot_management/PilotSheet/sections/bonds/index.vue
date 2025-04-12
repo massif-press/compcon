@@ -309,7 +309,6 @@ export default {
   watch: {
     'pilot.BondController.BondPowers': {
       handler(val) {
-        console.log('Bond Powers changed', val);
         this.masonryBondItems = [...this.pilot.BondController.BondPowers];
       },
       immediate: true,

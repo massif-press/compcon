@@ -106,6 +106,7 @@ import { UserStore } from '@/stores';
 import DiffViewer from './diffViewer.vue';
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController';
 import { cloudDelete, downloadFromS3 } from '@/io/apis/account';
+import logger from '@/user/logger';
 
 const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR;
 
@@ -182,7 +183,7 @@ export default {
         link.click();
         link.remove();
       } catch (error) {
-        console.error('Error downloading the image:', error);
+        logger.error(`Error downloading image: ${error}`, this);
       }
     },
     async deleteImage(item) {
@@ -200,7 +201,7 @@ export default {
         this.deleteLoading = false;
         return true;
       } catch (err) {
-        console.error(err);
+        logger.error(`Error deleting image: ${err}`, this);
         this.$notify({
           title: `Deletion Failed`,
           text: `Unable to communicate with server. ${err}`,

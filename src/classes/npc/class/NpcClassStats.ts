@@ -1,3 +1,5 @@
+import logger from '@/user/logger';
+
 export interface INpcClassStats {
   activations: number[] | number;
   armor: number[] | number;
@@ -77,7 +79,7 @@ export class NpcClassStats {
   // for comparitors
   public Average(key: string) {
     if (!this._stats[key]) {
-      console.error('no stat for', key);
+      logger.warn(`NpcClassStats: ${key} does not exist`, this);
       return 0;
     }
     return this._stats[key].reduce((a, b) => a + b, 0) / this._stats[key].length;

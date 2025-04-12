@@ -3,6 +3,7 @@ import * as eventMap from './eventParameterMap.json';
 import { decrypt } from '@/util/Decode';
 import { Achievement, AchievementData, AchievementSaveData } from './Achievement';
 import { UserStore } from '../store';
+import logger from '../logger';
 
 class AchievementManager {
   public static Instance: AchievementManager;
@@ -22,7 +23,7 @@ class AchievementManager {
       );
     });
 
-    console.log(`Achievements Loaded: ${this._achievements.length}`);
+    logger.info(`Achievements Loaded: ${this._achievements.length}`);
   }
 
   private getEventType(id): string {

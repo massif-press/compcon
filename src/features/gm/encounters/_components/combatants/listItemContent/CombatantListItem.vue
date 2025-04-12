@@ -6,6 +6,7 @@
 import cDoodadListItem from './cDoodadListItem.vue';
 import cUnitListItem from './cUnitListItem.vue';
 import cEidolonListItem from './cEidolonListItem.vue';
+import logger from '@/user/logger';
 
 export default {
   name: 'gm-combatant-list-item',
@@ -17,12 +18,12 @@ export default {
   computed: {
     component() {
       if (!this.item) {
-        console.error('No item provided to CombatantListItem');
+        logger.error('No item provided to CombatantListItem', this);
         return null;
       }
 
       if (!this.item.ItemType && !this.item.type) {
-        console.error('No item type provided to CompendiumCard');
+        logger.error('No item type provided to CompendiumCard', this);
         return null;
       }
 

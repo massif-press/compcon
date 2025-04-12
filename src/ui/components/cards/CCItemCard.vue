@@ -12,6 +12,7 @@
 </template>
 
 <script lang="ts">
+import logger from '@/user/logger';
 import * as cards from './items';
 
 export default {
@@ -41,12 +42,12 @@ export default {
   computed: {
     componentLoader(): any {
       if (!this.item) {
-        console.error('No item provided to CCItemCard');
+        logger.error('No item provided to CCItemCard', this);
         return null;
       }
 
       if (!this.item.ItemType && !this.item.type) {
-        console.error('No item type provided to CCItemCard');
+        logger.error('No item type provided to CCItemCard', this);
         return null;
       }
 
@@ -57,7 +58,7 @@ export default {
       t += 'Card';
 
       if (!cards[t]) {
-        console.error(`No card found for item type ${t}`);
+        logger.error(`No card found for item type ${t}`, this);
         return null;
       }
 

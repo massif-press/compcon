@@ -251,7 +251,6 @@ export default {
       return this.$vuetify.display.mdAndDown;
     },
     remoteItems() {
-      console.log(UserStore().AllRemoteItems);
       return UserStore().AllRemoteItems;
     },
     shownItems() {

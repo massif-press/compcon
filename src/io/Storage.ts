@@ -1,3 +1,4 @@
+import logger from '@/user/logger';
 import localforage from 'localforage';
 
 const dbName = 'COMPCON Persistent';
@@ -104,7 +105,7 @@ const GetAll = async function (collection: string) {
       output.push(JSON.parse(value));
     })
     .catch(function (err) {
-      console.error('Error getting collection data', err);
+      logger.error('Error getting collection data', err);
     });
   return output;
 };

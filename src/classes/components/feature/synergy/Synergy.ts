@@ -40,7 +40,6 @@ class Synergy {
         let types = (item as MechWeapon).WeaponTypes;
 
         if (types.includes('???' as WeaponType)) {
-          console.log('mimic gun');
           types = [
             WeaponType.CQB,
             WeaponType.Cannon,

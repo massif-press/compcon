@@ -197,6 +197,7 @@ import { Campaign } from '@/classes/campaign/Campaign';
 import CampaignBookshelf from '@/features/compendium/Views/CampaignLibrary/components/CampaignBookshelf.vue';
 import { ImportData } from '@/io/Data';
 import { CampaignStore } from '@/stores';
+import logger from '@/user/logger';
 
 export default {
   name: 'campaign-landing',
@@ -258,7 +259,7 @@ export default {
         const c = new Campaign(data);
         this.stagedData = c;
       } catch (e) {
-        console.error(e);
+        logger.error(`Error staging import: ${e}`, this);
         this.stagedData = null;
         this.errorMessage = JSON.stringify(e);
       }

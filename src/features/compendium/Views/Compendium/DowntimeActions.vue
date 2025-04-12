@@ -35,8 +35,6 @@ export default {
   }),
   computed: {
     downtimeActions() {
-      console.log(lancerdata);
-      console.log('Downtime Actions', CompendiumStore().DowntimeActions);
       return _.orderBy(CompendiumStore().DowntimeActions, 'Name');
     },
   },

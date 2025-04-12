@@ -54,6 +54,7 @@
 </template>
 
 <script lang="ts">
+import logger from '@/user/logger';
 import {
   resetPassword,
   type ResetPasswordOutput,
@@ -66,7 +67,7 @@ async function handleResetPassword(username: string) {
     const output = await resetPassword({ username });
     handleResetPasswordNextSteps(output);
   } catch (error) {
-    console.log(error);
+    logger.info(`Error resetting password: ${error}`);
   }
 }
 
@@ -75,11 +76,11 @@ function handleResetPasswordNextSteps(output: ResetPasswordOutput) {
   switch (nextStep.resetPasswordStep) {
     case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
       const codeDeliveryDetails = nextStep.codeDeliveryDetails;
-      console.log(`Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`);
+      logger.info(`Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`);
       // Collect the confirmation code from the user and pass to confirmResetPassword.
       break;
     case 'DONE':
-      console.log('Successfully reset password.');
+      logger.info('Successfully reset password.');
       break;
   }
 }
@@ -92,7 +93,7 @@ async function handleConfirmResetPassword({
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
   } catch (error) {
-    console.log(error);
+    logger.info(`Error confirming reset password: ${error}`);
   }
 }
 
@@ -118,7 +119,7 @@ export default {
           this.sent = true;
         })
         .catch((err) => {
-          console.error(err);
+          logger.error(`Error sending reset password email: ${err}`, this);
           this.loading = false;
           this.sent = false;
           this.$notify(`Unable to send reset e-mail: ${err.message}`, 'error');

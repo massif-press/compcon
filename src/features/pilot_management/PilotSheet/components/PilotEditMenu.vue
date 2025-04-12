@@ -120,6 +120,7 @@ import { CloudController } from '@/classes/components';
 import CloneDialog from './CloneDialog.vue';
 import StatblockDialog from './StatblockDialog.vue';
 import ShareDialog from './ShareDialog.vue';
+import logger from '@/user/logger';
 
 // import { RemoteSyncItem } from '@/cloud/item_sync';
 
@@ -179,7 +180,7 @@ export default {
           data: { type: 'success', icon: 'mdi-check' },
         });
       } catch (error) {
-        console.error(error);
+        logger.error(`Pilot export failed: ${error}`, this);
         this.$notify({
           title: 'Export Error',
           text: 'COMP/CON was unable to export pilot data',

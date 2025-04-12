@@ -60,6 +60,7 @@
 <script lang="ts">
 import { unCamelCase } from '@/classes/utility/accent_fold';
 import { CompendiumStore } from '@/stores';
+import logger from '@/user/logger';
 
 export default {
   name: 'itemLink',
@@ -89,7 +90,7 @@ export default {
           try {
             this.item = CompendiumStore().referenceFromID(this.type, this.id);
           } catch (e) {
-            console.error(e);
+            logger.error(`Error loading item with ID ${this.id}: ${e}`, this);
           }
         }
       },

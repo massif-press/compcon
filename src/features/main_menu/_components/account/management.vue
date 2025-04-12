@@ -284,6 +284,7 @@ import DeleteAccount from './_components/deleteAccount.vue';
 import PatreonCard from './_components/patreonCard.vue';
 import ItchCard from './_components/itchCard.vue';
 import CloudNotificationList from '@/features/nav/_components/CloudNotificationList.vue';
+import logger from '@/user/logger';
 
 export default {
   name: 'account-management',
@@ -362,7 +363,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (err) {
-        console.error(err);
+        logger.error(`Failed to change password: ${err}`, this);
         this.$notify({
           title: 'Password update failed',
           text: 'The server returned an error',
@@ -404,7 +405,7 @@ export default {
           this.$emit('set-state', 'sign-in');
         })
         .catch((err) => {
-          console.error(err);
+          logger.error(`Error signing out: ${err}`, this);
         });
     },
     async userUpdate(key: string) {
@@ -441,7 +442,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (err) {
-        console.error('Failed to initiate email change:', err);
+        logger.error(`Failed to initiate email change: ${err}`, this);
         this.$notify({
           title: 'E-mail change failed',
           text: 'The server returned an error',

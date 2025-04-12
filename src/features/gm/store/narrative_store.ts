@@ -4,6 +4,7 @@ import { Faction, FactionData } from '@/classes/narrative/Faction';
 import { Location, LocationData } from '@/classes/narrative/Location';
 import { GetAll, RemoveItem, SetItem } from '@/io/Storage';
 import { IndexItem } from '@/stores';
+import logger from '@/user/logger';
 import _ from 'lodash';
 import { defineStore } from 'pinia';
 
@@ -90,7 +91,7 @@ export const NarrativeStore = defineStore('narrative', {
 
     async AddItem(payload: Character | Location | Faction): Promise<void> {
       if (this.CollectionItems.some((x) => x.ID === payload.ID)) {
-        console.log('CollectionItem already exists');
+        logger.info(`Item with ID ${payload.ID} already exists, updating instead.`, this);
         this.SetItem(
           this.CollectionItems.findIndex((x) => x.ID === payload.ID),
           payload
@@ -124,8 +125,8 @@ export const NarrativeStore = defineStore('narrative', {
 
     async SaveItemData(): Promise<void> {
       Promise.all((this.CollectionItems as any).map((y) => SetItem('narrative', y.Serialize())))
-        .then(() => console.info('Narrative data saved'))
-        .catch((err) => console.error('Error while saving NPC data', err));
+        .then(() => logger.info('Narrative data saved'))
+        .catch((err) => logger.error('Error while saving NPC data', err));
     },
   },
 });

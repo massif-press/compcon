@@ -89,6 +89,7 @@ import { rules } from '@massif/lancer-data';
 import scrollTo from '@/util/scrollTo';
 
 import _ from 'lodash';
+import logger from '@/user/logger';
 
 export default {
   name: 'skill-selector',
@@ -162,7 +163,7 @@ export default {
     scrollTo(e: any): void {
       const el = document.getElementById(e);
       if (!el) {
-        console.warn(`Element with ID ${e} not found`);
+        logger.warn(`Element with ID ${e} not found`, this);
         return;
       }
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });

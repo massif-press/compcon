@@ -105,6 +105,7 @@
 
 <script lang="ts">
 import { UserStore } from '@/stores';
+import logger from '@/user/logger';
 import { signIn } from 'aws-amplify/auth';
 
 export default {
@@ -165,7 +166,7 @@ export default {
         await UserStore().setCognito();
         await this.addLoginLog('User credentials verified');
       } catch (error: any) {
-        console.error(error);
+        logger.error(`Error verifying user credentials: ${error}`, this);
         this.showError = true;
         await this.addLoginLog('Failed to verify user credentials', true);
         await this.addLoginLog('Error: ' + error.message, true);

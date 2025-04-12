@@ -195,12 +195,11 @@ export default {
     }
 
     if (!est.usage || !est.quota) {
-      logger.log('unable to request storage estimate', 'warning', est);
+      logger.info(`navigator storage estimate: ${est.usage} / ${est.quota}`, this);
     } else
-      logger.log(
-        `navigator storage estimate: ${((est.usage / est.quota) * 100).toFixed(5)}% `,
-        'info',
-        est
+      logger.info(
+        `navigator storage estimate: ${this.bytesToSize(est.usage)} / ${this.bytesToSize(est.quota)}`,
+        this
       );
   },
   computed: {

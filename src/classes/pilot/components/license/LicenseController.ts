@@ -6,6 +6,7 @@ import { PilotLicense } from './PilotLicense';
 import { CompendiumItem, ItemType, LicensedItem } from '@/class';
 import { CompendiumStore } from '@/stores';
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
+import logger from '@/user/logger';
 
 interface ILicenseSaveData {
   licenses: IRankedData[];
@@ -101,11 +102,8 @@ class LicenseController {
         }
 
         if (this._licenses.filter((license) => license.Rank === 3).length === 4) {
-          console.log('hello');
           AchievementEventSystem.emit('rank_4_total', 4);
         }
-
-        console.log(this._licenses.filter((license) => license.Rank === 3).length);
 
         // collect total license levels by source, for each source:
         const sourceLevels = this._licenses.reduce(
@@ -145,8 +143,9 @@ class LicenseController {
   public RemoveLicense(license: License): void {
     const index = this._licenses.findIndex((x) => x.License.FrameID === license.FrameID);
     if (index === -1) {
-      console.error(
-        `License "${license.ToString()}" does not exist on Pilot ${this.Parent.Callsign}`
+      logger.error(
+        `License "${license.ToString()}" does not exist on Pilot ${this.Parent.Callsign}`,
+        this
       );
     } else {
       if (this._licenses[index].Rank > 1) {

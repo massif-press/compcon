@@ -5,6 +5,7 @@ import { Campaign, ICampaignData } from '@/classes/campaign/Campaign';
 import { cloudDelete } from '@/io/apis/account';
 import { UserStore } from '@/stores';
 import { CloudController } from '@/classes/components';
+import logger from '@/user/logger';
 
 export const CampaignStore = defineStore('campaign', {
   state: () => ({
@@ -43,8 +44,8 @@ export const CampaignStore = defineStore('campaign', {
       Promise.all([
         this.Campaigns.map((y) => SetItem('campaigns', Campaign.Serialize(y as Campaign))),
       ])
-        .then(() => console.info('Campaign data saved'))
-        .catch((err) => console.error('Error while saving Campaign data', err));
+        .then(() => logger.info('Campaign data saved'))
+        .catch((err) => logger.error('Error while saving Campaign data', err));
     },
     async AddCampaign(payload: Campaign): Promise<void> {
       const sameId = this.Campaigns.find((x) => x.ID === payload.ID) as Campaign;

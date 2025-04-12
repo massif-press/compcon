@@ -820,9 +820,6 @@ export default {
       this.options.initialView
     );
   },
-  mounted() {
-    if (this.mobile && this.view === 'single') this.view = 'list';
-  },
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;

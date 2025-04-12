@@ -78,6 +78,7 @@
 </template>
 
 <script lang="ts">
+import logger from '@/user/logger';
 import { confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
 export default {
@@ -125,7 +126,7 @@ export default {
           this.error = 'Error confirming account. Please try again.';
         }
       } catch (error: any) {
-        console.error('error confirming code:', error);
+        logger.error(`error confirming sign up: ${error}`, this);
         this.showError = true;
         this.error = error.message;
       }
@@ -139,7 +140,7 @@ export default {
         this.sentCode = true;
         this.preFill = true;
       } catch (error: any) {
-        console.error('error resending code:', error);
+        logger.error(`error resending code: ${error}`, this);
         this.showError = true;
         this.error = error.message;
       }

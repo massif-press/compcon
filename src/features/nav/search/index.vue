@@ -109,16 +109,17 @@ export default {
     handleSearch(event) {
       if ((event.ctrlKey || event.metaKey) && event.key === '/') {
         this.search = '';
-        // Your code here
-        console.log('Ctrl+/ detected');
         this.searchDialog = !this.searchDialog;
       }
       if (event.key === 'Escape') {
         this.searchDialog = false;
       }
       if (event.key === 'Enter') {
-        // if search results are displayed, navigate to the first result
-        // else, close the search dialog
+        if (this.searchResults.length > 0) {
+          this.navTo(this.searchResults[0].path);
+        } else {
+          this.searchDialog = false;
+        }
       }
     },
     navTo(path) {

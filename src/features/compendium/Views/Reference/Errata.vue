@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import logger from '@/user/logger';
 import { marked } from 'marked';
 
 export default {
@@ -123,8 +124,7 @@ export default {
       text = this.sanitize(text);
       text = this.convertToJson(text);
       this.faq = this.srdFormat(text[0].children);
-      console.log(this.faq);
-    } else console.error('Error fetching file:', res.status);
+    } else logger.error(`Error fetching FAQ data: ${res.statusText}`, this);
     this.loading = false;
   },
   methods: {
@@ -174,7 +174,6 @@ export default {
         } else {
           // capture expansion book and page number
           const extraMatch = item.heading.match(/^(.+?)(?:\s*page\s*)?(\d+),\s*(.+)$/i); // Non-capturing group for optional "page"
-          console.log(extraMatch);
           if (extraMatch) {
             out.book = extraMatch[1].trim();
             out.page = parseInt(extraMatch[2], 10);

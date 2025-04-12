@@ -109,7 +109,6 @@ export default {
     } as any,
   }),
   mounted() {
-    console.log(this.ids);
     if (!this.ids) return;
     let idArr = typeof this.ids === 'string' ? JSON.parse(this.ids) : this.ids;
     this.selectedNpcs = idArr.map((x) => NpcStore().Npcs.find((p) => p.ID === x) as Npc);

@@ -7,6 +7,7 @@ import { CloudController, PortraitController, SaveController } from '@/classes/c
 import _ from 'lodash';
 import { IndexItem } from '@/stores';
 import { cloudDelete } from '@/io/apis/account';
+import logger from '@/user/logger';
 
 export const PilotStore = defineStore('pilot', {
   state: () => ({
@@ -120,12 +121,8 @@ export const PilotStore = defineStore('pilot', {
       });
     },
     async AddPilot(pilot: Pilot, groupID?: string): Promise<void> {
-      console.log('Adding pilot', pilot);
-      // pilot.SaveController.IsDirty = true;
-      // if (!this.Pilots) this.Pilots = [];
-
       if (this.Pilots.some((x) => x.ID === pilot.ID)) {
-        console.log('Pilot already exists');
+        logger.info(`Pilot ${pilot.Callsign} already exists`, this);
         // also saves
         this.SetPilot(
           this.Pilots.findIndex((x) => x.ID === pilot.ID),
@@ -169,15 +166,15 @@ export const PilotStore = defineStore('pilot', {
     async SavePilotData(): Promise<void> {
       Promise.all(this.Pilots.map((y) => SetItem('pilots', Pilot.Serialize(y as Pilot))))
         .then(() => this.SaveGroupData())
-        .then(() => console.info('Pilot data saved'))
-        .catch((err) => console.error('Error while saving Pilot data', err));
+        .then(() => logger.info('Pilot data saved'))
+        .catch((err) => logger.error('Error while saving Pilot data', err));
     },
     async SaveGroupData(): Promise<void> {
       Promise.all([
         this.PilotGroups.map((x) => SetItem('pilot_groups', PilotGroup.Serialize(x as PilotGroup))),
       ])
-        .then(() => console.info('Pilot group data saved'))
-        .catch((err) => console.error('Error while saving Pilot data', err));
+        .then(() => logger.info('Pilot group data saved'))
+        .catch((err) => logger.error('Error while saving Pilot data', err));
     },
 
     ClonePilot(payload: Pilot): void {

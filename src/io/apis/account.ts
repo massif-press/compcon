@@ -1,4 +1,5 @@
 import { UserStore } from '@/stores';
+import logger from '@/user/logger';
 
 const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL}`;
 
@@ -87,7 +88,7 @@ export async function updateUser(id: string, payload: any): Promise<any> {
 }
 
 export async function uploadToS3(data, presignedUrl, type = 'application/json') {
-  console.log('Uploading data to S3:', data);
+  logger.info('Uploading data to S3:', data);
 
   if (data.cloud?.cloud_data) delete data.cloud.cloud_data;
 
@@ -101,13 +102,13 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
         'Content-Type': type,
       },
     });
-    console.log('Upload response:', response);
+    logger.info(`Response from S3 upload: ${response.status}`);
 
     if (response.ok) {
-      console.log('Upload successful:', response.status);
+      logger.info(`Upload successful: ${response.status}`);
       return true;
     } else {
-      console.error('Upload failed:', response.statusText);
+      logger.error('Upload failed:', response.statusText);
       return false;
     }
   } catch (error) {
@@ -124,10 +125,10 @@ export async function downloadFromS3(s3Url) {
       const jsonData = await response.json();
       return jsonData;
     } else {
-      console.error('Download failed:', response.statusText);
+      logger.error('Download failed:', response.statusText);
     }
   } catch (error) {
-    console.error('Error downloading JSON:', error);
+    logger.error('Error downloading JSON:', error);
   }
 }
 
@@ -138,10 +139,10 @@ export async function getFromPresignDirect(url) {
       const rawData = await response.blob();
       return rawData;
     } else {
-      console.error('Download failed:', response.statusText);
+      logger.error('Download failed:', response.statusText);
     }
   } catch (error) {
-    console.error('Error downloading JSON:', error);
+    logger.error('Error downloading JSON:', error);
   }
 }
 

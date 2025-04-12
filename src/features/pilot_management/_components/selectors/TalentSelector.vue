@@ -74,6 +74,7 @@ import { CompendiumStore } from '@/stores';
 import { Rules, Pilot, Talent } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
 import scrollTo from '@/util/scrollTo';
+import logger from '@/user/logger';
 
 export default {
   name: 'talent-selector',
@@ -151,7 +152,7 @@ export default {
     scrollTo(e: any): void {
       const el = document.getElementById(e);
       if (!el) {
-        console.warn(`Element with ID ${e} not found`);
+        logger.warn(`Element with ID ${e} not found`, this);
         return;
       }
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });

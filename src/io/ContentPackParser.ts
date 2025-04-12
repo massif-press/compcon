@@ -25,6 +25,7 @@ import { INpcTemplateData } from '@/classes/npc/template/NpcTemplate';
 import CoreLayerData from '@/classes/npc/eidolon/core_layer.json';
 import { IEnvironmentData } from '@/classes/Environment';
 import { IDowntimeActionData } from '@/classes/DowntimeAction';
+import logger from '@/user/logger';
 
 const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
@@ -64,7 +65,7 @@ async function getZipData<T>(zip: JSZip, filename: string): Promise<T[]> {
   try {
     readResult = await readZipJSON<T[]>(zip, filename);
   } catch (e) {
-    console.error(`Error reading file ${filename} from package, skipping. Error follows:`);
+    logger.error(`Error reading file ${filename} from package, skipping. Error: ${e}`);
     readResult = null;
   }
   return readResult || [];
@@ -234,12 +235,12 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
         return;
       }
 
-      console.error(`Failed to assign origin to item`, item);
+      logger.error(`Failed to assign origin to NPC feature ${item.name}`);
       failedFeatures.push(item);
     });
 
   if (failedFeatures.length) {
-    console.error(`Failed to assign origin to ${failedFeatures.length} items`, failedFeatures);
+    logger.error(`Failed to assign origin to ${failedFeatures.length} items`, failedFeatures);
     npcFeatures = npcFeatures.filter((x) => !failedFeatures.includes(x));
   }
 

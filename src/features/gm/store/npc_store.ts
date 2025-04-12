@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { Npc } from '@/classes/npc/Npc';
 import { IndexItem } from '@/stores';
 import { CloudController } from '@/classes/components';
+import logger from '@/user/logger';
 
 export const NpcStore = defineStore('npc', {
   state: () => ({
@@ -121,7 +122,7 @@ export const NpcStore = defineStore('npc', {
 
     async AddNpc(payload: Unit | Doodad | Eidolon): Promise<void> {
       if (this.Npcs.some((x) => x.ID === payload.ID)) {
-        console.log('NPC already exists');
+        logger.info(`NPC with ID ${payload.ID} already exists, updating instead.`, this);
         this.SetNpc(
           this.Npcs.findIndex((x) => x.ID === payload.ID),
           payload
@@ -147,7 +148,7 @@ export const NpcStore = defineStore('npc', {
 
     async DeleteNpcPermanent(payload: Unit | Doodad | Eidolon): Promise<void> {
       const idx = this.Npcs.findIndex((x) => x.ID === payload.ID);
-      console.log('Deleting NPC', payload.ID, idx);
+      logger.info(`Deleting NPC ${payload.ID} (${payload.Name})`, this);
       if (idx >= 0) this.Npcs.splice(idx, 1);
       await RemoveItem('npcs', payload.ID);
       await this.SaveNpcData();
@@ -158,8 +159,8 @@ export const NpcStore = defineStore('npc', {
 
     async SaveNpcData(): Promise<void> {
       Promise.all((this.Npcs as any).map((y) => SetItem('npcs', y.Serialize())))
-        .then(() => console.info('NPC data saved'))
-        .catch((err) => console.error('Error while saving NPC data', err));
+        .then(() => logger.info('NPC data saved'))
+        .catch((err) => logger.error('Error while saving NPC data', err));
     },
   },
 });

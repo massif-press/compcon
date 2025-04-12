@@ -186,6 +186,7 @@ import CompendiumShelf from './compendiumShelf.vue';
 import JSZip from 'jszip';
 import CampaignShareCodeDialog from './campaignShareCodeDialog.vue';
 import { GetFromCode } from '@/io/apis/account';
+import logger from '@/user/logger';
 
 export default {
   name: 'campaign-bookshelf',
@@ -263,7 +264,7 @@ export default {
       try {
         this.stagedData = data;
       } catch (e) {
-        console.error(e);
+        logger.error(`Error parsing campaign data: ${e}`, this);
         this.stagedData = null;
         this.errorMessage = JSON.stringify(e);
       }

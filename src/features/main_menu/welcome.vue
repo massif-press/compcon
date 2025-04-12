@@ -77,8 +77,6 @@ export default {
     tab: 0,
   }),
   mounted() {
-    console.log('unreadMessages', this.unreadMessages);
-    console.log('systemMessages', this.systemMessages);
     this.panel = this.unreadMessages.length > 0;
     this.tab = this.systemMessages.findIndex((message) =>
       this.unreadMessages.find((m) => m.id === message.id)

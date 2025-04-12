@@ -3,8 +3,7 @@
     :is="componentLoader"
     v-if="componentLoader"
     ref="c"
-    @set-filters="$emit('set-filters', $event)"
-  />
+    @set-filters="$emit('set-filters', $event)" />
   <v-card v-else variant="outlined">
     <v-card-text class="text center">
       <i>No filters available</i>
@@ -13,6 +12,7 @@
 </template>
 
 <script lang="ts">
+import logger from '@/user/logger';
 import * as filters from './';
 
 export default {
@@ -32,14 +32,14 @@ export default {
   computed: {
     componentLoader() {
       if (!this.itemType) {
-        console.error('No item type provided to CCItemFilter');
+        logger.error('No item type provided to CCItemFilter', this);
         return null;
       }
 
       const f = `${this.itemType.replace(' ', '')}Filter`;
 
       if (!filters[f]) {
-        console.error(`No filter found for item type ${this.itemType}`);
+        logger.error(`No filter found for item type ${this.itemType}`, this);
         return null;
       }
 

@@ -92,6 +92,7 @@ import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue';
 import { CompendiumStore } from '@/stores';
 import { Pilot, CoreBonus, Manufacturer } from '@/class';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
+import logger from '@/user/logger';
 
 export default {
   name: 'CoreBonusSelector',
@@ -217,7 +218,7 @@ export default {
     scrollTo(e: any): void {
       const el = document.getElementById(e);
       if (!el) {
-        console.warn(`Element with ID ${e} not found`);
+        logger.warn(`Element with ID ${e} not found`, this);
         return;
       }
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });

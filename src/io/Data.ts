@@ -25,7 +25,6 @@ const saveData = async function <T>(collection: string, data: T): Promise<void> 
   const p = await canPersistData();
 
   if (!p) {
-    console.error('Cannot persist data');
     logger.error('Cannot persist data');
     return;
   }
@@ -100,13 +99,12 @@ const _importFile = async function <T>(file: File): Promise<T> {
 
 const ImportData = async function <T>(file: File): Promise<T> {
   const json = await _importFile(file);
-  console.log('Importing data:', json);
   try {
     const item = json as { EXPORT_TYPE?: string; data: T };
     if (item.EXPORT_TYPE) return item.data as T;
     else return json as T;
   } catch (error) {
-    console.error('Error parsing imported data:', error);
+    logger.error('Error parsing imported data:', error);
     throw new Error('Invalid JSON');
   }
 };

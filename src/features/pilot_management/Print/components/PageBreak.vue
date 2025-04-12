@@ -5,7 +5,8 @@
     <v-col><v-divider /></v-col>
   </v-row>
   <div style="display: block">
-    <div style="page-break-inside: avoid; page-break-after: always; height: 1px; padding: 10px" />
+    <div
+      style="page-break-inside: avoid; page-break-before: always; min-height: 6px; padding: 10px" />
   </div>
 </template>
 

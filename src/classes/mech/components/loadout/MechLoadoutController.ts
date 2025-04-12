@@ -5,6 +5,7 @@ import { IMechLoadoutData } from './MechLoadout';
 import { MechEquipment } from '../equipment/MechEquipment';
 import { MechSystem } from '../equipment/MechSystem';
 import { MechWeapon } from '../equipment/MechWeapon';
+import logger from '@/user/logger';
 
 interface IMechLoadoutSaveData {
   loadouts: IMechLoadoutData[];
@@ -71,7 +72,7 @@ class MechLoadoutController implements IFeatureContainer {
 
   public RemoveLoadout(): void {
     if (this._loadouts.length === 1) {
-      console.error(`Cannot remove last Mech Loadout`);
+      logger.error(`Cannot remove last Mech Loadout`, this);
     } else {
       const index = this._loadouts.findIndex((x) => x.ID === this.ActiveLoadout.ID);
       this._active_loadout = this._loadouts[index + (index === 0 ? 1 : -1)];
@@ -94,7 +95,6 @@ class MechLoadoutController implements IFeatureContainer {
   }
 
   public UpdateLoadouts(): void {
-    console.log(`Updating Loadouts...`);
     this._loadouts.forEach((x) => {
       x.SetAllIntegrated();
     });

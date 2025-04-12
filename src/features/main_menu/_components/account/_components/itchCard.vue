@@ -117,6 +117,7 @@
 
 <script lang="ts">
 import { UserStore } from '@/stores';
+import logger from '@/user/logger';
 import { authItch } from '@/user/oauth';
 
 export default {
@@ -179,7 +180,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (error) {
-        console.error('Token Exchange Error:', error);
+        logger.error(`Error linking itch.io account: ${error}`, this);
         this.loadItch = false;
         this.$notify({
           title: 'Itch.io Link Failed',

@@ -19,6 +19,7 @@ import { Character } from '@/classes/narrative/Character';
 import { Faction } from '@/classes/narrative/Faction';
 import { Location } from '@/classes/narrative/Location';
 import { error } from 'console';
+import logger from '@/user/logger';
 
 const syncableTypes = [
   'pilot',
@@ -244,7 +245,7 @@ class CloudController {
         await CloudController.SyncToNewest(item);
         break;
       default:
-        console.error('Unknown sync strategy:', strategy);
+        logger.error('Unknown sync strategy:', this);
         break;
     }
   }
@@ -286,7 +287,7 @@ class CloudController {
       !syncableTypes.includes(item.ItemType.toLowerCase())
     ) {
       UserStore().addCloudNotification(`Unable to sync ${item.ItemType} ${item.Name}.`, 'error');
-      console.error('Item cannot be synced:', item);
+      logger.error(`CloudController: Unable to sync ${item.ItemType} ${item.Name}.`, this);
       return;
     }
     const itemType = item.CloudController.Metadata.SortKey.split('_')[1].toLowerCase();
@@ -352,7 +353,7 @@ class CloudController {
         await CampaignStore().AddCampaign(item);
         break;
       default:
-        console.error('Unknown item type:', itemType);
+        logger.error(`CloudController: Unknown item type ${itemType}`, this);
         break;
     }
   }
@@ -362,7 +363,7 @@ class CloudController {
     if (UserStore().CloudStorageFull) throw new Error('Cloud storage full! Unable to sync.');
 
     if (!item.SaveController) {
-      console.error('Item cannot be synced (has no local instance):', item);
+      logger.error(`CloudController: Unable to sync ${item.ItemType} ${item.Name}.`, this);
       return;
     }
     const res = await item.CloudController.UpdateCloud();

@@ -1,6 +1,7 @@
 import { getImagePath, ImageTag } from '@/io/ImageManagement';
 import { ContentPack } from './ContentPack';
 import DOMPurify from 'dompurify';
+import logger from '@/user/logger';
 
 interface IManufacturerData {
   id: string;
@@ -87,6 +88,7 @@ class Manufacturer {
       const response = await fetch(this.Logo);
       this._is_cors_safe = response.ok;
     } catch (e) {
+      logger.error(`Error checking CORS for manufacturer ${this.Name}: ${e}`, this);
       this._is_cors_safe = false;
     }
   }
