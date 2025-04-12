@@ -1,57 +1,50 @@
 <template>
-  <cc-solo-dialog
-    ref="dialog"
-    icon="mdi-printer"
-    large
-    title="Print Options"
-    @confirm="$emit('set', options)">
-    <v-card-text class="flavor-text">
-      <v-card flat tile>
+  <v-card-text class="flavor-text">
+    <v-card flat tile>
+      <fieldset class="pa-2">
+        <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
+        <v-row v-if="options.layout.title !== 'Cards'">
+          <v-col>
+            <print-option-select
+              v-model="options.paper"
+              mandatory
+              title="Paper"
+              :items="paperOptions" />
+          </v-col>
+          <v-col>
+            <print-option-select
+              v-model="options.orientation"
+              mandatory
+              title="Orientation"
+              :items="orientationOptions" />
+          </v-col>
+        </v-row>
+        <v-row v-else>
+          <v-col>
+            <print-option-select
+              v-model="options.paper"
+              mandatory
+              title="Paper"
+              :items="paperOptions" />
+          </v-col>
+        </v-row>
+      </fieldset>
+    </v-card>
+    <v-scroll-y-transition>
+      <v-card v-if="includeOptions.length > 0" flat tile>
         <fieldset class="pa-2">
-          <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
-          <v-row v-if="options.layout.title !== 'Cards'">
-            <v-col>
-              <print-option-select
-                v-model="options.paper"
-                mandatory
-                title="Paper"
-                :items="paperOptions" />
-            </v-col>
-            <v-col>
-              <print-option-select
-                v-model="options.orientation"
-                mandatory
-                title="Orientation"
-                :items="orientationOptions" />
-            </v-col>
-          </v-row>
-          <v-row v-else>
-            <v-col>
-              <print-option-select
-                v-model="options.paper"
-                mandatory
-                title="Paper"
-                :items="paperOptions" />
-            </v-col>
-          </v-row>
+          <legend class="clipped-small heading h3">Options&emsp;</legend>
+          <print-option-select v-model="options.include" multiple widen :items="includeOptions" />
         </fieldset>
       </v-card>
-      <v-scroll-y-transition>
-        <v-card v-if="includeOptions.length > 0" flat tile>
-          <fieldset class="pa-2">
-            <legend class="clipped-small heading h3">Options&emsp;</legend>
-            <print-option-select v-model="options.include" multiple widen :items="includeOptions" />
-          </fieldset>
-        </v-card>
-      </v-scroll-y-transition>
-      <v-card flat tile>
-        <fieldset class="pa-2">
-          <legend>Extras</legend>
-          <print-option-select v-model="options.extras" multiple :items="extraOptions" />
-        </fieldset>
-      </v-card>
-    </v-card-text>
-  </cc-solo-dialog>
+    </v-scroll-y-transition>
+    <v-card flat tile>
+      <fieldset class="pa-2">
+        <legend>Extras</legend>
+        <print-option-select v-model="options.extras" multiple :items="extraOptions" />
+      </fieldset>
+    </v-card>
+  </v-card-text>
 </template>
 
 <script lang="ts">
@@ -69,25 +62,20 @@ export default {
     },
   },
   data: () => ({
-    options: {
-      layout: { title: 'Standard', icon: 'mdi-book-open' },
-      orientation: { title: 'Portrait', icon: 'mdi-file' },
-      paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
-      include: [],
-      extras: [],
-      card: [],
-    },
-    orientationOptions: [
-      { title: 'Portrait', icon: 'mdi-file' },
-      { title: 'Landscape', icon: 'mdi-note' },
-    ],
     paperOptions: [
       { title: 'Letter', icon: 'mdi-text-box-check-outline' },
-      { title: 'A4', icon: 'mdi-file-star-four-points-outline' },
+      { title: 'A4', icon: 'mdi-text-box-check-outline' },
+    ],
+    orientationOptions: [
+      { title: 'Portrait', icon: 'mdi-file' },
+      { title: 'Landscape', icon: 'mdi-file-document-multiple' },
     ],
   }),
-  created() {
-    this.$emit('set', this.options);
+  props: {
+    options: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     show() {
@@ -109,7 +97,6 @@ export default {
             { title: 'Clocks' },
             { title: 'Tables' },
             { title: 'GM Notes' },
-            { title: 'PC Scan Detail' },
             { title: 'Append Lined Section' },
             { title: 'Append Unlined Section' },
           ];

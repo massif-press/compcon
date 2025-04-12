@@ -3,7 +3,7 @@
     <v-card
       tile
       flat
-      :class="options.orientation"
+      :class="options.orientation.title"
       class="print-card"
       style="margin-left: auto; margin-right: auto">
       <div v-if="selectedItems.length">
@@ -46,14 +46,14 @@
 
         <v-spacer />
 
-        <cc-modal>
+        <cc-modal title="Print Options" icon="mdi-cog">
           <template #activator="{ open }">
             <v-btn @click="open">
               <span>Options</span>
               <v-icon icon="mdi-cog" />
             </v-btn>
           </template>
-          <options-dialog ref="options" @set="setOptions($event)" />
+          <options-dialog :options="options" />
         </cc-modal>
         <v-btn @click="print()">
           <span>Print</span>
@@ -73,6 +73,7 @@ import OptionsDialog from './OptionsDialog.vue';
 import { NarrativeStore } from '@/stores';
 import PageBreak from './components/PageBreak.vue';
 import { CollectionItem } from '@/classes/narrative/CollectionItem';
+import { options } from 'marked';
 
 export default {
   name: 'combined-print',
@@ -104,6 +105,7 @@ export default {
     this.selectedItems = idArr.map(
       (x) => NarrativeStore().CollectionItems.find((p) => p.ID === x) as CollectionItem
     );
+    this.selectedItems = this.selectedItems.filter((x) => !!x);
   },
   computed: {
     allItems() {
@@ -147,12 +149,12 @@ export default {
 </style>
 
 <style scoped>
-.portrait {
+.Portrait {
   background-color: white !important;
   width: 210mm;
 }
 
-.landscape {
+.Landscape {
   background-color: white !important;
   width: 297mm;
 }

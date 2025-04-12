@@ -182,7 +182,7 @@
             <cc-button
               v-bind="props"
               class="mx-1"
-              :size="mobile && 'small'"
+              :size="mobile ? 'small' : ''"
               icon="mdi-cloud-sync-outline"
               @click="open" />
             <v-badge
@@ -206,7 +206,7 @@
             <cc-button
               v-bind="props"
               class="mx-1"
-              :size="mobile && 'small'"
+              :size="mobile ? 'small' : ''"
               icon="cc:achievement_1"
               :disabled="UserStoreLoading"
               @click="open" />
@@ -225,7 +225,7 @@
       <template #activator="{ props }">
         <cc-button
           class="mx-1"
-          :size="mobile && 'small'"
+          :size="mobile ? 'small' : ''"
           icon="mdi-dots-vertical"
           @click="props.onClick($event)" />
       </template>

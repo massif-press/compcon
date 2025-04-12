@@ -1,18 +1,17 @@
 <template>
-  <div class="mt-1 mb-3 mx-2">
+  <div class="mt-1 mb-3 mx-2 no-print-break">
     <div v-for="d in deployables" style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
       <div class="text-center mb-1">
-        <v-chip size="x-small"
-          ><b>{{ (d as any).name }}</b></v-chip
-        >
+        <v-chip size="x-small">
+          <b>{{ (d as any).name }}</b>
+        </v-chip>
       </div>
 
       <v-row justify="center" dense class="text-center">
         <v-col v-if="(d as any).size" cols="auto">
           <div
             class="caption font-weight-bold"
-            v-html="`Size ${(d as any).size === 0.5 ? '½' : (d as any).size}`"
-          />
+            v-html="`Size ${(d as any).size === 0.5 ? '½' : (d as any).size}`" />
         </v-col>
         <v-col v-if="(d as any).armor" cols="auto">
           <div class="caption" v-html="`<b>Armor</b>: ${(d as any).armor}`" />
@@ -26,8 +25,7 @@
                   ? (d as any).hp.toString().replace(/[{}]/gim, '')
                   : parseFloat((d as any).size || 0.5) * 10
               }`
-            "
-          />
+            " />
         </v-col>
         <v-col v-if="(d as any).size" cols="auto">
           <div class="caption" v-html="`<b>Evasion:</b> ${(d as any).evasion || 10}`" />

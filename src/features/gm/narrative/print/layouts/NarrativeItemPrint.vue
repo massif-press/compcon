@@ -21,11 +21,11 @@
       </v-col>
     </v-row>
 
-    <v-row dense>
+    <v-row dense class="no-print-break">
       <v-col>
         <div v-if="item.Description" class="pl-3" v-html-safe="item.Description" />
       </v-col>
-      <v-col cols="4" v-if="options.include.includes('include image')">
+      <v-col cols="4" v-if="options.include.some((x) => x.title === 'Include Image')">
         <div
           :style="`background-image: url('${item.Portrait}');`"
           style="height: 300px; width: 100%; background-position: top 0%; background-size: cover" />
@@ -39,7 +39,7 @@
       style="line-height: 14px; border: 1px solid grey; border-radius: 3px">
       Relationships
     </legend>
-    <div v-for="r in item.NarrativeController.Relationships" class="pl-2">
+    <div v-for="r in item.NarrativeController.Relationships" class="pl-2 no-print-break">
       <b v-text="r.name" />
       <v-chip class="mx-2" size="x-small">{{ r.relationship }}</v-chip>
       <div v-html-safe="r.notes" class="pl-2" />
@@ -49,22 +49,25 @@
   <div class="mt-n3">
     <fieldset
       v-if="
-        options.include.includes('additional detail') && item.NarrativeController.TextItems.length
+        options.include.some((x) => x.title === 'Additional Detail') &&
+        item.NarrativeController.TextItems.length
       "
       class="mx-1 my-2 px-3">
       <div v-for="t in item.NarrativeController.TextItems">
-        <div class="font-weight-bold mb-n2" v-text="t.header" />
+        <div class="font-weight-bold mb-n2 no-print-break" v-text="t.header" />
         <div v-html-safe="t.body" class="pl-2" />
       </div>
     </fieldset>
 
     <div
-      v-if="options.include.includes('clocks') && item.NarrativeController.Clocks.length"
+      v-if="
+        options.include.some((x) => x.title === 'Clocks') && item.NarrativeController.Clocks.length
+      "
       class="mx-1 my-2">
       <v-card
         v-for="c in item.NarrativeController.Clocks"
         variant="outlined"
-        class="text-caption px-2 pb-1">
+        class="text-caption px-2 pb-1 no-print-break">
         <div class="font-weight-bold text-caption" v-text="c.Title" />
         <v-row no-gutters>
           <v-col v-for="n in c.Segments" class="px-1">
@@ -79,12 +82,14 @@
     </div>
 
     <div
-      v-if="options.include.includes('tables') && item.NarrativeController.Tables.length"
+      v-if="
+        options.include.some((x) => x.title === 'Tables') && item.NarrativeController.Tables.length
+      "
       class="mx-1 my-2">
       <v-card
         v-for="t in item.NarrativeController.Tables"
         variant="outlined"
-        class="text-caption px-2">
+        class="text-caption px-2 no-print-break">
         <div class="font-weight-bold text-caption" v-text="t.Title" />
         <div v-html-safe="t.Description" class="pl-2" />
         <v-row dense v-for="r in t.Results">
@@ -96,11 +101,15 @@
       </v-card>
     </div>
 
-    <fieldset v-if="options.include.includes('append lined section')" class="mx-1 my-2 px-3">
+    <fieldset
+      v-if="options.include.some((x) => x.title === 'Append Lined Section')"
+      class="mx-1 my-2 px-3 no-print-break">
       <div class="mb-4"><notes :rows="16" lined /></div>
     </fieldset>
 
-    <fieldset v-if="options.include.includes('append unlined section')" class="mx-1 my-2 px-3">
+    <fieldset
+      v-if="options.include.some((x) => x.title === 'Append Unlined Section')"
+      class="mx-1 my-2 px-3 no-print-break">
       <div class="mb-4"><notes :rows="16" /></div>
     </fieldset>
   </div>

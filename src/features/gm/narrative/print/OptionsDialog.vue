@@ -1,51 +1,44 @@
 <template>
-  <cc-solo-dialog
-    ref="dialog"
-    icon="mdi-printer"
-    large
-    title="Print Options"
-    @confirm="$emit('set', options)">
-    <v-card-text class="flavor-text">
-      <v-card flat tile>
+  <v-card-text class="flavor-text">
+    <v-card flat tile>
+      <fieldset class="pa-2">
+        <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
+        <v-row v-if="options.layout.title !== 'Cards'">
+          <v-col>
+            <print-option-select
+              v-model="options.paper"
+              mandatory
+              title="Paper"
+              :items="paperOptions" />
+          </v-col>
+          <v-col>
+            <print-option-select
+              v-model="options.orientation"
+              mandatory
+              title="Orientation"
+              :items="orientationOptions" />
+          </v-col>
+        </v-row>
+        <v-row v-else>
+          <v-col>
+            <print-option-select
+              v-model="options.paper"
+              mandatory
+              title="Paper"
+              :items="paperOptions" />
+          </v-col>
+        </v-row>
+      </fieldset>
+    </v-card>
+    <v-scroll-y-transition>
+      <v-card v-if="includeOptions.length > 0" flat tile>
         <fieldset class="pa-2">
-          <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
-          <v-row v-if="options.layout.title !== 'Cards'">
-            <v-col>
-              <print-option-select
-                v-model="options.paper"
-                mandatory
-                title="Paper"
-                :items="paperOptions" />
-            </v-col>
-            <v-col>
-              <print-option-select
-                v-model="options.orientation"
-                mandatory
-                title="Orientation"
-                :items="orientationOptions" />
-            </v-col>
-          </v-row>
-          <v-row v-else>
-            <v-col>
-              <print-option-select
-                v-model="options.paper"
-                mandatory
-                title="Paper"
-                :items="paperOptions" />
-            </v-col>
-          </v-row>
+          <legend class="clipped-small heading h3">Options&emsp;</legend>
+          <print-option-select v-model="options.include" multiple widen :items="includeOptions" />
         </fieldset>
       </v-card>
-      <v-scroll-y-transition>
-        <v-card v-if="includeOptions.length > 0" flat tile>
-          <fieldset class="pa-2">
-            <legend class="clipped-small heading h3">Options&emsp;</legend>
-            <print-option-select v-model="options.include" multiple widen :items="includeOptions" />
-          </fieldset>
-        </v-card>
-      </v-scroll-y-transition>
-    </v-card-text>
-  </cc-solo-dialog>
+    </v-scroll-y-transition>
+  </v-card-text>
 </template>
 
 <script lang="ts">
@@ -54,23 +47,13 @@ import PrintOptionSelect from './PrintOptionSelect.vue';
 export default {
   name: 'print-options-dialog',
   components: { PrintOptionSelect },
-  watch: {
+  props: {
     options: {
-      handler() {
-        this.$emit('set', this.options);
-      },
-      deep: true,
+      type: Object,
+      required: true,
     },
   },
   data: () => ({
-    options: {
-      layout: { title: 'Standard', icon: 'mdi-book-open' },
-      orientation: { title: 'Portrait', icon: 'mdi-file' },
-      paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
-      include: [],
-      extras: [],
-      card: [],
-    },
     orientationOptions: [
       { title: 'Portrait', icon: 'mdi-file' },
       { title: 'Landscape', icon: 'mdi-note' },
@@ -80,9 +63,6 @@ export default {
       { title: 'A4', icon: 'mdi-file-star-four-points-outline' },
     ],
   }),
-  created() {
-    this.$emit('set', this.options);
-  },
   methods: {
     show() {
       (this.$refs.dialog as any).show();

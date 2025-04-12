@@ -15,7 +15,7 @@
           <cc-button
             v-bind="props"
             variant="tonal"
-            :size="mobile && 'small'"
+            :size="mobile ? 'small' : ''"
             class="mx-2"
             :loading="loading"
             icon="mdi-refresh"

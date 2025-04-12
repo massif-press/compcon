@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-2 mt-3">
+  <div class="pa-2 mt-3 no-print-break">
     <div class="text-overline text-primary" style="line-height: 0">EQUIPMENT TAG DETAIL</div>
     <div v-for="t in tags" class="ma-2">
       <v-card variant="outlined" class="pa-2" color="grey">

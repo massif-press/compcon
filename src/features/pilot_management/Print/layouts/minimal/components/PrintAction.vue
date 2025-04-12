@@ -1,5 +1,5 @@
 <template>
-  <div v-if="actions?.length > 0" v-for="a in actions">
+  <div v-if="actions?.length > 0" v-for="a in actions" class="no-print-break">
     <div>
       <v-icon size="x-small" :icon="(a as Action).Icon" :color="(a as Action).Color" />
       <span class="caption">

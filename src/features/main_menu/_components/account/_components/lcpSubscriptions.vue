@@ -15,7 +15,7 @@
             icon="mdi-refresh"
             class="mx-1"
             variant="tonal"
-            :size="mobile && 'small'"
+            :size="mobile ? 'small' : ''"
             v-bind="props"
             @click="refresh" />
         </template>
@@ -31,7 +31,7 @@
             icon="mdi-download-multiple-outline"
             class="mx-1"
             variant="tonal"
-            :size="mobile && 'small'"
+            :size="mobile ? 'small' : ''"
             v-bind="props"
             @click="updateAll" />
         </template>

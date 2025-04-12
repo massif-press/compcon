@@ -5,6 +5,11 @@
   }
 }
 
+.no-print-break {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
 ul {
   padding-left: 16px;
 }

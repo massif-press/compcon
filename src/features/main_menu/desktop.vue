@@ -54,7 +54,7 @@
     <v-footer color="primary" app fixed height="32">
       <v-row no-gutters justify="space-around" align="center">
         <v-col cols="auto" class="text-center mr-1">
-          <cc-modal title="Cloud Account" icon="mdi-satellite-uplink" extended>
+          <cc-modal title="Cloud Account" icon="mdi-satellite-uplink">
             <template #activator="{ open }">
               <cc-button
                 size="small"
@@ -76,7 +76,7 @@
         <v-col cols="auto" class="ml-auto text-right">
           <v-row dense justify="space-between">
             <v-col cols="auto">
-              <cc-modal title="Options" icon="mdi-cog" extended>
+              <cc-modal title="Options" icon="mdi-cog">
                 <template #activator="{ open }">
                   <cc-button
                     size="small"
@@ -92,7 +92,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-dialog title="About" icon="mdi-information" extended>
+              <cc-dialog title="About" icon="mdi-information">
                 <template #activator="{ open }">
                   <cc-button
                     size="small"
@@ -108,7 +108,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-modal title="Credits" icon="cc:gms" extended>
+              <cc-modal title="Credits" icon="cc:gms">
                 <template #activator="{ open }">
                   <cc-button
                     size="small"
@@ -124,7 +124,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-modal title="Help" icon="mdi-help-circle" extended>
+              <cc-modal title="Help" icon="mdi-help-circle">
                 <template #activator="{ open }">
                   <cc-button
                     size="small"

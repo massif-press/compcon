@@ -210,7 +210,7 @@
           </v-col>
         </v-row>
         <v-row v-else dense justify="space-between" class="caption mt-n1">
-          <v-col v-for="t in mech.Frame.Traits">
+          <v-col v-for="t in mech.Frame.Traits" class="no-print-break">
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
@@ -258,13 +258,15 @@
           </div>
         </fieldset>
 
-        <div v-if="options.mechInclude.includes('mech notes') && mech.Notes && !blank" class="pt-2">
+        <div
+          v-if="options.mechInclude.includes('mech notes') && mech.Notes && !blank"
+          class="pt-2 no-print-break">
           <div class="text-overline text-primary mb-2 mt-3" style="line-height: 0">NOTES</div>
           <div v-html-safe="mech.Notes" class="mt-2 caption" />
         </div>
       </v-col>
 
-      <v-col v-if="options.mechInclude.includes('mech image')">
+      <v-col v-if="options.mechInclude.includes('mech image')" class="no-print-break">
         <div style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
           <cc-img v-if="!blank" :src="mech.Portrait" />
           <div v-else style="height: 355px" />
@@ -272,7 +274,7 @@
       </v-col>
     </v-row>
 
-    <div v-if="options.mechInclude.includes('mech notes') && blank" class="pt-3">
+    <div v-if="options.mechInclude.includes('mech notes') && blank" class="pt-3 no-print-break">
       <div class="text-overline text-primary mb-2" style="line-height: 0">NOTES</div>
       <div class=""><notes :rows="5" lined /></div>
     </div>
@@ -282,7 +284,7 @@
     <div v-if="blank">
       <fieldset
         v-for="n in options.mechInclude.includes('extra mount panel') ? 5 : 4"
-        class="my-1 pb-1">
+        class="my-1 pb-1 no-print-break">
         <legend class="caption ml-1 px-2">
           <v-row dense align="center">
             <v-col cols="auto">
@@ -318,7 +320,10 @@
     </div>
 
     <v-row v-else dense class="mb-1">
-      <v-col v-for="m in mounts" style="min-width: 30vw; position: relative" class="pa-0">
+      <v-col
+        v-for="m in mounts"
+        style="min-width: 30vw; position: relative"
+        class="pa-0 no-print-break">
         <fieldset>
           <legend class="caption ml-1 px-2">{{ m.Name }}</legend>
           <div v-if="m.IsLocked" class="text-center flavor-text">
@@ -411,7 +416,8 @@
     <v-row v-if="blank" dense>
       <v-col
         v-for="n in options.mechInclude.includes('extra system space') ? 8 : 6"
-        style="min-width: 20vw">
+        style="min-width: 20vw"
+        class="no-print-break">
         <v-card variant="outlined" class="pa-1" style="border-color: rgba(0, 0, 0, 0.3)">
           <v-row dense>
             <v-col>
@@ -436,7 +442,7 @@
       v-else
       v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems"
       variant="outlined"
-      class="px-1"
+      class="px-1 no-print-break"
       :class="s.Tags ? 'pb-1 mb-1' : ''"
       style="position: relative; border-color: rgba(0, 0, 0, 0.2)">
       <v-row dense class="my-n2">

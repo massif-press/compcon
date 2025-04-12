@@ -1,6 +1,6 @@
 <template>
   <v-row justify="space-around" class="text-center mt-n3">
-    <v-col v-for="s in item.StatController.TrackableStats" cols="auto">
+    <v-col v-for="s in item.StatController.TrackableStats" cols="auto" class="no-print-break">
       <div class="text-caption mb-n1 text-uppercase">{{ s.title }}</div>
       <blank-line :height="20" :width="60" class="d-inline-block mb-n1" />
       <b class="flavor-text pt-3 text-black" v-text="`/${getBonusVal(s.key)}`" />

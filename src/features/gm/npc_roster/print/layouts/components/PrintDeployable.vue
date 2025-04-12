@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-1 mx-2">
+  <div class="mt-1 mx-2 no-print-break">
     <div v-for="d in deployables" style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
       <v-row justify="center" dense class="text-center">
         <v-col v-if="(d as any).getStat('Size', tier)" cols="auto">

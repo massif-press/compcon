@@ -22,7 +22,7 @@
             icon="mdi-refresh"
             variant="tonal"
             class="mx-1"
-            :size="mobile && 'small'"
+            :size="mobile ? 'small' : ''"
             v-bind="props"
             @click="refresh" />
         </template>
@@ -38,7 +38,7 @@
             icon="mdi-download-multiple-outline"
             variant="tonal"
             class="mx-1"
-            :size="mobile && 'small'"
+            :size="mobile ? 'small' : ''"
             v-bind="props"
             @click="updateAll" />
         </template>

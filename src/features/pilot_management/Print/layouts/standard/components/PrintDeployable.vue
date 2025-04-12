@@ -1,6 +1,6 @@
 <template>
   <div v-if="deployables?.length > 0" class="mb-3 mx-2 mt-2">
-    <div v-for="d in deployables" class="py-1">
+    <div v-for="d in deployables" class="py-1 no-print-break">
       <v-row dense class="mt-n4 pl-2">
         <v-col v-if="(d as any).Size" cols="auto">
           <div

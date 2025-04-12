@@ -1,29 +1,30 @@
 <template>
   <div class="pa-2 mt-3">
-    <div class="text-overline text-primary" style="line-height: 15px">ACTION REFERENCE</div>
+    <div class="text-cc-overline text-primary mb-3" style="line-height: 15px">ACTION REFERENCE</div>
 
-    <v-row dense>
-      <v-col v-for="action in actions" style="min-width: 15vw" class="my-n1">
-        <fieldset class="px-2">
-          <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">
-            <v-icon :icon="action.Icon" :color="action.Color" /> {{ action.Name }}
-            <v-icon
-              v-if="action.IsMechAction"
-              icon="cc:frame"
-              color="grey-darken-2"
-              class="mt-n1"
-            />
-            <v-icon
-              v-if="action.IsPilotAction"
-              icon="cc:pilot"
-              color="grey-darken-2"
-              class="mt-n1"
-            />
-          </legend>
-          <div class="caption" v-html-safe="action.Terse" />
-        </fieldset>
-      </v-col>
-    </v-row>
+    <masonry-wall :items="actions" :column-width="450" :gap="6" :min-columns="3" :max-columns="4">
+      <template #default="{ item }">
+        <v-card flat tile variant="text">
+          <fieldset class="px-2">
+            <legend class="text-cc-overline text-primary px-2 font-weight-bold">
+              <v-icon :icon="item.Icon" :color="item.Color" />
+              {{ item.Name }}
+              <v-icon
+                v-if="item.IsMechAction"
+                icon="cc:frame"
+                color="grey-darken-2"
+                class="mt-n1" />
+              <v-icon
+                v-if="item.IsPilotAction"
+                icon="cc:pilot"
+                color="grey-darken-2"
+                class="mt-n1" />
+            </legend>
+            <div class="caption" v-html-safe="item.Terse" />
+          </fieldset>
+        </v-card>
+      </template>
+    </masonry-wall>
   </div>
 </template>
 

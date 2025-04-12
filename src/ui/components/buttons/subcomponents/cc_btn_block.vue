@@ -68,7 +68,7 @@ export default {
     disabled: { type: Boolean },
     block: { type: Boolean },
     loading: { type: Boolean },
-    size: { type: String },
+    size: { type: [String, Boolean] },
     variant: { type: String },
     prependIcon: { type: String },
     appendIcon: { type: String },

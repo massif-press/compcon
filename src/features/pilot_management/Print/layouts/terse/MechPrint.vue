@@ -440,7 +440,7 @@
       v-else
       v-for="m in mounts"
       style="position: relative; break-inside: avoid"
-      class="pb-1">
+      class="pb-1 no-print-break">
       <legend class="heading h4 ml-1 px-2 mb-n1">{{ m.Name }}</legend>
       <div v-if="m.IsLocked" class="text-center flavor-text">
         MOUNT LOCKED
@@ -538,7 +538,7 @@
       <v-card
         v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems"
         variant="outlined"
-        class="px-1"
+        class="px-1 no-print-break"
         :class="s.Tags ? 'pb-2 mb-1' : ''"
         style="position: relative; border-color: rgba(0, 0, 0, 0.2)">
         <v-row>
@@ -573,13 +573,13 @@
 
     <fieldset
       v-if="options.mechInclude.some((x) => x.title === 'Append Lined Section')"
-      class="mx-1 my-3 px-3">
+      class="mx-1 my-3 px-3 no-print-break">
       <div class="mb-4"><notes :rows="16" lined /></div>
     </fieldset>
 
     <fieldset
       v-if="options.mechInclude.some((x) => x.title === 'Append Unlined Section')"
-      class="mx-1 my-3 px-3">
+      class="mx-1 my-3 px-3 no-print-break">
       <div class="mb-4"><notes :rows="16" /></div>
     </fieldset>
   </div>
