@@ -63,7 +63,7 @@
                     variant="outlined"
                     icon="mdi-minus"
                     color="error"
-                    @click="addTemplate(item)" />
+                    @click="removeTemplate(item)" />
                 </template>
                 Remove Template
               </v-tooltip>
