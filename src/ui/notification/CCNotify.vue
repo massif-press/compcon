@@ -7,10 +7,10 @@
     :duration="3000">
     <template #body="props">
       <cc-alert
-        :color="props.item.data.color || 'info'"
-        :icon="props.item.data.icon || 'mdi-bell'"
+        :color="props.item.data?.color || 'info'"
+        :icon="props.item.data?.icon || 'mdi-bell'"
         class="ma-2 pb-2 border-s-lg"
-        :class="props.item.data.achievement ? 'achievement-pulse' : ''"
+        :class="props.item.data?.achievement ? 'achievement-pulse' : ''"
         style="position: relative"
         tile
         :title="props.item.title"

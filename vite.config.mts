@@ -6,6 +6,9 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
+    watch: {
+      usePolling: true,
+    },
     hmr: {
       overlay: true,
     },
