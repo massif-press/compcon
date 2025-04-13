@@ -1,9 +1,9 @@
 [
   {
-    "id": "1",
-    "title": "Debug Message",
-    "body": "This is a <b>debug message</b> testing the functionality of the messaging system.",
+    "id": "0c35ff16-742c-482d-95f3-6abbc6754bf2",
+    "title": "v3 Feedback II",
+    "body": "Hello everyone, I'm excited to announce that the mobile development phase is now complete and a new feedback phase is starting. Please check out <a href=\"https://www.patreon.com/posts/126572661\" target=\"_blank\">this post</a> for more details. Any and all feedback is greatly appreciated!",
     "level": "info",
-    "created": 1740845129
+    "created": 1744563849
   }
 ]
