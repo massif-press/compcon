@@ -9,7 +9,7 @@
     :sortings="sortings"
     @add-new="addNew()"
     @open="openItem($event)">
-    <editor v-if="selected" :item="selected" hide-toolbar>
+    <editor v-if="selected" :item="selected" hide-toolbar @exit="exit()">
       <builder slot="upper" :item="selected" />
     </editor>
     <no-gm-item v-else />
@@ -82,6 +82,9 @@ export default {
     }
   },
   methods: {
+    exit() {
+      this.selected = null;
+    },
     openItem(item) {
       this.selected = item;
       if (this.mobile) (this.$refs as any).view.minimize();

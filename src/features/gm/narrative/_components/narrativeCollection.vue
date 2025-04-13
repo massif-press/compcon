@@ -11,6 +11,7 @@
       v-if="selected"
       :is="editorComponent"
       :item="selected"
+      @exit="exit()"
       :footer-offset="view !== 'collection'"
       hide-toolbar />
     <no-gm-item v-else />
@@ -108,6 +109,9 @@ export default {
     },
   },
   methods: {
+    exit() {
+      this.selected = null;
+    },
     openItem(item) {
       this.selected = item;
     },
