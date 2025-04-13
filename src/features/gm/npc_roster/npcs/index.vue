@@ -9,7 +9,12 @@
     :sortings="sortings"
     @add-new="addNew()"
     @open="openItem($event)">
-    <editor v-if="selected" :item="selected" :readonly="selected.Readonly" hide-toolbar>
+    <editor
+      v-if="selected"
+      :item="selected"
+      :readonly="selected.Readonly"
+      hide-toolbar
+      @exit="exit()">
       <builder slot="upper" :item="selected" :readonly="selected.Readonly" />
       <features slot="lower" :npc="selected" :readonly="selected.Readonly" />
     </editor>
@@ -97,6 +102,10 @@ export default {
       await NpcStore().AddNpc(u);
       this.selected = u;
       if (this.mobile) (this.$refs as any).view.minimize();
+    },
+    exit() {
+      console.log('exit');
+      this.selected = null;
     },
   },
 };

@@ -72,7 +72,8 @@
     v-if="!hideFooter && !readonly"
     :item="item"
     @print="routePrint($event)"
-    @export="$emit('export', $event)" />
+    @export="$emit('export', $event)"
+    @exit="$emit('exit')" />
 </template>
 
 <script lang="ts">

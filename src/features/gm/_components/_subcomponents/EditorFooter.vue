@@ -161,6 +161,11 @@ export default {
     readonly: { type: Boolean, default: false },
     hideToolbar: { type: Boolean, default: false },
   },
+  data: () => ({
+    deleteMenu: false,
+    dupeMenu: false,
+    convertMenu: false,
+  }),
   emits: ['exit', 'export'],
   computed: {
     mobile() {
@@ -168,20 +173,17 @@ export default {
     },
   },
   methods: {
-    exit() {
-      this.$emit('exit');
-    },
     async save() {
       await this.item.SaveController.Save();
-      this.$emit('exit');
     },
     deleteItem() {
       this.item.SaveController.Delete();
+      this.deleteMenu = false;
       this.$emit('exit');
     },
     dupe() {
       this.item.SaveController.Dupe();
-      this.$emit('exit');
+      this.dupeMenu = false;
     },
   },
 };

@@ -4,7 +4,7 @@
     :readonly="readonly"
     :hide-toolbar="hideToolbar"
     :hide-footer="hideFooter"
-    @exit="$emit('exit')"
+    @exit="exit()"
     @save="save()"
     @delete="deleteItem()"
     @export="exportItem($event)"
@@ -62,19 +62,18 @@ export default {
   emits: ['exit'],
   methods: {
     exit() {
+      console.log('Exiting editor...');
       this.$emit('exit');
     },
     async save() {
       await NpcStore().SaveNpcData();
-      this.$emit('exit');
     },
     deleteItem() {
       (this.item as Unit).SaveController.Delete();
-      this.$emit('exit');
+      this.exit();
     },
     dupe() {
       NpcStore().CloneNpc(this.item as Unit);
-      this.$emit('exit');
     },
     exportItem(item) {
       exportAsJson(Unit.Serialize(item, false), `${item.Name}.json`);
