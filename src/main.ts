@@ -23,6 +23,7 @@ import router from './router';
 import vuetify from './ui/style';
 import * as globals from './ui/globals';
 import Notifications from '@kyvg/vue3-notification';
+import { flushNotifyQueue } from '@/util/notify';
 
 import VueSecureHTML from 'vue-html-secure';
 import Startup from './io/Startup';
@@ -76,7 +77,7 @@ compcon.config.globalProperties.$appVersion = version;
 compcon.config.globalProperties.$lancerVersion = lancerData.info.version;
 
 compcon.mount('#app');
-
+flushNotifyQueue();
 await Startup();
 
 export { compcon };

@@ -1,4 +1,4 @@
-import { compcon } from '@/main';
+import { notify } from '@/util/notify';
 
 import { AchievementManager } from './AchievementManager';
 import { AchievementEventSystem } from './AchievementEvent';
@@ -63,7 +63,7 @@ class Achievement {
   }
 
   public get Unlocked(): boolean {
-    return this.Progress >= this.Goal;
+    return !!this.Date && this.Progress >= this.Goal;
   }
 
   public get Icon(): string {
@@ -97,10 +97,12 @@ class Achievement {
   unlock() {
     if (this.Unlocked) return;
     logger.info(`Achievement Unlocked: ${this.Name}`);
-    compcon.config.globalProperties.$notify({
+    notify({
       title: 'Achievement Unlocked!',
       text: this.Name,
-      data: { color: '#d4af37', icon: this.Icon, achievement: true },
+      color: '#d4af37',
+      icon: this.Icon,
+      achievement: true,
     });
     this.Date = Date.now();
     AchievementManager.Instance.UpdateUnlockStatus(this);
