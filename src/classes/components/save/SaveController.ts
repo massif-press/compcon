@@ -115,6 +115,8 @@ class SaveController {
         `SaveController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`
       );
 
+    if (!data) return;
+
     parent.SaveController.LastModified = data.lastModified;
     parent.SaveController.DeleteTime = data.deleteTime;
     parent.SaveController.Created = data.created;

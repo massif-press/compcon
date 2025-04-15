@@ -45,6 +45,21 @@ class Logger {
     return Logger.instance;
   }
 
+  public SafeStringify(obj) {
+    const seen = new WeakSet();
+    return JSON.stringify(
+      obj,
+      (key, value) => {
+        if (typeof value === 'object' && value !== null) {
+          if (seen.has(value)) return '[Circular]';
+          seen.add(value);
+        }
+        return value;
+      },
+      2
+    );
+  }
+
   public export(): string {
     let out = `COMP/CON Log for ${new Date(Date.now()).toLocaleString()}\n
     Log Level is ${this.level}
@@ -53,11 +68,7 @@ class Logger {
     const history = this._history.map((log) => {
       return `${new Date(log.timestamp).toLocaleString()} - ${log.type.toUpperCase()} - ${
         log.message
-      }\nTRACE:\n${log.trace.join('\n')}\nCALLER:\n${JSON.stringify(
-        log.caller || [],
-        null,
-        2
-      )}\n\n`;
+      }\nTRACE:\n${log.trace.join('\n')}\nCALLER:\n${this.SafeStringify(log.caller || [])}\n\n`;
     });
 
     out += history;
@@ -119,7 +130,6 @@ class Logger {
       timestamp: Date.now(),
     });
 
-    if (t === 'debug') return;
     console.log(
       `%cCOMP/CON%c${type.toUpperCase()}%c${message}`,
       'color: white; background-color:#991E2A; font-weight: bolder; font-size: 14px; padding: 2px 5px; border-radius: 3px;',

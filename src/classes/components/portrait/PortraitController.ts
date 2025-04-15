@@ -91,6 +91,8 @@ class PortraitController {
         `PortraitController not found on parent (${typeof parent}). New PortraitControllers must be instantiated in the parent's constructor method.`
       );
 
+    if (!data) return;
+
     parent.PortraitController._portrait = data.portrait || '';
     parent.PortraitController._avatar = data.avatar ? data.avatar : undefined;
     parent.PortraitController._cloud_portrait = data.cloud_portrait || '';

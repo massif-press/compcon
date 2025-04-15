@@ -36,7 +36,7 @@
                   <v-list-item
                     v-for="k in Object.keys(item.caller)"
                     :title="k"
-                    :subtitle="JSON.stringify(item.caller[k])" />
+                    :subtitle="safeStringify(item.caller[k])" />
                 </v-list>
               </div>
               <div v-else class="text-center text-disabled"><i>no data</i></div>
@@ -111,6 +111,9 @@ export default {
       a.href = url;
       a.download = `compcon-log-${new Date(Date.now()).toLocaleDateString()}.txt`;
       a.click();
+    },
+    safeStringify(obj) {
+      return logger.SafeStringify(obj);
     },
   },
 };
