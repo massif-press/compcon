@@ -148,8 +148,10 @@ export default {
       this.loading = false;
     },
     async loginWithItch() {
-      const clientId = import.meta.env.VITE_APP_ITCH_CLIENT_ID;
       const isDevSite = window.location.origin.includes('dev.compcon.app');
+      const clientId = isDevSite
+        ? import.meta.env.VITE_APP_ITCH_DEV_CLIENT_ID
+        : import.meta.env.VITE_APP_ITCH_CLIENT_ID;
       const redirectUri = isDevSite
         ? import.meta.env.VITE_APP_OAUTH_DEV_CALLBACK_URI
         : import.meta.env.VITE_APP_OAUTH_CALLBACK_URI;
