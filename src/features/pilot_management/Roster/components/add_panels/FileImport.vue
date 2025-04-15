@@ -58,6 +58,7 @@ import { CompendiumStore, PilotStore } from '@/stores';
 import { PilotData } from '@/interface';
 
 import _ from 'lodash';
+import logger from '@/user/logger';
 
 export default {
   name: 'file-import',
@@ -128,6 +129,8 @@ export default {
           data: { icon: 'cc:pilot' },
         });
       } catch (error) {
+        console.log(this.stagedData);
+        logger.error(`Pilot import error: ${error}`);
         this.$notify({
           title: 'Import Error',
           text: `Unable to import Pilot: ${error}`,
