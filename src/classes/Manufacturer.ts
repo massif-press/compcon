@@ -1,7 +1,5 @@
-import { getImagePath, ImageTag } from '@/io/ImageManagement';
 import { ContentPack } from './ContentPack';
 import DOMPurify from 'dompurify';
-import logger from '@/user/logger';
 
 interface IManufacturerData {
   id: string;
@@ -28,7 +26,6 @@ class Manufacturer {
   private _logo_svg: string;
   private _logo: string;
   private _logo_url?: string;
-  private _is_cors_safe: boolean;
 
   public constructor(data: IManufacturerData, lcp?: ContentPack) {
     this.ID = data.id.toUpperCase();
@@ -39,8 +36,11 @@ class Manufacturer {
     this.Dark = data.dark;
     this._logo = data.logo;
     this._logo_url = data.logo_url;
+    if (this._logo_url?.includes('?raw=1')) {
+      this._logo_url = this._logo_url.split('?raw=1')[0];
+      this._logo_url = this._logo_url.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+    }
     this._logo_svg = data.svg ? DOMPurify.sanitize(data.svg) : '';
-    this._is_cors_safe = false;
     this.IsHidden = false;
     this.InLcp = !!lcp;
     this.LcpName = lcp?.Name || 'Lancer Core Book';
@@ -77,20 +77,6 @@ class Manufacturer {
     const filename = filenameQuery.split('?')[0];
     const isSvg = filename.endsWith('.svg');
     return isSvg;
-  }
-
-  public get isCorsSafe(): boolean {
-    return this._is_cors_safe;
-  }
-
-  async setCorsSafe() {
-    try {
-      const response = await fetch(this.Logo);
-      this._is_cors_safe = response.ok;
-    } catch (e) {
-      logger.error(`Error checking CORS for manufacturer ${this.Name}: ${e}`, this);
-      this._is_cors_safe = false;
-    }
   }
 }
 

@@ -141,7 +141,6 @@ class ContentPack {
     self._Manufacturers =
       self._data.manufacturers?.map((x) => {
         const m = new Manufacturer(x, self);
-        m.setCorsSafe();
         return m;
       }) || [];
     self._Backgrounds = self._data.backgrounds?.map((x) => new Background(x, self)) || [];

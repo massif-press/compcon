@@ -1,5 +1,12 @@
 <template>
-  <v-card class="parent cc-panel-clip" :color="color" flat tile :border="border" :height="height">
+  <v-card
+    class="parent cc-panel-clip"
+    :color="color"
+    flat
+    tile
+    :border="border"
+    :height="height"
+    variant="elevated">
     <slot name="toolbar" />
     <v-toolbar v-if="hasTitle" flat density="compact" :color="titleColor" class="ma-0 pa-0">
       <div class="mt-n1 px-2 pt-2 pb-1">
@@ -16,7 +23,7 @@
     </v-toolbar>
     <v-card-text
       :class="[densityClass, variantClass]"
-      :style="[height && `height: ${height}`, stark ? '' : 'opacity: 0.8']"
+      :style="[height && `height: ${height}`]"
       style="overflow-y: scroll">
       <slot>Default Content</slot>
     </v-card-text>

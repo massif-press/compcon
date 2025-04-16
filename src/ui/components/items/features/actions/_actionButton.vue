@@ -9,8 +9,8 @@
       <v-icon v-if="!noAction" dark left :icon="action.Icon" />
       {{ action.Name }}
       <v-menu v-if="!noAction" offset-y max-width="700px">
-        <template #activator="{ on }">
-          <v-btn right icon v-bind="on">
+        <template #activator="{ props }">
+          <v-btn right icon v-bind="props">
             <v-icon variant="plain" icon="mdi-information-outline" />
           </v-btn>
         </template>

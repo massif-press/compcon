@@ -1,5 +1,9 @@
 <template>
-  <selector title="Pilot Core Bonuses" :success="!pilot.CoreBonusController.IsMissingCBs">
+  <selector
+    title="Pilot Core Bonuses"
+    :success="!pilot.CoreBonusController.IsMissingCBs"
+    :selected="pilot.CoreBonusController.CurrentCBPoints"
+    :total="pilot.CoreBonusController.MaxCBPoints">
     <template #float>
       <v-card
         v-if="!pilot.CoreBonusController.IsMissingCBs"

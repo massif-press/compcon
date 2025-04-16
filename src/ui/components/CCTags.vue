@@ -7,7 +7,7 @@
       {{ t.GetName(bonus, tier) }}
     </v-chip>
   </div>
-  <div>
+  <div v-if="!extended">
     <cc-tag
       v-for="t in <Tag[]>tags"
       :tag="t"

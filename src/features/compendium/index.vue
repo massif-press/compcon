@@ -1,9 +1,9 @@
 <template>
-  <cc-tabs ref="tabs" fixed @changed="setTab($event)">
+  <cc-tabs ref="tabs" fixed prominent @changed="setTab($event)">
     <template #tabs>
-      <v-tab>Compendium</v-tab>
-      <v-tab>System Reference</v-tab>
-      <v-tab>Campaign Library</v-tab>
+      <v-tab selected-class="bg-accent">Compendium</v-tab>
+      <v-tab selected-class="bg-accent">System Reference</v-tab>
+      <v-tab selected-class="bg-accent">Campaign Library</v-tab>
     </template>
     <div :class="mobile ? 'my-2' : 'my-4'" />
 

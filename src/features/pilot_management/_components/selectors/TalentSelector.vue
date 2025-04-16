@@ -3,7 +3,9 @@
     title="Pilot Talents"
     :success="pilot.TalentsController.HasFullTalents && enoughSelections"
     :flat="flat"
-    :modal="modal">
+    :modal="modal"
+    :selected="pilot.TalentsController.CurrentTalentPoints"
+    :total="pilot.TalentsController.MaxTalentPoints">
     <template #float>
       <v-card
         v-if="pilot.TalentsController.HasFullTalents && enoughSelections"
