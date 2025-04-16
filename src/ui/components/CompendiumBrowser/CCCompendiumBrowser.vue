@@ -180,19 +180,12 @@
             color="accent"
             class="pt-0">
             <template v-slot:activator="{ props }">
-              <v-list-item tile v-bind="props">
+              <v-list-item tile v-bind="props" slim>
+                <template #prepend>
+                  <cc-logo :source="mf(manufacturer)" />
+                  &nbsp;
+                </template>
                 <template #title>
-                  <cc-logo
-                    v-if="mf(manufacturer).LogoIsExternal"
-                    :source="mf(manufacturer)"
-                    size="small"
-                    class="pt-3 mb-n1 mr-2" />
-                  <v-icon
-                    v-else
-                    size="30"
-                    :icon="mf(manufacturer).Icon"
-                    :color="mf(manufacturer).GetColor($vuetify.theme.current.dark)"
-                    start />
                   <span class="text-button">
                     <b>{{ manufacturer ? manufacturer : 'Other' }}</b>
                   </span>
@@ -435,16 +428,7 @@
               <v-col v-if="!!mf(m)" class="text-center pa-3">
                 <v-row align="center" justify="center">
                   <v-col cols="auto">
-                    <cc-logo
-                      v-if="mf(m).LogoIsExternal"
-                      :source="mf(m)"
-                      :size="$vuetify.display.mdAndDown ? 'large' : 'xLarge'"
-                      class="pt-3 mb-n1" />
-                    <v-icon
-                      v-else
-                      size="60"
-                      :icon="mf(m).Icon"
-                      :color="mf(m).GetColor($vuetify.theme.current.dark)" />
+                    <cc-logo :source="mf(m)" width="60px" />
                   </v-col>
                   <v-col
                     cols="auto"
@@ -454,7 +438,7 @@
                   </v-col>
                 </v-row>
                 <v-expansion-panels accordion focusable flat>
-                  <license-expandable :items="getItems(m)" />
+                  <license-expandable :items="getItems(m)" :selected="<any>selectedItem" />
                 </v-expansion-panels>
               </v-col>
             </v-row>
@@ -486,16 +470,7 @@
               <div v-for="manufacturer in manufacturers">
                 <v-row align="center">
                   <v-col cols="auto">
-                    <cc-logo
-                      v-if="mf(manufacturer).LogoIsExternal"
-                      :source="mf(manufacturer)"
-                      size="x-large"
-                      class="pt-3 mb-n1" />
-                    <v-icon
-                      v-else
-                      size="60"
-                      :icon="mf(manufacturer).Icon"
-                      :color="mf(manufacturer).GetColor($vuetify.theme.current.dark)" />
+                    <cc-logo :source="mf(manufacturer)" width="60px" />
                   </v-col>
                   <v-col>
                     <div class="heading mech" v-text="manufacturer" />
@@ -605,7 +580,6 @@
               total-visible="8"
               class="mt-8"
               :length="Math.ceil(shownItems.length / itemsPerPage)" />
-            <!-- @input="scrollToTop()" /> -->
           </div>
 
           <div v-else-if="view === 'compare'">
@@ -991,6 +965,7 @@ export default {
       this.$emit('select', item);
     },
     scrollTo(id: string): void {
+      console.log(id);
       const el = document.getElementById(id);
       if (el) {
         // const yOffset = -70;

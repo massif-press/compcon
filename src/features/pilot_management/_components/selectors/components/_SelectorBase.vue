@@ -10,14 +10,22 @@
   </v-layout>
 
   <div
-    :style="`position: fixed; bottom: ${mobile ? 28 : 52}px; left: ${mobile ? 4 : 20}px; right: ${floatSize}; z-index: 901; transition: right 0.2s ease'`"
+    :style="`position: fixed; bottom: ${mobile ? 28 : 32}px; left: ${mobile ? 4 : 20}px; right: ${floatSize}; z-index: 901; transition: right 0.2s ease'`"
     style="min-width: 80px">
-    <v-card flat tile class="px-2 py-1" :class="success ? 'border-success border-md' : 'border-sm'">
+    <v-card
+      flat
+      tile
+      class="px-2 py-1"
+      style="border: 3px solid"
+      :style="{
+        borderColor: success ? 'rgb(var(--v-theme-success))' : 'rgb(var(--v-theme-error))',
+      }">
       <v-row :no-gutters="!expanded" align="center" justify="space-between">
         <v-col v-if="!expanded" cols="auto">
-          <v-icon
-            :color="success ? 'success' : 'error'"
-            :icon="success ? 'mdi-check' : 'mdi-alert-box-outline'" />
+          <v-icon v-if="success" color="success" icon="mdi-check" />
+          <v-chip v-else flat tile color="error">
+            <span class="heading h4 text-cc-flavor">{{ selected }}/{{ total }}</span>
+          </v-chip>
         </v-col>
         <v-col v-if="expanded" cols="12" md="" class="text-center">
           <slot name="float" />
@@ -61,6 +69,14 @@ export default {
       type: Boolean,
       required: false,
     },
+    selected: {
+      type: Number,
+      required: false,
+    },
+    total: {
+      type: Number,
+      required: false,
+    },
   },
   data: () => ({
     floating: false,
@@ -74,8 +90,8 @@ export default {
     floatSize() {
       const unit = this.modal ? '%' : 'vw';
 
-      if (this.mobile) return this.expanded ? '4px' : `calc(100${unit} - 82px)`;
-      return this.expanded ? '22px' : `calc(100${unit} - 105px)`;
+      if (this.mobile) return this.expanded ? '4px' : `calc(100${unit} - 120px)`;
+      return this.expanded ? '22px' : `calc(100${unit} - 135px)`;
     },
   },
 };

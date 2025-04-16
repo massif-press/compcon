@@ -1,17 +1,13 @@
 <template>
   <v-expansion-panel v-for="item in items" flat tile :height="mobile ? 50 : 80">
-    <v-expansion-panel-title
-      :id="item.FrameID"
-      class="hover-parent py-0 pr-0 pl-3"
-      hide-actions
-      flat>
+    <v-expansion-panel-title :id="item.ID" class="hover-parent py-0 pr-0 pl-3" hide-actions flat>
       <template #default="{ expanded }">
         <v-row
           :align="mobile ? 'center' : 'start'"
           no-gutters
           style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
           class="gradient-background py-2"
-          :class="{ mobile: mobile }">
+          :class="{ mobile: mobile, selected: selected?.ID === item.ID }">
           <v-col class="px-2" cols="auto">
             <div class="text-cc-overline">{{ item.Frame.Source }}</div>
             <div class="heading h2 font-weight-bold">
@@ -103,6 +99,10 @@ export default {
     selectable: {
       type: Boolean,
     },
+    selected: {
+      type: Object,
+      required: false,
+    },
   },
   emits: ['add', 'remove'],
   computed: {
@@ -156,5 +156,15 @@ export default {
 
 .img-expanded {
   filter: brightness(115%) saturate(1.1);
+}
+
+.selected {
+  background: linear-gradient(
+    to right,
+    rgba(var(--v-theme-primary), 0.5),
+    rgba(var(--v-theme-primary), 0.25),
+    rgba(var(--v-theme-primary), 0.15),
+    rgba(var(--v-theme-primary), 0)
+  );
 }
 </style>

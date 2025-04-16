@@ -12,8 +12,10 @@
           width="100%">
           <div class="heading h3 py-1">
             <v-icon :icon="icon" start />
-            <span>{{ name }}</span>
-            <span v-if="isInline" class="pl-2">{{ value }}</span>
+            <div>
+              <span>{{ name }}</span>
+              <span v-if="isInline" class="pl-1">{{ value }}</span>
+            </div>
           </div>
           <div v-if="!isInline" class="heading mt-n2" style="font-size: 26px">
             {{ isArray ? (value as string[]).join('/') : value }}

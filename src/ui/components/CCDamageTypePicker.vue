@@ -3,22 +3,16 @@
     <v-card tile class="text-center">
       <v-card-text>
         <span class="heading h2">Select Damage Type</span>
-        <v-row>
-          <v-col v-for="t in availableTypes">
-            <div class="clip-icon">
-              <cc-tooltip simple inline :content="t">
-                <v-btn
-                  x-large
-                  icon
-                  :color="`damage--${t.toLowerCase()}`"
-                  @click="select(t)"
-                >
-                  <v-icon size="60px">cc:{{ t.toLowerCase() }}</v-icon>
-                </v-btn>
-              </cc-tooltip>
-            </div>
-          </v-col>
-        </v-row>
+        <cc-button
+          v-for="t in availableTypes"
+          block
+          size="small"
+          class="mb-2"
+          :prepend-icon="`cc:${t.toLowerCase()}`"
+          :color="`damage--${t.toLowerCase()}`"
+          @click="select(t)">
+          {{ t }}
+        </cc-button>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -39,7 +33,7 @@ export default {
   data: () => {
     return {
       dialog: false,
-      availableTypes: [],
+      availableTypes: [] as string[],
       selected: '',
     };
   },

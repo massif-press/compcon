@@ -3,7 +3,9 @@
     title="Pilot Skill Triggers"
     :success="!pilot.SkillsController.IsMissingSkills && enoughSelections"
     :flat="flat"
-    :modal="modal">
+    :modal="modal"
+    :selected="pilot.SkillsController.CurrentSkillPoints"
+    :total="pilot.SkillsController.MaxSkillPoints">
     <template #float>
       <v-card
         v-if="!pilot.SkillsController.IsMissingSkills && enoughSelections"

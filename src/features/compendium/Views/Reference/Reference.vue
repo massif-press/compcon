@@ -2,13 +2,12 @@
   <div style="position: absolute; top: 0; left: 0; right: 0; height: 45px" class="bg-primary" />
   <cc-tabs v-model="tab" fixed-tabs bg-color="primary" density="compact">
     <template #tabs>
-      <v-tab>Action Economy</v-tab>
       <v-tab>Actions</v-tab>
       <v-tab>Statuses & Conditions</v-tab>
       <v-tab>Damage Tables</v-tab>
     </template>
-    <action-economy :is-modal="isModal" />
     <v-window-item>
+      <action-economy />
       <actions :is-modal="isModal" />
     </v-window-item>
     <v-window-item>

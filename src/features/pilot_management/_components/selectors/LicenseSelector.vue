@@ -2,7 +2,9 @@
   <selector
     title="Pilot Licenses"
     :success="!pilot.LicenseController.IsMissingLicenses"
-    :modal="modal">
+    :modal="modal"
+    :selected="pilot.LicenseController.CurrentLicensePoints"
+    :total="pilot.LicenseController.MaxLicensePoints">
     <template #float>
       <v-card
         v-if="!pilot.LicenseController.IsMissingLicenses"
@@ -52,7 +54,7 @@
     </template>
 
     <template #right-column>
-      <v-row v-for="m in Object.keys(licenses)">
+      <v-row v-for="m in mfSort(Object.keys(licenses))">
         <v-col v-if="!!mf(m)" class="text-center pa-3">
           <v-row
             v-show="
@@ -107,7 +109,6 @@ import LicenseExpandable from '@/ui/components/CompendiumBrowser/components/_lic
 
 import { CompendiumStore } from '@/stores';
 import { Pilot, License } from '@/class';
-import scrollTo from '@/util/scrollTo';
 import logger from '@/user/logger';
 
 export default {
@@ -173,6 +174,16 @@ export default {
     },
     mf(id: string) {
       return CompendiumStore().referenceByID('Manufacturers', id.toUpperCase());
+    },
+    mfSort(keys: string[]) {
+      const mfOrder = ['gms', 'ips-n', 'ssc', 'horus', 'ha'];
+
+      const mfOrderMap = new Map(mfOrder.map((mf, index) => [mf, index]));
+      return keys.sort((a, b) => {
+        const aIndex = mfOrderMap.get(a.toLowerCase()) ?? mfOrder.length;
+        const bIndex = mfOrderMap.get(b.toLowerCase()) ?? mfOrder.length;
+        return aIndex - bIndex;
+      });
     },
   },
 };

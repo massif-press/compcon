@@ -13,7 +13,8 @@
           :size="size"
           class="pa-0"
           :class="hasTooltipContent ? 'chip-interactive' : 'chip-readonly'"
-          tile>
+          tile
+          @click.stop="$emit('click', $event)">
           <slot name="content" />
         </v-chip>
       </template>
@@ -50,6 +51,7 @@ export default {
       type: String,
     },
   },
+  emits: ['click'],
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;

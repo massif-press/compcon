@@ -1,27 +1,24 @@
 <template>
   <div
     v-if="source.Svg"
+    class="d-inline-block"
     v-html="cleanSvg(source.Svg)"
     :style="{
       width: iconSize,
       height: iconSize,
       filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
     }" />
-  <svg
-    v-else-if="source.isExternalSvg && source.isCorsSafe"
-    :data-src="source.Logo + '#Content'"
-    :style="`width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
-      stroke ? 'stroke-width: 25px;' : ''
-    }`"></svg>
-  <img
+  <div
     v-else-if="source.Logo"
-    :src="source.Logo"
-    :alt="source.Name"
+    class="d-inline-block"
+    v-html="svgContent"
     :style="{
-      maxWidth: iconSize,
-      height: 'auto',
-      filter: getFilter,
-    }" />
+      width: iconSize,
+      height: iconSize,
+      fill: source.Color,
+    }"
+    :aria-label="source.Name"
+    role="img" />
 </template>
 
 <script lang="ts">
@@ -48,6 +45,10 @@ export default {
       required: false,
       default: 'default',
     },
+    width: {
+      type: String,
+      required: false,
+    },
     color: {
       type: String,
       required: false,
@@ -61,9 +62,31 @@ export default {
   },
   data: () => ({
     corsSafe: false,
+    svgContent: '',
   }),
+  watch: {
+    'source.Logo': {
+      immediate: true,
+      handler(newLogo) {
+        if (newLogo) {
+          fetch(newLogo)
+            .then((res) => res.text())
+            .then((text) => {
+              text = text.replace(/fill:#/g, ``);
+              this.svgContent = text;
+            })
+            .catch(() => {
+              this.svgContent = '';
+            });
+        }
+      },
+    },
+  },
   computed: {
     iconSize(): string {
+      if (this.width) {
+        return this.width;
+      }
       return sizeMap[this.size] ? sizeMap[this.size] : sizeMap.default;
     },
     iconColor(): string {
