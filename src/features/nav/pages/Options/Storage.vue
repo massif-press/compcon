@@ -20,8 +20,8 @@
       </p>
 
       <div class="mb-4">
-        <cc-heading title text="Storage Settings" />
-        <cc-heading title small text="Storage Thresholds" />
+        <cc-heading is-title text="Storage Settings" />
+        <cc-heading is-title small text="Storage Thresholds" />
         <v-range-slider
           v-model="storageRange"
           thumb-label
@@ -47,7 +47,7 @@
       </div>
 
       <div class="mb-8">
-        <cc-heading title small text="Auto-delete" />
+        <cc-heading is-title small text="Auto-delete" />
 
         <cc-select
           v-model="deleteDays"
@@ -73,14 +73,14 @@
 
     <v-divider class="my-4" />
 
-    <cc-heading title text="Deleted Items (local data only)" />
+    <cc-heading is-title text="Deleted Items (local data only)" />
     <v-card-text>
       <deleted-items />
     </v-card-text>
 
     <v-divider class="my-4" />
 
-    <cc-heading title text="User Data" />
+    <cc-heading is-title text="User Data" />
     <user-data-viewer />
 
     <v-dialog v-model="deleteDialog" width="80%">

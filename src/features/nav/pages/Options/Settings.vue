@@ -18,7 +18,7 @@
 
     <v-row dense>
       <v-col cols="12" sm="6">
-        <cc-heading title text="Theme" />
+        <cc-heading is-title text="Theme" />
         <cc-select
           v-model="theme"
           :items="themes.sort((a, b) => a.community - b.community)"
@@ -34,7 +34,7 @@
         </i>
       </v-col>
       <v-col cols="12" sm="6">
-        <cc-heading title text="Log Level" />
+        <cc-heading is-title text="Log Level" />
         <v-menu>
           <template #activator="{ props }">
             <v-list-item v-bind="props" three-line border>

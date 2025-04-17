@@ -25,7 +25,7 @@
                 <v-btn
                   v-if="selectable"
                   block
-                  color="secondary"
+                  color="success"
                   size="small"
                   rounded="0"
                   prepend-icon="mdi-plus-box"

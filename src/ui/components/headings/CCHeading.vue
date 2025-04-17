@@ -18,7 +18,7 @@ export default {
     textColor: { type: String, default: 'accent' },
     line: { type: Boolean },
     filled: { type: Boolean, default: false },
-    title: { type: Boolean },
+    isTitle: { type: Boolean },
     text: { type: String, default: '' },
     small: { type: Boolean, default: false },
     size: { type: String, default: 'small' },
@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     component() {
-      if (this.title) {
+      if (this.isTitle) {
         return title;
       }
 

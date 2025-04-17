@@ -3,7 +3,7 @@
     <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
         <cc-heading
-          title
+          is-title
           text="Data Viewer"
           tooltip="This is a view of your COMP/CON data, stored both locally and in the cloud. You can
               use this tool to manage the state of your data, and to sync changes between your local

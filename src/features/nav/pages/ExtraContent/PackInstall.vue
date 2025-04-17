@@ -303,8 +303,6 @@ export default {
         return deps.every((dep) => CompendiumStore().packAlreadyInstalled(dep.name, dep.version));
       });
 
-      console.log('Installing content packs:', this.contentPacks);
-
       CompendiumStore().installContentPacks(this.contentPacks);
 
       this.contentPacks = [];

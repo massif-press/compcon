@@ -91,6 +91,10 @@ class Bond {
   public get Icon(): string {
     return 'mdi-cards-playing-outline';
   }
+
+  public get Image(): string {
+    return `/img/bond/${this.Name.replace(/The /g, '').toLowerCase()}.png`;
+  }
 }
 
 export { Bond };

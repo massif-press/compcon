@@ -21,7 +21,7 @@ const theme = {
     warning: '#FFAB00',
 
     //misc
-    pilot: '#061a1f',
+    pilot: '#3D3818',
     exotic: '#FFAB00',
     'action--downtime': '#1f9c9c',
     'action--reaction': '#823aa1',
@@ -51,6 +51,7 @@ const theme = {
     'dark-panel': '#c7b5a3',
     'panel-border': '#8a949e',
     'stark-panel': '#5a4c3f',
+    'on-surface-variant': '#5e4b30',
   },
 };
 export default theme;

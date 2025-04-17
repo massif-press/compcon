@@ -8,7 +8,7 @@
             <cc-select
               autocomplete
               v-model="compareFrames"
-              :items="frames"
+              :items="getComparableFrames"
               item-title="Name"
               return-object
               label="Compare to"
@@ -72,12 +72,24 @@ export default {
       'Save Target',
     ],
     aggregateLabels: ['Survivability', 'Mobility', 'Offense', 'Utility'],
-    colors: [] as string[],
   }),
-  created() {
-    this.colors = GenerateContrastingColors(this.frames.length + 1);
-  },
   computed: {
+    getComparableFrames() {
+      if (this.compareFrames.length >= 6) return this.compareFrames;
+      return this.frames.filter((x) => x.ID !== this.frame.ID);
+    },
+    colors() {
+      return [
+        '#328E6E',
+        '#ff00fa',
+        '#4F1C51',
+        '#F7374F',
+        '#3A59D1',
+        '#FF9B17',
+        '#BBD8A3',
+        '#C7D9DD',
+      ];
+    },
     mobile(): boolean {
       return this.$vuetify.display.smAndDown;
     },
@@ -156,7 +168,7 @@ export default {
         label: frame.Name,
         backgroundColor: compare
           ? this.colors[idx as number] + '1A'
-          : this.$vuetify.theme.current.colors.accent + '33',
+          : this.$vuetify.theme.current.colors.accent + '80',
         borderColor: compare
           ? this.colors[idx as number] + 'CC'
           : this.$vuetify.theme.current.colors.accent + 'B7',

@@ -3,7 +3,7 @@
     <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
         <cc-heading
-          title
+          is-title
           text="Remote Backups"
           tooltip="This tool will capture a snapshot of your local COMP/CON data and store it in a cloud
               archive. You can use this to restore your COMP/CON data to a previous state. This

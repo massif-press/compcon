@@ -104,7 +104,6 @@ export default {
       if (this.mobile) (this.$refs as any).view.minimize();
     },
     exit() {
-      console.log('exit');
       this.selected = null;
     },
   },

@@ -60,7 +60,7 @@
     <v-row>
       <v-col cols="12" md="6">
         <cc-heading
-          title
+          is-title
           text="CC-ID"
           tooltip="Your unique account ID. This is used to identify your account in the cloud and may be
           requested for troubleshooting purposes." />
@@ -68,7 +68,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <cc-heading
-          title
+          is-title
           text="Account Email"
           tooltip="This is the e-mail address associated with your account. You can use this to log in to
             COMP/CON, Nautilus, and other Massif apps. This address is only visible to you and and
@@ -79,7 +79,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <cc-heading
-          title
+          is-title
           text="CC-username"
           tooltip="This is an <b>optional</b> field that you can use to set a custom name for your account. This username <b>will</b> be visible to other users in active mode and when sharing data." />
 
@@ -108,7 +108,7 @@
         </v-row>
       </v-col>
       <v-col cols="12" md="6">
-        <cc-heading title text="Account Details" />
+        <cc-heading is-title text="Account Details" />
         <div class="text-caption">
           <b>Account created (v3):</b>
           <i class="text-accent ml-1">{{ new Date(Number(meta.CreatedAt)).toLocaleString() }}</i>

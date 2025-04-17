@@ -11,8 +11,7 @@
         label="From Manufacturer"
         :items="manufacturers"
         clearable
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
       <v-select
@@ -27,8 +26,7 @@
         label="Role"
         :items="mechTypes"
         multiple
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
       <v-select
@@ -43,8 +41,7 @@
         label="Has Mount"
         :items="mountTypes"
         multiple
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
       <v-select
@@ -59,8 +56,7 @@
         label="Size"
         :items="sizes"
         multiple
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
   </v-row>
 </template>
@@ -124,7 +120,7 @@ export default {
     },
     updateFilters() {
       const fObj = {} as any;
-      if (this.sourceFilter) fObj.Source = [this.sourceFilter];
+      if (this.sourceFilter) fObj.Source = this.sourceFilter;
       if (this.sizeFilter && this.sizeFilter.length) fObj.MechSize = this.sizeFilter;
       if (this.typeFilter && this.typeFilter.length) fObj.MechType = this.typeFilter;
       if (this.mountFilter && this.mountFilter.length) fObj.Mounts = this.mountFilter;

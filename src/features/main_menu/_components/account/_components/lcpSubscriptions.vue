@@ -3,7 +3,7 @@
     <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
         <cc-heading
-          title
+          is-title
           :text="mobile ? 'LCPs' : 'LCP Subscriptions'"
           tooltip="Paid LCP content requires a linked itch.io purchase before they can be automatically
               updated. At this time, only Massif-published LCPs are supported." />
@@ -11,13 +11,15 @@
       <v-spacer />
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
-          <cc-button
-            icon="mdi-refresh"
-            class="mx-1"
-            variant="tonal"
-            :size="mobile ? 'small' : ''"
-            v-bind="props"
-            @click="refresh" />
+          <span class="mx-1" v-bind="props">
+            <cc-button
+              icon="mdi-refresh"
+              :loading="loading"
+              class="mx-1"
+              variant="tonal"
+              :size="mobile ? 'small' : ''"
+              @click="refresh" />
+          </span>
         </template>
         <div class="text-center">
           Refresh List
@@ -27,20 +29,22 @@
       </v-tooltip>
       <v-tooltip max-width="300px" location="top">
         <template #activator="{ props }">
-          <cc-button
-            icon="mdi-download-multiple-outline"
-            class="mx-1"
-            variant="tonal"
-            :size="mobile ? 'small' : ''"
-            v-bind="props"
-            @click="updateAll" />
+          <span class="mx-1" v-bind="props">
+            <cc-button
+              icon="mdi-download-multiple-outline"
+              :loading="loading"
+              class="mx-1"
+              variant="tonal"
+              :size="mobile ? 'small' : ''"
+              @click="updateAll" />
+          </span>
         </template>
         <div class="text-center">Update All</div>
       </v-tooltip>
     </v-toolbar>
 
     <v-divider />
-    <massif-lcp-table />
+    <massif-lcp-table :ext-loading="loading" />
   </v-card>
 </template>
 
@@ -145,16 +149,31 @@ export default {
     },
     async updateAll() {
       this.loading = true;
-      for (const pack of this.packs) {
-        if (this.hasSubscription(pack)) {
-          if (
-            !this.getInstalledPack(pack) ||
-            this.getInstalledPack(pack)?.Manifest.version !== pack.version
-          )
-            await this.installLatest(pack);
+      try {
+        for (const pack of this.packs) {
+          if (this.hasSubscription(pack)) {
+            if (
+              !this.getInstalledPack(pack) ||
+              this.getInstalledPack(pack)?.Manifest.version !== pack.version
+            )
+              await this.installLatest(pack);
+          }
         }
+        this.$notify({
+          title: 'LCPs Updated',
+          text: `All LCPs have been updated.`,
+          data: { color: 'success', icon: 'mdi-check-bold' },
+        });
+      } catch (err) {
+        logger.error(`Error updating LCPs: ${err}`, this);
+        this.$notify({
+          title: 'Error Updating LCPs',
+          text: `An error occurred while attempting to update your LCPs.`,
+          data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+        });
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
     },
   },
 };

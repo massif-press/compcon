@@ -61,7 +61,7 @@
       <br />
       // FEATURE IN DEVELOPMENT //
     </p> -->
-    <cc-heading title text="Quick FAQ" />
+    <cc-heading is-title text="Quick FAQ" />
     <v-row class="body-text text-text">
       <v-col cols="12" md="6">
         <cc-panel title="Where are the NPCs?">
@@ -106,7 +106,7 @@
       </v-col>
     </v-row>
     <br />
-    <cc-heading title text="Additional Help" />
+    <cc-heading is-title text="Additional Help" />
     <p class="body-text">
       The
       <a

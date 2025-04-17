@@ -1,7 +1,14 @@
 <template>
   <cc-panel :title-color="color" :title="trait.Name" height="100%">
     <template v-if="trait.Use" #toolbar-items>
-      <cc-chip size="small" icon="mdi-timer-sync-outline">{{ trait.Use }}</cc-chip>
+      <v-chip
+        v-if="trait.Use !== 'Mission'"
+        size="small"
+        flat
+        tile
+        prepend-icon="mdi-timer-sync-outline">
+        {{ trait.Use }}
+      </v-chip>
     </template>
     <p v-html-safe="trait.Description" />
     <cc-action v-for="a in trait.Actions" :action="a" :panel="!mobile" class="my-2" />

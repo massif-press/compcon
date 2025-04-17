@@ -965,7 +965,6 @@ export default {
       this.$emit('select', item);
     },
     scrollTo(id: string): void {
-      console.log(id);
       const el = document.getElementById(id);
       if (el) {
         // const yOffset = -70;

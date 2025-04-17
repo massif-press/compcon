@@ -75,7 +75,7 @@
                   <v-btn
                     v-if="n === Number(rank) + 1"
                     small
-                    color="secondary"
+                    color="success"
                     :disabled="!canAdd"
                     @click="$emit('add')">
                     <v-icon start>mdi-lock-open</v-icon>

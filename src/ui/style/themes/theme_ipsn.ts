@@ -43,14 +43,15 @@ const theme = {
     'v-expansion-panel': '#c9c7c7',
     'v-data-table': '#c9c7c7',
     surface: '#c9c7c7',
-    'surface-variant': '#c9c7c7',
+    'surface-variant': '#424242',
 
-    panel: '#ccc',
+    panel: '#ABB2B7',
     tooltip: '#e8e8e8',
     'light-panel': '#dbdbdb',
     'dark-panel': '#d6d6d6',
     'panel-border': '#8a949e',
     'stark-panel': '#EDEDED',
+    'on-surface-variant': '#ABB2B7',
   },
 };
 export default theme;

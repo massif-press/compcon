@@ -53,8 +53,8 @@
     <div v-if="selectable">
       <cc-button
         block
-        size="x-small"
-        color="secondary"
+        size="small"
+        color="success"
         :prepend-icon="item.Icon || undefined"
         class="mx-4 mt-n1"
         @click="$emit('select', item)">
