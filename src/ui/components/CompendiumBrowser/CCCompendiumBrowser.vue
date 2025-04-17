@@ -960,7 +960,7 @@ export default {
         this.page = Math.ceil(
           (this.shownItems.findIndex((x: any) => x.ID === item.ID) + 1) / this.itemsPerPage
         );
-        this.$nextTick(() => this.scrollTo(item.ID));
+        this.scrollTo(item.ID);
       }
       this.$emit('select', item);
     },
@@ -974,7 +974,7 @@ export default {
         // const y = el.getBoundingClientRect().top + mEl.scrollTop + yOffset;
 
         const rect = el.getBoundingClientRect();
-        const y = rect.top + window.scrollY - window.innerHeight / 2 + rect.height / 2;
+        const y = rect.top + mEl.scrollTop - mEl.clientHeight / 2 + rect.height / 2;
 
         mEl.scrollTo({ top: y, behavior: 'smooth' });
       }
