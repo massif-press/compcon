@@ -40,7 +40,7 @@
       color="primary"
       prepend-icon="cc:pilot"
       class="mt-6"
-      :disabled="newLevel === 0 || newLevel === pilot.Level"
+      :disabled="newLevel === pilot.Level"
       @click="setLevel">
       Set Pilot Level
     </cc-button>

@@ -56,6 +56,7 @@
           v-for="game in itch.gamedata"
           bg-color="primary"
           color="accent"
+          variant="elevated"
           icon="cc:compendium"
           :label="game.title"
           class="ma-1" />
