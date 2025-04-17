@@ -86,6 +86,8 @@ export default {
             'Talents',
             'PilotGear',
             'Reserves',
+            'Actions',
+            'CoreBonuses',
           ])
         )
       ) as CompendiumItem[];

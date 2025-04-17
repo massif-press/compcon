@@ -2,58 +2,64 @@
   <div v-if="contentPacks.length === 0">
     <cc-alert color="primary">No content packs installed.</cc-alert>
   </div>
-  <v-data-table
-    v-else
-    v-model:expanded="expandedRows"
-    :headers="headers"
-    :items="contentPacks"
-    item-value="Key"
-    :items-per-page="-1"
-    hide-default-footer
-    density="compact"
-    :show-expand="mobile"
-    :mobile="$vuetify.display.xs">
-    <template #item.toggleActive="{ item }">
-      <cc-switch
-        v-if="!item.Missing"
-        :value="item.Active"
-        size="large"
-        @update:model-value="toggleActive(item.ID, item.Active)" />
-      <cc-tooltip v-else icon="mdi-alert">
-        This pack is missing one or more dependencies and cannot be activated.
-      </cc-tooltip>
-    </template>
-    <template #item.deleteAction="{ item }">
-      <v-menu width="400px">
-        <template #activator="{ props }">
-          <v-btn icon color="error" variant="plain" v-bind="props">
-            <v-icon icon="mdi-delete" />
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-text>
-            This will remove this pack and all of its contents from COMP/CON. User data that relies
-            on this content will be unavailable and may cause errors. Are you sure you want to
-            continue?
-          </v-card-text>
-          <v-divider />
-          <v-card-actions>
-            <v-btn size="small">CANCEL</v-btn>
-            <v-btn size="small" color="error" class="ml-auto" @click="deletePack(item.ID)">
-              CONFIRM
+  <div v-else>
+    <v-data-table
+      v-model:expanded="expandedRows"
+      :headers="headers"
+      :items="contentPacks"
+      item-value="Key"
+      :items-per-page="-1"
+      hide-default-footer
+      density="compact"
+      :show-expand="mobile"
+      :mobile="$vuetify.display.xs">
+      <template #item.toggleActive="{ item }">
+        <cc-switch
+          v-if="!item.Missing"
+          :value="item.Active"
+          size="large"
+          @update:model-value="toggleActive(item.ID, item.Active)" />
+        <cc-tooltip v-else icon="mdi-alert">
+          This pack is missing one or more dependencies and cannot be activated.
+        </cc-tooltip>
+      </template>
+      <template #item.deleteAction="{ item }">
+        <v-menu width="400px">
+          <template #activator="{ props }">
+            <v-btn icon color="error" variant="plain" v-bind="props">
+              <v-icon icon="mdi-delete" />
             </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
-    </template>
-    <template v-slot:expanded-row="{ columns, item }">
-      <tr class="bg-panel">
-        <td :colspan="columns.length">
-          <pack-info-card :pack="<ContentPack>item" />
-        </td>
-      </tr>
-    </template>
-  </v-data-table>
+          </template>
+          <v-card>
+            <v-card-text>
+              This will remove this pack and all of its contents from COMP/CON. User data that
+              relies on this content will be unavailable and may cause errors. Are you sure you want
+              to continue?
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-btn size="small">CANCEL</v-btn>
+              <v-btn size="small" color="error" class="ml-auto" @click="deletePack(item.ID)">
+                CONFIRM
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+      </template>
+      <template v-slot:expanded-row="{ columns, item }">
+        <tr class="bg-panel">
+          <td :colspan="columns.length">
+            <pack-info-card :pack="<ContentPack>item" />
+          </td>
+        </tr>
+      </template>
+    </v-data-table>
+    <div class="d-flex justify-end mt-2">
+      <cc-button :loading="loading" size="small" color="error" @click="deleteAll">
+        Delete All
+      </cc-button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -74,6 +80,7 @@ export default {
       { title: 'Version', value: 'Version' },
       { title: '', value: 'deleteAction', sortable: false },
     ],
+    loading: false,
   }),
   computed: {
     mobile() {
@@ -92,7 +99,7 @@ export default {
         await CompendiumStore().togglePackActive(packID);
         this.$notify({
           color: 'success',
-          text: `Successfully ${!state ? 'deactivated' : 'activated'} pack.`,
+          text: `Successfully ${!state ? 'activated' : 'deactivated'} pack.`,
         });
       } catch (e) {
         this.$notify({
@@ -103,6 +110,15 @@ export default {
     },
     async deletePack(id: string): Promise<void> {
       await CompendiumStore().deleteContentPack(id);
+    },
+    async deleteAll() {
+      this.loading = true;
+      await CompendiumStore().deleteAllContentPacks();
+      this.$notify({
+        color: 'success',
+        text: 'Successfully deleted all content packs.',
+      });
+      this.loading = false;
     },
     async reload() {
       // this.$emit('start-load');
@@ -119,3 +135,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-table >>> .v-table__wrapper {
+  overflow: visible !important;
+}
+</style>

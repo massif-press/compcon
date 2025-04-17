@@ -87,7 +87,7 @@ abstract class CompendiumItem {
       }
       this.InLcp = !!lcp;
       this.LcpName = lcp?.Name || 'Lancer Core Book';
-      this._baseTags = Tag.Deserialize(data.tags || [], lcp?.Data.tags || []);
+      this._baseTags = Tag.Deserialize(data.tags || [], lcp?.Data.tags || [], lcp?.Name || '');
       this.IsExotic = this._baseTags.some((x) => x.IsExotic);
       const heatTag = this.Tags.find((x) => x.IsHeatCost);
       const heatCost = Number(heatTag ? heatTag.Value : 0);
