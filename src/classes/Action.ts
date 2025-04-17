@@ -135,6 +135,7 @@ class Action {
   public readonly SynergyLocations: string[];
   public readonly Confirm: string[];
   public readonly Log: string;
+  public readonly ItemType: string = 'Action';
   public Deployable: IDeployableData | undefined;
   private _detail: string;
   private _uses: number;

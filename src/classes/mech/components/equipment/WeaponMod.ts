@@ -47,7 +47,9 @@ class WeaponMod extends MechEquipment {
       data.allowed_sizes || Object.keys(WeaponSize).map((k) => WeaponSize[k as string]);
     this.RestrictedTypes = data.restricted_types || [];
     this.RestrictedSizes = data.restricted_sizes || [];
-    this.AddedTags = data.added_tags ? Tag.Deserialize(data.added_tags, pack?.Data.tags) : [];
+    this.AddedTags = data.added_tags
+      ? Tag.Deserialize(data.added_tags, pack?.Data.tags, pack?.Name || '')
+      : [];
     this.AddedDamage = data.added_damage ? data.added_damage.map((x) => new Damage(x)) : [];
     this.AddedRange = data.added_range ? data.added_range.map((x) => new Range(x)) : [];
     this.ItemType = ItemType.WeaponMod;

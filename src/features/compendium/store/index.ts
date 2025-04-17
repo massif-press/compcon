@@ -64,6 +64,7 @@ const hydratedKeys = {
 };
 
 const itemTypeMap = {
+  actions: 'Actions',
   npcclass: 'NpcClasses',
   npctemplate: 'NpcTemplates',
   npcfeature: 'NpcFeatures',
@@ -331,7 +332,7 @@ export const CompendiumStore = defineStore('compendium', {
                 id: item.ID,
                 title: item.Name,
                 type: item.ItemType,
-                pack: item.Brew?.LcpName || 'core',
+                pack: item.Brew?.LcpName || 'Lancer Core Book',
                 path: this.referenceLink(item, true),
                 icon: item.Icon,
               };
@@ -390,9 +391,35 @@ export const CompendiumStore = defineStore('compendium', {
       await this.saveUserData();
       await this.refreshExtraContent();
     },
-    async deleteContentPack(packID: string): Promise<void> {
+    async installContentPacks(packs: IContentPack[]) {
+      const promises = packs.map(async (packData) => {
+        if (this.packAlreadyInstalled(packData.id)) {
+          logger.info(
+            `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`,
+            this
+          );
+          await this.deleteContentPack(packData.id, true);
+        }
+        const pack = new ContentPack(packData);
+        pack.SetActive(true);
+        this.ContentPacks.push(pack);
+      });
+
+      await Promise.all(promises);
+      await this.saveUserData();
+    },
+    async deleteContentPack(packID: string, skipSave = false): Promise<void> {
       this.ContentPacks = this.ContentPacks.filter((pack) => pack.ID !== packID);
       await RemoveItem('content', packID);
+      if (skipSave) return;
+      await this.saveUserData();
+      await this.refreshExtraContent();
+    },
+    async deleteAllContentPacks(): Promise<void> {
+      for (const pack of this.ContentPacks) {
+        await RemoveItem('content', pack.ID);
+      }
+      this.ContentPacks = [];
       await this.saveUserData();
       await this.refreshExtraContent();
     },

@@ -1,5 +1,5 @@
 <template>
-  <cc-modal :title="item.Name" :icon="item.Icon" :color="item.Color">
+  <cc-modal :title="item.Name" :icon="item.Icon" :color="item.Color" shrink>
     <template #activator="{ open }">
       <div @click="open" class="clickable">
         <v-hover>
@@ -14,7 +14,11 @@
               <div
                 style="max-height: 40vh; overflow: hidden; text-overflow: ellipsis"
                 v-html-safe="
-                  (item as any).Effect || item.Description || `${item.Source} ${item.ItemType}`
+                  item.Terse ||
+                  item.Effect ||
+                  item.Description ||
+                  item.Activation ||
+                  `${item.Source || ''} ${item.ItemType}`
                 " />
             </cc-panel>
           </template>

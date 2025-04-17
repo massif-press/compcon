@@ -35,6 +35,7 @@
 
           <span>Install</span>
         </cc-button>
+        <v-progress-linear v-if="installing" indeterminate height="20" />
         <cc-alert v-if="hasAlreadyInstalled" color="warning" class="my-3">
           <span class="text-caption">
             The following content pack(s) are already installed and will be replaced:
@@ -252,22 +253,64 @@ export default {
       if (this.installing) return;
       this.$emit('start-load');
       this.installing = true;
-      const promises = [] as Promise<void>[];
-      this.contentPacks.forEach((contentPack) => {
-        if (!this.uninstalledDependencies(contentPack).length) {
-          contentPack.active = true;
-          promises.push(CompendiumStore().installContentPack(contentPack));
-        } else {
-          logger.warn(
-            `Skipping ${contentPack.manifest.name} due to uninstalled dependencies.`,
-            this
-          );
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      this.contentPacks = this.contentPacks.filter((pack) => {
+        const installed = CompendiumStore().ContentPacks.find((x) => x.ID === pack.id);
+        if (installed) {
+          let c;
+          try {
+            c = compare(coerce(installed.Version), coerce(pack.manifest.version));
+          } catch (e) {
+            logger.error(`Error comparing versions: ${e} (likely bad semver)`, this);
+            return false;
+          }
+          if (c === -1) {
+            logger.warn(
+              `A newer version of ${pack.manifest.name} is already installed. Skipping.`,
+              this
+            );
+            return false;
+          } else if (c === 0) {
+            logger.warn(
+              `A duplicate version of ${pack.manifest.name} is already installed. Skipping.`,
+              this
+            );
+            return false;
+          }
+        }
+        return true;
+      });
+
+      // remove any duplicates in this.contentPacks array, taking only the latest version
+      const uniquePacks = new Map<string, IContentPack>();
+      this.contentPacks.forEach((pack) => {
+        const existingPack = uniquePacks.get(pack.manifest.name);
+        if (
+          !existingPack ||
+          compare(coerce(existingPack.manifest.version), coerce(pack.manifest.version)) === -1
+        ) {
+          uniquePacks.set(pack.manifest.name, pack);
         }
       });
-      await Promise.all(promises);
-      this.installing = false;
+      this.contentPacks = Array.from(uniquePacks.values());
+
+      // remove any packs with uninstalled dependencies
+      this.contentPacks = this.contentPacks.filter((pack) => {
+        const deps = pack.manifest ? pack.manifest.dependencies : [];
+        if (!deps) return true;
+        return deps.every((dep) => CompendiumStore().packAlreadyInstalled(dep.name, dep.version));
+      });
+
+      console.log('Installing content packs:', this.contentPacks);
+
+      CompendiumStore().installContentPacks(this.contentPacks);
 
       this.contentPacks = [];
+
+      this.installing = false;
+
       this.error = '';
       this.value = null;
 
@@ -281,7 +324,7 @@ export default {
       return CompendiumStore().packAlreadyInstalled(pack.id);
     },
     alreadyInstalledVersion(pack) {
-      return CompendiumStore().ContentPacks.find((x) => x.ID === pack.id)?.Version || '0';
+      return CompendiumStore().ContentPacks.find((x) => x.ID === pack.id)?.Version || '0.0.0';
     },
     uninstalledDependencies(pack) {
       const deps = pack.manifest ? pack.manifest.dependencies : [];
@@ -292,11 +335,21 @@ export default {
     },
     gradeType(pack) {
       const installed = this.alreadyInstalledVersion(pack);
-      const staged = pack.manifest.version || '0';
-      const c = compare(coerce(installed), coerce(staged));
-      if (c === -1) return 'upgrade';
-      if (c === 0) return 'same';
-      if (c === 1) return 'downgrade';
+      const staged = pack.manifest.version || '0.0.0';
+      try {
+        const c = compare(coerce(String(installed)), coerce(String(staged)));
+        if (c === -1) return 'upgrade';
+        if (c === 0) return 'same';
+        if (c === 1) return 'downgrade';
+      } catch (e) {
+        logger.error(`grade: Error comparing versions: ${e} (likely bad version number)`, this);
+        this.contentPacks = this.contentPacks.filter((x) => x.id !== pack.id);
+        logger.error(
+          `Removed ${pack.manifest.name || pack.manifest.title || 'unknown LCP'} from import -- invalid version string breaks semver`,
+          this
+        );
+        return 'error';
+      }
     },
   },
 };

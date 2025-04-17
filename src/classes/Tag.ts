@@ -213,7 +213,11 @@ class Tag {
     });
   }
 
-  public static Deserialize(data: ITagData[], packTags?: ITagCompendiumData[]): Tag[] {
+  public static Deserialize(
+    data: ITagData[],
+    packTags?: ITagCompendiumData[],
+    packName?: string
+  ): Tag[] {
     const output = [] as Tag[];
     if (!data) return output;
     data.forEach((x) => {
@@ -224,7 +228,10 @@ class Tag {
         if (!packTags) throw new Error(`LCP data not provided for tag id: ${x.id}`);
         const pt = packTags.find((t) => t.id === x.id);
         if (!pt) {
-          logger.error(`Tag ${x.id} not found in pack`, this);
+          logger.error(
+            `Tag ${x.id} not found in pack ${packName} (or has uninstalled dependencies)`,
+            this
+          );
           return;
         }
         t = new Tag(pt);
