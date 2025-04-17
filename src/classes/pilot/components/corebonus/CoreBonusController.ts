@@ -56,7 +56,7 @@ class CoreBonusController implements IFeatureContainer {
   }
 
   public RemoveCoreBonus(coreBonus: CoreBonus): void {
-    const index = this._core_bonuses.findIndex((x) => _.isEqual(coreBonus, x));
+    const index = this._core_bonuses.findIndex((x) => x.ID === coreBonus.ID);
     if (index === -1) {
       logger.error(
         `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this.Parent.Callsign}`,

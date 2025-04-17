@@ -328,6 +328,8 @@
       <notes :rows="5" lined />
     </div>
 
+    <page-break />
+
     <div class="text-overline mb-n3 mt-1 text-primary">LOADOUT</div>
 
     <div v-if="blank">
@@ -512,10 +514,11 @@ import PrintDeployable from './components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 import tagBlock from './components/TagBlock.vue';
+import PageBreak from '../../components/PageBreak.vue';
 
 export default {
   name: 'mech-print',
-  components: { PrintAction, PrintDeployable, blankLine, notes, tagBlock },
+  components: { PrintAction, PrintDeployable, blankLine, notes, tagBlock, PageBreak },
   props: {
     mech: {
       type: Object,

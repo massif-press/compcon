@@ -101,7 +101,7 @@ export default {
       include: [],
       extras: [],
       card: [],
-    },
+    } as any,
   }),
   created() {
     if (!this.id) return;

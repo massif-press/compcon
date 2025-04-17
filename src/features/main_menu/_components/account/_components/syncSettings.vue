@@ -4,7 +4,7 @@
     <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
         <cc-heading
-          title
+          is-title
           text="Sync Settings"
           tooltip=" These options control how and when your data is synchronized with the cloud. By
               default, data is only synced manually. Unlike other user settings, these settings are

@@ -7,9 +7,7 @@ class ItemFilter {
     Object.keys(filter).forEach((p) => {
       if (p === 'LcpName') {
         items = items.filter((i) => filter[p][0].includes(i.LcpName));
-      } else if (p === 'Source') {
-        if (filter[p].length === 0) return;
-
+      } else if (p === 'Source' && filter[p].length) {
         items = (items as LicensedItem[]).filter((i) => filter[p].includes(i.Source));
       } else if (p === 'Tags') {
         items = (items as MechEquipment[]).filter((e: MechEquipment) => {

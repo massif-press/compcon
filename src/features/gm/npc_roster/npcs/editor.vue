@@ -62,7 +62,6 @@ export default {
   emits: ['exit'],
   methods: {
     exit() {
-      console.log('Exiting editor...');
       this.$emit('exit');
     },
     async save() {

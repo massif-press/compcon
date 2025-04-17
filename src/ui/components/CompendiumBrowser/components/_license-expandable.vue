@@ -70,8 +70,8 @@
           <cc-button
             block
             :disabled="!controller.IsMissingLicenses"
-            size="x-small"
-            color="secondary"
+            size="small"
+            color="success"
             prepend-icon="mdi-plus"
             @click="$emit('add', item)">
             Unlock {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) + 1) }}

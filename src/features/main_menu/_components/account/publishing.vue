@@ -4,7 +4,7 @@
       <v-toolbar density="compact" color="panel">
         <v-toolbar-title>
           <cc-heading
-            title
+            is-title
             :text="mobile ? 'COLLECTION PUBLISHING' : 'CONTENT COLLECTION PUBLISHING'"
             tooltip="Through this tool you can create and publish collections of COMP/CON content to
                 other users, who can then subscribe to your content collections and automatically

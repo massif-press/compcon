@@ -6,7 +6,7 @@
     :mobile="mobile"
     :headers="<any>tableHeaders"
     :items="packs"
-    :loading="loading"
+    :loading="loading || extLoading"
     item-key="name"
     :show-expand="mobile"
     item-value="name"
@@ -176,6 +176,7 @@ export default {
   name: 'massif-lcp-table',
   props: {
     headers: { type: Array, required: false },
+    extLoading: { type: Boolean, default: false },
   },
   data: () => ({
     lcpHeaders: [

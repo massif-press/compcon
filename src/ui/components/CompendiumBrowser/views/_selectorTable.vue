@@ -40,7 +40,7 @@
               v-if="selectable"
               class="fade-select"
               icon="mdi-plus-box"
-              color="secondary"
+              color="success"
               size="35"
               @click="$emit('select', item)" />
           </div>

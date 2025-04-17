@@ -81,12 +81,12 @@
       <v-row no-gutters class="mt-1">
         <v-col cols="2">
           <div class="text-overline text-primary" style="line-height: 0">SESSION</div>
-          <blank-line :height="600" class="mt-3" />
+          <blank-line :height="450" class="mt-3" />
         </v-col>
         <v-col cols="auto">&nbsp;</v-col>
         <v-col>
           <div class="text-overline text-primary" style="line-height: 0">DETAIL</div>
-          <blank-line :height="600" class="mt-3" />
+          <blank-line :height="450" class="mt-3" />
         </v-col>
       </v-row>
     </fieldset>
@@ -210,6 +210,8 @@
         </v-row>
       </fieldset>
     </div>
+
+    <page-break />
 
     <div class="text-caption mb-n2 mt-2 text-primary">COMBAT PROFILE</div>
     <v-row align="center">
@@ -494,6 +496,7 @@ import PrintDeployable from '../standard/components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 import tagBlock from './components/TagBlock.vue';
+import PageBreak from '../../components/PageBreak.vue';
 
 export default {
   name: 'pilot-print',
@@ -503,6 +506,7 @@ export default {
     tagBlock,
     PrintAction,
     PrintDeployable,
+    PageBreak,
   },
   props: {
     pilot: {

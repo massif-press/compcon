@@ -129,7 +129,6 @@ export default {
           data: { icon: 'cc:pilot' },
         });
       } catch (error) {
-        console.log(this.stagedData);
         logger.error(`Pilot import error: ${error}`);
         this.$notify({
           title: 'Import Error',

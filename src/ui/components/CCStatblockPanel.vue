@@ -1,5 +1,7 @@
 <template>
-  <v-col :cols="portrait ? '12' : cols">
+  <v-col
+    :cols="portrait ? '' : cols"
+    :style="portrait ? 'max-width: 100%; min-width: fit-content' : ''">
     <v-tooltip max-width="400">
       <template #activator="{ props }">
         <v-card
@@ -8,17 +10,16 @@
           tile
           :color="color"
           :variant="<any>variant"
-          class="text-center"
-          width="100%">
+          :style="portrait ? 'max-width: 100%; min-width: fit-content' : ''"
+          class="text-center px-2">
           <div class="heading h3 py-1">
             <v-icon :icon="icon" start />
             <div>
               <span>{{ name }}</span>
-              <span v-if="isInline" class="pl-1">{{ value }}</span>
+              <span class="pl-2 heading text-accent" :class="!portrait && 'h2'">
+                {{ value }}
+              </span>
             </div>
-          </div>
-          <div v-if="!isInline" class="heading mt-n2" style="font-size: 26px">
-            {{ isArray ? (value as string[]).join('/') : value }}
           </div>
         </v-card>
       </template>

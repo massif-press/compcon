@@ -3,7 +3,7 @@
   <div class="px-4 mt-2">
     <v-autocomplete
       v-model="<any>compareClasses"
-      :items="npcClasses"
+      :items="getComparableClasses"
       item-title="Name"
       return-object
       label="Compare to"
@@ -28,7 +28,6 @@ import {
   Legend,
   Tooltip,
 } from 'chart.js';
-import { GenerateContrastingColors } from '@/util/Colors';
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -59,12 +58,16 @@ export default {
       'HeatCap',
       'SaveTarget',
     ],
-    colors: [] as string[],
   }),
-  created() {
-    this.colors = GenerateContrastingColors(this.npcClasses.length + 1);
-  },
+
   computed: {
+    getComparableClasses() {
+      if (this.compareClasses.length >= 4) return this.compareClasses;
+      return this.npcClasses.filter((x) => x.ID !== this.npcClass.ID);
+    },
+    colors() {
+      return ['#328E6E', '#ff00fa', '#4F1C51', '#F7374F'];
+    },
     npcClasses() {
       return CompendiumStore().NpcClasses;
     },

@@ -11,7 +11,7 @@
 
   <div
     :style="`position: fixed; bottom: ${mobile ? 28 : 32}px; left: ${mobile ? 4 : 20}px; right: ${floatSize}; z-index: 901; transition: right 0.2s ease'`"
-    style="min-width: 80px">
+    style="min-width: 120px">
     <v-card
       flat
       tile

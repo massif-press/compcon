@@ -9,7 +9,7 @@ const theme = {
     ...themeDefaults,
     //Main-Colors
     primary: '#e36600',
-    secondary: '#3e6a94',
+    secondary: '#7ABFE1',
     active: '#2a416b',
     accent: '#4974bf',
     background: '#2b2b2b',
@@ -43,9 +43,9 @@ const theme = {
     'v-expansion-panel': '#373737',
     'v-data-table': '#373737',
     surface: '#373737',
-    'surface-variant': '#373737',
+    'surface-variant': '#222',
 
-    panel: '#333',
+    panel: '#2D2C29',
     tooltip: '#222',
     'light-panel': '#444',
     'dark-panel': '#111',

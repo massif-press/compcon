@@ -3,7 +3,7 @@
     <v-toolbar density="compact" color="panel">
       <v-toolbar-title>
         <cc-heading
-          title
+          is-title
           :text="mobile ? 'Author Content' : 'AUTHOR CONTENT SUBSCRIPTIONS'"
           tooltip=" You can subscribe to COMP/CON data content authors to receive updates when they
               publish new content. This can include pilots, GM data like NPCs and Narrative

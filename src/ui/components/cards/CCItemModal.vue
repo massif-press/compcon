@@ -34,6 +34,8 @@
     </v-card-text>
 
     <item-card-link :item="item" />
+
+    <div style="height: 30px" />
   </cc-modal>
 </template>
 

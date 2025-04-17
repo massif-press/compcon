@@ -1,11 +1,11 @@
 <template>
   <cc-core-bonus-item :bonus="bonus" />
   <cc-button
-    size="x-small"
+    size="small"
     block
-    :color="isSelected ? 'error' : 'secondary'"
+    :color="isSelected ? 'error' : 'success'"
     class="mb-6"
-    :disabled="!isSelectable || (!isSelected && !isSelectable)"
+    :disabled="!isSelectable && !isSelected && !isSelectable"
     @click="$emit(isSelected ? 'remove' : 'add', bonus)">
     <span>
       <span v-if="isSelected">
