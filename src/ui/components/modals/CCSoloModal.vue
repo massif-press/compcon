@@ -11,7 +11,7 @@
       flat
       :min-height="mobile ? '100vh' : shrink ? '' : '95vh'"
       :class="!mobile && 'cc-panel-clip'"
-      style="position: relative"
+      style="position: relative; overflow: clip"
       :border="mobile ? false : 'sm'">
       <cc-toolbar
         :title="title"
@@ -28,12 +28,9 @@
           <slot name="toolbar-items" />
         </template>
       </cc-toolbar>
-      <v-card-text class="pa-0" :class="!mobile && 'px-4'">
+      <v-card-text class="pa-0 pb-12" :class="!mobile && 'px-4'">
         <slot v-bind="{ modal, close }" />
       </v-card-text>
-      <div v-if="$slots.actions">
-        <v-card-actions></v-card-actions>
-      </div>
     </v-card>
   </v-dialog>
 </template>

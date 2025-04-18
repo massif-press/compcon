@@ -11,6 +11,7 @@
         label="From Manufacturer"
         :items="manufacturers"
         clearable
+        multiple
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
