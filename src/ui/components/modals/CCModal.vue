@@ -13,7 +13,7 @@
       flat
       :min-height="mobile ? '100vh' : shrink ? '' : '95vh'"
       :class="!mobile && 'cc-panel-clip'"
-      style="position: relative"
+      style="position: relative; overflow: clip"
       :border="mobile ? false : 'sm'">
       <cc-toolbar
         :title="title"
@@ -33,10 +33,8 @@
       <v-card-text class="pa-0" :class="!mobile && 'px-4'">
         <slot v-bind="{ modal, close }" />
       </v-card-text>
-      <div v-if="$slots.actions">
-        <v-card-actions></v-card-actions>
-      </div>
-      <div v-else-if="cancelAction || confirmAction">
+
+      <div v-if="cancelAction || confirmAction">
         <v-divider />
         <v-card-actions style="min-height: 36px !important; height: 36px !important">
           <v-btn

@@ -10,7 +10,7 @@
         @click="(showNav as any) = !showNav" />
     </div>
     <v-navigation-drawer v-model="showNav" :width="mobile ? 320 : 350">
-      <v-list density="compact" tile nav v-model:opened="open">
+      <v-list density="compact" style="padding-bottom: 60px" tile nav v-model:opened="open">
         <v-alert
           v-show="!!$slots.header"
           variant="outlined"
@@ -384,7 +384,7 @@
       <div
         id="content"
         :style="`height: calc(100vh - ${getHeight}px)!important;`"
-        style="overflow-y: scroll">
+        style="overflow-y: scroll; padding-bottom: 40px">
         <div id="content" :style="view === 'table' ? '' : 'max-width: 1200px'" class="pa-4 mx-auto">
           <v-alert
             v-show="!!$slots.top"
