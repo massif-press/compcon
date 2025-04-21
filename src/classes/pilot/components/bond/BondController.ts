@@ -257,6 +257,8 @@ class BondController {
         `BondController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`
       );
 
+    if (!data) return;
+
     parent.BondController._bond = data.bondId ? Bond.Deserialize(data.bondId) : null;
     parent.BondController._xp = data.xp || 0;
     parent.BondController._stress = data.stress || 0;

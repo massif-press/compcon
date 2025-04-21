@@ -22,7 +22,7 @@
 
     <v-row class="mt-1 mb-5" v-if="!pilot.IsRemote">
       <v-col>
-        <cc-modal title="Add Standard Equipment" icon="mdi-star-circle-outline">
+        <cc-modal title="Add Standard Equipment" icon="mdi-star-circle-outline" clip>
           <template #activator="{ open }">
             <cc-button
               v-if="!pilot.IsRemote"
@@ -41,7 +41,7 @@
         </cc-modal>
       </v-col>
       <v-col>
-        <cc-modal title="Add Exotic Equipment" icon="mdi-star-circle-outline">
+        <cc-modal title="Add Exotic Equipment" icon="mdi-star-circle-outline" clip>
           <template #activator="{ open }">
             <cc-button size="x-small" color="exotic" block prepend-icon="mdi-plus" @click="open">
               Add Exotic Equipment

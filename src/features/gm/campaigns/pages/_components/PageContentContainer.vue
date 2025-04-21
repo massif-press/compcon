@@ -231,26 +231,15 @@
           v-else-if="item.ContentType === 'narrative'"
           :item="item.Content" />
         <encounter-container v-else-if="item.ContentType === 'encounter'" :item="item.Content" />
-        <cc-rich-text-area v-else v-model="item.Body" @blur="$emit('update')" />
+        <cc-rich-text-area v-else v-model="item.Content.Body" />
       </v-col>
       <v-col cols="auto" class="pr-3 py-2" style="position: relative; min-height: 65px">
-        <v-tooltip>
-          <template #activator="{ props }">
-            <v-icon v-bind="props" icon="mdi-arrow-up" class="fade-select" @click="item.MoveUp()" />
-            <span v-text="'Move Up'" />
-          </template>
-        </v-tooltip>
-        <v-tooltip left>
-          <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
-              icon="mdi-arrow-down"
-              class="fade-select"
-              style="position: absolute; bottom: 8px"
-              @click="item.MoveDown()" />
-            <span v-text="'Move Down'" />
-          </template>
-        </v-tooltip>
+        <cc-button icon="mdi-arrow-up" class="fade-select" @click="item.MoveUp()" />
+        <cc-button
+          icon="mdi-arrow-down"
+          class="fade-select"
+          style="position: absolute; bottom: 8px"
+          @click="item.MoveDown()" />
       </v-col>
     </v-row>
   </v-card>

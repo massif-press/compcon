@@ -48,7 +48,7 @@
             @click.stop="additionalSelect = true">
             Add Additional System
           </cc-button>
-          <cc-solo-modal v-model="additionalSelect" icon="cc:system" title="SELECT EQUIPMENTaa">
+          <cc-solo-modal v-model="additionalSelect" icon="cc:system" title="SELECT EQUIPMENT" clip>
             <system-selector :mech="mech" @equip="getSystemItems()" />
           </cc-solo-modal>
         </v-col>

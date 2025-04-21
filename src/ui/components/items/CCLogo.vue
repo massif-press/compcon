@@ -9,7 +9,7 @@
       filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
     }" />
   <div
-    v-else-if="source.Logo"
+    v-else-if="isLinkedSvg"
     class="d-inline-block"
     v-html="svgContent"
     :style="{
@@ -17,6 +17,15 @@
       height: iconSize,
       fill: source.Color,
     }"
+    :aria-label="source.Name"
+    role="img" />
+  <v-img
+    v-else-if="source.Logo"
+    :src="source.Logo"
+    :width="iconSize"
+    :height="iconSize"
+    :style="{ filter: getFilter }"
+    :alt="source.Name"
     :aria-label="source.Name"
     role="img" />
 </template>
@@ -73,7 +82,7 @@ export default {
             .then((res) => res.text())
             .then((text) => {
               text = text.replace(/fill:#/g, ``);
-              this.svgContent = text;
+              this.svgContent = this.sizeSvg(text);
             })
             .catch(() => {
               this.svgContent = '';
@@ -96,10 +105,21 @@ export default {
       if (this.$vuetify.theme.current.dark) return 'brightness(0) invert(1)';
       return 'brightness(0)';
     },
+    isLinkedSvg(): boolean {
+      return this.source.Logo && this.source.Logo.endsWith('svg');
+    },
   },
   methods: {
     cleanSvg(svg: string): string {
-      return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+      return this.sizeSvg(
+        DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } })
+      );
+    },
+    sizeSvg(svg: string): string {
+      const size = this.width ? this.width : this.iconSize.replace(/px|vw/g, '');
+      return svg
+        .replace(/width="[^"]*"/, `width="${size}"`)
+        .replace(/height="[^"]*"/, `height="${size}"`);
     },
   },
 };

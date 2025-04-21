@@ -47,6 +47,9 @@ export const CampaignStore = defineStore('campaign', {
         .then(() => logger.info('Campaign data saved'))
         .catch((err) => logger.error('Error while saving Campaign data', err));
     },
+    async SaveCampaign(payload: Campaign): Promise<void> {
+      await SetItem('campaigns', Campaign.Serialize(payload));
+    },
     async AddCampaign(payload: Campaign): Promise<void> {
       const sameId = this.Campaigns.find((x) => x.ID === payload.ID) as Campaign;
       if (sameId) {
