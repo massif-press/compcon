@@ -1,5 +1,5 @@
 <template>
-  <cc-modal id="bs-dialog" ref="dialog" fullscreen no-confirm title="Select Pilot Background">
+  <cc-modal id="bs-dialog" ref="dialog" fullscreen no-confirm title="Select Pilot Background" clip>
     <template #activator="{ open }">
       <v-icon :small="small" color="accent" variant="plain" class="ml-1" @click="open">
         cc:orbit

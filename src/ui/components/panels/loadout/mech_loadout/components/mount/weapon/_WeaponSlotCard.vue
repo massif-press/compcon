@@ -155,6 +155,7 @@
     v-if="item"
     v-model="modDialog"
     :title="`${mod ? 'Modify' : 'Install'} ${item.Name} Modification`"
+    clip
     icon="cc:weaponmod">
     <mod-selector :weapon="item" :mech="mech" @equip="install($event)" />
   </cc-solo-modal>

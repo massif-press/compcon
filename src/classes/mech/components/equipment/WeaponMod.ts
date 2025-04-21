@@ -55,6 +55,10 @@ class WeaponMod extends MechEquipment {
     this.ItemType = ItemType.WeaponMod;
   }
 
+  public get Color(): string {
+    return 'mod';
+  }
+
   public get Type(): SystemType {
     return SystemType.Mod;
   }

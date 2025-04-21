@@ -114,7 +114,11 @@
     <slot name="detail" />
   </cc-solo-modal>
 
-  <cc-solo-modal v-model="selectorDialog" @close="$emit('selector-close')" title="select equipment">
+  <cc-solo-modal
+    v-model="selectorDialog"
+    @close="$emit('selector-close')"
+    title="select equipment"
+    clip>
     <slot name="selector" />
   </cc-solo-modal>
 </template>

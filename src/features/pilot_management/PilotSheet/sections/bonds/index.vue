@@ -273,7 +273,7 @@
 
       <bond-power-selector ref="powerSelector" :pilot="pilot" @set="setBond($event)" />
 
-      <cc-solo-modal v-model="bondModal" title="Select Pilot Bond">
+      <cc-solo-modal v-model="bondModal" title="Select Pilot Bond" clip>
         <bond-selector @set="setBond($event)" />
       </cc-solo-modal>
     </div>

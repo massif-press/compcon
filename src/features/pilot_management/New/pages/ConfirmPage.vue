@@ -32,6 +32,12 @@
         <li v-if="!pilot.MechSkillsController.HasFullHASE">
           PILOT MECH SKILLS missing or incomplete
         </li>
+        <li v-if="!pilot.LicenseController.HasLicenses">
+          PILOT LICENSE DATA missing or incomplete
+        </li>
+        <li v-if="!pilot.CoreBonusController.HasCBs">
+          PILOT CORE BONUS DATA missing or incomplete
+        </li>
       </ul>
     </v-alert>
     <cc-button
@@ -90,7 +96,9 @@ export default {
         this.pilot.HasIdent &&
         this.pilot.SkillsController.HasFullSkills &&
         this.pilot.TalentsController.HasFullTalents &&
-        this.pilot.MechSkillsController.HasFullHASE
+        this.pilot.MechSkillsController.HasFullHASE &&
+        this.pilot.LicenseController.HasLicenses &&
+        this.pilot.CoreBonusController.HasCBs
       );
     },
     missingBasicInfo(): boolean {

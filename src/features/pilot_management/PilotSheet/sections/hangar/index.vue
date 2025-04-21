@@ -41,7 +41,7 @@
         @copy="pilot.CloneMech($event)"
         @go="toMechSheet($event)" />
     </v-container>
-    <cc-modal v-if="!pilot.IsRemote" icon="cc:frame" title="Add New Mech">
+    <cc-modal v-if="!pilot.IsRemote" icon="cc:frame" title="Add New Mech" clip>
       <template #activator="{ open }">
         <cc-button
           color="primary"

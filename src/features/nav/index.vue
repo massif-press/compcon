@@ -55,12 +55,13 @@
 
     <v-menu location="bottom" open-on-hover>
       <template #activator="{ props }">
-        <cc-button
-          :size="mobile ? 'small' : 'default'"
-          icon="cc:encounter"
-          class="mx-1"
-          v-bind="props"
-          @click="$router.push({ path: '/gm' })"></cc-button>
+        <span v-bind="props">
+          <cc-button
+            :size="mobile ? 'small' : 'default'"
+            icon="cc:encounter"
+            class="mx-1"
+            @click="$router.push({ path: '/gm' })" />
+        </span>
       </template>
       <v-list density="compact" class="text-caption pa-0">
         <v-list-item slim @click="$router.push({ path: '/gm/npcs' })">NPC Roster</v-list-item>
@@ -82,23 +83,22 @@
       tooltip-location="bottom"
       @click="$router.push({ path: '/active-mode' })" />
 
-    <cc-modal title="Quick Reference">
-      <template #activator="{ open }">
-        <cc-button
-          :size="mobile ? 'small' : 'default'"
-          icon="mdi-contain"
-          class="mx-1"
-          @click="open">
-          <v-tooltip location="bottom" open-delay="500ms">
-            <template #activator="{ props }">
-              <v-icon v-bind="props" />
-            </template>
-            <span>Quick Reference</span>
-          </v-tooltip>
-        </cc-button>
+    <v-tooltip location="bottom" open-delay="500ms">
+      <template #activator="{ props }">
+        <span v-bind="props">
+          <cc-button
+            :size="mobile ? 'small' : 'default'"
+            icon="mdi-contain"
+            class="mx-1"
+            @click="refModal = true"></cc-button>
+        </span>
       </template>
+      <span>Quick Reference</span>
+    </v-tooltip>
+
+    <cc-solo-modal v-model="refModal" title="Quick Reference">
       <reference />
-    </cc-modal>
+    </cc-solo-modal>
 
     <v-divider v-if="!mobile" vertical class="ml-4 mr-1" />
 
@@ -309,6 +309,7 @@ export default {
     storageFullDialog: false,
     qrDialog: false,
     hasCmdKey: false,
+    refModal: false,
   }),
   created() {
     this.hasCmdKey = navigator.userAgent.includes('Mac');

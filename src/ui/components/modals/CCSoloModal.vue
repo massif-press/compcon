@@ -11,7 +11,8 @@
       flat
       :min-height="mobile ? '100vh' : shrink ? '' : '95vh'"
       :class="!mobile && 'cc-panel-clip'"
-      style="position: relative; overflow: clip"
+      style="position: relative"
+      :style="clip ? 'overflow: clip' : ''"
       :border="mobile ? false : 'sm'">
       <cc-toolbar
         :title="title"
@@ -67,6 +68,10 @@ export default {
       default: false,
     },
     persistent: {
+      type: Boolean,
+      default: false,
+    },
+    clip: {
       type: Boolean,
       default: false,
     },

@@ -2,49 +2,77 @@
   <cc-confirm ref="confirm" />
   <cc-tabs ref="tabs" fixed>
     <template #tabs>
-      <v-tab>
+      <v-tab value="ident">
         <v-icon v-show="pilot.HasIdent" icon="mdi-check" />
         Identification
       </v-tab>
-      <v-tab>
+      <v-tab value="skills">
         <v-icon v-show="pilot.SkillsController.HasFullSkills" icon="mdi-check" />
         Skills
       </v-tab>
-      <v-tab>
+      <v-tab value="talents">
         <v-icon v-show="pilot.TalentsController.HasFullTalents" icon="mdi-check" />
         Talents
       </v-tab>
-      <v-tab>
+      <v-tab value="mechskills">
         <v-icon v-show="pilot.MechSkillsController.HasFullHASE" icon="mdi-check" />
         Mech Skills
       </v-tab>
-      <v-tab>Confirm</v-tab>
+      <v-slide-x-transition mode="out-in">
+        <v-tab v-if="pilot.Level > 0" value="licenses">
+          <v-icon v-show="pilot.LicenseController.HasLicenses" icon="mdi-check" />
+          Licenses
+        </v-tab>
+      </v-slide-x-transition>
+      <v-slide-x-transition mode="out-in">
+        <v-tab v-if="pilot.Level > 2" value="corebonuses">
+          <v-icon v-show="pilot.CoreBonusController.HasCBs" icon="mdi-check" />
+          Core Bonuses
+        </v-tab>
+      </v-slide-x-transition>
+      <v-tab value="confirm">Confirm</v-tab>
     </template>
     <v-container>
       <template #default>
-        <v-window-item>
+        <v-window-item value="ident" :key="0">
           <identification-page
             :pilot="pilot"
             :groupID="groupID"
             @done="onDone()"
-            @next="step = 1"
-            @templates="step = 5"
+            @next="step = 'skills'"
+            @templates="step = 'templates'"
             @set="pilot[$event.attr] = $event.val" />
         </v-window-item>
-        <v-window-item>
-          <skills-page :pilot="pilot" @next="step = 2" @back="step = 0" />
+        <v-window-item value="skills" :key="1">
+          <skills-page :pilot="pilot" @next="step = 'talents'" @back="step = 'ident'" />
         </v-window-item>
-        <v-window-item>
-          <talents-page :pilot="pilot" @next="step = 3" @back="step = 1" />
+        <v-window-item value="talents" :key="2">
+          <talents-page :pilot="pilot" @next="step = 'mechskills'" @back="step = 'skills'" />
         </v-window-item>
-        <v-window-item>
-          <mech-skills-page :pilot="pilot" @next="step = 4" @back="step = 2" />
+        <v-window-item value="mechskills" :key="3">
+          <mech-skills-page
+            :pilot="pilot"
+            @next="step = pilot.Level > 0 ? 'license' : 'confirm'"
+            @back="step = 'talents'" />
         </v-window-item>
-        <v-window-item>
-          <confirm-page :pilot="pilot" :groupID="groupID" @back="step = 3" @done="onDone()" />
+        <v-window-item value="licenses" :key="4">
+          <licenses-page
+            :pilot="pilot"
+            @next="step = pilot.Level > 2 ? 'corebonuses' : 'confirm'"
+            @back="step = 'mechskills'" />
         </v-window-item>
-        <v-window-item>
-          <templates-page :pilot="pilot" @next="step = 4" @back="step = 1" />
+        <v-window-item value="corebonuses" :key="5">
+          <core-bonuses-page :pilot="pilot" @next="step = 'confirm'" @back="step = 'licenses'" />
+        </v-window-item>
+        <v-window-item value="confirm" :key="6">
+          <confirm-page
+            :pilot="pilot"
+            :groupID="groupID"
+            @back="pilot.Level < 2 ? 'corebonuses' : pilot.Level > 0 ? 'licenses' : 'mechskills'"
+            @done="onDone()" />
+        </v-window-item>
+        <v-window-item value="templates" :key="7">
+          <templates-page :pilot="pilot" @next="step = 'confirm'" @back="step = 'ident'" />
         </v-window-item>
       </template>
     </v-container>
@@ -56,6 +84,8 @@ import IdentificationPage from './pages/IdentificationPage.vue';
 import SkillsPage from './pages/SkillsPage.vue';
 import TalentsPage from './pages/TalentsPage.vue';
 import MechSkillsPage from './pages/MechSkillsPage.vue';
+import LicensesPage from './pages/LicensesPage.vue';
+import CoreBonusesPage from './pages/CoreBonusesPage.vue';
 import ConfirmPage from './pages/ConfirmPage.vue';
 import TemplatesPage from './pages/TemplatesPage.vue';
 import { Pilot } from '@/class';
@@ -68,6 +98,8 @@ export default {
     IdentificationPage,
     SkillsPage,
     TalentsPage,
+    LicensesPage,
+    CoreBonusesPage,
     MechSkillsPage,
     ConfirmPage,
     TemplatesPage,
@@ -81,7 +113,7 @@ export default {
     },
   },
   data: () => ({
-    step: 0,
+    step: 'ident',
     pilot: {} as Pilot,
     done: false,
   }),

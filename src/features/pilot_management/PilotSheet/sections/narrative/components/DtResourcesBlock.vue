@@ -1,6 +1,6 @@
 <template>
   <div class="my-3">
-    <cc-modal title="Add Reserves and Bonuses" icon="cc:barrage">
+    <cc-modal title="Add Reserves and Bonuses" icon="cc:barrage" clip>
       <template #activator="{ open }">
         <section-header
           title="Reserves and Bonuses"

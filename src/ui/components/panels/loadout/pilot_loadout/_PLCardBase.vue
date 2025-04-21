@@ -144,7 +144,7 @@
       </div>
     </v-card>
 
-    <cc-solo-modal v-model="selectorDialog" :title="`Equip ${title}`">
+    <cc-solo-modal v-model="selectorDialog" :title="`Equip ${title}`" clip>
       <slot name="selector" />
     </cc-solo-modal>
 

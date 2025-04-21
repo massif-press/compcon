@@ -39,13 +39,7 @@
     </div>
     <v-divider class="my-2" />
     <div class="px-2">
-      <v-btn
-        block
-        size="small"
-        class="my-2 pa-2"
-        :color="!dirty ? '' : 'secondary'"
-        :disabled="!dirty"
-        @click="save">
+      <v-btn block size="small" class="my-2 pa-2" color="secondary" @click="save">
         Save Campaign
       </v-btn>
       <v-dialog max-width="850px">
@@ -144,10 +138,7 @@ export default {
   methods: {
     async save() {
       this.campaign.SaveController.save();
-      CampaignStore().SaveCampaigns();
-      setTimeout(() => {
-        this.lastSave = this.campaign.SaveController.LastModified;
-      }, 300);
+      CampaignStore().SaveCampaign(this.campaign as Campaign);
     },
     setPage(type: string) {
       this.$emit('set-page', type);
