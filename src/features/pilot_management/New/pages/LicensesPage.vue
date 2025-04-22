@@ -16,10 +16,7 @@
       The RM-4α Supplemental I (Licensing Authorization) registers an individual pilot's Frame Print
       and Operation (FP/O) Licenses under the Union Licensing Authority. The following catalog
       represents all licenses currently validated as FAB-COMPLETE by the ULA Registrar and Data
-      Validation Services. Access to license data confers print rights to all license materiel
-      included within license data, though the Union Licensing Authority does not guarantee the
-      availability of any license materiel, nor does it confer requisition privileges for any
-      license materiel. The Union Licensing Authority reserves the right to audit license data at
+      Validation Services. The Union Licensing Authority reserves the right to audit license data at
       any time.
     </p>
     <v-alert color="accent" variant="outlined" density="compact" class="mt-2" tile>
