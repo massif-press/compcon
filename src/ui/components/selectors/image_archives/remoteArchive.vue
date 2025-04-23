@@ -15,19 +15,13 @@
           </div>
         </v-card>
         <v-scale-transition>
-          <v-card
-            v-if="selectedImage === image"
-            flat
-            color="subtle"
-            variant="outlined"
-            class="pa-1"
-            tile>
+          <v-card v-if="selectedImage === image" flat class="pa-1" tile>
             <div class="text-caption pb-1 text-center">
               {{ image }}
             </div>
             <v-menu offset-y offset-x top left>
               <template v-slot:activator="{ props }">
-                <v-btn block variant="outlined" color="error" size="x-small" v-bind="props">
+                <v-btn block variant="tonal" color="error" size="x-small" v-bind="props">
                   Delete
                 </v-btn>
               </template>
@@ -45,17 +39,16 @@
       total-visible="9"
       @input="currentRemotePage = $event" />
     <v-divider class="my-3" />
-    <v-alert
+    <cc-alert
       density="compact"
       class="my-2 text-caption"
-      prominent
       icon="mdi-alert"
-      style="opacity: 0.5">
+      title="External Data Warning">
       <i>
         Images in this gallery are links to remote resources and are not managed by COMP/CON. If you
         do not control the remote host, items may be removed or changed at any time.
       </i>
-    </v-alert>
+    </cc-alert>
 
     <v-card-text>
       <div class="heading h3">

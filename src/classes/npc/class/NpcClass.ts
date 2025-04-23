@@ -15,6 +15,10 @@ interface INpcClassData {
   optionalClassMax?: number;
   optionalClassPerTier?: number;
   forceTag?: string;
+
+  // library imports
+  base_features?: string[];
+  optional_features?: string[];
 }
 
 class NpcComparison {
@@ -90,6 +94,9 @@ class NpcClass {
   };
   private _stats: NpcClassStats;
 
+  private _baseFeatureList: string[];
+  private _optionalFeatureList: string[];
+
   // Additional feature selections
   public readonly OptionalClassMin: number;
   public readonly OptionalClassMax: number;
@@ -109,6 +116,10 @@ class NpcClass {
     this.OptionalClassMin = data.optionalClassMin || 0;
     this.OptionalClassMax = data.optionalClassMax || 0;
     this.OptionalClassPerTier = data.optionalClassPerTier || 0;
+
+    // library style imports
+    this._baseFeatureList = data.base_features || [];
+    this._optionalFeatureList = data.optional_features || [];
 
     this.Comparator = new NpcComparison(this);
   }
@@ -154,11 +165,11 @@ class NpcClass {
   }
 
   public get BaseFeatures(): NpcFeature[] {
-    return this.Features.filter((x) => x.Base && !x.Deprecated);
+    return this.Features.filter((x) => x.Base || this._baseFeatureList.includes(x.ID));
   }
 
   public get OptionalFeatures(): NpcFeature[] {
-    return this.Features.filter((x) => !x.Base && !x.Deprecated);
+    return this.Features.filter((x) => !x.Base || this._optionalFeatureList.includes(x.ID));
   }
 
   public get Stats(): NpcClassStats {

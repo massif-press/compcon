@@ -31,7 +31,7 @@
           <slot name="toolbar-items" />
         </template>
       </cc-toolbar>
-      <v-card-text class="pa-0" :class="!mobile && 'px-4'">
+      <v-card-text class="pa-0" :class="!mobile && !tabs ? 'px-4' : ''">
         <slot v-bind="{ modal, close }" />
       </v-card-text>
 
@@ -106,6 +106,10 @@ export default {
       default: false,
     },
     clip: {
+      type: Boolean,
+      default: false,
+    },
+    tabs: {
       type: Boolean,
       default: false,
     },

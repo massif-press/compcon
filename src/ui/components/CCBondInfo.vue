@@ -13,7 +13,7 @@
         <v-col cols="auto">
           <v-img
             :src="bond.Image"
-            :width="imageError ? 0 : '375px'"
+            :width="imageError ? 0 : '376px'"
             :height="imageError ? 0 : '600px'"
             @error="imageError = true"
             @load="imageError = false"

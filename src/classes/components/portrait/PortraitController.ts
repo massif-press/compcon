@@ -58,7 +58,7 @@ class PortraitController {
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait;
     if (!this.Parent.ImageTag) return '/img/pilot/nodata.png';
-    else if (this._portrait) return getImagePath(this.Parent.ImageTag, this._portrait);
+    else if (this._portrait) return this._portrait;
     else if (this.Parent.ImageTag === ImageTag.Mech) {
       return (this.Parent as Mech).Frame.DefaultImage;
     } else return '/img/pilot/nodata.png';
@@ -75,6 +75,13 @@ class PortraitController {
 
   public SetCloudImage(src: string): void {
     this._cloud_portrait = src;
+    this.Parent.SaveController.save();
+  }
+
+  public Clear(): void {
+    this._portrait = '';
+    this._cloud_portrait = '';
+    this._avatar = undefined;
     this.Parent.SaveController.save();
   }
 

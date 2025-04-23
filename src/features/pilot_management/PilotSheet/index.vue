@@ -66,6 +66,7 @@ export default {
   },
   mounted() {
     this.page = parseInt(UserStore().User.View('pilotSheetPage', 0));
+    console.log(this.page);
     if (this.pilot) document.title = `${this.pilot.Callsign} (${this.pilot.Name})`;
   },
   computed: {

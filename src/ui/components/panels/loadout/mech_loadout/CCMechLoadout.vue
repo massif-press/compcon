@@ -87,17 +87,24 @@ export default {
           isSuperheavy: false,
         });
 
-      if (
-        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting') &&
-        this.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3
-      )
-        items.push({
-          mount: this.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
-          isIntegrated: false,
-          isIntWeapon: false,
-          isImpArm: false,
-          isSuperheavy: true,
-        });
+      if (this.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3) {
+        if (this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting'))
+          items.push({
+            mount: this.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
+            isIntegrated: false,
+            isIntWeapon: false,
+            isImpArm: false,
+            isSuperheavy: true,
+          });
+        else if (this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'))
+          items.push({
+            mount: this.mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
+            isIntegrated: false,
+            isIntWeapon: false,
+            isImpArm: true,
+            isSuperheavy: false,
+          });
+      }
 
       for (const m of this.mech.MechLoadoutController.ActiveLoadout.EquippableMounts) {
         items.push({

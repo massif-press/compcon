@@ -1,5 +1,5 @@
 <template>
-  <v-hover #default="{ isHovering, props }">
+  <v-hover :disabled="mobile" #default="{ isHovering, props }">
     <div class="d-inline top-element" style="position: relative">
       <v-slide-x-transition>
         <span
@@ -12,7 +12,8 @@
         offset-y
         class="label-clip"
         :color="color"
-        :variant="<any>variant">
+        :variant="<any>variant"
+        @click="menu = !menu">
         <v-menu v-if="!readonly" v-model="menu" :close-on-content-click="false" location="bottom">
           <template #activator="{ props }">
             <v-slide-x-reverse-transition>

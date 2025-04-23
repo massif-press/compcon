@@ -15,19 +15,13 @@
           </div>
         </v-card>
         <v-scale-transition>
-          <v-card
-            v-if="selectedImage === image.url"
-            flat
-            color="subtle"
-            variant="outlined"
-            class="pa-1"
-            tile>
+          <v-card v-if="selectedImage === image.url" flat class="pa-1" tile>
             <div class="text-caption pb-1 text-center">
               {{ image.key }}
             </div>
             <v-menu offset-y offset-x top left>
               <template v-slot:activator="{ props }">
-                <v-btn block variant="outlined" color="error" size="x-small" v-bind="props">
+                <v-btn block variant="tonal" color="error" size="x-small" v-bind="props">
                   Delete
                 </v-btn>
               </template>
@@ -45,40 +39,50 @@
       total-visible="9"
       @input="currentUserPage = $event" />
     <v-divider class="my-3" />
-    <v-alert density="compact" variant="tonal" class="my-2 text-caption">
-      <i>
-        Images in this gallery are saved as local app data and will count towards the app storage
-        limit set by your browser, not your cloud account.
-      </i>
+    <cc-alert
+      density="compact"
+      class="my-2 text-caption"
+      icon="mdi-alert"
+      title="Local Data Warning">
+      Images in this gallery are saved as local app data and will count towards the app storage
+      limit set by your browser, not your cloud account.
       <br />
-      <strong>This may not work on all browsers or devices.</strong>
-    </v-alert>
+      <div class="text-center font-weight-bold">This may not work on all browsers or devices.</div>
+      <br />
+      Furthermore, this data will not be shared or transferred along with pilots and resides only on
+      this device. To share artwork or other image data with other users, please use COMP/CON cloud
+      storage.
+    </cc-alert>
     <v-card-text>
       <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
       <v-row align="center">
         <v-col>
           <v-file-input
             v-model="stagedImage"
-            dense
+            density="compact"
             hide-details
-            outlined
+            flat
+            tile
             label="Add New Image"
             accept="image/*"
             class="mt-1 mb-2"
             @change="$emit('set-staged', $event)" />
         </v-col>
         <v-col cols="auto">
-          <v-btn color="secondary" :loading="loading" @click="uploadImage()">Upload</v-btn>
+          <cc-button color="accent" :loading="loading" @click="uploadImage()">Upload</cc-button>
         </v-col>
       </v-row>
       <div>
         <div class="text-caption">
           BROWSER STORAGE USAGE
-          <cc-tooltip
+          <v-tooltip
             inline
-            :content="`This represents the total amount of local disk spaced used by COMP/CON. This includes all images, data files, and other assets.`">
-            <v-icon small>mdi-information-outline</v-icon>
-          </cc-tooltip>
+            :text="`This represents the total amount of local disk spaced used by COMP/CON. This includes all images, data files, and other assets.`"
+            max-width="300px">
+            <template #activator="{ props }">
+              <v-icon small v-bind="props">mdi-information-box-outline</v-icon>
+            </template>
+          </v-tooltip>
         </div>
 
         <v-progress-linear :value="(accountUsage / accountMax) * 100" height="20px">
@@ -159,9 +163,9 @@ export default {
       if (!this.stagedImage) return;
       this.loading = true;
 
-      const blob = new Blob(this.stagedImage, { type: 'image/jpeg' });
-      AddBlob('images', this.stagedImage[0].name, blob)
-        .then(() => this.getUserImages())
+      const blob = new Blob([this.stagedImage], { type: this.stagedImage.type });
+      AddBlob('images', this.stagedImage.name, blob)
+        .then.then(() => this.getUserImages())
         .catch((e) => logger.error(`Error uploading image: ${e}`, this))
         .finally(() => (this.loading = false));
     },
@@ -169,6 +173,7 @@ export default {
       RemoveItem('images', key);
     },
     stage(image) {
+      console.log(image);
       this.selectedImage = image.url;
       this.$emit('set-staged', image);
     },

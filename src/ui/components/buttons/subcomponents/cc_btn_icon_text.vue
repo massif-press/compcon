@@ -6,7 +6,7 @@
     style="position: relative">
     <template #activator="{ props }">
       <div
-        class="top-element d-inline"
+        class="top-element d-inline-block"
         style="position: relative; align-content: center"
         v-bind="props">
         <v-icon
@@ -16,7 +16,7 @@
           :disabled="disabled"
           icon="cc:hex_thin"
           :class="!disabled && 'hover outline-hover'"
-          style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -45%)" />
+          style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" />
         <v-btn
           variant="text"
           icon
@@ -28,7 +28,11 @@
           :href="href"
           :target="target"
           @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-icon :size="iconSize + 4" style="margin-top: -2px" :icon="icon" :disabled="disabled" />
+          <v-icon
+            :size="iconSize"
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+            :icon="icon"
+            :disabled="disabled" />
         </v-btn>
       </div>
     </template>
