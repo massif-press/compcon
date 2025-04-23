@@ -1,10 +1,10 @@
 <template>
-  <v-bottom-navigation height="20">
-    <v-tabs grow center density="compact" height="20" bg-color="primary">
+  <v-bottom-navigation :height="xs ? 20 : 40">
+    <v-tabs grow center density="compact" :height="xs ? 20 : 40" bg-color="primary" hide-slider>
       <v-tab
         variant="text"
         :class="selected === 0 ? 'bg-white' : ''"
-        size="x-small"
+        :size="xs ? 'small' : ''"
         :selected="selected === 0"
         @click="$emit('to', 0)">
         DOSSIER
@@ -12,15 +12,15 @@
       <v-tab
         variant="text"
         :class="selected === 1 ? 'bg-white' : ''"
-        size="x-small"
+        :size="xs ? 'small' : ''"
         :selected="selected === 1"
         @click="$emit('to', 1)">
-        NARRATIVE PROFILE
+        NARRATIVE
       </v-tab>
       <v-tab
         v-if="hasBonds"
         variant="text"
-        size="x-small"
+        :size="xs ? 'small' : ''"
         :class="selected === 2 ? 'bg-white' : ''"
         :selected="selected === 2"
         @click="$emit('to', 2)">
@@ -29,23 +29,23 @@
       <v-tab
         variant="text"
         :class="selected === 3 ? 'bg-white' : ''"
-        size="x-small"
+        :size="xs ? 'small' : ''"
         :selected="selected === 3"
         @click="$emit('to', 3)">
-        TACTICAL PROFILE
+        TACTICAL
       </v-tab>
       <v-tab
         variant="text"
         :class="selected === 4 ? 'bg-white' : ''"
-        size="x-small"
+        :size="xs ? 'small' : ''"
         :selected="selected === 4"
         @click="$emit('to', 4)">
-        MECH HANGAR
+        HANGAR
       </v-tab>
       <v-tab
         variant="text"
         :class="selected === 5 ? 'bg-white' : ''"
-        size="x-small"
+        :size="xs ? 'small' : ''"
         :selected="selected === 5"
         @click="$emit('to', 5)">
         OPTIONS
@@ -83,8 +83,10 @@ export default {
   data: () => ({
     loading: false,
   }),
-
   computed: {
+    xs() {
+      return this.$vuetify.display.smOrDown;
+    },
     hasBonds() {
       return CompendiumStore().Bonds.length > 0;
     },

@@ -26,12 +26,14 @@
         </v-col>
         <v-col>
           <div class="text-center" style="position: relative">
-            <v-img
-              :src="displayImage"
-              contain
-              max-width="500px"
-              max-height="500px"
-              class="ml-auto mr-auto">
+            <v-card variant="outlined" color="primary">
+              <cc-img
+                :src="displayImage"
+                contain
+                max-width="500px"
+                max-height="500px"
+                class="ml-auto mr-auto" />
+
               <v-card v-if="avatar" id="avatar-inset" variant="outlined" color="primary">
                 <cc-avatar
                   v-if="item.PortraitController.Avatar"
@@ -45,37 +47,50 @@
                     class="pt-4" />
                 </div>
               </v-card>
-            </v-img>
+            </v-card>
             <v-row justify="space-around" class="mt-2">
               <v-col cols="auto" class="text-left">
-                <v-btn color="secondary" @click="saveImage()">Set Image</v-btn>
-                <br />
-                <v-btn size="small" class="mt-2" variant="outlined" @click="clearImage()">
+                <cc-button
+                  size="small"
+                  color="error"
+                  prepend-icon="mdi-cancel"
+                  @click="clearImage()">
                   clear image
-                </v-btn>
+                </cc-button>
               </v-col>
-              <v-col v-if="avatar" cols="auto" class="text-right">
-                <cc-modal ref="crop_dialog" icon="mdi-crop" color="primary" title="Set Avatar">
-                  <template #activator="{ open }">
-                    <v-btn
-                      color="secondary"
-                      :disabled="!item.PortraitController.CloudImage"
-                      @click="open">
-                      Set Avatar
-                    </v-btn>
-                  </template>
-                  <template #default="{ close }">
-                    <image-crop
-                      :src="displayImage"
-                      :img-key="selectedImageKey"
-                      @hide="close"
-                      @confirm="setAvatar($event, close)" />
-                  </template>
-                </cc-modal>
-                <br />
-                <v-btn size="small" class="mt-2" variant="outlined" @click="clearCrop()">
-                  clear avatar
-                </v-btn>
+              <v-col v-if="avatar" cols="auto">
+                <div class="d-flex justify-end">
+                  <cc-modal ref="crop_dialog" icon="mdi-crop" color="primary" title="Set Avatar">
+                    <template #activator="{ open }">
+                      <cc-button
+                        size="small"
+                        color="success"
+                        prepend-icon="mdi-crop"
+                        :disabled="!item.PortraitController.CloudImage"
+                        @click="open">
+                        Set Avatar
+                      </cc-button>
+                    </template>
+                    <template #default="{ close }">
+                      <image-crop
+                        :src="displayImage"
+                        :img-key="selectedImageKey"
+                        @hide="close"
+                        @confirm="setAvatar($event, close)" />
+                    </template>
+                  </cc-modal>
+                </div>
+                <div class="d-flex justify-center mt-1">
+                  <cc-button
+                    size="x-small"
+                    color="stark"
+                    prepend-icon="mdi-cancel"
+                    class="fade-select"
+                    variant="outlined"
+                    @click="clearCrop()">
+                    clear avatar
+                  </cc-button>
+                </div>
               </v-col>
             </v-row>
           </div>
@@ -142,7 +157,7 @@ export default {
       return this.selectedImageUrl === url;
     },
     clearImage() {
-      this.item.PortraitController.SetCloudImage('');
+      this.item.PortraitController.Clear();
       this.selectedImage = null;
       if (!this.avatar) this.close();
     },
@@ -172,18 +187,23 @@ export default {
     setLocalImage(img: any) {
       this.selectedImage = img;
       this.selectedImageKey = img.key;
+      console.log(img.key);
+      this.item.PortraitController.SetLocalImage(img.key);
     },
     setLibImage(img: any) {
       this.selectedImageKey = '';
       this.selectedImage = img;
+      this.saveImage();
     },
     setRemoteImage(img: any) {
       this.selectedImageKey = '';
       this.selectedImage = img;
+      this.saveImage();
     },
     setCloudImage(img: any) {
       this.selectedImageKey = `${distributor}/${img.uri}`;
       this.selectedImage = img;
+      this.saveImage();
     },
   },
 };

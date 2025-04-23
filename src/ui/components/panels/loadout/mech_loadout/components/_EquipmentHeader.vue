@@ -1,8 +1,8 @@
 <template>
   <v-row dense align="center">
     <v-col v-if="item.IsLimited" cols="auto" class="mx-2">
-      <cc-item-uses :item="item" :bonus="useBonus" :color="color" class="d-inline" />
-      <span class="text-overline">({{ item.Uses }}/{{ item.getTotalUses(useBonus) }}) USES</span>
+      <!-- <cc-item-uses :item="item" :bonus="useBonus" :color="color" class="d-inline" /> -->
+      <!-- <span class="text-overline">({{ item.Uses }}/{{ item.getTotalUses(useBonus) }}) USES</span> -->
     </v-col>
 
     <v-col cols="auto">

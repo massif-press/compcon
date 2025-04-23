@@ -22,7 +22,7 @@ export default {
       default: 200,
     },
   },
-  async created() {
+  async mounted() {
     if (this.avatar.image.src.startsWith('http')) return;
     if (!this.avatar.image.src.startsWith('blob')) {
       const blob = await GetBlob('images', this.avatar.image.src);

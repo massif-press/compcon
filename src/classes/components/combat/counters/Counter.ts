@@ -3,7 +3,6 @@ import { ICounterSaveData } from './CounterController';
 interface ICounterData {
   id: string;
   name: string;
-  level?: number;
   min?: number;
   max?: number;
   default_value?: number;
@@ -13,13 +12,12 @@ interface ICounterData {
 class Counter {
   public readonly ID: string;
   public readonly Name: string;
-  public readonly Level: number;
   public readonly Min: number;
   public readonly Max: number;
   public readonly Default: number;
 
   constructor(data: ICounterData) {
-    const { id, name, level, min, max, default_value } = data;
+    const { id, name, min, max, default_value } = data;
 
     if (max && default_value && default_value > max)
       throw new Error(
@@ -33,7 +31,6 @@ class Counter {
 
     this.ID = id;
     this.Name = name;
-    this.Level = level || 0;
     this.Min = min || 0;
     this.Max = max || 1;
     this.Default = default_value || 0;

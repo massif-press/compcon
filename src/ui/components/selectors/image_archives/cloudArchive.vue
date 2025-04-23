@@ -53,9 +53,10 @@
         <v-row align="center">
           <v-col>
             <v-file-input
-              dense
+              density="compact"
               hide-details
-              outlined
+              flat
+              tile
               label="Add New Image"
               accept="image/*"
               class="mt-1 mb-2"
@@ -63,13 +64,13 @@
               @change="onFileChange($event)" />
           </v-col>
           <v-col cols="auto">
-            <v-btn
-              color="secondary"
+            <cc-button
+              color="accent"
               :disabled="!stagedImage || store.CloudStorageFull || !store.IsLoggedIn"
               :loading="loading"
               @click="uploadImage()">
               Upload
-            </v-btn>
+            </cc-button>
           </v-col>
         </v-row>
         <div>
@@ -195,6 +196,13 @@ export default {
 
       await uploadToS3(this.stagedImage, res.presign.upload, type);
       await UserStore().refreshDbData();
+      this.$notify({
+        title: `Image Uploaded`,
+        text: `Uploaded ${filename}.${ext} (${(size / 1024 / 1024).toFixed(2)}MB)`,
+        data: { icon: 'mdi-check', color: 'success' },
+      });
+      this.stagedImage = null;
+      this.selectedImage = null;
       this.loading = false;
     },
     async deleteCloudImage(item) {

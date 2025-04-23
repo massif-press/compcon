@@ -159,6 +159,8 @@ class ContentPack {
       }) || [];
     self._Talents = self._data.talents?.map((x) => new Talent(x, self)) || [];
 
+    console.log(self._data.npcClasses);
+
     self._NpcClasses = self._data.npcClasses?.map((x) => new NpcClass(x, self)) || [];
 
     self._NpcTemplates = self._data.npcTemplates?.map((x) => new NpcTemplate(x, self)) || [];
