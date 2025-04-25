@@ -41,7 +41,6 @@ import {
 } from 'chart.js';
 import { Frame } from '@/class';
 import FrameStatblock from './_FrameStatblock.vue';
-import { GenerateContrastingColors } from '@/util/Colors';
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -55,10 +54,8 @@ export default {
     },
   },
   data: () => ({
-    relative: false,
-    aggregate: false,
     compareFrames: [] as Frame[],
-    standardLabels: [
+    labels: [
       'HP',
       'Armor',
       'Repair Capacity',
@@ -71,7 +68,19 @@ export default {
       'Sensors',
       'Save Target',
     ],
-    aggregateLabels: ['Survivability', 'Mobility', 'Offense', 'Utility'],
+    statProps: [
+      'HP',
+      'Armor',
+      'RepCap',
+      'Evasion',
+      'Speed',
+      'EDefense',
+      'TechAttack',
+      'SP',
+      'HeatCap',
+      'SensorRange',
+      'SaveTarget',
+    ],
   }),
   computed: {
     getComparableFrames() {
@@ -93,62 +102,54 @@ export default {
     mobile(): boolean {
       return this.$vuetify.display.smAndDown;
     },
-    labels() {
-      return this.aggregate ? this.aggregateLabels : this.standardLabels;
-    },
     frames() {
       return CompendiumStore().Frames.filter(
         (x) => x.Name !== this.frame.Name && !x.ID.startsWith('missing_')
       );
     },
+    isDark() {
+      return this.$vuetify.theme.current.dark;
+    },
     chartOptions() {
-      return this.relative
-        ? {
-            plugins: {
-              datalabels: {
-                display: false,
+      return {
+        plugins: {
+          datalabels: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem) => {
+                const label = tooltipItem.dataset.label || '';
+                const frame = CompendiumStore().Frames.find((x) => x.ID === tooltipItem.dataset.id);
+                if (!frame) return label;
+                const value = frame[this.statProps[tooltipItem.dataIndex]];
+                return `${label}: ${value}`;
               },
             },
-            layout: {
-              padding: 0,
-            },
+          },
+        },
+        layout: {
+          padding: 4,
+        },
+        scales: {
+          r: {
+            beginAtZero: true,
 
-            scales: {
-              r: {
-                angleLines: {
-                  display: false,
-                },
-                suggestedMin: 0,
-                suggestedMax: 100,
-                beginAtZero: true,
-                ticks: {
-                  display: false,
-                },
-              },
+            angleLines: {
+              display: false,
             },
-          }
-        : {
-            plugins: {
-              datalabels: {
-                display: false,
-              },
+            ticks: {
+              display: false,
             },
-            layout: {
-              padding: 0,
+            grid: {
+              color: this.isDark ? '#FFFFFF33' : '#00000033',
             },
-            scales: {
-              r: {
-                angleLines: {
-                  display: false,
-                },
-                suggestedMin: -3,
-                beginAtZero: true,
-                ticks: {
-                  display: false,
-                },
-              },
+            pointLabels: {
+              color: this.isDark ? '#FFFFFF66' : '#00000066',
             },
-          };
+          },
+        },
+      };
     },
     chartData() {
       return {
@@ -166,6 +167,7 @@ export default {
     getDataset(frame, idx?: number, compare?: boolean) {
       const dataset = {
         label: frame.Name,
+        id: frame.ID,
         backgroundColor: compare
           ? this.colors[idx as number] + '1A'
           : this.$vuetify.theme.current.colors.accent + '80',
@@ -175,26 +177,9 @@ export default {
         data: [] as any[],
       };
 
-      dataset.data = this.aggregate
-        ? [
-            this.relative ? frame.Comparator.Survivability : frame.SurvivabilityRaw,
-            this.relative ? frame.Comparator.Mobility : frame.MobilityRaw,
-            this.relative ? frame.Comparator.Offense : frame.OffenseRaw,
-            this.relative ? frame.Comparator.Utility : frame.UtilityRaw,
-          ]
-        : [
-            this.relative ? frame.Comparator.HP : frame.HP,
-            this.relative ? frame.Comparator.Armor : frame.Armor,
-            this.relative ? frame.Comparator.RepCap : frame.RepCap,
-            this.relative ? frame.Comparator.Evasion : frame.Evasion,
-            this.relative ? frame.Comparator.Speed : frame.Speed,
-            this.relative ? frame.Comparator.EDefense : frame.EDefense,
-            this.relative ? frame.Comparator.TechAttack : frame.TechAttack,
-            this.relative ? frame.Comparator.SP : frame.SP,
-            this.relative ? frame.Comparator.HeatCap : frame.HeatCap,
-            this.relative ? frame.Comparator.SensorRange : frame.SensorRange,
-            this.relative ? frame.Comparator.SaveTarget : frame.SaveTarget,
-          ];
+      const FrameCompStats = frame.NormalizedStats();
+
+      dataset.data = Object.values(FrameCompStats);
 
       return dataset;
     },

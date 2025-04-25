@@ -439,15 +439,6 @@ export const CompendiumStore = defineStore('compendium', {
 
       try {
         this.ContentPacks = [...this.ContentPacks, ...content.map((c) => new ContentPack(c))];
-
-        // FrameComparison.NormalizeReferenceSet(
-        //   this.Frames.filter((x) => !x.ID.startsWith('missing_'))
-        // );
-        // NpcComparison.NormalizeReferenceSet(this.NpcClasses);
-
-        // this.NpcFeatures.forEach((feature) => {
-        //   feature.SetOrigin();
-        // });
       } catch (err) {
         logger.error(`Error loading content packs: ${err}`, this);
       }

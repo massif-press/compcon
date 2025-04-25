@@ -13,38 +13,82 @@
           @click:clear="reset" />
       </v-col>
     </v-row>
-    <v-card v-if="missingContent.length">
-      <v-card-text class="text-center">
-        <p class="heading h4 text-accent">
-          The imported Pilot requires the following content packs that are not currently
-          installed/active, or have mismatching versions:
-        </p>
-        <p class="effect-text text-center" v-html="missingContent" />
-        <p class="text-text">
-          This Pilot cannot be imported until the missing content packs are installed and activated,
-          or the content pack versions are synchronized.
-        </p>
-      </v-card-text>
-      <v-divider />
-      <v-card-actions>
-        <v-spacer />
-        <v-btn variant="text" color="primary" @click="reset">Abort Import</v-btn>
-      </v-card-actions>
-    </v-card>
+    <v-container v-if="stagedData" flat tile>
+      <v-card flat tile max-width="900px" class="mx-auto" border>
+        <cc-alert v-if="!stagedData.itemType" icon="mdi-alert-circle-outline" title="v2 Data">
+          <p class="text-text">
+            This appears to be Pilot data from an older COMP/CON release. COMP/CON will attempt to
+            convert and import this data, but may not be able to convert all items and may not be
+            able to furnish information about missing LCP requirements.
+          </p>
+        </cc-alert>
+        <v-card-text>
+          <div class="heading h2">
+            {{ stagedData.name }}
+            <cc-slashes />
+            <span class="text-accent pl-2">{{ stagedData.callsign }}</span>
+          </div>
+          <div class="text-cc-overline mb-2">
+            LICENSE LEVEL
+            <span class="heading h3">{{ stagedData.level }}</span>
+          </div>
+          <div v-if="stagedData.mechs.length">
+            <div class="text-cc-overline">HANGAR</div>
+            <cc-chip v-for="mech in stagedData.mechs" :key="mech.id" class="mr-1 mb-1">
+              {{ mech.name }}
+              <cc-slashes />
+              {{ getFrame(mech.frame) }}
+            </cc-chip>
+          </div>
+          <div v-if="stagedData.brews.length" class="text-cc-overline my-1">
+            REQUIRED CONTENT PACKS
+            <div>
+              <cc-chip v-for="brew in stagedData.brews" :key="brew.LcpId">
+                {{ brew.LcpName }}
+              </cc-chip>
+            </div>
+          </div>
+          <div v-if="stagedData.save">
+            <v-divider class="my-2" />
+            <div class="text-cc-overline mb-2">
+              Created {{ new Date(stagedData.save.created).toLocaleString() }}
+              <cc-slashes />
+              Last Modified
+              {{ new Date(stagedData.save.lastModified).toLocaleString() }}
+            </div>
+          </div>
+        </v-card-text>
+      </v-card>
+      <v-card v-if="missingContent.length" flat tile max-width="900px" class="mx-auto" border>
+        <v-card-text class="text-center">
+          <p class="heading h4 text-accent">
+            This Pilot requires the following content packs that are not currently installed/active,
+            or have mismatching versions:
+          </p>
+          <p class="effect-text text-center" v-html="missingContent" />
+          <p class="text-text">
+            This Pilot cannot be imported until the missing content packs are installed and
+            activated, or the content pack versions are synchronized.
+          </p>
+        </v-card-text>
+      </v-card>
+    </v-container>
+
     <div class="mt-2">
-      <p v-if="alreadyPresent" class="text-center" v-text="alreadyPresent" />
+      <div
+        v-if="alreadyPresent"
+        class="text-center mb-1 text-caption text-text"
+        v-text="alreadyPresent" />
       <v-slide-x-reverse-transition>
-        <v-row v-if="stagedData" align="center" justify="center">
-          <v-col cols="auto">
-            <v-btn
-              color="accent"
-              prepend-icon="mdi-plus"
-              :disabled="missingContent.length > 0"
-              @click="importFile()">
-              Import {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
-            </v-btn>
-          </v-col>
-        </v-row>
+        <cc-button
+          v-if="stagedData"
+          color="primary"
+          block
+          prepend-icon="mdi-plus"
+          :disabled="missingContent.length > 0"
+          @click="importFile()">
+          Import {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
+        </cc-button>
       </v-slide-x-reverse-transition>
     </div>
   </v-card-text>
@@ -75,12 +119,24 @@ export default {
     stagedData: null as PilotData | null,
     alreadyPresent: '',
   }),
+  watch: {
+    stagedData(newVal) {
+      if (!newVal) {
+        this.reset();
+      }
+    },
+  },
   methods: {
     reset() {
       this.fileValue = null;
       this.missingContent = '';
       this.stagedData = null;
       this.alreadyPresent = '';
+    },
+    getFrame(frame) {
+      const frameData = CompendiumStore().Frames.find((x) => x.ID === frame);
+      if (frameData) return frameData.Name;
+      return `UNKNOWN FRAME (${frame})`;
     },
     async stageImport(file) {
       if (!file) return;
@@ -122,12 +178,12 @@ export default {
         importPilot.RenewID();
         PilotStore().AddPilot(importPilot, this.groupId);
         this.reset();
-        this.$emit('done');
         this.$notify({
           title: 'Import Successful',
           text: `${importPilot.Name} // ${importPilot.Callsign} successfully added to roster.`,
           data: { icon: 'cc:pilot' },
         });
+        this.$emit('done');
       } catch (error) {
         logger.error(`Pilot import error: ${error}`);
         this.$notify({
