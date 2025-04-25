@@ -1,5 +1,10 @@
 <template>
-  <v-row align="center" no-gutters justify="end" :style="mobile && 'margin-top: -12px'">
+  <v-row
+    align="center"
+    no-gutters
+    justify="end"
+    :style="mobile && 'margin-top: -12px'"
+    class="pr-1">
     <v-col cols="auto">
       <cc-range-element v-if="item.Range" small :range="range" />
       <cc-slashes v-if="item.Range && item.Damage" class="pr-1" />

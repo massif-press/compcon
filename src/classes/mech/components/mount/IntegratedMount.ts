@@ -2,9 +2,12 @@ import { Mount, MechWeapon, MountType, MechLoadout } from '@/class';
 import { IMechWeaponSaveData } from '@/interface';
 
 class IntegratedMount extends Mount {
+  public ID: string;
+
   public constructor(intWeapon: MechWeapon, parent: MechLoadout) {
     super(MountType.Integrated, parent);
     this.slots[0].EquipWeapon(intWeapon, false);
+    this.ID = intWeapon.ID;
   }
 
   public get Weapon(): MechWeapon | null {
@@ -19,7 +22,6 @@ class IntegratedMount extends Mount {
 
   public static Deserialize(mountData: any, parent: MechLoadout): IntegratedMount {
     const im = new IntegratedMount(MechWeapon.Deserialize(mountData.weapon), parent);
-    im.getID();
     return im;
   }
 }

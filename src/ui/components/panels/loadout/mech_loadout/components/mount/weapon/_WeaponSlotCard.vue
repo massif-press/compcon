@@ -64,6 +64,10 @@
         </template>
       </equipment-header>
       <div>
+        <div v-if="isEngineerWeapon" class="mb-1">
+          <eng-weapon-settings :item="item" :mech="mech" :readonly="readonly" />
+        </div>
+
         <div v-if="item.Profiles && item.Profiles.length > 1">
           <v-tabs
             v-if="!mobile"
@@ -135,7 +139,6 @@
             :profile="item.Profiles[0]"
             :action="action" />
         </div>
-        <!-- <ammo-case-inset :level="armoryLevel" />  -->
       </div>
       <div v-if="mod">
         <mod-inset :mod="mod" :mech="mech" :color="color" @remove-mod="uninstall()" />
@@ -183,6 +186,7 @@ import {
   Damage,
   Mech,
 } from '@/class';
+import EngWeaponSettings from './_EngWeaponSettings.vue';
 
 export default {
   name: 'weapon-slot-card',
@@ -197,6 +201,7 @@ export default {
     ShLockDialog,
     OnElement,
     WeaponSlotToolbarItems,
+    EngWeaponSettings,
   },
   props: {
     weaponSlot: {
@@ -224,6 +229,10 @@ export default {
     lockDialog: false,
   }),
   computed: {
+    isEngineerWeapon() {
+      // TODO: generalize this
+      return this.item && this.item.ID.includes('mw_prototype_');
+    },
     mobile() {
       return this.$vuetify.display.smAndDown;
     },

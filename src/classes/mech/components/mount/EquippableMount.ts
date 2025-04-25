@@ -84,7 +84,6 @@ class EquippableMount extends Mount {
     m.extra = mountData.extra.map((x) => WeaponSlot.Deserialize(x, m));
     m._bonuses = mountData.bonus_effects.map((x) => CoreBonus.Deserialize(x));
     m.lock = mountData.lock;
-    m.getID();
     return m;
   }
 }

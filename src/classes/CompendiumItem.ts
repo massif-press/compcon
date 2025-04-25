@@ -176,23 +176,25 @@ abstract class CompendiumItem {
 
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return [];
-    return this._integrated.map((x) => {
+    const map = this._integrated.map((x) => {
       const w = CompendiumStore().MechWeapons.find((item) => item.ID === x);
       if (w) return w as MechEquipment;
       return CompendiumStore().MechSystems.find((item) => item.ID === x) as MechEquipment;
     }) as MechEquipment[];
+
+    map.forEach((x) => {
+      x.IsIntegrated = true;
+      x.IntegratedOrigin = this;
+    });
+    return map;
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
-    return this._integrated
-      .map((x) => CompendiumStore().MechWeapons.find((item) => item.ID === x))
-      .filter((x) => !!x) as MechWeapon[];
+    return this.IntegratedEquipment.filter((x) => x instanceof MechWeapon) as MechWeapon[];
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this._integrated
-      .map((x) => CompendiumStore().MechSystems.find((item) => item.ID === x))
-      .filter((x) => !!x) as MechSystem[];
+    return this.IntegratedEquipment.filter((x) => x instanceof MechSystem) as MechSystem[];
   }
 
   public get Tags(): Tag[] {

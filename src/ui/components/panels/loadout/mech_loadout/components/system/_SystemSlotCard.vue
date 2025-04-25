@@ -8,7 +8,8 @@
     @selector-close="$emit('done')">
     <template #header>
       <div v-if="item" class="pt-1">
-        <equipment-options v-if="!readonly" :item="item" />
+        <equipment-options v-if="!readonly && !integrated" :item="item" />
+        <span v-else>&nbsp;</span>
         {{ item.Name }}
       </div>
       <div v-else class="text-disabled">&nbsp;EMPTY SYSTEM SLOT</div>
