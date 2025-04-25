@@ -51,9 +51,13 @@ interface IMechWeaponData extends IMechEquipmentData {
 
 interface IMechWeaponSaveData extends IEquipmentData {
   mod?: IEquipmentData;
-  customDamageType?: string;
   maxUseOverride?: number;
   selectedProfile: number;
+  customDamageType?: string;
+  customRange?: IRangeData[];
+  customWeaponType?: WeaponType;
+  customTags?: ITagCompendiumData[];
+  customEffect?: string;
 }
 
 interface IWeaponProfileData {
@@ -127,7 +131,6 @@ class WeaponProfile extends CompendiumItem {
 class MechWeapon extends MechEquipment {
   public readonly Size: WeaponSize;
   public readonly ModSize: WeaponSize;
-  public readonly WeaponTypes: WeaponType[];
   public readonly ModType: WeaponType;
   public readonly Profiles: WeaponProfile[];
   public readonly Skirmish: boolean;
@@ -135,19 +138,27 @@ class MechWeapon extends MechEquipment {
   public readonly NoAttack: boolean;
   public readonly NoCoreBonus: boolean;
   private _mod: WeaponMod | null;
-  private _custom_damage_type?: string | null;
   private _selected_profile: number;
+  public _weaponTypes: WeaponType[];
+
+  private _custom_damage_type?: string | null;
+  private _custom_range?: IRangeData[] | null;
+  private _custom_weapon_type?: WeaponType | null;
+  private _custom_tags?: ITagCompendiumData[] | null;
+  private _custom_effect?: string | null;
 
   public constructor(data: IMechWeaponData, pack?: ContentPack) {
     super(data, pack);
+    this.ItemType = ItemType.MechWeapon;
     this.Size = data.mount;
     this.ModSize = data.mod_size_override ? data.mod_size_override : data.mount;
-    this.WeaponTypes = Array.isArray(data.type) ? data.type : [data.type];
+    this._weaponTypes = Array.isArray(data.type) ? data.type : [data.type];
     this.ModType = data.mod_type_override
       ? data.mod_type_override
       : Array.isArray(data.type)
         ? data.type[0]
         : data.type;
+
     this.Skirmish =
       data.skirmish != undefined ? data.skirmish : data.mount !== WeaponSize.Superheavy;
     this.Barrage = data.barrage != undefined ? (data.skirmish ?? false) : true;
@@ -160,9 +171,6 @@ class MechWeapon extends MechEquipment {
     }
     this._selected_profile = 0;
     this._mod = null;
-    this.ItemType = ItemType.MechWeapon;
-    this.max_use_override = 0;
-    this._custom_damage_type = null;
   }
 
   public get TotalSP(): number {
@@ -200,7 +208,6 @@ class MechWeapon extends MechEquipment {
   public SetProfileSelection(val: number): void {
     // TODO: recognize when this is instantiated on an existing mech so we can correctly call the save function from the setter
     this._selected_profile = val;
-    // this.save();
   }
 
   public get ProfileIndex(): number {
@@ -229,19 +236,57 @@ class MechWeapon extends MechEquipment {
     }
   }
 
-  public get DamageTypeOverride(): string | null {
-    return this._custom_damage_type || null;
+  public SetOverride(
+    prop: 'damage' | 'range' | 'weapon_type' | 'tags' | 'uses' | 'effect',
+    val: any
+  ): void {
+    switch (prop) {
+      case 'damage':
+        this._custom_damage_type = val;
+        break;
+      case 'range':
+        this._custom_range = val;
+        break;
+      case 'weapon_type':
+        this._custom_weapon_type = val;
+        break;
+      case 'tags':
+        this._custom_tags = val;
+        break;
+      case 'uses':
+        this.max_use_override = MechWeapon.SanitizeUsesInput(val);
+        break;
+      case 'effect':
+        this._custom_effect = val;
+        break;
+    }
   }
 
-  public set DamageTypeOverride(val: string | null) {
-    this._custom_damage_type = val;
-    // this.save();
+  public GetOverride(prop: 'damage' | 'range' | 'weapon_type' | 'tags' | 'uses' | 'effect'): any {
+    switch (prop) {
+      case 'damage':
+        return this._custom_damage_type;
+      case 'range':
+        return this._custom_range;
+      case 'weapon_type':
+        return this._custom_weapon_type;
+      case 'tags':
+        return this._custom_tags || [];
+      case 'uses':
+        return this.max_use_override;
+      case 'effect':
+        return this._custom_effect || '';
+    }
   }
 
-  public set MaxUseOverride(val: number) {
-    const safeVal = MechWeapon.SanitizeUsesInput(val);
-    this.max_use_override = safeVal;
-    // this.save();
+  public get CustomEffect(): string {
+    if (this._custom_effect) return this._custom_effect;
+    return '';
+  }
+
+  public get CustomTags(): Tag[] {
+    if (this._custom_tags) return Tag.Deserialize(this._custom_tags);
+    return [];
   }
 
   public static SanitizeUsesInput(val: number): number {
@@ -252,10 +297,12 @@ class MechWeapon extends MechEquipment {
   }
 
   public get DamageType(): DamageType[] {
+    if (this._custom_damage_type) return [this._custom_damage_type as DamageType];
     return this.SelectedProfile.Damage ? this.SelectedProfile.Damage.map((x) => x.Type) : [];
   }
 
   public get DefaultDamageType(): DamageType {
+    if (this._custom_damage_type) return this._custom_damage_type as DamageType;
     if (0 === this.DamageType.length) {
       return DamageType.Variable;
     } else {
@@ -263,12 +310,25 @@ class MechWeapon extends MechEquipment {
     }
   }
 
+  public get DamageTypeOverride(): DamageType | null {
+    if (this._custom_damage_type) return this._custom_damage_type as DamageType;
+    if (this.Mod && this.Mod.AddedDamage) return this.Mod.AddedDamage[0].Type;
+    return null;
+  }
+
   public get Range(): Range[] {
+    if (this._custom_range) return this._custom_range.map((x) => new Range(x));
     return this.SelectedProfile.Range || [];
   }
 
   public get RangeType(): RangeType[] {
+    if (this._custom_range) return this.Range.map((x) => x.Type);
     return this.SelectedProfile.Range ? this.SelectedProfile.Range.map((x) => x.Type) : [];
+  }
+
+  public get WeaponTypes(): WeaponType[] {
+    if (this._custom_weapon_type) return [this._custom_weapon_type as WeaponType];
+    return this._weaponTypes;
   }
 
   public set Mod(mod: WeaponMod | null) {
@@ -327,9 +387,13 @@ class MechWeapon extends MechEquipment {
       mod: item.Mod ? (WeaponMod.Serialize(item.Mod) as IEquipmentData) : undefined,
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
-      customDamageType: item._custom_damage_type || undefined,
-      maxUseOverride: MechWeapon.SanitizeUsesInput(item.max_use_override) || 0,
       selectedProfile: item._selected_profile || 0,
+      customDamageType: item._custom_damage_type || undefined,
+      customRange: item._custom_range || undefined,
+      customWeaponType: item._custom_weapon_type || undefined,
+      customTags: item._custom_tags || undefined,
+      customEffect: item._custom_effect || undefined,
+      maxUseOverride: MechWeapon.SanitizeUsesInput(item.max_use_override) || 0,
     };
   }
 
@@ -339,9 +403,13 @@ class MechWeapon extends MechEquipment {
     item._note = data.note;
     item._flavor_name = data.flavorName || '';
     item._flavor_description = data.flavorDescription || '';
-    item._custom_damage_type = data.customDamageType || null;
     item.max_use_override = MechWeapon.SanitizeUsesInput(data.maxUseOverride || 0);
     item._selected_profile = data.selectedProfile || 0;
+    item._custom_damage_type = data.customDamageType || null;
+    item._custom_range = data.customRange || null;
+    item._custom_weapon_type = data.customWeaponType || null;
+    item._custom_tags = data.customTags || null;
+    item._custom_effect = data.customEffect || null;
     return item;
   }
 }

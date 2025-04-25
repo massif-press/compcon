@@ -67,6 +67,8 @@ class MechLoadoutController implements IFeatureContainer {
   public AddLoadout(): void {
     this._loadouts.push(new MechLoadout(this.Parent));
     this.ActiveLoadout = this._loadouts[this._loadouts.length - 1];
+    this.UpdateLoadouts();
+
     this.Parent.SaveController.save();
   }
 

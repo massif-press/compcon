@@ -1,9 +1,7 @@
-import { v4 as uuid } from 'uuid';
 import { MechWeapon, WeaponSlot, MountType, FittingSize, WeaponSize, MechLoadout } from '@/class';
 
 abstract class Mount {
   private _mount_type: MountType;
-  private _id: string;
   private _parent: MechLoadout;
   protected lock: boolean;
   protected slots: WeaponSlot[];
@@ -12,7 +10,6 @@ abstract class Mount {
 
   public constructor(mountType: MountType, parent: MechLoadout) {
     this._parent = parent;
-    this._id = uuid();
     this._mount_type = mountType;
     this.lock = false;
     this.extra = [];
@@ -57,14 +54,6 @@ abstract class Mount {
 
   public save(): void {
     this._parent.saveMechLoadout();
-  }
-
-  protected getID(): void {
-    this._id = uuid();
-  }
-
-  public get ID(): string {
-    return this._id;
   }
 
   public get Type(): MountType {

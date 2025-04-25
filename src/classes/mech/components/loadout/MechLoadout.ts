@@ -67,30 +67,35 @@ class MechLoadout extends Loadout {
   }
 
   public SetAllIntegrated() {
+    const is = Array.from(
+      new Set([
+        ...this.Parent.FeatureController.IntegratedSystems,
+        ...this.Parent.Pilot.FeatureController.IntegratedSystems,
+        ...this.Systems.flatMap((x) => x.IntegratedSystems || []),
+      ])
+    );
+
+    is.forEach((item) => {
+      if (!this._integratedSystems.some((x) => x.ID === item.ID)) {
+        this._integratedSystems.push(item);
+      }
+    });
+
+    this._integratedSystems = is;
+
     const im = [
       ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(
         (x) => new IntegratedMount(x, this)
       ),
     ];
 
-    const is = [
-      ...this.Parent.FeatureController.IntegratedSystems,
-      ...this.Parent.Pilot.FeatureController.IntegratedSystems,
-    ];
-
-    this.Systems.forEach((x) => {
-      if (!x.IntegratedSystems) return;
-      const arr = [...x.IntegratedSystems].flat();
-      arr.forEach((y) => {
-        if (is.some((z) => z.ID === y.ID)) return;
-        y.IsIntegrated = true;
-        y.IntegratedOrigin = x;
-        is.push(y);
-      });
+    im.forEach((item) => {
+      if (!this._integratedMounts.some((x) => x.ID === item.ID)) {
+        this._integratedMounts.push(item);
+      }
     });
 
-    this._integratedSystems = is;
-    this._integratedMounts = im;
+    this._integratedMounts = this._integratedMounts.filter((x) => im.some((y) => y.ID === x.ID));
   }
 
   public get IntegratedMounts(): IntegratedMount[] {
@@ -317,9 +322,9 @@ class MechLoadout extends Loadout {
     ml.ID = loadoutData.id;
     ml._name = loadoutData.name;
     ml._systems = loadoutData.systems.map((x) => MechSystem.Deserialize(x));
-    ml._integratedSystems = !loadoutData.integratedSystems
-      ? mech.Frame.IntegratedSystems
-      : loadoutData.integratedSystems.map((x) => MechSystem.Deserialize(x));
+    // ml._integratedSystems = !loadoutData.integratedSystems
+    //   ? mech.Frame.IntegratedSystems
+    //   : loadoutData.integratedSystems.map((x) => MechSystem.Deserialize(x));
     ml._equippableMounts = loadoutData.mounts.map((x) => EquippableMount.Deserialize(x, ml));
     ml._integratedMounts = !loadoutData.integratedMounts
       ? mech.Frame.IntegratedWeapons.map((x) => new IntegratedMount(x, ml))
