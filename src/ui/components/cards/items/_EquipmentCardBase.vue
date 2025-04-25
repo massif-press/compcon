@@ -73,12 +73,11 @@
   </div>
 
   <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
-    <div v-show="!dense" class="text-cc-overline text-disabled">//EQUIPMENT INTEGRATIONS</div>
-    <v-row dense justify="center">
-      <v-col v-for="x in item.IntegratedEquipment" cols="auto">
-        <cc-integrated-info :item="x" :panel="!collapseActions || $vuetify.display.lgAndUp" />
-      </v-col>
-    </v-row>
+    <div v-show="!dense" class="text-cc-overline text-disabled">//INTEGRATED EQUIPMENT</div>
+    <cc-integrated-info
+      v-for="x in item.IntegratedEquipment"
+      :item="x"
+      :panel="!collapseActions || $vuetify.display.mdAndUp" />
   </div>
 
   <slot name="profile" />

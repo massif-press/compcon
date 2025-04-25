@@ -20,10 +20,10 @@ interface IMechEquipmentData extends ILicensedItemData {
 
 abstract class MechEquipment extends LicensedItem {
   protected max_use_override: number = 0;
+  public IsIntegrated: boolean;
   private _max_uses: number;
   public readonly SP: number;
   public readonly Effect: string;
-  public readonly IsIntegrated: boolean;
   public readonly IsUnique: boolean = false;
   public readonly IsLimited: boolean = false;
   public readonly IsLoading: boolean = false;

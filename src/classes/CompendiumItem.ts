@@ -44,6 +44,7 @@ abstract class CompendiumItem {
   public IsHidden: boolean = false;
   public IsDeprecated: boolean = false;
   public IsExotic: boolean = false;
+  public IntegratedOrigin: CompendiumItem | null = null;
   protected _special_equipment: string[] = [];
   protected _integrated: string[] = [];
   protected _name: string;

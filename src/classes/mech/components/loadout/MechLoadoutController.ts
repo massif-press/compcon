@@ -100,6 +100,10 @@ class MechLoadoutController implements IFeatureContainer {
     });
   }
 
+  public get IntegratedSystems(): MechSystem[] {
+    return this.ActiveLoadout.IntegratedSystems;
+  }
+
   public static Serialize(parent: Mech, target: any) {
     target.loadouts = parent.MechLoadoutController.Loadouts.map((x) => MechLoadout.Serialize(x));
     target.active_loadout_index = parent.MechLoadoutController.Loadouts.findIndex(

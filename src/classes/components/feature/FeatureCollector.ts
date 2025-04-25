@@ -11,6 +11,8 @@ abstract class FeatureCollector {
 
     element[property].forEach((candidate) => {
       if (!candidate) return;
+      if (collection === 'IntegratedSystems')
+        console.log(`FeatureCollector: ${collection}`, candidate);
       if (candidate['Destroyed'] !== undefined && (candidate as any).Destroyed) return;
       if (candidate['IsCascading'] !== undefined && (candidate as any).IsCascading) return;
       if (

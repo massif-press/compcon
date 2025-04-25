@@ -962,6 +962,9 @@ export default {
         );
         this.scrollTo(item.ID);
       }
+      if (this.mobile && this.showNav) {
+        this.showNav = false;
+      }
       this.$emit('select', item);
     },
     scrollTo(id: string): void {
