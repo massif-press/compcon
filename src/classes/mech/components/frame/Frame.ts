@@ -3,9 +3,9 @@ import { ContentPack, LicensedItem } from '../../../../class';
 import { IContentPack, ILicensedItemData } from '../../../../interface';
 import { ImageTag, getImagePath } from '../../../../io/ImageManagement';
 import { MechType, MountType, ItemType } from '../../../enums';
-import { ITagCompendiumData } from '../../../Tag';
 import { ICoreData, CoreSystem } from './CoreSystem';
 import { FrameTrait, IFrameTraitData } from './FrameTrait';
+import { CompendiumStore } from '@/stores';
 
 interface IFrameStats {
   size: number;
@@ -39,97 +39,16 @@ interface IFrameData extends ILicensedItemData {
 }
 
 class FrameComparison {
-  public static readonly EvasionMultiplier: number = 3;
-  public static readonly EdefenseMultiplier: number = 2;
-
-  public static readonly MainMultiplier: number = 2;
-  public static readonly HeavyMultiplier: number = 3.5;
-  public static readonly AuxAuxMultiplier: number = 1.5;
-  public static readonly AuxMultiplier: number = 1;
-  public static readonly MainAuxMultiplier: number = 2.5;
-  public static readonly FlexMultiplier: number = 3;
-  public static readonly IntegratedMultiplier: number = 2;
-
-  public Survivability: number = 1;
-  public readonly SurvivabilityRaw: number;
-  public Mobility: number = 1;
-  public readonly MobilityRaw: number;
-  public Offense: number = 1;
-  public readonly OffenseRaw: number;
-  public Utility: number = 1;
-  public readonly UtilityRaw: number;
-
-  public HP: number = 1;
-  public Evasion: number = 1;
-  public EDefense: number = 1;
-  public HeatCap: number = 1;
-  public SensorRange: number = 1;
-  public TechAttack: number = 1;
-  public RepCap: number = 1;
-  public SaveTarget: number = 1;
-  public Speed: number = 1;
-  public SP: number = 1;
-
-  public constructor(frame: Frame) {
-    this.SurvivabilityRaw =
-      (frame.HP * frame.Armor * frame.Structure +
-        frame.HP * frame.RepCap +
-        frame.HeatCap * frame.HeatStress +
-        frame.Evasion * FrameComparison.EvasionMultiplier +
-        frame.EDefense *
-          FrameComparison.EdefenseMultiplier *
-          Math.max(frame.SaveTarget - 10, 0.9)) /
-      (Math.max(frame.Size, 0.8) * 0.9);
-    this.MobilityRaw = frame.Speed * (frame.HeatCap * frame.HeatStress);
-    this.OffenseRaw =
-      frame.TechAttack * 5 +
-      frame.SP * 3 +
-      frame.Mounts.map((x) => this.mScore(frame, x)).reduce((a, b) => a + b, 0);
-    this.UtilityRaw =
-      frame.SensorRange * 3 + frame.RepCap * 2 + frame.SP * 5 * Math.max(frame.TechAttack, 1);
-  }
-
-  mScore(frame: Frame, mountType: MountType) {
-    return (
-      frame.Mounts.filter((x) => x === mountType).length *
-      FrameComparison[`${mountType.replace('/', '')}Multiplier`]
-    );
-  }
-
-  public static NormalizeReferenceSet(Frames: Frame[]) {
-    const normalize = (val, valMin, valMax, min, max) =>
-      ((val - valMin) / (valMax - valMin)) * (max - min) + min;
-
-    const combatVals = ['Survivability', 'Mobility', 'Offense', 'Utility'];
-    combatVals.forEach((v) => {
-      const vMax = Math.max(...Frames.map((x) => x.Comparator![`${v}Raw`]));
-      const vMin = Math.min(...Frames.map((x) => x.Comparator![`${v}Raw`]));
-      Frames.forEach((x) => {
-        x.Comparator![v] = x.Comparator![v] = normalize(x.Comparator![`${v}Raw`], vMin, vMax, 0, 1);
-      });
-    });
-
-    const statVals = [
-      'HP',
-      'Armor',
-      'Evasion',
-      'EDefense',
-      'HeatCap',
-      'SensorRange',
-      'TechAttack',
-      'RepCap',
-      'SaveTarget',
-      'Speed',
-      'SP',
-    ];
-    statVals.forEach((v) => {
-      const vMax = Math.max(...Frames.map((x) => x[v]));
-      const vMin = Math.min(...Frames.map((x) => x[v]));
-      Frames.forEach((x) => {
-        x.Comparator![v] = Math.floor(normalize(x[v], vMin, vMax, 0, 100) + 10);
-      });
-    });
-  }
+  public HP: number = 0;
+  public Evasion: number = 0;
+  public EDefense: number = 0;
+  public HeatCap: number = 0;
+  public SensorRange: number = 0;
+  public TechAttack: number = 0;
+  public RepCap: number = 0;
+  public SaveTarget: number = 0;
+  public Speed: number = 0;
+  public SP: number = 0;
 }
 
 class Frame extends LicensedItem implements IFeatureContainer {
@@ -160,7 +79,7 @@ class Frame extends LicensedItem implements IFeatureContainer {
     this.OtherArt = frameData.other_art;
     this.Specialty = frameData.specialty || false;
     this.Variant = frameData.variant || '';
-    this.Comparator = new FrameComparison(this);
+    this.Comparator = new FrameComparison();
   }
 
   get FeatureSource(): any[] {
@@ -243,6 +162,35 @@ class Frame extends LicensedItem implements IFeatureContainer {
   public get DefaultImage(): string {
     if (this._image_url) return this._image_url;
     return getImagePath(ImageTag.Mech, `${this.ID}.png`);
+  }
+
+  public NormalizedStats() {
+    const Frames = CompendiumStore().Frames.filter((x) => !x.IsHidden);
+    const output = {
+      HP: 0,
+      Armor: 0,
+      RepCap: 0,
+      Evasion: 0,
+      Speed: 0,
+      EDefense: 0,
+      TechAttack: 0,
+      SP: 0,
+      HeatCap: 0,
+      SensorRange: 0,
+      SaveTarget: 0,
+    };
+
+    const normalize = (val, min, max) => {
+      if (max === min) return 10;
+      return ((val - min) / (max - min)) * 90 + 10;
+    };
+
+    Object.keys(output).forEach((v) => {
+      const vMax = Math.max(...Frames.map((x) => x[v]));
+      const vMin = Math.min(...Frames.map((x) => x[v]));
+      output[v] = normalize(this[v], vMin, vMax);
+    });
+    return output;
   }
 }
 

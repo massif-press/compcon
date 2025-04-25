@@ -1,5 +1,5 @@
 <template>
-  <v-row density="compact" justify="space-around">
+  <v-row density="compact" justify="space-around" dense>
     <v-col
       v-for="n in license.MaxRank"
       v-show="license.Unlocks[n - 1].length"
@@ -8,13 +8,11 @@
       cols="12"
       :class="{ locked: ranked && rank < n }">
       <div class="text-center">
-        <p class="pa-0">
-          <span class="text-cc-overline text-disabled">
-            RANK {{ 'I'.repeat(n) }}
-            <v-icon v-if="ranked && rank < n" right>mdi-lock-outline</v-icon>
-            <v-icon v-else-if="ranked && rank >= n" right>mdi-lock-open-outline</v-icon>
-          </span>
-        </p>
+        <span class="text-cc-overline text-disabled">
+          RANK {{ 'I'.repeat(n) }}
+          <v-icon v-if="ranked && rank < n" right>mdi-lock-outline</v-icon>
+          <v-icon v-else-if="ranked && rank >= n" right>mdi-lock-open-outline</v-icon>
+        </span>
         <div v-for="i in license.Unlocks[n - 1]">
           <cc-item-modal :item="i" block />
         </div>

@@ -6,11 +6,11 @@
     :sub-title="action.Frequency.ToString()">
     <template #activator="{ open }">
       <cc-button
-        size="small"
+        size="x-small"
+        block
         :color="action.Color"
         :prepend-icon="action.Icon"
-        @click="open"
-        class="ma-1 d-inline-block">
+        @click="open">
         {{ action.Name }}
       </cc-button>
     </template>

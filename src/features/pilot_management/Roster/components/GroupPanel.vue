@@ -278,7 +278,7 @@
                       </cc-button>
                     </template>
                     <template #default="{ close }">
-                      <file-import :group-id="group.ID" />
+                      <file-import :group-id="group.ID" @done="close" />
                     </template>
                   </cc-modal>
                   <br />

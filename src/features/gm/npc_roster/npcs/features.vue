@@ -29,7 +29,7 @@
       :min-columns="1"
       :max-columns="2">
       <template #default="{ item }">
-        <cc-dense-card :item="item">
+        <cc-dense-card :item="item" :tier="npc.NpcClassController.Tier">
           <template #pre>
             <npc-mod-inset
               v-for="mod in npc.NpcFeatureController.GetModifiers(item)"

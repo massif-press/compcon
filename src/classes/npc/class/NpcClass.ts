@@ -22,60 +22,32 @@ interface INpcClassData {
 }
 
 class NpcComparison {
-  public Hull = { raw: 1, norm: 1 };
-  public Agi = { raw: 1, norm: 1 };
-  public Sys = { raw: 1, norm: 1 };
-  public Eng = { raw: 1, norm: 1 };
-  public Armor = { raw: 1, norm: 1 };
-  public HP = { raw: 1, norm: 1 };
-  public HeatCap = { raw: 1, norm: 1 };
-  public Evasion = { raw: 1, norm: 1 };
-  public EDefense = { raw: 1, norm: 1 };
-  public Speed = { raw: 1, norm: 1 };
-  public Sensors = { raw: 1, norm: 1 };
-  public SaveTarget = { raw: 1, norm: 1 };
+  public Hull = 0;
+  public Agi = 0;
+  public Sys = 0;
+  public Eng = 0;
+  public Armor = 0;
+  public HP = 0;
+  public HeatCap = 0;
+  public Evasion = 0;
+  public EDefense = 0;
+  public Speed = 0;
+  public Sensors = 0;
+  public SaveTarget = 0;
 
   constructor(npcClass: NpcClass) {
-    this.Hull.raw = npcClass.Stats.Average('hull');
-    this.Agi.raw = npcClass.Stats.Average('agi');
-    this.Sys.raw = npcClass.Stats.Average('sys');
-    this.Eng.raw = npcClass.Stats.Average('eng');
-    this.Armor.raw = npcClass.Stats.Average('armor');
-    this.HP.raw = npcClass.Stats.Average('hp');
-    this.HeatCap.raw = npcClass.Stats.Average('heat');
-    this.Evasion.raw = npcClass.Stats.Average('evasion');
-    this.EDefense.raw = npcClass.Stats.Average('edef');
-    this.Speed.raw = npcClass.Stats.Average('speed');
-    this.Sensors.raw = npcClass.Stats.Average('sensorRange');
-    this.SaveTarget.raw = npcClass.Stats.Average('saveTarget');
-  }
-
-  public static NormalizeReferenceSet(NpcClasses: NpcClass[]) {
-    const normalize = (val, valMin, valMax, min, max) =>
-      ((val - valMin) / (valMax - valMin)) * (max - min) + min;
-
-    const statVals = [
-      'Hull',
-      'Agi',
-      'Sys',
-      'Eng',
-      'Armor',
-      'HP',
-      'HeatCap',
-      'Evasion',
-      'EDefense',
-      'Speed',
-      'Sensors',
-      'SaveTarget',
-    ];
-    statVals.forEach((v) => {
-      const vMax = Math.max(...NpcClasses.map((x) => x.Comparator[v].raw));
-      const vMin = Math.min(...NpcClasses.map((x) => x.Comparator[v].raw));
-
-      NpcClasses.forEach((x) => {
-        x.Comparator[v].norm = normalize(x.Comparator[v].raw, vMin, vMax, 0, 100) + 10;
-      });
-    });
+    this.Hull = npcClass.Stats.Average('hull');
+    this.Agi = npcClass.Stats.Average('agi');
+    this.Sys = npcClass.Stats.Average('sys');
+    this.Eng = npcClass.Stats.Average('eng');
+    this.Armor = npcClass.Stats.Average('armor');
+    this.HP = npcClass.Stats.Average('hp');
+    this.HeatCap = npcClass.Stats.Average('heat');
+    this.Evasion = npcClass.Stats.Average('evasion');
+    this.EDefense = npcClass.Stats.Average('edef');
+    this.Speed = npcClass.Stats.Average('speed');
+    this.Sensors = npcClass.Stats.Average('sensorRange');
+    this.SaveTarget = npcClass.Stats.Average('saveTarget');
   }
 }
 
@@ -185,6 +157,36 @@ class NpcClass {
       this.Name
     } Class Optional Features list ${this.OptionalClassPerTier ? 'per NPC Tier' : ''}`;
     return out;
+  }
+
+  public NormalizedStats() {
+    const npcs = CompendiumStore().NpcClasses;
+    const output = {
+      Hull: 0,
+      Armor: 0,
+      HP: 0,
+      Agi: 0,
+      Speed: 0,
+      Evasion: 0,
+      Sys: 0,
+      EDefense: 0,
+      Sensors: 0,
+      Eng: 0,
+      HeatCap: 0,
+      SaveTarget: 0,
+    };
+
+    const normalize = (val, min, max) => {
+      if (max === min) return 10;
+      return ((val - min) / (max - min)) * 90 + 10;
+    };
+
+    Object.keys(output).forEach((v) => {
+      const vMax = Math.max(...npcs.map((x) => x.Comparator[v]));
+      const vMin = Math.min(...npcs.map((x) => x.Comparator[v]));
+      output[v] = normalize(this.Comparator[v], vMin, vMax);
+    });
+    return output;
   }
 }
 

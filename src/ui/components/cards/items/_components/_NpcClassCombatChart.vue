@@ -41,8 +41,6 @@ export default {
     },
   },
   data: () => ({
-    relative: false,
-    aggregate: false,
     compareClasses: [] as NpcClass[],
     labels: [
       'Hull',
@@ -71,54 +69,52 @@ export default {
     npcClasses() {
       return CompendiumStore().NpcClasses;
     },
+    isDark() {
+      return this.$vuetify.theme.current.dark;
+    },
     chartOptions() {
-      return this.relative
-        ? {
-            plugins: {
-              datalabels: {
-                display: false,
+      return {
+        plugins: {
+          datalabels: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem) => {
+                const label = tooltipItem.dataset.label || '';
+                const npc = CompendiumStore().NpcClasses.find(
+                  (x) => x.ID === tooltipItem.dataset.id
+                );
+                if (!npc) return label;
+                const value = npc.Comparator[this.labels[tooltipItem.dataIndex]];
+                return `${label}: ${value}`;
               },
             },
-            layout: {
-              padding: 0,
-            },
+          },
+        },
+        layout: {
+          padding: 0,
+        },
 
-            scales: {
-              r: {
-                angleLines: {
-                  display: false,
-                },
-                suggestedMin: 0,
-                suggestedMax: 100,
-                beginAtZero: true,
-                ticks: {
-                  display: false,
-                },
-              },
+        scales: {
+          r: {
+            beginAtZero: true,
+
+            angleLines: {
+              display: false,
             },
-          }
-        : {
-            plugins: {
-              datalabels: {
-                display: false,
-              },
+            ticks: {
+              display: false,
             },
-            layout: {
-              padding: 0,
+            grid: {
+              color: this.isDark ? '#FFFFFF33' : '#00000033',
             },
-            scales: {
-              r: {
-                angleLines: {
-                  display: false,
-                },
-                suggestedMin: -3,
-                beginAtZero: true,
-                ticks: {
-                  display: false,
-                },
-              },
+            pointLabels: {
+              color: this.isDark ? '#FFFFFF66' : '#00000066',
             },
-          };
+          },
+        },
+      };
     },
     chartData() {
       return {
@@ -136,6 +132,7 @@ export default {
     getDataset(npcClass, idx?: number, compare?: boolean) {
       const dataset = {
         label: npcClass.Name,
+        id: npcClass.ID,
         backgroundColor: compare
           ? this.colors[idx as number] + '1A'
           : this.$vuetify.theme.current.colors.accent + '33',
@@ -145,21 +142,9 @@ export default {
         data: [] as any[],
       };
 
-      dataset.data = [
-        this.relative ? npcClass.Comparator.Hull.norm : npcClass.Comparator.Hull.raw,
-        this.relative ? npcClass.Comparator.Armor.norm : npcClass.Comparator.Armor.raw,
-        this.relative ? npcClass.Comparator.HP.norm : npcClass.Comparator.HP.raw,
-        this.relative ? npcClass.Comparator.Agi.norm : npcClass.Comparator.Agi.raw,
-        this.relative ? npcClass.Comparator.Speed.norm : npcClass.Comparator.Speed.raw,
-        this.relative ? npcClass.Comparator.Evasion.norm : npcClass.Comparator.Evasion.raw,
-        this.relative ? npcClass.Comparator.Sys.norm : npcClass.Comparator.Sys.raw,
-        this.relative ? npcClass.Comparator.EDefense.norm : npcClass.Comparator.EDefense.raw,
-        this.relative ? npcClass.Comparator.Sensors.norm : npcClass.Comparator.Sensors.raw,
-        this.relative ? npcClass.Comparator.Eng.norm : npcClass.Comparator.Eng.raw,
-        this.relative ? npcClass.Comparator.HeatCap.norm : npcClass.Comparator.HeatCap.raw,
-        this.relative ? npcClass.Comparator.SaveTarget.norm : npcClass.Comparator.SaveTarget.raw,
-      ];
+      const compStats = npcClass.NormalizedStats();
 
+      dataset.data = Object.values(compStats);
       return dataset;
     },
   },

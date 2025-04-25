@@ -12,15 +12,6 @@
         Tier {{ i }}
       </v-btn>
     </v-col>
-    <v-dialog v-model="showConfirmation">
-      <cc-confirmation
-        cancellable
-        :content="`The following stats have been changed from their default values:<br><br> ${changed.join(
-          ', '
-        )}<br><br>Changing NPC tier will overwrite these values with the tier default. Continue?`"
-        @confirm="overwrite()"
-        @cancel="cancel()" />
-    </v-dialog>
   </v-row>
 </template>
 
@@ -45,13 +36,6 @@ export default {
       this.showConfirmation = false;
     },
     updateTier(tier: number) {
-      // this.changed = Object.keys(this.item.ChangedStats);
-      // if (this.changed.length > 0) {
-      //   this.stagedTier = tier;
-      //   this.showConfirmation = true;
-      // } else {
-      //   this.item.Tier = tier;
-      // }
       this.item.Tier = tier;
     },
     overwrite() {

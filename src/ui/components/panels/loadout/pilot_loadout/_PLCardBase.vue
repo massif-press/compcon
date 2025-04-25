@@ -78,7 +78,7 @@
       <div class="px-2 pb-1" style="height: 100%" @click.stop="detailDialog = true">
         <div style="cursor: pointer">
           <v-row v-if="item">
-            <v-col class="h2 heading pb-0">
+            <v-col class="h3 heading pb-0">
               {{ item.Name }}
               <cc-tooltip v-if="item.Note" simple inline :content="item.Note">
                 <v-icon size="x-small" color="active">mdi-note</v-icon>

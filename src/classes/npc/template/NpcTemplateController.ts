@@ -124,7 +124,7 @@ class NpcTemplateController {
       optionalMin: c.OptionalClassMin || 0,
       optionalMax: c.OptionalClassMax || 2,
       selected: this.Parent.NpcFeatureController.Features.filter(
-        (x) => !x.Base && x.Origin.ID === c.ID
+        (x) => !x.Base && x.Origin.ID !== c.ID
       ).length,
       complete: false,
       optional_complete: false,

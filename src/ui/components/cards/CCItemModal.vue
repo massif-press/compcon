@@ -8,7 +8,6 @@
     <template #activator="{ open }">
       <cc-button
         :color="item.Color ? item.Color : 'primary'"
-        class="d-inline-block"
         :class="density === 'compact' ? '' : 'ma-1'"
         style="margin: 1px"
         :block="block"
