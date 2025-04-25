@@ -51,6 +51,8 @@ class MechLoadout extends Loadout {
   }
 
   public saveMechLoadout() {
+    this.SetAllIntegrated();
+
     this.save();
     this.Parent.SaveController.save();
   }
@@ -70,10 +72,23 @@ class MechLoadout extends Loadout {
         (x) => new IntegratedMount(x, this)
       ),
     ];
+
     const is = [
       ...this.Parent.FeatureController.IntegratedSystems,
       ...this.Parent.Pilot.FeatureController.IntegratedSystems,
     ];
+
+    this.Systems.forEach((x) => {
+      if (!x.IntegratedSystems) return;
+      const arr = [...x.IntegratedSystems].flat();
+      arr.forEach((y) => {
+        if (is.some((z) => z.ID === y.ID)) return;
+        y.IsIntegrated = true;
+        y.IntegratedOrigin = x;
+        is.push(y);
+      });
+    });
+
     this._integratedSystems = is;
     this._integratedMounts = im;
   }

@@ -20,7 +20,7 @@
         <span style="font-size: 13px; margin-left: 2px">SP</span>
       </div>
       <v-divider v-if="!readonly && !mobile" vertical class="ml-3" />
-      <div v-if="!readonly" :class="!mobile && 'mt-n1'">
+      <div v-if="!readonly && !integrated" :class="!mobile && 'mt-n1'">
         <v-btn
           v-if="item"
           size="x-small"
@@ -43,6 +43,15 @@
         </v-btn>
       </div>
     </template>
+
+    <cc-alert v-if="item && integrated" class="mt-2" icon="mdi-link">
+      <div class="text-cc-overline">
+        Integrated Equipment
+        <cc-slashes />
+        <v-icon :icon="item.IntegratedOrigin.Icon" class="pb-1" />
+        {{ item.IntegratedOrigin.Name }}
+      </div>
+    </cc-alert>
 
     <v-table v-if="item && item.Ammo && item.Ammo.length" class="mt-2" hover density="compact">
       <tbody>
@@ -102,6 +111,10 @@ export default {
     },
     readonly: {
       type: Boolean,
+    },
+    integrated: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['done'],

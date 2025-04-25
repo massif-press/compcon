@@ -1,5 +1,5 @@
 <template>
-  <cc-alert density="compact" class="light-panel pb-1">
+  <cc-alert density="compact" class="py-1">
     <v-row v-if="item.ItemType === 'MechWeapon'" class="text-stark mb-n3" no-gutters align="center">
       <v-col>
         <v-icon large left class="mt-n2">cc:weapon</v-icon>

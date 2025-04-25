@@ -33,6 +33,7 @@
             :color="item.props.color"
             :readonly="item.props.readonly"
             :weapon="item.weapon"
+            :integrated="item.props.integrated"
             :empty="item.props.empty"
             @done="getSystemItems()" />
         </template>
@@ -121,7 +122,13 @@ export default {
       this.integratedSystems.forEach((s) => {
         this.systemItems.push({
           component: SystemSlotCard,
-          props: { mech: this.mech, item: s, color: this.color, readonly: this.readonly },
+          props: {
+            mech: this.mech,
+            item: s,
+            color: this.color,
+            readonly: this.readonly,
+            integrated: true,
+          },
           item: s,
         });
       });
