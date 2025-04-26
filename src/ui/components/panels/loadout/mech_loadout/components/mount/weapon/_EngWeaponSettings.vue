@@ -117,7 +117,7 @@
               :disabled="!selectedRevisions.includes(rev.value) && selectedRevisions.length >= 2">
               <v-list-item-title>
                 <v-icon start size="small" icon="cc:talent" />
-                {{ rev.title }} {{ idx }}
+                {{ rev.title }}
               </v-list-item-title>
             </v-list-item>
           </v-list>

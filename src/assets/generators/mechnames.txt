@@ -1,14 +1,14 @@
 777
-A Dangersome Inheritance
-A Distant Echo
-A Distant Memory
-A Distant Star
-A Distant Voice
+Dangersome Inheritance
+Distant Echo
+Distant Memory
+Distant Star
+Distant Voice
 A Few Words
-A Final Appeal
-A Final Donation
-A Final Word
-A First Step
+Final Appeal
+Final Donation
+Final Word
+First Step
 A Good Example
 A Good Left Undone
 A Hush Prevails
@@ -29,7 +29,7 @@ A Thousand Bitter Tears
 A Thousand Lives
 A Very Pleasant Trap
 A Very Private War
-A Voyage into the Unknown
+Voyage into the Unknown
 Absolute Value
 Absolute Zero
 Absurdly Simple
@@ -90,7 +90,6 @@ Always a Way
 Always and Forever
 Amen to Nothingness
 Amicable Separation
-Amicable Separation, But Not Quite
 An Intended Dream
 An Unbearable Truth
 An Unjust World
@@ -188,8 +187,6 @@ Break All the Laws That Bind
 Brevity Without Wit
 Broken Bridge
 Burning Bridge
-Broken by Design
-Brooding on Madness
 Brush With Doubt
 Bulldozer Graphite
 Bulldozer Lightning
@@ -197,7 +194,6 @@ Bulldozer Slate
 Business Casual
 Business Ethics
 Business Model
-Business as Unusual
 Business as Usual
 By Way of Apology
 By Way of Explanation
@@ -234,7 +230,6 @@ Clear Realization
 Clear and Present Danger
 Closing Thoughts
 Cloud of Dust
-Coal-Fired Friendship
 Coda
 Codenames from Delta
 Cognitive Dissonance
@@ -255,7 +250,6 @@ Conflict of Interest
 Confrontation
 Confrontation and Resolution
 Confused But Supportive
-Confused Dance
 Conquest of the Mind
 Consumption And Production
 Content Management
@@ -287,8 +281,8 @@ Dance Less
 Dancing with Shadows
 Dancing with the Dead
 Danger Close
-Dangerous But Not Unbearably So
-Dangerous New Things
+Dangerous, But Not Unbearably So
+Dangerous New Thing
 Daring Leap
 Dark Flow
 Date With Devilry
@@ -298,7 +292,6 @@ Deadly Affirmatives
 Deadly Negatives
 Deadly Silence
 Death in Vain
-Declined Promotion
 Degree of Freedom
 Delays In Processing
 Democratic Dialogue
@@ -377,7 +370,6 @@ Ephemeral Eternity
 Epistle
 Epistle of Mayhem
 Epistle of Power
-Epistle of Void
 Equality of Opportunity
 Error of Your Ways
 Escape From The House of Love
@@ -446,7 +438,6 @@ Flash in the Pan
 Flexible Action
 Floor Model
 Fluctuating Values
-Flux Capacitor
 Fly's Footfall
 Fool Me Once
 Foolish Lies
@@ -455,8 +446,6 @@ Foot in the Grave
 For Demonstration Purposes Only
 For Display Only
 For Example
-For One Time Only
-Forger
 Formal Complaint
 Formal Request
 Four Sigma Event
@@ -488,7 +477,6 @@ Giant Fighting Robot
 Gilded Aimlessness
 Give Me A Reason
 Give Me One Example
-Give Me a Break
 Glad to Be Here
 Glittering Misfit
 Glories of this World
@@ -497,7 +485,6 @@ Golden Silence
 Gone but Not Forgotten
 Gone, Gone, Gone
 Good Times Roll
-Good While Bad
 Good and Bad Days
 Goodbye Kiss
 Gotta Leave Somebody Behind
@@ -532,8 +519,7 @@ Harmonic Inversion of Negative
 Harmonious Hypothesis
 Harpist's Song
 Hatred Is Not An Option
-Haunting Hymns of the Past
-Haunting Resonates Still
+Hymns of the Past
 Hazy Mirage
 Headhunter
 Healthy Opinion
@@ -545,14 +531,11 @@ Heaven or High Water
 Heavy Heart
 Heavy Heartbeat
 Hell or High Water
-Hello, Goodbye
 Henceforth Inconvenient
 Her Shadow
 Here Open the Gates of Hell
 Heretofore Unconnected Events
 Hey There
-Hidden Conspiracy
-Hiding Place
 Hierarchical Consequences
 Hierarchical Order
 High and Dry
@@ -586,7 +569,6 @@ I Am Not a Weapon
 I Am Not a Weapon, and Yet...
 I Come in Peace
 I Don't Care Who You Think You Are
-I Don't Care, I'm Still Standing
 I Don't Need Your Love
 I Don't Want You So Much
 I Just Want Your Love
@@ -640,7 +622,6 @@ In Memoriam
 In My Defense
 In Praise of the Dead
 In Praise of the Living
-In Sickness And In Hell
 In The Long Run
 In Your Dreams
 Inauthentic Behavior
@@ -652,7 +633,6 @@ Indirect Injection
 Inertia for the Long Term
 Inevitable Sequel
 Infinite Recursion
-Infuriating But Mild
 Inherited Fire
 Innocent Soul
 Innocent Until Proven
@@ -686,7 +666,6 @@ Just a Little Bit More
 Just for Fun
 Just for the Record
 Just in Case
-Justice Shared Freely
 Kadamakara
 Keep Clear
 Kindly Encouragement
@@ -700,7 +679,6 @@ Last to the Party
 Laugh While You Can
 Lazy Questioning
 Le Révolté
-Legitimate Anger
 Less, but No Lesser
 Lesser Evil
 Let Me See It in Your Eyes
@@ -744,7 +722,6 @@ Meaningless Compromise
 Mechanized Bourgeoisie Remover
 Melodious Oddity
 Mental Exclusion
-Mercantile Black Hole
 Mercy Clause
 Mercy Rule
 Merely Adrift
@@ -765,7 +742,6 @@ Moon? What Moon?
 Moral Injury
 Moral Responsibility
 More Poetry
-Mortophobic
 Motion and Transition
 Mournful Incomprehension
 My Favorite Thing About You
@@ -790,7 +766,6 @@ No Miracles Here
 No More Confusion
 No One is Silent
 No Sound At All
-No Strange Case
 No Viable Alternative
 Noise, Dark Void
 Noise, Exhaustion and Reflection
@@ -814,7 +789,6 @@ Nothing Happens Next
 Nothing In Life Is Free
 Nothing Matters
 Nothing Up My Sleeve
-Nothing in Life is Promised Except Death
 Nothing to Lose
 Novelty Theory
 Now Is the Time
@@ -870,7 +844,6 @@ Pain in the Ass
 Painful Memory
 Pale, Stupid, and Dumb
 Panic Like You Mean It
-Paracausal Angel
 Paradigm Shift
 Part One
 Part Two
@@ -983,7 +956,6 @@ Rise Now or Fall Back
 Rise of the Self-Actualized
 Rising Action
 Rising Tide
-Rising Tides
 Risk and Reputation Management
 Risk and Reward
 Riskiest Assumption
@@ -1025,7 +997,7 @@ Shot Noise
 Shrinking Planet
 Signal To Noise
 Simplicity Itself
-Sincerity Couched Behind Humor
+Sincerity Couched in Humor
 Sleepwalker
 Slow News Day
 Slowly But Surely
@@ -1090,7 +1062,6 @@ Surely The Time Has Come
 Surplus Value
 Surprise Surprise
 Surprise Visitation
-Suspense and Inescapability
 Suspiciously Close
 Symmetry Breaker
 Taste of Home
@@ -1103,11 +1074,8 @@ Thanks in Advance
 The Anxiety Mechanism
 The Art of Being Alone
 The Art of Conversation
-The Believing Widow
 The Best Intentions
-The Best Of
 The Big Bang
-The Bonds Which Bind
 The Coming Revolution
 The Consequences of Inaction
 The Culprit
@@ -1161,13 +1129,10 @@ The Nature of Exploitation
 The Night After, Part 2
 The Offense
 The Other One
-The Other Side of the Story
 The Perfect Gift
 The Perfect Time to Exist
-The Perfect Workout
 The Philosophy of Praxis
 The Point of Peace
-The Power of the Now
 The Preferred Solution
 The Problem of Dictatorship
 The Problem of Time
@@ -1209,7 +1174,7 @@ This Set Of Lies
 This Will Make Your Life Untenable
 This Will Never Work
 This Will Not End Well
-This Will Not End Well, But It Will End
+This Will Not End Well, But it Will End
 This is Nothing
 This is The End
 Thou Shalt
@@ -1316,21 +1281,14 @@ We Must Be Together
 We Patched Things Up
 We Used to Wait
 We Were Made for Each Other
-We'll Always Have Carina
-We'll Always Have Cornucopia
 We'll Always Have Cradle
 We'll Always Have Deimos
-We'll Always Have Karrakis
-We'll Always Have Ras Sharma
 We'll Have This Conversation Again
 We'll Have This Conversation Later
-We'll Have This Conversation Never
 We'll Have This Conversation Tomorrow
 We'll Have This Conversation Yesterday
-We're All in This Together
 Weight of the World
 Well Of Stars
-Well, That's Just Great
 Well-Being for All
 Well-Intentioned Extremist
 Well-Intentioned Mistake

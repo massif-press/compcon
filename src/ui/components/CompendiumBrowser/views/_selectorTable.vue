@@ -34,14 +34,17 @@
           </div>
 
           <div v-else-if="h.key === 'Name'">
-            <cc-item-modal hide-type :item="item" />
+            <div class="d-inline-block">
+              <cc-item-modal hide-type :item="item" />
+            </div>
 
             <v-icon
               v-if="selectable"
               class="fade-select"
               icon="mdi-plus-box"
               color="success"
-              size="35"
+              size="32"
+              style="margin-bottom: 2px"
               @click="$emit('select', item)" />
           </div>
           <div v-else-if="h.key === 'Origin'">
