@@ -120,7 +120,7 @@ import { CloudController } from '@/classes/components';
 import logger from '@/user/logger';
 // import { Auth } from '@aws-amplify/auth';
 
-const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR;
+const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
 
 export default {
   name: 'cloud-image-archive',

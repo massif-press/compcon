@@ -3,8 +3,7 @@
     <pilot-header-mobile v-if="mobile" :pilot="pilot" />
     <pilot-header v-else :pilot="pilot" />
     <div :style="`padding-top: ${mobile ? '75px' : '100px'}`">
-      <info-view v-if="page === 0" :pilot="pilot" />
-      <narrative-view v-else-if="page === 1" :pilot="pilot" />
+      <narrative-view v-if="page < 2" :pilot="pilot" />
       <bonds-view v-else-if="page === 2" :pilot="pilot" />
       <tactical-view v-else-if="page === 3" :pilot="pilot" />
       <mech-hangar-view v-else-if="page === 4" :pilot="pilot" />
@@ -27,7 +26,6 @@ import PilotNav from './components/PilotNav.vue';
 import PilotNavMobile from './components/PilotNavMobile.vue';
 
 import NarrativeView from './sections/narrative/index.vue';
-import InfoView from './sections/info/index.vue';
 import TacticalView from './sections/tactical/index.vue';
 import MechHangarView from './sections/hangar/index.vue';
 import BondsView from './sections/bonds/index.vue';
@@ -43,7 +41,6 @@ export default {
     PilotNav,
     PilotNavMobile,
     NarrativeView,
-    InfoView,
     TacticalView,
     MechHangarView,
     BondsView,

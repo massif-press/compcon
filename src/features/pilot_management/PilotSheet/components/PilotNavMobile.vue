@@ -3,14 +3,6 @@
     <v-tabs grow center density="compact" :height="xs ? 20 : 40" bg-color="primary" hide-slider>
       <v-tab
         variant="text"
-        :class="selected === 0 ? 'bg-white' : ''"
-        :size="xs ? 'small' : ''"
-        :selected="selected === 0"
-        @click="$emit('to', 0)">
-        DOSSIER
-      </v-tab>
-      <v-tab
-        variant="text"
         :class="selected === 1 ? 'bg-white' : ''"
         :size="xs ? 'small' : ''"
         :selected="selected === 1"

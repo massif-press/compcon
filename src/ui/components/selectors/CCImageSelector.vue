@@ -108,7 +108,7 @@ import LocalArchive from './image_archives/localArchive.vue';
 import LibraryArchive from './image_archives/libraryArchive.vue';
 import RemoteArchive from './image_archives/remoteArchive.vue';
 
-const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR;
+const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
 
 export default {
   name: 'image-selector',

@@ -146,7 +146,7 @@ export default {
       return UserStore().IsLoading;
     },
     appVersion(): string {
-      return import.meta.env.VITE_APP_VERSION;
+      return import.meta.env.VITE_APP_VERSION || 'dev';
     },
     landscape() {
       return this.$vuetify.display.smAndUp;

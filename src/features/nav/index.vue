@@ -336,7 +336,7 @@ export default {
       return UserStore().StorageFull;
     },
     appVersion(): string {
-      return import.meta.env.VITE_APP_VERSION;
+      return import.meta.env.VITE_APP_VERSION || 'dev';
     },
     notifications() {
       return UserStore().CloudNotifications;

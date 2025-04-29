@@ -1,11 +1,11 @@
 import { UserStore } from '@/stores';
 import logger from '@/user/logger';
 
-const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL}`;
+const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`;
 
 const headers = {
   'Content-Type': 'application/json',
-  'x-api-key': (import.meta as any).env.VITE_APP_API_KEY,
+  'x-api-key': (import.meta as any).env.VITE_APP_API_KEY || '',
   'Access-Control-Request-Headers': 'Content-Type,x-api-key',
 };
 
@@ -117,7 +117,7 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
 }
 
 export async function downloadFromS3(s3Url) {
-  const url = `${import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR}/${s3Url}`;
+  const url = `${import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || ''}/${s3Url}`;
 
   try {
     const response = await fetch(url);

@@ -108,7 +108,7 @@ import { CloudController, DbItemMetadata } from '@/classes/components/cloud/Clou
 import { cloudDelete, downloadFromS3 } from '@/io/apis/account';
 import logger from '@/user/logger';
 
-const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR;
+const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
 
 export default {
   name: 'cloud-item-data-tab',

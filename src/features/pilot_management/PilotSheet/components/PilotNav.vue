@@ -2,16 +2,6 @@
   <div class="nav-body elevation-8">
     <div id="cap" />
     <div class="d-inline">
-      <nav-item :selected="selected === 0" @click="$emit('to', 0)">
-        <v-tooltip
-          open-delay="300"
-          location="top"
-          text="Pilot IDENT, Status, and Biographical Information">
-          <template #activator="{ props }">
-            <span v-bind="props">DOSSIER</span>
-          </template>
-        </v-tooltip>
-      </nav-item>
       <nav-item :selected="selected === 1" @click="$emit('to', 1)">
         <v-tooltip
           open-delay="300"
@@ -207,10 +197,10 @@ export default {
   position: absolute;
   width: 5px;
   height: 32px;
-  left: 740px;
+  left: 580px;
   top: 0;
   z-index: 9;
-  transition: filter 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
 }
 
 #divider {
@@ -229,6 +219,6 @@ export default {
 }
 
 .nav-body:hover #end-cap {
-  filter: brightness(2) saturate(200%) hue-rotate(20deg);
+  background-color: rgb(var(--v-theme-accent));
 }
 </style>
