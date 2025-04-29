@@ -173,8 +173,8 @@ export default {
       );
     },
     async loginWithPatreon() {
-      const clientId = import.meta.env.VITE_APP_PATREON_CLIENT_ID;
-      const redirectUri = import.meta.env.VITE_APP_OAUTH_CALLBACK_URI;
+      const clientId = import.meta.env.VITE_APP_PATREON_CLIENT_ID || '';
+      const redirectUri = import.meta.env.VITE_APP_OAUTH_CALLBACK_URI || '';
       const state = Math.random().toString(36).substring(2); // Simple state generation
 
       const oauthUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identity&state=${state}`;

@@ -1,35 +1,34 @@
 <template>
-  <v-container style="overflow: hidden" fluid>
-    <v-row justify="space-around" align="center" class="mt-2">
+  <v-container fluid>
+    <v-row justify="space-around" align="center">
       <v-col><v-divider /></v-col>
       <v-col cols="auto">
         <div
           class="font-weight-light text-center my-n2"
-          style="letter-spacing: 2vw !important; font-size: 2vw !important">
+          style="letter-spacing: calc(5px + 2cqw); font-size: calc(20px + 2cqw)">
           ACTIVE MODE
         </div>
       </v-col>
       <v-col><v-divider /></v-col>
     </v-row>
-    <v-row style="height: calc(100vh - 130px)" class="mt-1 px-5" justify="space-around">
-      <v-col v-for="(list, i) in lists">
-        <v-card variant="tonal" height="100%" class="px-6">
-          <v-list lines="two">
+    <v-row class="mt-1" :class="!mobile && 'px-5'" justify="space-around">
+      <v-col v-for="(list, i) in lists" cols="12" lg="">
+        <v-card variant="tonal" height="100%" :class="!mobile && 'px-6'" flat tile>
+          <v-list lines="two" height="100%" class="pt-0" flat tile>
             <v-list-item class="text-center">
-              <v-icon :icon="headers[i].icon" size="300" />
+              <v-icon :icon="headers[i].icon" size="20vw" />
               <v-list-item-title class="heading h2 text-accent" v-text="headers[i].title" />
             </v-list-item>
-            <v-divider />
             <v-list-item
               v-for="e in list"
               :key="e.title"
               :title="e.title"
+              class="bg-primary my-1"
               :subtitle="e.subtitle"
-              :to="e.to"
-              disabled>
+              :to="e.to">
               <template #prepend>
                 <v-avatar>
-                  <v-icon size="x-large" color="primary" :icon="e.icon" />
+                  <v-icon size="x-large" :icon="e.icon" />
                 </v-avatar>
               </template>
             </v-list-item>
@@ -41,10 +40,6 @@
 </template>
 
 <script lang="ts">
-import { ImageTag } from '@/classes/enums';
-import { getImagePath } from '@/io/ImageManagement';
-import { CCIconDivider } from '@/ui/globals';
-
 export default {
   name: 'home',
   data: () => ({
@@ -65,31 +60,24 @@ export default {
     lists: [
       [
         {
-          title: 'Start a Character Sheet',
+          title: 'Start an Active Character Sheet',
           subtitle:
-            'Create a new Character Sheet, an instance of a Pilot and their active Mech, for use in a LANCER game',
+            'Create an instance of a Pilot and their active Mech, for use in tables and encounters',
           icon: 'cc:pilot',
           to: '/active-mode/new-character-sheet',
         },
         {
-          title: 'Open a Character Sheet',
-          subtitle: 'Open a previously created Character Sheet to continue a LANCER game',
+          title: 'Manage Active Character Sheets',
+          subtitle: 'Open, edit, and delete active character sheets',
           icon: 'mdi-book-open',
-          to: '/active-mode/open-character-sheet',
+          to: '/active-mode/character-sheets',
         },
         {
-          title: 'Join a Table',
-          subtitle: 'Join an realtime LANCER table to play with friends online',
+          title: 'Join an Online Table',
+          subtitle:
+            'Join a online realtime Lancer table to play with friends online, or resume an active game',
           icon: 'cc:squad',
-          disabled: true,
-          to: '',
-        },
-        {
-          title: 'Resume a Table',
-          subtitle: 'Resume a realtime LANCER table',
-          icon: 'mdi-lan',
-          disabled: true,
-          to: '',
+          to: '/active-mode/join-table',
         },
       ],
       [
@@ -97,40 +85,47 @@ export default {
           title: 'Begin a New Encounter',
           subtitle: 'Configure and run an Encounter',
           icon: 'cc:encounter',
-          to: '',
+          to: '/active-mode/new-encounter',
         },
         {
-          title: 'Resume an Encounter',
-          subtitle: 'Continue an active Encounter',
-          icon: 'mdi-motion-play-outlne',
-          to: '',
+          title: 'Manage Active Encounters',
+          subtitle: 'Open, edit, and delete active encounters',
+          icon: 'mdi-motion-play-outline',
+          to: '/active-mode/encounters',
         },
         {
           title: 'Create a Table',
-          subtitle: 'Create an online LANCER table and invite players to join',
+          subtitle: 'Create a table for long-term online, offline or asynchronous Lancer games',
           icon: 'mdi-plus-network-outline',
-          disabled: true,
-          to: '',
+          to: '/active-mode/new-table',
+        },
+        {
+          title: 'Manage Active Tables',
+          subtitle: 'Open, edit, and delete active tables',
+          icon: 'mdi-lan',
+          to: '/active-mode/tables',
         },
       ],
       [
         {
           title: 'Spectator Mode',
-          subtitle: 'Run a non-interactive spectator display for a realtime LANCER game',
+          subtitle: 'Run a non-interactive spectator display for a realtime Lancer game',
           icon: 'mdi-monitor-share',
-          disabled: true,
-          to: '',
+          to: '/active-mode/spectate',
         },
         {
           title: 'Campaign Display',
-          subtitle: 'Run an interactive GM display for a loaded LANCER campaign',
+          subtitle: 'Run an interactive GM display for an active campaign',
           icon: 'mdi-monitor-dashboard',
-          disabled: true,
-          to: '',
+          to: '/active-mode/campaign',
         },
       ],
     ],
   }),
-  components: { CCIconDivider },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
+  },
 };
 </script>

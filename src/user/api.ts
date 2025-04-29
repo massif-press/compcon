@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-let lcp_meta_key = process.env.VITE_LCP_META_KEY;
-if (!lcp_meta_key) lcp_meta_key = import.meta.env.VITE_LCP_META_KEY;
+let lcp_meta_key = process.env.VITE_LCP_META_KEY || '';
+if (!lcp_meta_key) lcp_meta_key = import.meta.env.VITE_LCP_META_KEY || '';
 
 const headers = {
   headers: {
