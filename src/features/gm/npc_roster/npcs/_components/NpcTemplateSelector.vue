@@ -36,7 +36,16 @@
       </v-container>
     </v-card-text>
     <v-layout v-else style="height: 90vh; overflow-y: scroll">
-      <v-navigation-drawer class="pa-2">
+      <div
+        style="position: absolute; z-index: 999"
+        :style="`left: ${showNav ? (mobile ? '322' : '352') : '3'}px; top: 6px`">
+        <cc-button
+          :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+          size="small"
+          color="primary"
+          @click="(showNav as any) = !showNav" />
+      </div>
+      <v-navigation-drawer v-model="showNav" :width="mobile ? 320 : 350">
         <v-text-field
           v-model="search"
           prepend-inner-icon="mdi-magnify"
@@ -150,10 +159,14 @@ export default {
     dialog: false,
     selected: null as any,
     search: '',
+    showNav: true,
   }),
   computed: {
     templates() {
       return CompendiumStore().NpcTemplates;
+    },
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
     },
   },
   methods: {
