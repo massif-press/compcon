@@ -26,14 +26,13 @@ import {
   CompendiumItem,
 } from '@/class';
 import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
-import { FrameComparison } from '@/classes/mech/components/frame/Frame';
 import { Status } from '@/classes/Status';
 import { GetAll, RemoveItem, SetItem } from '@/io/Storage';
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
-import { NpcClass, NpcComparison } from '@/classes/npc/class/NpcClass';
+import { NpcClass } from '@/classes/npc/class/NpcClass';
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
 import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer';
-import { IndexItem, UserStore } from '@/stores';
+import { IndexItem } from '@/stores';
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
 import { BondPower } from '@/classes/pilot/components/bond/Bond';
 import logger from '@/user/logger';
