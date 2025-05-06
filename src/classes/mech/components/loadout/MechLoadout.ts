@@ -63,15 +63,21 @@ class MechLoadout extends Loadout {
 
   public SetAllIntegrated(save?: boolean) {
     const im = [
-      ...this.Parent.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(x, this)),
-      ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(
-        x => new IntegratedMount(x, this)
-      ),
-    ]
+      ...this.Parent.FeatureController.IntegratedWeapons,
+      ...this.Parent.Pilot.FeatureController.IntegratedWeapons
+    ].reduce((p, x) => {
+      if (!p.some((elem) => (elem.ID == x.ID))) p.push(x);
+      return p;
+    }, []).map(x => new IntegratedMount(x, this))
+
     const is = [
       ...this.Parent.FeatureController.IntegratedSystems,
       ...this.Parent.Pilot.FeatureController.IntegratedSystems,
-    ]
+    ].reduce((p, x) => {
+      if (!p.some((elem) => (elem.ID == x.ID))) p.push(x);
+      return p;
+    }, [])
+
     Vue.set(this, '_integratedSystems', is)
     Vue.set(this, '_integratedMounts', im)
     if (save) this.saveMechLoadout()
