@@ -146,7 +146,9 @@ class ContentPack {
     self._Backgrounds = self._data.backgrounds?.map((x) => new Background(x, self)) || [];
     self._Statuses = self._data.statuses?.map((x) => new Status(x, self)) || [];
     self._CoreBonuses = self._data.coreBonuses?.map((x) => new CoreBonus(x, self)) || [];
+    console.log(self._data.frames);
     self._Frames = self._data.frames?.map((x) => new Frame(x, self)) || [];
+    console.log('Frames', self._Frames);
     self._MechWeapons = self._data.weapons?.map((x) => new MechWeapon(x, self)) || [];
     self._MechSystems = self._data.systems?.map((x) => new MechSystem(x, self)) || [];
     self._WeaponMods = self._data.mods?.map((x) => new WeaponMod(x, self)) || [];
@@ -158,8 +160,6 @@ class ContentPack {
         return new PilotGear(x as IPilotEquipmentData, self);
       }) || [];
     self._Talents = self._data.talents?.map((x) => new Talent(x, self)) || [];
-
-    console.log(self._data.npcClasses);
 
     self._NpcClasses = self._data.npcClasses?.map((x) => new NpcClass(x, self)) || [];
 

@@ -1,11 +1,15 @@
+import EncounterManager from './gm/EncounterManager.vue';
+import NewEncounter from './gm/NewEncounter.vue';
+import TableConfiguration from './gm/TableConfiguration.vue';
+import TableManager from './gm/TableManager.vue';
 import Main from './index.vue';
 
 import Home from './landing.vue';
 
-import CreateSheet from './pc/create_sheet.vue';
-import OpenSheet from './pc/open_sheet.vue';
-
-import { RouteConfig } from 'vue-router';
+import CreateSheet from './pc/NewSheet.vue';
+import SheetManager from './pc/SheetManager.vue';
+import JoinTable from './runner/pilot/JoinTable.vue';
+import PilotRunner from './runner/pilot/PilotRunner.vue';
 
 const routes = [
   {
@@ -18,14 +22,44 @@ const routes = [
         component: Home,
       },
       {
-        path: 'new-character-sheet',
-        name: 'active-new-cs',
+        path: 'new-sheet',
+        name: 'active-new-sheet',
         component: CreateSheet,
       },
       {
-        path: 'open-character-sheet',
-        name: 'active-open-cs',
-        component: OpenSheet,
+        path: 'sheet-manager',
+        name: 'active-sheet-manager',
+        component: SheetManager,
+      },
+      {
+        path: 'pilot-runner',
+        name: 'active-pilot-runner',
+        component: PilotRunner,
+      },
+      {
+        path: 'join-table',
+        name: 'player-join-table',
+        component: JoinTable,
+      },
+      {
+        path: 'new-encounter',
+        name: 'active-new-encounter',
+        component: NewEncounter,
+      },
+      {
+        path: 'manage-encounters',
+        name: 'active-manage-encounters',
+        component: EncounterManager,
+      },
+      {
+        path: 'new-table',
+        name: 'active-new-table',
+        component: TableConfiguration,
+      },
+      {
+        path: 'manage-tables',
+        name: 'active-manage-tables',
+        component: TableManager,
       },
     ],
   },

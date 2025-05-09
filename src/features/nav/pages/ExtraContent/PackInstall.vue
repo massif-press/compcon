@@ -300,7 +300,10 @@ export default {
       this.contentPacks = this.contentPacks.filter((pack) => {
         const deps = pack.manifest ? pack.manifest.dependencies : [];
         if (!deps) return true;
-        return deps.every((dep) => CompendiumStore().packAlreadyInstalled(dep.name, dep.version));
+        console.log('Checking dependencies:', deps);
+        return deps.every((dep) =>
+          CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true)
+        );
       });
 
       CompendiumStore().installContentPacks(this.contentPacks);

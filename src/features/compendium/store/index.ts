@@ -454,7 +454,8 @@ export const CompendiumStore = defineStore('compendium', {
       let content = await GetAll('content_collection');
       this.ContentCollections = content.map((x) => ContentCollection.Deserialize(x));
     },
-    packAlreadyInstalled(packId: string, version?: string, searchOnName = false): boolean {
+    packAlreadyInstalled(packId: string, version?: string, searchOnName = true): boolean {
+      console.log(`packAlreadyInstalled: ${packId} ${version} ${searchOnName}`);
       let candidate;
 
       if (searchOnName)
@@ -462,6 +463,8 @@ export const CompendiumStore = defineStore('compendium', {
           (pack) => pack.Name.toLowerCase() === packId.toLowerCase()
         );
       else candidate = this.ContentPacks.find((pack) => pack.ID === packId);
+
+      console.log(candidate);
 
       if (!candidate) return false;
 

@@ -44,12 +44,22 @@
         <tr>
           <td colspan="3" />
           <td>
-            <v-btn size="small" variant="tonal" color="accent" @click="restoreAll()">
+            <v-btn
+              size="small"
+              variant="tonal"
+              :loading="loading"
+              color="accent"
+              @click="restoreAll()">
               Restore All
             </v-btn>
           </td>
           <td>
-            <v-btn size="small" variant="tonal" color="error" @click="deleteAll()">
+            <v-btn
+              size="small"
+              variant="tonal"
+              :loading="loading"
+              color="error"
+              @click="deleteAll()">
               Permanently Delete All
             </v-btn>
           </td>
@@ -65,6 +75,9 @@ import { Pilot, PilotGroup } from '@/class';
 
 export default {
   name: 'deleted-items',
+  data: () => ({
+    loading: false,
+  }),
   computed: {
     items() {
       return [
@@ -77,23 +90,26 @@ export default {
     },
   },
   methods: {
-    permanentlyDelete(item) {
-      switch (item.ItemType) {
+    async permanentlyDelete(item) {
+      switch (item.ItemType.toLowerCase()) {
         case 'npc':
-          NpcStore().DeleteNpcPermanent(item);
+        case 'unit':
+        case 'doodad':
+        case 'eidolon':
+          await NpcStore().DeleteNpcPermanent(item);
           break;
-        case 'Pilot':
-          PilotStore().DeletePilotPermanent(item);
+        case 'pilot':
+          await PilotStore().DeletePilotPermanent(item);
           break;
         case 'pilot_group':
           const group = PilotStore().PilotGroups.find((x) => x.ID === item.ID) as PilotGroup;
-          PilotStore().DeleteGroupPermanent(group);
+          await PilotStore().DeleteGroupPermanent(group);
           break;
         case 'encounter':
-          EncounterStore().DeleteEncounterPermanent(item);
+          await EncounterStore().DeleteEncounterPermanent(item);
           break;
         case 'campaign':
-          CampaignStore().DeleteCampaign(item);
+          await CampaignStore().DeleteCampaign(item);
           break;
         default:
           break;
@@ -104,10 +120,13 @@ export default {
         item.SaveController.Restore();
       });
     },
-    deleteAll() {
-      this.items.forEach((item) => {
-        this.permanentlyDelete(item);
-      });
+    async deleteAll() {
+      console.log('delete all', this.items);
+      this.loading = true;
+      for (const item of this.items) {
+        await this.permanentlyDelete(item);
+      }
+      this.loading = false;
     },
   },
 };
