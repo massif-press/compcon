@@ -150,8 +150,6 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   const npcClasses = (await readZipJSON<INpcClassData[]>(zip, 'npc_classes.json')) || [];
   const npcTemplates = (await readZipJSON<INpcTemplateData[]>(zip, 'npc_templates.json')) || [];
 
-  console.log(npcTemplates);
-
   const npcFeaturePromises: Promise<INpcFeatureData[]>[] = files
     .filter((x) => x.startsWith('npc_') && !x.includes('classes') && !x.includes('templates'))
     .map(async (x) => (await readZipJSON<INpcFeatureData[]>(zip, x)) || []);
