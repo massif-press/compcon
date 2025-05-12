@@ -187,7 +187,6 @@ export default {
     setLocalImage(img: any) {
       this.selectedImage = img;
       this.selectedImageKey = img.key;
-      console.log(img.key);
       this.item.PortraitController.SetLocalImage(img.key);
     },
     setLibImage(img: any) {

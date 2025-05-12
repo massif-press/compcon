@@ -20,7 +20,7 @@ class License {
   };
   public readonly Hidden: boolean = false;
   public readonly LcpName: string;
-  public readonly InLcp: boolean;
+  public readonly LcpAuthor: string;
   public readonly ItemType: string = 'License';
 
   public constructor(frame: Frame, pack?: ContentPack) {
@@ -30,7 +30,7 @@ class License {
     this.FrameName = frame.Name.toLowerCase();
     this.ID = `${frame.ID}_License`;
     this.LcpName = frame.LcpName;
-    this.InLcp = !!pack;
+    this.LcpAuthor = frame.LcpAuthor;
 
     this.Specialty = !!frame.Specialty;
     if (typeof frame.Specialty !== 'boolean') {
@@ -127,6 +127,10 @@ class License {
     return new License(CompendiumStore().referenceByID('Frames', frameId));
   }
 
+  public get InLcp(): boolean {
+    return this.Frame.InLcp;
+  }
+
   public static LicenseSort(a: License, b: License): number {
     const groupA = a.Specialty ? 2 : a.InLcp ? 1 : 0;
     const groupB = b.Specialty ? 2 : b.InLcp ? 1 : 0;
@@ -136,6 +140,9 @@ class License {
     if (groupA === 0) {
       return a.Name.localeCompare(b.Name);
     } else if (groupA === 1) {
+      if (a.LcpAuthor === 'Massif Press') return 0;
+      if (b.LcpAuthor === 'Massif Press') return 1;
+
       const lcpCompare = a.LcpName.localeCompare(b.LcpName);
       if (lcpCompare !== 0) return lcpCompare;
       return a.Name.localeCompare(b.Name);

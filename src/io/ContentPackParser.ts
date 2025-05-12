@@ -201,7 +201,6 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   npcFeatures
     .filter((x) => !x.origin || typeof x.origin !== 'string')
     .forEach((item: any) => {
-      console.log(item);
       // attempt to add via origin object
       if (item.origin?.type.toLowerCase() === 'template') {
         const template = npcTemplates.find(

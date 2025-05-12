@@ -32,6 +32,7 @@ abstract class CompendiumItem {
   public ItemType: ItemType;
   public readonly Brew: BrewInfo;
   public readonly LcpName: string = '';
+  public readonly LcpAuthor: string = '';
   public readonly InLcp: boolean = false;
   public readonly ID: string;
   public Actions: Action[];
@@ -88,6 +89,7 @@ abstract class CompendiumItem {
       }
       this.InLcp = !!lcp;
       this.LcpName = lcp?.Name || 'Lancer Core Book';
+      this.LcpAuthor = lcp?.Author || 'Massif Press';
       this._baseTags = Tag.Deserialize(data.tags || [], lcp?.Data.tags || [], lcp?.Name || '');
       this.IsExotic = this._baseTags.some((x) => x.IsExotic);
       const heatTag = this.Tags.find((x) => x.IsHeatCost);
