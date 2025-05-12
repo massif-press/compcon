@@ -121,7 +121,6 @@ export default {
       });
     },
     async deleteAll() {
-      console.log('delete all', this.items);
       this.loading = true;
       for (const item of this.items) {
         await this.permanentlyDelete(item);

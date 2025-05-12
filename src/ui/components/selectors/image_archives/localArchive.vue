@@ -165,7 +165,7 @@ export default {
 
       const blob = new Blob([this.stagedImage], { type: this.stagedImage.type });
       AddBlob('images', this.stagedImage.name, blob)
-        .then.then(() => this.getUserImages())
+        .then(() => this.getUserImages())
         .catch((e) => logger.error(`Error uploading image: ${e}`, this))
         .finally(() => (this.loading = false));
     },
@@ -173,7 +173,6 @@ export default {
       RemoveItem('images', key);
     },
     stage(image) {
-      console.log(image);
       this.selectedImage = image.url;
       this.$emit('set-staged', image);
     },

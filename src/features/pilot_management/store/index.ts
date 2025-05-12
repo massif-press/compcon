@@ -181,7 +181,6 @@ export const PilotStore = defineStore('pilot', {
       await this.AddPilot(payload.Clone(), this.getGroupByPilotID(payload.ID));
     },
     async DeletePilotPermanent(pilot: Pilot): Promise<void> {
-      console.log('Deleting pilot', pilot.ID);
       const groupIndex = this.PilotGroups.findIndex((x) =>
         x.Pilots.map((x) => x.id).includes(pilot.ID)
       );
@@ -195,11 +194,7 @@ export const PilotStore = defineStore('pilot', {
 
       this.Pilots.splice(this.Pilots.indexOf(pilot), 1);
 
-      console.log('Deleting pilot', pilot.ID);
-
       await RemoveItem('pilots', pilot.ID);
-
-      console.log('done');
 
       if (pilot.CloudController.ShareCode) {
         await CloudController.MarkCloudDeleted(pilot.CloudController.Metadata);
