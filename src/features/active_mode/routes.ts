@@ -8,6 +8,7 @@ import Home from './landing.vue';
 
 import CreateSheet from './pc/NewSheet.vue';
 import SheetManager from './pc/SheetManager.vue';
+import GMEncounterRunner from './runner/gm/GMEncounterRunner.vue';
 import JoinTable from './runner/pilot/JoinTable.vue';
 import PilotRunner from './runner/pilot/PilotRunner.vue';
 
@@ -60,6 +61,11 @@ const routes = [
         path: 'manage-tables',
         name: 'active-manage-tables',
         component: TableManager,
+      },
+      {
+        path: 'gm-encounter-runner',
+        name: 'active-gm-encounter-runner',
+        component: GMEncounterRunner,
       },
     ],
   },

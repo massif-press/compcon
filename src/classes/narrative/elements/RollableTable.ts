@@ -45,6 +45,19 @@ class RollableTable {
     return this.Mult * this.Die;
   }
 
+  public Roll() {
+    const roll = Math.floor(Math.random() * this.Die) + 1;
+    for (const r of this.Results) {
+      if (roll >= r.min && roll <= r.max) {
+        return {
+          roll,
+          result: r.result,
+        };
+      }
+    }
+    return '';
+  }
+
   public setArray(step) {
     if (this.Results.length) this.Results.splice(0, this.Results.length);
     for (let i = 1; i <= this.Max; i += step) {

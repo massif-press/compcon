@@ -1,6 +1,6 @@
 <template>
   <v-card variant="tonal" tile flat style="position: relative" class="rounded-s-xl">
-    <v-card-text class="py-1 px-2">
+    <v-card-text :class="dense ? 'px-1 py-0' : 'py-1 px-2'">
       <v-row :dense="dense" :align="clock.Linear ? 'start' : 'center'">
         <v-col v-if="!clock.Linear" cols="auto">
           <v-progress-circular
@@ -98,7 +98,7 @@
             variant="tonal"
             icon="mdi-plus"
             color="accent"
-            style="width: 26px; height: 26px"
+            style="width: 22px; height: 22px"
             class="mr-2"
             @click="
               clock.Increment();
@@ -108,7 +108,7 @@
             variant="tonal"
             icon="mdi-minus"
             color="accent"
-            style="width: 26px; height: 26px"
+            style="width: 22px; height: 22px"
             @click="
               clock.Decrement();
               $emit('change');

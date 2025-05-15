@@ -11,7 +11,7 @@
         </cc-short-string-editor>
         <div v-else class="heading h3">{{ table.Title }}</div>
       </div>
-      <div v-if="!dense">
+      <div v-if="!dense && !readonly">
         <v-checkbox-btn v-model="table.GmOnly" hide-details>
           <template #label>
             GM Only

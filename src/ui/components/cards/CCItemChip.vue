@@ -7,7 +7,7 @@
         :class="density === 'compact' ? '' : 'ma-1'"
         style="margin: 1px"
         :block="block"
-        :prepend-icon="itemIcon"
+        :prepend-icon="!hideIcon && itemIcon"
         :size="size"
         v-bind="props">
         {{ truncate(item.Name) }}
@@ -37,6 +37,9 @@ export default {
     hideType: {
       type: Boolean,
     },
+    hideIcon: {
+      type: Boolean,
+    },
     block: {
       type: Boolean,
     },
@@ -47,6 +50,10 @@ export default {
     density: {
       type: String,
       default: '',
+    },
+    limit: {
+      type: Number,
+      default: 26,
     },
   },
   components: {
@@ -71,7 +78,7 @@ export default {
     },
     truncate(str): string {
       if (this.block) return str;
-      if (str.length > 26) return str.substring(0, 24) + '…';
+      if (str.length > this.limit) return str.substring(0, this.limit - 2) + '…';
       return str;
     },
   },

@@ -41,7 +41,6 @@
                 density="compact"
                 class="my-1 bg-primary"
                 :subtitle="e.subtitle"
-                disabled
                 :to="e.to">
                 <template #prepend>
                   <v-avatar>
@@ -116,7 +115,7 @@ export default {
           title: 'Local Encounters',
           subtitle: 'Create, manage, and run local Encounters for your Lancer games',
           icon: 'cc:encounter',
-          to: '/active-mode/encounter-manager',
+          to: '/active-mode/manage-encounters',
         },
         {
           small: true,
@@ -126,7 +125,7 @@ export default {
         },
         {
           title: 'Active Tables',
-          subtitle: 'Create, manage, and run Lancer tables for long-term online or offline  games',
+          subtitle: 'Create, manage, and run Lancer tables for long-term online or offline games',
           icon: 'mdi-lan',
           to: '/active-mode/manage-tables',
         },

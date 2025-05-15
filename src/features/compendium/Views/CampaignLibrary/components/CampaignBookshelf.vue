@@ -13,7 +13,7 @@
               style="width: 25%"
               class="border-e-sm"
               @click="setSort('title')">
-              <v-icon icon="mdi-format-text" />
+              <v-icon icon="mdi-format-text-variant" />
               <v-icon v-if="sort === 'title'" :icon="`mdi-chevron-${asc ? 'up' : 'down'}`" />
             </v-btn>
           </template>

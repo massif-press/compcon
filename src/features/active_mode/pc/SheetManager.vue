@@ -19,7 +19,7 @@
       <v-tooltip location="top" open-delay="300">
         <template #activator="{ props }">
           <v-btn v-bind="props" color="panel" flat tile size="small" @click="setSort('Name')">
-            <v-icon icon="mdi-format-text" class="mb-n1" color="accent" />
+            <v-icon icon="mdi-format-text-variant" class="mb-n1" color="accent" />
             <v-icon
               v-if="sort === 'Name'"
               :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"

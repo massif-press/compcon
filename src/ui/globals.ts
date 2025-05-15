@@ -54,7 +54,6 @@ import CCTag from './components/CCTag.vue';
 import CCTags from './components/CCTags.vue';
 import CCTextEditorDialog from './components/CCTextEditorDialog.vue';
 import CCTextEditorInline from './components/CCTextEditorInline.vue';
-import CCTickBar from './components/CCTickBar.vue';
 import CCTitle from './components/CCTitle.vue';
 import CCTitlebar from './components/CCTitlebar.vue';
 import CCTitledPanel from './components/CCTitledPanel.vue';
@@ -167,7 +166,6 @@ export {
   CCTags,
   CCTextEditorDialog,
   CCTextEditorInline,
-  CCTickBar,
   CCTitle,
   CCTitlebar,
   CCTitledPanel,
