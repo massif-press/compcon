@@ -49,10 +49,10 @@ class Stats {
     saveTarget: 'cc:save',
     grapple: 'mdi-carabiner',
     ram: 'mdi-car-brake-low-pressure',
-    hull: 'mdi-alpha-h-circle-outline',
-    agi: 'mdi-alpha-a-circle-outline',
-    sys: 'mdi-alpha-s-circle-outline',
-    eng: 'mdi-alpha-e-circle-outline',
+    hull: 'mdi-alpha-h-box-outline',
+    agi: 'mdi-alpha-a-box-outline',
+    sys: 'mdi-alpha-s-box-outline',
+    eng: 'mdi-alpha-e-box-outline',
   };
 
   public static SortMap = {
