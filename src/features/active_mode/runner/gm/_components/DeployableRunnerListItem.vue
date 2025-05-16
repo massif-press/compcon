@@ -4,6 +4,7 @@
       <v-card
         v-bind="props"
         class="pa-1 border-fade"
+        :class="collapsed && 'handle'"
         flat
         tile
         variant="outlined"
@@ -15,9 +16,11 @@
           </v-col>
           <v-col cols="auto" style="position: relative">
             <v-icon
+              v-if="!collapsed"
               icon="mdi-drag"
               size="20"
               class="handle bg-panel"
+              :style="isHovering ? 'opacity: 1' : 'opacity: 0.4'"
               style="
                 position: absolute;
                 top: 0;

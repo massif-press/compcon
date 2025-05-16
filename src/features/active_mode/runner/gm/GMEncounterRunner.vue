@@ -13,7 +13,7 @@
           color="primary"
           @click="showLeft = !showLeft" />
       </div>
-      <v-navigation-drawer :rail="!showLeft" :width="mobile ? 220 : 460">
+      <v-navigation-drawer :rail="!showLeft" :width="mobile ? 220 : 460" persistent>
         <div v-if="showLeft">
           <v-btn-group flat tile style="width: 100%; height: 20px" color="primary">
             <v-btn size="x-small" style="width: 25%" @click="sortBy('name')">
@@ -107,7 +107,11 @@
           @click="showRight = !showRight" />
       </div>
 
-      <v-navigation-drawer :rail="!showRight" :width="mobile ? 220 : 250" location="right">
+      <v-navigation-drawer
+        :rail="!showRight"
+        :width="mobile ? 220 : 250"
+        location="right"
+        persistent>
         <v-list slim>
           <v-tooltip>
             <template #activator="{ props }">
@@ -147,12 +151,12 @@
             <template #activator="{ props }">
               <v-list-item v-bind="!showRight && props" @click="selectPanel('gm-notes')">
                 <template #prepend>
-                  <v-icon icon="mdi-card-bulleted-outline" />
+                  <v-icon icon="mdi-card-text-outline" />
                 </template>
-                GM Overview
+                GM Notes
               </v-list-item>
             </template>
-            GM Overview
+            GM Notes
           </v-tooltip>
           <v-divider class="my-2" />
           <v-tooltip max-width="300">
@@ -240,13 +244,13 @@ import DoodadPanel from './EncounterPanels/DoodadPanel.vue';
 import NpcPanel from './EncounterPanels/NpcPanel.vue';
 import PcPanel from './EncounterPanels/PcPanel.vue';
 import EncounterInfoPanel from './InfoPanels/EncounterInfoPanel.vue';
-import GmNotesPanel from './InfoPanels/GmNotesPanel.vue';
 import ReferencePanel from './InfoPanels/ReferencePanel.vue';
 import GmDiceRoller from './_components/GmDiceRoller.vue';
 import ReferenceTagPanel from './InfoPanels/ReferenceTagPanel.vue';
 import RollableTableIndex from './_components/RollableTableIndex.vue';
 import QuickReferencePanel from './InfoPanels/QuickReferencePanel.vue';
 import { CompendiumStore } from '@/stores';
+import GmNotesPanel from './InfoPanels/GmNotesPanel.vue';
 
 export default {
   name: 'gm-encounter-runner',
@@ -261,12 +265,12 @@ export default {
     NpcPanel,
     PcPanel,
     EncounterInfoPanel,
-    GmNotesPanel,
     ReferencePanel,
     GmDiceRoller,
     ReferenceTagPanel,
     RollableTableIndex,
     QuickReferencePanel,
+    GmNotesPanel,
   },
   data: () => ({
     selected: null,
