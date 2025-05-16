@@ -15,8 +15,10 @@
           </v-col>
           <v-col cols="auto" style="position: relative">
             <v-icon
+              v-if="!collapsed"
               icon="mdi-drag"
               size="20"
+              :style="isHovering ? 'opacity: 1' : 'opacity: 0.4'"
               class="handle bg-panel"
               style="
                 position: absolute;

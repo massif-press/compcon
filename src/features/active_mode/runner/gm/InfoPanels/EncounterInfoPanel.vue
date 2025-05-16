@@ -5,8 +5,16 @@
     <v-card-text class="pb-0">
       <p>This is a placeholder for the encounter details block, created in the encounter editor.</p>
     </v-card-text>
+    <v-card-text class="pb-0">
+      <div class="text-cc-overline text-disabled">Detail</div>
+      <div class="heading h3 text-accent">Encounter Detail Header 1</div>
+      <p>This is a placeholder for encounter additional detail, created in the encounter editor.</p>
+      <div class="heading h3 text-accent">Encounter Detail Header 2</div>
+      <p>This is a placeholder for encounter additional detail, created in the encounter editor.</p>
+    </v-card-text>
+
     <v-card-text>
-      <div class="text-cc-overline">SITREP</div>
+      <div class="text-cc-overline text-disabled">SITREP</div>
       <div class="heading h3 text-accent">Extraction</div>
       <div class="text-cc-overline">Description</div>
       <p>
@@ -39,7 +47,7 @@
       </p>
     </v-card-text>
     <v-card-text>
-      <div class="text-cc-overline">Environment</div>
+      <div class="text-cc-overline text-disabled">Environment</div>
       <div class="heading h3 text-accent">Spire World</div>
       <p>
         Instead of a surface, this world is comprised of countless floating islands or spires, each
