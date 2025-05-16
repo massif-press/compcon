@@ -294,6 +294,7 @@ export default {
           frame: CompendiumStore().Frames.find((f) => f.Name === 'Lancaster'),
           side: 'ally',
           resistances: [],
+          immunities: [],
           statuses: [],
           special: [],
           stats: {
@@ -317,6 +318,7 @@ export default {
           side: 'ally',
           statuses: [],
           resistances: [],
+          immunities: [],
           special: ['cascade'],
           stats: {
             structure: { current: 4, max: 4 },
@@ -337,6 +339,7 @@ export default {
           mechname: 'Point of Entry',
           frame: CompendiumStore().Frames.find((f) => f.Name === 'Everest'),
           resistances: [],
+          immunities: [],
           statuses: [],
           special: [],
           side: 'ally',
@@ -361,6 +364,7 @@ export default {
           tooltip: 'My NPC / Veteran Archer',
           side: 'enemy',
           resistances: [],
+          immunities: [],
           statuses: [],
           special: [],
 
@@ -385,6 +389,7 @@ export default {
           side: 'enemy',
           statuses: ['Exposed'],
           resistances: [],
+          immunities: [],
           special: [],
           stats: {
             structure: { current: 1, max: 1 },
@@ -404,6 +409,7 @@ export default {
           tooltip: "A Deployable #1 (Viscount's Deployable)",
           side: 'ally',
           resistances: [],
+          immunities: [],
           statuses: [],
           special: [],
           stats: {
@@ -422,6 +428,7 @@ export default {
           side: 'enemy',
           tooltip: 'Another NPC / Grunt Bombard',
           resistances: [],
+          immunities: [],
           statuses: [],
           special: [],
           stats: {
