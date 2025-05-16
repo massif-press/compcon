@@ -29,7 +29,8 @@
     "prettier": "3.5.3",
     "promisify-file-reader": "4.1.0",
     "semver": "7.7.1",
-    "sortablejs": "1.15.6",
+    "sortablejs": "^1.15.6",
+    "sortablejs-vue3": "^1.2.11",
     "typeit": "^8.8.7",
     "uuid": "11.1.0",
     "vue": "3.5.13",
@@ -51,6 +52,7 @@
     "vue-tsc": "2.2.8"
   },
   "resolutions": {
-    "quill": "^2.0.2"
+    "quill": "^2.0.2",  "@vue/server-renderer": "^3.x",
+  "@vue/compiler-ssr": "^3.x"
   }
 }
