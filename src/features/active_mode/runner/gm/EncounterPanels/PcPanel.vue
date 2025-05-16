@@ -466,9 +466,9 @@
     </masonry-wall>
 
     <div class="text-cc-overline mt-4 text-disabled">Pilot Talents</div>
-    <cc-talent :talent="randomTalents[0]" rank="2" hide-locked hide-change />
+    <!-- <cc-talent :talent="randomTalents[0]" rank="2" hide-locked hide-change />
     <cc-talent :talent="randomTalents[1]" rank="2" hide-locked hide-change />
-    <cc-talent :talent="randomTalents[2]" rank="1" hide-locked hide-change />
+    <cc-talent :talent="randomTalents[2]" rank="1" hide-locked hide-change /> -->
 
     <br />
 
