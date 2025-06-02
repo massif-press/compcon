@@ -8,7 +8,9 @@ import activeModeRoutes from './features/active_mode/routes';
 import MainMenu from './features/main_menu/index.vue';
 import UITest from './features/ui_test/old.vue';
 import UITestv3 from './features/ui_test/index.vue';
+
 import ItemLink from './features/main_menu/itemLink.vue';
+import PilotLink from './features/pilot_management/link/index.vue';
 
 import Redirect from './features/main_menu/_components/oauth/Redirect.vue';
 
@@ -24,6 +26,12 @@ const router = createRouter({
       path: '/link/:pack/:type/:id',
       name: 'item_link',
       component: ItemLink,
+      props: true,
+    },
+    {
+      path: '/link/pilot/:sharecode/:style?/:mechId?',
+      name: 'pilot_link',
+      component: PilotLink,
       props: true,
     },
     {

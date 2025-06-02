@@ -68,7 +68,7 @@
       </template>
     </v-tooltip>
 
-    <cc-dialog v-else title="Share Pilot Data" icon="cc:pilot">
+    <cc-dialog v-else title="Share Pilot Data" icon="cc:pilot" :close-on-click="false">
       <template #activator="{ open }">
         <v-tooltip
           open-delay="300"

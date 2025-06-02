@@ -5,6 +5,7 @@
       :active-loadout="mech.MechLoadoutController.ActiveLoadout"
       :color="color"
       :readonly="readonly"
+      :noFrame="noFrame"
       @set-active="mech.MechLoadoutController.ActiveLoadout = $event"
       @add-loadout="mech.MechLoadoutController.AddLoadout()"
       @clone-loadout="mech.MechLoadoutController.CloneLoadout()"
@@ -47,6 +48,10 @@ export default {
     },
     active: {
       type: Boolean,
+    },
+    noFrame: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

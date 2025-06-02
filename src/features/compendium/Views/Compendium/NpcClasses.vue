@@ -46,6 +46,7 @@ const keymap = {
   speed: 'Speed',
   sensorRange: 'Sensor',
   saveTarget: 'Save',
+  sizes: 'Size',
 };
 
 export default {

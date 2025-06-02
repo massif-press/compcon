@@ -22,12 +22,16 @@
               <span>{{ talent.LcpName }}</span>
             </v-tooltip>
           </v-col>
+
           <v-col v-if="!hideChange" cols="auto" align-self="center" class="pr-4">
             <v-icon color="white" variant="plain" @click="$emit('expand', 'terse')">
               mdi-arrow-collapse
             </v-icon>
           </v-col>
         </v-row>
+        <div style="position: absolute; top: 0; right: 2px; z-index: 1">
+          <cc-broken-reference :item="talent" end />
+        </div>
       </v-toolbar>
     </template>
     <div style="position: relative">

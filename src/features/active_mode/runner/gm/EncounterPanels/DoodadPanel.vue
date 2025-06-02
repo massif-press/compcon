@@ -1,13 +1,17 @@
 <template>
-  doodad
-  {{ doodad }}
+  {{ item }}
 </template>
 
 <script>
+import PanelBase from './_PanelBase.vue';
+
 export default {
   name: 'DoodadPanel',
+  components: {
+    PanelBase,
+  },
   props: {
-    doodad: {
+    item: {
       type: Object,
       required: true,
     },

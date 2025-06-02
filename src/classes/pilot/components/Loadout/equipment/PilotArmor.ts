@@ -1,4 +1,4 @@
-import { PilotEquipment, ItemType, Pilot } from '@/class';
+import { PilotEquipment, ItemType, Pilot, ContentPack } from '@/class';
 import { IBonusDataContainer } from '@/classes/components/feature/bonus/IBonusDataContainer';
 import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
 import { Bonus } from '../../../../components/feature/bonus/Bonus';
@@ -90,6 +90,10 @@ class PilotArmor extends PilotEquipment {
 
   public get Icon(): string {
     return 'cc:pilot';
+  }
+
+  public get Color(): string {
+    return 'pilot';
   }
 
   // for scatter and comparators

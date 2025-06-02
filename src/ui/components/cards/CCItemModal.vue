@@ -16,6 +16,7 @@
         @click="open">
         {{ truncate(item.Name) }}
         <span v-if="!hideType">{{ item.ItemType === 'Frame' ? '&nbsp;FRAME' : '' }}</span>
+        <cc-broken-reference v-if="!hideLink" :item="item" end />
       </cc-button>
     </template>
 
@@ -50,6 +51,9 @@ export default {
       required: true,
     },
     hideType: {
+      type: Boolean,
+    },
+    hideLink: {
       type: Boolean,
     },
     block: {

@@ -241,11 +241,9 @@ export default {
   },
   methods: {
     setPilot(pilot) {
-      console.log('pilot selected', pilot);
       this.selectedPilot = pilot;
     },
     setMech(mech) {
-      console.log('mech selected', mech);
       this.selectedMech = mech;
     },
   },

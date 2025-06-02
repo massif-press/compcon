@@ -26,18 +26,15 @@
           <div class="heading h2 text-center py-1">{{ totalWithBonus }}</div>
         </v-col>
         <v-col v-else-if="stat.key === 'size'">
-          <v-combobox
+          <v-select
             v-model="model"
-            :items="selections"
+            :items="sizeOptions"
             density="compact"
             variant="outlined"
             hide-details
             center-affix
             type="number"
-            @input="$emit('set', { value: model, tier: model })"
-            @blur="editMode = false"
-            @keyup.enter="editMode = false"
-            @focus="$event.target.select()" />
+            @update:model-value="$emit('set', { value: model, tier: model })" />
         </v-col>
         <v-col v-else>
           <v-select
@@ -152,6 +149,7 @@ export default {
     model: 0,
     editMode: false,
     cardColor: '',
+    sizeOptions: [0.5, 1, 2, 3, 4],
   }),
   watch: {
     val: {

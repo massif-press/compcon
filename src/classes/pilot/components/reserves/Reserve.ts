@@ -187,22 +187,12 @@ class Reserve extends CompendiumItem {
   }
 
   public static Deserialize(rData: IReserveData): Reserve {
-    let data = reserves.find((x) => x.id === rData.id);
-    if (!data)
-      data = {
-        id: rData.id,
-        type: rData.type,
-        name: rData.name,
-        label: rData.label,
-        description: rData.description,
-        bonuses: rData.bonuses,
-        actions: rData.actions,
-        deployables: rData.deployables,
-        counters: rData.counters,
-        integrated: rData.integrated,
-        special_equipment: rData.special_equipment,
-      };
-    const r = new Reserve(data);
+    let r = {} as Reserve;
+    if (CompendiumStore().has('Reserves', rData.id))
+      r = CompendiumStore().referenceByID('Reserves', rData.id);
+    else r = new Reserve(rData);
+
+    console.log(r);
     r._resource_name = rData.resource_name;
     r._resource_note = rData.resource_note;
     r._resource_cost = rData.resource_cost;

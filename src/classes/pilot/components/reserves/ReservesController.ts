@@ -68,6 +68,7 @@ class ReservesController implements IFeatureContainer {
     target.reserves = parent.ReservesController.Reserves.length
       ? parent.ReservesController.Reserves.map((x) => Reserve.Serialize(x))
       : [];
+
     target.orgs = parent.ReservesController.Organizations.length
       ? parent.ReservesController.Organizations.map((x) => Organization.Serialize(x))
       : [];

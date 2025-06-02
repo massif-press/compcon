@@ -29,6 +29,13 @@
               title="Export Pilot"
               subtitle="Export this pilot as a JSON file"
               @click="exportPilot()" />
+            <v-list-item
+              v-if="!pilot.IsRemote"
+              color="purple"
+              prepend-icon="mdi-export-variant"
+              title="DEBUG Export As Instance DEBUG"
+              subtitle="Debug shim for active mode dev"
+              @click="exportPilotInstance()" />
 
             <cc-dialog
               v-if="pilot.IsRemote"
@@ -188,6 +195,15 @@ export default {
         });
       }
     },
+    exportPilotInstance() {
+      const instance = Pilot.Serialize(this.pilot as Pilot);
+      console.log('instance', instance);
+      // saveFile(
+      //   this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '__instance__.json',
+      //   instance,
+      //   'Save Pilot'
+      // );
+    },
     async remoteUpdate() {
       try {
         await CloudController.UpdateRemote(this.pilot);
@@ -198,6 +214,7 @@ export default {
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         });
       } catch (err) {
+        logger.error(`Error syncing item: ${err}`, this);
         this.$notify({
           title: `Sync Failed`,
           text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,

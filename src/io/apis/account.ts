@@ -88,11 +88,16 @@ export async function updateUser(id: string, payload: any): Promise<any> {
 }
 
 export async function uploadToS3(data, presignedUrl, type = 'application/json') {
+  console.log('Uploading data to S3:', data);
   logger.info('Uploading data to S3:', data);
 
   if (data.cloud?.cloud_data) delete data.cloud.cloud_data;
 
+  console.log('not at body yet');
+
   const body = type === 'application/json' ? JSON.stringify(data) : data;
+
+  console.log(body);
 
   try {
     const response = await fetch(presignedUrl, {
@@ -102,6 +107,7 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
         'Content-Type': type,
       },
     });
+    console.log(response);
     logger.info(`Response from S3 upload: ${response.status}`);
 
     if (response.ok) {

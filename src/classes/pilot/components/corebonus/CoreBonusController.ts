@@ -2,12 +2,13 @@ import { IFeatureContainer } from '@/classes/components/feature/IFeatureContaine
 import _ from 'lodash';
 import { Bonus } from '../../../components/feature/bonus/Bonus';
 import { Pilot } from '../../Pilot';
-import { CoreBonus } from './CoreBonus';
+import { CoreBonus, ICoreBonusData } from './CoreBonus';
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 import logger from '@/user/logger';
+import { CompendiumStore } from '@/stores';
 
 interface ICoreBonusSaveData {
-  core_bonuses: string[];
+  core_bonuses: string[] | ICoreBonusData[];
 }
 
 class CoreBonusController implements IFeatureContainer {
@@ -90,7 +91,7 @@ class CoreBonusController implements IFeatureContainer {
   }
 
   public static Serialize(parent: Pilot, target: any) {
-    target.core_bonuses = parent.CoreBonusController.CoreBonuses.map((x) => x.ID);
+    target.core_bonuses = parent.CoreBonusController.CoreBonuses.map((x) => x.ItemData);
   }
 
   public static Deserialize(parent: Pilot, data: ICoreBonusSaveData) {
@@ -99,8 +100,15 @@ class CoreBonusController implements IFeatureContainer {
         `CoreBonusController not found on parent (${typeof parent}). New CoreBonusControllers must be instantiated in the parent's constructor method.`
       );
 
-    parent.CoreBonusController._core_bonuses = data.core_bonuses.map((x: string) =>
-      CoreBonus.Deserialize(x)
+    parent.CoreBonusController._core_bonuses = (data.core_bonuses as ICoreBonusData[]).map(
+      (x: ICoreBonusData) => {
+        if (CompendiumStore().has('CoreBonuses', x.id))
+          return CompendiumStore().referenceByID('CoreBonuses', x.id);
+
+        const c = new CoreBonus(x);
+        c.FromInstance = true;
+        return c;
+      }
     );
   }
 }

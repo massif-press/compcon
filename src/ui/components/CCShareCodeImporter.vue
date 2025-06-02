@@ -223,7 +223,6 @@ export default {
     },
     async getFromCode() {
       this.loading = true;
-      this.loading = true;
       try {
         this.queryResult = await GetFromCode(this.code.join(''));
         this.$emit('set-query-result', this.queryResult);

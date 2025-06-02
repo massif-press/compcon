@@ -246,9 +246,10 @@ export const CompendiumStore = defineStore('compendium', {
         if (this[itemType] && this[itemType] instanceof Array) {
           const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
           if (i) return _.cloneDeep(i);
-          throw new Error(`ID not found: ${id}`);
+          return null;
         }
-        throw new Error(`Invalid item type: ${itemType}`);
+        logger.error(`Invalid item type: ${itemType}`);
+        return null;
       };
     },
 
@@ -260,6 +261,16 @@ export const CompendiumStore = defineStore('compendium', {
           throw new Error(`ID not found: ${id}`);
         }
         throw new Error(`Invalid item type: ${itemType}`);
+      };
+    },
+
+    has(): (itemType: string, id: string) => boolean {
+      return (itemType: string, id: string): boolean => {
+        if (this[itemType] && this[itemType] instanceof Array) {
+          return this[itemType].some((x: any) => x.ID === id || x.id === id);
+        }
+        logger.error(`Invalid item type: ${itemType}`);
+        return false;
       };
     },
 

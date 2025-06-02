@@ -39,7 +39,7 @@
         </template>
       </masonry-wall>
 
-      <v-row v-if="mech.FreeSP <= 0" justify="end" class="mt-1">
+      <v-row v-if="!readonly && mech.FreeSP <= 0" justify="end" class="mt-1">
         <v-col cols="auto">
           <cc-button
             size="small"

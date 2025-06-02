@@ -14,86 +14,21 @@
           @click="showLeft = !showLeft" />
       </div>
       <v-navigation-drawer :rail="!showLeft" :width="mobile ? 220 : 460" persistent>
-        <div v-if="showLeft">
-          <v-btn-group flat tile style="width: 100%; height: 20px" color="primary">
-            <v-btn size="x-small" style="width: 25%" @click="sortBy('name')">
-              <v-icon size="x-large" icon="mdi-format-text-variant" />
-            </v-btn>
-            <v-btn size="x-small" style="width: 25%" @click="sortBy('type')">
-              <v-icon size="x-large" icon="cc:pilot" />
-            </v-btn>
-            <v-btn size="x-small" style="width: 25%" @click="sortBy('activations')">
-              <v-icon size="x-large" icon="cc:activate" />
-            </v-btn>
-            <v-btn size="x-small" style="width: 25%" @click="sortBy('side')">
-              <v-icon size="x-large" icon="mdi-flag" />
-            </v-btn>
-          </v-btn-group>
-        </div>
-        <sortable
-          ref="sortable"
-          :key="sortableKey"
-          :sort="true"
-          :list="actors"
-          :options="{
-            animation: 250,
-            easing: 'cubic-bezier(1, 0, 0, 1)',
-            handle: '.handle',
-          }"
-          item-key="ID">
-          <template #item="{ element, index }">
-            <v-tooltip>
-              <template #activator="{ props }">
-                <div class="my-2" v-bind="!showLeft && props">
-                  <component
-                    :is="`${element.type}-runner-list-item`"
-                    :key="`${element.ID}-${index}`"
-                    :item="element"
-                    :collapsed="!showLeft"
-                    @select="selectActor($event)" />
-                </div>
-              </template>
-              {{ element.tooltip }}
-            </v-tooltip>
-          </template>
-        </sortable>
-        <div style="height: 50px" />
-
-        <div style="position: absolute; bottom: 0; left: 0; right: 0">
-          <v-menu>
-            <template #activator="{ props }">
-              <v-btn
-                v-if="showLeft"
-                v-bind="props"
-                block
-                flat
-                tile
-                color="primary"
-                prepend-icon="mdi-plus">
-                Add Item
-              </v-btn>
-              <v-btn v-else v-bind="props" icon block flat tile color="primary" height="36">
-                <v-icon size="x-large" icon="mdi-plus" />
-              </v-btn>
-            </template>
-            <v-card tile>
-              <v-btn block border flat tile color="primary">Add Reinforcement</v-btn>
-              <v-btn block border flat tile color="primary">Add Pilot</v-btn>
-              <v-btn block border flat tile color="primary">Add Doodad</v-btn>
-              <v-btn block border flat tile color="primary">Add Other</v-btn>
-              <v-btn block border flat tile color="primary">Add Stub</v-btn>
-            </v-card>
-          </v-menu>
-        </div>
+        <gm-initiative-panel
+          :encounter="instance.Encounter"
+          :selected="selected"
+          :expanded="showLeft"
+          @select="selectActor($event)" />
       </v-navigation-drawer>
+
       <v-main style="overflow-y: scroll">
         <div class="text-center bg-panel pa-1 heading h3">example encounter &mdash; round 1</div>
         <v-container :style="`max-width: ${showRight ? 'calc(100% - 56px)' : 'calc(100% - 62px)'}`">
-          <div v-if="panel">
-            <component :is="`${panel}-panel`" :key="panel" />
+          <div v-if="panel && instance">
+            <component :is="`${panel}-panel`" :key="panel" :encounter="instance.Encounter" />
           </div>
           <div v-else>
-            <component :is="`${selected.type}-panel`" :key="selected.ID" :item="selected" />
+            <component :is="`${selected.type}-panel`" :key="selected.ID" :item="selected.npc" />
           </div>
         </v-container>
       </v-main>
@@ -112,79 +47,13 @@
         :width="mobile ? 220 : 250"
         location="right"
         persistent>
-        <v-list slim>
-          <v-tooltip>
-            <template #activator="{ props }">
-              <v-list-item v-bind="!showRight && props" @click="diceDialog = true">
-                <template #prepend>
-                  <v-icon icon="mdi-dice-d20-outline" />
-                </template>
-                Dice Roller
-              </v-list-item>
-            </template>
-            Dice Roller
-          </v-tooltip>
-          <v-tooltip>
-            <template #activator="{ props }">
-              <v-list-item v-bind="!showRight && props" @click="tableDialog = true">
-                <template #prepend>
-                  <v-icon icon="mdi-table-multiple" />
-                </template>
-                Rollable Tables
-              </v-list-item>
-            </template>
-            Rollable Tables
-          </v-tooltip>
-          <v-divider class="my-2" />
-          <v-tooltip>
-            <template #activator="{ props }">
-              <v-list-item v-bind="!showRight && props" @click="selectPanel('encounter-info')">
-                <template #prepend>
-                  <v-icon icon="cc:encounter" />
-                </template>
-                Encounter Info
-              </v-list-item>
-            </template>
-            Encounter Info
-          </v-tooltip>
-          <v-tooltip>
-            <template #activator="{ props }">
-              <v-list-item v-bind="!showRight && props" @click="selectPanel('gm-notes')">
-                <template #prepend>
-                  <v-icon icon="mdi-card-text-outline" />
-                </template>
-                GM Notes
-              </v-list-item>
-            </template>
-            GM Notes
-          </v-tooltip>
-          <v-divider class="my-2" />
-          <v-tooltip max-width="300">
-            <template #activator="{ props }">
-              <v-list-item v-bind="!showRight && props" @click="selectPanel('reference-tag')">
-                <template #prepend>
-                  <v-icon icon="mdi-tag" />
-                </template>
-                Tag Reference
-              </v-list-item>
-            </template>
-            List tags present on characters or equipment in this encounter
-          </v-tooltip>
-          <v-tooltip>
-            <template #activator="{ props }">
-              <v-list-item v-bind="!showRight && props" @click="selectPanel('quick-reference')">
-                <template #prepend>
-                  <v-icon icon="mdi-format-list-group" />
-                </template>
-                Combat Quick Reference
-              </v-list-item>
-            </template>
-            Combat Quick Reference
-          </v-tooltip>
-        </v-list>
-        <div style="height: 50px" />
+        <gm-tool-palette
+          :expanded="showRight"
+          @selectPanel="selectPanel"
+          @openDiceRoller="diceDialog = true"
+          @openTableIndex="tableDialog = true" />
       </v-navigation-drawer>
-      <v-footer app height="36">
+      <v-footer app height="36" style="border-top: 1px solid rgba(255, 255, 255, 0.1)">
         <v-row justify="space-between" align="center" no-gutters>
           <v-col cols="3">
             <v-btn
@@ -222,26 +91,25 @@
         </v-row>
       </v-footer>
     </v-layout>
-    <v-dialog v-model="diceDialog" max-width="800" height="525">
-      <gm-dice-roller @close="diceDialog = false" />
-    </v-dialog>
-
-    <v-dialog v-model="tableDialog" max-width="80vw">
-      <rollable-table-index @close="tableDialog = false" />
-    </v-dialog>
   </div>
+  <v-dialog v-model="diceDialog" max-width="800" height="525">
+    <gm-dice-roller @close="diceDialog = false" />
+  </v-dialog>
+
+  <v-dialog v-model="tableDialog" max-width="80vw">
+    <rollable-table-index @close="tableDialog = false" />
+  </v-dialog>
 </template>
 
 <script>
 import _ from 'lodash';
-import DeployableRunnerListItem from './_components/DeployableRunnerListItem.vue';
-import DoodadRunnerListItem from './_components/DoodadRunnerListItem.vue';
-import NpcRunnerListItem from './_components/NpcRunnerListItem.vue';
-import PcRunnerListItem from './_components/PcRunnerListItem.vue';
+
+import exampleData from '@/assets/Example Encounter.json';
+
 import { Sortable } from 'sortablejs-vue3';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
 import DoodadPanel from './EncounterPanels/DoodadPanel.vue';
-import NpcPanel from './EncounterPanels/NpcPanel.vue';
+import UnitPanel from './EncounterPanels/UnitPanel.vue';
 import PcPanel from './EncounterPanels/PcPanel.vue';
 import EncounterInfoPanel from './InfoPanels/EncounterInfoPanel.vue';
 import ReferencePanel from './InfoPanels/ReferencePanel.vue';
@@ -251,18 +119,19 @@ import RollableTableIndex from './_components/RollableTableIndex.vue';
 import QuickReferencePanel from './InfoPanels/QuickReferencePanel.vue';
 import { CompendiumStore } from '@/stores';
 import GmNotesPanel from './InfoPanels/GmNotesPanel.vue';
+import { Encounter } from '@/classes/encounter/Encounter';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import GmInitiativePanel from './_components/GmInitiativePanel.vue';
+import GmToolPalette from './_components/GmToolPalette.vue';
 
 export default {
   name: 'gm-encounter-runner',
   components: {
+    GmInitiativePanel,
     Sortable,
-    PcRunnerListItem,
-    NpcRunnerListItem,
-    DeployableRunnerListItem,
-    DoodadRunnerListItem,
     DeployablePanel,
     DoodadPanel,
-    NpcPanel,
+    UnitPanel,
     PcPanel,
     EncounterInfoPanel,
     ReferencePanel,
@@ -271,6 +140,7 @@ export default {
     RollableTableIndex,
     QuickReferencePanel,
     GmNotesPanel,
+    GmToolPalette,
   },
   data: () => ({
     selected: null,
@@ -281,12 +151,24 @@ export default {
     showLeft: true,
     showRight: false,
     sortableKey: `sk-0`,
+    actors: [],
   }),
+  created() {
+    this.instance = new EncounterInstance({
+      itemType: 'EncounterInstance',
+      id: 'example_encounter_instance-1',
+      encounterData: exampleData,
+    });
+    // temp shim
+    this.instance.Encounter.Combatants.forEach((c) => {
+      if (c.type === 'unit') c.npc.StatController.resetCurrentStats();
+    });
+  },
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
     },
-    actors() {
+    old_actors() {
       return [
         {
           type: 'pc',
@@ -298,10 +180,13 @@ export default {
           frame: CompendiumStore().Frames.find((f) => f.Name === 'Lancaster'),
           side: 'ally',
           resistances: [],
+          vulnerabilities: [],
           immunities: [],
           statuses: [],
           special: [],
           stats: {
+            overshield: 2,
+            overcharge: 1,
             structure: { current: 4, max: 4 },
             armor: { current: 1, max: 1 },
             hp: { current: 9, max: 22 },
@@ -322,6 +207,7 @@ export default {
           side: 'ally',
           statuses: [],
           resistances: [],
+          vulnerabilities: [],
           immunities: [],
           special: ['cascade'],
           stats: {
@@ -343,6 +229,7 @@ export default {
           mechname: 'Point of Entry',
           frame: CompendiumStore().Frames.find((f) => f.Name === 'Everest'),
           resistances: [],
+          vulnerabilities: [],
           immunities: [],
           statuses: [],
           special: [],
@@ -368,6 +255,7 @@ export default {
           tooltip: 'My NPC / Veteran Archer',
           side: 'enemy',
           resistances: [],
+          vulnerabilities: [],
           immunities: [],
           statuses: [],
           special: [],
@@ -391,8 +279,9 @@ export default {
           role: 'Controller',
           tooltip: 'My NPC / Veteran Archer',
           side: 'enemy',
-          statuses: ['Exposed'],
+          statuses: [{ Name: 'Exposed' }],
           resistances: [],
+          vulnerabilities: [],
           immunities: [],
           special: [],
           stats: {
@@ -412,7 +301,9 @@ export default {
           owner: 'Viscount',
           tooltip: "A Deployable #1 (Viscount's Deployable)",
           side: 'ally',
+          Icon: 'cc:drone',
           resistances: [],
+          vulnerabilities: [],
           immunities: [],
           statuses: [],
           special: [],
@@ -432,6 +323,7 @@ export default {
           side: 'enemy',
           tooltip: 'Another NPC / Grunt Bombard',
           resistances: [],
+          vulnerabilities: [],
           immunities: [],
           statuses: [],
           special: [],

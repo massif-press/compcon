@@ -63,7 +63,7 @@
 
       <v-card v-if="hasBond" flat tile class="pa-2 my-5">
         <v-row align="start" justify="space-around">
-          <v-col cols="12" md="auto" class="text-center">
+          <v-col cols="12" md="auto" class="text-center" style="min-width: 350px">
             <cc-tickbar
               v-model="pilot.BondController.XP"
               :ticks="8"
@@ -118,7 +118,7 @@
             </fieldset>
           </v-col>
 
-          <v-col cols="12" md="auto" class="text-center">
+          <v-col cols="12" md="auto" class="text-center" style="min-width: 350px">
             <cc-tickbar
               v-model="pilot.BondController.Stress"
               :ticks="pilot.BondController.MaxStress"

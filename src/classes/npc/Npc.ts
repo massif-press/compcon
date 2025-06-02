@@ -21,8 +21,9 @@ import { INarrativeElement } from '../narrative/INarrativeElement';
 import { FolderController, IFolderData } from '../components/folder/FolderController';
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 import logger from '@/user/logger';
+import { IInstanceableData } from '../components/instance/IInstancableData';
 
-class NpcData {
+class NpcData implements IInstanceableData {
   id!: string;
   save!: ISaveData;
   cloud!: ICloudData;
@@ -30,6 +31,11 @@ class NpcData {
   brews!: BrewInfo[];
   img!: IPortraitData;
   narrative!: NarrativeElementData;
+
+  // instance fields
+  instance: boolean = false;
+  instanceId: string = '';
+  originId: string = '';
 
   name!: string;
   note!: string;
@@ -67,7 +73,7 @@ abstract class Npc
   private _gmDescription: string;
 
   public constructor(data?: NpcData) {
-    if ((data as any)?.instance) this.IsInstance = true;
+    if ((data as any)?.is_instance) this.IsInstance = true;
 
     this._id = data ? data.id : uuid();
     this._note = data ? data.note : '';
@@ -85,7 +91,7 @@ abstract class Npc
   }
 
   save(): void {
-    if (this.IsInstance) return;
+    // if (this.IsInstance) return;
     this.SaveController.save();
   }
 

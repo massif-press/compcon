@@ -12,8 +12,8 @@ import { NpcStore } from '@/stores';
 
 class DoodadData extends NpcData implements IInstanceableData {
   npcType: 'unit' = 'unit';
-  instance: boolean = false;
-  instanceId: string | undefined;
+  is_instance: boolean = false;
+  instanceId?: string;
 
   stats!: IStatData;
 }
@@ -29,7 +29,7 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
   public constructor(data?: DoodadData) {
     super(data);
 
-    this.IsInstance = data?.instance || false;
+    this.IsInstance = data?.is_instance || false;
     this.InstanceID = data?.instanceId;
 
     this._name = data?.name || 'New Doodad';
@@ -63,12 +63,11 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
       id: doodad.ID,
       instance: doodad.IsInstance || asInstance,
       instanceId: doodad.InstanceID,
+      description: doodad.Description,
+      gmDescription: doodad.GmDescription,
       name: doodad.Name,
       note: doodad.Note,
     };
-
-    // TODO: this shouldn't be an object, have to find why it is being polluted
-    if (typeof data.instance === 'object') data.instance = false;
 
     SaveController.Serialize(doodad, data);
     CloudController.Serialize(doodad, data);

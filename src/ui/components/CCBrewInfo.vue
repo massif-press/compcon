@@ -6,11 +6,17 @@
         v-bind="props"
         icon="cc:compendium"
         class="fade-select"
-        :color="color" />
+        :color="hasMissing ? 'error' : color" />
+      <v-icon
+        v-if="hasMissing"
+        v-bind="props"
+        icon="mdi-exclamation-thick"
+        class="fade-select"
+        color="error" />
     </template>
     <v-card>
       <v-toolbar density="compact" color="indigo" height="20px">
-        <v-toolbar-title class="text-caption">Required Content Packs</v-toolbar-title>
+        <v-toolbar-title class="text-caption">LCP Content</v-toolbar-title>
       </v-toolbar>
       <v-card-text class="py-2">
         <v-row v-for="b in controller.Brews" dense align="center">
@@ -77,6 +83,13 @@ export default {
       type: String,
       default: '',
       required: false,
+    },
+  },
+  computed: {
+    hasMissing() {
+      return this.controller.Brews.some(
+        (b) => b.Status === 'MISSING' || b.Status === 'OLD' || b.Status === 'OFF'
+      );
     },
   },
 };

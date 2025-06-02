@@ -322,9 +322,6 @@ class MechLoadout extends Loadout {
     ml.ID = loadoutData.id;
     ml._name = loadoutData.name;
     ml._systems = loadoutData.systems.map((x) => MechSystem.Deserialize(x));
-    // ml._integratedSystems = !loadoutData.integratedSystems
-    //   ? mech.Frame.IntegratedSystems
-    //   : loadoutData.integratedSystems.map((x) => MechSystem.Deserialize(x));
     ml._equippableMounts = loadoutData.mounts.map((x) => EquippableMount.Deserialize(x, ml));
     ml._integratedMounts = !loadoutData.integratedMounts
       ? mech.Frame.IntegratedWeapons.map((x) => new IntegratedMount(x, ml))

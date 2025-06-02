@@ -112,7 +112,7 @@ class PilotLoadout {
     // this.save();
   }
 
-  public static Serialize(pl: PilotLoadout): IPilotLoadoutData {
+  public static Serialize(pl: PilotLoadout, asInstance: boolean = false): IPilotLoadoutData {
     return {
       name: pl.Name,
       armor: pl.Armor.map((x) => PilotEquipment.Serialize(x)) as IEquipmentData[],

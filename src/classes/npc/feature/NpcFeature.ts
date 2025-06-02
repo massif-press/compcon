@@ -5,9 +5,6 @@ import { NpcTemplate } from '../template/NpcTemplate';
 import { CompendiumStore } from '@/stores';
 import { Bonus, IBonusData } from '@/classes/components';
 import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
-import { IInstanceable } from '@/classes/components/instance/IInstanceable';
-import Compendium from '@/assets/icons/svg/compendium.vue';
-import { BrewInfo } from '@/classes/components/brew/BrewController';
 import logger from '@/user/logger';
 
 export enum NpcFeatureType {
@@ -154,7 +151,7 @@ abstract class NpcFeature extends CompendiumItem {
   }
 
   Serialize(): INpcFeatureData {
-    const data = Compendium.CreateInstanceData() as INpcFeatureData;
+    const data = {} as INpcFeatureData;
     data.origin = this._originID;
     data.effect = this._effect;
     data.hide_active = this._hide_active;

@@ -33,6 +33,7 @@ class MechSystem extends MechEquipment {
   public static Serialize(item: MechSystem): IEquipmentData {
     return {
       id: item.ID,
+      data: item.ItemData,
       note: item.Note,
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
@@ -40,7 +41,13 @@ class MechSystem extends MechEquipment {
   }
 
   public static Deserialize(data: IEquipmentData): MechSystem {
-    const item = CompendiumStore().instantiate('MechSystems', data.id) as MechSystem;
+    let item;
+    if (CompendiumStore().has('MechSystems', data.id))
+      item = CompendiumStore().instantiate('MechSystems', data.id) as MechSystem;
+    else {
+      item = new MechSystem(item.data, item.data.pack);
+      item.FromInstance = true;
+    }
     item._note = data.note;
     item._flavor_name = data.flavorName || '';
     item._flavor_description = data.flavorDescription || '';

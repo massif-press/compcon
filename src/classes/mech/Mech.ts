@@ -21,15 +21,17 @@ import {
 } from './components/loadout/MechLoadoutController';
 import { CompendiumItem } from '../CompendiumItem';
 import { ILicenseRequirement } from '../pilot/components/license/LicensedItem';
+import { IFrameData } from '@/interface';
 
 class IMechData implements IMechLoadoutSaveData {
-  img!: IPortraitData;
-  id!: string;
-  name!: string;
-  notes!: string;
-  frame!: string;
-  loadouts!: IMechLoadoutData[];
-  active_loadout_index!: number;
+  img: IPortraitData = {} as IPortraitData;
+  id: string = '';
+  name: string = '';
+  notes: string = '';
+  frame: string = '';
+  frameData: IFrameData = {} as IFrameData;
+  loadouts: IMechLoadoutData[] = [];
+  active_loadout_index: number = 0;
 }
 
 class Mech implements IPortraitContainer, IFeatureController {
@@ -528,6 +530,7 @@ class Mech implements IPortraitContainer, IFeatureController {
       name: m.Name,
       notes: m.Notes,
       frame: m.Frame.ID,
+      frameData: m.Frame.ItemData,
     };
 
     PortraitController.Serialize(m, data);
@@ -549,8 +552,13 @@ class Mech implements IPortraitContainer, IFeatureController {
   }
 
   public static Deserialize(data: IMechData, pilot: Pilot): Mech {
-    const f = CompendiumStore().referenceByID('Frames', data.frame);
-    const m = new Mech(f, pilot);
+    let frame;
+
+    if (CompendiumStore().has('Frames', data.frame))
+      frame = CompendiumStore().referenceByID('Frames', data.frame) as Frame;
+    else frame = new Frame(data.frameData);
+
+    const m = new Mech(frame, pilot);
 
     m._id = data.id;
     try {

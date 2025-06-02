@@ -49,10 +49,6 @@ class CoreBonus extends CompendiumItem {
   public get IsMountable(): boolean {
     return !!this.MountedEffect;
   }
-
-  public static Deserialize(id: string): CoreBonus {
-    return CompendiumStore().referenceByID('CoreBonuses', id);
-  }
 }
 
 export { CoreBonus };

@@ -78,12 +78,20 @@ class WeaponMod extends MechEquipment {
   public static Serialize(item: WeaponMod): IEquipmentData {
     return {
       id: item.ID,
+      data: item.ItemData,
       note: item.Note,
     };
   }
 
   public static Deserialize(data: IEquipmentData): WeaponMod {
-    const item = CompendiumStore().instantiate('WeaponMods', data.id) as WeaponMod;
+    let item;
+    if (CompendiumStore().has('WeaponMods', data.id))
+      item = CompendiumStore().instantiate('WeaponMods', data.id) as WeaponMod;
+    else {
+      item = new WeaponMod(item.data, item.data.pack);
+      item.FromInstance = true;
+    }
+
     item._note = data.note;
     return item;
   }

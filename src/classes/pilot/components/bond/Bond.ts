@@ -28,6 +28,7 @@ interface IBondData {
 
 class Bond {
   public readonly ID: string;
+  public readonly ItemData: IBondData;
   public readonly Name: string;
   public readonly MajorIdeals: string[];
   public readonly MinorIdeals: string[];
@@ -37,9 +38,11 @@ class Bond {
   public readonly InLcp: boolean;
   public readonly ItemType: string = 'Bond';
   public readonly Brew: BrewInfo;
+  public FromInstance: boolean = false;
 
   public constructor(data: IBondData, pack?: ContentPack) {
     this.ID = data.id;
+    this.ItemData = data;
     this.Name = data.name;
     this.MajorIdeals = data.major_ideals;
     this.MinorIdeals = data.minor_ideals;

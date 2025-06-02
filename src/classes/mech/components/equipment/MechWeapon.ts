@@ -383,6 +383,7 @@ class MechWeapon extends MechEquipment {
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {
     return {
       id: item.ID,
+      data: item.ItemData,
       note: item.Note,
       mod: item.Mod ? (WeaponMod.Serialize(item.Mod) as IEquipmentData) : undefined,
       flavorName: item._flavor_name,
@@ -398,7 +399,14 @@ class MechWeapon extends MechEquipment {
   }
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
-    const item = CompendiumStore().instantiate('MechWeapons', data.id) as MechWeapon;
+    let item;
+    if (CompendiumStore().has('MechWeapons', data.id))
+      item = CompendiumStore().instantiate('MechWeapons', data.id) as MechWeapon;
+    else {
+      item = new MechWeapon(item.data, item.data.pack);
+      item.FromInstance = true;
+    }
+
     item._mod = data.mod ? WeaponMod.Deserialize(data.mod) : null;
     item._note = data.note;
     item._flavor_name = data.flavorName || '';

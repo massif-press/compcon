@@ -1,10 +1,11 @@
 <template>
-  <div :class="mobile ? 'px-2' : 'px-6'" class="mt-3">
+  <div :class="noFrame ? '' : mobile ? 'px-2' : 'px-6'" class="mt-3">
     <cc-loadout-panel
       :loadouts="controller.Loadouts"
       :active-loadout="controller.ActiveLoadout"
       color="primary"
       :readonly="readonly"
+      :noFrame="noFrame"
       @set-active="controller.ActiveLoadout = $event"
       @add-loadout="controller.AddLoadout()"
       @clone-loadout="controller.CloneLoadout()"
@@ -56,6 +57,10 @@ export default {
     },
     readonly: {
       type: Boolean,
+    },
+    noFrame: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

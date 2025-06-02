@@ -99,16 +99,24 @@ abstract class PilotEquipment extends CompendiumItem {
     if (!item) return null;
     return {
       id: item.ID,
+      type: item.ItemType,
       note: item.Note,
+      data: item.ItemData,
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || undefined,
-    };
+    } as IEquipmentData;
   }
 
   public static Deserialize(itemData: IEquipmentData): PilotEquipment | null {
     if (!itemData) return null;
-    const item = CompendiumStore().instantiate('PilotGear', itemData.id);
+    let item;
+    if (CompendiumStore().has('PilotGear', itemData.id))
+      item = CompendiumStore().instantiate('PilotGear', itemData.id);
+    else {
+      item = PilotEquipment.Factory(itemData.data) as PilotEquipment;
+      item.FromInstance = true;
+    }
     item._note = itemData.note;
     item._flavor_name = itemData.flavorName;
     item._flavor_description = itemData.flavorDescription;

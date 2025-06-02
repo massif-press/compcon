@@ -1,13 +1,18 @@
 <template>
-  deployable
-  {{ deployable }}
+  npc
+  {{ item }}
 </template>
 
 <script>
+import PanelBase from './_PanelBase.vue';
+
 export default {
   name: 'DeployablePanel',
+  components: {
+    PanelBase,
+  },
   props: {
-    deployable: {
+    item: {
       type: Object,
       required: true,
     },

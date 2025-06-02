@@ -29,6 +29,7 @@ interface ICompendiumItemData {
 abstract class CompendiumItem {
   public readonly InstanceID: string;
   public readonly ItemData: ICompendiumItemData;
+  public FromInstance: boolean = false;
   public ItemType: ItemType;
   public readonly Brew: BrewInfo;
   public readonly LcpName: string = '';
@@ -40,7 +41,6 @@ abstract class CompendiumItem {
   public Synergies: Synergy[];
   public Deployables: Deployable[];
   public Counters: ICounterData[];
-  // public readonly Tags: Tag[]
   public readonly Err: string;
   public IsHidden: boolean = false;
   public IsDeprecated: boolean = false;
@@ -86,6 +86,7 @@ abstract class CompendiumItem {
           Website: lcp.Website || '',
           Status: 'OK',
         };
+        this.ItemData.brew = this.Brew;
       }
       this.InLcp = !!lcp;
       this.LcpName = lcp?.Name || 'Lancer Core Book';
