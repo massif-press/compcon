@@ -34,6 +34,7 @@ class NpcComparison {
   public Speed = 0;
   public Sensors = 0;
   public SaveTarget = 0;
+  public Size = 1;
 
   constructor(npcClass: NpcClass) {
     this.Hull = npcClass.Stats.Average('hull');
@@ -48,6 +49,7 @@ class NpcComparison {
     this.Speed = npcClass.Stats.Average('speed');
     this.Sensors = npcClass.Stats.Average('sensorRange');
     this.SaveTarget = npcClass.Stats.Average('saveTarget');
+    this.Size = npcClass.Stats.Average('size') || 1;
   }
 }
 

@@ -4,7 +4,6 @@ import { Pilot } from '../../Pilot';
 import License from './License';
 import { PilotLicense } from './PilotLicense';
 import { CompendiumItem, ItemType, LicensedItem } from '@/class';
-import { CompendiumStore } from '@/stores';
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 import logger from '@/user/logger';
 
@@ -27,7 +26,8 @@ class LicenseController {
 
   public get LicensedItems(): LicensedItem[] {
     return this._licenses
-      .flatMap((x) => x.License.UnlocksByTotalRank(x.Rank))
+      .filter((x) => x.License)
+      .flatMap((x) => x.License!.UnlocksByTotalRank(x.Rank))
       .concat(this.Parent.SpecialEquipment as LicensedItem[])
       .concat(LicensedItem.AllUnlicensedItems());
   }
@@ -48,7 +48,7 @@ class LicenseController {
 
   public LicenseLevel(manufacturerID: string): number {
     return this.Licenses.filter(
-      (x) => x.License.Source.toLowerCase() === manufacturerID.toLowerCase()
+      (x) => x.License && x.License.Source.toLowerCase() === manufacturerID.toLowerCase()
     ).reduce((a, b) => +a + +b.Rank, 0);
   }
 
@@ -72,12 +72,14 @@ class LicenseController {
   }
 
   public getLicenseRank(_name: string): number {
-    const index = this._licenses.findIndex((x) => x.License.Name === _name);
+    const index = this._licenses.findIndex((x) => x.License && x.License.Name === _name);
     return index > -1 ? this._licenses[index].Rank : 0;
   }
 
   public AddLicense(license: License): void {
-    const index = this._licenses.findIndex((x) => x.License.FrameID === license.FrameID);
+    const index = this._licenses.findIndex(
+      (x) => x.License && x.License.FrameID === license.FrameID
+    );
     if (index === -1) {
       this._licenses.push(new PilotLicense(license, 1));
     } else {
@@ -85,8 +87,10 @@ class LicenseController {
     }
 
     if (!this.Parent.IsLevelEdit) {
-      const index = this._licenses.findIndex((x) => x.License.FrameID === license.FrameID);
-      const source = this._licenses[index].License.Source.toLowerCase();
+      const index = this._licenses.findIndex(
+        (x) => x.License && x.License.FrameID === license.FrameID
+      );
+      const source = this._licenses[index].License!.Source.toLowerCase();
       AchievementEventSystem.emit(`ll_${source}`, 1);
 
       // the following are all per-pilot, so cannot use increments
@@ -108,7 +112,7 @@ class LicenseController {
         // collect total license levels by source, for each source:
         const sourceLevels = this._licenses.reduce(
           (acc, license) => {
-            const source = license.License.Source.toLowerCase();
+            const source = license.License!.Source.toLowerCase();
             if (!acc[source]) {
               acc[source] = 0;
             }
@@ -141,7 +145,9 @@ class LicenseController {
   }
 
   public RemoveLicense(license: License): void {
-    const index = this._licenses.findIndex((x) => x.License.FrameID === license.FrameID);
+    const index = this._licenses.findIndex(
+      (x) => x.License?.FrameID === license.FrameID || x.Stub?.ID === license.FrameID
+    );
     if (index === -1) {
       logger.error(
         `License "${license.ToString()}" does not exist on Pilot ${this.Parent.Callsign}`,
@@ -159,8 +165,8 @@ class LicenseController {
 
   public ClearLicenses(): void {
     for (let i = this._licenses.length - 1; i >= 0; i--) {
-      while (this._licenses[i]) {
-        this.RemoveLicense(this._licenses[i].License);
+      while (this._licenses[i] && this._licenses[i].License) {
+        this.RemoveLicense(this._licenses[i].License as License);
       }
     }
   }

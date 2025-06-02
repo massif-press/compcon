@@ -3,14 +3,12 @@
     <v-card tile variant="outlined" class="text-center">
       <v-card-title
         :class="`${color} text-white caption pa-1`"
-        style="font-weight: bold; max-height: 28px; font-size: 18px !important"
-      >
+        style="font-weight: bold; max-height: 28px; font-size: 18px !important">
         <v-menu
           v-model="menu"
           :value="editable || (selectable && statController.Sizes.length > 1)"
           right
-          offset-y
-        >
+          offset-y>
           <template #activator="{ props }">
             <v-btn icon dark x-small variant="plain" absolute v-bind="props">
               <v-icon icon="mdi-circle-edit-outline" />
@@ -24,8 +22,7 @@
                 class="ma-3"
                 icon
                 color="accent"
-                @click="statController.Size = i"
-              >
+                @click="statController.Size = i">
                 <v-icon v-if="i === 0.5" size="80">cc:size-half</v-icon>
                 <v-icon v-else size="80">cc:size-{{ i }}</v-icon>
               </v-btn>

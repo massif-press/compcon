@@ -1,6 +1,7 @@
+import { CompendiumStore } from '@/stores';
 import { Talent } from '../../../../class';
 import { IRankedData } from '../../../../interface';
-import { TalentRank } from './Talent';
+import { ITalentData, TalentRank } from './Talent';
 
 class PilotTalent {
   public readonly Talent: Talent;
@@ -37,11 +38,20 @@ class PilotTalent {
   }
 
   public static Serialize(item: PilotTalent): IRankedData {
-    return { id: item.Talent.ID, rank: item.Rank };
+    return {
+      id: item.Talent.ID,
+      data: item.Talent.ItemData as ITalentData,
+      rank: item.Rank,
+    };
   }
 
   public static Deserialize(itemData: IRankedData): PilotTalent {
-    return new PilotTalent(Talent.Deserialize(itemData.id), itemData.rank);
+    if (CompendiumStore().has('Talents', itemData.id))
+      return new PilotTalent(Talent.Deserialize(itemData.id), itemData.rank);
+
+    const t = new PilotTalent(new Talent(itemData.data), itemData.rank);
+    t.Talent.FromInstance = true;
+    return t;
   }
 }
 

@@ -1,5 +1,6 @@
+import { CompendiumStore } from '@/stores';
 import { Rules, Skill, CustomSkill } from '../../../../class';
-import { IRankedData } from '../../../../interface';
+import { IRankedData, ISkillData } from '../../../../interface';
 
 class PilotSkill {
   public readonly Skill: Skill | CustomSkill;
@@ -45,7 +46,11 @@ class PilotSkill {
         custom_desc: item.Skill.Description,
         custom_detail: item.Skill.Detail,
       };
-    return { id: item.Skill.ID, rank: item.Rank };
+    return {
+      id: item.Skill.ID,
+      data: (item.Skill as Skill).ItemData as ISkillData,
+      rank: item.Rank,
+    };
   }
 
   public static Deserialize(itemData: IRankedData): PilotSkill {
@@ -54,7 +59,13 @@ class PilotSkill {
         new CustomSkill(itemData.id, itemData.custom_desc || '', itemData.custom_detail || ''),
         itemData.rank
       );
-    return new PilotSkill(Skill.Deserialize(itemData.id), itemData.rank);
+    if (CompendiumStore().has('Skills', itemData.id))
+      return new PilotSkill(Skill.Deserialize(itemData.id), itemData.rank);
+    else
+      return new PilotSkill(
+        Skill.Deserialize(itemData.id, itemData.data as ISkillData),
+        itemData.rank
+      );
   }
 }
 

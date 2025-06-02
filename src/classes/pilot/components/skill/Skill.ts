@@ -13,6 +13,7 @@ class Skill extends CompendiumItem {
 
   public constructor(data: ISkillData, pack?: ContentPack) {
     super(data, pack);
+
     this.Detail = data.detail;
     this.Family = SkillFamily[data.family] as SkillFamily;
     this.ItemType = ItemType.Skill;
@@ -26,7 +27,12 @@ class Skill extends CompendiumItem {
     return 'skill';
   }
 
-  public static Deserialize(id: string): Skill {
+  public static Deserialize(id: string, data?: ISkillData): Skill {
+    if (data) {
+      const s = new Skill(data);
+      s.FromInstance = true;
+      return s;
+    }
     return CompendiumStore().referenceByID('Skills', id);
   }
 }

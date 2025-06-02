@@ -4,15 +4,18 @@ import { Stats } from './Stats';
 
 interface IStatData {
   max: any;
+  current: any;
 }
 
 class StatController {
   public Parent: IStatContainer;
 
   private _maxStats = {};
+  private _currentStats = {};
 
   public constructor(parent: IStatContainer) {
     this._maxStats = {};
+    this._currentStats = {};
 
     for (const key in this._maxStats) {
       if (parent.MandatoryStats.includes(key)) {
@@ -40,13 +43,26 @@ class StatController {
   }
 
   public get TrackableStats(): { key: string; title: string; type: string }[] {
-    const trackable = ['hp', 'stress', 'heat', 'structure', 'repairCapacity'];
+    const trackable = [
+      'hp',
+      'stress',
+      'heat',
+      'structure',
+      'repairCapacity',
+      'overcharge',
+      'overshield',
+      'speed',
+    ];
     return this.DisplayKeys.filter((x) => trackable.includes(x.key));
   }
 
   public get NonTrackableStats(): { key: string; title: string; type: string }[] {
     const trackable = ['hp', 'stress', 'heat', 'structure', 'repairCapacity'];
     return this.DisplayKeys.filter((x) => !trackable.includes(x.key));
+  }
+
+  public GetStatCollection(keys: string[]): { key: string; title: string; type: string }[] {
+    return this.DisplayKeys.filter((x) => keys.includes(x.key));
   }
 
   public static get CoreStats(): { key: string; title: string; type: string }[] {
@@ -106,6 +122,14 @@ class StatController {
     this._maxStats = val;
   }
 
+  public get CurrentStats(): any {
+    return this._currentStats;
+  }
+
+  public set CurrentStats(val: any) {
+    this._currentStats = val;
+  }
+
   public getStatArray(stat: string): number {
     return this[Stats.cleanKey(stat)];
   }
@@ -124,6 +148,10 @@ class StatController {
     this.Parent.SaveController.save();
   }
 
+  public resetCurrentStats() {
+    this._currentStats = { ...this._maxStats };
+  }
+
   public get SizeIcon(): string {
     if (!this.getStat('size')) return 'cc:size-1';
     return `cc:size-${this.getStat('size') === 0.5 ? 'half' : this.getStat('size')}`;
@@ -132,6 +160,7 @@ class StatController {
   public static Serialize(parent: IStatContainer, target: any) {
     if (!target.stats) target.stats = {};
     target.stats.max = parent.StatController._maxStats;
+    target.stats.current = parent.StatController._currentStats;
   }
 
   public static Deserialize(parent: IStatContainer, data: IStatData) {
@@ -141,6 +170,7 @@ class StatController {
       );
 
     parent.StatController._maxStats = data.max || {};
+    parent.StatController._currentStats = data.current || {};
   }
 }
 

@@ -46,12 +46,15 @@ class License {
 
     if (this.Prerequisite.cumulative) {
       const rankTotal = pilot.LicenseController.Licenses.filter(
-        (x) => x.License.Source === this.Prerequisite?.source && x.Rank
+        (x) => x.License && x.License.Source === this.Prerequisite?.source && x.Rank
       ).reduce((a, b) => +a + +b.Rank, 0);
       return rankTotal >= this.Prerequisite.min_rank;
     }
     return pilot.LicenseController.Licenses.some(
-      (x) => x.License.Source === this.Prerequisite?.source && x.Rank >= this.Prerequisite.min_rank
+      (x) =>
+        x.License &&
+        x.License.Source === this.Prerequisite?.source &&
+        x.Rank >= this.Prerequisite.min_rank
     );
   }
 

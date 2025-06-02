@@ -90,8 +90,12 @@
             <span v-if="item.WeaponTypes" v-text="item.WeaponTypes.join('/')" />
           </div>
 
-          <div v-else-if="h.key === 'Tags'">
-            <cc-tags :tags="item.Tags" density="compact" size="small" />
+          <div v-else-if="h.key === 'sizes'">
+            {{ formatSize((item as NpcClass).Stats.Stat(h.key, h.tier)) }}
+          </div>
+
+          <div v-else-if="h.tier" class="text-center">
+            {{ (item as NpcClass).Stats.Stat(h.key, h.tier) }}
           </div>
 
           <div v-else-if="h.key === 'T1'">
@@ -154,6 +158,14 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
+    },
+  },
+  methods: {
+    formatSize(size: number | Array<number>): string {
+      if (!Array.isArray(size)) {
+        size = [size];
+      }
+      return size.map((s) => (s === 0.5 ? '½' : s)).join(' or ');
     },
   },
 };

@@ -7,6 +7,10 @@ import {
   PilotLoadout,
   MechEquipment,
   PilotEquipment,
+  Frame,
+  MechSystem,
+  MechWeapon,
+  WeaponMod,
 } from '../../class';
 import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface';
 import { Bonus } from '../components/feature/bonus/Bonus';
@@ -48,14 +52,15 @@ import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewCont
 import { IBrewable } from '../components/brew/IBrewable';
 import { BondController, IPilotBondData } from './components/bond/BondController';
 import logger from '@/user/logger';
+import { IInstanceableData } from '../components/instance/IInstancableData';
+import { IInstanceable } from '../components/instance/IInstanceable';
 
 interface IUnlockData {
-  PilotGear: string[];
-  Frames: string[];
-  MechWeapons: string[];
-  WeaponMods: string[];
-  MechSystems: string[];
-  SystemMods: string[];
+  PilotGear: any[];
+  Frames: any[];
+  MechWeapons: any[];
+  WeaponMods: any[];
+  MechSystems: any[];
 }
 
 class PilotData
@@ -65,41 +70,47 @@ class PilotData
     IMechSkillsData,
     ICoreBonusSaveData,
     ILicenseSaveData,
-    IBrewData
+    IBrewData,
+    IInstanceableData
 {
   itemType: string = 'pilot';
-  id!: string;
+  id: string = '';
   le: boolean = false;
 
-  save!: ISaveData;
-  cloud!: ICloudData;
-  brews!: BrewInfo[];
-  img!: IPortraitData;
-  sortIndex!: number;
+  save: ISaveData = {} as ISaveData;
+  cloud: ICloudData = {} as ICloudData;
+  brews: BrewInfo[] = [] as BrewInfo[];
+  img: IPortraitData = {} as IPortraitData;
+  sortIndex: number = 0;
+
+  // instance fields
+  is_instance: boolean = false;
+  instanceId: string = '';
+  originId: string = '';
 
   // pilot
-  level!: number;
-  callsign!: string;
-  name!: string;
-  player_name!: string;
-  status!: string;
-  text_appearance!: string;
-  notes!: string;
-  history!: string;
-  quirks!: string[];
-  background!: string;
-  mechSkills!: number[];
-  orgs!: IOrganizationData[];
+  level: number = 0;
+  callsign: string = '';
+  name: string = '';
+  player_name: string = '';
+  status: string = '';
+  text_appearance: string = '';
+  notes: string = '';
+  history: string = '';
+  quirks: string[] = [];
+  background: string = '';
+  mechSkills: number[] = [];
+  orgs: IOrganizationData[] = [];
 
-  special_equipment!: IUnlockData;
-  mechs!: IMechData[];
-  loadout!: IPilotLoadoutData;
-  bond!: IPilotBondData;
-  skills!: IRankedData[];
-  talents!: IRankedData[];
-  core_bonuses!: string[];
-  licenses!: IRankedData[];
-  reserves!: IReserveData[];
+  special_equipment: IUnlockData = {} as IUnlockData;
+  mechs: IMechData[] = [];
+  loadout: IPilotLoadoutData = {} as IPilotLoadoutData;
+  bond: IPilotBondData = {} as IPilotBondData;
+  skills: IRankedData[] = [];
+  talents: IRankedData[] = [];
+  core_bonuses: string[] = [];
+  licenses: IRankedData[] = [];
+  reserves: IReserveData[] = [];
 }
 
 class Pilot
@@ -109,11 +120,16 @@ class Pilot
     IHASEContainer,
     IPortraitContainer,
     IFeatureController,
-    IBrewable
+    IBrewable,
+    IInstanceable
 {
   public readonly ItemType: string = 'Pilot';
   public readonly DataType: string = 'savedata';
   public readonly StorageType: string = 'pilots';
+
+  public IsInstance: boolean = false;
+  public InstanceID: string = '';
+  public OriginId: string = '';
 
   public SortIndex: number;
 
@@ -253,10 +269,17 @@ class Pilot
     } else if (typeName.toLowerCase() === 'corebonus') {
       return this.CoreBonusController.CoreBonuses.findIndex((x) => x.ID === id) > -1;
     } else if (typeName.toLowerCase() === 'license') {
-      let index = this.LicenseController.Licenses.findIndex((x) => x.License.FrameID === id);
-      if (index < 0) index = this.LicenseController.Licenses.findIndex((x) => x.License.ID === id);
+      let index = this.LicenseController.Licenses.findIndex(
+        (x) => x.License?.FrameID === id || x.Stub?.ID === id
+      );
       if (index < 0)
-        index = this.LicenseController.Licenses.findIndex((x) => x.License.Name === id);
+        index = this.LicenseController.Licenses.findIndex(
+          (x) => x.License?.ID === id || x.Stub?.ID === id
+        );
+      if (index < 0)
+        index = this.LicenseController.Licenses.findIndex(
+          (x) => x.License?.Name === id || x.Stub?.FrameName === id
+        );
       if (index < 0) return false;
       return rank
         ? index > -1 && Number(this.LicenseController.Licenses[index].Rank) >= rank
@@ -372,7 +395,7 @@ class Pilot
   }
 
   public get Status(): string {
-    if (this.BrewController.IsUnableToLoad) return 'ERR';
+    // if (this.BrewController.IsUnableToLoad) return 'ERR';
     return this._status;
   }
 
@@ -511,6 +534,33 @@ class Pilot
     this.SaveController.save();
   }
 
+  // -- Instance -----------------------------------------------------------------------------------
+  public CreateInstance<PilotData>(): PilotData {
+    const data = this.Serialize(true) as any;
+    this.SetInstanceProxies<PilotData>(data);
+    (data as any).instanceId = uuid();
+    data.originId = this.ID;
+    data.id = data.instanceId;
+    data.is_instance = true;
+
+    return data as PilotData;
+  }
+
+  SetInstanceProxies<PilotData>(data: PilotData) {
+    // mech proxy
+  }
+
+  public get IsLinked(): boolean {
+    return (
+      this.GetLinkedItem<Pilot>() !== undefined &&
+      !this.GetLinkedItem<Pilot>().BrewController.HasError
+    );
+  }
+
+  public GetLinkedItem<Npc>(): Npc {
+    return PilotStore().getPilotByID(this.OriginId);
+  }
+
   // -- I/O ---------------------------------------------------------------------------------------
   private static serializeSE(equipment: CompendiumItem[]): IUnlockData {
     return {
@@ -521,12 +571,15 @@ class Pilot
             x.ItemType === ItemType.PilotWeapon ||
             x.ItemType === ItemType.PilotArmor
         )
-        .map((i) => i.ID),
-      Frames: equipment.filter((x) => x.ItemType === ItemType.Frame).map((i) => i.ID),
-      MechWeapons: equipment.filter((x) => x.ItemType === ItemType.MechWeapon).map((i) => i.ID),
-      WeaponMods: equipment.filter((x) => x.ItemType === ItemType.WeaponMod).map((i) => i.ID),
-      MechSystems: equipment.filter((x) => x.ItemType === ItemType.MechSystem).map((i) => i.ID),
-      SystemMods: equipment.filter((x) => x.ItemType === ItemType.SystemMod).map((i) => i.ID),
+        .map((i) => i.ItemData),
+      Frames: equipment.filter((x) => x.ItemType === ItemType.Frame).map((i) => i.ItemData),
+      MechWeapons: equipment
+        .filter((x) => x.ItemType === ItemType.MechWeapon)
+        .map((i) => i.ItemData),
+      WeaponMods: equipment.filter((x) => x.ItemType === ItemType.WeaponMod).map((i) => i.ItemData),
+      MechSystems: equipment
+        .filter((x) => x.ItemType === ItemType.MechSystem)
+        .map((i) => i.ItemData),
     };
   }
 
@@ -534,15 +587,33 @@ class Pilot
     if (!equipment) return [];
     const items = [] as CompendiumItem[];
     Object.keys(equipment).forEach((key) => {
-      equipment[key].forEach((id) => items.push(CompendiumStore().referenceByID(key, id)));
+      equipment[key].forEach((item) => {
+        if (CompendiumStore().has(key, item.id))
+          items.push(CompendiumStore().referenceByID(key, item.id));
+        else {
+          if (key === 'PilotGear') items.push(PilotEquipment.Factory(item));
+          if (key === 'Frames') items.push(new Frame(item));
+          if (key === 'MechWeapons') items.push(new MechWeapon(item));
+          if (key === 'WeaponMods') items.push(new WeaponMod(item));
+          if (key === 'MechSystems') items.push(new MechSystem(item));
+          items[items.length - 1].FromInstance = true;
+        }
+      });
     });
     return items;
   }
 
-  public static Serialize(p: Pilot): PilotData {
+  // serializing as an instance should create a new object with a reference ID to the original
+  public static Serialize(p: Pilot, asInstance: boolean = false): PilotData {
+    let instanceID;
+    if (asInstance) instanceID = uuid();
+
     const data = {
       itemType: 'pilot',
-      id: p.ID,
+      id: instanceID || p.ID,
+      is_instance: p.IsInstance || !!asInstance,
+      instanceId: instanceID || p.InstanceID,
+      originId: p.OriginId || p.ID,
       le: p.IsLevelEdit,
       level: p.Level,
       callsign: p.Callsign,
@@ -572,11 +643,13 @@ class Pilot
     PilotLoadoutController.Serialize(p, data);
     BrewController.Serialize(p, data);
 
+    delete (data as any).instance;
+
     return data as PilotData;
   }
 
-  public Serialize(): PilotData {
-    return Pilot.Serialize(this);
+  public Serialize(asInstance: boolean = false): PilotData {
+    return Pilot.Serialize(this, asInstance);
   }
 
   public static AddNew(data: PilotData): Pilot {

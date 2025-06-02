@@ -5,8 +5,7 @@
       no-gutters
       class="lighten-select"
       :class="mobile ? 'mb-2' : 'mb-4'"
-      @click="!missingContent ? toPilotSheet() : null"
-      :style="missingContent ? 'cursor: not-allowed' : ''">
+      @click="toPilotSheet()">
       <v-col cols="auto" style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double">
         <v-card>
           <cc-avatar
@@ -23,10 +22,7 @@
         </v-card>
       </v-col>
       <v-col style="position: relative">
-        <v-toolbar
-          density="compact"
-          :class="missingContent ? 'cToolbar-missing' : 'cToolbar'"
-          :height="mobile ? '40' : '46'">
+        <v-toolbar density="compact" class="cToolbar" :height="mobile ? '40' : '46'">
           <v-row no-gutters align="center" class="px-2">
             <v-menu location="left">
               <template v-slot:activator="{ props }">
@@ -62,7 +58,7 @@
             </v-menu>
             <v-col class="heading text-white">
               <cc-remote-hover :item="pilot" />
-              <cc-missing-content-hover :item="pilot" simple />
+              <!-- <cc-missing-content-hover :item="pilot" simple /> -->
 
               {{ pilot.Callsign }}
             </v-col>
@@ -122,8 +118,7 @@
                 </span>
               </div>
               <v-divider class="my-1" />
-              <cc-missing-content-list v-if="missingContent" :controller="pilot.BrewController" />
-              <div v-else style="font-size: 14px">
+              <div style="font-size: 14px">
                 <div>
                   <v-icon icon="cc:skill" start />
                   <span

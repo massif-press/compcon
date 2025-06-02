@@ -34,7 +34,7 @@ import { IPilotLoadoutData } from './classes/pilot/components/Loadout/PilotLoado
 import { IStatusData } from './classes/Status';
 import { IActionData } from './classes/Action';
 import { IBackgroundData } from './classes/Background';
-import { IReserveData } from './classes/pilot/components';
+import { ILicenseSaveData, IReserveData } from './classes/pilot/components';
 import { ISitrepData } from './classes/encounter/Sitrep';
 
 interface IImageContainer {
@@ -70,6 +70,8 @@ interface IRankedData {
   custom?: boolean;
   custom_desc?: string;
   custom_detail?: string;
+  data?: ISkillData | ITalentData | ILicenseSaveData;
+  stub?: any; // LicenseStub or similar
 }
 
 interface IEquipmentData {
@@ -78,6 +80,7 @@ interface IEquipmentData {
   flavorName?: string;
   flavorDescription?: string;
   customDamageType?: string;
+  data?: any;
 }
 
 interface IOrganizationData {

@@ -1,6 +1,7 @@
 <template>
   <v-card
     class="parent cc-panel-clip"
+    :class="small ? 'small' : ''"
     :color="color"
     flat
     tile
@@ -74,6 +75,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    small: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['click'],
   computed: {
@@ -117,6 +122,10 @@ export default {
 <style scoped>
 .cc-panel-clip {
   clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0% 100%);
+}
+
+.cc-panel-clip.small {
+  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%);
 }
 
 .clip-fix {

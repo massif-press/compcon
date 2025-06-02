@@ -1,5 +1,5 @@
 interface IInstanceableData {
-  instance: boolean;
+  is_instance: boolean;
   instanceId: string | undefined;
 }
 

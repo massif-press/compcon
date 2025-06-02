@@ -1,46 +1,57 @@
-import { IRankedData } from '../../../../interface'
-import License from './License'
+import { IRankedData } from '../../../../interface';
+import License from './License';
+import { LicenseStub } from './LicenseStub';
 
 class PilotLicense {
-  public readonly License: License
-  private rank: number
+  public readonly License?: License;
+  public readonly Stub?: LicenseStub;
+  private rank: number;
 
-  public constructor(license: License, rank: number) {
-    this.License = license
-    this.rank = rank
+  public constructor(license?: License, rank?: number, stub?: LicenseStub) {
+    if (license) {
+      this.License = license;
+      this.Stub = new LicenseStub(license);
+    } else if (stub) this.Stub = stub;
+    this.rank = rank || 1;
   }
 
   public get Rank(): number {
-    return this.rank
+    return this.rank;
   }
 
   public ToString(): string {
-    return `${this.License.Source} ${this.License.Name}, Rank ${this.rank}`
+    if (this.License) return `${this.License.Source} ${this.License.Name}, Rank ${this.rank}`;
+    else if (this.Stub) return `${this.Stub.Source} ${this.Stub.Name}, Rank ${this.rank}`;
+    return `Custom License, Rank ${this.rank}`;
   }
 
   public Increment(): boolean {
-    if (this.rank < this.License.MaxRank) {
-      this.rank += 1
-      return true
+    if (this.License && this.rank < this.License.MaxRank) {
+      this.rank += 1;
+      return true;
     }
-    return false
+    return false;
   }
 
   public Decrement(): boolean {
     if (this.rank > 1) {
-      this.rank -= 1
-      return true
+      this.rank -= 1;
+      return true;
     }
-    return false
+    return false;
   }
 
   public static Serialize(item: PilotLicense): IRankedData {
-    return { id: item.License.FrameID, rank: item.Rank }
+    return {
+      id: item.License?.FrameID || item.Stub?.ID || '',
+      rank: item.Rank,
+      stub: item.Stub ? LicenseStub.Serialize(item.Stub) : undefined,
+    };
   }
 
   public static Deserialize(itemData: IRankedData): PilotLicense {
-    return new PilotLicense(License.Deserialize(itemData.id), itemData.rank)
+    return new PilotLicense(License.Deserialize(itemData.id), itemData.rank);
   }
 }
 
-export { PilotLicense }
+export { PilotLicense };

@@ -21,7 +21,7 @@
             <slot name="builder" />
             <div v-if="!readonly || (readonly && item.Description?.length > 0)">
               <div class="text-cc-overline">{{ typeText }} DESCRIPTION</div>
-              <cc-rich-text-area :readonly="readonly" v-model="item.Description" />
+              <cc-rich-text-area :key="item.ID" :readonly="readonly" v-model="item.Description" />
             </div>
             <slot name="stats" />
           </v-col>

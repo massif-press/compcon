@@ -38,6 +38,7 @@ interface IEncounterData {
 }
 
 type CombatantData = {
+  id: string;
   index: number;
   type: 'unit' | 'doodad' | 'eidolon';
   npc: Unit | Doodad | Eidolon;
@@ -48,6 +49,7 @@ type CombatantData = {
 };
 
 type CombatantSaveData = {
+  id?: string;
   index: number;
   type: 'unit' | 'doodad' | 'eidolon';
   npc: UnitData | DoodadData | EidolonData;
@@ -119,6 +121,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
         }
 
         return {
+          id: c.id || uuid(),
           index: c.index,
           type: c.type,
           npc,
@@ -267,6 +270,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     }
 
     this.Combatants.push({
+      id: c.ID,
       index: this.Combatants.length,
       type,
       npc: c,

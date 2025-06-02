@@ -1,4 +1,4 @@
-import { PilotEquipment, ItemType } from '@/class';
+import { PilotEquipment, ItemType, ContentPack } from '@/class';
 import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
 
 class PilotGear extends PilotEquipment {
@@ -9,6 +9,10 @@ class PilotGear extends PilotEquipment {
 
   public get Icon(): string {
     return 'cc:pilot';
+  }
+
+  public get Color(): string {
+    return 'pilot';
   }
 }
 

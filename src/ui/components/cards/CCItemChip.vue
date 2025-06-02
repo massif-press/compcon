@@ -12,6 +12,7 @@
         v-bind="props">
         {{ truncate(item.Name) }}
         <span v-if="!hideType">{{ item.ItemType === 'Frame' ? '&nbsp;FRAME' : '' }}</span>
+        <cc-broken-reference :item="item" end />
       </cc-button>
     </template>
 

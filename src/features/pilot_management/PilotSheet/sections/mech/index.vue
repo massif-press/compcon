@@ -113,7 +113,7 @@
         class="mt-6 mb-1" />
       <frame-core-system-panel :cs="mech.Frame.CoreSystem" />
 
-      <core-block :mech="mech" :color="color" />
+      <!-- <core-block :mech="mech" :color="color" /> -->
 
       <loadout-block :mech="mech" />
     </v-container>

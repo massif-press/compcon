@@ -165,11 +165,15 @@ class CloudController {
 
   public async UpdateCloud(scope = 'item') {
     const savedata = this.Parent.Serialize(this.Parent);
+    console.log(savedata);
     // called after we're sure cloud needs to be updated
     this.Metadata.ItemModified = this.Parent.SaveController.LastModified;
     this.Metadata.Name = this.Parent.Name;
-    this.Metadata.Size = JSON.stringify(savedata).length;
+    // this.Metadata.Size = JSON.stringify(savedata).length;
+    this.Metadata.Size = 1;
+
     const res = await updateItem(this.Metadata.Serialize(), scope);
+    console.log('UpdateCloud response:', res);
     if (res.error) return res.error;
     if (res.data) {
       this.Metadata = res.data;
@@ -251,6 +255,7 @@ class CloudController {
   }
 
   public static async SyncToNewest(item: any) {
+    console.log(item.CloudController);
     if (item.IsCloudOnly || item.CloudController.SyncStatus === 'CloudNewer')
       await CloudController.SyncToCloud(item);
     else await CloudController.SyncToLocal(item);
@@ -366,7 +371,8 @@ class CloudController {
       logger.error(`CloudController: Unable to sync ${item.ItemType} ${item.Name}.`, this);
       return;
     }
-    const res = await item.CloudController.UpdateCloud();
+
+    await item.CloudController.UpdateCloud();
   }
 
   public static ImageMetadata(filename: string, fileExt: string, size: number): any {

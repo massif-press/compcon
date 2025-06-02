@@ -121,6 +121,7 @@ export const PilotStore = defineStore('pilot', {
       });
     },
     async AddPilot(pilot: Pilot, groupID?: string): Promise<void> {
+      console.log(pilot);
       if (this.Pilots.some((x) => x.ID === pilot.ID)) {
         logger.info(`Pilot ${pilot.Callsign} already exists`, this);
         // also saves

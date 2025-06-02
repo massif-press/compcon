@@ -27,7 +27,7 @@
         </div>
         <p v-html="s.description" class="flavor-text px-2 mb-3" />
         <v-row no-gutters justify="center" align="start">
-          <v-col cols="auto">
+          <v-col style="max-width: 500px">
             <cc-tickbar
               :icon="!mobile && s.icon"
               :size="mobile ? 'small' : 'default'"

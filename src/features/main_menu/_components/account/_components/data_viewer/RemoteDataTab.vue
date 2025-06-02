@@ -164,6 +164,7 @@
 import { UserStore } from '@/stores';
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController';
 import ShareCodeDialog from './shareCodeDialog.vue';
+import logger from '@/user/logger';
 
 export default {
   name: 'cloud-item-remote-tab',
@@ -293,6 +294,7 @@ export default {
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         });
       } catch (err) {
+        logger.error(`Error syncing item: ${err}`, this);
         this.$notify({
           title: `Sync Failed`,
           text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,

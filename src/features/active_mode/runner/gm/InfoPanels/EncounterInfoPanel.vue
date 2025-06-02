@@ -1,9 +1,12 @@
 <template>
   <v-card>
-    <v-card-title class="heading h2">Example Encounter</v-card-title>
-    <v-card-subtitle class="text-cc-overline">Spire World Extraction</v-card-subtitle>
+    <v-card-title class="heading h2">{{ encounter.Name }}</v-card-title>
+    <v-card-subtitle class="text-cc-overline">
+      <span v-if="encounter.Environment.Name !== 'Default'" v-text="encounter.Environment.Name" />
+      <span v-text="encounter.Sitrep.Name" />
+    </v-card-subtitle>
     <v-card-text class="pb-0">
-      <p>This is a placeholder for the encounter details block, created in the encounter editor.</p>
+      <p v-html="encounter.Description" />
     </v-card-text>
     <v-card-text class="pb-0">
       <div class="text-cc-overline text-disabled">Detail</div>
@@ -63,5 +66,11 @@
 <script>
 export default {
   name: 'EncounterInfo',
+  props: {
+    encounter: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>

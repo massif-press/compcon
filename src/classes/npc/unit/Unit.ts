@@ -16,11 +16,9 @@ import { CompendiumItemInstanceData } from '@/classes/CompendiumItemInstance';
 
 class UnitData
   extends NpcData
-  implements INpcClassSaveData, INpcFeatureSaveData, INpcTemplateSaveData, IInstanceableData
+  implements INpcClassSaveData, INpcFeatureSaveData, INpcTemplateSaveData
 {
   npcType: 'unit' = 'unit';
-  instance: boolean = false;
-  instanceId: string | undefined;
 
   stats!: IStatData;
   class!: string | { Name: string; ID: string; Role: string };
@@ -35,7 +33,8 @@ class UnitData
 
 class Unit extends Npc implements IStatContainer, IInstanceable {
   public IsInstance: boolean;
-  public InstanceID?: string;
+  public InstanceID: string;
+  public OriginId: string;
 
   public ItemType: string = 'Unit';
   private _tag: string = 'Mech';
@@ -63,6 +62,8 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     'edef',
     'sensorRange',
     'saveTarget',
+    'overshield',
+    'overcharge',
   ];
 
   public constructor(data?: UnitData) {
@@ -71,7 +72,8 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     this._tag = data?.tag || 'Mech';
 
     this.IsInstance = data?.instance || false;
-    this.InstanceID = data?.instanceId;
+    this.InstanceID = data?.instanceId || '';
+    this.OriginId = data?.originId || '';
 
     this.NpcClassController = new NpcClassController(this);
     this.NpcFeatureController = new NpcFeatureController(this);
@@ -118,11 +120,14 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
   }
 
   public CreateInstance<UnitData>(): UnitData {
-    const data = this.Serialize(true) as UnitData;
+    const data = this.Serialize(true) as any;
     this.SetInstanceProxies<UnitData>(data);
     (data as any).instanceId = uuid();
+    data.originId = this.ID;
+    data.id = data.instanceId;
+    data.instance = true;
 
-    return data;
+    return data as UnitData;
   }
 
   SetInstanceProxies<T>(unitData: T) {
@@ -144,7 +149,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
   }
 
   public GetLinkedItem<Npc>(): Npc {
-    return NpcStore().getNpcByID(this.ID);
+    return NpcStore().getNpcByID(this.OriginId);
   }
 
   public static Serialize(unit: Unit, asInstance: boolean): UnitData {
@@ -153,6 +158,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
       id: unit.ID,
       instance: unit.IsInstance || asInstance,
       instanceId: unit.InstanceID,
+      originId: unit.OriginId,
       name: unit._name,
       tag: unit.Tag,
       note: unit.Note,
@@ -226,6 +232,11 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
 
   public get TierIcon(): string {
     return `cc:npc_tier_${this.NpcClassController.Tier || 1}`;
+  }
+
+  public get SizeIcon(): string {
+    if (!this.StatController.getStat('size')) return 'cc:size_1';
+    return `cc:size_${this.StatController.getStat('size') === 0.5 ? 'half' : this.StatController.getStat('size')}`;
   }
 }
 

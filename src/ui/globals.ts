@@ -107,6 +107,7 @@ import CCMissingContentHover from './components/CCMissingContentHover.vue';
 import CCRemoteHover from './components/CCRemoteHover.vue';
 import CCMissingGmLcpText from './components/CCMissingGmLcpText.vue';
 import CCShareCodeImporter from './components/CCShareCodeImporter.vue';
+import CCBrokenReference from './components/CCBrokenReference.vue';
 
 export {
   CCButton,
@@ -214,4 +215,5 @@ export {
   CCRemoteHover,
   CCMissingGmLcpText,
   CCShareCodeImporter,
+  CCBrokenReference,
 };

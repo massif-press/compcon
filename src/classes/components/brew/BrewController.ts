@@ -35,6 +35,8 @@ class BrewController {
       if (!out.some((x) => x.LcpId === pack.LcpId)) out.push(pack);
     });
 
+    out = out.filter((brew) => !!brew.LcpId && brew.LcpName !== 'Lancer Core Book');
+
     out.forEach((brew) => {
       const p = CompendiumStore().ContentPacks.find((x) => x.ID === brew.LcpId);
       if (!p) {

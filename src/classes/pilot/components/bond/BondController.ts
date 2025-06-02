@@ -1,9 +1,11 @@
 import { IClockData, Clock } from '@/classes/narrative/elements/Clock';
 import { Pilot } from '../../Pilot';
-import { BondPower, Bond } from './Bond';
+import { BondPower, Bond, IBondData } from './Bond';
+import { CompendiumStore } from '@/stores';
 
 interface IPilotBondData {
   bondId?: string;
+  data?: IBondData;
   xp: number;
   stress: number;
   maxStress: number;
@@ -237,7 +239,12 @@ class BondController {
 
   public static Serialize(parent: Pilot, target: any) {
     if (!target.bond) target.bond = {};
-    target.bond.bondId = parent.BondController.Bond ? parent.BondController.Bond.ID : '';
+
+    if (parent.BondController.Bond) {
+      target.bond.bondId = parent.BondController.Bond.ID;
+      target.bond.data = parent.BondController.Bond.ItemData;
+    }
+
     target.bond.xp = parent.BondController._xp;
     target.bond.stress = parent.BondController._stress;
     target.bond.isBroken = parent.BondController._isBroken;
@@ -259,7 +266,15 @@ class BondController {
 
     if (!data) return;
 
-    parent.BondController._bond = data.bondId ? Bond.Deserialize(data.bondId) : null;
+    parent.BondController._bond = null;
+    if (data.bondId) {
+      if (CompendiumStore().has('Bonds', data.bondId))
+        parent.BondController._bond = Bond.Deserialize(data.bondId);
+      else if (data.data) {
+        parent.BondController._bond = new Bond(data.data);
+        parent.BondController._bond.FromInstance = true;
+      }
+    }
     parent.BondController._xp = data.xp || 0;
     parent.BondController._stress = data.stress || 0;
     parent.BondController._maxStress = data.maxStress || 8;
