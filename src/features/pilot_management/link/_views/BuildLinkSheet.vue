@@ -12,7 +12,7 @@
         </span>
       </div>
     </v-col>
-    <v-col cols="auto" class="py-1 mt-2">
+    <v-col cols="auto" class="py-1 mt-2 ml-auto text-center">
       <div class="text-cc-overline text-accent">License Level</div>
       <div class="heading h2 mt-n1">
         {{ pilot.Level }}

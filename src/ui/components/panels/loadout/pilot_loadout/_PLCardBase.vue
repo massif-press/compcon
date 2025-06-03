@@ -54,7 +54,7 @@
           </v-col>
           <v-spacer />
           <v-col cols="auto">
-            <cc-broken-reference :item="item" />
+            <cc-broken-reference v-if="item" :item="item" />
           </v-col>
           <v-col cols="auto">
             <div v-if="!readonly" class="text-right">
