@@ -669,8 +669,10 @@ export default {
       try {
         const { user_id, sortkey, uri } = item.CloudController.Metadata.Serialize();
         await cloudDelete(user_id, sortkey, uri);
-        if (item.SaveController)
+        if (item.SaveController) {
           item.CloudController.Metadata = CloudController.GenerateMetadata(item.CloudController);
+          delete item.CloudController.Metadata.ItemModified;
+        }
         this.$emit('refresh');
         this.$notify({
           title: `Item Deleted Permanently`,

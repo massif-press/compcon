@@ -96,7 +96,7 @@ class DbItemMetadata {
 
   public Serialize(): dbItemMeta {
     return {
-      user_id: this.UserId,
+      user_id: this.UserId || UserStore().Cognito.userId,
       sortkey: this.SortKey,
       name: this.Name,
       author: this.Author,
@@ -149,18 +149,18 @@ class CloudController {
   }
 
   public GenerateMetadata(): void {
-    this._metadata = CloudController.GenerateMetadata(this);
+    this._metadata = new DbItemMetadata(CloudController.GenerateMetadata(this));
   }
 
   public static GenerateMetadata(controller: CloudController) {
-    return new DbItemMetadata({
+    return {
       user_id: UserStore().Cognito.userId,
       author: UserStore().UserMetadata.Username,
       sortkey: controller.GenerateSortKey(),
       name: controller.Parent.Name,
       uri: `${UserStore().Cognito.userId}/${controller.GenerateSortKey()}.json`,
       item_modified: controller.Parent.SaveController.LastModified,
-    });
+    };
   }
 
   public async UpdateCloud(scope = 'item') {

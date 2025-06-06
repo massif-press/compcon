@@ -8,6 +8,7 @@
     <template #title>
       <span class="text-button">
         <slot v-if="compare && !selected" name="checkbox" />
+        <v-icon v-else-if="item.IsExotic" start class="ml-3" icon="mdi-star" color="exotic" />
         <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
         {{ (item as CompendiumItem).Name }}
       </span>

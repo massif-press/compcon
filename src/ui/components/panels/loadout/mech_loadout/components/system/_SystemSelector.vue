@@ -97,6 +97,7 @@ export default {
       initialView: 'single',
       groups: ['source', 'lcp', 'license'],
       initialGroup: 'license',
+      showExotics: true,
     },
     headers: [
       { title: 'Manufacturer', align: 'left', key: 'Source' },
@@ -153,6 +154,8 @@ export default {
               x.ID
             )
         );
+
+      console.log(i);
 
       return _.sortBy(i, ['Source', 'Name']);
     },

@@ -246,7 +246,7 @@ class ContentCollection {
     await CompendiumStore().deleteContentCollection(collection);
     if (collection.Metadata)
       await cloudDelete(
-        collection.Metadata.user_id,
+        collection.Metadata.user_id || UserStore().Cognito.userId,
         collection.Metadata.sortkey,
         collection.Metadata?.uri
       );

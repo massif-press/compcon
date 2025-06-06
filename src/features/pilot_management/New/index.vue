@@ -52,7 +52,7 @@
         <v-window-item value="mechskills" :key="3">
           <mech-skills-page
             :pilot="pilot"
-            @next="step = pilot.Level > 0 ? 'license' : 'confirm'"
+            @next="step = pilot.Level > 0 ? 'licenses' : 'confirm'"
             @back="step = 'talents'" />
         </v-window-item>
         <v-window-item value="licenses" :key="4">

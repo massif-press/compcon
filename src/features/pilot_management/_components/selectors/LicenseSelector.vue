@@ -1,6 +1,6 @@
 <template>
   <missing-item-alert
-    v-if="pilot.LicenseController.IsMissingLicenses"
+    v-if="pilot.LicenseController.MissingLicenses.length"
     :type="'licenses'"
     :items="pilot.LicenseController.MissingLicenses"
     @remove="pilot.LicenseController.RemoveLicense($event.Stub as any)" />
