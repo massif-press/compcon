@@ -36,6 +36,7 @@
 
         <p class="pa-2" v-html-safe="mech.Frame.Description" />
       </cc-dialog>
+      <cc-broken-reference :item="mech.Frame" />
     </div>
 
     <div v-if="mobile" class="mb-2">
@@ -112,8 +113,6 @@
         :title="`${mech.Frame.Source} ${mech.Frame.Name} Core System`"
         class="mt-6 mb-1" />
       <frame-core-system-panel :cs="mech.Frame.CoreSystem" />
-
-      <!-- <core-block :mech="mech" :color="color" /> -->
 
       <loadout-block :mech="mech" />
     </v-container>

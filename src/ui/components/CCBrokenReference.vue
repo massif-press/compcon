@@ -1,5 +1,5 @@
 <template>
-  <v-menu v-if="item.FromInstance" open-on-hover max-width="450px">
+  <v-menu v-if="force || item.FromInstance" open-on-hover max-width="450px">
     <template #activator="{ props }">
       <v-icon
         v-bind="props"
@@ -76,9 +76,16 @@ export default {
       type: String,
       default: '',
     },
+    force: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     brew() {
+      if (this.item.Brew) {
+        return this.item.Brew;
+      }
       return this.item.ItemData.brew;
     },
   },

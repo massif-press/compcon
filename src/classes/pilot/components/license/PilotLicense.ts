@@ -1,10 +1,11 @@
+import { CompendiumStore } from '@/stores';
 import { IRankedData } from '../../../../interface';
 import License from './License';
 import { LicenseStub } from './LicenseStub';
 
 class PilotLicense {
   public readonly License?: License;
-  public readonly Stub?: LicenseStub;
+  public readonly Stub: LicenseStub;
   private rank: number;
 
   public constructor(license?: License, rank?: number, stub?: LicenseStub) {
@@ -12,6 +13,13 @@ class PilotLicense {
       this.License = license;
       this.Stub = new LicenseStub(license);
     } else if (stub) this.Stub = stub;
+    else
+      this.Stub = LicenseStub.Deserialize({
+        id: '',
+        name: 'Unknown License',
+        source: 'ERR',
+        frameName: '',
+      });
     this.rank = rank || 1;
   }
 
@@ -50,7 +58,9 @@ class PilotLicense {
   }
 
   public static Deserialize(itemData: IRankedData): PilotLicense {
-    return new PilotLicense(License.Deserialize(itemData.id), itemData.rank);
+    if (CompendiumStore().has('Frames', itemData.id))
+      return new PilotLicense(License.Deserialize(itemData.id), itemData.rank);
+    else return new PilotLicense(undefined, itemData.rank, LicenseStub.Deserialize(itemData.stub));
   }
 }
 

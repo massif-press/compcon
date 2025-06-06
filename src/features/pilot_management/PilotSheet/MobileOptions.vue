@@ -39,20 +39,6 @@
       v-if="!pilot.IsRemote"
       block
       size="large"
-      color="purple"
-      prepend-icon="mdi-download"
-      @click="exportPilotInstance()">
-      !DEBUG! Export As Instance !DEBUG!
-      <template #subtitle>
-        <span class="text-cc-overline">Debug shim for active mode dev</span>
-      </template>
-    </cc-button>
-    <br />
-
-    <cc-button
-      v-if="!pilot.IsRemote"
-      block
-      size="large"
       color="panel"
       prepend-icon="mdi-download"
       @click="exportPilot()">
@@ -244,15 +230,6 @@ export default {
       await UserStore().refreshDbData();
       this.loading = false;
       this.$emit('close');
-    },
-    exportPilotInstance() {
-      const instance = Pilot.Serialize(this.pilot as Pilot);
-      console.log('instance', instance);
-      // saveFile(
-      //   this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '__instance__.json',
-      //   instance,
-      //   'Save Pilot'
-      // );
     },
   },
 };

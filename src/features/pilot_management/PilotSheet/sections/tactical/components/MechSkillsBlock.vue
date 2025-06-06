@@ -16,7 +16,7 @@
     </section-header>
 
     <v-row class="mt-1 mb-5" justify="space-around">
-      <v-col class="mx-3">
+      <v-col class="mx-2" style="min-width: 400px">
         <cc-tickbar
           label="hull"
           :size="mobile ? 'small' : 'default'"
@@ -24,7 +24,7 @@
           icon="mdi-alpha-h-box-outline"
           v-model="pilot.MechSkillsController.MechSkills.Hull" />
       </v-col>
-      <v-col class="mx-3">
+      <v-col class="mx-2" style="min-width: 400px">
         <cc-tickbar
           label="agility"
           :size="mobile ? 'small' : 'default'"
@@ -32,7 +32,7 @@
           icon="mdi-alpha-a-box-outline"
           v-model="pilot.MechSkillsController.MechSkills.Agi" />
       </v-col>
-      <v-col class="mx-3">
+      <v-col class="mx-2" style="min-width: 400px">
         <cc-tickbar
           label="systems"
           :size="mobile ? 'small' : 'default'"
@@ -40,7 +40,7 @@
           icon="mdi-alpha-s-box-outline"
           v-model="pilot.MechSkillsController.MechSkills.Sys" />
       </v-col>
-      <v-col class="mx-3">
+      <v-col class="mx-2" style="min-width: 400px">
         <cc-tickbar
           label="engineering"
           :size="mobile ? 'small' : 'default'"

@@ -65,6 +65,10 @@ class BondController {
     this._bond = null;
   }
 
+  public get MissingBonds(): boolean {
+    return !!this._bond && !CompendiumStore().has('Bonds', this._bond.ID);
+  }
+
   public get XP(): number {
     return this._xp;
   }

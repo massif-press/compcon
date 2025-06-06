@@ -12,7 +12,7 @@
       {{ 'I'.repeat(pilotLicense.Rank) }}
     </span>
     <template #info>
-      <v-icon size="x-large" icon="cc:license" />
+      <cc-broken-reference force :item="pilotLicense.Stub" />
     </template>
   </cc-button>
 </template>
@@ -25,6 +25,9 @@ export default {
       type: Object,
       required: true,
     },
+    readonly: {
+      type: Boolean,
+    },
   },
   data: () => ({
     dialog: false,
@@ -33,6 +36,11 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
+    },
+  },
+  methods: {
+    remove() {
+      this.$emit('remove');
     },
   },
 };

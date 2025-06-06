@@ -3,6 +3,7 @@
     <template #header>
       <div v-if="item" class="pt-1">
         <v-icon icon="cc:weaponmod" />
+        <cc-broken-reference v-if="item" :item="item" />
         {{ item.Name }}
       </div>
       <div v-else class="text-disabled">&nbsp;EMPTY SYSTEM SLOT</div>

@@ -144,6 +144,10 @@ class LicenseController {
     this.Parent.SaveController.save();
   }
 
+  public get MissingLicenses(): PilotLicense[] {
+    return this.Licenses.filter((x) => !x.License);
+  }
+
   public RemoveLicense(license: License): void {
     const index = this._licenses.findIndex(
       (x) => x.License?.FrameID === license.FrameID || x.Stub?.ID === license.FrameID

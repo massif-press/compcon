@@ -317,6 +317,7 @@ export default {
     const buttonDismissed = localStorage.getItem('dismissedMigration');
     if (buttonDismissed) this.showAccountMigration = false;
   },
+
   computed: {
     cognito() {
       return UserStore().Cognito;

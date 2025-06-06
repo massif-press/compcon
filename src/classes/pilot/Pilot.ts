@@ -270,16 +270,8 @@ class Pilot
       return this.CoreBonusController.CoreBonuses.findIndex((x) => x.ID === id) > -1;
     } else if (typeName.toLowerCase() === 'license') {
       let index = this.LicenseController.Licenses.findIndex(
-        (x) => x.License?.FrameID === id || x.Stub?.ID === id
+        (x) => x.Stub.ID === id || x.Stub.FrameName === id
       );
-      if (index < 0)
-        index = this.LicenseController.Licenses.findIndex(
-          (x) => x.License?.ID === id || x.Stub?.ID === id
-        );
-      if (index < 0)
-        index = this.LicenseController.Licenses.findIndex(
-          (x) => x.License?.Name === id || x.Stub?.FrameName === id
-        );
       if (index < 0) return false;
       return rank
         ? index > -1 && Number(this.LicenseController.Licenses[index].Rank) >= rank

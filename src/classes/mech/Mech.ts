@@ -556,7 +556,10 @@ class Mech implements IPortraitContainer, IFeatureController {
 
     if (CompendiumStore().has('Frames', data.frame))
       frame = CompendiumStore().referenceByID('Frames', data.frame) as Frame;
-    else frame = new Frame(data.frameData);
+    else {
+      frame = new Frame(data.frameData);
+      frame.FromInstance = true;
+    }
 
     const m = new Mech(frame, pilot);
 

@@ -24,6 +24,10 @@ class CoreBonusController implements IFeatureContainer {
     return this.CoreBonuses;
   }
 
+  public get MissingCoreBonuses(): CoreBonus[] {
+    return this._core_bonuses.filter((x) => !CompendiumStore().has('CoreBonuses', x.ID));
+  }
+
   public get CoreBonuses(): CoreBonus[] {
     return this._core_bonuses;
   }
