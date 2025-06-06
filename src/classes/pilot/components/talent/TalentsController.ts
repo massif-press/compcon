@@ -7,6 +7,7 @@ import PilotTalent from './PilotTalent';
 import { Talent, TalentRank } from './Talent';
 import { CompendiumItem } from '@/class';
 import logger from '@/user/logger';
+import { CompendiumStore } from '@/stores';
 
 interface ITalentsData {
   talents: IRankedData[];
@@ -38,6 +39,12 @@ class TalentsController implements IFeatureContainer {
 
   public get Talents(): PilotTalent[] {
     return this._talents;
+  }
+
+  public get MissingTalents(): Talent[] {
+    return this._talents
+      .filter((x) => !CompendiumStore().has('Talents', x.Talent.ID))
+      .map((t) => t.Talent);
   }
 
   public set Talents(talents: PilotTalent[]) {

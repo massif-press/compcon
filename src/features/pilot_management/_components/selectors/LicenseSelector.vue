@@ -1,4 +1,10 @@
 <template>
+  <missing-item-alert
+    v-if="pilot.LicenseController.IsMissingLicenses"
+    :type="'licenses'"
+    :items="pilot.LicenseController.MissingLicenses"
+    @remove="pilot.LicenseController.RemoveLicense($event.Stub as any)" />
+
   <selector
     title="Pilot Licenses"
     :success="!pilot.LicenseController.IsMissingLicenses"
@@ -110,10 +116,11 @@ import LicenseExpandable from '@/ui/components/CompendiumBrowser/components/_lic
 import { CompendiumStore } from '@/stores';
 import { Pilot, License } from '@/class';
 import logger from '@/user/logger';
+import MissingItemAlert from './components/_MissingItemAlert.vue';
 
 export default {
   name: 'license-selector',
-  components: { Selector, MissingItem, LicenseExpandable },
+  components: { Selector, MissingItem, LicenseExpandable, MissingItemAlert },
   props: {
     pilot: { type: Pilot, required: true },
     levelUp: Boolean,
@@ -140,14 +147,14 @@ export default {
     },
     jumpItems() {
       return [
-        ...this.pilot.LicenseController.Licenses.map((x) => ({
-          title: x.License.Name,
-          value: x.License.FrameID,
+        ...this.pilot.LicenseController.Licenses.filter((l) => l.License).map((x) => ({
+          title: x.License!.Name,
+          value: x.License!.FrameID,
           subtitle: `// Pilot Rank: ${x.Rank}`,
         })),
         ...CompendiumStore()
-          .Licenses.filter((x) => !x.Hidden)
-          .filter((x) => !this.pilot.LicenseController.Licenses.some((y) => y.License.ID === x.ID))
+          .Licenses.filter((x) => !x.Hidden && x.License)
+          .filter((x) => !this.pilot.LicenseController.Licenses.some((y) => y.License!.ID === x.ID))
           .map((x) => ({
             title: x.Name,
             value: x.FrameID,

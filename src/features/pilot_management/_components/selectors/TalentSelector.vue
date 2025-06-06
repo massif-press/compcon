@@ -1,4 +1,10 @@
 <template>
+  <missing-item-alert
+    v-if="pilot.TalentsController.MissingTalents.length"
+    type="talents"
+    :items="pilot.TalentsController.MissingTalents"
+    @remove="pilot.TalentsController.RemoveTalent($event)" />
+
   <selector
     title="Pilot Talents"
     :success="pilot.TalentsController.HasFullTalents && enoughSelections"
@@ -77,10 +83,11 @@ import { Rules, Pilot, Talent } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
 import scrollTo from '@/util/scrollTo';
 import logger from '@/user/logger';
+import MissingItemAlert from './components/_MissingItemAlert.vue';
 
 export default {
   name: 'talent-selector',
-  components: { Selector, MissingItem },
+  components: { Selector, MissingItem, MissingItemAlert },
   props: {
     pilot: { type: Pilot, required: true },
     levelUp: Boolean,

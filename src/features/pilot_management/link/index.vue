@@ -170,14 +170,12 @@ export default {
       let row;
       try {
         row = await GetFromCode(this.sharecode);
-        console.log(`Got db row from code`, row);
       } catch (err) {
         logger.error(`Unable to find pilot at share code ${this.sharecode}`, this);
       }
 
       try {
         const itemData = await downloadFromS3(row.uri);
-        console.log(`Downloaded item data from S3`, itemData);
         this.itemData = itemData;
         this.pilot = new Pilot(itemData);
       } catch (err) {

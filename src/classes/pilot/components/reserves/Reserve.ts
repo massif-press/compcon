@@ -192,7 +192,6 @@ class Reserve extends CompendiumItem {
       r = CompendiumStore().referenceByID('Reserves', rData.id);
     else r = new Reserve(rData);
 
-    console.log(r);
     r._resource_name = rData.resource_name;
     r._resource_note = rData.resource_note;
     r._resource_cost = rData.resource_cost;

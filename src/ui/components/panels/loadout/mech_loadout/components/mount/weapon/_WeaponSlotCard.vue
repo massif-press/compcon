@@ -10,6 +10,7 @@
     <template #header>
       <div v-if="item" class="mt-n2 pl-1">
         <equipment-options v-if="!readonly" :item="item" />
+        <cc-broken-reference v-if="item" :item="item" />
         {{ item.Name }}
         <div
           v-if="!mobile"

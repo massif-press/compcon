@@ -60,7 +60,7 @@
         </v-row>
         <div class="text-center mt-4">
           <cc-button
-            size="x-large"
+            size="large"
             block
             color="secondary"
             type="submit"

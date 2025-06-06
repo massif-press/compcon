@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import License from './License';
+import { BrewInfo } from '@/classes/components/brew/BrewController';
 
 interface LicenseStubData {
   id: string;
   name: string;
   source: string;
   frameName: string;
-  lcpName: string;
-  lcpAuthor: string;
+  brew?: BrewInfo;
 }
 
 class LicenseStub {
@@ -15,17 +15,15 @@ class LicenseStub {
   public readonly Name: string;
   public readonly Source: string;
   public readonly FrameName: string;
-  public readonly LcpName: string;
-  public readonly LcpAuthor: string;
+  public readonly Brew: BrewInfo;
   public readonly ItemType: string = 'LicenseStub';
 
   public constructor(license: License) {
     this.Name = license.Name;
     this.Source = license.Source;
     this.FrameName = license.FrameName;
-    this.LcpName = license.LcpName;
-    this.LcpAuthor = license.LcpAuthor;
-    this.ID = license.FrameID;
+    this.Brew = license.Frame.Brew;
+    this.ID = license.FrameID || license.ID;
   }
 
   public ToString(): string {
@@ -41,10 +39,8 @@ class LicenseStub {
       ID: data.id,
       Name: data.name,
       Source: data.source,
-      FrameID: data.id,
       FrameName: data.frameName,
-      LcpName: data.lcpName,
-      LcpAuthor: data.lcpAuthor,
+      Frame: { Brew: data.brew || {} } as any,
     } as License);
   }
 
@@ -54,8 +50,7 @@ class LicenseStub {
       name: item.Name,
       source: item.Source,
       frameName: item.FrameName,
-      lcpName: item.LcpName,
-      lcpAuthor: item.LcpAuthor,
+      brew: item.Brew,
     };
   }
 }

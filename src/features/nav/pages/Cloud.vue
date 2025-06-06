@@ -1,12 +1,12 @@
 <template>
-  <signed-in />
+  <index />
 </template>
 
 <script lang="ts">
-import SignedIn from '../../main_menu/_components/login/SignedIn.vue';
+import Index from '../../main_menu/_components/login/index.vue';
 
 export default {
   name: 'navbar-cloud-dialog',
-  components: { SignedIn },
+  components: { Index },
 };
 </script>

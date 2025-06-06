@@ -403,7 +403,7 @@ class MechWeapon extends MechEquipment {
     if (CompendiumStore().has('MechWeapons', data.id))
       item = CompendiumStore().instantiate('MechWeapons', data.id) as MechWeapon;
     else {
-      item = new MechWeapon(item.data, item.data.pack);
+      item = new MechWeapon(data.data, data.data.pack);
       item.FromInstance = true;
     }
 

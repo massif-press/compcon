@@ -23,7 +23,8 @@
       <no-data-block v-if="!pilot.LicenseController.Licenses.length" />
       <v-row v-else>
         <v-col v-for="l in pilot.LicenseController.Licenses" cols="12" md="4">
-          <cc-pilot-license-item :pilot-license="l" title />
+          <cc-pilot-license-item v-if="inCompendium(l)" :pilot-license="l" title />
+          <cc-pilot-license-stub v-else :pilot-license="l" />
         </v-col>
       </v-row>
     </div>
@@ -36,6 +37,7 @@ import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import LicenseSelector from '@/features/pilot_management/_components/selectors/LicenseSelector.vue';
 import { Pilot } from '@/class';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'license-block',
@@ -49,6 +51,11 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
+    },
+  },
+  methods: {
+    inCompendium(license) {
+      return CompendiumStore().has('Frames', license.Stub.ID);
     },
   },
 };

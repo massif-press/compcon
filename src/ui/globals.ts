@@ -68,6 +68,7 @@ import CCCoreBonusItem from './components/items/CCCoreBonusItem.vue';
 import CCLogo from './components/items/CCLogo.vue';
 import CCOrgItem from './components/items/CCOrgItem.vue';
 import CCPilotLicenseItem from './components/items/CCPilotLicenseItem.vue';
+import CCPilotLicenseStub from './components/items/CCPilotLicenseStub.vue';
 import CCReserveItem from './components/items/CCReserveItem.vue';
 import CCSkillItem from './components/items/CCSkillItem.vue';
 import CCTraitItem from './components/items/CCTraitItem.vue';
@@ -181,6 +182,7 @@ export {
   CCLogo,
   CCOrgItem,
   CCPilotLicenseItem,
+  CCPilotLicenseStub,
   CCReserveItem,
   CCSkillItem,
   CCTraitItem,

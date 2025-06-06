@@ -45,9 +45,10 @@ class MechSystem extends MechEquipment {
     if (CompendiumStore().has('MechSystems', data.id))
       item = CompendiumStore().instantiate('MechSystems', data.id) as MechSystem;
     else {
-      item = new MechSystem(item.data, item.data.pack);
+      item = new MechSystem(data.data, data.data.pack);
       item.FromInstance = true;
     }
+
     item._note = data.note;
     item._flavor_name = data.flavorName || '';
     item._flavor_description = data.flavorDescription || '';

@@ -1,4 +1,10 @@
 <template>
+  <missing-item-alert
+    v-if="pilot.CoreBonusController.MissingCoreBonuses.length"
+    type="core bonuses"
+    :items="pilot.CoreBonusController.MissingCoreBonuses"
+    @remove="pilot.CoreBonusController.RemoveCoreBonus($event)" />
+
   <selector
     title="Pilot Core Bonuses"
     :success="!pilot.CoreBonusController.IsMissingCBs"
@@ -97,10 +103,11 @@ import { CompendiumStore } from '@/stores';
 import { Pilot, CoreBonus, Manufacturer } from '@/class';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import logger from '@/user/logger';
+import MissingItemAlert from './components/_MissingItemAlert.vue';
 
 export default {
   name: 'CoreBonusSelector',
-  components: { Selector, CoreBonusSelectItem, MissingItem },
+  components: { Selector, CoreBonusSelectItem, MissingItem, MissingItemAlert },
   props: {
     pilot: { type: Object, required: true },
     levelUp: { type: Boolean, default: false },
