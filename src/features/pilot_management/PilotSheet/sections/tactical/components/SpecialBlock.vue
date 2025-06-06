@@ -35,7 +35,6 @@
             </cc-button>
           </template>
           <template #default="{ close }">
-            "
             <equipment-selector :pilot="pilot" @equip="addItem($event, close)" />
           </template>
         </cc-modal>
@@ -48,7 +47,6 @@
             </cc-button>
           </template>
           <template #default="{ close }">
-            "
             <equipment-selector :pilot="pilot" exotic @equip="addItem($event, close)" />
           </template>
         </cc-modal>

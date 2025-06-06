@@ -48,6 +48,7 @@ export const getUserData = async (id: string): Promise<any> => {
 };
 
 export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
+  console.log('Updating item with metadata:', metadata);
   const url = new URL(`${invoke}/user`);
   url.searchParams.append('userID', UserStore().User.ID);
   url.searchParams.append('scope', scope);

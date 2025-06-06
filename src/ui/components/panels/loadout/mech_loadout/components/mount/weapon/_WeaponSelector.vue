@@ -122,6 +122,7 @@ export default {
       initialView: 'single',
       groups: ['source', 'lcp', 'license'],
       initialGroup: 'license',
+      showExotics: true,
     },
     headers: [
       { title: 'Manufacturer', align: 'left', key: 'Source' },
@@ -177,7 +178,7 @@ export default {
       }
 
       i = i.concat(
-        this.mech.SpecialEquipment.filter(
+        this.mech.Pilot.SpecialEquipment.filter(
           (x) => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
         )
       );

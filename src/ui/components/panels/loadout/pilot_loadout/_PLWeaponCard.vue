@@ -120,6 +120,7 @@ export default {
       groups: ['lcp', 'type'],
       initialGroup: 'type',
       noSource: true,
+      showExotics: true,
     },
   }),
   computed: {
