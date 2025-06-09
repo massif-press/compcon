@@ -269,8 +269,9 @@ class Pilot
     } else if (typeName.toLowerCase() === 'corebonus') {
       return this.CoreBonusController.CoreBonuses.findIndex((x) => x.ID === id) > -1;
     } else if (typeName.toLowerCase() === 'license') {
+      console.log(id);
       let index = this.LicenseController.Licenses.findIndex(
-        (x) => x.Stub.ID === id || x.Stub.FrameName === id
+        (x) => x.Stub.ID === id || x.Stub.FrameName.toLowerCase() === id.toLowerCase()
       );
       if (index < 0) return false;
       return rank
