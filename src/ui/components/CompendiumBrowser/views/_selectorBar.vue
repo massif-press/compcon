@@ -291,11 +291,6 @@ export default {
       let o = {
         responsive: true,
         maintainAspectRatio: false,
-        // transitions: {
-        //   resize: {
-        //     animation: false,
-        //   },
-        // },
         scales: {
           y: {
             offset: true,

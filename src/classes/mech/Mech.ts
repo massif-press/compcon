@@ -152,11 +152,7 @@ class Mech implements IPortraitContainer, IFeatureController {
       if (LL0Idx > -1) requirements[LL0Idx].items.push(`${this.Frame.Name} Frame`);
       else requirements.push(this.Frame.RequiredLicense);
     } else {
-      const reqIdx = requirements.findIndex(
-        (x) => x.name === `${this._frame.Name}` && x.rank === 2
-      );
-      if (reqIdx > -1) requirements[reqIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`);
-      else requirements.push(this.Frame.RequiredLicense);
+      requirements.push(this.Frame.RequiredLicense);
     }
 
     for (const l of requirements) {

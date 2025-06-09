@@ -6,17 +6,19 @@
     :options="options"
     equippable
     @equip="handleEquip($event)">
-    <template #header><div class="heading h3 text-center text-accent">Mech SYSTEMS</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Mech SYSTEMS</div>
+    </template>
     <template #top>
       <v-row dense>
         <v-col>
-          <div v-if="equipped">
+          <div v-if="equipped || swapSystem">
             <div v-if="!mobile" class="text-cc-overline">
               UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success">[ FRAME EQUIPMENT REGISTRATION VERIFIED ]</span>
             </div>
             <div class="heading h2 text-accent">
-              {{ equipped.Name }}
+              {{ equipped?.Name || swapSystem?.Name || 'NO SELECTION' }}
             </div>
             <div class="flavor-text overline" style="display: block">CURRENTLY EQUIPPED</div>
           </div>
@@ -90,6 +92,11 @@ export default {
       type: Object,
       required: true,
     },
+    swapSystem: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data: () => ({
     options: {
@@ -110,7 +117,7 @@ export default {
     showUnlicensed: false,
     showOverSP: false,
   }),
-  emits: ['equip', 'done'],
+  emits: ['equip', 'done', 'swap-system'],
   mounted() {
     this.options.initialView = this.mobile ? 'list' : 'single';
   },
@@ -119,7 +126,9 @@ export default {
       return this.$vuetify.display.smAndDown;
     },
     freeSP(): number {
-      return this.equipped ? this.mech.FreeSP + this.equipped.SP : this.mech.FreeSP;
+      if (this.equipped) return this.mech.FreeSP + this.equipped.SP;
+      else if (this.swapSystem) return this.mech.FreeSP + this.swapSystem.SP;
+      return this.mech.FreeSP;
     },
     systems(): MechSystem[] {
       return CompendiumStore().MechSystems;
@@ -142,10 +151,6 @@ export default {
         );
       }
 
-      if (!this.showOverSP) {
-        i = i.filter((x) => x.SP <= this.freeSP);
-      }
-
       i = i
         .concat(this.mech.SpecialEquipment.filter((x) => x.ItemType === 'MechSystem'))
         .filter(
@@ -155,7 +160,9 @@ export default {
             )
         );
 
-      console.log(i);
+      if (!this.showOverSP) {
+        i = i.filter((x) => x.SP <= this.freeSP);
+      }
 
       return _.sortBy(i, ['Source', 'Name']);
     },
@@ -170,11 +177,17 @@ export default {
           this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.indexOf(this.equipped),
           sys
         );
+      } else if (this.swapSystem) {
+        this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(
+          this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.indexOf(this.swapSystem),
+          sys
+        );
       } else {
         this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys);
       }
 
       this.$emit('equip', sys);
+      if (!this.freeSP || !!this.swapSystem) this.$emit('done');
     },
   },
 };

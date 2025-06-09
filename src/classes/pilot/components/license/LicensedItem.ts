@@ -68,7 +68,7 @@ abstract class LicensedItem extends CompendiumItem {
       source: this.Source,
       name: this.getLicenseName(),
       rank: this.LicenseLevel,
-      license_id: this.LicenseID,
+      license_id: this.getLicenseId(),
       items: [this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name],
     };
   }
@@ -76,10 +76,21 @@ abstract class LicensedItem extends CompendiumItem {
   private getLicenseName(): string {
     if (this.ItemType === ItemType.Frame) {
       const f = this as unknown as Frame;
-      if (f.IsVariantFrame) return f.Variant;
-      return this.License;
+      if (f.Variant) return f.Variant;
     }
     return this.License;
+  }
+
+  private getLicenseId(): string {
+    if (this.ItemType === ItemType.Frame) {
+      const f = this as unknown as Frame;
+      if (f.Variant)
+        return (
+          CompendiumStore().Frames.find((x) => x.ID.toLowerCase().includes(f.Variant.toLowerCase()))
+            ?.ID || this.LicenseID
+        );
+    }
+    return this.LicenseID;
   }
 
   // for the purposes of this function, Exotic and Integrated equipment is not considered licensed

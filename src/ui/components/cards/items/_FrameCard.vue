@@ -59,16 +59,11 @@
   </v-row>
 
   <div class="text-cc-overline text-text">ONBOARD CORE SYSTEM</div>
-  <frame-core-system-panel :cs="item.CoreSystem" />
+  <cc-core-system-panel :frame="item" />
 </template>
 
 <script lang="ts">
-import {
-  FrameGalleryModal,
-  FrameStatblock,
-  FrameCoreSystemPanel,
-  FrameCombatChart,
-} from '../frame';
+import { FrameGalleryModal, FrameStatblock, FrameCombatChart } from '../frame';
 import { glossary } from '@massif/lancer-data';
 
 export default {
@@ -76,7 +71,6 @@ export default {
   components: {
     FrameGalleryModal,
     FrameStatblock,
-    FrameCoreSystemPanel,
     FrameCombatChart,
   },
   props: {

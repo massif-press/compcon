@@ -5,6 +5,7 @@
     :color="color"
     :mech="mech"
     :empty="empty"
+    @selector-open="$emit('selector-open')"
     @selector-close="$emit('done')">
     <template #header>
       <div v-if="item" class="pt-1">
@@ -34,13 +35,7 @@
           @click.stop="remove(item as MechSystem)">
           <v-icon icon="mdi-delete" />
         </v-btn>
-        <v-btn
-          size="x-small"
-          icon
-          class="d-inline"
-          tile
-          variant="plain"
-          @click.stop="($refs as any).base.selectorDialog = true">
+        <v-btn size="x-small" icon class="d-inline" tile variant="plain" @click.stop="handleSwap">
           <v-icon :icon="item ? 'mdi-swap-vertical-variant' : 'add'" />
         </v-btn>
       </div>
@@ -73,16 +68,11 @@
         </tr>
       </tbody>
     </v-table>
-
-    <template #selector>
-      <system-selector :mech="mech" :equipped="item" @equip="handleEquip($event)" />
-    </template>
   </slot-card-base>
 </template>
 
 <script lang="ts">
 import SlotCardBase from '../_SlotCardBase.vue';
-import SystemSelector from './_SystemSelector.vue';
 import EquipmentOptions from '../_EquipmentOptions.vue';
 import { MechSystem } from '@/class';
 
@@ -91,7 +81,6 @@ export default {
   components: {
     SlotCardBase,
     EquipmentOptions,
-    SystemSelector,
   },
   props: {
     mech: {
@@ -119,7 +108,7 @@ export default {
       default: false,
     },
   },
-  emits: ['done'],
+  emits: ['remove', 'done', 'equip', 'selector-open', 'switch'],
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
@@ -131,7 +120,7 @@ export default {
   methods: {
     remove(sys: MechSystem) {
       this.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys);
-      this.$emit('done');
+      this.$emit('remove', sys);
     },
     handleEquip(sys: MechSystem) {
       this.$notify({
@@ -141,6 +130,12 @@ export default {
       });
 
       if (this.mech.FreeSP <= 0) this.$emit('done');
+      else this.$emit('equip', sys);
+    },
+    handleSwap() {
+      if (this.$slots.selector) {
+        (this.$refs as any).base.selectorDialog = true;
+      } else this.$emit('switch', this.item);
     },
   },
 };

@@ -7,7 +7,7 @@
     tile>
     <v-row no-gutters>
       <v-col cols="auto" v-if="icon && prominent && !mobile">
-        <v-icon size="60" class="mt-2 ml-2">{{ icon }}</v-icon>
+        <v-icon size="60" class="mt-2 ml-2" :color="iconColor">{{ icon }}</v-icon>
       </v-col>
       <v-col>
         <div v-if="title" class="heading h3 px-4 pt-2">
@@ -56,6 +56,10 @@ export default {
     },
     closeable: {
       type: Boolean,
+    },
+    iconColor: {
+      type: String,
+      default: '',
     },
   },
   data: () => ({
