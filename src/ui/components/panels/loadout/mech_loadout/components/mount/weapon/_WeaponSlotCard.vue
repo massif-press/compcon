@@ -9,6 +9,7 @@
     :extended="mobile">
     <template #header>
       <div v-if="item" class="mt-n2 pl-1">
+        <span v-if="intWeapon">&emsp;</span>
         <equipment-options v-if="!readonly" :item="item" />
         <cc-broken-reference v-if="item" :item="item" />
         {{ item.Name }}

@@ -99,7 +99,7 @@
         v-if="empty"
         class="py-3 text-center fade-select"
         style="height: 100%; cursor: pointer"
-        @click="selectorDialog = true">
+        @click="openSelector">
         <v-row style="height: 100%">
           <div class="heading h2 text-disabled my-auto py-5" style="width: 100%">
             // {{ mobile ? 'TAP' : 'CLICK' }} TO ADD //
@@ -180,6 +180,15 @@ export default {
       let h = this.mobile ? 18 : 24;
       if (this.weapon) h += 12;
       return h;
+    },
+  },
+  methods: {
+    openSelector() {
+      if (this.$slots.selector) {
+        this.selectorDialog = true;
+        return;
+      }
+      this.$emit('selector-open');
     },
   },
 };

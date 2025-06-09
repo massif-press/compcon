@@ -234,7 +234,7 @@
         </v-row>
 
         <v-card class="px-3" flat tile>
-          <frame-core-system-panel :cs="mech.Frame.CoreSystem" />
+          <cc-core-system-panel :frame="mech.Frame" terse />
         </v-card>
       </v-col>
     </v-row>
@@ -253,14 +253,12 @@
 <script lang="ts">
 import CcPilotLicenseStub from '@/ui/components/items/CCPilotLicenseStub.vue';
 import MechStatItem from '../_components/MechStatItem.vue';
-import { FrameCoreSystemPanel } from '@/ui/components/cards/frame';
 
 export default {
   name: 'pilot-link-full',
   components: {
     CcPilotLicenseStub,
     MechStatItem,
-    FrameCoreSystemPanel,
   },
   props: {
     pilot: {

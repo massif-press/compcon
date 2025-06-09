@@ -112,7 +112,7 @@
       <section-header
         :title="`${mech.Frame.Source} ${mech.Frame.Name} Core System`"
         class="mt-6 mb-1" />
-      <frame-core-system-panel :cs="mech.Frame.CoreSystem" />
+      <cc-core-system-panel :frame="mech.Frame" terse :color="color" />
 
       <loadout-block :mech="mech" />
     </v-container>
@@ -127,7 +127,6 @@ import { Pilot, Mech } from '@/class';
 import { PilotStore } from '@/stores';
 import LoadoutBlock from './sections/LoadoutBlock.vue';
 import SectionHeader from '../components/SectionHeader.vue';
-import { FrameCoreSystemPanel } from '@/ui/components/cards/frame';
 import StatusAlerts from './components/StatusAlerts.vue';
 
 export default {
@@ -138,7 +137,6 @@ export default {
     AttributesBlock,
     LoadoutBlock,
     SectionHeader,
-    FrameCoreSystemPanel,
     StatusAlerts,
   },
   props: {

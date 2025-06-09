@@ -1,5 +1,5 @@
 <template>
-  <v-card id="container" flat tile color="transparent">
+  <v-card id="systems-container" flat tile color="transparent">
     <fieldset
       class="px-3"
       :class="mobile && 'border-0'"
@@ -17,27 +17,29 @@
           </span>
         </div>
       </div>
-
-      <masonry-wall
-        :items="systemItems"
-        :column-width="400"
-        :gap="16"
-        :min-columns="1"
-        :max-columns="2"
-        :scroll-container="scrollContainer">
-        <template #default="{ item }">
-          <component
-            :is="item.component"
-            :item="item.item"
-            :mech="item.props.mech"
-            :color="item.props.color"
-            :readonly="item.props.readonly"
-            :weapon="item.weapon"
-            :integrated="item.props.integrated"
-            :empty="item.props.empty"
-            @done="getSystemItems()" />
-        </template>
-      </masonry-wall>
+      <div style="position: relative; overflow-anchor: none">
+        <masonry-wall
+          :items="systemItems"
+          :column-width="400"
+          :gap="16"
+          :min-columns="1"
+          :max-columns="2">
+          <template #default="{ item, index }">
+            <component
+              :is="item.component"
+              :key="item.id"
+              :item="item.item"
+              :mech="item.props.mech"
+              :color="item.props.color"
+              :readonly="item.props.readonly"
+              :weapon="item.weapon"
+              :integrated="item.props.integrated"
+              :empty="item.props.empty"
+              @selector-open="selector = true"
+              @switch="switchSystem($event)" />
+          </template>
+        </masonry-wall>
+      </div>
 
       <v-row v-if="!readonly && mech.FreeSP <= 0" justify="end" class="mt-1">
         <v-col cols="auto">
@@ -46,19 +48,21 @@
             color="accent"
             variant="tonal"
             prepend-icon="mdi-plus"
-            @click.stop="additionalSelect = true">
+            @click.stop="setAddAdditional">
             Add Additional System
           </cc-button>
-          <cc-solo-modal v-model="additionalSelect" icon="cc:system" title="SELECT EQUIPMENT" clip>
-            <system-selector :mech="mech" @equip="getSystemItems()" />
-          </cc-solo-modal>
         </v-col>
       </v-row>
+
+      <cc-solo-modal v-model="selector" icon="cc:system" title="SELECT EQUIPMENT" clip>
+        <system-selector :mech="mech" :swap-system="swapSystem" @done="handleDone" />
+      </cc-solo-modal>
     </fieldset>
   </v-card>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
 import SystemSelector from './_SystemSelector.vue';
@@ -80,13 +84,19 @@ export default {
     },
   },
   data: () => ({
-    systemItems: [] as { component: any; props: any; item: any; weapon?: any; empty?: boolean }[],
-    additionalSelect: false,
-    scrollContainer: null as HTMLElement | null,
+    selector: false,
+    swapSystem: null as any,
+    additionalSystem: false,
+    systemItems: [] as any[],
   }),
-  mounted() {
-    this.getSystemItems();
-    this.scrollContainer = document.querySelector('#container');
+  watch: {
+    mech: {
+      immediate: true,
+      deep: true,
+      handler() {
+        this.updateSystemItems();
+      },
+    },
   },
   computed: {
     mobile() {
@@ -102,26 +112,14 @@ export default {
       return this.mech.MechLoadoutController.ActiveLoadout.IntegratedSystems;
     },
   },
-  watch: {
-    moddedWeapons: {
-      deep: true,
-      handler() {
-        this.getSystemItems();
-      },
-    },
-    integratedSystems: {
-      deep: true,
-      handler() {
-        this.getSystemItems();
-      },
-    },
-  },
   methods: {
-    getSystemItems() {
-      this.systemItems = [];
+    updateSystemItems() {
+      const arr: any[] = [];
+
       this.integratedSystems.forEach((s) => {
-        this.systemItems.push({
+        arr.push({
           component: SystemSlotCard,
+          id: s.ID,
           props: {
             mech: this.mech,
             item: s,
@@ -132,9 +130,11 @@ export default {
           item: s,
         });
       });
+
       this.moddedWeapons.forEach((w) => {
-        this.systemItems.push({
+        arr.push({
           component: ModEquippedCard,
+          id: w.ID,
           props: {
             mech: this.mech,
             color: this.color,
@@ -144,16 +144,25 @@ export default {
           weapon: w,
         });
       });
+
       this.activeSystems.forEach((s) => {
-        this.systemItems.push({
+        arr.push({
           component: SystemSlotCard,
-          props: { mech: this.mech, item: s, color: this.color, readonly: this.readonly },
+          id: s.ID,
+          props: {
+            mech: this.mech,
+            item: s,
+            color: this.color,
+            readonly: this.readonly,
+          },
           item: s,
         });
       });
-      if (this.mech.FreeSP > 0 && !this.readonly) {
-        this.systemItems.push({
+
+      if (this.mech.FreeSP && !this.readonly) {
+        arr.push({
           component: SystemSlotCard,
+          id: 'add-system',
           props: {
             mech: this.mech,
             item: null,
@@ -164,6 +173,26 @@ export default {
           item: null,
         });
       }
+
+      this.systemItems = arr;
+    },
+    switchSystem(item: any) {
+      this.swapSystem = item;
+      this.selector = true;
+    },
+    setAddAdditional() {
+      this.additionalSystem = true;
+      this.selector = true;
+    },
+    async handleDone() {
+      this.swapSystem = null;
+
+      this.updateSystemItems(); // triggers list update
+
+      await this.$nextTick(); // wait for DOM to update
+      await new Promise((r) => setTimeout(r, 0)); // ensure Vue has flushed
+
+      this.selector = false; // close modal AFTER layout settles
     },
   },
 };
@@ -190,5 +219,9 @@ legend {
   height: 28px;
   border: 1px solid grey;
   border-radius: 5px;
+}
+
+#masonry-wall-container {
+  contain: layout style;
 }
 </style>

@@ -86,10 +86,6 @@ class Frame extends LicensedItem implements IFeatureContainer {
     return [this as any, this.CoreSystem].concat(this.Traits.flatMap((x) => x as any));
   }
 
-  public get IsVariantFrame(): boolean {
-    return this.Variant != '';
-  }
-
   public get MechTypeString(): string {
     if (this.MechType.length === 1) return this.MechType[0];
     return `${this.MechType[0]} / ${this.MechType[1]}`;

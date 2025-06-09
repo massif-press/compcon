@@ -16,6 +16,7 @@
             v-else-if="pilot.PortraitController.Portrait"
             :src="pilot.PortraitController.Portrait"
             aspect-ratio="1"
+            cover
             position="top center"
             :height="mobile ? '75px' : '150px'"
             :width="mobile ? '75px' : '150px'" />

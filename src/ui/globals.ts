@@ -65,6 +65,7 @@ import CCItemChip from './components/cards/CCItemChip.vue';
 import CCItemModal from './components/cards/CCItemModal.vue';
 import CCSearchResultModal from './components/cards/CCSearchResultModal.vue';
 import CCCoreBonusItem from './components/items/CCCoreBonusItem.vue';
+import CCCoreSystemPanel from './components/panels/CCCoreSystemPanel.vue';
 import CCLogo from './components/items/CCLogo.vue';
 import CCOrgItem from './components/items/CCOrgItem.vue';
 import CCPilotLicenseItem from './components/items/CCPilotLicenseItem.vue';
@@ -218,4 +219,5 @@ export {
   CCMissingGmLcpText,
   CCShareCodeImporter,
   CCBrokenReference,
+  CCCoreSystemPanel,
 };

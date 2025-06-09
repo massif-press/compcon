@@ -83,11 +83,13 @@ class MechLoadout extends Loadout {
 
     this._integratedSystems = is;
 
-    const im = [
-      ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(
-        (x) => new IntegratedMount(x, this)
-      ),
-    ];
+    const im = Array.from(
+      new Set([
+        ...this.Parent.FeatureController.IntegratedWeapons,
+        ...this.Parent.Pilot.FeatureController.IntegratedWeapons,
+        ...this.Systems.flatMap((x) => x.IntegratedWeapons || []),
+      ])
+    ).map((x) => new IntegratedMount(x, this));
 
     im.forEach((item) => {
       if (!this._integratedMounts.some((x) => x.ID === item.ID)) {

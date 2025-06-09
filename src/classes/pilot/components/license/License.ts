@@ -37,7 +37,7 @@ class License {
       this.Prerequisite = frame.Specialty || 0;
     }
 
-    if (frame.IsVariantFrame) this.Hidden = true;
+    if (frame.Variant) this.Hidden = true;
   }
 
   public CanSelect(pilot: Pilot): boolean {
