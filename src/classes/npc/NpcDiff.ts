@@ -212,7 +212,7 @@ const SetDiff = (target: Npc, key: string) => {
       u.ClearLayers();
 
       (source as Eidolon).Layers.forEach((l) => {
-        u.AddLayer((l.Layer as EidolonLayer).ID);
+        u.AddLayer(l.Layer as EidolonLayer);
       });
     }
     return;

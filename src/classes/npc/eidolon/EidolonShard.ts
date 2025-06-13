@@ -29,7 +29,7 @@ const shard_stats = {
   activations: [1, 1, 1],
 };
 
-class EidolonShard implements IStatContainer {
+class EidolonShard {
   public readonly ItemType = 'EidolonShard';
   public readonly LcpName: string;
   public readonly InLcp: boolean;
@@ -53,9 +53,9 @@ class EidolonShard implements IStatContainer {
     this.Count = data.count;
     this.Detail = data.detail;
     if (data.features) this.Features = data.features.map((f) => NpcFeatureFactory.Build(f));
-    if (data.tier) this._tier = data.tier;
+    this._tier = tier || 1;
 
-    this.StatController = new StatController(this);
+    this.StatController = new StatController(this as any);
 
     this.setStats();
 

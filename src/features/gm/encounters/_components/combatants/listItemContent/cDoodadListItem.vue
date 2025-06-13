@@ -2,11 +2,11 @@
   <c-list-item-base :item="item" :readonly="readonly">
     <template #title>
       <v-icon size="30" icon="mdi-cube-outline" class="mt-n1" />
-      {{ item.npc.Name }}
+      {{ item.actor.Name }}
     </template>
 
     <div class="text-caption">
-      <stat-chips :stat-controller="item.npc.StatController" />
+      <stat-chips :stat-controller="item.actor.StatController" />
     </div>
   </c-list-item-base>
 </template>

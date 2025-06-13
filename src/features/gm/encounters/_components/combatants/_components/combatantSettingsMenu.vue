@@ -11,7 +11,7 @@
         <v-tooltip location="top">
           <template #activator="{ props }">
             <span class="text-capitalize">
-              {{ item.side }} {{ item.npc.Tag }}&nbsp;&mdash;&nbsp;
+              {{ item.side }} {{ item.actor.Tag }}&nbsp;&mdash;&nbsp;
             </span>
             <span v-if="item.reinforcement">Reinforcement</span>
             <span v-else>Main Force</span>

@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { options } from '@/ui/style/quillSetup';
+import { debounce } from 'lodash';
 
 export default {
   name: 'cc-text-editor',
@@ -51,7 +52,9 @@ export default {
   },
   watch: {
     text(value) {
-      this.$emit('save', value);
+      const self = this;
+
+      debounce(() => self.$emit('save', value), 300)();
     },
   },
   computed: {

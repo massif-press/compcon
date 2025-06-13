@@ -16,10 +16,10 @@
     <template #activator="{ props }">
       <v-icon v-bind="props" color="accent" icon="mdi-alert-rhombus" />
     </template>
-    <v-card>
-      <v-alert density="compact" color="error" class="rounded-b-0">
-        Missing Content Detected
-      </v-alert>
+    <v-card flat tile border>
+      <v-toolbar density="compact" color="error" flat tile height="42">
+        <div class="px-2 heading h4">Missing Content Detected</div>
+      </v-toolbar>
       <div v-if="controller && controller.NonfunctionalBrews.length" class="pa-1">
         <cc-missing-content-list :controller="controller" :width="width" />
       </div>

@@ -32,7 +32,7 @@
           </v-col>
         </v-row>
         <v-row class="mt-n1">
-          <v-col v-if="item.frame" cols="auto">
+          <v-col v-if="item.Grit" cols="auto">
             <v-tooltip location="top" text="Pilot Grit">
               <template #activator="{ props }">
                 <span v-bind="props">

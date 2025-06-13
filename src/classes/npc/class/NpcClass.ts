@@ -55,6 +55,7 @@ class NpcComparison {
 
 class NpcClass {
   public readonly ItemType = 'NpcClass';
+  public readonly Data: INpcClassData;
   public readonly LcpName: string;
   public readonly InLcp: boolean;
   public readonly ForceTag: string;
@@ -79,6 +80,7 @@ class NpcClass {
   public Comparator: NpcComparison;
 
   public constructor(data: INpcClassData, pack?: ContentPack) {
+    this.Data = data;
     this._id = data.id;
     this._name = data.name;
     this._role = data.role;

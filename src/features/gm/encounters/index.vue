@@ -152,7 +152,7 @@
 import ItemCardGrid from '../_views/ItemCardGrid.vue';
 import GmCollectionFilter from '../_views/_components/GMCollectionFilter.vue';
 import GmCollectionFolder from '../_views/_components/GMCollectionFolder.vue';
-import { EncounterStore, UserStore } from '@/stores';
+import { CompendiumStore, EncounterStore, UserStore } from '@/stores';
 import { Encounter } from '@/classes/encounter/Encounter';
 import EncounterEditor from './_components/EncounterEditor.vue';
 import Organizer from '../_components/Organizer.vue';

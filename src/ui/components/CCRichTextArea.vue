@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { options } from '@/ui/style/quillSetup';
+import { debounce } from 'lodash';
 
 export default {
   name: 'cc-rich-text-area',
@@ -38,7 +39,11 @@ export default {
   methods: {
     set(e) {
       if (!this.quill) return;
-      this.$emit('update:modelValue', this.quill.root.innerHTML);
+      const self = this;
+
+      debounce(() => {
+        self.$emit('update:modelValue', self.quill.root.innerHTML);
+      }, 300)();
     },
   },
   computed: {

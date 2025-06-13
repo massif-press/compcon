@@ -5,29 +5,27 @@ import { NarrativeController } from '@/classes/narrative/NarrativeController';
 import { Npc, NpcData } from '../Npc';
 import { CompendiumStore, NpcStore } from '@/stores';
 import { IStatData } from '@/classes/components/combat/stats/StatController';
-import { EidolonLayerInstanceSave, EidolonLayerSaveData } from './EidolonLayerSaveData';
+import { EidolonLayerSaveData } from './EidolonLayerSaveData';
 import { FolderController } from '@/classes/components/folder/FolderController';
 import { IInstanceableData } from '@/classes/components/instance/IInstancableData';
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
-import { EidolonLayer } from './EidolonLayer';
+import { EidolonLayer, IEidolonLayerData } from './EidolonLayer';
 
 class EidolonData extends NpcData implements IInstanceableData {
   npcType: 'eidolon' = 'eidolon';
-  instance: boolean = false;
-  instanceId: string | undefined;
+  instanceId: string = '';
 
-  tier!: number;
-  layer_data!: {
+  tier: number = 1;
+  layer_data: {
     id: string;
     description: string;
-    stats: IStatData;
-  }[];
-
-  layer_instance_data?: EidolonLayerInstanceSave[];
+    data: IEidolonLayerData;
+    stats?: IStatData;
+    shard?: IStatData;
+  }[] = [];
 }
 
 class Eidolon extends Npc implements IInstanceable {
-  public IsInstance: boolean;
   public InstanceID?: string;
 
   public readonly ItemType: string = 'Eidolon';
@@ -39,20 +37,16 @@ class Eidolon extends Npc implements IInstanceable {
     super(data);
     this._name = data?.name || 'New Eidolon';
 
-    this.IsInstance = data?.instance || false;
     this.InstanceID = data?.instanceId;
 
     this._tier = data?.tier || 1;
 
     this._layers = [];
 
-    if (data && CompendiumStore().hasEidolonAccess && !data.instance) {
+    if (data) {
       try {
         if (data.layer_data?.length) {
           this._layers = data.layer_data.map((l) => new EidolonLayerSaveData(l, this));
-        } else if (data.layer_instance_data?.length) {
-          this._layers =
-            data.layer_instance_data.map((l) => EidolonLayerSaveData.Deserialize(l, this)) || [];
         }
       } catch (e) {
         Npc.LoadError(this, e, 'Eidolon Layer data');
@@ -60,23 +54,21 @@ class Eidolon extends Npc implements IInstanceable {
     }
 
     if (!data || this._layers.length === 0)
-      this._layers.push(new EidolonLayerSaveData({ id: 'el_core', description: '' }, this));
+      this._layers.push(
+        new EidolonLayerSaveData(
+          { id: 'el_core', description: '', data: {} as IEidolonLayerData },
+          this
+        )
+      );
 
     this.CloudController = new CloudController(this);
   }
 
   public CreateInstance<EidolonData>(): EidolonData {
-    const data = this.Serialize(true) as EidolonData;
-    this.SetInstanceProxies<EidolonData>(data);
+    const data = this.Serialize() as EidolonData;
     (data as any).instanceId = uuid();
 
     return data;
-  }
-
-  SetInstanceProxies<T>(eData: T) {
-    const data = eData as EidolonData;
-
-    data.layer_instance_data = this._layers.map((l) => l.Serialize(true));
   }
 
   public get IsLinked(): boolean {
@@ -112,8 +104,10 @@ class Eidolon extends Npc implements IInstanceable {
     return this._layers;
   }
 
-  public AddLayer(id: string) {
-    this._layers.push(new EidolonLayerSaveData({ id, description: '' }, this));
+  public AddLayer(layer: EidolonLayer) {
+    this._layers.push(
+      new EidolonLayerSaveData({ id: layer.ID, data: layer.Data, description: '' }, this)
+    );
   }
 
   public ClearLayers() {
@@ -125,7 +119,10 @@ class Eidolon extends Npc implements IInstanceable {
       (l) => !this._layers.some((x) => (x.Layer as EidolonLayer).ID === l.ID)
     );
     const l = availableLayers[Math.floor(Math.random() * availableLayers.length)];
-    if (l) this._layers.push(new EidolonLayerSaveData({ id: l.ID, description: '' }, this));
+    if (l)
+      this._layers.push(
+        new EidolonLayerSaveData({ id: l.ID, data: l.Data, description: '' }, this)
+      );
   }
 
   public RemoveLayer(index: number) {
@@ -136,11 +133,10 @@ class Eidolon extends Npc implements IInstanceable {
     this._layers.splice(to, 0, this._layers.splice(from, 1)[0]);
   }
 
-  public static Serialize(eidolon: Eidolon, asInstance: boolean): EidolonData {
+  public static Serialize(eidolon: Eidolon): EidolonData {
     let data = {
       npcType: 'eidolon',
       id: eidolon.ID,
-      instance: eidolon.IsInstance || asInstance,
       instanceId: eidolon.InstanceID,
       name: eidolon.Name,
       note: eidolon.Note,
@@ -148,21 +144,7 @@ class Eidolon extends Npc implements IInstanceable {
       layer_data: [] as any[],
     } as EidolonData;
 
-    if (eidolon.IsInstance || asInstance) {
-      data.layer_data = [];
-      data.layer_instance_data = eidolon._layers.map((layer) => layer.Serialize(true));
-    } else {
-      eidolon._layers.forEach((layer) => {
-        data.layer_data.push({
-          id: (layer.Layer as EidolonLayer)?.ID || 'ERR',
-          description: layer.Description,
-          stats: EidolonLayerSaveData.Serialize(layer, false),
-        });
-      });
-    }
-
-    // TODO: this shouldn't be an object, have to find why it is being polluted
-    if (typeof data.instance === 'object') data.instance = false;
+    data.layer_data = eidolon.Layers.map((l) => EidolonLayerSaveData.Serialize(l));
 
     SaveController.Serialize(eidolon, data);
     CloudController.Serialize(eidolon, data);
@@ -174,8 +156,8 @@ class Eidolon extends Npc implements IInstanceable {
     return data as EidolonData;
   }
 
-  public Serialize<EidolonData>(asInstance: boolean = false): EidolonData {
-    return Eidolon.Serialize(this, asInstance) as EidolonData;
+  public Serialize<EidolonData>(): EidolonData {
+    return Eidolon.Serialize(this) as EidolonData;
   }
 
   public static Deserialize(data: EidolonData): Eidolon {
@@ -183,9 +165,6 @@ class Eidolon extends Npc implements IInstanceable {
 
     SaveController.Deserialize(eidolon, data.save);
     BrewController.Deserialize(eidolon, data);
-    if (!CompendiumStore().hasEidolonAccess) {
-      eidolon.BrewController.MissingContent = true;
-    }
     PortraitController.Deserialize(eidolon, data.img);
     NarrativeController.Deserialize(eidolon, data.narrative);
     FolderController.Deserialize(eidolon, data.folder);
@@ -193,7 +172,7 @@ class Eidolon extends Npc implements IInstanceable {
   }
 
   public Clone<Eidolon>(): Eidolon {
-    const itemData = Eidolon.Serialize(this, false);
+    const itemData = Eidolon.Serialize(this);
     const newItem = Eidolon.Deserialize(itemData);
     newItem.RenewID();
     newItem.Name += ' (COPY)';

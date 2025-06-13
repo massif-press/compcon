@@ -10,9 +10,10 @@ import { INpcTemplateSaveData, NpcTemplateController } from '../template/NpcTemp
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import { FolderController } from '@/classes/components/folder/FolderController';
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
-import { IInstanceableData } from '@/classes/components/instance/IInstancableData';
 import { CompendiumStore, NpcStore } from '@/stores';
-import { CompendiumItemInstanceData } from '@/classes/CompendiumItemInstance';
+import { INpcFeatureData } from '../feature/NpcFeature';
+import { INpcTemplateData } from '../template/NpcTemplate';
+import { INpcClassData } from '../class/NpcClass';
 
 class UnitData
   extends NpcData
@@ -21,14 +22,13 @@ class UnitData
   npcType: 'unit' = 'unit';
 
   stats!: IStatData;
-  class!: string | { Name: string; ID: string; Role: string };
+  class!: { id: string; data: INpcClassData };
   tier!: number;
-  templates!: string[] | { Name: string; ID: string }[];
+  templates: { id: string; data: INpcTemplateData }[] = [];
 
-  subtitle!: string;
-  tag!: string;
-  features!: string[];
-  instancedFeatures?: CompendiumItemInstanceData[];
+  subtitle: string = '';
+  tag: string = 'Mech';
+  features: { id: string; data: INpcFeatureData }[] = [];
 }
 
 class Unit extends Npc implements IStatContainer, IInstanceable {
@@ -120,26 +120,13 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
   }
 
   public CreateInstance<UnitData>(): UnitData {
-    const data = this.Serialize(true) as any;
-    this.SetInstanceProxies<UnitData>(data);
+    const data = this.Serialize() as any;
     (data as any).instanceId = uuid();
     data.originId = this.ID;
     data.id = data.instanceId;
     data.instance = true;
 
     return data as UnitData;
-  }
-
-  SetInstanceProxies<T>(unitData: T) {
-    const data = unitData as UnitData;
-
-    data.class = {
-      Name: this.NpcClassController.Class?.Name || '',
-      ID: this.NpcClassController.Class?.ID || '',
-      Role: this.NpcClassController.Class?.Role || '',
-    };
-
-    data.templates = this.NpcTemplateController.Templates.map((x) => ({ Name: x.Name, ID: x.ID }));
   }
 
   public get IsLinked(): boolean {
@@ -189,27 +176,25 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
 
   public static Deserialize(data: UnitData): Unit {
     const unit = new Unit(data);
+
     SaveController.Deserialize(unit, data.save);
     BrewController.Deserialize(unit, data);
     PortraitController.Deserialize(unit, data.img);
-    if (!CompendiumStore().hasNpcAccess && !data.instance) {
-      unit.BrewController.MissingContent = true;
-    } else {
-      try {
-        NpcClassController.Deserialize(unit, data as any);
-      } catch (e) {
-        Npc.LoadError(unit, e, 'Npc Class Controller');
-      }
-      try {
-        NpcTemplateController.Deserialize(unit, data as any);
-      } catch (e) {
-        Npc.LoadError(unit, e, 'Npc Template Controller');
-      }
-      try {
-        NpcFeatureController.Deserialize(unit, data as any);
-      } catch (e) {
-        Npc.LoadError(unit, e, 'Npc Feature Controller');
-      }
+    if (!CompendiumStore().hasNpcAccess) unit.BrewController.MissingContent = true;
+    try {
+      NpcClassController.Deserialize(unit, data as any);
+    } catch (e) {
+      Npc.LoadError(unit, e, 'Npc Class Controller');
+    }
+    try {
+      NpcTemplateController.Deserialize(unit, data as any);
+    } catch (e) {
+      Npc.LoadError(unit, e, 'Npc Template Controller');
+    }
+    try {
+      NpcFeatureController.Deserialize(unit, data as any);
+    } catch (e) {
+      Npc.LoadError(unit, e, 'Npc Feature Controller');
     }
     NarrativeController.Deserialize(unit, data.narrative);
     StatController.Deserialize(unit, data.stats);

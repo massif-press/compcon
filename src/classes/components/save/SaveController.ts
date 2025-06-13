@@ -40,7 +40,15 @@ class SaveController {
     };
   }
 
-  public save(silent = false) {}
+  public save(silent = false) {
+    if (!this.Parent) {
+      throw new Error(
+        `SaveController parent is not defined. Ensure SaveController is instantiated in the parent's constructor.`
+      );
+    }
+
+    this._save(silent);
+  }
 
   private async _save(silent = false) {
     if (!silent) {

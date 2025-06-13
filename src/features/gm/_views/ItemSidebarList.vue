@@ -19,7 +19,6 @@
       :grouping="grouping"
       :sorting="sorting"
       :selected-id="selectedId"
-      :disabled="disabled"
       @open="$emit('open', item)" />
   </v-list>
 </template>

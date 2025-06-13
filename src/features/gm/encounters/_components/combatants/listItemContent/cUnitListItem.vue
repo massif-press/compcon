@@ -1,16 +1,17 @@
 <template>
   <c-list-item-base :item="item" :readonly="readonly">
     <template #title>
-      <v-icon :icon="item.npc.NpcClassController.Class.Icon" class="mt-n1 ml-1" />
-      {{ item.npc.Name }}
+      <v-icon :icon="item.actor.NpcClassController.Class.Icon" class="mt-n1 ml-1" />
+      {{ item.actor.Name }}
 
-      <span v-if="item.npc.NpcClassController.HasClass && !item.npc.IsNameless">
-        &mdash; T{{ item.npc.NpcClassController.Tier }} {{ item.npc.NpcClassController.Class.Name }}
+      <span v-if="item.actor.NpcClassController.HasClass && !item.actor.IsNameless">
+        &mdash; T{{ item.actor.NpcClassController.Tier }}
+        {{ item.actor.NpcClassController.Class.Name }}
       </span>
       <span class="px-4">
         <cc-chip
-          v-for="t in item.npc.NpcTemplateController.Templates"
-          size="x-small"
+          v-for="t in item.actor.NpcTemplateController.Templates"
+          size="small"
           variant="flat"
           label
           color="primary"
@@ -23,9 +24,9 @@
 
     <div class="py-1">
       <cc-item-chip
-        v-for="f in item.npc.NpcFeatureController.Features"
+        v-for="f in item.actor.NpcFeatureController.Features"
         :item="f"
-        :tier="item.npc.NpcClassController.Tier"
+        :tier="item.actor.NpcClassController.Tier"
         style="margin: 2px" />
     </div>
   </c-list-item-base>

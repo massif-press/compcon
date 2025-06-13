@@ -83,13 +83,13 @@
               :readonly="readonly"
               prefix="layer" />
             <cc-dense-card v-if="layer.Layer" :item="layer.Layer" :tier="item.Tier">
-              <template v-if="layer.Layer.Shards.Count !== 0" #extra>
+              <template v-if="layer.Layer?.Shards?.Count !== 0" #extra>
                 <v-card-text class="mt-n2 pt-0">
-                  <stat-editor
+                  <!-- <stat-editor
                     :item="layer.Layer.Shards"
                     :controller="layer.Layer.Shards.StatController"
                     prefix="Shard"
-                    readonly />
+                    readonly /> -->
                 </v-card-text>
               </template>
             </cc-dense-card>
@@ -140,7 +140,7 @@ export default {
       this.tab--;
     },
     addLayer(layer) {
-      this.item.AddLayer(layer.ID);
+      this.item.AddLayer(layer);
       this.tab = this.item.Layers.length - 1;
       this.layerSelector = false;
     },

@@ -3,6 +3,7 @@ import { NpcClassStats } from '../class/NpcClassStats';
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature';
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory';
 import { EidolonShard, IEidolonShardData } from './EidolonShard';
+import logger from '@/user/logger';
 
 interface IEidolonLayerData {
   id: string;
@@ -33,6 +34,7 @@ const layer_stats = {
 
 class EidolonLayer {
   public readonly ItemType = 'EidolonLayer';
+  public readonly Data: IEidolonLayerData;
   public readonly LcpName: string;
   public readonly InLcp: boolean;
   public readonly HpPerPlayer: number = 5;
@@ -40,7 +42,7 @@ class EidolonLayer {
   public readonly Appearance: string;
   public readonly Hints: string;
   public readonly Features: NpcFeature[];
-  public readonly Shards: EidolonShard;
+  public readonly Shards?: EidolonShard;
 
   public readonly Color: string = 'deep-purple';
 
@@ -54,6 +56,7 @@ class EidolonLayer {
 
   public constructor(data: IEidolonLayerData, pack?: ContentPack) {
     this._id = data.id;
+    this.Data = data;
     this._name = data.name;
     this._stats = new NpcClassStats(layer_stats);
     this._rules = data.rules;
@@ -63,8 +66,13 @@ class EidolonLayer {
     this.Appearance = data.appearance;
     this.Hints = data.hints;
 
+    if (!data.features || !Array.isArray(data.features)) {
+      logger.error('EidolonLayer: Features data missing');
+      data.features = [];
+    }
+
     this.Features = data.features.map((f) => NpcFeatureFactory.Build(f));
-    this.Shards = new EidolonShard(data.shards);
+    if (data.shards) this.Shards = new EidolonShard(data.shards);
     this.InLcp = true;
   }
 
@@ -78,6 +86,10 @@ class EidolonLayer {
 
   public get Stats(): NpcClassStats {
     return this._stats;
+  }
+
+  public set Stats(stats: NpcClassStats) {
+    this._stats = stats;
   }
 
   public get Rules(): string {
@@ -111,7 +123,7 @@ class EidolonLayer {
 
   //TODO: passthrough for datatable until bug gets fixed
   public get ShardCount(): string {
-    return this.Shards.CountString;
+    return this.Shards?.CountString || '0';
   }
 
   public get Icon(): string {

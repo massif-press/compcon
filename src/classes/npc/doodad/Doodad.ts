@@ -12,14 +12,10 @@ import { NpcStore } from '@/stores';
 
 class DoodadData extends NpcData implements IInstanceableData {
   npcType: 'unit' = 'unit';
-  is_instance: boolean = false;
-  instanceId?: string;
-
   stats!: IStatData;
 }
 
 class Doodad extends Npc implements IStatContainer, IInstanceable {
-  public IsInstance: boolean;
   public InstanceID?: string;
 
   public StatController: StatController;
@@ -29,7 +25,6 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
   public constructor(data?: DoodadData) {
     super(data);
 
-    this.IsInstance = data?.is_instance || false;
     this.InstanceID = data?.instanceId;
 
     this._name = data?.name || 'New Doodad';

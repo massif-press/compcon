@@ -179,9 +179,10 @@ export default {
       ).filter((x) => x.key !== 'sizes');
     },
     displayKeys() {
-      return this.item.StatController.DisplayKeys.sort(
-        (a, b) => npcStatOrder.indexOf(a.key) - npcStatOrder.indexOf(b.key)
-      );
+      const omit = ['overshield', 'overcharge'];
+      return this.item.StatController.DisplayKeys.filter(
+        (x) => !omit.includes(x.key.toLowerCase())
+      ).sort((a, b) => npcStatOrder.indexOf(a.key) - npcStatOrder.indexOf(b.key));
     },
   },
   methods: {

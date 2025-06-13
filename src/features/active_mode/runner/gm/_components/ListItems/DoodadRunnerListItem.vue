@@ -1,6 +1,6 @@
 <template>
   <runner-list-item-base
-    :activations="1"
+    :activations="combatant.actor.StatController.CurrentStats['activations']"
     :portrait="combatant.actor.Portrait"
     :collapsed="collapsed"
     :selected="selected"
@@ -8,17 +8,13 @@
     @click="$emit('select')">
     <div>
       <span class="heading h4">
-        {{ combatant.actor.Callsign }}
-      </span>
-      <span class="text-caption text-disabled ml-2">
-        <cc-slashes />
         {{ combatant.actor.Name }}
-        <span v-if="combatant.actor.Player" v-text="' (' + combatant.actor.Player + ')'"></span>
       </span>
+      <span v-if="combatant.number" class="text-accent ml-2">#{{ combatant.number }}</span>
     </div>
 
     <div style="font-size: 16px">
-      <!-- <v-row dense justify="space-between" align="center" class="pl-2 pr-6">
+      <v-row dense justify="space-between" align="center" class="pl-2 pr-6">
         <v-col
           cols="auto"
           v-for="stat in combatant.actor.StatController.GetStatCollection([
@@ -38,9 +34,9 @@
             </template>
           </v-tooltip>
         </v-col>
-      </v-row> -->
+      </v-row>
       <v-divider class="my-1" />
-      <!-- <v-row dense justify="space-between" align="center" class="pl-2 pr-6">
+      <v-row dense justify="space-between" align="center" class="pl-2 pr-6">
         <v-col
           cols="auto"
           v-for="stat in combatant.actor.StatController.GetStatCollection([
@@ -58,7 +54,7 @@
             </template>
           </v-tooltip>
         </v-col>
-      </v-row> -->
+      </v-row>
     </div>
   </runner-list-item-base>
 </template>
@@ -67,7 +63,7 @@
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
 export default {
-  name: 'PilotRunnerListItem',
+  name: 'UnitRunnerListItem',
   components: {
     RunnerListItemBase,
   },
