@@ -58,7 +58,7 @@ export default {
       this.$emit('exit');
     },
     exportItem(item) {
-      exportAsJson(Eidolon.Serialize(item, false), `${item.Name}.json`);
+      exportAsJson(Eidolon.Serialize(item), `${item.Name}.json`);
     },
   },
 };

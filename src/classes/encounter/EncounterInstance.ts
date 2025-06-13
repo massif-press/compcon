@@ -1,11 +1,14 @@
 import { v4 as uuid } from 'uuid';
 import { ISaveData, ISaveable, SaveController } from '../components';
-import { Encounter, IEncounterData } from './Encounter';
+import { CombatantData, Encounter, IEncounterData } from './Encounter';
+import { PilotData } from '@/interface';
+import { Pilot } from '@/class';
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance';
   id: string;
   encounterData: IEncounterData;
+  pilotData?: PilotData[]; // Optional, if pilots are part of the encounter
   save: ISaveData;
   round: number;
 }
@@ -17,6 +20,8 @@ class EncounterInstance implements ISaveable {
   public readonly Name: string = 'encounter_instance';
 
   public Encounter: Encounter;
+  public Pilots: Pilot[] = [];
+  public Combatants: CombatantData[] = [];
 
   private _id: string;
   private _round: number = 0;
@@ -28,6 +33,27 @@ class EncounterInstance implements ISaveable {
     this._round = data.round;
 
     this.Encounter = Encounter.Deserialize(data.encounterData);
+    this.Pilots = data.pilotData?.map((p) => Pilot.Deserialize(p)) || [];
+
+    this.Combatants = [
+      ...this.Encounter.Combatants,
+      ...this.Pilots.map((p) => {
+        return {
+          id: p.ID,
+          index: -1,
+          number: -1,
+          side: 'ally',
+          type: 'pilot',
+          actor: p,
+        } as CombatantData;
+      }),
+    ];
+
+    this.Combatants.sort((a, b) => a.index - b.index);
+
+    this.Combatants.forEach((combatant, index) => {
+      combatant.index = index;
+    });
 
     this.SaveController = new SaveController(this);
   }

@@ -82,6 +82,11 @@
       attacks at a time. Multiple attacks may be made against the same or different targets.
     </v-alert>
     <p
+      v-if="item.OnMiss"
+      slot="statblock"
+      v-html-safe="`<b>On Miss:&nbsp;</b>${item.OnMiss}`"
+      class="panel text-text py-1" />
+    <p
       v-if="item.OnHit"
       slot="statblock"
       v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit}`"
@@ -89,7 +94,7 @@
     <p
       v-if="item.OnCrit"
       slot="statblock"
-      v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit}`"
+      v-html-safe="`<b>On Crit:&nbsp;</b>${item.OnCrit}`"
       class="panel text-text py-1" />
   </equipment-card-base>
 </template>

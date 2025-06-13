@@ -3,15 +3,15 @@
     <template #activator="{ props }">
       <v-chip v-bind="props" size="small" class="rounded-0" label style="margin: 2px">
         <v-icon
-          :icon="item.npc.Icon"
+          :icon="item.actor.Icon"
           start
           size="x-large"
           :color="item.side === 'enemy' ? 'error' : item.side === 'ally' ? 'success' : ''" />
-        <span v-if="!item.npc.IsNameless">
-          {{ item.npc.IsNameless ? '' : item.npc.Name }}
-          <v-icon v-if="item.npc.ItemType === 'Unit'" icon="mdi-vector-point" />
+        <span v-if="!item.actor.IsNameless">
+          {{ item.actor.IsNameless ? '' : item.actor.Name }}
+          <v-icon v-if="item.actor.ItemType === 'Unit'" icon="mdi-vector-point" />
         </span>
-        {{ item.npc.DefaultName }}
+        {{ item.actor.DefaultName }}
       </v-chip>
     </template>
     <v-card class="text-center" tile border>
@@ -20,28 +20,28 @@
         dense
         :color="item.side === 'enemy' ? 'error' : item.side === 'ally' ? 'success' : ''">
         <div class="heading h3 px-2">
-          {{ item.npc.Name }}
+          {{ item.actor.Name }}
           <cc-slashes />
           {{ item.side }}
         </div>
       </v-toolbar>
-      <v-card-text v-if="item.npc.NpcFeatureController" class="px-2 py-1">
+      <v-card-text v-if="item.actor.NpcFeatureController" class="px-2 py-1">
         <div class="pa-1">
           <v-icon icon="itemc:structure" />
-          {{ item.npc.StatController.getStat('structure') }}
+          {{ item.actor.StatController.getStat('structure') }}
           <v-icon icon="mdi-heart" class="ml-3" />
-          {{ item.npc.StatController.getStat('hp') }}
+          {{ item.actor.StatController.getStat('hp') }}
           <v-icon icon="mdi-shield" class="ml-3" />
-          {{ item.npc.StatController.getStat('armor') }}
+          {{ item.actor.StatController.getStat('armor') }}
           <v-icon icon="itemc:reactor" class="ml-3" />
-          {{ item.npc.StatController.getStat('stress') }}
+          {{ item.actor.StatController.getStat('stress') }}
           <v-icon icon="itemc:heat" class="ml-3" />
-          {{ item.npc.StatController.getStat('heat') }}
+          {{ item.actor.StatController.getStat('heat') }}
         </div>
-        <cc-item-chip v-for="f in item.npc.NpcFeatureController.Features" :item="f" />
+        <cc-item-chip v-for="f in item.actor.NpcFeatureController.Features" :item="f" />
       </v-card-text>
-      <v-card-text v-if="item.npc.Layers">
-        <cc-item-chip v-for="l in item.npc.Layers" :item="l" />
+      <v-card-text v-if="item.actor.Layers">
+        <cc-item-chip v-for="l in item.actor.Layers" :item="l" />
       </v-card-text>
     </v-card>
   </v-menu>

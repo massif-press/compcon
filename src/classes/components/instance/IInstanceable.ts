@@ -6,7 +6,6 @@ interface IInstanceable {
   IsLinked: boolean;
 
   CreateInstance<T>(): T;
-  SetInstanceProxies<T>(data: T): void;
   Serialize(asInstance: boolean): any;
   GetLinkedItem<T>(): T;
 }

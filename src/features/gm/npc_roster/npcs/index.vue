@@ -10,7 +10,8 @@
     @add-new="addNew()"
     @open="openItem($event)">
     <editor
-      v-if="selected"
+      v-if="!!selected"
+      :key="selected.ID"
       :item="selected"
       :readonly="selected.Readonly"
       hide-toolbar

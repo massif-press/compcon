@@ -188,8 +188,6 @@ abstract class Npc
   public abstract get IsLinked(): boolean;
 
   public abstract GetLinkedItem<Npc>(): Npc;
-
-  public abstract SetInstanceProxies<T>(data: T): void;
 }
 
 export { NpcData, Npc };

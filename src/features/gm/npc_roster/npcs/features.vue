@@ -18,7 +18,7 @@
   </v-row>
   <div v-if="npc.NpcClassController?.HasClass">
     <npc-feature-alerts
-      v-if="!readonly"
+      :hide="readonly || npc.BrewController.MissingContent"
       :template-controller="npc.NpcTemplateController"
       expanded />
 
@@ -29,7 +29,7 @@
       :min-columns="1"
       :max-columns="2">
       <template #default="{ item }">
-        <cc-dense-card :item="item" :tier="npc.NpcClassController.Tier">
+        <cc-dense-card v-if="item" :item="item" :key="item.ID" :tier="npc.NpcClassController.Tier">
           <template #pre>
             <npc-mod-inset
               v-for="mod in npc.NpcFeatureController.GetModifiers(item)"
@@ -84,8 +84,8 @@ export default {
     },
     shownFeatures() {
       const arr = this.showPassives
-        ? this.npc.NpcFeatureController.Features
-        : this.npc.NpcFeatureController.Features.filter((f: any) => !f.Passive);
+        ? this.npc.NpcFeatureController.Features.filter((f: any) => !!f)
+        : this.npc.NpcFeatureController.Features.filter((f: any) => !!f && !f.Passive);
       return _.orderBy(arr, 'FeatureType', 'desc');
     },
   },

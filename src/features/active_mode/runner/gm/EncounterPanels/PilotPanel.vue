@@ -1,23 +1,23 @@
 <template>
-  <panel-base :item="item" :image="item.frame.DefaultImage" :size-icon="item.frame.SizeIcon">
+  <panel-base :item="pilot" :image="mech.Frame.Portrait" :size-icon="mech.Frame.SizeIcon">
     <template #header>
       <v-row>
-        <v-col class="heading h2 text-accent">{{ item.callsign }}</v-col>
+        <v-col class="heading h2 text-accent">{{ pilot.Callsign }}</v-col>
         <v-col cols="auto">
           <span class="text-cc-overline pr-1">Played by</span>
-          <b class="text-accent">{{ item.name }}</b>
+          <b class="text-accent">{{ pilot.Name }}</b>
         </v-col>
       </v-row>
     </template>
 
     <template #name-block>
-      <div class="heading h2">{{ item.mechname }}</div>
-      <div class="heading h4">{{ item.frame.Source }} {{ item.frame.Name }}</div>
+      <div class="heading h2">{{ mech.Name }}</div>
+      <div class="heading h4">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
     </template>
 
     <div class="text-cc-overline mt-4 text-disabled">Frame Traits</div>
     <masonry-wall
-      :items="item.frame.Traits"
+      :items="mech.Frame.Traits"
       :column-width="500"
       :gap="16"
       :min-columns="1"
@@ -38,9 +38,9 @@
     <br />
 
     <!-- <v-scroll-y-reverse-transition>
-      <div v-if="item.statuses.length" class="text-cc-overline mt-2">
+      <div v-if="pilot.statuses.length" class="text-cc-overline mt-2">
         <cc-alert
-          v-for="status in item.statuses"
+          v-for="status in pilot.statuses"
           :title="status.Name"
           :icon="status.Icon"
           prominent
@@ -82,7 +82,7 @@ export default {
     PanelBase,
   },
   props: {
-    item: {
+    combatant: {
       type: Object,
       required: true,
     },
@@ -111,6 +111,12 @@ export default {
     usedActions: [],
   }),
   computed: {
+    pilot() {
+      return this.combatant.actor;
+    },
+    mech() {
+      return this.pilot.Mechs[0];
+    },
     statuses() {
       return _.orderBy(CompendiumStore().Statuses, 'StatusType');
     },
@@ -135,49 +141,49 @@ export default {
       return icons[stat];
     },
     addStatus(status) {
-      if (this.item.statuses.includes(status)) {
-        const index = this.item.statuses.indexOf(status);
-        this.item.statuses.splice(index, 1);
+      if (this.pilot.statuses.includes(status)) {
+        const index = this.pilot.statuses.indexOf(status);
+        this.pilot.statuses.splice(index, 1);
       } else {
-        this.item.statuses.push(status);
+        this.pilot.statuses.push(status);
       }
     },
     addSpecialStatus(status) {
-      if (this.item.special.includes(status.Name)) {
-        const index = this.item.special.indexOf(status.Name);
-        this.item.special.splice(index, 1);
+      if (this.pilot.special.includes(status.Name)) {
+        const index = this.pilot.special.indexOf(status.Name);
+        this.pilot.special.splice(index, 1);
         return;
       }
-      this.item.special.push(status.Name);
+      this.pilot.special.push(status.Name);
     },
     addResistance(resist) {
-      if (this.item.vulnerabilities.includes(resist.Name)) {
-        const index = this.item.vulnerabilities.indexOf(resist.Name);
-        this.item.vulnerabilities.splice(index, 1);
+      if (this.pilot.vulnerabilities.includes(resist.Name)) {
+        const index = this.pilot.vulnerabilities.indexOf(resist.Name);
+        this.pilot.vulnerabilities.splice(index, 1);
         return;
       }
-      if (this.item.immunities.includes(resist.Name)) {
-        const index = this.item.immunities.indexOf(resist.Name);
-        this.item.immunities.splice(index, 1);
-        this.item.vulnerabilities.push(resist.Name);
+      if (this.pilot.immunities.includes(resist.Name)) {
+        const index = this.pilot.immunities.indexOf(resist.Name);
+        this.pilot.immunities.splice(index, 1);
+        this.pilot.vulnerabilities.push(resist.Name);
         return;
       }
-      if (this.item.resistances.includes(resist.Name)) {
-        const index = this.item.resistances.indexOf(resist.Name);
-        this.item.resistances.splice(index, 1);
-        this.item.immunities.push(resist.Name);
+      if (this.pilot.resistances.includes(resist.Name)) {
+        const index = this.pilot.resistances.indexOf(resist.Name);
+        this.pilot.resistances.splice(index, 1);
+        this.pilot.immunities.push(resist.Name);
       } else {
-        this.item.resistances.push(resist.Name);
+        this.pilot.resistances.push(resist.Name);
       }
     },
     hasResistance(resist) {
-      return this.item.resistances.includes(resist.Name);
+      return this.pilot.resistances.includes(resist.Name);
     },
     hasImmunity(resist) {
-      return this.item.immunities.includes(resist.Name);
+      return this.pilot.immunities.includes(resist.Name);
     },
     hasVulnerability(resist) {
-      return this.item.vulnerabilities.includes(resist.Name);
+      return this.pilot.vulnerabilities.includes(resist.Name);
     },
     actionStatus(action) {
       if (action === 'full')

@@ -28,10 +28,9 @@
     item-key="index">
     <template #item="{ element, index }">
       <div class="my-2">
-        <unit-runner-list-item
-          v-if="element.type === 'unit' && element.npc"
+        <component
+          :is="`${element.type}-runner-list-item`"
           :combatant="element"
-          :npc="element.npc"
           :collapsed="!expanded"
           :selected="selected && selected.id === element.id"
           @select="$emit('select', element)" />
@@ -75,12 +74,16 @@ import _ from 'lodash';
 import { Sortable } from 'sortablejs-vue3';
 import { CompendiumStore } from '@/stores';
 import UnitRunnerListItem from './ListItems/UnitRunnerListItem.vue';
+import PilotRunnerListItem from './ListItems/PilotRunnerListItem.vue';
+import DoodadRunnerListItem from './ListItems/DoodadRunnerListItem.vue';
 
 export default {
   name: 'gm-encounter-runner-initiative-panel',
   components: {
     Sortable,
     UnitRunnerListItem,
+    PilotRunnerListItem,
+    DoodadRunnerListItem,
   },
   props: {
     encounter: {
@@ -103,6 +106,7 @@ export default {
   }),
   emits: ['select'],
   mounted() {
+    console.log(this.encounter.Combatants);
     this.actors = this.encounter.Combatants;
   },
   methods: {

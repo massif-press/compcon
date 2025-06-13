@@ -26,17 +26,15 @@
                   icon
                   flat
                   size="small"
-                  :value="selected.length === contentItems.length"
+                  :value="selected.length === items.length"
                   hide-details
                   @click="
-                    selected.length
-                      ? (selected = [])
-                      : (selected = contentItems.map((x: any) => x.ID))
+                    selected.length ? (selected = []) : (selected = items.map((x: any) => x.ID))
                   ">
                   <v-icon
                     size="x-large"
                     :icon="
-                      selected.length === contentItems.length
+                      selected.length === items.length
                         ? 'mdi-checkbox-outline'
                         : selected.length > 0
                           ? 'mdi-minus-box-outline'
@@ -50,7 +48,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in contentItems">
+            <tr v-for="item in items">
               <td>
                 <v-checkbox v-model="selected" multiple :value="(item as any).ID" hide-details />
               </td>
@@ -58,6 +56,7 @@
                 :class="
                   item.SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''
                 ">
+                <cc-missing-content-hover :item="item" />
                 {{ (item as any).Name }}
               </td>
               <th>
@@ -74,26 +73,6 @@
                   v-for="label in (item as any).NarrativeController.Labels"
                   :label="label"
                   class="mr-1 mb-1" />
-              </td>
-            </tr>
-
-            <tr v-for="item in missingContentItems">
-              <td>
-                <cc-missing-content-hover :item="item" />
-              </td>
-              <td class="text-disabled">
-                {{ (item as any).Name }}
-              </td>
-              <td />
-              <td>
-                <v-btn
-                  size="x-small"
-                  color="error"
-                  variant="tonal"
-                  prepend-icon="mdi-delete"
-                  @click="deleteItemPermanent(item)">
-                  Delete Non-loadable Item
-                </v-btn>
               </td>
             </tr>
           </tbody>
@@ -355,12 +334,6 @@ export default {
       items = items.sort((a: any, b: any) => a.Name.localeCompare(b.Name));
 
       return items;
-    },
-    contentItems() {
-      return this.items.filter((x: any) => !x.BrewController || !x.BrewController.IsUnableToLoad);
-    },
-    missingContentItems() {
-      return this.items.filter((x: any) => x.BrewController && x.BrewController.IsUnableToLoad);
     },
     allFolders() {
       return NpcStore().getFolders.concat(NarrativeStore().getFolders);

@@ -23,6 +23,8 @@ interface INpcTemplateData {
 }
 
 class NpcTemplate {
+  public readonly Data: INpcTemplateData;
+
   public InLcp: boolean = true;
   public readonly ItemType = 'NpcTemplate';
   private _id: string;
@@ -42,6 +44,7 @@ class NpcTemplate {
   public readonly LcpName: string;
 
   public constructor(data: INpcTemplateData, pack?: ContentPack) {
+    this.Data = data;
     this._id = data.id;
     this._name = data.name;
     this._description = data.description || '';

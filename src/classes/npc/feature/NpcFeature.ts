@@ -100,17 +100,11 @@ abstract class NpcFeature extends CompendiumItem {
   }
 
   public get Origin() {
-    // nested try/catch to preserve missing LCP error throws. Works but smells.
-    try {
+    if (CompendiumStore().has('NpcClasses', this._originID))
       return CompendiumStore().referenceByID('NpcClasses', this._originID) as NpcClass;
-    } catch (e) {
-      try {
-        return CompendiumStore().referenceByID('NpcTemplates', this._originID) as NpcTemplate;
-      } catch (e) {
-        logger.error(`Feature ${this._name} has no valid origin data!`, this);
-        return { ID: 'err' };
-      }
-    }
+    if (CompendiumStore().has('NpcTemplates', this._originID))
+      return CompendiumStore().referenceByID('NpcTemplates', this._originID) as NpcTemplate;
+    return { ID: 'not_loaded' };
   }
 
   public get Effect(): string {
@@ -149,27 +143,6 @@ abstract class NpcFeature extends CompendiumItem {
   public get Passive(): boolean {
     return this.BuildFeature || this.Deprecated || !!this.Mod || this.HideActive;
   }
-
-  Serialize(): INpcFeatureData {
-    const data = {} as INpcFeatureData;
-    data.origin = this._originID;
-    data.effect = this._effect;
-    data.hide_active = this._hide_active;
-    data.base = this.Base;
-    data.deprecated = this.Deprecated;
-    data.build_feature = this.BuildFeature;
-    if (this.Mod) {
-      data.mod = {
-        target: this.Mod._targetID,
-        add_effect: this.Mod.AddEffect,
-        add_bonuses: this.Mod.AddBonuses.map((x) => Bonus.Serialize(x)),
-        add_tags: this.Mod.AddTags,
-        add_deployables: this.Mod.AddDeployables.map((x) => Deployable.Serialize(x)),
-      };
-    }
-    return data;
-  }
 }
-
 export { NpcFeature };
 export type { INpcFeatureData };

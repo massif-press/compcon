@@ -7,9 +7,7 @@
       </div>
     </v-toolbar>
     <div class="pa-0">
-      <p v-if="mod.Mod.AddEffect" class="py-1 px-2">
-        {{ mod.Mod.AddEffect }}
-      </p>
+      <p v-if="mod.Mod.AddEffect" class="py-1 px-2" v-html-safe="mod.Mod.AddEffect" />
       <cc-bonus v-for="bonus in mod.Mod.AddBonuses" :bonus="bonus" />
       <cc-tags v-for="tag in mod.Mod.AddTags" :tag="tag" />
       <cc-deployable v-for="deployable in mod.Mod.AddDeployables" :deployable="deployable" />

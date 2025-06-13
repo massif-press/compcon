@@ -83,7 +83,7 @@
           :sorting="sorting"
           :selected-id="selected?.ID || ''"
           :all-folders="folders"
-          :disabled="!canAddNpc"
+          :disabled="!canAdd"
           @open="$emit('open', $event)" />
 
         <div v-if="hidden" class="text-right pa-2 text-disabled">
@@ -99,7 +99,7 @@
                 color="success"
                 size="small"
                 prepend-icon="mdi-plus"
-                :disabled="!canAddNpc"
+                :disabled="!canAdd"
                 block
                 @click="props.onClick($event)">
                 Add {{ itemType }}
@@ -163,6 +163,7 @@ import { NpcStore } from '../store/npc_store';
 import { NarrativeStore } from '../store/narrative_store';
 import { CompendiumStore, UserStore } from '@/stores';
 import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
+import { Npc } from '@/classes/npc/Npc';
 
 export default {
   name: 'gm-collection-view',
@@ -227,11 +228,20 @@ export default {
           return NarrativeStore();
       }
     },
-    canAddNpc(): boolean {
-      return CompendiumStore().hasNpcAccess;
+
+    canAdd(): boolean {
+      console.log(this.itemType);
+      if (this.itemType.toLowerCase() === 'npc') {
+        return CompendiumStore().hasNpcAccess;
+      } else if (this.itemType.toLowerCase() === 'eidolon') {
+        return CompendiumStore().hasEidolonAccess;
+      }
+      return true;
     },
     folders(): string[] {
-      return this.folderStore.getFolders;
+      return this.folderStore.getFolders.filter((f) =>
+        this.items.some((i) => (i as Npc).FolderController.Folder === f)
+      );
     },
     filteredItems() {
       let out = this.items;

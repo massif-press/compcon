@@ -1,9 +1,9 @@
 <template>
   <v-list-item
     border
-    :class="`${selectedId === item.ID ? 'bg-primary' : ''} ${disabled ? 'disabled' : ''}`"
+    :class="`${selectedId === item.ID ? 'bg-primary' : ''} `"
     style="margin-bottom: 2px"
-    @click="disabled || missingContent ? '' : $emit('open')">
+    @click="$emit('open')">
     <template #prepend>
       <v-avatar class="ml-n2 mr-1">
         <v-icon

@@ -1,11 +1,15 @@
 <template>
-  <panel-base :item="item">
+  <panel-base :item="combatant.actor">
     <template #name-block>
-      <div class="heading h2">{{ item.Name }}</div>
+      <div class="heading h2">
+        {{ combatant.actor.Name }}
+        <span class="text-accent" v-text="`#${combatant.number}`" />
+      </div>
       <div class="heading h4">
-        T{{ item.NpcClassController.Tier }} {{ item.NpcClassController.Class.Name }}
-        <span v-if="item.NpcTemplateController.Templates.length">
-          {{ item.NpcTemplateController.Templates.map((x) => x.Name).join(' / ') }}
+        T{{ combatant.actor.NpcClassController.Tier }}
+        {{ combatant.actor.NpcClassController.Class.Name }}
+        <span v-if="combatant.actor.NpcTemplateController.Templates.length">
+          {{ combatant.actor.NpcTemplateController.Templates.map((x) => x.Name).join(' / ') }}
         </span>
       </div>
     </template>
@@ -21,7 +25,7 @@ export default {
     PanelBase,
   },
   props: {
-    item: {
+    combatant: {
       type: Object,
       required: true,
     },

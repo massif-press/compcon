@@ -11,7 +11,7 @@
           missingContent ? 'cursor: not-allowed; border: 3px double rgb(var(--v-theme-error))' : ''
         "
         :ripple="!missingContent"
-        @click="missingContent ? '' : $emit('open', item)">
+        @click="$emit('open', item)">
         <cc-img :aspect-ratio="1" :src="item.PortraitController.Image" />
         <v-fade-transition>
           <v-card

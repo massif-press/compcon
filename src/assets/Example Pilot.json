@@ -1,0 +1,769 @@
+{
+  "itemType": "pilot",
+  "id": "040e14f1-81c5-4c11-830c-c4beb41bd202",
+  "is_instance": false,
+  "instanceId": "",
+  "originId": "040e14f1-81c5-4c11-830c-c4beb41bd202",
+  "le": true,
+  "level": 3,
+  "callsign": "Oda",
+  "name": "Taro Oda",
+  "player_name": "Beeftime",
+  "status": "ACTIVE",
+  "text_appearance": "",
+  "notes": "",
+  "history": "<p><br></p>",
+  "quirks": [],
+  "background": "Colonist",
+  "mechs": [
+    {
+      "id": "544a2362-3824-4647-831c-35f07b950cfc",
+      "name": "Raijin",
+      "notes": "",
+      "frame": "mf_raleigh",
+      "frameData": {
+        "id": "mf_raleigh",
+        "license_level": 2,
+        "source": "IPS-N",
+        "name": "Raleigh",
+        "mechtype": ["Striker"],
+        "y_pos": 12.5,
+        "description": "Seeing GMS and Harrison Armory’s push to secure whole-fleet line contracts with Union member states, IPS-N launched a brief foray into design and production of their own main battle line frame. Enter the Raleigh, a stylistic and design oddity for IPS-N. Designed not as a specialist, but as a purpose-built, close-range mech, the Raleigh failed to stun potential clients in trials.<br>Though a favorite of test pilots due to its unique styling and agility, the Raleigh saw few fleet orders and, after a brief run as IPS-N’s flagship, was quietly rolled back and replaced with the Tortuga. No longer offered as a fleet contract, the Raleigh enjoys a quiet popularity among pilots seeking a well-balanced, if close-ranged, line mech.",
+        "mounts": ["Aux/Aux", "Flex", "Heavy"],
+        "stats": {
+          "size": 1,
+          "structure": 4,
+          "stress": 4,
+          "armor": 1,
+          "hp": 10,
+          "evasion": 8,
+          "edef": 7,
+          "heatcap": 5,
+          "repcap": 5,
+          "sensor_range": 10,
+          "tech_attack": -1,
+          "save": 10,
+          "speed": 4,
+          "sp": 5
+        },
+        "traits": [
+          {
+            "name": "Full Metal Jacket",
+            "description": "At the end of its turn, if the Raleigh hasn’t made any attacks or forced any saves, it can reload all Loading weapons as a free action."
+          },
+          {
+            "name": "Shielded Magazines",
+            "description": "The Raleigh can make ranged attacks when Jammed."
+          }
+        ],
+        "core_system": {
+          "name": "M35 Mjolnir Cannon",
+          "description": "IPS-N’s M35 Mjolnir cannon is a carryover from Northstar’s Watchman line of defensive weapons, reworked for frontline combat. The Mjolnir is a hard-mounted, multi-barrel auxiliary cannon that uses magnetic acceleration to fire stacks of airburst projectiles at its target. It’s an impulse weapon, tied to the pilot’s second-tier neural processes with mediation from a COMP/CON or NHP; even in death, a pilot’s Mjolnir will continue to identify and attack hostile targets until reaching total systemic failure. For this reason, the Mjolnir is often referred to as a deadgun – one of many such weapons to be found among CQB-oriented pilots.",
+          "active_name": "Thunder God",
+          "active_effect": "You start to spin your M35 Mjolnir up, beginning with no chambered rounds. For the rest of the scene, you load two rounds into chambers at the end of any of your turns in which you haven’t fired the M35 Mjolnir . It can hold a maximum of six rounds.<br>When you fire the M35 Mjolnir, all chambers fire simultaneously, dealing 4 kinetic damage per loaded round. If you fire four or more rounds at once, the attack gains AP and, on a hit, your target becomes Shredded until the end of their next turn.",
+          "activation": "Protocol",
+          "use": "Encounter",
+          "integrated": ["mw_raleigh_integrated"]
+        },
+        "image_url": "https://d2c79xe1p61csc.cloudfront.net/frames/mf_raleigh.png",
+        "license_id": "mf_raleigh"
+      },
+      "img": { "portrait": "", "cloud_portrait": "" },
+      "loadouts": [
+        {
+          "id": "f3127a8f-34db-4702-a789-12a67aafdf66",
+          "name": "Primary",
+          "systems": [
+            {
+              "id": "ms_pattern_b_hex_charges",
+              "data": {
+                "id": "ms_pattern_b_hex_charges",
+                "name": "Pattern-B HEX Charges",
+                "type": "Deployable",
+                "sp": 2,
+                "tags": [
+                  { "id": "tg_limited", "val": 3 },
+                  { "id": "tg_unique" },
+                  { "id": "tg_grenade" }
+                ],
+                "source": "GMS",
+                "license": "GMS",
+                "license_level": 0,
+                "actions": [
+                  {
+                    "name": "Frag Grenade",
+                    "activation": "Quick",
+                    "range": [
+                      { "type": "Range", "val": 5 },
+                      { "type": "Blast", "val": 1 }
+                    ],
+                    "damage": [{ "type": "Explosive", "val": "1d6" }],
+                    "detail": "Throw a Frag Grenade within Range 5. All characters within a Blast 1 area must pass an Agility save or take 1d6 Explosive damage. On a success, they take half damage."
+                  }
+                ],
+                "deployables": [
+                  {
+                    "name": "Explosive Mine",
+                    "type": "Mine",
+                    "range": [{ "type": "Burst", "val": 1 }],
+                    "activation": "Quick",
+                    "detail": "All characters within a Burst 1 area must pass an Agility save or take 2d6 Explosive damage. On a success, they take half damage."
+                  }
+                ],
+                "license_id": ""
+              },
+              "note": "",
+              "flavorName": "",
+              "flavorDescription": ""
+            },
+            {
+              "id": "ms_rapid_burst_jump_jet_system",
+              "data": {
+                "id": "ms_rapid_burst_jump_jet_system",
+                "name": "Rapid Burst Jump Jet System",
+                "type": "Flight System",
+                "sp": 2,
+                "tags": [{ "id": "tg_unique" }],
+                "source": "GMS",
+                "license": "GMS",
+                "license_level": 0,
+                "effect": {
+                  "description": "You can fly when you Boost; however, you must end the movement on the ground or another solid surface, or else immediately begin falling."
+                },
+                "synergies": [
+                  {
+                    "locations": ["boost"],
+                    "detail": "You can fly when you Boost; however, you must end the movement on the ground or another solid surface, or else immediately begin falling."
+                  }
+                ],
+                "license_id": ""
+              },
+              "note": "",
+              "flavorName": "",
+              "flavorDescription": ""
+            },
+            {
+              "id": "ms_type_3_projected_shield",
+              "data": {
+                "id": "ms_type_3_projected_shield",
+                "name": "Type-3 Projected Shield",
+                "type": "Shield",
+                "sp": 2,
+                "tags": [
+                  { "id": "tg_shield" },
+                  { "id": "tg_unique" },
+                  { "id": "tg_heat_self", "val": 1 }
+                ],
+                "source": "GMS",
+                "license": "GMS",
+                "license_level": 0,
+                "actions": [
+                  {
+                    "name": "Project Shield",
+                    "activation": "Protocol",
+                    "detail": "Nominate a character within line of sight: all ranged or melee attacks that they make against you or that you make against them gain +2 Difficulty until the start of your next turn."
+                  }
+                ],
+                "description": "The GMS Type-3 Projected Shield traps and denies incoming projectiles by projecting an aggressive, superpositional anti-ballistic barrier.",
+                "license_id": ""
+              },
+              "note": "",
+              "flavorName": "",
+              "flavorDescription": ""
+            },
+            {
+              "id": "ms_personalizations",
+              "data": {
+                "id": "ms_personalizations",
+                "name": "Personalizations",
+                "sp": 1,
+                "tags": [{ "id": "tg_unique" }],
+                "source": "GMS",
+                "license": "GMS",
+                "license_level": 0,
+                "effect": {
+                  "description": "You gain +2 HP and, in consultation with the GM, you may establish a minor modification you have made to your mech.<br>This mod has no numerical benefit beyond the additional HP it grants, but could provide other useful effects. If the GM agrees that this mod would help with either a pilot or mech skill check, you gain +1 Accuracy for that check."
+                },
+                "bonuses": [{ "id": "hp", "val": 2 }],
+                "license_id": ""
+              },
+              "note": "",
+              "flavorName": "",
+              "flavorDescription": ""
+            }
+          ],
+          "integratedSystems": [],
+          "mounts": [
+            {
+              "mount_type": "Aux/Aux",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Auxiliary",
+                  "weapon": {
+                    "id": "mw_hand_cannon",
+                    "data": {
+                      "id": "mw_hand_cannon",
+                      "name": "Hand Cannon",
+                      "mount": "Auxiliary",
+                      "type": "CQB",
+                      "damage": [{ "type": "Kinetic", "val": "1d6" }],
+                      "range": [
+                        { "type": "Range", "val": 5 },
+                        { "type": "Threat", "val": 3 }
+                      ],
+                      "tags": [{ "id": "tg_loading" }, { "id": "tg_reliable", "val": 1 }],
+                      "source": "IPS-N",
+                      "license": "Raleigh",
+                      "license_level": 1,
+                      "description": "The IPS-N hand cannon is a licensed version of GMS’s Type-I Pistol, adapted for a much heavier caliber. This modification requires the belt-fed system of the GMS build to be swapped for a cylinder or magazine-based system, depending on the specific model of hand cannon.",
+                      "license_id": "mf_raleigh"
+                    },
+                    "note": "",
+                    "flavorName": "",
+                    "flavorDescription": "",
+                    "selectedProfile": 0,
+                    "maxUseOverride": 0
+                  }
+                },
+                {
+                  "size": "Auxiliary",
+                  "weapon": {
+                    "id": "mw_hand_cannon",
+                    "data": {
+                      "id": "mw_hand_cannon",
+                      "name": "Hand Cannon",
+                      "mount": "Auxiliary",
+                      "type": "CQB",
+                      "damage": [{ "type": "Kinetic", "val": "1d6" }],
+                      "range": [
+                        { "type": "Range", "val": 5 },
+                        { "type": "Threat", "val": 3 }
+                      ],
+                      "tags": [{ "id": "tg_loading" }, { "id": "tg_reliable", "val": 1 }],
+                      "source": "IPS-N",
+                      "license": "Raleigh",
+                      "license_level": 1,
+                      "description": "The IPS-N hand cannon is a licensed version of GMS’s Type-I Pistol, adapted for a much heavier caliber. This modification requires the belt-fed system of the GMS build to be swapped for a cylinder or magazine-based system, depending on the specific model of hand cannon.",
+                      "license_id": "mf_raleigh"
+                    },
+                    "note": "",
+                    "flavorName": "",
+                    "flavorDescription": "",
+                    "selectedProfile": 0,
+                    "maxUseOverride": 0
+                  }
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            },
+            {
+              "mount_type": "Flex",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Flex",
+                  "weapon": {
+                    "id": "mw_assault_rifle",
+                    "data": {
+                      "id": "mw_assault_rifle",
+                      "name": "Assault Rifle",
+                      "mount": "Main",
+                      "type": "Rifle",
+                      "damage": [{ "type": "Kinetic", "val": "1d6" }],
+                      "range": [{ "type": "Range", "val": 10 }],
+                      "tags": [{ "id": "tg_reliable", "val": 2 }],
+                      "source": "GMS",
+                      "license": "GMS",
+                      "license_level": 0,
+                      "description": "Much like GMS mechs, GMS weapons are reliable galactic standards, made using interchangeable parts and built to withstand almost any conditions. There are three lines currently in production.<br>The Type-I (T-1) line is defined by powerful, reliable, and conventional-kinetic ranged and melee weapons, including the GMS assault rifle, heavy machine gun, shotgun, pistol, and various light and heavy blades. Reliable galactic standards, the GMS T-1 line is the most widely used mech-scale line of weaponry across the galaxy. Echoing the Everest’s design notes, T-1 weapons are simply designed, with few (if any) moving parts, intended to be used in or adaptable to any environment.",
+                      "license_id": ""
+                    },
+                    "note": "",
+                    "flavorName": "",
+                    "flavorDescription": "",
+                    "selectedProfile": 0,
+                    "maxUseOverride": 0
+                  }
+                }
+              ],
+              "extra": [{ "size": "Auxiliary", "weapon": null }],
+              "bonus_effects": []
+            },
+            {
+              "mount_type": "Heavy",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Heavy",
+                  "weapon": {
+                    "id": "mw_anti_materiel_rifle",
+                    "data": {
+                      "id": "mw_anti_materiel_rifle",
+                      "name": "Anti-Materiel Rifle",
+                      "mount": "Heavy",
+                      "type": "Rifle",
+                      "damage": [{ "type": "Kinetic", "val": "2d6" }],
+                      "range": [{ "type": "Range", "val": 20 }],
+                      "tags": [
+                        { "id": "tg_accurate" },
+                        { "id": "tg_ap" },
+                        { "id": "tg_loading" },
+                        { "id": "tg_ordnance" }
+                      ],
+                      "source": "GMS",
+                      "license": "GMS",
+                      "license_level": 0,
+                      "description": "Much like GMS mechs, GMS weapons are reliable galactic standards, made using interchangeable parts and built to withstand almost any conditions. There are three lines currently in production.<br>The Type-III (T-3) line is made up of heavy weapons, ordnance, and other exotic, specialized, or massive weapons. A broad classification, the T-3 range includes conventional-kinetic anti-materiel rifles, super-rapid cycling pulse rifles, missile racks, cannons, and drone nexuses – “hive” style launchers that serve as miniature factory, hangar, and deployment systems for portable drones. The classification also includes the fearsome “segment knife”, a system that uses flash-printing to produce disposable edged weapons in a vicinity around the user.",
+                      "license_id": ""
+                    },
+                    "note": "",
+                    "flavorName": "",
+                    "flavorDescription": "",
+                    "selectedProfile": 0,
+                    "maxUseOverride": 0
+                  }
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            }
+          ],
+          "integratedMounts": [
+            {
+              "weapon": {
+                "id": "mw_raleigh_integrated",
+                "data": {
+                  "id": "mw_raleigh_integrated",
+                  "name": "M35 Mjolnir",
+                  "mount": "Main",
+                  "type": "CQB",
+                  "range": [
+                    { "type": "Range", "val": 5 },
+                    { "type": "Threat", "val": 3 }
+                  ],
+                  "damage": [{ "type": "Kinetic", "val": 4 }],
+                  "effect": {
+                    "description": "1/round, when you reload any weapon, this weapon can be fired as a free action."
+                  },
+                  "license_id": ""
+                },
+                "note": "",
+                "flavorName": "",
+                "flavorDescription": "",
+                "selectedProfile": 0,
+                "maxUseOverride": 0
+              }
+            }
+          ],
+          "improved_armament": {
+            "mount_type": "Flex",
+            "lock": false,
+            "slots": [{ "size": "Flex", "weapon": null }],
+            "extra": [{ "size": "Auxiliary", "weapon": null }],
+            "bonus_effects": []
+          },
+          "integratedWeapon": {
+            "mount_type": "Aux",
+            "lock": false,
+            "slots": [{ "size": "Auxiliary", "weapon": null }],
+            "extra": [],
+            "bonus_effects": []
+          },
+          "superheavy_mounting": {
+            "mount_type": "Superheavy",
+            "lock": false,
+            "slots": [{ "size": "Superheavy", "weapon": null }],
+            "extra": [],
+            "bonus_effects": []
+          }
+        }
+      ],
+      "active_loadout_index": 0
+    }
+  ],
+  "special_equipment": {
+    "PilotGear": [],
+    "Frames": [],
+    "MechWeapons": [],
+    "WeaponMods": [],
+    "MechSystems": []
+  },
+  "sortIndex": -1,
+  "save": {
+    "lastModified": 1748979029495,
+    "deleteTime": 0,
+    "created": 1748978587170,
+    "remote_code": "",
+    "remote_author": "",
+    "remote_collection": ""
+  },
+  "cloud": {},
+  "skills": [
+    {
+      "id": "sk_patch",
+      "data": {
+        "id": "sk_patch",
+        "name": "Patch",
+        "description": "Apply medical knowledge to medicate or diagnose.",
+        "detail": "Apply your medical knowledge to administer medication, bandage a wound, staunch bleeding, suture, cauterize, neutralize poison, or resuscitate. Alternately, you could use it to diagnose or study disease, pathogens, or illness.",
+        "family": "int"
+      },
+      "rank": 3
+    },
+    {
+      "id": "sk_spot",
+      "data": {
+        "id": "sk_spot",
+        "name": "Spot",
+        "description": "Spot details, objects, or people that are hidden or difficult to make out.",
+        "detail": "Spot hidden or difficult to make out details, objects, or people. Spot ambushes, hidden compartments, or disguised individuals. Spy on a target from a distance, or make out the details, shape, and number of objects, vehicles, mechs, or people clearly at a distance. Track people or vehicles.",
+        "family": "int"
+      },
+      "rank": 1
+    },
+    {
+      "id": "sk_survive",
+      "data": {
+        "id": "sk_survive",
+        "name": "Survive",
+        "description": "Persevere through harsh, hostile, or unforgiving environments.",
+        "detail": "Persevere through harsh, hostile, or unforgiving environments, such as the vacuum of space, frozen tundra, a pirate enclave, a crime-ridden colony, untamed wilderness, or scorching desert. You most often use survive when you want to take a journey through wilderness environments, navigate, or avoid natural hazards such as carnivorous wildlife, rockfalls, thin ice, or lava fields. Alternately you could use it to avoid man-made hazards, such as navigating a city safely, or avoiding dangerous areas of a space station. You could also use it when testing personal endurance, such as shaking off poison or alcohol.",
+        "family": "str"
+      },
+      "rank": 2
+    },
+    {
+      "id": "sk_word_on_the_street",
+      "data": {
+        "id": "sk_word_on_the_street",
+        "name": "Word on the Street",
+        "description": "Get gossip, news, or hearsay from the streets, or from a particular social scene.",
+        "detail": "Get gossip, news, or hearsay from the streets. What you get depends on what ‘streets’ you are getting word from (high society, low society, hearsay, military chatter, etc). This probably takes a lot less time than investigating something in detail, but the information might be more qualitative or colored by opinion (sometimes that might be useful). You can always learn where the information came from or who to go to next.",
+        "family": "cha"
+      },
+      "rank": 1
+    }
+  ],
+  "talents": [
+    {
+      "id": "t_crack_shot",
+      "data": {
+        "id": "t_crack_shot",
+        "name": "Crack Shot",
+        "icon": "CRACK SHOT",
+        "terse": "Steady your aim to gain accuracy, bonus damage, and apply debuffs",
+        "description": "Thanks to modern technology, anyone can hit anything these days. Targeting assist. Smart weapons. AIs whispering in people’s ears, moving their hands, squeezing the trigger for them: doing everything but taking credit for the kill. But Strymon Bulis is different. He finds hitting a target is as easy as looking at it, inside of his mech and out. No targeting assist for him; no AI required. All he needs is a zeroed sight, a fresh magazine, and a target downrange...",
+        "ranks": [
+          {
+            "name": "Stable, Steady",
+            "description": "As a protocol, you may <b>steady your aim</b>. If you do, you become Immobilized until the start of your next turn but gain +1 Accuracy on all attacks you make with Rifles.",
+            "actions": [
+              {
+                "name": "Steady Aim",
+                "activation": "Protocol",
+                "detail": "Become Immobilized until the start of your next turn but gain +1 Accuracy on all attacks you make with Rifles."
+              }
+            ],
+            "synergies": [
+              {
+                "locations": ["weapon"],
+                "weapon_types": ["Rifle"],
+                "weapon_sizes": ["any"],
+                "detail": "Gain +1 Accuracy on all attacks you make with this weapon if you have used the <b>Steady Aim</b> Protocol this turn."
+              }
+            ]
+          },
+          {
+            "name": "Zero In",
+            "description": "1/round, while <b>steadying your aim</b> and making a ranged attack with a Rifle, you can attempt to hit a weak point: gain +1 Difficulty on the attack roll, and deal +1d6 bonus damage on a critical hit.",
+            "synergies": [
+              {
+                "locations": ["weapon"],
+                "weapon_types": ["Rifle"],
+                "weapon_sizes": ["any"],
+                "detail": "1/round, while <b>steadying your aim</b> and making a ranged attack with this weapon, you can attempt to hit a weak point: gain +1 Difficulty on the attack roll, and deal +1d6 bonus damage on a critical hit"
+              }
+            ]
+          },
+          {
+            "name": "Watch This",
+            "description": "1/round, when you perform a critical hit with a Rifle while steadying your aim, your target must pass a Hull save or you may choose an additional effect for your attack:<ul><li><b>Headshot:</b> They only have line of sight to adjacent spaces until the end of their next turn.</li><li><b>Leg shot:</b> They become Immobilized until the end of their next turn.</li><li><b>Body shot:</b> They are knocked Prone.</li></ul>",
+            "synergies": [
+              {
+                "locations": ["weapon"],
+                "weapon_types": ["Rifle"],
+                "weapon_sizes": ["any"],
+                "detail": "1/round, when you perform a critical hit with this weapon while <b>steadying your aim</b>, your target must pass a Hull save or you may choose an additional effect for your attack:<ul><li><b>Headshot:</b> They only have line of sight to adjacent spaces until the end of their next turn.</li><li><b>Leg shot:</b> They become Immobilized until the end of their next turn.</li><li><b>Body shot:</b> They are knocked Prone.</li></ul>"
+              }
+            ]
+          }
+        ]
+      },
+      "rank": 2
+    },
+    {
+      "id": "t_gunslinger",
+      "data": {
+        "id": "t_gunslinger",
+        "name": "Gunslinger",
+        "icon": "GUNSLINGER",
+        "terse": "Make your Auxiliary Ranged weapons deadlier and gain the powerful Gunslinger Die",
+        "description": "In a galaxy bounded by frontiers, there is no law but the one backed by the gun. Sgt. Stev Ansahok wields the humble pistol with a talent unseen in this age, his iron an extension of his own body. As easy as pointing a finger, the weathered sergeant lands shots with accuracy unmatched by machine. His is a gunslinger: justice made whole, given its sacred instrument, and set out to the cruel frontier to tame it.",
+        "ranks": [
+          {
+            "name": "Opening Argument",
+            "description": "Gain +1 Accuracy on the first attack roll you make with an Auxiliary ranged weapon on your turn.",
+            "synergies": [
+              {
+                "locations": ["weapon"],
+                "weapon_types": ["Rifle", "Cannon", "Launcher", "CQB", "Nexus"],
+                "weapon_sizes": ["Auxiliary"],
+                "detail": "Gain +1 Accuracy on the first attack roll you make with an Auxiliary ranged weapon on your turn."
+              }
+            ]
+          },
+          {
+            "name": "From the Hip",
+            "description": "Gain the <b>Return Fire</b> Reaction.",
+            "actions": [
+              {
+                "name": "Return Fire",
+                "activation": "Reaction",
+                "frequency": "1/round",
+                "trigger": "A character hits you with a ranged attack.",
+                "detail": "You may immediately attack them with a single Auxiliary ranged weapon if they are within Range."
+              }
+            ]
+          },
+          {
+            "name": "I Kill With My Heart",
+            "description": "You gain a Gunslinger Die, 1d6 starting at 6. Each time you hit with an Auxiliary ranged weapon, reduce the value of the Gunslinger Die by 1. When the Gunslinger Die reaches 1, you may reset it to 6 to give +2d6 bonus damage on hit and AP to your next attack with an Auxiliary ranged weapon. This attack also ignores cover. The value of your Gunslinger Die persists between scenes but resets to 6 when you rest or perform a Full Repair.",
+            "synergies": [
+              {
+                "locations": ["weapon"],
+                "weapon_types": ["Rifle", "Cannon", "Launcher", "CQB", "Nexus"],
+                "weapon_sizes": ["Auxiliary"],
+                "detail": "Each time you hit with this weapon, reduce the value of the Gunslinger Die by 1"
+              }
+            ],
+            "counters": [
+              {
+                "id": "ctr_gunslinger",
+                "name": "Gunslinger Die",
+                "level": 3,
+                "default_value": 6,
+                "min": 1,
+                "max": 6
+              }
+            ]
+          }
+        ]
+      },
+      "rank": 2
+    },
+    {
+      "id": "t_leader",
+      "data": {
+        "id": "t_leader",
+        "name": "Leader",
+        "icon": "LEADER",
+        "terse": "Improve your allies' rolls during combat with Leadership Dice",
+        "description": "Whatever your actual age, you’re the Old Man of the battlefield. A light to your friends and allies; the resolute eye of a howling storm. Your steady voice, confident stance, and talent for command set allies at ease because they know you’ll lead them to victory every time. With you at the helm, victory is attainable, and heroes seem a little more real.",
+        "ranks": [
+          {
+            "name": "Field Commander",
+            "description": "Gain 3 Leadership Dice, which are d6s, and gain the Issue Order Free Action.<br>You can’t use Leadership Dice from other characters as long as you have any remaining. If you have none, you regain 1 Leadership Die when you rest or regain all when you perform a Full Repair.<br>Leadership dice are consumed when expended.",
+            "actions": [
+              {
+                "name": "Issue Order",
+                "activation": "Free",
+                "detail": "1/turn, on your turn as a free action, you may issue an order to an allied PC you can communicate with, describing a course of action, and give them a Leadership Die. They may either expend the Leadership Die to gain +1 Accuracy on any action that directly follows from that order, or they may return it to you as a free action. Allies can have one Leadership Die at a time, which lasts until used or until the end of the current scene."
+              }
+            ],
+            "counters": [
+              {
+                "id": "ctr_leader",
+                "name": "Leadership Dice",
+                "default_value": 0,
+                "min": 0,
+                "max": 6
+              }
+            ]
+          },
+          {
+            "name": "Open Channels",
+            "description": "Gain 5 Leadership Dice instead of 3; additionally, you can now issue a command as a reaction at the start of any other player’s turn, any number of times per round.",
+            "actions": [
+              {
+                "name": "Issue Command",
+                "activation": "Reaction",
+                "frequency": "Unlimited",
+                "trigger": "Another player starts their turn.",
+                "detail": "You may issue a command to an allied PC you can communicate with, describing a course of action, and give them a Leadership Die. They may either expend the Leadership Die to gain +1 Accuracy on any action that directly follows from that order, or they may return it to you as a free action. Allies can have one Leadership Die at a time, which lasts until used or until the end of the current scene."
+              }
+            ]
+          },
+          {
+            "name": "Inspiring Presence",
+            "description": "Gain 6 Leadership Dice instead of 5. Allies that have your Leadership Dice can expend them to reduce damage by –1d6 when taking damage or to deal +1d6 bonus damage when they hit with an attack.",
+            "synergies": [
+              {
+                "locations": ["active_effects"],
+                "detail": "Allies that have your Leadership Dice can expend them to reduce damage by –1d6 when taking damage or to deal +1d6 bonus damage when they hit with an attack."
+              }
+            ]
+          }
+        ]
+      },
+      "rank": 2
+    }
+  ],
+  "mechSkills": [5, 0, 0, 0],
+  "core_bonuses": [
+    {
+      "id": "cb_reinforced_frame",
+      "name": "Reinforced Frame",
+      "source": "IPS-N",
+      "effect": { "description": "You gain +5 HP." },
+      "description": "The addition of redundant shock-absorption systems increases the survivability of pilots in combat, flight, and industrial situations.",
+      "bonuses": [{ "id": "hp", "val": 5 }]
+    }
+  ],
+  "licenses": [
+    {
+      "id": "mf_raleigh",
+      "rank": 3,
+      "stub": {
+        "id": "mf_raleigh",
+        "name": "Raleigh",
+        "source": "IPS-N",
+        "frameName": "raleigh",
+        "brew": {
+          "LcpId": "",
+          "LcpName": "Lancer Core Book",
+          "LcpVersion": "",
+          "Website": "",
+          "Status": "OK"
+        }
+      }
+    }
+  ],
+  "reserves": [],
+  "orgs": [],
+  "bond": {
+    "xp": 0,
+    "stress": 0,
+    "isBroken": false,
+    "burdens": [],
+    "bondPowers": [],
+    "powerSelections": 0,
+    "maxStress": 8,
+    "bondAnswers": ["", ""],
+    "minorIdeal": "",
+    "clocks": [],
+    "force": false
+  },
+  "img": {
+    "portrait": "",
+    "avatar": {
+      "coordinates": { "width": 282, "height": 282, "left": 269, "top": 207 },
+      "image": {
+        "src": "https://ds69h3g1zxwgy.cloudfront.net/1017e5db-7737-4479-9fb6-72f9dc5197e5/images/Screenshot20250603141335.png",
+        "width": 727,
+        "height": 773,
+        "transforms": {
+          "rotate": 0,
+          "flip": { "horizontal": false, "vertical": false },
+          "translateX": -161.52134540750305,
+          "translateY": -97.47865459249665,
+          "scaleX": 0.517464424320828,
+          "scaleY": 0.517464424320828
+        }
+      }
+    },
+    "cloud_portrait": "https://ds69h3g1zxwgy.cloudfront.net/1017e5db-7737-4479-9fb6-72f9dc5197e5/images/Screenshot20250603141335.png"
+  },
+  "loadouts": [
+    {
+      "name": "Default Loadout",
+      "armor": [
+        {
+          "id": "pg_light_hardsuit",
+          "type": "PilotArmor",
+          "note": "",
+          "data": {
+            "id": "pg_light_hardsuit",
+            "name": "Light Hardsuit",
+            "type": "Armor",
+            "description": "Light hardsuits are usually made from reactive, cloth-like weaves, with limited plating and few powered components to maximize mobility. Like other hardsuits, they can be sealed against vacuum, and protect against a decent amount of radiation and other harmful particles.",
+            "bonuses": [
+              { "id": "pilot_hp", "val": 3 },
+              { "id": "pilot_evasion", "val": 10, "replace": true },
+              { "id": "pilot_edef", "val": 10, "replace": true },
+              { "id": "pilot_speed", "val": 4, "replace": true }
+            ],
+            "tags": [{ "id": "tg_personal_armor" }]
+          },
+          "flavorName": "",
+          "flavorDescription": ""
+        }
+      ],
+      "weapons": [
+        {
+          "id": "pg_medium_signature",
+          "type": "PilotWeapon",
+          "note": "",
+          "data": {
+            "id": "pg_medium_signature",
+            "name": "Medium Signature",
+            "type": "Weapon",
+            "description": "Medium signature weapons are assault rifles, shotguns, pack-fed lasers, or disruption guns.",
+            "tags": [{ "id": "tg_set_damage_type" }, { "id": "tg_pilot_weapon" }],
+            "range": [{ "type": "Range", "val": 5 }],
+            "damage": [{ "type": "variable", "val": 2 }],
+            "effect": {
+              "description": "When a signature weapon is acquired, choose its damage type – Explosive, Energy, or Kinetic."
+            }
+          },
+          "flavorName": "Hunting Rifle",
+          "flavorDescription": "",
+          "customDamageType": "Kinetic"
+        }
+      ],
+      "gear": [
+        {
+          "id": "pg_extra_rations",
+          "type": "PilotGear",
+          "note": "",
+          "data": {
+            "id": "pg_extra_rations",
+            "name": "Extra Rations",
+            "type": "Gear",
+            "description": "Pilot rations aren’t much better than their nautical forerunners – both are variants on hardtack and nutrient paste. Pilots often carry a stash of extra food, or luxuries like chocolate, coffee, alcohol, or preserved goods from their homeworld. These rations can be used to barter or boost morale.",
+            "tags": [{ "id": "tg_gear" }]
+          },
+          "flavorName": "",
+          "flavorDescription": ""
+        },
+        {
+          "id": "pg_wilderness_survival_kit",
+          "type": "PilotGear",
+          "note": "",
+          "data": {
+            "id": "pg_wilderness_survival_kit",
+            "name": "Wilderness Survival Kit",
+            "type": "Gear",
+            "description": "This kit contains many essentials for surviving in hostile environments: a rebreather, water filters, hardsuit patches, backup thermals, a bivouac kit, and so on.",
+            "tags": [{ "id": "tg_gear" }]
+          },
+          "flavorName": "",
+          "flavorDescription": ""
+        }
+      ]
+    }
+  ],
+  "active_index": 0,
+  "brews": []
+}

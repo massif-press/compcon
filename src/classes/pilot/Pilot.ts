@@ -54,6 +54,8 @@ import { BondController, IPilotBondData } from './components/bond/BondController
 import logger from '@/user/logger';
 import { IInstanceableData } from '../components/instance/IInstancableData';
 import { IInstanceable } from '../components/instance/IInstanceable';
+import { IStatContainer } from '../components/combat/stats/IStatContainer';
+import { IStatData, StatController } from '../components/combat/stats/StatController';
 
 interface IUnlockData {
   PilotGear: any[];
@@ -123,6 +125,7 @@ class Pilot
     IBrewable,
     IInstanceable
 {
+  // IStatContainer
   public readonly ItemType: string = 'Pilot';
   public readonly DataType: string = 'savedata';
   public readonly StorageType: string = 'pilots';
@@ -258,6 +261,9 @@ class Pilot
       this._special_equipment = [];
     }
   }
+
+  // StatController: StatController;
+  // MandatoryStats: string[];
 
   // -- Utility -----------------------------------------------------------------------------------
 

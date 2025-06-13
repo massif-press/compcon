@@ -16,16 +16,16 @@
         };`"
         @click="$emit('open', item)">
         <v-col cols="auto" class="pb-0">
-          <v-badge :content="item.index + 1" bordered color="panel">
+          <v-badge :content="item.number" bordered color="primary">
             <v-card variant="tonal" class="rounded-0">
-              <cc-img :aspect-ratio="1" :src="item.npc.PortraitController.Image" width="100" />
+              <cc-img :aspect-ratio="1" :src="item.actor.PortraitController.Image" width="100" />
             </v-card>
           </v-badge>
         </v-col>
 
         <v-col class="pb-0 pl-2">
-          <v-toolbar density="compact" color="panel" class="pr-1" style="height: 40px">
-            <div class="mt-n1" style="width: 100%">
+          <v-toolbar density="compact" color="panel" class="pr-1" style="height: 32px">
+            <div class="mt-n4" style="width: 100%">
               <v-row dense>
                 <v-col cols="auto">
                   <div :class="`heading h3 ${isHovering ? 'text-accent' : ''}`">
@@ -52,7 +52,7 @@
                     </template>
                     <cc-confirmation
                       cancellable
-                      :content="`Confirm deletion of ${item.npc.Name} from the encounter`"
+                      :content="`Confirm deletion of ${item.actor.Name} from the encounter`"
                       @confirm="removeItem"
                       @cancel="deleteMenu = false" />
                   </v-menu>
@@ -67,13 +67,13 @@
             <v-icon
               v-bind="props"
               size="small"
-              :color="item.npc.IsLinked ? 'success' : 'rgba(150, 150, 150, 0.5)'"
-              :icon="item.npc.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
+              :color="item.actor.IsLinked ? 'success' : 'rgba(150, 150, 150, 0.5)'"
+              :icon="item.actor.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
               style="position: absolute; bottom: 2px; right: 2px" />
           </template>
-          <span v-if="item.npc.IsLinked">
+          <span v-if="item.actor.IsLinked">
             The source of this NPC instance is present in your NPC roster (
-            <b class="text-accent">{{ item.npc.GetLinkedItem().Name }}</b>
+            <b class="text-accent">{{ item.actor.GetLinkedItem().Name }}</b>
             ) and can receive updates from the original
           </span>
           <span v-else>This NPC instance is not linked to a valid source in your NPC roster</span>

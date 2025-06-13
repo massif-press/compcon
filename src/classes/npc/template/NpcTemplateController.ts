@@ -4,8 +4,7 @@ import { NpcTemplate } from './NpcTemplate';
 import { NpcClass } from '../class/NpcClass';
 
 interface INpcTemplateSaveData {
-  instance: boolean;
-  templates: string[] | { Name: string; ID: string }[];
+  templates: { id: string; data: any }[];
 }
 
 type FeatureRequirement = {
@@ -20,42 +19,20 @@ type FeatureRequirement = {
   optional_complete: boolean;
 };
 
-class TemplateProxy {
-  public readonly ID: string;
-  public readonly Name: string;
-
-  constructor(name: string, id?: string) {
-    this.Name = name;
-    this.ID = id || '';
-  }
-}
-
 class NpcTemplateController {
   public readonly Parent: Unit;
-  private _templates: NpcTemplate[] | TemplateProxy[];
+  private _templates: NpcTemplate[];
 
   public constructor(parent: Unit) {
     this.Parent = parent;
-    this._templates = [] as NpcTemplate[] | TemplateProxy[];
+    this._templates = [] as NpcTemplate[];
   }
 
-  private get isInstance(): boolean {
-    return this.Parent.IsInstance;
-  }
-
-  private get isLinked(): boolean {
-    return this.isInstance && this.Parent.IsLinked;
-  }
-
-  public get Templates(): NpcTemplate[] | TemplateProxy[] {
-    if (this.isLinked)
-      return this._templates.map(
-        (t) => CompendiumStore().NpcTemplates.find((x) => x.ID === t.ID) as NpcTemplate
-      );
+  public get Templates(): NpcTemplate[] {
     return this._templates;
   }
 
-  public set Templates(temps: NpcTemplate[] | TemplateProxy[]) {
+  public set Templates(temps: NpcTemplate[]) {
     this._templates = temps;
     this.Parent.save();
   }
@@ -85,7 +62,6 @@ class NpcTemplateController {
     const out = [] as { template: NpcTemplate; required: number; allowed: number }[];
 
     if (!this.Parent.NpcClassController.Class) return out;
-    if (this.isInstance) return out;
 
     this.Templates.forEach((template) => {
       const t = template as NpcTemplate;
@@ -112,7 +88,6 @@ class NpcTemplateController {
     const out = [] as FeatureRequirement[];
 
     if (!this.Parent.NpcClassController.Class) return out;
-    if (this.isInstance) return out;
 
     const c = this.Parent.NpcClassController.Class as NpcClass;
 
@@ -124,15 +99,11 @@ class NpcTemplateController {
       optionalMin: c.OptionalClassMin || 0,
       optionalMax: c.OptionalClassMax || 2,
       selected: this.Parent.NpcFeatureController.Features.filter(
-        (x) => !x.Base && x.Origin.ID !== c.ID
+        (x) => !x.Base && x.Origin.ID === c.ID
       ).length,
       complete: false,
       optional_complete: false,
     };
-
-    classReq.selected += this.Parent.NpcFeatureController.Features.filter(
-      (x) => !x.Base && (x.Origin as NpcTemplate).FreeOptions
-    ).length;
 
     this.Templates.forEach((template) => {
       const t = template as NpcTemplate;
@@ -149,6 +120,7 @@ class NpcTemplateController {
         complete: false,
         optional_complete: false,
       };
+
       classReq.optionalMin += t.OptionalClassMin || 0;
       classReq.optionalMax += t.OptionalClassMax || 0;
 
@@ -176,12 +148,10 @@ class NpcTemplateController {
   }
 
   public static Serialize(parent: Unit, target: any) {
-    if (target.instance) {
-      target.templates = parent.NpcTemplateController._templates.map((x) => ({
-        Name: x.Name,
-        ID: x.ID,
-      }));
-    } else target.templates = parent.NpcTemplateController._templates.map((x) => x.ID);
+    target.templates = parent.NpcTemplateController._templates.map((x) => ({
+      id: x.ID,
+      data: x.Data,
+    }));
   }
 
   public static Deserialize(parent: Unit, data: INpcTemplateSaveData) {
@@ -190,15 +160,11 @@ class NpcTemplateController {
         `NpcClassController not found on parent (${typeof parent}). New NpcClassControllers must be instantiated in the parent's constructor method.`
       );
 
-    if (data.instance) {
-      parent.NpcTemplateController._templates = data.templates.map(
-        (x) => new TemplateProxy(x.Name, x.ID)
-      );
-    } else {
-      parent.NpcTemplateController._templates = data.templates.map((x) =>
-        CompendiumStore().referenceByID('NpcTemplates', x)
-      );
-    }
+    parent.NpcTemplateController._templates = data.templates.map((x) => {
+      if (CompendiumStore().has('NpcTemplates', x.id))
+        return CompendiumStore().referenceByID('NpcTemplates', x.id);
+      else return new NpcTemplate(x.data);
+    });
   }
 }
 

@@ -17,6 +17,7 @@
     <cc-solo-modal v-model="dialog" title="Set NPC Features" icon="cc:npc_feature">
       <template #toolbar-items>
         <npc-feature-alerts
+          :hide="readonly || npc.BrewController.MissingContent"
           :template-controller="npc.NpcTemplateController"
           hide-complete
           class="d-inline" />
@@ -137,6 +138,7 @@
               </v-col>
             </v-row>
             <npc-feature-alerts
+              :hide="readonly || npc.BrewController.MissingContent"
               :template-controller="npc.NpcTemplateController"
               expanded
               hide-complete />
@@ -169,26 +171,28 @@
               :min-columns="1"
               :max-columns="2">
               <template #default="{ item }">
-                <cc-dense-card :item="item" />
-                <div class="mt-n2">
-                  <cc-button
-                    v-if="!hasItem(item) || allowDupes"
-                    color="secondary"
-                    block
-                    size="x-small"
-                    prepend-icon="mdi-plus"
-                    @click="npc.NpcFeatureController.AddFeature(item)">
-                    Add {{ item.Name }}
-                  </cc-button>
-                  <cc-button
-                    v-if="hasItem(item)"
-                    color="warning"
-                    block
-                    size="x-small"
-                    prepend-icon="mdi-minus"
-                    @click="npc.NpcFeatureController.RemoveFeature(item)">
-                    Remove {{ item.Name }}
-                  </cc-button>
+                <div v-if="item" :key="item.ID">
+                  <cc-dense-card :item="item" />
+                  <div class="mt-n2">
+                    <cc-button
+                      v-if="!hasItem(item) || allowDupes"
+                      color="secondary"
+                      block
+                      size="x-small"
+                      prepend-icon="mdi-plus"
+                      @click="npc.NpcFeatureController.AddFeature(item)">
+                      Add {{ item.Name }}
+                    </cc-button>
+                    <cc-button
+                      v-if="hasItem(item)"
+                      color="warning"
+                      block
+                      size="x-small"
+                      prepend-icon="mdi-minus"
+                      @click="npc.NpcFeatureController.RemoveFeature(item)">
+                      Remove {{ item.Name }}
+                    </cc-button>
+                  </div>
                 </div>
               </template>
             </masonry-wall>
@@ -313,7 +317,7 @@ export default {
   },
   methods: {
     hasItem(feature) {
-      return this.npc.NpcFeatureController.Features.some((y) => y.ID === feature.ID);
+      return feature && this.npc.NpcFeatureController.Features.some((y) => y.ID === feature.ID);
     },
   },
 };

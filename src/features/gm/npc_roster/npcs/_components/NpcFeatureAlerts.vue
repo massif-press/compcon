@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!hide">
     <cc-alert
       v-if="expanded"
       v-for="item in templateController.FeatureRequirements"
@@ -18,21 +18,20 @@
     </cc-alert>
     <v-menu v-else v-for="item in templateController.FeatureRequirements" open-on-hover>
       <template v-slot:activator="{ props }">
-        <span v-bind="props">
+        <div v-bind="props" class="d-inline-block mx-1">
           <cc-button
             :icon="getIcon(item)"
             :color="getColor(item)"
-            variant="outlined"
             size="small"
             v-show="showItem(item)" />
-        </span>
+        </div>
       </template>
-      <v-card>
-        <v-toolbar density="compact" :color="getColor(item)">
-          <v-toolbar-title>
-            <v-icon :icon="getIcon(item)" start />
+      <v-card flat tile border>
+        <v-toolbar density="compact" height="42" :color="getColor(item)">
+          <div class="heading h3 px-2">
+            <v-icon :icon="getIcon(item)" />
             {{ item.source }}
-          </v-toolbar-title>
+          </div>
         </v-toolbar>
         <v-card-text>
           <div v-if="!item.complete">Select {{ item.max - item.selected }} additional features</div>
@@ -67,6 +66,9 @@ export default {
     color: {
       type: String,
       required: false,
+    },
+    hide: {
+      type: Boolean,
     },
   },
   methods: {

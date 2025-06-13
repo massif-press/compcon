@@ -11,7 +11,7 @@
         :style="`background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}; ${
           missingContent ? 'cursor: not-allowed' : ''
         }`"
-        @click="missingContent ? '' : $emit('open', item)">
+        @click="$emit('open', item)">
         <v-col cols="auto">
           <v-card variant="tonal" class="rounded-0">
             <cc-img :aspect-ratio="1" :src="item.PortraitController.Image" width="75" />

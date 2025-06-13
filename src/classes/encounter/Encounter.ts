@@ -19,6 +19,8 @@ import { Npc } from '../npc/Npc';
 import { Unit, UnitData } from '../npc/unit/Unit';
 import { Doodad, DoodadData } from '../npc/doodad/Doodad';
 import { Eidolon, EidolonData } from '../npc/eidolon/Eidolon';
+import { Pilot } from '@/class';
+import { PilotData } from '@/interface';
 
 interface IEncounterData {
   itemType: 'Encounter';
@@ -40,19 +42,20 @@ interface IEncounterData {
 type CombatantData = {
   id: string;
   index: number;
-  type: 'unit' | 'doodad' | 'eidolon';
-  npc: Unit | Doodad | Eidolon;
+  type: 'unit' | 'doodad' | 'eidolon' | 'pilot';
+  actor: Unit | Doodad | Eidolon | Pilot;
+  number: number;
   side: 'enemy' | 'ally' | 'neutral';
-  playerCount: number;
-  reinforcement: boolean;
-  reinforcementTurn: number;
+  playerCount?: number;
+  reinforcement?: boolean;
+  reinforcementTurn?: number;
 };
 
 type CombatantSaveData = {
   id?: string;
   index: number;
-  type: 'unit' | 'doodad' | 'eidolon';
-  npc: UnitData | DoodadData | EidolonData;
+  type: 'unit' | 'doodad' | 'eidolon' | 'pilot';
+  actor: UnitData | DoodadData | EidolonData | PilotData;
   side?: 'enemy' | 'ally' | 'neutral';
   playerCount?: number;
   reinforcement?: boolean;
@@ -105,16 +108,22 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
     if (data?.combatants) {
       this._combatants = data.combatants.map((c) => {
-        let npc;
+        // TODO: remove after next release, this is to ensure old v3 encounters are compatible
+        if ((c as any).npc)
+          c.actor = (c as any).npc as UnitData | DoodadData | EidolonData | PilotData;
+        let actor;
         switch (c.type) {
           case 'unit':
-            npc = Unit.Deserialize(c.npc as UnitData);
+            actor = Unit.Deserialize(c.actor as UnitData);
             break;
           case 'doodad':
-            npc = Doodad.Deserialize(c.npc as DoodadData);
+            actor = Doodad.Deserialize(c.actor as DoodadData);
             break;
           case 'eidolon':
-            npc = Eidolon.Deserialize(c.npc as EidolonData);
+            actor = Eidolon.Deserialize(c.actor as EidolonData);
+            break;
+          case 'pilot':
+            actor = Pilot.Deserialize(c.actor as PilotData);
             break;
           default:
             throw new Error('Invalid combatant type');
@@ -124,12 +133,20 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
           id: c.id || uuid(),
           index: c.index,
           type: c.type,
-          npc,
+          number: 1,
+          actor,
           side: c.side || 'enemy',
           playerCount: c.playerCount || 1,
           reinforcement: c.reinforcement || false,
           reinforcementTurn: c.reinforcementTurn || 0,
         };
+      });
+
+      const seen = [] as string[];
+
+      this._combatants.forEach((c) => {
+        seen.push(c.actor.Name);
+        c.number = seen.filter((x) => x === c.actor.Name).length;
       });
     }
 
@@ -273,16 +290,20 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       id: c.ID,
       index: this.Combatants.length,
       type,
-      npc: c,
+      actor: c,
+      number: this.Combatants.filter((x) => x.actor.Name === c.Name).length + 1,
       side: 'enemy',
       playerCount: 0,
       reinforcement: false,
       reinforcementTurn: 0,
     });
+
+    this.save();
   }
 
   public RemoveCombatant(index: number): void {
     this.Combatants.splice(index, 1);
+    this.save();
   }
 
   public static Serialize(enc: Encounter): IEncounterData {
@@ -300,7 +321,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
         return {
           index: c.index,
           type: c.type,
-          npc: (c.npc as any).Serialize(true),
+          actor: (c.actor as any).Serialize(true),
           side: c.side,
           playerCount: c.playerCount,
           reinforcement: c.reinforcement,
@@ -336,4 +357,4 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 }
 
 export { Encounter };
-export type { IEncounterData };
+export type { IEncounterData, CombatantData, CombatantSaveData };
