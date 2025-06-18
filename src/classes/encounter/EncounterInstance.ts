@@ -35,6 +35,11 @@ class EncounterInstance implements ISaveable {
     this.Encounter = Encounter.Deserialize(data.encounterData);
     this.Pilots = data.pilotData?.map((p) => Pilot.Deserialize(p)) || [];
 
+    this.Pilots.forEach((pilot) => {
+      pilot.setStats();
+      console.log(pilot.StatController);
+    });
+
     this.Combatants = [
       ...this.Encounter.Combatants,
       ...this.Pilots.map((p) => {

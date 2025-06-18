@@ -22,6 +22,10 @@ import {
 import { CompendiumItem } from '../CompendiumItem';
 import { ILicenseRequirement } from '../pilot/components/license/LicensedItem';
 import { IFrameData } from '@/interface';
+import {
+  IStatData,
+  StatController,
+} from '../components/combat/stats/StatController';
 
 class IMechData implements IMechLoadoutSaveData {
   img: IPortraitData = {} as IPortraitData;
@@ -31,6 +35,7 @@ class IMechData implements IMechLoadoutSaveData {
   frame: string = '';
   frameData: IFrameData = {} as IFrameData;
   loadouts: IMechLoadoutData[] = [];
+  stats: IStatData = {} as IStatData;
   active_loadout_index: number = 0;
 }
 
@@ -42,6 +47,7 @@ class Mech implements IPortraitContainer, IFeatureController {
   public ImageTag = ImageTag.Mech;
   public FeatureController: FeatureController;
   public MechLoadoutController: MechLoadoutController;
+  public StatController: StatController;
 
   private _id: string;
   private _name: string;
@@ -57,6 +63,7 @@ class Mech implements IPortraitContainer, IFeatureController {
     this.PortraitController = new PortraitController(this);
     this.FeatureController = new FeatureController(this);
     this.MechLoadoutController = new MechLoadoutController(this);
+    this.StatController = new StatController(this);
 
     this._name = '';
     this._notes = '';
@@ -92,7 +99,9 @@ class Mech implements IPortraitContainer, IFeatureController {
   }
 
   public get SpecialEquipment(): CompendiumItem[] {
-    return this.FeatureController.IntegratedSpecialEquipment.concat(this.Pilot.SpecialEquipment);
+    return this.FeatureController.IntegratedSpecialEquipment.concat(
+      this.Pilot.SpecialEquipment
+    );
   }
 
   // -- Info --------------------------------------------------------------------------------------
@@ -149,14 +158,16 @@ class Mech implements IPortraitContainer, IFeatureController {
 
     if (this._frame.LicenseLevel === 0) {
       const LL0Idx = requirements.findIndex((x) => x.rank === 0);
-      if (LL0Idx > -1) requirements[LL0Idx].items.push(`${this.Frame.Name} Frame`);
+      if (LL0Idx > -1)
+        requirements[LL0Idx].items.push(`${this.Frame.Name} Frame`);
       else requirements.push(this.Frame.RequiredLicense);
     } else {
       requirements.push(this.Frame.RequiredLicense);
     }
 
     for (const l of requirements) {
-      if (l.rank !== 0) l.missing = !this._pilot.has('License', l.license_id, l.rank);
+      if (l.rank !== 0)
+        l.missing = !this._pilot.has('License', l.license_id, l.rank);
     }
 
     return requirements.sort((a, b) => {
@@ -236,7 +247,11 @@ class Mech implements IPortraitContainer, IFeatureController {
   }
 
   public get Speed(): number {
-    return Bonus.Int(this._frame.Speed + Math.floor(this.Agi / 2), 'speed', this);
+    return Bonus.Int(
+      this._frame.Speed + Math.floor(this.Agi / 2),
+      'speed',
+      this
+    );
   }
 
   public get SpeedContributors(): string[] {
@@ -393,7 +408,11 @@ class Mech implements IPortraitContainer, IFeatureController {
   }
 
   public get MaxHP(): number {
-    return Bonus.Int(this._frame.HP + this._pilot.Grit + this.Hull * 2, 'hp', this);
+    return Bonus.Int(
+      this._frame.HP + this._pilot.Grit + this.Hull * 2,
+      'hp',
+      this
+    );
   }
 
   public get HPContributors(): string[] {
@@ -415,7 +434,11 @@ class Mech implements IPortraitContainer, IFeatureController {
   }
 
   public get MaxSP(): number {
-    return Bonus.Int(this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2), 'sp', this);
+    return Bonus.Int(
+      this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2),
+      'sp',
+      this
+    );
   }
 
   public get FreeSP(): number {
@@ -465,7 +488,11 @@ class Mech implements IPortraitContainer, IFeatureController {
   }
 
   public get RepairCapacity(): number {
-    return Bonus.Int(this._frame.RepCap + Math.floor(this.Hull / 2), 'repcap', this);
+    return Bonus.Int(
+      this._frame.RepCap + Math.floor(this.Hull / 2),
+      'repcap',
+      this
+    );
   }
 
   public get RepCapContributors(): string[] {
@@ -485,6 +512,34 @@ class Mech implements IPortraitContainer, IFeatureController {
     return b.length ? b[0].Value : Rules.Overcharge;
   }
 
+  public setStats() {
+    this.StatController.setMax('size', this.Size);
+    this.StatController.setMax('armor', this.Armor);
+    this.StatController.setMax('save', this.SaveTarget);
+    this.StatController.setMax('structure', this.MaxStructure);
+    this.StatController.setMax('hull', this.Hull);
+    this.StatController.setMax('agi', this.Agi);
+    this.StatController.setMax('sys', this.Sys);
+    this.StatController.setMax('eng', this.Eng);
+    this.StatController.setMax('evasion', this.Evasion);
+    this.StatController.setMax('speed', this.Speed);
+    this.StatController.setMax('sensors', this.SensorRange);
+    this.StatController.setMax('edef', this.EDefense);
+    this.StatController.setMax('limited_bonus', this.LimitedBonus);
+    this.StatController.setMax('attack', this.AttackBonus);
+    this.StatController.setMax('tech_attack', this.TechAttack);
+    this.StatController.setMax('grapple', this.Grapple);
+    this.StatController.setMax('ram', this.Ram);
+    this.StatController.setMax('hp', this.MaxHP);
+    this.StatController.setMax('sp', this.MaxSP);
+    this.StatController.setMax('heatcap', this.HeatCapacity);
+    this.StatController.setMax('stress', this.MaxStress);
+    this.StatController.setMax('repcap', this.RepairCapacity);
+    this.StatController.setMax('saveTarget', this.SaveTarget);
+
+    this.StatController.resetCurrentStats();
+  }
+
   // -- Loadouts ----------------------------------------------------------------------------------
   public get ActiveMounts(): Mount[] {
     return this.MechLoadoutController.ActiveLoadout.AllActiveMounts(this);
@@ -492,12 +547,17 @@ class Mech implements IPortraitContainer, IFeatureController {
 
   // -- Mountable CORE Bonuses --------------------------------------------------------------------
   public get PilotBonuses(): CoreBonus[] {
-    return this.Pilot.CoreBonusController.CoreBonuses.filter((x) => x.IsMountable);
+    return this.Pilot.CoreBonusController.CoreBonuses.filter(
+      (x) => x.IsMountable
+    );
   }
 
   public get AppliedBonuses(): CoreBonus[] {
     return _.flatten(
-      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(true, true).map((x) => x.Bonuses)
+      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+        true,
+        true
+      ).map((x) => x.Bonuses)
     );
   }
 
@@ -506,7 +566,9 @@ class Mech implements IPortraitContainer, IFeatureController {
   }
 
   public HasCompatibleMods(): boolean {
-    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => !!x.Mod)) {
+    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(
+      (x) => !!x.Mod
+    )) {
       if (
         !w.Mod!.AllowedTypes.includes(w.ModType) ||
         !w.Mod!.AllowedSizes.includes(w.ModSize) ||
@@ -531,6 +593,7 @@ class Mech implements IPortraitContainer, IFeatureController {
 
     PortraitController.Serialize(m, data);
     MechLoadoutController.Serialize(m, data);
+    StatController.Serialize(m, data);
 
     return data as IMechData;
   }
@@ -571,6 +634,7 @@ class Mech implements IPortraitContainer, IFeatureController {
     m._notes = data.notes;
 
     PortraitController.Deserialize(m, data.img);
+    StatController.Deserialize(m, data.stats);
 
     return m;
   }

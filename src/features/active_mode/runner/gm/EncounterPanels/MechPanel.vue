@@ -1,14 +1,53 @@
 <template>
-  <panel-base :item="pilot">
+  <panel-base :item="mech">
     <template #name-block>
-      <div class="heading h2">{{ pilot.Callsign }}</div>
+      <div class="heading h2">{{ mech.Name }}</div>
       <div class="heading h4">
-        {{ pilot.Name }}
+        {{ mech.Frame.Source }} {{ mech.Frame.Name }}
       </div>
     </template>
-    <v-icon :icon="pilot.SizeIcon" />
 
-    pilot loadout
+    <div class="text-cc-overline mt-4 text-disabled">Frame Traits</div>
+    <masonry-wall
+      :items="mech.Frame.Traits"
+      :column-width="500"
+      :gap="16"
+      :min-columns="1"
+      :max-columns="2"
+    >
+      <template #default="{ item, index }">
+        <cc-trait-item :trait="item" color="primary" style="height: 100%" />
+      </template>
+    </masonry-wall>
+
+    <div class="text-cc-overline mt-4 text-disabled">Pilot Talents</div>
+    <cc-talent
+      v-for="talent in mech.Parent.TalentsController.Talents"
+      small
+      :key="talent.Talent.ID"
+      :talent="talent.Talent"
+      :rank="talent.Rank"
+      hide-locked
+      hide-change
+    />
+
+    <br />
+
+    loadout
+    <br />
+
+    <!-- <v-scroll-y-reverse-transition>
+      <div v-if="pilot.statuses.length" class="text-cc-overline mt-2">
+        <cc-alert
+          v-for="status in pilot.statuses"
+          :title="status.Name"
+          :icon="status.Icon"
+          prominent
+          class="mt-1">
+          <p v-html="status.Effects" />
+        </cc-alert>
+      </div>
+    </v-scroll-y-reverse-transition> -->
   </panel-base>
 </template>
 
@@ -30,37 +69,9 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    corepower: 1,
-    overcharge: 0,
-    burn: 4,
-    movement: 3,
-    armor: 11,
-    cover: 'no',
-    specialStatuses: [
-      { ID: 1, Name: 'Ejected' },
-      { ID: 2, Name: 'Cascade' },
-      { ID: 3, Name: 'Meltdown Imminent' },
-      { ID: 4, Name: 'Pilot Incapacitated' },
-    ],
-    resistances: [
-      { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
-      { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
-      {
-        ID: 3,
-        Name: 'Explosive',
-        icon: 'cc:explosive',
-        color: 'damage--explosive',
-      },
-      { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
-      { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
-      { ID: 5, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
-    ],
-    usedActions: [],
-  }),
   computed: {
-    pilot() {
-      return this.combatant.actor;
+    mech() {
+      return this.combatant.actor.ActiveMech;
     },
     statuses() {
       return _.orderBy(CompendiumStore().Statuses, 'StatusType');

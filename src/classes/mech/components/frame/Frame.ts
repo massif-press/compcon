@@ -31,7 +31,9 @@ interface IFrameData extends ILicensedItemData {
   stats: IFrameStats;
   traits: IFrameTraitData[];
   core_system: ICoreData;
-  specialty: boolean | { source: string; min_rank: number; cumulative?: boolean };
+  specialty:
+    | boolean
+    | { source: string; min_rank: number; cumulative?: boolean };
   variant?: string;
   y_pos?: number;
   image_url?: string;
@@ -58,7 +60,9 @@ class Frame extends LicensedItem implements IFeatureContainer {
   public readonly Traits: FrameTrait[];
   public readonly CoreSystem: CoreSystem;
   public readonly OtherArt?: { tag?: ImageTag; src?: string; url?: string }[];
-  public readonly Specialty: boolean | { source: string; min_rank: number; cumulative?: boolean };
+  public readonly Specialty:
+    | boolean
+    | { source: string; min_rank: number; cumulative?: boolean };
   public readonly Variant: string;
   private _image_url?: string;
   private _stats: IFrameStats;
@@ -83,7 +87,9 @@ class Frame extends LicensedItem implements IFeatureContainer {
   }
 
   get FeatureSource(): any[] {
-    return [this as any, this.CoreSystem].concat(this.Traits.flatMap((x) => x as any));
+    return [this as any, this.CoreSystem].concat(
+      this.Traits.flatMap((x) => x as any)
+    );
   }
 
   public get MechTypeString(): string {
@@ -101,6 +107,11 @@ class Frame extends LicensedItem implements IFeatureContainer {
 
   public get SizeIcon(): string {
     return `cc:size_${this.Size === 0.5 ? 'half' : this.Size}`;
+  }
+
+  public get Icon(): string {
+    if (this.Variant) return 'mdi-alpha-v-box';
+    else return 'cc:frame';
   }
 
   public get Armor(): number {

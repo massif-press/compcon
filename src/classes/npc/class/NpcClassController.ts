@@ -37,7 +37,7 @@ class NpcClassController {
 
     const c = this.Class as NpcClass;
 
-    this.Parent.MandatoryStats.forEach((key) => {
+    this.Parent.StatController.MaxStats.forEach((key) => {
       let statVal = c.Stats.Stat(key, tier);
       if (!statVal) statVal = Stats.DefaultStats[key];
 
@@ -54,9 +54,11 @@ class NpcClassController {
     const c = this.Class as NpcClass;
 
     const changedStats = {};
-    this.Parent.MandatoryStats.forEach((key) => {
+    this.Parent.StatController.MaxStats.forEach((key) => {
       if (key === 'size' || key === 'sizes') return;
-      if (this.Parent.StatController.getStat(key) !== c.Stats.Stat(key, this.Tier)) {
+      if (
+        this.Parent.StatController.getStat(key) !== c.Stats.Stat(key, this.Tier)
+      ) {
         changedStats[key] = c.Stats.Stat(key, this.Tier);
       }
     });
@@ -84,7 +86,8 @@ class NpcClassController {
       return;
     }
     if (!this.HasClass) this.Parent.Tag = 'Mech';
-    if (npcClass.Role.toLowerCase() === 'biological') this.Parent.Tag = 'Biological';
+    if (npcClass.Role.toLowerCase() === 'biological')
+      this.Parent.Tag = 'Biological';
     if (npcClass.ForceTag) this.Parent.Tag = npcClass.ForceTag;
     this._class = npcClass;
     this.ResetStats(tier);
@@ -106,7 +109,10 @@ class NpcClassController {
         `NpcClassController not found on parent (${typeof parent}). New NpcClassControllers must be instantiated in the parent's constructor method.`
       );
 
-    parent.NpcClassController._class = CompendiumStore().has('NpcClasses', data.class.id)
+    parent.NpcClassController._class = CompendiumStore().has(
+      'NpcClasses',
+      data.class.id
+    )
       ? CompendiumStore().referenceByID('NpcClasses', data.class.id)
       : new NpcClass(data.class.data);
 

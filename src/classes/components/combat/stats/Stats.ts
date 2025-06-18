@@ -9,6 +9,7 @@ class Stats {
       armor: 0,
       stress: 1,
       heat: 6,
+      heatcap: 6,
       repairCapacity: 4,
       attackBonus: 0,
       techAttack: 0,
@@ -35,11 +36,14 @@ class Stats {
     hp: 'mdi-heart',
     armor: 'mdi-shield',
     stress: 'cc:reactor',
-    heat: 'mdi-fire',
+    burn: 'mdi-fire',
+    heat: 'cc:heat',
+    heatcap: 'cc:heat',
     heatCapacity: 'cc:heat',
     repairCapacity: 'cc:repair',
     attackBonus: 'cc:attack',
-    techAttack: 'cc:tech_attack',
+    techAttack: 'cc:quick_tech',
+    techattack: 'cc:quick_tech',
     limitedBonus: 'cc:limited',
     speed: 'mdi-arrow-right-bold-hexagon-outline',
     evasion: 'cc:evasion',
@@ -63,10 +67,12 @@ class Stats {
     armor: 6,
     stress: 7,
     heat: 8,
+    heatcap: 8,
     heatCapacity: 9,
     repairCapacity: 10,
     attackBonus: 11,
     techAttack: 12,
+    techattack: 12,
     limitedBonus: 13,
     speed: 14,
     evasion: 15,
@@ -80,6 +86,7 @@ class Stats {
     agi: 23,
     sys: 24,
     eng: 25,
+    burn: 26,
   };
 
   public static cleanKey(key: string): string {
@@ -121,7 +128,11 @@ class Stats {
       case 'hp':
         return 'HP';
       case 'heat':
+      case 'heatcap':
+      case 'heatcapacity':
         return 'Heat Capacity';
+      case 'techattack':
+        return 'Tech Attack';
       case 'edef':
         return 'E-Defense';
       case 'grapple':

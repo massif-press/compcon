@@ -1,59 +1,98 @@
 <template>
   <div
     class="bg-surface"
-    style="position: absolute; top: -10px; right: -10px; width: 50px; height: 50px; z-index: 0" />
+    style="
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 50px;
+      height: 50px;
+      z-index: 0;
+    "
+  />
   <div style="overflow-y: hidden">
     <v-layout :style="`height: calc(100vh - ${mobile ? '23px' : '41px'})`">
       <div
         style="position: absolute; z-index: 999"
-        :style="`left: ${showLeft ? (mobile ? '222' : '466') : '62'}px; top: 6px`">
+        :style="`left: ${showLeft ? (mobile ? '222' : '466') : '62'}px; top: 6px`"
+      >
         <cc-button
-          :icon="showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+          :icon="
+            showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'
+          "
           size="small"
           color="primary"
-          @click="showLeft = !showLeft" />
+          @click="showLeft = !showLeft"
+        />
       </div>
-      <v-navigation-drawer :rail="!showLeft" :width="mobile ? 220 : 460" persistent>
+      <v-navigation-drawer
+        :rail="!showLeft"
+        :width="mobile ? 220 : 460"
+        persistent
+      >
         <gm-initiative-panel
           :encounter="instance"
           :selected="selected"
           :expanded="showLeft"
-          @select="selectActor($event)" />
+          @select="selectActor($event)"
+        />
       </v-navigation-drawer>
 
       <v-main style="overflow-y: scroll">
-        <div class="text-center bg-panel pa-1 heading h3">example encounter &mdash; round 1</div>
-        <v-container :style="`max-width: ${showRight ? 'calc(100% - 56px)' : 'calc(100% - 62px)'}`">
+        <div class="text-center bg-panel pa-1 heading h3">
+          example encounter &mdash; round 1
+        </div>
+        <v-container
+          :style="`max-width: ${showRight ? 'calc(100% - 56px)' : 'calc(100% - 62px)'}`"
+        >
           <div v-if="panel && instance">
-            <component :is="`${panel}-panel`" :key="panel" :encounter="instance.Encounter" />
+            <component
+              :is="`${panel}-panel`"
+              :key="panel"
+              :encounter="instance.Encounter"
+            />
           </div>
           <div v-else>
-            <component :is="`${selected.type}-panel`" :key="selected.id" :combatant="selected" />
+            <component
+              :is="`${selected.type}-panel`"
+              :key="selected.id"
+              :combatant="selected"
+            />
           </div>
         </v-container>
       </v-main>
       <div
         style="position: absolute; z-index: 999"
-        :style="`right: ${showRight ? (mobile ? '222' : '256') : '62'}px; top: 6px`">
+        :style="`right: ${showRight ? (mobile ? '222' : '256') : '62'}px; top: 6px`"
+      >
         <cc-button
-          :icon="showRight ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
+          :icon="
+            showRight ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'
+          "
           size="small"
           color="primary"
-          @click="showRight = !showRight" />
+          @click="showRight = !showRight"
+        />
       </div>
 
       <v-navigation-drawer
         :rail="!showRight"
         :width="mobile ? 220 : 250"
         location="right"
-        persistent>
+        persistent
+      >
         <gm-tool-palette
           :expanded="showRight"
           @selectPanel="selectPanel"
           @openDiceRoller="diceDialog = true"
-          @openTableIndex="tableDialog = true" />
+          @openTableIndex="tableDialog = true"
+        />
       </v-navigation-drawer>
-      <v-footer app height="36" style="border-top: 1px solid rgba(255, 255, 255, 0.1)">
+      <v-footer
+        app
+        height="36"
+        style="border-top: 1px solid rgba(255, 255, 255, 0.1)"
+      >
         <v-row justify="space-between" align="center" no-gutters>
           <v-col cols="3">
             <v-btn
@@ -62,7 +101,8 @@
               variant="text"
               color="accent"
               prepend-icon="mdi-star-four-points-box-outline"
-              @click="$emit('endEncounter')">
+              @click="$emit('endEncounter')"
+            >
               GM Overrides
             </v-btn>
           </v-col>
@@ -73,7 +113,8 @@
               variant="text"
               color="accent"
               prepend-icon="mdi-clock-end"
-              @click="$emit('endEncounter')">
+              @click="$emit('endEncounter')"
+            >
               End Round
             </v-btn>
           </v-col>
@@ -84,7 +125,8 @@
               variant="text"
               color="accent"
               prepend-icon="mdi-stop-circle-outline"
-              @click="$emit('endEncounter')">
+              @click="$emit('endEncounter')"
+            >
               End Encounter
             </v-btn>
           </v-col>
@@ -111,7 +153,7 @@ import { Sortable } from 'sortablejs-vue3';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
 import DoodadPanel from './EncounterPanels/DoodadPanel.vue';
 import UnitPanel from './EncounterPanels/UnitPanel.vue';
-import PilotPanel from './EncounterPanels/PilotPanel.vue';
+import PilotPanel from './EncounterPanels/PcPanel.vue';
 import EncounterInfoPanel from './InfoPanels/EncounterInfoPanel.vue';
 import ReferencePanel from './InfoPanels/ReferencePanel.vue';
 import GmDiceRoller from './_components/GmDiceRoller.vue';
@@ -174,7 +216,11 @@ export default {
   },
   methods: {
     async sortBy(key) {
-      const sorted = _.orderBy(this.actors, key, this.sort === key ? 'desc' : 'asc');
+      const sorted = _.orderBy(
+        this.actors,
+        key,
+        this.sort === key ? 'desc' : 'asc'
+      );
       if (this.sort === key) sorted.reverse();
       this.sort = key;
 

@@ -7,6 +7,29 @@ interface IStatData {
   current: any;
 }
 
+const MandatoryStats: string[] = [
+  'activations',
+  'size',
+  'sizes',
+  'structure',
+  'hull',
+  'agi',
+  'sys',
+  'eng',
+  'hp',
+  'armor',
+  'stress',
+  'heat',
+  'speed',
+  'evasion',
+  'edef',
+  'sensorRange',
+  'saveTarget',
+  'overshield',
+  'overcharge',
+  'burn',
+];
+
 class StatController {
   public Parent: IStatContainer;
 
@@ -18,8 +41,11 @@ class StatController {
     this._currentStats = {};
 
     for (const key in this._maxStats) {
-      if (parent.MandatoryStats.includes(key)) {
+      if (MandatoryStats.includes(key)) {
         this._maxStats[key] = Stats.DefaultStats[key];
+      }
+      if (parent.AdditionalStats?.includes(key)) {
+        this._maxStats[key] = Stats.DefaultStats[key] || 0;
       }
     }
 
@@ -46,7 +72,7 @@ class StatController {
     const trackable = [
       'hp',
       'stress',
-      'heat',
+      'heatcap',
       'structure',
       'repairCapacity',
       'overcharge',
@@ -56,16 +82,32 @@ class StatController {
     return this.DisplayKeys.filter((x) => trackable.includes(x.key));
   }
 
-  public get NonTrackableStats(): { key: string; title: string; type: string }[] {
-    const trackable = ['hp', 'stress', 'heat', 'structure', 'repairCapacity'];
+  public get NonTrackableStats(): {
+    key: string;
+    title: string;
+    type: string;
+  }[] {
+    const trackable = [
+      'hp',
+      'stress',
+      'heatcap',
+      'structure',
+      'repairCapacity',
+    ];
     return this.DisplayKeys.filter((x) => !trackable.includes(x.key));
   }
 
-  public GetStatCollection(keys: string[]): { key: string; title: string; type: string }[] {
+  public GetStatCollection(
+    keys: string[]
+  ): { key: string; title: string; type: string }[] {
     return this.DisplayKeys.filter((x) => keys.includes(x.key));
   }
 
-  public static get CoreStats(): { key: string; title: string; type: string }[] {
+  public static get CoreStats(): {
+    key: string;
+    title: string;
+    type: string;
+  }[] {
     return Object.keys(Stats.DefaultStats).map((key) => ({
       key,
       title: Stats.expandKey(key),
@@ -109,7 +151,11 @@ class StatController {
   }
 
   public RemoveStat(key: string): void {
-    if (this.Parent.MandatoryStats.includes(key)) return;
+    if (
+      MandatoryStats.includes(key) ||
+      this.Parent.AdditionalStats?.includes(key)
+    )
+      return;
     delete this._maxStats[key];
     this.Parent.SaveController.save();
   }
@@ -150,6 +196,7 @@ class StatController {
 
   public resetCurrentStats() {
     this._currentStats = { ...this._maxStats };
+    this._currentStats['heatcap'] = 0;
   }
 
   public get SizeIcon(): string {
@@ -169,8 +216,11 @@ class StatController {
         `StatController not found on parent (${typeof parent}). New StatControllers must be instantiated in the parent's constructor method.`
       );
 
-    parent.StatController._maxStats = data.max || {};
-    parent.StatController._currentStats = data.current || {};
+    if (!data) return;
+    if (data.max) parent.StatController._maxStats = data.max;
+    if (data.current && Object.keys(data.current).length)
+      parent.StatController._currentStats = data.current;
+    else parent.StatController.resetCurrentStats();
   }
 }
 
