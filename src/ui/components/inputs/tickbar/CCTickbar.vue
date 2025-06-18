@@ -4,16 +4,30 @@
       <div
         v-if="label && !reverse"
         class="text-cc-overline"
-        style="position: absolute; top: -16px; right: 0; opacity: 0.6">
+        style="position: absolute; top: -16px; right: 0; opacity: 0.6"
+      >
         {{ label }}
       </div>
-      <v-col v-if="controls && !readonly" cols="auto" align-self="center" class="mr-2">
-        <v-btn icon variant="text" tile :size="optionsSize" @click="setVal(<number>modelValue - 1)">
+      <v-col
+        v-if="controls && !readonly"
+        cols="auto"
+        align-self="center"
+        class="mr-2"
+      >
+        <v-btn
+          icon
+          variant="text"
+          tile
+          :size="optionsSize"
+          @click="setVal(<number>modelValue - 1)"
+        >
           <v-icon :size="optionsSize" icon="mdi-minus" />
         </v-btn>
       </v-col>
       <v-col cols="auto" class="mr-n3">
-        <span :class="`${reverse ? 'reverse-light' : 'light'} ${size} ${`bg-${color}`}`" />
+        <span
+          :class="`${reverse ? 'reverse-light' : 'light'} ${size} ${`bg-${color}`}`"
+        />
         <v-menu v-if="tertiaryLabel" :close-on-content-click="false">
           <template #activator="{ props }">
             <v-btn
@@ -25,9 +39,12 @@
               class="d-block tertiary-clip"
               height="17px"
               style="width: calc(100% - 33px)"
-              :class="`bg-${bgColor}`">
+              :class="`bg-${bgColor}`"
+            >
               <v-icon start :icon="tertiaryIcon" size="15" />
-              <span class="heading" style="font-size: 14px">{{ tertiary }}</span>
+              <span class="heading" style="font-size: 14px">{{
+                tertiary
+              }}</span>
             </v-btn>
           </template>
           <v-card tile width="150px" class="mt-n1 ml-6 pa-3" border>
@@ -44,7 +61,8 @@
               autofocus
               density="compact"
               @focus="$event.target.select()"
-              @update:tertiary="setTertiaryVal(Number($event))" />
+              @update:tertiary="setTertiaryVal(Number($event))"
+            />
             <p v-if="details" class="mt-2">{{ details }}</p>
           </v-card>
         </v-menu>
@@ -58,15 +76,22 @@
               class="pl-4"
               :min-width="minWidth"
               :class="`bg-${bgColor} ${size} ${reverse ? 'reverse-btn-body-clip' : tertiaryLabel ? 'btn-body' : 'btn-body-clip'}`"
-              v-bind="props">
+              v-bind="props"
+            >
               <span class="pr-7 heading">
-                <v-icon v-if="icon" :icon="icon" :class="iconOffset" class="mr-2" />
+                <v-icon
+                  v-if="icon"
+                  :icon="icon"
+                  :class="iconOffset"
+                  class="mr-2"
+                />
                 <span v-if="display">
                   {{ modelValue }}
                   <div
                     v-if="size !== 'x-small'"
                     class="text-cc-overline d-inline-block ml-n2"
-                    style="line-height: 0; opacity: 0.5">
+                    style="line-height: 0; opacity: 0.5"
+                  >
                     /{{ ticks }}
                   </div>
                 </span>
@@ -75,7 +100,8 @@
                   icon="mdi-keyboard-variant"
                   :class="iconOffset"
                   size="small"
-                  style="opacity: 0.3" />
+                  style="opacity: 0.3"
+                />
               </span>
             </v-btn>
           </template>
@@ -93,7 +119,8 @@
               autofocus
               density="compact"
               @focus="$event.target.select()"
-              @update:model-value="setVal(Number($event))" />
+              @update:model-value="setVal(Number($event))"
+            />
             <p v-if="details" class="mt-2">{{ details }}</p>
           </v-card>
         </v-menu>
@@ -108,9 +135,12 @@
               class="d-block"
               height="17px"
               style="width: 100%"
-              :class="`bg-${bgColor}`">
+              :class="`bg-${bgColor}`"
+            >
               <v-icon start :icon="secondaryIcon" size="15" />
-              <span class="heading" style="font-size: 14px">{{ secondary }}</span>
+              <span class="heading" style="font-size: 14px">{{
+                secondary
+              }}</span>
             </v-btn>
           </template>
           <v-card tile width="150px" class="mt-n1 ml-6 pa-3" border>
@@ -127,43 +157,66 @@
               autofocus
               density="compact"
               @focus="$event.target.select()"
-              @update:tertiary="setSecondaryVal(Number($event))" />
+              @update:tertiary="setSecondaryVal(Number($event))"
+            />
           </v-card>
         </v-menu>
       </v-col>
       <v-col :class="space ? 'ml-5' : ''">
         <div
           v-if="tertiaryLabel && (tertiary || tertiaryTicks)"
-          style="margin-left: -20px; padding-right: 22px; margin-top: -3px; margin-bottom: 4px">
+          style="
+            margin-left: -20px;
+            padding-right: 22px;
+            margin-top: -3px;
+            margin-bottom: 4px;
+          "
+        >
           <v-row no-gutters>
             <v-col
               v-if="!tertiaryTicks"
               v-for="n in tertiary"
-              class="mt-1"
-              :style="n - 1 === tertiary ? '' : 'margin-left: 6px'">
+              :style="n - 1 === tertiary ? '' : 'margin-left: 6px'"
+            >
               <div :class="`bg-${color}`" style="height: 12px" />
             </v-col>
             <v-col
               v-else
               v-for="n in tertiaryTicks"
-              class="mt-1"
-              :style="n - 1 === tertiaryTicks ? '' : 'margin-left: 6px'">
-              <div
+              :style="n - 1 === tertiaryTicks ? '' : 'margin-left: 6px'"
+            >
+              <v-btn
                 :class="n <= tertiary ? `bg-${tertiaryColor}` : `bg-${bgColor}`"
-                style="height: 12px" />
+                flat
+                tile
+                class="mt-1 pa-0 d-block"
+                style="height: 13px; width: 100%"
+                @click="setTertiaryVal(n)"
+              />
             </v-col>
           </v-row>
         </div>
         <div
           v-else-if="tertiaryLabel"
-          style="margin-left: -20px; padding-right: 22px; margin-top: -3px; margin-bottom: 4px">
-          <div :class="`bg-${bgColor}`" class="mt-1" style="height: 12px; margin-left: 6px" />
+          style="
+            margin-left: -20px;
+            padding-right: 22px;
+            margin-top: -3px;
+            margin-bottom: 4px;
+          "
+        >
+          <div
+            :class="`bg-${bgColor}`"
+            class="mt-1"
+            style="height: 12px; margin-left: 6px"
+          />
         </div>
         <div :class="reverse && modelValue > 9 && 'ml-n4'">
           <div
             v-for="i in ticks"
             class="d-inline-block"
-            :style="`width: ${100 / ticks}%; ${ticks < 30 ? 'min-width: 7px;' : ''}`">
+            :style="`width: ${100 / ticks}%; ${ticks < 30 ? 'min-width: 7px;' : ''}`"
+          >
             <v-tooltip location="top">
               <template #activator="{ props }">
                 <v-btn
@@ -181,21 +234,31 @@
                   style="width: calc(100% - 6px)"
                   @click="setVal(i)"
                   class="tick"
-                  :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`} ${reverse ? 'reverse' : 'angled'} ${size} px-0 `" />
+                  :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`} ${reverse ? 'reverse' : 'angled'} ${size} px-0 `"
+                />
               </template>
               <span class="heading h3">{{ i }}</span>
             </v-tooltip>
           </div>
         </div>
-        <div v-if="secondaryLabel" style="padding-left: 15px; margin-right: -18px">
+        <div
+          v-if="secondaryLabel"
+          style="padding-left: 15px; margin-right: -18px"
+        >
           <v-row no-gutters>
             <v-col
               v-for="n in secondaryTicks"
               class="mt-1"
-              :style="n - 1 === secondaryTicks ? '' : 'margin-left: 6px'">
-              <div
+              :style="n - 1 === secondaryTicks ? '' : 'margin-left: 6px'"
+            >
+              <v-btn
                 :class="`bg-${n - 1 < secondary ? secondaryColor : bgColor}`"
-                style="height: 12px" />
+                flat
+                tile
+                class="pa-0 d-block"
+                style="height: 12px; width: 100%"
+                @click="setSecondaryVal(n)"
+              />
             </v-col>
           </v-row>
         </div>
@@ -205,7 +268,8 @@
         <div
           v-if="tertiaryLabel"
           :class="`bg-${bgColor}`"
-          style="height: 12px; width: 47px; margin-top: 1px; margin-left: -11px" />
+          style="height: 12px; width: 47px; margin-top: 1px; margin-left: -11px"
+        />
         <div
           class="ml-4 end-cap"
           :class="`bg-${bgColor} ${size}`"
@@ -213,14 +277,16 @@
             reverse
               ? `clip-path: polygon(70% 0, 100% 0, 100% 100%, 4px 100%)`
               : `clip-path: polygon(10% 0%, 100% 0%, 100% 100%, ${angle} 100%)`
-          ">
+          "
+        >
           &nbsp;
         </div>
         <div
           v-if="secondaryLabel"
           :class="`bg-${bgColor}`"
           :style="!tertiaryLabel ? 'margin-top: -4px' : ''"
-          style="height: 12px; width: 8px; margin-left: 28px" />
+          style="height: 12px; width: 8px; margin-left: 28px"
+        />
       </v-col>
 
       <v-col cols="auto" v-if="$slots.options">
@@ -233,7 +299,8 @@
               tile
               flat
               class="pa-0 ml-n1"
-              v-bind="props">
+              v-bind="props"
+            >
               <v-icon :icon="optionsIcon || 'mdi-dots-vertical'" />
             </v-btn>
           </template>
@@ -243,8 +310,19 @@
       <v-col cols="auto">
         <div :class="`bg-${color} tail`" />
       </v-col>
-      <v-col v-if="controls && !readonly" cols="auto" align-self="center" class="ml-1">
-        <v-btn icon variant="text" tile :size="optionsSize" @click="setVal(<number>modelValue + 1)">
+      <v-col
+        v-if="controls && !readonly"
+        cols="auto"
+        align-self="center"
+        class="ml-1"
+      >
+        <v-btn
+          icon
+          variant="text"
+          tile
+          :size="optionsSize"
+          @click="setVal(<number>modelValue + 1)"
+        >
           <v-icon :size="optionsSize" icon="mdi-plus" />
         </v-btn>
       </v-col>
@@ -259,13 +337,18 @@
             <v-icon
               v-bind="props"
               class="fade-select mx-1"
-              :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
+              :icon="tooltipIcon || 'mdi-information-slab-box-outline'"
+            />
           </template>
           {{ tooltip }}
         </v-tooltip>
       </v-col>
     </v-row>
-    <div v-if="label && reverse" class="text-cc-overline text-right" style="opacity: 0.6">
+    <div
+      v-if="label && reverse"
+      class="text-cc-overline text-right"
+      style="opacity: 0.6"
+    >
       {{ label }}
     </div>
     <v-slide-y-transition>
@@ -368,14 +451,16 @@ export default {
     },
     setTertiaryVal(val: number) {
       if (this.stopAdd && val > this.tertiary) return;
-      if (this.tertiaryTicks && val > this.tertiaryTicks) val = this.tertiaryTicks;
+      if (this.tertiaryTicks && val > this.tertiaryTicks)
+        val = this.tertiaryTicks;
       if (val < 0) val = 0;
       if (this.tertiary === 1 && val === 1) val = 0;
       this.$emit('update:tertiary', val);
     },
     setSecondaryVal(val: number) {
       if (this.stopAdd && val > this.secondary) return;
-      if (this.secondaryTicks && val > this.secondaryTicks) val = this.secondaryTicks;
+      if (this.secondaryTicks && val > this.secondaryTicks)
+        val = this.secondaryTicks;
       if (val < 0) val = 0;
       if (this.secondary === 1 && val === 1) val = 0;
       this.$emit('update:secondary', val);
@@ -478,7 +563,13 @@ export default {
 }
 
 .reverse-btn-body-clip.default {
-  clip-path: polygon(0 0, 100% 0, calc(100% - 33px) 100%, 16px 100%, 0 calc(100% - 16px));
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    calc(100% - 33px) 100%,
+    16px 100%,
+    0 calc(100% - 16px)
+  );
   font-size: 1.75rem;
   margin-right: -20px !important;
   padding-left: 22px !important;

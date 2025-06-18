@@ -2,7 +2,13 @@
   <v-container :class="!mobile && 'px-12'">
     <v-row align="center" justify="space-between" dense>
       <v-col cols="auto">
-        <cc-button block color="primary" size="small" @click="showUpdates">
+        <cc-button
+          block
+          color="primary"
+          size="small"
+          prepend-icon="mdi-bell-ring-outline"
+          @click="showUpdates"
+        >
           Show Update Messages
         </cc-button>
       </v-col>
@@ -11,8 +17,11 @@
           v-model="userViewExotics"
           color="exotic"
           density="compact"
+          off-icon="mdi-star-off-outline"
+          on-icon="mdi-star"
           tooltip="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED if you are not the GM"
-          label="Show Exotic items in the Compendium"></cc-switch>
+          label="Show Exotic items in the Compendium"
+        ></cc-switch>
       </v-col>
     </v-row>
 
@@ -22,13 +31,18 @@
         <cc-select
           v-model="theme"
           :items="themes.sort((a, b) => a.community - b.community)"
-          :item-title="(item) => `${item.name}${item.community ? ' (Community)' : ''}`" />
+          :item-title="
+            (item) => `${item.name}${item.community ? ' (Community)' : ''}`
+          "
+        />
 
         <i class="text-caption" style="opacity: 0.75">
           Community themes by
           <a target="_blank" href="https://github.com/vialra">vialra,</a>
           Asger Toft,
-          <a target="_blank" href="https://github.com/Lunardog15">thecrystalwoods,</a>
+          <a target="_blank" href="https://github.com/Lunardog15"
+            >thecrystalwoods,</a
+          >
           and
           <a target="_blank" href="https://github.com/nimoooos">Suji</a>
         </i>
@@ -53,7 +67,8 @@
               :key="item.level"
               @click="setLogLevel(item)"
               :title="item.name"
-              :subtitle="item.detail" />
+              :subtitle="item.detail"
+            />
           </v-list>
         </v-menu>
       </v-col>
@@ -67,7 +82,8 @@
           color="primary"
           prepend-icon="mdi-database"
           tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-          @click="bulkExport">
+          @click="bulkExport"
+        >
           Create Data Backup
         </cc-button>
       </v-col>
@@ -81,7 +97,8 @@
               size="large"
               color="primary"
               prepend-icon="mdi-database"
-              tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
+              tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
+            >
               Load Data Backup
             </cc-button>
           </template>
@@ -105,7 +122,8 @@
                 autofocus
                 placeholder="Select COMP/CON Bulk Export File"
                 prepend-icon="mdi-paperclip"
-                @change="bulkImport" />
+                @change="bulkImport"
+              />
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -139,9 +157,21 @@ export default {
       detail: 'Record warning and error messages (recommended)',
     },
     logLevels: [
-      { name: 'Debug', level: 1, detail: 'Record all log messages (very slow)' },
-      { name: 'Info', level: 2, detail: 'Record info, warning, and error messages' },
-      { name: 'Warning', level: 3, detail: 'Record warning and error messages (recommended)' },
+      {
+        name: 'Debug',
+        level: 1,
+        detail: 'Record all log messages (very slow)',
+      },
+      {
+        name: 'Info',
+        level: 2,
+        detail: 'Record info, warning, and error messages',
+      },
+      {
+        name: 'Warning',
+        level: 3,
+        detail: 'Record warning and error messages (recommended)',
+      },
       { name: 'Error', level: 4, detail: 'Record only error messages' },
     ],
   }),
@@ -184,7 +214,8 @@ export default {
   },
   created() {
     this.logLevel =
-      this.logLevels.find((x) => x.name.toLowerCase() === this.user.LogLevel) || this.logLevels[2];
+      this.logLevels.find((x) => x.name.toLowerCase() === this.user.LogLevel) ||
+      this.logLevels[2];
   },
   methods: {
     reload() {

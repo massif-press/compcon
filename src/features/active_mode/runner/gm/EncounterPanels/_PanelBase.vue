@@ -3,7 +3,13 @@
   <v-card flat tile class="pa-2">
     <v-row class="pr-4">
       <v-col cols="auto">
-        <cc-img width="155px" height="100%" color="panel" cover :src="item.Portrait" />
+        <cc-img
+          width="155px"
+          height="100%"
+          color="panel"
+          cover
+          :src="item.Portrait"
+        />
       </v-col>
       <v-col>
         <v-row no-gutters>
@@ -16,8 +22,12 @@
           <v-col cols="auto" class="mx-auto" align-self="center">
             <v-btn-toggle v-model="cover" flat tile color="primary">
               <v-btn size="x-small" height="20px" value="no">No Cover</v-btn>
-              <v-btn size="x-small" height="20px" value="soft">Soft Cover</v-btn>
-              <v-btn size="x-small" height="20px" value="hard">Hard Cover</v-btn>
+              <v-btn size="x-small" height="20px" value="soft"
+                >Soft Cover</v-btn
+              >
+              <v-btn size="x-small" height="20px" value="hard"
+                >Hard Cover</v-btn
+              >
             </v-btn-toggle>
           </v-col>
           <v-col cols="auto" class="pt-3 pr-1">
@@ -27,8 +37,11 @@
               variant="outlined"
               :color="item.activations === 0 ? 'green' : 'grey'"
               @click="
-                item.activations === 0 ? (item.activations = 1) : (item.activations = 0)
-              "></cc-button>
+                item.activations === 0
+                  ? (item.activations = 1)
+                  : (item.activations = 0)
+              "
+            ></cc-button>
           </v-col>
         </v-row>
         <v-row class="mt-n1">
@@ -36,7 +49,11 @@
             <v-tooltip location="top" text="Pilot Grit">
               <template #activator="{ props }">
                 <span v-bind="props">
-                  <v-icon icon="mdi-star-four-points-outline" size="x-large" class="mt-n2 mr-1" />
+                  <v-icon
+                    icon="mdi-star-four-points-outline"
+                    size="x-large"
+                    class="mt-n2 mr-1"
+                  />
                   <span class="heading h2 text-accent">2</span>
                 </span>
               </template>
@@ -49,10 +66,16 @@
               'agi',
               'sys',
               'eng',
-            ])">
+            ])"
+          >
             <v-tooltip :text="stat.title" location="top" open-delay="400">
               <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-large" class="mt-n2 mr-1" :icon="stat.icon" />
+                <v-icon
+                  v-bind="props"
+                  size="x-large"
+                  class="mt-n2 mr-1"
+                  :icon="stat.icon"
+                />
                 <span class="heading h2 text-accent">
                   {{ item.StatController.CurrentStats[stat.key] }}
                 </span>
@@ -65,12 +88,19 @@
             v-for="(stat, index) in item.StatController.GetStatCollection([
               'evasion',
               'edef',
+              'techattack',
               'sensorRange',
               'saveTarget',
-            ])">
+            ])"
+          >
             <v-tooltip :text="stat.title" location="top" open-delay="400">
               <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-large" class="mt-n2 mr-1" :icon="stat.icon" />
+                <v-icon
+                  v-bind="props"
+                  size="x-large"
+                  class="mt-n2 mr-1"
+                  :icon="stat.icon"
+                />
                 <span class="heading h2 text-accent">
                   {{ item.StatController.CurrentStats[stat.key] }}
                 </span>
@@ -95,37 +125,45 @@
               secondary-icon="cc:structure"
               tertiary-icon="mdi-hexagon-multiple-outline"
               :ticks="item.StatController.MaxStats['hp']"
-              :secondary-ticks="item.StatController.MaxStats['structure']" />
+              :secondary-ticks="item.StatController.MaxStats['structure']"
+            />
           </v-col>
           <v-col cols="auto">
             <stat-mini-panel
               title="armor"
               icon="mdi-shield-outline"
               color="armor"
-              v-model="item.StatController.CurrentStats['armor']" />
+              v-model="item.StatController.CurrentStats['armor']"
+            />
           </v-col>
         </v-row>
 
         <v-row>
           <v-col>
             <cc-tickbar
-              v-model="item.StatController.CurrentStats['heat']"
+              v-model="item.StatController.CurrentStats['heatcap']"
               v-model:secondary="item.StatController.CurrentStats['stress']"
               v-model:tertiary="item.StatController.CurrentStats['overcharge']"
-              secondary-label=" "
-              tertiary-label=" "
+              secondary-label="Reactor Stress"
+              tertiary-label="Overcharge"
               color="heat"
               secondary-color="stress"
               tertiary-color="overcharge"
               icon="cc:heat"
               secondary-icon="cc:reactor"
               tertiary-icon="mdi-decagram-outline"
-              :ticks="item.StatController.MaxStats['heat']"
+              :ticks="item.StatController.MaxStats['heatcap']"
               :secondary-ticks="item.StatController.MaxStats['stress']"
-              :tertiary-ticks="3" />
+              :tertiary-ticks="3"
+            />
           </v-col>
           <v-col cols="auto">
-            <stat-mini-panel title="burn" icon="cc:burn" color="damage--burn" v-model="burn" />
+            <stat-mini-panel
+              title="burn"
+              icon="cc:burn"
+              color="damage--burn"
+              v-model="burn"
+            />
           </v-col>
         </v-row>
         <v-row class="mb-3">
@@ -137,26 +175,31 @@
               space
               icon="mdi-arrow-right-bold-hexagon-outline"
               class="mb-1"
-              :ticks="item.StatController.MaxStats['speed']" />
+              :ticks="item.StatController.MaxStats['speed']"
+            />
             <cc-tickbar
-              v-if="item.StatController.MaxStats['repCap']"
-              v-model="item.StatController.CurrentStats['repCap']"
+              v-if="item.StatController.MaxStats['repairCapacity']"
+              v-model="item.StatController.CurrentStats['repairCapacity']"
               color="success"
               icon="cc:repair"
               min-width="150px"
               space
               reverse
-              :ticks="item.StatController.MaxStats['repCap']" />
+              :ticks="item.StatController.MaxStats['repairCapacity']"
+            />
           </v-col>
-          <v-col cols="auto" v-if="item.type === 'pilot'">
+          <v-col cols="auto" v-if="item.ItemType === 'mech'">
             <stat-mini-panel
               v-model="corepower"
               title="core"
               icon="mdi-battery-high"
               color="core"
-              boolean />
+              boolean
+            />
           </v-col>
         </v-row>
+
+        {{ item.StatController.MaxStats }}
 
         <div class="text-cc-overline text-disabled mt-4">Actions</div>
         <v-row dense>
@@ -166,7 +209,8 @@
               flat
               tile
               class="text-center py-1 px-2"
-              @click="setAction('protocol')">
+              @click="setAction('protocol')"
+            >
               <v-icon size="large" icon="cc:protocol" />
             </v-card>
           </v-col>
@@ -176,13 +220,16 @@
               flat
               tile
               class="text-center py-1 px-2"
-              @click="setAction('full')">
+              @click="setAction('full')"
+            >
               <v-icon size="large" icon="mdi-hexagon-slice-6" />
             </v-card>
           </v-col>
           <v-col cols="auto">
             <v-card flat tile class="text-center py-1 px-2">
-              <v-icon size="large" class="text-disabled">mdi-swap-horizontal</v-icon>
+              <v-icon size="large" class="text-disabled"
+                >mdi-swap-horizontal</v-icon
+              >
             </v-card>
           </v-col>
           <v-col>
@@ -191,7 +238,8 @@
               flat
               tile
               class="text-center py-1 px-2"
-              @click="setAction('quick')">
+              @click="setAction('quick')"
+            >
               <v-icon size="large" icon="mdi-hexagon-slice-3" />
             </v-card>
           </v-col>
@@ -201,7 +249,8 @@
               flat
               tile
               class="text-center py-1 px-2"
-              @click="setAction('quick')">
+              @click="setAction('quick')"
+            >
               <v-icon size="large" icon="mdi-hexagon-slice-3" />
             </v-card>
           </v-col>
@@ -211,8 +260,12 @@
               flat
               tile
               class="text-center py-1 px-2"
-              @click="setAction('move')">
-              <v-icon size="large" icon="mdi-arrow-right-bold-hexagon-outline" />
+              @click="setAction('move')"
+            >
+              <v-icon
+                size="large"
+                icon="mdi-arrow-right-bold-hexagon-outline"
+              />
             </v-card>
           </v-col>
           <v-col>
@@ -221,7 +274,8 @@
               flat
               tile
               class="text-center py-1 px-2"
-              @click="setAction('overcharge')">
+              @click="setAction('overcharge')"
+            >
               <v-icon size="large" icon="cc:overcharge" />
             </v-card>
           </v-col>
@@ -231,7 +285,8 @@
               flat
               tile
               class="text-center py-1 px-2"
-              @click="setAction('reaction')">
+              @click="setAction('reaction')"
+            >
               <v-icon size="large" icon="cc:reaction" />
             </v-card>
           </v-col>
@@ -239,21 +294,28 @@
 
         <v-row dense class="mt-4">
           <v-col cols="4">
-            <div class="text-cc-overline text-disabled">RESIST / IMMUNE / VULNERABLE</div>
+            <div class="text-cc-overline text-disabled">
+              RESIST / IMMUNE / VULNERABLE
+            </div>
             <v-row dense justify="center">
               <v-col v-for="resist in resistances" cols="4">
                 <v-tooltip :open-delay="400" location="top" max-width="300">
                   <template #activator="{ props }">
                     <v-card
                       v-bind="props"
-                      style="position: relative; padding-top: 2px; padding-bottom: 2px"
+                      style="
+                        position: relative;
+                        padding-top: 2px;
+                        padding-bottom: 2px;
+                      "
                       flat
                       tile
                       :color="hasResistance(resist) ? resist.color : 'panel'"
                       :style="`border: 2px solid ${hasImmunity(resist) ? 'rgb(var(--v-theme-primary))' : hasVulnerability(resist) ? 'rgba(249, 219, 78, 0.5)' : 'rgb(var(--v-theme-panel))'}`"
                       class="px-2 text-center"
                       :class="hasVulnerability(resist) ? 'bg-stripes' : ''"
-                      @click="addResistance(resist)">
+                      @click="addResistance(resist)"
+                    >
                       <v-icon
                         v-if="immunities.some((r) => r === resist.Name)"
                         icon="mdi-cancel"
@@ -267,12 +329,17 @@
                           right: 0;
                           width: 100%;
                           height: 100%;
-                        " />
+                        "
+                      />
                       <v-icon :icon="resist.icon" size="35" />
                     </v-card>
                   </template>
                   <div
-                    v-if="hasResistance(resist) || hasImmunity(resist) || hasVulnerability(resist)"
+                    v-if="
+                      hasResistance(resist) ||
+                      hasImmunity(resist) ||
+                      hasVulnerability(resist)
+                    "
                     class="heading h3"
                     :class="
                       hasImmunity(resist)
@@ -280,7 +347,8 @@
                         : hasVulnerability(resist)
                           ? 'text-error'
                           : 'text-accent'
-                    ">
+                    "
+                  >
                     {{ resist.Name }}
                     {{
                       hasImmunity(resist)
@@ -314,7 +382,8 @@
                 tile
                 block
                 variant="text"
-                prepend-icon="mdi-plus">
+                prepend-icon="mdi-plus"
+              >
                 Add Custom
               </v-btn>
             </div>
@@ -322,20 +391,30 @@
           <v-col cols="auto" style="min-width: 20px" />
 
           <v-col class="mx-auto">
-            <div class="text-cc-overline text-disabled">Statuses / Conditions</div>
+            <div class="text-cc-overline text-disabled">
+              Statuses / Conditions
+            </div>
             <v-row dense>
               <v-col
-                v-for="status in statuses.filter((x) => x.StatusType === 'Status')"
-                :key="status.ID">
+                v-for="status in statuses.filter(
+                  (x) => x.StatusType === 'Status'
+                )"
+                :key="status.ID"
+              >
                 <v-tooltip :open-delay="400" location="top" max-width="300">
                   <template #activator="{ props }">
                     <v-card
                       v-bind="props"
-                      :color="statuses.some((s) => s.ID === status.ID) ? 'primary' : 'panel'"
+                      :color="
+                        statuses.some((s) => s.ID === status.ID)
+                          ? 'primary'
+                          : 'panel'
+                      "
                       class="px-2 py-1 text-center"
                       flat
                       tile
-                      @click="addStatus(status)">
+                      @click="addStatus(status)"
+                    >
                       <v-icon :icon="status.Icon" size="35" />
                     </v-card>
                   </template>
@@ -347,17 +426,25 @@
 
             <v-row dense>
               <v-col
-                v-for="status in statuses.filter((x) => x.StatusType === 'Condition')"
-                :key="status.ID">
+                v-for="status in statuses.filter(
+                  (x) => x.StatusType === 'Condition'
+                )"
+                :key="status.ID"
+              >
                 <v-tooltip :open-delay="400" location="top" max-width="300">
                   <template #activator="{ props }">
                     <v-card
                       v-bind="props"
-                      :color="statuses.some((s) => s.ID === status.ID) ? 'primary' : 'panel'"
+                      :color="
+                        statuses.some((s) => s.ID === status.ID)
+                          ? 'primary'
+                          : 'panel'
+                      "
                       class="px-2 py-1 text-center"
                       flat
                       tile
-                      @click="addStatus(status)">
+                      @click="addStatus(status)"
+                    >
                       <v-icon :icon="status.Icon" size="35" />
                     </v-card>
                   </template>
@@ -379,7 +466,8 @@
                     tile
                     block
                     variant="text"
-                    prepend-icon="mdi-plus">
+                    prepend-icon="mdi-plus"
+                  >
                     Add Special Status
                   </v-btn>
                 </template>
@@ -389,7 +477,8 @@
                     :active="special.includes(status.Name)"
                     active-color="accent"
                     :key="status.ID"
-                    @click="addSpecialStatus(status)">
+                    @click="addSpecialStatus(status)"
+                  >
                     <v-list-item-title>{{ status.Name }}</v-list-item-title>
                   </v-list-item>
                   <v-divider />
@@ -408,7 +497,8 @@
               color="primary"
               class="mt-2"
               prepend-icon="cc:eclipse"
-              @click="props.onClick($event)">
+              @click="props.onClick($event)"
+            >
               Take damage
             </cc-button>
           </template>
@@ -427,7 +517,9 @@
               <v-card-text>
                 <v-row>
                   <v-col>
-                    <div class="text-cc-overline text-disabled">Incoming Damage Value</div>
+                    <div class="text-cc-overline text-disabled">
+                      Incoming Damage Value
+                    </div>
                     <v-divider />
                     <v-text-field
                       type="number"
@@ -435,23 +527,54 @@
                       max="100"
                       class="mt-2 heading h3"
                       variant="outlined"
-                      tile />
-                    <v-btn size="x-small" class="mt-1" block flat tile color="primary" @click="">
+                      tile
+                    />
+                    <v-btn
+                      size="x-small"
+                      class="mt-1"
+                      block
+                      flat
+                      tile
+                      color="primary"
+                      @click=""
+                    >
                       Half Damage
                     </v-btn>
-                    <v-btn size="x-small" class="mt-1" block flat tile color="primary" @click="">
+                    <v-btn
+                      size="x-small"
+                      class="mt-1"
+                      block
+                      flat
+                      tile
+                      color="primary"
+                      @click=""
+                    >
                       Armor Piercing
                     </v-btn>
-                    <v-btn size="x-small" class="mt-1" block flat tile color="primary" @click="">
+                    <v-btn
+                      size="x-small"
+                      class="mt-1"
+                      block
+                      flat
+                      tile
+                      color="primary"
+                      @click=""
+                    >
                       Irreducible
                     </v-btn>
                   </v-col>
                   <v-col>
-                    <div class="text-cc-overline text-disabled">Damage Type</div>
+                    <div class="text-cc-overline text-disabled">
+                      Damage Type
+                    </div>
                     <v-divider />
                     <v-row dense class="mt-1">
                       <v-col v-for="r in resistances" :key="r.ID" cols="4">
-                        <v-tooltip :open-delay="400" location="top" max-width="300">
+                        <v-tooltip
+                          :open-delay="400"
+                          location="top"
+                          max-width="300"
+                        >
                           <template #activator="{ props }">
                             <v-card
                               v-bind="props"
@@ -459,7 +582,8 @@
                               class="px-2 py-1 text-center"
                               flat
                               tile
-                              @click="">
+                              @click=""
+                            >
                               <v-icon :icon="r.icon" size="35" />
                             </v-card>
                           </template>
@@ -469,11 +593,17 @@
                       </v-col>
                     </v-row>
 
-                    <div class="text-cc-overline text-disabled mt-2">Add Effect</div>
+                    <div class="text-cc-overline text-disabled mt-2">
+                      Add Effect
+                    </div>
                     <v-divider />
                     <v-row dense class="mt-1">
                       <v-col v-for="s in applicableStatuses" :key="s.ID">
-                        <v-tooltip :open-delay="400" location="top" max-width="300">
+                        <v-tooltip
+                          :open-delay="400"
+                          location="top"
+                          max-width="300"
+                        >
                           <template #activator="{ props }">
                             <v-card
                               v-bind="props"
@@ -481,7 +611,8 @@
                               class="px-2 py-1 text-center"
                               flat
                               tile
-                              @click="">
+                              @click=""
+                            >
                               <v-icon :icon="s.Icon" size="35" />
                             </v-card>
                           </template>
@@ -497,11 +628,24 @@
                       prepend-icon="mdi-calculator-variant-outline"
                       block
                       disabled
-                      color="primary">
+                      color="primary"
+                    >
                       Calculate Total
                     </cc-button>
-                    <v-card flat tile height="208px" color="background" class="my-2" />
-                    <cc-button disabled size="small" prepend-icon="mdi-check" block color="primary">
+                    <v-card
+                      flat
+                      tile
+                      height="208px"
+                      color="background"
+                      class="my-2"
+                    />
+                    <cc-button
+                      disabled
+                      size="small"
+                      prepend-icon="mdi-check"
+                      block
+                      color="primary"
+                    >
                       Apply and Close
                     </cc-button>
                   </v-col>
@@ -521,8 +665,14 @@
           model-value="100"
           height="24"
           color="orange"
-          striped>
-          <v-chip size="x-large" class="heading h3 bg-deep-orange-darken-3" flat tile>
+          striped
+        >
+          <v-chip
+            size="x-large"
+            class="heading h3 bg-deep-orange-darken-3"
+            flat
+            tile
+          >
             <cc-slashes />
             &emsp;{{ status }}&emsp;
             <cc-slashes />
@@ -579,7 +729,12 @@ export default {
     resistances: [
       { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
       { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
-      { ID: 3, Name: 'Explosive', icon: 'cc:explosive', color: 'damage--explosive' },
+      {
+        ID: 3,
+        Name: 'Explosive',
+        icon: 'cc:explosive',
+        color: 'damage--explosive',
+      },
       { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
       { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
       { ID: 5, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
@@ -594,7 +749,13 @@ export default {
       return _.sampleSize(CompendiumStore().Talents, 3);
     },
     applicableStatuses() {
-      const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
+      const exclude = [
+        `dangerzone`,
+        `downandout`,
+        `engaged`,
+        `hidden`,
+        `invisible`,
+      ];
       return this.statuses.filter((s) => !exclude.includes(s.ID));
     },
   },
@@ -607,6 +768,7 @@ export default {
         reactor: 'cc:reactor',
         heat: 'cc:heat',
         repair: 'cc:repair',
+        techattack: 'cc:tech_quick',
       };
       return icons[stat];
     },
@@ -657,14 +819,18 @@ export default {
     },
     actionStatus(action) {
       if (action === 'full')
-        return this.usedActions.includes('full') || this.usedActions.includes('quick');
+        return (
+          this.usedActions.includes('full') ||
+          this.usedActions.includes('quick')
+        );
       if (action === 'quick')
         return (
           this.usedActions.includes('full') ||
           this.usedActions.filter((x) => x === 'quick').length === 2
         );
       if (action === 'protocol') return this.usedActions.length;
-      if (action === 'move') return this.usedActions.includes('move') || this.movement === 0;
+      if (action === 'move')
+        return this.usedActions.includes('move') || this.movement === 0;
       return this.usedActions.includes(action);
     },
     setAction(action) {

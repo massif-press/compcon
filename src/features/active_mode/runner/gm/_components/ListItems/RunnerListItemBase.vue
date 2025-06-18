@@ -10,11 +10,13 @@
           tile
           variant="outlined"
           @click.stop="$emit('click')"
-          :style="`border-color: ${selected ? 'rgb(var(--v-theme-accent))' : isHovering ? 'rgb(var(--v-theme-primary))' : 'rgb(var(--v-theme-panel))'};`">
+          :style="`border-color: ${selected ? 'rgb(var(--v-theme-accent))' : isHovering ? 'rgb(var(--v-theme-primary))' : 'rgb(var(--v-theme-panel))'};`"
+        >
           <v-row
             justify="space-between"
             dense
-            :style="collapsed && !activations ? 'opacity: 0.4' : ''">
+            :style="collapsed && !activations ? 'opacity: 0.4' : ''"
+          >
             <v-col v-if="!collapsed" cols="auto">
               <div :class="`bg-${side}`" style="width: 4px; height: 100%" />
             </v-col>
@@ -32,24 +34,120 @@
                   cursor: move;
                   z-index: 2;
                   border-radius: 4px;
-                " />
-              <v-img v-if="portrait" height="100%" width="60px" cover :src="portrait" />
+                "
+              />
+              <v-img
+                v-if="portrait"
+                height="100%"
+                width="60px"
+                cover
+                :src="portrait"
+              />
               <v-avatar
                 v-else
                 flat
                 tile
                 :size="collapsed ? 45 : 60"
                 style="height: 100%"
-                class="bg-panel">
-                <v-icon :icon="icon || 'mdi-cube'" :size="collapsed ? 45 : 60" />
+                class="bg-panel"
+              >
+                <v-icon
+                  :icon="icon || 'mdi-cube'"
+                  :size="collapsed ? 45 : 60"
+                />
               </v-avatar>
             </v-col>
             <v-col v-if="!collapsed" class="mx-1">
               <slot />
 
+              <div style="font-size: 16px">
+                <v-row
+                  dense
+                  justify="space-between"
+                  align="center"
+                  class="pl-2 pr-6"
+                >
+                  <v-col
+                    cols="auto"
+                    v-for="stat in actor.StatController.GetStatCollection([
+                      'hp',
+                      'stress',
+                      'heatcap',
+                      'structure',
+                      'repairCapacity',
+                    ])"
+                  >
+                    <v-tooltip
+                      :text="stat.title"
+                      location="top"
+                      open-delay="400"
+                    >
+                      <template #activator="{ props }">
+                        <v-icon
+                          v-bind="props"
+                          size="18"
+                          class="mx-1 mt-n1"
+                          :icon="stat.icon"
+                        />
+                        <b class="text-accent">{{
+                          actor.StatController.CurrentStats[stat.key]
+                        }}</b>
+                        <span class="text-disabled text-caption">
+                          /{{ actor.StatController.MaxStats[stat.key] }}
+                        </span>
+                      </template>
+                    </v-tooltip>
+                  </v-col>
+                </v-row>
+                <v-divider class="my-1" />
+                <v-row
+                  dense
+                  justify="space-between"
+                  align="center"
+                  class="pl-2 pr-6"
+                >
+                  <v-col
+                    cols="auto"
+                    v-for="stat in actor.StatController.GetStatCollection([
+                      'armor',
+                      'evasion',
+                      'edef',
+                      'saveTarget',
+                    ])"
+                  >
+                    <v-tooltip
+                      :text="stat.title"
+                      location="top"
+                      open-delay="400"
+                    >
+                      <template #activator="{ props }">
+                        <v-icon
+                          v-bind="props"
+                          size="18"
+                          class="mx-1 mt-n1"
+                          :icon="stat.icon"
+                        />
+                        <b class="text-secondary">
+                          {{ actor.StatController.CurrentStats[stat.key] }}
+                        </b>
+                      </template>
+                    </v-tooltip>
+                  </v-col>
+                </v-row>
+              </div>
+
               <div v-for="status in specialStatuses">
-                <v-progress-linear model-value="100" height="16" color="orange" striped>
-                  <v-chip class="text-cc-overline bg-deep-orange-darken-3" flat tile>
+                <v-progress-linear
+                  model-value="100"
+                  height="16"
+                  color="orange"
+                  striped
+                >
+                  <v-chip
+                    class="text-cc-overline bg-deep-orange-darken-3"
+                    flat
+                    tile
+                  >
                     <cc-slashes />
                     {{ status }}
                     <cc-slashes />
@@ -58,7 +156,11 @@
               </div>
 
               <div v-for="status in statuses" class="mb-1">
-                <v-progress-linear model-value="100" height="16" color="red-darken-3">
+                <v-progress-linear
+                  model-value="100"
+                  height="16"
+                  color="red-darken-3"
+                >
                   <v-chip class="text-cc-overline" flat tile>
                     <cc-slashes />
                     {{ status.Name }}
@@ -72,7 +174,8 @@
               class="d-flex align-center"
               style="padding-left: 2px; padding-right: 2px"
               :class="activations > 0 ? 'bg-success-darken-2' : 'bg-grey'"
-              cols="auto">
+              cols="auto"
+            >
               <div>
                 <v-tooltip location="bottom" open-delay="400">
                   <template #activator="{ props }">
@@ -82,7 +185,8 @@
                       v-for="n in activations"
                       icon="cc:activate"
                       size="20"
-                      class="d-block" />
+                      class="d-block"
+                    />
                   </template>
                   <span class="text-cc-overline">
                     {{ activations }} Activations remaining this round
@@ -133,6 +237,10 @@ export default {
     specialStatuses: {
       type: Array,
       default: () => [],
+    },
+    actor: {
+      type: Object,
+      required: true,
     },
   },
   emits: ['click'],

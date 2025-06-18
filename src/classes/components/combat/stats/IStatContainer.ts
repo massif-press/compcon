@@ -3,8 +3,7 @@ import { StatController } from './StatController';
 
 interface IStatContainer {
   StatController: StatController;
-  MandatoryStats: string[];
-
+  AdditionalStats?: string[];
   SaveController: SaveController;
 }
 

@@ -1,12 +1,28 @@
 import { v4 as uuid } from 'uuid';
-import { SaveController, CloudController, PortraitController } from '@/classes/components';
+import {
+  SaveController,
+  CloudController,
+  PortraitController,
+} from '@/classes/components';
 import { BrewController } from '@/classes/components/brew/BrewController';
-import { IStatData, StatController } from '@/classes/components/combat/stats/StatController';
+import {
+  IStatData,
+  StatController,
+} from '@/classes/components/combat/stats/StatController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
 import { NpcData, Npc } from '../Npc';
-import { INpcClassSaveData, NpcClassController } from '../class/NpcClassController';
-import { INpcFeatureSaveData, NpcFeatureController } from '../feature/NpcFeatureController';
-import { INpcTemplateSaveData, NpcTemplateController } from '../template/NpcTemplateController';
+import {
+  INpcClassSaveData,
+  NpcClassController,
+} from '../class/NpcClassController';
+import {
+  INpcFeatureSaveData,
+  NpcFeatureController,
+} from '../feature/NpcFeatureController';
+import {
+  INpcTemplateSaveData,
+  NpcTemplateController,
+} from '../template/NpcTemplateController';
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import { FolderController } from '@/classes/components/folder/FolderController';
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
@@ -43,28 +59,6 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
   public NpcTemplateController: NpcTemplateController;
   public NpcClassController: NpcClassController;
   public StatController: StatController;
-
-  public MandatoryStats: string[] = [
-    'activations',
-    'size',
-    'sizes',
-    'structure',
-    'hull',
-    'agi',
-    'sys',
-    'eng',
-    'hp',
-    'armor',
-    'stress',
-    'heat',
-    'speed',
-    'evasion',
-    'edef',
-    'sensorRange',
-    'saveTarget',
-    'overshield',
-    'overcharge',
-  ];
 
   public constructor(data?: UnitData) {
     super(data);
@@ -131,7 +125,8 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
 
   public get IsLinked(): boolean {
     return (
-      this.GetLinkedItem<Npc>() !== undefined && !this.GetLinkedItem<Npc>().BrewController.HasError
+      this.GetLinkedItem<Npc>() !== undefined &&
+      !this.GetLinkedItem<Npc>().BrewController.HasError
     );
   }
 
@@ -180,7 +175,8 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     SaveController.Deserialize(unit, data.save);
     BrewController.Deserialize(unit, data);
     PortraitController.Deserialize(unit, data.img);
-    if (!CompendiumStore().hasNpcAccess) unit.BrewController.MissingContent = true;
+    if (!CompendiumStore().hasNpcAccess)
+      unit.BrewController.MissingContent = true;
     try {
       NpcClassController.Deserialize(unit, data as any);
     } catch (e) {
@@ -211,7 +207,8 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
   }
 
   public get Icon(): string {
-    if (this.NpcClassController.HasClass) return this.NpcClassController.Class!.Icon;
+    if (this.NpcClassController.HasClass)
+      return this.NpcClassController.Class!.Icon;
     return 'cc:encounter';
   }
 

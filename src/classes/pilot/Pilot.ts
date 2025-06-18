@@ -12,7 +12,11 @@ import {
   MechWeapon,
   WeaponMod,
 } from '../../class';
-import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface';
+import {
+  IOrganizationData,
+  IPilotLoadoutData,
+  IRankedData,
+} from '../../interface';
 import { Bonus } from '../components/feature/bonus/Bonus';
 import {
   CoreBonusController,
@@ -48,14 +52,24 @@ import { IFeatureController } from '../components/feature/IFeatureController';
 import { FeatureController } from '../components/feature/FeatureController';
 import { PilotLoadoutController } from './components/Loadout/PilotLoadoutController';
 
-import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController';
+import {
+  BrewController,
+  BrewInfo,
+  IBrewData,
+} from '../components/brew/BrewController';
 import { IBrewable } from '../components/brew/IBrewable';
-import { BondController, IPilotBondData } from './components/bond/BondController';
+import {
+  BondController,
+  IPilotBondData,
+} from './components/bond/BondController';
 import logger from '@/user/logger';
 import { IInstanceableData } from '../components/instance/IInstancableData';
 import { IInstanceable } from '../components/instance/IInstanceable';
 import { IStatContainer } from '../components/combat/stats/IStatContainer';
-import { IStatData, StatController } from '../components/combat/stats/StatController';
+import {
+  IStatData,
+  StatController,
+} from '../components/combat/stats/StatController';
 
 interface IUnlockData {
   PilotGear: any[];
@@ -113,6 +127,8 @@ class PilotData
   core_bonuses: string[] = [];
   licenses: IRankedData[] = [];
   reserves: IReserveData[] = [];
+
+  stats: IStatData = {} as IStatData;
 }
 
 class Pilot
@@ -123,12 +139,15 @@ class Pilot
     IPortraitContainer,
     IFeatureController,
     IBrewable,
-    IInstanceable
+    IInstanceable,
+    IStatContainer
 {
   // IStatContainer
   public readonly ItemType: string = 'Pilot';
   public readonly DataType: string = 'savedata';
   public readonly StorageType: string = 'pilots';
+
+  public readonly AdditionalStats = ['grit'];
 
   public IsInstance: boolean = false;
   public InstanceID: string = '';
@@ -149,6 +168,7 @@ class Pilot
   public ImageTag = ImageTag.Pilot;
   public FeatureController: FeatureController;
   public PilotLoadoutController: PilotLoadoutController;
+  public StatController: StatController;
   public BrewController: BrewController;
 
   private _id: string;
@@ -182,6 +202,7 @@ class Pilot
     this.BondController = new BondController(this);
     this.FeatureController = new FeatureController(this);
     this.PilotLoadoutController = new PilotLoadoutController(this);
+    this.StatController = new StatController(this);
     this.BrewController = new BrewController(this);
 
     this.SortIndex = data && !isNaN(data?.sortIndex) ? data?.sortIndex : -1;
@@ -193,6 +214,7 @@ class Pilot
       PortraitController.Deserialize(this, data.img);
       BrewController.Deserialize(this, data);
       ReservesController.Deserialize(this, data);
+      StatController.Deserialize(this, data.stats);
 
       try {
         SkillsController.Deserialize(this, data);
@@ -262,38 +284,51 @@ class Pilot
     }
   }
 
-  // StatController: StatController;
-  // MandatoryStats: string[];
-
   // -- Utility -----------------------------------------------------------------------------------
 
   public has(typeName: string, id: string, rank?: number): boolean {
     if (typeName.toLowerCase() === 'skill') {
       return (
-        this.SkillsController.Skills.findIndex((x) => x.Skill.Name === id || x.Skill.ID === id) > -1
+        this.SkillsController.Skills.findIndex(
+          (x) => x.Skill.Name === id || x.Skill.ID === id
+        ) > -1
       );
     } else if (typeName.toLowerCase() === 'corebonus') {
-      return this.CoreBonusController.CoreBonuses.findIndex((x) => x.ID === id) > -1;
+      return (
+        this.CoreBonusController.CoreBonuses.findIndex((x) => x.ID === id) > -1
+      );
     } else if (typeName.toLowerCase() === 'license') {
       let index = this.LicenseController.Licenses.findIndex(
-        (x) => x.Stub.ID === id || x.Stub.FrameName.toLowerCase() === id.toLowerCase()
+        (x) =>
+          x.Stub.ID === id ||
+          x.Stub.FrameName.toLowerCase() === id.toLowerCase()
       );
       if (index < 0) return false;
       return rank
-        ? index > -1 && Number(this.LicenseController.Licenses[index].Rank) >= rank
+        ? index > -1 &&
+            Number(this.LicenseController.Licenses[index].Rank) >= rank
         : index > -1;
     } else if (typeName.toLowerCase() === 'talent') {
-      const index = this.TalentsController.Talents.findIndex((x) => x.Talent.ID === id);
-      return rank ? index > -1 && this.TalentsController.Talents[index].Rank >= rank : index > -1;
+      const index = this.TalentsController.Talents.findIndex(
+        (x) => x.Talent.ID === id
+      );
+      return rank
+        ? index > -1 && this.TalentsController.Talents[index].Rank >= rank
+        : index > -1;
     } else if (typeName.toLowerCase() === 'reserve') {
-      const e = this.ReservesController.Reserves.find((x) => x.ID === `reserve_${id}`);
+      const e = this.ReservesController.Reserves.find(
+        (x) => x.ID === `reserve_${id}`
+      );
       return !!e && !e.Used;
     }
     return false;
   }
 
   public LoadError(err: any, message: string): void {
-    logger.error(`Pilot ${this.ID} (${this.Callsign}) failed to load ${message}; ${err}`, this);
+    logger.error(
+      `Pilot ${this.ID} (${this.Callsign}) failed to load ${message}; ${err}`,
+      this
+    );
     this.BrewController.MissingContent = true;
   }
 
@@ -321,7 +356,9 @@ class Pilot
   }
 
   public RemoveBrewable(item: CompendiumItem): void {
-    this.Mechs.forEach((m) => m.MechLoadoutController.RemoveBrewable(item as MechEquipment));
+    this.Mechs.forEach((m) =>
+      m.MechLoadoutController.RemoveBrewable(item as MechEquipment)
+    );
     this.PilotLoadoutController.RemoveBrewable(item as PilotEquipment);
   }
 
@@ -483,9 +520,32 @@ class Pilot
     );
   }
 
+  //TODO
+  public get ActiveMech(): Mech {
+    if (!this.Mechs.length) throw new Error('No mechs found for pilot');
+    return this.Mechs[0];
+  }
+
+  public setStats() {
+    this.StatController.setMax('grit', this.Grit);
+    this.StatController.setMax('hp', this.MaxHP);
+    this.StatController.setMax('armor', this.Armor);
+    this.StatController.setMax('speed', this.Speed);
+    this.StatController.setMax('evasion', this.Evasion);
+    this.StatController.setMax('edef', this.EDefense);
+    this.StatController.setMax('limited_bonus', this.LimitedBonus);
+
+    this.StatController.resetCurrentStats();
+
+    this.ActiveMech.setStats();
+    this.SaveController.save();
+  }
+
   // -- Exotics and Other Equipment ---------------------------------------------------------------
   public get SpecialEquipment(): CompendiumItem[] {
-    return this.FeatureController.IntegratedSpecialEquipment.concat(this._special_equipment);
+    return this.FeatureController.IntegratedSpecialEquipment.concat(
+      this._special_equipment
+    );
   }
 
   public set SpecialEquipment(data: CompendiumItem[]) {
@@ -516,7 +576,10 @@ class Pilot
   public RemoveMech(mech: Mech): void {
     const index = this._mechs.findIndex((x) => x.ID === mech.ID);
     if (index === -1) {
-      logger.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`, this);
+      logger.error(
+        `Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`,
+        this
+      );
     } else {
       this._mechs.splice(index, 1);
     }
@@ -570,11 +633,15 @@ class Pilot
             x.ItemType === ItemType.PilotArmor
         )
         .map((i) => i.ItemData),
-      Frames: equipment.filter((x) => x.ItemType === ItemType.Frame).map((i) => i.ItemData),
+      Frames: equipment
+        .filter((x) => x.ItemType === ItemType.Frame)
+        .map((i) => i.ItemData),
       MechWeapons: equipment
         .filter((x) => x.ItemType === ItemType.MechWeapon)
         .map((i) => i.ItemData),
-      WeaponMods: equipment.filter((x) => x.ItemType === ItemType.WeaponMod).map((i) => i.ItemData),
+      WeaponMods: equipment
+        .filter((x) => x.ItemType === ItemType.WeaponMod)
+        .map((i) => i.ItemData),
       MechSystems: equipment
         .filter((x) => x.ItemType === ItemType.MechSystem)
         .map((i) => i.ItemData),
@@ -639,6 +706,7 @@ class Pilot
     BondController.Serialize(p, data);
     PortraitController.Serialize(p, data);
     PilotLoadoutController.Serialize(p, data);
+    StatController.Serialize(p, data);
     BrewController.Serialize(p, data);
 
     delete (data as any).instance;
@@ -667,6 +735,10 @@ class Pilot
       mech.RenewID();
     }
     return newPilot;
+  }
+
+  public get SizeIcon(): string {
+    return 'cc:size_half';
   }
 }
 
