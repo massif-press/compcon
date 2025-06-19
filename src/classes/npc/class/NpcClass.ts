@@ -141,11 +141,15 @@ class NpcClass {
   }
 
   public get BaseFeatures(): NpcFeature[] {
-    return this.Features.filter((x) => x.Base || this._baseFeatureList.includes(x.ID));
+    return this.Features.filter(
+      (x) => x.Base || this._baseFeatureList.includes(x.ID)
+    );
   }
 
   public get OptionalFeatures(): NpcFeature[] {
-    return this.Features.filter((x) => !x.Base || this._optionalFeatureList.includes(x.ID));
+    return this.Features.filter(
+      (x) => !x.Base || this._optionalFeatureList.includes(x.ID)
+    );
   }
 
   public get Stats(): NpcClassStats {
@@ -155,8 +159,10 @@ class NpcClass {
   public get ClassFeatureSelectionInfo(): string {
     if (!this.OptionalClassMin) return '';
     let out = `The ${this.Name} chooses `;
-    if (this.OptionalClassMin === this.OptionalClassMax) out += `${this.OptionalClassMin} `;
-    else out += `between ${this.OptionalClassMin} and ${this.OptionalClassMax} `;
+    if (this.OptionalClassMin === this.OptionalClassMax)
+      out += `${this.OptionalClassMin} `;
+    else
+      out += `between ${this.OptionalClassMin} and ${this.OptionalClassMax} `;
     out += `additional optional feature${this.OptionalClassMax > 1 ? 's' : ''} from the ${
       this.Name
     } Class Optional Features list ${this.OptionalClassPerTier ? 'per NPC Tier' : ''}`;

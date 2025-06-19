@@ -61,7 +61,7 @@
               autofocus
               density="compact"
               @focus="$event.target.select()"
-              @update:tertiary="setTertiaryVal(Number($event))"
+              @update:model-value="setTertiaryVal(Number($event))"
             />
             <p v-if="details" class="mt-2">{{ details }}</p>
           </v-card>
@@ -157,7 +157,7 @@
               autofocus
               density="compact"
               @focus="$event.target.select()"
-              @update:tertiary="setSecondaryVal(Number($event))"
+              @update:model-value="setSecondaryVal(Number($event))"
             />
           </v-card>
         </v-menu>
@@ -178,7 +178,7 @@
               v-for="n in tertiary"
               :style="n - 1 === tertiary ? '' : 'margin-left: 6px'"
             >
-              <div :class="`bg-${color}`" style="height: 12px" />
+              <div :class="`bg-${color} mt-1`" style="height: 13px" />
             </v-col>
             <v-col
               v-else
@@ -450,6 +450,7 @@ export default {
       this.$emit('update:model-value', val);
     },
     setTertiaryVal(val: number) {
+      console.log('setTertiaryVal', val);
       if (this.stopAdd && val > this.tertiary) return;
       if (this.tertiaryTicks && val > this.tertiaryTicks)
         val = this.tertiaryTicks;

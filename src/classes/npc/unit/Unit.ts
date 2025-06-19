@@ -5,10 +5,6 @@ import {
   PortraitController,
 } from '@/classes/components';
 import { BrewController } from '@/classes/components/brew/BrewController';
-import {
-  IStatData,
-  StatController,
-} from '@/classes/components/combat/stats/StatController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
 import { NpcData, Npc } from '../Npc';
 import {
@@ -30,6 +26,12 @@ import { CompendiumStore, NpcStore } from '@/stores';
 import { INpcFeatureData } from '../feature/NpcFeature';
 import { INpcTemplateData } from '../template/NpcTemplate';
 import { INpcClassData } from '../class/NpcClass';
+import {
+  CombatController,
+  CombatData,
+} from '@/classes/components/combat/CombatController';
+import { ICombatant } from '@/classes/components/combat/ICombatant';
+import { StatController } from '@/classes/components/combat/stats/StatController';
 
 class UnitData
   extends NpcData
@@ -37,7 +39,7 @@ class UnitData
 {
   npcType: 'unit' = 'unit';
 
-  stats!: IStatData;
+  combat_data: CombatData = {} as CombatData;
   class!: { id: string; data: INpcClassData };
   tier!: number;
   templates: { id: string; data: INpcTemplateData }[] = [];
@@ -47,7 +49,7 @@ class UnitData
   features: { id: string; data: INpcFeatureData }[] = [];
 }
 
-class Unit extends Npc implements IStatContainer, IInstanceable {
+class Unit extends Npc implements ICombatant, IInstanceable {
   public IsInstance: boolean;
   public InstanceID: string;
   public OriginId: string;
@@ -58,7 +60,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
   public NpcFeatureController: NpcFeatureController;
   public NpcTemplateController: NpcTemplateController;
   public NpcClassController: NpcClassController;
-  public StatController: StatController;
+  public CombatController: CombatController;
 
   public constructor(data?: UnitData) {
     super(data);
@@ -69,10 +71,10 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     this.InstanceID = data?.instanceId || '';
     this.OriginId = data?.originId || '';
 
+    this.CombatController = new CombatController(this);
     this.NpcClassController = new NpcClassController(this);
     this.NpcFeatureController = new NpcFeatureController(this);
     this.NpcTemplateController = new NpcTemplateController(this);
-    this.StatController = new StatController(this);
 
     this.FeatureController.Register(this.NpcFeatureController);
     this.CloudController = new CloudController(this);
@@ -113,6 +115,14 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     return this.IsBiological ? 'cc:biological' : `cc:${this.Tag.toLowerCase()}`;
   }
 
+  public get StatController(): StatController {
+    return this.CombatController.StatController;
+  }
+
+  public SetStats(): void {
+    this.CombatController.setStats(this.NpcClassController.getClassStats());
+  }
+
   public CreateInstance<UnitData>(): UnitData {
     const data = this.Serialize() as any;
     (data as any).instanceId = uuid();
@@ -148,9 +158,6 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
       gmDescription: unit.GmDescription,
     } as UnitData;
 
-    // TODO: this shouldn't be an object, have to find why it is being polluted
-    if (typeof data.instance === 'object') data.instance = false;
-
     SaveController.Serialize(unit, data);
     CloudController.Serialize(unit, data);
     PortraitController.Serialize(unit, data);
@@ -158,7 +165,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     NpcFeatureController.Serialize(unit, data);
     NpcClassController.Serialize(unit, data);
     NarrativeController.Serialize(unit, data);
-    StatController.Serialize(unit, data);
+    CombatController.Serialize(unit.CombatController, data.combat_data);
     FolderController.Serialize(unit, data);
     BrewController.Serialize(unit, data);
 
@@ -193,7 +200,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
       Npc.LoadError(unit, e, 'Npc Feature Controller');
     }
     NarrativeController.Deserialize(unit, data.narrative);
-    StatController.Deserialize(unit, data.stats);
+    CombatController.Deserialize(unit.CombatController, data.combat_data);
     FolderController.Deserialize(unit, data.folder);
     return unit;
   }

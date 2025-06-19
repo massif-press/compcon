@@ -2,8 +2,9 @@ import { SaveController } from '../save/SaveController';
 import { StatController } from './stats/StatController';
 
 interface ICombatant {
-  StatController: StatController;
   SaveController: SaveController;
+
+  SetStats(): void;
 }
 
 export type { ICombatant };

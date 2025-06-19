@@ -70,6 +70,11 @@ import {
   IStatData,
   StatController,
 } from '../components/combat/stats/StatController';
+import { ICombatant } from '../components/combat/ICombatant';
+import {
+  CombatController,
+  CombatData,
+} from '../components/combat/CombatController';
 
 interface IUnlockData {
   PilotGear: any[];
@@ -128,7 +133,7 @@ class PilotData
   licenses: IRankedData[] = [];
   reserves: IReserveData[] = [];
 
-  stats: IStatData = {} as IStatData;
+  combat_data: CombatData = {} as CombatData;
 }
 
 class Pilot
@@ -140,7 +145,7 @@ class Pilot
     IFeatureController,
     IBrewable,
     IInstanceable,
-    IStatContainer
+    ICombatant
 {
   // IStatContainer
   public readonly ItemType: string = 'Pilot';
@@ -168,8 +173,8 @@ class Pilot
   public ImageTag = ImageTag.Pilot;
   public FeatureController: FeatureController;
   public PilotLoadoutController: PilotLoadoutController;
-  public StatController: StatController;
   public BrewController: BrewController;
+  public CombatController: CombatController;
 
   private _id: string;
   private _callsign: string;
@@ -202,7 +207,7 @@ class Pilot
     this.BondController = new BondController(this);
     this.FeatureController = new FeatureController(this);
     this.PilotLoadoutController = new PilotLoadoutController(this);
-    this.StatController = new StatController(this);
+    this.CombatController = new CombatController(this);
     this.BrewController = new BrewController(this);
 
     this.SortIndex = data && !isNaN(data?.sortIndex) ? data?.sortIndex : -1;
@@ -214,7 +219,6 @@ class Pilot
       PortraitController.Deserialize(this, data.img);
       BrewController.Deserialize(this, data);
       ReservesController.Deserialize(this, data);
-      StatController.Deserialize(this, data.stats);
 
       try {
         SkillsController.Deserialize(this, data);
@@ -282,6 +286,9 @@ class Pilot
       this.LoadError(e, 'pilot special equipment');
       this._special_equipment = [];
     }
+
+    if (data)
+      CombatController.Deserialize(this.CombatController, data.combat_data);
   }
 
   // -- Utility -----------------------------------------------------------------------------------
@@ -333,6 +340,10 @@ class Pilot
   }
 
   // -- Passthroughs ----------------------------------------------------------------------
+
+  public get StatController(): StatController {
+    return this.CombatController.StatController;
+  }
 
   public get Loadout(): PilotLoadout {
     return this.PilotLoadoutController.ActiveLoadout;
@@ -526,19 +537,20 @@ class Pilot
     return this.Mechs[0];
   }
 
-  public setStats() {
-    this.StatController.setMax('grit', this.Grit);
-    this.StatController.setMax('hp', this.MaxHP);
-    this.StatController.setMax('armor', this.Armor);
-    this.StatController.setMax('speed', this.Speed);
-    this.StatController.setMax('evasion', this.Evasion);
-    this.StatController.setMax('edef', this.EDefense);
-    this.StatController.setMax('limited_bonus', this.LimitedBonus);
-
-    this.StatController.resetCurrentStats();
-
-    this.ActiveMech.setStats();
-    this.SaveController.save();
+  public SetStats() {
+    const kvps = [
+      { key: 'grit', val: this.Grit },
+      { key: 'hp', val: this.MaxHP },
+      { key: 'armor', val: this.Armor },
+      { key: 'speed', val: this.Speed },
+      { key: 'evasion', val: this.Evasion },
+      { key: 'edef', val: this.EDefense },
+      { key: 'limited_bonus', val: this.LimitedBonus },
+    ] as { key: string; val: number }[];
+    this.CombatController.setStats(kvps);
+    this.Mechs.forEach((m) => {
+      m.SetStats();
+    });
   }
 
   // -- Exotics and Other Equipment ---------------------------------------------------------------
@@ -706,7 +718,7 @@ class Pilot
     BondController.Serialize(p, data);
     PortraitController.Serialize(p, data);
     PilotLoadoutController.Serialize(p, data);
-    StatController.Serialize(p, data);
+    CombatController.Serialize(p.CombatController, data);
     BrewController.Serialize(p, data);
 
     delete (data as any).instance;

@@ -191,7 +191,7 @@ class StatController {
     } else {
       this._maxStats[k] = val;
     }
-    this.Parent.SaveController.save();
+    // this.Parent.SaveController.save();
   }
 
   public resetCurrentStats() {
@@ -216,13 +216,15 @@ class StatController {
         `StatController not found on parent (${typeof parent}). New StatControllers must be instantiated in the parent's constructor method.`
       );
 
-    if (!data) return;
     if (data.max) parent.StatController._maxStats = data.max;
     if (data.current && Object.keys(data.current).length)
       parent.StatController._currentStats = data.current;
-    else parent.StatController.resetCurrentStats();
+    else {
+      (parent as any).Parent.SetStats();
+      parent.StatController.resetCurrentStats();
+    }
   }
 }
 
-export { StatController };
+export { StatController, MandatoryStats };
 export type { IStatData };

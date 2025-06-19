@@ -6,7 +6,7 @@ import { Synergy } from '@/classes/components/feature/synergy/Synergy';
 import { Action } from '@/classes/Action';
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable';
 import { CompendiumItem } from '@/classes/CompendiumItem';
-import { MechWeapon, MechSystem } from '@/class';
+import { MechWeapon, MechSystem, Counter } from '@/class';
 
 class FeatureController {
   public readonly Parent: IFeatureController;
@@ -32,7 +32,8 @@ class FeatureController {
   }
 
   private getRootEntity(node: object): object {
-    if (node['Parent'] !== undefined) return this.getRootEntity((node as any).Parent);
+    if (node['Parent'] !== undefined)
+      return this.getRootEntity((node as any).Parent);
     return node;
   }
 
@@ -70,8 +71,14 @@ class FeatureController {
     return this.collectAll('SpecialEquipment');
   }
 
+  public get Counters(): Counter[] {
+    return this.collectAll('Counters');
+  }
+
   public get AllItems(): CompendiumItem[] {
-    return this.Containers.flatMap((container) => container.FeatureSource).map((item) => item);
+    return this.Containers.flatMap((container) => container.FeatureSource).map(
+      (item) => item
+    );
   }
 }
 
