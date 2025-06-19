@@ -156,6 +156,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
       note: unit.Note,
       description: unit.Description,
       gmDescription: unit.GmDescription,
+      combat_data: {} as CombatData,
     } as UnitData;
 
     SaveController.Serialize(unit, data);
