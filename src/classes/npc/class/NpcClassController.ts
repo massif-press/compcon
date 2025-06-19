@@ -32,20 +32,28 @@ class NpcClassController {
     return this._tier;
   }
 
-  private _setClassStats(tier: number): any {
-    if (!this.HasClass) return;
-
+  public getClassStats(): any {
     const c = this.Class as NpcClass;
+    const kvps = [] as { key: string; val: number }[];
 
-    this.Parent.StatController.MaxStats.forEach((key) => {
-      let statVal = c.Stats.Stat(key, tier);
-      if (!statVal) statVal = Stats.DefaultStats[key];
-
-      this.Parent.StatController.setMax(key, statVal);
+    const allStats = Object.keys({
+      ...this.Parent.StatController.MaxStats,
+      ...Stats.DefaultStats,
     });
-    let sizes = c?.Stats.Stat('sizes', tier) || 1;
-    if (!Array.isArray(sizes)) sizes = [sizes];
-    this.Parent.StatController.setMax('size', sizes[0]);
+
+    allStats.forEach((key) => {
+      let statVal = c?.Stats.Stat(key, this.Tier) || Stats.DefaultStats[key];
+      if (key === 'sizes') {
+        statVal = c?.Stats.Stat('size', this.Tier) || 1;
+      }
+      kvps.push({ key, val: statVal });
+
+      // this.Parent.StatController.setMax(key, statVal);
+    });
+    // let sizes = c?.Stats.Stat('sizes', this.Tier) || 1;
+    // if (!Array.isArray(sizes)) sizes = [sizes];
+    // this.Parent.StatController.setMax('size', sizes[0]);
+    return kvps;
   }
 
   public get ChangedStats(): any {
@@ -54,10 +62,11 @@ class NpcClassController {
     const c = this.Class as NpcClass;
 
     const changedStats = {};
-    this.Parent.StatController.MaxStats.forEach((key) => {
+    this.Parent.CombatController.StatController.MaxStats.forEach((key) => {
       if (key === 'size' || key === 'sizes') return;
       if (
-        this.Parent.StatController.getStat(key) !== c.Stats.Stat(key, this.Tier)
+        this.Parent.CombatController.StatController.getStat(key) !==
+        c.Stats.Stat(key, this.Tier)
       ) {
         changedStats[key] = c.Stats.Stat(key, this.Tier);
       }
@@ -65,18 +74,14 @@ class NpcClassController {
     return changedStats;
   }
 
-  public ResetStats(tier?: number) {
-    if (!tier) tier = this.Tier;
-    if (!this.HasClass) return;
-    this._setClassStats(tier);
+  public ResetStats() {
+    this.Parent.SetStats();
   }
 
   public set Tier(newTier: number) {
-    if (!this.HasClass) return;
     this._tier = newTier;
 
-    this._setClassStats(newTier);
-    this.Parent.save();
+    this.ResetStats();
   }
 
   public SetClass(npcClass: NpcClass | null, tier: number) {
@@ -90,7 +95,7 @@ class NpcClassController {
       this.Parent.Tag = 'Biological';
     if (npcClass.ForceTag) this.Parent.Tag = npcClass.ForceTag;
     this._class = npcClass;
-    this.ResetStats(tier);
+    this.Tier = tier;
     this.Parent.NpcFeatureController.ResetFeatures();
     this.Parent.save();
   }
@@ -109,12 +114,18 @@ class NpcClassController {
         `NpcClassController not found on parent (${typeof parent}). New NpcClassControllers must be instantiated in the parent's constructor method.`
       );
 
-    parent.NpcClassController._class = CompendiumStore().has(
-      'NpcClasses',
-      data.class.id
-    )
-      ? CompendiumStore().referenceByID('NpcClasses', data.class.id)
-      : new NpcClass(data.class.data);
+    let id;
+    try {
+      id = typeof data.class === 'string' ? data.class : data.class.id;
+    } catch (e) {
+      console.error(e);
+    }
+
+    parent.NpcClassController._class = CompendiumStore().has('NpcClasses', id)
+      ? CompendiumStore().referenceByID('NpcClasses', id)
+      : data?.class?.data && Object.keys(data.class.data).length
+        ? new NpcClass(data.class.data)
+        : null;
 
     parent.NpcClassController._tier = data.tier;
   }

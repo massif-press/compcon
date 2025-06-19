@@ -1,6 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import { IStatData, StatController } from '@/classes/components/combat/stats/StatController';
-import { CloudController, PortraitController, SaveController } from '../../components';
+import {
+  CloudController,
+  PortraitController,
+  SaveController,
+} from '../../components';
 import { NpcData, Npc } from '../Npc';
 import { BrewController } from '@/classes/components/brew/BrewController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
@@ -9,16 +12,18 @@ import { FolderController } from '@/classes/components/folder/FolderController';
 import { IInstanceableData } from '@/classes/components/instance/IInstancableData';
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
 import { NpcStore } from '@/stores';
+import { CombatController } from '@/classes/components/combat/CombatController';
+import { ICombatant } from '@/classes/components/combat/ICombatant';
 
 class DoodadData extends NpcData implements IInstanceableData {
   npcType: 'unit' = 'unit';
-  stats!: IStatData;
+  combat_data: any = {};
 }
 
-class Doodad extends Npc implements IStatContainer, IInstanceable {
+class Doodad extends Npc implements ICombatant, IInstanceable {
   public InstanceID?: string;
 
-  public StatController: StatController;
+  public CombatController: CombatController;
   public ItemType: string = 'Doodad';
   public MandatoryStats: string[] = [];
 
@@ -28,7 +33,7 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
     this.InstanceID = data?.instanceId;
 
     this._name = data?.name || 'New Doodad';
-    this.StatController = new StatController(this);
+    this.CombatController = new CombatController(this);
     this.CloudController = new CloudController(this);
   }
 
@@ -42,6 +47,10 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
 
   SetInstanceProxies<T>(dd: T) {
     // unnecessary for doodads
+  }
+
+  public SetStats() {
+    console.log('nyi');
   }
 
   public get IsLinked(): boolean {
@@ -69,7 +78,7 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
     PortraitController.Serialize(doodad, data);
     BrewController.Serialize(doodad, data);
     NarrativeController.Serialize(doodad, data);
-    StatController.Serialize(doodad, data);
+    CombatController.Serialize(doodad.CombatController, data);
     FolderController.Serialize(doodad, data);
 
     return data as DoodadData;
@@ -85,7 +94,7 @@ class Doodad extends Npc implements IStatContainer, IInstanceable {
     BrewController.Deserialize(doodad, data);
     PortraitController.Deserialize(doodad, data.img);
     NarrativeController.Deserialize(doodad, data.narrative);
-    StatController.Deserialize(doodad, data.stats);
+    CombatController.Deserialize(doodad.CombatController, data.combat_data);
     FolderController.Deserialize(doodad, data.folder);
     return doodad;
   }

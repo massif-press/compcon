@@ -35,11 +35,6 @@ class EncounterInstance implements ISaveable {
     this.Encounter = Encounter.Deserialize(data.encounterData);
     this.Pilots = data.pilotData?.map((p) => Pilot.Deserialize(p)) || [];
 
-    this.Pilots.forEach((pilot) => {
-      pilot.setStats();
-      console.log(pilot.StatController);
-    });
-
     this.Combatants = [
       ...this.Encounter.Combatants,
       ...this.Pilots.map((p) => {
@@ -58,6 +53,7 @@ class EncounterInstance implements ISaveable {
 
     this.Combatants.forEach((combatant, index) => {
       combatant.index = index;
+      combatant.actor.SetStats();
     });
 
     this.SaveController = new SaveController(this);

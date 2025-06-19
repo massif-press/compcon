@@ -10,7 +10,8 @@
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
-          @click:clear="reset" />
+          @click:clear="reset"
+        />
       </v-col>
     </v-row>
     <v-container>
@@ -28,8 +29,11 @@
                 @click="
                   selected.length
                     ? (selected = [])
-                    : (selected = stagedItems.filter((x) => x.status).map((x: any) => x.id))
-                ">
+                    : (selected = stagedItems
+                        .filter((x) => x.status)
+                        .map((x: any) => x.id))
+                "
+              >
                 <v-icon
                   size="x-large"
                   :icon="
@@ -38,7 +42,8 @@
                       : selected.length > 0
                         ? 'mdi-minus-box-outline'
                         : 'mdi-checkbox-blank-outline'
-                  " />
+                  "
+                />
               </v-btn>
             </th>
             <th>Item</th>
@@ -56,15 +61,28 @@
                 :value="item.id"
                 multiple
                 hide-details
-                :disabled="!item.status" />
+                :disabled="!item.status"
+              />
             </td>
-            <td :class="item.status ? '' : 'text-disabled text-decoration-line-through'">
+            <td
+              :class="
+                item.status ? '' : 'text-disabled text-decoration-line-through'
+              "
+            >
               {{ item.name }}
             </td>
-            <td :class="item.status ? '' : 'text-disabled text-decoration-line-through'">
+            <td
+              :class="
+                item.status ? '' : 'text-disabled text-decoration-line-through'
+              "
+            >
               {{ item.collection }}
             </td>
-            <td :class="item.status ? '' : 'text-disabled text-decoration-line-through'">
+            <td
+              :class="
+                item.status ? '' : 'text-disabled text-decoration-line-through'
+              "
+            >
               {{ item.type }}
             </td>
             <td>{{ item.content_packs }}</td>
@@ -73,13 +91,14 @@
                 <template v-slot:activator="{ props }">
                   <v-icon
                     v-bind="props"
-                    :icon="item.status ? 'mdi-check' : 'mdi-cancel'"
-                    :color="item.status ? 'success' : 'error'" />
+                    :icon="item.status ? 'mdi-check' : 'mdi-warning'"
+                    :color="item.status ? 'success' : 'error'"
+                  />
                 </template>
                 <span v-if="item.status">Item is ready for import</span>
                 <span v-else>
-                  Item is missing one or more content packs and cannot be imported. Items without
-                  LCP support may only be imported as
+                  Item is missing one or more content packs and cannot be
+                  imported. Items without LCP support may only be imported as
                   <b>instances</b>
                 </span>
               </v-tooltip>
@@ -90,26 +109,30 @@
 
       <v-card v-if="missingContent.length" variant="tonal" class="mx-12">
         <p v-if="oldBrewsWarning" class="heading h3 text-accent">
-          WARNING: The data to be imported was created using an older version of COMP/CON. Lancer
-          Content Pack analysis may not be comprehensive and there is a chance COMP/CON will be
-          unable to correctly load this data. Export the original file in the latest version of
-          COMP/CON to guarantee LCP validation.
+          WARNING: The data to be imported was created using an older version of
+          COMP/CON. Lancer Content Pack analysis may not be comprehensive and
+          there is a chance COMP/CON will be unable to correctly load this data.
+          Export the original file in the latest version of COMP/CON to
+          guarantee LCP validation.
         </p>
         <v-card-text class="text-center">
           <p class="heading h4 text-accent">
-            The data to be imported requires the following content packs that are not currently
-            installed/active, or have mismatching versions:
+            The data to be imported requires the following content packs that
+            are not currently installed/active, or have mismatching versions:
           </p>
           <p class="effect-text text-center" v-html="missingContent" />
           <p class="text-text">
-            This data cannot be imported until the missing content packs are installed and
-            activated, or the content pack versions are synchronized.
+            This data cannot be imported until the missing content packs are
+            installed and activated, or the content pack versions are
+            synchronized.
           </p>
         </v-card-text>
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn variant="tonal" color="error" @click="reset">Abort Import</v-btn>
+          <v-btn variant="tonal" color="error" @click="reset"
+            >Abort Import</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-container>
@@ -121,7 +144,8 @@
           color="accent"
           prepend-icon="mdi-plus"
           :disabled="missingContent.length > 0"
-          @click="importFile()">
+          @click="importFile()"
+        >
           Complete Import ({{ selected.length }} Items)
         </v-btn>
       </v-col>
@@ -132,7 +156,12 @@
 <script lang="ts">
 import _ from 'lodash';
 import { ImportData } from '@/io/Data';
-import { CompendiumStore, NpcStore, NarrativeStore, EncounterStore } from '@/stores';
+import {
+  CompendiumStore,
+  NpcStore,
+  NarrativeStore,
+  EncounterStore,
+} from '@/stores';
 import { v4 as uuid } from 'uuid';
 import { Unit } from '@/classes/npc/unit/Unit';
 import { Doodad } from '@/classes/npc/doodad/Doodad';
@@ -173,19 +202,22 @@ export default {
       else content.push(data);
 
       this.stagedItems = [...content];
-      // this.selected = new Array(content.length).fill(null);
       this.stagedData = content;
 
       this.stagedItems.forEach((item) => {
         if (item.npcType) {
           item.collection = 'NPC';
-          item.type = item.npcType.charAt(0).toUpperCase() + item.npcType.slice(1);
-          item.content_packs = 'TODO';
-          item.status = this.findContent(item);
+          item.type =
+            item.npcType.charAt(0).toUpperCase() + item.npcType.slice(1);
+          item.content_packs = item.brews
+            .map((x) => `${x.LcpName} @ ${x.LcpVersion}`)
+            .join(', ');
+          item.status = true; // this.findContent(item);
         } else if (item.collectionItemType) {
           item.collection = 'Narrative Item';
           item.type =
-            item.collectionItemType.charAt(0).toUpperCase() + item.collectionItemType.slice(1);
+            item.collectionItemType.charAt(0).toUpperCase() +
+            item.collectionItemType.slice(1);
           item.content_packs = 'N/A';
           item.status = true;
         } else if (item.itemType === 'encounter') {
@@ -232,10 +264,19 @@ export default {
     },
     findContent(item) {
       if (item.npcType === 'unit') {
-        if (!CompendiumStore().NpcClasses.some((x) => x.ID === item.class)) return false;
-        if (item.templates.some((x) => !CompendiumStore().NpcTemplates.some((y) => y.ID === x)))
+        if (!CompendiumStore().NpcClasses.some((x) => x.ID === item.class))
           return false;
-        if (item.features.some((x) => !CompendiumStore().NpcFeatures.some((y) => y.ID === x)))
+        if (
+          item.templates.some(
+            (x) => !CompendiumStore().NpcTemplates.some((y) => y.ID === x)
+          )
+        )
+          return false;
+        if (
+          item.features.some(
+            (x) => !CompendiumStore().NpcFeatures.some((y) => y.ID === x)
+          )
+        )
           return false;
 
         return true;
@@ -243,7 +284,9 @@ export default {
         return true;
       } else if (item.npcType === 'eidolon') {
         if (
-          item.layer_data.some((x) => !CompendiumStore().EidolonLayers.some((y) => y.ID === x.id))
+          item.layer_data.some(
+            (x) => !CompendiumStore().EidolonLayers.some((y) => y.ID === x.id)
+          )
         )
           return false;
         return true;
@@ -251,7 +294,9 @@ export default {
       return false;
     },
     importFile() {
-      const staged = this.stagedData.filter((x) => this.selected.includes(x.id));
+      const staged = this.stagedData.filter((x) =>
+        this.selected.includes(x.id)
+      );
 
       staged.forEach((item) => {
         item.id = uuid();
@@ -278,6 +323,7 @@ export default {
           this.reset();
           this.$emit('complete');
         } catch (error) {
+          console.error(error);
           this.$notify({
             title: 'Import Error',
             text: `Unable to import GM Data: ${error}`,

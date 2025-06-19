@@ -16,9 +16,15 @@ import { FeatureController } from '../components/feature/FeatureController';
 import { BrewController, BrewInfo } from '../components/brew/BrewController';
 import { IBrewable } from '../components/brew/IBrewable';
 import { CompendiumItem } from '../CompendiumItem';
-import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
+import {
+  NarrativeController,
+  NarrativeElementData,
+} from '../narrative/NarrativeController';
 import { INarrativeElement } from '../narrative/INarrativeElement';
-import { FolderController, IFolderData } from '../components/folder/FolderController';
+import {
+  FolderController,
+  IFolderData,
+} from '../components/folder/FolderController';
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 import logger from '@/user/logger';
 import { IInstanceableData } from '../components/instance/IInstancableData';
@@ -113,6 +119,7 @@ abstract class Npc
 
   public static LoadError(self: Npc, err: any, message: string): void {
     logger.error(`Error loading NPC ${self.Name}: ${message}; ${err}`, this);
+    console.error(err);
     self.BrewController.MissingContent = true;
   }
 

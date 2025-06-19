@@ -15,7 +15,7 @@
 <script>
 import _, { over } from 'lodash';
 import { CompendiumStore } from '@/stores';
-import StatMiniPanel from './StatMiniPanel.vue';
+import StatMiniPanel from './_components/StatMiniPanel.vue';
 import PanelBase from './_PanelBase.vue';
 
 export default {

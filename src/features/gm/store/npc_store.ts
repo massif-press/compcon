@@ -39,7 +39,9 @@ export const NpcStore = defineStore('npc', {
       return state.Npcs.filter((x: Npc) => x.BrewController.MissingContent);
     },
     unitIndexes: (state: any): IndexItem[] => {
-      const units = state.Npcs.filter((x: any) => x instanceof Unit && !x.SaveController.IsDeleted);
+      const units = state.Npcs.filter(
+        (x: any) => x instanceof Unit && !x.SaveController.IsDeleted
+      );
       return units.map((x: Unit) => ({
         id: x.ID,
         title: `${x.Name} ${
@@ -103,9 +105,9 @@ export const NpcStore = defineStore('npc', {
     },
 
     EditFolder(payload: { old: string; newName: string }): void {
-      this.Npcs.filter((x) => x.FolderController.Folder === payload.old).forEach(
-        (x) => (x.FolderController.Folder = payload.newName)
-      );
+      this.Npcs.filter(
+        (x) => x.FolderController.Folder === payload.old
+      ).forEach((x) => (x.FolderController.Folder = payload.newName));
 
       const idx = this.Folders.findIndex((x) => x === payload.old);
       if (idx >= 0) this.Folders[idx] = payload.newName;
@@ -122,7 +124,10 @@ export const NpcStore = defineStore('npc', {
 
     async AddNpc(payload: Unit | Doodad | Eidolon): Promise<void> {
       if (this.Npcs.some((x) => x.ID === payload.ID)) {
-        logger.info(`NPC with ID ${payload.ID} already exists, updating instead.`, this);
+        logger.info(
+          `NPC with ID ${payload.ID} already exists, updating instead.`,
+          this
+        );
         this.SetNpc(
           this.Npcs.findIndex((x) => x.ID === payload.ID),
           payload
@@ -132,12 +137,15 @@ export const NpcStore = defineStore('npc', {
 
       this.Npcs.push(payload);
 
-      await this.SaveNpcData();
+      await this.SaveNpc(payload);
     },
-    async SetNpc(index: number, payload: Unit | Doodad | Eidolon): Promise<void> {
+    async SetNpc(
+      index: number,
+      payload: Unit | Doodad | Eidolon
+    ): Promise<void> {
       if (!this.Npcs[index]) return;
       this.Npcs.splice(index, 1, payload);
-      await this.SaveNpcData();
+      await this.SaveNpc(this.Npcs[index] as Unit | Doodad | Eidolon);
     },
 
     async CloneNpc(payload: Unit | Doodad | Eidolon): Promise<void> {
@@ -153,10 +161,20 @@ export const NpcStore = defineStore('npc', {
       await RemoveItem('npcs', payload.ID);
       await this.SaveNpcData();
       if (payload.CloudController.ShareCode) {
-        await CloudController.MarkCloudDeleted(payload.CloudController.Metadata);
+        await CloudController.MarkCloudDeleted(
+          payload.CloudController.Metadata
+        );
       }
     },
-
+    async SaveNpc(npc: Unit | Doodad | Eidolon): Promise<void> {
+      try {
+        await SetItem('npcs', npc.Serialize());
+        logger.info(`NPC ${npc.ID} (${npc.Name}) saved`, this);
+      } catch (err) {
+        console.error(err);
+        logger.error(`Error saving NPC ${npc.ID} (${npc.Name})`, err);
+      }
+    },
     async SaveNpcData(): Promise<void> {
       Promise.all((this.Npcs as any).map((y) => SetItem('npcs', y.Serialize())))
         .then(() => logger.info('NPC data saved'))

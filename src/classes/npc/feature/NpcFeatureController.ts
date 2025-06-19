@@ -29,16 +29,17 @@ class NpcFeatureController implements IFeatureContainer {
 
   public get BaseClassFeatures(): NpcFeature[] {
     if (!this.Parent.NpcClassController.Class || this.isInstance) return [];
-    return (this.Parent.NpcClassController.Class as NpcClass).BaseFeatures.filter(
-      (x) => !x.Deprecated
-    );
+    return (
+      this.Parent.NpcClassController.Class as NpcClass
+    ).BaseFeatures.filter((x) => !x.Deprecated);
   }
 
   public get BaseTemplateFeatures(): NpcFeature[] {
-    if (!this.Parent.NpcTemplateController.Templates || this.isInstance) return [];
-    return this.Parent.NpcTemplateController.Templates.flatMap((x) => x.BaseFeatures).filter(
-      (x) => !x.Deprecated
-    );
+    if (!this.Parent.NpcTemplateController.Templates || this.isInstance)
+      return [];
+    return this.Parent.NpcTemplateController.Templates.flatMap(
+      (x) => x.BaseFeatures
+    ).filter((x) => !x.Deprecated);
   }
 
   public get BaseFeatures(): NpcFeature[] {
@@ -58,7 +59,8 @@ class NpcFeatureController implements IFeatureContainer {
     let classFeatures = [] as NpcFeature[];
 
     if (this.Parent.NpcClassController.HasClass) {
-      classFeatures = (this.Parent.NpcClassController.Class as NpcClass)!.OptionalFeatures;
+      classFeatures = (this.Parent.NpcClassController.Class as NpcClass)!
+        .OptionalFeatures;
       classFeatures = classFeatures.concat(
         (this.Parent.NpcClassController.Class as NpcClass)!.BaseFeatures.filter(
           (x) => !this.Features.some((y) => y.ID === x.ID)
@@ -66,9 +68,10 @@ class NpcFeatureController implements IFeatureContainer {
       ); // Include base features that have been removed
     }
 
-    const templateFeatures = this.Parent.NpcTemplateController.Templates.flatMap(
-      (x) => x.OptionalFeatures
-    );
+    const templateFeatures =
+      this.Parent.NpcTemplateController.Templates.flatMap(
+        (x) => x.OptionalFeatures
+      );
 
     return classFeatures
       .concat(templateFeatures)
@@ -103,9 +106,11 @@ class NpcFeatureController implements IFeatureContainer {
     this._selectedFeatures = [];
 
     if (this.Parent.NpcClassController.HasClass)
-      (this.Parent.NpcClassController.Class as NpcClass).BaseFeatures.forEach((f) => {
-        this._selectedFeatures.push(f);
-      });
+      (this.Parent.NpcClassController.Class as NpcClass).BaseFeatures.forEach(
+        (f) => {
+          this._selectedFeatures.push(f);
+        }
+      );
 
     this.Parent.NpcTemplateController.Templates.forEach((t) => {
       (t as NpcTemplate).BaseFeatures.forEach((f) => {
@@ -128,10 +133,17 @@ class NpcFeatureController implements IFeatureContainer {
         `NpcClassController not found on parent (${typeof parent}). New NpcFeatureController must be instantiated in the parent's constructor method.`
       );
 
-    parent.NpcFeatureController._selectedFeatures = data.features?.map((x) => {
-      if (CompendiumStore().has('NpcFeatures', x.id)) {
-        return CompendiumStore().referenceByID('NpcFeatures', x.id) as NpcFeature;
-      } else return NpcFeatureFactory.Build(x.data);
+    parent.NpcFeatureController._selectedFeatures = [];
+    data.features?.forEach((x) => {
+      const id = typeof x === 'string' ? x : x.id;
+      if (CompendiumStore().has('NpcFeatures', id)) {
+        parent.NpcFeatureController._selectedFeatures.push(
+          CompendiumStore().referenceByID('NpcFeatures', id) as NpcFeature
+        );
+      } else if (x.data && Object.keys(x.data).length)
+        parent.NpcFeatureController._selectedFeatures.push(
+          NpcFeatureFactory.Build(x.data)
+        );
     });
   }
 }

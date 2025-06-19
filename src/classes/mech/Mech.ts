@@ -23,9 +23,11 @@ import { CompendiumItem } from '../CompendiumItem';
 import { ILicenseRequirement } from '../pilot/components/license/LicensedItem';
 import { IFrameData } from '@/interface';
 import {
-  IStatData,
-  StatController,
-} from '../components/combat/stats/StatController';
+  CombatController,
+  CombatData,
+} from '../components/combat/CombatController';
+import { ICombatant } from '../components/combat/ICombatant';
+import { StatController } from '../components/combat/stats/StatController';
 
 class IMechData implements IMechLoadoutSaveData {
   img: IPortraitData = {} as IPortraitData;
@@ -35,11 +37,11 @@ class IMechData implements IMechLoadoutSaveData {
   frame: string = '';
   frameData: IFrameData = {} as IFrameData;
   loadouts: IMechLoadoutData[] = [];
-  stats: IStatData = {} as IStatData;
+  combat_data: CombatData = {} as CombatData;
   active_loadout_index: number = 0;
 }
 
-class Mech implements IPortraitContainer, IFeatureController {
+class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   public readonly ItemType: string = 'mech';
   public readonly StorageType: string = 'Mechs';
 
@@ -47,7 +49,7 @@ class Mech implements IPortraitContainer, IFeatureController {
   public ImageTag = ImageTag.Mech;
   public FeatureController: FeatureController;
   public MechLoadoutController: MechLoadoutController;
-  public StatController: StatController;
+  public CombatController: CombatController;
 
   private _id: string;
   private _name: string;
@@ -63,7 +65,7 @@ class Mech implements IPortraitContainer, IFeatureController {
     this.PortraitController = new PortraitController(this);
     this.FeatureController = new FeatureController(this);
     this.MechLoadoutController = new MechLoadoutController(this);
-    this.StatController = new StatController(this);
+    this.CombatController = new CombatController(this);
 
     this._name = '';
     this._notes = '';
@@ -81,6 +83,10 @@ class Mech implements IPortraitContainer, IFeatureController {
   // -- Passthroughs ------------------------------------------------------------------------------
   public get SaveController(): SaveController {
     return this._pilot.SaveController;
+  }
+
+  public get StatController(): StatController {
+    return this.CombatController.StatController;
   }
 
   public get Portrait(): string {
@@ -512,32 +518,34 @@ class Mech implements IPortraitContainer, IFeatureController {
     return b.length ? b[0].Value : Rules.Overcharge;
   }
 
-  public setStats() {
-    this.StatController.setMax('size', this.Size);
-    this.StatController.setMax('armor', this.Armor);
-    this.StatController.setMax('save', this.SaveTarget);
-    this.StatController.setMax('structure', this.MaxStructure);
-    this.StatController.setMax('hull', this.Hull);
-    this.StatController.setMax('agi', this.Agi);
-    this.StatController.setMax('sys', this.Sys);
-    this.StatController.setMax('eng', this.Eng);
-    this.StatController.setMax('evasion', this.Evasion);
-    this.StatController.setMax('speed', this.Speed);
-    this.StatController.setMax('sensors', this.SensorRange);
-    this.StatController.setMax('edef', this.EDefense);
-    this.StatController.setMax('limited_bonus', this.LimitedBonus);
-    this.StatController.setMax('attack', this.AttackBonus);
-    this.StatController.setMax('tech_attack', this.TechAttack);
-    this.StatController.setMax('grapple', this.Grapple);
-    this.StatController.setMax('ram', this.Ram);
-    this.StatController.setMax('hp', this.MaxHP);
-    this.StatController.setMax('sp', this.MaxSP);
-    this.StatController.setMax('heatcap', this.HeatCapacity);
-    this.StatController.setMax('stress', this.MaxStress);
-    this.StatController.setMax('repcap', this.RepairCapacity);
-    this.StatController.setMax('saveTarget', this.SaveTarget);
+  public SetStats() {
+    const kvps = [
+      { key: 'size', val: this.Size },
+      { key: 'armor', val: this.Armor },
+      { key: 'save', val: this.SaveTarget },
+      { key: 'structure', val: this.MaxStructure },
+      { key: 'hull', val: this.Hull },
+      { key: 'agi', val: this.Agi },
+      { key: 'sys', val: this.Sys },
+      { key: 'eng', val: this.Eng },
+      { key: 'evasion', val: this.Evasion },
+      { key: 'speed', val: this.Speed },
+      { key: 'sensors', val: this.SensorRange },
+      { key: 'edef', val: this.EDefense },
+      { key: 'limited_bonus', val: this.LimitedBonus },
+      { key: 'attack', val: this.AttackBonus },
+      { key: 'tech_attack', val: this.TechAttack },
+      { key: 'grapple', val: this.Grapple },
+      { key: 'ram', val: this.Ram },
+      { key: 'hp', val: this.MaxHP },
+      { key: 'sp', val: this.MaxSP },
+      { key: 'heatcap', val: this.HeatCapacity },
+      { key: 'stress', val: this.MaxStress },
+      { key: 'repcap', val: this.RepairCapacity },
+      { key: 'saveTarget', val: this.SaveTarget },
+    ];
 
-    this.StatController.resetCurrentStats();
+    this.CombatController.setStats(kvps);
   }
 
   // -- Loadouts ----------------------------------------------------------------------------------
@@ -593,7 +601,7 @@ class Mech implements IPortraitContainer, IFeatureController {
 
     PortraitController.Serialize(m, data);
     MechLoadoutController.Serialize(m, data);
-    StatController.Serialize(m, data);
+    CombatController.Serialize(m.CombatController, data);
 
     return data as IMechData;
   }
@@ -634,7 +642,7 @@ class Mech implements IPortraitContainer, IFeatureController {
     m._notes = data.notes;
 
     PortraitController.Deserialize(m, data.img);
-    StatController.Deserialize(m, data.stats);
+    CombatController.Deserialize(m.CombatController, data.combat_data);
 
     return m;
   }

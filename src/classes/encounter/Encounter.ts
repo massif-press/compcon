@@ -9,18 +9,29 @@ import {
 } from '../components';
 import { ISitrepData, Sitrep, SitrepInstance } from './Sitrep';
 import { EncounterMap, IMapData } from './EncounterMap';
-import { FolderController, IFolderData } from '../components/folder/FolderController';
-import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
+import {
+  FolderController,
+  IFolderData,
+} from '../components/folder/FolderController';
+import {
+  NarrativeController,
+  NarrativeElementData,
+} from '../narrative/NarrativeController';
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 import { INarrativeElement } from '../narrative/INarrativeElement';
 import { ImageTag } from '@/io/ImageManagement';
-import { Environment, EnvironmentInstance, IEnvironmentData } from '../Environment';
+import {
+  Environment,
+  EnvironmentInstance,
+  IEnvironmentData,
+} from '../Environment';
 import { Npc } from '../npc/Npc';
 import { Unit, UnitData } from '../npc/unit/Unit';
 import { Doodad, DoodadData } from '../npc/doodad/Doodad';
 import { Eidolon, EidolonData } from '../npc/eidolon/Eidolon';
 import { Pilot } from '@/class';
 import { PilotData } from '@/interface';
+import { ICombatant } from '../components/combat/ICombatant';
 
 interface IEncounterData {
   itemType: 'Encounter';
@@ -43,7 +54,7 @@ type CombatantData = {
   id: string;
   index: number;
   type: 'unit' | 'doodad' | 'eidolon' | 'pilot';
-  actor: Unit | Doodad | Eidolon | Pilot;
+  actor: ICombatant;
   number: number;
   side: 'enemy' | 'ally' | 'neutral';
   playerCount?: number;
@@ -99,7 +110,10 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     }
 
     if (data?.environment) {
-      this._environment = new EnvironmentInstance(this, new Environment(data.environment));
+      this._environment = new EnvironmentInstance(
+        this,
+        new Environment(data.environment)
+      );
     }
 
     if (data?.map) {
@@ -110,7 +124,11 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       this._combatants = data.combatants.map((c) => {
         // TODO: remove after next release, this is to ensure old v3 encounters are compatible
         if ((c as any).npc)
-          c.actor = (c as any).npc as UnitData | DoodadData | EidolonData | PilotData;
+          c.actor = (c as any).npc as
+            | UnitData
+            | DoodadData
+            | EidolonData
+            | PilotData;
         let actor;
         switch (c.type) {
           case 'unit':
@@ -144,7 +162,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
       const seen = [] as string[];
 
-      this._combatants.forEach((c) => {
+      this._combatants.forEach((c: any) => {
         seen.push(c.actor.Name);
         c.number = seen.filter((x) => x === c.actor.Name).length;
       });
@@ -291,7 +309,8 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       index: this.Combatants.length,
       type,
       actor: c,
-      number: this.Combatants.filter((x) => x.actor.Name === c.Name).length + 1,
+      number:
+        this.Combatants.filter((x: any) => x.actor.Name === c.Name).length + 1,
       side: 'enemy',
       playerCount: 0,
       reinforcement: false,

@@ -41,7 +41,7 @@ class Stats {
     heatcap: 'cc:heat',
     heatCapacity: 'cc:heat',
     repairCapacity: 'cc:repair',
-    attackBonus: 'cc:attack',
+    attackBonus: 'cc:weapon',
     techAttack: 'cc:quick_tech',
     techattack: 'cc:quick_tech',
     limitedBonus: 'cc:limited',
