@@ -180,7 +180,7 @@ class NpcTemplateController {
       const id = typeof x === 'string' ? x : x.id;
       if (CompendiumStore().has('NpcTemplates', id))
         return CompendiumStore().referenceByID('NpcTemplates', id);
-      else if (x.data && Object.keys(x.data.length))
+      else if (!!x.data && Object.keys(x.data).length)
         return new NpcTemplate(x.data);
     });
   }

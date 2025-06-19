@@ -14,6 +14,7 @@ import { IInstanceable } from '@/classes/components/instance/IInstanceable';
 import { NpcStore } from '@/stores';
 import { CombatController } from '@/classes/components/combat/CombatController';
 import { ICombatant } from '@/classes/components/combat/ICombatant';
+import { StatController } from '@/classes/components/combat/stats/StatController';
 
 class DoodadData extends NpcData implements IInstanceableData {
   npcType: 'unit' = 'unit';
@@ -49,8 +50,12 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
     // unnecessary for doodads
   }
 
+  public get StatController(): StatController {
+    return this.CombatController.StatController;
+  }
+
   public SetStats() {
-    console.log('nyi');
+    this.CombatController.setStats([]);
   }
 
   public get IsLinked(): boolean {
