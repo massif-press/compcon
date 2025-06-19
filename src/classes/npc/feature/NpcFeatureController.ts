@@ -140,7 +140,7 @@ class NpcFeatureController implements IFeatureContainer {
         parent.NpcFeatureController._selectedFeatures.push(
           CompendiumStore().referenceByID('NpcFeatures', id) as NpcFeature
         );
-      } else if (x.data && Object.keys(x.data).length)
+      } else if (!!x.data && Object.keys(x.data).length)
         parent.NpcFeatureController._selectedFeatures.push(
           NpcFeatureFactory.Build(x.data)
         );
