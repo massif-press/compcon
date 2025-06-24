@@ -13,6 +13,7 @@ import ammo from './svg/ammo.vue';
 import balance from './svg/balance.vue';
 import barrage from './svg/barrage.vue';
 import blast from './svg/blast.vue';
+import aoe from './svg/blast.vue';
 import burn from './svg/burn.vue';
 import burning from './svg/burning.vue';
 import burst from './svg/burst.vue';
@@ -147,6 +148,7 @@ const svgs: any = {
   balance,
   barrage,
   blast,
+  aoe,
   burn,
   burning,
   burst,

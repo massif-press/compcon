@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="text-cc-overline text-disabled">
-      RESIST / IMMUNE / VULNERABLE
-    </div>
+    <div class="text-cc-overline text-disabled">RESIST / IMMUNE / VULNERABLE</div>
     <v-row dense justify="center">
       <v-col v-for="damage in damageTypes" cols="4">
         <v-tooltip :open-delay="400" location="top" max-width="300">
@@ -12,12 +10,12 @@
               style="position: relative; padding-top: 2px; padding-bottom: 2px"
               flat
               tile
-              :color="hasResistance(damage) ? damage.color : 'panel'"
+              :color="
+                hasVulnerability(damage) ? 'error' : hasResistance(damage) ? 'success' : 'panel'
+              "
               :style="`border: 2px solid ${hasImmunity(damage) ? 'rgb(var(--v-theme-primary))' : hasVulnerability(damage) ? 'rgba(249, 219, 78, 0.5)' : 'rgb(var(--v-theme-panel))'}`"
               class="px-2 text-center"
-              :class="hasVulnerability(damage) ? 'bg-stripes' : ''"
-              @click="addResistance(damage)"
-            >
+              @click="addResistance(damage)">
               <v-icon
                 v-if="immunities.some((r) => r === damage.Name)"
                 icon="mdi-cancel"
@@ -31,17 +29,12 @@
                   right: 0;
                   width: 100%;
                   height: 100%;
-                "
-              />
+                " />
               <v-icon :icon="damage.icon" size="35" />
             </v-card>
           </template>
           <div
-            v-if="
-              hasResistance(damage) ||
-              hasImmunity(damage) ||
-              hasVulnerability(damage)
-            "
+            v-if="hasResistance(damage) || hasImmunity(damage) || hasVulnerability(damage)"
             class="heading h3"
             :class="
               hasImmunity(damage)
@@ -49,8 +42,7 @@
                 : hasVulnerability(damage)
                   ? 'text-error'
                   : 'text-accent'
-            "
-          >
+            ">
             {{ damage.Name }}
             {{
               hasImmunity(damage)
@@ -84,8 +76,7 @@
         tile
         block
         variant="text"
-        prepend-icon="mdi-plus"
-      >
+        prepend-icon="mdi-plus">
         Add Custom
       </v-btn>
     </div>
@@ -121,19 +112,19 @@ export default {
   }),
   computed: {
     vulnerabilities() {
-      return this.controller.DamageStatuses.filter(
-        (x) => x.condition === 'vulnerable'
-      ).map((x) => x.type);
+      return this.controller.DamageStatuses.filter((x) => x.condition === 'vulnerable').map(
+        (x) => x.type
+      );
     },
     immunities() {
-      return this.controller.DamageStatuses.filter(
-        (x) => x.condition === 'immune'
-      ).map((x) => x.type);
+      return this.controller.DamageStatuses.filter((x) => x.condition === 'immune').map(
+        (x) => x.type
+      );
     },
     resistances() {
-      return this.controller.DamageStatuses.filter(
-        (x) => x.condition === 'resistant'
-      ).map((x) => x.type);
+      return this.controller.DamageStatuses.filter((x) => x.condition === 'resistant').map(
+        (x) => x.type
+      );
     },
   },
   methods: {

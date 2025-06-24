@@ -40,9 +40,7 @@ class NpcTemplateController {
   public AddTemplate(temp: NpcTemplate): void {
     this._templates.push(temp);
     if (temp.ForceTag) this.Parent.Tag = temp.ForceTag;
-    temp.BaseFeatures.forEach((f) =>
-      this.Parent.NpcFeatureController.AddFeature(f)
-    );
+    temp.BaseFeatures.forEach((f) => this.Parent.NpcFeatureController.AddFeature(f));
     this.Parent.save();
   }
 
@@ -50,12 +48,8 @@ class NpcTemplateController {
     const idx = this._templates.findIndex((x) => x.ID === temp.ID);
     if (idx > -1) {
       this._templates.splice(idx, 1);
-      temp.BaseFeatures.forEach((f) =>
-        this.Parent.NpcFeatureController.RemoveFeature(f)
-      );
-      temp.OptionalFeatures.forEach((f) =>
-        this.Parent.NpcFeatureController.RemoveFeature(f)
-      );
+      temp.BaseFeatures.forEach((f) => this.Parent.NpcFeatureController.RemoveFeature(f));
+      temp.OptionalFeatures.forEach((f) => this.Parent.NpcFeatureController.RemoveFeature(f));
     }
     this.Parent.save();
   }
@@ -79,12 +73,10 @@ class NpcTemplateController {
       let allowed = 0;
       if (t.OptionalMin || t.OptionalMax) {
         required = t.OptionalMax
-          ? t.OptionalMin *
-            (t.OptionalPerTier ? this.Parent.NpcClassController.Tier : 1)
+          ? t.OptionalMin * (t.OptionalPerTier ? this.Parent.NpcClassController.Tier : 1)
           : 0;
         allowed = !t.OptionalMax
-          ? t.OptionalMax *
-            (t.OptionalPerTier ? this.Parent.NpcClassController.Tier : 1)
+          ? t.OptionalMax * (t.OptionalPerTier ? this.Parent.NpcClassController.Tier : 1)
           : 0;
       }
       out.push({
@@ -142,14 +134,11 @@ class NpcTemplateController {
       }
 
       if (t.OptionalClassPerTier) {
-        classReq.optionalMin +=
-          t.OptionalClassPerTier * this.Parent.NpcClassController.Tier;
-        classReq.optionalMax +=
-          t.OptionalClassPerTier * this.Parent.NpcClassController.Tier;
+        classReq.optionalMin += t.OptionalClassPerTier * this.Parent.NpcClassController.Tier;
+        classReq.optionalMax += t.OptionalClassPerTier * this.Parent.NpcClassController.Tier;
       }
       req.complete = req.selected >= req.min;
-      req.optional_complete =
-        !req.optionalMax || req.selected === req.optionalMax;
+      req.optional_complete = !req.optionalMax || req.selected === req.optionalMax;
 
       out.push(req);
     });
@@ -176,12 +165,15 @@ class NpcTemplateController {
       );
 
     parent.NpcTemplateController._templates = [];
+
     data.templates.forEach((x) => {
       const id = typeof x === 'string' ? x : x.id;
       if (CompendiumStore().has('NpcTemplates', id))
-        return CompendiumStore().referenceByID('NpcTemplates', id);
-      else if (!!x.data && Object.keys(x.data).length)
-        return new NpcTemplate(x.data);
+        parent.NpcTemplateController._templates.push(
+          CompendiumStore().referenceByID('NpcTemplates', id)
+        );
+      else if (x.data && Object.keys(x.data).length)
+        parent.NpcTemplateController._templates.push(new NpcTemplate(x.data));
     });
   }
 }
