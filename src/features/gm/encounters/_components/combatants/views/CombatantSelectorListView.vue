@@ -24,13 +24,14 @@
         class="mb-n3"
         style="height: 100%; min-height: calc(100vh - 86px); overflow-y: scroll">
         <v-list-item v-for="folder in Object.keys(npcsByFolder)" :key="folder">
-          <v-list-item-subtitle
-            ><v-icon icon="mdi-folder" start size="small" class="mt-n1" />
-            {{ folder || 'No Folder' }}</v-list-item-subtitle
-          >
+          <v-list-item-subtitle>
+            <v-icon icon="mdi-folder" start size="small" class="mt-n1" />
+            {{ folder || 'No Folder' }}
+          </v-list-item-subtitle>
           <v-divider />
           <v-list-item v-for="n in npcsByFolder[folder]" :key="n.ID" @click="selected = n">
-            <v-icon :icon="n.Icon" start /> {{ n.Name }}
+            <v-icon :icon="n.Icon" start />
+            {{ n.Name }}
             <template #append>
               <v-tooltip>
                 <template #activator="{ props }">
@@ -70,7 +71,7 @@
       </div>
       <div v-else>
         <v-row justify="center" align="center" style="height: calc(100vh - 60px)">
-          <v-col cols="auto"> <i class="text-disabled">Select an NPC</i> </v-col>
+          <v-col cols="auto"><i class="text-disabled">Select an NPC</i></v-col>
         </v-row>
       </div>
     </v-col>
@@ -111,7 +112,7 @@ export default {
       throw new Error('Method not implemented.');
     },
     itemCount(item) {
-      return this.encounter.Combatants.filter((x) => x.npc.ID === item.ID).length;
+      return this.encounter.Combatants.filter((x) => x.actor.ID === item.ID).length;
     },
   },
 };
