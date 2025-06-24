@@ -2,22 +2,18 @@
   <div>
     <div class="text-cc-overline text-disabled">Statuses / Conditions</div>
     <v-row dense>
-      <v-col
-        v-for="status in statuses.filter((x) => x.StatusType === 'Status')"
-        :key="status.ID"
-      >
+      <v-col v-for="status in statuses.filter((x) => x.StatusType === 'Status')" :key="status.ID">
         <v-tooltip :open-delay="400" location="top" max-width="300">
           <template #activator="{ props }">
             <v-card
               v-bind="props"
               :color="
-                statuses.some((s) => s.ID === status.ID) ? 'primary' : 'panel'
+                controller.Statuses.some((s) => s.status.ID === status.ID) ? 'primary' : 'panel'
               "
               class="px-2 py-1 text-center"
               flat
               tile
-              @click="addStatus(status)"
-            >
+              @click="setStatus(status)">
               <v-icon :icon="status.Icon" size="35" />
             </v-card>
           </template>
@@ -30,20 +26,18 @@
     <v-row dense>
       <v-col
         v-for="status in statuses.filter((x) => x.StatusType === 'Condition')"
-        :key="status.ID"
-      >
+        :key="status.ID">
         <v-tooltip :open-delay="400" location="top" max-width="300">
           <template #activator="{ props }">
             <v-card
               v-bind="props"
               :color="
-                statuses.some((s) => s.ID === status.ID) ? 'primary' : 'panel'
+                controller.Statuses.some((s) => s.status.ID === status.ID) ? 'primary' : 'panel'
               "
               class="px-2 py-1 text-center"
               flat
               tile
-              @click="addStatus(status)"
-            >
+              @click="setStatus(status)">
               <v-icon :icon="status.Icon" size="35" />
             </v-card>
           </template>
@@ -65,8 +59,7 @@
             tile
             block
             variant="text"
-            prepend-icon="mdi-plus"
-          >
+            prepend-icon="mdi-plus">
             Add Special Status
           </v-btn>
         </template>
@@ -76,8 +69,7 @@
             :active="special.includes(status.Name)"
             active-color="accent"
             :key="status.ID"
-            @click="addSpecialStatus(status)"
-          >
+            @click="addSpecialStatus(status)">
             <v-list-item-title>{{ status.Name }}</v-list-item-title>
           </v-list-item>
           <v-divider />
@@ -105,19 +97,13 @@ export default {
       return _.orderBy(CompendiumStore().Statuses, 'StatusType');
     },
     applicableStatuses() {
-      const exclude = [
-        `dangerzone`,
-        `downandout`,
-        `engaged`,
-        `hidden`,
-        `invisible`,
-      ];
+      const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
       return this.statuses.filter((s) => !exclude.includes(s.ID));
     },
   },
   methods: {
     setStatus(status) {
-      this.controller.setStatus(status);
+      this.controller.SetStatus(status);
     },
   },
 };

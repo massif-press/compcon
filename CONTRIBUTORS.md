@@ -59,7 +59,7 @@ COMP/CON currently has commitizen disabled due to issues generating changelogs, 
 
 WIP
 
-## Styleguides
+## Style Guides
 
 Please adhere to eslint whenever possible. Prefer leaving warnings to adding ignores.
 Folder structure should reflect vue-router to the extent reasonable.
@@ -90,9 +90,6 @@ Folder structure should reflect vue-router to the extent reasonable.
 
 - Keep interface in class file when convenient.
 - Declare interface when useful (so, available globally).
-- Import nonglobal interfaces in @/interface. (Out of date?)
-
-TODO: look into TS import() function in dec file to keep definitions with class, but make all interface available globally
 
 ### Vue
 
@@ -121,9 +118,7 @@ Often this happens automatically, but there are several ways to accidentally bre
 
 ```vue
 <!--Won't respond to enter key. Not tab selectable.-->
-<div class="mx-2" @click="$emit('clicked')">
-<!--Fix with response on @keydown.enter and added tabindex-->
-<div class="mx-2" @click="$emit('clicked')" @keydown.enter="$emit('clicked')" tabindex="0">
+<div class="mx-2" @click="$emit('clicked')"></div>
 ```
 
 ```vue
@@ -159,8 +154,7 @@ methods: {
 <!--Doesn't style keyboard focus, sometimes leaving keyboard focus invisible-->
 .btn-main:hover { background-color: rgb(var(--v-theme-active)); }
 <!--Fix-->
-.btn-main:hover, .btn-main:focus { background-color: rgb(var(--v-theme-active));
-}
+.btn-main:hover, .btn-main:focus { background-color: rgb(var(--v-theme-active)); }
 ```
 
 Usually these issues are trivial to fix, but easy to miss.

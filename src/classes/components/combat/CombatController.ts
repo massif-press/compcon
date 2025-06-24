@@ -9,10 +9,7 @@
 import { Counter, DamageType } from '@/class';
 import { ICombatant } from './ICombatant';
 import { IStatData, StatController } from './stats/StatController';
-import {
-  CounterController,
-  ICounterCollection,
-} from './counters/CounterController';
+import { CounterController, ICounterCollection } from './counters/CounterController';
 import { SaveController } from '../save/SaveController';
 import { ICounterContainer } from './counters/ICounterContainer';
 import { IStatContainer } from './stats/IStatContainer';
@@ -64,20 +61,19 @@ class CombatController implements ICounterContainer, IStatContainer {
     const existingIndex = this.DamageStatuses.findIndex((s) => s.type === type);
     if (existingIndex === -1)
       this.DamageStatuses.push({ type, condition: condition || 'vulnerable' });
-    else if (condition)
-      this.DamageStatuses[existingIndex].condition = condition;
+    else if (condition) this.DamageStatuses[existingIndex].condition = condition;
     else this.DamageStatuses.splice(existingIndex, 1);
   }
 
   public SetStatus(status: Status, expires?: any): void {
     if (!status) return;
-    const existingIndex = this.Statuses.findIndex(
-      (s) => s.status.ID === status.ID
-    );
+    const existingIndex = this.Statuses.findIndex((s) => s.status.ID === status.ID);
     if (existingIndex === -1) {
       this.Statuses.push({ status, expires });
-    } else {
+    } else if (expires) {
       this.Statuses[existingIndex].expires = expires;
+    } else {
+      this.Statuses.splice(existingIndex, 1);
     }
   }
 
