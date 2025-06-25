@@ -360,7 +360,7 @@ export default {
       return out.filter((x) => !x.SaveController.IsDeleted);
     },
     itemCount(item) {
-      return this.encounter.Combatants.filter((x) => x.npc.ID === item.ID).length;
+      return this.encounter.Combatants.filter((x) => x.actor.ID === item.ID).length;
     },
   },
 };
