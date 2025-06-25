@@ -99,8 +99,8 @@
         <div>
           <div v-if="!readonly" class="text-caption text-disabled mb-n1">CURRENTLY EDITING</div>
           <div>
-            <v-icon :icon="selected?.npc.Icon" size="x-small" class="mt-n1" start />
-            <span class="heading">{{ selected?.npc.Name }}</span>
+            <v-icon :icon="selected?.actor.Icon" size="x-small" class="mt-n1" start />
+            <span class="heading">{{ selected?.actor.Name }}</span>
             <span class="text-caption text-disabled">
               &emsp;(Encounter Instance #{{ selected.index }})
             </span>
@@ -130,33 +130,33 @@
           <template #activator="{ props }">
             <v-icon
               v-bind="props"
-              :color="selected.npc.IsLinked ? 'success' : ''"
-              :icon="selected.npc.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
+              :color="selected.actor.IsLinked ? 'success' : ''"
+              :icon="selected.actor.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
               start />
           </template>
-          <span v-if="selected.npc.IsLinked">
+          <span v-if="selected.actor.IsLinked">
             The source of this NPC instance is present in your NPC roster (
-            <b class="text-primary">{{ selected.npc.GetLinkedItem().Name }}</b>
+            <b class="text-primary">{{ selected.actor.GetLinkedItem().Name }}</b>
             ) and can receive updates from the original
           </span>
           <span v-else>This NPC instance is not linked to a valid source in your NPC roster.</span>
         </v-tooltip>
 
-        <b v-if="!readonly" :class="selected.npc.IsLinked ? 'text-accent' : 'text-disabled'">
+        <b v-if="!readonly" :class="selected.actor.IsLinked ? 'text-accent' : 'text-disabled'">
           <v-menu :close-on-content-click="false" width="50vw">
             <template #activator="{ props }">
               <v-btn
                 v-bind="props"
                 size="x-small"
                 variant="outlined"
-                :disabled="!selected.npc.IsLinked">
-                Source {{ selected.npc.IsLinked ? 'Linked' : 'Unavailable' }}
+                :disabled="!selected.actor.IsLinked">
+                Source {{ selected.actor.IsLinked ? 'Linked' : 'Unavailable' }}
               </v-btn>
             </template>
             <v-card variant="outlined">
               <v-card-text>
                 <div class="text-caption text-disabled">Instance Source</div>
-                <div class="heading">{{ selected.npc.GetLinkedItem().Name }}</div>
+                <div class="heading">{{ selected.actor.GetLinkedItem().Name }}</div>
                 <v-divider class="my-2" />
                 <div class="text-caption text-disabled"></div>
                 <div v-if="itemDiff && Object.keys(itemDiff).length">
@@ -228,8 +228,8 @@
         <component
           v-if="selected"
           :is="editorComponent"
-          :item="selected.npc"
-          :readonly="readonly || !selected.npc.IsLinked"
+          :item="selected.actor"
+          :readonly="readonly || !selected.actor.IsLinked"
           hide-toolbar
           hide-footer />
       </div>
@@ -283,7 +283,7 @@ export default {
   computed: {
     editorComponent() {
       if (!this.selected) return null;
-      switch ((this.selected as any).npc.ItemType.toLowerCase()) {
+      switch ((this.selected as any).actor.ItemType.toLowerCase()) {
         case 'eidolon':
           return EidolonEditor;
         case 'doodad':
@@ -295,8 +295,8 @@ export default {
       }
     },
     itemDiff() {
-      if (this.selected && this.selected.npc.IsLinked)
-        return GenerateItemDiff(this.selected.npc, this.selected.npc.GetLinkedItem());
+      if (this.selected && this.selected.actor.IsLinked)
+        return GenerateItemDiff(this.selected.actor, this.selected.actor.GetLinkedItem());
     },
   },
   methods: {
@@ -314,11 +314,11 @@ export default {
       this.editDialog = true;
     },
     diffUpdate(key) {
-      SetDiff(this.selected.npc, key);
+      SetDiff(this.selected.actor, key);
     },
     diffUpdateAll(allDiffs) {
       Object.keys(allDiffs).forEach((key) => {
-        SetDiff(this.selected.npc, key);
+        SetDiff(this.selected.actor, key);
       });
     },
   },

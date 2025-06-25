@@ -52,7 +52,7 @@ export default {
   computed: {
     SortedCombatants() {
       return _.sortBy(this.encounter.Combatants, (x) => x.playerCount).filter(
-        (x) => x.npc && x.npc.ItemType.toLowerCase() !== 'eidolon'
+        (x) => x.npc && x.actor.ItemType.toLowerCase() !== 'eidolon'
       );
     },
     Enemies() {
