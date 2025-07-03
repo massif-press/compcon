@@ -3,13 +3,7 @@
   <v-card flat tile class="pa-2">
     <v-row class="pr-4">
       <v-col cols="auto">
-        <cc-img
-          width="155px"
-          height="100%"
-          color="panel"
-          cover
-          :src="item.Portrait"
-        />
+        <cc-img width="155px" height="100%" color="panel" cover :src="item.Portrait" />
       </v-col>
       <v-col>
         <v-row no-gutters>
@@ -20,28 +14,28 @@
             <slot name="name-block" />
           </v-col>
           <v-col cols="auto" class="mx-auto" align-self="center">
-            <v-btn-toggle v-model="cover" flat tile color="primary">
-              <v-btn size="x-small" height="20px" value="no">No Cover</v-btn>
-              <v-btn size="x-small" height="20px" value="soft"
-                >Soft Cover</v-btn
-              >
-              <v-btn size="x-small" height="20px" value="hard"
-                >Hard Cover</v-btn
-              >
+            <v-btn-toggle v-model="item.CombatController.Cover" flat tile color="primary">
+              <v-btn size="x-small" height="20px" value="none">No Cover</v-btn>
+              <v-btn size="x-small" height="20px" value="soft">Soft Cover</v-btn>
+              <v-btn size="x-small" height="20px" value="hard">Hard Cover</v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="auto" class="pt-3 pr-1">
             <cc-button
+              v-for="i in item.CombatController.StatController.MaxStats['activations']"
               icon="cc:activate"
               size="x-large"
               variant="outlined"
-              :color="item.activations === 0 ? 'green' : 'grey'"
-              @click="
-                item.activations === 0
-                  ? (item.activations = 1)
-                  : (item.activations = 0)
+              :color="
+                item.CombatController.StatController.CurrentStats['activations'] >= i
+                  ? 'green'
+                  : 'grey'
               "
-            ></cc-button>
+              @click="
+                item.CombatController.StatController.CurrentStats['activations'] === 0
+                  ? (item.CombatController.StatController.CurrentStats['activations'] += 1)
+                  : (item.CombatController.StatController.CurrentStats['activations'] -= 1)
+              "></cc-button>
           </v-col>
         </v-row>
         <v-row class="mt-n1">
@@ -49,11 +43,7 @@
             <v-tooltip location="top" text="Pilot Grit">
               <template #activator="{ props }">
                 <span v-bind="props">
-                  <v-icon
-                    icon="mdi-star-four-points-outline"
-                    size="x-large"
-                    class="mt-n2 mr-1"
-                  />
+                  <v-icon icon="mdi-star-four-points-outline" size="x-large" class="mt-n2 mr-1" />
                   <span class="heading h2 text-accent">2</span>
                 </span>
               </template>
@@ -66,16 +56,10 @@
               'agi',
               'sys',
               'eng',
-            ])"
-          >
+            ])">
             <v-tooltip :text="stat.title" location="top" open-delay="400">
               <template #activator="{ props }">
-                <v-icon
-                  v-bind="props"
-                  size="x-large"
-                  class="mt-n2 mr-1"
-                  :icon="stat.icon"
-                />
+                <v-icon v-bind="props" size="x-large" class="mt-n2 mr-1" :icon="stat.icon" />
                 <span class="heading h2 text-accent">
                   {{ item.StatController.CurrentStats[stat.key] }}
                 </span>
@@ -91,16 +75,10 @@
               'techattack',
               'sensorRange',
               'saveTarget',
-            ])"
-          >
+            ])">
             <v-tooltip :text="stat.title" location="top" open-delay="400">
               <template #activator="{ props }">
-                <v-icon
-                  v-bind="props"
-                  size="x-large"
-                  class="mt-n2 mr-1"
-                  :icon="stat.icon"
-                />
+                <v-icon v-bind="props" size="x-large" class="mt-n2 mr-1" :icon="stat.icon" />
                 <span class="heading h2 text-accent">
                   {{ item.StatController.CurrentStats[stat.key] }}
                 </span>
@@ -125,16 +103,14 @@
               secondary-icon="cc:structure"
               tertiary-icon="mdi-hexagon-multiple-outline"
               :ticks="item.StatController.MaxStats['hp']"
-              :secondary-ticks="item.StatController.MaxStats['structure']"
-            />
+              :secondary-ticks="item.StatController.MaxStats['structure']" />
           </v-col>
           <v-col cols="auto">
             <stat-mini-panel
               title="armor"
               icon="mdi-shield-outline"
               color="armor"
-              v-model="item.StatController.CurrentStats['armor']"
-            />
+              v-model="item.StatController.CurrentStats['armor']" />
           </v-col>
         </v-row>
 
@@ -154,16 +130,10 @@
               tertiary-icon="mdi-decagram-outline"
               :ticks="item.StatController.MaxStats['heatcap']"
               :secondary-ticks="item.StatController.MaxStats['stress']"
-              :tertiary-ticks="3"
-            />
+              :tertiary-ticks="3" />
           </v-col>
           <v-col cols="auto">
-            <stat-mini-panel
-              title="burn"
-              icon="cc:burn"
-              color="damage--burn"
-              v-model="burn"
-            />
+            <stat-mini-panel title="burn" icon="cc:burn" color="damage--burn" v-model="burn" />
           </v-col>
         </v-row>
         <v-row class="mb-3">
@@ -175,8 +145,7 @@
               space
               icon="mdi-arrow-right-bold-hexagon-outline"
               class="mb-1"
-              :ticks="item.StatController.MaxStats['speed']"
-            />
+              :ticks="item.StatController.MaxStats['speed']" />
             <cc-tickbar
               v-if="item.StatController.MaxStats['repairCapacity']"
               v-model="item.StatController.CurrentStats['repairCapacity']"
@@ -185,8 +154,7 @@
               min-width="150px"
               space
               reverse
-              :ticks="item.StatController.MaxStats['repairCapacity']"
-            />
+              :ticks="item.StatController.MaxStats['repairCapacity']" />
           </v-col>
           <v-col cols="auto" v-if="item.ItemType === 'mech'">
             <stat-mini-panel
@@ -194,8 +162,7 @@
               title="core"
               icon="mdi-battery-high"
               color="core"
-              boolean
-            />
+              boolean />
           </v-col>
         </v-row>
 
@@ -218,11 +185,7 @@
     <special-status-display :controller="item.CombatController" />
 
     <div class="text-cc-overline mt-4 text-disabled">COUNTERS</div>
-    <cc-panel color="primary" width="200px" class="heading h3 text-center">
-      <v-icon icon="mdi-plus" size="x-large" />
-      <br />
-      ADD COUNTER
-    </cc-panel>
+    <cc-counter-set :actor="item" />
 
     <v-divider class="my-4" />
     <slot />

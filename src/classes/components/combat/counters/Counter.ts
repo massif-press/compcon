@@ -31,8 +31,8 @@ class Counter {
 
     this.ID = id;
     this.Name = name;
-    this.Min = min || 0;
-    this.Max = max || 1;
+    this.Min = min || -100;
+    this.Max = max || 100;
     this.Default = default_value || 0;
 
     this._value = this.Default;

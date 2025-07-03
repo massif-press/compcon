@@ -1,40 +1,30 @@
 <template>
-  <v-card
-    tile
+  <cc-panel
     color="primary"
     style="position: relative"
-    :elevation="creating ? 12 : 0"
-    :class="!$vuetify.display.mdAndDown ? 'clipped-large text-center' : 'text-center'"
-    :height="!$vuetify.display.mdAndDown ? '118px' : '100%'"
-    :width="!$vuetify.display.mdAndDown ? '225px' : '100%'"
-    :min-width="!$vuetify.display.mdAndDown ? '225px' : '100%'">
+    class="text-center"
+    height="94px"
+    width="200px"
+    density="compact">
     <transition name="fade">
-      <v-card-text
-        v-if="creating"
-        class="background"
-        style="height: 100%; display: flex; flex-direction: column">
+      <v-card-text class="pa-0" v-if="creating">
         <v-text-field
           ref="nameField"
           v-model="name"
           placeholder="Counter name"
           density="compact"
+          hide-details
+          variant="solo"
+          flat
+          tile
           @keypress.esc="cancel"
-          @keypress.enter="create"></v-text-field>
-        <v-row class="mt-auto">
-          <v-col class="py-0">
-            <v-btn color="secondary" style="height: 100%" block tile elevation="0" @click="cancel">
-              CANCEL
-            </v-btn>
+          @keypress.enter="create" />
+        <v-row no-gutters class="mt-2">
+          <v-col>
+            <v-btn block flat tile height="20px" variant="text" @click="cancel">CANCEL</v-btn>
           </v-col>
-          <v-col class="py-0">
-            <v-btn
-              color="primary"
-              style="height: 100%"
-              block
-              tile
-              elevation="0"
-              :disabled="!name"
-              @click="create">
+          <v-col>
+            <v-btn block flat tile height="20px" variant="text" :disabled="!name" @click="create">
               Add
             </v-btn>
           </v-col>
@@ -43,18 +33,19 @@
       <v-btn
         v-else
         block
+        flat
         tile
-        color="primary"
-        class="ml-n1"
+        stacked
+        variant="text"
         style="height: 100%"
         @click="startCreating">
         <div class="py-1">
+          <v-icon icon="mdi-plus" size="x-large" />
           <div>Add Custom Counter</div>
-          <v-icon :v-if="!$vuetify.display.mdAndDown">add</v-icon>
         </div>
       </v-btn>
     </transition>
-  </v-card>
+  </cc-panel>
 </template>
 
 <script lang="ts">
@@ -67,7 +58,7 @@ export default {
   methods: {
     async startCreating(): Promise<void> {
       this.creating = true;
-      await Vue.nextTick();
+      await this.$nextTick();
       (this.$refs.nameField as any as any).focus();
     },
 

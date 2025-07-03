@@ -122,7 +122,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
     if (data?.combatants) {
       this._combatants = data.combatants.map((c) => {
-        // TODO: remove after next release, this is to ensure old v3 encounters are compatible
+        // TODO: remove after release, this is to ensure old v3 encounters are compatible
         if ((c as any).npc)
           c.actor = (c as any).npc as
             | UnitData

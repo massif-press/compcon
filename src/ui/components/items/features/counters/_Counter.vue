@@ -1,75 +1,74 @@
 <template>
-  <v-card
-    v-if="counter"
-    tile
-    variant="outlined"
-    color="primary"
-    :width="!$vuetify.display.mdAndDown ? '225px' : '100%'"
-    :min-width="!$vuetify.display.mdAndDown ? '225px' : '100%'"
-    :height="!$vuetify.display.mdAndDown ? '100%' : ''">
-    <v-toolbar density="compact" flat color="primary" class="text-white">
-      <div :class="!$vuetify.display.mdAndDown ? 'heading h3' : 'heading h4'">
+  <cc-panel v-if="counter" color="primary" min-width="200px" class="text-center" density="compact">
+    <div class="d-flex align-center justify-space-between mt-n2">
+      <div class="heading h3">
         {{ counter.Name }}
       </div>
       <v-spacer />
-      <cc-tooltip simple content="Reset Counter">
-        <v-btn variant="plain" dark icon x-small @click="counter.Reset()">
-          <v-icon small>mdi-reload</v-icon>
-        </v-btn>
-      </cc-tooltip>
+      <v-tooltip text="Reset Counter">
+        <template #activator="{ props }">
+          <v-btn v-bind="props" variant="text" icon size="x-small" @click="counter.Reset()">
+            <v-icon size="22">mdi-reload</v-icon>
+          </v-btn>
+        </template>
+      </v-tooltip>
 
-      <cc-tooltip v-if="counterData.custom" simple content="Delete Counter">
-        <v-btn class="fade-select ml-1" dark icon x-small @click="$emit('delete')">
-          <v-icon small>delete</v-icon>
-        </v-btn>
-      </cc-tooltip>
-    </v-toolbar>
-    <v-card-text class="background py-1">
-      <v-row justify="center" align="center" class="counterContent">
-        <v-col cols="auto">
+      <v-tooltip v-if="counterData.custom" text="Delete Counter">
+        <template #activator="{ props }">
+          <v-btn v-bind="props" variant="text" icon size="x-small" @click="$emit('delete')">
+            <v-icon size="22">mdi-delete</v-icon>
+          </v-btn>
+        </template>
+      </v-tooltip>
+    </div>
+    <v-card-text class="py-1 px-0">
+      <v-row justify="center" align="center" class="counterContent" no-gutters>
+        <v-col cols="auto" class="mr-2">
           <v-btn
-            small
             icon
-            color="accent"
+            variant="text"
+            size="x-small"
             :disabled="counter.Value <= counter.Min"
             @click="counter.Decrement()">
-            <v-icon icon="remove" />
+            <v-icon size="30" icon="mdi-minus" />
           </v-btn>
         </v-col>
 
-        <v-col>
+        <v-col cols="auto">
           <v-text-field
             type="number"
             variant="outlined"
             density="compact"
+            hide-details
             class="counterValue"
             :class="{
               dirty,
             }"
             :value="counter.Value"
+            max-width="90px"
             @blur="onInputEnterOrLeave($event)"
             @keypress.enter="onInputEnterOrLeave($event)"
             @input="onInput" />
         </v-col>
 
-        <v-col cols="auto">
+        <v-col cols="auto" class="ml-2">
           <v-btn
-            small
             icon
-            elevation="0"
-            color="accent"
+            variant="text"
+            size="x-small"
             :disabled="counter.Value >= counter.Max"
             @click="counter.Increment()">
-            <v-icon icon="add" />
+            <v-icon size="30" icon="mdi-plus" />
           </v-btn>
         </v-col>
       </v-row>
     </v-card-text>
-  </v-card>
+  </cc-panel>
 </template>
 
 <script lang="ts">
 import { Counter } from '@/class';
+import { ICounterData } from '@/interface';
 
 export default {
   name: 'Counter',
@@ -92,13 +91,13 @@ export default {
     },
   },
   data: () => ({
-    counter: null as Counter,
+    counter: null as any,
     dirty: false,
   }),
   created(): void {
-    this.counter = new Counter(this.$props.counterData);
+    this.counter = new Counter(this.counterData as ICounterData);
 
-    const data = this.$props.saveData.find((data) => data.id === this.counter.ID);
+    const data = this.saveData.find((data: any) => data.id === this.counter.ID);
     if (data) this.counter.LoadData(data);
   },
   methods: {
@@ -127,7 +126,6 @@ export default {
 .counterValue :deep(input) {
   font-size: 1.2em;
   text-align: center;
-  -moz-appearance: textfield;
 }
 
 .counterValue :deep(input::-webkit-outer-spin-button),

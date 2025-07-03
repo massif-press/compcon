@@ -2,9 +2,7 @@
   <panel-base :item="mech">
     <template #name-block>
       <div class="heading h2">{{ mech.Name }}</div>
-      <div class="heading h4">
-        {{ mech.Frame.Source }} {{ mech.Frame.Name }}
-      </div>
+      <div class="heading h4">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
     </template>
 
     <div class="text-cc-overline mt-4 text-disabled">Frame Traits</div>
@@ -13,12 +11,25 @@
       :column-width="500"
       :gap="16"
       :min-columns="1"
-      :max-columns="2"
-    >
+      :max-columns="2">
       <template #default="{ item, index }">
         <cc-trait-item :trait="item" color="primary" style="height: 100%" />
       </template>
     </masonry-wall>
+
+    <div v-if="mech.Parent.CoreBonusController.CoreBonuses.length">
+      <div class="text-cc-overline mt-4 text-disabled">Core Bonuses</div>
+      <masonry-wall
+        :items="mech.Parent.CoreBonusController.CoreBonuses"
+        :column-width="500"
+        :gap="16"
+        :min-columns="1"
+        :max-columns="2">
+        <template #default="{ item, index }">
+          <cc-core-bonus-item :key="item.ID" terse :bonus="item" />
+        </template>
+      </masonry-wall>
+    </div>
 
     <div class="text-cc-overline mt-4 text-disabled">Pilot Talents</div>
     <cc-talent
@@ -28,8 +39,7 @@
       :talent="talent.Talent"
       :rank="talent.Rank"
       hide-locked
-      hide-change
-    />
+      hide-change />
 
     <br />
 
@@ -80,13 +90,7 @@ export default {
       return _.sampleSize(CompendiumStore().Talents, 3);
     },
     applicableStatuses() {
-      const exclude = [
-        `dangerzone`,
-        `downandout`,
-        `engaged`,
-        `hidden`,
-        `invisible`,
-      ];
+      const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
       return this.statuses.filter((s) => !exclude.includes(s.ID));
     },
   },
@@ -149,18 +153,14 @@ export default {
     },
     actionStatus(action) {
       if (action === 'full')
-        return (
-          this.usedActions.includes('full') ||
-          this.usedActions.includes('quick')
-        );
+        return this.usedActions.includes('full') || this.usedActions.includes('quick');
       if (action === 'quick')
         return (
           this.usedActions.includes('full') ||
           this.usedActions.filter((x) => x === 'quick').length === 2
         );
       if (action === 'protocol') return this.usedActions.length;
-      if (action === 'move')
-        return this.usedActions.includes('move') || this.movement === 0;
+      if (action === 'move') return this.usedActions.includes('move') || this.movement === 0;
       return this.usedActions.includes(action);
     },
     setAction(action) {

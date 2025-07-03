@@ -119,7 +119,7 @@ class Statblock {
         output += '[ LICENSES ]\n  ';
         for (let i = 0; i < pilot.LicenseController.Licenses.length; i++) {
           const l = pilot.LicenseController.Licenses[i];
-          output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
+          output += `${l.License!.Source} ${l.License!.Name} ${l.Rank}${linebreak(
             i,
             pilot.LicenseController.Licenses.length
           )}`;
@@ -209,7 +209,7 @@ class Statblock {
   ${
     pilot.LicenseController.Licenses.length
       ? `${pilot.LicenseController.Licenses.map(
-          (l) => `${l.License.Source} ${l.License.Name} ${l.Rank}`
+          (l) => `${l.License!.Source} ${l.License!.Name} ${l.Rank}`
         ).join(', ')}`
       : 'N/A'
   }
@@ -339,6 +339,42 @@ class Statblock {
     if (includeNarrative) {
       output += this.generateNarrativeBlock(npc);
     }
+
+    return output;
+  }
+
+  public static ScanNpc(npc: Unit): string {
+    let output = `[ ${npc.Name} ]\n`;
+    if (npc.NpcTemplateController.Templates)
+      output += `${npc.NpcTemplateController.Templates.map((t) => t.Name).join(' ')}`;
+    if (npc.NpcClassController.HasClass)
+      output += `${npc.NpcClassController.Class!.Name.toUpperCase()}`;
+    output +=
+      typeof npc.NpcClassController.Tier === 'number'
+        ? `, Tier ${npc.NpcClassController.Tier} `
+        : ', Custom ';
+    output += `${npc.Tag}\n\n`;
+    output += `ACTIVATIONS: ${npc.StatController.CurrentStats['activations']} / ${npc.StatController.MaxStats['activations']}\n`;
+
+    output += `STRUCT: ${npc.StatController.CurrentStats['structure']} / ${npc.StatController.MaxStats['structure']} | ARMOR: ${npc.StatController.MaxStats['armor']} | HP: ${npc.StatController.CurrentStats['hp']} / ${npc.StatController.MaxStats['hp']}\n`;
+    output += `STRESS: ${npc.StatController.CurrentStats['stress']} / ${npc.StatController.MaxStats['stress']} | HEATCAP: ${npc.StatController.CurrentStats['heat']} / ${npc.StatController.MaxStats['heat']} | SPD: ${npc.StatController.CurrentStats['speed']} / ${npc.StatController.MaxStats['speed']}\n\n`;
+
+    output += `H: ${npc.StatController.getStat('Hull')} | A: ${npc.StatController.getStat(
+      'Agi'
+    )} | S: ${npc.StatController.getStat('Sys')} | E: ${npc.StatController.getStat('Eng')}\n`;
+    output += `SAVE: ${npc.StatController.getStat(
+      'SaveTarget'
+    )} | EVADE: ${npc.StatController.getStat('Evasion')} | EDEF: ${npc.StatController.getStat(
+      'EDefense'
+    )}\n`;
+    output += `SENS: ${npc.StatController.getStat(
+      'SensorRange'
+    )} | TECH_ATK: ${npc.StatController.getStat('Tech Attack')} | SIZE: ${npc.StatController.getStat('Size')} \n\n`;
+
+    output += '[ FEATURES ]\n  ';
+    output += npc.NpcFeatureController.Features.map(
+      (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`
+    ).join('');
 
     return output;
   }

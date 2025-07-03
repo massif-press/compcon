@@ -38,6 +38,8 @@ import CCConfirmation from './components/CCConfirmation.vue';
 import CCDamageElement from './components/CCDamageElement.vue';
 import CCDamageTypePicker from './components/CCDamageTypePicker.vue';
 
+import CCCounterSet from './components/items/features/counters/CCCounterSet.vue';
+
 import CCLcpInfo from './components/CCLcpInfo.vue';
 // import CCDialog from './components/CCDialog.vue';
 import CCDiceMenu from './components/CCDiceMenu.vue';
@@ -220,4 +222,5 @@ export {
   CCShareCodeImporter,
   CCBrokenReference,
   CCCoreSystemPanel,
+  CCCounterSet,
 };
