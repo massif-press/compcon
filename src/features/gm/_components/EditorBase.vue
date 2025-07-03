@@ -1,17 +1,6 @@
 <template>
   <div v-show="item">
     <v-card class="rounded-0 pb-12 elevation-0" color="transparent">
-      <v-toolbar v-if="!hideToolbar" density="compact" class="rounded-0 pl-2" color="primary">
-        <div class="heading h3 pa-1 text-white">
-          <v-icon start size="large" icon="mdi-robot-industrial" />
-          {{ typeText }} EDITOR
-        </div>
-        <v-spacer />
-        <v-btn icon @click="$emit('exit')">
-          <v-icon large color="white">mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-
       <v-container style="position: relative">
         <div style="position: absolute; top: 0; right: 0">
           <cc-brew-info v-if="item.BrewController" :controller="item.BrewController" />

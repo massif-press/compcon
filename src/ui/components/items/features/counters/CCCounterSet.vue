@@ -1,25 +1,18 @@
 <template>
-  <transition-group
-    name="fade-transition"
-    :duration="250"
-    tag="div"
-    class="row justify-start pr-4"
-  >
-    <v-col
-      v-for="cd in actors.flatMap((x) => x.CounterController.CounterData)"
-      cols="auto"
-    >
-      <counter-component
-        :counter-data="cd"
-        :save-data="actors[0].CounterController.CounterSaveData"
-        @delete="deleteCustom(cd.id)"
-        @update="updateCounter($event)"
-      />
-    </v-col>
-    <v-col key="NewCounter" cols="12" md="auto">
-      <new-counter @create="onCustomCounterCreate" />
-    </v-col>
-  </transition-group>
+  <v-row>
+    <transition-group name="fade-transition" :duration="250">
+      <v-col v-for="cd in controller.CounterData" cols="auto">
+        <counter-component
+          :counter-data="cd"
+          :save-data="controller.CounterSaveData"
+          @delete="deleteCustom(cd.id)"
+          @update="updateCounter($event)" />
+      </v-col>
+      <v-col key="NewCounter" cols="12" md="auto">
+        <new-counter @create="onCustomCounterCreate" />
+      </v-col>
+    </transition-group>
+  </v-row>
 </template>
 
 <script lang="ts">
@@ -32,25 +25,24 @@ export default {
   components: { CounterComponent, NewCounter },
   props: {
     actor: {
-      type: [Object, Array],
+      type: Object,
       required: true,
     },
   },
   computed: {
-    actors() {
-      if (Array.isArray(this.actor)) return this.actor;
-      return [this.actor];
+    controller() {
+      return this.actor.CombatController.CounterController;
     },
   },
   methods: {
     onCustomCounterCreate(name: string) {
-      this.actors[0].CounterController.createCustomCounter(name);
+      this.controller.createCustomCounter(name);
     },
     updateCounter(val: Counter) {
-      this.actors[0].CounterController.saveCounter(val.Serialize());
+      this.controller.saveCounter(val.Serialize());
     },
     deleteCustom(id: string) {
-      this.actors[0].CounterController.deleteCustomCounter(id);
+      this.controller.deleteCustomCounter(id);
     },
   },
 };

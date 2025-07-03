@@ -15,6 +15,12 @@ import { ICounterContainer } from './counters/ICounterContainer';
 import { IStatContainer } from './stats/IStatContainer';
 import { Status } from '@/classes/Status';
 
+enum CoverType {
+  None = 'none',
+  Soft = 'soft',
+  Hard = 'hard',
+}
+
 class CombatData {
   stats: IStatData = {} as IStatData;
   statuses: { status: any; expires: any }[] = []; //expires should be a condition or round val
@@ -23,6 +29,7 @@ class CombatData {
   state: any;
   counters: ICounterCollection = {} as ICounterCollection;
   combatActions: string[] = [];
+  cover: CoverType = CoverType.None;
 
   history: any[] = [];
 }
@@ -35,6 +42,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public Statuses: { status: Status; expires: any }[] = [];
   public SpecialStatuses: { status: Status; expires: any }[] = [];
   public Counters: Counter[] = [];
+  public Cover: CoverType = CoverType.None;
   private _combatActions: string[] = [];
 
   public StatController: StatController;
@@ -84,6 +92,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.damage = controller.DamageStatuses;
     target.state = controller.CombatantState;
     target.combatActions = controller._combatActions;
+    target.cover = controller.Cover;
     StatController.Serialize(controller, target.stats);
     CounterController.Serialize(controller, target.counters);
   }
@@ -98,6 +107,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller.DamageStatuses = data?.damage || [];
     controller.CombatantState = data?.state || {};
     controller._combatActions = data?.combatActions || [];
+    controller.Cover = data?.cover || CoverType.None;
     StatController.Deserialize(controller, data?.stats || {});
     CounterController.Deserialize(controller, data?.counters || {});
   }

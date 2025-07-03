@@ -1,4 +1,6 @@
 <template>
+  <scan-menu :item="combatant.actor" />
+
   <panel-base :item="combatant.actor">
     <template #name-block>
       <div class="heading h2">
@@ -17,12 +19,14 @@
 </template>
 
 <script>
+import ScanMenu from './_components/ScanMenu.vue';
 import PanelBase from './_PanelBase.vue';
 
 export default {
   name: 'NpcPanel',
   components: {
     PanelBase,
+    ScanMenu,
   },
   props: {
     combatant: {

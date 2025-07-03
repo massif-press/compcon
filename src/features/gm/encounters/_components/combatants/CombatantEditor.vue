@@ -95,7 +95,7 @@
 
   <v-dialog v-model="editDialog" fullscreen>
     <v-card>
-      <v-toolbar class="pl-4">
+      <v-toolbar class="pl-4 border-b" density="compact">
         <div>
           <div v-if="!readonly" class="text-caption text-disabled mb-n1">CURRENTLY EDITING</div>
           <div>
