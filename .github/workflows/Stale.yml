@@ -1,0 +1,27 @@
+# This workflow uses the official GitHub Action to mark stale issues and pull requests.
+# It helps keep the issue tracker organized by automatically labeling and closing inactive issues.
+
+name: Mark stale issues and PRs
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Runs every day at 2am UTC
+  workflow_dispatch:
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-issue-message: >
+            This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs.
+          stale-pr-message: >
+            This pull request has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs.
+          days-before-stale: 60
+          days-before-close: 7
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+          exempt-issue-labels: 'pinned,security,feature'
+          exempt-pr-labels: 'pinned,security'
