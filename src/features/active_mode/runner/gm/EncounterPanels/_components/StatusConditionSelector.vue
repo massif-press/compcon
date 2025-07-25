@@ -73,7 +73,26 @@
             <v-list-item-title>{{ status.Name }}</v-list-item-title>
           </v-list-item>
           <v-divider />
-          <v-list-item title="Add Custom" @click="" />
+          <v-menu :close-on-content-click="false">
+            <template #activator="{ props }">
+              <v-list-item v-bind="props" title="Add Custom" @click="">
+                <v-list-item-title>Add Custom Status</v-list-item-title>
+              </v-list-item>
+            </template>
+            <v-card>
+              <v-card-text>
+                <v-text-field
+                  v-model="customStatus"
+                  label="Custom Status Name"
+                  variant="outlined"
+                  dense
+                  hide-details />
+                <v-btn color="primary" class="mt-2" @click="addCustomStatus(customStatus)">
+                  Add Custom Status
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-menu>
         </v-list>
       </v-menu>
     </div>

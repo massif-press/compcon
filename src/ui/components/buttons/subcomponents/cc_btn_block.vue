@@ -30,9 +30,8 @@
             <v-col v-if="appendIcon" cols="auto">
               <v-icon :size="iconSize" :icon="appendIcon" start />
             </v-col>
-            <v-col v-if="hasTooltipContent" cols="auto">
-              <cc-tooltip v-if="tooltip" :icon="tooltipIcon" :text="tooltip" end />
-              <div v-else style="height: 14px" />
+            <v-col v-if="tooltip" cols="auto">
+              <cc-tooltip :icon="tooltipIcon" :text="tooltip" />
             </v-col>
           </v-row>
         </v-card>

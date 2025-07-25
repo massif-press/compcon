@@ -5,8 +5,13 @@
         v-bind="props"
         dense
         style="transition: border 0.2s ease"
-        :style="`position: relative; cursor: pointer; border-radius: 2px; border: ${
-          isHovering ? '1px solid rgb(var(--v-theme-accent))' : '1px solid transparent'
+        :style="`position: relative; cursor: pointer; border-radius: 2px; border:
+        ${
+          isSelected
+            ? '1px solid rgb(var(--v-theme-success))'
+            : isHovering
+              ? '1px solid rgb(var(--v-theme-accent))'
+              : '1px solid transparent'
         }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`"
         @click="$emit('open', item)">
         <v-col cols="auto">
@@ -70,6 +75,7 @@ export default {
     odd: { type: Boolean },
     grouping: { type: [Object, String], required: false, default: '' },
     sorting: { type: [Object, String], required: false, default: '' },
+    isSelected: { type: Boolean, default: false },
   },
   emits: ['open'],
 };

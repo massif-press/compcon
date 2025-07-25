@@ -111,7 +111,7 @@ abstract class Npc
     throw new Error('Method inaccessible in abstract class.');
   }
 
-  public Icon() {
+  public get Icon(): string {
     throw new Error('Method inaccessible in abstract class.');
   }
 

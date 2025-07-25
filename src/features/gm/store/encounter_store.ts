@@ -3,16 +3,20 @@ import { defineStore } from 'pinia';
 import _ from 'lodash';
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter';
 import { IndexItem } from '@/stores';
-import { cloudDelete } from '@/io/apis/account';
 import { CloudController } from '@/classes/components';
 import logger from '@/user/logger';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
 export const EncounterStore = defineStore('encounter', {
   state: () => ({
     Encounters: [] as Encounter[],
+    ActiveEncounters: [] as EncounterInstance[],
     Folders: [] as string[],
   }),
   getters: {
+    getCurrentActiveEncounter: (state: any) => {
+      return state.ActiveEncounters.find((x) => x.IsActive);
+    },
     getEncounterByID: (state: any) => (id: string) => {
       return state.Encounters.find((x) => x.ID === id);
     },
@@ -46,6 +50,12 @@ export const EncounterStore = defineStore('encounter', {
     async LoadEncounters(): Promise<void> {
       const all = await GetAll('encounters');
       this.Encounters = all.map((x) => Encounter.Deserialize(x as IEncounterData));
+      await this.LoadActiveEncounters();
+    },
+
+    async LoadActiveEncounters(): Promise<void> {
+      const all = await GetAll('active_encounters');
+      this.ActiveEncounters = all.map((x) => EncounterInstance.Deserialize(x));
     },
 
     AddFolder(payload: string): void {
@@ -90,6 +100,52 @@ export const EncounterStore = defineStore('encounter', {
       await this.SaveEncounterData();
     },
 
+    async AddEncounterInstance(payload: EncounterInstance): Promise<void> {
+      if (this.ActiveEncounters.some((x) => x.ID === payload.ID)) {
+        logger.warn(
+          `EncounterInstance with ID ${payload.ID} already exists, updating instead.`,
+          this
+        );
+        this.SetActiveEncounter(
+          this.ActiveEncounters.findIndex((x) => x.ID === payload.ID),
+          payload
+        );
+        return;
+      }
+      this.ActiveEncounters.push(payload);
+      this.SaveActiveEncounterData();
+    },
+
+    async RemoveEncounterInstance(payload: EncounterInstance): Promise<void> {
+      this.ActiveEncounters.forEach((x) => (x.IsActive = false));
+      const idx = this.ActiveEncounters.findIndex((x) => x.ID === payload.ID);
+      if (idx >= 0) {
+        this.ActiveEncounters.splice(idx, 1);
+        await RemoveItem('active_encounters', payload.ID);
+        this.SaveActiveEncounterData();
+      }
+    },
+
+    async SetActiveEncounter(index: number, payload: EncounterInstance): Promise<void> {
+      if (!this.ActiveEncounters[index]) return;
+      this.ActiveEncounters.splice(index, 1, payload);
+      await this.SaveActiveEncounterData();
+    },
+
+    async AssignActiveEncounter(payload: EncounterInstance): Promise<void> {
+      this.ActiveEncounters.forEach((x) => (x.IsActive = false));
+      payload.IsActive = true;
+      const idx = this.ActiveEncounters.findIndex((x) => x.ID === payload.ID);
+      if (idx > -1) {
+        this.ActiveEncounters[idx].IsActive = true;
+        this.ActiveEncounters[idx].SaveController.save();
+      } else {
+        this.ActiveEncounters.push(payload);
+      }
+
+      await this.SaveActiveEncounterData();
+    },
+
     async CloneEncounter(payload: Encounter): Promise<void> {
       this.Encounters.push(payload.Clone());
 
@@ -110,6 +166,14 @@ export const EncounterStore = defineStore('encounter', {
       Promise.all((this.Encounters as any).map((y) => SetItem('encounters', y.Serialize())))
         .then(() => logger.info('Encounter data saved'))
         .catch((err) => logger.error('Error while saving Encounter data', err));
+    },
+
+    async SaveActiveEncounterData(): Promise<void> {
+      Promise.all(
+        (this.ActiveEncounters as any).map((y) => SetItem('active_encounters', y.Serialize()))
+      )
+        .then(() => logger.info('Active Encounter data saved'))
+        .catch((err) => logger.error('Error while saving Active Encounter data', err));
     },
   },
 });

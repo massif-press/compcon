@@ -92,7 +92,7 @@
             <cc-tickbar
               v-model="item.StatController.CurrentStats['hp']"
               v-model:secondary="item.StatController.CurrentStats['structure']"
-              v-model:tertiary="overshield"
+              v-model:tertiary="item.StatController.CurrentStats['overshield']"
               primary-label="Hit Points"
               secondary-label="Structure"
               tertiary-label="Overshield"
@@ -103,7 +103,8 @@
               secondary-icon="cc:structure"
               tertiary-icon="mdi-hexagon-multiple-outline"
               :ticks="item.StatController.MaxStats['hp']"
-              :secondary-ticks="item.StatController.MaxStats['structure']" />
+              :secondary-ticks="item.StatController.MaxStats['structure']"
+              editable />
           </v-col>
           <v-col cols="auto">
             <stat-mini-panel
@@ -120,6 +121,7 @@
               v-model="item.StatController.CurrentStats['heatcap']"
               v-model:secondary="item.StatController.CurrentStats['stress']"
               v-model:tertiary="item.StatController.CurrentStats['overcharge']"
+              :value-atlas="overchargeTrack"
               secondary-label="Reactor Stress"
               tertiary-label="Overcharge"
               color="heat"
@@ -133,7 +135,11 @@
               :tertiary-ticks="3" />
           </v-col>
           <v-col cols="auto">
-            <stat-mini-panel title="burn" icon="cc:burn" color="damage--burn" v-model="burn" />
+            <stat-mini-panel
+              title="burn"
+              icon="cc:burn"
+              color="damage--burn"
+              v-model="item.StatController.CurrentStats['burn']" />
           </v-col>
         </v-row>
         <v-row class="mb-3">
@@ -160,8 +166,9 @@
             <stat-mini-panel
               v-model="corepower"
               title="core"
-              icon="mdi-battery-high"
-              color="core"
+              :icon="currentIcon"
+              :color="corepower ? 'core' : 'grey'"
+              @click="drainBattery"
               boolean />
           </v-col>
         </v-row>
@@ -201,6 +208,7 @@ import CombatActionPanel from './_components/CombatActionPanel.vue';
 import SpecialStatusDisplay from './_components/SpecialStatusDisplay.vue';
 import StatusConditionSelector from './_components/StatusConditionSelector.vue';
 import DamageMenu from './_components/DamageMenu.vue';
+import { Rules } from '@/class';
 
 export default {
   name: 'EncounterPanelBase',
@@ -212,10 +220,30 @@ export default {
     StatusConditionSelector,
     DamageMenu,
   },
+  data() {
+    return {
+      corepower: true,
+      batteryIcons: [
+        'mdi-battery-outline',
+        'mdi-battery-low',
+        'mdi-battery-medium',
+        'mdi-battery-high',
+      ],
+      index: 3,
+    };
+  },
   props: {
     item: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    currentIcon() {
+      return this.batteryIcons[this.index];
+    },
+    overchargeTrack() {
+      return this.item.OverchangeTrack ? this.item.OverchangeTrack : Rules.Overcharge;
     },
   },
   methods: {
@@ -230,6 +258,19 @@ export default {
         techattack: 'cc:tech_quick',
       };
       return icons[stat];
+    },
+
+    drainBattery() {
+      if (this.index > 0) {
+        this.corepower = false;
+        const interval = setInterval(() => {
+          this.index--;
+          if (this.index === 0) clearInterval(interval);
+        }, 60);
+      } else {
+        this.corepower = true;
+        this.index = 3;
+      }
     },
   },
 };

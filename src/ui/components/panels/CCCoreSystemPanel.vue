@@ -1,18 +1,19 @@
 <template>
   <cc-alert
-    icon="mdi-battery-high"
+    :icon="!small && 'mdi-battery-high'"
     :title="cs.Name"
     class="mb-2"
     :color="color"
     icon-color="lime"
-    prominent
+    :prominent="!small"
+    :density="small ? 'compact' : ''"
     variant="tonal">
     <template #title>
       <span class="heading h2 text-stark">
         {{ cs.Name }}
       </span>
       <cc-dialog
-        v-if="terse"
+        v-if="isTerse"
         icon="mdi-battery-high"
         :color="color"
         :title="`${frame.Name} Core System`">
@@ -20,7 +21,8 @@
           <v-icon
             icon="mdi-information-slab-box-outline"
             size="small"
-            class="fade-select mt-n2"
+            class="mt-n2"
+            color="text"
             end
             @click="open" />
         </template>
@@ -28,7 +30,7 @@
       </cc-dialog>
     </template>
 
-    <p v-if="!terse" v-html-safe="cs.Description" class="flavor-text px-3 mb-3" />
+    <p v-if="!isTerse" v-html-safe="cs.Description" class="flavor-text px-3 mb-3" />
 
     <!-- TODO: these must accept data actions -->
     <v-row dense v-if="cs.PassiveName">
@@ -41,7 +43,9 @@
         </span>
       </v-col>
     </v-row>
-    <div class="light-panel pa-2 clipped mb-2 mx-3">
+    <div
+      v-if="cs.PassiveEffect.length || cs.PassiveActions.length"
+      class="light-panel pa-2 clipped mb-2 mx-3">
       <p v-if="cs.PassiveEffect" v-html-safe="cs.PassiveEffect" class="text-text mb-1 px-3" />
       <v-row no-gutters justify="center">
         <v-col cols="auto">
@@ -53,41 +57,41 @@
       </v-row>
     </div>
 
-    <v-row dense>
-      <v-col cols="auto">
-        <span class="heading h3 text-accent">
-          <v-chip color="lime" flat tile size="small" variant="elevated" class="mr-1">
-            ACTIVE
-          </v-chip>
-          {{ cs.ActiveName || '' }}
-        </span>
-      </v-col>
-      <v-col cols="auto" class="ml-auto">
-        <cc-chip
-          size="small"
-          variant="elevated"
-          :bgColor="`action--${cs.Activation.toLowerCase()}`">
-          {{ cs.Activation.toUpperCase() }}
-        </cc-chip>
-      </v-col>
-    </v-row>
-    <div class="light-panel pa-2 clipped mx-3 mt-1">
-      <div v-html-safe="cs.ActiveEffect" class="text-text mb-1 px-3" />
-      <cc-action
-        v-for="a in cs.ActiveActions"
-        :action="a"
-        :panel="$vuetify.display.lgAndUp"
-        class="ma-2" />
+    <div v-else>
+      <v-row dense>
+        <v-col cols="auto">
+          <div class="heading h3 text-accent">
+            {{ cs.ActiveName || '' }}
+          </div>
+        </v-col>
+        <v-col cols="auto" class="ml-auto">
+          <cc-chip
+            size="x-small"
+            variant="elevated"
+            :bgColor="`action--${cs.Activation.toLowerCase()}`">
+            {{ cs.Activation.toUpperCase() }}
+          </cc-chip>
+        </v-col>
+      </v-row>
+      <div class="mx-3">
+        <div v-html-safe="cs.ActiveEffect" class="text-text mb-1 px-3" />
+        <cc-action
+          v-for="a in cs.ActiveActions"
+          :action="a"
+          :panel="$vuetify.display.lgAndUp"
+          class="ma-2" />
+      </div>
     </div>
 
     <div
       v-if="cs.IntegratedEquipment.length || cs.Deployables.length"
-      class="heading h3 text-accent">
+      class="text-cc-overline text-accent">
       CORE INTEGRATED EQUIPMENT
+      <v-divider class="mb-1" />
     </div>
     <v-row v-if="cs.IntegratedEquipment.length" no-gutters justify="center">
       <v-col v-for="x in cs.IntegratedEquipment">
-        <cc-integrated-info :item="x" :panel="!terse && !mobile" />
+        <cc-integrated-info :item="x" :panel="!isTerse && !mobile" />
       </v-col>
     </v-row>
 
@@ -116,6 +120,10 @@ export default {
     terse: {
       type: Boolean,
     },
+    small: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     cs() {
@@ -123,6 +131,9 @@ export default {
     },
     mobile() {
       return this.$vuetify.display.smAndDown;
+    },
+    isTerse() {
+      return this.terse || this.small;
     },
   },
 };

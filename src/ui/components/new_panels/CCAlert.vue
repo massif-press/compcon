@@ -23,7 +23,7 @@
           </v-row>
           <v-divider class="mt-1" />
         </div>
-        <v-card-text class="py-2">
+        <v-card-text :class="compact ? 'py-0' : 'py-2'">
           <slot>Default Content</slot>
         </v-card-text>
       </v-col>
@@ -61,6 +61,10 @@ export default {
       type: String,
       default: '',
     },
+    density: {
+      type: String,
+      default: '',
+    },
   },
   data: () => ({
     closed: false,
@@ -68,6 +72,9 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
+    },
+    compact() {
+      return this.density === 'compact';
     },
   },
 };

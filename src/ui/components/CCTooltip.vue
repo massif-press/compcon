@@ -1,5 +1,9 @@
 <template>
-  <v-tooltip :open-on-hover="!mobile" :open-on-click="mobile" max-width="350px">
+  <v-tooltip
+    :open-on-hover="!mobile"
+    :open-on-click="mobile"
+    max-width="350px"
+    :location="location">
     <template #activator="{ props }">
       <v-icon
         v-bind="showTooltip ? props : ''"
@@ -36,6 +40,10 @@ export default {
     size: {
       type: [String, Number],
       default: undefined,
+    },
+    location: {
+      type: String,
+      default: 'top',
     },
   },
   computed: {

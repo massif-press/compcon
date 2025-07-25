@@ -1,6 +1,13 @@
 <template>
   <v-row>
     <transition-group name="fade-transition" :duration="250">
+      <v-col v-if="parentController" v-for="pcd in parentController.CounterData" cols="auto">
+        <counter-component
+          :counter-data="pcd"
+          :save-data="parentController.CounterSaveData"
+          @delete="deleteCustom(pcd.id)"
+          @update="updateCounter($event)" />
+      </v-col>
       <v-col v-for="cd in controller.CounterData" cols="auto">
         <counter-component
           :counter-data="cd"
@@ -32,6 +39,9 @@ export default {
   computed: {
     controller() {
       return this.actor.CombatController.CounterController;
+    },
+    parentController() {
+      return this.actor.Parent?.CombatController.CounterController;
     },
   },
   methods: {

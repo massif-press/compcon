@@ -156,7 +156,7 @@
                       density="compact"
                       variant="outlined"
                       tile
-                      class="text-right"
+                      class="text-right mt-2"
                       v-model="baseIncomingDamage" />
                   </v-col>
                 </v-row>
@@ -237,6 +237,11 @@
 
                 <br />
               </v-card>
+              <div class="text-cc-overline text-disabled text-center mb-1">
+                <v-icon size="small" class="mt-n1" start icon="mdi-alert" />
+                COMP/CON may not be able to calculate all damage values. Verify before applying.
+                <v-icon size="small" class="mt-n1" end icon="mdi-alert" />
+              </div>
               <v-row dense>
                 <v-col cols="auto">
                   <v-btn size="small" variant="text" prepend-icon="mdi-reload" color="accent">

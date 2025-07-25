@@ -67,18 +67,35 @@
     </v-row>
 
     <div>
-      <v-btn
-        v-bind="props"
-        size="x-small"
-        color="accent"
-        class="mt-1"
-        flat
-        tile
-        block
-        variant="text"
-        prepend-icon="mdi-plus">
-        Add Custom
-      </v-btn>
+      <v-menu :close-on-content-click="false">
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            size="x-small"
+            color="accent"
+            class="mt-1"
+            flat
+            tile
+            block
+            variant="text"
+            prepend-icon="mdi-plus">
+            Add Custom
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-text>
+            <v-text-field
+              v-model="customStatus"
+              label="Custom Status Name"
+              variant="outlined"
+              dense
+              hide-details />
+            <v-btn color="primary" class="mt-2" @click="addCustomStatus(customStatus)">
+              Add Custom Status
+            </v-btn>
+          </v-card-text>
+        </v-card>
+      </v-menu>
     </div>
   </div>
 </template>

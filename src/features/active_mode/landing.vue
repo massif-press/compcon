@@ -1,17 +1,20 @@
 <template>
-  <cc-solo-dialog v-model="dialog" title="development preview">
-    <cc-alert prominent icon="mdi-alert">
-      Active mode is a currently a
-      <b class="text-error">non functional</b>
-      development preview of the v3 active mode. It is not able to be used for any real game play,
-      and is not a replacement for the v2 active mode. To follow the development of this feature,
-      please check out the
-      <a href="https://www.patreon.com/c/compcon" target="_blank">
-        public devlogs on the COMP/CON Patreon
-      </a>
-      .
-    </cc-alert>
-  </cc-solo-dialog>
+  <cc-alert
+    prominent
+    icon="mdi-alert"
+    title="Active Mode Development Preview"
+    class="ma-4"
+    color="warning">
+    Active mode is a currently a
+    <b class="text-error">non functional</b>
+    development preview of the v3 active mode. It is not able to be used for any real game play, and
+    is not a replacement for the v2 active mode. To follow the development of this feature, please
+    check out the
+    <a href="https://www.patreon.com/c/compcon" target="_blank">
+      public devlogs on the COMP/CON Patreon
+    </a>
+    .
+  </cc-alert>
   <v-container fluid>
     <v-row justify="space-around" align="center">
       <v-col><v-divider /></v-col>
@@ -30,7 +33,14 @@
           <v-list height="100%" class="pt-0" flat tile>
             <v-list-item class="text-center">
               <v-icon :icon="headers[i].icon" size="20vw" />
-              <v-list-item-title class="heading h2 text-accent" v-text="headers[i].title" />
+              <v-list-item-title
+                class="heading h2"
+                :class="headers[i].subtitle ? 'text-grey' : 'text-accent'"
+                v-text="headers[i].title" />
+              <v-list-item-subtitle
+                v-if="headers[i].subtitle"
+                v-text="headers[i].subtitle"
+                class="text-cc-overline my-n1" />
             </v-list-item>
             <div v-for="e in list">
               <v-list-item
@@ -38,8 +48,10 @@
                 lines="two"
                 :key="e.title"
                 :title="e.title"
+                :class="e.disabled ? 'bg-panel' : 'bg-primary'"
                 density="compact"
-                class="my-1 bg-primary"
+                class="my-1"
+                :disabled="e.disabled"
                 :subtitle="e.subtitle"
                 :to="e.to">
                 <template #prepend>
@@ -50,6 +62,19 @@
               </v-list-item>
               <div v-else>
                 <v-btn
+                  v-if="(e as any).id === 'last-local' && lastLocalEncounter"
+                  block
+                  size="small"
+                  tile
+                  color="accent"
+                  flat
+                  @click="loadLastLocalEncounter()">
+                  <v-icon :icon="e.icon" start />
+                  resume {{ lastLocalEncounter.Encounter.Name }} (Round
+                  {{ lastLocalEncounter.Round }})
+                </v-btn>
+                <v-btn
+                  v-else
                   block
                   size="small"
                   tile
@@ -71,6 +96,8 @@
 </template>
 
 <script lang="ts">
+import { EncounterStore } from '@/stores';
+
 export default {
   name: 'home',
   data: () => ({
@@ -87,13 +114,14 @@ export default {
       {
         icon: 'cc:diasporan',
         title: 'OBSERVER',
+        subtitle: 'In Development (release v3.0.2)',
       },
     ],
     lists: [
       [
         {
           title: 'Active Character Sheets',
-          subtitle: 'Create, manage, and run active Player Character sheets for your Lancer games',
+          subtitle: 'Create, manage, and run active Player Character sheets',
           icon: 'cc:pilot',
           to: 'active-mode/sheet-manager',
         },
@@ -105,7 +133,8 @@ export default {
         },
         {
           title: 'Join an Online Table',
-          subtitle: 'Join a online realtime Lancer table or resume an active game',
+          subtitle: 'Feature in development (v3.0.2)',
+          disabled: true,
           icon: 'cc:squad',
           to: '/active-mode/join-table',
         },
@@ -118,6 +147,7 @@ export default {
           to: '/active-mode/manage-encounters',
         },
         {
+          id: 'last-local',
           small: true,
           subtitle: 'resume last',
           icon: 'mdi-restart',
@@ -125,7 +155,8 @@ export default {
         },
         {
           title: 'Active Tables',
-          subtitle: 'Create, manage, and run Lancer tables for long-term online or offline games',
+          subtitle: 'Feature in development (v3.0.1)',
+          disabled: true,
           icon: 'mdi-lan',
           to: '/active-mode/manage-tables',
         },
@@ -133,7 +164,8 @@ export default {
       [
         {
           title: 'Spectator Mode',
-          subtitle: 'Connect to a non-interactive spectator display for a realtime Lancer game',
+          subtitle: 'Feature in development (v3.0.2)',
+          disabled: true,
           icon: 'mdi-monitor-share',
           to: '/active-mode/spectate',
         },
@@ -145,7 +177,8 @@ export default {
         },
         {
           title: 'Campaign Display',
-          subtitle: 'Connect to an non-interactive GM display for an active campaign',
+          subtitle: 'Feature in development (v3.0.2)',
+          disabled: true,
           icon: 'mdi-monitor-dashboard',
           to: '/active-mode/campaign',
         },
@@ -155,6 +188,17 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
+    },
+    lastLocalEncounter() {
+      return EncounterStore().getCurrentActiveEncounter;
+    },
+  },
+  methods: {
+    loadLastLocalEncounter() {
+      if (this.lastLocalEncounter) {
+        EncounterStore().AssignActiveEncounter(this.lastLocalEncounter);
+        this.$router.push('active-mode/gm-encounter-runner');
+      }
     },
   },
 };

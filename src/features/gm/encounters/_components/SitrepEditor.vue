@@ -153,7 +153,7 @@
         class="mb-2" />
     </v-card>
 
-    <v-row v-if="!readonly" justify="space-around">
+    <v-row v-if="!readonly" dense>
       <v-col v-for="key in keys.filter((x) => !item.Sitrep[x])" cols="auto">
         <cc-button color="primary" size="small" prepend-icon="mdi-plus" @click="showKey(key)">
           {{ key }}

@@ -12,11 +12,7 @@ import {
   MechWeapon,
   WeaponMod,
 } from '../../class';
-import {
-  IOrganizationData,
-  IPilotLoadoutData,
-  IRankedData,
-} from '../../interface';
+import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface';
 import { Bonus } from '../components/feature/bonus/Bonus';
 import {
   CoreBonusController,
@@ -52,29 +48,16 @@ import { IFeatureController } from '../components/feature/IFeatureController';
 import { FeatureController } from '../components/feature/FeatureController';
 import { PilotLoadoutController } from './components/Loadout/PilotLoadoutController';
 
-import {
-  BrewController,
-  BrewInfo,
-  IBrewData,
-} from '../components/brew/BrewController';
+import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController';
 import { IBrewable } from '../components/brew/IBrewable';
-import {
-  BondController,
-  IPilotBondData,
-} from './components/bond/BondController';
+import { BondController, IPilotBondData } from './components/bond/BondController';
 import logger from '@/user/logger';
 import { IInstanceableData } from '../components/instance/IInstancableData';
 import { IInstanceable } from '../components/instance/IInstanceable';
 import { IStatContainer } from '../components/combat/stats/IStatContainer';
-import {
-  IStatData,
-  StatController,
-} from '../components/combat/stats/StatController';
+import { IStatData, StatController } from '../components/combat/stats/StatController';
 import { ICombatant } from '../components/combat/ICombatant';
-import {
-  CombatController,
-  CombatData,
-} from '../components/combat/CombatController';
+import { CombatController, CombatData } from '../components/combat/CombatController';
 
 interface IUnlockData {
   PilotGear: any[];
@@ -287,8 +270,7 @@ class Pilot
       this._special_equipment = [];
     }
 
-    if (data)
-      CombatController.Deserialize(this.CombatController, data.combat_data);
+    if (data) CombatController.Deserialize(this.CombatController, data.combat_data);
   }
 
   // -- Utility -----------------------------------------------------------------------------------
@@ -296,46 +278,30 @@ class Pilot
   public has(typeName: string, id: string, rank?: number): boolean {
     if (typeName.toLowerCase() === 'skill') {
       return (
-        this.SkillsController.Skills.findIndex(
-          (x) => x.Skill.Name === id || x.Skill.ID === id
-        ) > -1
+        this.SkillsController.Skills.findIndex((x) => x.Skill.Name === id || x.Skill.ID === id) > -1
       );
     } else if (typeName.toLowerCase() === 'corebonus') {
-      return (
-        this.CoreBonusController.CoreBonuses.findIndex((x) => x.ID === id) > -1
-      );
+      return this.CoreBonusController.CoreBonuses.findIndex((x) => x.ID === id) > -1;
     } else if (typeName.toLowerCase() === 'license') {
       let index = this.LicenseController.Licenses.findIndex(
-        (x) =>
-          x.Stub.ID === id ||
-          x.Stub.FrameName.toLowerCase() === id.toLowerCase()
+        (x) => x.Stub.ID === id || x.Stub.FrameName.toLowerCase() === id.toLowerCase()
       );
       if (index < 0) return false;
       return rank
-        ? index > -1 &&
-            Number(this.LicenseController.Licenses[index].Rank) >= rank
+        ? index > -1 && Number(this.LicenseController.Licenses[index].Rank) >= rank
         : index > -1;
     } else if (typeName.toLowerCase() === 'talent') {
-      const index = this.TalentsController.Talents.findIndex(
-        (x) => x.Talent.ID === id
-      );
-      return rank
-        ? index > -1 && this.TalentsController.Talents[index].Rank >= rank
-        : index > -1;
+      const index = this.TalentsController.Talents.findIndex((x) => x.Talent.ID === id);
+      return rank ? index > -1 && this.TalentsController.Talents[index].Rank >= rank : index > -1;
     } else if (typeName.toLowerCase() === 'reserve') {
-      const e = this.ReservesController.Reserves.find(
-        (x) => x.ID === `reserve_${id}`
-      );
+      const e = this.ReservesController.Reserves.find((x) => x.ID === `reserve_${id}`);
       return !!e && !e.Used;
     }
     return false;
   }
 
   public LoadError(err: any, message: string): void {
-    logger.error(
-      `Pilot ${this.ID} (${this.Callsign}) failed to load ${message}; ${err}`,
-      this
-    );
+    logger.error(`Pilot ${this.ID} (${this.Callsign}) failed to load ${message}; ${err}`, this);
     this.BrewController.MissingContent = true;
   }
 
@@ -367,9 +333,7 @@ class Pilot
   }
 
   public RemoveBrewable(item: CompendiumItem): void {
-    this.Mechs.forEach((m) =>
-      m.MechLoadoutController.RemoveBrewable(item as MechEquipment)
-    );
+    this.Mechs.forEach((m) => m.MechLoadoutController.RemoveBrewable(item as MechEquipment));
     this.PilotLoadoutController.RemoveBrewable(item as PilotEquipment);
   }
 
@@ -537,6 +501,16 @@ class Pilot
     return this.Mechs[0];
   }
 
+  public set ActiveMech(mech: Mech) {
+    const index = this.Mechs.findIndex((x) => x.ID === mech.ID);
+    if (index === -1) {
+      logger.error(`Mech "${mech.Name}" does not exist on Pilot ${this.Callsign}`, this);
+    } else {
+      this.Mechs.splice(0, 0, this.Mechs.splice(index, 1)[0]);
+    }
+    this.SaveController.save();
+  }
+
   public SetStats() {
     const kvps = [
       { key: 'grit', val: this.Grit },
@@ -555,9 +529,7 @@ class Pilot
 
   // -- Exotics and Other Equipment ---------------------------------------------------------------
   public get SpecialEquipment(): CompendiumItem[] {
-    return this.FeatureController.IntegratedSpecialEquipment.concat(
-      this._special_equipment
-    );
+    return this.FeatureController.IntegratedSpecialEquipment.concat(this._special_equipment);
   }
 
   public set SpecialEquipment(data: CompendiumItem[]) {
@@ -588,10 +560,7 @@ class Pilot
   public RemoveMech(mech: Mech): void {
     const index = this._mechs.findIndex((x) => x.ID === mech.ID);
     if (index === -1) {
-      logger.error(
-        `Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`,
-        this
-      );
+      logger.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`, this);
     } else {
       this._mechs.splice(index, 1);
     }
@@ -645,15 +614,11 @@ class Pilot
             x.ItemType === ItemType.PilotArmor
         )
         .map((i) => i.ItemData),
-      Frames: equipment
-        .filter((x) => x.ItemType === ItemType.Frame)
-        .map((i) => i.ItemData),
+      Frames: equipment.filter((x) => x.ItemType === ItemType.Frame).map((i) => i.ItemData),
       MechWeapons: equipment
         .filter((x) => x.ItemType === ItemType.MechWeapon)
         .map((i) => i.ItemData),
-      WeaponMods: equipment
-        .filter((x) => x.ItemType === ItemType.WeaponMod)
-        .map((i) => i.ItemData),
+      WeaponMods: equipment.filter((x) => x.ItemType === ItemType.WeaponMod).map((i) => i.ItemData),
       MechSystems: equipment
         .filter((x) => x.ItemType === ItemType.MechSystem)
         .map((i) => i.ItemData),

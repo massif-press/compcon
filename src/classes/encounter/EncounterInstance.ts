@@ -9,8 +9,10 @@ interface IEncounterInstanceData {
   id: string;
   encounterData: IEncounterData;
   pilotData?: PilotData[]; // Optional, if pilots are part of the encounter
-  save: ISaveData;
   round: number;
+  save: ISaveData;
+  isActive?: boolean;
+  archived?: boolean;
 }
 
 class EncounterInstance implements ISaveable {
@@ -26,6 +28,9 @@ class EncounterInstance implements ISaveable {
   private _id: string;
   private _round: number = 0;
 
+  public IsActive: boolean = false;
+  public IsArchived: boolean = false;
+
   public SaveController: SaveController;
 
   constructor(data: IEncounterInstanceData) {
@@ -34,6 +39,9 @@ class EncounterInstance implements ISaveable {
 
     this.Encounter = Encounter.Deserialize(data.encounterData);
     this.Pilots = data.pilotData?.map((p) => Pilot.Deserialize(p)) || [];
+
+    this.IsActive = data.isActive || false;
+    this.IsArchived = data.archived || false;
 
     this.Combatants = [
       ...this.Encounter.Combatants,
@@ -75,12 +83,24 @@ class EncounterInstance implements ISaveable {
     return this._id;
   }
 
+  public get Round(): number {
+    return this._round;
+  }
+
+  public set Round(value: number) {
+    this._round = value;
+    this.save();
+  }
+
   public static Serialize(instance: EncounterInstance): IEncounterInstanceData {
     const data = {
       itemType: 'EncounterInstance',
       id: instance.ID,
       encounterData: Encounter.Serialize(instance.Encounter),
+      pilotData: instance.Pilots.map((p) => p.Serialize()),
       round: instance._round,
+      isActive: instance.IsActive,
+      archived: instance.IsArchived,
     };
 
     SaveController.Serialize(instance, data);

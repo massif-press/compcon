@@ -22,10 +22,7 @@ import {
 import { CompendiumItem } from '../CompendiumItem';
 import { ILicenseRequirement } from '../pilot/components/license/LicensedItem';
 import { IFrameData } from '@/interface';
-import {
-  CombatController,
-  CombatData,
-} from '../components/combat/CombatController';
+import { CombatController, CombatData } from '../components/combat/CombatController';
 import { ICombatant } from '../components/combat/ICombatant';
 import { StatController } from '../components/combat/stats/StatController';
 
@@ -105,9 +102,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get SpecialEquipment(): CompendiumItem[] {
-    return this.FeatureController.IntegratedSpecialEquipment.concat(
-      this.Pilot.SpecialEquipment
-    );
+    return this.FeatureController.IntegratedSpecialEquipment.concat(this.Pilot.SpecialEquipment);
   }
 
   // -- Info --------------------------------------------------------------------------------------
@@ -164,16 +159,14 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
 
     if (this._frame.LicenseLevel === 0) {
       const LL0Idx = requirements.findIndex((x) => x.rank === 0);
-      if (LL0Idx > -1)
-        requirements[LL0Idx].items.push(`${this.Frame.Name} Frame`);
+      if (LL0Idx > -1) requirements[LL0Idx].items.push(`${this.Frame.Name} Frame`);
       else requirements.push(this.Frame.RequiredLicense);
     } else {
       requirements.push(this.Frame.RequiredLicense);
     }
 
     for (const l of requirements) {
-      if (l.rank !== 0)
-        l.missing = !this._pilot.has('License', l.license_id, l.rank);
+      if (l.rank !== 0) l.missing = !this._pilot.has('License', l.license_id, l.rank);
     }
 
     return requirements.sort((a, b) => {
@@ -253,11 +246,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get Speed(): number {
-    return Bonus.Int(
-      this._frame.Speed + Math.floor(this.Agi / 2),
-      'speed',
-      this
-    );
+    return Bonus.Int(this._frame.Speed + Math.floor(this.Agi / 2), 'speed', this);
   }
 
   public get SpeedContributors(): string[] {
@@ -414,11 +403,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get MaxHP(): number {
-    return Bonus.Int(
-      this._frame.HP + this._pilot.Grit + this.Hull * 2,
-      'hp',
-      this
-    );
+    return Bonus.Int(this._frame.HP + this._pilot.Grit + this.Hull * 2, 'hp', this);
   }
 
   public get HPContributors(): string[] {
@@ -440,11 +425,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get MaxSP(): number {
-    return Bonus.Int(
-      this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2),
-      'sp',
-      this
-    );
+    return Bonus.Int(this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2), 'sp', this);
   }
 
   public get FreeSP(): number {
@@ -494,11 +475,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get RepairCapacity(): number {
-    return Bonus.Int(
-      this._frame.RepCap + Math.floor(this.Hull / 2),
-      'repcap',
-      this
-    );
+    return Bonus.Int(this._frame.RepCap + Math.floor(this.Hull / 2), 'repcap', this);
   }
 
   public get RepCapContributors(): string[] {
@@ -543,6 +520,8 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       { key: 'stress', val: this.MaxStress },
       { key: 'repcap', val: this.RepairCapacity },
       { key: 'saveTarget', val: this.SaveTarget },
+      { key: 'activations', val: 1 },
+      { key: 'burn', val: 0 },
     ];
 
     this.CombatController.setStats(kvps);
@@ -555,17 +534,12 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
 
   // -- Mountable CORE Bonuses --------------------------------------------------------------------
   public get PilotBonuses(): CoreBonus[] {
-    return this.Pilot.CoreBonusController.CoreBonuses.filter(
-      (x) => x.IsMountable
-    );
+    return this.Pilot.CoreBonusController.CoreBonuses.filter((x) => x.IsMountable);
   }
 
   public get AppliedBonuses(): CoreBonus[] {
     return _.flatten(
-      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-        true,
-        true
-      ).map((x) => x.Bonuses)
+      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(true, true).map((x) => x.Bonuses)
     );
   }
 
@@ -574,9 +548,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public HasCompatibleMods(): boolean {
-    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(
-      (x) => !!x.Mod
-    )) {
+    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => !!x.Mod)) {
       if (
         !w.Mod!.AllowedTypes.includes(w.ModType) ||
         !w.Mod!.AllowedSizes.includes(w.ModSize) ||

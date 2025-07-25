@@ -39,6 +39,11 @@ const storeRegistry = {
     storeName: 'encounters',
     description: 'Stores Encounter data',
   }),
+  active_encounters: localforage.createInstance({
+    name: dbName,
+    storeName: 'active_encounters',
+    description: 'Stores Active Encounter data',
+  }),
   npcs: localforage.createInstance({
     name: dbName,
     storeName: 'npcs',
