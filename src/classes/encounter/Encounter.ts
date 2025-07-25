@@ -9,22 +9,12 @@ import {
 } from '../components';
 import { ISitrepData, Sitrep, SitrepInstance } from './Sitrep';
 import { EncounterMap, IMapData } from './EncounterMap';
-import {
-  FolderController,
-  IFolderData,
-} from '../components/folder/FolderController';
-import {
-  NarrativeController,
-  NarrativeElementData,
-} from '../narrative/NarrativeController';
+import { FolderController, IFolderData } from '../components/folder/FolderController';
+import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 import { INarrativeElement } from '../narrative/INarrativeElement';
 import { ImageTag } from '@/io/ImageManagement';
-import {
-  Environment,
-  EnvironmentInstance,
-  IEnvironmentData,
-} from '../Environment';
+import { Environment, EnvironmentInstance, IEnvironmentData } from '../Environment';
 import { Npc } from '../npc/Npc';
 import { Unit, UnitData } from '../npc/unit/Unit';
 import { Doodad, DoodadData } from '../npc/doodad/Doodad';
@@ -110,10 +100,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     }
 
     if (data?.environment) {
-      this._environment = new EnvironmentInstance(
-        this,
-        new Environment(data.environment)
-      );
+      this._environment = new EnvironmentInstance(this, new Environment(data.environment));
     }
 
     if (data?.map) {
@@ -124,11 +111,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       this._combatants = data.combatants.map((c) => {
         // TODO: remove after release, this is to ensure old v3 encounters are compatible
         if ((c as any).npc)
-          c.actor = (c as any).npc as
-            | UnitData
-            | DoodadData
-            | EidolonData
-            | PilotData;
+          c.actor = (c as any).npc as UnitData | DoodadData | EidolonData | PilotData;
         let actor;
         switch (c.type) {
           case 'unit':
@@ -289,15 +272,15 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
     switch (type) {
       case 'unit':
-        iData = (npc as Unit).CreateInstance();
+        iData = (npc as unknown as Unit).CreateInstance();
         c = Unit.Deserialize(iData as UnitData);
         break;
       case 'doodad':
-        iData = (npc as Doodad).CreateInstance();
+        iData = (npc as unknown as Doodad).CreateInstance();
         c = Doodad.Deserialize(iData as DoodadData);
         break;
       case 'eidolon':
-        iData = (npc as Eidolon).CreateInstance();
+        iData = (npc as unknown as Eidolon).CreateInstance();
         c = Eidolon.Deserialize(iData as EidolonData);
         break;
       default:
@@ -309,8 +292,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       index: this.Combatants.length,
       type,
       actor: c,
-      number:
-        this.Combatants.filter((x: any) => x.actor.Name === c.Name).length + 1,
+      number: this.Combatants.filter((x: any) => x.actor.Name === c.Name).length + 1,
       side: 'enemy',
       playerCount: 0,
       reinforcement: false,

@@ -47,6 +47,7 @@ class NpcClassController {
         statVal = c?.Stats.Stat('size', this.Tier) || 1;
       }
       kvps.push({ key, val: statVal });
+      kvps.push({ key: 'burn', val: 0 });
 
       // this.Parent.StatController.setMax(key, statVal);
     });
@@ -65,8 +66,7 @@ class NpcClassController {
     this.Parent.CombatController.StatController.MaxStats.forEach((key) => {
       if (key === 'size' || key === 'sizes') return;
       if (
-        this.Parent.CombatController.StatController.getStat(key) !==
-        c.Stats.Stat(key, this.Tier)
+        this.Parent.CombatController.StatController.getStat(key) !== c.Stats.Stat(key, this.Tier)
       ) {
         changedStats[key] = c.Stats.Stat(key, this.Tier);
       }
@@ -91,8 +91,7 @@ class NpcClassController {
       return;
     }
     if (!this.HasClass) this.Parent.Tag = 'Mech';
-    if (npcClass.Role.toLowerCase() === 'biological')
-      this.Parent.Tag = 'Biological';
+    if (npcClass.Role.toLowerCase() === 'biological') this.Parent.Tag = 'Biological';
     if (npcClass.ForceTag) this.Parent.Tag = npcClass.ForceTag;
     this._class = npcClass;
     this.Tier = tier;

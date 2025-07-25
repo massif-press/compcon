@@ -93,6 +93,10 @@ class Eidolon extends Npc implements IInstanceable {
     this.save();
   }
 
+  public SetStats() {
+    // TODO
+  }
+
   public get Class() {
     const l = this._layers.length - 1;
     if (l < 3) return '0';

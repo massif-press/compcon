@@ -1,28 +1,149 @@
 <template>
-  <panel-base :item="pilot">
-    <template #name-block>
-      <div class="heading h2">{{ pilot.Callsign }}</div>
-      <div class="heading h4">
-        {{ pilot.Name }}
-      </div>
-    </template>
-    <v-icon :icon="pilot.SizeIcon" />
+  <v-card flat tile class="pa-2">
+    <v-row class="pr-4">
+      <v-col cols="auto">
+        <cc-img width="155px" height="100%" color="panel" cover :src="pilot.Portrait" />
+      </v-col>
+      <v-col>
+        <v-row no-gutters>
+          <v-col cols="auto" align-self="center" class="ml-n2 mr-2">
+            <v-icon :icon="pilot.SizeIcon" size="60" />
+          </v-col>
+          <v-col cols="auto">
+            <div class="heading h2">{{ pilot.Callsign }}</div>
+            <div class="heading h4">
+              {{ pilot.Name }}
+            </div>
+          </v-col>
+          <v-col cols="auto" class="mx-auto" align-self="center">
+            <v-btn-toggle v-model="pilot.CombatController.Cover" flat tile color="primary">
+              <v-btn size="x-small" height="20px" value="none">No Cover</v-btn>
+              <v-btn size="x-small" height="20px" value="soft">Soft Cover</v-btn>
+              <v-btn size="x-small" height="20px" value="hard">Hard Cover</v-btn>
+            </v-btn-toggle>
+          </v-col>
+          <v-col cols="auto" class="pt-3 pr-1">
+            <cc-button
+              v-for="i in pilot.CombatController.StatController.MaxStats['activations']"
+              icon="cc:activate"
+              size="x-large"
+              variant="outlined"
+              :color="
+                pilot.CombatController.StatController.CurrentStats['activations'] >= i
+                  ? 'green'
+                  : 'grey'
+              "
+              @click="
+                pilot.CombatController.StatController.CurrentStats['activations'] === 0
+                  ? (pilot.CombatController.StatController.CurrentStats['activations'] += 1)
+                  : (pilot.CombatController.StatController.CurrentStats['activations'] -= 1)
+              "></cc-button>
+          </v-col>
+        </v-row>
+        <v-row class="mt-n1">
+          <v-col v-if="pilot.Grit" cols="auto">
+            <v-tooltip location="top" text="Pilot Grit">
+              <template #activator="{ props }">
+                <span v-bind="props">
+                  <v-icon icon="mdi-star-four-points-outline" size="x-large" class="mt-n2 mr-1" />
+                  <span class="heading h2 text-accent">2</span>
+                </span>
+              </template>
+            </v-tooltip>
+          </v-col>
+          <v-col
+            cols="auto"
+            v-for="(stat, index) in pilot.StatController.GetStatCollection([
+              'evasion',
+              'edef',
+              'techattack',
+              'sensorRange',
+              'saveTarget',
+            ])">
+            <v-tooltip :text="stat.title" location="top" open-delay="400">
+              <template #activator="{ props }">
+                <v-icon v-bind="props" size="x-large" class="mt-n2 mr-1" :icon="stat.icon" />
+                <span class="heading h2 text-accent">
+                  {{ pilot.StatController.CurrentStats[stat.key] }}
+                </span>
+              </template>
+            </v-tooltip>
+          </v-col>
+        </v-row>
 
-    pilot loadout
-  </panel-base>
+        <v-row>
+          <v-col>
+            <cc-tickbar
+              v-model="pilot.StatController.CurrentStats['hp']"
+              v-model:tertiary="overshield"
+              primary-label="Hit Points"
+              tertiary-label="Overshield"
+              color="hp"
+              tertiary-color="overshield"
+              icon="mdi-heart-outline"
+              tertiary-icon="mdi-hexagon-multiple-outline"
+              :ticks="pilot.StatController.MaxStats['hp']" />
+          </v-col>
+          <v-col cols="auto">
+            <stat-mini-panel
+              title="armor"
+              icon="mdi-shield-outline"
+              color="armor"
+              v-model="pilot.StatController.CurrentStats['armor']" />
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col align-self="center">
+            <cc-tickbar
+              v-model="pilot.StatController.CurrentStats['speed']"
+              color="primary"
+              min-width="150px"
+              space
+              icon="mdi-arrow-right-bold-hexagon-outline"
+              class="mb-1"
+              :ticks="pilot.StatController.MaxStats['speed']" />
+          </v-col>
+          <v-col cols="auto">
+            <stat-mini-panel title="burn" icon="cc:burn" color="damage--burn" v-model="burn" />
+          </v-col>
+        </v-row>
+
+        <combat-action-panel :controller="pilot.CombatController" />
+
+        <v-row dense class="mt-4">
+          <v-col cols="4">
+            <damage-condition-selector :controller="pilot.CombatController" />
+          </v-col>
+          <v-col cols="auto" style="min-width: 20px" />
+          <v-col class="mx-auto">
+            <status-condition-selector :controller="pilot.CombatController" />
+          </v-col>
+        </v-row>
+
+        <damage-menu :controller="pilot.CombatController" />
+      </v-col>
+    </v-row>
+
+    <special-status-display :controller="pilot.CombatController" />
+
+    <div class="text-cc-overline mt-4 text-disabled">COUNTERS</div>
+    <cc-counter-set :actor="pilot" />
+
+    <v-divider class="my-4" />
+    <slot />
+  </v-card>
 </template>
 
 <script>
 import _, { over } from 'lodash';
 import { CompendiumStore } from '@/stores';
 import StatMiniPanel from './_components/StatMiniPanel.vue';
-import PanelBase from './_PanelBase.vue';
 
 export default {
   name: 'PcPanel',
   components: {
     StatMiniPanel,
-    PanelBase,
   },
   props: {
     combatant: {
@@ -30,155 +151,11 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    corepower: 1,
-    overcharge: 0,
-    burn: 4,
-    movement: 3,
-    armor: 11,
-    cover: 'no',
-    specialStatuses: [
-      { ID: 1, Name: 'Ejected' },
-      { ID: 2, Name: 'Cascade' },
-      { ID: 3, Name: 'Meltdown Imminent' },
-      { ID: 4, Name: 'Pilot Incapacitated' },
-    ],
-    resistances: [
-      { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
-      { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
-      {
-        ID: 3,
-        Name: 'Explosive',
-        icon: 'cc:explosive',
-        color: 'damage--explosive',
-      },
-      { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
-      { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
-      { ID: 5, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
-    ],
-    usedActions: [],
-  }),
+  data: () => ({}),
   computed: {
     pilot() {
       return this.combatant.actor;
     },
-    statuses() {
-      return _.orderBy(CompendiumStore().Statuses, 'StatusType');
-    },
-    randomTalents() {
-      return _.sampleSize(CompendiumStore().Talents, 3);
-    },
-    applicableStatuses() {
-      const exclude = [
-        `dangerzone`,
-        `downandout`,
-        `engaged`,
-        `hidden`,
-        `invisible`,
-      ];
-      return this.statuses.filter((s) => !exclude.includes(s.ID));
-    },
-  },
-  methods: {
-    getIcon(stat) {
-      const icons = {
-        structure: 'cc:structure',
-        armor: 'mdi-shield-outline',
-        hp: 'mdi-heart-outline',
-        reactor: 'cc:reactor',
-        heat: 'cc:heat',
-        repair: 'cc:repair',
-      };
-      return icons[stat];
-    },
-    addStatus(status) {
-      if (this.pilot.statuses.includes(status)) {
-        const index = this.pilot.statuses.indexOf(status);
-        this.pilot.statuses.splice(index, 1);
-      } else {
-        this.pilot.statuses.push(status);
-      }
-    },
-    addSpecialStatus(status) {
-      if (this.pilot.special.includes(status.Name)) {
-        const index = this.pilot.special.indexOf(status.Name);
-        this.pilot.special.splice(index, 1);
-        return;
-      }
-      this.pilot.special.push(status.Name);
-    },
-    addResistance(resist) {
-      if (this.pilot.vulnerabilities.includes(resist.Name)) {
-        const index = this.pilot.vulnerabilities.indexOf(resist.Name);
-        this.pilot.vulnerabilities.splice(index, 1);
-        return;
-      }
-      if (this.pilot.immunities.includes(resist.Name)) {
-        const index = this.pilot.immunities.indexOf(resist.Name);
-        this.pilot.immunities.splice(index, 1);
-        this.pilot.vulnerabilities.push(resist.Name);
-        return;
-      }
-      if (this.pilot.resistances.includes(resist.Name)) {
-        const index = this.pilot.resistances.indexOf(resist.Name);
-        this.pilot.resistances.splice(index, 1);
-        this.pilot.immunities.push(resist.Name);
-      } else {
-        this.pilot.resistances.push(resist.Name);
-      }
-    },
-    hasResistance(resist) {
-      return this.pilot.resistances.includes(resist.Name);
-    },
-    hasImmunity(resist) {
-      return this.pilot.immunities.includes(resist.Name);
-    },
-    hasVulnerability(resist) {
-      return this.pilot.vulnerabilities.includes(resist.Name);
-    },
-    actionStatus(action) {
-      if (action === 'full')
-        return (
-          this.usedActions.includes('full') ||
-          this.usedActions.includes('quick')
-        );
-      if (action === 'quick')
-        return (
-          this.usedActions.includes('full') ||
-          this.usedActions.filter((x) => x === 'quick').length === 2
-        );
-      if (action === 'protocol') return this.usedActions.length;
-      if (action === 'move')
-        return this.usedActions.includes('move') || this.movement === 0;
-      return this.usedActions.includes(action);
-    },
-    setAction(action) {
-      if (action === 'quick') {
-        if (this.usedActions.filter((x) => x === 'quick').length === 2) {
-          this.usedActions = this.usedActions.filter((x) => x !== 'quick');
-        } else {
-          this.usedActions.push('quick');
-        }
-      }
-      if (this.usedActions.includes(action)) {
-        const index = this.usedActions.indexOf(action);
-        this.usedActions.splice(index, 1);
-      } else {
-        this.usedActions.push(action);
-      }
-    },
   },
 };
 </script>
-
-<style scoped>
-.bg-stripes {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(249, 219, 78, 0.5),
-    rgba(249, 219, 78, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 20px
-  );
-}
-</style>

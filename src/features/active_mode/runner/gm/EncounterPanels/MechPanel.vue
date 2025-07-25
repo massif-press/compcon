@@ -43,8 +43,8 @@
 
     <br />
 
-    loadout
-    <br />
+    <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
+    <mech-combat-loadout :mech="mech" />
 
     <!-- <v-scroll-y-reverse-transition>
       <div v-if="pilot.statuses.length" class="text-cc-overline mt-2">
@@ -66,12 +66,14 @@ import _, { over } from 'lodash';
 import { CompendiumStore } from '@/stores';
 import StatMiniPanel from './_components/StatMiniPanel.vue';
 import PanelBase from './_PanelBase.vue';
+import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
 
 export default {
   name: 'PcPanel',
   components: {
     StatMiniPanel,
     PanelBase,
+    MechCombatLoadout,
   },
   props: {
     combatant: {

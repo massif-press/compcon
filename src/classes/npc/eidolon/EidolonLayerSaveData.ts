@@ -51,6 +51,7 @@ class EidolonLayerSaveData implements IFeatureContainer {
 
     this.SaveController = parent.SaveController;
     this.StatController = new StatController(this);
+    console.log(data.stats);
     if (data.stats) StatController.Deserialize(this, data.stats);
     this._description = data.description;
 

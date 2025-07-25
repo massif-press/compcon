@@ -1,5 +1,5 @@
 <template>
-  <div :class="noFrame ? '' : mobile ? 'px-2' : 'px-6'" class="mt-3">
+  <div :class="noFrame ? '' : mobile ? 'px-2 mt-3' : 'px-6 mt-3'">
     <cc-loadout-panel
       :loadouts="controller.Loadouts"
       :active-loadout="controller.ActiveLoadout"

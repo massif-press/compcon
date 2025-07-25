@@ -1,37 +1,80 @@
 <template>
   <div class="parent" style="height: 100%">
     <div :class="`bg-${color} tail`" class="d-inline-block mr-1" />
-    <v-card
-      class="cc-panel-clip-small d-inline-block"
-      color="panel"
-      flat
-      tile
-      height="100%"
-      variant="elevated"
-      min-width="100px"
-      @click="$emit('click')">
-      <!-- <v-toolbar
-        flat
-        density="compact"
-        color="surface"
-        class="ma-0 pa-0"
-        style="height: 17px; opacity: 0.5">
-        <div class="px-2 text-cc-overline" style="padding-top: 2px">
-          <span v-if="title" v-text="title" />
-        </div>
-      </v-toolbar> -->
-      <v-row no-gutters justify="center" align="center" style="height: 100%">
-        <v-col cols="auto" class="heading" style="font-size: 36px">
-          <v-icon
-            v-if="icon"
-            :icon="icon"
-            :color="color"
-            :class="boolean ? 'mr-1' : 'mt-n2 mr-1'"
-            :size="boolean ? 60 : 40" />
-          <span v-if="!boolean" class="mr-2">{{ modelValue }}</span>
-        </v-col>
-      </v-row>
-    </v-card>
+    <v-menu :close-on-content-click="false">
+      <template #activator="{ props }">
+        <v-card
+          class="cc-panel-clip-small d-inline-block"
+          color="panel"
+          flat
+          tile
+          height="100%"
+          variant="elevated"
+          min-width="100px"
+          v-bind="!boolean && props"
+          @click="boolean ? $emit('click') : null">
+          <v-row no-gutters justify="center" align="center" style="height: 100%">
+            <v-col cols="auto" class="heading" style="font-size: 36px">
+              <v-icon
+                v-if="icon"
+                :icon="icon"
+                :color="color"
+                :class="boolean ? 'mr-1' : 'mt-n2 mr-1'"
+                :size="boolean ? 60 : 40" />
+              <span v-if="!boolean" class="mr-2">{{ modelValue }}</span>
+            </v-col>
+          </v-row>
+        </v-card>
+      </template>
+      <v-card>
+        <v-toolbar height="24" :color="color">
+          <div class="heading h3">
+            <v-icon :icon="icon" size="22" class="mt-n1 ml-2 mr-1" />
+            {{ title }}
+          </div>
+        </v-toolbar>
+        <v-card-text>
+          <v-row dense>
+            <v-col cols="auto">
+              <v-btn icon flat tile size="x-small" variant="text" @click="$emit('decrement')">
+                <v-icon size="x-large" icon="mdi-minus" />
+              </v-btn>
+            </v-col>
+            <v-col cols="auto">
+              <v-text-field
+                variant="outlined"
+                type="number"
+                tile
+                hide-details
+                autofocus
+                density="compact"
+                width="100"
+                @focus="$event.target.select()"
+                :value="modelValue"
+                @input="$emit('update:modelValue', $event.target.value)" />
+            </v-col>
+            <v-col cols="auto">
+              <v-btn icon flat tile size="x-small" variant="text" @click="$emit('increment')">
+                <v-icon size="x-large" icon="mdi-plus" />
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-divider class="my-2" />
+          <v-row dense>
+            <v-col>
+              <v-btn flat tile block size="x-small" color="primary" @click="$emit('reset')">
+                Reset
+              </v-btn>
+            </v-col>
+            <v-col>
+              <v-btn flat tile block size="x-small" color="primary" @click="$emit('clear')">
+                Clear
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-menu>
     <span :class="`light ${`bg-${color}`}`" />
   </div>
 </template>
@@ -56,7 +99,7 @@ export default {
       type: Boolean,
     },
   },
-  emits: ['click'],
+  emits: ['click', 'update:modelValue'],
 };
 </script>
 

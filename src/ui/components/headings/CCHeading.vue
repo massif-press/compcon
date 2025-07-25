@@ -11,7 +11,7 @@ import title from './headings/cc_title.vue';
 import h3 from './headings/cc_h3.vue';
 
 export default {
-  name: 'cc-title',
+  name: 'cc-heading',
   props: {
     type: { type: String, default: 'minor' },
     color: { type: String, default: '' },

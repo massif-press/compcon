@@ -1,24 +1,11 @@
 import { v4 as uuid } from 'uuid';
-import {
-  SaveController,
-  CloudController,
-  PortraitController,
-} from '@/classes/components';
+import { SaveController, CloudController, PortraitController } from '@/classes/components';
 import { BrewController } from '@/classes/components/brew/BrewController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
 import { NpcData, Npc } from '../Npc';
-import {
-  INpcClassSaveData,
-  NpcClassController,
-} from '../class/NpcClassController';
-import {
-  INpcFeatureSaveData,
-  NpcFeatureController,
-} from '../feature/NpcFeatureController';
-import {
-  INpcTemplateSaveData,
-  NpcTemplateController,
-} from '../template/NpcTemplateController';
+import { INpcClassSaveData, NpcClassController } from '../class/NpcClassController';
+import { INpcFeatureSaveData, NpcFeatureController } from '../feature/NpcFeatureController';
+import { INpcTemplateSaveData, NpcTemplateController } from '../template/NpcTemplateController';
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import { FolderController } from '@/classes/components/folder/FolderController';
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
@@ -26,10 +13,7 @@ import { CompendiumStore, NpcStore } from '@/stores';
 import { INpcFeatureData } from '../feature/NpcFeature';
 import { INpcTemplateData } from '../template/NpcTemplate';
 import { INpcClassData } from '../class/NpcClass';
-import {
-  CombatController,
-  CombatData,
-} from '@/classes/components/combat/CombatController';
+import { CombatController, CombatData } from '@/classes/components/combat/CombatController';
 import { ICombatant } from '@/classes/components/combat/ICombatant';
 import { StatController } from '@/classes/components/combat/stats/StatController';
 
@@ -135,8 +119,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
 
   public get IsLinked(): boolean {
     return (
-      this.GetLinkedItem<Npc>() !== undefined &&
-      !this.GetLinkedItem<Npc>().BrewController.HasError
+      this.GetLinkedItem<Npc>() !== undefined && !this.GetLinkedItem<Npc>().BrewController.HasError
     );
   }
 
@@ -183,22 +166,21 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     SaveController.Deserialize(unit, data.save);
     BrewController.Deserialize(unit, data);
     PortraitController.Deserialize(unit, data.img);
-    if (!CompendiumStore().hasNpcAccess)
-      unit.BrewController.MissingContent = true;
+    if (!CompendiumStore().hasNpcAccess) unit.BrewController.MissingContent = true;
     try {
       NpcClassController.Deserialize(unit, data as any);
     } catch (e) {
-      Npc.LoadError(unit, e, 'Npc Class Controller');
+      Npc.LoadError(unit as unknown as Npc, e, 'Npc Class Controller');
     }
     try {
       NpcTemplateController.Deserialize(unit, data as any);
     } catch (e) {
-      Npc.LoadError(unit, e, 'Npc Template Controller');
+      Npc.LoadError(unit as unknown as Npc, e, 'Npc Template Controller');
     }
     try {
       NpcFeatureController.Deserialize(unit, data as any);
     } catch (e) {
-      Npc.LoadError(unit, e, 'Npc Feature Controller');
+      Npc.LoadError(unit as unknown as Npc, e, 'Npc Feature Controller');
     }
     NarrativeController.Deserialize(unit, data.narrative);
     CombatController.Deserialize(unit.CombatController, data.combat_data);
@@ -215,8 +197,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
   }
 
   public get Icon(): string {
-    if (this.NpcClassController.HasClass)
-      return this.NpcClassController.Class!.Icon;
+    if (this.NpcClassController.HasClass) return this.NpcClassController.Class!.Icon;
     return 'cc:encounter';
   }
 

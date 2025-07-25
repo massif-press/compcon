@@ -77,6 +77,8 @@ class StatController {
       'repairCapacity',
       'overcharge',
       'overshield',
+      'activations',
+      'burn',
       'speed',
     ];
     return this.DisplayKeys.filter((x) => trackable.includes(x.key));
@@ -87,19 +89,11 @@ class StatController {
     title: string;
     type: string;
   }[] {
-    const trackable = [
-      'hp',
-      'stress',
-      'heatcap',
-      'structure',
-      'repairCapacity',
-    ];
+    const trackable = ['hp', 'stress', 'heatcap', 'structure', 'repairCapacity'];
     return this.DisplayKeys.filter((x) => !trackable.includes(x.key));
   }
 
-  public GetStatCollection(
-    keys: string[]
-  ): { key: string; title: string; type: string }[] {
+  public GetStatCollection(keys: string[]): { key: string; title: string; type: string }[] {
     return this.DisplayKeys.filter((x) => keys.includes(x.key));
   }
 
@@ -151,11 +145,7 @@ class StatController {
   }
 
   public RemoveStat(key: string): void {
-    if (
-      MandatoryStats.includes(key) ||
-      this.Parent.AdditionalStats?.includes(key)
-    )
-      return;
+    if (MandatoryStats.includes(key) || this.Parent.AdditionalStats?.includes(key)) return;
     delete this._maxStats[key];
     this.Parent.SaveController.save();
   }

@@ -5,9 +5,15 @@
         {{ counter.Name }}
       </div>
       <v-spacer />
-      <v-tooltip text="Reset Counter">
+      <v-tooltip text="Reset Counter" location="top" open-delay="400">
         <template #activator="{ props }">
-          <v-btn v-bind="props" variant="text" icon size="x-small" @click="counter.Reset()">
+          <v-btn
+            v-bind="props"
+            variant="text"
+            icon
+            size="x-small"
+            class="ml-2 mr-n2 fade-select"
+            @click="counter.Reset()">
             <v-icon size="22">mdi-reload</v-icon>
           </v-btn>
         </template>
