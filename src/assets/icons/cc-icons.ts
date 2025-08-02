@@ -134,6 +134,8 @@ import ipsn from './svg/ipsn.vue';
 import ssc from './svg/ssc.vue';
 import horus from './svg/horus.vue';
 import hex_thin from './svg/hex_thin.vue';
+import destroyed_outline from './svg/destroyed_outline.vue';
+import destroyed from './svg/destroyed.vue';
 
 const svgs: any = {
   accuracy,
@@ -269,6 +271,8 @@ const svgs: any = {
   nhp,
   thanks,
   hex_thin,
+  destroyed,
+  destroyed_outline,
 };
 
 const ccIcons: IconSet = {

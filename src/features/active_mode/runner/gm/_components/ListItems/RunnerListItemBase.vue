@@ -33,21 +33,40 @@
                   z-index: 2;
                   border-radius: 4px;
                 " />
-              <v-img v-if="portrait" height="100%" width="60px" cover :src="portrait" />
+              <v-img
+                v-if="portrait"
+                height="100%"
+                width="60px"
+                cover
+                :src="portrait"
+                :style="destroyed ? 'opacity: 0.6' : ''" />
               <v-avatar
                 v-else
                 flat
                 tile
                 :size="collapsed ? 45 : 60"
                 style="height: 100%"
+                :style="destroyed ? 'opacity: 0.6' : ''"
                 class="bg-panel">
                 <v-icon :icon="icon || 'mdi-cube'" :size="collapsed ? 45 : 60" />
               </v-avatar>
+              <div
+                v-if="destroyed"
+                style="
+                  position: absolute;
+                  top: 15%;
+                  right: 15%;
+                  left: 15%;
+                  bottom: 15%;
+                  z-index: 1;
+                ">
+                <v-icon icon="cc:destroyed_outline" size="100%" />
+              </div>
             </v-col>
             <v-col v-if="!collapsed" class="mx-1">
               <slot />
 
-              <div style="font-size: 16px">
+              <div style="font-size: 16px" v-if="!destroyed">
                 <v-row dense justify="space-between" align="center" class="pl-2 pr-6">
                   <v-col
                     cols="auto"
@@ -112,6 +131,52 @@
                 </v-tooltip>
               </v-row>
 
+              <v-card
+                v-if="destroyed"
+                height="16"
+                flat
+                tile
+                class="bg-stripes text-cc-overline text-center mt-1">
+                <v-chip style="height: 16px" flat tile variant="elevated" class="px-1">
+                  <div class="text-red" style="margin-top: 2px">
+                    <v-icon icon="cc:destroyed" />
+                    DESTROYED
+                  </div>
+                </v-chip>
+              </v-card>
+
+              <v-card
+                v-else-if="actor.CombatController.IsInDangerZone"
+                height="16"
+                flat
+                tile
+                class="bg-stripes-dangerzone text-cc-overline text-center mt-1">
+                <v-chip style="height: 16px" flat tile variant="elevated" class="px-1">
+                  <div class="text-red" style="margin-top: 2px">
+                    <v-icon icon="cc:heat" />
+                    Danger Zone
+                  </div>
+                </v-chip>
+              </v-card>
+
+              <v-row
+                v-if="actor.CombatController.CustomDamageStatuses.length > 0"
+                style="line-height: 0"
+                no-gutters
+                justify="center"
+                class="text-center my-1">
+                <v-card
+                  v-for="damage in actor.CombatController.CustomDamageStatuses"
+                  v-bind="props"
+                  flat
+                  tile
+                  style="border-bottom-right-radius: 5px !important"
+                  class="px-2 ma-1"
+                  :class="damageClass(damage)">
+                  <span class="text-cc-overline">{{ damage.condition }} to {{ damage.type }}</span>
+                </v-card>
+              </v-row>
+
               <div v-for="status in specialStatuses">
                 <v-progress-linear model-value="100" height="16" color="orange" striped>
                   <v-chip class="text-cc-overline bg-deep-orange-darken-3" flat tile>
@@ -137,13 +202,17 @@
               v-if="!collapsed"
               class="d-flex align-center"
               style="padding-left: 2px; padding-right: 2px"
-              :class="activations > 0 ? 'bg-success-darken-2' : 'bg-grey'"
+              :class="
+                destroyed ? 'bg-background' : activations > 0 ? 'bg-success-darken-2' : 'bg-grey'
+              "
               cols="auto">
               <div>
                 <v-tooltip location="bottom" open-delay="400">
                   <template #activator="{ props }">
-                    <v-icon v-if="!activations" icon="cc:activate" size="20" />
+                    <v-icon v-if="destroyed" icon="mdi-cancel" size="20" />
+                    <v-icon v-else-if="!activations" icon="cc:activate" size="20" />
                     <v-icon
+                      v-else
                       v-bind="props"
                       v-for="n in activations"
                       icon="cc:activate"
@@ -196,16 +265,23 @@ export default {
       type: Array,
       default: () => [],
     },
-    specialStatuses: {
-      type: Array,
-      default: () => [],
-    },
     actor: {
       type: Object,
       required: true,
     },
   },
   emits: ['click'],
+  computed: {
+    activations() {
+      return this.actor.StatController.CurrentStats['activations'] || 0;
+    },
+    destroyed() {
+      return this.actor.CombatController.IsDestroyed;
+    },
+    specialStatuses() {
+      return this.actor.CombatController.SpecialStatuses || [];
+    },
+  },
   methods: {
     damageClass(damage) {
       if (damage.condition === 'immune') {
@@ -224,5 +300,25 @@ export default {
 <style scoped>
 .border-fade {
   transition: all 0.2s ease-in-out;
+}
+
+.bg-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(249, 219, 78, 0.5),
+    rgba(249, 219, 78, 0.5) 10px,
+    rgba(100, 100, 100, 0.5) 10px,
+    rgba(100, 100, 100, 0.5) 20px
+  );
+}
+
+.bg-stripes-dangerzone {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 23, 68, 1),
+    rgba(255, 23, 68, 1) 10px,
+    rgba(255, 112, 67, 0.5) 10px,
+    rgba(255, 112, 67, 0.5) 20px
+  );
 }
 </style>

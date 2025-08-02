@@ -66,6 +66,50 @@
       </v-col>
     </v-row>
 
+    <v-card
+      v-for="cds in controller.CustomDamageStatuses"
+      :key="cds.type"
+      class="mt-1 px-1"
+      flat
+      tile
+      :color="
+        cds.condition === 'immune'
+          ? 'exotic'
+          : cds.condition === 'resistant'
+            ? 'success'
+            : cds.condition === 'vulnerable'
+              ? 'error'
+              : ''
+      ">
+      <v-row dense align="center" class="pl-1">
+        <v-col class="text-cc-overline">
+          <div>
+            <b>{{ cds.type }}</b>
+          </div>
+          <div class="text-disabled">
+            <cc-slashes />
+            {{ cds.condition }}
+          </div>
+        </v-col>
+        <v-col></v-col>
+        <v-col cols="auto">
+          <v-btn
+            icon
+            variant="text"
+            flat
+            tile
+            size="x-small"
+            @click="
+              controller.CustomDamageStatuses = controller.CustomDamageStatuses.filter(
+                (x) => x !== cds
+              )
+            ">
+            <v-icon size="x-large" icon="mdi-close" />
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card>
+
     <div>
       <v-menu :close-on-content-click="false">
         <template #activator="{ props }">
@@ -82,17 +126,54 @@
             Add Custom
           </v-btn>
         </template>
-        <v-card>
+        <v-card border tile>
           <v-card-text>
             <v-text-field
               v-model="customStatus"
-              label="Custom Status Name"
+              label="Condition"
               variant="outlined"
-              dense
+              density="compact"
+              clearable
+              tile
               hide-details />
-            <v-btn color="primary" class="mt-2" @click="addCustomStatus(customStatus)">
-              Add Custom Status
-            </v-btn>
+            <v-row dense class="mt-1">
+              <v-col>
+                <v-btn
+                  :disabled="!customStatus"
+                  :color="!customStatus ? '' : 'error'"
+                  flat
+                  tile
+                  block
+                  size="small"
+                  @click="addCustom('vulnerable')">
+                  Add Vulnerability
+                </v-btn>
+              </v-col>
+              <v-col>
+                <v-btn
+                  :disabled="!customStatus"
+                  :color="!customStatus ? '' : 'success'"
+                  flat
+                  tile
+                  block
+                  size="small"
+                  @click="addCustom('resistant')">
+                  Add Resistance
+                </v-btn>
+              </v-col>
+              <v-col>
+                <v-btn
+                  :disabled="!customStatus"
+                  :color="!customStatus ? '' : 'exotic'"
+                  flat
+                  tile
+                  block
+                  size="small"
+                  @click="addCustom('immune')">
+                  Add Immunity
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-menu>
@@ -126,6 +207,7 @@ export default {
       { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
       { ID: 5, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
     ],
+    customStatus: '',
   }),
   computed: {
     vulnerabilities() {
@@ -167,6 +249,16 @@ export default {
     },
     hasVulnerability(resist) {
       return this.vulnerabilities.includes(resist.Name);
+    },
+    addCustom(condition) {
+      if (!this.customStatus) return;
+
+      this.controller.CustomDamageStatuses.push({
+        type: this.customStatus,
+        condition: condition,
+      });
+
+      this.customStatus = '';
     },
   },
 };

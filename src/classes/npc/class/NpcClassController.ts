@@ -47,10 +47,10 @@ class NpcClassController {
         statVal = c?.Stats.Stat('size', this.Tier) || 1;
       }
       kvps.push({ key, val: statVal });
-      kvps.push({ key: 'burn', val: 0 });
 
       // this.Parent.StatController.setMax(key, statVal);
     });
+    kvps.push({ key: 'burn', val: 0 });
     // let sizes = c?.Stats.Stat('sizes', this.Tier) || 1;
     // if (!Array.isArray(sizes)) sizes = [sizes];
     // this.Parent.StatController.setMax('size', sizes[0]);

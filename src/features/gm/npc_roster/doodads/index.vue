@@ -16,7 +16,9 @@
           location="bottom"
           max-width="400">
           <template v-slot:activator="{ props }">
-            <v-chip v-bind="props" size="x-small" block>What is a Doodad?</v-chip>
+            <v-chip v-bind="props" size="x-small" block append-icon="mdi-information-outline">
+              What is a Doodad?
+            </v-chip>
           </template>
         </v-tooltip>
       </div>

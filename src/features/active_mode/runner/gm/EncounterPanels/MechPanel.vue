@@ -1,8 +1,28 @@
 <template>
-  <panel-base :item="mech">
+  <panel-base :encounter="encounter" :item="mech">
     <template #name-block>
       <div class="heading h2">{{ mech.Name }}</div>
       <div class="heading h4">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
+    </template>
+
+    <template #action-palette>
+      <v-row dense>
+        <v-col>
+          <v-btn flat tile size="small" block color="primary" text="Mounted" />
+          <v-divider />
+          <v-btn flat tile size="small" block color="panel" text="Braced&nbsp;&nbsp;" />
+        </v-col>
+        <v-col>
+          <v-btn flat tile size="small" block color="panel" text="Overwatch" />
+          <v-divider />
+          <v-btn flat tile size="small" block color="panel" text="Prepared&nbsp;&nbsp;" />
+        </v-col>
+        <v-col>
+          <v-btn flat tile size="small" block color="panel" text="Engaged" />
+          <v-divider />
+          <v-btn flat tile size="small" block color="panel" text="Prepared" />
+        </v-col>
+      </v-row>
     </template>
 
     <div class="text-cc-overline mt-4 text-disabled">Frame Traits</div>
@@ -46,18 +66,19 @@
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
     <mech-combat-loadout :mech="mech" />
 
-    <!-- <v-scroll-y-reverse-transition>
-      <div v-if="pilot.statuses.length" class="text-cc-overline mt-2">
-        <cc-alert
-          v-for="status in pilot.statuses"
-          :title="status.Name"
-          :icon="status.Icon"
-          prominent
-          class="mt-1">
-          <p v-html="status.Effects" />
-        </cc-alert>
-      </div>
-    </v-scroll-y-reverse-transition> -->
+    <div class="text-cc-overline mt-4 text-disabled">Additional Actions</div>
+    <v-row dense>
+      <v-col>
+        <v-btn flat tile block size="small" color="primary">Mark Dismounted</v-btn>
+        <v-divider />
+        <v-btn flat tile block size="small" color="primary">Eject Pilot</v-btn>
+      </v-col>
+      <v-col>
+        <v-btn flat tile block size="small" color="primary">Mark Brace</v-btn>
+        <v-divider />
+        <v-btn flat tile block size="small" color="primary">Mark Overwatch</v-btn>
+      </v-col>
+    </v-row>
   </panel-base>
 </template>
 
@@ -77,6 +98,10 @@ export default {
   },
   props: {
     combatant: {
+      type: Object,
+      required: true,
+    },
+    encounter: {
       type: Object,
       required: true,
     },

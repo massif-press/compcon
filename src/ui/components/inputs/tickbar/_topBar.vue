@@ -111,36 +111,34 @@
           style="height: 20px; width: 100%; margin-bottom: 4px; margin-right: 4px"
           :style="pctBackground" />
 
-        <div
-          v-else-if="ticks"
-          v-for="i in ticks"
-          class="d-inline-block"
-          :style="`width: ${100 / ticks}%;`">
-          <v-tooltip location="top" :open-delay="400">
-            <template #activator="{ props }">
-              <v-btn
-                v-bind="props"
-                tile
-                flat
-                :readonly="readonly || disabled || loading"
-                @mouseover="hover = i"
-                @mouseleave="hover = null"
-                height="20px"
-                style="width: calc(100% - 4px); margin-top: -5px"
-                @click="setVal(i)"
-                class="tick"
-                :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`}  px-0 `" />
-            </template>
-            <div class="heading h3 text-center">
-              <div class="text-cc-overline text-disabled">{{ label }}</div>
-              <span v-if="valueAtlas?.length">
-                {{ valueAtlas[i] }}
-              </span>
-              <span v-else>
-                {{ i }}
-              </span>
-            </div>
-          </v-tooltip>
+        <div v-else-if="ticks">
+          <div v-for="i in ticks" class="d-inline-block pl-1" :style="`width: ${100 / ticks}%;`">
+            <v-tooltip location="top" :open-delay="400">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  tile
+                  flat
+                  :readonly="readonly || disabled || loading"
+                  @mouseover="hover = i"
+                  @mouseleave="hover = null"
+                  height="20px"
+                  style="width: 100%; margin-top: -5px"
+                  @click="setVal(i)"
+                  class="tick"
+                  :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`}`" />
+              </template>
+              <div class="heading h3 text-center">
+                <div class="text-cc-overline text-disabled">{{ label }}</div>
+                <span v-if="valueAtlas?.length">
+                  {{ valueAtlas[i] }}
+                </span>
+                <span v-else>
+                  {{ i }}
+                </span>
+              </div>
+            </v-tooltip>
+          </div>
         </div>
       </v-col>
 

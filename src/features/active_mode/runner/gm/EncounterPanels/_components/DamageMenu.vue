@@ -24,6 +24,69 @@
           </v-btn>
         </v-toolbar>
         <v-card-text>
+          <div class="text-cc-overline">
+            Damage Origin
+            <span class="text-disabled">// Optional</span>
+          </div>
+          <v-row dense>
+            <v-col>
+              <cc-select
+                v-model="damageSource"
+                chip-variant="text"
+                :items="damageSources"
+                :item-title="(x) => `${x.actor.Name} #${x.number}`"
+                clearable
+                return-object />
+            </v-col>
+            <v-col>
+              <cc-select
+                :disabled="!damageSource"
+                v-model="damageSourceFeature"
+                :items="damageSourceFeatures"
+                chip-variant="text"
+                :item-title="(x) => `${x.Name} `"
+                clearable
+                :details="originDamageStrings.length && originDamageStrings.join(', ') + ' Damage'"
+                return-object />
+            </v-col>
+            <v-col cols="auto" v-if="!damageSource">
+              <v-btn
+                :disabled="!damageSource"
+                flat
+                tile
+                block
+                size="small"
+                prepend-icon="mdi-plus"
+                color="primary"
+                @click="setDamageOrigin">
+                Add Origin
+              </v-btn>
+            </v-col>
+            <v-col cols="auto" v-if="damageSource">
+              <v-btn
+                flat
+                tile
+                block
+                size="small"
+                prepend-icon="mdi-calculator"
+                color="primary"
+                @click="setDamageOrigin">
+                Recalculate
+              </v-btn>
+            </v-col>
+            <v-col cols="auto" v-if="damageSource">
+              <v-btn
+                flat
+                tile
+                block
+                size="small"
+                prepend-icon="mdi-close"
+                color="primary"
+                @click="clearDamageOrigin">
+                Clear
+              </v-btn>
+            </v-col>
+          </v-row>
           <v-row>
             <v-col style="max-width: 300px">
               <div class="text-cc-overline text-disabled">Incoming Damage Value</div>
@@ -272,6 +335,10 @@ export default {
       type: Object,
       required: true,
     },
+    encounter: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
     incomingDamageValue: 0,
@@ -295,6 +362,10 @@ export default {
       { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
       { ID: 6, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
     ],
+    damageSource: null,
+    damageSourceFeature: null,
+    damageOrigin: null,
+    originDamageStrings: [],
   }),
   watch: {
     incomingDamageValue(newValue) {
@@ -318,6 +389,9 @@ export default {
       },
       deep: true,
     },
+    damageSourceFeature() {
+      this.setDamageOrigin();
+    },
   },
   computed: {
     statuses() {
@@ -330,6 +404,17 @@ export default {
     defenderDamageResist() {
       return;
     },
+    damageSources() {
+      return this.encounter.Combatants;
+    },
+    damageSourceFeatures() {
+      if (!this.damageSource) return [];
+      let features = this.damageSource.actor.NpcFeatureController?.Features;
+      // TODO: v3 data to furnish potential damage values and synergy text
+      console.log(features);
+      features.push({ Name: 'Other' });
+      return features;
+    },
   },
   methods: {
     recalc() {
@@ -340,6 +425,37 @@ export default {
           Number(this.defenderArmorValue) -
           Number(this.defenderResistanceValue)
       );
+    },
+    setDamageOrigin() {
+      if (!this.damageSource) return;
+      this.damageOrigin = {
+        source: this.damageSource,
+        feature: this.damageSourceFeature,
+      };
+      let damage;
+      if (this.damageSourceFeature && this.damageSourceFeature.DamageData) {
+        damage = this.damageSourceFeature.Damage(this.damageSource.actor.Tier || 1);
+        if (damage.length) {
+          this.originDamageStrings = damage.map((d) => `${d.Value} ${d.Type}`);
+          // TODO: support multiple damage types
+          this.incomingDamageType =
+            this.damageTypes.find((d) => d.ID === damage[0].Type) || this.incomingDamageType;
+          this.incomingDamageValue = damage[0].Value;
+        } else {
+          this.originDamageStrings = [];
+        }
+        console.log('Damage from feature:', damage);
+      } else {
+        this.originDamageStrings = [];
+      }
+    },
+    clearDamageOrigin() {
+      this.damageSource = null;
+      this.damageSourceFeature = null;
+      this.damageOrigin = null;
+      this.originDamageStrings = [];
+      this.incomingDamageValue = 0;
+      this.recalc();
     },
     toggleDamageMod(mod) {
       if (this.damageMods.includes(mod)) {

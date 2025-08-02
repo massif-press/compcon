@@ -34,7 +34,11 @@
               <component :is="`${panel}-panel`" :key="panel" :encounter="instance.Encounter" />
             </div>
             <div v-else>
-              <component :is="`${selected.type}-panel`" :key="selected.id" :combatant="selected" />
+              <component
+                :is="`${selected.type}-panel`"
+                :key="selected.id"
+                :combatant="selected"
+                :encounter="instance.Encounter" />
             </div>
           </v-container>
         </v-main>
@@ -58,37 +62,13 @@
         <v-footer app height="36" style="border-top: 1px solid rgba(255, 255, 255, 0.1)">
           <v-row justify="space-between" align="center" no-gutters>
             <v-col cols="3">
-              <v-btn
-                flat
-                block
-                variant="text"
-                color="accent"
-                prepend-icon="mdi-star-four-points-box-outline"
-                @click="$emit('endEncounter')">
-                GM Overrides
-              </v-btn>
+              <gm-override-panel :encounter="instance.Encounter" />
             </v-col>
             <v-col cols="3">
-              <v-btn
-                flat
-                block
-                variant="text"
-                color="accent"
-                prepend-icon="mdi-clock-end"
-                @click="$emit('endEncounter')">
-                End Round
-              </v-btn>
+              <gm-end-round-panel :encounter="instance.Encounter" />
             </v-col>
             <v-col cols="3">
-              <v-btn
-                flat
-                block
-                variant="text"
-                color="accent"
-                prepend-icon="mdi-stop-circle-outline"
-                @click="$emit('endEncounter')">
-                End Encounter
-              </v-btn>
+              <gm-end-encounter-panel :encounter="instance.Encounter" />
             </v-col>
           </v-row>
         </v-footer>
@@ -127,6 +107,9 @@ import { Encounter } from '@/classes/encounter/Encounter';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import GmInitiativePanel from './_components/GmInitiativePanel.vue';
 import GmToolPalette from './_components/GmToolPalette.vue';
+import GmOverridePanel from './EncounterPanels/_components/GmOverridePanel.vue';
+import GmEndRoundPanel from './EncounterPanels/_components/GmEndRoundPanel.vue';
+import GmEndEncounterPanel from './EncounterPanels/_components/GmEndEncounterPanel.vue';
 
 export default {
   name: 'gm-encounter-runner',
@@ -145,6 +128,9 @@ export default {
     QuickReferencePanel,
     GmNotesPanel,
     GmToolPalette,
+    GmOverridePanel,
+    GmEndRoundPanel,
+    GmEndEncounterPanel,
   },
   data: () => ({
     selected: null,

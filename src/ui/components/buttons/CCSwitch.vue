@@ -178,7 +178,7 @@ export default {
 }
 
 .toggle.default {
-  width: 60px;
+  width: 80px;
   height: 18px;
 }
 

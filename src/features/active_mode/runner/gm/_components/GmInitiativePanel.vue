@@ -1,16 +1,16 @@
 <template>
-  <div v-if="expanded">
+  <div v-if="expanded" class="mb-1">
     <v-btn-group flat tile style="width: 100%; height: 20px" color="primary">
-      <v-btn size="x-small" style="width: 25%" @click="sortBy('name')">
+      <v-btn size="x-small" style="width: 25%" @click="itemSort('name')">
         <v-icon size="x-large" icon="mdi-format-text-variant" />
       </v-btn>
-      <v-btn size="x-small" style="width: 25%" @click="sortBy('type')">
+      <v-btn size="x-small" style="width: 25%" @click="itemSort('type')">
         <v-icon size="x-large" icon="cc:pilot" />
       </v-btn>
-      <v-btn size="x-small" style="width: 25%" @click="sortBy('activations')">
+      <v-btn size="x-small" style="width: 25%" @click="itemSort('activations')">
         <v-icon size="x-large" icon="cc:activate" />
       </v-btn>
-      <v-btn size="x-small" style="width: 25%" @click="sortBy('side')">
+      <v-btn size="x-small" style="width: 25%" @click="itemSort('side')">
         <v-icon size="x-large" icon="mdi-flag" />
       </v-btn>
     </v-btn-group>
@@ -19,7 +19,7 @@
     ref="sortable"
     :key="sortableKey"
     :sort="true"
-    :list="actors"
+    :list="combatants"
     :options="{
       animation: 250,
       easing: 'cubic-bezier(1, 0, 0, 1)',
@@ -27,7 +27,7 @@
     }"
     item-key="index">
     <template #item="{ element, index }">
-      <div class="my-2">
+      <div class="mb-1">
         <component
           :is="`${element.type}-runner-list-item`"
           :combatant="element"
@@ -58,7 +58,7 @@
         </v-btn>
       </template>
       <v-card tile>
-        <v-btn block border flat tile color="primary">Add Reinforcement</v-btn>
+        <v-btn block border flat tile color="primary">Add NPC</v-btn>
         <v-btn block border flat tile color="primary">Add Pilot</v-btn>
         <v-btn block border flat tile color="primary">Add Doodad</v-btn>
         <v-btn block border flat tile color="primary">Add Other</v-btn>
@@ -101,23 +101,60 @@ export default {
   },
   data: () => ({
     sort: '',
+    sortAsc: true,
     sortableKey: `sk-0`,
-    actors: [],
+    combatants: [],
   }),
   emits: ['select'],
   mounted() {
-    console.log(this.encounter.Combatants);
-    this.actors = this.encounter.Combatants;
+    this.combatants = this.encounter.Combatants;
   },
   methods: {
-    async sortBy(key) {
-      const sorted = _.orderBy(this.actors, key, this.sort === key ? 'desc' : 'asc');
-      if (this.sort === key) sorted.reverse();
-      this.sort = key;
+    itemSort(key) {
+      console.log(key);
+      let sorted = [...this.combatants];
 
-      this.actors = sorted;
+      if (key === 'name') {
+        sorted.sort((a, b) =>
+          (a.actor.Callsign || a.actor.Name).localeCompare(b.actor.Callsign || b.actor.Name)
+        );
+      } else if (key === 'type') {
+        sorted.sort((a, b) => {
+          if (a.actor.ItemType === 'Pilot') return -1;
+          if (a.actor.ItemType === b.actor.ItemType) {
+            return (a.actor.Callsign || a.actor.Name).localeCompare(
+              b.actor.Callsign || b.actor.Name
+            );
+          }
+          return a.actor.ItemType.localeCompare(b.actor.ItemType);
+        });
+      } else if (key === 'activations') {
+        sorted.sort((a, b) => {
+          const aVal = a.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
+          const bVal = b.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
+          return aVal - bVal;
+        });
+      } else if (key === 'side') {
+        sorted.sort((a, b) => a.side.localeCompare(b.side));
+      }
+
+      if (this.sort === key) {
+        this.sortAsc = !this.sortAsc;
+      } else {
+        this.sort = key;
+        this.sortAsc = true;
+      }
+
+      if (!this.sortAsc) {
+        sorted.reverse();
+      }
+
+      sorted.forEach((c, i) => {
+        c.index = i;
+      });
+
+      this.combatants = sorted;
       this.sortableKey = `sk-${Math.floor(Math.random() * 1000)}`;
-      await this.$forceUpdate();
     },
     selectActor(actor) {
       this.selected = actor;
