@@ -6,9 +6,8 @@
           {{ item.Name }}
           <span class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />
-            {{ item.WeaponType }}
+            {{ item.WeaponTypes.join('/') }} -
             {{ item.Size }}
-            {{ item.WeaponTypes.join('/') }}
           </span>
         </div>
         <div v-else class="px-2">{{ item.Size }} Weapon</div>
@@ -36,8 +35,6 @@
       </v-card>
 
       <div v-if="item" class="pt-1">
-        uses/ltd bonus
-
         <div>
           <div v-if="isEngineerWeapon" class="mb-1">
             <eng-weapon-settings :item="item" :mech="mech" :readonly="readonly" />
@@ -53,6 +50,7 @@
               center-active>
               <v-tab v-for="p in item.Profiles">{{ p.Name }}</v-tab>
             </v-tabs>
+
             <v-chip-group v-else column v-model="item.ProfileIndex" class="mb-2">
               <cc-chip
                 v-for="(p, i) in item.Profiles"
@@ -66,6 +64,7 @@
                 {{ p.Name }}
               </cc-chip>
             </v-chip-group>
+
             <div>
               <div v-if="item.Profiles[item.ProfileIndex].Effect" class="panel clipped pa-2">
                 <v-row dense align="end">
@@ -82,7 +81,7 @@
               <div class="text-cc-overline text-disabled">//PROFILE ACTIONS</div>
               <v-row no-gutters justify="center">
                 <v-col v-for="a in item.Profiles[item.ProfileIndex].Actions" cols="auto">
-                  <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
+                  <cc-action :action="a" class="ma-2" />
                 </v-col>
               </v-row>
             </div>
@@ -91,11 +90,7 @@
               <div class="text-cc-overline text-disabled">//PROFILE DEPLOYABLES</div>
               <v-row no-gutters justify="center">
                 <v-col v-for="(d, i) in item.Profiles[item.ProfileIndex].Deployables" cols="auto">
-                  <cc-deployable-info
-                    :deployable="d"
-                    :panel="$vuetify.display.lgAndUp"
-                    :name-override="item.Name"
-                    class="ma-2" />
+                  <cc-deployable-info :deployable="d" :name-override="item.Name" class="ma-2" />
                 </v-col>
               </v-row>
             </div>
@@ -181,6 +176,36 @@
       </div>
     </v-card-text>
   </v-card>
+  <v-row dense class="bg-panel mt-1 rounded-sm border-sm" align="center" justify="space-between">
+    <v-col class="py-0">
+      <v-btn flat tile block size="small" color="primary">Mark Used</v-btn>
+    </v-col>
+    <v-col class="py-0">
+      <v-icon
+        v-for="n in item.MaxUses"
+        :key="n"
+        :icon="n >= item.Uses ? 'mdi-hexagon' : 'mdi-hexagon-outline'"
+        size="x-small" />
+    </v-col>
+    <v-col v-if="item.MaxUses" cols="auto" class="py-0">
+      <v-tooltip location="top" text="Reset Uses">
+        <template #activator="{ props }">
+          <v-btn v-bind="props" icon size="x-small" tile variant="text">
+            <v-icon icon="mdi-reload" />
+          </v-btn>
+        </template>
+      </v-tooltip>
+    </v-col>
+    <v-col cols="auto" class="py-0">
+      <v-tooltip location="top" text="Mark Destroyed">
+        <template #activator="{ props }">
+          <v-btn v-bind="props" icon size="x-small" tile variant="text" class="bg-primary">
+            <v-icon icon="mdi-cube-off" />
+          </v-btn>
+        </template>
+      </v-tooltip>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

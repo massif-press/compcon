@@ -121,7 +121,7 @@
           </v-col>
         </v-row>
 
-        <damage-menu :controller="pilot.CombatController" />
+        <damage-menu :encounter="encounter" :controller="item.CombatController" />
       </v-col>
     </v-row>
 
@@ -147,6 +147,10 @@ export default {
   },
   props: {
     combatant: {
+      type: Object,
+      required: true,
+    },
+    encounter: {
       type: Object,
       required: true,
     },

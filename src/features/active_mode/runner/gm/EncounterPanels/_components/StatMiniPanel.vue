@@ -19,7 +19,7 @@
                 v-if="icon"
                 :icon="icon"
                 :color="color"
-                :class="boolean ? 'mr-1' : 'mt-n2 mr-1'"
+                :class="boolean ? 'mr-1' : 'mt-n2 mr-2'"
                 :size="boolean ? 60 : 40" />
               <span v-if="!boolean" class="mr-2">{{ modelValue }}</span>
             </v-col>
@@ -36,7 +36,13 @@
         <v-card-text>
           <v-row dense>
             <v-col cols="auto">
-              <v-btn icon flat tile size="x-small" variant="text" @click="$emit('decrement')">
+              <v-btn
+                icon
+                flat
+                tile
+                size="x-small"
+                variant="text"
+                @input="$emit('update:modelValue', modelValue - 1)">
                 <v-icon size="x-large" icon="mdi-minus" />
               </v-btn>
             </v-col>
@@ -54,7 +60,13 @@
                 @input="$emit('update:modelValue', $event.target.value)" />
             </v-col>
             <v-col cols="auto">
-              <v-btn icon flat tile size="x-small" variant="text" @click="$emit('increment')">
+              <v-btn
+                icon
+                flat
+                tile
+                size="x-small"
+                variant="text"
+                @input="$emit('update:modelValue', modelValue + 1)">
                 <v-icon size="x-large" icon="mdi-plus" />
               </v-btn>
             </v-col>

@@ -70,6 +70,10 @@ export class NpcWeapon extends NpcFeature {
     return this._range;
   }
 
+  public get DamageData(): INpcDamageData[] {
+    return this._damage_data;
+  }
+
   public Damage(tier: number): Damage[] {
     if (!this._damage_data) return [];
     return this._damage_data.map((x: INpcDamageData) => {

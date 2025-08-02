@@ -24,8 +24,11 @@ enum CoverType {
 class CombatData {
   stats: IStatData = {} as IStatData;
   statuses: { status: any; expires: any }[] = []; //expires should be a condition or round val
+  customStatuses: { status: any; expires: any }[] = [];
+  customDamageStatuses: { type: string; condition: string }[] = [];
   specialStatuses: { status: any; expires: any }[] = [];
   damage: { type: DamageType; condition: string }[] = [];
+  engaged: boolean = false;
   state: any;
   counters: ICounterCollection = {} as ICounterCollection;
   combatActions: string[] = [];
@@ -38,11 +41,14 @@ class CombatController implements ICounterContainer, IStatContainer {
   public readonly Parent: ICombatant;
 
   public DamageStatuses: { type: string; condition: string }[] = [];
+  public CustomStatuses: { status: Status; expires: any }[] = [];
+  public CustomDamageStatuses: { type: string; condition: string }[] = [];
   public CombatantState: any = {};
   public Statuses: { status: Status; expires: any }[] = [];
   public SpecialStatuses: { status: Status; expires: any }[] = [];
   public Counters: Counter[] = [];
   public Cover: CoverType = CoverType.None;
+  public Engaged: boolean = false;
   private _combatActions: string[] = [];
 
   public StatController: StatController;
@@ -56,6 +62,10 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.Parent = parent;
     this.StatController = new StatController(this);
     this.CounterController = new CounterController(this);
+  }
+
+  public get Activations(): number {
+    return this.StatController.getStat('activations');
   }
 
   public setStats(statArr: { key: string; val: number }[]): void {
@@ -85,11 +95,25 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
+  public get IsDestroyed(): boolean {
+    return this.StatController.CurrentStats['structure'] <= 0;
+  }
+
+  public get IsInDangerZone(): boolean {
+    return (
+      this.StatController.CurrentStats['heatcap'] >=
+      Math.ceil(this.StatController.MaxStats['heatcap'] / 2)
+    );
+  }
+
   public static Serialize(controller: CombatController, target: any) {
     if (!target.stats) target.stats = {};
     if (!target.counters) target.counters = {};
     target.statuses = controller.Statuses;
+    target.customStatuses = controller.CustomStatuses;
+    target.customDamageStatuses = controller.CustomDamageStatuses;
     target.damage = controller.DamageStatuses;
+    target.engaged = controller.Engaged;
     target.state = controller.CombatantState;
     target.combatActions = controller._combatActions;
     target.cover = controller.Cover;
@@ -104,7 +128,10 @@ class CombatController implements ICounterContainer, IStatContainer {
       );
 
     controller.Statuses = data?.statuses || [];
+    controller.CustomStatuses = data?.customStatuses || [];
+    controller.CustomDamageStatuses = data?.customDamageStatuses || [];
     controller.DamageStatuses = data?.damage || [];
+    controller.Engaged = data?.engaged || false;
     controller.CombatantState = data?.state || {};
     controller._combatActions = data?.combatActions || [];
     controller.Cover = data?.cover || CoverType.None;

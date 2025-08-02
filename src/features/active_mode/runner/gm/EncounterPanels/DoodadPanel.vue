@@ -1,5 +1,10 @@
 <template>
-  {{ item }}
+  <panel-base :encounter="encounter" :item="combatant.actor">
+    <template #name-block>
+      <div class="heading h2">{{ combatant.actor.Name }}</div>
+      <div class="text-cc-overline">Doodad</div>
+    </template>
+  </panel-base>
 </template>
 
 <script>
@@ -11,7 +16,11 @@ export default {
     PanelBase,
   },
   props: {
-    item: {
+    combatant: {
+      type: Object,
+      required: true,
+    },
+    encounter: {
       type: Object,
       required: true,
     },

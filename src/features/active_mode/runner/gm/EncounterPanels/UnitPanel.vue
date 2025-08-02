@@ -1,7 +1,7 @@
 <template>
   <scan-menu :item="combatant.actor" />
 
-  <panel-base :item="combatant.actor">
+  <panel-base :encounter="encounter" :item="combatant.actor">
     <template #name-block>
       <div class="heading h2">
         {{ combatant.actor.Name }}
@@ -30,6 +30,10 @@ export default {
   },
   props: {
     combatant: {
+      type: Object,
+      required: true,
+    },
+    encounter: {
       type: Object,
       required: true,
     },

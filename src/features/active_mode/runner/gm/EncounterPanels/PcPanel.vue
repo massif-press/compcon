@@ -17,7 +17,7 @@
     <v-col v-if="mech" :cols="view === 'mech' ? '' : 'auto'">
       <cc-button
         size="small"
-        :color="view === 'mech' ? 'accent' : 'panel'"
+        :color="view === 'mech' ? 'primary' : 'panel'"
         block
         @click="view = 'mech'">
         {{ mech.Name }}
@@ -32,7 +32,7 @@
     <v-col :cols="view === 'pilot' ? '' : 'auto'">
       <cc-button
         size="small"
-        :color="view === 'pilot' ? 'accent' : 'panel'"
+        :color="view === 'pilot' ? 'primary' : 'panel'"
         block
         @click="view = 'pilot'">
         {{ combatant.actor.Callsign }}
@@ -42,10 +42,10 @@
 
   <v-window v-model="view">
     <v-window-item value="mech">
-      <mech-panel v-if="mech" :combatant="combatant" />
+      <mech-panel :encounter="encounter" v-if="mech" :combatant="combatant" />
     </v-window-item>
     <v-window-item value="pilot">
-      <pilot-panel :combatant="combatant" />
+      <pilot-panel :encounter="encounter" :combatant="combatant" />
     </v-window-item>
   </v-window>
 </template>
@@ -62,6 +62,10 @@ export default {
   },
   props: {
     combatant: {
+      type: Object,
+      required: true,
+    },
+    encounter: {
       type: Object,
       required: true,
     },

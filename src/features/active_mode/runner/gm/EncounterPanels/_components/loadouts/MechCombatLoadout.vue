@@ -1,4 +1,5 @@
 <template>
+  <div class="text-cc-overline">// WEAPONS</div>
   <masonry-wall :items="mounts" :column-width="600" :gap="16" :min-columns="1" :max-columns="2">
     <template #default="{ item }">
       <fieldset class="pb-2 px-3" style="border-color: rgba(155, 155, 155, 0.6)">
@@ -10,7 +11,8 @@
 
         <cb-card v-for="b in item.mount.Bonuses" :bonus="b" />
         <sh-lock-card v-if="item.mount.IsLocked" />
-        <div v-for="s in item.mount.Slots">
+        <div v-for="(s, idx) in item.mount.Slots">
+          <div v-if="idx > 0" class="my-4" />
           <mech-weapon-card
             v-if="s && s.Weapon"
             :key="s.ID"
@@ -19,24 +21,31 @@
             :mount="item.mount"
             :int-weapon="item.isIntWeapon || item.isIntegrated" />
         </div>
-        <!-- <weapon-slot-card
-      v-if="!item.mount.IsLocked"
-      v-for="s in item.mount.Slots"
-      :weapon-slot="s"
-      :mech="mech"
-      :mount="item.mount" /> -->
+      </fieldset>
+    </template>
+  </masonry-wall>
+  <div class="text-cc-overline mt-2">// SYSTEMS</div>
+  <masonry-wall :items="systems" :column-width="600" :gap="16" :min-columns="1" :max-columns="2">
+    <template #default="{ item }">
+      <fieldset class="pb-2 px-3" style="border-color: rgba(155, 155, 155, 0.6)">
+        <legend class="heading h4 mx-2 px-2 text-accent">
+          {{ (item as any).Name }}
+        </legend>
+        <mech-system-card :key="(item as any).ID" :item="<any>item" :mech="mech" />
       </fieldset>
     </template>
   </masonry-wall>
 </template>
 
 <script lang="ts">
+import MechSystemCard from './_mechSystemCard.vue';
 import MechWeaponCard from './_mechWeaponCard.vue';
 
 export default {
   name: 'mech-combat-loadout',
   components: {
     MechWeaponCard,
+    MechSystemCard,
   },
   props: {
     mech: {
@@ -45,6 +54,9 @@ export default {
     },
   },
   computed: {
+    systems() {
+      return this.mech.MechLoadoutController.ActiveLoadout.Systems;
+    },
     mounts() {
       let items = [] as {
         mount: any;

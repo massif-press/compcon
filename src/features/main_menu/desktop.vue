@@ -26,6 +26,13 @@
           GM Toolkit
         </main-btn>
         <main-btn
+          icon="cc:campaign"
+          :to="'/active-mode'"
+          help="Run an Encounter or Active Character Sheet"
+          @hover="ccLog('encounter')">
+          Active Mode
+        </main-btn>
+        <main-btn
           icon="cc:content_manager"
           help="Import Content Packs"
           @hover="ccLog('content')"
@@ -40,13 +47,6 @@
             </template>
           </v-tooltip>
           <extra-content v-model="extraContentModal" />
-        </main-btn>
-        <main-btn
-          icon="cc:campaign"
-          :to="'/active-mode'"
-          help="Run an Encounter or Active Character Sheet"
-          @hover="ccLog('encounter')">
-          Active Mode
         </main-btn>
       </v-row>
     </v-container>

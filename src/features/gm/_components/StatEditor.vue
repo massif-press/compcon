@@ -5,8 +5,7 @@
         <v-col
           v-for="kvp in displayKeys.filter((x) => !hiddenKeys.includes(x.key))"
           v-show="kvp.key !== 'sizes'"
-          :style="`min-width: ${mobile ? 'fit-content' : '12vw'}`"
-        >
+          :style="`min-width: ${mobile ? 'fit-content' : '12vw'}`">
           <editable-attribute
             :readonly="readonly || !editing"
             :stat="kvp"
@@ -14,11 +13,8 @@
             :val="item.StatController.MaxStats[kvp.key]"
             :deletable="!mandatoryStats.includes(kvp.key)"
             :bonuses="getBonuses(kvp.key)"
-            @set="
-              item.StatController.setMax(kvp.key, $event.value, $event.tier)
-            "
-            @remove="item.StatController.RemoveStat($event)"
-          />
+            @set="item.StatController.setMax(kvp.key, $event.value, $event.tier)"
+            @remove="item.StatController.RemoveStat($event)" />
         </v-col>
       </v-row>
       <div v-else class="text-center text-disabled text-caption pa-2">
@@ -31,8 +27,7 @@
           :color="editing ? 'success' : 'primary'"
           size="small"
           :prepend-icon="editing ? 'mdi-check' : 'mdi-pencil'"
-          @click="editing = !editing"
-        >
+          @click="editing = !editing">
           {{ editing ? 'Done' : 'Edit' }}
         </cc-button>
       </v-col>
@@ -40,21 +35,14 @@
       <v-col cols="auto" class="ml-auto">
         <v-menu v-model="resetMenu" :close-on-content-click="false">
           <template v-slot:activator="{ props }">
-            <cc-button
-              v-bind="props"
-              size="small"
-              color="error"
-              prepend-icon="mdi-undo-variant"
-            >
+            <cc-button v-bind="props" size="small" color="error" prepend-icon="mdi-undo-variant">
               Reset
             </cc-button>
           </template>
           <v-card max-width="300px">
             <v-card-text>
               This will reset all stats to T{{ controller.Tier }}
-              {{
-                controller.Class ? controller.Class.Name : controller.Layer.Name
-              }}
+              {{ controller.Class ? controller.Class.Name : controller.Layer.Name }}
               default values. Are you sure?
             </v-card-text>
             <cc-button
@@ -65,8 +53,7 @@
               @click="
                 controller.ResetStats();
                 resetMenu = false;
-              "
-            >
+              ">
               Confirm Reset Stats
             </cc-button>
           </v-card>
@@ -76,23 +63,13 @@
       <v-col cols="auto">
         <v-menu :close-on-content-click="false">
           <template v-slot:activator="{ props }">
-            <cc-button
-              v-bind="props"
-              size="small"
-              color="primary"
-              prepend-icon="cc:compendium"
-            >
+            <cc-button v-bind="props" size="small" color="primary" prepend-icon="cc:compendium">
               Add Stat
             </cc-button>
           </template>
 
           <v-card width="300px" flat tile border>
-            <v-tabs
-              v-model="menuTab"
-              height="24"
-              bg-color="primary"
-              density="compact"
-            >
+            <v-tabs v-model="menuTab" height="24" bg-color="primary" density="compact">
               <v-tab>Core</v-tab>
               <v-tab>Custom</v-tab>
             </v-tabs>
@@ -108,20 +85,16 @@
                     clearable
                     density="compact"
                     hide-details
-                    chips
-                  />
+                    chips />
                   <cc-button
                     block
                     class="my-2"
                     color="primary"
                     size="small"
                     :disabled="!statsToAdd.length"
-                    @click="addCoreStats()"
-                  >
+                    @click="addCoreStats()">
                     Add
-                    <span v-if="statsToAdd.length"
-                      >{{ statsToAdd.length }} Stat(s)</span
-                    >
+                    <span v-if="statsToAdd.length">{{ statsToAdd.length }} Stat(s)</span>
                   </cc-button>
                 </v-window-item>
                 <v-window-item>
@@ -130,15 +103,13 @@
                     clearable
                     density="compact"
                     label="Stat Name"
-                    hide-details
-                  />
+                    hide-details />
                   <cc-button
                     block
                     color="primary"
                     class="my-2"
                     size="small"
-                    @click="addCustomStat()"
-                  >
+                    @click="addCustomStat()">
                     Add
                   </cc-button>
                 </v-window-item>
@@ -152,10 +123,7 @@
 </template>
 
 <script lang="ts">
-import {
-  MandatoryStats,
-  StatController,
-} from '@/classes/components/combat/stats/StatController';
+import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
 import { Bonus } from '@/classes/components';
 
@@ -219,17 +187,14 @@ export default {
     },
     availableCoreStats() {
       return StatController.CoreStats.filter(
-        (x) =>
-          !this.item.StatController.DisplayKeys.some((y) => y.key === x.key)
+        (x) => !this.item.StatController.DisplayKeys.some((y) => y.key === x.key)
       ).filter((x) => x.key !== 'sizes');
     },
     displayKeys() {
-      const omit = ['overshield', 'overcharge'];
+      const omit = ['overshield', 'overcharge', 'burn'];
       return this.item.StatController.DisplayKeys.filter(
         (x) => !omit.includes(x.key.toLowerCase())
-      ).sort(
-        (a, b) => npcStatOrder.indexOf(a.key) - npcStatOrder.indexOf(b.key)
-      );
+      ).sort((a, b) => npcStatOrder.indexOf(a.key) - npcStatOrder.indexOf(b.key));
     },
     mandatoryStats() {
       return MandatoryStats;

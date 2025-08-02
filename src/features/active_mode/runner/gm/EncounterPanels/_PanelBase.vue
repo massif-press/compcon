@@ -1,26 +1,23 @@
 <template>
   <slot name="header" />
+  <cc-alert v-if="item.CombatController.IsDestroyed" class="ma-2" color="error" prominent outlined>
+    <v-icon icon="cc:destroyed" size="large" start />
+    <span class="text-cc-overline">{{ item.ItemType }} DESTROYED</span>
+  </cc-alert>
   <v-card flat tile class="pa-2">
     <v-row class="pr-4">
       <v-col cols="auto">
         <cc-img width="155px" height="100%" color="panel" cover :src="item.Portrait" />
       </v-col>
       <v-col>
-        <v-row no-gutters>
+        <v-row no-gutters align="center">
           <v-col cols="auto" align-self="center" class="ml-n2 mr-2">
             <v-icon :icon="item.SizeIcon" size="60" />
           </v-col>
           <v-col cols="auto">
             <slot name="name-block" />
           </v-col>
-          <v-col cols="auto" class="mx-auto" align-self="center">
-            <v-btn-toggle v-model="item.CombatController.Cover" flat tile color="primary">
-              <v-btn size="x-small" height="20px" value="none">No Cover</v-btn>
-              <v-btn size="x-small" height="20px" value="soft">Soft Cover</v-btn>
-              <v-btn size="x-small" height="20px" value="hard">Hard Cover</v-btn>
-            </v-btn-toggle>
-          </v-col>
-          <v-col cols="auto" class="pt-3 pr-1">
+          <v-col cols="auto" class="ml-auto mr-1 mt-1">
             <cc-button
               v-for="i in item.CombatController.StatController.MaxStats['activations']"
               icon="cc:activate"
@@ -38,6 +35,7 @@
               "></cc-button>
           </v-col>
         </v-row>
+
         <v-row class="mt-n1">
           <v-col v-if="item.Grit" cols="auto">
             <v-tooltip location="top" text="Pilot Grit">
@@ -87,6 +85,26 @@
           </v-col>
         </v-row>
 
+        <v-row align="center" dense class="border-sm mt-4 mb-2" justify="space-evenly">
+          <v-col>
+            <slot name="action-palette" />
+          </v-col>
+
+          <v-col cols="auto" class="ml-auto" align-self="center">
+            <v-btn-toggle
+              v-model="item.CombatController.Cover"
+              flat
+              tile
+              direction="vertical"
+              color="primary"
+              density="compact">
+              <v-btn size="x-small" value="none">No Cover</v-btn>
+              <v-btn size="x-small" value="soft">Soft Cover</v-btn>
+              <v-btn size="x-small" value="hard">Hard Cover</v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row>
+
         <v-row>
           <v-col>
             <cc-tickbar
@@ -94,7 +112,7 @@
               v-model:secondary="item.StatController.CurrentStats['structure']"
               v-model:tertiary="item.StatController.CurrentStats['overshield']"
               primary-label="Hit Points"
-              secondary-label="Structure"
+              :secondary-label="item.StatController.MaxStats['structure'] && 'Structure'"
               tertiary-label="Overshield"
               color="hp"
               secondary-color="structure"
@@ -122,9 +140,9 @@
               v-model:secondary="item.StatController.CurrentStats['stress']"
               v-model:tertiary="item.StatController.CurrentStats['overcharge']"
               :value-atlas="overchargeTrack"
-              secondary-label="Reactor Stress"
+              :secondary-label="item.StatController.MaxStats['stress'] && 'Reactor Stress'"
               tertiary-label="Overcharge"
-              color="heat"
+              :color="item.CombatController.IsInDangerZone ? 'dangerzone' : 'heat'"
               secondary-color="stress"
               tertiary-color="overcharge"
               icon="cc:heat"
@@ -145,6 +163,7 @@
         <v-row class="mb-3">
           <v-col>
             <cc-tickbar
+              v-if="item.StatController.MaxStats['speed']"
               v-model="item.StatController.CurrentStats['speed']"
               color="primary"
               min-width="150px"
@@ -173,7 +192,9 @@
           </v-col>
         </v-row>
 
-        <combat-action-panel :controller="item.CombatController" />
+        <combat-action-panel
+          v-if="item.CombatController.StatController.MaxStats['activations']"
+          :controller="item.CombatController" />
 
         <v-row dense class="mt-4">
           <v-col cols="4">
@@ -185,7 +206,7 @@
           </v-col>
         </v-row>
 
-        <damage-menu :controller="item.CombatController" />
+        <damage-menu :encounter="encounter" :controller="item.CombatController" />
       </v-col>
     </v-row>
 
@@ -194,7 +215,6 @@
     <div class="text-cc-overline mt-4 text-disabled">COUNTERS</div>
     <cc-counter-set :actor="item" />
 
-    <v-divider class="my-4" />
     <slot />
   </v-card>
 </template>
@@ -234,6 +254,10 @@ export default {
   },
   props: {
     item: {
+      type: Object,
+      required: true,
+    },
+    encounter: {
       type: Object,
       required: true,
     },

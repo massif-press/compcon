@@ -60,6 +60,12 @@
         almost useless here.
       </p>
     </v-card-text>
+
+    <v-card-text>
+      <div class="text-cc-overline text-disabled">Reinforcements</div>
+      TODO
+      <br />
+    </v-card-text>
   </v-card>
 </template>
 

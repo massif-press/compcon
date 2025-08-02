@@ -1,13 +1,8 @@
 import { v4 as uuid } from 'uuid';
-import {
-  CloudController,
-  PortraitController,
-  SaveController,
-} from '../../components';
+import { CloudController, PortraitController, SaveController } from '../../components';
 import { NpcData, Npc } from '../Npc';
 import { BrewController } from '@/classes/components/brew/BrewController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
-import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import { FolderController } from '@/classes/components/folder/FolderController';
 import { IInstanceableData } from '@/classes/components/instance/IInstancableData';
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
@@ -15,6 +10,7 @@ import { NpcStore } from '@/stores';
 import { CombatController } from '@/classes/components/combat/CombatController';
 import { ICombatant } from '@/classes/components/combat/ICombatant';
 import { StatController } from '@/classes/components/combat/stats/StatController';
+import { Stats } from '@/classes/components/combat/stats/Stats';
 
 class DoodadData extends NpcData implements IInstanceableData {
   npcType: 'unit' = 'unit';
@@ -54,8 +50,23 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
     return this.CombatController.StatController;
   }
 
+  private _getStats(): any {
+    const kvps = [] as { key: string; val: number }[];
+
+    const allStats = Object.keys({
+      ...this.StatController.MaxStats,
+    });
+
+    allStats.forEach((key) => {
+      let statVal = Stats.DefaultStats[key];
+      kvps.push({ key, val: statVal });
+    });
+    kvps.push({ key: 'burn', val: 0 });
+    return kvps;
+  }
+
   public SetStats() {
-    this.CombatController.setStats([]);
+    this.CombatController.setStats(this._getStats());
   }
 
   public get IsLinked(): boolean {
@@ -118,6 +129,10 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
 
   public get TagIcon(): string {
     return 'mdi-cube-outline';
+  }
+
+  public get SizeIcon(): string {
+    return `cc:size_${this.StatController.getStat('size') || 1}`;
   }
 }
 
