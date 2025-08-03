@@ -3,12 +3,14 @@ import { ISaveData, ISaveable, SaveController } from '../components';
 import { CombatantData, Encounter, IEncounterData } from './Encounter';
 import { PilotData } from '@/interface';
 import { Pilot } from '@/class';
+import { Placeholder } from './Placeholder';
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance';
   id: string;
   encounterData: IEncounterData;
-  pilotData?: PilotData[]; // Optional, if pilots are part of the encounter
+  pilotData?: PilotData[];
+  placeholderData?: Placeholder[];
   round: number;
   save: ISaveData;
   isActive?: boolean;
@@ -23,6 +25,7 @@ class EncounterInstance implements ISaveable {
 
   public Encounter: Encounter;
   public Pilots: Pilot[] = [];
+  public Placeholders: Placeholder[] = [];
   public Combatants: CombatantData[] = [];
 
   private _id: string;
@@ -39,6 +42,7 @@ class EncounterInstance implements ISaveable {
 
     this.Encounter = Encounter.Deserialize(data.encounterData);
     this.Pilots = data.pilotData?.map((p) => Pilot.Deserialize(p)) || [];
+    this.Placeholders = data.placeholderData || [];
 
     this.IsActive = data.isActive || false;
     this.IsArchived = data.archived || false;
@@ -53,6 +57,16 @@ class EncounterInstance implements ISaveable {
           side: 'ally',
           type: 'pilot',
           actor: p,
+        } as CombatantData;
+      }),
+      ...this.Placeholders.map((ph) => {
+        return {
+          id: ph.ID,
+          index: -1,
+          number: -1,
+          type: ph.PlaceholderType,
+          side: ph.Side,
+          actor: ph,
         } as CombatantData;
       }),
     ];

@@ -38,7 +38,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        maximumFileSizeToCacheInBytes: 6 * 1024 ** 2,
+        maximumFileSizeToCacheInBytes: 8 * 1024 ** 2,
       },
     }),
     vue(),
