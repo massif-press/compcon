@@ -3,7 +3,11 @@
     <div class="heading h2">New Local Active Encounter</div>
     <v-row dense class="mt-4" align="center">
       <v-col cols="1" class="text-center">
-        <v-icon icon="cc:encounter" :color="encounter ? 'success' : 'panel'" size="50" />
+        <v-icon
+          icon="cc:encounter"
+          :color="encounter ? 'success' : 'panel'"
+          size="50"
+        />
       </v-col>
       <v-col cols="11">
         <div class="text-cc-overline mb-1">
@@ -17,7 +21,8 @@
                 v-if="!encounter"
                 title="select encounter"
                 color="accent"
-                class="mb-1" />
+                class="mb-1"
+              />
               <v-row dense v-if="!encounter">
                 <v-col cols="3">
                   <cc-text-field
@@ -26,7 +31,8 @@
                     density="compact"
                     hide-details
                     icon="mdi-magnify"
-                    clearable />
+                    clearable
+                  />
                 </v-col>
                 <v-col cols="auto">
                   <v-icon icon="mdi-folder-search" class="d-inline" />
@@ -37,24 +43,38 @@
                     color="primary"
                     density="compact"
                     hide-details
-                    clearable />
+                    clearable
+                  />
                 </v-col>
               </v-row>
 
-              <div class="pa-1" style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden">
+              <div
+                class="pa-1"
+                style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden"
+              >
                 <v-row
                   v-for="(encounter, i) in encounters"
                   no-gutters
                   style="position: relative"
-                  v-show="!selectedEncounter || selectedEncounter.ID === encounter.ID"
+                  v-show="
+                    !selectedEncounter || selectedEncounter.ID === encounter.ID
+                  "
                   @click="selectedEncounter = encounter"
                   class="mb-1 pa-1"
-                  :key="encounter.ID">
+                  :key="encounter.ID"
+                >
                   <v-slide-x-transition leave-absolute>
                     <v-col
                       cols="auto"
-                      v-if="selectedEncounter && selectedEncounter.ID === encounter.ID">
-                      <div class="mr-1 bg-success" style="width: 10px; height: 100%" />
+                      v-if="
+                        selectedEncounter &&
+                        selectedEncounter.ID === encounter.ID
+                      "
+                    >
+                      <div
+                        class="mr-1 bg-success"
+                        style="width: 10px; height: 100%"
+                      />
                     </v-col>
                   </v-slide-x-transition>
 
@@ -62,22 +82,22 @@
                     <gm-encounter-list-item
                       :odd="i % 2 === 0"
                       :item="encounter"
-                      :is-selected="selectedEncounter?.ID === encounter.ID" />
+                      :is-selected="selectedEncounter?.ID === encounter.ID"
+                    />
                   </v-col>
 
                   <v-slide-x-reverse-transition leave-absolute>
-                    <v-col cols="auto" v-if="selectedEncounter">
-                      <div class="d-flex align-center ml-3" style="width: 12px; height: 100%">
-                        <v-btn
-                          variant="text"
-                          color="error"
-                          flat
-                          tile
-                          height="100%"
-                          icon="mdi-close"
-                          size="x-large"
-                          @click.stop="selectedEncounter = null" />
-                      </div>
+                    <v-col cols="auto" v-if="selectedEncounter" class="ml-n1">
+                      <v-btn
+                        color="primary"
+                        flat
+                        tile
+                        stacked
+                        height="100%"
+                        icon="mdi-close"
+                        size="large"
+                        @click.stop="selectedEncounter = null"
+                      />
                     </v-col>
                   </v-slide-x-reverse-transition>
                 </v-row>
@@ -98,7 +118,8 @@
           <div v-if="encounter">
             <cc-alert class="my-1">
               <v-icon icon="mdi-information-outline" class="mr-2" />
-              Additional NPCs can be added in the Encounter Runner after creation.
+              Additional NPCs can be added in the Encounter Runner after
+              creation.
             </cc-alert>
           </div>
 
@@ -110,7 +131,8 @@
                   size="small"
                   color="error"
                   prepend-icon="mdi-close"
-                  @click="clearEmptyEncounter()">
+                  @click="clearEmptyEncounter()"
+                >
                   Cancel
                 </cc-button>
               </v-slide-x-transition>
@@ -122,7 +144,8 @@
                   size="small"
                   color="primary"
                   prepend-icon="mdi-card-plus-outline"
-                  @click="useEmptyEncounter()">
+                  @click="useEmptyEncounter()"
+                >
                   New Encounter
                 </cc-button>
               </v-col>
@@ -135,7 +158,11 @@
     <v-slide-y-transition>
       <v-row v-if="selectedEncounter || emptyEncounter">
         <v-col cols="1" class="text-center">
-          <v-icon icon="cc:pilot" :color="pilots.length ? 'success' : 'panel'" size="50" />
+          <v-icon
+            icon="cc:pilot"
+            :color="pilots.length ? 'success' : 'panel'"
+            size="50"
+          />
         </v-col>
         <v-col>
           <div class="text-cc-overline mb-1">
@@ -143,21 +170,35 @@
             <span class="text-disabled">Pilots</span>
           </div>
           <cc-panel>
-            <cc-titled-divider v-if="!pilots.length" title="Add Pilots" color="accent" />
+            <cc-titled-divider
+              v-if="!pilots.length"
+              title="Add Pilots"
+              color="accent"
+            />
             <div>
               <v-row
                 v-for="p in pilots"
                 no-gutters
                 class="mb-2 bg-background"
-                style="border: 2px solid; border-color: rgb(var(--v-theme-primary))"
-                :key="p.ID">
+                style="
+                  border: 2px solid;
+                  border-color: rgb(var(--v-theme-primary));
+                "
+                :key="p.ID"
+              >
                 <v-col cols="auto" class="bg-primary pr-1" style="padding: 2px">
                   <v-avatar flat tile size="64">
                     <cc-avatar
                       v-if="p.PortraitController.Avatar"
                       :avatar="p.PortraitController.Avatar"
-                      size="64" />
-                    <cc-img v-else-if="p.Portrait" :src="p.Portrait" height="64" width="64" />
+                      size="64"
+                    />
+                    <cc-img
+                      v-else-if="p.Portrait"
+                      :src="p.Portrait"
+                      height="64"
+                      width="64"
+                    />
                   </v-avatar>
                 </v-col>
                 <v-col class="ml-n1">
@@ -185,13 +226,13 @@
                         {{ p.ActiveMech?.Name }}
                         <span class="text-cc-overline text-disabled">
                           <cc-slashes />
-                          {{ p.ActiveMech?.Frame.Source }} {{ p.ActiveMech.Frame.Name }}
+                          {{ p.ActiveMech?.Frame.Source }}
+                          {{ p.ActiveMech.Frame.Name }}
                         </span>
                       </div>
                     </v-col>
                   </v-row>
                 </v-col>
-                <v-col></v-col>
                 <v-col cols="auto">
                   <v-btn
                     flat
@@ -199,8 +240,9 @@
                     stacked
                     height="100%"
                     color="primary"
-                    prepend-icon="mdi-delete"
-                    @click="removePilot(p)" />
+                    prepend-icon="mdi-close"
+                    @click="removePilot(p)"
+                  />
                 </v-col>
               </v-row>
               <div v-for="p in placeholders">{{ p.name }}</div>
@@ -219,7 +261,8 @@
                   block
                   color="primary"
                   tooltip="Import a pilot from JSON data"
-                  prepend-icon="mdi-file-import-outline">
+                  prepend-icon="mdi-file-import-outline"
+                >
                   add from file
                 </cc-button>
               </v-col>
@@ -235,7 +278,8 @@
                       name: 'Pilot Placeholder',
                       id: `placeholder-${placeholders.length + 1}`,
                     })
-                  ">
+                  "
+                >
                   add pilot placeholder
                 </cc-button>
               </v-col>
@@ -249,8 +293,13 @@
         <v-col cols="1" class="text-center">
           <v-icon
             icon="mdi-checkbox-marked-circle-auto-outline"
-            :color="encounter && (pilots.length || placeholders.length) ? 'success' : 'panel'"
-            size="50" />
+            :color="
+              encounter && (pilots.length || placeholders.length)
+                ? 'success'
+                : 'panel'
+            "
+            size="50"
+          />
         </v-col>
         <v-col>
           <div class="text-cc-overline mb-1">
@@ -286,18 +335,28 @@
                     tile
                     dense
                     class="px-2"
-                    :key="p.ID">
+                    :key="p.ID"
+                  >
                     <v-col cols="auto" class="mr-1">
                       <cc-avatar
                         v-if="p.PortraitController.Avatar"
                         :avatar="p.PortraitController.Avatar"
-                        size="48" />
-                      <cc-img v-else-if="p.Portrait" :src="p.Portrait" height="48" width="48" />
+                        size="48"
+                      />
+                      <cc-img
+                        v-else-if="p.Portrait"
+                        :src="p.Portrait"
+                        height="48"
+                        width="48"
+                      />
                     </v-col>
                     <v-col>
                       <div class="heading h3">
                         {{ p.Callsign }}
-                        <span v-if="p.PlayerName" class="text-cc-overline text-disabled">
+                        <span
+                          v-if="p.PlayerName"
+                          class="text-cc-overline text-disabled"
+                        >
                           ({{ p.PlayerName }})
                         </span>
                       </div>
@@ -323,13 +382,17 @@
                   <v-row
                     v-for="(n, i) in encounter.Combatants.sort((a, b) =>
                       a.side.localeCompare(b.side)
-                    ).filter((c) => c.playerCount <= 1 || c.playerCount <= pilots.length)"
+                    ).filter(
+                      (c) =>
+                        c.playerCount <= 1 || c.playerCount <= pilots.length
+                    )"
                     :class="i % 2 === 0 ? 'bg-background' : 'bg-surface'"
                     flat
                     tile
                     dense
                     class="px-2"
-                    :key="n.ID">
+                    :key="n.ID"
+                  >
                     <v-col cols="auto" class="mr-n2">
                       <v-icon size="48" :icon="n.actor.Icon" />
                     </v-col>
@@ -338,7 +401,8 @@
                         v-if="n.actor.Portrait"
                         :src="n.actor.Portrait"
                         height="48"
-                        width="48" />
+                        width="48"
+                      />
                       <v-icon v-else size="48" :icon="n.actor.TagIcon" />
                     </v-col>
 
@@ -347,32 +411,51 @@
                         {{ n.actor.Name }}
                       </div>
                       <div class="text-cc-overline">
-                        <span v-if="n.actor.NpcClassController?.Tier" class="pr-1">
+                        <span
+                          v-if="n.actor.NpcClassController?.Tier"
+                          class="pr-1"
+                        >
                           Tier {{ n.actor.NpcClassController?.Tier }}
                         </span>
-                        <span v-if="n.actor.NpcClassController?.Class" class="pr-1">
+                        <span
+                          v-if="n.actor.NpcClassController?.Class"
+                          class="pr-1"
+                        >
                           {{ n.actor.NpcClassController?.Class.Name }}
                         </span>
                         <span v-if="n.actor.Tag" class="pr-1">
                           {{ n.actor.Tag }}
                         </span>
-                        <span v-if="n.actor.NpcTemplateController?.Templates.length">
+                        <span
+                          v-if="n.actor.NpcTemplateController?.Templates.length"
+                        >
                           <cc-slashes />
                           {{
-                            n.actor.NpcTemplateController?.Templates.map((t) => t.Name).join(', ')
+                            n.actor.NpcTemplateController?.Templates.map(
+                              (t) => t.Name
+                            ).join(', ')
                           }}
                         </span>
                       </div>
                       <div
                         v-if="n.reinforcement"
                         cols="12"
-                        class="bg-panel text-center text-cc-overline pa-0">
+                        class="bg-panel text-center text-cc-overline pa-0"
+                      >
                         Reinforcement
-                        <span v-if="n.reinforcementTurn">(TURN {{ n.reinforcementTurn }})</span>
+                        <span v-if="n.reinforcementTurn"
+                          >(TURN {{ n.reinforcementTurn }})</span
+                        >
                       </div>
                     </v-col>
                     <v-col cols="auto" class="pr-0">
-                      <v-chip size="x-small" flat tile class="text-cc-overline" :color="n.side">
+                      <v-chip
+                        size="x-small"
+                        flat
+                        tile
+                        class="text-cc-overline"
+                        :color="n.side"
+                      >
                         {{ n.side }}
                       </v-chip>
                     </v-col>
@@ -389,20 +472,26 @@
                   ? 'mdi-arrow-right-bold-hexagon-outline'
                   : 'mdi-alert'
               "
-              @click="createEncounter(true)">
+              @click="createEncounter(true)"
+            >
               <span v-if="!pilots.length && placeholders.length">
                 An encounter requires at least one pilot.
               </span>
               <span v-else>Create and Launch Encounter</span>
             </cc-button>
-            <v-row v-if="pilots.length || placeholders.length" dense class="mt-1">
+            <v-row
+              v-if="pilots.length || placeholders.length"
+              dense
+              class="mt-1"
+            >
               <v-col cols="3">
                 <cc-button
                   block
                   size="small"
                   color="error"
                   prepend-icon="mdi-close"
-                  @click="reset()">
+                  @click="reset()"
+                >
                   Cancel
                 </cc-button>
               </v-col>
@@ -412,7 +501,8 @@
                   size="small"
                   color="primary"
                   prepend-icon="mdi-content-save"
-                  @click="createEncounter(false)">
+                  @click="createEncounter(false)"
+                >
                   Create and return to library
                 </cc-button>
               </v-col>
@@ -457,11 +547,15 @@ export default {
     },
     encounters() {
       if (!this.search) {
-        return EncounterStore().Encounters.filter((x) => !x.SaveController.IsDeleted);
+        return EncounterStore().Encounters.filter(
+          (x) => !x.SaveController.IsDeleted
+        );
       }
       return EncounterStore()
         .Encounters.filter((x) => !x.SaveController.IsDeleted)
-        .filter((x) => x.Name.toLowerCase().includes(this.search.toLowerCase()));
+        .filter((x) =>
+          x.Name.toLowerCase().includes(this.search.toLowerCase())
+        );
     },
     environments() {
       return CompendiumStore().Environments;

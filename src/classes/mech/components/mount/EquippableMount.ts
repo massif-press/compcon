@@ -1,6 +1,14 @@
 import _ from 'lodash';
-import { Mount, WeaponSlot, CoreBonus, MountType, FittingSize, MechLoadout } from '@/class';
-import { IMountData } from '@/interface';
+import {
+  Mount,
+  WeaponSlot,
+  CoreBonus,
+  MountType,
+  FittingSize,
+  MechLoadout,
+} from '@/class';
+import { ICoreBonusData, IMountData } from '@/interface';
+import { CompendiumStore } from '@/stores';
 
 class EquippableMount extends Mount {
   private _bonuses: CoreBonus[];
@@ -74,15 +82,24 @@ class EquippableMount extends Mount {
       lock: m.IsLocked,
       slots: m.slots.map((x) => WeaponSlot.Serialize(x)),
       extra: m.extra.map((x) => WeaponSlot.Serialize(x)),
-      bonus_effects: m.Bonuses.map((x) => x.ID),
+      bonus_effects: m.Bonuses.map((x) => x.ItemData as ICoreBonusData),
     };
   }
 
-  public static Deserialize(mountData: IMountData, parent: MechLoadout): EquippableMount {
+  public static Deserialize(
+    mountData: IMountData,
+    parent: MechLoadout
+  ): EquippableMount {
     const m = new EquippableMount(mountData.mount_type as MountType, parent);
     m.slots = mountData.slots.map((x) => WeaponSlot.Deserialize(x, m));
     m.extra = mountData.extra.map((x) => WeaponSlot.Deserialize(x, m));
-    m._bonuses = mountData.bonus_effects.map((x) => CoreBonus.Deserialize(x));
+    m._bonuses = mountData.bonus_effects.map((x) => {
+      if (typeof x === 'string') {
+        return CompendiumStore().referenceByID('CoreBonuses', x);
+      } else {
+        return new CoreBonus(x);
+      }
+    });
     m.lock = mountData.lock;
     return m;
   }
