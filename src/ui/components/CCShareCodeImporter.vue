@@ -1,5 +1,10 @@
 <template>
-  <cc-modal ref="modal" shrink title="add from share code" icon="mdi-code-block-brackets">
+  <cc-modal
+    ref="modal"
+    shrink
+    title="add from share code"
+    icon="mdi-code-block-brackets"
+  >
     <template #activator="{ open }">
       <cc-button
         color="primary"
@@ -7,7 +12,8 @@
         :block="blockBtn"
         :icon="mobile ? 'mdi-code-block-brackets' : undefined"
         prepend-icon="mdi-code-block-brackets"
-        @click="open">
+        @click="open"
+      >
         {{ title }}
       </cc-button>
     </template>
@@ -23,18 +29,23 @@
             ref="codeInputs"
             @input="onInput(index)"
             @paste="onPaste($event, index)"
-            @keydown.backspace="onBackspace(index)" />
+            @keydown.backspace="onBackspace(index)"
+          />
           <span v-if="codeLength === 10 && index === 4" class="heading h1 px-4">
             &ndash;
             <br v-if="mobile" />
           </span>
           <span
             v-else-if="codeLength === 12 && (index === 3 || index === 7)"
-            class="heading h1 px-4">
+            class="heading h1 px-4"
+          >
             &ndash;
             <br v-if="mobile" />
           </span>
-          <span v-else-if="codeLength === 8 && index === 3" class="heading h1 px-4">
+          <span
+            v-else-if="codeLength === 8 && index === 3"
+            class="heading h1 px-4"
+          >
             &ndash;
             <br v-if="mobile" />
           </span>
@@ -43,7 +54,12 @@
       </div>
       <v-row no-gutters justify="center" class="my-4">
         <v-col cols="auto">
-          <cc-button color="primary" :disabled="hasCode" :loading="loading" @click="getFromCode()">
+          <cc-button
+            color="primary"
+            :disabled="hasCode"
+            :loading="loading"
+            @click="getFromCode()"
+          >
             Find Item
           </cc-button>
         </v-col>
@@ -64,7 +80,8 @@
               prominent
               density="compact"
               icon="mdi-information-outline"
-              title="error">
+              title="error"
+            >
               No item found with code {{ formatCode(badCode) }}.
             </cc-alert>
           </div>
@@ -73,7 +90,9 @@
       <v-scroll-y-reverse-transition>
         <div v-if="queryResult">
           <v-divider class="my-4" />
-          <span class="flavor-text">// {{ importType.toUpperCase() }} DATA FOUND</span>
+          <span class="flavor-text"
+            >// {{ importType.toUpperCase() }} DATA FOUND</span
+          >
           <slot name="result" />
           <cc-alert
             v-if="isUserOwned || remoteItemExists"
@@ -83,11 +102,15 @@
             density="compact"
             class="my-2"
             icon="mdi-information-outline"
-            title="error">
+            title="error"
+          >
             <span v-if="isUserOwned">
-              You are the author of this item. You cannot add your own items as remote resources.
+              You are the author of this item. You cannot add your own items as
+              remote resources.
             </span>
-            <span v-else>This item has already been added as a remote resource.</span>
+            <span v-else
+              >This item has already been added as a remote resource.</span
+            >
           </cc-alert>
           <cc-alert
             v-if="wrongType"
@@ -97,10 +120,12 @@
             density="compact"
             class="my-2"
             icon="mdi-information-outline"
-            title="warning">
+            title="warning"
+          >
             <span>
-              This item is a {{ qrImportType }}. It can still be imported, but will appear in the
-              {{ qrImportType }} list, not the {{ importType }} list.
+              This item is a {{ qrImportType }}. It can still be imported, but
+              will appear in the {{ qrImportType }} list, not the
+              {{ importType }} list.
             </span>
           </cc-alert>
           <div class="text-right">
@@ -167,13 +192,18 @@ export default {
       return this.$vuetify.display.smAndDown;
     },
     qrImportType() {
-      return this.queryResult && this.queryResult.sortkey.split('_')[1].toLowerCase();
+      return (
+        this.queryResult && this.queryResult.sortkey.split('_')[1].toLowerCase()
+      );
     },
     hasCode() {
       return this.code.some((char) => char === '');
     },
     isUserOwned() {
-      return this.queryResult && this.queryResult.user_id === UserStore().Cognito.userId;
+      return (
+        this.queryResult &&
+        this.queryResult.user_id === UserStore().Cognito.userId
+      );
     },
     canDownload() {
       return this.queryResult && this.queryResult.uri && !this.isUserOwned;
@@ -181,16 +211,23 @@ export default {
     remoteItemExists() {
       return (
         this.queryResult &&
-        UserStore().UserMetadata.RemoteItems.some((ri) => ri === this.queryResult.code)
+        UserStore().UserMetadata.RemoteItems &&
+        UserStore().UserMetadata.RemoteItems.some(
+          (ri) => ri === this.queryResult.code
+        )
       );
     },
     wrongType() {
       const skipTypes = ['item', 'campaign', 'collection'];
       if (skipTypes.includes(this.importType)) return false;
       const npcTypes = ['npc', 'unit', 'eidolon', 'doodad'];
-      if (this.importType === 'npc' && npcTypes.includes(this.qrImportType)) return false;
+      if (this.importType === 'npc' && npcTypes.includes(this.qrImportType))
+        return false;
       const narrativeTypes = ['narrative', 'character', 'location', 'faction'];
-      if (this.importType === 'narrative' && narrativeTypes.includes(this.qrImportType))
+      if (
+        this.importType === 'narrative' &&
+        narrativeTypes.includes(this.qrImportType)
+      )
         return false;
       return this.queryResult && this.qrImportType !== this.importType;
     },
@@ -211,7 +248,10 @@ export default {
         }
       });
       this.$nextTick(() => {
-        const nextIndex = Math.min(index + pasteArray.length, this.codeLength - 1);
+        const nextIndex = Math.min(
+          index + pasteArray.length,
+          this.codeLength - 1
+        );
         (this.$refs.codeInputs as HTMLElement[])[nextIndex].focus();
       });
     },
@@ -245,7 +285,9 @@ export default {
     },
     formatCode(code: string) {
       if (code.length === 12)
-        return code.slice(0, 4) + '-' + code.slice(4, 8) + '-' + code.slice(8, 12);
+        return (
+          code.slice(0, 4) + '-' + code.slice(4, 8) + '-' + code.slice(8, 12)
+        );
       if (code.length === 10) return code.slice(0, 5) + '-' + code.slice(5, 10);
       if (code.length === 8) return code.slice(0, 4) + '-' + code.slice(4, 8);
     },

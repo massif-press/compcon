@@ -23,8 +23,8 @@
                 color="accent"
                 class="mb-1"
               />
-              <v-row dense v-if="!encounter">
-                <v-col cols="3">
+              <v-row dense v-if="!encounter" align="center">
+                <v-col cols="4">
                   <cc-text-field
                     v-model="search"
                     color="primary"
@@ -35,15 +35,16 @@
                   />
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon icon="mdi-folder-search" class="d-inline" />
+                  <v-icon icon="mdi-folder" class="d-inline" />
                 </v-col>
-                <v-col cols="3">
+                <v-col cols="4">
                   <cc-select
-                    v-model="search"
+                    v-model="folder"
+                    :items="folders"
                     color="primary"
                     density="compact"
+                    chip-variant="text"
                     hide-details
-                    clearable
                   />
                 </v-col>
               </v-row>
@@ -245,7 +246,60 @@
                   />
                 </v-col>
               </v-row>
-              <div v-for="p in placeholders">{{ p.name }}</div>
+
+              <v-row
+                v-for="(p, i) in placeholders"
+                no-gutters
+                class="mb-2 bg-background"
+                style="
+                  border: 2px solid;
+                  border-color: rgb(var(--v-theme-primary));
+                "
+                :key="p.ID"
+              >
+                <v-col cols="auto" class="bg-primary pr-1" style="padding: 2px">
+                  <v-avatar flat tile size="64">
+                    <v-icon icon="cc:pilot" size="64" />
+                  </v-avatar>
+                </v-col>
+                <v-col class="ml-n1">
+                  <cc-title>
+                    &nbsp;
+                    <span class="heading h3">
+                      Pilot Placeholder #{{ i + 1 }}
+                    </span>
+                  </cc-title>
+                  <v-row dense class="pa-1 px-2">
+                    <v-col>
+                      <cc-text-field
+                        color="panel"
+                        placeholder="Pilot name or Callsign"
+                        prepend-icon="cc:pilot"
+                        v-model="p.name"
+                      />
+                    </v-col>
+                    <v-col>
+                      <cc-text-field
+                        color="panel"
+                        placeholder="Frame or Mech Name"
+                        prepend-icon="cc:frame"
+                        v-model="p.mechname"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-col cols="auto">
+                  <v-btn
+                    flat
+                    tile
+                    stacked
+                    height="100%"
+                    color="primary"
+                    prepend-icon="mdi-close"
+                    @click="placeholders.splice(i, 1)"
+                  />
+                </v-col>
+              </v-row>
             </div>
             <v-divider class="my-4" />
             <v-row dense>
@@ -253,18 +307,30 @@
                 <add-from-roster :encounter="encounter" :pilots="pilots" />
               </v-col>
               <v-col>
-                <add-from-share :encounter="encounter" />
+                <add-from-share :pilots="pilots" />
               </v-col>
               <v-col>
-                <cc-button
-                  size="small"
-                  block
-                  color="primary"
-                  tooltip="Import a pilot from JSON data"
-                  prepend-icon="mdi-file-import-outline"
-                >
-                  add from file
-                </cc-button>
+                <cc-modal title="Import" icon="mdi-import">
+                  <template #activator="{ open }">
+                    <cc-button
+                      color="primary"
+                      size="small"
+                      block
+                      tooltip="Import a pilot from JSON data"
+                      prepend-icon="mdi-file-import-outline"
+                      @click="open"
+                    >
+                      Add from File
+                    </cc-button>
+                  </template>
+                  <template #default="{ close }">
+                    <file-import
+                      skip-roster-save
+                      @import-complete="pilots.push($event)"
+                      @done="close"
+                    />
+                  </template>
+                </cc-modal>
               </v-col>
               <v-col>
                 <cc-button
@@ -273,12 +339,7 @@
                   color="primary"
                   tooltip="Adds a pilot-type combatant placeholder without any pilot data. Useful if you want to track encounter stats but don't have or don't need pilot data."
                   prepend-icon="mdi-account-outline"
-                  @click="
-                    placeholders.push({
-                      name: 'Pilot Placeholder',
-                      id: `placeholder-${placeholders.length + 1}`,
-                    })
-                  "
+                  @click="addPlaceholder()"
                 >
                   add pilot placeholder
                 </cc-button>
@@ -329,7 +390,7 @@
                   </div>
                   <v-divider class="mb-2" />
                   <v-row
-                    v-for="(p, i) in pilots"
+                    v-for="(p, i) in pilots.concat(placeholders)"
                     :class="i % 2 === 0 ? 'bg-background' : 'bg-surface'"
                     flat
                     tile
@@ -339,7 +400,9 @@
                   >
                     <v-col cols="auto" class="mr-1">
                       <cc-avatar
-                        v-if="p.PortraitController.Avatar"
+                        v-if="
+                          p.PortraitController && p.PortraitController.Avatar
+                        "
                         :avatar="p.PortraitController.Avatar"
                         size="48"
                       />
@@ -349,10 +412,16 @@
                         height="48"
                         width="48"
                       />
+                      <v-icon
+                        v-else
+                        size="48"
+                        icon="cc:pilot"
+                        class="text-primary"
+                      />
                     </v-col>
                     <v-col>
                       <div class="heading h3">
-                        {{ p.Callsign }}
+                        {{ p.Callsign || p.Name || p.name || 'Unnamed Pilot' }}
                         <span
                           v-if="p.PlayerName"
                           class="text-cc-overline text-disabled"
@@ -362,6 +431,7 @@
                       </div>
                       <div class="text-cc-overline">
                         <cc-slashes />
+                        <span v-if="p.Mechname">{{ p.Mechname }}</span>
                         {{
                           p.ActiveMech
                             ? `${p.ActiveMech.Frame.Source} ${p.ActiveMech.Frame.Name}`
@@ -474,7 +544,7 @@
               "
               @click="createEncounter(true)"
             >
-              <span v-if="!pilots.length && placeholders.length">
+              <span v-if="!pilots.length && !placeholders.length">
                 An encounter requires at least one pilot.
               </span>
               <span v-else>Create and Launch Encounter</span>
@@ -523,6 +593,8 @@ import EnvironmentEditor from '@/features/gm/encounters/_components/EnvironmentE
 import AddFromRoster from './_components/AddFromRoster.vue';
 import AddFromShare from './_components/AddFromShare.vue';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import FileImport from '@/features/pilot_management/Roster/components/add_panels/FileImport.vue';
+import { Placeholder } from '@/classes/encounter/Placeholder';
 
 export default {
   name: 'active-new-encounter',
@@ -532,9 +604,11 @@ export default {
     EnvironmentEditor,
     AddFromRoster,
     AddFromShare,
+    FileImport,
   },
   data: () => ({
     search: '',
+    folder: 'All',
     emptyEncounter: null as any,
     selectedEncounter: null as any,
     pilots: [] as any[],
@@ -545,14 +619,21 @@ export default {
     encounter() {
       return this.selectedEncounter || this.emptyEncounter;
     },
+    folders() {
+      return EncounterStore().Folders;
+    },
     encounters() {
-      if (!this.search) {
-        return EncounterStore().Encounters.filter(
-          (x) => !x.SaveController.IsDeleted
-        );
+      let enc = EncounterStore().Encounters;
+
+      if (this.folder && this.folder !== 'All') {
+        enc = enc.filter((x) => x.FolderController.Folder === this.folder);
       }
-      return EncounterStore()
-        .Encounters.filter((x) => !x.SaveController.IsDeleted)
+
+      if (!this.search) {
+        return enc.filter((x) => !x.SaveController.IsDeleted);
+      }
+      return enc
+        .filter((x) => !x.SaveController.IsDeleted)
         .filter((x) =>
           x.Name.toLowerCase().includes(this.search.toLowerCase())
         );
@@ -562,6 +643,17 @@ export default {
     },
   },
   methods: {
+    addPlaceholder() {
+      this.placeholders.push(
+        new Placeholder({
+          id: `placeholder-${this.placeholders.length + 1}`,
+          name: '',
+          mechname: '',
+          type: 'pilot',
+          side: 'ally',
+        })
+      );
+    },
     useEmptyEncounter() {
       this.emptyEncounter = new Encounter();
     },
