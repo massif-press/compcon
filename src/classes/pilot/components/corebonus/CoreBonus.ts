@@ -1,4 +1,9 @@
-import { CompendiumItem, ContentPack, ItemType, Manufacturer } from '../../../../class';
+import {
+  CompendiumItem,
+  ContentPack,
+  ItemType,
+  Manufacturer,
+} from '../../../../class';
 import { CompendiumStore } from '../../../../stores';
 import {
   ICompendiumItemData,
@@ -48,6 +53,13 @@ class CoreBonus extends CompendiumItem {
 
   public get IsMountable(): boolean {
     return !!this.MountedEffect;
+  }
+
+  public static Deserialize(
+    data: ICoreBonusData,
+    pack?: ContentPack
+  ): CoreBonus {
+    return new CoreBonus(data, pack);
   }
 }
 
