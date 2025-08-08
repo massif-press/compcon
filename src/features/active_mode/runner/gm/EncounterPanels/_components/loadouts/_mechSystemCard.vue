@@ -1,7 +1,12 @@
 <template>
   <v-card class="clipped-large" flat tile>
     <v-card-text class="pa-0">
-      <v-card v-if="item?.FlavorDescription" tile color="panel" class="px-2 py-1 mb-2 clipped">
+      <v-card
+        v-if="item?.FlavorDescription"
+        tile
+        color="panel"
+        class="px-2 py-1 mb-2 clipped"
+      >
         <p v-html-safe="item.FlavorDescription" style="white-space: pre-wrap" />
       </v-card>
 
@@ -14,7 +19,12 @@
         </div>
       </cc-alert>
 
-      <v-table v-if="item && item.Ammo && item.Ammo.length" class="mt-2" hover density="compact">
+      <v-table
+        v-if="item && item.Ammo && item.Ammo.length"
+        class="mt-2"
+        hover
+        density="compact"
+      >
         <tbody>
           <tr v-for="a in item.Ammo">
             <td v-if="!portrait" style="min-width: 120px" class="text-accent">
@@ -43,40 +53,80 @@
         </div>
 
         <div v-if="item.Actions?.length" class="mb-2 mt-1">
-          <div class="text-cc-overline text-disabled mb-1">
-            <v-icon size="small" icon="cc:activate" class="mt-n1" />
-            EQUIPMENT ACTIONS
-          </div>
-          <cc-action v-for="a in item.Actions" :action="a" class="mb-1" />
+          <v-row v-for="a in item.Actions" dense align="center">
+            <v-col cols="auto">
+              <v-tooltip location="top" text="Equipment Action">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props" size="small" icon="cc:activate" />
+                </template>
+              </v-tooltip>
+            </v-col>
+            <v-col>
+              <cc-action :action="a" class="mb-1" />
+            </v-col>
+          </v-row>
         </div>
 
         <div v-if="item.Deployables?.length" class="mb-2">
-          <div class="text-cc-overline text-disabled mb-1">
-            <v-icon size="small" icon="cc:drone" class="mt-n1" />
-            EQUIPMENT DEPLOYABLES
-          </div>
-          <cc-deployable-info
-            v-for="d in item.Deployables"
-            :deployable="d"
-            class="mb-1"
-            :name-override="item.Name" />
+          <v-row v-for="d in item.Deployables" dense align="center">
+            <v-col cols="auto">
+              <v-tooltip location="top" text="Equipment Deployable (Instance)">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props" size="small" icon="cc:drone" />
+                </template>
+              </v-tooltip>
+            </v-col>
+            <v-col>
+              <v-row no-gutters align="center">
+                <v-col cols="auto">
+                  <cc-deployable-info
+                    :deployable="d"
+                    class="mb-1"
+                    :name-override="item.Name"
+                  />
+                </v-col>
+                <v-col>
+                  <deploy-button
+                    :deployable="d"
+                    :actor="mech"
+                    @deploy="$emit('deploy', d)"
+                  />
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
         </div>
 
         <v-row dense align="center">
           <v-col cols="auto">
-            <cc-tags v-if="item.Tags" :tags="item.Tags" :color="color" :bonus="mech.LimitedBonus" />
+            <cc-tags
+              v-if="item.Tags"
+              :tags="item.Tags"
+              color="pilot"
+              :bonus="mech.LimitedBonus"
+            />
           </v-col>
 
           <v-col cols="auto" class="ml-auto mr-4">
             <cc-bonus-display :item="item" />
-            <cc-synergy-display :item="item" :location="synergyLocation" :mech="mech" large />
+            <cc-synergy-display
+              :item="item"
+              :location="synergyLocation"
+              :mech="mech"
+              large
+            />
           </v-col>
         </v-row>
       </div>
     </v-card-text>
   </v-card>
 
-  <v-row dense class="bg-panel mt-1 rounded-sm border-sm" align="center" justify="space-between">
+  <v-row
+    dense
+    class="bg-panel mt-1 rounded-sm border-sm"
+    align="center"
+    justify="space-between"
+  >
     <v-col class="py-0">
       <v-btn flat tile block size="small" color="primary">Mark Used</v-btn>
     </v-col>
@@ -85,7 +135,8 @@
         v-for="n in item.MaxUses"
         :key="n"
         :icon="n >= item.Uses ? 'mdi-hexagon' : 'mdi-hexagon-outline'"
-        size="x-small" />
+        size="x-small"
+      />
     </v-col>
     <v-col v-if="item.MaxUses" cols="auto" class="py-0">
       <v-tooltip location="top" text="Reset Uses">
@@ -99,7 +150,14 @@
     <v-col cols="auto" class="py-0">
       <v-tooltip location="top" text="Mark Destroyed">
         <template #activator="{ props }">
-          <v-btn v-bind="props" icon size="x-small" tile variant="text" class="bg-primary">
+          <v-btn
+            v-bind="props"
+            icon
+            size="x-small"
+            tile
+            variant="text"
+            class="bg-primary"
+          >
             <v-icon icon="mdi-cube-off" />
           </v-btn>
         </template>
@@ -110,9 +168,13 @@
 
 <script>
 import { Damage, ItemType, Mech } from '@/class';
+import DeployButton from './_deployButton.vue';
 
 export default {
   name: 'slot-card-base',
+  components: {
+    DeployButton,
+  },
   props: {
     item: {
       type: Object,
@@ -145,6 +207,7 @@ export default {
       default: false,
     },
   },
+  emits: ['deploy'],
   data: () => ({
     detailDialog: false,
     selectorDialog: false,

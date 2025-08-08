@@ -17,6 +17,7 @@ class Placeholder {
   public SaveController: SaveController;
   public readonly ItemType: string = 'Placeholder';
   public readonly StorageType: string = 'none';
+  Deployables: any;
 
   constructor(data: IPlaceholderData) {
     this.ID = data.id;

@@ -1,5 +1,5 @@
 <template>
-  <panel-base :encounter="encounter" :item="combatant" />
+  <panel-base :encounter-instance="encounterInstance" :item="combatant" />
 </template>
 
 <script>
@@ -15,7 +15,7 @@ export default {
       type: Object,
       required: true,
     },
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },

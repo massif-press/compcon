@@ -19,7 +19,8 @@
         size="small"
         :color="view === 'mech' ? 'primary' : 'panel'"
         block
-        @click="view = 'mech'">
+        @click="view = 'mech'"
+      >
         {{ mech.Name }}
         <template #subtitle>
           <span class="text-disabled">
@@ -34,7 +35,8 @@
         size="small"
         :color="view === 'pilot' ? 'primary' : 'panel'"
         block
-        @click="view = 'pilot'">
+        @click="view = 'pilot'"
+      >
         {{ combatant.actor.Callsign }}
       </cc-button>
     </v-col>
@@ -42,10 +44,17 @@
 
   <v-window v-model="view">
     <v-window-item value="mech">
-      <mech-panel :encounter="encounter" v-if="mech" :combatant="combatant" />
+      <mech-panel
+        :encounter-instance="encounterInstance"
+        v-if="mech"
+        :combatant="combatant"
+      />
     </v-window-item>
     <v-window-item value="pilot">
-      <pilot-panel :encounter="encounter" :combatant="combatant" />
+      <pilot-panel
+        :encounter-instance="encounterInstance"
+        :combatant="combatant"
+      />
     </v-window-item>
   </v-window>
 </template>
@@ -65,7 +74,7 @@ export default {
       type: Object,
       required: true,
     },
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },

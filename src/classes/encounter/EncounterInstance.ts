@@ -2,8 +2,13 @@ import { v4 as uuid } from 'uuid';
 import { ISaveData, ISaveable, SaveController } from '../components';
 import { CombatantData, Encounter, IEncounterData } from './Encounter';
 import { PilotData } from '@/interface';
-import { Pilot } from '@/class';
+import { Deployable, Pilot } from '@/class';
 import { Placeholder } from './Placeholder';
+import { ICombatant } from '../components/combat/ICombatant';
+import {
+  DeployableInstance,
+  IDeployableData,
+} from '../components/feature/deployable/DeployableInstance';
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance';
@@ -57,7 +62,8 @@ class EncounterInstance implements ISaveable {
           side: 'ally',
           type: 'pilot',
           actor: p,
-        } as CombatantData;
+          deployables: [],
+        } as unknown as CombatantData;
       }),
       ...this.Placeholders.map((ph) => {
         return {
@@ -67,7 +73,8 @@ class EncounterInstance implements ISaveable {
           type: ph.PlaceholderType,
           side: ph.Side,
           actor: ph,
-        } as CombatantData;
+          deployables: [],
+        } as unknown as CombatantData;
       }),
     ];
 
@@ -79,6 +86,16 @@ class EncounterInstance implements ISaveable {
     });
 
     this.SaveController = new SaveController(this);
+  }
+
+  public Deploy(deployable: Deployable, combatant: CombatantData): void {
+    const deployableInstance = new DeployableInstance(
+      deployable.ItemData,
+      combatant
+    );
+    combatant.deployables.push(deployableInstance);
+
+    this.save();
   }
 
   public save(): void {

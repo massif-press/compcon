@@ -3,9 +3,9 @@
     <div class="heading h2">Local Active Encounters</div>
     <cc-alert>
       <v-icon icon="mdi-information-outline" class="mr-2" />
-      These encounters will only be accessible on this device. Pilot data can be loaded from remote
-      sources, but will not push any updates to their owners. For cloud-based and simultaneous
-      multiplayer, create a
+      These encounters will only be accessible on this device. Pilot data can be
+      loaded from remote sources, but will not push any updates to their owners.
+      For cloud-based and simultaneous multiplayer, create a
       <a>Table</a>
       instead.
     </cc-alert>
@@ -13,21 +13,42 @@
       v-for="e in encounters"
       style="position: relative"
       class="li-top-element my-2"
-      @click="launch(e)">
-      <div class="light" style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
-      <v-row no-gutters class="lighten-select" :class="mobile ? 'mb-2' : 'mb-4'">
-        <v-col cols="auto" style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double">
+      @click="launch(e)"
+    >
+      <div
+        class="light"
+        style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px"
+      />
+      <v-row
+        no-gutters
+        class="lighten-select"
+        :class="mobile ? 'mb-2' : 'mb-4'"
+      >
+        <v-col
+          cols="auto"
+          style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double"
+        >
           <v-card style="position: relative">
-            <cc-img v-if="e.Encounter.Map" :src="e.Encounter.Map" cover width="120px" />
+            <cc-img
+              v-if="e.Encounter.Map"
+              :src="e.Encounter.Map"
+              cover
+              width="120px"
+            />
             <cc-img
               v-else-if="e.Encounter.Portrait"
               :src="e.Encounter.Portrait"
               cover
-              width="120px" />
+              width="120px"
+            />
           </v-card>
         </v-col>
         <v-col style="position: relative">
-          <v-toolbar density="compact" class="cToolbar" :height="mobile ? '40' : '46'">
+          <v-toolbar
+            density="compact"
+            class="cToolbar"
+            :height="mobile ? '40' : '46'"
+          >
             <v-row no-gutters align="center" class="px-2">
               <v-col cols="auto" class="heading text-white">
                 {{ e.Encounter.Name }}
@@ -45,17 +66,22 @@
                       @click.stop
                       icon="mdi-cog"
                       size="small"
-                      class="fade-select" />
+                      class="fade-select"
+                    />
                   </template>
                   <v-card>
                     <v-list>
-                      <v-list-item prepend-icon="mdi-archive" @click="ArchiveEncounter(e)">
+                      <v-list-item
+                        prepend-icon="mdi-archive"
+                        @click="ArchiveEncounter(e)"
+                      >
                         <v-list-item-title>Archive Encounter</v-list-item-title>
                       </v-list-item>
                       <v-list-item
                         prepend-icon="mdi-delete"
                         color="error"
-                        @click="RemoveEncounter(e)">
+                        @click="RemoveEncounter(e)"
+                      >
                         <v-list-item-title>Delete Encounter</v-list-item-title>
                       </v-list-item>
                     </v-list>
@@ -73,14 +99,18 @@
                     CREATED
                     <cc-slashes />
                   </span>
-                  <b>{{ new Date(e.SaveController.Created).toLocaleDateString() }}</b>
+                  <b>{{
+                    new Date(e.SaveController.Created).toLocaleDateString()
+                  }}</b>
                 </div>
                 <div v-if="e.SaveController.LastModified">
                   <span class="text-disabled mr-1">
                     LAST UPDATE
                     <cc-slashes />
                   </span>
-                  <b>{{ new Date(e.SaveController.LastModified).toLocaleDateString() }}</b>
+                  <b>{{
+                    new Date(e.SaveController.LastModified).toLocaleDateString()
+                  }}</b>
                 </div>
               </v-col>
               <v-col class="mb-0 pb-0 mt-1">
@@ -109,11 +139,14 @@
                   variant="elevated"
                   size="x-small"
                   :key="item.ID"
-                  class="mr-1 mb-1 elevation-0">
+                  class="mr-1 mb-1 elevation-0"
+                >
                   {{ item.Callsign }}
                   <cc-slashes class="px-1" />
                   {{ item.Name }}
-                  <span v-if="item.PlayerName">&nbsp;({{ item.PlayerName }})</span>
+                  <span v-if="item.PlayerName"
+                    >&nbsp;({{ item.PlayerName }})</span
+                  >
                 </v-chip>
                 <br />
                 <v-chip
@@ -124,7 +157,8 @@
                   variant="elevated"
                   :prepend-icon="item.actor.Icon"
                   :key="item.ID"
-                  class="mr-1 mb-1 elevation-0">
+                  class="mr-1 mb-1 elevation-0"
+                >
                   {{ item.actor.Name }}
                 </v-chip>
               </v-col>
@@ -145,29 +179,42 @@
           Archived Encounters ({{ archived.length }})
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <div v-if="archived.length === 0" class="text-center text-cc-overline text-disabled">
+          <div
+            v-if="archived.length === 0"
+            class="text-center text-cc-overline text-disabled"
+          >
             <i>No archived encounters</i>
           </div>
           <v-row v-for="e in archived" class="text-cc-overline" align="center">
             <v-col cols="auto" style="height: 100%">
               <v-card style="position: relative">
-                <cc-img v-if="e.Encounter.Map" :src="e.Encounter.Map" cover width="120px" />
+                <cc-img
+                  v-if="e.Encounter.Map"
+                  :src="e.Encounter.Map"
+                  cover
+                  width="120px"
+                />
                 <cc-img
                   v-else-if="e.Encounter.Portrait"
                   :src="e.Encounter.Portrait"
                   cover
-                  width="50px" />
+                  width="50px"
+                />
               </v-card>
             </v-col>
             <v-col cols="auto">
               {{ e.Round }} Rounds
               <div>
                 <span class="text-disabled mr-1">CREATED</span>
-                <b>{{ new Date(e.SaveController.Created).toLocaleDateString() }}</b>
+                <b>{{
+                  new Date(e.SaveController.Created).toLocaleDateString()
+                }}</b>
               </div>
               <div v-if="e.SaveController.LastModified">
                 <span class="text-disabled mr-1">ARCHIVED</span>
-                <b>{{ new Date(e.SaveController.LastModified).toLocaleDateString() }}</b>
+                <b>{{
+                  new Date(e.SaveController.LastModified).toLocaleDateString()
+                }}</b>
               </div>
             </v-col>
             <v-col cols="auto">
@@ -176,14 +223,15 @@
                 {{ e.Encounter.Environment.Name }}
               </div>
               <div>
-                {{ e.Pilots.length }} Pilots / {{ e.Encounter.Combatants.length }} Combatants
+                {{ e.Pilots.length }} Pilots /
+                {{ e.Encounter.Combatants.length }} Combatants
               </div>
             </v-col>
             <v-col cols="auto" class="ml-auto">
               <v-btn icon variant="text" @click="unarchive(e)">
                 <v-icon icon="mdi-undo" />
               </v-btn>
-              <v-btn icon variant="text" @click="RemoveEncounter(e)">
+              <v-btn icon variant="text" @click="deleteEncounter(e)">
                 <v-icon icon="mdi-delete" />
               </v-btn>
             </v-col>
@@ -204,16 +252,28 @@ export default {
       return EncounterStore().getCurrentActiveEncounter;
     },
     encounters() {
-      return EncounterStore().ActiveEncounters.filter((e) => !e.IsArchived);
+      return EncounterStore().ActiveEncounters.filter(
+        (e) => !e.IsArchived && !e.SaveController.IsDeleted
+      );
     },
     archived() {
-      return EncounterStore().ActiveEncounters.filter((e) => e.IsArchived);
+      return EncounterStore().ActiveEncounters.filter(
+        (e) => e.IsArchived && !e.SaveController.IsDeleted
+      );
+    },
+    deleted() {
+      return EncounterStore().ActiveEncounters.filter(
+        (e) => e.SaveController.IsDeleted
+      );
     },
   },
   methods: {
     async launch(encounter) {
       await EncounterStore().AssignActiveEncounter(encounter);
       this.$router.push('gm-encounter-runner');
+    },
+    deleteEncounter(encounter) {
+      encounter.SaveController.Delete();
     },
     async RemoveEncounter(encounter) {
       await EncounterStore().RemoveEncounterInstance(encounter);

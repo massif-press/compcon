@@ -1,5 +1,5 @@
 <template>
-  <panel-base :encounter="encounter" :item="combatant.actor">
+  <panel-base :encounter-instance="encounterInstance" :item="combatant.actor">
     <template #name-block>
       <div class="heading h2">{{ combatant.actor.Name }}</div>
       <div class="text-cc-overline">Doodad</div>
@@ -20,7 +20,7 @@ export default {
       type: Object,
       required: true,
     },
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },

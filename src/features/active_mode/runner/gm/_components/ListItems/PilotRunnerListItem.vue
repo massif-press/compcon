@@ -2,10 +2,12 @@
   <runner-list-item-base
     :actor="activeActor"
     :portrait="activeActor.Portrait"
+    :deployed="combatant.deployables"
     :collapsed="collapsed"
     :selected="selected"
     :side="combatant.side"
-    @click="$emit('select')">
+    @click="$emit('select')"
+  >
     <div>
       <span class="heading h4">
         {{ combatant.actor.Callsign }}
@@ -13,7 +15,10 @@
       <span class="text-caption text-disabled ml-2">
         <cc-slashes />
         {{ combatant.actor.Name }}
-        <span v-if="combatant.actor.Player" v-text="`(${combatant.actor.Player})`"></span>
+        <span
+          v-if="combatant.actor.Player"
+          v-text="`(${combatant.actor.Player})`"
+        ></span>
       </span>
     </div>
   </runner-list-item-base>
