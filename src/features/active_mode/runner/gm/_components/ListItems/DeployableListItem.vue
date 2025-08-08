@@ -4,7 +4,7 @@
       <template #default="{ props, isHovering }">
         <v-card
           v-bind="props"
-          class="pa-1 border-fade"
+          class="border-fade"
           :class="selected ? 'bg-panel' : ''"
           flat
           tile
@@ -17,45 +17,18 @@
             dense
             :style="collapsed && !activations ? 'opacity: 0.4' : ''"
           >
-            <v-col v-if="!collapsed" cols="auto">
-              <div :class="`bg-${side}`" style="width: 4px; height: 100%" />
-            </v-col>
             <v-col cols="auto" style="position: relative">
-              <v-icon
-                v-if="!collapsed"
-                icon="mdi-drag"
-                size="20"
-                :style="isHovering ? 'opacity: 1' : 'opacity: 0.4'"
-                class="handle"
-                style="
-                  position: absolute;
-                  top: 2px;
-                  left: -6px;
-                  cursor: move;
-                  z-index: 2;
-                  border-radius: 4px;
-                "
-              />
-              <v-img
-                v-if="portrait"
-                height="100%"
-                width="60px"
-                cover
-                :src="portrait"
-                :style="destroyed ? 'opacity: 0.6' : ''"
-              />
               <v-avatar
-                v-else
                 flat
                 tile
-                :size="collapsed ? 45 : 60"
+                :size="collapsed ? 30 : 40"
                 style="height: 100%"
                 :style="destroyed ? 'opacity: 0.6' : ''"
                 class="bg-panel"
               >
                 <v-icon
                   :icon="icon || 'mdi-cube'"
-                  :size="collapsed ? 45 : 60"
+                  :size="collapsed ? 30 : 40"
                 />
               </v-avatar>
               <div
@@ -84,7 +57,7 @@
                 >
                   <v-col
                     cols="auto"
-                    v-for="stat in actor.StatController.GetStatCollection([
+                    v-for="stat in deployable.StatController.GetStatCollection([
                       'hp',
                       'stress',
                       'heatcap',
@@ -105,10 +78,10 @@
                           :icon="stat.icon"
                         />
                         <b class="text-accent">{{
-                          actor.StatController.CurrentStats[stat.key]
+                          deployable.StatController.CurrentStats[stat.key]
                         }}</b>
                         <span class="text-disabled text-caption">
-                          /{{ actor.StatController.MaxStats[stat.key] }}
+                          /{{ deployable.StatController.MaxStats[stat.key] }}
                         </span>
                       </template>
                     </v-tooltip>
@@ -123,7 +96,7 @@
                 >
                   <v-col
                     cols="auto"
-                    v-for="stat in actor.StatController.GetStatCollection([
+                    v-for="stat in deployable.StatController.GetStatCollection([
                       'armor',
                       'evasion',
                       'edef',
@@ -143,7 +116,7 @@
                           :icon="stat.icon"
                         />
                         <b class="text-secondary">
-                          {{ actor.StatController.CurrentStats[stat.key] }}
+                          {{ deployable.StatController.CurrentStats[stat.key] }}
                         </b>
                       </template>
                     </v-tooltip>
@@ -152,14 +125,14 @@
               </div>
 
               <v-row
-                v-if="actor.CombatController.DamageStatuses.length > 0"
+                v-if="deployable.CombatController.DamageStatuses.length > 0"
                 style="line-height: 0"
                 no-gutters
                 justify="center"
                 class="text-center my-1"
               >
                 <v-tooltip
-                  v-for="damage in actor.CombatController.DamageStatuses"
+                  v-for="damage in deployable.CombatController.DamageStatuses"
                   location="top"
                 >
                   <template #activator="{ props }">
@@ -199,7 +172,7 @@
               </v-card>
 
               <v-card
-                v-else-if="actor.CombatController.IsInDangerZone"
+                v-else-if="deployable.CombatController.IsInDangerZone"
                 height="16"
                 flat
                 tile
@@ -220,14 +193,17 @@
               </v-card>
 
               <v-row
-                v-if="actor.CombatController.CustomDamageStatuses.length > 0"
+                v-if="
+                  deployable.CombatController.CustomDamageStatuses.length > 0
+                "
                 style="line-height: 0"
                 no-gutters
                 justify="center"
                 class="text-center my-1"
               >
                 <v-card
-                  v-for="damage in actor.CombatController.CustomDamageStatuses"
+                  v-for="damage in deployable.CombatController
+                    .CustomDamageStatuses"
                   v-bind="props"
                   flat
                   tile
@@ -261,7 +237,7 @@
               </div>
 
               <div
-                v-for="status in actor.CombatController.Statuses"
+                v-for="status in deployable.CombatController.Statuses"
                 class="mb-1"
               >
                 <v-progress-linear
@@ -316,16 +292,6 @@
               </div>
             </v-col>
           </v-row>
-          <deployable-list-item
-            v-for="d in deployed"
-            :deployable="d"
-            :parent="actor"
-            :collapsed="collapsed"
-            :key="d.ID"
-          >
-            {{ d.Name }}
-          </deployable-list-item>
-          <div v-if="collapsed" :class="`bg-${side}`" style="height: 4px" />
         </v-card>
       </template>
     </v-hover>
@@ -333,13 +299,8 @@
 </template>
 
 <script>
-import DeployableListItem from './DeployableListItem.vue';
-
 export default {
-  name: 'RunnerListItemBase',
-  components: {
-    DeployableListItem,
-  },
+  name: 'DeployableListItem',
   props: {
     selected: {
       type: Boolean,
@@ -349,31 +310,16 @@ export default {
       type: Boolean,
       default: false,
     },
-    side: {
-      type: String,
-      default: 'neutral',
-    },
-    icon: {
-      type: String,
-      default: 'mdi-cube',
-    },
-    activations: {
-      type: Number,
-      default: 0,
-    },
-    portrait: {
-      type: String,
-      default: '',
-    },
-    statuses: {
-      type: Array,
-      default: () => [],
-    },
-    actor: {
+    deployable: {
       type: Object,
       required: true,
     },
-    deployed: {
+    parent: {
+      type: Object,
+      required: true,
+    },
+
+    statuses: {
       type: Array,
       default: () => [],
     },
@@ -381,13 +327,16 @@ export default {
   emits: ['click'],
   computed: {
     activations() {
-      return this.actor.StatController.CurrentStats['activations'] || 0;
+      return this.deployable.StatController.CurrentStats['activations'] || 0;
     },
     destroyed() {
-      return this.actor.CombatController.IsDestroyed;
+      return this.deployable.CombatController.IsDestroyed;
     },
     specialStatuses() {
-      return this.actor.CombatController.SpecialStatuses || [];
+      return this.deployable.CombatController.SpecialStatuses || [];
+    },
+    icon() {
+      return this.deployable.Base.Icon;
     },
   },
   methods: {

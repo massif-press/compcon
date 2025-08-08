@@ -1,7 +1,7 @@
 import { ActivationType, Tag } from '@/class';
 import { ICounterData, ISynergyData, ITagData } from '@/interface';
 import { IActionData, Action } from '../../../Action';
-import { Bonus, IBonusData } from '../bonus/Bonus';
+import { IBonusData } from '../bonus/Bonus';
 import { ICompendiumItemData } from '../../../CompendiumItem';
 import { ByTier } from '@/util/tierFormat';
 
@@ -24,6 +24,9 @@ interface IDeployableData extends ICompendiumItemData {
   sensor_range?: number;
   tech_attack?: number;
   save?: number;
+  ram?: number;
+  grapple?: number;
+  attack_bonus?: number;
   speed?: number;
   actions?: IActionData[];
   bonuses?: IBonusData[];
@@ -32,16 +35,6 @@ interface IDeployableData extends ICompendiumItemData {
   tags?: ITagData[];
   pilot?: boolean;
   mech?: boolean;
-}
-
-interface IDeployedData {
-  // id: string
-  data: IDeployableData;
-  assigned_name: string;
-  current_hp: number;
-  current_duration?: number;
-  overshield?: number;
-  Destroyed?: boolean;
 }
 
 class Deployable {
@@ -58,6 +51,11 @@ class Deployable {
   public readonly TechAttack: number;
   public readonly Save: number;
   public readonly Speed: number;
+  public readonly SaveTarget: number;
+  public readonly Ram: number;
+  public readonly Grapple: number;
+  public readonly AttackBonus: number;
+
   public readonly IsPilotDeployable: boolean;
   public readonly IsMechDeployable: boolean;
   public readonly Recall: ActivationType | null;
@@ -65,10 +63,13 @@ class Deployable {
   public readonly Actions: Action[] = [];
   public readonly Tags: Tag[] = [];
 
+  public readonly ItemData: IDeployableData;
+
   private _detail: string;
 
   public constructor(data: IDeployableData) {
     this.Name = data.name;
+    this.ItemData = data;
     this.Type = data.type || 'Deployable';
     this._detail = data.detail;
     this.Recall = data.recall || null;
@@ -96,6 +97,10 @@ class Deployable {
     this.TechAttack = data.tech_attack || 0;
     this.Save = data.save || 0;
     this.Speed = data.speed || 0;
+    this.SaveTarget = data.save || 10;
+    this.Ram = data.ram || 0;
+    this.Grapple = data.grapple || 0;
+    this.AttackBonus = data.attack_bonus || 0;
 
     this.IsPilotDeployable = data.pilot || false;
     this.IsMechDeployable = data.mech || !data.pilot;
@@ -110,7 +115,10 @@ class Deployable {
     const matches = out.match(perTier);
     if (matches) {
       matches.forEach((m) => {
-        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
+        out = out.replace(
+          m,
+          m.replace('{', '<b class="text-accent">').replace('}', '</b>')
+        );
       });
     }
     return out;
@@ -167,4 +175,4 @@ class Deployable {
 }
 
 export { Deployable };
-export type { IDeployableData, IDeployedData };
+export type { IDeployableData };

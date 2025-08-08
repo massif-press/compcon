@@ -2,7 +2,9 @@
   <panel-base :encounter="encounter" :item="mech">
     <template #name-block>
       <div class="heading h2">{{ mech.Name }}</div>
-      <div class="heading h4">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
+      <div class="heading h4">
+        {{ mech.Frame.Source }} {{ mech.Frame.Name }}
+      </div>
     </template>
 
     <template #action-palette>
@@ -10,17 +12,26 @@
         <v-col>
           <v-btn flat tile size="small" block color="primary" text="Mounted" />
           <v-divider />
-          <v-btn flat tile size="small" block color="panel" text="Braced&nbsp;&nbsp;" />
+          <v-btn
+            flat
+            tile
+            size="small"
+            block
+            color="panel"
+            text="Braced&nbsp;&nbsp;"
+          />
         </v-col>
         <v-col>
           <v-btn flat tile size="small" block color="panel" text="Overwatch" />
           <v-divider />
-          <v-btn flat tile size="small" block color="panel" text="Prepared&nbsp;&nbsp;" />
-        </v-col>
-        <v-col>
-          <v-btn flat tile size="small" block color="panel" text="Engaged" />
-          <v-divider />
-          <v-btn flat tile size="small" block color="panel" text="Prepared" />
+          <v-btn
+            flat
+            tile
+            size="small"
+            block
+            color="panel"
+            text="Prepared&nbsp;&nbsp;"
+          />
         </v-col>
       </v-row>
     </template>
@@ -31,7 +42,8 @@
       :column-width="500"
       :gap="16"
       :min-columns="1"
-      :max-columns="2">
+      :max-columns="2"
+    >
       <template #default="{ item, index }">
         <cc-trait-item :trait="item" color="primary" style="height: 100%" />
       </template>
@@ -44,7 +56,8 @@
         :column-width="500"
         :gap="16"
         :min-columns="1"
-        :max-columns="2">
+        :max-columns="2"
+      >
         <template #default="{ item, index }">
           <cc-core-bonus-item :key="item.ID" terse :bonus="item" />
         </template>
@@ -59,24 +72,29 @@
       :talent="talent.Talent"
       :rank="talent.Rank"
       hide-locked
-      hide-change />
+      hide-change
+    />
 
     <br />
 
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
-    <mech-combat-loadout :mech="mech" />
+    <mech-combat-loadout :mech="mech" @deploy="deploy($event)" />
 
     <div class="text-cc-overline mt-4 text-disabled">Additional Actions</div>
     <v-row dense>
       <v-col>
-        <v-btn flat tile block size="small" color="primary">Mark Dismounted</v-btn>
+        <v-btn flat tile block size="small" color="primary"
+          >Mark Dismounted</v-btn
+        >
         <v-divider />
         <v-btn flat tile block size="small" color="primary">Eject Pilot</v-btn>
       </v-col>
       <v-col>
         <v-btn flat tile block size="small" color="primary">Mark Brace</v-btn>
         <v-divider />
-        <v-btn flat tile block size="small" color="primary">Mark Overwatch</v-btn>
+        <v-btn flat tile block size="small" color="primary"
+          >Mark Overwatch</v-btn
+        >
       </v-col>
     </v-row>
   </panel-base>
@@ -90,7 +108,7 @@ import PanelBase from './_PanelBase.vue';
 import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
 
 export default {
-  name: 'PcPanel',
+  name: 'MechPanel',
   components: {
     StatMiniPanel,
     PanelBase,
@@ -101,7 +119,7 @@ export default {
       type: Object,
       required: true,
     },
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },
@@ -117,11 +135,22 @@ export default {
       return _.sampleSize(CompendiumStore().Talents, 3);
     },
     applicableStatuses() {
-      const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
+      const exclude = [
+        `dangerzone`,
+        `downandout`,
+        `engaged`,
+        `hidden`,
+        `invisible`,
+      ];
       return this.statuses.filter((s) => !exclude.includes(s.ID));
     },
   },
   methods: {
+    deploy(deployable) {
+      console.log('Deploying:', deployable);
+      console.log(this.encounterInstance);
+      this.encounterInstance.Deploy(deployable, this.combatant);
+    },
     getIcon(stat) {
       const icons = {
         structure: 'cc:structure',
@@ -180,14 +209,18 @@ export default {
     },
     actionStatus(action) {
       if (action === 'full')
-        return this.usedActions.includes('full') || this.usedActions.includes('quick');
+        return (
+          this.usedActions.includes('full') ||
+          this.usedActions.includes('quick')
+        );
       if (action === 'quick')
         return (
           this.usedActions.includes('full') ||
           this.usedActions.filter((x) => x === 'quick').length === 2
         );
       if (action === 'protocol') return this.usedActions.length;
-      if (action === 'move') return this.usedActions.includes('move') || this.movement === 0;
+      if (action === 'move')
+        return this.usedActions.includes('move') || this.movement === 0;
       return this.usedActions.includes(action);
     },
     setAction(action) {

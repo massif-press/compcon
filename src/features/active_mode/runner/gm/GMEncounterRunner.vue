@@ -1,65 +1,102 @@
 <template>
   <div v-if="!instance">
     <v-progress-linear indeterminate color="primary" height="20" class="my-5" />
-    <div class="text-center text-cc-overline">Loading encounter instance...</div>
+    <div class="text-center text-cc-overline">
+      Loading encounter instance...
+    </div>
   </div>
   <div v-else>
     <div
       class="bg-surface"
-      style="position: absolute; top: -10px; right: -10px; width: 50px; height: 50px; z-index: 0" />
+      style="
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 50px;
+        height: 50px;
+        z-index: 0;
+      "
+    />
     <div style="overflow-y: hidden">
       <v-layout :style="`height: calc(100vh - ${mobile ? '23px' : '41px'})`">
         <div
           style="position: absolute; z-index: 999"
-          :style="`left: ${showLeft ? '466' : '62'}px; top: 6px`">
+          :style="`left: ${showLeft ? '466' : '62'}px; top: 6px`"
+        >
           <cc-button
-            :icon="showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+            :icon="
+              showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'
+            "
             size="small"
             color="primary"
-            @click="showLeft = !showLeft" />
+            @click="showLeft = !showLeft"
+          />
         </div>
         <v-navigation-drawer :rail="!showLeft" :width="460" permanent>
           <gm-initiative-panel
             :encounter="instance"
             :selected="selected"
             :expanded="showLeft"
-            @select="selectActor($event)" />
+            @select="selectActor($event)"
+          />
         </v-navigation-drawer>
 
         <v-main style="overflow-y: scroll">
-          <div class="text-center bg-panel pa-1 heading h3">example encounter &mdash; round 1</div>
+          <div class="text-center bg-panel pa-1 heading h3">
+            example encounter &mdash; round 1
+          </div>
           <v-container
-            :style="`max-width: ${showRight ? 'calc(100% - 56px)' : 'calc(100% - 62px)'}`">
+            :style="`max-width: ${showRight ? 'calc(100% - 56px)' : 'calc(100% - 62px)'}`"
+          >
             <div v-if="panel && instance">
-              <component :is="`${panel}-panel`" :key="panel" :encounter="instance.Encounter" />
+              <component
+                :is="`${panel}-panel`"
+                :key="panel"
+                :encounter="instance.Encounter"
+              />
             </div>
             <div v-else>
               <component
                 :is="`${selected.type}-panel`"
                 :key="selected.id"
                 :combatant="selected"
-                :encounter="instance.Encounter" />
+                :encounter-instance="instance"
+              />
             </div>
           </v-container>
         </v-main>
         <div
           style="position: absolute; z-index: 999"
-          :style="`right: ${showRight ? (mobile ? '222' : '256') : '62'}px; top: 6px`">
+          :style="`right: ${showRight ? (mobile ? '222' : '256') : '62'}px; top: 6px`"
+        >
           <cc-button
-            :icon="showRight ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
+            :icon="
+              showRight ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'
+            "
             size="small"
             color="primary"
-            @click="showRight = !showRight" />
+            @click="showRight = !showRight"
+          />
         </div>
 
-        <v-navigation-drawer :rail="!showRight" :width="250" location="right" permanent>
+        <v-navigation-drawer
+          :rail="!showRight"
+          :width="250"
+          location="right"
+          permanent
+        >
           <gm-tool-palette
             :expanded="showRight"
             @selectPanel="selectPanel"
             @openDiceRoller="diceDialog = true"
-            @openTableIndex="tableDialog = true" />
+            @openTableIndex="tableDialog = true"
+          />
         </v-navigation-drawer>
-        <v-footer app height="36" style="border-top: 1px solid rgba(255, 255, 255, 0.1)">
+        <v-footer
+          app
+          height="36"
+          style="border-top: 1px solid rgba(255, 255, 255, 0.1)"
+        >
           <v-row justify="space-between" align="center" no-gutters>
             <v-col cols="3">
               <gm-override-panel :encounter="instance.Encounter" />
@@ -157,7 +194,11 @@ export default {
   },
   methods: {
     async sortBy(key) {
-      const sorted = _.orderBy(this.actors, key, this.sort === key ? 'desc' : 'asc');
+      const sorted = _.orderBy(
+        this.actors,
+        key,
+        this.sort === key ? 'desc' : 'asc'
+      );
       if (this.sort === key) sorted.reverse();
       this.sort = key;
 

@@ -2,7 +2,13 @@
   <v-card flat tile class="pa-2">
     <v-row class="pr-4">
       <v-col cols="auto">
-        <cc-img width="155px" height="100%" color="panel" cover :src="pilot.Portrait" />
+        <cc-img
+          width="155px"
+          height="100%"
+          color="panel"
+          cover
+          :src="pilot.Portrait"
+        />
       </v-col>
       <v-col>
         <v-row no-gutters>
@@ -16,28 +22,48 @@
             </div>
           </v-col>
           <v-col cols="auto" class="mx-auto" align-self="center">
-            <v-btn-toggle v-model="pilot.CombatController.Cover" flat tile color="primary">
+            <v-btn-toggle
+              v-model="pilot.CombatController.Cover"
+              flat
+              tile
+              color="primary"
+            >
               <v-btn size="x-small" height="20px" value="none">No Cover</v-btn>
-              <v-btn size="x-small" height="20px" value="soft">Soft Cover</v-btn>
-              <v-btn size="x-small" height="20px" value="hard">Hard Cover</v-btn>
+              <v-btn size="x-small" height="20px" value="soft"
+                >Soft Cover</v-btn
+              >
+              <v-btn size="x-small" height="20px" value="hard"
+                >Hard Cover</v-btn
+              >
             </v-btn-toggle>
           </v-col>
           <v-col cols="auto" class="pt-3 pr-1">
             <cc-button
-              v-for="i in pilot.CombatController.StatController.MaxStats['activations']"
+              v-for="i in pilot.CombatController.StatController.MaxStats[
+                'activations'
+              ]"
               icon="cc:activate"
               size="x-large"
               variant="outlined"
               :color="
-                pilot.CombatController.StatController.CurrentStats['activations'] >= i
+                pilot.CombatController.StatController.CurrentStats[
+                  'activations'
+                ] >= i
                   ? 'green'
                   : 'grey'
               "
               @click="
-                pilot.CombatController.StatController.CurrentStats['activations'] === 0
-                  ? (pilot.CombatController.StatController.CurrentStats['activations'] += 1)
-                  : (pilot.CombatController.StatController.CurrentStats['activations'] -= 1)
-              "></cc-button>
+                pilot.CombatController.StatController.CurrentStats[
+                  'activations'
+                ] === 0
+                  ? (pilot.CombatController.StatController.CurrentStats[
+                      'activations'
+                    ] += 1)
+                  : (pilot.CombatController.StatController.CurrentStats[
+                      'activations'
+                    ] -= 1)
+              "
+            ></cc-button>
           </v-col>
         </v-row>
         <v-row class="mt-n1">
@@ -45,7 +71,11 @@
             <v-tooltip location="top" text="Pilot Grit">
               <template #activator="{ props }">
                 <span v-bind="props">
-                  <v-icon icon="mdi-star-four-points-outline" size="x-large" class="mt-n2 mr-1" />
+                  <v-icon
+                    icon="mdi-star-four-points-outline"
+                    size="x-large"
+                    class="mt-n2 mr-1"
+                  />
                   <span class="heading h2 text-accent">2</span>
                 </span>
               </template>
@@ -59,10 +89,16 @@
               'techattack',
               'sensorRange',
               'saveTarget',
-            ])">
+            ])"
+          >
             <v-tooltip :text="stat.title" location="top" open-delay="400">
               <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-large" class="mt-n2 mr-1" :icon="stat.icon" />
+                <v-icon
+                  v-bind="props"
+                  size="x-large"
+                  class="mt-n2 mr-1"
+                  :icon="stat.icon"
+                />
                 <span class="heading h2 text-accent">
                   {{ pilot.StatController.CurrentStats[stat.key] }}
                 </span>
@@ -82,14 +118,16 @@
               tertiary-color="overshield"
               icon="mdi-heart-outline"
               tertiary-icon="mdi-hexagon-multiple-outline"
-              :ticks="pilot.StatController.MaxStats['hp']" />
+              :ticks="pilot.StatController.MaxStats['hp']"
+            />
           </v-col>
           <v-col cols="auto">
             <stat-mini-panel
               title="armor"
               icon="mdi-shield-outline"
               color="armor"
-              v-model="pilot.StatController.CurrentStats['armor']" />
+              v-model="pilot.StatController.CurrentStats['armor']"
+            />
           </v-col>
         </v-row>
 
@@ -102,10 +140,16 @@
               space
               icon="mdi-arrow-right-bold-hexagon-outline"
               class="mb-1"
-              :ticks="pilot.StatController.MaxStats['speed']" />
+              :ticks="pilot.StatController.MaxStats['speed']"
+            />
           </v-col>
           <v-col cols="auto">
-            <stat-mini-panel title="burn" icon="cc:burn" color="damage--burn" v-model="burn" />
+            <stat-mini-panel
+              title="burn"
+              icon="cc:burn"
+              color="damage--burn"
+              v-model="burn"
+            />
           </v-col>
         </v-row>
 
@@ -121,7 +165,10 @@
           </v-col>
         </v-row>
 
-        <damage-menu :encounter="encounter" :controller="item.CombatController" />
+        <damage-menu
+          :encounter="encounter"
+          :controller="item.CombatController"
+        />
       </v-col>
     </v-row>
 
@@ -150,7 +197,7 @@ export default {
       type: Object,
       required: true,
     },
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },
