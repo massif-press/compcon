@@ -1,5 +1,4 @@
 <template>
-  abcaba
   <mech-statblock :mech="mech" :pilot="pilot" :color="color">
     <template #prepend>
       <hase-pips
