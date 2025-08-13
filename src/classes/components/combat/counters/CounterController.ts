@@ -30,9 +30,7 @@ class CounterController {
   }
 
   public saveCounter(inputData: ICounterSaveData): void {
-    const index = this._counterSaveData.findIndex(
-      (datum) => datum.id === inputData.id
-    );
+    const index = this._counterSaveData.findIndex((datum) => datum.id === inputData.id);
     if (index < 0) {
       this._counterSaveData = [...this._counterSaveData, inputData];
     } else {
@@ -57,9 +55,7 @@ class CounterController {
   }
 
   public deleteCustomCounter(id: string): void {
-    const index = this._customCounters.findIndex(
-      (c) => c.custom && c.id === id
-    );
+    const index = this._customCounters.findIndex((c) => c.custom && c.id === id);
     if (index > -1) {
       this._customCounters.splice(index, 1);
       this._customCounters = [...this._customCounters];
@@ -69,13 +65,11 @@ class CounterController {
 
   public get CounterData(): ICounterData[] {
     const actor = this.Parent.Parent as any;
-    const parent_counters = actor.FeatureController.Containers.length
+    const parent_counters = actor.FeatureController?.Containers.length
       ? actor.FeatureController.Counters
       : [];
 
-    return [...parent_counters, ...this.CustomCounterData]
-      .flat()
-      .filter((x) => x);
+    return [...parent_counters, ...this.CustomCounterData].flat().filter((x) => x);
   }
 
   public static Serialize(parent: ICounterContainer, target: any) {
@@ -83,18 +77,14 @@ class CounterController {
     target.custom_counters = parent.CounterController.CustomCounterData;
   }
 
-  public static Deserialize(
-    parent: ICounterContainer,
-    data: ICounterCollection
-  ) {
+  public static Deserialize(parent: ICounterContainer, data: ICounterCollection) {
     if (!parent.CounterController)
       throw new Error(
         `CounterController not found on parent (${typeof parent}). New CounterControllers must be instantiated in the parent's constructor method.`
       );
 
     parent.CounterController._counterSaveData = data.counter_data || [];
-    parent.CounterController._customCounters =
-      (data.custom_counters as ICounterData[]) || [];
+    parent.CounterController._customCounters = (data.custom_counters as ICounterData[]) || [];
   }
 }
 

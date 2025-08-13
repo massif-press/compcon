@@ -42,12 +42,13 @@
                 tile
                 size="x-small"
                 variant="text"
-                @input="$emit('update:modelValue', modelValue - 1)">
+                @click="setVal(internalValue - 1)">
                 <v-icon size="x-large" icon="mdi-minus" />
               </v-btn>
             </v-col>
             <v-col cols="auto">
               <v-text-field
+                :model-value.number="internalValue"
                 variant="outlined"
                 type="number"
                 tile
@@ -56,8 +57,7 @@
                 density="compact"
                 width="100"
                 @focus="$event.target.select()"
-                :value="modelValue"
-                @input="$emit('update:modelValue', $event.target.value)" />
+                @update:model-value="setVal(Number($event))" />
             </v-col>
             <v-col cols="auto">
               <v-btn
@@ -66,7 +66,7 @@
                 tile
                 size="x-small"
                 variant="text"
-                @input="$emit('update:modelValue', modelValue + 1)">
+                @click="setVal(internalValue + 1)">
                 <v-icon size="x-large" icon="mdi-plus" />
               </v-btn>
             </v-col>
@@ -74,14 +74,12 @@
           <v-divider class="my-2" />
           <v-row dense>
             <v-col>
-              <v-btn flat tile block size="x-small" color="primary" @click="$emit('reset')">
+              <v-btn flat tile block size="x-small" color="primary" @click="setVal(baseValue)">
                 Reset
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn flat tile block size="x-small" color="primary" @click="$emit('clear')">
-                Clear
-              </v-btn>
+              <v-btn flat tile block size="x-small" color="primary" @click="setVal(0)">Clear</v-btn>
             </v-col>
           </v-row>
         </v-card-text>
@@ -92,6 +90,8 @@
 </template>
 
 <script>
+import { set } from 'lodash';
+
 export default {
   name: 'cc-panel',
   props: {
@@ -110,8 +110,30 @@ export default {
     boolean: {
       type: Boolean,
     },
+    baseValue: {
+      type: Number,
+      default: 0,
+    },
   },
-  emits: ['click', 'update:modelValue'],
+  data() {
+    return {
+      internalValue: this.modelValue,
+    };
+  },
+  emits: ['click', 'update:model-value'],
+  watch: {
+    modelValue(val) {
+      this.internalValue = val;
+    },
+    internalValue(val) {
+      this.$emit('update:model-value', val);
+    },
+  },
+  methods: {
+    setVal(val) {
+      this.$emit('update:model-value', val);
+    },
+  },
 };
 </script>
 

@@ -6,7 +6,7 @@
 // damage handlers
 // manage destroy/cascade/ejected/etc state
 
-import { Counter, DamageType } from '@/class';
+import { Counter, DamageType, DiceRoller, Rules } from '@/class';
 import { ICombatant } from './ICombatant';
 import { IStatData, StatController } from './stats/StatController';
 import { CounterController, ICounterCollection } from './counters/CounterController';
@@ -34,6 +34,11 @@ class CombatData {
   combatActions: string[] = [];
   cover: CoverType = CoverType.None;
 
+  mounted: boolean = true;
+  overwatch: boolean = false;
+  braced: boolean = false;
+  prepared: boolean = false;
+
   history: any[] = [];
 }
 
@@ -50,6 +55,11 @@ class CombatController implements ICounterContainer, IStatContainer {
   public Cover: CoverType = CoverType.None;
   public Engaged: boolean = false;
   private _combatActions: string[] = [];
+
+  public Mounted: boolean = true;
+  public Overwatch: boolean = false;
+  public Braced: boolean = false;
+  public Prepared: boolean = false;
 
   public StatController: StatController;
   public CounterController: CounterController;
@@ -106,6 +116,14 @@ class CombatController implements ICounterContainer, IStatContainer {
     );
   }
 
+  public ApplyOvercharge(): void {
+    const track = (this.Parent as any).OverchargeTrack || Rules.Overcharge;
+    const die = track[this.StatController.CurrentStats['overcharge'] || 0];
+    console.log(`Overcharge die: ${die}`);
+    const roll = DiceRoller.roll(die);
+    console.log(`Overcharge roll: ${roll}`);
+  }
+
   public static Serialize(controller: CombatController, target: any) {
     if (!target.stats) target.stats = {};
     if (!target.counters) target.counters = {};
@@ -117,6 +135,10 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.state = controller.CombatantState;
     target.combatActions = controller._combatActions;
     target.cover = controller.Cover;
+    target.mounted = controller.Mounted;
+    target.overwatch = controller.Overwatch;
+    target.braced = controller.Braced;
+    target.prepared = controller.Prepared;
     StatController.Serialize(controller, target.stats);
     CounterController.Serialize(controller, target.counters);
   }
@@ -135,6 +157,10 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller.CombatantState = data?.state || {};
     controller._combatActions = data?.combatActions || [];
     controller.Cover = data?.cover || CoverType.None;
+    controller.Mounted = data?.mounted || true;
+    controller.Overwatch = data?.overwatch || false;
+    controller.Braced = data?.braced || false;
+    controller.Prepared = data?.prepared || false;
     StatController.Deserialize(controller, data?.stats || {});
     CounterController.Deserialize(controller, data?.counters || {});
   }

@@ -194,9 +194,9 @@ export default {
     },
   },
   methods: {
-    loadLastLocalEncounter() {
+    async loadLastLocalEncounter() {
       if (this.lastLocalEncounter) {
-        EncounterStore().AssignActiveEncounter(this.lastLocalEncounter);
+        await EncounterStore().AssignActiveEncounter(this.lastLocalEncounter);
         this.$router.push('active-mode/gm-encounter-runner');
       }
     },

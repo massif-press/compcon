@@ -20,6 +20,7 @@ import TalentMicro from './components/_TalentMicro.vue';
 import TalentSmall from './components/_TalentSmall.vue';
 import TalentTerse from './components/_TalentTerse.vue';
 import TalentFull from './components/_TalentFull.vue';
+import TalentRankView from './components/_TalentRankView.vue';
 
 export default {
   name: 'talent',
@@ -28,6 +29,7 @@ export default {
     TalentSmall,
     TalentTerse,
     TalentFull,
+    TalentRankView,
   },
   props: {
     talent: { type: Object, required: true },
@@ -36,6 +38,7 @@ export default {
     micro: { type: Boolean },
     small: { type: Boolean },
     terse: { type: Boolean },
+    rankView: { type: Boolean, default: false },
     selectable: { type: Boolean },
     inColumn: { type: Boolean },
     hideChange: { type: Boolean },
@@ -48,6 +51,7 @@ export default {
   }),
   computed: {
     type() {
+      if (this.rankView) return TalentRankView;
       if (this.expand === 'full') return TalentFull;
       if (this.expand === 'terse') return TalentTerse;
       if (this.micro) return TalentMicro;

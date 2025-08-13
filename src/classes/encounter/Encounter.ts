@@ -9,22 +9,12 @@ import {
 } from '../components';
 import { ISitrepData, Sitrep, SitrepInstance } from './Sitrep';
 import { EncounterMap, IMapData } from './EncounterMap';
-import {
-  FolderController,
-  IFolderData,
-} from '../components/folder/FolderController';
-import {
-  NarrativeController,
-  NarrativeElementData,
-} from '../narrative/NarrativeController';
+import { FolderController, IFolderData } from '../components/folder/FolderController';
+import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 import { INarrativeElement } from '../narrative/INarrativeElement';
 import { ImageTag } from '@/io/ImageManagement';
-import {
-  Environment,
-  EnvironmentInstance,
-  IEnvironmentData,
-} from '../Environment';
+import { Environment, EnvironmentInstance, IEnvironmentData } from '../Environment';
 import { Npc } from '../npc/Npc';
 import { Unit, UnitData } from '../npc/unit/Unit';
 import { Doodad, DoodadData } from '../npc/doodad/Doodad';
@@ -36,6 +26,7 @@ import {
   DeployableInstance,
   IDeployableInstanceData,
 } from '../components/feature/deployable/DeployableInstance';
+import { IPlaceholderData, Placeholder } from './Placeholder';
 
 interface IEncounterData {
   itemType: 'Encounter';
@@ -70,8 +61,8 @@ type CombatantData = {
 type CombatantSaveData = {
   id?: string;
   index: number;
-  type: 'unit' | 'doodad' | 'eidolon' | 'pilot';
-  actor: UnitData | DoodadData | EidolonData | PilotData;
+  type: 'unit' | 'doodad' | 'eidolon' | 'pilot' | 'placeholder';
+  actor: UnitData | DoodadData | EidolonData | PilotData | IPlaceholderData;
   side?: 'enemy' | 'ally' | 'neutral';
   playerCount?: number;
   reinforcement?: boolean;
@@ -116,10 +107,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     }
 
     if (data?.environment) {
-      this._environment = new EnvironmentInstance(
-        this,
-        new Environment(data.environment)
-      );
+      this._environment = new EnvironmentInstance(this, new Environment(data.environment));
     }
 
     if (data?.map) {
@@ -130,11 +118,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       this._combatants = data.combatants.map((c) => {
         // TODO: remove after release, this is to ensure old v3 encounters are compatible
         if ((c as any).npc)
-          c.actor = (c as any).npc as
-            | UnitData
-            | DoodadData
-            | EidolonData
-            | PilotData;
+          c.actor = (c as any).npc as UnitData | DoodadData | EidolonData | PilotData;
         let actor;
         switch (c.type) {
           case 'unit':
@@ -149,6 +133,8 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
           case 'pilot':
             actor = Pilot.Deserialize(c.actor as PilotData);
             break;
+          case 'placeholder':
+            actor = Placeholder.Deserialize(c.actor as IPlaceholderData);
           default:
             throw new Error('Invalid combatant type');
         }
@@ -318,8 +304,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       index: this.Combatants.length,
       type,
       actor: c,
-      number:
-        this.Combatants.filter((x: any) => x.actor.Name === c.Name).length + 1,
+      number: this.Combatants.filter((x: any) => x.actor.Name === c.Name).length + 1,
       side: 'enemy',
       playerCount: 0,
       reinforcement: false,
@@ -355,9 +340,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
           playerCount: c.playerCount,
           reinforcement: c.reinforcement,
           reinforcementTurn: c.reinforcementTurn,
-          deployables: c.deployables.map((d) =>
-            DeployableInstance.Serialize(d)
-          ),
+          deployables: c.deployables.map((d) => DeployableInstance.Serialize(d)),
         };
       }),
     } as IEncounterData;

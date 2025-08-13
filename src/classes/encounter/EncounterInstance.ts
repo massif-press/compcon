@@ -3,7 +3,7 @@ import { ISaveData, ISaveable, SaveController } from '../components';
 import { CombatantData, Encounter, IEncounterData } from './Encounter';
 import { PilotData } from '@/interface';
 import { Deployable, Pilot } from '@/class';
-import { Placeholder } from './Placeholder';
+import { IPlaceholderData, Placeholder } from './Placeholder';
 import { ICombatant } from '../components/combat/ICombatant';
 import {
   DeployableInstance,
@@ -15,7 +15,7 @@ interface IEncounterInstanceData {
   id: string;
   encounterData: IEncounterData;
   pilotData?: PilotData[];
-  placeholderData?: Placeholder[];
+  placeholderData?: IPlaceholderData[];
   round: number;
   save: ISaveData;
   isActive?: boolean;
@@ -47,10 +47,12 @@ class EncounterInstance implements ISaveable {
 
     this.Encounter = Encounter.Deserialize(data.encounterData);
     this.Pilots = data.pilotData?.map((p) => Pilot.Deserialize(p)) || [];
-    this.Placeholders = data.placeholderData || [];
+    this.Placeholders = data.placeholderData?.map((ph) => Placeholder.Deserialize(ph)) || [];
 
     this.IsActive = data.isActive || false;
     this.IsArchived = data.archived || false;
+
+    console.log(this.Placeholders);
 
     this.Combatants = [
       ...this.Encounter.Combatants,
@@ -70,7 +72,7 @@ class EncounterInstance implements ISaveable {
           id: ph.ID,
           index: -1,
           number: -1,
-          type: ph.PlaceholderType,
+          type: 'placeholder',
           side: ph.Side,
           actor: ph,
           deployables: [],
@@ -89,10 +91,7 @@ class EncounterInstance implements ISaveable {
   }
 
   public Deploy(deployable: Deployable, combatant: CombatantData): void {
-    const deployableInstance = new DeployableInstance(
-      deployable.ItemData,
-      combatant
-    );
+    const deployableInstance = new DeployableInstance(deployable.ItemData, combatant);
     combatant.deployables.push(deployableInstance);
 
     this.save();
@@ -129,6 +128,7 @@ class EncounterInstance implements ISaveable {
       id: instance.ID,
       encounterData: Encounter.Serialize(instance.Encounter),
       pilotData: instance.Pilots.map((p) => p.Serialize()),
+      placeholderData: instance.Placeholders.map((ph) => ph.Serialize()),
       round: instance._round,
       isActive: instance.IsActive,
       archived: instance.IsArchived,

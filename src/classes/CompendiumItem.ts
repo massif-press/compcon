@@ -55,6 +55,12 @@ abstract class CompendiumItem {
   protected _flavor_description: string = '';
   private _baseTags: Tag[];
 
+  // combat props
+  public MaxUses: number = 0;
+  public Uses: number = 0;
+  public Used: boolean = false;
+  public Destroyed: boolean = false;
+
   public constructor(data?: ICompendiumItemData, lcp?: ContentPack) {
     this.InstanceID = _.uniqueId();
     this.ItemType = ItemType.None;

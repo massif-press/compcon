@@ -43,6 +43,7 @@
                     density="compact"
                     @focus="$event.target.select()"
                     @update:model-value="setVal(Number($event))" />
+                  <slot name="menu-content" />
                   <template #edit-max-value>
                     <v-text-field
                       :model-value.number="internalValue"

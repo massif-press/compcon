@@ -28,12 +28,19 @@
     item-key="index">
     <template #item="{ element, index }">
       <div class="mb-1">
+        <placeholder-runner-list-item
+          v-if="element.actor?.Placeholder"
+          :combatant="element"
+          :collapsed="!expanded"
+          :selected="selected && selected.id === element.id"
+          @select="$emit('select', $event)" />
         <component
+          v-else
           :is="`${element.type}-runner-list-item`"
           :combatant="element"
           :collapsed="!expanded"
           :selected="selected && selected.id === element.id"
-          @select="$emit('select', element)" />
+          @select="$emit('select', $event)" />
       </div>
     </template>
   </sortable>
@@ -57,12 +64,15 @@
           <v-icon size="x-large" icon="mdi-plus" />
         </v-btn>
       </template>
-      <v-card tile>
-        <v-btn block border flat tile color="primary">Add NPC</v-btn>
-        <v-btn block border flat tile color="primary">Add Pilot</v-btn>
-        <v-btn block border flat tile color="primary">Add Doodad</v-btn>
-        <v-btn block border flat tile color="primary">Add Other</v-btn>
-        <v-btn block border flat tile color="primary">Add Stub</v-btn>
+      <v-card tile border color="background">
+        <gm-add-npc-menu :encounter="encounter" />
+        <v-divider />
+        <gm-add-pc-menu :encounter="encounter" />
+        <v-divider />
+        <gm-add-other-menu :encounter="encounter" />
+        <v-divider />
+        <gm-add-stub-menu :encounter="encounter" />
+        <v-divider />
       </v-card>
     </v-menu>
   </div>
@@ -76,6 +86,11 @@ import { CompendiumStore } from '@/stores';
 import UnitRunnerListItem from './ListItems/UnitRunnerListItem.vue';
 import PilotRunnerListItem from './ListItems/PilotRunnerListItem.vue';
 import DoodadRunnerListItem from './ListItems/DoodadRunnerListItem.vue';
+import GmAddNpcMenu from './ListItems/AddItems/GmAddNpcMenu.vue';
+import GmAddPcMenu from './ListItems/AddItems/GmAddPcMenu.vue';
+import GmAddOtherMenu from './ListItems/AddItems/GmAddOtherMenu.vue';
+import GmAddStubMenu from './ListItems/AddItems/GmAddStubMenu.vue';
+import PlaceholderRunnerListItem from './ListItems/PlaceholderRunnerListItem.vue';
 
 export default {
   name: 'gm-encounter-runner-initiative-panel',
@@ -84,6 +99,11 @@ export default {
     UnitRunnerListItem,
     PilotRunnerListItem,
     DoodadRunnerListItem,
+    GmAddNpcMenu,
+    GmAddPcMenu,
+    GmAddOtherMenu,
+    GmAddStubMenu,
+    PlaceholderRunnerListItem,
   },
   props: {
     encounter: {
@@ -107,11 +127,11 @@ export default {
   }),
   emits: ['select'],
   mounted() {
+    console.log(this.encounter);
     this.combatants = this.encounter.Combatants;
   },
   methods: {
     itemSort(key) {
-      console.log(key);
       let sorted = [...this.combatants];
 
       if (key === 'name') {

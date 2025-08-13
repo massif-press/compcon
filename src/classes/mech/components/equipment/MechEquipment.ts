@@ -1,10 +1,5 @@
 import { ContentPack, LicensedItem } from '../../../../class';
-import {
-  IContentPack,
-  ILicensedItemData,
-  ITagCompendiumData,
-  ITagData,
-} from '../../../../interface';
+import { ILicensedItemData, ITagData } from '../../../../interface';
 
 interface IMechEquipmentData extends ILicensedItemData {
   sp: number;
@@ -19,9 +14,7 @@ interface IMechEquipmentData extends ILicensedItemData {
 }
 
 abstract class MechEquipment extends LicensedItem {
-  protected max_use_override: number = 0;
   public IsIntegrated: boolean;
-  private _max_uses: number;
   public readonly SP: number;
   public readonly Effect: string;
   public readonly IsUnique: boolean = false;
@@ -52,7 +45,7 @@ abstract class MechEquipment extends LicensedItem {
     if (data.tags) {
       const ltd = data.tags.find((x) => x.id === 'tg_limited');
       this.IsLimited = !!ltd;
-      this._max_uses = ltd && typeof ltd.val === 'number' ? parseInt(ltd.val as any) : 0;
+      this.MaxUses = ltd && typeof ltd.val === 'number' ? parseInt(ltd.val as any) : 0;
       this.IsUnique = this.setTagBool(data, 'tg_unique');
       this.IsLoading = this.setTagBool(data, 'tg_loading');
       this.IsAI = this.setTagBool(data, 'tg_ai');
@@ -61,8 +54,6 @@ abstract class MechEquipment extends LicensedItem {
       this.IsOrdnance = this.setTagBool(data, 'tg_ordnance');
       this.CanSetDamage = this.setTagBool(data, 'tg_set_damage_type');
       this.CanSetUses = this.setTagBool(data, 'tg_set_max_uses');
-    } else {
-      this._max_uses = 0;
     }
     this.Ammo = data.ammo || [];
     this.NoMods = data.no_mods || false;
@@ -72,14 +63,6 @@ abstract class MechEquipment extends LicensedItem {
 
   private setTagBool(data: IMechEquipmentData, id: string): boolean {
     return data.tags.some((x) => x.id === id);
-  }
-
-  public get Uses(): number {
-    return this.MaxUses;
-  }
-
-  public get MaxUses(): number {
-    return this.max_use_override ? this.max_use_override : this._max_uses;
   }
 
   public getTotalUses(bonus?: number): number {

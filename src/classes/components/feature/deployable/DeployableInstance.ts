@@ -17,6 +17,7 @@ class DeployableInstance {
   public readonly Owner: CombatantData;
   public readonly ID: string = '';
   public name: string;
+  public readonly type: string = 'deployable';
 
   // stubbed, as this is not required
   public SaveController = {
@@ -29,9 +30,7 @@ class DeployableInstance {
     this.Base = new Deployable(data);
     this.Owner = owner;
     this._number =
-      owner.deployables.filter(
-        (d: DeployableInstance) => d.ItemData.id === data.id
-      ).length + 1;
+      owner.deployables.filter((d: DeployableInstance) => d.ItemData.id === data.id).length + 1;
     this.name = data.name;
     this.CombatController = new CombatController(this);
   }
@@ -41,9 +40,7 @@ class DeployableInstance {
   }
 
   public get Name(): string {
-    return (
-      (this.name || this.ItemData.name || `Deployable`) + ` #${this._number}`
-    );
+    return (this.name || this.ItemData.name || `Deployable`) + ` #${this._number}`;
   }
 
   public get StatController() {
@@ -70,8 +67,7 @@ class DeployableInstance {
       { key: 'burn', val: 0 },
     ];
 
-    const ownerStats = (this.Owner.actor as any).CombatController
-      .StatController;
+    const ownerStats = (this.Owner.actor as any).CombatController.StatController;
     if (ownerStats) {
       kvps.push({
         key: 'limited_bonus',
@@ -82,9 +78,7 @@ class DeployableInstance {
     this.CombatController.setStats(kvps);
   }
 
-  public static Serialize(
-    instance: DeployableInstance
-  ): IDeployableInstanceData {
+  public static Serialize(instance: DeployableInstance): IDeployableInstanceData {
     return {
       name: instance.name,
       data: instance.ItemData,
@@ -92,10 +86,7 @@ class DeployableInstance {
     } as IDeployableInstanceData;
   }
 
-  public static Deserialize(
-    d: IDeployableInstanceData,
-    owner: CombatantData
-  ): DeployableInstance {
+  public static Deserialize(d: IDeployableInstanceData, owner: CombatantData): DeployableInstance {
     if (!d.data) throw new Error('Deployable data is missing.');
     const dep = new DeployableInstance(d.data, owner);
     return dep;

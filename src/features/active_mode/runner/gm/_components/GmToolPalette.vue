@@ -68,6 +68,18 @@
       </template>
       Combat Quick Reference
     </v-tooltip>
+    <v-divider class="my-2" />
+    <v-tooltip>
+      <template #activator="{ props }">
+        <v-list-item v-bind="!expanded && props" @click="selectPanel('options')">
+          <template #prepend>
+            <v-icon icon="mdi-cog" />
+          </template>
+          Settings & Overrides
+        </v-list-item>
+      </template>
+      Settings & Overrides
+    </v-tooltip>
   </v-list>
   <div style="height: 50px" />
 </template>
