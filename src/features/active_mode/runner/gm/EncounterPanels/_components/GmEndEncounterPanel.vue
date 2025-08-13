@@ -6,9 +6,9 @@
         block
         variant="text"
         color="accent"
-        prepend-icon="mdi-clock-end"
+        prepend-icon="mdi-progress-check"
         @click="props.onClick($event)">
-        End Round
+        End Encounter
       </v-btn>
     </template>
     <template #default="{ isActive }">

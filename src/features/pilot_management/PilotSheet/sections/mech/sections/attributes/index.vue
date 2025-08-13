@@ -1,4 +1,5 @@
 <template>
+  abcaba
   <mech-statblock :mech="mech" :pilot="pilot" :color="color">
     <template #prepend>
       <hase-pips
@@ -42,10 +43,11 @@
 <script lang="ts">
 import StatblockItem from './StatblockItem.vue';
 import HasePips from './HasePips.vue';
+import MechStatblock from './MechStatblock.vue';
 
 export default {
   name: 'attributes-block',
-  components: { StatblockItem, HasePips },
+  components: { StatblockItem, HasePips, MechStatblock },
   props: {
     mech: {
       type: Object,

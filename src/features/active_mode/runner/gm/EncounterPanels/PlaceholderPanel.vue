@@ -1,11 +1,9 @@
 <template>
   <v-row no-gutters>
     <v-col class="heading h2 text-accent">
-      {{ combatant.actor.Callsign }}
-      <span class="text-cc-overline text-text">
-        <cc-slashes />
+      <cc-short-string-editor large @set="combatant.actor.Name = $event">
         {{ combatant.actor.Name }}
-      </span>
+      </cc-short-string-editor>
     </v-col>
     <v-col v-if="combatant.actor.Player" cols="auto">
       <span class="text-cc-overline pr-1">Played by</span>
@@ -46,14 +44,14 @@
     </v-col>
   </v-row>
 
-  <v-window v-model="view">
+  <!-- <v-window v-model="view">
     <v-window-item value="mech">
       <mech-panel :encounter-instance="encounterInstance" v-if="mech" :combatant="combatant" />
     </v-window-item>
     <v-window-item value="pilot">
       <pilot-panel :encounter-instance="encounterInstance" :combatant="combatant" />
     </v-window-item>
-  </v-window>
+  </v-window> -->
 </template>
 
 <script>

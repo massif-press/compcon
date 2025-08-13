@@ -78,14 +78,6 @@ abstract class PilotEquipment extends CompendiumItem {
     return new PilotGear(data) as T;
   }
 
-  public get Uses(): number {
-    return this.MaxUses;
-  }
-
-  public get MaxUses(): number {
-    return this.max_use_override !== null ? this.max_use_override : this._max_uses;
-  }
-
   public getTotalUses(bonus?: number): number {
     const b = bonus ? bonus : 0;
     return this.max_use_override !== null ? this.max_use_override : this._max_uses + b;

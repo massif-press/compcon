@@ -19,7 +19,11 @@
           @update:modelValue="(val) => setTertiaryVal(val)"
           :ticks="tertiaryTicks"
           :color="tertiaryColor"
-          :value-atlas="valueAtlas" />
+          :value-atlas="valueAtlas">
+          <template #menu-content>
+            <slot name="top-menu" />
+          </template>
+        </top-bar>
         <center-bar
           :no-clip="!!tertiaryLabel"
           :label="primaryLabel"
@@ -31,7 +35,9 @@
           @update:modelValue="(val) => setVal(val)"
           :ticks="ticks"
           :color="color"
-          :reverse="reverse" />
+          :reverse="reverse">
+          <slot name="middle-menu" />
+        </center-bar>
         <bottom-bar
           v-if="secondaryLabel"
           :label="secondaryLabel"
@@ -42,7 +48,9 @@
           :modelValue="secondary"
           @update:modelValue="(val) => setSecondaryVal(val)"
           :ticks="secondaryTicks"
-          :color="secondaryColor" />
+          :color="secondaryColor">
+          <slot name="bottom-menu" />
+        </bottom-bar>
       </v-col>
 
       <v-col cols="auto" v-if="$slots.options">

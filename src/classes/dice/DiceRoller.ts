@@ -190,6 +190,18 @@ class DiceRoller {
     return DiceRoller.rollSkillCheck(staticBonus, totalAccuracy, totalDifficulty);
   }
 
+  public static roll(diceString: string): number {
+    const parsedRoll = DiceRoller.parseDiceString(diceString);
+    if (!parsedRoll) return 0;
+
+    let total = parsedRoll.modifier;
+    parsedRoll.dice.forEach((dieSet) => {
+      total += DiceRoller.rollDieSet(dieSet).result;
+    });
+
+    return total;
+  }
+
   public static rollDamage(
     diceString: string,
     critical?: boolean,

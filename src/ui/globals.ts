@@ -40,6 +40,8 @@ import CCDamageTypePicker from './components/CCDamageTypePicker.vue';
 
 import CCCounterSet from './components/items/features/counters/CCCounterSet.vue';
 
+import CCSidebarLayout from './components/layouts/CCSidebar.vue';
+
 import CCLcpInfo from './components/CCLcpInfo.vue';
 // import CCDialog from './components/CCDialog.vue';
 import CCDiceMenu from './components/CCDiceMenu.vue';
@@ -223,4 +225,5 @@ export {
   CCBrokenReference,
   CCCoreSystemPanel,
   CCCounterSet,
+  CCSidebarLayout,
 };

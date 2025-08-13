@@ -1,102 +1,139 @@
 <template>
-  <panel-base :encounter="encounter" :item="mech">
+  <panel-base :encounter-instance="encounterInstance" :item="mech">
     <template #name-block>
       <div class="heading h2">{{ mech.Name }}</div>
-      <div class="heading h4">
-        {{ mech.Frame.Source }} {{ mech.Frame.Name }}
-      </div>
+      <div class="heading h4">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
+
+      <cc-alert
+        v-if="
+          !mech.CombatController.Mounted && !mech.CombatController.Destroyed && aiSystems.length
+        "
+        title="Under AI Control"
+        icon="cc:monist"
+        color="primary"
+        class="mr-6">
+        <div class="text-center">
+          <div class="heading">{{ aiSystems.map((x) => x.Name).join(' // ') }}</div>
+        </div>
+      </cc-alert>
     </template>
 
     <template #action-palette>
       <v-row dense>
         <v-col>
-          <v-btn flat tile size="small" block color="primary" text="Mounted" />
+          <v-btn
+            flat
+            tile
+            size="small"
+            block
+            :color="mech.CombatController.Mounted ? 'primary' : 'panel'"
+            text="Mounted"
+            @click="mech.CombatController.Mounted = !mech.CombatController.Mounted" />
           <v-divider />
           <v-btn
             flat
             tile
             size="small"
             block
-            color="panel"
-            text="Braced&nbsp;&nbsp;"
-          />
+            :color="mech.CombatController.Braced ? 'primary' : 'panel'"
+            text="Braced"
+            @click="mech.CombatController.Braced = !mech.CombatController.Braced" />
         </v-col>
         <v-col>
-          <v-btn flat tile size="small" block color="panel" text="Overwatch" />
+          <v-btn
+            flat
+            tile
+            size="small"
+            block
+            :color="mech.CombatController.Overwatch ? 'primary' : 'panel'"
+            text="Overwatch"
+            @click="mech.CombatController.Overwatch = !mech.CombatController.Overwatch" />
           <v-divider />
           <v-btn
             flat
             tile
             size="small"
             block
-            color="panel"
-            text="Prepared&nbsp;&nbsp;"
-          />
+            :color="mech.CombatController.Prepared ? 'primary' : 'panel'"
+            text="Prepared"
+            @click="mech.CombatController.Prepared = !mech.CombatController.Prepared" />
         </v-col>
       </v-row>
     </template>
 
-    <div class="text-cc-overline mt-4 text-disabled">Frame Traits</div>
-    <masonry-wall
-      :items="mech.Frame.Traits"
-      :column-width="500"
-      :gap="16"
-      :min-columns="1"
-      :max-columns="2"
-    >
-      <template #default="{ item, index }">
-        <cc-trait-item :trait="item" color="primary" style="height: 100%" />
-      </template>
-    </masonry-wall>
+    <v-expansion-panels class="mt-2" multiple flat tile bg-color="background" variant="accordion">
+      <v-expansion-panel class="py-0">
+        <v-expansion-panel-title class="text-cc-overline py-0">
+          <div class="text-cc-overline">
+            <v-icon icon="cc:trait" class="mt-n1" start />
+            Frame Traits ({{ mech.Frame.Traits.length }})
+          </div>
+        </v-expansion-panel-title>
+        <v-expansion-panel-text>
+          <masonry-wall
+            :items="mech.Frame.Traits"
+            :column-width="500"
+            :gap="8"
+            :min-columns="1"
+            :max-columns="2">
+            <template #default="{ item, index }">
+              <cc-trait-item :trait="item" color="primary" style="height: 100%" />
+            </template>
+          </masonry-wall>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
 
-    <div v-if="mech.Parent.CoreBonusController.CoreBonuses.length">
-      <div class="text-cc-overline mt-4 text-disabled">Core Bonuses</div>
-      <masonry-wall
-        :items="mech.Parent.CoreBonusController.CoreBonuses"
-        :column-width="500"
-        :gap="16"
-        :min-columns="1"
-        :max-columns="2"
-      >
-        <template #default="{ item, index }">
-          <cc-core-bonus-item :key="item.ID" terse :bonus="item" />
-        </template>
-      </masonry-wall>
-    </div>
+      <v-expansion-panel v-if="mech.Parent.CoreBonusController.CoreBonuses.length">
+        <v-expansion-panel-title class="text-cc-overline">
+          <div class="text-cc-overline">
+            <v-icon icon="cc:corebonus" class="mt-n1" start />
+            Core Bonuses ({{ mech.Parent.CoreBonusController.CoreBonuses.length }})
+          </div>
+        </v-expansion-panel-title>
+        <v-expansion-panel-text>
+          <masonry-wall
+            :items="mech.Parent.CoreBonusController.CoreBonuses"
+            :column-width="500"
+            :gap="8"
+            :min-columns="1"
+            :max-columns="2">
+            <template #default="{ item, index }">
+              <cc-core-bonus-item :key="item.ID" terse :bonus="item" />
+            </template>
+          </masonry-wall>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
 
-    <div class="text-cc-overline mt-4 text-disabled">Pilot Talents</div>
-    <cc-talent
-      v-for="talent in mech.Parent.TalentsController.Talents"
-      small
-      :key="talent.Talent.ID"
-      :talent="talent.Talent"
-      :rank="talent.Rank"
-      hide-locked
-      hide-change
-    />
-
-    <br />
+      <v-expansion-panel>
+        <v-expansion-panel-title class="text-cc-overline">
+          <div class="text-cc-overline">
+            <v-icon icon="cc:talent" class="mt-n1" start />
+            Pilot Talents ({{ mech.Parent.TalentsController.Talents.length }})
+          </div>
+        </v-expansion-panel-title>
+        <v-expansion-panel-text>
+          <masonry-wall
+            :items="mech.Parent.TalentsController.Talents"
+            :column-width="500"
+            :gap="8"
+            :min-columns="1"
+            :max-columns="2">
+            <template #default="{ item, index }">
+              <cc-talent
+                rank-view
+                :key="item.Talent.ID"
+                :talent="item.Talent"
+                :rank="item.Rank"
+                hide-locked
+                hide-change />
+            </template>
+          </masonry-wall>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
 
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
     <mech-combat-loadout :mech="mech" @deploy="deploy($event)" />
-
-    <div class="text-cc-overline mt-4 text-disabled">Additional Actions</div>
-    <v-row dense>
-      <v-col>
-        <v-btn flat tile block size="small" color="primary"
-          >Mark Dismounted</v-btn
-        >
-        <v-divider />
-        <v-btn flat tile block size="small" color="primary">Eject Pilot</v-btn>
-      </v-col>
-      <v-col>
-        <v-btn flat tile block size="small" color="primary">Mark Brace</v-btn>
-        <v-divider />
-        <v-btn flat tile block size="small" color="primary"
-          >Mark Overwatch</v-btn
-        >
-      </v-col>
-    </v-row>
   </panel-base>
 </template>
 
@@ -135,20 +172,15 @@ export default {
       return _.sampleSize(CompendiumStore().Talents, 3);
     },
     applicableStatuses() {
-      const exclude = [
-        `dangerzone`,
-        `downandout`,
-        `engaged`,
-        `hidden`,
-        `invisible`,
-      ];
+      const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
       return this.statuses.filter((s) => !exclude.includes(s.ID));
+    },
+    aiSystems() {
+      return this.mech.MechLoadoutController.ActiveLoadout.AISystems;
     },
   },
   methods: {
     deploy(deployable) {
-      console.log('Deploying:', deployable);
-      console.log(this.encounterInstance);
       this.encounterInstance.Deploy(deployable, this.combatant);
     },
     getIcon(stat) {
@@ -209,18 +241,14 @@ export default {
     },
     actionStatus(action) {
       if (action === 'full')
-        return (
-          this.usedActions.includes('full') ||
-          this.usedActions.includes('quick')
-        );
+        return this.usedActions.includes('full') || this.usedActions.includes('quick');
       if (action === 'quick')
         return (
           this.usedActions.includes('full') ||
           this.usedActions.filter((x) => x === 'quick').length === 2
         );
       if (action === 'protocol') return this.usedActions.length;
-      if (action === 'move')
-        return this.usedActions.includes('move') || this.movement === 0;
+      if (action === 'move') return this.usedActions.includes('move') || this.movement === 0;
       return this.usedActions.includes(action);
     },
     setAction(action) {

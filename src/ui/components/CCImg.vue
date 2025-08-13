@@ -87,7 +87,12 @@ export default {
     async handleImageError() {
       // if the image fails to load, create a url from the blob
       const blob = await GetBlob('images', this.src);
-      this.imageUrl = URL.createObjectURL(blob);
+      try {
+        this.imageUrl = URL.createObjectURL(blob);
+      } catch (error) {
+        console.error('Failed to create object URL for image:', error);
+        this.imageUrl = ''; // Fallback to empty string if URL creation fails
+      }
     },
   },
 };

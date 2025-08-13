@@ -1,18 +1,18 @@
 <template>
   <runner-list-item-base
     :actor="combatant.actor"
-    :portrait="combatant.actor.Portrait"
-    :deployed="combatant.deployables"
     :collapsed="collapsed"
     :selected="selected"
     :side="combatant.side"
-    @click="$emit('select', combatant)"
-    @deployable-click="$emit('select', $event)">
+    icon="mdi-receipt-text"
+    @click="$emit('select', combatant)">
     <div>
       <span class="heading h4">
         {{ combatant.actor.Name }}
       </span>
-      <span v-if="combatant.number" class="text-accent ml-2">#{{ combatant.number }}</span>
+      <span v-if="combatant.actor.Mechname" class="text-overline ml-2">
+        // {{ combatant.actor.Mechname }}
+      </span>
     </div>
   </runner-list-item-base>
 </template>

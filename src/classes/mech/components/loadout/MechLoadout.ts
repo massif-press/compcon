@@ -305,6 +305,10 @@ class MechLoadout extends Loadout {
     return this.Equipment.filter((x) => x.IsAI).length;
   }
 
+  public get AISystems(): MechEquipment[] {
+    return this.Equipment.filter((x) => x.IsAI) as MechEquipment[];
+  }
+
   public static Serialize(ml: MechLoadout): IMechLoadoutData {
     return {
       id: ml.ID,
