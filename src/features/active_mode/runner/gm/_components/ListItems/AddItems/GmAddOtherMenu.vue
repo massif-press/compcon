@@ -23,7 +23,7 @@ import _ from 'lodash';
 export default {
   name: 'GmAddOtherMenu',
   props: {
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },

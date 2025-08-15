@@ -3,6 +3,7 @@
     <v-card-title class="heading h2">{{ encounter.Name }}</v-card-title>
     <v-card-subtitle class="text-cc-overline">
       <span v-if="encounter.Environment.Name !== 'Default'" v-text="encounter.Environment.Name" />
+      &mdash;
       <span v-text="encounter.Sitrep.Name" />
     </v-card-subtitle>
     <v-card-text class="pb-0">

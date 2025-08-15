@@ -11,6 +11,7 @@ import {
   MechEquipment,
   MechWeapon,
   WeaponMod,
+  Tag,
 } from '@/class';
 import { IEquipmentData, IMechWeaponSaveData, IMountData } from '@/interface';
 import { ILicenseRequirement } from '@/classes/pilot/components/license/LicensedItem';
@@ -307,6 +308,11 @@ class MechLoadout extends Loadout {
 
   public get AISystems(): MechEquipment[] {
     return this.Equipment.filter((x) => x.IsAI) as MechEquipment[];
+  }
+
+  public get AllTags(): Tag[] {
+    console.log(this.Equipment);
+    return this.Equipment.flatMap((x) => x.Tags);
   }
 
   public static Serialize(ml: MechLoadout): IMechLoadoutData {

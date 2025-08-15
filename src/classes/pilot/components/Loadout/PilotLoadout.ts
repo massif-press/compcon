@@ -1,4 +1,4 @@
-import { Rules, PilotEquipment, PilotArmor, PilotWeapon, PilotGear, ItemType } from '@/class';
+import { Rules, PilotEquipment, PilotArmor, PilotWeapon, PilotGear, ItemType, Tag } from '@/class';
 import { PilotLoadoutController } from './PilotLoadoutController';
 import { IEquipmentData } from '@/interface';
 
@@ -65,6 +65,14 @@ class PilotLoadout {
       ...(this._armor as PilotEquipment[]),
       ...(this._weapons as PilotEquipment[]),
       ...(this._gear as PilotEquipment[]),
+    ];
+  }
+
+  public get AllTags(): Tag[] {
+    return [
+      ...this.Armor.flatMap((x) => x.Tags),
+      ...this.Weapons.flatMap((x) => x.Tags),
+      ...this.Gear.flatMap((x) => x.Tags),
     ];
   }
 

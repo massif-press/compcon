@@ -7,6 +7,7 @@ interface IPlaceholderData {
   Mechname?: string;
   type: string; // 'pilot' | 'npc' | 'other'
   side: string; // 'ally' | 'enemy'
+  notes?: string;
 }
 
 class Placeholder {
@@ -14,6 +15,7 @@ class Placeholder {
   public Name: string;
   public Side: string = 'ally'; // Default side
   public Mechname?: string;
+  public Notes?: string;
   public PlaceholderType: string;
   public SaveController: SaveController;
   public CombatController: CombatController;
@@ -26,10 +28,10 @@ class Placeholder {
 
   constructor(data: IPlaceholderData) {
     this.ID = data.id;
-    console.log(data.name);
     this.Name = data.name;
     this.Side = data.side;
     this.Mechname = data.Mechname;
+    this.Notes = data.notes;
     this.PlaceholderType = data.type;
     this.SaveController = new SaveController(this);
     this.CombatController = new CombatController(this);
@@ -59,6 +61,7 @@ class Placeholder {
       Mechname: this.Mechname,
       type: this.PlaceholderType,
       side: this.Side,
+      notes: this.Notes,
     };
   }
 
@@ -72,6 +75,7 @@ class Placeholder {
       Mechname: data.Mechname,
       type: data.type,
       side: data.side,
+      notes: data.notes,
     });
   }
 

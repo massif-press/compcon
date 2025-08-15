@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :fluid="$vuetify.display.mdAndDown">
     <div class="heading h2">New Local Active Encounter</div>
     <v-row dense class="mt-4" align="center">
       <v-col cols="1" class="text-center">

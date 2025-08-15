@@ -1,5 +1,5 @@
 <template>
-  <v-list slim>
+  <v-list>
     <v-tooltip>
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props" @click="$emit('open-dice-roller')">
@@ -25,7 +25,10 @@
     <v-divider class="my-2" />
     <v-tooltip>
       <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props" @click="selectPanel('encounter-info')">
+        <v-list-item
+          v-bind="!expanded && props"
+          :class="getBgClass('encounter-info')"
+          @click="selectPanel('encounter-info')">
           <template #prepend>
             <v-icon icon="cc:encounter" />
           </template>
@@ -36,7 +39,10 @@
     </v-tooltip>
     <v-tooltip>
       <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props" @click="selectPanel('gm-notes')">
+        <v-list-item
+          v-bind="!expanded && props"
+          :class="getBgClass('gm-notes')"
+          @click="selectPanel('gm-notes')">
           <template #prepend>
             <v-icon icon="mdi-card-text-outline" />
           </template>
@@ -48,7 +54,10 @@
     <v-divider class="my-2" />
     <v-tooltip max-width="300">
       <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props" @click="selectPanel('reference-tag')">
+        <v-list-item
+          v-bind="!expanded && props"
+          :class="getBgClass('reference-tag')"
+          @click="selectPanel('reference-tag')">
           <template #prepend>
             <v-icon icon="mdi-tag" />
           </template>
@@ -59,7 +68,10 @@
     </v-tooltip>
     <v-tooltip>
       <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props" @click="selectPanel('quick-reference')">
+        <v-list-item
+          v-bind="!expanded && props"
+          :class="getBgClass('quick-reference')"
+          @click="selectPanel('quick-reference')">
           <template #prepend>
             <v-icon icon="mdi-format-list-group" />
           </template>
@@ -71,7 +83,10 @@
     <v-divider class="my-2" />
     <v-tooltip>
       <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props" @click="selectPanel('options')">
+        <v-list-item
+          v-bind="!expanded && props"
+          :class="getBgClass('options')"
+          @click="selectPanel('options')">
           <template #prepend>
             <v-icon icon="mdi-cog" />
           </template>
@@ -98,10 +113,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    selected: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     selectPanel(panel) {
       this.$emit('select-panel', panel);
+    },
+    getBgClass(panel) {
+      return this.selected === panel ? 'bg-primary' : '';
     },
   },
 };

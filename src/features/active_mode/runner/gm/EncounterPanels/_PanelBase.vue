@@ -6,12 +6,12 @@
   </cc-alert>
   <v-card flat tile class="pa-2">
     <v-row class="pr-4">
-      <v-col cols="auto">
+      <v-col v-if="item.Portrait" cols="auto">
         <cc-img width="155px" height="100%" color="panel" cover :src="item.Portrait" />
       </v-col>
       <v-col>
         <v-row no-gutters align="center">
-          <v-col cols="auto" align-self="center" class="ml-n2 mr-2">
+          <v-col v-if="item.SizeIcon" cols="auto" align-self="center" class="ml-n2 mr-2">
             <v-icon :icon="item.SizeIcon" size="60" />
           </v-col>
           <v-col>
@@ -192,6 +192,8 @@
               boolean />
           </v-col>
         </v-row>
+
+        <slot name="stat-block" />
 
         <combat-action-panel
           v-if="item.CombatController.StatController.MaxStats['activations']"
