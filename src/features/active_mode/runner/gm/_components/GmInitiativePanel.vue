@@ -65,13 +65,13 @@
         </v-btn>
       </template>
       <v-card tile border color="background">
-        <gm-add-npc-menu :encounter="encounter" />
+        <gm-add-npc-menu :encounter-instance="encounter" />
         <v-divider />
-        <gm-add-pc-menu :encounter="encounter" />
+        <gm-add-pc-menu :encounter-instance="encounter" />
         <v-divider />
-        <gm-add-other-menu :encounter="encounter" />
+        <gm-add-other-menu :encounter-instance="encounter" />
         <v-divider />
-        <gm-add-stub-menu :encounter="encounter" />
+        <gm-add-stub-menu :encounter-instance="encounter" />
         <v-divider />
       </v-card>
     </v-menu>

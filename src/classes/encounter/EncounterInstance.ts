@@ -52,8 +52,6 @@ class EncounterInstance implements ISaveable {
     this.IsActive = data.isActive || false;
     this.IsArchived = data.archived || false;
 
-    console.log(this.Placeholders);
-
     this.Combatants = [
       ...this.Encounter.Combatants,
       ...this.Pilots.map((p) => {

@@ -33,7 +33,7 @@
         :color="view === 'pilot' ? 'primary' : 'panel'"
         block
         @click="view = 'pilot'">
-        {{ combatant.actor.Callsign }}
+        {{ combatant.actor.Name }}
         <template #subtitle>
           <span v-if="!mounted" class="text-disabled">
             <cc-slashes />
@@ -44,25 +44,79 @@
     </v-col>
   </v-row>
 
-  <!-- <v-window v-model="view">
+  <v-window v-model="view">
     <v-window-item value="mech">
-      <mech-panel :encounter-instance="encounterInstance" v-if="mech" :combatant="combatant" />
+      <panel-base :encounter-instance="encounterInstance" v-if="mech" :item="mech">
+        <template #name-block>
+          <div class="heading h2">
+            <cc-short-string-editor large @set="mech.Name = $event">
+              {{ mech.Name }}
+            </cc-short-string-editor>
+          </div>
+        </template>
+
+        <template #action-palette>
+          <v-row dense>
+            <v-col>
+              <v-btn
+                flat
+                tile
+                size="small"
+                block
+                :color="mech.CombatController.Mounted ? 'primary' : 'panel'"
+                text="Mounted"
+                @click="mech.CombatController.Mounted = !mech.CombatController.Mounted" />
+              <v-divider />
+              <v-btn
+                flat
+                tile
+                size="small"
+                block
+                :color="mech.CombatController.Braced ? 'primary' : 'panel'"
+                text="Braced"
+                @click="mech.CombatController.Braced = !mech.CombatController.Braced" />
+            </v-col>
+            <v-col>
+              <v-btn
+                flat
+                tile
+                size="small"
+                block
+                :color="mech.CombatController.Overwatch ? 'primary' : 'panel'"
+                text="Overwatch"
+                @click="mech.CombatController.Overwatch = !mech.CombatController.Overwatch" />
+              <v-divider />
+              <v-btn
+                flat
+                tile
+                size="small"
+                block
+                :color="mech.CombatController.Prepared ? 'primary' : 'panel'"
+                text="Prepared"
+                @click="mech.CombatController.Prepared = !mech.CombatController.Prepared" />
+            </v-col>
+          </v-row>
+        </template>
+        <template #stat-block>
+          <cc-button block size="small" color="exotic" prepend-icon="mdi-flask">
+            Edit Stats
+          </cc-button>
+        </template>
+      </panel-base>
     </v-window-item>
     <v-window-item value="pilot">
-      <pilot-panel :encounter-instance="encounterInstance" :combatant="combatant" />
+      <panel-base :encounter-instance="encounterInstance" :item="combatant.actor" />
     </v-window-item>
-  </v-window> -->
+  </v-window>
 </template>
 
 <script>
-import MechPanel from './MechPanel.vue';
-import PilotPanel from './PilotPanel.vue';
+import PanelBase from './_PanelBase.vue';
 
 export default {
   name: 'PcPanel',
   components: {
-    MechPanel,
-    PilotPanel,
+    PanelBase,
   },
   props: {
     combatant: {

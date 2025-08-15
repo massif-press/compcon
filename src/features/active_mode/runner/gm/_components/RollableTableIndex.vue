@@ -7,6 +7,15 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
+    <div v-if="selected">
+      <div class="heading bg-primary px-5">
+        <span class="text-disabled pr-2">Currently Selected:</span>
+        <strong v-if="selected">
+          {{ actor.Name }}
+        </strong>
+        <span v-else class="text-disabled">None</span>
+      </div>
+    </div>
     <v-card-text class="pb-0">
       <v-row style="min-height: 85vh">
         <v-col cols="auto">
@@ -64,6 +73,12 @@ import { RollableTable } from '@/classes/narrative/elements/RollableTable';
 
 export default {
   name: 'RollableTableIndex',
+  props: {
+    selected: {
+      type: Object,
+      required: false,
+    },
+  },
   data: () => ({
     exampleTable: null,
     result: null,
@@ -99,6 +114,11 @@ export default {
 
       gm_only: true,
     });
+  },
+  computed: {
+    actor() {
+      return this.selected ? this.selected.actor : null;
+    },
   },
   methods: {
     roll() {

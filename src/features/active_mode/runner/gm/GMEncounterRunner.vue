@@ -33,7 +33,12 @@
           <v-container
             :style="`max-width: ${showRight ? 'calc(100% - 56px)' : 'calc(100% - 62px)'}`">
             <div v-if="panel && instance">
-              <component :is="`${panel}-panel`" :key="panel" :encounter="instance.Encounter" />
+              <component
+                :is="`${panel}-panel`"
+                :key="panel"
+                :encounter="instance.Encounter"
+                :selected="selected"
+                :encounter-instance="instance" />
             </div>
             <div v-else>
               <component
@@ -58,6 +63,7 @@
         <v-navigation-drawer :rail="!showRight" :width="250" location="right" permanent>
           <gm-tool-palette
             :expanded="showRight"
+            :selected="panel"
             @selectPanel="selectPanel"
             @openDiceRoller="diceDialog = true"
             @openTableIndex="tableDialog = true" />
@@ -74,12 +80,12 @@
         </v-footer>
       </v-layout>
     </div>
-    <v-dialog v-model="diceDialog" max-width="800" height="525">
-      <gm-dice-roller @close="diceDialog = false" />
+    <v-dialog v-model="diceDialog" max-height="80vh" max-width="80vw">
+      <gm-dice-roller @close="diceDialog = false" :selected="selected" />
     </v-dialog>
 
     <v-dialog v-model="tableDialog" max-width="80vw">
-      <rollable-table-index @close="tableDialog = false" />
+      <rollable-table-index @close="tableDialog = false" :selected="selected" />
     </v-dialog>
   </div>
 </template>
@@ -151,7 +157,6 @@ export default {
     instance() {
       return EncounterStore().getCurrentActiveEncounter;
     },
-
     actors() {
       if (!this.instance) return [];
       return this.instance.Encounter.combatants.map((c) => c.actor);
@@ -168,7 +173,6 @@ export default {
       await this.$forceUpdate();
     },
     selectActor(actor) {
-      console.log('selectActor', actor);
       this.selected = actor;
       this.panel = null;
     },

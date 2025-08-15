@@ -1,5 +1,5 @@
 <template>
-  <v-card height="550px">
+  <v-card min-height="500px">
     <v-toolbar flat tile density="compact" color="primary" height="46">
       <v-toolbar-title class="heading h3">DICE ROLLER</v-toolbar-title>
       <v-spacer />
@@ -7,28 +7,51 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
+    <div v-if="selected">
+      <div class="heading bg-primary px-5">
+        <span class="text-disabled pr-2">Currently Selected:</span>
+        <strong v-if="selected">
+          {{ actor.Name }}
+        </strong>
+        <span v-else class="text-disabled">None</span>
+      </div>
+      <div>
+        <div class="text-cc-overline ma-1">Quick Roll:</div>
+        <v-row no-gutters class="px-6">
+          <v-col><v-btn border block tile flat color="primary" size="small">Hull</v-btn></v-col>
+          <v-col><v-btn border block tile flat color="primary" size="small">Agility</v-btn></v-col>
+          <v-col><v-btn border block tile flat color="primary" size="small">Systems</v-btn></v-col>
+          <v-col>
+            <v-btn border block tile flat color="primary" size="small">Engineering</v-btn>
+          </v-col>
+          <v-col cols="auto" style="width: 20px"><v-divider vertical /></v-col>
+          <v-col>
+            <v-btn border block tile flat color="primary" size="small">Melee Attack</v-btn>
+          </v-col>
+          <v-col>
+            <v-btn border block tile flat color="primary" size="small">Ranged Attack</v-btn>
+          </v-col>
+          <v-col>
+            <v-btn border block tile flat color="primary" size="small">Tech Attack</v-btn>
+          </v-col>
+        </v-row>
+      </div>
+    </div>
+    <v-divider class="my-2" />
     <v-card-text class="pb-0">
       <v-row dense>
-        <v-col cols="auto" style="position: relative; height: 474px">
-          <div
-            style="
-              max-height: 375px;
-              overflow-y: scroll;
-              overflow-x: hidden;
-              padding-bottom: 10px;
-              padding-top: 8px;
-            ">
+        <v-col cols="auto">
+          <div>
             <v-row v-for="(die, index) in diceToRoll" dense align="center" class="mb-2">
               <v-col cols="auto" style="width: 40px">
                 <span class="heading h3 text-accent pr-2">{{ index + 1 }}</span>
               </v-col>
-
               <v-col cols="auto" style="width: 110px">
                 <v-select
                   v-model="die.type"
                   :items="diceTypes"
                   tile
-                  :label="`Die`"
+                  label="Die"
                   variant="outlined"
                   density="compact"
                   hide-details />
@@ -76,7 +99,7 @@
             Add Die
           </v-btn>
           <v-divider class="my-4" />
-          <div style="position: absolute; bottom: 0; left: 0; right: 0">
+          <div>
             <cc-button
               color="success"
               size="small"
@@ -133,7 +156,7 @@
           <div v-else class="text-caption text-disabled">No rolls yet.</div>
           <v-divider class="my-2" />
           <div class="text-cc-overline mb-2">History</div>
-          <div style="max-height: 278px; overflow-y: scroll">
+          <div style="max-height: 300px; overflow-y: scroll">
             <div
               v-for="n in history.length"
               class="text-cc-overline bg-panel mb-1 pa-1"
@@ -148,17 +171,24 @@
 <script>
 export default {
   name: 'GmDiceRoller',
-  data() {
-    return {
-      diceToRoll: [{ type: 'd20', accuracy: 0, bonus: 0 }],
-      rollResults: [],
-      history: [],
-      diceTypes: ['d2', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'],
-    };
+  props: {
+    selected: {
+      type: Object,
+      default: false,
+    },
   },
+  data: () => ({
+    diceToRoll: [{ type: 'd20', accuracy: 0, bonus: 0 }],
+    rollResults: [],
+    history: [],
+    diceTypes: ['d2', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'],
+  }),
   computed: {
     sumResults() {
       return this.rollResults.reduce((acc, result) => acc + result.total, 0);
+    },
+    actor() {
+      return this.selected ? this.selected.actor : null;
     },
   },
   methods: {

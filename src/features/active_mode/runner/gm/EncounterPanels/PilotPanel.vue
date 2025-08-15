@@ -15,13 +15,6 @@
               {{ pilot.Name }}
             </div>
           </v-col>
-          <v-col cols="auto" class="mx-auto" align-self="center">
-            <v-btn-toggle v-model="pilot.CombatController.Cover" flat tile color="primary">
-              <v-btn size="x-small" height="20px" value="none">No Cover</v-btn>
-              <v-btn size="x-small" height="20px" value="soft">Soft Cover</v-btn>
-              <v-btn size="x-small" height="20px" value="hard">Hard Cover</v-btn>
-            </v-btn-toggle>
-          </v-col>
           <v-col cols="auto" class="pt-3 pr-1">
             <cc-button
               v-for="i in pilot.CombatController.StatController.MaxStats['activations']"
