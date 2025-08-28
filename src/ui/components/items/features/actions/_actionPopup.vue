@@ -9,7 +9,7 @@
         size="x-small"
         block
         :color="action.Color"
-        :prepend-icon="action.Icon"
+        :prepend-icon="!hideIcon && action.Icon"
         @click="open">
         {{ action.Name }}
       </cc-button>
@@ -32,6 +32,11 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+    hideIcon: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 };

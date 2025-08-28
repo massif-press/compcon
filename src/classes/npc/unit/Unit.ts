@@ -74,6 +74,10 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     this.save();
   }
 
+  public get Tier(): number {
+    return this.NpcClassController.Tier || 1;
+  }
+
   public get DefaultName(): string {
     return `T${this.NpcClassController.Tier} ${this.NpcTemplateController.Templates.map((x) => x.Name).join(' ')} ${this.NpcClassController.Class?.Name || 'NPC'} ${this.Tag}`;
   }

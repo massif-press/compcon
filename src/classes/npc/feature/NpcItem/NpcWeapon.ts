@@ -106,4 +106,9 @@ export class NpcWeapon extends NpcFeature {
   public get Icon(): string {
     return 'cc:weapon';
   }
+
+  public get ActivationCost(): string {
+    if (this.WeaponType.toLowerCase().includes('superheavy')) return 'full';
+    return 'quick';
+  }
 }

@@ -133,7 +133,10 @@
     </v-expansion-panels>
 
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
-    <mech-combat-loadout :mech="mech" @deploy="deploy($event)" />
+    <mech-combat-loadout
+      :encounter-instance="encounterInstance"
+      :mech="mech"
+      @deploy="deploy($event)" />
   </panel-base>
 </template>
 

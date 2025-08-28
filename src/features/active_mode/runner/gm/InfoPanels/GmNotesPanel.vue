@@ -1,14 +1,20 @@
 <template>
   <v-card>
-    <v-card-title class="heading h2">Example Encounter</v-card-title>
-    <v-card-subtitle class="text-cc-overline">Spire World Extraction</v-card-subtitle>
+    <v-card-title class="heading h2">{{ encounter.Name }}</v-card-title>
+    <v-card-subtitle class="text-cc-overline">
+      {{ encounter.Environment.Name }} {{ encounter.Sitrep.Name }}
+    </v-card-subtitle>
     <v-card-text class="pb-0">
       <div class="text-cc-overline text-disabled">GM Notes</div>
-      <v-textarea v-model="notes" variant="outlined" rows="3" color="primary" auto-grow />
+      <cc-rich-text-area v-model="encounter.Note" />
     </v-card-text>
     <v-card-text>
       <div class="text-cc-overline text-disabled">Encounter Clocks</div>
-      <cc-clock v-for="clock in clocks" :clock="clock" density="compact" class="my-1" />
+      <cc-clock
+        v-for="clock in encounter.NarrativeController.Clocks"
+        :clock="clock"
+        density="compact"
+        class="my-1" />
       <div class="text-right">
         <v-btn
           size="x-small"
@@ -16,7 +22,7 @@
           flat
           tile
           prepend-icon="mdi-plus"
-          @click="clocks.push(new Clock())">
+          @click="encounter.NarrativeController.AddClock()">
           Add Clock
         </v-btn>
       </div>
@@ -29,12 +35,11 @@ import { Clock } from '@/classes/narrative/elements/Clock';
 
 export default {
   name: 'GmNotesPanel',
-  data: () => ({
-    notes: 'these are some example GM notes',
-    clocks: [],
-  }),
-  mounted() {
-    this.clocks = [new Clock(), new Clock()];
+  props: {
+    encounter: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>

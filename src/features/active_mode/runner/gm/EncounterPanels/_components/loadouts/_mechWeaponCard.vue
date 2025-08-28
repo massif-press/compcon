@@ -130,12 +130,42 @@
               <v-col cols="auto">
                 <v-tooltip location="top" text="Equipment Action">
                   <template #activator="{ props }">
-                    <v-icon v-bind="props" size="small" icon="cc:activate" />
+                    <v-icon v-bind="props" icon="cc:activate" />
+                  </template>
+                </v-tooltip>
+                <v-tooltip location="top" :text="a.Activation">
+                  <template #activator="{ props }">
+                    <span v-bind="props" class="ml-1">
+                      <v-icon
+                        v-bind="props"
+                        :icon="a.Icon"
+                        :color="
+                          mech.CombatController.CanActivate(a.Activation) ? 'success' : 'error'
+                        " />
+                      <v-tooltip
+                        v-if="!mech.CombatController.CanActivate(a.Activation)"
+                        location="top">
+                        <template #activator="{ props }">
+                          <v-icon v-bind="props" icon="mdi-exclamation-thick" color="error" />
+                        </template>
+                        <div class="text-center text-cc-overline">Cannot activate</div>
+                        <v-divider class="my-1" />
+                        Insufficient
+                        <v-chip
+                          :color="a.Color"
+                          size="small"
+                          variant="elevated"
+                          :prepend-icon="a.Icon">
+                          {{ a.Activation }}
+                        </v-chip>
+                        actions remaining
+                      </v-tooltip>
+                    </span>
                   </template>
                 </v-tooltip>
               </v-col>
               <v-col>
-                <cc-action :action="a" class="mb-1" />
+                <cc-action :action="a" hide-icon class="mb-1" />
               </v-col>
             </v-row>
           </div>
@@ -178,7 +208,12 @@
               cols="auto">
               <div v-if="p.Tags.length">
                 <div class="text-cc-overline" v-text="p.Name" />
-                <cc-tags v-if="p.Tags" :tags="p.Tags" color="pilot" :bonus="mech.LimitedBonus" />
+                <cc-tags
+                  v-if="p.Tags"
+                  :tags="p.Tags"
+                  color="pilot"
+                  :bonus="mech.LimitedBonus"
+                  combat />
               </div>
             </v-col>
 
@@ -187,7 +222,8 @@
                 v-if="item.Mod"
                 :tags="item.Mod.AddedTags"
                 color="mod"
-                :bonus="mech.LimitedBonus" />
+                :bonus="mech.LimitedBonus"
+                combat />
             </v-col>
             <v-col cols="auto" class="ml-auto mr-4">
               <cc-bonus-display :item="item" />
@@ -197,7 +233,7 @@
         </div>
       </v-card-text>
     </div>
-    <equip-command-panel :item="item" />
+    <equip-command-panel :controller="mech.CombatController" :encounter="encounter" :item="item" />
   </v-card>
 </template>
 
@@ -242,6 +278,10 @@ export default {
     weapon: {
       type: Boolean,
       default: false,
+    },
+    encounter: {
+      type: Object,
+      required: true,
     },
   },
   emits: ['deploy'],

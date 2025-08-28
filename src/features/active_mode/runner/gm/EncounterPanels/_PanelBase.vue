@@ -142,7 +142,7 @@
               v-model:tertiary="item.StatController.CurrentStats['overcharge']"
               :value-atlas="overchargeTrack"
               :secondary-label="item.StatController.MaxStats['stress'] && 'Reactor Stress'"
-              tertiary-label="Overcharge"
+              :tertiary-label="item.ItemType === 'mech' && 'Overcharge'"
               :color="item.CombatController.IsInDangerZone ? 'dangerzone' : 'heat'"
               secondary-color="stress"
               tertiary-color="overcharge"
@@ -197,7 +197,8 @@
 
         <combat-action-panel
           v-if="item.CombatController.StatController.MaxStats['activations']"
-          :controller="item.CombatController" />
+          :controller="item.CombatController"
+          :hide-overcharge="item.ItemType !== 'mech'" />
 
         <v-row dense class="mt-4">
           <v-col cols="4">
@@ -214,6 +215,8 @@
     </v-row>
 
     <special-status-display :controller="item.CombatController" />
+
+    <slot name="pre" />
 
     <div class="text-cc-overline mt-4 text-disabled">COUNTERS</div>
     <cc-counter-set :actor="item" />

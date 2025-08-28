@@ -54,7 +54,6 @@ class CombatController implements ICounterContainer, IStatContainer {
   public Counters: Counter[] = [];
   public Cover: CoverType = CoverType.None;
   public Engaged: boolean = false;
-  private _combatActions: string[] = [];
 
   public Mounted: boolean = true;
   public Overwatch: boolean = false;
@@ -63,6 +62,15 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public StatController: StatController;
   public CounterController: CounterController;
+
+  public CombatActions: any = {
+    Protocol: true,
+    Full: true,
+    Quick1: true,
+    Quick2: true,
+    Overcharge: true,
+    Reaction: true,
+  };
 
   public get SaveController(): SaveController {
     return this.Parent.SaveController;
@@ -76,6 +84,69 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public get Activations(): number {
     return this.StatController.getStat('activations');
+  }
+
+  public CanActivate(action: string): boolean {
+    const str = action.toLowerCase();
+    switch (str) {
+      case 'protocol':
+        return (
+          this.CombatActions.Protocol &&
+          this.CombatActions.Quick1 &&
+          this.CombatActions.Quick2 &&
+          this.CombatActions.Full
+        );
+      case 'full':
+        return this.CombatActions.Full && this.CombatActions.Quick1 && this.CombatActions.Quick2;
+      case 'quick':
+        return this.CombatActions.Quick1 || this.CombatActions.Quick2;
+      case 'overcharge':
+        return this.CombatActions.Overcharge;
+      case 'reaction':
+        return this.CombatActions.Reaction;
+      case 'move':
+        return this.StatController.CurrentStats['speed'] > 0;
+      default:
+        return false;
+    }
+  }
+
+  public ResetCombatActions(): void {
+    this.CombatActions = {
+      Protocol: true,
+      Full: true,
+      Quick1: true,
+      Quick2: true,
+      Overcharge: true,
+      Reaction: true,
+    };
+  }
+
+  public toggleCombatAction(action: string) {
+    const str = action.toLowerCase();
+    switch (str) {
+      case 'protocol':
+        this.CombatActions.Protocol = !this.CombatActions.Protocol;
+        break;
+      case 'full':
+        this.CombatActions.Full = !this.CombatActions.Full;
+        break;
+      case 'quick':
+        if (this.CombatActions.Quick1) this.CombatActions.Quick1 = false;
+        else if (this.CombatActions.Quick2) this.CombatActions.Quick2 = false;
+        else if (!this.CombatActions.Quick1) this.CombatActions.Quick1 = true;
+        else if (!this.CombatActions.Quick2) this.CombatActions.Quick2 = true;
+        if (this.CombatActions.Quick1 && this.CombatActions.Quick2) this.CombatActions.Full = true;
+        break;
+      case 'overcharge':
+        this.CombatActions.Overcharge = !this.CombatActions.Overcharge;
+        break;
+      case 'reaction':
+        this.CombatActions.Reaction = !this.CombatActions.Reaction;
+        break;
+      default:
+        break;
+    }
   }
 
   public setStats(statArr: { key: string; val: number }[]): void {
@@ -133,7 +204,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.damage = controller.DamageStatuses;
     target.engaged = controller.Engaged;
     target.state = controller.CombatantState;
-    target.combatActions = controller._combatActions;
     target.cover = controller.Cover;
     target.mounted = controller.Mounted;
     target.overwatch = controller.Overwatch;
@@ -155,7 +225,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller.DamageStatuses = data?.damage || [];
     controller.Engaged = data?.engaged || false;
     controller.CombatantState = data?.state || {};
-    controller._combatActions = data?.combatActions || [];
     controller.Cover = data?.cover || CoverType.None;
     controller.Mounted = data?.mounted || true;
     controller.Overwatch = data?.overwatch || false;

@@ -1,16 +1,18 @@
 <template>
-  <v-card>
-    <div v-if="selected">
+  <v-card flat tile>
+    <div v-if="selected" class="mb-6">
       <cc-title offset>Relevant Tags ({{ selected.actor.Name }})</cc-title>
       <cc-tags v-if="actorTags.length" :tags="actorTags" extended />
       <div v-else class="text-disabled text-cc-overline ma-1">No Tags Found</div>
     </div>
 
-    <cc-title offset>Relevant Tags (Encounter)</cc-title>
-    <cc-tags v-if="relevantTags.length" :tags="relevantTags" extended />
-    <div v-else class="text-disabled text-cc-overline ma-1">No Tags Found</div>
+    <div class="mb-6">
+      <cc-title offset>Relevant Tags (Encounter)</cc-title>
+      <cc-tags v-if="relevantTags.length" :tags="relevantTags" extended />
+      <div v-else class="text-disabled text-cc-overline ma-1">No Tags Found</div>
+    </div>
 
-    <cc-title offset class="mt-6">Other Tags</cc-title>
+    <cc-title offset>Other Tags</cc-title>
     <cc-tags :tags="allTags" extended />
   </v-card>
 </template>

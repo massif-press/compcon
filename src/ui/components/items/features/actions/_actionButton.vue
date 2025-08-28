@@ -6,7 +6,7 @@
       :small="$vuetify.display.mdAndDown"
       :disabled="disabled"
       @click="($refs.dialog as any).show()">
-      <v-icon v-if="!noAction" dark left :icon="action.Icon" />
+      <v-icon v-if="!noAction || hideIcon" dark left :icon="action.Icon" />
       {{ action.Name }}
       <v-menu v-if="!noAction" offset-y max-width="700px">
         <template #activator="{ props }">
@@ -67,6 +67,9 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+    hideIcon: {
+      type: Boolean,
     },
   },
   computed: {

@@ -38,7 +38,7 @@
                   clearable />
               </v-col>
             </v-row>
-            <v-card flat tile v-for="npc in npcs" class="border-sm mb-1" @click="$emit('add', npc)">
+            <v-card flat tile v-for="npc in npcs" class="border-sm mb-1" @click="add(npc)">
               <v-row :key="npc.ID">
                 <v-col cols="auto">
                   <cc-img :src="npc.Portrait" width="80" />
@@ -48,7 +48,7 @@
                   <div class="text-text">
                     {{ npc.Name }}
                     <cc-slashes />
-                    License Level {{ npc.Level }}
+                    Tier {{ npc.NpcClassController?.Tier || 1 }}
                   </div>
                 </v-col>
               </v-row>
@@ -85,13 +85,30 @@ export default {
   computed: {
     npcs() {
       return NpcStore().getUnits.filter(
-        (npc) =>
-          !this.encounterInstance.Combatants.some((ep) => ep.actor.ID === npc.ID) &&
-          (this.search === '' || npc.Name.toLowerCase().includes(this.search.toLowerCase()))
+        (npc) => this.search === '' || npc.Name.toLowerCase().includes(this.search.toLowerCase())
       );
     },
   },
 
-  methods: {},
+  methods: {
+    add(npc) {
+      const number =
+        this.encounterInstance.Combatants.filter((c) => c.actor.Name === npc.Name).length + 1;
+      this.encounterInstance.Combatants.push({
+        id: npc.ID,
+        index: -1,
+        number: number,
+        side: 'enemy',
+        type: 'unit',
+        actor: npc,
+        deployables: [],
+      });
+      this.$notify({
+        type: 'success',
+        title: 'NPC Added',
+        text: `${npc.Name} has been added to the encounter.`,
+      });
+    },
+  },
 };
 </script>
