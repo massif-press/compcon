@@ -1,15 +1,21 @@
 <template>
-  <div v-if="extended && !mobile" v-for="t in <Tag[]>tags">
+  <div v-if="extended && !mobile" v-for="t in filteredTags" :key="t.ID" class="mb-1">
     <cc-extended-tag :tag="t" :color="t.IsExotic ? 'exotic' : color" />
   </div>
   <div v-else-if="print">
-    <v-chip v-for="t in <Tag[]>tags" variant="outlined" size="small" label class="mx-1 mt-n1 my-0">
+    <v-chip
+      v-for="t in filteredTags"
+      :key="t.ID"
+      variant="outlined"
+      size="small"
+      label
+      class="mx-1 mt-n1 my-0">
       {{ t.GetName(bonus, tier) }}
     </v-chip>
   </div>
   <div v-if="!extended || mobile">
     <cc-tag
-      v-for="t in <Tag[]>tags"
+      v-for="t in filteredTags"
       :tag="t"
       :size="size ? size : mobile ? 'x-small' : 'small'"
       :density="density"
@@ -63,10 +69,20 @@ export default {
       required: false,
       default: 1,
     },
+    combat: {
+      type: Boolean,
+      required: false,
+    },
   },
   computed: {
     mobile(): boolean {
       return this.$vuetify.display.smAndDown;
+    },
+    filteredTags(): Tag[] {
+      if (this.combat) {
+        return (this.tags as Tag[]).filter((t: Tag) => t.IsCombatTag);
+      }
+      return this.tags as Tag[];
     },
   },
 };

@@ -19,7 +19,7 @@
     ref="sortable"
     :key="sortableKey"
     :sort="true"
-    :list="combatants"
+    :list="activeCombatants"
     :options="{
       animation: 250,
       easing: 'cubic-bezier(1, 0, 0, 1)',
@@ -44,6 +44,22 @@
       </div>
     </template>
   </sortable>
+  <v-card v-if="reinforcements.length" class="ma-2" flat tile color="background">
+    <div class="text-cc-overline pa-1 text-disabled">
+      <cc-slashes />
+      reinforcements
+    </div>
+
+    <reinforcement-list-item
+      v-for="r in reinforcements"
+      :combatant="r"
+      :collapsed="!expanded"
+      :selected="selected && selected.id === r.id"
+      :round="encounter.Round"
+      no-drag
+      @activate="activateReinforcement(r)"
+      @select="$emit('select', $event)" />
+  </v-card>
 
   <div style="height: 50px" />
 
@@ -79,7 +95,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import _, { round } from 'lodash';
 
 import { Sortable } from 'sortablejs-vue3';
 import { CompendiumStore } from '@/stores';
@@ -91,6 +107,7 @@ import GmAddPcMenu from './ListItems/AddItems/GmAddPcMenu.vue';
 import GmAddOtherMenu from './ListItems/AddItems/GmAddOtherMenu.vue';
 import GmAddStubMenu from './ListItems/AddItems/GmAddStubMenu.vue';
 import PlaceholderRunnerListItem from './ListItems/PlaceholderRunnerListItem.vue';
+import ReinforcementListItem from './ListItems/ReinforcementListItem.vue';
 
 export default {
   name: 'gm-encounter-runner-initiative-panel',
@@ -104,6 +121,7 @@ export default {
     GmAddOtherMenu,
     GmAddStubMenu,
     PlaceholderRunnerListItem,
+    ReinforcementListItem,
   },
   props: {
     encounter: {
@@ -123,12 +141,22 @@ export default {
     sort: '',
     sortAsc: true,
     sortableKey: `sk-0`,
-    combatants: [],
   }),
   emits: ['select'],
-  mounted() {
-    console.log(this.encounter);
-    this.combatants = this.encounter.Combatants;
+
+  computed: {
+    combatants() {
+      if (!this.encounter || !this.encounter.Combatants) {
+        return [];
+      }
+      return this.encounter.Combatants;
+    },
+    activeCombatants() {
+      return this.combatants.filter((c) => !c.reinforcement);
+    },
+    reinforcements() {
+      return this.combatants.filter((c) => c.reinforcement);
+    },
   },
   methods: {
     itemSort(key) {
@@ -184,11 +212,13 @@ export default {
       this.panel = panel;
     },
     getItem(combatant) {
-      console.log('combatant:', combatant);
       if (combatant.type === 'unit') {
         return combatant.npc;
       }
       return null;
+    },
+    activateReinforcement(combatant) {
+      combatant.reinforcement = false;
     },
   },
 };

@@ -5,7 +5,6 @@ import { NpcTemplate } from '../template/NpcTemplate';
 import { CompendiumStore } from '@/stores';
 import { Bonus, IBonusData } from '@/classes/components';
 import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
-import logger from '@/user/logger';
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -77,6 +76,7 @@ abstract class NpcFeature extends CompendiumItem {
   private _hide_active: boolean;
   public FeatureType: NpcFeatureType = NpcFeatureType.Trait;
   public IsHidden: boolean = false;
+  public Recharge: number = 0;
   public readonly Base: boolean;
   public readonly Deprecated: boolean = false;
   public readonly BuildFeature: boolean = false;
@@ -87,6 +87,10 @@ abstract class NpcFeature extends CompendiumItem {
     super(data as ICompendiumItemData, pack);
     this._originID = data.origin;
     this._effect = data.effect || data.detail || '';
+
+    if (this.Tags.some((x) => x.IsRecharging)) {
+      this.Recharge = Number(this.Tags.find((x) => x.IsRecharging)?.Value) || 0;
+    }
 
     this._hide_active = data.hide_active || false;
     this.Base = data.base || false;

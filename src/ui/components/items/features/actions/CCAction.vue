@@ -7,6 +7,7 @@
     :unusable="unusable"
     :disabled="disabled"
     :tier="tier"
+    :hide-icon="hideIcon"
     @use="$emit('use', $event)"
     @undo="$emit('undo')" />
 </template>
@@ -53,6 +54,11 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+    hideIcon: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   computed: {

@@ -20,7 +20,7 @@
             </v-col>
             <v-col cols="auto" style="position: relative">
               <v-icon
-                v-if="!collapsed"
+                v-if="!collapsed && !noDrag"
                 icon="mdi-drag"
                 size="20"
                 :style="isHovering ? 'opacity: 1' : 'opacity: 0.4'"
@@ -66,7 +66,7 @@
             <v-col v-if="!collapsed" class="mx-1">
               <slot />
 
-              <div style="font-size: 16px" v-if="!destroyed">
+              <div style="font-size: 16px" v-if="!destroyed && !reinforcementTurn">
                 <v-row dense justify="space-between" align="center" class="pl-2 pr-6">
                   <v-col
                     cols="auto"
@@ -108,6 +108,31 @@
                     </v-tooltip>
                   </v-col>
                 </v-row>
+              </div>
+
+              <div v-else-if="!destroyed && reinforcementTurn">
+                <v-card flat tile class="text-center text-cc-overline mt-1">
+                  <span v-if="timeToDeploy > 1" class="fade-select">
+                    Deploys on Turn {{ reinforcementTurn }}
+                  </span>
+                  <div
+                    v-else-if="timeToDeploy === 1"
+                    class="bg-background pa-1 font-weight-bold text-accent">
+                    Deploys Next Turn
+                  </div>
+                </v-card>
+                <div class="d-flex justify-end">
+                  <cc-button
+                    v-if="timeToDeploy < 1"
+                    block
+                    color="success"
+                    size="x-small"
+                    class="success-pulse mb-1"
+                    prepend-icon="mdi-arrow-right-bold-box-outline"
+                    @click="$emit('activate', combatant)">
+                    Ready to Deploy
+                  </cc-button>
+                </div>
               </div>
 
               <v-row
@@ -218,7 +243,7 @@
               </div>
             </v-col>
             <v-col
-              v-if="!collapsed"
+              v-if="!collapsed && !reinforcementTurn"
               class="d-flex align-center"
               style="padding-left: 2px; padding-right: 2px"
               :class="
@@ -306,6 +331,18 @@ export default {
       type: Array,
       default: () => [],
     },
+    reinforcementTurn: {
+      type: Number,
+      default: 0,
+    },
+    round: {
+      type: Number,
+      default: 1,
+    },
+    noDrag: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['click', 'deployable-click'],
   computed: {
@@ -317,6 +354,9 @@ export default {
     },
     specialStatuses() {
       return this.actor.CombatController.SpecialStatuses || [];
+    },
+    timeToDeploy() {
+      return this.reinforcementTurn - this.round;
     },
   },
   methods: {
@@ -357,5 +397,20 @@ export default {
     rgba(255, 112, 67, 0.5) 10px,
     rgba(255, 112, 67, 0.5) 20px
   );
+}
+
+.success-pulse {
+  animation: success-pulse 2.8s infinite;
+}
+
+@keyframes success-pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgb(var(--v-theme-success));
+    border-radius: 0px;
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
+    border-radius: 1px;
+  }
 }
 </style>

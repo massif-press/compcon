@@ -21,7 +21,11 @@
         <v-col cols="auto">
           <v-list density="compact" slim>
             <div class="text-cc-overline">Encounter Tables</div>
-            <v-list-item title="Example Encounter Table" />
+            <v-list-item
+              :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
+              v-for="t in tables"
+              :title="t.Title"
+              @click="selectedTable = t" />
             <v-divider class="my-2" />
             <div class="text-cc-overline">Combat Tables</div>
             <v-list-item title="Structure Damage Table" subtitle="Lancer Core" />
@@ -39,16 +43,21 @@
         <v-divider vertical />
         <v-col>
           <v-card flat tile>
-            <cc-rollable-table v-if="exampleTable" :table="exampleTable" readonly />
-            <cc-button
-              size="small"
-              block
-              color="primary"
-              prepend-icon="mdi-dice-d20"
-              class="my-2"
-              @click="roll">
-              Roll 1d20
-            </cc-button>
+            <div v-if="selectedTable">
+              <cc-rollable-table :table="selectedTable" readonly />
+              <cc-button
+                size="small"
+                block
+                color="primary"
+                prepend-icon="mdi-dice-d20"
+                class="my-2"
+                @click="roll(selectedTable)">
+                Roll {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
+              </cc-button>
+            </div>
+            <div v-else class="text-disabled text-cc-overline text-center py-4">
+              Select a table to view its contents.
+            </div>
             <v-scroll-y-reverse-transition>
               <cc-panel v-if="result" title="Result">
                 <v-row align="center" class="mb-1">
@@ -78,51 +87,26 @@ export default {
       type: Object,
       required: false,
     },
+    instance: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
-    exampleTable: null,
+    selectedTable: null,
     result: null,
   }),
-  mounted() {
-    this.exampleTable = new RollableTable({
-      title: 'Example Encounter Table',
-      description: 'This is an example table.',
-      die: 20,
-      mult: 2,
-      results: [
-        {
-          min: 1,
-          max: 4,
-          result: 'This is an example result for rolling 1-4.',
-        },
-        {
-          min: 5,
-          max: 10,
-          result: 'Another example result for rolling 5-10.',
-        },
-        {
-          min: 11,
-          max: 19,
-          result: "Here's a result for rolling 11-19.",
-        },
-        {
-          min: 20,
-          max: 20,
-          result: 'This is a special result for rolling a 20.',
-        },
-      ],
-
-      gm_only: true,
-    });
-  },
   computed: {
+    tables() {
+      return this.instance.Encounter.NarrativeController.Tables;
+    },
     actor() {
       return this.selected ? this.selected.actor : null;
     },
   },
   methods: {
-    roll() {
-      this.result = this.exampleTable.Roll();
+    roll(t) {
+      this.result = t.Roll();
     },
   },
 };

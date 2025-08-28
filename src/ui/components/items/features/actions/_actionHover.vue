@@ -16,7 +16,7 @@
     </template>
     <v-card flat tile border>
       <v-toolbar density="compact" :color="action.Color" height="44">
-        <v-icon dark class="mx-2">{{ action.Icon }}</v-icon>
+        <v-icon v-if="!hideIcon" dark class="mx-2">{{ action.Icon }}</v-icon>
         <span class="heading h3 pr-6">{{ action.Name }}</span>
         <v-spacer />
         <v-chip v-if="!action.Frequency.Unlimited" class="text-caption" label tile>
@@ -44,6 +44,11 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+    hideIcon: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   computed: {

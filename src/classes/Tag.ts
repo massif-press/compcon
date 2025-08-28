@@ -30,6 +30,7 @@ class Tag {
   public readonly IsOverkill: boolean;
   public readonly LcpName: string = '';
   public readonly InLcp: boolean = false;
+  public readonly UsageCost: number = 0;
   private _name: string;
   private _val: number | string;
   private _description: string;
@@ -53,6 +54,9 @@ class Tag {
     this.IsHeatCost = this.ID === 'tg_heat_self';
     this.IsOverkill = this.ID === 'tg_overkill';
     this.IsExotic = this.ID === 'tg_exotic';
+
+    if (this.ID === 'tg_full') this.UsageCost = 2;
+    else if (this.ID === 'tg_quick') this.UsageCost = 1;
 
     this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
@@ -245,6 +249,28 @@ class Tag {
 
   public get Icon(): string {
     return 'mdi-tag-outline';
+  }
+
+  // TODO: establish in data
+  public get IsCombatTag(): boolean {
+    const nonCombatRelevant = [
+      'tg_quick',
+      'tg_full',
+      'tg_free',
+      'tg_full',
+      'tg_tech_quick',
+      'tg_tech_full',
+      'tg_protocol',
+      'tg_gear',
+      'tg_mod',
+      'tg_modded',
+      'tg_exotic',
+      'tg_limited',
+      'tg_personal_armor',
+      'tg_unique',
+      'tg_sidearm',
+    ];
+    return !nonCombatRelevant.includes(this.ID);
   }
 }
 

@@ -148,7 +148,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
           side: c.side || 'enemy',
           playerCount: c.playerCount || 1,
           reinforcement: c.reinforcement || false,
-          reinforcementTurn: c.reinforcementTurn || 0,
+          reinforcementTurn: Number(c.reinforcementTurn) || 0,
           deployables: c.deployables
             ? c.deployables.map((d) => DeployableInstance.Deserialize(d, actor))
             : [],
@@ -339,7 +339,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
           side: c.side,
           playerCount: c.playerCount,
           reinforcement: c.reinforcement,
-          reinforcementTurn: c.reinforcementTurn,
+          reinforcementTurn: Number(c.reinforcementTurn),
           deployables: c.deployables.map((d) => DeployableInstance.Serialize(d)),
         };
       }),

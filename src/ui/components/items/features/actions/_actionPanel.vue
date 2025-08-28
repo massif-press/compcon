@@ -1,7 +1,7 @@
 <template>
   <cc-alert density="compact" :color="action.Color">
     <v-row dense align="center">
-      <v-col cols="auto">
+      <v-col cols="auto" v-if="!hideIcon">
         <v-icon size="large" :icon="action.Icon" />
       </v-col>
       <v-col cols="auto">
@@ -33,6 +33,11 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+    hideIcon: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 };

@@ -4,85 +4,75 @@
     <v-row dense>
       <v-col>
         <v-card
-          :color="actionStatus('protocol') ? 'grey' : 'action--protocol'"
+          :color="!controller.CanActivate('protocol') ? 'grey' : 'action--protocol'"
           flat
           tile
           class="text-center py-1 px-2"
-          @click="setAction('protocol')"
-        >
+          @click="controller.toggleCombatAction('protocol')">
           <v-icon size="large" icon="cc:protocol" />
         </v-card>
       </v-col>
       <v-col>
         <v-card
-          :color="actionStatus('full') ? 'grey' : 'action--full'"
+          :color="!controller.CanActivate('full') ? 'grey' : 'action--full'"
           flat
           tile
           class="text-center py-1 px-2"
-          @click="setAction('full')"
-        >
+          @click="controller.toggleCombatAction('full')">
           <v-icon size="large" icon="mdi-hexagon-slice-6" />
         </v-card>
       </v-col>
       <v-col cols="auto">
         <v-card flat tile class="text-center py-1 px-2">
-          <v-icon size="large" class="text-disabled"
-            >mdi-swap-horizontal</v-icon
-          >
+          <v-icon size="large" class="text-disabled">mdi-swap-horizontal</v-icon>
         </v-card>
       </v-col>
       <v-col>
         <v-card
-          :color="actionStatus('quick') ? 'grey' : 'action--quick'"
+          :color="!controller.CombatActions.Quick1 ? 'grey' : 'action--quick'"
           flat
           tile
           class="text-center py-1 px-2"
-          @click="setAction('quick')"
-        >
+          @click="controller.CombatActions.Quick1 = !controller.CombatActions.Quick1">
           <v-icon size="large" icon="mdi-hexagon-slice-3" />
         </v-card>
       </v-col>
       <v-col>
         <v-card
-          :color="actionStatus('quick') ? 'grey' : 'action--quick'"
+          :color="!controller.CombatActions.Quick2 ? 'grey' : 'action--quick'"
           flat
           tile
           class="text-center py-1 px-2"
-          @click="setAction('quick')"
-        >
+          @click="controller.CombatActions.Quick2 = !controller.CombatActions.Quick2">
           <v-icon size="large" icon="mdi-hexagon-slice-3" />
         </v-card>
       </v-col>
       <v-col>
         <v-card
-          :color="actionStatus('move') ? 'grey' : 'action--move'"
+          :color="!controller.CanActivate('move') ? 'grey' : 'action--move'"
           flat
           tile
-          class="text-center py-1 px-2"
-          @click="setAction('move')"
-        >
+          class="text-center py-1 px-2">
           <v-icon size="large" icon="mdi-arrow-right-bold-hexagon-outline" />
         </v-card>
       </v-col>
-      <v-col>
+      <v-col v-if="!hideOvercharge">
         <v-card
-          :color="actionStatus('overcharge') ? 'grey' : 'overcharge'"
+          :color="!controller.CanActivate('overcharge') ? 'grey' : 'overcharge'"
           flat
           tile
           class="text-center py-1 px-2"
-          @click="setAction('overcharge')"
-        >
+          @click="controller.toggleCombatAction('overcharge')">
           <v-icon size="large" icon="cc:overcharge" />
         </v-card>
       </v-col>
       <v-col>
         <v-card
-          :color="actionStatus('reaction') ? 'grey' : 'action--reaction'"
+          :color="!controller.CanActivate('reaction') ? 'grey' : 'action--reaction'"
           flat
           tile
           class="text-center py-1 px-2"
-          @click="setAction('reaction')"
-        >
+          @click="controller.toggleCombatAction('reaction')">
           <v-icon size="large" icon="cc:reaction" />
         </v-card>
       </v-col>
@@ -100,42 +90,17 @@ export default {
       type: Object,
       required: true,
     },
+    hideOvercharge: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     usedActions: [],
-    movement: 0,
   }),
-  methods: {
-    actionStatus(action) {
-      if (action === 'full')
-        return (
-          this.usedActions.includes('full') ||
-          this.usedActions.includes('quick')
-        );
-      if (action === 'quick')
-        return (
-          this.usedActions.includes('full') ||
-          this.usedActions.filter((x) => x === 'quick').length === 2
-        );
-      if (action === 'protocol') return this.usedActions.length;
-      if (action === 'move')
-        return this.usedActions.includes('move') || this.movement === 0;
-      return this.usedActions.includes(action);
-    },
-    setAction(action) {
-      if (action === 'quick') {
-        if (this.usedActions.filter((x) => x === 'quick').length === 2) {
-          this.usedActions = this.usedActions.filter((x) => x !== 'quick');
-        } else {
-          this.usedActions.push('quick');
-        }
-      }
-      if (this.usedActions.includes(action)) {
-        const index = this.usedActions.indexOf(action);
-        this.usedActions.splice(index, 1);
-      } else {
-        this.usedActions.push(action);
-      }
+  computed: {
+    movement() {
+      return this.controller.StatController.CurrentStats['speed'] || 0;
     },
   },
 };

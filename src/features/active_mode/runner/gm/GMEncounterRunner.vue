@@ -85,7 +85,10 @@
     </v-dialog>
 
     <v-dialog v-model="tableDialog" max-width="80vw">
-      <rollable-table-index @close="tableDialog = false" :selected="selected" />
+      <rollable-table-index
+        :instance="instance"
+        @close="tableDialog = false"
+        :selected="selected" />
     </v-dialog>
   </div>
 </template>

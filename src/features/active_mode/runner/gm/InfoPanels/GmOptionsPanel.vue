@@ -53,14 +53,22 @@
     <v-card-text>
       <div class="text-cc-overline text-disabled">Overrides</div>
       <v-expansion-panels variant="accordion" color="panel">
-        <v-expansion-panel v-for="a in actors">
+        <v-expansion-panel
+          v-for="combatant in encounterInstance.Combatants.filter((c) => !c.reinforcement)">
           <v-expansion-panel-title>
-            <div class="heading h3">{{ a.Name }}</div>
+            <div class="heading h3">{{ combatant.actor.Name }}</div>
           </v-expansion-panel-title>
           <v-expansion-panel-text class="bg-background pa-0 mx-n5">
-            <div v-if="a.StatController">
+            <cc-select
+              v-model="combatant.side"
+              color="primary"
+              chip-variant="text"
+              :items="['ally', 'enemy', 'neutral']"
+              label="Side" />
+            <br />
+            <div v-if="combatant.actor.StatController">
               <v-row
-                v-for="(stat, key) in a.StatController.MaxStats"
+                v-for="(stat, key) in combatant.actor.StatController.MaxStats"
                 :key="key"
                 dense
                 class="border-sm mb-1 px-2"
@@ -68,17 +76,21 @@
                 <v-col class="heading">{{ key }}</v-col>
                 <v-col class="mx-6">
                   <div class="text-cc-overline ml-4 text-disabled">Current</div>
-                  <cc-number-field color="primary" v-model="a.StatController.CurrentStats[key]" />
+                  <cc-number-field
+                    color="primary"
+                    v-model="combatant.actor.StatController.CurrentStats[key]" />
                 </v-col>
                 <v-col>
                   <div class="text-cc-overline ml-4 text-disabled">Max</div>
-                  <cc-number-field color="exotic" v-model="a.StatController.MaxStats[key]" />
+                  <cc-number-field
+                    color="exotic"
+                    v-model="combatant.actor.StatController.MaxStats[key]" />
                 </v-col>
               </v-row>
               <div class="d-flex justify-space-between pa-2">
                 <v-btn flat tile size="small" color="primary">Add Stat</v-btn>
-                <v-btn flat tile color="error" size="small" @click="removeActor(a)">
-                  Remove {{ a.Name }} From Encounter
+                <v-btn flat tile color="error" size="small" @click="removeActor(combatant.actor)">
+                  Remove {{ combatant.actor.Name }} From Encounter
                 </v-btn>
               </div>
             </div>
@@ -89,7 +101,27 @@
     </v-card-text>
     <v-card-text>
       <div class="text-cc-overline text-disabled mb-1">Edit Reinforcements</div>
-      <i class="text-text ml-2">No Reinforcement Schedule</i>
+      <i v-if="!reinforcements" class="text-text ml-2">No Reinforcement Schedule</i>
+      <v-row v-for="combatant in reinforcements" :key="combatant.id" dense align="center">
+        <v-col class="heading h3">{{ combatant.actor.Name }}</v-col>
+        <v-col cols="auto">
+          <cc-number-field
+            color="primary"
+            v-model="combatant.reinforcementTurn"
+            label="Round"
+            min="1" />
+        </v-col>
+        <v-col cols="auto">
+          <v-btn flat tile color="error" size="small" @click="removeActor(combatant.actor)">
+            Remove
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn flat tile color="primary" size="small" @click="removeActor(combatant.actor)">
+            Deploy
+          </v-btn>
+        </v-col>
+      </v-row>
       <div class="d-flex justify-end pa-2">
         <v-btn flat tile size="small" color="primary">Add Reinforcement</v-btn>
       </div>
@@ -98,8 +130,6 @@
 </template>
 
 <script lang="ts">
-import { remove } from 'lodash';
-
 export default {
   name: 'gm-options-panel',
   props: {
@@ -109,8 +139,8 @@ export default {
     },
   },
   computed: {
-    actors() {
-      return this.encounterInstance.Combatants.map((c) => c.actor);
+    reinforcements() {
+      return this.encounterInstance.Combatants.filter((c) => c.reinforcement);
     },
   },
   methods: {

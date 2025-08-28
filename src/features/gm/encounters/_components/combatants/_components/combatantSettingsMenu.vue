@@ -15,7 +15,7 @@
             </span>
             <span v-if="item.reinforcement">Reinforcement</span>
             <span v-else>Main Force</span>
-            <span v-if="item.playerCount > 1">({{ item.playerCount }}+ PCs)</span>
+            <span v-if="item.playerCount > 1">&nbsp;({{ item.playerCount }}+ PCs)</span>
           </template>
           Click to Edit
         </v-tooltip>
@@ -89,7 +89,7 @@
             </v-tooltip>
           </div>
           <v-text-field
-            v-model="item.reinforcementTurn"
+            v-model.number="item.reinforcementTurn"
             type="number"
             clearable
             persistent-hint

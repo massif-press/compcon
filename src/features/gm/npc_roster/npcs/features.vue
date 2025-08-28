@@ -33,7 +33,7 @@
           <template #pre>
             <npc-mod-inset
               v-for="mod in npc.NpcFeatureController.GetModifiers(item)"
-              :key="mod.Id"
+              :key="mod.ID"
               :mod="mod" />
           </template>
         </cc-dense-card>
