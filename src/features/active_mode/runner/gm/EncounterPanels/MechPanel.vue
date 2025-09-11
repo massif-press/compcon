@@ -132,6 +132,9 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
+    <div class="text-cc-overline mt-4 text-disabled">Core</div>
+    <cc-core-system-panel :frame="mech.Frame" terse small />
+
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
     <mech-combat-loadout
       :encounter-instance="encounterInstance"

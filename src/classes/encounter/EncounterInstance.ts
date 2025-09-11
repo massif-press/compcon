@@ -90,6 +90,7 @@ class EncounterInstance implements ISaveable {
 
   public Deploy(deployable: Deployable, combatant: CombatantData): void {
     const deployableInstance = new DeployableInstance(deployable.ItemData, combatant);
+    deployableInstance.SetStats();
     combatant.deployables.push(deployableInstance);
 
     this.save();

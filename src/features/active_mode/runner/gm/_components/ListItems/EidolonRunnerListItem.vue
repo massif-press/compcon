@@ -1,17 +1,20 @@
 <template>
   <runner-list-item-base
-    :actor="combatant.actor"
+    :actor="layer"
+    :portrait="combatant.actor.Portrait"
+    :deployed="combatant.deployables"
     :collapsed="collapsed"
     :selected="selected"
     :side="combatant.side"
-    :icon="combatant.actor.Icon"
-    @click="$emit('select', combatant)">
+    @click="$emit('select', combatant)"
+    @deployable-click="$emit('select', $event)">
     <div>
       <span class="heading h4">
         {{ combatant.actor.Name }}
       </span>
-      <span v-if="combatant.actor.Mechname" class="text-overline ml-2">
-        // {{ combatant.actor.Mechname }}
+      <cc-slashes class="ml-2" />
+      <span class="heading h4 px-2 mx-2 bg-primary">
+        {{ layer.Name }}
       </span>
     </div>
   </runner-list-item-base>
@@ -21,7 +24,7 @@
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
 export default {
-  name: 'UnitRunnerListItem',
+  name: 'EidolonRunnerListItem',
   components: {
     RunnerListItemBase,
   },
@@ -40,5 +43,10 @@ export default {
     },
   },
   emits: ['select'],
+  computed: {
+    layer() {
+      return this.combatant.actor.ActiveLayer;
+    },
+  },
 };
 </script>

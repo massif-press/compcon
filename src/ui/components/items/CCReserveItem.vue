@@ -8,7 +8,7 @@
       <cc-button
         :color="reserve.Color"
         :style="reserve.Used ? 'opacity: 0.5' : ''"
-        :size="mobile ? 'small' : undefined"
+        :size="small || mobile ? 'small' : undefined"
         block
         :prepend-icon="reserve.Icon"
         @click="open">
@@ -89,6 +89,11 @@ export default {
     reserve: {
       type: Object,
       required: true,
+    },
+    small: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data: () => ({

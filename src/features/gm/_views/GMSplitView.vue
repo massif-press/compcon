@@ -234,6 +234,7 @@ export default {
       if (this.itemType.toLowerCase() === 'npc') {
         return CompendiumStore().hasNpcAccess;
       } else if (this.itemType.toLowerCase() === 'eidolon') {
+        console.log(CompendiumStore().hasEidolonAccess);
         return CompendiumStore().hasEidolonAccess;
       }
       return true;

@@ -102,6 +102,7 @@ import { CompendiumStore } from '@/stores';
 import UnitRunnerListItem from './ListItems/UnitRunnerListItem.vue';
 import PilotRunnerListItem from './ListItems/PilotRunnerListItem.vue';
 import DoodadRunnerListItem from './ListItems/DoodadRunnerListItem.vue';
+import EidolonRunnerListItem from './ListItems/EidolonRunnerListItem.vue';
 import GmAddNpcMenu from './ListItems/AddItems/GmAddNpcMenu.vue';
 import GmAddPcMenu from './ListItems/AddItems/GmAddPcMenu.vue';
 import GmAddOtherMenu from './ListItems/AddItems/GmAddOtherMenu.vue';
@@ -122,6 +123,7 @@ export default {
     GmAddStubMenu,
     PlaceholderRunnerListItem,
     ReinforcementListItem,
+    EidolonRunnerListItem,
   },
   props: {
     encounter: {

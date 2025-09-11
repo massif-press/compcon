@@ -3,7 +3,11 @@ import { NpcClassStats } from '../class/NpcClassStats';
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature';
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory';
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
-import { ContentPack } from '@/class';
+import { ActivationType, ContentPack, Deployable } from '@/class';
+import { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance';
+import { ICombatant } from '@/classes/components/combat/ICombatant';
+import Activate from '@/assets/icons/svg/activate.vue';
+import { CombatantData } from '@/classes/encounter/Encounter';
 
 interface IEidolonShardData {
   count: number | string | number[];
@@ -88,6 +92,22 @@ class EidolonShard {
     if (this.Count === 'hostile_characters') return '# of Hostile Mechs';
     if (Array.isArray(this.Count)) return this.Count.join('/');
     return this.Count as string;
+  }
+
+  public Create(owner: CombatantData, layerName: string): DeployableInstance {
+    const deployableData = {
+      name: `${layerName} Shard`,
+      type: 'shard',
+      detail: this.Detail,
+      activation: ActivationType.Passive,
+      size: 1,
+      id: `${layerName} Shard`,
+      description: this.Detail,
+    };
+    const deployable = new DeployableInstance(deployableData, owner);
+    deployable.SetStats();
+
+    return deployable;
   }
 }
 

@@ -117,7 +117,7 @@ export default {
   },
   data() {
     return {
-      internalValue: this.modelValue,
+      internalValue: this.modelValue || 0,
     };
   },
   emits: ['click', 'update:model-value'],

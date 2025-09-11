@@ -29,6 +29,7 @@ class DeployableInstance {
     this.ItemData = data;
     this.Base = new Deployable(data);
     this.Owner = owner;
+    if (!owner.deployables) owner.deployables = [];
     this._number =
       owner.deployables.filter((d: DeployableInstance) => d.ItemData.id === data.id).length + 1;
     this.name = data.name;
@@ -48,7 +49,7 @@ class DeployableInstance {
   }
 
   public SetStats() {
-    const kvps = [
+    let kvps = [
       { key: 'size', val: this.Base.Size },
       { key: 'armor', val: this.Base.Armor },
       { key: 'save', val: this.Base.SaveTarget },
@@ -64,7 +65,6 @@ class DeployableInstance {
       { key: 'heatcap', val: this.Base.Heatcap },
       { key: 'saveTarget', val: this.Base.SaveTarget },
       { key: 'activations', val: 1 },
-      { key: 'burn', val: 0 },
     ];
 
     const ownerStats = (this.Owner.actor as any).CombatController.StatController;
@@ -73,6 +73,18 @@ class DeployableInstance {
         key: 'limited_bonus',
         val: ownerStats['limited_bonus'] || 0,
       });
+    }
+
+    kvps = kvps.filter((kvp) => !!kvp.val);
+
+    if (this.Base.MaxHP) {
+      kvps.push(
+        ...[
+          { key: 'burn', val: 0 },
+          { key: 'overshield', val: 0 },
+          { key: 'armor', val: this.Base.Armor || 0 },
+        ]
+      );
     }
 
     this.CombatController.setStats(kvps);

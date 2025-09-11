@@ -139,7 +139,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
             throw new Error('Invalid combatant type');
         }
 
-        return {
+        const item = {
           id: c.id || uuid(),
           index: c.index,
           type: c.type,
@@ -149,10 +149,16 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
           playerCount: c.playerCount || 1,
           reinforcement: c.reinforcement || false,
           reinforcementTurn: Number(c.reinforcementTurn) || 0,
-          deployables: c.deployables
-            ? c.deployables.map((d) => DeployableInstance.Deserialize(d, actor))
-            : [],
+          deployables: [] as DeployableInstance[],
+          // deployables: c.deployables
+          //   ? c.deployables.map((d) => DeployableInstance.Deserialize(d, c))
+          //   : [],
         };
+
+        if (c.deployables)
+          item.deployables = c.deployables.map((d) => DeployableInstance.Deserialize(d, item));
+
+        return item;
       });
 
       const seen = [] as string[];

@@ -101,7 +101,7 @@
     </v-card-text>
     <v-card-text>
       <div class="text-cc-overline text-disabled mb-1">Edit Reinforcements</div>
-      <i v-if="!reinforcements" class="text-text ml-2">No Reinforcement Schedule</i>
+      <i v-if="!reinforcements.length" class="text-text ml-2">No Reinforcement Schedule</i>
       <v-row v-for="combatant in reinforcements" :key="combatant.id" dense align="center">
         <v-col class="heading h3">{{ combatant.actor.Name }}</v-col>
         <v-col cols="auto">
@@ -122,9 +122,6 @@
           </v-btn>
         </v-col>
       </v-row>
-      <div class="d-flex justify-end pa-2">
-        <v-btn flat tile size="small" color="primary">Add Reinforcement</v-btn>
-      </div>
     </v-card-text>
   </v-card>
 </template>

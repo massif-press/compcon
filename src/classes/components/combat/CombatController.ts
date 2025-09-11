@@ -24,7 +24,7 @@ enum CoverType {
 class CombatData {
   stats: IStatData = {} as IStatData;
   statuses: { status: any; expires: any }[] = []; //expires should be a condition or round val
-  customStatuses: { status: any; expires: any }[] = [];
+  customStatuses: { status: string; expires: any }[] = [];
   customDamageStatuses: { type: string; condition: string }[] = [];
   specialStatuses: { status: any; expires: any }[] = [];
   damage: { type: DamageType; condition: string }[] = [];
@@ -46,7 +46,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public readonly Parent: ICombatant;
 
   public DamageStatuses: { type: string; condition: string }[] = [];
-  public CustomStatuses: { status: Status; expires: any }[] = [];
+  public CustomStatuses: { status: string; expires: any }[] = [];
   public CustomDamageStatuses: { type: string; condition: string }[] = [];
   public CombatantState: any = {};
   public Statuses: { status: Status; expires: any }[] = [];
@@ -181,10 +181,23 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get IsInDangerZone(): boolean {
+    if (!this.StatController.MaxStats['heatcap']) return false;
     return (
       this.StatController.CurrentStats['heatcap'] >=
       Math.ceil(this.StatController.MaxStats['heatcap'] / 2)
     );
+  }
+
+  public SetCustomStatus(name: string, expires?: any): void {
+    if (!name || !name.trim().length) return;
+    const existingIndex = this.CustomStatuses.findIndex((s) => s.status === name);
+    if (existingIndex === -1) {
+      this.CustomStatuses.push({ status: name, expires });
+    } else if (expires) {
+      this.CustomStatuses[existingIndex].expires = expires;
+    } else {
+      this.CustomStatuses.splice(existingIndex, 1);
+    }
   }
 
   public ApplyOvercharge(): void {

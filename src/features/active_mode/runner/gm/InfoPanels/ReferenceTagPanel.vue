@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     getActorTags(actor) {
-      if (actor.ActiveMech) {
+      if (actor.ActiveMech && actor.ActiveMech.MechLoadoutController) {
         return _.uniqBy(actor.ActiveMech.MechLoadoutController.ActiveLoadout.AllTags, 'ID');
       }
       if (actor.PilotLoadoutController) {

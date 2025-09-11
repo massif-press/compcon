@@ -4,14 +4,10 @@
     importType="pilot"
     blockBtn
     title="Add from Share Code"
-    @set-query-result="queryResult = $event"
-  >
+    @set-query-result="queryResult = $event">
     <template #result>
       <div v-if="queryResult === null" class="text-center">
-        <v-progress-circular
-          indeterminate
-          color="primary"
-        ></v-progress-circular>
+        <v-progress-circular indeterminate color="primary"></v-progress-circular>
       </div>
       <div v-else>
         <v-row dense class="mb-n2">
@@ -28,17 +24,11 @@
         </v-row>
         <v-row dense class="my-n2">
           <v-col cols="auto" class="heading h4 text-accent mr-2">Created</v-col>
-          <v-col cols="9">{{
-            new Date(queryResult.created).toLocaleString()
-          }}</v-col>
+          <v-col cols="9">{{ new Date(queryResult.created).toLocaleString() }}</v-col>
         </v-row>
         <v-row dense class="my-n2">
-          <v-col cols="auto" class="heading h4 text-accent mr-2"
-            >Last Updated</v-col
-          >
-          <v-col cols="9">{{
-            new Date(queryResult.item_modified).toLocaleString()
-          }}</v-col>
+          <v-col cols="auto" class="heading h4 text-accent mr-2">Last Updated</v-col>
+          <v-col cols="9">{{ new Date(queryResult.item_modified).toLocaleString() }}</v-col>
         </v-row>
       </div>
     </template>
@@ -50,8 +40,7 @@
         :loading="dlLoading"
         :disabled="!($refs as any).importer.canDownload"
         tooltip="This will add a copy of this pilot to your encounter. If the author updates their original data, you will not receive those changes."
-        @click="addToEncounter"
-      >
+        @click="addToEncounter">
         add to encounter
       </cc-button>
     </template>
@@ -70,7 +59,7 @@ export default {
       required: true,
     },
   },
-  emits: ['close'],
+  emits: ['close', 'add'],
   data: () => ({
     queryResult: null as any,
     dlLoading: false,
@@ -88,6 +77,8 @@ export default {
       const item = await CloudController.NewByType(itemType, itemData);
 
       this.pilots.push(item);
+
+      this.$emit('add', item);
 
       this.dlLoading = false;
       (this.$refs as any).importer.reset();
