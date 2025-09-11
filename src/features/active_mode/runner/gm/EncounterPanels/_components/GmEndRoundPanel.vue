@@ -24,20 +24,27 @@
           </v-btn>
         </v-toolbar>
         <v-card-text>
-          <div>reinforcements arriving</div>
-          <v-divider />
-          <div>round history</div>
-          <div>action items - [undo]</div>
-          <div>remaining actions</div>
-          <div>actor - action</div>
-          <div>pending items</div>
+          <div class="text-cc-overline">reinforcements ready next round:</div>
+          <i class="text-disabled">None</i>
+          <v-divider class="my-4" />
+          <div class="text-cc-overline">remaining actions:</div>
+          <i class="text-disabled">None</i>
+          <div class="text-cc-overline mt-2">Pending:</div>
           <div>- ongoing effects [x] apply</div>
           <div>- timed conditions [x] apply</div>
           <div>- on next round conditions [x] apply</div>
           <div>- meltdown/self destruct/etc [x] apply</div>
-          <div>bolster etc</div>
-          <v-divider />
-          <div>confirm end round</div>
+          <div>- bolster etc</div>
+          <div class="text-cc-overline mt-2">reinforcements ready next round:</div>
+          <i class="text-disabled">None</i>
+          <v-divider class="my-4" />
+          <cc-button
+            color="primary"
+            block
+            prepend-icon="mdi-check-all"
+            @click="isActive.value = false">
+            End Round
+          </cc-button>
         </v-card-text>
       </v-card>
     </template>

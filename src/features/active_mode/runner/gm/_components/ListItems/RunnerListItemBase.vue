@@ -231,6 +231,22 @@
                 </v-progress-linear>
               </div>
 
+              <div v-for="status in customStatuses" class="d-flex">
+                <v-progress-linear model-value="100" height="16" color="exotic">
+                  <v-chip class="text-cc-overline" flat tile>
+                    <cc-slashes />
+                    {{ status.status }}
+                    <cc-slashes />
+                  </v-chip>
+                </v-progress-linear>
+                <div
+                  style="cursor: pointer"
+                  class="mt-n1"
+                  @click="actor.CombatController.SetCustomStatus(status.status)">
+                  <v-icon icon="mdi-close" size="22" />
+                </div>
+              </div>
+
               <div v-for="status in actor.CombatController.Statuses" class="mb-1">
                 <v-progress-linear model-value="100" height="16" color="red-darken-3">
                   <v-chip class="text-cc-overline" flat tile>
@@ -354,6 +370,9 @@ export default {
     },
     specialStatuses() {
       return this.actor.CombatController.SpecialStatuses || [];
+    },
+    customStatuses() {
+      return this.actor.CombatController.CustomStatuses || [];
     },
     timeToDeploy() {
       return this.reinforcementTurn - this.round;

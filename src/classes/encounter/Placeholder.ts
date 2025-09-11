@@ -19,6 +19,7 @@ class Placeholder {
   public PlaceholderType: string;
   public SaveController: SaveController;
   public CombatController: CombatController;
+  public Icon: string = 'mdi-receipt-text';
   public readonly ItemType: string = 'Placeholder';
   public readonly StorageType: string = 'none';
   public readonly Placeholder = true;
@@ -43,6 +44,18 @@ class Placeholder {
         type: 'mech',
         side: this.Side,
       });
+    }
+
+    switch (this.PlaceholderType.toLowerCase()) {
+      case 'pilot':
+        this.Icon = 'cc:pilot';
+        break;
+      case 'npc':
+        this.Icon = 'cc:frame';
+        break;
+      default:
+        this.Icon = 'mdi-receipt-text';
+        break;
     }
   }
 

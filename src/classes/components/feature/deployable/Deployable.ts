@@ -115,10 +115,7 @@ class Deployable {
     const matches = out.match(perTier);
     if (matches) {
       matches.forEach((m) => {
-        out = out.replace(
-          m,
-          m.replace('{', '<b class="text-accent">').replace('}', '</b>')
-        );
+        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
       });
     }
     return out;
@@ -137,6 +134,7 @@ class Deployable {
   public get Icon(): string {
     if (this.Type.toLowerCase() === 'mine') return 'cc:mine';
     if (this.Type.toLowerCase() === 'drone') return 'cc:drone';
+    if (this.Type.toLowerCase() === 'shard') return 'mdi-cards-diamond-outline';
     return 'cc:deployable';
   }
 

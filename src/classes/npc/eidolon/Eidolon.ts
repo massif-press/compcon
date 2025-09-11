@@ -16,6 +16,7 @@ class EidolonData extends NpcData implements IInstanceableData {
   instanceId: string = '';
 
   tier: number = 1;
+  activeLayer: number = 0;
   layer_data: {
     id: string;
     description: string;
@@ -27,6 +28,7 @@ class EidolonData extends NpcData implements IInstanceableData {
 
 class Eidolon extends Npc implements IInstanceable {
   public InstanceID?: string;
+  public ActiveLayerIndex: number = 0;
 
   public readonly ItemType: string = 'Eidolon';
   private _tier: number;
@@ -36,6 +38,7 @@ class Eidolon extends Npc implements IInstanceable {
   public constructor(data?: EidolonData) {
     super(data);
     this._name = data?.name || 'New Eidolon';
+    this.ActiveLayerIndex = data?.activeLayer || 0;
 
     this.InstanceID = data?.instanceId;
 
@@ -93,8 +96,26 @@ class Eidolon extends Npc implements IInstanceable {
     this.save();
   }
 
+  public get ActiveLayer() {
+    if (this.ActiveLayerIndex < 0 || this.ActiveLayerIndex >= this._layers.length)
+      this.ActiveLayerIndex = 0;
+    return this._layers[this.ActiveLayerIndex];
+  }
+
+  public get CombatController() {
+    return this.ActiveLayer.CombatController;
+  }
+
+  public get StatController() {
+    return this.ActiveLayer.StatController;
+  }
+
   public SetStats() {
-    // TODO
+    this.Layers.forEach((l) => l.SetStats());
+  }
+
+  public SetLayerHp(playerCount: number, reset: boolean = false) {
+    this.Layers.forEach((l) => l.ResetHp(playerCount, reset));
   }
 
   public get Class() {

@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import { SaveController } from '@/classes/components';
 import { IStatData, StatController } from '@/classes/components/combat/stats/StatController';
 import { CompendiumStore } from '@/stores';
@@ -7,14 +6,16 @@ import { EidolonLayer, IEidolonLayerData } from './EidolonLayer';
 import { FeatureController } from '@/classes/components/feature/FeatureController';
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature';
-import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
+import { CombatController } from '@/classes/components/combat/CombatController';
 
 class EidolonLayerSaveData implements IFeatureContainer {
   public readonly Parent: Eidolon;
+  public readonly ID: string;
+  public readonly Name: string;
   public Layer: EidolonLayer;
-  public StatController: StatController;
   public SaveController: SaveController;
   public FeatureController: FeatureController;
+  public CombatController: CombatController;
 
   private _description: string;
 
@@ -48,10 +49,12 @@ class EidolonLayerSaveData implements IFeatureContainer {
     parent: Eidolon
   ) {
     this.Parent = parent;
+    this.ID = data.id;
+    this.Name = data.data.name || data.id;
 
     this.SaveController = parent.SaveController;
-    this.StatController = new StatController(this);
-    console.log(data.stats);
+    this.CombatController = new CombatController(this);
+
     if (data.stats) StatController.Deserialize(this, data.stats);
     this._description = data.description;
 
@@ -64,6 +67,30 @@ class EidolonLayerSaveData implements IFeatureContainer {
 
     this.FeatureController = new FeatureController(this);
     this.FeatureController.Register(this);
+  }
+
+  public get StatController(): StatController {
+    return this.CombatController.StatController;
+  }
+
+  public get Tier(): number {
+    return this.Parent.Tier;
+  }
+
+  public SetStats(): void {
+    const tier = this.Parent.Tier;
+    const kvps = Object.keys(this.Layer.Stats.AllStats(tier)).map((s) => ({
+      key: s,
+      val: this.Layer.Stats.AllStats(tier)[s],
+    }));
+
+    this.CombatController.setStats(kvps);
+  }
+
+  public ResetHp(playerCount: number, reset: boolean = false) {
+    const maxHp = this.Layer.HpPerPlayer * playerCount;
+    this.StatController.setMax('hp', maxHp);
+    if (reset) this.StatController.CurrentStats['hp'] = maxHp;
   }
 
   public get FeatureSource(): NpcFeature[] {

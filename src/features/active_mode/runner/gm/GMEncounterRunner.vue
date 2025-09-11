@@ -120,6 +120,7 @@ import GmEndRoundPanel from './EncounterPanels/_components/GmEndRoundPanel.vue';
 import GmEndEncounterPanel from './EncounterPanels/_components/GmEndEncounterPanel.vue';
 import OptionsPanel from './InfoPanels/GmOptionsPanel.vue';
 import PlaceholderPanel from './EncounterPanels/PlaceholderPanel.vue';
+import EidolonPanel from './EncounterPanels/EidolonPanel.vue';
 
 export default {
   name: 'gm-encounter-runner',
@@ -128,6 +129,7 @@ export default {
     Sortable,
     DeployablePanel,
     DoodadPanel,
+    EidolonPanel,
     UnitPanel,
     PilotPanel,
     PlaceholderPanel,
@@ -162,10 +164,36 @@ export default {
     },
     actors() {
       if (!this.instance) return [];
-      return this.instance.Encounter.combatants.map((c) => c.actor);
+      return this.instance.Combatants.map((c) => c.actor);
+    },
+    actorCount() {
+      return this.actors.length;
+    },
+  },
+  watch: {
+    instance: {
+      immediate: true,
+      handler(newval) {
+        if (!newval) return;
+        this.setEidolonHp();
+      },
+    },
+    actorCount(newval, oldval) {
+      if (this.instance && newval > 0 && newval !== oldval) this.setEidolonHp();
     },
   },
   methods: {
+    setEidolonHp() {
+      console.log(this.instance);
+      this.playerCount = this.instance.Combatants.filter((c) => c.type === 'pilot').length;
+      console.log(this.playerCount);
+      this.instance.Combatants.filter((c) => c.type === 'eidolon').forEach((e) =>
+        e.actor.SetLayerHp(
+          this.playerCount,
+          e.actor.StatController.CurrentStats.hp === e.actor.StatController.MaxStats.hp
+        )
+      );
+    },
     async sortBy(key) {
       const sorted = _.orderBy(this.actors, key, this.sort === key ? 'desc' : 'asc');
       if (this.sort === key) sorted.reverse();

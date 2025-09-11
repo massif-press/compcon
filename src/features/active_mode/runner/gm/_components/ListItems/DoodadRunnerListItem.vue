@@ -21,7 +21,7 @@
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
 export default {
-  name: 'UnitRunnerListItem',
+  name: 'DoodadRunnerListItem',
   components: {
     RunnerListItemBase,
   },

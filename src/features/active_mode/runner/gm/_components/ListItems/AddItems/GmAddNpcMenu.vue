@@ -20,47 +20,46 @@
             <v-icon icon="mdi-close" class="white--text" />
           </v-btn>
         </v-toolbar>
-        <v-divider />
-        <v-tabs grow v-model="tab" bg-color="primary" height="30">
-          <v-tab>Roster</v-tab>
-          <v-tab>Share Code</v-tab>
-          <v-tab>File Import</v-tab>
-        </v-tabs>
-        <v-window v-model="tab" class="pa-4">
-          <v-window-item value="Roster">
-            <v-row class="mb-1">
-              <v-col cols="6">
-                <cc-text-field
-                  v-model="search"
-                  color="primary"
-                  icon="mdi-magnify"
-                  class="mb-4"
-                  clearable />
+        <v-card-text>
+          <v-row class="mb-1">
+            <v-col cols="6">
+              <cc-text-field
+                v-model="search"
+                color="primary"
+                icon="mdi-magnify"
+                class="mb-4"
+                clearable />
+            </v-col>
+            <v-col cols="auto" align-self="center">
+              <v-icon icon="mdi-folder" class="ml-2 mr-n4" />
+            </v-col>
+            <v-col>
+              <cc-select
+                v-model="folder"
+                :items="folders"
+                clearable
+                return-object
+                item-text="Name"
+                chip-variant="text"
+                item-title="Name" />
+            </v-col>
+          </v-row>
+          <v-card flat tile v-for="npc in npcs" class="border-sm mb-1" @click="add(npc)">
+            <v-row :key="npc.ID">
+              <v-col cols="auto">
+                <cc-img :src="npc.Portrait" width="80" />
+              </v-col>
+              <v-col>
+                <div class="heading h3">{{ npc.Name }}</div>
+                <div class="text-text">
+                  {{ npc.Name }}
+                  <cc-slashes />
+                  Tier {{ npc.NpcClassController?.Tier || 1 }}
+                </div>
               </v-col>
             </v-row>
-            <v-card flat tile v-for="npc in npcs" class="border-sm mb-1" @click="add(npc)">
-              <v-row :key="npc.ID">
-                <v-col cols="auto">
-                  <cc-img :src="npc.Portrait" width="80" />
-                </v-col>
-                <v-col>
-                  <div class="heading h3">{{ npc.Name }}</div>
-                  <div class="text-text">
-                    {{ npc.Name }}
-                    <cc-slashes />
-                    Tier {{ npc.NpcClassController?.Tier || 1 }}
-                  </div>
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-window-item>
-          <v-window-item value="Share Code">
-            <v-card flat tile class="pa-4">Share Code Coming Soon</v-card>
-          </v-window-item>
-          <v-window-item value="File Import">
-            <v-card flat tile class="pa-4">File Import Coming Soon</v-card>
-          </v-window-item>
-        </v-window>
+          </v-card>
+        </v-card-text>
       </v-card>
     </template>
   </v-dialog>
@@ -75,6 +74,7 @@ export default {
   data: () => ({
     tab: 'Roster',
     search: '',
+    folder: null,
   }),
   props: {
     encounterInstance: {
@@ -84,9 +84,17 @@ export default {
   },
   computed: {
     npcs() {
-      return NpcStore().getUnits.filter(
-        (npc) => this.search === '' || npc.Name.toLowerCase().includes(this.search.toLowerCase())
+      return NpcStore()
+        .getUnits.filter(
+          (npc) => this.search === '' || npc.Name.toLowerCase().includes(this.search.toLowerCase())
+        )
+        .filter((npc) => (this.folder ? npc.FolderController.Folder === this.folder : true));
+    },
+    folders() {
+      const folders = _.uniq(this.npcs.map((npc) => npc.FolderController.Folder)).filter(
+        (f) => !!f
       );
+      return folders;
     },
   },
 
@@ -96,7 +104,7 @@ export default {
         this.encounterInstance.Combatants.filter((c) => c.actor.Name === npc.Name).length + 1;
       this.encounterInstance.Combatants.push({
         id: npc.ID,
-        index: -1,
+        index: this.encounterInstance.Combatants.length,
         number: number,
         side: 'enemy',
         type: 'unit',

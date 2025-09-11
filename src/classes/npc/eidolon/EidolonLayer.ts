@@ -1,4 +1,4 @@
-import { ContentPack } from '@/class';
+import { ContentPack, Deployable } from '@/class';
 import { NpcClassStats } from '../class/NpcClassStats';
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature';
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory';

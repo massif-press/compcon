@@ -48,7 +48,7 @@
     </v-row>
 
     <div class="text-right">
-      <v-menu>
+      <v-menu :close-on-content-click="false" offset-y>
         <template #activator="{ props }">
           <v-btn
             v-bind="props"
@@ -63,37 +63,20 @@
             Add Special Status
           </v-btn>
         </template>
-        <v-list density="compact" slim>
-          <v-list-item
-            v-for="status in specialStatuses"
-            :active="special.includes(status.Name)"
-            active-color="accent"
-            :key="status.ID"
-            @click="addSpecialStatus(status)">
-            <v-list-item-title>{{ status.Name }}</v-list-item-title>
-          </v-list-item>
-          <v-divider />
-          <v-menu :close-on-content-click="false">
-            <template #activator="{ props }">
-              <v-list-item v-bind="props" title="Add Custom" @click="">
-                <v-list-item-title>Add Custom Status</v-list-item-title>
-              </v-list-item>
-            </template>
-            <v-card>
-              <v-card-text>
-                <v-text-field
-                  v-model="customStatus"
-                  label="Custom Status Name"
-                  variant="outlined"
-                  dense
-                  hide-details />
-                <v-btn color="primary" class="mt-2" @click="addCustomStatus(customStatus)">
-                  Add Custom Status
-                </v-btn>
-              </v-card-text>
-            </v-card>
-          </v-menu>
-        </v-list>
+
+        <v-card>
+          <v-card-text>
+            <v-text-field
+              v-model="customStatus"
+              label="Custom Status Name"
+              variant="outlined"
+              dense
+              hide-details />
+            <v-btn color="primary" class="mt-2" @click="addCustomStatus(customStatus)">
+              Add Custom Status
+            </v-btn>
+          </v-card-text>
+        </v-card>
       </v-menu>
     </div>
   </div>
@@ -123,6 +106,11 @@ export default {
   methods: {
     setStatus(status) {
       this.controller.SetStatus(status);
+    },
+    addCustomStatus(name) {
+      if (!name || !name.trim().length) return;
+      this.controller.SetCustomStatus(name.trim());
+      this.customStatus = '';
     },
   },
 };
