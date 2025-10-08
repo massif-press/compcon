@@ -87,6 +87,14 @@
           </v-col>
         </v-row>
 
+        <!-- TEST ACTIVEEFFECTS START -->
+        <v-row>
+          <v-col>
+            <cc-active-effect-chip />
+          </v-col>
+        </v-row>
+        <!-- TEST ACTIVEEFFECTS END -->
+
         <v-row
           v-if="!hidePalette"
           align="center"
