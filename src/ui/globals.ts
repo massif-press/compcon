@@ -115,6 +115,8 @@ import CCMissingGmLcpText from './components/CCMissingGmLcpText.vue';
 import CCShareCodeImporter from './components/CCShareCodeImporter.vue';
 import CCBrokenReference from './components/CCBrokenReference.vue';
 
+import CCActiveEffectChip from './components/CCActiveEffectChip.vue';
+
 export {
   CCButton,
   CCSwitch,
@@ -226,4 +228,5 @@ export {
   CCCoreSystemPanel,
   CCCounterSet,
   CCSidebarLayout,
+  CCActiveEffectChip,
 };

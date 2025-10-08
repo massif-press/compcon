@@ -96,9 +96,6 @@
 <script>
 import _ from 'lodash';
 
-import exampleData from '@/assets/Example Encounter.json';
-import examplePilotData from '@/assets/Example Pilot.json';
-
 import { Sortable } from 'sortablejs-vue3';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
 import DoodadPanel from './EncounterPanels/DoodadPanel.vue';
