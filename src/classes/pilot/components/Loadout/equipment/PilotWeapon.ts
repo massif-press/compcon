@@ -28,6 +28,8 @@ class PilotWeapon extends PilotEquipment {
     super(data, pack);
     this.Range = data.range.map((x) => new Range(x));
     this.Damage = data.damage.map((x) => new Damage(x));
+    if (this.Damage && this.Damage.length) this.Damage.forEach((d) => d.setDamageAttributes(this));
+
     this.ItemType = ItemType.PilotWeapon;
   }
 

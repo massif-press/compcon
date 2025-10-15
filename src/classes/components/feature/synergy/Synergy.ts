@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { Mech, MechSystem, MechWeapon, WeaponType } from '@/class';
 import { CompendiumItem } from '../../../CompendiumItem';
 import { ItemType } from '../../../enums';
+import { FeatureController } from '../FeatureController';
 
 interface ISynergyData {
   locations: string[];
@@ -13,7 +14,7 @@ interface ISynergyData {
 
 class Synergy {
   public readonly Locations: string[];
-  public readonly Detail: string;
+  private _detail: string;
   public readonly WeaponTypes: string[];
   public readonly WeaponSizes: string[];
   public readonly SystemTypes: string[];
@@ -22,10 +23,18 @@ class Synergy {
   public constructor(data: ISynergyData, origin: string) {
     this.Origin = origin || 'UNKNOWN ORIGIN';
     this.Locations = data.locations;
-    this.Detail = data.detail;
+    this._detail = data.detail;
     this.WeaponTypes = data.weapon_types || ['any'];
     this.WeaponSizes = data.weapon_sizes || ['any'];
     this.SystemTypes = data.system_types || ['any'];
+  }
+
+  public get Detail(): string {
+    return this._detail;
+  }
+
+  public EvaluatedDetail(controller: FeatureController): string {
+    return controller.EvaluateSpecial(this._detail, true) as string;
   }
 
   public static Collect(location: string, mech: Mech, item?: CompendiumItem): Synergy[] {

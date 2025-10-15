@@ -1,18 +1,12 @@
 <template>
   <v-row dense align="center">
     <v-col>
-      <div class="heading h2">
-        {{ item.Source }} {{ item.MechTypeString }} Frame
-      </div>
-      <div v-if="item.Variant" class="heading h4 text-accent">
-        {{ item.Variant }} Variant Frame
-      </div>
+      <div class="heading h2">{{ item.Source }} {{ item.MechTypeString }} Frame</div>
+      <div v-if="item.Variant" class="heading h4 text-accent">{{ item.Variant }} Variant Frame</div>
     </v-col>
     <v-col cols="auto">
       <cc-tooltip :icon="item.SizeIcon" size="65">
-        <div class="heading h3">
-          Size {{ item.Size === 0.5 ? '½' : item.Size }}
-        </div>
+        <div class="heading h3">Size {{ item.Size === 0.5 ? '½' : item.Size }}</div>
         <v-divider class="my-1" />
         {{ glossary('size') }}
       </cc-tooltip>
@@ -41,8 +35,7 @@
     :column-width="500"
     :gap="16"
     :min-columns="1"
-    :max-columns="2"
-  >
+    :max-columns="2">
     <template #default="{ item, index }">
       <cc-trait-item :trait="item" :color="mColor" style="height: 100%" />
     </template>
@@ -55,9 +48,7 @@
       <v-tooltip location="bottom" max-width="300">
         <template #activator="{ props }">
           <v-card color="primary" dark class="clipped" tile v-bind:="props">
-            <v-card-text class="heading h3 px-8 text-uppercase"
-              >{{ m }} Mount</v-card-text
-            >
+            <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} Mount</v-card-text>
           </v-card>
         </template>
         <p v-html="get_mount_tooltip(m)" />
@@ -70,13 +61,12 @@
 </template>
 
 <script lang="ts">
-import { FrameGalleryModal, FrameStatblock, FrameCombatChart } from '../frame';
+import { FrameStatblock, FrameCombatChart } from '../frame';
 import { glossary } from '@massif/lancer-data';
 
 export default {
   name: 'cc-frame-card',
   components: {
-    FrameGalleryModal,
     FrameStatblock,
     FrameCombatChart,
   },
@@ -96,14 +86,12 @@ export default {
   },
   methods: {
     glossary(name: string) {
-      return glossary.find((x) => x.name.toLowerCase() === name.toLowerCase())
-        .description;
+      return glossary.find((x) => x.name.toLowerCase() === name.toLowerCase()).description;
     },
 
     get_mount_tooltip(mount_type: string) {
       const mount_tooltips = {
-        Heavy:
-          'Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon',
+        Heavy: 'Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon',
         Main: 'Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon',
         'Aux/Aux': 'Holds up to two <b>AUXILIARY</b> weapons',
         Aux: 'Holds one <b>AUXILIARY</b> weapon',

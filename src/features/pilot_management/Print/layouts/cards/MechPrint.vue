@@ -329,17 +329,21 @@
               {{ d.Value }}
             </b>
             <div v-if="p.Effect && !showCollectedEffect(w)" class="caption">{{ p.Effect }}</div>
+            <div v-if="p.OnMiss" class="caption">
+              <b>ON MISS:</b>
+              {{ p.OnMiss.Detail }}
+            </div>
             <div v-if="p.OnAttack" class="caption">
               <b>ON ATTACK:</b>
-              {{ p.OnAttack }}
+              {{ p.OnAttack.Detail }}
             </div>
             <div v-if="p.OnHit" class="caption">
               <b>ON HIT:</b>
-              {{ p.OnHit }}
+              {{ p.OnHit.Detail }}
             </div>
             <div v-if="p.OnCrit" class="caption">
               <b>ON CRIT:</b>
-              {{ p.OnCrit }}
+              {{ p.OnCrit.Detail }}
             </div>
           </div>
           <tag-block :tags="p.Tags" :options="options" block />

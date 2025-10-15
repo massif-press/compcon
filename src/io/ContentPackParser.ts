@@ -109,6 +109,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   const environments = (await readZipJSON<IEnvironmentData[]>(zip, 'environments.json')) || [];
   const sitreps = (await readZipJSON<ISitrepData[]>(zip, 'sitreps.json')) || [];
   const tables = (await readZipJSON<any[]>(zip, 'tables.json')) || [];
+  const lists = (await readZipJSON<any[]>(zip, 'lists.json')) || [];
   const bonds = (await readZipJSON<any[]>(zip, 'bonds.json')) || [];
   const bondPowers = (await readZipJSON<any[]>(zip, 'bond_powers.json')) || [];
   const reserves = (await readZipJSON<IReserveData[]>(zip, 'reserves.json')) || [];
@@ -275,6 +276,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
       environments,
       sitreps,
       tables,
+      lists,
       bonds,
       bondPowers,
       reserves,

@@ -95,6 +95,7 @@ interface IContentPackData {
   downtimeActions: IDowntimeActionData[];
 
   tables: any;
+  lists: any;
 }
 
 interface IContentPack {
@@ -175,7 +176,9 @@ class ContentPack {
 
     self._Sitreps = self._data.sitreps?.map((x) => new Sitrep(x, self)) || [];
 
-    self._Tables = self._data.tables || {};
+    self._Tables = self._data.tables || [];
+
+    self._Lists = self._data.lists || {};
 
     self._Bonds = self._data.bonds?.map((x) => new Bond(x, self)) || [];
 
@@ -322,9 +325,14 @@ class ContentPack {
     return this._Sitreps;
   }
 
-  private _Tables: any = {};
+  private _Tables: any = [];
   public get Tables(): any {
     return this._Tables;
+  }
+
+  private _Lists: any = {};
+  public get Lists(): any {
+    return this._Lists;
   }
 
   private _Bonds: any = [];

@@ -1,9 +1,14 @@
 import { ActivationType, Tag } from '@/class';
-import { ICounterData, ISynergyData, ITagData } from '@/interface';
+import { ICounterData, IDamageData, IRangeData, ISynergyData, ITagData } from '@/interface';
 import { IActionData, Action } from '../../../Action';
 import { IBonusData } from '../bonus/Bonus';
 import { ICompendiumItemData } from '../../../CompendiumItem';
 import { ByTier } from '@/util/tierFormat';
+import { ActiveEffect, IActiveEffectData } from '../active_effects/ActiveEffect';
+import { EffectStatus, IEffectStatusData } from '../active_effects/EffectStatus';
+import { EffectSpecial, IEffectSpecialData } from '../active_effects/EffectSpecial';
+import { EffectOther, IEffectOtherData } from '../active_effects/EffectOther';
+import { EffectResist, IEffectResistData } from '../active_effects/EffectResist';
 
 interface IDeployableData extends ICompendiumItemData {
   name: string;
@@ -13,7 +18,8 @@ interface IDeployableData extends ICompendiumItemData {
   deactivation?: ActivationType;
   recall?: ActivationType;
   redeploy?: ActivationType;
-  size: number;
+  size?: number;
+  size_special?: string;
   cost?: number;
   armor?: number;
   hp?: number;
@@ -28,10 +34,18 @@ interface IDeployableData extends ICompendiumItemData {
   grapple?: number;
   attack_bonus?: number;
   speed?: number;
+  damage?: IDamageData[];
+  range?: IRangeData[];
   actions?: IActionData[];
   bonuses?: IBonusData[];
   synergies?: ISynergyData[];
   counters?: ICounterData[];
+  active_effects?: IActiveEffectData[];
+  add_status?: IEffectStatusData[];
+  add_special?: IEffectSpecialData[];
+  remove_special?: string[];
+  add_other?: IEffectOtherData[];
+  add_reist?: IEffectResistData[];
   tags?: ITagData[];
   pilot?: boolean;
   mech?: boolean;
@@ -41,6 +55,7 @@ class Deployable {
   public readonly Name: string;
   public readonly Type: string;
   public readonly Size: number;
+  public readonly SizeSpecial?: string;
   public readonly MaxHP: number;
   public readonly Armor: number;
   public readonly Evasion: number;
@@ -65,6 +80,13 @@ class Deployable {
 
   public readonly ItemData: IDeployableData;
 
+  public readonly ActiveEffects?: ActiveEffect[];
+  public readonly AddStatus?: EffectStatus[];
+  public readonly AddSpecial?: EffectSpecial[];
+  public readonly RemoveSpecial?: string[];
+  public readonly AddOther?: EffectOther[];
+  public readonly AddResist?: EffectResist[];
+
   private _detail: string;
 
   public constructor(data: IDeployableData) {
@@ -87,6 +109,7 @@ class Deployable {
       );
     }
     this.Size = data.size || 0.5;
+    this.SizeSpecial = data.size_special;
     this.MaxHP = data.hp || 0;
     this.Armor = data.armor || 0;
     this.Evasion = data.evasion || 0;

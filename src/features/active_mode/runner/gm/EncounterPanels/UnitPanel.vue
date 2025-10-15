@@ -4,8 +4,10 @@
   <panel-base :encounter-instance="encounterInstance" :item="actor">
     <template #name-block>
       <div class="heading h2">
-        {{ actor.Name }}
-        <span class="text-accent" v-text="`#${combatant.number}`" />
+        <cc-short-string-editor :placeholder="actor.Name" @set="actor.Name = $event">
+          {{ actor.Name }}
+          <span class="text-accent" v-text="`#${combatant.number}`" />
+        </cc-short-string-editor>
       </div>
       <div class="heading h4">
         T{{ actor.NpcClassController.Tier }}

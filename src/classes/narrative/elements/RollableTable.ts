@@ -1,3 +1,4 @@
+import { ContentPack } from '@/classes/ContentPack';
 import { v4 as uuid } from 'uuid';
 
 interface ITableRoll {
@@ -26,7 +27,11 @@ class RollableTable {
   public GmOnly: boolean;
   public ItemType: string = 'RollableTable';
 
-  public constructor(data?: IRollableTableData) {
+  public InLcp: boolean = false;
+  public LcpName: string = '';
+  public LcpAuthor: string = '';
+
+  public constructor(data?: IRollableTableData, lcp?: ContentPack) {
     this.ID = data?.id || uuid();
     this.Title = data?.title || '';
     this.Description = data?.description || '';
@@ -35,6 +40,10 @@ class RollableTable {
     this.Results = data?.results || [];
     this.GmOnly = data?.gm_only || false;
     if (!this.Results.length) this.setArray(2);
+
+    this.InLcp = !!lcp;
+    this.LcpName = lcp?.Name || 'Lancer Core Book';
+    this.LcpAuthor = lcp?.Author || 'Massif Press';
   }
 
   public get Min(): number {

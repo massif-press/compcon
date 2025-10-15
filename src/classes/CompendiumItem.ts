@@ -8,11 +8,13 @@ import { ISynergyData, Synergy } from './components/feature/synergy/Synergy';
 import { Deployable, IDeployableData } from './components/feature/deployable/Deployable';
 import { BrewInfo } from './components/brew/BrewController';
 import { ContentPack } from './ContentPack';
+import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect';
 
 interface ICompendiumItemData {
   id: string;
   name: string;
   description: string;
+  active_effects?: IActiveEffectData[];
   actions?: IActionData[];
   bonuses?: IBonusData[];
   synergies?: ISynergyData[];
@@ -36,6 +38,7 @@ abstract class CompendiumItem {
   public readonly LcpAuthor: string = '';
   public readonly InLcp: boolean = false;
   public readonly ID: string;
+  public ActiveEffects: ActiveEffect[] = [];
   public Actions: Action[];
   public Bonuses: Bonus[];
   public Synergies: Synergy[];
@@ -101,6 +104,9 @@ abstract class CompendiumItem {
       this.IsExotic = this._baseTags.some((x) => x.IsExotic);
       const heatTag = this.Tags.find((x) => x.IsHeatCost);
       const heatCost = Number(heatTag ? heatTag.Value : 0);
+      this.ActiveEffects = data.active_effects
+        ? data.active_effects.map((x) => new ActiveEffect(x, this))
+        : [];
       this.Actions = data.actions
         ? data.actions.map((x) => new Action(x, data.name, heatCost))
         : [];
@@ -117,6 +123,8 @@ abstract class CompendiumItem {
       this._special_equipment = data.special_equipment ? data.special_equipment : [];
       this.Err = '';
       if (data.deprecated) {
+        this.Name = `[Deprecated] ${this.Name}`;
+        this._description = `*This item is deprecated and can be safely removed.*\n\n${this.Description}`;
         this.IsDeprecated = true;
         this.IsHidden = true;
       }
