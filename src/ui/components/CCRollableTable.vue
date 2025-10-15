@@ -1,6 +1,6 @@
 <template>
   <v-card variant="tonal">
-    <v-toolbar density="compact" class="pl-3">
+    <v-toolbar v-if="!hideTitle" density="compact" class="pl-3">
       <div style="min-width: 200px">
         <cc-short-string-editor
           v-if="!readonly"
@@ -145,8 +145,12 @@
       <tr
         v-for="(r, i) in table.Results"
         :class="`${print ? 'py-2' : ''} ${i % 2 !== 0 ? 'light-panel' : ''}`">
-        <td class="text-center heading h4" style="width: 75px">
-          <span v-if="r.min === r.max">{{ r.max }}</span>
+        <td class="text-center heading h4 px-3" style="width: 75px">
+          <span v-if="r.max === -1">
+            Multiple 1
+            <span class="text-caption">s</span>
+          </span>
+          <span v-else-if="r.min === r.max">{{ r.max }}</span>
           <span v-else>{{ r.min }} - {{ r.max }}</span>
         </td>
         <td>
@@ -159,7 +163,7 @@
             variant="outlined"
             auto-grow
             class="my-1" />
-          <v-card v-else variant="plain" class="mb-1" :class="dense ? 'pa-1' : 'pa-2'">
+          <v-card v-else class="mb-1" :class="dense ? 'pa-1' : 'pa-2'">
             <p v-html-safe="r.result" />
           </v-card>
         </td>
@@ -178,6 +182,7 @@ export default {
     noDelete: { type: Boolean },
     readonly: { type: Boolean },
     density: { type: String, default: '' },
+    hideTitle: { type: Boolean, default: false },
   },
   data: () => ({
     editDialog: false,

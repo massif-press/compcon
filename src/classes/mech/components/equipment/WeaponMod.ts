@@ -51,6 +51,9 @@ class WeaponMod extends MechEquipment {
       ? Tag.Deserialize(data.added_tags, pack?.Data.tags, pack?.Name || '')
       : [];
     this.AddedDamage = data.added_damage ? data.added_damage.map((x) => new Damage(x)) : [];
+    if (this.AddedDamage && this.AddedDamage.length)
+      this.AddedDamage.forEach((d) => d.setDamageAttributes(this));
+
     this.AddedRange = data.added_range ? data.added_range.map((x) => new Range(x)) : [];
     this.ItemType = ItemType.WeaponMod;
   }

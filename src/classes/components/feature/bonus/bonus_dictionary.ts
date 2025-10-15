@@ -331,4 +331,83 @@ export default [
     title: 'Resistance',
     detail: 'Grants resistance to {VAL}. This reduces damage from the specified source by half.',
   },
+
+  {
+    id: 'mount_accuracy',
+    title: 'Mount Accuracy',
+    detail: 'Grants {VAL} accuracy to all attacks made by weapons on this mount',
+  },
+  {
+    id: 'mount_range',
+    title: 'Mount Range',
+    detail: 'Grants {VAL} range to all attacks made by weapons on this mount',
+  },
+  {
+    id: 'mount_damage',
+    title: 'Mount Damage',
+    detail: 'Adds an additional {VAL} damage to all attacks made by weapons on this mount',
+  },
+  {
+    id: 'mount_damage_type (override)',
+    title: 'Mount Damage Type',
+    detail: 'Converts all mounted weapon damage to the {VAL} Damage',
+  },
+  {
+    id: 'mount_range_type (override)',
+    title: 'Mount Range Type',
+    detail: 'Converts all mounted weapon range to {VAL} Range',
+  },
+  {
+    id: 'mount_weapon_type (override)',
+    title: 'Mount Weapon Type',
+    detail: 'Converts all mounted weapon types to {VAL} Weapons',
+  },
+  {
+    id: 'add_mount',
+    title: 'Add Mount',
+    detail: 'Adds a new {VAL} mount to this mech, if there are less than {MAX} mounts',
+  },
+  { id: 'no_mods', title: 'Not Modifiable', detail: 'This equipment cannot be modified' },
+  {
+    id: 'armor_max',
+    title: 'Maximum Armor',
+    detail: '{INC_DEC} the maximum armor value of the mech to {VAL}',
+  },
+  { id: 'boost', title: 'Boost Speed', detail: '{INC_DEC} the Boost speed of this mech to {VAL}' },
+  { id: 'min_range', title: 'Minimum Range', detail: '{INC_DEC} minimum weapon range to {VAL}' },
+  { id: 'min_damage', title: 'Minimum Damage', detail: '{INC_DEC} minimum weapon damage to {VAL}' },
+  {
+    id: 'extra_action',
+    title: 'Extra Action',
+    detail: 'Grants an additional {VAL} Action per Turn',
+  },
+  { id: 'unstable_system', title: 'Unstable System', detail: '', hidden: true },
+  { id: 'knockback', title: 'Knockback', detail: '{INC_DEC} Knockback value by {VAL}' },
+  { id: 'attack', title: '', detail: '{INC_DEC} Attack roll by {VAL}' },
+  { id: 'no_cascade', title: 'Prevent Cascade', detail: '', hidden: true },
+  { id: 'thrown', title: 'Thrown', detail: 'Adds Thrown {VAL}' },
+  { id: 'drone_resist', title: 'Drone Resist', detail: 'Adds {VAL} Resistance to deployed Drones' },
+  {
+    id: 'deployable_resist',
+    title: 'Deployable Resist',
+    detail: 'Adds {VAL} Resistance to all deployed equipment',
+  },
+  { id: 'hull', title: 'Hull Check/Save', detail: '{INC_DEC} Hull Check and Save rolls by {VAL}' },
+  {
+    id: 'agi',
+    title: 'Agility Check/Save',
+    detail: '{INC_DEC} Agility Check and Save rolls by {VAL}',
+  },
+  {
+    id: 'sys',
+    title: 'Systems Check/Save',
+    detail: '{INC_DEC} Systems Check and Save rolls by {VAL}',
+  },
+  {
+    id: 'eng',
+    title: 'Engineering Check/Save',
+    detail: '{INC_DEC} Engineering Check and Save rolls by {VAL}',
+  },
+  { id: 'check', title: 'Checks', detail: '{INC_DEC} all Check rolls by {VAL}' },
+  { id: 'save', title: 'Saves', detail: '{INC_DEC} all Save rolls by {VAL}' },
 ];

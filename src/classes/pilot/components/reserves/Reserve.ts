@@ -14,6 +14,10 @@ import { IActionData, Action } from '@/classes/Action';
 import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { ISynergyData, ICounterData, IContentPack } from '@/interface';
 import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
+import {
+  ActiveEffect,
+  IActiveEffectData,
+} from '@/classes/components/feature/active_effects/ActiveEffect';
 
 declare interface IReserveData {
   id: string;
@@ -33,6 +37,7 @@ declare interface IReserveData {
   counters?: ICounterData[];
   integrated?: string[];
   special_equipment?: string[];
+  active_effects?: IActiveEffectData[];
 }
 
 class Reserve extends CompendiumItem {
@@ -154,14 +159,6 @@ class Reserve extends CompendiumItem {
   public set Note(note: string) {
     this._resource_note = note;
     this.save();
-  }
-
-  public get Used(): boolean {
-    return this._used;
-  }
-
-  public set Used(b: boolean) {
-    this._used = b;
   }
 
   public static Serialize(reserve: Reserve): IReserveData {

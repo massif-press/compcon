@@ -80,10 +80,12 @@ export class NpcWeapon extends NpcFeature {
       let d = x.damage;
       if (!Array.isArray(d)) d = Array(3).fill(d);
 
-      return new Damage({
+      const dmg = new Damage({
         type: x.type as DamageType,
         val: d[tier - 1],
       });
+      dmg.setDamageAttributes(this);
+      return dmg;
     });
   }
 

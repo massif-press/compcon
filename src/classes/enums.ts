@@ -60,6 +60,7 @@ enum WeaponType {
   Nexus = 'Nexus',
   Melee = 'Melee',
   All = '???',
+  Improvised = 'Improvised',
 }
 
 enum ItemType {

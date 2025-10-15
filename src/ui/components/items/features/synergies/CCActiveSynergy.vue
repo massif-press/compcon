@@ -7,14 +7,14 @@
           <cc-slashes />
           <span class="text-text">{{ s.Origin }}</span>
         </div>
-        <div v-html-safe="s.Detail" class="body-text text-text" />
+        <div v-html-safe="s.EvaluatedDetail(mech.FeatureController)" class="body-text text-text" />
       </v-alert>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
-import { Synergy } from '@/class';
+import { CompendiumItem, Mech, Synergy } from '@/class';
 
 export default {
   name: 'cc-active-synergy',
@@ -37,8 +37,10 @@ export default {
     synergies() {
       if (!this.locations) return [];
       if (Array.isArray(this.locations))
-        return this.locations.flatMap((l) => Synergy.Collect(l as string, this.mech, this.item));
-      return Synergy.Collect(this.locations, this.mech, this.item);
+        return this.locations.flatMap((l) =>
+          Synergy.Collect(l as string, this.mech as Mech, this.item as CompendiumItem)
+        );
+      return Synergy.Collect(this.locations, this.mech as Mech, this.item as CompendiumItem);
     },
   },
 };

@@ -29,6 +29,10 @@ import {
 import { IActionData } from '@/classes/Action';
 import { IBonusData } from '@/classes/components';
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable';
+import {
+  ActiveEffect,
+  IActiveEffectData,
+} from '@/classes/components/feature/active_effects/ActiveEffect';
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize;
@@ -38,9 +42,10 @@ interface IMechWeaponData extends IMechEquipmentData {
   cost?: number;
   no_attack?: boolean;
   no_core_bonus?: boolean;
-  on_attack?: string;
-  on_hit?: string;
-  on_crit?: string;
+  on_miss?: string | IActiveEffectData;
+  on_attack?: string | IActiveEffectData;
+  on_hit?: string | IActiveEffectData;
+  on_crit?: string | IActiveEffectData;
   damage?: IDamageData[];
   range?: IRangeData[];
   profiles?: IWeaponProfileData[];
@@ -66,9 +71,10 @@ interface IWeaponProfileData {
   skirmish?: boolean;
   barrage?: boolean;
   cost?: number;
-  on_attack?: string;
-  on_hit?: string;
-  on_crit?: string;
+  on_miss?: string | IActiveEffectData;
+  on_attack?: string | IActiveEffectData;
+  on_hit?: string | IActiveEffectData;
+  on_crit?: string | IActiveEffectData;
   damage?: IDamageData[];
   range?: IRangeData[];
   actions?: IActionData[];
@@ -84,9 +90,10 @@ class WeaponProfile extends CompendiumItem {
   Damage?: Damage[];
   Range?: Range[];
   Effect?: string;
-  OnAttack?: string;
-  OnHit?: string;
-  OnCrit?: string;
+  OnMiss?: ActiveEffect;
+  OnAttack?: ActiveEffect;
+  OnHit?: ActiveEffect;
+  OnCrit?: ActiveEffect;
   Cost: number;
   Skirmish: boolean;
   Barrage: boolean;
@@ -111,9 +118,28 @@ class WeaponProfile extends CompendiumItem {
         ? pData.effect
         : (pData.effect as any).description
       : '';
-    if (pData.on_attack) this.OnAttack = pData.on_attack;
-    if (pData.on_hit) this.OnHit = pData.on_hit;
-    if (pData.on_crit) this.OnCrit = pData.on_crit;
+    if (pData.on_miss) {
+      if (typeof pData.on_miss === 'string')
+        this.OnMiss = new ActiveEffect({ name: '', detail: pData.on_miss }, this);
+      else this.OnMiss = new ActiveEffect(pData.on_miss, this);
+    }
+    if (pData.on_attack) {
+      if (typeof pData.on_attack === 'string')
+        this.OnAttack = new ActiveEffect({ name: '', detail: pData.on_attack }, this);
+      else this.OnAttack = new ActiveEffect(pData.on_attack, this);
+    }
+    if (pData.on_hit) {
+      if (typeof pData.on_hit === 'string')
+        this.OnHit = new ActiveEffect({ name: '', detail: pData.on_hit }, this);
+      else this.OnHit = new ActiveEffect(pData.on_hit, this);
+    }
+    if (pData.on_crit) {
+      if (typeof pData.on_crit === 'string')
+        this.OnCrit = new ActiveEffect({ name: '', detail: pData.on_crit }, this);
+      else this.OnCrit = new ActiveEffect(pData.on_crit, this);
+    }
+
+    if (this.Damage && this.Damage.length) this.Damage.forEach((d) => d.setDamageAttributes(this));
   }
 
   public DamageSum(type?: DamageType) {
@@ -146,6 +172,7 @@ class MechWeapon extends MechEquipment {
   private _custom_weapon_type?: WeaponType | null;
   private _custom_tags?: ITagCompendiumData[] | null;
   private _custom_effect?: string | null;
+  public max_use_override: number = 0;
 
   public constructor(data: IMechWeaponData, pack?: ContentPack) {
     super(data, pack);

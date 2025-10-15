@@ -474,17 +474,21 @@
             <span v-if="p.Damage && p.Damage.length" class="px-1">|</span>
             <b v-for="d in p.Damage" class="px-1">{{ d.Text }}</b>
             <div v-if="p.Effect && !showCollectedEffect(w)" class="caption">{{ p.Effect }}</div>
+            <div v-if="p.OnMiss" class="caption">
+              <b>ON MISS:</b>
+              {{ p.OnMiss.Detail }}
+            </div>
             <div v-if="p.OnAttack" class="caption">
               <b>ON ATTACK:</b>
-              {{ p.OnAttack }}
+              {{ p.OnAttack.Detail }}
             </div>
             <div v-if="p.OnHit" class="caption">
               <b>ON HIT:</b>
-              {{ p.OnHit }}
+              {{ p.OnHit.Detail }}
             </div>
             <div v-if="p.OnCrit" class="caption">
               <b>ON CRIT:</b>
-              {{ p.OnCrit }}
+              {{ p.OnCrit.Detail }}
             </div>
             <print-action :actions="p.Actions" />
             <print-deployable :deployables="p.Deployables" />

@@ -31,13 +31,10 @@ interface IFrameData extends ILicensedItemData {
   stats: IFrameStats;
   traits: IFrameTraitData[];
   core_system: ICoreData;
-  specialty:
-    | boolean
-    | { source: string; min_rank: number; cumulative?: boolean };
+  specialty: boolean | { source: string; min_rank: number; cumulative?: boolean };
   variant?: string;
   y_pos?: number;
   image_url?: string;
-  other_art?: { tag?: ImageTag; src?: string; url?: string }[];
 }
 
 class FrameComparison {
@@ -59,14 +56,12 @@ class Frame extends LicensedItem implements IFeatureContainer {
   public readonly Mounts: MountType[];
   public readonly Traits: FrameTrait[];
   public readonly CoreSystem: CoreSystem;
-  public readonly OtherArt?: { tag?: ImageTag; src?: string; url?: string }[];
-  public readonly Specialty:
-    | boolean
-    | { source: string; min_rank: number; cumulative?: boolean };
+  public readonly Specialty: boolean | { source: string; min_rank: number; cumulative?: boolean };
   public readonly Variant: string;
   private _image_url?: string;
   private _stats: IFrameStats;
   public Comparator?: FrameComparison;
+  a;
 
   public constructor(frameData: IFrameData, pack?: ContentPack) {
     super(frameData, pack);
@@ -80,16 +75,13 @@ class Frame extends LicensedItem implements IFeatureContainer {
     this.CoreSystem = new CoreSystem(frameData.core_system);
     this.ItemType = ItemType.Frame;
     this._image_url = frameData.image_url;
-    this.OtherArt = frameData.other_art;
     this.Specialty = frameData.specialty || false;
     this.Variant = frameData.variant || '';
     this.Comparator = new FrameComparison();
   }
 
   get FeatureSource(): any[] {
-    return [this as any, this.CoreSystem].concat(
-      this.Traits.flatMap((x) => x as any)
-    );
+    return [this as any, this.CoreSystem].concat(this.Traits.flatMap((x) => x as any));
   }
 
   public get MechTypeString(): string {

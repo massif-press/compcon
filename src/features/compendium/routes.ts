@@ -39,6 +39,7 @@ import EidolonLayers from './Views/Compendium/EidolonLayers.vue';
 // import ActionEconomy from './Views/Reference/ActionEconomy.vue';
 
 import CampaignViewer from './Views/CampaignLibrary/CampaignViewer.vue';
+import Lists from './Views/Compendium/Lists.vue';
 
 const routes = [
   {
@@ -263,6 +264,11 @@ const routes = [
     path: 'compendium/tables',
     component: Tables,
     meta: { title: 'Tables' },
+  },
+  {
+    path: 'compendium/lists',
+    component: Lists,
+    meta: { title: 'Lists' },
   },
   {
     path: 'reference',

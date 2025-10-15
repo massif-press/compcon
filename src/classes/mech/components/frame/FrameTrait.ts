@@ -6,7 +6,10 @@ import { ISynergyData, Synergy } from '../../../components/feature/synergy/Syner
 import { ICounterData } from '../../../components/combat/counters/Counter';
 import { MechEquipment } from '../equipment/MechEquipment';
 import { Deployable, IDeployableData } from '../../../components/feature/deployable/Deployable';
-import { IResistanceData, Resistance } from '@/classes/EffectObject';
+import {
+  ActiveEffect,
+  IActiveEffectData,
+} from '@/classes/components/feature/active_effects/ActiveEffect';
 
 interface IFrameTraitData {
   name: string;
@@ -19,19 +22,19 @@ interface IFrameTraitData {
   counters?: ICounterData[];
   integrated?: string[];
   special_equipment?: string[];
-  resistances?: IResistanceData[];
+  active_effects?: IActiveEffectData[];
 }
 
 class FrameTrait {
   public readonly Name: string;
   public readonly Description: string;
   public readonly Use: Duration;
+  public readonly ActiveEffects: ActiveEffect[];
   public readonly Actions: Action[];
   public readonly Bonuses: Bonus[];
   public readonly Synergies: Synergy[];
   public readonly Deployables: Deployable[];
   public readonly Counters: ICounterData[];
-  public readonly Resistances: Resistance[];
   public readonly weight: number = 0;
   private _integrated: string[];
   private _special_equipment: string[];
@@ -40,10 +43,14 @@ class FrameTrait {
     this.Name = data.name;
     this.Description = data.description || '';
     this.Use = data.use ? (data.use as Duration) : Duration.Mission;
+    this.ActiveEffects = data.active_effects
+      ? data.active_effects.map((x) => new ActiveEffect(x, this))
+      : [];
     this.Actions = data.actions ? data.actions.map((x) => new Action(x)) : [];
     this.Bonuses = data.bonuses
       ? data.bonuses.map((x) => new Bonus(x, `${this.Name} (Frame Trait)`))
       : [];
+
     this.Synergies = data.synergies ? data.synergies.map((x) => new Synergy(x, 'Frame Trait')) : [];
     this.Deployables = data.deployables ? data.deployables.map((x) => new Deployable(x)) : [];
     if (data.deployables) {
@@ -52,7 +59,6 @@ class FrameTrait {
       );
     }
     this.Counters = data.counters ? data.counters : [];
-    this.Resistances = data.resistances ? data.resistances.map((x) => new Resistance(x)) : [];
     this._integrated = data.integrated ? data.integrated : [];
     this._special_equipment = data.special_equipment || [];
 

@@ -8,6 +8,33 @@ import { IDeployableData } from '@/classes/components/feature/deployable/Deploya
 import { CompendiumItem } from '@/classes/CompendiumItem';
 import { MechWeapon, MechSystem, Counter } from '@/class';
 
+const strDict = [
+  { key: 'll', prop: 'Level', text: 'Pilot License Level' },
+  { key: 'tier', prop: 'Tier', text: 'NPC Tier' },
+  { key: 'grit', prop: 'Grit', text: 'Pilot Grid' },
+  { key: 'hull', prop: 'Hull', text: 'Hull' },
+  { key: 'agi', prop: 'Agi', text: 'Agility' },
+  { key: 'sys', prop: 'Sys', text: 'Systems' },
+  { key: 'eng', prop: 'Eng', text: 'Engineering' },
+  { key: 'size', prop: 'Size', text: 'Size' },
+  { key: 'structure', prop: 'Structure', text: 'Maximum Structure' },
+  { key: 'stress', prop: 'Stress', text: 'Maximum Reactor Stress' },
+  { key: 'armor', prop: 'Armor', text: 'Armor' },
+  { key: 'hp', prop: 'HP', text: 'Maximum HP' },
+  { key: 'current_structure', prop: 'CurrentStructure', text: 'Current Structure' },
+  { key: 'current_stress', prop: 'CurrentStress', text: 'Current Reactor Stress' },
+  { key: 'current_hp', prop: 'CurrentHp', text: 'Current HP' },
+  { key: 'overshield', prop: 'Overshield', text: 'Overshield' },
+  { key: 'speed', prop: 'Speed', text: 'Speed' },
+  { key: 'evasion', prop: 'Evasion', text: 'Evasion' },
+  { key: 'edef', prop: 'Edef', text: 'E-Defense' },
+  { key: 'heatcap', prop: 'Heatcap', text: 'Heat Capacity' },
+  { key: 'sensors', prop: 'Sensors', text: 'Sensor Range' },
+  { key: 'repcap', prop: 'Repcap', text: 'Repair Capacity' },
+  { key: 'save', prop: 'Save', text: 'Save' },
+  { key: 'sp', prop: 'SP', text: 'System Points' },
+];
+
 class FeatureController {
   public readonly Parent: IFeatureController;
   public Containers: IFeatureContainer[];
@@ -32,8 +59,7 @@ class FeatureController {
   }
 
   private getRootEntity(node: object): object {
-    if (node['Parent'] !== undefined)
-      return this.getRootEntity((node as any).Parent);
+    if (node['Parent'] !== undefined) return this.getRootEntity((node as any).Parent);
     return node;
   }
 
@@ -41,6 +67,28 @@ class FeatureController {
     const root = this.getRootEntity(this);
     if (root[prop] !== undefined) return (root as any)[prop];
     return null;
+  }
+
+  public static RenderSpecialString(str: string): string {
+    let vStr = str;
+    strDict.forEach((p) => (vStr = vStr.replace(new RegExp(`{${p.key}}`, 'g'), p.text)));
+    return vStr;
+  }
+
+  public EvaluateSpecial(str: string, returnString = false): string | number {
+    let vStr = str;
+    strDict.forEach(
+      (p) =>
+        (vStr = vStr
+          .replace(`_`, '')
+          .replace(new RegExp(`{${p.key}}`, 'g'), this.getRootProperty(p.prop)?.toString() || '0'))
+    );
+
+    vStr = vStr.replace(/[^-()\d/*+.]/g, '');
+
+    if (returnString) return vStr as string;
+
+    return Math.ceil(eval(vStr));
   }
 
   public get Bonuses(): Bonus[] {
@@ -76,9 +124,7 @@ class FeatureController {
   }
 
   public get AllItems(): CompendiumItem[] {
-    return this.Containers.flatMap((container) => container.FeatureSource).map(
-      (item) => item
-    );
+    return this.Containers.flatMap((container) => container.FeatureSource).map((item) => item);
   }
 }
 

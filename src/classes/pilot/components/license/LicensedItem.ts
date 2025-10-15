@@ -6,16 +6,16 @@ import logger from '@/user/logger';
 interface ILicenseRequirement {
   source: string;
   name: string;
-  license_id: string;
   rank: number;
   items: string[];
+  license_id?: string;
   missing?: boolean;
 }
 
 interface ILicensedItemData extends ICompendiumItemData {
-  source: string;
   license: string;
   license_level: number;
+  source?: string;
   license_id?: string;
 }
 

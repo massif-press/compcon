@@ -36,6 +36,7 @@ import { IndexItem } from '@/stores';
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
 import { BondPower } from '@/classes/pilot/components/bond/Bond';
 import logger from '@/user/logger';
+import { RollableTable } from '@/classes/narrative/elements/RollableTable';
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -202,17 +203,29 @@ export const CompendiumStore = defineStore('compendium', {
     PilotGear: (state) =>
       collect<IPilotEquipmentData>(state, 'pilot_gear').map((x) => PilotEquipment.Factory(x)),
     DowntimeActions: (state) => collect<DowntimeAction>(state, 'downtime_actions', DowntimeAction),
+    Tables: (state) => collect<RollableTable>(state, 'tables', RollableTable),
 
-    Tables: (state) => {
-      const tables = lancerData.tables;
+    Lists: (state) => {
+      const lists = lancerData.lists;
       state.ContentPacks.filter((pack) => pack.Active).forEach((pack) => {
-        for (const t in pack.Tables) {
-          if (tables[t] !== undefined) tables[t] = [...tables[t], ...pack.Tables[t]];
-          else tables[t] = pack.Tables[t];
+        for (const t in pack.Lists) {
+          if (lists[t] !== undefined) lists[t] = [...lists[t], ...pack.Lists[t]];
+          else lists[t] = pack.Lists[t];
         }
       });
-      return tables;
+      return lists;
     },
+
+    // Tables: (state) => {
+    //   const tables = lancerData.tables;
+    //   state.ContentPacks.filter((pack) => pack.Active).forEach((pack) => {
+    //     for (const t in pack.Tables) {
+    //       if (tables[t] !== undefined) tables[t] = [...tables[t], ...pack.Tables[t]];
+    //       else tables[t] = pack.Tables[t];
+    //     }
+    //   });
+    //   return tables;
+    // },
 
     ExtraBondPowers: (state) => {
       const powers = [] as BondPower[];

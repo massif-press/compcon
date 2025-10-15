@@ -1,26 +1,35 @@
 import { Mech, MechWeapon, RangeType } from '@/class';
 import { Bonus } from './components/feature/bonus/Bonus';
+import { FeatureController } from './components/feature/FeatureController';
 
 //TODO: getRange(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
 interface IRangeData {
   type: RangeType;
-  val: number;
+  val: number | string;
   override?: boolean;
   bonus?: number;
+  min?: number;
 }
+
+type SpecialRange = {
+  comparator: 'lt' | 'gt' | 'eq' | 'lte' | 'gte';
+  val: number;
+};
 
 class Range {
   private _range_type: RangeType;
-  private _value: number;
+  private _value: number | string;
   private _override: boolean;
   private _bonus: number;
+  private _min: number;
 
   public constructor(range: IRangeData) {
     this._range_type = range.type as RangeType;
     this._value = range.val;
     this._override = range.override || false;
     this._bonus = range.bonus || 0;
+    this._min = range.min || 0;
   }
 
   public get Override(): boolean {
@@ -32,12 +41,22 @@ class Range {
   }
 
   public get Value(): string {
+    if (typeof this._value === 'string') {
+      const str = FeatureController.RenderSpecialString(this._value);
+      return `${str} ${this._bonus ? `(+${this._bonus})` : ''}`.trim();
+    }
     if (this._bonus) return (this._value + this._bonus).toString();
     return this._value.toString();
   }
 
   public get Max(): number {
-    return this._value + this._bonus;
+    const val = typeof this._value === 'string' ? parseInt(this._value) || 0 : this._value;
+    if (isNaN(val)) return 0;
+    return val + this._bonus;
+  }
+
+  public get Min(): number {
+    return this._min;
   }
 
   public get Icon(): string {
@@ -73,12 +92,13 @@ class Range {
       let bonus = 0;
       if (addedRange && addedRange.length)
         addedRange.forEach((added) => {
-          if (added._range_type === r._range_type) bonus += added._value;
+          const val = mech.FeatureController.EvaluateSpecial(added._value.toString()) as number;
+          if (added._range_type === r._range_type) bonus += val;
         });
       output.push(
         new Range({
           type: r.Type,
-          val: r._value,
+          val: mech.FeatureController.EvaluateSpecial(r._value.toString()),
           override: r._override,
           bonus: bonus,
         })
@@ -104,10 +124,6 @@ class Range {
       });
     });
     return output;
-  }
-
-  private static ci(a: string, b: string): boolean {
-    return a.toLowerCase() === b.toLowerCase();
   }
 
   public static Serialize(range: Range): IRangeData {

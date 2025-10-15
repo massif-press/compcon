@@ -94,9 +94,14 @@
         to="/srd/compendium/downtime" />
       <compendium-page-button
         color="primary"
-        icon="mdi-folder-table-outline"
+        icon="mdi-table-multiple"
         name="Table Browser"
         to="/srd/compendium/tables" />
+      <compendium-page-button
+        color="primary"
+        icon="mdi-list-box-outline"
+        name="List Browser"
+        to="/srd/compendium/lists" />
     </v-row>
   </v-container>
 </template>

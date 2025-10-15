@@ -8,6 +8,10 @@ import { MechEquipment } from '../equipment/MechEquipment';
 import { Deployable, IDeployableData } from '../../../components/feature/deployable/Deployable';
 import { CompendiumItem } from '../../../CompendiumItem';
 import { ITagData } from '@/interface';
+import {
+  ActiveEffect,
+  IActiveEffectData,
+} from '@/classes/components/feature/active_effects/ActiveEffect';
 
 interface ICoreData {
   name: string;
@@ -17,10 +21,15 @@ interface ICoreData {
   activation: ActivationType;
   deactivation?: ActivationType;
   use?: Duration;
+  duration?: string;
+  active_effects?: IActiveEffectData[];
   active_actions?: IActionData[];
   active_bonuses?: IBonusData[];
   active_synergies?: ISynergyData[];
+  active_deployables?: IDeployableData[];
+  active_counters?: ICounterData[];
   passive_name?: string;
+  passive_active_effects?: IActiveEffectData[];
   passive_effect?: string;
   passive_actions?: IActionData[];
   passive_bonuses?: IBonusData[];
@@ -39,10 +48,14 @@ class CoreSystem {
   public readonly ActivateAction: Action;
   public readonly ActiveName: string;
   public readonly ActiveEffect: string;
+  public readonly ActiveEffects: ActiveEffect[];
   public readonly ActiveActions: Action[];
   public readonly ActiveBonuses: Bonus[];
   public readonly ActiveSynergies: Synergy[];
+  public readonly ActiveDeployables: Deployable[];
+  public readonly ActiveCounters: ICounterData[];
   public readonly Deactivation?: ActivationType;
+  public Use: Duration;
   public readonly Duration: Duration;
   public readonly PassiveName: string;
   public readonly PassiveEffect: string;
@@ -80,6 +93,9 @@ class CoreSystem {
     this.ActiveName = data.active_name;
     this.ActiveEffect = data.active_effect;
     this.Activation = data.activation;
+    this.ActiveEffects = data.active_effects
+      ? data.active_effects.map((x) => new ActiveEffect(x, this))
+      : [];
     this.ActiveActions = data.active_actions ? data.active_actions.map((x) => new Action(x)) : [];
     this.ActiveBonuses = data.active_bonuses
       ? data.active_bonuses.map((x) => new Bonus(x, `${this.Name} (ACTIVE)`))
@@ -87,6 +103,10 @@ class CoreSystem {
     this.ActiveSynergies = data.active_synergies
       ? data.active_synergies.map((x) => new Synergy(x, 'Frame CORE System (Active)'))
       : [];
+    this.ActiveDeployables = data.active_deployables
+      ? data.active_deployables.map((x) => new Deployable(x))
+      : [];
+    this.ActiveCounters = data.active_counters ? data.active_counters : [];
     if (data.deactivation) this.Deactivation = data.deactivation;
     this.Duration = data.use ? (data.use as Duration) : Duration.Mission;
     this.PassiveName = data.passive_name || '';
@@ -112,6 +132,8 @@ class CoreSystem {
     this._special_equipment = data.special_equipment || [];
     this._tags = data.tags;
     this.ActivateAction = this.generateActivateAction();
+    this.Duration = (data.duration as Duration) || Duration.Mission;
+    this.Use = data.use ? (data.use as Duration) : Duration.Mission;
 
     this.Energy = 1;
   }

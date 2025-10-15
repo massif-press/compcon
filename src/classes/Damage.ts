@@ -1,5 +1,7 @@
-import { DamageType, Mech, MechWeapon } from '@/class';
+import { DamageType, Mech, MechWeapon, Range, RangeType, Tag } from '@/class';
 import { Bonus } from './components/feature/bonus/Bonus';
+import { EffectSave } from './components/feature/active_effects/EffectSave';
+import { FeatureController } from './components/feature/FeatureController';
 
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -8,6 +10,11 @@ interface IDamageData {
   val: string | number;
   override?: boolean;
   bonus?: string | number;
+  aoe?: string | boolean;
+  save?: string | { stat: string; aoe?: boolean };
+  save_half?: boolean;
+  ap?: boolean;
+  target?: string;
 }
 
 class Damage {
@@ -15,6 +22,13 @@ class Damage {
   public readonly Value: string;
   public readonly Bonus: string;
   public readonly Override: boolean;
+  public readonly Save?: EffectSave;
+  public readonly SaveHalf?: boolean;
+
+  public AoE: string | boolean = false;
+  public AP: boolean = false;
+  public Target: string = 'enemy';
+
   private _raw_value: string | number;
 
   public constructor(damage: IDamageData) {
@@ -25,9 +39,9 @@ class Damage {
         this.Value = (damage.val + damage.bonus).toString();
       else this.Value = `${damage.val} + ${damage.bonus}`;
     } else {
-      if (damage.bonus)
-        this.Value = damage.val + damage.bonus ? ` + ${damage.bonus.toString()}` : '';
-      else this.Value = damage.val;
+      const str = FeatureController.RenderSpecialString(damage.val);
+      if (damage.bonus) this.Value = str + damage.bonus ? ` + ${damage.bonus.toString()}` : '';
+      else this.Value = str;
     }
     this.Bonus = damage.bonus
       ? typeof damage.bonus === 'number'
@@ -36,6 +50,19 @@ class Damage {
       : '';
     this.Override = damage.override || false;
     this._raw_value = damage.val;
+
+    if (damage.aoe) this.AoE = damage.aoe;
+    if (damage.ap) this.AP = damage.ap;
+    if (damage.save) this.Save = new EffectSave(damage.save);
+    if (damage.save_half) this.SaveHalf = damage.save_half;
+    if (damage.target) this.Target = damage.target;
+  }
+
+  public setDamageAttributes(obj: any) {
+    const nonAoeTypes = [RangeType.Range, RangeType.Threat, RangeType.Thrown];
+    if (!this.AoE && obj.Range)
+      this.AoE = (obj.Range as Range[]).some((r) => nonAoeTypes.includes(r.Type)) ? false : true;
+    if (!this.AP && obj.Tags) this.AP = (obj.Tags as Tag[]).some((t) => t.ID === 'tg_ap');
   }
 
   private getDamageType(str?: string): DamageType {
@@ -84,10 +111,14 @@ class Damage {
           bonus += Bonus.Evaluate(b, mech.Pilot);
         }
       });
+      let val =
+        typeof d._raw_value === 'string'
+          ? mech.FeatureController.EvaluateSpecial(d._raw_value)
+          : d._raw_value;
       output.push(
         new Damage({
           type: d.Type,
-          val: d._raw_value,
+          val: val,
           bonus: bonus,
         })
       );

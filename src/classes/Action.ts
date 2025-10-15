@@ -5,6 +5,14 @@ import { isNumber } from 'lodash';
 import { IDamageData } from './Damage';
 import { IRangeData } from './Range';
 import { ByTier } from '@/util/tierFormat';
+import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect';
+import {
+  EffectSpecial,
+  IEffectSpecialData,
+} from './components/feature/active_effects/EffectSpecial';
+import { EffectOther, IEffectOtherData } from './components/feature/active_effects/EffectOther';
+import { EffectResist, IEffectResistData } from './components/feature/active_effects/EffectResist';
+import { EffectStatus } from './components/feature/active_effects/EffectStatus';
 
 interface IActionData {
   id?: string;
@@ -20,6 +28,7 @@ interface IActionData {
   effect?: string;
   pilot?: boolean;
   mech?: boolean;
+  active_effects?: IActiveEffectData[];
   damage?: IDamageData[];
   range?: IRangeData[];
   hide_active?: boolean;
@@ -29,6 +38,12 @@ interface IActionData {
   ignore_used?: boolean;
   heat_cost?: number;
   tech_attack?: boolean;
+  add_status?: string[] | { stat: string; aoe: boolean }[];
+  add_special?: IEffectSpecialData[];
+  remove_special?: string[];
+  add_resist?: IEffectResistData[];
+  add_other?: IEffectOtherData[];
+  bonus_damage?: string;
 }
 
 enum ActivePeriod {
@@ -136,6 +151,13 @@ class Action {
   public readonly Confirm: string[];
   public readonly Log: string;
   public readonly ItemType: string = 'Action';
+  public readonly ActiveEffects: ActiveEffect[];
+  public readonly AddStatus: EffectStatus[] = [];
+  public readonly AddSpecial: EffectSpecial[] = [];
+  public readonly RemoveSpecial: string[] = [];
+  public readonly AddResist: EffectResist[] = [];
+  public readonly AddOther: EffectOther[] = [];
+  public readonly BonusDamage: string = '';
   public Deployable: IDeployableData | undefined;
   private _detail: string;
   private _uses: number;
@@ -169,12 +191,23 @@ class Action {
     this.Init = data.init || '';
     this.Trigger = data.trigger || '';
     this.Damage = data.damage ? data.damage.map((x) => new Damage(x)) : [];
+    if (this.Damage.length) this.Damage.forEach((d) => d.setDamageAttributes(this));
     this.Range = data.range ? data.range.map((x) => new Range(x)) : [];
     this.IsPilotAction = data.pilot || data.id === 'act_free_action' || false;
     this.IsTechAttack = data.tech_attack || false;
     this.IsMechAction = data.mech || !data.pilot;
     this.IsActiveHidden = data.hide_active || false;
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime';
+    this.ActiveEffects = data.active_effects
+      ? data.active_effects.map((x) => new ActiveEffect(x, this))
+      : [];
+    if (data.add_status) this.AddStatus = data.add_status.map((x) => new EffectStatus(x));
+    if (data.add_special) this.AddSpecial = data.add_special.map((x) => new EffectSpecial(x));
+    if (data.remove_special) this.RemoveSpecial = data.remove_special;
+    if (data.add_resist) this.AddResist = data.add_resist.map((x) => new EffectResist(x));
+    if (data.add_other) this.AddOther = data.add_other.map((x) => new EffectOther(x));
+    if (data.bonus_damage) this.BonusDamage = data.bonus_damage;
+
     this._ignore_used = data.ignore_used || false;
     this.LastUse = null;
   }
