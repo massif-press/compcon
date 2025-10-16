@@ -70,10 +70,21 @@ class FeatureController {
     return null;
   }
 
-  public static RenderSpecialString(str: string): string {
-    let vStr = str;
-    strDict.forEach((p) => (vStr = vStr.replace(new RegExp(`{${p.key}}`, 'g'), p.text)));
-    return vStr;
+  public static RenderSpecialString(str: string | string[] | number | number[]): string {
+    if (!str) return '';
+    let sArr = str;
+    if (!Array.isArray(sArr)) sArr = [str as string];
+    strDict.forEach((p) => {
+      sArr.forEach(
+        (s) =>
+          (s = s
+            .toString()
+            .replace(`_`, '')
+            .replace(new RegExp(`{${p.key}}`, 'g'), p.text))
+      );
+    });
+
+    return sArr.join(' ');
   }
 
   public EvaluateSpecial(str: string, returnString = false): string | number {
