@@ -13,7 +13,7 @@
           :style="portrait ? 'max-width: 100%; min-width: fit-content' : ''"
           class="text-center px-2">
           <div class="heading h3 py-1">
-            <v-icon :icon="icon" start />
+            <v-icon :icon="icon" start size="40" class="mb-n2" />
             <div>
               <span>{{ name }}</span>
               <span class="pl-2 heading text-accent" :class="!portrait && 'h2'">

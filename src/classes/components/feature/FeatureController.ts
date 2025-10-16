@@ -29,6 +29,7 @@ const strDict = [
   { key: 'evasion', prop: 'Evasion', text: 'Evasion' },
   { key: 'edef', prop: 'Edef', text: 'E-Defense' },
   { key: 'heatcap', prop: 'Heatcap', text: 'Heat Capacity' },
+  { key: 'heat', prop: 'Heat', text: 'Current Heat' },
   { key: 'sensors', prop: 'Sensors', text: 'Sensor Range' },
   { key: 'repcap', prop: 'Repcap', text: 'Repair Capacity' },
   { key: 'save', prop: 'Save', text: 'Save' },
