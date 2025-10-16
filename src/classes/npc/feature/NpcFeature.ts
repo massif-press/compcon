@@ -103,6 +103,10 @@ abstract class NpcFeature extends CompendiumItem {
     return this._name;
   }
 
+  public set Name(v: string) {
+    this._name = v;
+  }
+
   public get Origin() {
     if (CompendiumStore().has('NpcClasses', this._originID))
       return CompendiumStore().referenceByID('NpcClasses', this._originID) as NpcClass;
