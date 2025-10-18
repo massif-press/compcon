@@ -301,8 +301,11 @@ class Pilot
   }
 
   public LoadError(err: any, message: string): void {
-    console.error(err);
-    logger.error(`Pilot ${this.ID} (${this.Callsign}) failed to load ${message}; ${err}`, this);
+    logger.error(
+      `Pilot ${this.ID} (${this.Callsign}) failed to load ${message}; ${err}`,
+      this,
+      err
+    );
     this.BrewController.MissingContent = true;
   }
 

@@ -41,7 +41,7 @@ abstract class LicensedItem extends CompendiumItem {
       if (this.Source === 'EXOTIC') return undefined as any;
       return CompendiumStore().referenceByID('Manufacturers', this.Source);
     } catch (e) {
-      logger.error(`Error getting manufacturer for item ${this.Name}: ${e}`, this);
+      logger.error(`Error getting manufacturer for item ${this.Name}: ${e}`, this, e);
       return undefined as any;
     }
   }

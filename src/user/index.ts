@@ -297,7 +297,7 @@ async function getLocalProfile(): Promise<UserProfile> {
       config = localStorage.getItem(CONFIG_FILE_NAME);
       logger.info('Created user profile');
     } catch (err) {
-      logger.error('Critical Error: COMP/CON unable to create user profile', err);
+      logger.error('Critical Error: COMP/CON unable to create user profile', {}, err);
     }
   }
 

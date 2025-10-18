@@ -166,7 +166,7 @@ export default {
       const blob = new Blob([this.stagedImage], { type: this.stagedImage.type });
       AddBlob('images', this.stagedImage.name, blob)
         .then(() => this.getUserImages())
-        .catch((e) => logger.error(`Error uploading image: ${e}`, this))
+        .catch((e) => logger.error(`Error uploading image: ${e}`, this, e))
         .finally(() => (this.loading = false));
     },
     async deleteLocalImage(key) {

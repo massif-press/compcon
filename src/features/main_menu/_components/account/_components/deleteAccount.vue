@@ -83,7 +83,7 @@ export default {
         await deleteUser();
         location.reload();
       } catch (error) {
-        logger.error(`Error deleting user: ${error}`, this);
+        logger.error(`Error deleting user: ${error}`, this, error);
       }
     },
   },

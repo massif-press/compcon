@@ -431,7 +431,7 @@ export default {
           data: { color: 'success', icon: 'mdi-check-circle-outline' },
         });
       } catch (e) {
-        logger.error(`Failed to publish collection ${collection.Name}: ${e}`, this);
+        logger.error(`Failed to publish collection ${collection.Name}: ${e}`, this, e);
         this.$notify({
           title: 'Error',
           text: `Failed to publish collection ${collection.Name}`,

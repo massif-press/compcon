@@ -137,7 +137,7 @@ export default {
           data: { color: 'success', icon: 'mdi-check-bold' },
         });
       } catch (err) {
-        logger.error(`Error downloading LCP: ${err}`, this);
+        logger.error(`Error downloading LCP: ${err}`, this, err);
         this.$notify({
           title: 'Error Updating LCP',
           text: `An error occurred while attempting to download ${pack.title}.`,
@@ -165,7 +165,7 @@ export default {
           data: { color: 'success', icon: 'mdi-check-bold' },
         });
       } catch (err) {
-        logger.error(`Error updating LCPs: ${err}`, this);
+        logger.error(`Error updating LCPs: ${err}`, this, err);
         this.$notify({
           title: 'Error Updating LCPs',
           text: `An error occurred while attempting to update your LCPs.`,

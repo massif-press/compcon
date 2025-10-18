@@ -305,7 +305,6 @@ export default {
     damageMods: {
       handler(newMods) {
         if (newMods.includes('half')) {
-          console.log('Applying Half Damage');
           this.baseIncomingDamage = Math.floor(this.incomingDamageValue / 2);
         } else {
           this.baseIncomingDamage = this.incomingDamageValue;

@@ -128,7 +128,6 @@ export default {
   }),
   computed: {
     reinforcementsByTurn() {
-      console.log(this.encounter);
       if (!this.encounter || !this.encounter.Combatants) return [];
 
       const reinforcements = {};
@@ -144,7 +143,6 @@ export default {
         turn: Number(turn),
         combatants,
       }));
-      console.log('reinforcementsByTurn:', res);
       return _.sortBy(res, 'turn');
     },
   },

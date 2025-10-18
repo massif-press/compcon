@@ -67,7 +67,7 @@ const loadData = async function <T>(collection: string): Promise<T[]> {
       }
       return (JSON.parse(dataText) || []) as T[];
     } catch (err) {
-      logger.error(err as string);
+      logger.error(err as string, {}, err);
       return [];
     }
   } else {
@@ -104,7 +104,7 @@ const ImportData = async function <T>(file: File): Promise<T> {
     if (item.EXPORT_TYPE) return item.data as T;
     else return json as T;
   } catch (error) {
-    logger.error('Error parsing imported data:', error);
+    logger.error('Error parsing imported data:', {}, error);
     throw new Error('Invalid JSON');
   }
 };

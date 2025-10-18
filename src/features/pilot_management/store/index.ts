@@ -167,14 +167,14 @@ export const PilotStore = defineStore('pilot', {
       Promise.all(this.Pilots.map((y) => SetItem('pilots', Pilot.Serialize(y as Pilot))))
         .then(() => this.SaveGroupData())
         .then(() => logger.info('Pilot data saved'))
-        .catch((err) => logger.error('Error while saving Pilot data', err));
+        .catch((err) => logger.error('Error while saving Pilot data', this, err));
     },
     async SaveGroupData(): Promise<void> {
       Promise.all([
         this.PilotGroups.map((x) => SetItem('pilot_groups', PilotGroup.Serialize(x as PilotGroup))),
       ])
         .then(() => logger.info('Pilot group data saved'))
-        .catch((err) => logger.error('Error while saving Pilot data', err));
+        .catch((err) => logger.error('Error while saving Pilot data', this, err));
     },
 
     async ClonePilot(payload: Pilot): Promise<void> {

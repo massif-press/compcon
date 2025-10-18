@@ -60,6 +60,10 @@ class Tag {
 
     this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
+
+    if (!this._val && this._name.includes('{VAL}')) {
+      this._val = 1;
+    }
   }
 
   public get Name(): string {
@@ -103,6 +107,7 @@ class Tag {
     if (this._val) {
       if (typeof this._val === 'number') {
         let r = this._val.toString();
+        console.log(r);
         if (bonus)
           r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
             this._val
@@ -242,6 +247,7 @@ class Tag {
       }
 
       if (x.val) t.Value = x.val;
+
       output.push(t);
     });
     return output;

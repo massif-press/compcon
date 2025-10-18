@@ -186,7 +186,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (error) {
-        logger.error(`Error linking itch.io account: ${error}`, this);
+        logger.error(`Error linking itch.io account: ${error}`, this, error);
         this.loadItch = false;
         this.$notify({
           title: 'Itch.io Link Failed',

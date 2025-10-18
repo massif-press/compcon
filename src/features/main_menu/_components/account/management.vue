@@ -364,7 +364,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (err) {
-        logger.error(`Failed to change password: ${err}`, this);
+        logger.error(`Failed to change password: ${err}`, this, err);
         this.$notify({
           title: 'Password update failed',
           text: 'The server returned an error',
@@ -406,7 +406,7 @@ export default {
           this.$emit('set-state', 'sign-in');
         })
         .catch((err) => {
-          logger.error(`Error signing out: ${err}`, this);
+          logger.error(`Error signing out: ${err}`, this, err);
         });
     },
     async userUpdate(key: string) {
@@ -443,7 +443,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (err) {
-        logger.error(`Failed to initiate email change: ${err}`, this);
+        logger.error(`Failed to initiate email change: ${err}`, this, err);
         this.$notify({
           title: 'E-mail change failed',
           text: 'The server returned an error',

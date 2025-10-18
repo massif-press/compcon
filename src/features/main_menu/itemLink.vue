@@ -90,7 +90,7 @@ export default {
           try {
             this.item = CompendiumStore().referenceFromID(this.type, this.id);
           } catch (e) {
-            logger.error(`Error loading item with ID ${this.id}: ${e}`, this);
+            logger.error(`Error loading item with ID ${this.id}: ${e}`, this, e);
           }
         }
       },

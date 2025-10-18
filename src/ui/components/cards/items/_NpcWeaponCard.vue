@@ -84,17 +84,17 @@
     <p
       v-if="item.OnMiss"
       slot="statblock"
-      v-html-safe="`<b>On Miss:&nbsp;</b>${item.OnMiss}`"
+      v-html-safe="`<b>On Miss:&nbsp;</b>${item.OnMiss.Detail}`"
       class="panel text-text py-1" />
     <p
       v-if="item.OnHit"
       slot="statblock"
-      v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit}`"
+      v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit.Detail}`"
       class="panel text-text py-1" />
     <p
       v-if="item.OnCrit"
       slot="statblock"
-      v-html-safe="`<b>On Crit:&nbsp;</b>${item.OnCrit}`"
+      v-html-safe="`<b>On Crit:&nbsp;</b>${item.OnCrit.Detail}`"
       class="panel text-text py-1" />
   </equipment-card-base>
 </template>

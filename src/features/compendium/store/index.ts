@@ -463,8 +463,7 @@ export const CompendiumStore = defineStore('compendium', {
       try {
         this.ContentPacks = [...this.ContentPacks, ...content.map((c) => new ContentPack(c))];
       } catch (err) {
-        console.log(err);
-        logger.error(`Error loading content packs: ${err}`, this);
+        logger.error(`Error loading content packs: ${err}`, this, err);
       }
     },
     async refreshExtraContent(): Promise<void> {

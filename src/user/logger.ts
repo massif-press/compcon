@@ -138,7 +138,10 @@ class Logger {
     );
   }
 
-  public error = (message: string, caller?: any) => this.log(message, 'error', caller);
+  public error = (message: string, caller?: any, err?: any) => {
+    if (err) console.error(err);
+    this.log(message, 'error', caller);
+  };
   public warn = (message: string, caller?: any) => this.log(message, 'warn', caller);
   public info = (message: string, caller?: any) => this.log(message, 'info', caller);
 }

@@ -54,7 +54,8 @@ class BrewController {
       } catch (e) {
         logger.error(
           `Error comparing versions for ${brew.LcpName}. Version string ${brew.LcpVersion} may break semver`,
-          this
+          this,
+          e
         );
         brew.Status = 'ERR';
       }

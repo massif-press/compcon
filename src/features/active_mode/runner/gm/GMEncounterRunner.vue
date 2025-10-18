@@ -181,9 +181,7 @@ export default {
   },
   methods: {
     setEidolonHp() {
-      console.log(this.instance);
       this.playerCount = this.instance.Combatants.filter((c) => c.type === 'pilot').length;
-      console.log(this.playerCount);
       this.instance.Combatants.filter((c) => c.type === 'eidolon').forEach((e) =>
         e.actor.SetLayerHp(
           this.playerCount,

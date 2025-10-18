@@ -457,7 +457,7 @@ export default {
         const alreadyUnlocked = AchievementManager.Instance.Unlock(res);
         if (alreadyUnlocked) throw new Error('Already Unlocked');
       } catch (e) {
-        logger.error(`Error adding achievement: ${e}`, this);
+        logger.error(`Error adding achievement: ${e}`, this, e);
         this.$notify({
           title: `Cannot Add Achievement`,
           text: `Code Invalid or already unlocked`,

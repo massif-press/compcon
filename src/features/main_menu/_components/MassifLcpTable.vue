@@ -269,7 +269,7 @@ export default {
           data: { color: 'success', icon: 'mdi-check-bold' },
         });
       } catch (err) {
-        logger.error(`Error downloading LCP: ${err}`, this);
+        logger.error(`Error downloading LCP: ${err}`, this, err);
         this.$notify({
           title: 'Error Updating LCP',
           text: `An error occurred while attempting to download ${pack.title}.`,
