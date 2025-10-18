@@ -551,7 +551,7 @@ export default {
         });
       } catch (err) {
         console.error(err);
-        logger.error(`Error syncing item: ${err}`, this);
+        logger.error(`Error syncing item: ${err}`, this, err);
         this.$notify({
           title: `Sync Failed`,
           text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
@@ -573,7 +573,7 @@ export default {
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         });
       } catch (err) {
-        logger.error(`Error syncing to local: ${err}`, this);
+        logger.error(`Error syncing to local: ${err}`, this, err);
         this.$notify({
           title: `Sync Failed`,
           text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
@@ -591,7 +591,7 @@ export default {
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         });
       } catch (err) {
-        logger.error(`Error syncing to cloud: ${err}`, this);
+        logger.error(`Error syncing to cloud: ${err}`, this, err);
         this.$notify({
           title: `Sync Failed`,
           text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
@@ -634,7 +634,7 @@ export default {
         this.deleteLoading = false;
         return true;
       } catch (err) {
-        logger.error(`Error deleting item: ${err}`, this);
+        logger.error(`Error deleting item: ${err}`, this, err);
         this.$notify({
           title: `Delete Failed`,
           text: `Unable to communicate with server. ${err}`,
@@ -655,7 +655,7 @@ export default {
         this.deleteLoading = false;
         return true;
       } catch (err) {
-        logger.error(`Error restoring item: ${err}`, this);
+        logger.error(`Error restoring item: ${err}`, this, err);
         this.$notify({
           title: `Restore Failed`,
           text: `Unable to communicate with server. ${err}`,
@@ -682,7 +682,7 @@ export default {
         this.deleteLoading = false;
         return true;
       } catch (err) {
-        logger.error(`Error deleting item: ${err}`, this);
+        logger.error(`Error deleting item: ${err}`, this, err);
         this.$notify({
           title: `Deletion Failed`,
           text: `Unable to communicate with server. ${err}`,

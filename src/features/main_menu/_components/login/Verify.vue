@@ -140,7 +140,7 @@ export default {
         this.sentCode = true;
         this.preFill = true;
       } catch (error: any) {
-        logger.error(`error resending code: ${error}`, this);
+        logger.error(`error resending code: ${error}`, this, error);
         this.showError = true;
         this.error = error.message;
       }

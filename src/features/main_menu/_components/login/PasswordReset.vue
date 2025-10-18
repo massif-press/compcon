@@ -119,7 +119,7 @@ export default {
           this.sent = true;
         })
         .catch((err) => {
-          logger.error(`Error sending reset password email: ${err}`, this);
+          logger.error(`Error sending reset password email: ${err}`, this, err);
           this.loading = false;
           this.sent = false;
           this.$notify(`Unable to send reset e-mail: ${err.message}`, 'error');

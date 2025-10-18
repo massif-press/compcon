@@ -171,7 +171,7 @@ export default {
       try {
         row = await GetFromCode(this.sharecode);
       } catch (err) {
-        logger.error(`Unable to find pilot at share code ${this.sharecode}`, this);
+        logger.error(`Unable to find pilot at share code ${this.sharecode}`, this, err);
       }
 
       try {
@@ -179,7 +179,7 @@ export default {
         this.itemData = itemData;
         this.pilot = new Pilot(itemData);
       } catch (err) {
-        logger.error(`Error downloading pilot data: ${err}`, this);
+        logger.error(`Error downloading pilot data: ${err}`, this, err);
       }
 
       this.loading = false;

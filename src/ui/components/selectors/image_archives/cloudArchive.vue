@@ -220,7 +220,7 @@ export default {
         this.loading = false;
         return true;
       } catch (err) {
-        logger.error(`Error deleting image: ${err}`, this);
+        logger.error(`Error deleting image: ${err}`, this, err);
         this.$notify({
           title: `Deletion Failed`,
           text: `Unable to communicate with server. ${err}`,

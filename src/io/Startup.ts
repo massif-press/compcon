@@ -60,7 +60,7 @@ export default async function (skipSync = false): Promise<void> {
       }
       logger.info('Auto sync complete!');
     } catch (error: any) {
-      logger.error(`Failed to sync: ${error}`);
+      logger.error(`Failed to sync: ${error}`, {}, error);
       return;
     }
 
@@ -69,7 +69,7 @@ export default async function (skipSync = false): Promise<void> {
       await UserStore().PruneBackups();
       await UserStore().AutoBackup();
     } catch (error: any) {
-      logger.error(`Failed to backup: ${error}`);
+      logger.error(`Failed to backup: ${error}`, {}, error);
       return;
     }
 
@@ -81,7 +81,7 @@ export default async function (skipSync = false): Promise<void> {
         logger.error('Failed to refresh Patreon data');
       }
     } catch (error: any) {
-      logger.error(`Failed to refresh Patreon data: ${error}`);
+      logger.error(`Failed to refresh Patreon data: ${error}`, {}, error);
     }
 
     const subscribedLcps = UserStore().User.LcpSubscriptions;
@@ -97,9 +97,9 @@ export default async function (skipSync = false): Promise<void> {
             await UserStore().downloadLcp(lcp);
             UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`);
           } catch (error: any) {
-            logger.error('Failed to download lcp:', lcp.name);
+            logger.error('Failed to download lcp:', lcp.name, error);
             UserStore().addCloudNotification(`Failed to download ${lcp.name}!`, 'error');
-            logger.error(`Error downloading LCP: ${error}`);
+            logger.error(`Error downloading LCP: ${error}`, {}, error);
           }
         }
       }

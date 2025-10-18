@@ -223,16 +223,13 @@ export default {
     },
     addTrackableStat() {
       if (!this.trackableStat) return;
-      console.log(this.trackableStat, this.trackableValue);
       this.item.StatController.MaxStats[this.trackableStat] = Number(this.trackableValue) || 0;
       this.trackableStat = undefined;
       this.trackableValue = 0;
     },
     addStaticStat() {
       if (!this.staticStat) return;
-      console.log(this.staticStat, this.staticValue);
       this.item.StatController.MaxStats[this.staticStat] = Number(this.staticValue) || 0;
-      console.log(this.item.StatController.MaxStats);
       this.staticStat = undefined;
       this.staticValue = 0;
     },

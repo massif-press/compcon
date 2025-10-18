@@ -183,7 +183,7 @@ export default {
         link.click();
         link.remove();
       } catch (error) {
-        logger.error(`Error downloading image: ${error}`, this);
+        logger.error(`Error downloading image: ${error}`, this, error);
       }
     },
     async deleteImage(item) {
@@ -201,7 +201,7 @@ export default {
         this.deleteLoading = false;
         return true;
       } catch (err) {
-        logger.error(`Error deleting image: ${err}`, this);
+        logger.error(`Error deleting image: ${err}`, this, err);
         this.$notify({
           title: `Deletion Failed`,
           text: `Unable to communicate with server. ${err}`,

@@ -45,7 +45,7 @@ export const CampaignStore = defineStore('campaign', {
         this.Campaigns.map((y) => SetItem('campaigns', Campaign.Serialize(y as Campaign))),
       ])
         .then(() => logger.info('Campaign data saved'))
-        .catch((err) => logger.error('Error while saving Campaign data', err));
+        .catch((err) => logger.error('Error while saving Campaign data', this, err));
     },
     async SaveCampaign(payload: Campaign): Promise<void> {
       await SetItem('campaigns', Campaign.Serialize(payload));

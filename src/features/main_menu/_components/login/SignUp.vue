@@ -127,7 +127,7 @@ export default {
         this.showError = false;
         this.$emit('success', userEmail);
       } catch (error: any) {
-        logger.error(`Error creating account: ${error}`, this);
+        logger.error(`Error creating account: ${error}`, this, error);
         this.loading = false;
         this.showError = true;
         this.error = error.message;

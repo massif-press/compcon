@@ -294,7 +294,7 @@ export default {
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         });
       } catch (err) {
-        logger.error(`Error syncing item: ${err}`, this);
+        logger.error(`Error syncing item: ${err}`, this, err);
         this.$notify({
           title: `Sync Failed`,
           text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,

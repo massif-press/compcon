@@ -110,7 +110,7 @@ const GetAll = async function (collection: string) {
       output.push(JSON.parse(value));
     })
     .catch(function (err) {
-      logger.error('Error getting collection data', err);
+      logger.error('Error getting collection data', {}, err);
     });
   return output;
 };

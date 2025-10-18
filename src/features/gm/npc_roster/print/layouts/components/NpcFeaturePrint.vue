@@ -47,13 +47,21 @@
     attacks at a time.
   </div>
 
+  <div v-if="feature.OnMiss">
+    <b>ON MISS:</b>
+    {{ feature.OnMiss.Detail }}
+  </div>
+  <div v-if="feature.OnAttack">
+    <b>ON ATTACK:</b>
+    {{ feature.OnAttack.Detail }}
+  </div>
   <div v-if="feature.OnHit">
     <b>ON HIT:</b>
-    {{ feature.OnHit }}
+    {{ feature.OnHit.Detail }}
   </div>
   <div v-if="feature.OnCrit">
     <b>ON CRIT:</b>
-    {{ feature.OnCrit }}
+    {{ feature.OnCrit.Detail }}
   </div>
 
   <div v-html-safe="feature.EffectByTier(tier)" />

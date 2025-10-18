@@ -48,7 +48,7 @@ export const getUserData = async (id: string): Promise<any> => {
 };
 
 export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
-  console.log('Updating item with metadata:', metadata);
+  console.info('Updating item with metadata:', metadata);
   const url = new URL(`${invoke}/user`);
   url.searchParams.append('userID', UserStore().User.ID);
   url.searchParams.append('scope', scope);
@@ -120,6 +120,8 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
 export async function downloadFromS3(s3Url) {
   const url = `${import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || ''}/${s3Url}`;
 
+  console.log('Downloading JSON from S3 URL:', url);
+
   try {
     const response = await fetch(url);
     if (response.ok) {
@@ -129,7 +131,7 @@ export async function downloadFromS3(s3Url) {
       logger.error('Download failed:', response.statusText);
     }
   } catch (error) {
-    logger.error('Error downloading JSON:', error);
+    logger.error('Error downloading JSON:', {}, error);
   }
 }
 
@@ -143,7 +145,7 @@ export async function getFromPresignDirect(url) {
       logger.error('Download failed:', response.statusText);
     }
   } catch (error) {
-    logger.error('Error downloading JSON:', error);
+    logger.error('Error downloading JSON:', {}, error);
   }
 }
 

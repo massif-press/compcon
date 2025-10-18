@@ -197,7 +197,7 @@ export default {
           data: { type: 'success', icon: 'mdi-check' },
         });
       } catch (error) {
-        logger.error(`Pilot export failed: ${error}`, this);
+        logger.error(`Pilot export failed: ${error}`, this, error);
         this.$notify({
           title: 'Export Error',
           text: 'COMP/CON was unable to export pilot data',

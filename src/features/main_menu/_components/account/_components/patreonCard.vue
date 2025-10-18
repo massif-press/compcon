@@ -205,7 +205,7 @@ export default {
           data: { color: 'success' },
         });
       } catch (error) {
-        logger.error(`Error linking Patreon account: ${error}`, this);
+        logger.error(`Error linking Patreon account: ${error}`, this, error);
         this.loadPatreon = false;
         this.$notify({
           title: 'Patreon Link Failed',

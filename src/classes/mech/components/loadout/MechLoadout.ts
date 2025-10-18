@@ -311,7 +311,6 @@ class MechLoadout extends Loadout {
   }
 
   public get AllTags(): Tag[] {
-    console.log(this.Equipment);
     return this.Equipment.flatMap((x) => x.Tags);
   }
 

@@ -148,7 +148,7 @@ export default {
           }
         })
         .catch((error) => {
-          logger.error(`Error in confirm dialog: ${error}`, this);
+          logger.error(`Error in confirm dialog: ${error}`, this, error);
           next(false);
         });
     }

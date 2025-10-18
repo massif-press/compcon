@@ -75,7 +75,7 @@ export default {
         this.loading = false;
       })
       .catch((err) => {
-        logger.error(`Error loading community packs: ${err}`, this);
+        logger.error(`Error loading community packs: ${err}`, this, err);
         this.loading = false;
       });
   },

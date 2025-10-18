@@ -116,8 +116,7 @@ abstract class Npc
   }
 
   public static LoadError(self: Npc, err: any, message: string): void {
-    logger.error(`Error loading NPC ${self.Name}: ${message}; ${err}`, this);
-    console.error(err);
+    logger.error(`Error loading NPC ${self.Name}: ${message}; ${err}`, this, err);
     self.BrewController.MissingContent = true;
   }
 

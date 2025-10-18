@@ -238,7 +238,7 @@ export default {
         const pack = await parseContentPack(fileData as string);
         this.contentPacks.push(pack);
       } catch (error) {
-        logger.error(`Error reading file: ${error}`, this);
+        logger.error(`Error reading file: ${error}`, this, error);
       }
     },
     readAsBinaryStringAsync(file) {
@@ -263,7 +263,7 @@ export default {
           try {
             c = compare(coerce(installed.Version), coerce(pack.manifest.version));
           } catch (e) {
-            logger.error(`Error comparing versions: ${e} (likely bad semver)`, this);
+            logger.error(`Error comparing versions: ${e} (likely bad semver)`, this, e);
             return false;
           }
           if (c === -1) {
@@ -342,11 +342,12 @@ export default {
         if (c === 0) return 'same';
         if (c === 1) return 'downgrade';
       } catch (e) {
-        logger.error(`grade: Error comparing versions: ${e} (likely bad version number)`, this);
+        logger.error(`grade: Error comparing versions: ${e} (likely bad version number)`, this, e);
         this.contentPacks = this.contentPacks.filter((x) => x.id !== pack.id);
         logger.error(
           `Removed ${pack.manifest.name || pack.manifest.title || 'unknown LCP'} from import -- invalid version string breaks semver`,
-          this
+          this,
+          e
         );
         return 'error';
       }

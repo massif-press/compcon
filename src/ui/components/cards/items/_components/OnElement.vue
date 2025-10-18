@@ -5,7 +5,7 @@
     icon="cc:weapon"
     class="my-1"
     :title="`On ${namedAction}`">
-    <div v-html-safe="profile[`On${capitalizeAction}`]" />
+    <div v-html-safe="profile[`On${capitalizeAction}`].Detail" />
   </cc-panel>
 </template>
 

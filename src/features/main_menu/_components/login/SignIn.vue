@@ -166,7 +166,7 @@ export default {
         await UserStore().setCognito();
         await this.addLoginLog('User credentials verified');
       } catch (error: any) {
-        logger.error(`Error verifying user credentials: ${error}`, this);
+        logger.error(`Error verifying user credentials: ${error}`, this, error);
         this.showError = true;
         await this.addLoginLog('Failed to verify user credentials', true);
         await this.addLoginLog('Error: ' + error.message, true);

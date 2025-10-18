@@ -148,14 +148,12 @@ export default {
     applyItemDamage() {
       if (!this.$refs.internal) return;
       if (!this.item.Damage) return;
-      console.log(this.item.Damage(this.controller.Parent.Tier));
       this.$refs.internal.incomingDamageValue = Number(
         this.item.Damage(this.controller.Parent.Tier)[0].Value
       );
       this.$refs.internal.incomingDamageType = {
         Name: this.item.Damage(this.controller.Parent.Tier)[0].Type,
       };
-      console.log(this.$refs.internal.incomingDamageValue);
       // gather item damage data
       // set internal info
     },

@@ -180,7 +180,7 @@ export default {
           data: { type: 'success', icon: 'mdi-check' },
         });
       } catch (error) {
-        logger.error(`Pilot export failed: ${error}`, this);
+        logger.error(`Pilot export failed: ${error}`, this, error);
         this.$notify({
           title: 'Export Error',
           text: 'COMP/CON was unable to export pilot data',
@@ -198,7 +198,7 @@ export default {
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         });
       } catch (err) {
-        logger.error(`Error syncing item: ${err}`, this);
+        logger.error(`Error syncing item: ${err}`, this, err);
         this.$notify({
           title: `Sync Failed`,
           text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,

@@ -164,7 +164,6 @@ export default {
         title: 'Eidolon Added',
         text: `${eidolon.Name} has been added to the encounter.`,
       });
-      console.log(this.encounterInstance.Combatants);
     },
   },
 };

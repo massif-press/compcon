@@ -203,9 +203,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public ApplyOvercharge(): void {
     const track = (this.Parent as any).OverchargeTrack || Rules.Overcharge;
     const die = track[this.StatController.CurrentStats['overcharge'] || 0];
-    console.log(`Overcharge die: ${die}`);
     const roll = DiceRoller.roll(die);
-    console.log(`Overcharge roll: ${roll}`);
   }
 
   public static Serialize(controller: CombatController, target: any) {

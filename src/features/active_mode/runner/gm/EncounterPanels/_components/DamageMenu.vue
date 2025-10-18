@@ -381,7 +381,6 @@ export default {
     damageMods: {
       handler(newMods) {
         if (newMods.includes('half')) {
-          console.log('Applying Half Damage');
           this.baseIncomingDamage = Math.floor(this.incomingDamageValue / 2);
         } else {
           this.baseIncomingDamage = this.incomingDamageValue;
@@ -411,7 +410,6 @@ export default {
       if (!this.damageSource) return [];
       let features = this.damageSource.actor.NpcFeatureController?.Features;
       // TODO: v3 data to furnish potential damage values and synergy text
-      console.log(features);
       features.push({ Name: 'Other' });
       return features;
     },
@@ -444,7 +442,7 @@ export default {
         } else {
           this.originDamageStrings = [];
         }
-        console.log('Damage from feature:', damage);
+        'Damage from feature:', damage;
       } else {
         this.originDamageStrings = [];
       }
