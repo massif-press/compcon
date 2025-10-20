@@ -632,8 +632,8 @@ const mfOrder = ['gms', 'ips-n', 'ssc', 'horus', 'ha'];
 
 export const ManufacturerSort = (mArr: any[]) =>
   mArr.sort((a, b) => {
-    const indexA = mfOrder.indexOf(a.Source.toLowerCase());
-    const indexB = mfOrder.indexOf(b.Source.toLowerCase());
+    const indexA = mfOrder.indexOf(a.Source?.toLowerCase() || '');
+    const indexB = mfOrder.indexOf(b.Source?.toLowerCase() || '');
 
     if (indexA !== -1 && indexB !== -1) {
       return indexA - indexB;
@@ -641,7 +641,7 @@ export const ManufacturerSort = (mArr: any[]) =>
       return -1;
     } else if (indexB !== -1) {
       return 1;
-    } else return a.Source.toLowerCase().localeCompare(b.Source.toLowerCase());
+    } else return (a.Source?.toLowerCase() || '').localeCompare(b.Source?.toLowerCase() || '');
   });
 
 const sortFn = (a: any, b: any): number => {
