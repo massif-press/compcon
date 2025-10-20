@@ -82,7 +82,12 @@ export default {
       if (this.combat) {
         return (this.tags as Tag[]).filter((t: Tag) => t.IsCombatTag);
       }
-      return this.tags as Tag[];
+      // sort tags by name, bringing exotic tags to the front
+      return (this.tags as Tag[]).sort((a: Tag, b: Tag) => {
+        if (a.IsExotic && !b.IsExotic) return -1;
+        if (!a.IsExotic && b.IsExotic) return 1;
+        return a.GetName().localeCompare(b.GetName());
+      });
     },
   },
 };

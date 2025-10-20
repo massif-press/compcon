@@ -14,7 +14,6 @@ import {
 interface IFrameTraitData {
   name: string;
   description: string;
-  use?: Duration;
   actions?: IActionData[];
   bonuses?: IBonusData[];
   synergies?: ISynergyData[];
@@ -28,21 +27,18 @@ interface IFrameTraitData {
 class FrameTrait {
   public readonly Name: string;
   public readonly Description: string;
-  public readonly Use: Duration;
   public readonly ActiveEffects: ActiveEffect[];
   public readonly Actions: Action[];
   public readonly Bonuses: Bonus[];
   public readonly Synergies: Synergy[];
   public readonly Deployables: Deployable[];
   public readonly Counters: ICounterData[];
-  public readonly weight: number = 0;
   private _integrated: string[];
   private _special_equipment: string[];
 
   public constructor(data: IFrameTraitData) {
     this.Name = data.name;
     this.Description = data.description || '';
-    this.Use = data.use ? (data.use as Duration) : Duration.Mission;
     this.ActiveEffects = data.active_effects
       ? data.active_effects.map((x) => new ActiveEffect(x, this))
       : [];
@@ -61,14 +57,6 @@ class FrameTrait {
     this.Counters = data.counters ? data.counters : [];
     this._integrated = data.integrated ? data.integrated : [];
     this._special_equipment = data.special_equipment || [];
-
-    // weight is used to determine the order of traits in the UI
-    // weight = description length + actions * 100 + bonuses * 10 + synergies * 1 + deployables * 1000
-    this.weight += this.Description.length;
-    this.weight += this.Actions.length * 100;
-    this.weight += this.Bonuses.length * 10;
-    this.weight += this.Synergies.length * 1;
-    this.weight += this.Deployables.length * 1000;
   }
 
   public get SpecialEquipment(): CompendiumItem[] {

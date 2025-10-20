@@ -55,7 +55,10 @@ export default {
       };
     },
     availableItems(): CompendiumItem[] {
-      if (this.exotic) return CompendiumStore().allEquipment.filter((x) => x.IsExotic);
+      if (this.exotic)
+        return (
+          CompendiumStore().allEquipment.filter((x) => x.IsExotic) as CompendiumItem[]
+        ).concat(CompendiumStore().PilotGear.filter((x: any) => x.IsExotic) as CompendiumItem[]);
 
       return CompendiumStore().allEquipment.filter(
         (x) => !this.pilot.LicenseController.LicensedItems.some((y) => y.ID === x.ID)

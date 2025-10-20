@@ -21,6 +21,7 @@ interface IDeployableData extends ICompendiumItemData {
   size?: number;
   size_special?: string;
   cost?: number;
+  instances?: number;
   armor?: number;
   hp?: number;
   evasion?: number;

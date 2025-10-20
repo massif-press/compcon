@@ -12,16 +12,13 @@ enum Duration {
 enum ActivationType {
   None = 'None',
   Free = 'Free',
-  Passive = 'Passive',
   Protocol = 'Protocol',
-  Move = 'Move',
   Quick = 'Quick',
   Full = 'Full',
   Invade = 'Invade',
   FullTech = 'Full Tech',
   QuickTech = 'Quick Tech',
   Reaction = 'Reaction',
-  Other = 'Other',
 }
 
 enum MountType {
