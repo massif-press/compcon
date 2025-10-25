@@ -2,6 +2,7 @@
   <card-base
     :item="item"
     :active="active"
+    :collapsible="collapsible"
     :readonly="readonly"
     @remove-feature="$emit('remove-feature', $event)"
     @recalc="$emit('recalc')"
@@ -80,6 +81,9 @@ export default Vue.extend({
       type: Boolean,
     },
     active: {
+      type: Boolean,
+    },
+    collapsible: {
       type: Boolean,
     },
   },
