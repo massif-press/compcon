@@ -392,6 +392,14 @@ class Npc
     return this._items
   }
 
+  public get ItemsSorted(): NpcItem[] {
+    return this._items.toSorted((a, b) => {
+      if (a.Collapsed && !b.Collapsed) return 1
+      if (!a.Collapsed && b.Collapsed) return -1
+      return 0
+    })
+  }
+
   // -- Encounter Management ----------------------------------------------------------------------
 
   public get CurrentStructure(): number {
