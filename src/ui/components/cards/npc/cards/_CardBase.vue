@@ -1,25 +1,22 @@
 <template>
   <v-card flat tile class="my-1" color="transparent">
     <v-card-title :class="`${item.Feature.Color} sliced pa-0`">
-      <v-row
-        class="heading h3 flavor-text white--text pa-0 ml-2 pr-8"
-        no-gutters
-        justify="space-between"
-        align="center"
-      >
-        <item-menu
-          v-if="!readonly && !active"
-          :item="item"
-          :active="active"
-          @remove-feature="$emit('remove-feature', $event)"
-          @add-reaction="$emit('add-reaction', $event)"
-          @recalc="$emit('recalc')"
-        />
-        <span v-if="readonly">{{ item.Feature.Name }}</span>
-        <span v-else :style="item.Destroyed ? 'text-decoration: line-through' : ''">
-          {{ item.Name }} (T{{ item.Tier }})
-        </span>
-        <span v-if="!item.Destroyed && !active" class="caption">//{{ item.Feature.Origin }}</span>
+      <v-row class="ml-2 pr-8" no-gutters justify="space-between" align="center">
+        <div class="heading h3 flavor-text white--text pa-0">
+          <item-menu
+            v-if="!readonly && !active"
+            :item="item"
+            :active="active"
+            @remove-feature="$emit('remove-feature', $event)"
+            @add-reaction="$emit('add-reaction', $event)"
+            @recalc="$emit('recalc')"
+          />
+          <span v-if="readonly">{{ item.Feature.Name }}</span>
+          <span v-else :style="item.Destroyed ? 'text-decoration: line-through' : ''">
+            {{ item.Name }} (T{{ item.Tier }})
+          </span>
+          <span v-if="!item.Destroyed && !active" class="caption">//{{ item.Feature.Origin }}</span>
+        </div>
         <v-btn
           v-if="collapsible"
           icon
