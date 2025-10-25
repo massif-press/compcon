@@ -20,13 +20,21 @@
           {{ item.Name }} (T{{ item.Tier }})
         </span>
         <span v-if="!item.Destroyed && !active" class="caption">//{{ item.Feature.Origin }}</span>
-        <v-btn icon small class="fadeSelect" @click="item.Collapsed = !item.Collapsed">
-          <v-icon :color="color">{{ item.Collapsed ? 'mdi-unfold-more-horizontal' : 'mdi-minus' }}</v-icon>
+        <v-btn
+          v-if="collapsible"
+          icon
+          small
+          class="fadeSelect"
+          @click="item.Collapsed = !item.Collapsed"
+        >
+          <v-icon :color="color">
+            {{ item.Collapsed ? 'mdi-unfold-more-horizontal' : 'mdi-minus' }}
+          </v-icon>
         </v-btn>
       </v-row>
     </v-card-title>
     <v-card-text
-      v-if="!item.Collapsed"
+      v-if="!(collapsible && item.Collapsed)"
       :class="`py-1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : 'stark-panel'}`"
       :style="`border: 1px solid var(--v-${item.Feature.Color}-base)!important`"
     >
@@ -92,6 +100,9 @@ export default Vue.extend({
       type: Boolean,
     },
     active: {
+      type: Boolean,
+    },
+    collapsible: {
       type: Boolean,
     },
   },

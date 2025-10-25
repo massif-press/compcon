@@ -4,6 +4,7 @@
     v-if="component"
     :item="item"
     :active="active"
+    :collapsible="collapsible"
     @remove-feature="$emit('remove-feature', $event)"
     @add-reaction="$emit('add-reaction', $event)"
     @recalc="$emit('recalc')"
@@ -21,6 +22,9 @@ export default {
     active: {
       type: Boolean,
     },
+    collapsible: {
+      type: Boolean,
+    }
   },
   data() {
     return {

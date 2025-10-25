@@ -308,6 +308,7 @@
         <cc-npc-item-card
           :item="i"
           active
+          collapsible
           @remove-feature="npc.RemoveFeature(i.Feature)"
           @recalc="npc.RecalcBonuses()"
           @add-reaction="npc.AddReaction($event)"
