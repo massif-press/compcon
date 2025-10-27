@@ -1,27 +1,38 @@
 <template>
   <v-card flat tile class="my-1" color="transparent">
     <v-card-title :class="`${item.Feature.Color} sliced pa-0`">
-      <div class="heading h3 flavor-text white--text pa-0 ml-2">
-        <item-menu
-          v-if="!readonly && !active"
-          :item="item"
-          :active="active"
-          @remove-feature="$emit('remove-feature', $event)"
-          @add-reaction="$emit('add-reaction', $event)"
-          @recalc="$emit('recalc')"
-        />
-        <span v-if="readonly">
-          {{ item.Feature.Name }}
-        </span>
-        <span v-else :style="item.Destroyed ? 'text-decoration: line-through' : ''">
-          {{ item.Name }} (T{{ item.Tier }})
-        </span>
-        <span v-if="!item.Destroyed && !active" class="caption">//{{ item.Feature.Origin }}</span>
-        &emsp;
-      </div>
+      <v-row class="ml-2 pr-8" no-gutters justify="space-between" align="center">
+        <div class="heading h3 flavor-text white--text pa-0">
+          <item-menu
+            v-if="!readonly && !active"
+            :item="item"
+            :active="active"
+            @remove-feature="$emit('remove-feature', $event)"
+            @add-reaction="$emit('add-reaction', $event)"
+            @recalc="$emit('recalc')"
+          />
+          <span v-if="readonly">{{ item.Feature.Name }}</span>
+          <span v-else :style="item.Destroyed ? 'text-decoration: line-through' : ''">
+            {{ item.Name }} (T{{ item.Tier }})
+          </span>
+          <span v-if="!item.Destroyed && !active" class="caption">//{{ item.Feature.Origin }}</span>
+        </div>
+        <v-btn
+          v-if="collapsible"
+          icon
+          small
+          class="fadeSelect"
+          @click="item.Collapsed = !item.Collapsed"
+        >
+          <v-icon :color="color">
+            {{ item.Collapsed ? 'mdi-unfold-more-horizontal' : 'mdi-minus' }}
+          </v-icon>
+        </v-btn>
+      </v-row>
     </v-card-title>
     <v-card-text
-      :class="`py-1 mt-n1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : 'stark-panel'}`"
+      v-if="!(collapsible && item.Collapsed)"
+      :class="`py-1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : 'stark-panel'}`"
       :style="`border: 1px solid var(--v-${item.Feature.Color}-base)!important`"
     >
       <p
@@ -86,6 +97,9 @@ export default Vue.extend({
       type: Boolean,
     },
     active: {
+      type: Boolean,
+    },
+    collapsible: {
       type: Boolean,
     },
   },
