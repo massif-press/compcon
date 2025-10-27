@@ -12,6 +12,7 @@ export interface INpcItemSaveData {
   destroyed: boolean
   charged: boolean
   uses: number
+  collapsed: boolean
 }
 
 export class NpcItem {
@@ -24,6 +25,7 @@ export class NpcItem {
   private _charged: boolean
   private _uses: number
   private _max_uses: number
+  private _collapsed: boolean
 
   public constructor(feature: NpcFeature, tier: number, parent: Npc) {
     this.Parent = parent
@@ -33,6 +35,8 @@ export class NpcItem {
     this._destroyed = false
     this._charged = true
     this._uses = 0
+    this._collapsed = false
+
     const f = feature as any
     if (f.IsLimited) {
       const ltd = f.Tags.find(x => x.IsLimited)
@@ -83,6 +87,15 @@ export class NpcItem {
 
   public set Destroyed(val: boolean) {
     this._destroyed = val
+  }
+
+  public get Collapsed(): boolean {
+    return this._collapsed
+  }
+
+  public set Collapsed(val: boolean) {
+    this._collapsed = val
+    this.save()
   }
 
   public get IsCharged(): boolean {
@@ -148,6 +161,7 @@ export class NpcItem {
       destroyed: item.Destroyed,
       charged: item.IsCharged,
       uses: item.Uses,
+      collapsed: item.Collapsed,
     }
   }
 
@@ -158,6 +172,7 @@ export class NpcItem {
     item._destroyed = data.destroyed
     item._charged = data.charged
     item._uses = data.uses || 0
+    item._collapsed = data.collapsed || false
     return item
   }
 }
