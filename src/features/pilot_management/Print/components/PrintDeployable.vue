@@ -4,23 +4,20 @@
       <div class="text-center caption font-weight-bold">{{ d.name }}</div>
       <v-row justify="center" dense class="text-center mt-n1">
         <v-col v-if="d.size" cols="auto">
-          <div class="caption font-weight-bold" v-html="`Size ${d.size === 0.5 ? '½' : d.size}`" />
+          <div class="caption"><i :class="`cci-size-` + d.size"/> {{ d.size === 0.5 ? '½' : d.size }} </div>
         </v-col>
         <v-col v-if="d.armor" cols="auto">
           <div class="caption" v-html="`<b>Armor</b>: ${d.armor}`" />
         </v-col>
         <v-col v-if="d.hp || d.size" cols="auto">
-          <div
-            class="caption"
-            v-html="
-              `<b>HP</b>: ${
-                d.hp ? d.hp.toString().replace(/[{}]/gim, '') : parseFloat(d.size || 0.5) * 10
-              }`
-            "
-          />
+
+          <div class="caption">
+            <i class="mdi mdi-heart"></i>
+            {{d.hp ? d.hp.toString().replace(/[{}]/gim, '') : parseFloat(d.size || 0.5) * 10}}
+          </div>
         </v-col>
         <v-col v-if="d.size" cols="auto">
-          <div class="caption" v-html="`<b>Evasion:</b> ${d.evasion || 10}`" />
+          <div class="caption"><i class="cci-evasion" />{{d.evasion || 10}}</div>
         </v-col>
         <v-col v-if="d.edef" cols="auto">
           <div class="caption" v-html="`<b>E-Defense:</b> ${d.edef}`" />
