@@ -151,7 +151,10 @@ export default Vue.extend({
       return this.weapon.Mod ? this.mech.FreeSP + this.weapon.Mod.SP : this.mech.FreeSP
     },
     availableMods(): MechSystem[] {
-      let i = this.mods.filter(x => !x.IsHidden)
+      let i = this.mods.filter(x => !x.IsHidden && !x.IsExotic)
+
+      i = i.concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
+      i = i.concat(this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
 
       if (!this.showIncompatible) {
         // filter by applied_to
@@ -188,9 +191,6 @@ export default Vue.extend({
       // if (!this.showOverSP) {
       //   i = i.filter(x => x.SP <= this.freeSP)
       // }
-
-      i = i.concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
-      i = i.concat(this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
 
       return i
     },
