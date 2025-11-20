@@ -118,6 +118,7 @@ export default {
       default: '',
     },
   },
+  emits: ['select-panel', 'open-dice-roller', 'open-table-index'],
   methods: {
     selectPanel(panel) {
       this.$emit('select-panel', panel);

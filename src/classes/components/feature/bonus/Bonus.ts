@@ -31,6 +31,7 @@ class Bonus {
 
   public constructor(data: IBonusData, source: string) {
     const entry = dict.find((x) => x.id === data.id);
+    if (!entry) console.log(data, source);
     this.ID = data.id;
     this.Source = source;
     this.Value = data.val;
@@ -47,13 +48,25 @@ class Bonus {
 
   private parseDetail(detail): string {
     let str = detail.slice();
-    const v = Array.isArray(this.Value) ? this.Value.join(', ') : this.Value;
-    str = str.replace(/{VAL}/g, v);
+    let rep;
+
+    if (this.Value) {
+      const v = Array.isArray(this.Value) ? this.Value.join(', ') : this.Value;
+      str = str.replace(/{VAL}/g, v);
+      rep = v;
+    }
+
+    if (this.Accuracy) {
+      const sign = Number(this.Accuracy) > 0 ? '+' : '-';
+      str = str.replace(/{VAL}/g, `${sign}${this.Accuracy} Accuracy`);
+      rep = this.Accuracy;
+    }
+
     if (this.Overwrite) str = str.replace(/{INC_DEC}/g, 'Sets').replace('by', 'to');
 
     str = str.replace(
       /{INC_DEC}/g,
-      !isNaN(v as number) && (v as number) > -1 ? 'Increases' : 'Decreases'
+      !isNaN(Number(rep)) && Number(rep) > -1 ? 'Increases' : 'Decreases'
     );
     str = str.replace(
       /{RANGE_TYPES}/g,

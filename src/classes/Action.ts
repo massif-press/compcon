@@ -33,8 +33,6 @@ interface IActionData {
   range?: IRangeData[];
   hide_active?: boolean;
   synergy_locations?: string[];
-  confirm?: string[];
-  log?: string;
   ignore_used?: boolean;
   heat_cost?: number;
   tech_attack?: boolean;
@@ -148,8 +146,6 @@ class Action {
   public readonly IsActiveHidden: boolean;
   public readonly IsTechAttack: boolean;
   public readonly SynergyLocations: string[];
-  public readonly Confirm: string[];
-  public readonly Log: string;
   public readonly ItemType: string = 'Action';
   public readonly ActiveEffects: ActiveEffect[];
   public readonly AddStatus: EffectStatus[] = [];
@@ -175,9 +171,6 @@ class Action {
         ? data.synergy_locations
         : [data.synergy_locations];
     else this.SynergyLocations = [];
-    if (data.confirm) this.Confirm = Array.isArray(data.confirm) ? data.confirm : [data.confirm];
-    else this.Confirm = [`ACTIVATION CONFIRMED.`];
-    this.Log = data.log || '';
     this.Activation = data.activation || ActivationType.Quick;
     this.Terse = data.terse || '';
     this._detail = data.detail || data.effect || '';
@@ -190,22 +183,46 @@ class Action {
     this._uses = this.Frequency.Uses;
     this.Init = data.init || '';
     this.Trigger = data.trigger || '';
-    this.Damage = data.damage ? data.damage.map((x) => new Damage(x)) : [];
+    this.Damage = [];
+    if (data.damage) {
+      if (!Array.isArray(data.damage)) data.damage = [data.damage];
+      this.Damage = data.damage ? data.damage.map((x) => new Damage(x)) : [];
+    }
     if (this.Damage.length) this.Damage.forEach((d) => d.setDamageAttributes(this));
-    this.Range = data.range ? data.range.map((x) => new Range(x)) : [];
+    this.Range = [];
+    if (data.range) {
+      if (!Array.isArray(data.range)) data.range = [data.range];
+      this.Range = data.range ? data.range.map((x) => new Range(x)) : [];
+    }
     this.IsPilotAction = data.pilot || data.id === 'act_free_action' || false;
     this.IsTechAttack = data.tech_attack || false;
     this.IsMechAction = data.mech || !data.pilot;
     this.IsActiveHidden = data.hide_active || false;
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime';
     this.ActiveEffects = data.active_effects
-      ? data.active_effects.map((x) => new ActiveEffect(x, this))
+      ? data.active_effects.map((x) => new ActiveEffect(x, this, true))
       : [];
-    if (data.add_status) this.AddStatus = data.add_status.map((x) => new EffectStatus(x));
-    if (data.add_special) this.AddSpecial = data.add_special.map((x) => new EffectSpecial(x));
+    this.AddStatus = [];
+    if (data.add_status) {
+      if (!Array.isArray(data.add_status)) data.add_status = [data.add_status];
+      this.AddStatus = data.add_status.map((x) => new EffectStatus(x));
+    }
+    this.AddSpecial = [];
+    if (data.add_special) {
+      if (!Array.isArray(data.add_special)) data.add_special = [data.add_special];
+      this.AddSpecial = data.add_special.map((x) => new EffectSpecial(x));
+    }
     if (data.remove_special) this.RemoveSpecial = data.remove_special;
-    if (data.add_resist) this.AddResist = data.add_resist.map((x) => new EffectResist(x));
-    if (data.add_other) this.AddOther = data.add_other.map((x) => new EffectOther(x));
+    this.AddResist = [];
+    if (data.add_resist) {
+      if (!Array.isArray(data.add_resist)) data.add_resist = [data.add_resist];
+      this.AddResist = data.add_resist.map((x) => new EffectResist(x));
+    }
+    this.AddOther = [];
+    if (data.add_other) {
+      if (!Array.isArray(data.add_other)) data.add_other = [data.add_other];
+      this.AddOther = data.add_other.map((x) => new EffectOther(x));
+    }
     if (data.bonus_damage) this.BonusDamage = data.bonus_damage;
 
     this._ignore_used = data.ignore_used || false;
@@ -259,13 +276,12 @@ class Action {
       {
         id: `deploy_${d.name}_${uuid()}`,
         name: `Deploy ${d.name}`,
-        activation: d.activation,
+        activation: d.activation || ActivationType.Quick,
         cost: d.cost || 1,
         detail: '',
         synergy_locations:
-          d.type.toLowerCase() === 'drone' ? ['deployable', 'drone'] : ['deployable'],
+          d.type?.toLowerCase() === 'drone' ? ['deployable', 'drone'] : ['deployable'],
         pilot: d.pilot,
-        confirm: ['DEPLOYING EQUIPMENT.'],
       },
       origin
     );
@@ -290,8 +306,6 @@ class Action {
       range: action.Range ? action.Range.map((x) => Range.Serialize(x)) : [],
       hide_active: action.IsActiveHidden,
       synergy_locations: action.SynergyLocations,
-      confirm: action.Confirm,
-      log: action.Log,
       ignore_used: action._ignore_used,
       heat_cost: action.HeatCost,
       tech_attack: action.IsTechAttack,

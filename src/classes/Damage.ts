@@ -81,6 +81,20 @@ class Damage {
     return DamageType.Variable;
   }
 
+  public get IsRollable(): boolean {
+    if (Array.isArray(this._raw_value))
+      return this._raw_value.some((v) => typeof v === 'string' && v.includes('d'));
+    return typeof this._raw_value === 'string' && this._raw_value.includes('d');
+  }
+
+  public TieredDamage(tier: number): string {
+    if (this.Override) return this.Value;
+    if (Array.isArray(this._raw_value)) {
+      if (tier - 1 < this._raw_value.length) return this._raw_value[tier - 1].toString();
+      else return this._raw_value[this._raw_value.length - 1].toString();
+    } else return this.Value;
+  }
+
   //TODO: replace with dicemath
   public get Max(): number {
     if (typeof this._raw_value === 'number') return this._raw_value;
@@ -128,6 +142,21 @@ class Damage {
 
   public get Icon(): string {
     return `cc:${this.Type.toLowerCase()}`;
+  }
+
+  public get AoeIcon(): string {
+    if (!this.AoE || this.AoE === 'false') return 'cc:range';
+    if (typeof this.AoE !== 'string') return 'cc:sword_array';
+    return Damage.getAoeIcon(this.AoE);
+  }
+
+  public static getAoeIcon(str: string): string {
+    if (str === 'false') return 'cc:range';
+    if (str.includes('cone')) return 'cc:cone';
+    if (str.includes('line')) return 'cc:line';
+    if (str.includes('burst')) return 'cc:burst';
+    if (str.includes('blast')) return 'cc:blast';
+    return 'cc:sword_array';
   }
 
   public get DiscordEmoji(): string {

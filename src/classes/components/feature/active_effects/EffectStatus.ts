@@ -22,6 +22,7 @@ class EffectStatus {
     if (typeof data === 'string') {
       data = { id: data };
     }
+    if (!data.id) console.log(data);
     this._statusId = data.id.toLowerCase();
     this.AoE = data.aoe || false;
     this.Duration = data.duration || 'End of Encounter';

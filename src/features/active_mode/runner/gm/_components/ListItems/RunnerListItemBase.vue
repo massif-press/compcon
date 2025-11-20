@@ -136,12 +136,12 @@
               </div>
 
               <v-row
-                v-if="actor.CombatController.DamageStatuses.length > 0"
+                v-if="actor.CombatController.Resistances.length > 0"
                 style="line-height: 0"
                 no-gutters
                 justify="center"
                 class="text-center my-1">
-                <v-tooltip v-for="damage in actor.CombatController.DamageStatuses" location="top">
+                <v-tooltip v-for="damage in actor.CombatController.Resistances" location="top">
                   <template #activator="{ props }">
                     <v-icon
                       v-bind="props"
@@ -183,23 +183,6 @@
                   </div>
                 </v-chip>
               </v-card>
-
-              <v-row
-                v-if="actor.CombatController.CustomDamageStatuses.length > 0"
-                style="line-height: 0"
-                no-gutters
-                justify="center"
-                class="text-center my-1">
-                <v-card
-                  v-for="damage in actor.CombatController.CustomDamageStatuses"
-                  flat
-                  tile
-                  style="border-bottom-right-radius: 5px !important"
-                  class="px-2 ma-1"
-                  :class="damageClass(damage)">
-                  <span class="text-cc-overline">{{ damage.condition }} to {{ damage.type }}</span>
-                </v-card>
-              </v-row>
 
               <v-row no-gutters class="text-center">
                 <v-col v-if="actor.CombatController.Braced">
@@ -327,10 +310,6 @@ export default {
       type: String,
       default: 'mdi-cube',
     },
-    activations: {
-      type: Number,
-      default: 0,
-    },
     portrait: {
       type: String,
       default: '',
@@ -380,11 +359,11 @@ export default {
   },
   methods: {
     damageClass(damage) {
-      if (damage.condition === 'immune') {
+      if (damage.condition === 'immunity') {
         return 'bg-exotic';
-      } else if (damage.condition === 'resistant') {
+      } else if (damage.condition === 'resistance') {
         return `bg-success`;
-      } else if (damage.condition === 'vulnerable') {
+      } else if (damage.condition === 'vulnerability') {
         return 'bg-error';
       }
       return '';

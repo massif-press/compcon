@@ -79,11 +79,17 @@ export default {
       return this.$vuetify.display.smAndDown;
     },
     filteredTags(): Tag[] {
+      let tArr: Tag[] = this.tags as Tag[];
+      if (!tArr || !tArr.length) return [];
+      tArr = (this.tags as Tag[]).filter(
+        (t: Tag) => !!t && !t.ID.includes('action') && !t.ID.includes('tech')
+      );
+      if (!tArr.length) return [];
       if (this.combat) {
-        return (this.tags as Tag[]).filter((t: Tag) => t.IsCombatTag);
+        return (tArr as Tag[]).filter((t: Tag) => t.IsCombatTag);
       }
       // sort tags by name, bringing exotic tags to the front
-      return (this.tags as Tag[]).sort((a: Tag, b: Tag) => {
+      return (tArr as Tag[]).sort((a: Tag, b: Tag) => {
         if (a.IsExotic && !b.IsExotic) return -1;
         if (!a.IsExotic && b.IsExotic) return 1;
         return a.GetName().localeCompare(b.GetName());

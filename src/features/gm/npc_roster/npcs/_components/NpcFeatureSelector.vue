@@ -17,7 +17,7 @@
     <cc-solo-modal v-model="dialog" title="Set NPC Features" icon="cc:npc_feature">
       <template #toolbar-items>
         <npc-feature-alerts
-          :hide="readonly || npc.BrewController.MissingContent"
+          :hide="npc.BrewController.MissingContent"
           :template-controller="npc.NpcTemplateController"
           hide-complete
           class="d-inline" />
@@ -138,7 +138,7 @@
               </v-col>
             </v-row>
             <npc-feature-alerts
-              :hide="readonly || npc.BrewController.MissingContent"
+              :hide="npc.BrewController.MissingContent"
               :template-controller="npc.NpcTemplateController"
               expanded
               hide-complete />
@@ -173,9 +173,9 @@
               <template #default="{ item }">
                 <div v-if="item" :key="item.ID">
                   <cc-dense-card :item="item" />
-                  <div class="mt-n2">
+                  <div v-if="!hasItem(item)"" class="mt-n2">
                     <cc-button
-                      v-if="!hasItem(item) || allowDupes"
+                      v-if="allowDupes"
                       color="secondary"
                       block
                       size="x-small"
@@ -184,7 +184,6 @@
                       Add {{ item.Name }}
                     </cc-button>
                     <cc-button
-                      v-if="hasItem(item)"
                       color="warning"
                       block
                       size="x-small"

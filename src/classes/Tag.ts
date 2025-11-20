@@ -107,7 +107,6 @@ class Tag {
     if (this._val) {
       if (typeof this._val === 'number') {
         let r = this._val.toString();
-        console.log(r);
         if (bonus)
           r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
             this._val

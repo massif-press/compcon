@@ -8,8 +8,7 @@
     :disabled="disabled"
     :tier="tier"
     :hide-icon="hideIcon"
-    @use="$emit('use', $event)"
-    @undo="$emit('undo')" />
+    :close-on-click="closeOnClick"></component>
 </template>
 
 <script lang="ts">
@@ -59,6 +58,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    closeOnClick: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   computed: {

@@ -74,6 +74,7 @@ class Deployable {
 
   public readonly IsPilotDeployable: boolean;
   public readonly IsMechDeployable: boolean;
+  public readonly Activation: ActivationType;
   public readonly Recall: ActivationType | null;
   public readonly Redeploy: ActivationType | null;
   public readonly Actions: Action[] = [];
@@ -95,6 +96,7 @@ class Deployable {
     this.ItemData = data;
     this.Type = data.type || 'Deployable';
     this._detail = data.detail;
+    this.Activation = data.activation;
     this.Recall = data.recall || null;
     this.Redeploy = data.redeploy || null;
     if (data.actions) {
@@ -145,6 +147,14 @@ class Deployable {
     return out;
   }
 
+  public get DeployAction(): Action {
+    return new Action({
+      name: `Deploy ${this.Name}`,
+      activation: this.Activation,
+      detail: `Deploy this ${this.Type}.`,
+    });
+  }
+
   public getDetail(tier?: number) {
     return ByTier(this._detail, tier);
   }
@@ -177,7 +187,7 @@ class Deployable {
       detail: deployable._detail,
       description: '',
       type: deployable.Type,
-      activation: ActivationType.Full,
+      activation: deployable.Activation,
       size: deployable.Size,
       hp: deployable.MaxHP,
       armor: deployable.Armor,

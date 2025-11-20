@@ -3,7 +3,15 @@
     <v-card-text class="pa-0" style="position: relative" :style="item.Used ? 'opacity: 0.4' : ''">
       <v-row
         v-if="item.Destroyed"
-        style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; opacity: 0.9"
+        style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: -13px;
+          z-index: 1;
+          opacity: 0.9;
+        "
         class="bg-panel text-center">
         <v-col class="d-flex justify-center align-center heading h3" style="letter-spacing: 9px">
           EQUIPMENT DESTROYED
@@ -52,48 +60,11 @@
         </div>
 
         <div v-if="item.Actions?.length" class="mb-2 mt-1">
-          <v-row v-for="a in item.Actions" dense align="center">
-            <v-col cols="auto">
-              <v-tooltip location="top" text="Equipment Action">
-                <template #activator="{ props }">
-                  <v-icon v-bind="props" icon="cc:activate" />
-                </template>
-              </v-tooltip>
-              <v-tooltip location="top" :text="a.Activation">
-                <template #activator="{ props }">
-                  <span v-bind="props" class="ml-1">
-                    <v-icon
-                      v-bind="props"
-                      :icon="a.Icon"
-                      :color="
-                        mech.CombatController.CanActivate(a.Activation) ? 'success' : 'error'
-                      " />
-                    <v-tooltip
-                      v-if="!mech.CombatController.CanActivate(a.Activation)"
-                      location="top">
-                      <template #activator="{ props }">
-                        <v-icon v-bind="props" icon="mdi-exclamation-thick" color="error" />
-                      </template>
-                      <div class="text-center text-cc-overline">Cannot activate</div>
-                      <v-divider class="my-1" />
-                      Insufficient
-                      <v-chip
-                        :color="a.Color"
-                        size="small"
-                        variant="elevated"
-                        :prepend-icon="a.Icon">
-                        {{ a.Activation }}
-                      </v-chip>
-                      actions remaining
-                    </v-tooltip>
-                  </span>
-                </template>
-              </v-tooltip>
-            </v-col>
-            <v-col>
-              <cc-action :action="a" hide-icon class="mb-1" />
-            </v-col>
-          </v-row>
+          <cc-combat-action-chip
+            v-for="a in item.Actions"
+            :action="a"
+            :owner="mech"
+            :encounter="encounter" />
         </div>
 
         <div v-if="item.Deployables?.length" class="mb-2">
@@ -129,7 +100,7 @@
           </v-col>
 
           <v-col cols="auto" class="ml-auto mr-4">
-            <cc-bonus-display :item="item" />
+            <cc-bonus v-for="b in item.Bonuses" :bonus="b" chip />
             <cc-synergy-display :item="item" :location="synergyLocation" :mech="mech" large />
           </v-col>
         </v-row>
@@ -154,6 +125,11 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+    integrated: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     mech: {
       type: Object,

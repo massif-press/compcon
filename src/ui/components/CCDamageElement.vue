@@ -35,7 +35,6 @@ export default {
     damage: {
       type: Array,
       required: true,
-      validator: (prop: Damage[]) => prop.every((dmg) => dmg instanceof Damage),
     },
     typeOverride: {
       type: String,

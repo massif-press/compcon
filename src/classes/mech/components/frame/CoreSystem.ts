@@ -73,20 +73,6 @@ class CoreSystem {
   private _special_equipment: string[];
   private _tags: ITagData[];
 
-  private generateActivateAction(): Action {
-    return new Action(
-      {
-        id: `core_active_activate`,
-        name: 'Activate CORE System',
-        activation: this.Activation,
-        detail: this.ActiveEffect,
-        mech: true,
-        hide_active: true,
-      },
-      'Frame CORE System'
-    );
-  }
-
   public constructor(data: ICoreData) {
     this.Name = data.name;
     this.Description = data.description || '';
@@ -131,7 +117,17 @@ class CoreSystem {
     this._integrated = data.integrated ? data.integrated : [];
     this._special_equipment = data.special_equipment || [];
     this._tags = data.tags;
-    this.ActivateAction = this.generateActivateAction();
+    this.ActivateAction = new Action(
+      {
+        id: `core_active_activate`,
+        name: `Activate ${this.ActiveName}`,
+        activation: this.Activation,
+        detail: this.ActiveEffect,
+        mech: true,
+        hide_active: true,
+      },
+      'Frame CORE System'
+    );
     this.Duration = (data.duration as Duration) || Duration.Mission;
     this.Use = data.use ? (data.use as Duration) : Duration.Mission;
 

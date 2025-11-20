@@ -1,3 +1,5 @@
+import { EffectSave } from './EffectSave';
+
 interface IEffectResistData {
   resist?: string;
   vulnerable?: string;
@@ -25,7 +27,7 @@ class EffectResist {
       this.Resist = data.immunity;
     } else {
       this.ResistType = 'Resistance';
-      this.Resist = data.resist || 'all';
+      this.Resist = data.resist || (data as any).resistance || 'all';
     }
     this.AoE = data.aoe || false;
     this.Duration = data.duration || 'End of Encounter';

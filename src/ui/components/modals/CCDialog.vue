@@ -1,7 +1,11 @@
 <template>
   <slot name="activator" v-bind="{ dialog, open, close }"></slot>
 
-  <v-dialog v-model="dialog" :fullscreen="mobile" :max-width="mobile ? '100vw' : maxWidth">
+  <v-dialog
+    v-model="dialog"
+    :fullscreen="mobile"
+    :max-width="mobile ? '' : maxWidth"
+    :min-width="mobile ? '' : minWidth">
     <v-card
       tile
       flat
@@ -16,7 +20,7 @@
         :icon="icon"
         :color="color"
         style="position: sticky; top: 0; z-index: 10"
-        hide-close
+        :hide-close="closeOnClick"
         @close="close">
         <slot name="title" />
         <template #toolbar-items>
@@ -59,7 +63,11 @@ export default {
     },
     maxWidth: {
       type: [String, Number],
-      default: '50vw',
+      default: '60vw',
+    },
+    minWidth: {
+      type: [String, Number],
+      default: '40vw',
     },
   },
   computed: {

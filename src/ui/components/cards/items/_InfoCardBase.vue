@@ -45,7 +45,7 @@
 
   <div v-if="item.Tags && item.Tags.length && !hideTags" class="mt-2">
     <div v-show="!dense" class="text-cc-overline text-disabled">//TAGS</div>
-    <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" />
+    <cc-tags :tags="item.Tags" :extended="!smallTags" />
   </div>
 
   <slot name="charts" />

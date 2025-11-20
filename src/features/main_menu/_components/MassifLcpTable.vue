@@ -15,6 +15,24 @@
     <template #item.remote_version="{ item }">
       {{ item.version || 'Unknown' }}
     </template>
+    <!-- v3 -->
+    <template v-slot:item.v3="{ item }">
+      <v-tooltip v-if="item.v3">
+        <template #activator="{ props }">
+          <v-icon v-bind="props" color="success">mdi-check</v-icon>
+        </template>
+        This content pack is compatible with the latest version of COMP/CON and supports v3
+        features.
+      </v-tooltip>
+      <v-tooltip v-else max-width="300px">
+        <template #activator="{ props }">
+          <v-icon v-bind="props" color="error">mdi-cancel</v-icon>
+        </template>
+        This content pack uses the v2 content format. It will function correctly but will lack
+        features of v3-compatible packs. COMP/CON will not be able to manage effects or statuses
+        from this pack in Active Mode.
+      </v-tooltip>
+    </template>
     <template #item.local_version="{ item }">
       <span v-if="getInstalledPack(item)">
         {{ getInstalledPack(item)?.Manifest.version }}
@@ -183,6 +201,7 @@ export default {
       { title: '', key: 'data-table-expand', width: '0' },
       { title: 'LCP', key: 'title' },
       { title: 'Collection', key: 'collection' },
+      { title: 'v3', value: 'v3' },
       { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
       { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
       { title: 'Auto Update', key: 'auto', align: 'center', sortable: false },

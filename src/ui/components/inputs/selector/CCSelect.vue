@@ -30,7 +30,7 @@
       chips
       flat
       :return-object="returnObject"
-      variant="default"
+      variant="solo"
       clear-icon="mdi-close-circle-outline"
       density="compact"
       hide-details
@@ -102,7 +102,7 @@
 </template>
 
 <script lang="ts">
-import { VSelect, VAutocomplete, VCombobox } from 'vuetify/lib/components/index.mjs';
+import { VSelect, VAutocomplete, VCombobox } from 'vuetify/components';
 
 export default {
   name: 'CCTextField',
@@ -129,7 +129,8 @@ export default {
     itemTitle: { type: String },
     itemValue: { type: String },
     multiple: { type: Boolean },
-    chipVariant: { type: String, default: 'tonal' },
+    variant: { type: String, default: 'solo' },
+    chipVariant: { type: String, default: 'text' },
     lightChip: { type: Boolean },
     combobox: { type: Boolean },
     autocomplete: { type: Boolean },

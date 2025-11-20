@@ -1,5 +1,10 @@
 <template>
-  <v-footer app color="surface" class="px-3" :class="mobile && 'mb-1'" :height="mobile ? 28 : auto">
+  <v-footer
+    app
+    color="surface"
+    class="px-3"
+    :class="mobile && 'mb-1'"
+    :height="mobile ? 28 : 'auto'">
     <v-menu v-if="!isRemote" v-model="deleteMenu" max-width="500px">
       <template #activator="{ props }">
         <cc-button
@@ -154,6 +159,8 @@
 </template>
 
 <script>
+import { UserStore } from '@/stores';
+
 export default {
   name: 'gm-editor-footer',
   props: {
@@ -170,6 +177,12 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
+    },
+    isRemote() {
+      return this.item.SaveController.IsRemote;
+    },
+    isAuthed() {
+      return UserStore().IsLoggedIn;
     },
   },
   methods: {

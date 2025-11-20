@@ -1,3 +1,5 @@
+import { EffectSave } from './EffectSave';
+
 interface IEffectSpecialData {
   attribute: string;
   detail: string;

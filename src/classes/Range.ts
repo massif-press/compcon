@@ -7,6 +7,7 @@ import { FeatureController } from './components/feature/FeatureController';
 interface IRangeData {
   type: RangeType;
   val: number | string;
+  value?: number | string;
   override?: boolean;
   bonus?: number;
   min?: number;
@@ -26,7 +27,7 @@ class Range {
 
   public constructor(range: IRangeData) {
     this._range_type = range.type as RangeType;
-    this._value = range.val;
+    this._value = range.val || range.value || '';
     this._override = range.override || false;
     this._bonus = range.bonus || 0;
     this._min = range.min || 0;

@@ -1,10 +1,14 @@
+import { FeatureController } from '../feature/FeatureController';
 import { SaveController } from '../save/SaveController';
-import { StatController } from './stats/StatController';
+import { CombatController } from './CombatController';
 
 interface ICombatant {
   ID: string;
   Name: string;
+  ItemType: string;
   SaveController: SaveController;
+  FeatureController: FeatureController;
+  CombatController: CombatController;
 
   SetStats(): void;
 }

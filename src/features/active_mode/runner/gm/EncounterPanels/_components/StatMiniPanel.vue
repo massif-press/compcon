@@ -93,7 +93,7 @@
 import { set } from 'lodash';
 
 export default {
-  name: 'cc-panel',
+  name: 'stat-mini-panel',
   props: {
     modelValue: {
       type: Number,

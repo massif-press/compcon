@@ -61,6 +61,7 @@ interface IContentPackManifest {
   image_url?: string;
   dependencies?: ContentPackDependency[];
   last_updated?: number;
+  cc_version?: number;
 }
 
 interface IContentPackData {
@@ -108,6 +109,7 @@ interface IContentPack {
 
 class ContentPack {
   public readonly ItemType: string = 'Content Pack';
+  public readonly CCVersion: number = 2;
   private _manifest!: IContentPackManifest;
   private _id!: string;
   private _active!: boolean;
@@ -127,6 +129,8 @@ class ContentPack {
     self._missing = pack.missing_content || false;
     self._active = self._missing ? false : active;
     self._manifest = manifest;
+
+    this.CCVersion = manifest.cc_version || 2;
 
     if (manifest.dependencies) self._dependencies = manifest.dependencies;
     else self._dependencies = [];
@@ -371,6 +375,10 @@ class ContentPack {
 
   public get Dependencies(): ContentPackDependency[] {
     return this._dependencies;
+  }
+
+  public get v3(): boolean {
+    return this.CCVersion >= 3;
   }
 
   public Serialize(): IContentPack {

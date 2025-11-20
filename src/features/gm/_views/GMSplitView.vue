@@ -41,22 +41,10 @@
 
         <v-row density="compact" no-gutters class="mt-5">
           <v-col>
-            <cc-select
-              v-model="grouping"
-              :items="groupings"
-              small
-              chip-variant="text"
-              label="Group"
-              class="mr-1" />
+            <cc-select v-model="grouping" :items="groupings" small label="Group" class="mr-1" />
           </v-col>
           <v-col>
-            <cc-select
-              v-model="sorting"
-              :items="sortings"
-              small
-              chip-variant="text"
-              label="Sort"
-              class="ml-1" />
+            <cc-select v-model="sorting" :items="sortings" small label="Sort" class="ml-1" />
           </v-col>
         </v-row>
         <v-btn

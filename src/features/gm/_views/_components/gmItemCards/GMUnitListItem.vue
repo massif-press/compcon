@@ -17,7 +17,7 @@
         <v-chip
           v-for="t in item.NpcTemplateController.Templates"
           size="x-small"
-          variant="flat"
+          variant="plain"
           label
           color="primary"
           class="mr-3 mt-n1">

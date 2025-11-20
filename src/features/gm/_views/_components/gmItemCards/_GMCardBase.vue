@@ -4,7 +4,7 @@
       <v-card
         v-bind="props"
         :elevation="isHovering ? 12 : 0"
-        :variant="isHovering ? 'outlined' : 'flat'"
+        :variant="isHovering ? 'outlined' : 'plain'"
         height="100%"
         style="position: relative"
         :style="

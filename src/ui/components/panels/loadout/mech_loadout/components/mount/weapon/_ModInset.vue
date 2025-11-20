@@ -41,7 +41,7 @@
         </v-col>
         <v-spacer />
         <v-col cols="auto">
-          <cc-bonus-display :item="mod" />
+          <cc-bonus v-for="b in mod.Bonuses" :bonus="b" chip />
         </v-col>
         <v-col cols="auto">
           <cc-synergy-display :item="mod" location="mod" :mech="mech" large />

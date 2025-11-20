@@ -24,6 +24,7 @@ interface IActiveEffectData {
   remove_special?: string[];
   add_other?: IEffectOtherData[];
   add_status?: IEffectStatusData[] | string[];
+  applied?: boolean;
 }
 
 class ActiveEffect {
@@ -45,14 +46,26 @@ class ActiveEffect {
   public readonly AddOther?: EffectOther[];
   public readonly AddStatus?: EffectStatus[];
 
-  public constructor(data: IActiveEffectData, origin: any) {
+  public readonly Dismissible: boolean;
+
+  public Applied: boolean = false;
+
+  public constructor(data: IActiveEffectData, origin: any, dismissible?: boolean) {
     this.Origin = origin;
 
     this.Name = data.name;
     this.Detail = data.detail || '';
     this.Condition = data.condition || '';
-    this.Damage = data.damage ? data.damage.map((d) => new Damage(d)) : [];
-    this.Range = data.range ? data.range.map((r) => new Range(r)) : [];
+    this.Damage = [];
+    if (data.damage) {
+      if (!Array.isArray(data.damage)) data.damage = [data.damage];
+      this.Damage = data.damage ? data.damage.map((x) => new Damage(x)) : [];
+    }
+    this.Range = [];
+    if (data.range) {
+      if (!Array.isArray(data.range)) data.range = [data.range];
+      this.Range = data.range ? data.range.map((x) => new Range(x)) : [];
+    }
     this.Bonuses = data.bonuses ? data.bonuses.map((b) => new Bonus(b, this.Name)) : [];
     this.Duration = data.duration;
     this.Frequency = data.frequency;
@@ -61,15 +74,19 @@ class ActiveEffect {
       this.Save = new EffectSave(data.save);
     }
     if (data.add_resist) {
+      if (!Array.isArray(data.add_resist)) data.add_resist = [data.add_resist];
       this.AddResist = data.add_resist.map((r) => new EffectResist(r));
     }
     if (data.add_special) {
+      if (!Array.isArray(data.add_special)) data.add_special = [data.add_special];
       this.AddSpecial = data.add_special.map((s) => new EffectSpecial(s));
     }
     if (data.remove_special) {
+      if (!Array.isArray(data.remove_special)) data.remove_special = [data.remove_special];
       this.RemoveSpecial = data.remove_special;
     }
     if (data.add_other) {
+      if (!Array.isArray(data.add_other)) data.add_other = [data.add_other];
       this.AddOther = data.add_other.map((o) => new EffectOther(o));
     }
     if (data.add_status) {
@@ -77,6 +94,20 @@ class ActiveEffect {
         (s) => new EffectStatus(s)
       );
     }
+
+    this.Dismissible = dismissible || false;
+    this.Applied = data.applied || false;
+  }
+
+  get IsPassive(): boolean {
+    return (
+      !this.Damage.length &&
+      !this.AddStatus?.length &&
+      !this.Save &&
+      !this.AddOther?.length &&
+      !this.AddResist?.length &&
+      !this.AddSpecial?.length
+    );
   }
 }
 export { ActiveEffect };

@@ -89,7 +89,8 @@
               :bonus="mech.LimitedBonus" />
           </v-col>
           <v-col cols="auto" class="ml-auto mr-4">
-            <cc-bonus-display :item="item" />
+            <cc-bonus v-for="b in item.Bonuses" :bonus="b" chip />
+
             <cc-synergy-display :item="item" :location="synergyLocation" :mech="mech" large />
           </v-col>
         </v-row>

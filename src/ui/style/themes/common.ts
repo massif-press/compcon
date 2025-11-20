@@ -2,7 +2,7 @@ export default {
   frame: '#673AB7',
   system: '#489928',
   protocol: '#1b6361',
-  mod: '#00BFA5',
+  mod: '#0b9e8a',
   structure: '#443FFF',
   hp: '#0284FF',
   armor: '#82B1FF',

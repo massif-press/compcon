@@ -23,6 +23,23 @@
           This pack is missing one or more dependencies and cannot be activated.
         </cc-tooltip>
       </template>
+      <template v-slot:item.v3="{ item }">
+        <v-tooltip v-if="item.v3">
+          <template #activator="{ props }">
+            <v-icon v-bind="props" color="success">mdi-check</v-icon>
+          </template>
+          This content pack is compatible with the latest version of COMP/CON and supports v3
+          features.
+        </v-tooltip>
+        <v-tooltip v-else max-width="300px">
+          <template #activator="{ props }">
+            <v-icon v-bind="props" color="error">mdi-cancel</v-icon>
+          </template>
+          This content pack uses the v2 content format. It will function correctly but will lack
+          features of v3-compatible packs. COMP/CON will not be able to manage effects or statuses
+          from this pack in Active Mode.
+        </v-tooltip>
+      </template>
       <template #item.deleteAction="{ item }">
         <v-menu width="400px">
           <template #activator="{ props }">
@@ -33,8 +50,7 @@
           <v-card>
             <v-card-text>
               This will remove this pack and all of its contents from COMP/CON. User data that
-              relies on this content will be unavailable and may cause errors. Are you sure you want
-              to continue?
+              relies on this content will remain available. Are you sure you want to continue?
             </v-card-text>
             <v-divider />
             <v-card-actions>
@@ -78,6 +94,7 @@ export default {
       { title: 'Name', value: 'Name' },
       { title: 'Author', value: 'Author' },
       { title: 'Version', value: 'Version' },
+      { title: 'v3', value: 'v3' },
       { title: '', value: 'deleteAction', sortable: false },
     ],
     loading: false,

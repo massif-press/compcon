@@ -77,9 +77,9 @@
       </v-menu>
     </v-col>
   </v-row>
-  <masonry-wall :items="features" :column-width="600" :gap="16" :min-columns="1" :max-columns="2">
+  <masonry-wall :items="features" :column-width="600" :gap="16" :min-columns="1" :max-columns="4">
     <template #default="{ item }">
-      <fieldset class="px-2 pb-2" style="border-color: rgba(155, 155, 155, 0.6)">
+      <fieldset class="px-2" style="border-color: rgba(155, 155, 155, 0.6)">
         <unit-feature-card
           :encounter="encounterInstance"
           :key="item.ID"
@@ -93,6 +93,7 @@
 
 <script>
 import UnitFeatureCard from './_unitFeatureCard.vue';
+import _ from 'lodash';
 
 export default {
   name: 'mech-combat-loadout',
@@ -125,10 +126,21 @@ export default {
       });
       this.result = 0;
     },
+    getModName(modId) {
+      return this.unit.NpcFeatureController.Features.find((x) => x.ID === modId).Name || 'Unknown';
+    },
   },
   computed: {
     features() {
-      return this.unit.NpcFeatureController.Features;
+      return this.unit.NpcFeatureController.Features.filter((x) => !x.Mod).sort((a, b) => {
+        if (a.Actions?.length > 0 && b.Actions?.length === 0) return -1;
+        if (a.Actions?.length === 0 && b.Actions?.length > 0) return 1;
+        if (a.Deployables?.length > 0 && b.Deployables?.length === 0) return -1;
+        if (a.Deployables?.length === 0 && b.Deployables?.length > 0) return 1;
+        if (a.Damage?.length > 0 && b.Damage?.length === 0) return -1;
+        if (a.Damage?.length === 0 && b.Damage?.length > 0) return 1;
+        return 0;
+      });
     },
     rechargedFeatures() {
       if (this.result === 0) {
