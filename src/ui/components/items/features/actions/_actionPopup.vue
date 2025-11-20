@@ -3,13 +3,13 @@
     :color="action.Color"
     :icon="action.Icon"
     :title="action.Name"
-    :sub-title="action.Frequency.ToString()">
+    :close-on-click="closeOnClick">
     <template #activator="{ open }">
       <cc-button
         size="x-small"
         block
         :color="action.Color"
-        :prepend-icon="!hideIcon && action.Icon"
+        :prepend-icon="prependIcon"
         @click="open">
         {{ action.Name }}
       </cc-button>
@@ -37,6 +37,17 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    closeOnClick: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+  },
+  computed: {
+    prependIcon() {
+      if (this.hideIcon) return '';
+      return this.action.Icon;
     },
   },
 };

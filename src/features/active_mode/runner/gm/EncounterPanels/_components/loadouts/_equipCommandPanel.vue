@@ -53,7 +53,7 @@
       </v-tooltip>
     </v-col>
 
-    <v-col v-if="!isFeature" cols="auto" class="ml-1">
+    <v-col v-if="!isFeature" cols="auto" class="ml-1" style="z-index: 4">
       <v-tooltip location="top" text="Toggle Destroyed">
         <template #activator="{ props }">
           <v-btn

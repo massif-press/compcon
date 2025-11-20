@@ -92,14 +92,12 @@
               </div>
 
               <v-row
-                v-if="deployable.CombatController.DamageStatuses.length > 0"
+                v-if="deployable.CombatController.Resistances.length > 0"
                 style="line-height: 0"
                 no-gutters
                 justify="center"
                 class="text-center my-1">
-                <v-tooltip
-                  v-for="damage in deployable.CombatController.DamageStatuses"
-                  location="top">
+                <v-tooltip v-for="damage in deployable.CombatController.Resistances" location="top">
                   <template #activator="{ props }">
                     <v-icon
                       v-bind="props"
@@ -141,24 +139,6 @@
                   </div>
                 </v-chip>
               </v-card>
-
-              <v-row
-                v-if="deployable.CombatController.CustomDamageStatuses.length > 0"
-                style="line-height: 0"
-                no-gutters
-                justify="center"
-                class="text-center my-1">
-                <v-card
-                  v-for="damage in deployable.CombatController.CustomDamageStatuses"
-                  v-bind="props"
-                  flat
-                  tile
-                  style="border-bottom-right-radius: 5px !important"
-                  class="px-2 ma-1"
-                  :class="damageClass(damage)">
-                  <span class="text-cc-overline">{{ damage.condition }} to {{ damage.type }}</span>
-                </v-card>
-              </v-row>
 
               <div v-for="status in specialStatuses">
                 <v-progress-linear model-value="100" height="16" color="orange" striped>

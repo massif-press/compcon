@@ -1,13 +1,23 @@
 <template>
   <v-card flat tile>
-    <v-row
-      align="center"
-      no-gutters
-      justify="end"
-      class="pr-1"
-      :style="item.Used ? 'opacity: 0.4' : ''">
+    <v-row align="center" no-gutters justify="end" :style="item.Used ? 'opacity: 0.4' : ''">
       <v-col :class="mobile ? 'text-cc-overline line-short' : 'heading h3 text-uppercase'">
-        <div class="pl-1">
+        <div>
+          <v-tooltip v-if="item.ActiveEffects.length > 0" location="top" text="Active Effect">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" icon="cc:trait" color="accent" size="x-small" class="mt-n1" />
+            </template>
+          </v-tooltip>
+          <v-tooltip v-if="item.Bonuses.length > 0" location="top" text="Passive Bonus">
+            <template #activator="{ props }">
+              <v-icon
+                v-bind="props"
+                icon="cc:accuracy"
+                color="accent"
+                size="x-small"
+                class="mt-n1" />
+            </template>
+          </v-tooltip>
           {{ item.Name }}
           <span v-if="item.WeaponType" class="text-cc-overline px-1">
             <cc-slashes class="mx-1" />
@@ -28,127 +38,111 @@
           small
           :damage="item.Damage(item.NpcClassController?.Tier || 1)" />
       </v-col>
+
+      <v-col v-if="!showCommandPanel" cols="auto">
+        <v-btn icon flat tile size="x-small" variant="text" @click="collapsed = !collapsed">
+          <v-icon size="30" :icon="collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
+        </v-btn>
+      </v-col>
     </v-row>
-    <div class="pa-0" style="position: relative" :style="item.Used ? 'opacity: 0.4' : ''">
-      <v-card-text class="pa-0">
-        <v-card v-if="item?.FlavorDescription" tile color="panel" class="px-2 py-1 mb-2 clipped">
-          <p v-html-safe="item.FlavorDescription" style="white-space: pre-wrap" />
-        </v-card>
+    <v-slide-y-transition>
+      <div
+        v-if="!collapsed"
+        class="pb-1"
+        style="position: relative"
+        :style="item.Used ? 'opacity: 0.4' : ''">
+        <v-card-text class="pa-0">
+          <v-card v-if="item?.FlavorDescription" tile color="panel" class="px-2 py-1 mb-2 clipped">
+            <p v-html-safe="item.FlavorDescription" style="white-space: pre-wrap" />
+          </v-card>
 
-        <div v-if="item" class="pt-1">
-          <div>
+          <div v-if="item" class="pt-1">
             <div>
-              <on-element
-                v-for="action in ['hit', 'crit', 'attack']"
-                :profile="item"
-                :action="action" />
+              <div>
+                <on-element
+                  v-for="action in ['hit', 'crit', 'attack']"
+                  :profile="item"
+                  :action="action" />
+              </div>
+            </div>
+
+            <div v-if="mods">
+              <npc-mod-inset
+                v-for="mod in mods"
+                :key="mod.ID"
+                :mod="mod"
+                :tier="item.NpcClassController?.Tier || 1" />
             </div>
           </div>
-          <div v-if="mod">
-            <npc-mod-inset v-for="mod in mods" :key="mod.ID" :mod="mod" />
-          </div>
-        </div>
 
-        <div v-if="item">
-          <div v-if="item.Effect">
-            <div class="text-cc-overline text-disabled mt-1">
-              <v-icon :icon="item.Icon" size="small" class="mt-n1" />
-              EQUIPMENT EFFECT
+          <div v-if="item">
+            <div v-if="item.Effect">
+              <div class="text-cc-overline text-disabled mt-1">
+                <v-icon :icon="item.Icon" size="small" class="mt-n1" />
+                EQUIPMENT EFFECT
+              </div>
+              <p v-html-safe="item.EffectByTier(tier)" class="mb-1 px-2" />
             </div>
-            <p v-html-safe="item.EffectByTier(tier)" class="mb-1 px-2" />
-          </div>
 
-          <div v-if="item.Actions?.length" class="mb-2 mt-1">
-            <v-row v-for="a in item.Actions" dense align="center">
+            <div v-if="item.Actions?.length" class="mb-2 mt-1">
+              <cc-combat-action-chip
+                v-for="a in item.Actions"
+                :action="a"
+                :owner="unit"
+                :encounter="encounter" />
+            </div>
+
+            <div v-if="item.Deployables?.length" class="mb-2">
+              <v-row v-for="d in item.Deployables" dense align="center">
+                <v-col cols="auto">
+                  <v-tooltip location="top" text="Equipment Deployable (Instance)">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props" size="small" icon="cc:drone" />
+                    </template>
+                  </v-tooltip>
+                </v-col>
+                <v-col>
+                  <v-row no-gutters align="center">
+                    <v-col cols="auto">
+                      <cc-deployable-info :deployable="d" class="mb-1" :name-override="item.Name" />
+                    </v-col>
+                    <v-col>
+                      <deploy-button :deployable="d" :actor="unit" @deploy="$emit('deploy', d)" />
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </div>
+
+            <v-row dense align="center">
               <v-col cols="auto">
-                <v-tooltip location="top" text="Equipment Action">
-                  <template #activator="{ props }">
-                    <span v-bind="props" class="ml-1">
-                      <v-icon
-                        v-bind="props"
-                        :icon="a.Icon"
-                        :color="
-                          unit.CombatController.CanActivate(a.Activation) ? 'success' : 'error'
-                        " />
-                      <v-tooltip
-                        v-if="!unit.CombatController.CanActivate(a.Activation)"
-                        location="top">
-                        <template #activator="{ props }">
-                          <v-icon v-bind="props" icon="mdi-exclamation-thick" color="error" />
-                        </template>
-                        <div class="text-center text-cc-overline">Cannot activate</div>
-                        <v-divider class="my-1" />
-                        Insufficient
-                        <v-chip
-                          :color="a.Color"
-                          size="small"
-                          variant="elevated"
-                          :prepend-icon="a.Icon">
-                          {{ a.Activation }}
-                        </v-chip>
-                        actions remaining
-                      </v-tooltip>
-                    </span>
-                  </template>
-                </v-tooltip>
+                <cc-tags
+                  v-if="item.Tags"
+                  :tags="item.Tags"
+                  color="pilot"
+                  :bonus="limitedBonus"
+                  combat />
               </v-col>
-              <v-col>
-                <cc-action :action="a" hide-icon class="mb-1" />
+
+              <v-col cols="auto">
+                <cc-tags
+                  v-if="item.Mod"
+                  :tags="item.Mod.AddedTags"
+                  color="mod"
+                  :bonus="limitedBonus"
+                  combat />
+              </v-col>
+              <v-col cols="auto" class="ml-auto mr-4">
+                <cc-bonus v-for="b in item.Bonuses" :bonus="b" chip :tier="tier" />
               </v-col>
             </v-row>
           </div>
-
-          <div v-if="item.Deployables?.length" class="mb-2">
-            <v-row v-for="d in item.Deployables" dense align="center">
-              <v-col cols="auto">
-                <v-tooltip location="top" text="Equipment Deployable (Instance)">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props" size="small" icon="cc:drone" />
-                  </template>
-                </v-tooltip>
-              </v-col>
-              <v-col>
-                <v-row no-gutters align="center">
-                  <v-col cols="auto">
-                    <cc-deployable-info :deployable="d" class="mb-1" :name-override="item.Name" />
-                  </v-col>
-                  <v-col>
-                    <deploy-button :deployable="d" :actor="unit" @deploy="$emit('deploy', d)" />
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
-          </div>
-
-          <v-row dense align="center">
-            <v-col cols="auto">
-              <cc-tags
-                v-if="item.Tags"
-                :tags="item.Tags"
-                color="pilot"
-                :bonus="limitedBonus"
-                combat />
-            </v-col>
-
-            <v-col cols="auto">
-              <cc-tags
-                v-if="item.Mod"
-                :tags="item.Mod.AddedTags"
-                color="mod"
-                :bonus="limitedBonus"
-                combat />
-            </v-col>
-            <v-col cols="auto" class="ml-auto mr-4">
-              TODO: unit bonus/synergy TODO: mod
-              <!-- <cc-bonus-display :item="item" /> -->
-              <!-- <cc-synergy-display :item="item" :location="synergyLocation" :unit="unit" large /> -->
-            </v-col>
-          </v-row>
-        </div>
-      </v-card-text>
-    </div>
+        </v-card-text>
+      </div>
+    </v-slide-y-transition>
     <equip-command-panel
       v-if="showCommandPanel"
+      class="mb-2"
       :controller="unit.CombatController"
       :encounter="encounter"
       :item="item" />
@@ -160,6 +154,7 @@ import { Damage, ItemType } from '@/class';
 import DeployButton from './_deployButton.vue';
 import NpcModInset from '@/features/gm/npc_roster/npcs/_components/NpcModInset.vue';
 import EquipCommandPanel from './_equipCommandPanel.vue';
+import OnElement from '@/ui/components/cards/items/_components/OnElement.vue';
 
 export default {
   name: 'slot-card-base',
@@ -167,6 +162,7 @@ export default {
     DeployButton,
     NpcModInset,
     EquipCommandPanel,
+    OnElement,
   },
   props: {
     item: {
@@ -200,7 +196,11 @@ export default {
     detailDialog: false,
     selectorDialog: false,
     limitedBonus: 0,
+    collapsed: false,
   }),
+  mounted() {
+    this.collapsed = !this.showCommandPanel;
+  },
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
@@ -212,9 +212,8 @@ export default {
       if (!this.item) return 'none';
       return this.item.ItemType;
     },
-
     mods() {
-      return this.unit.NpcFeatureController.GetModifiers(item);
+      return this.unit.NpcFeatureController.GetModifiers(this.item);
     },
     tier() {
       return this.unit.NpcClassController?.Tier || 1;

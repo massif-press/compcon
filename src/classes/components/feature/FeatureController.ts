@@ -7,6 +7,7 @@ import { Action } from '@/classes/Action';
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable';
 import { CompendiumItem } from '@/classes/CompendiumItem';
 import { MechWeapon, MechSystem, Counter } from '@/class';
+import { ActiveEffect } from './active_effects/ActiveEffect';
 
 const strDict = [
   { key: 'll', prop: 'Level', text: 'Pilot License Level' },
@@ -51,7 +52,7 @@ class FeatureController {
 
   private collectAll<T>(collection: string): T[] {
     if (!this.Containers.length) {
-      throw new Error('FeatureControllers not registered!');
+      return [];
     }
 
     return this.Containers.flatMap((container) =>
@@ -113,6 +114,10 @@ class FeatureController {
 
   public get Actions(): Action[] {
     return this.collectAll('Actions');
+  }
+
+  public get ActiveEffects(): ActiveEffect[] {
+    return this.collectAll('ActiveEffects');
   }
 
   public get Deployables(): IDeployableData[] {

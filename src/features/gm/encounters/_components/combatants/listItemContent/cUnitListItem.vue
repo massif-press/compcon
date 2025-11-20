@@ -12,7 +12,7 @@
         <cc-chip
           v-for="t in item.actor.NpcTemplateController.Templates"
           size="small"
-          variant="flat"
+          variant="plain"
           label
           color="primary"
           class="mr-3 mt-n1">

@@ -23,7 +23,7 @@ interface INpcFeatureData extends ICompendiumItemData {
   effect?: string;
   detail?: string;
   bonus?: object;
-  mod?: IFeatureModData;
+  mod?: string;
   tags: ITagData[];
   hide_active: boolean;
   type: string;
@@ -31,14 +31,14 @@ interface INpcFeatureData extends ICompendiumItemData {
   build_feature?: boolean;
 }
 
-interface IFeatureModData {
-  target: string;
-  add_effect?: string;
-  add_bonuses?: IBonusData[];
-  add_tags?: ITagData[];
-  add_deployables?: IDeployableData[];
-  add_actions?: IActionData[];
-}
+// interface IFeatureModData {
+//   target: string;
+//   add_effect?: string;
+//   add_bonuses?: IBonusData[];
+//   add_tags?: ITagData[];
+//   add_deployables?: IDeployableData[];
+//   add_actions?: IActionData[];
+// }
 
 class NpcFeatureMod {
   _targetID: string;
@@ -48,19 +48,13 @@ class NpcFeatureMod {
   AddDeployables: Deployable[];
   AddActions: Action[];
 
-  constructor(data: IFeatureModData, parent: NpcFeature) {
-    this._targetID = data.target;
-    this.AddEffect = data.add_effect || '';
-    this.AddBonuses = data.add_bonuses
-      ? data.add_bonuses.map((x) => new Bonus(x, parent.Name))
-      : [];
-    this.AddTags = data.add_tags || [];
-    this.AddDeployables = data.add_deployables
-      ? data.add_deployables.map((x) => new Deployable(x))
-      : [];
-    this.AddActions = data.add_actions
-      ? data.add_actions.map((x) => new Action(x, parent.Name))
-      : [];
+  constructor(data: INpcFeatureData, parent: NpcFeature) {
+    this._targetID = data.mod!;
+    this.AddEffect = data.effect || '';
+    this.AddBonuses = data.bonuses ? data.bonuses.map((x) => new Bonus(x, parent.Name)) : [];
+    this.AddTags = data.tags || [];
+    this.AddDeployables = data.deployables ? data.deployables.map((x) => new Deployable(x)) : [];
+    this.AddActions = data.actions ? data.actions.map((x) => new Action(x, parent.Name)) : [];
   }
 
   public get Target() {
@@ -81,7 +75,7 @@ abstract class NpcFeature extends CompendiumItem {
   public readonly Deprecated: boolean = false;
   public readonly BuildFeature: boolean = false;
   public readonly Kit?: string;
-  public readonly Mod?: NpcFeatureMod;
+  public readonly Mod?: string;
 
   public constructor(data: INpcFeatureData, pack?: ContentPack) {
     super(data as ICompendiumItemData, pack);
@@ -96,7 +90,8 @@ abstract class NpcFeature extends CompendiumItem {
     this.Base = data.base || false;
     this.Deprecated = data.deprecated || false;
     if (data.kit) this.Kit = data.kit;
-    if (data.mod) this.Mod = new NpcFeatureMod(data.mod, this);
+    if (data.mod) this.Mod = data.mod;
+    this.BuildFeature = data.build_feature || false;
   }
 
   public get Name(): string {
@@ -131,7 +126,7 @@ abstract class NpcFeature extends CompendiumItem {
   public EffectByTier(tier: number): string {
     if (!this._effect) return '';
     let fmt = this._effect;
-    const perTier = /(\{.*?\})/g;
+    const perTier = /(?:\{)?(\d+)\/(\d+)\/(\d+)(?:\})?/g;
     const m = this._effect.match(perTier);
     if (m) {
       m.forEach((x) => {
@@ -150,6 +145,10 @@ abstract class NpcFeature extends CompendiumItem {
 
   public get Passive(): boolean {
     return this.BuildFeature || this.Deprecated || !!this.Mod || this.HideActive;
+  }
+
+  public get ModTarget(): NpcFeature | null {
+    return CompendiumStore().NpcFeatures.find((x) => x.ID === this.Mod) || null;
   }
 }
 export { NpcFeature };

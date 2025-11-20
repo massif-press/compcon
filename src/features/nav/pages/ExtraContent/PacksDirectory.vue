@@ -56,6 +56,7 @@ export default {
       { title: '', key: 'data-table-expand', width: '0' },
       { title: 'LCP', key: 'title' },
       { title: 'Collection', key: 'collection' },
+      { title: 'v3', value: 'v3' },
       { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
       { title: '', key: 'actions', align: 'end', sortable: false },
     ],

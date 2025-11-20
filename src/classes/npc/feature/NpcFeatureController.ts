@@ -82,7 +82,7 @@ class NpcFeatureController implements IFeatureContainer {
   }
 
   public GetModifiers(feat: NpcFeature): NpcFeature[] {
-    return this.Features.filter((x) => x.Mod?._targetID === feat.ID);
+    return this.Features.filter((x) => x.Mod === feat.ID);
   }
 
   public get Passives(): NpcFeature[] {

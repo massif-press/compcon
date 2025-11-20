@@ -47,14 +47,14 @@ export default {
   computed: {
     show() {
       return (
-        this.action.Damage.length ||
-        this.action.Range.length ||
-        this.action.Init ||
+        this.action.Damage?.length ||
+        this.action.Range?.length ||
         !this.action.Frequency.Unlimited ||
         this.action.Trigger ||
         this.action.Detail
       );
     },
   },
+  emits: ['close'],
 };
 </script>

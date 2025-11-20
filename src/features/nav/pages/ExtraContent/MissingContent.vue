@@ -13,10 +13,11 @@
       </span>
     </div>
     <div>
-      <p v-if="missingLength > 0">
-        COMP/CON has determined the following items cannot be loaded, and require Lancer Content
-        Packs that are not installed or not activated:
-      </p>
+      <i v-if="missingLength > 0" class="text-caption">
+        COMP/CON has determined the following items include data from Lancer Content Packs that are
+        not installed or not activated. This will not prevent COMP/CON from loading these items, but
+        some options or equipment may be missing or unavailable.
+      </i>
       <v-alert
         v-if="missingPacks.length"
         prominent
@@ -153,42 +154,6 @@
                     </div>
                   </div>
                 </div>
-              </v-col>
-              <v-col cols="auto" align-self="center">
-                <v-tooltip location="top" text="Permanently delete this item from local data">
-                  <template #activator="{ props }">
-                    <v-btn
-                      v-if="
-                        item.BrewController.MissingBrews.length ||
-                        item.BrewController.IsUnableToLoad
-                      "
-                      v-bind="props"
-                      size="small"
-                      variant="plain"
-                      icon
-                      color="error"
-                      @click="deleteItem(item)">
-                      <v-icon size="x-large" icon="mdi-delete" />
-                    </v-btn>
-                  </template>
-                </v-tooltip>
-                <!-- <v-tooltip
-                  location="top"
-                  max-width="300"
-                  text="Let COMP/CON fix this item by clearing missing data. Please note that this will modify this item by removing all non-loadable attributes and equipment">
-                  <template #activator="{ props }">
-                    <v-btn
-                      v-if="item.BrewController.MissingBrews.length"
-                      v-bind="props"
-                      size="small"
-                      variant="plain"
-                      icon
-                      color="secondary"
-                      @click="fixMissing(item)">
-                      <v-icon size="x-large" icon="mdi-auto-fix" />
-                    </v-btn>
-                  </template>
-                </v-tooltip> -->
               </v-col>
             </v-row>
           </v-card-text>

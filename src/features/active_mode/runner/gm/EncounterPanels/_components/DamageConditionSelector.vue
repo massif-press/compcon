@@ -65,119 +65,6 @@
         </v-tooltip>
       </v-col>
     </v-row>
-
-    <v-card
-      v-for="cds in controller.CustomDamageStatuses"
-      :key="cds.type"
-      class="mt-1 px-1"
-      flat
-      tile
-      :color="
-        cds.condition === 'immune'
-          ? 'exotic'
-          : cds.condition === 'resistant'
-            ? 'success'
-            : cds.condition === 'vulnerable'
-              ? 'error'
-              : ''
-      ">
-      <v-row dense align="center" class="pl-1">
-        <v-col class="text-cc-overline">
-          <div>
-            <b>{{ cds.type }}</b>
-          </div>
-          <div class="text-disabled">
-            <cc-slashes />
-            {{ cds.condition }}
-          </div>
-        </v-col>
-        <v-col></v-col>
-        <v-col cols="auto">
-          <v-btn
-            icon
-            variant="text"
-            flat
-            tile
-            size="x-small"
-            @click="
-              controller.CustomDamageStatuses = controller.CustomDamageStatuses.filter(
-                (x) => x !== cds
-              )
-            ">
-            <v-icon size="x-large" icon="mdi-close" />
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-card>
-
-    <div>
-      <v-menu :close-on-content-click="false">
-        <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
-            size="x-small"
-            color="accent"
-            class="mt-1"
-            flat
-            tile
-            block
-            variant="text"
-            prepend-icon="mdi-plus">
-            Add Custom
-          </v-btn>
-        </template>
-        <v-card border tile>
-          <v-card-text>
-            <v-text-field
-              v-model="customStatus"
-              label="Condition"
-              variant="outlined"
-              density="compact"
-              clearable
-              tile
-              hide-details />
-            <v-row dense class="mt-1">
-              <v-col>
-                <v-btn
-                  :disabled="!customStatus"
-                  :color="!customStatus ? '' : 'error'"
-                  flat
-                  tile
-                  block
-                  size="small"
-                  @click="addCustom('vulnerable')">
-                  Add Vulnerability
-                </v-btn>
-              </v-col>
-              <v-col>
-                <v-btn
-                  :disabled="!customStatus"
-                  :color="!customStatus ? '' : 'success'"
-                  flat
-                  tile
-                  block
-                  size="small"
-                  @click="addCustom('resistant')">
-                  Add Resistance
-                </v-btn>
-              </v-col>
-              <v-col>
-                <v-btn
-                  :disabled="!customStatus"
-                  :color="!customStatus ? '' : 'exotic'"
-                  flat
-                  tile
-                  block
-                  size="small"
-                  @click="addCustom('immune')">
-                  Add Immunity
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-menu>
-    </div>
   </div>
 </template>
 
@@ -211,17 +98,17 @@ export default {
   }),
   computed: {
     vulnerabilities() {
-      return this.controller.DamageStatuses.filter((x) => x.condition === 'vulnerable').map(
+      return this.controller.Resistances.filter((x) => x.condition === 'vulnerability').map(
         (x) => x.type
       );
     },
     immunities() {
-      return this.controller.DamageStatuses.filter((x) => x.condition === 'immune').map(
+      return this.controller.Resistances.filter((x) => x.condition === 'immunity').map(
         (x) => x.type
       );
     },
     resistances() {
-      return this.controller.DamageStatuses.filter((x) => x.condition === 'resistant').map(
+      return this.controller.Resistances.filter((x) => x.condition === 'resistance').map(
         (x) => x.type
       );
     },
@@ -229,36 +116,28 @@ export default {
   methods: {
     addResistance(resist) {
       let condition;
-      if (this.vulnerabilities.includes(resist.Name)) {
+      const name = resist.Name.toLowerCase();
+
+      if (this.vulnerabilities.includes(name)) {
         condition = undefined;
-      } else if (this.immunities.includes(resist.Name)) {
-        condition = 'vulnerable';
-      } else if (this.resistances.includes(resist.Name)) {
-        condition = 'immune';
+      } else if (this.immunities.includes(name)) {
+        condition = 'vulnerability';
+      } else if (this.resistances.includes(name)) {
+        condition = 'immunity';
       } else {
-        condition = 'resistant';
+        condition = 'resistance';
       }
 
-      this.controller.SetDamageStatus(resist.Name, condition);
+      this.controller.SetResistance(name, condition);
     },
     hasResistance(resist) {
-      return this.resistances.includes(resist.Name);
+      return this.resistances.includes(resist.Name.toLowerCase());
     },
     hasImmunity(resist) {
-      return this.immunities.includes(resist.Name);
+      return this.immunities.includes(resist.Name.toLowerCase());
     },
     hasVulnerability(resist) {
-      return this.vulnerabilities.includes(resist.Name);
-    },
-    addCustom(condition) {
-      if (!this.customStatus) return;
-
-      this.controller.CustomDamageStatuses.push({
-        type: this.customStatus,
-        condition: condition,
-      });
-
-      this.customStatus = '';
+      return this.vulnerabilities.includes(resist.Name.toLowerCase());
     },
   },
 };

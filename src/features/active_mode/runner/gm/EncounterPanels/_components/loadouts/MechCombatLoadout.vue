@@ -45,6 +45,7 @@
 </template>
 
 <script lang="ts">
+import ShLockCard from '@/ui/components/panels/loadout/mech_loadout/components/mount/_ShLockCard.vue';
 import MechSystemCard from './_mechSystemCard.vue';
 import MechWeaponCard from './_mechWeaponCard.vue';
 
@@ -53,6 +54,7 @@ export default {
   components: {
     MechWeaponCard,
     MechSystemCard,
+    ShLockCard,
   },
   props: {
     mech: {

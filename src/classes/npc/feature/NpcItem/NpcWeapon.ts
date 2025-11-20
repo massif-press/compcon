@@ -1,6 +1,10 @@
 import { IContentPack, IRangeData, ITagData } from '@/interface';
 import { INpcFeatureData, NpcFeature, NpcFeatureType } from '../NpcFeature';
 import { ContentPack, Damage, DamageType, ItemType, Range } from '@/class';
+import {
+  ActiveEffect,
+  IActiveEffectData,
+} from '@/classes/components/feature/active_effects/ActiveEffect';
 
 export interface INpcDamageData {
   type: string;
@@ -11,8 +15,10 @@ export interface INpcWeaponData extends INpcFeatureData {
   weapon_type: string;
   damage: INpcDamageData[];
   range: IRangeData[];
-  on_hit?: string;
-  on_crit?: string;
+  on_miss?: string | IActiveEffectData;
+  on_attack?: string | IActiveEffectData;
+  on_hit?: string | IActiveEffectData;
+  on_crit?: string | IActiveEffectData;
   accuracy?: number[];
   attack_bonus?: number[];
   attacks: number | number[];
@@ -26,20 +32,40 @@ export class NpcWeapon extends NpcFeature {
   private _range: Range[];
   private _accuracy: number[];
   private _attack_bonus: number[];
-  public readonly OnHit: string;
-  public readonly OnCrit: string;
+  OnMiss?: ActiveEffect;
+  OnAttack?: ActiveEffect;
+  OnHit?: ActiveEffect;
+  OnCrit?: ActiveEffect;
   public readonly Attacks: number[];
 
   public constructor(data: INpcWeaponData, pack?: ContentPack) {
     super(data, pack);
-    this.OnHit = data.on_hit || '';
-    this.OnCrit = data.on_crit || '';
-    this._weapon_type = data.weapon_type;
     this._damage_data = data.damage;
+    this._range = data.range.map((x) => new Range(x));
+    this._weapon_type = data.weapon_type;
+    if (data.on_miss) {
+      if (typeof data.on_miss === 'string')
+        this.OnMiss = new ActiveEffect({ name: '', detail: data.on_miss }, this);
+      else this.OnMiss = new ActiveEffect(data.on_miss, this);
+    }
+    if (data.on_attack) {
+      if (typeof data.on_attack === 'string')
+        this.OnAttack = new ActiveEffect({ name: '', detail: data.on_attack }, this);
+      else this.OnAttack = new ActiveEffect(data.on_attack, this);
+    }
+    if (data.on_hit) {
+      if (typeof data.on_hit === 'string')
+        this.OnHit = new ActiveEffect({ name: '', detail: data.on_hit }, this);
+      else this.OnHit = new ActiveEffect(data.on_hit, this);
+    }
+    if (data.on_crit) {
+      if (typeof data.on_crit === 'string')
+        this.OnCrit = new ActiveEffect({ name: '', detail: data.on_crit }, this);
+      else this.OnCrit = new ActiveEffect(data.on_crit, this);
+    }
     this.Attacks = this._expand(data.attacks);
     this._accuracy = this._expand(data.accuracy);
     this._attack_bonus = this._expand(data.attack_bonus);
-    this._range = data.range.map((x) => new Range(x));
     this.FeatureType = NpcFeatureType.Weapon;
   }
 

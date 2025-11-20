@@ -77,6 +77,7 @@ export default {
       required: true,
     },
   },
+  emits: ['deselect'],
   computed: {
     isDeployable() {
       return this.combatant.Base.Type === 'Deployable';

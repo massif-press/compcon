@@ -133,7 +133,7 @@
     </v-expansion-panels>
 
     <div class="text-cc-overline mt-4 text-disabled">Core</div>
-    <cc-core-system-panel :frame="mech.Frame" terse small />
+    <mech-core-panel :mech="mech" :encounter-instance="encounterInstance" />
 
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
     <mech-combat-loadout
@@ -149,6 +149,7 @@ import { CompendiumStore } from '@/stores';
 import StatMiniPanel from './_components/StatMiniPanel.vue';
 import PanelBase from './_PanelBase.vue';
 import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
+import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 
 export default {
   name: 'MechPanel',
@@ -156,6 +157,7 @@ export default {
     StatMiniPanel,
     PanelBase,
     MechCombatLoadout,
+    MechCorePanel,
   },
   props: {
     combatant: {

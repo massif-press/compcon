@@ -82,7 +82,6 @@ import CCFilterPanel from './components/panels/CCFilterPanel.vue';
 import CCLicensePanel from './components/panels/CCLicensePanel.vue';
 import CCItemFilter from './components/panels/filters/CCItemFilter.vue';
 import CCLoadoutPanel from './components/panels/loadout/CCLoadoutPanel.vue';
-import CCBonusDisplay from './components/panels/loadout/mech_loadout/CCBonusDisplay.vue';
 import CCMechLoadout from './components/panels/loadout/mech_loadout/CCMechLoadout.vue';
 import CCSynergyDisplay from './components/panels/loadout/mech_loadout/CCSynergyDisplay.vue';
 import CCPilotLoadout from './components/panels/loadout/pilot_loadout/CCPilotLoadout.vue';
@@ -104,6 +103,7 @@ import CCSplitChip from './components/CCSplitChip.vue';
 import CCTitledDivider from './components/CCTitledDivider.vue';
 import CCTieredAttribute from './components/CCTieredAttribute.vue';
 import CCBonus from './components/items/features/bonuses/CCBonus.vue';
+import CCBonusIcon from './components/items/features/bonuses/CCBonusIcon.vue';
 import CCNarrativeItemContent from './components/CCNarrativeItemContent.vue';
 import CCSitrepDisplay from './components/CCSitrepDisplay.vue';
 import CCEnvironmentDisplay from './components/CCEnvironmentDisplay.vue';
@@ -115,7 +115,8 @@ import CCMissingGmLcpText from './components/CCMissingGmLcpText.vue';
 import CCShareCodeImporter from './components/CCShareCodeImporter.vue';
 import CCBrokenReference from './components/CCBrokenReference.vue';
 
-import CCActiveEffectChip from './components/CCActiveEffectChip.vue';
+import CCActiveEffectChip from './components/chips/CCActiveEffectChip.vue';
+import CCCombatActionChip from './components/chips/CCCombatActionChip.vue';
 
 export {
   CCButton,
@@ -198,7 +199,6 @@ export {
   CCLicensePanel,
   CCItemFilter,
   CCLoadoutPanel,
-  CCBonusDisplay,
   CCMechLoadout,
   CCSynergyDisplay,
   CCPilotLoadout,
@@ -215,6 +215,7 @@ export {
   CCTitledDivider,
   CCTieredAttribute,
   CCBonus,
+  CCBonusIcon,
   CCNarrativeItemContent,
   CCSitrepDisplay,
   CCEnvironmentDisplay,
@@ -229,4 +230,5 @@ export {
   CCCounterSet,
   CCSidebarLayout,
   CCActiveEffectChip,
+  CCCombatActionChip,
 };

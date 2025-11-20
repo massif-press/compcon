@@ -51,7 +51,25 @@
         </v-tooltip>
       </span>
     </template>
-    <!-- Version -->
+    <!-- v3 -->
+    <template v-slot:item.v3="{ item }">
+      <v-tooltip v-if="(item as any).v3">
+        <template #activator="{ props }">
+          <v-icon v-bind="props" color="success">mdi-check</v-icon>
+        </template>
+        This content pack is compatible with the latest version of COMP/CON and supports v3
+        features.
+      </v-tooltip>
+      <v-tooltip v-else max-width="300px">
+        <template #activator="{ props }">
+          <v-icon v-bind="props" color="error">mdi-cancel</v-icon>
+        </template>
+        This content pack uses the v2 content format. It will function correctly but will lack
+        features of v3-compatible packs. COMP/CON will not be able to manage effects or statuses
+        from this pack in Active Mode.
+      </v-tooltip>
+    </template>
+    <!-- cost -->
     <template v-slot:item.cost="{ item }">
       {{ (item as any).cost }}
     </template>
@@ -129,6 +147,7 @@ export default {
           },
           { title: 'Name', key: 'name' },
           { title: 'Version', key: 'version' },
+          { title: 'v3', value: 'v3' },
           { title: 'Cost', key: 'cost' },
         ];
       return [
@@ -136,6 +155,7 @@ export default {
         { title: 'Name', key: 'title' },
         { title: 'Author', key: 'author' },
         { title: 'Version', key: 'version' },
+        { title: 'v3', value: 'v3' },
         { title: 'Cost', key: 'cost' },
         {
           key: 'website',

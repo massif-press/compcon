@@ -8,7 +8,7 @@
   <cc-heading v-if="item.Mod" size="small" line>
     <cc-chip>
       <v-icon start icon="cc:weaponmod" />
-      Modifies: {{ item.Mod.Target.Name }}
+      Modifies: {{ item.ModTarget?.Name || 'unknown' }}
     </cc-chip>
   </cc-heading>
 
@@ -86,7 +86,7 @@
 
   <div v-if="!footer && showFooter && item.Tags?.length">
     <div v-show="!dense" class="text-cc-overline text-disabled">//EQUIPMENT TAGS</div>
-    <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" :tier="tier" />
+    <cc-tags :tags="item.Tags" :extended="!smallTags" :tier="tier" />
   </div>
 
   <div v-if="item.Description?.length" class="my-4">
@@ -116,7 +116,7 @@
   <v-footer v-if="footer && showFooter" color="transparent" class="mx-n4 py-0 mt-2">
     <v-row>
       <v-col v-if="!hideTags" cols="auto">
-        <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" :tier="tier" />
+        <cc-tags :tags="item.Tags" :extended="!smallTags" :tier="tier" />
       </v-col>
       <v-col v-if="!hideBonuses" cols="auto" class="ml-auto">
         <div>

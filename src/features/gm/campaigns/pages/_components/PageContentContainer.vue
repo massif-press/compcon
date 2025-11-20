@@ -60,10 +60,10 @@
               @click="item.HeaderType = 'header-2'">
               <span class="heading h3">H2</span>
             </v-card>
-            <v-card class="pa-1 pr-4 my-1" variant="flat" @click="item.HeaderType = 'header-3'">
+            <v-card class="pa-1 pr-4 my-1" variant="plain" @click="item.HeaderType = 'header-3'">
               <span class="heading h3">H3</span>
             </v-card>
-            <v-card class="pa-1 pr-4 my-1" variant="flat" @click="item.HeaderType = 'header-4'">
+            <v-card class="pa-1 pr-4 my-1" variant="plain" @click="item.HeaderType = 'header-4'">
               <span class="heading" :class="`text-${item.Color}`">H4</span>
             </v-card>
             <v-card class="pa-2 my-1" variant="text" @click="item.HeaderType = ''">

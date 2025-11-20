@@ -1,8 +1,13 @@
 <template>
   <slot name="header" />
-  <cc-alert v-if="item.CombatController.IsDestroyed" class="ma-2" color="error" prominent outlined>
-    <v-icon icon="cc:destroyed" size="large" start />
-    <span class="text-cc-overline">{{ item.ItemType }} DESTROYED</span>
+  <cc-alert v-if="item.CombatController.IsDestroyed" class="ma-2 bg-stripes" prominent outlined>
+    <div class="heading h2 pa-1 mr-n12 ml-n4 text-error" style="position: relative">
+      <v-icon icon="cc:destroyed" size="x-large" start />
+      {{ item.ItemType }} DESTROYED
+      <div
+        style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: -1; opacity: 0.85"
+        class="bg-background" />
+    </div>
   </cc-alert>
   <v-card flat tile class="pa-2">
     <v-row class="pr-4">
@@ -87,13 +92,10 @@
           </v-col>
         </v-row>
 
-        <!-- TEST ACTIVEEFFECTS START -->
-        <v-row>
-          <v-col>
-            <cc-active-effect-chip />
-          </v-col>
-        </v-row>
-        <!-- TEST ACTIVEEFFECTS END -->
+        <active-effect-panel
+          v-if="item.CombatController.ActiveEffects.length"
+          :encounter="encounterInstance"
+          :item="item" />
 
         <v-row
           v-if="!hidePalette"
@@ -200,10 +202,10 @@
             </v-col>
             <v-col cols="auto" v-if="item.ItemType === 'mech'">
               <stat-mini-panel
-                v-model="corepower"
+                v-model="item.CombatController.CorePower"
                 title="core"
                 :icon="currentIcon"
-                :color="corepower ? 'core' : 'grey'"
+                :color="item.CombatController.CorePower ? 'core' : 'grey'"
                 @click="drainBattery"
                 boolean />
             </v-col>
@@ -299,6 +301,7 @@ import StatusConditionSelector from './_components/StatusConditionSelector.vue';
 import DamageMenu from './_components/DamageMenu.vue';
 import { Rules } from '@/class';
 import CustomStatEditor from './_components/CustomStatEditor.vue';
+import ActiveEffectPanel from './_components/ActiveEffectPanel.vue';
 
 export default {
   name: 'EncounterPanelBase',
@@ -310,10 +313,10 @@ export default {
     StatusConditionSelector,
     DamageMenu,
     CustomStatEditor,
+    ActiveEffectPanel,
   },
   data() {
     return {
-      corepower: true,
       batteryIcons: [
         'mdi-battery-outline',
         'mdi-battery-low',
@@ -390,17 +393,30 @@ export default {
     },
 
     drainBattery() {
+      console.log(this.item.CombatController.CorePower);
       if (this.index > 0) {
-        this.corepower = false;
+        this.item.CombatController.CorePower = false;
         const interval = setInterval(() => {
           this.index--;
           if (this.index === 0) clearInterval(interval);
         }, 60);
       } else {
-        this.corepower = true;
+        this.item.CombatController.CorePower = true;
         this.index = 3;
       }
     },
   },
 };
 </script>
+
+<style scoped>
+.bg-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(249, 219, 78, 0.5),
+    rgba(249, 219, 78, 0.5) 10px,
+    rgba(100, 100, 100, 0.5) 10px,
+    rgba(100, 100, 100, 0.5) 20px
+  );
+}
+</style>

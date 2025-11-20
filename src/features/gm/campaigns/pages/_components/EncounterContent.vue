@@ -54,7 +54,7 @@
       class="my-4" />
 
     <div class="text-text px-4">
-      <v-card v-for="t in item.NarrativeController.TextItems" variant="flat">
+      <v-card v-for="t in item.NarrativeController.TextItems" variant="plain">
         <div class="heading mt-1">{{ t.header }}</div>
         <p class="pl-4" v-html-safe="t.body" />
       </v-card>

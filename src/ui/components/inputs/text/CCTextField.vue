@@ -1,10 +1,6 @@
 <template>
   <v-hover #default="{ isHovering, props }">
-    <div
-      class="top-element mx-1"
-      style="display: block; position: relative"
-      v-bind="props"
-    >
+    <div class="top-element mx-1" style="display: block; position: relative" v-bind="props">
       <v-text-field
         :model-value="modelValue"
         :color="color"
@@ -26,19 +22,16 @@
         rounded="0"
         :bg-color="isFocused ? 'surface-variant' : 'panel'"
         @update:focused="isFocused = $event"
-        @update:model-value="$emit('update:model-value', $event)"
-      >
+        @update:model-value="$emit('update:model-value', $event)">
         <template #prepend>
           <div
             :class="`prepend bg-${color} ${isFocused && 'color-rotate'} `"
-            :style="`min-width: ${icon ? '30' : '16'}px`"
-          >
+            :style="`min-width: ${icon ? '30' : '16'}px`">
             <v-icon v-if="icon" :icon="icon" class="mt-1 ml-3 mr-2" />
             <div
               v-if="label"
               class="d-inline-block text-cc-overline ml-3"
-              style="line-height: 0; margin-top: 16px"
-            >
+              style="line-height: 0; margin-top: 16px">
               {{ label }}
               <cc-slashes class="ml-1 mr-2" />
             </div>
@@ -58,8 +51,7 @@
                 tile
                 flat
                 v-bind="props"
-                style="margin-left: -1px"
-              >
+                style="margin-left: -1px">
                 <v-icon :icon="optionsIcon || 'mdi-dots-vertical'" />
               </v-btn>
             </template>
@@ -74,8 +66,7 @@
               height: 100%;
               margin-left: 4px;
               z-index: 1;
-            "
-          />
+            " />
           <span v-if="$slots.extra" class="pl-4">
             <slot name="extra" />
           </span>
@@ -85,17 +76,13 @@
               <v-icon
                 v-bind="props"
                 class="fade-select mx-1"
-                :icon="tooltipIcon || 'mdi-information-slab-box-outline'"
-              />
+                :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
             </template>
             {{ tooltip }}
           </v-tooltip>
         </template>
         <template v-if="appendInnerIcon" #append-inner>
-          <v-icon
-            :icon="appendInnerIcon"
-            @click.stop="$emit('click-append-inner')"
-          />
+          <v-icon :icon="appendInnerIcon" @click.stop="$emit('click-append-inner')" />
         </template>
       </v-text-field>
       <v-slide-y-transition>
@@ -134,6 +121,10 @@ export default {
     autocomplete: { type: String },
     width: { type: String, default: '100%' },
     height: { type: String },
+    itemTitle: { type: String },
+    itemValue: { type: String },
+    hideDetails: { type: Boolean },
+    items: { type: Array, default: () => [] },
   },
   data: () => ({
     isFocused: false,

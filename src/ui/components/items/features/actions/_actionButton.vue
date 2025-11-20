@@ -30,14 +30,6 @@
         </v-card>
       </v-menu>
     </v-btn>
-    <cc-combat-dialog
-      v-if="pilot"
-      ref="dialog"
-      :no-action="noAction"
-      :action="action"
-      :mech="pilot.ActiveMech"
-      @use="$emit('use', $event)"
-      @undo="$emit('undo', $event)" />
   </div>
 </template>
 
@@ -50,6 +42,7 @@ import ActionBase from './_actionBase.vue';
 export default {
   name: 'action-button',
   components: { ActionBase },
+  emits: ['use', 'undo'],
   props: {
     action: {
       type: Object,
