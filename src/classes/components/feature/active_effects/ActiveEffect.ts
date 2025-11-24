@@ -39,7 +39,7 @@ class ActiveEffect {
   public readonly Frequency?: string;
   public readonly BonusDamage?: string;
 
-  public readonly Save?: EffectSave;
+  public readonly Save?: EffectSave[];
   public readonly AddResist?: EffectResist[];
   public readonly AddSpecial?: EffectSpecial[];
   public readonly RemoveSpecial?: string[];
@@ -71,7 +71,7 @@ class ActiveEffect {
     this.Frequency = data.frequency;
     this.BonusDamage = data.bonus_damage;
     if (data.save) {
-      this.Save = new EffectSave(data.save);
+      this.Save = [new EffectSave(data.save)];
     }
     if (data.add_resist) {
       if (!Array.isArray(data.add_resist)) data.add_resist = [data.add_resist];

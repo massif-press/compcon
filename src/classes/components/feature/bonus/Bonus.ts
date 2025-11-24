@@ -57,9 +57,12 @@ class Bonus {
     }
 
     if (this.Accuracy) {
-      const sign = Number(this.Accuracy) > 0 ? '+' : '-';
-      str = str.replace(/{VAL}/g, `${sign}${this.Accuracy} Accuracy`);
-      rep = this.Accuracy;
+      str = str.replace(/{INC_DEC}/g, '');
+      str = str.replace(
+        /by {VAL}/g,
+        `take ${Math.abs(this.Accuracy)} ${this.Accuracy > 0 ? 'Accuracy' : 'Difficulty'}`
+      );
+      return str;
     }
 
     if (this.Overwrite) str = str.replace(/{INC_DEC}/g, 'Sets').replace('by', 'to');
@@ -90,9 +93,14 @@ class Bonus {
 
   public get Icon(): string {
     if (this.Overwrite || this.Replace) return 'mdi-tooltip-edit-outline';
-    if (isNaN(this.Value as number)) return 'mdi-tooltip-check-outline';
-    if ((this.Value as number) > -1) return 'mdi-tooltip-plus-outline';
-    if ((this.Value as number) < 0) return 'mdi-tooltip-minus-outline';
+    if (!isNaN(Number(this.Value)) || !isNaN(Number(this.Accuracy))) {
+      if (this.Accuracy !== 0) {
+        if (this.Accuracy > 0) return 'mdi-tooltip-plus-outline';
+        return 'mdi-tooltip-minus-outline';
+      }
+      if (Number(this.Value) > 0) return 'mdi-tooltip-plus-outline';
+      return 'mdi-tooltip-minus-outline';
+    }
     return 'mdi-tooltip-check-outline';
   }
 

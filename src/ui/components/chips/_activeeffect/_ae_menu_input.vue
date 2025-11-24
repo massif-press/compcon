@@ -1,20 +1,28 @@
 <template>
   <div>
     <div class="text-right text-caption text-disabled mb-1">
-      <i v-if="activeEffect.Origin.Source">
+      <i v-if="activeEffect.Origin.Name">
         From {{ activeEffect.Origin.Name }}
-        <span>({{ activeEffect.Origin.Type }}, {{ activeEffect.Origin.Source }})</span>
-        - {{ activeEffect.Origin.LcpName }}
+        <span v-if="activeEffect.Origin.Source">
+          ({{ activeEffect.Origin.Type }}, {{ activeEffect.Origin.Source }})
+        </span>
+        <span v-else-if="activeEffect.Origin.Origin">
+          ({{ activeEffect.Origin.Origin.Name }},
+          {{ activeEffect.Origin.Origin.ItemType.replace(/([a-z])([A-Z])/g, '$1 $2') }})
+        </span>
+        <cc-lcp-info :item="activeEffect.Origin" />
       </i>
     </div>
-    <v-card v-if="activeEffect.Range.length" flat tile color="panel" class="px-2 mb-1">
-      <span v-for="r in activeEffect.Range" class="text-cc-overline text-text">{{ r }}</span>
-    </v-card>
+
     <cc-alert v-if="activeEffect.Condition" color="primary">
       <b class="text-accent">IF:&nbsp;</b>
       <b>{{ activeEffect.Condition }}</b>
     </cc-alert>
-    <div class="text-text pa-1" v-html-safe="byTier(activeEffect.Detail)" />
+    <cc-alert v-if="(activeEffect as any).Trigger" color="primary">
+      <b class="text-accent">Trigger:&nbsp;</b>
+      <b>{{ (activeEffect as any).Trigger }}</b>
+    </cc-alert>
+    <div class="text-text pa-1 mb-3" v-html-safe="byTier(activeEffect.Detail)" />
 
     <v-avatar v-if="activeEffect.Duration" color="background" class="mr-1">
       <v-tooltip location="top">
@@ -26,9 +34,12 @@
     </v-avatar>
 
     <v-card v-if="activeEffect.Save" flat tile color="panel" class="mb-1">
-      <div class="pa-2">
-        <save-input v-model="saveStat" :save="activeEffect.Save" :active-effect="activeEffect" />
-      </div>
+      <save-input
+        v-for="(s, index) in activeEffect.Save"
+        :ref="`saveInput_${index}`"
+        :save="s"
+        :owner="owner"
+        :targets="getTargetsSorted('enemy')" />
     </v-card>
 
     <v-card v-if="activeEffect.Damage.length" flat tile color="panel" class="mb-1">
@@ -38,15 +49,19 @@
         :key="index"
         :damage="d"
         :owner="owner"
+        :self="d.Target === 'self'"
         :targets="getTargetsSorted(d.Target || 'enemy')" />
     </v-card>
 
     <v-card v-if="activeEffect.AddStatus" flat tile color="panel" class="mb-1">
       <status-input
-        v-for="s in activeEffect.AddStatus"
-        ref="statusInput"
+        v-for="(s, index) in activeEffect.AddStatus"
+        :ref="`statusInput_${index}`"
+        :key="index"
         :status="s"
         :owner="owner"
+        :encounter="encounter"
+        :self="s.Target === 'self'"
         :targets="getTargetsSorted(s.Target || 'enemy')" />
     </v-card>
 
@@ -54,8 +69,10 @@
       <resist-input
         v-for="(r, index) in activeEffect.AddResist"
         :ref="`resistInput_${index}`"
+        :key="index"
         :resist="r"
         :owner="owner"
+        :self="r.Target === 'self'"
         :targets="getTargetsSorted(r.Target || 'enemy')" />
     </v-card>
 
@@ -63,74 +80,34 @@
       <special-input
         v-for="(s, index) in activeEffect.AddSpecial"
         :ref="`specialInput_${index}`"
+        :key="index"
         :status="s"
         :owner="owner"
+        :encounter="encounter"
+        :self="s.Target === 'self'"
         :targets="getTargetsSorted(s.Target || 'enemy')" />
     </v-card>
 
+    <v-card v-if="activeEffect.RemoveSpecial" flat tile color="panel" class="mb-1">
+      <remove-special-input
+        v-for="(s, index) in activeEffect.RemoveSpecial"
+        :ref="`removeSpecialInput_${index}`"
+        :key="index"
+        :status="s"
+        :owner="owner"
+        :encounter="encounter"
+        :targets="getTargetsSorted('enemy')" />
+    </v-card>
+
     <v-card v-if="activeEffect.AddOther" flat tile color="panel" class="mb-1">
-      <div class="pa-2" v-for="(o, idx) in activeEffect.AddOther">
-        <v-row v-if="o.Type === 'overshield'" dense align="center">
-          <v-col>
-            <div class="text-cc-overline text-disabled">Overshield</div>
-            <v-text-field
-              ref="addOvershield"
-              type="number"
-              density="compact"
-              hide-details
-              variant="outlined"
-              flat
-              tile />
-          </v-col>
-          <v-col>
-            <div class="text-cc-overline text-disabled">
-              <span v-if="o.AoE">Targets</span>
-              <span v-else>Target</span>
-            </div>
-            <v-select
-              :ref="`other_targets_${idx}`"
-              density="compact"
-              variant="outlined"
-              :multiple="!!o.AoE"
-              :items="getTargetsSorted(o.Target || 'enemy')"
-              flat
-              hide-details
-              tile />
-          </v-col>
-          <v-col cols="auto" class="mx-5">
-            <v-tooltip location="top">
-              <template #activator="{ props }">
-                <v-icon size="30" v-bind="props" :icon="getAoeIcon(o.AoE)" />
-              </template>
-              <div v-if="o.AoE">
-                Area of Effect
-                <span v-if="typeof o.AoE === 'string'">
-                  <cc-slashes />
-                  {{ o.AoE }}
-                </span>
-                <div>
-                  <i class="text-caption text-disabled">Click to Override</i>
-                </div>
-              </div>
-              <div v-else class="text-center">
-                Single Target
-                <div>
-                  <i class="text-caption text-disabled">Click to Override</i>
-                </div>
-              </div>
-            </v-tooltip>
-          </v-col>
-          <v-col cols="auto">
-            <cc-button color="primary" size="small">
-              Apply&nbsp;
-              <span>
-                X
-                <v-icon size="small" icon="cc:explosive" class="mt-n1 ml-n2" />
-              </span>
-            </cc-button>
-          </v-col>
-        </v-row>
-      </div>
+      <other-input
+        v-for="(o, index) in activeEffect.AddOther"
+        :ref="`otherInput_${index}`"
+        :key="index"
+        :effect="o"
+        :owner="owner"
+        :self="o.Target === 'self'"
+        :targets="getTargetsSorted(o.Target || 'enemy')" />
     </v-card>
 
     <div v-if="canOverride" class="text-right">
@@ -166,16 +143,25 @@
           v-if="!ready"
           size="small"
           stacked
-          color="primary"
+          :color="(activeEffect as any).Color || 'primary'"
           :disabled="!canApply"
           @click="stage()">
-          <div class="px-6">
-            {{ canOverride ? 'Apply All' : 'Confirm' }}
-            <div
-              v-if="activeEffect.Frequency"
-              class="text-disabled mt-1"
-              style="letter-spacing: 1px">
-              {{ activeEffect.Frequency }}
+          <div class="px-4">
+            <v-icon
+              v-if="(activeEffect as any).Icon"
+              :icon="(activeEffect as any).Icon"
+              class="mt-n1"
+              start />
+            <span v-if="activation">Activate</span>
+            <span v-else>{{ canOverride ? 'Apply All' : 'Confirm' }}</span>
+            <div class="text-disabled">
+              <span v-if="activation" style="letter-spacing: 1px">
+                {{ (activeEffect as any).Activation }}
+              </span>
+              <span v-if="(activeEffect as any).Activation && activeEffect.Frequency">•</span>
+              <span v-if="activeEffect.Frequency" style="letter-spacing: 1px">
+                {{ frequencyText }}
+              </span>
             </div>
           </div>
         </cc-button>
@@ -184,16 +170,24 @@
           v-else
           size="small"
           stacked
-          color="primary"
+          :color="(activeEffect as any).Color || 'primary'"
           :disabled="!canApply"
           @click="apply(close)">
-          <div class="px-6">
+          <div class="px-4">
+            <v-icon
+              v-if="(activeEffect as any).Icon"
+              :icon="(activeEffect as any).Icon"
+              class="mt-n1"
+              start />
             Confirm
-            <div
-              v-if="activeEffect.Frequency"
-              class="text-disabled mt-1"
-              style="letter-spacing: 1px">
-              {{ activeEffect.Frequency }}
+            <div class="text-disabled">
+              <span v-if="activation" style="letter-spacing: 1px">
+                {{ (activeEffect as any).Activation }}
+              </span>
+              <span v-if="(activeEffect as any).Activation && activeEffect.Frequency">•</span>
+              <span v-if="activeEffect.Frequency" style="letter-spacing: 1px">
+                {{ frequencyText }}
+              </span>
             </div>
           </div>
         </cc-button>
@@ -210,8 +204,9 @@
         flat
         tile
         color="panel"
-        @click="reapply(close)">
-        Reapply Effect
+        width="202px"
+        @click="override()">
+        Override
         <template #append>
           <v-tooltip location="top" max-width="300px">
             <template #activator="{ props }">
@@ -220,7 +215,7 @@
             <div class="text-center">
               <div><b class="text-text">Override</b></div>
               <v-divider />
-              Re-apply this effect, ignoring any conditions or usage restrictions.
+              Reset this effect or action, ignoring any conditions or usage restrictions.
             </div>
           </v-tooltip>
         </template>
@@ -239,6 +234,8 @@ import SaveInput from './ae_save_input.vue';
 import StatusInput from './ae_status_input.vue';
 import ResistInput from './ae_resist_input.vue';
 import SpecialInput from './ae_special_input.vue';
+import RemoveSpecial from './ae_remove_special_input.vue';
+import OtherInput from './ae_other_input.vue';
 
 export default {
   name: 'ae-menu-input',
@@ -248,24 +245,20 @@ export default {
     StatusInput,
     ResistInput,
     SpecialInput,
+    RemoveSpecial,
+    OtherInput,
   },
   props: {
     activeEffect: { type: ActiveEffect, required: true },
-    tier: { type: Number, required: false, default: 1 },
     encounter: { type: Object, required: true },
     owner: { type: Object, required: true },
     close: { type: Function, required: true },
   },
   data: () => ({
-    saveStat: 'hull' as string,
     summaries: [] as Array<string>,
     ready: false,
   }),
-  mounted() {
-    if (this.activeEffect.Save && this.activeEffect.Save.Stat) {
-      this.saveStat = this.activeEffect.Save.Stat;
-    }
-  },
+  emits: ['apply', 'reset'],
   computed: {
     lightColor() {
       return this.activeEffect.Origin.Color || 'orange';
@@ -275,10 +268,10 @@ export default {
     },
     isPassive() {
       return (
-        !this.activeEffect.AddOther &&
-        !this.activeEffect.AddResist &&
-        !this.activeEffect.AddStatus &&
-        !this.activeEffect.AddResist &&
+        !this.activeEffect.AddOther?.length &&
+        !this.activeEffect.AddResist?.length &&
+        !this.activeEffect.AddStatus?.length &&
+        !this.activeEffect.AddSpecial?.length &&
         !this.activeEffect.Damage.length &&
         !this.activeEffect.Save &&
         !this.activeEffect.Frequency
@@ -286,12 +279,11 @@ export default {
     },
     canOverride() {
       return (
-        this.activeEffect.AddOther ||
-        this.activeEffect.AddResist ||
-        this.activeEffect.AddStatus ||
-        this.activeEffect.AddResist ||
-        this.activeEffect.Damage.length > 0 ||
-        this.activeEffect.Save
+        this.activeEffect.AddOther?.length ||
+        this.activeEffect.AddResist?.length ||
+        this.activeEffect.AddStatus?.length ||
+        this.activeEffect.AddSpecial?.length ||
+        this.activeEffect.Damage.length > 0
       );
     },
     hasAction() {
@@ -299,7 +291,7 @@ export default {
         this.activeEffect.AddOther ||
         this.activeEffect.AddResist ||
         this.activeEffect.AddStatus ||
-        this.activeEffect.AddResist ||
+        this.activeEffect.AddSpecial ||
         this.activeEffect.Damage.length ||
         this.activeEffect.Save
       );
@@ -311,30 +303,50 @@ export default {
       // }
       return !this.activeEffect.Applied;
     },
+    activation(): boolean {
+      return (this.activeEffect as any).Activation != null;
+    },
+    frequencyText(): string {
+      if (this.activeEffect.Frequency) {
+        if (
+          typeof this.activeEffect.Frequency === 'object' &&
+          (this.activeEffect.Frequency as any).FreqText
+        ) {
+          return (this.activeEffect.Frequency as any).FreqText;
+        } else if (typeof this.activeEffect.Frequency === 'string') {
+          return this.activeEffect.Frequency;
+        }
+      }
+      return '';
+    },
   },
   methods: {
     byTier(detail: string) {
-      return ByTier(detail, this.tier);
+      return ByTier(detail, this.owner.CombatController.Tier);
     },
     getTargetsSorted(target: string): Array<object> {
       let out = [] as Array<CombatantData>;
       const self = this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.ID === this.owner.ID
+        (c: CombatantData) =>
+          c.actor.CombatController.ActiveActor.ID === this.owner.CombatController.ActiveActor.ID
       );
-      if (!self) return out;
 
-      if (target === 'self')
-        out = [self].concat(
-          this.encounter.Combatants.filter((c: CombatantData) => c.id !== this.owner.id).sort(
-            (a: CombatantData, b: CombatantData) =>
-              a.actor.CombatController.Name.localeCompare(b.actor.CombatController.Name)
-          )
-        );
+      if (!self) return out;
 
       if (self.side === 'enemy' && target === 'enemy') target = 'ally';
       else if (self.side === 'enemy' && target === 'ally') target = 'enemy';
 
-      out = this.encounter.Combatants.sort((a: CombatantData, b: CombatantData) => {
+      out = [...this.encounter.Combatants].sort((a: CombatantData, b: CombatantData) => {
+        if (target === 'self') {
+          if (
+            a.actor.CombatController.ActiveActor.ID === this.owner.CombatController.ActiveActor.ID
+          )
+            return -1;
+          if (
+            b.actor.CombatController.ActiveActor.ID === this.owner.CombatController.ActiveActor.ID
+          )
+            return 1;
+        }
         if (a.side === target && b.side !== target) {
           return -1;
         } else if (a.side !== target && b.side === target) {
@@ -347,7 +359,7 @@ export default {
     },
 
     initialDamage(damage: Damage): number {
-      const n = Number(damage.TieredDamage(this.tier));
+      const n = Number(damage.TieredDamage(this.owner.CombatController.Tier));
       if (!isNaN(n)) {
         return n;
       } else {
@@ -355,7 +367,7 @@ export default {
       }
     },
     initialPlaceholder(damage: Damage): string {
-      const val = damage.TieredDamage(this.tier);
+      const val = damage.TieredDamage(this.owner.CombatController.Tier);
       if (isNaN(Number(val))) {
         return val;
       } else {
@@ -406,6 +418,10 @@ export default {
 
       const componentConfigs = [
         {
+          items: this.activeEffect.Save,
+          refPrefix: 'saveInput',
+        },
+        {
           items: this.activeEffect.Damage,
           refPrefix: 'damageInput',
         },
@@ -420,6 +436,14 @@ export default {
         {
           items: this.activeEffect.AddSpecial,
           refPrefix: 'specialInput',
+        },
+        {
+          items: this.activeEffect.RemoveSpecial,
+          refPrefix: 'removeSpecialInput',
+        },
+        {
+          items: this.activeEffect.AddOther,
+          refPrefix: 'otherInput',
         },
       ];
 
@@ -437,40 +461,52 @@ export default {
         }
       }
 
+      // disable save lock to prevent blocking effects after application
+      this.encounter.Combatants.forEach((t) => {
+        if (t && t.actor && t.actor.CombatController) {
+          t.actor.CombatController.SaveLock = false;
+        }
+      });
+
       return collectResults ? results : null;
     },
 
     getSummaries() {
-      const summaries = this.iterateAE('getSummary', true) || [];
+      let summaries = this.iterateAE('getSummary', true) || [];
+      this.owner.CombatController.RegisterEvent(summaries, this.activeEffect, this.encounter);
+      if (summaries.length === 0 || summaries.every((s) => s.trim() === '')) {
+        summaries = ['No valid targets selected. Confirm to register use.'];
+      }
       this.summaries = summaries;
     },
 
-    applyAll() {
-      this.iterateAE('apply');
-    },
-
     reset() {
+      this.activeEffect.Applied = false;
       this.iterateAE('reset');
       this.summaries = [];
       this.ready = false;
+      this.$emit('reset');
     },
     stage() {
       if (!this.canApply) return;
-      this.getSummaries();
-      if (!this.canOverride) {
-      }
       this.ready = true;
+      if (this.canOverride) {
+        this.getSummaries();
+      }
     },
     apply(close: Function) {
       if (!this.canApply || !this.ready) return;
-      this.applyAll();
-      this.activeEffect.Applied = true;
+      this.iterateAE('apply');
 
+      this.activeEffect.Applied = true;
+      this.$emit('apply');
       close();
     },
-    reapply(close: Function) {
-      // TODO
-      close();
+    override() {
+      this.activeEffect.Applied = false;
+      this.iterateAE('reset');
+      this.summaries = [];
+      this.ready = false;
     },
   },
 };

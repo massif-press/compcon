@@ -1,6 +1,9 @@
 <template>
   <v-card
-    :style="[closed && 'display:none', `border-inline-start-color: ${color}!important`]"
+    :style="[
+      closed && 'display:none',
+      `border-inline-start-color: ${borderColor || color}!important`,
+    ]"
     class="parent cc-panel-clip border-s-xl"
     :color="color"
     flat
@@ -62,6 +65,10 @@ export default {
       default: '',
     },
     density: {
+      type: String,
+      default: '',
+    },
+    borderColor: {
       type: String,
       default: '',
     },

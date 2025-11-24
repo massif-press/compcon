@@ -80,6 +80,20 @@ class Range {
     return `${this._range_type} ${this.Value}`;
   }
 
+  public get IsRollable(): boolean {
+    if (Array.isArray(this._value))
+      return this._value.some((v) => typeof v === 'string' && v.includes('d'));
+    return typeof this._value === 'string' && this._value.includes('d');
+  }
+
+  public TieredRange(tier: number): string {
+    if (this.Override) return this.Value;
+    if (Array.isArray(this._value)) {
+      if (tier - 1 < this._value.length) return this._value[tier - 1].toString();
+      else return this._value[this._value.length - 1].toString();
+    } else return this.Value;
+  }
+
   public static CalculateRange(item: MechWeapon, mech: Mech, addedRange?: Range[]): Range[] {
     if (!item || !mech) return [];
     if (item.NoBonuses) return item.Range;

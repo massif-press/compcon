@@ -8,6 +8,8 @@
       variant="outlined"
       class="mb-1"
       type="number"
+      max-width="150"
+      hide-spin-buttons
       flat
       :disabled="!selectedTargets[idx]"
       hide-details

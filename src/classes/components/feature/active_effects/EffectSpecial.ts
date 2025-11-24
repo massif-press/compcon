@@ -27,6 +27,28 @@ class EffectSpecial {
     this.Target = data.target || 'any';
     if (data.save) this.Save = new EffectSave(data.save);
   }
+
+  public static Serialize(effect: EffectSpecial): IEffectSpecialData {
+    return {
+      attribute: effect.Attribute,
+      detail: effect.Detail,
+      aoe: effect.AoE,
+      duration: effect.Duration,
+      target: effect.Target,
+      save: effect.Save ? EffectSave.Serialize(effect.Save) : undefined,
+    };
+  }
+
+  public static Deserialize(data: IEffectSpecialData): EffectSpecial {
+    return new EffectSpecial({
+      attribute: data.attribute,
+      detail: data.detail,
+      aoe: data.aoe,
+      duration: data.duration,
+      target: data.target,
+      save: data.save,
+    });
+  }
 }
 
 export { EffectSpecial };

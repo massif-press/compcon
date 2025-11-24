@@ -71,7 +71,8 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       this.Frame,
       this.MechLoadoutController,
       this.Parent.CoreBonusController,
-      this.Parent.ReservesController
+      this.Parent.ReservesController,
+      this.Parent.TalentsController
     );
 
     this.MechLoadoutController.UpdateLoadouts();

@@ -29,17 +29,21 @@ class Damage {
   public AP: boolean = false;
   public Target: string = 'enemy';
 
-  private _raw_value: string | number;
+  public _raw_value: string | number;
 
   public constructor(damage: IDamageData) {
     this.Type = this.getDamageType(damage.type);
-    if (typeof damage.val === 'number') {
+    this._raw_value = damage.val;
+
+    if (Array.isArray(damage.val)) {
+      this.Value = damage.val.map((v) => (typeof v === 'number' ? v.toString() : v)).join(' / ');
+    } else if (typeof damage.val === 'number') {
       if (!damage.bonus) this.Value = damage.val.toString();
       else if (typeof damage.bonus === 'number')
         this.Value = (damage.val + damage.bonus).toString();
       else this.Value = `${damage.val} + ${damage.bonus}`;
     } else {
-      const str = FeatureController.RenderSpecialString(damage.val);
+      const str = FeatureController.RenderSpecialString(String(damage.val));
       if (damage.bonus) this.Value = str + damage.bonus ? ` + ${damage.bonus.toString()}` : '';
       else this.Value = str;
     }
@@ -49,7 +53,6 @@ class Damage {
         : damage.bonus
       : '';
     this.Override = damage.override || false;
-    this._raw_value = damage.val;
 
     if (damage.aoe) this.AoE = damage.aoe;
     if (damage.ap) this.AP = damage.ap;
@@ -59,9 +62,16 @@ class Damage {
   }
 
   public setDamageAttributes(obj: any) {
+    if (!obj.Range) return;
     const nonAoeTypes = [RangeType.Range, RangeType.Threat, RangeType.Thrown];
-    if (!this.AoE && obj.Range)
-      this.AoE = (obj.Range as Range[]).some((r) => nonAoeTypes.includes(r.Type)) ? false : true;
+    if (!this.AoE) {
+      if (obj.RangeData)
+        this.AoE = (obj.RangeData as Range[]).some((r) => nonAoeTypes.includes(r.Type))
+          ? false
+          : true;
+      else
+        this.AoE = (obj.Range as Range[]).some((r) => nonAoeTypes.includes(r.Type)) ? false : true;
+    }
     if (!this.AP && obj.Tags) this.AP = (obj.Tags as Tag[]).some((t) => t.ID === 'tg_ap');
   }
 
@@ -95,7 +105,6 @@ class Damage {
     } else return this.Value;
   }
 
-  //TODO: replace with dicemath
   public get Max(): number {
     if (typeof this._raw_value === 'number') return this._raw_value;
     else {

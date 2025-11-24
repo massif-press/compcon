@@ -104,20 +104,32 @@ class FeatureController {
     return Math.ceil(eval(vStr));
   }
 
+  private get isCoreActive(): boolean {
+    return (this.Parent as any).CombatController?.CoreActive || false;
+  }
+
   public get Bonuses(): Bonus[] {
-    return this.collectAll('Bonuses');
+    return this.collectAll('Bonuses')
+      .concat(this.collectAll('PassiveBonuses'))
+      .concat(this.isCoreActive ? this.collectAll('ActiveBonuses') : []) as Bonus[];
   }
 
   public get Synergies(): Synergy[] {
-    return this.collectAll('Synergies');
+    return this.collectAll('Synergies').concat(
+      this.isCoreActive ? this.collectAll('ActiveSynergies') : []
+    ) as Synergy[];
   }
 
   public get Actions(): Action[] {
-    return this.collectAll('Actions');
+    return this.collectAll('Actions').concat(
+      this.isCoreActive ? this.collectAll('ActiveActions') : []
+    ) as Action[];
   }
 
   public get ActiveEffects(): ActiveEffect[] {
-    return this.collectAll('ActiveEffects');
+    return this.collectAll('ActiveEffects')
+      .concat(this.collectAll('PassiveEffects'))
+      .concat(this.isCoreActive ? this.collectAll('CoreActiveEffects') : []) as ActiveEffect[];
   }
 
   public get Deployables(): IDeployableData[] {

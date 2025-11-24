@@ -1,7 +1,10 @@
 <template>
-  <div class="text-cc-overline text-disabled mt-2">ACTIVE EFFECTS</div>
   <v-row dense>
     <v-col cols="auto">
+      <div class="text-cc-overline text-disabled mt-2">ACTIVE EFFECTS</div>
+    </v-col>
+    <!-- <v-spacer /> -->
+    <!-- <v-col cols="auto">
       <v-btn-group flat tile density="compact" style="max-height: 24px !important">
         <v-tooltip location="top" text="Sort by duration">
           <template #activator="{ props }">
@@ -90,26 +93,22 @@
           </template>
         </v-tooltip>
       </v-btn-toggle>
-    </v-col>
+    </v-col> -->
 
     <v-col cols="auto">
       <v-btn-group flat tile density="compact" style="max-height: 24px !important">
         <v-tooltip location="top" text="Clean up expired effects">
           <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" color="panel" height="24">
-              <v-icon size="18" icon="mdi-recycle" />
+            <v-btn v-bind="props" size="small" icon>
+              <v-icon size="16" icon="mdi-recycle" />
             </v-btn>
           </template>
         </v-tooltip>
+        &emsp;
         <v-tooltip location="top" :text="`${hideUsed ? 'Hiding' : 'Showing'} used/expired effects`">
           <template #activator="{ props }">
-            <v-btn
-              v-bind="props"
-              size="small"
-              :color="hideUsed ? 'primary' : 'panel'"
-              height="24"
-              @click="hideUsed = !hideUsed">
-              <v-icon size="18" icon="mdi-eye-off" />
+            <v-btn v-bind="props" size="small" icon @click="hideUsed = !hideUsed">
+              <v-icon :color="hideUsed ? 'primary' : ''" size="18" icon="mdi-eye-off" />
             </v-btn>
           </template>
         </v-tooltip>

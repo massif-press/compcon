@@ -1,3 +1,5 @@
+import { EffectSave } from './EffectSave';
+
 enum OtherCombatEffect {
   Overshield = 'overshield',
   Cover = 'cover',
@@ -10,6 +12,7 @@ enum OtherCombatEffect {
 
 interface IEffectOtherData {
   type: OtherCombatEffect;
+  val: number | string;
   save?: string | { stat: string; aoe?: boolean };
   aoe?: boolean;
   duration?: string;
@@ -18,6 +21,7 @@ interface IEffectOtherData {
 
 class EffectOther {
   public readonly Type: OtherCombatEffect;
+  public readonly Value: number | string;
   public readonly AoE: boolean;
   public readonly Duration: string;
   public readonly Target: 'self' | 'ally' | 'enemy' | 'any';
@@ -25,6 +29,7 @@ class EffectOther {
 
   public constructor(data: IEffectOtherData) {
     this.Type = data.type;
+    this.Value = data.val;
     this.AoE = data.aoe || false;
     this.Duration = data.duration || 'End of Encounter';
     this.Target = data.target || 'any';

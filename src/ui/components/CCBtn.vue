@@ -7,7 +7,7 @@
         v-bind="$props"
         style="visibility: visible"
         :style="`visibility: visible; background-color: ${bgColor} !important`"
-        @click.stop="$emit('click')">
+        @click.stop="$emit('click', $event)">
         <span :class="!xLarge ? '' : 'heading h3 align'" style="display: contents">
           <slot></slot>
         </span>

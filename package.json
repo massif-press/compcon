@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@kyvg/vue3-notification": "3.4.1",
-    "@massif/lancer-data": "^4.0.0-beta.10",
+    "@massif/lancer-data": "^4.0.0-beta.12",
     "@mdi/font": "7.4.47",
     "@vueup/vue-quill": "^1.2.0",
     "@yeger/vue-masonry-wall": "^5.0.18",
@@ -38,7 +38,7 @@
     "vue-chartjs": "5.3.2",
     "vue-html-secure": "1.0.10",
     "vue-router": "4.5.0",
-    "vuetify": "3.8.1"
+    "vuetify": "^3.10.11"
   },
   "devDependencies": {
     "@types/lodash": "4.17.16",

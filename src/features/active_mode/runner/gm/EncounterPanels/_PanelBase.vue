@@ -70,6 +70,7 @@
                 </span>
               </template>
             </v-tooltip>
+            <cc-bonus v-if="getBonus(stat.key)" :bonus="getBonus(stat.key)" icon />
           </v-col>
           <v-col cols="1" />
           <v-col
@@ -89,6 +90,7 @@
                 </span>
               </template>
             </v-tooltip>
+            <cc-bonus v-if="getBonus(stat.key)" :bonus="getBonus(stat.key)" icon />
           </v-col>
         </v-row>
 
@@ -101,23 +103,29 @@
           v-if="!hidePalette"
           align="center"
           dense
-          class="border-sm mt-4 mb-2"
+          class="border-sm my-2"
           justify="space-evenly">
           <v-col>
             <slot name="action-palette" />
           </v-col>
 
           <v-col cols="auto" class="ml-auto" align-self="center">
-            <v-btn-toggle
-              v-model="item.CombatController.Cover"
-              flat
-              tile
-              direction="vertical"
-              color="primary"
-              density="compact">
-              <v-btn size="small" value="none">No Cover</v-btn>
-              <v-btn size="small" value="soft">Soft Cover</v-btn>
-              <v-btn size="small" value="hard">Hard Cover</v-btn>
+            <v-btn-toggle v-model="item.CombatController.Cover" flat tile color="primary">
+              <v-btn size="small" stacked value="none">
+                No
+                <br />
+                Cover
+              </v-btn>
+              <v-btn size="small" stacked value="soft">
+                Soft
+                <br />
+                Cover
+              </v-btn>
+              <v-btn size="small" stacked value="hard">
+                Hard
+                <br />
+                Cover
+              </v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -201,13 +209,32 @@
                 :ticks="item.StatController.MaxStats['repairCapacity']" />
             </v-col>
             <v-col cols="auto" v-if="item.ItemType === 'mech'">
-              <stat-mini-panel
-                v-model="item.CombatController.CorePower"
-                title="core"
-                :icon="currentIcon"
-                :color="item.CombatController.CorePower ? 'core' : 'grey'"
-                @click="drainBattery"
-                boolean />
+              <v-menu>
+                <template #activator="{ props }">
+                  <stat-mini-panel
+                    v-model="item.CombatController.CorePower"
+                    title="core"
+                    :icon="currentIcon"
+                    :color="item.CombatController.CorePower ? 'core' : 'grey'"
+                    @click.stop="props.onClick($event)"
+                    boolean />
+                </template>
+                <v-card flat tile class="pt-4 text-cc-overline text-center" border="sm">
+                  <div v-if="item.CombatController.CorePower">Clear this mech's</div>
+                  <div v-else>Restore this mech's</div>
+                  core power?
+                  <template #actions>
+                    <cc-button
+                      block
+                      :color="item.CombatController.CorePower ? 'error' : 'core'"
+                      size="x-small"
+                      :prepend-icon="currentIcon"
+                      @click="drainBattery">
+                      Confirm {{ item.CombatController.CorePower ? 'Clear' : 'Restore' }} Core
+                    </cc-button>
+                  </template>
+                </v-card>
+              </v-menu>
             </v-col>
           </v-row>
         </div>
@@ -279,8 +306,6 @@
       </v-col>
     </v-row>
 
-    <special-status-display :controller="item.CombatController" />
-
     <slot name="pre" />
 
     <div class="text-cc-overline mt-4 text-disabled">COUNTERS</div>
@@ -296,7 +321,6 @@ import { CompendiumStore } from '@/stores';
 import StatMiniPanel from './_components/StatMiniPanel.vue';
 import DamageConditionSelector from './_components/DamageConditionSelector.vue';
 import CombatActionPanel from './_components/CombatActionPanel.vue';
-import SpecialStatusDisplay from './_components/SpecialStatusDisplay.vue';
 import StatusConditionSelector from './_components/StatusConditionSelector.vue';
 import DamageMenu from './_components/DamageMenu.vue';
 import { Rules } from '@/class';
@@ -309,7 +333,6 @@ export default {
     StatMiniPanel,
     DamageConditionSelector,
     CombatActionPanel,
-    SpecialStatusDisplay,
     StatusConditionSelector,
     DamageMenu,
     CustomStatEditor,
@@ -393,7 +416,6 @@ export default {
     },
 
     drainBattery() {
-      console.log(this.item.CombatController.CorePower);
       if (this.index > 0) {
         this.item.CombatController.CorePower = false;
         const interval = setInterval(() => {
@@ -404,6 +426,13 @@ export default {
         this.item.CombatController.CorePower = true;
         this.index = 3;
       }
+    },
+
+    getBonus(statKey) {
+      if (statKey === 'agi') statKey = 'agility';
+      if (statKey === 'sys') statKey = 'systems';
+      if (statKey === 'eng') statKey = 'engineering';
+      return this.item.CombatController.Bonuses.find((b) => b.ID === statKey);
     },
   },
 };

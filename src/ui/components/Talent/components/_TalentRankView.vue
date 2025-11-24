@@ -8,6 +8,7 @@
         <talent-rank-contents :talent-rank="talent.Rank(n)" hide-actions />
       </v-col>
     </v-row>
+    <slot name="combat" />
   </cc-panel>
 </template>
 

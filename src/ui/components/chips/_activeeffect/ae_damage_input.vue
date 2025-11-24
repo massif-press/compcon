@@ -43,6 +43,7 @@ import BaseTargetSelector from './_shared/BaseTargetSelector.vue';
 import BaseSaveRoller from './_shared/BaseSaveRoller.vue';
 import DamageTypeSelector from './_shared/DamageTypeSelector.vue';
 import SaveHalfToggle from './_shared/SaveHalfToggle.vue';
+import { DiceRoller } from '@/classes/dice/DiceRoller';
 
 export default {
   name: 'ae-damage-input',
@@ -56,13 +57,14 @@ export default {
     targets: { type: Array, default: () => [] },
     damage: { type: Object, required: true },
     owner: { type: Object, required: true },
+    self: { type: Boolean },
   },
   data: () => ({
     selectedTargets: [],
     targetSaves: [],
     aoe: null,
     selectedDamageType: 'kinetic',
-    selectedDamageValue: 0,
+    selectedDamageValue: null,
     damagePlaceholder: '',
   }),
   mounted() {
@@ -80,6 +82,7 @@ export default {
   methods: {
     reset() {
       this.selectedTargets = [null];
+      if (this.self) this.selectedTargets = [this.targets[0]];
       this.targetSaves = [null];
       this.aoe = this.damage.AoE || false;
       this.selectedDamageType = this.damage.Type || 'kinetic';
@@ -115,12 +118,12 @@ export default {
       this.targetSaves.splice(idx, 1);
     },
     rollDamage() {
-      // Implement damage rolling logic here
-      console.log('Rolling damage:', this.damagePlaceholder);
+      this.selectedDamageValue = DiceRoller.roll(this.damage.Value);
     },
     getSummary() {
       let out = [];
       this.selectedTargets.forEach((t, idx) => {
+        if (!t || !t.actor || !t.actor.CombatController) return;
         let part = `Deal ${this.selectedDamageValue} ${
           this.selectedDamageType
         } damage to ${t.actor.CombatController.Name}`;
@@ -130,6 +133,9 @@ export default {
             if (this.targetSaves[idx] >= this.owner.CombatController.SaveTarget) {
               part += ` [SAVED]`;
               if (this.damage.SaveHalf) part += ' (half damage)';
+              else {
+                part = part.replace('Deal', 'Failed to deal');
+              }
             } else {
               part += ` [FAILED SAVE]`;
             }
@@ -137,10 +143,12 @@ export default {
         }
         out.push(part);
       });
+      if (out.length === 0) return '';
       return out.join('; ');
     },
     apply() {
       this.selectedTargets.forEach((t, idx) => {
+        if (!t || !t.actor || !t.actor.CombatController) return;
         if (this.targetSaves[idx] != null && this.damage.Save) {
           if (this.targetSaves[idx] >= this.owner.CombatController.SaveTarget) return;
         }

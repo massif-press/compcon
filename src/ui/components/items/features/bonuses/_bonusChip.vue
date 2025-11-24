@@ -1,7 +1,18 @@
 <template>
   <v-menu open-on-hover>
     <template #activator="{ props }">
+      <v-avatar
+        v-if="icon"
+        v-bind="props"
+        size="18"
+        color="exotic"
+        class="mx-1"
+        flat
+        style="corner-shape: bevel; border-radius: 0; border-bottom-right-radius: 4px">
+        <v-icon size="15" :icon="bonus.Icon" />
+      </v-avatar>
       <cc-chip
+        v-else
         v-bind="props"
         size="small"
         color="exotic"
@@ -39,9 +50,9 @@ export default {
       type: Object,
       required: true,
     },
-    tier: {
-      type: Number,
-      required: false,
+    icon: {
+      type: Boolean,
+      default: false,
     },
   },
 };

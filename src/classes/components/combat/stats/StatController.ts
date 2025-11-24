@@ -57,7 +57,7 @@ class StatController {
   }
 
   public get DisplayKeys(): { key: string; title: string; type: string }[] {
-    return Object.keys(this._maxStats)
+    return Object.keys(this._currentStats)
       .filter((x) => x.toLowerCase() !== 'sizes')
       .map((key) => ({
         key,

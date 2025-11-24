@@ -29,7 +29,7 @@ interface ICoreData {
   active_deployables?: IDeployableData[];
   active_counters?: ICounterData[];
   passive_name?: string;
-  passive_active_effects?: IActiveEffectData[];
+  passive_effects?: IActiveEffectData[];
   passive_effect?: string;
   passive_actions?: IActionData[];
   passive_bonuses?: IBonusData[];
@@ -48,7 +48,7 @@ class CoreSystem {
   public readonly ActivateAction: Action;
   public readonly ActiveName: string;
   public readonly ActiveEffect: string;
-  public readonly ActiveEffects: ActiveEffect[];
+  public readonly CoreActiveEffects: ActiveEffect[];
   public readonly ActiveActions: Action[];
   public readonly ActiveBonuses: Bonus[];
   public readonly ActiveSynergies: Synergy[];
@@ -59,6 +59,7 @@ class CoreSystem {
   public readonly Duration: Duration;
   public readonly PassiveName: string;
   public readonly PassiveEffect: string;
+  public readonly PassiveEffects: ActiveEffect[];
   public readonly PassiveActions: Action[];
   public readonly PassiveBonuses: Bonus[];
   public readonly PassiveSynergies: Synergy[];
@@ -79,7 +80,7 @@ class CoreSystem {
     this.ActiveName = data.active_name;
     this.ActiveEffect = data.active_effect;
     this.Activation = data.activation;
-    this.ActiveEffects = data.active_effects
+    this.CoreActiveEffects = data.active_effects
       ? data.active_effects.map((x) => new ActiveEffect(x, this))
       : [];
     this.ActiveActions = data.active_actions ? data.active_actions.map((x) => new Action(x)) : [];
@@ -97,6 +98,9 @@ class CoreSystem {
     this.Duration = data.use ? (data.use as Duration) : Duration.Mission;
     this.PassiveName = data.passive_name || '';
     this.PassiveEffect = data.passive_effect || '';
+    this.PassiveEffects = data.passive_effects
+      ? data.passive_effects.map((x) => new ActiveEffect(x, this))
+      : [];
     this.PassiveActions = data.passive_actions
       ? data.passive_actions.map((x) => new Action(x))
       : [];

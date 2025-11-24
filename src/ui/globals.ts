@@ -103,7 +103,6 @@ import CCSplitChip from './components/CCSplitChip.vue';
 import CCTitledDivider from './components/CCTitledDivider.vue';
 import CCTieredAttribute from './components/CCTieredAttribute.vue';
 import CCBonus from './components/items/features/bonuses/CCBonus.vue';
-import CCBonusIcon from './components/items/features/bonuses/CCBonusIcon.vue';
 import CCNarrativeItemContent from './components/CCNarrativeItemContent.vue';
 import CCSitrepDisplay from './components/CCSitrepDisplay.vue';
 import CCEnvironmentDisplay from './components/CCEnvironmentDisplay.vue';
@@ -215,7 +214,6 @@ export {
   CCTitledDivider,
   CCTieredAttribute,
   CCBonus,
-  CCBonusIcon,
   CCNarrativeItemContent,
   CCSitrepDisplay,
   CCEnvironmentDisplay,

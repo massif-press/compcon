@@ -57,6 +57,7 @@ class Stats {
     agi: 'mdi-alpha-a-box-outline',
     sys: 'mdi-alpha-s-box-outline',
     eng: 'mdi-alpha-e-box-outline',
+    overshield: 'mdi-hexagon-multiple-outline',
   };
 
   public static SortMap = {
@@ -64,6 +65,7 @@ class Stats {
     size: 2,
     structure: 4,
     hp: 5,
+    overshield: 6,
     armor: 6,
     stress: 7,
     heat: 8,

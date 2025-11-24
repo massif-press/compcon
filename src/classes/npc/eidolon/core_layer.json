@@ -34,7 +34,7 @@
       "damage": [
         {
           "type": "Energy",
-          "damage": [15, 20, 25]
+          "val": [15, 20, 25]
         }
       ],
       "range": [
