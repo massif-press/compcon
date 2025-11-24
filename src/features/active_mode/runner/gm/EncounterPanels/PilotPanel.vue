@@ -120,8 +120,6 @@
       </v-col>
     </v-row>
 
-    <special-status-display :controller="pilot.CombatController" />
-
     <div class="text-cc-overline mt-4 text-disabled">COUNTERS</div>
     <cc-counter-set :actor="pilot" />
 
@@ -136,7 +134,6 @@ import { CompendiumStore } from '@/stores';
 import StatMiniPanel from './_components/StatMiniPanel.vue';
 import CombatActionPanel from './_components/CombatActionPanel.vue';
 import DamageConditionSelector from './_components/DamageConditionSelector.vue';
-import SpecialStatusDisplay from './_components/SpecialStatusDisplay.vue';
 import StatusConditionSelector from './_components/StatusConditionSelector.vue';
 import DamageMenu from './_components/DamageMenu.vue';
 
@@ -146,9 +143,7 @@ export default {
     StatMiniPanel,
     CombatActionPanel,
     DamageConditionSelector,
-    SpecialStatusDisplay,
     StatusConditionSelector,
-    SpecialStatusDisplay,
     DamageConditionSelector,
     DamageMenu,
   },

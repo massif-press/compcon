@@ -9,7 +9,7 @@
           flat
           tile
           variant="outlined"
-          @click.stop="$emit('click')"
+          @click.stop="$emit('click', $event)"
           :style="`border-color: ${selected ? 'rgb(var(--v-theme-accent))' : isHovering ? 'rgb(var(--v-theme-primary))' : 'rgb(var(--v-theme-panel))'};`">
           <v-row
             justify="space-between"
@@ -67,24 +67,36 @@
               <slot />
 
               <div style="font-size: 16px" v-if="!destroyed && !reinforcementTurn">
-                <v-row dense justify="space-between" align="center" class="pl-2 pr-6">
+                <v-row dense justify="space-between" align="center" class="pr-4">
                   <v-col
                     cols="auto"
                     v-for="stat in actor.StatController.GetStatCollection([
                       'hp',
+                      'overshield',
                       'stress',
                       'heatcap',
                       'structure',
                       'repairCapacity',
                     ])">
-                    <v-tooltip :text="stat.title" location="top" open-delay="400">
+                    <v-tooltip location="top" open-delay="400">
                       <template #activator="{ props }">
                         <v-icon v-bind="props" size="18" class="mx-1 mt-n1" :icon="stat.icon" />
                         <b class="text-accent">{{ actor.StatController.CurrentStats[stat.key] }}</b>
-                        <span class="text-disabled text-caption">
+                        <!-- <span
+                          v-if="actor.StatController.MaxStats[stat.key]"
+                          class="text-disabled text-caption">
                           /{{ actor.StatController.MaxStats[stat.key] }}
-                        </span>
+                        </span> -->
                       </template>
+                      <div class="text-cc-overline text-center">
+                        {{ stat.title }}
+                      </div>
+                      <div class="heading h3 text-accent text-center">
+                        {{ actor.StatController.CurrentStats[stat.key] }}
+                        <span class="body-text text-text">
+                          / {{ actor.StatController.MaxStats[stat.key] }}
+                        </span>
+                      </div>
                     </v-tooltip>
                   </v-col>
                 </v-row>
@@ -204,7 +216,19 @@
                 </v-col>
               </v-row>
 
-              <div v-for="status in specialStatuses">
+              <v-card v-if="actor.CombatController.Cover !== 'none'" flat tile class="px-2 ma-1">
+                <span class="text-cc-overline">
+                  <v-icon
+                    v-if="actor.CombatController.Cover === 'soft'"
+                    icon="mdi-gradient-vertical"
+                    start
+                    class="mt-n1" />
+                  <v-icon v-else icon="mdi-texture-box" start class="mt-n1" />
+                  {{ actor.CombatController.Cover }} COVER
+                </span>
+              </v-card>
+
+              <div v-for="status in customStatuses">
                 <v-progress-linear model-value="100" height="16" color="orange" striped>
                   <v-chip class="text-cc-overline bg-deep-orange-darken-3" flat tile>
                     <cc-slashes />
@@ -214,18 +238,24 @@
                 </v-progress-linear>
               </div>
 
-              <div v-for="status in customStatuses" class="d-flex">
-                <v-progress-linear model-value="100" height="16" color="exotic">
-                  <v-chip class="text-cc-overline" flat tile>
-                    <cc-slashes />
-                    {{ status.status }}
-                    <cc-slashes />
-                  </v-chip>
-                </v-progress-linear>
+              <div v-for="cs in customStatuses" class="d-flex">
+                <v-tooltip location="top" max-width="400px">
+                  <template #activator="{ props }">
+                    <v-progress-linear v-bind="props" model-value="100" height="16" color="exotic">
+                      <v-chip class="text-cc-overline" flat tile>
+                        <cc-slashes />
+                        {{ cs.status.Attribute }}
+                        <cc-slashes />
+                      </v-chip>
+                    </v-progress-linear>
+                  </template>
+                  {{ cs.status.Detail }}
+                </v-tooltip>
+
                 <div
                   style="cursor: pointer"
                   class="mt-n1"
-                  @click="actor.CombatController.SetCustomStatus(status.status)">
+                  @click="actor.CombatController.RemoveCustomStatus(cs.status.Attribute)">
                   <v-icon icon="mdi-close" size="22" />
                 </div>
               </div>
@@ -286,6 +316,7 @@
 </template>
 
 <script>
+import { CombatController } from '@/classes/components/combat/CombatController';
 import DeployableListItem from './DeployableListItem.vue';
 
 export default {
@@ -347,8 +378,8 @@ export default {
     destroyed() {
       return this.actor.CombatController.IsDestroyed;
     },
-    specialStatuses() {
-      return this.actor.CombatController.SpecialStatuses || [];
+    customStatuses() {
+      return this.actor.CombatController.CustomStatuses || [];
     },
     customStatuses() {
       return this.actor.CombatController.CustomStatuses || [];

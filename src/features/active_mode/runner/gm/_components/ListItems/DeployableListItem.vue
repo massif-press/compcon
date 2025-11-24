@@ -140,7 +140,7 @@
                 </v-chip>
               </v-card>
 
-              <div v-for="status in specialStatuses">
+              <div v-for="status in customStatuses">
                 <v-progress-linear model-value="100" height="16" color="orange" striped>
                   <v-chip class="text-cc-overline bg-deep-orange-darken-3" flat tile>
                     <cc-slashes />
@@ -229,8 +229,8 @@ export default {
     destroyed() {
       return this.deployable.CombatController.IsDestroyed;
     },
-    specialStatuses() {
-      return this.deployable.CombatController.SpecialStatuses || [];
+    customStatuses() {
+      return this.deployable.CombatController.CustomStatuses || [];
     },
     icon() {
       return this.deployable.Base.Icon;

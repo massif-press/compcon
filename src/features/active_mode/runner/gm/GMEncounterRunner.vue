@@ -47,6 +47,7 @@
                 :combatant="selected"
                 :encounter-instance="instance"
                 @deselect="selectActor($event)" />
+              <actor-logs :actor="selected.actor" />
             </div>
           </v-container>
         </v-main>
@@ -118,6 +119,7 @@ import GmEndEncounterPanel from './EncounterPanels/_components/GmEndEncounterPan
 import OptionsPanel from './InfoPanels/GmOptionsPanel.vue';
 import PlaceholderPanel from './EncounterPanels/PlaceholderPanel.vue';
 import EidolonPanel from './EncounterPanels/EidolonPanel.vue';
+import ActorLogs from './EncounterPanels/_components/ActorLogs.vue';
 
 export default {
   name: 'gm-encounter-runner',
@@ -141,6 +143,7 @@ export default {
     GmEndRoundPanel,
     GmEndEncounterPanel,
     OptionsPanel,
+    ActorLogs,
   },
   data: () => ({
     selected: null,

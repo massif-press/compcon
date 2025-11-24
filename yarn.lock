@@ -1652,10 +1652,10 @@
   resolved "https://registry.yarnpkg.com/@kyvg/vue3-notification/-/vue3-notification-3.4.1.tgz#0a80b2db784cc41ba6279c208a9e653ce70abaad"
   integrity sha512-WhTWCbF36JHLJR5UdKmJF7KXGOGVy4tLeaJuKTHZhwttZWnbF9w1/c2d32tvCSwY9CdeX/n9uoaKWLMKK3vOyg==
 
-"@massif/lancer-data@^4.0.0-beta.10":
-  version "4.0.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-4.0.0-beta.10.tgz#9b673cbaa19b2f6f789e3d0815eb4e37e03c27ca"
-  integrity sha512-pf0o41sBcdLXV52e2HYSEhHFDAKN7+ipWJLBDXDkeVRaqRpFF1xoy6tDFfOQNiP8ApH4Rd3CHrAVx3uiBvfauw==
+"@massif/lancer-data@^4.0.0-beta.12":
+  version "4.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-4.0.0-beta.12.tgz#22e5950f0ca4b2f4e39a989b0f44ddc299bb47be"
+  integrity sha512-JU/g4YAH8NYXY4zXvmAFE/VgcTt7xJK+7KqNpw1QoUnbVezxGksuyUcT5W0WJhO1ChS6CiK6U+0n/GLF6dS+mA==
 
 "@mdi/font@7.4.47":
   version "7.4.47"
@@ -4959,10 +4959,10 @@ vue@^3.3.7:
     "@vue/server-renderer" "3.5.14"
     "@vue/shared" "3.5.14"
 
-vuetify@3.8.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.8.1.tgz#73fa5e8aa7a99df20c26184f5e305bf5bb514cdd"
-  integrity sha512-3qReKBBWIIdJJmwnFU1blVIKHDtnLfIP7kk0MwUrrfjYkWmsDpsymtDnsukkTCnlJ1WvhLr64eQFosr0RVbj9w==
+vuetify@^3.10.11:
+  version "3.10.11"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.10.11.tgz#d2da1ffe9ffcd15e9192c31e08cc0469e57e705b"
+  integrity sha512-hfllXT0/C3O5nZyIRalaDU7ClMIrKrKAbjH0T8xbSUb7FcJrHOqPZfEkSXwrKxajv6EA1rwEOvCZoLDhunnjrQ==
 
 webidl-conversions@^4.0.2:
   version "4.0.2"

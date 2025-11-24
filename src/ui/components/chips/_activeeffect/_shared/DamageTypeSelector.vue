@@ -22,6 +22,7 @@
       variant="outlined"
       flat
       tile
+      min-width="150"
       @update:model-value="$emit('update:damage-value', $event)">
       <template v-if="damagePlaceholder" #prepend>
         <v-tooltip location="top">
@@ -82,7 +83,7 @@ export default {
   name: 'DamageTypeSelector',
   props: {
     selectedDamageType: { type: String, required: true },
-    selectedDamageValue: { type: [Number, String], required: true },
+    selectedDamageValue: { type: [Number, String], required: false },
     damagePlaceholder: { type: String, default: '' },
     armorPiercing: { type: Boolean, required: true },
   },

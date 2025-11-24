@@ -8,7 +8,7 @@ import {
 
 export interface INpcDamageData {
   type: string;
-  damage: number[];
+  val: string | number | (string | number)[];
 }
 
 export interface INpcWeaponData extends INpcFeatureData {
@@ -41,6 +41,7 @@ export class NpcWeapon extends NpcFeature {
   public constructor(data: INpcWeaponData, pack?: ContentPack) {
     super(data, pack);
     this._damage_data = data.damage;
+
     this._range = data.range.map((x) => new Range(x));
     this._weapon_type = data.weapon_type;
     if (data.on_miss) {
@@ -92,25 +93,84 @@ export class NpcWeapon extends NpcFeature {
   //   return rechargingTag ? rechargingTag.Value.toString() : '';
   // }
 
-  public get Range(): Range[] {
+  public get RangeData(): Range[] {
     return this._range;
+  }
+
+  public Range(tier: number, mods?: NpcWeapon[]): Range[] {
+    if (!this._range) return [];
+
+    return this._range.map((r) => {
+      let rangemap;
+      if (!Array.isArray(r.Value)) rangemap = Array(3).fill(r.Value);
+      else rangemap = r.Value;
+
+      let val = rangemap[tier - 1];
+
+      const appliedMods = (
+        mods
+          ?.filter((m) => m._range)
+          .flatMap((m) => m.Range(tier))
+          .filter((mR) => r.Type.toLowerCase() === mR.Type) || []
+      ).sort((a, b) => {
+        if (typeof a === typeof b) return 0;
+        return typeof a === 'number' ? -1 : 1;
+      });
+      if (appliedMods.length) {
+        appliedMods.forEach((mod) => {
+          if (mod.IsRollable) {
+            val = `${val} + ${mod.TieredRange(tier)}`;
+          } else {
+            val = parseInt(String(val)) + parseInt(mod.TieredRange(tier));
+          }
+        });
+      }
+
+      return new Range({
+        type: r.Type,
+        val,
+      });
+    });
   }
 
   public get DamageData(): INpcDamageData[] {
     return this._damage_data;
   }
 
-  public Damage(tier: number): Damage[] {
+  public Damage(tier: number, mods?: NpcWeapon[]): Damage[] {
     if (!this._damage_data) return [];
+
     return this._damage_data.map((x: INpcDamageData) => {
-      let d = x.damage;
-      if (!Array.isArray(d)) d = Array(3).fill(d);
+      if (!Array.isArray(x.val)) x.val = Array(3).fill(x.val);
+
+      let val = x.val[tier - 1] as string | number;
+
+      const appliedMods = (
+        mods
+          ?.filter((m) => m._damage_data)
+          .flatMap((m) => m.Damage(tier))
+          .filter((mD) => x.type.toLowerCase() === mD.Type) || []
+      ).sort((a, b) => {
+        if (typeof a === typeof b) return 0;
+        return typeof a === 'number' ? -1 : 1;
+      });
+
+      if (appliedMods.length) {
+        appliedMods.forEach((mod) => {
+          if (mod.IsRollable) {
+            val = `${val} + ${mod.TieredDamage(tier)}`;
+          } else {
+            val = parseInt(String(val)) + parseInt(mod.TieredDamage(tier));
+          }
+        });
+      }
 
       const dmg = new Damage({
         type: x.type as DamageType,
-        val: d[tier - 1],
+        val,
       });
       dmg.setDamageAttributes(this);
+
       return dmg;
     });
   }

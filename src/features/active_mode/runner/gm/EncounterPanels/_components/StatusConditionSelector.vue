@@ -42,10 +42,51 @@
             </v-card>
           </template>
           <div class="heading h3">{{ status.Name }}</div>
+          <v-card
+            v-if="appliedStatus(status)"
+            flat
+            tile
+            class="pa-1 text-center text-cc-overline"
+            color="primary">
+            {{ appliedStatus(status) }}
+          </v-card>
           {{ status.Terse || status.Effects }}
         </v-tooltip>
       </v-col>
     </v-row>
+
+    <v-scroll-y-reverse-transition>
+      <div v-if="special.length" class="my-1">
+        <v-card
+          v-for="cs in special"
+          :key="cs.ID"
+          flat
+          tile
+          border
+          style="border-color: rgb(var(--v-theme-exotic))">
+          <div class="heading h3 bg-exotic px-2 py-1">
+            <v-icon icon="mdi-star-four-points-circle-outline" />
+            {{ cs.status.Attribute }}
+          </div>
+          <v-row no-gutters align="center">
+            <v-col>
+              <div class="text-cc-overline pl-4 py-1">
+                {{ cs.status.Detail }}
+              </div>
+            </v-col>
+            <v-col cols="auto">
+              <v-btn
+                flat
+                tile
+                size="x-small"
+                @click="controller.RemoveCustomStatus(cs.status.Attribute)">
+                <v-icon icon="mdi-close" size="22" />
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </div>
+    </v-scroll-y-reverse-transition>
 
     <div class="top-element">
       <v-row no-gutters>
@@ -61,7 +102,7 @@
                 tile
                 block
                 prepend-icon="mdi-plus">
-                Add Special Status
+                Add Custom Status
               </v-btn>
             </template>
 
@@ -279,6 +320,7 @@
 <script>
 import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
+import { EffectDurationText } from '@/classes/components/feature/active_effects/EffectDuration';
 
 export default {
   name: 'StatusConditionSelector',
@@ -301,6 +343,9 @@ export default {
       const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
       return this.statuses.filter((s) => !exclude.includes(s.ID));
     },
+    special() {
+      return this.controller.CustomStatuses;
+    },
   },
   methods: {
     setStatus(status) {
@@ -318,6 +363,11 @@ export default {
       } else {
         this.statusesToInflict.push(status.ID);
       }
+    },
+    appliedStatus(status) {
+      const applied = this.controller.Statuses.find((s) => s.status.ID === status.ID);
+      if (!applied) return null;
+      return applied.expires.Text;
     },
   },
 };

@@ -11,6 +11,18 @@ class EffectSave {
       this.AoE = data.aoe || false;
     }
   }
+
+  public static Serialize(save: EffectSave): string | { stat: string; aoe?: boolean } {
+    if (save.AoE) {
+      return { stat: save.Stat, aoe: true };
+    } else {
+      return save.Stat;
+    }
+  }
+
+  public static Deserialize(data: string | { stat: string; aoe?: boolean }): EffectSave {
+    return new EffectSave(data);
+  }
 }
 
 export { EffectSave };

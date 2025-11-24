@@ -1,8 +1,9 @@
 <template>
   <component
-    :is="chip ? 'bonusChip' : panel ? 'bonusPanel' : 'bonusPopup'"
+    :is="chip || icon ? 'bonusChip' : panel ? 'bonusPanel' : 'bonusPopup'"
     :bonus="bonus"
-    :tier="tier" />
+    :tier="tier"
+    :icon="icon" />
 </template>
 
 <script lang="ts">
@@ -27,6 +28,10 @@ export default {
     },
     chip: {
       type: Boolean,
+    },
+    icon: {
+      type: Boolean,
+      default: false,
     },
     tier: {
       type: Number,

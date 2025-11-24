@@ -31,12 +31,15 @@
       </v-col>
 
       <v-col cols="auto">
-        <cc-range-element v-if="item.Range" small :range="item.Range" />
+        <cc-range-element
+          v-if="item.Range"
+          small
+          :range="item.Range(item.NpcClassController?.Tier || 1, mods)" />
         <cc-slashes v-if="item.Range && item.Damage" class="pr-1" />
         <cc-damage-element
           v-if="item.Damage"
           small
-          :damage="item.Damage(item.NpcClassController?.Tier || 1)" />
+          :damage="item.Damage(item.NpcClassController?.Tier || 1, mods)" />
       </v-col>
 
       <v-col v-if="!showCommandPanel" cols="auto">
@@ -89,29 +92,23 @@
                 v-for="a in item.Actions"
                 :action="a"
                 :owner="unit"
-                :encounter="encounter" />
+                :encounter="encounter">
+                <template #icon>
+                  <v-tooltip location="top" text="Equipment Action">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props" :icon="item.Icon" />
+                    </template>
+                  </v-tooltip>
+                </template>
+              </cc-combat-action-chip>
             </div>
 
             <div v-if="item.Deployables?.length" class="mb-2">
-              <v-row v-for="d in item.Deployables" dense align="center">
-                <v-col cols="auto">
-                  <v-tooltip location="top" text="Equipment Deployable (Instance)">
-                    <template #activator="{ props }">
-                      <v-icon v-bind="props" size="small" icon="cc:drone" />
-                    </template>
-                  </v-tooltip>
-                </v-col>
-                <v-col>
-                  <v-row no-gutters align="center">
-                    <v-col cols="auto">
-                      <cc-deployable-info :deployable="d" class="mb-1" :name-override="item.Name" />
-                    </v-col>
-                    <v-col>
-                      <deploy-button :deployable="d" :actor="unit" @deploy="$emit('deploy', d)" />
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
+              <deploy-button
+                v-for="d in item.Deployables"
+                :deployable="d"
+                :actor="unit"
+                @deploy="$emit('deploy', d)" />
             </div>
 
             <v-row dense align="center">

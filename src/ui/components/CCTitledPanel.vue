@@ -1,20 +1,21 @@
 <template>
   <v-hover>
     <template v-slot:default="{ isHovering, props }">
-      <div :class="`mb-2 ${clickable ? 'clickable' : ''}`" v-bind="props" @click="$emit('click')">
+      <div
+        :class="`mb-2 ${clickable ? 'clickable' : ''}`"
+        v-bind="props"
+        @click="$emit('click', $event)">
         <v-toolbar
           v-show="title"
           :color="clickable && isHovering ? 'active' : color ? color : 'primary'"
           density="compact"
-          :class="`${density === `compact` ? 'clipped-invert' : 'clipped-large-invert'}}`"
-        >
+          :class="`${density === `compact` ? 'clipped-invert' : 'clipped-large-invert'}}`">
           <v-toolbar-title>
             <v-row dense align="center">
               <v-col cols="auto">
                 <v-icon
                   v-if="icon"
-                  :icon="clickable && isHovering ? 'mdi-chevron-double-right' : icon"
-                />
+                  :icon="clickable && isHovering ? 'mdi-chevron-double-right' : icon" />
               </v-col>
               <v-col cols="auto" class="heading h3 text-truncate" style="width: 80%">
                 {{ title }}
@@ -32,8 +33,7 @@
           variant="outlined"
           :style="`background-color: rgb(var(--v-theme-background)); border-color: ${
             color ? color : 'rgb(var(--v-theme-primary))'
-          } !important; `"
-        >
+          } !important; `">
           <v-card-text>
             <slot />
           </v-card-text>

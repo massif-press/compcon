@@ -236,8 +236,6 @@ export default {
       if (self.side === 'enemy' && target === 'enemy') target = 'ally';
       else if (self.side === 'enemy' && target === 'ally') target = 'enemy';
 
-      console.log(target);
-
       out = this.encounter.Combatants.sort((a: CombatantData, b: CombatantData) => {
         if (a.side === target && b.side !== target) {
           return -1;

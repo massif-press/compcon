@@ -12,7 +12,7 @@
           variant="elevated"
           min-width="100px"
           v-bind="!boolean && props"
-          @click="boolean ? $emit('click') : null">
+          @click="boolean ? $emit('click', $event) : null">
           <v-row no-gutters justify="center" align="center" style="height: 100%">
             <v-col cols="auto" class="heading" style="font-size: 36px">
               <v-icon

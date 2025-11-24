@@ -173,23 +173,24 @@
               <template #default="{ item }">
                 <div v-if="item" :key="item.ID">
                   <cc-dense-card :item="item" />
-                  <div v-if="!hasItem(item)"" class="mt-n2">
+                  <div class="mt-n2">
                     <cc-button
-                      v-if="allowDupes"
-                      color="secondary"
-                      block
-                      size="x-small"
-                      prepend-icon="mdi-plus"
-                      @click="npc.NpcFeatureController.AddFeature(item)">
-                      Add {{ item.Name }}
-                    </cc-button>
-                    <cc-button
+                      v-if="hasItem(item)"
                       color="warning"
                       block
                       size="x-small"
                       prepend-icon="mdi-minus"
                       @click="npc.NpcFeatureController.RemoveFeature(item)">
                       Remove {{ item.Name }}
+                    </cc-button>
+                    <cc-button
+                      v-else-if="!hasItem(item) || allowDupes"
+                      color="secondary"
+                      block
+                      size="x-small"
+                      prepend-icon="mdi-plus"
+                      @click="npc.NpcFeatureController.AddFeature(item)">
+                      Add {{ item.Name }}
                     </cc-button>
                   </div>
                 </div>

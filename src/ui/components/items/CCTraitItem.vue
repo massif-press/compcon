@@ -11,13 +11,16 @@
       </v-chip>
     </template>
     <p v-html-safe="trait.Description" />
-    <cc-action v-for="a in trait.Actions" :action="a" :panel="!mobile" class="my-2" />
-    <cc-deployable-info
-      v-for="d in trait.Deployables"
-      :deployable="d"
-      :panel="!mobile"
-      class="my-2" />
-    <cc-integrated-info v-for="x in trait.Integrated" :item="x" :panel="!mobile" class="my-2" />
+    <div v-if="!combat">
+      <cc-action v-for="a in trait.Actions" :action="a" :panel="!mobile" class="my-2" />
+      <cc-deployable-info
+        v-for="d in trait.Deployables"
+        :deployable="d"
+        :panel="!mobile"
+        class="my-2" />
+      <cc-integrated-info v-for="x in trait.Integrated" :item="x" :panel="!mobile" class="my-2" />
+    </div>
+    <slot name="combat" />
   </cc-panel>
 </template>
 
@@ -33,6 +36,9 @@ export default {
       type: String,
       required: false,
       default: 'primary',
+    },
+    combat: {
+      type: Boolean,
     },
   },
   computed: {

@@ -1,6 +1,6 @@
 import { CompendiumStore } from '../../../../stores';
-import { CompendiumItem, ContentPack, ItemType } from '../../../../class';
-import { ICompendiumItemData, IContentPack, ITagCompendiumData } from '../../../../interface';
+import { CompendiumItem, ContentPack, Deployable, ItemType } from '../../../../class';
+import { Action, ICompendiumItemData } from '../../../../interface';
 import DOMPurify from 'dompurify';
 
 interface ITalentRankData extends ICompendiumItemData {
@@ -66,6 +66,14 @@ class Talent extends CompendiumItem {
     } catch (err) {
       throw new Error(`Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`);
     }
+  }
+
+  public get AllActions(): Action[] {
+    return this._ranks.flatMap((r) => r.Actions) as Action[];
+  }
+
+  public get AllDeployables(): Deployable[] {
+    return this._ranks.flatMap((r) => r.Deployables) as Deployable[];
   }
 
   public static Deserialize(id: string): Talent {

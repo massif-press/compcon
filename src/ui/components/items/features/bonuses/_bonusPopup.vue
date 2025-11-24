@@ -1,18 +1,18 @@
 <template>
-  <v-tooltip top>
+  <v-tooltip location="top" max-width="300">
     <template #activator="{ props }">
-      <v-icon v-bind="props">cc:accuracy</v-icon>
+      <v-icon v-bind="props" class="mt-n2" icon="cc:accuracy" />
     </template>
-    <bonus-base :bonus="bonus" />
+    <bonus-panel :bonus="bonus" />
   </v-tooltip>
 </template>
 
 <script lang="ts">
-import bonusBase from './_bonusBase.vue';
+import BonusPanel from './_bonusPanel.vue';
 
 export default {
   name: 'bonus-popup',
-  components: { bonusBase },
+  components: { BonusPanel },
   props: {
     bonus: {
       type: Object,

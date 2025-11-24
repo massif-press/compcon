@@ -5,18 +5,18 @@
         <span v-if="small" v-bind="props">
           <v-icon :color="damageColor(d)" :icon="damageIcon(d)" />
           <v-icon v-if="d.Override" icon="mdi-information-outline" color="text" />
-          <b v-else v-text="`${added ? '+' : ''}${d.Value}`" />
+          <b v-else v-text="`${added ? '+' : ''}${displayValue(d.Value)}`" />
         </span>
         <v-row v-else align="center" no-gutters v-bind="props">
           <v-col cols="auto">
             <v-icon :size="dense ? 25 : 35" :color="damageColor(d)" :icon="damageIcon(d)" />
           </v-col>
           <v-col class="heading" :style="`font-size: ${dense ? '20' : '24'}pt`">
-            {{ `${added ? '+' : ''}${d.Value}` }}
+            {{ `${added ? '+' : ''}${displayValue(d.Value)}` }}
           </v-col>
         </v-row>
       </template>
-      <div class="heading h3">{{ d.Value }} {{ typeOverride || d.Type }} Damage</div>
+      <div class="heading h3">{{ displayValue(d.Value) }} {{ typeOverride || d.Type }} Damage</div>
       <v-divider class="my-2" />
       <div v-html-safe="gloss(d)" />
     </v-tooltip>
@@ -74,6 +74,12 @@ export default {
         default:
           return `This equipment deals ${d.Value} ${d.Type} Damage`;
       }
+    },
+    displayValue(value: number | string | number[] | string[]): string {
+      if (Array.isArray(value)) {
+        return value.join(' / ');
+      }
+      return value.toString();
     },
   },
 };

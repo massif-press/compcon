@@ -12,7 +12,11 @@
     @expand="expand = <string>$event"
     @clicked="$emit('clicked')"
     @add="$emit('add')"
-    @remove="$emit('remove')" />
+    @remove="$emit('remove')">
+    <template #combat>
+      <slot name="combat" />
+    </template>
+  </component>
 </template>
 
 <script lang="ts">

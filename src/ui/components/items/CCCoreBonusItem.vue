@@ -35,19 +35,22 @@
     </div>
     <p v-html-safe="bonus.Effect" class="pb-1" />
 
-    <div v-if="bonus.Actions.length">
+    <div v-if="!combat && bonus.Actions.length">
       <div class="text-cc-overline text-disabled">CORE BONUS ACTIONS</div>
       <v-row no-gutters justify="center">
-        <v-col v-for="(a, i) in bonus.Actions" cols="auto">
+        <v-col v-for="(a, i) in bonus.Actions" :key="`action_${bonus.Name}_${i}`" cols="auto">
           <cc-action :action="a" :panel="!terse" class="ma-2" />
         </v-col>
       </v-row>
     </div>
 
-    <div v-if="bonus.Deployables.length">
+    <div v-if="!combat && bonus.Deployables.length">
       <div class="text-cc-overline text-disabled">CORE BONUS DEPLOYABLES</div>
       <v-row no-gutters justify="center">
-        <v-col v-for="(d, i) in bonus.Deployables" cols="auto">
+        <v-col
+          v-for="(d, i) in bonus.Deployables"
+          :key="`deployable_${bonus.Name}_${i}`"
+          cols="auto">
           <cc-deployable-info
             :deployable="d"
             :panel="!terse"
@@ -57,23 +60,31 @@
       </v-row>
     </div>
 
-    <div v-if="bonus.IntegratedEquipment.length">
+    <div v-if="!combat && bonus.IntegratedEquipment.length">
       <div class="text-cc-overline text-disabled">CORE BONUS INTEGRATED EQUIPMENT</div>
       <v-row no-gutters justify="center">
-        <v-col v-for="(x, i) in bonus.IntegratedEquipment" cols="auto">
+        <v-col
+          v-for="(x, i) in bonus.IntegratedEquipment"
+          :key="`int_${bonus.Name}_${i}`"
+          cols="auto">
           <cc-integrated-info :item="x" :panel="!terse" />
         </v-col>
       </v-row>
     </div>
 
-    <div v-if="bonus.SpecialEquipment.length">
+    <div v-if="!combat && bonus.SpecialEquipment.length">
       <div class="text-cc-overline text-disabled">CORE BONUS ADDITIONAL EQUIPMENT</div>
       <v-row no-gutters justify="center">
-        <v-col v-for="(x, i) in bonus.SpecialEquipment" cols="auto">
+        <v-col
+          v-for="(x, i) in bonus.SpecialEquipment"
+          :key="`special_${bonus.Name}_${i}`"
+          cols="auto">
           <cc-integrated-info :item="x" :panel="!terse" />
         </v-col>
       </v-row>
     </div>
+
+    <slot name="combat" />
   </cc-panel>
 </template>
 
@@ -92,6 +103,10 @@ export default {
     readonly: {
       type: Boolean,
       default: false,
+    },
+    combat: {
+      type: Boolean,
+      required: false,
     },
   },
 };

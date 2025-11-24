@@ -58,6 +58,26 @@
             text="Prepared"
             @click="mech.CombatController.Prepared = !mech.CombatController.Prepared" />
         </v-col>
+        <v-col>
+          <v-btn
+            flat
+            tile
+            size="small"
+            block
+            :color="mech.CombatController.CoreActive ? 'primary' : 'panel'"
+            text="Core Active"
+            @click="mech.CombatController.CoreActive = !mech.CombatController.CoreActive" />
+          <v-divider />
+          <v-btn
+            flat
+            tile
+            size="small"
+            block
+            :disabled="!mech.MechLoadoutController.ActiveLoadout.AICount"
+            :color="mech.CombatController.AIControl ? 'primary' : 'panel'"
+            text="AI Control"
+            @click="mech.CombatController.AIControl = !mech.CombatController.AIControl" />
+        </v-col>
       </v-row>
     </template>
 
@@ -77,7 +97,24 @@
             :min-columns="1"
             :max-columns="2">
             <template #default="{ item, index }">
-              <cc-trait-item :trait="item" color="primary" style="height: 100%" />
+              <cc-trait-item :trait="item" color="primary" style="height: 100%" combat>
+                <template #combat>
+                  <div v-if="item.Actions?.length" class="mb-2 mt-1">
+                    <cc-combat-action-chip
+                      v-for="a in item.Actions"
+                      :action="a"
+                      :owner="mech"
+                      :encounter="encounterInstance" />
+                  </div>
+                  <div v-if="item.Deployables?.length" class="mb-2">
+                    <deploy-button
+                      v-for="d in item.Deployables"
+                      :deployable="d"
+                      :actor="mech"
+                      @deploy="$emit('deploy', d)" />
+                  </div>
+                </template>
+              </cc-trait-item>
             </template>
           </masonry-wall>
         </v-expansion-panel-text>
@@ -98,7 +135,24 @@
             :min-columns="1"
             :max-columns="2">
             <template #default="{ item, index }">
-              <cc-core-bonus-item :key="item.ID" terse :bonus="item" />
+              <cc-core-bonus-item :key="item.ID" terse :bonus="item" combat>
+                <template #combat>
+                  <div v-if="item.Actions?.length" class="mb-2 mt-1">
+                    <cc-combat-action-chip
+                      v-for="a in item.Actions"
+                      :action="a"
+                      :owner="mech"
+                      :encounter="encounterInstance" />
+                  </div>
+                  <div v-if="item.Deployables?.length" class="mb-2">
+                    <deploy-button
+                      v-for="d in item.Deployables"
+                      :deployable="d"
+                      :actor="mech"
+                      @deploy="$emit('deploy', d)" />
+                  </div>
+                </template>
+              </cc-core-bonus-item>
             </template>
           </masonry-wall>
         </v-expansion-panel-text>
@@ -125,7 +179,24 @@
                 :talent="item.Talent"
                 :rank="item.Rank"
                 hide-locked
-                hide-change />
+                hide-change>
+                <template #combat>
+                  <div v-if="item.Talent.AllActions?.length" class="mb-2 mt-1">
+                    <cc-combat-action-chip
+                      v-for="a in item.Talent.AllActions"
+                      :action="a"
+                      :owner="mech"
+                      :encounter="encounterInstance" />
+                  </div>
+                  <div v-if="item.Talent.AllDeployables?.length" class="mb-2">
+                    <deploy-button
+                      v-for="d in item.Talent.AllDeployables"
+                      :deployable="d"
+                      :actor="mech"
+                      @deploy="$emit('deploy', d)" />
+                  </div>
+                </template>
+              </cc-talent>
             </template>
           </masonry-wall>
         </v-expansion-panel-text>
@@ -146,7 +217,6 @@
 <script>
 import _, { over } from 'lodash';
 import { CompendiumStore } from '@/stores';
-import StatMiniPanel from './_components/StatMiniPanel.vue';
 import PanelBase from './_PanelBase.vue';
 import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
 import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
@@ -154,7 +224,6 @@ import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 export default {
   name: 'MechPanel',
   components: {
-    StatMiniPanel,
     PanelBase,
     MechCombatLoadout,
     MechCorePanel,
@@ -210,7 +279,7 @@ export default {
         this.pilot.statuses.push(status);
       }
     },
-    addSpecialStatus(status) {
+    addCustomStatus(status) {
       if (this.pilot.special.includes(status.Name)) {
         const index = this.pilot.special.indexOf(status.Name);
         this.pilot.special.splice(index, 1);

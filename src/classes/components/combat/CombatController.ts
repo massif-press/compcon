@@ -16,6 +16,11 @@ import { IStatContainer } from './stats/IStatContainer';
 import { Status } from '@/classes/Status';
 import { ActiveEffect } from '../feature/active_effects/ActiveEffect';
 import _ from 'lodash';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { EffectSpecial, IEffectSpecialData } from '../feature/active_effects/EffectSpecial';
+import { IEffectStatusData } from '../feature/active_effects/EffectStatus';
+import { Action } from '@/classes/Action';
+import { Bonus } from '../feature/bonus/Bonus';
 
 enum CoverType {
   None = 'none',
@@ -23,11 +28,108 @@ enum CoverType {
   Hard = 'hard',
 }
 
+type CombatLogEntry = {
+  timestamp: number;
+  round: number;
+  action: string;
+  source: string;
+  details: string;
+};
+
+class expiration {
+  private _raw: string = '';
+  public Period: 'round' | 'turn' | 'encounter' = 'encounter';
+  public EndsOn: 'start' | 'end' = 'end';
+
+  // this is the actor that references the self/target whose turn it is for turn-based expirations
+  public ExpirationActorID: string | null = null;
+  public ExpirationActorTurn: number | null = null;
+
+  // for round-only expirations
+  public RoundEndNumber: number | null = null;
+  public Raw: string;
+  public Text: string = '';
+
+  constructor(
+    expiration: string,
+    source: CombatController,
+    target: CombatController,
+    encounter: EncounterInstance
+  ) {
+    const str = expiration.toLowerCase();
+    this.Raw = expiration;
+    let text = '';
+
+    if (str.includes('round')) this.Period = 'round';
+    else if (str.includes('turn')) this.Period = 'turn';
+
+    if (str.includes('start')) this.EndsOn = 'start';
+
+    if (this.Period === 'turn') {
+      if (str.includes('target')) {
+        this.ExpirationActorID = target.Parent.ID;
+        this.ExpirationActorTurn = target.Turn;
+        text = `Ends at the ${this.EndsOn} of your (${target.CombatName}) turn`;
+      } else {
+        this.ExpirationActorID = source.Parent.ID;
+        this.ExpirationActorTurn = source.Turn;
+        text = `Ends at the ${this.EndsOn} of ${source.CombatName}'s turn`;
+      }
+    } else if (this.Period === 'round') {
+      const currentRound = encounter.Round;
+      const roundOffset = Number(str.split('_').pop() || '1');
+      this.RoundEndNumber = currentRound + roundOffset;
+      text = `Ends at the ${this.EndsOn} of round ${this.RoundEndNumber}`;
+    }
+
+    this.Text = text;
+  }
+
+  HasExpired(currentRound: number, currentActorID: string, currentActorTurn: number): boolean {
+    if (this.Period === 'round') {
+      if (this.RoundEndNumber !== null && currentRound >= this.RoundEndNumber) {
+        return true;
+      }
+    } else if (this.Period === 'turn') {
+      if (
+        this.ExpirationActorID === currentActorID &&
+        this.ExpirationActorTurn !== null &&
+        currentActorTurn >= this.ExpirationActorTurn
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static Serialize(exp: expiration): any {
+    return {
+      Raw: exp.Raw,
+      Period: exp.Period,
+      EndsOn: exp.EndsOn,
+      ExpirationActorID: exp.ExpirationActorID,
+      ExpirationActorTurn: exp.ExpirationActorTurn,
+      RoundEndNumber: exp.RoundEndNumber,
+      Text: exp.Text,
+    };
+  }
+
+  public static Deserialize(data: any): expiration {
+    const exp = new expiration(data.Raw, {} as any, {} as any, {} as any);
+    exp.Period = data.Period;
+    exp.EndsOn = data.EndsOn;
+    exp.ExpirationActorID = data.ExpirationActorID;
+    exp.ExpirationActorTurn = data.ExpirationActorTurn;
+    exp.RoundEndNumber = data.RoundEndNumber;
+    exp.Text = data.Text;
+    return exp;
+  }
+}
+
 class CombatData {
   stats: IStatData = {} as IStatData;
-  statuses: { status: any; expires: any }[] = []; //expires should be a condition or round val
-  customStatuses: { status: string; expires: any }[] = [];
-  specialStatuses: { status: any; expires: any }[] = [];
+  statuses: { status: IEffectStatusData; expires: string }[] = [];
+  customStatuses: { status: IEffectSpecialData; expires: string }[] = [];
   damage: { type: DamageType; condition: string }[] = [];
   engaged: boolean = false;
   state: any;
@@ -40,17 +142,17 @@ class CombatData {
   braced: boolean = false;
   prepared: boolean = false;
 
-  history: any[] = [];
+  history: CombatLogEntry[] = [];
+  turn: any = 0;
 }
 
 class CombatController implements ICounterContainer, IStatContainer {
   public readonly Parent: ICombatant;
 
   public Resistances: { type: string; condition: string }[] = [];
-  public CustomStatuses: { status: string; expires: any }[] = [];
+  public CustomStatuses: { status: EffectSpecial; expires: expiration }[] = [];
   public CombatantState: any = {};
-  public Statuses: { status: Status; expires: any }[] = [];
-  public SpecialStatuses: { status: Status; expires: any }[] = [];
+  public Statuses: { status: Status; expires: expiration }[] = [];
   public Counters: Counter[] = [];
   public Cover: CoverType = CoverType.None;
   public Engaged: boolean = false;
@@ -60,9 +162,17 @@ class CombatController implements ICounterContainer, IStatContainer {
   public Overwatch: boolean = false;
   public Braced: boolean = false;
   public Prepared: boolean = false;
+  public CoreActive: boolean = false;
+  public AIControl: boolean = false;
 
   public StatController: StatController;
   public CounterController: CounterController;
+
+  public Turn: number = 0;
+  public History: CombatLogEntry[] = [];
+
+  // prevent applied events after successful saves. Must be disabled after effect iteration.
+  public SaveLock: boolean = false;
 
   public CombatActions: any = {
     Protocol: true,
@@ -73,15 +183,33 @@ class CombatController implements ICounterContainer, IStatContainer {
     Reaction: true,
   };
 
-  public get SaveController(): SaveController {
-    return this.Parent.SaveController;
-  }
-
   constructor(parent: ICombatant) {
     this.Parent = parent;
     this.StatController = new StatController(this);
     this.CounterController = new CounterController(this);
   }
+
+  // passthroughs ------------------------------------
+  public get SaveController(): SaveController {
+    return this.Parent.SaveController;
+  }
+
+  // use whenever access is needed to guarantee correct mounted pilot selection
+  public get ActiveActor(): any {
+    if ((this.Parent as Pilot).ActiveMech && this.Mounted) return (this.Parent as Pilot).ActiveMech;
+    return this.Parent;
+  }
+
+  public get CombatName(): string {
+    return (this.Parent as any).Callsign || this.Parent.Name;
+  }
+
+  public get Tier(): number {
+    if ((this.Parent as any).NpcClassController)
+      return (this.Parent as any).NpcClassController.Tier;
+    return 1;
+  }
+  // ------------------------------------------------------
 
   public get Activations(): number {
     return this.StatController.getStat('activations');
@@ -89,6 +217,10 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public get ActiveEffects(): ActiveEffect[] {
     return this.Parent.FeatureController?.ActiveEffects || [];
+  }
+
+  public get Bonuses(): Bonus[] {
+    return this.Parent.FeatureController?.Bonuses || [];
   }
 
   public get Name(): string {
@@ -111,12 +243,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
-  public get Tier(): number {
-    if ((this.Parent as any).NpcClassController)
-      return (this.Parent as any).NpcClassController.Tier;
-    return 1;
-  }
-
   public getSavingThrowBonus(stat: string): number {
     // TODO
     let bonus = 0;
@@ -129,7 +255,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public CanActivate(action: string): boolean {
-    const str = action.toLowerCase();
+    const str = action.toLowerCase().replace(' ', '');
     switch (str) {
       case 'free':
         return true;
@@ -141,11 +267,9 @@ class CombatController implements ICounterContainer, IStatContainer {
           this.CombatActions.Full
         );
       case 'full':
-      case 'full_tech':
       case 'fulltech':
         return this.CombatActions.Full && this.CombatActions.Quick1 && this.CombatActions.Quick2;
       case 'quick':
-      case 'quick_tech':
       case 'quicktech':
         return this.CombatActions.Quick1 || this.CombatActions.Quick2;
       case 'overcharge':
@@ -197,6 +321,30 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
+  public ResetActivation(action: string): void {
+    const str = action.toLowerCase();
+    switch (str) {
+      case 'protocol':
+        this.CombatActions.Protocol = true;
+        break;
+      case 'full':
+        this.CombatActions.Full = true;
+        break;
+      case 'quick':
+        if (!this.CombatActions.Quick1) this.CombatActions.Quick1 = true;
+        else if (!this.CombatActions.Quick2) this.CombatActions.Quick2 = true;
+        break;
+      case 'overcharge':
+        this.CombatActions.Overcharge = true;
+        break;
+      case 'reaction':
+        this.CombatActions.Reaction = true;
+        break;
+      default:
+        break;
+    }
+  }
+
   public setStats(statArr: { key: string; val: number }[]): void {
     statArr.forEach((kvp) => {
       this.StatController.setMax(kvp.key, kvp.val);
@@ -205,12 +353,11 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public SetResistance(type: string, condition?: string): void {
-    console.log(type, condition);
     condition = condition?.toLowerCase() || 'vulnerable';
 
-    const existingIndex = this.Resistances.findIndex((s) => s.type === type);
-    if (existingIndex === -1) this.Resistances.push({ type, condition });
-    else if (condition) this.Resistances[existingIndex].condition = condition;
+    const existingIndex = this.ActiveActor.Resistances.findIndex((s) => s.type === type);
+    if (existingIndex === -1) this.ActiveActor.Resistances.push({ type, condition });
+    else if (condition) this.ActiveActor.Resistances[existingIndex].condition = condition;
     else this.Resistances.splice(existingIndex, 1);
   }
 
@@ -238,11 +385,13 @@ class CombatController implements ICounterContainer, IStatContainer {
     );
   }
 
-  public SetCustomStatus(name: string, expires?: any): void {
-    if (!name || !name.trim().length) return;
-    const existingIndex = this.CustomStatuses.findIndex((s) => s.status === name);
+  public SetCustomStatus(special: EffectSpecial, expires?: any): void {
+    if (!special) return;
+    const existingIndex = this.CustomStatuses.findIndex(
+      (s) => s.status.Attribute === special.Attribute
+    );
     if (existingIndex === -1) {
-      this.CustomStatuses.push({ status: name, expires });
+      this.CustomStatuses.push({ status: special, expires });
     } else if (expires) {
       this.CustomStatuses[existingIndex].expires = expires;
     } else {
@@ -257,48 +406,77 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public ApplyDamage(type: DamageType, value: number, ap: boolean = false): void {
-    let target = this as CombatController;
-    if (this.Parent.ItemType === 'Pilot') {
-      if (this.Mounted && (this.Parent as Pilot).ActiveMech)
-        target = (this.Parent as Pilot).ActiveMech!.CombatController;
-    }
-
-    console.log('applying damage', type, value, ap);
+    if (this.SaveLock) return;
     if (type === DamageType.Heat) {
-      target.ApplyHeat(value);
+      this.ActiveActor.ApplyHeat(value);
       return;
     }
     let totalDamage =
       ap || type === DamageType.Burn
         ? value
-        : Math.max(0, value - target.StatController.CurrentStats['armor']);
-    if (target.Resistances.find((ds) => ds.type === type && ds.condition === 'immune')) {
+        : Math.max(0, value - this.ActiveActor.StatController.CurrentStats['armor']);
+    if (
+      this.ActiveActor.CombatController.Resistances.find(
+        (ds) => ds.type === type && ds.condition === 'immune'
+      )
+    ) {
       totalDamage = 0;
-    } else if (target.Resistances.find((ds) => ds.type === type && ds.condition === 'vulnerable')) {
+    } else if (
+      this.ActiveActor.CombatController.Resistances.find(
+        (ds) => ds.type === type && ds.condition === 'vulnerable'
+      )
+    ) {
       totalDamage = Math.floor(totalDamage * 2);
-    } else if (target.Resistances.find((ds) => ds.type === type && ds.condition === 'resistant')) {
+    } else if (
+      this.ActiveActor.CombatController.Resistances.find(
+        (ds) => ds.type === type && ds.condition === 'resistant'
+      )
+    ) {
       totalDamage = Math.floor(totalDamage / 2);
     }
 
     // subtract this damage from current hp
-    target.StatController.CurrentStats['hp'] -= totalDamage;
+    this.ActiveActor.StatController.CurrentStats['hp'] -= totalDamage;
     // if hull goes below 0, subtract 1 from structure and add max hp back to current hp
     while (
-      target.StatController.CurrentStats['hp'] <= 0 &&
-      target.StatController.CurrentStats['structure'] > 0
+      this.ActiveActor.StatController.CurrentStats['hp'] <= 0 &&
+      this.ActiveActor.StatController.CurrentStats['structure'] > 0
     ) {
-      target.StatController.CurrentStats['structure'] -= 1;
-      target.StatController.CurrentStats['hp'] += target.StatController.MaxStats['hp'];
+      this.ActiveActor.StatController.CurrentStats['structure'] -= 1;
+      this.ActiveActor.StatController.CurrentStats['hp'] +=
+        this.ActiveActor.StatController.MaxStats['hp'];
     }
 
     // if structure goes below 0, set to 0
-    if (target.StatController.CurrentStats['structure'] < 0) {
-      target.StatController.CurrentStats['structure'] = 0;
+    if (this.ActiveActor.StatController.CurrentStats['structure'] < 0) {
+      this.ActiveActor.StatController.CurrentStats['structure'] = 0;
     }
   }
 
   public ApplyHeat(value: number): void {
-    this.StatController.CurrentStats['heatcap'] += value;
+    let totalValue = value;
+
+    if (
+      this.ActiveActor.CombatController.Resistances.find(
+        (ds) => ds.type === 'heat' && ds.condition === 'immune'
+      )
+    ) {
+      totalValue = 0;
+    } else if (
+      this.ActiveActor.CombatController.Resistances.find(
+        (ds) => ds.type === 'heat' && ds.condition === 'vulnerable'
+      )
+    ) {
+      totalValue = Math.floor(totalValue * 2);
+    } else if (
+      this.ActiveActor.CombatController.Resistances.find(
+        (ds) => ds.type === 'heat' && ds.condition === 'resistant'
+      )
+    ) {
+      totalValue = Math.floor(totalValue / 2);
+    }
+
+    this.StatController.CurrentStats['heatcap'] += totalValue;
 
     // if heatcap goes above max, subtract 1 from stress and set heatcap to 0
     while (this.StatController.CurrentStats['heatcap'] > this.StatController.MaxStats['heatcap']) {
@@ -312,11 +490,108 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
+  public ApplyStatus(
+    status: Status,
+    expires: string,
+    owner: CombatController,
+    target: CombatController,
+    encounter: EncounterInstance
+  ): void {
+    if (this.SaveLock) return;
+    if (!status) return;
+    const expirationObj = new expiration(expires, owner, target, encounter);
+    const existingIndex = this.ActiveActor.CombatController.Statuses.findIndex(
+      (s) => s.status.ID === status.ID
+    );
+    if (existingIndex === -1) {
+      this.ActiveActor.CombatController.Statuses.push({ status, expires: expirationObj });
+    } else {
+      this.ActiveActor.CombatController.Statuses[existingIndex].expires.Raw = expires;
+    }
+  }
+
+  public ApplyCustomStatus(
+    customStatus: EffectSpecial,
+    expires: string,
+    owner: CombatController,
+    target: CombatController,
+    encounter: EncounterInstance
+  ): void {
+    if (this.SaveLock) return;
+    if (!customStatus) return;
+    const expirationObj = new expiration(expires, owner, target, encounter);
+    const existingIndex = this.ActiveActor.CombatController.CustomStatuses.findIndex(
+      (s) => s.status.Attribute === customStatus.Attribute
+    );
+    if (existingIndex === -1) {
+      this.ActiveActor.CombatController.CustomStatuses.push({
+        status: customStatus,
+        expires: expirationObj,
+      });
+    } else {
+      this.ActiveActor.CombatController.CustomStatuses[existingIndex].expires.Raw = expires;
+    }
+  }
+
+  public RemoveCustomStatus(attribute: string): void {
+    const existingIndex = this.ActiveActor.CombatController.CustomStatuses.findIndex(
+      (s) => s.status.Attribute === attribute
+    );
+    if (existingIndex !== -1) {
+      this.ActiveActor.CombatController.CustomStatuses.splice(existingIndex, 1);
+    }
+  }
+
+  public AddStatVal(stat, val): void {
+    const osVal = Number(val);
+    if (isNaN(osVal)) return;
+    if (!this.StatController.CurrentStats[stat]) this.StatController.CurrentStats[stat] = 0;
+    this.StatController.CurrentStats[stat] += osVal;
+    if (
+      this.StatController.MaxStats[stat] &&
+      this.StatController.CurrentStats[stat] > this.StatController.MaxStats[stat]
+    ) {
+      this.StatController.CurrentStats[stat] = this.StatController.MaxStats[stat];
+    }
+  }
+
+  public SetCore(active: boolean, round: number): void {
+    this.CoreActive = active;
+    this.CorePower = false;
+    this.History.push({
+      timestamp: Date.now(),
+      round,
+      action: active ? 'Core Activated' : 'Core Deactivated',
+      source: this.CombatName,
+      details: '',
+    });
+  }
+
+  public RegisterEvent(
+    eventData: string[],
+    effect: Action | ActiveEffect,
+    encounter: EncounterInstance
+  ): void {
+    this.History.push({
+      timestamp: Date.now(),
+      round: encounter.Round,
+      action: effect.Name,
+      source: effect.Origin.Name,
+      details: eventData.join('; '),
+    });
+  }
+
   public static Serialize(controller: CombatController, target: any) {
     if (!target.stats) target.stats = {};
     if (!target.counters) target.counters = {};
-    target.statuses = controller.Statuses;
-    target.customStatuses = controller.CustomStatuses;
+    target.statuses = controller.Statuses.map((s) => ({
+      status: s.status.ID,
+      expires: expiration.Serialize(s.expires),
+    }));
+    target.customStatuses = controller.CustomStatuses.map((s) => ({
+      status: EffectSpecial.Serialize(s.status),
+      expires: s.expires.Raw,
+    }));
     target.damage = controller.Resistances;
     target.engaged = controller.Engaged;
     target.state = controller.CombatantState;
@@ -335,8 +610,8 @@ class CombatController implements ICounterContainer, IStatContainer {
         `StatController not found on CombatController. New StatControllers must be instantiated in the CombatController's constructor method.`
       );
 
-    controller.Statuses = data?.statuses || [];
-    controller.CustomStatuses = data?.customStatuses || [];
+    controller.Statuses = [];
+    controller.CustomStatuses = [];
     controller.Resistances = data?.damage || [];
     controller.Engaged = data?.engaged || false;
     controller.CombatantState = data?.state || {};

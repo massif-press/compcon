@@ -1,23 +1,15 @@
 <template>
   <v-row dense class="px-2 py-1">
     <v-col cols="3">
-      <div class="text-cc-overline text-disabled">special condition</div>
-      <v-tooltip location="top" :text="status.Description" max-width="400px">
-        <template #activator="{ props }">
-          <v-card
-            v-bind="props"
-            flat
-            border="sm"
-            color="exotic"
-            class="text-center heading h3 rounded-lg mt-1">
-            {{ status.Attribute }}
-          </v-card>
-        </template>
-        <div class="text-center pa-1">
-          {{ status.Detail }}
-        </div>
-      </v-tooltip>
-      <BaseDurationDisplay v-if="status.Duration" :duration="status.Duration" />
+      <div class="text-cc-overline text-disabled">remove special condition</div>
+      <v-card
+        v-bind="props"
+        flat
+        border="sm"
+        color="exotic"
+        class="text-center heading h3 rounded-lg mt-1">
+        {{ status }}
+      </v-card>
     </v-col>
 
     <v-col>
@@ -29,14 +21,6 @@
           @toggle-aoe="toggleAoe"
           @add-target="addTarget"
           @remove-target="cancelTarget" />
-
-        <BaseSaveRoller
-          v-if="status.Save"
-          :selected-targets="selectedTargets"
-          :target-saves="targetSaves"
-          :save-data="status.Save"
-          :owner="owner"
-          @update:target-saves="targetSaves = $event" />
       </v-row>
     </v-col>
   </v-row>
@@ -55,12 +39,10 @@ export default {
   name: 'ae-special-input',
   components: {
     BaseTargetSelector,
-    BaseSaveRoller,
-    BaseDurationDisplay,
   },
   props: {
     targets: { type: Array, default: () => [] },
-    status: { type: Object, required: true },
+    status: { type: String, required: true },
     owner: { type: Object, required: true },
     encounter: { type: Object, required: true },
     self: { type: Boolean },
@@ -71,7 +53,6 @@ export default {
     };
   },
   mounted: baseEffect.mounted,
-  emits: ['update:modelValue', 'update:targets'],
   computed: {
     ...baseEffect.computed,
   },
@@ -87,25 +68,13 @@ export default {
     },
 
     createTargetSummary(target, idx) {
-      const details = `${this.status.Attribute} to`;
-      const saveInfo = this.status.Save
-        ? {
-            saveResult: this.targetSaves[idx],
-            saveTarget: this.owner.CombatController.SaveTarget,
-          }
-        : null;
+      const details = `Remove ${this.status} from`;
 
-      return createSummaryText('Apply', target, details, saveInfo);
+      return createSummaryText('Apply', target, details);
     },
 
     applyToTarget(target, idx) {
-      target.actor.CombatController.ApplyCustomStatus(
-        this.status,
-        this.status.Duration || '',
-        this.owner.CombatController,
-        target.actor.CombatController,
-        this.encounter
-      );
+      target.actor.CombatController.RemoveCustomStatus(this.status);
     },
 
     getData() {
