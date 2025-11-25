@@ -24,69 +24,6 @@
           </v-btn>
         </v-toolbar>
         <v-card-text>
-          <div class="text-cc-overline">
-            Damage Origin
-            <span class="text-disabled">// Optional</span>
-          </div>
-          <v-row dense>
-            <v-col>
-              <cc-select
-                v-model="damageSource"
-                chip-variant="text"
-                :items="damageSources"
-                :item-title="(x) => `${x.actor.Name} #${x.number}`"
-                clearable
-                return-object />
-            </v-col>
-            <v-col>
-              <cc-select
-                :disabled="!damageSource"
-                v-model="damageSourceFeature"
-                :items="damageSourceFeatures"
-                chip-variant="text"
-                :item-title="(x) => `${x.Name} `"
-                clearable
-                :details="originDamageStrings.length && originDamageStrings.join(', ') + ' Damage'"
-                return-object />
-            </v-col>
-            <v-col cols="auto" v-if="!damageSource">
-              <v-btn
-                :disabled="!damageSource"
-                flat
-                tile
-                block
-                size="small"
-                prepend-icon="mdi-plus"
-                color="primary"
-                @click="setDamageOrigin">
-                Add Origin
-              </v-btn>
-            </v-col>
-            <v-col cols="auto" v-if="damageSource">
-              <v-btn
-                flat
-                tile
-                block
-                size="small"
-                prepend-icon="mdi-calculator"
-                color="primary"
-                @click="setDamageOrigin">
-                Recalculate
-              </v-btn>
-            </v-col>
-            <v-col cols="auto" v-if="damageSource">
-              <v-btn
-                flat
-                tile
-                block
-                size="small"
-                prepend-icon="mdi-close"
-                color="primary"
-                @click="clearDamageOrigin">
-                Clear
-              </v-btn>
-            </v-col>
-          </v-row>
           <v-row>
             <v-col style="max-width: 300px">
               <div class="text-cc-overline text-disabled">Incoming Damage Value</div>
@@ -151,9 +88,7 @@
                   </v-tooltip>
                 </v-col>
               </v-row>
-            </v-col>
-            <v-col style="max-width: 300px">
-              <div class="text-cc-overline text-disabled">Defender Status</div>
+              <div class="text-cc-overline text-disabled mt-2">Defender Status</div>
               <v-divider class="mb-2" />
               <v-card
                 flat
@@ -173,33 +108,6 @@
                 v-else>
                 NOMINAL
               </v-card>
-
-              <div class="text-cc-overline text-disabled mt-2">Add Status</div>
-              <v-divider />
-              <v-row dense class="mt-1">
-                <v-col v-for="s in statuses" :key="s.ID">
-                  <v-tooltip :open-delay="400" location="top" max-width="300">
-                    <template #activator="{ props }">
-                      <v-card
-                        v-bind="props"
-                        color="panel"
-                        class="px-2 py-1 text-center"
-                        flat
-                        tile
-                        :color="
-                          controller.Statuses.some((x) => x.status.ID === s.ID)
-                            ? 'primary'
-                            : 'panel'
-                        "
-                        @click="toggleAddStatus(s)">
-                        <v-icon :icon="s.Icon" size="35" />
-                      </v-card>
-                    </template>
-                    <div class="heading h3">{{ s.Name }}</div>
-                    {{ s.Terse || s.Effects }}
-                  </v-tooltip>
-                </v-col>
-              </v-row>
             </v-col>
             <v-col>
               <v-card flat tile min-height="208px" color="background" class="my-2 px-6">
@@ -249,6 +157,9 @@
                     <div v-if="damageMods.includes('ap')" class="text-error text-disabled">
                       // Armor Piercing
                     </div>
+                    <div v-if="damageMods.includes('force')" class="text-error text-disabled">
+                      // Irreducible
+                    </div>
                   </v-col>
                   <v-col cols="1"><v-icon icon="mdi-minus" /></v-col>
                   <v-col cols="3" class="text-right">
@@ -265,7 +176,12 @@
                   </v-col>
                 </v-row>
                 <v-row dense class="text-cc-overline" align="center">
-                  <v-col>Damage Resistance (Kinetic)</v-col>
+                  <v-col>
+                    Damage Resistance (Kinetic)
+                    <div v-if="damageMods.includes('force')" class="text-error text-disabled">
+                      // Irreducible
+                    </div>
+                  </v-col>
                   <v-col cols="1"><v-icon icon="mdi-minus" /></v-col>
                   <v-col cols="3" class="text-right">
                     <v-text-field

@@ -4,13 +4,10 @@
     :collapsed="collapsed"
     :selected="selected"
     :side="combatant.side"
-    :icon="combatant.actor.Icon"
-    :reinforcementTurn="combatant.reinforcementTurn"
-    :round="round"
-    @activate="$emit('activate', combatant)"
+    icon="cc:destroyed_outline"
     @click="$emit('select', combatant)">
     <div>
-      <span class="heading h4">
+      <span class="heading">
         {{ combatant.actor.Name }}
       </span>
     </div>
@@ -21,7 +18,7 @@
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
 export default {
-  name: 'ReinforcementListItem',
+  name: 'DestroyedListItem',
   components: {
     RunnerListItemBase,
   },
@@ -37,10 +34,6 @@ export default {
     },
     selected: {
       type: Boolean,
-    },
-    round: {
-      type: Number,
-      default: 1,
     },
   },
   emits: ['select'],

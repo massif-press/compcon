@@ -1,8 +1,24 @@
 <template>
-  <v-row align="end" justify="space-between" class="pb-1 mt-n2">
-    <v-col>
+  <v-row dense align="end" class="pb-2 mt-n2">
+    <v-col cols="auto">
       <div class="text-cc-overline text-disabled">// NPC FEATURES</div>
     </v-col>
+    <v-col cols="auto">
+      <v-tooltip location="top" :text="`${hidePassives ? 'Hiding' : 'Showing'} passive features`">
+        <template #activator="{ props }">
+          <v-btn v-bind="props" size="12" flat tile icon @click="hidePassives = !hidePassives">
+            <v-icon
+              :color="hidePassives ? 'primary' : 'text'"
+              size="18"
+              :icon="hidePassives ? 'mdi-eye-off' : 'mdi-eye'" />
+          </v-btn>
+          <v-chip size="x-small" class="pa-2 ml-2 mb-n2" flat style="opacity: 0.75">
+            {{ hiddenFeatureCount }} Hidden Features
+          </v-chip>
+        </template>
+      </v-tooltip>
+    </v-col>
+    <v-spacer />
     <v-col cols="auto">
       <v-menu location="top" :close-on-content-click="false" width="400">
         <template #activator="{ props }">
@@ -113,6 +129,8 @@ export default {
   emits: ['deploy'],
   data: () => ({
     result: 0,
+    hiddenFeatureCount: 0,
+    hidePassives: true,
   }),
   methods: {
     roll() {
@@ -132,15 +150,24 @@ export default {
   },
   computed: {
     features() {
-      return this.unit.NpcFeatureController.Features.filter((x) => !x.Mod).sort((a, b) => {
-        if (a.Actions?.length > 0 && b.Actions?.length === 0) return -1;
-        if (a.Actions?.length === 0 && b.Actions?.length > 0) return 1;
-        if (a.Deployables?.length > 0 && b.Deployables?.length === 0) return -1;
-        if (a.Deployables?.length === 0 && b.Deployables?.length > 0) return 1;
-        if (a.Damage?.length > 0 && b.Damage?.length === 0) return -1;
-        if (a.Damage?.length === 0 && b.Damage?.length > 0) return 1;
-        return 0;
+      let features = this.unit.NpcFeatureController.Features.filter((x) => !x.Mod).sort((a, b) => {
+        const getPriority = (item) => {
+          if (item.DamageData?.length > 0) return 1;
+          if (item.Actions?.length > 0) return 2;
+          if (item.Deployables?.length > 0) return 3;
+          return 4;
+        };
+        return getPriority(a) - getPriority(b);
       });
+      if (this.hidePassives) {
+        features = features.filter((feature) => !feature.IsCombatPassive);
+        this.hiddenFeatureCount = this.unit.NpcFeatureController.Features.filter(
+          (feature) => feature.IsCombatPassive
+        ).length;
+      } else {
+        this.hiddenFeatureCount = 0;
+      }
+      return features;
     },
     rechargedFeatures() {
       if (this.result === 0) {

@@ -45,7 +45,7 @@ import { Statblock } from '@/class';
 export default {
   name: 'DamageMenu',
   props: {
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },

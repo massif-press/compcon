@@ -50,18 +50,6 @@
                 class="bg-panel">
                 <v-icon :icon="icon || 'mdi-cube'" :size="collapsed ? 45 : 60" />
               </v-avatar>
-              <div
-                v-if="destroyed"
-                style="
-                  position: absolute;
-                  top: 15%;
-                  right: 15%;
-                  left: 15%;
-                  bottom: 15%;
-                  z-index: 1;
-                ">
-                <v-icon icon="cc:destroyed_outline" size="100%" />
-              </div>
             </v-col>
             <v-col v-if="!collapsed" class="mx-1">
               <slot />

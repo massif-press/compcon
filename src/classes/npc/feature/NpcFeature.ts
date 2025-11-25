@@ -5,6 +5,7 @@ import { NpcTemplate } from '../template/NpcTemplate';
 import { CompendiumStore } from '@/stores';
 import { Bonus, IBonusData } from '@/classes/components';
 import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
+import { NpcWeapon } from './NpcItem/NpcWeapon';
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -145,6 +146,16 @@ abstract class NpcFeature extends CompendiumItem {
 
   public get Passive(): boolean {
     return this.BuildFeature || this.Deprecated || !!this.Mod || this.HideActive;
+  }
+
+  public get IsCombatPassive(): boolean {
+    return !(
+      this.Actions.length > 0 ||
+      this.Deployables.length > 0 ||
+      this.Recharge > 0 ||
+      this.Tags.some((x) => x.UsageCost > 0) ||
+      !!(this as any).Damage
+    );
   }
 
   public get ModTarget(): NpcFeature | null {

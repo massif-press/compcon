@@ -45,7 +45,7 @@
     </template>
   </sortable>
   <v-card v-if="reinforcements.length" class="ma-2" flat tile color="background">
-    <div class="text-cc-overline pa-1 text-disabled">
+    <div v-if="expanded" class="text-cc-overline pa-1 text-disabled">
       <cc-slashes />
       reinforcements
     </div>
@@ -58,6 +58,22 @@
       :round="encounter.Round"
       no-drag
       @activate="activateReinforcement(r)"
+      @select="$emit('select', $event)" />
+  </v-card>
+
+  <v-card v-if="destroyedCombatants.length" flat tile>
+    <div v-if="expanded" class="text-cc-overline pa-1 text-disabled">
+      <cc-slashes />
+      Destroyed Combatants
+    </div>
+    <v-divider v-else class="my-2" />
+
+    <destroyed-list-item
+      v-for="r in destroyedCombatants"
+      :combatant="r"
+      :collapsed="!expanded"
+      :selected="selected && selected.id === r.id"
+      no-drag
       @select="$emit('select', $event)" />
   </v-card>
 
@@ -109,6 +125,7 @@ import GmAddOtherMenu from './ListItems/AddItems/GmAddOtherMenu.vue';
 import GmAddStubMenu from './ListItems/AddItems/GmAddStubMenu.vue';
 import PlaceholderRunnerListItem from './ListItems/PlaceholderRunnerListItem.vue';
 import ReinforcementListItem from './ListItems/ReinforcementListItem.vue';
+import DestroyedListItem from './ListItems/DestroyedListItem.vue';
 
 export default {
   name: 'gm-encounter-runner-initiative-panel',
@@ -124,6 +141,7 @@ export default {
     PlaceholderRunnerListItem,
     ReinforcementListItem,
     EidolonRunnerListItem,
+    DestroyedListItem,
   },
   props: {
     encounter: {
@@ -151,13 +169,16 @@ export default {
       if (!this.encounter || !this.encounter.Combatants) {
         return [];
       }
-      return this.encounter.Combatants;
+      return this.encounter.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
     },
     activeCombatants() {
       return this.combatants.filter((c) => !c.reinforcement);
     },
     reinforcements() {
       return this.combatants.filter((c) => c.reinforcement);
+    },
+    destroyedCombatants() {
+      return this.encounter.Combatants.filter((c) => c.actor.CombatController.IsDestroyed);
     },
   },
   methods: {

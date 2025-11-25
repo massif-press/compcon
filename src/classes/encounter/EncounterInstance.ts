@@ -96,6 +96,14 @@ class EncounterInstance implements ISaveable {
     this.save();
   }
 
+  public EndRound(): void {
+    this.Combatants.forEach((c) => {
+      c.actor.CombatController.EndRound();
+    });
+    this._round += 1;
+    // this.save();
+  }
+
   public save(): void {
     this.SaveController.save();
   }

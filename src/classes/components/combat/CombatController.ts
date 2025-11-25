@@ -1,11 +1,3 @@
-// this should hold/modify/manage stats
-// this should hold statuses/conditions/damage vulns
-// combat actions
-// counters
-// achievement watchers
-// damage handlers
-// manage destroy/cascade/ejected/etc state
-
 import { Counter, DamageType, DiceRoller, Pilot, Rules } from '@/class';
 import { ICombatant } from './ICombatant';
 import { IStatData, StatController } from './stats/StatController';
@@ -227,6 +219,11 @@ class CombatController implements ICounterContainer, IStatContainer {
     if ((this.Parent as any).Callsign)
       return `${(this.Parent as any).Callsign} (${this.Parent.Name})`;
     return this.Parent.Name;
+  }
+
+  public get HasRemainingActions(): boolean {
+    // ignore overcharge and reaction for this check
+    return this.CanActivate('protocol') || this.CanActivate('full') || this.CanActivate('quick');
   }
 
   public SortedActiveEffects(sort: string, dir: 'asc' | 'desc'): ActiveEffect[] {
@@ -579,6 +576,28 @@ class CombatController implements ICounterContainer, IStatContainer {
       source: effect.Origin.Name,
       details: eventData.join('; '),
     });
+  }
+
+  public getExpiredStatuses(
+    currentRound: number,
+    currentActorID: string
+  ): { status: Status; expires: expiration }[] {
+    return this.Statuses.filter((s) =>
+      s.expires.HasExpired(currentRound, currentActorID, this.Turn)
+    );
+  }
+
+  public EndRound(): void {
+    this.StatController.CurrentStats['activations'] = this.StatController.MaxStats['activations'];
+    this.StatController.CurrentStats['speed'] = this.StatController.MaxStats['speed'];
+    this.CombatActions = {
+      Protocol: true,
+      Full: true,
+      Quick1: true,
+      Quick2: true,
+      Overcharge: true,
+      Reaction: true,
+    };
   }
 
   public static Serialize(controller: CombatController, target: any) {
