@@ -295,7 +295,9 @@
           </v-col>
           <v-col cols="auto" style="min-width: 20px" />
           <v-col class="mx-auto">
-            <status-condition-selector :controller="item.CombatController" />
+            <status-condition-selector
+              :controller="item.CombatController"
+              :encounter="encounterInstance" />
           </v-col>
         </v-row>
 

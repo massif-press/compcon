@@ -216,13 +216,7 @@ export default {
       return this.unit.NpcClassController?.Tier || 1;
     },
     showCommandPanel() {
-      return (
-        this.item.Actions.length > 0 ||
-        this.item.Deployables.length > 0 ||
-        this.item.Recharge > 0 ||
-        this.item.Tags.some((x) => x.UsageCost > 0) ||
-        !!this.item.Damage
-      );
+      return !this.IsCombatPassive;
     },
   },
   methods: {

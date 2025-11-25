@@ -72,10 +72,10 @@
         <v-footer app height="36" style="border-top: 1px solid rgba(255, 255, 255, 0.1)">
           <v-row justify="space-between" align="center" no-gutters>
             <v-col>
-              <gm-end-round-panel :encounter="instance.Encounter" />
+              <gm-end-round-panel :encounter-instance="instance" />
             </v-col>
             <v-col>
-              <gm-end-encounter-panel :encounter="instance.Encounter" />
+              <gm-end-encounter-panel :encounter-instance="instance" />
             </v-col>
           </v-row>
         </v-footer>

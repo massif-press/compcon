@@ -110,7 +110,9 @@
           </v-col>
           <v-col cols="auto" style="min-width: 20px" />
           <v-col class="mx-auto">
-            <status-condition-selector :controller="pilot.CombatController" />
+            <status-condition-selector
+              :controller="pilot.CombatController"
+              :encounter="encounterInstance" />
           </v-col>
         </v-row>
 
