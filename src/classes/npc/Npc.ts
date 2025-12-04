@@ -354,14 +354,13 @@ class Npc
             : item.Feature.Override[key]
           this._stats.Overrides[key] = o
         }
-      } else {
-        if (item.Feature.Bonus) {
-          for (const key in item.Feature.Bonus) {
-            const b = Array.isArray(item.Feature.Bonus[key])
-              ? item.Feature.Bonus[key][item.Tier - 1]
-              : item.Feature.Bonus[key]
-            this._stats.Bonuses[key] += parseInt(b)
-          }
+      } 
+      if (item.Feature.Bonus) {
+        for (const key in item.Feature.Bonus) {
+          const b = Array.isArray(item.Feature.Bonus[key])
+            ? item.Feature.Bonus[key][item.Tier - 1]
+            : item.Feature.Bonus[key]
+          this._stats.Bonuses[key] += parseInt(b)
         }
       }
     })
