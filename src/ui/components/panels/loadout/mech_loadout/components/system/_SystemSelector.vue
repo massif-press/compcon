@@ -134,14 +134,6 @@ export default Vue.extend({
       // filter unique
       let i = this.systems.filter(x => !x.IsHidden && !x.IsExotic)
 
-      // filter ai
-      if (
-        this.mech.MechLoadoutController.ActiveLoadout.AICount >=
-        1 + Bonus.get('ai_cap', this.mech)
-      ) {
-        i = i.filter(x => !x.IsAI)
-      }
-
       if (!this.showUnlicensed) {
         i = i.filter(
           x => !x.LicenseLevel || this.mech.Pilot.has('License', x.LicenseID, x.LicenseLevel)
@@ -169,6 +161,14 @@ export default Vue.extend({
               x.ID
             )
         )
+
+        // filter ai
+        if (!this.showUnlicensed && 
+            this.mech.MechLoadoutController.ActiveLoadout.AICount >= 
+            1 + Bonus.get('ai_cap', this.mech)
+        ) {
+          i = i.filter(x => !x.IsAI)
+        }
 
       return _.sortBy(i, ['Source', 'Name'])
     },
