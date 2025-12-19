@@ -383,7 +383,14 @@ class MechLoadout extends Loadout {
   }
 
   public get SpecialEquipment(): CompendiumItem[] {
-    return (this.UniqueItems.filter(x => x.SpecialEquipment.length != 0).map(y => y.SpecialEquipment)).flat();
+    var frame_special_equipment : CompendiumItem[] = this.Parent.Frame.CoreSystem.SpecialEquipment || [];
+    for (let i = this.Parent.Frame.Traits.length - 1; i >= 0; i--) {
+      if (this.Parent.Frame.Traits[i].SpecialEquipment) {
+        frame_special_equipment = frame_special_equipment.concat(this.Parent.Frame.Traits[i].SpecialEquipment);
+      }
+    }
+    console.log(frame_special_equipment);
+    return (this.UniqueItems.filter(x => x.SpecialEquipment.length != 0).map(y => y.SpecialEquipment)).concat(frame_special_equipment).flat();
   }
 
   public static Serialize(ml: MechLoadout): IMechLoadoutData {
