@@ -392,7 +392,7 @@ class Npc
   }
 
   public get ItemsSorted(): NpcItem[] {
-    return this._items.toSorted((a, b) => {
+    return [...this._items].sort((a, b) => {
       if (a.Collapsed && !b.Collapsed) return 1
       if (!a.Collapsed && b.Collapsed) return -1
       return 0
