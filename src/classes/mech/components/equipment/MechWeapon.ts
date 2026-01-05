@@ -408,7 +408,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {
-    return {
+    const data = {
       id: item.ID,
       data: item.ItemData,
       note: item.Note,
@@ -423,6 +423,15 @@ class MechWeapon extends MechEquipment {
       customEffect: item._custom_effect || undefined,
       maxUseOverride: MechWeapon.SanitizeUsesInput(item.max_use_override) || 0,
     };
+
+    // combat props
+    return {
+      ...data,
+      maxUses: item.MaxUses,
+      currentUses: item.Uses,
+      destroyed: item.Destroyed,
+      isUsed: item.Used,
+    } as IMechWeaponSaveData;
   }
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
@@ -445,6 +454,12 @@ class MechWeapon extends MechEquipment {
     item._custom_weapon_type = data.customWeaponType || null;
     item._custom_tags = data.customTags || null;
     item._custom_effect = data.customEffect || null;
+
+    // combat props
+    // item.MaxUses = data.maxUses || 0;
+    item.Uses = data.currentUses || 0;
+    item.Destroyed = data.destroyed || false;
+    item.Used = data.isUsed || false;
     return item;
   }
 }

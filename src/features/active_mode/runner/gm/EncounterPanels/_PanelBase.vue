@@ -110,22 +110,15 @@
           </v-col>
 
           <v-col cols="auto" class="ml-auto" align-self="center">
-            <v-btn-toggle v-model="item.CombatController.Cover" flat tile color="primary">
-              <v-btn size="small" stacked value="none">
-                No
-                <br />
-                Cover
-              </v-btn>
-              <v-btn size="small" stacked value="soft">
-                Soft
-                <br />
-                Cover
-              </v-btn>
-              <v-btn size="small" stacked value="hard">
-                Hard
-                <br />
-                Cover
-              </v-btn>
+            <v-btn-toggle
+              v-model="item.CombatController.Cover"
+              flat
+              tile
+              color="primary"
+              style="height: 30px">
+              <v-btn size="small" height="30" value="none">No Cover</v-btn>
+              <v-btn size="small" height="30" value="soft">Soft Cover</v-btn>
+              <v-btn size="small" height="30" value="hard">Hard Cover</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -283,11 +276,12 @@
         <custom-stat-editor :item="item" />
 
         <slot name="stat-block" />
-
-        <combat-action-panel
-          v-if="!noActions && item.CombatController.StatController.MaxStats['activations']"
-          :controller="item.CombatController"
-          :hide-overcharge="item.ItemType !== 'mech'" />
+        <div v-if="!noActions && item.CombatController.StatController.MaxStats['activations']">
+          <combat-action-panel
+            :controller="item.CombatController"
+            :hide-overcharge="item.ItemType !== 'mech'" />
+        </div>
+        <slot name="actions" />
 
         <v-row v-if="!noConditions" dense class="mt-4">
           <v-col cols="4">

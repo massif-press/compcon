@@ -110,7 +110,7 @@ import DeployButton from './_deployButton.vue';
 import EquipCommandPanel from './_equipCommandPanel.vue';
 
 export default {
-  name: 'slot-card-base',
+  name: 'mech-system-combat-card',
   components: {
     DeployButton,
     EquipCommandPanel,

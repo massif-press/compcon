@@ -7,7 +7,7 @@
     :duration="3000">
     <template #body="props">
       <cc-alert
-        :color="props.item.data?.color || 'info'"
+        :color="color(props.item)"
         :icon="props.item.data?.icon || 'mdi-bell'"
         class="ma-2 pb-2 border-s-lg"
         :class="props.item.data?.achievement ? 'achievement-pulse' : ''"
@@ -42,6 +42,12 @@ export default {
     },
   },
   methods: {
+    color(item) {
+      if (item.type) {
+        return item.type;
+      }
+      return item.data?.color || 'info';
+    },
     closePopup(close: () => void) {
       close();
     },

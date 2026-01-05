@@ -98,7 +98,7 @@ export default {
       return PilotStore()
         .Pilots.filter(
           (p) =>
-            !this.encounterInstance.Pilots.some((ep) => ep.ID === p.ID) &&
+            !this.encounterInstance.Combatants.some((c) => c.actor.ID === p.ID) &&
             (!this.search ||
               p.Callsign.toLowerCase().includes(this.search.toLowerCase()) ||
               p.Name.toLowerCase().includes(this.search.toLowerCase()))
@@ -117,9 +117,8 @@ export default {
 
   methods: {
     addPc(pc) {
-      if (this.encounterInstance.Pilots.some((p) => p.ID === pc.ID)) return;
+      if (this.encounterInstance.Combatants.some((p) => p.ID === pc.ID)) return;
 
-      this.encounterInstance.Pilots.push(pc);
       this.encounterInstance.Combatants.push({
         id: pc.ID,
         index: -1,

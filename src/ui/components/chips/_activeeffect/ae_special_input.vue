@@ -30,6 +30,14 @@
           @add-target="addTarget"
           @remove-target="cancelTarget" />
 
+        <base-attack-roller
+          v-if="status.Attack"
+          :selected-targets="selectedTargets"
+          :attack-rolls="attackRolls"
+          :attack="status.Attack"
+          :owner="owner"
+          @update:target-attacks="attackRolls = $event" />
+
         <BaseSaveRoller
           v-if="status.Save"
           :selected-targets="selectedTargets"

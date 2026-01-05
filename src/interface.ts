@@ -26,11 +26,7 @@ import {
   IMechWeaponData,
   IMechWeaponSaveData,
 } from './classes/mech/components/equipment/MechWeapon';
-import {
-  IContentPackManifest,
-  IContentPack,
-  ContentPackDependency,
-} from './classes/ContentPack';
+import { IContentPackManifest, IContentPack, ContentPackDependency } from './classes/ContentPack';
 import { ICounterData } from './classes/components/combat/counters/Counter';
 import { ITagCompendiumData } from './classes/Tag';
 import { PilotData } from './classes/pilot/Pilot';
@@ -85,6 +81,12 @@ interface IEquipmentData {
   flavorDescription?: string;
   customDamageType?: string;
   data?: any;
+
+  // combat props
+  maxUses?: number;
+  currentUses?: number;
+  destroyed?: boolean;
+  isUsed?: boolean;
 }
 
 interface IOrganizationData {

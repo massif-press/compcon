@@ -6,6 +6,7 @@ type CustomNotifyOptions = {
   color?: string;
   icon?: string;
   achievement?: boolean;
+  type?: 'info' | 'success' | 'error' | 'warning';
 };
 
 // queue to buffer early calls
@@ -26,7 +27,23 @@ export function notify({
   color = 'info',
   icon = 'mdi-bell',
   achievement = false,
+  type = 'info',
 }: CustomNotifyOptions) {
+  switch (type) {
+    case 'success':
+      icon = 'mdi-check-circle';
+      color = 'success';
+      break;
+    case 'error':
+      icon = 'mdi-alert-circle';
+      color = 'error';
+      break;
+    case 'warning':
+      icon = 'mdi-alert';
+      color = 'warning';
+      break;
+  }
+  console.log(type, icon, color);
   baseNotify({
     title,
     text,

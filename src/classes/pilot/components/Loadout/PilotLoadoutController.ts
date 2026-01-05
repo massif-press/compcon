@@ -85,9 +85,18 @@ class PilotLoadoutController implements IFeatureContainer {
     this.Parent.SaveController.save();
   }
 
-  public static Serialize(parent: Pilot, target: any) {
-    target.loadouts = parent.PilotLoadoutController.Loadouts.map((x) => PilotLoadout.Serialize(x));
-    target.active_index = parent.PilotLoadoutController._activeIndex;
+  public static Serialize(parent: Pilot, target: any, asInstance = false) {
+    if (asInstance) {
+      // only save active loadout details
+      target.loadouts = [PilotLoadout.Serialize(parent.PilotLoadoutController.ActiveLoadout)];
+      target.active_index = 0;
+      // iterate through activeLoadout  and set usage/current uses/destroyed
+    } else {
+      target.loadouts = parent.PilotLoadoutController.Loadouts.map((x) =>
+        PilotLoadout.Serialize(x)
+      );
+      target.active_index = parent.PilotLoadoutController._activeIndex;
+    }
   }
 
   public static Deserialize(parent: Pilot, data: IPilotLoadoutSaveData) {

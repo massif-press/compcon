@@ -1,6 +1,6 @@
 <template>
-  <div class="px-2">
-    <v-row dense class="mt-2 mb-1">
+  <div class="px-2 mt-n5">
+    <v-row dense class="mb-1">
       <v-spacer />
       <v-col cols="auto">
         <v-menu :close-on-content-click="false">

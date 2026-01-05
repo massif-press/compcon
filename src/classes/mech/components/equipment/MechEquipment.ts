@@ -35,7 +35,6 @@ abstract class MechEquipment extends LicensedItem {
   public constructor(data: IMechEquipmentData, pack?: ContentPack) {
     super(data, pack);
     this.SP = parseInt(data.sp as any) || 0;
-    // todo: effectobject constructor
     this.Effect = data?.effect
       ? typeof data.effect === 'string'
         ? data.effect

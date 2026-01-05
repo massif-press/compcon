@@ -54,7 +54,6 @@ import { BondController, IPilotBondData } from './components/bond/BondController
 import logger from '@/user/logger';
 import { IInstanceableData } from '../components/instance/IInstancableData';
 import { IInstanceable } from '../components/instance/IInstanceable';
-import { IStatContainer } from '../components/combat/stats/IStatContainer';
 import { IStatData, StatController } from '../components/combat/stats/StatController';
 import { ICombatant } from '../components/combat/ICombatant';
 import { CombatController, CombatData } from '../components/combat/CombatController';
@@ -168,12 +167,13 @@ class Pilot
   private _notes: string;
   private _quirks: string[];
   private _history: string;
-  private _level: number;
+  private _level: number = 0;
   private _background: string;
-  private _special_equipment: CompendiumItem[];
-  private _mechs: Mech[];
+  private _special_equipment: CompendiumItem[] = [];
+  private _mechs: Mech[] = [];
 
-  public IsLevelEdit: boolean = false;
+  public IsLevelEdit = false;
+  public IsEncounterInstance = false;
 
   public constructor(data?: PilotData) {
     this._id = data?.id || uuid();
@@ -202,6 +202,7 @@ class Pilot
       PortraitController.Deserialize(this, data.img);
       BrewController.Deserialize(this, data);
       ReservesController.Deserialize(this, data);
+      CombatController.Deserialize(this.CombatController, data.combat_data);
 
       try {
         SkillsController.Deserialize(this, data);
@@ -258,7 +259,6 @@ class Pilot
         : [];
     } catch (e) {
       this.LoadError(e, 'pilot mechs');
-      this._mechs = [];
     }
 
     try {
@@ -267,10 +267,7 @@ class Pilot
         : [];
     } catch (e) {
       this.LoadError(e, 'pilot special equipment');
-      this._special_equipment = [];
     }
-
-    if (data) CombatController.Deserialize(this.CombatController, data.combat_data);
   }
 
   // -- Utility -----------------------------------------------------------------------------------
@@ -528,7 +525,9 @@ class Pilot
       { key: 'edef', val: this.EDefense },
       { key: 'limited_bonus', val: this.LimitedBonus },
     ] as { key: string; val: number }[];
+
     this.CombatController.setStats(kvps);
+
     this.Mechs.forEach((m) => {
       m.SetStats();
     });
@@ -674,7 +673,7 @@ class Pilot
       history: p.History,
       quirks: p.Quirks,
       background: p.Background,
-      mechs: p.Mechs.length ? p.Mechs.map((x) => Mech.Serialize(x)) : [],
+      mechs: p.Mechs.length ? p.Mechs.map((x) => Mech.Serialize(x, asInstance)) : [],
       special_equipment: this.serializeSE(p._special_equipment),
       sortIndex: p.SortIndex,
     };
@@ -689,7 +688,7 @@ class Pilot
     ReservesController.Serialize(p, data);
     BondController.Serialize(p, data);
     PortraitController.Serialize(p, data);
-    PilotLoadoutController.Serialize(p, data);
+    PilotLoadoutController.Serialize(p, data, asInstance);
     CombatController.Serialize(p.CombatController, data);
     BrewController.Serialize(p, data);
 

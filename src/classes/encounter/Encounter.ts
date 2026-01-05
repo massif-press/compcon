@@ -42,13 +42,13 @@ interface IEncounterData {
   sitrep?: ISitrepData;
   environment?: IEnvironmentData;
   map?: IMapData;
-  combatants: CombatantSaveData[];
+  combatants?: CombatantSaveData[];
 }
 
 type CombatantData = {
   id: string;
   index: number;
-  type: 'unit' | 'doodad' | 'eidolon' | 'pilot';
+  type: 'unit' | 'doodad' | 'eidolon' | 'pilot' | 'placeholder';
   actor: ICombatant;
   number: number;
   side: 'enemy' | 'ally' | 'neutral';
@@ -115,51 +115,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     }
 
     if (data?.combatants) {
-      this._combatants = data.combatants.map((c) => {
-        // TODO: remove after release, this is to ensure old v3 encounters are compatible
-        if ((c as any).npc)
-          c.actor = (c as any).npc as UnitData | DoodadData | EidolonData | PilotData;
-        let actor;
-        switch (c.type) {
-          case 'unit':
-            actor = Unit.Deserialize(c.actor as UnitData);
-            break;
-          case 'doodad':
-            actor = Doodad.Deserialize(c.actor as DoodadData);
-            break;
-          case 'eidolon':
-            actor = Eidolon.Deserialize(c.actor as EidolonData);
-            break;
-          case 'pilot':
-            actor = Pilot.Deserialize(c.actor as PilotData);
-            break;
-          case 'placeholder':
-            actor = Placeholder.Deserialize(c.actor as IPlaceholderData);
-          default:
-            throw new Error('Invalid combatant type');
-        }
-
-        const item = {
-          id: c.id || uuid(),
-          index: c.index,
-          type: c.type,
-          number: 1,
-          actor,
-          side: c.side || 'enemy',
-          playerCount: c.playerCount || 1,
-          reinforcement: c.reinforcement || false,
-          reinforcementTurn: Number(c.reinforcementTurn) || 0,
-          deployables: [] as DeployableInstance[],
-          // deployables: c.deployables
-          //   ? c.deployables.map((d) => DeployableInstance.Deserialize(d, c))
-          //   : [],
-        };
-
-        if (c.deployables)
-          item.deployables = c.deployables.map((d) => DeployableInstance.Deserialize(d, item));
-
-        return item;
-      });
+      this._combatants = data.combatants.map((c) => Encounter.DeserializeCombatant(c));
 
       const seen = [] as string[];
 
@@ -337,18 +293,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       sitrep: SitrepInstance.Serialize(enc.Sitrep),
       environment: EnvironmentInstance.Serialize(enc.Environment),
       map: enc.Map ? EncounterMap.Serialize(enc.Map) : undefined,
-      combatants: enc.Combatants.map((c) => {
-        return {
-          index: c.index,
-          type: c.type,
-          actor: (c.actor as any).Serialize(true),
-          side: c.side,
-          playerCount: c.playerCount,
-          reinforcement: c.reinforcement,
-          reinforcementTurn: Number(c.reinforcementTurn),
-          deployables: c.deployables.map((d) => DeployableInstance.Serialize(d)),
-        };
-      }),
+      combatants: enc.Combatants.map((c) => Encounter.SerializeCombatant(c)),
     } as IEncounterData;
 
     SaveController.Serialize(enc, data);
@@ -357,6 +302,19 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     FolderController.Serialize(enc, data);
 
     return data as IEncounterData;
+  }
+
+  public static SerializeCombatant(combatant: CombatantData): CombatantSaveData {
+    return {
+      index: combatant.index,
+      type: combatant.type,
+      actor: (combatant.actor as any).Serialize(true),
+      side: combatant.side,
+      playerCount: combatant.playerCount,
+      reinforcement: combatant.reinforcement,
+      reinforcementTurn: Number(combatant.reinforcementTurn),
+      deployables: combatant.deployables.map((d) => DeployableInstance.Serialize(d)),
+    };
   }
 
   public Serialize(): IEncounterData {
@@ -374,6 +332,50 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     NarrativeController.Deserialize(encounter, data.narrative);
     FolderController.Deserialize(encounter, data.folder);
     return encounter;
+  }
+
+  public static DeserializeCombatant(data: CombatantSaveData): CombatantData {
+    // TODO: remove after release, this is to ensure old v3 encounters are compatible
+    if ((data as any).npc)
+      data.actor = (data as any).npc as UnitData | DoodadData | EidolonData | PilotData;
+    let actor;
+    switch (data.type) {
+      case 'unit':
+        actor = Unit.Deserialize(data.actor as UnitData);
+        break;
+      case 'doodad':
+        actor = Doodad.Deserialize(data.actor as DoodadData);
+        break;
+      case 'eidolon':
+        actor = Eidolon.Deserialize(data.actor as EidolonData);
+        break;
+      case 'pilot':
+        actor = Pilot.Deserialize(data.actor as PilotData);
+        break;
+      case 'placeholder':
+        actor = Placeholder.Deserialize(data.actor as IPlaceholderData);
+        break;
+      default:
+        throw new Error('Invalid combatant type');
+    }
+
+    const item = {
+      id: data.id || uuid(),
+      index: data.index,
+      type: data.type,
+      number: 1,
+      actor,
+      side: data.side || 'enemy',
+      playerCount: data.playerCount || 1,
+      reinforcement: data.reinforcement || false,
+      reinforcementTurn: Number(data.reinforcementTurn) || 0,
+      deployables: [] as DeployableInstance[],
+    };
+
+    if (data.deployables)
+      item.deployables = data.deployables.map((d) => DeployableInstance.Deserialize(d, item));
+
+    return item;
   }
 }
 

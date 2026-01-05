@@ -2,7 +2,9 @@
   <div>
     <div class="text-cc-overline text-disabled">Statuses / Conditions</div>
     <v-row dense>
-      <v-col v-for="status in statuses.filter((x) => x.StatusType === 'Status')" :key="status.ID">
+      <v-col
+        v-for="status in applicableStatuses.filter((x) => x.StatusType === 'Status')"
+        :key="`${isPilot}_${status.ID}`">
         <v-tooltip :open-delay="400" location="top" max-width="300">
           <template #activator="{ props }">
             <v-card
@@ -25,8 +27,8 @@
 
     <v-row dense>
       <v-col
-        v-for="status in statuses.filter((x) => x.StatusType === 'Condition')"
-        :key="status.ID">
+        v-for="status in applicableStatuses.filter((x) => x.StatusType === 'Condition')"
+        :key="`${isPilot}_${status.ID}`">
         <v-tooltip :open-delay="400" location="top" max-width="300">
           <template #activator="{ props }">
             <v-card
@@ -158,6 +160,9 @@ export default {
     selectedTargets: [],
   }),
   computed: {
+    isPilot() {
+      return this.controller.Parent.ItemType === 'Pilot';
+    },
     filteredTargets() {
       return this.targets.filter((t) => !this.selectedTargets.includes(t));
     },
@@ -165,7 +170,10 @@ export default {
       return _.orderBy(CompendiumStore().Statuses, 'StatusType');
     },
     applicableStatuses() {
-      const exclude = [`dangerzone`, `downandout`, `engaged`];
+      let exclude = [];
+      if (this.isPilot) {
+        exclude = [`dangerzone`, 'shut-down'];
+      } else exclude = [`dangerzone`, `downandout`];
       return this.statuses.filter((s) => !exclude.includes(s.ID));
     },
     special() {
@@ -214,8 +222,8 @@ export default {
     },
     appliedStatus(status) {
       const applied = this.controller.Statuses.find((s) => s.status.ID === status.ID);
-      if (!applied) return null;
-      return applied.expires.Text;
+      if (!applied || applied.expires) return null;
+      return applied.expires?.Text || '';
     },
   },
 };

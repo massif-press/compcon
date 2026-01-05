@@ -29,8 +29,5 @@ export default {
       required: true,
     },
   },
-  created() {
-    console.log('Actor Logs Mounted', this.actor);
-  },
 };
 </script>

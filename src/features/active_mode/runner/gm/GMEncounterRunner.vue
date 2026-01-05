@@ -1,37 +1,36 @@
 <template>
-  <div v-if="!instance">
+  <div :key="instanceID" v-if="!instance">
     <v-progress-linear indeterminate color="primary" height="20" class="my-5" />
     <div class="text-center text-cc-overline">Loading encounter instance...</div>
   </div>
   <div v-else>
-    <div
-      class="bg-surface"
-      style="position: absolute; top: -10px; right: -10px; width: 50px; height: 50px; z-index: 0" />
     <div style="overflow-y: hidden">
-      <v-layout :style="`height: calc(100vh - ${mobile ? '23px' : '41px'})`">
+      <v-layout :style="`height: calc(100vh - ${$vuetify.display.xs ? '23px' : '41px'})`">
         <div
           style="position: absolute; z-index: 999"
-          :style="`left: ${showLeft ? '466' : '62'}px; top: 6px`">
+          :style="`left: ${showLeft ? '485' : '84'}px; top: 5px`">
           <cc-button
             :icon="showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
             size="small"
             color="primary"
             @click="showLeft = !showLeft" />
         </div>
-        <v-navigation-drawer :rail="!showLeft" :width="460" permanent>
+        <div
+          location="left"
+          class="bg-background border-sm"
+          style="position: absolute; z-index: 3; height: calc(100vh - 76px); overflow-y: auto">
           <gm-initiative-panel
             :encounter="instance"
             :selected="selected"
             :expanded="showLeft"
             @select="selectActor($event)" />
-        </v-navigation-drawer>
+        </div>
 
-        <v-main style="overflow-y: scroll">
+        <v-main style="overflow-y: scroll" :style="`padding-left:${mainLeftOffset}`">
           <div class="text-center bg-panel pa-1 heading h3">
             {{ instance.Name }} &mdash; Round {{ instance.Round }}
           </div>
-          <v-container
-            :style="`max-width: ${showRight ? 'calc(100% - 56px)' : 'calc(100% - 62px)'}`">
+          <v-container>
             <div v-if="panel && instance">
               <component
                 :is="`${panel}-panel`"
@@ -52,6 +51,7 @@
           </v-container>
         </v-main>
         <div
+          v-if="!mobile"
           style="position: absolute; z-index: 999"
           :style="`right: ${showRight ? (mobile ? '222' : '256') : '62'}px; top: 6px`">
           <cc-button
@@ -155,12 +155,30 @@ export default {
     showRight: false,
     sortableKey: `sk-0`,
   }),
+  props: {
+    id: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+  mounted() {
+    if (this.mobile) {
+      this.showLeft = false;
+      this.showRight = false;
+    }
+  },
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
     },
     instance() {
-      return EncounterStore().getCurrentActiveEncounter;
+      return EncounterStore().getActiveEncounter(
+        this.id || this.$route.params.id || EncounterStore().CurrentActiveID
+      );
+    },
+    instanceID() {
+      return this.instance ? this.instance.ID : null;
     },
     actors() {
       if (!this.instance) return [];
@@ -169,14 +187,20 @@ export default {
     actorCount() {
       return this.actors.length;
     },
+    mainLeftOffset() {
+      // '485px' : '72px'
+      if (!this.mobile && this.showLeft) return '485px';
+      return '72px';
+    },
   },
   watch: {
-    instance: {
+    instanceID: {
       immediate: true,
-      handler(newval) {
+      handler(oldval, newval) {
         if (!newval) return;
         this.setEidolonHp();
       },
+      deep: true,
     },
     actorCount(newval, oldval) {
       if (this.instance && newval > 0 && newval !== oldval) this.setEidolonHp();

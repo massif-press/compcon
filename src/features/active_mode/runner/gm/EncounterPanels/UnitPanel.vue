@@ -120,11 +120,16 @@
         </v-col>
       </v-row>
     </template>
+
+    <template #actions>
+      <npc-actions-panel :controller="actor.CombatController" :encounter="encounterInstance" />
+    </template>
   </panel-base>
 </template>
 
 <script>
 import UnitCombatLoadout from './_components/loadouts/UnitCombatLoadout.vue';
+import NpcActionsPanel from './_components/NpcActionsPanel.vue';
 import ScanMenu from './_components/ScanMenu.vue';
 import PanelBase from './_PanelBase.vue';
 
@@ -134,6 +139,7 @@ export default {
     PanelBase,
     ScanMenu,
     UnitCombatLoadout,
+    NpcActionsPanel,
   },
   props: {
     combatant: {

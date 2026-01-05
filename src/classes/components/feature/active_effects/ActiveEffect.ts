@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { IRangeData } from '@/interface';
 import { Bonus, IBonusData } from '../..';
 import { Damage, IDamageData } from '../../../Damage';
@@ -9,6 +10,7 @@ import { IEffectStatusData, EffectStatus } from './EffectStatus';
 import { EffectSave } from './EffectSave';
 
 interface IActiveEffectData {
+  id?: string;
   name: string;
   detail: string;
   condition?: string;
@@ -24,10 +26,12 @@ interface IActiveEffectData {
   remove_special?: string[];
   add_other?: IEffectOtherData[];
   add_status?: IEffectStatusData[] | string[];
+  attack?: 'melee' | 'ranged' | 'tech';
   applied?: boolean;
 }
 
 class ActiveEffect {
+  public readonly ID: string;
   public readonly Origin: any;
   public readonly Name: string;
   public readonly Detail: string;
@@ -45,12 +49,14 @@ class ActiveEffect {
   public readonly RemoveSpecial?: string[];
   public readonly AddOther?: EffectOther[];
   public readonly AddStatus?: EffectStatus[];
+  public readonly Attack?: 'melee' | 'ranged' | 'tech';
 
   public readonly Dismissible: boolean;
 
   public Applied: boolean = false;
 
   public constructor(data: IActiveEffectData, origin: any, dismissible?: boolean) {
+    this.ID = data.id || uuid();
     this.Origin = origin;
 
     this.Name = data.name;
@@ -94,6 +100,8 @@ class ActiveEffect {
         (s) => new EffectStatus(s)
       );
     }
+
+    this.Attack = data.attack;
 
     this.Dismissible = dismissible || false;
     this.Applied = data.applied || false;

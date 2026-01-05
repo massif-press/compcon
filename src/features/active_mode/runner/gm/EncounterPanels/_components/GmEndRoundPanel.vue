@@ -106,8 +106,11 @@
           <div>- meltdown/self destruct/etc [x] apply</div>
           <div v-for="b in braced" class="my-1 mx-4 px-2 text-text bg-panel">
             <b class="text-secondary">{{ b.CombatName }}</b>
-            will remain
+            exits
             <b class="text-accent">BRACED</b>
+            and enters
+            <b class="text-warning">BRACE COOLDOWN</b>
+            state.
           </div>
           <v-divider class="my-4" />
 

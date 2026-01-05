@@ -13,13 +13,13 @@ import {
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance';
   id: string;
-  encounterData: IEncounterData;
-  pilotData?: PilotData[];
-  placeholderData?: IPlaceholderData[];
+  combatants: any[];
   round: number;
   save: ISaveData;
+  encounter: IEncounterData;
   isActive?: boolean;
   archived?: boolean;
+  autosave?: boolean;
 }
 
 class EncounterInstance implements ISaveable {
@@ -28,10 +28,9 @@ class EncounterInstance implements ISaveable {
   public readonly StorageType: string = 'active_encounters';
   public readonly Name: string = 'encounter_instance';
 
-  public Encounter: Encounter;
-  public Pilots: Pilot[] = [];
-  public Placeholders: Placeholder[] = [];
   public Combatants: CombatantData[] = [];
+  public Encounter!: Encounter;
+  public Autosave: boolean = true;
 
   private _id: string;
   private _round: number = 0;
@@ -41,48 +40,74 @@ class EncounterInstance implements ISaveable {
 
   public SaveController: SaveController;
 
-  constructor(data: IEncounterInstanceData) {
-    this._id = data.id || uuid();
-    this._round = data.round;
+  constructor(
+    data?: IEncounterInstanceData,
+    encounter?: Encounter,
+    pilots: Pilot[] = [],
+    placeholders: Placeholder[] = []
+  ) {
+    this._id = data?.id || uuid();
+    this._round = data?.round || 1;
+    this.IsActive = data?.isActive || false;
+    this.IsArchived = data?.archived || false;
 
-    this.Encounter = Encounter.Deserialize(data.encounterData);
-    this.Pilots = data.pilotData?.map((p) => Pilot.Deserialize(p)) || [];
-    this.Placeholders = data.placeholderData?.map((ph) => Placeholder.Deserialize(ph)) || [];
+    if (data) {
+      this.Combatants = data.combatants.map((c) => Encounter.DeserializeCombatant(c));
+      this.Encounter = Encounter.Deserialize(data.encounter);
+      this.Autosave = data.autosave || true;
+    } else {
+      if (!encounter) {
+        throw new Error(
+          'EncounterInstance constructor requires encounter data if no serialized data is provided.'
+        );
+      }
+      // store encounter without combatant data
+      const eData = Encounter.Serialize(encounter);
+      delete eData.combatants;
+      this.Encounter = Encounter.Deserialize(eData);
 
-    this.IsActive = data.isActive || false;
-    this.IsArchived = data.archived || false;
+      this.Combatants = [
+        ...encounter.Combatants,
+        ...pilots.map((p) => {
+          // clear non-active mechs from instanced pilot
+          const pData = p.Serialize() as PilotData;
+          pData.mechs = [pData.mechs[0]];
+          const actor = Pilot.Deserialize(pData);
 
-    this.Combatants = [
-      ...this.Encounter.Combatants,
-      ...this.Pilots.map((p) => {
-        return {
-          id: p.ID,
-          index: -1,
-          number: -1,
-          side: 'ally',
-          type: 'pilot',
-          actor: p,
-          deployables: [],
-        } as unknown as CombatantData;
-      }),
-      ...this.Placeholders.map((ph) => {
-        return {
-          id: ph.ID,
-          index: -1,
-          number: -1,
-          type: 'placeholder',
-          side: ph.Side,
-          actor: ph,
-          deployables: [],
-        } as unknown as CombatantData;
-      }),
-    ];
+          return {
+            id: p.ID,
+            index: -1,
+            number: -1,
+            side: 'ally',
+            type: 'pilot',
+            actor,
+            deployables: [],
+          } as unknown as CombatantData;
+        }),
+        ...placeholders.map((ph) => {
+          return {
+            id: ph.ID,
+            index: -1,
+            number: -1,
+            type: 'placeholder',
+            side: ph.Side,
+            actor: ph,
+            deployables: [],
+          } as unknown as CombatantData;
+        }),
+      ];
 
-    this.Combatants.sort((a, b) => a.index - b.index);
+      this.Combatants.sort((a, b) => a.index - b.index);
 
-    this.Combatants.forEach((combatant, index) => {
-      combatant.index = index;
-      combatant.actor.SetStats();
+      this.Combatants.forEach((combatant, index) => {
+        combatant.index = index;
+        combatant.actor.SetStats();
+      });
+    }
+
+    // prevent saveControllers from creating new entries
+    this.Combatants.forEach((c) => {
+      c.actor.IsEncounterInstance = true;
     });
 
     this.SaveController = new SaveController(this);
@@ -92,19 +117,20 @@ class EncounterInstance implements ISaveable {
     const deployableInstance = new DeployableInstance(deployable.ItemData, combatant);
     deployableInstance.SetStats();
     combatant.deployables.push(deployableInstance);
-
-    this.save();
   }
 
   public EndRound(): void {
     this.Combatants.forEach((c) => {
-      c.actor.CombatController.EndRound();
+      c.actor.CombatController.EndRound(this);
+      if ((c.actor as any).ActiveMech) (c.actor as any).ActiveMech.CombatController.EndRound(this);
     });
     this._round += 1;
-    // this.save();
+    if (this.Autosave) {
+      this.Save();
+    }
   }
 
-  public save(): void {
+  public Save(): void {
     this.SaveController.save();
   }
 
@@ -126,20 +152,19 @@ class EncounterInstance implements ISaveable {
 
   public set Round(value: number) {
     this._round = value;
-    this.save();
   }
 
   public static Serialize(instance: EncounterInstance): IEncounterInstanceData {
     const data = {
       itemType: 'EncounterInstance',
       id: instance.ID,
-      encounterData: Encounter.Serialize(instance.Encounter),
-      pilotData: instance.Pilots.map((p) => p.Serialize()),
-      placeholderData: instance.Placeholders.map((ph) => ph.Serialize()),
+      combatants: instance.Combatants.map((c) => Encounter.SerializeCombatant(c)),
       round: instance._round,
+      encounter: Encounter.Serialize(instance.Encounter),
       isActive: instance.IsActive,
       archived: instance.IsArchived,
-    };
+      autosave: instance.Autosave,
+    } as IEncounterInstanceData;
 
     SaveController.Serialize(instance, data);
 

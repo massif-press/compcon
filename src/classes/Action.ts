@@ -42,6 +42,8 @@ interface IActionData {
   add_resist?: IEffectResistData[];
   add_other?: IEffectOtherData[];
   bonus_damage?: string;
+  attack?: 'melee' | 'ranged' | 'tech';
+  hidden?: boolean;
 }
 
 enum ActivePeriod {
@@ -144,7 +146,6 @@ class Action {
   public readonly IsItemAction: boolean;
   public readonly IsDowntimeAction: boolean;
   public readonly IsActiveHidden: boolean;
-  public readonly IsTechAttack: boolean;
   public readonly SynergyLocations: string[];
   public readonly ItemType: string = 'Action';
   public readonly ActiveEffects: ActiveEffect[];
@@ -154,6 +155,8 @@ class Action {
   public readonly AddResist: EffectResist[] = [];
   public readonly AddOther: EffectOther[] = [];
   public readonly BonusDamage: string = '';
+  public readonly Attack?: 'melee' | 'ranged' | 'tech';
+  public readonly Hidden: boolean = false;
   public Deployable: IDeployableData | undefined;
   private _detail: string;
   private _uses: number;
@@ -172,6 +175,12 @@ class Action {
         : [data.synergy_locations];
     else this.SynergyLocations = [];
     this.Activation = data.activation || ActivationType.Quick;
+    this.Attack = data.attack;
+
+    if (this.Activation === ActivationType.Invade && !this.Attack) {
+      this.Attack = 'tech';
+    }
+
     this.Terse = data.terse || '';
     this._detail = data.detail || data.effect || '';
     this.Cost = data.cost || 1;
@@ -195,7 +204,6 @@ class Action {
       this.Range = data.range ? data.range.map((x) => new Range(x)) : [];
     }
     this.IsPilotAction = data.pilot || data.id === 'act_free_action' || false;
-    this.IsTechAttack = data.tech_attack || false;
     this.IsMechAction = data.mech || !data.pilot;
     this.IsActiveHidden = data.hide_active || false;
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime';
@@ -227,6 +235,7 @@ class Action {
 
     this._ignore_used = data.ignore_used || false;
     this.LastUse = null;
+    this.Hidden = data.hidden || false;
   }
 
   public get Detail(): string {
@@ -258,6 +267,7 @@ class Action {
 
   public get Icon(): string {
     if (this.ID === 'act_overcharge') return 'cc:overcharge';
+    if (this.ID === 'act_full_tech') return 'cc:full_tech';
     if (this.ID === 'act_self_destruct') return 'mdi-alert-rhombus';
     switch (this.Activation) {
       case ActivationType.Full:
@@ -308,7 +318,7 @@ class Action {
       synergy_locations: action.SynergyLocations,
       ignore_used: action._ignore_used,
       heat_cost: action.HeatCost,
-      tech_attack: action.IsTechAttack,
+      attack: action.Attack,
     };
   }
 }

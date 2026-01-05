@@ -9,6 +9,7 @@ interface IEffectStatusData {
   aoe?: boolean;
   duration?: string;
   target?: 'self' | 'ally' | 'enemy' | 'any';
+  attack?: 'melee' | 'ranged' | 'tech';
 }
 
 class EffectStatus {
@@ -17,17 +18,18 @@ class EffectStatus {
   public readonly Duration: string;
   public readonly Target: 'self' | 'ally' | 'enemy' | 'any';
   public readonly Save?: EffectSave;
+  public readonly Attack?: 'melee' | 'ranged' | 'tech';
 
   public constructor(data: IEffectStatusData | string) {
     if (typeof data === 'string') {
       data = { id: data };
     }
-    if (!data.id) console.log(data);
     this._statusId = data.id.toLowerCase();
     this.AoE = data.aoe || false;
     this.Duration = data.duration || 'End of Encounter';
     this.Target = data.target || 'any';
     if (data.save) this.Save = new EffectSave(data.save);
+    if (data.attack) this.Attack = data.attack;
   }
 
   public get Status(): Status {
