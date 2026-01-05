@@ -14,106 +14,116 @@
       </i>
     </div>
 
-    <cc-alert v-if="activeEffect.Condition" color="primary">
-      <b class="text-accent">IF:&nbsp;</b>
-      <b>{{ activeEffect.Condition }}</b>
-    </cc-alert>
-    <cc-alert v-if="(activeEffect as any).Trigger" color="primary">
-      <b class="text-accent">Trigger:&nbsp;</b>
-      <b>{{ (activeEffect as any).Trigger }}</b>
-    </cc-alert>
-    <div class="text-text pa-1 mb-3" v-html-safe="byTier(activeEffect.Detail)" />
+    <div v-if="!hideInput">
+      <cc-alert v-if="activeEffect.Condition" color="primary">
+        <b class="text-accent">IF:&nbsp;</b>
+        <b>{{ activeEffect.Condition }}</b>
+      </cc-alert>
+      <cc-alert v-if="(activeEffect as any).Trigger" color="primary">
+        <b class="text-accent">Trigger:&nbsp;</b>
+        <b>{{ (activeEffect as any).Trigger }}</b>
+      </cc-alert>
+      <div class="text-text pa-1 mb-3" v-html-safe="byTier(activeEffect.Detail)" />
 
-    <v-avatar v-if="activeEffect.Duration" color="background" class="mr-1">
-      <v-tooltip location="top">
-        <template #activator="{ props }">
-          <v-icon v-bind="props" icon="mdi-numeric-0-circle" size="18" />
-        </template>
-        Expires in X rounds
-      </v-tooltip>
-    </v-avatar>
+      <v-avatar v-if="activeEffect.Duration" color="background" class="mr-1">
+        <v-tooltip location="top">
+          <template #activator="{ props }">
+            <v-icon v-bind="props" icon="mdi-numeric-0-circle" size="18" />
+          </template>
+          Expires in X rounds
+        </v-tooltip>
+      </v-avatar>
 
-    <v-card v-if="activeEffect.Save" flat tile color="panel" class="mb-1">
-      <save-input
-        v-for="(s, index) in activeEffect.Save"
-        :ref="`saveInput_${index}`"
-        :save="s"
-        :owner="owner"
-        :targets="getTargetsSorted('enemy')" />
-    </v-card>
+      <v-card v-if="activeEffect.Attack" flat tile color="panel" class="mb-1">
+        <attack-input
+          ref="attackInput"
+          :attack="activeEffect.Attack"
+          :owner="owner"
+          :targets="getTargetsSorted('enemy')" />
+      </v-card>
 
-    <v-card v-if="activeEffect.Damage.length" flat tile color="panel" class="mb-1">
-      <damage-input
-        v-for="(d, index) in activeEffect.Damage"
-        :ref="`damageInput_${index}`"
-        :key="index"
-        :damage="d"
-        :owner="owner"
-        :self="d.Target === 'self'"
-        :targets="getTargetsSorted(d.Target || 'enemy')" />
-    </v-card>
+      <v-card v-if="activeEffect.Save" flat tile color="panel" class="mb-1">
+        <save-input
+          v-for="(s, index) in activeEffect.Save"
+          :ref="`saveInput_${index}`"
+          :save="s"
+          :owner="owner"
+          :targets="getTargetsSorted('enemy')" />
+      </v-card>
 
-    <v-card v-if="activeEffect.AddStatus" flat tile color="panel" class="mb-1">
-      <status-input
-        v-for="(s, index) in activeEffect.AddStatus"
-        :ref="`statusInput_${index}`"
-        :key="index"
-        :status="s"
-        :owner="owner"
-        :encounter="encounter"
-        :self="s.Target === 'self'"
-        :targets="getTargetsSorted(s.Target || 'enemy')" />
-    </v-card>
+      <v-card v-if="activeEffect.Damage.length" flat tile color="panel" class="mb-1">
+        <damage-input
+          v-for="(d, index) in activeEffect.Damage"
+          :ref="`damageInput_${index}`"
+          :key="index"
+          :damage="d"
+          :owner="owner"
+          :self="d.Target === 'self'"
+          :targets="getTargetsSorted(d.Target || 'enemy')" />
+      </v-card>
 
-    <v-card v-if="activeEffect.AddResist" flat tile color="panel" class="mb-1">
-      <resist-input
-        v-for="(r, index) in activeEffect.AddResist"
-        :ref="`resistInput_${index}`"
-        :key="index"
-        :resist="r"
-        :owner="owner"
-        :self="r.Target === 'self'"
-        :targets="getTargetsSorted(r.Target || 'enemy')" />
-    </v-card>
+      <v-card v-if="activeEffect.AddStatus" flat tile color="panel" class="mb-1">
+        <status-input
+          v-for="(s, index) in activeEffect.AddStatus"
+          :ref="`statusInput_${index}`"
+          :key="index"
+          :status="s"
+          :owner="owner"
+          :encounter="encounter"
+          :self="s.Target === 'self'"
+          :targets="getTargetsSorted(s.Target || 'enemy')" />
+      </v-card>
 
-    <v-card v-if="activeEffect.AddSpecial" flat tile color="panel" class="mb-1">
-      <special-input
-        v-for="(s, index) in activeEffect.AddSpecial"
-        :ref="`specialInput_${index}`"
-        :key="index"
-        :status="s"
-        :owner="owner"
-        :encounter="encounter"
-        :self="s.Target === 'self'"
-        :targets="getTargetsSorted(s.Target || 'enemy')" />
-    </v-card>
+      <v-card v-if="activeEffect.AddResist" flat tile color="panel" class="mb-1">
+        <resist-input
+          v-for="(r, index) in activeEffect.AddResist"
+          :ref="`resistInput_${index}`"
+          :key="index"
+          :resist="r"
+          :owner="owner"
+          :self="r.Target === 'self'"
+          :targets="getTargetsSorted(r.Target || 'enemy')" />
+      </v-card>
 
-    <v-card v-if="activeEffect.RemoveSpecial" flat tile color="panel" class="mb-1">
-      <remove-special-input
-        v-for="(s, index) in activeEffect.RemoveSpecial"
-        :ref="`removeSpecialInput_${index}`"
-        :key="index"
-        :status="s"
-        :owner="owner"
-        :encounter="encounter"
-        :targets="getTargetsSorted('enemy')" />
-    </v-card>
+      <v-card v-if="activeEffect.AddSpecial" flat tile color="panel" class="mb-1">
+        <special-input
+          v-for="(s, index) in activeEffect.AddSpecial"
+          :ref="`specialInput_${index}`"
+          :key="index"
+          :status="s"
+          :owner="owner"
+          :encounter="encounter"
+          :self="s.Target === 'self'"
+          :targets="getTargetsSorted(s.Target || 'enemy')" />
+      </v-card>
 
-    <v-card v-if="activeEffect.AddOther" flat tile color="panel" class="mb-1">
-      <other-input
-        v-for="(o, index) in activeEffect.AddOther"
-        :ref="`otherInput_${index}`"
-        :key="index"
-        :effect="o"
-        :owner="owner"
-        :self="o.Target === 'self'"
-        :targets="getTargetsSorted(o.Target || 'enemy')" />
-    </v-card>
+      <v-card v-if="activeEffect.RemoveSpecial" flat tile color="panel" class="mb-1">
+        <remove-special-input
+          v-for="(s, index) in activeEffect.RemoveSpecial"
+          :ref="`removeSpecialInput_${index}`"
+          :key="index"
+          :status="s"
+          :owner="owner"
+          :encounter="encounter"
+          :targets="getTargetsSorted('enemy')" />
+      </v-card>
 
-    <div v-if="canOverride" class="text-right">
-      <v-btn color="light-panel" flat tile class="fade-select" size="x-small" @click="reset">
-        Reset All
-      </v-btn>
+      <v-card v-if="activeEffect.AddOther" flat tile color="panel" class="mb-1">
+        <other-input
+          v-for="(o, index) in activeEffect.AddOther"
+          :ref="`otherInput_${index}`"
+          :key="index"
+          :effect="o"
+          :owner="owner"
+          :self="o.Target === 'self'"
+          :targets="getTargetsSorted(o.Target || 'enemy')" />
+      </v-card>
+
+      <div v-if="canOverride" class="text-right mt-n5">
+        <v-btn color="primary" flat tile class="fade-select" size="x-small" @click="reset">
+          Reset All
+        </v-btn>
+      </div>
     </div>
 
     <v-slide-y-transition>
@@ -131,7 +141,7 @@
       size="x-small"
       color="panel"
       prepend-icon="mdi-close"
-      @click="close">
+      @click="close()">
       Dismiss
     </cc-button>
 
@@ -144,7 +154,7 @@
           size="small"
           stacked
           :color="(activeEffect as any).Color || 'primary'"
-          :disabled="!canApply"
+          :disabled="isApplied"
           @click="stage()">
           <div class="px-4">
             <v-icon
@@ -158,7 +168,14 @@
               <span v-if="activation" style="letter-spacing: 1px">
                 {{ (activeEffect as any).Activation }}
               </span>
-              <span v-if="(activeEffect as any).Activation && activeEffect.Frequency">•</span>
+              <span
+                v-if="
+                  (activeEffect as any).Activation &&
+                  activeEffect.Frequency &&
+                  (activeEffect.Frequency as any).Duration !== 'Unlimited'
+                ">
+                •
+              </span>
               <span v-if="activeEffect.Frequency" style="letter-spacing: 1px">
                 {{ frequencyText }}
               </span>
@@ -171,7 +188,7 @@
           size="small"
           stacked
           :color="(activeEffect as any).Color || 'primary'"
-          :disabled="!canApply"
+          :disabled="isApplied"
           @click="apply(close)">
           <div class="px-4">
             <v-icon
@@ -184,7 +201,14 @@
               <span v-if="activation" style="letter-spacing: 1px">
                 {{ (activeEffect as any).Activation }}
               </span>
-              <span v-if="(activeEffect as any).Activation && activeEffect.Frequency">•</span>
+              <span
+                v-if="
+                  (activeEffect as any).Activation &&
+                  activeEffect.Frequency &&
+                  (activeEffect.Frequency as any).Duration !== 'Unlimited'
+                ">
+                •
+              </span>
               <span v-if="activeEffect.Frequency" style="letter-spacing: 1px">
                 {{ frequencyText }}
               </span>
@@ -198,14 +222,14 @@
     <v-spacer />
     <div>
       <v-btn
-        v-if="activeEffect.Applied"
+        v-if="isApplied"
         size="x-small"
         block
         flat
         tile
         color="panel"
         width="202px"
-        @click="override()">
+        @click="reset">
         Override
         <template #append>
           <v-tooltip location="top" max-width="300px">
@@ -236,6 +260,7 @@ import ResistInput from './ae_resist_input.vue';
 import SpecialInput from './ae_special_input.vue';
 import RemoveSpecial from './ae_remove_special_input.vue';
 import OtherInput from './ae_other_input.vue';
+import AttackInput from './ae_attack_input.vue';
 
 export default {
   name: 'ae-menu-input',
@@ -247,12 +272,14 @@ export default {
     SpecialInput,
     RemoveSpecial,
     OtherInput,
+    AttackInput,
   },
   props: {
     activeEffect: { type: ActiveEffect, required: true },
     encounter: { type: Object, required: true },
     owner: { type: Object, required: true },
     close: { type: Function, required: true },
+    hideInput: { type: Boolean, default: false },
   },
   data: () => ({
     summaries: [] as Array<string>,
@@ -265,6 +292,9 @@ export default {
     },
     icon() {
       return this.activeEffect.Origin.Icon || 'mdi-rhombus-outline';
+    },
+    isApplied(): boolean {
+      return this.owner.CombatController.IsActionUsed(this.activeEffect.ID);
     },
     isPassive() {
       return (
@@ -295,13 +325,6 @@ export default {
         this.activeEffect.Damage.length ||
         this.activeEffect.Save
       );
-    },
-    canApply(): boolean {
-      // if (this.canOverride) {
-      //   // TODO
-      //   return false;
-      // }
-      return !this.activeEffect.Applied;
     },
     activation(): boolean {
       return (this.activeEffect as any).Activation != null;
@@ -481,32 +504,26 @@ export default {
     },
 
     reset() {
-      this.activeEffect.Applied = false;
+      this.owner.CombatController.ClearActionUsed(this.activeEffect.ID);
       this.iterateAE('reset');
       this.summaries = [];
       this.ready = false;
       this.$emit('reset');
     },
     stage() {
-      if (!this.canApply) return;
+      if (this.isApplied) return;
       this.ready = true;
       if (this.canOverride) {
         this.getSummaries();
       }
     },
     apply(close: Function) {
-      if (!this.canApply || !this.ready) return;
+      if (this.isApplied || !this.ready) return;
       this.iterateAE('apply');
 
-      this.activeEffect.Applied = true;
+      this.owner.CombatController.MarkActionUsed(this.activeEffect.ID);
       this.$emit('apply');
       close();
-    },
-    override() {
-      this.activeEffect.Applied = false;
-      this.iterateAE('reset');
-      this.summaries = [];
-      this.ready = false;
     },
   },
 };

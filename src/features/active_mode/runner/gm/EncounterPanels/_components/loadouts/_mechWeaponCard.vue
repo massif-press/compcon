@@ -212,7 +212,7 @@ import ModInset from '@/ui/components/panels/loadout/mech_loadout/components/mou
 import EngWeaponSettings from '@/ui/components/panels/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue';
 
 export default {
-  name: 'slot-card-base',
+  name: 'mech-weapon-combat-card',
   components: {
     DeployButton,
     EquipCommandPanel,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-cc-overline text-disabled mt-4">Actions</div>
+    <div class="text-cc-overline text-disabled">Actions</div>
     <v-row dense>
       <v-col>
         <v-card

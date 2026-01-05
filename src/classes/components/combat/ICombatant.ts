@@ -3,6 +3,7 @@ import { SaveController } from '../save/SaveController';
 import { CombatController } from './CombatController';
 
 interface ICombatant {
+  IsEncounterInstance: boolean;
   ID: string;
   Name: string;
   ItemType: string;

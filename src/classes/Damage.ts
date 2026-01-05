@@ -15,6 +15,7 @@ interface IDamageData {
   save_half?: boolean;
   ap?: boolean;
   target?: string;
+  attack?: 'melee' | 'ranged' | 'tech';
 }
 
 class Damage {
@@ -24,6 +25,7 @@ class Damage {
   public readonly Override: boolean;
   public readonly Save?: EffectSave;
   public readonly SaveHalf?: boolean;
+  public readonly Attack?: 'melee' | 'ranged' | 'tech';
 
   public AoE: string | boolean = false;
   public AP: boolean = false;
@@ -59,6 +61,7 @@ class Damage {
     if (damage.save) this.Save = new EffectSave(damage.save);
     if (damage.save_half) this.SaveHalf = damage.save_half;
     if (damage.target) this.Target = damage.target;
+    if (damage.attack) this.Attack = damage.attack;
   }
 
   public setDamageAttributes(obj: any) {

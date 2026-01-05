@@ -76,7 +76,7 @@
                   This will generate and deploy a new instance of
                   <strong>{{ deployable.Name }}</strong>
                   for
-                  <strong>{{ actor.Parent ? actor.Parent.Callsign : actor.Name }}</strong>
+                  <strong>{{ actor.CombatController.CombatName }}</strong>
                   as a
                   <v-chip
                     :color="deployable.DeployAction.Color"

@@ -79,7 +79,7 @@
 
   <div style="height: 50px" />
 
-  <div style="position: absolute; bottom: 0; left: 0; right: 0">
+  <div style="position: fixed; bottom: 35px; left: 0; width: 475px">
     <v-menu>
       <template #activator="{ props }">
         <v-btn

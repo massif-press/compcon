@@ -94,11 +94,14 @@ export default {
     mobile() {
       return this.$vuetify.display.smAndDown;
     },
+    allActions() {
+      return CompendiumStore().Actions.filter((a) => a && !a.Hidden);
+    },
     actions() {
-      return CompendiumStore().Actions.filter((a) => a && !a.IsDowntimeAction && !a.IsPilotAction);
+      return this.allActions.filter((a) => a && !a.IsDowntimeAction && !a.IsPilotAction);
     },
     pilotActions() {
-      return CompendiumStore().Actions.filter((a) => a && a.IsPilotAction);
+      return this.allActions.filter((a) => a && a.IsPilotAction);
     },
     downtimeActions() {
       return CompendiumStore().DowntimeActions;

@@ -64,6 +64,11 @@ const storeRegistry = {
     storeName: 'remote_images',
     description: 'Stores remotely hosted image urls',
   }),
+  settings: localforage.createInstance({
+    name: dbName,
+    storeName: 'settings',
+    description: 'Stores application settings',
+  }),
 };
 
 const Initialize = async function () {
@@ -71,6 +76,15 @@ const Initialize = async function () {
     name: dbName,
   });
   // await convertLocalstorage();
+};
+
+const SetValue = async function (key: string, value: any) {
+  return await storeRegistry['settings'].setItem(key, JSON.stringify(value));
+};
+
+const GetValue = async function (key: string): Promise<any> {
+  const item = (await storeRegistry['settings'].getItem(key)) as string;
+  return JSON.parse(item);
 };
 
 const SetItem = async function (collection: string, item: any) {
@@ -175,4 +189,6 @@ export {
   AddBlob,
   GetBlob,
   ClearAll,
+  SetValue,
+  GetValue,
 };

@@ -26,6 +26,11 @@ interface ICompendiumItemData {
   flavorDescription?: string;
   brew?: BrewInfo;
   deprecated?: boolean;
+
+  currentUses?: number;
+  maxUses?: number;
+  destroyed?: boolean;
+  isUsed?: boolean;
 }
 
 abstract class CompendiumItem {
@@ -128,6 +133,12 @@ abstract class CompendiumItem {
         this.IsDeprecated = true;
         this.IsHidden = true;
       }
+
+      // combat props
+      if (data.maxUses) this.MaxUses = data.maxUses;
+      if (data.currentUses) this.Uses = data.currentUses;
+      if (data.destroyed) this.Destroyed = data.destroyed;
+      if (data.isUsed) this.Used = data.isUsed;
     } else {
       this.ID = `err_${Math.random().toString(36).substring(2)}`;
       this._name = this._description = this._note = '';

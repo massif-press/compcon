@@ -46,6 +46,8 @@ class Unit extends Npc implements ICombatant, IInstanceable {
   public NpcClassController: NpcClassController;
   public CombatController: CombatController;
 
+  public IsEncounterInstance = false;
+
   public constructor(data?: UnitData) {
     super(data);
     this._name = data?.name || '';

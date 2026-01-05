@@ -197,11 +197,8 @@
 import { EncounterStore } from '@/stores';
 
 export default {
-  name: '',
+  name: 'EncounterManager',
   computed: {
-    currentEncounter() {
-      return EncounterStore().getCurrentActiveEncounter;
-    },
     encounters() {
       return EncounterStore().ActiveEncounters.filter(
         (e) => !e.IsArchived && !e.SaveController.IsDeleted
@@ -219,7 +216,7 @@ export default {
   methods: {
     async launch(encounter) {
       await EncounterStore().AssignActiveEncounter(encounter);
-      this.$router.push('gm-encounter-runner');
+      this.$router.push(`gm-encounter-runner/${encounter.ID}`);
     },
     deleteEncounter(encounter) {
       encounter.SaveController.Delete();

@@ -10,6 +10,7 @@ export function useActiveEffectBase(props) {
   const data = {
     selectedTargets: [],
     targetSaves: [],
+    attackRolls: [],
     aoe: null,
   };
 
@@ -31,6 +32,7 @@ export function useActiveEffectBase(props) {
       this.selectedTargets = [null];
       if (this.self) this.selectedTargets = [this.targets[0]];
       this.targetSaves = [null];
+      this.attackRolls = [null];
       this.aoe = this.getAoeValue?.() || false;
       this.resetCustomFields?.();
     },
@@ -45,22 +47,26 @@ export function useActiveEffectBase(props) {
       if (!this.aoe) {
         this.selectedTargets = [this.selectedTargets[0]];
         this.targetSaves = [this.targetSaves[0]];
+        this.attackRolls = [this.attackRolls[0]];
       }
     },
 
     addTarget() {
       this.selectedTargets.push(null);
       this.targetSaves.push(null);
+      this.attackRolls.push(null);
     },
 
     cancelTarget(idx) {
       if (idx === 0 && this.selectedTargets.length === 1) {
         this.selectedTargets = [null];
         this.targetSaves = [null];
+        this.attackRolls = [null];
         return;
       }
       this.selectedTargets.splice(idx, 1);
       this.targetSaves.splice(idx, 1);
+      this.attackRolls.splice(idx, 1);
     },
 
     getSummary() {

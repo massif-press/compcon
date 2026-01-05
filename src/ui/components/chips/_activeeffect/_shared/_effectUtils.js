@@ -43,7 +43,6 @@ export function generateBaseSummary(selectedTargets, createSummaryFn) {
     if (summary) summaries.push(summary);
   });
   summaries = summaries.filter((s) => s && s.trim().length > 0);
-  console.log(summaries);
   return summaries.length > 0 ? summaries.join('; ') : '';
 }
 

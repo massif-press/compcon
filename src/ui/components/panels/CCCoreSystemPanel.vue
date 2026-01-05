@@ -4,7 +4,7 @@
     :title="cs.Name"
     class="mb-2"
     :color="color"
-    icon-color="lime"
+    icon-color="core"
     :prominent="!small"
     :density="small ? 'compact' : ''"
     variant="tonal">

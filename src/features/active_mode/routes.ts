@@ -63,9 +63,10 @@ const routes = [
         component: TableManager,
       },
       {
-        path: 'gm-encounter-runner',
+        path: 'gm-encounter-runner/:id?',
         name: 'active-gm-encounter-runner',
         component: GMEncounterRunner,
+        props: true,
       },
     ],
   },

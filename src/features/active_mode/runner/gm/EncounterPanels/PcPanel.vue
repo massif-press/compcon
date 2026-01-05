@@ -114,6 +114,7 @@ export default {
       return this.combatant.actor.ActiveMech;
     },
     mounted() {
+      console.log(this.combatant);
       if (!this.mech) return false;
       return this.mech.CombatController.Mounted;
     },

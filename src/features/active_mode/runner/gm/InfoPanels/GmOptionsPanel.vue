@@ -4,7 +4,7 @@
       <v-row dense align="center" justify="space-between">
         <v-col cols="auto" class="heading">
           Last Saved:
-          <b class="text-accent ml-1">
+          <b class="text-accent ml-1" :key="saveUpdate">
             {{
               new Date(encounterInstance.SaveController.LastModified).toLocaleString(undefined, {
                 dateStyle: 'long',
@@ -14,32 +14,117 @@
           </b>
         </v-col>
         <v-col cols="auto">
-          <v-btn flat tile prepend-icon="mdi-content-save" size="small">Manual Save</v-btn>
+          <cc-button
+            flat
+            tile
+            color="primary"
+            prepend-icon="mdi-content-save"
+            size="small"
+            @click="manualSave()">
+            Manual Save
+          </cc-button>
         </v-col>
       </v-row>
-      <v-divider class="my-2" />
-      <div class="text-cc-overline mb-1 text-disabled">Autosave Options</div>
+      <div class="text-cc-overline mt-1 text-disabled">Autosave</div>
       <v-row dense align="center" justify="space-between">
         <v-col cols="auto">
-          <cc-switch size="large" label="On Round Start" />
-        </v-col>
-        <v-col cols="auto">
-          <cc-switch size="large" label="PC Turn End" />
-        </v-col>
-        <v-col cols="auto">
-          <cc-switch size="large" label="NPC Turn End" />
-        </v-col>
-      </v-row>
-      <br />
-      <v-row dense align="center" justify="space-between">
-        <v-col>
-          <v-btn flat tile block color="primary" size="small">Export Encounter State</v-btn>
-        </v-col>
-        <v-col>
-          <v-btn flat tile block color="primary" size="small">Import Encounter State</v-btn>
+          <cc-switch
+            v-model="encounterInstance.Autosave"
+            size="large"
+            :label="encounterInstance.Autosave ? 'On Round End' : 'Off (Manual Saves Only)'"
+            tooltip="Autosave encounter data on the end of every round. Defaults to ON." />
         </v-col>
       </v-row>
     </v-card-text>
+    <v-divider class="my-2" />
+    <v-card-text>
+      <v-row dense align="center" justify="space-between">
+        <v-col>
+          <v-btn
+            flat
+            tile
+            block
+            color="primary"
+            size="small"
+            prepend-icon="mdi-export"
+            @click="exportState">
+            Export Encounter State
+          </v-btn>
+        </v-col>
+        <v-col>
+          <cc-dialog :close-on-click="false" icon="mdi-import" title="Import Encounter State">
+            <template #activator="{ open }">
+              <v-btn
+                flat
+                tile
+                block
+                color="primary"
+                size="small"
+                prepend-icon="mdi-import"
+                @click="open">
+                Import Encounter State
+              </v-btn>
+            </template>
+            <template #default="{ close }">
+              <div class="text-cc-overline text-disabled">
+                Encounter Instance Import File (.json)
+              </div>
+              <v-file-input
+                v-model="fileValue"
+                accept=".json"
+                variant="outlined"
+                density="compact"
+                hide-details
+                autofocus
+                placeholder="Select Encounter Export File"
+                prepend-icon="mdi-paperclip"
+                @change="stageImport" />
+              <v-scroll-y-reverse-transition>
+                <div v-if="importOk && importObj">
+                  <v-card class="mt-2 pa-2" flat tile color="panel">
+                    <div class="text-cc-overline text-disabled">Staged Import:</div>
+                    <div class="ml-3">
+                      <b class="text-accent">
+                        {{ (importObj as any).encounter.name || 'Unnamed Encounter' }}
+                      </b>
+                      at Round
+                      {{ (importObj as any).round }}
+                      <i class="text-caption text-disabled">
+                        {{ new Date((importObj as any).save.lastModified).toLocaleString() }}
+                      </i>
+                    </div>
+                  </v-card>
+                  <cc-alert color="warning" prominent class="mt-2">
+                    <v-icon icon="mdi-alert" start />
+                    Warning: The imported encounter state will replace the current encounter state.
+                  </cc-alert>
+                </div>
+                <cc-alert v-if="importError" color="error" prominent class="mt-2">
+                  <v-icon icon="mdi-alert" start />
+                  {{ importError }}
+                </cc-alert>
+              </v-scroll-y-reverse-transition>
+              <v-card-actions>
+                <v-btn
+                  text
+                  color="accent"
+                  @click="
+                    reset();
+                    close();
+                  ">
+                  Cancel
+                </v-btn>
+                <v-spacer />
+                <cc-button text color="primary" :disabled="!importOk" @click="importState()">
+                  Confirm Import
+                </cc-button>
+              </v-card-actions>
+            </template>
+          </cc-dialog>
+        </v-col>
+      </v-row>
+    </v-card-text>
+    <v-divider class="my-2" />
 
     <v-card-text>
       <v-row dense align="center" justify="space-between">
@@ -49,6 +134,7 @@
         </v-col>
       </v-row>
     </v-card-text>
+    <v-divider class="my-2" />
 
     <v-card-text>
       <div class="text-cc-overline text-disabled">Overrides</div>
@@ -68,7 +154,7 @@
             <br />
             <div v-if="combatant.actor.StatController">
               <v-row
-                v-for="(stat, key) in combatant.actor.StatController.MaxStats"
+                v-for="key in combatant.actor.StatController.MaxStats"
                 :key="key"
                 dense
                 class="border-sm mb-1 px-2"
@@ -127,6 +213,9 @@
 </template>
 
 <script lang="ts">
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { EncounterStore } from '@/stores';
+
 export default {
   name: 'gm-options-panel',
   props: {
@@ -135,14 +224,104 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      fileValue: null,
+      importObj: null,
+      importOk: false,
+      importError: '',
+      saveUpdate: Date.now(),
+    };
+  },
+  mounted() {
+    this.reset();
+  },
   computed: {
     reinforcements() {
       return this.encounterInstance.Combatants.filter((c) => c.reinforcement);
     },
   },
   methods: {
+    reset() {
+      this.fileValue = null;
+      this.importObj = null;
+      this.importOk = false;
+      this.importError = '';
+    },
     removeActor(actor) {
-      //todo
+      const combatantIndex = this.encounterInstance.Combatants.findIndex(
+        (c) => c.actor.ID === actor.ID
+      );
+      if (combatantIndex !== -1) {
+        this.encounterInstance.Combatants.splice(combatantIndex, 1);
+      }
+    },
+    manualSave() {
+      try {
+        this.encounterInstance.Save();
+        this.saveUpdate = Date.now();
+        this.$notify({
+          title: `Save Successful`,
+          text: `Saved Encounter: ${this.encounterInstance.Encounter.Name} at Round ${this.encounterInstance.Round}`,
+          data: { icon: 'mdi-content-save', color: 'success' },
+        });
+      } catch (error) {
+        console.error('Manual Save Failed:', error);
+        this.$notify({
+          title: `Save Failed`,
+          text: `Failed to save Encounter: ${this.encounterInstance.Encounter.Name}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        });
+      }
+    },
+    exportState() {
+      const data = this.encounterInstance.Serialize();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const filename = `encounter_${this.encounterInstance.Encounter.Name || 'unknown'}_${Date.now()}.json`;
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    },
+    importState() {
+      if (!this.importOk || !this.importObj) {
+        return;
+      }
+      EncounterStore().AddEncounterInstance(EncounterInstance.Deserialize(this.importObj));
+      this.$router.go();
+    },
+    stageImport() {
+      if (!this.fileValue) {
+        this.importOk = false;
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        try {
+          const result = e.target.result;
+          this.importObj = JSON.parse(result);
+          if (!this.importObj) {
+            this.importOk = false;
+            return;
+          }
+          if (
+            !(this.importObj as any).itemType ||
+            (this.importObj as any).itemType !== 'EncounterInstance'
+          ) {
+            this.importError = 'Invalid Encounter Instance file.';
+            this.importOk = false;
+            return;
+          }
+          console.log(this.importObj);
+          this.importOk = true;
+        } catch (error) {
+          console.error('Failed to parse import file:', error);
+          this.importError = 'Invalid JSON file.';
+          this.importOk = false;
+        }
+      };
+      reader.readAsText(this.fileValue);
     },
   },
 };

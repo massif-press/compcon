@@ -31,7 +31,6 @@ class Bonus {
 
   public constructor(data: IBonusData, source: string) {
     const entry = dict.find((x) => x.id === data.id);
-    if (!entry) console.log(data, source);
     this.ID = data.id;
     this.Source = source;
     this.Value = data.val;

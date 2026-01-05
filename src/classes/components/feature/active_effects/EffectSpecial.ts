@@ -7,6 +7,7 @@ interface IEffectSpecialData {
   aoe?: boolean;
   duration?: string;
   target?: 'self' | 'ally' | 'enemy' | 'any';
+  attack?: 'melee' | 'ranged' | 'tech';
 }
 
 class EffectSpecial {
@@ -17,6 +18,7 @@ class EffectSpecial {
   public readonly Duration: string;
   public readonly Target: 'self' | 'ally' | 'enemy' | 'any';
   public readonly Save?: EffectSave;
+  public readonly Attack?: 'melee' | 'ranged' | 'tech';
 
   public constructor(data: IEffectSpecialData) {
     this.ID = `effect_special_${Math.random().toString(36).substring(2, 15)}`;
@@ -26,6 +28,7 @@ class EffectSpecial {
     this.Duration = data.duration || 'End of Encounter';
     this.Target = data.target || 'any';
     if (data.save) this.Save = new EffectSave(data.save);
+    if (data.attack) this.Attack = data.attack;
   }
 
   public static Serialize(effect: EffectSpecial): IEffectSpecialData {

@@ -171,7 +171,6 @@ export default {
       return '';
     },
     totalWithBonus() {
-      if (this.bonuses.length) console.log(this.val, this.bonuses);
       return this.val + this.bonuses.reduce((acc, x) => acc + x.Value || 0, 0);
     },
   },

@@ -190,14 +190,13 @@ export default {
       return this.$vuetify.display.mdAndDown;
     },
     lastLocalEncounter() {
-      return EncounterStore().getCurrentActiveEncounter;
+      return EncounterStore().getActiveEncounter(EncounterStore().CurrentActiveID);
     },
   },
   methods: {
     async loadLastLocalEncounter() {
       if (this.lastLocalEncounter) {
-        await EncounterStore().AssignActiveEncounter(this.lastLocalEncounter);
-        this.$router.push('active-mode/gm-encounter-runner');
+        this.$router.push(`active-mode/gm-encounter-runner/${this.lastLocalEncounter.ID}`);
       }
     },
   },

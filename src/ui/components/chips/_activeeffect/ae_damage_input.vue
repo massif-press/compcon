@@ -12,7 +12,7 @@
 
     <v-col>
       <v-row dense align="start">
-        <BaseTargetSelector
+        <base-target-selector
           :selected-targets="selectedTargets"
           :targets="targets"
           :aoe="aoe"
@@ -20,7 +20,7 @@
           @add-target="addTarget"
           @remove-target="cancelTarget" />
 
-        <BaseSaveRoller
+        <base-save-roller
           v-if="damage.Save"
           :selected-targets="selectedTargets"
           :target-saves="targetSaves"
@@ -28,7 +28,15 @@
           :owner="owner"
           @update:target-saves="targetSaves = $event" />
 
-        <SaveHalfToggle
+        <base-attack-roller
+          v-if="damage.Attack"
+          :selected-targets="selectedTargets"
+          :attack-rolls="attackRolls"
+          :attack="damage.Attack"
+          :owner="owner"
+          @update:target-attacks="attackRolls = $event" />
+
+        <save-half-toggle
           v-if="damage.Save"
           :save-half="damage.SaveHalf"
           :has-save="!!damage.Save"
@@ -44,6 +52,7 @@ import BaseSaveRoller from './_shared/BaseSaveRoller.vue';
 import DamageTypeSelector from './_shared/DamageTypeSelector.vue';
 import SaveHalfToggle from './_shared/SaveHalfToggle.vue';
 import { DiceRoller } from '@/classes/dice/DiceRoller';
+import BaseAttackRoller from './_shared/BaseAttackRoller.vue';
 
 export default {
   name: 'ae-damage-input',
@@ -52,6 +61,7 @@ export default {
     BaseSaveRoller,
     DamageTypeSelector,
     SaveHalfToggle,
+    BaseAttackRoller,
   },
   props: {
     targets: { type: Array, default: () => [] },
@@ -62,6 +72,7 @@ export default {
   data: () => ({
     selectedTargets: [],
     targetSaves: [],
+    attackRolls: [],
     aoe: null,
     selectedDamageType: 'kinetic',
     selectedDamageValue: null,
@@ -70,12 +81,13 @@ export default {
   mounted() {
     this.reset();
   },
-  emits: ['update:modelValue', 'update:targets'],
+  emits: ['update:modelValue', 'update:targets', 'update:target-attacks'],
   computed: {
     isReady() {
       return (
         this.selectedTargets.every((t) => t != null) &&
-        (!this.damage.Save || this.targetSaves.every((s) => s != null && s > 0))
+        (!this.damage.Save || this.targetSaves.every((s) => s != null && s > 0)) &&
+        (!this.damage.Attack || this.attackRolls.every((a) => a != null))
       );
     },
   },
@@ -84,6 +96,7 @@ export default {
       this.selectedTargets = [null];
       if (this.self) this.selectedTargets = [this.targets[0]];
       this.targetSaves = [null];
+      this.attackRolls = [null];
       this.aoe = this.damage.AoE || false;
       this.selectedDamageType = this.damage.Type || 'kinetic';
       if (!this.damage.IsRollable) {
@@ -102,6 +115,7 @@ export default {
       if (!this.aoe) {
         this.selectedTargets = [this.selectedTargets[0]];
         this.targetSaves = [this.targetSaves[0]];
+        this.attackRolls = [this.attackRolls[0]];
       }
     },
     addTarget() {
@@ -112,10 +126,12 @@ export default {
       if (idx === 0 && this.selectedTargets.length === 1) {
         this.selectedTargets = [null];
         this.targetSaves = [null];
+        this.attackRolls = [null];
         return;
       }
       this.selectedTargets.splice(idx, 1);
       this.targetSaves.splice(idx, 1);
+      this.attackRolls.splice(idx, 1);
     },
     rollDamage() {
       this.selectedDamageValue = DiceRoller.roll(this.damage.Value);
@@ -141,6 +157,15 @@ export default {
             }
           }
         }
+        if (this.damage.Attack) {
+          if (this.attackRolls[idx] != null) {
+            if (this.attackRolls[idx] >= t.actor.CombatController.Evasion) {
+              part += ` [HIT]`;
+            } else {
+              part += ` [MISS]`;
+            }
+          }
+        }
         out.push(part);
       });
       if (out.length === 0) return '';
@@ -151,6 +176,9 @@ export default {
         if (!t || !t.actor || !t.actor.CombatController) return;
         if (this.targetSaves[idx] != null && this.damage.Save) {
           if (this.targetSaves[idx] >= this.owner.CombatController.SaveTarget) return;
+        }
+        if (this.attackRolls[idx] != null && this.damage.Attack) {
+          if (this.attackRolls[idx] < t.actor.CombatController.Evasion) return;
         }
         t.actor.CombatController.ApplyDamage(
           this.selectedDamageType,
@@ -172,6 +200,7 @@ export default {
         targets: this.selectedTargets.map((t, idx) => ({
           target: t,
           save: this.damage.Save ? this.targetSaves[idx] : null,
+          attack: this.damage.Attack ? this.attackRolls[idx] : null,
         })),
       };
     },

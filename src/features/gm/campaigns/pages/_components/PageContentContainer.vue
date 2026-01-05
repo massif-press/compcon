@@ -293,7 +293,7 @@ export default {
       'teal ',
       'green ',
       'light-green ',
-      'lime ',
+      'core ',
       'yellow ',
       'amber ',
       'orange ',

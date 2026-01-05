@@ -54,6 +54,8 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   private _frame: Frame;
   private _pilot: Pilot;
 
+  public IsEncounterInstance = false;
+
   public constructor(frame: Frame, pilot: Pilot) {
     this._id = uuid();
     this._frame = frame;
@@ -167,7 +169,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
     }
 
     for (const l of requirements) {
-      if (l.rank !== 0) l.missing = !this._pilot.has('License', l.license_id, l.rank);
+      if (l.rank !== 0) l.missing = !this._pilot.has('License', l.license_id || '', l.rank);
     }
 
     return requirements.sort((a, b) => {
@@ -563,7 +565,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   // -- I/O ---------------------------------------------------------------------------------------
-  public static Serialize(m: Mech): IMechData {
+  public static Serialize(m: Mech, asInstance = false): IMechData {
     const data = {
       id: m.ID,
       name: m.Name,
@@ -573,14 +575,15 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
     };
 
     PortraitController.Serialize(m, data);
-    MechLoadoutController.Serialize(m, data);
+    MechLoadoutController.Serialize(m, data, asInstance);
+    if (asInstance) console.log(data);
     CombatController.Serialize(m.CombatController, data);
 
     return data as IMechData;
   }
 
-  Serialize(): IMechData {
-    return Mech.Serialize(this);
+  Serialize(asInstance = false): IMechData {
+    return Mech.Serialize(this, asInstance);
   }
 
   Clone(): ISaveable {
@@ -615,7 +618,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
     m._notes = data.notes;
 
     PortraitController.Deserialize(m, data.img);
-    CombatController.Deserialize(m.CombatController, data.combat_data);
+    CombatController.Deserialize(m.CombatController, data as any);
 
     return m;
   }

@@ -32,37 +32,6 @@ interface INpcFeatureData extends ICompendiumItemData {
   build_feature?: boolean;
 }
 
-// interface IFeatureModData {
-//   target: string;
-//   add_effect?: string;
-//   add_bonuses?: IBonusData[];
-//   add_tags?: ITagData[];
-//   add_deployables?: IDeployableData[];
-//   add_actions?: IActionData[];
-// }
-
-class NpcFeatureMod {
-  _targetID: string;
-  AddEffect: string;
-  AddBonuses: Bonus[];
-  AddTags: ITagData[];
-  AddDeployables: Deployable[];
-  AddActions: Action[];
-
-  constructor(data: INpcFeatureData, parent: NpcFeature) {
-    this._targetID = data.mod!;
-    this.AddEffect = data.effect || '';
-    this.AddBonuses = data.bonuses ? data.bonuses.map((x) => new Bonus(x, parent.Name)) : [];
-    this.AddTags = data.tags || [];
-    this.AddDeployables = data.deployables ? data.deployables.map((x) => new Deployable(x)) : [];
-    this.AddActions = data.actions ? data.actions.map((x) => new Action(x, parent.Name)) : [];
-  }
-
-  public get Target() {
-    return CompendiumStore().referenceByID('NpcFeatures', this._targetID) as NpcFeature;
-  }
-}
-
 abstract class NpcFeature extends CompendiumItem {
   public InLcp: boolean = true;
   // this needs to be public (for now) to support v2 style NPC data
@@ -72,6 +41,7 @@ abstract class NpcFeature extends CompendiumItem {
   public FeatureType: NpcFeatureType = NpcFeatureType.Trait;
   public IsHidden: boolean = false;
   public Recharge: number = 0;
+  public Used: boolean = false;
   public readonly Base: boolean;
   public readonly Deprecated: boolean = false;
   public readonly BuildFeature: boolean = false;

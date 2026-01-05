@@ -31,12 +31,14 @@ const MandatoryStats: string[] = [
 ];
 
 class StatController {
+  public readonly IsEncounterInstance: boolean;
   public Parent: IStatContainer;
 
   private _maxStats = {};
   private _currentStats = {};
 
-  public constructor(parent: IStatContainer) {
+  public constructor(parent: IStatContainer, isEncounterInstance = false) {
+    this.IsEncounterInstance = isEncounterInstance;
     this._maxStats = {};
     this._currentStats = {};
 
@@ -50,6 +52,13 @@ class StatController {
     }
 
     this.Parent = parent;
+  }
+
+  public save() {
+    // instances within encounters should only be saved as part of the encounterInstance serialization process
+    // falling back to saveController will create duplicate parents
+    if (this.IsEncounterInstance) return;
+    this.Parent.SaveController.save();
   }
 
   public setStats(stats: any) {
@@ -129,7 +138,7 @@ class StatController {
 
   public AddCoreStat(key: string): void {
     this._maxStats[key] = Stats.DefaultStats[key];
-    this.Parent.SaveController.save();
+    this.save();
   }
 
   public AddCustomStat(title: string, type: string): void {
@@ -141,13 +150,13 @@ class StatController {
       default:
         this._maxStats[key] = Array(3).fill(0);
     }
-    this.Parent.SaveController.save();
+    this.save();
   }
 
   public RemoveStat(key: string): void {
     if (MandatoryStats.includes(key) || this.Parent.AdditionalStats?.includes(key)) return;
     delete this._maxStats[key];
-    this.Parent.SaveController.save();
+    this.save();
   }
 
   public get MaxStats(): any {
@@ -181,7 +190,7 @@ class StatController {
     } else {
       this._maxStats[k] = val;
     }
-    // this.Parent.SaveController.save();
+    // this.save();
   }
 
   public resetCurrentStats() {
@@ -196,8 +205,8 @@ class StatController {
 
   public static Serialize(parent: IStatContainer, target: any) {
     if (!target.stats) target.stats = {};
-    target.stats.max = parent.StatController._maxStats;
-    target.stats.current = parent.StatController._currentStats;
+    target.max = parent.StatController._maxStats;
+    target.current = parent.StatController._currentStats;
   }
 
   public static Deserialize(parent: IStatContainer, data: IStatData) {

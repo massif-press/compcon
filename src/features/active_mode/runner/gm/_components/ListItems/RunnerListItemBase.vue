@@ -44,11 +44,11 @@
                 v-else
                 flat
                 tile
-                :size="collapsed ? 45 : 60"
+                size="60"
                 style="height: 100%"
                 :style="destroyed ? 'opacity: 0.6' : ''"
                 class="bg-panel">
-                <v-icon :icon="icon || 'mdi-cube'" :size="collapsed ? 45 : 60" />
+                <v-icon :icon="icon || 'mdi-cube'" size="60" />
               </v-avatar>
             </v-col>
             <v-col v-if="!collapsed" class="mx-1">
@@ -163,8 +163,15 @@
                 tile
                 class="bg-stripes text-cc-overline text-center mt-1">
                 <v-chip style="height: 16px" flat tile variant="elevated" class="px-1">
-                  <div class="text-red" style="margin-top: 2px">
-                    <v-icon icon="cc:destroyed" />
+                  <div
+                    v-if="actor.CombatController.ReactorDestroyed"
+                    class="text-red"
+                    style="margin-top: 2px">
+                    <v-icon icon="mdi-radioactive-circle" class="mt-n1" />
+                    REACTOR DESTROYED
+                  </div>
+                  <div v-else class="text-red" style="margin-top: 2px">
+                    <v-icon icon="cc:destroyed" class="mt-n1" />
                     DESTROYED
                   </div>
                 </v-chip>
@@ -186,25 +193,39 @@
 
               <v-row no-gutters class="text-center">
                 <v-col v-if="actor.CombatController.Braced">
-                  <v-card flat tile class="px-2 ma-1">
-                    <span class="text-cc-overline">BRACED</span>
-                  </v-card>
+                  <v-tooltip location="top" max-width="400px">
+                    <template #activator="{ props }">
+                      <v-card v-bind="props" flat tile class="px-2 ma-1" color="surface-variant">
+                        <span class="text-cc-overline">BRACED</span>
+                      </v-card>
+                    </template>
+                    <div class="heading h4">Braced</div>
+                    <v-divider class="my-1" />
+                    You count as having RESISTANCE to all damage, heat, and burn from the attack
+                    that triggered this Brace, and until the end of your next turn, all other
+                    attacks against you are made at +1 Difficulty.
+                  </v-tooltip>
                 </v-col>
 
                 <v-col v-if="actor.CombatController.Overwatch">
-                  <v-card flat tile class="px-2 ma-1">
+                  <v-card flat tile class="px-2 ma-1" color="surface-variant">
                     <span class="text-cc-overline">Overwatch</span>
                   </v-card>
                 </v-col>
 
                 <v-col v-if="actor.CombatController.Prepared">
-                  <v-card flat tile class="px-2 ma-1">
+                  <v-card flat tile class="px-2 ma-1" color="surface-variant">
                     <span class="text-cc-overline">Prepared</span>
                   </v-card>
                 </v-col>
               </v-row>
 
-              <v-card v-if="actor.CombatController.Cover !== 'none'" flat tile class="px-2 ma-1">
+              <v-card
+                v-if="actor.CombatController.Cover !== 'none'"
+                flat
+                tile
+                class="px-2 ma-1"
+                color="surface-variant">
                 <span class="text-cc-overline">
                   <v-icon
                     v-if="actor.CombatController.Cover === 'soft'"
@@ -216,27 +237,20 @@
                 </span>
               </v-card>
 
-              <div v-for="status in customStatuses">
-                <v-progress-linear model-value="100" height="16" color="orange" striped>
-                  <v-chip class="text-cc-overline bg-deep-orange-darken-3" flat tile>
-                    <cc-slashes />
-                    {{ status }}
-                    <cc-slashes />
-                  </v-chip>
-                </v-progress-linear>
-              </div>
-
               <div v-for="cs in customStatuses" class="d-flex">
                 <v-tooltip location="top" max-width="400px">
                   <template #activator="{ props }">
                     <v-progress-linear v-bind="props" model-value="100" height="16" color="exotic">
                       <v-chip class="text-cc-overline" flat tile>
                         <cc-slashes />
-                        {{ cs.status.Attribute }}
+                        <span class="px-2">{{ cs.status.Attribute }}</span>
                         <cc-slashes />
                       </v-chip>
                     </v-progress-linear>
                   </template>
+                  <div class="heading h4">
+                    {{ cs.status.Attribute }}
+                  </div>
                   {{ cs.status.Detail }}
                 </v-tooltip>
 

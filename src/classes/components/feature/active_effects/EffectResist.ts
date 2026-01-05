@@ -8,6 +8,7 @@ interface IEffectResistData {
   aoe?: boolean;
   duration?: string;
   target?: 'self' | 'ally' | 'enemy' | 'any';
+  attack?: 'melee' | 'ranged' | 'tech';
 }
 
 class EffectResist {
@@ -17,6 +18,7 @@ class EffectResist {
   public readonly Duration: string;
   public readonly Target: 'self' | 'ally' | 'enemy' | 'any';
   public readonly Save?: EffectSave;
+  public readonly Attack?: 'melee' | 'ranged' | 'tech';
 
   public constructor(data: IEffectResistData) {
     if (data.vulnerable) {
@@ -33,6 +35,7 @@ class EffectResist {
     this.Duration = data.duration || 'End of Encounter';
     this.Target = data.target || 'any';
     if (data.save) this.Save = new EffectSave(data.save);
+    if (data.attack) this.Attack = data.attack;
   }
 }
 

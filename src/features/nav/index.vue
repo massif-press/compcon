@@ -327,7 +327,7 @@ export default {
       return this.$vuetify.display.xs;
     },
     mobile() {
-      return this.portrait || this.landscape;
+      return this.portrait;
     },
     StorageWarning(): boolean {
       return UserStore().StorageWarning;

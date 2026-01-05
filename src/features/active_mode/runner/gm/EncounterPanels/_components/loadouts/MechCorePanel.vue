@@ -1,6 +1,6 @@
 <template>
   <v-card class="mb-2" flat tile border>
-    <v-toolbar density="compact" height="50" :color="active ? 'lime' : 'panel'">
+    <v-toolbar density="compact" height="50" :color="active ? 'core' : 'panel'">
       <span class="heading h3 px-2">
         {{ cs.Name }}
         <v-chip
@@ -14,6 +14,18 @@
           CORE ACTIVE
         </v-chip>
       </span>
+      <v-spacer />
+      <v-btn
+        icon
+        flat
+        tile
+        variant="outlined"
+        size="x-small"
+        class="mr-2 fade-select"
+        :color="mech.CombatController.CoreActive ? 'background' : 'core'"
+        @click="mech.CombatController.CoreActive = !mech.CombatController.CoreActive">
+        <v-icon icon="mdi-battery" size="20" />
+      </v-btn>
     </v-toolbar>
     <div class="pa-2">
       <v-row no-gutters>
@@ -36,7 +48,7 @@
                     :icon="
                       mech.CombatController.CorePower ? 'mdi-battery-high' : 'mdi-battery-outline'
                     "
-                    :color="mech.CombatController.CorePower ? 'lime' : 'grey'"
+                    :color="mech.CombatController.CorePower ? 'core' : 'grey'"
                     size="large"
                     class="mr-1" />
                 </template>

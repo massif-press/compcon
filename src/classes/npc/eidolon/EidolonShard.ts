@@ -50,6 +50,8 @@ class EidolonShard {
 
   public static EidolonShardBaseStats = shard_stats;
 
+  public IsEncounterInstance = false;
+
   public constructor(data: IEidolonShardData, pack?: ContentPack, tier?: number) {
     this.LcpName = pack?.Name || 'Lancer Core Book';
     this.InLcp = !!pack;
@@ -99,7 +101,7 @@ class EidolonShard {
       name: `${layerName} Shard`,
       type: 'shard',
       detail: this.Detail,
-      activation: ActivationType.Passive,
+      activation: ActivationType.Free,
       size: 1,
       id: `${layerName} Shard`,
       description: this.Detail,

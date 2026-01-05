@@ -154,7 +154,7 @@ import EquipCommandPanel from './_equipCommandPanel.vue';
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue';
 
 export default {
-  name: 'slot-card-base',
+  name: 'unit-feature-combat-card',
   components: {
     DeployButton,
     NpcModInset,

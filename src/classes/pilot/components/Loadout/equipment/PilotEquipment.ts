@@ -1,13 +1,6 @@
 import { CompendiumStore } from '@/stores';
 import { CompendiumItem, ContentPack, PilotArmor, PilotGear, PilotWeapon } from '@/class';
-import {
-  ICompendiumItemData,
-  IContentPack,
-  IEquipmentData,
-  IPilotWeaponData,
-  ITagCompendiumData,
-  ITagData,
-} from '@/interface';
+import { ICompendiumItemData, IEquipmentData, IPilotWeaponData, ITagData } from '@/interface';
 
 interface IPilotEquipmentData extends ICompendiumItemData {
   type?: string;
@@ -97,6 +90,12 @@ abstract class PilotEquipment extends CompendiumItem {
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || undefined,
+
+      // combat props
+      maxUses: item.getTotalUses(),
+      currentUses: item.Uses,
+      destroyed: item.Destroyed,
+      isUsed: item.Used,
     } as IEquipmentData;
   }
 
@@ -113,6 +112,12 @@ abstract class PilotEquipment extends CompendiumItem {
     item._flavor_name = itemData.flavorName;
     item._flavor_description = itemData.flavorDescription;
     item._custom_damage_type = itemData.customDamageType || null;
+
+    // combat props
+    if (itemData.maxUses) item.max_use_override = itemData.maxUses;
+    if (itemData.currentUses) item.Uses = itemData.currentUses;
+    if (itemData.destroyed) item.Destroyed = itemData.destroyed;
+    if (itemData.isUsed) item.Used = itemData.isUsed;
 
     return item;
   }

@@ -3,9 +3,131 @@
     <v-col v-if="canDealDamage && isFeature">
       <attack-menu :item="item" :controller="controller" :encounter="encounter" />
     </v-col>
+    <v-col v-if="item.IsAI" cols="auto">
+      <v-btn
+        v-if="!controller.AIControl"
+        :color="controller.CanActivate('protocol') ? 'protocol' : 'panel'"
+        size="small"
+        flat
+        tile
+        height="25"
+        @click="enableAI">
+        <v-tooltip v-if="!controller.CanActivate('protocol')" location="top">
+          <template #activator="{ props }">
+            <v-avatar v-bind="props" size="x-small" class="mr-2">
+              <v-icon icon="mdi-exclamation-thick" color="error" />
+            </v-avatar>
+          </template>
+          <div class="text-center text-cc-overline">Cannot activate</div>
+          <v-divider class="my-1" />
+          <div>
+            Insufficient
+            <v-chip color="protocol" size="small" variant="elevated" prepend-icon="cc:protocol">
+              Protocol
+            </v-chip>
+            actions remaining this turn.
+          </div>
+        </v-tooltip>
+        <v-tooltip
+          location="top"
+          max-width="300"
+          text="Cede control of your mech to the NHP as a Protocol Action.">
+          <template #activator="{ props }">
+            <span v-bind="props">
+              <v-icon icon="cc:protocol" class="mr-1" size="19" />
+              Cede Control
+            </span>
+          </template>
+        </v-tooltip>
+      </v-btn>
+
+      <v-btn
+        v-if="controller.AIControl"
+        :color="controller.CanActivate('protocol') ? 'protocol' : 'panel'"
+        size="small"
+        flat
+        tile
+        height="25"
+        @click="disableAI">
+        <v-tooltip v-if="!controller.CanActivate('protocol')" location="top">
+          <template #activator="{ props }">
+            <v-avatar v-bind="props" size="x-small" class="mr-2">
+              <v-icon icon="mdi-exclamation-thick" color="error" />
+            </v-avatar>
+          </template>
+          <div class="text-center text-cc-overline">Cannot activate</div>
+          <v-divider class="my-1" />
+          <div>
+            Insufficient
+            <v-chip color="protocol" size="small" variant="elevated" prepend-icon="cc:protocol">
+              Protocol
+            </v-chip>
+            actions remaining this turn.
+          </div>
+        </v-tooltip>
+        <v-tooltip
+          location="top"
+          max-width="300"
+          text="Reclaim control of your mech from the NHP as a Protocol Action.">
+          <template #activator="{ props }">
+            <span v-bind="props">
+              <v-icon icon="cc:protocol" class="mr-1" size="19" />
+              Reclaim Control
+            </span>
+          </template>
+        </v-tooltip>
+      </v-btn>
+
+      <v-tooltip location="top" max-width="300" text="Mark your mech as IN CASCADE">
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            color="error"
+            size="x-small"
+            icon
+            flat
+            tile
+            class="fade-select"
+            height="25"
+            @click="cascade">
+            <v-icon icon="cc:monist" size="29" style="margin-top: -2px" />
+          </v-btn>
+        </template>
+      </v-tooltip>
+    </v-col>
     <v-spacer />
 
-    <v-col cols="auto">
+    <v-col v-if="item.IsLoading" cols="auto">
+      <v-tooltip v-if="!item.Used" location="top" text="Toggle Used">
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            icon
+            size="x-small"
+            height="26"
+            tile
+            variant="text"
+            class="bg-primary"
+            @click="use()">
+            <v-icon size="x-large" icon="cc:reticle" />
+          </v-btn>
+        </template>
+      </v-tooltip>
+      <v-btn
+        v-else
+        v-bind="props"
+        size="small"
+        height="26"
+        tile
+        variant="text"
+        class="bg-primary"
+        @click="use()">
+        <v-icon size="x-large" icon="cc:ammo" start />
+        reload
+      </v-btn>
+    </v-col>
+
+    <v-col v-else cols="auto">
       <v-tooltip location="top" text="Toggle Used">
         <template #activator="{ props }">
           <v-btn
@@ -94,7 +216,9 @@
 </template>
 
 <script>
+import { EffectStatus } from '@/classes/components/feature/active_effects/EffectStatus';
 import AttackMenu from '../AttackMenu.vue';
+import { EffectSpecial } from '@/classes/components/feature/active_effects/EffectSpecial';
 
 export default {
   name: 'EquipCommandPanel',
@@ -139,6 +263,28 @@ export default {
         this.item.Uses--;
       }
       this.item.Used = !this.item.Used;
+    },
+    enableAI() {
+      this.controller.CombatActions.Protocol = false;
+      this.controller.AIControl = true;
+    },
+    disableAI() {
+      this.controller.CombatActions.Protocol = false;
+      this.controller.AIControl = false;
+    },
+    cascade() {
+      this.controller.AIControl = true;
+      this.controller.ApplyCustomStatus(
+        new EffectSpecial({
+          attribute: 'In Cascade',
+          detail:
+            'An installed NHP has entered CASCADE and has taken full control of the mech. The mech is in control of the GM until the Pilot reclaims control by choosing to Shut Down the mech.',
+        }),
+        '',
+        this.controller,
+        this.controller,
+        this.encounter
+      );
     },
   },
 };

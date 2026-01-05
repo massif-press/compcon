@@ -24,6 +24,8 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   public ItemType: string = 'Doodad';
   public MandatoryStats: string[] = [];
 
+  public IsEncounterInstance = false;
+
   public constructor(data?: DoodadData) {
     super(data);
 

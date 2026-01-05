@@ -141,6 +141,7 @@
     </template>
     <template #default="{ close }">
       <menu-input
+        :key="owner.ID"
         :active-effect="activeEffect"
         :encounter="encounter"
         :owner="owner"

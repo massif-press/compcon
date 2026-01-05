@@ -37,7 +37,7 @@ class CounterController {
       this._counterSaveData[index] = inputData;
       this._counterSaveData = [...this._counterSaveData];
     }
-    this.Parent.SaveController.save();
+    // this.Parent.SaveController.save();
   }
 
   public get CustomCounterData(): ICounterData[] {

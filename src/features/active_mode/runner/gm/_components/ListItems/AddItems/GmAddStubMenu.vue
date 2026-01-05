@@ -131,8 +131,6 @@ export default {
         actor: ph,
         deployables: [],
       });
-
-      this.encounterInstance.Placeholders.push(ph);
     },
   },
 };

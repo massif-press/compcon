@@ -563,17 +563,15 @@ export default {
       // this.encounter.Pilots = this.pilots.map((p) => p.ID);
       // this.encounter.Placeholders = this.placeholders.map((p) => p.id);
 
-      const instance = new EncounterInstance({
-        itemType: 'EncounterInstance',
-        id: `encounter-instance-${this.encounter.ID}${Date.now()}`,
-        encounterData: this.encounter.Serialize(),
-        pilotData: this.pilots.map((p) => p.Serialize()),
-        placeholderData: this.placeholders.map((p) => p.Serialize()),
-        round: 1,
-      } as any);
+      const instance = new EncounterInstance(
+        undefined,
+        this.encounter,
+        this.pilots,
+        this.placeholders
+      );
 
       await EncounterStore().AddEncounterInstance(instance);
-      await EncounterStore().AssignActiveEncounter(instance);
+      await EncounterStore().SetActiveEncounter(instance.ID);
       if (launch) this.Launch();
       else this.$router.push('manage-encounters');
     },

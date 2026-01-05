@@ -121,10 +121,17 @@ class NpcFeatureController implements IFeatureContainer {
   }
 
   public static Serialize(parent: Unit, target: any) {
-    target.features = parent.NpcFeatureController.Features.map((x) => ({
-      id: x.ID,
-      data: x.ItemData,
-    }));
+    const features = [] as { id: string; data: INpcFeatureData }[];
+    parent.NpcFeatureController.Features.forEach((x) => {
+      const combatModifiedData = x.ItemData;
+      combatModifiedData.isUsed = x.Used;
+
+      features.push({
+        id: x.ID,
+        data: combatModifiedData as INpcFeatureData,
+      });
+    });
+    target.features = features;
   }
 
   public static Deserialize(parent: Unit, data: INpcFeatureSaveData) {
@@ -137,9 +144,9 @@ class NpcFeatureController implements IFeatureContainer {
     data.features?.forEach((x) => {
       const id = typeof x === 'string' ? x : x.id;
       if (CompendiumStore().has('NpcFeatures', id)) {
-        parent.NpcFeatureController._selectedFeatures.push(
-          CompendiumStore().referenceByID('NpcFeatures', id) as NpcFeature
-        );
+        const item = CompendiumStore().referenceByID('NpcFeatures', id) as NpcFeature;
+        item.Used = x.data.isUsed || false;
+        parent.NpcFeatureController._selectedFeatures.push(item);
       } else if (!!x.data && Object.keys(x.data).length)
         parent.NpcFeatureController._selectedFeatures.push(NpcFeatureFactory.Build(x.data));
     });

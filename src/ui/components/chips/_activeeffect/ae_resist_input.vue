@@ -16,6 +16,14 @@
           @add-target="addTarget"
           @remove-target="cancelTarget" />
 
+        <base-attack-roller
+          v-if="resist.Attack"
+          :selected-targets="selectedTargets"
+          :target-saves="attackRolls"
+          :attack="resist.Attack"
+          :owner="owner"
+          @update:target-attacks="attackRolls = $event" />
+
         <BaseSaveRoller
           v-if="resist.Save"
           :selected-targets="selectedTargets"
@@ -56,6 +64,7 @@ export default {
   data() {
     return {
       ...baseEffect.data(),
+      attackRolls: [],
       selectedResist: null,
       selectedResistType: null,
     };
