@@ -2,6 +2,7 @@
   <component
     :is="hover ? 'integratedInfoHover' : panel ? 'integratedInfoPanel' : 'integratedInfoPopup'"
     :item="item"
+    :special="special"
   />
 </template>
 
@@ -28,6 +29,10 @@ export default Vue.extend({
     },
     hover: {
       type: Boolean,
+    },
+    special: {
+      type: Boolean,
+      default: false,
     },
   },
 })

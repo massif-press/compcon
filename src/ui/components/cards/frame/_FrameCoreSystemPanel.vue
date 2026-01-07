@@ -65,6 +65,16 @@
       </v-col>
     </v-row>
 
+    <v-row v-if="cs.SpecialEquipment.length" no-gutters justify="center">
+      <v-col
+        v-for="(x, i) in cs.SpecialEquipment"
+        :key="`${cs.Name}_special_${i}`"
+        cols="auto"
+      >
+        <cc-integrated-info :item="x" :special="true" :panel="$vuetify.breakpoint.lgAndUp" />
+      </v-col>
+    </v-row>
+
     <v-row v-if="cs.Deployables.length" no-gutters justify="center">
       <v-col v-for="(d, i) in cs.Deployables" :key="`${cs.Name}_deployable_${i}`" cols="auto">
         <cc-deployable-info :deployable="d" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
