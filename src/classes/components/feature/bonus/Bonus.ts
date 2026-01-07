@@ -2,6 +2,7 @@ import { DamageType, Mech, Pilot, RangeType, WeaponSize, WeaponType } from '@/cl
 import { IFeatureController } from '../IFeatureController'
 import dict from './bonus_dictionary'
 import { IBonusDataContainer } from './IBonusDataContainer'
+import { MechSkillsController } from '../../mechskills/MechSkillsController'
 
 interface IBonusData {
   id: string
@@ -104,8 +105,17 @@ class Bonus {
     let valStr = bonus.Value
     const ll = source.FeatureController.getRootProperty('Level')?.toString() || '0'
     const grit = source.FeatureController.getRootProperty('Grit')?.toString() || '0'
+    const meSkills : MechSkillsController = source.FeatureController.getRootProperty('MechSkillsController');
+    const hull = meSkills?.MechSkills.Hull.toString() || '0'
+    const agility = meSkills?.MechSkills.Agi.toString() || '0'
+    const systems = meSkills?.MechSkills.Sys.toString() || '0'
+    const engineering = meSkills?.MechSkills.Eng.toString() || '0'
     valStr = valStr.replace(/{ll}/g, ll)
     valStr = valStr.replace(/{grit}/g, grit)
+    valStr = valStr.replace(/{hull}/g, hull)
+    valStr = valStr.replace(/{agi}/g, agility)
+    valStr = valStr.replace(/{sys}/g, systems)
+    valStr = valStr.replace(/{eng}/g, engineering)
     valStr = valStr.replace(/[^-()\d/*+.]/g, '')
     return Math.ceil(eval(valStr))
   }
