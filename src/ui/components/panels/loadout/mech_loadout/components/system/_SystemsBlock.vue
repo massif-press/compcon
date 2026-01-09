@@ -159,7 +159,7 @@ export default {
         });
       });
 
-      if (this.mech.FreeSP && !this.readonly) {
+      if (this.mech.FreeSP > 0 && !this.readonly) {
         arr.push({
           component: SystemSlotCard,
           id: 'add-system',

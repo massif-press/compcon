@@ -28,7 +28,6 @@
   </div>
 
   <div v-if="item.Effect" class="mb-2">
-    <div v-show="!dense" class="text-cc-overline text-disabled">//EQUIPMENT EFFECT</div>
     <p v-if="tier" v-html-safe="item.EffectByTier(tier)" class="text-text" />
     <p v-else v-html-safe="item.Effect" class="text-text" />
   </div>

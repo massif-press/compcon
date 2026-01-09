@@ -20,8 +20,9 @@ class expiration {
     target?: CombatController,
     encounter?: EncounterInstance
   ) {
-    const str = expiration.toLowerCase();
-    this.Raw = expiration;
+    console.log(expiration);
+    const str = expiration?.toLowerCase() || '';
+    this.Raw = expiration || '';
     let text = '';
 
     if (str.includes('round')) this.Period = 'round';
@@ -67,6 +68,7 @@ class expiration {
   }
 
   public static Serialize(exp: expiration): any {
+    if (!exp) return null;
     return {
       Raw: exp.Raw,
       Period: exp.Period,
@@ -79,7 +81,8 @@ class expiration {
   }
 
   public static Deserialize(data: any): expiration {
-    const exp = new expiration(data.Raw || data);
+    if (!data) return new expiration('');
+    const exp = new expiration(typeof data === 'string' ? data : data.Raw || '');
     exp.Period = data.Period;
     exp.EndsOn = data.EndsOn;
     exp.ExpirationActorID = data.ExpirationActorID;

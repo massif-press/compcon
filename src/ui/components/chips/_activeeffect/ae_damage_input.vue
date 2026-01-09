@@ -5,10 +5,12 @@
       :selected-damage-value="selectedDamageValue"
       :damage-placeholder="damagePlaceholder"
       :armor-piercing="damage.AP"
+      :reliable="damage.Reliable"
       @update:damage-type="selectedDamageType = $event"
       @update:damage-value="selectedDamageValue = $event"
-      @roll-damage="rollDamage"
-      @toggle-ap="damage.AP = !damage.AP" />
+      @roll-damage="$emit('damage-rolled', $event)"
+      @toggle-ap="damage.AP = !damage.AP"
+      @toggle-irreducible="damage.Irreducible = !damage.Irreducible" />
 
     <v-col>
       <v-row dense align="start">
@@ -33,8 +35,10 @@
           :selected-targets="selectedTargets"
           :attack-rolls="attackRolls"
           :attack="damage.Attack"
+          :base-accuracy="damage.Accuracy"
           :owner="owner"
-          @update:target-attacks="attackRolls = $event" />
+          @update:target-attacks="attackRolls = $event"
+          @update:target-hits="hitMiss = $event" />
 
         <save-half-toggle
           v-if="damage.Save"
@@ -73,6 +77,8 @@ export default {
     selectedTargets: [],
     targetSaves: [],
     attackRolls: [],
+    attackDamage: [],
+    hitMiss: [],
     aoe: null,
     selectedDamageType: 'kinetic',
     selectedDamageValue: null,
@@ -81,7 +87,33 @@ export default {
   mounted() {
     this.reset();
   },
-  emits: ['update:modelValue', 'update:targets', 'update:target-attacks'],
+  emits: [
+    'update:modelValue',
+    'update:targets',
+    'update:target-attacks',
+    'update:target-damage',
+    'damage-rolled',
+    'attack-rolled',
+  ],
+  watch: {
+    selectedTargets: {
+      immediate: true,
+      deep: true,
+      handler(newVal) {
+        this.targetSaves = new Array(newVal.length).fill(null);
+        this.attackRolls = new Array(newVal.length).fill(null);
+        this.attackDamage = new Array(newVal.length).fill(null);
+        this.$emit('update:targets', this.selectedTargets);
+      },
+    },
+    hitMiss: {
+      immediate: true,
+      deep: true,
+      handler(newval) {
+        this.$emit('attack-rolled', newval);
+      },
+    },
+  },
   computed: {
     isReady() {
       return (
@@ -133,9 +165,6 @@ export default {
       this.targetSaves.splice(idx, 1);
       this.attackRolls.splice(idx, 1);
     },
-    rollDamage() {
-      this.selectedDamageValue = DiceRoller.roll(this.damage.Value);
-    },
     getSummary() {
       let out = [];
       this.selectedTargets.forEach((t, idx) => {
@@ -159,7 +188,12 @@ export default {
         }
         if (this.damage.Attack) {
           if (this.attackRolls[idx] != null) {
-            if (this.attackRolls[idx] >= t.actor.CombatController.Evasion) {
+            if (
+              this.attackRolls[idx] >=
+              (this.damage.Attack === 'tech'
+                ? t.actor.CombatController.StatController.MaxStats['edef']
+                : t.actor.CombatController.StatController.MaxStats['evasion'])
+            ) {
               part += ` [HIT]`;
             } else {
               part += ` [MISS]`;

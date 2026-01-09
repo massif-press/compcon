@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { defineStore } from 'pinia';
 import _ from 'lodash';
 import semver from 'semver';
@@ -258,7 +259,11 @@ export const CompendiumStore = defineStore('compendium', {
       return (itemType: string, id: string) => {
         if (this[itemType] && this[itemType] instanceof Array) {
           const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
-          if (i) return _.cloneDeep(i);
+          if (i) {
+            const cl = _.cloneDeep(i);
+            cl.InstanceID = uuid();
+            return cl;
+          }
           return null;
         }
         logger.error(`Invalid item type: ${itemType}`);

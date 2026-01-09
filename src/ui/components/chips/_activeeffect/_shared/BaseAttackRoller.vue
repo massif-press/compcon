@@ -15,13 +15,23 @@
           flat
           :disabled="!selectedTargets[idx]"
           hide-details
-          tile>
+          tile
+          @update:model-value="updateAttack(idx, $event)">
           <template #prepend>
             <v-menu open-on-hover :close-on-content-click="false">
               <template #activator="{ props }">
-                <v-btn icon size="x-small" variant="text" flat tile class="mr-n6" v-bind="props">
-                  <v-icon size="25" icon="mdi-dice-d20" />
-                </v-btn>
+                <div class="mr-n4 ml-n2">
+                  <v-btn
+                    icon
+                    size="x-small"
+                    variant="text"
+                    flat
+                    tile
+                    v-bind="props"
+                    @click="rollAttack(idx)">
+                    <v-icon size="25" icon="mdi-dice-d20" />
+                  </v-btn>
+                </div>
               </template>
               <template #default="{ isActive }">
                 <v-card
@@ -109,7 +119,7 @@
         <v-text-field
           v-for="(s, idx) in attackRolls"
           :key="'target_val_' + idx"
-          :value="getTargetVal(s, idx)"
+          v-model="targetTargets[idx]"
           density="compact"
           variant="outlined"
           type="number"
@@ -117,7 +127,8 @@
           hide-spin-buttons
           flat
           :disabled="!selectedTargets[idx]"
-          hide-details>
+          hide-details
+          @update:model-value="updateTargets(idx, $event)">
           <template #append>
             <v-tooltip location="top">
               <template #activator="{ props }">
@@ -128,7 +139,13 @@
                   flat
                   tile
                   :color="
-                    !attackRolls[idx] ? '' : attackRolls[idx] >= saveTarget ? 'success' : 'error'
+                    !attackRolls[idx]
+                      ? ''
+                      : crits && attackRolls[idx] >= 20
+                        ? 'exotic'
+                        : attackRolls[idx] >= targetTargets[idx]
+                          ? 'success'
+                          : 'error'
                   "
                   class="ml-n2"
                   v-bind="props"
@@ -138,9 +155,11 @@
                     :icon="
                       !attackRolls[idx]
                         ? 'mdi-circle-outline'
-                        : attackRolls[idx] >= saveTarget
-                          ? 'mdi-check-circle'
-                          : 'mdi-cancel'
+                        : crits && attackRolls[idx] >= 20
+                          ? 'mdi-check-decagram'
+                          : attackRolls[idx] >= targetTargets[idx]
+                            ? 'mdi-check-circle'
+                            : 'mdi-cancel'
                     " />
                 </v-btn>
               </template>
@@ -149,9 +168,11 @@
                 {{
                   !attackRolls[idx]
                     ? 'No Attack Rolled'
-                    : attackRolls[idx] >= saveTarget
-                      ? 'Successful Attack'
-                      : 'Failed Attack'
+                    : crits && attackRolls[idx] >= 20
+                      ? 'Critical Hit'
+                      : attackRolls[idx] >= targetTargets[idx]
+                        ? 'Successful Attack'
+                        : 'Failed Attack'
                 }}
 
                 <div>
@@ -174,20 +195,25 @@ export default {
     attackRolls: { type: Array, required: true },
     attack: { type: String, default: '' },
     owner: { type: Object, required: true },
+    baseAccuracy: { type: Number, default: 0 },
+    crits: { type: Boolean, default: false },
   },
   data: () => ({
+    targetTargets: [],
     accDiff: [],
     rollResults: [],
   }),
   watch: {
     selectedTargets: {
       immediate: true,
+      deep: true,
       handler(newVal) {
-        this.accDiff = new Array(newVal.length).fill(0);
+        this.accDiff = new Array(newVal.length).fill(this.baseAccuracy);
+        this.targetTargets = newVal.map((t, idx) => this.getTargetVal(t, idx));
       },
     },
   },
-  emits: ['update:target-saves'],
+  emits: ['update:target-saves', 'update:target-attacks'],
   computed: {
     hasAttack() {
       return !!this.attack;
@@ -200,9 +226,6 @@ export default {
       if (this.attack === 'tech') return 'e-defense';
       return 'evasion';
     },
-    saveTarget() {
-      return this.owner.CombatController.SaveTarget;
-    },
     grit() {
       return this.owner.CombatController.Grit;
     },
@@ -212,13 +235,15 @@ export default {
   },
   methods: {
     getTargetVal(s, idx) {
-      const target = this.selectedTargets[idx];
+      const target =
+        this.selectedTargets[idx]?.actor?.CombatController.ActiveActor.CombatController;
       if (!target) return '';
 
       if (this.attack === 'tech') {
-        return target.actor.CombatController.StatController.getStat('edef');
+        return target.StatController.MaxStats['edef'];
       }
-      return target.actor.CombatController.StatController.getStat('evasion');
+
+      return target.StatController.MaxStats['evasion'];
     },
     getTargetCoverDifficulty(idx) {
       const target = this.selectedTargets[idx];
@@ -261,16 +286,33 @@ export default {
     },
     overrideSave(idx) {
       if (this.attackRolls[idx] == null) return;
-      if (this.attackRolls[idx] < this.saveTarget) {
-        this.updateAttack(idx, 20);
-      } else {
+      if (this.attackRolls[idx] >= 20) {
         this.updateAttack(idx, 1);
+      } else if (this.attackRolls[idx] < this.targetTargets[idx]) {
+        this.updateAttack(idx, this.targetTargets[idx]);
+      } else {
+        this.updateAttack(idx, 20);
       }
     },
     updateAttack(idx, value) {
       const newAttacks = [...this.attackRolls];
       newAttacks[idx] = value;
       this.$emit('update:target-attacks', newAttacks);
+      const newHitMiss = newAttacks.map((a, i) =>
+        a >= 20 ? 2 : a >= this.targetTargets[i] ? 1 : 0
+      );
+      this.$emit('update:target-hits', newHitMiss);
+    },
+    updateTargets(idx, value) {
+      const newTargets = [...this.targetTargets];
+      newTargets[idx] = value;
+      this.$emit('update:target-saves', newTargets);
+      const newAttacks = [...this.attackRolls];
+
+      const newHitMiss = newAttacks.map((a, i) =>
+        a >= 20 ? 2 : a >= this.targetTargets[i] ? 1 : 0
+      );
+      this.$emit('update:target-hits', newHitMiss);
     },
   },
 };

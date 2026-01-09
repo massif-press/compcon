@@ -8,10 +8,6 @@
     <v-card-text class="pa-0 pb-1">
       <equipment-header :item="mod" :use-bonus="mech.LimitedBonus" />
 
-      <div class="text-cc-overline text-disabled">
-        <v-icon icon="cc:weaponmod" />
-        EQUIPMENT EFFECT
-      </div>
       <div class="mb-1" :class="!mobile && 'px-4'" v-html-safe="mod.Effect" />
 
       <div v-if="mod.Actions.length">

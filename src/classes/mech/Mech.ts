@@ -576,7 +576,6 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
 
     PortraitController.Serialize(m, data);
     MechLoadoutController.Serialize(m, data, asInstance);
-    if (asInstance) console.log(data);
     CombatController.Serialize(m.CombatController, data);
 
     return data as IMechData;

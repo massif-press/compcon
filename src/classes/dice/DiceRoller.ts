@@ -113,6 +113,7 @@ class DamageRollResult implements IDamageRollResult {
   private _staticBonus: number;
   private _parseError: boolean;
   private _diceString: string;
+  private _critical: boolean;
 
   public constructor(
     diceString: string,
@@ -121,6 +122,7 @@ class DamageRollResult implements IDamageRollResult {
     rollClass: string[],
     staticBonus: number,
     overkillRerolls: number,
+    critical: boolean,
     parseError?: boolean
   ) {
     this._diceString = diceString;
@@ -129,6 +131,7 @@ class DamageRollResult implements IDamageRollResult {
     this._rollClassifications = rollClass || [''];
     this._overkillRerolls = overkillRerolls || 0;
     this._staticBonus = staticBonus || 0;
+    this._critical = critical || false;
     this._parseError = parseError || false;
   }
 
@@ -158,6 +161,28 @@ class DamageRollResult implements IDamageRollResult {
 
   public get overkillRerolls(): number {
     return this._overkillRerolls;
+  }
+
+  public toString(): string {
+    if (this.parseError) {
+      return `Error parsing dice string: ${this.diceString}`;
+    }
+
+    let out = this._critical ? 'Critical Damage Roll: ' : 'Damage Roll: ';
+    for (let i = 0; i < this.rawDieRolls.length; i++) {
+      if (i > 0) out += '+ ';
+      let rc = this.rollClassifications[i];
+      if (this._critical && rc === 'high') out += `<b>${this.rawDieRolls[i]}</b><sub>k</sub> `;
+      else if (this._critical && rc === 'low') out += `<i>${this.rawDieRolls[i]}</i><sub>d</sub> `;
+      else if (rc === 'overkill') out += `<i>${this.rawDieRolls[i]} (OVERKILL)</i> `;
+      else out += `${this.rawDieRolls[i]} `;
+    }
+
+    if (this.staticBonus !== 0) {
+      out += this.staticBonus > 0 ? ` + ${this.staticBonus}` : ` - ${Math.abs(this.staticBonus)}`;
+    }
+
+    return `${out} = ${this.total}`;
   }
 }
 
@@ -205,7 +230,8 @@ class DiceRoller {
   public static rollDamage(
     diceString: string,
     critical?: boolean,
-    overkill?: boolean
+    overkill?: boolean,
+    reliable?: number
   ): DamageRollResult {
     const parsedRoll = DiceRoller.parseDiceString(diceString);
 
@@ -213,7 +239,7 @@ class DiceRoller {
       // return as a error - they get back the dice string
       // and can handle as a special case
 
-      return new DamageRollResult(diceString, 0, [0], [], 0, 0, true);
+      return new DamageRollResult(diceString, 0, [0], [], 0, 0, false, true);
     } else {
       let total = 0;
       const rawRolls: number[] = [];
@@ -230,6 +256,21 @@ class DiceRoller {
         rollClass.push(...this.classifyDamageRolls(dieSet, x.rolls, overkill));
         okRerolls += x.rerolls;
         total += x.result;
+
+        if (critical) {
+          let dropped = 0;
+          for (let i = 0; i < rollClass.length; i++) {
+            if (rollClass[i] === 'low') {
+              dropped += rawRolls[i];
+            }
+          }
+          total -= dropped;
+          console.log(dropped);
+        }
+
+        if (reliable && total < reliable) {
+          total = reliable;
+        }
       });
 
       return new DamageRollResult(
@@ -239,6 +280,7 @@ class DiceRoller {
         rollClass,
         staticBonus,
         okRerolls,
+        critical || false,
         false
       );
     }

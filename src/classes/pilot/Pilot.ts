@@ -658,7 +658,7 @@ class Pilot
 
     const data = {
       itemType: 'pilot',
-      id: instanceID || p.ID,
+      id: p.ID,
       is_instance: p.IsInstance || !!asInstance,
       instanceId: instanceID || p.InstanceID,
       originId: p.OriginId || p.ID,

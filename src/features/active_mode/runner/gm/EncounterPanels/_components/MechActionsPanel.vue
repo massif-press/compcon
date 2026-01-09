@@ -22,14 +22,11 @@
         <v-divider class="my-2" />
         <v-row dense>
           <v-col>
-            <v-btn
-              block
-              flat
-              tile
-              size="small"
-              text="Skirmish"
-              prepend-icon="mdi-hexagon-slice-3"
-              color="action--quick" />
+            <mech-skirmish-button
+              :action="getBaseAction('act_skirmish')"
+              :controller="controller"
+              :encounter="encounter"
+              @activate="activate($event)" />
           </v-col>
           <v-col>
             <v-btn
@@ -169,6 +166,7 @@ import StabilizeButton from './loadouts/action_buttons/stabilizeButton.vue';
 import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue';
 import OverchargeButton from './loadouts/action_buttons/overchargeButton.vue';
 import { ActivationType } from '@/class';
+import MechSkirmishButton from './loadouts/action_buttons/mechSkirmishButton.vue';
 
 export default {
   name: 'MechActionsPanel',
@@ -178,6 +176,7 @@ export default {
     StabilizeButton,
     SkillCheckButton,
     OverchargeButton,
+    MechSkirmishButton,
   },
   props: {
     controller: {

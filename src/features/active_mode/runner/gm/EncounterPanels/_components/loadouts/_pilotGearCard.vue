@@ -24,10 +24,6 @@
 
       <div v-if="item">
         <div v-if="item.Effect">
-          <div class="text-cc-overline text-disabled mt-1">
-            <v-icon :icon="item.Icon" size="small" class="mt-n1" />
-            EQUIPMENT EFFECT
-          </div>
           <p v-html-safe="item.Effect" class="mb-1 px-2" />
         </div>
 

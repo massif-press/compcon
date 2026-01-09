@@ -14,6 +14,7 @@ interface IDamageData {
   save?: string | { stat: string; aoe?: boolean };
   save_half?: boolean;
   ap?: boolean;
+  irreducible?: boolean;
   target?: string;
   attack?: 'melee' | 'ranged' | 'tech';
 }
@@ -29,6 +30,7 @@ class Damage {
 
   public AoE: string | boolean = false;
   public AP: boolean = false;
+  public Irreducible: boolean = false;
   public Target: string = 'enemy';
 
   public _raw_value: string | number;
@@ -58,6 +60,7 @@ class Damage {
 
     if (damage.aoe) this.AoE = damage.aoe;
     if (damage.ap) this.AP = damage.ap;
+    if (damage.irreducible) this.Irreducible = damage.irreducible;
     if (damage.save) this.Save = new EffectSave(damage.save);
     if (damage.save_half) this.SaveHalf = damage.save_half;
     if (damage.target) this.Target = damage.target;
@@ -76,6 +79,8 @@ class Damage {
         this.AoE = (obj.Range as Range[]).some((r) => nonAoeTypes.includes(r.Type)) ? false : true;
     }
     if (!this.AP && obj.Tags) this.AP = (obj.Tags as Tag[]).some((t) => t.ID === 'tg_ap');
+    if (!this.Irreducible && obj.Tags)
+      this.Irreducible = (obj.Tags as Tag[]).some((t) => t.ID === 'tg_irreducible');
   }
 
   private getDamageType(str?: string): DamageType {

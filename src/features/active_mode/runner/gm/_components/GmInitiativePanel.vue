@@ -79,7 +79,9 @@
 
   <div style="height: 50px" />
 
-  <div style="position: fixed; bottom: 35px; left: 0; width: 475px">
+  <div
+    style="position: fixed; bottom: 35px; left: 0"
+    :style="{ width: expanded ? '440px' : '72px' }">
     <v-menu>
       <template #activator="{ props }">
         <v-btn

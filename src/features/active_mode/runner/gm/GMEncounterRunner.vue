@@ -8,7 +8,7 @@
       <v-layout :style="`height: calc(100vh - ${$vuetify.display.xs ? '23px' : '41px'})`">
         <div
           style="position: absolute; z-index: 999"
-          :style="`left: ${showLeft ? '485' : '84'}px; top: 5px`">
+          :style="`left: ${showLeft ? '450' : '84'}px; top: 5px`">
           <cc-button
             :icon="showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
             size="small"

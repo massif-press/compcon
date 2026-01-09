@@ -1,13 +1,14 @@
 <template>
   <v-card
-    class="parent cc-panel-clip"
+    class="parent"
+    style="corner-shape: bevel; border-bottom-right-radius: 16px !important"
     :class="small ? 'small' : ''"
     :color="color"
     flat
     tile
     :border="border"
     :height="height"
-    variant="elevated">
+    :variant="variant">
     <slot name="toolbar" />
     <v-toolbar v-if="hasTitle" flat density="compact" :color="titleColor" class="ma-0 pa-0">
       <div class="mt-n1 px-2 pt-2 pb-1">
@@ -54,7 +55,7 @@ export default {
     },
     variant: {
       type: String,
-      default: '',
+      default: 'elevated',
     },
     title: {
       type: String,
@@ -120,25 +121,6 @@ export default {
 </script>
 
 <style scoped>
-.cc-panel-clip {
-  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0% 100%);
-}
-
-.cc-panel-clip.small {
-  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%);
-}
-
-.clip-fix {
-  position: absolute;
-  width: 38px;
-  height: 2px;
-  background-color: rgba(126, 126, 126, 0.3);
-  transform-origin: 10 0;
-  bottom: 8px;
-  right: -6px;
-  transform: rotate(-45deg);
-}
-
 .parent:deep(.v-toolbar__content) {
   height: fit-content !important;
 }

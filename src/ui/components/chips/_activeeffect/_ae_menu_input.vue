@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-right text-caption text-disabled mb-1">
+    <div v-if="!embedded" class="text-right text-caption text-disabled mb-1">
       <i v-if="activeEffect.Origin.Name">
         From {{ activeEffect.Origin.Name }}
         <span v-if="activeEffect.Origin.Source">
@@ -136,7 +136,7 @@
     </v-slide-y-transition>
 
     <cc-button
-      v-if="isPassive"
+      v-if="isPassive && !embedded"
       block
       size="x-small"
       color="panel"
@@ -145,7 +145,7 @@
       Dismiss
     </cc-button>
 
-    <div v-else class="d-flex justify-end mt-2 mr-4">
+    <div v-else-if="!embedded" class="d-flex justify-end mt-2 mr-4">
       <cc-button size="small" stacked @click="close">Cancel</cc-button>
       <v-spacer />
       <div>
@@ -280,6 +280,7 @@ export default {
     owner: { type: Object, required: true },
     close: { type: Function, required: true },
     hideInput: { type: Boolean, default: false },
+    embedded: { type: Boolean, default: false },
   },
   data: () => ({
     summaries: [] as Array<string>,
