@@ -44,7 +44,7 @@
                 item-title="Name" />
             </v-col>
           </v-row>
-          <v-card flat tile v-for="pc in pilots" class="border-sm mb-1" @click="addPc(pc)">
+          <v-card flat tile v-for="pc in pilots" class="border-sm mb-1">
             <v-row :key="pc.ID">
               <v-col cols="auto">
                 <cc-img :src="pc.Portrait" width="80" />
@@ -55,13 +55,19 @@
                   {{ pc.Name }}
                   <cc-slashes />
                   License Level {{ pc.Level }}
-                  <div v-if="pc.ActiveMech">
-                    <v-icon icon="cc:frame" class="mt-n1 mr-1" />
-                    <strong>{{ pc.ActiveMech.Frame.Source }} {{ pc.ActiveMech.Frame.Name }}</strong>
-                    <cc-slashes class="mx-1" />
-
-                    <i>{{ pc.ActiveMech.Name }}</i>
-                  </div>
+                  <v-row dense align="center">
+                    <v-col>
+                      <cc-select
+                        v-model="pc.ActiveMech"
+                        :items="pc.Mechs"
+                        :item-title="(x) => `${x.Name} (${x.Frame.Source} ${x.Frame.Name})`"
+                        return-object
+                        icon="cc:frame" />
+                    </v-col>
+                    <cc-button color="primary" :disabled="!pc.ActiveMech" @click="addPc(pc)">
+                      Add
+                    </cc-button>
+                  </v-row>
                 </div>
               </v-col>
             </v-row>
@@ -98,7 +104,9 @@ export default {
       return PilotStore()
         .Pilots.filter(
           (p) =>
-            !this.encounterInstance.Combatants.some((c) => c.actor.ID === p.ID) &&
+            !this.encounterInstance.Combatants.filter((x) => x.type === 'pilot').some(
+              (c) => c.actor.Name === p.Name
+            ) &&
             (!this.search ||
               p.Callsign.toLowerCase().includes(this.search.toLowerCase()) ||
               p.Name.toLowerCase().includes(this.search.toLowerCase()))

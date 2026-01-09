@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 import { CompendiumStore } from '../stores';
 import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '../class';
@@ -70,7 +71,7 @@ abstract class CompendiumItem {
   public Destroyed: boolean = false;
 
   public constructor(data?: ICompendiumItemData, lcp?: ContentPack) {
-    this.InstanceID = _.uniqueId();
+    this.InstanceID = uuid();
     this.ItemType = ItemType.None;
     this.ItemData = data || ({} as ICompendiumItemData);
     if (data) {

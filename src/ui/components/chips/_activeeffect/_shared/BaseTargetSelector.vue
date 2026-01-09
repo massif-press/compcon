@@ -87,7 +87,11 @@ export default {
   emits: ['toggle-aoe', 'add-target', 'remove-target'],
   computed: {
     filteredTargets() {
-      return this.targets.filter((t) => !this.selectedTargets.includes(t));
+      return this.targets.filter(
+        (t) =>
+          !t.actor.CombatController.ActiveActor.CombatController.IsDestroyed &&
+          !this.selectedTargets.includes(t)
+      );
     },
     aoeIcon() {
       let aoe = this.aoe;

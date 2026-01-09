@@ -213,6 +213,33 @@ class MechWeapon extends MechEquipment {
     return this.SelectedProfile.Cost;
   }
 
+  public get ActiveTags(): Tag[] {
+    return _.uniqBy(
+      this.Tags.concat(this.SelectedProfile.Tags || []).concat(this.Mod?.AddedTags || []),
+      'ID'
+    );
+  }
+
+  public get Reliable(): number {
+    const tag = this.ActiveTags.find((t) => t.ID === 'tg_reliable');
+    if (tag && tag.Value) return Number(tag.Value);
+    return 0;
+  }
+
+  public get Overkill(): boolean {
+    return this.ActiveTags.some((t) => t.ID === 'tg_overkill');
+  }
+
+  public get Accuracy(): number {
+    let val = 0;
+    const acc = this.ActiveTags.find((t) => t.ID === 'tg_accurate');
+    if (acc && acc.Value) val += Number(acc.Value);
+    const diff = this.ActiveTags.find((t) => t.ID === 'tg_inaccurate');
+    if (diff && diff.Value) val -= Number(diff.Value);
+
+    return val;
+  }
+
   public get SelectedProfile(): WeaponProfile {
     return this.Profiles[this._selected_profile];
   }
@@ -232,11 +259,6 @@ class MechWeapon extends MechEquipment {
     }
   }
 
-  public SetProfileSelection(val: number): void {
-    // TODO: recognize when this is instantiated on an existing mech so we can correctly call the save function from the setter
-    this._selected_profile = val;
-  }
-
   public get ProfileIndex(): number {
     return this._selected_profile;
   }
@@ -246,13 +268,14 @@ class MechWeapon extends MechEquipment {
   }
 
   public get AllTags(): Tag[] {
-    return _.uniqBy([...this.Tags, ...this.Profiles.flatMap((p) => p.Tags)], 'ID');
+    return _.uniqBy(
+      [...this.Tags, ...this.Profiles.flatMap((p) => p.Tags), ...(this.Mod?.AddedTags || [])],
+      'ID'
+    );
   }
 
   public get Damage(): Damage[] {
-    if (this.SelectedProfile.Damage && this.Mod && this.Mod.AddedDamage)
-      return this.SelectedProfile.Damage.concat(this.Mod.AddedDamage);
-    return this.SelectedProfile.Damage || [];
+    return [...(this.SelectedProfile.Damage || []), ...(this.Mod?.AddedDamage || [])];
   }
 
   public get MaxDamage(): number {
@@ -261,6 +284,14 @@ class MechWeapon extends MechEquipment {
     } else {
       return this.Damage[0].Max;
     }
+  }
+
+  public get IsSmart(): boolean {
+    return (
+      this.SelectedProfile.Tags.some((t) => t.ID === 'tg_smart') ||
+      (this.Mod && this.Mod.AddedTags.some((t) => t.ID === 'tg_smart')) ||
+      false
+    );
   }
 
   public SetOverride(
@@ -339,7 +370,9 @@ class MechWeapon extends MechEquipment {
 
   public get DamageTypeOverride(): DamageType | null {
     if (this._custom_damage_type) return this._custom_damage_type as DamageType;
-    if (this.Mod && this.Mod.AddedDamage) return this.Mod.AddedDamage[0].Type;
+    if (this.Mod && this.Mod.AddedDamage.length) {
+      return this.Mod.AddedDamage[0].Type;
+    }
     return null;
   }
 
@@ -373,6 +406,16 @@ class MechWeapon extends MechEquipment {
 
   public get Color(): string {
     return 'mech-weapon';
+  }
+
+  public GetAttack(idx): 'ranged' | 'melee' | 'tech' {
+    if (this.IsSmart) return 'tech';
+    if (this.Range[idx]) {
+      if (this.Range[idx].Type === RangeType.Threat) return 'melee';
+      return 'ranged';
+    }
+    if (this.WeaponTypes.includes(WeaponType.Melee)) return 'melee';
+    return 'ranged';
   }
 
   // for scatter and comparators

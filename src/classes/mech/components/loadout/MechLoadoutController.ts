@@ -106,6 +106,12 @@ class MechLoadoutController implements IFeatureContainer {
     return this.ActiveLoadout.IntegratedSystems;
   }
 
+  public getMount(weapon: MechWeapon) {
+    return this.ActiveLoadout.AllMounts(true, true).find((x) =>
+      x.Slots.some((s) => s.Weapon?.InstanceID === weapon.InstanceID)
+    );
+  }
+
   public static Serialize(parent: Mech, target: any, asInstance = false) {
     if (asInstance) {
       target.loadouts = [MechLoadout.Serialize(parent.MechLoadoutController.ActiveLoadout)];

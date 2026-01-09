@@ -112,7 +112,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get Grit(): number {
-    return this.RootActor.StatController.getStat('grit') || 0;
+    return this.RootActor.Grit || 0;
   }
 
   public AllActions(activation: ActivationType): Action[] {
@@ -227,6 +227,14 @@ class CombatController implements ICounterContainer, IStatContainer {
           this.CombatActions.Quick2 &&
           this.CombatActions.Full
         );
+      case 'ordnance':
+        return (
+          this.CombatActions.Quick1 &&
+          this.CombatActions.Quick2 &&
+          this.CombatActions.Full &&
+          this.CombatActions.Overcharge &&
+          this.StatController.CurrentStats['speed'] >= this.StatController.MaxStats['speed']
+        );
       case 'full':
       case 'fulltech':
         return this.CombatActions.Full && this.CombatActions.Quick1 && this.CombatActions.Quick2;
@@ -337,9 +345,13 @@ class CombatController implements ICounterContainer, IStatContainer {
   public SetResistance(type: string, condition?: string): void {
     condition = condition?.toLowerCase() || 'vulnerable';
 
-    const existingIndex = this.ActiveActor.Resistances.findIndex((s) => s.type === type);
-    if (existingIndex === -1) this.ActiveActor.Resistances.push({ type, condition });
-    else if (condition) this.ActiveActor.Resistances[existingIndex].condition = condition;
+    const existingIndex = this.ActiveActor.CombatController.Resistances.findIndex(
+      (s) => s.type === type
+    );
+    if (existingIndex === -1)
+      this.ActiveActor.CombatController.Resistances.push({ type, condition });
+    else if (condition)
+      this.ActiveActor.CombatController.Resistances[existingIndex].condition = condition;
     else this.Resistances.splice(existingIndex, 1);
   }
 
@@ -409,41 +421,84 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
-  public ApplyDamage(type: DamageType, value: number, ap: boolean = false): void {
-    if (this.SaveLock) return;
-    if (type === DamageType.Heat) {
-      if (!this.ActiveActor.StatController.MaxStats['stress']) type = DamageType.Energy;
-      else {
-        this.ActiveActor.CombatController.ApplyHeat(value);
-        return;
+  // these are split out to furnish UI with more detailed breakdowns
+  public CalculateArmorReduction(
+    type: DamageType,
+    value: number,
+    ap: boolean,
+    irreducible: boolean
+  ): number {
+    if (irreducible || ap || type === DamageType.Heat || type === DamageType.Burn) return 0;
+    return this.ActiveActor.StatController.CurrentStats['armor'] || 0;
+  }
+
+  public CalculateDamage(
+    type: DamageType,
+    value: number,
+    ap: boolean = false,
+    irreducible = false,
+    reliable = 0
+  ): { total: number; resist: string[]; condition: string[] } {
+    let out = { total: value, resist: [] as string[], condition: [] as string[] };
+
+    if (reliable > 0 && out.total < reliable) {
+      out.total = reliable;
+    }
+
+    if (this.HasStatus('exposed') && type !== DamageType.Heat && type !== DamageType.Burn) {
+      out.total *= 2;
+      out.condition.push('exposed');
+    }
+
+    if (this.HasStatus('shredded')) {
+      out.condition.push('shredded');
+      ap = true;
+    }
+
+    if (irreducible) return out;
+
+    out.total = Math.max(0, out.total - this.CalculateArmorReduction(type, value, ap, irreducible));
+
+    const resist = this.ActiveActor.CombatController.Resistances.find(
+      (r) => r.type === type.toLowerCase()
+    );
+
+    if (resist) {
+      if (resist.condition === 'vulnerable') {
+        out.total = Math.floor(out.total * 2);
+        out.resist.push('vulnerable');
+      } else if (!this.HasStatus('shredded') && resist.condition === 'resistance') {
+        out.total = Math.floor(out.total / 2);
+        out.resist.push('resistance');
+      } else if (!this.HasStatus('shredded') && resist.condition === 'immunity') {
+        out.total = 0;
+        out.resist.push('immunity');
       }
     }
-    let totalDamage =
-      ap || type === DamageType.Burn
-        ? value
-        : Math.max(0, value - this.ActiveActor.StatController.CurrentStats['armor']);
-    if (
-      this.ActiveActor.CombatController.Resistances.find(
-        (ds) => ds.type === type && ds.condition === 'immune'
-      )
-    ) {
-      totalDamage = 0;
-    } else if (
-      this.ActiveActor.CombatController.Resistances.find(
-        (ds) => ds.type === type && ds.condition === 'vulnerable'
-      )
-    ) {
-      totalDamage = Math.floor(totalDamage * 2);
-    } else if (
-      this.ActiveActor.CombatController.Resistances.find(
-        (ds) => ds.type === type && ds.condition === 'resistant'
-      )
-    ) {
-      totalDamage = Math.floor(totalDamage / 2);
+
+    return out;
+  }
+
+  public ApplyDamage(
+    type: DamageType,
+    value: number,
+    ap: boolean = false,
+    irreducible = false
+  ): void {
+    if (this.SaveLock) return;
+
+    if (type === DamageType.Heat && !this.ActiveActor.StatController.MaxStats['stress']) {
+      type = DamageType.Energy;
+    }
+
+    let damage = this.CalculateDamage(type, value, ap, irreducible);
+
+    if (type === DamageType.Heat) {
+      this.ActiveActor.CombatController.ApplyHeat(damage.total);
     }
 
     // subtract this damage from current hp
-    this.ActiveActor.StatController.CurrentStats['hp'] -= totalDamage;
+    this.ActiveActor.StatController.CurrentStats['hp'] -= damage.total;
     // if hull goes below 0, subtract 1 from structure and add max hp back to current hp
     while (
       this.ActiveActor.StatController.CurrentStats['hp'] <= 0 &&
@@ -463,18 +518,6 @@ class CombatController implements ICounterContainer, IStatContainer {
   public ApplyHeat(value: number): void {
     let totalValue = value;
     const target = this.ActiveActor.CombatController;
-
-    if (target.Resistances.find((ds) => ds.type === 'heat' && ds.condition === 'immune')) {
-      totalValue = 0;
-    } else if (
-      target.Resistances.find((ds) => ds.type === 'heat' && ds.condition === 'vulnerable')
-    ) {
-      totalValue = Math.floor(totalValue * 2);
-    } else if (
-      target.Resistances.find((ds) => ds.type === 'heat' && ds.condition === 'resistant')
-    ) {
-      totalValue = Math.floor(totalValue / 2);
-    }
 
     target.StatController.CurrentStats['heatcap'] += totalValue;
 
@@ -630,9 +673,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public EndRound(encounter): void {
-    console.log('ending round:', this.CombatName);
     if (this.Braced) {
-      console.log('is braced');
       this.Braced = false;
       this.CustomStatuses.push({
         status: new EffectSpecial({
@@ -642,7 +683,6 @@ class CombatController implements ICounterContainer, IStatContainer {
         }),
         expires: new expiration('end_turn_self', this.Parent.CombatController, this, encounter),
       });
-      console.log(this.CustomStatuses);
       this.CombatActions = {
         Protocol: false,
         Full: false,
