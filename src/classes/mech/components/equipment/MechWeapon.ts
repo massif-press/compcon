@@ -120,22 +120,25 @@ class WeaponProfile extends CompendiumItem {
       : '';
     if (pData.on_miss) {
       if (typeof pData.on_miss === 'string')
-        this.OnMiss = new ActiveEffect({ name: '', detail: pData.on_miss }, this);
+        this.OnMiss = new ActiveEffect({ name: 'On Miss Effect', detail: pData.on_miss }, this);
       else this.OnMiss = new ActiveEffect(pData.on_miss, this);
     }
     if (pData.on_attack) {
       if (typeof pData.on_attack === 'string')
-        this.OnAttack = new ActiveEffect({ name: '', detail: pData.on_attack }, this);
+        this.OnAttack = new ActiveEffect(
+          { name: 'On Attack Effect', detail: pData.on_attack },
+          this
+        );
       else this.OnAttack = new ActiveEffect(pData.on_attack, this);
     }
     if (pData.on_hit) {
       if (typeof pData.on_hit === 'string')
-        this.OnHit = new ActiveEffect({ name: '', detail: pData.on_hit }, this);
+        this.OnHit = new ActiveEffect({ name: 'On Hit Effect', detail: pData.on_hit }, this);
       else this.OnHit = new ActiveEffect(pData.on_hit, this);
     }
     if (pData.on_crit) {
       if (typeof pData.on_crit === 'string')
-        this.OnCrit = new ActiveEffect({ name: '', detail: pData.on_crit }, this);
+        this.OnCrit = new ActiveEffect({ name: 'On Crit Effect', detail: pData.on_crit }, this);
       else this.OnCrit = new ActiveEffect(pData.on_crit, this);
     }
 

@@ -6,6 +6,7 @@
     :color="color"
     flat
     tile
+    :ripple="false"
     :border="border"
     :height="height"
     :variant="variant">

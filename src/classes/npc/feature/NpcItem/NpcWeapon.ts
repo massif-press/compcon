@@ -46,22 +46,25 @@ export class NpcWeapon extends NpcFeature {
     this._weapon_type = data.weapon_type;
     if (data.on_miss) {
       if (typeof data.on_miss === 'string')
-        this.OnMiss = new ActiveEffect({ name: '', detail: data.on_miss }, this);
+        this.OnMiss = new ActiveEffect({ name: 'On Miss Effect', detail: data.on_miss }, this);
       else this.OnMiss = new ActiveEffect(data.on_miss, this);
     }
     if (data.on_attack) {
       if (typeof data.on_attack === 'string')
-        this.OnAttack = new ActiveEffect({ name: '', detail: data.on_attack }, this);
+        this.OnAttack = new ActiveEffect(
+          { name: 'On Attack Effect', detail: data.on_attack },
+          this
+        );
       else this.OnAttack = new ActiveEffect(data.on_attack, this);
     }
     if (data.on_hit) {
       if (typeof data.on_hit === 'string')
-        this.OnHit = new ActiveEffect({ name: '', detail: data.on_hit }, this);
+        this.OnHit = new ActiveEffect({ name: 'On Hit Effect', detail: data.on_hit }, this);
       else this.OnHit = new ActiveEffect(data.on_hit, this);
     }
     if (data.on_crit) {
       if (typeof data.on_crit === 'string')
-        this.OnCrit = new ActiveEffect({ name: '', detail: data.on_crit }, this);
+        this.OnCrit = new ActiveEffect({ name: 'On Crit Effect', detail: data.on_crit }, this);
       else this.OnCrit = new ActiveEffect(data.on_crit, this);
     }
     this.Attacks = this._expand(data.attacks);

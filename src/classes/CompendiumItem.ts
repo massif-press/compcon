@@ -55,6 +55,8 @@ abstract class CompendiumItem {
   public IsDeprecated: boolean = false;
   public IsExotic: boolean = false;
   public IntegratedOrigin: CompendiumItem | null = null;
+  public HeatCost: number = 0;
+  public DangerZone: boolean = false;
   protected _special_equipment: string[] = [];
   protected _integrated: string[] = [];
   protected _name: string;
@@ -108,13 +110,15 @@ abstract class CompendiumItem {
       this.LcpAuthor = lcp?.Author || 'Massif Press';
       this._baseTags = Tag.Deserialize(data.tags || [], lcp?.Data.tags || [], lcp?.Name || '');
       this.IsExotic = this._baseTags.some((x) => x.IsExotic);
+      this.DangerZone = this._baseTags.some((x) => x.IsDangerZone);
       const heatTag = this.Tags.find((x) => x.IsHeatCost);
-      const heatCost = Number(heatTag ? heatTag.Value : 0);
+      this.HeatCost = Number(heatTag ? heatTag.Value : 0);
       this.ActiveEffects = data.active_effects
         ? data.active_effects.map((x) => new ActiveEffect(x, this))
         : [];
+      if (data.actions && !Array.isArray(data.actions)) data.actions = [data.actions];
       this.Actions = data.actions
-        ? data.actions.map((x) => new Action(x, data.name, heatCost))
+        ? data.actions.map((x) => new Action(x, data.name, this.HeatCost))
         : [];
       this.Bonuses = data.bonuses ? data.bonuses.map((x) => new Bonus(x, this._name)) : [];
       this.Synergies = data.synergies ? data.synergies.map((x) => new Synergy(x, data.name)) : [];
@@ -157,6 +161,15 @@ abstract class CompendiumItem {
 
   public static Clone(item: CompendiumItem): CompendiumItem {
     return _.cloneDeep(item);
+  }
+
+  public Use(): void {
+    if (!this.Used && this.Uses < this.MaxUses) {
+      this.Uses++;
+    } else if (this.Used && this.Uses > 0) {
+      this.Uses--;
+    }
+    this.Used = !this.Used;
   }
 
   public get Name(): string {

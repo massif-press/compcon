@@ -1,20 +1,35 @@
 <template>
   <div class="text-cc-overline">// WEAPONS</div>
-  <masonry-wall :items="mounts" :column-width="600" :gap="16" :min-columns="1" :max-columns="2">
+  <masonry-wall :items="mounts"
+    :column-width="600"
+    :gap="16"
+    :min-columns="1"
+    :max-columns="2">
     <template #default="{ item }">
-      <fieldset class="pb-2 px-3" style="border-color: rgba(155, 155, 155, 0.6)">
+      <fieldset class="pb-2 px-3"
+        style="border-color: rgba(155, 155, 155, 0.6)">
         <legend class="heading h4 mx-2 px-2 text-accent">
           {{ item.mount.Name }}
-          <span class="text-cc-overline" v-if="item.isImpArm">(IMPROVED ARMAMENT)</span>
-          <span class="text-cc-overline" v-if="item.isSuperheavy">(SUPERHEAVY MOUNTING)</span>
+          <span class="text-cc-overline"
+            v-if="item.isImpArm">(IMPROVED ARMAMENT)</span>
+          <span class="text-cc-overline"
+            v-if="item.isSuperheavy">(SUPERHEAVY MOUNTING)</span>
         </legend>
 
-        <cb-card v-for="b in item.mount.Bonuses" :bonus="b" />
+        <mech-mount-bonus-card v-for="b in item.mount.Bonuses"
+          :key="b.ID"
+          :bonus="b"
+          :mech="mech"
+          :encounter="encounterInstance"
+          @deploy="$emit('deploy', $event)" />
+
+        <cb-card v-for="b in item.mount.Bonuses"
+          :bonus="b" />
         <sh-lock-card v-if="item.mount.IsLocked" />
         <div v-for="(s, idx) in item.mount.Slots">
-          <div v-if="idx > 0" class="my-4" />
-          <mech-weapon-card
-            v-if="s && s.Weapon"
+          <div v-if="Number(idx) > 0"
+            class="my-4" />
+          <mech-weapon-card v-if="s && s.Weapon"
             :key="s.ID"
             :item="s.Weapon"
             :mech="mech"
@@ -27,14 +42,18 @@
     </template>
   </masonry-wall>
   <div class="text-cc-overline mt-2">// SYSTEMS</div>
-  <masonry-wall :items="systems" :column-width="600" :gap="16" :min-columns="1" :max-columns="2">
+  <masonry-wall :items="systems"
+    :column-width="600"
+    :gap="16"
+    :min-columns="1"
+    :max-columns="2">
     <template #default="{ item }">
-      <fieldset class="pb-2 px-3" style="border-color: rgba(155, 155, 155, 0.6)">
+      <fieldset class="pb-2 px-3"
+        style="border-color: rgba(155, 155, 155, 0.6)">
         <legend class="heading h4 mx-2 px-2 text-accent">
           {{ (item as any).Name }}
         </legend>
-        <mech-system-card
-          :key="(item as any).ID"
+        <mech-system-card :key="(item as any).ID"
           :item="<any>item"
           :mech="mech"
           :encounter="encounterInstance"
@@ -48,6 +67,7 @@
 import ShLockCard from '@/ui/components/panels/loadout/mech_loadout/components/mount/_ShLockCard.vue';
 import MechSystemCard from './_mechSystemCard.vue';
 import MechWeaponCard from './_mechWeaponCard.vue';
+import MechMountBonusCard from './_mechMountBonusCard.vue';
 
 export default {
   name: 'mech-combat-loadout',
@@ -55,6 +75,7 @@ export default {
     MechWeaponCard,
     MechSystemCard,
     ShLockCard,
+    MechMountBonusCard
   },
   props: {
     mech: {

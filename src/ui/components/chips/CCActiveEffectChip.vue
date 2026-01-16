@@ -1,16 +1,14 @@
 <template>
-  <cc-dialog
-    :close-on-click="false"
+  <cc-dialog :close-on-click="false"
     :title="activeEffect.Name"
     icon="mdi-rhombus-outline"
     min-width="75vw">
     <template #activator="{ open }">
-      <div class="top-element mr-6 mb-1" style="position: relative; display: inline-block">
-        <div
-          v-if="!isPassive"
+      <div class="top-element mr-6 mb-1"
+        style="position: relative; display: inline-block">
+        <div v-if="!isPassive"
           :class="`light bg-${activeEffect.Applied ? 'panel-border' : lightColor}`" />
-        <v-chip
-          :color="activeEffect.Applied ? 'panel-border' : 'primary'"
+        <v-chip :color="activeEffect.Applied ? 'panel-border' : 'primary'"
           variant="elevated"
           :ripple="false"
           size="small"
@@ -26,68 +24,106 @@
           `"
           @click="open">
           <template #prepend>
-            <v-avatar v-if="activeEffect.Duration" color="background" class="mr-1">
+            <v-avatar v-if="activeEffect.Duration"
+              color="background"
+              class="mr-1">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-icon v-bind="props" icon="mdi-numeric-0-circle" size="18" />
+                  <v-icon v-bind="props"
+                    icon="mdi-numeric-0-circle"
+                    size="18" />
                 </template>
                 Expires in X rounds
               </v-tooltip>
             </v-avatar>
-            <v-avatar v-if="activeEffect.Frequency" color="background" class="mr-1">
+            <v-avatar v-if="activeEffect.Frequency"
+              color="background"
+              class="mr-1">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-icon v-bind="props" :icon="frequencyIcon(activeEffect.Frequency)" size="18" />
+                  <v-icon v-bind="props"
+                    :icon="frequencyIcon(activeEffect.Frequency)"
+                    size="18" />
                 </template>
                 {{ frequencyText(activeEffect.Frequency) }}
               </v-tooltip>
             </v-avatar>
-            <v-tooltip v-if="isPassive" location="top">
+            <v-tooltip v-if="isPassive"
+              location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="cc:trait" size="18" class="mr-1" />
+                <v-icon v-bind="props"
+                  icon="cc:trait"
+                  size="18"
+                  class="mr-1" />
               </template>
               Passive Effect
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.Damage.length" location="top">
+            <v-tooltip v-if="activeEffect.Damage.length"
+              location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="cc:eclipse" size="18" class="mr-1" />
+                <v-icon v-bind="props"
+                  icon="cc:eclipse"
+                  size="18"
+                  class="mr-1" />
               </template>
               Damage Assignment Available
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddStatus" location="top">
+            <v-tooltip v-if="activeEffect.AddStatus"
+              location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="cc:status_exposed" size="18" class="mr-1" />
+                <v-icon v-bind="props"
+                  icon="cc:status_exposed"
+                  size="18"
+                  class="mr-1" />
               </template>
               Status Effect Available
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.Save" location="top">
+            <v-tooltip v-if="activeEffect.Save"
+              location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="mdi-dice-d20" size="18" class="mr-1" />
+                <v-icon v-bind="props"
+                  icon="mdi-dice-d20"
+                  size="18"
+                  class="mr-1" />
               </template>
               Save Available
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddResist" location="top">
+            <v-tooltip v-if="activeEffect.AddResist"
+              location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="mdi-shield-half-full" size="18" class="mr-1" />
+                <v-icon v-bind="props"
+                  icon="mdi-shield-half-full"
+                  size="18"
+                  class="mr-1" />
               </template>
               Resistance/Immunity Available
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddOther" location="top">
+            <v-tooltip v-if="activeEffect.AddOther"
+              location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="mdi-hexagon-multiple" size="18" class="mr-1" />
+                <v-icon v-bind="props"
+                  icon="mdi-hexagon-multiple"
+                  size="18"
+                  class="mr-1" />
               </template>
               Other Effect Available
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddSpecial" location="top">
+            <v-tooltip v-if="activeEffect.AddSpecial"
+              location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="mdi-star-four-points-circle" size="18" class="mr-1" />
+                <v-icon v-bind="props"
+                  icon="mdi-star-four-points-circle"
+                  size="18"
+                  class="mr-1" />
               </template>
               Special Effect Available
             </v-tooltip>
           </template>
-          <v-tooltip location="top" max-width="600px">
+          <v-tooltip location="top"
+            max-width="600px">
             <template #activator="{ props }">
-              <div v-bind="props" class="font-weight-bold pl-2">
+              <div v-bind="props"
+                class="font-weight-bold pl-2">
                 {{ activeEffect.Name }}
               </div>
             </template>
@@ -102,26 +138,27 @@
                 </i>
               </div>
               <v-divider class="my-1" />
-              <cc-alert v-if="activeEffect.Condition" color="primary">
+              <cc-alert v-if="activeEffect.Condition"
+                color="primary">
                 <b class="text-accent">IF:&nbsp;</b>
                 <b>{{ activeEffect.Condition }}</b>
               </cc-alert>
 
-              <div class="text-text pa-1" v-html-safe="byTier(activeEffect.Detail)" />
+              <div class="text-text pa-1"
+                v-html-safe="byTier(activeEffect.Detail)" />
 
-              <div v-if="activeEffect.Frequency" class="text-cc-overline text-center">
-                <v-chip
-                  :color="activeEffect.Applied ? 'success' : 'text'"
+              <div v-if="activeEffect.Frequency"
+                class="text-cc-overline text-center">
+                <v-chip :color="activeEffect.Applied ? 'success' : 'text'"
                   size="small"
-                  :prepend-icon="
-                    activeEffect.Applied ? 'mdi-check' : frequencyIcon(activeEffect.Frequency)
-                  ">
+                  :prepend-icon="activeEffect.Applied ? 'mdi-check' : frequencyIcon(activeEffect.Frequency)
+                    ">
                   {{ activeEffect.Frequency }}
                 </v-chip>
               </div>
-              <div v-if="activeEffect.Duration" class="text-cc-overline text-center">
-                <v-chip
-                  :color="activeEffect.Applied ? 'success' : 'text'"
+              <div v-if="activeEffect.Duration"
+                class="text-cc-overline text-center">
+                <v-chip :color="activeEffect.Applied ? 'success' : 'text'"
                   size="small"
                   :prepend-icon="activeEffect.Applied ? 'mdi-check' : ''">
                   {{ activeEffect.Duration }}
@@ -130,18 +167,19 @@
             </div>
           </v-tooltip>
           <template #append>
-            <v-icon v-if="activeEffect.Dismissible" size="18" icon="mdi-close" />
+            <v-icon v-if="activeEffect.Dismissible"
+              size="18"
+              icon="mdi-close" />
           </template>
         </v-chip>
-        <div class="end" :class="`bg-${activeEffect.Applied ? 'panel-border' : 'primary'}`" />
-        <div
-          class="end-light"
+        <div class="end"
+          :class="`bg-${activeEffect.Applied ? 'panel-border' : 'primary'}`" />
+        <div class="end-light"
           :class="`bg-${activeEffect.Applied ? 'panel-border' : lightColor}`" />
       </div>
     </template>
     <template #default="{ close }">
-      <menu-input
-        :key="owner.ID"
+      <menu-input :key="owner.ID"
         :active-effect="activeEffect"
         :encounter="encounter"
         :owner="owner"
@@ -237,7 +275,7 @@ export default {
       if (self.side === 'enemy' && target === 'enemy') target = 'ally';
       else if (self.side === 'enemy' && target === 'ally') target = 'enemy';
 
-      out = this.encounter.Combatants.sort((a: CombatantData, b: CombatantData) => {
+      out = this.encounter.Combatants.filter((c: CombatantData) => !c.actor.CombatController.IsDestroyed && !c.reinforcement).sort((a: CombatantData, b: CombatantData) => {
         if (a.side === target && b.side !== target) {
           return -1;
         } else if (a.side !== target && b.side === target) {

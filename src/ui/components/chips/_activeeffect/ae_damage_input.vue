@@ -1,7 +1,6 @@
 <template>
   <v-row class="px-2 py-1">
-    <DamageTypeSelector
-      :selected-damage-type="selectedDamageType"
+    <DamageTypeSelector :selected-damage-type="selectedDamageType"
       :selected-damage-value="selectedDamageValue"
       :damage-placeholder="damagePlaceholder"
       :armor-piercing="damage.AP"
@@ -13,25 +12,23 @@
       @toggle-irreducible="damage.Irreducible = !damage.Irreducible" />
 
     <v-col>
-      <v-row dense align="start">
-        <base-target-selector
-          :selected-targets="selectedTargets"
+      <v-row dense
+        align="start">
+        <base-target-selector :selected-targets="selectedTargets"
           :targets="targets"
           :aoe="aoe"
           @toggle-aoe="toggleAoe"
           @add-target="addTarget"
           @remove-target="cancelTarget" />
 
-        <base-save-roller
-          v-if="damage.Save"
+        <base-save-roller v-if="damage.Save"
           :selected-targets="selectedTargets"
           :target-saves="targetSaves"
           :save-data="damage.Save"
           :owner="owner"
           @update:target-saves="targetSaves = $event" />
 
-        <base-attack-roller
-          v-if="damage.Attack"
+        <base-attack-roller v-if="damage.Attack"
           :selected-targets="selectedTargets"
           :attack-rolls="attackRolls"
           :attack="damage.Attack"
@@ -40,8 +37,7 @@
           @update:target-attacks="attackRolls = $event"
           @update:target-hits="hitMiss = $event" />
 
-        <save-half-toggle
-          v-if="damage.Save"
+        <save-half-toggle v-if="damage.Save"
           :save-half="damage.SaveHalf"
           :has-save="!!damage.Save"
           @update:save-half="damage.SaveHalf = $event" />
@@ -86,6 +82,7 @@ export default {
   }),
   mounted() {
     this.reset();
+    this.$emit('ready-changed', this.ready);
   },
   emits: [
     'update:modelValue',
@@ -94,8 +91,15 @@ export default {
     'update:target-damage',
     'damage-rolled',
     'attack-rolled',
+    'ready-changed',
   ],
   watch: {
+    ready: {
+      immediate: true,
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      }
+    },
     selectedTargets: {
       immediate: true,
       deep: true,
@@ -115,7 +119,7 @@ export default {
     },
   },
   computed: {
-    isReady() {
+    ready() {
       return (
         this.selectedTargets.every((t) => t != null) &&
         (!this.damage.Save || this.targetSaves.every((s) => s != null && s > 0)) &&
@@ -169,9 +173,8 @@ export default {
       let out = [];
       this.selectedTargets.forEach((t, idx) => {
         if (!t || !t.actor || !t.actor.CombatController) return;
-        let part = `Deal ${this.selectedDamageValue} ${
-          this.selectedDamageType
-        } damage to ${t.actor.CombatController.Name}`;
+        let part = `Deal ${this.selectedDamageValue} ${this.selectedDamageType
+          } damage to ${t.actor.CombatController.Name}`;
         if (this.damage.AP) part += ' (ignores armor)';
         if (this.damage.Save) {
           if (this.targetSaves[idx] != null) {
@@ -214,7 +217,7 @@ export default {
         if (this.attackRolls[idx] != null && this.damage.Attack) {
           if (this.attackRolls[idx] < t.actor.CombatController.Evasion) return;
         }
-        t.actor.CombatController.ApplyDamage(
+        t.actor.CombatController.TakeDamage(
           this.selectedDamageType,
           this.selectedDamageValue,
           this.damage.AP

@@ -1,25 +1,35 @@
 <template>
-  <cc-dialog
-    :color="available ? action.Color : 'panel'"
+  <cc-dialog :color="available ? action.Color : 'panel'"
     :icon="action.Icon"
     :title="action.Name"
     :close-on-click="false"
     min-width="70vw"
     max-width="80vw">
     <template #activator="{ open }">
-      <v-btn block flat tile size="small" :color="available ? action.Color : 'panel'" @click="open">
+      <v-btn block
+        flat
+        tile
+        size="small"
+        :color="available ? action.Color : 'panel'"
+        @click="open">
         <span class="ml-1">
-          <v-icon v-bind="props" :icon="action.Icon" :color="available ? '' : 'error'" start />
-          <v-tooltip v-if="!available" location="top">
+          <v-icon v-bind="props"
+            :icon="action.Icon"
+            :color="available ? '' : 'error'"
+            start />
+          <v-tooltip v-if="!available"
+            location="top">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-exclamation-thick" color="error" class="ml-n2" />
+              <v-icon v-bind="props"
+                icon="mdi-exclamation-thick"
+                color="error"
+                class="ml-n2" />
             </template>
             <div class="text-center text-cc-overline">Cannot activate</div>
             <v-divider class="my-1" />
             <div v-if="!canActivate">
               Insufficient
-              <v-chip
-                :color="action.Color"
+              <v-chip :color="action.Color"
                 size="small"
                 variant="elevated"
                 :prepend-icon="action.Icon || ''">
@@ -30,7 +40,8 @@
             <div v-else-if="!canUse">This action has already been used this turn.</div>
           </v-tooltip>
         </span>
-        <v-tooltip location="top" width="300">
+        <v-tooltip location="top"
+          width="300">
           <template #activator="{ props }">
             <span v-bind="props">
               {{ action.Name }}
@@ -39,8 +50,7 @@
           <div class="d-flex">
             <div class="heading h4 d-flex">{{ action.Name }}</div>
             <v-spacer />
-            <v-chip
-              size="x-small"
+            <v-chip size="x-small"
               :color="action.Color"
               :prepend-icon="action.Icon"
               variant="elevated"
@@ -54,12 +64,18 @@
       </v-btn>
     </template>
     <template #default="{ close }">
-      <v-card color="panel" flat tile class="px-12">
+      <v-card color="panel"
+        flat
+        tile
+        class="px-12">
+        <cc-synergy-display location="overcharge"
+          :mech="controller.Parent"
+          alert />
         <div class="text-center text-cc-overline text-disabled my-2">OVERCHARGE cost</div>
         <v-row no-gutters>
-          <v-col v-for="(t, n) in controller.OverchargeTrack" class="text-center mx-n4">
-            <v-card
-              flat
+          <v-col v-for="(t, n) in controller.OverchargeTrack"
+            class="text-center mx-n4">
+            <v-card flat
               color="overcharge"
               class="py-2"
               style="
@@ -78,23 +94,25 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-row dense class="text-center my-3" align="center" justify="center">
+        <v-row dense
+          class="text-center my-3"
+          align="center"
+          justify="center">
           <v-col cols="auto">Overcharging will incur</v-col>
           <v-col cols="auto">
-            <v-btn
-              icon
+            <v-btn icon
               flat
               tile
               color="panel"
               size="x-small"
               class="fade-select ml-2 mr-n2 mt-n1"
               @click="roll()">
-              <v-icon icon="mdi-dice-d20" size="30" />
+              <v-icon icon="mdi-dice-d20"
+                size="30" />
             </v-btn>
           </v-col>
           <v-col cols="auto">
-            <v-text-field
-              v-model="heatCost"
+            <v-text-field v-model="heatCost"
               :placeholder="controller.OverchargeCost"
               class="d-inline-block"
               density="compact"
@@ -110,8 +128,7 @@
           <v-col cols="auto">Heat</v-col>
         </v-row>
       </v-card>
-      <menu-input
-        hide-input
+      <menu-input hide-input
         :key="controller.ID"
         :active-effect="action"
         :encounter="encounter"
@@ -170,10 +187,7 @@ export default {
     apply(close) {
       this.controller.toggleCombatAction(this.action.Activation);
 
-      console.log(this.heatCost);
-      console.log(Number(this.heatCost));
-
-      this.controller.ApplyDamage(DamageType.Heat, Number(this.heatCost));
+      this.controller.TakeDamage(DamageType.Heat, Number(this.heatCost));
       this.controller.IncreaseOverchargeLevel();
 
       this.$emit('activate', this.actionId);

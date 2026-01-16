@@ -4,8 +4,7 @@
       <span v-if="aoe">Targets</span>
       <span v-else>Target</span>
     </div>
-    <v-select
-      v-for="(t, idx) in selectedTargets"
+    <v-select v-for="(t, idx) in selectedTargets"
       v-model="selectedTargets[idx]"
       density="compact"
       variant="outlined"
@@ -20,8 +19,7 @@
         <div v-if="idx === 0">
           <v-tooltip location="top">
             <template #activator="{ props }">
-              <v-btn
-                icon
+              <v-btn icon
                 size="x-small"
                 variant="text"
                 flat
@@ -29,7 +27,9 @@
                 class="mr-n2"
                 v-bind="props"
                 @click="$emit('toggle-aoe')">
-                <v-icon size="25" :icon="aoeIcon" class="mr-n2" />
+                <v-icon size="25"
+                  :icon="aoeIcon"
+                  class="mr-n2" />
               </v-btn>
             </template>
 
@@ -44,7 +44,8 @@
               </div>
             </div>
 
-            <div v-else class="text-center">
+            <div v-else
+              class="text-center">
               Single Target
               <div>
                 <i class="text-caption text-disabled">Click to Override</i>
@@ -52,16 +53,23 @@
             </div>
           </v-tooltip>
         </div>
-        <div v-else style="width: 24px"></div>
+        <div v-else
+          style="width: 24px"></div>
       </template>
       <template #append>
-        <v-btn icon size="x-small" variant="text" flat tile class="mx-n2">
-          <v-icon size="20" icon="mdi-close" @click="$emit('remove-target', idx)" />
+        <v-btn icon
+          size="x-small"
+          variant="text"
+          flat
+          tile
+          class="mx-n2">
+          <v-icon size="20"
+            icon="mdi-close"
+            @click="$emit('remove-target', idx)" />
         </v-btn>
       </template>
     </v-select>
-    <v-btn
-      v-if="aoe"
+    <v-btn v-if="aoe"
       size="x-small"
       block
       flat
@@ -76,6 +84,7 @@
 
 <script>
 import { Damage } from '@/classes/Damage';
+import { ready } from 'localforage';
 
 export default {
   name: 'BaseTargetSelector',
@@ -84,8 +93,11 @@ export default {
     targets: { type: Array, required: true },
     aoe: { type: [Boolean, String], required: true },
   },
-  emits: ['toggle-aoe', 'add-target', 'remove-target'],
+  emits: ['toggle-aoe', 'add-target', 'remove-target', 'ready-changed'],
   computed: {
+    ready() {
+      return this.selectedTargets.length > 0 && this.selectedTargets.every(target => target != null);
+    },
     filteredTargets() {
       return this.targets.filter(
         (t) =>
@@ -99,6 +111,14 @@ export default {
         aoe = aoe ? 'true' : 'false';
       }
       return Damage.getAoeIcon(aoe);
+    },
+  },
+  watch: {
+    ready: {
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      },
+      immediate: true,
     },
   },
 };

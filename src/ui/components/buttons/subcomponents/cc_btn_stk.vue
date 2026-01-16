@@ -1,9 +1,7 @@
 <template>
-  <div
-    class="top-element"
+  <div class="top-element"
     :style="`display: ${block ? 'block' : 'inline-block'}; position: relative`">
-    <span
-      v-if="!text"
+    <span v-if="!text"
       :class="`${disabled && 'disabled'} light ${size} ${bgColor} ${tonal && 'light-tonal'}`" />
     <v-btn
       :class="`${disabled && 'disabled'} ${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`}`"
@@ -19,25 +17,30 @@
       :to="to"
       :target="target"
       @click.stop="!disabled && !loading && $emit('click', $event)">
-      <v-icon v-if="prependIcon" :icon="prependIcon" :size="iconSize(prependIcon)" />
+      <v-icon v-if="prependIcon"
+        :icon="prependIcon"
+        :size="iconSize(prependIcon)" />
       <slot />
     </v-btn>
 
-    <v-menu v-if="$slots.options" offset-y>
+    <v-menu v-if="$slots.options"
+      offset-y>
       <template v-slot:activator="{ props }">
-        <v-btn
-          block
-          :variant="variant === 'default' ? 'tonal' : (variant as any)"
-          class="fade-select"
-          style="container-type: inline-size; text-transform: uppercase; margin-top: -1px"
+        <v-btn :variant="variant === 'default' ? 'tonal' : (variant as any)"
+          style="text-transform: uppercase; clip-path: none; "
           tile
+          :color="color"
+          height="100%"
+          :class="sizeStyle"
           :size="optionsSize"
           flat
           v-bind="props">
-          <span style="font-size: 10cqw; padding-top: 1px">
-            {{ optionsText || 'Options' }}
-            <v-icon v-if="optionsIcon" :icon="optionsIcon" />
-          </span>
+          <v-divider vertical />
+          &nbsp;
+          <v-icon :icon="optionsIcon || 'mdi-chevron-down'"
+            :size="optionsSize - 6" />
+          &nbsp;
+
         </v-btn>
       </template>
       <slot name="options" />
@@ -57,7 +60,7 @@ export default {
     variant: { type: String },
     prependIcon: { type: String },
     appendIcon: { type: String },
-    optionsIcon: { type: String },
+    optionsIcon: { type: String, default: 'mdi-chevron-down' },
     tooltip: { type: String },
     tooltipIcon: { type: String },
     optionsText: { type: String },
@@ -73,17 +76,17 @@ export default {
     optionsSize() {
       switch (this.size) {
         case 'x-small':
-          return 10;
+          return 24;
         case 'small':
-          return 16;
+          return 30;
         case 'large':
-          return 20;
+          return 36;
         case 'x-large':
-          return 'default';
+          return 42;
         case 'xx-large':
-          return 'large';
+          return 60;
         default:
-          return 20;
+          return 30;
       }
     },
     colorClass() {

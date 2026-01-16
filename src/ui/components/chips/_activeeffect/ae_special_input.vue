@@ -1,11 +1,13 @@
 <template>
-  <v-row dense class="px-2 py-1">
+  <v-row dense
+    class="px-2 py-1">
     <v-col cols="3">
       <div class="text-cc-overline text-disabled">special condition</div>
-      <v-tooltip location="top" :text="status.Description" max-width="400px">
+      <v-tooltip location="top"
+        :text="status.Description"
+        max-width="400px">
         <template #activator="{ props }">
-          <v-card
-            v-bind="props"
+          <v-card v-bind="props"
             flat
             border="sm"
             color="exotic"
@@ -17,29 +19,28 @@
           {{ status.Detail }}
         </div>
       </v-tooltip>
-      <BaseDurationDisplay v-if="status.Duration" :duration="status.Duration" />
+      <BaseDurationDisplay v-if="status.Duration"
+        :duration="status.Duration" />
     </v-col>
 
     <v-col>
-      <v-row dense align="start">
-        <BaseTargetSelector
-          :selected-targets="selectedTargets"
+      <v-row dense
+        align="start">
+        <BaseTargetSelector :selected-targets="selectedTargets"
           :targets="targets"
           :aoe="aoe"
           @toggle-aoe="toggleAoe"
           @add-target="addTarget"
           @remove-target="cancelTarget" />
 
-        <base-attack-roller
-          v-if="status.Attack"
+        <base-attack-roller v-if="status.Attack"
           :selected-targets="selectedTargets"
           :attack-rolls="attackRolls"
           :attack="status.Attack"
           :owner="owner"
           @update:target-attacks="attackRolls = $event" />
 
-        <BaseSaveRoller
-          v-if="status.Save"
+        <BaseSaveRoller v-if="status.Save"
           :selected-targets="selectedTargets"
           :target-saves="targetSaves"
           :save-data="status.Save"
@@ -78,7 +79,19 @@ export default {
       ...baseEffect.data(),
     };
   },
-  mounted: baseEffect.mounted,
+  mounted() {
+    baseEffect.mounted.call(this);
+    this.$emit('ready-changed', this.isReady);
+  },
+  emits: ['ready-changed'],
+  watch: {
+    isReady: {
+      immediate: true,
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      }
+    }
+  },
   emits: ['update:modelValue', 'update:targets'],
   computed: {
     ...baseEffect.computed,
@@ -98,9 +111,9 @@ export default {
       const details = `${this.status.Attribute} to`;
       const saveInfo = this.status.Save
         ? {
-            saveResult: this.targetSaves[idx],
-            saveTarget: this.owner.CombatController.SaveTarget,
-          }
+          saveResult: this.targetSaves[idx],
+          saveTarget: this.owner.CombatController.SaveTarget,
+        }
         : null;
 
       return createSummaryText('Apply', target, details, saveInfo);

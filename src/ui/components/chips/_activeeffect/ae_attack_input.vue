@@ -1,15 +1,13 @@
 <template>
   <v-row class="px-2 py-1">
-    <BaseTargetSelector
-      :selected-targets="selectedTargets"
+    <BaseTargetSelector :selected-targets="selectedTargets"
       :targets="targets"
       :aoe="aoe"
       @toggle-aoe="toggleAoe"
       @add-target="addTarget"
       @remove-target="cancelTarget" />
 
-    <base-attack-roller
-      :selected-targets="selectedTargets"
+    <base-attack-roller :selected-targets="selectedTargets"
       :attack-rolls="attackRolls"
       :attack="attack"
       :owner="owner"
@@ -40,6 +38,15 @@ export default {
   }),
   mounted() {
     this.reset();
+    this.$emit('ready-changed', this.isReady);
+  },
+  watch: {
+    isReady: {
+      immediate: true,
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      }
+    }
   },
   computed: {
     isReady() {
@@ -48,7 +55,7 @@ export default {
       );
     },
   },
-  emits: ['update:modelValue', 'update:targets', 'update:target-attacks'],
+  emits: ['update:modelValue', 'update:targets', 'update:target-attacks', 'ready-changed'],
   methods: {
     reset() {
       this.selectedTargets = new Array(1);

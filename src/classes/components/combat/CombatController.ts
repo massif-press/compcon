@@ -119,6 +119,10 @@ class CombatController implements ICounterContainer, IStatContainer {
     return this.Parent.FeatureController.Actions.filter((a) => a.Activation === activation);
   }
 
+  public get AllSynergies(): any[] {
+    return this.Parent.FeatureController.Synergies;
+  }
+
   public get AllEquipment(): any[] {
     if (this.Parent instanceof Mech)
       return this.Parent.MechLoadoutController.ActiveLoadout.Equipment;
@@ -479,7 +483,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     return out;
   }
 
-  public ApplyDamage(
+  public TakeDamage(
     type: DamageType,
     value: number,
     ap: boolean = false,
@@ -493,12 +497,16 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     let damage = this.CalculateDamage(type, value, ap, irreducible);
 
+    this.ApplyDamage(type, damage.total);
+  }
+
+  public ApplyDamage(type: DamageType, value: number) {
     if (type === DamageType.Heat) {
-      this.ActiveActor.CombatController.ApplyHeat(damage.total);
+      this.ActiveActor.CombatController.ApplyHeat(value);
     }
 
     // subtract this damage from current hp
-    this.ActiveActor.StatController.CurrentStats['hp'] -= damage.total;
+    this.ActiveActor.StatController.CurrentStats['hp'] -= value;
     // if hull goes below 0, subtract 1 from structure and add max hp back to current hp
     while (
       this.ActiveActor.StatController.CurrentStats['hp'] <= 0 &&

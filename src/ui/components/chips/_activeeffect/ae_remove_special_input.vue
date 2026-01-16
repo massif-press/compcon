@@ -1,9 +1,9 @@
 <template>
-  <v-row dense class="px-2 py-1">
+  <v-row dense
+    class="px-2 py-1">
     <v-col cols="3">
       <div class="text-cc-overline text-disabled">remove special condition</div>
-      <v-card
-        v-bind="props"
+      <v-card v-bind="props"
         flat
         border="sm"
         color="exotic"
@@ -13,9 +13,9 @@
     </v-col>
 
     <v-col>
-      <v-row dense align="start">
-        <BaseTargetSelector
-          :selected-targets="selectedTargets"
+      <v-row dense
+        align="start">
+        <BaseTargetSelector :selected-targets="selectedTargets"
           :targets="targets"
           :aoe="aoe"
           @toggle-aoe="toggleAoe"
@@ -52,7 +52,19 @@ export default {
       ...baseEffect.data(),
     };
   },
-  mounted: baseEffect.mounted,
+  mounted() {
+    baseEffect.mounted.call(this);
+    this.$emit('ready-changed', this.isReady);
+  },
+  emits: ['ready-changed'],
+  watch: {
+    isReady: {
+      immediate: true,
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      }
+    }
+  },
   computed: {
     ...baseEffect.computed,
   },

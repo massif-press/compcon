@@ -1,47 +1,46 @@
 <template>
-  <div :key="instanceID" v-if="!instance">
-    <v-progress-linear indeterminate color="primary" height="20" class="my-5" />
+  <div :key="instanceID"
+    v-if="!instance">
+    <v-progress-linear indeterminate
+      color="primary"
+      height="20"
+      class="my-5" />
     <div class="text-center text-cc-overline">Loading encounter instance...</div>
   </div>
   <div v-else>
     <div style="overflow-y: hidden">
       <v-layout :style="`height: calc(100vh - ${$vuetify.display.xs ? '23px' : '41px'})`">
-        <div
-          style="position: absolute; z-index: 999"
-          :style="`left: ${showLeft ? '450' : '84'}px; top: 5px`">
-          <cc-button
-            :icon="showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+        <div style="position: absolute; z-index: 999"
+          :style="`left: ${showLeft ? '430' : '122'}px; top: 5px`">
+          <cc-button :icon="showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
             size="small"
             color="primary"
             @click="showLeft = !showLeft" />
         </div>
-        <div
-          location="left"
+        <div location="left"
           class="bg-background border-sm"
           style="position: absolute; z-index: 3; height: calc(100vh - 76px); overflow-y: auto">
-          <gm-initiative-panel
-            :encounter="instance"
+          <gm-initiative-panel :encounter="instance"
             :selected="selected"
             :expanded="showLeft"
             @select="selectActor($event)" />
         </div>
 
-        <v-main style="overflow-y: scroll" :style="`padding-left:${mainLeftOffset}`">
+        <v-main style="overflow-y: scroll"
+          :style="`padding-left:${mainLeftOffset}`">
           <div class="text-center bg-panel pa-1 heading h3">
             {{ instance.Name }} &mdash; Round {{ instance.Round }}
           </div>
           <v-container>
             <div v-if="panel && instance">
-              <component
-                :is="`${panel}-panel`"
+              <component :is="`${panel}-panel`"
                 :key="panel"
                 :encounter="instance.Encounter"
                 :selected="selected"
                 :encounter-instance="instance" />
             </div>
             <div v-else>
-              <component
-                :is="`${selected.type}-panel`"
+              <component :is="`${selected.type}-panel`"
                 :key="selected.id"
                 :combatant="selected"
                 :encounter-instance="instance"
@@ -50,27 +49,31 @@
             </div>
           </v-container>
         </v-main>
-        <div
-          v-if="!mobile"
+        <div v-if="!mobile"
           style="position: absolute; z-index: 999"
           :style="`right: ${showRight ? (mobile ? '222' : '256') : '62'}px; top: 6px`">
-          <cc-button
-            :icon="showRight ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
+          <cc-button :icon="showRight ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
             size="small"
             color="primary"
             @click="showRight = !showRight" />
         </div>
 
-        <v-navigation-drawer :rail="!showRight" :width="250" location="right" permanent>
-          <gm-tool-palette
-            :expanded="showRight"
+        <v-navigation-drawer :rail="!showRight"
+          :width="250"
+          location="right"
+          permanent>
+          <gm-tool-palette :expanded="showRight"
             :selected="panel"
             @selectPanel="selectPanel"
             @openDiceRoller="diceDialog = true"
             @openTableIndex="tableDialog = true" />
         </v-navigation-drawer>
-        <v-footer app height="36" style="border-top: 1px solid rgba(255, 255, 255, 0.1)">
-          <v-row justify="space-between" align="center" no-gutters>
+        <v-footer app
+          height="36"
+          style="border-top: 1px solid rgba(255, 255, 255, 0.1)">
+          <v-row justify="space-between"
+            align="center"
+            no-gutters>
             <v-col>
               <gm-end-round-panel :encounter-instance="instance" />
             </v-col>
@@ -81,13 +84,16 @@
         </v-footer>
       </v-layout>
     </div>
-    <v-dialog v-model="diceDialog" max-height="80vh" max-width="80vw">
-      <gm-dice-roller @close="diceDialog = false" :selected="selected" />
+    <v-dialog v-model="diceDialog"
+      max-height="80vh"
+      max-width="80vw">
+      <gm-dice-roller @close="diceDialog = false"
+        :selected="selected" />
     </v-dialog>
 
-    <v-dialog v-model="tableDialog" max-width="80vw">
-      <rollable-table-index
-        :instance="instance"
+    <v-dialog v-model="tableDialog"
+      max-width="80vw">
+      <rollable-table-index :instance="instance"
         @close="tableDialog = false"
         :selected="selected" />
     </v-dialog>
@@ -189,8 +195,8 @@ export default {
     },
     mainLeftOffset() {
       // '485px' : '72px'
-      if (!this.mobile && this.showLeft) return '485px';
-      return '72px';
+      if (!this.mobile && this.showLeft) return '465px';
+      return '155px';
     },
   },
   watch: {

@@ -1,24 +1,24 @@
 <template>
   <div class="px-2 py-1">
-    <v-row dense align="start">
-      <base-target-selector
-        :selected-targets="selectedTargets"
+    <v-row dense
+      align="start">
+      <base-target-selector :selected-targets="selectedTargets"
         :targets="targets"
         :aoe="aoe"
         @toggle-aoe="toggleAoe"
         @add-target="addTarget"
-        @remove-target="cancelTarget" />
+        @remove-target="cancelTarget"
+        @ready-changed="(isReady) => updateInputReadiness('targetSelector', isReady)" />
 
-      <base-save-roller
-        v-if="damage.Save"
+      <base-save-roller v-if="damage.Save"
         :selected-targets="selectedTargets"
         :target-saves="targetSaves"
         :save-data="damage.Save"
         :owner="owner"
-        @update:target-saves="targetSaves = $event" />
+        @update:target-saves="targetSaves = $event"
+        @ready-changed="(isReady) => updateInputReadiness('saveRoller', isReady)" />
 
-      <base-attack-roller
-        v-if="damage.Attack"
+      <base-attack-roller v-if="damage.Attack"
         :selected-targets="selectedTargets"
         :attack-rolls="attackRolls"
         :attack="damage.Attack"
@@ -26,17 +26,17 @@
         :crits="!aoe"
         :owner="owner"
         @update:target-attacks="attackRolls = $event"
-        @update:target-hits="hitMiss = $event" />
+        @update:target-hits="hitMiss = $event"
+        @ready-changed="(isReady) => updateInputReadiness('attackRoller', isReady)" />
 
-      <save-half-toggle
-        v-if="damage.Save"
+      <save-half-toggle v-if="damage.Save"
         :save-half="damage.SaveHalf"
         :has-save="!!damage.Save"
         @update:save-half="damage.SaveHalf = $event" />
     </v-row>
-    <v-row justify="end" dense>
-      <DamageTypeSelector
-        :disabled="damageDisabled"
+    <v-row justify="end"
+      dense>
+      <DamageTypeSelector :disabled="damageDisabled"
         cols="auto"
         :selected-damage-type="selectedDamageType"
         :selected-damage-value="selectedDamageValue"
@@ -52,19 +52,18 @@
         @roll-damage="damageRollResult = $event"
         @toggle-ap="
           damage.AP = !damage.AP;
-          emitResults();
+        emitResults();
         "
         @toggle-irreducible="
           damage.Irreducible = !damage.Irreducible;
-          emitResults();
+        emitResults();
         " />
 
       <v-col cols="auto">
         <div class="text-cc-overline">&nbsp;</div>
         <v-tooltip location="top">
           <template #activator="{ props }">
-            <v-btn
-              :key="`overkill_${overkill}`"
+            <v-btn :key="`overkill_${overkill}`"
               :disabled="damageDisabled"
               icon
               v-bind="props"
@@ -75,7 +74,8 @@
               class="ml-n3"
               :color="overkill ? 'red' : 'rgba(125,125,125,0.5)'"
               @click.stop="toggleOverkill()">
-              <v-icon size="25" icon="cc:burning" />
+              <v-icon size="25"
+                icon="cc:burning" />
             </v-btn>
           </template>
           <div class="text-center">
@@ -88,12 +88,12 @@
         </v-tooltip>
       </v-col>
 
-      <v-col v-if="!additionalAux" cols="auto">
+      <v-col v-if="!additionalAux"
+        cols="auto">
         <div class="text-cc-overline">&nbsp;</div>
         <v-tooltip location="top">
           <template #activator="{ props }">
-            <v-btn
-              :disabled="damageDisabled"
+            <v-btn :disabled="damageDisabled"
               icon
               v-bind="props"
               variant="text"
@@ -103,7 +103,8 @@
               class="ml-n3"
               :color="bonus ? 'accent' : 'rgba(125,125,125,0.5)'"
               @click="toggleBonus()">
-              <v-icon size="25" icon="mdi-plus-box" />
+              <v-icon size="25"
+                icon="mdi-plus-box" />
             </v-btn>
           </template>
           <div class="text-center">
@@ -115,28 +116,35 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="bonus || overkill" dense justify="end">
-      <v-col v-if="overkill && this.damageRollResult" cols="auto">
+    <v-row v-if="bonus || overkill"
+      dense
+      justify="end">
+      <v-col v-if="overkill && this.damageRollResult"
+        cols="auto">
         <div class="text-cc-overline text-disabled">OVERKILL</div>
-        <cc-panel v-if="this.damageRollResult._overkillRerolls" color="heat" variant="tonal">
+        <cc-panel v-if="this.damageRollResult._overkillRerolls"
+          color="heat"
+          variant="tonal">
           <div class="text-cc-overline">
             <strong class="heading text-accent">
               x{{ this.damageRollResult._overkillRerolls }}
             </strong>
             <cc-slashes class="pl-2" />
             +
-            <v-icon icon="cc:heat" class="mx-n2" />
+            <v-icon icon="cc:heat"
+              class="mx-n2" />
             {{ this.damageRollResult._overkillRerolls }} Heat (self)
           </div>
         </cc-panel>
-        <cc-panel v-else color="panel">
+        <cc-panel v-else
+          color="panel">
           <i class="text-caption text-disabled">None</i>
         </cc-panel>
       </v-col>
-      <v-col v-if="bonus" cols="auto">
+      <v-col v-if="bonus"
+        cols="auto">
         <div class="text-cc-overline text-disabled">Bonus Damage</div>
-        <v-text-field
-          v-model="bonusDamage"
+        <v-text-field v-model="bonusDamage"
           :placeholder="bonusDamagePlaceholder"
           type="number"
           density="compact"
@@ -148,17 +156,18 @@
           width="120"
           @update:model-value="bonusDamage = Number($event)">
           <template #prepend>
-            <dice-roll-interface
-              :damage-placeholder="bonusDamagePlaceholder"
+            <dice-roll-interface :damage-placeholder="bonusDamagePlaceholder"
               @update:damage-value="bonusDamage = Number($event)" />
           </template>
           <template #append>
-            <v-tooltip
-              v-if="aoe && hitMiss.filter((x) => x).length > 1"
+            <v-tooltip v-if="aoe && hitMiss.filter((x) => x).length > 1"
               location="top"
               max-width="250">
               <template #activator="{ props }">
-                <v-icon v-bind="props" class="mr-n4 ml-n2" size="25" icon="mdi-alert-outline" />
+                <v-icon v-bind="props"
+                  class="mr-n4 ml-n2"
+                  size="25"
+                  icon="mdi-alert-outline" />
               </template>
               <div class="text-center">Applied Bonus Damage will be halved (Area of Effect)</div>
             </v-tooltip>
@@ -209,12 +218,20 @@ export default {
     damageRollResult: null,
     bonusDamagePlaceholder: '1d6+0',
     bonusDamage: 0,
+    inputsReady: {},
   }),
   mounted() {
     this.reset();
+    this.$emit('ready-changed', this.hasMandatoryInputs);
   },
-  emits: ['update:results'],
+  emits: ['update:results', 'ready-changed', 'update:heatself'],
   watch: {
+    hasMandatoryInputs: {
+      immediate: true,
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      }
+    },
     selectedTargets: {
       immediate: true,
       deep: true,
@@ -279,8 +296,42 @@ export default {
     damageDisabled() {
       return !this.isReady;
     },
+    hasMandatoryInputs() {
+      // Check what input components exist that need to be ready
+      const hasTargetSelector = true; // Always present
+      const hasSaveRoller = !!this.damage.Save;
+      const hasAttackRoller = !!this.damage.Attack;
+
+      // If no mandatory inputs beyond target selector, check target selector and damage value
+      if (!hasSaveRoller && !hasAttackRoller) {
+        return this.inputsReady.targetSelector === true && this.selectedDamageValue != null;
+      }
+
+      // Check all required input types are ready
+      let allReady = true;
+
+      if (hasTargetSelector) {
+        allReady = allReady && (this.inputsReady.targetSelector === true);
+      }
+
+      if (hasSaveRoller) {
+        allReady = allReady && (this.inputsReady.saveRoller === true);
+      }
+
+      if (hasAttackRoller) {
+        allReady = allReady && (this.inputsReady.attackRoller === true);
+      }
+
+      // Also check that damage value is selected
+      allReady = allReady && (this.selectedDamageValue != null);
+
+      return allReady;
+    },
   },
   methods: {
+    updateInputReadiness(inputType, isReady) {
+      this.inputsReady[inputType] = isReady;
+    },
     reset() {
       this.selectedTargets = [null];
       if (this.self) this.selectedTargets = [this.targets[0]];
@@ -289,6 +340,14 @@ export default {
       this.aoe = this.damage.AoE || false;
       this.overkill = this.damage.Overkill || false;
       this.selectedDamageType = this.damage.Type || 'kinetic';
+
+      // Initialize inputsReady to ensure components start as not ready
+      this.inputsReady = {
+        targetSelector: false,
+        saveRoller: false,
+        attackRoller: false
+      };
+
       if (!this.damage.IsRollable) {
         const tier = this.owner.CombatController.Tier;
         this.selectedDamageValue = this.damage.TieredDamage(tier);
@@ -311,6 +370,8 @@ export default {
         const target = t?.actor;
         if (!target || !this.hitMiss.length || this.hitMiss[idx] == null) return;
 
+        const dmg = Number(this.selectedDamageValue);
+
         const hitType = this.hitMiss[idx] > 1 ? 'CRIT' : this.hitMiss[idx] > 0 ? 'HIT' : 'MISS';
 
         const bonus = this.bonus
@@ -319,7 +380,7 @@ export default {
             : this.bonusDamage
           : 0;
 
-        const incoming = hitType === 'MISS' ? 0 : this.selectedDamageValue + bonus;
+        const incoming = hitType === 'MISS' ? 0 : dmg + bonus;
 
         const damageCalc = target.CombatController.CalculateDamage(
           this.selectedDamageType,
@@ -331,7 +392,7 @@ export default {
 
         const armorCalc = target.CombatController.CalculateArmorReduction(
           this.selectedDamageType,
-          this.selectedDamageValue,
+          dmg,
           this.damage.AP,
           this.damage.Irreducible
         );
@@ -351,6 +412,8 @@ export default {
         'update:results',
         res.filter((x) => !!x)
       );
+
+      this.$emit('update:heatself', this.damageRollResult?._overkillRerolls || 0);
     },
     toggleAoe() {
       if (this.aoe) {
@@ -400,9 +463,8 @@ export default {
       let out = [];
       this.selectedTargets.forEach((t, idx) => {
         if (!t || !t.actor || !t.actor.CombatController) return;
-        let part = `Deal ${this.selectedDamageValue} ${
-          this.selectedDamageType
-        } damage to ${t.actor.CombatController.Name}`;
+        let part = `Deal ${this.selectedDamageValue} ${this.selectedDamageType
+          } damage to ${t.actor.CombatController.Name}`;
         if (this.damage.AP) part += ' (ignores armor)';
         if (this.damage.Save) {
           if (this.targetSaves[idx] != null) {
@@ -445,7 +507,7 @@ export default {
         if (this.attackRolls[idx] != null && this.damage.Attack) {
           if (this.attackRolls[idx] < t.actor.CombatController.Evasion) return;
         }
-        t.actor.CombatController.ApplyDamage(
+        t.actor.CombatController.TakeDamage(
           this.selectedDamageType,
           this.selectedDamageValue,
           this.damage.AP

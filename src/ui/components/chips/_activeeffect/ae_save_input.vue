@@ -2,8 +2,7 @@
   <v-row class="px-2 py-1">
     <v-col>
       <div class="text-cc-overline text-disabled">save</div>
-      <v-select
-        v-model="selectedSaveStat"
+      <v-select v-model="selectedSaveStat"
         :items="saveStats"
         density="compact"
         hide-details
@@ -12,16 +11,14 @@
         tile />
     </v-col>
 
-    <BaseTargetSelector
-      :selected-targets="selectedTargets"
+    <BaseTargetSelector :selected-targets="selectedTargets"
       :targets="targets"
       :aoe="aoe"
       @toggle-aoe="toggleAoe"
       @add-target="addTarget"
       @remove-target="cancelTarget" />
 
-    <BaseSaveRoller
-      :selected-targets="selectedTargets"
+    <BaseSaveRoller :selected-targets="selectedTargets"
       :target-saves="targetSaves"
       :save-data="save"
       :owner="owner"
@@ -59,6 +56,16 @@ export default {
   }),
   mounted() {
     this.reset();
+    this.$emit('ready-changed', this.isReady);
+  },
+  emits: ['ready-changed'],
+  watch: {
+    isReady: {
+      immediate: true,
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      }
+    }
   },
   computed: {
     isReady() {

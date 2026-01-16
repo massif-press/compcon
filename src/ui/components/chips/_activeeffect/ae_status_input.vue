@@ -1,37 +1,36 @@
 <template>
-  <v-row dense class="px-2 py-1">
+  <v-row dense
+    class="px-2 py-1">
     <v-col cols="3">
       <div class="text-cc-overline text-disabled">status</div>
-      <v-select
-        v-model="selectedStatus"
+      <v-select v-model="selectedStatus"
         :items="statusOptions"
         density="compact"
         hide-details
         variant="outlined"
         flat
         tile />
-      <BaseDurationDisplay v-if="status.Duration" :duration="status.Duration" />
+      <BaseDurationDisplay v-if="status.Duration"
+        :duration="status.Duration" />
     </v-col>
 
-    <v-row dense align="start">
-      <BaseTargetSelector
-        :selected-targets="selectedTargets"
+    <v-row dense
+      align="start">
+      <BaseTargetSelector :selected-targets="selectedTargets"
         :targets="targets"
         :aoe="aoe"
         @toggle-aoe="toggleAoe"
         @add-target="addTarget"
         @remove-target="cancelTarget" />
 
-      <base-attack-roller
-        v-if="status.Attack"
+      <base-attack-roller v-if="status.Attack"
         :selected-targets="selectedTargets"
         :attack-rolls="attackRolls"
         :attack="status.Attack"
         :owner="owner"
         @update:target-attacks="attackRolls = $event" />
 
-      <BaseSaveRoller
-        v-if="status.Save"
+      <BaseSaveRoller v-if="status.Save"
         :selected-targets="selectedTargets"
         :target-saves="targetSaves"
         :save-data="status.Save"
@@ -74,8 +73,19 @@ export default {
       selectedStatus: null,
     };
   },
-  mounted: baseEffect.mounted,
-  emits: ['update:modelValue', 'update:targets'],
+  mounted() {
+    baseEffect.mounted.call(this);
+    this.$emit('ready-changed', this.ready);
+  },
+  emits: ['update:modelValue', 'update:targets', 'ready-changed'],
+  watch: {
+    ready: {
+      immediate: true,
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      }
+    }
+  },
   computed: {
     ...baseEffect.computed,
     statusOptions() {
@@ -87,6 +97,15 @@ export default {
     applyTargets() {
       return this.selectedTargets.map((t) =>
         t.actor.CombatController.Mounted && t.actor.ActiveMech ? t.actor.ActiveMech : t.actor
+      );
+    },
+    ready() {
+      return (
+        this.selectedStatus != null &&
+        this.selectedTargets.length > 0 &&
+        this.selectedTargets.every((t) => t != null) && // Check that all targets are actually selected
+        (!this.status.Save || this.targetSaves.every((s) => s != null && s > 0)) &&
+        (!this.status.Attack || this.attackRolls.every((a) => a != null))
       );
     },
   },
@@ -109,9 +128,9 @@ export default {
       const details = `${this.selectedStatus} to ${target.actor.CombatController.Name} until ${EffectDurationText(this.status.Duration)}`;
       const saveInfo = this.status.Save
         ? {
-            saveResult: this.targetSaves[idx],
-            saveTarget: this.owner.CombatController.SaveTarget,
-          }
+          saveResult: this.targetSaves[idx],
+          saveTarget: this.owner.CombatController.SaveTarget,
+        }
         : null;
 
       return createSummaryText('Apply', target, '', saveInfo).replace(' to', ' ' + details);

@@ -1,9 +1,9 @@
 <template>
-  <v-row dense align="center">
+  <v-row dense
+    align="center">
     <v-col>
       <div class="text-cc-overline text-disabled">{{ effect.Type }}</div>
-      <v-text-field
-        v-if="['overshield', 'hp', 'repair'].includes(effect.Type)"
+      <v-text-field v-if="['overshield', 'hp', 'repair'].includes(effect.Type)"
         v-model="selectedValue"
         type="number"
         density="compact"
@@ -11,8 +11,7 @@
         variant="outlined"
         flat
         tile />
-      <v-select
-        v-if="effect.Type === 'cover'"
+      <v-select v-if="effect.Type === 'cover'"
         v-model="selectedValue"
         :items="cover"
         density="compact"
@@ -22,8 +21,7 @@
         tile />
     </v-col>
 
-    <BaseTargetSelector
-      :selected-targets="selectedTargets"
+    <BaseTargetSelector :selected-targets="selectedTargets"
       :targets="targets"
       :aoe="aoe"
       @toggle-aoe="toggleAoe"
@@ -70,7 +68,19 @@ export default {
       ],
     };
   },
-  mounted: baseEffect.mounted,
+  mounted() {
+    baseEffect.mounted.call(this);
+    this.$emit('ready-changed', this.isReady);
+  },
+  emits: ['ready-changed'],
+  watch: {
+    isReady: {
+      immediate: true,
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      }
+    }
+  },
   computed: {
     ...baseEffect.computed,
     isReady() {

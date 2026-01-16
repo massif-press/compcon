@@ -1,10 +1,26 @@
 <template>
-  <component :is="component" v-bind="$props">
+  <component :is="component"
+    v-bind="$props">
     <slot />
-    <template #options v-if="!!$slots.options"><slot name="options" /></template>
-    <template #subtitle v-if="!!$slots.subtitle"><slot name="subtitle" /></template>
-    <template #info v-if="!!$slots.info"><slot name="info" /></template>
-    <template #tooltip><slot name="tooltip" /></template>
+    <template #options
+      v-if="!!$slots.options">
+      <slot name="options" />
+    </template>
+    <template #subtitle
+      v-if="!!$slots.subtitle">
+      <slot name="subtitle" />
+    </template>
+    <template #info
+      v-if="!!$slots.info">
+      <slot name="info" />
+    </template>
+    <template #tooltip>
+      <slot name="tooltip" />
+    </template>
+    <template #items
+      v-if="!!$slots.items">
+      <slot name="items" />
+    </template>
   </component>
 </template>
 

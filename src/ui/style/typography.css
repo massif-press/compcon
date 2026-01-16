@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+html,
+body {
+  font-family: 'Inter', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 @font-face {
   font-family: 'Helvetica Black';
   src: url('../../assets/fonts/Helvetica-Black.otf') format('opentype');
@@ -124,31 +133,30 @@
 }
 
 @media only screen and (max-width: 600px) {
-.heading.h1 {
-  font-size: 31pt;
-}
-.heading.h2 {
-  font-size: 18pt;
-}
-.heading.h3 {
-  font-size: 13pt;
-}
+  .heading.h1 {
+    font-size: 31pt;
+  }
+  .heading.h2 {
+    font-size: 18pt;
+  }
+  .heading.h3 {
+    font-size: 13pt;
+  }
 
-.heading.table {
-  font-size: 22pt;
-}
+  .heading.table {
+    font-size: 22pt;
+  }
 
-.heading.mech {
-  font-size: 32pt;
-}
+  .heading.mech {
+    font-size: 32pt;
+  }
 
-.heading.sub {
-  font-size: 14pt;
-}
+  .heading.sub {
+    font-size: 14pt;
+  }
   .body-text {
     font-size: 11pt;
   }
-
 }
 
 .flavor-text {
@@ -236,30 +244,39 @@ code.horus:hover {
   white-space: pre-wrap;
 }
 
-
 @keyframes distort {
   0% {
-    text-shadow: 2px 1px #ff00ff, -2px -3px #00ffff;
+    text-shadow:
+      2px 1px #ff00ff,
+      -2px -3px #00ffff;
     transform: translate(-1px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
     cursor: crosshair;
   }
   25% {
-    text-shadow: -2px -3px #ff00ff, 2px 1px #00ffff;
+    text-shadow:
+      -2px -3px #ff00ff,
+      2px 1px #00ffff;
     transform: translate(2px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
     cursor: cell;
   }
   50% {
-    text-shadow: 2px -1px #ff00ff, -4px 1px #00ffff;
+    text-shadow:
+      2px -1px #ff00ff,
+      -4px 1px #00ffff;
     transform: translate(-2px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
     cursor: col-resize;
   }
   75% {
-    text-shadow: -4px -1px #ff00ff, -2px -1px #00ffff;
+    text-shadow:
+      -4px -1px #ff00ff,
+      -2px -1px #00ffff;
     transform: translate(3px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
     cursor: move;
   }
   100% {
-    text-shadow: -2px 0 #ff00ff, 2px -1px #00ffff;
+    text-shadow:
+      -2px 0 #ff00ff,
+      2px -1px #00ffff;
     transform: translate(-2px, 0) translate3D(-30px, 0px, 0) rotate(-0.1deg);
     cursor: all-scroll;
   }
@@ -270,16 +287,24 @@ code.horus:hover {
     text-shadow: none;
   }
   26% {
-    text-shadow: 2px -1px #ff0000, -2px 3px #00ffff;
+    text-shadow:
+      2px -1px #ff0000,
+      -2px 3px #00ffff;
   }
   27% {
-    text-shadow: -2px -3px #ff0000, 2px 1px #00ffff;
+    text-shadow:
+      -2px -3px #ff0000,
+      2px 1px #00ffff;
   }
   28% {
-    text-shadow: 2px 1px #ff0000, -4px 1px #00ffff;
+    text-shadow:
+      2px 1px #ff0000,
+      -4px 1px #00ffff;
   }
   29% {
-    text-shadow: -4px 1px #ff0000, -2px -1px #00ffff;
+    text-shadow:
+      -4px 1px #ff0000,
+      -2px -1px #00ffff;
   }
   30% {
     text-shadow: none;
@@ -288,36 +313,43 @@ code.horus:hover {
     text-shadow: none;
   }
   76% {
-    text-shadow: -4px 1px #ff0000, -2px -1px #00ffff;
+    text-shadow:
+      -4px 1px #ff0000,
+      -2px -1px #00ffff;
   }
   77% {
-    text-shadow: -2px -3px #ff0000, 2px 1px #00ffff;
+    text-shadow:
+      -2px -3px #ff0000,
+      2px 1px #00ffff;
   }
   78% {
-    text-shadow: 2px -1px #ff0000, -2px 3px #00ffff;
+    text-shadow:
+      2px -1px #ff0000,
+      -2px 3px #00ffff;
   }
   79% {
-    text-shadow: 2px 1px #ff0000, -4px 1px #00ffff;
+    text-shadow:
+      2px 1px #ff0000,
+      -4px 1px #00ffff;
   }
   80% {
     text-shadow: none;
   }
 }
 
-
 .text-cc-overline {
   font-size: 0.75rem !important;
-    font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: 0.17em !important;
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase !important;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.17em !important;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase !important;
 }
 
 .text-cc-flavor {
   font-family: 'Consolas', monospace;
-  font-size: 1rem!important;
-  letter-spacing: -0.01rem!important;
+  font-size: 1rem !important;
+  letter-spacing: -0.01rem !important;
 }
 
 .text-cc-fluff {
@@ -327,16 +359,15 @@ code.horus:hover {
 
 .text-cc-emphasis {
   font-family: 'Helvetica Bold', sans-serif;
-  font-size: 1rem!important;
-  line-height: 135%!important;
-  letter-spacing: 0.1rem!important;
+  font-size: 1rem !important;
+  line-height: 135% !important;
+  letter-spacing: 0.1rem !important;
 }
 
 .text-cc-subtle {
   font-family: 'Helvetica Light', sans-serif;
-  opacity: 0.6!important;
+  opacity: 0.6 !important;
 }
-
 
 /* xs */
 /* @media (min-width:0px) {

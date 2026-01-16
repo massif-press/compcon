@@ -55,6 +55,8 @@
     </template>
     <template #default="{ close }">
       <v-card color="panel" flat tile class="px-12">
+        <cc-synergy-display location="stabilize" :mech="controller.Parent" alert />
+
         <v-row dense class="mb-4">
           <v-col>
             <div class="text-center text-cc-overline text-disabled py-2">choose one</div>

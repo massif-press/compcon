@@ -13,6 +13,7 @@ import {
 import { EffectOther, IEffectOtherData } from './components/feature/active_effects/EffectOther';
 import { EffectResist, IEffectResistData } from './components/feature/active_effects/EffectResist';
 import { EffectStatus } from './components/feature/active_effects/EffectStatus';
+import { BonusDamage, IBonusDamageData } from './components/feature/active_effects/BonusDamage';
 
 interface IActionData {
   id?: string;
@@ -41,7 +42,7 @@ interface IActionData {
   remove_special?: string[];
   add_resist?: IEffectResistData[];
   add_other?: IEffectOtherData[];
-  bonus_damage?: string;
+  bonus_damage?: IBonusDamageData;
   attack?: 'melee' | 'ranged' | 'tech';
   hidden?: boolean;
 }
@@ -154,7 +155,7 @@ class Action {
   public readonly RemoveSpecial: string[] = [];
   public readonly AddResist: EffectResist[] = [];
   public readonly AddOther: EffectOther[] = [];
-  public readonly BonusDamage: string = '';
+  public readonly BonusDamage?: BonusDamage;
   public readonly Attack?: 'melee' | 'ranged' | 'tech';
   public readonly Hidden: boolean = false;
   public Deployable: IDeployableData | undefined;
@@ -231,7 +232,7 @@ class Action {
       if (!Array.isArray(data.add_other)) data.add_other = [data.add_other];
       this.AddOther = data.add_other.map((x) => new EffectOther(x));
     }
-    if (data.bonus_damage) this.BonusDamage = data.bonus_damage;
+    if (data.bonus_damage) this.BonusDamage = new BonusDamage(data.bonus_damage, this.Name);
 
     this._ignore_used = data.ignore_used || false;
     this.LastUse = null;

@@ -1,31 +1,28 @@
 <template>
   <v-row class="px-2 py-1">
-    <ResistanceTypeSelector
-      :selected-resist="selectedResist"
+    <ResistanceTypeSelector :selected-resist="selectedResist"
       :selected-resist-type="selectedResistType"
       @update:resist-type="selectedResist = $event"
       @update:resistance-type="selectedResistType = $event" />
 
     <v-col>
-      <v-row dense align="start">
-        <BaseTargetSelector
-          :selected-targets="selectedTargets"
+      <v-row dense
+        align="start">
+        <BaseTargetSelector :selected-targets="selectedTargets"
           :targets="targets"
           :aoe="aoe"
           @toggle-aoe="toggleAoe"
           @add-target="addTarget"
           @remove-target="cancelTarget" />
 
-        <base-attack-roller
-          v-if="resist.Attack"
+        <base-attack-roller v-if="resist.Attack"
           :selected-targets="selectedTargets"
           :target-saves="attackRolls"
           :attack="resist.Attack"
           :owner="owner"
           @update:target-attacks="attackRolls = $event" />
 
-        <BaseSaveRoller
-          v-if="resist.Save"
+        <BaseSaveRoller v-if="resist.Save"
           :selected-targets="selectedTargets"
           :target-saves="targetSaves"
           :save-data="resist.Save"
@@ -69,7 +66,19 @@ export default {
       selectedResistType: null,
     };
   },
-  mounted: baseEffect.mounted,
+  mounted() {
+    baseEffect.mounted.call(this);
+    this.$emit('ready-changed', this.isReady);
+  },
+  emits: ['ready-changed'],
+  watch: {
+    isReady: {
+      immediate: true,
+      handler(newVal) {
+        this.$emit('ready-changed', newVal);
+      }
+    }
+  },
   computed: {
     ...baseEffect.computed,
   },
@@ -93,9 +102,9 @@ export default {
       const details = `${this.selectedResist} ${this.selectedResistType} to`;
       const saveInfo = this.resist.Save
         ? {
-            saveResult: this.targetSaves[idx],
-            saveTarget: this.owner.CombatController.SaveTarget,
-          }
+          saveResult: this.targetSaves[idx],
+          saveTarget: this.owner.CombatController.SaveTarget,
+        }
         : null;
 
       return createSummaryText('Apply', target, details, saveInfo);
