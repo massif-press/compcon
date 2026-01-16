@@ -8,6 +8,7 @@ import { IDeployableData } from '@/classes/components/feature/deployable/Deploya
 import { CompendiumItem } from '@/classes/CompendiumItem';
 import { MechWeapon, MechSystem, Counter } from '@/class';
 import { ActiveEffect } from './active_effects/ActiveEffect';
+import { BonusDamage } from './active_effects/BonusDamage';
 
 const strDict = [
   { key: 'll', prop: 'Level', text: 'Pilot License Level' },

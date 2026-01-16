@@ -75,15 +75,18 @@
               <v-col><v-divider /></v-col>
             </v-row>
           </div>
-          <menu-input
-            v-else
-            :key="controller.ID"
-            :active-effect="action"
-            :encounter="encounter"
-            :owner="controller.Parent"
-            :close="close"
-            @apply="apply"
-            @reset="reset" />
+          <div v-else>
+            <cc-synergy-display location="tech_attack" :mech="controller.Parent" alert />
+
+            <menu-input
+              :key="controller.ID"
+              :active-effect="action"
+              :encounter="encounter"
+              :owner="controller.Parent"
+              :close="close"
+              @apply="apply"
+              @reset="reset" />
+          </div>
         </v-tabs-window>
       </v-sheet>
     </template>

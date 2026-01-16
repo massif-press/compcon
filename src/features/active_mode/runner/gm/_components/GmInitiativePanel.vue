@@ -1,22 +1,37 @@
 <template>
-  <div v-if="expanded" class="mb-1">
-    <v-btn-group flat tile style="width: 100%; height: 20px" color="primary">
-      <v-btn size="x-small" style="width: 25%" @click="itemSort('name')">
-        <v-icon size="x-large" icon="mdi-format-text-variant" />
+  <div v-if="expanded"
+    class="mb-1">
+    <v-btn-group flat
+      tile
+      style="width: 100%; height: 20px"
+      color="primary">
+      <v-btn size="x-small"
+        style="width: 25%"
+        @click="itemSort('name')">
+        <v-icon size="x-large"
+          icon="mdi-format-text-variant" />
       </v-btn>
-      <v-btn size="x-small" style="width: 25%" @click="itemSort('type')">
-        <v-icon size="x-large" icon="cc:pilot" />
+      <v-btn size="x-small"
+        style="width: 25%"
+        @click="itemSort('type')">
+        <v-icon size="x-large"
+          icon="cc:pilot" />
       </v-btn>
-      <v-btn size="x-small" style="width: 25%" @click="itemSort('activations')">
-        <v-icon size="x-large" icon="cc:activate" />
+      <v-btn size="x-small"
+        style="width: 25%"
+        @click="itemSort('activations')">
+        <v-icon size="x-large"
+          icon="cc:activate" />
       </v-btn>
-      <v-btn size="x-small" style="width: 25%" @click="itemSort('side')">
-        <v-icon size="x-large" icon="mdi-flag" />
+      <v-btn size="x-small"
+        style="width: 25%"
+        @click="itemSort('side')">
+        <v-icon size="x-large"
+          icon="mdi-flag" />
       </v-btn>
     </v-btn-group>
   </div>
-  <sortable
-    ref="sortable"
+  <sortable ref="sortable"
     :key="sortableKey"
     :sort="true"
     :list="activeCombatants"
@@ -28,14 +43,12 @@
     item-key="index">
     <template #item="{ element, index }">
       <div class="mb-1">
-        <placeholder-runner-list-item
-          v-if="element.actor?.Placeholder"
+        <placeholder-runner-list-item v-if="element.actor?.Placeholder"
           :combatant="element"
           :collapsed="!expanded"
           :selected="selected && selected.id === element.id"
           @select="$emit('select', $event)" />
-        <component
-          v-else
+        <component v-else
           :is="`${element.type}-runner-list-item`"
           :combatant="element"
           :collapsed="!expanded"
@@ -44,14 +57,18 @@
       </div>
     </template>
   </sortable>
-  <v-card v-if="reinforcements.length" class="ma-2" flat tile color="background">
-    <div v-if="expanded" class="text-cc-overline pa-1 text-disabled">
+  <v-card v-if="reinforcements.length"
+    class="ma-2"
+    flat
+    tile
+    color="background">
+    <div v-if="expanded"
+      class="text-cc-overline pa-1 text-disabled">
       <cc-slashes />
       reinforcements
     </div>
 
-    <reinforcement-list-item
-      v-for="r in reinforcements"
+    <reinforcement-list-item v-for="r in reinforcements"
       :combatant="r"
       :collapsed="!expanded"
       :selected="selected && selected.id === r.id"
@@ -61,15 +78,18 @@
       @select="$emit('select', $event)" />
   </v-card>
 
-  <v-card v-if="destroyedCombatants.length" flat tile>
-    <div v-if="expanded" class="text-cc-overline pa-1 text-disabled">
+  <v-card v-if="destroyedCombatants.length"
+    flat
+    tile>
+    <div v-if="expanded"
+      class="text-cc-overline pa-1 text-disabled">
       <cc-slashes />
       Destroyed Combatants
     </div>
-    <v-divider v-else class="my-2" />
+    <v-divider v-else
+      class="my-2" />
 
-    <destroyed-list-item
-      v-for="r in destroyedCombatants"
+    <destroyed-list-item v-for="r in destroyedCombatants"
       :combatant="r"
       :collapsed="!expanded"
       :selected="selected && selected.id === r.id"
@@ -79,13 +99,11 @@
 
   <div style="height: 50px" />
 
-  <div
-    style="position: fixed; bottom: 35px; left: 0"
-    :style="{ width: expanded ? '440px' : '72px' }">
+  <div style="position: fixed; bottom: 35px; left: 0"
+    :style="{ width: expanded ? '420px' : '116px' }">
     <v-menu>
       <template #activator="{ props }">
-        <v-btn
-          v-if="expanded"
+        <v-btn v-if="expanded"
           v-bind="props"
           block
           flat
@@ -94,11 +112,21 @@
           prepend-icon="mdi-plus">
           Add Item
         </v-btn>
-        <v-btn v-else v-bind="props" icon block flat tile color="primary" height="36">
-          <v-icon size="x-large" icon="mdi-plus" />
+        <v-btn v-else
+          v-bind="props"
+          icon
+          block
+          flat
+          tile
+          color="primary"
+          height="36">
+          <v-icon size="x-large"
+            icon="mdi-plus" />
         </v-btn>
       </template>
-      <v-card tile border color="background">
+      <v-card tile
+        border
+        color="background">
         <gm-add-npc-menu :encounter-instance="encounter" />
         <v-divider />
         <gm-add-pc-menu :encounter-instance="encounter" />

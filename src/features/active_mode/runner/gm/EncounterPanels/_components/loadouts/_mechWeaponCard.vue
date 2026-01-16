@@ -86,14 +86,19 @@
                 </div>
               </div>
 
-              <div v-if="item.Profiles[item.ProfileIndex].Actions.length">
-                <div class="text-cc-overline text-disabled">//PROFILE ACTIONS</div>
-                <v-row no-gutters justify="center">
-                  <v-col v-for="a in item.Profiles[item.ProfileIndex].Actions" cols="auto">
-                    <cc-action :action="a" class="ma-2" />
-                  </v-col>
-                </v-row>
-              </div>
+              <cc-combat-action-chip
+                v-for="a in item.Profiles[item.ProfileIndex].Actions"
+                :action="a"
+                :owner="mech"
+                :encounter="encounter">
+                <template #icon>
+                  <v-tooltip location="top" text="Equipment Action">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props" icon="cc:system" />
+                    </template>
+                  </v-tooltip>
+                </template>
+              </cc-combat-action-chip>
 
               <div v-if="item.Profiles[item.ProfileIndex].Deployables.length">
                 <div class="text-cc-overline text-disabled">//PROFILE DEPLOYABLES</div>
@@ -120,7 +125,11 @@
             </div>
           </div>
           <div v-if="mod">
-            <mod-inset :mod="mod" :mech="mech" :color="color" @remove-mod="uninstall()" />
+            <mech-mod-card
+              :mod="mod"
+              :mech="mech"
+              :encounter="encounter"
+              @deploy="$emit('deploy', d)" />
           </div>
         </div>
 
@@ -204,8 +213,8 @@ import { Damage, ItemType, Mech } from '@/class';
 import DeployButton from './_deployButton.vue';
 import EquipCommandPanel from './_equipCommandPanel.vue';
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue';
-import ModInset from '@/ui/components/panels/loadout/mech_loadout/components/mount/weapon/_ModInset.vue';
 import EngWeaponSettings from '@/ui/components/panels/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue';
+import MechModCard from './_mechModCard.vue';
 
 export default {
   name: 'mech-weapon-combat-card',
@@ -213,8 +222,8 @@ export default {
     DeployButton,
     EquipCommandPanel,
     OnElement,
-    ModInset,
     EngWeaponSettings,
+    MechModCard,
   },
   props: {
     item: {

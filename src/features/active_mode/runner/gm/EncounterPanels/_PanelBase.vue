@@ -92,6 +92,9 @@
             </v-tooltip>
             <cc-bonus v-if="getBonus(stat.key)" :bonus="getBonus(stat.key)" icon />
           </v-col>
+          <v-col cols="auto">
+            <cc-synergy-display location="stats" :mech="item" large />
+          </v-col>
         </v-row>
 
         <active-effect-panel

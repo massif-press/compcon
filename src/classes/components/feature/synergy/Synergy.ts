@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { Mech, MechSystem, MechWeapon, WeaponType } from '@/class';
+import { MechSystem, MechWeapon, WeaponType } from '@/class';
 import { CompendiumItem } from '../../../CompendiumItem';
 import { ItemType } from '../../../enums';
 import { FeatureController } from '../FeatureController';
+import { IFeatureController } from '../IFeatureController';
 
 interface ISynergyData {
   locations: string[];
@@ -37,9 +38,13 @@ class Synergy {
     return controller.EvaluateSpecial(this._detail, true) as string;
   }
 
-  public static Collect(location: string, mech: Mech, item?: CompendiumItem): Synergy[] {
+  public static Collect(
+    location: string,
+    container: IFeatureController,
+    item?: CompendiumItem
+  ): Synergy[] {
     let sArr = [
-      ...mech.Pilot.FeatureController.Synergies.filter((s) =>
+      ...container.FeatureController.Synergies.filter((s) =>
         s.Locations.includes(location.toLowerCase())
       ),
     ];

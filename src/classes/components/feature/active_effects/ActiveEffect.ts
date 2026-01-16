@@ -8,6 +8,7 @@ import { IEffectSpecialData, EffectSpecial } from './EffectSpecial';
 import { IEffectOtherData, EffectOther } from './EffectOther';
 import { IEffectStatusData, EffectStatus } from './EffectStatus';
 import { EffectSave } from './EffectSave';
+import { BonusDamage, IBonusDamageData } from './BonusDamage';
 
 interface IActiveEffectData {
   id?: string;
@@ -17,7 +18,7 @@ interface IActiveEffectData {
   damage?: IDamageData[];
   range?: IRangeData[];
   bonuses?: IBonusData[];
-  bonus_damage?: string;
+  bonus_damage?: IBonusDamageData;
   duration?: string;
   frequency?: string;
   save?: string | { stat: string; aoe: boolean };
@@ -41,7 +42,7 @@ class ActiveEffect {
   public readonly Bonuses: Bonus[];
   public readonly Duration?: string;
   public readonly Frequency?: string;
-  public readonly BonusDamage?: string;
+  public readonly BonusDamage?: BonusDamage;
 
   public readonly Save?: EffectSave[];
   public readonly AddResist?: EffectResist[];
@@ -75,7 +76,7 @@ class ActiveEffect {
     this.Bonuses = data.bonuses ? data.bonuses.map((b) => new Bonus(b, this.Name)) : [];
     this.Duration = data.duration;
     this.Frequency = data.frequency;
-    this.BonusDamage = data.bonus_damage;
+    if (data.bonus_damage) this.BonusDamage = new BonusDamage(data.bonus_damage, this.Name);
     if (data.save) {
       this.Save = [new EffectSave(data.save)];
     }

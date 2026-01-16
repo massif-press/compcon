@@ -1,24 +1,33 @@
 <template>
-  <v-row v-if="!isDeployable" dense align="center">
+  <v-row v-if="!isDeployable"
+    dense
+    align="center">
     <v-col cols="auto">
       <slot name="icon" />
-      <v-tooltip location="top" :text="action.Activation">
+      <v-tooltip location="top"
+        :text="action.Activation">
         <template #activator="{ props }">
-          <span v-bind="props" class="ml-1">
-            <v-icon v-bind="props" :icon="action.Icon" :color="canActivate ? 'success' : 'error'" />
-            <v-tooltip v-if="!canActivate" location="top">
+          <span v-bind="props"
+            class="ml-1">
+            <v-icon v-bind="props"
+              :icon="action.Icon"
+              :color="canActivate ? 'success' : 'error'" />
+            <v-tooltip v-if="!canActivate"
+              location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="mdi-exclamation-thick" color="error" />
+                <v-icon v-bind="props"
+                  icon="mdi-exclamation-thick"
+                  color="error" />
               </template>
               <div class="text-center text-cc-overline">Cannot activate</div>
               <v-divider class="my-1" />
-              <div v-if="customDisabledText" class="text-center">
+              <div v-if="customDisabledText"
+                class="text-center">
                 {{ customDisabledText }}
               </div>
               <div v-else>
                 Insufficient
-                <v-chip
-                  :color="action.Color"
+                <v-chip :color="action.Color"
                   size="small"
                   variant="elevated"
                   :prepend-icon="action.Icon || ''">
@@ -32,14 +41,12 @@
       </v-tooltip>
     </v-col>
     <v-col>
-      <cc-dialog
-        :color="canActivate ? action.Color : 'panel'"
+      <cc-dialog :color="canActivate ? action.Color : 'panel'"
         :icon="action.Icon"
         :title="action.Name"
         :close-on-click="false">
         <template #activator="{ open }">
-          <cc-button
-            size="x-small"
+          <cc-button size="x-small"
             block
             :color="canActivate ? action.Color : 'panel'"
             :prepend-icon="action.Icon"
@@ -48,8 +55,7 @@
           </cc-button>
         </template>
         <template #default="{ close }">
-          <menu-input
-            :key="owner.ID"
+          <menu-input :key="owner.ID"
             :active-effect="<any>action"
             :encounter="encounter"
             :owner="owner"
@@ -57,6 +63,14 @@
             :close="close"
             @apply="apply"
             @reset="reset" />
+          <div v-if="action.HeatCost"
+            class="text-right">
+            <cc-chip bg-color="damage--heat"
+              class="mr-4">
+              <v-icon icon="cc:heat" />
+              +{{ action.HeatCost }} Heat (Self)
+            </cc-chip>
+          </div>
         </template>
       </cc-dialog>
     </v-col>
@@ -92,10 +106,12 @@ export default {
   methods: {
     apply() {
       this.owner.CombatController.toggleCombatAction(this.action.Activation);
+      this.owner.CombatController.ApplyHeat(this.action.HeatCost || 0);
       this.$emit('activate');
     },
     reset() {
       this.owner.CombatController.ResetActivation(this.action.Activation);
+      this.owner.CombatController.ApplyHeat(-this.action.HeatCost || 0);
       this.$emit('reset');
     },
   },

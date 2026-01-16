@@ -143,15 +143,15 @@ class CoreSystem {
   // }
 
   private Features(type: string): any[] {
-    return this[`Passive${type}`].concat(this[`Active${type}`]);
+    return [];
   }
 
   public get Bonuses(): Bonus[] {
-    return this.Features('Bonuses');
+    return [];
   }
 
   public get Synergies(): Synergy[] {
-    return this.Features('Synergies');
+    return [];
   }
 
   public getActions(): Action[] {

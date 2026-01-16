@@ -2,9 +2,9 @@
 @import 'clip.css';
 @import 'animation.css';
 
-body {
+/* body {
   font-family: 'Helvetica Regular', sans-serif;
-}
+} */
 /* width */
 ::-webkit-scrollbar {
   width: 6px;
@@ -31,17 +31,15 @@ html {
     background-color: white;
   }
 
-::-webkit-scrollbar {
-  display: none;
-}
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
-::-webkit-scrollbar-track {
-  display: none;
-}
+  ::-webkit-scrollbar-track {
+    display: none;
+  }
 
-::-webkit-scrollbar-thumb {
-  display: none;
-}
-
-
+  ::-webkit-scrollbar-thumb {
+    display: none;
+  }
 }

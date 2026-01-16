@@ -40,7 +40,6 @@
                 actions remaining this turn.
               </div>
             </div>
-            <div v-else-if="!canUse">This action has already been used this turn.</div>
           </v-tooltip>
         </span>
         <v-tooltip location="top"
@@ -75,46 +74,31 @@
         :mech="controller.Parent"
         :encounter="encounter" />
 
-      <mech-attack-internal ref="attackInternal"
+      <mech-attack-internal ref="attackInternal0"
         :controller="controller"
         :encounter="encounter"
         :preset-weapon="presetWeapon"
-        @weapon-changed="onWeaponChanged"
-        @damage-staged="onDamageStaged"
-        @heat-staged="onHeatStaged"
-        @ready-changed="(isReady) => attackInternalReadyState = isReady" />
+        :prevent-select="selectedWeapon1"
+        @weapon-changed="selectedWeapon0 = $event"
+        @damage-staged="finalDamageArray0 = $event" />
+      <mech-attack-internal ref="attackInternal1"
+        v-if="!superheavySelected"
+        :controller="controller"
+        :encounter="encounter"
+        :prevent-select="selectedWeapon0"
+        is-barrage-additional
+        @weapon-changed="selectedWeapon1 = $event"
+        @damage-staged="finalDamageArray1 = $event" />
       <v-divider class="my-4" />
-
       <menu-input hide-input
         :key="controller.ID"
         :active-effect="action"
         :encounter="encounter"
         :owner="controller.Parent"
         :close="close"
-        :override-has-mandatory-inputs="attackInternalReady"
         @apply="apply(close)"
         @reset="reset"
         @stage="stage" />
-      <div v-if="totalHeat"
-        class="text-right">
-        <v-tooltip location="top">
-          <template #activator="{ props }">
-            <cc-chip v-bind="props"
-              bg-color="damage--heat"
-              class="mr-4">
-              <v-icon icon="cc:heat" />
-              +{{ totalHeat }} Heat (Self)
-            </cc-chip>
-          </template>
-          <div class="text-center pa-2">
-            + {{ finalHeatData.heatSelf }} <v-icon icon="cc:heat"
-              color="damage--heat" /> from Heat (self)
-            <br />
-            + {{ finalHeatData.overkillHeat }} <v-icon icon="cc:heat"
-              color="damage--heat" /> from Overkill
-          </div>
-        </v-tooltip>
-      </div>
     </template>
   </cc-dialog>
 </template>
@@ -123,10 +107,10 @@
 import { CompendiumStore } from '@/stores';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import MechAttackInternal from './_mechAttackInternal.vue';
-import MechMountBonusCard from '../_mechMountBonusCard.vue';
+import { WeaponSize } from '@/class';
 
 export default {
-  name: 'MechSkirmishButton',
+  name: 'MechBarrageButton',
   props: {
     action: {
       type: Object,
@@ -147,14 +131,13 @@ export default {
   },
   components: {
     MenuInput,
-    MechMountBonusCard,
     MechAttackInternal,
   },
   data: () => ({
-    selectedWeapon: null,
-    finalDamageArray: [],
-    finalHeatData: null,
-    attackInternalReadyState: false,
+    selectedWeapon0: null,
+    selectedWeapon1: null,
+    finalDamageArray0: [],
+    finalDamageArray1: [],
   }),
 
   watch: {
@@ -168,59 +151,50 @@ export default {
     },
   },
   computed: {
-    totalHeat() {
-      if (!this.finalHeatData) return 0;
-      return this.finalHeatData.heatSelf + this.finalHeatData.overkillHeat;
-    },
     ordnanceWarning() {
-      if (!this.selectedWeapon) return false;
-      if (this.selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
+      if (!this.selectedWeapon0 && !this.selectedWeapon1) return false;
+      if (this.selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance') || this.selectedWeapon1.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
         return this.controller.CanActivate('ordnance') === false;
       }
       return false;
     },
     canActivate() {
-      return this.controller.CanActivate(this.action.Activation) && !this.selectedWeapon?.Used;
+      return this.controller.CanActivate(this.action.Activation) && !this.selectedWeapon?.Used && !this.selectedWeapon1?.Used;
     },
     canUse() {
-      return !this.controller.IsActionUsed(this.actionId) && (!this.presetWeapon || !this.presetWeapon.Used);
+      return !this.controller.IsActionUsed(this.actionId) && (!this.presetWeapon || !this.presetWeapon.Used) && (!this.presetWeapon1 || !this.presetWeapon1.Used);
     },
     available() {
       return this.canActivate && this.canUse;
     },
-    attackInternalReady() {
-      return this.attackInternalReadyState;
-    },
+    superheavySelected() {
+      if (!this.selectedWeapon0) return false;
+      return this.selectedWeapon0.WeaponSize === WeaponSize.Superheavy;
+    }
   },
   emits: ['activate'],
   methods: {
-    onWeaponChanged(weapon) {
-      this.selectedWeapon = weapon;
-    },
-    onDamageStaged(damageArray) {
-      this.finalDamageArray = damageArray;
-    },
-    onHeatStaged(heatData) {
-      this.finalHeatData = heatData;
-    },
     stage() {
-      if (this.$refs.attackInternal) {
-        this.$refs.attackInternal.stage();
+      if (this.$refs.attackInternal0) {
+        this.$refs.attackInternal0.stage();
+      } if (this.$refs.attackInternal1) {
+        this.$refs.attackInternal1.stage();
       }
     },
     apply(close) {
       this.controller.toggleCombatAction(this.action.Activation);
-      this.finalDamageArray.forEach(dmg => {
+
+      this.finalDamageArray0.concat(this.finalDamageArray1).forEach(dmg => {
         const actor = this.encounter.Combatants.find(c => c.actor.CombatController.ActiveActor.ID === dmg.targetId)?.actor;
         if (actor) {
           actor.CombatController.ApplyDamage(dmg.damageType, dmg.damageValue);
         }
+
       });
 
-      if (this.finalHeatData) this.controller.ApplyHeat(this.finalHeatData.heatSelf + this.finalHeatData.overkillHeat);
-
       this.$emit('activate', this.actionId);
-      this.selectedWeapon.Use()
+      if (this.selectedWeapon0) this.selectedWeapon0.Use()
+      if (this.selectedWeapon1) this.selectedWeapon1.Use()
       close;
     },
     reset() {

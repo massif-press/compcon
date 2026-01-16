@@ -21,6 +21,7 @@ class Tag {
   public readonly IsAI: boolean;
   public readonly NoCascade: boolean;
   public readonly IsExotic: boolean;
+  public readonly IsDangerZone: boolean;
   public readonly IsLimited: boolean;
   public readonly IsLoading: boolean;
   public readonly IsRecharging: boolean;
@@ -54,6 +55,7 @@ class Tag {
     this.IsHeatCost = this.ID === 'tg_heat_self';
     this.IsOverkill = this.ID === 'tg_overkill';
     this.IsExotic = this.ID === 'tg_exotic';
+    this.IsDangerZone = this.ID === 'tg_danger_zone';
 
     if (this.ID === 'tg_full') this.UsageCost = 2;
     else if (this.ID === 'tg_quick') this.UsageCost = 1;

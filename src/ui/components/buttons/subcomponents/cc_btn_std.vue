@@ -1,5 +1,6 @@
 <template>
-  <div class="top-element" style="display: flex; position: relative">
+  <div class="top-element"
+    style="display: flex; position: relative">
     <div :class="`${disabled && 'disabled'} light ${size} ${lightColor}`" />
     <v-btn
       :class="`${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`} ${disabled && 'disabled'}`"
@@ -13,23 +14,32 @@
       :href="href"
       :target="target"
       @click.stop="!disabled && !loading && $emit('click', $event)">
-      <v-icon v-if="prependIcon" start :icon="prependIcon" :size="iconSize(prependIcon)" />
+      <v-icon v-if="prependIcon"
+        start
+        :icon="prependIcon"
+        :size="iconSize(prependIcon)" />
       <slot />
-      <v-icon v-if="appendIcon" class="mx-1" :icon="appendIcon" :size="iconSize(appendIcon)" />
-      <cc-tooltip v-if="tooltip" :icon="tooltipIcon" :text="tooltip" end />
+      <v-icon v-if="appendIcon"
+        class="mx-1"
+        :icon="appendIcon"
+        :size="iconSize(appendIcon)" />
+      <cc-tooltip v-if="tooltip"
+        :icon="tooltipIcon"
+        :text="tooltip"
+        end />
     </v-btn>
 
-    <v-menu v-if="$slots.options" offset-y>
+    <v-menu v-if="$slots.options"
+      offset-y>
       <template v-slot:activator="{ props }">
-        <v-btn
-          icon
+        <v-btn icon
           variant="tonal"
           :class="`${optionsSize}`"
           style="opacity: 0.5"
           tile
           flat
           v-bind="props">
-          <v-icon :icon="optionsIcon || 'mdi-dots-vertical'" />
+          <v-icon :icon="optionsIcon || 'mdi-chevron-down'" />
         </v-btn>
       </template>
       <slot name="options" />

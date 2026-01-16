@@ -1,23 +1,34 @@
 <template>
-  <cc-dialog
-    :color="available ? action.Color : 'panel'"
+  <cc-dialog :color="available ? action.Color : 'panel'"
     :icon="action.Icon"
     :title="action.Name"
-    :close-on-click="false">
+    :close-on-click="false"
+    min-width="1000">
     <template #activator="{ open }">
-      <v-btn block flat tile size="small" :color="available ? action.Color : 'panel'" @click="open">
+      <v-btn block
+        flat
+        tile
+        size="small"
+        :color="available ? action.Color : 'panel'"
+        @click="open">
         <span class="ml-1">
-          <v-icon v-bind="props" :icon="action.Icon" :color="available ? '' : 'error'" start />
-          <v-tooltip v-if="!available" location="top">
+          <v-icon v-bind="props"
+            :icon="action.Icon"
+            :color="available ? '' : 'error'"
+            start />
+          <v-tooltip v-if="!available"
+            location="top">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-exclamation-thick" color="error" class="ml-n2" />
+              <v-icon v-bind="props"
+                icon="mdi-exclamation-thick"
+                color="error"
+                class="ml-n2" />
             </template>
             <div class="text-center text-cc-overline">Cannot activate</div>
             <v-divider class="my-1" />
             <div v-if="!canActivate">
               Insufficient
-              <v-chip
-                :color="action.Color"
+              <v-chip :color="action.Color"
                 size="small"
                 variant="elevated"
                 :prepend-icon="action.Icon || ''">
@@ -28,7 +39,8 @@
             <div v-else-if="!canUse">This action has already been used this turn.</div>
           </v-tooltip>
         </span>
-        <v-tooltip location="top" width="300">
+        <v-tooltip location="top"
+          width="300">
           <template #activator="{ props }">
             <span v-bind="props">
               {{ action.Name }}
@@ -37,8 +49,7 @@
           <div class="d-flex">
             <div class="heading h4 d-flex">{{ action.Name }}</div>
             <v-spacer />
-            <v-chip
-              size="x-small"
+            <v-chip size="x-small"
               :color="action.Color"
               :prepend-icon="action.Icon"
               variant="elevated"
@@ -60,8 +71,11 @@
       </v-btn>
     </template>
     <template #default="{ close }">
-      <menu-input
-        :key="controller.ID"
+      <cc-synergy-display :location="action.ID.replace('act_', '')"
+        :mech="controller.Parent"
+        alert />
+
+      <menu-input :key="controller.ID"
         :active-effect="action"
         :encounter="encounter"
         :owner="controller.Parent"
