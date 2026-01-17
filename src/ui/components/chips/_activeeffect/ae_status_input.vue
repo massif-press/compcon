@@ -28,6 +28,7 @@
         :attack-rolls="attackRolls"
         :attack="status.Attack"
         :owner="owner"
+        :crits="crits"
         @update:target-attacks="attackRolls = $event" />
 
       <BaseSaveRoller v-if="status.Save"
@@ -66,6 +67,7 @@ export default {
     owner: { type: Object, required: true },
     encounter: { type: Object, required: true },
     self: { type: Boolean },
+    crits: { type: Boolean },
   },
   data() {
     return {

@@ -112,6 +112,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get Grit(): number {
+    console.log(this.RootActor);
     return this.RootActor.Grit || 0;
   }
 
@@ -152,6 +153,11 @@ class CombatController implements ICounterContainer, IStatContainer {
       return (this.Parent as any).NpcClassController.Tier;
     return 1;
   }
+
+  public get LimitedBonus(): number {
+    if ((this.Parent as any).LimitedBonus !== undefined) return (this.Parent as any).LimitedBonus;
+    return 0;
+  }
   // ------------------------------------------------------
 
   public get Activations(): number {
@@ -170,6 +176,11 @@ class CombatController implements ICounterContainer, IStatContainer {
     if ((this.Parent as any).Callsign)
       return `${(this.Parent as any).Callsign} (${this.Parent.Name})`;
     return this.Parent.Name;
+  }
+
+  public Activate(): void {
+    this.StatController.CurrentStats['activations']--;
+    if (this.StatController.CurrentStats['activations'] < 0) this.Reset();
   }
 
   public get HasRemainingActions(): boolean {
@@ -208,7 +219,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public get HasAISystems(): boolean {
     return (this.Parent as Mech).MechLoadoutController?.ActiveLoadout.AISystems.some(
-      (x) => !x.Destroyed
+      (x) => !x.Destroyed,
     );
   }
 
@@ -339,18 +350,39 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (index !== -1) this._usedActions.splice(index, 1);
   }
 
-  public setStats(statArr: { key: string; val: number }[]): void {
+  public setStats(statArr: { key: string; val: number }[], encounter?: EncounterInstance): void {
     statArr.forEach((kvp) => {
       this.StatController.setMax(kvp.key, kvp.val);
     });
+
     this.StatController.resetCurrentStats();
+  }
+
+  public SetBonusStats(encounter): void {
+    this.Bonuses.forEach((bonus) => {
+      let statId = bonus.ID;
+      if (typeof bonus.Value !== 'number') {
+        console.log('Non-numeric bonus value detected:', bonus.Value);
+        return;
+      }
+
+      let value = Number(bonus.Value);
+      if (bonus.PerPc) {
+        if (encounter.Combatants.filter((c) => c.type === 'pilot').length >= Number(bonus.Value)) {
+          statId = bonus.ID.replace('_pct', '');
+          value = 1;
+        }
+      }
+
+      this.StatController.setMax(statId, this.StatController.getStat(statId) + value);
+    });
   }
 
   public SetResistance(type: string, condition?: string): void {
     condition = condition?.toLowerCase() || 'vulnerable';
 
     const existingIndex = this.ActiveActor.CombatController.Resistances.findIndex(
-      (s) => s.type === type
+      (s) => s.type === type,
     );
     if (existingIndex === -1)
       this.ActiveActor.CombatController.Resistances.push({ type, condition });
@@ -395,7 +427,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public SetCustomStatus(special: EffectSpecial, expires?: any): void {
     if (!special) return;
     const existingIndex = this.CustomStatuses.findIndex(
-      (s) => s.status.Attribute === special.Attribute
+      (s) => s.status.Attribute === special.Attribute,
     );
     if (existingIndex === -1) {
       this.CustomStatuses.push({ status: special, expires });
@@ -430,7 +462,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     type: DamageType,
     value: number,
     ap: boolean,
-    irreducible: boolean
+    irreducible: boolean,
   ): number {
     if (irreducible || ap || type === DamageType.Heat || type === DamageType.Burn) return 0;
     return this.ActiveActor.StatController.CurrentStats['armor'] || 0;
@@ -441,7 +473,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     value: number,
     ap: boolean = false,
     irreducible = false,
-    reliable = 0
+    reliable = 0,
   ): { total: number; resist: string[]; condition: string[] } {
     let out = { total: value, resist: [] as string[], condition: [] as string[] };
 
@@ -464,7 +496,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     out.total = Math.max(0, out.total - this.CalculateArmorReduction(type, value, ap, irreducible));
 
     const resist = this.ActiveActor.CombatController.Resistances.find(
-      (r) => r.type === type.toLowerCase()
+      (r) => r.type === type.toLowerCase(),
     );
 
     if (resist) {
@@ -487,7 +519,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     type: DamageType,
     value: number,
     ap: boolean = false,
-    irreducible = false
+    irreducible = false,
   ): void {
     if (this.SaveLock) return;
 
@@ -546,13 +578,13 @@ class CombatController implements ICounterContainer, IStatContainer {
     expires: string,
     owner: CombatController,
     target: CombatController,
-    encounter: EncounterInstance
+    encounter: EncounterInstance,
   ): void {
     if (this.SaveLock) return;
     if (!status) return;
     const expirationObj = new expiration(expires, owner, target, encounter);
     const existingIndex = this.ActiveActor.CombatController.Statuses.findIndex(
-      (s) => s.status.ID === status.ID
+      (s) => s.status.ID === status.ID,
     );
     if (existingIndex === -1) {
       this.ActiveActor.CombatController.Statuses.push({ status, expires: expirationObj });
@@ -563,7 +595,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public RemoveStatus(statusID: string): void {
     const existingIndex = this.ActiveActor.CombatController.Statuses.findIndex(
-      (s) => s.status.ID === statusID
+      (s) => s.status.ID === statusID,
     );
     if (existingIndex !== -1) {
       this.ActiveActor.CombatController.Statuses.splice(existingIndex, 1);
@@ -575,13 +607,13 @@ class CombatController implements ICounterContainer, IStatContainer {
     expires: string,
     owner: CombatController,
     target: CombatController,
-    encounter: EncounterInstance
+    encounter: EncounterInstance,
   ): void {
     if (this.SaveLock) return;
     if (!customStatus) return;
     const expirationObj = new expiration(expires, owner, target, encounter);
     const existingIndex = this.ActiveActor.CombatController.CustomStatuses.findIndex(
-      (s) => s.status.Attribute === customStatus.Attribute
+      (s) => s.status.Attribute === customStatus.Attribute,
     );
     if (existingIndex === -1) {
       this.ActiveActor.CombatController.CustomStatuses.push({
@@ -595,7 +627,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public RemoveCustomStatus(attribute: string): void {
     const existingIndex = this.ActiveActor.CombatController.CustomStatuses.findIndex(
-      (s) => s.status.Attribute === attribute
+      (s) => s.status.Attribute === attribute,
     );
     if (existingIndex !== -1) {
       this.ActiveActor.CombatController.CustomStatuses.splice(existingIndex, 1);
@@ -628,7 +660,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public Stabilize(
-    action: 'cool' | 'repair' | 'reload' | 'clear_burn' | 'clear self' | 'clear ally' | 'npc'
+    action: 'cool' | 'repair' | 'reload' | 'clear_burn' | 'clear self' | 'clear ally' | 'npc',
   ): void {
     switch (action) {
       case 'cool':
@@ -660,7 +692,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public RegisterEvent(
     eventData: string[],
     effect: Action | ActiveEffect,
-    encounter: EncounterInstance
+    encounter: EncounterInstance,
   ): void {
     this.History.push({
       timestamp: Date.now(),
@@ -673,10 +705,10 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public getExpiredStatuses(
     currentRound: number,
-    currentActorID: string
+    currentActorID: string,
   ): { status: Status; expires: expiration }[] {
     return this.Statuses.filter((s) =>
-      s.expires.HasExpired(currentRound, currentActorID, this.Turn)
+      s.expires.HasExpired(currentRound, currentActorID, this.Turn),
     );
   }
 
@@ -717,6 +749,21 @@ class CombatController implements ICounterContainer, IStatContainer {
       if (eq.Recharge < 0) return;
       eq.IsUsed = false;
     });
+  }
+
+  public Reset(): void {
+    this.ResetCombatActions();
+    this.StatController.CurrentStats['activations'] = this.StatController.MaxStats['activations'];
+    this.StatController.CurrentStats['speed'] = this.StatController.MaxStats['speed'];
+    this._usedActions = [];
+    this.AllEquipment.forEach((eq) => {
+      if (!eq.IsReloading) return;
+      if (eq.Recharge < 0) return;
+      eq.IsUsed = false;
+    });
+    if (this.Parent instanceof Pilot) {
+      if (this.Parent.ActiveMech) this.Parent.ActiveMech.CombatController.Reset();
+    }
   }
 
   public Reload(): void {
@@ -784,7 +831,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public static Deserialize(controller: CombatController, data: CombatData) {
     if (!controller.StatController)
       throw new Error(
-        `StatController not found on CombatController. New StatControllers must be instantiated in the CombatController's constructor method.`
+        `StatController not found on CombatController. New StatControllers must be instantiated in the CombatController's constructor method.`,
       );
 
     controller.Resistances = data?.resistances || [];

@@ -1,80 +1,140 @@
 <template>
   <slot name="header" />
-  <cc-alert v-if="item.CombatController.IsDestroyed" class="ma-2 bg-stripes" prominent outlined>
-    <div class="heading h2 pa-1 mr-n12 ml-n4 text-error" style="position: relative">
-      <v-icon icon="cc:destroyed" size="x-large" start />
+  <cc-alert v-if="item.CombatController.IsDestroyed"
+    class="ma-2 bg-stripes"
+    prominent
+    outlined>
+    <div class="heading h2 pa-1 mr-n12 ml-n4 text-error"
+      style="position: relative">
+      <v-icon icon="cc:destroyed"
+        size="x-large"
+        start />
       {{ item.ItemType }} DESTROYED
       <div
         style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: -1; opacity: 0.85"
         class="bg-background" />
     </div>
   </cc-alert>
-  <v-card flat tile class="pa-2">
+  <v-card flat
+    tile
+    class="pa-2">
     <v-row class="pr-4">
-      <v-col v-if="item.Portrait" cols="auto">
-        <cc-img width="155px" height="100%" color="panel" cover :src="item.Portrait" />
+      <v-col v-if="item.Portrait"
+        cols="auto">
+        <cc-img width="155px"
+          height="100%"
+          color="panel"
+          cover
+          :src="item.Portrait" />
       </v-col>
       <v-col>
-        <v-row no-gutters align="center">
-          <v-col v-if="item.SizeIcon" cols="auto" align-self="center" class="ml-n2 mr-2">
-            <v-icon :icon="item.SizeIcon" size="60" />
+        <v-row no-gutters
+          align="center">
+          <v-col v-if="item.SizeIcon"
+            cols="auto"
+            align-self="center"
+            class="ml-n2 mr-2">
+            <v-icon :icon="item.SizeIcon"
+              size="60" />
           </v-col>
           <v-col>
             <slot name="name-block" />
           </v-col>
-          <v-col cols="auto" class="ml-auto mr-1 mt-1">
-            <cc-button
-              v-for="i in item.CombatController.StatController.MaxStats['activations']"
-              icon="cc:activate"
-              size="x-large"
-              variant="outlined"
-              :color="
-                item.CombatController.StatController.CurrentStats['activations'] >= i
-                  ? 'green'
-                  : 'grey'
-              "
-              @click="
-                item.CombatController.StatController.CurrentStats['activations'] === 0
-                  ? (item.CombatController.StatController.CurrentStats['activations'] += 1)
-                  : (item.CombatController.StatController.CurrentStats['activations'] -= 1)
-              "></cc-button>
+          <v-col cols="auto"
+            align-self="start"
+            class="ml-auto mr-1 mt-1">
+            <v-menu>
+              <template #activator="{ props }">
+
+                <v-btn v-for="i in item.CombatController.StatController.MaxStats['activations']"
+                  icon="cc:activate"
+                  size="40"
+                  flat
+                  variant=outlined
+                  class="mx-1"
+                  :class="item.CombatController.StatController.CurrentStats['activations'] >= i ? 'bg-success' : ''"
+                  style="corner-shape: bevel; border-radius: 10px 0px !important;"
+                  :color="item.CombatController.StatController.CurrentStats['activations'] >= i
+                    ? 'panel'
+                    : 'grey'
+                    "
+                  v-bind="props"
+                  </v-btn>
+              </template>
+              <v-card flat
+                tile
+                max-width="300"
+                class="pa-2 text-center"
+                border="sm">
+                <div>Mark an activation as complete?
+                </div>
+
+                <div class="text-cc-overline text-text mt-1 mb-2"
+                  v-if="item.CombatController.StatController.CurrentStats['activations'] > 1">
+                  This will reduce reduced the remaining activations
+                  by 1 and
+                  reset all actions.
+                </div>
+                <div v-else
+                  class="text-cc-overline text-text mt-1 mb-2">
+                  This will end {{ item.Name }}'s turn.
+                </div>
+                <v-btn block
+                  flat
+                  tile
+                  size="small"
+                  color="primary"
+                  @click="handleActivate">
+                  Confirm
+                </v-btn>
+              </v-card>
+            </v-menu>
           </v-col>
         </v-row>
 
         <slot name="subtitle" />
 
         <v-row class="mt-n1">
-          <v-col v-if="item.Grit" cols="auto">
-            <v-tooltip location="top" text="Pilot Grit">
+          <v-col v-if="item.Grit"
+            cols="auto">
+            <v-tooltip location="top"
+              text="Pilot Grit">
               <template #activator="{ props }">
                 <span v-bind="props">
-                  <v-icon icon="mdi-star-four-points-outline" size="x-large" class="mt-n2 mr-1" />
+                  <v-icon icon="mdi-star-four-points-outline"
+                    size="x-large"
+                    class="mt-n2 mr-1" />
                   <span class="heading h2 text-accent">2</span>
                 </span>
               </template>
             </v-tooltip>
           </v-col>
-          <v-col
-            cols="auto"
+          <v-col cols="auto"
             v-for="(stat, index) in item.StatController.GetStatCollection([
               'hull',
               'agi',
               'sys',
               'eng',
             ])">
-            <v-tooltip :text="stat.title" location="top" open-delay="400">
+            <v-tooltip :text="stat.title"
+              location="top"
+              open-delay="400">
               <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-large" class="mt-n2 mr-1" :icon="stat.icon" />
+                <v-icon v-bind="props"
+                  size="x-large"
+                  class="mt-n2 mr-1"
+                  :icon="stat.icon" />
                 <span class="heading h2 text-accent">
                   {{ item.StatController.MaxStats[stat.key] }}
                 </span>
               </template>
             </v-tooltip>
-            <cc-bonus v-if="getBonus(stat.key)" :bonus="getBonus(stat.key)" icon />
+            <cc-bonus v-if="getBonus(stat.key)"
+              :bonus="getBonus(stat.key)"
+              icon />
           </v-col>
           <v-col cols="1" />
-          <v-col
-            cols="auto"
+          <v-col cols="auto"
             v-for="(stat, index) in item.StatController.GetStatCollection([
               'evasion',
               'edef',
@@ -82,28 +142,35 @@
               'sensorRange',
               'saveTarget',
             ])">
-            <v-tooltip :text="stat.title" location="top" open-delay="400">
+            <v-tooltip :text="stat.title"
+              location="top"
+              open-delay="400">
               <template #activator="{ props }">
-                <v-icon v-bind="props" size="x-large" class="mt-n2 mr-1" :icon="stat.icon" />
+                <v-icon v-bind="props"
+                  size="x-large"
+                  class="mt-n2 mr-1"
+                  :icon="stat.icon" />
                 <span class="heading h2 text-accent">
                   {{ item.StatController.MaxStats[stat.key] }}
                 </span>
               </template>
             </v-tooltip>
-            <cc-bonus v-if="getBonus(stat.key)" :bonus="getBonus(stat.key)" icon />
+            <cc-bonus v-if="getBonus(stat.key)"
+              :bonus="getBonus(stat.key)"
+              icon />
           </v-col>
           <v-col cols="auto">
-            <cc-synergy-display location="stats" :mech="item" large />
+            <cc-synergy-display location="stats"
+              :mech="item"
+              large />
           </v-col>
         </v-row>
 
-        <active-effect-panel
-          v-if="item.CombatController.ActiveEffects.length"
+        <active-effect-panel v-if="item.CombatController.ActiveEffects.length"
           :encounter="encounterInstance"
           :item="item" />
 
-        <v-row
-          v-if="!hidePalette"
+        <v-row v-if="!hidePalette"
           align="center"
           dense
           class="border-sm my-2"
@@ -112,16 +179,23 @@
             <slot name="action-palette" />
           </v-col>
 
-          <v-col cols="auto" class="ml-auto" align-self="center">
-            <v-btn-toggle
-              v-model="item.CombatController.Cover"
+          <v-col cols="auto"
+            class="ml-auto"
+            align-self="center">
+            <v-btn-toggle v-model="item.CombatController.Cover"
               flat
               tile
               color="primary"
               style="height: 30px">
-              <v-btn size="small" height="30" value="none">No Cover</v-btn>
-              <v-btn size="small" height="30" value="soft">Soft Cover</v-btn>
-              <v-btn size="small" height="30" value="hard">Hard Cover</v-btn>
+              <v-btn size="small"
+                height="30"
+                value="none">No Cover</v-btn>
+              <v-btn size="small"
+                height="30"
+                value="soft">Soft Cover</v-btn>
+              <v-btn size="small"
+                height="30"
+                value="hard">Hard Cover</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -129,8 +203,7 @@
         <div v-if="!noStats">
           <v-row>
             <v-col>
-              <cc-tickbar
-                v-model="item.StatController.CurrentStats['hp']"
+              <cc-tickbar v-model="item.StatController.CurrentStats['hp']"
                 v-model:secondary="item.StatController.CurrentStats['structure']"
                 v-model:tertiary="item.StatController.CurrentStats['overshield']"
                 primary-label="Hit Points"
@@ -147,8 +220,7 @@
                 editable />
             </v-col>
             <v-col cols="auto">
-              <stat-mini-panel
-                title="armor"
+              <stat-mini-panel title="armor"
                 icon="mdi-shield-outline"
                 color="armor"
                 :base-value="item.StatController.MaxStats['armor']"
@@ -156,10 +228,10 @@
             </v-col>
           </v-row>
 
+
           <v-row>
             <v-col>
-              <cc-tickbar
-                v-model="item.StatController.CurrentStats['heatcap']"
+              <cc-tickbar v-model="item.StatController.CurrentStats['heatcap']"
                 v-model:secondary="item.StatController.CurrentStats['stress']"
                 v-model:tertiary="item.StatController.CurrentStats['overcharge']"
                 :value-atlas="overchargeTrack"
@@ -176,8 +248,7 @@
                 :tertiary-ticks="3"></cc-tickbar>
             </v-col>
             <v-col cols="auto">
-              <stat-mini-panel
-                title="burn"
+              <stat-mini-panel title="burn"
                 icon="cc:burn"
                 color="damage--burn"
                 v-model.number="item.StatController.CurrentStats['burn']" />
@@ -185,8 +256,7 @@
           </v-row>
           <v-row class="mb-3">
             <v-col>
-              <cc-tickbar
-                v-if="item.StatController.MaxStats['speed']"
+              <cc-tickbar v-if="item.StatController.MaxStats['speed']"
                 v-model="item.StatController.CurrentStats['speed']"
                 color="primary"
                 min-width="150px"
@@ -194,8 +264,7 @@
                 icon="mdi-arrow-right-bold-hexagon-outline"
                 class="mb-1"
                 :ticks="item.StatController.MaxStats['speed']" />
-              <cc-tickbar
-                v-if="item.StatController.MaxStats['repairCapacity']"
+              <cc-tickbar v-if="item.StatController.MaxStats['repairCapacity']"
                 v-model="item.StatController.CurrentStats['repairCapacity']"
                 color="success"
                 icon="cc:repair"
@@ -204,24 +273,26 @@
                 reverse
                 :ticks="item.StatController.MaxStats['repairCapacity']" />
             </v-col>
-            <v-col cols="auto" v-if="item.ItemType === 'mech'">
+            <v-col cols="auto"
+              v-if="item.ItemType === 'mech'">
               <v-menu>
                 <template #activator="{ props }">
-                  <stat-mini-panel
-                    v-model="item.CombatController.CorePower"
+                  <stat-mini-panel v-model="item.CombatController.CorePower"
                     title="core"
                     :icon="currentIcon"
                     :color="item.CombatController.CorePower ? 'core' : 'grey'"
                     @click.stop="props.onClick($event)"
                     boolean />
                 </template>
-                <v-card flat tile class="pt-4 text-cc-overline text-center" border="sm">
+                <v-card flat
+                  tile
+                  class="pt-4 text-cc-overline text-center"
+                  border="sm">
                   <div v-if="item.CombatController.CorePower">Clear this mech's</div>
                   <div v-else>Restore this mech's</div>
                   core power?
                   <template #actions>
-                    <cc-button
-                      block
+                    <cc-button block
                       :color="item.CombatController.CorePower ? 'error' : 'core'"
                       size="x-small"
                       :prepend-icon="currentIcon"
@@ -238,35 +309,34 @@
         <div v-else>
           <v-row align="center">
             <v-col>
-              <div v-for="stat in orderedStats" class="mb-3">
+              <div v-for="stat in orderedStats"
+                class="mb-3">
                 <div class="text-cc-overline">
                   <cc-slashes />
                   {{ stat.title }}
                 </div>
-                <cc-tickbar
-                  v-model="item.StatController.CurrentStats[stat.key]"
+                <cc-tickbar v-model="item.StatController.CurrentStats[stat.key]"
                   :color="stat.color"
                   :icon="stat.icon"
                   :ticks="item.StatController.MaxStats[stat.key]" />
               </div>
             </v-col>
-            <v-col cols="auto" v-if="item.StatController.MaxStats['hp']">
-              <div style="display: flex; height: 100%" class="py-3">
+            <v-col cols="auto"
+              v-if="item.StatController.MaxStats['hp']">
+              <div style="display: flex; height: 100%"
+                class="py-3">
                 <div style="flex: 1; display: flex; flex-direction: column">
-                  <stat-mini-panel
-                    title="armor"
+                  <stat-mini-panel title="armor"
                     icon="mdi-shield-outline"
                     color="armor"
                     v-model="item.StatController.CurrentStats['armor']" />
                   <div class="my-1" />
-                  <stat-mini-panel
-                    title="overshield"
+                  <stat-mini-panel title="overshield"
                     icon="mdi-hexagon-multiple-outline"
                     color="overshield"
                     v-model="item.StatController.CurrentStats['overshield']" />
                   <div class="my-1" />
-                  <stat-mini-panel
-                    title="burn"
+                  <stat-mini-panel title="burn"
                     icon="cc:burn"
                     color="damage--burn"
                     v-model="item.StatController.CurrentStats['burn']" />
@@ -280,26 +350,26 @@
 
         <slot name="stat-block" />
         <div v-if="!noActions && item.CombatController.StatController.MaxStats['activations']">
-          <combat-action-panel
-            :controller="item.CombatController"
+          <combat-action-panel :controller="item.CombatController"
             :hide-overcharge="item.ItemType !== 'mech'" />
         </div>
         <slot name="actions" />
 
-        <v-row v-if="!noConditions" dense class="mt-4">
+        <v-row v-if="!noConditions"
+          dense
+          class="mt-4">
           <v-col cols="4">
             <damage-condition-selector :controller="item.CombatController" />
           </v-col>
-          <v-col cols="auto" style="min-width: 20px" />
+          <v-col cols="auto"
+            style="min-width: 20px" />
           <v-col class="mx-auto">
-            <status-condition-selector
-              :controller="item.CombatController"
+            <status-condition-selector :controller="item.CombatController"
               :encounter="encounterInstance" />
           </v-col>
         </v-row>
 
-        <damage-menu
-          v-if="item.CombatController.StatController.MaxStats['hp']"
+        <damage-menu v-if="item.CombatController.StatController.MaxStats['hp']"
           :encounter="encounterInstance.Encounter"
           :controller="item.CombatController" />
       </v-col>
@@ -388,12 +458,16 @@ export default {
         'hp',
         'structure',
         'overcharge',
-        'heatcap',
         'stress',
         'speed',
         'repcap',
       ];
+
       const hide = ['activations', 'armor', 'burn', 'overshield'];
+
+      if (!this.item.StatController.MaxStats['heatcap']) {
+        hide.push('heatcap');
+      }
 
       return this.item.StatController.TrackableStats.filter((s) => !hide.includes(s.key)).sort(
         (a, b) => order.indexOf(a.key) - order.indexOf(b.key)
@@ -433,18 +507,20 @@ export default {
       if (statKey === 'eng') statKey = 'engineering';
       return this.item.CombatController.Bonuses.find((b) => b.ID === statKey);
     },
+
+    handleActivate() {
+      this.item.CombatController.Activate();
+    },
   },
 };
 </script>
 
 <style scoped>
 .bg-stripes {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(249, 219, 78, 0.5),
-    rgba(249, 219, 78, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 20px
-  );
+  background: repeating-linear-gradient(-45deg,
+      rgba(249, 219, 78, 0.5),
+      rgba(249, 219, 78, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 20px);
 }
 </style>

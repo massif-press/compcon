@@ -194,8 +194,8 @@ export default {
             if (
               this.attackRolls[idx] >=
               (this.damage.Attack === 'tech'
-                ? t.actor.CombatController.StatController.MaxStats['edef']
-                : t.actor.CombatController.StatController.MaxStats['evasion'])
+                ? t.actor.CombatController.StatController.MaxStats['edef'] || 8
+                : t.actor.CombatController.StatController.MaxStats['evasion'] || 5)
             ) {
               part += ` [HIT]`;
             } else {

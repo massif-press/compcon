@@ -93,6 +93,7 @@
           :status="s"
           :owner="owner"
           :encounter="encounter"
+          :crits="isRam"
           :self="s.Target === 'self'"
           :targets="getTargetsSorted(s.Target || 'enemy')"
           @ready-changed="(isReady) => updateInputReadiness('status', index, isReady)" />
@@ -394,6 +395,9 @@ export default {
     isApplied(): boolean {
       return this.owner.CombatController.IsActionUsed(this.activeEffect.ID);
     },
+    isRam(): boolean {
+      return this.activeEffect.ID === 'act_ram';
+    },
     isPassive() {
       return (
         !this.activeEffect.AddOther?.length &&
@@ -516,38 +520,12 @@ export default {
       return ByTier(detail, this.owner.CombatController.Tier);
     },
     getTargetsSorted(target: string): Array<object> {
-      let out = [] as Array<CombatantData>;
       const self = this.encounter.Combatants.find(
-        (c: CombatantData) =>
-          c.actor.CombatController.ActiveActor.ID === this.owner.CombatController.ActiveActor.ID
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.CombatController.RootActor.ID
       );
+      if (!self) return [];
 
-      if (!self) return out;
-
-      if (self.side === 'enemy' && target === 'enemy') target = 'ally';
-      else if (self.side === 'enemy' && target === 'ally') target = 'enemy';
-
-      out = [...this.encounter.Combatants].filter((c: CombatantData) => !c.actor.CombatController.IsDestroyed && !c.reinforcement)
-        .sort((a: CombatantData, b: CombatantData) => {
-          if (target === 'self') {
-            if (
-              a.actor.CombatController.ActiveActor.ID === this.owner.CombatController.ActiveActor.ID
-            )
-              return -1;
-            if (
-              b.actor.CombatController.ActiveActor.ID === this.owner.CombatController.ActiveActor.ID
-            )
-              return 1;
-          }
-          if (a.side === target && b.side !== target) {
-            return -1;
-          } else if (a.side !== target && b.side === target) {
-            return 1;
-          } else {
-            return a.actor.CombatController.Name.localeCompare(b.actor.CombatController.Name);
-          }
-        });
-      return out;
+      return this.encounter.getTargetsSorted(target, self.side);
     },
 
     initialDamage(damage: Damage): number {

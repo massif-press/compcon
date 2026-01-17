@@ -1,33 +1,52 @@
 <template>
-  <v-card flat tile :color="cardColor" variant="tonal" class="text-center" style="height: 100%">
-    <v-toolbar density="compact" height="38" color="primary">
-      <div class="heading h4 text-center" style="font-size: 18px; width: 100%">
+  <v-card flat
+    tile
+    :color="cardColor"
+    variant="tonal"
+    class="text-center"
+    style="height: 100%">
+    <v-toolbar density="compact"
+      height="38"
+      color="primary">
+      <div class="heading h4 text-center"
+        style="font-size: 18px; width: 100%">
         {{ stat.title }}
-        <v-icon v-if="overwriteVal" icon="mdi-lock" class="pb-1" size="x-small" />
-        <v-btn
-          v-if="!readonly && deletable"
+        <v-icon v-if="overwriteVal"
+          icon="mdi-lock"
+          class="pb-1"
+          size="x-small" />
+        <v-btn v-if="!readonly && deletable"
           icon
           size="xs"
           class="fade-select ml-1 mt-n1"
           @click="$emit('remove', stat.key)">
-          <v-icon icon="mdi-delete" size="x-small" color="error" />
+          <v-icon icon="mdi-delete"
+            size="x-small"
+            color="error" />
         </v-btn>
       </div>
     </v-toolbar>
-    <v-card-text class="px-2 pb-1 pt-0" style="position: relative">
-      <v-row dense align="center" justify="center" class="heading h4">
+    <v-card-text class="px-2 pb-1 pt-0"
+      style="position: relative">
+      <v-row dense
+        align="center"
+        justify="center"
+        class="heading h4">
         <v-col cols="auto">
-          <v-icon :icon="stat.icon" size="x-large" class="text-disabled" />
+          <v-icon :icon="stat.icon"
+            size="x-large"
+            class="text-disabled" />
         </v-col>
-        <v-col v-if="overwriteVal" cols="auto">
+        <v-col v-if="overwriteVal"
+          cols="auto">
           <div class="heading h3 text-center my-2">{{ overwriteVal }}</div>
         </v-col>
-        <v-col v-else-if="readonly" cols="auto">
+        <v-col v-else-if="readonly"
+          cols="auto">
           <div class="heading h2 text-center py-1">{{ totalWithBonus }}</div>
         </v-col>
         <v-col v-else-if="stat.key === 'size'">
-          <v-select
-            v-model="model"
+          <v-select v-model="model"
             :items="sizeOptions"
             density="compact"
             variant="outlined"
@@ -37,8 +56,7 @@
             @update:model-value="$emit('set', { value: model, tier: model })" />
         </v-col>
         <v-col v-else>
-          <v-select
-            v-if="selections.length"
+          <v-select v-if="selections.length"
             v-model="model"
             :items="selections"
             density="compact"
@@ -48,8 +66,7 @@
             @blur="editMode = false"
             @keyup.enter="editMode = false"
             @focus="$event.target.select()" />
-          <v-text-field
-            v-else
+          <v-text-field v-else
             v-model="model"
             variant="outlined"
             density="compact"
@@ -63,17 +80,17 @@
         </v-col>
       </v-row>
 
-      <div v-if="bonuses.length" v-for="bonus in bonuses" class="text-right">
+      <div v-if="bonuses.length"
+        v-for="bonus in bonuses"
+        class="text-right">
         <v-menu open-on-hover>
           <template #activator="{ props }">
-            <v-icon
-              v-if="readonly"
+            <v-icon v-if="readonly"
               v-bind="props"
               :icon="bonus.Icon"
               color="exotic"
               style="position: absolute; right: 2px; bottom: 0" />
-            <v-chip
-              v-else
+            <v-chip v-else
               dense
               variant="elevated"
               elevation="0"
@@ -86,9 +103,12 @@
             </v-chip>
           </template>
           <v-card>
-            <v-toolbar density="compact" color="exotic" height="46">
+            <v-toolbar density="compact"
+              color="exotic"
+              height="46">
               <div class="heading h4 px-2">
-                <v-icon start :icon="bonus.Icon" />
+                <v-icon start
+                  :icon="bonus.Icon" />
                 {{ bonus.Title }}
               </div>
             </v-toolbar>
@@ -171,7 +191,7 @@ export default {
       return '';
     },
     totalWithBonus() {
-      return this.val + this.bonuses.reduce((acc, x) => acc + x.Value || 0, 0);
+      return this.val + this.bonuses.filter(x => !x.PerPc).reduce((acc, x) => acc + x.Value || 0, 0);
     },
   },
   methods: {

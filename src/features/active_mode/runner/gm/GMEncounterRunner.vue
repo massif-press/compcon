@@ -19,7 +19,18 @@
         </div>
         <div location="left"
           class="bg-background border-sm"
-          style="position: absolute; z-index: 3; height: calc(100vh - 76px); overflow-y: auto">
+          :style="`width: ${showLeft ? '420' : '115'}px;`""
+          style="
+          position:
+          absolute;
+          z-index:
+          3;
+          height:
+          calc(100vh
+          -
+          76px);
+          overflow-y:
+          auto">
           <gm-initiative-panel :encounter="instance"
             :selected="selected"
             :expanded="showLeft"
@@ -45,7 +56,8 @@
                 :combatant="selected"
                 :encounter-instance="instance"
                 @deselect="selectActor($event)" />
-              <actor-logs :actor="selected.actor" />
+              <actor-logs v-if="selected.actor"
+                :actor="selected.actor" />
             </div>
           </v-container>
         </v-main>
@@ -195,7 +207,7 @@ export default {
     },
     mainLeftOffset() {
       // '485px' : '72px'
-      if (!this.mobile && this.showLeft) return '465px';
+      if (!this.mobile && this.showLeft) return '430px';
       return '155px';
     },
   },

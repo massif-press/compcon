@@ -1,32 +1,39 @@
 <template>
-  <v-row dense align="center">
+  <v-row dense
+    align="center">
     <v-col cols="auto">
-      <v-tooltip location="top" text="Equipment Deployable (Instance)">
+      <v-tooltip location="top"
+        text="Equipment Deployable (Instance)">
         <template #activator="{ props }">
-          <v-icon v-bind="props" icon="cc:drone" />
+          <v-icon v-bind="props"
+            icon="cc:drone" />
         </template>
       </v-tooltip>
 
-      <v-tooltip location="top" :text="deployable.DeployAction.Activation">
+      <v-tooltip location="top"
+        :text="deployable.DeployAction.Activation">
         <template #activator="{ props }">
-          <span v-bind="props" class="ml-1 mr-n1">
-            <v-icon
-              v-bind="props"
+          <span v-bind="props"
+            class="ml-1 mr-n1">
+            <v-icon v-bind="props"
               :icon="deployable.DeployAction.Icon"
               :color="canActivate ? 'success' : 'error'" />
-            <v-tooltip v-if="!canActivate" location="top">
+            <v-tooltip v-if="!canActivate"
+              location="top">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="mdi-exclamation-thick" color="error" />
+                <v-icon v-bind="props"
+                  icon="mdi-exclamation-thick"
+                  color="error" />
               </template>
               <div class="text-center text-cc-overline">Cannot activate</div>
               <v-divider class="my-1" />
-              <div v-if="customDisabledText" class="text-center">
+              <div v-if="customDisabledText"
+                class="text-center">
                 {{ customDisabledText }}
               </div>
               <div v-else>
                 Insufficient
-                <v-chip
-                  :color="deployable.DeployAction.Color"
+                <v-chip :color="deployable.DeployAction.Color"
                   size="small"
                   variant="elevated"
                   :prepend-icon="deployable.DeployAction.Icon || ''">
@@ -40,20 +47,23 @@
       </v-tooltip>
     </v-col>
     <v-col>
-      <v-row no-gutters align="center">
-        <v-col cols="auto" style="margin-right: 2px">
+      <v-row no-gutters
+        align="center">
+        <v-col cols="auto"
+          style="margin-right: 2px">
           <cc-deployable-info :deployable="deployable" />
         </v-col>
         <v-col>
-          <v-menu v-model="menu" :close-on-content-click="false" offset-y>
+          <v-menu v-model="menu"
+            :close-on-content-click="false"
+            offset-y>
             <template #activator="{ props }">
-              <v-btn
-                v-bind="props"
+              <v-btn v-bind="props"
                 flat
                 tile
                 block
                 size="small"
-                :color="deployable.DeployAction.Color"
+                :color="canActivate ? deployable.DeployAction.Color : 'panel'"
                 height="26px"
                 class="ml-n1"
                 :prepend-icon="deployable.DeployAction.Icon">
@@ -61,13 +71,13 @@
               </v-btn>
             </template>
             <v-card border>
-              <v-toolbar
-                class="heading h3 px-3"
+              <v-toolbar class="heading h3 px-3"
                 dense
                 height="40px"
                 flat
                 :color="deployable.DeployAction.Color">
-                <v-icon :icon="deployable.DeployAction.Icon" start />
+                <v-icon :icon="deployable.DeployAction.Icon"
+                  start />
                 Deploy {{ deployable.Name }}
               </v-toolbar>
               <v-divider />
@@ -78,8 +88,7 @@
                   for
                   <strong>{{ actor.CombatController.CombatName }}</strong>
                   as a
-                  <v-chip
-                    :color="deployable.DeployAction.Color"
+                  <v-chip :color="deployable.DeployAction.Color"
                     :prepend-icon="deployable.DeployAction.Icon"
                     size="small"
                     variant="elevated"
@@ -88,9 +97,16 @@
                   </v-chip>
                 </div>
                 <v-row class="mt-2">
-                  <v-btn size="small" text @click="menu = false">Cancel</v-btn>
+                  <v-btn size="small"
+                    text
+                    @click="menu = false">Cancel</v-btn>
                   <v-spacer />
-                  <v-btn size="small" flat tile variant="elevated" color="primary" @click="deploy">
+                  <v-btn size="small"
+                    flat
+                    tile
+                    variant="elevated"
+                    color="primary"
+                    @click="deploy">
                     deploy
                   </v-btn>
                 </v-row>
@@ -125,6 +141,8 @@ export default {
       this.$emit('deploy', this.deployable);
       this.menu = false;
     },
+  },
+  computed: {
     canActivate() {
       return (
         !this.disabled &&
