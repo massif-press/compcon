@@ -44,7 +44,7 @@ class EncounterInstance implements ISaveable {
     data?: IEncounterInstanceData,
     encounter?: Encounter,
     pilots: Pilot[] = [],
-    placeholders: Placeholder[] = []
+    placeholders: Placeholder[] = [],
   ) {
     this._id = data?.id || uuid();
     this._round = data?.round || 1;
@@ -58,7 +58,7 @@ class EncounterInstance implements ISaveable {
     } else {
       if (!encounter) {
         throw new Error(
-          'EncounterInstance constructor requires encounter data if no serialized data is provided.'
+          'EncounterInstance constructor requires encounter data if no serialized data is provided.',
         );
       }
       // store encounter without combatant data
@@ -152,6 +152,51 @@ class EncounterInstance implements ISaveable {
 
   public set Round(value: number) {
     this._round = value;
+  }
+
+  public getTargetsSorted(
+    targetType: 'ally' | 'enemy' | 'self',
+    originSide: 'ally' | 'enemy' | 'neutral',
+  ): CombatantData[] {
+    if (!['ally', 'enemy', 'self'].includes(targetType)) targetType = 'enemy';
+    let targetSide = targetType;
+    if (originSide === 'enemy') {
+      if (targetType === 'ally') targetSide = 'enemy';
+      else if (targetType === 'enemy') targetSide = 'ally';
+    }
+
+    const allTargets: CombatantData[] = [];
+
+    this.Combatants.forEach((combatant) => {
+      allTargets.push(combatant);
+
+      combatant.deployables.forEach((deployable) => {
+        allTargets.push({
+          id: deployable.ID,
+          index: -1,
+          number: -1,
+          type: 'placeholder',
+          side: combatant.side, // Inherit parent's side
+          deployables: [],
+          actor: deployable,
+        } as CombatantData);
+      });
+    });
+
+    return allTargets.sort((a, b) => {
+      // Sort by side first
+      if (a.side !== b.side) {
+        // Prioritize the target side
+        if (a.side === targetSide) return -1;
+        if (b.side === targetSide) return 1;
+
+        // Then sort remaining sides alphabetically
+        return a.side.localeCompare(b.side);
+      }
+
+      // If same side, sort by name
+      return a.actor.Name.localeCompare(b.actor.Name);
+    });
   }
 
   public static Serialize(instance: EncounterInstance): IEncounterInstanceData {

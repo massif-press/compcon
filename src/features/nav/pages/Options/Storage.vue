@@ -1,13 +1,17 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-card-text v-if="size.usage && size.quota" class="flavor-text">
-      <v-progress-linear
-        :model-value="((size.usage / size.quota) * 100).toFixed(3)"
+    <v-card-text v-if="size.usage && size.quota"
+      class="flavor-text">
+      <v-progress-linear :model-value="((size.usage / size.quota) * 100).toFixed(3)"
         height="20"
         class="mb-5"
         tile
         color="primary">
-        <v-chip small tile variant="elevated" color="primary-lighten-5" style="opacity: 0.5">
+        <v-chip small
+          tile
+          variant="elevated"
+          color="primary-lighten-5"
+          style="opacity: 0.5">
           {{ ((size.usage / size.quota) * 100).toFixed(3) }}%
         </v-chip>
       </v-progress-linear>
@@ -20,10 +24,12 @@
       </p>
 
       <div class="mb-4">
-        <cc-heading is-title text="Storage Settings" />
-        <cc-heading is-title small text="Storage Thresholds" />
-        <v-range-slider
-          v-model="storageRange"
+        <cc-heading is-title
+          text="Storage Settings" />
+        <cc-heading is-title
+          small
+          text="Storage Thresholds" />
+        <v-range-slider v-model="storageRange"
           thumb-label
           hide-details
           strict
@@ -47,22 +53,30 @@
       </div>
 
       <div class="mb-8">
-        <cc-heading is-title small text="Auto-delete" />
+        <cc-heading is-title
+          small
+          text="Auto-delete" />
 
-        <cc-select
-          v-model="deleteDays"
+        <cc-select v-model="deleteDays"
           :items="deleteDaySelections"
           hide-details
           density="compact"
           @update:modelValue="updateDeleteDays()" />
         <div class="text-caption text-right text-stark">
-          COMP/CON will permanently delete data after it has been marked as deleted for at least
-          <b class="text-accent">{{ deleteDays }} days.</b>
-          This will not affect items not already marked for deletion.
+          <span v-if="!deleteDays">
+            COMP/CON will <b class="text-accent">never</b> automatically delete data marked for
+            deletion.
+          </span>
+          <span v-else>
+            COMP/CON will permanently delete data after it has been marked as deleted for at least
+            <b class="text-accent">{{ deleteDays }} days.</b>
+            This will not affect items not already marked for deletion.
+          </span>
         </div>
       </div>
     </v-card-text>
-    <v-card-text v-else class="flavor-text">
+    <v-card-text v-else
+      class="flavor-text">
       COMP/CON is unable to access device storage. This may be due to a browser setting or
       extension. COMP/CON will fall back to using local storage, which is limited to 5MB. This may
       result in COMP/CON being unable to save data. Please check your browser settings, or allow
@@ -73,21 +87,23 @@
 
     <v-divider class="my-4" />
 
-    <cc-heading is-title text="Deleted Items (local data only)" />
+    <cc-heading is-title
+      text="Deleted Items (local data only)" />
     <v-card-text>
       <deleted-items />
     </v-card-text>
 
     <v-divider class="my-4" />
 
-    <cc-heading is-title text="User Data" />
+    <cc-heading is-title
+      text="User Data" />
     <user-data-viewer />
 
-    <v-dialog v-model="deleteDialog" width="80%">
+    <v-dialog v-model="deleteDialog"
+      width="80%">
       <template #activator="{ props }">
         <div class="text-center">
-          <cc-button
-            size="large"
+          <cc-button size="large"
             variant="outlined"
             color="error"
             class="my-6"
@@ -98,10 +114,10 @@
           </cc-button>
         </div>
       </template>
-      <v-card flat tile>
+      <v-card flat
+        tile>
         <v-card-text>
-          <v-alert
-            prominent
+          <v-alert prominent
             dark
             color="error"
             icon="mdi-alert-circle"
@@ -124,14 +140,23 @@
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn color="secondary" variant="text" large @click="deleteDialog = false">
+          <v-btn color="secondary"
+            variant="text"
+            large
+            @click="deleteDialog = false">
             Dismiss
           </v-btn>
           <v-spacer />
-          <v-btn color="error" variant="text" @click="deleteAll">
-            <v-icon start size="x-large" icon="mdi-alert-outline" />
+          <v-btn color="error"
+            variant="text"
+            @click="deleteAll">
+            <v-icon start
+              size="x-large"
+              icon="mdi-alert-outline" />
             Delete All User Data
-            <v-icon end size="x-large" icon="mdi-alert-outline" />
+            <v-icon end
+              size="x-large"
+              icon="mdi-alert-outline" />
           </v-btn>
         </v-card-actions>
       </v-card>

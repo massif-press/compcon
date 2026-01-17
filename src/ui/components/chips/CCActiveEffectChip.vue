@@ -258,33 +258,13 @@ export default {
       return ByTier(detail, this.tier);
     },
     getTargetsSorted(target: string): Array<object> {
-      let out = [] as Array<CombatantData>;
       const self = this.encounter.Combatants.find(
         (c: CombatantData) => c.actor.ID === this.owner.ID
       );
-      if (!self) return out;
+      if (!self) return [];
 
-      if (target === 'self')
-        out = [self].concat(
-          this.encounter.Combatants.filter((c: CombatantData) => c.id !== this.owner.id).sort(
-            (a: CombatantData, b: CombatantData) =>
-              a.actor.CombatController.Name.localeCompare(b.actor.CombatController.Name)
-          )
-        );
+      return this.encounter.getTargetsSorted(target, self.side);
 
-      if (self.side === 'enemy' && target === 'enemy') target = 'ally';
-      else if (self.side === 'enemy' && target === 'ally') target = 'enemy';
-
-      out = this.encounter.Combatants.filter((c: CombatantData) => !c.actor.CombatController.IsDestroyed && !c.reinforcement).sort((a: CombatantData, b: CombatantData) => {
-        if (a.side === target && b.side !== target) {
-          return -1;
-        } else if (a.side !== target && b.side === target) {
-          return 1;
-        } else {
-          return a.actor.CombatController.Name.localeCompare(b.actor.CombatController.Name);
-        }
-      });
-      return out;
     },
 
     initialDamage(damage: Damage): number {

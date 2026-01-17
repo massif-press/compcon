@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@kyvg/vue3-notification": "3.4.1",
-    "@massif/lancer-data": "^4.0.0-beta.19",
+    "@massif/lancer-data": "^4.0.0-beta.20",
     "@mdi/font": "7.4.47",
     "@vueup/vue-quill": "^1.2.0",
     "@yeger/vue-masonry-wall": "^5.0.18",

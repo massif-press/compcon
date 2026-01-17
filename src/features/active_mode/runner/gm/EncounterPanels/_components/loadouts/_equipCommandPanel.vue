@@ -185,7 +185,7 @@
     <v-col v-if="item.MaxUses"
       class="px-2 ml-1"
       cols="auto">
-      <v-icon v-for="n in item.MaxUses"
+      <v-icon v-for="n in totalUses"
         :key="n"
         :icon="n > item.Uses ? 'mdi-hexagon-outline' : 'mdi-hexagon'"
         :disabled="item.Destroyed"
@@ -304,6 +304,9 @@ export default {
       if (!this.item?.Barrage) return null;
       return CompendiumStore().Actions.find(x => x.ID === 'act_barrage')
     },
+    totalUses() {
+      return Number(this.item.MaxUses || 0) + Number(this.controller.LimitedBonus || 0);
+    },
   },
   methods: {
     activate(event) {
@@ -312,7 +315,7 @@ export default {
     setUses(n) {
       if (this.item.Uses === 1 && n === 1) {
         this.item.Uses = 0;
-      } else if (this.item.MaxUses && n <= this.item.MaxUses) {
+      } else if (this.totalUses && n <= this.totalUses) {
         this.item.Uses = n;
       }
     },

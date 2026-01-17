@@ -621,6 +621,9 @@ export const UserStore = defineStore('cloud', {
       await this.setUserMetadata();
     },
     async removeOldItems(): Promise<string> {
+      if (!this.User.AutoDeleteDays || this.User.AutoDeleteDays <= 0) {
+        return 'Auto-delete is disabled.\n';
+      }
       const removeThreshold = new Date().setDate(new Date().getDate() - this.User.AutoDeleteDays);
       let out = `removing items older than ${new Date(removeThreshold).toLocaleString()}...\n`;
       const outArr = [] as string[];

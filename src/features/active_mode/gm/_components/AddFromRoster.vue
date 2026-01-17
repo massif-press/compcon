@@ -1,8 +1,8 @@
 <template>
-  <cc-modal title="Add Pilot from Roster" icon="mdi-account-plus">
+  <cc-modal title="Add Pilot from Roster"
+    icon="mdi-account-plus">
     <template #activator="{ open }">
-      <cc-button
-        size="small"
+      <cc-button size="small"
         block
         color="primary"
         tooltip="Add a pilot from your local Pilot Roster"
@@ -11,10 +11,9 @@
         add from roster
       </cc-button>
     </template>
-    <cc-sidebar-layout>
+    <cc-sidebar-layout ref="sidebar">
       <template #sidebar>
-        <v-text-field
-          v-model="search"
+        <v-text-field v-model="search"
           density="compact"
           hide-details
           clearable
@@ -24,34 +23,43 @@
           class="my-1"
           prepend-inner-icon="mdi-magnify" />
 
-        <v-list
-          class="mb-n3"
+        <v-list class="mb-n3"
           style="height: 100%; min-height: calc(100vh - 86px); overflow-y: scroll">
-          <v-list-item v-for="group in Object.keys(pilotsByGroup)" :key="group">
+          <v-list-item v-for="group in Object.keys(pilotsByGroup)"
+            :key="group">
             <v-list-item-subtitle>
-              <v-icon icon="mdi-folder" start size="small" class="mt-n1" />
+              <v-icon icon="mdi-folder"
+                start
+                size="small"
+                class="mt-n1" />
               {{ group || 'No Group' }}
             </v-list-item-subtitle>
             <v-divider />
-            <v-list-item v-for="p in pilotsByGroup[group]" :key="p.ID" @click="selected = p">
+            <v-list-item v-for="p in pilotsByGroup[group]"
+              :key="p.ID"
+              @click="selected = p">
               <div class="heading h3">{{ p.Callsign }}</div>
               <v-divider class="mb-1 mr-4" />
               <div class="text-cc-overline text-disabled">{{ p.Name }}</div>
               <div class="text-cc-overline text-disabled">LL {{ p.Level }}</div>
               <template #prepend>
-                <v-avatar size="64" flat tile class="clipped">
-                  <cc-avatar
-                    v-if="p.PortraitController.Avatar"
+                <v-avatar size="64"
+                  flat
+                  tile
+                  class="clipped">
+                  <cc-avatar v-if="p.PortraitController.Avatar"
                     :avatar="p.PortraitController.Avatar"
                     size="64" />
-                  <cc-img v-else-if="p.Portrait" :src="p.Portrait" height="64" width="64" />
+                  <cc-img v-else-if="p.Portrait"
+                    :src="p.Portrait"
+                    height="64"
+                    width="64" />
                 </v-avatar>
               </template>
               <template #append>
                 <v-tooltip>
                   <template #activator="{ props }">
-                    <cc-button
-                      v-bind="props"
+                    <cc-button v-bind="props"
                       variant="outlined"
                       :icon="!isInEncounter(p) ? 'mdi-plus' : 'mdi-check-bold'"
                       size="small"
@@ -66,10 +74,18 @@
         </v-list>
       </template>
 
-      <div v-if="selected" class="pl-12 pr-3 mb-12 pb-2" style="position: relative">
-        <v-row dense class="mb-2">
-          <v-col cols="auto" style="width: 10vw" class="mt-2">
-            <cc-img v-if="selected.Portrait" :src="selected.Portrait" height="100%" cover />
+      <div v-if="selected"
+        class="pl-12 pr-3 mb-12 pb-2"
+        style="position: relative">
+        <v-row dense
+          class="mb-2">
+          <v-col cols="auto"
+            style="width: 10vw"
+            class="mt-2">
+            <cc-img v-if="selected.Portrait"
+              :src="selected.Portrait"
+              height="100%"
+              cover />
           </v-col>
           <v-col>
             <v-row>
@@ -86,9 +102,11 @@
                   <span class="text-accent">{{ selected.PlayerName || 'Unknown' }}</span>
                 </div>
               </v-col>
-              <v-col cols="auto" class="text-center">
+              <v-col cols="auto"
+                class="text-center">
                 <div class="text-cc-overline text-disabled">License Level</div>
-                <div class="heading h1" style="line-height: 44px">{{ selected.Level }}</div>
+                <div class="heading h1"
+                  style="line-height: 44px">{{ selected.Level }}</div>
               </v-col>
             </v-row>
 
@@ -96,62 +114,76 @@
               <cc-slashes />
               Pilot Combat Stats
             </div>
-            <v-row dense class="mt-1 px-3 py-1 bg-background text-center" justify="space-around">
+            <v-row dense
+              class="mt-1 px-3 py-1 bg-background text-center"
+              justify="space-around">
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">GRIT</div>
-                <v-icon class="ml-1 mt-n1" icon="mdi-star-four-points-outline" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="mdi-star-four-points-outline" />
                 {{ selected.Grit }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">ARMOR</div>
-                <v-icon class="ml-1 mt-n1" icon="mdi-shield-outline" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="mdi-shield-outline" />
                 {{ selected.Armor }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">HIT POINTS</div>
-                <v-icon class="ml-1 mt-n1" icon="mdi-heart" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="mdi-heart" />
                 {{ selected.MaxHP }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">E-DEFENSE</div>
-                <v-icon class="ml-1 mt-n1" icon="cc:e_def" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="cc:e_def" />
                 {{ selected.EDefense }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">EVASION</div>
-                <v-icon class="ml-1 mt-n1" icon="cc:evasion" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="cc:evasion" />
                 {{ selected.Evasion }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">SPEED</div>
-                <v-icon class="ml-1 mt-n1" icon="mdi-arrow-right-bold-hexagon-outline" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="mdi-arrow-right-bold-hexagon-outline" />
                 {{ selected.Speed }}
               </v-col>
             </v-row>
-            <v-row dense class="px-3 pb-1 pt-3 bg-background text-center" justify="space-around">
+            <v-row dense
+              class="px-3 pb-1 pt-3 bg-background text-center"
+              justify="space-around">
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">HULL</div>
-                <v-icon class="ml-1 mt-n1" icon="mdi-alpha-h-box-outline" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="mdi-alpha-h-box-outline" />
                 {{ selected.MechSkillsController.MechSkills.Hull }}
               </v-col>
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">AGILITY</div>
-                <v-icon class="ml-1 mt-n1" icon="mdi-alpha-a-box-outline" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="mdi-alpha-a-box-outline" />
                 {{ selected.MechSkillsController.MechSkills.Agi }}
               </v-col>
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">SYSTEMS</div>
-                <v-icon class="ml-1 mt-n1" icon="mdi-alpha-s-box-outline" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="mdi-alpha-s-box-outline" />
                 {{ selected.MechSkillsController.MechSkills.Sys }}
               </v-col>
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">ENGINEERING</div>
-                <v-icon class="ml-1 mt-n1" icon="mdi-alpha-e-box-outline" />
+                <v-icon class="ml-1 mt-n1"
+                  icon="mdi-alpha-e-box-outline" />
                 {{ selected.MechSkillsController.MechSkills.Eng }}
               </v-col>
             </v-row>
@@ -161,8 +193,7 @@
               Pilot Loadout
             </div>
             <div class="bg-background pa-2 text-center">
-              <cc-item-chip
-                v-for="item in selected.PilotLoadoutController.ActiveLoadout.Items"
+              <cc-item-chip v-for="item in selected.PilotLoadoutController.ActiveLoadout.Items"
                 :key="item.ID"
                 :item="item"
                 class="" />
@@ -172,14 +203,14 @@
               <cc-slashes />
               Pilot Talents
             </div>
-            <v-row dense class="bg-background pa-1" justify="space-around">
-              <v-col
-                cols="auto"
+            <v-row dense
+              class="bg-background pa-1"
+              justify="space-around">
+              <v-col cols="auto"
                 v-for="(talent, i) in selected.TalentsController.Talents"
                 :key="i"
                 class="px-2">
-                <cc-talent
-                  :talent="talent.Talent"
+                <cc-talent :talent="talent.Talent"
                   :rank="talent.Rank"
                   micro
                   hide-locked
@@ -196,12 +227,13 @@
             The active mech will be instantiated for use in this encounter. Once the encounter is
             started, the active mech cannot be changed without resetting the mech's stats
           </cc-tooltip>
-          <v-menu
-            v-if="selected.Mechs.length"
+          <v-menu v-if="selected.Mechs.length"
             :close-on-content-click="true"
             transition="slide-y-transition">
             <template #activator="{ props, isActive }">
-              <v-list-item v-bind="props" class="border-sm" @click="props.onClick($event)">
+              <v-list-item v-bind="props"
+                class="border-sm"
+                @click="props.onClick($event)">
                 <div class="heading h2 text-accent">{{ selected.ActiveMech.Name }}</div>
                 <div class="text-cc-overline text-disabled">
                   {{ selected.ActiveMech.Callsign }}
@@ -209,16 +241,18 @@
                   {{ selected.ActiveMech.Frame.Name }}
                 </div>
                 <template #append>
-                  <v-icon
-                    size="35"
+                  <v-icon size="35"
                     :icon="isActive ? 'mdi-chevron-double-up' : 'mdi-chevron-double-down'" />
                 </template>
               </v-list-item>
             </template>
-            <v-card flat tile>
-              <v-list density="compact" flat tile class="pa-0">
-                <v-list-item
-                  v-for="mech in selected.Mechs"
+            <v-card flat
+              tile>
+              <v-list density="compact"
+                flat
+                tile
+                class="pa-0">
+                <v-list-item v-for="mech in selected.Mechs"
                   :key="mech.ID"
                   class="border-sm"
                   :disabled="mech.ID === selected.ActiveMech.ID"
@@ -233,29 +267,26 @@
               </v-list>
             </v-card>
           </v-menu>
-          <cc-alert
-            v-if="!selected.Mechs.length"
+          <cc-alert v-if="!selected.Mechs.length"
             class="mt-2"
             title="No Mech Data Found"
             icon="mdi-alert">
             <i>Pilot will be instanced without a mech</i>
           </cc-alert>
         </div>
-        <div
-          v-if="selected && selected.Mechs.length"
+        <div v-if="selected && selected.Mechs.length"
           :key="selected?.ActiveMech?.ID"
           class="border-s-sm border-e-sm border-b-sm pa-2">
           <v-row dense>
-            <v-col cols="auto" style="width: 10vw">
-              <cc-img
-                v-if="selected.ActiveMech.Portrait"
+            <v-col cols="auto"
+              style="width: 10vw">
+              <cc-img v-if="selected.ActiveMech.Portrait"
                 :src="selected.ActiveMech.Portrait"
                 height="100%"
                 cover />
             </v-col>
             <v-col>
-              <p
-                v-if="selected.ActiveMech.Notes"
+              <p v-if="selected.ActiveMech.Notes"
                 v-html-safe="selected.ActiveMech.Notes"
                 class="ma-1 pa-1 border-sm" />
 
@@ -263,21 +294,22 @@
                 <cc-slashes />
                 Mech Stats
               </div>
-              <mech-statblock :mech="selected.ActiveMech" :pilot="selected" />
+              <mech-statblock :mech="selected.ActiveMech"
+                :pilot="selected" />
 
               <div>
                 <div class="text-cc-overline text-disabled mt-3">
                   <cc-slashes />
                   Frame Traits
                 </div>
-                <masonry-wall
-                  :items="selected.ActiveMech.Frame.Traits"
+                <masonry-wall :items="selected.ActiveMech.Frame.Traits"
                   :column-width="500"
                   :gap="16"
                   :min-columns="1"
                   :max-columns="2">
                   <template #default="{ item, index }">
-                    <cc-trait-item :trait="item" class="mb-2" />
+                    <cc-trait-item :trait="item"
+                      class="mb-2" />
                   </template>
                 </masonry-wall>
 
@@ -286,14 +318,15 @@
                     <cc-slashes />
                     Core Bonuses
                   </div>
-                  <masonry-wall
-                    :items="selected.CoreBonusController.CoreBonuses"
+                  <masonry-wall :items="selected.CoreBonusController.CoreBonuses"
                     :column-width="500"
                     :gap="16"
                     :min-columns="1"
                     :max-columns="2">
                     <template #default="{ item, index }">
-                      <cc-core-bonus-item :key="item.ID" terse :bonus="item" />
+                      <cc-core-bonus-item :key="item.ID"
+                        terse
+                        :bonus="item" />
                     </template>
                   </masonry-wall>
                 </div>
@@ -302,7 +335,8 @@
                   <cc-slashes />
                   Core System
                 </div>
-                <cc-core-system-panel :frame="selected.ActiveMech.Frame" small />
+                <cc-core-system-panel :frame="selected.ActiveMech.Frame"
+                  small />
 
                 <div class="text-cc-overline text-disabled mt-3">
                   <cc-slashes />
@@ -310,9 +344,8 @@
                   {{ selected.ActiveMech.MechLoadoutController.ActiveLoadout.Name }}
                 </div>
                 <div class="bg-background pa-2">
-                  <cc-item-chip
-                    v-for="item in selected.ActiveMech.MechLoadoutController.ActiveLoadout
-                      .Equipment"
+                  <cc-item-chip v-for="item in selected.ActiveMech.MechLoadoutController.ActiveLoadout
+                    .Equipment"
                     :key="item.ID"
                     :item="item" />
                 </div>
@@ -321,19 +354,18 @@
           </v-row>
           <div style="height: 10px" />
         </div>
-        <div
-          v-if="selected"
+        <div v-if="selected"
           style="
             position: fixed;
             bottom: 8px;
             right: 18px;
             left: 18px;
             padding: 12px;
-            background: rgba(0, 0, 0, 0.8);
-          ">
-          <cc-button
-            :color="isInEncounter(selected) ? 'error' : 'success'"
+          "
+          :style="`left: ${$refs.sidebar.showNav ? 380 : 20}px`">
+          <cc-button :color="isInEncounter(selected) ? 'error' : 'success'"
             size="small"
+            class="border-lg"
             block
             :prepend-icon="isInEncounter(selected) ? 'mdi-minus' : 'mdi-plus'"
             @click="addPilot(selected)">
@@ -342,7 +374,9 @@
         </div>
       </div>
       <div v-else>
-        <v-row justify="center" align="center" style="height: calc(100vh - 60px)">
+        <v-row justify="center"
+          align="center"
+          style="height: calc(100vh - 60px)">
           <v-col cols="auto"><i class="text-disabled">Select a Pilot</i></v-col>
         </v-row>
       </div>

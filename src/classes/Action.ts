@@ -282,6 +282,19 @@ class Action {
     }
   }
 
+  public static getIcon(activation: ActivationType): string {
+    switch (activation) {
+      case ActivationType.Full:
+        return 'mdi-hexagon-slice-6';
+      case ActivationType.Quick:
+        return 'mdi-hexagon-slice-3';
+      case ActivationType.Move:
+        return 'mdi-arrow-right-bold-hexagon-outline';
+      default:
+        return `cc:${activation.toLowerCase().replace(' ', '_')}`;
+    }
+  }
+
   public static CreateDeployAction(d: IDeployableData, origin?: string): Action {
     const a = new Action(
       {
@@ -294,7 +307,7 @@ class Action {
           d.type?.toLowerCase() === 'drone' ? ['deployable', 'drone'] : ['deployable'],
         pilot: d.pilot,
       },
-      origin
+      origin,
     );
     a.Deployable = d;
     return a;

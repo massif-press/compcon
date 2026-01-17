@@ -41,11 +41,12 @@ class Synergy {
   public static Collect(
     location: string,
     container: IFeatureController,
-    item?: CompendiumItem
+    item?: CompendiumItem,
   ): Synergy[] {
+    if (!container.FeatureController) return [];
     let sArr = [
       ...container.FeatureController.Synergies.filter((s) =>
-        s.Locations.includes(location.toLowerCase())
+        s.Locations.includes(location.toLowerCase()),
       ),
     ];
 

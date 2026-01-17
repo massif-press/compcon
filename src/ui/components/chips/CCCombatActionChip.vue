@@ -107,12 +107,12 @@ export default {
     apply() {
       this.owner.CombatController.toggleCombatAction(this.action.Activation);
       this.owner.CombatController.ApplyHeat(this.action.HeatCost || 0);
-      this.$emit('activate');
+      this.$emit('activate', this.action.Cost);
     },
     reset() {
       this.owner.CombatController.ResetActivation(this.action.Activation);
       this.owner.CombatController.ApplyHeat(-this.action.HeatCost || 0);
-      this.$emit('reset');
+      this.$emit('reset', this.action.Cost);
     },
   },
 };

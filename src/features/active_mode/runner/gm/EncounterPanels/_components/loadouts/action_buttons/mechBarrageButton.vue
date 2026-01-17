@@ -168,8 +168,8 @@ export default {
       return this.canActivate && this.canUse;
     },
     superheavySelected() {
-      if (!this.selectedWeapon0) return false;
-      return this.selectedWeapon0.WeaponSize === WeaponSize.Superheavy;
+      if (!this.selectedWeapon0 && !this.presetWeapon) return false;
+      return (this.selectedWeapon0 && this.selectedWeapon0.Size === WeaponSize.Superheavy) || (this.presetWeapon && this.presetWeapon.Size === WeaponSize.Superheavy);
     }
   },
   emits: ['activate'],

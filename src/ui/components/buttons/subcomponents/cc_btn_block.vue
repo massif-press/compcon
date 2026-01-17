@@ -1,10 +1,15 @@
 <template>
-  <v-card tile flat class="top-element pb-1" color="transparent" style="text-transform: uppercase">
-    <v-row dense no-gutters>
+  <v-card tile
+    flat
+    class="top-element pb-1"
+    color="transparent"
+    style="text-transform: uppercase">
+    <v-row dense
+      no-gutters>
       <v-col>
         <span :class="`light ${disabled && 'disabled'} ${size} ${bgColor}`" />
         <v-card
-          :class="`${colorClass} ${sizeStyle} ${disabled && 'disabled'} ${outlined && `border-sm text-${color}`} px-4 mb-n1`"
+          :class="`${colorClass} ${sizeStyle} ${disabled && 'disabled'} ${outlined && `border-sm text-${color}`} px-4 `"
           :style="outlined ? `border-color: ${borderColor}!important;` : ''"
           style="display: flex; justify-content: center; align-items: center"
           tile
@@ -15,41 +20,61 @@
           :href="href"
           :target="target"
           @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-row dense align="center" :class="mobile && 'py-2'" justify="space-around">
+          <v-row dense
+            align="center"
+            :class="mobile && 'py-2'"
+            justify="space-around">
             <v-col cols="auto">
-              <v-icon v-if="prependIcon" :size="iconSize" :icon="prependIcon" start />
+              <v-icon v-if="prependIcon"
+                :size="iconSize"
+                :icon="prependIcon"
+                start />
               <span v-else-if="size !== 'small' && size !== 'x-small'">&nbsp;</span>
             </v-col>
             <v-col :style="`font-size: ${size}`">
               <slot />
-              <div v-if="$slots.subtitle" class="mt-n1"><slot name="subtitle" /></div>
+              <div v-if="$slots.subtitle"
+                class="mt-n1">
+                <slot name="subtitle" />
+              </div>
             </v-col>
-            <v-col v-if="hasInfoContent" cols="auto">
-              <div><slot name="info" /></div>
+            <v-col v-if="hasInfoContent"
+              cols="auto">
+              <div>
+                <slot name="info" />
+              </div>
             </v-col>
-            <v-col v-if="appendIcon" cols="auto">
-              <v-icon :size="iconSize" :icon="appendIcon" start />
+            <v-col v-if="appendIcon"
+              cols="auto">
+              <v-icon :size="iconSize"
+                :icon="appendIcon"
+                start />
             </v-col>
-            <v-col v-if="tooltip" cols="auto">
-              <cc-tooltip :icon="tooltipIcon" :text="tooltip" />
+            <v-col v-if="tooltip"
+              cols="auto">
+              <cc-tooltip :icon="tooltipIcon"
+                :text="tooltip" />
             </v-col>
           </v-row>
         </v-card>
       </v-col>
 
-      <v-col cols="auto" v-if="$slots.options">
-        <v-menu :close-on-content-click="false" offset-y>
+      <v-col cols="auto"
+        class="pa-0"
+        v-if="$slots.options">
+        <v-menu :close-on-content-click="false"
+          offset-y>
           <template #activator="{ props }">
-            <v-btn
-              style="height: 110%; margin-left: -1px; container-type: size"
-              :variant="outlined ? 'outlined' : 'tonal'"
-              :color="outlined ? color : ''"
-              rounded="0"
+            <v-btn style="margin-left: -1px; height: 100%; "
+              :variant="outlined ? 'outlined' : 'elevated'"
+              :color="color"
               icon
+              flat
+              tile
               v-bind="props">
-              <v-icon
-                style="font-size: min(60px, 90cqh)"
-                :icon="optionsIcon || 'mdi-dots-vertical'" />
+              <v-divider vertical />
+              &nbsp;
+              <v-icon :icon="optionsIcon || 'mdi-dots-vertical'" />
             </v-btn>
           </template>
           <slot name="options" />

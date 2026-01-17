@@ -1,14 +1,12 @@
 <template>
-  <cc-alert
-    v-if="mech.CombatController.ReactorDestroyed"
+  <cc-alert v-if="mech.CombatController.ReactorDestroyed"
     title="Mech Destroyed &mdash; Reactor Meltdown"
     icon="mdi-radioactive-circle"
     color="error"
     class="mb-4">
     This mech has suffered a reactor meltdown. It is permanently destroyed and cannot be repaired.
     <div class="text-right">
-      <v-btn
-        size="x-small"
+      <v-btn size="x-small"
         variant="text"
         class="fade-select"
         @click="mech.CombatController.ReactorDestroyed = false">
@@ -17,29 +15,30 @@
     </div>
   </cc-alert>
 
-  <panel-base v-else :encounter-instance="encounterInstance" :item="mech">
+  <panel-base v-else
+    :encounter-instance="encounterInstance"
+    :item="mech">
     <template #name-block>
       <div class="heading h2">{{ mech.Name }}</div>
       <div class="heading h4">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
 
-      <cc-alert
-        v-if="mech.CombatController.AIControl"
+      <cc-alert v-if="mech.CombatController.AIControl"
         title="Under AI Control"
         icon="cc:nhp"
         color="primary"
         class="mr-6">
         <div class="text-center">
-          <div class="heading">{{ aiSystems.map((x) => x.Name).join(' // ') }}</div>
+          <div class="heading">{{aiSystems.map((x) => x.Name).join(' // ')}}</div>
         </div>
       </cc-alert>
 
-      <cc-panel
-        v-if="mech.CombatController.IsInSelfDestruct"
+      <cc-panel v-if="mech.CombatController.IsInSelfDestruct"
         icon="mdi-alert-outline"
         class="mr-6"
         title-color="error"
         title="Self Destruct Initiated">
-        <div v-if="turnDiff(mech.CombatController.SelfDestructRound) > 0" class="text-center mb-2">
+        <div v-if="turnDiff(mech.CombatController.SelfDestructRound) > 0"
+          class="text-center mb-2">
           This mech can self-destruct at the end of this turn. (PC Discretion, must self-destruct by
           Round
           {{ mech.CombatController.SelfDestructRound }})
@@ -47,13 +46,17 @@
         <div v-else-if="turnDiff(mech.CombatController.SelfDestructRound) === 0">
           This mech will self-destruct at the end of this turn.
         </div>
-        <cc-dialog title="Self Destruct" icon="mdi-alert-outline" :close-on-click="false">
+        <cc-dialog title="Self Destruct"
+          icon="mdi-alert-outline"
+          :close-on-click="false">
           <template #activator="{ open }">
-            <cc-button size="small" block color="error" @click="open">Self-Destruct</cc-button>
+            <cc-button size="small"
+              block
+              color="error"
+              @click="open">Self-Destruct</cc-button>
           </template>
           <template #default="{ close }">
-            <menu-input
-              :active-effect="SelfDestructAction"
+            <menu-input :active-effect="SelfDestructAction"
               :encounter="encounterInstance"
               :owner="mech"
               @apply="SD_apply(close)" />
@@ -65,8 +68,7 @@
     <template #action-palette>
       <v-row no-gutters>
         <v-col>
-          <v-btn
-            flat
+          <v-btn flat
             tile
             size="small"
             block
@@ -76,8 +78,7 @@
         </v-col>
         <v-divider vertical />
         <v-col>
-          <v-btn
-            flat
+          <v-btn flat
             tile
             size="small"
             block
@@ -87,8 +88,7 @@
         </v-col>
         <v-divider vertical />
         <v-col>
-          <v-btn
-            flat
+          <v-btn flat
             tile
             size="small"
             block
@@ -98,8 +98,7 @@
         </v-col>
         <v-divider vertical />
         <v-col>
-          <v-btn
-            flat
+          <v-btn flat
             tile
             size="small"
             block
@@ -109,8 +108,7 @@
         </v-col>
         <v-divider vertical />
         <v-col>
-          <v-btn
-            v-if="mech.MechLoadoutController.ActiveLoadout.AICount"
+          <v-btn v-if="mech.MechLoadoutController.ActiveLoadout.AICount"
             flat
             tile
             size="small"
@@ -123,37 +121,47 @@
     </template>
 
     <template #actions>
-      <mech-actions-panel :controller="mech.CombatController" :encounter="encounterInstance" />
+      <mech-actions-panel :controller="mech.CombatController"
+        :encounter="encounterInstance" />
     </template>
 
-    <v-expansion-panels class="mt-2" multiple flat tile bg-color="background" variant="accordion">
+    <v-expansion-panels class="mt-2"
+      multiple
+      flat
+      tile
+      bg-color="background"
+      variant="accordion">
       <v-expansion-panel class="py-0">
         <v-expansion-panel-title class="text-cc-overline py-0">
           <div class="text-cc-overline">
-            <v-icon icon="cc:trait" class="mt-n1" start />
+            <v-icon icon="cc:trait"
+              class="mt-n1"
+              start />
             Frame Traits ({{ mech.Frame.Traits.length }})
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall
-            :items="mech.Frame.Traits"
+          <masonry-wall :items="mech.Frame.Traits"
             :column-width="500"
             :gap="8"
             :min-columns="1"
             :max-columns="2">
             <template #default="{ item, index }">
-              <cc-trait-item :trait="item" color="primary" style="height: 100%" combat>
+              <cc-trait-item :trait="item"
+                color="primary"
+                style="height: 100%"
+                combat>
                 <template #combat>
-                  <div v-if="item.Actions?.length" class="mb-2 mt-1">
-                    <cc-combat-action-chip
-                      v-for="a in item.Actions"
+                  <div v-if="item.Actions?.length"
+                    class="mb-2 mt-1">
+                    <cc-combat-action-chip v-for="a in item.Actions"
                       :action="a"
                       :owner="mech"
                       :encounter="encounterInstance" />
                   </div>
-                  <div v-if="item.Deployables?.length" class="mb-2">
-                    <deploy-button
-                      v-for="d in item.Deployables"
+                  <div v-if="item.Deployables?.length"
+                    class="mb-2">
+                    <deploy-button v-for="d in item.Deployables"
                       :deployable="d"
                       :actor="mech"
                       @deploy="$emit('deploy', d)" />
@@ -168,30 +176,34 @@
       <v-expansion-panel v-if="mech.Parent.CoreBonusController.CoreBonuses.length">
         <v-expansion-panel-title class="text-cc-overline">
           <div class="text-cc-overline">
-            <v-icon icon="cc:corebonus" class="mt-n1" start />
+            <v-icon icon="cc:corebonus"
+              class="mt-n1"
+              start />
             Core Bonuses ({{ mech.Parent.CoreBonusController.CoreBonuses.length }})
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall
-            :items="mech.Parent.CoreBonusController.CoreBonuses"
+          <masonry-wall :items="mech.Parent.CoreBonusController.CoreBonuses"
             :column-width="500"
             :gap="8"
             :min-columns="1"
             :max-columns="2">
             <template #default="{ item, index }">
-              <cc-core-bonus-item :key="item.ID" terse :bonus="item" combat>
+              <cc-core-bonus-item :key="item.ID"
+                terse
+                :bonus="item"
+                combat>
                 <template #combat>
-                  <div v-if="item.Actions?.length" class="mb-2 mt-1">
-                    <cc-combat-action-chip
-                      v-for="a in item.Actions"
+                  <div v-if="item.Actions?.length"
+                    class="mb-2 mt-1">
+                    <cc-combat-action-chip v-for="a in item.Actions"
                       :action="a"
                       :owner="mech"
                       :encounter="encounterInstance" />
                   </div>
-                  <div v-if="item.Deployables?.length" class="mb-2">
-                    <deploy-button
-                      v-for="d in item.Deployables"
+                  <div v-if="item.Deployables?.length"
+                    class="mb-2">
+                    <deploy-button v-for="d in item.Deployables"
                       :deployable="d"
                       :actor="mech"
                       @deploy="$emit('deploy', d)" />
@@ -206,36 +218,36 @@
       <v-expansion-panel>
         <v-expansion-panel-title class="text-cc-overline">
           <div class="text-cc-overline">
-            <v-icon icon="cc:talent" class="mt-n1" start />
+            <v-icon icon="cc:talent"
+              class="mt-n1"
+              start />
             Pilot Talents ({{ mech.Parent.TalentsController.Talents.length }})
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall
-            :items="mech.Parent.TalentsController.Talents"
+          <masonry-wall :items="mech.Parent.TalentsController.Talents"
             :column-width="500"
             :gap="8"
             :min-columns="1"
             :max-columns="2">
             <template #default="{ item, index }">
-              <cc-talent
-                rank-view
+              <cc-talent rank-view
                 :key="item.Talent.ID"
                 :talent="item.Talent"
                 :rank="item.Rank"
                 hide-locked
                 hide-change>
                 <template #combat>
-                  <div v-if="item.Talent.AllActions?.length" class="mb-2 mt-1">
-                    <cc-combat-action-chip
-                      v-for="a in item.Talent.AllActions"
+                  <div v-if="item.Talent.AllActions?.length"
+                    class="mb-2 mt-1">
+                    <cc-combat-action-chip v-for="a in item.Talent.AllActions"
                       :action="a"
                       :owner="mech"
                       :encounter="encounterInstance" />
                   </div>
-                  <div v-if="item.Talent.AllDeployables?.length" class="mb-2">
-                    <deploy-button
-                      v-for="d in item.Talent.AllDeployables"
+                  <div v-if="item.Talent.AllDeployables?.length"
+                    class="mb-2">
+                    <deploy-button v-for="d in item.Talent.AllDeployables"
                       :deployable="d"
                       :actor="mech"
                       @deploy="$emit('deploy', d)" />
@@ -249,11 +261,12 @@
     </v-expansion-panels>
 
     <div class="text-cc-overline mt-4 text-disabled">Core</div>
-    <mech-core-panel :mech="mech" :encounter-instance="encounterInstance" />
+    <mech-core-panel :mech="mech"
+      :encounter-instance="encounterInstance"
+      @deploy="deploy($event)" />
 
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
-    <mech-combat-loadout
-      :encounter-instance="encounterInstance"
+    <mech-combat-loadout :encounter-instance="encounterInstance"
       :mech="mech"
       @deploy="deploy($event)" />
   </panel-base>
@@ -417,12 +430,10 @@ export default {
 
 <style scoped>
 .bg-stripes {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(249, 219, 78, 0.5),
-    rgba(249, 219, 78, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 20px
-  );
+  background: repeating-linear-gradient(-45deg,
+      rgba(249, 219, 78, 0.5),
+      rgba(249, 219, 78, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 20px);
 }
 </style>

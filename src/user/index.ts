@@ -68,7 +68,7 @@ class UserProfile {
   private _logLevel: 'debug' | 'info' | 'warn' | 'error' = 'warn';
   private _storageWarning: number = 40;
   private _storageMax: number = 60;
-  private _autoDeleteDays: number = 30;
+  private _autoDeleteDays: number = 0;
 
   public constructor(id?: string) {
     this.ID = id || uuid();

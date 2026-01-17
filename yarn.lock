@@ -1652,10 +1652,10 @@
   resolved "https://registry.yarnpkg.com/@kyvg/vue3-notification/-/vue3-notification-3.4.1.tgz#0a80b2db784cc41ba6279c208a9e653ce70abaad"
   integrity sha512-WhTWCbF36JHLJR5UdKmJF7KXGOGVy4tLeaJuKTHZhwttZWnbF9w1/c2d32tvCSwY9CdeX/n9uoaKWLMKK3vOyg==
 
-"@massif/lancer-data@^4.0.0-beta.19":
-  version "4.0.0-beta.19"
-  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-4.0.0-beta.19.tgz#b17f17d7bd3a954d68a1253acb2d6cab0e36b79c"
-  integrity sha512-h20Ch8M5hY8XSJ02K9YoBC2b+/3iSPfXAF7NeoIAIdLkJ+5LkRR9zpzxUaZjrd2juax3uEx2LSrPydK1dhPBPA==
+"@massif/lancer-data@^4.0.0-beta.20":
+  version "4.0.0-beta.20"
+  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-4.0.0-beta.20.tgz#cd4713f0f9f60e2ffe74e1ae6301a0ea2fe3dd9e"
+  integrity sha512-Deu5d2nKFYwYyCDuGd6XsaWWIOiDTCImaQO43A6Bdln3/M0Pli3Rd/HgqrG+ts8d+aRzsCsWZsLGjXS2r1dB0Q==
 
 "@mdi/font@7.4.47":
   version "7.4.47"

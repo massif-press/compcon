@@ -1,15 +1,15 @@
 <template>
-  <v-card flat tile>
-    <v-row
-      v-if="item.Destroyed"
+  <v-card flat
+    tile>
+    <v-row v-if="item.Destroyed"
       style="position: absolute; top: 0; left: 0; right: 0; bottom: -13px; z-index: 1; opacity: 0.9"
       class="bg-panel text-center">
-      <v-col class="d-flex justify-center align-center heading h3" style="letter-spacing: 9px">
+      <v-col class="d-flex justify-center align-center heading h3"
+        style="letter-spacing: 9px">
         EQUIPMENT DESTROYED
       </v-col>
     </v-row>
-    <v-row
-      align="center"
+    <v-row align="center"
       no-gutters
       justify="end"
       class="pr-1"
@@ -25,25 +25,33 @@
       </v-col>
 
       <v-col cols="auto">
-        <cc-range-element v-if="item.Range" small :range="item.Range" />
-        <cc-slashes v-if="item.Range && item.Damage" class="pr-1" />
-        <cc-damage-element
-          v-if="item.Damage"
+        <cc-range-element v-if="item.Range"
+          small
+          :range="item.Range" />
+        <cc-slashes v-if="item.Range && item.Damage"
+          class="pr-1" />
+        <cc-damage-element v-if="item.Damage"
           small
           :damage="item.Damage"
           :type-override="item.DamageTypeOverride" />
       </v-col>
     </v-row>
-    <div class="pa-0" style="position: relative" :style="item.Used ? 'opacity: 0.4' : ''">
+    <div class="pa-0"
+      style="position: relative"
+      :style="item.Used ? 'opacity: 0.4' : ''">
       <v-card-text class="pa-0">
-        <v-card v-if="item?.FlavorDescription" tile color="panel" class="px-2 py-1 mb-2 clipped">
-          <p v-html-safe="item.FlavorDescription" style="white-space: pre-wrap" />
+        <v-card v-if="item?.FlavorDescription"
+          tile
+          color="panel"
+          class="px-2 py-1 mb-2 clipped">
+          <p v-html-safe="item.FlavorDescription"
+            style="white-space: pre-wrap" />
         </v-card>
 
-        <div v-if="item" class="pt-1">
+        <div v-if="item"
+          class="pt-1">
           <div>
-            <on-element
-              v-for="action in ['hit', 'crit', 'attack']"
+            <on-element v-for="action in ['hit', 'crit', 'attack']"
               :profile="item"
               :action="action" />
           </div>
@@ -51,44 +59,52 @@
 
         <div v-if="item">
           <div v-if="item.Effect">
-            <p v-html-safe="item.Effect" class="mb-1 px-2" />
+            <p v-html-safe="item.Effect"
+              class="mb-1 px-2" />
           </div>
 
-          <div v-if="item.Actions?.length" class="mb-2 mt-1">
-            <cc-combat-action-chip
-              v-for="a in item.Actions"
+          <div v-if="item.Actions?.length"
+            class="mb-2 mt-1">
+            <cc-combat-action-chip v-for="a in item.Actions"
               :action="a"
               :owner="pilot"
+              @activate="handleActivation($event)"
+              @reset="handleRefund($event)"
               :encounter="encounter">
               <template #icon>
-                <v-tooltip location="top" text="Equipment Action">
+                <v-tooltip location="top"
+                  text="Equipment Action">
                   <template #activator="{ props }">
-                    <v-icon v-bind="props" icon="cc:mechweapon" />
+                    <v-icon v-bind="props"
+                      icon="cc:mechweapon" />
                   </template>
                 </v-tooltip>
               </template>
             </cc-combat-action-chip>
           </div>
 
-          <div v-if="item.Deployables?.length" class="mb-2">
-            <deploy-button
-              v-for="d in item.Deployables"
+          <div v-if="item.Deployables?.length"
+            class="mb-2">
+            <deploy-button v-for="d in item.Deployables"
               :deployable="d"
               :actor="pilot"
-              @deploy="$emit('deploy', d)" />
+              @deploy="handleDeploy(d)" />
           </div>
 
-          <v-row dense align="center">
+          <v-row dense
+            align="center">
             <v-col cols="auto">
-              <cc-tags
-                v-if="item.Tags"
+              <cc-tags v-if="item.Tags"
                 :tags="item.Tags"
                 color="pilot"
                 :bonus="pilot.LimitedBonus" />
             </v-col>
 
-            <v-col cols="auto" class="ml-auto mr-4">
-              <cc-bonus v-for="b in item.Bonuses" :bonus="b" chip />
+            <v-col cols="auto"
+              class="ml-auto mr-4">
+              <cc-bonus v-for="b in item.Bonuses"
+                :bonus="b"
+                chip />
 
               <!-- <cc-synergy-display :item="item" :location="synergyLocation" :mech="mech" large /> -->
             </v-col>
@@ -96,7 +112,9 @@
         </div>
       </v-card-text>
     </div>
-    <equip-command-panel :controller="pilot.CombatController" :encounter="encounter" :item="item" />
+    <equip-command-panel :controller="pilot.CombatController"
+      :encounter="encounter"
+      :item="item" />
   </v-card>
 </template>
 
@@ -193,6 +211,27 @@ export default {
         return;
       }
       this.$emit('selector-open');
+    },
+    handleActivation(cost) {
+      if (cost && this.item.MaxUses) {
+        this.item.Uses = (this.item.Uses || 0) + cost;
+      }
+    },
+    handleRefund(cost) {
+      if (cost && this.item.MaxUses) {
+        this.item.Uses = (this.item.Uses || 0) - cost;
+      }
+      if (this.item.Uses < 0) this.item.Uses = 0;
+    },
+    handleDeploy(deployable) {
+      if (this.item.MaxUses) {
+        this.item.Uses = (this.item.Uses || 0) + deployable.Cost || 1;
+      }
+      const inst = deployable.Instances || 1;
+      for (let index = 0; index < inst; index++) {
+        this.$emit('deploy', deployable);
+      }
+
     },
   },
 };

@@ -246,30 +246,12 @@ export default {
       this.inputsReady[key] = isReady;
     },
     getTargetsSorted(target) {
-      let out = [];
       const self = this.encounter.Combatants.find(
-        (c) => c.actor.CombatController.ActiveActor.ID === this.controller.ActiveActor.ID
+        (c) => c.actor.ID === this.owner.ID
       );
+      if (!self) return [];
 
-      if (!self) return out;
-
-      if (self.side === 'enemy' && target === 'enemy') target = 'ally';
-      else if (self.side === 'enemy' && target === 'ally') target = 'enemy';
-
-      out = [...this.encounter.Combatants].filter((c) => !c.actor.CombatController.IsDestroyed && !c.reinforcement).sort((a, b) => {
-        if (target === 'self') {
-          if (a.actor.CombatController.ActiveActor.ID === this.controller.ActiveActor.ID) return -1;
-          if (b.actor.CombatController.ActiveActor.ID === this.controller.ActiveActor.ID) return 1;
-        }
-        if (a.side === target && b.side !== target) {
-          return -1;
-        } else if (a.side !== target && b.side === target) {
-          return 1;
-        } else {
-          return a.actor.CombatController.Name.localeCompare(b.actor.CombatController.Name);
-        }
-      });
-      return out;
+      return this.encounter.getTargetsSorted(target, self.side);
     },
     getDamageEffect(damage, index) {
       damage.Owner = this.controller.Parent;

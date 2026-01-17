@@ -28,11 +28,14 @@ class Bonus {
   public readonly WeaponSizes: WeaponSize[];
   public readonly Overwrite: boolean;
   public readonly Replace: boolean;
+  public readonly PerPc: boolean = false;
 
   public constructor(data: IBonusData, source: string) {
     const entry = dict.find((x) => x.id === data.id);
     this.ID = data.id;
     this.Source = source;
+    this.PerPc = data.id.includes('_pct') || false;
+
     this.Value = data.val;
     this.Accuracy = data.accuracy || 0;
     this.DamageTypes = data.damage_types || [];
@@ -41,6 +44,7 @@ class Bonus {
     this.WeaponSizes = data.weapon_sizes || [];
     this.Overwrite = data.overwrite || false;
     this.Replace = data.replace || false;
+
     this.Title = entry ? entry.title : 'UNKNOWN BONUS';
     this.Detail = entry ? this.parseDetail(entry.detail) : 'UNKNOWN BONUS';
   }
@@ -59,7 +63,7 @@ class Bonus {
       str = str.replace(/{INC_DEC}/g, '');
       str = str.replace(
         /by {VAL}/g,
-        `take ${Math.abs(this.Accuracy)} ${this.Accuracy > 0 ? 'Accuracy' : 'Difficulty'}`
+        `take ${Math.abs(this.Accuracy)} ${this.Accuracy > 0 ? 'Accuracy' : 'Difficulty'}`,
       );
       return str;
     }
@@ -68,23 +72,23 @@ class Bonus {
 
     str = str.replace(
       /{INC_DEC}/g,
-      !isNaN(Number(rep)) && Number(rep) > -1 ? 'Increases' : 'Decreases'
+      !isNaN(Number(rep)) && Number(rep) > -1 ? 'Increases' : 'Decreases',
     );
     str = str.replace(
       /{RANGE_TYPES}/g,
-      ` ${this.RangeTypes.length ? this.RangeTypes.join('/').toUpperCase() : ''}`
+      ` ${this.RangeTypes.length ? this.RangeTypes.join('/').toUpperCase() : ''}`,
     );
     str = str.replace(
       /{DAMAGE_TYPES}/g,
-      ` ${this.DamageTypes.length ? this.DamageTypes.join('/').toUpperCase() : ''}`
+      ` ${this.DamageTypes.length ? this.DamageTypes.join('/').toUpperCase() : ''}`,
     );
     str = str.replace(
       /{WEAPON_TYPES}/g,
-      ` ${this.WeaponTypes.length ? this.WeaponTypes.join('/').toUpperCase() : ''}`
+      ` ${this.WeaponTypes.length ? this.WeaponTypes.join('/').toUpperCase() : ''}`,
     );
     str = str.replace(
       /{WEAPON_SIZES}/g,
-      ` ${this.WeaponSizes.length ? this.WeaponSizes.join('/').toUpperCase() : ''}`
+      ` ${this.WeaponSizes.length ? this.WeaponSizes.join('/').toUpperCase() : ''}`,
     );
 
     return str;
@@ -133,7 +137,7 @@ class Bonus {
     if (bArr.some((b) => b.Overwrite)) {
       bArr = bArr.filter((x) => x.Overwrite);
       return (bArr as any[]).reduce((prev, current) =>
-        +prev.Value > +current.Value ? prev : current
+        +prev.Value > +current.Value ? prev : current,
       ).Value;
     }
     return bArr.reduce((sum, bonus) => sum + this.Evaluate(bonus, source), 0);
@@ -152,7 +156,7 @@ class Bonus {
 
   public static Contributors(
     id: string,
-    controller: IFeatureController
+    controller: IFeatureController,
   ): { name: string; val: number }[] {
     return controller.FeatureController.Bonuses.filter((x) => x.ID === id).map((b) => ({
       name: b.Source,
