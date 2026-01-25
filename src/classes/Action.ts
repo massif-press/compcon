@@ -9,10 +9,16 @@ import { ActiveEffect, IActiveEffectData } from './components/feature/active_eff
 import {
   EffectSpecial,
   IEffectSpecialData,
-} from './components/feature/active_effects/EffectSpecial';
-import { EffectOther, IEffectOtherData } from './components/feature/active_effects/EffectOther';
-import { EffectResist, IEffectResistData } from './components/feature/active_effects/EffectResist';
-import { EffectStatus } from './components/feature/active_effects/EffectStatus';
+} from './components/feature/active_effects/effect_subtype/EffectSpecial';
+import {
+  EffectOther,
+  IEffectOtherData,
+} from './components/feature/active_effects/effect_subtype/EffectOther';
+import {
+  EffectResist,
+  IEffectResistData,
+} from './components/feature/active_effects/effect_subtype/EffectResist';
+import { EffectStatus } from './components/feature/active_effects/effect_subtype/EffectStatus';
 import { BonusDamage, IBonusDamageData } from './components/feature/active_effects/BonusDamage';
 
 interface IActionData {

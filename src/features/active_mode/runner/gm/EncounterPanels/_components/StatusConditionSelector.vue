@@ -2,21 +2,21 @@
   <div>
     <div class="text-cc-overline text-disabled">Statuses / Conditions</div>
     <v-row dense>
-      <v-col
-        v-for="status in applicableStatuses.filter((x) => x.StatusType === 'Status')"
+      <v-col v-for="status in applicableStatuses.filter((x) => x.StatusType === 'Status')"
         :key="`${isPilot}_${status.ID}`">
-        <v-tooltip :open-delay="400" location="top" max-width="300">
+        <v-tooltip :open-delay="400"
+          location="top"
+          max-width="300">
           <template #activator="{ props }">
-            <v-card
-              v-bind="props"
-              :color="
-                controller.Statuses.some((s) => s.status.ID === status.ID) ? 'primary' : 'panel'
-              "
+            <v-card v-bind="props"
+              :color="controller.Statuses.some((s) => s.status.ID === status.ID) ? 'primary' : 'panel'
+                "
               class="px-2 py-1 text-center"
               flat
               tile
               @click="setStatus(status)">
-              <v-icon :icon="status.Icon" size="35" />
+              <v-icon :icon="status.Icon"
+                size="35" />
             </v-card>
           </template>
           <div class="heading h3">{{ status.Name }}</div>
@@ -26,26 +26,25 @@
     </v-row>
 
     <v-row dense>
-      <v-col
-        v-for="status in applicableStatuses.filter((x) => x.StatusType === 'Condition')"
+      <v-col v-for="status in applicableStatuses.filter((x) => x.StatusType === 'Condition')"
         :key="`${isPilot}_${status.ID}`">
-        <v-tooltip :open-delay="400" location="top" max-width="300">
+        <v-tooltip :open-delay="400"
+          location="top"
+          max-width="300">
           <template #activator="{ props }">
-            <v-card
-              v-bind="props"
-              :color="
-                controller.Statuses.some((s) => s.status.ID === status.ID) ? 'primary' : 'panel'
-              "
+            <v-card v-bind="props"
+              :color="controller.Statuses.some((s) => s.status.ID === status.ID) ? 'primary' : 'panel'
+                "
               class="px-2 py-1 text-center"
               flat
               tile
               @click="setStatus(status)">
-              <v-icon :icon="status.Icon" size="35" />
+              <v-icon :icon="status.Icon"
+                size="35" />
             </v-card>
           </template>
           <div class="heading h3">{{ status.Name }}</div>
-          <v-card
-            v-if="appliedStatus(status)"
+          <v-card v-if="appliedStatus(status)"
             flat
             tile
             class="pa-1 text-center text-cc-overline"
@@ -58,9 +57,9 @@
     </v-row>
 
     <v-scroll-y-reverse-transition>
-      <div v-if="special.length" class="my-1">
-        <v-card
-          v-for="cs in special"
+      <div v-if="special.length"
+        class="my-1">
+        <v-card v-for="cs in special"
           :key="cs.ID"
           flat
           tile
@@ -70,19 +69,20 @@
             <v-icon icon="mdi-star-four-points-circle-outline" />
             {{ cs.status.Attribute }}
           </div>
-          <v-row no-gutters align="center">
+          <v-row no-gutters
+            align="center">
             <v-col>
               <div class="text-cc-overline pl-4 py-1">
                 {{ cs.status.Detail }}
               </div>
             </v-col>
             <v-col cols="auto">
-              <v-btn
-                flat
+              <v-btn flat
                 tile
                 size="x-small"
                 @click="controller.RemoveCustomStatus(cs.status.Attribute)">
-                <v-icon icon="mdi-close" size="22" />
+                <v-icon icon="mdi-close"
+                  size="22" />
               </v-btn>
             </v-col>
           </v-row>
@@ -91,12 +91,13 @@
     </v-scroll-y-reverse-transition>
 
     <div class="top-element">
-      <v-row no-gutters justify="end">
+      <v-row no-gutters
+        justify="end">
         <v-col cols="auto">
-          <v-menu :close-on-content-click="false" offset-y>
+          <v-menu :close-on-content-click="false"
+            offset-y>
             <template #activator="{ props }">
-              <v-btn
-                v-bind="props"
+              <v-btn v-bind="props"
                 size="x-small"
                 color="exotic"
                 class="mt-1"
@@ -110,14 +111,12 @@
 
             <v-card>
               <v-card-text>
-                <v-text-field
-                  v-model="customStatus"
+                <v-text-field v-model="customStatus"
                   label="Custom Status Name"
                   variant="outlined"
                   dense
                   hide-details />
-                <v-btn
-                  flat
+                <v-btn flat
                   tile
                   color="primary"
                   class="mt-2"
@@ -136,7 +135,7 @@
 <script>
 import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
-import { EffectDurationText } from '@/classes/components/feature/active_effects/EffectDuration';
+import { EffectDurationText } from '@/classes/components/feature/active_effects/effect_subtype/EffectDuration';
 import BaseTargetSelector from '@/ui/components/chips/_activeeffect/_shared/BaseTargetSelector.vue';
 
 export default {

@@ -4,11 +4,7 @@ import { CombatantData, Encounter, IEncounterData } from './Encounter';
 import { PilotData } from '@/interface';
 import { Deployable, Pilot } from '@/class';
 import { IPlaceholderData, Placeholder } from './Placeholder';
-import { ICombatant } from '../components/combat/ICombatant';
-import {
-  DeployableInstance,
-  IDeployableData,
-} from '../components/feature/deployable/DeployableInstance';
+import { DeployableInstance } from '../components/feature/deployable/DeployableInstance';
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance';
@@ -157,6 +153,7 @@ class EncounterInstance implements ISaveable {
   public getTargetsSorted(
     targetType: 'ally' | 'enemy' | 'self',
     originSide: 'ally' | 'enemy' | 'neutral',
+    self_id?: string,
   ): CombatantData[] {
     if (!['ally', 'enemy', 'self'].includes(targetType)) targetType = 'enemy';
     let targetSide = targetType;
@@ -184,6 +181,12 @@ class EncounterInstance implements ISaveable {
     });
 
     return allTargets.sort((a, b) => {
+      // if targetType is self, make the combatant with the same ID as origin come first
+      if (targetType === 'self' && self_id) {
+        if (a.id === self_id) return -1;
+        if (b.id === self_id) return 1;
+      }
+
       // Sort by side first
       if (a.side !== b.side) {
         // Prioritize the target side

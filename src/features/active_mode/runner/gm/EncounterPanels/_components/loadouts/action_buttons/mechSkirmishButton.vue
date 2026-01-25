@@ -4,7 +4,8 @@
     :title="action.Name"
     :close-on-click="false"
     min-width="70vw"
-    max-width="80vw">
+    max-width="80vw"
+    no-gutters>
     <template #activator="{ open }">
       <v-btn block
         flat
@@ -13,8 +14,7 @@
         :color="available ? action.Color : 'panel'"
         @click="open">
         <span class="ml-1">
-          <v-icon v-bind="props"
-            :icon="action.Icon"
+          <v-icon :icon="action.Icon"
             :color="available ? '' : 'error'"
             start />
           <v-tooltip v-if="!available"
@@ -72,58 +72,160 @@
         :key="b.ID"
         expanded
         :bonus="b"
-        :mech="controller.Parent"
+        :mech="owner.actor.CombatController.Parent"
         :encounter="encounter" />
 
-      <mech-attack-internal ref="attackInternal"
-        :controller="controller"
-        :encounter="encounter"
-        :preset-weapon="presetWeapon"
-        @weapon-changed="onWeaponChanged"
-        @damage-staged="onDamageStaged"
-        @heat-staged="onHeatStaged"
-        @ready-changed="(isReady) => attackInternalReadyState = isReady" />
-      <v-divider class="my-4" />
+      <v-card flat
+        tile>
 
-      <menu-input hide-input
-        :key="controller.ID"
-        :active-effect="action"
-        :encounter="encounter"
-        :owner="controller.Parent"
-        :close="close"
-        :override-has-mandatory-inputs="attackInternalReady"
-        @apply="apply(close)"
-        @reset="reset"
-        @stage="stage" />
-      <div v-if="totalHeat"
-        class="text-right">
-        <v-tooltip location="top">
-          <template #activator="{ props }">
-            <cc-chip v-bind="props"
-              bg-color="damage--heat"
-              class="mr-4">
-              <v-icon icon="cc:heat" />
-              +{{ totalHeat }} Heat (Self)
-            </cc-chip>
-          </template>
-          <div class="text-center pa-2">
-            + {{ finalHeatData.heatSelf }} <v-icon icon="cc:heat"
-              color="damage--heat" /> from Heat (self)
-            <br />
-            + {{ finalHeatData.overkillHeat }} <v-icon icon="cc:heat"
-              color="damage--heat" /> from Overkill
+        <cc-synergy-display v-if="selectedWeapon"
+          location="attack"
+          :mech="controller.Parent"
+          alert />
+
+        <div v-if="!presetWeapon"
+          class="text-cc-overline text-disabled pl-3 py-2">
+          select weapon
+        </div>
+        <v-row dense
+          align="center"
+          class="bg-panel heading h3 pb-1 px-3">
+          <v-divider v-if="presetWeapon"
+            class="my-1 " />
+          <v-col v-if="!presetWeapon">
+            <cc-select v-model="selectedWeapon"
+              :items="skirmishWeapons"
+              bg-color="background"
+              color="primary"
+              return-object
+              item-title="Name"
+              @update:model-value="reset()" />
+
+          </v-col>
+          <v-col v-else-if="selectedWeapon">
+            <v-icon icon="cc:weapon"
+              class="ml-4 mt-n1" />
+            {{ selectedWeapon.Name }}
+          </v-col>
+          <v-col v-if="selectedWeapon"
+            cols="auto">
+            <cc-tags :tags="selectedWeapon.Tags" />
+          </v-col>
+          <v-col v-if="selectedWeapon?.Mod"
+            cols="auto">
+            <cc-tags :tags="selectedWeapon.Mod!.AddedTags"
+              color="mod" />
+          </v-col>
+          <v-col v-if="selectedWeapon"
+            cols="auto">
+            <v-menu open-on-hover
+              max-width="600px">
+              <template #activator="{ props }">
+                <v-icon icon="mdi-information-outline"
+                  v-bind="props" />
+              </template>
+              <v-card class="pt-2 pb-4 px-4">
+                <cc-item-card :item="selectedWeapon" />
+              </v-card>
+            </v-menu>
+          </v-col>
+        </v-row>
+
+        <div class="px-6">
+
+          <cc-synergy-display v-if="selectedWeapon"
+            :item="selectedWeapon"
+            location="weapon"
+            :mech="controller.Parent"
+            alert />
+
+          <mech-weapon-attack v-if="selectedWeapon && event"
+            :event="<WeaponAttackEvent>event"
+            :owner="owner"
+            :encounter="encounter"
+            :profile="<WeaponProfile>event.Weapon"
+            @weapon-changed="onWeaponChanged" />
+
+          <div v-if="auxEvents && auxEvents.length"
+            class="mt-4">
+            <v-divider class="my-4" />
+            <div class="text-cc-overline text-disabled mb-1">
+              additional {{ selectedMount.Name }} aux weapons
+            </div>
+            <div v-for="(aux, aidx) in auxEvents">
+              <v-row dense
+                align="center"
+                class="bg-panel mb-1 heading">
+                <v-col cols="auto">
+                  <v-icon icon="cc:weapon"
+                    class="ml-4"
+                    start />
+                </v-col>
+                <v-col>
+                  {{ aux.Weapon.Name }}
+                </v-col>
+                <v-col cols="auto">
+                  <cc-tags :tags="aux.Weapon.Tags" />
+                </v-col>
+                <v-col v-if="(aux.Weapon as WeaponProfile).Parent.Mod"
+                  cols="auto">
+                  <cc-tags :tags="(aux.Weapon as WeaponProfile).Parent.Mod!.AddedTags"
+                    color="mod" />
+                </v-col>
+                <v-col cols="auto">
+                  <cc-switch v-model="include[aidx]"
+                    bg-color="background"
+                    :label="`Include`" />
+                </v-col>
+              </v-row>
+              <v-slide-y-reverse-transition>
+                <div v-if="aux && include[aidx]">
+                  <cc-synergy-display :key="aux.Weapon.ID"
+                    :item="(aux.Weapon as WeaponProfile).Parent"
+                    location="weapon"
+                    :mech="controller.Parent"
+                    alert />
+
+                  <mech-weapon-attack v-if="selectedWeapon"
+                    :event="<WeaponAttackEvent>aux"
+                    :owner="owner"
+                    :encounter="encounter"
+                    :profile="<WeaponProfile>aux.Weapon" />
+
+                </div>
+              </v-slide-y-reverse-transition>
+            </div>
           </div>
-        </v-tooltip>
-      </div>
+
+        </div>
+
+        <v-divider />
+        <div class="pa-4">
+
+          <apply-button v-if="event"
+            :event="<ActiveEffectEvent>event.BaseEvent"
+            :encounter="encounter"
+            :owner="owner"
+            :close="close"
+            @reset="reset($event)" />
+        </div>
+      </v-card>
+
     </template>
   </cc-dialog>
 </template>
 
-<script>
-import { CompendiumStore } from '@/stores';
+<script lang="ts">
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
-import MechAttackInternal from './_mechAttackInternal.vue';
 import MechMountBonusCard from '../_mechMountBonusCard.vue';
+import { MechWeapon } from '@/class';
+import { CombatantData } from '@/classes/encounter/Encounter';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
+import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
+import MechWeaponAttack from './_mechWeaponAttack.vue';
+import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
+import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 
 export default {
   name: 'MechSkirmishButton',
@@ -132,99 +234,119 @@ export default {
       type: Object,
       required: true,
     },
-    controller: {
+    owner: {
       type: Object,
       required: true,
     },
     encounter: {
-      type: Object,
+      type: EncounterInstance,
       required: true,
     },
     presetWeapon: {
-      type: Object,
+      type: MechWeapon,
       required: false,
     },
   },
   components: {
     MenuInput,
     MechMountBonusCard,
-    MechAttackInternal,
+    MechWeaponAttack,
+    ApplyButton
   },
   data: () => ({
-    selectedWeapon: null,
-    finalDamageArray: [],
-    finalHeatData: null,
-    attackInternalReadyState: false,
+    event: null as WeaponAttackEvent | null,
+    auxEvents: [] as WeaponAttackEvent[],
+    selectedWeapon: null as MechWeapon | null,
+    include: [],
   }),
-
-  watch: {
-    presetWeapon: {
-      immediate: true,
-      handler(newVal) {
-        if (newVal) {
-          this.selectedWeapon = newVal;
-        }
-      },
-    },
+  created() {
+    this.reset();
   },
   computed: {
-    totalHeat() {
-      if (!this.finalHeatData) return 0;
-      return this.finalHeatData.heatSelf + this.finalHeatData.overkillHeat;
+    available() {
+      return this.canActivate && this.canUse;
+    },
+    controller() {
+      return this.owner.actor.CombatController.ActiveActor.CombatController;
+    },
+    canActivate() {
+      return this.controller.CanActivate(this.action.Activation);
+    },
+    canUse() {
+      return !this.controller.IsActionUsed(this.action.ID);
+    },
+    selectedMount() {
+      if (!this.selectedWeapon) return null;
+      const aa = this.owner.actor.CombatController.RootActor;
+      if (!aa.ActiveMech) return null;
+
+      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.includes(this.selectedWeapon));
     },
     ordnanceWarning() {
       if (!this.selectedWeapon) return false;
       if (this.selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return this.controller.CanActivate('ordnance') === false;
+        return this.owner.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
     },
-    canActivate() {
-      return this.controller.CanActivate(this.action.Activation) && !this.selectedWeapon?.Used;
+    skirmishWeapons() {
+      const mech = this.controller.ActiveActor;
+      if (!mech || !mech.MechLoadoutController) return []
+      let arr = mech.MechLoadoutController.ActiveLoadout.Weapons.filter(
+        (x) => x.Skirmish
+      );
+      if (this.presetWeapon) {
+        arr = arr.filter(w => w.InstanceID === this.presetWeapon!.InstanceID);
+      }
+      return arr;
     },
-    canUse() {
-      return !this.controller.IsActionUsed(this.actionId) && (!this.presetWeapon || !this.presetWeapon.Used);
-    },
-    available() {
-      return this.canActivate && this.canUse;
-    },
-    attackInternalReady() {
-      return this.attackInternalReadyState;
+    barrageWeapons() {
+      return []
+      // let arr = this.controller.Parent.MechLoadoutController.ActiveLoadout.Weapons.filter(
+      //   (x) => x.Barrage
+      // );
+      // if (this.isBarrageAdditional) {
+      //   arr = arr.filter(w => w.WeaponSize !== WeaponSize.Superheavy)
+      // } if (this.preventSelect) {
+      //   arr = arr.filter(w => w.InstanceID !== this.preventSelect!.InstanceID);
+      // }
+      // return arr;
     },
   },
-  emits: ['activate'],
   methods: {
-    onWeaponChanged(weapon) {
-      this.selectedWeapon = weapon;
-    },
-    onDamageStaged(damageArray) {
-      this.finalDamageArray = damageArray;
-    },
-    onHeatStaged(heatData) {
-      this.finalHeatData = heatData;
+    reset(clearAction = false) {
+      if (clearAction) this.owner.CombatController.ClearActionUsed(this.action.ID);
+      const self = this.encounter.Combatants.find(
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
+      );
+      if (!self) {
+        throw new Error('Owner combatant not found in encounter');
+      }
+      if (!this.selectedWeapon && this.presetWeapon) {
+        this.selectedWeapon = this.presetWeapon;
+      }
+
+      if (!this.selectedWeapon)
+        return;
+
+      this.event = new WeaponAttackEvent(this.selectedWeapon?.SelectedProfile as WeaponProfile, self, this.encounter);
+      const auxes = this.selectedMount.Weapons.filter(
+        (x) =>
+          x.InstanceID !== this.selectedWeapon!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
+      );
+
+      this.auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter));
     },
     stage() {
-      if (this.$refs.attackInternal) {
-        this.$refs.attackInternal.stage();
-      }
+      this.$emit('activate', this.event);
     },
-    apply(close) {
-      this.controller.toggleCombatAction(this.action.Activation);
-      this.finalDamageArray.forEach(dmg => {
-        const actor = this.encounter.Combatants.find(c => c.actor.CombatController.ActiveActor.ID === dmg.targetId)?.actor;
-        if (actor) {
-          actor.CombatController.ApplyDamage(dmg.damageType, dmg.damageValue);
-        }
-      });
-
-      if (this.finalHeatData) this.controller.ApplyHeat(this.finalHeatData.heatSelf + this.finalHeatData.overkillHeat);
-
-      this.$emit('activate', this.actionId);
-      this.selectedWeapon.Use()
-      close;
+    apply(close: Function) {
+      this.$emit('activate', this.event);
+      close();
     },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
+    onWeaponChanged(weapon: MechWeapon) {
+      this.selectedWeapon = weapon;
+      this.reset();
     },
   },
 };

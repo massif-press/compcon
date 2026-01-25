@@ -163,6 +163,7 @@
       </div>
     </v-slide-y-transition>
     <equip-command-panel v-if="showCommandPanel"
+      :owner="owner"
       class="mb-2"
       :controller="unit.CombatController"
       :encounter="encounter"
@@ -208,6 +209,10 @@ export default {
       required: true,
     },
     encounter: {
+      type: Object,
+      required: true,
+    },
+    owner: {
       type: Object,
       required: true,
     },

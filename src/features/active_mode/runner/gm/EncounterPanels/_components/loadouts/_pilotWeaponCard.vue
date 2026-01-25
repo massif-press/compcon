@@ -112,7 +112,8 @@
         </div>
       </v-card-text>
     </div>
-    <equip-command-panel :controller="pilot.CombatController"
+    <equip-command-panel :owner="owner"
+      :controller="pilot.CombatController"
       :encounter="encounter"
       :item="item" />
   </v-card>
@@ -167,6 +168,9 @@ export default {
       default: false,
     },
     encounter: {
+      type: Object,
+      required: true,
+    }, owner: {
       type: Object,
       required: true,
     },

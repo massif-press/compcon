@@ -30,6 +30,7 @@
           <div v-if="Number(idx) > 0"
             class="my-4" />
           <mech-weapon-card v-if="s && s.Weapon"
+            :owner="owner"
             :key="s.ID"
             :item="s.Weapon"
             :mech="mech"
@@ -54,6 +55,7 @@
           {{ (item as any).Name }}
         </legend>
         <mech-system-card :key="(item as any).ID"
+          :owner="owner"
           :item="<any>item"
           :mech="mech"
           :encounter="encounterInstance"
@@ -83,6 +85,10 @@ export default {
       required: true,
     },
     encounterInstance: {
+      type: Object,
+      required: true,
+    },
+    owner: {
       type: Object,
       required: true,
     },

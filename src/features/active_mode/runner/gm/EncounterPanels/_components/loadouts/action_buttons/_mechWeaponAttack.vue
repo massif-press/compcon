@@ -1,89 +1,91 @@
 <template>
   <div>
-    <cc-alert v-if="selectedWeapon.IsDestroyed"
-      color="error"
-      class="my-2">
-      <v-icon start
-        icon="mdi-alert" />
-      This weapon has been destroyed and must be repaired before it can be activated.
-    </cc-alert>
-    <cc-alert v-if="selectedWeapon.Used"
-      color="warning"
-      class="my-2">
-      <v-icon start
-        icon="mdi-alert" />
-      This weapon has already been activated.
-      <span v-if="selectedWeapon.Used && selectedWeapon.IsLoading">
-        It must be reloaded before it can be used again.
-      </span>
-    </cc-alert>
-    <cc-alert v-if="ordnanceWarning"
-      color="warning"
-      class="my-2">
-      <v-icon start
-        icon="mdi-alert" />
-      This mech has taken non-Protocol actions this turn. This ordnance weapon cannot be activated.
-    </cc-alert>
-    <cc-alert v-if="selectedWeapon.IsLimited && selectedWeapon.Uses === 0"
-      color="warning"
-      class="my-2">
-      <v-icon start
-        icon="mdi-alert" />
-      This weapon is out of uses and cannot be activated this turn.
-    </cc-alert>
-    <cc-panel v-if="selectedWeapon.Mod"
+    <div>
+      <cc-alert v-if="weapon.Destroyed"
+        color="error"
+        class="my-2">
+        <v-icon start
+          icon="mdi-alert" />
+        This weapon has been destroyed and must be repaired before it can be activated.
+      </cc-alert>
+      <cc-alert v-if="weapon.Used"
+        color="warning"
+        class="my-2">
+        <v-icon start
+          icon="mdi-alert" />
+        This weapon has already been activated.
+        <span v-if="weapon.Used && weapon.IsLoading">
+          It must be reloaded before it can be used again.
+        </span>
+      </cc-alert>
+      <cc-alert v-if="ordnanceWarning"
+        color="warning"
+        class="my-2">
+        <v-icon start
+          icon="mdi-alert" />
+        This mech has taken non-Protocol actions this turn. This ordnance weapon cannot be
+        activated.
+      </cc-alert>
+      <cc-alert v-if="weapon.IsLimited && weapon.Uses === 0"
+        color="warning"
+        class="my-2">
+        <v-icon start
+          icon="mdi-alert" />
+        This weapon is out of uses and cannot be activated this turn.
+      </cc-alert>
+    </div>
+
+    <cc-panel v-if="weapon.Mod"
       color="mod"
       variant="outlined"
       class="mb-2">
       <div class="text-cc-overline">
         <v-icon icon="cc:weaponmod"
           class="mt-n1 mr-1" />
-        {{ selectedWeapon.Mod.Name }}
+        {{ weapon.Mod.Name }}
       </div>
-      <p v-html-safe="selectedWeapon.Mod.Effect"
+      <p v-html-safe="weapon.Mod.Effect"
         class=text-text />
-
-      <!-- <menu-input v-for="(a, index) in selectedWeapon.Mod.Actions"
-        :key="`mod_action_${index}`"
-        :ref="`modAction_${index}`"
-        :active-effect="a"
-        :encounter="encounter"
-        :owner="controller.Parent"
-        :close="close"
-        embedded
-        color="transparent" /> -->
     </cc-panel>
-    <div v-if="selectedWeapon.Profiles.length > 1">
-      <v-btn v-for="(profile, index) in selectedWeapon.Profiles"
+
+    <div v-if="weapon.Profiles.length > 1">
+      <v-btn v-for="(profile, index) in weapon.Profiles"
         size="small"
         flat
         tile
-        :color="index === selectedWeapon.ProfileIndex ? 'primary' : 'panel'"
+        :color="index === weapon.ProfileIndex ? 'primary' : 'panel'"
         height="24"
-        :style="`width: calc(100%/${selectedWeapon.Profiles.length})`"
+        :style="`width: calc(100%/${weapon.Profiles.length})`"
         :key="`profile_${index}`"
-        @click="selectedWeapon.ProfileIndex = index">
+        @click="weapon.ProfileIndex = index">
         {{ profile.Name }}
       </v-btn>
     </div>
-    <pc-attack-input v-for="(d, index) in selectedWeapon.Damage"
-      :ref="`damageInput_${index}`"
-      :key="index"
-      :damage="getDamageEffect(d, index)"
-      :owner="controller.Parent"
-      :targets="targets"
-      :additional-aux="isAdditionalAux"
-      @update:results="attackResults = $event"
-      @update:heatself="heatSelf = $event"
-      @ready-changed="(isReady) => updateInputReadiness('damageInput', index, isReady)" />
 
-    <div v-if="attackResults.length"
+
+    <effect-applicator :event="event.BaseEvent" />
+
+    <cc-panel v-for="e in event.TargetEvents"
+      :title="e.Effect.Name"
+      density="compact"
+      variant="tonal"
+      class="mt-n2">
+      <div class="text-text">
+        {{ e.Effect.Detail }}
+        <effect-applicator :event="e" />
+      </div>
+    </cc-panel>
+
+
+
+
+    <!-- <div v-if="attackResults.length"
       class="text-cc-overline text-disabled">
       <cc-slashes />
       RESULTS
-    </div>
+    </div> -->
 
-    <cc-panel v-for="item in attackResults"
+    <!-- <cc-panel v-for="item in attackResults"
       variant="outlined">
       <div class="text-text">
         <v-row dense
@@ -97,7 +99,7 @@
           <v-col cols="auto"
             class="heading">{{ item.target.Name }}</v-col>
           <v-col cols="auto"
-            v-if="item.damageCalc.incoming > 0 || selectedWeapon.Reliable">
+            v-if="item.damageCalc.incoming > 0 || weapon.Reliable">
             <v-chip :color="`damage--${item.type.toLowerCase()}`"
               flat
               tile>
@@ -105,7 +107,7 @@
               <v-icon size="22"
                 :color="`damage--${item.type.toLowerCase()}`"
                 :icon="`cc:${item.type.toLowerCase()}`" />
-              <v-icon v-if="selectedWeapon.Reliable && item.incoming <= item.reliable"
+              <v-icon v-if="weapon.Reliable && item.incoming <= item.reliable"
                 size="18"
                 icon="mdi-alpha-r-circle-outline" />
             </v-chip>
@@ -123,14 +125,13 @@
                   Exposed&nbsp;
                 </v-chip>
               </template>
-              <span class="text-cc-overline">Damage doubled</span>
-            </v-tooltip>
-          </v-col>
+<span class="text-cc-overline">Damage doubled</span>
+</v-tooltip>
+</v-col>
 
-          <v-col cols="auto"
-            v-if="hasCondition(item.damageCalc.resist, 'vulnerability')">
-            <v-tooltip location="top">
-              <template #activator="{ props }">
+<v-col cols="auto" v-if="hasCondition(item.damageCalc.resist, 'vulnerability')">
+  <v-tooltip location="top">
+    <template #activator="{ props }">
                 <div v-bind="props"
                   class="bg-error d-inline-flex mt-1"
                   style="border-bottom-right-radius: 5px">
@@ -139,22 +140,18 @@
                   Vulnerable&nbsp;
                 </div>
               </template>
-              <span class="text-cc-overline">Damage doubled</span>
-            </v-tooltip>
-          </v-col>
+    <span class="text-cc-overline">Damage doubled</span>
+  </v-tooltip>
+</v-col>
 
-          <v-col cols="auto"
-            v-if="item.armorCalc > 0">
-            -{{ item.armorCalc }}
-            <v-icon icon="mdi-shield-outline"
-              size="25"
-              class="ml-n1" />
-          </v-col>
+<v-col cols="auto" v-if="item.armorCalc > 0">
+  -{{ item.armorCalc }}
+  <v-icon icon="mdi-shield-outline" size="25" class="ml-n1" />
+</v-col>
 
-          <v-col cols="auto"
-            v-if="hasCondition(item.damageCalc.condition, 'shredded')">
-            <v-tooltip location="top">
-              <template #activator="{ props }">
+<v-col cols="auto" v-if="hasCondition(item.damageCalc.condition, 'shredded')">
+  <v-tooltip location="top">
+    <template #activator="{ props }">
                 <v-chip v-bind="props"
                   class="bg-error"
                   size="small"
@@ -163,14 +160,13 @@
                   Shredded&nbsp;
                 </v-chip>
               </template>
-              <span class="text-cc-overline">Can't benefit from Armor</span>
-            </v-tooltip>
-          </v-col>
+    <span class="text-cc-overline">Can't benefit from Armor</span>
+  </v-tooltip>
+</v-col>
 
-          <v-col cols="auto"
-            v-if="hasCondition(item.damageCalc.resist, 'resistance')">
-            <v-tooltip location="top">
-              <template #activator="{ props }">
+<v-col cols="auto" v-if="hasCondition(item.damageCalc.resist, 'resistance')">
+  <v-tooltip location="top">
+    <template #activator="{ props }">
                 <div v-bind="props"
                   class="bg-success d-inline-flex mt-1"
                   style="border-bottom-right-radius: 5px">
@@ -179,14 +175,13 @@
                   Resistant&nbsp;
                 </div>
               </template>
-              <span class="text-cc-overline">Damage halved</span>
-            </v-tooltip>
-          </v-col>
+    <span class="text-cc-overline">Damage halved</span>
+  </v-tooltip>
+</v-col>
 
-          <v-col cols="auto"
-            v-if="hasCondition(item.damageCalc.resist, 'immunity')">
-            <v-tooltip location="top">
-              <template #activator="{ props }">
+<v-col cols="auto" v-if="hasCondition(item.damageCalc.resist, 'immunity')">
+  <v-tooltip location="top">
+    <template #activator="{ props }">
                 <div v-bind="props"
                   class="bg-error d-inline-flex mt-1"
                   style="border-bottom-right-radius: 5px">
@@ -195,25 +190,15 @@
                   Immune&nbsp;
                 </div>
               </template>
-              <span class="text-cc-overline">Damage ignored</span>
-            </v-tooltip>
-          </v-col>
-          <v-col cols="auto"
-            class="heading h3">=</v-col>
+    <span class="text-cc-overline">Damage ignored</span>
+  </v-tooltip>
+</v-col>
+<v-col cols="auto" class="heading h3">=</v-col>
 
-          <v-col cols="auto"
-            class="heading h3">
-            <v-text-field type="number"
-              v-model="item.damageCalc.total"
-              :min="0"
-              density="compact"
-              hide-spin-buttons
-              hide-details
-              flat
-              tile
-              class="mr-n2"
-              max-width="100">
-              <template #append>
+<v-col cols="auto" class="heading h3">
+  <v-text-field type="number" v-model="item.damageCalc.total" :min="0" density="compact"
+    hide-spin-buttons hide-details flat tile class="mr-n2" max-width="100">
+    <template #append>
                 <v-menu>
                   <template #activator="{ props }">
                     <v-btn icon
@@ -227,202 +212,104 @@
                         size="30" />
                     </v-btn>
                   </template>
-                  <v-list>
-                    <v-list-item v-for="d in damageTypes"
-                      :class="d === item.type.toLowerCase() ? 'bg-panel' : ''"
-                      @click="item.type = d">
-                      <template #prepend>
+    <v-list>
+      <v-list-item v-for="d in damageTypes" :class="d === item.type.toLowerCase() ? 'bg-panel' : ''"
+        @click="item.type = d">
+        <template #prepend>
                         <v-icon :color="`damage--${d}`"
                           :icon="`cc:${d}`"
                           size="30" />
                       </template>
-                      {{ d.charAt(0).toUpperCase() + d.slice(1) }}
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
+        {{ d.charAt(0).toUpperCase() + d.slice(1) }}
+      </v-list-item>
+    </v-list>
+    </v-menu>
 
-              </template>
-            </v-text-field>
-          </v-col>
-        </v-row>
-      </div>
+    </template>
+  </v-text-field>
+</v-col>
+</v-row>
+</div>
 
-      <div v-if="item.hitType === 'MISS' && selectedWeapon.SelectedProfile.OnMiss">
-        <div class="text-cc-overline text-text mt-2">
-          <v-icon icon="cc:weapon"
-            class="mt-n1 ml-1"></v-icon>
-          On Miss Effect
-        </div>
-        <menu-input :active-effect="selectedWeapon.SelectedProfile.OnMiss"
-          :encounter="encounter"
-          :owner="controller.Parent"
-          :close="close"
-          ref="onMissMenuInput"
-          embedded
-          @apply="apply"
-          @reset="reset" />
-      </div>
-      <div v-if="selectedWeapon.SelectedProfile.OnAttack">
-        <div class="text-cc-overline text-text mt-2">
-          <v-icon icon="cc:weapon"
-            class="mt-n1 ml-1"></v-icon>
-          On Attack Effect
-        </div>
-        <menu-input :active-effect="selectedWeapon.SelectedProfile.OnAttack"
-          :encounter="encounter"
-          :owner="controller.Parent"
-          :close="close"
-          ref="onAttackMenuInput"
-          embedded
-          @apply="apply"
-          @reset="reset" />
-      </div>
-      <div v-if="
+<div v-if="item.hitType === 'MISS' && weapon.SelectedProfile.OnMiss">
+  <div class="text-cc-overline text-text mt-2">
+    <v-icon icon="cc:weapon" class="mt-n1 ml-1"></v-icon>
+    On Miss Effect
+  </div>
+  <menu-input :active-effect="weapon.SelectedProfile.OnMiss" :encounter="encounter"
+    :owner="controller.Parent" :close="close" :initial-targets="selectedTargets"
+    ref="onMissMenuInput" embedded @apply="apply" @reset="reset" />
+</div>
+<div v-if="weapon.SelectedProfile.OnAttack">
+  <div class="text-cc-overline text-text mt-2">
+    <v-icon icon="cc:weapon" class="mt-n1 ml-1"></v-icon>
+    On Attack Effect
+  </div>
+  <menu-input :active-effect="weapon.SelectedProfile.OnAttack" :encounter="encounter"
+    :owner="controller.Parent" :close="close" :initial-targets="selectedTargets"
+    ref="onAttackMenuInput" embedded @apply="apply" @reset="reset" />
+</div>
+<div v-if="
         (item.hitType === 'HIT' || item.hitType === 'CRIT') &&
-        selectedWeapon.SelectedProfile.OnHit
+        weapon.SelectedProfile.OnHit
       ">
-        <div class="text-cc-overline text-text mt-2">
-          <v-icon icon="cc:weapon"
-            class="mt-n1 ml-1"></v-icon>
-          On Hit Effect
-        </div>
-        <menu-input :active-effect="selectedWeapon.SelectedProfile.OnHit"
-          :encounter="encounter"
-          :owner="controller.Parent"
-          :close="close"
-          ref="onHitMenuInput"
-          embedded
-          @apply="apply"
-          @reset="reset" />
-      </div>
-      <div v-if="item.hitType === 'CRIT' && selectedWeapon.SelectedProfile.OnCrit">
-        <div class="text-cc-overline text-text mt-2">
-          <v-icon icon="cc:weapon"
-            class="mt-n1 ml-1"></v-icon>
-          On Crit Effect
-        </div>
-        <menu-input :active-effect="selectedWeapon.SelectedProfile.OnCrit"
-          :encounter="encounter"
-          :owner="controller.Parent"
-          :close="close"
-          ref="onCritMenuInput"
-          embedded
-          @apply="apply"
-          @reset="reset" />
-      </div>
-    </cc-panel>
+  <div class="text-cc-overline text-text mt-2">
+    <v-icon icon="cc:weapon" class="mt-n1 ml-1"></v-icon>
+    On Hit Effect
+  </div>
+  <menu-input :active-effect="weapon.SelectedProfile.OnHit" :encounter="encounter"
+    :owner="controller.Parent" :close="close" :initial-targets="selectedTargets"
+    ref="onHitMenuInput" embedded @apply="apply" @reset="reset" />
+</div>
+<div v-if="item.hitType === 'CRIT' && weapon.SelectedProfile.OnCrit">
+  <div class="text-cc-overline text-text mt-2">
+    <v-icon icon="cc:weapon" class="mt-n1 ml-1"></v-icon>
+    On Crit Effect
+  </div>
+  <menu-input :active-effect="weapon.SelectedProfile.OnCrit" :encounter="encounter"
+    :owner="controller.Parent" :close="close" :initial-targets="selectedTargets"
+    ref="onCritMenuInput" embedded @apply="apply" @reset="reset" />
+</div>
+</cc-panel> -->
   </div>
 </template>
 
-<script>
-import { CompendiumStore } from '@/stores';
-import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
-import PcAttackInput from '@/ui/components/chips/_activeeffect/_shared/PcAttackInput.vue';
-import DamageInput from '@/ui/components/chips/_activeeffect/ae_damage_input.vue';
+<script lang="ts">
+import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
+import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
+import EffectApplicator from '@/ui/components/chips/_activeeffect/EffectApplicator.vue';
 
 export default {
   name: 'MechWeaponAttack',
   props: {
-    selectedWeapon: { type: Object, required: true },
-    controller: { type: Object, required: true },
-    targets: { type: Array, default: () => [] },
-    isAdditionalAux: { type: Boolean, default: false },
+    event: { type: WeaponAttackEvent, required: true },
+    profile: { type: WeaponProfile, required: true },
+    owner: { type: Object, required: true },
     encounter: { type: Object, required: true },
+    isAdditionalAux: { type: Boolean, default: false },
   },
   components: {
-    DamageInput,
-    MenuInput,
-    PcAttackInput,
+    EffectApplicator,
   },
-  data: () => ({
-    damageResults: [],
-    attackResults: [],
-    selectedTargets: [],
-    inputsReady: {},
-    damageTypes: [
-      'kinetic',
-      'energy',
-      'explosive',
-      'heat',
-      'burn'
-    ],
-    heatSelf: 0,
-  }),
-  watch: {
-    selectedWeapon: {
-      immediate: true,
-      handler() {
-        // Weapon changed - component will automatically re-evaluate readiness
-      },
-    },
-    hasMandatoryInputs: {
-      immediate: true,
-      handler(newVal) {
-        this.$emit('ready-changed', newVal);
-      }
-    }
+  mounted() {
+    console.log(this.event)
   },
-  emits: ['ready-changed'],
   computed: {
     ordnanceWarning() {
-      if (!this.selectedWeapon) return false;
-      if (this.selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return this.controller.CanActivate('ordnance') === false;
+      if (!this.profile) return false;
+      if (this.profile.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
+        return this.owner.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
     },
     canUse() {
-      // TODO: return action available and selected weapons used
-      return true;
-      // return !this.controller.IsActionUsed(this.actionId);
+      if (!this.profile) return false;
+      return !this.profile.Used && !this.profile.Parent.Destroyed &&
+        (!this.profile.Parent.IsLimited || this.profile.Uses > 0);
     },
-    available() {
-      return this.canActivate && this.canUse;
-    },
-    hasMandatoryInputs() {
-      // Check if we have any damage inputs that need to be ready
-      const damageCount = this.selectedWeapon?.Damage?.length || 0;
-      if (damageCount === 0) {
-        return true; // No inputs to check
-      }
-
-      // Check all damage input components are ready
-      let allReady = true;
-      for (let i = 0; i < damageCount; i++) {
-        const inputReady = this.inputsReady[`damageInput_${i}`] === true;
-        allReady = allReady && inputReady;
-      }
-
-      // Also check that all attack results have valid damage totals
-      if (this.attackResults && this.attackResults.length > 0) {
-        const allDamageTotalsValid = this.attackResults.every(result =>
-          result.damageCalc &&
-          result.damageCalc.total != null &&
-          result.damageCalc.total !== '' &&
-          result.damageCalc.total !== undefined
-        );
-        allReady = allReady && allDamageTotalsValid;
-      }
-
-      return allReady;
-    },
-  },
-  methods: {
-    updateInputReadiness(inputType, index, isReady) {
-      const key = `${inputType}_${index}`;
-      this.inputsReady[key] = isReady;
-    },
-    hasCondition(conditions, condition) {
-      return conditions.includes(condition);
-    },
-    getDamageEffect(damage, index) {
-      damage.Owner = this.controller.Parent;
-      damage.Attack = this.selectedWeapon.GetAttack(index);
-      damage.Reliable = this.selectedWeapon.Reliable;
-      damage.Accuracy = this.selectedWeapon.Accuracy;
-      damage.Overkill = this.selectedWeapon.Overkill;
-      return damage;
-    },
+    weapon() {
+      return this.profile.Parent;
+    }
   },
 };
 </script>
