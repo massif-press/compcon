@@ -74,14 +74,14 @@
         :mech="controller.Parent"
         :encounter="encounter" />
 
-      <mech-attack-internal ref="attackInternal0"
+      <mech-weapon-attack ref="attackInternal0"
         :controller="controller"
         :encounter="encounter"
         :preset-weapon="presetWeapon"
         :prevent-select="selectedWeapon1"
         @weapon-changed="selectedWeapon0 = $event"
         @damage-staged="finalDamageArray0 = $event" />
-      <mech-attack-internal ref="attackInternal1"
+      <mech-weapon-attack ref="attackInternal1"
         v-if="!superheavySelected"
         :controller="controller"
         :encounter="encounter"
@@ -106,7 +106,7 @@
 <script>
 import { CompendiumStore } from '@/stores';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
-import MechAttackInternal from './_mechAttackInternal.vue';
+import MechWeaponAttack from './_mechWeaponAttack.vue';
 import { WeaponSize } from '@/class';
 
 export default {
@@ -131,7 +131,7 @@ export default {
   },
   components: {
     MenuInput,
-    MechAttackInternal,
+    MechWeaponAttack,
   },
   data: () => ({
     selectedWeapon0: null,

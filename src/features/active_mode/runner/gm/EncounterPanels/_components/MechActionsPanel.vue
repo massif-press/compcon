@@ -25,7 +25,7 @@
         <v-row dense>
           <v-col>
             <mech-skirmish-button :action="getBaseAction('act_skirmish')"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
@@ -165,6 +165,10 @@ export default {
     MechBarrageButton
   },
   props: {
+    owner: {
+      type: Object,
+      required: true,
+    },
     controller: {
       type: Object,
       required: true,

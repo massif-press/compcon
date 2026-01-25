@@ -1,22 +1,24 @@
 <template>
   <v-col>
     <div class="text-cc-overline text-disabled">
-      <span v-if="aoe">Targets</span>
-      <span v-else>Target</span>
+      <span>{{ `Target${event.AoE ? 's' : ''}` }}</span>
     </div>
-    <v-select v-for="(t, idx) in selectedTargets"
-      v-model="selectedTargets[idx]"
+    <v-select v-for="(idx) in !event.AoE ? 1 : event.Targets.length"
+      :key="event.Targets[idx - 1]?.Combatant.id || 'empty-selector-00'"
+      :value="event.Targets[idx - 1]?.Combatant.actor.CombatController.CombatName || ''"
       density="compact"
       variant="outlined"
-      :item-title="(c) => c.actor.CombatController.Name"
       return-object
       class="mb-1"
-      :items="filteredTargets"
+      :item-title="t => t.actor.CombatController.CombatName"
+      :items="event.AvailableTargets"
       flat
+      :error="!event.Targets[idx - 1]?.Combatant.id"
       hide-details
-      tile>
+      tile
+      @update:model-value="event.SetTarget($event, idx - 1)">
       <template #prepend>
-        <div v-if="idx === 0">
+        <div v-if="idx === 1">
           <v-tooltip location="top">
             <template #activator="{ props }">
               <v-btn icon
@@ -26,18 +28,18 @@
                 tile
                 class="mr-n2"
                 v-bind="props"
-                @click="$emit('toggle-aoe')">
+                @click="event.AoE = !event.AoE">
                 <v-icon size="25"
-                  :icon="aoeIcon"
+                  :icon="event.AoeIcon"
                   class="mr-n2" />
               </v-btn>
             </template>
 
-            <div v-if="aoe">
+            <div v-if="event.AoE">
               Area of Effect
-              <span v-if="typeof aoe === 'string'">
+              <span v-if="typeof event.AoE === 'string'">
                 <cc-slashes />
-                {{ aoe }}
+                {{ event.AoE }}
               </span>
               <div>
                 <i class="text-caption text-disabled">Click to Override</i>
@@ -65,61 +67,31 @@
           class="mx-n2">
           <v-icon size="20"
             icon="mdi-close"
-            @click="$emit('remove-target', idx)" />
+            @click="event.RemoveTarget(idx - 1)" />
         </v-btn>
       </template>
     </v-select>
-    <v-btn v-if="aoe"
+    <v-btn v-if="event.AoE"
+      :key="`targetSel_${event.AvailableTargets.length}`"
       size="x-small"
       block
       flat
       tile
-      color="primary"
+      :color="event.AvailableTargets.length ? 'primary' : ''"
       class="ma-1"
-      @click="$emit('add-target')">
+      :disabled="!event.AvailableTargets.length"
+      @click="event.AddTarget()">
       Add Target
     </v-btn>
   </v-col>
 </template>
 
 <script>
-import { Damage } from '@/classes/Damage';
-import { ready } from 'localforage';
 
 export default {
   name: 'BaseTargetSelector',
   props: {
-    selectedTargets: { type: Array, required: true },
-    targets: { type: Array, required: true },
-    aoe: { type: [Boolean, String], required: true },
-  },
-  emits: ['toggle-aoe', 'add-target', 'remove-target', 'ready-changed'],
-  computed: {
-    ready() {
-      return this.selectedTargets.length > 0 && this.selectedTargets.every(target => target != null);
-    },
-    filteredTargets() {
-      return this.targets.filter(
-        (t) =>
-          !t.actor.CombatController.ActiveActor.CombatController.IsDestroyed &&
-          !this.selectedTargets.includes(t)
-      );
-    },
-    aoeIcon() {
-      let aoe = this.aoe;
-      if (typeof aoe === 'boolean') {
-        aoe = aoe ? 'true' : 'false';
-      }
-      return Damage.getAoeIcon(aoe);
-    },
-  },
-  watch: {
-    ready: {
-      handler(newVal) {
-        this.$emit('ready-changed', newVal);
-      },
-      immediate: true,
-    },
+    event: { type: Object, required: true },
   },
 };
 </script>

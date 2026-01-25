@@ -121,7 +121,8 @@
     </template>
 
     <template #actions>
-      <mech-actions-panel :controller="mech.CombatController"
+      <mech-actions-panel :owner=combatant
+        :controller="mech.CombatController"
         :encounter="encounterInstance" />
     </template>
 
@@ -267,6 +268,7 @@
 
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
     <mech-combat-loadout :encounter-instance="encounterInstance"
+      :owner="combatant"
       :mech="mech"
       @deploy="deploy($event)" />
   </panel-base>

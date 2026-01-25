@@ -1,263 +1,136 @@
 <template>
-  <v-col v-if="hasSave"
-    cols="auto">
-    <div class="text-cc-overline text-disabled">{{ saveData.Stat }} Save</div>
+  <v-col cols="auto"
+    v-if="event.Save">
     <v-row no-gutters
-      v-for="(s, idx) in targetSaves">
-      <v-col>
-        <v-text-field v-model="targetSaves[idx]"
-          density="compact"
-          variant="outlined"
-          class="mb-1"
-          type="number"
-          width="85"
-          hide-spin-buttons
-          flat
-          :disabled="!selectedTargets[idx]"
-          hide-details
-          tile>
-          <template #prepend>
-            <v-menu open-on-hover
-              :close-on-content-click="false">
-              <template #activator="{ props }">
-                <v-btn icon
-                  size="x-small"
-                  variant="text"
-                  flat
-                  tile
-                  class="mr-n6"
-                  v-bind="props">
-                  <v-icon size="25"
-                    icon="mdi-dice-d20" />
-                </v-btn>
-              </template>
-              <template #default="{ isActive }">
-                <v-card v-if="selectedTargets[idx]"
-                  class="text-center text-text text-cc-overline pa-2"
-                  width="300"
-                  border>
-                  1d20 +
-                  {{ getSaveBonus(idx, saveData.Stat) }} (Save Bonus) vs {{ saveTarget }}
-
-                  <v-text-field v-model="accDiff[idx]"
-                    density="compact"
-                    variant="outlined"
-                    class="my-2"
-                    type="number"
-                    hide-spin-buttons
-                    flat
-                    :disabled="!selectedTargets[idx]"
-                    hide-details
-                    tile>
-                    <template #prepend>
-                      <v-tooltip location="top">
-                        <template #activator="{ props }">
-                          <v-icon class="mr-n3"
-                            v-bind="props"
-                            size="x-large"
-                            color="accent"
-                            :icon="accDiff[idx] > 0 ? 'cc:accuracy' : 'cc:difficulty'" />
-                        </template>
-                      </v-tooltip>
-                    </template>
-                    <template #prepend-inner>
-                      <v-btn flat
-                        tile
-                        icon
-                        size="x-small"
-                        class="ml-n2"
-                        @click="accDiff[idx]--">
-                        <v-icon size="20"
-                          icon="mdi-minus" />
-                      </v-btn>
-                    </template>
-                    <template #append-inner>
-                      <v-btn flat
-                        tile
-                        icon
-                        size="x-small"
-                        class="mr-n2"
-                        @click="accDiff[idx]++">
-                        <v-icon size="20"
-                          icon="mdi-plus" />
-                      </v-btn>
-                    </template>
-                  </v-text-field>
-                  <v-btn flat
-                    tile
-                    class="mt-2"
-                    color="primary"
-                    size="small"
-                    block
-                    @click="rollSave(idx)">
-                    Roll
-                  </v-btn>
-                  <div class="pa-2 border-s text-left"
-                    v-if="rollResults.length">
-                    <div v-for="(r, idx) in rollResults"
-                      :class="idx === 0 ? 'font-weight-bold text-accent' : 'text-disabled'"
-                      :key="r.text"
-                      v-html="r.text"></div>
-                  </div>
-                </v-card>
-              </template>
-            </v-menu>
-          </template>
-        </v-text-field>
-      </v-col>
+      class="text-cc-overline text-disabled">
+      <v-col> {{ event.Save }} Save</v-col>
       <v-col cols="auto"
-        align-self="center">
-        <div class="text-center text-cc-overline px-2">VS</div>
-      </v-col>
-      <v-col v-if="selectedTargets[idx]"
-        align-self="center">
-        <v-text-field v-for="(s, idx) in targetSaves"
-          :key="'target_val_' + idx"
-          :value="selectedTargets[idx].actor?.CombatController?.getSavingThrowBonus(saveData.Stat) || 0
-            "
-          density="compact"
-          variant="outlined"
-          type="number"
-          width="100"
-          hide-spin-buttons
-          flat
-          :disabled="!selectedTargets[idx]"
-          hide-details>
-          <template #append>
-            <v-tooltip location="top">
-              <template #activator="{ props }">
-                <v-btn icon
-                  size="x-small"
-                  variant="text"
-                  flat
-                  tile
-                  :color="!targetSaves[idx] ? '' : targetSaves[idx] >= saveTarget ? 'success' : 'error'
-                    "
-                  class="ml-n2"
-                  v-bind="props"
-                  @click="overrideSave(idx)">
-                  <v-icon size="25"
-                    :icon="!targetSaves[idx]
-                      ? 'mdi-circle-outline'
-                      : targetSaves[idx] >= saveTarget
-                        ? 'mdi-check-circle'
-                        : 'mdi-cancel'
-                      " />
-                </v-btn>
-              </template>
-
-              <div class="text-center">
-                {{
-                  !targetSaves[idx]
-                    ? 'No Save Rolled'
-                    : targetSaves[idx] >= saveTarget
-                      ? 'Successful Save'
-                      : 'Failed Save'
-                }}
-
-                <div>
-                  <i class="text-caption text-disabled">Click to override</i>
-                </div>
-              </div>
-            </v-tooltip>
-          </template>
-        </v-text-field>
-      </v-col>
+        v-if="event.SaveHalf && !!event.Targets[0]">Half</v-col>
     </v-row>
+    <div v-for="(s, idx) in event.Targets">
+      <v-row v-if="!s"
+        no-gutters
+        align="center"
+        justify="center"
+        style="min-height: 43px;">
+        <v-col cols="auto"
+          class="mt-1">
+          <i class="text-caption text-disabled">No Target Selected</i>
+        </v-col>
+      </v-row>
+
+      <v-row v-else
+        no-gutters>
+
+        <v-col>
+          <v-text-field v-model="s.SaveRolledValue"
+            density="compact"
+            variant="outlined"
+            class="mb-1"
+            type="number"
+            width="85"
+            hide-spin-buttons
+            flat
+            hide-details
+            :error="!s.SaveRolledValue"
+            tile
+            @update:model-value="s.SaveRolledValue = Number($event)">
+            <template #prepend>
+              <save-roll-interface :roll-data="s" />
+            </template>
+          </v-text-field>
+        </v-col>
+        <v-col cols="auto"
+          align-self="center">
+          <div class="text-center text-cc-overline px-2">VS</div>
+        </v-col>
+        <v-col>
+          <v-text-field :value="s.SaveTarget"
+            density="compact"
+            variant="outlined"
+            type="number"
+            width="100"
+            hide-spin-buttons
+            flat
+            :error="!s.SaveTarget"
+            hide-details
+            @update:model-value="s.SaveRolledValue = Number($event)">
+            <template #append>
+              <v-tooltip location="top">
+                <template #activator="{ props }">
+                  <v-btn icon
+                    size="x-small"
+                    variant="text"
+                    flat
+                    tile
+                    :color="s.SaveResult === 'success' ? 'success' : 'error'
+                      "
+                    class="ml-n2"
+                    v-bind="props"
+                    @click="overrideSave(s)">
+                    <v-icon size="25"
+                      :icon="!s.SaveResult
+                        ? 'mdi-circle-outline'
+                        : s.SaveResult === 'success'
+                          ? 'mdi-check-circle'
+                          : 'mdi-cancel'
+                        " />
+                  </v-btn>
+                </template>
+
+                <div class="text-center">
+                  {{
+                    !s.SaveResult
+                      ? 'No Save Rolled'
+                      : s.SaveResult === 'success'
+                        ? 'Successful Save'
+                        : 'Failed Save'
+                  }}
+
+                  <div>
+                    <i class="text-caption text-disabled">Click to override</i>
+                  </div>
+                </div>
+              </v-tooltip>
+            </template>
+          </v-text-field>
+        </v-col>
+        <v-col v-if="event.SaveHalf && !!s"
+          cols="auto"
+          class="ml-2 px-2 pt-2"
+          style="min-height: 44px;">
+          <cc-checkbox v-model="s.SavedHalf"
+            color="error"
+            size=small
+            bg-color="background" />
+        </v-col>
+      </v-row>
+    </div>
   </v-col>
+
 </template>
 
 <script>
+import SaveRollInterface from './SaveRollInterface.vue';
+
 export default {
   name: 'BaseSaveRoller',
+  components: {
+    SaveRollInterface
+  },
   props: {
-    selectedTargets: { type: Array, required: true },
-    targetSaves: { type: Array, required: true },
-    saveData: { type: Object, default: null },
-    owner: { type: Object, required: true },
-  },
-  emits: ['update:target-saves'],
-  data: () => ({
-    accDiff: [],
-    rollResults: [],
-  }),
-  watch: {
-    selectedTargets: {
-      immediate: true,
-      handler(newVal) {
-        this.accDiff = new Array(newVal.length).fill(0);
-      },
-    },
-  },
-  emits: ['ready-changed'],
-  computed: {
-    hasSave() {
-      return this.saveData != null;
-    },
-    saveTarget() {
-      return this.owner.CombatController.SaveTarget;
-    },
-    ready() {
-      return this.rollResults.length > 0;
-    }
-  },
-  watch: {
-    ready: {
-      handler(newVal) {
-        this.$emit('ready-changed', newVal);
-      },
-      immediate: true,
-    },
+    event: { type: Object, required: true },
   },
   methods: {
-    getSaveBonus(idx, stat) {
-      const target = this.selectedTargets[idx];
-      if (!target) return 0;
-      return target.actor?.CombatController?.getSavingThrowBonus(stat) || 0;
-    },
-    rollSave(idx) {
-      const target = this.selectedTargets[idx];
-      if (!target) {
-        this.updateSave(idx, 0);
-        return;
-      }
-
-      const results = [];
-      const count = this.accDiff[idx] < 0 ? Math.abs(this.accDiff[idx]) : 1;
-      const bonus = this.getSaveBonus(idx, this.saveData.Stat);
-
-      for (let i = 1; i <= count; i++) {
-        const roll = Math.floor(Math.random() * 20) + 1;
-        const val = roll + bonus;
-        results.push({
-          val,
-          text: `${roll} + ${bonus} (${val})`,
-        });
-      }
-
-      if (this.accDiff[idx] < 0) {
-        results.sort((a, b) => a.val - b.val);
+    overrideSave(s) {
+      if (!s.SaveResult) return;
+      if (s.SaveResult === 'success') {
+        s.SaveRolledValue = 0;
       } else {
-        results.sort((a, b) => b.val - a.val);
-      }
-
-      this.rollResults = results;
-
-      this.updateSave(idx, results[0].val);
-    },
-    overrideSave(idx) {
-      if (this.targetSaves[idx] == null) return;
-      if (this.targetSaves[idx] < this.saveTarget) {
-        this.updateSave(idx, 20);
-      } else {
-        this.updateSave(idx, 1);
+        s.SaveRolledValue = s.SaveTarget
       }
     },
-    updateSave(idx, value) {
-      const newSaves = [...this.targetSaves];
-      newSaves[idx] = value;
-      this.$emit('update:target-saves', newSaves);
-    },
+
   },
 };
 </script>

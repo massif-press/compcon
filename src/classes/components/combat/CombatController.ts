@@ -9,7 +9,10 @@ import { Status } from '@/classes/Status';
 import { ActiveEffect } from '../feature/active_effects/ActiveEffect';
 import _ from 'lodash';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { EffectSpecial, IEffectSpecialData } from '../feature/active_effects/EffectSpecial';
+import {
+  EffectSpecial,
+  IEffectSpecialData,
+} from '../feature/active_effects/effect_subtype/EffectSpecial';
 import { Action } from '@/classes/Action';
 import { Bonus } from '../feature/bonus/Bonus';
 import { CompendiumStore } from '@/stores';
@@ -54,7 +57,6 @@ class CombatData {
   combatActions: any = {};
   usedActions: string[] = [];
 
-  turn: any = 0;
   history: CombatLogEntry[] = [];
 }
 
@@ -83,7 +85,6 @@ class CombatController implements ICounterContainer, IStatContainer {
   public StatController: StatController;
   public CounterController: CounterController;
 
-  public Turn: number = 0;
   public History: CombatLogEntry[] = [];
 
   private _usedActions: string[] = [];
@@ -159,6 +160,9 @@ class CombatController implements ICounterContainer, IStatContainer {
     return 0;
   }
   // ------------------------------------------------------
+  public get Turn(): number {
+    return 1;
+  }
 
   public get Activations(): number {
     return this.StatController.getStat('activations');
@@ -820,7 +824,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.combatActions = controller.CombatActions;
 
     target.history = controller.History;
-    target.turn = controller.Turn;
 
     target.usedActions = controller._usedActions;
 
@@ -863,7 +866,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller._usedActions = data?.usedActions || [];
 
     controller.History = data?.history || [];
-    controller.Turn = data?.turn || 0;
 
     StatController.Deserialize(controller, data?.stats || {});
     CounterController.Deserialize(controller, data?.counters || {});
@@ -887,4 +889,4 @@ const SelfDestructAction = new Action({
 });
 
 export { CombatController, SelfDestructAction };
-export type { CombatData };
+export type { CombatData, CoverType, CombatLogEntry };

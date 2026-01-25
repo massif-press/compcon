@@ -1,15 +1,24 @@
 <template>
   <div>
-    <v-row no-gutters class="top-element" style="position: relative">
-      <v-col v-if="controls && !readonly" cols="auto" align-self="center" class="mr-2">
-        <v-btn icon variant="text" tile :size="optionsSize" @click="setVal(<number>modelValue - 1)">
-          <v-icon :size="optionsSize" icon="mdi-minus" />
+    <v-row no-gutters
+      class="top-element"
+      style="position: relative">
+      <v-col v-if="controls && !readonly"
+        cols="auto"
+        align-self="center"
+        class="mr-2">
+        <v-btn icon
+          variant="text"
+          tile
+          :size="optionsSize"
+          @click="setVal(<number>modelValue - 1)">
+          <v-icon :size="optionsSize"
+            icon="mdi-minus" />
         </v-btn>
       </v-col>
       <v-col>
         <div :class="`${reverse ? 'reverse-light' : 'light'} ${`bg-${color}`}`" />
-        <top-bar
-          v-if="tertiaryLabel"
+        <top-bar v-if="tertiaryLabel"
           :label="tertiaryLabel"
           :icon="tertiaryIcon"
           :editable="editable"
@@ -24,8 +33,7 @@
             <slot name="top-menu" />
           </template>
         </top-bar>
-        <center-bar
-          :no-clip="!!tertiaryLabel"
+        <center-bar :no-clip="!!tertiaryLabel"
           :label="primaryLabel"
           :icon="icon"
           :editable="editable"
@@ -38,8 +46,7 @@
           :reverse="reverse">
           <slot name="middle-menu" />
         </center-bar>
-        <bottom-bar
-          v-if="secondaryLabel"
+        <bottom-bar v-if="secondaryLabel"
           :label="secondaryLabel"
           :icon="secondaryIcon"
           :editable="editable"
@@ -53,11 +60,11 @@
         </bottom-bar>
       </v-col>
 
-      <v-col cols="auto" v-if="$slots.options">
+      <v-col cols="auto"
+        v-if="$slots.options">
         <v-menu offset-y>
           <template #activator="{ props }">
-            <v-btn
-              :size="optionsSize"
+            <v-btn :size="optionsSize"
               :color="bgColor"
               icon
               tile
@@ -73,21 +80,38 @@
       <v-col cols="auto">
         <div :class="`bg-${color} tail`" />
       </v-col>
-      <v-col v-if="controls && !readonly" cols="auto" align-self="center" class="ml-1">
-        <v-btn icon variant="text" tile :size="optionsSize" @click="setVal(<number>modelValue + 1)">
-          <v-icon :size="optionsSize" icon="mdi-plus" />
+      <v-col v-if="controls && !readonly"
+        cols="auto"
+        align-self="center"
+        class="ml-1">
+        <v-btn icon
+          variant="text"
+          tile
+          :size="optionsSize"
+          @click="setVal(<number>modelValue + 1)">
+          <v-icon :size="optionsSize"
+            icon="mdi-plus" />
         </v-btn>
       </v-col>
-      <v-col v-if="clearable" cols="auto" align-self="center">
-        <v-btn icon variant="text" tile size="x-small" @click="setVal(0)">
-          <v-icon size="x-large" icon="mdi-close-circle-outline" />
+      <v-col v-if="clearable"
+        cols="auto"
+        align-self="center">
+        <v-btn icon
+          variant="text"
+          tile
+          size="x-small"
+          @click="setVal(0)">
+          <v-icon size="x-large"
+            icon="mdi-close-circle-outline" />
         </v-btn>
       </v-col>
-      <v-col cols="auto" v-if="tooltip" align-self="center">
-        <v-tooltip location="top" max-width="300px">
+      <v-col cols="auto"
+        v-if="tooltip"
+        align-self="center">
+        <v-tooltip location="top"
+          max-width="300px">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
+            <v-icon v-bind="props"
               class="fade-select mx-1"
               :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
           </template>
@@ -95,11 +119,14 @@
         </v-tooltip>
       </v-col>
     </v-row>
-    <div v-if="label && reverse" class="text-cc-overline text-right" style="opacity: 0.6">
+    <div v-if="label && reverse"
+      class="text-cc-overline text-right"
+      style="opacity: 0.6">
       {{ label }}
     </div>
     <v-slide-y-transition>
-      <div v-if="details" class="text-right text-caption">
+      <div v-if="details"
+        class="text-right text-caption">
         {{ details }}
       </div>
     </v-slide-y-transition>
@@ -148,7 +175,7 @@ export default {
     display: { type: Boolean, default: true },
     valueTooltips: { type: Boolean, default: false },
     stopAdd: { type: Boolean },
-    maxSelectable: { type: Number },
+    max: { type: Number },
     readonly: { type: Boolean },
     reverse: { type: Boolean, default: false },
     minWidth: { type: String },
@@ -187,12 +214,18 @@ export default {
   },
   methods: {
     setVal(val: number) {
+      if (val < 0) val = 0
+      if (val > Math.min(this.max || 100, this.ticks)) val = Math.min(this.max || 100, this.ticks)
       this.$emit('update:model-value', val);
     },
     setTertiaryVal(val: number) {
+      if (val < 0) val = 0
+      if (val > Math.min(this.max || 100, this.ticks)) val = Math.min(this.max || 100, this.tertiaryTicks || 100)
       this.$emit('update:tertiary', val);
     },
     setSecondaryVal(val: number) {
+      if (val < 0) val = 0
+      if (val > Math.min(this.max || 100, this.ticks)) val = Math.min(this.max || 100, this.secondaryTicks || 100)
       this.$emit('update:secondary', val);
     },
   },
@@ -246,6 +279,7 @@ export default {
   width: 13.5px;
   height: 13.5px;
 }
+
 .reverse-light.default {
   width: 13.5px;
   height: 13.5px;

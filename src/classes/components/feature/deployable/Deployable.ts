@@ -5,10 +5,10 @@ import { IBonusData } from '../bonus/Bonus';
 import { ICompendiumItemData } from '../../../CompendiumItem';
 import { ByTier } from '@/util/tierFormat';
 import { ActiveEffect, IActiveEffectData } from '../active_effects/ActiveEffect';
-import { EffectStatus, IEffectStatusData } from '../active_effects/EffectStatus';
-import { EffectSpecial, IEffectSpecialData } from '../active_effects/EffectSpecial';
-import { EffectOther, IEffectOtherData } from '../active_effects/EffectOther';
-import { EffectResist, IEffectResistData } from '../active_effects/EffectResist';
+import { EffectStatus, IEffectStatusData } from '../active_effects/effect_subtype/EffectStatus';
+import { EffectSpecial, IEffectSpecialData } from '../active_effects/effect_subtype/EffectSpecial';
+import { EffectOther, IEffectOtherData } from '../active_effects/effect_subtype/EffectOther';
+import { EffectResist, IEffectResistData } from '../active_effects/effect_subtype/EffectResist';
 
 interface IDeployableData extends ICompendiumItemData {
   name: string;
@@ -108,7 +108,7 @@ class Deployable {
           name: 'Redeploy',
           activation: this.Redeploy,
           detail: `Redeploy this ${this.Type}.`,
-        })
+        }),
       );
     }
     this.Size = data.size || 0.5;

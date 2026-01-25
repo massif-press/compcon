@@ -1,19 +1,22 @@
 <template>
   <scan-menu :item="actor" />
 
-  <panel-base :encounter-instance="encounterInstance" :item="actor">
+  <panel-base :encounter-instance="encounterInstance"
+    :item="actor">
     <template #name-block>
       <div class="heading h2">
-        <cc-short-string-editor :placeholder="actor.Name" @set="actor.Name = $event">
+        <cc-short-string-editor :placeholder="actor.Name"
+          @set="actor.Name = $event">
           {{ actor.Name }}
-          <span class="text-accent" v-text="`#${combatant.number}`" />
+          <span class="text-accent"
+            v-text="`#${combatant.number}`" />
         </cc-short-string-editor>
       </div>
       <div class="heading h4">
         T{{ actor.NpcClassController.Tier }}
         {{ actor.NpcClassController.Class.Name }}
         <span v-if="actor.NpcTemplateController.Templates.length">
-          {{ actor.NpcTemplateController.Templates.map((x) => x.Name).join(' / ') }}
+          {{actor.NpcTemplateController.Templates.map((x) => x.Name).join(' / ')}}
         </span>
       </div>
     </template>
@@ -21,8 +24,7 @@
     <template #action-palette>
       <v-row dense>
         <v-col>
-          <v-btn
-            flat
+          <v-btn flat
             tile
             size="small"
             block
@@ -30,8 +32,7 @@
             text="Overwatch"
             @click="actor.CombatController.Overwatch = !actor.CombatController.Overwatch" />
           <v-divider />
-          <v-btn
-            flat
+          <v-btn flat
             tile
             size="small"
             block
@@ -42,87 +43,13 @@
       </v-row>
     </template>
     <template #pre>
-      <unit-combat-loadout :encounter-instance="encounterInstance" :unit="actor" />
-
-      <div class="text-cc-overline text-disabled mt-4">// OTHER ACTIONS</div>
-      <v-row dense>
-        <v-col>
-          <v-btn
-            block
-            flat
-            tile
-            size="small"
-            text="Grapple"
-            prepend-icon="mdi-hexagon-slice-3"
-            color="action--quick" />
-        </v-col>
-        <v-col>
-          <v-btn
-            block
-            flat
-            tile
-            size="small"
-            text="Ram"
-            prepend-icon="mdi-hexagon-slice-3"
-            color="action--quick" />
-        </v-col>
-        <v-col>
-          <v-btn
-            block
-            flat
-            tile
-            size="small"
-            text="Invade"
-            prepend-icon="mdi-hexagon-slice-3"
-            color="action--quick" />
-        </v-col>
-        <v-col>
-          <v-btn
-            block
-            flat
-            tile
-            size="small"
-            text="Lock On"
-            prepend-icon="mdi-hexagon-slice-3"
-            color="action--quick" />
-        </v-col>
-        <v-col>
-          <v-btn
-            block
-            flat
-            tile
-            size="small"
-            text="Search"
-            prepend-icon="mdi-hexagon-slice-3"
-            color="action--quick" />
-        </v-col>
-      </v-row>
-      <v-row dense>
-        <v-col>
-          <v-btn
-            block
-            flat
-            tile
-            size="small"
-            text="Improvised Attack"
-            color="action--full"
-            prepend-icon="mdi-hexagon-slice-6" />
-        </v-col>
-        <v-col>
-          <v-btn
-            block
-            flat
-            tile
-            size="small"
-            text="Stabilize"
-            color="action--full"
-            prepend-icon="mdi-hexagon-slice-6" />
-        </v-col>
-      </v-row>
+      <unit-combat-loadout :encounter-instance="encounterInstance"
+        :unit="actor" />
     </template>
 
     <template #actions>
-      <npc-actions-panel :controller="actor.CombatController" :encounter="encounterInstance" />
+      <npc-actions-panel :controller="actor.CombatController"
+        :encounter="encounterInstance" />
     </template>
   </panel-base>
 </template>

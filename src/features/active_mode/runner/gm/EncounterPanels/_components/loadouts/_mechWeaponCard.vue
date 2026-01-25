@@ -236,7 +236,8 @@
         </div>
       </v-card-text>
     </div>
-    <equip-command-panel :controller="mech.CombatController"
+    <equip-command-panel :owner="owner"
+      :controller="mech.CombatController"
       :encounter="encounter"
       :item="item" />
   </v-card>
@@ -291,6 +292,9 @@ export default {
       default: false,
     },
     encounter: {
+      type: Object,
+      required: true,
+    }, owner: {
       type: Object,
       required: true,
     },

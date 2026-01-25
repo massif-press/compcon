@@ -1,8 +1,3 @@
-import { CompendiumItem, Synergy, ItemType, MechWeapon, WeaponType, MechSystem } from '@/class';
-import { ISynergyData } from '@/interface';
-import _ from 'lodash';
-import { IFeatureController } from '../IFeatureController';
-
 type IBonusDamageData = {
   detail: string;
   val: string | number;

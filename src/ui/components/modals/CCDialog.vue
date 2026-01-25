@@ -1,21 +1,19 @@
 <template>
-  <slot name="activator" v-bind="{ dialog, open, close }"></slot>
+  <slot name="activator"
+    v-bind="{ dialog, open, close }"></slot>
 
-  <v-dialog
-    v-model="dialog"
+  <v-dialog v-model="dialog"
     :fullscreen="mobile"
     :max-width="mobile ? '' : maxWidth"
     :min-width="mobile ? '' : minWidth">
-    <v-card
-      tile
+    <v-card tile
       flat
       :class="!mobile && 'cc-panel-clip'"
       style="position: relative"
       border="sm"
       :ripple="false"
       @click.stop="closeOnClick ? close() : undefined">
-      <cc-toolbar
-        minor
+      <cc-toolbar minor
         :title="title"
         :icon="icon"
         :color="color"
@@ -24,13 +22,16 @@
         @close="close">
         <slot name="title" />
         <template #toolbar-items>
-          <slot name="toolbar-items" v-bind="{ close }" />
-          <v-btn v-if="!closeOnClick && mobile" icon @click="close">
+          <slot name="toolbar-items"
+            v-bind="{ close }" />
+          <v-btn v-if="!closeOnClick && mobile"
+            icon
+            @click="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
       </cc-toolbar>
-      <v-card-text class="pt-1 pb-4 px-4">
+      <v-card-text :class="noGutters ? 'pa-0' : 'pt-1 pb-4 px-4'">
         <slot v-bind="{ dialog, open, close }" />
       </v-card-text>
       <div v-if="closeOnClick">
@@ -68,6 +69,10 @@ export default {
     minWidth: {
       type: [String, Number],
       default: '40vw',
+    },
+    noGutters: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

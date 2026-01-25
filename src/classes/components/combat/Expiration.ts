@@ -18,7 +18,7 @@ class expiration {
     expiration: string,
     source?: CombatController,
     target?: CombatController,
-    encounter?: EncounterInstance
+    encounter?: EncounterInstance,
   ) {
     console.log(expiration);
     const str = expiration?.toLowerCase() || '';

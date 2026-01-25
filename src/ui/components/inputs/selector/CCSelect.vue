@@ -1,15 +1,14 @@
 <template>
-  <div class="top-element" style="display: block; position: relative">
-    <div
-      v-if="(mobile || small) && label"
+  <div class="top-element"
+    style="display: block; position: relative">
+    <div v-if="(mobile || small) && label"
       class="text-cc-overline"
       style="position: absolute; top: -14px; left: 10px">
       <cc-slashes />
       {{ label }}
     </div>
     <span :class="`light bg-${color || 'stark'}`" />
-    <component
-      :is="component"
+    <component :is="component"
       :model-value="modelValue"
       :items="items"
       :color="color"
@@ -25,7 +24,7 @@
       :list-props="{ density: 'compact' }"
       :multiple="multiple"
       :readonly="readonly"
-      :bg-color="isSelect ? color : isFocused ? 'surface-variant' : 'panel'"
+      :bg-color="isSelect ? bgColor : isFocused ? 'surface-variant' : bgColor ? bgColor : 'panel'"
       center-affix
       chips
       flat
@@ -42,59 +41,76 @@
           :class="`prepend bg-${color} ${isFocused && 'color-rotate'} ${(icon || label) && 'mr-n1'}`"
           :style="`min-width: ${icon ? '30' : '12'}px`"
           style="	display:flex; align-items:center;'">
-          <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2'" class="mt-1" />
-          <div v-if="label && !mobile && !small" class="d-inline-block text-cc-overline ml-3">
+          <v-icon v-if="icon"
+            :icon="icon"
+            :class="label && 'ml-2'"
+            class="mt-1" />
+          <div v-if="label && !mobile && !small"
+            class="d-inline-block text-cc-overline ml-3">
             {{ label }}
             <cc-slashes class="ml-1 mr-2" />
           </div>
         </div>
       </template>
-      <template v-if="prependInnerIcon" #prepend-inner>
+      <template v-if="prependInnerIcon"
+        #prepend-inner>
         <v-icon :icon="prependInnerIcon" />
       </template>
-      <template v-if="items && typeof items[0] === 'object'" #item="{ props, item }">
-        <v-list-item
-          v-bind="props"
+      <template v-if="items && typeof items[0] === 'object'"
+        #item="{ props, item }">
+        <v-list-item v-bind="props"
           :subtitle="item.raw.subtitle"
           :prepend-icon="item.raw.icon"
           :disabled="item.raw.disabled" />
       </template>
       <template #chip="{ item }">
-        <v-chip
-          size="large"
+        <v-chip size="large"
           rounded="sm"
           class="chip-clip pl-1 pr-3 mx-1"
           :variant="<any>chipVariant">
-          <v-icon v-if="(item as any).icon" :icon="(item as any).icon" />
+          <v-icon v-if="(item as any).icon"
+            :icon="(item as any).icon" />
           <span>{{ item.title }}</span>
-          <div v-if="chipVariant === 'outlined'" class="chip-diagonal" :class="getChipClass" />
+          <div v-if="chipVariant === 'outlined'"
+            class="chip-diagonal"
+            :class="getChipClass" />
         </v-chip>
       </template>
       <template #append>
-        <v-menu v-if="$slots.options" offset-y>
+        <v-menu v-if="$slots.options"
+          offset-y>
           <template v-slot:activator="{ props }">
-            <v-btn size="32" :color="color" icon tile flat v-bind="props" style="margin-left: -1px">
+            <v-btn size="32"
+              :color="color"
+              icon
+              tile
+              flat
+              v-bind="props"
+              style="margin-left: -1px">
               <v-icon :icon="optionsIcon || 'mdi-dots-vertical'" />
             </v-btn>
           </template>
           <slot name="options" />
         </v-menu>
 
-        <div
-          v-if="!autocomplete"
+        <div v-if="!autocomplete"
           :class="`bg-${color} end-light`"
           style="width: 3px; height: 100%; margin-left: 3px; z-index: 1" />
 
-        <cc-tooltip v-if="tooltip" location="top" max-width="300px">
+        <cc-tooltip v-if="tooltip"
+          location="top"
+          max-width="300px">
           {{ tooltip }}
         </cc-tooltip>
       </template>
-      <template v-if="appendInnerIcon" #append-inner>
+      <template v-if="appendInnerIcon"
+        #append-inner>
         <v-icon :icon="appendInnerIcon" />
       </template>
     </component>
     <v-slide-y-transition>
-      <div v-if="details" class="text-right text-caption">
+      <div v-if="details"
+        class="text-right text-caption">
         {{ details }}
       </div>
     </v-slide-y-transition>
@@ -137,6 +153,7 @@ export default {
     optionsIcon: { type: String },
     returnObject: { type: Boolean },
     small: { type: Boolean },
+    bgColor: { type: String },
   },
   data: () => ({
     isFocused: false,
@@ -160,19 +177,19 @@ export default {
 </script>
 
 <style scoped>
-.top-element >>> .v-field__input {
+.top-element>>>.v-field__input {
   padding-left: 4px !important;
 }
 
-.top-element >>> .v-input--horizontal .v-input__prepend {
+.top-element>>>.v-input--horizontal .v-input__prepend {
   margin-inline-end: 0px !important;
 }
 
-.top-element >>> .v-input--horizontal .v-input__append {
+.top-element>>>.v-input--horizontal .v-input__append {
   margin-inline-start: 0px !important;
 }
 
-.top-element >>> .v-field__input {
+.top-element>>>.v-field__input {
   height: auto !important;
   min-height: 30px;
 }

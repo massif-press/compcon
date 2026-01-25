@@ -1,8 +1,7 @@
 <template>
   <v-card-text>
     <div class="mb-4">
-      <cc-alert
-        :color="pilot.MechSkillsController.IsMissingHASE ? 'warning' : 'success'"
+      <cc-alert :color="pilot.MechSkillsController.IsMissingHASE ? 'warning' : 'success'"
         class="stat-text text-center">
         {{ pilot.MechSkillsController.CurrentHASEPoints }}/{{
           pilot.MechSkillsController.MaxHASEPoints
@@ -10,8 +9,7 @@
         Mech Skills selected
       </cc-alert>
       <div class="text-right">
-        <v-btn
-          size="x-small"
+        <v-btn size="x-small"
           color="accent"
           variant="text"
           @click="pilot.MechSkillsController.Reset()">
@@ -21,31 +19,37 @@
     </div>
 
     <v-row align="center">
-      <v-col v-for="s in skills" cols="12" md="6" class="mb-6">
+      <v-col v-for="s in skills"
+        cols="12"
+        md="6"
+        class="mb-6">
         <div class="heading h3 text-accent">
           {{ s.text }}
         </div>
-        <p v-html="s.description" class="flavor-text px-2 mb-3" />
-        <v-row no-gutters justify="center" align="start">
+        <p v-html="s.description"
+          class="flavor-text px-2 mb-3" />
+        <v-row no-gutters
+          justify="center"
+          align="start">
           <v-col style="max-width: 500px">
-            <cc-tickbar
-              :icon="!mobile && s.icon"
+            <cc-tickbar :icon="!mobile && s.icon"
               :size="mobile ? 'small' : 'default'"
               color="accent"
               controls
               :stop-add="pilot.MechSkillsController.HasFullHASE"
-              :max-selectable="
-                pilot.MechSkillsController.MaxHASEPoints -
+              :max="pilot.MechSkillsController.MaxHASEPoints -
                 pilot.MechSkillsController.CurrentHASEPoints
-              "
+                "
               v-model="pilot.MechSkillsController.MechSkills[s.val]" />
           </v-col>
         </v-row>
         <div class="text-center py-2">
-          <span v-for="(b, i) in s.bonuses" class="heading h3">
+          <span v-for="(b, i) in s.bonuses"
+            class="heading h3">
             {{ b.text }}
             <span class="text-accent">+{{ b.value }}</span>
-            <cc-slashes v-if="s.bonuses.length > i + 1" class="mx-2" />
+            <cc-slashes v-if="s.bonuses.length > i + 1"
+              class="mx-2" />
           </span>
         </div>
       </v-col>

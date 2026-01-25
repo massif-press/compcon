@@ -66,7 +66,7 @@ class D20RollResult implements Id20RollResult {
     staticBonus?: number,
     accuracyDiceCount?: number,
     rawAccuracyRolls?: number[],
-    accuracyResult?: number
+    accuracyResult?: number,
   ) {
     this._total = total || 0;
     this._rawDieRoll = rawDieRoll || 0;
@@ -103,6 +103,33 @@ class D20RollResult implements Id20RollResult {
   public get accuracyResult(): number {
     return this._accuracyResult;
   }
+
+  public toString(): string {
+    let out = `Roll: ${this.rawDieRoll} `;
+
+    if (this.staticBonus !== 0) {
+      out += this.staticBonus > 0 ? ` + ${this.staticBonus}` : ` - ${Math.abs(this.staticBonus)}`;
+    }
+
+    if (this.accuracyDiceCount !== 0) {
+      let accstr = '';
+      let kept = false;
+      for (let i = 0; i < this.rawAccuracyRolls.length; i++) {
+        if (i > 0) accstr += ', ';
+        let rr = this.rawAccuracyRolls[i];
+        if (Math.abs(rr) === Math.abs(this.accuracyResult) && !kept) {
+          accstr += `<b>${rr}</b><sub>k</sub> `;
+          kept = true;
+        } else accstr += `<i class="text-disabled">${rr}</i><sub>d</sub> `;
+      }
+
+      out += ` [${accstr}]`;
+    }
+
+    out += ` = <b class="text-accent">${this.total}</b>`;
+
+    return out;
+  }
 }
 
 class DamageRollResult implements IDamageRollResult {
@@ -123,7 +150,7 @@ class DamageRollResult implements IDamageRollResult {
     staticBonus: number,
     overkillRerolls: number,
     critical: boolean,
-    parseError?: boolean
+    parseError?: boolean,
   ) {
     this._diceString = diceString;
     this._total = total || 0;
@@ -173,7 +200,8 @@ class DamageRollResult implements IDamageRollResult {
       if (i > 0) out += '+ ';
       let rc = this.rollClassifications[i];
       if (this._critical && rc === 'high') out += `<b>${this.rawDieRolls[i]}</b><sub>k</sub> `;
-      else if (this._critical && rc === 'low') out += `<i>${this.rawDieRolls[i]}</i><sub>d</sub> `;
+      else if (this._critical && rc === 'low')
+        out += `<i class="text-disabled">${this.rawDieRolls[i]}</i><sub>d</sub> `;
       else if (rc === 'overkill') out += `<i>${this.rawDieRolls[i]} (OVERKILL)</i> `;
       else out += `${this.rawDieRolls[i]} `;
     }
@@ -193,7 +221,7 @@ class DiceRoller {
   public static rollSkillCheck(
     staticBonus = 0,
     totalAccuracy = 0,
-    totalDifficulty = 0
+    totalDifficulty = 0,
   ): D20RollResult {
     const d20Result: number = DiceRoller.rollDie(20);
 
@@ -207,7 +235,7 @@ class DiceRoller {
       staticBonus,
       netAccuracyDice,
       accuracyResults.rolls,
-      accuracyResults.result
+      accuracyResults.result,
     );
   }
 
@@ -231,7 +259,7 @@ class DiceRoller {
     diceString: string,
     critical?: boolean,
     overkill?: boolean,
-    reliable?: number
+    reliable?: number,
   ): DamageRollResult {
     const parsedRoll = DiceRoller.parseDiceString(diceString);
 
@@ -281,7 +309,7 @@ class DiceRoller {
         staticBonus,
         okRerolls,
         critical || false,
-        false
+        false,
       );
     }
   }
@@ -325,7 +353,7 @@ class DiceRoller {
     const numberTest = new RegExp('^([\\+-]?[0-9]*)$').exec(parsedString);
     const simpleDieTest = new RegExp('^([\\+-]?[0-9]*)d([0-9]*)$').exec(parsedString);
     const complexDieTest = new RegExp('^([\\+-]?[0-9]*)d([0-9]*)([\\+-][0-9]*)$').exec(
-      parsedString
+      parsedString,
     );
 
     if (numberTest) {
@@ -351,7 +379,7 @@ class DiceRoller {
   public static rollDieSet(
     dieSet: DieSet,
     overkill?: boolean,
-    critical?: boolean
+    critical?: boolean,
   ): { result: number; rolls: number[]; rerolls: number } {
     if (dieSet.quantity <= 0 || dieSet.type <= 0) return { result: 0, rolls: [], rerolls: 0 };
 

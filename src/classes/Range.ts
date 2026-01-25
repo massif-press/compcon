@@ -116,7 +116,7 @@ class Range {
           val: mech.FeatureController.EvaluateSpecial(r._value.toString()),
           override: r._override,
           bonus: bonus,
-        })
+        }),
       );
     });
 
@@ -139,6 +139,12 @@ class Range {
       });
     });
     return output;
+  }
+
+  public get IsAoE(): boolean {
+    return [RangeType.Cone, RangeType.Line, RangeType.Burst, RangeType.Blast].includes(
+      this._range_type,
+    );
   }
 
   public static Serialize(range: Range): IRangeData {

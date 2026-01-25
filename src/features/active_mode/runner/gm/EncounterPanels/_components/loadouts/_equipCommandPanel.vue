@@ -10,6 +10,7 @@
     <v-col v-if="canDealDamage && item.Skirmish"
       cols="auto">
       <mech-skirmish-button v-if="item.Skirmish"
+        :owner="owner"
         :action="skirmishAction"
         :controller="controller"
         :encounter="encounter"
@@ -260,9 +261,9 @@
 </template>
 
 <script>
-import { EffectStatus } from '@/classes/components/feature/active_effects/EffectStatus';
+import { EffectStatus } from '@/classes/components/feature/active_effects/effect_subtype/EffectStatus';
 import AttackMenu from '../AttackMenu.vue';
-import { EffectSpecial } from '@/classes/components/feature/active_effects/EffectSpecial';
+import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial';
 import MechSkirmishButton from './action_buttons/mechSkirmishButton.vue';
 import { CompendiumStore } from '@/stores';
 import MechBarrageButton from './action_buttons/mechBarrageButton.vue';
@@ -276,6 +277,10 @@ export default {
   },
   props: {
     item: {
+      type: Object,
+      required: true,
+    },
+    owner: {
       type: Object,
       required: true,
     },

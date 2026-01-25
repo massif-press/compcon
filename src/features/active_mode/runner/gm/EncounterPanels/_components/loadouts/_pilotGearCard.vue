@@ -134,6 +134,9 @@ export default {
     encounter: {
       type: Object,
       required: true,
+    }, owner: {
+      type: Object,
+      required: true,
     },
   },
   emits: ['deploy'],
