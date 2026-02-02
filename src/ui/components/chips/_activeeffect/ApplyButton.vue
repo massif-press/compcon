@@ -19,12 +19,12 @@
       <cc-button v-if="!ready"
         size="small"
         stacked
-        :color="(activeEffect as any).Color || 'primary'"
+        :color="color"
         :disabled="isApplied || !event.Ready"
         @click="stage(false)">
         <div class="px-4">
-          <v-icon v-if="(activeEffect as any).Icon"
-            :icon="(activeEffect as any).Icon"
+          <v-icon v-if="icon"
+            :icon="icon"
             class="mt-n1"
             start />
           <span v-if="activation">Activate</span>
@@ -59,7 +59,7 @@
               title="Activate Anyway"
               subtitle="Ignore Missing Fields">
               <template #prepend>
-                <v-icon :icon="(activeEffect as any).Icon"
+                <v-icon :icon="icon"
                   class="mr-n5" />
               </template>
             </v-list-item>
@@ -90,12 +90,12 @@
       <cc-button v-else
         size="small"
         stacked
-        :color="isFree ? 'action--free' : (activeEffect as any).Color || 'primary'"
+        :color="isFree ? 'action--free' : color"
         :disabled="isApplied"
         @click="apply(close)">
         <div class="px-4">
-          <v-icon v-if="(activeEffect as any).Icon"
-            :icon="(activeEffect as any).Icon"
+          <v-icon v-if="icon"
+            :icon="icon"
             class="mt-n1"
             start />
           Confirm
@@ -139,9 +139,7 @@
 </template>
 
 <script lang="ts">
-import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
-import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { ByTier } from '@/util/tierFormat';
 
@@ -153,7 +151,7 @@ export default {
     owner: { type: Object, required: true },
     close: { type: Function, required: true },
     embedded: { type: Boolean, default: false },
-    color: { type: String, default: 'panel' },
+    action: { type: Object, required: false },
   },
   data: () => ({
     ready: false,
@@ -161,20 +159,16 @@ export default {
   }),
   computed: {
     activeEffect() {
-      console.log(this.event.Effect)
       return this.event.Effect;
     },
-    lightColor() {
-      return this.activeEffect.Origin.Color || 'orange';
-    },
     icon() {
-      return this.activeEffect.Origin.Icon || 'mdi-rhombus-outline';
+      return this.action?.Icon || (this.activeEffect as any).Icon || this.activeEffect.Origin.Icon || '';
+    },
+    color() {
+      return this.action?.Color || (this.activeEffect as any).Color || this.activeEffect.Origin.Color || 'primary';
     },
     isApplied(): boolean {
       return this.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(this.activeEffect.ID);
-    },
-    isRam(): boolean {
-      return this.activeEffect.ID === 'act_ram';
     },
     canOverride() {
       return (
@@ -232,8 +226,6 @@ export default {
           return frequency;
       }
     },
-
-
     stage(asFree) {
       this.event.Staged = true
       this.isFree = asFree || false;
@@ -247,7 +239,6 @@ export default {
     apply(close: Function) {
       if (this.isApplied || !this.ready) return;
       // this.iterateAE('apply');
-
       if (!this.isFree) this.owner.CombatController.MarkActionUsed(this.activeEffect.ID);
       this.isFree = false;
       this.$emit('apply');

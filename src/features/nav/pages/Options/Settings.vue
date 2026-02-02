@@ -1,57 +1,71 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-row align="center" justify="space-between" dense>
+    <v-row align="center"
+      justify="space-between"
+      dense>
       <v-col cols="auto">
-        <cc-button
-          block
+        <cc-button block
           color="primary"
           size="small"
           prepend-icon="mdi-bell-ring-outline"
-          @click="showUpdates"
-        >
+          @click="showUpdates">
           Show Update Messages
         </cc-button>
       </v-col>
       <v-col cols="auto">
-        <cc-switch
-          v-model="userViewExotics"
+        <cc-switch v-model="userViewExotics"
           color="exotic"
           density="compact"
           off-icon="mdi-star-off-outline"
           on-icon="mdi-star"
           tooltip="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED if you are not the GM"
-          label="Show Exotic items in the Compendium"
-        ></cc-switch>
+          label="Show Exotic items in the Compendium"></cc-switch>
       </v-col>
     </v-row>
 
     <v-row dense>
-      <v-col cols="12" sm="6">
-        <cc-heading is-title text="Theme" />
-        <cc-select
-          v-model="theme"
-          :items="themes.sort((a, b) => a.community - b.community)"
-          :item-title="
-            (item) => `${item.name}${item.community ? ' (Community)' : ''}`
-          "
-        />
+      <v-col cols="12"
+        sm="6">
+        <div>
+          <cc-heading is-title
+            text="Theme" />
+          <cc-select v-model="theme"
+            :items="themes.sort((a, b) => a.community - b.community)"
+            :item-title="(item) => `${item.name}${item.community ? ' (Community)' : ''}`
+              " />
 
-        <i class="text-caption" style="opacity: 0.75">
-          Community themes by
-          <a target="_blank" href="https://github.com/vialra">vialra,</a>
-          Asger Toft,
-          <a target="_blank" href="https://github.com/Lunardog15"
-            >thecrystalwoods,</a
-          >
-          and
-          <a target="_blank" href="https://github.com/nimoooos">Suji</a>
-        </i>
+          <i class="text-caption"
+            style="opacity: 0.75">
+            Community themes by
+            <a target="_blank"
+              href="https://github.com/vialra">vialra,</a>
+            Asger Toft,
+            <a target="_blank"
+              href="https://github.com/Lunardog15">thecrystalwoods,</a>
+            and
+            <a target="_blank"
+              href="https://github.com/nimoooos">Suji</a>
+          </i>
+        </div>
+        <div>
+          <cc-heading is-title
+            text="Font" />
+          <cc-select :items="fonts"
+            item-title="label"
+            item-value="value"
+            v-model="font" />
+        </div>
       </v-col>
-      <v-col cols="12" sm="6">
-        <cc-heading is-title text="Log Level" />
+      <v-col cols="
+            12"
+        sm="6">
+        <cc-heading is-title
+          text="Log Level" />
         <v-menu>
           <template #activator="{ props }">
-            <v-list-item v-bind="props" three-line border>
+            <v-list-item v-bind="props"
+              three-line
+              border>
               <v-list-item-title>Log level:</v-list-item-title>
               <v-list-item-subtitle>
                 <b class="text-uppercase">{{ logLevel.name }}</b>
@@ -62,43 +76,40 @@
             </v-list-item>
           </template>
           <v-list>
-            <v-list-item
-              v-for="item in logLevels"
+            <v-list-item v-for="item in logLevels"
               :key="item.level"
               @click="setLogLevel(item)"
               :title="item.name"
-              :subtitle="item.detail"
-            />
+              :subtitle="item.detail" />
           </v-list>
         </v-menu>
       </v-col>
     </v-row>
 
     <v-row class="mt-4">
-      <v-col cols="12" md="6">
-        <cc-button
-          block
+      <v-col cols="12"
+        md="6">
+        <cc-button block
           size="large"
           color="primary"
           prepend-icon="mdi-database"
           tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-          @click="bulkExport"
-        >
+          @click="bulkExport">
           Create Data Backup
         </cc-button>
       </v-col>
 
-      <v-col cols="12" md="6">
-        <v-dialog v-model="importDialog" width="50%">
+      <v-col cols="12"
+        md="6">
+        <v-dialog v-model="importDialog"
+          width="50%">
           <template #activator="{ props }">
-            <cc-button
-              v-bind="props"
+            <cc-button v-bind="props"
               block
               size="large"
               color="primary"
               prepend-icon="mdi-database"
-              tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-            >
+              tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
               Load Data Backup
             </cc-button>
           </template>
@@ -113,8 +124,7 @@
                 <b class="text-accent">cannot</b>
                 be undone.
               </p>
-              <v-file-input
-                v-model="fileValue"
+              <v-file-input v-model="fileValue"
                 accept=".compcon"
                 variant="outlined"
                 density="compact"
@@ -122,8 +132,7 @@
                 autofocus
                 placeholder="Select COMP/CON Bulk Export File"
                 prepend-icon="mdi-paperclip"
-                @change="bulkImport"
-              />
+                @change="bulkImport" />
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -131,8 +140,12 @@
     </v-row>
 
     <div class="text-right">
-      <v-btn size="x-small" variant="text" to="/ui-test">UI Test I</v-btn>
-      <v-btn size="x-small" variant="text" to="/ui-test-new">UI Test II</v-btn>
+      <v-btn size="x-small"
+        variant="text"
+        to="/ui-test">UI Test I</v-btn>
+      <v-btn size="x-small"
+        variant="text"
+        to="/ui-test-new">UI Test II</v-btn>
     </div>
   </v-container>
 </template>
@@ -174,6 +187,12 @@ export default {
       },
       { name: 'Error', level: 4, detail: 'Record only error messages' },
     ],
+    fonts: [
+      { label: "Inter (v3 default)", value: "inter" },
+      { label: "Noto Sans (v3 alt)", value: "noto" },
+      { label: "Helvetica (v2 default)", value: "helvetica" },
+      { label: "OpenDyslexic (experimental)", value: "opendyslexic" },
+    ],
   }),
   emits: ['show-message'],
   computed: {
@@ -191,13 +210,21 @@ export default {
         this.user.SetOption('showExotics', newVal);
       },
     },
+    font: {
+      get: function () {
+        return this.user.Font;
+      },
+      set: function (newVal) {
+        this.user.Font = newVal;
+        document.documentElement.setAttribute("data-font", newVal);
+      },
+    },
     theme: {
       get: function () {
         return this.user.Theme;
       },
       set: function (newVal) {
         this.user.Theme = newVal;
-        // @ts-ignore
         this.$vuetify.theme.global.name = newVal;
       },
     },

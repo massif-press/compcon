@@ -1,10 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&display=swap');
 
-html,
-body {
-  font-family: 'Inter', sans-serif;
-  font-optical-sizing: auto;
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('@/assets/fonts/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  src: url('@/assets/fonts/Helvetica.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html[data-font='inter'],
+html[data-font='inter'] body {
+  font-family: 'Inter', sans-serif;
+}
+
+html[data-font='noto'],
+html[data-font='noto'] body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+html[data-font='helvetica'],
+html[data-font='helvetica'] body {
+  font-family: 'Helvetica', sans-serif;
+}
+
+html[data-font='opendyslexic'],
+html[data-font='opendyslexic'] body {
+  font-family: 'OpenDyslexic', sans-serif;
 }
 
 @font-face {

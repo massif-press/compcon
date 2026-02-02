@@ -20,12 +20,12 @@
     <v-col v-if="canDealDamage && item.Barrage"
       cols="auto"
       class="ml-1">
-      <mech-barrage-button v-if="item.Barrage"
+      <!-- <mech-barrage-button v-if="item.Barrage"
         :action="barrageAction"
         :controller="controller"
         :encounter="encounter"
         :preset-weapon="item"
-        @activate="activate($event)" />
+        @activate="activate($event)" /> -->
     </v-col>
     <v-col v-if="item.IsAI"
       cols="auto">

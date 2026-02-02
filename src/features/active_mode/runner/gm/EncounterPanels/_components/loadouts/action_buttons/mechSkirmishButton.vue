@@ -198,6 +198,31 @@
           </div>
 
         </div>
+        <v-slide-y-transition>
+          <div v-if="event && event.BaseEvent.Staged"
+            class="pa-4">
+            <div class="text-cc-overline text-disabled">Staged:</div>
+            <v-row dense>
+              <v-col>
+                <code style="white-space: pre-wrap; font-size: 12px;">
+          {{ event.Summary }}
+        </code>
+              </v-col>
+              <v-col cols="auto"
+                align-self="end">
+                <v-btn size=small
+                  icon
+                  flat
+                  tile
+                  variant="text"
+                  class="fade-select"
+                  @click="copyText(event.Summary)">
+                  <v-icon icon="mdi-content-copy" />
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-slide-y-transition>
 
         <v-divider />
         <div class="pa-4">
@@ -207,6 +232,7 @@
             :encounter="encounter"
             :owner="owner"
             :close="close"
+            :action="action"
             @reset="reset($event)" />
         </div>
       </v-card>
@@ -300,18 +326,6 @@ export default {
       }
       return arr;
     },
-    barrageWeapons() {
-      return []
-      // let arr = this.controller.Parent.MechLoadoutController.ActiveLoadout.Weapons.filter(
-      //   (x) => x.Barrage
-      // );
-      // if (this.isBarrageAdditional) {
-      //   arr = arr.filter(w => w.WeaponSize !== WeaponSize.Superheavy)
-      // } if (this.preventSelect) {
-      //   arr = arr.filter(w => w.InstanceID !== this.preventSelect!.InstanceID);
-      // }
-      // return arr;
-    },
   },
   methods: {
     reset(clearAction = false) {
@@ -329,13 +343,13 @@ export default {
       if (!this.selectedWeapon)
         return;
 
-      this.event = new WeaponAttackEvent(this.selectedWeapon?.SelectedProfile as WeaponProfile, self, this.encounter);
+      this.event = new WeaponAttackEvent(this.selectedWeapon?.SelectedProfile as WeaponProfile, self, this.encounter, 'Skirmish');
       const auxes = this.selectedMount.Weapons.filter(
         (x) =>
           x.InstanceID !== this.selectedWeapon!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
       );
 
-      this.auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter));
+      this.auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack'));
     },
     stage() {
       this.$emit('activate', this.event);
@@ -347,6 +361,9 @@ export default {
     onWeaponChanged(weapon: MechWeapon) {
       this.selectedWeapon = weapon;
       this.reset();
+    },
+    copyText(text: string) {
+      navigator.clipboard.writeText(text);
     },
   },
 };

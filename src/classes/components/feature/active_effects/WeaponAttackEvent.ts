@@ -12,6 +12,7 @@ import { ActiveEventTarget } from './effect_events/eventTarget'
 
 class WeaponAttackEvent {
   public ID: string
+  public AttackActionString: string
   public Weapon: WeaponProfile | NpcWeapon | PilotWeapon
   public BaseEvent: ActiveEffectEvent // the weapon attack itself
   public SubEvents: ActiveEffectEvent[] = []
@@ -26,9 +27,11 @@ class WeaponAttackEvent {
   constructor(
     weapon: WeaponProfile | NpcWeapon | PilotWeapon,
     owner: CombatantData,
-    instance: EncounterInstance
+    instance: EncounterInstance,
+    attackActionString: string
   ) {
     this.ID = uuid()
+    this.AttackActionString = attackActionString
     this.Weapon = weapon
     let effectData
     if (weapon instanceof WeaponProfile) {
@@ -82,19 +85,6 @@ class WeaponAttackEvent {
       },
     }
 
-    console.log(
-      Object.values(eventMap)
-        .filter(config => config.event)
-        .map(config => {
-          const event = config.event!
-          const targets = this.BaseEvent.Targets.filter(config.filter)
-          event.Targets = targets
-          return { event, targets }
-        })
-        .filter(({ targets }) => targets.length > 0)
-        .map(({ event }) => event)
-    )
-
     return Object.values(eventMap)
       .filter(config => config.event)
       .map(config => {
@@ -105,6 +95,61 @@ class WeaponAttackEvent {
       })
       .filter(({ targets }) => targets.length > 0)
       .map(({ event }) => event)
+  }
+
+  public get Summary(): string {
+    console.log(this)
+    let str = `${this.BaseEvent.Initiator.actor.CombatController.CombatName}: ${this.AttackActionString} with ${
+      this.Weapon.Name
+    }:\n`
+    this.BaseEvent.DamageEvents.forEach(de => {
+      this.BaseEvent.Targets.forEach(t => {
+        de.CalcFinalDamage(this.BaseEvent, t)
+        str += `   - [${t.Combatant.actor.CombatController.CombatName}]`
+        switch (this.BaseEvent.Attack && t.HitResult) {
+          case 'crit':
+            str += ` ⟪Critical Hit!⟫ `
+            break
+          case 'hit':
+            str += ` ⟪Hit⟫ `
+            break
+          case 'miss':
+            str += ` ⟪Miss⟫ `
+            break
+          default:
+            break
+        }
+        if (t.AttackRolledValue || t.SaveRolledValue) {
+          str += `(${t.AttackRolledValue || t.SaveRolledValue} vs ${t.TargetDefenseValue} ${t.TargetDefense})`
+          str += `\n     roll = incoming`
+          str += `+ x overkill damage`
+          str += `+ x bonus damage`
+          str += `x2 (target exposed)`
+          str += `x2 (target vulnerable)`
+          str += `- x (target armor)`
+          str += `- 0 (target shredded)`
+          str += `- 0 (Armor Pierced)`
+          str += `/2 (target resistance)`
+          str += `//NEGATED// (target immune)`
+          // initial damage (roll = final)
+          // ap, irreducible, etc
+          // double etc from statuses, mods, etc
+          // reduction from armor
+          // reduction from resistances
+          // if on event
+          // event, roll, etc
+          // if sub events
+          // event, roll, etc
+          // if mod events
+          // event, roll, etc
+          str += `\n     Total Damage: ${t.FinalDamageValue} ${de.DamageType} Damage`
+          str += ` (reliable x)`
+          str += `\n`
+          str += `     ${this.BaseEvent.Initiator.actor.CombatController.CombatName} takes x overkill heat\n`
+        }
+      })
+    })
+    return str
   }
 }
 

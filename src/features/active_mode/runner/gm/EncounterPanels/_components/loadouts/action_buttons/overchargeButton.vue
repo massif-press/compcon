@@ -152,7 +152,7 @@ export default {
       type: Object,
       required: true,
     },
-    controller: {
+    owner: {
       type: Object,
       required: true,
     },
@@ -168,6 +168,9 @@ export default {
     heatCost: null,
   }),
   computed: {
+    controller() {
+      return this.owner.actor.CombatController;
+    },
     canActivate() {
       return this.controller.CanActivate(this.action.Activation);
     },
