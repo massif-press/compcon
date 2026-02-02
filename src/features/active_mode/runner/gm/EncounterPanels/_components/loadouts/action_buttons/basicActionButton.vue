@@ -75,10 +75,9 @@
         :mech="controller.Parent"
         alert />
 
-      <menu-input :key="controller.ID"
-        :active-effect="action"
+      <menu-input :active-effect="action"
         :encounter="encounter"
-        :owner="controller.Parent"
+        :owner="owner"
         :close="close"
         @apply="apply"
         @reset="reset" />
@@ -97,7 +96,7 @@ export default {
       type: Object,
       required: true,
     },
-    controller: {
+    owner: {
       type: Object,
       required: true,
     },
@@ -110,6 +109,9 @@ export default {
     MenuInput,
   },
   computed: {
+    controller() {
+      return this.owner.actor.CombatController;
+    },
     canActivate() {
       return this.controller.CanActivate(this.action.Activation);
     },

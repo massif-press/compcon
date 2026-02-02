@@ -41,16 +41,32 @@
 
 
   <v-slide-y-transition>
-    <div v-if="event.Staged">
+    <div v-if="event && event.Staged"
+      class="pa-4">
       <div class="text-cc-overline text-disabled">Staged:</div>
-      <code style="white-space: pre; font-size: 12px;">
+      <v-row dense>
+        <v-col>
+          <code style="white-space: pre-wrap; font-size: 12px;">
           {{ event.Summary }}
-        </code style="white-space: ;">
-      </div>
-    </v-slide-y-transition>
+        </code>
+        </v-col>
+        <v-col cols="auto"
+          align-self="end">
+          <v-btn size=small
+            icon
+            flat
+            tile
+            variant="text"
+            class="fade-select"
+            @click="copyText(event.Summary)">
+            <v-icon icon="mdi-content-copy" />
+          </v-btn>
+        </v-col>
+      </v-row>
+    </div>
+  </v-slide-y-transition>
 
-    <apply-button 
-    :event="<ActiveEffectEvent>event"
+  <apply-button :event="<ActiveEffectEvent>event"
     :encounter="encounter"
     :owner="owner"
     :close="close"
@@ -96,14 +112,8 @@ export default {
     this.reset();
   },
   computed: {
-    lightColor() {
-      return this.activeEffect.Origin.Color || 'orange';
-    },
-    icon() {
-      return this.activeEffect.Origin.Icon || 'mdi-rhombus-outline';
-    },
     isApplied(): boolean {
-      return this.owner.CombatController.IsActionUsed(this.activeEffect.ID);
+      return this.owner.actor.CombatController.IsActionUsed(this.activeEffect.ID);
     },
     isRam(): boolean {
       return this.activeEffect.ID === 'act_ram';
@@ -146,7 +156,7 @@ export default {
   },
   methods: {
     byTier(detail: string) {
-      return ByTier(detail, this.owner.CombatController.Tier);
+      return ByTier(detail, this.owner.actor.CombatController.Tier);
     },
     frequencyText(frequency: string): string {
       const str = frequency.toLowerCase();
@@ -166,9 +176,9 @@ export default {
     },
 
     reset(clearAction = false) {
-      if (clearAction) this.owner.CombatController.ClearActionUsed(this.activeEffect.ID);
+      if (clearAction) this.owner.actor.CombatController.ClearActionUsed(this.activeEffect.ID);
       const self = this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.CombatController.RootActor.ID
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
       );
       if (!self) {
         throw new Error('Owner combatant not found in encounter');
@@ -189,10 +199,13 @@ export default {
       if (this.isApplied || !this.ready) return;
       // this.iterateAE('apply');
 
-      if (!this.isFree) this.owner.CombatController.MarkActionUsed(this.activeEffect.ID);
+      if (!this.isFree) this.owner.actor.CombatController.MarkActionUsed(this.activeEffect.ID);
       this.isFree = false;
       this.$emit('apply');
       close();
+    },
+    copyText(text: string) {
+      navigator.clipboard.writeText(text);
     },
   },
 };

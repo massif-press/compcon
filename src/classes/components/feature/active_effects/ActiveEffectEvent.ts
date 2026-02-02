@@ -188,13 +188,13 @@ class ActiveEffectEvent {
   public get Summary(): any {
     let str = ''
     if (!this.Ready) return 'Incomplete action'
-    str += `${this.Initiator.actor.CombatController.CombatName} activates ${this.Effect.Name}`
+    str += `${this.Initiator.actor.CombatController.CombatName} activates ${this.Effect.Name.toUpperCase()}`
     if ((this.Effect as any).Activation) str += ` as a ${(this.Effect as any).Activation} Action`
     str += `:\n`
 
     this.DamageEvents.forEach(de => {
       this.Targets.forEach(t => {
-        str += `   - ${t.Combatant.actor.CombatController.CombatName}`
+        str += `   - [${t.Combatant.actor.CombatController.CombatName}]`
         de.CalcFinalDamage(this, t)
         if (this.Attack) {
           switch (this.Attack && t.HitResult) {
@@ -210,8 +210,9 @@ class ActiveEffectEvent {
             default:
               break
           }
-          str += ` (${t.AttackRolledValue || t.SaveRolledValue} vs ${t.TargetDefense} ${t.TargetDefenseValue}) `
-          str += `${t.Combatant.actor.CombatController.CombatName} for ${de.Summary} - ${t.FinalDamageValue}`
+          if (t.AttackRolledValue || t.SaveRolledValue)
+            str += ` (${t.AttackRolledValue || t.SaveRolledValue} vs ${t.TargetDefense} ${t.TargetDefenseValue}) `
+          str += `[${t.Combatant.actor.CombatController.CombatName}] for ${de.Summary} - ${t.FinalDamageValue}`
         } else if (this.Save) {
           str += ` (${t.SaveRolledValue} vs ${this.Save?.toUpperCase() || ''} ${t.SaveTarget})`
           switch (t.SaveResult) {
@@ -243,8 +244,8 @@ class ActiveEffectEvent {
             str += ` - Fails to apply`
             break
         }
-        str += ` (${t.SaveRollResult} vs ${t.SaveType} ${t.SaveTarget}) `
-        str += ` - Applies ${se.Status.Name} to ${t.Combatant.actor.CombatController.CombatName}`
+        if (t.SaveType) str += ` (${t.SaveRollResult} vs ${t.SaveType} ${t.SaveTarget}) `
+        str += ` - Applies ${se.Status.Name.toUpperCase()} to [${t.Combatant.actor.CombatController.CombatName}]`
         if (se.Duration) str += ` for ${se.Duration}`
         str += '\n'
       })
@@ -252,7 +253,7 @@ class ActiveEffectEvent {
 
     this.OtherEvents.forEach(oe => {
       this.Targets.forEach(t => {
-        str += ` - Applies ${oe.Type} (${oe.Value}) to ${t.Combatant.actor.CombatController.CombatName}\n`
+        str += ` - Applies ${oe.Type} (${oe.Value}) to [${t.Combatant.actor.CombatController.CombatName}]\n`
       })
     })
 
@@ -267,7 +268,7 @@ class ActiveEffectEvent {
             break
         }
         str += ` (${t.SaveRollResult} vs ${t.SaveType} ${t.SaveTarget}) `
-        str += ` - ${spe.Attribute} to ${t.Combatant.actor.CombatController.CombatName}`
+        str += ` - ${spe.Attribute} to [${t.Combatant.actor.CombatController.CombatName}]`
         if (spe.Duration) str += ` for ${spe.Duration}`
         str += '\n'
       })
@@ -284,7 +285,7 @@ class ActiveEffectEvent {
             break
         }
         str += ` (${t.SaveRollResult} vs ${t.SaveType} ${t.SaveTarget}) `
-        str += `${re.ResistType} - ${re.Resist} to ${t.Combatant.actor.CombatController.CombatName}\n`
+        str += `${re.ResistType} - ${re.Resist} to [${t.Combatant.actor.CombatController.CombatName}]\n`
       })
     })
 

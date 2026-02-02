@@ -2,7 +2,8 @@
   <v-app id="app">
     <cc-notify />
     <navbar />
-    <div :style="`height: ${heightOffset}`" class="no-print" />
+    <div :style="`height: ${heightOffset}`"
+      class="no-print" />
     <router-view :key="$route.fullPath" />
   </v-app>
 </template>
@@ -22,8 +23,14 @@ export default {
     'user.Theme': {
       handler: function (newVal) {
         if (!newVal) return;
-        // @ts-ignore
         this.$vuetify.theme.global.name = newVal;
+      },
+      immediate: true,
+    },
+    'user.Font': {
+      handler: function (newVal) {
+        if (!newVal) return;
+        document.documentElement.setAttribute("data-font", newVal);
       },
       immediate: true,
     },
@@ -41,6 +48,7 @@ export default {
     },
   },
   created() {
+    document.documentElement.setAttribute("data-font", "inter");
     window.addEventListener('beforeunload', UserStore().OnUnload);
   },
 };

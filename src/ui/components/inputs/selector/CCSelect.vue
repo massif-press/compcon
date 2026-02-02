@@ -153,7 +153,7 @@ export default {
     optionsIcon: { type: String },
     returnObject: { type: Boolean },
     small: { type: Boolean },
-    bgColor: { type: String },
+    bgColor: { type: String, default: 'background' },
   },
   data: () => ({
     isFocused: false,

@@ -116,7 +116,7 @@ export default {
       type: Object,
       required: true,
     },
-    controller: {
+    owner: {
       type: Object,
       required: true,
     },
@@ -151,6 +151,9 @@ export default {
     },
   },
   computed: {
+    controller() {
+      return this.owner.actor.CombatController;
+    },
     ordnanceWarning() {
       if (!this.selectedWeapon0 && !this.selectedWeapon1) return false;
       if (this.selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance') || this.selectedWeapon1.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {

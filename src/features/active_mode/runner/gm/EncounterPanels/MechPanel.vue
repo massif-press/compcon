@@ -58,7 +58,7 @@
           <template #default="{ close }">
             <menu-input :active-effect="SelfDestructAction"
               :encounter="encounterInstance"
-              :owner="mech"
+              :owner="combatant"
               @apply="SD_apply(close)" />
           </template>
         </cc-dialog>

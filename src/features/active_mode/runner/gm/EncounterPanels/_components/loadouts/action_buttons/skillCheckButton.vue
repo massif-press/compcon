@@ -1,25 +1,35 @@
 <template>
-  <cc-dialog
-    :color="available ? action.Color : 'panel'"
+  <cc-dialog :color="available ? action.Color : 'panel'"
     :icon="action.Icon"
     :title="action.Name"
     :close-on-click="false"
     min-width="70vw"
     max-width="80vw">
     <template #activator="{ open }">
-      <v-btn block flat tile size="small" :color="available ? action.Color : 'panel'" @click="open">
+      <v-btn block
+        flat
+        tile
+        size="small"
+        :color="available ? action.Color : 'panel'"
+        @click="open">
         <span class="ml-1">
-          <v-icon v-bind="props" :icon="action.Icon" :color="available ? '' : 'error'" start />
-          <v-tooltip v-if="!available" location="top">
+          <v-icon v-bind="props"
+            :icon="action.Icon"
+            :color="available ? '' : 'error'"
+            start />
+          <v-tooltip v-if="!available"
+            location="top">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-exclamation-thick" color="error" class="ml-n2" />
+              <v-icon v-bind="props"
+                icon="mdi-exclamation-thick"
+                color="error"
+                class="ml-n2" />
             </template>
             <div class="text-center text-cc-overline">Cannot activate</div>
             <v-divider class="my-1" />
             <div v-if="!canActivate">
               Insufficient
-              <v-chip
-                :color="action.Color"
+              <v-chip :color="action.Color"
                 size="small"
                 variant="elevated"
                 :prepend-icon="action.Icon || ''">
@@ -30,7 +40,8 @@
             <div v-else-if="!canUse">This action has already been used this turn.</div>
           </v-tooltip>
         </span>
-        <v-tooltip location="top" width="300">
+        <v-tooltip location="top"
+          width="300">
           <template #activator="{ props }">
             <span v-bind="props">
               {{ action.Name }}
@@ -39,8 +50,7 @@
           <div class="d-flex">
             <div class="heading h4 d-flex">{{ action.Name }}</div>
             <v-spacer />
-            <v-chip
-              size="x-small"
+            <v-chip size="x-small"
               :color="action.Color"
               :prepend-icon="action.Icon"
               variant="elevated"
@@ -54,13 +64,17 @@
       </v-btn>
     </template>
     <template #default="{ close }">
-      <p v-html="action.Detail" class="text-text mb-4" />
-      <v-card color="panel" flat tile class="px-12 py-3">
-        <v-row class="mb-3" align="center">
+      <p v-html="action.Detail"
+        class="text-text mb-4" />
+      <v-card color="panel"
+        flat
+        tile
+        class="px-12 py-3">
+        <v-row class="mb-3"
+          align="center">
           <v-col>
             <div class="text-cc-overline text-disabled">Check Stat</div>
-            <v-select
-              v-model="selectedHase"
+            <v-select v-model="selectedHase"
               :items="hase"
               density="compact"
               variant="outlined"
@@ -70,29 +84,45 @@
           </v-col>
           <v-col cols="auto">
             <div class="text-cc-overline text-disabled">Check Type</div>
-            <v-btn-toggle v-model="checkType" density="compact" flat tile color="primary">
-              <v-btn value="standard" size="small">Standard</v-btn>
-              <v-btn value="contested" size="small">Contested</v-btn>
+            <v-btn-toggle v-model="checkType"
+              density="compact"
+              flat
+              tile
+              color="primary">
+              <v-btn value="standard"
+                size="small">Standard</v-btn>
+              <v-btn value="contested"
+                size="small">Contested</v-btn>
             </v-btn-toggle>
           </v-col>
 
           <v-col v-if="checkType === 'standard'">
             <div class="text-cc-overline text-disabled">Modifiers</div>
             <div class="d-flex">
-              <v-btn-toggle v-model="modifier" density="compact" flat tile color="primary">
-                <v-btn value="" size="small">None</v-btn>
-                <v-btn value="risky" size="small">Risky</v-btn>
-                <v-btn value="heroic" size="small">Heroic</v-btn>
+              <v-btn-toggle v-model="modifier"
+                density="compact"
+                flat
+                tile
+                color="primary">
+                <v-btn value=""
+                  size="small">None</v-btn>
+                <v-btn value="risky"
+                  size="small">Risky</v-btn>
+                <v-btn value="heroic"
+                  size="small">Heroic</v-btn>
               </v-btn-toggle>
-              <cc-checkbox v-model="difficult" bg-color="background" flat tile class="ml-6" />
+              <cc-checkbox v-model="difficult"
+                bg-color="background"
+                flat
+                tile
+                class="ml-6" />
               <div class="d-inline ml-2 mt-2 text-cc-overline">Difficult</div>
             </div>
           </v-col>
           <v-col v-else>
             <div class="text-cc-overline text-disabled">Select Target</div>
 
-            <v-select
-              v-model="selectedTarget"
+            <v-select v-model="selectedTarget"
               :items="targets"
               density="compact"
               variant="outlined"
@@ -106,23 +136,24 @@
 
         <v-row dense>
           <v-col>
-            <div v-if="checkType === 'contested'" class="text-center heading">
+            <div v-if="checkType === 'contested'"
+              class="text-center heading">
               {{ controller.CombatName }}
               <v-divider class="mb-2" />
             </div>
 
-            <skill-check-base
-              ref="check"
+            <skill-check-base ref="check"
               :controller="controller"
               :selected-hase="selectedHase"
               :difficult="difficult">
-              <v-col v-if="checkType === 'standard'" cols="auto" align-self="center">
+              <v-col v-if="checkType === 'standard'"
+                cols="auto"
+                align-self="center">
                 <div class="text-center text-cc-overline px-2 mt-n3"><b>VS</b></div>
               </v-col>
               <v-col v-if="checkType === 'standard'">
                 <div class="text-cc-overline text-disabled">Target Value</div>
-                <v-text-field
-                  v-model="targetVal"
+                <v-text-field v-model="targetVal"
                   density="compact"
                   variant="outlined"
                   type="number"
@@ -131,33 +162,30 @@
                   tile
                   hide-details>
                   <template #append>
-                    <v-tooltip v-if="$refs.check" location="top">
+                    <v-tooltip v-if="$refs.check"
+                      location="top">
                       <template #activator="{ props }">
-                        <v-btn
-                          icon
+                        <v-btn icon
                           size="x-small"
                           variant="text"
                           flat
                           tile
-                          :color="
-                            !$refs.check.roll
+                          :color="!$refs.check.roll
                               ? ''
                               : $refs.check.roll >= targetVal
                                 ? 'success'
                                 : 'error'
-                          "
+                            "
                           class="ml-n2"
                           v-bind="props"
                           @click="overrideSave()">
-                          <v-icon
-                            size="25"
-                            :icon="
-                              !$refs.check.roll
+                          <v-icon size="25"
+                            :icon="!$refs.check.roll
                                 ? 'mdi-circle-outline'
                                 : $refs.check.roll >= targetVal
                                   ? 'mdi-check-circle'
                                   : 'mdi-cancel'
-                            " />
+                              " />
                         </v-btn>
                       </template>
 
@@ -180,34 +208,35 @@
               </v-col>
             </skill-check-base>
           </v-col>
-          <v-col v-if="checkType === 'contested'" align-self="center" cols="auto" class="mx-1">
-            <v-chip size="large" class="heading">VS</v-chip>
+          <v-col v-if="checkType === 'contested'"
+            align-self="center"
+            cols="auto"
+            class="mx-1">
+            <v-chip size="large"
+              class="heading">VS</v-chip>
           </v-col>
           <v-col v-if="checkType === 'contested' && selectedTarget">
             <div class="text-center heading">
               {{ selectedTarget.Name }}
               <v-divider class="mb-2" />
-              <skill-check-base
-                ref="contest"
+              <skill-check-base ref="contest"
                 :controller="selectedTarget.CombatController"
                 :selected-hase="selectedHase" />
             </div>
           </v-col>
-          <v-col
-            v-else-if="checkType === 'contested' && !selectedTarget"
+          <v-col v-else-if="checkType === 'contested' && !selectedTarget"
             class="text-center text-disabled text-caption"
             align-self="center">
             <i>No Target Selected</i>
           </v-col>
         </v-row>
       </v-card>
-      <cc-alert
-        v-if="
-          this.checkType === 'contested' &&
-          this.selectedTarget &&
-          $refs.check.roll &&
-          $refs.contest.roll
-        "
+      <cc-alert v-if="
+        this.checkType === 'contested' &&
+        this.selectedTarget &&
+        $refs.check.roll &&
+        $refs.contest.roll
+      "
         class="mt-4"
         :color="$refs.check.roll >= $refs.contest.roll ? 'success' : 'error'"
         outlined>
@@ -219,8 +248,7 @@
           </span>
         </div>
       </cc-alert>
-      <menu-input
-        hide-input
+      <menu-input hide-input
         :key="controller.ID"
         :active-effect="action"
         :encounter="encounter"
@@ -244,7 +272,7 @@ export default {
       type: Object,
       required: true,
     },
-    controller: {
+    owner: {
       type: Object,
       required: true,
     },
@@ -300,6 +328,9 @@ export default {
     },
   },
   computed: {
+    controller() {
+      return this.owner.actor.CombatController;
+    },
     canActivate() {
       return this.controller.CanActivate(this.action.Activation);
     },

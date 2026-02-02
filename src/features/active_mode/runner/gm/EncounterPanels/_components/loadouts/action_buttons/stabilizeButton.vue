@@ -1,25 +1,35 @@
 <template>
-  <cc-dialog
-    :color="available ? action.Color : 'panel'"
+  <cc-dialog :color="available ? action.Color : 'panel'"
     :icon="action.Icon"
     :title="action.Name"
     :close-on-click="false"
     min-width="70vw"
     max-width="80vw">
     <template #activator="{ open }">
-      <v-btn block flat tile size="small" :color="available ? action.Color : 'panel'" @click="open">
+      <v-btn block
+        flat
+        tile
+        size="small"
+        :color="available ? action.Color : 'panel'"
+        @click="open">
         <span class="ml-1">
-          <v-icon v-bind="props" :icon="action.Icon" :color="available ? '' : 'error'" start />
-          <v-tooltip v-if="!available" location="top">
+          <v-icon v-bind="props"
+            :icon="action.Icon"
+            :color="available ? '' : 'error'"
+            start />
+          <v-tooltip v-if="!available"
+            location="top">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-exclamation-thick" color="error" class="ml-n2" />
+              <v-icon v-bind="props"
+                icon="mdi-exclamation-thick"
+                color="error"
+                class="ml-n2" />
             </template>
             <div class="text-center text-cc-overline">Cannot activate</div>
             <v-divider class="my-1" />
             <div v-if="!canActivate">
               Insufficient
-              <v-chip
-                :color="action.Color"
+              <v-chip :color="action.Color"
                 size="small"
                 variant="elevated"
                 :prepend-icon="action.Icon || ''">
@@ -30,7 +40,8 @@
             <div v-else-if="!canUse">This action has already been used this turn.</div>
           </v-tooltip>
         </span>
-        <v-tooltip location="top" width="300">
+        <v-tooltip location="top"
+          width="300">
           <template #activator="{ props }">
             <span v-bind="props">
               {{ action.Name }}
@@ -39,8 +50,7 @@
           <div class="d-flex">
             <div class="heading h4 d-flex">{{ action.Name }}</div>
             <v-spacer />
-            <v-chip
-              size="x-small"
+            <v-chip size="x-small"
               :color="action.Color"
               :prepend-icon="action.Icon"
               variant="elevated"
@@ -54,44 +64,53 @@
       </v-btn>
     </template>
     <template #default="{ close }">
-      <v-card color="panel" flat tile class="px-12">
-        <cc-synergy-display location="stabilize" :mech="controller.Parent" alert />
+      <v-card color="panel"
+        flat
+        tile
+        class="px-12">
+        <cc-synergy-display location="stabilize"
+          :mech="controller.Parent"
+          alert />
 
-        <v-row dense class="mb-4">
+        <v-row dense
+          class="mb-4">
           <v-col>
             <div class="text-center text-cc-overline text-disabled py-2">choose one</div>
             <v-divider />
-            <v-radio-group v-model="firstChoice" row>
-              <v-radio label="Cool your mech, clearing all heat and EXPOSED." value="cool" />
-              <v-radio label="Mark 1 REPAIR to restore all HP." value="repair" />
+            <v-radio-group v-model="firstChoice"
+              row>
+              <v-radio label="Cool your mech, clearing all heat and EXPOSED."
+                value="cool" />
+              <v-radio label="Mark 1 REPAIR to restore all HP."
+                value="repair" />
             </v-radio-group>
           </v-col>
           <v-col>
             <div class="text-center text-cc-overline text-disabled py-2">choose one</div>
             <v-divider />
-            <v-radio-group v-model="secondChoice" row>
-              <v-radio class="mt-1" label="Reload all LOADED weapons." value="reload" />
-              <v-radio
-                class="mt-1"
+            <v-radio-group v-model="secondChoice"
+              row>
+              <v-radio class="mt-1"
+                label="Reload all LOADED weapons."
+                value="reload" />
+              <v-radio class="mt-1"
                 label="Clear any burn currently affecting your mech."
                 value="clear_burn" />
-              <v-radio
-                class="mt-1"
+              <v-radio class="mt-1"
                 label="Clear a
           condition that wasn’t caused by one of your own systems, talents, etc"
                 value="clear_self" />
-              <v-radio
-                class="mt-1"
+              <v-radio class="mt-1"
                 label="Clear an adjacent allied character’s condition that wasn’t caused by one of their own systems, talents, etc."
                 value="clear_ally" />
             </v-radio-group>
           </v-col>
         </v-row>
-        <v-row v-if="secondChoice === 'clear_self'" dense>
+        <v-row v-if="secondChoice === 'clear_self'"
+          dense>
           <v-col>
             <div class="text-cc-overline text-disabled">Target</div>
-            <v-select
-              readonly
+            <v-select readonly
               variant="outlined"
               flat
               tile
@@ -100,8 +119,7 @@
           </v-col>
           <v-col>
             <div class="text-cc-overline text-disabled">Condition</div>
-            <v-select
-              v-model="clearSelfCondition"
+            <v-select v-model="clearSelfCondition"
               :items="clearableConditions(controller.ActiveActor)"
               item-title="status.Name"
               return-object
@@ -114,8 +132,7 @@
         <v-row v-else-if="secondChoice === 'clear_ally'">
           <v-col>
             <div class="text-cc-overline text-disabled">Target</div>
-            <v-select
-              v-model="selectedTarget"
+            <v-select v-model="selectedTarget"
               :items="alliedTargets"
               item-title="actor.CombatController.CombatName"
               return-object
@@ -126,8 +143,7 @@
           </v-col>
           <v-col>
             <div class="text-cc-overline text-disabled">Condition</div>
-            <v-select
-              v-model="clearAlliedCondition"
+            <v-select v-model="clearAlliedCondition"
               :items="clearableConditions(selectedTarget?.actor?.CombatController?.ActiveActor)"
               item-title="status.Name"
               return-object
@@ -138,8 +154,7 @@
           </v-col>
         </v-row>
       </v-card>
-      <menu-input
-        hide-input
+      <menu-input hide-input
         :key="controller.ID"
         :active-effect="action"
         :encounter="encounter"
@@ -162,7 +177,7 @@ export default {
       type: Object,
       required: true,
     },
-    controller: {
+    owner: {
       type: Object,
       required: true,
     },
@@ -182,6 +197,9 @@ export default {
     selectedTarget: null,
   }),
   computed: {
+    controller() {
+      return this.owner.actor.CombatController;
+    },
     allActions() {
       return CompendiumStore()
         .Actions.filter((x) => x.Activation === 'Invade')

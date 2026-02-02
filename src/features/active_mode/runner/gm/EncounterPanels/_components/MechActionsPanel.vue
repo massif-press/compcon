@@ -10,13 +10,13 @@
         <v-row dense>
           <v-col v-for="pa in controller.AllActions('Protocol')">
             <basic-action-button :action="pa"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
           <v-col v-for="fa in controller.AllActions('Free')">
             <basic-action-button :action="fa"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
@@ -30,10 +30,10 @@
               @activate="activate($event)" />
           </v-col>
           <v-col>
-            <mech-barrage-button :action="getBaseAction('act_barrage')"
-              :controller="controller"
+            <!-- <mech-barrage-button :action="getBaseAction('act_barrage')"
+              :owner="owner"
               :encounter="encounter"
-              @activate="activate($event)" />
+              @activate="activate($event)" /> -->
           </v-col>
         </v-row>
         <v-divider class="my-2" />
@@ -45,26 +45,26 @@
               <v-col v-for="action in quickMechActions">
                 <invade-button v-if="action === 'act_invade'"
                   :action="getBaseAction(action)"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
 
                 <basic-action-button v-else
                   :action="getBaseAction(action)"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-divider class="my-1" />
               <v-col v-for="qa in controller.AllActions('Quick')">
                 <basic-action-button :action="qa"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-col v-for="qta in controller.AllActions('Quick Tech')">
                 <basic-action-button :action="qta"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
@@ -75,30 +75,30 @@
               <v-col v-for="action in fullMechActions">
                 <stabilize-button v-if="action === 'act_stabilize'"
                   :action="getBaseAction(action)"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
                 <skill-check-button v-else-if="action === 'act_skill_check'"
                   :action="getBaseAction(action)"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
                 <basic-action-button v-else
                   :action="getBaseAction(action)"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-divider class="my-1" />
               <v-col v-for="fa in controller.AllActions('Full')">
                 <basic-action-button :action="fa"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-col v-for="fta in controller.AllActions('Full Tech')">
                 <basic-action-button :action="fta"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
@@ -110,29 +110,29 @@
         <v-row dense>
           <v-col>
             <overcharge-button :action="getBaseAction('act_overcharge')"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter" />
           </v-col>
           <v-col>
             <basic-action-button :action="getBaseAction('act_brace')"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
           <v-col>
             <basic-action-button :action="getBaseAction('act_overwatch')"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter" />
           </v-col>
           <v-col v-for="ra in controller.AllActions('Reaction')">
             <basic-action-button :action="ra"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
           <v-col>
             <basic-action-button :action="getBaseAction('act_self_destruct')"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
@@ -169,10 +169,6 @@ export default {
       type: Object,
       required: true,
     },
-    controller: {
-      type: Object,
-      required: true,
-    },
     encounter: {
       type: Object,
       required: true,
@@ -199,6 +195,11 @@ export default {
       'act_boot_up',
     ],
   }),
+  computed: {
+    controller() {
+      return this.owner.actor.CombatController;
+    },
+  },
   methods: {
     getBaseAction(actionId) {
       return CompendiumStore().Actions.find((a) => a.ID === actionId);
