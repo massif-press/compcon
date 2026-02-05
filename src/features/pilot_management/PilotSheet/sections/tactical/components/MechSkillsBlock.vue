@@ -1,10 +1,11 @@
 <template>
   <div>
     <section-header title="Mech Skills">
-      <cc-modal title="Set Pilot Mech Skills" icon="cc:frame" shrink>
+      <cc-modal title="Set Pilot Mech Skills"
+        icon="cc:frame"
+        shrink>
         <template #activator="{ open }">
-          <section-edit-chip
-            v-if="!pilot.IsRemote"
+          <section-edit-chip v-if="!pilot.IsRemote"
             :highlight="!pilot.MechSkillsController.HasFullHASE"
             :current="pilot.MechSkillsController.CurrentHASEPoints"
             :max="pilot.MechSkillsController.MaxHASEPoints"
@@ -15,34 +16,35 @@
       </cc-modal>
     </section-header>
 
-    <v-row class="mt-1 mb-5" justify="space-around">
-      <v-col class="mx-2" style="min-width: 400px">
-        <cc-tickbar
-          label="hull"
+    <v-row class="mt-1 mb-5"
+      justify="space-around">
+      <v-col class="mx-2"
+        style="min-width: 400px">
+        <cc-tickbar label="hull"
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-h-box-outline"
           v-model="pilot.MechSkillsController.MechSkills.Hull" />
       </v-col>
-      <v-col class="mx-2" style="min-width: 400px">
-        <cc-tickbar
-          label="agility"
+      <v-col class="mx-2"
+        style="min-width: 400px">
+        <cc-tickbar label="agility"
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-a-box-outline"
           v-model="pilot.MechSkillsController.MechSkills.Agi" />
       </v-col>
-      <v-col class="mx-2" style="min-width: 400px">
-        <cc-tickbar
-          label="systems"
+      <v-col class="mx-2"
+        style="min-width: 400px">
+        <cc-tickbar label="systems"
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-s-box-outline"
           v-model="pilot.MechSkillsController.MechSkills.Sys" />
       </v-col>
-      <v-col class="mx-2" style="min-width: 400px">
-        <cc-tickbar
-          label="engineering"
+      <v-col class="mx-2"
+        style="min-width: 400px">
+        <cc-tickbar label="engineering"
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-e-box-outline"

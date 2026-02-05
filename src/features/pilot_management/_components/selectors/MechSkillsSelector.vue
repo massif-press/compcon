@@ -37,9 +37,7 @@
               color="accent"
               controls
               :stop-add="pilot.MechSkillsController.HasFullHASE"
-              :max="pilot.MechSkillsController.MaxHASEPoints -
-                pilot.MechSkillsController.CurrentHASEPoints
-                "
+              :max="calcMax(s)"
               v-model="pilot.MechSkillsController.MechSkills[s.val]" />
           </v-col>
         </v-row>
@@ -140,6 +138,15 @@ export default {
           ],
         },
       ];
+    },
+  },
+  methods: {
+    calcMax(skill: any) {
+      return (
+        this.pilot.MechSkillsController.MaxHASEPoints -
+        this.pilot.MechSkillsController.CurrentHASEPoints +
+        this.pilot.MechSkillsController.MechSkills[skill.val]
+      );
     },
   },
 };
