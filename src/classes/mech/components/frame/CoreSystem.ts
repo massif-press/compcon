@@ -164,11 +164,19 @@ class CoreSystem {
 
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return []
-    return this._integrated.map(x => {
+    const res = this._integrated.map(x => {
       const w = store.getters.referenceByID('MechWeapons', x)
-      if (w) return w
-      return store.getters.referenceByID('MechSystems', x)
+      if (w && !w.err) return w
+      const s = store.getters.referenceByID('MechSystems', x)
+      if (s && !s.err) return s
+      // I don't know what integrated pilot gear or weapon mods mean yet, so this is disabled to clearly indicate "not implemented"
+      // const wm = store.getters.referenceByID('WeaponMods', x)
+      // if (wm && !wm.err) return wm
+      // const pg = store.getters.referenceByID('PilotGear', x)
+      // if (pg && !pg.err) return pg
+      return false
     })
+    return res.filter(x => x)
   }
 
   public get PassiveIntegratedWeapons(): MechWeapon[] {
