@@ -11,6 +11,7 @@ import { ResistEvent } from './effect_events/resistEvent'
 import { StatusEvent } from './effect_events/statusEvent'
 import { OtherEvent } from './effect_events/otherEvent'
 import { SpecialEvent } from './effect_events/specialEvent'
+import { EventSummary } from './EventSummary'
 
 class ActiveEffectEvent {
   public ID: string
@@ -30,6 +31,8 @@ class ActiveEffectEvent {
   public RemoveSpecialStatus?: string[]
   public Staged: boolean = false
 
+  public Accuracy: number = 0
+
   constructor(initiator: CombatantData, effect: ActiveEffect, instance: EncounterInstance) {
     this.ID = uuid()
     this.Initiator = initiator
@@ -40,6 +43,8 @@ class ActiveEffectEvent {
       this._targets = [new ActiveEventTarget(this, this.Initiator, effect)]
     else this._targets = [null as unknown as ActiveEventTarget] // placeholder for single target
     this._aoe = effect.IsAoE
+
+    this.Accuracy = effect.Accuracy || 0
 
     this.RemoveSpecialStatus = effect.RemoveSpecial
 
@@ -186,116 +191,70 @@ class ActiveEffectEvent {
   }
 
   public get Summary(): any {
-    let str = ''
-    if (!this.Ready) return 'Incomplete action'
-    str += `${this.Initiator.actor.CombatController.CombatName} activates ${this.Effect.Name.toUpperCase()}`
-    if ((this.Effect as any).Activation) str += ` as a ${(this.Effect as any).Activation} Action`
-    str += `:\n`
-
-    this.DamageEvents.forEach(de => {
-      this.Targets.forEach(t => {
-        str += `   - [${t.Combatant.actor.CombatController.CombatName}]`
-        de.CalcFinalDamage(this, t)
-        if (this.Attack) {
-          switch (this.Attack && t.HitResult) {
-            case 'crit':
-              str += ` [Critical Hit!]\n`
-              break
-            case 'hit':
-              str += ` [Hit]\n`
-              break
-            case 'miss':
-              str += ` [Miss]\n`
-              break
-            default:
-              break
-          }
-          if (t.AttackRolledValue || t.SaveRolledValue)
-            str += ` (${t.AttackRolledValue || t.SaveRolledValue} vs ${t.TargetDefense} ${t.TargetDefenseValue}) `
-          str += `[${t.Combatant.actor.CombatController.CombatName}] for ${de.Summary} - ${t.FinalDamageValue}`
-        } else if (this.Save) {
-          str += ` (${t.SaveRolledValue} vs ${this.Save?.toUpperCase() || ''} ${t.SaveTarget})`
-          switch (t.SaveResult) {
-            case 'success':
-              str += ` [SAVED]`
-              break
-            default:
-              str += ` [FAILED SAVE]`
-              break
-          }
-          str += `\n     ${de.Summary}`
-          if (t.SavedHalf) str += ` - ${Math.ceil((de.DamageRolledValue || 0) / 2)} (Save)`
-          str += ` - ${t.TotalArmorReduction} (Armor)`
-          str += ` // ${t.FinalDamageValue} ${de.DamageType} Damage Total`
-        } else {
-          str += ` for ${de.Summary} - ${t.FinalDamageValue} ${de.DamageType} Damage Total`
-        }
-        str += '\n'
-      })
-    })
-
-    this.StatusEvents.forEach(se => {
-      this.Targets.forEach(t => {
-        switch (t.SaveResult) {
-          case 'success':
-            str += ` - Applies`
-            break
-          case 'failure':
-            str += ` - Fails to apply`
-            break
-        }
-        if (t.SaveType) str += ` (${t.SaveRollResult} vs ${t.SaveType} ${t.SaveTarget}) `
-        str += ` - Applies ${se.Status.Name.toUpperCase()} to [${t.Combatant.actor.CombatController.CombatName}]`
-        if (se.Duration) str += ` for ${se.Duration}`
-        str += '\n'
-      })
-    })
-
-    this.OtherEvents.forEach(oe => {
-      this.Targets.forEach(t => {
-        str += ` - Applies ${oe.Type} (${oe.Value}) to [${t.Combatant.actor.CombatController.CombatName}]\n`
-      })
-    })
-
-    this.SpecialEvents.forEach(spe => {
-      this.Targets.forEach(t => {
-        switch (t.SaveResult) {
-          case 'success':
-            str += ` - Applies`
-            break
-          case 'failure':
-            str += ` - Fails to apply`
-            break
-        }
-        str += ` (${t.SaveRollResult} vs ${t.SaveType} ${t.SaveTarget}) `
-        str += ` - ${spe.Attribute} to [${t.Combatant.actor.CombatController.CombatName}]`
-        if (spe.Duration) str += ` for ${spe.Duration}`
-        str += '\n'
-      })
-    })
-
-    this.ResistEvents.forEach(re => {
-      this.Targets.forEach(t => {
-        switch (t.SaveResult) {
-          case 'success':
-            str += ` - Applies`
-            break
-          case 'failure':
-            str += ` - Fails to apply`
-            break
-        }
-        str += ` (${t.SaveRollResult} vs ${t.SaveType} ${t.SaveTarget}) `
-        str += `${re.ResistType} - ${re.Resist} to [${t.Combatant.actor.CombatController.CombatName}]\n`
-      })
-    })
-
-    return str
+    return EventSummary.fromActiveEffectEvent(this).toString()
   }
 
-  public setLog() {
-    // log to encounter log
-    // log to initiator log
-    // log to target logs
+  public get ShortSummary(): string {
+    return EventSummary.fromActiveEffectEvent(this).toString(false)
+  }
+
+  public Apply(target: ActiveEventTarget) {
+    this.DamageEvents.forEach(de => {
+      target.ApplyDamage(de)
+    })
+    this.StatusEvents.forEach(se => {
+      target.ApplyStatus(se)
+    })
+    this.OtherEvents.forEach(oe => {
+      target.ApplyOther(oe)
+    })
+    this.SpecialEvents.forEach(spe => {
+      target.ApplySpecial(spe)
+    })
+    this.ResistEvents.forEach(re => {
+      target.ApplyResist(re)
+    })
+    this.RemoveSpecialStatus?.forEach(status => {
+      target.RemoveSpecialStatus(status)
+    })
+    target.Combatant.actor.CombatController.AddLogEvent(this.EncounterInstance.Round, this.Summary)
+    this.Initiator.actor.CombatController.RootActor.CombatController.AddLogEvent(
+      this.EncounterInstance.Round,
+      this.Summary
+    )
+    this.EncounterInstance.AddLogEvent(this.Summary)
+  }
+
+  public ApplyAll() {
+    this.Targets.forEach(t => {
+      this.DamageEvents.forEach(de => {
+        t.ApplyDamage(de)
+      })
+      this.StatusEvents.forEach(se => {
+        t.ApplyStatus(se)
+      })
+      this.OtherEvents.forEach(oe => {
+        t.ApplyOther(oe)
+      })
+      this.SpecialEvents.forEach(spe => {
+        t.ApplySpecial(spe)
+      })
+      this.ResistEvents.forEach(re => {
+        t.ApplyResist(re)
+      })
+      this.RemoveSpecialStatus?.forEach(status => {
+        t.RemoveSpecialStatus(status)
+      })
+      t.Combatant.actor.CombatController.AddLogEvent(
+        this.EncounterInstance.Round,
+        EventSummary.fromActiveEffectEvent(this)
+      )
+    })
+    this.Initiator.actor.CombatController.RootActor.CombatController.AddLogEvent(
+      this.EncounterInstance.Round,
+      EventSummary.fromActiveEffectEvent(this)
+    )
+    this.EncounterInstance.AddLogEvent(EventSummary.fromActiveEffectEvent(this))
   }
 }
 

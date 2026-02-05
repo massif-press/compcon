@@ -1,7 +1,14 @@
-import { D20RollResult } from '@/class'
+import { D20RollResult, DamageType } from '@/class'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import { ActiveEffect } from '../ActiveEffect'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
+import { DamageEvent } from './damageEvent'
+import { StatusEvent } from './statusEvent'
+import { OtherEvent } from './otherEvent'
+import { SpecialEvent } from './specialEvent'
+import { ResistEvent } from './resistEvent'
+import { EffectSpecial } from '../effect_subtype/EffectSpecial'
+import { CoverType } from '@/classes/components/combat/CombatController'
 
 // this should include everything that can happen to a target, and components manage
 // what is shown/not shown based on the effect data
@@ -26,7 +33,7 @@ class ActiveEventTarget {
   public SaveTarget: number = 10
   public SaveBonus: number = 0
   public SaveRollString?: string // dice string
-  public SaveRollResult?: number // after roll
+  public SaveRollResult?: D20RollResult // after roll
   private _saveRolledValue?: number // save roll
   public SaveType?: string // hase
 
@@ -38,6 +45,7 @@ class ActiveEventTarget {
     this.Event = event
     this.Combatant = combatant
     this.AttackType = event.Attack
+    this.AttackAccuracy = event.Accuracy || 0
 
     if (effect.Save) {
       this.SaveType = event.Save
@@ -100,6 +108,79 @@ class ActiveEventTarget {
     if (this.SaveRolledValue === undefined) return ''
     if (this.SaveRolledValue >= this.SaveTarget) return 'success'
     return 'failure'
+  }
+
+  public get IsExposed(): boolean {
+    return this.Combatant.actor.CombatController.HasStatus('exposed')
+  }
+
+  public get IsShredded(): boolean {
+    return this.Combatant.actor.CombatController.HasStatus('shredded')
+  }
+
+  public Resistance(damageType: string): string {
+    return this.Combatant.actor.CombatController.GetResistance(damageType)
+  }
+
+  public DamageModSummary(damageType: string, isAp: boolean, isIrreducible: boolean): string {
+    let str = ''
+    if (!isIrreducible && this.Resistance(damageType) === 'immunity')
+      return `No Damage (target Immune) `
+    if (this.IsExposed) str += 'x2 (target Exposed) '
+    if (this.Resistance(damageType) === 'vulnerable') str += 'x2 (target Vulnerable) '
+    if (isIrreducible) return `${str} (Irreducible)`
+    const armor = this.Combatant.actor.CombatController.StatController.CurrentStats['armor'] || 0
+    if (armor && !['heat', 'burn'].includes(damageType.toLowerCase())) {
+      if (isAp) str += `- 0 (target Armor ignored) `
+      else if (this.IsShredded) str += `- 0 (target Shredded) `
+      else str += `- ${armor} (target Armor) `
+    }
+    if (this.Resistance(damageType) === 'resistance') str += '/2 (target Resistance) '
+    return str.trim()
+  }
+
+  public ApplyDamage(damageEvent: DamageEvent) {
+    damageEvent.CalcFinalDamage(this.Event, this)
+    if (this.FinalDamageValue > 0)
+      this.Combatant.actor.CombatController.ApplyDamage(
+        damageEvent.DamageType,
+        this.FinalDamageValue
+      )
+  }
+
+  public ApplyStatus(statusEvent: StatusEvent) {
+    this.Combatant.actor.CombatController.SetStatus(statusEvent.Status, statusEvent.Duration)
+  }
+
+  public ApplyOther(otherEvent: OtherEvent) {
+    switch (otherEvent.Type) {
+      case 'cover':
+        this.Combatant.actor.CombatController.Cover = otherEvent.Value as CoverType
+        break
+      default:
+        this.Combatant.actor.CombatController.StatController.CurrentStats[otherEvent.Type] +=
+          otherEvent.Value as number
+        break
+    }
+  }
+
+  public ApplySpecial(specialEvent: SpecialEvent) {
+    this.Combatant.actor.CombatController.SetCustomStatus(
+      new EffectSpecial({
+        attribute: specialEvent.Attribute,
+        detail: specialEvent.Detail,
+        duration: specialEvent.Duration,
+      }),
+      specialEvent.Duration
+    )
+  }
+
+  public ApplyResist(resistEvent: ResistEvent) {
+    this.Combatant.actor.CombatController.SetResistance(resistEvent.ResistType, resistEvent.Resist)
+  }
+
+  public RemoveSpecialStatus(special: string) {
+    this.Combatant.actor.CombatController.RemoveCustomStatus(special)
   }
 }
 

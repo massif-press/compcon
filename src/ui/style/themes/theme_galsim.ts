@@ -1,4 +1,4 @@
-import themeDefaults from './common';
+import themeDefaults from './common'
 
 const theme = {
   dark: true,
@@ -43,6 +43,7 @@ const theme = {
     'v-expansion-panel': '#373737',
     'v-data-table': '#373737',
     surface: '#373737',
+    'surface-hover': '#474747',
     'surface-variant': '#222',
 
     panel: '#2D2C29',
@@ -53,5 +54,5 @@ const theme = {
     'stark-panel': '#222',
     'on-surface-variant': '#96a0a0',
   },
-};
-export default theme;
+}
+export default theme

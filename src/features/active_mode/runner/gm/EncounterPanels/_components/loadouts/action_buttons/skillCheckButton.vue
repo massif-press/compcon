@@ -171,20 +171,20 @@
                           flat
                           tile
                           :color="!$refs.check.roll
-                              ? ''
-                              : $refs.check.roll >= targetVal
-                                ? 'success'
-                                : 'error'
+                            ? ''
+                            : $refs.check.roll >= targetVal
+                              ? 'success'
+                              : 'error'
                             "
                           class="ml-n2"
                           v-bind="props"
                           @click="overrideSave()">
                           <v-icon size="25"
                             :icon="!$refs.check.roll
-                                ? 'mdi-circle-outline'
-                                : $refs.check.roll >= targetVal
-                                  ? 'mdi-check-circle'
-                                  : 'mdi-cancel'
+                              ? 'mdi-circle-outline'
+                              : $refs.check.roll >= targetVal
+                                ? 'mdi-check-circle'
+                                : 'mdi-cancel'
                               " />
                         </v-btn>
                       </template>
@@ -252,7 +252,7 @@
         :key="controller.ID"
         :active-effect="action"
         :encounter="encounter"
-        :owner="controller.Parent"
+        :owner="owner"
         :close="close"
         @apply="apply"
         @reset="reset" />

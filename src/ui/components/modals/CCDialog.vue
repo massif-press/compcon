@@ -5,14 +5,14 @@
   <v-dialog v-model="dialog"
     :fullscreen="mobile"
     :max-width="mobile ? '' : maxWidth"
-    :min-width="mobile ? '' : minWidth">
+    :min-width="mobile ? '' : minWidth"
+    :close-on-content-click="closeOnClick">
     <v-card tile
       flat
-      :class="!mobile && 'cc-panel-clip'"
+      :class="[!mobile && 'cc-panel-clip', closeOnClick && 'hoverClose']"
       style="position: relative"
       border="sm"
-      :ripple="false"
-      @click.stop="closeOnClick ? close() : undefined">
+      :ripple="false">
       <cc-toolbar minor
         :title="title"
         :icon="icon"
@@ -107,5 +107,14 @@ export default {
   font-size: 8px;
   line-height: 15px;
   opacity: 0.6;
+}
+
+.hoverClose:hover {
+  cursor: pointer;
+  background-color: rgb(var(--v-theme-surface-hover));
+}
+
+.hoverClose {
+  transition: background-color 0.3s ease-in-out;
 }
 </style>

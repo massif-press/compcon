@@ -67,6 +67,10 @@
       </v-btn>
     </template>
     <template #default="{ close }">
+      <cc-synergy-display v-if="selectedWeapon"
+        location="attack"
+        :mech="controller.Parent"
+        alert />
       <mech-mount-bonus-card v-if="selectedMount"
         v-for="b in selectedMount.Bonuses"
         :key="b.ID"
@@ -75,167 +79,142 @@
         :mech="owner.actor.CombatController.Parent"
         :encounter="encounter" />
 
-      <v-card flat
-        tile>
+
+      <div v-if="!presetWeapon"
+        class="text-cc-overline text-disabled pl-3 py-2">
+        select skirmish weapon
+      </div>
+      <v-row dense
+        align="center"
+        class="bg-panel heading h3 pb-1 px-3">
+        <v-divider v-if="presetWeapon"
+          class="my-1 " />
+        <v-col v-if="!presetWeapon">
+          <cc-select v-model="selectedWeapon"
+            :items="skirmishWeapons"
+            bg-color="background"
+            color="primary"
+            return-object
+            item-title="Name"
+            @update:model-value="reset()" />
+
+        </v-col>
+        <v-col v-else-if="selectedWeapon">
+          <v-icon icon="cc:weapon"
+            class="ml-4 mt-n1" />
+          {{ selectedWeapon.Name }}
+        </v-col>
+        <v-col v-if="selectedWeapon"
+          cols="auto">
+          <cc-tags :tags="selectedWeapon.Tags" />
+        </v-col>
+        <v-col v-if="selectedWeapon?.Mod"
+          cols="auto">
+          <cc-tags :tags="selectedWeapon.Mod!.AddedTags"
+            color="mod" />
+        </v-col>
+        <v-col v-if="selectedWeapon"
+          cols="auto">
+          <v-menu open-on-hover
+            max-width="600px">
+            <template #activator="{ props }">
+              <v-icon icon="mdi-information-outline"
+                v-bind="props" />
+            </template>
+            <v-card class="pt-2 pb-4 px-4">
+              <cc-item-card :item="selectedWeapon" />
+            </v-card>
+          </v-menu>
+        </v-col>
+      </v-row>
+
+      <div class="px-6">
 
         <cc-synergy-display v-if="selectedWeapon"
-          location="attack"
+          :item="selectedWeapon"
+          location="weapon"
           :mech="controller.Parent"
           alert />
 
-        <div v-if="!presetWeapon"
-          class="text-cc-overline text-disabled pl-3 py-2">
-          select weapon
-        </div>
-        <v-row dense
-          align="center"
-          class="bg-panel heading h3 pb-1 px-3">
-          <v-divider v-if="presetWeapon"
-            class="my-1 " />
-          <v-col v-if="!presetWeapon">
-            <cc-select v-model="selectedWeapon"
-              :items="skirmishWeapons"
-              bg-color="background"
-              color="primary"
-              return-object
-              item-title="Name"
-              @update:model-value="reset()" />
+        <mech-weapon-attack v-if="selectedWeapon && event"
+          :event="<WeaponAttackEvent>event"
+          :owner="owner"
+          :encounter="encounter"
+          :profile="<WeaponProfile>event.Weapon" />
 
-          </v-col>
-          <v-col v-else-if="selectedWeapon">
-            <v-icon icon="cc:weapon"
-              class="ml-4 mt-n1" />
-            {{ selectedWeapon.Name }}
-          </v-col>
-          <v-col v-if="selectedWeapon"
-            cols="auto">
-            <cc-tags :tags="selectedWeapon.Tags" />
-          </v-col>
-          <v-col v-if="selectedWeapon?.Mod"
-            cols="auto">
-            <cc-tags :tags="selectedWeapon.Mod!.AddedTags"
-              color="mod" />
-          </v-col>
-          <v-col v-if="selectedWeapon"
-            cols="auto">
-            <v-menu open-on-hover
-              max-width="600px">
-              <template #activator="{ props }">
-                <v-icon icon="mdi-information-outline"
-                  v-bind="props" />
-              </template>
-              <v-card class="pt-2 pb-4 px-4">
-                <cc-item-card :item="selectedWeapon" />
-              </v-card>
-            </v-menu>
-          </v-col>
-        </v-row>
-
-        <div class="px-6">
-
-          <cc-synergy-display v-if="selectedWeapon"
-            :item="selectedWeapon"
-            location="weapon"
-            :mech="controller.Parent"
-            alert />
-
-          <mech-weapon-attack v-if="selectedWeapon && event"
-            :event="<WeaponAttackEvent>event"
-            :owner="owner"
-            :encounter="encounter"
-            :profile="<WeaponProfile>event.Weapon"
-            @weapon-changed="onWeaponChanged" />
-
-          <div v-if="auxEvents && auxEvents.length"
-            class="mt-4">
-            <v-divider class="my-4" />
-            <div class="text-cc-overline text-disabled mb-1">
-              additional {{ selectedMount.Name }} aux weapons
-            </div>
-            <div v-for="(aux, aidx) in auxEvents">
-              <v-row dense
-                align="center"
-                class="bg-panel mb-1 heading">
-                <v-col cols="auto">
-                  <v-icon icon="cc:weapon"
-                    class="ml-4"
-                    start />
-                </v-col>
-                <v-col>
-                  {{ aux.Weapon.Name }}
-                </v-col>
-                <v-col cols="auto">
-                  <cc-tags :tags="aux.Weapon.Tags" />
-                </v-col>
-                <v-col v-if="(aux.Weapon as WeaponProfile).Parent.Mod"
-                  cols="auto">
-                  <cc-tags :tags="(aux.Weapon as WeaponProfile).Parent.Mod!.AddedTags"
-                    color="mod" />
-                </v-col>
-                <v-col cols="auto">
-                  <cc-switch v-model="include[aidx]"
-                    bg-color="background"
-                    :label="`Include`" />
-                </v-col>
-              </v-row>
-              <v-slide-y-reverse-transition>
-                <div v-if="aux && include[aidx]">
-                  <cc-synergy-display :key="aux.Weapon.ID"
-                    :item="(aux.Weapon as WeaponProfile).Parent"
-                    location="weapon"
-                    :mech="controller.Parent"
-                    alert />
-
-                  <mech-weapon-attack v-if="selectedWeapon"
-                    :event="<WeaponAttackEvent>aux"
-                    :owner="owner"
-                    :encounter="encounter"
-                    :profile="<WeaponProfile>aux.Weapon" />
-
-                </div>
-              </v-slide-y-reverse-transition>
-            </div>
+        <div v-if="auxEvents && auxEvents.length"
+          class="mt-4">
+          <v-divider class="my-4" />
+          <div class="text-cc-overline text-disabled mb-1">
+            additional {{ selectedMount.Name }} aux weapons
           </div>
-
-        </div>
-        <v-slide-y-transition>
-          <div v-if="event && event.BaseEvent.Staged"
-            class="pa-4">
-            <div class="text-cc-overline text-disabled">Staged:</div>
-            <v-row dense>
-              <v-col>
-                <code style="white-space: pre-wrap; font-size: 12px;">
-          {{ event.Summary }}
-        </code>
+          <div v-for="(aux, aidx) in auxEvents">
+            <v-row dense
+              align="center"
+              class="bg-panel mb-1 heading">
+              <v-col cols="auto">
+                <v-icon icon="cc:weapon"
+                  class="ml-4"
+                  start />
               </v-col>
-              <v-col cols="auto"
-                align-self="end">
-                <v-btn size=small
-                  icon
-                  flat
-                  tile
-                  variant="text"
-                  class="fade-select"
-                  @click="copyText(event.Summary)">
-                  <v-icon icon="mdi-content-copy" />
-                </v-btn>
+              <v-col>
+                {{ aux.Weapon.Name }}
+              </v-col>
+              <v-col cols="auto">
+                <cc-tags :tags="aux.Weapon.Tags" />
+              </v-col>
+              <v-col v-if="(aux.Weapon as WeaponProfile).Parent.Mod"
+                cols="auto">
+                <cc-tags :tags="(aux.Weapon as WeaponProfile).Parent.Mod!.AddedTags"
+                  color="mod" />
+              </v-col>
+              <v-col cols="auto">
+                <cc-switch v-model="include[aidx]"
+                  bg-color="background"
+                  :label="`Include`" />
               </v-col>
             </v-row>
+            <v-slide-y-reverse-transition>
+              <div v-if="aux && include[aidx]">
+                <cc-synergy-display :key="aux.Weapon.ID"
+                  :item="(aux.Weapon as WeaponProfile).Parent"
+                  location="weapon"
+                  :mech="controller.Parent"
+                  alert />
+
+                <mech-weapon-attack v-if="selectedWeapon"
+                  :event="<WeaponAttackEvent>aux"
+                  :owner="owner"
+                  :encounter="encounter"
+                  :profile="<WeaponProfile>aux.Weapon" />
+
+              </div>
+            </v-slide-y-reverse-transition>
           </div>
-        </v-slide-y-transition>
-
-        <v-divider />
-        <div class="pa-4">
-
-          <apply-button v-if="event"
-            :event="<ActiveEffectEvent>event.BaseEvent"
-            :encounter="encounter"
-            :owner="owner"
-            :close="close"
-            :action="action"
-            @reset="reset($event)" />
         </div>
-      </v-card>
+
+      </div>
+      <v-slide-y-transition>
+        <staged-panel v-if="event && event.BaseEvent.Staged"
+          :events=eventArray />
+
+      </v-slide-y-transition>
+
+      <v-divider />
+      <div class="pa-4">
+
+        <apply-button v-if="event"
+          :event="<ActiveEffectEvent>event.BaseEvent"
+          :weapon-event="<WeaponAttackEvent>event"
+          :encounter="encounter"
+          :owner="owner"
+          :close="close"
+          :action="action"
+          :action-id="selectedWeapon ? selectedWeapon.InstanceID : ''"
+          activation-override="quick"
+          @reset="reset($event)"
+          @apply="apply" />
+      </div>
 
     </template>
   </cc-dialog>
@@ -252,6 +231,7 @@ import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
 import MechWeaponAttack from './_mechWeaponAttack.vue';
 import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
+import StagedPanel from './_stagedPanel.vue';
 
 export default {
   name: 'MechSkirmishButton',
@@ -277,16 +257,42 @@ export default {
     MenuInput,
     MechMountBonusCard,
     MechWeaponAttack,
-    ApplyButton
+    ApplyButton,
+    StagedPanel
   },
   data: () => ({
     event: null as WeaponAttackEvent | null,
     auxEvents: [] as WeaponAttackEvent[],
     selectedWeapon: null as MechWeapon | null,
-    include: [],
+    include: [] as boolean[],
   }),
   created() {
     this.reset();
+  },
+  watch: {
+    include: {
+      handler(newVal, oldVal) {
+        const self = this.encounter.Combatants.find(
+          (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
+        );
+        if (!self) {
+          throw new Error('Owner combatant not found in encounter');
+        }
+        const auxes = this.selectedMount.Weapons.filter(
+          (x) =>
+            x.InstanceID !== this.selectedWeapon!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
+        );
+
+        this.auxEvents = []
+
+        for (let i = 0; i < newVal.length; i++) {
+          this.auxEvents.push(
+            new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack')
+          );
+        }
+      },
+      deep: true,
+    },
   },
   computed: {
     available() {
@@ -299,6 +305,9 @@ export default {
       return this.controller.CanActivate(this.action.Activation);
     },
     canUse() {
+      if (this.presetWeapon) {
+        return !this.controller.IsActionUsed(this.presetWeapon.InstanceID);
+      }
       return !this.controller.IsActionUsed(this.action.ID);
     },
     selectedMount() {
@@ -326,6 +335,10 @@ export default {
       }
       return arr;
     },
+    eventArray() {
+      const enabledAuxes = this.auxEvents.filter((x, idx) => this.include[idx]);
+      return [this.event].concat(enabledAuxes)
+    },
   },
   methods: {
     reset(clearAction = false) {
@@ -350,20 +363,20 @@ export default {
       );
 
       this.auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack'));
+
+      this.include = this.auxEvents.map(() => true);
     },
-    stage() {
-      this.$emit('activate', this.event);
-    },
-    apply(close: Function) {
-      this.$emit('activate', this.event);
-      close();
+    apply() {
+      const actor = this.owner.actor.CombatController.ActiveActor.CombatController;
+      actor.MarkActionUsed(this.selectedWeapon!.InstanceID);
+      if (actor.CanActivate('quick')) {
+        actor.toggleCombatAction('quick');
+      }
+      this.reset();
     },
     onWeaponChanged(weapon: MechWeapon) {
       this.selectedWeapon = weapon;
       this.reset();
-    },
-    copyText(text: string) {
-      navigator.clipboard.writeText(text);
     },
   },
 };

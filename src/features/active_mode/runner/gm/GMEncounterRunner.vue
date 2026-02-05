@@ -56,8 +56,20 @@
                 :combatant="selected"
                 :encounter-instance="instance"
                 @deselect="selectActor($event)" />
-              <actor-logs v-if="selected.actor"
-                :actor="selected.actor" />
+              <v-row dense
+                justify="end">
+                <v-col cols="auto">
+
+                  <actor-logs v-if="selected.actor"
+                    :actor="selected.actor.CombatController.RootActor"
+                    :encounter="instance" />
+                </v-col>
+                <v-col cols="auto">
+                  <combat-statblock-export v-if="selected.actor"
+                    :actor="selected.actor.CombatController.RootActor"
+                    :encounter="instance" />
+                </v-col>
+              </v-row>
             </div>
           </v-container>
         </v-main>
@@ -138,6 +150,7 @@ import OptionsPanel from './InfoPanels/GmOptionsPanel.vue';
 import PlaceholderPanel from './EncounterPanels/PlaceholderPanel.vue';
 import EidolonPanel from './EncounterPanels/EidolonPanel.vue';
 import ActorLogs from './EncounterPanels/_components/ActorLogs.vue';
+import CombatStatblockExport from './EncounterPanels/_components/CombatStatblockExport.vue';
 
 export default {
   name: 'gm-encounter-runner',
@@ -162,6 +175,7 @@ export default {
     GmEndEncounterPanel,
     OptionsPanel,
     ActorLogs,
+    CombatStatblockExport,
   },
   data: () => ({
     selected: null,
@@ -217,6 +231,7 @@ export default {
       handler(oldval, newval) {
         if (!newval) return;
         this.setEidolonHp();
+        this.actors.forEach(a => a.CombatController.Round = this.instance.Round);
       },
       deep: true,
     },

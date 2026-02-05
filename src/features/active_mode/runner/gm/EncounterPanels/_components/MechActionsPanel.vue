@@ -30,10 +30,10 @@
               @activate="activate($event)" />
           </v-col>
           <v-col>
-            <!-- <mech-barrage-button :action="getBaseAction('act_barrage')"
+            <mech-barrage-button :action="getBaseAction('act_barrage')"
               :owner="owner"
               :encounter="encounter"
-              @activate="activate($event)" /> -->
+              @activate="activate($event)" />
           </v-col>
         </v-row>
         <v-divider class="my-2" />
@@ -205,7 +205,6 @@ export default {
       return CompendiumStore().Actions.find((a) => a.ID === actionId);
     },
     activate(event) {
-      console.log(event);
       this.controller.MarkActionUsed(event);
       switch (event) {
         case 'act_prepare':
@@ -281,7 +280,6 @@ export default {
           }
           break;
         case 'act_boot_up':
-          console.log(this.controller.Statuses);
           if (!this.controller.Statuses.some((x) => x.status.ID === 'shut-down')) {
             this.$notify({
               type: 'warning',
@@ -329,8 +327,7 @@ export default {
           });
           break;
         default:
-          console.log(event);
-
+          console.warning('uncaught event:', event);
           break;
       }
     },

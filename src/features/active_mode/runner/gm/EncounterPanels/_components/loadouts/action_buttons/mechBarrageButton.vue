@@ -4,7 +4,8 @@
     :title="action.Name"
     :close-on-click="false"
     min-width="70vw"
-    max-width="80vw">
+    max-width="80vw"
+    no-gutters>
     <template #activator="{ open }">
       <v-btn block
         flat
@@ -13,8 +14,7 @@
         :color="available ? action.Color : 'panel'"
         @click="open">
         <span class="ml-1">
-          <v-icon v-bind="props"
-            :icon="action.Icon"
+          <v-icon :icon="action.Icon"
             :color="available ? '' : 'error'"
             start />
           <v-tooltip v-if="!available"
@@ -40,6 +40,7 @@
                 actions remaining this turn.
               </div>
             </div>
+            <div v-else-if="!canUse">This action has already been used this turn.</div>
           </v-tooltip>
         </span>
         <v-tooltip location="top"
@@ -66,48 +67,176 @@
       </v-btn>
     </template>
     <template #default="{ close }">
-      <mech-mount-bonus-card v-if="selectedMount"
-        v-for="b in selectedMount.Bonuses"
-        :key="b.ID"
-        expanded
-        :bonus="b"
-        :mech="controller.Parent"
-        :encounter="encounter" />
 
-      <mech-weapon-attack ref="attackInternal0"
-        :controller="controller"
-        :encounter="encounter"
-        :preset-weapon="presetWeapon"
-        :prevent-select="selectedWeapon1"
-        @weapon-changed="selectedWeapon0 = $event"
-        @damage-staged="finalDamageArray0 = $event" />
-      <mech-weapon-attack ref="attackInternal1"
-        v-if="!superheavySelected"
-        :controller="controller"
-        :encounter="encounter"
-        :prevent-select="selectedWeapon0"
-        is-barrage-additional
-        @weapon-changed="selectedWeapon1 = $event"
-        @damage-staged="finalDamageArray1 = $event" />
-      <v-divider class="my-4" />
-      <menu-input hide-input
-        :key="controller.ID"
-        :active-effect="action"
-        :encounter="encounter"
-        :owner="controller.Parent"
-        :close="close"
-        @apply="apply(close)"
-        @reset="reset"
-        @stage="stage" />
+      <cc-synergy-display location="attack"
+        :mech="controller.Parent"
+        alert />
+
+      <div v-for="(selectedWeapon, idx) in selectedWeapons"
+        :key="selectedWeapon ? selectedWeapon.InstanceID : `empty-${idx}`">
+        <div v-if="!selectedWeapon"
+          class="text-cc-overline text-disabled pl-3 py-2">
+          select barrage weapon
+        </div>
+        <v-row dense
+          align="center"
+          class="bg-panel heading h3 pb-1 px-3">
+          <v-divider v-if="presetWeapon"
+            class="my-1 " />
+          <v-col v-if="!presetWeapon || idx > 0">
+            <cc-select v-model="selectedWeapons[idx]"
+              :items="barrageWeapons"
+              bg-color="background"
+              color="primary"
+              return-object
+              item-title="Name"
+              @update:model-value="setSelected(idx, $event)" />
+
+          </v-col>
+          <v-col v-else-if="selectedWeapon">
+            <v-icon icon="cc:weapon"
+              class="ml-4 mt-n1" />
+            {{ selectedWeapon.Name }}
+          </v-col>
+          <v-col v-if="selectedWeapon"
+            cols="auto">
+            <cc-tags :tags="selectedWeapon.Tags" />
+          </v-col>
+          <v-col v-if="selectedWeapon?.Mod"
+            cols="auto">
+            <cc-tags :tags="selectedWeapon.Mod!.AddedTags"
+              color="mod" />
+          </v-col>
+          <v-col v-if="selectedWeapon"
+            cols="auto">
+            <v-menu open-on-hover
+              max-width="600px">
+              <template #activator="{ props }">
+                <v-icon icon="mdi-information-outline"
+                  v-bind="props" />
+              </template>
+              <v-card class="pt-2 pb-4 px-4">
+                <cc-item-card :item="selectedWeapon" />
+              </v-card>
+            </v-menu>
+          </v-col>
+        </v-row>
+
+        <mech-mount-bonus-card v-if="selectedMount(selectedWeapon)"
+          v-for="b in selectedMount(selectedWeapon).Bonuses"
+          :key="b.ID"
+          expanded
+          :bonus="b"
+          :mech="owner.actor.CombatController.Parent"
+          :encounter="encounter" />
+
+        <div class="px-6">
+
+          <cc-synergy-display v-if="selectedWeapon"
+            :item="selectedWeapon"
+            location="weapon"
+            :mech="controller.Parent"
+            alert />
+
+          <mech-weapon-attack v-if="selectedWeapon && events[idx]?.weaponEvent"
+            :event="<WeaponAttackEvent>events[idx].weaponEvent"
+            :owner="owner"
+            :encounter="encounter"
+            :profile="<WeaponProfile>events[idx].weaponEvent.Weapon" />
+
+          <div
+            v-if="selectedMount(selectedWeapon) && events[idx]?.auxEvents && events[idx]?.auxEvents.length"
+            class="mt-4">
+            <v-divider class="my-4" />
+            <div class="text-cc-overline text-disabled mb-1">
+              additional {{ selectedMount(selectedWeapon).Name }} aux weapons
+            </div>
+            <div v-for="(aux, aidx) in events[idx]?.auxEvents">
+              <v-row dense
+                align="center"
+                class="bg-panel mb-1 heading">
+                <v-col cols="auto">
+                  <v-icon icon="cc:weapon"
+                    class="ml-4"
+                    start />
+                </v-col>
+                <v-col>
+                  {{ aux.Weapon.Name }}
+                </v-col>
+                <v-col cols="auto">
+                  <cc-tags :tags="aux.Weapon.Tags" />
+                </v-col>
+                <v-col v-if="(aux.Weapon as WeaponProfile).Parent.Mod"
+                  cols="auto">
+                  <cc-tags :tags="(aux.Weapon as WeaponProfile).Parent.Mod!.AddedTags"
+                    color="mod" />
+                </v-col>
+                <v-col cols="auto">
+                  <cc-switch v-model="events[idx].include[aidx]"
+                    bg-color="background"
+                    :label="`Include`"
+                    @update:model-value="setInclude(idx, selectedWeapon as MechWeapon)" />
+                </v-col>
+              </v-row>
+              <v-slide-y-reverse-transition>
+                <div v-if="aux && events[idx]?.include[aidx]">
+                  <cc-synergy-display :key="aux.Weapon.ID"
+                    :item="(aux.Weapon as WeaponProfile).Parent"
+                    location="weapon"
+                    :mech="controller.Parent"
+                    alert />
+
+                  <mech-weapon-attack v-if="selectedWeapon"
+                    :event="<WeaponAttackEvent>aux"
+                    :owner="owner"
+                    :encounter="encounter"
+                    :profile="<WeaponProfile>aux.Weapon" />
+
+                </div>
+              </v-slide-y-reverse-transition>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <v-slide-y-transition>
+        <staged-panel v-if="allEventsStaged"
+          :events=eventArray />
+      </v-slide-y-transition>
+
+      <v-divider />
+      <div class="pa-4">
+
+        <apply-button v-if="events.length"
+          :event="<ActiveEffectEvent[]>events.map(e => e.weaponEvent.BaseEvent)"
+          :weapon-event="<WeaponAttackEvent[]>events.map(e => e.weaponEvent)"
+          :encounter="encounter"
+          :owner="owner"
+          :close="close"
+          :action="action"
+          :action-id="selectedWeapons.length ? selectedWeapons.map(w => w.InstanceID) : []"
+          activation-override="full"
+          @reset="reset($event)"
+          @apply="apply" />
+      </div>
+
     </template>
   </cc-dialog>
 </template>
 
-<script>
-import { CompendiumStore } from '@/stores';
+<script lang="ts">
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
+import MechMountBonusCard from '../_mechMountBonusCard.vue';
+import { MechWeapon } from '@/class';
+import { CombatantData } from '@/classes/encounter/Encounter';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
+import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
 import MechWeaponAttack from './_mechWeaponAttack.vue';
-import { WeaponSize } from '@/class';
+import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
+import StagedPanel from './_stagedPanel.vue';
+import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 
 export default {
   name: 'MechBarrageButton',
@@ -121,87 +250,165 @@ export default {
       required: true,
     },
     encounter: {
-      type: Object,
+      type: EncounterInstance,
       required: true,
     },
     presetWeapon: {
-      type: Object,
+      type: MechWeapon,
       required: false,
     },
   },
   components: {
     MenuInput,
+    MechMountBonusCard,
     MechWeaponAttack,
+    ApplyButton,
+    StagedPanel
   },
   data: () => ({
-    selectedWeapon0: null,
-    selectedWeapon1: null,
-    finalDamageArray0: [],
-    finalDamageArray1: [],
+    events: [] as {
+      weaponEvent: WeaponAttackEvent,
+      auxes: MechWeapon[],
+      auxEvents: WeaponAttackEvent[],
+      include: boolean[],
+    }[],
+    selectedWeapons: [] as MechWeapon[],
   }),
-
-  watch: {
-    presetWeapon: {
-      immediate: true,
-      handler(newVal) {
-        if (newVal) {
-          this.selectedWeapon = newVal;
-        }
-      },
-    },
+  created() {
+    this.reset();
   },
   computed: {
-    controller() {
-      return this.owner.actor.CombatController;
-    },
-    ordnanceWarning() {
-      if (!this.selectedWeapon0 && !this.selectedWeapon1) return false;
-      if (this.selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance') || this.selectedWeapon1.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return this.controller.CanActivate('ordnance') === false;
-      }
-      return false;
-    },
-    canActivate() {
-      return this.controller.CanActivate(this.action.Activation) && !this.selectedWeapon?.Used && !this.selectedWeapon1?.Used;
-    },
-    canUse() {
-      return !this.controller.IsActionUsed(this.actionId) && (!this.presetWeapon || !this.presetWeapon.Used) && (!this.presetWeapon1 || !this.presetWeapon1.Used);
-    },
     available() {
       return this.canActivate && this.canUse;
     },
-    superheavySelected() {
-      if (!this.selectedWeapon0 && !this.presetWeapon) return false;
-      return (this.selectedWeapon0 && this.selectedWeapon0.Size === WeaponSize.Superheavy) || (this.presetWeapon && this.presetWeapon.Size === WeaponSize.Superheavy);
+    controller() {
+      return this.owner.actor.CombatController.ActiveActor.CombatController;
+    },
+    canActivate() {
+      return this.controller.CanActivate(this.action.Activation);
+    },
+    canUse() {
+      if (this.presetWeapon) {
+        return !this.controller.IsActionUsed(this.presetWeapon.InstanceID);
+      }
+      return !this.controller.IsActionUsed(this.action.ID);
+    },
+    barrageWeapons() {
+      const mech = this.controller.ActiveActor;
+      if (!mech || !mech.MechLoadoutController) return []
+      let arr = mech.MechLoadoutController.ActiveLoadout.Weapons.filter(
+        (x) => x.Barrage
+      );
+
+      arr = arr.filter(w => !this.selectedWeapons.map(x => x.InstanceID).some(y => y === w.InstanceID));
+
+      return arr;
+    },
+    eventArray() {
+      let out = [] as any[];
+      for (let i = 0; i < this.selectedWeapons.length; i++) {
+        const ev = this.events[i];
+        if (ev && ev.weaponEvent) {
+          out.push(ev.weaponEvent);
+          const enabledAuxes = ev.auxEvents.filter((x, idx) => ev.include[idx]);
+          out = out.concat(enabledAuxes);
+        }
+      }
+      return out;
+    },
+    allEventsStaged() {
+      if (!this.eventArray.length) return false;
+      return this.eventArray.every((e) => e.BaseEvent.Staged);
     }
   },
-  emits: ['activate'],
   methods: {
-    stage() {
-      if (this.$refs.attackInternal0) {
-        this.$refs.attackInternal0.stage();
-      } if (this.$refs.attackInternal1) {
-        this.$refs.attackInternal1.stage();
+    ordnanceWarning(selectedWeapon) {
+      if (!selectedWeapon) return false;
+      if (selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
+        return this.owner.actor.CombatController.CanActivate('ordnance') === false;
+      }
+      return false;
+    },
+    selectedMount(selectedWeapon) {
+      if (!selectedWeapon) return null;
+      const aa = this.owner.actor.CombatController.RootActor;
+      if (!aa.ActiveMech) return null;
+
+      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.includes(selectedWeapon));
+    },
+    setSelected(index: number, weapon: MechWeapon) {
+      if (!weapon) return;
+
+      const self = this.encounter.Combatants.find(
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
+      );
+      if (!self) {
+        throw new Error('Owner combatant not found in encounter');
+      }
+
+      this.selectedWeapons[index] = weapon;
+      const auxes = this.selectedMount(weapon).Weapons.filter(
+        (x) =>
+          x.InstanceID !== weapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
+      );
+
+      const auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack'))
+
+      this.events[index] = {
+        weaponEvent: new WeaponAttackEvent(weapon.SelectedProfile as WeaponProfile, self, this.encounter, 'Barrage'),
+        auxes,
+        auxEvents,
+        include: auxEvents.map(() => true),
+      };
+
+      if (weapon.Size.toLowerCase() === 'superheavy') {
+        this.selectedWeapons = [weapon];
+        this.events = [this.events[index]];
+      } else if (this.selectedWeapons.length === 1) {
+        this.selectedWeapons.push(undefined as any);
+        this.events.push(undefined as any);
       }
     },
-    apply(close) {
-      this.controller.toggleCombatAction(this.action.Activation);
+    setInclude(index: number, selectedWeapon: MechWeapon) {
+      const self = this.encounter.Combatants.find(
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
+      );
+      if (!self) {
+        throw new Error('Owner combatant not found in encounter');
+      }
 
-      this.finalDamageArray0.concat(this.finalDamageArray1).forEach(dmg => {
-        const actor = this.encounter.Combatants.find(c => c.actor.CombatController.ActiveActor.ID === dmg.targetId)?.actor;
-        if (actor) {
-          actor.CombatController.ApplyDamage(dmg.damageType, dmg.damageValue);
-        }
+      const auxes = this.selectedMount(selectedWeapon).Weapons.filter(
+        (x) =>
+          x.InstanceID !== selectedWeapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
+      );
 
-      });
+      this.events[index].auxEvents = []
 
-      this.$emit('activate', this.actionId);
-      if (this.selectedWeapon0) this.selectedWeapon0.Use()
-      if (this.selectedWeapon1) this.selectedWeapon1.Use()
-      close;
+      for (let i = 0; i < this.events[index].include.length; i++) {
+        this.events[index].auxEvents.push(
+          new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack')
+        );
+      }
     },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
+    reset(clearAction = false) {
+      if (clearAction) this.owner.CombatController.ClearActionUsed(this.action.ID);
+
+      this.selectedWeapons = new Array(2);
+      this.events = new Array(2);
+
+      if (!this.selectedWeapons[0] && this.presetWeapon) {
+        this.setSelected(0, this.presetWeapon);
+      }
+    },
+    apply() {
+      const actor = this.owner.actor.CombatController.ActiveActor.CombatController;
+      this.selectedWeapons.forEach((w) => {
+        actor.MarkActionUsed(w.InstanceID);
+      });
+      if (actor.CanActivate('full')) {
+        actor.toggleCombatAction('full');
+      }
+      this.reset();
     },
   },
 };

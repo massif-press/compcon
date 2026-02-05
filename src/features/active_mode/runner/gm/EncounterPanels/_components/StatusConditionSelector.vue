@@ -208,7 +208,7 @@ export default {
     },
     addCustomStatus(name) {
       if (!name || !name.trim().length) return;
-      this.controller.SetCustomStatus(name.trim());
+      this.controller.SetCustomStatus({ Attribute: name.trim() });
       this.customStatus = '';
     },
     setInflictStatus(status) {

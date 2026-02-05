@@ -1,6 +1,5 @@
 <template>
-  <cc-alert
-    prominent
+  <cc-alert prominent
     icon="mdi-alert"
     title="Active Mode Development Preview"
     class="ma-4"
@@ -10,41 +9,51 @@
     development preview of the v3 active mode. It is not able to be used for any real game play, and
     is not a replacement for the v2 active mode. To follow the development of this feature, please
     check out the
-    <a href="https://www.patreon.com/c/compcon" target="_blank">
+    <a href="https://www.patreon.com/c/compcon"
+      target="_blank">
       public devlogs on the COMP/CON Patreon
     </a>
     .
   </cc-alert>
   <v-container fluid>
-    <v-row justify="space-around" align="center">
+    <v-row justify="space-around"
+      align="center">
       <v-col><v-divider /></v-col>
       <v-col cols="auto">
-        <div
-          class="font-weight-light text-center my-n2"
+        <div class="font-weight-light text-center my-n2"
           style="letter-spacing: calc(5px + 2cqw); font-size: calc(20px + 2cqw)">
           ACTIVE MODE
         </div>
       </v-col>
       <v-col><v-divider /></v-col>
     </v-row>
-    <v-row class="mt-1" :class="!mobile && 'px-5'" justify="space-around">
-      <v-col v-for="(list, i) in lists" cols="12" lg="">
-        <v-card variant="tonal" height="100%" :class="!mobile && 'px-6'" flat tile>
-          <v-list height="100%" class="pt-0" flat tile>
+    <v-row class="mt-1"
+      :class="!mobile && 'px-5'"
+      justify="space-around">
+      <v-col v-for="(list, i) in lists"
+        cols="12"
+        lg="">
+        <v-card variant="tonal"
+          height="100%"
+          :class="!mobile && 'px-6'"
+          flat
+          tile>
+          <v-list height="100%"
+            class="pt-0"
+            flat
+            tile>
             <v-list-item class="text-center">
-              <v-icon :icon="headers[i].icon" size="20vw" />
-              <v-list-item-title
-                class="heading h2"
+              <v-icon :icon="headers[i].icon"
+                size="20vw" />
+              <v-list-item-title class="heading h2"
                 :class="headers[i].subtitle ? 'text-grey' : 'text-accent'"
                 v-text="headers[i].title" />
-              <v-list-item-subtitle
-                v-if="headers[i].subtitle"
+              <v-list-item-subtitle v-if="headers[i].subtitle"
                 v-text="headers[i].subtitle"
                 class="text-cc-overline my-n1" />
             </v-list-item>
             <div v-for="e in list">
-              <v-list-item
-                v-if="!e.small"
+              <v-list-item v-if="!e.small"
                 lines="two"
                 :key="e.title"
                 :title="e.title"
@@ -56,25 +65,25 @@
                 :to="e.to">
                 <template #prepend>
                   <v-avatar>
-                    <v-icon size="x-large" :icon="e.icon" />
+                    <v-icon size="x-large"
+                      :icon="e.icon" />
                   </v-avatar>
                 </template>
               </v-list-item>
               <div v-else>
-                <v-btn
-                  v-if="(e as any).id === 'last-local' && lastLocalEncounter"
+                <v-btn v-if="(e as any).id === 'last-local' && lastLocalEncounter"
                   block
                   size="small"
                   tile
                   color="accent"
                   flat
                   @click="loadLastLocalEncounter()">
-                  <v-icon :icon="e.icon" start />
+                  <v-icon :icon="e.icon"
+                    start />
                   resume {{ lastLocalEncounter.Encounter.Name }} (Round
                   {{ lastLocalEncounter.Round }})
                 </v-btn>
-                <v-btn
-                  v-else
+                <v-btn v-else
                   block
                   size="small"
                   tile
@@ -114,7 +123,7 @@ export default {
       {
         icon: 'cc:diasporan',
         title: 'OBSERVER',
-        subtitle: 'In Development (release v3.0.2)',
+        subtitle: 'In Development (release v3.2)',
       },
     ],
     lists: [
@@ -133,7 +142,7 @@ export default {
         },
         {
           title: 'Join an Online Table',
-          subtitle: 'Feature in development (v3.0.2)',
+          subtitle: 'Feature in development (v3.2)',
           disabled: true,
           icon: 'cc:squad',
           to: '/active-mode/join-table',
@@ -155,7 +164,7 @@ export default {
         },
         {
           title: 'Active Tables',
-          subtitle: 'Feature in development (v3.0.1)',
+          subtitle: 'Feature in development (v3.2)',
           disabled: true,
           icon: 'mdi-lan',
           to: '/active-mode/manage-tables',
@@ -164,7 +173,7 @@ export default {
       [
         {
           title: 'Spectator Mode',
-          subtitle: 'Feature in development (v3.0.2)',
+          subtitle: 'Feature in development (v3.2)',
           disabled: true,
           icon: 'mdi-monitor-share',
           to: '/active-mode/spectate',
@@ -177,7 +186,7 @@ export default {
         },
         {
           title: 'Campaign Display',
-          subtitle: 'Feature in development (v3.0.2)',
+          subtitle: 'Feature in development (v3.2)',
           disabled: true,
           icon: 'mdi-monitor-dashboard',
           to: '/active-mode/campaign',

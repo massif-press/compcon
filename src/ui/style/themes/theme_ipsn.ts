@@ -1,4 +1,4 @@
-import themeDefaults from './common';
+import themeDefaults from './common'
 
 const theme = {
   id: 'ipsn',
@@ -43,6 +43,7 @@ const theme = {
     'v-expansion-panel': '#c9c7c7',
     'v-data-table': '#c9c7c7',
     surface: '#c9c7c7',
+    'surface-hover': '#d6d6d6',
     'surface-variant': '#424242',
 
     panel: '#ABB2B7',
@@ -53,5 +54,5 @@ const theme = {
     'stark-panel': '#EDEDED',
     'on-surface-variant': '#ABB2B7',
   },
-};
-export default theme;
+}
+export default theme

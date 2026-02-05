@@ -20,12 +20,13 @@
     <v-col v-if="canDealDamage && item.Barrage"
       cols="auto"
       class="ml-1">
-      <!-- <mech-barrage-button v-if="item.Barrage"
+      <mech-barrage-button v-if="item.Barrage"
+        :owner="owner"
         :action="barrageAction"
         :controller="controller"
         :encounter="encounter"
         :preset-weapon="item"
-        @activate="activate($event)" /> -->
+        @activate="activate($event)" />
     </v-col>
     <v-col v-if="item.IsAI"
       cols="auto">
@@ -314,9 +315,6 @@ export default {
     },
   },
   methods: {
-    activate(event) {
-      console.log(event)
-    },
     setUses(n) {
       if (this.item.Uses === 1 && n === 1) {
         this.item.Uses = 0;

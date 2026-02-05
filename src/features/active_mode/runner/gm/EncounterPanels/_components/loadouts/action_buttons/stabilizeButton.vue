@@ -158,7 +158,7 @@
         :key="controller.ID"
         :active-effect="action"
         :encounter="encounter"
-        :owner="controller.Parent"
+        :owner="owner"
         :close="close"
         @apply="apply"
         @reset="reset" />
