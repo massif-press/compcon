@@ -1,10 +1,10 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="auto" class="mr-n3">
+    <v-col cols="auto"
+      class="mr-n3">
       <v-menu :close-on-content-click="false">
         <template #activator="{ props }">
-          <v-btn
-            tile
+          <v-btn tile
             flat
             :readonly="readonly"
             class="pl-6"
@@ -12,31 +12,29 @@
             :class="`bg-${bgColor}  ${reverse ? 'reverse-btn-body-clip' : noClip ? 'btn-body' : 'btn-body-clip'}`"
             v-bind="props">
             <span class="pr-7 heading">
-              <v-icon v-if="icon" :icon="icon" class="mr-2 mt-n1" />
+              <v-icon v-if="icon"
+                :icon="icon"
+                class="mr-2 mt-n1" />
               <span v-if="display">
                 {{ modelValue }}
-                <div
-                  class="text-cc-overline d-inline-block ml-n2"
+                <div class="text-cc-overline d-inline-block ml-n2"
                   style="line-height: 0; opacity: 0.5">
                   /{{ ticks }}
                 </div>
               </span>
-              <v-icon
-                v-else-if="!icon && !readonly"
+              <v-icon v-else-if="!icon && !readonly"
                 icon="mdi-keyboard-variant"
                 style="opacity: 0.3" />
             </span>
           </v-btn>
         </template>
 
-        <tickbar-menu
-          :icon="icon"
+        <tickbar-menu :icon="icon"
           :label="label"
           :editable="editable"
           @set="setVal($event)"
           @reset="$emit('reset')">
-          <v-text-field
-            v-model.number="internalValue"
+          <v-text-field v-model.number="internalValue"
             variant="outlined"
             type="number"
             tile
@@ -46,8 +44,7 @@
             @focus="$event.target.select()"
             @update:model-value="setVal(Number($event))" />
           <template #edit-max-value>
-            <v-text-field
-              :model-value.number="internalValue"
+            <v-text-field :model-value.number="internalValue"
               variant="outlined"
               type="number"
               tile
@@ -62,24 +59,25 @@
     </v-col>
 
     <v-col>
-      <div
-        v-if="ticks > tickThreshold"
+      <div v-if="ticks > tickThreshold"
         class="angled"
         style="height: 36px"
         :style="pctBackground" />
-      <div v-else v-for="i in ticks" class="d-inline-block" :style="`width: ${100 / ticks}%;`">
-        <v-tooltip location="top" :open-delay="400">
+      <div v-else
+        v-for="i in ticks"
+        class="d-inline-block"
+        :style="`width: ${100 / ticks}%;`">
+        <v-tooltip location="top"
+          :open-delay="400">
           <template #activator="{ props }">
-            <v-btn
-              v-bind="props"
+            <v-btn v-bind="props"
               tile
               flat
-              :readonly="
-                readonly ||
+              :readonly="readonly ||
                 disabled ||
                 loading ||
                 (!!maxSelectable && modelValue + i - 1 >= maxSelectable)
-              "
+                "
               @mouseover="hover = i"
               @mouseleave="hover = null"
               style="width: calc(100% - 6px)"
@@ -96,14 +94,12 @@
     </v-col>
 
     <v-col cols="auto">
-      <div
-        class="end-cap"
+      <div class="end-cap"
         :class="`bg-${bgColor}`"
-        :style="
-          reverse
-            ? `clip-path: polygon(70% 0, 100% 0, 100% 100%, 4px 100%)`
-            : `clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 38px 100%)`
-        " />
+        :style="reverse
+          ? `clip-path: polygon(70% 0, 100% 0, 100% 100%, 4px 100%)`
+          : `clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 38px 100%)`
+          " />
     </v-col>
   </v-row>
 </template>

@@ -11,7 +11,7 @@
           variant="text"
           tile
           :size="optionsSize"
-          @click="setVal(<number>modelValue - 1)">
+          @click="setVal(Number(modelValue) - 1)">
           <v-icon :size="optionsSize"
             icon="mdi-minus" />
         </v-btn>
@@ -88,7 +88,7 @@
           variant="text"
           tile
           :size="optionsSize"
-          @click="setVal(<number>modelValue + 1)">
+          @click="setVal(Number(modelValue) + 1)">
           <v-icon :size="optionsSize"
             icon="mdi-plus" />
         </v-btn>
