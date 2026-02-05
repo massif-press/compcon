@@ -67,10 +67,6 @@ class PilotWeapon extends PilotEquipment {
     }
   }
 
-  public get Icon(): string {
-    return 'cc:pilot'
-  }
-
   public DamageSum(type?: DamageType) {
     if (!this.Damage) return 0
     return this.Damage.reduce((a, b) => a + b.ToNumber(type), 0)
@@ -119,6 +115,14 @@ class PilotWeapon extends PilotEquipment {
       attack: this.GetAttack(),
       can_crit: true,
     }
+  }
+
+  public get Icon(): string {
+    return 'cc:pilot'
+  }
+
+  public get Color(): string {
+    return this.IsExotic ? 'exotic' : 'pilot'
   }
 }
 
