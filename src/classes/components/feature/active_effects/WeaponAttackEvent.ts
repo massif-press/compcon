@@ -73,7 +73,7 @@ class WeaponAttackEvent {
       },
       hit: {
         event: this.OnHitEvent,
-        filter: (t: ActiveEventTarget) => t.HitResult === 'hit',
+        filter: (t: ActiveEventTarget) => t.HitResult === 'hit' || t.HitResult === 'crit',
       },
       crit: {
         event: this.OnCritEvent,
@@ -98,12 +98,13 @@ class WeaponAttackEvent {
   }
 
   public get Summary(): string {
-    console.log(this)
-    let str = `${this.BaseEvent.Initiator.actor.CombatController.CombatName}: ${this.AttackActionString} with ${
-      this.Weapon.Name
-    }:\n`
-    this.BaseEvent.DamageEvents.forEach(de => {
-      this.BaseEvent.Targets.forEach(t => {
+    let str = ''
+    const isAdditional = this.AttackActionString.toLowerCase().includes('additional')
+    if (!isAdditional) str = `${this.BaseEvent.Initiator.actor.CombatController.CombatName}: `
+    else str = ' ⤷ '
+    str += `${this.AttackActionString} with ${this.Weapon.Name}:\n`
+    this.BaseEvent.Targets.forEach(t => {
+      this.BaseEvent.DamageEvents.forEach(de => {
         de.CalcFinalDamage(this.BaseEvent, t)
         str += `   - [${t.Combatant.actor.CombatController.CombatName}]`
         switch (this.BaseEvent.Attack && t.HitResult) {
@@ -119,37 +120,80 @@ class WeaponAttackEvent {
           default:
             break
         }
-        if (t.AttackRolledValue || t.SaveRolledValue) {
+        // calc for attack, not save
+        // (attacker rolls vs target defense)
+        if (t.AttackRolledValue) {
           str += `(${t.AttackRolledValue || t.SaveRolledValue} vs ${t.TargetDefenseValue} ${t.TargetDefense})`
-          str += `\n     roll = incoming`
-          str += `+ x overkill damage`
-          str += `+ x bonus damage`
-          str += `x2 (target exposed)`
-          str += `x2 (target vulnerable)`
-          str += `- x (target armor)`
-          str += `- 0 (target shredded)`
-          str += `- 0 (Armor Pierced)`
-          str += `/2 (target resistance)`
-          str += `//NEGATED// (target immune)`
-          // initial damage (roll = final)
-          // ap, irreducible, etc
-          // double etc from statuses, mods, etc
-          // reduction from armor
-          // reduction from resistances
-          // if on event
-          // event, roll, etc
-          // if sub events
-          // event, roll, etc
-          // if mod events
-          // event, roll, etc
-          str += `\n     Total Damage: ${t.FinalDamageValue} ${de.DamageType} Damage`
-          str += ` (reliable x)`
-          str += `\n`
-          str += `     ${this.BaseEvent.Initiator.actor.CombatController.CombatName} takes x overkill heat\n`
+          if (t.HitResult !== 'miss') {
+            str += `\n     ${de.IncomingSummary} `
+            str += `${t.DamageModSummary(de.DamageType, de.AP, de.Irreducible)}`
+          }
+          str += `\n     Total Damage: ${t.FinalDamageValue} ${de.DamageType}`
+          if (de.Reliable && (de.DamageRolledValue! < de.Reliable || t.HitResult === 'miss'))
+            str += ` (Reliable ${de.Reliable})`
+          const totalHeat =
+            (this.Weapon as WeaponProfile).HeatCost + (de.Overkill ? de.OverkillHeat : 0)
+
+          if (totalHeat > 0) {
+            str += `\n     ${this.BaseEvent.Initiator.actor.CombatController.CombatName} takes ${totalHeat} Heat (`
+            const heatSources: string[] = []
+            if ((this.Weapon as WeaponProfile).HeatCost) heatSources.push('Self')
+            if (de.Overkill) heatSources.push('Overkill')
+            str += heatSources.join(' + ')
+            str += `)`
+          }
+
+          if (t.HitResult === 'miss' && this.OnMissEvent) {
+            str += `\n       ❯ On Miss Effect\n`
+            str += `          ${this.OnMissEvent.ShortSummary}`
+          }
+
+          if (t.HitResult !== 'miss' && this.OnAttackEvent) {
+            str += `\n       ❯ On Attack Effect\n`
+            str += `          ${this.OnAttackEvent.ShortSummary}`
+          }
+
+          if ((t.HitResult === 'hit' || t.HitResult === 'crit') && this.OnHitEvent) {
+            str += `\n       ❯ On Hit Effect\n`
+            str += `          ${this.OnHitEvent.ShortSummary}`
+          }
+
+          if (t.HitResult === 'crit' && this.OnCritEvent) {
+            str += `\n       ❯ On Crit Effect\n`
+            str += `          ${this.OnCritEvent.ShortSummary}`
+          }
         }
       })
     })
+
+    if (this.SubEvents.length > 0) {
+      str += `\n       ❯ Additional Effects\n`
+      this.SubEvents.forEach(se => {
+        str += `          - ${se.ShortSummary}\n`
+      })
+    }
+
+    if (this.ModEvents.length > 0) {
+      str += `\n       ❯ Mod Effects\n`
+      this.ModEvents.forEach(me => {
+        str += `          - ${me.ShortSummary}\n`
+      })
+    }
+
     return str
+  }
+
+  public ApplyAll() {
+    this.BaseEvent.ApplyAll()
+    this.BaseEvent.Targets.forEach(t => {
+      if (t.HitResult === 'miss' && this.OnMissEvent) this.OnMissEvent.Apply(t)
+      if (t.HitResult !== 'miss' && this.OnAttackEvent) this.OnAttackEvent.Apply(t)
+      if (t.HitResult === 'hit' && this.OnHitEvent) this.OnHitEvent.Apply(t)
+      if (t.HitResult === 'crit' && this.OnCritEvent) this.OnCritEvent.Apply(t)
+    })
+
+    this.SubEvents.forEach(se => se.ApplyAll())
+    this.ModEvents.forEach(me => me.ApplyAll())
   }
 }
 

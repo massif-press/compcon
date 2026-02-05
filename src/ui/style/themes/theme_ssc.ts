@@ -1,4 +1,4 @@
-import themeDefaults from './common';
+import themeDefaults from './common'
 
 const theme = {
   id: 'ssc',
@@ -43,6 +43,7 @@ const theme = {
     'v-expansion-panel': '#dbcfc3',
     'v-data-table': '#dbcfc3',
     surface: '#dbcfc3',
+    'surface-hover': '#e6d9cc',
     'surface-variant': '#c7b5a3',
 
     panel: '#eadbcb',
@@ -53,5 +54,5 @@ const theme = {
     'stark-panel': '#5a4c3f',
     'on-surface-variant': '#5e4b30',
   },
-};
-export default theme;
+}
+export default theme

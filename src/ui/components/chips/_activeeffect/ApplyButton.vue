@@ -20,7 +20,7 @@
         size="small"
         stacked
         :color="color"
-        :disabled="isApplied || !event.Ready"
+        :disabled="isApplied || !events.every(x => x.Ready)"
         @click="stage(false)">
         <div class="px-4">
           <v-icon v-if="icon"
@@ -53,22 +53,14 @@
             bg-color=panel
             border
             tile>
-            <v-list-item v-if="!event.Ready"
-              @click="stage(true)"
-              :class="`bg-${(activeEffect as any).Color}`"
-              title="Activate Anyway"
-              subtitle="Ignore Missing Fields">
-              <template #prepend>
-                <v-icon :icon="icon"
-                  class="mr-n5" />
-              </template>
-            </v-list-item>
+
             <v-list-item @click="stage(true)"
               class="bg-action--free"
+              :disabled="!events.every(x => x.Ready)"
               title="Activate (Free Action)">
               <template #subtitle
-                v-if="!event.Ready">
-                <v-list-item-subtitle>Ignore Missing Fields</v-list-item-subtitle>
+                v-if="!events.every(x => x.Ready)">
+                <v-list-item-subtitle>Mandatory Fields Remaining</v-list-item-subtitle>
               </template>
               <template #prepend>
                 <v-icon icon="cc:free"
@@ -133,6 +125,10 @@
           </v-list>
         </template>
       </cc-button>
+      <div class="text-center text-cc-overline text-disabled">
+        <div v-if="isApplied">Already Activated</div>
+        <div v-if="noAction">Insufficient Actions</div>
+      </div>
     </div>
   </div>
 
@@ -140,26 +136,47 @@
 
 <script lang="ts">
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
+import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { ByTier } from '@/util/tierFormat';
 
 export default {
   name: 'ActiveEventApplyButton',
   props: {
-    event: { type: ActiveEffectEvent, required: true },
+    event: { type: [ActiveEffectEvent, Array], required: true },
+    weaponEvent: { type: [WeaponAttackEvent, Array], required: false },
+    action: { type: Object, required: false },
+    actionId: { type: [String, Array], required: false },
+    activationOverride: { type: String, required: false },
     encounter: { type: EncounterInstance, required: true },
     owner: { type: Object, required: true },
     close: { type: Function, required: true },
     embedded: { type: Boolean, default: false },
-    action: { type: Object, required: false },
   },
   data: () => ({
     ready: false,
     isFree: false,
   }),
   computed: {
+    events(): ActiveEffectEvent[] {
+      return Array.isArray(this.event) ? this.event as ActiveEffectEvent[] : [this.event];
+    },
+    weaponAttackEvents(): WeaponAttackEvent[] {
+      return this.weaponEvent
+        ? Array.isArray(this.weaponEvent)
+          ? this.weaponEvent as WeaponAttackEvent[]
+          : [this.weaponEvent]
+        : [];
+    },
+    actionIds(): string[] {
+      return this.actionId
+        ? Array.isArray(this.actionId)
+          ? this.actionId as string[]
+          : [this.actionId]
+        : [];
+    },
     activeEffect() {
-      return this.event.Effect;
+      return this.events[0].Effect;
     },
     icon() {
       return this.action?.Icon || (this.activeEffect as any).Icon || this.activeEffect.Origin.Icon || '';
@@ -168,7 +185,14 @@ export default {
       return this.action?.Color || (this.activeEffect as any).Color || this.activeEffect.Origin.Color || 'primary';
     },
     isApplied(): boolean {
+      if (this.actionIds.length) {
+        return this.actionIds.every(id =>
+          this.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(id));
+      }
       return this.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(this.activeEffect.ID);
+    },
+    noAction(): boolean {
+      return !this.owner.actor.CombatController.ActiveActor.CombatController.CanActivate(this.activationOverride || this.action?.Activation || (this.activeEffect as any).Activation || 'free');
     },
     canOverride() {
       return (
@@ -208,7 +232,7 @@ export default {
   },
   methods: {
     byTier(detail: string) {
-      return ByTier(detail, this.owner.CombatController.Tier);
+      return ByTier(detail, this.owner.actor.CombatController.Tier);
     },
     frequencyText(frequency: string): string {
       const str = frequency.toLowerCase();
@@ -227,19 +251,20 @@ export default {
       }
     },
     stage(asFree) {
-      this.event.Staged = true
+      this.events.forEach(e => e.Staged = true)
       this.isFree = asFree || false;
       if (this.isApplied) return;
       this.ready = true;
-      // if (this.canOverride) {
-      //   this.getSummaries();
-      // }
       this.$emit('stage');
     },
     apply(close: Function) {
       if (this.isApplied || !this.ready) return;
       // this.iterateAE('apply');
-      if (!this.isFree) this.owner.CombatController.MarkActionUsed(this.activeEffect.ID);
+      if (!this.isFree) this.owner.actor.CombatController.MarkActionUsed(this.activeEffect.ID);
+      if (this.weaponAttackEvents.length)
+        this.weaponAttackEvents.forEach(we => we.ApplyAll());
+      else
+        this.events.forEach(e => e.ApplyAll());
       this.isFree = false;
       this.$emit('apply');
       close();

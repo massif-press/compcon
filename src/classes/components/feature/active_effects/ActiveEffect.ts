@@ -30,6 +30,7 @@ interface IActiveEffectData {
   can_crit?: boolean
   attack?: 'melee' | 'ranged' | 'tech'
   applied?: boolean
+  accuracy?: number
 }
 
 class ActiveEffect {
@@ -44,7 +45,8 @@ class ActiveEffect {
   public readonly Duration?: string
   public readonly Frequency?: string
   public readonly BonusDamage?: BonusDamage
-  public readonly CanCrit?: boolean
+  public readonly CanCrit: boolean
+  public readonly Accuracy: number
 
   public readonly Attack?: 'melee' | 'ranged' | 'tech'
   public readonly Save?: EffectSave
@@ -71,6 +73,8 @@ class ActiveEffect {
     this.Name = data.name || fallbackName || 'Unnamed Effect'
     this.Detail = data.detail || ''
     this.Condition = data.condition || ''
+    this.Accuracy = data.accuracy || 0
+
     this.Damage = []
     if (data.damage) {
       if (!Array.isArray(data.damage)) data.damage = [data.damage]

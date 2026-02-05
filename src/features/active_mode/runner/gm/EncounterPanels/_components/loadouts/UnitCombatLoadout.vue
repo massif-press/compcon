@@ -1,18 +1,28 @@
 <template>
-  <v-row dense align="end" class="pb-2 mt-n2">
+  <v-row dense
+    align="end"
+    class="pb-2 mt-n2">
     <v-col cols="auto">
       <div class="text-cc-overline text-disabled">// NPC FEATURES</div>
     </v-col>
     <v-col cols="auto">
-      <v-tooltip location="top" :text="`${hidePassives ? 'Hiding' : 'Showing'} passive features`">
+      <v-tooltip location="top"
+        :text="`${hidePassives ? 'Hiding' : 'Showing'} passive features`">
         <template #activator="{ props }">
-          <v-btn v-bind="props" size="12" flat tile icon @click="hidePassives = !hidePassives">
-            <v-icon
-              :color="hidePassives ? 'primary' : 'text'"
+          <v-btn v-bind="props"
+            size="12"
+            flat
+            tile
+            icon
+            @click="hidePassives = !hidePassives">
+            <v-icon :color="hidePassives ? 'primary' : 'text'"
               size="18"
               :icon="hidePassives ? 'mdi-eye-off' : 'mdi-eye'" />
           </v-btn>
-          <v-chip size="x-small" class="pa-2 ml-2 mb-n2" flat style="opacity: 0.75">
+          <v-chip size="x-small"
+            class="pa-2 ml-2 mb-n2"
+            flat
+            style="opacity: 0.75">
             {{ hiddenFeatureCount }} Hidden Features
           </v-chip>
         </template>
@@ -20,10 +30,11 @@
     </v-col>
     <v-spacer />
     <v-col cols="auto">
-      <v-menu location="top" :close-on-content-click="false" width="400">
+      <v-menu location="top"
+        :close-on-content-click="false"
+        width="400">
         <template #activator="{ props }">
-          <cc-button
-            color="primary"
+          <cc-button color="primary"
             class="mt-4"
             prepend-icon="mdi-reload"
             @click="props.onClick($event)">
@@ -34,16 +45,18 @@
           <v-card border>
             <v-card-text>
               <div class="text-cc-overline mb-2">Recharge Result (d6)</div>
-              <div v-if="result > 0" class="text-center my-2">
+              <div v-if="result > 0"
+                class="text-center my-2">
                 <div class="heading h1">{{ result }}</div>
                 <div class="text-cc-overline mt-1">
                   Recharges the following features:
-                  <div v-if="rechargedFeatures.length === 0" class="my-1">
+                  <div v-if="rechargedFeatures.length === 0"
+                    class="my-1">
                     <i class="text-disabled">None</i>
                   </div>
-                  <div v-for="feature in rechargedFeatures" :key="feature.ID">
-                    <div
-                      v-if="result >= feature.Recharge && feature.Used"
+                  <div v-for="feature in rechargedFeatures"
+                    :key="feature.ID">
+                    <div v-if="result >= feature.Recharge && feature.Used"
                       class="my-1 text-text body-text bg-panel rounded pa-1">
                       {{ feature.Name }}
                       <div class="text-disabled text-cc-overline">
@@ -53,7 +66,8 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="text-center mb-2">
+              <div v-else
+                class="text-center mb-2">
                 <i class="text-disabled">
                   Click to roll. NPC Features will recharge on rolls equal to or higher than their
                   roll value.
@@ -61,8 +75,7 @@
               </div>
               <v-row>
                 <v-col>
-                  <v-btn
-                    flat
+                  <v-btn flat
                     size="small"
                     tile
                     block
@@ -72,8 +85,7 @@
                   </v-btn>
                 </v-col>
                 <v-col>
-                  <v-btn
-                    flat
+                  <v-btn flat
                     size="small"
                     tile
                     block
@@ -81,7 +93,7 @@
                     :color="result ? 'primary' : ''"
                     @click="
                       apply();
-                      isActive.value = false;
+                    isActive.value = false;
                     ">
                     apply
                   </v-btn>
@@ -93,10 +105,15 @@
       </v-menu>
     </v-col>
   </v-row>
-  <masonry-wall :items="features" :column-width="600" :gap="16" :min-columns="1" :max-columns="4">
+  <masonry-wall :items="features"
+    :column-width="600"
+    :gap="16"
+    :min-columns="1"
+    :max-columns="4">
     <template #default="{ item }">
-      <fieldset class="px-2" style="border-color: rgba(155, 155, 155, 0.6)">
-        <unit-feature-card
+      <fieldset class="px-2"
+        style="border-color: rgba(155, 155, 155, 0.6)">
+        <unit-feature-card :owner="owner"
           :encounter="encounterInstance"
           :key="item.ID"
           :item="item"
@@ -117,6 +134,10 @@ export default {
     UnitFeatureCard,
   },
   props: {
+    owner: {
+      type: Object,
+      required: true,
+    },
     unit: {
       type: Object,
       required: true,

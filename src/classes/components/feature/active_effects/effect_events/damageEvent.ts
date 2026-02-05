@@ -40,6 +40,30 @@ class DamageEvent {
       )
   }
 
+  public get IncomingSummary(): string {
+    if (!this.DamageRolledValue) return 'roll pending'
+
+    let str = ''
+    if (this.DamageRollString.includes('d')) {
+      str = `(${this.IsCrit ? 'CRIT ' : ''}${this.DamageRollString}) → ${this.DamageRolledValue}`
+    } else {
+      str = `${this.DamageRolledValue}`
+    }
+
+    if (this.Overkill) str += ` + ${this.OverkillHeat} Overkill`
+
+    if (this.Bonus && this.BonusDamageEvent) {
+      str += ` + ${this.BonusDamageEvent.DamageRollString} Bonus`
+    }
+
+    if (this.AP) str += ' (AP)'
+    if (this.Irreducible) str += ' (Irreducible)'
+    if (this.Reliable && this.DamageRolledValue < this.Reliable)
+      str += ` (Reliable ${this.Reliable})`
+
+    return str
+  }
+
   public get Summary(): string {
     let str = `${this.DamageRolledValue} ${this.DamageType}`
     if (this.AP) str += 'AP'
@@ -53,12 +77,14 @@ class DamageEvent {
     let incoming = 0
     let bonus = 0
 
-    incoming += this.DamageRolledValue || 0
-    if (this.BonusDamageEvent) bonus = this.BonusDamageEvent.DamageRolledValue || 0
-    if (event.AoE) bonus = Math.floor(bonus / 2)
-    incoming += bonus
-    if (target.SavedHalf) {
-      incoming = Math.floor(incoming / 2)
+    if (target.HitResult !== 'miss') {
+      incoming += this.DamageRolledValue || 0
+      if (this.BonusDamageEvent) bonus = this.BonusDamageEvent.DamageRolledValue || 0
+      if (event.AoE) bonus = Math.floor(bonus / 2)
+      incoming += bonus
+      if (target.SavedHalf) {
+        incoming = Math.floor(incoming / 2)
+      }
     }
 
     target.FinalDamageValue = target.Combatant.actor.CombatController.CalculateDamage(

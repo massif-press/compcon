@@ -1,4 +1,4 @@
-import themeDefaults from './common';
+import themeDefaults from './common'
 
 const theme = {
   dark: true,
@@ -46,7 +46,8 @@ const theme = {
 
     // tooltips
     'surface-variant': '#111',
+    'surface-hover': '#333',
     'on-surface-variant': '#96a0a0',
   },
-};
-export default theme;
+}
+export default theme

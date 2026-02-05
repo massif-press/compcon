@@ -2,8 +2,7 @@
   <div class="mt-2">
     <v-hover>
       <template #default="{ props, isHovering }">
-        <v-card
-          v-bind="props"
+        <v-card v-bind="props"
           class="border-fade"
           :class="selected ? 'bg-panel' : ''"
           flat
@@ -11,22 +10,21 @@
           variant="outlined"
           @click.stop="$emit('click', $event)"
           :style="`border-color: ${selected ? 'rgb(var(--v-theme-accent))' : isHovering ? 'rgb(var(--v-theme-primary))' : 'rgb(var(--v-theme-panel))'};`">
-          <v-row
-            :justify="collapsed ? 'center' : 'space-between'"
+          <v-row :justify="collapsed ? 'center' : 'space-between'"
             dense
             :style="collapsed && !activations ? 'opacity: 0.4' : ''">
-            <v-col cols="auto" style="position: relative">
-              <v-avatar
-                flat
+            <v-col cols="auto"
+              style="position: relative">
+              <v-avatar flat
                 tile
                 :size="collapsed ? 30 : 40"
                 style="height: 100%"
                 :style="destroyed ? 'opacity: 0.6' : ''"
                 class="bg-panel">
-                <v-icon :icon="icon || 'mdi-cube'" :size="collapsed ? 30 : 40" />
+                <v-icon :icon="icon || 'mdi-cube'"
+                  :size="collapsed ? 30 : 40" />
               </v-avatar>
-              <div
-                v-if="destroyed"
+              <div v-if="destroyed"
                 style="
                   position: absolute;
                   top: 15%;
@@ -35,20 +33,26 @@
                   bottom: 15%;
                   z-index: 1;
                 ">
-                <v-icon icon="cc:destroyed_outline" size="100%" />
+                <v-icon icon="cc:destroyed_outline"
+                  size="100%" />
               </div>
             </v-col>
-            <v-col v-if="!collapsed" class="mx-1">
+            <v-col v-if="!collapsed"
+              class="mx-1">
               <div>
-                <span class="font-weight-bold text-uppercase" style="font-size: 14px">
+                <span class="font-weight-bold text-uppercase"
+                  style="font-size: 14px">
                   {{ deployable.Name }}
                 </span>
               </div>
 
-              <div style="font-size: 16px" v-if="!destroyed">
-                <v-row dense justify="space-between" align="center" class="pl-2 pr-6">
-                  <v-col
-                    cols="auto"
+              <div style="font-size: 16px"
+                v-if="!destroyed">
+                <v-row dense
+                  justify="space-between"
+                  align="center"
+                  class="pl-2 pr-6">
+                  <v-col cols="auto"
                     v-for="stat in deployable.StatController.GetStatCollection([
                       'hp',
                       'stress',
@@ -56,9 +60,14 @@
                       'structure',
                       'repairCapacity',
                     ])">
-                    <v-tooltip :text="stat.title" location="top" open-delay="400">
+                    <v-tooltip :text="stat.title"
+                      location="top"
+                      open-delay="400">
                       <template #activator="{ props }">
-                        <v-icon v-bind="props" size="18" class="mx-1 mt-n1" :icon="stat.icon" />
+                        <v-icon v-bind="props"
+                          size="18"
+                          class="mx-1 mt-n1"
+                          :icon="stat.icon" />
                         <b class="text-accent">
                           {{ deployable.StatController.CurrentStats[stat.key] }}
                         </b>
@@ -70,18 +79,25 @@
                   </v-col>
                 </v-row>
                 <v-divider class="my-1" />
-                <v-row dense justify="space-between" align="center" class="pl-2 pr-6">
-                  <v-col
-                    cols="auto"
+                <v-row dense
+                  justify="space-between"
+                  align="center"
+                  class="pl-2 pr-6">
+                  <v-col cols="auto"
                     v-for="stat in deployable.StatController.GetStatCollection([
                       'armor',
                       'evasion',
                       'edef',
                       'saveTarget',
                     ])">
-                    <v-tooltip :text="stat.title" location="top" open-delay="400">
+                    <v-tooltip :text="stat.title"
+                      location="top"
+                      open-delay="400">
                       <template #activator="{ props }">
-                        <v-icon v-bind="props" size="18" class="mx-1 mt-n1" :icon="stat.icon" />
+                        <v-icon v-bind="props"
+                          size="18"
+                          class="mx-1 mt-n1"
+                          :icon="stat.icon" />
                         <b class="text-secondary">
                           {{ deployable.StatController.CurrentStats[stat.key] }}
                         </b>
@@ -91,16 +107,15 @@
                 </v-row>
               </div>
 
-              <v-row
-                v-if="deployable.CombatController.Resistances.length > 0"
+              <v-row v-if="deployable.CombatController.Resistances.length > 0"
                 style="line-height: 0"
                 no-gutters
                 justify="center"
                 class="text-center my-1">
-                <v-tooltip v-for="damage in deployable.CombatController.Resistances" location="top">
+                <v-tooltip v-for="damage in deployable.CombatController.Resistances"
+                  location="top">
                   <template #activator="{ props }">
-                    <v-icon
-                      v-bind="props"
+                    <v-icon v-bind="props"
                       class="mr-4"
                       :icon="`cc:${damage.type.toLowerCase()}`"
                       style="border-bottom-right-radius: 5px"
@@ -112,28 +127,36 @@
                 </v-tooltip>
               </v-row>
 
-              <v-card
-                v-if="destroyed"
+              <v-card v-if="destroyed"
                 height="16"
                 flat
                 tile
                 class="bg-stripes text-cc-overline text-center mt-1">
-                <v-chip style="height: 16px" flat tile variant="elevated" class="px-1">
-                  <div class="text-red" style="margin-top: 2px">
+                <v-chip style="height: 16px"
+                  flat
+                  tile
+                  variant="elevated"
+                  class="px-1">
+                  <div class="text-red"
+                    style="margin-top: 2px">
                     <v-icon icon="cc:destroyed" />
                     DESTROYED
                   </div>
                 </v-chip>
               </v-card>
 
-              <v-card
-                v-else-if="deployable.CombatController.IsInDangerZone"
+              <v-card v-else-if="deployable.CombatController.IsInDangerZone"
                 height="16"
                 flat
                 tile
                 class="bg-stripes-dangerzone text-cc-overline text-center mt-1">
-                <v-chip style="height: 16px" flat tile variant="elevated" class="px-1">
-                  <div class="text-red" style="margin-top: 2px">
+                <v-chip style="height: 16px"
+                  flat
+                  tile
+                  variant="elevated"
+                  class="px-1">
+                  <div class="text-red"
+                    style="margin-top: 2px">
                     <v-icon icon="cc:heat" />
                     Danger Zone
                   </div>
@@ -141,20 +164,31 @@
               </v-card>
 
               <div v-for="status in customStatuses">
-                <v-progress-linear model-value="100" height="16" color="orange" striped>
-                  <v-chip class="text-cc-overline bg-deep-orange-darken-3" flat tile>
+                <v-progress-linear model-value="100"
+                  height="16"
+                  color="orange"
+                  striped>
+                  <v-chip class="text-cc-overline bg-deep-orange-darken-3"
+                    flat
+                    tile>
                     <cc-slashes />
-                    {{ status }}
+                    {{ status.Attribute }}
                     <cc-slashes />
                   </v-chip>
                 </v-progress-linear>
               </div>
 
-              <div v-for="status in deployable.CombatController.Statuses" class="mb-1">
-                <v-progress-linear model-value="100" height="16" color="red-darken-3">
-                  <v-chip class="text-cc-overline" flat tile>
+              <div v-for="status in deployable.CombatController.Statuses"
+                class="mb-1">
+                <v-progress-linear model-value="100"
+                  height="16"
+                  color="red-darken-3">
+                  <v-chip class="text-cc-overline"
+                    flat
+                    tile>
                     <cc-slashes />
-                    <v-icon :icon="status.status.Icon" class="mx-2" />
+                    <v-icon :icon="status.status.Icon"
+                      class="mx-2" />
                     <span class="pr-2">{{ status.status.Name }}</span>
                     <cc-slashes />
                   </v-chip>
@@ -257,22 +291,18 @@ export default {
 }
 
 .bg-stripes {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(249, 219, 78, 0.5),
-    rgba(249, 219, 78, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 20px
-  );
+  background: repeating-linear-gradient(-45deg,
+      rgba(249, 219, 78, 0.5),
+      rgba(249, 219, 78, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 20px);
 }
 
 .bg-stripes-dangerzone {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(255, 23, 68, 1),
-    rgba(255, 23, 68, 1) 10px,
-    rgba(255, 112, 67, 0.5) 10px,
-    rgba(255, 112, 67, 0.5) 20px
-  );
+  background: repeating-linear-gradient(-45deg,
+      rgba(255, 23, 68, 1),
+      rgba(255, 23, 68, 1) 10px,
+      rgba(255, 112, 67, 0.5) 10px,
+      rgba(255, 112, 67, 0.5) 20px);
 }
 </style>

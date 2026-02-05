@@ -1,5 +1,6 @@
 <template>
-  <div style="position: relative">
+  <div style="position: relative"
+    class="px-3">
     <cc-alert variant="outlined"
       border-color="primary"
       color="text"

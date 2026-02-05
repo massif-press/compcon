@@ -168,7 +168,7 @@ export default {
   methods: {
     reset() {
       this.plus = 0;
-      this.rollData.AttackAccuracy = 0;
+      this.rollData.AttackAccuracy = this.rollData.Event.Accuracy || 0;
       this.rollData.AttackRollResult = null;
     },
     rollAttack() {

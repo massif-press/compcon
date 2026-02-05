@@ -509,7 +509,7 @@ export default {
     },
 
     handleActivate() {
-      this.item.CombatController.Activate();
+      this.item.CombatController.EndTurn();
     },
   },
 };

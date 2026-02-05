@@ -171,6 +171,12 @@ class WeaponProfile extends CompendiumItem {
     return 'ranged'
   }
 
+  public get Accuracy(): number {
+    if (this.Tags.some(t => t.ID === 'tg_accurate')) return 1
+    if (this.Tags.some(t => t.ID === 'tg_inaccurate')) return -1
+    return 0
+  }
+
   public toActiveEffectData(actor: Mech): IActiveEffectData {
     return {
       id: this.ID,
@@ -180,6 +186,7 @@ class WeaponProfile extends CompendiumItem {
       range: this.Range?.map(r => Range.Serialize(r)) || [],
       attack: this.Attack,
       can_crit: true,
+      accuracy: this.Accuracy,
     }
   }
 }

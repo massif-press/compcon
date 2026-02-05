@@ -1,4 +1,4 @@
-import themeDefaults from './common';
+import themeDefaults from './common'
 
 const theme = {
   dark: true,
@@ -49,8 +49,9 @@ const theme = {
     'action--reaction': '#512DA8',
 
     surface: '#161C27',
+    'surface-hover': '#1F2837',
     'surface-variant': '#212121',
     'on-surface-variant': '#c9cba3',
   },
-};
-export default theme;
+}
+export default theme

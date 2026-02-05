@@ -7,22 +7,26 @@
         {{ combatant.actor.Name }}
       </span>
     </v-col>
-    <v-col v-if="combatant.actor.Player" cols="auto">
+    <v-col v-if="combatant.actor.Player"
+      cols="auto">
       <span class="text-cc-overline pr-1">Played by</span>
       <b class="text-accent">{{ combatant.actor.Player }}</b>
     </v-col>
   </v-row>
 
-  <v-row dense class="mt-n1">
-    <v-col :order="mounted ? 0 : 1" v-if="mech" :cols="view === 'mech' ? '' : 'auto'">
-      <cc-button
-        size="small"
+  <v-row dense
+    class="mt-n1">
+    <v-col :order="mounted ? 0 : 1"
+      v-if="mech"
+      :cols="view === 'mech' ? '' : 'auto'">
+      <cc-button size="small"
         :color="view === 'mech' ? 'primary' : 'panel'"
         block
         @click="view = 'mech'">
         {{ mech.Name }}
         <template #subtitle>
-          <span v-if="mounted" class="text-disabled">
+          <span v-if="mounted"
+            class="text-disabled">
             <cc-slashes />
             PILOT MOUNTED
           </span>
@@ -30,14 +34,14 @@
       </cc-button>
     </v-col>
     <v-col :cols="view === 'pilot' ? '' : 'auto'">
-      <cc-button
-        size="small"
+      <cc-button size="small"
         :color="view === 'pilot' ? 'primary' : 'panel'"
         block
         @click="view = 'pilot'">
         {{ combatant.actor.Callsign }}
         <template #subtitle>
-          <span v-if="!mounted" class="text-disabled">
+          <span v-if="!mounted"
+            class="text-disabled">
             <cc-slashes />
             PILOT UNMOUNTED
           </span>
@@ -48,36 +52,48 @@
 
   <v-window v-model="view">
     <v-window-item value="mech">
-      <mech-panel :encounter-instance="encounterInstance" v-if="mech" :combatant="combatant" />
+      <mech-panel :encounter-instance="encounterInstance"
+        v-if="mech"
+        :combatant="combatant" />
     </v-window-item>
     <v-window-item value="pilot">
-      <pilot-panel :encounter-instance="encounterInstance" :combatant="combatant" />
+      <pilot-panel :encounter-instance="encounterInstance"
+        :combatant="combatant" />
     </v-window-item>
   </v-window>
 
-  <v-card flat tile>
+  <v-card flat
+    tile>
     <div class="pa-2 mt-2">
-      <v-row dense align="center" class="mb-2">
+      <v-row dense
+        align="center"
+        class="mb-2">
         <v-col>
           <div class="text-cc-overline text-disabled">reserves</div>
         </v-col>
-        <v-col cols="auto" class="ml-auto">
-          <cc-switch
-            v-model="unusedOnly"
+        <v-col cols="auto"
+          class="ml-auto">
+          <cc-switch v-model="unusedOnly"
             :label="!unusedOnly ? 'Unused Only' : 'All'"
             inset
             dense />
         </v-col>
       </v-row>
-      <div v-if="!orderedReserves.length" class="mt-n4 mb-4">
+      <div v-if="!orderedReserves.length"
+        class="mt-n4 mb-4">
         <i class="text-disabled text-caption">No reserves available</i>
       </div>
-      <v-row v-for="r in orderedReserves" dense>
+      <v-row v-for="r in orderedReserves"
+        dense>
         <v-col>
-          <cc-reserve-item :reserve="r" small />
+          <cc-reserve-item :reserve="r"
+            small />
         </v-col>
         <v-col cols="auto">
-          <cc-checkbox v-model="r.Used" color="primary" inset dense />
+          <cc-checkbox v-model="r.Used"
+            color="primary"
+            inset
+            dense />
         </v-col>
       </v-row>
     </div>
@@ -114,7 +130,6 @@ export default {
       return this.combatant.actor.ActiveMech;
     },
     mounted() {
-      console.log(this.combatant);
       if (!this.mech) return false;
       return this.mech.CombatController.Mounted;
     },

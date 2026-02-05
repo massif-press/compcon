@@ -1,10 +1,14 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-row dense align="center" justify="space-between">
-        <v-col cols="auto" class="heading">
+      <v-row dense
+        align="center"
+        justify="space-between">
+        <v-col cols="auto"
+          class="heading">
           Last Saved:
-          <b class="text-accent ml-1" :key="saveUpdate">
+          <b class="text-accent ml-1"
+            :key="saveUpdate">
             {{
               new Date(encounterInstance.SaveController.LastModified).toLocaleString(undefined, {
                 dateStyle: 'long',
@@ -14,8 +18,7 @@
           </b>
         </v-col>
         <v-col cols="auto">
-          <cc-button
-            flat
+          <cc-button flat
             tile
             color="primary"
             prepend-icon="mdi-content-save"
@@ -26,10 +29,11 @@
         </v-col>
       </v-row>
       <div class="text-cc-overline mt-1 text-disabled">Autosave</div>
-      <v-row dense align="center" justify="space-between">
+      <v-row dense
+        align="center"
+        justify="space-between">
         <v-col cols="auto">
-          <cc-switch
-            v-model="encounterInstance.Autosave"
+          <cc-switch v-model="encounterInstance.Autosave"
             size="large"
             :label="encounterInstance.Autosave ? 'On Round End' : 'Off (Manual Saves Only)'"
             tooltip="Autosave encounter data on the end of every round. Defaults to ON." />
@@ -38,10 +42,11 @@
     </v-card-text>
     <v-divider class="my-2" />
     <v-card-text>
-      <v-row dense align="center" justify="space-between">
+      <v-row dense
+        align="center"
+        justify="space-between">
         <v-col>
-          <v-btn
-            flat
+          <v-btn flat
             tile
             block
             color="primary"
@@ -52,10 +57,11 @@
           </v-btn>
         </v-col>
         <v-col>
-          <cc-dialog :close-on-click="false" icon="mdi-import" title="Import Encounter State">
+          <cc-dialog :close-on-click="false"
+            icon="mdi-import"
+            title="Import Encounter State">
             <template #activator="{ open }">
-              <v-btn
-                flat
+              <v-btn flat
                 tile
                 block
                 color="primary"
@@ -69,8 +75,7 @@
               <div class="text-cc-overline text-disabled">
                 Encounter Instance Import File (.json)
               </div>
-              <v-file-input
-                v-model="fileValue"
+              <v-file-input v-model="fileValue"
                 accept=".json"
                 variant="outlined"
                 density="compact"
@@ -81,7 +86,10 @@
                 @change="stageImport" />
               <v-scroll-y-reverse-transition>
                 <div v-if="importOk && importObj">
-                  <v-card class="mt-2 pa-2" flat tile color="panel">
+                  <v-card class="mt-2 pa-2"
+                    flat
+                    tile
+                    color="panel">
                     <div class="text-cc-overline text-disabled">Staged Import:</div>
                     <div class="ml-3">
                       <b class="text-accent">
@@ -94,28 +102,37 @@
                       </i>
                     </div>
                   </v-card>
-                  <cc-alert color="warning" prominent class="mt-2">
-                    <v-icon icon="mdi-alert" start />
+                  <cc-alert color="warning"
+                    prominent
+                    class="mt-2">
+                    <v-icon icon="mdi-alert"
+                      start />
                     Warning: The imported encounter state will replace the current encounter state.
                   </cc-alert>
                 </div>
-                <cc-alert v-if="importError" color="error" prominent class="mt-2">
-                  <v-icon icon="mdi-alert" start />
+                <cc-alert v-if="importError"
+                  color="error"
+                  prominent
+                  class="mt-2">
+                  <v-icon icon="mdi-alert"
+                    start />
                   {{ importError }}
                 </cc-alert>
               </v-scroll-y-reverse-transition>
               <v-card-actions>
-                <v-btn
-                  text
+                <v-btn text
                   color="accent"
                   @click="
                     reset();
-                    close();
+                  close();
                   ">
                   Cancel
                 </v-btn>
                 <v-spacer />
-                <cc-button text color="primary" :disabled="!importOk" @click="importState()">
+                <cc-button text
+                  color="primary"
+                  :disabled="!importOk"
+                  @click="importState()">
                   Confirm Import
                 </cc-button>
               </v-card-actions>
@@ -127,10 +144,14 @@
     <v-divider class="my-2" />
 
     <v-card-text>
-      <v-row dense align="center" justify="space-between">
+      <v-row dense
+        align="center"
+        justify="space-between">
         <v-col class="heading">Set Round</v-col>
         <v-col>
-          <cc-number-field color="primary" v-model="encounterInstance.Round" min="1" />
+          <cc-number-field color="primary"
+            v-model="encounterInstance.Round"
+            min="1" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -138,23 +159,22 @@
 
     <v-card-text>
       <div class="text-cc-overline text-disabled">Overrides</div>
-      <v-expansion-panels variant="accordion" color="panel">
+      <v-expansion-panels variant="accordion"
+        color="panel">
         <v-expansion-panel
           v-for="combatant in encounterInstance.Combatants.filter((c) => !c.reinforcement)">
           <v-expansion-panel-title>
             <div class="heading h3">{{ combatant.actor.Name }}</div>
           </v-expansion-panel-title>
           <v-expansion-panel-text class="bg-background pa-0 mx-n5">
-            <cc-select
-              v-model="combatant.side"
+            <cc-select v-model="combatant.side"
               color="primary"
               chip-variant="text"
               :items="['ally', 'enemy', 'neutral']"
               label="Side" />
             <br />
             <div v-if="combatant.actor.StatController">
-              <v-row
-                v-for="key in combatant.actor.StatController.MaxStats"
+              <v-row v-for="key in combatant.actor.StatController.MaxStats"
                 :key="key"
                 dense
                 class="border-sm mb-1 px-2"
@@ -162,20 +182,25 @@
                 <v-col class="heading">{{ key }}</v-col>
                 <v-col class="mx-6">
                   <div class="text-cc-overline ml-4 text-disabled">Current</div>
-                  <cc-number-field
-                    color="primary"
+                  <cc-number-field color="primary"
                     v-model="combatant.actor.StatController.CurrentStats[key]" />
                 </v-col>
                 <v-col>
                   <div class="text-cc-overline ml-4 text-disabled">Max</div>
-                  <cc-number-field
-                    color="exotic"
+                  <cc-number-field color="exotic"
                     v-model="combatant.actor.StatController.MaxStats[key]" />
                 </v-col>
               </v-row>
               <div class="d-flex justify-space-between pa-2">
-                <v-btn flat tile size="small" color="primary">Add Stat</v-btn>
-                <v-btn flat tile color="error" size="small" @click="removeActor(combatant.actor)">
+                <v-btn flat
+                  tile
+                  size="small"
+                  color="primary">Add Stat</v-btn>
+                <v-btn flat
+                  tile
+                  color="error"
+                  size="small"
+                  @click="removeActor(combatant.actor)">
                   Remove {{ combatant.actor.Name }} From Encounter
                 </v-btn>
               </div>
@@ -187,23 +212,34 @@
     </v-card-text>
     <v-card-text>
       <div class="text-cc-overline text-disabled mb-1">Edit Reinforcements</div>
-      <i v-if="!reinforcements.length" class="text-text ml-2">No Reinforcement Schedule</i>
-      <v-row v-for="combatant in reinforcements" :key="combatant.id" dense align="center">
+      <i v-if="!reinforcements.length"
+        class="text-text ml-2">No Reinforcement Schedule</i>
+      <v-row v-for="combatant in reinforcements"
+        :key="combatant.id"
+        dense
+        align="center">
         <v-col class="heading h3">{{ combatant.actor.Name }}</v-col>
         <v-col cols="auto">
-          <cc-number-field
-            color="primary"
+          <cc-number-field color="primary"
             v-model="combatant.reinforcementTurn"
             label="Round"
             min="1" />
         </v-col>
         <v-col cols="auto">
-          <v-btn flat tile color="error" size="small" @click="removeActor(combatant.actor)">
+          <v-btn flat
+            tile
+            color="error"
+            size="small"
+            @click="removeActor(combatant.actor)">
             Remove
           </v-btn>
         </v-col>
         <v-col cols="auto">
-          <v-btn flat tile color="primary" size="small" @click="removeActor(combatant.actor)">
+          <v-btn flat
+            tile
+            color="primary"
+            size="small"
+            @click="removeActor(combatant.actor)">
             Deploy
           </v-btn>
         </v-col>
@@ -313,7 +349,6 @@ export default {
             this.importOk = false;
             return;
           }
-          console.log(this.importObj);
           this.importOk = true;
         } catch (error) {
           console.error('Failed to parse import file:', error);
