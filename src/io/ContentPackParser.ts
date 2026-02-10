@@ -41,6 +41,7 @@ const readZipJSON = async function <T>(zip: JSZip, filename: string): Promise<T 
 const getPackID = async function (manifest: IContentPackManifest): Promise<string> {
   const enc = new TextEncoder()
   const signature = `${manifest.author}/${manifest.name}`
+  if (!crypto.subtle) throw new Error("Connection not secure, unable to hash content pack ID, run in secure context (https or localhost) or update your browser")
   const hash = await crypto.subtle.digest('SHA-1', enc.encode(signature))
   return btoa(String.fromCharCode.apply(null, new Uint8Array(hash)))
 }

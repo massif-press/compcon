@@ -17,7 +17,7 @@ import _ from 'lodash'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { CompendiumItem } from '@/classes/CompendiumItem'
-import { PilotLicense } from '@/class'
+import { LicensedItem, PilotLicense } from '@/class'
 
 export default Vue.extend({
   name: 'equipment-selector',
@@ -58,7 +58,8 @@ export default Vue.extend({
       .concat(compendium.MechSystems.filter(x => x.LicenseLevel > 0) as CompendiumItem[])
       .concat(compendium.Frames.filter(x => x.LicenseLevel > 0) as CompendiumItem[])
 
-    this.items = items.filter(x => !x.IsExotic && !x.IsHidden)
+    this.items = items.filter(x => !x.IsExotic && !x.IsHidden && ((x as LicensedItem).LicenseID || (x as LicensedItem).License))
+    // need to filter out unlicensed items, having LL>1 unlicensed items can break the system selector/etc. views I think
   },
 })
 </script>
