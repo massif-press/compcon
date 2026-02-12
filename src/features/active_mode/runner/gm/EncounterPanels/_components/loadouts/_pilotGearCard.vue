@@ -42,7 +42,7 @@
           class="mb-2 mt-1">
           <cc-combat-action-chip v-for="a in item.Actions"
             :action="a"
-            :owner="pilot"
+            :owner="owner"
             @activate="handleActivation($event)"
             @reset="handleRefund($event)"
             :encounter="encounter">
@@ -134,7 +134,8 @@ export default {
     encounter: {
       type: Object,
       required: true,
-    }, owner: {
+    },
+    owner: {
       type: Object,
       required: true,
     },

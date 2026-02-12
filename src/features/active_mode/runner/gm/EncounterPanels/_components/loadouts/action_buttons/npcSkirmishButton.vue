@@ -73,17 +73,6 @@
           :mech="controller.Parent"
           alert />
       </div>
-      <div class="px-3">
-        <mech-mount-bonus-card v-if="selectedMount"
-          v-for="b in selectedMount.Bonuses"
-          :key="b.ID"
-          expanded
-          :bonus="b"
-          :owner="owner"
-          :mech="owner.actor.CombatController.Parent"
-          :encounter="encounter" />
-      </div>
-
 
       <div v-if="!presetWeapon"
         class="text-cc-overline text-disabled pl-3 py-2">
@@ -113,11 +102,6 @@
           cols="auto">
           <cc-tags :tags="selectedWeapon.Tags" />
         </v-col>
-        <v-col v-if="selectedWeapon?.Mod"
-          cols="auto">
-          <cc-tags :tags="selectedWeapon.Mod!.AddedTags"
-            color="mod" />
-        </v-col>
         <v-col v-if="selectedWeapon"
           cols="auto">
           <v-menu open-on-hover
@@ -141,62 +125,11 @@
           :mech="controller.Parent"
           alert />
 
-        <mech-weapon-attack v-if="selectedWeapon && event"
+        <npc-weapon-attack v-if="selectedWeapon && event"
           :event="<WeaponAttackEvent>event"
           :owner="owner"
           :encounter="encounter"
-          :profile="<WeaponProfile>event.Weapon" />
-
-        <div v-if="auxEvents && auxEvents.length"
-          class="mt-4">
-          <v-divider class="my-4" />
-          <div class="text-cc-overline text-disabled mb-1">
-            additional {{ selectedMount.Name }} aux weapons
-          </div>
-          <div v-for="(aux, aidx) in auxEvents">
-            <v-row dense
-              align="center"
-              class="bg-panel mb-1 heading">
-              <v-col cols="auto">
-                <v-icon icon="cc:weapon"
-                  class="ml-4"
-                  start />
-              </v-col>
-              <v-col>
-                {{ aux.Weapon.Name }}
-              </v-col>
-              <v-col cols="auto">
-                <cc-tags :tags="aux.Weapon.Tags" />
-              </v-col>
-              <v-col v-if="(aux.Weapon as WeaponProfile).Parent.Mod"
-                cols="auto">
-                <cc-tags :tags="(aux.Weapon as WeaponProfile).Parent.Mod!.AddedTags"
-                  color="mod" />
-              </v-col>
-              <v-col cols="auto">
-                <cc-switch v-model="include[aidx]"
-                  bg-color="background"
-                  :label="`Include`" />
-              </v-col>
-            </v-row>
-            <v-slide-y-reverse-transition>
-              <div v-if="aux && include[aidx]">
-                <cc-synergy-display :key="aux.Weapon.ID"
-                  :item="(aux.Weapon as WeaponProfile).Parent"
-                  location="weapon"
-                  :mech="controller.Parent"
-                  alert />
-
-                <mech-weapon-attack v-if="selectedWeapon"
-                  :event="<WeaponAttackEvent>aux"
-                  :owner="owner"
-                  :encounter="encounter"
-                  :profile="<WeaponProfile>aux.Weapon" />
-
-              </div>
-            </v-slide-y-reverse-transition>
-          </div>
-        </div>
+          :weapon="<NpcWeapon>event.Weapon" />
 
       </div>
       <v-slide-y-transition>
@@ -227,19 +160,18 @@
 
 <script lang="ts">
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
-import MechMountBonusCard from '../_mechMountBonusCard.vue';
-import { MechWeapon } from '@/class';
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
-import MechWeaponAttack from './_mechWeaponAttack.vue';
 import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import StagedPanel from './_stagedPanel.vue';
+import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
+import NpcWeaponAttack from './_npcWeaponAttack.vue';
 
 export default {
-  name: 'MechSkirmishButton',
+  name: 'NpcSkirmishButton',
   props: {
     action: {
       type: Object,
@@ -254,50 +186,22 @@ export default {
       required: true,
     },
     presetWeapon: {
-      type: MechWeapon,
+      type: NpcWeapon,
       required: false,
     },
   },
   components: {
     MenuInput,
-    MechMountBonusCard,
-    MechWeaponAttack,
     ApplyButton,
-    StagedPanel
+    StagedPanel,
+    NpcWeaponAttack
   },
   data: () => ({
     event: null as WeaponAttackEvent | null,
-    auxEvents: [] as WeaponAttackEvent[],
-    selectedWeapon: null as MechWeapon | null,
-    include: [] as boolean[],
+    selectedWeapon: null as NpcWeapon | null,
   }),
   created() {
     this.reset();
-  },
-  watch: {
-    include: {
-      handler(newVal, oldVal) {
-        const self = this.encounter.Combatants.find(
-          (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
-        );
-        if (!self) {
-          throw new Error('Owner combatant not found in encounter');
-        }
-        const auxes = this.selectedMount.Weapons.filter(
-          (x) =>
-            x.InstanceID !== this.selectedWeapon!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-        );
-
-        this.auxEvents = []
-
-        for (let i = 0; i < newVal.length; i++) {
-          this.auxEvents.push(
-            new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack')
-          );
-        }
-      },
-      deep: true,
-    },
   },
   computed: {
     available() {
@@ -315,35 +219,30 @@ export default {
       }
       return !this.controller.IsActionUsed(this.action.ID);
     },
-    selectedMount() {
-      if (!this.selectedWeapon) return null;
-      const aa = this.owner.actor.CombatController.RootActor;
-      if (!aa.ActiveMech) return null;
-
-      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.includes(this.selectedWeapon));
-    },
     ordnanceWarning() {
       if (!this.selectedWeapon) return false;
-      if (this.selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
+      if (this.selectedWeapon.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
         return this.owner.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
     },
     skirmishWeapons() {
-      const mech = this.controller.ActiveActor;
-      if (!mech || !mech.MechLoadoutController) return []
-      let arr = mech.MechLoadoutController.ActiveLoadout.Weapons.filter(
-        (x) => x.Skirmish
+      const npc = this.controller.ActiveActor;
+
+      let arr = npc.NpcFeatureController.Features.filter(
+        (x) => !x.IsSuperheavy
       );
+
       if (this.presetWeapon) {
         arr = arr.filter(w => w.InstanceID === this.presetWeapon!.InstanceID);
       }
+
       return arr;
     },
     eventArray() {
-      const enabledAuxes = this.auxEvents.filter((x, idx) => this.include[idx]);
-      return [this.event].concat(enabledAuxes)
+      return [this.event]
     },
+
   },
   methods: {
     reset(clearAction = false) {
@@ -361,16 +260,8 @@ export default {
       if (!this.selectedWeapon)
         return;
 
-
-      this.event = new WeaponAttackEvent(this.selectedWeapon?.SelectedProfile as WeaponProfile, self, this.encounter, 'Skirmish');
-      const auxes = this.selectedMount.Weapons.filter(
-        (x) =>
-          x.InstanceID !== this.selectedWeapon!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      );
-
-      this.auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack'));
-
-      this.include = this.auxEvents.map(() => true);
+      if (this.selectedWeapon)
+        this.event = new WeaponAttackEvent(this.selectedWeapon as NpcWeapon, self, this.encounter, 'Skirmish');
     },
     apply() {
       const actor = this.owner.actor.CombatController.ActiveActor.CombatController;
@@ -380,7 +271,7 @@ export default {
       }
       this.reset();
     },
-    onWeaponChanged(weapon: MechWeapon) {
+    onWeaponChanged(weapon: NpcWeapon) {
       this.selectedWeapon = weapon;
       this.reset();
     },

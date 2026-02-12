@@ -1,23 +1,24 @@
 <template>
   <div>
-    <div class="text-cc-overline text-disabled">RESIST / IMMUNE / VULNERABLE</div>
-    <v-row dense justify="center">
-      <v-col v-for="damage in damageTypes" cols="4">
-        <v-tooltip :open-delay="400" location="top" max-width="300">
+    <div class="text-cc-overline text-disabled">RESIST / IMMUNE / VULN.</div>
+    <v-row dense
+      justify="center">
+      <v-col v-for="damage in damageTypes"
+        cols="4">
+        <v-tooltip :open-delay="400"
+          location="top"
+          max-width="300">
           <template #activator="{ props }">
-            <v-card
-              v-bind="props"
+            <v-card v-bind="props"
               style="position: relative; padding-top: 2px; padding-bottom: 2px"
               flat
               tile
-              :color="
-                hasVulnerability(damage) ? 'error' : hasResistance(damage) ? 'success' : 'panel'
-              "
+              :color="hasVulnerability(damage) ? 'error' : hasResistance(damage) ? 'success' : 'panel'
+                "
               :style="`border: 2px solid ${hasImmunity(damage) ? 'rgb(var(--v-theme-primary))' : hasVulnerability(damage) ? 'rgba(249, 219, 78, 0.5)' : 'rgb(var(--v-theme-panel))'}`"
               class="px-2 text-center"
               @click="addResistance(damage)">
-              <v-icon
-                v-if="immunities.some((r) => r === damage.Name)"
+              <v-icon v-if="immunities.some((r) => r === damage.Name)"
                 icon="mdi-cancel"
                 color="accent"
                 size="45"
@@ -30,19 +31,18 @@
                   width: 100%;
                   height: 100%;
                 " />
-              <v-icon :icon="damage.icon" size="35" />
+              <v-icon :icon="damage.icon"
+                size="35" />
             </v-card>
           </template>
-          <div
-            v-if="hasResistance(damage) || hasImmunity(damage) || hasVulnerability(damage)"
+          <div v-if="hasResistance(damage) || hasImmunity(damage) || hasVulnerability(damage)"
             class="heading h3"
-            :class="
-              hasImmunity(damage)
+            :class="hasImmunity(damage)
                 ? 'text-exotic'
                 : hasVulnerability(damage)
                   ? 'text-error'
                   : 'text-accent'
-            ">
+              ">
             {{ damage.Name }}
             {{
               hasImmunity(damage)
@@ -145,12 +145,10 @@ export default {
 
 <style scoped>
 .bg-stripes {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(249, 219, 78, 0.5),
-    rgba(249, 219, 78, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 10px,
-    rgba(100, 100, 100, 0.5) 20px
-  );
+  background: repeating-linear-gradient(-45deg,
+      rgba(249, 219, 78, 0.5),
+      rgba(249, 219, 78, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 20px);
 }
 </style>

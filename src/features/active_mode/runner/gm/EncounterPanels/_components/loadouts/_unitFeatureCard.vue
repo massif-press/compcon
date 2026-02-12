@@ -46,12 +46,12 @@
       <v-col cols="auto">
         <cc-range-element v-if="item.Range"
           small
-          :range="item.Range(item.NpcClassController?.Tier || 1, mods)" />
+          :range="item.Range(tier, mods)" />
         <cc-slashes v-if="item.Range && item.Damage"
           class="pr-1" />
         <cc-damage-element v-if="item.Damage"
           small
-          :damage="item.Damage(item.NpcClassController?.Tier || 1, mods)" />
+          :damage="item.Damage(tier, mods)" />
       </v-col>
 
       <v-col v-if="!showCommandPanel"
@@ -95,7 +95,7 @@
               <npc-mod-inset v-for="mod in mods"
                 :key="mod.ID"
                 :mod="mod"
-                :tier="item.NpcClassController?.Tier || 1" />
+                :tier="tier" />
             </div>
           </div>
 
@@ -109,7 +109,7 @@
               class="mb-2 mt-1">
               <cc-combat-action-chip v-for="a in item.Actions"
                 :action="a"
-                :owner="unit"
+                :owner="owner"
                 @activate="handleActivation($event)"
                 @reset="handleRefund($event)"
                 :encounter="encounter">

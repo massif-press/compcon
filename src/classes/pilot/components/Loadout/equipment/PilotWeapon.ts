@@ -42,6 +42,10 @@ class PilotWeapon extends PilotEquipment {
     this.ItemType = ItemType.PilotWeapon
   }
 
+  public get IsSidearm(): boolean {
+    return this.Tags.some(x => x.ID == 'tg_sidearm')
+  }
+
   public get DamageTypeOverride(): string {
     return this._custom_damage_type || ''
   }
@@ -108,7 +112,7 @@ class PilotWeapon extends PilotEquipment {
   public toActiveEffectData(actor: Pilot): IActiveEffectData {
     return {
       id: this.ID,
-      name: `${actor.Name} // ${this.Name}`,
+      name: `${this.Name}`,
       detail: this.Effect || '',
       damage: this.Damage.map(d => Damage.Serialize(d)),
       range: this.Range.map(r => Range.Serialize(r)),

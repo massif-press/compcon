@@ -105,7 +105,8 @@
           </template>
         </panel-base>
 
-        <cc-button size="small"
+        <cc-button v-if="recall"
+          size="small"
           block
           class="mt-4"
           options-icon="mdi-chevron-down"

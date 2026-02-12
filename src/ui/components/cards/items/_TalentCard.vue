@@ -1,12 +1,14 @@
 <template>
-  <cc-talent :talent="item" hide-change hide-title />
+  <cc-talent :talent="item"
+    hide-change
+    hide-title />
 </template>
 
 <script lang="ts">
 import InfoCardBase from './_InfoCardBase.vue';
 
 export default {
-  name: 'cc-mech-weapon-card',
+  name: 'talent-card',
   components: { InfoCardBase },
   props: {
     item: {

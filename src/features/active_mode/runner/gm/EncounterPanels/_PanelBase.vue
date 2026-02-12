@@ -104,7 +104,7 @@
                   <v-icon icon="mdi-star-four-points-outline"
                     size="x-large"
                     class="mt-n2 mr-1" />
-                  <span class="heading h2 text-accent">2</span>
+                  <span class="heading h2 text-accent">{{ item.Grit }}</span>
                 </span>
               </template>
             </v-tooltip>
@@ -228,8 +228,7 @@
             </v-col>
           </v-row>
 
-
-          <v-row>
+          <v-row v-if="item.StatController.MaxStats['heatcap']">
             <v-col>
               <cc-tickbar v-model="item.StatController.CurrentStats['heatcap']"
                 v-model:secondary="item.StatController.CurrentStats['stress']"
@@ -272,6 +271,13 @@
                 space
                 reverse
                 :ticks="item.StatController.MaxStats['repairCapacity']" />
+            </v-col>
+            <v-col cols="auto"
+              v-if="!item.StatController.MaxStats['heatcap']">
+              <stat-mini-panel title="burn"
+                icon="cc:burn"
+                color="damage--burn"
+                v-model.number="item.StatController.CurrentStats['burn']" />
             </v-col>
             <v-col cols="auto"
               v-if="item.ItemType === 'mech'">

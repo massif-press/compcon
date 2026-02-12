@@ -16,6 +16,7 @@ enum ActivationType {
   Quick = 'Quick',
   Full = 'Full',
   Invade = 'Invade',
+  Jockey = 'Jockey',
   FullTech = 'Full Tech',
   QuickTech = 'Quick Tech',
   Reaction = 'Reaction',
@@ -199,4 +200,4 @@ export {
   ReserveType,
   OrgType,
   ImageTag,
-};
+}

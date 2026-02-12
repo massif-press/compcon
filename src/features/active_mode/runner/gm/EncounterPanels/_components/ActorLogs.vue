@@ -1,6 +1,7 @@
 <template>
   <cc-dialog icon="mdi-clipboard-text"
-    :title="`${actor.Name} Combat Log`">
+    :title="`${actor.Name} Combat Log`"
+    :close-on-click="false">
     <template #activator="{ open }">
       <v-btn size="x-small"
         flat
@@ -8,7 +9,7 @@
         @click="open">
         <v-icon icon="mdi-clipboard-text"
           start />
-        View Log
+        Log
       </v-btn>
     </template>
     <template #default>
@@ -18,7 +19,10 @@
         style="position: relative;"
         :title="log.title"
         :key="index">
-        <div style="font-family: 'Consolas'; font-size: 14px;">{{ log.text }}</div>
+        <div style="font-family: 'Consolas'; font-size: 14px; white-space: pre-wrap;">
+          <!-- {{ JSON.stringify(log, null, 2) }} -->
+          {{ log.text }}
+        </div>
         <v-btn icon="mdi-content-copy"
           size="x-small"
           flat
@@ -64,7 +68,8 @@
 </template>
 
 <script lang="ts">
-import { EventSummary } from '@/classes/components/feature/active_effects/EventSummary';
+import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary';
+
 
 export default {
   name: 'ActorLogs',
@@ -81,11 +86,11 @@ export default {
   computed: {
     summary() {
       let out = [] as { title: string; text: string }[];
-      this.actor.CombatController.History.forEach((log, index) => {
-        const stringSummary = new EventSummary(log.event).toString();
+      this.actor.CombatController.CombatLog.History.forEach((log, index) => {
+        let stringSummary = log.action ? new ActionSummary(log.action).Summarize(this.actor.ID) : log.event || 'No summary available.';
         out.push({
           title: `${new Date(log.timestamp).toLocaleString()} — Round ${log.round}, Action ${index + 1}`,
-          text: stringSummary
+          text: stringSummary,
         });
       });
       return out;
@@ -102,10 +107,12 @@ export default {
       else out = JSON.stringify({
         actor: this.actor.Name,
         actor_id: this.actor.ID,
-        log: this.actor.CombatController.History.map(log => ({
+        log: this.actor.CombatController.CombatLog.History.map(log => ({
           timestamp: log.timestamp,
           round: log.round,
-          event: log.event,
+          summary: log.event,
+          action: log.action || '',
+          event: log.event || '',
         })),
       }, null, 2);
 

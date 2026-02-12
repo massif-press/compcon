@@ -6,7 +6,7 @@
     <template #activator="{ open }">
       <div class="top-element mr-6 mb-1"
         style="position: relative; display: inline-block">
-        <div v-if="!isPassive"
+        <div v-if="!activeEffect.IsPassive"
           :class="`light bg-${activeEffect.Applied ? 'panel-border' : lightColor}`" />
         <v-chip :color="activeEffect.Applied ? 'panel-border' : 'primary'"
           variant="elevated"
@@ -20,22 +20,10 @@
             border-bottom-right-radius: 0;
           "
           :style="`
-            border-top-left-radius: ${isPassive ? '3' : '12'}px;
+            border-top-left-radius: ${activeEffect.IsPassive ? '3' : '12'}px;
           `"
           @click="open">
           <template #prepend>
-            <v-avatar v-if="activeEffect.Duration"
-              color="background"
-              class="mr-1">
-              <v-tooltip location="top">
-                <template #activator="{ props }">
-                  <v-icon v-bind="props"
-                    icon="mdi-numeric-0-circle"
-                    size="18" />
-                </template>
-                Expires in X rounds
-              </v-tooltip>
-            </v-avatar>
             <v-avatar v-if="activeEffect.Frequency"
               color="background"
               class="mr-1">
@@ -48,7 +36,7 @@
                 {{ frequencyText(activeEffect.Frequency) }}
               </v-tooltip>
             </v-avatar>
-            <v-tooltip v-if="isPassive"
+            <v-tooltip v-if="activeEffect.IsPassive"
               location="top">
               <template #activator="{ props }">
                 <v-icon v-bind="props"
@@ -179,10 +167,11 @@
       </div>
     </template>
     <template #default="{ close }">
-      <menu-input :key="owner.ID"
+      <menu-input v-if="getCombatant"
+        :key="owner.ID"
         :active-effect="activeEffect"
         :encounter="encounter"
-        :owner="owner"
+        :owner="getCombatant"
         :tier="tier"
         :close="close" />
     </template>
@@ -195,6 +184,7 @@ import { ActiveEffect } from '@/classes/components/feature/active_effects/Active
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { ByTier } from '@/util/tierFormat';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
 export default {
   name: 'cc-active-effect-chip',
@@ -204,90 +194,25 @@ export default {
   props: {
     activeEffect: { type: ActiveEffect, required: true },
     tier: { type: Number, required: false, default: 1 },
-    encounter: { type: Object, required: true },
+    encounter: { type: EncounterInstance, required: true },
     owner: { type: Object, required: true },
   },
   computed: {
+    getCombatant(): CombatantData | undefined {
+      return this.encounter.Combatants.find(
+        (c: CombatantData) => c.actor.ID === this.owner.ID || c.actor.CombatController.ActiveActor.ID === this.owner.ID || c.actor.CombatController.RootActor.ID === this.owner.ID
+      );
+    },
     lightColor() {
       return this.activeEffect.Origin.Color || 'orange';
     },
     icon() {
       return this.activeEffect.Origin.Icon || 'mdi-rhombus-outline';
     },
-    isPassive() {
-      return (
-        !this.activeEffect.AddOther &&
-        !this.activeEffect.AddResist &&
-        !this.activeEffect.AddStatus &&
-        !this.activeEffect.AddResist &&
-        !this.activeEffect.Damage.length &&
-        !this.activeEffect.Save &&
-        !this.activeEffect.Frequency
-      );
-    },
-    canOverride() {
-      return (
-        this.activeEffect.AddOther ||
-        this.activeEffect.AddResist ||
-        this.activeEffect.AddStatus ||
-        this.activeEffect.AddResist ||
-        this.activeEffect.Damage.length > 0 ||
-        this.activeEffect.Save
-      );
-    },
-    hasAction() {
-      return (
-        this.activeEffect.AddOther ||
-        this.activeEffect.AddResist ||
-        this.activeEffect.AddStatus ||
-        this.activeEffect.AddResist ||
-        this.activeEffect.Damage.length ||
-        this.activeEffect.Save
-      );
-    },
-    canApply(): boolean {
-      // if (this.canOverride) {
-      //   // TODO
-      //   return false;
-      // }
-      return !this.activeEffect.Applied;
-    },
   },
   methods: {
     byTier(detail: string) {
       return ByTier(detail, this.tier);
-    },
-    getTargetsSorted(target: string): Array<object> {
-      const self = this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.ID === this.owner.ID
-      );
-      if (!self) return [];
-
-      return this.encounter.getTargetsSorted(target, self.side);
-
-    },
-
-    initialDamage(damage: Damage): number {
-      const n = Number(damage.TieredDamage(this.tier));
-      if (!isNaN(n)) {
-        return n;
-      } else {
-        return 0;
-      }
-    },
-    initialPlaceholder(damage: Damage): string {
-      const val = damage.TieredDamage(this.tier);
-      if (isNaN(Number(val))) {
-        return val;
-      } else {
-        return '';
-      }
-    },
-    getAoeIcon(aoe: string | boolean): string {
-      if (typeof aoe === 'boolean') {
-        aoe = aoe ? 'true' : 'false';
-      }
-      return Damage.getAoeIcon(aoe);
     },
     frequencyIcon(frequency: string): string {
       const str = frequency.toLowerCase();

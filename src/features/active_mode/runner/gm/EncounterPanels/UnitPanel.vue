@@ -44,11 +44,12 @@
     </template>
     <template #pre>
       <unit-combat-loadout :encounter-instance="encounterInstance"
-        :unit="actor" />
+        :unit="actor"
+        :owner="combatant" />
     </template>
 
     <template #actions>
-      <npc-actions-panel :controller="actor.CombatController"
+      <npc-actions-panel :owner="combatant"
         :encounter="encounterInstance" />
     </template>
   </panel-base>
@@ -61,7 +62,7 @@ import ScanMenu from './_components/ScanMenu.vue';
 import PanelBase from './_PanelBase.vue';
 
 export default {
-  name: 'NpcPanel',
+  name: 'UnitPanel',
   components: {
     PanelBase,
     ScanMenu,

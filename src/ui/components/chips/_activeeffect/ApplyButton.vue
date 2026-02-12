@@ -20,7 +20,7 @@
         size="small"
         stacked
         :color="color"
-        :disabled="isApplied || !events.every(x => x.Ready)"
+        :disabled="isApplied || mandatoryRemaining"
         @click="stage(false)">
         <div class="px-4">
           <v-icon v-if="icon"
@@ -56,10 +56,10 @@
 
             <v-list-item @click="stage(true)"
               class="bg-action--free"
-              :disabled="!events.every(x => x.Ready)"
+              :disabled="mandatoryRemaining"
               title="Activate (Free Action)">
               <template #subtitle
-                v-if="!events.every(x => x.Ready)">
+                v-if="mandatoryRemaining">
                 <v-list-item-subtitle>Mandatory Fields Remaining</v-list-item-subtitle>
               </template>
               <template #prepend>
@@ -229,6 +229,9 @@ export default {
       }
       return '';
     },
+    mandatoryRemaining(): boolean {
+      return !this.events.every(x => x.Ready)
+    },
   },
   methods: {
     byTier(detail: string) {
@@ -259,8 +262,11 @@ export default {
     },
     apply(close: Function) {
       if (this.isApplied || !this.ready) return;
-      // this.iterateAE('apply');
-      if (!this.isFree) this.owner.actor.CombatController.MarkActionUsed(this.activeEffect.ID);
+      if (!this.isFree) {
+        this.owner.actor.CombatController.MarkActionUsed(this.activeEffect.ID);
+        const action = this.action?.Activation || (this.activeEffect as any).Activation || 'free';
+        this.owner.actor.CombatController.SetCombatAction(action, false);
+      }
       if (this.weaponAttackEvents.length)
         this.weaponAttackEvents.forEach(we => we.ApplyAll());
       else

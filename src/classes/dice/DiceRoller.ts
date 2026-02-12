@@ -131,6 +131,17 @@ class D20RollResult implements Id20RollResult {
 
     return out
   }
+
+  toJSON() {
+    return {
+      total: this.total,
+      rawDieRoll: this.rawDieRoll,
+      staticBonus: this.staticBonus,
+      accuracyDiceCount: this.accuracyDiceCount,
+      rawAccuracyRolls: this.rawAccuracyRolls,
+      accuracyResult: this.accuracyResult,
+    }
+  }
 }
 
 class DamageRollResult implements IDamageRollResult {

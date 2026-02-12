@@ -1,14 +1,12 @@
 <template>
-  <cc-alert
-    v-if="pilot.CombatController.IsDead"
+  <cc-alert v-if="pilot.CombatController.IsDead"
     title="Pilot KIA"
     icon="mdi-skull"
     color="error"
     class="mb-4">
     This pilot has been killed in action.
     <div class="text-right">
-      <v-btn
-        size="x-small"
+      <v-btn size="x-small"
         variant="text"
         class="fade-select"
         @click="pilot.CombatController.IsDead = false">
@@ -17,13 +15,14 @@
     </div>
   </cc-alert>
 
-  <panel-base v-else :encounter-instance="encounterInstance" :item="pilot">
+  <panel-base v-else
+    :encounter-instance="encounterInstance"
+    :item="pilot">
     <template #name-block>
       <div class="heading h2">{{ pilot.Callsign }}</div>
       <div class="heading h4">{{ pilot.Name }}</div>
 
-      <cc-alert
-        v-if="pilot.CombatController.HasStatus('downandout')"
+      <cc-alert v-if="pilot.CombatController.HasStatus('downandout')"
         title="Down and Out"
         icon="mdi-medical-bag"
         color="primary"
@@ -35,8 +34,7 @@
     <template #action-palette>
       <v-row no-gutters>
         <v-col>
-          <v-btn
-            flat
+          <v-btn flat
             tile
             size="small"
             block
@@ -46,8 +44,7 @@
         </v-col>
         <v-divider vertical />
         <v-col>
-          <v-btn
-            flat
+          <v-btn flat
             tile
             size="small"
             block
@@ -57,8 +54,7 @@
         </v-col>
         <v-divider vertical />
         <v-col>
-          <v-btn
-            flat
+          <v-btn flat
             tile
             size="small"
             block
@@ -70,46 +66,52 @@
     </template>
 
     <template #actions>
-      <pilot-actions-panel :controller="pilot.CombatController" :encounter="encounterInstance" />
+      <pilot-actions-panel :owner="combatant"
+        :encounter="encounterInstance" />
     </template>
 
-    <v-expansion-panels class="mt-2" multiple flat tile bg-color="background" variant="accordion">
+    <v-expansion-panels class="mt-2"
+      multiple
+      flat
+      tile
+      bg-color="background"
+      variant="accordion">
       <v-expansion-panel>
         <v-expansion-panel-title class="text-cc-overline">
           <div class="text-cc-overline">
-            <v-icon icon="cc:talent" class="mt-n1" start />
+            <v-icon icon="cc:talent"
+              class="mt-n1"
+              start />
             Pilot Talents ({{ pilot.TalentsController.Talents.length }})
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall
-            :items="pilot.TalentsController.Talents"
+          <masonry-wall :items="pilot.TalentsController.Talents"
             :column-width="500"
             :gap="8"
             :min-columns="1"
             :max-columns="2">
             <template #default="{ item, index }">
-              <cc-talent
-                rank-view
+              <cc-talent rank-view
                 :key="item.Talent.ID"
                 :talent="item.Talent"
                 :rank="item.Rank"
                 hide-locked
                 hide-change>
                 <template #combat>
-                  <div v-if="item.Talent.AllActions?.length" class="mb-2 mt-1">
-                    <cc-combat-action-chip
-                      v-for="a in item.Talent.AllActions"
+                  <div v-if="item.Talent.AllActions?.length"
+                    class="mb-2 mt-1">
+                    <cc-combat-action-chip v-for="a in item.Talent.AllActions"
                       :action="a"
-                      :owner="pilot"
+                      :owner="combatant"
                       :encounter="encounterInstance" />
                   </div>
-                  <div v-if="item.Talent.AllDeployables?.length" class="mb-2">
-                    <deploy-button
-                      v-for="d in item.Talent.AllDeployables"
+                  <div v-if="item.Talent.AllDeployables?.length"
+                    class="mb-2">
+                    <deploy-button v-for="d in item.Talent.AllDeployables"
                       :deployable="d"
                       :actor="pilot"
-                      @deploy="$emit('deploy', d)" />
+                      @deploy="deploy($event)" />
                   </div>
                 </template>
               </cc-talent>
@@ -120,9 +122,8 @@
     </v-expansion-panels>
 
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
-    <pilot-combat-loadout
-      :encounter-instance="encounterInstance"
-      :pilot="pilot"
+    <pilot-combat-loadout :encounter-instance="encounterInstance"
+      :owner="combatant"
       @deploy="deploy($event)" />
   </panel-base>
 </template>

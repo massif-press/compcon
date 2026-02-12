@@ -1,18 +1,17 @@
 <template>
-  <v-row class="mb-1" dense>
+  <v-row class="mb-1"
+    dense>
     <v-col>
       <div class="heading h2">{{ combatant.actor.Name }}</div>
       <div class="text-cc-overline">Tier {{ combatant.actor.Tier }} Eidolon</div>
     </v-col>
-    <v-col
-      v-for="n in combatant.actor.Layers.length"
+    <v-col v-for="n in combatant.actor.Layers.length"
       cols="auto"
       align-self="center"
       class="text-center">
       <v-tooltip location="top">
         <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
+          <v-btn v-bind="props"
             flat
             tile
             icon
@@ -20,8 +19,7 @@
             :variant="n - 1 === combatant.actor.ActiveLayerIndex ? 'elevated' : 'tonal'"
             :color="n - 1 === combatant.actor.ActiveLayerIndex ? 'exotic' : 'primary'"
             @click="combatant.actor.ActiveLayerIndex = n - 1">
-            <v-icon
-              icon="mdi-layers"
+            <v-icon icon="mdi-layers"
               :size="n - 1 === combatant.actor.ActiveLayerIndex ? 50 : 40" />
             <div class="text-cc-overline">{{ combatant.actor.Layers[n - 1].Name }}</div>
           </v-btn>
@@ -31,7 +29,9 @@
       </v-tooltip>
     </v-col>
   </v-row>
-  <panel-base :encounter-instance="encounterInstance" :item="layer" hide-palette>
+  <panel-base :encounter-instance="encounterInstance"
+    :item="layer"
+    hide-palette>
     <template #name-block>
       <div class="mr-12">
         <div class="text-cc-overline">Active Layer</div>
@@ -39,8 +39,7 @@
           {{ layer.Name }}
         </div>
         <v-divider class="my-1" />
-        <cc-button
-          block
+        <cc-button block
           size="small"
           color="primary"
           :disabled="!layer.Layer.Shards.Count"
@@ -55,46 +54,59 @@
     </template>
 
     <template #subtitle>
-      <div v-if="layer.Description" class="text-cc-overline mt-2">Layer Description</div>
-      <p v-if="layer.Description" v-html="layer.Description" class="px-4 py-2 border" />
-      <div v-if="layer.Layer.Appearance" class="my-2">
+      <div v-if="layer.Description"
+        class="text-cc-overline mt-2">Layer Description</div>
+      <p v-if="layer.Description"
+        v-html="layer.Description"
+        class="px-4 py-2 border" />
+      <div v-if="layer.Layer.Appearance"
+        class="my-2">
         <cc-panel title="Reported Appearances">
           <p v-html-safe="layer.Layer.Appearance" />
         </cc-panel>
       </div>
-      <div v-if="layer.Layer.Hints" class="my-2">
+      <div v-if="layer.Layer.Hints"
+        class="my-2">
         <cc-panel title="Hints">
           <p v-html-safe="layer.Layer.Hints" />
-          <div class="text-right" style="position: absolute; bottom: 0; right: 22px">
-            <v-btn
-              variant="text"
+          <div class="text-right"
+            style="position: absolute; bottom: 0; right: 22px">
+            <v-btn variant="text"
               size="x-small"
               class="fade-select"
               @click="clip(layer.Layer.Hints)">
-              <v-icon start icon="mdi-content-copy" />
+              <v-icon start
+                icon="mdi-content-copy" />
               SCAN
             </v-btn>
           </div>
         </cc-panel>
       </div>
-      <div v-if="layer.Layer.Rules" class="my-2">
+      <div v-if="layer.Layer.Rules"
+        class="my-2">
         <cc-panel title="Rules">
           <p v-html-safe="layer.Layer.RulesByTier(combatant.actor.Tier)" />
         </cc-panel>
       </div>
     </template>
 
-    <v-expansion-panels class="mt-2" multiple flat tile bg-color="background" variant="accordion">
+    <v-expansion-panels class="mt-2"
+      multiple
+      flat
+      tile
+      bg-color="background"
+      variant="accordion">
       <v-expansion-panel class="py-0">
         <v-expansion-panel-title class="text-cc-overline py-0">
           <div class="text-cc-overline">
-            <v-icon icon="cc:trait" class="mt-n1" start />
+            <v-icon icon="cc:trait"
+              class="mt-n1"
+              start />
             Persistent Traits ({{ traits.length }})
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall
-            :items="traits"
+          <masonry-wall :items="traits"
             :column-width="500"
             :gap="8"
             :min-columns="1"
@@ -108,15 +120,19 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <masonry-wall :items="features" :column-width="600" :gap="16" :min-columns="1" :max-columns="2">
+    <masonry-wall :items="features"
+      :column-width="600"
+      :gap="16"
+      :min-columns="1"
+      :max-columns="2">
       <template #default="{ item }">
-        <fieldset class="px-2 pb-2" style="border-color: rgba(155, 155, 155, 0.6)">
-          <unit-feature-card
-            :encounter="encounterInstance"
+        <fieldset class="px-2 pb-2"
+          style="border-color: rgba(155, 155, 155, 0.6)">
+          <unit-feature-card :encounter="encounterInstance"
             :key="item.ID"
             :item="item"
             :unit="layer"
-            @deploy="$emit('deploy', $event)" />
+            @deploy="deploy($event)" />
         </fieldset>
       </template>
     </masonry-wall>
@@ -156,6 +172,9 @@ export default {
     },
   },
   methods: {
+    deploy(deployable) {
+      this.encounterInstance.Deploy(deployable, this.combatant);
+    },
     clip(text) {
       navigator.clipboard.writeText(text);
     },

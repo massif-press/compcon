@@ -9,6 +9,7 @@ import { SpecialEvent } from './specialEvent'
 import { ResistEvent } from './resistEvent'
 import { EffectSpecial } from '../effect_subtype/EffectSpecial'
 import { CoverType } from '@/classes/components/combat/CombatController'
+import { ActionSummaryData } from '../EffectActionSummary'
 
 // this should include everything that can happen to a target, and components manage
 // what is shown/not shown based on the effect data
@@ -50,7 +51,7 @@ class ActiveEventTarget {
     if (effect.Save) {
       this.SaveType = event.Save
       this.SaveTarget = this.Event.Initiator.actor.CombatController.SaveTarget
-      this.SaveBonus = this._combatant.actor.CombatController.getSavingThrowBonus(
+      this.SaveBonus = this._combatant.actor.CombatController.GetSavingThrowBonus(
         effect.Save[0].Stat
       )
       this.SaveRollString = `1d20+${this.SaveBonus}`
@@ -146,6 +147,10 @@ class ActiveEventTarget {
         damageEvent.DamageType,
         this.FinalDamageValue
       )
+    this.Event.Initiator.actor.CombatController.RootActor.CombatController.CombatLog.DealDamage(
+      this.FinalDamageValue,
+      damageEvent.DamageType
+    )
   }
 
   public ApplyStatus(statusEvent: StatusEvent) {
@@ -181,6 +186,53 @@ class ActiveEventTarget {
 
   public RemoveSpecialStatus(special: string) {
     this.Combatant.actor.CombatController.RemoveCustomStatus(special)
+  }
+
+  public static IncomingActionSummary(event: ActionSummaryData): string {
+    let str = ''
+    console.log(event)
+    str += `Incoming from ${event.initiatorName}: ${event.effectName} // `
+    event.damageEvents.flat().forEach(de => {
+      str += `${de.finalDamageValue} ${de.damageType} Damage`
+    })
+    event.statusEvents.flat().forEach(se => {
+      str += `Apply Status ${se.statusName} for ${se.duration}`
+    })
+    event.otherEvents.flat().forEach(oe => {
+      str += `Apply Effect ${oe.type} ${oe.value}`
+    })
+    event.specialEvents.flat().forEach(spe => {
+      str += `Apply Special Status ${spe.attribute} for ${spe.duration}`
+    })
+    event.resistEvents.flat().forEach(re => {
+      str += `Set ${re.resistType} to ${re.resist}`
+    })
+    return str.trim()
+  }
+
+  public ToJSON() {
+    return {
+      CombatantName: this.Combatant.actor.CombatController.CombatName,
+      CombatantType: this.Combatant.actor.ItemType,
+      CombatantId: this.Combatant.actor.ID,
+      TargetDefense: this.TargetDefense,
+      TargetDefenseValue: this.TargetDefenseValue,
+      AttackType: this.AttackType,
+      AttackRollString: this.AttackRollString,
+      AttackRollResult: this.AttackRollResult?.toJSON(),
+      AttackRolledValue: this.AttackRolledValue,
+      HitResult: this.HitResult,
+      FinalDamageValue: this.FinalDamageValue,
+      TotalArmorReduction: this.TotalArmorReduction,
+      SaveResult: this.SaveResult,
+      SaveTarget: this.SaveTarget,
+      SaveBonus: this.SaveBonus,
+      SaveRollString: this.SaveRollString,
+      SaveRollResult: this.SaveRollResult?.toJSON(),
+      SaveRolledValue: this.SaveRolledValue,
+      SaveType: this.SaveType,
+      SavedHalf: this.SavedHalf,
+    }
   }
 }
 

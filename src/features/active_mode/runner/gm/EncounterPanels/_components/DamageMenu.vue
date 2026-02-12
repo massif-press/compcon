@@ -1,5 +1,6 @@
 <template>
-  <v-dialog max-width="90vw">
+  <v-dialog min-width="1200px"
+    max-width="60vw">
     <template #activator="{ props }">
       <cc-button block
         size="small"
@@ -93,45 +94,57 @@
                   </v-tooltip>
                 </v-col>
               </v-row>
-              <div class="text-cc-overline text-disabled mt-2">Defender Status</div>
+            </v-col>
+            <v-col>
+              <div class="text-cc-overline text-disabled">Defender Status</div>
               <v-divider class="mb-2" />
+              <v-row v-for="damage in controller.Resistances"
+                no-gutters
+                justify="center"
+                :class="damageClass(damage)"
+                class="text-center my-1 px-2">
+                <v-col cols="auto">
+                  <v-icon v-bind="props"
+                    :icon="`cc:${damage.type.toLowerCase()}`" />
+                </v-col>
+                <v-col class="text-cc-overline mt-1">
+                  {{ damage.type }} {{ damage.condition }}
+                </v-col>
+              </v-row>
+
               <v-card flat
+                v-for="s in getActiveStatuses"
                 tile
                 class="py-1 text-center"
-                color="damage--burn"
-                v-if="controller.Statuses.some((x) => x.status.ID === 'exposed')">
-                <v-icon icon="cc:status_exposed"
+                color="damage--burn">
+                <v-icon :icon="s.icon"
                   start
                   class="mt-n1" />
-                EXPOSED
+                <div class=text-cc-overline>{{ s.title }}</div>
+                <v-divider />
+                <div class=text-caption>{{ s.description }}</div>
               </v-card>
-              <v-card flat
+
+              <v-card v-if="!getActiveStatuses.length && !controller.Resistances.length"
+                flat
                 tile
                 class="py-1 text-center text-cc-overline"
                 style="opacity: 0.75"
-                color="panel"
-                v-else>
+                color="panel">
                 NOMINAL
               </v-card>
             </v-col>
             <v-col>
+              <div class="text-cc-overline text-disabled">Total Damage</div>
+              <v-divider class="mb-2" />
               <v-card flat
                 tile
-                min-height="208px"
                 color="background"
-                class="my-2 px-6">
+                class="my-2 pr-6">
                 <v-row dense
                   class="text-cc-overline"
                   align="center">
                   <v-col>
-                    Base Damage
-                    <div v-if="damageMods.includes('half')"
-                      class="text-disabled">
-                      // Incoming damage halved
-                    </div>
-                  </v-col>
-                  <v-col class="text-right mr-4"
-                    cols="3">
                     <v-text-field type="number"
                       min="0"
                       max="100"
@@ -139,97 +152,6 @@
                       density="compact"
                       variant="outlined"
                       tile
-                      class="text-right mt-2"
-                      v-model="baseIncomingDamage" />
-                  </v-col>
-                </v-row>
-                <v-row v-if="controller.Statuses.some((x) => x.status.ID === 'exposed')"
-                  dense
-                  class="text-cc-overline text-error"
-                  align="center">
-                  <v-col>Defender Exposed</v-col>
-                  <v-col cols="1"><v-icon icon="mdi-plus" /></v-col>
-                  <v-col cols="3"
-                    class="text-right">
-                    <v-text-field type="number"
-                      min="0"
-                      max="100"
-                      hide-details
-                      density="compact"
-                      variant="outlined"
-                      tile
-                      class="text-right"
-                      v-model="exposedDamageAdd" />
-                  </v-col>
-                </v-row>
-                <v-row dense
-                  class="text-cc-overline"
-                  align="center">
-                  <v-col>
-                    Defender Armor
-                    <div v-if="damageMods.includes('ap')"
-                      class="text-error text-disabled">
-                      // Armor Piercing
-                    </div>
-                    <div v-if="damageMods.includes('force')"
-                      class="text-error text-disabled">
-                      // Irreducible
-                    </div>
-                  </v-col>
-                  <v-col cols="1"><v-icon icon="mdi-minus" /></v-col>
-                  <v-col cols="3"
-                    class="text-right mr-4">
-                    <v-text-field type="number"
-                      min="0"
-                      max="100"
-                      hide-details
-                      density="compact"
-                      variant="outlined"
-                      tile
-                      class="text-right"
-                      v-model="defenderArmorValue" />
-                  </v-col>
-                </v-row>
-                <v-row dense
-                  class="text-cc-overline"
-                  align="center">
-                  <v-col>
-                    Damage Resistance (Kinetic)
-                    <div v-if="damageMods.includes('force')"
-                      class="text-error text-disabled">
-                      // Irreducible
-                    </div>
-                  </v-col>
-                  <v-col cols="1"><v-icon icon="mdi-minus" /></v-col>
-                  <v-col cols="3"
-                    class="text-right mr-4">
-                    <v-text-field type="number"
-                      min="0"
-                      max="100"
-                      hide-details
-                      density="compact"
-                      variant="outlined"
-                      tile
-                      class="text-right"
-                      v-model="defenderResistanceValue" />
-                  </v-col>
-                </v-row>
-                <v-divider class="my-1" />
-                <v-row dense
-                  class="text-cc-overline"
-                  align="center">
-                  <v-col>Total Damage</v-col>
-                  <v-col cols="1"><v-icon icon="mdi-equal" /></v-col>
-                  <v-col cols="3"
-                    class="text-right">
-                    <v-text-field type="number"
-                      min="0"
-                      max="100"
-                      hide-details
-                      density="compact"
-                      variant="outlined"
-                      tile
-                      class="text-right"
                       v-model="totalDamage" />
                   </v-col>
                   <v-cols cols="auto"
@@ -239,32 +161,18 @@
                       size="40" />
                   </v-cols>
                 </v-row>
-
-                <br />
               </v-card>
-              <v-row dense>
-                <v-col cols="auto">
-                  <v-btn size="small"
-                    variant="text"
-                    prepend-icon="mdi-reload"
-                    color="accent">
-                    Reset
-                  </v-btn>
-                </v-col>
-                <v-spacer />
-                <v-col cols="auto">
-                  <cc-button prepend-icon="mdi-check"
-                    color="primary"
-                    @click="apply()">Apply</cc-button>
-                </v-col>
-                <v-spacer />
-                <v-col cols="auto">
-                  <cc-button prepend-icon="mdi-check"
-                    color="primary"
-                    @click="apply(isActive)">Apply and
-                    Close</cc-button>
-                </v-col>
-              </v-row>
+            </v-col>
+          </v-row>
+          <v-row dense
+            justify="end">
+            <v-col cols="auto">
+              <cc-button prepend-icon="mdi-check"
+                color="primary"
+                block
+                size="small"
+                @click="apply(isActive)">Apply and
+                Close</cc-button>
             </v-col>
           </v-row>
         </v-card-text>
@@ -291,12 +199,8 @@ export default {
   },
   data: () => ({
     incomingDamageValue: 0,
-    baseIncomingDamage: 0,
-    exposedDamageAdd: 0,
-    defenderArmorValue: 0,
-    defenderResistanceValue: 0,
     totalDamage: 0,
-    incomingDamageType: { ID: 1, Name: 'Kinetic' },
+    incomingDamageType: { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
     damageMods: [],
     damageTypes: [
       { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
@@ -311,98 +215,55 @@ export default {
       { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
       { ID: 6, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
     ],
-    damageSource: null,
-    damageSourceFeature: null,
-    damageOrigin: null,
-    originDamageStrings: [],
   }),
   watch: {
-    incomingDamageValue(newValue) {
-      this.baseIncomingDamage = newValue;
-      if (this.controller.Statuses.some((x) => x.status.ID === 'exposed'))
-        this.exposedDamageAdd = this.baseIncomingDamage;
-      if (this.damageMods.includes('half')) {
-        this.baseIncomingDamage = Math.floor(newValue / 2);
-      }
-
+    incomingDamageValue() {
       this.recalc();
     },
     damageMods: {
-      handler(newMods) {
-        if (newMods.includes('half')) {
-          this.baseIncomingDamage = Math.floor(this.incomingDamageValue / 2);
-        } else {
-          this.baseIncomingDamage = this.incomingDamageValue;
-        }
-      },
-      deep: true,
-    },
-    damageSourceFeature() {
-      this.setDamageOrigin();
+      handler() {
+        this.recalc();
+      }, deep: true
     },
   },
   computed: {
-    statuses() {
-      return _.orderBy(CompendiumStore().Statuses, 'StatusType');
+    getActiveStatuses() {
+      if (!this.controller || !this.controller.Statuses) return [];
+
+      const relevantStatuses = [
+        {
+          id: 'exposed',
+          icon: 'cc:status_exposed',
+          title: 'Exposed',
+          description: 'Kinetic, explosive, and heat damage doubled.',
+        },
+        {
+          id: 'shredded',
+          icon: 'cc:condition_shredded',
+          title: 'Shredded',
+          description: 'Damage ignores armor and resistance.',
+        }
+      ]
+
+      return this.controller.Statuses.filter(x => relevantStatuses.some(r => r.id === x.status.ID)).map((s) => relevantStatuses.find((as) => as.id === s.status.ID)
+      );
     },
-    applicableStatuses() {
-      const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
-      return this.statuses.filter((s) => !exclude.includes(s.ID));
-    },
-    defenderDamageResist() {
-      return;
-    },
-    damageSources() {
-      return this.encounter.Combatants;
-    },
-    damageSourceFeatures() {
-      if (!this.damageSource) return [];
-      let features = this.damageSource.actor.NpcFeatureController?.Features;
-      // TODO: v3 data to furnish potential damage values and synergy text
-      features.push({ Name: 'Other' });
-      return features;
-    },
+  },
+  getActiveResistances() {
+    if (!this.controller || !this.controller.Resistances) return [];
+    return this.controller.Resistances
   },
   methods: {
     recalc() {
-      this.totalDamage = Math.max(
-        0,
-        Number(this.baseIncomingDamage) +
-        Number(this.exposedDamageAdd) -
-        Number(this.defenderArmorValue) -
-        Number(this.defenderResistanceValue)
-      );
-    },
-    setDamageOrigin() {
-      if (!this.damageSource) return;
-      this.damageOrigin = {
-        source: this.damageSource,
-        feature: this.damageSourceFeature,
-      };
-      let damage;
-      if (this.damageSourceFeature && this.damageSourceFeature.DamageData) {
-        damage = this.damageSourceFeature.Damage(this.damageSource.actor.Tier || 1);
-        if (damage.length) {
-          this.originDamageStrings = damage.map((d) => `${d.Value} ${d.Type}`);
-          // TODO: support multiple damage types
-          this.incomingDamageType =
-            this.damageTypes.find((d) => d.ID === damage[0].Type) || this.incomingDamageType;
-          this.incomingDamageValue = damage[0].Value;
-        } else {
-          this.originDamageStrings = [];
-        }
-        'Damage from feature:', damage;
-      } else {
-        this.originDamageStrings = [];
-      }
-    },
-    clearDamageOrigin() {
-      this.damageSource = null;
-      this.damageSourceFeature = null;
-      this.damageOrigin = null;
-      this.originDamageStrings = [];
-      this.incomingDamageValue = 0;
-      this.recalc();
+      let dmg = Number(this.incomingDamageValue);
+      if (this.damageMods.includes('half')) dmg = Math.floor(dmg / 2);
+
+      this.totalDamage = this.controller.CalculateDamage(
+        this.incomingDamageType.Name.toLowerCase(),
+        dmg,
+        this.damageMods.includes('ap'),
+        this.damageMods.includes('force'),
+      ).total;
     },
     toggleDamageMod(mod) {
       if (this.damageMods.includes(mod)) {
@@ -412,14 +273,28 @@ export default {
       }
     },
     apply(isActive) {
+      let dmg = Number(this.incomingDamageValue);
+      if (this.damageMods.includes('half')) dmg = Math.floor(dmg / 2);
+
       this.controller.TakeDamage(
-        this.incomingDamageType,
-        this.totalDamage,
+        this.incomingDamageType.Name.toLowerCase(),
+        dmg,
         this.damageMods.includes('ap'),
         this.damageMods.includes('force'),
       );
       if (isActive) isActive.value = false;
-    }
+    },
+
+    damageClass(damage) {
+      if (damage.condition === 'immunity') {
+        return 'bg-exotic';
+      } else if (damage.condition === 'resistance') {
+        return `bg-success`;
+      } else if (damage.condition === 'vulnerability') {
+        return 'bg-error';
+      }
+      return '';
+    },
   },
 };
 </script>

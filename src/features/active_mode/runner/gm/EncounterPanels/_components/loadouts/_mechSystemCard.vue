@@ -80,7 +80,7 @@
           class="mb-2 mt-1">
           <cc-combat-action-chip v-for="a in item.Actions"
             :action="a"
-            :owner="mech"
+            :owner="owner"
             :encounter="encounter"
             @activate="handleActivation($event)"
             @reset="handleRefund($event)">

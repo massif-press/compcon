@@ -33,7 +33,8 @@
       :color="color"
       class="mb-1 px-1">
 
-      <effect-applicator :event="event" />
+      <effect-applicator v-if="!event.IsPassive"
+        :event="event" />
 
     </v-card>
 
@@ -138,6 +139,7 @@ export default {
       );
     },
     activation(): boolean {
+
       return (this.activeEffect as any).Activation != null;
     },
     frequencyText(): string {

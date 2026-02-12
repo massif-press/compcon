@@ -327,7 +327,6 @@ ${this.reserves}`;
 
       const cols = arr.length;
 
-      // Compute ideal column start positions
       const step = this.lineWidth / cols;
       const starts = [] as number[];
 
@@ -335,10 +334,8 @@ ${this.reserves}`;
         starts.push(Math.floor(i * step));
       }
 
-      // Initialize line with spaces
       let line = Array(this.lineWidth).fill(" ");
 
-      // Place each cell at its aligned start
       for (let i = 0; i < cols; i++) {
         const start = starts[i];
         const text = arr[i];

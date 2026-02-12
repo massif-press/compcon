@@ -4,7 +4,6 @@ import { ActiveEventTarget } from './eventTarget'
 
 // details of damage applied to target. These can be multiple based on effect (weapon action, etc). May include multiple but apply to all targets
 class DamageEvent {
-  public readonly ddata: Damage
   public DamageType: DamageType = DamageType.Kinetic
   public DamageRollString = '' // dice string or static
   public DamageRollResult?: DamageRollResult
@@ -19,7 +18,6 @@ class DamageEvent {
   public BonusDamageEvent?: DamageEvent
 
   constructor(damage: Damage, isChild: boolean = false) {
-    this.ddata = damage
     this.DamageType = damage.Type
     this.DamageRollString = damage.Value
     if (typeof damage.Value === 'number' || !damage.Value.includes('d')) {
@@ -66,10 +64,11 @@ class DamageEvent {
 
   public get Summary(): string {
     let str = `${this.DamageRolledValue} ${this.DamageType}`
-    if (this.AP) str += 'AP'
-    if (this.Irreducible) str += 'Irreducible'
-    if (this.Overkill) str += '(Overkill)'
-    if (this.Reliable) str += `(Reliable)`
+    if (this.AP) str += ' (AP)'
+    if (this.Irreducible) str += ' (Irreducible)'
+    if ((this.Reliable && this.DamageRolledValue) || 0 < this.Reliable)
+      str += ` (Reliable ${this.Reliable})`
+
     return str + ' Damage'
   }
 
@@ -101,6 +100,21 @@ class DamageEvent {
       this.AP,
       this.Irreducible
     )
+  }
+
+  public ToJSON() {
+    return {
+      DamageType: this.DamageType,
+      DamageRollString: this.DamageRollString,
+      DamageRolledValue: this.DamageRolledValue,
+      AP: this.AP,
+      Irreducible: this.Irreducible,
+      IsCrit: this.IsCrit,
+      OverkillHeat: this.OverkillHeat,
+      Reliable: this.Reliable,
+      BonusDamageEvent:
+        this.Bonus && this.BonusDamageEvent ? this.BonusDamageEvent.ToJSON() : undefined,
+    }
   }
 }
 export { DamageEvent }

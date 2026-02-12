@@ -105,7 +105,7 @@
 
               <cc-combat-action-chip v-for="a in item.Profiles[item.ProfileIndex].Actions"
                 :action="a"
-                :owner="mech"
+                :owner="owner"
                 @activate="handleActivation($event)"
                 @reset="handleRefund($event)"
                 :encounter="encounter">
@@ -150,6 +150,7 @@
           </div>
           <div v-if="mod">
             <mech-mod-card :mod="mod"
+              :owner="owner"
               :mech="mech"
               :encounter="encounter"
               @deploy="$emit('deploy', d)" />
@@ -166,7 +167,7 @@
             class="mb-2 mt-1">
             <cc-combat-action-chip v-for="a in item.Actions"
               :action="a"
-              :owner="mech"
+              :owner="owner"
               @activate="handleActivation($event)"
               @reset="handleRefund($event)"
               :encounter="encounter">
@@ -294,7 +295,8 @@ export default {
     encounter: {
       type: Object,
       required: true,
-    }, owner: {
+    },
+    owner: {
       type: Object,
       required: true,
     },
@@ -367,7 +369,6 @@ export default {
       for (let index = 0; index < inst; index++) {
         this.$emit('deploy', deployable);
       }
-
     },
   },
 };

@@ -17,20 +17,12 @@ import { Action } from '@/classes/Action'
 import { Bonus } from '../feature/bonus/Bonus'
 import { CompendiumStore } from '@/stores'
 import { expiration } from './Expiration'
-import { EventSummary, EventSummaryData } from '../feature/active_effects/EventSummary'
+import { CombatLogEntry, CombatLog } from './CombatLog'
 
 enum CoverType {
   None = 'none',
   Soft = 'soft',
   Hard = 'hard',
-}
-
-type CombatLogEntry = {
-  timestamp: number
-  round: number
-  type: 'action' | 'event'
-  dir: 'outgoing' | 'incoming'
-  event: EventSummaryData
 }
 
 class CombatData {
@@ -61,6 +53,7 @@ class CombatData {
   history: CombatLogEntry[] = []
   round: number = 1
   turn: number = 1
+  action: number = 1
 }
 
 class CombatController implements ICounterContainer, IStatContainer {
@@ -88,16 +81,17 @@ class CombatController implements ICounterContainer, IStatContainer {
   public StatController: StatController
   public CounterController: CounterController
 
-  public History: CombatLogEntry[] = []
+  public CombatLog: CombatLog
   public Round: number = 1
   public Turn: number = 1
+  public Action: number = 1
 
   private _usedActions: string[] = []
 
   // prevent applied events after successful saves. Must be disabled after effect iteration.
   public SaveLock: boolean = false
 
-  public CombatActions: any = {
+  public _combatActions: any = {
     Protocol: true,
     Full: true,
     Quick1: true,
@@ -106,10 +100,21 @@ class CombatController implements ICounterContainer, IStatContainer {
     Reaction: true,
   }
 
+  public get CombatActions(): any {
+    // pilot and mech action pool is shared... unless it's under AI control
+    if (this.Parent instanceof Mech && this.IsAIControlled) return this._combatActions
+    return this.RootActor.CombatController._combatActions
+  }
+
+  public set CombatActions(value: any) {
+    this.RootActor.CombatController._combatActions = value
+  }
+
   constructor(parent: ICombatant) {
     this.Parent = parent
     this.StatController = new StatController(this, parent.IsEncounterInstance)
     this.CounterController = new CounterController(this)
+    this.CombatLog = new CombatLog(this.RootActor)
   }
 
   // passthroughs ------------------------------------
@@ -118,11 +123,14 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get Grit(): number {
+    console.log(this.RootActor.Grit)
     return this.RootActor.Grit || 0
   }
 
   public AllActions(activation: ActivationType): Action[] {
-    return this.Parent.FeatureController.Actions.filter(a => a.Activation === activation)
+    const arr = this.Parent.FeatureController.Actions.filter(a => a.Activation === activation)
+    if (this.Parent instanceof Pilot) return arr.filter(x => x.IsPilotAction)
+    return arr
   }
 
   public get AllSynergies(): any[] {
@@ -162,6 +170,15 @@ class CombatController implements ICounterContainer, IStatContainer {
     if ((this.Parent as any).LimitedBonus !== undefined) return (this.Parent as any).LimitedBonus
     return 0
   }
+
+  public GetSavingThrowBonus(stat: string): number {
+    // TODO
+    return 0
+  }
+
+  private log(str: string): void {
+    this.CombatLog.LogSimpleEvent(str)
+  }
   // ------------------------------------------------------
   public get Activations(): number {
     return this.StatController.getStat('activations')
@@ -186,6 +203,10 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (this.StatController.CurrentStats['activations'] < 0) {
       this.Reset()
       this.Turn++
+      this.CombatLog.AddTurn()
+      this.CombatLog.LogSimpleEvent(
+        `Turn complete. ${this.StatController.CurrentStats['activations']} turns remaining this round.`
+      )
     }
   }
 
@@ -253,6 +274,7 @@ class CombatController implements ICounterContainer, IStatContainer {
         )
       case 'full':
       case 'fulltech':
+      case 'jockey':
         return this.CombatActions.Full && this.CombatActions.Quick1 && this.CombatActions.Quick2
       case 'quick':
       case 'quicktech':
@@ -282,30 +304,35 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public toggleCombatAction(action: string) {
     const str = action.toLowerCase()
+    this.SetCombatAction(str, !this.CanActivate(str))
+  }
+
+  public SetCombatAction(action: string, value: boolean): void {
+    const str = action.toLowerCase()
     switch (str) {
       case 'protocol':
-        this.CombatActions.Protocol = !this.CombatActions.Protocol
+        this.CombatActions.Protocol = value
         break
       case 'full':
-      case 'fulltech':
-        this.CombatActions.Full = !this.CombatActions.Full
+      case 'full tech':
+        this.CombatActions.Full = value
         this.CombatActions.Quick1 = this.CombatActions.Full
         this.CombatActions.Quick2 = this.CombatActions.Full
         break
       case 'quick':
       case 'quicktech':
+      case 'quick tech':
       case 'invade':
-        if (this.CombatActions.Quick1) this.CombatActions.Quick1 = false
-        else if (this.CombatActions.Quick2) this.CombatActions.Quick2 = false
-        else if (!this.CombatActions.Quick1) this.CombatActions.Quick1 = true
-        else if (!this.CombatActions.Quick2) this.CombatActions.Quick2 = true
-        if (this.CombatActions.Quick1 && this.CombatActions.Quick2) this.CombatActions.Full = true
+        if (this.CombatActions.Quick1 && !value) this.CombatActions.Quick1 = false
+        else if (this.CombatActions.Quick2 && !value) this.CombatActions.Quick2 = false
+        else if (!this.CombatActions.Quick1 && value) this.CombatActions.Quick1 = true
+        else if (!this.CombatActions.Quick2 && value) this.CombatActions.Quick2 = true
         break
       case 'overcharge':
-        this.CombatActions.Overcharge = !this.CombatActions.Overcharge
+        this.CombatActions.Overcharge = value
         break
       case 'reaction':
-        this.CombatActions.Reaction = !this.CombatActions.Reaction
+        this.CombatActions.Reaction = value
         break
       default:
         break
@@ -336,6 +363,11 @@ class CombatController implements ICounterContainer, IStatContainer {
       default:
         break
     }
+    // pilot and mech action pool is shared
+    if (this.Parent instanceof Pilot) {
+      this.Parent.ActiveMech?.CombatController.ResetActivation(action)
+    } else if (this.Parent instanceof Mech)
+      this.Parent.Pilot?.CombatController.ResetActivation(action)
   }
 
   public MarkActionUsed(actionId: string): void {
@@ -385,11 +417,15 @@ class CombatController implements ICounterContainer, IStatContainer {
     const existingIndex = this.ActiveActor.CombatController.Resistances.findIndex(
       s => s.type === type
     )
-    if (existingIndex === -1)
+    if (existingIndex === -1) {
       this.ActiveActor.CombatController.Resistances.push({ type, condition })
-    else if (condition)
+      this.log(`Gained ${type} ${condition}`)
+    } else if (condition) {
       this.ActiveActor.CombatController.Resistances[existingIndex].condition = condition
-    else this.Resistances.splice(existingIndex, 1)
+    } else {
+      this.Resistances.splice(existingIndex, 1)
+      this.log(`Lost ${type} ${condition}`)
+    }
   }
 
   public GetResistance(damageType: string): string {
@@ -420,12 +456,12 @@ class CombatController implements ICounterContainer, IStatContainer {
     const existingIndex = this.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
       this.Statuses.push({ status, expires })
-      this.log(`Gained status: ${status.Name}`)
+      this.log(`Gained ${status.Name}`)
     } else if (expires) {
       this.Statuses[existingIndex].expires = expires
     } else {
       this.Statuses.splice(existingIndex, 1)
-      this.log(`Lost status: ${status.Name}`)
+      this.log(`Lost ${status.Name}`)
     }
   }
 
@@ -556,33 +592,42 @@ class CombatController implements ICounterContainer, IStatContainer {
     let damage = this.CalculateDamage(type, value, ap, irreducible)
 
     this.ApplyDamage(type, damage.total)
+
+    this.CombatLog.TakeDamage(value, type)
+    this.CombatLog.ArmorReduced(this.CalculateArmorReduction(type, value, ap, irreducible))
+    if (this.IsDestroyed) this.CombatLog.LoseMech()
   }
 
   public ApplyDamage(type: DamageType, value: number) {
+    const target = this.ActiveActor.CombatController
+
     if (type === DamageType.Heat) {
-      this.ActiveActor.CombatController.ApplyHeat(value)
+      target.ApplyHeat(value)
     }
 
     // subtract this damage from current hp
     this.ActiveActor.StatController.CurrentStats['hp'] -= value
     this.log(`Took ${value} ${type} damage`)
+    this.CombatLog.StatChange(-value, 'hp')
+
     // if hull goes below 0, subtract 1 from structure and add max hp back to current hp
     while (
-      this.ActiveActor.StatController.CurrentStats['hp'] <= 0 &&
-      this.ActiveActor.StatController.CurrentStats['structure'] > 0
+      target.StatController.CurrentStats['hp'] <= 0 &&
+      target.StatController.CurrentStats['structure'] > 0
     ) {
-      this.ActiveActor.StatController.CurrentStats['structure'] -= 1
-      if (this.ActiveActor.StatController.CurrentStats['structure'] >= 0)
+      target.StatController.CurrentStats['structure'] -= 1
+      if (target.StatController.CurrentStats['structure'] >= 0)
         this.log(
-          `Structure damaged! Remaining structure: ${this.ActiveActor.StatController.CurrentStats['structure']}`
+          `Structure damaged! Remaining structure: ${target.StatController.CurrentStats['structure']}`
         )
-      this.ActiveActor.StatController.CurrentStats['hp'] +=
-        this.ActiveActor.StatController.MaxStats['hp']
+      if (target.StatController.CurrentStats['structure'] > 0)
+        this.CombatLog.StatChange(-1, 'structure')
+      target.StatController.CurrentStats['hp'] += target.StatController.MaxStats['hp']
     }
-    this.ActiveActor.StatController.CurrentStats['structure'] -= 1
+
     // if structure goes below 0, set to 0
-    if (this.ActiveActor.StatController.CurrentStats['structure'] < 0) {
-      this.ActiveActor.StatController.CurrentStats['structure'] = 0
+    if (target.StatController.CurrentStats['structure'] < 0) {
+      target.StatController.CurrentStats['structure'] = 0
     }
   }
 
@@ -592,17 +637,21 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     target.StatController.CurrentStats['heatcap'] += totalValue
     this.log(`Gained ${totalValue} Heat`)
+    this.CombatLog.StatChange(value, 'heat')
 
     if (this.IsInDangerZone)
-      this.log(`In Danger Zone! Current Heat: ${this.StatController.CurrentStats['heatcap']}`)
+      this.log(`In Danger Zone! Current Heat: ${target.StatController.CurrentStats['heatcap']}`)
 
     // if heatcap goes above max, subtract 1 from stress and set heatcap to 0
-    while (this.StatController.CurrentStats['heatcap'] > this.StatController.MaxStats['heatcap']) {
+    while (
+      target.StatController.CurrentStats['heatcap'] > target.StatController.MaxStats['heatcap']
+    ) {
       target.StatController.CurrentStats['stress'] -= 1
-      if (this.ActiveActor.StatController.CurrentStats['stress'] >= 0)
+      if (target.StatController.CurrentStats['stress'] >= 0)
         this.log(
-          `Reactor stressed! Remaining Reactor Stress: ${this.StatController.CurrentStats['stress']}`
+          `Reactor stressed! Remaining Reactor Stress: ${target.StatController.CurrentStats['stress']}`
         )
+      if (target.StatController.CurrentStats['stress'] > 0) this.CombatLog.StatChange(-1, 'stress')
       target.StatController.CurrentStats['heatcap'] -= target.StatController.MaxStats['heatcap']
     }
 
@@ -686,7 +735,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
-  public SetCore(active: boolean, round: number): void {
+  public SetCore(active: boolean): void {
     this.CoreActive = active
     this.CorePower = false
     this.log(`${active ? 'Activated' : 'Deactivated'} Core System`)
@@ -777,6 +826,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       eq.IsUsed = false
     })
     this.Round++
+    this.CombatLog.EndRound()
   }
 
   public Reset(): void {
@@ -821,35 +871,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.log('Pilot registered as KIA')
   }
 
-  public AddLogEvent(
-    round: number,
-    event: EventSummary,
-    dir: 'incoming' | 'outgoing',
-    type: 'action' | 'event'
-  ): void {
-    this.History.push({
-      timestamp: Date.now(),
-      round,
-      dir,
-      type,
-      event: event.toJSON(),
-    })
-  }
-
-  private log(
-    detail: string,
-    dir: 'incoming' | 'outgoing' = 'incoming',
-    type: 'action' | 'event' = 'event'
-  ): void {
-    this.History.push({
-      timestamp: Date.now(),
-      round: this.Round,
-      dir,
-      type,
-      event: EventSummary.fromBasicAction(this.CombatName, detail).toJSON(),
-    })
-  }
-
   public static Serialize(controller: CombatController, target: any) {
     if (!target.stats) target.stats = {}
     if (!target.counters) target.counters = {}
@@ -878,8 +899,10 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     target.combatActions = controller.CombatActions
 
-    target.history = controller.History
+    target.history = controller.CombatLog.History
     target.round = controller.Round
+    target.turn = controller.Turn
+    target.action = controller.Action
 
     target.usedActions = controller._usedActions
 
@@ -921,9 +944,11 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     controller._usedActions = data?.usedActions || []
 
-    controller.History = data?.history || []
+    controller.CombatLog.History = data?.history || []
 
     controller.Round = data?.round || 1
+    controller.Turn = data?.turn || 1
+    controller.Action = data?.action || 1
 
     StatController.Deserialize(controller, data?.stats || {})
     CounterController.Deserialize(controller, data?.counters || {})
@@ -947,4 +972,4 @@ const SelfDestructAction = new Action({
 })
 
 export { CombatController, SelfDestructAction }
-export type { CombatData, CoverType, CombatLogEntry }
+export type { CombatData, CoverType }
