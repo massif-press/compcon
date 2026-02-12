@@ -20,6 +20,7 @@
           :key="b.ID"
           :bonus="b"
           :mech="mech"
+          :owner="owner"
           :encounter="encounterInstance"
           @deploy="$emit('deploy', $event)" />
 

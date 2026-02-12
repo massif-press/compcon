@@ -1,11 +1,8 @@
-import { CompendiumItem, ContentPack, Tag } from '@/class';
-import { Action, IActionData, ICompendiumItemData, IContentPack, ITagData } from '@/interface';
-import { NpcClass } from '../class/NpcClass';
-import { NpcTemplate } from '../template/NpcTemplate';
-import { CompendiumStore } from '@/stores';
-import { Bonus, IBonusData } from '@/classes/components';
-import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
-import { NpcWeapon } from './NpcItem/NpcWeapon';
+import { CompendiumItem, ContentPack, Tag } from '@/class'
+import { Action, IActionData, ICompendiumItemData, IContentPack, ITagData } from '@/interface'
+import { NpcClass } from '../class/NpcClass'
+import { NpcTemplate } from '../template/NpcTemplate'
+import { CompendiumStore } from '@/stores'
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -16,106 +13,107 @@ export enum NpcFeatureType {
 }
 
 interface INpcFeatureData extends ICompendiumItemData {
-  id: string;
-  name: string;
-  origin: string;
-  base?: boolean;
-  kit?: string;
-  effect?: string;
-  detail?: string;
-  bonus?: object;
-  mod?: string;
-  tags: ITagData[];
-  hide_active: boolean;
-  type: string;
-  deprecated?: boolean;
-  build_feature?: boolean;
+  id: string
+  name: string
+  origin: string
+  base?: boolean
+  kit?: string
+  effect?: string
+  detail?: string
+  bonus?: object
+  mod?: string
+  tags: ITagData[]
+  hide_active: boolean
+  type: string
+  deprecated?: boolean
+  build_feature?: boolean
 }
 
 abstract class NpcFeature extends CompendiumItem {
-  public InLcp: boolean = true;
+  public InLcp: boolean = true
   // this needs to be public (for now) to support v2 style NPC data
-  public _originID: string;
-  private _effect: string;
-  private _hide_active: boolean;
-  public FeatureType: NpcFeatureType = NpcFeatureType.Trait;
-  public IsHidden: boolean = false;
-  public Recharge: number = 0;
-  public Used: boolean = false;
-  public readonly Base: boolean;
-  public readonly Deprecated: boolean = false;
-  public readonly BuildFeature: boolean = false;
-  public readonly Kit?: string;
-  public readonly Mod?: string;
+  public _originID: string
+  private _effect: string
+  private _hide_active: boolean
+  public FeatureType: NpcFeatureType = NpcFeatureType.Trait
+  public IsHidden: boolean = false
+  public Recharge: number = 0
+  public Used: boolean = false
+  public readonly Base: boolean
+  public readonly Deprecated: boolean = false
+  public readonly BuildFeature: boolean = false
+  public readonly Kit?: string
+  public readonly Mod?: string
 
   public constructor(data: INpcFeatureData, pack?: ContentPack) {
-    super(data as ICompendiumItemData, pack);
-    this._originID = data.origin;
-    this._effect = data.effect || data.detail || '';
+    super(data as ICompendiumItemData, pack)
+    this._originID = data.origin
+    this._effect = data.effect || data.detail || ''
 
-    if (this.Tags.some((x) => x.IsRecharging)) {
-      this.Recharge = Number(this.Tags.find((x) => x.IsRecharging)?.Value) || 0;
+    if (this.Tags.some(x => x.IsRecharging)) {
+      this.Recharge = Number(this.Tags.find(x => x.IsRecharging)?.Value) || 0
     }
 
-    this._hide_active = data.hide_active || false;
-    this.Base = data.base || false;
-    this.Deprecated = data.deprecated || false;
-    if (data.kit) this.Kit = data.kit;
-    if (data.mod) this.Mod = data.mod;
-    this.BuildFeature = data.build_feature || false;
+    this._hide_active = data.hide_active || false
+    this.Base = data.base || false
+    this.Deprecated = data.deprecated || false
+    if (data.kit) this.Kit = data.kit
+    if (data.mod) this.Mod = data.mod
+
+    this.BuildFeature = data.build_feature || false
   }
 
   public get Name(): string {
-    return this._name;
+    return this._name
   }
 
   public set Name(v: string) {
-    this._name = v;
+    this._name = v
   }
 
   public get Origin() {
     if (CompendiumStore().has('NpcClasses', this._originID))
-      return CompendiumStore().referenceByID('NpcClasses', this._originID) as NpcClass;
+      return CompendiumStore().referenceByID('NpcClasses', this._originID) as NpcClass
     if (CompendiumStore().has('NpcTemplates', this._originID))
-      return CompendiumStore().referenceByID('NpcTemplates', this._originID) as NpcTemplate;
-    return { ID: 'not_loaded' };
+      return CompendiumStore().referenceByID('NpcTemplates', this._originID) as NpcTemplate
+    return { ID: 'not_loaded' }
   }
 
   public get Effect(): string {
-    if (!this._effect) return '';
-    let out = this._effect;
-    const perTier = /(\{.*?\})/gi;
-    const matches = out.match(perTier);
+    if (!this._effect) return ''
+    let out = this._effect
+    const perTier = /(\{.*?\})/gi
+    const matches = out.match(perTier)
     if (matches) {
-      matches.forEach((m) => {
-        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
-      });
+      matches.forEach(m => {
+        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'))
+      })
     }
-    return out;
+    return out
   }
 
   public EffectByTier(tier: number): string {
-    if (!this._effect) return '';
-    let fmt = this._effect;
-    const perTier = /(?:\{)?(\d+)\/(\d+)\/(\d+)(?:\})?/g;
-    const m = this._effect.match(perTier);
+    if (!this._effect) return ''
+    let fmt = this._effect
+    const perTier = /(?:\{)?(\d+)\/(\d+)\/(\d+)(?:\})?/g
+    const m = this._effect.match(perTier)
     if (m) {
-      m.forEach((x) => {
+      m.forEach(x => {
         if (tier) {
-          const tArr = x.replace('{', '').replace('}', '').split('/');
-          fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`);
-        } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'));
-      });
+          const tArr = x.replace('{', '').replace('}', '').split('/')
+          fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`)
+        } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'))
+      })
     }
-    return fmt;
+    return fmt
   }
 
   public get HideActive(): boolean {
-    return this._hide_active;
+    return this._hide_active
   }
 
   public get Passive(): boolean {
-    return this.BuildFeature || this.Deprecated || !!this.Mod || this.HideActive;
+    return this.BuildFeature || this.Deprecated || !!this.Mod || this.HideActive
   }
 
   public get IsCombatPassive(): boolean {
@@ -123,14 +121,14 @@ abstract class NpcFeature extends CompendiumItem {
       this.Actions.length > 0 ||
       this.Deployables.length > 0 ||
       this.Recharge > 0 ||
-      this.Tags.some((x) => x.UsageCost > 0) ||
+      this.Tags.some(x => x.UsageCost > 0) ||
       !!(this as any).Damage
-    );
+    )
   }
 
   public get ModTarget(): NpcFeature | null {
-    return CompendiumStore().NpcFeatures.find((x) => x.ID === this.Mod) || null;
+    return CompendiumStore().NpcFeatures.find(x => x.ID === this.Mod) || null
   }
 }
-export { NpcFeature };
-export type { INpcFeatureData };
+export { NpcFeature }
+export type { INpcFeatureData }

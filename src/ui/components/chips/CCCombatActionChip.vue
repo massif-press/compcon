@@ -80,6 +80,7 @@
 <script lang="ts">
 import { Action } from '@/interface';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
 export default {
   name: 'cc-combat-action-chip',
@@ -89,7 +90,7 @@ export default {
   props: {
     action: { type: Action, required: true },
     tier: { type: Number, required: false, default: 1 },
-    encounter: { type: Object, required: true },
+    encounter: { type: EncounterInstance, required: true },
     owner: { type: Object, required: true },
     disabled: { type: Boolean, required: false, default: false },
     customDisabledText: { type: String, required: false, default: '' },
@@ -98,20 +99,23 @@ export default {
     isDeployable(): boolean {
       return !!this.action.Deployable;
     },
+    controller() {
+      return this.owner.actor.CombatController;
+    },
     canActivate(): boolean {
-      return !this.disabled && this.owner.CombatController.CanActivate(this.action.Activation);
+      return !this.disabled && this.controller.CanActivate(this.action.Activation);
     },
   },
   emits: ['activate', 'reset'],
   methods: {
     apply() {
-      this.owner.CombatController.toggleCombatAction(this.action.Activation);
-      this.owner.CombatController.ApplyHeat(this.action.HeatCost || 0);
+      this.controller.toggleCombatAction(this.action.Activation);
+      this.controller.ApplyHeat(this.action.HeatCost || 0);
       this.$emit('activate', this.action.Cost);
     },
     reset() {
-      this.owner.CombatController.ResetActivation(this.action.Activation);
-      this.owner.CombatController.ApplyHeat(-this.action.HeatCost || 0);
+      this.controller.ResetActivation(this.action.Activation);
+      this.controller.ApplyHeat(-this.action.HeatCost || 0);
       this.$emit('reset', this.action.Cost);
     },
   },

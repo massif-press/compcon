@@ -11,7 +11,7 @@ import { ResistEvent } from './effect_events/resistEvent'
 import { StatusEvent } from './effect_events/statusEvent'
 import { OtherEvent } from './effect_events/otherEvent'
 import { SpecialEvent } from './effect_events/specialEvent'
-import { EventSummary } from './EventSummary'
+import { ActionSummary } from './EffectActionSummary'
 
 class ActiveEffectEvent {
   public ID: string
@@ -82,6 +82,26 @@ class ActiveEffectEvent {
       this.ResistEvents = effect.AddResist.map(r => new ResistEvent(r))
       this.Save = effect.AddResist[0].Save?.Stat
     }
+  }
+
+  private get _allEvents(): (
+    | DamageEvent
+    | StatusEvent
+    | OtherEvent
+    | SpecialEvent
+    | ResistEvent
+  )[] {
+    return [
+      ...this.DamageEvents,
+      ...this.StatusEvents,
+      ...this.OtherEvents,
+      ...this.SpecialEvents,
+      ...this.ResistEvents,
+    ]
+  }
+
+  public get IsPassive(): boolean {
+    return !this._allEvents.length
   }
 
   public SetCrit() {
@@ -179,6 +199,7 @@ class ActiveEffectEvent {
   }
 
   public get Ready(): boolean {
+    if (this.IsPassive) return true
     let ready = true
     if (!this._targets || !this._targets.length || !this._targets[0]) return false
     ready = this._targets.every(t => !!t)
@@ -190,12 +211,16 @@ class ActiveEffectEvent {
     return ready
   }
 
-  public get Summary(): any {
-    return EventSummary.fromActiveEffectEvent(this).toString()
+  public get Summary(): string {
+    return new ActionSummary(ActionSummary.fromActiveEffectEvent(this)).Summarize(
+      this.Initiator.actor.ID
+    )
   }
 
   public get ShortSummary(): string {
-    return EventSummary.fromActiveEffectEvent(this).toString(false)
+    return new ActionSummary(ActionSummary.fromActiveEffectEvent(this)).Summarize(
+      this.Initiator.actor.ID
+    )
   }
 
   public Apply(target: ActiveEventTarget) {
@@ -217,16 +242,14 @@ class ActiveEffectEvent {
     this.RemoveSpecialStatus?.forEach(status => {
       target.RemoveSpecialStatus(status)
     })
-    target.Combatant.actor.CombatController.AddLogEvent(this.EncounterInstance.Round, this.Summary)
-    this.Initiator.actor.CombatController.RootActor.CombatController.AddLogEvent(
-      this.EncounterInstance.Round,
-      this.Summary
-    )
-    this.EncounterInstance.AddLogEvent(this.Summary)
+    // target.Combatant.actor.CombatController.AddLogEvent(this.EncounterInstance.Round, this.Summary)
+    this.Initiator.actor.CombatController.RootActor.CombatController.LogEventAction()
+    // this.EncounterInstance.AddLogEvent()
   }
 
   public ApplyAll() {
     this.Targets.forEach(t => {
+      if (!t) return
       this.DamageEvents.forEach(de => {
         t.ApplyDamage(de)
       })
@@ -245,16 +268,18 @@ class ActiveEffectEvent {
       this.RemoveSpecialStatus?.forEach(status => {
         t.RemoveSpecialStatus(status)
       })
-      t.Combatant.actor.CombatController.AddLogEvent(
-        this.EncounterInstance.Round,
-        EventSummary.fromActiveEffectEvent(this)
+      if (
+        t.Combatant.actor.CombatController.RootActor.ID !==
+        this.Initiator.actor.CombatController.RootActor.ID
       )
+        t.Combatant.actor.CombatController.CombatLog.LogAction(
+          ActionSummary.fromActiveEffectEvent(this)
+        )
     })
-    this.Initiator.actor.CombatController.RootActor.CombatController.AddLogEvent(
-      this.EncounterInstance.Round,
-      EventSummary.fromActiveEffectEvent(this)
+    this.Initiator.actor.CombatController.CombatLog.LogAction(
+      ActionSummary.fromActiveEffectEvent(this)
     )
-    this.EncounterInstance.AddLogEvent(EventSummary.fromActiveEffectEvent(this))
+    // this.EncounterInstance.AddLogEvent(ActionSummary.fromActiveEffectEvent(this))
   }
 }
 

@@ -180,7 +180,7 @@ class WeaponProfile extends CompendiumItem {
   public toActiveEffectData(actor: Mech): IActiveEffectData {
     return {
       id: this.ID,
-      name: `${actor.Name} // ${this.Name}`,
+      name: `${this.Name}`,
       detail: this.Effect || '',
       damage: this.Damage?.map(d => Damage.Serialize(d)) || [],
       range: this.Range?.map(r => Range.Serialize(r)) || [],

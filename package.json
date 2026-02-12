@@ -3,14 +3,14 @@
   "private": true,
   "version": "3.0.0",
   "scripts": {
-    "dev": "set NODE_ENV=development && vite",
+    "dev": "NODE_ENV=development && vite",
     "build": "vue-tsc && vite build",
     "build-nocheck": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@kyvg/vue3-notification": "3.4.1",
-    "@massif/lancer-data": "^4.0.0-beta.20",
+    "@massif/lancer-data": "^4.0.0-beta.22",
     "@mdi/font": "7.4.47",
     "@vueup/vue-quill": "^1.2.0",
     "@yeger/vue-masonry-wall": "^5.0.18",

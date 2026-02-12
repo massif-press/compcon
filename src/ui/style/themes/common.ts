@@ -23,12 +23,13 @@ export default {
   // actions
   'action--move': '#C62828',
   'action--full': '#283593',
+  'action--jockey': '#283593',
   'action--quick': '#3949AB',
   'action--overcharge': '#F50057',
   'action--free': '#00695C',
   'action--protocol': '#007676',
   'action--tech': '#802475',
-  'action--invade': '#222222',
+  'action--invade': '#802475',
 
   // damage types
   'damage--kinetic': '#757575',
@@ -63,4 +64,4 @@ export default {
 
   // UI Overrides
   background: '#f4f4f4',
-};
+}

@@ -180,6 +180,7 @@ export default {
         };
         return getPriority(a) - getPriority(b);
       });
+
       if (this.hidePassives) {
         features = features.filter((feature) => !feature.IsCombatPassive);
         this.hiddenFeatureCount = this.unit.NpcFeatureController.Features.filter(

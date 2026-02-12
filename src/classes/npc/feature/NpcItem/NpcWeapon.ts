@@ -83,13 +83,17 @@ export class NpcWeapon extends NpcFeature {
     return this._weapon_type
   }
 
+  public get IsSuperheavy(): boolean {
+    return this.WeaponType.toLowerCase().includes('superheavy')
+  }
+
   // public get IsLimited(): boolean {
   //   return this.Tags.some((x) => x.IsLimited);
   // }
 
-  // public get IsRecharging(): boolean {
-  //   return this.Tags.some((x) => x.IsRecharging);
-  // }
+  public get IsRecharging(): boolean {
+    return this.Tags.some(x => x.IsRecharging)
+  }
 
   // public get ChargeRoll(): string {
   //   const rechargingTag = this.Tags.find((x) => x.IsRecharging);

@@ -104,7 +104,7 @@
               alert />
 
             <menu-input :key="controller.ID"
-              :active-effect="action"
+              :active-effect="getSelectedAction(tab)"
               :encounter="encounter"
               :owner="owner"
               :close="close"
@@ -164,6 +164,9 @@ export default {
   },
   emits: ['activate'],
   methods: {
+    getSelectedAction(id) {
+      return CompendiumStore().Actions.find((a) => a.ID === id);
+    },
     apply(close) {
       this.controller.toggleCombatAction(this.action.Activation);
       this.$emit('activate', this.actionId);

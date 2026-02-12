@@ -10,13 +10,13 @@
         <v-row dense>
           <v-col v-for="pa in controller.AllActions('Protocol')">
             <basic-action-button :action="pa"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
           <v-col v-for="fa in controller.AllActions('Free')">
             <basic-action-button :action="fa"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
@@ -24,13 +24,10 @@
         <v-divider class="my-2" />
         <v-row dense>
           <v-col>
-            <v-btn block
-              flat
-              tile
-              size="small"
-              text="Fight"
-              color="action--full"
-              prepend-icon="mdi-hexagon-slice-6" />
+            <pilot-fight-button :action="getBaseAction('act_fight')"
+              :owner="owner"
+              :encounter="encounter"
+              @activate="activate($event)" />
           </v-col>
         </v-row>
         <v-divider class="my-2" />
@@ -40,27 +37,27 @@
           <v-col>
             <v-row dense>
               <v-col v-for="action in quickPilotActions">
-                <skill-check-button v-if="action === 'act_reload'"
+                <pilot-reload-button v-if="action === 'act_reload'"
                   :action="getBaseAction(action)"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
                 <basic-action-button v-else
                   :action="getBaseAction(action)"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-divider class="my-1" />
               <v-col v-for="qa in controller.AllActions('Quick')">
                 <basic-action-button :action="qa"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-col v-for="qta in controller.AllActions('Quick Tech')">
                 <basic-action-button :action="qta"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
@@ -71,25 +68,30 @@
               <v-col v-for="action in fullPilotActions">
                 <skill-check-button v-if="action === 'act_skill_check'"
                   :action="getBaseAction(action)"
-                  :controller="controller"
+                  :owner="owner"
+                  :encounter="encounter"
+                  @activate="activate($event)" />
+                <pilot-jockey-button v-else-if="action === 'act_jockey'"
+                  :action="getBaseAction(action)"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
                 <basic-action-button v-else
                   :action="getBaseAction(action)"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-divider class="my-1" />
               <v-col v-for="fa in controller.AllActions('Full')">
                 <basic-action-button :action="fa"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-col v-for="fta in controller.AllActions('Full Tech')">
                 <basic-action-button :action="fta"
-                  :controller="controller"
+                  :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
@@ -101,12 +103,12 @@
         <v-row dense>
           <v-col>
             <basic-action-button :action="getBaseAction('act_overwatch')"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter" />
           </v-col>
           <v-col v-for="ra in controller.AllActions('Reaction')">
             <basic-action-button :action="ra"
-              :controller="controller"
+              :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
@@ -122,6 +124,8 @@ import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
 import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue';
 import { ActivationType } from '@/class';
 import PilotReloadButton from './loadouts/action_buttons/pilotReloadButton.vue';
+import PilotJockeyButton from './loadouts/action_buttons/pilotJockeyButton.vue';
+import PilotFightButton from './loadouts/action_buttons/pilotFightButton.vue';
 
 export default {
   name: 'PilotActionsPanel',
@@ -129,9 +133,11 @@ export default {
     BasicActionButton,
     SkillCheckButton,
     PilotReloadButton,
+    PilotJockeyButton,
+    PilotFightButton,
   },
   props: {
-    controller: {
+    owner: {
       type: Object,
       required: true,
     },
@@ -150,8 +156,13 @@ export default {
       'act_prepare',
       'act_reload',
     ],
-    fullPilotActions: ['act_skill_check', 'act_mount', 'act_disengage'],
+    fullPilotActions: ['act_skill_check', 'act_mount', 'act_disengage', 'act_jockey'],
   }),
+  computed: {
+    controller() {
+      return this.owner.actor.CombatController;
+    },
+  },
   methods: {
     getBaseAction(actionId) {
       return CompendiumStore().Actions.find((a) => a.ID === actionId);

@@ -1,6 +1,5 @@
 <template>
-  <div style="position: relative"
-    class="px-3">
+  <div style="position: relative">
     <cc-alert variant="outlined"
       border-color="primary"
       color="text"
@@ -31,7 +30,7 @@
         <cc-combat-action-chip v-for="a in bonus.Actions"
           v-if="!expanded"
           :action="a"
-          :owner="mech"
+          :owner="owner"
           class="mt-1"
           :encounter="encounter">
           <template #icon>
@@ -83,6 +82,10 @@ export default {
       required: true,
     },
     mech: {
+      type: Object,
+      required: true,
+    },
+    owner: {
       type: Object,
       required: true,
     },

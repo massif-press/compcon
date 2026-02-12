@@ -102,11 +102,6 @@
             cols="auto">
             <cc-tags :tags="selectedWeapon.Tags" />
           </v-col>
-          <v-col v-if="selectedWeapon?.Mod"
-            cols="auto">
-            <cc-tags :tags="selectedWeapon.Mod!.AddedTags"
-              color="mod" />
-          </v-col>
           <v-col v-if="selectedWeapon"
             cols="auto">
             <v-menu open-on-hover
@@ -122,15 +117,6 @@
           </v-col>
         </v-row>
 
-        <mech-mount-bonus-card v-if="selectedMount(selectedWeapon)"
-          v-for="b in selectedMount(selectedWeapon).Bonuses"
-          :key="b.ID"
-          expanded
-          :bonus="b"
-          :owner="owner"
-          :mech="owner.actor.CombatController.Parent"
-          :encounter="encounter" />
-
         <div class="px-6">
 
           <cc-synergy-display v-if="selectedWeapon"
@@ -139,64 +125,11 @@
             :mech="controller.Parent"
             alert />
 
-          <mech-weapon-attack v-if="selectedWeapon && events[idx]?.weaponEvent"
+          <npc-weapon-attack v-if="selectedWeapon && events[idx]?.weaponEvent"
             :event="<WeaponAttackEvent>events[idx].weaponEvent"
             :owner="owner"
             :encounter="encounter"
-            :profile="<WeaponProfile>events[idx].weaponEvent.Weapon" />
-
-          <div
-            v-if="selectedMount(selectedWeapon) && events[idx]?.auxEvents && events[idx]?.auxEvents.length"
-            class="mt-4">
-            <v-divider class="my-4" />
-            <div class="text-cc-overline text-disabled mb-1">
-              additional {{ selectedMount(selectedWeapon).Name }} aux weapons
-            </div>
-            <div v-for="(aux, aidx) in events[idx]?.auxEvents">
-              <v-row dense
-                align="center"
-                class="bg-panel mb-1 heading">
-                <v-col cols="auto">
-                  <v-icon icon="cc:weapon"
-                    class="ml-4"
-                    start />
-                </v-col>
-                <v-col>
-                  {{ aux.Weapon.Name }}
-                </v-col>
-                <v-col cols="auto">
-                  <cc-tags :tags="aux.Weapon.Tags" />
-                </v-col>
-                <v-col v-if="(aux.Weapon as WeaponProfile).Parent.Mod"
-                  cols="auto">
-                  <cc-tags :tags="(aux.Weapon as WeaponProfile).Parent.Mod!.AddedTags"
-                    color="mod" />
-                </v-col>
-                <v-col cols="auto">
-                  <cc-switch v-model="events[idx].include[aidx]"
-                    bg-color="background"
-                    :label="`Include`"
-                    @update:model-value="setInclude(idx, selectedWeapon as MechWeapon)" />
-                </v-col>
-              </v-row>
-              <v-slide-y-reverse-transition>
-                <div v-if="aux && events[idx]?.include[aidx]">
-                  <cc-synergy-display :key="aux.Weapon.ID"
-                    :item="(aux.Weapon as WeaponProfile).Parent"
-                    location="weapon"
-                    :mech="controller.Parent"
-                    alert />
-
-                  <mech-weapon-attack v-if="selectedWeapon"
-                    :event="<WeaponAttackEvent>aux"
-                    :owner="owner"
-                    :encounter="encounter"
-                    :profile="<WeaponProfile>aux.Weapon" />
-
-                </div>
-              </v-slide-y-reverse-transition>
-            </div>
-          </div>
+            :weapon="<NpcWeapon>events[idx].weaponEvent.Weapon" />
 
         </div>
       </div>
@@ -228,16 +161,15 @@
 
 <script lang="ts">
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
-import MechMountBonusCard from '../_mechMountBonusCard.vue';
-import { MechWeapon } from '@/class';
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
-import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
-import MechWeaponAttack from './_mechWeaponAttack.vue';
+import NpcWeaponAttack from './_npcWeaponAttack.vue';
 import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import StagedPanel from './_stagedPanel.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
+import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
+import { NpcFeatureType } from '@/classes/npc/feature/NpcFeature';
 
 export default {
   name: 'MechBarrageButton',
@@ -255,25 +187,21 @@ export default {
       required: true,
     },
     presetWeapon: {
-      type: MechWeapon,
+      type: NpcWeapon,
       required: false,
     },
   },
   components: {
     MenuInput,
-    MechMountBonusCard,
-    MechWeaponAttack,
+    NpcWeaponAttack,
     ApplyButton,
     StagedPanel
   },
   data: () => ({
     events: [] as {
       weaponEvent: WeaponAttackEvent,
-      auxes: MechWeapon[],
-      auxEvents: WeaponAttackEvent[],
-      include: boolean[],
     }[],
-    selectedWeapons: [] as MechWeapon[],
+    selectedWeapons: [] as NpcWeapon[],
   }),
   created() {
     this.reset();
@@ -295,13 +223,13 @@ export default {
       return !this.controller.IsActionUsed(this.action.ID);
     },
     barrageWeapons() {
-      const mech = this.controller.ActiveActor;
-      if (!mech || !mech.MechLoadoutController) return []
-      let arr = mech.MechLoadoutController.ActiveLoadout.Weapons.filter(
-        (x) => x.Barrage
-      );
+      const npc = this.controller.ActiveActor;
 
-      arr = arr.filter(w => !this.selectedWeapons.map(x => x.InstanceID).some(y => y === w.InstanceID));
+      let arr = npc.NpcFeatureController.Features.filter(x => x.FeatureType === NpcFeatureType.Weapon)
+
+      if (this.presetWeapon) {
+        arr = arr.filter(w => w.InstanceID !== this.presetWeapon!.InstanceID);
+      }
 
       return arr;
     },
@@ -311,8 +239,6 @@ export default {
         const ev = this.events[i];
         if (ev && ev.weaponEvent) {
           out.push(ev.weaponEvent);
-          const enabledAuxes = ev.auxEvents.filter((x, idx) => ev.include[idx]);
-          out = out.concat(enabledAuxes);
         }
       }
       return out;
@@ -330,14 +256,7 @@ export default {
       }
       return false;
     },
-    selectedMount(selectedWeapon) {
-      if (!selectedWeapon) return null;
-      const aa = this.owner.actor.CombatController.RootActor;
-      if (!aa.ActiveMech) return null;
-
-      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.includes(selectedWeapon));
-    },
-    setSelected(index: number, weapon: MechWeapon) {
+    setSelected(index: number, weapon: NpcWeapon) {
       if (!weapon) return;
 
       const self = this.encounter.Combatants.find(
@@ -348,47 +267,17 @@ export default {
       }
 
       this.selectedWeapons[index] = weapon;
-      const auxes = this.selectedMount(weapon).Weapons.filter(
-        (x) =>
-          x.InstanceID !== weapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      );
-
-      const auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack'))
 
       this.events[index] = {
-        weaponEvent: new WeaponAttackEvent(weapon.SelectedProfile as WeaponProfile, self, this.encounter, 'Barrage'),
-        auxes,
-        auxEvents,
-        include: auxEvents.map(() => true),
+        weaponEvent: new WeaponAttackEvent(weapon, self, this.encounter, 'Barrage'),
       };
 
-      if (weapon.Size.toLowerCase() === 'superheavy') {
+      if (weapon.IsSuperheavy) {
         this.selectedWeapons = [weapon];
         this.events = [this.events[index]];
       } else if (this.selectedWeapons.length === 1) {
         this.selectedWeapons.push(undefined as any);
         this.events.push(undefined as any);
-      }
-    },
-    setInclude(index: number, selectedWeapon: MechWeapon) {
-      const self = this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
-      );
-      if (!self) {
-        throw new Error('Owner combatant not found in encounter');
-      }
-
-      const auxes = this.selectedMount(selectedWeapon).Weapons.filter(
-        (x) =>
-          x.InstanceID !== selectedWeapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      );
-
-      this.events[index].auxEvents = []
-
-      for (let i = 0; i < this.events[index].include.length; i++) {
-        this.events[index].auxEvents.push(
-          new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack')
-        );
       }
     },
     reset(clearAction = false) {

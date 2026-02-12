@@ -42,6 +42,8 @@ class WeaponAttackEvent {
       effectData = weapon.toActiveEffectData(owner.actor as Pilot)
     }
 
+    effectData.name += ` (${attackActionString})`
+
     this.BaseEvent = new ActiveEffectEvent(
       owner,
       new ActiveEffect(effectData, owner.actor),
@@ -51,7 +53,7 @@ class WeaponAttackEvent {
     if (weapon.ActiveEffects)
       this.SubEvents = weapon.ActiveEffects.map(ae => new ActiveEffectEvent(owner, ae, instance))
 
-    if ((weapon as WeaponProfile).Parent.Mod) {
+    if ((weapon as WeaponProfile).Parent?.Mod) {
       this.ModEvents = (weapon as WeaponProfile).Parent.Mod!.ActiveEffects.map(
         ae => new ActiveEffectEvent(owner, ae, instance)
       )

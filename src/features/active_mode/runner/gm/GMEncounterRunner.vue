@@ -60,6 +60,13 @@
                 justify="end">
                 <v-col cols="auto">
 
+                  <actor-telemetry
+                    v-if="selected.actor && selected.actor.CombatController.RootActor.ItemType === 'Pilot'"
+                    :actor="selected.actor.CombatController.RootActor"
+                    :encounter="instance" />
+                </v-col>
+                <v-col cols="auto">
+
                   <actor-logs v-if="selected.actor"
                     :actor="selected.actor.CombatController.RootActor"
                     :encounter="instance" />
@@ -151,6 +158,7 @@ import PlaceholderPanel from './EncounterPanels/PlaceholderPanel.vue';
 import EidolonPanel from './EncounterPanels/EidolonPanel.vue';
 import ActorLogs from './EncounterPanels/_components/ActorLogs.vue';
 import CombatStatblockExport from './EncounterPanels/_components/CombatStatblockExport.vue';
+import ActorTelemetry from './EncounterPanels/_components/ActorTelemetry.vue';
 
 export default {
   name: 'gm-encounter-runner',
@@ -176,6 +184,7 @@ export default {
     OptionsPanel,
     ActorLogs,
     CombatStatblockExport,
+    ActorTelemetry,
   },
   data: () => ({
     selected: null,

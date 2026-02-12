@@ -2,12 +2,31 @@
   <v-row no-gutters
     class="bg-panel"
     align="center">
-    <v-col v-if="canDealDamage && isFeature">
-      <attack-menu :item="item"
+    <v-col v-if="canDealDamage && item.ItemType === 'PilotWeapon'">
+      <pilot-fight-button :owner="owner"
+        :action="fightAction"
         :controller="controller"
-        :encounter="encounter" />
+        :encounter="encounter"
+        :preset-weapon="item"
+        @activate="activate($event)" />
     </v-col>
-    <v-col v-if="canDealDamage && item.Skirmish"
+    <v-col v-if="canDealDamage && isFeature && !item.IsSuperheavy">
+      <npc-skirmish-button :owner="owner"
+        :action="skirmishAction"
+        :controller="controller"
+        :encounter="encounter"
+        :preset-weapon="item"
+        @activate="activate($event)" />
+    </v-col>
+    <v-col v-if="canDealDamage && isFeature">
+      <npc-barrage-button :owner="owner"
+        :action="barrageAction"
+        :controller="controller"
+        :encounter="encounter"
+        :preset-weapon="item"
+        @activate="activate($event)" />
+    </v-col>
+    <v-col v-if="!isFeature && canDealDamage && item.Skirmish"
       cols="auto">
       <mech-skirmish-button v-if="item.Skirmish"
         :owner="owner"
@@ -17,7 +36,7 @@
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
-    <v-col v-if="canDealDamage && item.Barrage"
+    <v-col v-if="!isFeature && canDealDamage && item.Barrage"
       cols="auto"
       class="ml-1">
       <mech-barrage-button v-if="item.Barrage"
@@ -263,18 +282,22 @@
 
 <script>
 import { EffectStatus } from '@/classes/components/feature/active_effects/effect_subtype/EffectStatus';
-import AttackMenu from '../AttackMenu.vue';
 import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial';
 import MechSkirmishButton from './action_buttons/mechSkirmishButton.vue';
 import { CompendiumStore } from '@/stores';
 import MechBarrageButton from './action_buttons/mechBarrageButton.vue';
+import NpcSkirmishButton from './action_buttons/npcSkirmishButton.vue';
+import NpcBarrageButton from './action_buttons/npcBarrageButton.vue';
+import PilotFightButton from './action_buttons/pilotFightButton.vue';
 
 export default {
   name: 'EquipCommandPanel',
   components: {
-    AttackMenu,
     MechSkirmishButton,
-    MechBarrageButton
+    MechBarrageButton,
+    NpcSkirmishButton,
+    NpcBarrageButton,
+    PilotFightButton,
   },
   props: {
     item: {
@@ -303,12 +326,13 @@ export default {
       return !!this.item.Damage;
     },
     skirmishAction() {
-      if (!this.item?.Skirmish) return null;
       return CompendiumStore().Actions.find(x => x.ID === 'act_skirmish')
     },
     barrageAction() {
-      if (!this.item?.Barrage) return null;
       return CompendiumStore().Actions.find(x => x.ID === 'act_barrage')
+    },
+    fightAction() {
+      return CompendiumStore().Actions.find(x => x.ID === 'act_fight')
     },
     totalUses() {
       return Number(this.item.MaxUses || 0) + Number(this.controller.LimitedBonus || 0);

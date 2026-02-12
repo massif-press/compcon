@@ -12,7 +12,7 @@
 
       <cc-combat-action-chip v-for="a in mod.Actions"
         :action="a"
-        :owner="mech"
+        :owner="owner"
         class="mt-1"
         @activate="handleActivation($event)"
         @reset="handleRefund($event)"
@@ -59,6 +59,10 @@ export default {
   components: {},
   props: {
     mod: {
+      type: Object,
+      required: true,
+    },
+    owner: {
       type: Object,
       required: true,
     },

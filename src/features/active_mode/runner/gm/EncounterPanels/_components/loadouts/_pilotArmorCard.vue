@@ -19,21 +19,37 @@
           {{ item.Name }}
           <span class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />
-            Pilot Weapon
+            Pilot Armor
           </span>
         </div>
       </v-col>
 
       <v-col cols="auto">
-        <cc-range-element v-if="item.Range"
-          small
-          :range="item.Range" />
-        <cc-slashes v-if="item.Range && item.Damage"
-          class="pr-1" />
-        <cc-damage-element v-if="item.Damage"
-          small
-          :damage="item.Damage"
-          :type-override="item.DamageTypeOverride" />
+
+        <v-icon size=18
+          class="mt-n1"
+          icon="mdi-shield"
+          end />
+        <span class="heading h4"> {{ item.ArmorString }} </span>
+        <v-icon size=19
+          class="mt-n1"
+          end
+          icon="mdi-heart" />
+        <span class="heading h4"> {{ item.HpString }} </span>
+        <v-icon size=small
+          class="mt-n1"
+          end
+          icon="cc:e_def" />
+        <span class="heading h4"> {{ item.EdefString }} </span>
+        <v-icon size=small
+          class="mt-n1"
+          end
+          icon="cc:evasion" />
+        <span class="heading h4"> {{ item.EvasionString }} </span>
+        <v-icon size=small
+          end
+          icon="mdi-arrow-right-bold-hexagon-outline" />
+        <span class="heading h4"> {{ item.SpeedString }} </span>
       </v-col>
     </v-row>
     <div class="pa-0"
@@ -47,15 +63,6 @@
           <p v-html-safe="item.FlavorDescription"
             style="white-space: pre-wrap" />
         </v-card>
-
-        <div v-if="item"
-          class="pt-1">
-          <div>
-            <on-element v-for="action in ['hit', 'crit', 'attack']"
-              :profile="item"
-              :action="action" />
-          </div>
-        </div>
 
         <div v-if="item">
           <div v-if="item.Effect">
@@ -113,10 +120,6 @@
         </div>
       </v-card-text>
     </div>
-    <equip-command-panel :owner="owner"
-      :controller="pilot.CombatController"
-      :encounter="encounter"
-      :item="item" />
   </v-card>
 </template>
 
@@ -129,7 +132,7 @@ import ModInset from '@/ui/components/panels/loadout/mech_loadout/components/mou
 import EngWeaponSettings from '@/ui/components/panels/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue';
 
 export default {
-  name: 'pilot-weapon-combat-card',
+  name: 'pilot-armor-combat-card',
   components: {
     DeployButton,
     EquipCommandPanel,
@@ -164,14 +167,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    weapon: {
-      type: Boolean,
-      default: false,
-    },
     encounter: {
       type: Object,
       required: true,
-    }, owner: {
+    },
+    owner: {
       type: Object,
       required: true,
     },
@@ -185,16 +185,15 @@ export default {
     mobile() {
       return this.$vuetify.display.smAndDown;
     },
-
+    portrait() {
+      return this.$vuetify.display.xs;
+    },
     synergyLocation() {
       if (!this.item) return 'none';
       return this.item.ItemType === ItemType.PilotWeapon ? 'weapon' : 'gear';
     },
-
-
   },
   methods: {
-
     handleActivation(cost) {
       if (cost && this.item.MaxUses) {
         this.item.Uses = (this.item.Uses || 0) + cost;

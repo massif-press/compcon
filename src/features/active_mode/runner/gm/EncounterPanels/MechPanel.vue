@@ -157,7 +157,7 @@
                     class="mb-2 mt-1">
                     <cc-combat-action-chip v-for="a in item.Actions"
                       :action="a"
-                      :owner="mech"
+                      :owner="combatant"
                       :encounter="encounterInstance" />
                   </div>
                   <div v-if="item.Deployables?.length"
@@ -165,7 +165,7 @@
                     <deploy-button v-for="d in item.Deployables"
                       :deployable="d"
                       :actor="mech"
-                      @deploy="$emit('deploy', d)" />
+                      @deploy="deploy($event)" />
                   </div>
                 </template>
               </cc-trait-item>
@@ -199,7 +199,7 @@
                     class="mb-2 mt-1">
                     <cc-combat-action-chip v-for="a in item.Actions"
                       :action="a"
-                      :owner="mech"
+                      :owner="combatant"
                       :encounter="encounterInstance" />
                   </div>
                   <div v-if="item.Deployables?.length"
@@ -207,7 +207,7 @@
                     <deploy-button v-for="d in item.Deployables"
                       :deployable="d"
                       :actor="mech"
-                      @deploy="$emit('deploy', d)" />
+                      @deploy="deploy($event)" />
                   </div>
                 </template>
               </cc-core-bonus-item>
@@ -243,7 +243,7 @@
                     class="mb-2 mt-1">
                     <cc-combat-action-chip v-for="a in item.Talent.AllActions"
                       :action="a"
-                      :owner="mech"
+                      :owner="combatant"
                       :encounter="encounterInstance" />
                   </div>
                   <div v-if="item.Talent.AllDeployables?.length"
@@ -251,7 +251,7 @@
                     <deploy-button v-for="d in item.Talent.AllDeployables"
                       :deployable="d"
                       :actor="mech"
-                      @deploy="$emit('deploy', d)" />
+                      @deploy="deploy($event)" />
                   </div>
                 </template>
               </cc-talent>
@@ -263,6 +263,7 @@
 
     <div class="text-cc-overline mt-4 text-disabled">Core</div>
     <mech-core-panel :mech="mech"
+      :owner="combatant"
       :encounter-instance="encounterInstance"
       @deploy="deploy($event)" />
 

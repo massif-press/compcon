@@ -35,7 +35,7 @@
       <v-row no-gutters>
         <v-col>
           <cc-combat-action-chip :action="cs.ActivateAction"
-            :owner="mech"
+            :owner="owner"
             :encounter="encounterInstance"
             :disabled="!mech.CombatController.CorePower"
             custom-disabled-text="Core Power Depleted"
@@ -63,7 +63,7 @@
           class="mb-2 mt-1">
           <cc-combat-action-chip v-for="a in cs.ActiveActions"
             :action="a"
-            :owner="mech"
+            :owner="owner"
             :encounter="encounterInstance" />
         </div>
       </v-scroll-y-transition>
@@ -108,7 +108,7 @@
         class="mb-2 mt-1">
         <cc-combat-action-chip v-for="a in cs.PassiveActions"
           :action="a"
-          :owner="mech"
+          :owner="owner"
           :encounter="encounterInstance" />
       </div>
     </div>
@@ -125,6 +125,10 @@ export default {
   },
   props: {
     mech: {
+      type: Object,
+      required: true,
+    },
+    owner: {
       type: Object,
       required: true,
     },

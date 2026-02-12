@@ -6,7 +6,10 @@ import { Deployable, Pilot } from '@/class'
 import { IPlaceholderData, Placeholder } from './Placeholder'
 import { DeployableInstance } from '../components/feature/deployable/DeployableInstance'
 import { CombatLogEntry } from '../components/combat/CombatController'
-import { EventSummary, EventSummaryData } from '../components/feature/active_effects/EventSummary'
+import {
+  ActionSummary,
+  ActionSummaryData,
+} from '../components/feature/active_effects/EffectActionSummary'
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance'
@@ -207,11 +210,11 @@ class EncounterInstance implements ISaveable {
     })
   }
 
-  public AddLogEvent(eventSummary: EventSummary): void {
+  public AddLogEvent(eventSummary: ActionSummary): void {
     this.History.push({
       timestamp: Date.now(),
       round: this.Round,
-      event: eventSummary.toJSON(),
+      event: eventSummary,
     })
   }
 
