@@ -3,8 +3,16 @@
     title="Mech Destroyed &mdash; Reactor Meltdown"
     icon="mdi-radioactive-circle"
     color="error"
-    class="mb-4">
-    This mech has suffered a reactor meltdown. It is permanently destroyed and cannot be repaired.
+    variant="outlined"
+    prominent
+    class="my-8">
+    <p class="text-text mb-3">
+      This mech has suffered a reactor meltdown. It is permanently destroyed and cannot be repaired.
+    </p>
+    <cc-combat-action-chip :action="mech.CombatController.MeltdownAction"
+      :owner="combatant"
+      :encounter="encounterInstance" />
+
     <div class="text-right">
       <v-btn size="x-small"
         variant="text"
@@ -32,37 +40,6 @@
         </div>
       </cc-alert>
 
-      <cc-panel v-if="mech.CombatController.IsInSelfDestruct"
-        icon="mdi-alert-outline"
-        class="mr-6"
-        title-color="error"
-        title="Self Destruct Initiated">
-        <div v-if="turnDiff(mech.CombatController.SelfDestructRound) > 0"
-          class="text-center mb-2">
-          This mech can self-destruct at the end of this turn. (PC Discretion, must self-destruct by
-          Round
-          {{ mech.CombatController.SelfDestructRound }})
-        </div>
-        <div v-else-if="turnDiff(mech.CombatController.SelfDestructRound) === 0">
-          This mech will self-destruct at the end of this turn.
-        </div>
-        <cc-dialog title="Self Destruct"
-          icon="mdi-alert-outline"
-          :close-on-click="false">
-          <template #activator="{ open }">
-            <cc-button size="small"
-              block
-              color="error"
-              @click="open">Self-Destruct</cc-button>
-          </template>
-          <template #default="{ close }">
-            <menu-input :active-effect="SelfDestructAction"
-              :encounter="encounterInstance"
-              :owner="combatant"
-              @apply="SD_apply(close)" />
-          </template>
-        </cc-dialog>
-      </cc-panel>
     </template>
 
     <template #action-palette>
@@ -283,7 +260,6 @@ import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
 import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 import MechActionsPanel from './_components/MechActionsPanel.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
-import { SelfDestructAction } from '@/classes/components/combat/CombatController';
 
 export default {
   name: 'MechPanel',
@@ -320,9 +296,6 @@ export default {
     },
     aiSystems() {
       return this.mech.MechLoadoutController.ActiveLoadout.AISystems;
-    },
-    SelfDestructAction() {
-      return SelfDestructAction;
     },
   },
   methods: {
@@ -417,15 +390,6 @@ export default {
     },
     turnDiff(targetRound) {
       return targetRound - this.encounterInstance.Round;
-    },
-    SD_close(closefn) {
-      closefn();
-      // this.mech.CombatController.IsInSelfDestruct = false;
-      // this.mech.CombatController.SelfDestructRound = 0;
-    },
-    SD_apply(closefn) {
-      this.mech.CombatController.CommitSelfDestruct();
-      closefn();
     },
   },
 };

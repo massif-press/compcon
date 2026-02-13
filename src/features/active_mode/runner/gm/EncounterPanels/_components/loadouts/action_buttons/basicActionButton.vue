@@ -108,6 +108,7 @@ export default {
   components: {
     MenuInput,
   },
+  emits: ['activate'],
   computed: {
     controller() {
       return this.owner.actor.CombatController;
@@ -125,9 +126,7 @@ export default {
   emits: ['activate'],
   methods: {
     apply(close) {
-      this.controller.toggleCombatAction(this.action.Activation);
       this.$emit('activate', this.action.ID);
-      // close();
     },
     reset() {
       this.controller.ResetActivation(this.action.Activation);

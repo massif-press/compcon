@@ -94,6 +94,9 @@
 
         <slot name="subtitle" />
 
+        <timed-effect-panel :encounter="encounterInstance"
+          :item="item" />
+
         <v-row class="mt-n1">
           <v-col v-if="item.Grit"
             cols="auto">
@@ -165,6 +168,7 @@
               large />
           </v-col>
         </v-row>
+
 
         <active-effect-panel v-if="item.CombatController.ActiveEffects.length"
           :encounter="encounterInstance"
@@ -401,6 +405,7 @@ import DamageMenu from './_components/DamageMenu.vue';
 import { Rules } from '@/class';
 import CustomStatEditor from './_components/CustomStatEditor.vue';
 import ActiveEffectPanel from './_components/ActiveEffectPanel.vue';
+import TimedEffectPanel from './_components/TimedEffectPanel.vue';
 
 export default {
   name: 'EncounterPanelBase',
@@ -412,6 +417,7 @@ export default {
     DamageMenu,
     CustomStatEditor,
     ActiveEffectPanel,
+    TimedEffectPanel,
   },
   data() {
     return {

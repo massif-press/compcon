@@ -3,8 +3,13 @@
     title="Pilot KIA"
     icon="mdi-skull"
     color="error"
-    class="mb-4">
-    This pilot has been killed in action.
+    variant="outlined"
+    prominent
+    class="my-8">
+    <p class="text-text mb-3">
+
+      This pilot has been killed in action.
+    </p>
     <div class="text-right">
       <v-btn size="x-small"
         variant="text"

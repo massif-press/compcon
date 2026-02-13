@@ -7,6 +7,7 @@ import { ICounterContainer } from './counters/ICounterContainer'
 import { IStatContainer } from './stats/IStatContainer'
 import { Status } from '@/classes/Status'
 import { ActiveEffect } from '../feature/active_effects/ActiveEffect'
+import { ITimedEffectData, TimedEffect } from '../feature/active_effects/TimedEffect'
 import _ from 'lodash'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import {
@@ -40,12 +41,13 @@ class CombatData {
   coreActive: boolean = false
   aiControl: boolean = false
 
-  selfDestructRound: number = 0
   isInSelfDestruct: boolean = false
   reactorDestroyed: boolean = false
   isDead: boolean = false
 
   stats: IStatData = {} as IStatData
+
+  timed_effects: ITimedEffectData[] = []
 
   combatActions: any = {}
   usedActions: string[] = []
@@ -64,6 +66,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public CustomStatuses: { status: EffectSpecial; expires: expiration }[] = []
   public Counters: Counter[] = []
   public Cover: CoverType = CoverType.None
+  public TimedEffects: TimedEffect[] = []
   public CorePower = true
 
   public Mounted = true
@@ -74,7 +77,6 @@ class CombatController implements ICounterContainer, IStatContainer {
   public AIControl = false
 
   public IsInSelfDestruct = false
-  public SelfDestructRound: number = 0
   public ReactorDestroyed: boolean = false
   public IsDead: boolean = false
 
@@ -446,12 +448,8 @@ class CombatController implements ICounterContainer, IStatContainer {
     return this.Statuses.some(s => s.status.ID === statusID)
   }
 
-  public AddSimpleStatus(statusID: string): void {
+  public AddStatus(statusID: string, expires?: any): void {
     const status = CompendiumStore().Statuses.find(s => s.ID === statusID)
-    if (status) this.SetStatus(status)
-  }
-
-  public SetStatus(status: Status, expires?: any): void {
     if (!status) return
     const existingIndex = this.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
@@ -459,6 +457,15 @@ class CombatController implements ICounterContainer, IStatContainer {
       this.log(`Gained ${status.Name}`)
     } else if (expires) {
       this.Statuses[existingIndex].expires = expires
+    }
+  }
+
+  public ToggleStatus(status: Status, expires?: any): void {
+    if (!status) return
+    const existingIndex = this.Statuses.findIndex(s => s.status.ID === status.ID)
+    if (existingIndex === -1) {
+      this.Statuses.push({ status, expires })
+      this.log(`Gained ${status.Name}`)
     } else {
       this.Statuses.splice(existingIndex, 1)
       this.log(`Lost ${status.Name}`)
@@ -522,7 +529,14 @@ class CombatController implements ICounterContainer, IStatContainer {
     ap: boolean,
     irreducible: boolean
   ): number {
-    if (irreducible || ap || type === DamageType.Heat || type === DamageType.Burn) return 0
+    if (
+      irreducible ||
+      ap ||
+      type === DamageType.Heat ||
+      type === DamageType.Burn ||
+      type === DamageType.AppliedBurn
+    )
+      return 0
     return this.ActiveActor.StatController.CurrentStats['armor'] || 0
   }
 
@@ -539,7 +553,12 @@ class CombatController implements ICounterContainer, IStatContainer {
       out.total = reliable
     }
 
-    if (this.HasStatus('exposed') && type !== DamageType.Heat && type !== DamageType.Burn) {
+    if (
+      this.HasStatus('exposed') &&
+      type !== DamageType.Heat &&
+      type !== DamageType.Burn &&
+      type !== DamageType.AppliedBurn
+    ) {
       out.total *= 2
       out.condition.push('exposed')
     }
@@ -604,6 +623,9 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (type === DamageType.Heat) {
       target.ApplyHeat(value)
     }
+    if (type === DamageType.Burn) {
+      target.StatController.CurrentStats['burn'] += value
+    }
 
     // subtract this damage from current hp
     this.ActiveActor.StatController.CurrentStats['hp'] -= value
@@ -659,27 +681,32 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (target.StatController.CurrentStats['stress'] < 0) {
       target.StatController.CurrentStats['stress'] = 0
     }
-  }
 
-  public ApplyStatus(
-    status: Status,
-    expires: string,
-    owner: CombatController,
-    target: CombatController,
-    encounter: EncounterInstance
-  ): void {
-    if (this.SaveLock) return
-    if (!status) return
-    const expirationObj = new expiration(expires, owner, target, encounter)
-    const existingIndex = this.ActiveActor.CombatController.Statuses.findIndex(
-      s => s.status.ID === status.ID
-    )
-    if (existingIndex === -1) {
-      this.ActiveActor.CombatController.Statuses.push({ status, expires: expirationObj })
-    } else {
-      this.ActiveActor.CombatController.Statuses[existingIndex].expires.Raw = expires
+    if (target.StatController.CurrentStats['stress'] === 0) {
+      this.ReactorDestroyed = true
+      this.log('Reactor destroyed!')
     }
   }
+
+  // public ApplyStatus(
+  //   status: Status,
+  //   expires: string,
+  //   owner: CombatController,
+  //   target: CombatController,
+  //   encounter: EncounterInstance
+  // ): void {
+  //   if (this.SaveLock) return
+  //   if (!status) return
+  //   const expirationObj = new expiration(expires, owner, target, encounter)
+  //   const existingIndex = this.ActiveActor.CombatController.Statuses.findIndex(
+  //     s => s.status.ID === status.ID
+  //   )
+  //   if (existingIndex === -1) {
+  //     this.ActiveActor.CombatController.Statuses.push({ status, expires: expirationObj })
+  //   } else {
+  //     this.ActiveActor.CombatController.Statuses[existingIndex].expires.Raw = expires
+  //   }
+  // }
 
   public RemoveStatus(statusID: string): void {
     const existingIndex = this.ActiveActor.CombatController.Statuses.findIndex(
@@ -825,6 +852,55 @@ class CombatController implements ICounterContainer, IStatContainer {
       if (eq.Recharge < 0) return
       eq.IsUsed = false
     })
+
+    //create burn events
+    if (this.StatController.CurrentStats['burn'] > 0) {
+      this.TimedEffects.push(
+        new TimedEffect({
+          name: 'Burn Damage',
+          detail: `Take ${this.StatController.CurrentStats['burn']} burn damage at the start of this round.`,
+          round: this.Round + 1,
+          apply: {
+            damage: [
+              { type: DamageType.AppliedBurn, value: this.StatController.CurrentStats['burn'] },
+            ],
+          },
+        })
+      )
+    }
+
+    const statusExpires = this.Statuses.filter(s =>
+      s.expires.HasExpired(this.Round, this.Parent.ID, this.Turn)
+    )
+
+    const specialStatusExpires = this.CustomStatuses.filter(s =>
+      s.expires.HasExpired(this.Round, this.Parent.ID, this.Turn)
+    )
+
+    statusExpires.forEach(s => {
+      this.log(`Status expired: ${s.status.Name}`)
+      this.TimedEffects.push(
+        new TimedEffect({
+          name: `Status/Condition Expired`,
+          detail: `${s.status.Name} status has expired.`,
+          round: this.Round,
+          remove: { status: [s.status.ID] },
+        })
+      )
+    })
+
+    specialStatusExpires.forEach(s => {
+      this.log(`Special status expired: ${s.status.Attribute}`)
+      this.TimedEffects.push(
+        new TimedEffect({
+          name: `Special Status Expired`,
+          detail: `${s.status.Attribute} special status has expired.`,
+          round: this.Round,
+          remove: { special: [{ attribute: s.status.Attribute, detail: s.status.Detail }] },
+        })
+      )
+    })
+
     this.Round++
     this.CombatLog.EndRound()
   }
@@ -850,19 +926,32 @@ class CombatController implements ICounterContainer, IStatContainer {
     })
   }
 
+  public StartSelfDestruct(): void {
+    if (this.IsInSelfDestruct) return
+    this.IsInSelfDestruct = true
+    this.TimedEffects.push(
+      new TimedEffect({
+        name: 'Self Destruct',
+        detail: `This mech will explode as though it suffered a reactor meltdown. The explosion will annihilate this mech, killing everyone inside and dealing 4d6 explosive damage to all targets in a burst 2 area around it.`,
+        round: this.Round + 3,
+        apply: { other: 'self_destruct' },
+      })
+    )
+    this.log('Self Destruct sequence initiated!')
+  }
+
   public CommitSelfDestruct(): void {
     this.StatController.CurrentStats['structure'] = 0
     this.StatController.CurrentStats['hp'] = 0
     this.StatController.CurrentStats['heatcap'] = 0
     this.StatController.CurrentStats['stress'] = 0
-    this.IsInSelfDestruct = false
-    this.SelfDestructRound = 0
     this.ReactorDestroyed = true
+    this.IsInSelfDestruct = false
     if (this.Mounted && this.Parent instanceof Mech) {
       const pilot = this.Parent.Parent
       pilot.CombatController.Kill()
     }
-    this.log('Self Destruct sequence completed. Combatant destroyed.')
+    this.log('Mech has self-destructed!')
   }
 
   public Kill(): void {
@@ -892,7 +981,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.corePower = controller.CorePower
     target.aiControl = controller.AIControl
 
-    target.selfDestructRound = controller.SelfDestructRound
     target.isInSelfDestruct = controller.IsInSelfDestruct
     target.reactorDestroyed = controller.ReactorDestroyed
     target.isDead = controller.IsDead
@@ -905,6 +993,8 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.action = controller.Action
 
     target.usedActions = controller._usedActions
+
+    target.timed_effects = controller.TimedEffects.map(te => TimedEffect.Serialize(te))
 
     StatController.Serialize(controller, target.stats)
     CounterController.Serialize(controller, target.counters)
@@ -935,7 +1025,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller.CoreActive = data?.coreActive || false
     controller.AIControl = data?.aiControl || false
 
-    controller.SelfDestructRound = data?.selfDestructRound || 0
     controller.IsInSelfDestruct = data?.isInSelfDestruct || false
     controller.ReactorDestroyed = data?.reactorDestroyed || false
     controller.IsDead = data?.isDead || false
@@ -950,26 +1039,31 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller.Turn = data?.turn || 1
     controller.Action = data?.action || 1
 
+    controller.TimedEffects = (data?.timed_effects || []).map(te => TimedEffect.Deserialize(te))
+
     StatController.Deserialize(controller, data?.stats || {})
     CounterController.Deserialize(controller, data?.counters || {})
   }
+
+  public get MeltdownAction() {
+    return new Action({
+      id: 'self_destruct_internal',
+      name: 'Deal Meltdown Damage',
+      activation: ActivationType.Free,
+      detail:
+        'The reactor explosion deals 4d6 explosive damage to all targets in a burst 2 area around this mech.',
+      damage: [
+        {
+          type: DamageType.Explosive,
+          val: '4d6',
+          aoe: 'Burst 2',
+          save: 'agility',
+          save_half: true,
+        },
+      ],
+    })
+  }
 }
 
-const SelfDestructAction = new Action({
-  id: 'self_destruct_internal',
-  name: 'Self Destruct',
-  activation: ActivationType.Free,
-  detail: '',
-  damage: [
-    {
-      type: DamageType.Explosive,
-      val: '4d6',
-      aoe: 'Burst 2',
-      save: 'agility',
-      save_half: true,
-    },
-  ],
-})
-
-export { CombatController, SelfDestructAction }
+export { CombatController }
 export type { CombatData, CoverType }
