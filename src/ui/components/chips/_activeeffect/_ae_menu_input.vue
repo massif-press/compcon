@@ -71,7 +71,8 @@
     :encounter="encounter"
     :owner="owner"
     :close="close"
-    @reset="reset($event)" />
+    @reset="reset($event)"
+    @apply="$emit('apply')" />
 
 </template>
 
@@ -108,7 +109,7 @@ export default {
     ready: false,
     isFree: false,
   }),
-  emits: ['apply', 'reset', 'stage'],
+  emits: ['apply', 'reset'],
   created() {
     this.reset();
   },
@@ -186,25 +187,6 @@ export default {
         throw new Error('Owner combatant not found in encounter');
       }
       this.event = new ActiveEffectEvent(self, this.activeEffect, this.encounter);
-    },
-    stage(asFree) {
-      this.event.Staged = true
-      this.isFree = asFree || false;
-      if (this.isApplied) return;
-      this.ready = true;
-      // if (this.canOverride) {
-      //   this.getSummaries();
-      // }
-      this.$emit('stage');
-    },
-    apply(close: Function) {
-      if (this.isApplied || !this.ready) return;
-      // this.iterateAE('apply');
-
-      if (!this.isFree) this.owner.actor.CombatController.MarkActionUsed(this.activeEffect.ID);
-      this.isFree = false;
-      this.$emit('apply');
-      close();
     },
     copyText(text: string) {
       navigator.clipboard.writeText(text);

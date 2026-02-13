@@ -164,7 +164,7 @@ export default {
           });
           break;
         case 'act_hide':
-          this.controller.AddSimpleStatus('hidden');
+          this.controller.AddStatus('hidden');
           this.$notify({
             type: 'success',
             title: 'NPC Hidden',

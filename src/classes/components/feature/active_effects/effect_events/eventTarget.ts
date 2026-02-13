@@ -154,7 +154,7 @@ class ActiveEventTarget {
   }
 
   public ApplyStatus(statusEvent: StatusEvent) {
-    this.Combatant.actor.CombatController.SetStatus(statusEvent.Status, statusEvent.Duration)
+    this.Combatant.actor.CombatController.AddStatus(statusEvent.Status.ID, statusEvent.Duration)
   }
 
   public ApplyOther(otherEvent: OtherEvent) {

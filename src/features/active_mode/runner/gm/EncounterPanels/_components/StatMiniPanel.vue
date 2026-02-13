@@ -1,10 +1,11 @@
 <template>
-  <div class="parent" style="height: 100%">
-    <div :class="`bg-${color} tail`" class="d-inline-block mr-1" />
+  <div class="parent"
+    style="height: 100%">
+    <div :class="`bg-${color} tail`"
+      class="d-inline-block mr-1" />
     <v-menu :close-on-content-click="false">
       <template #activator="{ props }">
-        <v-card
-          class="cc-panel-clip-small d-inline-block"
+        <v-card class="cc-panel-clip-small d-inline-block"
           color="panel"
           flat
           tile
@@ -13,42 +14,49 @@
           min-width="100px"
           v-bind="!boolean && props"
           @click="boolean ? $emit('click', $event) : null">
-          <v-row no-gutters justify="center" align="center" style="height: 100%">
-            <v-col cols="auto" class="heading" style="font-size: 36px">
-              <v-icon
-                v-if="icon"
+          <v-row no-gutters
+            justify="center"
+            align="center"
+            style="height: 100%">
+            <v-col cols="auto"
+              class="heading"
+              style="font-size: 36px">
+              <v-icon v-if="icon"
                 :icon="icon"
                 :color="color"
                 :class="boolean ? 'mr-1' : 'mt-n2 mr-2'"
                 :size="boolean ? 60 : 40" />
-              <span v-if="!boolean" class="mr-2">{{ modelValue }}</span>
+              <span v-if="!boolean"
+                class="mr-2">{{ modelValue }}</span>
             </v-col>
           </v-row>
         </v-card>
       </template>
       <v-card>
-        <v-toolbar height="24" :color="color">
+        <v-toolbar height="24"
+          :color="color">
           <div class="heading h3">
-            <v-icon :icon="icon" size="22" class="mt-n1 ml-2 mr-1" />
+            <v-icon :icon="icon"
+              size="22"
+              class="mt-n1 ml-2 mr-1" />
             {{ title }}
           </div>
         </v-toolbar>
         <v-card-text>
           <v-row dense>
             <v-col cols="auto">
-              <v-btn
-                icon
+              <v-btn icon
                 flat
                 tile
                 size="x-small"
                 variant="text"
                 @click="setVal(internalValue - 1)">
-                <v-icon size="x-large" icon="mdi-minus" />
+                <v-icon size="x-large"
+                  icon="mdi-minus" />
               </v-btn>
             </v-col>
             <v-col cols="auto">
-              <v-text-field
-                :model-value.number="internalValue"
+              <v-text-field :model-value.number="internalValue"
                 variant="outlined"
                 type="number"
                 tile
@@ -60,26 +68,36 @@
                 @update:model-value="setVal(Number($event))" />
             </v-col>
             <v-col cols="auto">
-              <v-btn
-                icon
+              <v-btn icon
                 flat
                 tile
                 size="x-small"
                 variant="text"
                 @click="setVal(internalValue + 1)">
-                <v-icon size="x-large" icon="mdi-plus" />
+                <v-icon size="x-large"
+                  icon="mdi-plus" />
               </v-btn>
             </v-col>
           </v-row>
           <v-divider class="my-2" />
           <v-row dense>
             <v-col>
-              <v-btn flat tile block size="x-small" color="primary" @click="setVal(baseValue)">
+              <v-btn flat
+                tile
+                block
+                size="x-small"
+                color="primary"
+                @click="setVal(baseValue)">
                 Reset
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn flat tile block size="x-small" color="primary" @click="setVal(0)">Clear</v-btn>
+              <v-btn flat
+                tile
+                block
+                size="x-small"
+                color="primary"
+                @click="setVal(0)">Clear</v-btn>
             </v-col>
           </v-row>
         </v-card-text>
@@ -90,7 +108,6 @@
 </template>
 
 <script>
-import { set } from 'lodash';
 
 export default {
   name: 'stat-mini-panel',

@@ -197,7 +197,7 @@ export default {
   }),
   computed: {
     controller() {
-      return this.owner.actor.CombatController;
+      return this.owner.actor.ActiveMech.CombatController;
     },
   },
   methods: {
@@ -227,7 +227,7 @@ export default {
             return;
           }
           this.controller.ToggleMounted();
-          this.controller.AddSimpleStatus('impaired');
+          this.controller.AddStatus('impaired');
           this.$notify({
             type: 'success',
             title: 'Pilot Ejected',
@@ -253,7 +253,7 @@ export default {
           });
           break;
         case 'act_hide':
-          this.controller.AddSimpleStatus('hidden');
+          this.controller.AddStatus('hidden');
           this.$notify({
             type: 'success',
             title: 'Mech Hidden',
@@ -309,8 +309,7 @@ export default {
             this.controller.ClearActionUsed('act_self_destruct');
             return;
           } else {
-            this.controller.IsInSelfDestruct = true;
-            this.controller.SelfDestructRound = this.encounter.Round + 2;
+            this.controller.StartSelfDestruct();
             this.$notify({
               type: 'success',
               title: 'Mech Self-Destruct Initiated',

@@ -130,6 +130,7 @@ enum DamageType {
   Explosive = 'Explosive',
   Heat = 'Heat',
   Burn = 'Burn',
+  AppliedBurn = 'Applied Burn', // for dealing burn damage without incrementing burn stack
   Variable = 'Variable',
 }
 
