@@ -7,6 +7,7 @@ import { Bonus } from '../components/feature/bonus/Bonus'
 import { ActivePeriod } from '../Action'
 import { IMechLoadoutData } from './components/loadout/MechLoadout'
 import {
+  CounterController,
   IPortraitContainer,
   IPortraitData,
   ISaveable,
@@ -52,7 +53,9 @@ class IMechData implements IPortraitData, ISaveData, IMechLoadoutSaveData {
   conditions: string[]
   resistances: string[]
   reactions: string[]
-  burn: number
+  burn: number  // CounterController
+  custom_counters: any[]
+  counter_data: ICounterSaveData[]
   destroyed: boolean
   defeat: string
   activations: number
@@ -70,6 +73,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   public ImageTag = ImageTag.Mech
   public FeatureController: FeatureController
   public MechLoadoutController: MechLoadoutController
+  public CounterController: CounterController
 
   private _id: string
   private _name: string
@@ -110,6 +114,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     this.PortraitController = new PortraitController(this)
     this.FeatureController = new FeatureController(this)
     this.MechLoadoutController = new MechLoadoutController(this)
+    this.CounterController = new CounterController(this)
 
     this._name = ''
     this._notes = ''
@@ -1035,6 +1040,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     SaveController.Serialize(m, data)
     PortraitController.Serialize(m, data)
     MechLoadoutController.Serialize(m, data)
+    CounterController.Serialize(m, data)
 
     return data as IMechData
   }
@@ -1075,7 +1081,8 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
 
     SaveController.Deserialize(m, data)
     PortraitController.Deserialize(m, data)
-
+    CounterController.Deserialize(m, data)
+    
     m.SaveController.SetLoaded()
 
     return m
