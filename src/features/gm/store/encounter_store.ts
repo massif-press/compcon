@@ -137,8 +137,12 @@ export const EncounterStore = defineStore('encounter', {
       }
     },
 
-    async ArchiveEncounterInstance(payload: EncounterInstance, report: string): Promise<void> {
-      const archive = EncounterArchive.FromInstance(payload, report)
+    async ArchiveEncounterInstance(
+      payload: EncounterInstance,
+      report: string,
+      result: string
+    ): Promise<void> {
+      const archive = EncounterArchive.FromInstance(payload, report, result)
       await this.AddEncounterArchive(archive)
       await this.RemoveEncounterInstance(payload)
       if (this.CurrentActiveID === payload.ID) {

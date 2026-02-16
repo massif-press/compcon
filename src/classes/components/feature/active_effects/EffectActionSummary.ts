@@ -56,6 +56,7 @@ class ActionSummary {
   }
 
   private summarizeDamageEvents(events: any[], perspective: 'initiator' | 'target'): string[] {
+    if (!events || events.length === 0) return []
     return events.map(e => {
       let str = ''
       if (perspective === 'initiator') {
@@ -72,6 +73,7 @@ class ActionSummary {
   }
 
   private summarizeEvents(events: any[], perspective: 'initiator' | 'target'): string[] {
+    if (!events || events.length === 0) return []
     return events.map(e => {
       const eventName = e.StatusName || `${e.ResistType} ${e.Resist}`
       let str = ''
@@ -106,6 +108,7 @@ class ActionSummary {
   }
 
   private summarizeOtherEvents(events: any[], perspective: 'initiator' | 'target'): string[] {
+    if (!events || events.length === 0) return []
     return events.map(e => {
       let str = ''
       if (perspective === 'initiator') {

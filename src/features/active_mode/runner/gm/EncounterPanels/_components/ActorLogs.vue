@@ -20,7 +20,6 @@
         :title="log.title"
         :key="index">
         <div style="font-family: 'Consolas'; font-size: 14px; white-space: pre-wrap;">
-          <!-- {{ JSON.stringify(log, null, 2) }} -->
           {{ log.text }}
         </div>
         <v-btn icon="mdi-content-copy"

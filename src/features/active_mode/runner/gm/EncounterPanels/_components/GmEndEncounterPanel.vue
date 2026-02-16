@@ -126,6 +126,7 @@ export default {
   },
   data: () => ({
     confirm: false,
+    actionReport: [] as any[],
     result: 'PC VICTORY',
     pilotStatusTypes: [
       'COMBAT EFFECTIVE',
@@ -147,38 +148,36 @@ export default {
       'DESTROYED - REACTOR MELTDOWN',
     ],
   }),
-  computed: {
-    actionReport() {
-      const report = [] as any[];
-      for (const c of this.encounterInstance.Combatants) {
-        const actor = c.actor.CombatController.RootActor
-        const out = {
-          id: actor.ID,
-          name: actor.CombatController.CombatName
-        } as any;
-        if (actor.ItemType !== 'Pilot') {
-          out.status = actor.CombatController.IsDestroyed ? 'DESTROYED' : 'OPERATIONAL';
-        } else {
-          out.pilotStatus = 'COMBAT EFFECTIVE'
-          if (actor.IsDead) out.pilotStatus = 'KIA';
-          if (actor.CombatController.StatController.CurrentStats['hp'] !== actor.CombatController.StatController.MaxStats['hp']) out.pilotStatus = 'INJURED';
+  mounted() {
+    const report = [] as any[];
+    for (const c of this.encounterInstance.Combatants) {
+      const actor = c.actor.CombatController.RootActor
+      const out = {
+        id: actor.ID,
+        name: actor.CombatController.CombatName
+      } as any;
+      if (actor.ItemType !== 'Pilot') {
+        out.status = actor.CombatController.IsDestroyed ? 'DESTROYED' : 'OPERATIONAL';
+      } else {
+        out.pilotStatus = 'COMBAT EFFECTIVE'
+        if (actor.IsDead) out.pilotStatus = 'KIA';
+        if (actor.CombatController.StatController.CurrentStats['hp'] !== actor.CombatController.StatController.MaxStats['hp']) out.pilotStatus = 'INJURED';
 
-          const mech = actor.ActiveMech;
-          out.mechStatus = 'MECH OPERATIONAL';
-          if (mech.CombatController.AIControl && mech.CombatController.InCascade) out.mechStatus = 'AI CONTROL - IN CASCADE';
-          if (mech.CombatController.IsDestroyed) out.mechStatus = 'MECH DESTROYED';
-          if (mech.CombatController.ReactorDestroyed) out.mechStatus = 'MECH DESTROYED - REACTOR MELTDOWN';
-        }
-
-        report.push(out);
-
+        const mech = actor.ActiveMech;
+        out.mechStatus = 'MECH OPERATIONAL';
+        if (mech.CombatController.AIControl && mech.CombatController.InCascade) out.mechStatus = 'AI CONTROL - IN CASCADE';
+        if (mech.CombatController.IsDestroyed) out.mechStatus = 'MECH DESTROYED';
+        if (mech.CombatController.ReactorDestroyed) out.mechStatus = 'MECH DESTROYED - REACTOR MELTDOWN';
       }
-      return report;
-    },
+
+      report.push(out);
+
+    }
+    this.actionReport = report;
   },
   methods: {
     end() {
-      EncounterStore().ArchiveEncounterInstance(this.encounterInstance, JSON.stringify(this.actionReport));
+      EncounterStore().ArchiveEncounterInstance(this.encounterInstance, JSON.stringify(this.actionReport, null, 2), this.result);
       this.$router.replace('/active-mode/manage-encounters');
     },
   },

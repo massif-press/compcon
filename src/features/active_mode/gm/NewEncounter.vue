@@ -605,8 +605,6 @@ export default {
       if (!this.encounter) {
         return;
       }
-      // this.encounter.Pilots = this.pilots.map((p) => p.ID);
-      // this.encounter.Placeholders = this.placeholders.map((p) => p.id);
 
       const instance = new EncounterInstance(
         undefined,
