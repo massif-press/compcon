@@ -2,43 +2,51 @@
   <v-container>
     <div class="heading h2">Local Active Encounters</div>
     <cc-alert>
-      <v-icon icon="mdi-information-outline" class="mr-2" />
+      <v-icon icon="mdi-information-outline"
+        class="mr-2" />
       These encounters will only be accessible on this device. Pilot data can be loaded from remote
       sources, but will not push any updates to their owners. For cloud-based and simultaneous
       multiplayer, create a
       <a>Table</a>
       instead.
     </cc-alert>
-    <div
-      v-for="e in encounters"
+    <div v-for="e in encounters"
       style="position: relative"
       class="li-top-element my-2"
       @click="launch(e)">
-      <div class="light" style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
-      <v-row no-gutters class="lighten-select" :class="mobile ? 'mb-2' : 'mb-4'">
-        <v-col cols="auto" style="border: rgb(var(--v-theme-primary)) 3px double">
+      <div class="light"
+        style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
+      <v-row no-gutters
+        class="lighten-select"
+        :class="mobile ? 'mb-2' : 'mb-4'">
+        <v-col cols="auto"
+          style="border: rgb(var(--v-theme-primary)) 3px double">
           <!-- <v-img v-if="e.Encounter.Map" :src="e.Encounter.Map" cover min-height="100%" /> -->
-          <v-img
-            v-if="e.Encounter.Portrait"
+          <v-img v-if="e.Encounter.Portrait"
             :src="e.Encounter.Portrait"
             height="100%"
             width="120px"
             cover />
         </v-col>
         <v-col style="position: relative">
-          <v-toolbar density="compact" class="cToolbar" :height="mobile ? '40' : '46'">
-            <v-row no-gutters align="center" class="px-2">
-              <v-col cols="auto" class="heading text-white">
+          <v-toolbar density="compact"
+            class="cToolbar"
+            :height="mobile ? '40' : '46'">
+            <v-row no-gutters
+              align="center"
+              class="px-2">
+              <v-col cols="auto"
+                class="heading text-white">
                 {{ e.Encounter.Name }}
                 <cc-slashes class="mx-3" />
                 <span class="text-disabled mr-1">ROUND</span>
                 <b>{{ e.Round }}</b>
               </v-col>
-              <v-col cols="auto" class="mr-n2 ml-auto">
+              <v-col cols="auto"
+                class="mr-n2 ml-auto">
                 <v-menu>
                   <template #activator="{ props }">
-                    <v-icon
-                      v-bind="props"
+                    <v-icon v-bind="props"
                       start
                       color="white"
                       @click.stop
@@ -48,11 +56,11 @@
                   </template>
                   <v-card>
                     <v-list>
-                      <v-list-item prepend-icon="mdi-archive" @click="ArchiveEncounter(e)">
+                      <v-list-item prepend-icon="mdi-archive"
+                        @click="ArchiveEncounter(e)">
                         <v-list-item-title>Archive Encounter</v-list-item-title>
                       </v-list-item>
-                      <v-list-item
-                        prepend-icon="mdi-delete"
+                      <v-list-item prepend-icon="mdi-delete"
                         color="error"
                         @click="RemoveEncounter(e)">
                         <v-list-item-title>Delete Encounter</v-list-item-title>
@@ -66,7 +74,8 @@
 
           <div class="px-3 text-cc-overline">
             <v-row class="detail-row">
-              <v-col cols="auto" class="mb-0 pb-0 mt-1">
+              <v-col cols="auto"
+                class="mb-0 pb-0 mt-1">
                 <div>
                   <span class="text-disabled mr-1">
                     CREATED
@@ -100,9 +109,9 @@
                 </div>
               </v-col>
 
-              <v-col cols="12" class="my-0 py-0">
-                <v-chip
-                  v-for="item in e.Pilots"
+              <v-col cols="12"
+                class="my-0 py-0">
+                <v-chip v-for="item in e.Pilots"
                   prepend-icon="cc:pilot"
                   tile
                   variant="elevated"
@@ -115,8 +124,7 @@
                   <span v-if="item.PlayerName">&nbsp;({{ item.PlayerName }})</span>
                 </v-chip>
                 <br />
-                <v-chip
-                  v-for="item in e.Encounter.Combatants"
+                <v-chip v-for="item in e.Encounter.Combatants"
                   size="x-small"
                   tile
                   :color="item.side"
@@ -133,7 +141,10 @@
       </v-row>
     </div>
     <br />
-    <cc-button size="small" block color="primary" :to="'new-encounter'">
+    <cc-button size="small"
+      block
+      color="primary"
+      :to="'new-encounter'">
       Create New Encounter
     </cc-button>
     <br />
@@ -144,15 +155,21 @@
           Archived Encounters ({{ archived.length }})
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <div v-if="archived.length === 0" class="text-center text-cc-overline text-disabled">
+          <div v-if="archived.length === 0"
+            class="text-center text-cc-overline text-disabled">
             <i>No archived encounters</i>
           </div>
-          <v-row v-for="e in archived" class="text-cc-overline" align="center">
-            <v-col cols="auto" style="height: 100%">
+          <v-row v-for="e in archived"
+            class="text-cc-overline"
+            align="center">
+            <v-col cols="auto"
+              style="height: 100%">
               <v-card style="position: relative">
-                <cc-img v-if="e.Encounter.Map" :src="e.Encounter.Map" cover width="120px" />
-                <cc-img
-                  v-else-if="e.Encounter.Portrait"
+                <cc-img v-if="e.Encounter.Map"
+                  :src="e.Encounter.Map"
+                  cover
+                  width="120px" />
+                <cc-img v-else-if="e.Encounter.Portrait"
                   :src="e.Encounter.Portrait"
                   cover
                   width="50px" />
@@ -178,11 +195,16 @@
                 {{ e.Pilots.length }} Pilots / {{ e.Encounter.Combatants.length }} Combatants
               </div>
             </v-col>
-            <v-col cols="auto" class="ml-auto">
-              <v-btn icon variant="text" @click="unarchive(e)">
+            <v-col cols="auto"
+              class="ml-auto">
+              <v-btn icon
+                variant="text"
+                @click="unarchive(e)">
                 <v-icon icon="mdi-undo" />
               </v-btn>
-              <v-btn icon variant="text" @click="deleteEncounter(e)">
+              <v-btn icon
+                variant="text"
+                @click="deleteEncounter(e)">
                 <v-icon icon="mdi-delete" />
               </v-btn>
             </v-col>
@@ -205,9 +227,7 @@ export default {
       );
     },
     archived() {
-      return EncounterStore().ActiveEncounters.filter(
-        (e) => e.IsArchived && !e.SaveController.IsDeleted
-      );
+      return EncounterStore().ArchivedEncounters.filter((e) => !e.SaveController.IsDeleted);
     },
     deleted() {
       return EncounterStore().ActiveEncounters.filter((e) => e.SaveController.IsDeleted);
@@ -262,13 +282,11 @@ export default {
 }
 
 .cToolbar-missing {
-  background: repeating-linear-gradient(
-    45deg,
-    rgb(var(--v-theme-error-darken-2)),
-    rgb(var(--v-theme-error-darken-2)) 10px,
-    rgb(var(--v-theme-error-darken-3)) 10px,
-    rgb(var(--v-theme-error-darken-3)) 20px
-  );
+  background: repeating-linear-gradient(45deg,
+      rgb(var(--v-theme-error-darken-2)),
+      rgb(var(--v-theme-error-darken-2)) 10px,
+      rgb(var(--v-theme-error-darken-3)) 10px,
+      rgb(var(--v-theme-error-darken-3)) 20px);
 }
 
 .light {

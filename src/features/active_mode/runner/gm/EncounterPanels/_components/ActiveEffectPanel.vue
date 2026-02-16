@@ -166,16 +166,7 @@ export default {
       if (this.hideUsed) {
         out = out.filter((ae) => !ae.Applied);
       }
-      out = out.filter((ae) => {
-        if (this.showTypes.includes('passive') && ae.IsPassive) return true;
-        if (this.showTypes.includes('damage') && ae.Damage?.length) return true;
-        if (this.showTypes.includes('status') && ae.AddStatus?.length) return true;
-        if (this.showTypes.includes('save') && !!ae.Save) return true;
-        if (this.showTypes.includes('resistance') && ae.AddResist?.length) return true;
-        if (this.showTypes.includes('special') && ae.AddSpecial?.length) return true;
-        if (this.showTypes.includes('other') && ae.AddOther?.length) return true;
-        return false;
-      });
+
       return out;
     },
     hidden() {

@@ -7,7 +7,8 @@
         <v-col cols="auto"
           class="heading">
           Last Saved:
-          <b class="text-accent ml-1"
+          <b v-if="encounterInstance.SaveController.LastModified > 0"
+            class="text-accent ml-1"
             :key="saveUpdate">
             {{
               new Date(encounterInstance.SaveController.LastModified).toLocaleString(undefined, {
@@ -16,6 +17,8 @@
               })
             }}
           </b>
+          <i v-else
+            class="text-disabled ml-1">Never</i>
         </v-col>
         <v-col cols="auto">
           <cc-button flat

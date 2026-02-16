@@ -4,7 +4,6 @@
       <div class="text-cc-overline text-disabled mt-2">PENDING</div>
     </v-col>
   </v-row>
-
   <v-row v-for="(t, idx) in item.CombatController.TimedEffects"
     dense
     align="center"
@@ -110,6 +109,9 @@ export default {
       required: true,
     },
   },
+  mounted() {
+    console.log(this.item.CombatController.TimedEffects)
+  },
   methods: {
     getRoundsRemaining(effect: TimedEffect) {
       const currentRound = this.encounter.Round
@@ -133,6 +135,11 @@ export default {
             this.item.CombatController.ApplySpecial(s.attribute, s.detail)
           })
         }
+        if (e.resist) {
+          e.resist.forEach(r => {
+            this.item.CombatController.AddResist(r.type, r.value)
+          })
+        }
         if (e.other) {
           if (e.other === 'self_destruct') {
             this.item.CombatController.CommitSelfDestruct()
@@ -145,6 +152,11 @@ export default {
         if (r.status) {
           r.status.forEach(s => {
             this.item.CombatController.RemoveStatus(s)
+          })
+        }
+        if (r.resist) {
+          r.resist.forEach(s => {
+            this.item.CombatController.RemoveResist(s)
           })
         }
         if (r.special) {

@@ -119,6 +119,7 @@
       max-height="80vh"
       max-width="80vw">
       <gm-dice-roller @close="diceDialog = false"
+        :encounter="instance"
         :selected="selected" />
     </v-dialog>
 

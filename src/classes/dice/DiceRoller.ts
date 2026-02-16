@@ -230,6 +230,43 @@ class DiceRoller {
   // this class will make rolls, given all the inputs
   // it makes no evaluation re their success or failure
 
+  public static rollAny(
+    diceString: string,
+    bonus = 0,
+    accuracy = 0,
+    critical?: boolean,
+    overkill?: boolean,
+    reliable?: number
+  ): D20RollResult {
+    const parsedRoll = DiceRoller.parseDiceString(diceString)
+
+    if (!parsedRoll) {
+      return new D20RollResult(0, 0, bonus, accuracy, [], 0)
+    }
+
+    let rawDieTotal = parsedRoll.modifier
+    parsedRoll.dice.forEach(dieSet => {
+      const rollResult = DiceRoller.rollDieSet(dieSet, overkill, critical)
+      rawDieTotal += rollResult.result
+    })
+
+    if (reliable && rawDieTotal < reliable) {
+      rawDieTotal = reliable
+    }
+
+    const accuracyResults = DiceRoller.rollAccuracyDice(accuracy)
+    const total = rawDieTotal + bonus + accuracyResults.result
+
+    return new D20RollResult(
+      total,
+      rawDieTotal,
+      bonus,
+      accuracy,
+      accuracyResults.rolls,
+      accuracyResults.result
+    )
+  }
+
   public static rollSkillCheck(
     staticBonus = 0,
     totalAccuracy = 0,

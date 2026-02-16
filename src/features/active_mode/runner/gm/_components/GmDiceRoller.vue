@@ -1,9 +1,14 @@
 <template>
   <v-card min-height="500px">
-    <v-toolbar flat tile density="compact" color="primary" height="46">
+    <v-toolbar flat
+      tile
+      density="compact"
+      color="primary"
+      height="46">
       <v-toolbar-title class="heading h3">DICE ROLLER</v-toolbar-title>
       <v-spacer />
-      <v-btn icon @click="$emit('close')">
+      <v-btn icon
+        @click="$emit('close')">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
@@ -13,95 +18,185 @@
         <strong v-if="selected">
           {{ actor.Name }}
         </strong>
-        <span v-else class="text-disabled">None</span>
+        <span v-else
+          class="text-disabled">None</span>
       </div>
       <div>
         <div class="text-cc-overline ma-1">Quick Roll:</div>
-        <v-row no-gutters class="px-6">
-          <v-col><v-btn border block tile flat color="primary" size="small">Hull</v-btn></v-col>
-          <v-col><v-btn border block tile flat color="primary" size="small">Agility</v-btn></v-col>
-          <v-col><v-btn border block tile flat color="primary" size="small">Systems</v-btn></v-col>
+        <v-row no-gutters
+          class="px-6">
+          <v-col><v-btn border
+              block
+              tile
+              flat
+              color="primary"
+              size="small"
+              @click="setCheck('Hull')">Hull Check</v-btn></v-col>
+          <v-col><v-btn border
+              block
+              tile
+              flat
+              color="primary"
+              size="small"
+              @click="setCheck('Agi')">Agility Check</v-btn></v-col>
+          <v-col><v-btn border
+              block
+              tile
+              flat
+              color="primary"
+              size="small"
+              @click="setCheck('Sys')">Systems Check</v-btn></v-col>
           <v-col>
-            <v-btn border block tile flat color="primary" size="small">Engineering</v-btn>
+            <v-btn border
+              block
+              tile
+              flat
+              color="primary"
+              size="small"
+              @click="setCheck('Eng')">Engineering Check</v-btn>
           </v-col>
-          <v-col cols="auto" style="width: 20px"><v-divider vertical /></v-col>
-          <v-col>
-            <v-btn border block tile flat color="primary" size="small">Melee Attack</v-btn>
-          </v-col>
-          <v-col>
-            <v-btn border block tile flat color="primary" size="small">Ranged Attack</v-btn>
-          </v-col>
-          <v-col>
-            <v-btn border block tile flat color="primary" size="small">Tech Attack</v-btn>
-          </v-col>
+
         </v-row>
       </div>
     </div>
-    <v-divider class="my-2" />
+    <v-divider v-if="selected"
+      class="my-2" />
     <v-card-text class="pb-0">
       <v-row dense>
         <v-col cols="auto">
-          <div>
-            <v-row v-for="(die, index) in diceToRoll" dense align="center" class="mb-2">
-              <v-col cols="auto" style="width: 40px">
-                <span class="heading h3 text-accent pr-2">{{ index + 1 }}</span>
-              </v-col>
-              <v-col cols="auto" style="width: 110px">
-                <v-select
-                  v-model="die.type"
-                  :items="diceTypes"
-                  tile
-                  label="Die"
-                  variant="outlined"
-                  density="compact"
-                  hide-details />
-              </v-col>
-              <v-col cols="auto" style="width: 110px">
-                <v-text-field
-                  v-model="die.bonus"
-                  type="number"
-                  tile
-                  :label="`Bonus`"
-                  variant="outlined"
-                  density="compact"
-                  hide-details
-                  min="-100"
-                  max="100" />
-              </v-col>
-              <v-col cols="auto" style="width: 110px">
-                <v-text-field
-                  v-model="die.accuracy"
-                  type="number"
-                  :label="`Acc/Diff`"
-                  variant="outlined"
-                  density="compact"
-                  tile
-                  hide-details
-                  min="-100"
-                  max="100" />
-              </v-col>
-              <v-col cols="auto">
-                <v-btn icon size="x-small" variant="text" color="error" @click="removeDie(index)">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-          </div>
-          <v-btn
-            size="x-small"
-            block
-            flat
-            tile
-            color="primary"
-            class="my-1"
-            prepend-icon="mdi-plus"
-            @click="addDie">
-            Add Die
-          </v-btn>
+
+          <v-card class="text-text text-cc-overline"
+            style="overflow-x: hidden; max-width: 600px;"
+            border>
+            <v-card-text class="pa-2">
+              <v-row dense
+                align="center">
+                <v-col>
+                  <div class="text-cc-overline text-disabled">Count</div>
+                  <v-text-field v-model="count"
+                    density="compact"
+                    variant="outlined"
+                    type="number"
+                    hide-spin-buttons
+                    flat
+                    hide-details
+                    tile />
+                </v-col>
+                <v-col>
+                  <div class="text-cc-overline text-disabled">Die</div>
+                  <v-select v-model="die"
+                    :items="dice"
+                    density="compact"
+                    variant="outlined"
+                    type="number"
+                    flat
+                    min-width="100"
+                    hide-details
+                    tile>
+                    <template #prepend-inner>
+                      <v-icon icon=mdi-alpha-d />
+                    </template>
+                  </v-select>
+                </v-col>
+                <v-col>
+                  <div class="text-cc-overline text-disabled">Bonus</div>
+                  <v-text-field v-model="plus"
+                    density="compact"
+                    variant="outlined"
+                    type="number"
+                    hide-spin-buttons
+                    flat
+                    hide-details
+                    tile>
+                    <template #prepend-inner>
+                      <v-icon icon=mdi-plus />
+                    </template>
+                  </v-text-field>
+                </v-col>
+                <v-col>
+                  <div class="text-cc-overline text-disabled">Accuracy</div>
+                  <v-text-field v-model="accuracy"
+                    density="compact"
+                    variant="outlined"
+                    type="number"
+                    hide-spin-buttons
+                    flat
+                    hide-details
+                    tile
+                    max-width="140"
+                    @update:model-value="accuracy = Number($event)">
+                    <template #prepend>
+                      <v-tooltip location="top">
+                        <template #activator="{ props }">
+                          <v-icon class="mr-n3"
+                            v-bind="props"
+                            size="x-large"
+                            color="accent"
+                            :icon="accuracy > 0 ? 'cc:accuracy' : 'cc:difficulty'" />
+                        </template>
+                      </v-tooltip>
+                    </template>
+                    <template #prepend-inner>
+                      <v-btn flat
+                        tile
+                        icon
+                        size="x-small"
+                        class="ml-n2"
+                        @click="accuracy--">
+                        <v-icon size="20"
+                          icon="mdi-minus" />
+                      </v-btn>
+                    </template>
+                    <template #append-inner>
+                      <v-btn flat
+                        tile
+                        icon
+                        size="x-small"
+                        class="mr-n2"
+                        @click="accuracy++">
+                        <v-icon size="20"
+                          icon="mdi-plus" />
+                      </v-btn>
+                    </template>
+                  </v-text-field>
+                </v-col>
+              </v-row>
+
+              <div class="mt-2 mb-4">
+                <cc-switch v-model="isCrit"
+                  label="Critical"
+                  class="mt-2"
+                  tooltip="Roll all dice, taking the best result" />
+                <cc-switch v-model="Overkill"
+                  label="Overkill"
+                  class="mt-2"
+                  tooltip="Re-roll 1s" />
+              </div>
+
+              <v-btn size="x-small"
+                flat
+                tile
+                block
+                color="panel"
+                class="mt-1"
+                @click="reset()">RESET</v-btn>
+
+              <v-btn flat
+                tile
+                class="mt-2"
+                color="primary"
+                size="small"
+                block
+                @click="rollDice()">
+                Roll
+              </v-btn>
+
+            </v-card-text>
+          </v-card>
+
           <v-divider class="my-4" />
           <div>
-            <cc-button
-              color="success"
+            <cc-button color="success"
               size="small"
               block
               @click="rollDice"
@@ -112,55 +207,26 @@
             </cc-button>
           </div>
         </v-col>
-        <v-divider vertical class="mx-1" />
+        <v-divider vertical
+          class="mx-1" />
         <v-col class="mt-n2">
           <div class="text-cc-overline">Roll Result</div>
-          <div v-if="rollResults.length">
+          <div v-if="lastRoll !== null">
             <div class="text-center my-2 bg-primary heading h1">
-              {{ sumResults }}
+              {{ lastRoll }}
             </div>
             <div class="text-center">
-              <v-tooltip v-for="(result, index) in rollResults">
-                <template #activator="{ props }">
-                  <v-chip
-                    v-bind="props"
-                    class="text-cc-overline mb-1 mx-1"
-                    :title="sumResults"
-                    size="small">
-                    <v-icon :icon="`mdi-dice-${result.type}`" size="large" class="ml-n1 mr-1" />
-                    {{ result.total }}
-                  </v-chip>
-                </template>
-                <span class="text-cc-overline">
-                  <b>{{ result.type }}</b>
-                  <span v-if="result.accuracy !== 0">
-                    &mdash;
-                    {{ Math.abs(result.accuracy) }}
-                    {{ result.accuracy > 0 ? 'Accuracy' : 'Difficulty' }}
-                  </span>
-                  <v-divider class="mt-1 mb-2" />
-
-                  <div>
-                    rolled
-                    <span v-html="rollResultFormat(result.rolls, result.roll)" />
-                  </div>
-
-                  + {{ result.bonus }} Bonus
-                  <br />
-                  =
-                  {{ result.total }}
-                </span>
-              </v-tooltip>
+              <span v-html-safe="lastRollString" />
             </div>
           </div>
-          <div v-else class="text-caption text-disabled">No rolls yet.</div>
+          <div v-else
+            class="text-caption text-disabled">No rolls yet.</div>
           <v-divider class="my-2" />
-          <div class="text-cc-overline mb-2">History</div>
+          <div class="text-cc-overline mb-2">Session History</div>
           <div style="max-height: 300px; overflow-y: scroll">
-            <div
-              v-for="n in history.length"
+            <div v-for="n in encounter.RollHistory"
               class="text-cc-overline bg-panel mb-1 pa-1"
-              v-html="history[history.length - n]" />
+              v-html="n" />
           </div>
         </v-col>
       </v-row>
@@ -169,6 +235,10 @@
 </template>
 
 <script>
+import { DiceRoller } from '@/class';
+import DiceRollInterface from '@/ui/components/chips/_activeeffect/_shared/DiceRollInterface.vue';
+import { last, set } from 'lodash';
+
 export default {
   name: 'GmDiceRoller',
   props: {
@@ -176,65 +246,41 @@ export default {
       type: Object,
       default: false,
     },
+    encounter: {
+      type: Object,
+      required: true,
+    }
+  },
+  components: {
+    DiceRollInterface
   },
   data: () => ({
     diceToRoll: [{ type: 'd20', accuracy: 0, bonus: 0 }],
-    rollResults: [],
-    history: [],
-    diceTypes: ['d2', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'],
+    lastRoll: null,
+    lastRollString: '',
+    dice: [2, 3, 4, 6, 8, 10, 12, 20, 100],
+    count: 1,
+    die: '20',
+    plus: 0,
+    isCrit: false,
+    Overkill: false,
+    accuracy: 0,
+    rollResult: null,
+    rollType: '',
   }),
   computed: {
-    sumResults() {
-      return this.rollResults.reduce((acc, result) => acc + result.total, 0);
-    },
     actor() {
       return this.selected ? this.selected.actor : null;
     },
   },
   methods: {
-    addDie() {
-      this.diceToRoll.push({ type: 'd20', accuracy: 0, bonus: 0 });
-    },
-    removeDie(index) {
-      if (this.diceToRoll.length > 1) {
-        this.diceToRoll.splice(index, 1);
-      }
-    },
-    addRollResult() {
-      this.rollResults.push(0);
-    },
-    removeRollResult(index) {
-      if (this.rollResults.length > 0) {
-        this.rollResults.splice(index, 1);
-      }
-    },
-    rollDice() {
-      const results = [];
-      this.diceToRoll.forEach((die) => {
-        let rolls = [];
-        for (let i = 0; i < Math.abs(die.accuracy) + 1; i++) {
-          rolls.push(Math.floor(Math.random() * parseInt(die.type.replace('d', ''))) + 1);
-        }
-        const selected = die.accuracy > 0 ? Math.max(...rolls) : Math.min(...rolls);
-
-        const total = selected + Number(die.bonus);
-
-        results.push({
-          type: die.type,
-          bonus: die.bonus,
-          rolls,
-          roll: selected,
-          accuracy: die.accuracy,
-          total: Number(total),
-        });
-      });
-
-      if (this.rollResults.length) {
-        this.history.push(
-          `${this.rollResults.map((result) => result.total).join(' + ')} = <b class='text-accent'>${this.sumResults}</b>`
-        );
-      }
-      this.rollResults = results;
+    reset() {
+      this.count = 1;
+      this.die = '20';
+      this.plus = 0;
+      this.accuracy = 0;
+      this.isCrit = false;
+      this.Overkill = false;
     },
     rollResultFormat(roll, selected) {
       if (roll.length > 1) {
@@ -253,8 +299,48 @@ export default {
       }
       return `<b class='text-accent'>${roll[0]}</b>`;
     },
-    clearRolls() {
-      this.rollResults = [];
+    setCheck(type) {
+      this.count = 1;
+      this.die = '20';
+      this.plus = this.actor.CombatController.getCheckBonus(type);
+      this.accuracy = 0;
+      this.isCrit = false;
+      this.Overkill = false;
+      this.rollType = `${type.toUpperCase()} CHECK`;
+      this.rollDice();
+    },
+
+    rollDice() {
+      const diceValue = this.count && this.die ? `${this.count}d${this.die}+${this.plus || 0}` : 0;
+
+      const isAcc = this.accuracy > -1;
+
+      this.rollResult = DiceRoller.rollAny(
+        diceValue,
+        this.bonus,
+        this.accuracy,
+        this.isCrit,
+        this.Overkill,
+        0
+      );
+
+      this.lastRollString = `${this.rollType ? ` [${this.rollType}] ` : ''}${this.rollResult.toString()}`
+      this.lastRoll = this.rollResult.total;
+
+      let str = this.actor ? `<b>${this.actor.CombatController.CombatName}</b> rolled: ` : 'GM Rolled: ';
+      str += `(${diceValue}) `;
+      if (this.accuracy) {
+        str += ` [${isAcc ? '+' : '-'}${this.accuracy} ${isAcc ? 'ACC' : 'DIFF'}]`;
+      }
+      if (this.isCrit) {
+        str += ' [CRIT]';
+      }
+      if (this.Overkill) {
+        str += ' [OVERKILL]';
+      }
+      str += ` ${this.lastRollString}`;
+      this.encounter.RollHistory.unshift(str);
+      this.rollType = '';
     },
   },
 };

@@ -619,6 +619,7 @@ export default {
       instance.Combatants.forEach(c => {
         c.actor.SetStats()
         c.actor.CombatController.Reset()
+        c.actor.CombatController.StartEncounter()
       });
 
       await EncounterStore().AddEncounterInstance(instance);

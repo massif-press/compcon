@@ -7,7 +7,11 @@ import { ICounterContainer } from './counters/ICounterContainer'
 import { IStatContainer } from './stats/IStatContainer'
 import { Status } from '@/classes/Status'
 import { ActiveEffect } from '../feature/active_effects/ActiveEffect'
-import { ITimedEffectData, TimedEffect } from '../feature/active_effects/TimedEffect'
+import {
+  ITimedEffectAction,
+  ITimedEffectData,
+  TimedEffect,
+} from '../feature/active_effects/TimedEffect'
 import _ from 'lodash'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import {
@@ -125,7 +129,6 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get Grit(): number {
-    console.log(this.RootActor.Grit)
     return this.RootActor.Grit || 0
   }
 
@@ -430,6 +433,30 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
+  public AddResist(type: string, condition?: string): void {
+    condition = condition?.toLowerCase() || 'vulnerable'
+
+    const existingIndex = this.ActiveActor.CombatController.Resistances.findIndex(
+      s => s.type === type
+    )
+    if (existingIndex === -1) {
+      this.ActiveActor.CombatController.Resistances.push({ type, condition })
+      this.log(`Gained ${type} ${condition}`)
+    } else if (condition) {
+      this.ActiveActor.CombatController.Resistances[existingIndex].condition = condition
+    }
+  }
+
+  public RemoveResist(type: string): void {
+    type = type.toLowerCase()
+    const existingIndex = this.ActiveActor.CombatController.Resistances.findIndex(
+      s => s.type === type
+    )
+    if (existingIndex > -1) {
+      this.Resistances.splice(existingIndex, 1)
+    }
+  }
+
   public GetResistance(damageType: string): string {
     const resist = this.ActiveActor.CombatController.Resistances.find(
       r => r.type === damageType.toLowerCase()
@@ -520,6 +547,12 @@ class CombatController implements ICounterContainer, IStatContainer {
         `Increased overcharge to level ${this.OverchargeLevel} (${this.OverchargeCost} Heat)`
       )
     }
+  }
+
+  public getCheckBonus(type: 'Hull' | 'Agi' | 'Sys' | 'Eng'): number {
+    if (this.Parent instanceof Pilot) {
+      return this.Parent.ActiveMech![type]
+    } else return this.StatController.MaxStats[type.toLowerCase()] || 0
   }
 
   // these are split out to furnish UI with more detailed breakdowns
@@ -688,26 +721,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
-  // public ApplyStatus(
-  //   status: Status,
-  //   expires: string,
-  //   owner: CombatController,
-  //   target: CombatController,
-  //   encounter: EncounterInstance
-  // ): void {
-  //   if (this.SaveLock) return
-  //   if (!status) return
-  //   const expirationObj = new expiration(expires, owner, target, encounter)
-  //   const existingIndex = this.ActiveActor.CombatController.Statuses.findIndex(
-  //     s => s.status.ID === status.ID
-  //   )
-  //   if (existingIndex === -1) {
-  //     this.ActiveActor.CombatController.Statuses.push({ status, expires: expirationObj })
-  //   } else {
-  //     this.ActiveActor.CombatController.Statuses[existingIndex].expires.Raw = expires
-  //   }
-  // }
-
   public RemoveStatus(statusID: string): void {
     const existingIndex = this.ActiveActor.CombatController.Statuses.findIndex(
       s => s.status.ID === statusID
@@ -738,6 +751,16 @@ class CombatController implements ICounterContainer, IStatContainer {
     } else {
       this.ActiveActor.CombatController.CustomStatuses[existingIndex].expires.Raw = expires
     }
+  }
+
+  public HasCustomStatus(attribute: string): boolean {
+    return this.ActiveActor.CombatController.CustomStatuses.some(
+      s => s.status.Attribute === attribute
+    )
+  }
+
+  public get InCascade(): boolean {
+    return this.HasCustomStatus('In Cascade')
   }
 
   public RemoveCustomStatus(attribute: string): void {
@@ -811,6 +834,49 @@ class CombatController implements ICounterContainer, IStatContainer {
     currentActorID: string
   ): { status: Status; expires: expiration }[] {
     return this.Statuses.filter(s => s.expires.HasExpired(currentRound, currentActorID, this.Turn))
+  }
+
+  public StartEncounter(): void {
+    const selfApplied = this.ActiveEffects.filter(ae => ae.InitialSelfApplied)
+
+    if (selfApplied.length > 0) {
+      selfApplied.forEach(ae => {
+        if (!ae.Duration || ae.Duration === 'encounter' || ae.Duration === 'End of Encounter') {
+          this._setTimedFromActiveEffect(ae)
+        }
+      })
+    }
+  }
+
+  private _setTimedFromActiveEffect(ae: ActiveEffect): void {
+    let apply = {} as ITimedEffectAction
+    if (ae.AddResist.length)
+      apply.resist = ae.AddResist.map(x => ({ type: x.Resist, value: x.ResistType }))
+    if (ae.AddSpecial.length)
+      apply.special = ae.AddSpecial.map(x => ({ attribute: x.Attribute, detail: x.Detail }))
+    if (ae.AddSpecial.length) apply.status = ae.AddStatus.map(x => x.Status.ID)
+
+    this.TimedEffects.push(
+      new TimedEffect({
+        name: ae.Name,
+        origin: ae.Origin.Name,
+        detail: ae.Detail,
+        round: this.Round,
+        apply,
+      })
+    )
+  }
+
+  public StartRound(): void {
+    const selfApplied = this.ActiveEffects.filter(ae => ae.InitialSelfApplied)
+
+    if (selfApplied.length > 0) {
+      selfApplied.forEach(ae => {
+        if (ae.Duration === 'turn' || ae.Duration === 'End of Turn') {
+          this._setTimedFromActiveEffect(ae)
+        }
+      })
+    }
   }
 
   public EndRound(encounter): void {
@@ -903,6 +969,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     this.Round++
     this.CombatLog.EndRound()
+    this.StartRound()
   }
 
   public Reset(): void {

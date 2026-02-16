@@ -19,7 +19,7 @@
     tile
     class="pa-2">
     <v-row class="pr-4">
-      <v-col v-if="item.Portrait"
+      <v-col v-if="item.Portrait && showImage"
         cols="auto">
         <cc-img width="155px"
           height="100%"
@@ -457,6 +457,9 @@ export default {
     },
   },
   computed: {
+    showImage() {
+      return this.$vuetify.display.mdAndUp;
+    },
     currentIcon() {
       return this.batteryIcons[this.index];
     },

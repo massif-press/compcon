@@ -1,7 +1,7 @@
-import logger from '@/user/logger';
-import localforage from 'localforage';
+import logger from '@/user/logger'
+import localforage from 'localforage'
 
-const dbName = 'COMPCON Persistent';
+const dbName = 'COMPCON Persistent'
 
 const storeRegistry = {
   pilot_groups: localforage.createInstance({
@@ -44,6 +44,11 @@ const storeRegistry = {
     storeName: 'active_encounters',
     description: 'Stores Active Encounter data',
   }),
+  encounter_archives: localforage.createInstance({
+    name: dbName,
+    storeName: 'encounter_archives',
+    description: 'Stores Active Encounter archive data',
+  }),
   npcs: localforage.createInstance({
     name: dbName,
     storeName: 'npcs',
@@ -69,102 +74,102 @@ const storeRegistry = {
     storeName: 'settings',
     description: 'Stores application settings',
   }),
-};
+}
 
 const Initialize = async function () {
   localforage.config({
     name: dbName,
-  });
+  })
   // await convertLocalstorage();
-};
+}
 
 const SetValue = async function (key: string, value: any) {
-  return await storeRegistry['settings'].setItem(key, JSON.stringify(value));
-};
+  return await storeRegistry['settings'].setItem(key, JSON.stringify(value))
+}
 
 const GetValue = async function (key: string): Promise<any> {
-  const item = (await storeRegistry['settings'].getItem(key)) as string;
-  return JSON.parse(item);
-};
+  const item = (await storeRegistry['settings'].getItem(key)) as string
+  return JSON.parse(item)
+}
 
 const SetItem = async function (collection: string, item: any) {
   if (typeof item === 'string') {
-    const sr = await storeRegistry[collection.toLowerCase()];
-    sr.setItem(item, item);
-    return;
+    const sr = await storeRegistry[collection.toLowerCase()]
+    sr.setItem(item, item)
+    return
   }
 
-  let save = true;
-  let id = item.ID ? item.ID : item.sortkey ? item.sortkey : item.id;
+  let save = true
+  let id = item.ID ? item.ID : item.sortkey ? item.sortkey : item.id
 
   if (item.SaveController) {
-    save = item.SaveController.IsDirty;
+    save = item.SaveController.IsDirty
   }
 
-  if (!save) return;
+  if (!save) return
 
-  storeRegistry[collection.toLowerCase()].setItem(id, JSON.stringify(item));
-};
+  storeRegistry[collection.toLowerCase()].setItem(id, JSON.stringify(item))
+}
 
 const GetItem = async function (collection: string, id: string) {
-  const item = await storeRegistry[collection.toLowerCase()].getItem(id);
-  return JSON.parse(item);
-};
+  const item = await storeRegistry[collection.toLowerCase()].getItem(id)
+  return JSON.parse(item)
+}
 
 const RemoveItem = async function (collection: string, id: string) {
-  return await storeRegistry[collection.toLowerCase()].removeItem(id);
-};
+  return await storeRegistry[collection.toLowerCase()].removeItem(id)
+}
 
 const GetAll = async function (collection: string) {
-  const output = [] as any[];
-  if (!storeRegistry[collection.toLowerCase()]) return output;
+  const output = [] as any[]
+  if (!storeRegistry[collection.toLowerCase()]) return output
 
   await storeRegistry[collection.toLowerCase()]
     .iterate(function (value: any) {
-      output.push(JSON.parse(value));
+      output.push(JSON.parse(value))
     })
     .catch(function (err) {
-      logger.error('Error getting collection data', {}, err);
-    });
-  return output;
-};
+      logger.error('Error getting collection data', {}, err)
+    })
+  return output
+}
 
 const SetAll = async function (collection: string, items: any[]) {
-  const db = await storeRegistry[collection.toLowerCase()];
-  await db.clear();
+  const db = await storeRegistry[collection.toLowerCase()]
+  await db.clear()
 
-  const promises = items.map((item) => SetItem(collection, item));
-  await Promise.all(promises);
-};
+  const promises = items.map(item => SetItem(collection, item))
+  await Promise.all(promises)
+}
 
 const ClearAll = async function (collection: string) {
-  const db = await storeRegistry[collection.toLowerCase()];
-  return await db.clear();
-};
+  const db = await storeRegistry[collection.toLowerCase()]
+  return await db.clear()
+}
 
 const GetLength = async function (collection: string) {
-  const db = await storeRegistry[collection.toLowerCase()];
+  const db = await storeRegistry[collection.toLowerCase()]
 
-  if (db) return await db.length();
-  return 0;
-};
+  if (db) return await db.length()
+  return 0
+}
 
 const GetKeys = async function (collection: string) {
-  const db = await storeRegistry[collection.toLowerCase()];
+  const db = await storeRegistry[collection.toLowerCase()]
 
-  if (db) return await db.keys();
-  return [];
-};
+  if (db) return await db.keys()
+  return []
+}
 
 const AddBlob = async function (collection: string, key: string, blob: Blob) {
-  const db = await storeRegistry[collection.toLowerCase()];
-  return await db.setItem(key, blob);
-};
+  const db = await storeRegistry[collection.toLowerCase()]
+  return await db.setItem(key, blob)
+}
 
 const GetBlob = async function (collection: string, key: string) {
-  const db = await storeRegistry[collection.toLowerCase()];
-  return await db.getItem(key);
-};
+  const db = await storeRegistry[collection.toLowerCase()]
+  return await db.getItem(key)
+}
 
 // const convertLocalstorage = async function (): Promise<void> {
 //   // TODO
@@ -191,4 +196,4 @@ export {
   ClearAll,
   SetValue,
   GetValue,
-};
+}
