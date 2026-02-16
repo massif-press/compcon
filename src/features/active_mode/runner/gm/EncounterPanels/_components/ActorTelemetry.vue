@@ -114,6 +114,8 @@
 </template>
 
 <script lang="ts">
+import { CombatLog } from '@/classes/components/combat/CombatLog';
+
 export default {
   name: 'ActorLogs',
   props: {
@@ -135,27 +137,7 @@ export default {
     summary() {
       const t = this.actor.CombatController.CombatLog.Telemetry;
       let out = `${this.actor.CombatController.CombatName} - Round ${this.encounter.Round - 1}\n\n`;
-      out += `Rounds: ${t.rounds} (${t.rounds_mounted} mounted, ${t.rounds_dismounted} unmounted)\n`;
-      out += `Movement: ${t.movement} spaces (${t.pilot_movement} unmounted)\n`;
-      if (this.enableJustify) {
-        out += `\n${this.justify(['Damage', 'Dealt', 'Taken'])}\n`
-        for (const e in t.damage) {
-          out += `${this.justify([e.toUpperCase(), t.damage[e].gained.toString(), t.damage[e].lost.toString()])}\n`
-        };
-        out += `\n${this.justify(['Stat', 'Gain', 'Loss'])}\n`
-        for (const e in t.stats) {
-          out += `${this.justify([e.toUpperCase(), t.stats[e].gained.toString(), t.stats[e].lost.toString()])}\n`
-        };
-      } else {
-        out += `\n`
-        for (const e in t.damage) {
-          out += `${e.toUpperCase()}: +${t.damage[e].gained} / -${t.damage[e].lost}\n`
-        };
-        out += `\n`
-        for (const e in t.stats) {
-          out += `${e.toUpperCase()}: +${t.stats[e].gained} / -${t.stats[e].lost}\n`
-        };
-      }
+      out += CombatLog.FormatTelemetry(t, this.enableJustify, this.lineWidth);
 
       return out
     }
@@ -164,32 +146,6 @@ export default {
     copyContent(entry) {
       if (!entry) return;
       navigator.clipboard.writeText(this.summary);
-    },
-    justify(arr) {
-      if (!this.enableJustify) return arr.filter(x => x.length).join('   ');
-      if (!arr.length) return "";
-
-      const cols = arr.length;
-
-      const step = this.lineWidth / cols;
-      const starts = [] as number[];
-
-      for (let i = 0; i < cols; i++) {
-        starts.push(Math.floor(i * step));
-      }
-
-      let line = Array(this.lineWidth).fill(" ");
-
-      for (let i = 0; i < cols; i++) {
-        const start = starts[i];
-        const text = arr[i];
-
-        for (let j = 0; j < text.length && start + j < this.lineWidth; j++) {
-          line[start + j] = text[j];
-        }
-      }
-
-      return line.join("");
     },
     exportLog(type: 'text' | 'json' = 'text') {
       let out;

@@ -311,8 +311,50 @@ class MechWeapon extends MechEquipment {
     )
   }
 
+  public get Range(): Range[] {
+    if (this._custom_range) return this._custom_range.map(x => new Range(x))
+
+    if (!this.Mod?.AddedRange) return this.SelectedProfile.Range || []
+
+    let ranges = [...(this.SelectedProfile.Range || []), ...(this.Mod?.AddedRange || [])]
+    // add ranges of same type together
+    const combined: Range[] = []
+    ranges.forEach(r => {
+      const existing = combined.find(c => c.Type === r.Type)
+      if (existing) {
+        existing.Value = Number(existing.Value) + Number(r.Value)
+      } else {
+        combined.push(new Range(Range.Serialize(r)))
+      }
+    })
+    return combined
+  }
+
   public get Damage(): Damage[] {
-    return [...(this.SelectedProfile.Damage || []), ...(this.Mod?.AddedDamage || [])]
+    if (!this.Mod?.AddedDamage) return this.SelectedProfile.Damage || []
+
+    let damages = [...(this.SelectedProfile.Damage || []), ...(this.Mod?.AddedDamage || [])]
+    // add Damages of same type together
+    const combined: Damage[] = []
+    damages.forEach(r => {
+      const existing = combined.find(c => c.Type === r.Type)
+      if (existing) {
+        // combine xdy dicemath:
+        if (typeof existing._raw_value === 'string' && typeof r._raw_value === 'string') {
+          const [existingQty, existingDie] = existing._raw_value.split('d').map(Number)
+          const [rQty, rDie] = r._raw_value.split('d').map(Number)
+          if (existingDie === rDie) {
+            existing._raw_value = `${existingQty + rQty}d${existingDie}`
+          } else {
+            // different dice, just add them together as a string (e.g. "2d6 + 1d8")
+            existing._raw_value = `${existing._raw_value} + ${r._raw_value}`
+          }
+        }
+      } else {
+        combined.push(new Damage(Damage.Serialize(r)))
+      }
+    })
+    return combined
   }
 
   public get MaxDamage(): number {
@@ -411,11 +453,6 @@ class MechWeapon extends MechEquipment {
       return this.Mod.AddedDamage[0].Type
     }
     return null
-  }
-
-  public get Range(): Range[] {
-    if (this._custom_range) return this._custom_range.map(x => new Range(x))
-    return this.SelectedProfile.Range || []
   }
 
   public get RangeType(): RangeType[] {

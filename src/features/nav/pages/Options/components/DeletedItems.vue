@@ -1,14 +1,14 @@
 <template>
   <div>
-    <v-alert
-      v-if="!items.length"
+    <v-alert v-if="!items.length"
       variant="outlined"
       class="text-center"
       color="subtle"
       density="compact">
       <span>No items found</span>
     </v-alert>
-    <v-table v-if="items.length" class="text-left pa-2">
+    <v-table v-if="items.length"
+      class="text-left pa-2">
       <thead>
         <tr>
           <th>Item Type</th>
@@ -21,11 +21,11 @@
       <tbody>
         <tr v-for="item in items">
           <td>{{ item.ItemType.toUpperCase() }}</td>
-          <td>{{ item.Name }}{{ (item as any).Callsign ? ` (${(item as any).Callsign})` : '' }}</td>
+          <td>{{ item.Name }} {{ (item as any).Callsign ? ` (${(item as any).Callsign})` : '' }}
+          </td>
           <td>{{ item.SaveController.DeleteTimeFormatted }}</td>
           <td class="text-right">
-            <v-btn
-              color="accent"
+            <v-btn color="accent"
               variant="plain"
               size="small"
               @click="item.SaveController.Restore()">
@@ -33,7 +33,10 @@
             </v-btn>
           </td>
           <td class="text-right">
-            <v-btn color="error" variant="plain" size="small" @click="permanentlyDelete(item)">
+            <v-btn color="error"
+              variant="plain"
+              size="small"
+              @click="permanentlyDelete(item)">
               Permanently Delete
             </v-btn>
           </td>
@@ -44,8 +47,7 @@
         <tr>
           <td colspan="3" />
           <td>
-            <v-btn
-              size="small"
+            <v-btn size="small"
               variant="tonal"
               :loading="loading"
               color="accent"
@@ -54,8 +56,7 @@
             </v-btn>
           </td>
           <td>
-            <v-btn
-              size="small"
+            <v-btn size="small"
               variant="tonal"
               :loading="loading"
               color="error"
@@ -85,6 +86,7 @@ export default {
         ...PilotStore().Pilots.filter((x) => x.SaveController.IsDeleted),
         ...PilotStore().PilotGroups.filter((x) => x.SaveController.IsDeleted),
         ...EncounterStore().Encounters.filter((x) => x.SaveController.IsDeleted),
+        ...EncounterStore().ArchivedEncounters.filter((x) => x.SaveController.IsDeleted),
         ...CampaignStore().Campaigns.filter((x) => x.SaveController.IsDeleted),
       ];
     },
@@ -107,6 +109,9 @@ export default {
           break;
         case 'encounter':
           await EncounterStore().DeleteEncounterPermanent(item);
+          break;
+        case 'encounterarchive':
+          await EncounterStore().RemoveEncounterArchive(item);
           break;
         case 'campaign':
           await CampaignStore().DeleteCampaign(item);

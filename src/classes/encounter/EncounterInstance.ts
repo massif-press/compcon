@@ -5,7 +5,6 @@ import { PilotData } from '@/interface'
 import { Deployable, Pilot } from '@/class'
 import { Placeholder } from './Placeholder'
 import { DeployableInstance } from '../components/feature/deployable/DeployableInstance'
-import { ActionSummary } from '../components/feature/active_effects/EffectActionSummary'
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance'

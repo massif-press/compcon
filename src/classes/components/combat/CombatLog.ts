@@ -243,6 +243,59 @@ class CombatLog {
     this.mergeTelemetryData(this.Telemetry, this._telemetryCache)
     this._telemetryCache = getBlankTelemetry()
   }
+
+  public static FormatTelemetry(t: TelemetryData, justify: boolean, lineWidth: number): string {
+    let out = `Rounds: ${t.rounds} (${t.rounds_mounted} mounted, ${t.rounds_dismounted} unmounted)\n`
+    out += `Movement: ${t.movement} spaces (${t.pilot_movement} unmounted)\n`
+    if (justify) {
+      out += `\n${this.justify(['Damage', 'Dealt', 'Taken'], justify, lineWidth)}\n`
+      for (const e in t.damage) {
+        out += `${this.justify([e.toUpperCase(), t.damage[e].gained.toString(), t.damage[e].lost.toString()], justify, lineWidth)}\n`
+      }
+      out += `\n${this.justify(['Stat', 'Gain', 'Loss'], justify, lineWidth)}\n`
+      for (const e in t.stats) {
+        out += `${this.justify([e.toUpperCase(), t.stats[e].gained.toString(), t.stats[e].lost.toString()], justify, lineWidth)}\n`
+      }
+    } else {
+      out += `\n`
+      for (const e in t.damage) {
+        out += `${e.toUpperCase()}: +${t.damage[e].gained} / -${t.damage[e].lost}\n`
+      }
+      out += `\n`
+      for (const e in t.stats) {
+        out += `${e.toUpperCase()}: +${t.stats[e].gained} / -${t.stats[e].lost}\n`
+      }
+    }
+
+    return out
+  }
+
+  private static justify(arr, justify = true, lineWidth = 40): string {
+    if (!justify) return arr.filter(x => x.length).join('   ')
+    if (!arr.length) return ''
+
+    const cols = arr.length
+
+    const step = lineWidth / cols
+    const starts = [] as number[]
+
+    for (let i = 0; i < cols; i++) {
+      starts.push(Math.floor(i * step))
+    }
+
+    let line = Array(lineWidth).fill(' ')
+
+    for (let i = 0; i < cols; i++) {
+      const start = starts[i]
+      const text = arr[i]
+
+      for (let j = 0; j < text.length && start + j < lineWidth; j++) {
+        line[start + j] = text[j]
+      }
+    }
+
+    return line.join('')
+  }
 }
 
 export { CombatLog }
