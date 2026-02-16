@@ -56,7 +56,7 @@
               </template>
               Damage Assignment Available
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddStatus"
+            <v-tooltip v-if="activeEffect.AddStatus.length"
               location="top">
               <template #activator="{ props }">
                 <v-icon v-bind="props"
@@ -76,7 +76,7 @@
               </template>
               Save Available
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddResist"
+            <v-tooltip v-if="activeEffect.AddResist.length"
               location="top">
               <template #activator="{ props }">
                 <v-icon v-bind="props"
@@ -86,7 +86,7 @@
               </template>
               Resistance/Immunity Available
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddOther"
+            <v-tooltip v-if="activeEffect.AddOther.length"
               location="top">
               <template #activator="{ props }">
                 <v-icon v-bind="props"
@@ -96,7 +96,7 @@
               </template>
               Other Effect Available
             </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddSpecial"
+            <v-tooltip v-if="activeEffect.AddSpecial.length"
               location="top">
               <template #activator="{ props }">
                 <v-icon v-bind="props"

@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid'
 
 interface ITimedEffectAction {
   status?: string[]
+  resist?: { type: string; value: string }[]
   special?: { attribute: string; detail: string }[]
   damage?: { type: DamageType; value: number }[]
   other?: any

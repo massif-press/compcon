@@ -73,57 +73,62 @@
           </div>
           <i v-else
             class="text-disabled">None</i>
-          <v-divider class="my-4" />
 
-          <div class="text-cc-overline mt-2">Next Round:</div>
-          <div v-for="a in activeActors"
-            class="my-1">
-            <div v-for="s in getTimeoutStatuses(a)"
-              class="mx-4 px-2 text-text bg-panel">
-              <b class="text-secondary">{{ a.CombatName }}</b>
-              will lose the following statuses:
+
+          <div v-if="nextRoundAlerts">
+            <v-divider class="my-4" />
+
+            <div class="text-cc-overline mt-2">Next Round:</div>
+            <div v-for="a in activeActors"
+              class="my-1">
               <div v-for="s in getTimeoutStatuses(a)"
-                class="px-2 text-text bg-panel">
-                <b class="text-accent text-uppercase">
-                  <v-icon :icon="s.status.Icon"
-                    size="small"
-                    class="mt-n1" />
-                  {{ s.status.Name }}
-                </b>
-                at the
-                <b class="text-accent">
-                  {{ s.expires.EndsOn }} of
-                  {{ getStatusTarget(s.expires.ExpirationActorID, a.CombatName) }} turn
-                </b>
+                class="mx-4 px-2 text-text bg-panel">
+                <b class="text-secondary">{{ a.CombatName }}</b>
+                will lose the following statuses:
+                <div v-for="s in getTimeoutStatuses(a)"
+                  class="px-2 text-text bg-panel">
+                  <b class="text-accent text-uppercase">
+                    <v-icon :icon="s.status.Icon"
+                      size="small"
+                      class="mt-n1" />
+                    {{ s.status.Name }}
+                  </b>
+                  at the
+                  <b class="text-accent">
+                    {{ s.expires.EndsOn }} of
+                    {{ getStatusTarget(s.expires.ExpirationActorID, a.CombatName) }} turn
+                  </b>
+                </div>
               </div>
-            </div>
-            <div v-for="s in getTimeoutStatuses(a, true)"
-              class="my-1 mx-4 px-2 text-text bg-panel">
-              <b class="text-secondary">{{ a.CombatName }}</b>
-              will lose the following statuses:
-              <div v-for="s in getTimeoutStatuses(a)"
+              <div v-for="s in getTimeoutStatuses(a, true)"
                 class="my-1 mx-4 px-2 text-text bg-panel">
-                <b class="text-accent text-uppercase">
-                  {{ s.status.Name }}
-                </b>
-                at the
-                <b class="text-accent">
-                  {{ s.expires.EndsOn }} of
-                  {{ getStatusTarget(s.expires.ExpirationActorID, a.CombatName) }} turn
-                </b>
+                <b class="text-secondary">{{ a.CombatName }}</b>
+                will lose the following statuses:
+                <div v-for="s in getTimeoutStatuses(a)"
+                  class="my-1 mx-4 px-2 text-text bg-panel">
+                  <b class="text-accent text-uppercase">
+                    {{ s.status.Name }}
+                  </b>
+                  at the
+                  <b class="text-accent">
+                    {{ s.expires.EndsOn }} of
+                    {{ getStatusTarget(s.expires.ExpirationActorID, a.CombatName) }} turn
+                  </b>
+                </div>
               </div>
             </div>
+
+            <div v-for="b in braced"
+              class="my-1 mx-4 px-2 text-text bg-panel">
+              <b class="text-secondary">{{ b.CombatName }}</b>
+              exits
+              <b class="text-accent">BRACED</b>
+              and enters
+              <b class="text-warning">BRACE COOLDOWN</b>
+              state.
+            </div>
           </div>
-          <div>- meltdown/self destruct/etc [x] apply</div>
-          <div v-for="b in braced"
-            class="my-1 mx-4 px-2 text-text bg-panel">
-            <b class="text-secondary">{{ b.CombatName }}</b>
-            exits
-            <b class="text-accent">BRACED</b>
-            and enters
-            <b class="text-warning">BRACE COOLDOWN</b>
-            state.
-          </div>
+
           <v-divider class="my-4" />
 
           <div class="text-cc-overline mt-2">reinforcements ready next round:</div>
@@ -164,6 +169,9 @@ export default {
     },
   },
   computed: {
+    nextRoundAlerts() {
+      return this.braced.length || this.activeActors.some(c => this.getTimeoutStatuses(c).length || this.getTimeoutStatuses(c, true).length);
+    },
     activeActors() {
       return this.encounterInstance.Combatants.filter((x) => x.type !== 'doodad').map(
         (x) => x.actor.CombatController.ActiveActor.CombatController
@@ -171,6 +179,9 @@ export default {
     },
     hasRemainingActions() {
       return this.activeActors.filter((c) => c.HasRemainingActions);
+    },
+    hasTimedEffects() {
+      return this.activeActors.filter((c) => c.TimedEffects.length > 0);
     },
     reinforcements() {
       return this.encounterInstance.Combatants.filter(

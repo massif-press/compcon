@@ -3,13 +3,9 @@ import { ISaveData, ISaveable, SaveController } from '../components'
 import { CombatantData, Encounter, IEncounterData } from './Encounter'
 import { PilotData } from '@/interface'
 import { Deployable, Pilot } from '@/class'
-import { IPlaceholderData, Placeholder } from './Placeholder'
+import { Placeholder } from './Placeholder'
 import { DeployableInstance } from '../components/feature/deployable/DeployableInstance'
-import { CombatLogEntry } from '../components/combat/CombatController'
-import {
-  ActionSummary,
-  ActionSummaryData,
-} from '../components/feature/active_effects/EffectActionSummary'
+import { ActionSummary } from '../components/feature/active_effects/EffectActionSummary'
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance'
@@ -19,9 +15,7 @@ interface IEncounterInstanceData {
   save: ISaveData
   encounter: IEncounterData
   isActive?: boolean
-  archived?: boolean
   autosave?: boolean
-  history?: CombatLogEntry[]
 }
 
 class EncounterInstance implements ISaveable {
@@ -42,7 +36,7 @@ class EncounterInstance implements ISaveable {
 
   public SaveController: SaveController
 
-  public History: CombatLogEntry[] = []
+  public RollHistory: string[] = []
 
   constructor(
     data?: IEncounterInstanceData,
@@ -53,7 +47,6 @@ class EncounterInstance implements ISaveable {
     this._id = data?.id || uuid()
     this._round = data?.round || 1
     this.IsActive = data?.isActive || false
-    this.IsArchived = data?.archived || false
 
     if (data) {
       this.Combatants = data.combatants.map(c => Encounter.DeserializeCombatant(c))
@@ -210,14 +203,6 @@ class EncounterInstance implements ISaveable {
     })
   }
 
-  public AddLogEvent(eventSummary: ActionSummary): void {
-    this.History.push({
-      timestamp: Date.now(),
-      round: this.Round,
-      event: eventSummary,
-    })
-  }
-
   public static Serialize(instance: EncounterInstance): IEncounterInstanceData {
     const data = {
       itemType: 'EncounterInstance',
@@ -226,7 +211,6 @@ class EncounterInstance implements ISaveable {
       round: instance._round,
       encounter: Encounter.Serialize(instance.Encounter),
       isActive: instance.IsActive,
-      archived: instance.IsArchived,
       autosave: instance.Autosave,
     } as IEncounterInstanceData
 

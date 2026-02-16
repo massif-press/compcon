@@ -59,7 +59,7 @@
                 <v-row dense
                   justify="space-between"
                   align="center"
-                  class="pr-4">
+                  class="pr-1">
                   <v-col cols="auto"
                     v-for="stat in actor.StatController.GetStatCollection([
                       'hp',

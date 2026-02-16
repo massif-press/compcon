@@ -51,11 +51,11 @@ class ActiveEffect {
   public readonly Attack?: 'melee' | 'ranged' | 'tech'
   public readonly Save?: EffectSave
 
-  public readonly AddResist?: EffectResist[]
-  public readonly AddSpecial?: EffectSpecial[]
-  public readonly RemoveSpecial?: string[]
-  public readonly AddOther?: EffectOther[]
-  public readonly AddStatus?: EffectStatus[]
+  public readonly AddResist: EffectResist[] = []
+  public readonly AddSpecial: EffectSpecial[] = []
+  public readonly RemoveSpecial: string[] = []
+  public readonly AddOther: EffectOther[] = []
+  public readonly AddStatus: EffectStatus[] = []
 
   public readonly Dismissible: boolean
 
@@ -143,6 +143,16 @@ class ActiveEffect {
       this.AddStatus?.some(st => st.AoE) ||
       false
     )
+  }
+
+  get InitialSelfApplied(): boolean {
+    const targetedSubtypes = [
+      ...this.AddOther,
+      ...this.AddResist,
+      ...this.AddSpecial,
+      ...this.AddStatus,
+    ].filter(s => s.Target && s.Target === 'self')
+    return targetedSubtypes.length > 0
   }
 }
 export { ActiveEffect }
