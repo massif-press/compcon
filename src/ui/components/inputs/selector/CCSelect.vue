@@ -121,7 +121,7 @@
 import { VSelect, VAutocomplete, VCombobox } from 'vuetify/components';
 
 export default {
-  name: 'CCTextField',
+  name: 'CCSelect',
   props: {
     modelValue: { type: String },
     items: { type: Array, default: () => [] },

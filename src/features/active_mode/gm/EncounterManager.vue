@@ -1,6 +1,72 @@
 <template>
   <v-container>
     <div class="heading h2">Local Active Encounters</div>
+
+    <div class="my-1">
+      <v-tooltip location="top"
+        open-delay="300">
+        <template #activator="{ props }">
+          <v-btn v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            @click="setSort('Updated')">
+            <v-icon icon="mdi-clock-outline"
+              size="20"
+              color="accent" />
+            <v-icon v-if="sort === 'Updated'"
+              color="accent"
+              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+              class="mb-n1" />
+          </v-btn>
+        </template>
+        <span>Sort by Recent</span>
+      </v-tooltip>
+
+      <v-tooltip location="top"
+        open-delay="300">
+        <template #activator="{ props }">
+          <v-btn v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            @click="setSort('Name')">
+            <v-icon icon="mdi-format-text-variant"
+              size="24"
+              color="accent" />
+            <v-icon v-if="sort === 'Name'"
+              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+              class="mb-n1"
+              color="accent" />
+          </v-btn>
+        </template>
+        <span>Sort by Name</span>
+      </v-tooltip>
+
+      <v-tooltip location="top"
+        open-delay="300">
+        <template #activator="{ props }">
+          <v-btn v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            @click="setSort('Created')">
+            <v-icon icon="mdi-calendar"
+              size="21"
+              color="accent" />
+            <v-icon v-if="sort === 'Created'"
+              color="accent"
+              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+              class="mb-n1" />
+          </v-btn>
+        </template>
+        <span>Sort by created timestamp</span>
+      </v-tooltip>
+    </div>
+
     <!-- <cc-alert>
       <v-icon icon="mdi-information-outline"
         class="mr-2" />
@@ -72,7 +138,7 @@
             <v-row class="detail-row px-2"
               no-gutters>
               <v-col cols="auto"
-                class="mb-0 pb-0 mt-1">
+                class="pb-0 my-1">
                 <div>
                   <span class="text-disabled mr-1">
                     CREATED
@@ -107,7 +173,7 @@
               </v-col>
 
               <v-col cols="12"
-                class="mt-2 py-0">
+                class="mt-1 py-0">
                 <div v-for="side in ['ally', 'enemy', 'neutral']"
                   class="mb-2">
                   <v-chip v-for="item in e.Combatants.filter(c => c.side === side)"
@@ -117,11 +183,11 @@
                     variant="elevated"
                     size="x-small"
                     :key="item.actor.ID"
-                    class="mr-1  elevation-0">
+                    class="mr-1 mb-1 elevation-0">
                     {{ item.actor.CombatController.CombatName }}
                     <span v-if="(item.actor as any).PlayerName">&nbsp;({{ (item.actor as
                       any).PlayerName
-                      }})</span>
+                    }})</span>
                   </v-chip>
                 </div>
                 <br />
@@ -362,15 +428,46 @@ export default {
   name: 'EncounterManager',
   data: () => ({
     search: '',
+    sort: '',
+    asc: true,
   }),
   computed: {
     mobile() {
       return this.$vuetify.display.smAndDown;
     },
     encounters() {
-      return EncounterStore().ActiveEncounters.filter(
-        (e) => !e.IsArchived && !e.SaveController.IsDeleted
-      );
+      if (this.sort) {
+        let sorted = [...EncounterStore().ActiveEncounters].filter(
+          (e) => !e.SaveController.IsDeleted
+        );
+        sorted.sort((a, b) => {
+          let aValue, bValue;
+          switch (this.sort) {
+            case 'Name':
+              aValue = a.Name.toLowerCase();
+              bValue = b.Name.toLowerCase();
+              break;
+            case 'Created':
+              aValue = new Date(a.SaveController.Created).getTime();
+              bValue = new Date(b.SaveController.Created).getTime();
+              break;
+            case 'Updated':
+              aValue = new Date(a.SaveController.LastModified || a.SaveController.Created).getTime();
+              bValue = new Date(b.SaveController.LastModified || b.SaveController.Created).getTime();
+              break;
+            default:
+              return 0;
+          }
+          if (aValue < bValue) return this.asc ? -1 : 1;
+          if (aValue > bValue) return this.asc ? 1 : -1;
+          return 0;
+        });
+        return sorted;
+      } else {
+        return EncounterStore().ActiveEncounters.filter(
+          (e) => !e.SaveController.IsDeleted
+        );
+      }
     },
     archived() {
       let arr = EncounterStore().ArchivedEncounters.filter((e) => !e.SaveController.IsDeleted);
@@ -386,6 +483,14 @@ export default {
     },
   },
   methods: {
+    setSort(field) {
+      if (this.sort === field) {
+        this.asc = !this.asc;
+      } else {
+        this.sort = field;
+        this.asc = true;
+      }
+    },
     async launch(encounter) {
       await EncounterStore().AssignActiveEncounter(encounter);
       this.$router.push(`gm-encounter-runner/${encounter.ID}`);

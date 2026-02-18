@@ -1,16 +1,19 @@
 <template>
-  <div id="header-container" class="bg-primary">
+  <div :class="`header-container-${portrait ? 'sm' : 'md'}`"
+    class="bg-primary">
     <v-row dense>
       <v-col style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
         <div class="heading h3 mt-n2">
-          <v-tooltip
-            v-if="pilot.IsRemote"
+          <v-tooltip v-if="pilot.IsRemote"
             :open-on-click="true"
             location="bottom"
             text="This pilot is a remote resource linked to another user's account. It is
                     read-only and will receive updates from the linked account.">
             <template #activator="{ props }">
-              <v-icon size="small" class="text-disabled" start v-bind="props">mdi-broadcast</v-icon>
+              <v-icon size="small"
+                class="text-disabled"
+                start
+                v-bind="props">mdi-broadcast</v-icon>
             </template>
           </v-tooltip>
           <span style="letter-spacing: 4px">
@@ -18,7 +21,8 @@
           </span>
         </div>
 
-        <div class="text-cc-overline" :class="!portrait && 'pl-2'">
+        <div class="text-cc-overline"
+          :class="!portrait && 'pl-2'">
           <span>
             {{ pilot.Name }}
           </span>
@@ -32,31 +36,45 @@
           </span>
         </div>
 
-        <div class="text-cc-overline" :class="!portrait && 'pl-2'">
-          <v-icon size="10" class="mt-n1 mr-n1" icon="mdi-star-four-points-outline" />
+        <div class="text-cc-overline"
+          :class="!portrait && 'pl-2'">
+          <v-icon size="10"
+            class="mt-n1 mr-n1"
+            icon="mdi-star-four-points-outline" />
           {{ pilot.Grit }}
-          <v-icon size="10" class="mt-n1 mr-n1" icon="mdi-shield-outline" />
+          <v-icon size="10"
+            class="mt-n1 mr-n1"
+            icon="mdi-shield-outline" />
           {{ pilot.Armor }}
-          <v-icon size="10" class="mt-n1 mr-n1" icon="mdi-heart" />
+          <v-icon size="10"
+            class="mt-n1 mr-n1"
+            icon="mdi-heart" />
           {{ pilot.MaxHP }}
-          <v-icon size="11" class="mt-n1 mr-n1" icon="cc:e_def" />
+          <v-icon size="11"
+            class="mt-n1 mr-n1"
+            icon="cc:e_def" />
           {{ pilot.EDefense }}
-          <v-icon size="13" class="mt-n1 mr-n1" icon="cc:evasion" />
+          <v-icon size="13"
+            class="mt-n1 mr-n1"
+            icon="cc:evasion" />
           {{ pilot.Evasion }}
-          <v-icon size="13" class="mt-n1 mr-n1" icon="mdi-arrow-right-bold-hexagon-outline" />
+          <v-icon size="13"
+            class="mt-n1 mr-n1"
+            icon="mdi-arrow-right-bold-hexagon-outline" />
           {{ pilot.Speed }}
         </div>
       </v-col>
 
-      <v-col cols="auto" class="px-3 text-center">
+      <v-col cols="auto"
+        class="px-3 text-center">
         <div class="d-block">
-          <div class="heading h2 mb-1" style="line-height: 15px">
+          <div class="heading h2 mb-1"
+            style="line-height: 15px">
             <span class="heading h3 text-disabled">LL&nbsp;</span>
             <span>
               {{ pilot.Level }}
             </span>
-            <v-icon
-              v-if="!pilot.IsRemote"
+            <v-icon v-if="!pilot.IsRemote"
               size="12"
               class="fade-select"
               end
@@ -65,8 +83,7 @@
             </v-icon>
           </div>
 
-          <cc-button
-            v-if="!pilot.IsRemote && !isLevelingUp && pilot.Level < 12"
+          <cc-button v-if="!pilot.IsRemote && !isLevelingUp && pilot.Level < 12"
             size="x-small"
             color="accent"
             @click="
@@ -74,22 +91,22 @@
                 name: 'level-up',
                 params: { pilotID: pilot.ID, callsign: pilot.Callsign },
               })
-            ">
+              ">
             Level Up
           </cc-button>
         </div>
       </v-col>
 
-      <v-col cols="auto" style="width: 85px">
+      <v-col cols="auto"
+        style="width: 85px">
         <div id="image-bg" />
         <div id="triangle" />
-        <div id="image" class="border">
-          <cc-avatar
-            v-if="pilot.PortraitController.Avatar"
+        <div id="image"
+          class="border">
+          <cc-avatar v-if="pilot.PortraitController.Avatar"
             :avatar="pilot.PortraitController.Avatar"
             :size="75" />
-          <cc-img
-            v-else-if="pilot.PortraitController.Portrait"
+          <cc-img v-else-if="pilot.PortraitController.Portrait"
             :src="pilot.PortraitController.Portrait"
             aspect-ratio="1"
             position="top center" />
@@ -97,13 +114,13 @@
       </v-col>
     </v-row>
   </div>
-  <cc-solo-modal
-    v-model="levelEdit"
+  <cc-solo-modal v-model="levelEdit"
     title="edit license level"
     icon="cc:pilot"
     shrink
     width="600px">
-    <level-edit-dialog :pilot="pilot" @close="levelEdit = false" />
+    <level-edit-dialog :pilot="pilot"
+      @close="levelEdit = false" />
   </cc-solo-modal>
 </template>
 
@@ -134,9 +151,19 @@ export default {
 </script>
 
 <style scoped>
-#header-container {
+.header-container-sm {
   position: absolute;
   top: 0;
+  padding-top: 34px;
+  padding-left: 8px;
+  padding-bottom: 4px;
+  left: 0;
+  right: 0;
+}
+
+.header-container-md {
+  position: absolute;
+  top: 12px;
   padding-top: 34px;
   padding-left: 8px;
   padding-bottom: 4px;

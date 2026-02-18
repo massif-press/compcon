@@ -346,8 +346,11 @@ class MechWeapon extends MechEquipment {
           if (existingDie === rDie) {
             existing._raw_value = `${existingQty + rQty}d${existingDie}`
           } else {
-            // different dice, just add them together as a string (e.g. "2d6 + 1d8")
-            existing._raw_value = `${existing._raw_value} + ${r._raw_value}`
+            if (typeof existing._raw_value === 'number' && typeof r._raw_value === 'number') {
+              existing._raw_value = existing._raw_value + r._raw_value
+            } else
+              // different dice, just add them together as a string (e.g. "2d6 + 1d8")
+              existing._raw_value = `${existing._raw_value} + ${r._raw_value}`
           }
         }
       } else {

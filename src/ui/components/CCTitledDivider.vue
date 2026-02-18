@@ -1,12 +1,15 @@
 <template>
-  <v-row dense align="center">
+  <v-row dense
+    align="center">
     <v-col :cols="offset"><v-divider /></v-col>
     <v-col cols="auto">
       <div :class="`heading h${heading} text-${color}`">
+        <slot name="prepend" />
         {{ title }}
-        <span v-if="subtitle" class="text-caption text-text" style="opacity: 0.75">
-          {{ subtitle }}</span
-        >
+        <span v-if="subtitle"
+          class="text-caption text-text"
+          style="opacity: 0.75">
+          {{ subtitle }}</span>
       </div>
     </v-col>
     <v-col><v-divider /></v-col>

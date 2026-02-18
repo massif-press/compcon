@@ -108,7 +108,6 @@ class EncounterArchive implements ISaveable {
   }
 
   public static Deserialize(data: IEncounterArchiveData): EncounterArchive {
-    console.log(data)
     const instance = new EncounterArchive(data)
 
     SaveController.Deserialize(instance, data.save)

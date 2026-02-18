@@ -1,19 +1,23 @@
 <template>
-  <div style="position: relative" class="li-top-element">
-    <div class="light" style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
-    <v-row no-gutters class="lighten-select" :class="mobile ? 'mb-2' : 'mb-4'">
-      <v-col cols="auto" style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double">
+  <div style="position: relative"
+    class="li-top-element">
+    <div class="light"
+      style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
+    <v-row no-gutters
+      class="lighten-select"
+      :class="mobile ? 'mb-2' : 'mb-4'"
+      @click="$emit('launch')">
+      <v-col cols="auto"
+        style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double">
         <v-card style="position: relative">
           <!-- <cc-avatar v-if="sheet.Avatar" :avatar="sheet.Avatar" :size="mobile ? 75 : 150" /> -->
-          <cc-img
-            v-if="sheet.Portrait"
-            :src="sheet.Portrait"
+          <cc-img v-if="pilot.Portrait"
+            :src="pilot.Portrait"
             aspect-ratio="1"
             position="top center"
             :height="mobile ? '75px' : '150px'"
             :width="mobile ? '75px' : '150px'" />
-          <div
-            v-if="sheet.MechPortrait"
+          <div v-if="mech.Portrait"
             class="bg-panel"
             style="
               position: absolute;
@@ -23,12 +27,10 @@
               height: 75%;
               clip-path: polygon(100% 0, 0% 100%, 100% 100%);
             ">
-            <div
-              style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
-              :style="`background: linear-gradient(135deg,${sheet.SourceColor} 52%, rgb(var(--v-theme-panel)) 51%, rgb(var(--v-theme-panel))  100%);`" />
+            <div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
+              :style="`background: linear-gradient(135deg,${mech.Frame.ManufacturerColor} 52%, rgb(var(--v-theme-panel)) 51%, rgb(var(--v-theme-panel))  100%);`" />
 
-            <img
-              style="
+            <img style="
                 position: absolute;
                 top: 20%;
                 left: 10%;
@@ -37,32 +39,40 @@
                 width: auto;
                 height: auto;
               "
-              :src="sheet.MechPortrait" />
+              :src="mech.Portrait" />
           </div>
         </v-card>
       </v-col>
       <v-col style="position: relative">
-        <v-toolbar density="compact" class="cToolbar" :height="mobile ? '40' : '46'">
-          <v-row no-gutters align="center" class="px-2">
-            <v-col cols="auto" class="heading text-white">
-              {{ sheet.Callsign }}
+        <v-toolbar density="compact"
+          class="cToolbar"
+          :height="mobile ? '40' : '46'">
+          <v-row no-gutters
+            align="center"
+            class="px-2">
+            <v-col cols="auto"
+              class="heading text-white">
+              {{ pilot.Callsign }}
             </v-col>
-            <v-col cols="auto" class="mx-3" style="margin-top: -3px">
-              <cc-chip
-                size="x-small"
+            <v-col cols="auto"
+              class="mx-3"
+              style="margin-top: -3px">
+              <cc-chip size="x-small"
                 variant="elevated"
                 :title="sheet.TableName || 'Local'"
                 :label="sheet.Campaign || 'No Campaign Information'"
                 :color="sheet.TableName ? 'secondary' : 'panel'"
                 :bg-color="sheet.Campaign ? 'exotic' : ''">
-                <v-icon v-if="sheet.Campaign" icon="cc:campaign" class="mr-1" />
+                <v-icon v-if="sheet.Campaign"
+                  icon="cc:campaign"
+                  class="mr-1" />
               </cc-chip>
             </v-col>
-            <v-col cols="auto" class="mr-n2 ml-auto">
+            <v-col cols="auto"
+              class="mr-n2 ml-auto">
               <v-menu>
                 <template #activator="{ props }">
-                  <v-icon
-                    v-bind="props"
+                  <v-icon v-bind="props"
                     start
                     color="white"
                     @click.stop
@@ -70,63 +80,189 @@
                     size="small"
                     class="fade-select" />
                 </template>
-                <div class="bg-panel pa-1">menu options</div>
+                <div class="bg-panel pa-1">
+                  <v-list-item @click="$emit('archive')"
+                    prepend-icon="mdi-archive">
+                    <v-list-item-title>Archive Sheet</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item @click="$emit('export')"
+                    prepend-icon="mdi-file-export">
+                    <v-list-item-title>Export Sheet</v-list-item-title>
+                  </v-list-item>
+                  <v-divider class="my-1" />
+                  <v-list-item @click="$emit('delete')"
+                    prepend-icon="mdi-delete">
+                    <v-list-item-title>Delete Sheet</v-list-item-title>
+                  </v-list-item>
+                </div>
               </v-menu>
             </v-col>
           </v-row>
         </v-toolbar>
 
-        <div v-if="mobile" class="detail-row-mobile pa-2">
-          <b class="text-stark">{{ sheet.Name }}</b>
-          <div class="text-cc-overline">
-            <span class="text-disabled">License Level</span>
-            {{ sheet.Level }}
+        <div v-if="mobile"
+          class="detail-row-mobile px-2 pt-1 text-cc-overline">
+          <div v-if="pilot.CombatController.Mounted">
+            <b class="text-stark">MOUNTED</b> &mdash; <i>{{ mech.Name }} ({{ mech.Frame.Source }} {{
+              mech.Frame.Name
+            }})</i>
+          </div>
+          <div v-else>
+            <b class="text-stark">UNMOUNTED</b>
+          </div>
+          <div class="text-disabled mt-1">
+            Encounter
+            {{ sheet.Encounter }} //
+            Round {{ pilot.CombatController.Round }}
           </div>
         </div>
 
-        <div v-else class="px-3">
+        <div v-else
+          class="px-3">
           <v-row class="detail-row">
             <v-col class="text-cc-overline pt-4">
               <div>
-                {{ sheet.Name }}
-                <cc-slashes />
-                License Level {{ sheet.Level }}
+                <b>
+                  {{ pilot.Callsign }}
+                </b>
+                ({{ pilot.Name }})
+                <b v-if="pilot.CombatController.Mounted"
+                  class="text-stark">
+                  MOUNTED
+                </b>
+                <b v-else
+                  class="text-stark">
+                  UNMOUNTED
+                </b>
               </div>
-              <div>pilot status info</div>
+
+              <v-row dense
+                justify="space-around"
+                class="pt-1"
+                align="center">
+                <v-col cols="auto"
+                  v-for="stat in pilot.StatController.GetStatCollection([
+                    'hp',
+                    'overshield',
+                    'stress',
+                    'heatcap',
+                    'structure',
+                    'repairCapacity',
+                  ])">
+                  <v-tooltip location="top"
+                    open-delay="400">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props"
+                        class="mx-1 mt-n1"
+                        :icon="stat.icon" />
+                      <b class="text-accent">{{ pilot.StatController.CurrentStats[stat.key] }}</b>
+                    </template>
+                    <div class="text-cc-overline text-center">
+                      {{ stat.title }}
+                    </div>
+                    <div class="heading h3 text-accent text-center">
+                      {{ pilot.StatController.CurrentStats[stat.key] }}
+                      <span class="body-text text-text">
+                        / {{ pilot.StatController.MaxStats[stat.key] }}
+                      </span>
+                    </div>
+                  </v-tooltip>
+                </v-col>
+                <v-col cols="auto"
+                  v-for="stat in pilot.StatController.GetStatCollection([
+                    'armor',
+                    'evasion',
+                    'edef',
+                    'saveTarget',
+                  ])">
+                  <v-tooltip :text="stat.title"
+                    location="top"
+                    open-delay="400">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props"
+                        class="mx-1 mt-n1"
+                        :icon="stat.icon" />
+                      <b class="text-secondary">
+                        {{ pilot.StatController.CurrentStats[stat.key] }}
+                      </b>
+                    </template>
+                  </v-tooltip>
+                </v-col>
+              </v-row>
+
+
               <v-divider class="my-1" />
-              <div>{{ sheet.MechName }} ({{ sheet.Frame }}) {{ sheet.MechStatus }}</div>
+              <div><b>{{ mech.Name }}</b> ({{ mech.Frame.Source }} {{ mech.Frame.Name }}) </div>
+              <v-row dense
+                justify="space-around"
+                align="center">
+                <v-col cols="auto"
+                  v-for="stat in pilot.StatController.GetStatCollection([
+                    'hp',
+                    'overshield',
+                    'stress',
+                    'heatcap',
+                    'structure',
+                    'repairCapacity',
+                  ])">
+                  <v-tooltip location="top"
+                    open-delay="400">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props"
+                        class="mx-1 mt-n1"
+                        :icon="stat.icon" />
+                      <b class="text-accent">{{ mech.StatController.CurrentStats[stat.key] }}</b>
+                    </template>
+                    <div class="text-cc-overline text-center">
+                      {{ stat.title }}
+                    </div>
+                    <div class="heading h3 text-accent text-center">
+                      {{ mech.StatController.CurrentStats[stat.key] }}
+                      <span class="body-text text-text">
+                        / {{ mech.StatController.MaxStats[stat.key] }}
+                      </span>
+                    </div>
+                  </v-tooltip>
+                </v-col>
+                <v-col cols="auto"
+                  v-for="stat in mech.StatController.GetStatCollection([
+                    'armor',
+                    'evasion',
+                    'edef',
+                    'saveTarget',
+                  ])">
+                  <v-tooltip :text="stat.title"
+                    location="top"
+                    open-delay="400">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props"
+                        class="mx-1 mt-n1"
+                        :icon="stat.icon" />
+                      <b class="text-secondary">
+                        {{ mech.StatController.CurrentStats[stat.key] }}
+                      </b>
+                    </template>
+                  </v-tooltip>
+                </v-col>
+              </v-row>
+
+
               <v-divider class="my-1" />
-              started datetime - last activity datetime
+              started <b>{{ new Date(sheet.Created).toLocaleDateString() }}</b> &mdash; last turn
+              <b>{{ sheet.Updated ? new
+                Date(sheet.Updated).toLocaleDateString() : 'N/A' }}</b>
               <br />
-              currently on:
-              <br />
-              <div v-html="sheet.Description" />
+              <div>
+                Encounter
+                {{ sheet.Encounter }} //
+                Round {{ pilot.CombatController.Round }}
+              </div>
             </v-col>
           </v-row>
         </div>
       </v-col>
     </v-row>
-    <div
-      v-if="sheet.tableStatus"
-      style="position: absolute; bottom: -10px; right: -10px; z-index: 1">
-      <cc-chip v-if="loading">
-        <span class="text-cc-overline pl-3 pr-2" style="letter-spacing: 3px">
-          <v-progress-circular indeterminate size="20" width="2" color="accent" class="mr-4" />
-          polling table status...
-        </span>
-      </cc-chip>
-      <cc-chip
-        v-else-if="sheet.tableStatus === 'Online'"
-        variant="elevated"
-        bg-color="success"
-        icon="mdi-wifi"
-        class="success-pulse">
-        <span class="heading pl-3 pr-2" style="letter-spacing: 3px">TABLE ONLINE</span>
-      </cc-chip>
-      <cc-chip v-else icon="mdi-wifi-off">
-        <span class="text-cc-overline pl-3 pr-2" style="letter-spacing: 3px">TABLE OFFLINE</span>
-      </cc-chip>
-    </div>
+
   </div>
 </template>
 
@@ -139,6 +275,7 @@ export default {
       required: true,
     },
   },
+  emits: ['archive', 'delete', 'launch'],
   data: () => ({
     loading: false,
   }),
@@ -146,28 +283,14 @@ export default {
     mobile() {
       return this.$vuetify.display.smAndDown;
     },
-  },
-  mounted() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    }, 3000);
-  },
-  methods: {
-    statusColor(status) {
-      switch (status.toLowerCase()) {
-        case 'active':
-          return 'success';
-        case 'mia':
-        case 'kia':
-        case 'err':
-          return 'error';
-        default:
-          return 'text';
-      }
+    pilot() {
+      return this.sheet.Combatant.actor;
+    },
+    mech() {
+      return this.sheet.Combatant.actor.ActiveMech;
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -194,13 +317,11 @@ export default {
 }
 
 .cToolbar-missing {
-  background: repeating-linear-gradient(
-    45deg,
-    rgb(var(--v-theme-error-darken-2)),
-    rgb(var(--v-theme-error-darken-2)) 10px,
-    rgb(var(--v-theme-error-darken-3)) 10px,
-    rgb(var(--v-theme-error-darken-3)) 20px
-  );
+  background: repeating-linear-gradient(45deg,
+      rgb(var(--v-theme-error-darken-2)),
+      rgb(var(--v-theme-error-darken-2)) 10px,
+      rgb(var(--v-theme-error-darken-3)) 10px,
+      rgb(var(--v-theme-error-darken-3)) 20px);
 }
 
 .light {
@@ -221,6 +342,7 @@ export default {
     box-shadow: 0 0 0 0px rgb(var(--v-theme-success));
     border-radius: 0px;
   }
+
   100% {
     box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
     border-radius: 1px;

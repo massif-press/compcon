@@ -83,6 +83,18 @@
                   resume {{ lastLocalEncounter.Encounter.Name }} (Round
                   {{ lastLocalEncounter.Round }})
                 </v-btn>
+                <v-btn v-else-if="(e as any).id === 'last-sheet' && lastLocalSheet"
+                  block
+                  size="small"
+                  tile
+                  color="accent"
+                  flat
+                  @click="loadLastLocalSheet()">
+                  <v-icon :icon="e.icon"
+                    start />
+                  resume {{ lastLocalSheet.Combatant.actor.Name }} (Round
+                  {{ lastLocalSheet.Combatant.actor.CombatController.Round }})
+                </v-btn>
                 <v-btn v-else
                   block
                   size="small"
@@ -105,7 +117,7 @@
 </template>
 
 <script lang="ts">
-import { EncounterStore } from '@/stores';
+import { EncounterStore, PilotStore } from '@/stores';
 
 export default {
   name: 'home',
@@ -135,6 +147,7 @@ export default {
           to: 'active-mode/sheet-manager',
         },
         {
+          id: 'last-sheet',
           small: true,
           subtitle: 'resume last',
           icon: 'mdi-restart',
@@ -163,7 +176,14 @@ export default {
           to: '',
         },
         {
-          title: 'Active Tables',
+          title: 'Local Campaigns',
+          subtitle: 'Feature in development (v3.1)',
+          disabled: true,
+          icon: 'cc:campaign',
+          to: '/active-mode/manage-tables',
+        },
+        {
+          title: 'Host an Online Table',
           subtitle: 'Feature in development (v3.2)',
           disabled: true,
           icon: 'mdi-lan',
@@ -193,7 +213,11 @@ export default {
         },
       ],
     ],
+    lastLocalSheet: null as any,
   }),
+  async mounted() {
+    this.lastLocalSheet = await PilotStore().GetActiveSheet(PilotStore().CurrentActiveID)
+  },
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
@@ -203,11 +227,16 @@ export default {
     },
   },
   methods: {
-    async loadLastLocalEncounter() {
+    loadLastLocalEncounter() {
       if (this.lastLocalEncounter) {
         this.$router.push(`active-mode/gm-encounter-runner/${this.lastLocalEncounter.ID}`);
       }
     },
+    async loadLastLocalSheet() {
+      if ((this.lastLocalSheet)) {
+        this.$router.push(`active-mode/pilot-runner`);
+      }
+    }
   },
 };
 </script>
