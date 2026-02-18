@@ -158,7 +158,6 @@
 import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 import { Statblock } from '@/class';
-import { getTime } from 'vuetify/lib/labs/VCalendar/util/timestamp';
 
 export default {
   name: 'GmEndRoundPanel',
