@@ -173,12 +173,12 @@ export const EncounterStore = defineStore('encounter', {
 
     async SetActiveEncounter(id: string): Promise<void> {
       this.CurrentActiveID = id
-      SetValue('current_active_encounter_id', id)
+      await SetValue('current_active_encounter_id', id)
     },
 
     async AssignActiveEncounter(payload: EncounterInstance): Promise<void> {
       this.CurrentActiveID = payload.ID
-      SetValue('current_active_encounter_id', payload.ID)
+      await SetValue('current_active_encounter_id', payload.ID)
     },
 
     async CloneEncounter(payload: Encounter): Promise<void> {

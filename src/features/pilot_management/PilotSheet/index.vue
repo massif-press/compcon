@@ -1,16 +1,29 @@
 <template>
   <div v-if="pilot">
-    <pilot-header-mobile v-if="mobile" :pilot="pilot" />
-    <pilot-header v-else :pilot="pilot" />
+    <pilot-header-mobile v-if="mobile"
+      :pilot="pilot" />
+    <pilot-header v-else
+      :pilot="pilot" />
     <div :style="`padding-top: ${mobile ? '75px' : '100px'}`">
-      <narrative-view v-if="page < 2" :pilot="pilot" />
-      <bonds-view v-else-if="page === 2" :pilot="pilot" />
-      <tactical-view v-else-if="page === 3" :pilot="pilot" />
-      <mech-hangar-view v-else-if="page === 4" :pilot="pilot" />
-      <mobile-options-view v-else-if="page === 5" :pilot="pilot" />
+      <narrative-view v-if="page < 2"
+        :pilot="pilot" />
+      <bonds-view v-else-if="page === 2"
+        :pilot="pilot" />
+      <tactical-view v-else-if="page === 3"
+        :pilot="pilot" />
+      <mech-hangar-view v-else-if="page === 4"
+        :pilot="pilot" />
+      <mobile-options-view v-else-if="page === 5"
+        :pilot="pilot" />
     </div>
-    <pilot-nav-mobile v-if="mobile" :pilot="pilot" :selected="page" @to="page = $event" />
-    <pilot-nav v-else :pilot="pilot" :selected="page" @to="page = $event" />
+    <pilot-nav-mobile v-if="mobile"
+      :pilot="pilot"
+      :selected="page"
+      @to="page = $event" />
+    <pilot-nav v-else
+      :pilot="pilot"
+      :selected="page"
+      @to="page = $event" />
     <v-spacer style="min-height: 80px" />
   </div>
   <div v-else>
