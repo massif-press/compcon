@@ -1,0 +1,40 @@
+name: Deploy to AWS Amplify 
+
+on:
+    push: 
+        branches: 
+            - main 
+
+jobs: 
+    deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: '18'
+
+        - name: Install dependencies
+          run: npm ci
+
+        - name: Install Amplify CLI
+          run: npm install -g @aws-amplify/cli
+
+        - name: Configure AWS credentials (OIDC)
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+            aws-region: ${{ secrets.AWS_REGION }}
+            role-session-name: GitHubActionsDeployment
+
+        - name: Amplify Pull (optional, if using backend env)
+          run: amplify pull --yes
+
+        - name: Build project
+          run: npm run build
+
+        - name: Deploy to Amplify
+          run: amplify publish --yes
