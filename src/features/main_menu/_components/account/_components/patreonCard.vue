@@ -1,6 +1,5 @@
 <template>
-  <v-card
-    v-if="!patreon?.hasPatreon"
+  <v-card v-if="!patreon?.hasPatreon"
     size="small"
     color="#FF424D"
     tile
@@ -8,28 +7,36 @@
     @click="loginWithPatreon">
     <b>Patreon account:</b>
 
-    <div v-if="loadPatreon" class="ma-2">
-      <v-progress-linear tile indeterminate color="white" height="12" />
+    <div v-if="loadPatreon"
+      class="ma-2">
+      <v-progress-linear tile
+        indeterminate
+        color="white"
+        height="12" />
     </div>
-    <div v-else class="text-disabled">Unlinked</div>
+    <div v-else
+      class="text-disabled">Unlinked</div>
     Link Patreon
     <v-tooltip max-width="400px">
       <template #activator="{ props }">
-        <v-icon v-bind="props" size="x-small">mdi-help-circle-outline</v-icon>
+        <v-icon v-bind="props"
+          size="x-small">mdi-help-circle-outline</v-icon>
       </template>
       If you are subscribed to the COMP/CON Patreon, linking your Patreon account will increase your
       maximum cloud storage space and unlock realtime table creation in GM mode.
     </v-tooltip>
   </v-card>
-  <cc-dialog v-else title="Membership Benefits" max-width="800">
+  <cc-dialog v-else
+    title="Membership Benefits"
+    max-width="800">
     <template #activator="{ open }">
-      <v-card
-        @click="open"
+      <v-card @click="open"
         variant="outlined"
         tile
         flat
         style="border-color: rgb(var(--v-theme-patreon))">
-        <div class="bg-patreon text-caption" style="letter-spacing: 4px !important">
+        <div class="bg-patreon text-caption"
+          style="letter-spacing: 4px !important">
           <cc-slashes />
           <b class="px-2">PATREON LINKED</b>
           <cc-slashes />
@@ -37,7 +44,8 @@
         <v-card-text class="py-2">
           <v-row>
             <v-col cols="auto">
-              <v-avatar size="40" color="primary">
+              <v-avatar size="40"
+                color="primary">
                 <v-img :src="patreon.profile.thumb_url" />
               </v-avatar>
             </v-col>
@@ -55,22 +63,26 @@
     </template>
 
     <v-card-text>
-      <v-card flat v-for="t in tiers" :disabled="missingTier(t.title)" class="mb-6">
+      <v-card flat
+        v-for="t in tiers"
+        :disabled="missingTier(t.title)"
+        class="mb-6">
         <v-row dense>
-          <v-col cols="12" lg="3" class="heading text-accent pr-3">{{ t.title }}</v-col>
+          <v-col cols="12"
+            lg="3"
+            class="heading text-accent pr-3">{{ t.title }}</v-col>
           <v-col>
             <div v-for="b in t.benefits">
-              <v-icon
-                :color="missingTier(t.title) ? '' : 'success'"
+              <v-icon :color="missingTier(t.title) ? '' : 'success'"
                 :icon="missingTier(t.title) ? 'mdi-close' : 'mdi-check-bold'" />
               {{ b }}
             </div>
           </v-col>
         </v-row>
       </v-card>
-      <div v-if="tierValue < 5" class="text-right">
-        <v-btn
-          color="exotic"
+      <div v-if="tierValue < 5"
+        class="text-right">
+        <v-btn color="exotic"
           size="x-small"
           tile
           variant="tonal"
@@ -174,7 +186,7 @@ export default {
     },
     async loginWithPatreon() {
       const clientId = import.meta.env.VITE_APP_PATREON_CLIENT_ID || '';
-      const redirectUri = import.meta.env.VITE_APP_OAUTH_CALLBACK_URI || '';
+      const redirectUri = import.meta.env.VITE_APP_OAUTH_DEV_CALLBACK_URI || '';
       const state = Math.random().toString(36).substring(2); // Simple state generation
 
       const oauthUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identity&state=${state}`;
