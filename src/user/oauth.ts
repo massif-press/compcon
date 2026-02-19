@@ -56,8 +56,6 @@ const getPatronProfile = async (access_token: string) => {
   })
   const json = await response.json()
 
-  console.log(json)
-
   if (json.errors) {
     throw new Error(json.errors[0])
   }

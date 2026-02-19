@@ -109,9 +109,6 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    console.log(this.item.CombatController.TimedEffects)
-  },
   methods: {
     getRoundsRemaining(effect: TimedEffect) {
       const currentRound = this.encounter.Round
