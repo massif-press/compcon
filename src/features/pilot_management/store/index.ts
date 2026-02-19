@@ -271,11 +271,9 @@ export const PilotStore = defineStore('pilot', {
       this.PilotSheets = await GetAll('pilot_sheets').then(data =>
         data.map(x => PilotSheet.Deserialize(x))
       )
-      console.log(this.PilotSheets)
     },
     async AddPilotSheet(pilot: Pilot, campaign?: string): Promise<void> {
       const newSheet = PilotSheet.FromPilot(pilot, campaign)
-      console.log(newSheet)
       this.PilotSheets.push(newSheet)
       await SetItem('pilot_sheets', PilotSheet.Serialize(newSheet))
       await this.SetActiveSheet(newSheet.ID)

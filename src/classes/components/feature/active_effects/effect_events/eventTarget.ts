@@ -190,7 +190,6 @@ class ActiveEventTarget {
 
   public static IncomingActionSummary(event: ActionSummaryData): string {
     let str = ''
-    console.log(event)
     str += `Incoming from ${event.initiatorName}: ${event.effectName} // `
     event.damageEvents.flat().forEach(de => {
       str += `${de.finalDamageValue} ${de.damageType} Damage`

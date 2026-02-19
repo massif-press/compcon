@@ -152,7 +152,6 @@ class CombatLog {
     } else if (isPilot) {
       this._telemetryCache.damage_dealt_pilot += amount
     }
-    console.log(this._telemetryCache.damage, type, this._telemetryCache.damage[type.toLowerCase()])
     this._telemetryCache.damage[type.toLowerCase()].gained += amount
   }
 
