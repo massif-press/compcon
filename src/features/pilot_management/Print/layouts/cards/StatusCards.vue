@@ -17,7 +17,7 @@
         />
       </v-col>
       <div style="position: absolute; top: 0; left: 0; right: 0" class="caption pt-5 pa-3">
-        <span v-html="s.Effects" />
+        <span v-html-safe="s.Effects" />
       </div>
     </v-row>
     <div style="position: absolute; bottom: 1px; right: 1px">

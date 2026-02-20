@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    :items="downtimeActions"
+  <cc-compendium-browser :items="downtimeActions"
     item-type="Reserve"
     :table-headers="headers"
     :options="options">
@@ -14,7 +13,7 @@
 import { CompendiumStore } from '@/stores';
 import lancerdata from '@massif/lancer-data';
 
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 
 export default {
   name: 'downtimeActions',
@@ -35,7 +34,7 @@ export default {
   }),
   computed: {
     downtimeActions() {
-      return _.orderBy(CompendiumStore().DowntimeActions, 'Name');
+      return orderBy(CompendiumStore().DowntimeActions, 'Name');
     },
   },
 };

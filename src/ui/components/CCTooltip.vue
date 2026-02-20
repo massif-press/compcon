@@ -14,7 +14,7 @@
         :size="size" />
     </template>
     <template #default>
-      <span v-if="text" v-html="text" />
+      <span v-if="text" v-html-safe="text" />
       <slot v-else />
     </template>
   </v-tooltip>

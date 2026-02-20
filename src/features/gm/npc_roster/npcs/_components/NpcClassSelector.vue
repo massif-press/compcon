@@ -1,12 +1,13 @@
 <template>
-  <v-card-text v-if="!classes.length" class="mt-n4">
+  <v-card-text v-if="!classes.length"
+    class="mt-n4">
     <v-container>
       <cc-missing-gm-lcp-text />
     </v-container>
   </v-card-text>
-  <div v-else style="height: 90vh; overflow-y: hidden">
-    <cc-compendium-browser
-      ref="browser"
+  <div v-else
+    style="height: 90vh; overflow-y: hidden">
+    <cc-compendium-browser ref="browser"
       :items="classes"
       item-type="NpcClass"
       :table-headers="headers"
@@ -18,16 +19,19 @@
       <template #header>
         <div class="heading h3 text-center text-accent">NPC Classes</div>
         <v-slide-y-transition>
-          <div v-if="tieredView" class="text-center my-n1">
-            <v-btn-toggle
-              v-model="selectedTier"
+          <div v-if="tieredView"
+            class="text-center my-n1">
+            <v-btn-toggle v-model="selectedTier"
               density="compact"
               color="secondary-darken-3"
               mandatory
               style="height: 15px">
-              <v-btn size="x-small" :value="1">Tier 1</v-btn>
-              <v-btn size="x-small" :value="2">Tier 2</v-btn>
-              <v-btn size="x-small" :value="3">Tier 3</v-btn>
+              <v-btn size="x-small"
+                :value="1">Tier 1</v-btn>
+              <v-btn size="x-small"
+                :value="2">Tier 2</v-btn>
+              <v-btn size="x-small"
+                :value="3">Tier 3</v-btn>
             </v-btn-toggle>
           </div>
         </v-slide-y-transition>
@@ -39,7 +43,7 @@
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
 import { NpcClass } from '@/classes/npc/class/NpcClass';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 const keymap = {
   hull: 'Hull',

@@ -51,7 +51,7 @@
           v-text="s.Origin" />
         <v-divider />
         <p class="py-2"
-          v-html="s.Detail" />
+          v-html-safe="s.Detail" />
       </v-tooltip>
     </div>
   </div>

@@ -65,8 +65,8 @@
           :title="combatant.Base.Name"
           :icon="combatant.Base.Icon"
           outlined>
-          <div v-html="combatant.Base.Detail" />
-          <div v-html="combatant.Base.Description" />
+          <div v-html-safe="combatant.Base.Detail" />
+          <div v-html-safe="combatant.Base.Description" />
         </cc-panel>
 
         <panel-base :encounter-instance="encounterInstance"
@@ -154,7 +154,7 @@
 </template>
 
 <script>
-import { remove } from 'lodash';
+import { remove } from 'lodash-es';
 import StatMiniPanel from './_components/StatMiniPanel.vue';
 import PanelBase from './_PanelBase.vue';
 import { Action } from '@/classes/Action';

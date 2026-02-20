@@ -3,19 +3,21 @@
     <v-row>
       <v-col>
         <p class="body-text text-text light-panel pa-2 mb-1">
-          <span v-if="manifest.description" v-html-safe="manifest.description" />
+          <span v-if="manifest.description"
+            v-html-safe="manifest.description" />
           <span v-else>No description given.</span>
         </p>
         <div>
           <cc-heading line>CONTENT</cc-heading>
           <div>
-            <v-chip
-              v-for="item in packContents"
+            <v-chip v-for="item in packContents"
               variant="outlined"
               color="accent"
               size="small"
               class="mr-2 mb-1 text-overline rounded-s-full rounded-e-0">
-              <v-avatar color="primary" start v-text="item.count" />
+              <v-avatar color="primary"
+                start
+                v-text="item.count" />
               {{ item.name }}
             </v-chip>
           </div>
@@ -23,34 +25,31 @@
         <div class="pt-2">
           <cc-heading line>
             DEPENDENCIES
-            <cc-tooltip
-              text="Dependencies are other content packs that this pack requires to function properly.
+            <cc-tooltip text="Dependencies are other content packs that this pack requires to function properly.
               They must be installed and activated for this pack to load correctly." />
           </cc-heading>
-          <i v-if="packDependencies.length === 0" class="pl-2">None</i>
+          <i v-if="packDependencies.length === 0"
+            class="pl-2">None</i>
           <div v-else>
-            <v-card
-              v-for="item in packDependencies"
+            <v-card v-for="item in packDependencies"
               :variant="d(item).installed ? 'flat' : 'text'"
               :color="d(item).installed ? 'success' : 'error'"
               size="small"
               class="ma-1 pa-1">
               <div class="font-weight-bold">
-                <v-icon :icon="d(item).installed ? 'mdi-check' : 'mdi-close'" class="mr-1" />
+                <v-icon :icon="d(item).installed ? 'mdi-check' : 'mdi-close'"
+                  class="mr-1" />
                 {{ d(item).name }} @ {{ d(item).version }}
               </div>
-              <div
-                class="text-caption px-2"
-                v-html="
-                  d(item).installed
-                    ? 'Dependency installed'
-                    : `${manifest.name} requires Lancer Content Pack <b>${
-                        d(item).name
-                      } at version ${d(item).version}</b> to be installed before it can be loaded.`
-                " />
-              <div v-if="d(item).link" class="text-caption px-2 text-right">
-                <v-btn
-                  v-if="!d(item).installed"
+              <div class="text-caption px-2"
+                v-html-safe="d(item).installed
+                  ? 'Dependency installed'
+                  : `${manifest.name} requires Lancer Content Pack <b>${d(item).name
+                  } at version ${d(item).version}</b> to be installed before it can be loaded.`
+                  " />
+              <div v-if="d(item).link"
+                class="text-caption px-2 text-right">
+                <v-btn v-if="!d(item).installed"
                   flat
                   tile
                   :href="d(item).link"
@@ -65,12 +64,14 @@
           </div>
         </div>
       </v-col>
-      <v-col cols="12" md="4">
-        <v-img :src="manifest.image_url" max-height="300px" />
-        <div v-if="manifest.website" class="mt-2 d-flex">
+      <v-col cols="12"
+        md="4">
+        <v-img :src="manifest.image_url"
+          max-height="300px" />
+        <div v-if="manifest.website"
+          class="mt-2 d-flex">
           <v-spacer />
-          <cc-button
-            target="_blank"
+          <cc-button target="_blank"
             prepend-icon="mdi-open-in-new"
             :href="manifest.website"
             color="primary"
@@ -87,7 +88,7 @@
 <script lang="ts">
 import { ContentPack } from '@/class';
 import { IContentPack, IContentPackManifest, ContentPackDependency } from '@/interface';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { PropType } from 'vue';
 import { CompendiumStore } from '@/stores';
 

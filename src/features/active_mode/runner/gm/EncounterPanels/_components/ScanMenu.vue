@@ -1,8 +1,7 @@
 <template>
   <v-dialog max-width="900px">
     <template #activator="{ props }">
-      <cc-button
-        block
+      <cc-button block
         size="small"
         color="primary"
         class="mt-2"
@@ -13,19 +12,23 @@
     </template>
     <template #default="{ isActive }">
       <v-card>
-        <v-toolbar height="40" color="primary" class="text-center">
+        <v-toolbar height="40"
+          color="primary"
+          class="text-center">
           <div class="heading h3 mt-1">
-            <v-icon icon="mdi-cube-scan" class="mt-n1 ml-2" start />
+            <v-icon icon="mdi-cube-scan"
+              class="mt-n1 ml-2"
+              start />
             Scan
           </div>
           <v-spacer />
-          <v-btn icon @click="isActive.value = false">
+          <v-btn icon
+            @click="isActive.value = false">
             <v-icon icon="mdi-close" />
           </v-btn>
         </v-toolbar>
         <v-card-text>
-          <v-textarea
-            :value="statblock"
+          <v-textarea :value="statblock"
             auto-grow
             readonly
             rows="15"
@@ -33,7 +36,9 @@
             variant="outlined"
             class="flavor-text" />
           <div class="d-flex justify-end mt-4">
-            <cc-button prepend-icon="mdi-clipboard-text-outline" color="accent" @click="copy()">
+            <cc-button prepend-icon="mdi-clipboard-text-outline"
+              color="accent"
+              @click="copy()">
               Copy to Clipboard
             </cc-button>
           </div>
@@ -44,7 +49,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { Statblock } from '@/class';
 

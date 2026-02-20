@@ -1,10 +1,11 @@
 <template>
   <v-container>
-    <div class="heading mt-n4" :class="mobile ? 'h2' : 'h1'">MANUFACTURERS</div>
+    <div class="heading mt-n4"
+      :class="mobile ? 'h2' : 'h1'">MANUFACTURERS</div>
     <v-row>
-      <v-col cols="12" lg="2">
-        <v-tabs
-          v-model="tabModel"
+      <v-col cols="12"
+        lg="2">
+        <v-tabs v-model="tabModel"
           :direction="$vuetify.display.lgAndUp ? 'vertical' : 'horizontal'"
           :vertical="$vuetify.display.lgAndUp"
           :slider-height="12"
@@ -12,10 +13,14 @@
           density="compact"
           icons-and-text
           show-arrows>
-          <v-tab v-for="(m, i) in manufacturers" ripple>
-            <v-row dense align="center">
+          <v-tab v-for="(m, i) in manufacturers"
+            ripple>
+            <v-row dense
+              align="center">
               <v-col cols="auto">
-                <cc-logo size="large" :source="m" :color="tabModel == i ? m.Color : ''" />
+                <cc-logo size="large"
+                  :source="m"
+                  :color="tabModel === i ? m.Color : ''" />
               </v-col>
               <v-col>
                 {{ m.ID }}
@@ -27,10 +32,11 @@
       <v-col>
         <v-window v-model="tabModel">
           <v-window-item v-for="m in manufacturers">
-            <cc-panel color="panel-dark" style="position: relative">
-              <cc-lcp-info :item="m" style="position: absolute; top: 4px; right: 4px" />
-              <div
-                :class="`heading ${$vuetify.display.lgAndUp ? 'mech' : 'h2'}`"
+            <cc-panel color="panel-dark"
+              style="position: relative">
+              <cc-lcp-info :item="m"
+                style="position: absolute; top: 4px; right: 4px" />
+              <div :class="`heading ${$vuetify.display.lgAndUp ? 'mech' : 'h2'}`"
                 :style="`color: ${m.Color};`">
                 <span style="overflow-wrap: normal !important">
                   {{ m.Name }}
@@ -38,11 +44,17 @@
               </div>
               <v-card-text class="pr-4 pt-0">
                 <div style="float: right; width: 22vw; height: 22vw">
-                  <cc-logo v-if="!mobile" width="22vw" :source="m" :color="m.Color" />
+                  <cc-logo v-if="!mobile"
+                    width="22vw"
+                    :source="m"
+                    :color="m.Color" />
                 </div>
-                <blockquote v-html-safe="m.Quote" class="quote-block" />
-                <v-divider class="ma-2" style="width: 30vw" />
-                <p v-html-safe="m.Description" class="body-text stark-text-text mb-2" />
+                <blockquote v-html-safe="m.Quote"
+                  class="quote-block" />
+                <v-divider class="ma-2"
+                  style="width: 30vw" />
+                <p v-html-safe="m.Description"
+                  class="body-text stark-text-text mb-2" />
               </v-card-text>
             </cc-panel>
           </v-window-item>

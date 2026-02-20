@@ -1,6 +1,7 @@
 <template>
   <div class="pa-2 mt-3">
-    <div class="text-overline text-primary" style="line-height: 15px">
+    <div class="text-overline text-primary"
+      style="line-height: 15px">
       {{ encounter.Name }}
       <span class="text-black">&mdash; NPC TRACKING</span>
     </div>
@@ -9,17 +10,21 @@
   <v-row dense>
     <v-col>
       <div class="text-caption">ENEMIES</div>
-      <npc-tracker v-for="c in Enemies" :combatant="c" />
+      <npc-tracker v-for="c in Enemies"
+        :combatant="c" />
     </v-col>
     <v-col>
       <div class="text-caption">PCS/ALLIES</div>
-      <npc-tracker v-for="c in Allies" :combatant="c" />
+      <npc-tracker v-for="c in Allies"
+        :combatant="c" />
     </v-col>
   </v-row>
   <div v-if="Neutral.length > 0">
     <div class="text-caption mt-1">NEUTRAL</div>
     <v-row dense>
-      <v-col cols="auto" v-for="c in Neutral" style="min-width: 30vw">
+      <v-col cols="auto"
+        v-for="c in Neutral"
+        style="min-width: 30vw">
         <npc-tracker :combatant="c" />
       </v-col>
     </v-row>
@@ -32,7 +37,7 @@ import NpcTracker from '../components/NpcTracker.vue';
 import Notes from '../components/blank/notes.vue';
 import BlankLine from '../components/blank/line.vue';
 import PageBreak from '../components/PageBreak.vue';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'gm-tracker-print',

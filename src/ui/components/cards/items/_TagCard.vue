@@ -1,5 +1,5 @@
 <template>
-  <div v-html="item.GetDescription()" />
+  <div v-html-safe="item.GetDescription()" />
 </template>
 
 <script lang="ts">

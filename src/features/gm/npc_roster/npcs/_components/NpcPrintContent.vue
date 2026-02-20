@@ -16,14 +16,14 @@
             </span>
           </v-col>
           <v-col cols="auto">
-            <v-chip small variant="outlined" v-html="item.Tag" />
+            <v-chip small variant="outlined" v-html-safe="item.Tag" />
             <cc-divider v-if="item.NarrativeController.Labels.length" />
             <v-chip
               v-for="(l, i) in item.Labels"
               small
               variant="outlined"
               label
-              v-html="l"
+              v-html-safe="l"
             />
           </v-col>
           <v-col v-if="hasClass" cols="auto" class="mt-n4">
@@ -34,19 +34,19 @@
         <v-row v-if="hasClass" align="center" class="mt-n4">
           <v-col cols="auto" class="text-center">
             <div class="small-header overline">HULL</div>
-            <div class="heading h3" v-html="item.Stats.Hull" />
+            <div class="heading h3" v-html-safe="item.Stats.Hull" />
           </v-col>
           <v-col cols="auto" class="text-center">
             <div class="small-header overline">AGI</div>
-            <div class="heading h3" v-html="item.Stats.Agility" />
+            <div class="heading h3" v-html-safe="item.Stats.Agility" />
           </v-col>
           <v-col cols="auto" class="text-center">
             <div class="small-header overline">SYS</div>
-            <div class="heading h3" v-html="item.Stats.Systems" />
+            <div class="heading h3" v-html-safe="item.Stats.Systems" />
           </v-col>
           <v-col cols="auto" class="text-center">
             <div class="small-header overline">ENG</div>
-            <div class="heading h3" v-html="item.Stats.Engineering" />
+            <div class="heading h3" v-html-safe="item.Stats.Engineering" />
           </v-col>
 
           <v-spacer />
@@ -61,7 +61,7 @@
               <v-chip variant="outlined" label class="px-7" />
               <b
                 class="d-inline-block mb-n2"
-                v-html="`/${item.Stats.Structure}`"
+                v-html-safe="`/${item.Stats.Structure}`"
               />
             </div>
           </v-col>
@@ -73,7 +73,7 @@
                   <v-chip variant="outlined" label class="px-7" />
                   <b
                     class="d-inline-block mb-n2"
-                    v-html="`/${item.Stats.HP}`"
+                    v-html-safe="`/${item.Stats.HP}`"
                   />
                 </div>
               </v-col>
@@ -100,7 +100,7 @@
               <v-chip variant="outlined" label class="px-7" />
               <b
                 class="d-inline-block flavor-text font-weight-bold mb-n2"
-                v-html="`/${item.Stats.Stress}`"
+                v-html-safe="`/${item.Stats.Stress}`"
               />
             </div>
           </v-col>
@@ -110,7 +110,7 @@
               <v-chip variant="outlined" label class="px-7" />
               <b
                 class="d-inline-block flavor-text font-weight-bold mb-n2"
-                v-html="`/${item.Stats.HeatCapacity}`"
+                v-html-safe="`/${item.Stats.HeatCapacity}`"
               />
             </div>
           </v-col>

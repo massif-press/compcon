@@ -1,8 +1,9 @@
 <template>
-  <v-menu :open-on-hover="!mobile" :open-on-click="mobile" max-width="600px">
+  <v-menu :open-on-hover="!mobile"
+    :open-on-click="mobile"
+    max-width="600px">
     <template #activator="{ props }">
-      <cc-button
-        :color="item.Color ? item.Color : 'primary'"
+      <cc-button :color="item.Color ? item.Color : 'primary'"
         class="d-inline-block"
         :class="density === 'compact' ? '' : 'ma-1'"
         style="margin: 1px"
@@ -12,7 +13,8 @@
         v-bind="props">
         {{ truncate(item.Name) }}
         <span v-if="!hideType">{{ item.ItemType === 'Frame' ? '&nbsp;FRAME' : '' }}</span>
-        <cc-broken-reference :item="item" end />
+        <cc-broken-reference :item="item"
+          end />
       </cc-button>
     </template>
 
@@ -25,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import ItemCardLink from './items/_components/ItemCardLink.vue';
 
 export default {

@@ -1,101 +1,109 @@
-import axios from 'axios';
+import { USER_API_BASE_URL, CONTENT_API_BASE_URL } from '@/config/api'
 
-let lcp_meta_key = process.env.VITE_LCP_META_KEY || '';
-if (!lcp_meta_key) lcp_meta_key = import.meta.env.VITE_LCP_META_KEY || '';
+let lcp_meta_key = process.env.VITE_LCP_META_KEY || ''
+if (!lcp_meta_key) lcp_meta_key = import.meta.env.VITE_LCP_META_KEY || ''
 
-const headers = {
-  headers: {
+const createFetchRequest = async (endpoint: string, options: RequestInit = {}) => {
+  const url = endpoint.startsWith('http') ? endpoint : `${USER_API_BASE_URL}${endpoint}`
+
+  const defaultHeaders = {
     'Content-Type': 'application/json',
     'x-api-key': lcp_meta_key,
-  },
-};
+  }
 
-const api = axios.create({
-  baseURL: 'https://ai5fg19zme.execute-api.us-east-1.amazonaws.com/prod',
-  ...headers,
-});
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      ...defaultHeaders,
+      ...options.headers,
+    },
+  })
 
-const s3api = axios.create({
-  headers: {
-    'Content-Type': 'image/*',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE, HEAD, OPTIONS',
-    'Access-Control-Allow-Headers': '*',
-    'Access-Control-Allow-Credentials': true,
-    'x-api-key': lcp_meta_key,
-  },
-});
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`)
+  }
+
+  return response.json()
+}
+
+const buildQueryString = (params: Record<string, string>) => {
+  const searchParams = new URLSearchParams(params)
+  return searchParams.toString()
+}
 
 const get = (id: string) => {
-  return api.get('/user', { params: { id } });
-};
+  const queryString = buildQueryString({ id })
+  return createFetchRequest(`/user?${queryString}`)
+}
 
 const storageInfo = (id: string) => {
-  return api.get('/storage/info', { params: { id } });
-};
+  const queryString = buildQueryString({ id })
+  return createFetchRequest(`/storage/info?${queryString}`)
+}
 
 const getPresignedLink = (id: string, itemType: string, itemTag: string, filename: string) => {
-  return api.get('/storage/presign', { params: { id, itemType, itemTag, filename } });
-};
+  const queryString = buildQueryString({ id, itemType, itemTag, filename })
+  return createFetchRequest(`/storage/presign?${queryString}`)
+}
 
 const deleteStorage = (key: string) => {
-  return api.delete('/storage', { params: { key } });
-};
+  const queryString = buildQueryString({ key })
+  return createFetchRequest(`/storage?${queryString}`, {
+    method: 'DELETE',
+  })
+}
 
 const getLcpPresigned = (packName: string) => {
-  return api.get('/lcp', { params: { packName } });
-};
+  const queryString = buildQueryString({ packName })
+  return createFetchRequest(`/lcp?${queryString}`)
+}
 
-const collectionDataQuery = async (itemtype) => {
+const collectionDataQuery = async itemtype => {
   const collectionHeaders = {
     'Content-Type': 'application/json',
     'x-api-key': import.meta.env.VITE_LCP_META_KEY as string,
-  };
+  }
 
-  const result = await fetch(
-    'https://jefxcgrkd0.execute-api.us-east-1.amazonaws.com/prod/content',
-    {
-      method: 'POST',
-      headers: collectionHeaders,
-      body: JSON.stringify({ itemtype }),
-    }
-  );
+  const result = await fetch(`${CONTENT_API_BASE_URL}/content`, {
+    method: 'POST',
+    headers: collectionHeaders,
+    body: JSON.stringify({ itemtype }),
+  })
 
   if (!result.ok) {
-    throw new Error(`HTTP error! status: ${result.status}`);
+    throw new Error(`HTTP error! status: ${result.status}`)
   }
-  const data = await result.json();
-  return data;
-};
+  const data = await result.json()
+  return data
+}
 
 const getItemDownloadLink = async (itch_userid, game_id, item_uri) => {
   const collectionHeaders = {
     'Content-Type': 'application/json',
     'x-api-key': import.meta.env.VITE_LCP_META_KEY as string,
-  };
+  }
 
-  let url = 'https://jefxcgrkd0.execute-api.us-east-1.amazonaws.com/prod/content';
-  url += `?itch_userid=${itch_userid}&game_id=${game_id}&item_uri=${item_uri}`;
+  let url = `${CONTENT_API_BASE_URL}/content`
+  url += `?itch_userid=${itch_userid}&game_id=${game_id}&item_uri=${item_uri}`
 
   const result = await fetch(url, {
     method: 'GET',
     headers: collectionHeaders,
-  });
+  })
 
   if (!result.ok) {
-    throw new Error(`HTTP error! status: ${result.status}`);
+    throw new Error(`HTTP error! status: ${result.status}`)
   }
-  const data = await result.json();
-  return data;
-};
+  const data = await result.json()
+  return data
+}
 
 export {
   get,
   storageInfo,
   getPresignedLink,
-  s3api,
   deleteStorage,
   getLcpPresigned,
   collectionDataQuery,
   getItemDownloadLink,
-};
+}

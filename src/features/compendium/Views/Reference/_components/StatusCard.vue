@@ -12,7 +12,7 @@
     <v-card-text class="py-2 px-4">
       <p v-text="status.Terse" class="text-center font-weight-bold body-text" />
       <v-divider class="my-1" />
-      <p v-html="status.Effects" />
+      <p v-html-safe="status.Effects" />
     </v-card-text>
     <div class="clip-fix" />
   </v-card>

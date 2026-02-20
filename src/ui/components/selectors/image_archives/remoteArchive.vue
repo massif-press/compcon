@@ -1,9 +1,11 @@
 <template>
   <v-card>
-    <v-row dense align="center">
-      <v-col v-for="image in displayedRemoteImages" cols="4" md="3">
-        <v-card
-          class="ma-2"
+    <v-row dense
+      align="center">
+      <v-col v-for="image in displayedRemoteImages"
+        cols="4"
+        md="3">
+        <v-card class="ma-2"
           outlined
           tile
           :color="selectedImage === image ? 'primary' : ''"
@@ -11,17 +13,29 @@
           style="border-width: 3px"
           @click="selectedImage === image ? (selectedImage = null) : stage(image)">
           <div class="background">
-            <v-img :src="image" contain max-height="200px" />
+            <v-img :src="image"
+              contain
+              max-height="200px" />
           </div>
         </v-card>
         <v-scale-transition>
-          <v-card v-if="selectedImage === image" flat class="pa-1" tile>
+          <v-card v-if="selectedImage === image"
+            flat
+            class="pa-1"
+            tile>
             <div class="text-caption pb-1 text-center">
               {{ image }}
             </div>
-            <v-menu offset-y offset-x top left>
+            <v-menu offset-y
+              offset-x
+              top
+              left>
               <template v-slot:activator="{ props }">
-                <v-btn block variant="tonal" color="error" size="x-small" v-bind="props">
+                <v-btn block
+                  variant="tonal"
+                  color="error"
+                  size="x-small"
+                  v-bind="props">
                   Delete
                 </v-btn>
               </template>
@@ -33,14 +47,12 @@
         </v-scale-transition>
       </v-col>
     </v-row>
-    <v-pagination
-      v-model="currentRemotePage"
+    <v-pagination v-model="currentRemotePage"
       :length="totalRemotePages"
       total-visible="9"
       @input="currentRemotePage = $event" />
     <v-divider class="my-3" />
-    <cc-alert
-      density="compact"
+    <cc-alert density="compact"
       class="my-2 text-caption"
       icon="mdi-alert"
       title="External Data Warning">
@@ -53,16 +65,14 @@
     <v-card-text>
       <div class="heading h3">
         ADD REMOTE IMAGE
-        <cc-tooltip
-          inline
+        <cc-tooltip inline
           content="Link a remotely-hosted image to this asset. These images are not stored or managed by COMP/CON and are subject to change or removal based on their hosts.">
           <v-icon left>mdi-information-outline</v-icon>
         </cc-tooltip>
       </div>
       <v-row align="center">
         <v-col>
-          <v-text-field
-            v-model="remoteInput"
+          <v-text-field v-model="remoteInput"
             class="px-6 mt-2"
             dense
             outlined
@@ -72,19 +82,21 @@
             :disabled="loading" />
         </v-col>
         <v-col cols="auto">
-          <v-btn
-            color="secondary"
+          <v-btn color="secondary"
             :disabled="!remoteInput || remoteError.length > 0"
             @click="setRemoteImage()">
             Load
           </v-btn>
         </v-col>
       </v-row>
-      <v-alert v-if="remoteError" type="error" class="mt-3">
+      <v-alert v-if="remoteError"
+        type="error"
+        class="mt-3">
         <v-row>
           <v-col>{{ remoteError }}</v-col>
           <v-col cols="auto">
-            <v-btn icon @click="remoteError = ''"><v-icon>mdi-close</v-icon></v-btn>
+            <v-btn icon
+              @click="remoteError = ''"><v-icon>mdi-close</v-icon></v-btn>
           </v-col>
         </v-row>
       </v-alert>
@@ -93,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { SetItem, RemoveItem, GetKeys } from '@/io/Storage';
 
 export default {
@@ -166,11 +178,11 @@ export default {
     validURL(str: string): boolean {
       const pattern = new RegExp(
         '^(https?:\\/\\/)?' + // protocol
-          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-          '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-          '(\\#[-a-z\\d_]*)?$',
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
         'i'
       ); // fragment locator
       return !!pattern.test(str);

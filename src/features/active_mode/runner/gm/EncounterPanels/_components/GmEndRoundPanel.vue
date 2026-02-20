@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { Statblock } from '@/class';
 

@@ -1,18 +1,20 @@
 <template>
   <v-layout>
-    <div
-      style="position: absolute; z-index: 999"
+    <div style="position: absolute; z-index: 999"
       :style="`left: ${showNav ? (mobile ? '322' : '352') : '3'}px; top: 6px`">
-      <cc-button
-        :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+      <cc-button :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
         size="small"
         color="primary"
         @click="(showNav as any) = !showNav" />
     </div>
-    <v-navigation-drawer v-model="showNav" :width="mobile ? 320 : 350">
-      <v-list density="compact" style="padding-bottom: 60px" tile nav v-model:opened="open">
-        <v-alert
-          v-show="!!$slots.header"
+    <v-navigation-drawer v-model="showNav"
+      :width="mobile ? 320 : 350">
+      <v-list density="compact"
+        style="padding-bottom: 60px"
+        tile
+        nav
+        v-model:opened="open">
+        <v-alert v-show="!!$slots.header"
           variant="outlined"
           class="mb-3 py-1"
           tile
@@ -20,11 +22,12 @@
           <slot name="header"></slot>
         </v-alert>
 
-        <b-view-toggle v-model="view" :options="options" />
-        <b-group-toggle v-model="group" :options="options" />
+        <b-view-toggle v-model="view"
+          :options="options" />
+        <b-group-toggle v-model="group"
+          :options="options" />
 
-        <b-filter-set
-          v-model="lcpFilter"
+        <b-filter-set v-model="lcpFilter"
           :lcp-filter="lcpFilter"
           :lcps="lcps"
           :other-filter="otherFilter"
@@ -32,8 +35,7 @@
           @set-all="setAllLcps()"
           @set-filters="otherFilter = $event" />
 
-        <v-text-field
-          v-model="search"
+        <v-text-field v-model="search"
           item-title="Name"
           prepend-icon="mdi-magnify"
           variant="outlined"
@@ -44,13 +46,13 @@
         <v-divider class="mt-2" />
 
         <div v-if="group === 'lcp'">
-          <v-list-group
-            v-for="lcp in lcps.filter((l) => lcpFilter.includes(l))"
+          <v-list-group v-for="lcp in lcps.filter((l) => lcpFilter.includes(l))"
             :value="lcp"
             color="accent"
             class="pt-0">
             <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" tile>
+              <v-list-item v-bind="props"
+                tile>
                 <template #title>
                   <span class="text-button">
                     <b>{{ lcp }}</b>
@@ -59,8 +61,7 @@
               </v-list-item>
             </template>
 
-            <b-list-item
-              v-if="options.noSource"
+            <b-list-item v-if="options.noSource"
               v-for="item in itemsByLcp[lcp].filter((i) =>
                 search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
               )"
@@ -71,10 +72,9 @@
               @equip="handleEquip(item)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-              ">
+                ">
               <template #checkbox>
-                <v-checkbox-btn
-                  density="compact"
+                <v-checkbox-btn density="compact"
                   v-model="comparisons"
                   @click.stop
                   class="d-inline ml-3"
@@ -82,14 +82,12 @@
               </template>
             </b-list-item>
 
-            <b-list-group
-              v-else-if="itemType === 'NpcClass'"
+            <b-list-group v-else-if="itemType === 'NpcClass'"
               v-for="role in rolesByLcp[lcp]"
               :parent="lcp"
               :collection="role"
               :role="role">
-              <b-list-item
-                v-for="item in getRoleItems(role, lcp)"
+              <b-list-item v-for="item in getRoleItems(role, lcp)"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -97,10 +95,9 @@
                 :item="<CompendiumItem>item"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-                ">
+                  ">
                 <template #checkbox>
-                  <v-checkbox-btn
-                    density="compact"
+                  <v-checkbox-btn density="compact"
                     v-model="comparisons"
                     @click.stop
                     class="d-inline ml-3"
@@ -109,22 +106,19 @@
               </b-list-item>
             </b-list-group>
 
-            <b-list-group
-              v-else-if="itemType === 'NpcFeature'"
+            <b-list-group v-else-if="itemType === 'NpcFeature'"
               v-for="origin in originsByLcp[lcp]"
-              v-show="
-                search
-                  ? getOriginItems(origin, lcp).filter((i) =>
-                      i.Name.toLowerCase().includes(search.toLowerCase())
-                    ).length > 0
-                  : true
-              "
+              v-show="search
+                ? getOriginItems(origin, lcp).filter((i) =>
+                  i.Name.toLowerCase().includes(search.toLowerCase())
+                ).length > 0
+                : true
+                "
               :parent="lcp"
               :collection="origin">
-              <b-list-item
-                v-for="item in getOriginItems(origin, lcp).filter((i) =>
-                  search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
-                )"
+              <b-list-item v-for="item in getOriginItems(origin, lcp).filter((i) =>
+                search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
+              )"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -132,10 +126,9 @@
                 :item="<CompendiumItem>item"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-                ">
+                  ">
                 <template #checkbox>
-                  <v-checkbox-btn
-                    density="compact"
+                  <v-checkbox-btn density="compact"
                     v-model="comparisons"
                     @click.stop
                     class="d-inline ml-3"
@@ -144,14 +137,12 @@
               </b-list-item>
             </b-list-group>
 
-            <b-list-group
-              v-else
+            <b-list-group v-else
               v-for="manufacturer in manufacturersByLcp[lcp]"
               :parent="lcp"
               :collection="manufacturer"
               :manufacturer="mf(manufacturer)">
-              <b-list-item
-                v-for="item in getItems(manufacturer, lcp)"
+              <b-list-item v-for="item in getItems(manufacturer, lcp)"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -159,10 +150,9 @@
                 :item="<CompendiumItem>item"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-                ">
+                  ">
                 <template #checkbox>
-                  <v-checkbox-btn
-                    density="compact"
+                  <v-checkbox-btn density="compact"
                     v-model="comparisons"
                     @click.stop
                     class="d-inline ml-3"
@@ -174,13 +164,14 @@
         </div>
 
         <div v-else-if="group === 'source'">
-          <v-list-group
-            v-for="manufacturer in manufacturers"
+          <v-list-group v-for="manufacturer in manufacturers"
             :value="manufacturer"
             color="accent"
             class="pt-0">
             <template v-slot:activator="{ props }">
-              <v-list-item tile v-bind="props" slim>
+              <v-list-item tile
+                v-bind="props"
+                slim>
                 <template #prepend>
                   <cc-logo :source="mf(manufacturer)" />
                   &nbsp;
@@ -193,8 +184,7 @@
               </v-list-item>
             </template>
 
-            <b-list-item
-              v-for="item in getItems(manufacturer)"
+            <b-list-item v-for="item in getItems(manufacturer)"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -202,10 +192,9 @@
               @equip="handleEquip(item as any)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-              ">
+                ">
               <template #checkbox>
-                <v-checkbox-btn
-                  density="compact"
+                <v-checkbox-btn density="compact"
                   v-model="comparisons"
                   @click.stop
                   class="d-inline ml-3"
@@ -216,9 +205,10 @@
         </div>
 
         <div v-else-if="group === 'role'">
-          <b-list-group v-for="role in roles" :collection="role" :role="role">
-            <b-list-item
-              v-for="item in getRoleItems(role)"
+          <b-list-group v-for="role in roles"
+            :collection="role"
+            :role="role">
+            <b-list-item v-for="item in getRoleItems(role)"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -226,10 +216,9 @@
               :item="<CompendiumItem>item"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-              ">
+                ">
               <template #checkbox>
-                <v-checkbox-btn
-                  density="compact"
+                <v-checkbox-btn density="compact"
                   v-model="comparisons"
                   @click.stop
                   class="d-inline ml-3"
@@ -240,12 +229,10 @@
         </div>
 
         <div v-else-if="group === 'featureType'">
-          <b-list-group
-            v-for="featureType in featureTypes"
+          <b-list-group v-for="featureType in featureTypes"
             :collection="featureType"
             :feature="featureType">
-            <b-list-item
-              v-for="item in getFeatureItems(featureType)"
+            <b-list-item v-for="item in getFeatureItems(featureType)"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -253,10 +240,9 @@
               :item="<CompendiumItem>item"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-              ">
+                ">
               <template #checkbox>
-                <v-checkbox-btn
-                  density="compact"
+                <v-checkbox-btn density="compact"
                   v-model="comparisons"
                   @click.stop
                   class="d-inline ml-3"
@@ -267,9 +253,9 @@
         </div>
 
         <div v-else-if="group === 'origin'">
-          <b-list-group v-for="origin in origins" :collection="origin">
-            <b-list-item
-              v-for="item in getOriginItems(origin)"
+          <b-list-group v-for="origin in origins"
+            :collection="origin">
+            <b-list-item v-for="item in getOriginItems(origin)"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -277,10 +263,9 @@
               :item="<CompendiumItem>item"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-              ">
+                ">
               <template #checkbox>
-                <v-checkbox-btn
-                  density="compact"
+                <v-checkbox-btn density="compact"
                   v-model="comparisons"
                   @click.stop
                   class="d-inline ml-3"
@@ -291,9 +276,13 @@
         </div>
 
         <div v-else-if="group === 'license'">
-          <v-list-group v-for="license in licenses" :value="license" color="accent" class="pt-0">
+          <v-list-group v-for="license in licenses"
+            :value="license"
+            color="accent"
+            class="pt-0">
             <template v-slot:activator="{ props }">
-              <v-list-item tile v-bind="props">
+              <v-list-item tile
+                v-bind="props">
                 <template #title>
                   <span class="text-button">
                     <b>{{ license ? license : 'Other' }}</b>
@@ -301,8 +290,7 @@
                 </template>
               </v-list-item>
             </template>
-            <b-list-item
-              v-for="item in getLicenseItems(license)"
+            <b-list-item v-for="item in getLicenseItems(license)"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -310,10 +298,9 @@
               @equip="handleEquip(item)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-              ">
+                ">
               <template #checkbox>
-                <v-checkbox-btn
-                  density="compact"
+                <v-checkbox-btn density="compact"
                   v-model="comparisons"
                   @click.stop
                   class="d-inline ml-3"
@@ -324,9 +311,13 @@
         </div>
 
         <div v-else-if="group === 'type'">
-          <v-list-group v-for="subtype in subtypes" :value="subtype" color="accent" class="pt-0">
+          <v-list-group v-for="subtype in subtypes"
+            :value="subtype"
+            color="accent"
+            class="pt-0">
             <template v-slot:activator="{ props }">
-              <v-list-item tile v-bind="props">
+              <v-list-item tile
+                v-bind="props">
                 <template #title>
                   <span class="text-button">
                     <b>{{ subtype }}</b>
@@ -334,8 +325,7 @@
                 </template>
               </v-list-item>
             </template>
-            <b-list-item
-              v-for="item in getSubtypeItems(subtype)"
+            <b-list-item v-for="item in getSubtypeItems(subtype)"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -343,10 +333,9 @@
               @equip="handleEquip(item)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-              ">
+                ">
               <template #checkbox>
-                <v-checkbox-btn
-                  density="compact"
+                <v-checkbox-btn density="compact"
                   v-model="comparisons"
                   @click.stop
                   class="d-inline ml-3"
@@ -357,8 +346,7 @@
         </div>
 
         <div v-else>
-          <b-list-item
-            v-for="item in shownItems"
+          <b-list-item v-for="item in shownItems"
             :selected="!!selectedItem && selectedItem.ID === item.ID"
             :compare="view === 'compare'"
             :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -366,10 +354,9 @@
             :item="<CompendiumItem>item"
             @clicked="
               selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-            ">
+              ">
             <template #checkbox>
-              <v-checkbox-btn
-                density="compact"
+              <v-checkbox-btn density="compact"
                 v-model="comparisons"
                 @click.stop
                 class="d-inline ml-3"
@@ -381,13 +368,13 @@
     </v-navigation-drawer>
 
     <v-main class="mt-2">
-      <div
-        id="content"
+      <div id="content"
         :style="`height: calc(100vh - ${getHeight}px)!important;`"
         style="overflow-y: scroll; padding-bottom: 40px">
-        <div id="content" :style="view === 'table' ? '' : 'max-width: 1200px'" class="pa-4 mx-auto">
-          <v-alert
-            v-show="!!$slots.top"
+        <div id="content"
+          :style="view === 'table' ? '' : 'max-width: 1200px'"
+          class="pa-4 mx-auto">
+          <v-alert v-show="!!$slots.top"
             variant="outlined"
             class="mb-3 py-1"
             style="border-color: rgb(var(--v-theme-primary))">
@@ -395,16 +382,14 @@
           </v-alert>
 
           <div v-if="view === 'single'">
-            <selector-list-item
-              :hide-title="options.hideTitle"
+            <selector-list-item :hide-title="options.hideTitle"
               :selectable="equippable"
               @select="$emit('equip', $event)"
               :item="<CompendiumItem>selectedItem" />
           </div>
 
           <div v-else-if="view === 'scatter'">
-            <selector-scatter
-              :items="shownItems"
+            <selector-scatter :items="shownItems"
               :selected="<CompendiumItem>selectedItem"
               :group="group"
               :tier="tier"
@@ -412,8 +397,7 @@
           </div>
 
           <div v-else-if="view === 'bar'">
-            <selector-bar
-              :items="shownItems"
+            <selector-bar :items="shownItems"
               :group="group"
               :manufacturers="manufacturers"
               :licenses="licenses"
@@ -425,28 +409,35 @@
 
           <div v-if="view === 'list' && itemType === 'License'">
             <v-row v-for="m in manufacturers">
-              <v-col v-if="!!mf(m)" class="text-center pa-3">
-                <v-row align="center" justify="center">
+              <v-col v-if="!!mf(m)"
+                class="text-center pa-3">
+                <v-row align="center"
+                  justify="center">
                   <v-col cols="auto">
-                    <cc-logo :source="mf(m)" width="60px" />
+                    <cc-logo :source="mf(m)"
+                      width="60px" />
                   </v-col>
-                  <v-col
-                    cols="auto"
+                  <v-col cols="auto"
                     :class="$vuetify.display.mdAndDown ? 'heading h2' : 'heading mech'"
                     :style="`color: ${mf(m).GetColor($vuetify.theme.current.dark)}`">
                     {{ mf(m).Name }}
                   </v-col>
                 </v-row>
-                <v-expansion-panels accordion focusable flat>
-                  <license-expandable :items="getItems(m)" :selected="<any>selectedItem" />
+                <v-expansion-panels accordion
+                  focusable
+                  flat>
+                  <license-expandable :items="getItems(m)"
+                    :selected="<any>selectedItem" />
                 </v-expansion-panels>
               </v-col>
             </v-row>
           </div>
 
-          <div v-else-if="view === 'list'" v-for="item in <any[]>items" :id="item.ID" class="mb-4">
-            <selector-list-item
-              :hide-title="options.hideTitle"
+          <div v-else-if="view === 'list'"
+            v-for="item in <any[]>items"
+            :id="item.ID"
+            class="mb-4">
+            <selector-list-item :hide-title="options.hideTitle"
               :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
               :selectable="equippable"
               @select="$emit('equip', $event)"
@@ -456,9 +447,9 @@
           <div v-else-if="view === 'table'">
             <div v-if="group === 'lcp'">
               <div v-for="lcp in lcpFilter">
-                <div class="heading mech" v-text="lcp" />
-                <selector-table
-                  :headers="tableHeaders"
+                <div class="heading mech"
+                  v-text="lcp" />
+                <selector-table :headers="tableHeaders"
                   :items="itemsByLcp[lcp]"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
@@ -470,15 +461,16 @@
               <div v-for="manufacturer in manufacturers">
                 <v-row align="center">
                   <v-col cols="auto">
-                    <cc-logo :source="mf(manufacturer)" width="60px" />
+                    <cc-logo :source="mf(manufacturer)"
+                      width="60px" />
                   </v-col>
                   <v-col>
-                    <div class="heading mech" v-text="manufacturer" />
+                    <div class="heading mech"
+                      v-text="manufacturer" />
                   </v-col>
                 </v-row>
 
-                <selector-table
-                  :headers="tableHeaders"
+                <selector-table :headers="tableHeaders"
                   :items="getItems(manufacturer)"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
@@ -486,12 +478,13 @@
               </div>
             </div>
 
-            <div v-else-if="group === 'license'" cols="12">
+            <div v-else-if="group === 'license'"
+              cols="12">
               <div v-for="license in licenses">
-                <div class="heading h2 text-accent mt-4" v-text="license" />
+                <div class="heading h2 text-accent mt-4"
+                  v-text="license" />
 
-                <selector-table
-                  :headers="tableHeaders"
+                <selector-table :headers="tableHeaders"
                   :items="getLicenseItems(license)"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
@@ -499,12 +492,13 @@
               </div>
             </div>
 
-            <div v-else-if="group === 'type'" cols="12">
+            <div v-else-if="group === 'type'"
+              cols="12">
               <div v-for="subtype in subtypes">
-                <div class="heading h2 text-accent mt-4" v-text="subtype" />
+                <div class="heading h2 text-accent mt-4"
+                  v-text="subtype" />
 
-                <selector-table
-                  :headers="getMultiHeader(subtype)"
+                <selector-table :headers="getMultiHeader(subtype)"
                   :items="getSubtypeItems(subtype)"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
@@ -512,12 +506,13 @@
               </div>
             </div>
 
-            <div v-else-if="group === 'role'" cols="12">
+            <div v-else-if="group === 'role'"
+              cols="12">
               <div v-for="role in roles">
-                <div class="heading h2 text-accent mt-4" v-text="role" />
+                <div class="heading h2 text-accent mt-4"
+                  v-text="role" />
 
-                <selector-table
-                  :headers="tableHeaders"
+                <selector-table :headers="tableHeaders"
                   :items="getRoleItems(role)"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
@@ -525,12 +520,13 @@
               </div>
             </div>
 
-            <div v-else-if="group === 'featureType'" cols="12">
+            <div v-else-if="group === 'featureType'"
+              cols="12">
               <div v-for="featureType in featureTypes">
-                <div class="heading h2 text-accent mt-4" v-text="featureType" />
+                <div class="heading h2 text-accent mt-4"
+                  v-text="featureType" />
 
-                <selector-table
-                  :headers="tableHeaders"
+                <selector-table :headers="tableHeaders"
                   :items="getFeatureItems(featureType)"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
@@ -538,12 +534,13 @@
               </div>
             </div>
 
-            <div v-else-if="group === 'origin'" cols="12">
+            <div v-else-if="group === 'origin'"
+              cols="12">
               <div v-for="origin in origins">
-                <div class="heading h2 text-accent mt-4" v-text="origin" />
+                <div class="heading h2 text-accent mt-4"
+                  v-text="origin" />
 
-                <selector-table
-                  :headers="tableHeaders"
+                <selector-table :headers="tableHeaders"
                   :items="getOriginItems(origin)"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
@@ -551,9 +548,9 @@
               </div>
             </div>
 
-            <div v-else cols="12">
-              <selector-table
-                :headers="tableHeaders"
+            <div v-else
+              cols="12">
+              <selector-table :headers="tableHeaders"
                 :items="shownItems"
                 :selectable="equippable"
                 @select="$emit('equip', $event)"
@@ -562,29 +559,25 @@
           </div>
 
           <div v-else-if="view === 'cards'">
-            <v-pagination
-              v-model="page"
+            <v-pagination v-model="page"
               total-visible="8"
               :length="Math.ceil(shownItems.length / itemsPerPage)" />
             <v-row>
-              <selector-card-item
-                v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
+              <selector-card-item v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
                 :id="item.ID"
                 :item="item"
                 :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
                 :selectable="equippable"
                 @select="$emit('equip', item)" />
             </v-row>
-            <v-pagination
-              v-model="page"
+            <v-pagination v-model="page"
               total-visible="8"
               class="mt-8"
               :length="Math.ceil(shownItems.length / itemsPerPage)" />
           </div>
 
           <div v-else-if="view === 'compare'">
-            <selector-compare
-              :items="comparisons"
+            <selector-compare :items="comparisons"
               :selected="<CompendiumItem>selectedItem"
               :tier="tier"
               @clear="comparisons = []" />
@@ -598,7 +591,7 @@
 
 <script lang="ts">
 import ItemFilter from '@/classes/utility/ItemFilter';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import SelectorListItem from './views/_selectorListItem.vue';
 import SelectorCardItem from './views/_selectorCardItem.vue';
@@ -1030,7 +1023,7 @@ export default {
   transition: all 0.15s ease-in-out;
 }
 
-.hover-parent:hover > .img-hover {
+.hover-parent:hover>.img-hover {
   filter: brightness(100%);
 }
 </style>

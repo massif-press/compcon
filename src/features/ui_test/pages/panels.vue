@@ -9,7 +9,7 @@
         <v-col align-self="center">
           <v-card-text>
             <cc-panel :border="border" :variant="variant" :title="title">
-              <span v-html="loremIpsum" />
+              <span v-html-safe="loremIpsum" />
             </cc-panel>
           </v-card-text>
         </v-col>
@@ -44,7 +44,7 @@
         <v-col align-self="center">
           <v-card-text>
             <cc-alert :title="title" :icon="icon" :prominent="prominent" closeable>
-              <span v-html="loremIpsum" />
+              <span v-html-safe="loremIpsum" />
             </cc-alert>
           </v-card-text>
         </v-col>

@@ -1,8 +1,7 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
     <v-fade-transition>
-      <v-alert
-        v-if="showAccountMigration"
+      <v-alert v-if="showAccountMigration"
         border="start"
         border-color="accent"
         variant="outlined"
@@ -13,10 +12,12 @@
         <div>
           <div class="heading h3">
             v2
-            <v-icon icon="mdi-arrow-right" size="small" />
+            <v-icon icon="mdi-arrow-right"
+              size="small" />
             v3 Account Migration
           </div>
-          <div class="text-text" style="font-size: 14px">
+          <div class="text-text"
+            style="font-size: 14px">
             COMP/CON has detected that you have an existing account that has not yet been migrated
             to the new cloud system. The account migration tool will attempt to transfer all v2
             cloud data to the new v3 backend. This process may take some time; please don't refresh
@@ -27,19 +28,27 @@
           </div>
           <v-row class="mt-1">
             <v-col>
-              <v-btn block color="accent" @click="" :loading="loading" disabled>
+              <v-btn block
+                color="accent"
+                @click=""
+                :loading="loading"
+                disabled>
                 Migrate v2 Account
               </v-btn>
             </v-col>
             <v-col cols="auto">
-              <v-btn color="error" @click="setDismissMigration">Dismiss</v-btn>
+              <v-btn color="error"
+                @click="setDismissMigration">Dismiss</v-btn>
             </v-col>
           </v-row>
         </div>
       </v-alert>
     </v-fade-transition>
 
-    <v-expansion-panels class="mb-4" flat color="panel" tile>
+    <v-expansion-panels class="mb-4"
+      flat
+      color="panel"
+      tile>
       <v-expansion-panel>
         <template #title>
           <v-row dense>
@@ -47,7 +56,8 @@
               <div class="text-caption font-weight-bold my-1">NOTIFICATIONS</div>
             </v-col>
             <v-col cols="auto">
-              <v-chip size="small" color="accent">{{ notifications.length }}</v-chip>
+              <v-chip size="small"
+                color="accent">{{ notifications.length }}</v-chip>
             </v-col>
           </v-row>
         </template>
@@ -58,17 +68,17 @@
     </v-expansion-panels>
 
     <v-row>
-      <v-col cols="12" md="6">
-        <cc-heading
-          is-title
+      <v-col cols="12"
+        md="6">
+        <cc-heading is-title
           text="CC-ID"
           tooltip="Your unique account ID. This is used to identify your account in the cloud and may be
           requested for troubleshooting purposes." />
         {{ cognito.userId }}
       </v-col>
-      <v-col cols="12" md="6">
-        <cc-heading
-          is-title
+      <v-col cols="12"
+        md="6">
+        <cc-heading is-title
           text="Account Email"
           tooltip="This is the e-mail address associated with your account. You can use this to log in to
             COMP/CON, Nautilus, and other Massif apps. This address is only visible to you and and
@@ -77,17 +87,17 @@
 
         {{ cognito.signInDetails.loginId }}
       </v-col>
-      <v-col cols="12" md="6">
-        <cc-heading
-          is-title
+      <v-col cols="12"
+        md="6">
+        <cc-heading is-title
           text="CC-username"
           tooltip="This is an <b>optional</b> field that you can use to set a custom name for your account. This username <b>will</b> be visible to other users in active mode and when sharing data." />
 
-        <v-row dense align="center">
+        <v-row dense
+          align="center">
           <v-col>
             <form autocomplete="off">
-              <cc-text-field
-                v-model="meta.Username"
+              <cc-text-field v-model="meta.Username"
                 :loading="nameLoading"
                 color="primary"
                 autocomplete="one-time-code"
@@ -95,8 +105,7 @@
             </form>
           </v-col>
           <v-col cols="auto">
-            <cc-button
-              size="small"
+            <cc-button size="small"
               class="ml-2"
               color="primary"
               icon="mdi-content-save"
@@ -107,8 +116,10 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" md="6">
-        <cc-heading is-title text="Account Details" />
+      <v-col cols="12"
+        md="6">
+        <cc-heading is-title
+          text="Account Details" />
         <div class="text-caption">
           <b>Account created (v3):</b>
           <i class="text-accent ml-1">{{ new Date(Number(meta.CreatedAt)).toLocaleString() }}</i>
@@ -122,20 +133,24 @@
 
     <div class="flavor-text">
       <v-row class="text-center py-4">
-        <v-col cols="12" md="6">
+        <v-col cols="12"
+          md="6">
           <itch-card />
         </v-col>
-        <v-col cols="12" md="6">
+        <v-col cols="12"
+          md="6">
           <patreon-card />
         </v-col>
       </v-row>
     </div>
 
-    <cc-heading small line>Change password</cc-heading>
-    <v-row dense align="center">
-      <v-col cols="12" md="">
-        <cc-text-field
-          v-model="oldPass"
+    <cc-heading small
+      line>Change password</cc-heading>
+    <v-row dense
+      align="center">
+      <v-col cols="12"
+        md="">
+        <cc-text-field v-model="oldPass"
           label="Old Password"
           color="primary"
           variant="outlined"
@@ -143,9 +158,9 @@
           :append-inner-icon="showOld ? 'mdi-eye' : 'mdi-eye-off'"
           @click-append-inner="showOld = !showOld" />
       </v-col>
-      <v-col cols="12" md="">
-        <cc-text-field
-          v-model="newPass"
+      <v-col cols="12"
+        md="">
+        <cc-text-field v-model="newPass"
           label="New Password"
           color="primary"
           variant="outlined"
@@ -153,10 +168,10 @@
           :append-inner-icon="showNew ? 'mdi-eye' : 'mdi-eye-off'"
           @click-append-inner="showNew = !showNew" />
       </v-col>
-      <v-col cols="12" md="auto">
+      <v-col cols="12"
+        md="auto">
         <div class="text-right">
-          <cc-button
-            color="accent"
+          <cc-button color="accent"
             :disabled="!oldPass || !newPass || oldPass === newPass"
             :loading="loading"
             @click="changePass">
@@ -166,24 +181,31 @@
       </v-col>
     </v-row>
 
-    <cc-heading small line>Change Account E-Mail</cc-heading>
-    <v-row dense align="center">
-      <v-col cols="12" md="">
-        <cc-text-field v-model="newEmail" label="New E-Mail" color="primary" variant="outlined" />
+    <cc-heading small
+      line>Change Account E-Mail</cc-heading>
+    <v-row dense
+      align="center">
+      <v-col cols="12"
+        md="">
+        <cc-text-field v-model="newEmail"
+          label="New E-Mail"
+          color="primary"
+          variant="outlined" />
       </v-col>
-      <v-col cols="12" md="">
-        <cc-text-field
-          v-model="newEmailConfirm"
+      <v-col cols="12"
+        md="">
+        <cc-text-field v-model="newEmailConfirm"
           label="Confirm New E-Mail"
           color="primary"
           variant="outlined" />
       </v-col>
       <v-col cols="auto">
         <div class="text-right">
-          <cc-modal title="Change Account E-Mail" shrink max-width="50vw">
+          <cc-modal title="Change Account E-Mail"
+            shrink
+            max-width="50vw">
             <template #activator="{ open }">
-              <cc-button
-                color="accent"
+              <cc-button color="accent"
                 :disabled="!newEmail || newEmail !== newEmailConfirm"
                 :loading="loading"
                 @click="sendVerify(open)">
@@ -191,8 +213,11 @@
               </cc-button>
             </template>
             <template #default="{ close }">
-              <div v-if="sendingVerify" class="text-center py-4">
-                <v-progress-circular indeterminate size="80" class="my-2" />
+              <div v-if="sendingVerify"
+                class="text-center py-4">
+                <v-progress-circular indeterminate
+                  size="80"
+                  class="my-2" />
                 <div class="text-cc-overline">working...</div>
               </div>
               <div v-else>
@@ -200,8 +225,7 @@
                   A verification e-mail has been sent to {{ newEmail }}. Please check your inbox and
                   enter the verification code below to finalize your changes.
                 </p>
-                <cc-text-field
-                  v-model="verifyCode"
+                <cc-text-field v-model="verifyCode"
                   label="Verification Code"
                   color="primary"
                   variant="outlined"
@@ -209,8 +233,7 @@
               </div>
               <v-row class="my-3">
                 <v-col>
-                  <cc-button
-                    color="primary"
+                  <cc-button color="primary"
                     block
                     size="small"
                     :disabled="!verifyCode"
@@ -220,8 +243,7 @@
                   </cc-button>
                 </v-col>
                 <v-col>
-                  <cc-button
-                    color="primary"
+                  <cc-button color="primary"
                     block
                     size="small"
                     :disabled="!verifyCode"
@@ -231,8 +253,7 @@
                   </cc-button>
                 </v-col>
                 <v-col>
-                  <cc-button
-                    color="success"
+                  <cc-button color="success"
                     block
                     size="small"
                     :disabled="!verifyCode"
@@ -248,7 +269,11 @@
       </v-col>
     </v-row>
 
-    <cc-button block color="secondary" :loading="loading" @click="ccSignOut" class="my-12">
+    <cc-button block
+      color="secondary"
+      :loading="loading"
+      @click="ccSignOut"
+      class="my-12">
       Sign Out
       <template #info>
         <v-icon icon="mdi-logout" />
@@ -256,9 +281,14 @@
     </cc-button>
 
     <div class="text-right">
-      <cc-modal title="Account Deletion" max-width="50vw" shrink>
+      <cc-modal title="Account Deletion"
+        max-width="50vw"
+        shrink>
         <template #activator="{ open }">
-          <cc-button @click="open" variant="tonal" color="error" prepend-icon="mdi-skull">
+          <cc-button @click="open"
+            variant="tonal"
+            color="error"
+            prepend-icon="mdi-skull">
             Delete Cloud Account
           </cc-button>
         </template>
@@ -272,7 +302,7 @@
 
 <script lang="ts">
 import { UserStore } from '@/stores';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { updateUser } from '@/io/apis/account';
 import {
   signOut,

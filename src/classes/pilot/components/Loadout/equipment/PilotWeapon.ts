@@ -43,7 +43,7 @@ class PilotWeapon extends PilotEquipment {
   }
 
   public get IsSidearm(): boolean {
-    return this.Tags.some(x => x.ID == 'tg_sidearm')
+    return this.Tags.some(x => x.ID === 'tg_sidearm')
   }
 
   public get DamageTypeOverride(): string {

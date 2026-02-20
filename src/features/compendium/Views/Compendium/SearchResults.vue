@@ -1,5 +1,6 @@
 <template>
-  <v-container :class="mobile ? 'py-0 px-2' : 'px-12'" fluid>
+  <v-container :class="mobile ? 'py-0 px-2' : 'px-12'"
+    fluid>
     <v-row align="center">
       <v-col>
         <div class="heading h2">
@@ -9,8 +10,7 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <cc-button
-          color="accent"
+        <cc-button color="accent"
           size="small"
           variant="outlined"
           :to="`/srd/reference/search?search=${searchText}`">
@@ -19,9 +19,10 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="12" sm="10" md="8">
-        <cc-text-field
-          ref="input"
+      <v-col cols="12"
+        sm="10"
+        md="8">
+        <cc-text-field ref="input"
           v-model="searchText"
           color="primary"
           class="search-field"
@@ -34,8 +35,7 @@
     </i>
     <v-card-text :style="!mobile && 'height: calc(100vh - 198px); overflow-y: scroll'">
       <v-slide-y-reverse-transition mode="out-in">
-        <masonry-wall
-          :key="searchText"
+        <masonry-wall :key="searchText"
           :items="searchResults"
           :column-width="400"
           :gap="16"
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { flatten, values, pick } from 'lodash-es';
 import { CompendiumItem, LicensedItem, Frame } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
 import { CompendiumStore } from '@/stores';
@@ -76,9 +76,9 @@ export default {
       return this.$vuetify.display.lgAndUp;
     },
     validResults(): CompendiumItem[] {
-      return _.flatten(
-        _.values(
-          _.pick(CompendiumStore(), [
+      return flatten(
+        values(
+          pick(CompendiumStore(), [
             'Frames',
             'MechSystems',
             'MechWeapons',

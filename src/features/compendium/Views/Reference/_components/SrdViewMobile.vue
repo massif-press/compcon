@@ -46,18 +46,18 @@
           style="padding-left: 300px !important; margin-left: -350px !important">
           {{ getLangItem(item, 'title') }}
         </cc-title>
-        <div v-html="getLangItem(item, 'content')" class="content" />
+        <div v-html-safe="getLangItem(item, 'content')" class="content" />
         <div v-for="child in (item as any).children" :id="`e_${child.title.en.replace(/\W/g, '')}`">
           <h3
             class="text-accent mt-4"
             :class="mobile ? 'ml-n2' : 'ml-n5'"
             v-text="getLangItem(child, 'title')" />
-          <div v-html="getLangItem(child, 'content')" class="content" />
+          <div v-html-safe="getLangItem(child, 'content')" class="content" />
           <div
             v-for="subchild in (child as any).children"
             :id="`e_${subchild.title.en.replace(/\W/g, '')}`">
             <b class="text-accent ml-n2" v-text="getLangItem(subchild, 'title')" />
-            <div v-html="getLangItem(subchild, 'content')" class="content" />
+            <div v-html-safe="getLangItem(subchild, 'content')" class="content" />
           </div>
         </div>
       </div>

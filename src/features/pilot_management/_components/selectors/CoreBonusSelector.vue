@@ -72,7 +72,7 @@
                 variant="outlined"
                 :color="manufacturer.GetColor($vuetify.theme.current.dark)"
                 class="my-1 pa-3">
-                <div class="flavor-text text-text text-center" v-html="requirement(manufacturer)" />
+                <div class="flavor-text text-text text-center" v-html-safe="requirement(manufacturer)" />
               </v-card>
             </div>
           </v-expansion-panel-title>

@@ -19,7 +19,7 @@
     tile
     class="pa-2">
     <v-row class="pr-4">
-      <v-col v-if="item.Portrait && showImage"
+      <v-col v-if="item.Portrait && !mobile"
         cols="auto">
         <cc-img width="155px"
           height="100%"
@@ -97,17 +97,20 @@
         <timed-effect-panel :encounter="encounterInstance"
           :item="item" />
 
-        <v-row class="mt-n1">
-          <v-col v-if="item.Grit"
+        <v-row class="mt-n1"
+          dense>
+          <v-col v-if="Object.keys(item.StatController.MaxStats).includes('grit')"
             cols="auto">
             <v-tooltip location="top"
               text="Pilot Grit">
               <template #activator="{ props }">
                 <span v-bind="props">
                   <v-icon icon="mdi-star-four-points-outline"
-                    size="x-large"
-                    class="mt-n2 mr-1" />
-                  <span class="heading h2 text-accent">{{ item.Grit }}</span>
+                    :size="mobile ? '20' : 'x-large'"
+                    :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
+                  <span :class="mobile ? '' : 'h2'"
+                    class="heading text-accent">
+                    {{ item.Grit }}</span>
                 </span>
               </template>
             </v-tooltip>
@@ -124,10 +127,11 @@
               open-delay="400">
               <template #activator="{ props }">
                 <v-icon v-bind="props"
-                  size="x-large"
-                  class="mt-n2 mr-1"
-                  :icon="stat.icon" />
-                <span class="heading h2 text-accent">
+                  :icon="stat.icon"
+                  :size="mobile ? '20' : 'x-large'"
+                  :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
+                <span :class="mobile ? '' : 'h2'"
+                  class="heading text-accent">
                   {{ item.StatController.MaxStats[stat.key] }}
                 </span>
               </template>
@@ -150,10 +154,11 @@
               open-delay="400">
               <template #activator="{ props }">
                 <v-icon v-bind="props"
-                  size="x-large"
-                  class="mt-n2 mr-1"
-                  :icon="stat.icon" />
-                <span class="heading h2 text-accent">
+                  :icon="stat.icon"
+                  :size="mobile ? '20' : 'x-large'"
+                  :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
+                <span :class="mobile ? '' : 'h2'"
+                  class="heading text-accent">
                   {{ item.StatController.MaxStats[stat.key] }}
                 </span>
               </template>
@@ -184,8 +189,10 @@
           </v-col>
 
           <v-col cols="auto"
-            class="ml-auto"
+            :class="mobile ? '' : 'ml-auto'"
             align-self="center">
+            <div v-if="mobile"
+              class="text-cc-overline text-disabled">Cover</div>
             <v-btn-toggle v-model="item.CombatController.Cover"
               flat
               tile
@@ -193,127 +200,23 @@
               style="height: 30px">
               <v-btn size="small"
                 height="30"
-                value="none">No Cover</v-btn>
+                value="none">{{ mobile ? 'None' : 'No Cover' }}</v-btn>
               <v-btn size="small"
                 height="30"
-                value="soft">Soft Cover</v-btn>
+                value="soft">{{ mobile ? 'Soft' : 'Soft Cover' }}</v-btn>
               <v-btn size="small"
                 height="30"
-                value="hard">Hard Cover</v-btn>
+                value="hard">{{ mobile ? 'Hard' : 'Hard Cover' }}</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
 
-        <div v-if="!noStats">
-          <v-row>
-            <v-col>
-              <cc-tickbar v-model="item.StatController.CurrentStats['hp']"
-                v-model:secondary="item.StatController.CurrentStats['structure']"
-                v-model:tertiary="item.StatController.CurrentStats['overshield']"
-                primary-label="Hit Points"
-                :secondary-label="item.StatController.MaxStats['structure'] && 'Structure'"
-                tertiary-label="Overshield"
-                color="hp"
-                secondary-color="structure"
-                tertiary-color="overshield"
-                icon="mdi-heart-outline"
-                secondary-icon="cc:structure"
-                tertiary-icon="mdi-hexagon-multiple-outline"
-                :ticks="item.StatController.MaxStats['hp']"
-                :secondary-ticks="item.StatController.MaxStats['structure']"
-                editable />
-            </v-col>
-            <v-col cols="auto">
-              <stat-mini-panel title="armor"
-                icon="mdi-shield-outline"
-                color="armor"
-                :base-value="item.StatController.MaxStats['armor']"
-                v-model.number="item.StatController.CurrentStats['armor']" />
-            </v-col>
-          </v-row>
-
-          <v-row v-if="item.StatController.MaxStats['heatcap']">
-            <v-col>
-              <cc-tickbar v-model="item.StatController.CurrentStats['heatcap']"
-                v-model:secondary="item.StatController.CurrentStats['stress']"
-                v-model:tertiary="item.StatController.CurrentStats['overcharge']"
-                :value-atlas="overchargeTrack"
-                :secondary-label="item.StatController.MaxStats['stress'] && 'Reactor Stress'"
-                :tertiary-label="item.ItemType === 'mech' && 'Overcharge'"
-                :color="item.CombatController.IsInDangerZone ? 'dangerzone' : 'heat'"
-                secondary-color="stress"
-                tertiary-color="overcharge"
-                icon="cc:heat"
-                secondary-icon="cc:reactor"
-                tertiary-icon="mdi-decagram-outline"
-                :ticks="item.StatController.MaxStats['heatcap']"
-                :secondary-ticks="item.StatController.MaxStats['stress']"
-                :tertiary-ticks="3"></cc-tickbar>
-            </v-col>
-            <v-col cols="auto">
-              <stat-mini-panel title="burn"
-                icon="cc:burn"
-                color="damage--burn"
-                v-model.number="item.StatController.CurrentStats['burn']" />
-            </v-col>
-          </v-row>
-          <v-row class="mb-3">
-            <v-col>
-              <cc-tickbar v-if="item.StatController.MaxStats['speed']"
-                v-model="item.StatController.CurrentStats['speed']"
-                color="primary"
-                min-width="150px"
-                space
-                icon="mdi-arrow-right-bold-hexagon-outline"
-                class="mb-1"
-                :ticks="item.StatController.MaxStats['speed']" />
-              <cc-tickbar v-if="item.StatController.MaxStats['repairCapacity']"
-                v-model="item.StatController.CurrentStats['repairCapacity']"
-                color="success"
-                icon="cc:repair"
-                min-width="150px"
-                space
-                reverse
-                :ticks="item.StatController.MaxStats['repairCapacity']" />
-            </v-col>
-            <v-col cols="auto"
-              v-if="!item.StatController.MaxStats['heatcap']">
-              <stat-mini-panel title="burn"
-                icon="cc:burn"
-                color="damage--burn"
-                v-model.number="item.StatController.CurrentStats['burn']" />
-            </v-col>
-            <v-col cols="auto"
-              v-if="item.ItemType === 'mech'">
-              <v-menu>
-                <template #activator="{ props }">
-                  <stat-mini-panel v-model="item.CombatController.CorePower"
-                    title="core"
-                    :icon="currentIcon"
-                    :color="item.CombatController.CorePower ? 'core' : 'grey'"
-                    @click.stop="props.onClick($event)"
-                    boolean />
-                </template>
-                <v-card flat
-                  tile
-                  class="pt-4 text-cc-overline text-center"
-                  border="sm">
-                  <div v-if="item.CombatController.CorePower">Clear this mech's</div>
-                  <div v-else>Restore this mech's</div>
-                  core power?
-                  <template #actions>
-                    <cc-button block
-                      :color="item.CombatController.CorePower ? 'error' : 'core'"
-                      size="x-small"
-                      :prepend-icon="currentIcon"
-                      @click="drainBattery">
-                      Confirm {{ item.CombatController.CorePower ? 'Clear' : 'Restore' }} Core
-                    </cc-button>
-                  </template>
-                </v-card>
-              </v-menu>
-            </v-col>
-          </v-row>
+        <div v-if="!noStats"
+          class="mb-2">
+          <trackable-stats-simple v-if="mobile || encounterInstance.SimpleTickbars"
+            :item="item" />
+          <trackable-stats-complex v-else
+            :item="item" />
         </div>
 
         <div v-else>
@@ -365,19 +268,45 @@
         </div>
         <slot name="actions" />
 
-        <v-row v-if="!noConditions"
-          dense
+        <div v-if="!noConditions"
           class="mt-4">
-          <v-col cols="4">
-            <damage-condition-selector :controller="item.CombatController" />
-          </v-col>
-          <v-col cols="auto"
-            style="min-width: 20px" />
-          <v-col class="mx-auto">
-            <status-condition-selector :controller="item.CombatController"
-              :encounter="encounterInstance" />
-          </v-col>
-        </v-row>
+          <v-row v-if="!mobile"
+            dense>
+            <v-col cols="12"
+              md=4>
+              <damage-condition-selector :controller="item.CombatController" />
+            </v-col>
+            <v-col cols="12"
+              md="auto"
+              style="min-width: 20px" />
+            <v-col class="mx-auto">
+              <status-condition-selector :controller="item.CombatController"
+                :encounter="encounterInstance" />
+            </v-col>
+          </v-row>
+
+          <v-expansion-panels v-else
+            focusable
+            tile
+            color="panel"
+            flat>
+            <v-expansion-panel>
+              <v-expansion-panel-title class="heading h4 ">Resistances</v-expansion-panel-title>
+              <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
+                <damage-condition-selector :controller="item.CombatController" />
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-title
+                class="heading h4 ">Statuses/Conditions</v-expansion-panel-title>
+              <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
+                <status-condition-selector :controller="item.CombatController"
+                  :encounter="encounterInstance" />
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </div>
+
 
         <damage-menu v-if="item.CombatController.StatController.MaxStats['hp']"
           :encounter="encounterInstance.Encounter"
@@ -395,7 +324,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import StatMiniPanel from './_components/StatMiniPanel.vue';
 import DamageConditionSelector from './_components/DamageConditionSelector.vue';
@@ -406,11 +335,15 @@ import { Rules } from '@/class';
 import CustomStatEditor from './_components/CustomStatEditor.vue';
 import ActiveEffectPanel from './_components/ActiveEffectPanel.vue';
 import TimedEffectPanel from './_components/TimedEffectPanel.vue';
+import SimpleMiniPanel from './_components/SimpleMiniPanel.vue';
+import TrackableStatsComplex from './_components/TrackableStatsComplex.vue';
+import TrackableStatsSimple from './_components/TrackableStatsSimple.vue';
 
 export default {
   name: 'EncounterPanelBase',
   components: {
     StatMiniPanel,
+    SimpleMiniPanel,
     DamageConditionSelector,
     CombatActionPanel,
     StatusConditionSelector,
@@ -418,17 +351,8 @@ export default {
     CustomStatEditor,
     ActiveEffectPanel,
     TimedEffectPanel,
-  },
-  data() {
-    return {
-      batteryIcons: [
-        'mdi-battery-outline',
-        'mdi-battery-low',
-        'mdi-battery-medium',
-        'mdi-battery-high',
-      ],
-      index: 3,
-    };
+    TrackableStatsComplex,
+    TrackableStatsSimple,
   },
   props: {
     item: {
@@ -457,15 +381,10 @@ export default {
     },
   },
   computed: {
-    showImage() {
-      return this.$vuetify.display.mdAndUp;
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
     },
-    currentIcon() {
-      return this.batteryIcons[this.index];
-    },
-    overchargeTrack() {
-      return this.item.OverchangeTrack ? this.item.OverchangeTrack : Rules.Overcharge;
-    },
+
     orderedStats() {
       const order = [
         'activations',
@@ -490,31 +409,7 @@ export default {
     },
   },
   methods: {
-    getIcon(stat) {
-      const icons = {
-        structure: 'cc:structure',
-        armor: 'mdi-shield-outline',
-        hp: 'mdi-heart-outline',
-        reactor: 'cc:reactor',
-        heat: 'cc:heat',
-        repair: 'cc:repair',
-        techattack: 'cc:tech_quick',
-      };
-      return icons[stat];
-    },
 
-    drainBattery() {
-      if (this.index > 0) {
-        this.item.CombatController.CorePower = false;
-        const interval = setInterval(() => {
-          this.index--;
-          if (this.index === 0) clearInterval(interval);
-        }, 60);
-      } else {
-        this.item.CombatController.CorePower = true;
-        this.index = 3;
-      }
-    },
 
     getBonus(statKey) {
       if (statKey === 'agi') statKey = 'agility';

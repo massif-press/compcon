@@ -1,9 +1,9 @@
 <template>
   <v-card-text>
-    <v-row align="center" justify="center">
+    <v-row align="center"
+      justify="center">
       <v-col cols="6">
-        <v-file-input
-          v-model="fileValue"
+        <v-file-input v-model="fileValue"
           accept="text/json"
           variant="outlined"
           label="Select Pilot Data File"
@@ -13,9 +13,17 @@
           @click:clear="reset" />
       </v-col>
     </v-row>
-    <v-container v-if="stagedData" flat tile>
-      <v-card flat tile max-width="900px" class="mx-auto" border>
-        <cc-alert v-if="!stagedData.itemType" icon="mdi-alert-circle-outline" title="v2 Data">
+    <v-container v-if="stagedData"
+      flat
+      tile>
+      <v-card flat
+        tile
+        max-width="900px"
+        class="mx-auto"
+        border>
+        <cc-alert v-if="!stagedData.itemType"
+          icon="mdi-alert-circle-outline"
+          title="v2 Data">
           <p class="text-text">
             This appears to be Pilot data from an older COMP/CON release. COMP/CON will attempt to
             convert and import this data, but may not be able to convert all items and may not be
@@ -34,16 +42,21 @@
           </div>
           <div v-if="stagedData.mechs.length">
             <div class="text-cc-overline">HANGAR</div>
-            <cc-chip v-for="mech in stagedData.mechs" :key="mech.id" class="mr-1 mb-1">
+            <cc-chip v-for="mech in stagedData.mechs"
+              :key="mech.id"
+              class="mr-1 mb-1">
               {{ mech.name }}
               <cc-slashes />
               {{ getFrame(mech.frame) }}
             </cc-chip>
           </div>
-          <div v-if="stagedData.brews.length" class="text-cc-overline my-1">
+          <div v-if="stagedData.brews.length"
+            class="text-cc-overline my-1">
             INCLUDES DATA FROM THE FOLLOWING CONTENT PACKS
             <div>
-              <cc-chip v-for="brew in stagedData.brews" :key="brew.LcpId" class="ma-1">
+              <cc-chip v-for="brew in stagedData.brews"
+                :key="brew.LcpId"
+                class="ma-1">
                 {{ brew.LcpName }}
               </cc-chip>
             </div>
@@ -59,13 +72,19 @@
           </div>
         </v-card-text>
       </v-card>
-      <v-card v-if="missingContent.length" flat tile max-width="900px" class="mx-auto" border>
+      <v-card v-if="missingContent.length"
+        flat
+        tile
+        max-width="900px"
+        class="mx-auto"
+        border>
         <v-card-text class="text-center">
           <p class="heading h4 text-accent">
             This Pilot requires the following content packs that are not currently installed/active,
             or have mismatching versions:
           </p>
-          <p class="effect-text text-center" v-html="missingContent" />
+          <p class="effect-text text-center"
+            v-html-safe="missingContent" />
           <p class="text-text">
             This Pilot cannot be imported until the missing content packs are installed and
             activated, or the content pack versions are synchronized.
@@ -75,13 +94,11 @@
     </v-container>
 
     <div class="mt-2">
-      <div
-        v-if="alreadyPresent"
+      <div v-if="alreadyPresent"
         class="text-center mb-1 text-caption text-text"
         v-text="alreadyPresent" />
       <v-slide-x-reverse-transition>
-        <cc-button
-          v-if="stagedData"
+        <cc-button v-if="stagedData"
           color="primary"
           block
           prepend-icon="mdi-plus"
@@ -101,7 +118,7 @@ import { ImportData } from '@/io/Data';
 import { CompendiumStore, PilotStore } from '@/stores';
 import { PilotData } from '@/interface';
 
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import logger from '@/user/logger';
 
 export default {

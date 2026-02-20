@@ -1,6 +1,5 @@
 <template>
-  <gm-item-table
-    v-if="table"
+  <gm-item-table v-if="table"
     :item-type="itemType"
     :items="searchedItems"
     :grouping="grouping"
@@ -8,10 +7,14 @@
     :sort-dir="sortDir"
     @open="$emit('open', $event)" />
   <div v-else>
-    <div v-for="key in Object.keys(groupings)" class="mb-4 mt-n2">
-      <v-row dense align="center">
-        <v-col cols="auto" style="width: 2vw"><v-divider /></v-col>
-        <v-col cols="auto" class="heading h3">
+    <div v-for="key in Object.keys(groupings)"
+      class="mb-4 mt-n2">
+      <v-row dense
+        align="center">
+        <v-col cols="auto"
+          style="width: 2vw"><v-divider /></v-col>
+        <v-col cols="auto"
+          class="heading h3">
           {{ key === '0' ? 'All' : key }}
           <span class="text-caption text-disabled">
             ({{ groupedItems(groupings[key]).length }}/{{ items.length }})
@@ -21,18 +24,17 @@
           <v-divider />
         </v-col>
       </v-row>
-      <div v-if="!items.length" class="text-center text-disabled"><i>No Data</i></div>
-      <v-row v-else dense>
-        <v-col
-          v-for="(item, i) in groupedItems(groupings[key])"
+      <div v-if="!items.length"
+        class="text-center text-disabled"><i>No Data</i></div>
+      <v-row v-else
+        dense>
+        <v-col v-for="(item, i) in groupedItems(groupings[key])"
           :cols="list ? 12 : big ? 3 : 2"
           style="position: relative">
-          <folder-menu
-            v-if="allFolders && allFolders.length > 0"
+          <folder-menu v-if="allFolders && allFolders.length > 0"
             :item="item.FolderController"
             :all-folders="allFolders" />
-          <item-card
-            :item="<any>item"
+          <item-card :item="<any>item"
             :big="big"
             :odd="i % 2 > 0"
             :list="list"
@@ -50,7 +52,7 @@ import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer
 import ItemCard from './_components/GMItemCard.vue';
 import FolderMenu from './_components/FolderMenu.vue';
 import GmItemTable from './GMItemTable.vue';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {

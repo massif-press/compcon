@@ -24,7 +24,8 @@
         block
         @click="view = 'mech'">
         {{ mech.Name }}
-        <template #subtitle>
+        <template v-if="!mobile"
+          #subtitle>
           <span v-if="mounted"
             class="text-disabled">
             <cc-slashes />
@@ -39,7 +40,8 @@
         block
         @click="view = 'pilot'">
         {{ combatant.actor.Callsign }}
-        <template #subtitle>
+        <template v-if="!mobile"
+          #subtitle>
           <span v-if="!mounted"
             class="text-disabled">
             <cc-slashes />
@@ -126,6 +128,9 @@ export default {
     unusedOnly: false,
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     mech() {
       return this.combatant.actor.ActiveMech;
     },

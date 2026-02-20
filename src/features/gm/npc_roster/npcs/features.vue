@@ -1,38 +1,38 @@
 <template>
-  <v-row dense class="text-overline pt-2">
+  <v-row dense
+    class="text-overline pt-2">
     <v-col>
       <div>FEATURES</div>
     </v-col>
-    <v-col v-if="passiveCount" cols="auto">
-      <cc-switch
-        v-model="showPassives"
+    <v-col v-if="passiveCount"
+      cols="auto">
+      <cc-switch v-model="showPassives"
         color="error"
         on-icon="cc:npc_feature"
         off-icon="mdi-eye-off"
-        :tooltip="
-          showPassives
-            ? `Showing ${passiveCount} passive, build-related, and system modifying features`
-            : `Hiding ${passiveCount} passive, build-related, and system modifying features`
-        " />
+        :tooltip="showPassives
+          ? `Showing ${passiveCount} passive, build-related, and system modifying features`
+          : `Hiding ${passiveCount} passive, build-related, and system modifying features`
+          " />
     </v-col>
   </v-row>
   <div v-if="npc.NpcClassController?.HasClass">
-    <npc-feature-alerts
-      :hide="readonly || npc.BrewController.MissingContent"
+    <npc-feature-alerts :hide="readonly || npc.BrewController.MissingContent"
       :template-controller="npc.NpcTemplateController"
       expanded />
 
-    <masonry-wall
-      :items="shownFeatures"
+    <masonry-wall :items="shownFeatures"
       :column-width="400"
       :gap="14"
       :min-columns="1"
       :max-columns="2">
       <template #default="{ item }">
-        <cc-dense-card v-if="item" :item="item" :key="item.ID" :tier="npc.NpcClassController.Tier">
+        <cc-dense-card v-if="item"
+          :item="item"
+          :key="item.ID"
+          :tier="npc.NpcClassController.Tier">
           <template #pre>
-            <npc-mod-inset
-              v-for="mod in npc.NpcFeatureController.GetModifiers(item)"
+            <npc-mod-inset v-for="mod in npc.NpcFeatureController.GetModifiers(item)"
               :key="mod.ID"
               :mod="mod" />
           </template>
@@ -40,13 +40,19 @@
       </template>
     </masonry-wall>
 
-    <npc-feature-selector v-if="!readonly" :npc="npc" />
+    <npc-feature-selector v-if="!readonly"
+      :npc="npc" />
   </div>
-  <v-card v-else variant="outlined" class="pa-1" style="border-color: rgb(var(--v-theme-panel))">
-    <div v-if="!readonly" class="text-center text-disabled text-caption pa-2">
+  <v-card v-else
+    variant="outlined"
+    class="pa-1"
+    style="border-color: rgb(var(--v-theme-panel))">
+    <div v-if="!readonly"
+      class="text-center text-disabled text-caption pa-2">
       <i>Select a Class to add Features</i>
     </div>
-    <div v-else class="text-center text-disabled text-caption pa-2">
+    <div v-else
+      class="text-center text-disabled text-caption pa-2">
       <i>No NPC features</i>
     </div>
   </v-card>
@@ -57,7 +63,7 @@ import { UserStore } from '@/stores';
 import { NpcFeatureSelector } from './_components';
 import NpcFeatureAlerts from './_components/NpcFeatureAlerts.vue';
 import NpcModInset from './_components/NpcModInset.vue';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'npc-builder-content',

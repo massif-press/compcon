@@ -213,17 +213,16 @@ export default {
         },
       ],
     ],
-    lastLocalSheet: null as any,
   }),
-  async mounted() {
-    this.lastLocalSheet = await PilotStore().GetActiveSheet(PilotStore().CurrentActiveID)
-  },
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
     },
     lastLocalEncounter() {
       return EncounterStore().getActiveEncounter(EncounterStore().CurrentActiveID);
+    },
+    lastLocalSheet() {
+      return PilotStore().GetSheet(EncounterStore().CurrentActiveID);
     },
   },
   methods: {
@@ -232,9 +231,9 @@ export default {
         this.$router.push(`active-mode/gm-encounter-runner/${this.lastLocalEncounter.ID}`);
       }
     },
-    async loadLastLocalSheet() {
+    loadLastLocalSheet() {
       if ((this.lastLocalSheet)) {
-        this.$router.push(`active-mode/pilot-runner`);
+        this.$router.push(`active-mode/pilot-runner/${this.lastLocalSheet.ID}`);
       }
     }
   },

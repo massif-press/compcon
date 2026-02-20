@@ -1,8 +1,9 @@
 <template>
-  <v-row density="compact" justify="space-around" class="mx-4">
+  <v-row density="compact"
+    justify="space-around"
+    class="mx-4">
     <v-col cols="12">
-      <v-select
-        v-model="sourceFilter"
+      <v-select v-model="sourceFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -16,8 +17,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="tagFilter"
+      <v-select v-model="tagFilter"
         density="compact"
         hide-details
         class="px-2"
@@ -33,8 +33,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="weaponTypeFilter"
+      <v-select v-model="weaponTypeFilter"
         density="compact"
         hide-details
         class="px-2"
@@ -47,8 +46,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="weaponSizeFilter"
+      <v-select v-model="weaponSizeFilter"
         density="compact"
         hide-details
         class="px-2"
@@ -61,8 +59,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="attackTypeFilter"
+      <v-select v-model="attackTypeFilter"
         density="compact"
         hide-details
         class="px-2"
@@ -76,8 +73,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="damageTypeFilter"
+      <v-select v-model="damageTypeFilter"
         density="compact"
         hide-details
         class="px-2"
@@ -91,8 +87,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="llFilter"
+      <v-select v-model="llFilter"
         density="compact"
         hide-details
         class="px-2"
@@ -107,7 +102,9 @@
     </v-col>
   </v-row>
   <v-divider class="my-4" />
-  <v-row dense align="center" justify="center">
+  <v-row dense
+    align="center"
+    justify="center">
     <v-col cols="auto">
       <v-icon icon="cc:system_point" />
     </v-col>
@@ -115,24 +112,28 @@
       <span class="text-button">SP Cost</span>
     </v-col>
     <v-col cols="auto">
-      <v-btn-toggle
-        v-model="spType"
+      <v-btn-toggle v-model="spType"
         color="accent"
         border
         divided
         density="compact"
         style="height: 30px"
         @update:modelValue="updateFilters()">
-        <v-btn value="less" size="small">Less Than</v-btn>
-        <v-btn value="eq" size="small">Equal To</v-btn>
-        <v-btn value="greater" size="small">Greater Than</v-btn>
+        <v-btn value="less"
+          size="small">Less Than</v-btn>
+        <v-btn value="eq"
+          size="small">Equal To</v-btn>
+        <v-btn value="greater"
+          size="small">Greater Than</v-btn>
       </v-btn-toggle>
     </v-col>
   </v-row>
-  <v-row dense align="center" justify="center">
-    <v-col cols="auto" class="text-center">
-      <v-text-field
-        v-model="sp"
+  <v-row dense
+    align="center"
+    justify="center">
+    <v-col cols="auto"
+      class="text-center">
+      <v-text-field v-model="sp"
         type="number"
         variant="outlined"
         style="width: 150px"
@@ -143,20 +144,19 @@
         append-icon="mdi-plus"
         @click:prepend="
           sp > 0 ? sp-- : sp;
-          updateFilters();
+        updateFilters();
         "
         @click:append="
           sp++;
-          updateFilters();
+        updateFilters();
         "
         @update:modelValue="updateFilters()" />
-      <v-btn
-        size="x-small"
+      <v-btn size="x-small"
         variant="plain"
         @click="
           sp = 0;
-          spType = '';
-          updateFilters();
+        spType = '';
+        updateFilters();
         ">
         Reset
       </v-btn>
@@ -166,7 +166,7 @@
 
 <script lang="ts">
 import { Tag, WeaponType, WeaponSize, RangeType, DamageType, Manufacturer } from '@/class';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 

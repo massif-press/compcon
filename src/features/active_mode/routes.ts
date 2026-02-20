@@ -1,16 +1,16 @@
-import EncounterManager from './gm/EncounterManager.vue';
-import NewEncounter from './gm/NewEncounter.vue';
-import TableConfiguration from './gm/TableConfiguration.vue';
-import TableManager from './gm/TableManager.vue';
-import Main from './index.vue';
+const EncounterManager = () => import('./gm/EncounterManager.vue')
+const NewEncounter = () => import('./gm/NewEncounter.vue')
+const TableConfiguration = () => import('./gm/TableConfiguration.vue')
+const TableManager = () => import('./gm/TableManager.vue')
+const Main = () => import('./index.vue')
 
-import Home from './landing.vue';
+const Home = () => import('./landing.vue')
 
-import CreateSheet from './pc/NewSheet.vue';
-import SheetManager from './pc/SheetManager.vue';
-import GMEncounterRunner from './runner/gm/GMEncounterRunner.vue';
-import JoinTable from './runner/pilot/JoinTable.vue';
-import PilotRunner from './runner/pilot/PilotRunner.vue';
+const CreateSheet = () => import('./pc/NewSheet.vue')
+const SheetManager = () => import('./pc/SheetManager.vue')
+const GMEncounterRunner = () => import('./runner/gm/GMEncounterRunner.vue')
+const JoinTable = () => import('./runner/pilot/JoinTable.vue')
+const PilotRunner = () => import('./runner/pilot/PilotRunner.vue')
 
 const routes = [
   {
@@ -33,9 +33,10 @@ const routes = [
         component: SheetManager,
       },
       {
-        path: 'pilot-runner',
+        path: 'pilot-runner/:id?',
         name: 'active-pilot-runner',
         component: PilotRunner,
+        props: true,
       },
       {
         path: 'join-table',
@@ -70,6 +71,6 @@ const routes = [
       },
     ],
   },
-];
+]
 
-export default routes;
+export default routes

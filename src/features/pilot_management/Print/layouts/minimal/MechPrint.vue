@@ -408,7 +408,7 @@
                 </span>
                 <span class="text-overline">&nbsp;//APPLIED MOD</span>
                 <br />
-                <p v-if="w.Mod.Effect" :v-html="w.Mod.Effect" print />
+                <p v-if="w.Mod.Effect" :v-html-safe="w.Mod.Effect" print />
               </div>
             </v-col>
           </v-row>
@@ -462,7 +462,7 @@
           </v-icon>
         </v-col>
       </v-row>
-      <div v-if="s.Effect" class="caption mb-n1" v-html="s.Effect" />
+      <div v-if="s.Effect" class="caption mb-n1" v-html-safe="s.Effect" />
       <print-action :actions="s.Actions" />
       <print-deployable :deployables="s.Deployables" />
       <div class="text-right">

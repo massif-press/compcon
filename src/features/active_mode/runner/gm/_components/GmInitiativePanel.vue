@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import _, { round } from 'lodash';
+import _, { round } from 'lodash-es';
 
 import { Sortable } from 'sortablejs-vue3';
 import { CompendiumStore } from '@/stores';

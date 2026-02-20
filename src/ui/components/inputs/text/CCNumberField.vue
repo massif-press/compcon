@@ -1,8 +1,9 @@
 <template>
   <v-hover #default="{ isHovering, props }">
-    <div class="top-element" style="display: block; position: relative" v-bind="props">
-      <v-text-field
-        :model-value.number="modelValue"
+    <div class="top-element"
+      style="display: block; position: relative"
+      v-bind="props">
+      <v-text-field :model-value.number="modelValue"
         :color="color"
         :base-color="color"
         :variant="<any>variant"
@@ -24,9 +25,11 @@
           <div
             :class="`prepend bg-${color} ${isFocused && 'color-rotate'} ${(icon || label) && 'mr-n2'}`"
             :style="`min-width: ${icon ? '30' : '12'}px`">
-            <v-icon v-if="icon" :icon="icon" :class="label && 'ml-2'" class="mt-1" />
-            <div
-              v-if="label"
+            <v-icon v-if="icon"
+              :icon="icon"
+              :class="label && 'ml-2'"
+              class="mt-1" />
+            <div v-if="label"
               class="d-inline-block text-cc-overline ml-3"
               style="line-height: 0; margin-top: 16px">
               {{ label }}
@@ -34,16 +37,22 @@
             </div>
           </div>
         </template>
-        <template v-if="controls" #prepend-inner>
-          <v-btn icon variant="text" tile size="x-small" @click="setVal(<number>modelValue - 1)">
-            <v-icon size="x-large" icon="mdi-minus" />
+        <template v-if="controls"
+          #prepend-inner>
+          <v-btn icon
+            variant="text"
+            tile
+            size="x-small"
+            @click="setVal(<number>modelValue - 1)">
+            <v-icon size="x-large"
+              icon="mdi-minus" />
           </v-btn>
         </template>
         <template #append>
-          <v-menu v-if="$slots.options" offset-y>
+          <v-menu v-if="$slots.options"
+            offset-y>
             <template v-slot:activator="{ props }">
-              <v-btn
-                size="32"
+              <v-btn size="32"
                 :color="color"
                 icon
                 tile
@@ -56,8 +65,7 @@
             <slot name="options" />
           </v-menu>
 
-          <div
-            :class="`bg-${color} ${(isHovering || isFocused) && 'color-rotate'}`"
+          <div :class="`bg-${color} ${(isHovering || isFocused) && 'color-rotate'}`"
             style="
               transition: filter 0.2s ease-in-out;
               width: 3px;
@@ -65,24 +73,32 @@
               margin-left: 4px;
               z-index: 1;
             " />
-          <v-tooltip v-if="tooltip" location="top" max-width="300px">
+          <v-tooltip v-if="tooltip"
+            location="top"
+            max-width="300px">
             <template v-slot:activator="{ props }">
-              <v-icon
-                v-bind="props"
+              <v-icon v-bind="props"
                 class="fade-select mr-1 ml-3"
                 :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
             </template>
             {{ tooltip }}
           </v-tooltip>
         </template>
-        <template v-if="controls" #append-inner>
-          <v-btn icon variant="text" tile size="x-small" @click="setVal(<number>modelValue + 1)">
-            <v-icon size="x-large" icon="mdi-plus" />
+        <template v-if="controls"
+          #append-inner>
+          <v-btn icon
+            variant="text"
+            tile
+            size="x-small"
+            @click="setVal(<number>modelValue + 1)">
+            <v-icon size="x-large"
+              icon="mdi-plus" />
           </v-btn>
         </template>
       </v-text-field>
       <v-slide-y-transition>
-        <div v-if="details" class="text-right text-caption">
+        <div v-if="details"
+          class="text-right text-caption">
           {{ details }}
         </div>
       </v-slide-y-transition>
@@ -91,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import { max, min } from 'lodash';
+import { max, min } from 'lodash-es';
 
 export default {
   name: 'CCTextField',
@@ -131,20 +147,20 @@ export default {
 </script>
 
 <style scoped>
-.top-element >>> .v-input--horizontal .v-input__prepend {
+.top-element>>>.v-input--horizontal .v-input__prepend {
   margin-inline-end: 0px !important;
 }
 
-.top-element >>> .v-input--horizontal .v-input__append {
+.top-element>>>.v-input--horizontal .v-input__append {
   margin-inline-start: 0px !important;
 }
 
-.top-element >>> .v-field__input {
+.top-element>>>.v-field__input {
   min-height: auto !important;
   height: 32px;
 }
 
-.top-element >>> .v-field {
+.top-element>>>.v-field {
   transition: all 0.1s ease-in-out;
 }
 

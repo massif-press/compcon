@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    :items="backgrounds"
+  <cc-compendium-browser :items="backgrounds"
     item-type="Background"
     :table-headers="headers"
     :options="options">
@@ -11,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { Background } from '@/class';
 
 import { CompendiumStore } from '@/stores';
@@ -35,7 +34,7 @@ export default {
   }),
   computed: {
     backgrounds(): Background[] {
-      return _.orderBy(CompendiumStore().Backgrounds, 'Name');
+      return orderBy(CompendiumStore().Backgrounds, 'Name');
     },
   },
 };

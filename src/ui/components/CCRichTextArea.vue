@@ -1,14 +1,12 @@
 <template>
   <div>
-    <v-card
-      v-if="readonly"
+    <v-card v-if="readonly"
       variant="outlined"
       class="pa-2"
       style="border-color: rgb(var(--v-theme-panel))">
       <p v-html-safe="modelValue" />
     </v-card>
-    <quill-editor
-      v-else
+    <quill-editor v-else
       :content="modelValue"
       :options="editorOptions"
       content-type="html"
@@ -20,7 +18,7 @@
 
 <script lang="ts">
 import { options } from '@/ui/style/quillSetup';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 
 export default {
   name: 'cc-rich-text-area',

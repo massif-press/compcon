@@ -1,6 +1,6 @@
 <template>
   <div class="heading h3" v-text="item.StatusType" />
-  <div v-html="item.Effects" />
+  <div v-html-safe="item.Effects" />
 </template>
 
 <script lang="ts">

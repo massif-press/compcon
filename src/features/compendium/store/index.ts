@@ -1,8 +1,8 @@
-import { v4 as uuid } from 'uuid';
-import { defineStore } from 'pinia';
-import _ from 'lodash';
-import semver from 'semver';
-import lancerData from '@massif/lancer-data';
+import { v4 as uuid } from 'uuid'
+import { defineStore } from 'pinia'
+import * as _ from 'lodash-es'
+import semver from 'semver'
+import lancerData from '@massif/lancer-data'
 import {
   License,
   CoreBonus,
@@ -25,19 +25,19 @@ import {
   LicensedItem,
   DowntimeAction,
   CompendiumItem,
-} from '@/class';
-import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
-import { Status } from '@/classes/Status';
-import { GetAll, RemoveItem, SetItem } from '@/io/Storage';
-import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
-import { NpcClass } from '@/classes/npc/class/NpcClass';
-import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
-import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer';
-import { IndexItem } from '@/stores';
-import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
-import { BondPower } from '@/classes/pilot/components/bond/Bond';
-import logger from '@/user/logger';
-import { RollableTable } from '@/classes/narrative/elements/RollableTable';
+} from '@/class'
+import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface'
+import { Status } from '@/classes/Status'
+import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
+import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
+import { NpcClass } from '@/classes/npc/class/NpcClass'
+import { NpcTemplate } from '@/classes/npc/template/NpcTemplate'
+import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
+import { IndexItem } from '@/stores'
+import { ContentCollection } from '@/classes/components/cloud/ContentCollection'
+import { BondPower } from '@/classes/pilot/components/bond/Bond'
+import logger from '@/user/logger'
+import { RollableTable } from '@/classes/narrative/elements/RollableTable'
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -62,7 +62,7 @@ const hydratedKeys = {
   pilot_gear: 'PilotGear',
   eidolon_layers: 'EidolonLayers',
   downtime_actions: 'DowntimeActions',
-};
+}
 
 const itemTypeMap = {
   actions: 'Actions',
@@ -100,14 +100,12 @@ const itemTypeMap = {
   pilotgear: 'PilotGear',
   eidolonlayer: 'EidolonLayers',
   downtimeActions: 'DowntimeActions',
-};
+}
 
 function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }): T[] {
-  let lData = [];
+  let lData = []
   if (lancerData[itemType]) {
-    lData = constructor
-      ? lancerData[itemType].map((x) => new constructor(x))
-      : lancerData[itemType];
+    lData = constructor ? lancerData[itemType].map(x => new constructor(x)) : lancerData[itemType]
   }
 
   return [
@@ -115,7 +113,7 @@ function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }):
     ...state.ContentPacks.filter((pack: ContentPack) => pack.Active).flatMap(
       (pack: ContentPack) => pack[hydratedKeys[itemType]] || []
     ),
-  ];
+  ]
 }
 
 // function sortByDependencies(packs: IContentPack[]): IContentPack[] {
@@ -169,52 +167,52 @@ export const CompendiumStore = defineStore('compendium', {
   }),
   getters: {
     hasNpcAccess(): boolean {
-      if (!this.loaded) return false;
-      return this.NpcClasses.length > 0;
+      if (!this.loaded) return false
+      return this.NpcClasses.length > 0
     },
     hasBondsAccess(): boolean {
-      if (!this.loaded) return false;
-      return this.Bonds.length > 0;
+      if (!this.loaded) return false
+      return this.Bonds.length > 0
     },
     hasEidolonAccess(): boolean {
-      if (!this.loaded) return false;
-      return this.EidolonLayers.length > 0;
+      if (!this.loaded) return false
+      return this.EidolonLayers.length > 0
     },
-    NpcClasses: (state) => collect<NpcClass>(state, 'npc_classes', NpcClass),
-    NpcTemplates: (state) => collect<NpcTemplate>(state, 'npc_templates', NpcTemplate),
-    NpcFeatures: (state) => collect<NpcFeature>(state, 'npc_features'),
-    EidolonLayers: (state) => collect<EidolonLayer>(state, 'eidolon_layers'),
-    Bonds: (state) => collect<Bond>(state, 'bonds', Bond),
-    Backgrounds: (state) => collect<Background>(state, 'backgrounds', Background),
-    Talents: (state) => collect<Talent>(state, 'talents', Talent),
-    CoreBonuses: (state) => collect<CoreBonus>(state, 'core_bonuses', CoreBonus),
-    Frames: (state) => collect<Frame>(state, 'frames', Frame),
-    Manufacturers: (state) => collect<Manufacturer>(state, 'manufacturers', Manufacturer),
-    MechWeapons: (state) => collect<MechWeapon>(state, 'weapons', MechWeapon),
-    WeaponMods: (state) => collect<WeaponMod>(state, 'mods', WeaponMod),
-    MechSystems: (state) => collect<MechSystem>(state, 'systems', MechSystem),
-    Skills: (state) => collect<Skill>(state, 'skills', Skill),
-    Actions: (state) => collect<PlayerAction.Action>(state, 'actions', PlayerAction.Action),
-    Tags: (state) => collect<Tag>(state, 'tags', Tag),
-    TagData: (state) => collect<ITagCompendiumData>(state, 'tags'),
-    Reserves: (state) => collect<Reserve>(state, 'reserves', Reserve),
-    Statuses: (state) => collect<Status>(state, 'statuses', Status),
-    Environments: (state) => collect<Environment>(state, 'environments', Environment),
-    Sitreps: (state) => collect<Sitrep>(state, 'sitreps', Sitrep),
-    PilotGear: (state) =>
-      collect<IPilotEquipmentData>(state, 'pilot_gear').map((x) => PilotEquipment.Factory(x)),
-    DowntimeActions: (state) => collect<DowntimeAction>(state, 'downtime_actions', DowntimeAction),
-    Tables: (state) => collect<RollableTable>(state, 'tables', RollableTable),
+    NpcClasses: state => collect<NpcClass>(state, 'npc_classes', NpcClass),
+    NpcTemplates: state => collect<NpcTemplate>(state, 'npc_templates', NpcTemplate),
+    NpcFeatures: state => collect<NpcFeature>(state, 'npc_features'),
+    EidolonLayers: state => collect<EidolonLayer>(state, 'eidolon_layers'),
+    Bonds: state => collect<Bond>(state, 'bonds', Bond),
+    Backgrounds: state => collect<Background>(state, 'backgrounds', Background),
+    Talents: state => collect<Talent>(state, 'talents', Talent),
+    CoreBonuses: state => collect<CoreBonus>(state, 'core_bonuses', CoreBonus),
+    Frames: state => collect<Frame>(state, 'frames', Frame),
+    Manufacturers: state => collect<Manufacturer>(state, 'manufacturers', Manufacturer),
+    MechWeapons: state => collect<MechWeapon>(state, 'weapons', MechWeapon),
+    WeaponMods: state => collect<WeaponMod>(state, 'mods', WeaponMod),
+    MechSystems: state => collect<MechSystem>(state, 'systems', MechSystem),
+    Skills: state => collect<Skill>(state, 'skills', Skill),
+    Actions: state => collect<PlayerAction.Action>(state, 'actions', PlayerAction.Action),
+    Tags: state => collect<Tag>(state, 'tags', Tag),
+    TagData: state => collect<ITagCompendiumData>(state, 'tags'),
+    Reserves: state => collect<Reserve>(state, 'reserves', Reserve),
+    Statuses: state => collect<Status>(state, 'statuses', Status),
+    Environments: state => collect<Environment>(state, 'environments', Environment),
+    Sitreps: state => collect<Sitrep>(state, 'sitreps', Sitrep),
+    PilotGear: state =>
+      collect<IPilotEquipmentData>(state, 'pilot_gear').map(x => PilotEquipment.Factory(x)),
+    DowntimeActions: state => collect<DowntimeAction>(state, 'downtime_actions', DowntimeAction),
+    Tables: state => collect<RollableTable>(state, 'tables', RollableTable),
 
-    Lists: (state) => {
-      const lists = lancerData.lists;
-      state.ContentPacks.filter((pack) => pack.Active).forEach((pack) => {
+    Lists: state => {
+      const lists = lancerData.lists
+      state.ContentPacks.filter(pack => pack.Active).forEach(pack => {
         for (const t in pack.Lists) {
-          if (lists[t] !== undefined) lists[t] = [...lists[t], ...pack.Lists[t]];
-          else lists[t] = pack.Lists[t];
+          if (lists[t] !== undefined) lists[t] = [...lists[t], ...pack.Lists[t]]
+          else lists[t] = pack.Lists[t]
         }
-      });
-      return lists;
+      })
+      return lists
     },
 
     // Tables: (state) => {
@@ -228,102 +226,102 @@ export const CompendiumStore = defineStore('compendium', {
     //   return tables;
     // },
 
-    ExtraBondPowers: (state) => {
-      const powers = [] as BondPower[];
-      state.ContentPacks.filter((pack) => pack.Active).forEach((pack) => {
-        powers.push(...pack.BondPowers);
-      });
-      return powers;
+    ExtraBondPowers: state => {
+      const powers = [] as BondPower[]
+      state.ContentPacks.filter(pack => pack.Active).forEach(pack => {
+        powers.push(...pack.BondPowers)
+      })
+      return powers
     },
 
     Licenses() {
       function variantLicenseMatch(variantFrame: Frame, licenseFrame: Frame): boolean {
         if (!!variantFrame.Variant && !!variantFrame.LicenseID) {
-          return variantFrame.LicenseID === licenseFrame.ID;
+          return variantFrame.LicenseID === licenseFrame.ID
         } else {
           return (
             variantFrame.Variant.toUpperCase() === licenseFrame.Name.toUpperCase() &&
             variantFrame.Source.toUpperCase() === licenseFrame.Source.toUpperCase()
-          );
+          )
         }
       }
 
       return (this.Frames as any)
-        .filter((x) => x.LicenseLevel !== 0 && !x.IsHidden)
-        .map((frame) => {
-          return new License(frame);
-        });
+        .filter(x => x.LicenseLevel !== 0 && !x.IsHidden)
+        .map(frame => {
+          return new License(frame)
+        })
     },
 
     instantiate(): any {
       return (itemType: string, id: string) => {
         if (this[itemType] && this[itemType] instanceof Array) {
-          const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
+          const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
           if (i) {
-            const cl = _.cloneDeep(i);
-            cl.InstanceID = uuid();
-            return cl;
+            const cl = _.cloneDeep(i)
+            cl.InstanceID = uuid()
+            return cl
           }
-          return null;
+          return null
         }
-        logger.error(`Invalid item type: ${itemType}`);
-        return null;
-      };
+        logger.error(`Invalid item type: ${itemType}`)
+        return null
+      }
     },
 
     referenceByID(): any {
       return (itemType: string, id: string) => {
         if (this[itemType] && this[itemType] instanceof Array) {
-          const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
-          if (i) return i;
-          throw new Error(`ID not found: ${id}`);
+          const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
+          if (i) return i
+          throw new Error(`ID not found: ${id}`)
         }
-        throw new Error(`Invalid item type: ${itemType}`);
-      };
+        throw new Error(`Invalid item type: ${itemType}`)
+      }
     },
 
     has(): (itemType: string, id: string) => boolean {
       return (itemType: string, id: string): boolean => {
         if (this[itemType] && this[itemType] instanceof Array) {
-          return this[itemType].some((x: any) => x.ID === id || x.id === id);
+          return this[itemType].some((x: any) => x.ID === id || x.id === id)
         }
-        logger.error(`Invalid item type: ${itemType}`);
-        return false;
-      };
+        logger.error(`Invalid item type: ${itemType}`)
+        return false
+      }
     },
 
     // TODO: reference FROM ID maps the object-held ItemType to Compendium ItemType.
     // This should be changed so all types are equivalent across items and item arrays, but for now this is a workaround.
     referenceFromID(): any {
       return (itemType: string, id: string) => {
-        const mappedType = itemTypeMap[itemType];
+        const mappedType = itemTypeMap[itemType]
 
         if (this[mappedType] && this[mappedType] instanceof Array) {
-          const i = this[mappedType].find((x: any) => x.ID === id || x.id === id);
-          if (i) return i;
-          throw new Error(`ID not found: ${id}`);
+          const i = this[mappedType].find((x: any) => x.ID === id || x.id === id)
+          if (i) return i
+          throw new Error(`ID not found: ${id}`)
         }
-        throw new Error(`Invalid item type: ${mappedType}`);
-      };
+        throw new Error(`Invalid item type: ${mappedType}`)
+      }
     },
 
     getItemCollection(): any {
       return (itemType: string) => {
-        return this[itemType].filter((x) => x && !x.IsHidden);
-      };
+        return this[itemType].filter(x => x && !x.IsHidden)
+      }
     },
 
     lcpNames(): any {
-      const frame_packs = this.Frames.map((x) => x.LcpName);
-      const lcp_packs = this.ContentPacks.map((x) => x.Name);
-      return _.unionWith(frame_packs, lcp_packs, _.isEqual);
+      const frame_packs = this.Frames.map(x => x.LcpName)
+      const lcp_packs = this.ContentPacks.map(x => x.Name)
+      return _.unionWith(frame_packs, lcp_packs, _.isEqual)
     },
 
     itemsByLcp: (state): any => {
       return (key: string) => {
-        if (!state[key]) throw new Error(`Invalid LCP key: ${key}`);
-        return _.groupBy(state[key], 'LcpName');
-      };
+        if (!state[key]) throw new Error(`Invalid LCP key: ${key}`)
+        return _.groupBy(state[key], 'LcpName')
+      }
     },
 
     allEquipment(): LicensedItem[] {
@@ -331,7 +329,7 @@ export const CompendiumStore = defineStore('compendium', {
         .concat(this.WeaponMods as LicensedItem[])
         .concat(this.MechSystems as LicensedItem[])
         .concat(this.Frames as LicensedItem[])
-        .filter((x) => !x.IsHidden);
+        .filter(x => !x.IsHidden)
     },
 
     referenceLink(): any {
@@ -340,22 +338,22 @@ export const CompendiumStore = defineStore('compendium', {
           ? ''
           : import.meta.env.DEV
             ? 'localhost:5173'
-            : 'https://compcon.app';
+            : 'https://compcon.app'
         return `${prepend}/link/${item.Brew?.LcpName || 'core'}/${item.ItemType.toLowerCase()}/${
           item.ID
-        }`;
-      };
+        }`
+      }
     },
 
     itemIndexes(): IndexItem[] {
-      const index: IndexItem[] = [];
-      const keys = _.uniq(Object.values(itemTypeMap));
+      const index: IndexItem[] = []
+      const keys = _.uniq(Object.values(itemTypeMap))
 
-      keys.forEach((key) => {
+      keys.forEach(key => {
         index.push(
           ...this[key]
-            .filter((x) => x.ItemType)
-            .map((item) => {
+            .filter(x => x.ItemType)
+            .map(item => {
               return {
                 id: item.ID,
                 title: item.Name,
@@ -363,96 +361,96 @@ export const CompendiumStore = defineStore('compendium', {
                 pack: item.Brew?.LcpName || 'Lancer Core Book',
                 path: this.referenceLink(item, true),
                 icon: item.Icon,
-              };
+              }
             })
-        );
-      });
+        )
+      })
 
-      return index;
+      return index
     },
   },
   actions: {
     async saveUserData(): Promise<void> {
-      Promise.all([this.ContentPacks.map((y) => SetItem('content', y.Serialize()))])
+      Promise.all([this.ContentPacks.map(y => SetItem('content', y.Serialize()))])
         .then(() => logger.info('LCP data saved'))
-        .catch((err) => logger.error('Error while saving LCP data', err));
+        .catch(err => logger.error('Error while saving LCP data', err))
     },
     async saveContentCollection(collection: ContentCollection): Promise<void> {
-      const index = this.ContentCollections.findIndex((x) => x.ID === collection.ID);
+      const index = this.ContentCollections.findIndex(x => x.ID === collection.ID)
       if (index === -1) {
-        this.ContentCollections.push(collection);
+        this.ContentCollections.push(collection)
       } else {
-        this.ContentCollections[index] = collection;
+        this.ContentCollections[index] = collection
       }
-      await SetItem('content_collection', ContentCollection.Serialize(collection));
+      await SetItem('content_collection', ContentCollection.Serialize(collection))
     },
     async installCollectionContent(collection: ContentCollection): Promise<void> {
       // TODO
     },
     async deleteContentCollection(collection: ContentCollection): Promise<void> {
-      this.ContentCollections = this.ContentCollections.filter((x) => x.ID !== collection.ID);
-      await RemoveItem('content_collection', collection.ID);
-      await this.saveUserData();
+      this.ContentCollections = this.ContentCollections.filter(x => x.ID !== collection.ID)
+      await RemoveItem('content_collection', collection.ID)
+      await this.saveUserData()
     },
     async togglePackActive(payload: string): Promise<void> {
-      const pack = this.ContentPacks.find((pack) => pack.ID === payload);
-      if (pack) pack.SetActive(!pack.Active);
+      const pack = this.ContentPacks.find(pack => pack.ID === payload)
+      if (pack) pack.SetActive(!pack.Active)
 
-      await this.saveUserData();
+      await this.saveUserData()
     },
     async setPackActive(payload: { packID: string; active: boolean }): Promise<void> {
-      const pack = this.ContentPacks.find((pack) => pack.ID === payload.packID);
-      if (pack) pack.SetActive(payload.active);
+      const pack = this.ContentPacks.find(pack => pack.ID === payload.packID)
+      if (pack) pack.SetActive(payload.active)
 
-      await this.saveUserData();
+      await this.saveUserData()
     },
     async installContentPack(packData: IContentPack): Promise<void> {
       if (this.packAlreadyInstalled(packData.id)) {
         logger.info(
           `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`,
           this
-        );
-        await this.deleteContentPack(packData.id);
+        )
+        await this.deleteContentPack(packData.id)
       }
-      const pack = new ContentPack(packData);
-      this.ContentPacks = [...this.ContentPacks, pack];
-      await this.saveUserData();
-      await this.refreshExtraContent();
+      const pack = new ContentPack(packData)
+      this.ContentPacks = [...this.ContentPacks, pack]
+      await this.saveUserData()
+      await this.refreshExtraContent()
     },
     async installContentPacks(packs: IContentPack[]) {
-      const promises = packs.map(async (packData) => {
+      const promises = packs.map(async packData => {
         if (this.packAlreadyInstalled(packData.id)) {
           logger.info(
             `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`,
             this
-          );
-          await this.deleteContentPack(packData.id, true);
+          )
+          await this.deleteContentPack(packData.id, true)
         }
-        const pack = new ContentPack(packData);
-        pack.SetActive(true);
-        this.ContentPacks.push(pack);
-      });
+        const pack = new ContentPack(packData)
+        pack.SetActive(true)
+        this.ContentPacks.push(pack)
+      })
 
-      await Promise.all(promises);
-      await this.saveUserData();
+      await Promise.all(promises)
+      await this.saveUserData()
     },
     async deleteContentPack(packID: string, skipSave = false): Promise<void> {
-      this.ContentPacks = this.ContentPacks.filter((pack) => pack.ID !== packID);
-      await RemoveItem('content', packID);
-      if (skipSave) return;
-      await this.saveUserData();
-      await this.refreshExtraContent();
+      this.ContentPacks = this.ContentPacks.filter(pack => pack.ID !== packID)
+      await RemoveItem('content', packID)
+      if (skipSave) return
+      await this.saveUserData()
+      await this.refreshExtraContent()
     },
     async deleteAllContentPacks(): Promise<void> {
       for (const pack of this.ContentPacks) {
-        await RemoveItem('content', pack.ID);
+        await RemoveItem('content', pack.ID)
       }
-      this.ContentPacks = [];
-      await this.saveUserData();
-      await this.refreshExtraContent();
+      this.ContentPacks = []
+      await this.saveUserData()
+      await this.refreshExtraContent()
     },
     async loadExtraContent(): Promise<void> {
-      let content = await GetAll('content');
+      let content = await GetAll('content')
 
       // content.forEach((pack) => {
       //   if (!pack.manifest.dependencies) pack.manifest.dependencies = [];
@@ -466,39 +464,46 @@ export const CompendiumStore = defineStore('compendium', {
       // });
 
       try {
-        this.ContentPacks = [...this.ContentPacks, ...content.map((c) => new ContentPack(c))];
+        this.ContentPacks = [...this.ContentPacks, ...content.map(c => new ContentPack(c))]
       } catch (err) {
-        logger.error(`Error loading content packs: ${err}`, this, err);
+        logger.error(`Error loading content packs: ${err}`, this, err)
       }
     },
     async refreshExtraContent(): Promise<void> {
-      this.loaded = false;
-      this.ContentPacks = [];
-      await this.loadExtraContent();
-      await this.loadContentCollections();
+      this.loaded = false
+      this.ContentPacks = []
+      await this.loadExtraContent()
+      await this.loadContentCollections()
 
-      this.loaded = true;
+      this.loaded = true
     },
     async loadContentCollections(): Promise<void> {
-      let content = await GetAll('content_collection');
-      this.ContentCollections = content.map((x) => ContentCollection.Deserialize(x));
+      let content = await GetAll('content_collection')
+      this.ContentCollections = content.map(x => ContentCollection.Deserialize(x))
     },
     packAlreadyInstalled(packId: string, version?: string, searchOnName = false): boolean {
-      let candidate;
+      let candidate
 
       if (searchOnName)
-        candidate = this.ContentPacks.find(
-          (pack) => pack.Name.toLowerCase() === packId.toLowerCase()
-        );
-      else candidate = this.ContentPacks.find((pack) => pack.ID === packId);
+        candidate = this.ContentPacks.find(pack => pack.Name.toLowerCase() === packId.toLowerCase())
+      else candidate = this.ContentPacks.find(pack => pack.ID === packId)
 
-      if (!candidate) return false;
+      if (!candidate) return false
 
-      if (!version || version === '*') return !!candidate;
+      if (!version || version === '*') return !!candidate
 
-      if (version.startsWith('=')) return candidate.Version === version.slice(1);
+      if (version.startsWith('=')) return candidate.Version === version.slice(1)
 
-      return semver.gte(semver.coerce(candidate.Version), semver.coerce(version));
+      return semver.gte(semver.coerce(candidate.Version), semver.coerce(version))
+    },
+    find(itemType: string, id: string): any {
+      if (this[itemType] && this[itemType] instanceof Array) {
+        const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
+        if (i) return i
+        return this.nfErr
+      }
+      logger.error(`Invalid item type: ${itemType}`)
+      return this.nfErr
     },
   },
-});
+})

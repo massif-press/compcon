@@ -1,17 +1,27 @@
 <template>
-  <div class="px-2 mt-n5">
-    <v-row dense class="mb-1">
+  <div>
+    <v-row dense
+      class="mb-1">
       <v-spacer />
       <v-col cols="auto">
         <v-menu :close-on-content-click="false">
           <template v-slot:activator="{ props }">
-            <cc-button v-bind="props" size="small" color="primary" prepend-icon="cc:compendium">
+            <cc-button v-bind="props"
+              size="x-small"
+              color="primary"
+              prepend-icon="cc:compendium">
               Edit Stats
             </cc-button>
           </template>
 
-          <v-card width="300px" flat tile border>
-            <v-tabs v-model="menuTab" height="24" bg-color="primary" density="compact">
+          <v-card width="300px"
+            flat
+            tile
+            border>
+            <v-tabs v-model="menuTab"
+              height="24"
+              bg-color="primary"
+              density="compact">
               <v-tab>Trackable</v-tab>
               <v-tab>Static</v-tab>
             </v-tabs>
@@ -19,22 +29,19 @@
             <v-card-text>
               <v-window v-model="menuTab">
                 <v-window-item>
-                  <v-select
-                    v-model="trackableStat"
+                  <v-select v-model="trackableStat"
                     :items="availableTrackableStats"
                     item-value="key"
                     density="compact"
                     hide-details
                     class="mb-2"
                     chips />
-                  <v-text-field
-                    v-model.number="trackableValue"
+                  <v-text-field v-model.number="trackableValue"
                     clearable
                     density="compact"
                     label="Stat Value"
                     hide-details />
-                  <cc-button
-                    block
+                  <cc-button block
                     class="my-2"
                     :color="hasStat(trackableStat && trackableStat.title) ? 'success' : 'primary'"
                     size="small"
@@ -42,12 +49,11 @@
                     @click="addTrackableStat()">
                     {{ hasStat(trackableStat && trackableStat.title) ? 'Save' : 'Add' }}
                   </cc-button>
-                  <cc-button
-                    v-if="
-                      trackableStat &&
-                      isCoreStat(trackableStat.title) &&
-                      hasStat(trackableStat.title)
-                    "
+                  <cc-button v-if="
+                    trackableStat &&
+                    isCoreStat(trackableStat.title) &&
+                    hasStat(trackableStat.title)
+                  "
                     block
                     class="my-2"
                     color="error"
@@ -58,22 +64,19 @@
                 </v-window-item>
 
                 <v-window-item>
-                  <v-select
-                    v-model="staticStat"
+                  <v-select v-model="staticStat"
                     :items="availableStaticStats"
                     item-value="key"
                     density="compact"
                     hide-details
                     class="mb-2"
                     chips />
-                  <v-text-field
-                    v-model.number="staticValue"
+                  <v-text-field v-model.number="staticValue"
                     clearable
                     density="compact"
                     label="Stat Value"
                     hide-details />
-                  <cc-button
-                    block
+                  <cc-button block
                     class="my-2"
                     :color="hasStat(staticStat || '') ? 'success' : 'primary'"
                     size="small"
@@ -81,8 +84,7 @@
                     @click="addStaticStat()">
                     {{ hasStat(staticStat || '') ? 'Save' : 'Add' }}
                   </cc-button>
-                  <cc-button
-                    v-if="staticStat && isCoreStat(staticStat) && hasStat(staticStat)"
+                  <cc-button v-if="staticStat && isCoreStat(staticStat) && hasStat(staticStat)"
                     block
                     class="my-2"
                     color="error"

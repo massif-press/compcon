@@ -1,10 +1,11 @@
 <template>
-  <v-row dense class="heading h1 mt-n4" align="center">
+  <v-row dense
+    class="heading h1 mt-n4"
+    align="center">
     <cc-remote-hover :item="item" />
 
     <v-col>
-      <cc-short-string-editor
-        large
+      <cc-short-string-editor large
         justify="start"
         :placeholder="item.Name"
         :readonly="readonly"
@@ -18,26 +19,27 @@
       <span class="text-disabled pr-6">T{{ item.NpcClassController?.Tier || '' }}</span>
     </v-col>
   </v-row>
-  <div
-    v-if="!item.IsNameless"
+  <div v-if="!item.IsNameless"
     class="heading h4 text-disabled mb-2 mt-n2"
     style="letter-spacing: 3px">
     {{ item.DefaultName }}
   </div>
 
-  <v-row no-gutters class="mb-4">
+  <v-row no-gutters
+    class="mb-4">
     <v-col>
       <div class="text-cc-overline mt-1">NPC CLASS</div>
-      <div v-if="readonly" class="heading h2 ml-2 mt-n2 text-accent">
+      <div v-if="readonly"
+        class="heading h2 ml-2 mt-n2 text-accent">
         {{
           item.NpcClassController?.HasClass ? item.NpcClassController.Class.Name : 'No NPC Class'
         }}
       </div>
       <div v-else>
-        <cc-modal title="select NPC class" icon="cc:encounter">
+        <cc-modal title="select NPC class"
+          icon="cc:encounter">
           <template #activator="{ open }">
-            <cc-button
-              block
+            <cc-button block
               :prepend-icon="item.NpcClassController.Class?.Icon || undefined"
               :color="!item.NpcClassController?.HasClass ? 'error' : 'primary'"
               @click="open">
@@ -49,7 +51,8 @@
             </cc-button>
           </template>
           <template #default="{ close }">
-            <npc-class-selector :item="item" @close="close" />
+            <npc-class-selector :item="item"
+              @close="close" />
           </template>
         </cc-modal>
       </div>
@@ -57,20 +60,23 @@
 
     <v-col cols="auto">
       <div class="text-cc-overline mt-1">NPC TAG</div>
-      <npc-tag-selector :readonly="readonly" :item="item" />
+      <npc-tag-selector :readonly="readonly"
+        :item="item" />
     </v-col>
   </v-row>
 
-  <div v-if="item.NpcClassController?.HasClass" class="mb-4">
+  <div v-if="item.NpcClassController?.HasClass"
+    class="mb-4">
     <div class="text-cc-overline">TEMPLATES</div>
-    <npc-template-selector :readonly="readonly" :item="item" />
+    <npc-template-selector :readonly="readonly"
+      :item="item" />
   </div>
 </template>
 
 <script lang="ts">
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 import { CompendiumStore } from '@/stores';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import {
   NpcClassSelector,
   NpcTemplateSelector,

@@ -1,6 +1,6 @@
 import { CompendiumStore } from '@/stores'
 import { v4 as uuid } from 'uuid'
-import _ from 'lodash'
+import * as _ from 'lodash-es'
 import { Rules, Pilot, Frame, CoreBonus, Mount } from '@/class'
 import { ImageTag } from '@/io/ImageManagement'
 import { Bonus } from '../components/feature/bonus/Bonus'

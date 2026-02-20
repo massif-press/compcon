@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    :items="availableItems"
+  <cc-compendium-browser :items="availableItems"
     item-type="Equipment"
     :options="options"
     equippable
@@ -16,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 import { CompendiumItem } from '@/classes/CompendiumItem';

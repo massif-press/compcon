@@ -117,6 +117,11 @@ export default {
     enableJustify: true,
     lineWidth: 110,
   }),
+  mounted() {
+    if (this.$vuetify.display.smAndDown) {
+      this.enableJustify = false;
+    }
+  },
   computed: {
     rootActor() {
       return this.actor.CombatController.RootActor

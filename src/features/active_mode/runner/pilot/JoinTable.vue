@@ -175,7 +175,7 @@
                   <div class="d-flex justify-center align-center">
                     <v-divider class="justify-self-center ma-1" style="max-width: 400px" />
                   </div>
-                  <span v-html="table.campaign.current" />
+                  <span v-html-safe="table.campaign.current" />
                 </v-col>
               </v-row>
             </v-card>

@@ -1,15 +1,16 @@
 <template>
-  <cc-compendium-browser
-    :items="sitreps"
+  <cc-compendium-browser :items="sitreps"
     item-type="Sitrep"
     :table-headers="headers"
     :options="options">
-    <template #header> <div class="heading h3 text-center text-accent">Sitreps</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Sitreps</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 
 export default {
@@ -30,7 +31,7 @@ export default {
   }),
   computed: {
     sitreps() {
-      return _.orderBy(CompendiumStore().Sitreps, 'Name');
+      return orderBy(CompendiumStore().Sitreps, 'Name');
     },
   },
 };

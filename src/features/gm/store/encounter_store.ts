@@ -1,6 +1,6 @@
 import { GetAll, SetItem, RemoveItem, SetValue, GetValue } from '@/io/Storage'
 import { defineStore } from 'pinia'
-import _ from 'lodash'
+import * as _ from 'lodash-es'
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter'
 import { IndexItem } from '@/stores'
 import { CloudController } from '@/classes/components'

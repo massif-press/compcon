@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    ref="browser"
+  <cc-compendium-browser ref="browser"
     :items="classes"
     item-type="NpcClass"
     :table-headers="headers"
@@ -10,16 +9,19 @@
     <template #header>
       <div class="heading h3 text-center text-accent">NPC Classes</div>
       <v-slide-y-transition>
-        <div v-if="tieredView" class="text-center my-n1">
-          <v-btn-toggle
-            v-model="selectedTier"
+        <div v-if="tieredView"
+          class="text-center my-n1">
+          <v-btn-toggle v-model="selectedTier"
             density="compact"
             color="secondary-darken-3"
             mandatory
             style="height: 15px">
-            <v-btn size="x-small" :value="1">Tier 1</v-btn>
-            <v-btn size="x-small" :value="2">Tier 2</v-btn>
-            <v-btn size="x-small" :value="3">Tier 3</v-btn>
+            <v-btn size="x-small"
+              :value="1">Tier 1</v-btn>
+            <v-btn size="x-small"
+              :value="2">Tier 2</v-btn>
+            <v-btn size="x-small"
+              :value="3">Tier 3</v-btn>
           </v-btn-toggle>
         </div>
       </v-slide-y-transition>
@@ -28,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 import { NpcClass } from '@/classes/npc/class/NpcClass';
@@ -65,7 +67,7 @@ export default {
 
   computed: {
     classes(): NpcClass[] {
-      return _.orderBy(CompendiumStore().NpcClasses, ['Role', 'Name']);
+      return orderBy(CompendiumStore().NpcClasses, ['Role', 'Name']);
     },
     headers() {
       const h = [

@@ -1,9 +1,6 @@
 <template>
-  <v-row dense>
-    <v-col cols="auto">
-      <div class="text-cc-overline text-disabled mt-2">PENDING</div>
-    </v-col>
-  </v-row>
+  <div v-if="item.CombatController.TimedEffects.length"
+    class="text-cc-overline text-disabled mt-2">PENDING</div>
   <v-row v-for="(t, idx) in item.CombatController.TimedEffects"
     dense
     align="center"

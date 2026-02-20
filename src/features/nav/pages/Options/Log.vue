@@ -21,7 +21,7 @@
               <v-divider />
               <ul>
                 <li v-for="t in item.trace">
-                  <div v-html="formatTrace(t)" />
+                  <div v-html-safe="formatTrace(t)" />
                 </li>
               </ul>
             </v-col>

@@ -87,7 +87,7 @@
             <div v-if="tab === 'jockey'">
               <div class="heading h4">{{ action.Name }}</div>
               <p class="text-text pl-2"
-                v-html="action.Detail" />
+                v-html-safe="action.Detail" />
               <v-row dense
                 align="center"
                 class="my-2">

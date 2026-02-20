@@ -1,13 +1,16 @@
 <template>
-  <cc-compendium-browser :items="tags" item-type="Tag" :table-headers="headers" :options="options">
+  <cc-compendium-browser :items="tags"
+    item-type="Tag"
+    :table-headers="headers"
+    :options="options">
     <template #header>
-      <div class="heading h3 text-center text-accent">Equipment Tags</div></template
-    >
+      <div class="heading h3 text-center text-accent">Equipment Tags</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { sortBy } from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 
@@ -29,7 +32,7 @@ export default {
   }),
   computed: {
     tags() {
-      return _.sortBy(
+      return sortBy(
         CompendiumStore().Tags.filter((x) => !x.IsHidden),
         'Name'
       );

@@ -1,65 +1,65 @@
-import { MechWeapon, FittingSize, Mount } from '@/class';
-import _ from 'lodash';
-import { CompendiumStore } from '@/stores';
-import { WeaponMod } from '@/class';
-import { IWeaponSlotData } from '@/interface';
-import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
+import { MechWeapon, FittingSize, Mount } from '@/class'
+import * as _ from 'lodash-es'
+import { CompendiumStore } from '@/stores'
+import { WeaponMod } from '@/class'
+import { IWeaponSlotData } from '@/interface'
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 
 class WeaponSlot {
-  private _size: FittingSize;
-  private _weapon: MechWeapon | null;
-  private _parent: Mount;
+  private _size: FittingSize
+  private _weapon: MechWeapon | null
+  private _parent: Mount
 
   public constructor(size: FittingSize, parent: Mount) {
-    this._size = size;
-    this._weapon = null;
-    this._parent = parent;
+    this._size = size
+    this._weapon = null
+    this._parent = parent
   }
 
   private save(): void {
-    this._parent.save();
+    this._parent.save()
   }
 
   public get Size(): FittingSize {
-    return this._size;
+    return this._size
   }
 
   public get Weapon(): MechWeapon | null {
-    return this._weapon || null;
+    return this._weapon || null
   }
 
   public get Mod(): WeaponMod | null {
-    return this.Weapon && this.Weapon.Mod;
+    return this.Weapon && this.Weapon.Mod
   }
 
   public EquipWeapon(weapon: MechWeapon, save = true): void {
-    const w = _.clone(weapon);
-    this._weapon = w;
-    if (this._parent.Parent.FullyEquipped) AchievementEventSystem.emit('full_equip');
+    const w = _.clone(weapon)
+    this._weapon = w
+    if (this._parent.Parent.FullyEquipped) AchievementEventSystem.emit('full_equip')
 
-    if (save) this.save();
+    if (save) this.save()
   }
 
   public UnequipWeapon(): void {
-    this._weapon = null;
-    this.save();
+    this._weapon = null
+    this.save()
   }
 
   public static Serialize(ws: WeaponSlot): IWeaponSlotData {
     return {
       size: ws.Size,
       weapon: ws.Weapon ? MechWeapon.Serialize(ws.Weapon) : null,
-    };
+    }
   }
 
   public static Deserialize(slotData: IWeaponSlotData, parent: Mount): WeaponSlot {
-    const ws = new WeaponSlot(slotData.size as FittingSize, parent);
+    const ws = new WeaponSlot(slotData.size as FittingSize, parent)
     if (slotData.weapon) {
-      const w = MechWeapon.Deserialize(slotData.weapon);
-      if (w) ws.EquipWeapon(w, false);
+      const w = MechWeapon.Deserialize(slotData.weapon)
+      if (w) ws.EquipWeapon(w, false)
     }
-    return ws;
+    return ws
   }
 }
 
-export default WeaponSlot;
+export default WeaponSlot

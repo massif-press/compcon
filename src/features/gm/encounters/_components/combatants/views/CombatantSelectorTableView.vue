@@ -2,23 +2,30 @@
   <v-container>
     <v-row dense>
       <v-col>
-        <v-text-field
-          v-model="search"
+        <v-text-field v-model="search"
           placeholder="Search"
           density="compact"
           hide-details
           prepend-inner-icon="mdi-magnify"
           clearable />
       </v-col>
-      <v-col cols="auto" align-self="center" class="mx-4">
-        <v-row dense align="center">
+      <v-col cols="auto"
+        align-self="center"
+        class="mx-4">
+        <v-row dense
+          align="center">
           <v-col cols="auto">
-            <v-switch v-model="labelHeaders" color="primary" hide-details density="compact" inset />
+            <v-switch v-model="labelHeaders"
+              color="primary"
+              hide-details
+              density="compact"
+              inset />
           </v-col>
           <v-col cols="auto">
             <v-tooltip location="bottom">
               <template #activator="{ props }">
-                <v-icon v-bind="props" icon="mdi-label" />
+                <v-icon v-bind="props"
+                  icon="mdi-label" />
               </template>
               <span>Show GM label headers</span>
             </v-tooltip>
@@ -26,8 +33,7 @@
         </v-row>
       </v-col>
       <v-col cols="auto">
-        <gm-collection-filter
-          :items="npcs"
+        <gm-collection-filter :items="npcs"
           :filters="filters"
           @add-filter="filters.push($event)"
           @remove-filter="filters.splice(filters.indexOf($event), 1)"
@@ -35,7 +41,10 @@
       </v-col>
     </v-row>
 
-    <v-tabs v-model="tab" grow bg-color="primary" class="mt-2">
+    <v-tabs v-model="tab"
+      grow
+      bg-color="primary"
+      class="mt-2">
       <v-tab>NPCS</v-tab>
       <v-tab>DOODADS</v-tab>
       <v-tab>EIDOLONS</v-tab>
@@ -43,8 +52,7 @@
     <v-window v-model="tab">
       <v-window-item>
         <v-card>
-          <v-data-table
-            hover
+          <v-data-table hover
             fixed-header
             :items="units"
             :headers="unitHeaders"
@@ -53,15 +61,14 @@
             <template #[`item.Select`]="{ item }">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-badge
-                    :color="itemCount(item) ? 'primary' : 'transparent'"
+                  <v-badge :color="itemCount(item) ? 'primary' : 'transparent'"
                     :content="itemCount(item) || ''">
-                    <v-btn
-                      v-bind="props"
+                    <v-btn v-bind="props"
                       variant="tonal"
                       color="secondary"
                       @click.stop="$emit('select', item)">
-                      <v-icon icon="mdi-plus" size="x-large" />
+                      <v-icon icon="mdi-plus"
+                        size="x-large" />
                     </v-btn>
                   </v-badge>
                 </template>
@@ -72,8 +79,7 @@
               <div v-if="(item as Unit).NpcClassController?.HasClass">
                 <v-tooltip location="top">
                   <template #activator="{ props }">
-                    <v-icon
-                      v-bind="props"
+                    <v-icon v-bind="props"
                       :icon="roleIcon((item as Unit).NpcClassController.Class?.Role || '')" />
                   </template>
                   <span>{{ (item as Unit).NpcClassController.Class?.Role }}</span>
@@ -83,7 +89,8 @@
             <template #[`item.Tag`]="{ item }">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-icon v-bind="props" :icon="tagIcon((item as Unit).Tag)" />
+                  <v-icon v-bind="props"
+                    :icon="tagIcon((item as Unit).Tag)" />
                 </template>
                 <span>{{ (item as Unit).Tag }}</span>
               </v-tooltip>
@@ -91,19 +98,17 @@
             <template #[`item.NpcClassController.Tier`]="{ item }">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-icon
-                    v-bind="props"
+                  <v-icon v-bind="props"
                     :icon="`cc:npc_tier_${(item as Unit).NpcClassController.Tier}`" />
                 </template>
                 <span>Tier {{ (item as Unit).NpcClassController.Tier }}</span>
               </v-tooltip>
             </template>
             <template #[`item.Templates`]="{ item }">
-              {{ (item as Unit).NpcTemplateController.Templates.map((x) => x.Name).join(', ') }}
+              {{(item as Unit).NpcTemplateController.Templates.map((x) => x.Name).join(', ')}}
             </template>
             <template #[`item.Features`]="{ item }">
-              <cc-item-chip
-                v-for="f in (item as Unit).NpcFeatureController.Features"
+              <cc-item-chip v-for="f in (item as Unit).NpcFeatureController.Features"
                 :item="f"
                 :tier="(item as Unit).NpcClassController.Tier"
                 size="x-small"
@@ -111,8 +116,7 @@
                 class="ma-1" />
             </template>
             <template #[`item.View`]="{ item }">
-              <v-btn
-                icon
+              <v-btn icon
                 @click.stop="view(item, 'UnitEditor')"
                 color="accent"
                 size="small"
@@ -125,8 +129,7 @@
       </v-window-item>
       <v-window-item>
         <v-card>
-          <v-data-table
-            hover
+          <v-data-table hover
             fixed-header
             :items="doodads"
             :headers="doodadHeaders"
@@ -135,20 +138,19 @@
             <template #[`item.Select`]="{ item }">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-btn
-                    v-bind="props"
+                  <v-btn v-bind="props"
                     variant="tonal"
                     color="secondary"
                     @click.stop="$emit('select', item)">
-                    <v-icon icon="mdi-plus" size="x-large" />
+                    <v-icon icon="mdi-plus"
+                      size="x-large" />
                   </v-btn>
                 </template>
                 <span>Select {{ item.Name }}</span>
               </v-tooltip>
             </template>
             <template #[`item.View`]="{ item }">
-              <v-btn
-                icon
+              <v-btn icon
                 @click.stop="view(item, 'DoodadEditor')"
                 color="accent"
                 size="small"
@@ -161,8 +163,7 @@
       </v-window-item>
       <v-window-item>
         <v-card>
-          <v-data-table
-            hover
+          <v-data-table hover
             fixed-header
             :items="eidolons"
             :headers="eidolonHeaders"
@@ -171,20 +172,19 @@
             <template #[`item.Select`]="{ item }">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-btn
-                    v-bind="props"
+                  <v-btn v-bind="props"
                     variant="tonal"
                     color="secondary"
                     @click.stop="$emit('select', item)">
-                    <v-icon icon="mdi-plus" size="x-large" />
+                    <v-icon icon="mdi-plus"
+                      size="x-large" />
                   </v-btn>
                 </template>
                 <span>Select {{ item.Name }}</span>
               </v-tooltip>
             </template>
             <template #[`item.Layers`]="{ item }">
-              <v-chip
-                v-for="l in (item as Eidolon).Layers"
+              <v-chip v-for="l in (item as Eidolon).Layers"
                 size="small"
                 label
                 prepend-icon="mdi-layers"
@@ -193,8 +193,7 @@
               </v-chip>
             </template>
             <template #[`item.View`]="{ item }">
-              <v-btn
-                icon
+              <v-btn icon
                 @click.stop="view(item, 'EidolonEditor')"
                 color="accent"
                 size="small"
@@ -207,15 +206,20 @@
       </v-window-item>
     </v-window>
   </v-container>
-  <v-dialog v-if="selected" v-model="viewDialog">
+  <v-dialog v-if="selected"
+    v-model="viewDialog">
     <v-card>
-      <v-toolbar :title="(selected as any).Name" density="compact">
+      <v-toolbar :title="(selected as any).Name"
+        density="compact">
         <v-spacer />
-        <v-btn icon @click="viewDialog = false">
+        <v-btn icon
+          @click="viewDialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <component :is="componentType" :item="selected" :readonly="true" />
+      <component :is="componentType"
+        :item="selected"
+        :readonly="true" />
     </v-card>
   </v-dialog>
 </template>
@@ -228,7 +232,7 @@ import DoodadEditor from '@/features/gm/npc_roster/doodads/editor.vue';
 import EidolonEditor from '@/features/gm/npc_roster/eidolons/editor.vue';
 import GmCollectionFilter from '@/features/gm/_views/_components/GMCollectionFilter.vue';
 import { Npc } from '@/classes/npc/Npc';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { Unit } from '@/classes/npc/unit/Unit';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 

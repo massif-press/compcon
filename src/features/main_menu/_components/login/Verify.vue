@@ -71,7 +71,7 @@
         icon="mdi-alert"
         closeable
         title="error">
-        <div v-html="error" />
+        <div v-html-safe="error" />
       </cc-alert>
     </v-scroll-y-transition>
   </v-container>

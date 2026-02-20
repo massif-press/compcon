@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as _ from 'lodash-es'
 import { v4 as uuid } from 'uuid'
 import {
   Rules,

@@ -1,13 +1,13 @@
-import Main from './index.vue';
+const Main = () => import('./index.vue')
 
-import Roster from './Roster/index.vue';
-import Print from './Print/index.vue';
-import Level from './Level/index.vue';
+const Roster = () => import('./Roster/index.vue')
+const Print = () => import('./Print/index.vue')
+const Level = () => import('./Level/index.vue')
 
-import Sheet from './PilotSheet/index.vue';
-import MechSheet from './PilotSheet/sections/mech/index.vue';
+const Sheet = () => import('./PilotSheet/index.vue')
+const MechSheet = () => import('./PilotSheet/sections/mech/index.vue')
 
-import New from './New/index.vue';
+const New = () => import('./New/index.vue')
 
 const routes = [
   {
@@ -56,6 +56,6 @@ const routes = [
       },
     ],
   },
-];
+]
 
-export default routes;
+export default routes

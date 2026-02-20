@@ -1,6 +1,5 @@
 <template>
-  <v-select
-    v-model="sourceFilter"
+  <v-select v-model="sourceFilter"
     density="compact"
     hide-details
     class="px-2 mb-2"
@@ -11,8 +10,7 @@
     chips
     clearable
     @update:modelValue="updateFilters()" />
-  <v-select
-    v-model="lcpFilter"
+  <v-select v-model="lcpFilter"
     class="px-2"
     hide-details
     density="compact"
@@ -30,7 +28,7 @@
 import { Manufacturer } from '@/class';
 
 import { CompendiumStore } from '@/stores';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 const nameSort = function (a, b): number {
   if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;

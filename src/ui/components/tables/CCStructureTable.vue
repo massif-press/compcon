@@ -21,14 +21,14 @@
                     <v-icon
                       x-large
                       :color="rolls[n - 1] === 1 ? 'error' : 'stark'"
-                      v-html="`mdi-dice-${rolls[n - 1]}`" />
+                      v-html-safe="`mdi-dice-${rolls[n - 1]}`" />
                   </v-btn>
                 </template>
               </v-tooltip>
             </div>
             <div v-for="n in totalRolls - rolls.length" class="d-inline">
               <v-btn text icon size="x-large" disabled>
-                <v-icon size="x-large" v-html="'mdi-checkbox-blank-outline'" />
+                <v-icon size="x-large" v-html-safe="'mdi-checkbox-blank-outline'" />
               </v-btn>
             </div>
             <br />
@@ -53,7 +53,7 @@
                   color="primary"
                   icon
                   @click="rolls.push(n)">
-                  <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
+                  <v-icon class="die-hover" size="55px" v-html-safe="`mdi-dice-${n}`" />
                 </v-btn>
               </div>
               <div v-else key="tr02">
@@ -133,7 +133,7 @@
             :color="systemTraumaRoll === n ? 'error' : 'primary'"
             icon
             @click="systemTraumaRoll = n">
-            <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
+            <v-icon class="die-hover" size="55px" v-html-safe="`mdi-dice-${n}`" />
           </v-btn>
           <div v-if="systemTraumaRoll && systemTraumaRoll <= 3">
             <v-select
@@ -169,7 +169,7 @@
           @dismiss="close()"
           @previous="window = 0">
           <p
-            v-html="
+            v-html-safe="
               mech.CurrentStructure >= 3
                 ? 'Your mech is <b>stunned</b> until the end of your next turn.'
                 : 'Your mech must pass a <b>hull</b> check or be <b>destroyed</b>. Even on a successful check, your mech is <b>stunned</b> until the end of your next turn.'

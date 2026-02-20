@@ -15,6 +15,7 @@ interface IEncounterInstanceData {
   encounter: IEncounterData
   isActive?: boolean
   autosave?: boolean
+  simple_tickbars?: boolean
 }
 
 class EncounterInstance implements ISaveable {
@@ -26,6 +27,7 @@ class EncounterInstance implements ISaveable {
   public Combatants: CombatantData[] = []
   public Encounter!: Encounter
   public Autosave: boolean = true
+  public SimpleTickbars: boolean = false
 
   private _id: string
   private _round: number = 0
@@ -46,6 +48,7 @@ class EncounterInstance implements ISaveable {
     this._id = data?.id || uuid()
     this._round = data?.round || 1
     this.IsActive = data?.isActive || false
+    this.SimpleTickbars = data?.simple_tickbars || false
 
     if (data) {
       this.Combatants = data.combatants.map(c => Encounter.DeserializeCombatant(c))
@@ -211,6 +214,7 @@ class EncounterInstance implements ISaveable {
       encounter: Encounter.Serialize(instance.Encounter),
       isActive: instance.IsActive,
       autosave: instance.Autosave,
+      simple_tickbars: instance.SimpleTickbars,
     } as IEncounterInstanceData
 
     SaveController.Serialize(instance, data)

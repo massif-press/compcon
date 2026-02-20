@@ -1,28 +1,30 @@
 <template>
   <div>
     <div>
-      <v-row no-gutters align="center">
+      <v-row no-gutters
+        align="center">
         <v-col cols="auto">
           <div style="position: relative; width: 50px">
-            <div
-              style="position: absolute; transform: rotate(-90deg)"
+            <div style="position: absolute; transform: rotate(-90deg)"
               class="text-center text-caption">
               <b>{{ yAxis.title }}</b>
             </div>
           </div>
         </v-col>
         <v-col :style="`height: calc(100vh - ${short ? '300px' : '180px'})`">
-          <scatter ref="chart" :data="chartData" :options="options" />
+          <scatter ref="chart"
+            :data="chartData"
+            :options="options" />
         </v-col>
-        <v-col cols="12" class="text-center text-caption">
+        <v-col cols="12"
+          class="text-center text-caption">
           <b>{{ xAxis.title }}</b>
         </v-col>
       </v-row>
     </div>
     <v-row class="px-12 pt-2">
       <v-col>
-        <v-select
-          v-model="xAxis"
+        <v-select v-model="xAxis"
           :items="axes"
           label="X Axis"
           variant="outlined"
@@ -30,9 +32,9 @@
           density="compact"
           hide-details />
       </v-col>
-      <v-col cols="12" md="6">
-        <v-select
-          v-model="yAxis"
+      <v-col cols="12"
+        md="6">
+        <v-select v-model="yAxis"
           :items="axes"
           label="Y Axis"
           variant="outlined"
@@ -54,7 +56,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Scatter } from 'vue-chartjs';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { CompendiumItem, MechWeapon } from '@/class';
 import { CompendiumStore } from '@/stores';

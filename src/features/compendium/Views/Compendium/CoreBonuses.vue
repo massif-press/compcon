@@ -1,15 +1,16 @@
 <template>
-  <cc-compendium-browser
-    :items="bonuses"
+  <cc-compendium-browser :items="bonuses"
     :itemType="'CoreBonus'"
     :table-headers="headers"
     :options="options">
-    <template #header><div class="heading h3 text-center text-accent">Core Bonuses</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Core Bonuses</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { CoreBonus } from '@/class';
 
@@ -32,7 +33,7 @@ export default {
   }),
   computed: {
     bonuses(): CoreBonus[] {
-      return _.orderBy(
+      return orderBy(
         CompendiumStore().CoreBonuses.filter((x: CoreBonus) => !x.IsHidden),
         'Manufacturer'
       );

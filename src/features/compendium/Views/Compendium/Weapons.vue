@@ -1,15 +1,16 @@
 <template>
-  <cc-compendium-browser
-    :items="weapons"
+  <cc-compendium-browser :items="weapons"
     item-type="MechWeapon"
     :table-headers="headers"
     :options="options">
-    <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Mech Weapons</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '../../store';
 
 export default {
@@ -46,7 +47,7 @@ export default {
     weapons() {
       let items = CompendiumStore().MechWeapons;
 
-      return _.orderBy(
+      return orderBy(
         items.filter((x) => !x.IsHidden),
         'Name'
       );

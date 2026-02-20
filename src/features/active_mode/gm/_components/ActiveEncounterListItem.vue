@@ -53,7 +53,7 @@
               <br />
               currently on:
               <br />
-              <div v-html="encounter.Description" />
+              <div v-html-safe="encounter.Description" />
             </v-col>
           </v-row>
         </div>

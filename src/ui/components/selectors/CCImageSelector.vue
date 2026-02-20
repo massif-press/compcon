@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-tabs v-model="imageSelectTab" density="compact" grow bg-color="primary">
+    <v-tabs v-model="imageSelectTab"
+      density="compact"
+      grow
+      bg-color="primary">
       <v-tab>Cloud Account</v-tab>
       <v-tab>Local Image Archive</v-tab>
       <v-tab>COMP/CON Image Archive</v-tab>
@@ -8,7 +11,9 @@
     </v-tabs>
     <v-container>
       <v-row align="center">
-        <v-col cols="12" md="6" style="min-height: 800px">
+        <v-col cols="12"
+          md="6"
+          style="min-height: 800px">
           <v-window v-model="imageSelectTab">
             <v-window-item>
               <cloud-archive @set-staged="setCloudImage($event)" />
@@ -17,7 +22,9 @@
               <local-archive @set-staged="setLocalImage($event)" />
             </v-window-item>
             <v-window-item>
-              <library-archive :item="item" :type="type" @set-staged="setLibImage($event)" />
+              <library-archive :item="item"
+                :type="type"
+                @set-staged="setLibImage($event)" />
             </v-window-item>
             <v-window-item>
               <remote-archive @set-staged="setRemoteImage($event)" />
@@ -25,45 +32,52 @@
           </v-window>
         </v-col>
         <v-col>
-          <div class="text-center" style="position: relative">
-            <v-card variant="outlined" color="primary">
-              <cc-img
-                :src="displayImage"
+          <div class="text-center"
+            style="position: relative">
+            <v-card variant="outlined"
+              color="primary">
+              <cc-img :src="displayImage"
                 contain
                 max-width="500px"
                 max-height="500px"
                 class="ml-auto mr-auto" />
 
-              <v-card v-if="avatar" id="avatar-inset" variant="outlined" color="primary">
-                <cc-avatar
-                  v-if="item.PortraitController.Avatar"
+              <v-card v-if="avatar"
+                id="avatar-inset"
+                variant="outlined"
+                color="primary">
+                <cc-avatar v-if="item.PortraitController.Avatar"
                   :avatar="item.PortraitController.Avatar" />
-                <div v-else class="text-overline pt-2">
+                <div v-else
+                  class="text-overline pt-2">
                   no avatar set
                   <br />
-                  <div
-                    v-if="!item.PortraitController.CloudImage"
+                  <div v-if="!item.PortraitController.CloudImage"
                     v-text="'Requires Image Selection'"
                     class="pt-4" />
                 </div>
               </v-card>
             </v-card>
-            <v-row justify="space-around" class="mt-2">
-              <v-col cols="auto" class="text-left">
-                <cc-button
-                  size="small"
+            <v-row justify="space-around"
+              class="mt-2">
+              <v-col cols="auto"
+                class="text-left">
+                <cc-button size="small"
                   color="error"
                   prepend-icon="mdi-cancel"
                   @click="clearImage()">
                   clear image
                 </cc-button>
               </v-col>
-              <v-col v-if="avatar" cols="auto">
+              <v-col v-if="avatar"
+                cols="auto">
                 <div class="d-flex justify-end">
-                  <cc-modal ref="crop_dialog" icon="mdi-crop" color="primary" title="Set Avatar">
+                  <cc-modal ref="crop_dialog"
+                    icon="mdi-crop"
+                    color="primary"
+                    title="Set Avatar">
                     <template #activator="{ open }">
-                      <cc-button
-                        size="small"
+                      <cc-button size="small"
                         color="success"
                         prepend-icon="mdi-crop"
                         :disabled="!item.PortraitController.CloudImage"
@@ -72,8 +86,7 @@
                       </cc-button>
                     </template>
                     <template #default="{ close }">
-                      <image-crop
-                        :src="displayImage"
+                      <image-crop :src="displayImage"
                         :img-key="selectedImageKey"
                         @hide="close"
                         @confirm="setAvatar($event, close)" />
@@ -81,8 +94,7 @@
                   </cc-modal>
                 </div>
                 <div class="d-flex justify-center mt-1">
-                  <cc-button
-                    size="x-small"
+                  <cc-button size="x-small"
                     color="stark"
                     prepend-icon="mdi-cancel"
                     class="fade-select"
@@ -101,7 +113,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import ImageCrop from './components/_ImageCrop.vue';
 import CloudArchive from './image_archives/cloudArchive.vue';
 import LocalArchive from './image_archives/localArchive.vue';

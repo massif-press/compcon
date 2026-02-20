@@ -1,8 +1,8 @@
 <template>
   <v-container class="pb-12">
-    <h1 class="heading" id="statuses">Statuses</h1>
-    <masonry-wall
-      :items="statuses"
+    <h1 class="heading"
+      id="statuses">Statuses</h1>
+    <masonry-wall :items="statuses"
       :column-width="400"
       :gap="16"
       :min-columns="1"
@@ -12,9 +12,9 @@
       </template>
     </masonry-wall>
 
-    <h1 class="heading" id="conditions">Conditions</h1>
-    <masonry-wall
-      :items="conditions"
+    <h1 class="heading"
+      id="conditions">Conditions</h1>
+    <masonry-wall :items="conditions"
       :column-width="400"
       :gap="16"
       :min-columns="1"
@@ -24,14 +24,19 @@
       </template>
     </masonry-wall>
   </v-container>
-  <v-footer border app class="py-0 bg-primary">
-    <v-tabs density="compact" center-active grow>
-      <v-tab v-for="item in content" v-text="item" @click="scrollTo(item)" />
+  <v-footer border
+    app
+    class="py-0 bg-primary">
+    <v-tabs density="compact"
+      center-active
+      grow>
+      <v-tab v-for="item in content"
+        v-text="item"
+        @click="scrollTo(item)" />
     </v-tabs>
   </v-footer>
 
-  <v-btn
-    size="x-small"
+  <v-btn size="x-small"
     icon
     color="primary"
     variant="plain"
@@ -43,7 +48,7 @@
 
 <script lang="ts">
 import scrollTo from '@/util/scrollTo';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 import { Status } from '@/classes/Status';

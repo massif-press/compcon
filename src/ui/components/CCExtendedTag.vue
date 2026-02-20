@@ -7,7 +7,7 @@
     density="compact"
     :title="tag.GetName(bonus)"
     class="my-1">
-    <div class="text-text" v-html="tag.GetDescription(bonus)" />
+    <div class="text-text" v-html-safe="tag.GetDescription(bonus)" />
   </cc-alert>
 </template>
 

@@ -1,8 +1,7 @@
 <template>
   <v-dialog max-width="90vw">
     <template #activator="{ props }">
-      <v-btn
-        flat
+      <v-btn flat
         block
         variant="text"
         color="accent"
@@ -13,34 +12,44 @@
     </template>
     <template #default="{ isActive }">
       <v-card>
-        <v-toolbar flat color="primary" height="40">
+        <v-toolbar flat
+          color="primary"
+          height="40">
           <div class="heading h3 px-4">Add Other</div>
           <v-spacer />
-          <v-btn flat tile icon @click="isActive.value = false">
-            <v-icon icon="mdi-close" class="white--text" />
+          <v-btn flat
+            tile
+            icon
+            @click="isActive.value = false">
+            <v-icon icon="mdi-close"
+              class="white--text" />
           </v-btn>
         </v-toolbar>
         <v-divider />
-        <v-tabs grow v-model="tab" bg-color="primary" height="30">
+        <v-tabs grow
+          v-model="tab"
+          bg-color="primary"
+          height="30">
           <v-tab>Doodad</v-tab>
           <v-tab>Eidolon</v-tab>
         </v-tabs>
-        <v-window v-model="tab" class="pa-4">
+        <v-window v-model="tab"
+          class="pa-4">
           <v-row class="mb-1">
             <v-col cols="6">
-              <cc-text-field
-                v-model="search"
+              <cc-text-field v-model="search"
                 color="primary"
                 icon="mdi-magnify"
                 class="mb-4"
                 clearable />
             </v-col>
-            <v-col cols="auto" align-self="center">
-              <v-icon icon="mdi-folder" class="ml-2 mr-n4" />
+            <v-col cols="auto"
+              align-self="center">
+              <v-icon icon="mdi-folder"
+                class="ml-2 mr-n4" />
             </v-col>
             <v-col>
-              <cc-select
-                v-model="group"
+              <cc-select v-model="group"
                 :items="groups"
                 clearable
                 return-object
@@ -51,15 +60,15 @@
           </v-row>
           <v-window-item value="Doodad">
             <v-card-text class="pt-0">
-              <v-card
-                flat
+              <v-card flat
                 tile
                 v-for="doodad in doodads"
                 class="border-sm mb-1"
                 @click="add(doodad)">
                 <v-row :key="doodad.ID">
                   <v-col cols="auto">
-                    <cc-img :src="doodad.Portrait" width="80" />
+                    <cc-img :src="doodad.Portrait"
+                      width="80" />
                   </v-col>
                   <v-col>
                     <div class="heading h3">{{ doodad.Name }}</div>
@@ -70,10 +79,15 @@
           </v-window-item>
           <v-window-item value="Eidolon">
             <v-card-text class="pt-0">
-              <v-card flat tile v-for="e in eidolons" class="border-sm mb-1" @click="addEidolon(e)">
+              <v-card flat
+                tile
+                v-for="e in eidolons"
+                class="border-sm mb-1"
+                @click="addEidolon(e)">
                 <v-row :key="e.ID">
                   <v-col cols="auto">
-                    <cc-img :src="e.Portrait" width="80" />
+                    <cc-img :src="e.Portrait"
+                      width="80" />
                   </v-col>
                   <v-col>
                     <div class="heading h3">{{ e.Name }}</div>
@@ -95,7 +109,7 @@
 <script>
 import { Npc } from '@/classes/npc/Npc';
 import { NpcStore } from '@/stores';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'GmAddNpcMenu',

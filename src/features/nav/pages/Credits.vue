@@ -2,56 +2,72 @@
   <v-container>
     <div class="heading h2 mb-1">LANCER by:</div>
     <v-row>
-      <dev-badge v-for="c in credits.writers" :info="c" />
+      <dev-badge v-for="c in credits.writers"
+        :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">COMP/CON by:</div>
     <v-row>
-      <dev-badge v-for="c in credits.lead_devs" :info="c" />
+      <dev-badge v-for="c in credits.lead_devs"
+        :info="c" />
     </v-row>
     <div class="heading h3 mt-4 mb-1">With:</div>
     <v-row dense>
-      <dev-badge v-for="c in credits.devs1" :info="c" />
+      <dev-badge v-for="c in credits.devs1"
+        :info="c" />
     </v-row>
     <v-row dense>
-      <dev-badge v-for="c in credits.devs2" :info="c" />
+      <dev-badge v-for="c in credits.devs2"
+        :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">Graphic design by:</div>
     <v-row dense>
-      <dev-badge v-for="c in credits.graphics" :info="c" />
+      <dev-badge v-for="c in credits.graphics"
+        :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">Additional art by:</div>
     <v-row dense>
-      <dev-badge v-for="c in credits.art" :info="c" />
+      <dev-badge v-for="c in credits.art"
+        :info="c" />
     </v-row>
     <div class="text-center mt-8">
       <span class="heading h3">
         The continued development of COMP/CON would not be possible without the generous
-        <a target="_blank" href="https://www.patreon.com/compcon" v-html="'support'" />
+        <a target="_blank"
+          href="https://www.patreon.com/compcon"
+          v-html-safe="'support'" />
         of:
       </span>
     </div>
 
-    <div v-if="loading" class="text-center">
-      <v-progress-circular :size="80" :width="5" color="primary" indeterminate />
+    <div v-if="loading"
+      class="text-center">
+      <v-progress-circular :size="80"
+        :width="5"
+        color="primary"
+        indeterminate />
     </div>
     <div v-else>
-      <div v-for="t in tiers" class="mb-6">
-        <cc-title small class="my-2">{{ t.toUpperCase() }} TIER</cc-title>
-        <v-row align="center" justify="space-around" dense>
-          <v-col
-            v-for="p in patrons.filter((x) => x.tier.toLowerCase().includes(t.toLowerCase()))"
+      <div v-for="t in tiers"
+        class="mb-6">
+        <cc-title small
+          class="my-2">{{ t.toUpperCase() }} TIER</cc-title>
+        <v-row align="center"
+          justify="space-around"
+          dense>
+          <v-col v-for="p in patrons.filter((x) => x.tier.toLowerCase().includes(t.toLowerCase()))"
             cols="12"
             :md="getCols(t)">
-            <v-chip
-              border
+            <v-chip border
               class="heading h3 rounded-e-0 cc-panel-clip"
               :class="t.toLowerCase()"
               :size="!mobile ? 'x-large' : 'default'"
               color="background"
               variant="elevated"
               style="width: 100%">
-              <v-avatar :color="getColor(t)" start>
-                <v-icon :icon="`cc:${t.toLowerCase()}`" :size="mobile ? 32 : 40" />
+              <v-avatar :color="getColor(t)"
+                start>
+                <v-icon :icon="`cc:${t.toLowerCase()}`"
+                  :size="mobile ? 32 : 40" />
               </v-avatar>
               {{ cleanName(p) }}
             </v-chip>
@@ -63,7 +79,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import credits from './credits.json';
 import DevBadge from './SupporterBadges/Dev.vue';
 import { getPatreonSubscribers } from '@/user/oauth';
@@ -144,38 +160,32 @@ export default {
 
 <style scoped>
 .monist {
-  background: linear-gradient(
-    to right,
-    rgb(var(--v-theme-exotic)) 0%,
-    rgb(var(--v-theme-surface)) 99%
-  );
+  background: linear-gradient(to right,
+      rgb(var(--v-theme-exotic)) 0%,
+      rgb(var(--v-theme-surface)) 99%);
 }
+
 .nhp {
-  background: linear-gradient(
-    to right,
-    rgb(var(--v-theme-secondary)) 0%,
-    rgb(var(--v-theme-surface)) 99%
-  );
+  background: linear-gradient(to right,
+      rgb(var(--v-theme-secondary)) 0%,
+      rgb(var(--v-theme-surface)) 99%);
 }
+
 .lancer {
-  background: linear-gradient(
-    to right,
-    rgb(var(--v-theme-primary)) 0%,
-    rgb(var(--v-theme-surface)) 99%
-  );
+  background: linear-gradient(to right,
+      rgb(var(--v-theme-primary)) 0%,
+      rgb(var(--v-theme-surface)) 99%);
 }
+
 .cosmopolitan {
-  background: linear-gradient(
-    to right,
-    rgb(var(--v-theme-info)) 0%,
-    rgb(var(--v-theme-surface)) 99%
-  );
+  background: linear-gradient(to right,
+      rgb(var(--v-theme-info)) 0%,
+      rgb(var(--v-theme-surface)) 99%);
 }
+
 .diasporan {
-  background: linear-gradient(
-    to right,
-    rgb(var(--v-theme-success)) 0%,
-    rgb(var(--v-theme-surface)) 99%
-  );
+  background: linear-gradient(to right,
+      rgb(var(--v-theme-success)) 0%,
+      rgb(var(--v-theme-surface)) 99%);
 }
 </style>

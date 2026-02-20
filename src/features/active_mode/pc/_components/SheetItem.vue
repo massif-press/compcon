@@ -105,14 +105,12 @@
           <div v-if="pilot.CombatController.Mounted">
             <b class="text-stark">MOUNTED</b> &mdash; <i>{{ mech.Name }} ({{ mech.Frame.Source }} {{
               mech.Frame.Name
-            }})</i>
+              }})</i>
           </div>
           <div v-else>
             <b class="text-stark">UNMOUNTED</b>
           </div>
           <div class="text-disabled mt-1">
-            Encounter
-            {{ sheet.Encounter }} //
             Round {{ pilot.CombatController.Round }}
           </div>
         </div>
@@ -253,8 +251,6 @@
                 Date(sheet.Updated).toLocaleDateString() : 'N/A' }}</b>
               <br />
               <div>
-                Encounter
-                {{ sheet.Encounter }} //
                 Round {{ pilot.CombatController.Round }}
               </div>
             </v-col>

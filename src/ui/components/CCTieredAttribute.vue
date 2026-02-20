@@ -3,7 +3,7 @@
     <div class="heading text-accent">{{ title.toUpperCase() }}</div>
     <div class="mt-n2">
       <span v-for="(v, i) in arr" class="heading h3 text-stark">
-        <span v-html="cleanValue(v)" />
+        <span v-html-safe="cleanValue(v)" />
         <span v-if="i + 1 < arr.length" class="text-disabled px-1">/</span>
       </span>
     </div>

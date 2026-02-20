@@ -105,7 +105,7 @@
           <v-icon size="40" color="grey-lighten-1" class="mr-n1 mt-n5">cc:repair</v-icon>
           <div
             class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-html="`/${mech.RepairCapacity}`" />
+            v-html-safe="`/${mech.RepairCapacity}`" />
         </div>
       </v-col>
     </v-row>
@@ -511,7 +511,7 @@
           </span>
           <span class="text-overline">&nbsp;//APPLIED MOD</span>
           <br />
-          <p v-if="w.Mod.Effect" :v-html="w.Mod.Effect" print />
+          <p v-if="w.Mod.Effect" :v-html-safe="w.Mod.Effect" print />
         </div>
       </div>
     </fieldset>
@@ -560,7 +560,7 @@
             </v-icon>
           </v-col>
         </v-row>
-        <p v-if="s.Effect" class="caption mb-n1" v-html="s.Effect" />
+        <p v-if="s.Effect" class="caption mb-n1" v-html-safe="s.Effect" />
         <print-action :actions="s.Actions" />
         <print-deployable :deployables="s.Deployables" />
         <div class="text-right mb-n2">

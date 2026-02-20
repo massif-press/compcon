@@ -4,7 +4,7 @@
       <span class="text-cc-overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
       <br />
       <span v-if="!noCc" style="opacity: 0.4">>>COMP/CON//&nbsp;</span>
-      <span v-html="content" />
+      <span v-html-safe="content" />
       <v-divider class="my-2" />
       <v-card-actions class="my-n3">
         <cc-button

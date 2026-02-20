@@ -2,7 +2,7 @@
   <div
     v-if="source.Svg"
     class="d-inline-block"
-    v-html="cleanSvg(source.Svg)"
+    v-html-safe="cleanSvg(source.Svg)"
     :style="{
       width: iconSize,
       height: iconSize,
@@ -11,7 +11,7 @@
   <div
     v-else-if="isLinkedSvg"
     class="d-inline-block"
-    v-html="svgContent"
+    v-html-safe="svgContent"
     :style="{
       width: iconSize,
       height: iconSize,

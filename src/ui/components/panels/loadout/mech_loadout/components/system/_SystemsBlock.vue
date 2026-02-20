@@ -1,32 +1,33 @@
 <template>
-  <v-card id="systems-container" flat tile color="transparent">
-    <fieldset
-      class="px-3"
+  <v-card id="systems-container"
+    flat
+    tile
+    color="transparent">
+    <fieldset class="px-3"
       :class="mobile && 'border-0'"
       style="border-color: rgba(155, 155, 155, 0.6)">
-      <legend :style="`color: ${color}`" class="heading h3">Systems</legend>
+      <legend :style="`color: ${color}`"
+        class="heading h3">Systems</legend>
       <div style="position: relative">
         <div class="side-legend">
-          <span
-            :class="`heading h3 ${
-              mech.FreeSP < 0 ? 'text-error' : 'text-disabled text--darken-3'
+          <span :class="`heading h3 ${mech.FreeSP < 0 ? 'text-error' : 'text-disabled text--darken-3'
             }`">
-            <v-icon v-if="mech.FreeSP < 0" color="error" size="small">mdi-alert</v-icon>
+            <v-icon v-if="mech.FreeSP < 0"
+              color="error"
+              size="small">mdi-alert</v-icon>
             {{ mech.FreeSP }} / {{ mech.MaxSP }}
             <span class="text-cc-overline">SP</span>
           </span>
         </div>
       </div>
       <div style="position: relative; overflow-anchor: none">
-        <masonry-wall
-          :items="systemItems"
+        <masonry-wall :items="systemItems"
           :column-width="400"
           :gap="16"
           :min-columns="1"
           :max-columns="2">
           <template #default="{ item, index }">
-            <component
-              :is="item.component"
+            <component :is="item.component"
               :key="item.id"
               :item="item.item"
               :mech="item.props.mech"
@@ -41,10 +42,11 @@
         </masonry-wall>
       </div>
 
-      <v-row v-if="!readonly && mech.FreeSP <= 0" justify="end" class="mt-1">
+      <v-row v-if="!readonly && mech.FreeSP <= 0"
+        justify="end"
+        class="mt-1">
         <v-col cols="auto">
-          <cc-button
-            size="small"
+          <cc-button size="small"
             color="accent"
             variant="tonal"
             prepend-icon="mdi-plus"
@@ -54,15 +56,20 @@
         </v-col>
       </v-row>
 
-      <cc-solo-modal v-model="selector" icon="cc:system" title="SELECT EQUIPMENT" clip>
-        <system-selector :mech="mech" :swap-system="swapSystem" @done="handleDone" />
+      <cc-solo-modal v-model="selector"
+        icon="cc:system"
+        title="SELECT EQUIPMENT"
+        clip>
+        <system-selector :mech="mech"
+          :swap-system="swapSystem"
+          @done="handleDone" />
       </cc-solo-modal>
     </fieldset>
   </v-card>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
 import SystemSelector from './_SystemSelector.vue';

@@ -1,27 +1,25 @@
 <template>
   <v-container>
     <div>
-      <div
-        v-if="item.SectionType.toLowerCase() !== 'section' && item.ItemNumber > 0"
+      <div v-if="item.SectionType.toLowerCase() !== 'section' && item.ItemNumber > 0"
         class="text-overline mt-n2 mb-n3">
         <b>{{ item.SectionType }} {{ item.ItemNumber }}:</b>
       </div>
-      <cc-short-string-editor large @set="item.Title = $event">
+      <cc-short-string-editor large
+        @set="item.Title = $event">
         <span class="heading mech text-accent">
           {{ item.Title }}
         </span>
       </cc-short-string-editor>
     </div>
     <v-divider class="my-4" />
-    <page-content-container
-      v-for="(e, i) in item.Content"
+    <page-content-container v-for="(e, i) in item.Content"
       :item="e"
       class="mb-4"
       @delete-item="item.RemoveContentItem(i)" />
     <v-footer color="transparent">
       <v-spacer />
-      <v-btn
-        color="accent"
+      <v-btn color="accent"
         size="small"
         variant="tonal"
         prepend-icon="mdi-plus"
@@ -31,10 +29,17 @@
     </v-footer>
 
     <v-footer app>
-      <v-btn size="x-small" variant="tonal" class="mr-12" icon @click="$emit('preview', 'page')">
-        <v-tooltip location="bottom" open-delay="300">
+      <v-btn size="x-small"
+        variant="tonal"
+        class="mr-12"
+        icon
+        @click="$emit('preview', 'page')">
+        <v-tooltip location="bottom"
+          open-delay="300">
           <template v-slot:activator="{ props }">
-            <v-icon v-bind="props" size="x-large" icon="mdi-eye" />
+            <v-icon v-bind="props"
+              size="x-large"
+              icon="mdi-eye" />
           </template>
           <span>Preview</span>
         </v-tooltip>
@@ -44,12 +49,20 @@
       <section-add-menu :item="item" />
 
       <v-spacer />
-      <v-menu y-offset :close-on-content-click="false">
+      <v-menu y-offset
+        :close-on-content-click="false">
         <template #activator="{ props }">
-          <v-btn v-bind="props" size="x-small" variant="tonal" class="mr-2" icon>
-            <v-tooltip location="bottom" open-delay="300">
+          <v-btn v-bind="props"
+            size="x-small"
+            variant="tonal"
+            class="mr-2"
+            icon>
+            <v-tooltip location="bottom"
+              open-delay="300">
               <template v-slot:activator="{ props }">
-                <v-icon v-bind="props" size="x-large" icon="mdi-tooltip-edit-outline" />
+                <v-icon v-bind="props"
+                  size="x-large"
+                  icon="mdi-tooltip-edit-outline" />
               </template>
               <span>Change Section Type</span>
             </v-tooltip>
@@ -58,9 +71,9 @@
         <v-card>
           <v-card-text>
             <v-row dense>
-              <v-col cols="auto" v-for="t in sectionTypes">
-                <v-btn
-                  variant="tonal"
+              <v-col cols="auto"
+                v-for="t in sectionTypes">
+                <v-btn variant="tonal"
                   size="small"
                   :color="item.SectionType === t ? 'secondary' : 'accent'"
                   @click="item.SectionType = t">
@@ -72,12 +85,20 @@
         </v-card>
       </v-menu>
 
-      <v-menu y-offset :close-on-content-click="false">
+      <v-menu y-offset
+        :close-on-content-click="false">
         <template #activator="{ props }">
-          <v-btn v-bind="props" size="x-small" variant="tonal" class="mr-2" icon>
-            <v-tooltip location="bottom" open-delay="300">
+          <v-btn v-bind="props"
+            size="x-small"
+            variant="tonal"
+            class="mr-2"
+            icon>
+            <v-tooltip location="bottom"
+              open-delay="300">
               <template v-slot:activator="{ props }">
-                <v-icon v-bind="props" size="x-large" icon="mdi-swap-vertical-bold" />
+                <v-icon v-bind="props"
+                  size="x-large"
+                  icon="mdi-swap-vertical-bold" />
               </template>
               <span>Move Page</span>
             </v-tooltip>
@@ -87,8 +108,7 @@
           <v-card-text>
             <v-row dense>
               <v-col cols="auto">
-                <v-btn
-                  variant="tonal"
+                <v-btn variant="tonal"
                   size="small"
                   color="accent"
                   prepend-icon="mdi-arrow-collapse-up"
@@ -97,8 +117,7 @@
                 </v-btn>
               </v-col>
               <v-col cols="auto">
-                <v-btn
-                  variant="tonal"
+                <v-btn variant="tonal"
                   size="small"
                   color="accent"
                   prepend-icon="mdi-arrow-up"
@@ -107,8 +126,7 @@
                 </v-btn>
               </v-col>
               <v-col cols="auto">
-                <v-btn
-                  variant="tonal"
+                <v-btn variant="tonal"
                   size="small"
                   color="accent"
                   prepend-icon="mdi-arrow-down"
@@ -117,8 +135,7 @@
                 </v-btn>
               </v-col>
               <v-col cols="auto">
-                <v-btn
-                  variant="tonal"
+                <v-btn variant="tonal"
                   size="small"
                   color="accent"
                   prepend-icon="mdi-arrow-collapse-down"
@@ -130,8 +147,7 @@
 
             <v-row align="center">
               <v-col>
-                <v-select
-                  v-model="moveLoc"
+                <v-select v-model="moveLoc"
                   :items="moveItems"
                   :item-title="(item) => item.Title"
                   return-object
@@ -140,7 +156,11 @@
                   density="compact" />
               </v-col>
               <v-col cols="auto">
-                <v-btn icon variant="tonal" size="small" color="success" @click="executeMove">
+                <v-btn icon
+                  variant="tonal"
+                  size="small"
+                  color="success"
+                  @click="executeMove">
                   <v-icon icon="mdi-arrow-right-bold" />
                 </v-btn>
               </v-col>
@@ -149,21 +169,36 @@
         </v-card>
       </v-menu>
 
-      <v-btn size="x-small" variant="tonal" class="mr-2" icon @click="item.Duplicate()">
-        <v-tooltip location="bottom" open-delay="300">
+      <v-btn size="x-small"
+        variant="tonal"
+        class="mr-2"
+        icon
+        @click="item.Duplicate()">
+        <v-tooltip location="bottom"
+          open-delay="300">
           <template v-slot:activator="{ props }">
-            <v-icon v-bind="props" size="x-large" icon="mdi-content-copy" />
+            <v-icon v-bind="props"
+              size="x-large"
+              icon="mdi-content-copy" />
           </template>
           <span>Duplicate</span>
         </v-tooltip>
       </v-btn>
 
-      <v-menu offset-y top>
+      <v-menu offset-y
+        top>
         <template #activator="{ props }">
-          <v-btn v-bind="props" size="x-small" variant="tonal" color="error" icon>
-            <v-tooltip location="bottom" open-delay="300">
+          <v-btn v-bind="props"
+            size="x-small"
+            variant="tonal"
+            color="error"
+            icon>
+            <v-tooltip location="bottom"
+              open-delay="300">
               <template v-slot:activator="{ props }">
-                <v-icon v-bind="props" size="x-large" icon="mdi-delete" />
+                <v-icon v-bind="props"
+                  size="x-large"
+                  icon="mdi-delete" />
               </template>
               <span>Delete</span>
             </v-tooltip>
@@ -177,7 +212,9 @@
           <v-divider />
           <v-card-actions>
             <v-spacer />
-            <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
+            <v-btn small
+              color="error"
+              @click="$emit('delete')">Confirm Deletion</v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -186,7 +223,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import PageContentContainer from './_components/PageContentContainer.vue';
 import sectionAddMenu from '../_components/sectionAddMenu.vue';
 

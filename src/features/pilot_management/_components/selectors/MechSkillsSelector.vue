@@ -26,7 +26,7 @@
         <div class="heading h3 text-accent">
           {{ s.text }}
         </div>
-        <p v-html="s.description"
+        <p v-html-safe="s.description"
           class="flavor-text px-2 mb-3" />
         <v-row no-gutters
           justify="center"

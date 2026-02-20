@@ -1,24 +1,38 @@
 <template>
-  <v-card flat tile>
-    <div v-if="selected" class="mb-6">
-      <cc-title offset>Relevant Tags ({{ selected.actor.Name }})</cc-title>
-      <cc-tags v-if="actorTags.length" :tags="actorTags" extended />
-      <div v-else class="text-disabled text-cc-overline ma-1">No Tags Found</div>
+  <v-card flat
+    tile>
+    <div v-if="selected"
+      class="mb-6">
+      <cc-title offset>{{ pc ? 'Your' : 'Relevant' }} Tags ({{ selected.Name || selected.actor.Name
+        }})</cc-title>
+      <cc-tags v-if="actorTags.length"
+        :tags="actorTags"
+        extended
+        force-extended />
+      <div v-else
+        class="text-disabled text-cc-overline ma-1">No Tags Found</div>
     </div>
 
-    <div class="mb-6">
+    <div v-if="!pc"
+      class="mb-6">
       <cc-title offset>Relevant Tags (Encounter)</cc-title>
-      <cc-tags v-if="relevantTags.length" :tags="relevantTags" extended />
-      <div v-else class="text-disabled text-cc-overline ma-1">No Tags Found</div>
+      <cc-tags v-if="relevantTags.length"
+        :tags="relevantTags"
+        extended
+        force-extended />
+      <div v-else
+        class="text-disabled text-cc-overline ma-1">No Tags Found</div>
     </div>
 
-    <cc-title offset>Other Tags</cc-title>
-    <cc-tags :tags="allTags" extended />
+    <cc-title offset>All Tags</cc-title>
+    <cc-tags :tags="allTags"
+      extended
+      force-extended />
   </v-card>
 </template>
 
 <script>
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 
 export default {
@@ -32,18 +46,19 @@ export default {
       type: Object,
       required: true,
     },
+    pc: {
+      type: Boolean,
+    },
   },
   data: () => ({
-    randomTags: [],
     allTags: [],
   }),
   mounted() {
-    this.allTags = CompendiumStore().Tags.filter(
-      (t) => !this.randomTags.some((x) => x.ID === t.ID)
-    );
+    this.allTags = CompendiumStore().Tags
   },
   computed: {
     actorTags() {
+      if (this.pc) return this.getActorTags(this.selected);
       if (this.selected && this.selected.actor) return this.getActorTags(this.selected.actor);
       return [];
     },

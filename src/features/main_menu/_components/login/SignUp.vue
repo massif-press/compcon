@@ -67,7 +67,7 @@
         closeable
         prominent>
         <div class="font-weight-bold">ERROR</div>
-        <div v-html="error" />
+        <div v-html-safe="error" />
       </v-alert>
     </v-scroll-y-transition>
   </v-container>

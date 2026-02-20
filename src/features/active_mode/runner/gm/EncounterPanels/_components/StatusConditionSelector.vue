@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { EffectDurationText } from '@/classes/components/feature/active_effects/effect_subtype/EffectDuration';
 import BaseTargetSelector from '@/ui/components/chips/_activeeffect/_shared/BaseTargetSelector.vue';

@@ -87,7 +87,7 @@
       class="text-caption"
       :class="idx === 0 ? 'font-weight-bold text-accent' : 'text-disabled'"
       :key="`${r.text}_${idx}`"
-      v-html="r.text" />
+      v-html-safe="r.text" />
   </div>
 </template>
 

@@ -1,17 +1,18 @@
 <template>
-  <cc-compendium-browser
-    :items="reserves"
+  <cc-compendium-browser :items="reserves"
     item-type="Reserve"
     :table-headers="headers"
     :options="options">
-    <template #header> <div class="heading h3 text-center text-accent">Reserves</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Reserves</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
 
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 
 export default {
   name: 'reserves',
@@ -32,7 +33,7 @@ export default {
   }),
   computed: {
     reserves() {
-      return _.orderBy(
+      return orderBy(
         CompendiumStore().Reserves.filter((x) => !x.IsHidden),
         'Name'
       );

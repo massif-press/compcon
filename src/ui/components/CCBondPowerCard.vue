@@ -29,7 +29,7 @@
     <div v-if="power.prerequisite" class="caption pa-1 pt-0 pb-2 text--disabled text-text">
       <i v-text="power.prerequisite" />
     </div>
-    <v-card-text v-html="power.description" class="pa-1 pt-0" />
+    <v-card-text v-html-safe="power.description" class="pa-1 pt-0" />
   </cc-panel>
 </template>
 

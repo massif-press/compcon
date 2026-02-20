@@ -38,10 +38,10 @@
           <div v-if="hasResistance(damage) || hasImmunity(damage) || hasVulnerability(damage)"
             class="heading h3"
             :class="hasImmunity(damage)
-                ? 'text-exotic'
-                : hasVulnerability(damage)
-                  ? 'text-error'
-                  : 'text-accent'
+              ? 'text-exotic'
+              : hasVulnerability(damage)
+                ? 'text-error'
+                : 'text-accent'
               ">
             {{ damage.Name }}
             {{
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 
 export default {

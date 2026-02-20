@@ -22,7 +22,7 @@
           </template>
           <div class="heading h5" v-text="title" />
           <v-divider />
-          <p class="py-2" v-html="content" />
+          <p class="py-2" v-html-safe="content" />
         </v-tooltip>
         <span class="pa-1">{{ attr?.toUpperCase() }}</span>
       </v-toolbar>

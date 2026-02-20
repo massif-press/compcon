@@ -1,20 +1,17 @@
 <template>
-  <missing-item-alert
-    v-if="pilot.TalentsController.MissingTalents.length"
+  <missing-item-alert v-if="pilot.TalentsController.MissingTalents.length"
     type="talents"
     :items="pilot.TalentsController.MissingTalents"
     @remove="pilot.TalentsController.RemoveTalent($event)" />
 
-  <selector
-    title="Pilot Talents"
+  <selector title="Pilot Talents"
     :success="pilot.TalentsController.HasFullTalents && enoughSelections"
     :flat="flat"
     :modal="modal"
     :selected="pilot.TalentsController.CurrentTalentPoints"
     :total="pilot.TalentsController.MaxTalentPoints">
     <template #float>
-      <v-card
-        v-if="pilot.TalentsController.HasFullTalents && enoughSelections"
+      <v-card v-if="pilot.TalentsController.HasFullTalents && enoughSelections"
         flat
         tile
         class="text-cc-overline"
@@ -32,13 +29,11 @@
         variant="outlined"
         density="compact"
         color="accent"
-        v-text="
-          `${pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints}
+        v-text="`${pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints}
             Talent Selections remaining`
-        " />
+          " />
 
-      <cc-button
-        variant="text"
+      <cc-button variant="text"
         size="x-small"
         block
         :disabled="!pilot.TalentsController.Talents.length"
@@ -49,8 +44,7 @@
 
     <template #jump>
       <div class="px-2">
-        <cc-select
-          v-model="jump"
+        <cc-select v-model="jump"
           label="jump to"
           color="primary"
           variant="outlined"
@@ -59,8 +53,7 @@
     </template>
 
     <template #right-column>
-      <cc-talent
-        v-for="t in talents"
+      <cc-talent v-for="t in talents"
         :id="`talent_${t.ID}`"
         :talent="t"
         :rank="pilot.TalentsController.getTalentRank(t.ID)"
@@ -74,7 +67,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import Selector from './components/_SelectorBase.vue';
 import MissingItem from './components/_MissingItem.vue';
 

@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as _ from 'lodash-es'
 import { IStatContainer } from './IStatContainer'
 import { Stats } from './Stats'
 

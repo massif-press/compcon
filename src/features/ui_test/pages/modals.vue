@@ -7,7 +7,7 @@
         <template #activator="{ open }">
           <cc-button @click="open" color="primary">Open Modal</cc-button>
         </template>
-        <p v-html="loremIpsum" />
+        <p v-html-safe="loremIpsum" />
       </cc-modal>
     </div>
 
@@ -16,7 +16,7 @@
         <template #activator="{ open }">
           <cc-button @click="open" color="primary">Open dialog</cc-button>
         </template>
-        <p v-html="loremIpsum" />
+        <p v-html-safe="loremIpsum" />
       </cc-dialog>
     </div>
   </v-window-item>

@@ -5,15 +5,15 @@
         <v-col v-if="(d as any).Size" cols="auto">
           <div
             class="caption font-weight-bold"
-            v-html="`Size ${(d as any).Size === 0.5 ? '½' : (d as any).Size}`" />
+            v-html-safe="`Size ${(d as any).Size === 0.5 ? '½' : (d as any).Size}`" />
         </v-col>
         <v-col v-if="(d as any).Armor" cols="auto">
-          <div class="caption" v-html="`<b>Armor</b>: ${(d as any).Armor}`" />
+          <div class="caption" v-html-safe="`<b>Armor</b>: ${(d as any).Armor}`" />
         </v-col>
         <v-col v-if="(d as any).MaxHP || (d as any).Size" cols="auto">
           <div
             class="caption"
-            v-html="
+            v-html-safe="
               `<b>HP</b>: ${
                 (d as any).MaxHP
                   ? (d as any).MaxHP.toString().replace(/[{}]/gim, '')
@@ -22,32 +22,32 @@
             " />
         </v-col>
         <v-col v-if="(d as any).Evasion" cols="auto">
-          <div class="caption" v-html="`<b>Evasion:</b> ${(d as any).Evasion || 10}`" />
+          <div class="caption" v-html-safe="`<b>Evasion:</b> ${(d as any).Evasion || 10}`" />
         </v-col>
         <v-col v-if="(d as any).EDefense" cols="auto">
-          <div class="caption" v-html="`<b>E-Defense:</b> ${(d as any).EDefense}`" />
+          <div class="caption" v-html-safe="`<b>E-Defense:</b> ${(d as any).EDefense}`" />
         </v-col>
         <v-col v-if="(d as any).Heatcap" cols="auto">
-          <div class="caption" v-html="`<b>Heat Capacity:</b> ${(d as any).Heatcap}`" />
+          <div class="caption" v-html-safe="`<b>Heat Capacity:</b> ${(d as any).Heatcap}`" />
         </v-col>
         <v-col v-if="(d as any).Sensors" cols="auto">
-          <div class="caption" v-html="`<b>Sensor Range:</b> ${(d as any).Sensors}`" />
+          <div class="caption" v-html-safe="`<b>Sensor Range:</b> ${(d as any).Sensors}`" />
         </v-col>
         <v-col v-if="(d as any).TechAttack" cols="auto">
-          <div class="caption" v-html="`<b>Tech Attack:</b> ${(d as any).TechAttack}`" />
+          <div class="caption" v-html-safe="`<b>Tech Attack:</b> ${(d as any).TechAttack}`" />
         </v-col>
         <v-col v-if="(d as any).Repcap" cols="auto">
-          <div class="caption" v-html="`<b>Repair Capacity:</b> ${(d as any).Repcap}`" />
+          <div class="caption" v-html-safe="`<b>Repair Capacity:</b> ${(d as any).Repcap}`" />
         </v-col>
         <v-col v-if="(d as any).Save" cols="auto">
-          <div class="caption" v-html="`<b>Save Target:</b> ${(d as any).Save}`" />
+          <div class="caption" v-html-safe="`<b>Save Target:</b> ${(d as any).Save}`" />
         </v-col>
         <v-col v-if="(d as any).Speed" cols="auto">
-          <div class="caption" v-html="`<b>Speed:</b> ${(d as any).Speed}`" />
+          <div class="caption" v-html-safe="`<b>Speed:</b> ${(d as any).Speed}`" />
         </v-col>
       </v-row>
       <div>
-        <p class="caption mb-0 px-2" v-html="(d as any).Detail" />
+        <p class="caption mb-0 px-2" v-html-safe="(d as any).Detail" />
       </div>
       <v-card
         v-if="actions(d).length"

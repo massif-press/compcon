@@ -56,13 +56,13 @@
                     </legend>
                     <div v-if="mech.MechLoadoutController.ActiveLoadout" class="pb-3">
                       <span v-for="(item, i) in loadoutWeapons">
-                        <span v-html="item" />
+                        <span v-html-safe="item" />
                         <cc-slashes v-if="i + 1 < loadoutWeapons.length" class="px-2" />
                       </span>
                       <br />
                       <span v-for="(item, i) in loadoutSystems">
                         {{ i > 0 ? ' - ' : '' }}
-                        <span v-html="item" />
+                        <span v-html-safe="item" />
                       </span>
                     </div>
                   </fieldset>

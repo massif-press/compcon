@@ -1,10 +1,13 @@
 <template>
-  <quill-editor :options="editorOptions" theme="snow" v-model:content="text" content-type="html" />
+  <quill-editor :options="editorOptions"
+    theme="snow"
+    v-model:content="text"
+    content-type="html" />
 </template>
 
 <script lang="ts">
 import { options } from '@/ui/style/quillSetup';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 
 export default {
   name: 'cc-text-editor',

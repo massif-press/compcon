@@ -52,7 +52,6 @@ import CCRollableTable from './components/CCRollableTable.vue'
 import CCShortStringEditor from './components/CCShortStringEditor.vue'
 import CCSlashes from './components/CCSlashes.vue'
 import CCStatblockPanel from './components/CCStatblockPanel.vue'
-import CCStringEdit from './components/CCStringEdit.vue'
 import CCStringEditDialog from './components/CCStringEditDialog.vue'
 import CCTag from './components/CCTag.vue'
 import CCTags from './components/CCTags.vue'
@@ -169,7 +168,6 @@ export {
   CCShortStringEditor,
   CCSlashes,
   CCStatblockPanel,
-  CCStringEdit,
   CCStringEditDialog,
   CCTag,
   CCTags,

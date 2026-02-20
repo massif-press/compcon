@@ -77,7 +77,7 @@
 
 <script>
 import { NpcStore } from '@/stores';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'GmAddNpcMenu',

@@ -160,7 +160,8 @@
     <v-spacer />
 
 
-    <v-col cols="auto">
+    <v-col cols=12
+      md="auto">
 
       <v-menu open-on-hover
         :close-on-content-click="false">
@@ -170,6 +171,7 @@
             size="x-small"
             height="26"
             tile
+            flat
             :class="item.Used ? 'bg-success' : 'bg-primary'"
             @click="onUseToggle">
             <v-icon size="x-large"

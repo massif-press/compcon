@@ -15,7 +15,7 @@
         tile
         :title="props.item.title"
         @click.stop="closePopup(props.close)">
-        <div v-html="props.item.text" />
+        <div v-html-safe="props.item.text" />
         <div
           class="text-center text-cc-overline"
           style="

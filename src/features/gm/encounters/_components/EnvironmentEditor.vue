@@ -1,10 +1,11 @@
 <template>
   <div class="text-overline">Environment</div>
-  <v-card class="py-2 px-4" variant="outlined" style="border-color: rgb(var(--v-theme-panel))">
+  <v-card class="py-2 px-4"
+    variant="outlined"
+    style="border-color: rgb(var(--v-theme-panel))">
     <v-row dense>
       <v-col>
-        <cc-short-string-editor
-          justify="start"
+        <cc-short-string-editor justify="start"
           :readonly="readonly"
           :placeholder="item.Environment.Name"
           @set="item.Environment.Name = $event">
@@ -12,8 +13,7 @@
         </cc-short-string-editor>
       </v-col>
       <v-col cols="auto">
-        <cc-button
-          color="primary"
+        <cc-button color="primary"
           size="small"
           :prepend-icon="showPresets ? 'mdi-chevron-double-down' : 'mdi-chevron-double-right'"
           @click="showPresets = !showPresets">
@@ -23,10 +23,14 @@
     </v-row>
 
     <v-slide-y-transition>
-      <v-card v-if="showPresets" flat tile variant="tonal" color="secondary" class="px-1">
+      <v-card v-if="showPresets"
+        flat
+        tile
+        variant="tonal"
+        color="secondary"
+        class="px-1">
         <v-chip-group>
-          <v-chip
-            v-for="environment in environments"
+          <v-chip v-for="environment in environments"
             :key="environment.Name"
             size="small"
             class="rounded-0"
@@ -38,8 +42,7 @@
       </v-card>
     </v-slide-y-transition>
 
-    <v-textarea
-      v-model="item.Environment.Description"
+    <v-textarea v-model="item.Environment.Description"
       :readonly="readonly"
       label="Description"
       density="compact"
@@ -49,8 +52,7 @@
       hide-details
       class="mt-2" />
 
-    <cc-solo-dialog
-      v-model="confirmDialog"
+    <cc-solo-dialog v-model="confirmDialog"
       title="environment data modified"
       icon="mdi-undo-variant"
       :close-on-click="false"
@@ -60,9 +62,13 @@
         sure you want to continue?
       </v-card-text>
       <div class="d-flex justify-between px-6">
-        <cc-button color="primary" size="small" @click="confirmDialog = false">cancel</cc-button>
+        <cc-button color="primary"
+          size="small"
+          @click="confirmDialog = false">cancel</cc-button>
         <v-spacer />
-        <cc-button color="success" size="small" @click="confirm">confirm</cc-button>
+        <cc-button color="success"
+          size="small"
+          @click="confirm">confirm</cc-button>
       </div>
     </cc-solo-dialog>
   </v-card>
@@ -72,8 +78,6 @@
 import { EnvironmentInstance } from '@/classes/Environment';
 import { Encounter } from '@/classes/encounter/Encounter';
 import { CompendiumStore } from '@/stores';
-
-import _ from 'lodash';
 
 export default {
   name: 'gm-environment-editor',

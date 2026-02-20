@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { Sortable } from 'sortablejs-vue3';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
@@ -141,13 +141,12 @@ import DoodadPanel from './EncounterPanels/DoodadPanel.vue';
 import UnitPanel from './EncounterPanels/UnitPanel.vue';
 import PilotPanel from './EncounterPanels/PcPanel.vue';
 import EncounterInfoPanel from './InfoPanels/EncounterInfoPanel.vue';
-import ReferencePanel from './InfoPanels/ReferencePanel.vue';
 import GmDiceRoller from './_components/GmDiceRoller.vue';
 import ReferenceTagPanel from './InfoPanels/ReferenceTagPanel.vue';
 import RollableTableIndex from './_components/RollableTableIndex.vue';
 import QuickReferencePanel from './InfoPanels/QuickReferencePanel.vue';
 import { CompendiumStore, EncounterStore } from '@/stores';
-import GmNotesPanel from './InfoPanels/GmNotesPanel.vue';
+import NotesPanel from './InfoPanels/GmNotesPanel.vue';
 import { Encounter } from '@/classes/encounter/Encounter';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import GmInitiativePanel from './_components/GmInitiativePanel.vue';
@@ -173,12 +172,11 @@ export default {
     PilotPanel,
     PlaceholderPanel,
     EncounterInfoPanel,
-    ReferencePanel,
     GmDiceRoller,
     ReferenceTagPanel,
     RollableTableIndex,
     QuickReferencePanel,
-    GmNotesPanel,
+    NotesPanel,
     GmToolPalette,
     GmEndRoundPanel,
     GmEndEncounterPanel,

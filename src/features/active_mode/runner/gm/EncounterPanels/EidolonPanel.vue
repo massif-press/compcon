@@ -57,7 +57,7 @@
       <div v-if="layer.Description"
         class="text-cc-overline mt-2">Layer Description</div>
       <p v-if="layer.Description"
-        v-html="layer.Description"
+        v-html-safe="layer.Description"
         class="px-4 py-2 border" />
       <div v-if="layer.Layer.Appearance"
         class="my-2">
@@ -113,7 +113,7 @@
             :max-columns="2">
             <template #default="{ item, index }">
               <div class="heading h4 text-accent">{{ item.name }}</div>
-              <p v-html="item.detail" />
+              <p v-html-safe="item.detail" />
             </template>
           </masonry-wall>
         </v-expansion-panel-text>

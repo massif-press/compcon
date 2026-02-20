@@ -1,13 +1,11 @@
 <template>
-  <cc-modal
-    ref="dialog"
+  <cc-modal ref="dialog"
     :color="item.Color ? item.Color : 'primary'"
     :title="`${item.Name}`"
     :icon="item.Icon"
     shrink>
     <template #activator="{ open }">
-      <cc-button
-        :color="item.Color ? item.Color : 'primary'"
+      <cc-button :color="item.Color ? item.Color : 'primary'"
         :class="density === 'compact' ? '' : 'ma-1'"
         style="margin: 1px"
         :block="block"
@@ -16,20 +14,23 @@
         @click="open">
         {{ truncate(item.Name) }}
         <span v-if="!hideType">{{ item.ItemType === 'Frame' ? '&nbsp;FRAME' : '' }}</span>
-        <cc-broken-reference v-if="!hideLink" :item="item" end />
+        <cc-broken-reference v-if="!hideLink"
+          :item="item"
+          end />
       </cc-button>
     </template>
 
-    <template v-if="!mobile" #toolbar-items>
-      <cc-chip
-        v-if="item.Source"
+    <template v-if="!mobile"
+      #toolbar-items>
+      <cc-chip v-if="item.Source"
         :icon="item.Manufacturer?.Icon || item.Icon || ''"
         :title="item.Source || ''"
         :label="startCase(item.ItemType)"
         :color="item.Manufacturer?.Color || item.Color || ''" />
     </template>
 
-    <v-card-text class="pt-2" :class="wide && 'px-12'">
+    <v-card-text class="pt-2"
+      :class="wide && 'px-12'">
       <cc-item-card :item="item" />
     </v-card-text>
 
@@ -40,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import ItemCardLink from './items/_components/ItemCardLink.vue';
 
 export default {

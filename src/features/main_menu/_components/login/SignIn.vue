@@ -3,7 +3,7 @@
     <v-fade-transition>
       <div v-if="signingIn" class="flavor-text">
         <v-row no-gutters v-for="l in loginLog">
-          <v-col cols="12" md="" v-html="l.str" />
+          <v-col cols="12" md="" v-html-safe="l.str" />
           <v-col cols="12" md="auto">
             <i class="text-caption text-disabled ml-3">{{ l.time }}</i>
           </v-col>

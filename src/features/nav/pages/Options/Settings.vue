@@ -152,7 +152,7 @@
 
 <script lang="ts">
 import * as allThemes from '@/ui/style/themes';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { UserStore } from '@/stores';
 import { exportAll, importAll, clearAllData } from '@/io/BulkData';

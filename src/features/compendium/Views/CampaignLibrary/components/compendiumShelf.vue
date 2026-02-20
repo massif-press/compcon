@@ -1,24 +1,37 @@
 <template>
-  <v-card v-if="!campaigns.length" class="text-center py-6 text-disabled mt-4">
+  <v-card v-if="!campaigns.length"
+    class="text-center py-6 text-disabled mt-4">
     <div class="heading">No Campaigns Found</div>
     <div class="text-caption">
       Campaigns can be imported via File Import or the Lancer Campaign Directory
     </div>
   </v-card>
   <div class="mt-4">
-    <v-row dense justify="space-around">
-      <v-col cols="auto" v-for="(c, n) in campaigns" class="mx-1">
-        <v-badge :model-value="!!c.hasUpdate" color="secondary" content="!">
-          <v-card
-            variant="plain"
+    <v-row dense
+      justify="space-around">
+      <v-col cols="auto"
+        v-for="(c, n) in campaigns"
+        class="mx-1">
+        <v-badge :model-value="!!c.hasUpdate"
+          color="secondary"
+          content="!">
+          <v-card variant="plain"
             :height="mobile ? 198 : 320"
             :width="mobile ? 150 : 250"
             style="border-width: 2px"
             @click="openInfo(c)">
-            <v-img v-if="c.cover_image_url" :src="c.cover_image_url" style="height: 100%" cover />
-            <v-row v-else align="center" justify="center" style="height: 100%">
-              <v-col cols="auto" class="text-text text-center">
-                <v-icon size="60" icon="cc:campaign" />
+            <v-img v-if="c.cover_image_url"
+              :src="c.cover_image_url"
+              style="height: 100%"
+              cover />
+            <v-row v-else
+              align="center"
+              justify="center"
+              style="height: 100%">
+              <v-col cols="auto"
+                class="text-text text-center">
+                <v-icon size="60"
+                  icon="cc:campaign" />
                 <div class="heading">{{ c.title }}</div>
                 <div class="text-caption">{{ c.subtitle }}</div>
                 <v-divider class="mt-1" />
@@ -30,23 +43,30 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="dialog" :fullscreen="mobile" :width="mobile ? '' : '80vw'">
-      <v-card v-if="selected" style="overflow-y: hidden; position: relative">
-        <cc-toolbar
-          :title="selected.title"
+    <v-dialog v-model="dialog"
+      :fullscreen="mobile"
+      :width="mobile ? '' : '80vw'">
+      <v-card v-if="selected"
+        style="overflow-y: hidden; position: relative">
+        <cc-toolbar :title="selected.title"
           icon="cc:campaign"
           color="primary"
           style="position: sticky; top: 0; z-index: 10"
           class="border-b-sm"
           @close="dialog = false" />
 
-        <cc-alert v-if="selected.hasUpdate" color="secondary" icon="mdi-information" prominent>
+        <cc-alert v-if="selected.hasUpdate"
+          color="secondary"
+          icon="mdi-information"
+          prominent>
           <div class="text-cc-overline">
             There is a new version of this campaign available. Click the update below to download
             and install the latest version of this campaign.
           </div>
           <div class="text-right mt-1 mr-2">
-            <cc-button size="small" :loading="loading" @click="updateCampaign()">
+            <cc-button size="small"
+              :loading="loading"
+              @click="updateCampaign()">
               Update Campaign
             </cc-button>
           </div>
@@ -56,8 +76,7 @@
           <div class="text-right mt-2">
             <v-menu>
               <template #activator="{ props }">
-                <v-btn
-                  v-bind="props"
+                <v-btn v-bind="props"
                   size="x-small"
                   tile
                   variant="tonal"
@@ -72,9 +91,12 @@
                 </v-card-text>
                 <v-divider />
                 <v-card-actions>
-                  <v-btn variant="text" @click="">Cancel</v-btn>
+                  <v-btn variant="text"
+                    @click="">Cancel</v-btn>
                   <v-spacer />
-                  <v-btn variant="text" color="error" @click="removeCampaign(selected)">
+                  <v-btn variant="text"
+                    color="error"
+                    @click="removeCampaign(selected)">
                     Remove
                   </v-btn>
                 </v-card-actions>
@@ -84,8 +106,7 @@
         </campaign-detail-panel>
 
         <div style="position: fixed; bottom: 8px; left: 8px; right: 2px">
-          <cc-button
-            block
+          <cc-button block
             prepend-icon="mdi-chevron-double-right"
             color="primary"
             :to="`/srd/campaign/${selected.id}`">
@@ -99,7 +120,7 @@
 
 <script lang="ts">
 import { CampaignStore } from '@/stores';
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import CampaignDetailPanel from './CampaignDetailPanel.vue';
 import { downloadFromS3, GetFromCode } from '@/io/apis/account';
 import logger from '@/user/logger';
@@ -132,7 +153,7 @@ export default {
       return this.$vuetify.display.smAndDown;
     },
     campaigns() {
-      return _.orderBy(
+      return orderBy(
         CampaignStore().CampaignCollection.filter((c) =>
           c.title.toLowerCase().includes(this.search.toLowerCase())
         ),

@@ -253,7 +253,7 @@
 </template>
 
 <script>
-import _, { over } from 'lodash';
+import _, { over } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import PanelBase from './_PanelBase.vue';
 import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';

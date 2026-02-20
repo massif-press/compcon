@@ -105,7 +105,7 @@
             <div
               v-else
               class="heading h2 mt-n2"
-              v-html="pilot.MechSkillsController.MechSkills.Hull" />
+              v-html-safe="pilot.MechSkillsController.MechSkills.Hull" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption">AGI</div>
@@ -115,7 +115,7 @@
             <div
               v-else
               class="heading h2 mt-n2"
-              v-html="pilot.MechSkillsController.MechSkills.Agi" />
+              v-html-safe="pilot.MechSkillsController.MechSkills.Agi" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption">SYS</div>
@@ -125,7 +125,7 @@
             <div
               v-else
               class="heading h2 mt-n2"
-              v-html="pilot.MechSkillsController.MechSkills.Sys" />
+              v-html-safe="pilot.MechSkillsController.MechSkills.Sys" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption">ENG</div>
@@ -135,7 +135,7 @@
             <div
               v-else
               class="heading h2 mt-n2"
-              v-html="pilot.MechSkillsController.MechSkills.Eng" />
+              v-html-safe="pilot.MechSkillsController.MechSkills.Eng" />
           </v-col>
         </v-row>
         <v-row dense v-if="blank" class="mt-n2">

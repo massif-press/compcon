@@ -1,18 +1,18 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 // import encounterRoutes from './features/encounters/routes'
-import gmRoutes from './features/gm/routes';
-import pilotRoutes from './features/pilot_management/routes';
-import compendiumRoutes from './features/compendium/routes';
-import activeModeRoutes from './features/active_mode/routes';
+import gmRoutes from './features/gm/routes'
+import pilotRoutes from './features/pilot_management/routes'
+import compendiumRoutes from './features/compendium/routes'
+import activeModeRoutes from './features/active_mode/routes'
 
-import MainMenu from './features/main_menu/index.vue';
-import UITest from './features/ui_test/old.vue';
-import UITestv3 from './features/ui_test/index.vue';
+const MainMenu = () => import('./features/main_menu/index.vue')
+const UITest = () => import('./features/ui_test/old.vue')
+const UITestv3 = () => import('./features/ui_test/index.vue')
 
-import ItemLink from './features/main_menu/itemLink.vue';
-import PilotLink from './features/pilot_management/link/index.vue';
+const ItemLink = () => import('./features/main_menu/itemLink.vue')
+const PilotLink = () => import('./features/pilot_management/link/index.vue')
 
-import Redirect from './features/main_menu/_components/oauth/Redirect.vue';
+const Redirect = () => import('./features/main_menu/_components/oauth/Redirect.vue')
 
 const router = createRouter({
   history: createWebHistory(),
@@ -51,32 +51,32 @@ const router = createRouter({
       name: 'OAuthCallback',
       component: Redirect,
     },
-    ...compendiumRoutes.map((route) => ({
+    ...compendiumRoutes.map(route => ({
       ...route,
-      path: (route.path = '/srd/' + route.path),
+      path: '/srd/' + route.path,
     })),
-    ...pilotRoutes.map((route) => ({
+    ...pilotRoutes.map(route => ({
       ...route,
-      path: (route.path = '/pilot_management/' + route.path),
+      path: '/pilot_management/' + route.path,
     })),
-    ...activeModeRoutes.map((route) => ({
+    ...activeModeRoutes.map(route => ({
       ...route,
-      path: (route.path = '/active-mode/' + route.path),
+      path: '/active-mode/' + route.path,
     })),
-    ...gmRoutes.map((route) => ({
+    ...gmRoutes.map(route => ({
       ...route,
-      path: (route.path = '/gm/' + route.path),
+      path: '/gm/' + route.path,
     })),
   ],
-});
+})
 
-router.afterEach((to) => {
+router.afterEach(to => {
   if (!to.meta?.title) {
-    document.title = 'COMP/CON';
-    return;
+    document.title = 'COMP/CON'
+    return
   }
-  if (typeof to.meta.title === 'function') document.title = `CC - ${to.meta.title(to)}`;
-  else document.title = `C/C - ${to.meta.title}`;
-});
+  if (typeof to.meta.title === 'function') document.title = `CC - ${to.meta.title(to)}`
+  else document.title = `C/C - ${to.meta.title}`
+})
 
-export default router;
+export default router

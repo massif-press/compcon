@@ -1,11 +1,9 @@
 <template>
-  <v-col
-    :cols="portrait ? '' : cols"
+  <v-col :cols="portrait ? '' : cols"
     :style="portrait ? 'max-width: 100%; min-width: fit-content' : ''">
     <v-tooltip max-width="400">
       <template #activator="{ props }">
-        <v-card
-          v-bind="props"
+        <v-card v-bind="props"
           flat
           tile
           :color="color"
@@ -13,10 +11,14 @@
           :style="portrait ? 'max-width: 100%; min-width: fit-content' : ''"
           class="text-center px-2">
           <div class="heading h3 py-1">
-            <v-icon :icon="icon" start size="40" class="mb-n2" />
+            <v-icon :icon="icon"
+              start
+              size="40"
+              class="mb-n2" />
             <div>
               <span>{{ name }}</span>
-              <span class="pl-2 heading text-accent" :class="!portrait && 'h2'">
+              <span class="pl-2 heading text-accent"
+                :class="!portrait && 'h2'">
                 {{ value }}
               </span>
             </div>
@@ -32,7 +34,7 @@
 
 <script lang="ts">
 import { glossary } from '@massif/lancer-data';
-import { isArray } from 'lodash';
+import { isArray } from 'lodash-es';
 
 export default {
   name: 'CCStatblockPanel',

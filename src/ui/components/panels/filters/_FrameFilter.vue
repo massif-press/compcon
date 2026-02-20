@@ -1,8 +1,9 @@
 <template>
-  <v-row density="compact" justify="space-around" class="mx-4">
+  <v-row density="compact"
+    justify="space-around"
+    class="mx-4">
     <v-col cols="12">
-      <v-select
-        v-model="sourceFilter"
+      <v-select v-model="sourceFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -15,8 +16,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="typeFilter"
+      <v-select v-model="typeFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -30,8 +30,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="mountFilter"
+      <v-select v-model="mountFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -45,8 +44,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="sizeFilter"
+      <v-select v-model="sizeFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -63,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { MechType, MountType, Manufacturer, Frame } from '@/class';
 
 import { CompendiumStore } from '@/stores';

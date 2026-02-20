@@ -1,6 +1,6 @@
 //  This is the local user profile class. Cloud/cognito user information should be stored in a new class.
 import { v4 as uuid } from 'uuid'
-import _ from 'lodash'
+import { get } from 'lodash-es'
 
 import logger from './logger'
 import { CompendiumStore, UserStore } from '@/stores'
@@ -97,7 +97,7 @@ class UserProfile {
   }
 
   public get LogLevelValue(): number {
-    return _.get({ debug: 0, info: 1, warn: 2, error: 3 }, this._logLevel)
+    return get({ debug: 0, info: 1, warn: 2, error: 3 }, this._logLevel)
   }
 
   public set LogLevel(level: 'debug' | 'info' | 'warn' | 'error') {

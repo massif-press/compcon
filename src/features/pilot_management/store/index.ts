@@ -3,7 +3,7 @@ import { SetItem, RemoveItem, GetAll, SetValue, GetValue } from '@/io/Storage'
 import { Pilot } from '@/class'
 import { PilotGroup } from './PilotGroup'
 import { CloudController, PortraitController, SaveController } from '@/classes/components'
-import _ from 'lodash'
+import * as _ from 'lodash-es'
 import { IndexItem } from '@/stores'
 import logger from '@/user/logger'
 import PilotSheet from './PilotSheet'
@@ -271,6 +271,7 @@ export const PilotStore = defineStore('pilot', {
       this.PilotSheets = await GetAll('pilot_sheets').then(data =>
         data.map(x => PilotSheet.Deserialize(x))
       )
+      this.LoadSheetId()
     },
     async AddPilotSheet(pilot: Pilot, campaign?: string): Promise<void> {
       const newSheet = PilotSheet.FromPilot(pilot, campaign)
@@ -291,20 +292,22 @@ export const PilotStore = defineStore('pilot', {
       this.CurrentActiveID = id
       await SetValue('current_active_sheet', id)
     },
-    async GetActiveSheet(id?: string): Promise<PilotSheet> {
-      if (id) await this.SetActiveSheet(id)
-
-      if (!this.CurrentActiveID) {
-        const storedID = await GetValue('current_active_sheet')
-        if (storedID) this.CurrentActiveID = storedID
-      }
+    async LoadSheetId(): Promise<void> {
+      const id = await GetValue('current_active_sheet')
+      if (id) this.CurrentActiveID = id
+    },
+    GetSheet(id: string): PilotSheet | null {
+      console.log(this.PilotSheets)
+      const sheet = this.PilotSheets.find((ps: any) => ps.ID === id)
+      if (sheet) return sheet as PilotSheet
+      logger.error('No pilot sheet found with ID ' + id)
+      return null
+    },
+    GetActiveSheet(): PilotSheet | null {
       let activeSheet = this.PilotSheets.find((ps: any) => ps.ID === this.CurrentActiveID)
-      if (!activeSheet && this.PilotSheets.length) {
-        activeSheet = this.PilotSheets[0]
-        await this.SetActiveSheet(activeSheet.ID)
-      }
       if (activeSheet) return activeSheet as PilotSheet
-      throw new Error('No active pilot sheet found')
+      logger.error('No active pilot sheet found')
+      return null
     },
     async AssignActiveSheet(payload: PilotSheet): Promise<void> {
       this.CurrentActiveID = payload.ID

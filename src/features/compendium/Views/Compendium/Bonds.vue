@@ -1,6 +1,9 @@
 <template>
-  <v-container v-if="!bonds.length" class="px-12">
-    <v-alert icon="mdi-vector-link" title="No Bond Data" variant="tonal">
+  <v-container v-if="!bonds.length"
+    class="px-12">
+    <v-alert icon="mdi-vector-link"
+      title="No Bond Data"
+      variant="tonal">
       <p>
         <strong>Bonds</strong>
         are an optional set of narrative play rules that layer on top of the basic Lancer narrative
@@ -22,19 +25,26 @@
       </p>
     </v-alert>
     <br />
-    <v-row align="center" justify="center">
+    <v-row align="center"
+      justify="center">
       <v-col cols="auto">
-        <cc-button color="accent" to="/srd">Return to Compendium</cc-button>
+        <cc-button color="accent"
+          to="/srd">Return to Compendium</cc-button>
       </v-col>
     </v-row>
   </v-container>
-  <cc-compendium-browser v-else :items="bonds" item-type="Bond" :options="options">
-    <template #header><div class="heading h3 text-center text-accent">Pilot Bonds</div></template>
+  <cc-compendium-browser v-else
+    :items="bonds"
+    item-type="Bond"
+    :options="options">
+    <template #header>
+      <div class="heading h3 text-center text-accent">Pilot Bonds</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { Bond } from '@/class';
 
@@ -42,7 +52,7 @@ export default {
   name: 'bonds',
   computed: {
     bonds(): Bond[] {
-      return _.orderBy(CompendiumStore().Bonds, 'Name');
+      return orderBy(CompendiumStore().Bonds, 'Name');
     },
   },
   data: () => ({

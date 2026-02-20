@@ -1,8 +1,14 @@
 <template>
-  <v-list v-for="key in Object.keys(groupings)" class="mb-4 mt-n2" slim density="compact">
-    <v-row dense align="center">
-      <v-col cols="auto" style="width: 2vw"><v-divider /></v-col>
-      <v-col cols="auto" class="heading h3">
+  <v-list v-for="key in Object.keys(groupings)"
+    class="mb-4 mt-n2"
+    slim
+    density="compact">
+    <v-row dense
+      align="center">
+      <v-col cols="auto"
+        style="width: 2vw"><v-divider /></v-col>
+      <v-col cols="auto"
+        class="heading h3">
         {{ key === '0' ? 'All' : key }}
         <span class="text-caption text-disabled">
           ({{ groupedItems(groupings[key]).length }}/{{ items.length }})
@@ -12,9 +18,9 @@
         <v-divider />
       </v-col>
     </v-row>
-    <div v-if="!items.length" class="text-center text-disabled"><i>No Data</i></div>
-    <gm-item-list-element
-      v-for="item in groupedItems(groupings[key])"
+    <div v-if="!items.length"
+      class="text-center text-disabled"><i>No Data</i></div>
+    <gm-item-list-element v-for="item in groupedItems(groupings[key])"
       :item="<any>item"
       :grouping="grouping"
       :sorting="sorting"
@@ -28,7 +34,7 @@ import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer
 import GmItemListElement from './_components/GMItemListElement.vue';
 import FolderMenu from './_components/FolderMenu.vue';
 import GmItemTable from './GMItemTable.vue';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {

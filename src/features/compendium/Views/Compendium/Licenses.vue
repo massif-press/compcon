@@ -1,15 +1,15 @@
 <template>
-  <cc-compendium-browser
-    :items="licenses"
+  <cc-compendium-browser :items="licenses"
     item-type="License"
     :table-headers="headers"
     :options="options">
-    <template #header><div class="heading h3 text-center text-accent">Licenses</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Licenses</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 import { License } from '@/class';
 

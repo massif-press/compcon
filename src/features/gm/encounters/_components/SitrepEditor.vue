@@ -1,10 +1,11 @@
 <template>
   <div class="text-overline">SITREP</div>
-  <v-card class="py-2 px-4" variant="outlined" style="border-color: rgb(var(--v-theme-panel))">
+  <v-card class="py-2 px-4"
+    variant="outlined"
+    style="border-color: rgb(var(--v-theme-panel))">
     <v-row align="center">
       <v-col>
-        <cc-short-string-editor
-          justify="start"
+        <cc-short-string-editor justify="start"
           :readonly="readonly"
           :placeholder="item.Sitrep.Name"
           @set="item.Sitrep.Name = $event">
@@ -12,8 +13,7 @@
         </cc-short-string-editor>
       </v-col>
       <v-col cols="auto">
-        <cc-button
-          color="primary"
+        <cc-button color="primary"
           size="small"
           :prepend-icon="showPresets ? 'mdi-chevron-double-down' : 'mdi-chevron-double-right'"
           @click="showPresets = !showPresets">
@@ -23,10 +23,14 @@
     </v-row>
 
     <v-slide-y-transition>
-      <v-card v-if="showPresets" flat tile variant="tonal" color="secondary" class="px-1">
+      <v-card v-if="showPresets"
+        flat
+        tile
+        variant="tonal"
+        color="secondary"
+        class="px-1">
         <v-chip-group>
-          <v-chip
-            v-for="sitrep in sitreps"
+          <v-chip v-for="sitrep in sitreps"
             :key="sitrep.Name"
             size="small"
             class="rounded-0"
@@ -38,8 +42,7 @@
       </v-card>
     </v-slide-y-transition>
 
-    <v-textarea
-      v-model="item.Sitrep.Description"
+    <v-textarea v-model="item.Sitrep.Description"
       :readonly="readonly"
       label="Description"
       density="compact"
@@ -48,8 +51,7 @@
       auto-grow
       hide-details
       class="mb-2 mt-2" />
-    <v-textarea
-      v-if="shownKeys.includes('Deployment')"
+    <v-textarea v-if="shownKeys.includes('Deployment')"
       v-model="item.Sitrep.Deployment"
       :readonly="readonly"
       label="Deployment"
@@ -60,15 +62,13 @@
       hide-details
       class="mb-2">
       <template #append-inner>
-        <v-icon
-          v-if="!readonly"
+        <v-icon v-if="!readonly"
           icon="mdi-close"
           class="fade-select"
           @click="removeKey('Deployment')" />
       </template>
     </v-textarea>
-    <v-textarea
-      v-if="shownKeys.includes('Objective')"
+    <v-textarea v-if="shownKeys.includes('Objective')"
       v-model="item.Sitrep.Objective"
       :readonly="readonly"
       label="Objective"
@@ -79,15 +79,13 @@
       hide-details
       class="mb-2">
       <template #append-inner>
-        <v-icon
-          v-if="!readonly"
+        <v-icon v-if="!readonly"
           icon="mdi-close"
           class="fade-select"
           @click="removeKey('Objective')" />
       </template>
     </v-textarea>
-    <v-textarea
-      v-if="shownKeys.includes('ControlZone')"
+    <v-textarea v-if="shownKeys.includes('ControlZone')"
       v-model="item.Sitrep.ControlZone"
       :readonly="readonly"
       label="Control Zone"
@@ -98,15 +96,13 @@
       hide-details
       class="mb-2">
       <template #append-inner>
-        <v-icon
-          v-if="!readonly"
+        <v-icon v-if="!readonly"
           icon="mdi-close"
           class="fade-select"
           @click="removeKey('ControlZone')" />
       </template>
     </v-textarea>
-    <v-textarea
-      v-if="shownKeys.includes('Extraction')"
+    <v-textarea v-if="shownKeys.includes('Extraction')"
       v-model="item.Sitrep.Extraction"
       :readonly="readonly"
       label="Extraction"
@@ -117,32 +113,29 @@
       hide-details
       class="mb-2">
       <template #append-inner>
-        <v-icon
-          v-if="!readonly"
+        <v-icon v-if="!readonly"
           icon="mdi-close"
           class="fade-select"
           @click="removeKey('Extraction')" />
       </template>
     </v-textarea>
 
-    <v-card v-for="(c, i) in item.Sitrep.Conditions" class="pa-2">
-      <v-text-field
-        v-model="c.title"
+    <v-card v-for="(c, i) in item.Sitrep.Conditions"
+      class="pa-2">
+      <v-text-field v-model="c.title"
         :readonly="readonly"
         label="Title"
         density="compact"
         hide-details
         class="mb-2">
         <template #append>
-          <v-icon
-            v-if="!readonly"
+          <v-icon v-if="!readonly"
             icon="mdi-delete"
             class="fade-select"
             @click="item.Sitrep.Conditions.splice(i)" />
         </template>
       </v-text-field>
-      <v-textarea
-        v-model="c.condition"
+      <v-textarea v-model="c.condition"
         :readonly="readonly"
         label="Conditions"
         density="compact"
@@ -153,15 +146,19 @@
         class="mb-2" />
     </v-card>
 
-    <v-row v-if="!readonly" dense>
-      <v-col v-for="key in keys.filter((x) => !item.Sitrep[x])" cols="auto">
-        <cc-button color="primary" size="small" prepend-icon="mdi-plus" @click="showKey(key)">
+    <v-row v-if="!readonly"
+      dense>
+      <v-col v-for="key in keys.filter((x) => !item.Sitrep[x])"
+        cols="auto">
+        <cc-button color="primary"
+          size="small"
+          prepend-icon="mdi-plus"
+          @click="showKey(key)">
           {{ key }}
         </cc-button>
       </v-col>
       <v-col>
-        <cc-button
-          color="primary"
+        <cc-button color="primary"
           size="small"
           prepend-icon="mdi-plus"
           @click="item.Sitrep.Conditions.push({ title: 'New Condition', condition: '' })">
@@ -170,8 +167,7 @@
       </v-col>
     </v-row>
 
-    <cc-solo-dialog
-      v-model="confirmDialog"
+    <cc-solo-dialog v-model="confirmDialog"
       title="sitrep modified"
       icon="mdi-undo-variant"
       :close-on-click="false"
@@ -181,9 +177,13 @@
         you want to continue?
       </v-card-text>
       <div class="d-flex justify-between px-6">
-        <cc-button color="primary" size="small" @click="confirmDialog = false">cancel</cc-button>
+        <cc-button color="primary"
+          size="small"
+          @click="confirmDialog = false">cancel</cc-button>
         <v-spacer />
-        <cc-button color="success" size="small" @click="confirm(item.Sitrep)">confirm</cc-button>
+        <cc-button color="success"
+          size="small"
+          @click="confirm(item.Sitrep)">confirm</cc-button>
       </div>
     </cc-solo-dialog>
   </v-card>
@@ -193,7 +193,6 @@
 import { Encounter } from '@/classes/encounter/Encounter';
 import { Sitrep, SitrepInstance } from '@/classes/encounter/Sitrep';
 import { CompendiumStore } from '@/stores';
-import _ from 'lodash';
 
 export default {
   name: 'gm-sitrep-editor',

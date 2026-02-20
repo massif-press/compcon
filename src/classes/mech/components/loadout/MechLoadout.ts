@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash-es'
 import {
   LicensedItem,
   MechSystem,
@@ -12,59 +12,59 @@ import {
   MechWeapon,
   WeaponMod,
   Tag,
-} from '@/class';
-import { IEquipmentData, IMechWeaponSaveData, IMountData } from '@/interface';
-import { ILicenseRequirement } from '@/classes/pilot/components/license/LicensedItem';
-import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
+} from '@/class'
+import { IEquipmentData, IMechWeaponSaveData, IMountData } from '@/interface'
+import { ILicenseRequirement } from '@/classes/pilot/components/license/LicensedItem'
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 
 interface IMechLoadoutData {
-  id: string;
-  name: string;
-  systems: IEquipmentData[];
-  integratedSystems: IEquipmentData[];
-  mounts: IMountData[];
-  integratedMounts: { weapon: IMechWeaponSaveData }[];
-  improved_armament: IMountData;
-  integratedWeapon: IMountData;
-  superheavy_mounting: IMountData;
+  id: string
+  name: string
+  systems: IEquipmentData[]
+  integratedSystems: IEquipmentData[]
+  mounts: IMountData[]
+  integratedMounts: { weapon: IMechWeaponSaveData }[]
+  improved_armament: IMountData
+  integratedWeapon: IMountData
+  superheavy_mounting: IMountData
 }
 
 class MechLoadout extends Loadout {
-  private Parent: Mech;
-  private _integratedMounts: IntegratedMount[];
-  private _equippableMounts: EquippableMount[];
-  private _improvedArmament: EquippableMount;
-  private _integratedWeapon: EquippableMount;
-  private _superheavyMounting: EquippableMount;
-  private _systems: MechSystem[];
-  private _integratedSystems: MechSystem[];
+  private Parent: Mech
+  private _integratedMounts: IntegratedMount[]
+  private _equippableMounts: EquippableMount[]
+  private _improvedArmament: EquippableMount
+  private _integratedWeapon: EquippableMount
+  private _superheavyMounting: EquippableMount
+  private _systems: MechSystem[]
+  private _integratedSystems: MechSystem[]
 
   public constructor(mech: Mech) {
-    super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0);
-    this.Parent = mech;
-    this._equippableMounts = mech.Frame.Mounts.map((x) => new EquippableMount(x, this));
-    this._integratedMounts = [];
-    this._systems = [];
-    this._integratedSystems = [];
-    this._improvedArmament = new EquippableMount(MountType.Flex, this);
-    this._integratedWeapon = new EquippableMount(MountType.Aux, this);
-    this._superheavyMounting = new EquippableMount(MountType.Superheavy, this);
+    super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
+    this.Parent = mech
+    this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x, this))
+    this._integratedMounts = []
+    this._systems = []
+    this._integratedSystems = []
+    this._improvedArmament = new EquippableMount(MountType.Flex, this)
+    this._integratedWeapon = new EquippableMount(MountType.Aux, this)
+    this._superheavyMounting = new EquippableMount(MountType.Superheavy, this)
   }
 
   public saveMechLoadout() {
-    this.SetAllIntegrated();
+    this.SetAllIntegrated()
 
-    this.save();
-    this.Parent.SaveController.save();
+    this.save()
+    this.Parent.SaveController.save()
   }
 
   public get FullyEquipped() {
-    if (this.AllActiveMounts(this.Parent).some((x) => !x.Weapons.length)) {
-      return false;
+    if (this.AllActiveMounts(this.Parent).some(x => !x.Weapons.length)) {
+      return false
     }
-    if (this.Parent.FreeSP) return false;
+    if (this.Parent.FreeSP) return false
 
-    return true;
+    return true
   }
 
   public SetAllIntegrated() {
@@ -72,63 +72,63 @@ class MechLoadout extends Loadout {
       new Set([
         ...this.Parent.FeatureController.IntegratedSystems,
         ...this.Parent.Pilot.FeatureController.IntegratedSystems,
-        ...this.Systems.flatMap((x) => x.IntegratedSystems || []),
+        ...this.Systems.flatMap(x => x.IntegratedSystems || []),
       ])
-    );
+    )
 
-    is.forEach((item) => {
-      if (!this._integratedSystems.some((x) => x.ID === item.ID)) {
-        this._integratedSystems.push(item);
+    is.forEach(item => {
+      if (!this._integratedSystems.some(x => x.ID === item.ID)) {
+        this._integratedSystems.push(item)
       }
-    });
+    })
 
-    this._integratedSystems = is;
+    this._integratedSystems = is
 
     const im = Array.from(
       new Set([
         ...this.Parent.FeatureController.IntegratedWeapons,
         ...this.Parent.Pilot.FeatureController.IntegratedWeapons,
-        ...this.Systems.flatMap((x) => x.IntegratedWeapons || []),
+        ...this.Systems.flatMap(x => x.IntegratedWeapons || []),
       ])
-    ).map((x) => new IntegratedMount(x, this));
+    ).map(x => new IntegratedMount(x, this))
 
-    im.forEach((item) => {
-      if (!this._integratedMounts.some((x) => x.ID === item.ID)) {
-        this._integratedMounts.push(item);
+    im.forEach(item => {
+      if (!this._integratedMounts.some(x => x.ID === item.ID)) {
+        this._integratedMounts.push(item)
       }
-    });
+    })
 
-    this._integratedMounts = this._integratedMounts.filter((x) => im.some((y) => y.ID === x.ID));
+    this._integratedMounts = this._integratedMounts.filter(x => im.some(y => y.ID === x.ID))
   }
 
   public get IntegratedMounts(): IntegratedMount[] {
-    return this._integratedMounts;
+    return this._integratedMounts
   }
 
   public get EquippableMounts(): EquippableMount[] {
-    return this._equippableMounts;
+    return this._equippableMounts
   }
 
   public get IntegratedWeaponMount(): EquippableMount {
-    return this._integratedWeapon;
+    return this._integratedWeapon
   }
 
   public get ImprovedArmamentMount(): EquippableMount {
-    return this._improvedArmament;
+    return this._improvedArmament
   }
 
   public get SuperheavyMount(): EquippableMount {
-    return this._superheavyMounting;
+    return this._superheavyMounting
   }
 
   public AllMounts(improved?: boolean, integrated?: boolean, superheavy?: boolean): Mount[] {
-    let ms = [] as EquippableMount[];
-    if (integrated) ms.push(this._integratedWeapon);
-    if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament);
-    if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting);
-    ms = ms.concat(this._equippableMounts).concat(this._integratedMounts as any);
+    let ms = [] as EquippableMount[]
+    if (integrated) ms.push(this._integratedWeapon)
+    if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament)
+    if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting)
+    ms = ms.concat(this._equippableMounts).concat(this._integratedMounts as any)
 
-    return ms;
+    return ms
   }
 
   public AllEquippableMounts(
@@ -136,134 +136,134 @@ class MechLoadout extends Loadout {
     integrated?: boolean,
     superheavy?: boolean
   ): EquippableMount[] {
-    let ms = [] as EquippableMount[];
-    if (integrated) ms.push(this._integratedWeapon);
-    if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament);
-    if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting);
-    ms = ms.concat(this._equippableMounts);
-    return ms;
+    let ms = [] as EquippableMount[]
+    if (integrated) ms.push(this._integratedWeapon)
+    if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament)
+    if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting)
+    ms = ms.concat(this._equippableMounts)
+    return ms
   }
 
   public AllActiveMounts(m: Mech): Mount[] {
-    let ms = [] as Mount[];
-    if (m.Pilot.has('CoreBonus', 'cb_integrated_weapon')) ms.push(this.IntegratedWeaponMount);
+    let ms = [] as Mount[]
+    if (m.Pilot.has('CoreBonus', 'cb_integrated_weapon')) ms.push(this.IntegratedWeaponMount)
     if (m.Pilot.has('CoreBonus', 'cb_improved_armament') && this.EquippableMounts.length < 3)
-      ms.push(this.ImprovedArmamentMount);
+      ms.push(this.ImprovedArmamentMount)
     if (m.Pilot.has('CoreBonus', 'cb_superheavy_mounting') && this.EquippableMounts.length < 3)
-      ms.push(this.SuperheavyMount);
-    ms = ms.concat(this.EquippableMounts).concat(this.IntegratedMounts);
-    return ms.filter((x) => x.Weapons.length);
+      ms.push(this.SuperheavyMount)
+    ms = ms.concat(this.EquippableMounts).concat(this.IntegratedMounts)
+    return ms.filter(x => x.Weapons.length)
   }
 
   public get Mounts(): Mount[] {
-    return (this._integratedMounts as Mount[]).concat(this._equippableMounts);
+    return (this._integratedMounts as Mount[]).concat(this._equippableMounts)
   }
 
   public get HasEmptyMounts(): boolean {
     return this._equippableMounts
-      .filter((x) => !x.IsLocked)
-      .flatMap((x) => x.Slots)
-      .some((y) => y.Weapon === null);
+      .filter(x => !x.IsLocked)
+      .flatMap(x => x.Slots)
+      .some(y => y.Weapon === null)
   }
 
   public RemoveRetrofitting(): void {
-    this.AllEquippableMounts(true, true).forEach((x) => {
-      if (x.Bonuses.some((x) => x.ID === 'cb_mount_retrofitting')) x.ClearBonuses();
-    });
+    this.AllEquippableMounts(true, true).forEach(x => {
+      if (x.Bonuses.some(x => x.ID === 'cb_mount_retrofitting')) x.ClearBonuses()
+    })
   }
 
   public get Equipment(): MechEquipment[] {
-    const mods = this.Weapons.map((x) => x.Mod).filter((x) => x != null);
+    const mods = this.Weapons.map(x => x.Mod).filter(x => x != null)
     const equip = (this.Weapons as MechEquipment[])
       .concat(this.Systems as MechEquipment[])
-      .concat(this.IntegratedSystems as MechEquipment[]);
-    if (mods.length > 0) return equip.concat(mods as MechEquipment[]);
-    else return equip;
+      .concat(this.IntegratedSystems as MechEquipment[])
+    if (mods.length > 0) return equip.concat(mods as MechEquipment[])
+    else return equip
   }
 
   public get Weapons(): MechWeapon[] {
     return this.AllMounts(true, true)
-      .filter((x) => !x.IsLocked)
-      .flatMap((x) => x.Weapons)
-      .filter((x) => x != null);
+      .filter(x => !x.IsLocked)
+      .flatMap(x => x.Weapons)
+      .filter(x => x != null)
   }
 
   public UnequipSuperheavy(): void {
-    this.AllEquippableMounts(true, true).forEach((x) => x.Unlock());
+    this.AllEquippableMounts(true, true).forEach(x => x.Unlock())
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this._integratedSystems;
+    return this._integratedSystems
   }
 
   public get Systems(): MechSystem[] {
-    return this._systems;
+    return this._systems
   }
 
   public set Systems(systems: MechSystem[]) {
-    this._systems = systems;
-    this.saveMechLoadout();
+    this._systems = systems
+    this.saveMechLoadout()
   }
 
   public get AllActiveSystems(): MechSystem[] {
-    return this.IntegratedSystems.concat(this.Systems);
+    return this.IntegratedSystems.concat(this.Systems)
   }
 
   public HasSystem(systemID: string): boolean {
-    return !!this.Systems.find((x) => x.ID === systemID);
+    return !!this.Systems.find(x => x.ID === systemID)
   }
 
   public GetSystem(systemID: string): MechSystem | null {
-    return this.Systems.find((x) => x.ID === systemID) || null;
+    return this.Systems.find(x => x.ID === systemID) || null
   }
 
   public AddSystem(system: MechSystem): void {
-    const sys = _.clone(system) as MechSystem;
-    this._systems.push(sys);
-    if (this.FullyEquipped) AchievementEventSystem.emit('full_equip');
-    this.saveMechLoadout();
+    const sys = _.clone(system) as MechSystem
+    this._systems.push(sys)
+    if (this.FullyEquipped) AchievementEventSystem.emit('full_equip')
+    this.saveMechLoadout()
   }
 
   public ChangeSystem(index: number, system: MechSystem): void {
-    this._systems.splice(index, 1, _.clone(system) as MechSystem);
-    this.saveMechLoadout();
+    this._systems.splice(index, 1, _.clone(system) as MechSystem)
+    this.saveMechLoadout()
   }
 
   public RemoveSystem(system: MechSystem): void {
-    const index = this._systems.findIndex((x) => _.isEqual(x, system));
-    if (index > -1) this._systems.splice(index, 1);
-    this.saveMechLoadout();
+    const index = this._systems.findIndex(x => _.isEqual(x, system))
+    if (index > -1) this._systems.splice(index, 1)
+    this.saveMechLoadout()
   }
 
   public get RequiredLicenses(): ILicenseRequirement[] {
-    const requirements = [] as ILicenseRequirement[];
-    const equippedWeapons = this.Weapons as LicensedItem[];
-    const equippedMods = this.Weapons.map((x) => x.Mod).filter((x) => !!x) as LicensedItem[];
-    const equippedSystems = (this.Systems as LicensedItem[]).concat(equippedMods);
+    const requirements = [] as ILicenseRequirement[]
+    const equippedWeapons = this.Weapons as LicensedItem[]
+    const equippedMods = this.Weapons.map(x => x.Mod).filter(x => !!x) as LicensedItem[]
+    const equippedSystems = (this.Systems as LicensedItem[]).concat(equippedMods)
 
-    equippedSystems.concat(equippedWeapons).forEach((item) => {
-      if (!item) return;
+    equippedSystems.concat(equippedWeapons).forEach(item => {
+      if (!item) return
       if (item.LicenseLevel === 0) {
-        const LL0Index = requirements.findIndex((x) => x.rank === 0);
+        const LL0Index = requirements.findIndex(x => x.rank === 0)
         if (LL0Index > -1) {
-          requirements[LL0Index].items.push(item.Name);
+          requirements[LL0Index].items.push(item.Name)
         } else {
-          requirements.push(item.RequiredLicense);
+          requirements.push(item.RequiredLicense)
         }
       } else {
         const licenseIndex = requirements.findIndex(
-          (x) => x.source === item.Source && x.name === item.License && x.rank === item.LicenseLevel
-        );
+          x => x.source === item.Source && x.name === item.License && x.rank === item.LicenseLevel
+        )
         if (licenseIndex > -1) {
-          requirements[licenseIndex].items.push(item.Name);
+          requirements[licenseIndex].items.push(item.Name)
         } else {
           if (item.RequiredLicense.name !== '' && item.RequiredLicense.rank > 0) {
-            requirements.push(item.RequiredLicense);
+            requirements.push(item.RequiredLicense)
           }
         }
       }
-    });
-    return requirements;
+    })
+    return requirements
   }
 
   public get TotalSP(): number {
@@ -273,81 +273,81 @@ class MechLoadout extends Loadout {
       this._integratedWeapon,
       this._superheavyMounting,
     ]
-      .flatMap((x) => x.Weapons)
+      .flatMap(x => x.Weapons)
       .reduce(function (a, b) {
-        return a + (!!b ? b.TotalSP : 0);
-      }, 0);
+        return a + (!!b ? b.TotalSP : 0)
+      }, 0)
 
     const systemSP = this._systems.reduce(function (a, b) {
-      return a + (!!b ? b.SP : 0);
-    }, 0);
-    return mountSP + systemSP;
+      return a + (!!b ? b.SP : 0)
+    }, 0)
+    return mountSP + systemSP
   }
 
   public get UniqueWeapons(): MechWeapon[] {
-    return this.Weapons.filter((x) => x.IsUnique);
+    return this.Weapons.filter(x => x.IsUnique)
   }
 
   public get UniqueSystems(): MechSystem[] {
-    return this.Systems.filter((x) => x.IsUnique);
+    return this.Systems.filter(x => x.IsUnique)
   }
 
   public get UniqueMods(): WeaponMod[] {
-    return this.Weapons.map((x) => !!x && x.Mod).filter((y) => !!y && y.IsUnique) as WeaponMod[];
+    return this.Weapons.map(x => !!x && x.Mod).filter(y => !!y && y.IsUnique) as WeaponMod[]
   }
 
   public get UniqueItems(): MechEquipment[] {
     return (this.UniqueWeapons as MechEquipment[])
       .concat(this.UniqueSystems as MechEquipment[])
-      .concat(this.UniqueMods as MechEquipment[]);
+      .concat(this.UniqueMods as MechEquipment[])
   }
 
   public get AICount(): number {
-    return this.Equipment.filter((x) => x.IsAI).length;
+    return this.Equipment.filter(x => x.IsAI).length
   }
 
   public get AISystems(): MechEquipment[] {
-    return this.Equipment.filter((x) => x.IsAI) as MechEquipment[];
+    return this.Equipment.filter(x => x.IsAI) as MechEquipment[]
   }
 
   public get AllTags(): Tag[] {
-    return this.Equipment.flatMap((x) => x.Tags);
+    return this.Equipment.flatMap(x => x.Tags)
   }
 
   public static Serialize(ml: MechLoadout): IMechLoadoutData {
     return {
       id: ml.ID,
       name: ml.Name,
-      systems: ml._systems.map((x) => MechSystem.Serialize(x)),
-      integratedSystems: ml._integratedSystems.map((x) => MechSystem.Serialize(x)),
-      mounts: ml._equippableMounts.map((x) => EquippableMount.Serialize(x)),
-      integratedMounts: ml._integratedMounts.map((x) => IntegratedMount.Serialize(x)),
+      systems: ml._systems.map(x => MechSystem.Serialize(x)),
+      integratedSystems: ml._integratedSystems.map(x => MechSystem.Serialize(x)),
+      mounts: ml._equippableMounts.map(x => EquippableMount.Serialize(x)),
+      integratedMounts: ml._integratedMounts.map(x => IntegratedMount.Serialize(x)),
       improved_armament: EquippableMount.Serialize(ml._improvedArmament),
       integratedWeapon: EquippableMount.Serialize(ml._integratedWeapon),
       superheavy_mounting: EquippableMount.Serialize(ml._superheavyMounting),
-    };
+    }
   }
 
   public static Deserialize(loadoutData: IMechLoadoutData, mech: Mech): MechLoadout {
-    const ml = new MechLoadout(mech);
-    ml.ID = loadoutData.id;
-    ml._name = loadoutData.name;
-    ml._systems = loadoutData.systems.map((x) => MechSystem.Deserialize(x));
-    ml._equippableMounts = loadoutData.mounts.map((x) => EquippableMount.Deserialize(x, ml));
+    const ml = new MechLoadout(mech)
+    ml.ID = loadoutData.id
+    ml._name = loadoutData.name
+    ml._systems = loadoutData.systems.map(x => MechSystem.Deserialize(x))
+    ml._equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x, ml))
     ml._integratedMounts = !loadoutData.integratedMounts
-      ? mech.Frame.IntegratedWeapons.map((x) => new IntegratedMount(x, ml))
-      : loadoutData.integratedMounts.map((x) => IntegratedMount.Deserialize(x, ml));
-    ml._improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament, ml);
+      ? mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x, ml))
+      : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x, ml))
+    ml._improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament, ml)
     ml._superheavyMounting = loadoutData.superheavy_mounting
       ? EquippableMount.Deserialize(loadoutData.superheavy_mounting, ml)
-      : new EquippableMount(MountType.Superheavy, ml);
+      : new EquippableMount(MountType.Superheavy, ml)
     ml._integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux, ml)
-      : EquippableMount.Deserialize(loadoutData.integratedWeapon, ml);
-    ml.SetAllIntegrated();
-    return ml;
+      : EquippableMount.Deserialize(loadoutData.integratedWeapon, ml)
+    ml.SetAllIntegrated()
+    return ml
   }
 }
 
-export { MechLoadout };
-export type { IMechLoadoutData };
+export { MechLoadout }
+export type { IMechLoadoutData }

@@ -5,13 +5,13 @@ import {
   shipname_ipsn,
   location,
   cargo_formatted,
-} from '@/io/Generators';
+} from '@/io/Generators'
 
-import _ from 'lodash';
+import * as _ from 'lodash-es'
 
 const getLogo = (): string => {
-  return _.sample(logos) || '';
-};
+  return _.sample(logos) || ''
+}
 
 const logos = [
   `                           @~                                                    
@@ -54,20 +54,20 @@ const logos = [
   |___|   |_|__   |___/   _____  |_|\\_|   _____  
 _|"""""|_| """ |_|"""""|_|     |_|"""""|_|     | 
 "'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-' `,
-];
+]
 
-const plog = async (typer) => {
-  const sn = await shipname_ipsn();
-  const locations = [await location(), await location(), await location()];
+const plog = async typer => {
+  const sn = await shipname_ipsn()
+  const locations = [await location(), await location(), await location()]
   const cargo = [
     await cargo_formatted(),
     await cargo_formatted(),
     await cargo_formatted(),
     await cargo_formatted(),
     await cargo_formatted(),
-  ];
-  const callsigns = [await callsign(), await callsign(), await callsign()];
-  const e = await encryption();
+  ]
+  const callsigns = [await callsign(), await callsign(), await callsign()]
+  const e = await encryption()
 
   typer
     .type('<br>')
@@ -168,7 +168,7 @@ const plog = async (typer) => {
     .type(
       `>//[<span class="accent--text">COMP/CON</span>: <span class="stark-text--text">Welcome, Traveler. Point the way.</span>]`
     )
-    .go();
-};
+    .go()
+}
 
-export default plog;
+export default plog

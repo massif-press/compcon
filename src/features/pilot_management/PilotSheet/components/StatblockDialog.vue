@@ -1,16 +1,24 @@
 <template>
   <v-card-text>
-    <v-row :class="mobile && 'pt-2'" class="mb-4" align="center">
-      <v-col cols="12" md="">
-        <cc-select v-model="genRadios" :items="genItems" label="Generate" />
+    <v-row :class="mobile && 'pt-2'"
+      class="mb-4"
+      align="center">
+      <v-col cols="12"
+        md="">
+        <cc-select v-model="genRadios"
+          :items="genItems"
+          label="Generate" />
       </v-col>
       <v-col cols="auto">
-        <cc-switch v-model="discordEmoji" on-icon="mdi-check" off-icon="mdi-cancel" />
+        <cc-switch v-model="discordEmoji"
+          on-icon="mdi-check"
+          off-icon="mdi-cancel" />
       </v-col>
       <v-col cols="auto">
         <div>
           Include Pilot NET Discord Emoji
-          <div class="text-caption" style="line-height: 8px">
+          <div class="text-caption"
+            style="line-height: 8px">
             (Doesn't work in code block format)
           </div>
         </div>
@@ -18,8 +26,7 @@
     </v-row>
 
     <v-expand-transition>
-      <cc-select
-        v-if="genRadios != 'pilotBuild'"
+      <cc-select v-if="genRadios != 'pilotBuild'"
         v-model="selected_mech"
         :items="pilot.Mechs"
         placeholder="N/A"
@@ -32,8 +39,7 @@
         hide-details />
     </v-expand-transition>
 
-    <v-textarea
-      :value="statblock"
+    <v-textarea :value="statblock"
       auto-grow
       readonly
       hide-details
@@ -42,8 +48,7 @@
       class="flavor-text" />
     <v-tooltip text="Copy stat block to clipboard">
       <template #activator="{ props }">
-        <cc-button
-          v-bind="props"
+        <cc-button v-bind="props"
           prepend-icon="mdi-clipboard-text-outline"
           color="primary"
           block
@@ -81,7 +86,7 @@ export default {
     ],
   }),
   created() {
-    if (this.defaultMechID == null) {
+    if (this.defaultMechID === null) {
       this.genRadios = 'pilotBuild';
     }
     this.selected_mech = this.defaultMechID;
@@ -91,7 +96,7 @@ export default {
       return this.$vuetify.display.smAndDown;
     },
     defaultMechID() {
-      if (this.$route.name == 'mech-sheet') {
+      if (this.$route.name === 'mech-sheet') {
         return this.mechID;
       } else return this.pilot.Mechs[this.pilot.Mechs.length - 1]?.ID;
     },

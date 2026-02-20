@@ -1,8 +1,9 @@
 <template>
-  <v-row density="compact" justify="space-around" class="mx-4">
+  <v-row density="compact"
+    justify="space-around"
+    class="mx-4">
     <v-col cols="12">
-      <v-select
-        v-model="tagFilter"
+      <v-select v-model="tagFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -18,8 +19,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="<any>systemTypeFilter"
+      <v-select v-model="<any>systemTypeFilter"
         class="px-2"
         density="compact"
         prepend-icon="cc:system"
@@ -32,8 +32,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="llFilter"
+      <v-select v-model="llFilter"
         density="compact"
         hide-details
         class="px-2"
@@ -48,7 +47,9 @@
     </v-col>
   </v-row>
   <v-divider class="my-4" />
-  <v-row dense align="center" justify="center">
+  <v-row dense
+    align="center"
+    justify="center">
     <v-col cols="auto">
       <v-icon icon="cc:system_point" />
     </v-col>
@@ -56,24 +57,27 @@
       <span class="text-button">SP Cost</span>
     </v-col>
     <v-col cols="auto">
-      <v-btn-toggle
-        v-model="spType"
+      <v-btn-toggle v-model="spType"
         color="accent"
         border
         divided
         density="compact"
         style="height: 30px"
         @update:modelValue="updateFilters()">
-        <v-btn value="less" size="small">Less Than</v-btn>
-        <v-btn value="eq" size="small">Equal To</v-btn>
-        <v-btn value="greater" size="small">Greater Than</v-btn>
+        <v-btn value="less"
+          size="small">Less Than</v-btn>
+        <v-btn value="eq"
+          size="small">Equal To</v-btn>
+        <v-btn value="greater"
+          size="small">Greater Than</v-btn>
       </v-btn-toggle>
     </v-col>
   </v-row>
-  <v-row dense align="center" justify="center">
+  <v-row dense
+    align="center"
+    justify="center">
     <v-col cols="auto">
-      <v-text-field
-        v-model="sp"
+      <v-text-field v-model="sp"
         type="number"
         variant="outlined"
         style="width: 150px"
@@ -84,11 +88,11 @@
         append-icon="mdi-plus"
         @click:prepend="
           sp > 0 ? sp-- : sp;
-          updateFilters();
+        updateFilters();
         "
         @click:append="
           sp++;
-          updateFilters();
+        updateFilters();
         "
         @update:modelValue="updateFilters()" />
     </v-col>
@@ -99,7 +103,7 @@
 import { Tag, SystemType, Manufacturer } from '@/class';
 
 import { CompendiumStore } from '@/stores';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 const nameSort = function (a, b): number {
   if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;

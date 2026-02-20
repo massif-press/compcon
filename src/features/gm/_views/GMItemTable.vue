@@ -1,21 +1,20 @@
 <template>
   <div>
-    <v-data-table
-      density="compact"
+    <v-data-table density="compact"
       :items="items"
       item-key="ID"
       :headers="headers"
       :items-per-page="25">
       <template v-slot:item.Name="{ item }">
         <div style="min-width: 200px">
-          <cc-remote-hover :item="item" color="accent" />
+          <cc-remote-hover :item="item"
+            color="accent" />
           <cc-missing-content-hover :item="item" />
           {{ (item as any).Name }}
         </div>
       </template>
       <template v-slot:item.ItemType="{ item }">
-        <v-btn
-          icon
+        <v-btn icon
           size="small"
           variant="plain"
           color="accent"
@@ -25,8 +24,7 @@
         </v-btn>
       </template>
       <template v-slot:item.Layers="{ item }">
-        <v-chip
-          v-for="l in (item as any).Layers"
+        <v-chip v-for="l in (item as any).Layers"
           label
           size="x-small"
           prepend-icon="mdi-layers"
@@ -35,8 +33,7 @@
         </v-chip>
       </template>
       <template v-slot:item.Templates="{ item }">
-        <v-chip
-          v-for="t in (item as any).NpcTemplateController.Templates"
+        <v-chip v-for="t in (item as any).NpcTemplateController.Templates"
           label
           size="x-small"
           prepend-icon="cc:npc_template"
@@ -49,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import * as headers from './_components/gmItemHeaders';
 
 export default {

@@ -1,5 +1,6 @@
 <template>
-  <v-card v-if="latest" variant="tonal">
+  <v-card v-if="latest"
+    variant="tonal">
     <div class="text-overline ml-2">LATEST VERSION</div>
     <v-toolbar density="compact">
       <v-toolbar-title>
@@ -17,10 +18,10 @@
     <v-divider />
     <v-card-actions>
       <v-spacer />
-      <v-tooltip location="top" max-width="300px">
+      <v-tooltip location="top"
+        max-width="300px">
         <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
+          <v-btn v-bind="props"
             color="primary"
             size="small"
             variant="elevated"
@@ -36,10 +37,10 @@
       </v-tooltip>
 
       <v-spacer />
-      <v-tooltip location="top" max-width="300px">
+      <v-tooltip location="top"
+        max-width="300px">
         <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
+          <v-btn v-bind="props"
             size="small"
             color="primary"
             variant="elevated"
@@ -55,10 +56,10 @@
       </v-tooltip>
       <v-spacer />
       <div v-if="shareCode">
-        <v-tooltip max-width="300px" location="top">
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-btn
-              v-bind="props"
+            <v-btn v-bind="props"
               size="small"
               color="primary"
               variant="elevated"
@@ -79,10 +80,11 @@
           </div>
         </v-tooltip>
       </div>
-      <v-tooltip v-else-if="isLoggedIn" location="top" max-width="300px">
+      <v-tooltip v-else-if="isLoggedIn"
+        location="top"
+        max-width="300px">
         <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
+          <v-btn v-bind="props"
             size="small"
             color="primary"
             variant="elevated"
@@ -136,13 +138,13 @@ export default {
   methods: {
     async exportLcd() {
       const filename = `${this.campaign.Name} - ${this.latest.ver}.lcd`;
-      var zip = new JSZip();
+      const zip = new JSZip();
 
       zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(this.campaign as Campaign)));
 
-      var content = await zip.generateAsync({ type: 'blob' });
+      const content = await zip.generateAsync({ type: 'blob' });
 
-      var link = document.createElement('a');
+      const link = document.createElement('a');
       link.href = window.URL.createObjectURL(content);
       link.download = filename;
 

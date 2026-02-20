@@ -85,7 +85,7 @@
                   <div v-for="brew in item.BrewController.MissingBrews" class="ml-2">
                     <b
                       class="text-accent"
-                      v-html="
+                      v-html-safe="
                         `${brew.LcpName} <span class='text-disabled'>@</span> ${brew.LcpVersion}`
                       " />
                     is missing.
@@ -102,7 +102,7 @@
                     <span>
                       <b
                         class="text-accent"
-                        v-html="
+                        v-html-safe="
                           `${brew.LcpName} <span class='text-disabled'>@</span> ${brew.LcpVersion}`
                         " />
                       is outdated.

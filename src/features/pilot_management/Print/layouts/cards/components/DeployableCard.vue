@@ -103,7 +103,7 @@
 
       <v-divider class="my-2" />
 
-      <div class="mt-1" v-html="(deployable as any).Detail" />
+      <div class="mt-1" v-html-safe="(deployable as any).Detail" />
 
       <action-internal v-for="action in actions" :action="action" />
     </div>

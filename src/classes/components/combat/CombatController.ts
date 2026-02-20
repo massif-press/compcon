@@ -12,7 +12,7 @@ import {
   ITimedEffectData,
   TimedEffect,
 } from '../feature/active_effects/TimedEffect'
-import _ from 'lodash'
+import * as _ from 'lodash-es'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import {
   EffectSpecial,

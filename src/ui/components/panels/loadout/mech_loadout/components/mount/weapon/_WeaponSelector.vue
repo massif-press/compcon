@@ -1,54 +1,72 @@
 <template>
-  <cc-compendium-browser
-    :items="availableWeapons"
+  <cc-compendium-browser :items="availableWeapons"
     item-type="MechWeapon"
     :table-headers="headers"
     :options="options"
     equippable
     @select="stageSelect($event)"
     @equip="handleEquip($event)">
-    <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Mech Weapons</div>
+    </template>
     <template #top>
       <v-row>
         <v-col>
           <div v-if="weaponSlot.Weapon">
-            <div v-if="!mobile" class="text-cc-overline">
+            <div v-if="!mobile"
+              class="text-cc-overline">
               UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }}
             </div>
             <div class="heading h2 text-accent">
               {{ weaponSlot.Weapon.Name }}
-              <span v-if="selected" class="text-success">
-                <v-icon icon="mdi-chevron-triple-right" class="pb-1" />
+              <span v-if="selected"
+                class="text-success">
+                <v-icon icon="mdi-chevron-triple-right"
+                  class="pb-1" />
                 {{ selected.Name }}
               </span>
             </div>
-            <div v-if="!selected" class="flavor-text text-cc-overline">CURRENTLY EQUIPPED</div>
-            <div v-else class="flavor-text text-cc-overline">
+            <div v-if="!selected"
+              class="flavor-text text-cc-overline">CURRENTLY EQUIPPED</div>
+            <div v-else
+              class="flavor-text text-cc-overline">
               <div v-if="!eq(weaponSlot.Weapon.Range, <Range[]>selected.Range)">
-                <span class="text-accent" v-html="getRangeDisplay(weaponSlot.Weapon)" />
-                <v-icon color="success" size="small" icon="mdi-chevron-triple-right" class="mx-1" />
-                <span class="text-success" v-html="getRangeDisplay(<MechWeapon>selected)" />
+                <span class="text-accent"
+                  v-html-safe="getRangeDisplay(weaponSlot.Weapon)" />
+                <v-icon color="success"
+                  size="small"
+                  icon="mdi-chevron-triple-right"
+                  class="mx-1" />
+                <span class="text-success"
+                  v-html-safe="getRangeDisplay(<MechWeapon>selected)" />
               </div>
               <div v-if="!eq(weaponSlot.Weapon.Damage, <Damage[]>selected.Damage)">
-                <span class="text-accent" v-html="getDamageDisplay(weaponSlot.Weapon)" />
-                <v-icon color="success" size="small" icon="mdi-chevron-triple-right" class="mx-1" />
-                <span class="text-success" v-html="getDamageDisplay(<MechWeapon>selected)" />
+                <span class="text-accent"
+                  v-html-safe="getDamageDisplay(weaponSlot.Weapon)" />
+                <v-icon color="success"
+                  size="small"
+                  icon="mdi-chevron-triple-right"
+                  class="mx-1" />
+                <span class="text-success"
+                  v-html-safe="getDamageDisplay(<MechWeapon>selected)" />
               </div>
               <div v-if="!eq(weaponSlot.Weapon.Tags, <Tag[]>selected.Tags)">
-                <span
-                  v-for="t in weaponSlot.Weapon.Tags.filter(
-                    (x) => !(<any>selected!.Tags.some((y) => y.ID === x.ID))
-                  )"
+                <span v-for="t in weaponSlot.Weapon.Tags.filter(
+                  (x) => !(<any>selected!.Tags.some((y) => y.ID === x.ID))
+                )"
                   class="text-error">
-                  <v-icon icon="mdi-minus" size="x-small" class="mr-n1" />
+                  <v-icon icon="mdi-minus"
+                    size="x-small"
+                    class="mr-n1" />
                   [{{ t.Name }}]
                 </span>
-                <span
-                  v-for="t in selected.Tags.filter(
-                    (x) => !weaponSlot.Weapon.Tags.some((y) => y.ID === x.ID)
-                  )"
+                <span v-for="t in selected.Tags.filter(
+                  (x) => !weaponSlot.Weapon.Tags.some((y) => y.ID === x.ID)
+                )"
                   class="text-success">
-                  <v-icon icon="mdi-plus" size="x-small" class="mr-n1" />
+                  <v-icon icon="mdi-plus"
+                    size="x-small"
+                    class="mr-n1" />
                   [{{ t.Name }}]
                 </span>
               </div>
@@ -62,30 +80,27 @@
             <div class="flavor-text overline text-error">[ EQUIPMENT ID INVALID OR MISSING ]</div>
           </div>
         </v-col>
-        <v-col cols="12" md="auto">
+        <v-col cols="12"
+          md="auto">
           <div class="text-right">
-            <cc-switch
-              v-model="showUnlicensed"
+            <cc-switch v-model="showUnlicensed"
               :label="mobile && 'Show Unlicensed'"
               color="error"
-              :tooltip="
-                !mobile && showUnlicensed
-                  ? 'Unlicensed equipment: SHOWN'
-                  : 'Unlicensed equipment: HIDDEN'
-              "
+              :tooltip="!mobile && showUnlicensed
+                ? 'Unlicensed equipment: SHOWN'
+                : 'Unlicensed equipment: HIDDEN'
+                "
               :prepend-icon="!mobile && 'cc:system'"
               on-icon="mdi-lock-open"
               off-icon="mdi-lock" />
             <br />
-            <cc-switch
-              v-model="showOverSP"
+            <cc-switch v-model="showOverSP"
               :label="mobile && 'Show Exceeds SP'"
               color="error"
-              :tooltip="
-                !mobile && showOverSP
-                  ? 'Systems exceeding SP Capacity: SHOWN'
-                  : 'Systems exceeding SP Capacity: HIDDEN'
-              "
+              :tooltip="!mobile && showOverSP
+                ? 'Systems exceeding SP Capacity: SHOWN'
+                : 'Systems exceeding SP Capacity: HIDDEN'
+                "
               :prepend-icon="!mobile && 'cc:system_point'"
               on-icon="mdi-lock-open"
               off-icon="mdi-lock" />
@@ -97,7 +112,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 import { Rules, MechWeapon, Mech, Range, Damage, Tag } from '@/class';

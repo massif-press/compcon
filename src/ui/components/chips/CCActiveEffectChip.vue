@@ -268,7 +268,7 @@ export default {
 .end {
   position: absolute;
   right: -14px;
-  top: -0.5px;
+  top: -0px;
   bottom: 0;
   width: 15px;
   display: inline-block;
@@ -278,7 +278,7 @@ export default {
 .end-light {
   position: absolute;
   right: -14px;
-  top: 0;
+  top: 0px;
   bottom: 0;
   width: 15px;
   display: inline-block;

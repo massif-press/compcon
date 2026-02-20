@@ -1,8 +1,12 @@
 <template>
   <div class="pa-2 mt-3 no-print-break">
-    <div class="text-overline text-primary" style="line-height: 0">EQUIPMENT TAG DETAIL</div>
-    <div v-for="t in tags" class="ma-2">
-      <v-card variant="outlined" class="pa-2" color="grey">
+    <div class="text-overline text-primary"
+      style="line-height: 0">EQUIPMENT TAG DETAIL</div>
+    <div v-for="t in tags"
+      class="ma-2">
+      <v-card variant="outlined"
+        class="pa-2"
+        color="grey">
         <v-row dense>
           <v-col cols="auto">
             <v-icon icon="mdi-tag-outline" />
@@ -26,7 +30,7 @@ import { Npc } from '@/classes/npc/Npc';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
 import { Unit } from '@/classes/npc/unit/Unit';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'tag-info-print',

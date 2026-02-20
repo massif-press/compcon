@@ -1,8 +1,16 @@
 <template>
   <v-container>
-    <cc-alert color="info" class="my-4" border icon="cc:campaign" dense>
+    <cc-alert color="info"
+      class="my-4"
+      border
+      icon="cc:campaign"
+      dense>
       Imported campaigns are managed in the
-      <v-btn size="x-small" class="mx-1" flat tile to="/srd?tab=2">Campaign Library</v-btn>
+      <v-btn size="x-small"
+        class="mx-1"
+        flat
+        tile
+        to="/srd?tab=2">Campaign Library</v-btn>
     </cc-alert>
 
     <v-card class="mt-5">
@@ -10,19 +18,21 @@
         <div class="heading h3 text-accent">Your Campaigns</div>
       </v-card-title>
       <v-card-text>
-        <div v-if="!campaigns.length" class="text-center text-disabled pa-5">
+        <div v-if="!campaigns.length"
+          class="text-center text-disabled pa-5">
           <i>No data</i>
         </div>
-        <v-card
-          v-else
+        <v-card v-else
           v-for="(c, i) in campaigns"
           class="px-2 py-3"
           elevation="0"
-          :color="i % 2 == 0 ? 'rgba(125, 125, 125, 0.05)' : 'rgba(125, 125, 125, 0.16)'">
+          :color="i % 2 === 0 ? 'rgba(125, 125, 125, 0.05)' : 'rgba(125, 125, 125, 0.16)'">
           <v-row align="center">
-            <v-col v-if="c.CoverImageUrl" cols="auto">
+            <v-col v-if="c.CoverImageUrl"
+              cols="auto">
               <v-avatar rounded="sm">
-                <v-img :src="c.CoverImageUrl" height="100" />
+                <v-img :src="c.CoverImageUrl"
+                  height="100" />
               </v-avatar>
             </v-col>
             <v-col>
@@ -33,8 +43,7 @@
               </div>
             </v-col>
             <v-col cols="auto">
-              <cc-button
-                color="accent"
+              <cc-button color="accent"
                 size="small"
                 prepend-icon="mdi-pencil"
                 @click="openEditCampaign(<Campaign>c)">
@@ -44,7 +53,10 @@
             <v-col cols="auto">
               <v-dialog width="50vw">
                 <template #activator="{ props }">
-                  <cc-button v-bind="props" color="error" size="small" prepend-icon="mdi-delete">
+                  <cc-button v-bind="props"
+                    color="error"
+                    size="small"
+                    prepend-icon="mdi-delete">
                     Delete
                   </cc-button>
                 </template>
@@ -52,7 +64,8 @@
                   <v-card>
                     <v-toolbar color="error-darken-3">
                       <v-toolbar-title>
-                        <v-icon start icon="mdi-alert" />
+                        <v-icon start
+                          icon="mdi-alert" />
                         Permanent Deletion
                       </v-toolbar-title>
                     </v-toolbar>
@@ -64,8 +77,7 @@
                       type the campaign title into the text entry field below and click
                       <b>Confirm Deletion</b>
                       .
-                      <v-text-field
-                        v-model="deleteText"
+                      <v-text-field v-model="deleteText"
                         density="compact"
                         hide="detail"
                         class="my-2"
@@ -74,10 +86,10 @@
                     </v-card-text>
                     <v-divider />
                     <v-card-actions>
-                      <cc-button color="primary" @click="isActive.value = false">Dismiss</cc-button>
+                      <cc-button color="primary"
+                        @click="isActive.value = false">Dismiss</cc-button>
                       <v-spacer />
-                      <cc-button
-                        :color="deleteText !== c.Title ? '' : 'error'"
+                      <cc-button :color="deleteText !== c.Title ? '' : 'error'"
                         variant="elevated"
                         prepend-icon="mdi-delete"
                         :disabled="deleteText !== c.Title"
@@ -96,10 +108,15 @@
 
       <v-footer>
         <v-spacer />
-        <v-dialog v-model="importDialog" max-width="750px">
+        <v-dialog v-model="importDialog"
+          max-width="750px">
           <template #activator="{ props }">
-            <cc-button v-bind="props" color="primary" class="mx-2" size="small">
-              <v-icon start icon="mdi-import" />
+            <cc-button v-bind="props"
+              color="primary"
+              class="mx-2"
+              size="small">
+              <v-icon start
+                icon="mdi-import" />
               Import
             </cc-button>
           </template>
@@ -122,10 +139,11 @@
                   dialog under the main menu .
                 </i>
               </p>
-              <v-row align="center" justify="center" class="mt-2">
+              <v-row align="center"
+                justify="center"
+                class="mt-2">
                 <v-col cols="10">
-                  <v-file-input
-                    v-model="<any>fileValue"
+                  <v-file-input v-model="<any>fileValue"
                     accept="text/json"
                     variant="outlined"
                     label="Select Data File"
@@ -134,7 +152,8 @@
                     @click:clear="reset" />
                 </v-col>
               </v-row>
-              <div v-if="errorMessage" class="text-error text-center mt-2">{{ errorMessage }}</div>
+              <div v-if="errorMessage"
+                class="text-error text-center mt-2">{{ errorMessage }}</div>
               <div v-else-if="stagedData">
                 <div class="text-caption">Staged Campaign Data</div>
                 <v-card>
@@ -146,15 +165,15 @@
                     </div>
                     {{ stagedData.Description }}
 
-                    <v-alert
-                      v-if="importSameId"
+                    <v-alert v-if="importSameId"
                       variant="outlined"
                       :color="importIsOlder ? 'error' : 'warning'"
                       class="my-2"
                       density="compact"
                       icon="mdi-alert">
                       <div class="text-caption">Warning</div>
-                      <div v-if="importIsOlder" class="my-2 font-weight-bold">
+                      <div v-if="importIsOlder"
+                        class="my-2 font-weight-bold">
                         The existing campaign is newer than the imported data.
                       </div>
                       This import data will overwrite an existing campaign with the same ID ({{
@@ -171,7 +190,8 @@
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <cc-button color="accent" @click="importCampaign">Import Campaign</cc-button>
+                    <cc-button color="accent"
+                      @click="importCampaign">Import Campaign</cc-button>
                     <v-spacer />
                   </v-card-actions>
                 </v-card>
@@ -179,12 +199,17 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <cc-button color="accent" @click="importDialog = false">Dismiss</cc-button>
+              <cc-button color="accent"
+                @click="importDialog = false">Dismiss</cc-button>
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <cc-button color="primary" class="mx-2" size="small" @click="addCampaign">
-          <v-icon start icon="mdi-plus" />
+        <cc-button color="primary"
+          class="mx-2"
+          size="small"
+          @click="addCampaign">
+          <v-icon start
+            icon="mdi-plus" />
           New Campaign
         </cc-button>
       </v-footer>

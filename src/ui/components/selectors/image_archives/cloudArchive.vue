@@ -1,7 +1,6 @@
 <template>
   <v-card>
-    <v-alert
-      v-if="!store.IsLoggedIn"
+    <v-alert v-if="!store.IsLoggedIn"
       color="subtle"
       variant="outlined"
       class="ma-2"
@@ -9,10 +8,12 @@
       Requires COMP/CON Account
     </v-alert>
     <div v-else>
-      <v-row dense align="center">
-        <v-col v-for="image in displayedUserImages" cols="4" md="3">
-          <v-card
-            class="ma-2"
+      <v-row dense
+        align="center">
+        <v-col v-for="image in displayedUserImages"
+          cols="4"
+          md="3">
+          <v-card class="ma-2"
             outlined
             tile
             :color="isSelected(image.uri) ? 'primary' : ''"
@@ -20,17 +21,30 @@
             style="border-width: 3px"
             @click="handleImageClick(image)">
             <div class="background">
-              <v-img :src="`${distributor}/${image.uri}`" contain max-height="200px" />
+              <v-img :src="`${distributor}/${image.uri}`"
+                contain
+                max-height="200px" />
             </div>
           </v-card>
           <v-scale-transition>
-            <v-card v-if="isSelected(image.uri)" flat outlined class="pa-1" tile>
+            <v-card v-if="isSelected(image.uri)"
+              flat
+              outlined
+              class="pa-1"
+              tile>
               <div class="text-caption pb-1 text-center">
                 {{ image.name }} &mdash; {{ (image.size / 1024 / 1024).toFixed(2) }}MB
               </div>
-              <v-menu offset-y offset-x top left>
+              <v-menu offset-y
+                offset-x
+                top
+                left>
                 <template v-slot:activator="{ props }">
-                  <v-btn block variant="tonal" color="error" size="x-small" v-bind="props">
+                  <v-btn block
+                    variant="tonal"
+                    color="error"
+                    size="x-small"
+                    v-bind="props">
                     Delete
                   </v-btn>
                 </template>
@@ -42,8 +56,7 @@
           </v-scale-transition>
         </v-col>
       </v-row>
-      <v-pagination
-        v-model="currentUserPage"
+      <v-pagination v-model="currentUserPage"
         :length="totalUserPages"
         total-visible="9"
         @input="currentUserPage = $event" />
@@ -52,8 +65,7 @@
         <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
         <v-row align="center">
           <v-col>
-            <v-file-input
-              density="compact"
+            <v-file-input density="compact"
               hide-details
               flat
               tile
@@ -64,8 +76,7 @@
               @change="onFileChange($event)" />
           </v-col>
           <v-col cols="auto">
-            <cc-button
-              color="accent"
+            <cc-button color="accent"
               :disabled="!stagedImage || store.CloudStorageFull || !store.IsLoggedIn"
               :loading="loading"
               @click="uploadImage()">
@@ -76,7 +87,8 @@
         <div>
           <div class="text-caption">ACCOUNT USAGE</div>
 
-          <v-progress-linear :value="(accountUsage / accountMax) * 100" height="20px">
+          <v-progress-linear :value="(accountUsage / accountMax) * 100"
+            height="20px">
             <template v-slot:default="{ value }">
               <strong>
                 {{ accountUsage.toFixed(2) }}
@@ -88,8 +100,7 @@
             </template>
           </v-progress-linear>
         </div>
-        <v-alert
-          v-show="store.CloudStorageFull"
+        <v-alert v-show="store.CloudStorageFull"
           color="error"
           prominent
           outlined
@@ -112,7 +123,7 @@
 
 <script lang="ts">
 // import { UserStore } from '@/store';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { storageInfo, getPresignedLink, s3api, deleteStorage } from '@/user/api';
 import { UserStore } from '@/stores';
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account';

@@ -1,14 +1,15 @@
 <template>
   <v-card-text>
-    <div class="text-center body-text light-panel mb-4" style="border-radius: 3px">
+    <div class="text-center body-text light-panel mb-4"
+      style="border-radius: 3px">
       Duplicating or Cloning a pilot will remove any Vault links, saving the copied Pilot as a new
       character on your account
     </div>
 
     <v-row justify="space-around">
-      <v-col cols="12" md="6">
-        <cc-button
-          prepend-icon="mdi-content-copy"
+      <v-col cols="12"
+        md="6">
+        <cc-button prepend-icon="mdi-content-copy"
           details="test"
           block
           color="primary"
@@ -17,9 +18,9 @@
           Duplicate Pilot
         </cc-button>
       </v-col>
-      <v-col cols="12" md="6">
-        <cc-button
-          prepend-icon="mdi-dna"
+      <v-col cols="12"
+        md="6">
+        <cc-button prepend-icon="mdi-dna"
           large
           block
           color="primary"
@@ -34,13 +35,21 @@
     </v-row>
     <v-scale-transition>
       <div v-if="quirk">
-        <cc-alert color="deep-orange" variant="tonal" class="my-4">
+        <cc-alert color="deep-orange"
+          variant="tonal"
+          class="my-4">
           <div class="text-center heading h3 mb-2">
-            <v-icon size="small" class="pb-1" start icon="mdi-alert" />
+            <v-icon size="small"
+              class="pb-1"
+              start
+              icon="mdi-alert" />
             <b style="letter-spacing: 15px">WARNING</b>
-            <v-icon size="small" class="pb-1" icon="mdi-alert" />
+            <v-icon size="small"
+              class="pb-1"
+              icon="mdi-alert" />
           </div>
-          <div class="text-cc-overline" :class="!mobile && 'px-2'">
+          <div class="text-cc-overline"
+            :class="!mobile && 'px-2'">
             Any organizations, individuals, or technologies engaging in or facilitating whole-body
             facsimile cloning are bound by the First Contact Accords of 3002. Any activities that
             violate the principles set forth in the Accords are prohibited, including but not
@@ -77,29 +86,40 @@
           </div>
         </cc-alert>
 
-        <v-row align="center" justify="center">
-          <v-col cols="12" md="8">
+        <v-row align="center"
+          justify="center">
+          <v-col cols="12"
+            md="8">
             <div class="text-overline">CLONE QUIRK</div>
-            <cc-alert density="compact" color="primary">
+            <cc-alert density="compact"
+              color="primary">
               <v-card-text :class="mobile && 'px-0'">
                 {{ quirk }}
               </v-card-text>
             </cc-alert>
           </v-col>
           <v-col cols="auto">
-            <cc-button
-              v-if="!mobile"
+            <cc-button v-if="!mobile"
               icon="mdi-dice-6"
               variant="outlined"
               tooltip="Reroll quirk"
               @click="rollQuirk" />
-            <cc-button v-else prepend-icon="mdi-dice-6" @click="rollQuirk">Reroll Quirk</cc-button>
+            <cc-button v-else
+              prepend-icon="mdi-dice-6"
+              @click="rollQuirk">Reroll Quirk</cc-button>
           </v-col>
         </v-row>
 
-        <v-row v-if="quirk" align="center" justify="center">
-          <v-col cols="12" md="8">
-            <cc-button large block tile color="secondary" @click="clonePilot">
+        <v-row v-if="quirk"
+          align="center"
+          justify="center">
+          <v-col cols="12"
+            md="8">
+            <cc-button large
+              block
+              tile
+              color="secondary"
+              @click="clonePilot">
               Decant Flash Clone
             </cc-button>
           </v-col>
@@ -111,7 +131,7 @@
 
 <script lang="ts">
 import { CompendiumStore, PilotStore } from '@/stores';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { Pilot } from '@/class';
 
 export default {

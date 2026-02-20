@@ -1,5 +1,6 @@
 <template>
-  <v-container :class="mobile ? 'py-0 px-2' : 'px-12'" fluid>
+  <v-container :class="mobile ? 'py-0 px-2' : 'px-12'"
+    fluid>
     <v-row align="center">
       <v-col>
         <div class="heading h2">
@@ -9,8 +10,7 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <cc-button
-          color="accent"
+        <cc-button color="accent"
           size="small"
           variant="outlined"
           :to="`/srd/compendium/search?search=${searchText}`">
@@ -19,9 +19,10 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="12" sm="10" md="8">
-        <cc-text-field
-          ref="input"
+      <v-col cols="12"
+        sm="10"
+        md="8">
+        <cc-text-field ref="input"
           v-model="searchText"
           color="primary"
           class="search-field"
@@ -35,14 +36,16 @@
     <v-card-text :style="!mobile && 'height: calc(100vh - 190px); overflow-y: scroll'">
       <v-slide-y-reverse-transition mode="out-in">
         <v-container>
-          <v-card v-for="result in searchResults" class="py-2 px-3 mb-4">
+          <v-card v-for="result in searchResults"
+            class="py-2 px-3 mb-4">
             <v-row dense>
               <v-col>
-                <div class="result-headline heading h4" v-html-safe="highlightText(result.title)" />
+                <div class="result-headline heading h4"
+                  v-html-safe="highlightText(result.title)" />
               </v-col>
-              <v-col cols="auto" align-self="start">
-                <cc-button
-                  size="x-small"
+              <v-col cols="auto"
+                align-self="start">
+                <cc-button size="x-small"
                   color="primary"
                   append-icon="mdi-arrow-right"
                   @click="itemLink(result)">
@@ -51,7 +54,8 @@
               </v-col>
             </v-row>
             <v-card-text :class="!mobile && 'px-12'">
-              <div class="result-body" v-html-safe="highlightText(result.content)" />
+              <div class="result-body"
+                v-html-safe="highlightText(result.content)" />
             </v-card-text>
           </v-card>
         </v-container>
@@ -61,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import basics from '@/assets/srd/lib/basics.json';
 import combat from '@/assets/srd/lib/combat.json';
 import mechs from '@/assets/srd/lib/mechs.json';

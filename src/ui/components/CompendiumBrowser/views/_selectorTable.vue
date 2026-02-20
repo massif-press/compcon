@@ -50,11 +50,11 @@
           <div v-else-if="h.key === 'Effect' || h.key === 'Description' || h.key === 'Detail'"
             class="my-1">
             <p v-if="h.key === 'Effect'"
-              v-html="item.Effect" />
+              v-html-safe="item.Effect" />
             <p v-else-if="h.key === 'Description'"
-              v-html="item.Description" />
+              v-html-safe="item.Description" />
             <p v-else-if="h.key === 'Detail'"
-              v-html="item.Detail" />
+              v-html-safe="item.Detail" />
           </div>
           <div v-else-if="h.key === 'Icon'"
             class="text-center">

@@ -1,17 +1,16 @@
 <template>
   <v-card-text>
-    <v-row align="center" justify="center">
+    <v-row align="center"
+      justify="center">
       <v-col cols="6">
-        <v-file-input
-          v-model="<any>fileValue"
+        <v-file-input v-model="<any>fileValue"
           accept="text/json"
           variant="outlined"
           label="Select Data File"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
-          @click:clear="reset"
-        />
+          @click:clear="reset" />
       </v-col>
     </v-row>
     <v-container>
@@ -20,8 +19,7 @@
         <thead class="heading">
           <tr>
             <th width="1px">
-              <v-btn
-                icon
+              <v-btn icon
                 flat
                 size="small"
                 :value="selected.length === stagedItems.length"
@@ -30,20 +28,16 @@
                   selected.length
                     ? (selected = [])
                     : (selected = stagedItems
-                        .filter((x) => x.status)
-                        .map((x: any) => x.id))
-                "
-              >
-                <v-icon
-                  size="x-large"
-                  :icon="
-                    selected.length === stagedItems.length
-                      ? 'mdi-checkbox-outline'
-                      : selected.length > 0
-                        ? 'mdi-minus-box-outline'
-                        : 'mdi-checkbox-blank-outline'
-                  "
-                />
+                      .filter((x) => x.status)
+                      .map((x: any) => x.id))
+                  ">
+                <v-icon size="x-large"
+                  :icon="selected.length === stagedItems.length
+                    ? 'mdi-checkbox-outline'
+                    : selected.length > 0
+                      ? 'mdi-minus-box-outline'
+                      : 'mdi-checkbox-blank-outline'
+                    " />
               </v-btn>
             </th>
             <th>Item</th>
@@ -56,44 +50,32 @@
         <tbody v-for="item in stagedItems">
           <tr>
             <td>
-              <v-checkbox
-                v-model="selected"
+              <v-checkbox v-model="selected"
                 :value="item.id"
                 multiple
                 hide-details
-                :disabled="!item.status"
-              />
+                :disabled="!item.status" />
             </td>
-            <td
-              :class="
-                item.status ? '' : 'text-disabled text-decoration-line-through'
-              "
-            >
+            <td :class="item.status ? '' : 'text-disabled text-decoration-line-through'
+              ">
               {{ item.name }}
             </td>
-            <td
-              :class="
-                item.status ? '' : 'text-disabled text-decoration-line-through'
-              "
-            >
+            <td :class="item.status ? '' : 'text-disabled text-decoration-line-through'
+              ">
               {{ item.collection }}
             </td>
-            <td
-              :class="
-                item.status ? '' : 'text-disabled text-decoration-line-through'
-              "
-            >
+            <td :class="item.status ? '' : 'text-disabled text-decoration-line-through'
+              ">
               {{ item.type }}
             </td>
             <td>{{ item.content_packs }}</td>
             <td class="text-center">
-              <v-tooltip location="top" max-width="300px">
+              <v-tooltip location="top"
+                max-width="300px">
                 <template v-slot:activator="{ props }">
-                  <v-icon
-                    v-bind="props"
+                  <v-icon v-bind="props"
                     :icon="item.status ? 'mdi-check' : 'mdi-warning'"
-                    :color="item.status ? 'success' : 'error'"
-                  />
+                    :color="item.status ? 'success' : 'error'" />
                 </template>
                 <span v-if="item.status">Item is ready for import</span>
                 <span v-else>
@@ -107,8 +89,11 @@
         </tbody>
       </v-table>
 
-      <v-card v-if="missingContent.length" variant="tonal" class="mx-12">
-        <p v-if="oldBrewsWarning" class="heading h3 text-accent">
+      <v-card v-if="missingContent.length"
+        variant="tonal"
+        class="mx-12">
+        <p v-if="oldBrewsWarning"
+          class="heading h3 text-accent">
           WARNING: The data to be imported was created using an older version of
           COMP/CON. Lancer Content Pack analysis may not be comprehensive and
           there is a chance COMP/CON will be unable to correctly load this data.
@@ -120,7 +105,8 @@
             The data to be imported requires the following content packs that
             are not currently installed/active, or have mismatching versions:
           </p>
-          <p class="effect-text text-center" v-html="missingContent" />
+          <p class="effect-text text-center"
+            v-html-safe="missingContent" />
           <p class="text-text">
             This data cannot be imported until the missing content packs are
             installed and activated, or the content pack versions are
@@ -130,22 +116,21 @@
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn variant="tonal" color="error" @click="reset"
-            >Abort Import</v-btn
-          >
+          <v-btn variant="tonal"
+            color="error"
+            @click="reset">Abort Import</v-btn>
         </v-card-actions>
       </v-card>
     </v-container>
 
-    <v-row justify="end" class="mt-2 mr-4">
+    <v-row justify="end"
+      class="mt-2 mr-4">
       <v-col cols="auto">
-        <v-btn
-          variant="tonal"
+        <v-btn variant="tonal"
           color="accent"
           prepend-icon="mdi-plus"
           :disabled="missingContent.length > 0"
-          @click="importFile()"
-        >
+          @click="importFile()">
           Complete Import ({{ selected.length }} Items)
         </v-btn>
       </v-col>
@@ -154,7 +139,6 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
 import { ImportData } from '@/io/Data';
 import {
   CompendiumStore,

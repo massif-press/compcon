@@ -136,7 +136,7 @@
       <a
         target="_blank"
         href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
-        v-html="`COMP/CON FAQ`"
+        v-html-safe="`COMP/CON FAQ`"
         tabindex="0"
       />
       may have an answer to your question! If you still can't find what you're
@@ -144,7 +144,7 @@
       <a
         target="_blank"
         href="https://discord.gg/rwcpzsU"
-        v-html="`the unofficial LANCER discord`"
+        v-html-safe="`the unofficial LANCER discord`"
         tabindex="0"
       />
       (and specifically the #comp-con channel) with your questions or comments

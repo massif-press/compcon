@@ -4,12 +4,17 @@
       <v-col>
         <v-row>
           <v-col>
-            <v-row align="center" dense>
+            <v-row align="center"
+              dense>
               <v-col cols="1"><v-divider /></v-col>
               <v-col cols="auto">
                 <div class="heading h3">
-                  <v-btn-toggle v-model="shownTypes" density="compact" multiple>
-                    <v-btn v-for="t in allTypes" size="small" :value="t">{{ t }}</v-btn>
+                  <v-btn-toggle v-model="shownTypes"
+                    density="compact"
+                    multiple>
+                    <v-btn v-for="t in allTypes"
+                      size="small"
+                      :value="t">{{ t }}</v-btn>
                   </v-btn-toggle>
                 </div>
               </v-col>
@@ -22,24 +27,21 @@
           <thead class="heading">
             <tr>
               <th width="1px">
-                <v-btn
-                  icon
+                <v-btn icon
                   flat
                   size="small"
                   :value="selected.length === items.length"
                   hide-details
                   @click="
                     selected.length ? (selected = []) : (selected = items.map((x: any) => x.ID))
-                  ">
-                  <v-icon
-                    size="x-large"
-                    :icon="
-                      selected.length === items.length
-                        ? 'mdi-checkbox-outline'
-                        : selected.length > 0
-                          ? 'mdi-minus-box-outline'
-                          : 'mdi-checkbox-blank-outline'
-                    " />
+                    ">
+                  <v-icon size="x-large"
+                    :icon="selected.length === items.length
+                      ? 'mdi-checkbox-outline'
+                      : selected.length > 0
+                        ? 'mdi-minus-box-outline'
+                        : 'mdi-checkbox-blank-outline'
+                      " />
                 </v-btn>
               </th>
               <th>Name</th>
@@ -50,18 +52,18 @@
           <tbody>
             <tr v-for="item in items">
               <td>
-                <v-checkbox v-model="selected" multiple :value="(item as any).ID" hide-details />
+                <v-checkbox v-model="selected"
+                  multiple
+                  :value="(item as any).ID"
+                  hide-details />
               </td>
-              <td
-                :class="
-                  item.SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''
+              <td :class="item.SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''
                 ">
                 <cc-missing-content-hover :item="item" />
                 {{ (item as any).Name }}
               </td>
               <th>
-                <v-chip
-                  v-if="(item as any).FolderController.Folder"
+                <v-chip v-if="(item as any).FolderController.Folder"
                   size="x-small"
                   label
                   prepend-icon="mdi-folder">
@@ -69,73 +71,66 @@
                 </v-chip>
               </th>
               <td>
-                <cc-split-chip
-                  v-for="label in (item as any).NarrativeController.Labels"
+                <cc-split-chip v-for="label in (item as any).NarrativeController.Labels"
                   :label="label"
                   class="mr-1 mb-1" />
               </td>
             </tr>
           </tbody>
         </v-table>
-        <v-row dense justify="end">
+        <v-row dense
+          justify="end">
           <v-col cols="auto">
-            <v-checkbox density="compact" label="Show Deleted" v-model="showDeleted" />
+            <v-checkbox density="compact"
+              label="Show Deleted"
+              v-model="showDeleted" />
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="auto" style="width: 350px">
+      <v-col cols="auto"
+        style="width: 350px">
         <div>
           <b class="text-accent">{{ selected.length }}</b>
           selected
         </div>
         <v-list>
-          <v-list-item
-            title="Set Folder"
+          <v-list-item title="Set Folder"
             subtitle="Set item folder"
             prepend-icon="mdi-folder"
             :disabled="!selected.length"
             @click="setFolderDialog = true" />
-          <v-list-item
-            title="Set GM Label"
+          <v-list-item title="Set GM Label"
             subtitle="Add, set, or delete a GM Label"
             prepend-icon="mdi-label"
             :disabled="!selected.length"
             @click="addLabelDialog = true" />
-          <v-list-item
-            :title="selected.length < 2 ? 'Print' : 'Print Multiple'"
+          <v-list-item :title="selected.length < 2 ? 'Print' : 'Print Multiple'"
             subtitle="Generate item printables"
             prepend-icon="mdi-printer"
             :disabled="!selected.length"
             @click="routePrint()" />
-          <v-list-item
-            :title="selected.length < 2 ? 'Export' : 'Export Collection'"
-            :subtitle="
-              selected.length < 2 ? 'Export item JSON' : 'Generate a multi-item export package'
-            "
+          <v-list-item :title="selected.length < 2 ? 'Export' : 'Export Collection'"
+            :subtitle="selected.length < 2 ? 'Export item JSON' : 'Generate a multi-item export package'
+              "
             prepend-icon="mdi-upload"
             :disabled="!selected.length"
             @click="exportItems()" />
-          <v-list-item
-            :title="selected.length < 2 ? 'Delete' : 'Delete Multiple'"
-            :subtitle="
-              selected.length < 2 ? 'Mark item as Deleted' : 'Mark multiple items as Deleted'
-            "
+          <v-list-item :title="selected.length < 2 ? 'Delete' : 'Delete Multiple'"
+            :subtitle="selected.length < 2 ? 'Mark item as Deleted' : 'Mark multiple items as Deleted'
+              "
             prepend-icon="mdi-delete"
             :disabled="!selected.length"
             @click="deleteItems()" />
-          <v-list-item
-            v-if="showDeleted"
+          <v-list-item v-if="showDeleted"
             :title="selected.length < 2 ? 'Restore' : 'Restore Multiple'"
-            :subtitle="
-              selected.length < 2
-                ? 'Remove Deleted status from item'
-                : 'Remove Deleted status from items'
-            "
+            :subtitle="selected.length < 2
+              ? 'Remove Deleted status from item'
+              : 'Remove Deleted status from items'
+              "
             prepend-icon="mdi-file-restore-outline"
             :disabled="!selected.length"
             @click="deleteItems(true)" />
-          <v-list-item
-            v-if="showDeleted && !showDeleteConfirm"
+          <v-list-item v-if="showDeleted && !showDeleteConfirm"
             title="Delete Permanently"
             variant="elevated"
             elevation="0"
@@ -145,16 +140,14 @@
             :disabled="!selected.length"
             @click="showDeleteConfirm = true" />
           <v-divider v-if="showDeleteConfirm" />
-          <v-list-item
-            v-if="showDeleteConfirm"
+          <v-list-item v-if="showDeleteConfirm"
             title="Confirm Permanent Deletion"
             subtitle="This action cannot be undone"
             prepend-icon="mdi-exclamation-thick"
             :disabled="!selected.length"
             @click="deleteItemsPermanent()"
             base-color="error" />
-          <v-list-item
-            v-if="showDeleteConfirm"
+          <v-list-item v-if="showDeleteConfirm"
             title="Cancel Permanent Deletion"
             prepend-icon="mdi-cancel"
             @click="showDeleteConfirm = false"
@@ -163,18 +156,19 @@
       </v-col>
     </v-row>
   </v-card-text>
-  <v-dialog v-model="setFolderDialog" max-width="500px">
+  <v-dialog v-model="setFolderDialog"
+    max-width="500px">
     <v-card>
       <v-toolbar density="compact">
         <v-toolbar-title>Set Folder</v-toolbar-title>
         <v-spacer />
-        <v-btn icon @click="setFolderDialog = false">
+        <v-btn icon
+          @click="setFolderDialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
       <v-card-text>
-        <v-combobox
-          v-model="stagedFolderName"
+        <v-combobox v-model="stagedFolderName"
           :items="allFolders"
           label="Folder"
           outlined
@@ -184,23 +178,30 @@
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <v-btn variant="text" @click="setFolderDialog = false">Cancel</v-btn>
+        <v-btn variant="text"
+          @click="setFolderDialog = false">Cancel</v-btn>
         <v-spacer />
-        <v-btn variant="text" @click="setFolder" color="accent">Set</v-btn>
+        <v-btn variant="text"
+          @click="setFolder"
+          color="accent">Set</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 
-  <v-dialog v-model="addLabelDialog" max-width="500px">
+  <v-dialog v-model="addLabelDialog"
+    max-width="500px">
     <v-card>
       <v-toolbar density="compact">
         <v-toolbar-title>Set Label</v-toolbar-title>
         <v-spacer />
-        <v-btn icon @click="addLabelDialog = false">
+        <v-btn icon
+          @click="addLabelDialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-tabs v-model="labelTab" grow density="compact">
+      <v-tabs v-model="labelTab"
+        grow
+        density="compact">
         <v-tab value="set">Set</v-tab>
         <v-tab value="delete">Delete</v-tab>
       </v-tabs>
@@ -214,8 +215,7 @@
             </div>
             <v-row class="mt-2">
               <v-col>
-                <v-combobox
-                  v-model="addKvp.key"
+                <v-combobox v-model="addKvp.key"
                   :items="allLabels"
                   item-text="title"
                   item-value="key"
@@ -223,7 +223,9 @@
                   :rules="[(v) => !!v || 'required']" />
               </v-col>
               <v-col>
-                <v-text-field v-model="addKvp.value" label="Value" type="number" />
+                <v-text-field v-model="addKvp.value"
+                  label="Value"
+                  type="number" />
               </v-col>
             </v-row>
           </v-window-item>
@@ -235,8 +237,7 @@
             </div>
             <v-row class="mt-2">
               <v-col>
-                <v-select
-                  v-model="addKvp.key"
+                <v-select v-model="addKvp.key"
                   :items="selectedLabels"
                   item-text="title"
                   item-value="key"
@@ -249,10 +250,10 @@
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <v-btn variant="text" @click="addLabelDialog = false">Cancel</v-btn>
+        <v-btn variant="text"
+          @click="addLabelDialog = false">Cancel</v-btn>
         <v-spacer />
-        <v-btn
-          variant="tonal"
+        <v-btn variant="tonal"
           :color="labelTab === 'set' ? 'accent' : 'error'"
           :disabled="!addKvp.key"
           @click="setData('label', labelTab)">
@@ -265,7 +266,7 @@
 
 <script lang="ts">
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
-import _ from 'lodash';
+import { uniqBy } from 'lodash-es';
 import { NarrativeStore } from '../store/narrative_store';
 import { NpcStore } from '../store/npc_store';
 import exportAsJson from '@/util/jsonExport';
@@ -347,7 +348,7 @@ export default {
   },
   methods: {
     getSelectedData(prop: 'stat' | 'label') {
-      return _.uniqBy(
+      return uniqBy(
         this.items
           .filter((x: any) => this.selected.includes(x.ID))
           .flatMap((x: any) => {

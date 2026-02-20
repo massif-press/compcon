@@ -1,39 +1,59 @@
 <template>
-  <div style="position: relative" class="top-element">
+  <div style="position: relative"
+    class="top-element">
     <div class="light bg-primary" />
-    <v-toolbar
-      density="compact"
+    <v-toolbar density="compact"
       class="mt-2 px-4 title-hover"
       height="48"
       style="position: relative; clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px)"
       @click="setGroupExpand()">
-      <v-avatar v-if="group.PortraitController.HasImage" size="36px" class="mr-2">
+      <v-avatar v-if="group.PortraitController.HasImage"
+        size="36px"
+        class="mr-2">
         <cc-img :src="group.Portrait" />
       </v-avatar>
       <v-menu location="left">
         <template v-slot:activator="{ props }">
-          <v-icon
-            v-bind="props"
+          <v-icon v-bind="props"
             @click.stop
             icon="mdi-queue-first-in-last-out"
             start
             size="small"
             class="fade-select" />
         </template>
-        <div
-          class="bg-panel pa-1"
+        <div class="bg-panel pa-1"
           style="display: grid; border: 1px solid rgb(var(--v-theme-primary)); border-radius: 4px">
-          <v-btn icon size="x-small" color="primary" class="my-1" @click="move('top')">
-            <v-icon size="large" icon="mdi-arrow-collapse-up" />
+          <v-btn icon
+            size="x-small"
+            color="primary"
+            class="my-1"
+            @click="move('top')">
+            <v-icon size="large"
+              icon="mdi-arrow-collapse-up" />
           </v-btn>
-          <v-btn icon size="x-small" color="primary" class="my-1" @click="move('up')">
-            <v-icon size="large" icon="mdi-arrow-up" />
+          <v-btn icon
+            size="x-small"
+            color="primary"
+            class="my-1"
+            @click="move('up')">
+            <v-icon size="large"
+              icon="mdi-arrow-up" />
           </v-btn>
-          <v-btn icon size="x-small" color="primary" class="my-1" @click="move('down')">
-            <v-icon size="large" icon="mdi-arrow-down" />
+          <v-btn icon
+            size="x-small"
+            color="primary"
+            class="my-1"
+            @click="move('down')">
+            <v-icon size="large"
+              icon="mdi-arrow-down" />
           </v-btn>
-          <v-btn icon size="x-small" color="primary" class="my-1" @click="move('bottom')">
-            <v-icon size="large" icon="mdi-arrow-collapse-down" />
+          <v-btn icon
+            size="x-small"
+            color="primary"
+            class="my-1"
+            @click="move('bottom')">
+            <v-icon size="large"
+              icon="mdi-arrow-collapse-down" />
           </v-btn>
         </div>
       </v-menu>
@@ -42,8 +62,7 @@
         ({{ pilots.length }} Pilot{{ pilots.length === 1 ? '' : 's' }})
       </span>
       <v-spacer />
-      <v-divider
-        v-if="!mobile"
+      <v-divider v-if="!mobile"
         vertical
         class="ts mx-4"
         style="transform: skew(-45deg); opacity: 1 !important" />
@@ -52,43 +71,53 @@
     <v-expand-transition>
       <v-card v-if="group.Expanded">
         <div class="pa-2">
-          <v-row v-if="!noGroup" align="start">
+          <v-row v-if="!noGroup"
+            align="start">
             <v-col>
               <v-expand-transition>
-                <fieldset
-                  v-if="group.Description || edit"
+                <fieldset v-if="group.Description || edit"
                   class="pa-1 my-1"
                   style="border-radius: 4px">
-                  <legend class="text-overline px-2" style="line-height: 0">Description</legend>
+                  <legend class="text-overline px-2"
+                    style="line-height: 0">Description</legend>
                   <div class="py-1 px-2 flavor-text">
-                    <cc-text-editor-inline
-                      v-if="edit"
+                    <cc-text-editor-inline v-if="edit"
                       :original="group.Description"
                       @save="group.Description = $event" />
-                    <p v-else v-html-safe="group.Description" />
+                    <p v-else
+                      v-html-safe="group.Description" />
                   </div>
                 </fieldset>
               </v-expand-transition>
               <v-expand-transition>
-                <fieldset v-if="group.History || edit" class="pa-1 my-4" style="border-radius: 4px">
-                  <legend class="text-overline px-2" style="line-height: 0">History</legend>
+                <fieldset v-if="group.History || edit"
+                  class="pa-1 my-4"
+                  style="border-radius: 4px">
+                  <legend class="text-overline px-2"
+                    style="line-height: 0">History</legend>
                   <div class="py-1 px-2 flavor-text">
-                    <cc-text-editor-inline
-                      v-if="edit"
+                    <cc-text-editor-inline v-if="edit"
                       :original="group.History"
                       @save="group.History = $event" />
-                    <p v-else v-html-safe="group.History" />
+                    <p v-else
+                      v-html-safe="group.History" />
                   </div>
                 </fieldset>
               </v-expand-transition>
             </v-col>
-            <v-col v-if="group.PortraitController.CloudImage || edit" cols="3" class="text-right">
+            <v-col v-if="group.PortraitController.CloudImage || edit"
+              cols="3"
+              class="text-right">
               <cc-img :src="group.Portrait" />
-              <div v-if="edit" class="text-right mb-2">
-                <cc-modal title="Set Group Emblem" icon="mdi-image">
+              <div v-if="edit"
+                class="text-right mb-2">
+                <cc-modal title="Set Group Emblem"
+                  icon="mdi-image">
                   <template #activator="{ open }">
                     <div class="d-flex justify-center">
-                      <cc-button size="small" color="secondary" @click="open">
+                      <cc-button size="small"
+                        color="secondary"
+                        @click="open">
                         <div v-if="!group.Portrait">
                           <v-icon start>mdi-plus</v-icon>
                           Add group emblem
@@ -100,25 +129,25 @@
                       </cc-button>
                     </div>
                   </template>
-                  <cc-image-selector ref="imageSelector" :item="group" type="emblem" />
+                  <cc-image-selector ref="imageSelector"
+                    :item="group"
+                    type="emblem" />
                 </cc-modal>
               </div>
             </v-col>
           </v-row>
-          <v-card-text
-            class="py-0"
+          <v-card-text class="py-0"
             :class="[rosterView.includes('card') ? 'text-center' : '', mobile ? 'px-0' : 'px-2']">
-            <component
-              v-for="pilot in pilots"
+            <component v-for="pilot in pilots"
               :is="pilotCardType"
               :pilot="pilot"
               @goTo="toPilotSheet(pilot.ID, pilot.Callsign)" />
           </v-card-text>
           <v-expand-transition>
-            <v-row v-if="edit" class="pa-1">
+            <v-row v-if="edit"
+              class="pa-1">
               <v-col cols="auto">
-                <cc-button
-                  color="primary"
+                <cc-button color="primary"
                   size="small"
                   prepend-icon="mdi-export"
                   @click="exportGroup()">
@@ -127,16 +156,23 @@
               </v-col>
               <v-spacer />
               <v-col cols="auto">
-                <v-dialog v-model="deleteDialog" width="auto">
+                <v-dialog v-model="deleteDialog"
+                  width="auto">
                   <template v-slot:activator="{ props }">
-                    <cc-button color="error" size="small" prepend-icon="mdi-delete" v-bind="props">
+                    <cc-button color="error"
+                      size="small"
+                      prepend-icon="mdi-delete"
+                      v-bind="props">
                       Delete Group
                     </cc-button>
                   </template>
 
                   <v-card tile>
                     <v-card-text>
-                      <cc-alert color="warning" prominent icon="mdi-alert" width="500px">
+                      <cc-alert color="warning"
+                        prominent
+                        icon="mdi-alert"
+                        width="500px">
                         <div class="heading h3">This will delete {{ group.Name }}</div>
                         <span v-if="pilots.length">
                           <span v-if="deletePilotsToggle">
@@ -149,10 +185,10 @@
                           </span>
                         </span>
                       </cc-alert>
-                      <v-row v-if="pilots.length" justify="end">
+                      <v-row v-if="pilots.length"
+                        justify="end">
                         <v-col cols="auto">
-                          <v-switch
-                            v-model="deletePilotsToggle"
+                          <v-switch v-model="deletePilotsToggle"
                             inset
                             color="error"
                             label="Delete pilots"
@@ -163,12 +199,14 @@
                     </v-card-text>
                     <v-divider />
                     <v-card-actions>
-                      <v-btn color="accent" variant="plain" tile @click="deleteDialog = false">
+                      <v-btn color="accent"
+                        variant="plain"
+                        tile
+                        @click="deleteDialog = false">
                         Dismiss
                       </v-btn>
                       <v-spacer />
-                      <cc-button
-                        v-if="!noGroup"
+                      <cc-button v-if="!noGroup"
                         color="error"
                         variant="tonal"
                         prepend-icon="mdi-delete"
@@ -184,12 +222,16 @@
         </div>
 
         <v-divider />
-        <v-row justify="space-between" align="center" class="py-2 px-4 text-center" :dense="mobile">
-          <v-col cols="12" sm="auto" v-if="!noGroup">
+        <v-row justify="space-between"
+          align="center"
+          class="py-2 px-4 text-center"
+          :dense="mobile">
+          <v-col cols="12"
+            sm="auto"
+            v-if="!noGroup">
             <v-tooltip :text="edit ? 'Finish Editing' : 'Edit Group Information'">
               <template #activator="{ props }">
-                <cc-button
-                  v-if="mobile"
+                <cc-button v-if="mobile"
                   :prepend-icon="edit ? 'mdi-pencil-off' : 'mdi-pencil'"
                   color="primary"
                   size="x-small"
@@ -198,8 +240,7 @@
                   v-bind="props">
                   Edit Group
                 </cc-button>
-                <cc-button
-                  v-else
+                <cc-button v-else
                   :icon="edit ? 'mdi-pencil-off' : 'mdi-pencil'"
                   color="primary"
                   size="small"
@@ -210,9 +251,10 @@
             </v-tooltip>
           </v-col>
 
-          <v-col cols="auto" v-if="transferrable.length" :order="mobile ? 1 : ''">
-            <cc-button
-              color="primary"
+          <v-col cols="auto"
+            v-if="transferrable.length"
+            :order="mobile ? 1 : ''">
+            <cc-button color="primary"
               :size="mobile ? 'x-small' : 'small'"
               :stacked="!mobile"
               :block="mobile"
@@ -221,8 +263,7 @@
               {{ mobile ? 'Transfer' : 'Transfer Pilots' }}
               <v-menu activator="parent">
                 <v-list max-height="400px">
-                  <v-list-item
-                    v-for="pilot in transferrable"
+                  <v-list-item v-for="pilot in transferrable"
                     :title="pilot.Name"
                     @click="transferPilot(pilot as Pilot)" />
                 </v-list>
@@ -230,19 +271,20 @@
             </cc-button>
           </v-col>
 
-          <v-col cols="12" md="" class="text-left">
-            <cc-button
-              color="success"
+          <v-col cols="12"
+            md=""
+            class="text-left">
+            <cc-button color="success"
               block
               prepend-icon="mdi-plus"
               @click="$router.push({ name: 'new', params: { groupID: group.ID } })">
               Create New Pilot
               <template #info>
-                <v-icon size="small" icon="cc:pilot" />
+                <v-icon size="small"
+                  icon="cc:pilot" />
               </template>
               <template #subtitle>
-                <div
-                  class="text-cc-overline"
+                <div class="text-cc-overline"
                   style="font-size: max(8px, calc(8px + 0.2vw)) !important">
                   <span v-if="group.ID === 'no_group'">Add a new pilot to the roster</span>
                   <span v-else>Add a new pilot to {{ group.Name }}</span>
@@ -254,8 +296,7 @@
           <v-col cols="auto">
             <v-menu offset-y>
               <template #activator="{ props }">
-                <cc-button
-                  color="primary"
+                <cc-button color="primary"
                   :size="mobile ? 'x-small' : 'small'"
                   :stacked="!mobile"
                   :block="mobile"
@@ -264,12 +305,13 @@
                   Import
                 </cc-button>
               </template>
-              <v-card tile border>
+              <v-card tile
+                border>
                 <v-card-text>
-                  <cc-modal title="Import" icon="mdi-import">
+                  <cc-modal title="Import"
+                    icon="mdi-import">
                     <template #activator="{ open }">
-                      <cc-button
-                        color="primary"
+                      <cc-button color="primary"
                         size="small"
                         block
                         prepend-icon="mdi-import"
@@ -278,11 +320,13 @@
                       </cc-button>
                     </template>
                     <template #default="{ close }">
-                      <file-import :group-id="group.ID" @done="close" />
+                      <file-import :group-id="group.ID"
+                        @done="close" />
                     </template>
                   </cc-modal>
                   <br />
-                  <share-code-dialog import-type="pilot" block-btn />
+                  <share-code-dialog import-type="pilot"
+                    block-btn />
                 </v-card-text>
               </v-card>
             </v-menu>
@@ -299,7 +343,7 @@ import PilotCard from './PilotCard.vue';
 import PilotListItem from './PilotListItem.vue';
 import { Pilot, PilotGroup } from '@/class';
 import { saveFile } from '@/io/Data';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import FileImport from './add_panels/FileImport.vue';
 import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
 
@@ -393,10 +437,12 @@ export default {
 
   transition: background-color 0.3s ease-in-out;
 }
+
 .title-hover:hover {
   cursor: pointer;
   background-color: rgb(var(--v-theme-active));
 }
+
 .light {
   position: absolute;
   width: 13.5px;
@@ -404,6 +450,7 @@ export default {
   clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
   transition: filter 0.2s ease-in-out;
 }
+
 .top-element:hover .light {
   filter: brightness(2) saturate(200%) hue-rotate(20deg);
 }

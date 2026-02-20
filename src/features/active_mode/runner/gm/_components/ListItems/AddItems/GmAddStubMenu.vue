@@ -1,8 +1,7 @@
 <template>
   <v-dialog max-width="900px">
     <template #activator="{ props }">
-      <v-btn
-        flat
+      <v-btn flat
         block
         variant="text"
         color="accent"
@@ -13,15 +12,20 @@
     </template>
     <template #default="{ isActive }">
       <v-card>
-        <v-toolbar flat color="primary" height="40">
+        <v-toolbar flat
+          color="primary"
+          height="40">
           <div class="heading h3 px-4">Add Placeholder</div>
           <v-spacer />
-          <v-btn flat tile icon @click="isActive.value = false">
-            <v-icon icon="mdi-close" class="white--text" />
+          <v-btn flat
+            tile
+            icon
+            @click="isActive.value = false">
+            <v-icon icon="mdi-close"
+              class="white--text" />
           </v-btn>
         </v-toolbar>
-        <cc-alert
-          type="info"
+        <cc-alert type="info"
           class="ma-4"
           icon="mdi-information-outline"
           title="What is a Placeholder?">
@@ -32,8 +36,7 @@
           <br />
         </cc-alert>
         <v-card-text>
-          <cc-select
-            v-model="newPlaceholder.type"
+          <cc-select v-model="newPlaceholder.type"
             :items="[
               { title: 'PC', value: 'pilot' },
               { title: 'NPC', value: 'npc' },
@@ -42,8 +45,7 @@
             label="Type"
             chip-variant="text"
             class="mb-4" />
-          <cc-select
-            v-model="newPlaceholder.side"
+          <cc-select v-model="newPlaceholder.side"
             :items="[
               { title: 'Ally', value: 'ally' },
               { title: 'Enemy', value: 'enemy' },
@@ -53,18 +55,17 @@
             chip-variant="text"
             class="mb-4" />
           <div class="mb-4">
-            <cc-text-field v-model="newPlaceholder.name" label="Name" />
+            <cc-text-field v-model="newPlaceholder.name"
+              label="Name" />
           </div>
 
           <v-fade-transition>
-            <cc-text-field
-              v-if="newPlaceholder.type === 'pilot'"
+            <cc-text-field v-if="newPlaceholder.type === 'pilot'"
               v-model="newPlaceholder.Mechname"
               label="Mech Name" />
           </v-fade-transition>
 
-          <cc-text-area
-            v-model="newPlaceholder.notes"
+          <cc-text-area v-model="newPlaceholder.notes"
             label="Notes"
             rows="3"
             auto-grow
@@ -72,15 +73,14 @@
         </v-card-text>
         <div class="d-flex mb-2 mx-4">
           <v-spacer />
-          <v-btn
-            flat
+          <v-btn flat
             tile
             prepend-icon="mdi-plus"
             color="primary"
             :disabled="!newPlaceholder.name"
             @click="
               add();
-              isActive.value = false;
+            isActive.value = false;
             ">
             Add Placeholder
           </v-btn>
@@ -92,7 +92,7 @@
 
 <script>
 import { Placeholder } from '@/classes/encounter/Placeholder';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'GmAddStubMenu',

@@ -1,85 +1,93 @@
 <template>
   <div class="py-3">
-    <v-row dense justify="space-between" align="center" class="px-5">
+    <v-row dense
+      justify="space-between"
+      align="center"
+      class="px-5">
       <v-col cols="auto">
-        <v-switch
-          v-model="showDeleted"
+        <v-switch v-model="showDeleted"
           label="Show Deleted"
           density="compact"
           color="accent"
           inset
           hide-details />
       </v-col>
-      <v-col cols="auto" class="text-caption">
+      <v-col cols="auto"
+        class="text-caption">
         <i>
           {{ allPilots - deletedPilots }}
-          <span v-if="deletedPilots" class="text-error">({{ deletedPilots }})</span>
+          <span v-if="deletedPilots"
+            class="text-error">({{ deletedPilots }})</span>
           pilots in
           {{ list.length }}
-          <span v-if="deletedGroups" class="text-error">({{ deletedGroups }})</span>
+          <span v-if="deletedGroups"
+            class="text-error">({{ deletedGroups }})</span>
           groups
         </i>
       </v-col>
       <v-col cols="auto">
         <v-menu offset-y>
           <template #activator="{ props }">
-            <v-btn variant="tonal" color="accent" size="small" v-bind="props">Sort Groups</v-btn>
+            <v-btn variant="tonal"
+              color="accent"
+              size="small"
+              v-bind="props">Sort Groups</v-btn>
           </template>
           <v-list density="compact">
             <v-list-item>
-              <v-btn
-                size="x-small"
+              <v-btn size="x-small"
                 icon
                 class="mr-2"
                 variant="plain"
                 @click="sortOrgs('Name', 'asc')">
-                <v-icon size="x-large" icon="mdi-sort-alphabetical-ascending" />
+                <v-icon size="x-large"
+                  icon="mdi-sort-alphabetical-ascending" />
               </v-btn>
-              <v-btn
-                size="x-small"
+              <v-btn size="x-small"
                 icon
                 class="mr-2"
                 variant="plain"
                 @click="sortOrgs('Name', 'desc')">
-                <v-icon size="x-large" icon="mdi-sort-alphabetical-descending" />
+                <v-icon size="x-large"
+                  icon="mdi-sort-alphabetical-descending" />
               </v-btn>
               Name
             </v-list-item>
             <v-list-item>
-              <v-btn
-                size="x-small"
+              <v-btn size="x-small"
                 icon
                 class="mr-2"
                 variant="plain"
                 @click="sortOrgs('PilotCount', 'asc')">
-                <v-icon size="x-large" icon="mdi-sort-numeric-ascending" />
+                <v-icon size="x-large"
+                  icon="mdi-sort-numeric-ascending" />
               </v-btn>
-              <v-btn
-                size="x-small"
+              <v-btn size="x-small"
                 icon
                 class="mr-2"
                 variant="plain"
                 @click="sortOrgs('PilotCount', 'desc')">
-                <v-icon size="x-large" icon="mdi-sort-numeric-descending" />
+                <v-icon size="x-large"
+                  icon="mdi-sort-numeric-descending" />
               </v-btn>
               Pilot Count
             </v-list-item>
             <v-list-item>
-              <v-btn
-                size="x-small"
+              <v-btn size="x-small"
                 icon
                 class="mr-2"
                 variant="plain"
                 @click="sortOrgs('LicenseLevel', 'asc')">
-                <v-icon size="x-large" icon="mdi-sort-numeric-ascending" />
+                <v-icon size="x-large"
+                  icon="mdi-sort-numeric-ascending" />
               </v-btn>
-              <v-btn
-                size="x-small"
+              <v-btn size="x-small"
                 icon
                 class="mr-2"
                 variant="plain"
                 @click="sortOrgs('LicenseLevel', 'desc')">
-                <v-icon size="x-large" icon="mdi-sort-numeric-descending" />
+                <v-icon size="x-large"
+                  icon="mdi-sort-numeric-descending" />
               </v-btn>
               Avg. License Level
             </v-list-item>
@@ -88,8 +96,7 @@
       </v-col>
     </v-row>
     <v-container>
-      <sortable
-        :list="list"
+      <sortable :list="list"
         :options="{
           group: 'groups',
           animation: 250,
@@ -99,21 +106,27 @@
         item-key="ID"
         @end="moveGroup($event)">
         <template #item="{ element, index }">
-          <v-row dense v-show="!showDeleted ? !element.deleted : true">
+          <v-row dense
+            v-show="!showDeleted ? !element.deleted : true">
             <v-col cols="auto">
-              <v-icon size="40" icon="mdi-drag" class="handle pa-0 mr-n3" />
+              <v-icon size="40"
+                icon="mdi-drag"
+                class="handle pa-0 mr-n3" />
             </v-col>
             <v-col>
-              <v-card class="draggable" variant="outlined" color="panel" :key="element.ID">
-                <v-toolbar density="compact" class="px-3" color="primary">
-                  <span
-                    class="heading h3"
+              <v-card class="draggable"
+                variant="outlined"
+                color="panel"
+                :key="element.ID">
+                <v-toolbar density="compact"
+                  class="px-3"
+                  color="primary">
+                  <span class="heading h3"
                     :class="element.deleted ? 'text-decoration-line-through text-error' : ''">
                     {{ element.Name }}
                   </span>
                   <v-spacer />
-                  <v-btn
-                    v-if="element.ID !== 'no_group'"
+                  <v-btn v-if="element.ID !== 'no_group'"
                     icon
                     variant="plain"
                     :color="element.deleted ? 'accent' : 'error'"
@@ -121,12 +134,12 @@
                     <v-icon :icon="element.deleted ? 'mdi-restore' : 'mdi-delete'" />
                   </v-btn>
                 </v-toolbar>
-                <v-row v-if="element.Pilots.length" justify="end">
+                <v-row v-if="element.Pilots.length"
+                  justify="end">
                   <v-col cols="auto">
                     <v-menu offset-y>
                       <template #activator="{ props }">
-                        <v-btn
-                          variant="tonal"
+                        <v-btn variant="tonal"
                           class="rounded-t-0 rounded-e-0"
                           color="accent"
                           size="small"
@@ -136,59 +149,59 @@
                       </template>
                       <v-list density="compact">
                         <v-list-item>
-                          <v-btn
-                            size="x-small"
+                          <v-btn size="x-small"
                             icon
                             class="mr-2"
                             variant="plain"
                             @click="sortPilots(element.ID, 'Name', 'asc')">
-                            <v-icon size="x-large" icon="mdi-sort-alphabetical-ascending" />
+                            <v-icon size="x-large"
+                              icon="mdi-sort-alphabetical-ascending" />
                           </v-btn>
-                          <v-btn
-                            size="x-small"
+                          <v-btn size="x-small"
                             icon
                             class="mr-2"
                             variant="plain"
                             @click="sortPilots(element.ID, 'Name', 'desc')">
-                            <v-icon size="x-large" icon="mdi-sort-alphabetical-descending" />
+                            <v-icon size="x-large"
+                              icon="mdi-sort-alphabetical-descending" />
                           </v-btn>
                           Name
                         </v-list-item>
                         <v-list-item>
-                          <v-btn
-                            size="x-small"
+                          <v-btn size="x-small"
                             icon
                             class="mr-2"
                             variant="plain"
                             @click="sortPilots(element.ID, 'Callsign', 'asc')">
-                            <v-icon size="x-large" icon="mdi-sort-alphabetical-ascending" />
+                            <v-icon size="x-large"
+                              icon="mdi-sort-alphabetical-ascending" />
                           </v-btn>
-                          <v-btn
-                            size="x-small"
+                          <v-btn size="x-small"
                             icon
                             class="mr-2"
                             variant="plain"
                             @click="sortPilots(element.ID, 'Callsign', 'desc')">
-                            <v-icon size="x-large" icon="mdi-sort-alphabetical-descending" />
+                            <v-icon size="x-large"
+                              icon="mdi-sort-alphabetical-descending" />
                           </v-btn>
                           Callsign
                         </v-list-item>
                         <v-list-item>
-                          <v-btn
-                            size="x-small"
+                          <v-btn size="x-small"
                             icon
                             class="mr-2"
                             variant="plain"
                             @click="sortPilots(element.ID, 'Level', 'asc')">
-                            <v-icon size="x-large" icon="mdi-sort-numeric-ascending" />
+                            <v-icon size="x-large"
+                              icon="mdi-sort-numeric-ascending" />
                           </v-btn>
-                          <v-btn
-                            size="x-small"
+                          <v-btn size="x-small"
                             icon
                             class="mr-2"
                             variant="plain"
                             @click="sortPilots(element.ID, 'Level', 'desc')">
-                            <v-icon size="x-large" icon="mdi-sort-numeric-descending" />
+                            <v-icon size="x-large"
+                              icon="mdi-sort-numeric-descending" />
                           </v-btn>
                           License Level
                         </v-list-item>
@@ -197,8 +210,7 @@
                   </v-col>
                 </v-row>
                 <v-card-text class="pa-2">
-                  <sortable
-                    :id="element.ID"
+                  <sortable :id="element.ID"
                     :list="element.Pilots"
                     :options="{
                       group: 'pilots',
@@ -209,34 +221,35 @@
                     :item-key="(item) => item"
                     @end="movePilot(element, $event)">
                     <template #item="{ element, index }">
-                      <v-card
-                        v-show="!showDeleted ? !element.deleted : true"
+                      <v-card v-show="!showDeleted ? !element.deleted : true"
                         variant="tonal"
                         color="primary"
                         class="my-1">
-                        <v-row dense align="center" class="draggable text-text" :key="element">
+                        <v-row dense
+                          align="center"
+                          class="draggable text-text"
+                          :key="element">
                           <v-col cols="auto">
-                            <v-icon size="large" icon="mdi-drag" class="handle" />
+                            <v-icon size="large"
+                              icon="mdi-drag"
+                              class="handle" />
                           </v-col>
                           <v-col>
-                            <span
-                              class="heading"
-                              :class="
-                                element.deleted ? 'text-decoration-line-through text-error' : ''
-                              ">
+                            <span class="heading"
+                              :class="element.deleted ? 'text-decoration-line-through text-error' : ''
+                                ">
                               {{ pilot(element.id).Name }}
                               <cc-slashes class="px-2" />
                               {{ pilot(element.id).Callsign }} (LL {{ pilot(element.id).Level }})
                             </span>
                           </v-col>
                           <v-col cols="auto">
-                            <v-btn
-                              icon
+                            <v-btn icon
                               variant="plain"
                               :color="element.deleted ? 'accent' : 'error'"
                               @click="
                                 element.deleted = !element.deleted;
-                                dirty = true;
+                              dirty = true;
                               ">
                               <v-icon :icon="element.deleted ? 'mdi-restore' : 'mdi-delete'" />
                             </v-btn>
@@ -255,10 +268,10 @@
   </div>
   <v-divider />
   <v-card-actions>
-    <v-btn variant="plain" @click="$emit('close')">Cancel</v-btn>
+    <v-btn variant="plain"
+      @click="$emit('close')">Cancel</v-btn>
     <v-spacer />
-    <v-btn
-      color="accent"
+    <v-btn color="accent"
       :prepend-icon="dirty ? 'mdi-content-save-alert-outline' : ''"
       @click="saveAll()"
       :disabled="!dirty">
@@ -268,7 +281,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { UserStore, PilotStore } from '@/stores';
 import { Sortable } from 'sortablejs-vue3';
 

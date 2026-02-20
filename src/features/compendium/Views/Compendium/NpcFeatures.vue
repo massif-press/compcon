@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    ref="browser"
+  <cc-compendium-browser ref="browser"
     :items="features"
     item-type="NpcFeature"
     :table-headers="headers"
@@ -12,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
@@ -33,7 +32,7 @@ export default {
 
   computed: {
     features(): NpcFeature[] {
-      return _.orderBy(CompendiumStore().NpcFeatures, ['FeatureType', 'Origin.Name', 'Name']);
+      return orderBy(CompendiumStore().NpcFeatures, ['FeatureType', 'Origin.Name', 'Name']);
     },
     headers() {
       const h = [

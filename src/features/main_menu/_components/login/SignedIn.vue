@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import CloudManagement from '../account/index.vue';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'auth-signed-in',

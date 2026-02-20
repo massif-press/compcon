@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <span v-html="highlightedText" @click="handleClick"></span>
+      <span v-html-safe="highlightedText" @click="handleClick"></span>
     </v-container>
     <v-bottom-sheet v-model="sheet" @click="sheet = false">
       <v-card>
@@ -10,7 +10,7 @@
           <span class="heading h3">{{ selectedWord }}</span>
         </v-card-title>
         <v-divider />
-        <v-card-text class="py-2 mb-6" v-html="selectedDefinition" />
+        <v-card-text class="py-2 mb-6" v-html-safe="selectedDefinition" />
         <div class="panel-footer text-center bg-panel">{{ mobile ? 'TAP' : 'CLICK' }} TO CLOSE</div>
       </v-card>
     </v-bottom-sheet>

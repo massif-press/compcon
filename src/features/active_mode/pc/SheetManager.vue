@@ -115,7 +115,7 @@
           </div>
           <div v-if="archived.length === 0"
             class="text-center text-cc-overline text-disabled">
-            <i>No archived encounters found{{ search ? ` including "${search}"` : '' }}.</i>
+            <i>No archived sheets found{{ search ? ` including "${search}"` : '' }}.</i>
           </div>
           <v-row v-for="e in archived"
             class="text-cc-overline bg-background my-1"
@@ -134,7 +134,6 @@
               </v-card>
             </v-col>
             <v-col cols="auto">
-              encounters - rounds
               <div>
                 <span class="text-disabled mr-1">CREATED</span>
                 <b>{{ new Date(e.Created).toLocaleDateString() }}</b>
@@ -153,7 +152,7 @@
                     color="primary"
                     disabled
                     block
-                    tooltip="Review the combat log and battlefield telemetry from this encounter and optionally save it to your pilot's history.">Save
+                    tooltip="Review the combat log and battlefield telemetry from this sheet and optionally save it to your pilot's history.">Save
                     Pilot History</cc-button>
                   <div class="text-cc-overline text-disabled">Feature in development (v3.1)</div>
                 </template>
@@ -311,7 +310,7 @@ export default {
     },
     launch(sheet) {
       PilotStore().SetActiveSheet(sheet.ID);
-      this.$router.push('pilot-runner');
+      this.$router.push(`pilot-runner/${sheet.ID}`);
     },
     exportSheet(sheet) {
       const out = JSON.stringify(PilotSheet.Serialize(sheet), null, 2);
@@ -339,7 +338,7 @@ export default {
             const sheet = PilotSheet.Deserialize(json);
             PilotStore().PilotSheets.push(sheet);
             PilotStore().SetActiveSheet(sheet.ID);
-            this.$router.push('pilot-runner');
+            this.$router.push(`pilot-runner/${sheet.ID}`);
           } catch (error) {
             alert('Failed to import sheet: Invalid file format.');
           }

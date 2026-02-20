@@ -126,7 +126,7 @@
 
 <script>
 import UnitFeatureCard from './_unitFeatureCard.vue';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'mech-combat-loadout',

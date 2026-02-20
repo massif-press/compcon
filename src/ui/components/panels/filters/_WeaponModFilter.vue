@@ -1,8 +1,9 @@
 <template>
-  <v-row justify="space-around" density="compact" class="mx-4">
+  <v-row justify="space-around"
+    density="compact"
+    class="mx-4">
     <v-col cols="4">
-      <v-select
-        v-model="sourceFilter"
+      <v-select v-model="sourceFilter"
         density="compact"
         hide-details
         class="px-2"
@@ -12,12 +13,11 @@
         :items="manufacturers"
         chips
         clearable
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
-    <v-col cols="12" md="4">
-      <v-select
-        v-model="lcpFilter"
+    <v-col cols="12"
+      md="4">
+      <v-select v-model="lcpFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -28,12 +28,10 @@
         label="From Content Pack"
         :items="lcps"
         multiple
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="4">
-      <v-select
-        v-model="tagFilter"
+      <v-select v-model="tagFilter"
         density="compact"
         hide-details
         class="px-2"
@@ -46,8 +44,7 @@
         item-value="ID"
         multiple
         item-text="Name"
-        @update:modelValue="updateFilters()"
-      />
+        @update:modelValue="updateFilters()" />
     </v-col>
   </v-row>
 </template>
@@ -56,7 +53,7 @@
 import { Tag, Manufacturer } from '@/class';
 
 import { CompendiumStore } from '@/stores';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 const nameSort = function (a, b): number {
   if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;

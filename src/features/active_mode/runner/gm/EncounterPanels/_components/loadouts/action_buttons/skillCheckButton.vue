@@ -64,7 +64,7 @@
       </v-btn>
     </template>
     <template #default="{ close }">
-      <p v-html="action.Detail"
+      <p v-html-safe="action.Detail"
         class="text-text mb-4" />
       <v-card color="panel"
         flat

@@ -1,15 +1,16 @@
 <template>
-  <cc-compendium-browser
-    :items="environments"
+  <cc-compendium-browser :items="environments"
     item-type="Environment"
     :table-headers="headers"
     :options="options">
-    <template #header> <div class="heading h3 text-center text-accent">Environments</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Environments</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 
 export default {
@@ -30,7 +31,7 @@ export default {
   }),
   computed: {
     environments() {
-      return _.orderBy(CompendiumStore().Environments, 'Name');
+      return orderBy(CompendiumStore().Environments, 'Name');
     },
   },
 };

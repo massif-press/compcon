@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    :items="availableSystems"
+  <cc-compendium-browser :items="availableSystems"
     item-type="MechSystem"
     :table-headers="headers"
     :options="options"
@@ -13,55 +12,56 @@
       <v-row dense>
         <v-col>
           <div v-if="equipped || swapSystem">
-            <div v-if="!mobile" class="text-cc-overline">
+            <div v-if="!mobile"
+              class="text-cc-overline">
               UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success">[ FRAME EQUIPMENT REGISTRATION VERIFIED ]</span>
             </div>
             <div class="heading h2 text-accent">
               {{ equipped?.Name || swapSystem?.Name || 'NO SELECTION' }}
             </div>
-            <div class="flavor-text overline" style="display: block">CURRENTLY EQUIPPED</div>
+            <div class="flavor-text overline"
+              style="display: block">CURRENTLY EQUIPPED</div>
           </div>
           <div v-else-if="!mobile">
             <div class="text-cc-overline">
               UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
             </div>
             <div class="heading h2 text-disabled">NO SELECTION</div>
-            <div class="flavor-text overline text-error" style="display: block">
+            <div class="flavor-text overline text-error"
+              style="display: block">
               [ EQUIPMENT ID INVALID OR MISSING ]
             </div>
           </div>
         </v-col>
-        <v-col cols="12" md="auto">
+        <v-col cols="12"
+          md="auto">
           <div class="text-right">
-            <cc-switch
-              v-model="showUnlicensed"
+            <cc-switch v-model="showUnlicensed"
               :label="mobile && 'Show Unlicensed'"
               color="error"
-              :tooltip="
-                !mobile && showUnlicensed
-                  ? 'Unlicensed equipment: SHOWN'
-                  : 'Unlicensed equipment: HIDDEN'
-              "
+              :tooltip="!mobile && showUnlicensed
+                ? 'Unlicensed equipment: SHOWN'
+                : 'Unlicensed equipment: HIDDEN'
+                "
               :prepend-icon="!mobile && 'cc:system'"
               on-icon="mdi-lock-open"
               off-icon="mdi-lock" />
             <br />
-            <cc-switch
-              v-model="showOverSP"
+            <cc-switch v-model="showOverSP"
               :label="mobile && 'Show Exceeds SP'"
               color="error"
-              :tooltip="
-                !mobile && showOverSP
-                  ? 'Systems exceeding SP Capacity: SHOWN'
-                  : 'Systems exceeding SP Capacity: HIDDEN'
-              "
+              :tooltip="!mobile && showOverSP
+                ? 'Systems exceeding SP Capacity: SHOWN'
+                : 'Systems exceeding SP Capacity: HIDDEN'
+                "
               :prepend-icon="!mobile && 'cc:system_point'"
               on-icon="mdi-lock-open"
               off-icon="mdi-lock">
               <template #label>
                 <v-tooltip>
-                  <v-icon :color="showOverSP ? 'warning' : 'success'" icon="cc:system_point" />
+                  <v-icon :color="showOverSP ? 'warning' : 'success'"
+                    icon="cc:system_point" />
                 </v-tooltip>
               </template>
             </cc-switch>
@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 import { Mech, MechSystem } from '@/class';

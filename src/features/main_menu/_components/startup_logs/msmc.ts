@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import { callsign, encryption } from '@/io/Generators';
+import * as _ from 'lodash-es'
+import { callsign, encryption } from '@/io/Generators'
 
 const logos = [
   `
@@ -38,7 +38,7 @@ const logos = [
 |              ((   PILOT NET   ))              |
 -------------------------------------------------     
 `,
-];
+]
 
 const phrases = [
   `LET'S GET THIS BREAD`,
@@ -53,20 +53,20 @@ const phrases = [
   `CHECK YOUR CORNERS, EVEN AT A DESK. CORPORATE ESPIONAGE STARTS AND STOPS WITH YOU`,
   `MSMC AND MSMC LEGAL CORPS RESERVE THE RIGHT TO ACCESS AND/OR REDISTRIBUTE ANY USER DATA`,
   `SHOOT FIRST, LET MSMC LEGAL CORPS HANDLE THE REST`,
-];
+]
 
 const getLogo = (): string => {
-  const l = _.sample(logos);
-  return (l as string).replace(/\//g, '&#47;');
-};
+  const l = _.sample(logos)
+  return (l as string).replace(/\//g, '&#47;')
+}
 
 const getPhrase = (): string => {
-  return _.sample(phrases) as string;
-};
+  return _.sample(phrases) as string
+}
 
-const plog = async (typer) => {
-  const c = await callsign();
-  const e = await encryption();
+const plog = async typer => {
+  const c = await callsign()
+  const e = await encryption()
 
   typer
     .type('<br>')
@@ -131,7 +131,7 @@ const plog = async (typer) => {
     .type(
       '>//[<span class="text-accent">COMP/CON</span>: <span class="stark-text-text">Welcome, Lancer. Input Command.</span>]'
     )
-    .go();
-};
+    .go()
+}
 
-export default plog;
+export default plog

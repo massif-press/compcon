@@ -2,7 +2,8 @@
   <v-card-text>
     <v-row>
       <v-col>
-        <v-row align="center" dense>
+        <v-row align="center"
+          dense>
           <v-col><v-divider /></v-col>
           <v-col cols="auto">{{ items.length }} items</v-col>
         </v-row>
@@ -10,24 +11,21 @@
           <thead class="heading">
             <tr>
               <th width="1px">
-                <v-btn
-                  icon
+                <v-btn icon
                   flat
                   size="small"
                   :value="selected.length === items.length"
                   hide-details
                   @click="
                     selected.length ? (selected = []) : (selected = items.map((x: any) => x.ID))
-                  ">
-                  <v-icon
-                    size="x-large"
-                    :icon="
-                      selected.length === items.length
-                        ? 'mdi-checkbox-outline'
-                        : selected.length > 0
-                          ? 'mdi-minus-box-outline'
-                          : 'mdi-checkbox-blank-outline'
-                    " />
+                    ">
+                  <v-icon size="x-large"
+                    :icon="selected.length === items.length
+                      ? 'mdi-checkbox-outline'
+                      : selected.length > 0
+                        ? 'mdi-minus-box-outline'
+                        : 'mdi-checkbox-blank-outline'
+                      " />
                 </v-btn>
               </th>
               <th>Name</th>
@@ -39,11 +37,12 @@
           <tbody>
             <tr v-for="item in items">
               <td>
-                <v-checkbox v-model="selected" multiple :value="(item as any).ID" hide-details />
+                <v-checkbox v-model="selected"
+                  multiple
+                  :value="(item as any).ID"
+                  hide-details />
               </td>
-              <td
-                :class="
-                  item.SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''
+              <td :class="item.SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''
                 ">
                 {{ (item as any).Name }}
               </td>
@@ -54,27 +53,32 @@
                 {{ item.Level }}
               </th>
               <th>
-                <v-chip size="small" label prepend-icon="mdi-account-group">
+                <v-chip size="small"
+                  label
+                  prepend-icon="mdi-account-group">
                   {{ getPilotGroup(item) }}
                 </v-chip>
               </th>
             </tr>
           </tbody>
         </v-table>
-        <v-row dense justify="end">
+        <v-row dense
+          justify="end">
           <v-col cols="auto">
-            <v-checkbox density="compact" label="Show Deleted" v-model="showDeleted" />
+            <v-checkbox density="compact"
+              label="Show Deleted"
+              v-model="showDeleted" />
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="auto" style="width: 350px">
+      <v-col cols="auto"
+        style="width: 350px">
         <div>
           <b class="text-accent">{{ selected.length }}</b>
           selected
         </div>
         <v-list>
-          <v-list-item
-            title="Set Group"
+          <v-list-item title="Set Group"
             subtitle="Set pilot group"
             prepend-icon="mdi-account-group"
             :disabled="!selected.length"
@@ -85,35 +89,28 @@
             prepend-icon="mdi-printer"
             :disabled="!selected.length"
             @click="printDialog = true" /> -->
-          <v-list-item
-            :title="selected.length < 2 ? 'Export' : 'Export Collection'"
-            :subtitle="
-              selected.length < 2 ? 'Export item JSON' : 'Generate a multi-item export package'
-            "
+          <v-list-item :title="selected.length < 2 ? 'Export' : 'Export Collection'"
+            :subtitle="selected.length < 2 ? 'Export item JSON' : 'Generate a multi-item export package'
+              "
             prepend-icon="mdi-upload"
             :disabled="!selected.length"
             @click="exportItems()" />
-          <v-list-item
-            :title="selected.length < 2 ? 'Delete' : 'Delete Multiple'"
-            :subtitle="
-              selected.length < 2 ? 'Mark item as Deleted' : 'Mark multiple items as Deleted'
-            "
+          <v-list-item :title="selected.length < 2 ? 'Delete' : 'Delete Multiple'"
+            :subtitle="selected.length < 2 ? 'Mark item as Deleted' : 'Mark multiple items as Deleted'
+              "
             prepend-icon="mdi-delete"
             :disabled="!selected.length"
             @click="deleteItems()" />
-          <v-list-item
-            v-if="showDeleted"
+          <v-list-item v-if="showDeleted"
             :title="selected.length < 2 ? 'Restore' : 'Restore Multiple'"
-            :subtitle="
-              selected.length < 2
-                ? 'Remove Deleted status from item'
-                : 'Remove Deleted status from items'
-            "
+            :subtitle="selected.length < 2
+              ? 'Remove Deleted status from item'
+              : 'Remove Deleted status from items'
+              "
             prepend-icon="mdi-file-restore-outline"
             :disabled="!selected.length"
             @click="deleteItems(true)" />
-          <v-list-item
-            v-if="showDeleted && !showDeleteConfirm"
+          <v-list-item v-if="showDeleted && !showDeleteConfirm"
             title="Delete Permanently"
             variant="elevated"
             elevation="0"
@@ -123,16 +120,14 @@
             :disabled="!selected.length"
             @click="showDeleteConfirm = true" />
           <v-divider v-if="showDeleteConfirm" />
-          <v-list-item
-            v-if="showDeleteConfirm"
+          <v-list-item v-if="showDeleteConfirm"
             title="Confirm Permanent Deletion"
             subtitle="This action cannot be undone"
             prepend-icon="mdi-exclamation-thick"
             :disabled="!selected.length"
             @click="deleteItemsPermanent()"
             base-color="error" />
-          <v-list-item
-            v-if="showDeleteConfirm"
+          <v-list-item v-if="showDeleteConfirm"
             title="Cancel Permanent Deletion"
             prepend-icon="mdi-cancel"
             @click="showDeleteConfirm = false"
@@ -141,18 +136,19 @@
       </v-col>
     </v-row>
   </v-card-text>
-  <v-dialog v-model="setGroupDialog" max-width="500px">
+  <v-dialog v-model="setGroupDialog"
+    max-width="500px">
     <v-card>
       <v-toolbar density="compact">
         <v-toolbar-title>Set Group</v-toolbar-title>
         <v-spacer />
-        <v-btn icon @click="setGroupDialog = false">
+        <v-btn icon
+          @click="setGroupDialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
       <v-card-text>
-        <v-select
-          v-model="stagedGroup"
+        <v-select v-model="stagedGroup"
           :items="allGroups"
           label="Pilot Group"
           item-title="Name"
@@ -164,16 +160,19 @@
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <v-btn variant="text" @click="setGroupDialog = false">Cancel</v-btn>
+        <v-btn variant="text"
+          @click="setGroupDialog = false">Cancel</v-btn>
         <v-spacer />
-        <v-btn variant="text" @click="setGroup" color="accent">Set</v-btn>
+        <v-btn variant="text"
+          @click="setGroup"
+          color="accent">Set</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { PilotStore } from '../../store';
 import exportAsJson from '@/util/jsonExport';
 import { PilotGroup } from '../../store/PilotGroup';

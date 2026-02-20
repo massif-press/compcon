@@ -226,7 +226,7 @@
           <div style="max-height: 300px; overflow-y: scroll">
             <div v-for="n in encounter.RollHistory"
               class="text-cc-overline bg-panel mb-1 pa-1"
-              v-html="n" />
+              v-html-safe="n" />
           </div>
         </v-col>
       </v-row>
@@ -237,7 +237,7 @@
 <script>
 import { DiceRoller } from '@/class';
 import DiceRollInterface from '@/ui/components/chips/_activeeffect/_shared/DiceRollInterface.vue';
-import { last, set } from 'lodash';
+import { last, set } from 'lodash-es';
 
 export default {
   name: 'GmDiceRoller',

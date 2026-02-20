@@ -52,7 +52,7 @@
                   </div>
                   <v-divider class="my-2" />
                   <div class="heading h3 text-accent">{{ m.title }}</div>
-                  <p class="pa-2" v-html="m.body" />
+                  <p class="pa-2" v-html-safe="m.body" />
                   <cc-button class="ma-4" block color="accent" size="x-small" @click="ack(m)">
                     Mark as Read
                   </cc-button>

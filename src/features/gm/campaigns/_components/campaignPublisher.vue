@@ -1,7 +1,11 @@
 <template>
   <v-dialog max-width="85vw">
     <template #activator="{ props }">
-      <v-btn v-bind="props" block size="small" variant="tonal" class="my-2 pa-2">
+      <v-btn v-bind="props"
+        block
+        size="small"
+        variant="tonal"
+        class="my-2 pa-2">
         Publish Campaign
       </v-btn>
     </template>
@@ -10,9 +14,15 @@
         <v-card-title>Publish Campaign</v-card-title>
         <v-divider />
         <v-card-text>
-          <div class="mx-auto" style="width: 80%">
-            <current-version-export v-if="campaign.Latest" :campaign="campaign" />
-            <v-alert v-else color="accent" variant="tonal" border icon="mdi-information">
+          <div class="mx-auto"
+            style="width: 80%">
+            <current-version-export v-if="campaign.Latest"
+              :campaign="campaign" />
+            <v-alert v-else
+              color="accent"
+              variant="tonal"
+              border
+              icon="mdi-information">
               <div class="text-caption">
                 This campaign has not been published. Publish a first version of this campaign to
                 export a campaign package via file or share code.
@@ -25,11 +35,11 @@
               {{ new Date().toLocaleDateString(undefined, dOptions as any) }}
             </div>
             <div class="text-caption">Version</div>
-            <v-row style="width: 400px" class="mx-auto">
+            <v-row style="width: 400px"
+              class="mx-auto">
               <v-col>
                 <div class="text-caption text-disabled">Major</div>
-                <v-text-field
-                  v-model="major"
+                <v-text-field v-model="major"
                   type="number"
                   variant="outlined"
                   density="compact"
@@ -37,8 +47,7 @@
               </v-col>
               <v-col>
                 <div class="text-caption text-disabled">Minor</div>
-                <v-text-field
-                  v-model="minor"
+                <v-text-field v-model="minor"
                   type="number"
                   variant="outlined"
                   density="compact"
@@ -46,8 +55,7 @@
               </v-col>
               <v-col>
                 <div class="text-caption text-disabled">Patch</div>
-                <v-text-field
-                  v-model="patch"
+                <v-text-field v-model="patch"
                   type="number"
                   variant="outlined"
                   density="compact"
@@ -55,19 +63,24 @@
               </v-col>
             </v-row>
             <v-expand-transition>
-              <div v-if="!verifyVersion" class="text-caption text-error ma-1">
+              <div v-if="!verifyVersion"
+                class="text-caption text-error ma-1">
                 <b>Version {{ version }} already exists!</b>
               </div>
             </v-expand-transition>
           </div>
 
-          <div class="text-left mx-auto text-caption" style="width: 80%">
+          <div class="text-left mx-auto text-caption"
+            style="width: 80%">
             Release notes and changelog:
-            <v-textarea v-model="changes" outlined dense rows="3" auto-grow />
+            <v-textarea v-model="changes"
+              outlined
+              dense
+              rows="3"
+              auto-grow />
           </div>
           <div class="text-center">
-            <v-btn
-              size="large"
+            <v-btn size="large"
               variant="tonal"
               color="accent"
               prepend-icon="mdi-upload"
@@ -80,7 +93,8 @@
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn variant="text" @click="isActive.value = false">Cancel</v-btn>
+          <v-btn variant="text"
+            @click="isActive.value = false">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </template>
@@ -156,13 +170,13 @@ export default {
     },
     async exportLcd() {
       const filename = `${this.campaign.Name} - ${this.version}.lcd`;
-      var zip = new JSZip();
+      const zip = new JSZip();
 
       zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(this.campaign as Campaign)));
 
-      var content = await zip.generateAsync({ type: 'blob' });
+      const content = await zip.generateAsync({ type: 'blob' });
 
-      var link = document.createElement('a');
+      const link = document.createElement('a');
       link.href = window.URL.createObjectURL(content);
       link.download = filename;
 

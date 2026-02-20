@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    :items="statuses"
+  <cc-compendium-browser :items="statuses"
     item-type="Status"
     :table-headers="headers"
     :options="options">
@@ -11,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 
 import { Status } from '@/classes/Status';
@@ -37,7 +36,7 @@ export default {
   }),
   computed: {
     statuses(): Status[] {
-      return _.orderBy(CompendiumStore().Statuses, 'Name');
+      return orderBy(CompendiumStore().Statuses, 'Name');
     },
   },
 };

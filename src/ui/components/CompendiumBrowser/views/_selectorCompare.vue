@@ -26,7 +26,7 @@
             </td>
             <td v-for="item in items" class="text-center heading h3 font-weight-bold side-border">
               {{ (item as any).Stats[metric.value] }}
-              <div class="mt-n3" v-html="diff(metric.value, item)" />
+              <div class="mt-n3" v-html-safe="diff(metric.value, item)" />
             </td>
           </tr>
         </tbody>
@@ -40,7 +40,7 @@
             </td>
             <td v-for="item in items" class="text-center heading h3 side-border">
               {{ (item as any).Stats.Stat(metric.value, tier) }}
-              <div class="mt-n3" v-html="npcDiff(metric.value, item)" />
+              <div class="mt-n3" v-html-safe="npcDiff(metric.value, item)" />
             </td>
           </tr>
         </tbody>

@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import { callsign, encryption, tracert } from '@/io/Generators';
+import * as _ from 'lodash-es'
+import { callsign, encryption, tracert } from '@/io/Generators'
 
 const logos = [
   `╭═══════════════════════════════════════════╮ 
@@ -67,7 +67,7 @@ _       ___       ____    __
  ____)  )  ____)  ) |  \\__  
 (      (__(      (___\\    )_
 `,
-];
+]
 
 const getLogo = (): string => {
   const weights = [
@@ -93,16 +93,16 @@ const getLogo = (): string => {
     4, //calligraphy ssc logo15%
     5,
     5, //banner ssc logo     10%
-  ];
-  const selectedWeight = _.sample(weights) ?? 0; // Default to 0 if undefined
-  return logos[selectedWeight];
-};
+  ]
+  const selectedWeight = _.sample(weights) ?? 0 // Default to 0 if undefined
+  return logos[selectedWeight]
+}
 
-const plog = async (typer) => {
-  const t1 = await tracert(0);
-  const t2 = await tracert(0);
-  const c = await callsign();
-  const e = await encryption();
+const plog = async typer => {
+  const t1 = await tracert(0)
+  const t2 = await tracert(0)
+  const c = await callsign()
+  const e = await encryption()
 
   typer
     .type('<br>')
@@ -166,7 +166,7 @@ const plog = async (typer) => {
     .type(
       '>//[<span class="accent--text">ATHENA</span>: <span class="stark-text--text">Select destination-chamber.</span>]'
     )
-    .go();
-};
+    .go()
+}
 
-export default plog;
+export default plog

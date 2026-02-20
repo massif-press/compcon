@@ -9,7 +9,7 @@
             <v-icon icon="cc:downtime" />
             {{ action.Name }}
           </legend>
-          <p v-html="action.Detail" class="my-1" />
+          <p v-html-safe="action.Detail" class="my-1" />
 
           <div v-if="action.Table" class="pb-2">
             <v-row dense v-for="result in action.Table.results" class="mb-n2">
@@ -19,7 +19,7 @@
               <v-col cols="1" v-else class="text-center">
                 {{ result.min }}&ndash;{{ result.max }}
               </v-col>
-              <v-col v-html="result.text" class="text-black" />
+              <v-col v-html-safe="result.text" class="text-black" />
             </v-row>
           </div>
         </fieldset>

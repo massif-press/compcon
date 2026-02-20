@@ -1,14 +1,14 @@
-import { IFeatureContainer } from './IFeatureContainer';
-import { FeatureCollector } from './FeatureCollector';
-import { IFeatureController } from './IFeatureController';
-import { Bonus } from './bonus/Bonus';
-import { Synergy } from '@/classes/components/feature/synergy/Synergy';
-import { Action } from '@/classes/Action';
-import { IDeployableData } from '@/classes/components/feature/deployable/Deployable';
-import { CompendiumItem } from '@/classes/CompendiumItem';
-import { MechWeapon, MechSystem, Counter } from '@/class';
-import { ActiveEffect } from './active_effects/ActiveEffect';
-import { BonusDamage } from './active_effects/BonusDamage';
+import { IFeatureContainer } from './IFeatureContainer'
+import { FeatureCollector } from './FeatureCollector'
+import { IFeatureController } from './IFeatureController'
+import { Bonus } from './bonus/Bonus'
+import { Synergy } from '@/classes/components/feature/synergy/Synergy'
+import { Action } from '@/classes/Action'
+import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
+import { CompendiumItem } from '@/classes/CompendiumItem'
+import { MechWeapon, MechSystem, Counter } from '@/class'
+import { ActiveEffect } from './active_effects/ActiveEffect'
+import { Parser } from 'expr-eval'
 
 const strDict = [
   { key: 'll', prop: 'Level', text: 'Pilot License Level' },
@@ -36,126 +36,128 @@ const strDict = [
   { key: 'repcap', prop: 'Repcap', text: 'Repair Capacity' },
   { key: 'save', prop: 'Save', text: 'Save' },
   { key: 'sp', prop: 'SP', text: 'System Points' },
-];
+]
 
 class FeatureController {
-  public readonly Parent: IFeatureController;
-  public Containers: IFeatureContainer[];
+  public readonly Parent: IFeatureController
+  public Containers: IFeatureContainer[]
 
   public constructor(parent: IFeatureController) {
-    this.Parent = parent;
-    this.Containers = [];
+    this.Parent = parent
+    this.Containers = []
   }
 
   public Register(...containers: IFeatureContainer[]) {
-    this.Containers = containers;
+    this.Containers = containers
   }
 
   private collectAll<T>(collection: string): T[] {
     if (!this.Containers.length) {
-      return [];
+      return []
     }
 
-    return this.Containers.flatMap((container) =>
+    return this.Containers.flatMap(container =>
       FeatureCollector.Collect(collection, container.FeatureSource)
-    );
+    )
   }
 
   private getRootEntity(node: object): object {
-    if (node['Parent'] !== undefined) return this.getRootEntity((node as any).Parent);
-    return node;
+    if (node['Parent'] !== undefined) return this.getRootEntity((node as any).Parent)
+    return node
   }
 
   public getRootProperty<T>(prop: string): T | null {
-    const root = this.getRootEntity(this);
-    if (root[prop] !== undefined) return (root as any)[prop];
-    return null;
+    const root = this.getRootEntity(this)
+    if (root[prop] !== undefined) return (root as any)[prop]
+    return null
   }
 
   public static RenderSpecialString(str: string | string[] | number | number[]): string {
-    if (!str) return '';
-    let sArr = str;
-    if (!Array.isArray(sArr)) sArr = [str as string];
-    strDict.forEach((p) => {
+    if (!str) return ''
+    let sArr = str
+    if (!Array.isArray(sArr)) sArr = [str as string]
+    strDict.forEach(p => {
       sArr.forEach(
-        (s) =>
+        s =>
           (s = s
             .toString()
             .replace(`_`, '')
             .replace(new RegExp(`{${p.key}}`, 'g'), p.text))
-      );
-    });
+      )
+    })
 
-    return sArr.join(' ');
+    return sArr.join(' ')
   }
 
   public EvaluateSpecial(str: string, returnString = false): string | number {
-    let vStr = str;
+    let vStr = str
     strDict.forEach(
-      (p) =>
+      p =>
         (vStr = vStr
           .replace(`_`, '')
           .replace(new RegExp(`{${p.key}}`, 'g'), this.getRootProperty(p.prop)?.toString() || '0'))
-    );
+    )
 
-    vStr = vStr.replace(/[^-()\d/*+.]/g, '');
+    vStr = vStr.replace(/[^-()\d/*+.]/g, '')
 
-    if (returnString) return vStr as string;
-
-    return Math.ceil(eval(vStr));
+    if (returnString) return vStr as string
+    const parser = new Parser()
+    const xpr = parser.parse(vStr)
+    console.log('new expr logic: ', xpr.evaluate())
+    return Math.ceil(xpr.evaluate())
   }
 
   private get isCoreActive(): boolean {
-    return (this.Parent as any).CombatController?.CoreActive || false;
+    return (this.Parent as any).CombatController?.CoreActive || false
   }
 
   public get Bonuses(): Bonus[] {
     return this.collectAll('Bonuses')
       .concat(this.collectAll('PassiveBonuses'))
-      .concat(this.isCoreActive ? this.collectAll('ActiveBonuses') : []) as Bonus[];
+      .concat(this.isCoreActive ? this.collectAll('ActiveBonuses') : []) as Bonus[]
   }
 
   public get Synergies(): Synergy[] {
     return this.collectAll('Synergies').concat(
       this.isCoreActive ? this.collectAll('ActiveSynergies') : []
-    ) as Synergy[];
+    ) as Synergy[]
   }
 
   public get Actions(): Action[] {
     return this.collectAll('Actions').concat(
       this.isCoreActive ? this.collectAll('ActiveActions') : []
-    ) as Action[];
+    ) as Action[]
   }
 
   public get ActiveEffects(): ActiveEffect[] {
     return this.collectAll('ActiveEffects')
       .concat(this.collectAll('PassiveEffects'))
-      .concat(this.isCoreActive ? this.collectAll('CoreActiveEffects') : []) as ActiveEffect[];
+      .concat(this.isCoreActive ? this.collectAll('CoreActiveEffects') : []) as ActiveEffect[]
   }
 
   public get Deployables(): IDeployableData[] {
-    return this.collectAll('Deployables');
+    return this.collectAll('Deployables')
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
-    return this.collectAll('IntegratedWeapons');
+    return this.collectAll('IntegratedWeapons')
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this.collectAll('IntegratedSystems');
+    return this.collectAll('IntegratedSystems')
   }
 
   public get IntegratedSpecialEquipment(): CompendiumItem[] {
-    return this.collectAll('SpecialEquipment');
+    return this.collectAll('SpecialEquipment')
   }
 
   public get Counters(): Counter[] {
-    return this.collectAll('Counters');
+    return this.collectAll('Counters')
   }
 
   public get AllItems(): CompendiumItem[] {
-    return this.Containers.flatMap((container) => container.FeatureSource).map((item) => item);
+    return this.Containers.flatMap(container => container.FeatureSource).map(item => item)
   }
 }
 
-export { FeatureController };
+export { FeatureController }

@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    :items="talents"
+  <cc-compendium-browser :items="talents"
     item-type="Skill"
     :table-headers="headers"
     :options="options">
@@ -11,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { Talent } from '@/class';
 
@@ -35,7 +34,7 @@ export default {
   }),
   computed: {
     talents(): Talent[] {
-      return _.orderBy(
+      return orderBy(
         CompendiumStore().Talents.filter((x) => !x.IsHidden),
         'Name'
       );

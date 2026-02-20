@@ -1,8 +1,9 @@
 <template>
-  <v-row density="compact" justify="space-around" class="mx-4">
+  <v-row density="compact"
+    justify="space-around"
+    class="mx-4">
     <v-col cols="12">
-      <v-select
-        v-model="typeFilter"
+      <v-select v-model="typeFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -16,8 +17,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select
-        v-model="originFilter"
+      <v-select v-model="originFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 

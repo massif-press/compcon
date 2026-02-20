@@ -103,25 +103,25 @@
                 <div
                   v-else
                   class="heading h2"
-                  v-html="pilot.MechSkillsController.MechSkills.Hull" />
+                  v-html-safe="pilot.MechSkillsController.MechSkills.Hull" />
               </v-col>
               <v-col>
                 <div class="font-weight-bold caption text-primary mb-n2 text-primary">AGILITY</div>
                 <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
 
-                <div v-else class="heading h2" v-html="pilot.MechSkillsController.MechSkills.Agi" />
+                <div v-else class="heading h2" v-html-safe="pilot.MechSkillsController.MechSkills.Agi" />
               </v-col>
               <v-col>
                 <div class="font-weight-bold caption text-primary mb-n2">SYSTEMS</div>
                 <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
 
-                <div v-else class="heading h2" v-html="pilot.MechSkillsController.MechSkills.Sys" />
+                <div v-else class="heading h2" v-html-safe="pilot.MechSkillsController.MechSkills.Sys" />
               </v-col>
               <v-col>
                 <div class="font-weight-bold caption text-primary mb-n2">ENGINEERING</div>
                 <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
 
-                <div v-else class="heading h2" v-html="pilot.MechSkillsController.MechSkills.Eng" />
+                <div v-else class="heading h2" v-html-safe="pilot.MechSkillsController.MechSkills.Eng" />
               </v-col>
             </v-row>
           </v-col>

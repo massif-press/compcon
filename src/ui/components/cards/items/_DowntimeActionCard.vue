@@ -1,7 +1,7 @@
 <template>
-  <i v-html="item.Terse" class="text-accent" />
+  <i v-html-safe="item.Terse" class="text-accent" />
   <br />
-  <p v-html="item.Detail" class="my-1" />
+  <p v-html-safe="item.Detail" class="my-1" />
 
   <v-table v-if="item.Table">
     <thead>
@@ -16,7 +16,7 @@
       <tr v-for="result in item.Table.results">
         <td v-if="result.min === result.max" class="text-center">{{ result.min }}</td>
         <td v-else class="text-center">{{ result.min }}&ndash;{{ result.max }}</td>
-        <td v-html="result.text" class="text-text" />
+        <td v-html-safe="result.text" class="text-text" />
       </tr>
     </tbody>
   </v-table>

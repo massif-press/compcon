@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    :items="templates"
+  <cc-compendium-browser :items="templates"
     :itemType="'NpcTemplate'"
     :table-headers="headers"
     :options="options">
@@ -11,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
 
@@ -34,7 +33,7 @@ export default {
   }),
   computed: {
     templates(): NpcTemplate[] {
-      return _.orderBy(CompendiumStore().NpcTemplates, 'Name');
+      return orderBy(CompendiumStore().NpcTemplates, 'Name');
     },
   },
 };

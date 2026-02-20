@@ -32,7 +32,7 @@
           </template>
           <div class="heading h4" v-text="`${mech.MaxSP} System Points`" />
           <v-divider />
-          <p class="py-2" v-html="mech.SPContributors.join('<br />')" />
+          <p class="py-2" v-html-safe="mech.SPContributors.join('<br />')" />
         </v-tooltip>
       </div>
     </template>

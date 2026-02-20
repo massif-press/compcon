@@ -388,7 +388,7 @@
       </v-col>
     </v-row>
 
-    <div class="caption" v-html="s.Effect" />
+    <div class="caption" v-html-safe="s.Effect" />
 
     <v-card v-for="action in s.Actions" variant="text" class="my-1 px-1 text-caption">
       Gain

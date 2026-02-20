@@ -51,7 +51,7 @@
             <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} Mount</v-card-text>
           </v-card>
         </template>
-        <p v-html="get_mount_tooltip(m)" />
+        <p v-html-safe="get_mount_tooltip(m)" />
       </v-tooltip>
     </v-col>
   </v-row>

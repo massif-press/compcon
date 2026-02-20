@@ -1,32 +1,39 @@
 <template>
-  <v-card v-if="!campaigns.length" class="text-center py-6 text-disabled">
+  <v-card v-if="!campaigns.length"
+    class="text-center py-6 text-disabled">
     <div class="heading">No Campaigns Found</div>
     <div class="text-caption">
       Campaigns can be imported via File Import or the Lancer Campaign Directory
     </div>
   </v-card>
-  <v-sheet v-else class="mx-auto" border>
-    <v-slide-group
-      v-model="slide"
+  <v-sheet v-else
+    class="mx-auto"
+    border>
+    <v-slide-group v-model="slide"
       class="pa-2"
       selected-class="text-secondary"
       show-arrows
       center-active>
-      <v-slide-group-item
-        v-for="(c, n) in campaigns"
+      <v-slide-group-item v-for="(c, n) in campaigns"
         v-slot="{ isSelected, toggle, selectedClass }">
-        <v-card
-          :class="['ma-4', selectedClass]"
+        <v-card :class="['ma-4', selectedClass]"
           :color="c.cover_image_url ? 'transparent' : 'rgba(125, 125, 125, 0.5)'"
           variant="outlined"
           height="220"
           width="170"
           style="border-width: 2px"
           @click="toggle">
-          <v-img v-if="c.cover_image_url" :src="c.cover_image_url" height="220" />
-          <v-row v-else align="center" justify="center" style="height: 100%">
-            <v-col cols="auto" class="text-text text-center">
-              <v-icon size="60" icon="cc:campaign" />
+          <v-img v-if="c.cover_image_url"
+            :src="c.cover_image_url"
+            height="220" />
+          <v-row v-else
+            align="center"
+            justify="center"
+            style="height: 100%">
+            <v-col cols="auto"
+              class="text-text text-center">
+              <v-icon size="60"
+                icon="cc:campaign" />
               <div class="heading">{{ c.title }}</div>
               <div class="text-caption">{{ c.subtitle }}</div>
               <v-divider class="mt-1" />
@@ -39,7 +46,8 @@
 
     <v-expand-transition>
       <v-card-text v-if="slide != null">
-        <v-toolbar density="compact" color="primary">
+        <v-toolbar density="compact"
+          color="primary">
           <v-toolbar-title class="heading h2 text-center">
             {{ campaigns[slide].title }}
           </v-toolbar-title>
@@ -56,17 +64,25 @@
           }}
         </div>
         <div class="text-center my-1">
-          <v-tooltip location="top" open-delay="300">
+          <v-tooltip location="top"
+            open-delay="300">
             <template v-slot:activator="{ props }">
-              <v-icon v-bind="props" icon="cc:pilot" class="mt-n1" start />
+              <v-icon v-bind="props"
+                icon="cc:pilot"
+                class="mt-n1"
+                start />
             </template>
             <span>Recommended Players</span>
           </v-tooltip>
           {{ campaigns[slide].players[0] }} - {{ campaigns[slide].players[1] }}
           <cc-slashes class="mx-4" />
-          <v-tooltip location="top" open-delay="300">
+          <v-tooltip location="top"
+            open-delay="300">
             <template v-slot:activator="{ props }">
-              <v-icon v-bind="props" icon="cc:license" class="mt-n1" start />
+              <v-icon v-bind="props"
+                icon="cc:license"
+                class="mt-n1"
+                start />
             </template>
             <span>Recommended License Level</span>
           </v-tooltip>
@@ -74,15 +90,18 @@
         </div>
         <v-row align="center">
           <v-col>
-            <v-card variant="outlined" class="mx-auto pa-2" color="panel">
-              <p class="text-text" v-html-safe="campaigns[slide].description" />
+            <v-card variant="outlined"
+              class="mx-auto pa-2"
+              color="panel">
+              <p class="text-text"
+                v-html-safe="campaigns[slide].description" />
             </v-card>
           </v-col>
           <v-col cols="auto">
-            <v-tooltip location="top" open-delay="300">
+            <v-tooltip location="top"
+              open-delay="300">
               <template v-slot:activator="{ props }">
-                <v-btn
-                  v-bind="props"
+                <v-btn v-bind="props"
                   :href="campaigns[slide].website"
                   target="_blank"
                   icon
@@ -95,8 +114,7 @@
           </v-col>
         </v-row>
         <div class="text-right mt-2">
-          <v-btn
-            variant="tonal"
+          <v-btn variant="tonal"
             color="accent"
             prepend-icon="mdi-magnify"
             :to="`/srd/campaign/${campaigns[slide].id}`">
@@ -105,8 +123,7 @@
           <v-spacer class="my-2" />
           <v-menu>
             <template #activator="{ props }">
-              <v-btn
-                v-bind="props"
+              <v-btn v-bind="props"
                 size="x-small"
                 variant="tonal"
                 color="error"
@@ -120,10 +137,10 @@
               </v-card-text>
               <v-divider />
               <v-card-actions>
-                <v-btn variant="text" @click="">Cancel</v-btn>
+                <v-btn variant="text"
+                  @click="">Cancel</v-btn>
                 <v-spacer />
-                <v-btn
-                  variant="text"
+                <v-btn variant="text"
                   color="error"
                   @click="removeCampaign(campaigns[slide as number])">
                   Remove
@@ -139,7 +156,7 @@
 
 <script lang="ts">
 import { CampaignStore } from '@/stores';
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 
 export default {
   name: 'campaign-library-dense',
@@ -164,7 +181,7 @@ export default {
 
   computed: {
     campaigns() {
-      return _.orderBy(
+      return orderBy(
         CampaignStore().CampaignCollection.filter((c) =>
           c.title.toLowerCase().includes(this.search.toLowerCase())
         ),

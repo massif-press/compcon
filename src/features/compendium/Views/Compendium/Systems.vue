@@ -1,15 +1,16 @@
 <template>
-  <cc-compendium-browser
-    :items="systems"
+  <cc-compendium-browser :items="systems"
     item-type="MechSystem"
     :table-headers="headers"
     :options="options">
-    <template #header><div class="heading h3 text-center text-accent">Mech Systems</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Mech Systems</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 
 import { CompendiumStore, UserStore } from '@/stores';
 import { MechEquipment } from '@/class';
@@ -36,7 +37,7 @@ export default {
   }),
   computed: {
     systems(): MechEquipment[] {
-      return _.orderBy(
+      return orderBy(
         [...CompendiumStore().MechSystems, ...CompendiumStore().WeaponMods].filter(
           (x) => !x.IsHidden
         ),

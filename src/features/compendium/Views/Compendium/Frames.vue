@@ -1,15 +1,16 @@
 <template>
-  <cc-compendium-browser
-    :items="frames"
+  <cc-compendium-browser :items="frames"
     item-type="Frame"
     :table-headers="headers"
     :options="options">
-    <template #header><div class="heading h3 text-center text-accent">Frames</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Frames</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '../../store';
 
 export default {
@@ -43,7 +44,7 @@ export default {
   computed: {
     frames() {
       let items = CompendiumStore().Frames;
-      return _.orderBy(
+      return orderBy(
         items.filter((x) => !x.IsHidden),
         'Name'
       );

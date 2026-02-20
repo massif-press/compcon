@@ -1,14 +1,12 @@
 <template>
-  <selector
-    title="Pilot Skill Triggers"
+  <selector title="Pilot Skill Triggers"
     :success="!pilot.SkillsController.IsMissingSkills && enoughSelections"
     :flat="flat"
     :modal="modal"
     :selected="pilot.SkillsController.CurrentSkillPoints"
     :total="pilot.SkillsController.MaxSkillPoints">
     <template #float>
-      <v-card
-        v-if="!pilot.SkillsController.IsMissingSkills && enoughSelections"
+      <v-card v-if="!pilot.SkillsController.IsMissingSkills && enoughSelections"
         flat
         tile
         class="text-cc-overline"
@@ -26,19 +24,17 @@
         variant="outlined"
         density="compact"
         color="accent"
-        v-text="
-          `${pilot.SkillsController.MaxSkillPoints - pilot.SkillsController.CurrentSkillPoints}
+        v-text="`${pilot.SkillsController.MaxSkillPoints - pilot.SkillsController.CurrentSkillPoints}
             Skill Points remaining`
-        " />
+          " />
 
-      <cc-button
-        variant="text"
+      <cc-button variant="text"
         size="x-small"
         block
         :disabled="!pilot.SkillsController.Skills.length"
         @click="
           pilot.SkillsController.ClearSkills();
-          $emit('reset');
+        $emit('reset');
         ">
         Reset
       </cc-button>
@@ -46,8 +42,7 @@
 
     <template #jump>
       <div class="px-2">
-        <cc-select
-          v-model="jump"
+        <cc-select v-model="jump"
           label="jump to"
           color="primary"
           variant="outlined"
@@ -56,12 +51,15 @@
     </template>
 
     <template #right-column>
-      <div v-for="h in headers" class="mb-4">
-        <div v-if="h.attr !== 'Custom'" class="text-cc-overline">Your Ability To</div>
-        <div v-if="mobile" class="text-cc-overline text-accent mb-2">{{ h.description }}</div>
-        <cc-title v-else class="py-1 mb-2">{{ h.description }}</cc-title>
-        <skill-select-item
-          v-for="s in skills[h.attr]"
+      <div v-for="h in headers"
+        class="mb-4">
+        <div v-if="h.attr !== 'Custom'"
+          class="text-cc-overline">Your Ability To</div>
+        <div v-if="mobile"
+          class="text-cc-overline text-accent mb-2">{{ h.description }}</div>
+        <cc-title v-else
+          class="py-1 mb-2">{{ h.description }}</cc-title>
+        <skill-select-item v-for="s in skills[h.attr]"
           :id="`skill_${s.ID}`"
           :skill="s"
           :bonus="pilot.SkillsController.GetSkill(s.ID)?.Bonus || 0"
@@ -70,8 +68,7 @@
           @add="pilot.SkillsController.AddSkill(s)"
           @remove="pilot.SkillsController.RemoveSkill(s)" />
       </div>
-      <add-custom-skill
-        :pilot="pilot"
+      <add-custom-skill :pilot="pilot"
         @add-custom="pilot.SkillsController.AddCustomSkill($event)" />
       <div style="height: 12px" />
     </template>
@@ -90,7 +87,7 @@ import { rules } from '@massif/lancer-data';
 
 import scrollTo from '@/util/scrollTo';
 
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import logger from '@/user/logger';
 
 export default {

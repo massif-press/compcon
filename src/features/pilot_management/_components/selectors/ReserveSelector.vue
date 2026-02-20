@@ -1,34 +1,43 @@
 <template>
-  <cc-compendium-browser
-    :items="reserves"
+  <cc-compendium-browser :items="reserves"
     item-type="Reserve"
     :table-headers="headers"
     :options="options"
     equippable
     @equip="add($event)">
     <template #header>
-      <cc-button size="x-small" color="secondary" class="mb-1" block @click="CustomDialog = true">
+      <cc-button size="x-small"
+        color="secondary"
+        class="mb-1"
+        block
+        @click="CustomDialog = true">
         Add Custom Reserve
       </cc-button>
-      <cc-button size="x-small" color="secondary" class="mb-1" block @click="ProjectDialog = true">
+      <cc-button size="x-small"
+        color="secondary"
+        class="mb-1"
+        block
+        @click="ProjectDialog = true">
         Add Downtime Project
       </cc-button>
-      <cc-button size="x-small" color="secondary" class="mb-1" block @click="OrgDialog = true">
+      <cc-button size="x-small"
+        color="secondary"
+        class="mb-1"
+        block
+        @click="OrgDialog = true">
         Add Organization
       </cc-button>
     </template>
   </cc-compendium-browser>
 
-  <cc-solo-modal
-    v-model="CustomDialog"
+  <cc-solo-modal v-model="CustomDialog"
     max-width="60vw"
     shrink
     title="Add Custom Reserve"
     icon="cc:orbital">
     <custom-reserve-panel @add="add($event)" />
   </cc-solo-modal>
-  <cc-solo-modal
-    v-model="ProjectDialog"
+  <cc-solo-modal v-model="ProjectDialog"
     max-width="60vw"
     shrink
     title="Add Project"
@@ -36,8 +45,7 @@
     >
     <downtime-project-panel @add="add($event)" />
   </cc-solo-modal>
-  <cc-solo-modal
-    v-model="OrgDialog"
+  <cc-solo-modal v-model="OrgDialog"
     max-width="60vw"
     shrink
     title="Add Organization"
@@ -52,7 +60,7 @@ import CustomReservePanel from './components/_CustomReservePanel.vue';
 import DowntimeProjectPanel from './components/_DowntimeProjectPanel.vue';
 import OrganizationPanel from './components/_OrganizationPanel.vue';
 import { Reserve, Organization, Pilot, CompendiumItem } from '@/class';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 
 export default {

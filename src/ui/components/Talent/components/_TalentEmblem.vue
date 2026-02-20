@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="talent.Svg"
-      v-html="cleanSvg(talent.Svg)"
+      v-html-safe="cleanSvg(talent.Svg)"
       :style="`width: ${iconSize}; height: ${iconSize}; fill: #fff`" />
 
     <v-img

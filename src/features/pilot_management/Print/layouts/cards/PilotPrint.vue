@@ -69,22 +69,22 @@
           <v-col>
             <div class="font-weight-bold caption text-primary">HULL</div>
 
-            <div class="heading" v-html="pilot.MechSkillsController.MechSkills.Hull" />
+            <div class="heading" v-html-safe="pilot.MechSkillsController.MechSkills.Hull" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary text-primary">AGI</div>
 
-            <div class="heading" v-html="pilot.MechSkillsController.MechSkills.Agi" />
+            <div class="heading" v-html-safe="pilot.MechSkillsController.MechSkills.Agi" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary">SYS</div>
 
-            <div class="heading" v-html="pilot.MechSkillsController.MechSkills.Sys" />
+            <div class="heading" v-html-safe="pilot.MechSkillsController.MechSkills.Sys" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary">ENG</div>
 
-            <div class="heading" v-html="pilot.MechSkillsController.MechSkills.Eng" />
+            <div class="heading" v-html-safe="pilot.MechSkillsController.MechSkills.Eng" />
           </v-col>
         </v-row>
       </card>

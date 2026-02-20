@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid'
 import { Pilot } from '@/class'
 import { CombatantData, Encounter } from '@/classes/encounter/Encounter'
 import { ISaveData, SaveController } from '@/classes/components'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 
 type PilotSheetData = {
   id: string
@@ -11,6 +12,7 @@ type PilotSheetData = {
   archived: boolean
   save: ISaveData
   campaign?: string
+  simple_tickbars?: boolean
 }
 
 class PilotSheet {
@@ -20,9 +22,10 @@ class PilotSheet {
   public Name: string
   public Combatant: CombatantData
   public Campaign?: string
-  public Encounter: number = 1
 
   public Archived: boolean = false
+
+  public SimpleTickbars: boolean = false
 
   public SaveController: SaveController
 
@@ -30,9 +33,10 @@ class PilotSheet {
     this.ID = data.id
     this.Name = data.combatant.actor.name
     this.Campaign = data.campaign
-    this.Encounter = data.encounter
 
     this.Archived = data.archived
+
+    this.SimpleTickbars = data.simple_tickbars || false
 
     this.Combatant = Encounter.DeserializeCombatant(data.combatant)
 
@@ -78,13 +82,24 @@ class PilotSheet {
     return this.SaveController.LastModified
   }
 
+  // this mocks the encounter instance for the pilot sheet, so that we can use the same components for both
+  public get Encounter(): EncounterInstance {
+    return {
+      ID: this.ID,
+      Combatants: [this.Combatant],
+      RollHistory: [] as any[],
+      Encounter: { NarrativeController: { Tables: [] as any[] } },
+      SimpleTickbars: this.SimpleTickbars,
+    } as EncounterInstance
+  }
+
   public static Serialize(pilotSheet: PilotSheet): any {
     let data = {
       id: pilotSheet.ID,
       combatant: Encounter.SerializeCombatant(pilotSheet.Combatant),
       campaign: pilotSheet.Campaign,
-      encounter: pilotSheet.Encounter,
       archived: pilotSheet.Archived,
+      simple_tickbars: pilotSheet.SimpleTickbars,
     }
 
     SaveController.Serialize(pilotSheet, data)

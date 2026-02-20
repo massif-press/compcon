@@ -1,6 +1,5 @@
 <template>
-  <cc-compendium-browser
-    :items="filteredFrames"
+  <cc-compendium-browser :items="filteredFrames"
     item-type="Frame"
     :options="options"
     equippable
@@ -12,22 +11,32 @@
     <template #top>
       <v-row justify="end">
         <v-col cols="auto">
-          <cc-switch v-model="showAll" label="Show All Frames" color="error" />
+          <cc-switch v-model="showAll"
+            label="Show All Frames"
+            color="error" />
         </v-col>
       </v-row>
     </template>
   </cc-compendium-browser>
 
-  <cc-solo-modal v-model="nameDialog" shrink title="register new mech" icon="cc:frame">
+  <cc-solo-modal v-model="nameDialog"
+    shrink
+    title="register new mech"
+    icon="cc:frame">
     <v-row justify="center">
-      <v-col cols="11" md="8">
+      <v-col cols="11"
+        md="8">
         <span class="text-overline">XK-4-01 // REGISTER MECH NAME</span>
-        <v-text-field v-model="mechName" variant="outlined" label="Name" hide-details tile>
+        <v-text-field v-model="mechName"
+          variant="outlined"
+          label="Name"
+          hide-details
+          tile>
           <template #prepend>
-            <v-tooltip text="Generate Random Name" location="top">
+            <v-tooltip text="Generate Random Name"
+              location="top">
               <template #activator="{ props }">
-                <cc-button
-                  v-bind="props"
+                <cc-button v-bind="props"
                   color="accent"
                   icon="mdi-dice-multiple"
                   variant="outlined"
@@ -36,15 +45,16 @@
             </v-tooltip>
           </template>
           <template #append>
-            <v-icon v-if="!mechName" color="error">mdi-alert</v-icon>
-            <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
+            <v-icon v-if="!mechName"
+              color="error">mdi-alert</v-icon>
+            <v-icon v-else
+              color="success">mdi-check-circle-outline</v-icon>
           </template>
         </v-text-field>
       </v-col>
     </v-row>
     <div class="py-4">
-      <cc-button
-        block
+      <cc-button block
         color="accent"
         size="small"
         prepend-icon="cc:frame"
@@ -59,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { CompendiumStore } from '@/stores';
 import { Pilot, Frame, Mech, ItemType } from '@/class';

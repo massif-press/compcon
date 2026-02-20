@@ -1,8 +1,12 @@
 <template>
   <div class="pa-2 mt-3">
-    <div class="text-overline text-primary" style="line-height: 0">EQUIPMENT TAG DETAIL</div>
-    <div v-for="t in tags" class="ma-2 no-print-break">
-      <v-card variant="outlined" class="pa-2" color="grey">
+    <div class="text-overline text-primary"
+      style="line-height: 0">EQUIPMENT TAG DETAIL</div>
+    <div v-for="t in tags"
+      class="ma-2 no-print-break">
+      <v-card variant="outlined"
+        class="pa-2"
+        color="grey">
         <v-row dense>
           <v-col cols="auto">
             <v-icon icon="mdi-tag-outline" />
@@ -22,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'tag-info-print',

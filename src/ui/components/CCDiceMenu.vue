@@ -138,7 +138,7 @@
                     close
                     close-icon="mdi-close"
                     @click:close="removeMod()">
-                    <span v-html="accString" />
+                    <span v-html-safe="accString" />
                   </v-chip>
                 </v-col>
               </v-row>

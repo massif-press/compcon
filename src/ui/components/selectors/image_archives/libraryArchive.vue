@@ -1,8 +1,7 @@
 <template>
   <v-row class="my-1">
     <v-col>
-      <v-select
-        label="Image Type"
+      <v-select label="Image Type"
         v-model="selectedTags"
         hide-details
         density="compact"
@@ -14,10 +13,13 @@
     </v-col>
   </v-row>
   <v-card>
-    <v-row dense align="center">
-      <v-col v-for="image in displayedArtistImages" :key="image.url" cols="4" md="3">
-        <v-card
-          class="ma-2"
+    <v-row dense
+      align="center">
+      <v-col v-for="image in displayedArtistImages"
+        :key="image.url"
+        cols="4"
+        md="3">
+        <v-card class="ma-2"
           outlined
           tile
           :color="isSelected(image.url) ? 'primary' : ''"
@@ -25,18 +27,23 @@
           style="border-width: 3px"
           @click="isSelected(image.url) ? (selectedImage = null) : stage(image)">
           <div class="background">
-            <v-img :src="image.url" contain max-height="200px" />
+            <v-img :src="image.url"
+              contain
+              max-height="200px" />
           </div>
         </v-card>
         <v-scale-transition>
-          <v-card v-if="isSelected(image.url)" flat outlined class="pa-1" tile>
+          <v-card v-if="isSelected(image.url)"
+            flat
+            outlined
+            class="pa-1"
+            tile>
             <div class="text-caption text-center">
               Artwork by
               <b>{{ image.artist }}</b>
             </div>
             <div class="text-center mt-n2">
-              <v-btn
-                v-if="image.website"
+              <v-btn v-if="image.website"
                 size="small"
                 icon
                 variant="plain"
@@ -45,8 +52,7 @@
                 class="mx-2">
                 <v-icon>mdi-web</v-icon>
               </v-btn>
-              <v-btn
-                v-if="image.twitter"
+              <v-btn v-if="image.twitter"
                 size="small"
                 icon
                 variant="plain"
@@ -60,8 +66,7 @@
         </v-scale-transition>
       </v-col>
     </v-row>
-    <v-pagination
-      v-model="currentArtistPage"
+    <v-pagination v-model="currentArtistPage"
       :length="totalArtistPages"
       total-visible="9"
       @input="currentArtistPage = $event" />
@@ -69,7 +74,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import artistMap from '@/assets/artistmap.json';
 
 export default {

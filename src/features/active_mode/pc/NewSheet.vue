@@ -367,7 +367,7 @@ export default {
       this.selectedPilot.ActiveMech = this.selectedMech;
 
       await PilotStore().AddPilotSheet(this.selectedPilot as Pilot, this.campaign);
-      if (launch) this.$router.push('pilot-runner');
+      if (launch) this.$router.push(`pilot-runner/${PilotStore().CurrentActiveID}`);
       else this.$router.push('sheet-manager');
     },
     reset() {

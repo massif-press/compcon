@@ -1,9 +1,11 @@
 <template>
   <v-card>
-    <v-row dense align="center">
-      <v-col v-for="image in displayedUserImages" cols="4" md="3">
-        <v-card
-          class="ma-2"
+    <v-row dense
+      align="center">
+      <v-col v-for="image in displayedUserImages"
+        cols="4"
+        md="3">
+        <v-card class="ma-2"
           outlined
           tile
           :color="selectedImage === image.url ? 'primary' : ''"
@@ -11,17 +13,29 @@
           style="border-width: 3px"
           @click="selectedImage === image.url ? (selectedImage = null) : stage(image)">
           <div class="background">
-            <v-img :src="image.url" contain max-height="200px" />
+            <v-img :src="image.url"
+              contain
+              max-height="200px" />
           </div>
         </v-card>
         <v-scale-transition>
-          <v-card v-if="selectedImage === image.url" flat class="pa-1" tile>
+          <v-card v-if="selectedImage === image.url"
+            flat
+            class="pa-1"
+            tile>
             <div class="text-caption pb-1 text-center">
               {{ image.key }}
             </div>
-            <v-menu offset-y offset-x top left>
+            <v-menu offset-y
+              offset-x
+              top
+              left>
               <template v-slot:activator="{ props }">
-                <v-btn block variant="tonal" color="error" size="x-small" v-bind="props">
+                <v-btn block
+                  variant="tonal"
+                  color="error"
+                  size="x-small"
+                  v-bind="props">
                   Delete
                 </v-btn>
               </template>
@@ -33,14 +47,12 @@
         </v-scale-transition>
       </v-col>
     </v-row>
-    <v-pagination
-      v-model="currentUserPage"
+    <v-pagination v-model="currentUserPage"
       :length="totalUserPages"
       total-visible="9"
       @input="currentUserPage = $event" />
     <v-divider class="my-3" />
-    <cc-alert
-      density="compact"
+    <cc-alert density="compact"
       class="my-2 text-caption"
       icon="mdi-alert"
       title="Local Data Warning">
@@ -57,8 +69,7 @@
       <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
       <v-row align="center">
         <v-col>
-          <v-file-input
-            v-model="stagedImage"
+          <v-file-input v-model="stagedImage"
             density="compact"
             hide-details
             flat
@@ -69,23 +80,26 @@
             @change="$emit('set-staged', $event)" />
         </v-col>
         <v-col cols="auto">
-          <cc-button color="accent" :loading="loading" @click="uploadImage()">Upload</cc-button>
+          <cc-button color="accent"
+            :loading="loading"
+            @click="uploadImage()">Upload</cc-button>
         </v-col>
       </v-row>
       <div>
         <div class="text-caption">
           BROWSER STORAGE USAGE
-          <v-tooltip
-            inline
+          <v-tooltip inline
             :text="`This represents the total amount of local disk spaced used by COMP/CON. This includes all images, data files, and other assets.`"
             max-width="300px">
             <template #activator="{ props }">
-              <v-icon small v-bind="props">mdi-information-box-outline</v-icon>
+              <v-icon small
+                v-bind="props">mdi-information-box-outline</v-icon>
             </template>
           </v-tooltip>
         </div>
 
-        <v-progress-linear :value="(accountUsage / accountMax) * 100" height="20px">
+        <v-progress-linear :value="(accountUsage / accountMax) * 100"
+          height="20px">
           <template v-slot:default="{ value }">
             <strong>
               {{ accountUsage.toFixed(2) }}
@@ -102,7 +116,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import { GetKeys, RemoveItem, AddBlob, GetBlob } from '@/io/Storage';
 import logger from '@/user/logger';
 

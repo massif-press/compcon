@@ -131,7 +131,7 @@
     icon="cc:talent"
     color="weapon"
     class="mt-2">
-    <div v-html="revisions[2].detail" class="text-cc-overline" />
+    <div v-html-safe="revisions[2].detail" class="text-cc-overline" />
   </cc-alert>
   <cc-tags v-if="item.CustomTags" :tags="item.CustomTags" color="exotic" extended />
 </template>

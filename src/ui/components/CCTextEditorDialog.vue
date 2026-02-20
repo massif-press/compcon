@@ -1,13 +1,11 @@
 <template>
-  <cc-solo-modal
-    v-model="dialogValue"
+  <cc-solo-modal v-model="dialogValue"
     :title="title"
     icon="mdi-circle-edit-outline"
     :max-width="width"
     shrink>
     <v-card-text class="px-0">
-      <quill-editor
-        :options="editorOptions"
+      <quill-editor :options="editorOptions"
         theme="snow"
         v-model:content="text"
         content-type="html" />
@@ -17,7 +15,7 @@
 
 <script lang="ts">
 import { options } from '@/ui/style/quillSetup';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 
 export default {
   name: 'cc-text-editor',

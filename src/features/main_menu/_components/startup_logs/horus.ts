@@ -1,16 +1,16 @@
-import _ from 'lodash';
-import { tracert } from '@/io/Generators';
-import _nfo from './horus_chat/nfo.txt?raw';
-import _motd from './horus_chat/motd.txt?raw';
-import _chat from './horus_chat/chat.txt?raw';
-import _mods from './horus_chat/mods.txt?raw';
-import _admin from './horus_chat/admin.txt?raw';
-import _bans from './horus_chat/bans.txt?raw';
+import * as _ from 'lodash-es'
+import { tracert } from '@/io/Generators'
+import _nfo from './horus_chat/nfo.txt?raw'
+import _motd from './horus_chat/motd.txt?raw'
+import _chat from './horus_chat/chat.txt?raw'
+import _mods from './horus_chat/mods.txt?raw'
+import _admin from './horus_chat/admin.txt?raw'
+import _bans from './horus_chat/bans.txt?raw'
 
-const HorusStart = async (typer) => {
-  let nfo = _nfo as unknown as string;
+const HorusStart = async typer => {
+  let nfo = _nfo as unknown as string
 
-  let motd = _.sample((_motd as unknown as string).split('\n'));
+  let motd = _.sample((_motd as unknown as string).split('\n'))
 
   typer
     .type('<br>')
@@ -86,8 +86,8 @@ const HorusStart = async (typer) => {
     .break()
     .type('------------------------------------------------------------')
     .pause(550)
-    .go();
-};
+    .go()
+}
 
 const banTypes = [
   'BANNED',
@@ -99,83 +99,83 @@ const banTypes = [
   'PERMABANNED',
   'MUTED FOR 500KSEC',
   'MUTED FOR 800KSEC',
-];
+]
 
 function formatChat(input: string[]): string {
-  return `<span class="text-accent">${input[0]}: </span><span>${input[1]}</span>`;
+  return `<span class="text-accent">${input[0]}: </span><span>${input[1]}</span>`
 }
 
 function formatMod(input: string[]): string {
-  return `<span class="text-red">${input[0]}: </span><span>${input[1]}</span>`;
+  return `<span class="text-red">${input[0]}: </span><span>${input[1]}</span>`
 }
 
 function formatAdmin(input: string): string {
-  return `<span class="text-info"><b>[ADMIN] dogfriend_68: </b>${input}</span>`;
+  return `<span class="text-info"><b>[ADMIN] dogfriend_68: </b>${input}</span>`
 }
 
 function formatBan(input: string[]): string {
   return `<span class="text-warning">// USER: ${input[0]} ${_.sample(banTypes)} | REASON: ${
     input[1]
-  } --ADMIN //</span>`;
+  } --ADMIN //</span>`
 }
 
 function randomNoRepeat(arr) {
-  let copy = arr.slice(0);
+  let copy = arr.slice(0)
   return function () {
     if (copy.length < 1) {
-      copy = arr.slice(0);
+      copy = arr.slice(0)
     }
-    const index = Math.floor(Math.random() * copy.length);
-    const item = copy[index];
-    copy.splice(index, 1);
-    return item;
-  };
+    const index = Math.floor(Math.random() * copy.length)
+    const item = copy[index]
+    copy.splice(index, 1)
+    return item
+  }
 }
 
-const HorusChat = async (output) => {
-  let chat = (_chat as unknown as string).split('\n');
+const HorusChat = async output => {
+  let chat = (_chat as unknown as string).split('\n')
 
-  let mods = (_mods as unknown as string).split('\n');
+  let mods = (_mods as unknown as string).split('\n')
 
-  let admin = (_admin as unknown as string).split('\n');
+  let admin = (_admin as unknown as string).split('\n')
 
-  let bans = (_bans as unknown as string).split('\n');
+  let bans = (_bans as unknown as string).split('\n')
 
-  const allLines = [] as string[];
+  const allLines = [] as string[]
 
-  chat.forEach((l) => {
-    allLines.push(formatChat(l.split(/,(.+)/)));
-  });
+  chat.forEach(l => {
+    allLines.push(formatChat(l.split(/,(.+)/)))
+  })
 
-  mods.forEach((l) => {
-    allLines.push(formatMod(l.split(/,(.+)/)));
-  });
+  mods.forEach(l => {
+    allLines.push(formatMod(l.split(/,(.+)/)))
+  })
 
-  admin.forEach((l) => {
-    allLines.push(formatAdmin(l));
-  });
+  admin.forEach(l => {
+    allLines.push(formatAdmin(l))
+  })
 
-  bans.forEach((l) => {
-    allLines.push(formatBan(l.split(/,(.+)/)));
-  });
+  bans.forEach(l => {
+    allLines.push(formatBan(l.split(/,(.+)/)))
+  })
 
-  const sel = randomNoRepeat(allLines);
+  const sel = randomNoRepeat(allLines)
 
   function callback(): void {
-    output.innerHTML += `<br>${sel()}`;
-    output.scrollIntoView({ block: 'end' });
-    if (output && output.innerHTML.length > 2500) output.innerHTML = output.innerHTML.trim(200);
+    output.innerHTML += `<br>${sel()}`
+    output.scrollIntoView({ block: 'end' })
+    if (output && output.innerHTML.length > 2500) output.innerHTML = output.innerHTML.trim(200)
   }
 
   function loop(): void {
-    const rand = _.random(10, 2500);
+    const rand = _.random(10, 2500)
     setTimeout(function () {
-      callback();
-      loop();
-    }, rand);
+      callback()
+      loop()
+    }, rand)
   }
 
-  loop();
-};
+  loop()
+}
 
-export { HorusStart, HorusChat };
+export { HorusStart, HorusChat }

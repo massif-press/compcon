@@ -1,19 +1,16 @@
 <template>
-  <missing-item-alert
-    v-if="pilot.LicenseController.MissingLicenses.length"
+  <missing-item-alert v-if="pilot.LicenseController.MissingLicenses.length"
     :type="'licenses'"
     :items="pilot.LicenseController.MissingLicenses"
     @remove="pilot.LicenseController.RemoveLicense($event.Stub as any)" />
 
-  <selector
-    title="Pilot Licenses"
+  <selector title="Pilot Licenses"
     :success="!pilot.LicenseController.IsMissingLicenses"
     :modal="modal"
     :selected="pilot.LicenseController.CurrentLicensePoints"
     :total="pilot.LicenseController.MaxLicensePoints">
     <template #float>
-      <v-card
-        v-if="!pilot.LicenseController.IsMissingLicenses"
+      <v-card v-if="!pilot.LicenseController.IsMissingLicenses"
         flat
         tile
         class="text-cc-overline"
@@ -22,10 +19,9 @@
         density="compact"
         color="success"
         v-text="'License Selection Complete'" />
-      <v-card
-        v-if="
-          pilot.LicenseController.MaxLicensePoints > pilot.LicenseController.CurrentLicensePoints
-        "
+      <v-card v-if="
+        pilot.LicenseController.MaxLicensePoints > pilot.LicenseController.CurrentLicensePoints
+      "
         flat
         tile
         class="text-cc-overline"
@@ -33,13 +29,11 @@
         variant="outlined"
         density="compact"
         color="accent"
-        v-text="
-          `${pilot.LicenseController.MaxLicensePoints - pilot.LicenseController.CurrentLicensePoints}
+        v-text="`${pilot.LicenseController.MaxLicensePoints - pilot.LicenseController.CurrentLicensePoints}
             License Selections remaining`
-        " />
+          " />
 
-      <cc-button
-        variant="text"
+      <cc-button variant="text"
         size="x-small"
         block
         :disabled="!pilot.LicenseController.Licenses.length"
@@ -50,8 +44,7 @@
 
     <template #jump>
       <div class="px-2">
-        <cc-select
-          v-model="jump"
+        <cc-select v-model="jump"
           label="jump to"
           color="primary"
           variant="outlined"
@@ -61,40 +54,36 @@
 
     <template #right-column>
       <v-row v-for="m in mfSort(Object.keys(licenses))">
-        <v-col v-if="!!mf(m)" class="text-center pa-3">
-          <v-row
-            v-show="
-              !search
-                ? true
-                : licenses[m].some((x) => x.Name.toLowerCase().includes(search.toLowerCase()))
+        <v-col v-if="!!mf(m)"
+          class="text-center pa-3">
+          <v-row v-show="!search
+            ? true
+            : licenses[m].some((x) => x.Name.toLowerCase().includes(search.toLowerCase()))
             "
             align="center"
             justify="center">
             <v-col cols="auto">
-              <cc-logo
-                v-if="mf(m).LogoIsExternal"
+              <cc-logo v-if="mf(m).LogoIsExternal"
                 :source="mf(m)"
                 :size="$vuetify.display.mdAndDown ? 'large' : 'xLarge'"
                 class="pt-3 mb-n1" />
-              <v-icon
-                v-else
+              <v-icon v-else
                 size="60"
                 :icon="mf(m).Icon"
                 :color="mf(m).GetColor($vuetify.theme.current.dark)" />
             </v-col>
-            <v-col
-              cols="auto"
+            <v-col cols="auto"
               :class="$vuetify.display.mdAndDown ? 'heading h2' : 'heading mech'"
               :style="`color: ${mf(m).GetColor($vuetify.theme.current.dark)}`">
               {{ mf(m).Name }}
             </v-col>
           </v-row>
-          <v-expansion-panels accordion focusable flat>
-            <license-expandable
-              :items="
-                licenses[m].filter((x) =>
-                  !search ? true : x.Name.toLowerCase().includes(search.toLowerCase())
-                )
+          <v-expansion-panels accordion
+            focusable
+            flat>
+            <license-expandable :items="licenses[m].filter((x) =>
+              !search ? true : x.Name.toLowerCase().includes(search.toLowerCase())
+            )
               "
               :controller="pilot.LicenseController"
               selectable
@@ -108,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import Selector from './components/_SelectorBase.vue';
 import MissingItem from './components/_MissingItem.vue';
 import LicenseExpandable from '@/ui/components/CompendiumBrowser/components/_license-expandable.vue';

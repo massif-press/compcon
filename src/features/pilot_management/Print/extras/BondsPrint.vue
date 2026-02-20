@@ -71,7 +71,7 @@
               <v-col cols="auto" class="mr-4">
                 <span class="heading h2 text-grey">&emsp;/{{ b.Segments }}</span>
               </v-col>
-              <v-col><div v-html="b.Description" /></v-col>
+              <v-col><div v-html-safe="b.Description" /></v-col>
             </v-row>
           </fieldset>
         </v-col>
@@ -98,7 +98,7 @@
             <v-col cols="auto" class="mr-4">
               <span class="heading h2 text-grey">&emsp;/{{ b.Segments }}</span>
             </v-col>
-            <v-col><div v-html="b.Description" /></v-col>
+            <v-col><div v-html-safe="b.Description" /></v-col>
           </v-row>
         </fieldset>
       </v-col>

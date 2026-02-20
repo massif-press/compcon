@@ -114,7 +114,7 @@
 <script lang="ts">
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { EncounterStore } from '@/stores';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'DamageMenu',

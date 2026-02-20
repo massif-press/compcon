@@ -1,14 +1,13 @@
 <template>
   <v-card-text :style="mobile ? 'margin-top: 24px; padding: 8px' : 'margin-top: 8px'">
-    <v-row class="packInstaller" style="height: 100%">
-      <v-col
-        :style="mobile ? '' : 'height: calc(95vh - 83px)'"
+    <v-row class="packInstaller"
+      style="height: 100%">
+      <v-col :style="mobile ? '' : 'height: calc(95vh - 83px)'"
         style="overflow-y: scroll"
         cols="12"
         md="4"
         class="px-3 py-4">
-        <v-file-input
-          v-model="value"
+        <v-file-input v-model="value"
           placeholder="Select an .LCP file"
           variant="outlined"
           type="file"
@@ -22,8 +21,7 @@
           density="compact"
           @click:clear="reset()"
           @change="fileChange($event)" />
-        <cc-button
-          block
+        <cc-button block
           type="flat"
           size="small"
           :disabled="disableInstall"
@@ -35,58 +33,65 @@
 
           <span>Install</span>
         </cc-button>
-        <v-progress-linear v-if="installing" indeterminate height="20" />
-        <cc-alert v-if="hasAlreadyInstalled" color="warning" class="my-3">
+        <v-progress-linear v-if="installing"
+          indeterminate
+          height="20" />
+        <cc-alert v-if="hasAlreadyInstalled"
+          color="warning"
+          class="my-3">
           <span class="text-caption">
             The following content pack(s) are already installed and will be replaced:
           </span>
-          <div
-            v-for="pack in contentPacks.filter((x) => packAlreadyInstalled(x))"
+          <div v-for="pack in contentPacks.filter((x) => packAlreadyInstalled(x))"
             :key="pack.id"
             class="text-caption">
             <b>{{ pack.manifest.name }}</b>
             by {{ pack.manifest.author }} @ {{ alreadyInstalledVersion(pack) }}
-            <div class="ml-3 mb-2" style="margin-top: -2px">
-              <v-chip
-                v-if="gradeType(pack) === 'upgrade'"
+            <div class="ml-3 mb-2"
+              style="margin-top: -2px">
+              <v-chip v-if="gradeType(pack) === 'upgrade'"
                 color="success"
                 size="x-small"
                 variant="elevated"
                 class="elevation-0">
-                <v-icon start icon="mdi-arrow-up" />
+                <v-icon start
+                  icon="mdi-arrow-up" />
                 Upgrade from {{ alreadyInstalledVersion(pack) }} to {{ pack.manifest.version }}
               </v-chip>
-              <v-chip
-                color="error"
+              <v-chip color="error"
                 size="x-small"
                 variant="elevated"
                 class="elevation-0"
                 v-else-if="gradeType(pack) === 'downgrade'">
-                <v-icon start icon="mdi-arrow-down" />
+                <v-icon start
+                  icon="mdi-arrow-down" />
                 Downgrade to {{ pack.manifest.version }}
               </v-chip>
               <i v-else>
-                <v-icon class="pb-1" icon="mdi-swap-horizontal" />
+                <v-icon class="pb-1"
+                  icon="mdi-swap-horizontal" />
                 No change ({{ pack.manifest.version }} to {{ pack.manifest.version }})
               </i>
             </div>
           </div>
         </cc-alert>
 
-        <cc-alert v-if="hasUninstalledDependencies" color="error" class="my-3">
+        <cc-alert v-if="hasUninstalledDependencies"
+          color="error"
+          class="my-3">
           <span class="text-caption">
             The following content pack(s) have uninstalled dependencies and cannot be installed yet.
             They will be skipped:
           </span>
-          <div
-            v-for="pack in contentPacks.filter((x) => uninstalledDependencies(x).length > 0)"
+          <div v-for="pack in contentPacks.filter((x) => uninstalledDependencies(x).length > 0)"
             :key="pack.id"
             class="text-caption">
             <b>{{ pack.manifest.name }}</b>
             by {{ pack.manifest.author }} requires
-            <div v-for="dep in uninstalledDependencies(pack)" :key="dep.id" class="text-caption">
-              <v-chip
-                size="x-small"
+            <div v-for="dep in uninstalledDependencies(pack)"
+              :key="dep.id"
+              class="text-caption">
+              <v-chip size="x-small"
                 variant="elevated"
                 class="elevation-0"
                 @click="openLink(dep.link)">
@@ -97,32 +102,37 @@
         </cc-alert>
 
         <v-fade-transition mode="out-in">
-          <cc-alert v-if="installing" type="info" class="mt-3">
+          <cc-alert v-if="installing"
+            type="info"
+            class="mt-3">
             Installing {{ contentPacks.length }} content pack(s)...
           </cc-alert>
         </v-fade-transition>
 
-        <p v-if="error" style="color: red">{{ error }}</p>
+        <p v-if="error"
+          style="color: red">{{ error }}</p>
       </v-col>
-      <v-divider v-if="!mobile" vertical class="mx-3" />
-      <v-col
-        class="px-3 py-4"
+      <v-divider v-if="!mobile"
+        vertical
+        class="mx-3" />
+      <v-col class="px-3 py-4"
         :style="mobile ? '' : 'height: calc(95vh - 83px)'"
         style="overflow-y: scroll">
-        <v-fade-transition mode="out-in" v-for="contentPack in contentPacks">
-          <div v-if="contentPack" :key="contentPack.id" class="mb-4">
+        <v-fade-transition mode="out-in"
+          v-for="contentPack in contentPacks">
+          <div v-if="contentPack"
+            :key="contentPack.id"
+            class="mb-4">
             <pack-info :pack="contentPack" />
-            <v-alert
-              v-show="packAlreadyInstalled(contentPack) && !installing"
+            <v-alert v-show="packAlreadyInstalled(contentPack) && !installing"
               flat
               tile
-              :color="
-                gradeType(contentPack) === 'upgrade'
+              :color="gradeType(contentPack) === 'upgrade'
                   ? 'success'
                   : gradeType(contentPack) === 'downgrade'
                     ? 'error'
                     : ''
-              "
+                "
               class="transition-swing"
               transition="slide-y-reverse-transition">
               A pack with this same name and author is already installed.
@@ -134,22 +144,19 @@
               </span>
               <span v-else>It will be replaced by this copy.</span>
             </v-alert>
-            <v-alert
-              v-show="uninstalledDependencies(contentPack).length > 0 && !installing"
+            <v-alert v-show="uninstalledDependencies(contentPack).length > 0 && !installing"
               flat
               tile
               color="error"
               class="transition-swing"
               transition="slide-y-reverse-transition">
               This LCP requires the following content to be installed before it can be added:
-              <div
-                v-for="dep in uninstalledDependencies(contentPack)"
+              <div v-for="dep in uninstalledDependencies(contentPack)"
                 :key="dep.id"
                 class="text-caption">
                 <v-chip size="small">{{ dep.name }}</v-chip>
                 @ {{ parseVersion(dep.version) }}
-                <v-btn
-                  v-if="dep.link"
+                <v-btn v-if="dep.link"
                   icon
                   variant="plain"
                   size="x-small"
@@ -159,7 +166,9 @@
               </div>
             </v-alert>
           </div>
-          <div v-else key="nopack" class="text-center my-6">
+          <div v-else
+            key="nopack"
+            class="text-center my-6">
             <div class="heading h3 font-italic text-disabled">No content pack selected</div>
           </div>
         </v-fade-transition>
@@ -177,7 +186,7 @@ import PackInfo from './PackInfo.vue';
 import { ContentPack, IContentPack } from '@/classes/ContentPack';
 
 import { compare, coerce } from 'semver';
-import { set } from 'lodash';
+import { set } from 'lodash-es';
 import logger from '@/user/logger';
 
 export default {
@@ -205,7 +214,7 @@ export default {
         this.installing ||
         this.contentPacks.length === 0 ||
         this.contentPacks.filter((pack) => this.uninstalledDependencies(pack).length > 0).length ===
-          this.contentPacks.length
+        this.contentPacks.length
       );
     },
   },

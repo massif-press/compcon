@@ -1,6 +1,5 @@
 <template>
-  <v-file-input
-    v-model="fileValue"
+  <v-file-input v-model="fileValue"
     accept="text/json"
     variant="outlined"
     label="Import from File"
@@ -9,10 +8,10 @@
     hide-details
     @change="stageImport"
     @click:clear="reset" />
-  <v-row v-if="stagedPilots.length" justify="end">
+  <v-row v-if="stagedPilots.length"
+    justify="end">
     <v-col cols="auto">
-      <v-checkbox
-        v-model="importPilots"
+      <v-checkbox v-model="importPilots"
         color="accent"
         :label="`Import Pilots (${stagedPilots.length})`"
         density="compact"
@@ -25,7 +24,8 @@
         One or more imported Pilots require the following content packs that are not currently
         installed/active, or have mismatching versions:
       </p>
-      <p class="effect-text text-center" v-html="missingContent" />
+      <p class="effect-text text-center"
+        v-html-safe="missingContent" />
       <p class="text-text">
         These Pilots cannot be imported until the missing content packs are installed and activated,
         or the content pack versions are synchronized.
@@ -34,16 +34,21 @@
     <v-divider />
     <v-card-actions>
       <v-spacer />
-      <v-btn text color="primary" @click="reset">Abort Import</v-btn>
+      <v-btn text
+        color="primary"
+        @click="reset">Abort Import</v-btn>
     </v-card-actions>
   </v-card>
   <div class="mt-2">
-    <p v-if="alreadyPresent" class="text-center" v-text="alreadyPresent" />
+    <p v-if="alreadyPresent"
+      class="text-center"
+      v-text="alreadyPresent" />
     <v-slide-x-reverse-transition>
-      <v-row v-if="stagedData" align="center" justify="center">
+      <v-row v-if="stagedData"
+        align="center"
+        justify="center">
         <v-col cols="auto">
-          <v-btn
-            color="accent"
+          <v-btn color="accent"
             prepend-icon="mdi-plus"
             :disabled="missingContent.length > 0"
             @click="importFile()">
@@ -51,8 +56,7 @@
             <span v-if="stagedPilots.length && importPilots">
               &nbsp;and {{ stagedPilots.length }} Pilot{{
                 stagedPilots.length > 1 ? 's' : ''
-              }}</span
-            >
+              }}</span>
           </v-btn>
         </v-col>
       </v-row>
@@ -67,7 +71,7 @@ import { ImportData } from '@/io/Data';
 import { CompendiumStore, PilotStore } from '@/stores';
 import { PilotData } from '@/interface';
 
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export default {
   name: 'file-import',
