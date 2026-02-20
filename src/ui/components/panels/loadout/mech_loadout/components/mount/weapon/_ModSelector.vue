@@ -153,8 +153,14 @@ export default Vue.extend({
     availableMods(): MechSystem[] {
       let i = this.mods.filter(x => !x.IsHidden && !x.IsExotic)
 
-      i = i.concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
-      i = i.concat(this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
+      if (!this.showUnlicensed) {
+        i = i.filter(
+          x => !x.LicenseLevel || this.mech.Pilot.has('License', x.LicenseID, x.LicenseLevel)
+        )
+      }
+
+      i = i.concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod').filter(x => !i.map(y => y.ID).includes(x.ID)))
+      i = i.concat(this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod').filter(x => !i.map(y => y.ID).includes(x.ID)))
 
       if (!this.showIncompatible) {
         // filter by applied_to
@@ -175,17 +181,11 @@ export default Vue.extend({
       )
 
       // filter ai
-      if (
+      if (!this.showUnlicensed &&
         this.mech.MechLoadoutController.ActiveLoadout.AICount >=
         1 + Bonus.get('ai_cap', this.mech)
       ) {
         i = i.filter(x => !x.IsAI)
-      }
-
-      if (!this.showUnlicensed) {
-        i = i.filter(
-          x => !x.LicenseLevel || this.mech.Pilot.has('License', x.LicenseID, x.LicenseLevel)
-        )
       }
 
       // if (!this.showOverSP) {
