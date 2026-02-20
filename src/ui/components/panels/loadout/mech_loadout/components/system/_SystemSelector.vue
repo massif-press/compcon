@@ -145,7 +145,7 @@ export default Vue.extend({
       // }
 
       i = i
-        .concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'MechSystem'))
+        .concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'MechSystem').filter(x => !i.map(y => y.ID).includes(x.ID)))
         .filter(
           x =>
             !this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(
@@ -153,8 +153,8 @@ export default Vue.extend({
             )
         )
 
-        i = i
-        .concat(this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(x => x.ItemType === 'MechSystem'))
+      i = i
+        .concat(this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(x => x.ItemType === 'MechSystem').filter(x => !i.map(y => y.ID).includes(x.ID)))
         .filter(
           x =>
             !this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(
@@ -162,13 +162,13 @@ export default Vue.extend({
             )
         )
 
-        // filter ai
-        if (!this.showUnlicensed && 
-            this.mech.MechLoadoutController.ActiveLoadout.AICount >= 
-            1 + Bonus.get('ai_cap', this.mech)
-        ) {
-          i = i.filter(x => !x.IsAI)
-        }
+      // filter ai
+      if (!this.showUnlicensed && 
+          this.mech.MechLoadoutController.ActiveLoadout.AICount >= 
+          1 + Bonus.get('ai_cap', this.mech)
+      ) {
+        i = i.filter(x => !x.IsAI)
+      }
 
       return _.sortBy(i, ['Source', 'Name'])
     },
