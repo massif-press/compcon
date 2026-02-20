@@ -144,14 +144,6 @@ export default Vue.extend({
       // filter already equipped
       if (this.weaponSlot.Weapon) i = i.filter(x => x.ID !== this.weaponSlot.Weapon.ID)
 
-      // filter ai
-      if (
-        this.mech.MechLoadoutController.ActiveLoadout.AICount >=
-        1 + Bonus.get('ai_cap', this.mech)
-      ) {
-        i = i.filter(x => !x.IsAI)
-      }
-
       if (!this.showUnlicensed) {
         i = i.filter(
           x => !x.LicenseLevel || this.mech.Pilot.has('License', x.LicenseID, x.LicenseLevel)
@@ -161,14 +153,23 @@ export default Vue.extend({
       i = i.concat(
         this.mech.Pilot.SpecialEquipment.filter(
           x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
-        )
+        ).filter(x => !i.map(y => y.ID).includes(x.ID))
       )
 
       i = i.concat(
         this.mech.MechLoadoutController.ActiveLoadout.SpecialEquipment.filter(
           x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
-        )
+        ).filter(x => !i.map(y => y.ID).includes(x.ID))
       )
+
+      // filter ai
+      if (!this.showUnlicensed &&
+        this.mech.MechLoadoutController.ActiveLoadout.AICount >=
+        1 + Bonus.get('ai_cap', this.mech)
+      ) {
+        i = i.filter(x => !x.IsAI)
+      }
+
 
       // filter unique
       i = i.filter(
