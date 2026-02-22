@@ -32,7 +32,7 @@ class Range {
   }
 
   public get Value(): string {
-    if (this._bonus) return (this._value + this._bonus).toString()
+    if (this._bonus && this._bonus !== -99) return Math.max(1, (this._value + this._bonus)).toString()
     return this._value.toString()
   }
 
@@ -68,20 +68,25 @@ class Range {
 
     const output = []
 
-    item.Range.forEach(r => {
-      if (r.Override) return
-      let bonus = 0
-      addedRange.forEach(added => {
-        if (added._range_type === r._range_type) bonus += added._value
-      })
-      output.push(
-        new Range({
-          type: r.Type,
-          val: r._value,
-          override: r._override,
-          bonus: bonus,
-        })
-      )
+    Object.keys(RangeType).forEach(type => {
+      const r = item.Range.find(x => x.Type === type)
+      const added = addedRange.find(x => x.Type === type)
+      if (!r){
+        if (added && added._bonus === -99){ 
+          return output.push(new Range(Range.Serialize(added))) // we use -99 as the magic number for "create this range type"
+        } else return // if we don't have that magic number, ignore this entirely don't add a range type that doesn't exist on the item
+      } else {
+        if (!added) return output.push(new Range(Range.Serialize(r))) // the "there's nothing to do here" case
+        else{
+          if (added.Override) {
+            if (added._value === 0) return // remove range type, there's no other clean way to mark range types for removal in the current system
+            else return output.push(new Range(Range.Serialize(added))) // override
+          } else { // merge range types
+            output.push(new Range(Range.Serialize(r)))
+            output[output.length - 1]._bonus += added._value // add bonus to existing range
+          }
+        }
+      }
     })
 
     if (!Bonus.get('range', mech) || item.NoCoreBonus) return output
