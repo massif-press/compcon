@@ -389,7 +389,6 @@ class MechLoadout extends Loadout {
         frame_special_equipment = frame_special_equipment.concat(this.Parent.Frame.Traits[i].SpecialEquipment);
       }
     }
-    console.log(frame_special_equipment);
     return (this.UniqueItems.filter(x => x.SpecialEquipment.length != 0).map(y => y.SpecialEquipment)).concat(frame_special_equipment).flat();
   }
 
