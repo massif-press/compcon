@@ -1,5 +1,5 @@
 <template>
-  <v-menu open-on-hover
+  <v-menu :open-on-hover="!mobile"
     max-width="400"
     :close-on-content-click="false">
     <template #activator="{ props }">
@@ -10,8 +10,8 @@
           flat
           tile
           v-bind="props"
-          @click="rollAttack()">
-          <v-icon size="25"
+          @click="mobile ? props.isActive = true : rollAttack()">
+          <v-icon :size="mobile ? 22 : 25"
             icon="mdi-dice-d20" />
         </v-btn>
       </div>
@@ -152,24 +152,31 @@ export default {
     plus: 0,
     dice: [2, 3, 4, 6, 8, 10, 12, 20, 100],
   }),
-  targetCoverDifficulty() {
-    const target = this.rollData.Combatant.actor.CombatController
-    if (!target) return 0;
+  emits: ['rolled'],
+  computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
+    targetCoverDifficulty() {
+      const target = this.rollData.Combatant?.actor?.CombatController
+      if (!target) return 0;
 
-    return target.Cover === 'none'
-      ? 0
-      : target.Cover === 'soft'
-        ? 1
-        : 2;
-  },
-  engagedDifficulty() {
-    return this.rollData.Event.Initiator.actor.CombatController.HasStatus('engaged') ? 1 : 0;
+      return target.Cover === 'none'
+        ? 0
+        : target.Cover === 'soft'
+          ? 1
+          : 2;
+    },
+    engagedDifficulty() {
+      return this.rollData.Event.Initiator.actor.CombatController.HasStatus('engaged') ? 1 : 0;
+    },
   },
   methods: {
     reset() {
       this.plus = 0;
       this.rollData.AttackAccuracy = this.rollData.Event.Accuracy || 0;
       this.rollData.AttackRollResult = null;
+      this.$emit('rolled', 0);
     },
     rollAttack() {
       const diceValue = this.count && this.die ? `${this.count}d${this.die}+${this.plus || 0}` : 0;
@@ -178,6 +185,8 @@ export default {
       );
       this.rollData.AttackRollResult = rollResult;
       this.rollData.AttackRolledValue = rollResult.total;
+
+      this.$emit('rolled', this.rollData.AttackRolledValue);
     },
   },
 };

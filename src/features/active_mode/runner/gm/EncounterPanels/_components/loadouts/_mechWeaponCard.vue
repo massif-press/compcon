@@ -14,8 +14,8 @@
       justify="end"
       class="pr-1"
       :style="item.Used ? 'opacity: 0.4' : ''">
-      <v-col :class="mobile ? 'text-cc-overline line-short' : 'heading h3 text-uppercase'">
-        <div class="mt-n2 pl-1">
+      <v-col :class="mobile ? 'text-cc-overline ' : 'heading h3 text-uppercase'">
+        <div class="pl-1">
           {{ item.Name }}
           <span class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />

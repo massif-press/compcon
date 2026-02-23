@@ -34,6 +34,7 @@
       class="mb-1 px-1">
 
       <effect-applicator v-if="!event.IsPassive"
+        :pc="isPilotSheet"
         :event="event" />
 
     </v-card>
@@ -114,6 +115,9 @@ export default {
     this.reset();
   },
   computed: {
+    isPilotSheet() {
+      return this.encounter.ItemType === 'PilotSheet';
+    },
     isApplied(): boolean {
       return this.owner.actor.CombatController.IsActionUsed(this.activeEffect.ID);
     },

@@ -1,6 +1,6 @@
 <template>
   <v-list>
-    <div v-if="pilot">
+    <div v-if="pc">
       <v-tooltip>
         <template #activator="{ props }">
           <v-list-item v-bind="!expanded && props"
@@ -14,15 +14,24 @@
         </template>
         Pilot Sheet
       </v-tooltip>
-      <v-tooltip>
+      <v-tooltip v-if="pc && combatant">
         <template #activator="{ props }">
           <v-list-item v-bind="!expanded && props"
             :class="getBgClass('deployables')"
             @click="selectPanel('deployables')">
             <template #prepend>
-              <v-icon icon="cc:drone" />
+              <v-badge v-if="combatant.deployables.length"
+                color="info"
+                offset-x="-5"
+                :content="combatant.deployables.length">
+                <v-icon icon="cc:drone" />
+              </v-badge>
+              <v-icon v-else
+                icon="cc:drone" />
             </template>
-            Deployables
+            <span v-if="expanded">
+              Deployables
+            </span>
           </v-list-item>
         </template>
         Deployables
@@ -54,7 +63,7 @@
       Rollable Tables
     </v-tooltip>
     <v-divider class="my-2" />
-    <v-tooltip v-if="!pilot">
+    <v-tooltip v-if="!pc">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('encounter-info')"
@@ -137,8 +146,12 @@ export default {
       type: String,
       default: '',
     },
-    pilot: {
+    pc: {
       type: Boolean
+    },
+    combatant: {
+      type: Object,
+      default: null,
     }
   },
   emits: ['select-panel', 'open-dice-roller', 'open-table-index'],

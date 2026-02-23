@@ -1,15 +1,14 @@
 <template>
-  <cc-panel
-    color="primary"
+  <cc-panel color="primary"
     style="position: relative"
     class="text-center"
-    height="94px"
-    width="200px"
+    :height="mobile ? '' : '94px'"
+    :width="mobile ? '' : '200px'"
     density="compact">
     <transition name="fade">
-      <v-card-text class="pa-0" v-if="creating">
-        <v-text-field
-          ref="nameField"
+      <v-card-text class="pa-0"
+        v-if="creating">
+        <v-text-field ref="nameField"
           v-model="name"
           placeholder="Counter name"
           density="compact"
@@ -19,19 +18,30 @@
           tile
           @keypress.esc="cancel"
           @keypress.enter="create" />
-        <v-row no-gutters class="mt-2">
+        <v-row no-gutters
+          class="mt-2">
           <v-col>
-            <v-btn block flat tile height="20px" variant="text" @click="cancel">CANCEL</v-btn>
+            <v-btn block
+              flat
+              tile
+              height="20px"
+              variant="text"
+              @click="cancel">CANCEL</v-btn>
           </v-col>
           <v-col>
-            <v-btn block flat tile height="20px" variant="text" :disabled="!name" @click="create">
+            <v-btn block
+              flat
+              tile
+              height="20px"
+              variant="text"
+              :disabled="!name"
+              @click="create">
               Add
             </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
-      <v-btn
-        v-else
+      <v-btn v-else
         block
         flat
         tile
@@ -39,9 +49,10 @@
         variant="text"
         style="height: 100%"
         @click="startCreating">
-        <div class="py-1">
-          <v-icon icon="mdi-plus" size="x-large" />
-          <div>Add Custom Counter</div>
+        <div :class="mobile ? '' : 'py-1'">
+          <v-icon icon="mdi-plus"
+            :size="mobile ? 'default' : 'x-large'" />
+          <div v-if="!mobile">Add Custom Counter</div>
         </div>
       </v-btn>
     </transition>
@@ -55,6 +66,11 @@ export default {
     creating: false,
     name: '',
   }),
+  computed: {
+    mobile(): boolean {
+      return this.$vuetify.display.mdAndDown;
+    },
+  },
   methods: {
     async startCreating(): Promise<void> {
       this.creating = true;
@@ -84,7 +100,12 @@ export default {
   position: absolute;
   width: 100%;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+  {
   opacity: 0;
 }
 </style>

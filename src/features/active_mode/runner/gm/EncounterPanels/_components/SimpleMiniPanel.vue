@@ -17,7 +17,8 @@
               v-bind="props" />
           </template>
         </v-tooltip>
-        <span v-if=!portrait>{{ title }}</span>
+        <span v-if=!portrait
+          style="font-size: 15px;">{{ title }}</span>
       </v-col>
 
       <v-col cols="auto"
@@ -44,7 +45,7 @@
               hide-details
               autofocus
               density="compact"
-              width="80"
+              width="60"
               hide-spin-buttons
               @focus="$event.target.select()"
               @update:model-value="setVal(Number($event))" />
@@ -69,7 +70,7 @@
             <v-btn icon
               flat
               tile
-              size="30"
+              size="x-small"
               class="mx-2 fade-select"
               variant="text"
               v-bind="props">
@@ -94,11 +95,20 @@
 </template>
 
 <script>
+import { max } from 'lodash-es';
+
 export default {
   name: 'stat-mini-panel',
   props: {
     modelValue: {
       type: Number,
+    },
+    max: {
+      type: Number,
+    },
+    min: {
+      type: Number,
+      default: 0,
     },
     title: {
       type: String,
@@ -115,9 +125,6 @@ export default {
     baseValue: {
       type: Number,
       default: 0,
-    },
-    simple: {
-      type: Boolean,
     },
   },
   data() {
@@ -144,6 +151,14 @@ export default {
   },
   methods: {
     setVal(val) {
+      if (this.boolean) {
+        val = val > 0 ? 1 : 0;
+      } else {
+        val = max([val, this.min]);
+        if (this.max !== undefined) {
+          val = Math.min(val, this.max);
+        }
+      }
       this.$emit('update:model-value', val);
     },
   },

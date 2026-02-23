@@ -1,7 +1,8 @@
 <template>
   <v-col :cols="cols"
     v-if="event.StatusEvents.length">
-    <div class="text-cc-overline text-disabled">
+    <div v-if="!mobile"
+      class="text-cc-overline text-disabled">
       Status
     </div>
     <div v-for="(s, s_idx) in event.StatusEvents"
@@ -37,6 +38,9 @@ export default {
     cols: { type: [Number, String], default: 'auto' }
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown
+    },
     statusOptions() {
       return CompendiumStore().Statuses
     },

@@ -1,7 +1,9 @@
 <template>
   <v-col cols="auto"
+    class="mt-1"
     v-if="event.Attack">
-    <div class="text-cc-overline text-disabled">vs {{ event.AttackStat }}</div>
+    <div v-if="!mobile"
+      class="text-cc-overline text-disabled">vs {{ event.AttackStat }}</div>
     <div v-for="(s, idx) in event.Targets">
       <v-row v-if="!s"
         no-gutters
@@ -18,9 +20,9 @@
           <v-text-field v-model="s.AttackRolledValue"
             density="compact"
             variant="outlined"
-            class="mb-1"
+            :class="mobile ? 'short' : 'mb-1'"
             type="number"
-            width="85"
+            :width="mobile ? 60 : 85"
             hide-spin-buttons
             flat
             :error="!s.AttackRolledValue"
@@ -38,8 +40,9 @@
         </v-col>
         <v-col align-self="center">
           <v-text-field v-model="s.TargetDefenseValue"
-            :key="s.Combatant.ID"
+            :key="s.Combatant?.ID || `defense_${idx}`"
             density="compact"
+            :class="mobile ? 'short' : 'mb-1'"
             variant="outlined"
             type="number"
             width="100"
@@ -82,7 +85,7 @@
 
                 <div class="text-center">
                   {{
-                    !s.HitResult === 'crit'
+                    s.HitResult !== 'crit'
                       ? 'No Attack Rolled'
                       : s.HitResult === 'crit'
                         ? 'Critical Hit'
@@ -116,6 +119,11 @@ export default {
     event: { type: Object, required: true },
     crits: { type: Boolean, default: false },
   },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    }
+  },
   methods: {
     getTargetCoverDifficulty(idx) {
       const target = this.selectedTargets[idx];
@@ -140,3 +148,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+::v-deep(.short .v-field__input) {
+  min-height: 28px !important;
+  padding: 4px !important;
+  padding-left: 8px !important;
+}
+
+::v-deep(.short .v-field) {
+  height: 28px !important;
+}
+</style>

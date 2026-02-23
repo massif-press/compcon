@@ -4,8 +4,8 @@
       <span>{{ `Target${event.AoE ? 's' : ''}` }}</span>
     </div>
     <v-select v-for="(idx) in !event.AoE ? 1 : event.Targets.length"
-      :key="event.Targets[idx - 1]?.Combatant.id || 'empty-selector-00'"
-      :value="event.Targets[idx - 1]?.Combatant.actor.CombatController.CombatName || ''"
+      :key="event.Targets[idx - 1]?.Combatant?.id || `empty-selector-${idx}`"
+      :value="event.Targets[idx - 1]?.Combatant?.actor.CombatController.CombatName || getOrdinal(idx) + ' Target'"
       density="compact"
       variant="outlined"
       return-object
@@ -93,5 +93,7 @@ export default {
   props: {
     event: { type: Object, required: true },
   },
+
+
 };
 </script>

@@ -51,7 +51,7 @@
       cols="auto">
       <v-btn v-if="!controller.AIControl"
         :color="controller.CanActivate('protocol') ? 'protocol' : 'panel'"
-        size="small"
+        :size="mobile ? 'x-small' : 'small'"
         flat
         tile
         height="25"
@@ -157,12 +157,10 @@
         </template>
       </v-tooltip>
     </v-col>
-    <v-spacer />
 
 
-    <v-col cols=12
-      md="auto">
-
+    <v-col cols="auto"
+      class="ml-auto">
       <v-menu open-on-hover
         :close-on-content-click="false">
         <template #activator="{ props }">
@@ -320,6 +318,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
     isFeature() {
       if (!this.item?.ItemType) return false;
       return this.item.ItemType.toLowerCase().includes('npc');

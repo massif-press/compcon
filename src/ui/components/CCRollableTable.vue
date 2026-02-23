@@ -1,24 +1,26 @@
 <template>
   <v-card variant="tonal">
-    <v-toolbar v-if="!hideTitle" density="compact" class="pl-3">
+    <v-toolbar v-if="!hideTitle"
+      density="compact"
+      class="pl-3">
       <div style="min-width: 200px">
-        <cc-short-string-editor
-          v-if="!readonly"
+        <cc-short-string-editor v-if="!readonly"
           justify="start"
           :placeholder="table.Title"
           @set="table.Title = $event">
           <span class="heading h3">{{ table.Title }}</span>
         </cc-short-string-editor>
-        <div v-else class="heading h3">{{ table.Title }}</div>
+        <div v-else
+          class="heading h3">{{ table.Title }}</div>
       </div>
       <div v-if="!dense && !readonly">
-        <v-checkbox-btn v-model="table.GmOnly" hide-details>
+        <v-checkbox-btn v-model="table.GmOnly"
+          hide-details>
           <template #label>
             GM Only
             <v-tooltip location="top">
               <template #activator="{ props }">
-                <v-icon
-                  class="fade-select"
+                <v-icon class="fade-select"
                   size="x-small"
                   end
                   icon="mdi-information-outline"
@@ -33,20 +35,26 @@
         </v-checkbox-btn>
       </div>
       <v-spacer />
-      <v-row no-gutters v-if="!readonly" align="center">
-        <v-col cols="auto" v-if="!dense" class="heading pl-3 pr-3">Roll</v-col>
-
+      <v-row no-gutters
+        v-if="!readonly"
+        align="center">
+        <v-col cols="auto"
+          v-if="!dense"
+          class="heading pl-3 pr-3">Roll</v-col>
         <v-col cols="auto">
           <v-menu>
             <template #activator="{ props }">
-              <v-btn icon v-bind="props" variant="tonal" size="x-small" class="mt-n1">
+              <v-btn icon
+                v-bind="props"
+                variant="tonal"
+                size="x-small"
+                class="mt-n1">
                 <span class="heading h3">{{ table.Mult || '#' }}</span>
               </v-btn>
             </template>
             <v-card>
               <v-card-text>
-                <v-btn
-                  v-for="n in 5"
+                <v-btn v-for="n in 5"
                   icon
                   variant="tonal"
                   color="accent"
@@ -60,18 +68,23 @@
           </v-menu>
         </v-col>
 
-        <v-col cols="auto" class="heading" style="margin: 0px 2px 0 2px">D</v-col>
+        <v-col cols="auto"
+          class="heading"
+          style="margin: 0px 2px 0 2px">D</v-col>
         <v-col cols="auto">
           <v-menu>
             <template #activator="{ props }">
-              <v-btn icon v-bind="props" variant="tonal" size="x-small" class="mt-n1">
+              <v-btn icon
+                v-bind="props"
+                variant="tonal"
+                size="x-small"
+                class="mt-n1">
                 <span class="heading h3">{{ table.Die || '#' }}</span>
               </v-btn>
             </template>
             <v-card>
               <v-card-text>
-                <v-btn
-                  v-for="n in dice"
+                <v-btn v-for="n in dice"
                   icon
                   variant="tonal"
                   color="accent"
@@ -85,10 +98,10 @@
           </v-menu>
         </v-col>
         <v-spacer />
-        <v-col cols="auto" class="heading pl-3 pr-1">Step</v-col>
+        <v-col cols="auto"
+          class="heading pl-3 pr-1">Step</v-col>
         <v-col cols="auto">
-          <v-text-field
-            v-model="step"
+          <v-text-field v-model="step"
             type="number"
             variant="outlined"
             style="max-width: 60px"
@@ -99,9 +112,13 @@
 
         <v-spacer />
         <v-col cols="auto">
-          <v-menu offset-x bottom>
+          <v-menu offset-x
+            bottom>
             <template #activator="{ props }">
-              <v-btn size="small" :icon="dense" variant="tonal" v-bind="props">
+              <v-btn size="small"
+                :icon="dense"
+                variant="tonal"
+                v-bind="props">
                 <v-icon :start="!dense">mdi-reload</v-icon>
                 <span v-if="!dense">Rebuild</span>
               </v-btn>
@@ -114,15 +131,23 @@
               <v-divider />
               <v-card-actions>
                 <v-spacer />
-                <v-btn small color="error" @click="generate">Confirm Rebuild</v-btn>
+                <v-btn small
+                  color="error"
+                  @click="generate">Confirm Rebuild</v-btn>
               </v-card-actions>
             </v-card>
           </v-menu>
         </v-col>
-        <v-col cols="auto" v-if="!noDelete">
-          <v-menu offset-x left>
+        <v-col cols="auto"
+          v-if="!noDelete">
+          <v-menu offset-x
+            left>
             <template #activator="{ props }">
-              <v-btn small icon color="error" variant="plain" v-bind="props">
+              <v-btn small
+                icon
+                color="error"
+                variant="plain"
+                v-bind="props">
                 <v-icon icon="mdi-delete" />
               </v-btn>
             </template>
@@ -133,7 +158,9 @@
               <v-divider />
               <v-card-actions>
                 <v-spacer />
-                <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
+                <v-btn small
+                  color="error"
+                  @click="$emit('delete')">Confirm Deletion</v-btn>
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -142,10 +169,11 @@
     </v-toolbar>
 
     <v-table class="pr-3 py-1 rounded-0">
-      <tr
-        v-for="(r, i) in table.Results"
-        :class="`${print ? 'py-2' : ''} ${i % 2 !== 0 ? 'light-panel' : ''}`">
-        <td class="text-center heading h4 px-3" style="width: 75px">
+      <tr v-for="(r, i) in table.Results" :key="i"
+        :class="`${print ? 'py-2' : ''} ${(i as number) % 2 !== 0 ? 'light-panel' : ''}`">
+        <td v-if="!mobile"
+          class="text-center heading h4 px-3"
+          style="width: 75px">
           <span v-if="r.max === -1">
             Multiple 1
             <span class="text-caption">s</span>
@@ -154,8 +182,7 @@
           <span v-else>{{ r.min }} - {{ r.max }}</span>
         </td>
         <td>
-          <v-textarea
-            v-if="!print && !readonly"
+          <v-textarea v-if="!print && !readonly"
             v-model="r.result"
             density="compact"
             hide-details
@@ -163,7 +190,21 @@
             variant="outlined"
             auto-grow
             class="my-1" />
-          <v-card v-else class="mb-1" :class="dense ? 'pa-1' : 'pa-2'">
+          <v-card v-else
+            class="mb-1"
+            :class="dense ? 'pa-1' : 'pa-2'">
+            <v-card v-if="mobile"
+              class="text-center text-text"
+              flat
+              tile
+              color="background">
+              <strong v-if="r.max === -1">
+                Multiple 1
+                <span class="text-caption">s</span>
+              </strong>
+              <strong v-else-if="r.min === r.max">{{ r.max }}</strong>
+              <strong v-else>{{ r.min }} - {{ r.max }}</strong>
+            </v-card>
             <p v-html-safe="r.result" />
           </v-card>
         </td>
@@ -191,6 +232,9 @@ export default {
     mults: [1, 2, 3, 4, 5],
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
     dense() {
       return this.density === 'compact';
     },

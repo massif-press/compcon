@@ -1,13 +1,12 @@
 <template>
   <cc-alert prominent
     icon="mdi-alert"
-    title="Active Mode Development Preview"
+    title="Active Mode Alpha Preview"
     class="ma-4"
     color="warning">
-    Active mode is a currently a
-    <b class="text-error">non functional</b>
-    development preview of the v3 active mode. It is not able to be used for any real game play, and
-    is not a replacement for the v2 active mode. To follow the development of this feature, please
+    Active mode is a currently in
+    <b class="text-error">alpha</b>
+    development. Expect breaking bugs!<br> To follow the development of this feature, please
     check out the
     <a href="https://www.patreon.com/c/compcon"
       target="_blank">

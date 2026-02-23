@@ -8,7 +8,6 @@
           border-color="primary"
           color="text"
           icon="cc:talent"
-          :title="s.Origin"
           class="my-1"
           density="compact">
           <p v-html-safe="s.Detail" />
@@ -82,6 +81,9 @@ export default {
     alert: { type: Boolean },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     synergies() {
       return Synergy.Collect(this.location, this.mech as Mech, this.item as any);
     },

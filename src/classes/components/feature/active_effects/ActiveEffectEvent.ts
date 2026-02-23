@@ -12,6 +12,8 @@ import { StatusEvent } from './effect_events/statusEvent'
 import { OtherEvent } from './effect_events/otherEvent'
 import { SpecialEvent } from './effect_events/specialEvent'
 import { ActionSummary } from './EffectActionSummary'
+import { CombatController, CombatData } from '../../combat/CombatController'
+import { ICombatant } from '../../combat/ICombatant'
 
 class ActiveEffectEvent {
   public ID: string
@@ -33,14 +35,20 @@ class ActiveEffectEvent {
 
   public Accuracy: number = 0
 
+  // pc-side local only, so no target data will be available
+  public IsPcLocal: boolean = false
+
   constructor(initiator: CombatantData, effect: ActiveEffect, instance: EncounterInstance) {
     this.ID = uuid()
+    this.IsPcLocal = instance.ItemType === 'PilotSheet'
     this.Initiator = initiator
     this.Effect = effect
     this.Attack = effect.Attack
     this.EncounterInstance = instance
     if (this.TargetType === 'self')
       this._targets = [new ActiveEventTarget(this, this.Initiator, effect)]
+    else if (this.IsPcLocal)
+      this._targets = [new ActiveEventTarget(this, null as unknown as CombatantData, effect)]
     else this._targets = [null as unknown as ActiveEventTarget] // placeholder for single target
     this._aoe = effect.IsAoE
 
@@ -132,7 +140,9 @@ class ActiveEffectEvent {
 
   // add a new target slot
   public AddTarget() {
-    this._targets.push(null as unknown as ActiveEventTarget)
+    if (this.IsPcLocal)
+      this._targets.push(new ActiveEventTarget(this, null as unknown as CombatantData, this.Effect))
+    else this._targets.push(null as unknown as ActiveEventTarget)
   }
 
   public RemoveTarget(index: number) {
@@ -150,7 +160,9 @@ class ActiveEffectEvent {
       this.Initiator.id
     )
 
-    return availableTargets.filter(x => !this._targets.some(y => y && y.Combatant.id === x.id))
+    return availableTargets.filter(
+      x => !this._targets.some(y => y && y.Combatant && y.Combatant.id === x.id)
+    )
   }
 
   public get AttackStat() {
@@ -249,7 +261,7 @@ class ActiveEffectEvent {
 
   public ApplyAll() {
     this.Targets.forEach(t => {
-      if (!t) return
+      if (!t || this.IsPcLocal) return
       this.DamageEvents.forEach(de => {
         t.ApplyDamage(de)
       })
@@ -269,13 +281,14 @@ class ActiveEffectEvent {
         t.RemoveSpecialStatus(status)
       })
       if (
-        t.Combatant.actor.CombatController.RootActor.ID !==
+        t.Combatant?.actor.CombatController.RootActor.ID !==
         this.Initiator.actor.CombatController.RootActor.ID
       )
-        t.Combatant.actor.CombatController.CombatLog.LogAction(
+        t.Combatant?.actor.CombatController.CombatLog.LogAction(
           ActionSummary.fromActiveEffectEvent(this)
         )
     })
+
     this.Initiator.actor.CombatController.CombatLog.LogAction(
       ActionSummary.fromActiveEffectEvent(this)
     )

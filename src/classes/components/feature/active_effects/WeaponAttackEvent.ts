@@ -105,10 +105,10 @@ class WeaponAttackEvent {
     if (!isAdditional) str = `${this.BaseEvent.Initiator.actor.CombatController.CombatName}: `
     else str = ' ⤷ '
     str += `${this.AttackActionString} with ${this.Weapon.Name}:\n`
-    this.BaseEvent.Targets.forEach(t => {
+    this.BaseEvent.Targets.forEach((t, idx) => {
       this.BaseEvent.DamageEvents.forEach(de => {
         de.CalcFinalDamage(this.BaseEvent, t)
-        str += `   - [${t.Combatant.actor.CombatController.CombatName}]`
+        str += `   - [${t.Combatant?.actor.CombatController.CombatName || `Target ${idx + 1}`}]`
         switch (this.BaseEvent.Attack && t.HitResult) {
           case 'crit':
             str += ` ⟪Critical Hit!⟫ `

@@ -10,7 +10,8 @@
       <v-btn block
         flat
         tile
-        size="small"
+        :size="mobile ? 'x-small' : 'small'"
+        height="28"
         :color="available ? action.Color : 'panel'"
         @click="open">
         <span class="ml-1">
@@ -66,14 +67,15 @@
         </v-tooltip>
       </v-btn>
     </template>
+
     <template #default="{ close }">
-      <div class="px-3">
+      <div :class="mobile ? 'px-1 pb-1' : 'px-3'">
         <cc-synergy-display v-if="selectedWeapon"
           location="attack"
           :mech="controller.Parent"
           alert />
       </div>
-      <div class="px-3">
+      <div :class="mobile ? '' : 'px-3'">
         <mech-mount-bonus-card v-if="selectedMount"
           v-for="b in selectedMount.Bonuses"
           :key="b.ID"
@@ -91,9 +93,8 @@
       </div>
       <v-row dense
         align="center"
-        class="bg-panel heading h3 pb-1 px-3">
-        <v-divider v-if="presetWeapon"
-          class="my-1 " />
+        class="bg-panel heading h3 px-3">
+
         <v-col v-if="!presetWeapon">
           <cc-select v-model="selectedWeapon"
             :items="skirmishWeapons"
@@ -110,11 +111,15 @@
           {{ selectedWeapon.Name }}
         </v-col>
         <v-col v-if="selectedWeapon"
-          cols="auto">
+          cols="12"
+          :order="mobile ? 12 : ''"
+          md="auto">
           <cc-tags :tags="selectedWeapon.Tags" />
         </v-col>
         <v-col v-if="selectedWeapon?.Mod"
-          cols="auto">
+          cols="12"
+          :order="mobile ? 12 : ''"
+          md="auto">
           <cc-tags :tags="selectedWeapon.Mod!.AddedTags"
             color="mod" />
         </v-col>
@@ -133,7 +138,8 @@
         </v-col>
       </v-row>
 
-      <div class="px-6">
+
+      <div :class="mobile ? 'px-1' : 'px-6'">
 
         <cc-synergy-display v-if="selectedWeapon"
           :item="selectedWeapon"
@@ -300,6 +306,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
     available() {
       return this.canActivate && this.canUse;
     },

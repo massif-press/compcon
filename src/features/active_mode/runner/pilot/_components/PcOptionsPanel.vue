@@ -7,11 +7,11 @@
         <v-col cols="auto"
           class="heading">
           Last Saved:
-          <b v-if="encounterInstance.SaveController.LastModified > 0"
+          <b v-if="sheet.SaveController.LastModified > 0"
             class="text-accent ml-1"
             :key="saveUpdate">
             {{
-              new Date(encounterInstance.SaveController.LastModified).toLocaleString(undefined, {
+              new Date(sheet.SaveController.LastModified).toLocaleString(undefined, {
                 dateStyle: 'long',
                 timeStyle: 'long',
               })
@@ -34,16 +34,16 @@
       <v-row>
         <v-col>
           <div class="text-cc-overline mt-1 text-disabled">Autosave</div>
-          <cc-switch v-model="encounterInstance.Autosave"
+          <cc-switch v-model="sheet.Autosave"
             size="large"
-            :label="encounterInstance.Autosave ? 'On Round End' : 'Off (Manual Saves Only)'"
-            tooltip="Autosave encounter data data on the end of every round. Defaults to ON." />
+            :label="sheet.Autosave ? 'On Round End' : 'Off (Manual Saves Only)'"
+            tooltip="Autosave Character Sheet data on the end of every round. Defaults to ON." />
         </v-col>
         <v-col>
           <div class="text-cc-overline mt-1 text-disabled">Tracker Style</div>
-          <cc-switch v-model="encounterInstance.SimpleTickbars"
+          <cc-switch v-model="sheet.SimpleTickbars"
             size="large"
-            :label="encounterInstance.SimpleTickbars ? 'Simple' : 'Standard'"
+            :label="sheet.SimpleTickbars ? 'Simple' : 'Standard'"
             tooltip="Replace the thematic stat trackers for HP, Heat, etc. with straightforward number inputs" />
         </v-col>
       </v-row>
@@ -61,13 +61,13 @@
             size="small"
             prepend-icon="mdi-export"
             @click="exportState">
-            Export Encounter State
+            Export Character Sheet State
           </v-btn>
         </v-col>
         <v-col>
           <cc-dialog :close-on-click="false"
             icon="mdi-import"
-            title="Import Encounter State">
+            title="Import Character Sheet State">
             <template #activator="{ open }">
               <v-btn flat
                 tile
@@ -76,12 +76,12 @@
                 size="small"
                 prepend-icon="mdi-import"
                 @click="open">
-                Import Encounter State
+                Import Character Sheet State
               </v-btn>
             </template>
             <template #default="{ close }">
               <div class="text-cc-overline text-disabled">
-                Encounter Instance Import File (.json)
+                Character Sheet Instance Import File (.json)
               </div>
               <v-file-input v-model="fileValue"
                 accept=".json"
@@ -89,7 +89,7 @@
                 density="compact"
                 hide-details
                 autofocus
-                placeholder="Select Encounter Export File"
+                placeholder="Select Character Sheet Export File"
                 prepend-icon="mdi-paperclip"
                 @change="stageImport" />
               <v-scroll-y-reverse-transition>
@@ -101,7 +101,8 @@
                     <div class="text-cc-overline text-disabled">Staged Import:</div>
                     <div class="ml-3">
                       <b class="text-accent">
-                        {{ (importObj as any).encounter.name || 'Unnamed Encounter' }}
+                        {{ (importObj as any).Combatant.actor.Callsign || 'Unnamed Character Sheet'
+                        }}
                       </b>
                       at Round
                       {{ (importObj as any).round }}
@@ -115,7 +116,8 @@
                     class="mt-2">
                     <v-icon icon="mdi-alert"
                       start />
-                    Warning: The imported encounter state will replace the current encounter state.
+                    Warning: The imported Character Sheet state will replace the current Character
+                    Sheet state.
                   </cc-alert>
                 </div>
                 <cc-alert v-if="importError"
@@ -154,116 +156,42 @@
     <v-card-text>
       <v-row dense
         align="center"
-        justify="space-between">
-        <v-col class="heading">Set Round</v-col>
-        <v-col>
-          <cc-number-field color="primary"
-            v-model="encounterInstance.Round"
-            min="1" />
-        </v-col>
-      </v-row>
-    </v-card-text>
-    <v-divider class="my-2" />
-
-    <v-card-text>
-      <div class="text-cc-overline text-disabled">Overrides</div>
-      <v-expansion-panels variant="accordion"
-        color="panel">
-        <v-expansion-panel
-          v-for="combatant in encounterInstance.Combatants.filter((c) => !c.reinforcement)">
-          <v-expansion-panel-title>
-            <div class="heading h3">{{ combatant.actor.Name }}</div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text class="bg-background pa-0 mx-n5">
-            <cc-select v-model="combatant.side"
-              color="primary"
-              chip-variant="text"
-              :items="['ally', 'enemy', 'neutral']"
-              label="Side" />
-            <br />
-            <div v-if="combatant.actor.StatController">
-              <v-row v-for="key in combatant.actor.StatController.MaxStats"
-                :key="key"
-                dense
-                class="border-sm mb-1 px-2"
-                align="center">
-                <v-col class="heading">{{ key }}</v-col>
-                <v-col class="mx-6">
-                  <div class="text-cc-overline ml-4 text-disabled">Current</div>
-                  <cc-number-field color="primary"
-                    v-model="combatant.actor.StatController.CurrentStats[key]" />
-                </v-col>
-                <v-col>
-                  <div class="text-cc-overline ml-4 text-disabled">Max</div>
-                  <cc-number-field color="exotic"
-                    v-model="combatant.actor.StatController.MaxStats[key]" />
-                </v-col>
-              </v-row>
-              <div class="d-flex justify-space-between pa-2">
-                <v-btn flat
-                  tile
-                  size="small"
-                  color="primary">Add Stat</v-btn>
-                <v-btn flat
-                  tile
-                  color="error"
-                  size="small"
-                  @click="removeActor(combatant.actor)">
-                  Remove {{ combatant.actor.Name }} From Encounter
-                </v-btn>
-              </div>
-            </div>
-            <div v-else>No Stat Controller Found</div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
-    </v-card-text>
-    <v-card-text>
-      <div class="text-cc-overline text-disabled mb-1">Edit Reinforcements</div>
-      <i v-if="!reinforcements.length"
-        class="text-text ml-2">No Reinforcement Schedule</i>
-      <v-row v-for="combatant in reinforcements"
-        :key="combatant.id"
-        dense
-        align="center">
-        <v-col class="heading h3">{{ combatant.actor.Name }}</v-col>
-        <v-col cols="auto">
-          <cc-number-field color="primary"
-            v-model="combatant.reinforcementTurn"
-            label="Round"
-            min="1" />
-        </v-col>
-        <v-col cols="auto">
-          <v-btn flat
-            tile
-            color="error"
-            size="small"
-            @click="removeActor(combatant.actor)">
-            Remove
-          </v-btn>
-        </v-col>
-        <v-col cols="auto">
-          <v-btn flat
-            tile
+        justify="end">
+        <v-col cols="12"
+          md=""
+          class="heading">Change Active Mech</v-col>
+        <v-col cols="12"
+          md="">
+          <cc-select v-model="activeMech"
             color="primary"
-            size="small"
-            @click="removeActor(combatant.actor)">
-            Deploy
-          </v-btn>
+            :items="sheet.Combatant.actor.Mechs"
+            :item-title="(m) => `${m.Name} (${m.Frame.Source} ${m.Frame.Name})`"
+            return-object />
+        </v-col>
+        <v-col cols="auto">
+          <cc-button text
+            color="primary"
+            :disabled="activeMech && (activeMech as Mech).ID === sheet.Combatant.actor.ActiveMech.ID"
+            @click="setActiveMech()">
+            Apply & Save
+          </cc-button>
         </v-col>
       </v-row>
     </v-card-text>
+
   </v-card>
 </template>
 
 <script lang="ts">
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { EncounterStore } from '@/stores';
+import { Mech } from '@/class';
+import PilotSheet from '@/features/pilot_management/store/PilotSheet';
+import { PilotStore } from '@/stores';
+
 
 export default {
-  name: 'gm-options-panel',
+  name: 'pc-options-panel',
   props: {
-    encounterInstance: {
+    sheet: {
       type: Object,
       required: true,
     },
@@ -275,15 +203,12 @@ export default {
       importOk: false,
       importError: '',
       saveUpdate: Date.now(),
+      activeMech: null,
     };
   },
   mounted() {
     this.reset();
-  },
-  computed: {
-    reinforcements() {
-      return this.encounterInstance.Combatants.filter((c) => c.reinforcement);
-    },
+    this.activeMech = this.sheet.Combatant.actor.ActiveMech;
   },
   methods: {
     reset() {
@@ -292,36 +217,38 @@ export default {
       this.importOk = false;
       this.importError = '';
     },
-    removeActor(actor) {
-      const combatantIndex = this.encounterInstance.Combatants.findIndex(
-        (c) => c.actor.ID === actor.ID
-      );
-      if (combatantIndex !== -1) {
-        this.encounterInstance.Combatants.splice(combatantIndex, 1);
-      }
+    setActiveMech() {
+      if (!this.activeMech) return;
+      this.sheet.SetActiveMech(this.activeMech);
+      this.$notify({
+        title: 'Active Mech Changed',
+        text: `Active mech changed to ${(this.activeMech as Mech).Name}. Character sheet state has been reset.`,
+        data: { icon: 'cc:mech', color: 'info' },
+      });
+      this.manualSave();
     },
     manualSave() {
       try {
-        this.encounterInstance.Save();
+        this.sheet.Save();
         this.saveUpdate = Date.now();
         this.$notify({
           title: `Save Successful`,
-          text: `Saved Encounter: ${this.encounterInstance.Encounter.Name} at Round ${this.encounterInstance.Round}`,
+          text: `Saved Character Sheet: ${this.sheet.Combatant.actor.Callsign} at Round ${this.sheet.Round}`,
           data: { icon: 'mdi-content-save', color: 'success' },
         });
       } catch (error) {
         console.error('Manual Save Failed:', error);
         this.$notify({
           title: `Save Failed`,
-          text: `Failed to save Encounter: ${this.encounterInstance.Encounter.Name}`,
+          text: `Failed to save Character Sheet: ${this.sheet.Combatant.actor.Callsign}`,
           data: { icon: 'mdi-alert', color: 'error' },
         });
       }
     },
     exportState() {
-      const data = this.encounterInstance.Serialize();
+      const data = this.sheet.Serialize();
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const filename = `encounter_${this.encounterInstance.Encounter.Name || 'unknown'}_${Date.now()}.json`;
+      const filename = `Character Sheet_${this.sheet.Combatant.actor.Callsign || 'unknown'}_${Date.now()}.json`;
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = filename;
@@ -332,7 +259,7 @@ export default {
       if (!this.importOk || !this.importObj) {
         return;
       }
-      EncounterStore().AddEncounterInstance(EncounterInstance.Deserialize(this.importObj));
+      PilotStore().ImportPilotSheet(PilotSheet.Deserialize(this.importObj as any));
       this.$router.go();
     },
     stageImport() {
@@ -351,9 +278,9 @@ export default {
           }
           if (
             !(this.importObj as any).itemType ||
-            (this.importObj as any).itemType !== 'EncounterInstance'
+            (this.importObj as any).itemType !== 'sheet'
           ) {
-            this.importError = 'Invalid Encounter Instance file.';
+            this.importError = 'Invalid Character Sheet Instance file.';
             this.importOk = false;
             return;
           }

@@ -181,6 +181,15 @@ class CombatController implements ICounterContainer, IStatContainer {
     return 0
   }
 
+  // for pc table prompt watchers
+  public get CurrentStructure(): number {
+    return this.StatController.CurrentStats['structure'] || 0
+  }
+
+  public get CurrentStress(): number {
+    return this.StatController.CurrentStats['stress'] || 0
+  }
+
   private log(str: string): void {
     this.CombatLog.LogSimpleEvent(str)
   }

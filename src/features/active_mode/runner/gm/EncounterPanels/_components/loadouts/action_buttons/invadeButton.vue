@@ -64,16 +64,18 @@
       </v-btn>
     </template>
     <template #default="{ close }">
-      <v-sheet class="d-flex ml-n2">
+      <v-sheet class="ml-n2"
+        :class="mobile ? '' : 'd-flex'">
         <v-tabs v-model="tab"
           direction="vertical"
           density="compact">
           <v-tab height="30"
             value="invade">Invade</v-tab>
-          <v-divider />
+          <v-divider v-if="!mobile" />
           <div class="pa-2 text-cc-overline text-disabled">Available Invade Actions</div>
           <v-tab height="30"
             v-for="item in invadeActions"
+            :border="mobile"
             :key="item.ID"
             :value="item.ID">
             <v-icon :icon="item.Icon"
@@ -81,8 +83,8 @@
             {{ item.Name }}
           </v-tab>
         </v-tabs>
-        <v-divider vertical
-          class="mr-1" />
+        <v-divider :vertical="!mobile"
+          :class="mobile ? 'my-4' : 'mr-1'" />
         <v-tabs-window v-model="tab"
           class="px-2">
           <div v-if="tab === 'invade'">
@@ -144,6 +146,9 @@ export default {
     tab: 'invade',
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
     controller() {
       return this.owner.actor.CombatController;
     },

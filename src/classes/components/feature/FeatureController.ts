@@ -103,7 +103,6 @@ class FeatureController {
     if (returnString) return vStr as string
     const parser = new Parser()
     const xpr = parser.parse(vStr)
-    console.log('new expr logic: ', xpr.evaluate())
     return Math.ceil(xpr.evaluate())
   }
 

@@ -1,16 +1,16 @@
 <template>
   <v-row dense>
-    <v-col>
-      <!-- targets -->
-      <base-target-selector :event="event" />
+    <v-col cols="auto"
+      md="">
+      <local-target-selector v-if="pc"
+        :event="event" />
+      <base-target-selector v-else
+        :event="event" />
     </v-col>
+
+    <base-attack-roller :event="event" />
+    <base-save-roller :event="event" />
     <v-col cols="auto">
-      <!-- rollers -->
-      <base-attack-roller :event="event" />
-      <base-save-roller :event="event" />
-    </v-col>
-    <v-col cols="auto">
-      <!-- applicators -->
       <status-applicator :event="event" />
       <damage-applicator :event="event" />
       <other-applicator :event=event />
@@ -34,6 +34,7 @@ import SaveRollInterface from './_shared/SaveRollInterface.vue';
 import ResistanceApplicator from './_shared/ResistanceApplicator.vue';
 import SpecialConditionApplicator from './_shared/SpecialConditionApplicator.vue';
 import SpecialConditionRemover from './_shared/SpecialConditionRemover.vue';
+import LocalTargetSelector from './_shared/LocalTargetSelector.vue';
 
 export default {
   name: 'effect-applicator',
@@ -48,13 +49,23 @@ export default {
     StatusApplicator,
     ResistanceApplicator,
     SpecialConditionApplicator,
-    SpecialConditionRemover
+    SpecialConditionRemover,
+    LocalTargetSelector,
   },
   props: {
     event: {
       type: Object,
       required: true,
     },
+    pc: {
+      type: Boolean,
+      default: false,
+    }
   },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown
+    }
+  }
 }
 </script>

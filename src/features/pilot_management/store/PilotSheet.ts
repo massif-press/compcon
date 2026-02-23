@@ -1,9 +1,10 @@
 // container for pilot-as-combatant data
 import { v4 as uuid } from 'uuid'
-import { Pilot } from '@/class'
+import { Deployable, Mech, Pilot } from '@/class'
 import { CombatantData, Encounter } from '@/classes/encounter/Encounter'
 import { ISaveData, SaveController } from '@/classes/components'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
 
 type PilotSheetData = {
   id: string
@@ -13,6 +14,7 @@ type PilotSheetData = {
   save: ISaveData
   campaign?: string
   simple_tickbars?: boolean
+  autosave?: boolean
 }
 
 class PilotSheet {
@@ -26,8 +28,10 @@ class PilotSheet {
   public Archived: boolean = false
 
   public SimpleTickbars: boolean = false
+  public Autosave: boolean = true
 
   public SaveController: SaveController
+  public RollHistory: string[] = []
 
   constructor(data: PilotSheetData) {
     this.ID = data.id
@@ -37,6 +41,7 @@ class PilotSheet {
     this.Archived = data.archived
 
     this.SimpleTickbars = data.simple_tickbars || false
+    this.Autosave = data.autosave || true
 
     this.Combatant = Encounter.DeserializeCombatant(data.combatant)
 
@@ -82,15 +87,44 @@ class PilotSheet {
     return this.SaveController.LastModified
   }
 
+  public get Pilot(): Pilot {
+    return <Pilot>this.Combatant.actor
+  }
+
+  public get Combatants(): CombatantData[] {
+    return [this.Combatant]
+  }
+  public get Encounter(): Encounter {
+    return { NarrativeController: { Tables: [] as any[] } } as Encounter
+  }
+
+  public SetActiveMech(mech: Mech) {
+    this.Pilot.ActiveMech = mech
+    this.SaveController.save()
+  }
+
+  public Deploy(deployable: Deployable, combatant: CombatantData): void {
+    const deployableInstance = new DeployableInstance(deployable.ItemData, combatant)
+    deployableInstance.SetStats()
+    combatant.deployables.push(deployableInstance)
+  }
+
+  public EndRound(): void {
+    this.Combatant.actor.CombatController.EndRound(this)
+    this.Pilot.ActiveMech!.CombatController.EndRound(this)
+
+    if (this.Autosave) {
+      this.SaveController.save()
+    }
+  }
+
+  public getTargetsSorted(): CombatantData[] {
+    return [this.Combatant]
+  }
+
   // this mocks the encounter instance for the pilot sheet, so that we can use the same components for both
-  public get Encounter(): EncounterInstance {
-    return {
-      ID: this.ID,
-      Combatants: [this.Combatant],
-      RollHistory: [] as any[],
-      Encounter: { NarrativeController: { Tables: [] as any[] } },
-      SimpleTickbars: this.SimpleTickbars,
-    } as EncounterInstance
+  public get EncounterInstance(): EncounterInstance {
+    return this as any as EncounterInstance
   }
 
   public static Serialize(pilotSheet: PilotSheet): any {
@@ -100,6 +134,7 @@ class PilotSheet {
       campaign: pilotSheet.Campaign,
       archived: pilotSheet.Archived,
       simple_tickbars: pilotSheet.SimpleTickbars,
+      autosave: pilotSheet.Autosave,
     }
 
     SaveController.Serialize(pilotSheet, data)

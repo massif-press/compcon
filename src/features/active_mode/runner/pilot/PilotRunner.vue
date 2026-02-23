@@ -11,7 +11,7 @@
     <div style="overflow-y: hidden">
       <v-layout :style="`height: calc(100vh - ${$vuetify.display.xs ? '23px' : '41px'})`">
         <v-main style="overflow-y: scroll">
-          <v-container>
+          <v-container fluid>
             <div>
 
               <div v-if="panel && sheet">
@@ -20,14 +20,16 @@
                   :combatant="combatant"
                   :encounter="encounterInstance.Encounter"
                   :selected="pilot"
+                  :sheet="sheet"
                   pc
-                  :encounter-instance="encounterInstance" />
+                  :encounter-instance="encounterInstance"
+                  @structure-loss="promptStructureLoss()"
+                  @stress-loss="promptStructureLoss()" />
               </div>
 
               <v-row dense
                 justify="end">
                 <v-col cols="auto">
-
                   <actor-telemetry :actor="pilot"
                     :encounter="encounterInstance" />
                 </v-col>
@@ -57,9 +59,10 @@
           :rail="!showRight"
           location="right"
           permanent>
-          <gm-tool-palette pilot
+          <gm-tool-palette pc
             :expanded="showRight"
             :selected="panel"
+            :combatant="combatant"
             @selectPanel="selectPanel"
             @openDiceRoller="diceDialog = true"
             @openTableIndex="tableDialog = true" />
@@ -69,9 +72,10 @@
           v-model="showRight"
           rail
           location="right">
-          <gm-tool-palette pilot
+          <gm-tool-palette pc
             :expanded="showRight"
             :selected="panel"
+            :combatant="combatant"
             @selectPanel="selectPanel"
             @openDiceRoller="diceDialog = true"
             @openTableIndex="tableDialog = true" />
@@ -127,6 +131,8 @@ import { Pilot } from '@/class';
 import GmToolPalette from '../gm/_components/GmToolPalette.vue';
 import PcPanel from '../gm/EncounterPanels/PcPanel.vue';
 import NotesPanel from './_components/PcNotesPanel.vue';
+import OptionsPanel from './_components/PcOptionsPanel.vue';
+import DeployablesPanel from './_components/PcDeployablesPanel.vue';
 
 export default {
   name: 'pilot-runner',
@@ -140,7 +146,9 @@ export default {
     GmToolPalette,
     GmDiceRoller,
     PcPanel,
-    NotesPanel
+    DeployablesPanel,
+    NotesPanel,
+    OptionsPanel,
   },
   props: {
     id: {
@@ -175,12 +183,18 @@ export default {
       return this.sheet ? this.sheet.ID : 0;
     },
     encounterInstance() {
-      return this.sheet!.Encounter;
+      return this.sheet!.EncounterInstance;
     }
   },
   methods: {
     selectPanel(panel) {
       this.panel = this.panel === panel ? null : panel;
+    },
+    promptStructureLoss() {
+      console.log('prompting structure loss');
+    },
+    promptStressLoss() {
+      console.log('prompting stress loss');
     },
   },
 };

@@ -15,7 +15,7 @@ import { ActionSummaryData } from '../EffectActionSummary'
 // what is shown/not shown based on the effect data
 class ActiveEventTarget {
   public Event: ActiveEffectEvent
-  private _combatant!: CombatantData
+  private _combatant!: CombatantData | null
 
   // attack roll
   public TargetDefense?: string // eg. evasion, agility, etc
@@ -42,7 +42,7 @@ class ActiveEventTarget {
   public Grit: number = 0
   public SavedHalf: boolean = false // did they save half damage
 
-  constructor(event: ActiveEffectEvent, combatant: CombatantData, effect: ActiveEffect) {
+  constructor(event: ActiveEffectEvent, combatant: CombatantData | null, effect: ActiveEffect) {
     this.Event = event
     this.Combatant = combatant
     this.AttackType = event.Attack
@@ -51,18 +51,17 @@ class ActiveEventTarget {
     if (effect.Save) {
       this.SaveType = event.Save
       this.SaveTarget = this.Event.Initiator.actor.CombatController.SaveTarget
-      this.SaveBonus = this._combatant.actor.CombatController.GetSavingThrowBonus(
-        effect.Save[0].Stat
-      )
+      this.SaveBonus =
+        this.Combatant?.actor.CombatController.GetSavingThrowBonus(effect.Save[0].Stat) || 0
       this.SaveRollString = `1d20+${this.SaveBonus}`
     }
   }
 
-  public get Combatant(): CombatantData {
+  public get Combatant(): CombatantData | null {
     return this._combatant
   }
 
-  public set Combatant(value: CombatantData) {
+  public set Combatant(value: CombatantData | null) {
     this._combatant = value
 
     // if this is attack roll:
@@ -70,11 +69,14 @@ class ActiveEventTarget {
       case 'tech':
         this.TargetDefense = 'E-Defense'
         this.TargetDefenseValue =
-          this._combatant.actor.CombatController.ActiveActor.StatController.CurrentStats['edef']
+          this._combatant?.actor.CombatController.ActiveActor.StatController.CurrentStats['edef'] ||
+          10
       default:
         this.TargetDefense = 'Evasion'
         this.TargetDefenseValue =
-          this._combatant.actor.CombatController.ActiveActor.StatController.CurrentStats['evasion']
+          this._combatant?.actor.CombatController.ActiveActor.StatController.CurrentStats[
+            'evasion'
+          ] || 10
         break
     }
   }
@@ -112,15 +114,15 @@ class ActiveEventTarget {
   }
 
   public get IsExposed(): boolean {
-    return this.Combatant.actor.CombatController.HasStatus('exposed')
+    return this.Combatant?.actor.CombatController.HasStatus('exposed') || false
   }
 
   public get IsShredded(): boolean {
-    return this.Combatant.actor.CombatController.HasStatus('shredded')
+    return this.Combatant?.actor.CombatController.HasStatus('shredded') || false
   }
 
   public Resistance(damageType: string): string {
-    return this.Combatant.actor.CombatController.GetResistance(damageType)
+    return this.Combatant?.actor.CombatController.GetResistance(damageType) || 'none'
   }
 
   public DamageModSummary(damageType: string, isAp: boolean, isIrreducible: boolean): string {
@@ -130,7 +132,7 @@ class ActiveEventTarget {
     if (this.IsExposed) str += 'x2 (target Exposed) '
     if (this.Resistance(damageType) === 'vulnerable') str += 'x2 (target Vulnerable) '
     if (isIrreducible) return `${str} (Irreducible)`
-    const armor = this.Combatant.actor.CombatController.StatController.CurrentStats['armor'] || 0
+    const armor = this.Combatant?.actor.CombatController.StatController.CurrentStats['armor'] || 0
     if (armor && !['heat', 'burn'].includes(damageType.toLowerCase())) {
       if (isAp) str += `- 0 (target Armor ignored) `
       else if (this.IsShredded) str += `- 0 (target Shredded) `
@@ -141,6 +143,7 @@ class ActiveEventTarget {
   }
 
   public ApplyDamage(damageEvent: DamageEvent) {
+    if (!this.Combatant) return
     damageEvent.CalcFinalDamage(this.Event, this)
     if (this.FinalDamageValue > 0)
       this.Combatant.actor.CombatController.ApplyDamage(
@@ -154,10 +157,12 @@ class ActiveEventTarget {
   }
 
   public ApplyStatus(statusEvent: StatusEvent) {
+    if (!this.Combatant) return
     this.Combatant.actor.CombatController.AddStatus(statusEvent.Status.ID, statusEvent.Duration)
   }
 
   public ApplyOther(otherEvent: OtherEvent) {
+    if (!this.Combatant) return
     switch (otherEvent.Type) {
       case 'cover':
         this.Combatant.actor.CombatController.Cover = otherEvent.Value as CoverType
@@ -170,6 +175,7 @@ class ActiveEventTarget {
   }
 
   public ApplySpecial(specialEvent: SpecialEvent) {
+    if (!this.Combatant) return
     this.Combatant.actor.CombatController.SetCustomStatus(
       new EffectSpecial({
         attribute: specialEvent.Attribute,
@@ -181,10 +187,12 @@ class ActiveEventTarget {
   }
 
   public ApplyResist(resistEvent: ResistEvent) {
+    if (!this.Combatant) return
     this.Combatant.actor.CombatController.SetResistance(resistEvent.ResistType, resistEvent.Resist)
   }
 
   public RemoveSpecialStatus(special: string) {
+    if (!this.Combatant) return
     this.Combatant.actor.CombatController.RemoveCustomStatus(special)
   }
 
@@ -211,9 +219,9 @@ class ActiveEventTarget {
 
   public ToJSON() {
     return {
-      CombatantName: this.Combatant.actor.CombatController.CombatName,
-      CombatantType: this.Combatant.actor.ItemType,
-      CombatantId: this.Combatant.actor.ID,
+      CombatantName: this.Combatant?.actor.CombatController.CombatName || 'Unknown Target',
+      CombatantType: this.Combatant?.actor.ItemType || 'Unknown Target',
+      CombatantId: this.Combatant?.actor.ID || 'Unknown Target',
       TargetDefense: this.TargetDefense,
       TargetDefenseValue: this.TargetDefenseValue,
       AttackType: this.AttackType,

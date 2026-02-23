@@ -6,7 +6,7 @@
     :min-columns="1"
     :max-columns="2">
     <template #default="{ item }">
-      <fieldset class="pb-2 px-3"
+      <fieldset :class="mobile ? 'pa-1' : 'pb-2 px-3'"
         style="border-color: rgba(155, 155, 155, 0.6)">
         <legend class="heading h4 mx-2 px-2 text-accent">
           {{ item.mount.Name }}
@@ -96,6 +96,9 @@ export default {
   },
   emits: ['deploy'],
   computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
     systems() {
       return this.mech.MechLoadoutController.ActiveLoadout.Systems;
     },

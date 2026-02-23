@@ -10,7 +10,8 @@
       <v-btn block
         flat
         tile
-        size="small"
+        :size="mobile ? 'x-small' : 'small'"
+        height="28"
         :color="available ? action.Color : 'panel'"
         @click="open">
         <span class="ml-1">
@@ -279,6 +280,9 @@ export default {
     this.reset();
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
     available() {
       return this.canActivate && this.canUse;
     },

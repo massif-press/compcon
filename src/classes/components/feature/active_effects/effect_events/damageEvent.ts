@@ -86,20 +86,22 @@ class DamageEvent {
       }
     }
 
-    target.FinalDamageValue = target.Combatant.actor.CombatController.CalculateDamage(
-      this.DamageType,
-      incoming,
-      this.AP,
-      this.Irreducible,
-      this.Reliable
-    ).total
+    target.FinalDamageValue =
+      target.Combatant?.actor.CombatController.CalculateDamage(
+        this.DamageType,
+        incoming,
+        this.AP,
+        this.Irreducible,
+        this.Reliable
+      ).total || incoming
 
-    target.TotalArmorReduction = target.Combatant.actor.CombatController.CalculateArmorReduction(
-      this.DamageType,
-      incoming,
-      this.AP,
-      this.Irreducible
-    )
+    target.TotalArmorReduction =
+      target.Combatant?.actor.CombatController.CalculateArmorReduction(
+        this.DamageType,
+        incoming,
+        this.AP,
+        this.Irreducible
+      ) || 0
   }
 
   public ToJSON() {

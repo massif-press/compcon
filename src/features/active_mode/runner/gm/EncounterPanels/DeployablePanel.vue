@@ -65,13 +65,14 @@
           :title="combatant.Base.Name"
           :icon="combatant.Base.Icon"
           outlined>
-          <div v-html-safe="combatant.Base.Detail" />
-          <div v-html-safe="combatant.Base.Description" />
+          <div v-if="combatant.Base.Detail"
+            v-html-safe="combatant.Base.Detail" />
+          <div v-if=combatant.Base.Description
+            v-html-safe="combatant.Base.Description" />
         </cc-panel>
 
         <panel-base :encounter-instance="encounterInstance"
           :item="combatant"
-          no-stats
           no-actions
           no-conditions
           hide-palette>

@@ -64,14 +64,13 @@
     <v-card-text class="pb-0">
       <v-row dense>
         <v-col cols="auto">
-
           <v-card class="text-text text-cc-overline"
-            style="overflow-x: hidden; max-width: 600px;"
-            border>
+            flat>
             <v-card-text class="pa-2">
               <v-row dense
                 align="center">
-                <v-col>
+                <v-col cols=6
+                  md="">
                   <div class="text-cc-overline text-disabled">Count</div>
                   <v-text-field v-model="count"
                     density="compact"
@@ -82,7 +81,8 @@
                     hide-details
                     tile />
                 </v-col>
-                <v-col>
+                <v-col cols=6
+                  md="">
                   <div class="text-cc-overline text-disabled">Die</div>
                   <v-select v-model="die"
                     :items="dice"
@@ -98,7 +98,8 @@
                     </template>
                   </v-select>
                 </v-col>
-                <v-col>
+                <v-col cols=6
+                  md="">
                   <div class="text-cc-overline text-disabled">Bonus</div>
                   <v-text-field v-model="plus"
                     density="compact"
@@ -113,7 +114,8 @@
                     </template>
                   </v-text-field>
                 </v-col>
-                <v-col>
+                <v-col cols=6
+                  md="">
                   <div class="text-cc-overline text-disabled">Accuracy</div>
                   <v-text-field v-model="accuracy"
                     density="compact"
@@ -181,15 +183,6 @@
                 class="mt-1"
                 @click="reset()">RESET</v-btn>
 
-              <v-btn flat
-                tile
-                class="mt-2"
-                color="primary"
-                size="small"
-                block
-                @click="rollDice()">
-                Roll
-              </v-btn>
 
             </v-card-text>
           </v-card>

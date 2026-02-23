@@ -279,6 +279,17 @@ export const PilotStore = defineStore('pilot', {
       await SetItem('pilot_sheets', PilotSheet.Serialize(newSheet))
       await this.SetActiveSheet(newSheet.ID)
     },
+    async ImportPilotSheet(pilotSheet: PilotSheet): Promise<void> {
+      const idx = this.PilotSheets.findIndex(x => x.ID === pilotSheet.ID)
+      if (idx !== -1) {
+        logger.info(`Pilot sheet ${pilotSheet.Name} already exists`, this)
+        this.PilotSheets.splice(idx, 1, pilotSheet)
+      }
+      this.PilotSheets.push(pilotSheet)
+      await SetItem('pilot_sheets', PilotSheet.Serialize(pilotSheet))
+      await this.SetActiveSheet(pilotSheet.ID)
+    },
+
     async RemovePilotSheet(pilotSheet: PilotSheet): Promise<void> {
       const idx = this.PilotSheets.findIndex(ps => ps.ID === pilotSheet.ID)
       if (idx === -1) return
@@ -297,7 +308,7 @@ export const PilotStore = defineStore('pilot', {
       if (id) this.CurrentActiveID = id
     },
     GetSheet(id: string): PilotSheet | null {
-      console.log(this.PilotSheets)
+      this.PilotSheets
       const sheet = this.PilotSheets.find((ps: any) => ps.ID === id)
       if (sheet) return sheet as PilotSheet
       logger.error('No pilot sheet found with ID ' + id)

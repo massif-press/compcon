@@ -1,23 +1,25 @@
 <template>
   <v-row dense>
     <v-col>
-      <simple-mini-panel v-model.number="item.StatController.CurrentStats['overshield']"
-        title="Overshield"
-        color=hp
-        icon="mdi-hexagon-multiple-outline" />
-      <simple-mini-panel v-model.number="item.StatController.CurrentStats['hp']"
+      <simple-mini-panel v-if="item.StatController.MaxStats['hp']"
+        v-model.number="item.StatController.CurrentStats['hp']"
         :max="item.StatController.MaxStats['hp']"
         title="Hit Points"
         color=hp
         icon="mdi-heart-outline" />
-      <simple-mini-panel v-model.number="item.StatController.CurrentStats['structure']"
+      <simple-mini-panel v-if="item.StatController.MaxStats['structure']"
+        v-model.number="item.StatController.CurrentStats['structure']"
         :max="item.StatController.MaxStats['structure']"
         title="Structure"
         color=hp
         icon="cc:structure" />
     </v-col>
     <v-col cols="12"
-      md="auto">
+      md="">
+      <simple-mini-panel v-model.number="item.StatController.CurrentStats['overshield']"
+        title="Overshield"
+        color=hp
+        icon="mdi-hexagon-multiple-outline" />
       <simple-mini-panel title="armor"
         icon="mdi-shield-outline"
         color="armor"
@@ -36,37 +38,75 @@
         icon="cc:heat" />
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['stress']"
         :max="item.StatController.CurrentStats['stress']"
-        title="Reactor Stress"
+        title="Stress"
         color=stress
         icon="cc:reactor" />
-      <simple-mini-panel v-model.number="item.StatController.CurrentStats['overcharge']"
-        :value-atlas="overchargeTrack"
-        title="Overcharge"
-        color=overcharge
-        icon="cc:overcharge" />
+
     </v-col>
     <v-col cols="12"
-      md="auto">
+      md="">
       <simple-mini-panel title="Burn"
         icon="cc:burn"
         color="damage--burn"
         :base-value="item.StatController.MaxStats['burn']"
         v-model.number="item.StatController.CurrentStats['burn']" />
+
+      <v-row v-if="item.StatController.MaxStats['overcharge']"
+        no-gutters
+        align="center"
+        class="bg-panel p5-1">
+        <v-col>
+          <div class="heading mt-1 pb-1">
+            <v-icon color="overcharge"
+              icon="cc:overcharge"
+              class="mx-1 mt-n1" />
+            overcharge
+          </div>
+        </v-col>
+        <v-col cols="auto"
+          class="mb-n1">
+          <v-rating v-model="item.StatController.CurrentStats['overcharge']"
+            color=overcharge
+            empty-icon="cc:overcharge"
+            full-icon="mdi-hexagon"
+            density="compact"
+            :length="overchargeTrack.length"
+            clearable
+            hover />
+        </v-col>
+        <v-col cols="auto"
+          class="heading">
+
+          <cc-chip class="mr-2">
+            {{ overchargeTrack[item.StatController.CurrentStats['overcharge'] - 1] || 0 }}
+            <v-icon icon="cc:heat"
+              class="mt-n1 ml-n1"
+              color="heat" />
+          </cc-chip>
+        </v-col>
+      </v-row>
+
     </v-col>
   </v-row>
 
 
-  <v-row dense
+  <v-row v-if="item.StatController.MaxStats['speed']"
+    dense
     class="mb-3">
-    <v-col>
+    <v-col cols="12"
+      md="">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['speed']"
         :max="item.StatController.MaxStats['speed']"
-        title="Speed"
+        title="Movement"
         color=primary
         icon="mdi-arrow-right-bold-hexagon-outline" />
+    </v-col>
+    <v-col v-if="item.StatController.MaxStats['repairCapacity']"
+      cols="12"
+      md="">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['repairCapacity']"
         :max="item.StatController.MaxStats['repairCapacity']"
-        title="Repair Capacity"
+        title="Repair Cap."
         color=success
         icon="cc:repair" />
     </v-col>

@@ -63,7 +63,8 @@
     </div>
 
 
-    <effect-applicator :event="event.BaseEvent" />
+    <effect-applicator :pc="isPilotSheet"
+      :event="event.BaseEvent" />
 
     <cc-panel v-for="e in event.TargetEvents"
       :title="e.Effect.Name"
@@ -72,7 +73,8 @@
       class="mt-n2">
       <div class="text-text">
         {{ e.Effect.Detail }}
-        <effect-applicator :event="e" />
+        <effect-applicator :pc="isPilotSheet"
+          :event="e" />
       </div>
     </cc-panel>
   </div>
@@ -96,6 +98,9 @@ export default {
     EffectApplicator,
   },
   computed: {
+    isPilotSheet() {
+      return this.encounter.ItemType === 'PilotSheet';
+    },
     ordnanceWarning() {
       if (!this.profile) return false;
       if (this.profile.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {

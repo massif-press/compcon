@@ -1,6 +1,7 @@
 <template>
-  <v-dialog min-width="1200px"
-    max-width="60vw">
+  <v-dialog :fullscreen="mobile"
+    :min-width="mobile ? '' : '1200px'"
+    :max-width="mobile ? '' : '60vw'">
     <template #activator="{ props }">
       <cc-button block
         size="small"
@@ -30,7 +31,9 @@
         </v-toolbar>
         <v-card-text>
           <v-row>
-            <v-col style="max-width: 300px">
+            <v-col cols="12"
+              md=""
+              :style="mobile ? '' : 'max-width: 300px'">
               <div class="text-cc-overline text-disabled">Incoming Damage Value</div>
               <v-divider />
               <v-text-field v-model="incomingDamageValue"
@@ -95,7 +98,8 @@
                 </v-col>
               </v-row>
             </v-col>
-            <v-col>
+            <v-col cols="12"
+              md="">
               <div class="text-cc-overline text-disabled">Defender Status</div>
               <v-divider class="mb-2" />
               <v-row v-for="damage in controller.Resistances"
@@ -227,6 +231,9 @@ export default {
     },
   },
   computed: {
+    mobile() {
+      return this.$vuetify.display.smAndDown;
+    },
     getActiveStatuses() {
       if (!this.controller || !this.controller.Statuses) return [];
 

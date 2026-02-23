@@ -19,7 +19,7 @@
 import { Clock } from '@/classes/narrative/elements/Clock';
 
 export default {
-  name: 'GmNotesPanel',
+  name: 'PcNotesPanel',
   props: {
     selected: {
       type: Object,

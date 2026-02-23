@@ -326,7 +326,7 @@ export default {
           });
           break;
         default:
-          console.warning('uncaught event:', event);
+          console.warn('uncaught event:', event);
           break;
       }
     },
