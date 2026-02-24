@@ -5,7 +5,8 @@
     </div>
     <v-select v-for="(idx) in !event.AoE ? 1 : event.Targets.length"
       :key="event.Targets[idx - 1]?.Combatant?.id || `empty-selector-${idx}`"
-      :value="event.Targets[idx - 1]?.Combatant?.actor.CombatController.CombatName || getOrdinal(idx) + ' Target'"
+      :value="event.Targets[idx - 1]?.Combatant?.actor.CombatController.CombatName || ''"
+      placeholder="Select Target"
       density="compact"
       variant="outlined"
       return-object

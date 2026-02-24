@@ -187,7 +187,7 @@
                     {{ item.actor.CombatController.CombatName }}
                     <span v-if="(item.actor as any).PlayerName">&nbsp;({{ (item.actor as
                       any).PlayerName
-                    }})</span>
+                      }})</span>
                   </v-chip>
                 </div>
                 <br />
@@ -553,7 +553,6 @@ export default {
   border-bottom: 1px rgb(var(--v-theme-primary)) solid;
   border-right: 1px rgb(var(--v-theme-primary)) solid;
   border-left: 1px rgb(var(--v-theme-primary)) solid;
-  margin-left: -13px;
   min-height: 108px;
 }
 
