@@ -11,6 +11,7 @@ type PilotSheetData = {
   combatant: any
   encounter: number
   archived: boolean
+  round: number
   save: ISaveData
   campaign?: string
   simple_tickbars?: boolean
@@ -24,6 +25,7 @@ class PilotSheet {
   public Name: string
   public Combatant: CombatantData
   public Campaign?: string
+  public Round: number = 1
 
   public Archived: boolean = false
 
@@ -37,6 +39,7 @@ class PilotSheet {
     this.ID = data.id
     this.Name = data.combatant.actor.name
     this.Campaign = data.campaign
+    this.Round = data.round
 
     this.Archived = data.archived
 
@@ -63,13 +66,14 @@ class PilotSheet {
       },
       campaign: campaign,
       encounter: 1,
+      round: 1,
       archived: false,
       save: {
         created: new Date().getTime(),
         lastModified: 0,
         deleteTime: 0,
       },
-    }
+    } as PilotSheetData
 
     return new PilotSheet(data)
   }
@@ -135,6 +139,7 @@ class PilotSheet {
       archived: pilotSheet.Archived,
       simple_tickbars: pilotSheet.SimpleTickbars,
       autosave: pilotSheet.Autosave,
+      round: pilotSheet.Round,
     }
 
     SaveController.Serialize(pilotSheet, data)

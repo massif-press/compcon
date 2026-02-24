@@ -22,9 +22,7 @@
                   :selected="pilot"
                   :sheet="sheet"
                   pc
-                  :encounter-instance="encounterInstance"
-                  @structure-loss="promptStructureLoss()"
-                  @stress-loss="promptStructureLoss()" />
+                  :encounter-instance="encounterInstance" />
               </div>
 
               <v-row dense
@@ -81,7 +79,6 @@
             @openTableIndex="tableDialog = true" />
         </v-navigation-drawer>
 
-
         <v-footer app
           height="36"
           style="border-top: 1px solid rgba(255, 255, 255, 0.1)">
@@ -89,10 +86,10 @@
             align="center"
             no-gutters>
             <v-col>
-              <!-- <gm-end-round-panel :encounter-instance="instance" /> -->
+              <pc-end-round :sheet="sheet" />
             </v-col>
             <v-col>
-              <!-- <gm-end-encounter-panel :encounter-instance="instance" /> -->
+              <pc-end-encounter :sheet="sheet" />
             </v-col>
           </v-row>
         </v-footer>
@@ -133,6 +130,8 @@ import PcPanel from '../gm/EncounterPanels/PcPanel.vue';
 import NotesPanel from './_components/PcNotesPanel.vue';
 import OptionsPanel from './_components/PcOptionsPanel.vue';
 import DeployablesPanel from './_components/PcDeployablesPanel.vue';
+import PcEndRound from './_components/PcEndRound.vue';
+import PcEndEncounter from './_components/PcEndEncounter.vue';
 
 export default {
   name: 'pilot-runner',
@@ -149,6 +148,8 @@ export default {
     DeployablesPanel,
     NotesPanel,
     OptionsPanel,
+    PcEndRound,
+    PcEndEncounter,
   },
   props: {
     id: {
@@ -189,12 +190,6 @@ export default {
   methods: {
     selectPanel(panel) {
       this.panel = this.panel === panel ? null : panel;
-    },
-    promptStructureLoss() {
-      console.log('prompting structure loss');
-    },
-    promptStressLoss() {
-      console.log('prompting stress loss');
     },
   },
 };
