@@ -1,63 +1,60 @@
 <template>
   <div id="wrapper">
     <main-title @logupdate="ccLog('update')" />
-    <c-c-log v-show="!$vuetify.display.mdAndDown" ref="log" />
-    <v-container fluid style="height: calc(100vh - 85px); margin-top: 20px">
-      <v-row justify="space-between" align="center" style="height: 100%">
-        <main-btn
-          icon="cc:compendium"
+    <c-c-log v-show="!$vuetify.display.mdAndDown"
+      ref="log" />
+    <v-container fluid
+      style="height: calc(100vh - 85px); margin-top: 20px">
+      <v-row justify="space-between"
+        align="center"
+        style="height: 100%">
+        <main-btn icon="cc:compendium"
           :to="'/srd'"
           help="Equipment Database"
           @hover="ccLog('compendium')">
           Compendium
         </main-btn>
-        <main-btn
-          icon="cc:pilot"
+        <main-btn icon="cc:pilot"
           :to="'/pilot_management'"
           help="Manage Pilots"
           @hover="ccLog('pilot')">
           Pilot Roster
         </main-btn>
-        <main-btn
-          icon="cc:encounter"
+        <main-btn icon="cc:encounter"
           :to="'/gm'"
           help="Manage Campaigns, Encounters, and NPCs"
           @hover="ccLog('gm')">
           GM Toolkit
         </main-btn>
-        <main-btn
-          icon="cc:campaign"
+        <main-btn icon="cc:campaign"
           :to="'/active-mode'"
           help="Run an Encounter or Active Character Sheet"
           @hover="ccLog('encounter')">
           Active Mode
         </main-btn>
-        <main-btn
-          icon="cc:content_manager"
+        <main-btn icon="cc:content_manager"
           help="Import Content Packs"
           @hover="ccLog('content')"
           @clicked="extraContentModal = true">
           Content Manager
-          <v-tooltip
-            v-if="missingContent"
-            max-width="300px"
-            text="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager.">
-            <template #activator="{ props }">
-              <v-icon color="warning" size="30" icon="mdi-alert" class="mb-2" v-bind="props" />
-            </template>
-          </v-tooltip>
           <extra-content v-model="extraContentModal" />
         </main-btn>
       </v-row>
     </v-container>
 
-    <v-footer color="primary" app fixed height="32">
-      <v-row no-gutters justify="space-around" align="center">
-        <v-col cols="auto" class="text-center mr-1">
-          <cc-modal title="Cloud Account" icon="mdi-satellite-uplink">
+    <v-footer color="primary"
+      app
+      fixed
+      height="32">
+      <v-row no-gutters
+        justify="space-around"
+        align="center">
+        <v-col cols="auto"
+          class="text-center mr-1">
+          <cc-modal title="Cloud Account"
+            icon="mdi-satellite-uplink">
             <template #activator="{ open }">
-              <cc-button
-                size="small"
+              <cc-button size="small"
                 :color="isLoggedIn ? 'success' : ''"
                 :loading="startingUp"
                 :prepend-icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
@@ -69,17 +66,20 @@
             <sign-in />
           </cc-modal>
         </v-col>
-        <v-col cols="auto" class="text-center">
+        <v-col cols="auto"
+          class="text-center">
           <cloud-notifications />
         </v-col>
 
-        <v-col cols="auto" class="ml-auto text-right">
-          <v-row dense justify="space-between">
+        <v-col cols="auto"
+          class="ml-auto text-right">
+          <v-row dense
+            justify="space-between">
             <v-col cols="auto">
-              <cc-modal title="Options" icon="mdi-cog">
+              <cc-modal title="Options"
+                icon="mdi-cog">
                 <template #activator="{ open }">
-                  <cc-button
-                    size="small"
+                  <cc-button size="small"
                     variant="tonal"
                     color="highlight"
                     @mouseenter="ccLog('options')"
@@ -92,10 +92,10 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-dialog title="About" icon="mdi-information">
+              <cc-dialog title="About"
+                icon="mdi-information">
                 <template #activator="{ open }">
-                  <cc-button
-                    size="small"
+                  <cc-button size="small"
                     variant="tonal"
                     color="highlight"
                     @mouseenter="ccLog('about')"
@@ -108,10 +108,10 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-modal title="Credits" icon="cc:gms">
+              <cc-modal title="Credits"
+                icon="cc:gms">
                 <template #activator="{ open }">
-                  <cc-button
-                    size="small"
+                  <cc-button size="small"
                     variant="tonal"
                     color="highlight"
                     @mouseenter="ccLog('credits')"
@@ -124,10 +124,10 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-modal title="Help" icon="mdi-help-circle">
+              <cc-modal title="Help"
+                icon="mdi-help-circle">
                 <template #activator="{ open }">
-                  <cc-button
-                    size="small"
+                  <cc-button size="small"
                     variant="tonal"
                     color="highlight"
                     @mouseenter="ccLog('help')"
@@ -140,8 +140,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-button
-                target="_blank"
+              <cc-button target="_blank"
                 color="warning"
                 size="small"
                 variant="tonal"
@@ -194,12 +193,6 @@ export default {
     },
     startingUp() {
       return UserStore().IsLoading;
-    },
-    missingContent() {
-      return (
-        PilotStore().Pilots.some((x) => !x.SaveController.IsDeleted && x.BrewController.HasError) ||
-        NpcStore().Npcs.some((x) => !x.SaveController.IsDeleted && x.BrewController.HasError)
-      );
     },
   },
   methods: {

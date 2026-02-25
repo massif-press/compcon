@@ -120,7 +120,7 @@
             color="accent"
             v-bind="props"
             target="_blank"
-            :href="item.Website || ''">
+            :href="item.website || ''">
             <v-icon size="large"
               icon="mdi-open-in-new" />
           </v-btn>
