@@ -160,7 +160,7 @@ export default {
     },
     rollQuirk() {
       const compendium = CompendiumStore();
-      this.quirk = _.sample(compendium.Tables.quirks);
+      this.quirk = _.sample(compendium.Lists.quirks);
     },
     clonePilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot as Pilot));

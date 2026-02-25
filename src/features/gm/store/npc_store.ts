@@ -166,9 +166,12 @@ export const NpcStore = defineStore('npc', {
       }
     },
     async SaveNpcData(): Promise<void> {
-      Promise.all((this.Npcs as any).map(y => SetItem('npcs', y.Serialize())))
-        .then(() => logger.info('NPC data saved'))
-        .catch(err => logger.error('Error while saving NPC data', this, err))
+      try {
+        await Promise.all((this.Npcs as any).map(y => SetItem('npcs', y.Serialize())))
+        logger.info('NPC data saved')
+      } catch (err) {
+        logger.error('Error while saving NPC data', this, err)
+      }
     },
   },
 })

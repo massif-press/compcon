@@ -31,6 +31,8 @@ interface IActiveEffectData {
   attack?: 'melee' | 'ranged' | 'tech'
   applied?: boolean
   accuracy?: number
+  pilot?: boolean
+  mech?: boolean
 }
 
 class ActiveEffect {
@@ -59,6 +61,8 @@ class ActiveEffect {
 
   public readonly Dismissible: boolean
 
+  public readonly Pilot: boolean = false
+
   public Applied: boolean = false
 
   public constructor(
@@ -69,6 +73,13 @@ class ActiveEffect {
   ) {
     this.ID = data.id || uuid()
     this.Origin = origin
+
+    if (data.pilot) this.Pilot = true
+    else if (data.mech) this.Pilot = false
+    else {
+      const pilotItems = ['PilotGear', 'PilotArmor', 'PilotWeapon']
+      this.Pilot = pilotItems.includes(this.Origin.ItemType)
+    }
 
     this.Name = data.name || fallbackName || 'Unnamed Effect'
     this.Detail = data.detail || ''

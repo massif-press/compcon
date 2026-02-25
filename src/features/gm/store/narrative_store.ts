@@ -124,9 +124,14 @@ export const NarrativeStore = defineStore('narrative', {
     },
 
     async SaveItemData(): Promise<void> {
-      Promise.all((this.CollectionItems as any).map(y => SetItem('narrative', y.Serialize())))
-        .then(() => logger.info('Narrative data saved'))
-        .catch(err => logger.error('Error while saving NPC data', this, err))
+      try {
+        await Promise.all(
+          (this.CollectionItems as any).map(y => SetItem('narrative', y.Serialize()))
+        )
+        logger.info('Narrative data saved')
+      } catch (err) {
+        logger.error('Error while saving Narrative data', this, err)
+      }
     },
   },
 })

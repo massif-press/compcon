@@ -371,9 +371,12 @@ export const CompendiumStore = defineStore('compendium', {
   },
   actions: {
     async saveUserData(): Promise<void> {
-      Promise.all([this.ContentPacks.map(y => SetItem('content', y.Serialize()))])
-        .then(() => logger.info('LCP data saved'))
-        .catch(err => logger.error('Error while saving LCP data', err))
+      try {
+        await Promise.all(this.ContentPacks.map(y => SetItem('content', y.Serialize())))
+        logger.info('LCP data saved')
+      } catch (err) {
+        logger.error('Error while saving LCP data', err)
+      }
     },
     async saveContentCollection(collection: ContentCollection): Promise<void> {
       const index = this.ContentCollections.findIndex(x => x.ID === collection.ID)

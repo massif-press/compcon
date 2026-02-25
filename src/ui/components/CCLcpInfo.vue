@@ -1,10 +1,20 @@
 <template>
   <span>
-    <v-tooltip v-if="item.LcpName" location="top" :close-delay="300" :max-width="300">
+    <v-tooltip v-if="item.LcpName"
+      location="top"
+      :close-delay="300"
+      :max-width="350">
       <template #activator="{ props }">
-        <v-icon v-bind="props" icon="cc:compendium" class="fade-select" :color="color" />
+        <v-icon v-bind="props"
+          icon="cc:compendium"
+          class="fade-select"
+          :color="getColor" />
       </template>
-      <v-icon v-if="item.InLcp" icon="cc:compendium" color="exotic" class="pb-1" start />
+      <v-icon v-if="item.InLcp"
+        icon="cc:compendium"
+        color="exotic"
+        class="pb-1"
+        start />
       <b>{{ item.LcpName }}</b>
     </v-tooltip>
   </span>
@@ -20,8 +30,13 @@ export default {
     },
     color: {
       type: String,
-      default: 'primary',
     },
   },
+  computed: {
+    getColor() {
+      if (this.item.InLcp) return 'exotic';
+      return this.color;
+    },
+  }
 };
 </script>

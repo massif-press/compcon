@@ -10,17 +10,17 @@ function pullRandom(data: string[], count: number): string[] {
 
 async function callsign(): Promise<string> {
   const callsigns = (await import(`@/assets/generators/callsigns.txt?raw`)).default.split('\n')
-  return pullRandom(callsigns.concat(CompendiumStore().Tables?.callsigns || []), 1)[0]
+  return pullRandom(callsigns.concat(CompendiumStore().Lists?.callsigns || []), 1)[0]
 }
 
 async function mechname(): Promise<string> {
   const mechnames = (await import('@/assets/generators/mechnames.txt?raw')).default.split('\n')
-  return pullRandom(mechnames.concat(CompendiumStore().Tables?.mech_names || []), 1)[0]
+  return pullRandom(mechnames.concat(CompendiumStore().Lists?.mech_names || []), 1)[0]
 }
 
 async function teamName(): Promise<string> {
   const teamnames = (await import('@/assets/generators/teamnames.txt?raw')).default.split('\n')
-  return pullRandom(teamnames.concat(CompendiumStore().Tables?.team_names || []), 1)[0]
+  return pullRandom(teamnames.concat(CompendiumStore().Lists?.team_names || []), 1)[0]
 }
 
 async function tracert(jumps: number): Promise<string[]> {

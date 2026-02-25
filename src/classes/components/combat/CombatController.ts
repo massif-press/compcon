@@ -199,7 +199,9 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get ActiveEffects(): ActiveEffect[] {
-    return this.Parent.FeatureController?.ActiveEffects || []
+    const fx = this.Parent.FeatureController?.ActiveEffects || []
+    if (this.Parent instanceof Pilot) return fx.filter(e => e.Pilot)
+    return fx.filter(e => !e.Pilot)
   }
 
   public get Bonuses(): Bonus[] {

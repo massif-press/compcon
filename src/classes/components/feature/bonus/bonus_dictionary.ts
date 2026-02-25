@@ -421,4 +421,4 @@ export default [
     title: 'Accuracy',
     detail: '{INC_DEC} attacks, checks, and saves by {VAL} accuracy',
   },
-];
+]

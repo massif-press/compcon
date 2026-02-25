@@ -205,17 +205,23 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     async SaveEncounterData(): Promise<void> {
-      Promise.all((this.Encounters as any).map(y => SetItem('encounters', y.Serialize())))
-        .then(() => logger.info('Encounter data saved'))
-        .catch(err => logger.error('Error while saving Encounter data', this, err))
+      try {
+        await Promise.all((this.Encounters as any).map(y => SetItem('encounters', y.Serialize())))
+        logger.info('Encounter data saved')
+      } catch (err) {
+        logger.error('Error while saving Encounter data', this, err)
+      }
     },
 
     async SaveActiveEncounterData(): Promise<void> {
-      Promise.all(
-        (this.ActiveEncounters as any).map(y => SetItem('active_encounters', y.Serialize()))
-      )
-        .then(() => logger.info('Active Encounter data saved'))
-        .catch(err => logger.error('Error while saving Active Encounter data', this, err))
+      try {
+        await Promise.all(
+          (this.ActiveEncounters as any).map(y => SetItem('active_encounters', y.Serialize()))
+        )
+        logger.info('Active Encounter data saved')
+      } catch (err) {
+        logger.error('Error while saving Active Encounter data', this, err)
+      }
     },
   },
 })

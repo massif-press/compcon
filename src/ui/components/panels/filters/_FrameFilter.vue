@@ -57,6 +57,20 @@
         multiple
         @update:modelValue="updateFilters()" />
     </v-col>
+    <v-col cols="12">
+      <v-select v-model="licenseFilter"
+        class="px-2"
+        hide-details
+        density="compact"
+        chips
+        clearable
+        prepend-icon="cc:license"
+        variant="outlined"
+        label="License"
+        :items="licenses"
+        multiple
+        @update:modelValue="updateFilters()" />
+    </v-col>
   </v-row>
 </template>
 
@@ -79,6 +93,7 @@ export default {
     typeFilter: [],
     mountFilter: [],
     sizeFilter: [],
+    licenseFilter: [],
   }),
   emits: ['set-filters'],
   computed: {
@@ -109,6 +124,11 @@ export default {
     lcps(): string[] {
       return CompendiumStore().lcpNames;
     },
+    licenses(): { title: string; value: string }[] {
+      const frames = CompendiumStore().getItemCollection('Frames') as Frame[];
+      const licenses = frames.filter(x => !x.Variant).map((x) => x.License).filter((x) => !!x);
+      return _.uniq(licenses).map((y: any) => ({ title: y, value: y }));
+    },
   },
   methods: {
     clear() {
@@ -116,6 +136,7 @@ export default {
       this.sourceFilter = [];
       this.mountFilter = [];
       this.sizeFilter = [];
+      this.licenseFilter = [];
     },
     updateFilters() {
       const fObj = {} as any;
@@ -123,6 +144,7 @@ export default {
       if (this.sizeFilter && this.sizeFilter.length) fObj.MechSize = this.sizeFilter;
       if (this.typeFilter && this.typeFilter.length) fObj.MechType = this.typeFilter;
       if (this.mountFilter && this.mountFilter.length) fObj.Mounts = this.mountFilter;
+      if (this.licenseFilter && this.licenseFilter.length) fObj.License = this.licenseFilter;
       this.$emit('set-filters', fObj);
     },
   },

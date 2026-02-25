@@ -170,18 +170,32 @@ export const PilotStore = defineStore('pilot', {
       this.PilotGroups.splice(this.PilotGroups.indexOf(group), 1)
       await RemoveItem('pilot_groups', group.ID)
     },
-    async SavePilotData(): Promise<void> {
-      Promise.all(this.Pilots.map(y => SetItem('pilots', Pilot.Serialize(y as Pilot))))
-        .then(() => this.SaveGroupData())
-        .then(() => logger.info('Pilot data saved'))
-        .catch(err => logger.error('Error while saving Pilot data', this, err))
+    async SavePilotData(pilotIds?: string[]): Promise<void> {
+      try {
+        const pilotsToSave = pilotIds
+          ? this.Pilots.filter(p => pilotIds.includes(p.ID))
+          : this.Pilots
+
+        await Promise.all([
+          ...pilotsToSave.map(y => SetItem('pilots', Pilot.Serialize(y as Pilot))),
+          ...this.PilotGroups.map(x =>
+            SetItem('pilot_groups', PilotGroup.Serialize(x as PilotGroup))
+          ),
+        ])
+        logger.info('Pilot data saved')
+      } catch (err) {
+        logger.error('Error while saving Pilot data', this, err)
+      }
     },
     async SaveGroupData(): Promise<void> {
-      Promise.all([
-        this.PilotGroups.map(x => SetItem('pilot_groups', PilotGroup.Serialize(x as PilotGroup))),
-      ])
-        .then(() => logger.info('Pilot group data saved'))
-        .catch(err => logger.error('Error while saving Pilot data', this, err))
+      try {
+        await Promise.all(
+          this.PilotGroups.map(x => SetItem('pilot_groups', PilotGroup.Serialize(x as PilotGroup)))
+        )
+        logger.info('Pilot group data saved')
+      } catch (err) {
+        logger.error('Error while saving Pilot group data', this, err)
+      }
     },
 
     async ClonePilot(payload: Pilot): Promise<void> {
@@ -250,7 +264,6 @@ export const PilotStore = defineStore('pilot', {
         if (pilot) pilot.SortIndex = idx
       })
       this.SavePilotData()
-      this.SaveGroupData()
     },
     ReorderGroup(group: PilotGroup, dir: 'top' | 'up' | 'down' | 'bottom'): void {
       const index = this.PilotGroups.findIndex(x => x.ID === group.ID)
@@ -265,7 +278,6 @@ export const PilotStore = defineStore('pilot', {
         this.moveGroupIndex(index, this.PilotGroups.length - 1)
       }
       this.SavePilotData()
-      this.SaveGroupData()
     },
     async LoadPilotSheets(): Promise<void> {
       this.PilotSheets = await GetAll('pilot_sheets').then(data =>
