@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/vue'
+
 enum LEVELS {
   DEBUG = 'debug',
   INFO = 'info',
@@ -79,7 +81,7 @@ class Logger {
     if (!t || !severityMap[t]) t = 'info'
     if (severityMap[t] < severityMap[this.level]) return
     const type = t || 'info'
-    let typeColor = ''
+    let typeColor
 
     switch (type) {
       case 'warn':
@@ -114,8 +116,14 @@ class Logger {
   }
 
   public error = (message: string, caller?: any, err?: any) => {
-    if (err) console.error(err)
-    this.log(message, 'error', caller)
+    this.log(message, 'ERROR', caller)
+    if (err) {
+      console.error(err)
+      Sentry.captureException(err, {
+        tags: { caller: caller || 'unknown' },
+        extra: { message },
+      })
+    }
   }
   public warn = (message: string, caller?: any) => this.log(message, 'warn', caller)
   public info = (message: string, caller?: any) => this.log(message, 'info', caller)

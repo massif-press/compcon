@@ -1,16 +1,17 @@
 /// <reference types="vite/client" />
+/// <reference types="vite-plugin-pwa/client" />
 
-import 'vue';
+import 'vue'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    $lancerVersion: string;
-    $appVersion: string;
-    $vuetify: Framework;
-    $notify: Notify;
-    $router: Router;
-    $route: Route;
+    $lancerVersion: string
+    $appVersion: string
+    $vuetify: Framework
+    $notify: Notify
+    $router: Router
+    $route: Route
   }
 }
 
-declare const $lancerVersion: string;
+declare const $lancerVersion: string

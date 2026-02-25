@@ -11,23 +11,16 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": false,
+    "noEmit": true,
     "paths": {
       "@/*": ["./src/*"]
     },
     "noImplicitAny": false,
     "allowJs": true,
     "checkJs": false,
-    "noEmitOnError": false,
-    "outDir": "dist"
+    "noEmitOnError": false
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "src/ui/components/panels/loadout/CCLoadoutPanel.vue"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

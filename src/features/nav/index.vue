@@ -7,7 +7,8 @@
     class="no-print"
     density="compact"
     :height="mobile ? '40' : '58'"
-    style="z-index: 998">
+    style="z-index: 998"
+  >
     <div v-if="standalone">
       <v-tooltip location="bottom" open-delay="500ms">
         <template #activator="{ props }">
@@ -35,7 +36,8 @@
       class="mx-1"
       tooltip="Main Menu"
       tooltip-location="bottom"
-      @click="$router.push({ name: 'main-menu' })" />
+      @click="$router.push({ name: 'main-menu' })"
+    />
 
     <cc-button
       :size="mobile ? 'small' : 'default'"
@@ -43,7 +45,8 @@
       class="mx-1"
       tooltip="Compendium"
       tooltip-location="bottom"
-      @click="$router.push({ path: '/srd' })" />
+      @click="$router.push({ path: '/srd' })"
+    />
 
     <cc-button
       :size="mobile ? 'small' : 'default'"
@@ -51,7 +54,8 @@
       class="mx-1"
       tooltip="Pilot Management"
       tooltip-location="bottom"
-      @click="$router.push({ path: '/pilot_management' })" />
+      @click="$router.push({ path: '/pilot_management' })"
+    />
 
     <v-menu location="bottom" open-on-hover>
       <template #activator="{ props }">
@@ -60,7 +64,8 @@
             :size="mobile ? 'small' : 'default'"
             icon="cc:encounter"
             class="mx-1"
-            @click="$router.push({ path: '/gm' })" />
+            @click="$router.push({ path: '/gm' })"
+          />
         </span>
       </template>
       <v-list density="compact" class="text-caption pa-0">
@@ -81,7 +86,8 @@
       class="mx-1"
       tooltip="Active Mode"
       tooltip-location="bottom"
-      @click="$router.push({ path: '/active-mode' })" />
+      @click="$router.push({ path: '/active-mode' })"
+    />
 
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
@@ -90,7 +96,8 @@
             :size="mobile ? 'small' : 'default'"
             icon="mdi-contain"
             class="mx-1"
-            @click="refModal = true"></cc-button>
+            @click="refModal = true"
+          ></cc-button>
         </span>
       </template>
       <span>Quick Reference</span>
@@ -171,7 +178,11 @@
 
     <v-spacer />
 
-    <search />
+    <v-chip v-if="!isOnline" color="warning" size="small" prepend-icon="mdi-wifi-off" class="mr-2">
+      Offline
+    </v-chip>
+
+    <search-component />
 
     <v-divider v-if="!portrait" vertical class="mx-1" />
 
@@ -184,12 +195,14 @@
               class="mx-1"
               :size="mobile ? 'small' : ''"
               icon="mdi-cloud-sync-outline"
-              @click="open" />
+              @click="open"
+            />
             <v-badge
               :model-value="notifications.length > 0"
               dot
               color="secondary"
-              :content="notifications.length" />
+              :content="notifications.length"
+            />
           </template>
           <cloud-page />
         </cc-modal>
@@ -209,7 +222,8 @@
               :size="mobile ? 'small' : ''"
               icon="cc:achievement_1"
               :disabled="UserStoreLoading"
-              @click="open" />
+              @click="open"
+            />
           </template>
           <template #default="{ close }">
             <achievements-page @close="close()" />
@@ -227,7 +241,8 @@
           class="mx-1"
           :size="mobile ? 'small' : ''"
           icon="mdi-dots-vertical"
-          @click="props.onClick($event)" />
+          @click="props.onClick($event)"
+        />
       </template>
 
       <v-list density="compact">
@@ -269,84 +284,89 @@
 </template>
 
 <script lang="ts">
-import HelpPage from './pages/Help.vue';
-import AboutPage from './pages/About.vue';
-import CreditsPage from './pages/Credits.vue';
-import OptionsPage from './pages/Options/index.vue';
-import ContentPage from './pages/ExtraContent/index.vue';
-import CloudPage from './pages/Cloud.vue';
-import AchievementsPage from './pages/Achievements.vue';
+  import HelpPage from './pages/Help.vue'
+  import AboutPage from './pages/About.vue'
+  import CreditsPage from './pages/Credits.vue'
+  import OptionsPage from './pages/Options/index.vue'
+  import ContentPage from './pages/ExtraContent/index.vue'
+  import CloudPage from './pages/Cloud.vue'
+  import AchievementsPage from './pages/Achievements.vue'
 
-import Reference from '../compendium/Views/Reference/Reference.vue';
+  import Reference from '../compendium/Views/Reference/Reference.vue'
 
-import { PilotStore, UserStore } from '@/stores';
+  import { UserStore } from '@/stores'
+  import { useOnlineStatus } from '@/composables/useOnlineStatus'
 
-import Search from './search/index.vue';
+  import SearchComponent from './search/index.vue'
 
-export default {
-  name: 'cc-nav',
-  components: {
-    HelpPage,
-    AboutPage,
-    CreditsPage,
-    OptionsPage,
-    ContentPage,
-    CloudPage,
-    AchievementsPage,
-    Reference,
-    Search,
-  },
-  props: {
-    pilotManagement: { type: Boolean },
-    encounter: { type: Boolean },
-  },
-  data: () => ({
-    aboutDialog: false,
-    helpDialog: false,
-    optionsDialog: false,
-    contentModal: false,
-    storageWarningDialog: false,
-    storageFullDialog: false,
-    qrDialog: false,
-    hasCmdKey: false,
-    refModal: false,
-  }),
-  created() {
-    this.hasCmdKey = navigator.userAgent.includes('Mac');
-    this.storageFullDialog = this.StorageMax;
-  },
-  computed: {
-    hide(): boolean {
-      if (this.$route.path === '/') return true;
-      return false;
+  export default {
+    name: 'CcNav',
+    components: {
+      HelpPage,
+      AboutPage,
+      CreditsPage,
+      OptionsPage,
+      ContentPage,
+      CloudPage,
+      AchievementsPage,
+      Reference,
+      SearchComponent,
     },
-    landscape(): boolean {
-      return this.$vuetify.display.mdAndDown;
+    props: {
+      pilotManagement: { type: Boolean },
+      encounter: { type: Boolean },
     },
-    portrait(): boolean {
-      return this.$vuetify.display.xs;
+    setup() {
+      const { isOnline } = useOnlineStatus()
+      return { isOnline }
     },
-    mobile() {
-      return this.portrait;
+    data: () => ({
+      aboutDialog: false,
+      helpDialog: false,
+      optionsDialog: false,
+      contentModal: false,
+      storageWarningDialog: false,
+      storageFullDialog: false,
+      qrDialog: false,
+      hasCmdKey: false,
+      refModal: false,
+    }),
+    computed: {
+      hide(): boolean {
+        if (this.$route.path === '/') return true
+        return false
+      },
+      landscape(): boolean {
+        return this.$vuetify.display.mdAndDown
+      },
+      portrait(): boolean {
+        return this.$vuetify.display.xs
+      },
+      mobile() {
+        return this.portrait
+      },
+      StorageWarning(): boolean {
+        return UserStore().StorageWarning
+      },
+      StorageMax(): boolean {
+        return UserStore().StorageFull
+      },
+      appVersion(): string {
+        return import.meta.env.VITE_APP_VERSION || 'dev'
+      },
+      notifications() {
+        return UserStore().CloudNotifications
+      },
+      standalone(): boolean {
+        return window.matchMedia('(display-mode: standalone)').matches
+      },
+      UserStoreLoading(): boolean {
+        return UserStore().IsLoading
+      },
     },
-    StorageWarning(): boolean {
-      return UserStore().StorageWarning;
+    created() {
+      this.hasCmdKey = navigator.userAgent.includes('Mac')
+      this.storageFullDialog = this.StorageMax
     },
-    StorageMax(): boolean {
-      return UserStore().StorageFull;
-    },
-    appVersion(): string {
-      return import.meta.env.VITE_APP_VERSION || 'dev';
-    },
-    notifications() {
-      return UserStore().CloudNotifications;
-    },
-    standalone(): boolean {
-      return window.matchMedia('(display-mode: standalone)').matches;
-    },
-    UserStoreLoading(): boolean {
-      return UserStore().IsLoading;
-    },
-  },
-};
+  }
 </script>

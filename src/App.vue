@@ -1,55 +1,57 @@
 <template>
   <v-app id="app">
+    <pwa-update-prompt />
     <cc-notify />
     <navbar />
-    <div :style="`height: ${heightOffset}`"
-      class="no-print" />
+    <div :style="`height: ${heightOffset}`" class="no-print" />
     <router-view :key="$route.fullPath" />
   </v-app>
 </template>
 
 <script lang="ts">
-import CcNotify from '@/ui/notification/CCNotify.vue';
-import Navbar from './features/nav/index.vue';
-import { UserStore } from './stores';
+  import CcNotify from '@/ui/notification/CCNotify.vue'
+  import Navbar from './features/nav/index.vue'
+  import PwaUpdatePrompt from '@/ui/components/PWAUpdatePrompt.vue'
+  import { UserStore } from './stores'
 
-export default {
-  name: 'compcon',
-  components: {
-    CcNotify,
-    Navbar,
-  },
-  watch: {
-    'user.Theme': {
-      handler: function (newVal) {
-        if (!newVal) return;
-        this.$vuetify.theme.global.name = newVal;
+  export default {
+    name: 'Compcon',
+    components: {
+      CcNotify,
+      Navbar,
+      PwaUpdatePrompt,
+    },
+    computed: {
+      heightOffset() {
+        if (this.$vuetify.display.xs) {
+          return '24px'
+        } else {
+          return '41px'
+        }
       },
-      immediate: true,
-    },
-    'user.Font': {
-      handler: function (newVal) {
-        if (!newVal) return;
-        document.documentElement.setAttribute("data-font", newVal);
+      user() {
+        return UserStore().User
       },
-      immediate: true,
     },
-  },
-  computed: {
-    heightOffset() {
-      if (this.$vuetify.display.xs) {
-        return '24px';
-      } else {
-        return '41px';
-      }
+    watch: {
+      'user.Theme': {
+        handler: function (newVal) {
+          if (!newVal) return
+          this.$vuetify.theme.global.name = newVal
+        },
+        immediate: true,
+      },
+      'user.Font': {
+        handler: function (newVal) {
+          if (!newVal) return
+          document.documentElement.setAttribute('data-font', newVal)
+        },
+        immediate: true,
+      },
     },
-    user() {
-      return UserStore().User;
+    created() {
+      document.documentElement.setAttribute('data-font', 'inter')
+      window.addEventListener('beforeunload', UserStore().OnUnload)
     },
-  },
-  created() {
-    document.documentElement.setAttribute("data-font", "inter");
-    window.addEventListener('beforeunload', UserStore().OnUnload);
-  },
-};
+  }
 </script>
