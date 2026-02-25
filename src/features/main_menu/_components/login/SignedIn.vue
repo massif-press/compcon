@@ -77,13 +77,14 @@
       </div>
 
       <v-alert class="my-3" prominent icon="mdi-alert" color="warning darken-2" outlined>
-        <b>Automatic Cloud Sync temporarily disabled</b>
+        <b>Cloud Sync Warning</b>
         <div class="text--text">
-          COMP/CON has been experiencing issues with the automatic cloud sync feature, including
-          data not saving state correctly (such as deleted characters not staying deleted). COMP/CON
-          will still attempt to save your data to your cloud account whenever possible, but to
-          ensure that correct data is transferred between devices, please use the sync functions
-          below. Auto-sync will be re-enabled in a future update.
+          To prevent caching issues, your data is not automatically synced to the cloud. To back up your data or transfer
+          your data between devices, please use the sync functions below. Your local data will not be saved otherwise.
+          
+          If browsing data is cleared or you have switched devices, syncing to the cloud will update your device
+          with the most recently stored cloud data. If you have not synced to the cloud when clearing browser data,
+          all local data will be permanently lost.
         </div>
 
         <div v-show="!isOnV2" class="pa-2">
@@ -103,7 +104,7 @@
         </div>
       </v-alert>
 
-      <v-card v-if="isOnV2" class="mt-3 mb-6" disabled>
+      <v-card v-if="isOnV2" class="mt-3 mb-6" disabled hidden>
         <v-card-title class="heading h3">Auto-sync settings</v-card-title>
         <v-card-text class="px-10">
           <v-row dense align="center">
