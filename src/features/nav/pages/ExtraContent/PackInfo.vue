@@ -34,6 +34,18 @@
       </cc-toolbar>
     </template>
 
+    <cc-alert v-if="!pack.manifest.v3"
+      color="warning"
+      title="v2 Content"
+      icon="mdi-alert"
+      variant="outlined"
+      class="my-3">
+      <span class="text-text">
+        This content pack has not been registered as v3 compatible. This pack will still work
+        correctly, but will not be able to take advantage of v3 features.
+      </span>
+    </cc-alert>
+
     <pack-info-card :pack="pack" />
   </cc-panel>
 </template>

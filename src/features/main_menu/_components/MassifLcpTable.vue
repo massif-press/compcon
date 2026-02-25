@@ -1,6 +1,5 @@
 <template>
-  <v-data-table
-    v-model:expanded="expanded"
+  <v-data-table v-model:expanded="expanded"
     density="compact"
     no-data-text="No content packs available."
     :mobile="mobile"
@@ -17,16 +16,20 @@
     </template>
     <!-- v3 -->
     <template v-slot:item.v3="{ item }">
-      <v-tooltip v-if="item.v3">
+      <v-tooltip v-if="item.v3"
+        max-width="300px">
         <template #activator="{ props }">
-          <v-icon v-bind="props" color="success">mdi-check</v-icon>
+          <v-icon v-bind="props"
+            color="success">mdi-check</v-icon>
         </template>
         This content pack is compatible with the latest version of COMP/CON and supports v3
         features.
       </v-tooltip>
-      <v-tooltip v-else max-width="300px">
+      <v-tooltip v-else
+        max-width="300px">
         <template #activator="{ props }">
-          <v-icon v-bind="props" color="error">mdi-cancel</v-icon>
+          <v-icon v-bind="props"
+            color="error">mdi-cancel</v-icon>
         </template>
         This content pack uses the v2 content format. It will function correctly but will lack
         features of v3-compatible packs. COMP/CON will not be able to manage effects or statuses
@@ -36,97 +39,118 @@
     <template #item.local_version="{ item }">
       <span v-if="getInstalledPack(item)">
         {{ getInstalledPack(item)?.Manifest.version }}
-        <v-icon v-if="item.version === getInstalledPack(item)?.Manifest.version" color="success">
+        <v-icon v-if="item.version === getInstalledPack(item)?.Manifest.version"
+          color="success">
           mdi-check-bold
         </v-icon>
-        <v-icon v-else color="error" icon="mdi-clock-alert-outline" />
+        <v-icon v-else
+          color="error"
+          icon="mdi-clock-alert-outline" />
       </span>
-      <i v-else class="text-disabled">Not Installed</i>
+      <i v-else
+        class="text-disabled">Not Installed</i>
     </template>
     <template #item.auto="{ item }">
-      <v-row
-        v-if="canDownload(item) && getInstalledPack(item)"
+      <v-row v-if="canDownload(item) && getInstalledPack(item)"
         no-gutters
         :justify="mobile ? 'end' : 'center'">
-        <v-tooltip max-width="300px" location="top">
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-btn
-              v-bind="props"
+            <v-btn v-bind="props"
               icon
               variant="text"
               size="small"
               @click="toggleSubscription(item)">
-              <v-icon
-                v-if="hasSubscription(item)"
+              <v-icon v-if="hasSubscription(item)"
                 size="x-large"
                 icon="mdi-checkbox-marked"
                 color="accent" />
-              <v-icon v-else size="x-large" class="fade-select" icon="mdi-checkbox-blank-outline" />
+              <v-icon v-else
+                size="x-large"
+                class="fade-select"
+                icon="mdi-checkbox-blank-outline" />
             </v-btn>
           </template>
-          <div class="text-center" v-if="hasSubscription(item)">
+          <div class="text-center"
+            v-if="hasSubscription(item)">
             Currently subscribed to latest updates. Click to unsubscribe.
           </div>
-          <div class="text-center" v-else>
+          <div class="text-center"
+            v-else>
             Click to allow COMP/CON to update this LCP whenever a new version is published
           </div>
         </v-tooltip>
       </v-row>
     </template>
     <template #item.actions="{ item }">
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip max-width="300px"
+        location="top">
         <template #activator="{ props }">
-          <v-btn
-            v-if="canDownload(item)"
+          <v-btn v-if="canDownload(item)"
             icon
             variant="text"
             size="small"
             color="accent"
             v-bind="props"
             @click="installLatest(item)">
-            <v-icon size="large" icon="mdi-download" />
+            <v-icon size="large"
+              icon="mdi-download" />
           </v-btn>
-          <v-icon v-else v-bind="props" class="fade-select mr-2" icon="mdi-cancel" />
+          <v-icon v-else
+            v-bind="props"
+            class="fade-select mr-2"
+            icon="mdi-cancel" />
         </template>
-        <div class="text-center" v-if="canDownload(item)">Download and install latest version</div>
-        <div class="text-center" v-else-if="!loggedIn">
+        <div class="text-center"
+          v-if="canDownload(item)">Download and install latest version</div>
+        <div class="text-center"
+          v-else-if="!loggedIn">
           Direct download requires a COMP/CON account
         </div>
-        <div class="text-center" v-else>Requires linked itch.io purchase</div>
+        <div class="text-center"
+          v-else>Requires linked itch.io purchase</div>
       </v-tooltip>
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip max-width="300px"
+        location="top">
         <template #activator="{ props }">
-          <v-btn
-            icon
+          <v-btn icon
             variant="text"
             size="small"
             color="accent"
             v-bind="props"
             target="_blank"
             :href="item.Website || ''">
-            <v-icon size="large" icon="mdi-open-in-new" />
+            <v-icon size="large"
+              icon="mdi-open-in-new" />
           </v-btn>
         </template>
         <div class="text-center">Open Website</div>
       </v-tooltip>
     </template>
     <template v-slot:expanded-row="{ columns, item }">
-      <td :colspan="columns.length" class="pa-4 w-100 bg-light-panel">
+      <td :colspan="columns.length"
+        class="pa-4 w-100 bg-light-panel">
         <v-row>
           <v-col>
             <v-card-text>
               <v-row>
                 <v-col cols="auto">
-                  <v-chip label variant="outlined" tile size="small">
+                  <v-chip label
+                    variant="outlined"
+                    tile
+                    size="small">
                     <span v-if="item.paid">{{ item.cost }}</span>
                     <span v-else-if="item.pwyw">Pay What You Want</span>
                     <span v-else>Free</span>
                   </v-chip>
                 </v-col>
-                <v-col cols="auto" class="heading h3">{{ item.title }}</v-col>
+                <v-col cols="auto"
+                  class="heading h3">{{ item.title }}</v-col>
                 <v-spacer />
                 <v-col cols="auto">
-                  <cc-chip icon="cc:campaign" :label="item.collection" />
+                  <cc-chip icon="cc:campaign"
+                    :label="item.collection" />
                 </v-col>
               </v-row>
               <div class="text-caption mt-n3">
@@ -150,34 +174,37 @@
                   ({{ new Date(item.updated * 1000).toLocaleDateString() }})
                 </span>
               </div>
-              <div v-if="(item as any).description" v-html-safe="(item as any).description" />
+              <div v-if="(item as any).description"
+                v-html-safe="(item as any).description" />
               <div v-else>No description given.</div>
             </v-card-text>
 
             <v-divider class="ma-1" />
-            <cc-button
-              target="_blank"
+            <cc-button target="_blank"
               :href="item.website"
               flat
               size="small"
               class="ma-1"
               color="itch">
-              <v-icon prepend start>mdi-open-in-new</v-icon>
+              <v-icon prepend
+                start>mdi-open-in-new</v-icon>
               itch.io Store Page
             </cc-button>
-            <cc-button
-              target="_blank"
+            <cc-button target="_blank"
               :href="item.website"
               flat
               size="small"
               class="ma-1"
               color="primary">
-              <v-icon prepend start>mdi-open-in-new</v-icon>
+              <v-icon prepend
+                start>mdi-open-in-new</v-icon>
               Author's Website
             </cc-button>
           </v-col>
-          <v-col v-if="(item as any).img && !mobile" cols="2">
-            <cc-img :src="(item as any).img" alt="Pack image" />
+          <v-col v-if="(item as any).img && !mobile"
+            cols="2">
+            <cc-img :src="(item as any).img"
+              alt="Pack image" />
           </v-col>
         </v-row>
       </td>

@@ -63,6 +63,27 @@
             </v-card>
           </div>
         </div>
+        <div class="pt-2">
+          <cc-heading line>
+            Changelog
+          </cc-heading>
+          <i v-if="!manifest.version_history || manifest.version_history.length === 0"
+            class="pl-2">None</i>
+          <div v-else>
+            <v-card v-for="item in manifest.version_history"
+              class="ma-1 pa-1">
+              <div class="font-weight-bold bg-primary px-2">
+                {{ item.version }} ({{ new Date(item.date).toLocaleDateString() }}):
+              </div>
+              <div class="pa-2">
+                <ul>
+                  <li v-for="change in item.changes"
+                    v-html-safe="change" />
+                </ul>
+              </div>
+            </v-card>
+          </div>
+        </div>
       </v-col>
       <v-col cols="12"
         md="4">
@@ -121,6 +142,7 @@ export default {
       sitreps: ['sitrep', 'sitreps'],
       tables: ['Data Table', 'Data Tables'],
       eidolonLayers: ['Eidolon Layer', 'Eidolon Layers'],
+      downtimeActions: ['Downtime Action', 'Downtime Actions'],
     },
   }),
 

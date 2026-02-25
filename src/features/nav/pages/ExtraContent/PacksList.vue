@@ -3,8 +3,7 @@
     <cc-alert color="primary">No content packs installed.</cc-alert>
   </div>
   <div v-else>
-    <v-data-table
-      v-model:expanded="expandedRows"
+    <v-data-table v-model:expanded="expandedRows"
       :headers="headers"
       :items="contentPacks"
       item-value="Key"
@@ -14,26 +13,30 @@
       :show-expand="mobile"
       :mobile="$vuetify.display.xs">
       <template #item.toggleActive="{ item }">
-        <cc-switch
-          v-if="!item.Missing"
+        <cc-switch v-if="!item.Missing"
           :value="item.Active"
           size="large"
           @update:model-value="toggleActive(item.ID, item.Active)" />
-        <cc-tooltip v-else icon="mdi-alert">
+        <cc-tooltip v-else
+          icon="mdi-alert">
           This pack is missing one or more dependencies and cannot be activated.
         </cc-tooltip>
       </template>
       <template v-slot:item.v3="{ item }">
-        <v-tooltip v-if="item.v3">
+        <v-tooltip v-if="item.v3"
+          max-width="300px">
           <template #activator="{ props }">
-            <v-icon v-bind="props" color="success">mdi-check</v-icon>
+            <v-icon v-bind="props"
+              color="success">mdi-check</v-icon>
           </template>
           This content pack is compatible with the latest version of COMP/CON and supports v3
           features.
         </v-tooltip>
-        <v-tooltip v-else max-width="300px">
+        <v-tooltip v-else
+          max-width="300px">
           <template #activator="{ props }">
-            <v-icon v-bind="props" color="error">mdi-cancel</v-icon>
+            <v-icon v-bind="props"
+              color="error">mdi-cancel</v-icon>
           </template>
           This content pack uses the v2 content format. It will function correctly but will lack
           features of v3-compatible packs. COMP/CON will not be able to manage effects or statuses
@@ -43,7 +46,10 @@
       <template #item.deleteAction="{ item }">
         <v-menu width="400px">
           <template #activator="{ props }">
-            <v-btn icon color="error" variant="plain" v-bind="props">
+            <v-btn icon
+              color="error"
+              variant="plain"
+              v-bind="props">
               <v-icon icon="mdi-delete" />
             </v-btn>
           </template>
@@ -55,7 +61,10 @@
             <v-divider />
             <v-card-actions>
               <v-btn size="small">CANCEL</v-btn>
-              <v-btn size="small" color="error" class="ml-auto" @click="deletePack(item.ID)">
+              <v-btn size="small"
+                color="error"
+                class="ml-auto"
+                @click="deletePack(item.ID)">
                 CONFIRM
               </v-btn>
             </v-card-actions>
@@ -71,7 +80,10 @@
       </template>
     </v-data-table>
     <div class="d-flex justify-end mt-2">
-      <cc-button :loading="loading" size="small" color="error" @click="deleteAll">
+      <cc-button :loading="loading"
+        size="small"
+        color="error"
+        @click="deleteAll">
         Delete All
       </cc-button>
     </div>
@@ -154,7 +166,7 @@ export default {
 </script>
 
 <style scoped>
-.v-table >>> .v-table__wrapper {
+.v-table>>>.v-table__wrapper {
   overflow: visible !important;
 }
 </style>

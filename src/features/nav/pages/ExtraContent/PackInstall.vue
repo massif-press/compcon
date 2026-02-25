@@ -76,6 +76,23 @@
           </div>
         </cc-alert>
 
+        <cc-alert v-if="contentPacks.some((x) => !x.manifest.v3)"
+          color="warning"
+          class="my-3">
+          <span class="text-caption">
+            The following content has not been registered as v3 compatible. These packs will still
+            work, but
+            will not be able to take advantage of v3 features, especially in active mode.
+          </span>
+          <div v-for="pack in contentPacks.filter((x) => !x.manifest.v3)"
+            :key="pack.id"
+            class="text-caption">
+            <b>{{ pack.manifest.name }}</b>
+            by {{ pack.manifest.author }}
+          </div>
+        </cc-alert>
+
+
         <cc-alert v-if="hasUninstalledDependencies"
           color="error"
           class="my-3">
@@ -128,10 +145,10 @@
               flat
               tile
               :color="gradeType(contentPack) === 'upgrade'
-                  ? 'success'
-                  : gradeType(contentPack) === 'downgrade'
-                    ? 'error'
-                    : ''
+                ? 'success'
+                : gradeType(contentPack) === 'downgrade'
+                  ? 'error'
+                  : ''
                 "
               class="transition-swing"
               transition="slide-y-reverse-transition">
