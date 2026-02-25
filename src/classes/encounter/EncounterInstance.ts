@@ -51,7 +51,9 @@ class EncounterInstance implements ISaveable {
     this.SimpleTickbars = data?.simple_tickbars || false
 
     if (data) {
-      this.Combatants = data.combatants.map(c => Encounter.DeserializeCombatant(c))
+      if (data.combatants)
+        this.Combatants = data.combatants.map(c => Encounter.DeserializeCombatant(c))
+      else this.Combatants = []
       this.Encounter = Encounter.Deserialize(data.encounter)
       this.Autosave = data.autosave || true
     } else {
@@ -206,6 +208,11 @@ class EncounterInstance implements ISaveable {
   }
 
   public static Serialize(instance: EncounterInstance): IEncounterInstanceData {
+    if (!instance) {
+      console.error('Attempted to serialize null EncounterInstance')
+      return {} as IEncounterInstanceData
+    }
+
     const data = {
       itemType: 'EncounterInstance',
       id: instance.ID,
