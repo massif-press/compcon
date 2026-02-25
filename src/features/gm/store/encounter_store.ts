@@ -59,7 +59,14 @@ export const EncounterStore = defineStore('encounter', {
 
     async LoadActiveEncounters(): Promise<void> {
       const all = await GetAll('active_encounters')
-      this.ActiveEncounters = all.map(x => EncounterInstance.Deserialize(x))
+      this.ActiveEncounters = all.reduce((acc, x) => {
+        try {
+          acc.push(EncounterInstance.Deserialize(x))
+        } catch (err) {
+          logger.error('Failed to deserialize active encounter, skipping', this, err)
+        }
+        return acc
+      }, [] as EncounterInstance[])
       await this.LoadActiveEncounterID()
     },
 

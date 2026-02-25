@@ -238,6 +238,9 @@ class EncounterInstance implements ISaveable {
   }
 
   public static Deserialize(data: IEncounterInstanceData): EncounterInstance {
+    if (!data) {
+      throw new Error('Cannot deserialize null EncounterInstance')
+    }
     const instance = new EncounterInstance(data)
     SaveController.Deserialize(instance, data.save)
     return instance
