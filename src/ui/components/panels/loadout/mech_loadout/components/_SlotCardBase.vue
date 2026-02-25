@@ -66,7 +66,7 @@
                     small
                     :tags="item.Tags"
                     :color="color"
-                    :bonus="mech.Pilot.LimitedBonus"
+                    :bonus="mech.LimitedBonus"
                   />
                 </v-col>
                 <v-col
@@ -83,7 +83,7 @@
                       small
                       :tags="p.Tags"
                       :color="color"
-                      :bonus="mech.Pilot.LimitedBonus"
+                      :bonus="mech.LimitedBonus"
                     />
                   </div>
                 </v-col>
@@ -93,7 +93,7 @@
                     small
                     :tags="item.Mod.AddedTags"
                     color="mod darken-2"
-                    :bonus="mech.Pilot.LimitedBonus"
+                    :bonus="mech.LimitedBonus"
                   />
                 </v-col>
                 <v-spacer />
