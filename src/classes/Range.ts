@@ -73,7 +73,9 @@ class Range {
       const added = addedRange.find(x => x.Type === type)
       if (!r){
         if (added && added._bonus === -99){ 
-          return output.push(new Range(Range.Serialize(added))) // we use -99 as the magic number for "create this range type"
+          output.push(new Range(Range.Serialize(added))) // we use -99 as the magic number for "create this range type"
+          output[output.length - 1]._bonus = 0 // but we have to reset the bonus to 0 since the added range type is just a bonus and not an override
+          return output
         } else return // if we don't have that magic number, ignore this entirely don't add a range type that doesn't exist on the item
       } else {
         if (!added) return output.push(new Range(Range.Serialize(r))) // the "there's nothing to do here" case
@@ -84,6 +86,7 @@ class Range {
           } else { // merge range types
             output.push(new Range(Range.Serialize(r)))
             output[output.length - 1]._bonus += added._value // add bonus to existing range
+            return output
           }
         }
       }
