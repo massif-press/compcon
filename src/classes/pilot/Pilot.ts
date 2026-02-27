@@ -54,9 +54,10 @@ import { BondController, IPilotBondData } from './components/bond/BondController
 import logger from '@/user/logger'
 import { IInstanceableData } from '../components/instance/IInstancableData'
 import { IInstanceable } from '../components/instance/IInstanceable'
-import { IStatData, StatController } from '../components/combat/stats/StatController'
+import { StatController } from '../components/combat/stats/StatController'
 import { ICombatant } from '../components/combat/ICombatant'
 import { CombatController, CombatData } from '../components/combat/CombatController'
+import { LcpConfig } from '@/user'
 
 interface IUnlockData {
   PilotGear: any[]
@@ -84,6 +85,7 @@ class PilotData
   cloud: ICloudData = {} as ICloudData
   brews: BrewInfo[] = [] as BrewInfo[]
   img: IPortraitData = {} as IPortraitData
+  config: LcpConfig = {} as LcpConfig
   sortIndex: number = 0
 
   // instance fields
@@ -171,6 +173,7 @@ class Pilot
   private _background: string
   private _special_equipment: CompendiumItem[] = []
   private _mechs: Mech[] = []
+  private _lcpConfig: LcpConfig
 
   public IsLevelEdit = false
   public IsEncounterInstance = false
@@ -194,6 +197,7 @@ class Pilot
     this.BrewController = new BrewController(this)
 
     this.SortIndex = data && !isNaN(data?.sortIndex) ? data?.sortIndex : -1
+    this._lcpConfig = data?.config || ({} as LcpConfig)
 
     if (data) {
       SaveController.Deserialize(this, data.save)
@@ -280,7 +284,7 @@ class Pilot
     } else if (typeName.toLowerCase() === 'corebonus') {
       return this.CoreBonusController.CoreBonuses.findIndex(x => x.ID === id) > -1
     } else if (typeName.toLowerCase() === 'license') {
-      let index = this.LicenseController.Licenses.findIndex(
+      const index = this.LicenseController.Licenses.findIndex(
         x => x.Stub.ID === id || x.Stub.FrameName.toLowerCase() === id.toLowerCase()
       )
       if (index < 0) return false
@@ -324,7 +328,6 @@ class Pilot
     return [
       ...this.Mechs.flatMap(m => m.BrewableItems),
       this.PilotLoadoutController.Loadouts.flatMap(l => l.Items),
-      ,
       this.BondController.Bond,
     ] as CompendiumItem[]
   }
@@ -402,7 +405,6 @@ class Pilot
   }
 
   public get Status(): string {
-    // if (this.BrewController.IsUnableToLoad) return 'ERR';
     return this._status
   }
 
@@ -459,6 +461,16 @@ class Pilot
     this.SaveController.save()
   }
 
+  public set LcpConfig(config: LcpConfig) {
+    this._lcpConfig = config
+    this.SaveController.save()
+  }
+
+  public get LcpConfig(): LcpConfig | null {
+    if (!this._lcpConfig || Object.keys(this._lcpConfig).length === 0) return null
+    return this._lcpConfig
+  }
+
   // -- Stats -------------------------------------------------------------------------------------
   public get Grit(): number {
     return Math.ceil(this._level / 2)
@@ -492,7 +504,6 @@ class Pilot
     )
   }
 
-  //TODO
   public get ActiveMech(): Mech | null {
     if (!this.Mechs.length) {
       console.error('No mechs found for pilot', this)
@@ -669,6 +680,7 @@ class Pilot
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x, asInstance)) : [],
       special_equipment: this.serializeSE(p._special_equipment),
       sortIndex: p.SortIndex,
+      config: p.LcpConfig,
     }
 
     SaveController.Serialize(p, data)

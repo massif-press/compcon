@@ -1,21 +1,24 @@
 <template>
   <div class="pb-3">
     <section-header title="Gear Loadout" />
-    <cc-pilot-loadout :pilot="pilot" :readonly="pilot.IsRemote" />
+    <cc-pilot-loadout
+      :pilot="pilot"
+      :readonly="pilot.IsRemote"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import SectionHeader from '../../components/SectionHeader.vue';
+  import SectionHeader from '../../components/SectionHeader.vue'
 
-export default {
-  name: 'pilot-loadout-block',
-  components: { SectionHeader },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
+  export default {
+    name: 'PilotLoadoutBlock',
+    components: { SectionHeader },
+    props: {
+      pilot: {
+        type: Object,
+        required: true,
+      },
     },
-  },
-};
+  }
 </script>

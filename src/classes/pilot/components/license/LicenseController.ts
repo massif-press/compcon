@@ -25,11 +25,22 @@ class LicenseController {
   }
 
   public get LicensedItems(): LicensedItem[] {
-    return this._licenses
+    let arr = this._licenses
       .filter(x => x.License)
       .flatMap(x => x.License!.UnlocksByTotalRank(x.Rank))
       .concat(this.Parent.SpecialEquipment as LicensedItem[])
-      .concat(LicensedItem.AllUnlicensedItems())
+      .concat(LicensedItem.AllUnlicensedItems(this.Parent))
+
+    if (this.Parent.LcpConfig) {
+      arr = arr.filter(
+        x =>
+          !x.InLcp ||
+          this.Parent.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
+          this.Parent.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+      )
+    }
+
+    return arr
   }
 
   public AllowedItems(type: ItemType): LicensedItem[] {

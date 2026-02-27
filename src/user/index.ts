@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 import { get } from 'lodash-es'
 
 import logger from './logger'
-import { CompendiumStore, UserStore } from '@/stores'
+import { UserStore } from '@/stores'
 import itchMap from '@/assets/itchMap.json'
 import { AchievementSaveData } from './achievements/Achievement'
 
@@ -32,6 +32,20 @@ type PatreonData = {
   hasPatreon: boolean
 }
 
+type LcpConfigData = {
+  packID: string
+  packName: string
+  packAuthor: string
+  packVersion: string
+  allowed: boolean
+}
+
+type LcpConfig = {
+  id: string
+  name: string
+  packList: LcpConfigData[]
+}
+
 interface IUserOptions {
   views: any
   showExotics: boolean
@@ -50,6 +64,7 @@ interface IUserProfile {
   auto_delete_days: number
   latest_change: number
   lcp_subscriptions: string[]
+  lcp_configs: LcpConfig[]
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -61,6 +76,7 @@ class UserProfile {
   public readonly ID: string
   public latest_change: number
   public LcpSubscriptions: string[] = []
+  public LcpConfigs: LcpConfig[] = []
 
   private _readMessages: string[]
   private _theme: string
@@ -81,6 +97,7 @@ class UserProfile {
     this._achievement_unlocks = []
     this.latest_change = Date.now()
     this.LcpSubscriptions = []
+    this.LcpConfigs = []
   }
 
   public save(): void {
@@ -265,6 +282,29 @@ class UserProfile {
     this.save()
   }
 
+  public AddConfig(): void {
+    const newConfig: LcpConfig = {
+      id: uuid(),
+      name: `New Config ${this.LcpConfigs.length + 1}`,
+      packList: [],
+    }
+    this.LcpConfigs.push(newConfig)
+    this.save()
+  }
+
+  public updateConfig(id: string, config: LcpConfig): void {
+    const index = this.LcpConfigs.findIndex(c => c.id === id)
+    if (index !== -1) {
+      this.LcpConfigs[index] = config
+      this.save()
+    }
+  }
+
+  public RemoveConfig(id: string): void {
+    this.LcpConfigs = this.LcpConfigs.filter(c => c.id !== id)
+    this.save()
+  }
+
   public Reset() {
     this._theme = 'gms_dark'
     this.localSave('theme', this._theme)
@@ -290,6 +330,7 @@ class UserProfile {
       auto_delete_days: data.AutoDeleteDays,
       latest_change: data.latest_change,
       lcp_subscriptions: data.LcpSubscriptions,
+      lcp_configs: data.LcpConfigs,
     }
   }
 
@@ -307,6 +348,7 @@ class UserProfile {
     profile._autoDeleteDays = data.auto_delete_days || 30
     profile.latest_change = data.latest_change || Date.now()
     profile.LcpSubscriptions = data.lcp_subscriptions || []
+    profile.LcpConfigs = data.lcp_configs || []
     return profile
   }
 }
@@ -329,4 +371,4 @@ async function getLocalProfile(): Promise<UserProfile> {
 }
 
 export { getLocalProfile, UserProfile }
-export type { IUserProfile }
+export type { IUserProfile, IUserOptions, PatreonData, LcpConfig, LcpConfigData }

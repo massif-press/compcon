@@ -1,66 +1,73 @@
-import { CompendiumStore } from '../../../../stores';
-import { CompendiumItem, ContentPack, Frame, ItemType, Manufacturer } from '../../../../class';
-import { ICompendiumItemData, IContentPack, ITagCompendiumData } from '../../../../interface';
-import logger from '@/user/logger';
+import { CompendiumStore } from '../../../../stores'
+import {
+  CompendiumItem,
+  ContentPack,
+  Frame,
+  ItemType,
+  Manufacturer,
+  Pilot,
+} from '../../../../class'
+import { ICompendiumItemData, IContentPack, ITagCompendiumData } from '../../../../interface'
+import logger from '@/user/logger'
 
 interface ILicenseRequirement {
-  source: string;
-  name: string;
-  rank: number;
-  items: string[];
-  license_id?: string;
-  missing?: boolean;
+  source: string
+  name: string
+  rank: number
+  items: string[]
+  license_id?: string
+  missing?: boolean
 }
 
 interface ILicensedItemData extends ICompendiumItemData {
-  license: string;
-  license_level: number;
-  source?: string;
-  license_id?: string;
+  license: string
+  license_level: number
+  source?: string
+  license_id?: string
 }
 
 abstract class LicensedItem extends CompendiumItem {
-  public IsIntegrated: boolean = false;
+  public IsIntegrated: boolean = false
 
-  public readonly Source: string;
-  public readonly LicenseLevel: number;
-  private _license: string;
-  private _license_id: string;
+  public readonly Source: string
+  public readonly LicenseLevel: number
+  private _license: string
+  private _license_id: string
 
   public constructor(data: ILicensedItemData, pack?: ContentPack) {
-    super(data, pack);
-    this.Source = data.source ? data.source.toUpperCase() : '';
-    if (!this.Source) this.IsIntegrated = true;
-    this._license = data.license || '';
-    this._license_id = data.license_id || '';
-    this.LicenseLevel = parseInt(data.license_level as any) || 0;
+    super(data, pack)
+    this.Source = data.source ? data.source.toUpperCase() : ''
+    if (!this.Source) this.IsIntegrated = true
+    this._license = data.license || ''
+    this._license_id = data.license_id || ''
+    this.LicenseLevel = parseInt(data.license_level as any) || 0
   }
 
   public get Manufacturer(): Manufacturer {
     try {
-      if (this.Source === 'EXOTIC') return undefined as any;
-      return CompendiumStore().referenceByID('Manufacturers', this.Source);
+      if (this.Source === 'EXOTIC') return undefined as any
+      return CompendiumStore().referenceByID('Manufacturers', this.Source)
     } catch (e) {
-      logger.error(`Error getting manufacturer for item ${this.Name}: ${e}`, this, e);
-      return undefined as any;
+      logger.error(`Error getting manufacturer for item ${this.Name}: ${e}`, this, e)
+      return undefined as any
     }
   }
 
   public get License(): string {
-    return this.ItemType === ItemType.Frame ? this.Name : this._license;
+    return this.ItemType === ItemType.Frame ? this.Name : this._license
   }
 
   public get LicenseString(): string {
-    if (this._license) return `${this._license} ${this.LicenseLevel}`;
-    return this.Source;
+    if (this._license) return `${this._license} ${this.LicenseLevel}`
+    return this.Source
   }
 
   public get LicenseID(): string {
-    return this._license_id;
+    return this._license_id
   }
 
   public get ManufacturerColor(): string {
-    return this.Manufacturer.Color;
+    return this.Manufacturer.Color
   }
 
   public get RequiredLicense(): ILicenseRequirement {
@@ -70,37 +77,49 @@ abstract class LicensedItem extends CompendiumItem {
       rank: this.LicenseLevel,
       license_id: this.getLicenseId(),
       items: [this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name],
-    };
+    }
   }
 
   private getLicenseName(): string {
     if (this.ItemType === ItemType.Frame) {
-      const f = this as unknown as Frame;
-      if (f.Variant) return f.Variant;
+      const f = this as unknown as Frame
+      if (f.Variant) return f.Variant
     }
-    return this.License;
+    return this.License
   }
 
   private getLicenseId(): string {
     if (this.ItemType === ItemType.Frame) {
-      const f = this as unknown as Frame;
+      const f = this as unknown as Frame
       if (f.Variant)
         return (
-          CompendiumStore().Frames.find((x) => x.ID.toLowerCase().includes(f.Variant.toLowerCase()))
+          CompendiumStore().Frames.find(x => x.ID.toLowerCase().includes(f.Variant.toLowerCase()))
             ?.ID || this.LicenseID
-        );
+        )
     }
-    return this.LicenseID;
+    return this.LicenseID
   }
 
   // for the purposes of this function, Exotic and Integrated equipment is not considered licensed
-  public static AllUnlicensedItems(): LicensedItem[] {
-    return CompendiumStore()
-      .allEquipment.filter((x) => !x.LicenseLevel)
-      .filter((x) => !x.IsExotic)
-      .filter((x) => !x.IsIntegrated);
+  public static AllUnlicensedItems(pilot: Pilot): LicensedItem[] {
+    let arr = CompendiumStore()
+      .allEquipment.filter(x => !x.LicenseLevel)
+      .filter(x => !x.IsExotic)
+      .filter(x => !x.IsIntegrated)
+
+    if (pilot.LcpConfig) {
+      console.log(pilot.LcpConfig)
+      arr = arr.filter(
+        x =>
+          !x.InLcp ||
+          pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
+          pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+      )
+    }
+
+    return arr as LicensedItem[]
   }
 }
 
-export { LicensedItem };
-export type { ILicensedItemData, ILicenseRequirement };
+export { LicensedItem }
+export type { ILicensedItemData, ILicenseRequirement }

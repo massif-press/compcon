@@ -1,17 +1,22 @@
 <template>
-  <missing-item-alert v-if="pilot.TalentsController.MissingTalents.length"
+  <missing-item-alert
+    v-if="pilot.TalentsController.MissingTalents.length"
     type="talents"
     :items="pilot.TalentsController.MissingTalents"
-    @remove="pilot.TalentsController.RemoveTalent($event)" />
+    @remove="pilot.TalentsController.RemoveTalent($event)"
+  />
 
-  <selector title="Pilot Talents"
+  <selector
+    title="Pilot Talents"
     :success="pilot.TalentsController.HasFullTalents && enoughSelections"
     :flat="flat"
     :modal="modal"
     :selected="pilot.TalentsController.CurrentTalentPoints"
-    :total="pilot.TalentsController.MaxTalentPoints">
+    :total="pilot.TalentsController.MaxTalentPoints"
+  >
     <template #float>
-      <v-card v-if="pilot.TalentsController.HasFullTalents && enoughSelections"
+      <v-card
+        v-if="pilot.TalentsController.HasFullTalents && enoughSelections"
         flat
         tile
         class="text-cc-overline"
@@ -19,7 +24,8 @@
         variant="outlined"
         density="compact"
         color="success"
-        v-text="'Talent Selection Complete'" />
+        v-text="'Talent Selection Complete'"
+      />
       <v-card
         v-if="pilot.TalentsController.MaxTalentPoints > pilot.TalentsController.CurrentTalentPoints"
         flat
@@ -29,136 +35,152 @@
         variant="outlined"
         density="compact"
         color="accent"
-        v-text="`${pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints}
+        v-text="
+          `${pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints}
             Talent Selections remaining`
-          " />
+        "
+      />
 
-      <cc-button variant="text"
+      <cc-button
+        variant="text"
         size="x-small"
         block
         :disabled="!pilot.TalentsController.Talents.length"
-        @click="pilot.TalentsController.ClearTalents()">
+        @click="pilot.TalentsController.ClearTalents()"
+      >
         Reset
       </cc-button>
     </template>
 
     <template #jump>
       <div class="px-2">
-        <cc-select v-model="jump"
+        <cc-select
+          v-model="jump"
           label="jump to"
           color="primary"
           variant="outlined"
-          :items="jumpItems" />
+          :items="jumpItems"
+        />
       </div>
     </template>
 
     <template #right-column>
-      <cc-talent v-for="t in talents"
+      <cc-talent
+        v-for="t in talents"
         :id="`talent_${t.ID}`"
+        :key="`talent_${t.ID}`"
         :talent="t"
         :rank="pilot.TalentsController.getTalentRank(t.ID)"
         :can-add="canAdd(t.ID)"
         hide-change
         selectable
         @add="pilot.TalentsController.AddTalent(t)"
-        @remove="pilot.TalentsController.RemoveTalent(t)" />
+        @remove="pilot.TalentsController.RemoveTalent(t)"
+      />
     </template>
   </selector>
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash-es';
-import Selector from './components/_SelectorBase.vue';
-import MissingItem from './components/_MissingItem.vue';
+  import * as _ from 'lodash-es'
+  import Selector from './components/_SelectorBase.vue'
 
-import { CompendiumStore } from '@/stores';
-import { Rules, Pilot, Talent } from '@/class';
-import { accentInclude } from '@/classes/utility/accent_fold';
-import scrollTo from '@/util/scrollTo';
-import logger from '@/user/logger';
-import MissingItemAlert from './components/_MissingItemAlert.vue';
+  import { CompendiumStore } from '@/stores'
+  import { Rules, Pilot, Talent } from '@/class'
+  import { accentInclude } from '@/classes/utility/accent_fold'
+  import logger from '@/user/logger'
+  import MissingItemAlert from './components/_MissingItemAlert.vue'
 
-export default {
-  name: 'talent-selector',
-  components: { Selector, MissingItem, MissingItemAlert },
-  props: {
-    pilot: { type: Pilot, required: true },
-    levelUp: Boolean,
-    modal: Boolean,
-    flat: Boolean,
-  },
-  data: () => ({
-    search: '',
-    ctype: 'full',
-    jump: '',
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
+  export default {
+    name: 'TalentSelector',
+    components: { Selector, MissingItemAlert },
+    props: {
+      pilot: { type: Pilot, required: true },
+      levelUp: Boolean,
+      modal: Boolean,
+      flat: Boolean,
     },
-    newPilot(): boolean {
-      return this.pilot.Level === 0;
-    },
-    selectedMin(): number {
-      return Rules.MinimumPilotTalents;
-    },
-    enoughSelections(): boolean {
-      return (
-        this.pilot.Level === 0 || !(this.pilot.TalentsController.Talents.length < this.selectedMin)
-      );
-    },
-    selectionComplete(): boolean {
-      return (this.newPilot || this.levelUp) && this.pilot.TalentsController.HasFullTalents;
-    },
-    talents(): Talent[] {
-      const compendium = CompendiumStore();
-      const talents = compendium.Talents.filter((x) => !x.IsHidden);
-      if (this.search) return talents.filter((x) => accentInclude(x.Name, this.search));
-
-      return talents;
-    },
-    jumpItems() {
-      return [
-        ...this.pilot.TalentsController.Talents.map((x) => ({
-          title: x.Talent.Name,
-          value: x.Talent.ID,
-          subtitle: `// Pilot Rank ${x.Rank}`,
-        })),
-        ...this.talents
-          .filter((x) => !this.pilot.TalentsController.Talents.some((y) => y.Talent.ID === x.ID))
-          .map((x) => ({
-            title: x.Name,
-            value: x.ID,
-          })),
-      ];
-    },
-  },
-  watch: {
-    jump(val) {
-      this.scroll(val);
-    },
-  },
-  methods: {
-    canAdd(id) {
-      if (this.newPilot) {
+    data: () => ({
+      search: '',
+      ctype: 'full',
+      jump: '',
+    }),
+    computed: {
+      mobile() {
+        return this.$vuetify.display.smAndDown
+      },
+      newPilot(): boolean {
+        return this.pilot.Level === 0
+      },
+      selectedMin(): number {
+        return Rules.MinimumPilotTalents
+      },
+      enoughSelections(): boolean {
         return (
-          this.pilot.TalentsController.getTalentRank(id) === 0 &&
-          !this.pilot.TalentsController.HasFullTalents
-        );
-      }
-      return !this.pilot.TalentsController.HasFullTalents;
+          this.pilot.Level === 0 ||
+          !(this.pilot.TalentsController.Talents.length < this.selectedMin)
+        )
+      },
+      selectionComplete(): boolean {
+        return (this.newPilot || this.levelUp) && this.pilot.TalentsController.HasFullTalents
+      },
+      allTalents() {
+        if (!this.pilot.LcpConfig) return CompendiumStore().Talents
+        return CompendiumStore().Talents.filter(
+          x =>
+            !x.InLcp ||
+            this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
+            this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+        )
+      },
+      talents(): Talent[] {
+        const talents = this.allTalents.filter(x => !x.IsHidden)
+        if (this.search) return talents.filter(x => accentInclude(x.Name, this.search))
+
+        return talents
+      },
+      jumpItems() {
+        return [
+          ...this.pilot.TalentsController.Talents.map(x => ({
+            title: x.Talent.Name,
+            value: x.Talent.ID,
+            subtitle: `// Pilot Rank ${x.Rank}`,
+          })),
+          ...this.talents
+            .filter(x => !this.pilot.TalentsController.Talents.some(y => y.Talent.ID === x.ID))
+            .map(x => ({
+              title: x.Name,
+              value: x.ID,
+            })),
+        ]
+      },
     },
-    scroll(id) {
-      this.scrollTo(`talent_${id}`);
+    watch: {
+      jump(val) {
+        this.scroll(val)
+      },
     },
-    scrollTo(e: any): void {
-      const el = document.getElementById(e);
-      if (!el) {
-        logger.warn(`Element with ID ${e} not found`, this);
-        return;
-      }
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    methods: {
+      canAdd(id) {
+        if (this.newPilot) {
+          return (
+            this.pilot.TalentsController.getTalentRank(id) === 0 &&
+            !this.pilot.TalentsController.HasFullTalents
+          )
+        }
+        return !this.pilot.TalentsController.HasFullTalents
+      },
+      scroll(id) {
+        this.scrollTo(`talent_${id}`)
+      },
+      scrollTo(e: any): void {
+        const el = document.getElementById(e)
+        if (!el) {
+          logger.warn(`Element with ID ${e} not found`, this)
+          return
+        }
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      },
     },
-  },
-};
+  }
 </script>

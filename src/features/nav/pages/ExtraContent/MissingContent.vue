@@ -1,236 +1,299 @@
 <template>
-  <v-container>
-    <div v-if="!missingLength"
-      class="heading h4">
-      <span>
-        <v-icon color="success"
-          class="mt-n1">mdi-check-bold</v-icon>
-        No Issues Detected
-      </span>
-    </div>
-    <div v-else
-      class="heading h3 text-stark">
-      <span>
-        <span class="text-error">{{ missingLength }}</span>
-        {{ missingLength > 1 ? 'issues' : 'issue' }} detected
-      </span>
-    </div>
-    <div>
-      <i v-if="missingLength > 0">
-        COMP/CON has determined the following items include data from Lancer Content Packs that are
-        not installed or not activated. This will not prevent COMP/CON from loading these items, but
-        options or equipment from the missing packs may not be available until the required packs
-        are installed and activated.
-      </i>
-      <v-alert v-if="missingPacks.length"
-        prominent
-        color="error"
-        icon="mdi-alert-rhombus"
-        variant="tonal">
-        <div v-for="pack in missingPacks">
-          Lancer Content Pack
-          <b>{{ pack.Name }}</b>
-          cannot be loaded because it is missing the following dependencies:
-          <ul class="py-2 pl-8">
-            <li v-for="dep in getMissingDependencies(pack)">
-              <b>{{ dep.name }}</b>
-              at version
-              <b>{{ dep.version }}</b>
-              <a v-if="dep.link"
-                :href="dep.link"
-                target="_blank"
-                class="pl-2">[link]</a>
-            </li>
-          </ul>
-        </div>
-      </v-alert>
-
-      <div>
-        <v-card variant="tonal"
-          v-for="item in allItems"
-          class="mt-1 mb-2">
-          <v-toolbar density="compact"
-            style="height: 40px"
-            class="mt-n2"
-            color="pilot">
-            <v-toolbar-title v-if="item.ItemType === 'Pilot'"
-              class="text-caption">
-              Pilot Data:
-              <b>
-                {{ item.Callsign }}
-                <cc-slashes />
-                {{ item.Name }}
-              </b>
-              <span class="text-disabled">- {{ item.ID }}</span>
-            </v-toolbar-title>
-            <v-toolbar-title v-else
-              class="text-caption">
-              NPC:
-              <b>
-                {{ item.Name }}
-              </b>
-              <span class="text-disabled">- {{ item.ID }}</span>
-            </v-toolbar-title>
-          </v-toolbar>
-          <v-card-text class="py-1">
-            <v-row align="center"
-              dense>
-              <v-col cols="auto">
-                <v-icon size="40"
-                  :color="item.BrewController.IsUnableToLoad ? 'error' : 'warning'"
-                  icon="mdi-alert-rhombus" />
-              </v-col>
-              <v-col>
-                <div v-if="item.BrewController.DeactivatedBrews.length">
-                  <b>DEACTIVATED LCPS</b>
-                  <div v-for="brew in item.BrewController.DeactivatedBrews"
-                    class="ml-2">
-                    <b class="text-accent"
-                      v-text="`${brew.LcpName}`" />
-                    is present but not active.
-                    <div class="text-caption">
-                      This may result in missing or unavailable options and equipment. Please
-                      re-enable and reload {{ brew.LcpName }} to resolve this issue.
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="item.BrewController.MissingBrews.length">
-                  <b>MISSING LCPS</b>
-                  <div v-for="brew in item.BrewController.MissingBrews"
-                    class="ml-2">
-                    <b class="text-accent"
-                      v-html-safe="`${brew.LcpName} <span class='text-disabled'>@</span> ${brew.LcpVersion}`
-                        " />
-                    is missing.
-                    <div v-if="brew.Website"
-                      class="text-caption">
-                      It may be possible to download this pack at:
-                      <a target="_blank"
-                        :href="brew.Website"
-                        v-text="brew.Website" />
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="item.BrewController.OutdatedBrews.length">
-                  <b>OUTDATED LCPS</b>
-                  <div v-for="brew in item.BrewController.OutdatedBrews"
-                    class="ml-2">
-                    <span>
-                      <b class="text-accent"
-                        v-html-safe="`${brew.LcpName} <span class='text-disabled'>@</span> ${brew.LcpVersion}`
-                          " />
-                      is outdated.
-                    </span>
-                    <div v-if="brew.Website"
-                      class="text-caption pl-4">
-                      It may be possible to download this pack at:
-                      <a target="_blank"
-                        :href="brew.Website"
-                        v-text="brew.Website" />
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="item.BrewController.OtherError && item.ItemType !== 'Eidolon'">
-                  COMP/CON encountered an error while loading this item.
-                  <br />
-                  Please check the error log in the "Log" tab of the Options menu for more
-                  information
-                </div>
-
-                <div v-else-if="
-                  item.BrewController.IsUnableToLoad &&
-                  !item.BrewController.NonfunctionalBrews.length
-                ">
-                  <b>MISSING CORE CONTENT</b>
-                  <div>
-                    <span class="text-caption">
-                      COMP/CON is unable to load this item due to missing or non-loadable core
-                      content, such as the core rules or GM content pack.
-                    </span>
-                    <div v-if="item.ItemType === 'Unit'">
-                      <b class="text-accent"
-                        v-text="`LANCER CORE BOOK`" />
-                      <div class="text-caption pl-4">
-                        This pack is included in the Lancer Core Book paid content:
-                        <a target="_blank"
-                          href="https://massif-press.itch.io/corebook-pdf"
-                          v-text="`https://massif-press.itch.io/corebook-pdf`" />
-                      </div>
-                    </div>
-                    <div v-else-if="item.ItemType === 'Eidolon'">
-                      <b class="text-accent"
-                        v-text="`NO ROOM FOR A WALLFLOWER`" />
-                      <div class="text-caption pl-4">
-                        This pack is included in the No Room for a Wallflower: Act 1 paid content:
-                        <a target="_blank"
-                          href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1"
-                          v-text="`https://massif-press.itch.io/no-room-for-a-wallflower-act-1`" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+  <v-card
+    flat
+    border
+    class="mt-4"
+  >
+    <v-card-text class="py-2">
+      <div
+        v-if="!missingLength"
+        class="heading h4"
+      >
+        <span>
+          <v-icon
+            color="success"
+            class="mt-n1"
+          >
+            mdi-check-bold
+          </v-icon>
+          No Issues Detected
+        </span>
       </div>
-    </div>
-  </v-container>
+      <div
+        v-else
+        class="heading h3"
+      >
+        <span>
+          <span class="text-error">{{ missingLength }}</span>
+          warning
+        </span>
+      </div>
+      <div>
+        <i v-if="missingLength > 0">
+          COMP/CON has determined the following items include data from Lancer Content Packs that
+          are not installed or not activated.
+          <b class="text-accent">This will not prevent COMP/CON from loading these items</b>
+          , but options or equipment from the missing packs may not be available until the
+          associated LCPs are installed and activated.
+        </i>
+        <v-alert
+          v-if="missingPacks.length"
+          prominent
+          color="error"
+          icon="mdi-alert-rhombus"
+          variant="tonal"
+        >
+          <div v-for="pack in missingPacks">
+            Lancer Content Pack
+            <b>{{ pack.Name }}</b>
+            cannot be loaded because it is missing the following dependencies:
+            <ul class="py-2 pl-8">
+              <li v-for="dep in getMissingDependencies(pack)">
+                <b>{{ dep.name }}</b>
+                at version
+                <b>{{ dep.version }}</b>
+                <a
+                  v-if="dep.link"
+                  :href="dep.link"
+                  target="_blank"
+                  class="pl-2"
+                >
+                  [link]
+                </a>
+              </li>
+            </ul>
+          </div>
+        </v-alert>
+
+        <div>
+          <v-card
+            v-for="item in allItems"
+            variant="tonal"
+            class="mt-1 mb-2"
+          >
+            <v-toolbar
+              density="compact"
+              style="height: 40px"
+              class="mt-n2"
+              color="pilot"
+            >
+              <v-toolbar-title
+                v-if="item.ItemType === 'Pilot'"
+                class="text-caption"
+              >
+                Pilot Data:
+                <b>
+                  {{ item.Callsign }}
+                  <cc-slashes />
+                  {{ item.Name }}
+                </b>
+                <span class="text-disabled">- {{ item.ID }}</span>
+              </v-toolbar-title>
+              <v-toolbar-title
+                v-else
+                class="text-caption"
+              >
+                NPC:
+                <b>
+                  {{ item.Name }}
+                </b>
+                <span class="text-disabled">- {{ item.ID }}</span>
+              </v-toolbar-title>
+            </v-toolbar>
+            <v-card-text class="py-1">
+              <v-row
+                align="center"
+                dense
+              >
+                <v-col cols="auto">
+                  <v-icon
+                    size="40"
+                    :color="item.BrewController.IsUnableToLoad ? 'error' : 'warning'"
+                    icon="mdi-alert-rhombus"
+                  />
+                </v-col>
+                <v-col>
+                  <div v-if="item.BrewController.DeactivatedBrews.length">
+                    <b>DEACTIVATED LCPS</b>
+                    <div
+                      v-for="brew in item.BrewController.DeactivatedBrews"
+                      class="ml-2"
+                    >
+                      <b
+                        class="text-accent"
+                        v-text="`${brew.LcpName}`"
+                      />
+                      is present but not active.
+                      <div class="text-caption">
+                        This may result in missing or unavailable options and equipment. Please
+                        re-enable and reload {{ brew.LcpName }} to resolve this issue.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div v-if="item.BrewController.MissingBrews.length">
+                    <b>MISSING LCPS</b>
+                    <div
+                      v-for="brew in item.BrewController.MissingBrews"
+                      class="ml-2"
+                    >
+                      <b
+                        v-html-safe="
+                          `${brew.LcpName} <span class='text-disabled'>@</span> ${brew.LcpVersion}`
+                        "
+                        class="text-accent"
+                      />
+                      is missing.
+                      <div
+                        v-if="brew.Website"
+                        class="text-caption"
+                      >
+                        It may be possible to download this pack at:
+                        <a
+                          target="_blank"
+                          :href="brew.Website"
+                          v-text="brew.Website"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div v-if="item.BrewController.OutdatedBrews.length">
+                    <b>OUTDATED LCPS</b>
+                    <div
+                      v-for="brew in item.BrewController.OutdatedBrews"
+                      class="ml-2"
+                    >
+                      <span>
+                        <b
+                          v-html-safe="
+                            `${brew.LcpName} <span class='text-disabled'>@</span> ${brew.LcpVersion}`
+                          "
+                          class="text-accent"
+                        />
+                        is outdated.
+                      </span>
+                      <div
+                        v-if="brew.Website"
+                        class="text-caption pl-4"
+                      >
+                        It may be possible to download this pack at:
+                        <a
+                          target="_blank"
+                          :href="brew.Website"
+                          v-text="brew.Website"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div v-if="item.BrewController.OtherError && item.ItemType !== 'Eidolon'">
+                    COMP/CON encountered an error while loading this item.
+                    <br />
+                    Please check the error log in the "Log" tab of the Options menu for more
+                    information
+                  </div>
+
+                  <div
+                    v-else-if="
+                      item.BrewController.IsUnableToLoad &&
+                      !item.BrewController.NonfunctionalBrews.length
+                    "
+                  >
+                    <b>MISSING CORE CONTENT</b>
+                    <div>
+                      <span class="text-caption">
+                        COMP/CON is unable to load this item due to missing or non-loadable core
+                        content, such as the core rules or GM content pack.
+                      </span>
+                      <div v-if="item.ItemType === 'Unit'">
+                        <b
+                          class="text-accent"
+                          v-text="`LANCER CORE BOOK`"
+                        />
+                        <div class="text-caption pl-4">
+                          This pack is included in the Lancer Core Book paid content:
+                          <a
+                            target="_blank"
+                            href="https://massif-press.itch.io/corebook-pdf"
+                            v-text="`https://massif-press.itch.io/corebook-pdf`"
+                          />
+                        </div>
+                      </div>
+                      <div v-else-if="item.ItemType === 'Eidolon'">
+                        <b
+                          class="text-accent"
+                          v-text="`NO ROOM FOR A WALLFLOWER`"
+                        />
+                        <div class="text-caption pl-4">
+                          This pack is included in the No Room for a Wallflower: Act 1 paid content:
+                          <a
+                            target="_blank"
+                            href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1"
+                            v-text="`https://massif-press.itch.io/no-room-for-a-wallflower-act-1`"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </div>
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
-import { CompendiumStore, PilotStore, NpcStore } from '@/stores';
-import { ContentPack } from '@/class';
+  import { CompendiumStore, PilotStore, NpcStore } from '@/stores'
+  import { ContentPack } from '@/class'
 
-export default {
-  name: 'missing-content-pane',
-  computed: {
-    missingPacks(): ContentPack[] {
-      return CompendiumStore().ContentPacks.filter((x) => x.Missing) as ContentPack[];
-    },
+  export default {
+    name: 'MissingContentPane',
+    computed: {
+      missingPacks(): ContentPack[] {
+        return CompendiumStore().ContentPacks.filter(x => x.Missing) as ContentPack[]
+      },
 
-    missingLength() {
-      return this.allPilots.length + this.allNpcs.length;
-    },
+      missingLength() {
+        return this.allPilots.length + this.allNpcs.length
+      },
 
-    allPilots() {
-      return PilotStore().Pilots.filter(
-        (x) => !x.SaveController.IsDeleted && x.BrewController.HasError
-      );
+      allPilots() {
+        return PilotStore().Pilots.filter(
+          x => !x.SaveController.IsDeleted && x.BrewController.HasError
+        )
+      },
+      allNpcs() {
+        return NpcStore().Npcs.filter(x => !x.SaveController.IsDeleted && x.BrewController.HasError)
+      },
+      allItems() {
+        return (this.allPilots as any[]).concat(this.allNpcs as any[])
+      },
     },
-    allNpcs() {
-      return NpcStore().Npcs.filter(
-        (x) => !x.SaveController.IsDeleted && x.BrewController.HasError
-      );
+    methods: {
+      deleteItem(item) {
+        if (item.ItemType === 'Pilot') PilotStore().DeletePilotPermanent(item)
+        else if (item.ItemType === 'Unit' || item.ItemType === 'Eidolon')
+          NpcStore().DeleteNpcPermanent(item)
+      },
+      fixMissing(item) {
+        item.BrewController.FixMissing()
+      },
+      getMissingDependencies(pack: ContentPack) {
+        return pack.Dependencies.map(dep => {
+          return {
+            name: dep.name,
+            version: dep.version.includes('=')
+              ? dep.version.replace('=', '')
+              : dep.version + ' or later',
+            link: dep.link,
+            installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true),
+          }
+        }).filter(x => !x.installed)
+      },
     },
-    allItems() {
-      return (this.allPilots as any[]).concat(this.allNpcs as any[]);
-    },
-  },
-  methods: {
-    deleteItem(item) {
-      if (item.ItemType === 'Pilot') PilotStore().DeletePilotPermanent(item);
-      else if (item.ItemType === 'Unit' || item.ItemType === 'Eidolon')
-        NpcStore().DeleteNpcPermanent(item);
-    },
-    fixMissing(item) {
-      item.BrewController.FixMissing();
-    },
-    getMissingDependencies(pack: ContentPack) {
-      return pack.Dependencies.map((dep) => {
-        return {
-          name: dep.name,
-          version: dep.version.includes('=')
-            ? dep.version.replace('=', '')
-            : dep.version + ' or later',
-          link: dep.link,
-          installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true),
-        };
-      }).filter((x) => !x.installed);
-    },
-  },
-};
+  }
 </script>

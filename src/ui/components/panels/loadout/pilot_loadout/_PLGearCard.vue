@@ -6,11 +6,18 @@
     :item="item"
     :readonly="readonly"
     @remove="$emit('remove', item)"
-    @save="$emit('save')">
-    <template v-if="item" #title-items>
+    @save="$emit('save')"
+  >
+    <template
+      v-if="item"
+      #title-items
+    >
       <div class="text-cc-overline pt-1">ITEM USES</div>
       <div class="text-right">
-        <v-icon color="secondary" :icon="!item.MaxUses ? 'mdi-infinity' : 'mdi-hexagon-slice-6'" />
+        <v-icon
+          color="secondary"
+          :icon="!item.MaxUses ? 'mdi-infinity' : 'mdi-hexagon-slice-6'"
+        />
       </div>
     </template>
 
@@ -18,7 +25,8 @@
       v-if="item"
       class="text-left"
       style="cursor: pointer !important"
-      @click="($refs as any).base.openDetail()">
+      @click="($refs as any).base.openDetail()"
+    >
       <v-card-text class="py-0">
         <div v-html-safe="item.Description" />
       </v-card-text>
@@ -31,7 +39,8 @@
         :options="options"
         equippable
         :table-headers="headers"
-        @equip="equip($event)">
+        @equip="equip($event)"
+      >
         <template #header>
           <div class="heading h4 text-center text-accent">Select Pilot Equipment</div>
         </template>
@@ -49,7 +58,10 @@
               <cc-slashes />
               {{ item.Name }}
             </div>
-            <div class="flavor-text text-cc-overline mt-n1" style="display: block">
+            <div
+              class="flavor-text text-cc-overline mt-n1"
+              style="display: block"
+            >
               CURRENTLY EQUIPPED
             </div>
           </div>
@@ -58,10 +70,16 @@
               GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)
             </span>
             <br />
-            <span class="heading h1 text-disabled text--lighten-1" style="line-height: 20px">
+            <span
+              class="heading h1 text-disabled text--lighten-1"
+              style="line-height: 20px"
+            >
               NO SELECTION
             </span>
-            <span class="flavor-text text-cc-overline mt-n1 text-error" style="display: block">
+            <span
+              class="flavor-text text-cc-overline mt-n1 text-error"
+              style="display: block"
+            >
               [ EQUIPMENT ID INVALID OR MISSING ]
             </span>
           </div>
@@ -72,82 +90,91 @@
 </template>
 
 <script lang="ts">
-import PlCardBase from './_PLCardBase.vue';
+  import PlCardBase from './_PLCardBase.vue'
 
-import { CompendiumStore } from '@/stores';
-import { PilotGear, CompendiumItem, ItemType, PilotEquipment } from '@/class';
-import { flavorID } from '@/io/Generators';
+  import { CompendiumStore } from '@/stores'
+  import { PilotGear, CompendiumItem, ItemType, PilotEquipment } from '@/class'
+  import { flavorID } from '@/io/Generators'
 
-export default {
-  name: 'pl-pilot-gear-card',
-  components: { PlCardBase },
-  emits: ['equip', 'remove', 'save'],
-  props: {
-    item: {
-      type: Object,
-      required: false,
-      default: null,
+  export default {
+    name: 'PlPilotGearCard',
+    components: { PlCardBase },
+    props: {
+      item: {
+        type: Object,
+        required: false,
+        default: null,
+      },
+      extended: {
+        type: Boolean,
+        required: false,
+      },
+      readonly: {
+        type: Boolean,
+      },
+      pilot: {
+        type: Object,
+        required: true,
+      },
     },
-    extended: {
-      type: Boolean,
-      required: false,
-    },
-    readonly: {
-      type: Boolean,
-    },
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    headers: [
-      { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Type', key: 'Type' },
-      { title: 'Item', key: 'Name' },
-      { title: 'Uses', key: 'MaxUses' },
-      { title: 'Tags', align: 'center', key: 'Tags' },
-    ],
-    options: {
-      views: ['single', 'table', 'cards'],
-      initialView: 'single',
-      groups: ['lcp', 'type'],
-      initialGroup: 'type',
-      noSource: true,
-      showExotics: true,
-    },
-  }),
-  computed: {
-    exotics(): PilotGear[] {
-      return this.pilot.SpecialEquipment.filter((x) => x.ItemType === 'PilotGear');
-    },
-    gear(): PilotGear[] {
-      let gear = (CompendiumStore().PilotGear as PilotEquipment[]).filter(
-        (x: PilotEquipment) => x.ItemType === ItemType.PilotGear && !x.IsHidden && !x.IsExotic
-      ) as PilotGear[];
+    emits: ['equip', 'remove', 'save'],
+    data: () => ({
+      headers: [
+        { title: 'Content Pack', key: 'LcpName' },
+        { title: 'Type', key: 'Type' },
+        { title: 'Item', key: 'Name' },
+        { title: 'Uses', key: 'MaxUses' },
+        { title: 'Tags', align: 'center', key: 'Tags' },
+      ],
+      options: {
+        views: ['single', 'table', 'cards'],
+        initialView: 'single',
+        groups: ['lcp', 'type'],
+        initialGroup: 'type',
+        noSource: true,
+        showExotics: true,
+      },
+    }),
+    computed: {
+      exotics(): PilotGear[] {
+        return this.pilot.SpecialEquipment.filter(x => x.ItemType === 'PilotGear')
+      },
+      allGear(): PilotEquipment[] {
+        if (!this.pilot.LcpConfig) return CompendiumStore().PilotGear as PilotEquipment[]
+        return CompendiumStore().PilotGear.filter(
+          (x: any) =>
+            !x.InLcp ||
+            this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
+            this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+        ) as PilotEquipment[]
+      },
+      gear(): PilotGear[] {
+        let gear = this.allGear.filter(
+          (x: PilotEquipment) => x.ItemType === ItemType.PilotGear && !x.IsHidden && !x.IsExotic
+        ) as PilotGear[]
 
-      if (this.exotics.length) {
-        gear = gear.concat(this.exotics);
-      }
+        if (this.exotics.length) {
+          gear = gear.concat(this.exotics)
+        }
 
-      return gear;
+        return gear
+      },
     },
-  },
-  methods: {
-    equip(item: PilotGear) {
-      this.$emit('equip', CompendiumItem.Clone(item));
-      this.$emit('save');
-      (this.$refs.base as any).closeSelector();
-      this.$notify({
-        title: 'Pilot Gear Equipped',
-        text: `${item.Name} equipped to ${this.pilot.Name}.`,
-        data: { icon: 'cc:pilot' },
-      });
-    },
+    methods: {
+      equip(item: PilotGear) {
+        this.$emit('equip', CompendiumItem.Clone(item))
+        this.$emit('save')
+        ;(this.$refs.base as any).closeSelector()
+        this.$notify({
+          title: 'Pilot Gear Equipped',
+          text: `${item.Name} equipped to ${this.pilot.Name}.`,
+          data: { icon: 'cc:pilot' },
+        })
+      },
 
-    fID(template: string): string {
-      return flavorID(template);
+      fID(template: string): string {
+        return flavorID(template)
+      },
     },
-  },
-};
+  }
 </script>

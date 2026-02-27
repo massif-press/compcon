@@ -7,13 +7,26 @@
     :readonly="readonly"
     @remove="$emit('remove', item)"
     @save="$emit('save')"
-    @propagate-click="($refs as any).base.openDetail()">
-    <div v-if="item" style="cursor: pointer !important" @click="($refs as any).base.openDetail()">
-      <v-row align="center" justify="space-around" class="my-1">
+    @propagate-click="($refs as any).base.openDetail()"
+  >
+    <div
+      v-if="item"
+      style="cursor: pointer !important"
+      @click="($refs as any).base.openDetail()"
+    >
+      <v-row
+        align="center"
+        justify="space-around"
+        class="my-1"
+      >
         <v-col class="my-auto">
           <v-tooltip text="Armor Bonus">
             <template #activator="{ props }">
-              <v-icon v-bind="props" size="large" icon="mdi-shield-outline" />
+              <v-icon
+                v-bind="props"
+                size="large"
+                icon="mdi-shield-outline"
+              />
             </template>
           </v-tooltip>
           <span class="stat-text">{{ item.Armor(pilot) }}</span>
@@ -21,7 +34,11 @@
         <v-col class="my-auto">
           <v-tooltip text="HP Bonus">
             <template #activator="{ props }">
-              <v-icon v-bind="props" size="large" icon="mdi-heart" />
+              <v-icon
+                v-bind="props"
+                size="large"
+                icon="mdi-heart"
+              />
             </template>
           </v-tooltip>
           <span class="stat-text">+{{ item.HPBonus(pilot) }}</span>
@@ -29,7 +46,11 @@
         <v-col class="my-auto">
           <v-tooltip text="Electronic Defense">
             <template #activator="{ props }">
-              <v-icon v-bind="props" size="large" icon="cc:e_def" />
+              <v-icon
+                v-bind="props"
+                size="large"
+                icon="cc:e_def"
+              />
             </template>
           </v-tooltip>
           <span class="stat-text">{{ item.EDefense(pilot) }}</span>
@@ -37,7 +58,11 @@
         <v-col class="my-auto">
           <v-tooltip text="Evasion">
             <template #activator="{ props }">
-              <v-icon v-bind="props" size="large" icon="cc:evasion" />
+              <v-icon
+                v-bind="props"
+                size="large"
+                icon="cc:evasion"
+              />
             </template>
           </v-tooltip>
           <span class="stat-text">{{ item.Evasion(pilot) }}</span>
@@ -45,7 +70,11 @@
         <v-col class="my-auto">
           <v-tooltip text="Speed">
             <template #activator="{ props }">
-              <v-icon v-bind="props" size="large" icon="mdi-arrow-right-bold-hexagon-outline" />
+              <v-icon
+                v-bind="props"
+                size="large"
+                icon="mdi-arrow-right-bold-hexagon-outline"
+              />
             </template>
           </v-tooltip>
           <span class="stat-text">{{ item.Speed(pilot) }}</span>
@@ -60,7 +89,8 @@
         :options="options"
         equippable
         :table-headers="headers"
-        @equip="equip($event)">
+        @equip="equip($event)"
+      >
         <template #header>
           <div class="heading h4 text-center text-accent">Select Pilot Armor</div>
         </template>
@@ -78,17 +108,28 @@
               <cc-slashes />
               {{ item.Name }}
             </div>
-            <div class="flavor-text overline" style="display: block">CURRENTLY EQUIPPED</div>
+            <div
+              class="flavor-text overline"
+              style="display: block"
+            >
+              CURRENTLY EQUIPPED
+            </div>
           </div>
           <div v-else>
             <span class="text-cc-overline">
               GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMOR::TI - TVII-A
             </span>
             <br />
-            <span class="heading h1 text-disabled text--lighten-1" style="line-height: 35px">
+            <span
+              class="heading h1 text-disabled text--lighten-1"
+              style="line-height: 35px"
+            >
               NO SELECTION
             </span>
-            <span class="flavor-text text-cc-overline text-error" style="display: block">
+            <span
+              class="flavor-text text-cc-overline text-error"
+              style="display: block"
+            >
               [ MATERIEL ID INVALID OR MISSING ]
             </span>
           </div>
@@ -99,85 +140,94 @@
 </template>
 
 <script lang="ts">
-import PlCardBase from './_PLCardBase.vue';
+  import PlCardBase from './_PLCardBase.vue'
 
-import { CompendiumStore } from '@/stores';
-import { PilotArmor, CompendiumItem, ItemType, PilotEquipment } from '@/class';
-import { flavorID } from '@/io/Generators';
+  import { CompendiumStore } from '@/stores'
+  import { PilotArmor, CompendiumItem, ItemType, PilotEquipment } from '@/class'
+  import { flavorID } from '@/io/Generators'
 
-export default {
-  name: 'pl-pilot-armor-card',
-  components: { PlCardBase },
-  emits: ['equip', 'remove', 'save'],
-  props: {
-    item: {
-      type: Object,
-      required: false,
-      default: null,
+  export default {
+    name: 'PlPilotArmorCard',
+    components: { PlCardBase },
+    props: {
+      item: {
+        type: Object,
+        required: false,
+        default: null,
+      },
+      extended: {
+        type: Boolean,
+        required: false,
+      },
+      readonly: {
+        type: Boolean,
+      },
+      pilot: {
+        type: Object,
+        required: true,
+      },
     },
-    extended: {
-      type: Boolean,
-      required: false,
-    },
-    readonly: {
-      type: Boolean,
-    },
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    headers: [
-      { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Type', key: 'Type' },
-      { title: 'Item', key: 'Name' },
-      { title: 'Armor', key: 'ArmorString' },
-      { title: 'HP Bonus', key: 'HpString' },
-      { title: 'E-Defense', key: 'EdefString' },
-      { title: 'Evasion', key: 'EvasionString' },
-      { title: 'Speed', key: 'SpeedString' },
-      { title: 'Tags', align: 'center', key: 'Tags' },
-    ],
-    options: {
-      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
-      initialView: 'single',
-      groups: ['lcp', 'type'],
-      initialGroup: 'type',
-      noSource: true,
-      showExotics: true,
-    },
-  }),
-  computed: {
-    exotics(): PilotArmor[] {
-      return this.pilot.SpecialEquipment.filter((x) => x.ItemType === 'PilotArmor');
-    },
-    armor(): PilotArmor[] {
-      let armor = (CompendiumStore().PilotGear as PilotEquipment[]).filter(
-        (x: PilotEquipment) => x.ItemType === ItemType.PilotArmor && !x.IsHidden && !x.IsExotic
-      ) as PilotArmor[];
-      if (this.exotics.length) {
-        armor = armor.concat(this.exotics);
-      }
+    emits: ['equip', 'remove', 'save'],
+    data: () => ({
+      headers: [
+        { title: 'Content Pack', key: 'LcpName' },
+        { title: 'Type', key: 'Type' },
+        { title: 'Item', key: 'Name' },
+        { title: 'Armor', key: 'ArmorString' },
+        { title: 'HP Bonus', key: 'HpString' },
+        { title: 'E-Defense', key: 'EdefString' },
+        { title: 'Evasion', key: 'EvasionString' },
+        { title: 'Speed', key: 'SpeedString' },
+        { title: 'Tags', align: 'center', key: 'Tags' },
+      ],
+      options: {
+        views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+        initialView: 'single',
+        groups: ['lcp', 'type'],
+        initialGroup: 'type',
+        noSource: true,
+        showExotics: true,
+      },
+    }),
+    computed: {
+      exotics(): PilotArmor[] {
+        return this.pilot.SpecialEquipment.filter(x => x.ItemType === 'PilotArmor')
+      },
+      allGear(): PilotEquipment[] {
+        if (!this.pilot.LcpConfig) return CompendiumStore().PilotGear as PilotEquipment[]
+        return CompendiumStore().PilotGear.filter(
+          (x: any) =>
+            !x.InLcp ||
+            this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
+            this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+        ) as PilotEquipment[]
+      },
+      armor(): PilotArmor[] {
+        let armor = this.allGear.filter(
+          (x: PilotEquipment) => x.ItemType === ItemType.PilotArmor && !x.IsHidden && !x.IsExotic
+        ) as PilotArmor[]
+        if (this.exotics.length) {
+          armor = armor.concat(this.exotics)
+        }
 
-      return armor;
+        return armor
+      },
     },
-  },
-  methods: {
-    equip(item: PilotArmor) {
-      this.$emit('equip', CompendiumItem.Clone(item));
-      this.$emit('save');
-      (this.$refs.base as any).closeSelector();
-      this.$notify({
-        title: 'Pilot Armor Equipped',
-        text: `${item.Name} equipped to ${this.pilot.Name}.`,
-        data: { icon: 'cc:pilot' },
-      });
-    },
+    methods: {
+      equip(item: PilotArmor) {
+        this.$emit('equip', CompendiumItem.Clone(item))
+        this.$emit('save')
+        ;(this.$refs.base as any).closeSelector()
+        this.$notify({
+          title: 'Pilot Armor Equipped',
+          text: `${item.Name} equipped to ${this.pilot.Name}.`,
+          data: { icon: 'cc:pilot' },
+        })
+      },
 
-    fID(template: string): string {
-      return flavorID(template);
+      fID(template: string): string {
+        return flavorID(template)
+      },
     },
-  },
-};
+  }
 </script>

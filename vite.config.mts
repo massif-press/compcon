@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'url'
 import { VitePWA } from 'vite-plugin-pwa'
-import { readFileSync } from 'fs'
+import pkg from './package.json' assert { type: 'json' }
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -109,8 +109,6 @@ export default defineConfig({
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },
   define: {
-    'process.env.VERSION': JSON.stringify(
-      JSON.parse(readFileSync('./package.json', 'utf-8')).version
-    ),
+    APP_VERSION: JSON.stringify(pkg.version),
   },
 })

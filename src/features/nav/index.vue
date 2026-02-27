@@ -10,24 +10,42 @@
     style="z-index: 998"
   >
     <div v-if="standalone">
-      <v-tooltip location="bottom" open-delay="500ms">
+      <v-tooltip
+        location="bottom"
+        open-delay="500ms"
+      >
         <template #activator="{ props }">
-          <v-btn icon v-bind="props" @click="$router.go(-1)">
+          <v-btn
+            icon
+            v-bind="props"
+            @click="$router.go(-1)"
+          >
             <v-icon icon="mdi-arrow-left" />
           </v-btn>
         </template>
         <span>Navigate Back</span>
       </v-tooltip>
 
-      <v-tooltip location="bottom" open-delay="500ms">
+      <v-tooltip
+        location="bottom"
+        open-delay="500ms"
+      >
         <template #activator="{ props }">
-          <v-btn icon v-bind="props" @click="$router.go(1)">
+          <v-btn
+            icon
+            v-bind="props"
+            @click="$router.go(1)"
+          >
             <v-icon icon="mdi-arrow-right" />
           </v-btn>
         </template>
         <span>Navigate Forward</span>
       </v-tooltip>
-      <v-divider v-if="!mobile" vertical class="mx-1" />
+      <v-divider
+        v-if="!mobile"
+        vertical
+        class="mx-1"
+      />
     </div>
 
     <cc-button
@@ -57,7 +75,10 @@
       @click="$router.push({ path: '/pilot_management' })"
     />
 
-    <v-menu location="bottom" open-on-hover>
+    <v-menu
+      location="bottom"
+      open-on-hover
+    >
       <template #activator="{ props }">
         <span v-bind="props">
           <cc-button
@@ -68,13 +89,32 @@
           />
         </span>
       </template>
-      <v-list density="compact" class="text-caption pa-0">
-        <v-list-item slim @click="$router.push({ path: '/gm/npcs' })">NPC Roster</v-list-item>
-        <v-list-item slim @click="$router.push({ path: '/gm/encounters' })">Encounters</v-list-item>
-        <v-list-item slim @click="$router.push({ path: '/gm/narrative' })">
+      <v-list
+        density="compact"
+        class="text-caption pa-0"
+      >
+        <v-list-item
+          slim
+          @click="$router.push({ path: '/gm/npcs' })"
+        >
+          NPC Roster
+        </v-list-item>
+        <v-list-item
+          slim
+          @click="$router.push({ path: '/gm/encounters' })"
+        >
+          Encounters
+        </v-list-item>
+        <v-list-item
+          slim
+          @click="$router.push({ path: '/gm/narrative' })"
+        >
           Narrative Elements
         </v-list-item>
-        <v-list-item slim @click="$router.push({ path: '/gm/campaigns' })">
+        <v-list-item
+          slim
+          @click="$router.push({ path: '/gm/campaigns' })"
+        >
           Campaign Manager
         </v-list-item>
       </v-list>
@@ -89,7 +129,10 @@
       @click="$router.push({ path: '/active-mode' })"
     />
 
-    <v-tooltip location="bottom" open-delay="500ms">
+    <v-tooltip
+      location="bottom"
+      open-delay="500ms"
+    >
       <template #activator="{ props }">
         <span v-bind="props">
           <cc-button
@@ -103,20 +146,41 @@
       <span>Quick Reference</span>
     </v-tooltip>
 
-    <cc-solo-modal v-model="refModal" title="Quick Reference">
+    <cc-solo-modal
+      v-model="refModal"
+      title="Quick Reference"
+    >
       <reference />
     </cc-solo-modal>
 
-    <v-divider v-if="!mobile" vertical class="ml-4 mr-1" />
+    <v-divider
+      v-if="!mobile"
+      vertical
+      class="ml-4 mr-1"
+    />
 
     <v-toolbar-title v-if="!mobile">
       <span v-if="StorageWarning">
-        <v-tooltip location="bottom" max-width="300px">
+        <v-tooltip
+          location="bottom"
+          max-width="300px"
+        >
           <template #activator="{ props }">
-            <v-icon v-bind="props" color="warning" icon="mdi-database-alert" start />
+            <v-icon
+              v-bind="props"
+              color="warning"
+              icon="mdi-database-alert"
+              start
+            />
           </template>
           <span>
-            <v-chip color="warning" variant="elevated" size="x-small">WARNING</v-chip>
+            <v-chip
+              color="warning"
+              variant="elevated"
+              size="x-small"
+            >
+              WARNING
+            </v-chip>
             COMP/CON has exceeded the storage warning threshold. More details are available in the
             <b>Storage</b>
             tab of the Options Menu.
@@ -124,12 +188,26 @@
         </v-tooltip>
       </span>
       <span v-else-if="StorageMax">
-        <v-tooltip location="bottom" max-width="300px">
+        <v-tooltip
+          location="bottom"
+          max-width="300px"
+        >
           <template #activator="{ props }">
-            <v-icon v-bind="props" color="error" icon="mdi-database-off" start />
+            <v-icon
+              v-bind="props"
+              color="error"
+              icon="mdi-database-off"
+              start
+            />
           </template>
           <span>
-            <v-chip color="error" variant="elevated" size="x-small">ALERT</v-chip>
+            <v-chip
+              color="error"
+              variant="elevated"
+              size="x-small"
+            >
+              ALERT
+            </v-chip>
             COMP/CON has exceeded the maximum storage threshold.
 
             <v-alert color="error">
@@ -140,15 +218,27 @@
             tab of the Options Menu.
           </span>
         </v-tooltip>
-        <v-dialog v-model="storageFullDialog" width="780px">
+        <v-dialog
+          v-model="storageFullDialog"
+          width="780px"
+        >
           <v-card>
-            <v-toolbar color="error" class="heading h2">
+            <v-toolbar
+              color="error"
+              class="heading h2"
+            >
               <v-toolbar-title>
-                <v-icon icon="mdi-database-off" start />
+                <v-icon
+                  icon="mdi-database-off"
+                  start
+                />
                 STORAGE LIMIT EXCEEDED
               </v-toolbar-title>
               <v-spacer />
-              <v-btn icon @click="storageFullDialog = false">
+              <v-btn
+                icon
+                @click="storageFullDialog = false"
+              >
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-toolbar>
@@ -172,23 +262,41 @@
       </span>
       <span v-if="!mobile">
         <span class="heading">COMP/CON</span>
-        <span class="flavor-text text-white" style="opacity: 0.4">&nbsp;{{ appVersion }}</span>
+        <span
+          class="flavor-text text-white"
+          style="opacity: 0.4"
+        >
+          &nbsp;{{ appVersion }}
+        </span>
       </span>
     </v-toolbar-title>
 
     <v-spacer />
 
-    <v-chip v-if="!isOnline" color="warning" size="small" prepend-icon="mdi-wifi-off" class="mr-2">
+    <v-chip
+      v-if="!isOnline"
+      color="warning"
+      size="small"
+      prepend-icon="mdi-wifi-off"
+      class="mr-2"
+    >
       Offline
     </v-chip>
 
     <search-component />
 
-    <v-divider v-if="!portrait" vertical class="mx-1" />
+    <v-divider
+      v-if="!portrait"
+      vertical
+      class="mx-1"
+    />
 
     <v-tooltip location="bottom">
       <template #activator="{ props }">
-        <cc-modal title="Cloud Account" icon="mdi-cloud-sync-outline">
+        <cc-modal
+          title="Cloud Account"
+          icon="mdi-cloud-sync-outline"
+        >
           <template #activator="{ open }">
             <cc-button
               v-bind="props"
@@ -210,11 +318,18 @@
       Cloud Account
     </v-tooltip>
 
-    <v-divider v-if="!mobile" vertical class="mx-1" />
+    <v-divider
+      v-if="!mobile"
+      vertical
+      class="mx-1"
+    />
 
     <v-tooltip location="bottom">
       <template #activator="{ props }">
-        <cc-modal title="Achievements" icon="cc:achievement_1">
+        <cc-modal
+          title="Achievements"
+          icon="cc:achievement_1"
+        >
           <template #activator="{ open }">
             <cc-button
               v-bind="props"
@@ -233,7 +348,11 @@
       Achievements
     </v-tooltip>
 
-    <v-divider v-if="!mobile" vertical class="mx-1" />
+    <v-divider
+      v-if="!mobile"
+      vertical
+      class="mx-1"
+    />
 
     <v-menu>
       <template #activator="{ props }">
@@ -248,38 +367,56 @@
       <v-list density="compact">
         <v-list-item @click.stop="contentModal = true">Manage Content</v-list-item>
         <content-page v-model="contentModal" />
-        <cc-modal title="options" icon="mdi-cog">
+        <cc-modal
+          title="options"
+          icon="mdi-cog"
+        >
           <template #activator="{ open }">
             <v-list-item @click.stop="open">Options</v-list-item>
           </template>
           <options-page />
         </cc-modal>
-        <cc-modal title="about" icon="mdi-information-outline">
+        <cc-modal
+          title="about"
+          icon="mdi-information-outline"
+        >
           <template #activator="{ open }">
             <v-list-item @click.stop="open">About</v-list-item>
           </template>
           <about-page />
         </cc-modal>
-        <cc-modal title="title" icon="cc:gms">
+        <cc-modal
+          title="title"
+          icon="cc:gms"
+        >
           <template #activator="{ open }">
             <v-list-item @click.stop="open">Credits</v-list-item>
           </template>
           <credits-page />
         </cc-modal>
-        <cc-modal title="title" icon="mdi-help-circle-outline">
+        <cc-modal
+          title="title"
+          icon="mdi-help-circle-outline"
+        >
           <template #activator="{ open }">
             <v-list-item @click.stop="open">Help</v-list-item>
           </template>
           <help-page />
         </cc-modal>
         <v-divider />
-        <v-list-item target="_blank" href="https://www.patreon.com/compcon">
+        <v-list-item
+          target="_blank"
+          href="https://www.patreon.com/compcon"
+        >
           Support COMP/CON
         </v-list-item>
       </v-list>
     </v-menu>
 
-    <v-spacer v-if="!mobile" style="max-width: 20px" />
+    <v-spacer
+      v-if="!mobile"
+      style="max-width: 20px"
+    />
   </v-app-bar>
 </template>
 
@@ -352,7 +489,7 @@
         return UserStore().StorageFull
       },
       appVersion(): string {
-        return import.meta.env.VITE_APP_VERSION || 'dev'
+        return APP_VERSION || 'dev'
       },
       notifications() {
         return UserStore().CloudNotifications

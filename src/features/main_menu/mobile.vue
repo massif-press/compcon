@@ -1,38 +1,80 @@
 <template>
-  <div class="pa-1 px-2" style="height: calc(100vh - 40px)">
+  <div
+    class="pa-1 px-2"
+    style="height: calc(100vh - 40px)"
+  >
     <div style="position: absolute; top: 0; left: 0; right: 0; container-type: inline-size">
       <div class="bg-primary text-center">
         <span
           class="heading text-white"
-          style="letter-spacing: 3cqw; line-height: 38pt; font-size: 33pt">
+          style="letter-spacing: 3cqw; line-height: 38pt; font-size: 33pt"
+        >
           COMP/CON
         </span>
-        <div class="text-cc-overline" style="position: absolute; right: 2px; opacity: 0.8">
+        <div
+          class="text-cc-overline"
+          style="position: absolute; right: 2px; opacity: 0.8"
+        >
           v.{{ appVersion }}
         </div>
       </div>
     </div>
 
-    <div class="d-flex justify-center align-center py-3 mt-4" style="height: calc(100% - 28px)">
-      <v-row dense justify="space-around" style="height: 100%">
-        <mobile-btn icon="cc:compendium" title="Compendium" :to="'/srd'" />
-        <mobile-btn icon="cc:pilot" title="Roster" text="Manage Pilots" :to="'/pilot_management'" />
+    <div
+      class="d-flex justify-center align-center py-3 mt-4"
+      style="height: calc(100% - 28px)"
+    >
+      <v-row
+        dense
+        justify="space-around"
+        style="height: 100%"
+      >
+        <mobile-btn
+          icon="cc:compendium"
+          title="Compendium"
+          :to="'/srd'"
+        />
+        <mobile-btn
+          icon="cc:pilot"
+          title="Roster"
+          text="Manage Pilots"
+          :to="'/pilot_management'"
+        />
         <mobile-btn
           v-if="landscape"
           icon="cc:encounter"
           title="GM Toolkit"
           text="Manage Pilots"
-          :to="'/gm'" />
-        <mobile-btn icon="cc:content_manager" title="Content" @clicked="extraContentModal = true" />
+          :to="'/gm'"
+        />
+        <mobile-btn
+          icon="cc:content_manager"
+          title="Content"
+          @clicked="extraContentModal = true"
+        />
         <extra-content v-model="extraContentModal" />
-        <mobile-btn icon="cc:campaign" title="Active Mode" :to="'/active-mode'" />
+        <mobile-btn
+          icon="cc:campaign"
+          title="Active Mode"
+          :to="'/active-mode'"
+        />
       </v-row>
     </div>
 
-    <v-bottom-navigation density="compact" class="bg-primary">
-      <v-row no-gutters align="center" justify="space-around">
+    <v-bottom-navigation
+      density="compact"
+      class="bg-primary"
+    >
+      <v-row
+        no-gutters
+        align="center"
+        justify="space-around"
+      >
         <v-col cols="auto">
-          <cc-modal title="Cloud Account" icon="mdi-satellite-uplink">
+          <cc-modal
+            title="Cloud Account"
+            icon="mdi-satellite-uplink"
+          >
             <template #activator="{ open }">
               <cc-button
                 v-if="landscape"
@@ -41,7 +83,8 @@
                 class="mx-2"
                 :variant="isLoggedIn ? '' : 'outlined'"
                 :color="isLoggedIn && 'success'"
-                @click="open">
+                @click="open"
+              >
                 {{ isLoggedIn ? 'Connected' : 'Sign In' }}
               </cc-button>
 
@@ -53,18 +96,30 @@
                 :variant="isLoggedIn ? '' : 'outlined'"
                 :color="isLoggedIn ? 'success' : ''"
                 :icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
-                @click="open" />
+                @click="open"
+              />
             </template>
             <sign-in />
           </cc-modal>
         </v-col>
 
-        <v-divider vertical class="mr-2" />
+        <v-divider
+          vertical
+          class="mr-2"
+        />
 
         <v-col cols="auto">
-          <cc-modal title="Options" icon="mdi-cog">
+          <cc-modal
+            title="Options"
+            icon="mdi-cog"
+          >
             <template #activator="{ open }">
-              <cc-button class="text-uppercase pa-0" size="small" variant="text" @click="open">
+              <cc-button
+                class="text-uppercase pa-0"
+                size="small"
+                variant="text"
+                @click="open"
+              >
                 Options
               </cc-button>
             </template>
@@ -73,9 +128,17 @@
         </v-col>
 
         <v-col cols="auto">
-          <cc-modal title="About" icon="mdi-information">
+          <cc-modal
+            title="About"
+            icon="mdi-information"
+          >
             <template #activator="{ open }">
-              <cc-button class="text-uppercase pa-0" size="small" variant="text" @click="open">
+              <cc-button
+                class="text-uppercase pa-0"
+                size="small"
+                variant="text"
+                @click="open"
+              >
                 About
               </cc-button>
             </template>
@@ -84,9 +147,17 @@
         </v-col>
 
         <v-col cols="auto">
-          <cc-modal title="Credits" icon="cc:gms">
+          <cc-modal
+            title="Credits"
+            icon="cc:gms"
+          >
             <template #activator="{ open }">
-              <cc-button class="text-uppercase pa-0" size="small" variant="text" @click="open">
+              <cc-button
+                class="text-uppercase pa-0"
+                size="small"
+                variant="text"
+                @click="open"
+              >
                 Credits
               </cc-button>
             </template>
@@ -95,9 +166,17 @@
         </v-col>
 
         <v-col cols="auto">
-          <cc-modal title="Help" icon="mdi-help-circle">
+          <cc-modal
+            title="Help"
+            icon="mdi-help-circle"
+          >
             <template #activator="{ open }">
-              <cc-button class="text-uppercase pa-0" size="small" variant="text" @click="open">
+              <cc-button
+                class="text-uppercase pa-0"
+                size="small"
+                variant="text"
+                @click="open"
+              >
                 Help
               </cc-button>
             </template>
@@ -110,47 +189,45 @@
 </template>
 
 <script lang="ts">
-import MobileBtn from './_components/MobileBtn.vue';
-import ExtraContent from '../nav/pages/ExtraContent/index.vue';
-import CreditsPage from '../nav/pages/Credits.vue';
-import AboutPage from '../nav/pages/About.vue';
-import HelpPage from '../nav/pages/Help.vue';
-import OptionsPage from '../nav/pages/Options/index.vue';
-import { UserStore } from '@/stores';
-import SignIn from './_components/login/index.vue';
-import CloudNotifications from '../nav/CloudNotifications.vue';
+  import MobileBtn from './_components/MobileBtn.vue'
+  import ExtraContent from '../nav/pages/ExtraContent/index.vue'
+  import CreditsPage from '../nav/pages/Credits.vue'
+  import AboutPage from '../nav/pages/About.vue'
+  import HelpPage from '../nav/pages/Help.vue'
+  import OptionsPage from '../nav/pages/Options/index.vue'
+  import { UserStore } from '@/stores'
+  import SignIn from './_components/login/index.vue'
 
-export default {
-  name: 'landing-page-mobile',
-  data: () => ({
-    extraContentModal: false,
-  }),
-  components: {
-    MobileBtn,
-    ExtraContent,
-    AboutPage,
-    CreditsPage,
-    HelpPage,
-    OptionsPage,
-    SignIn,
-    CloudNotifications,
-  },
-  computed: {
-    userstore() {
-      return UserStore();
+  export default {
+    name: 'LandingPageMobile',
+    components: {
+      MobileBtn,
+      ExtraContent,
+      AboutPage,
+      CreditsPage,
+      HelpPage,
+      OptionsPage,
+      SignIn,
     },
-    isLoggedIn() {
-      return UserStore().IsLoggedIn;
+    data: () => ({
+      extraContentModal: false,
+    }),
+    computed: {
+      userstore() {
+        return UserStore()
+      },
+      isLoggedIn() {
+        return UserStore().IsLoggedIn
+      },
+      startingUp() {
+        return UserStore().IsLoading
+      },
+      appVersion(): string {
+        return APP_VERSION || 'dev'
+      },
+      landscape() {
+        return this.$vuetify.display.smAndUp
+      },
     },
-    startingUp() {
-      return UserStore().IsLoading;
-    },
-    appVersion(): string {
-      return import.meta.env.VITE_APP_VERSION || 'dev';
-    },
-    landscape() {
-      return this.$vuetify.display.smAndUp;
-    },
-  },
-};
+  }
 </script>

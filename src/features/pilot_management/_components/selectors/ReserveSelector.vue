@@ -1,118 +1,139 @@
 <template>
-  <cc-compendium-browser :items="reserves"
+  <cc-compendium-browser
+    :items="reserves"
     item-type="Reserve"
     :table-headers="headers"
     :options="options"
     equippable
-    @equip="add($event)">
+    @equip="add($event)"
+  >
     <template #header>
-      <cc-button size="x-small"
+      <cc-button
+        size="x-small"
         color="secondary"
         class="mb-1"
         block
-        @click="CustomDialog = true">
+        @click="CustomDialog = true"
+      >
         Add Custom Reserve
       </cc-button>
-      <cc-button size="x-small"
+      <cc-button
+        size="x-small"
         color="secondary"
         class="mb-1"
         block
-        @click="ProjectDialog = true">
+        @click="ProjectDialog = true"
+      >
         Add Downtime Project
       </cc-button>
-      <cc-button size="x-small"
+      <cc-button
+        size="x-small"
         color="secondary"
         class="mb-1"
         block
-        @click="OrgDialog = true">
+        @click="OrgDialog = true"
+      >
         Add Organization
       </cc-button>
     </template>
   </cc-compendium-browser>
 
-  <cc-solo-modal v-model="CustomDialog"
+  <cc-solo-modal
+    v-model="CustomDialog"
     max-width="60vw"
     shrink
     title="Add Custom Reserve"
-    icon="cc:orbital">
+    icon="cc:orbital"
+  >
     <custom-reserve-panel @add="add($event)" />
   </cc-solo-modal>
-  <cc-solo-modal v-model="ProjectDialog"
+  <cc-solo-modal
+    v-model="ProjectDialog"
     max-width="60vw"
     shrink
     title="Add Project"
-    icon="cc:orbital">
+    icon="cc:orbital"
+  >
     >
     <downtime-project-panel @add="add($event)" />
   </cc-solo-modal>
-  <cc-solo-modal v-model="OrgDialog"
+  <cc-solo-modal
+    v-model="OrgDialog"
     max-width="60vw"
     shrink
     title="Add Organization"
-    icon="cc:orbital">
+    icon="cc:orbital"
+  >
     <organization-panel @add="addOrg($event)" />
   </cc-solo-modal>
 </template>
 
 <script lang="ts">
-import ReserveItem from './components/_ReserveItem.vue';
-import CustomReservePanel from './components/_CustomReservePanel.vue';
-import DowntimeProjectPanel from './components/_DowntimeProjectPanel.vue';
-import OrganizationPanel from './components/_OrganizationPanel.vue';
-import { Reserve, Organization, Pilot, CompendiumItem } from '@/class';
-import * as _ from 'lodash-es';
-import { CompendiumStore } from '@/stores';
+  import CustomReservePanel from './components/_CustomReservePanel.vue'
+  import DowntimeProjectPanel from './components/_DowntimeProjectPanel.vue'
+  import OrganizationPanel from './components/_OrganizationPanel.vue'
+  import { Reserve, Organization, Pilot, CompendiumItem } from '@/class'
+  import * as _ from 'lodash-es'
+  import { CompendiumStore } from '@/stores'
 
-export default {
-  name: 'CCReserveSelector',
-  components: {
-    ReserveItem,
-    CustomReservePanel,
-    DowntimeProjectPanel,
-    OrganizationPanel,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
+  export default {
+    name: 'CCReserveSelector',
+    components: {
+      CustomReservePanel,
+      DowntimeProjectPanel,
+      OrganizationPanel,
     },
-  },
-  emits: ['close'],
-  data: () => ({
-    tab: 0,
-    headers: [
-      { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Name', key: 'Name' },
-      { title: 'Type', key: 'Type' },
-    ],
-    options: {
-      views: ['list', 'cards', 'table'],
-      initialView: 'cards',
-      groups: ['lcp', 'type'],
-      initialGroup: 'type',
-      noSource: true,
+    props: {
+      pilot: {
+        type: Object,
+        required: true,
+      },
     },
-    CustomDialog: false,
-    ProjectDialog: false,
-    OrgDialog: false,
-  }),
-  computed: {
-    reserves() {
-      return _.orderBy(
-        CompendiumStore().Reserves.filter((x) => !x.IsHidden),
-        'Name'
-      );
+    emits: ['close'],
+    data: () => ({
+      tab: 0,
+      headers: [
+        { title: 'Content Pack', key: 'LcpName' },
+        { title: 'Name', key: 'Name' },
+        { title: 'Type', key: 'Type' },
+      ],
+      options: {
+        views: ['list', 'cards', 'table'],
+        initialView: 'cards',
+        groups: ['lcp', 'type'],
+        initialGroup: 'type',
+        noSource: true,
+      },
+      CustomDialog: false,
+      ProjectDialog: false,
+      OrgDialog: false,
+    }),
+    computed: {
+      allReserves() {
+        if (!this.pilot.LcpConfig) return CompendiumStore().Reserves
+        return CompendiumStore().Reserves.filter(
+          x =>
+            !x.InLcp ||
+            this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
+            this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+        )
+      },
+      reserves() {
+        return _.orderBy(
+          this.allReserves.filter(x => !x.IsHidden),
+          'Name'
+        )
+      },
     },
-  },
-  methods: {
-    add(reserve: Reserve): void {
-      this.pilot.ReservesController.AddReserve(CompendiumItem.Clone(reserve));
-      this.$emit('close');
+    methods: {
+      add(reserve: Reserve): void {
+        this.pilot.ReservesController.AddReserve(CompendiumItem.Clone(reserve))
+        this.$emit('close')
+      },
+      addOrg(org: Organization): void {
+        this.pilot.ReservesController.AddOrganization(Organization.Clone(org))
+        this.$emit('close')
+      },
     },
-    addOrg(org: Organization): void {
-      this.pilot.ReservesController.AddOrganization(Organization.Clone(org));
-      this.$emit('close');
-    },
-  },
-};
+  }
 </script>

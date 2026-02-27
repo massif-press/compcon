@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-pwa/client" />
+/// <reference types="vite/client" />
 
 import 'vue'
 
@@ -15,3 +16,5 @@ declare module '@vue/runtime-core' {
 }
 
 declare const $lancerVersion: string
+
+declare const APP_VERSION: string

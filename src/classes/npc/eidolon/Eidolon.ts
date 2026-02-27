@@ -165,6 +165,7 @@ class Eidolon extends Npc implements IInstanceable {
       name: eidolon.Name,
       note: eidolon.Note,
       tier: eidolon.Tier,
+      config: eidolon.LcpConfig,
       layer_data: [] as any[],
     } as EidolonData
 

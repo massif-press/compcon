@@ -29,6 +29,8 @@ import CCChip from './components/chips/CCChip.vue'
 
 import CCText from './components/CCText.vue'
 
+import CCConfigTip from './components/CCConfigTip.vue'
+
 import CCCompendiumBrowser from './components/CompendiumBrowser/CCCompendiumBrowser.vue'
 import CCBondInfo from './components/CCBondInfo.vue'
 import CCBondPowerCard from './components/CCBondPowerCard.vue'
@@ -227,4 +229,5 @@ export {
   CCSidebarLayout,
   CCActiveEffectChip,
   CCCombatActionChip,
+  CCConfigTip,
 }

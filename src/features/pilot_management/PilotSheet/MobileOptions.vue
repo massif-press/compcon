@@ -6,7 +6,8 @@
       size="large"
       color="panel"
       prepend-icon="mdi-printer"
-      @click="$router.push(`/print/${pilot.ID}`)">
+      @click="$router.push(`/print/${pilot.ID}`)"
+    >
       Print
       <template #subtitle>
         <span class="text-cc-overline">Print tabletop-ready character and mech sheets</span>
@@ -15,14 +16,18 @@
 
     <br />
 
-    <cc-modal title="Statblock Generator" icon="mdi-code-block-tags">
+    <cc-modal
+      title="Statblock Generator"
+      icon="mdi-code-block-tags"
+    >
       <template #activator="{ open }">
         <cc-button
           block
           size="large"
           color="panel"
           prepend-icon="mdi-file-document-outline"
-          @click="open">
+          @click="open"
+        >
           Generate Statblock
           <template #subtitle>
             <span class="text-cc-overline">
@@ -41,7 +46,8 @@
       size="large"
       color="panel"
       prepend-icon="mdi-download"
-      @click="exportPilot()">
+      @click="exportPilot()"
+    >
       Export Pilot
       <template #subtitle>
         <span class="text-cc-overline">Export this pilot as a JSON file</span>
@@ -53,9 +59,15 @@
       v-if="pilot.IsRemote"
       :close-on-click="false"
       title="convert remote pilot"
-      icon="cc:pilot">
+      icon="cc:pilot"
+    >
       <template #activator="{ open }">
-        <cc-button block color="panel" prepend-icon="mdi-content-copy" @click="open">
+        <cc-button
+          block
+          color="panel"
+          prepend-icon="mdi-content-copy"
+          @click="open"
+        >
           Convert to Local
           <template #subtitle>
             <span class="text-cc-overline">
@@ -72,13 +84,24 @@
                     pilot via its share code."
           cancellable
           @confirm="convert()"
-          @cancel="close" />
+          @cancel="close"
+        />
       </template>
     </cc-dialog>
 
-    <cc-modal v-else title="Clone Pilot" icon="mdi-dna">
+    <cc-modal
+      v-else
+      title="Clone Pilot"
+      icon="mdi-dna"
+    >
       <template #activator="{ open }">
-        <cc-button size="large" block color="panel" prepend-icon="mdi-dna" @click="open">
+        <cc-button
+          size="large"
+          block
+          color="panel"
+          prepend-icon="mdi-dna"
+          @click="open"
+        >
           Clone
           <template #subtitle>
             <span class="text-cc-overline">Duplicate or Flash Clone this character</span>
@@ -87,6 +110,31 @@
       </template>
       <clone-dialog :pilot="pilot" />
     </cc-modal>
+
+    <br />
+    <cc-modal
+      title="Set LCP Configuration"
+      icon="mdi-list-status"
+    >
+      <template #activator="{ open }">
+        <cc-button
+          size="large"
+          block
+          color="panel"
+          prepend-icon="mdi-list-status"
+          @click="open"
+        >
+          Set LCP Configuration
+          <template #subtitle>
+            <span class="text-cc-overline">
+              Manage which content packs are accessible to this pilot
+            </span>
+          </template>
+        </cc-button>
+      </template>
+      <lcp-config-selector :actor="pilot" />
+    </cc-modal>
+
     <br />
 
     <cc-button
@@ -97,7 +145,8 @@
       :loading="loading"
       :disabled="pilot.CloudController.SyncStatus === 'Synced'"
       prepend-icon="mdi-cloud-sync"
-      @click="remoteUpdate()">
+      @click="remoteUpdate()"
+    >
       Download Latest Data
       <template #subtitle>
         <span class="text-cc-overline">
@@ -111,7 +160,11 @@
     </cc-button>
     <br />
 
-    <cc-dialog :close-on-click="false" title="confirm pilot deletion" icon="cc:pilot">
+    <cc-dialog
+      :close-on-click="false"
+      title="confirm pilot deletion"
+      icon="cc:pilot"
+    >
       <template #activator="{ open }">
         <cc-button
           v-if="!pilot.IsRemote"
@@ -119,7 +172,8 @@
           size="large"
           color="error"
           prepend-icon="mdi-delete"
-          @click="open">
+          @click="open"
+        >
           Delete Pilot
           <template #subtitle>
             <span class="text-cc-overline">Remove this pilot from the roster</span>
@@ -134,103 +188,106 @@
           </span>`"
           cancellable
           @confirm="
-            delete_pilot(close);
-            close;
+            delete_pilot(close)
+            close
           "
-          @cancel="close" />
+          @cancel="close"
+        />
       </template>
     </cc-dialog>
   </v-container>
 </template>
 
 <script lang="ts">
-import { saveFile } from '@/io/Data';
-import { Pilot } from '@/class';
-import { UserStore } from '@/stores';
-import { CloudController } from '@/classes/components';
-import CloneDialog from './components/CloneDialog.vue';
-import StatblockDialog from './components/StatblockDialog.vue';
-import ShareDialog from './components/ShareDialog.vue';
-import logger from '@/user/logger';
+  import { saveFile } from '@/io/Data'
+  import { Pilot } from '@/class'
+  import { UserStore } from '@/stores'
+  import { CloudController } from '@/classes/components'
+  import CloneDialog from './components/CloneDialog.vue'
+  import StatblockDialog from './components/StatblockDialog.vue'
+  import logger from '@/user/logger'
+  import LcpConfigSelector from './components/LcpConfigSelector.vue'
 
-export default {
-  name: 'edit-menu',
-  components: {
-    StatblockDialog,
-    CloneDialog,
-    ShareDialog,
-  },
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
+  export default {
+    name: 'EditMenu',
+    components: {
+      StatblockDialog,
+      CloneDialog,
+      LcpConfigSelector,
     },
-  },
-  data: () => ({
-    loading: false,
-    deleteDialog: false,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
+    props: {
+      pilot: {
+        type: Pilot,
+        required: true,
+      },
     },
-  },
-  methods: {
-    delete_pilot(close?: Function) {
-      this.pilot.SaveController.Delete();
-      if (close) close();
-      if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management');
+    emits: ['close'],
+    data: () => ({
+      loading: false,
+      deleteDialog: false,
+    }),
+    computed: {
+      mobile() {
+        return this.$vuetify.display.smAndDown
+      },
     },
-    exportPilot() {
-      try {
-        saveFile(
-          this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
-          Pilot.Serialize(this.pilot as Pilot),
-          'Save Pilot'
-        );
-        this.$notify({
-          title: 'Export Success',
-          text: `Pilot data saved as "${this.pilot.Callsign.toUpperCase().replace(
-            /\W/g,
-            ''
-          )}.json"`,
-          data: { type: 'success', icon: 'mdi-check' },
-        });
-      } catch (error) {
-        logger.error(`Pilot export failed: ${error}`, this, error);
-        this.$notify({
-          title: 'Export Error',
-          text: 'COMP/CON was unable to export pilot data',
-          data: { type: 'error', icon: 'mdi-alert' },
-        });
-      }
+    methods: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+      delete_pilot(close?: Function) {
+        this.pilot.SaveController.Delete()
+        if (close) close()
+        if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
+      },
+      exportPilot() {
+        try {
+          saveFile(
+            this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
+            Pilot.Serialize(this.pilot as Pilot),
+            'Save Pilot'
+          )
+          this.$notify({
+            title: 'Export Success',
+            text: `Pilot data saved as "${this.pilot.Callsign.toUpperCase().replace(
+              /\W/g,
+              ''
+            )}.json"`,
+            data: { type: 'success', icon: 'mdi-check' },
+          })
+        } catch (error) {
+          logger.error(`Pilot export failed: ${error}`, this, error)
+          this.$notify({
+            title: 'Export Error',
+            text: 'COMP/CON was unable to export pilot data',
+            data: { type: 'error', icon: 'mdi-alert' },
+          })
+        }
+      },
+      async remoteUpdate() {
+        try {
+          await CloudController.UpdateRemote(this.pilot)
+          await UserStore().refreshDbData()
+          this.$notify({
+            title: `Sync Complete`,
+            text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
+            data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+          })
+        } catch (err) {
+          this.$notify({
+            title: `Sync Failed`,
+            text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
+            data: { icon: 'mdi-alert', color: 'error' },
+          })
+        }
+      },
+      async convert() {
+        this.loading = true
+        UserStore().deleteRemoteItem(this.pilot.SaveController.RemoteCode)
+        this.pilot.CloudController.GenerateMetadata()
+        this.pilot.SaveController.ClearRemote()
+        await UserStore().refreshDbData()
+        this.loading = false
+        this.$emit('close')
+      },
     },
-    async remoteUpdate() {
-      try {
-        await CloudController.UpdateRemote(this.pilot);
-        await UserStore().refreshDbData();
-        this.$notify({
-          title: `Sync Complete`,
-          text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
-          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
-        });
-      } catch (err) {
-        this.$notify({
-          title: `Sync Failed`,
-          text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
-          data: { icon: 'mdi-alert', color: 'error' },
-        });
-      }
-    },
-    async convert() {
-      this.loading = true;
-      UserStore().deleteRemoteItem(this.pilot.SaveController.RemoteCode);
-      this.pilot.CloudController.GenerateMetadata();
-      this.pilot.SaveController.ClearRemote();
-      await UserStore().refreshDbData();
-      this.loading = false;
-      this.$emit('close');
-    },
-  },
-};
+  }
 </script>

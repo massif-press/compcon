@@ -20,6 +20,12 @@ export default [
       'vue/require-prop-types': 'warn',
       'vue/first-attribute-linebreak': 'off',
       'vue/valid-v-slot': 'off',
+      'vue/no-mutating-props': 'off',
+      'vue/no-v-text-v-html-on-component': 'off',
+      'vue/valid-v-for': 'warn',
+      'vue/require-v-for-key': 'warn',
+      'vue/no-deprecated-v-on-native-modifier': 'warn',
+      'no-case-declarations': 'off',
     },
   },
   {

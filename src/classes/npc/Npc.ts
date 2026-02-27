@@ -23,6 +23,7 @@ import { IFolderPlaceable } from '../components/folder/IFolderPlaceable'
 import logger from '@/user/logger'
 import { ItemType } from '@/class'
 import { IInstanceableData } from '../components/instance/IInstancableData'
+import { LcpConfigData } from '@/user'
 
 class NpcData implements IInstanceableData {
   id!: string
@@ -32,6 +33,7 @@ class NpcData implements IInstanceableData {
   brews!: BrewInfo[]
   img!: IPortraitData
   narrative!: NarrativeElementData
+  config: LcpConfigData = {} as LcpConfigData
 
   // instance fields
   instance: boolean = false
@@ -72,6 +74,7 @@ abstract class Npc
   private _note: string
   private _description: string
   private _gmDescription: string
+  private _lcpConfig: LcpConfigData
 
   public constructor(data?: NpcData) {
     if ((data as any)?.is_instance) this.IsInstance = true
@@ -87,6 +90,7 @@ abstract class Npc
     this.NarrativeController = new NarrativeController(this)
     this.FeatureController = new FeatureController(this)
     this.FolderController = new FolderController(this)
+    this._lcpConfig = data?.config || ({} as LcpConfigData)
 
     this.FeatureController.Register()
   }
@@ -183,6 +187,16 @@ abstract class Npc
   public set GmDescription(val: string) {
     this._gmDescription = val
     this.save()
+  }
+
+  public set LcpConfig(config: LcpConfigData) {
+    this._lcpConfig = config
+    this.SaveController.save()
+  }
+
+  public get LcpConfig(): LcpConfigData | null {
+    if (!this._lcpConfig || Object.keys(this._lcpConfig).length === 0) return null
+    return this._lcpConfig
   }
 
   public get Readonly(): boolean {

@@ -62,17 +62,18 @@ Amplify.configure({
 
 const compcon = createApp(App)
 
-Sentry.init({
-  app: compcon,
-  dsn: import.meta.env.VITE_APP_SENTRY_DSN,
-  integrations: [Sentry.browserTracingIntegration({ router }), Sentry.replayIntegration()],
-  tracesSampleRate: 0.1, // 10% of transactions
-  replaysSessionSampleRate: 0,
-  replaysOnErrorSampleRate: 1.0, // 100% of error sessions
-  environment: import.meta.env.MODE,
-  release: import.meta.env.VITE_APP_VERSION,
-  sendDefaultPii: true,
-})
+if (import.meta.env.VITE_APP_ENV !== 'localhost') {
+  Sentry.init({
+    app: compcon,
+    dsn: import.meta.env.VITE_APP_SENTRY_DSN,
+    integrations: [Sentry.browserTracingIntegration({ router }), Sentry.replayIntegration()],
+    tracesSampleRate: 0.1, // 10% of transactions
+    replaysSessionSampleRate: 0,
+    replaysOnErrorSampleRate: 1.0, // 100% of error sessions
+    environment: import.meta.env.MODE,
+    release: APP_VERSION,
+  })
+}
 
 compcon.use(createPinia())
 compcon.use(vuetify)
