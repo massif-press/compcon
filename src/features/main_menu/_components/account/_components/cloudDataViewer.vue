@@ -1,16 +1,27 @@
 <template>
-  <v-card flat border tile>
-    <v-toolbar density="compact" color="panel">
+  <v-card
+    flat
+    border
+    tile
+  >
+    <v-toolbar
+      density="compact"
+      color="panel"
+    >
       <v-toolbar-title>
         <cc-heading
           is-title
           text="Data Viewer"
           tooltip="This is a view of your COMP/CON data, stored both locally and in the cloud. You can
               use this tool to manage the state of your data, and to sync changes between your local
-              data and the cloud." />
+              data and the cloud."
+        />
       </v-toolbar-title>
       <v-spacer />
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip
+        max-width="300px"
+        location="top"
+      >
         <template #activator="{ props }">
           <cc-button
             v-bind="props"
@@ -19,7 +30,8 @@
             class="mx-2"
             :loading="loading"
             icon="mdi-refresh"
-            @click="refresh()" />
+            @click="refresh()"
+          />
         </template>
         <div class="text-center">
           Reload Data
@@ -36,11 +48,15 @@
           icon="mdi-magnify"
           placeholder="Search"
           width="350px"
-          clearable />
+          clearable
+        />
         <v-spacer />
         <v-tabs v-model="tab">
           <v-tab>
-            <v-tooltip max-width="300px" location="top">
+            <v-tooltip
+              max-width="300px"
+              location="top"
+            >
               <template #activator="{ props }">
                 <span v-bind="props">Data</span>
               </template>
@@ -49,7 +65,10 @@
           </v-tab>
           <v-divider vertical />
           <v-tab>
-            <v-tooltip max-width="300px" location="top">
+            <v-tooltip
+              max-width="300px"
+              location="top"
+            >
               <template #activator="{ props }">
                 <span v-bind="props">Images</span>
               </template>
@@ -60,7 +79,10 @@
           </v-tab>
           <v-divider vertical />
           <v-tab>
-            <v-tooltip max-width="300px" location="top">
+            <v-tooltip
+              max-width="300px"
+              location="top"
+            >
               <template #activator="{ props }">
                 <span v-bind="props">Remote Items</span>
               </template>
@@ -71,7 +93,10 @@
           </v-tab>
           <v-divider vertical />
           <v-tab>
-            <v-tooltip max-width="300px" location="top">
+            <v-tooltip
+              max-width="300px"
+              location="top"
+            >
               <template #activator="{ props }">
                 <span v-bind="props">Campaigns</span>
               </template>
@@ -91,21 +116,44 @@
       density="compact"
       class="mx-1"
       clearable
-      hide-details />
+      hide-details
+    />
     <v-window v-model="tab">
-      <v-window-item value="Data">
-        <item-data-tab :search="search" @refresh="refresh" :loading="loading" />
+      <v-window-item :value="0">
+        <item-data-tab
+          :search="search"
+          :loading="loading"
+          @refresh="refresh"
+        />
       </v-window-item>
-      <v-window-item value="Images">
-        <image-data-tab :search="search" @refresh="refresh" :loading="loading" />
+      <v-window-item :value="1">
+        <image-data-tab
+          :search="search"
+          :loading="loading"
+          @refresh="refresh"
+        />
       </v-window-item>
-      <v-window-item value="Remote">
-        <remote-data-tab :search="search" @refresh="refresh" :loading="loading" />
+      <v-window-item :value="2">
+        <remote-data-tab
+          :search="search"
+          :loading="loading"
+          @refresh="refresh"
+        />
       </v-window-item>
-      <v-window-item value="Campaigns">
-        <cc-alert color="secondary" class="ma-4" dense>
+      <v-window-item :value="3">
+        <cc-alert
+          color="secondary"
+          class="ma-4"
+          dense
+        >
           Published campaigns are managed in the
-          <cc-button size="x-small" class="mx-1" to="/srd?tab=2">Campaign Library</cc-button>
+          <cc-button
+            size="x-small"
+            class="mx-1"
+            to="/srd?tab=2"
+          >
+            Campaign Library
+          </cc-button>
         </cc-alert>
       </v-window-item>
     </v-window>
@@ -113,42 +161,40 @@
 </template>
 
 <script lang="ts">
-import { UserStore } from '@/stores';
-import DiffViewer from './data_viewer/diffViewer.vue';
-import ItemDataTab from './data_viewer/ItemDataTab.vue';
-import RemoteDataTab from './data_viewer/RemoteDataTab.vue';
-import ImageDataTab from './data_viewer/ImageDataTab.vue';
+  import { UserStore } from '@/stores'
+  import ItemDataTab from './data_viewer/ItemDataTab.vue'
+  import RemoteDataTab from './data_viewer/RemoteDataTab.vue'
+  import ImageDataTab from './data_viewer/ImageDataTab.vue'
 
-export default {
-  name: 'cloud-data-viewer',
-  components: {
-    DiffViewer,
-    ItemDataTab,
-    RemoteDataTab,
-    ImageDataTab,
-  },
-  data: () => ({
-    tab: 'Data',
-    search: '',
-    loading: false,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
+  export default {
+    name: 'CloudDataViewer',
+    components: {
+      ItemDataTab,
+      RemoteDataTab,
+      ImageDataTab,
     },
-  },
-  methods: {
-    async refresh() {
-      this.loading = true;
-      await UserStore().refreshDbData();
-      this.loading = false;
+    data: () => ({
+      tab: 'Data',
+      search: '',
+      loading: false,
+    }),
+    computed: {
+      mobile() {
+        return this.$vuetify.display.mdAndDown
+      },
     },
-  },
-};
+    methods: {
+      async refresh() {
+        this.loading = true
+        await UserStore().refreshDbData()
+        this.loading = false
+      },
+    },
+  }
 </script>
 
 <style>
-.v-data-table-header__content {
-  font-weight: bold !important;
-}
+  .v-data-table-header__content {
+    font-weight: bold !important;
+  }
 </style>

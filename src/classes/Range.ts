@@ -155,6 +155,10 @@ class Range {
       bonus: range._bonus,
     }
   }
+
+  public static Deserialize(data: IRangeData): Range {
+    return new Range(data)
+  }
 }
 
 export { Range }

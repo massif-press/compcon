@@ -2,7 +2,8 @@ import { CompendiumStore } from '@/stores'
 import { NpcFeature } from '../feature/NpcFeature'
 import { INpcClassStats, NpcClassStats } from './NpcClassStats'
 import * as _ from 'lodash-es'
-import { ContentPack } from '@/class'
+import { ContentPack, ItemType } from '@/class'
+import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 
 interface INpcClassData {
   id: string
@@ -53,11 +54,11 @@ class NpcComparison {
   }
 }
 
-class NpcClass {
-  public readonly ItemType = 'NpcClass'
+class NpcClass implements ILcpTracked {
+  public readonly ItemType: ItemType = ItemType.NpcClass
   public readonly Data: INpcClassData
-  public readonly LcpName: string
-  public readonly InLcp: boolean
+  public LcpName: string = ''
+  public InLcp: boolean = false
   public readonly ForceTag: string
   private _id: string
   private _name: string
@@ -87,8 +88,7 @@ class NpcClass {
     this._info = data.info
     this._stats = new NpcClassStats(data.stats)
     this.ForceTag = data.forceTag || ''
-    this.LcpName = pack?.Name || 'Lancer Core Book'
-    this.InLcp = !!pack
+    applyLcpTracking(this, pack)
     this.OptionalClassMin = data.optionalClassMin || 0
     this.OptionalClassMax = data.optionalClassMax || 0
     this.OptionalClassPerTier = data.optionalClassPerTier || 0

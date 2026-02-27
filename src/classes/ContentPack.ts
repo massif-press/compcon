@@ -15,6 +15,7 @@ import {
   Tag,
   Reserve,
   Environment,
+  ItemType,
   Sitrep,
 } from '@/class'
 import * as PlayerAction from '@/classes/Action'
@@ -114,7 +115,7 @@ interface IContentPack {
 }
 
 class ContentPack {
-  public readonly ItemType: string = 'Content Pack'
+  public readonly ItemType: ItemType = ItemType.ContentPack
   public readonly CCVersion: number = 2
   private _manifest!: IContentPackManifest
   private _id!: string
@@ -129,6 +130,7 @@ class ContentPack {
   constructor(pack: IContentPack) {
     this.Key = uuid()
 
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
     const { id, manifest, data, active } = pack
 

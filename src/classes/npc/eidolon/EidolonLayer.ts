@@ -1,18 +1,19 @@
-import { ContentPack, Deployable } from '@/class';
-import { NpcClassStats } from '../class/NpcClassStats';
-import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature';
-import { NpcFeatureFactory } from '../feature/NpcFeatureFactory';
-import { EidolonShard, IEidolonShardData } from './EidolonShard';
-import logger from '@/user/logger';
+import { ContentPack, Deployable, ItemType } from '@/class'
+import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
+import { NpcClassStats } from '../class/NpcClassStats'
+import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature'
+import { NpcFeatureFactory } from '../feature/NpcFeatureFactory'
+import { EidolonShard, IEidolonShardData } from './EidolonShard'
+import logger from '@/user/logger'
 
 interface IEidolonLayerData {
-  id: string;
-  name: string;
-  appearance: string;
-  hints: string;
-  rules: string;
-  features: INpcFeatureData[];
-  shards: IEidolonShardData;
+  id: string
+  name: string
+  appearance: string
+  hints: string
+  rules: string
+  features: INpcFeatureData[]
+  shards: IEidolonShardData
 }
 
 const layer_stats = {
@@ -30,106 +31,105 @@ const layer_stats = {
   speed: 5,
   sensor: 20,
   activations: 1,
-};
+}
 
-class EidolonLayer {
-  public readonly ItemType = 'EidolonLayer';
-  public readonly Data: IEidolonLayerData;
-  public readonly LcpName: string;
-  public readonly InLcp: boolean;
-  public readonly HpPerPlayer: number = 5;
+class EidolonLayer implements ILcpTracked {
+  public readonly ItemType: ItemType = ItemType.EidolonLayer
+  public readonly Data: IEidolonLayerData
+  public LcpName: string = ''
+  public InLcp: boolean = false
+  public readonly HpPerPlayer: number = 5
 
-  public readonly Appearance: string;
-  public readonly Hints: string;
-  public readonly Features: NpcFeature[];
-  public readonly Shards?: EidolonShard;
+  public readonly Appearance: string
+  public readonly Hints: string
+  public readonly Features: NpcFeature[]
+  public readonly Shards?: EidolonShard
 
-  public readonly Color: string = 'deep-purple';
+  public readonly Color: string = 'deep-purple'
 
-  private _id: string;
-  private _name: string;
-  private _rules: string;
+  private _id: string
+  private _name: string
+  private _rules: string
 
-  private _stats: NpcClassStats;
+  private _stats: NpcClassStats
 
-  public static EidolonLayerBaseStats = layer_stats;
+  public static EidolonLayerBaseStats = layer_stats
 
   public constructor(data: IEidolonLayerData, pack?: ContentPack) {
-    this._id = data.id;
-    this.Data = data;
-    this._name = data.name;
-    this._stats = new NpcClassStats(layer_stats);
-    this._rules = data.rules;
-    this.LcpName = pack?.Name || 'Lancer Core Book';
-    this.InLcp = !!pack;
+    this._id = data.id
+    this.Data = data
+    this._name = data.name
+    this._stats = new NpcClassStats(layer_stats)
+    this._rules = data.rules
+    applyLcpTracking(this, pack)
 
-    this.Appearance = data.appearance;
-    this.Hints = data.hints;
+    this.Appearance = data.appearance
+    this.Hints = data.hints
 
     if (!data.features || !Array.isArray(data.features)) {
-      logger.error('EidolonLayer: Features data missing');
-      data.features = [];
+      logger.error('EidolonLayer: Features data missing')
+      data.features = []
     }
 
-    this.Features = data.features.map((f) => NpcFeatureFactory.Build(f));
-    if (data.shards) this.Shards = new EidolonShard(data.shards);
-    this.InLcp = true;
+    this.Features = data.features.map(f => NpcFeatureFactory.Build(f))
+    if (data.shards) this.Shards = new EidolonShard(data.shards)
+    this.InLcp = true
   }
 
   public get ID(): string {
-    return this._id;
+    return this._id
   }
 
   public get Name(): string {
-    return this._name;
+    return this._name
   }
 
   public get Stats(): NpcClassStats {
-    return this._stats;
+    return this._stats
   }
 
   public set Stats(stats: NpcClassStats) {
-    this._stats = stats;
+    this._stats = stats
   }
 
   public get Rules(): string {
-    if (!this._rules) return '';
-    let out = this._rules;
-    const perTier = /(\{.*?\})/gi;
-    const matches = out.match(perTier);
+    if (!this._rules) return ''
+    let out = this._rules
+    const perTier = /(\{.*?\})/gi
+    const matches = out.match(perTier)
     if (matches) {
-      matches.forEach((m) => {
-        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
-      });
+      matches.forEach(m => {
+        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'))
+      })
     }
-    return out;
+    return out
   }
 
   public RulesByTier(tier: number): string {
-    if (!this._rules) return '';
-    let fmt = this._rules;
-    const perTier = /(\{.*?\})/g;
-    const m = this._rules.match(perTier);
+    if (!this._rules) return ''
+    let fmt = this._rules
+    const perTier = /(\{.*?\})/g
+    const m = this._rules.match(perTier)
     if (m) {
-      m.forEach((x) => {
+      m.forEach(x => {
         if (tier) {
-          const tArr = x.replace('{', '').replace('}', '').split('/');
-          fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`);
-        } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'));
-      });
+          const tArr = x.replace('{', '').replace('}', '').split('/')
+          fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`)
+        } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'))
+      })
     }
-    return fmt;
+    return fmt
   }
 
   //TODO: passthrough for datatable until bug gets fixed
   public get ShardCount(): string {
-    return this.Shards?.CountString || '0';
+    return this.Shards?.CountString || '0'
   }
 
   public get Icon(): string {
-    return 'mdi-layers-triple-outline';
+    return 'mdi-layers-triple-outline'
   }
 }
 
-export { EidolonLayer };
-export type { IEidolonLayerData };
+export { EidolonLayer }
+export type { IEidolonLayerData }

@@ -1,41 +1,42 @@
-import { CombatController } from '../components/combat/CombatController';
-import { SaveController } from '../components/save/SaveController';
+import { CombatController } from '../components/combat/CombatController'
+import { SaveController } from '../components/save/SaveController'
+import { ItemType } from '@/class'
 
 interface IPlaceholderData {
-  id: string;
-  name: string;
-  Mechname?: string;
-  type: string; // 'pilot' | 'npc' | 'other'
-  side: string; // 'ally' | 'enemy'
-  notes?: string;
+  id: string
+  name: string
+  Mechname?: string
+  type: string // 'pilot' | 'npc' | 'other'
+  side: string // 'ally' | 'enemy'
+  notes?: string
 }
 
 class Placeholder {
-  public ID: string;
-  public Name: string;
-  public Side: string = 'ally'; // Default side
-  public Mechname?: string;
-  public Notes?: string;
-  public PlaceholderType: string;
-  public SaveController: SaveController;
-  public CombatController: CombatController;
-  public Icon: string = 'mdi-receipt-text';
-  public readonly ItemType: string = 'Placeholder';
-  public readonly StorageType: string = 'none';
-  public readonly Placeholder = true;
-  public Deployables: any = [];
+  public ID: string
+  public Name: string
+  public Side: string = 'ally' // Default side
+  public Mechname?: string
+  public Notes?: string
+  public PlaceholderType: string
+  public SaveController: SaveController
+  public CombatController: CombatController
+  public Icon: string = 'mdi-receipt-text'
+  public readonly ItemType: ItemType = ItemType.Placeholder
+  public readonly StorageType: string = 'none'
+  public readonly Placeholder = true
+  public Deployables: any = []
 
-  public ActiveMech?: Placeholder;
+  public ActiveMech?: Placeholder
 
   constructor(data: IPlaceholderData) {
-    this.ID = data.id;
-    this.Name = data.name;
-    this.Side = data.side;
-    this.Mechname = data.Mechname;
-    this.Notes = data.notes;
-    this.PlaceholderType = data.type;
-    this.SaveController = new SaveController(this);
-    this.CombatController = new CombatController(this);
+    this.ID = data.id
+    this.Name = data.name
+    this.Side = data.side
+    this.Mechname = data.Mechname
+    this.Notes = data.notes
+    this.PlaceholderType = data.type
+    this.SaveController = new SaveController(this)
+    this.CombatController = new CombatController(this)
 
     if (this.PlaceholderType === 'pilot') {
       this.ActiveMech = new Placeholder({
@@ -43,19 +44,19 @@ class Placeholder {
         name: this.Mechname || 'Mech',
         type: 'mech',
         side: this.Side,
-      });
+      })
     }
 
     switch (this.PlaceholderType.toLowerCase()) {
       case 'pilot':
-        this.Icon = 'cc:pilot';
-        break;
+        this.Icon = 'cc:pilot'
+        break
       case 'npc':
-        this.Icon = 'cc:frame';
-        break;
+        this.Icon = 'cc:frame'
+        break
       default:
-        this.Icon = 'mdi-receipt-text';
-        break;
+        this.Icon = 'mdi-receipt-text'
+        break
     }
   }
 
@@ -64,7 +65,7 @@ class Placeholder {
   }
 
   public get StatController(): any {
-    return this.CombatController.StatController;
+    return this.CombatController.StatController
   }
 
   public Serialize(): IPlaceholderData {
@@ -75,12 +76,12 @@ class Placeholder {
       type: this.PlaceholderType,
       side: this.Side,
       notes: this.Notes,
-    };
+    }
   }
 
   public static Deserialize(data: IPlaceholderData): Placeholder {
     if (!data || !data.id) {
-      throw new Error('Invalid Placeholder data');
+      throw new Error('Invalid Placeholder data')
     }
     return new Placeholder({
       id: data.id,
@@ -89,16 +90,16 @@ class Placeholder {
       type: data.type,
       side: data.side,
       notes: data.notes,
-    });
+    })
   }
 
   public save(): void {
-    this.SaveController.save();
+    this.SaveController.save()
   }
 
   public Clone(): Placeholder {
-    return Placeholder.Deserialize(this.Serialize());
+    return Placeholder.Deserialize(this.Serialize())
   }
 }
-export { Placeholder };
-export type { IPlaceholderData };
+export { Placeholder }
+export type { IPlaceholderData }

@@ -1,165 +1,166 @@
-import { v4 as uuid } from 'uuid';
-import { Encounter } from './Encounter';
-import { ContentPack } from '../ContentPack';
+import { v4 as uuid } from 'uuid'
+import { Encounter } from './Encounter'
+import { ContentPack } from '../ContentPack'
+import { ItemType } from '../enums'
+import { applyLcpTracking, type ILcpTracked } from '../LcpItemMixin'
 
 interface ISitrepData {
-  id?: string;
-  modified: boolean;
-  name: string;
-  description: string;
-  conditions?: { title: string; condition: string }[];
-  deployment?: string;
-  objective?: string;
-  controlZone?: string;
-  extraction?: string;
+  id?: string
+  modified: boolean
+  name: string
+  description: string
+  conditions?: { title: string; condition: string }[]
+  deployment?: string
+  objective?: string
+  controlZone?: string
+  extraction?: string
 }
 
-class Sitrep {
-  public readonly ID: string;
-  public readonly Name: string;
-  public readonly Description: string;
-  public readonly LcpName: string;
-  public readonly InLcp: boolean;
-  public readonly ItemType: string = 'Sitrep';
-  public readonly Icon: string = 'mdi-timeline-text-outline';
-  public readonly Conditions: { title: string; condition: string }[];
-  public readonly Deployment: string;
-  public readonly Objective: string;
-  public readonly ControlZone: string;
-  public readonly Extraction: string;
+class Sitrep implements ILcpTracked {
+  public readonly ID: string
+  public readonly Name: string
+  public readonly Description: string
+  public LcpName: string = ''
+  public InLcp: boolean = false
+  public readonly ItemType: ItemType = ItemType.Sitrep
+  public readonly Icon: string = 'mdi-timeline-text-outline'
+  public readonly Conditions: { title: string; condition: string }[]
+  public readonly Deployment: string
+  public readonly Objective: string
+  public readonly ControlZone: string
+  public readonly Extraction: string
 
   constructor(data: ISitrepData, pack?: ContentPack) {
     this.ID = data.id
       ? data.id
-      : `${pack?.Name || 'Lancer Core Book'}_${data.name}`.replace(/ /g, '_');
-    this.Name = data.name;
-    this.Description = data.description;
-    this.LcpName = pack?.Name || 'Lancer Core Book';
-    this.InLcp = !!pack;
+      : `${pack?.Name || 'Lancer Core Book'}_${data.name}`.replace(/ /g, '_')
+    this.Name = data.name
+    this.Description = data.description
+    applyLcpTracking(this, pack)
 
-    this.Name = data.name;
-    this.Description = data.description;
-    this.Conditions = data.conditions || [];
-    this.Deployment = data.deployment || '';
-    this.Objective = data.objective || '';
-    this.ControlZone = data.controlZone || '';
-    this.Extraction = data.extraction || '';
+    this.Name = data.name
+    this.Description = data.description
+    this.Conditions = data.conditions || []
+    this.Deployment = data.deployment || ''
+    this.Objective = data.objective || ''
+    this.ControlZone = data.controlZone || ''
+    this.Extraction = data.extraction || ''
   }
 }
 
 class SitrepInstance {
-  public readonly Sitrep: Sitrep;
-  public readonly Parent: Encounter;
-  public readonly InstanceID: string;
+  public readonly Sitrep: Sitrep
+  public readonly Parent: Encounter
+  public readonly InstanceID: string
 
-  public modified: boolean = false;
+  public modified: boolean = false
 
-  private _name: string = 'New Sitrep';
-  private _description: string = 'A new Sitrep';
-  private _conditions: { title: string; condition: string }[] = [];
-  private _deployment: string = '';
-  private _objective: string = '';
-  private _controlZone: string = '';
-  private _extraction: string = '';
+  private _name: string = 'New Sitrep'
+  private _description: string = 'A new Sitrep'
+  private _conditions: { title: string; condition: string }[] = []
+  private _deployment: string = ''
+  private _objective: string = ''
+  private _controlZone: string = ''
+  private _extraction: string = ''
 
   constructor(parent: Encounter, sitrep?: Sitrep) {
-    this.Parent = parent;
-    this.InstanceID = uuid();
+    this.Parent = parent
+    this.InstanceID = uuid()
     if (sitrep) {
-      this.Sitrep = sitrep;
+      this.Sitrep = sitrep
     } else {
       this.Sitrep = new Sitrep({
         name: 'STANDARD COMBAT',
         modified: false,
         description:
           'A simple affair, with two sides facing off against each other until one of them is broken or destroyed.',
-      });
+      })
     }
 
-    this.setInstanceData();
+    this.setInstanceData()
   }
 
   private setInstanceData() {
     for (const key in this.Sitrep) {
       if (key === 'Conditions') {
-        this._conditions = [...this.Sitrep.Conditions];
+        this._conditions = [...this.Sitrep.Conditions]
       } else {
-        this[`_${key.charAt(0).toLowerCase() + key.slice(1)}`] = this.Sitrep[key];
+        this[`_${key.charAt(0).toLowerCase() + key.slice(1)}`] = this.Sitrep[key]
       }
     }
   }
 
   private save() {
-    this.modified = true;
-    this.Parent.save();
+    this.modified = true
+    this.Parent.save()
   }
 
   public get Name() {
-    return this._name;
+    return this._name
   }
 
   public set Name(value: string) {
-    this._name = value;
-    this.save();
+    this._name = value
+    this.save()
   }
 
   public get Description() {
-    return this._description;
+    return this._description
   }
 
   public set Description(value: string) {
-    this._description = value;
-    this.save();
+    this._description = value
+    this.save()
   }
 
   public get Conditions() {
-    return this._conditions;
+    return this._conditions
   }
 
   public set Conditions(value: { title: string; condition: string }[]) {
-    this._conditions = value;
-    this.save();
+    this._conditions = value
+    this.save()
   }
 
   public get Deployment() {
-    return this._deployment;
+    return this._deployment
   }
 
   public set Deployment(value: string) {
-    this._deployment = value;
-    this.save();
+    this._deployment = value
+    this.save()
   }
 
   public get Objective() {
-    return this._objective;
+    return this._objective
   }
 
   public set Objective(value: string) {
-    this._objective = value;
-    this.save();
+    this._objective = value
+    this.save()
   }
 
   public get ControlZone() {
-    return this._controlZone;
+    return this._controlZone
   }
 
   public set ControlZone(value: string) {
-    this._controlZone = value;
-    this.save();
+    this._controlZone = value
+    this.save()
   }
 
   public get Extraction() {
-    return this._extraction;
+    return this._extraction
   }
 
   public set Extraction(value: string) {
-    this._extraction = value;
-    this.save();
+    this._extraction = value
+    this.save()
   }
 
   public Reset() {
-    this.setInstanceData();
-    this.save();
+    this.setInstanceData()
+    this.save()
   }
 
   public static Serialize(sitrep: SitrepInstance): ISitrepData {
@@ -173,7 +174,7 @@ class SitrepInstance {
       controlZone: sitrep.ControlZone,
       extraction: sitrep.Extraction,
       conditions: sitrep.Conditions,
-    };
+    }
   }
 
   public static Deserialize(data: ISitrepData, parent: Encounter): SitrepInstance {
@@ -190,9 +191,9 @@ class SitrepInstance {
         extraction: data.extraction,
         conditions: data.conditions,
       })
-    );
+    )
   }
 }
 
-export { Sitrep, SitrepInstance };
-export type { ISitrepData };
+export { Sitrep, SitrepInstance }
+export type { ISitrepData }

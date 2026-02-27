@@ -4,7 +4,7 @@
 // stored anywhere and collected imports are fine as long as their constituents are imported
 // first in this file.
 
-import { Rules } from './classes/utility/Rules';
+import { Rules } from './classes/utility/Rules'
 import {
   Duration,
   ActivationType,
@@ -21,64 +21,66 @@ import {
   MechType,
   ReserveType,
   OrgType,
-} from './classes/enums';
-import { CompendiumItem } from './classes/CompendiumItem';
-import { Background } from './classes/Background';
-import * as PlayerAction from './classes/Action';
-import { Bond } from './classes/pilot/components/bond/Bond';
-import Tag from './classes/Tag';
-import { LicensedItem } from './classes/pilot/components/license/LicensedItem';
-import { CoreBonus } from './classes/pilot/components/corebonus/CoreBonus';
-import { Damage } from './classes/Damage';
-import Loadout from './classes/Loadout';
-import { Range } from './classes/Range';
-import { Skill } from './classes/pilot/components/skill/Skill';
-import CustomSkill from './classes/pilot/components/skill/CustomSkill';
-import { Talent, TalentRank } from './classes/pilot/components/talent/Talent';
-import License from './classes/pilot/components/license/License';
-import MechSkills from './classes/components/mechskills/MechSkills';
-import { PilotEquipment } from './classes/pilot/components/Loadout/equipment/PilotEquipment';
-import { PilotArmor } from './classes/pilot/components/Loadout/equipment/PilotArmor';
-import { PilotWeapon } from './classes/pilot/components/Loadout/equipment/PilotWeapon';
-import { PilotGear } from './classes/pilot/components/Loadout/equipment/PilotGear';
-import { PilotLicense } from './classes/pilot/components/license/PilotLicense';
-import { PilotLoadout } from './classes/pilot/components/Loadout/PilotLoadout';
-import PilotSkill from './classes/pilot/components/skill/PilotSkill';
-import PilotTalent from './classes/pilot/components/talent/PilotTalent';
-import { Synergy } from './classes/components/feature/synergy/Synergy';
-import { Pilot } from './classes/pilot/Pilot';
-import { CoreSystem } from './classes/mech/components/frame/CoreSystem';
-import { Frame } from './classes/mech/components/frame/Frame';
-import { MechLoadout } from './classes/mech/components/loadout/MechLoadout';
-import { MechEquipment } from './classes/mech/components/equipment/MechEquipment';
-import { MechSystem } from './classes/mech/components/equipment/MechSystem';
-import { MechWeapon } from './classes/mech/components/equipment/MechWeapon';
-import Mount from './classes/mech/components/mount/Mount';
-import IntegratedMount from './classes/mech/components/mount/IntegratedMount';
-import EquippableMount from './classes/mech/components/mount/EquippableMount';
-import { WeaponMod } from './classes/mech/components/equipment/WeaponMod';
-import WeaponSlot from './classes/mech/components/mount/WeaponSlot';
-import { Mech } from './classes/mech/Mech';
-import { Reserve } from './classes/pilot/components/reserves/Reserve';
-import { Deployable } from './classes/components/feature/deployable/Deployable';
-import Project from './classes/pilot/components/reserves/Project';
-import Organization from './classes/pilot/components/reserves/Organization';
-import { Manufacturer } from './classes/Manufacturer';
-import Statblock from './classes/Statblock';
+} from './classes/enums'
+import { CompendiumItem } from './classes/CompendiumItem'
+import { Background } from './classes/Background'
+import * as PlayerAction from './classes/Action'
+import { Bond } from './classes/pilot/components/bond/Bond'
+import Tag from './classes/Tag'
+import { LicensedItem } from './classes/pilot/components/license/LicensedItem'
+import { CoreBonus } from './classes/pilot/components/corebonus/CoreBonus'
+import { Damage } from './classes/Damage'
+import Loadout from './classes/Loadout'
+import { Range } from './classes/Range'
+import { Skill } from './classes/pilot/components/skill/Skill'
+import CustomSkill from './classes/pilot/components/skill/CustomSkill'
+import { Talent, TalentRank } from './classes/pilot/components/talent/Talent'
+import License from './classes/pilot/components/license/License'
+import MechSkills from './classes/components/mechskills/MechSkills'
+import { PilotEquipment } from './classes/pilot/components/Loadout/equipment/PilotEquipment'
+import { PilotArmor } from './classes/pilot/components/Loadout/equipment/PilotArmor'
+import { PilotWeapon } from './classes/pilot/components/Loadout/equipment/PilotWeapon'
+import { PilotGear } from './classes/pilot/components/Loadout/equipment/PilotGear'
+import { PilotLicense } from './classes/pilot/components/license/PilotLicense'
+import { PilotLoadout } from './classes/pilot/components/Loadout/PilotLoadout'
+import PilotSkill from './classes/pilot/components/skill/PilotSkill'
+import PilotTalent from './classes/pilot/components/talent/PilotTalent'
+import { Synergy } from './classes/components/feature/synergy/Synergy'
+import { Pilot } from './classes/pilot/Pilot'
+import { CoreSystem } from './classes/mech/components/frame/CoreSystem'
+import { Frame } from './classes/mech/components/frame/Frame'
+import { MechLoadout } from './classes/mech/components/loadout/MechLoadout'
+import { MechEquipment } from './classes/mech/components/equipment/MechEquipment'
+import { MechSystem } from './classes/mech/components/equipment/MechSystem'
+import { MechWeapon } from './classes/mech/components/equipment/MechWeapon'
+import Mount from './classes/mech/components/mount/Mount'
+import IntegratedMount from './classes/mech/components/mount/IntegratedMount'
+import EquippableMount from './classes/mech/components/mount/EquippableMount'
+import { WeaponMod } from './classes/mech/components/equipment/WeaponMod'
+import WeaponSlot from './classes/mech/components/mount/WeaponSlot'
+import { Mech } from './classes/mech/Mech'
+import { Reserve } from './classes/pilot/components/reserves/Reserve'
+import { Deployable } from './classes/components/feature/deployable/Deployable'
+import Project from './classes/pilot/components/reserves/Project'
+import Organization from './classes/pilot/components/reserves/Organization'
+import { Manufacturer } from './classes/Manufacturer'
+import Statblock from './classes/Statblock'
 import {
   DiceRoller,
   D20RollResult,
   DamageRollResult,
   ParsedDieString,
   DieSet,
-} from './classes/dice/DiceRoller';
-import { DiceStats, DiceStatsResult } from './classes/dice/DiceStats';
-import { ContentPack } from './classes/ContentPack';
-import { Counter } from './classes/components/combat/counters/Counter';
-import { Environment } from './classes/Environment';
-import { Sitrep } from './classes/encounter/Sitrep';
-import { PilotGroup } from './features/pilot_management/store/PilotGroup';
-import { DowntimeAction } from './classes/DowntimeAction';
+} from './classes/dice/DiceRoller'
+import { DiceStats, DiceStatsResult } from './classes/dice/DiceStats'
+import { ContentPack } from './classes/ContentPack'
+import { Counter } from './classes/components/combat/counters/Counter'
+import { Environment } from './classes/Environment'
+import { Sitrep } from './classes/encounter/Sitrep'
+import { PilotGroup } from './features/pilot_management/store/PilotGroup'
+import { DowntimeAction } from './classes/DowntimeAction'
+import { DEFAULT_LCP_NAME, type ILcpTracked } from './classes/LcpItemMixin'
+import type { ISerializableStatic } from './classes/ISerializable'
 
 export {
   CompendiumItem,
@@ -154,4 +156,7 @@ export {
   Sitrep,
   PilotGroup,
   DowntimeAction,
-};
+  DEFAULT_LCP_NAME,
+}
+
+export type { ILcpTracked, ISerializableStatic }

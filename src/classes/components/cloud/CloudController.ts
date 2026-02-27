@@ -7,7 +7,14 @@ import {
   PilotStore,
   UserStore,
 } from '@/stores'
-import { downloadFromS3, updateItem, uploadToS3 } from '@/io/apis/account'
+import {
+  downloadFromS3,
+  updateItem,
+  uploadToS3,
+  PresignExpiredError,
+  VersionConflictError,
+  batchUpsert,
+} from '@/io/apis/account'
 import { Pilot } from '@/class'
 import { Doodad } from '@/classes/npc/doodad/Doodad'
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon'
@@ -17,20 +24,11 @@ import { Campaign } from '@/classes/campaign/Campaign'
 import { Character } from '@/classes/narrative/Character'
 import { Faction } from '@/classes/narrative/Faction'
 import { Location } from '@/classes/narrative/Location'
-import { error } from 'console'
 import logger from '@/user/logger'
-
-const syncableTypes = [
-  'pilot',
-  'unit',
-  'doodad',
-  'eidolon',
-  'character',
-  'faction',
-  'location',
-  'encounter',
-  'campaign',
-]
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
+import PilotSheet from '@/features/pilot_management/store/PilotSheet'
+import { allSyncableTypes, normalizeItemType } from './ItemTypeMap'
 
 interface ICloudData {
   metadata: dbItemMeta
@@ -58,6 +56,7 @@ type dbItemMeta = {
   deleted?: number
   code?: string
   ttl?: number // update on local delete/perm delete
+  version?: number // optimistic concurrency counter
 
   preserve?: boolean // archive only
 }
@@ -76,6 +75,7 @@ class DbItemMetadata {
   public Deleted?: number
   public Code?: string
   public TTL?: number
+  public Version?: number
 
   public constructor(data: dbItemMeta) {
     this.raw = data
@@ -91,6 +91,7 @@ class DbItemMetadata {
     if (data.deleted) this.Deleted = data.deleted
     if (data.code) this.Code = data.code
     if (data.ttl) this.TTL = data.ttl
+    if (data.version != null) this.Version = data.version
   }
 
   public Serialize(): dbItemMeta {
@@ -107,6 +108,7 @@ class DbItemMetadata {
       deleted: this.Deleted,
       code: this.Code,
       ttl: this.TTL,
+      version: this.Version,
     }
   }
 }
@@ -115,14 +117,26 @@ class CloudController {
   public readonly Parent: ICloudSyncable
 
   private _metadata!: DbItemMetadata
+  private _lastContentHash: string | null = null
 
   public constructor(parent: ICloudSyncable) {
     this.Parent = parent
     this.GenerateMetadata()
   }
 
+  /**
+   * Compute a fast content hash of serialized data for delta-only sync.
+   * Uses length + first/last 100 chars as a cheap fingerprint.
+   */
+  public static computeContentHash(data: any): string {
+    const str = typeof data === 'string' ? data : JSON.stringify(data)
+    const len = str.length
+    const head = str.slice(0, 100)
+    const tail = str.slice(-100)
+    return `${len}:${head}:${tail}`
+  }
+
   public GenerateSortKey(): string {
-    let type = this.Parent.ItemType
     return `${this.Parent.DataType}_${this.Parent.ItemType}_${this.Parent.ID}`
   }
 
@@ -131,7 +145,7 @@ class CloudController {
   }
 
   public get SyncStatus(): SyncStatus {
-    if (!this.Metadata || !this.Metadata.ItemModified) return SyncStatus.LocalOnly
+    if (!this.Metadata || this.Metadata.ItemModified == null) return SyncStatus.LocalOnly
     if (this.Metadata.ItemModified < this.Parent.SaveController.LastModified)
       return SyncStatus.LocalNewer
     if (this.Metadata.ItemModified > this.Parent.SaveController.LastModified)
@@ -164,22 +178,150 @@ class CloudController {
 
   public async UpdateCloud(scope = 'item') {
     const savedata = this.Parent.Serialize(this.Parent)
+    // Check content hash — skip upload if data is unchanged
+    const newHash = CloudController.computeContentHash(savedata)
+    if (this._lastContentHash && this._lastContentHash === newHash) {
+      logger.info('CloudController: content unchanged (hash match), skipping upload')
+      return true
+    }
+
     // called after we're sure cloud needs to be updated
     this.Metadata.ItemModified = this.Parent.SaveController.LastModified
     this.Metadata.Name = this.Parent.Name
-    // this.Metadata.Size = JSON.stringify(savedata).length;
-    this.Metadata.Size = 1
+    this.Metadata.Size = JSON.stringify(savedata).length
 
-    const res = await updateItem(this.Metadata.Serialize(), scope)
-    if (res.error) return res.error
-    if (res.data) {
-      this.Metadata = res.data
-      this.Parent.SaveController.saveSilent()
+    // Save previous metadata so we can roll back if upload fails
+    const previousMetadata = this.Metadata.raw ? { ...this.Metadata.raw } : null
+
+    const doUpload = async (retried = false): Promise<any> => {
+      const res = await updateItem(this.Metadata.Serialize(), scope)
+      if (res.error) return res.error
+
+      if (!res.presign?.upload) throw new Error('No presign returned.')
+
+      try {
+        const uploadResult = await uploadToS3(savedata, res.presign.upload)
+        if (!uploadResult) {
+          if (previousMetadata) this.Metadata = previousMetadata
+          throw new Error('S3 upload failed. Metadata not committed.')
+        }
+
+        // Only commit metadata and persist after confirmed upload
+        if (res.data) {
+          this.Metadata = res.data
+          this._lastContentHash = newHash
+          this.Parent.SaveController.saveSilent()
+        }
+
+        return uploadResult
+      } catch (e) {
+        if (e instanceof PresignExpiredError && !retried) {
+          logger.info('Presigned URL expired, requesting fresh URL and retrying...')
+          return doUpload(true)
+        }
+        if (previousMetadata) this.Metadata = previousMetadata
+        throw e
+      }
     }
-    if (res.presign.upload) {
-      const uploadResult = await uploadToS3(savedata, res.presign.upload)
-      return uploadResult
-    } else throw new Error('No presign returned.')
+
+    return doUpload()
+  }
+
+  /**
+   * Batch sync: uploads up to 25 items in a single batch DynamoDB call,
+   * then uploads S3 data in parallel (concurrency cap of 5).
+   * Items whose content hash hasn't changed are skipped.
+   */
+  public static async BatchUpdateCloud(items: ICloudSyncable[]): Promise<any[]> {
+    const UPLOAD_CONCURRENCY = 5
+    const BATCH_SIZE = 25
+
+    // Prepare items, filtering out unchanged content
+    const prepared: Array<{
+      item: ICloudSyncable
+      savedata: any
+      hash: string
+      meta: dbItemMeta
+    }> = []
+
+    for (const item of items) {
+      const savedata = item.Serialize(item)
+      const hash = CloudController.computeContentHash(savedata)
+
+      // Skip if content hash matches
+      if (item.CloudController._lastContentHash && item.CloudController._lastContentHash === hash) {
+        logger.info(`BatchUpdateCloud: skipping unchanged item ${item.Name}`)
+        continue
+      }
+
+      item.CloudController.Metadata.ItemModified = item.SaveController.LastModified
+      item.CloudController.Metadata.Name = item.Name
+      item.CloudController.Metadata.Size = JSON.stringify(savedata).length
+
+      const meta = item.CloudController.Metadata.Serialize()
+      // itemScope controls share code length on the backend
+      ;(meta as any).itemScope = 'item'
+
+      prepared.push({ item, savedata, hash, meta })
+    }
+
+    if (prepared.length === 0) {
+      logger.info('BatchUpdateCloud: no items to sync (all unchanged)')
+      return []
+    }
+
+    const failures: any[] = []
+
+    // Process in BATCH_SIZE chunks
+    for (let i = 0; i < prepared.length; i += BATCH_SIZE) {
+      const chunk = prepared.slice(i, i + BATCH_SIZE)
+      const batchItems = chunk.map(p => p.meta)
+
+      const response = await batchUpsert(batchItems)
+
+      if (!response.results || !Array.isArray(response.results)) {
+        logger.error('BatchUpdateCloud: unexpected batch response', response)
+        chunk.forEach(p => failures.push({ item: p.item, error: 'Bad batch response' }))
+        continue
+      }
+
+      // Parallel S3 uploads with concurrency cap
+      const uploadTasks = chunk.map((p, idx) => ({
+        ...p,
+        result: response.results[idx],
+      }))
+
+      for (let j = 0; j < uploadTasks.length; j += UPLOAD_CONCURRENCY) {
+        const uploadBatch = uploadTasks.slice(j, j + UPLOAD_CONCURRENCY)
+        const results = await Promise.allSettled(
+          uploadBatch.map(async task => {
+            if (!task.result?.presign?.upload) {
+              throw new Error(`No presign URL for ${task.item.Name}`)
+            }
+
+            const uploadOk = await uploadToS3(task.savedata, task.result.presign.upload)
+            if (!uploadOk) throw new Error(`S3 upload failed for ${task.item.Name}`)
+
+            // Commit metadata + hash on success
+            if (task.result.data) {
+              task.item.CloudController.Metadata = task.result.data
+              task.item.CloudController._lastContentHash = task.hash
+              task.item.SaveController.saveSilent()
+            }
+          })
+        )
+
+        results.forEach((r, rIdx) => {
+          if (r.status === 'rejected') {
+            const task = uploadBatch[rIdx]
+            logger.error(`BatchUpdateCloud upload failed: ${task.item.Name}`, r.reason)
+            failures.push({ item: task.item, error: r.reason })
+          }
+        })
+      }
+    }
+
+    return failures
   }
 
   public static async MarkCloudDeleted(metadata: DbItemMetadata) {
@@ -260,9 +402,9 @@ class CloudController {
   public static async UpdateRemote(item: any) {
     if (item.CloudController.SyncStatus === 'Synced') return
 
-    const itemType = item.CloudController.Metadata.SortKey.split('_')[1].toLowerCase()
+    const itemType = normalizeItemType(item.CloudController.Metadata.SortKey.split('_')[1])
     const meta = { ...item.CloudController.Metadata.raw }
-    let data = await downloadFromS3(item.CloudController.Metadata.Uri)
+    const data = await downloadFromS3(item.CloudController.Metadata.Uri)
     const updatedItem = CloudController.NewByType(itemType, data)
     updatedItem.CloudController.setRemoteMetadata(meta)
 
@@ -285,15 +427,15 @@ class CloudController {
 
     if (
       !item.CloudController?.Metadata?.SortKey ||
-      !syncableTypes.includes(item.ItemType.toLowerCase())
+      !allSyncableTypes.includes(normalizeItemType(item.ItemType))
     ) {
       UserStore().addCloudNotification(`Unable to sync ${item.ItemType} ${item.Name}.`, 'error')
       logger.error(`CloudController: Unable to sync ${item.ItemType} ${item.Name}.`, this)
       return
     }
-    const itemType = item.CloudController.Metadata.SortKey.split('_')[1].toLowerCase()
+    const itemType = normalizeItemType(item.CloudController.Metadata.SortKey.split('_')[1])
 
-    let data = item.IsCloudOnly
+    const data = item.IsCloudOnly
       ? await downloadFromS3(item.raw.uri)
       : await item.CloudController.Download()
 
@@ -304,7 +446,7 @@ class CloudController {
   }
 
   public static NewByType(itemType: string, data: any): ICloudSyncable {
-    switch (itemType.toLowerCase()) {
+    switch (normalizeItemType(itemType)) {
       case 'pilot':
         return new Pilot(data)
       case 'unit':
@@ -321,6 +463,12 @@ class CloudController {
         return Location.Deserialize(data)
       case 'encounter':
         return Encounter.Deserialize(data)
+      case 'encounterinstance':
+        return EncounterInstance.Deserialize(data)
+      case 'encounterarchive':
+        return EncounterArchive.Deserialize(data)
+      case 'pilotsheet':
+        return PilotSheet.Deserialize(data)
       case 'campaign':
         return Campaign.Deserialize(data)
       default:
@@ -329,7 +477,7 @@ class CloudController {
   }
 
   public static async AddByType(itemType: string, item: any) {
-    switch (itemType.toLowerCase()) {
+    switch (normalizeItemType(itemType)) {
       case 'pilot':
         PilotStore().AddPilot(item)
         break
@@ -349,6 +497,15 @@ class CloudController {
         break
       case 'encounter':
         await EncounterStore().AddEncounter(item)
+        break
+      case 'encounterinstance':
+        await EncounterStore().AddEncounterInstance(item)
+        break
+      case 'encounterarchive':
+        await EncounterStore().AddEncounterArchive(item)
+        break
+      case 'pilotsheet':
+        await PilotStore().AddPilotSheet(item)
         break
       case 'campaign':
         await CampaignStore().AddCampaign(item)

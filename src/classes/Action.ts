@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid'
-import { ActivationType, Damage, Range } from '@/class'
+import { ActivationType, Damage, ItemType, Range } from '@/class'
 import { IDeployableData } from './components/feature/deployable/Deployable'
 import { isNumber } from 'lodash-es'
 import { IDamageData } from './Damage'
@@ -154,7 +154,7 @@ class Action {
   public readonly IsDowntimeAction: boolean
   public readonly IsActiveHidden: boolean
   public readonly SynergyLocations: string[]
-  public readonly ItemType: string = 'Action'
+  public readonly ItemType: ItemType = ItemType.Action
   public readonly ActiveEffects: ActiveEffect[]
   public readonly AddStatus: EffectStatus[] = []
   public readonly AddSpecial: EffectSpecial[] = []
@@ -171,7 +171,7 @@ class Action {
 
   public constructor(data: IActionData, origin?: string, heat?: number) {
     if (data.name) this.Name = data.name
-    else this.Name = `Activate ${origin}` || 'Unknown Action'
+    else this.Name = origin ? `Activate ${origin}` : 'Unknown Action'
     this.Description = data.description || ''
     this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}_${uuid()}`
     this.Origin = origin || ''
@@ -246,16 +246,7 @@ class Action {
   }
 
   public get Detail(): string {
-    if (!this._detail) return ''
-    let out = this._detail
-    const perTier = /(\{.*?\})/gi
-    const matches = out.match(perTier)
-    if (matches) {
-      matches.forEach(m => {
-        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'))
-      })
-    }
-    return out
+    return ByTier(this._detail)
   }
 
   public getDetail(tier?: number): string {
@@ -329,7 +320,7 @@ class Action {
       init: action.Init,
       trigger: action.Trigger,
       terse: action.Terse,
-      detail: action.Detail,
+      detail: action._detail,
       pilot: action.IsPilotAction,
       mech: action.IsMechAction,
       damage: action.Damage ? action.Damage.map(x => Damage.Serialize(x)) : [],
@@ -340,6 +331,10 @@ class Action {
       heat_cost: action.HeatCost,
       attack: action.Attack,
     }
+  }
+
+  public static Deserialize(data: IActionData, origin?: string, heat?: number): Action {
+    return new Action(data, origin, heat)
   }
 }
 

@@ -148,7 +148,7 @@ class Damage {
           bonus += Bonus.Evaluate(b, mech.Pilot)
         }
       })
-      let val =
+      const val =
         typeof d._raw_value === 'string'
           ? mech.FeatureController.EvaluateSpecial(d._raw_value)
           : d._raw_value
@@ -222,6 +222,10 @@ class Damage {
         : undefined,
       save_half: damage.SaveHalf,
     }
+  }
+
+  public static Deserialize(data: IDamageData): Damage {
+    return new Damage(data)
   }
 }
 

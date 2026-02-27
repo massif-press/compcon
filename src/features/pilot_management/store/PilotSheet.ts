@@ -1,8 +1,15 @@
 // container for pilot-as-combatant data
 import { v4 as uuid } from 'uuid'
-import { Deployable, Mech, Pilot } from '@/class'
+import { Deployable, ItemType, Mech, Pilot } from '@/class'
 import { CombatantData, Encounter } from '@/classes/encounter/Encounter'
-import { ISaveData, SaveController } from '@/classes/components'
+import {
+  CloudController,
+  ICloudData,
+  ICloudSyncable,
+  ISaveable,
+  ISaveData,
+  SaveController,
+} from '@/classes/components'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
 
@@ -13,14 +20,16 @@ type PilotSheetData = {
   archived: boolean
   round: number
   save: ISaveData
+  cloud: ICloudData
   campaign?: string
   simple_tickbars?: boolean
   autosave?: boolean
 }
 
-class PilotSheet {
+class PilotSheet implements ISaveable, ICloudSyncable {
   public readonly ID: string
-  public readonly ItemType = 'PilotSheet'
+  public readonly ItemType: ItemType = ItemType.PilotSheet
+  public readonly DataType = 'savedata'
   public readonly StorageType = 'pilot_sheets'
   public Name: string
   public Combatant: CombatantData
@@ -33,6 +42,7 @@ class PilotSheet {
   public Autosave: boolean = true
 
   public SaveController: SaveController
+  public CloudController: CloudController
   public RollHistory: string[] = []
 
   constructor(data: PilotSheetData) {
@@ -50,6 +60,8 @@ class PilotSheet {
 
     this.SaveController = new SaveController(this)
     SaveController.Deserialize(this, data.save)
+    this.CloudController = new CloudController(this)
+    CloudController.Deserialize(this, data.cloud)
   }
 
   public static FromPilot(pilot: Pilot, campaign?: string) {
@@ -132,7 +144,7 @@ class PilotSheet {
   }
 
   public static Serialize(pilotSheet: PilotSheet): any {
-    let data = {
+    const data = {
       id: pilotSheet.ID,
       combatant: Encounter.SerializeCombatant(pilotSheet.Combatant),
       campaign: pilotSheet.Campaign,
@@ -156,7 +168,7 @@ class PilotSheet {
   }
 
   public static Deserialize(data: any): PilotSheet {
-    let pilotSheet = new PilotSheet(data)
+    const pilotSheet = new PilotSheet(data)
 
     return pilotSheet
   }

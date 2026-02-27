@@ -1,8 +1,3 @@
-/**
- * Centralized API configuration module
- * All API base URLs are loaded from environment variables with fallback defaults
- */
-
 interface ApiConfig {
   userApi: string
   contentApi: string

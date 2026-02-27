@@ -1,24 +1,24 @@
-import { CloudController, PortraitController, SaveController } from '../components';
-import { NarrativeController } from './NarrativeController';
-import { CollectionItem, ICollectionItemData } from './CollectionItem';
-import { ItemType } from '../enums';
-import { FolderController } from '../components/folder/FolderController';
+import { CloudController, PortraitController, SaveController } from '../components'
+import { NarrativeController } from './NarrativeController'
+import { CollectionItem, ICollectionItemData } from './CollectionItem'
+import { ItemType } from '../enums'
+import { FolderController } from '../components/folder/FolderController'
 
 class FactionData extends ICollectionItemData {
-  collectionItemType: string = 'faction';
-  factionType: string = '';
+  collectionItemType: string = 'faction'
+  factionType: string = ''
 }
 
 class Faction extends CollectionItem {
-  public ItemType: string = ItemType.Faction;
-  private _factionType: string;
+  public ItemType: ItemType = ItemType.Faction
+  private _factionType: string
 
   public constructor(data?: FactionData) {
-    super(data);
-    this._factionType = data?.factionType || '';
-    this._name = data?.name || 'New Faction';
+    super(data)
+    this._factionType = data?.factionType || ''
+    this._name = data?.name || 'New Faction'
 
-    this.CloudController = new CloudController(this);
+    this.CloudController = new CloudController(this)
   }
 
   public get TypeSuggestions(): string[] {
@@ -37,16 +37,16 @@ class Faction extends CollectionItem {
       'Cultural Association',
       'Collective',
       'Social Movement',
-    ];
+    ]
   }
 
   public get FactionType(): string {
-    return this._factionType;
+    return this._factionType
   }
 
   public set FactionType(val: string) {
-    this._factionType = val;
-    this.SaveController.save();
+    this._factionType = val
+    this.SaveController.save()
   }
 
   public get SectionSuggestions(): string[] {
@@ -66,11 +66,11 @@ class Faction extends CollectionItem {
       'Controversies and Criticisms',
       'Influence and Extents',
       'Current Status and Impact',
-    ];
+    ]
   }
 
   public GetRelationshipSuggestions(connectionType: string): string[] {
-    const s = connectionType.toLowerCase();
+    const s = connectionType.toLowerCase()
     switch (s) {
       case 'character':
         return [
@@ -82,7 +82,7 @@ class Faction extends CollectionItem {
           'Stakeholder',
           'Affiliate',
           'Opponent',
-        ];
+        ]
       case 'location':
         return [
           'Headquarters',
@@ -93,7 +93,7 @@ class Faction extends CollectionItem {
           'Base',
           'Territory',
           'Disputed Area',
-        ];
+        ]
       case 'faction':
         return [
           'Allies',
@@ -105,50 +105,50 @@ class Faction extends CollectionItem {
           'Rivals',
           'Subsidiary',
           'Parent Organization',
-        ];
+        ]
     }
-    return [];
+    return []
   }
 
   public static Serialize(faction: Faction): FactionData {
-    let data = {
+    const data = {
       collectionItemType: 'faction',
       id: faction.ID,
       name: faction.Name,
       description: faction.Description,
       note: faction.Note,
       factionType: faction.FactionType,
-    };
+    }
 
-    SaveController.Serialize(faction, data);
-    CloudController.Serialize(faction, data);
-    PortraitController.Serialize(faction, data);
-    NarrativeController.Serialize(faction, data);
-    FolderController.Serialize(faction, data);
+    SaveController.Serialize(faction, data)
+    CloudController.Serialize(faction, data)
+    PortraitController.Serialize(faction, data)
+    NarrativeController.Serialize(faction, data)
+    FolderController.Serialize(faction, data)
 
-    return data as FactionData;
+    return data as FactionData
   }
 
   public Serialize<FactionData>(): FactionData {
-    return Faction.Serialize(this) as FactionData;
+    return Faction.Serialize(this) as FactionData
   }
 
   public static Deserialize(data: FactionData): Faction {
-    const faction = new Faction(data);
-    SaveController.Deserialize(faction, data.save);
-    PortraitController.Deserialize(faction, data.img);
-    NarrativeController.Deserialize(faction, data.narrative);
-    FolderController.Deserialize(faction, data.folder);
-    return faction;
+    const faction = new Faction(data)
+    SaveController.Deserialize(faction, data.save)
+    PortraitController.Deserialize(faction, data.img)
+    NarrativeController.Deserialize(faction, data.narrative)
+    FolderController.Deserialize(faction, data.folder)
+    return faction
   }
 
   public Clone<Faction>(): Faction {
-    const itemData = Faction.Serialize(this);
-    const newItem = Faction.Deserialize(itemData);
-    newItem.RenewID();
-    newItem.Name += ' (COPY)';
-    return newItem as Faction;
+    const itemData = Faction.Serialize(this)
+    const newItem = Faction.Deserialize(itemData)
+    newItem.RenewID()
+    newItem.Name += ' (COPY)'
+    return newItem as Faction
   }
 }
 
-export { Faction, FactionData };
+export { Faction, FactionData }

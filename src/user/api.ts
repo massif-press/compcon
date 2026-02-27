@@ -33,7 +33,7 @@ const buildQueryString = (params: Record<string, string>) => {
 
 const get = (id: string) => {
   const queryString = buildQueryString({ id })
-  return createFetchRequest(`/user?${queryString}`)
+  return createFetchRequest(`user?${queryString}`)
 }
 
 const storageInfo = (id: string) => {

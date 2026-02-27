@@ -1,99 +1,261 @@
-import { UserStore } from '@/stores';
-import logger from '@/user/logger';
+import { UserStore } from '@/stores'
+import { fetchAuthSession } from 'aws-amplify/auth'
+import logger from '@/user/logger'
 
-const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`;
+const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`
 
-const headers = {
+const baseHeaders: Record<string, string> = {
   'Content-Type': 'application/json',
   'x-api-key': (import.meta as any).env.VITE_APP_API_KEY || '',
   'Access-Control-Request-Headers': 'Content-Type,x-api-key',
-};
+}
+
+/**
+ * Returns request headers including the Cognito JWT Authorization header.
+ * The backend expects the raw idToken (no "Bearer" prefix).
+ */
+async function getHeaders(): Promise<Record<string, string>> {
+  try {
+    const session = await fetchAuthSession()
+    const idToken = session.tokens?.idToken?.toString()
+    if (idToken) {
+      return { ...baseHeaders, Authorization: idToken }
+    }
+  } catch (e) {
+    logger.warn('Unable to get auth session for request headers:', e)
+  }
+  return { ...baseHeaders }
+}
+
+const MAX_RETRIES = 3
+const INITIAL_BACKOFF_MS = 1000
+const REQUEST_TIMEOUT_MS = 30000
+
+async function fetchWithRetry(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+  retries = MAX_RETRIES
+): Promise<Response> {
+  let lastError: Error | undefined
+
+  for (let attempt = 0; attempt < retries; attempt++) {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
+
+    try {
+      const response = await fetch(input, { ...init, signal: controller.signal })
+      clearTimeout(timeoutId)
+
+      if (response.ok) return response
+
+      if (response.status === 429) {
+        const retryAfter = response.headers.get('Retry-After')
+        const waitMs = retryAfter
+          ? parseInt(retryAfter, 10) * 1000 || INITIAL_BACKOFF_MS
+          : INITIAL_BACKOFF_MS * Math.pow(2, attempt)
+        logger.info(
+          `Rate limited (429). Retrying in ${waitMs}ms (attempt ${attempt + 1}/${retries})`
+        )
+        await new Promise(r => setTimeout(r, waitMs))
+        continue
+      }
+
+      // Don't retry 409 Conflict — surface it for optimistic concurrency handling
+      if (response.status === 409) {
+        return response
+      }
+
+      if (response.status >= 500 && attempt < retries - 1) {
+        const waitMs = INITIAL_BACKOFF_MS * Math.pow(2, attempt)
+        logger.info(
+          `Server error (${response.status}). Retrying in ${waitMs}ms (attempt ${attempt + 1}/${retries})`
+        )
+        await new Promise(r => setTimeout(r, waitMs))
+        continue
+      }
+
+      throw new Error(`HTTP error! status: ${response.status}`)
+    } catch (error: any) {
+      clearTimeout(timeoutId)
+      lastError = error
+      if (error.name === 'AbortError') {
+        lastError = new Error(`Request timed out after ${REQUEST_TIMEOUT_MS}ms`)
+      }
+      if (attempt < retries - 1) {
+        const waitMs = INITIAL_BACKOFF_MS * Math.pow(2, attempt)
+        logger.info(
+          `Request failed: ${lastError?.message ?? 'Unknown error'}. Retrying in ${waitMs}ms (attempt ${attempt + 1}/${retries})`
+        )
+        await new Promise(r => setTimeout(r, waitMs))
+      }
+    }
+  }
+
+  throw lastError || new Error('Request failed after retries')
+}
 
 export const getUser = async (id: string): Promise<any> => {
-  const url = new URL(`${invoke}/user`);
-  url.searchParams.append('userID', id);
-  url.searchParams.append('scope', 'meta');
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', id)
+  url.searchParams.append('scope', 'meta')
 
-  const response = await fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: 'GET',
-    headers,
-  });
+    headers: await getHeaders(),
+  })
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+  const data = await response.json()
 
-  const data = await response.json();
-
-  return data;
-};
+  return data
+}
 
 export const getUserData = async (id: string): Promise<any> => {
-  const url = new URL(`${invoke}/user`);
-  url.searchParams.append('userID', id);
-  url.searchParams.append('scope', 'all');
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', id)
+  url.searchParams.append('scope', 'all')
 
-  const response = await fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: 'GET',
-    headers,
-  });
+    headers: await getHeaders(),
+  })
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+  const data = await response.json()
+
+  return data
+}
+
+/**
+ * Delta sync: returns only items changed since `since` timestamp.
+ * Response shape: { items: [...], serverTime: number }
+ * When since=0, falls through to scope=all behavior.
+ */
+export async function getUserDataChanged(
+  id: string,
+  since: number
+): Promise<{ items: any[]; serverTime: number }> {
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', id)
+  url.searchParams.append('scope', 'changed')
+  url.searchParams.append('since', String(since))
+
+  const response = await fetchWithRetry(url.toString(), {
+    method: 'GET',
+    headers: await getHeaders(),
+  })
+
+  const data = await response.json()
+
+  // When since=0, backend returns flat array (scope=all behavior)
+  if (Array.isArray(data)) {
+    return { items: data, serverTime: Date.now() }
   }
-
-  const data = await response.json();
-
-  return data;
-};
+  return data
+}
 
 export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
-  console.info('Updating item with metadata:', metadata);
-  const url = new URL(`${invoke}/user`);
-  url.searchParams.append('userID', UserStore().User.ID);
-  url.searchParams.append('scope', scope);
+  logger.info('Updating item with metadata:', metadata)
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', UserStore().Cognito.userId)
+  url.searchParams.append('scope', scope)
 
-  const body = typeof metadata === 'string' ? metadata : JSON.stringify(metadata);
+  const body = typeof metadata === 'string' ? metadata : JSON.stringify(metadata)
 
-  const response = await fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers,
+    headers: await getHeaders(),
     body,
-  });
+  })
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+  // Handle 409 Conflict for optimistic concurrency
+  if (response.status === 409) {
+    const conflict = await response.json()
+    throw new VersionConflictError(conflict.currentItem, conflict.message)
   }
 
-  const data = await response.json();
+  const data = await response.json()
 
-  return data;
+  return data
+}
+
+/**
+ * Batch upsert up to 25 items in a single DynamoDB BatchWriteItem call.
+ * Returns presigned S3 URLs for all items.
+ */
+export async function batchUpsert(items: any[]): Promise<any> {
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', UserStore().Cognito.userId)
+  url.searchParams.append('scope', 'batch')
+
+  const response = await fetchWithRetry(url.toString(), {
+    method: 'POST',
+    headers: await getHeaders(),
+    body: JSON.stringify({ items }),
+  })
+
+  const data = await response.json()
+  return data
+}
+
+/**
+ * Partial update using DynamoDB UpdateExpression (SET).
+ * Only the fields you send are modified; sortkey is required.
+ */
+export async function patchItem(sortkey: string, fields: Record<string, any>): Promise<any> {
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', UserStore().Cognito.userId)
+  url.searchParams.append('scope', 'patch')
+
+  const response = await fetchWithRetry(url.toString(), {
+    method: 'POST',
+    headers: await getHeaders(),
+    body: JSON.stringify({ sortkey, ...fields }),
+  })
+
+  if (response.status === 409) {
+    const conflict = await response.json()
+    throw new VersionConflictError(conflict.currentItem, conflict.message)
+  }
+
+  const data = await response.json()
+  return data
 }
 
 export async function updateUser(id: string, payload: any): Promise<any> {
-  const url = new URL(`${invoke}/user`);
-  url.searchParams.append('userID', id);
-  url.searchParams.append('scope', 'meta');
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', id)
+  url.searchParams.append('scope', 'meta')
 
-  const response = await fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers,
+    headers: await getHeaders(),
     body: JSON.stringify(payload),
-  });
+  })
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+  return response
+}
+
+export class PresignExpiredError extends Error {
+  constructor() {
+    super('Presigned URL expired (403)')
+    this.name = 'PresignExpiredError'
   }
+}
 
-  return response;
+export class VersionConflictError extends Error {
+  public readonly currentItem: any
+  constructor(currentItem: any, message?: string) {
+    super(message || 'Item was modified by another client')
+    this.name = 'VersionConflictError'
+    this.currentItem = currentItem
+  }
 }
 
 export async function uploadToS3(data, presignedUrl, type = 'application/json') {
-  logger.info('Uploading data to S3:', data);
+  logger.info('Uploading data to S3:', data)
 
-  if (data.cloud?.cloud_data) delete data.cloud.cloud_data;
+  if (data.cloud?.cloud_data) delete data.cloud.cloud_data
 
-  const body = type === 'application/json' ? JSON.stringify(data) : data;
+  const body = type === 'application/json' ? JSON.stringify(data) : data
 
   try {
     const response = await fetch(presignedUrl, {
@@ -102,103 +264,137 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
       headers: {
         'Content-Type': type,
       },
-    });
-    logger.info(`Response from S3 upload: ${response.status}`);
+    })
+    logger.info(`Response from S3 upload: ${response.status}`)
 
     if (response.ok) {
-      logger.info(`Upload successful: ${response.status}`);
-      return true;
+      logger.info(`Upload successful: ${response.status}`)
+      return true
+    } else if (response.status === 403) {
+      throw new PresignExpiredError()
     } else {
-      logger.error('Upload failed:', response.statusText);
-      return false;
+      logger.error('Upload failed:', response.statusText)
+      return false
     }
   } catch (error) {
-    throw new Error(`HTTP error! status: ${error}`);
+    if (error instanceof PresignExpiredError) throw error
+    throw new Error(`HTTP error! status: ${error}`, { cause: error })
   }
 }
 
+// In-memory ETag cache: uri → { etag, data }
+const _etagCache = new Map<string, { etag: string; data: any }>()
+
 export async function downloadFromS3(s3Url) {
-  const url = `${import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || ''}/${s3Url}`;
+  const url = `${import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || ''}/${s3Url}`
 
   try {
-    const response = await fetch(url);
+    const fetchHeaders: Record<string, string> = {}
+    const cached = _etagCache.get(s3Url)
+    if (cached?.etag) {
+      fetchHeaders['If-None-Match'] = cached.etag
+    }
+
+    const response = await fetch(url, { headers: fetchHeaders })
+
+    if (response.status === 304 && cached) {
+      return cached.data
+    }
+
     if (response.ok) {
-      const jsonData = await response.json();
-      return jsonData;
+      const jsonData = await response.json()
+      const etag = response.headers.get('ETag')
+      if (etag) {
+        _etagCache.set(s3Url, { etag, data: jsonData })
+      }
+      return jsonData
     } else {
-      logger.error('Download failed:', response.statusText);
+      logger.error('Download failed:', response.statusText)
     }
   } catch (error) {
-    logger.error('Error downloading JSON:', {}, error);
+    logger.error('Error downloading JSON:', {}, error)
   }
 }
 
 export async function getFromPresignDirect(url) {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url)
     if (response.ok) {
-      const rawData = await response.blob();
-      return rawData;
+      const rawData = await response.blob()
+      return rawData
     } else {
-      logger.error('Download failed:', response.statusText);
+      logger.error('Download failed:', response.statusText)
     }
   } catch (error) {
-    logger.error('Error downloading JSON:', {}, error);
+    logger.error('Error downloading JSON:', {}, error)
   }
 }
 
 export async function cloudDelete(user_id: string, sortkey: string, uri?: string) {
-  const url = new URL(`${invoke}/user`);
-  url.searchParams.append('user_id', user_id);
-  url.searchParams.append('sortkey', sortkey);
-  if (uri) url.searchParams.append('uri', uri);
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', user_id)
+  url.searchParams.append('sortkey', sortkey)
+  if (uri) url.searchParams.append('uri', uri)
 
-  const response = await fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: 'DELETE',
-    headers,
-  });
+    headers: await getHeaders(),
+  })
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+  return response
+}
 
-  return response;
+/**
+ * Bulk delete up to 25 DynamoDB items and their S3 objects in one call.
+ */
+export async function bulkDelete(
+  user_id: string,
+  sortkeys: string[],
+  uris?: string[]
+): Promise<any> {
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', user_id)
+  url.searchParams.append('scope', 'bulk')
+
+  const body: any = { sortkeys }
+  if (uris && uris.length > 0) body.uris = uris
+
+  const response = await fetchWithRetry(url.toString(), {
+    method: 'DELETE',
+    headers: await getHeaders(),
+    body: JSON.stringify(body),
+  })
+
+  const data = await response.json()
+  return data
 }
 
 export async function GetFromCode(codes: string | string[]) {
-  const url = new URL(`${invoke}/code`);
-  const isArray = Array.isArray(codes);
-  url.searchParams.append('scope', isArray ? 'items' : 'item');
-  url.searchParams.append('codes', JSON.stringify(isArray ? codes : [codes]));
+  const url = new URL(`${invoke}/code`)
+  const isArray = Array.isArray(codes)
+  url.searchParams.append('scope', isArray ? 'items' : 'item')
+  url.searchParams.append('codes', JSON.stringify(isArray ? codes : [codes]))
 
-  const response = await fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: 'GET',
-    headers,
-  });
+    headers: await getHeaders(),
+  })
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+  const data = await response.json()
 
-  const data = await response.json();
-
-  return data;
+  return data
 }
 
 export async function GetAchievement(code: string) {
-  const url = new URL(`${invoke}/achievement`);
-  url.searchParams.append('code', code);
+  const url = new URL(`${invoke}/achievement`)
+  url.searchParams.append('code', code)
 
-  const response = await fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: 'GET',
-    headers,
-  });
+    headers: await getHeaders(),
+  })
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+  const data = await response.json()
 
-  const data = await response.json();
-
-  return data;
+  return data
 }

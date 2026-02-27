@@ -9,6 +9,7 @@ import { ISynergyData, Synergy } from './components/feature/synergy/Synergy'
 import { Deployable, IDeployableData } from './components/feature/deployable/Deployable'
 import { BrewInfo } from './components/brew/BrewController'
 import { ContentPack } from './ContentPack'
+import { DEFAULT_LCP_NAME } from './LcpItemMixin'
 import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect'
 
 interface ICompendiumItemData {
@@ -87,7 +88,7 @@ abstract class CompendiumItem {
       this._flavor_description = data.flavorDescription || ''
       this.Brew = {
         LcpId: '',
-        LcpName: 'Lancer Core Book',
+        LcpName: DEFAULT_LCP_NAME,
         LcpVersion: '',
         Website: '',
         Status: 'OK',
@@ -106,7 +107,7 @@ abstract class CompendiumItem {
         this.ItemData.brew = this.Brew
       }
       this.InLcp = !!lcp
-      this.LcpName = lcp?.Name || 'Lancer Core Book'
+      this.LcpName = lcp?.Name || DEFAULT_LCP_NAME
       this.LcpAuthor = lcp?.Author || 'Massif Press'
       this._baseTags = Tag.Deserialize(data.tags || [], lcp?.Data.tags || [], lcp?.Name || '')
       this.IsExotic = this._baseTags.some(x => x.IsExotic)

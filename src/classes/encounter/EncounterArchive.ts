@@ -1,6 +1,14 @@
 import { v4 as uuid } from 'uuid'
-import { ISaveData, ISaveable, SaveController } from '../components'
-import { CombatantData, Encounter, IEncounterData } from './Encounter'
+import { ItemType } from '@/class'
+import {
+  CloudController,
+  ICloudData,
+  ICloudSyncable,
+  ISaveData,
+  ISaveable,
+  SaveController,
+} from '../components'
+import { Encounter, IEncounterData } from './Encounter'
 import { CombatLogEntry } from '../components/combat/CombatLog'
 import { EncounterInstance } from './EncounterInstance'
 
@@ -16,6 +24,7 @@ interface IEncounterArchiveData {
   history: ArchivedCombatLogs
   report: string
   save: ISaveData
+  cloud: ICloudData
 }
 
 type ArchivedCombatLogs = {
@@ -24,9 +33,9 @@ type ArchivedCombatLogs = {
   telemetry: any
 }[]
 
-class EncounterArchive implements ISaveable {
+class EncounterArchive implements ISaveable, ICloudSyncable {
   public readonly ID: string
-  public readonly ItemType: string = 'EncounterArchive'
+  public readonly ItemType: ItemType = ItemType.EncounterArchive
   public readonly DataType: string = 'savedata'
   public readonly StorageType: string = 'encounter_archives'
   public readonly Name: string = ''
@@ -39,6 +48,7 @@ class EncounterArchive implements ISaveable {
   public readonly AfterActionReport: string = ''
 
   public SaveController: SaveController
+  public CloudController: CloudController
 
   constructor(data: IEncounterArchiveData) {
     this.ID = data.id
@@ -52,6 +62,7 @@ class EncounterArchive implements ISaveable {
     this.History = data.history
 
     this.SaveController = new SaveController(this)
+    this.CloudController = new CloudController(this)
   }
 
   public static FromInstance(
@@ -68,6 +79,11 @@ class EncounterArchive implements ISaveable {
       end: Date.now(),
       round: instance.Round,
       result,
+      save: {
+        created: instance.Created,
+        lastModified: instance.Created,
+        deleteTime: 0,
+      },
       encounter: Encounter.Serialize(instance.Encounter),
       history: instance.Combatants.map(c => ({
         combatantName: c.actor.CombatController.RootActor.CombatController.CombatName,
@@ -77,7 +93,9 @@ class EncounterArchive implements ISaveable {
       report,
     }
 
-    return new EncounterArchive(data as IEncounterArchiveData)
+    const archive = new EncounterArchive(data as IEncounterArchiveData)
+    archive.SaveController.LastModified = Date.now()
+    return archive
   }
 
   public static Serialize(instance: EncounterArchive): IEncounterArchiveData {
@@ -95,6 +113,7 @@ class EncounterArchive implements ISaveable {
     } as IEncounterArchiveData
 
     SaveController.Serialize(instance, data)
+    CloudController.Serialize(instance, data)
 
     return data as IEncounterArchiveData
   }
@@ -111,6 +130,7 @@ class EncounterArchive implements ISaveable {
     const instance = new EncounterArchive(data)
 
     SaveController.Deserialize(instance, data.save)
+    CloudController.Deserialize(instance, data.cloud)
     return instance
   }
 }

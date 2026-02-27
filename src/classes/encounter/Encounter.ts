@@ -19,7 +19,7 @@ import { Npc } from '../npc/Npc'
 import { Unit, UnitData } from '../npc/unit/Unit'
 import { Doodad, DoodadData } from '../npc/doodad/Doodad'
 import { Eidolon, EidolonData } from '../npc/eidolon/Eidolon'
-import { Deployable, Pilot } from '@/class'
+import { Deployable, ItemType, Pilot } from '@/class'
 import { PilotData } from '@/interface'
 import { ICombatant } from '../components/combat/ICombatant'
 import {
@@ -71,7 +71,7 @@ type CombatantSaveData = {
 }
 
 class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
-  public readonly ItemType: string = 'Encounter'
+  public readonly ItemType: ItemType = ItemType.Encounter
   public readonly DataType: string = 'savedata'
   public readonly StorageType: string = 'encounters'
 

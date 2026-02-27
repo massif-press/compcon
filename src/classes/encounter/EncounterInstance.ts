@@ -1,8 +1,15 @@
 import { v4 as uuid } from 'uuid'
-import { ISaveData, ISaveable, SaveController } from '../components'
+import {
+  CloudController,
+  ICloudData,
+  ICloudSyncable,
+  ISaveData,
+  ISaveable,
+  SaveController,
+} from '../components'
 import { CombatantData, Encounter, IEncounterData } from './Encounter'
 import { PilotData } from '@/interface'
-import { Deployable, Pilot } from '@/class'
+import { Deployable, ItemType, Pilot } from '@/class'
 import { Placeholder } from './Placeholder'
 import { DeployableInstance } from '../components/feature/deployable/DeployableInstance'
 
@@ -12,14 +19,15 @@ interface IEncounterInstanceData {
   combatants: any[]
   round: number
   save: ISaveData
+  cloud: ICloudData
   encounter: IEncounterData
   isActive?: boolean
   autosave?: boolean
   simple_tickbars?: boolean
 }
 
-class EncounterInstance implements ISaveable {
-  public readonly ItemType: string = 'EncounterInstance'
+class EncounterInstance implements ISaveable, ICloudSyncable {
+  public readonly ItemType: ItemType = ItemType.EncounterInstance
   public readonly DataType: string = 'savedata'
   public readonly StorageType: string = 'active_encounters'
   public readonly Name: string = 'encounter_instance'
@@ -36,6 +44,7 @@ class EncounterInstance implements ISaveable {
   public IsArchived: boolean = false
 
   public SaveController: SaveController
+  public CloudController: CloudController
 
   public RollHistory: string[] = []
 
@@ -112,6 +121,7 @@ class EncounterInstance implements ISaveable {
     })
 
     this.SaveController = new SaveController(this)
+    this.CloudController = new CloudController(this)
   }
 
   public Deploy(deployable: Deployable, combatant: CombatantData): void {
@@ -225,6 +235,7 @@ class EncounterInstance implements ISaveable {
     } as IEncounterInstanceData
 
     SaveController.Serialize(instance, data)
+    CloudController.Serialize(instance, data)
 
     return data as IEncounterInstanceData
   }
@@ -243,6 +254,7 @@ class EncounterInstance implements ISaveable {
     }
     const instance = new EncounterInstance(data)
     SaveController.Deserialize(instance, data.save)
+    CloudController.Deserialize(instance, data.cloud)
     return instance
   }
 }

@@ -12,13 +12,14 @@ export default [
   {
     files: ['src/**/*.{ts,vue}'],
     rules: {
-      // Phase 1: Start permissive, tighten over time
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
       'vue/multi-word-component-names': 'off',
       'vue/no-v-html': 'warn',
       'vue/require-default-prop': 'warn',
       'vue/require-prop-types': 'warn',
+      'vue/first-attribute-linebreak': 'off',
+      'vue/valid-v-slot': 'off',
     },
   },
   {

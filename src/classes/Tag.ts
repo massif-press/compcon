@@ -3,6 +3,8 @@ import { CompendiumStore } from '@/stores'
 import { ActivationType } from './enums'
 import { IContentPack, ITagData } from '@/interface'
 import logger from '@/user/logger'
+import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
+import { ByTier, replaceVal, resolveTier } from '@/util/tierFormat'
 
 export interface ITagCompendiumData {
   id: string
@@ -12,7 +14,7 @@ export interface ITagCompendiumData {
   hidden?: boolean
 }
 
-class Tag {
+class Tag implements ILcpTracked {
   public readonly ID: string
   public readonly FilterIgnore: boolean
   public readonly IsHidden: boolean
@@ -29,8 +31,8 @@ class Tag {
   public readonly IsSmart: boolean
   public readonly IsHeatCost: boolean
   public readonly IsOverkill: boolean
-  public readonly LcpName: string = ''
-  public readonly InLcp: boolean = false
+  public LcpName: string = ''
+  public InLcp: boolean = false
   public readonly UsageCost: number = 0
   private _name: string
   private _val: number | string
@@ -60,8 +62,7 @@ class Tag {
     if (this.ID === 'tg_full') this.UsageCost = 2
     else if (this.ID === 'tg_quick') this.UsageCost = 1
 
-    this.LcpName = pack?.Name || 'Lancer Core Book'
-    this.InLcp = !!pack
+    applyLcpTracking(this, pack)
 
     if (!this._val && this._name.includes('{VAL}')) {
       this._val = 1
@@ -69,16 +70,7 @@ class Tag {
   }
 
   public get Name(): string {
-    let out = this._name
-    out = out.replace(/{VAL}/g, 'X')
-    const perTier = /(\{.*?\})/gi
-    const matches = out.match(perTier)
-    if (matches) {
-      matches.forEach(m => {
-        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'))
-      })
-    }
-    return out
+    return ByTier(replaceVal(this._name, 'X'))
   }
 
   public get Value(): number | string {
@@ -90,16 +82,7 @@ class Tag {
   }
 
   public get Description(): string {
-    let out = this._description
-    out = out.replace(/{VAL}/g, 'X')
-    const perTier = /(\{.*?\})/gi
-    const matches = out.match(perTier)
-    if (matches) {
-      matches.forEach(m => {
-        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'))
-      })
-    }
-    return out
+    return ByTier(replaceVal(this._description, 'X'))
   }
 
   public GetDescription(addBonus?: number, tier?: number): string {
@@ -130,15 +113,7 @@ class Tag {
       }
     }
 
-    const tierPattern = /\{\d+\/\d+\/\d+\}/
-    if (tier) {
-      const matches = out.match(tierPattern)
-      if (matches) {
-        const split = matches[0].replace('{', '').replace('}', '').split('/')
-        const val = parseInt(split[tier - 1])
-        out = out.replace(tierPattern, val.toString())
-      }
-    }
+    if (tier) out = resolveTier(out, tier)
 
     return out
   }
@@ -166,15 +141,7 @@ class Tag {
       }
     }
 
-    const tierPattern = /\{\d+\/\d+\/\d+\}/
-    if (tier) {
-      const matches = out.match(tierPattern)
-      if (matches) {
-        const split = matches[0].replace('{', '').replace('}', '').split('/')
-        const val = parseInt(split[tier - 1])
-        out = out.replace(tierPattern, val.toString())
-      }
-    }
+    if (tier) out = resolveTier(out, tier)
 
     return out
   }

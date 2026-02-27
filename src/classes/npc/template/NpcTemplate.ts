@@ -1,7 +1,8 @@
 import { CompendiumStore } from '@/stores'
 import { NpcFeature } from '../feature/NpcFeature'
 import * as _ from 'lodash-es'
-import { ContentPack } from '@/class'
+import { ContentPack, ItemType } from '@/class'
+import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 
 interface INpcTemplateData {
   id: string
@@ -22,11 +23,11 @@ interface INpcTemplateData {
   brew?: string
 }
 
-class NpcTemplate {
+class NpcTemplate implements ILcpTracked {
   public readonly Data: INpcTemplateData
 
   public InLcp: boolean = true
-  public readonly ItemType = 'NpcTemplate'
+  public readonly ItemType: ItemType = ItemType.NpcTemplate
   private _id: string
   private _name: string
   private _description: string
@@ -41,7 +42,7 @@ class NpcTemplate {
   public readonly OptionalClassMax: number
   public readonly OptionalClassPerTier: number
   public readonly FreeOptions: boolean
-  public readonly LcpName: string
+  public LcpName: string = ''
 
   public constructor(data: INpcTemplateData, pack?: ContentPack) {
     this.Data = data
@@ -53,7 +54,8 @@ class NpcTemplate {
     this.ForceTag = data.forceTag || ''
     this.ProhibitTemplates = data.prohibitTemplates || []
 
-    this.LcpName = pack?.Name || 'LANCER Core NPCs'
+    applyLcpTracking(this, pack, 'LANCER Core NPCs')
+    this.InLcp = true
 
     this.OptionalMin = data.optionalMin || 0
     this.OptionalMax = data.optionalMax || 0

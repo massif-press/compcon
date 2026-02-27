@@ -1,53 +1,54 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
+import { ItemType } from '@/class'
 
 interface IClockData {
-  id?: string;
-  title?: string;
-  description?: string;
-  resolution?: string;
-  segments?: number;
-  progress?: number;
-  linear?: boolean;
-  gm_only?: boolean;
+  id?: string
+  title?: string
+  description?: string
+  resolution?: string
+  segments?: number
+  progress?: number
+  linear?: boolean
+  gm_only?: boolean
 }
 
 class Clock {
-  public readonly ID: string;
-  public Title: string;
-  public Description: string;
-  public Resolution: string;
-  private segments: number;
-  public Progress: number;
-  public Linear: boolean;
-  public GmOnly: boolean;
-  public ItemType: string = 'Clock';
+  public readonly ID: string
+  public Title: string
+  public Description: string
+  public Resolution: string
+  private segments: number
+  public Progress: number
+  public Linear: boolean
+  public GmOnly: boolean
+  public ItemType: ItemType = ItemType.Clock
 
   public constructor(data?: IClockData) {
-    this.ID = data?.id || uuid();
-    this.segments = data?.segments || 6;
-    this.Progress = data?.progress || 0;
-    this.Title = data?.title || 'New Clock';
-    this.Description = data?.description || '';
-    this.Resolution = data?.resolution || '';
-    this.Linear = data?.linear || false;
-    this.GmOnly = data?.gm_only || false;
+    this.ID = data?.id || uuid()
+    this.segments = data?.segments || 6
+    this.Progress = data?.progress || 0
+    this.Title = data?.title || 'New Clock'
+    this.Description = data?.description || ''
+    this.Resolution = data?.resolution || ''
+    this.Linear = data?.linear || false
+    this.GmOnly = data?.gm_only || false
   }
 
   public get Segments(): number {
-    return this.segments;
+    return this.segments
   }
 
   public set Segments(val: number) {
-    if (isNaN(val)) return;
-    this.segments = val < 0 ? 0 : val;
+    if (isNaN(val)) return
+    this.segments = val < 0 ? 0 : val
   }
 
   public Increment(): void {
-    if (this.Progress < this.Segments) this.Progress++;
+    if (this.Progress < this.Segments) this.Progress++
   }
 
   public Decrement(): void {
-    if (this.Progress > 0) this.Progress--;
+    if (this.Progress > 0) this.Progress--
   }
 
   public static Serialize(c: Clock): IClockData {
@@ -58,13 +59,13 @@ class Clock {
       resolution: c.Resolution,
       segments: c.Segments,
       progress: c.Progress,
-    };
+    }
   }
 
   public static Deserialize(data: IClockData): Clock {
-    return new Clock(data);
+    return new Clock(data)
   }
 }
 
-export { Clock };
-export type { IClockData };
+export { Clock }
+export type { IClockData }

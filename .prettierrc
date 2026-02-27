@@ -11,5 +11,6 @@
   "useTabs": false,
   "endOfLine": "lf",
   "vueIndentScriptAndStyle": true,
-  "htmlWhitespaceSensitivity": "ignore"
+  "htmlWhitespaceSensitivity": "ignore",
+  "singleAttributePerLine": true
 }
