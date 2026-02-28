@@ -165,10 +165,7 @@
             ${pilot.Callsign} (${pilot.Name}, LL${pilot.Level})
           </span>`"
                   cancellable
-                  @confirm="
-                    delete_pilot(close)
-                    close
-                  "
+                  @confirm="delete_pilot(close)"
                   @cancel="close"
                 />
               </template>
