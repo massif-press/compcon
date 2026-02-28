@@ -154,10 +154,7 @@
                 <v-card-text>
                   <cc-confirmation
                     content="This will reset your XP to zero and add a new Bond Power selection. This can only be done during <b>Downtime</b>. Continue?"
-                    @confirm="
-                      resetXpMenu = false
-                      pilot.BondController.LevelUp()
-                    "
+                    @confirm="bondConfirm()"
                   />
                 </v-card-text>
               </v-card>
@@ -321,10 +318,7 @@
                   <v-card-text>
                     <cc-confirmation
                       content="This will reset your Stress to zero and add a new Burden. Continue?"
-                      @confirm="
-                        addBondMenu = false
-                        pilot.BondController.AddNewBurden()
-                      "
+                      @confirm="confirmBurden()"
                     />
                   </v-card-text>
                 </v-card>
@@ -493,6 +487,14 @@
         this.pilot.BondController.Bond = bond
         await this.$forceUpdate()
         this.bondModal = false
+      },
+      bondConfirm() {
+        this.resetXpMenu = false
+        this.pilot.BondController.LevelUp()
+      },
+      confirmBurden() {
+        this.addBondMenu = false
+        this.pilot.BondController.AddNewBurden()
       },
     },
   }

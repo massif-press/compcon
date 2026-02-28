@@ -24,10 +24,7 @@
         item-type="Background"
         :options="options"
         equippable
-        @equip="
-          $emit('select', $event.Name)
-          close()
-        "
+        @equip="setBg($event.Name, close)"
       >
         <template #header>
           <div class="heading h4 text-center text-accent">Select Pilot Background</div>
@@ -63,6 +60,12 @@
     computed: {
       backgrounds(): Background[] {
         return CompendiumStore().Backgrounds
+      },
+    },
+    methods: {
+      setBg(name: string, close: () => void) {
+        this.$emit('select', name)
+        close()
       },
     },
   }

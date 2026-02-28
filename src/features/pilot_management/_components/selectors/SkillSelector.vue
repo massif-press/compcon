@@ -39,10 +39,7 @@
         size="x-small"
         block
         :disabled="!pilot.SkillsController.Skills.length"
-        @click="
-          pilot.SkillsController.ClearSkills()
-          $emit('reset')
-        "
+        @click="resetSkills()"
       >
         Reset
       </cc-button>
@@ -202,6 +199,10 @@
           return
         }
         el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      },
+      resetSkills() {
+        this.pilot.SkillsController.ClearSkills()
+        this.$emit('reset')
       },
     },
   }
