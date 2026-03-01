@@ -4,7 +4,11 @@
 
     <v-row justify="center">
       <v-col>
-        <v-toolbar id="structuredamage" color="red darken-3" dark>
+        <v-toolbar
+          id="structuredamage"
+          color="red darken-3"
+          dark
+        >
           <v-toolbar-title>STRUCTURE DAMAGE</v-toolbar-title>
         </v-toolbar>
         <v-card>
@@ -13,7 +17,10 @@
               <v-col>
                 <span class="heading h3">Roll</span>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">Result</span>
               </v-col>
               <v-col cols="7">
@@ -27,7 +34,10 @@
                 <v-icon large>mdi-minus</v-icon>
                 <v-icon large>mdi-dice-6</v-icon>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">Glancing Blow</span>
               </v-col>
               <v-col cols="7">
@@ -45,7 +55,10 @@
                 <v-icon large>mdi-minus</v-icon>
                 <v-icon large>mdi-dice-4</v-icon>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">System Trauma</span>
               </v-col>
               <v-col cols="7">
@@ -64,7 +77,10 @@
               <v-col>
                 <v-icon large>mdi-dice-1</v-icon>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">Direct Hit</span>
               </v-col>
               <v-col cols="7">
@@ -95,7 +111,10 @@
                 <v-icon large>mdi-dice-1</v-icon>
                 <v-icon large>mdi-dice-1</v-icon>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">Crushing Hit</span>
               </v-col>
               <v-col cols="7">
@@ -110,9 +129,16 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row justify="center" class="mt-4">
+    <v-row
+      justify="center"
+      class="mt-4"
+    >
       <v-col>
-        <v-toolbar id="overheating" color="orange darken-4" dark>
+        <v-toolbar
+          id="overheating"
+          color="orange darken-4"
+          dark
+        >
           <v-toolbar-title>OVERHEATING</v-toolbar-title>
         </v-toolbar>
         <v-card>
@@ -121,7 +147,10 @@
               <v-col>
                 <span class="heading h3">Roll</span>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">Result</span>
               </v-col>
               <v-col cols="7">
@@ -135,7 +164,10 @@
                 <v-icon large>mdi-minus</v-icon>
                 <v-icon large>mdi-dice-6</v-icon>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">Emergency Shunt</span>
               </v-col>
               <v-col cols="7">
@@ -154,7 +186,10 @@
                 <v-icon large>mdi-minus</v-icon>
                 <v-icon large>mdi-dice-4</v-icon>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">Power Plant Destabilize</span>
               </v-col>
               <v-col cols="7">
@@ -171,7 +206,10 @@
               <v-col>
                 <v-icon large>mdi-dice-1</v-icon>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">Meltdown</span>
               </v-col>
               <v-col cols="7">
@@ -196,7 +234,10 @@
                 <v-icon large>mdi-dice-1</v-icon>
                 <v-icon large>mdi-dice-1</v-icon>
               </v-col>
-              <v-col v-if="$vuetify.display.smAndUp" cols="3">
+              <v-col
+                v-if="$vuetify.display.smAndUp"
+                cols="3"
+              >
                 <span class="heading h3">Irreversible Meltdown</span>
               </v-col>
               <v-col cols="7">
@@ -219,9 +260,16 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row justify="center" class="mt-4">
+    <v-row
+      justify="center"
+      class="mt-4"
+    >
       <v-col>
-        <v-toolbar id="downandout" color="yellow darken-4" dark>
+        <v-toolbar
+          id="downandout"
+          color="yellow darken-4"
+          dark
+        >
           <v-toolbar-title>DOWN AND OUT</v-toolbar-title>
         </v-toolbar>
         <v-card>
@@ -283,9 +331,22 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-footer border app class="py-0 bg-primary">
-    <v-tabs density="compact" center-active grow>
-      <v-tab v-for="item in content" v-text="item" @click="scrollTo(item)" />
+  <v-footer
+    v-if="!isModal"
+    border
+    app
+    class="py-0 bg-primary"
+  >
+    <v-tabs
+      density="compact"
+      center-active
+      grow
+    >
+      <v-tab
+        v-for="item in content"
+        @click="scrollTo(item)"
+        v-text="item"
+      />
     </v-tabs>
   </v-footer>
   <v-btn
@@ -294,29 +355,30 @@
     color="primary"
     variant="plain"
     style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
-    @click="scrollTo(content[0])">
+    @click="scrollTo(content[0])"
+  >
     <v-icon size="30">mdi-arrow-up</v-icon>
   </v-btn>
 </template>
 
 <script lang="ts">
-import scrollTo from '@/util/scrollTo';
+  import scrollTo from '@/util/scrollTo'
 
-export default {
-  name: 'damage-tables',
-  props: {
-    isModal: {
-      type: Boolean,
+  export default {
+    name: 'DamageTables',
+    props: {
+      isModal: {
+        type: Boolean,
+      },
     },
-  },
-  data: () => ({
-    content: ['structure damage', 'overheating', 'down and out'],
-  }),
-  methods: {
-    scrollTo(item: any): void {
-      const el = document.getElementById(`${item.replace(/\W/g, '')}`);
-      if (el) scrollTo(el, this.isModal);
+    data: () => ({
+      content: ['structure damage', 'overheating', 'down and out'],
+    }),
+    methods: {
+      scrollTo(item: any): void {
+        const el = document.getElementById(`${item.replace(/\W/g, '')}`)
+        if (el) scrollTo(el, this.isModal)
+      },
     },
-  },
-};
+  }
 </script>

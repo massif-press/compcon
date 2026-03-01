@@ -150,7 +150,7 @@
       v-model="refModal"
       title="Quick Reference"
     >
-      <reference />
+      <reference is-modal />
     </cc-solo-modal>
 
     <v-divider
