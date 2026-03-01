@@ -253,7 +253,6 @@ declare module 'vue' {
     CCShareCodeImporter: typeof import('./ui/components/CCShareCodeImporter.vue')['default']
     CcShortStringEditor: typeof import('./ui/components/CCShortStringEditor.vue')['default']
     CCShortStringEditor: typeof import('./ui/components/CCShortStringEditor.vue')['default']
-    CCSidebar: typeof import('./ui/components/layouts/CCSidebar.vue')['default']
     CCSidebarLayout: typeof import('./ui/components/layouts/CCSidebarLayout.vue')['default']
     CCSitrepDisplay: typeof import('./ui/components/CCSitrepDisplay.vue')['default']
     CCSkillItem: typeof import('./ui/components/items/CCSkillItem.vue')['default']
