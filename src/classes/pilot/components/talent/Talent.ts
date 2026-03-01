@@ -1,85 +1,87 @@
-import { CompendiumStore } from '../../../../stores';
-import { CompendiumItem, ContentPack, Deployable, ItemType } from '../../../../class';
-import { Action, ICompendiumItemData } from '../../../../interface';
-import DOMPurify from 'dompurify';
+import { CompendiumStore } from '../../../../stores'
+import { CompendiumItem, ContentPack, Deployable, ItemType } from '../../../../class'
+import { Action, ICompendiumItemData } from '../../../../interface'
+import DOMPurify from 'dompurify'
 
 interface ITalentRankData extends ICompendiumItemData {
-  exclusive: boolean;
+  exclusive: boolean
 }
 
 interface ITalentData extends ICompendiumItemData {
-  terse: string;
-  ranks: ITalentRankData[];
-  icon_url?: string;
-  svg?: string;
+  terse: string
+  ranks: ITalentRankData[]
+  icon_url?: string
+  svg?: string
 }
 
 class TalentRank extends CompendiumItem {
-  public readonly Exclusive: boolean;
+  public readonly Exclusive: boolean
 
   public constructor(data: ITalentRankData) {
-    super(data);
-    this.Exclusive = data.exclusive;
+    super(data)
+    this.Exclusive = data.exclusive
   }
 }
 
 class Talent extends CompendiumItem {
-  public readonly Terse: string;
-  private _ranks: TalentRank[];
-  private _icon_url: string;
-  private _icon_svg: string;
+  public readonly Terse: string
+  private _ranks: TalentRank[]
+  private _icon_url: string
+  private _icon_svg: string
 
   public constructor(data: any, pack?: ContentPack) {
-    super(data, pack);
-    this.Terse = data.terse || '';
-    this._icon_url = data.icon_url || '';
-    this._icon_svg = data.svg ? DOMPurify.sanitize(data.svg) : '';
-    this._ranks = data.ranks.map((x) => new TalentRank(x));
-    this.ItemType = ItemType.Talent;
+    super(data, pack)
+    this.Terse = data.terse || ''
+    this._icon_url = data.icon_url || ''
+    this._icon_svg = data.svg ? DOMPurify.sanitize(data.svg) : ''
+    this._ranks = data.ranks.map(x => new TalentRank(x))
+    this.ItemType = ItemType.Talent
   }
 
   public get Ranks(): TalentRank[] {
-    return this._ranks;
+    return this._ranks
   }
 
   public get Svg(): string {
-    return this._icon_svg;
+    return this._icon_svg
   }
 
   public get Image(): string {
-    if (this._icon_url) return this._icon_url;
+    if (this._icon_url) return this._icon_url
 
-    return `/talent/${this.Name.toUpperCase()}.svg`;
+    return `/talent/${this.Name.toUpperCase()}.svg`
   }
 
   public get Icon(): string {
-    return 'cc:talent';
+    return 'cc:talent'
   }
 
   public get Color(): string {
-    return 'accent';
+    return 'accent'
   }
 
   public Rank(rank: number): TalentRank {
     try {
-      return this._ranks[rank - 1];
+      return this._ranks[rank - 1]
     } catch (err) {
-      throw new Error(`Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`);
+      throw new Error(`Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`, {
+        cause: err,
+      })
     }
   }
 
   public get AllActions(): Action[] {
-    return this._ranks.flatMap((r) => r.Actions) as Action[];
+    return this._ranks.flatMap(r => r.Actions) as Action[]
   }
 
   public get AllDeployables(): Deployable[] {
-    return this._ranks.flatMap((r) => r.Deployables) as Deployable[];
+    return this._ranks.flatMap(r => r.Deployables) as Deployable[]
   }
 
   public static Deserialize(id: string): Talent {
-    return CompendiumStore().referenceByID('Talents', id);
+    return CompendiumStore().referenceByID('Talents', id)
   }
 }
 
-export { Talent, TalentRank };
-export type { ITalentData };
+export { Talent, TalentRank }
+export type { ITalentData }

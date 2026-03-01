@@ -232,7 +232,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public SortedActiveEffects(sort: string, dir: 'asc' | 'desc'): ActiveEffect[] {
-    let effects = [...this.ActiveEffects]
+    const effects = [...this.ActiveEffects]
     switch (sort) {
       case '':
         return _.orderBy(effects, ['Name'], [dir])
@@ -591,7 +591,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     irreducible = false,
     reliable = 0
   ): { total: number; resist: string[]; condition: string[] } {
-    let out = { total: value, resist: [] as string[], condition: [] as string[] }
+    const out = { total: value, resist: [] as string[], condition: [] as string[] }
 
     if (reliable > 0 && out.total < reliable) {
       out.total = reliable
@@ -652,7 +652,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       type = DamageType.Energy
     }
 
-    let damage = this.CalculateDamage(type, value, ap, irreducible)
+    const damage = this.CalculateDamage(type, value, ap, irreducible)
 
     this.ApplyDamage(type, damage.total)
 
@@ -698,7 +698,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public ApplyHeat(value: number): void {
-    let totalValue = value
+    const totalValue = value
     const target = this.ActiveActor.CombatController
 
     target.StatController.CurrentStats['heatcap'] += totalValue
@@ -835,6 +835,7 @@ class CombatController implements ICounterContainer, IStatContainer {
         this.log(
           `Stabilized: Cleared negative status: ${action === 'clear self' ? 'self' : 'ally'}`
         )
+        break
       default:
         break
     }
@@ -860,7 +861,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   private _setTimedFromActiveEffect(ae: ActiveEffect): void {
-    let apply = {} as ITimedEffectAction
+    const apply = {} as ITimedEffectAction
     if (ae.AddResist.length)
       apply.resist = ae.AddResist.map(x => ({ type: x.Resist, value: x.ResistType }))
     if (ae.AddSpecial.length)

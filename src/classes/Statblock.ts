@@ -1,5 +1,3 @@
-import { Bond } from '@/classes/pilot/components/bond/Bond'
-/* eslint-disable @typescript-eslint/indent */
 import { Pilot, Mech, PilotWeapon, MechWeapon } from '../class'
 import { Unit } from './npc/unit/Unit'
 

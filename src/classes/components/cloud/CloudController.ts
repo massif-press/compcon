@@ -124,10 +124,6 @@ class CloudController {
     this.GenerateMetadata()
   }
 
-  /**
-   * Compute a fast content hash of serialized data for delta-only sync.
-   * Uses length + first/last 100 chars as a cheap fingerprint.
-   */
   public static computeContentHash(data: any): string {
     const str = typeof data === 'string' ? data : JSON.stringify(data)
     const len = str.length
@@ -227,11 +223,6 @@ class CloudController {
     return doUpload()
   }
 
-  /**
-   * Batch sync: uploads up to 25 items in a single batch DynamoDB call,
-   * then uploads S3 data in parallel (concurrency cap of 5).
-   * Items whose content hash hasn't changed are skipped.
-   */
   public static async BatchUpdateCloud(items: ICloudSyncable[]): Promise<any[]> {
     const UPLOAD_CONCURRENCY = 5
     const BATCH_SIZE = 25

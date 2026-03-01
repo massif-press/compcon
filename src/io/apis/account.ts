@@ -10,10 +10,6 @@ const baseHeaders: Record<string, string> = {
   'Access-Control-Request-Headers': 'Content-Type,x-api-key',
 }
 
-/**
- * Returns request headers including the Cognito JWT Authorization header.
- * The backend expects the raw idToken (no "Bearer" prefix).
- */
 async function getHeaders(): Promise<Record<string, string>> {
   try {
     const session = await fetchAuthSession()
@@ -124,11 +120,6 @@ export const getUserData = async (id: string): Promise<any> => {
   return data
 }
 
-/**
- * Delta sync: returns only items changed since `since` timestamp.
- * Response shape: { items: [...], serverTime: number }
- * When since=0, falls through to scope=all behavior.
- */
 export async function getUserDataChanged(
   id: string,
   since: number
@@ -177,10 +168,6 @@ export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
   return data
 }
 
-/**
- * Batch upsert up to 25 items in a single DynamoDB BatchWriteItem call.
- * Returns presigned S3 URLs for all items.
- */
 export async function batchUpsert(items: any[]): Promise<any> {
   const url = new URL(`${invoke}/user`)
   url.searchParams.append('user_id', UserStore().Cognito.userId)
@@ -196,10 +183,6 @@ export async function batchUpsert(items: any[]): Promise<any> {
   return data
 }
 
-/**
- * Partial update using DynamoDB UpdateExpression (SET).
- * Only the fields you send are modified; sortkey is required.
- */
 export async function patchItem(sortkey: string, fields: Record<string, any>): Promise<any> {
   const url = new URL(`${invoke}/user`)
   url.searchParams.append('user_id', UserStore().Cognito.userId)
@@ -344,9 +327,6 @@ export async function cloudDelete(user_id: string, sortkey: string, uri?: string
   return response
 }
 
-/**
- * Bulk delete up to 25 DynamoDB items and their S3 objects in one call.
- */
 export async function bulkDelete(
   user_id: string,
   sortkeys: string[],
