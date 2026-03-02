@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-hover #default="{ isHovering, props }">
-      <div class="top-element" v-bind="props">
-        <v-textarea
-          :model-value="modelValue"
+      <div class="top-element"
+        v-bind="props">
+        <v-textarea :model-value="modelValue"
           :color="color"
           :base-color="color"
           :variant="<any>variant"
@@ -24,8 +24,7 @@
           @update:model-value="$emit('update:model-value', $event)">
           <template #prepend>
             <div v-if="label">
-              <div
-                class="text-cc-overline"
+              <div class="text-cc-overline"
                 style="
                   position: absolute;
                   top: 2px;
@@ -39,18 +38,18 @@
               </div>
             </div>
 
-            <div
-              :class="`prepend bg-${color} ${isFocused && 'color-rotate'}  pt-1`"
+            <div :class="`prepend bg-${color} ${isFocused && 'color-rotate'}  pt-1`"
               :style="`min-width: ${icon ? '30' : '16'}px`">
-              <v-icon v-if="icon" :icon="icon" />
+              <v-icon v-if="icon"
+                :icon="icon" />
             </div>
           </template>
-          <template v-if="prependInnerIcon" #prepend-inner>
+          <template v-if="prependInnerIcon"
+            #prepend-inner>
             <v-icon :icon="prependInnerIcon" />
           </template>
           <template #append>
-            <div
-              :class="`bg-${color} ${(isHovering || isFocused) && 'color-rotate'}`"
+            <div :class="`bg-${color} ${(isHovering || isFocused) && 'color-rotate'}`"
               style="
                 transition: filter 0.2s ease-in-out;
                 width: 3px;
@@ -59,25 +58,28 @@
                 margin-left: 4px;
                 z-index: 1;
               " />
-            <v-tooltip v-if="tooltip" location="top" max-width="300px">
+            <v-tooltip v-if="tooltip"
+              location="top"
+              max-width="300px">
               <template v-slot:activator="{ props }">
-                <v-icon
-                  v-bind="props"
+                <v-icon v-bind="props"
                   class="fade-select mx-1"
                   :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
               </template>
               {{ tooltip }}
             </v-tooltip>
           </template>
-          <template v-if="appendInnerIcon" #append-inner>
+          <template v-if="appendInnerIcon"
+            #append-inner>
             <v-icon :icon="appendInnerIcon" />
           </template>
         </v-textarea>
-        <v-menu v-if="$slots.options" offset-y>
+        <v-menu v-if="$slots.options"
+          offset-y>
           <template v-slot:activator="{ props }">
-            <div :class="`bg-${color}`" style="width: 25px; height: 100%" />
-            <v-btn
-              block
+            <div :class="`bg-${color}`"
+              style="width: 25px; height: 100%" />
+            <v-btn block
               :variant="variant === 'default' ? 'tonal' : (variant as any)"
               class="fade-select mt-1"
               style="container-type: inline-size; text-transform: uppercase"
@@ -87,14 +89,16 @@
               v-bind="props">
               <span style="font-size: 2cqw; padding-top: 2px">
                 {{ optionsText || 'Options' }}
-                <v-icon v-if="optionsIcon" :icon="optionsIcon" />
+                <v-icon v-if="optionsIcon"
+                  :icon="optionsIcon" />
               </span>
             </v-btn>
           </template>
           <slot name="options" />
         </v-menu>
         <v-slide-y-transition>
-          <div v-if="details" class="text-right text-caption">
+          <div v-if="details"
+            class="text-right text-caption">
             {{ details }}
           </div>
         </v-slide-y-transition>
@@ -135,19 +139,19 @@ export default {
 </script>
 
 <style scoped>
-.top-element >>> .v-input--horizontal .v-input__prepend {
+.top-element :deep(.v-input--horizontal .v-input__prepend) {
   margin-inline-end: 0px !important;
 }
 
-.top-element >>> .v-input--horizontal .v-input__append {
+.top-element :deep(.v-input--horizontal .v-input__append) {
   margin-inline-start: 0px !important;
 }
 
-.top-element >>> .v-field {
+.top-element :deep(.v-field) {
   transition: all 0.1s ease-in-out;
 }
 
-.top-element >>> .v-field__input {
+.top-element :deep(.v-field__input) {
   padding-top: 14px !important;
 }
 

@@ -147,20 +147,20 @@ export default {
 </script>
 
 <style scoped>
-.top-element>>>.v-input--horizontal .v-input__prepend {
+.top-element :deep(.v-input--horizontal .v-input__prepend) {
   margin-inline-end: 0px !important;
 }
 
-.top-element>>>.v-input--horizontal .v-input__append {
+.top-element :deep(.v-input--horizontal .v-input__append) {
   margin-inline-start: 0px !important;
 }
 
-.top-element>>>.v-field__input {
+.top-element :deep(.v-field__input) {
   min-height: auto !important;
   height: 32px;
 }
 
-.top-element>>>.v-field {
+.top-element :deep(.v-field) {
   transition: all 0.1s ease-in-out;
 }
 

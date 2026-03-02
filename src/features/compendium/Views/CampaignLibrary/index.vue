@@ -1,16 +1,16 @@
 <template>
   <v-container fluid>
-    <div
-      v-if="!mobile"
+    <div v-if="!mobile"
       class="font-weight-light text-center my-n4"
       style="letter-spacing: 2vw !important; font-size: 3.6vw !important">
       CAMPAIGN LIBRARY
     </div>
-    <v-row density="compact" justify="center">
-      <v-col lg="8" xs="12">
+    <v-row density="compact"
+      justify="center">
+      <v-col lg="8"
+        xs="12">
         <div class="top-element">
-          <v-text-field
-            ref="input"
+          <v-text-field ref="input"
             v-model="search"
             class="search-field"
             tile
@@ -21,16 +21,16 @@
             placeholder="Search the Campaign Library"
             @update:focused="isFocused = $event">
             <template #prepend>
-              <div
-                class="prepend bg-panel"
+              <div class="prepend bg-panel"
                 :class="isFocused && 'color-rotate'"
                 style="min-width: 42px">
-                <v-icon icon="mdi-magnify" size="34" class="mt-1 ml-3 mr-2" />
+                <v-icon icon="mdi-magnify"
+                  size="34"
+                  class="mt-1 ml-3 mr-2" />
               </div>
             </template>
             <template #append>
-              <div
-                :class="`bg-panel ${isFocused && 'color-rotate'}`"
+              <div :class="`bg-panel ${isFocused && 'color-rotate'}`"
                 style="
                   transition: filter 0.2s ease-in-out;
                   width: 3px;
@@ -68,19 +68,19 @@ export default {
 </script>
 
 <style scoped>
-.top-element >>> .v-input--horizontal .v-input__prepend {
+.top-element :deep(.v-input--horizontal .v-input__prepend) {
   margin-inline-end: 0px !important;
 }
 
-.top-element >>> .v-input--horizontal .v-input__append {
+.top-element :deep(.v-input--horizontal .v-input__append) {
   margin-inline-start: 0px !important;
 }
 
-.top-element >>> .v-field__input {
+.top-element :deep(.v-field__input) {
   min-height: auto !important;
 }
 
-.top-element >>> .v-field {
+.top-element :deep(.v-field) {
   transition: all 0.1s ease-in-out;
 }
 

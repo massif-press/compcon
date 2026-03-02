@@ -177,19 +177,19 @@ export default {
 </script>
 
 <style scoped>
-.top-element>>>.v-field__input {
+.top-element :deep(.v-field__input) {
   padding-left: 4px !important;
 }
 
-.top-element>>>.v-input--horizontal .v-input__prepend {
+.top-element :deep(.v-input--horizontal .v-input__prepend) {
   margin-inline-end: 0px !important;
 }
 
-.top-element>>>.v-input--horizontal .v-input__append {
+.top-element :deep(.v-input--horizontal .v-input__append) {
   margin-inline-start: 0px !important;
 }
 
-.top-element>>>.v-field__input {
+.top-element :deep(.v-field__input) {
   height: auto !important;
   min-height: 30px;
 }
