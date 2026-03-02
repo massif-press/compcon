@@ -32,3 +32,4 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*src/aws-exports.ts
 src/aws-exports.ts
+aws-exports.ts
