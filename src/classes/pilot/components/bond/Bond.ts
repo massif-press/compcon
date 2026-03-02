@@ -49,6 +49,9 @@ class Bond implements ILcpTracked {
     this.MinorIdeals = data.minor_ideals
     this.Questions = data.questions
     this._powers = data.powers
+    this._powers.forEach(power => {
+      power.origin = this.ID
+    })
     applyLcpTracking(this, pack)
     if (data.brew) {
       this.Brew = data.brew
