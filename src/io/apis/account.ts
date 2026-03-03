@@ -102,6 +102,10 @@ export const getUser = async (id: string): Promise<any> => {
 
   const data = await response.json()
 
+  if (data?.error === 'Unauthorized') {
+    throw new UnauthorizedError(data.message)
+  }
+
   return data
 }
 
@@ -221,6 +225,13 @@ export class PresignExpiredError extends Error {
   constructor() {
     super('Presigned URL expired (403)')
     this.name = 'PresignExpiredError'
+  }
+}
+
+export class UnauthorizedError extends Error {
+  constructor(message?: string) {
+    super(message || 'Valid authentication token required')
+    this.name = 'UnauthorizedError'
   }
 }
 

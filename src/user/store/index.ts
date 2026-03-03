@@ -11,7 +11,7 @@ import {
 } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { Encounter } from '@/classes/encounter/Encounter'
-import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth'
+import { getCurrentUser, fetchAuthSession, signOut } from 'aws-amplify/auth'
 import {
   getUser,
   updateUser,
@@ -24,6 +24,7 @@ import {
   downloadFromS3,
   getFromPresignDirect,
   VersionConflictError,
+  UnauthorizedError,
 } from '@/io/apis/account'
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
 import { expandFilterTypes, normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
@@ -316,7 +317,22 @@ export const UserStore = defineStore('cloud', {
       await this.setMetadataFromDynamo()
     },
     async getUserMetadata(): Promise<void> {
-      const data = await getUser(this.Cognito.userId)
+      let data: any
+      try {
+        data = await getUser(this.Cognito.userId)
+      } catch (e) {
+        if (e instanceof UnauthorizedError) {
+          logger.warn('Unauthorized response from server — signing out')
+          try {
+            await signOut()
+          } catch (_) {
+            // ignore signOut errors
+          }
+          this.signOut()
+          throw e
+        }
+        throw e
+      }
       this.UserMetadata = new UserMetadata(data)
       if (this.UserMetadata.UserSettingData) {
         if (
