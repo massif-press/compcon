@@ -375,7 +375,7 @@ class UserProfile {
     profile.latest_change = data.latest_change || Date.now()
     profile.LcpSubscriptions = data.lcp_subscriptions || []
     profile.LcpConfigs = data.lcp_configs || []
-    profile._errorReporting = data.error_reporting ?? true
+    profile._errorReporting = data.error_reporting ?? false
     profile._enhancedReporting = data.enhanced_reporting ?? false
     return profile
   }
