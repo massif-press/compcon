@@ -43,7 +43,6 @@ declare module 'vue' {
     _deployableInfoPanel: typeof import('./ui/components/items/features/deployables/_deployableInfoPanel.vue')['default']
     _deployableInfoPopup: typeof import('./ui/components/items/features/deployables/_deployableInfoPopup.vue')['default']
     _DowntimeActionCard: typeof import('./ui/components/cards/items/_DowntimeActionCard.vue')['default']
-    _EditButton: typeof import('./ui/components/subcomponents/_EditButton.vue')['default']
     _EidolonLayerCard: typeof import('./ui/components/cards/items/_EidolonLayerCard.vue')['default']
     _EngWeaponSettings: typeof import('./ui/components/panels/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue')['default']
     _EnvironmentCard: typeof import('./ui/components/cards/items/_EnvironmentCard.vue')['default']

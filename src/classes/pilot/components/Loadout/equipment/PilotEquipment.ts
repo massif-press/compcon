@@ -37,7 +37,6 @@ abstract class PilotEquipment extends CompendiumItem {
     this._cascading = false
     this._loaded = true
     this._custom_damage_type = null
-    // todo: effectobject constructor
     this.Effect = data?.effect
       ? typeof data.effect === 'string'
         ? data.effect

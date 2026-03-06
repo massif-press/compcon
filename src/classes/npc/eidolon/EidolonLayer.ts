@@ -121,7 +121,6 @@ class EidolonLayer implements ILcpTracked {
     return fmt
   }
 
-  //TODO: passthrough for datatable until bug gets fixed
   public get ShardCount(): string {
     return this.Shards?.CountString || '0'
   }

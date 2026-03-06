@@ -66,7 +66,6 @@ class ActiveEffectEvent {
       this.Save = effect.Damage[0].Save?.Stat
     }
 
-    // TODO: associate bonus damage with item damage data
     if (effect.BonusDamage && this.DamageEvents[0] && this.DamageEvents[0].BonusDamageEvent) {
       this.DamageEvents[0].BonusDamageEvent.DamageRollString = String(effect.BonusDamage.Value)
     }

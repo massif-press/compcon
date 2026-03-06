@@ -2,8 +2,6 @@ import { Mech, MechWeapon, RangeType } from '@/class'
 import { Bonus } from './components/feature/bonus/Bonus'
 import { FeatureController } from './components/feature/FeatureController'
 
-//TODO: getRange(mech?: Mech, mount?: Mount) to collect all relevant bonuses
-
 interface IRangeData {
   type: RangeType
   val: number | string

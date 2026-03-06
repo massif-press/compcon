@@ -6,8 +6,7 @@
           {{ l.name }}
         </v-expansion-panel-title>
         <v-expansion-panel-text v-if="l.type === 'string'">
-          <v-card
-            v-for="s in l.data"
+          <v-card v-for="s in l.data"
             variant="outlined"
             style="border-color: rgb(var(--v-theme-subtle))"
             class="pa-3 ma-4"
@@ -29,7 +28,6 @@ export default {
       for (const t in lists) {
         if (lists.hasOwnProperty(t) && lists[t].length > 0)
           out.push({
-            // TODO: remove this hack
             name: t === 'quirks' ? 'Clone Quirks' : t.replace(/_/g, ' '),
             data: lists[t],
             type: typeof lists[t][0],

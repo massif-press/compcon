@@ -1,8 +1,8 @@
 <template>
   <v-row class="my-1">
     <v-col>
-      <v-select label="Image Type"
-        v-model="selectedTags"
+      <v-select v-model="selectedTags"
+        label="Image Type"
         hide-details
         density="compact"
         variant="outlined"
@@ -78,7 +78,7 @@ import * as _ from 'lodash-es';
 import artistMap from '@/assets/artistmap.json';
 
 export default {
-  name: 'library-image-archive',
+  name: 'LibraryImageArchive',
   props: {
     item: {
       type: Object,
@@ -92,6 +92,7 @@ export default {
       type: Boolean,
     },
   },
+  emits: ['set-staged'],
   data: () => ({
     currentUserPage: 1,
     currentArtistPage: 1,
@@ -104,10 +105,6 @@ export default {
     imageUrl: '',
     selectedTags: [] as string[],
   }),
-  emits: ['set-staged'],
-  async created() {
-    this.selectedTags = [this.type];
-  },
   computed: {
     displayedUserImages() {
       const startIndex = (this.currentUserPage - 1) * this.itemsPerPage;
@@ -132,7 +129,6 @@ export default {
     },
     isAuthed() {
       return false;
-      // TODO
       // return getModule(UserStore, this.$store).IsLoggedIn;
     },
     isOverCapacity() {
@@ -159,7 +155,7 @@ export default {
       return _.uniq([...artistMap.flatMap((x) => Object.keys(x.images))]);
     },
     artistImages() {
-      let out = [] as any[];
+      const out = [] as any[];
 
       artistMap.forEach((artist) => {
         this.selectedTags.forEach((t) => {
@@ -181,6 +177,9 @@ export default {
     selectedImageUrl() {
       return this.selectedImage ? this.selectedImage.url : '';
     },
+  },
+  async created() {
+    this.selectedTags = [this.type];
   },
   methods: {
     isSelected(url) {

@@ -21,7 +21,6 @@ class ActionSummary {
   }
 
   public Summarize(actorId: string): string {
-    // TODO: why is this getting polluted?
     let d = (this.data as any).data || this.data
 
     if (d.initiatorID === actorId) return this.initiatorSummary(d)

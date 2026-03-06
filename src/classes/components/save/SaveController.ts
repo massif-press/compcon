@@ -1,5 +1,3 @@
-//TODO: fix dispatches
-
 import { ISaveable } from './ISaveable'
 import { SetItem } from '@/io/Storage'
 import * as _ from 'lodash-es'

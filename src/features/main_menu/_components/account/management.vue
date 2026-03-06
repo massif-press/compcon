@@ -30,9 +30,9 @@
             <v-col>
               <v-btn block
                 color="accent"
-                @click=""
                 :loading="loading"
-                disabled>
+                disabled
+                @click="">
                 Migrate v2 Account
               </v-btn>
             </v-col>
@@ -272,8 +272,8 @@
     <cc-button block
       color="secondary"
       :loading="loading"
-      @click="ccSignOut"
-      class="my-12">
+      class="my-12"
+      @click="ccSignOut">
       Sign Out
       <template #info>
         <v-icon icon="mdi-logout" />
@@ -285,10 +285,10 @@
         max-width="50vw"
         shrink>
         <template #activator="{ open }">
-          <cc-button @click="open"
-            variant="tonal"
+          <cc-button variant="tonal"
             color="error"
-            prepend-icon="mdi-skull">
+            prepend-icon="mdi-skull"
+            @click="open">
             Delete Cloud Account
           </cc-button>
         </template>
@@ -317,8 +317,9 @@ import CloudNotificationList from '@/features/nav/_components/CloudNotificationL
 import logger from '@/user/logger';
 
 export default {
-  name: 'account-management',
+  name: 'AccountManagement',
   components: { DeleteAccount, PatreonCard, ItchCard, CloudNotificationList },
+  emits: ['set-state'],
   data: () => ({
     loading: false,
     showAccountMigration: true,
@@ -327,7 +328,7 @@ export default {
     showError: false,
     error: '',
     iid: '',
-    username: 'todo',
+    username: '',
     oldPass: '',
     showOld: false,
     newPass: '',
@@ -341,12 +342,6 @@ export default {
     },
     authedUser: null,
   }),
-  emits: ['set-state'],
-  created() {
-    if (UserStore().UserMetadata.UserMigrated) this.showAccountMigration = false;
-    const buttonDismissed = localStorage.getItem('dismissedMigration');
-    if (buttonDismissed) this.showAccountMigration = false;
-  },
 
   computed: {
     cognito() {
@@ -369,6 +364,11 @@ export default {
     mobile() {
       return this.$vuetify.display.mdAndDown;
     },
+  },
+  created() {
+    if (UserStore().UserMetadata.UserMigrated) this.showAccountMigration = false;
+    const buttonDismissed = localStorage.getItem('dismissedMigration');
+    if (buttonDismissed) this.showAccountMigration = false;
   },
   methods: {
     setDismissMigration() {

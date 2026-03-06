@@ -1,6 +1,6 @@
-export const register = (Quill) => {
+export const register = Quill => {
   // Register toolbar button inside the theme
-  const icons = Quill.import('ui/icons');
+  const icons = Quill.import('ui/icons')
   icons.horusText = `<svg  xmlns="http://www.w3.org/2000/svg" viewBox="-11.5 780.5 24 24" fill="#7f7f7f" >
 <path d="M10.324,786.327c-2.063-0.548-4.024-1.431-5.804-2.615l-0.211-0.141c-0.4-0.267-0.822-0.487-1.258-0.66
   c-0.196-0.079-0.39,0.127-0.298,0.317c0.176,0.367,0.265,0.785,0.238,1.226c-0.074,1.238-1.074,2.248-2.314,2.333
@@ -11,17 +11,17 @@ export const register = (Quill) => {
   c1.471-0.687,3.471-1.602,4.3-1.891C10.562,786.699,10.549,786.387,10.324,786.327z"/>
 <path d="M-0.678,783.97c0,0.65,0.527,1.177,1.178,1.177s1.179-0.526,1.179-1.177c0-0.332-0.139-0.632-0.361-0.846
   c-0.212-0.204-0.5-0.33-0.817-0.33c-0.318,0-0.606,0.126-0.818,0.33C-0.54,783.338-0.678,783.638-0.678,783.97z"/>
-</svg>`;
+</svg>`
 
-  const Theme = Quill.import('themes/snow');
+  const Theme = Quill.import('themes/snow')
   Theme.DEFAULTS.modules.toolbar.handlers['horusText'] = function () {
-    const range = this.quill.getSelection();
+    const range = this.quill.getSelection()
     if (range) {
-      const current = this.quill.getFormat(range);
-      this.quill.format('horusText', !current.horusText);
+      const current = this.quill.getFormat(range)
+      this.quill.format('horusText', !current.horusText)
     }
-  };
-};
+  }
+}
 
 export const options = {
   modules: {
@@ -39,10 +39,10 @@ export const options = {
       ],
       handlers: {
         horusText: function () {
-          const range = this.quill.getSelection();
+          const range = this.quill.getSelection()
           if (range) {
-            const format = this.quill.getFormat(range);
-            this.quill.format('horusText', !format.horusText);
+            const format = this.quill.getFormat(range)
+            this.quill.format('horusText', !format.horusText)
           }
         },
       },
@@ -62,4 +62,4 @@ export const options = {
     'horusText',
   ],
   theme: 'snow',
-};
+}

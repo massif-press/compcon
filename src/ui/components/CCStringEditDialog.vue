@@ -1,8 +1,8 @@
 <template>
-  <v-dialog v-model="dialog" :width="mobile ? '100vw' : '50vw'">
+  <v-dialog v-model="dialog"
+    :width="mobile ? '100vw' : '50vw'">
     <v-card tile>
-      <component
-        :is="multiline ? 'v-textarea' : 'v-text-field'"
+      <component :is="multiline ? 'v-textarea' : 'v-text-field'"
         v-model="newString"
         :label="label"
         :placeholder="placeholder"
@@ -15,23 +15,30 @@
         @keyup.enter="confirm()" />
       <v-divider />
       <v-card-actions>
-        <v-btn size="small" variant="text" @click="dialog = false">Cancel</v-btn>
+        <v-btn size="small"
+          variant="text"
+          @click="dialog = false">Cancel</v-btn>
         <v-spacer />
-        <v-btn v-if="!number" size="small" variant="text" color="primary" @click="reset()">
+        <v-btn v-if="!number"
+          size="small"
+          variant="text"
+          color="primary"
+          @click="reset()">
           Reset
         </v-btn>
-        <v-btn size="small" variant="text" color="success darken-1" @click="confirm()">Save</v-btn>
+        <v-btn size="small"
+          variant="text"
+          color="success darken-1"
+          @click="confirm()">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
-import EditButton from './subcomponents/_EditButton.vue';
 
 export default {
   name: 'CCStringEditDialog',
-  components: { EditButton },
   props: {
     label: {
       type: String,

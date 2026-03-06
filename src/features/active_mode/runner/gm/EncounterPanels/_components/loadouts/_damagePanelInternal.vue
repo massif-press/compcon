@@ -68,22 +68,22 @@
     <v-col style="max-width: 300px">
       <div class="text-cc-overline text-disabled">Defender Status</div>
       <v-divider class="mb-2" />
-      <v-card flat
+      <v-card v-if="controller.Statuses.some((x) => x.status.ID === 'exposed')"
+        flat
         tile
         class="py-1 text-center"
-        color="damage--burn"
-        v-if="controller.Statuses.some((x) => x.status.ID === 'exposed')">
+        color="damage--burn">
         <v-icon icon="cc:status_exposed"
           start
           class="mt-n1" />
         EXPOSED
       </v-card>
-      <v-card flat
+      <v-card v-else
+        flat
         tile
         class="py-1 text-center text-cc-overline"
         style="opacity: 0.75"
-        color="panel"
-        v-else>
+        color="panel">
         NOMINAL
       </v-card>
 
@@ -132,15 +132,15 @@
           </v-col>
           <v-col class="text-right"
             cols="3">
-            <v-text-field type="number"
+            <v-text-field v-model="baseIncomingDamage"
+              type="number"
               min="0"
               max="100"
               hide-details
               density="compact"
               variant="outlined"
               tile
-              class="text-right mt-2"
-              v-model="baseIncomingDamage" />
+              class="text-right mt-2" />
           </v-col>
         </v-row>
         <v-row v-if="controller.Statuses.some((x) => x.status.ID === 'exposed')"
@@ -151,15 +151,15 @@
           <v-col cols="1"><v-icon icon="mdi-plus" /></v-col>
           <v-col cols="3"
             class="text-right">
-            <v-text-field type="number"
+            <v-text-field v-model="exposedDamageAdd"
+              type="number"
               min="0"
               max="100"
               hide-details
               density="compact"
               variant="outlined"
               tile
-              class="text-right"
-              v-model="exposedDamageAdd" />
+              class="text-right" />
           </v-col>
         </v-row>
         <v-row dense
@@ -175,15 +175,15 @@
           <v-col cols="1"><v-icon icon="mdi-minus" /></v-col>
           <v-col cols="3"
             class="text-right">
-            <v-text-field type="number"
+            <v-text-field v-model="defenderArmorValue"
+              type="number"
               min="0"
               max="100"
               hide-details
               density="compact"
               variant="outlined"
               tile
-              class="text-right"
-              v-model="defenderArmorValue" />
+              class="text-right" />
           </v-col>
         </v-row>
         <v-row dense
@@ -193,15 +193,15 @@
           <v-col cols="1"><v-icon icon="mdi-minus" /></v-col>
           <v-col cols="3"
             class="text-right">
-            <v-text-field type="number"
+            <v-text-field v-model="defenderResistanceValue"
+              type="number"
               min="0"
               max="100"
               hide-details
               density="compact"
               variant="outlined"
               tile
-              class="text-right"
-              v-model="defenderResistanceValue" />
+              class="text-right" />
           </v-col>
         </v-row>
         <v-divider class="my-1" />
@@ -212,15 +212,15 @@
           <v-col cols="1"><v-icon icon="mdi-equal" /></v-col>
           <v-col cols="3"
             class="text-right">
-            <v-text-field type="number"
+            <v-text-field v-model="totalDamage"
+              type="number"
               min="0"
               max="100"
               hide-details
               density="compact"
               variant="outlined"
               tile
-              class="text-right"
-              v-model="totalDamage" />
+              class="text-right" />
           </v-col>
         </v-row>
 
@@ -310,6 +310,27 @@ export default {
       { ID: 6, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
     ],
   }),
+  computed: {
+    statuses() {
+      return _.orderBy(CompendiumStore().Statuses, 'StatusType');
+    },
+    applicableStatuses() {
+      const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
+      return this.statuses.filter((s) => !exclude.includes(s.ID));
+    },
+    defenderDamageResist() {
+      return;
+    },
+    damageSources() {
+      return this.encounter.Combatants;
+    },
+    damageSourceFeatures() {
+      if (!this.damageSource) return [];
+      const features = this.damageSource.actor.NpcFeatureController?.Features;
+      features.push({ Name: 'Other' });
+      return features;
+    },
+  },
   watch: {
     incomingDamageValue(newValue) {
       this.baseIncomingDamage = newValue;
@@ -333,28 +354,6 @@ export default {
     },
     damageSourceFeature() {
       this.setDamageOrigin();
-    },
-  },
-  computed: {
-    statuses() {
-      return _.orderBy(CompendiumStore().Statuses, 'StatusType');
-    },
-    applicableStatuses() {
-      const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
-      return this.statuses.filter((s) => !exclude.includes(s.ID));
-    },
-    defenderDamageResist() {
-      return;
-    },
-    damageSources() {
-      return this.encounter.Combatants;
-    },
-    damageSourceFeatures() {
-      if (!this.damageSource) return [];
-      let features = this.damageSource.actor.NpcFeatureController?.Features;
-      // TODO: v3 data to furnish potential damage values and synergy text
-      features.push({ Name: 'Other' });
-      return features;
     },
   },
   methods: {

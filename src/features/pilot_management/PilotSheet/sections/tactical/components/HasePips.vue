@@ -4,14 +4,12 @@
   <v-tooltip :text="tooltip()">
     <template #activator="{ props }">
       <span v-bind="props">
-        <v-icon
-          v-if="filled"
+        <v-icon v-if="filled"
           v-for="n in filled"
           color="secondary"
           size="large"
           icon="mdi-hexagon" />
-        <v-icon
-          v-if="empty"
+        <v-icon v-if="empty"
           v-for="n in empty"
           color="secondary"
           size="large"
@@ -43,7 +41,6 @@ export default {
     },
   },
   methods: {
-    //TODO: move into rules util class
     tooltip(): string {
       switch (this.title) {
         case 'hull':
@@ -55,13 +52,11 @@ export default {
             this.skillPoints / 2
           )}</b>`;
         case 'systems':
-          return `E-DEFENSE <b>+${this.skillPoints}</b><br>TECH ATTACK <b>+${
-            this.skillPoints
-          }</b><br>SP <b>+${Math.floor(this.skillPoints / 2)}</b>`;
+          return `E-DEFENSE <b>+${this.skillPoints}</b><br>TECH ATTACK <b>+${this.skillPoints
+            }</b><br>SP <b>+${Math.floor(this.skillPoints / 2)}</b>`;
         case 'engineering':
-          return `HEAT CAPACITY <b>+${
-            this.skillPoints
-          }</b><br>LIMITED SYSTEMS BONUS <b>+${Math.floor(this.skillPoints / 2)}</b>`;
+          return `HEAT CAPACITY <b>+${this.skillPoints
+            }</b><br>LIMITED SYSTEMS BONUS <b>+${Math.floor(this.skillPoints / 2)}</b>`;
         default:
           return '';
       }

@@ -60,9 +60,7 @@ class Placeholder {
     }
   }
 
-  public SetStats(): void {
-    // TODO
-  }
+  public SetStats(): void {}
 
   public get StatController(): any {
     return this.CombatController.StatController

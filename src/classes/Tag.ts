@@ -225,7 +225,6 @@ class Tag implements ILcpTracked {
     return 'mdi-tag-outline'
   }
 
-  // TODO: establish in data
   public get IsCombatTag(): boolean {
     const nonCombatRelevant = [
       'tg_quick',

@@ -207,7 +207,6 @@ export default {
       return h;
     },
     isEngineerWeapon() {
-      // TODO: generalize this
       return this.item && this.item.ID.includes('mw_prototype_');
     },
 

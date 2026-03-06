@@ -1,6 +1,5 @@
 <template>
-  <stepper-content
-    :complete="selectionComplete"
+  <stepper-content :complete="selectionComplete"
     exit="../pilot_management"
     back
     mandatory
@@ -12,9 +11,11 @@
       <cc-slashes />
       &nbsp;PRM-ALT QUICK ACCESS SELECTION
     </div>
-    <v-row density="compact" justify="start">
+    <v-row density="compact"
+      justify="start">
       <v-col>
-        <p class="flavor-text" style="font-size: 14px">
+        <p class="flavor-text"
+          style="font-size: 14px">
           Per the 5017 PRM-ALT Act, the Union Administrative Department's IDENT registration service
           provides a Quick Access Selection module, created and curated by UAD Armored Cavalary
           Support. The UAD-ACS NHP staff have generated a selection of Combat Doctrine Templates
@@ -22,7 +23,11 @@
           these templates will populate the remainder of your IDENT Combat Registration with a
           tailored set of combat-role-optimal responses.
         </p>
-        <v-alert color="accent" variant="outlined" density="compact" class="mt-2" tile>
+        <v-alert color="accent"
+          variant="outlined"
+          density="compact"
+          class="mt-2"
+          tile>
           <div class="text-center text-stark">
             Selecting a template will complete the New Pilot interface and start your Pilot with a
             curated set of skills and talents and an outfitted GMS EVEREST mech, tailored to the
@@ -33,10 +38,10 @@
           </div>
         </v-alert>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12"
+        md="4">
         <b class="heading h3 text-accent">MECH ART COURTESY OF</b>
-        <v-img
-          target="_blank"
+        <v-img target="_blank"
           href="https://www.retrogrademinis.com/"
           src="/public/retrograde_logo.png"
           class="img-select"
@@ -46,8 +51,7 @@
       </v-col>
     </v-row>
     <div class="my-4">
-      <template-item
-        v-for="t in templates"
+      <template-item v-for="t in templates"
         :template="t"
         :isSelected="selected && t.name === selected.name"
         @select="selected = t" />
@@ -126,7 +130,6 @@ export default {
         this.getItem('MechSystems', x)
       );
 
-      // TODO: Chore: Assert these objects exist in controllers for type safety
       (mech.MechLoadoutController.ActiveLoadout.AllMounts() as any)
         .find((m) => m.Type === 'Main')
         .Slots[0].EquipWeapon(this.getItem('MechWeapons', m.mounts[0].slots[0]));

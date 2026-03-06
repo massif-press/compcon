@@ -280,7 +280,6 @@ class Campaign implements ISaveable, ICloudSyncable {
       .map(x => x.Data?.Combatants)
   }
 
-  // passthroughs for move functions, TODO: clean up
   public get Content(): CampaignSection[] {
     return this.Contents
   }

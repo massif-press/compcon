@@ -142,7 +142,6 @@ class CombatLog {
   }
 
   public DealDamage(amount: number, type: string): void {
-    // TODO: set variable damage selection
     if (type.toLowerCase() === 'variable') type = 'kinetic'
     if (type.toLowerCase() === 'applied burn' || type.toLowerCase() === 'appliedburn') type = 'burn'
     const isAi = this.CombatController.IsAIControlled
@@ -156,7 +155,6 @@ class CombatLog {
   }
 
   public TakeDamage(amount: number, type: string): void {
-    // TODO: set variable damage selection
     if (type.toLowerCase() === 'variable') type = 'kinetic'
     if (type.toLowerCase() === 'applied burn' || type.toLowerCase() === 'appliedburn') type = 'burn'
     const isPilot = !this.CombatController.Mounted

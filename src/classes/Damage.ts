@@ -3,8 +3,6 @@ import { Bonus } from './components/feature/bonus/Bonus'
 import { EffectSave } from './components/feature/active_effects/effect_subtype/EffectSave'
 import { FeatureController } from './components/feature/FeatureController'
 
-//TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
-
 interface IDamageData {
   type: DamageType
   val: string | number

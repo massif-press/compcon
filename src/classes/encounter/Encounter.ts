@@ -339,7 +339,6 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public static DeserializeCombatant(data: CombatantSaveData): CombatantData {
-    // TODO: remove after release, this is to ensure old v3 encounters are compatible
     if ((data as any).npc)
       data.actor = (data as any).npc as UnitData | DoodadData | EidolonData | PilotData
     let actor
