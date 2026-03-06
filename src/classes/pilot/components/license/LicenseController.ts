@@ -3,7 +3,7 @@ import { IRankedData } from '../../../../interface'
 import { Pilot } from '../../Pilot'
 import License from './License'
 import { PilotLicense } from './PilotLicense'
-import { CompendiumItem, ItemType, LicensedItem } from '@/class'
+import { ItemType, LicensedItem } from '@/class'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 import logger from '@/user/logger'
 
@@ -86,6 +86,7 @@ class LicenseController {
   }
 
   public AddLicense(license: License): void {
+    console.log('on add lic', this.Parent.IsLevelEdit)
     const index = this._licenses.findIndex(x => x.License && x.License.FrameID === license.FrameID)
     if (index === -1) {
       this._licenses.push(new PilotLicense(license, 1))
@@ -106,6 +107,8 @@ class LicenseController {
         AchievementEventSystem.emit('ll_any_single', 3)
         AchievementEventSystem.emit(`ll_${source}_single`, 3)
       }
+
+      console.log(level)
 
       if (this.Parent.Level === 12 && !this.IsMissingLicenses) {
         if (!this._licenses.filter(license => license.Rank === 3).length) {
@@ -128,6 +131,8 @@ class LicenseController {
           },
           {} as Record<string, number>
         )
+
+        console.log('sourcelevels', sourceLevels)
 
         if (Object.keys(sourceLevels).length === 1) {
           switch (Object.keys(sourceLevels)[0]) {

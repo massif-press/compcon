@@ -65,6 +65,8 @@ interface IUserProfile {
   latest_change: number
   lcp_subscriptions: string[]
   lcp_configs: LcpConfig[]
+  error_reporting: boolean
+  enhanced_reporting: boolean
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -87,6 +89,8 @@ class UserProfile {
   private _storageWarning: number = 40
   private _storageMax: number = 60
   private _autoDeleteDays: number = 0
+  private _errorReporting: boolean = true
+  private _enhancedReporting: boolean = false
 
   public constructor(id?: string) {
     this.ID = id || uuid()
@@ -163,6 +167,26 @@ class UserProfile {
 
   public set AutoDeleteDays(value: number) {
     this._autoDeleteDays = value
+    this.save()
+  }
+
+  public get ErrorReporting(): boolean {
+    return this._errorReporting
+  }
+
+  public set ErrorReporting(value: boolean) {
+    this._errorReporting = value
+    this.localSave('error_reporting', value)
+    this.save()
+  }
+
+  public get EnhancedReporting(): boolean {
+    return this._enhancedReporting
+  }
+
+  public set EnhancedReporting(value: boolean) {
+    this._enhancedReporting = value
+    this.localSave('enhanced_reporting', value)
     this.save()
   }
 
@@ -331,6 +355,8 @@ class UserProfile {
       latest_change: data.latest_change,
       lcp_subscriptions: data.LcpSubscriptions,
       lcp_configs: data.LcpConfigs,
+      error_reporting: data.ErrorReporting,
+      enhanced_reporting: data.EnhancedReporting,
     }
   }
 
@@ -349,6 +375,8 @@ class UserProfile {
     profile.latest_change = data.latest_change || Date.now()
     profile.LcpSubscriptions = data.lcp_subscriptions || []
     profile.LcpConfigs = data.lcp_configs || []
+    profile._errorReporting = data.error_reporting ?? true
+    profile._enhancedReporting = data.enhanced_reporting ?? false
     return profile
   }
 }

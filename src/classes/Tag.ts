@@ -1,7 +1,7 @@
 import { CompendiumItem, ContentPack, ItemType } from '@/class'
 import { CompendiumStore } from '@/stores'
 import { ActivationType } from './enums'
-import { IContentPack, ITagData } from '@/interface'
+import { ITagData } from '@/interface'
 import logger from '@/user/logger'
 import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
 import { ByTier, replaceVal, resolveTier } from '@/util/tierFormat'

@@ -8,10 +8,11 @@ import {
   EncounterStore,
   CampaignStore,
 } from '@/stores'
-import { collectionDataQuery, getLcpPresigned } from '@/user/api'
+import { collectionDataQuery } from '@/user/api'
 
 import { Initialize } from './Storage'
 import { AchievementManager } from '@/user/achievements/AchievementManager'
+import { UnauthorizedError } from '@/io/apis/account'
 import logger from '@/user/logger'
 
 export default async function (skipSync = false): Promise<void> {
@@ -66,54 +67,60 @@ export default async function (skipSync = false): Promise<void> {
       }
       logger.info('Auto sync complete!')
     } catch (error: any) {
-      logger.error(`Failed to sync: ${error}`, {}, error)
-      return
-    }
-
-    logger.info('checking auto backups')
-    try {
-      await UserStore().PruneBackups()
-      await UserStore().AutoBackup()
-    } catch (error: any) {
-      logger.error(`Failed to backup: ${error}`, {}, error)
-      return
-    }
-
-    try {
-      const patreonStatus = await UserStore().refreshPatreonData()
-      if (patreonStatus === 'success') {
-        logger.info('Patreon data refreshed')
+      if (error instanceof UnauthorizedError) {
+        logger.warn('Authentication expired during startup sync — continuing offline')
       } else {
-        logger.error('Failed to refresh Patreon data')
+        logger.error(`Failed to sync: ${error}`, {}, error)
       }
-    } catch (error: any) {
-      logger.error(`Failed to refresh Patreon data: ${error}`, {}, error)
+      UserStore().IsSyncing = false
     }
 
-    const subscribedLcps = UserStore().User.LcpSubscriptions
-    if (subscribedLcps.length > 0) {
-      const remoteLcps = await collectionDataQuery('lcp')
-      for (const lcp of remoteLcps) {
-        if (!subscribedLcps.includes(lcp.sortkey)) continue
-        const installedPack = CompendiumStore().ContentPacks.find(
-          p => p.Manifest.name === lcp.name || p.Manifest.name === lcp.title
-        )
-        if (!installedPack || installedPack.Manifest.version < lcp.version) {
-          try {
-            await UserStore().downloadLcp(lcp)
-            UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`)
-          } catch (error: any) {
-            logger.error('Failed to download lcp:', lcp.name, error)
-            UserStore().addCloudNotification(`Failed to download ${lcp.name}!`, 'error')
-            logger.error(`Error downloading LCP: ${error}`, {}, error)
+    // Skip remaining cloud operations if the user was signed out
+    if (UserStore().IsLoggedIn) {
+      logger.info('checking auto backups')
+      try {
+        await UserStore().PruneBackups()
+        await UserStore().AutoBackup()
+      } catch (error: any) {
+        logger.error(`Failed to backup: ${error}`, {}, error)
+      }
+
+      try {
+        const patreonStatus = await UserStore().refreshPatreonData()
+        if (patreonStatus === 'success') {
+          logger.info('Patreon data refreshed')
+        } else {
+          logger.error('Failed to refresh Patreon data')
+        }
+      } catch (error: any) {
+        logger.error(`Failed to refresh Patreon data: ${error}`, {}, error)
+      }
+
+      const subscribedLcps = UserStore().User.LcpSubscriptions
+      if (subscribedLcps.length > 0) {
+        const remoteLcps = await collectionDataQuery('lcp')
+        for (const lcp of remoteLcps) {
+          if (!subscribedLcps.includes(lcp.sortkey)) continue
+          const installedPack = CompendiumStore().ContentPacks.find(
+            p => p.Manifest.name === lcp.name || p.Manifest.name === lcp.title
+          )
+          if (!installedPack || installedPack.Manifest.version < lcp.version) {
+            try {
+              await UserStore().downloadLcp(lcp)
+              UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`)
+            } catch (error: any) {
+              logger.error('Failed to download lcp:', lcp.name, error)
+              UserStore().addCloudNotification(`Failed to download ${lcp.name}!`, 'error')
+              logger.error(`Error downloading LCP: ${error}`, {}, error)
+            }
           }
         }
       }
-    }
 
-    CompendiumStore().loadContentCollections()
-    UserStore().setSyncTimer()
-    UserStore().IsSyncing = false
+      CompendiumStore().loadContentCollections()
+      UserStore().setSyncTimer()
+      UserStore().IsSyncing = false
+    }
   }
 
   AchievementManager.Instantiate()

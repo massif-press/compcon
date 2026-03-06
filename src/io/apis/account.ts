@@ -1,6 +1,11 @@
 import { UserStore } from '@/stores'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import logger from '@/user/logger'
+import { parseApiError, NotFoundError } from './apiErrors'
+import { IDEMPOTENCY_HEADER, generateIdempotencyKey } from './idempotency'
+
+export { NotFoundError } from './apiErrors'
+export { generateIdempotencyKey, generateDeterministicKey, IDEMPOTENCY_HEADER } from './idempotency'
 
 const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`
 
@@ -10,9 +15,9 @@ const baseHeaders: Record<string, string> = {
   'Access-Control-Request-Headers': 'Content-Type,x-api-key',
 }
 
-async function getHeaders(): Promise<Record<string, string>> {
+async function getHeaders(forceRefresh = false): Promise<Record<string, string>> {
   try {
-    const session = await fetchAuthSession()
+    const session = await fetchAuthSession({ forceRefresh })
     const idToken = session.tokens?.idToken?.toString()
     if (idToken) {
       return { ...baseHeaders, Authorization: idToken }
@@ -33,6 +38,7 @@ async function fetchWithRetry(
   retries = MAX_RETRIES
 ): Promise<Response> {
   let lastError: Error | undefined
+  let hasRefreshedToken = false
 
   for (let attempt = 0; attempt < retries; attempt++) {
     const controller = new AbortController()
@@ -56,6 +62,25 @@ async function fetchWithRetry(
         continue
       }
 
+      // Don't retry 404 Not Found — parse structured error and throw
+      if (response.status === 404) {
+        const body = await parseApiError(response)
+        throw new NotFoundError(body.message, body.requestId)
+      }
+
+      // On 401, force-refresh the auth session and retry once before giving up
+      if (response.status === 401) {
+        if (!hasRefreshedToken) {
+          hasRefreshedToken = true
+          logger.info('Received 401 — force-refreshing auth session and retrying')
+          const freshHeaders = await getHeaders(true)
+          init = { ...init, headers: freshHeaders }
+          continue
+        }
+        const body = await parseApiError(response)
+        throw new UnauthorizedError(body.message)
+      }
+
       // Don't retry 409 Conflict — surface it for optimistic concurrency handling
       if (response.status === 409) {
         return response
@@ -73,6 +98,12 @@ async function fetchWithRetry(
       throw new Error(`HTTP error! status: ${response.status}`)
     } catch (error: any) {
       clearTimeout(timeoutId)
+
+      // Don't retry structured client errors — propagate immediately
+      if (error instanceof UnauthorizedError || error instanceof NotFoundError) {
+        throw error
+      }
+
       lastError = error
       if (error.name === 'AbortError') {
         lastError = new Error(`Request timed out after ${REQUEST_TIMEOUT_MS}ms`)
@@ -154,16 +185,18 @@ export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
   url.searchParams.append('scope', scope)
 
   const body = typeof metadata === 'string' ? metadata : JSON.stringify(metadata)
+  const headers = await getHeaders()
+  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
 
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers: await getHeaders(),
+    headers,
     body,
   })
 
   // Handle 409 Conflict for optimistic concurrency
   if (response.status === 409) {
-    const conflict = await response.json()
+    const conflict = await parseApiError(response)
     throw new VersionConflictError(conflict.currentItem, conflict.message)
   }
 
@@ -172,14 +205,17 @@ export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
   return data
 }
 
-export async function batchUpsert(items: any[]): Promise<any> {
+export async function batchUpsert(items: any[], idempotencyKey?: string): Promise<any> {
   const url = new URL(`${invoke}/user`)
   url.searchParams.append('user_id', UserStore().Cognito.userId)
   url.searchParams.append('scope', 'batch')
 
+  const headers = await getHeaders()
+  headers[IDEMPOTENCY_HEADER] = idempotencyKey || generateIdempotencyKey()
+
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers: await getHeaders(),
+    headers,
     body: JSON.stringify({ items }),
   })
 
@@ -192,14 +228,17 @@ export async function patchItem(sortkey: string, fields: Record<string, any>): P
   url.searchParams.append('user_id', UserStore().Cognito.userId)
   url.searchParams.append('scope', 'patch')
 
+  const headers = await getHeaders()
+  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
+
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers: await getHeaders(),
+    headers,
     body: JSON.stringify({ sortkey, ...fields }),
   })
 
   if (response.status === 409) {
-    const conflict = await response.json()
+    const conflict = await parseApiError(response)
     throw new VersionConflictError(conflict.currentItem, conflict.message)
   }
 
@@ -212,9 +251,12 @@ export async function updateUser(id: string, payload: any): Promise<any> {
   url.searchParams.append('user_id', id)
   url.searchParams.append('scope', 'meta')
 
+  const headers = await getHeaders()
+  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
+
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers: await getHeaders(),
+    headers,
     body: JSON.stringify(payload),
   })
 
@@ -330,9 +372,12 @@ export async function cloudDelete(user_id: string, sortkey: string, uri?: string
   url.searchParams.append('sortkey', sortkey)
   if (uri) url.searchParams.append('uri', uri)
 
+  const headers = await getHeaders()
+  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
+
   const response = await fetchWithRetry(url.toString(), {
     method: 'DELETE',
-    headers: await getHeaders(),
+    headers,
   })
 
   return response
@@ -350,9 +395,12 @@ export async function bulkDelete(
   const body: any = { sortkeys }
   if (uris && uris.length > 0) body.uris = uris
 
+  const headers = await getHeaders()
+  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
+
   const response = await fetchWithRetry(url.toString(), {
     method: 'DELETE',
-    headers: await getHeaders(),
+    headers,
     body: JSON.stringify(body),
   })
 

@@ -108,7 +108,6 @@ abstract class LicensedItem extends CompendiumItem {
       .filter(x => !x.IsIntegrated)
 
     if (pilot.LcpConfig) {
-      console.log(pilot.LcpConfig)
       arr = arr.filter(
         x =>
           !x.InLcp ||

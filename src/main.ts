@@ -62,16 +62,63 @@ Amplify.configure({
 
 const compcon = createApp(App)
 
+function isErrorReportingEnabled(): boolean {
+  try {
+    const cfg = localStorage.getItem('cc_user')
+    if (cfg) {
+      const parsed = JSON.parse(cfg)
+      return parsed.error_reporting ?? true
+    }
+    const val = localStorage.getItem('cc_error_reporting')
+    if (val !== null) return JSON.parse(val)
+  } catch {
+    // fall through
+  }
+  return false
+}
+
+function isEnhancedReportingEnabled(): boolean {
+  try {
+    const cfg = localStorage.getItem('cc_user')
+    if (cfg) {
+      const parsed = JSON.parse(cfg)
+      return parsed.enhanced_reporting ?? false
+    }
+    const val = localStorage.getItem('cc_enhanced_reporting')
+    if (val !== null) return JSON.parse(val)
+  } catch {
+    // fall through
+  }
+  return false
+}
+
 if (import.meta.env.VITE_APP_ENV !== 'localhost') {
   Sentry.init({
     app: compcon,
     dsn: import.meta.env.VITE_APP_SENTRY_DSN,
+    tunnel: '/tunnel',
     integrations: [Sentry.browserTracingIntegration({ router }), Sentry.replayIntegration()],
     tracesSampleRate: 0.1, // 10% of transactions
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 1.0, // 100% of error sessions
     environment: import.meta.env.MODE,
     release: APP_VERSION,
+    beforeSend(event) {
+      if (!isErrorReportingEnabled()) return null
+      if (!isEnhancedReportingEnabled()) {
+        // Strip PII when enhanced reporting is off
+        delete event.user
+        if (event.request) {
+          delete event.request.cookies
+          delete event.request.headers
+        }
+      }
+      return event
+    },
+    beforeSendTransaction(event) {
+      if (!isErrorReportingEnabled()) return null
+      return event
+    },
   })
 }
 

@@ -116,45 +116,6 @@ function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }):
   ]
 }
 
-// function sortByDependencies(packs: IContentPack[]): IContentPack[] {
-//   function dfs(node, visited, stack) {
-//     if (!visited[node.id]) {
-//       visited[node.id] = true;
-//       for (const dependencyId of node.manifest.dependencies) {
-//         const dependentNode = packs.find((obj) => obj.id === dependencyId);
-//         if (dependentNode) {
-//           dfs(dependentNode, visited, stack);
-//         }
-//       }
-//       stack.push(node);
-//     }
-//   }
-
-//   const sortedStack = [];
-//   const visited = {};
-
-//   for (const pack of packs) {
-//     dfs(pack, visited, sortedStack);
-//   }
-
-//   return sortedStack.reverse();
-// }
-
-// //iterate through the content packs and find the ones missing an installed dependency
-// function findMissingDependencies(packs: IContentPack[]): IContentPack[] {
-//   const missing = [] as IContentPack[];
-//   for (const pack of packs) {
-//     if (!pack.manifest.dependencies) continue;
-//     for (const dependency of pack.manifest.dependencies) {
-//       const dependentNode = packs.some((pack) => pack.manifest.name === dependency.name);
-//       if (!dependentNode) {
-//         missing.push(pack);
-//       }
-//     }
-//   }
-//   return missing;
-// }
-
 export const CompendiumStore = defineStore('compendium', {
   state: () => ({
     LancerVersion: '',
@@ -453,7 +414,7 @@ export const CompendiumStore = defineStore('compendium', {
       await this.refreshExtraContent()
     },
     async loadExtraContent(): Promise<void> {
-      let content = await GetAll('content')
+      const content = await GetAll('content')
 
       // content.forEach((pack) => {
       //   if (!pack.manifest.dependencies) pack.manifest.dependencies = [];
@@ -481,7 +442,7 @@ export const CompendiumStore = defineStore('compendium', {
       this.loaded = true
     },
     async loadContentCollections(): Promise<void> {
-      let content = await GetAll('content_collection')
+      const content = await GetAll('content_collection')
       this.ContentCollections = content.map(x => ContentCollection.Deserialize(x))
     },
     packAlreadyInstalled(packId: string, version?: string, searchOnName = false): boolean {

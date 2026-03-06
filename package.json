@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@kyvg/vue3-notification": "3.4.2",
-    "@massif/lancer-data": "^4.0.0-beta.22",
+    "@massif/lancer-data": "^4.0.0-beta.23",
     "@mdi/font": "7.4.47",
     "@sentry/vue": "^10.40.0",
     "@vueup/vue-quill": "^1.2.0",
@@ -74,11 +74,13 @@
     "typescript-eslint": "^8.56.1",
     "vite": "6.4.1",
     "vite-plugin-pwa": "^1.2.0",
+    "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "2.2.12"
   },
   "resolutions": {
     "quill": "^2.0.2",
     "@vue/server-renderer": "^3.x",
     "@vue/compiler-ssr": "^3.x"
-  }
+  },
+  "packageManager": "yarn@4.13.0"
 }

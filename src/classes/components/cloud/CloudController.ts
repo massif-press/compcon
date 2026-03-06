@@ -12,8 +12,8 @@ import {
   updateItem,
   uploadToS3,
   PresignExpiredError,
-  VersionConflictError,
   batchUpsert,
+  generateDeterministicKey,
 } from '@/io/apis/account'
 import { Pilot } from '@/class'
 import { Doodad } from '@/classes/npc/doodad/Doodad'
@@ -264,11 +264,18 @@ class CloudController {
     const failures: any[] = []
 
     // Process in BATCH_SIZE chunks
+    const syncTimestamp = Date.now()
     for (let i = 0; i < prepared.length; i += BATCH_SIZE) {
       const chunk = prepared.slice(i, i + BATCH_SIZE)
       const batchItems = chunk.map(p => p.meta)
 
-      const response = await batchUpsert(batchItems)
+      // Deterministic key: same key on retry, unique per chunk
+      const idempotencyKey = generateDeterministicKey(
+        UserStore().Cognito.userId,
+        `batch-${i}`,
+        syncTimestamp
+      )
+      const response = await batchUpsert(batchItems, idempotencyKey)
 
       if (!response.results || !Array.isArray(response.results)) {
         logger.error('BatchUpdateCloud: unexpected batch response', response)

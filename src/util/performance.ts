@@ -20,7 +20,7 @@ export function reportWebVitals(): void {
   import('web-vitals').then(({ onCLS, onINP, onFCP, onLCP, onTTFB }) => {
     const report = (metric: Metric): void => {
       if (import.meta.env.DEV) {
-        console.log(`[Web Vitals] ${metric.name}: ${metric.value}`)
+        console.info(`[Web Vitals] ${metric.name}: ${metric.value}`)
       }
 
       // Forward to Sentry as a custom measurement
