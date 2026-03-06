@@ -89,7 +89,7 @@ class UserProfile {
   private _storageWarning: number = 40
   private _storageMax: number = 60
   private _autoDeleteDays: number = 0
-  private _errorReporting: boolean = true
+  private _errorReporting: boolean = false
   private _enhancedReporting: boolean = false
 
   public constructor(id?: string) {
