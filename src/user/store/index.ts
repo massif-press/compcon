@@ -575,7 +575,7 @@ export const UserStore = defineStore('cloud', {
         if (skipSync) return []
         if (!this.SyncSettings) return []
         if (isStartup) {
-          const frequency = this.SyncSettings.frequency?.toLowerCase() ?? ''
+          const frequency = this.SyncSettings?.frequency?.toLowerCase() ?? ''
           if (!frequency.includes('start')) return []
         }
         const strategy = this.SyncSettings.resolutionStrategy
@@ -679,7 +679,7 @@ export const UserStore = defineStore('cloud', {
       })
     },
     async OnUnload(): Promise<void> {
-      if (!this.SyncSettings.frequency.toLowerCase().includes('close')) return
+      if (!this.SyncSettings?.frequency?.toLowerCase().includes('close')) return
       await this.AutoSync()
     },
     async PruneBackups(): Promise<void> {
