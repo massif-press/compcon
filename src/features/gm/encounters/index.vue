@@ -3,23 +3,29 @@
     <v-row>
       <v-col class="heading h2">Encounters</v-col>
       <v-col cols="auto">
-        <cc-modal title="organize encounters" icon="mdi-queue-first-in-last-out">
+        <cc-modal title="organize encounters"
+          icon="mdi-queue-first-in-last-out">
           <template #activator="{ open }">
-            <cc-button size="small" color="primary" class="mx-4" @click="open">Organize</cc-button>
+            <cc-button size="small"
+              color="primary"
+              class="mx-4"
+              @click="open">Organize</cc-button>
           </template>
           <template #default="{ close }">
-            <organizer type="encounter" @exit="close" />
+            <organizer type="encounter"
+              @exit="close" />
           </template>
         </cc-modal>
       </v-col>
     </v-row>
-    <v-card flat tile>
+    <v-card flat
+      tile>
       <v-toolbar class="px-2 rounded-b-0">
-        <v-row dense align="center">
+        <v-row dense
+          align="center">
           <v-col cols="auto"></v-col>
           <v-col class="pl-4">
-            <v-autocomplete
-              v-model="search"
+            <v-autocomplete v-model="search"
               :placeholder="`Search Encounters`"
               :items="items"
               item-title="Name"
@@ -30,9 +36,9 @@
               tile
               prepend-inner-icon="mdi-magnify" />
           </v-col>
-          <v-col cols="3" class="ml-auto">
-            <v-select
-              v-model="grouping"
+          <v-col cols="3"
+            class="ml-auto">
+            <v-select v-model="grouping"
               :items="groupings"
               label="Group By"
               hide-details
@@ -41,8 +47,7 @@
               density="compact" />
           </v-col>
           <v-col cols="3">
-            <v-select
-              v-model="sorting"
+            <v-select v-model="sorting"
               :items="sortings"
               label="Sort By"
               hide-details
@@ -51,8 +56,7 @@
               density="compact" />
           </v-col>
           <v-col cols="auto">
-            <gm-collection-filter
-              :items="items"
+            <gm-collection-filter :items="items"
               :filters="filters"
               @add-filter="filters.push($event)"
               @remove-filter="filters.splice(filters.indexOf($event), 1)"
@@ -61,10 +65,9 @@
         </v-row>
       </v-toolbar>
 
-      <gm-collection-folder
-        v-for="folder in folders"
+      <gm-collection-folder v-for="folder in folders"
         :folder="folder"
-        :filteredItems="filteredItems"
+        :filtered-items="filteredItems"
         :items="items"
         item-type="Encounter"
         :search="search"
@@ -76,25 +79,29 @@
         @remove-folder="removeFolder($event)"
         @open="openItem($event)" />
 
-      <v-card
-        v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0"
+      <v-card v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0"
         flat
         tile>
-        <v-toolbar density="compact" style="height: 40px" class="mt-n2">
-          <v-btn size="x-small" icon @click="showNoFolder = !showNoFolder">
-            <v-icon size="30" icon="mdi-menu-right" :class="showNoFolder ? 'mdi-rotate-90' : ''" />
+        <v-toolbar density="compact"
+          style="height: 40px"
+          class="mt-n2">
+          <v-btn size="x-small"
+            icon
+            @click="showNoFolder = !showNoFolder">
+            <v-icon size="30"
+              icon="mdi-menu-right"
+              :class="showNoFolder ? 'mdi-rotate-90' : ''" />
           </v-btn>
           <v-toolbar-title class="heading h3">No Folder</v-toolbar-title>
           <v-spacer />
           <div class="px-2 text-disabled text-caption">
-            {{ filteredItems.filter((x: any) => !x.FolderController?.Folder).length }}
-            ({{ items.filter((x: any) => !x.FolderController?.Folder).length }})
+            {{filteredItems.filter((x: any) => !x.FolderController?.Folder).length}}
+            ({{items.filter((x: any) => !x.FolderController?.Folder).length}})
           </div>
         </v-toolbar>
         <v-expand-transition>
           <v-card-text v-if="showNoFolder">
-            <item-card-grid
-              item-type="Encounter"
+            <item-card-grid item-type="Encounter"
               :items="filteredItems.filter((x: any) => !x.FolderController?.Folder)"
               :search="search"
               :list="view === 'list'"
@@ -106,28 +113,32 @@
         </v-expand-transition>
       </v-card>
 
-      <div v-if="hidden" class="text-right pa-2 text-disabled">
+      <div v-if="hidden"
+        class="text-right pa-2 text-disabled">
         <i>{{ hidden }} items hidden by filter</i>
       </div>
     </v-card>
 
-    <v-dialog v-model="editDialog" fullscreen>
-      <encounter-editor :item="selected" @exit="editDialog = false" />
+    <v-dialog v-model="editDialog"
+      fullscreen>
+      <encounter-editor :item="selected"
+        @exit="editDialog = false" />
     </v-dialog>
 
     <v-footer fixed>
-      <cc-button
-        size="small"
+      <cc-button size="small"
         prepend-icon="mdi-folder-multiple-plus"
         color="primary"
         @click="addFolder">
         Add Folder
       </cc-button>
       <v-spacer />
-      <cc-modal title="import data" icon="mdi-download" ref="import" no-confirm>
+      <cc-modal ref="import"
+        title="import data"
+        icon="mdi-download"
+        no-confirm>
         <template #activator="{ open }">
-          <cc-button
-            size="small"
+          <cc-button size="small"
             color="primary"
             prepend-icon="mdi-download"
             class="mx-4"
@@ -141,7 +152,11 @@
       </cc-modal>
 
       <share-code-dialog import-type="encounter" />
-      <cc-button size="small" class="mx-4" prepend-icon="mdi-plus" color="accent" @click="addNew()">
+      <cc-button size="small"
+        class="mx-4"
+        prepend-icon="mdi-plus"
+        color="accent"
+        @click="addNew()">
         Add New Encounter
       </cc-button>
     </v-footer>
@@ -152,15 +167,15 @@
 import ItemCardGrid from '../_views/ItemCardGrid.vue';
 import GmCollectionFilter from '../_views/_components/GMCollectionFilter.vue';
 import GmCollectionFolder from '../_views/_components/GMCollectionFolder.vue';
-import { CompendiumStore, EncounterStore, UserStore } from '@/stores';
+import { EncounterStore, UserStore } from '@/stores';
 import { Encounter } from '@/classes/encounter/Encounter';
 import EncounterEditor from './_components/EncounterEditor.vue';
 import Organizer from '../_components/Organizer.vue';
-import Importer from '../_components/NpcImporter.vue';
+import Importer from './_components/EncounterImporter.vue';
 import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
 
 export default {
-  name: 'gm-encounter-view',
+  name: 'GmEncounterView',
   components: {
     ItemCardGrid,
     Organizer,
@@ -176,6 +191,7 @@ export default {
       required: false,
     },
   },
+  emits: ['open', 'add-new'],
   data: () => ({
     search: '',
     view: 'list',
@@ -188,44 +204,6 @@ export default {
     selected: null as any,
     editDialog: false,
   }),
-  emits: ['open', 'add-new'],
-  created() {
-    const user = UserStore().User;
-    if (!user || !user.View) return;
-    this.view = user.View('encountersView', 'list');
-    this.sorting = user.View('encountersSorting', 'Name');
-    this.grouping = user.View('encountersGrouping', 'None');
-    this.filters = user.View('encountersFilters', []) as any[];
-    this.hideFolders = user.View('encountersHideFolders', false);
-
-    if (this.id) {
-      const item = EncounterStore().getEncounterByID(this.id);
-      if (item) {
-        this.selected = item;
-        this.editDialog = true;
-      }
-    }
-  },
-  watch: {
-    view(val) {
-      if (!val) return;
-      UserStore().User.SetView('encountersView', val);
-    },
-    sorting(val) {
-      if (!val) return;
-      UserStore().User.SetView('encountersSorting', val);
-    },
-    grouping(val) {
-      if (!val) return;
-      UserStore().User.SetView('encountersGrouping', val);
-    },
-    filters(val) {
-      UserStore().User.SetView('encountersFilters', val);
-    },
-    hideFolders(val) {
-      UserStore().User.SetView('encountersHideFolders', val);
-    },
-  },
   computed: {
     folders(): string[] {
       return EncounterStore().getFolders;
@@ -276,6 +254,43 @@ export default {
 
       return [...baseSortings, ...allLabelTitles];
     },
+  },
+  watch: {
+    view(val) {
+      if (!val) return;
+      UserStore().User.SetView('encountersView', val);
+    },
+    sorting(val) {
+      if (!val) return;
+      UserStore().User.SetView('encountersSorting', val);
+    },
+    grouping(val) {
+      if (!val) return;
+      UserStore().User.SetView('encountersGrouping', val);
+    },
+    filters(val) {
+      UserStore().User.SetView('encountersFilters', val);
+    },
+    hideFolders(val) {
+      UserStore().User.SetView('encountersHideFolders', val);
+    },
+  },
+  created() {
+    const user = UserStore().User;
+    if (!user || !user.View) return;
+    this.view = user.View('encountersView', 'list');
+    this.sorting = user.View('encountersSorting', 'Name');
+    this.grouping = user.View('encountersGrouping', 'None');
+    this.filters = user.View('encountersFilters', []) as any[];
+    this.hideFolders = user.View('encountersHideFolders', false);
+
+    if (this.id) {
+      const item = EncounterStore().getEncounterByID(this.id);
+      if (item) {
+        this.selected = item;
+        this.editDialog = true;
+      }
+    }
   },
   methods: {
     addFolder() {

@@ -1,28 +1,45 @@
 <template>
-  <v-card class="my-1" tile>
-    <v-toolbar density="compact" color="primary" style="height: 40px" class="mt-n3" tile>
-      <v-btn size="x-small" icon>
-        <v-icon
-          size="30"
+  <v-card class="my-1"
+    tile>
+    <v-toolbar density="compact"
+      color="primary"
+      style="height: 40px"
+      class="mt-n3"
+      tile>
+      <v-btn size="x-small"
+        icon>
+        <v-icon size="30"
           icon="mdi-menu-right"
           class="mt-1"
           :class="open ? 'mdi-rotate-90' : ''"
           @click="open = !open" />
       </v-btn>
       <v-toolbar-title class="heading h3">
-        <cc-short-string-editor justify="start" @set="$emit('set-folder-name', $event)">
+        <cc-short-string-editor justify="start"
+          @set="$emit('set-folder-name', $event)">
           {{ folder }}
         </cc-short-string-editor>
       </v-toolbar-title>
       <v-spacer />
       <div class="px-2 text-disabled text-caption">
-        {{ filteredItems.filter((x: any) => x.FolderController.Folder === folder).length }}
-        ({{ items.filter((x: any) => x.FolderController.Folder === folder).length }})
+        {{filteredItems.filter((x: any) => x.FolderController.Folder === folder).length}}
+        ({{items.filter((x: any) => x.FolderController.Folder === folder).length}})
       </div>
-      <v-menu v-model="deleteMenu" offset-y offset-x top left>
+      <v-menu v-model="deleteMenu"
+        offset-y
+        offset-x
+        top
+        left>
         <template #activator="{ props }">
-          <v-btn variant="tonal" size="x-small" color="error" icon flat tile v-bind="props">
-            <v-icon size="x-large" icon="mdi-delete" />
+          <v-btn variant="tonal"
+            size="x-small"
+            color="error"
+            icon
+            flat
+            tile
+            v-bind="props">
+            <v-icon size="x-large"
+              icon="mdi-delete" />
           </v-btn>
         </template>
         <cc-confirmation
@@ -32,8 +49,7 @@
     </v-toolbar>
     <v-expand-transition>
       <v-card-text v-if="open">
-        <item-card-grid
-          :item-type="itemType"
+        <item-card-grid :item-type="itemType"
           :items="folderItems"
           :search="search"
           list
@@ -50,7 +66,7 @@
 import ItemCardGrid from '../ItemCardGrid.vue';
 
 export default {
-  name: 'gm-collection-folder',
+  name: 'GmCollectionFolder',
   components: { ItemCardGrid },
   props: {
     folder: { type: String, required: true },
@@ -63,18 +79,18 @@ export default {
     grouping: { type: String, required: true },
     sorting: { type: String, required: true },
   },
+  emits: ['open', 'add-new', 'set-folder-name', 'remove-folder'],
   data: () => ({
     open: true,
     deleteMenu: false,
   }),
-  created() {
-    this.open = this.folderItems.length > 0;
-  },
   computed: {
     folderItems() {
       return this.filteredItems.filter((x: any) => x.FolderController.Folder === this.folder);
     },
   },
-  emits: ['open', 'add-new', 'set-folder-name', 'remove-folder'],
+  created() {
+    this.open = this.folderItems.length > 0;
+  },
 };
 </script>

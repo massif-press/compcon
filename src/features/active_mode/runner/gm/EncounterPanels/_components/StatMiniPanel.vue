@@ -110,7 +110,7 @@
 <script>
 
 export default {
-  name: 'stat-mini-panel',
+  name: 'StatMiniPanel',
   props: {
     modelValue: {
       type: Number,
@@ -132,12 +132,12 @@ export default {
       default: 0,
     },
   },
+  emits: ['click', 'update:model-value'],
   data() {
     return {
       internalValue: this.modelValue || 0,
     };
   },
-  emits: ['click', 'update:model-value'],
   watch: {
     modelValue(val) {
       this.internalValue = val;

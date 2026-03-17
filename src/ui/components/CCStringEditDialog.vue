@@ -36,8 +36,10 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 
 export default {
+  mixins: [useMobile],
   name: 'CCStringEditDialog',
   props: {
     label: {
@@ -66,11 +68,6 @@ export default {
     newString: '',
     dialog: false,
   }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
   methods: {
     save() {
       if (this.newString) this.$emit('save', this.newString);

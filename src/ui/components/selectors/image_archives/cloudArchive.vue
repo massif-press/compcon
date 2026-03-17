@@ -39,7 +39,7 @@
                 offset-x
                 top
                 left>
-                <template v-slot:activator="{ props }">
+                <template #activator="{ props }">
                   <v-btn block
                     variant="tonal"
                     color="error"
@@ -89,7 +89,7 @@
 
           <v-progress-linear :value="(accountUsage / accountMax) * 100"
             height="20px">
-            <template v-slot:default="{ value }">
+            <template #default="{ value }">
               <strong>
                 {{ accountUsage.toFixed(2) }}
                 <span class="text-caption">MB</span>
@@ -134,7 +134,8 @@ import logger from '@/user/logger';
 const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
 
 export default {
-  name: 'cloud-image-archive',
+  name: 'CloudImageArchive',
+  emits: ['set-staged'],
   data: () => ({
     currentUserPage: 1,
     currentArtistPage: 1,
@@ -150,7 +151,6 @@ export default {
     showAll: false,
     imageuri: '',
   }),
-  emits: ['set-staged'],
   computed: {
     store() {
       return UserStore();

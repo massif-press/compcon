@@ -97,8 +97,10 @@
   import MechSort from './components/MechSort.vue'
   import { UserStore } from '@/stores'
   import { Pilot } from '@/class'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'MechHangarView',
     components: { MechCard, MechListItem, MechListItemMobile, NewMechMenu, MechSort },
     props: {
@@ -108,9 +110,6 @@
       },
     },
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       profile() {
         return UserStore().User
       },

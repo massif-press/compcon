@@ -4,13 +4,24 @@
       Log level:
       <b class="text-uppercase">{{ logger.level }}</b>
     </div>
-    <v-expansion-panels multiple color="panel" flat tile>
-      <v-expansion-panel v-for="item in history" height="20px">
+    <v-expansion-panels multiple
+      color="panel"
+      flat
+      tile>
+      <v-expansion-panel v-for="(item, index) in history"
+        :key="`log-${index}`"
+        height="20px">
         <v-expansion-panel-title>
-          <v-chip size="small" label class="mr-4" :color="item.color">{{ item.type }}</v-chip>
+          <v-chip size="small"
+            label
+            class="mr-4"
+            :color="item.color">{{ item.type }}</v-chip>
           {{ item.message }} - {{ timestamp(item.timestamp) }}
           <v-spacer />
-          <v-btn size="small" icon variant="plain" @click.stop="sendToClipboard(item)">
+          <v-btn size="small"
+            icon
+            variant="plain"
+            @click.stop="sendToClipboard(item)">
             <v-icon icon="mdi-content-copy" />
           </v-btn>
         </v-expansion-panel-title>
@@ -19,11 +30,15 @@
             <v-col>
               <div class="heading h3">TRACE</div>
               <v-divider />
-              <ul>
-                <li v-for="t in item.trace">
+              <ul v-if="Array.isArray(item.trace)">
+                <li v-for="(t, idxt) in item.trace"
+                  :key="`trace-${idxt}`">
                   <div v-html-safe="formatTrace(t)" />
                 </li>
               </ul>
+              <div v-else
+                v-html-safe="formatTrace(item.trace)" />
+
             </v-col>
             <v-col>
               <div class="heading h3">CALLER</div>
@@ -33,13 +48,14 @@
                   {{ item.caller.constructor.name }}
                 </div>
                 <v-list density="compact">
-                  <v-list-item
-                    v-for="k in Object.keys(item.caller)"
+                  <v-list-item v-for="(k, idxc) in Object.keys(item.caller)"
+                    :key="`caller-${idxc}`"
                     :title="k"
                     :subtitle="safeStringify(item.caller[k])" />
                 </v-list>
               </div>
-              <div v-else class="text-center text-disabled"><i>no data</i></div>
+              <div v-else
+                class="text-center text-disabled"><i>no data</i></div>
             </v-col>
           </v-row>
         </v-expansion-panel-text>
@@ -47,9 +63,12 @@
     </v-expansion-panels>
     <v-card-actions>
       <v-spacer />
-      <v-btn size="small" :disabled="!history.length" @click="exportLog">
+      <v-btn size="small"
+        :disabled="!history.length"
+        @click="exportLog()">
         Export Log
-        <v-icon end icon="mdi-file-download" />
+        <v-icon end
+          icon="mdi-file-download" />
       </v-btn>
     </v-card-actions>
   </v-container>
@@ -97,10 +116,10 @@ export default {
       );
     },
     sendToClipboard(item: any) {
-      let trace = item.trace.join('\n');
-      let text = `${item.message} (${item.type})\n------\ntrace:\n${trace}\n------\n${
-        item.caller ? 'caller:\n' + JSON.stringify(item.caller, null, 2) : 'no caller'
-      }`;
+      console.log(item)
+      const trace = Array.isArray(item.trace) ? item.trace.join('\n') : item.trace;
+      const text = `${item.message} (${item.type})\n------\ntrace:\n${trace}\n------\n${item.caller ? 'caller:\n' + JSON.stringify(item.caller, null, 2) : 'no caller'
+        }`;
       navigator.clipboard.writeText(text);
     },
     exportLog() {

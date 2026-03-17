@@ -137,8 +137,10 @@
   import { Pilot, License } from '@/class'
   import logger from '@/user/logger'
   import MissingItemAlert from './components/_MissingItemAlert.vue'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'LicenseSelector',
     components: { Selector, LicenseExpandable, MissingItemAlert },
     props: {
@@ -151,9 +153,6 @@
       jump: '',
     }),
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       selectionComplete(): boolean {
         return this.levelUp && !this.pilot.LicenseController.IsMissingLicenses
       },

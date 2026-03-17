@@ -72,7 +72,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
   export default {
+  mixins: [useMobile],
     name: 'CcSwitch',
     props: {
       modelValue: {
@@ -120,9 +122,6 @@
       },
     },
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       isOn() {
         return this.modelValue
       },

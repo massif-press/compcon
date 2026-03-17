@@ -8,16 +8,13 @@ import {
   CompendiumItem,
   ItemType,
   ContentPack,
+  Pilot,
 } from '@/class'
-import { reserves } from '@massif/lancer-data'
 import { IActionData, Action } from '@/classes/Action'
 import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus'
-import { ISynergyData, ICounterData, IContentPack } from '@/interface'
-import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable'
-import {
-  ActiveEffect,
-  IActiveEffectData,
-} from '@/classes/components/feature/active_effects/ActiveEffect'
+import { ISynergyData, ICounterData } from '@/interface'
+import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
+import { IActiveEffectData } from '@/classes/components/feature/active_effects/ActiveEffect'
 
 declare interface IReserveData {
   id: string
@@ -41,6 +38,8 @@ declare interface IReserveData {
 }
 
 class Reserve extends CompendiumItem {
+  private _pilot = null as Pilot | null
+
   public readonly ID: string
   public readonly ResourceLabel: string
   public readonly Consumable: boolean
@@ -70,13 +69,17 @@ class Reserve extends CompendiumItem {
     this._deployableData = data.deployables
   }
 
+  public SetPilot(pilot: Pilot): void {
+    this._pilot = pilot
+  }
+
   protected save(): void {
-    // store.dispatch('set_pilot_dirty');
+    if (this._pilot) this._pilot.SaveController.save()
   }
 
   public get Icon(): string {
     if (this.Type === ReserveType.Organization) return 'mdi-account-group'
-    if (this.Type === ReserveType.Project) return 'cc:orbital'
+    if (this.Type === ReserveType.Project) return 'cc:downtime'
     if (this.Type === ReserveType.Bonus) return 'cc:accuracy'
     return `cc:reserve_${this.Type.toString().toLowerCase()}`
   }
@@ -136,7 +139,6 @@ class Reserve extends CompendiumItem {
 
   public set ResourceName(name: string) {
     this._resource_name = name
-    this.save()
   }
 
   public get ResourceCost(): string {
@@ -145,7 +147,6 @@ class Reserve extends CompendiumItem {
 
   public set ResourceCost(cost: string) {
     this._resource_cost = cost
-    this.save()
   }
 
   public get Description(): string {

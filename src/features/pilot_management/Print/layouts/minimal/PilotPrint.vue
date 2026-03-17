@@ -1,6 +1,6 @@
 <template>
   <div class="text-black px-2">
-    <v-row dense justify="space-around" align="center">
+    <v-row dense justify="space-around" align="center" class="print-section">
       <v-col cols="auto">
         <blank-line v-if="blank" :width="170" :height="24" />
         <div v-else class="heading h3">
@@ -61,7 +61,7 @@
 
     <div class="text-caption text-primary">SKILL TRIGGERS</div>
 
-    <v-row dense justify="space-between" class="mt-n2">
+    <v-row dense justify="space-between" class="mt-n2 print-section">
       <v-col>
         <v-row v-if="blank" dense>
           <v-col v-for="n in 6" cols="4">
@@ -194,8 +194,8 @@
                 <span v-text="`${a.Speed(pilot) ? `${a.Speed(pilot)}` : ''}`" />
               </v-col>
             </v-row>
-            <print-action :actions="a.Actions" />
-            <print-deployable :deployables="a.Deployables" />
+            <print-action :compact="true" :actions="a.Actions" />
+            <print-deployable :compact="true" :deployables="a.Deployables" />
             <div class="text-right mb-n2">
               <v-chip
                 v-for="t in a.Tags"
@@ -232,8 +232,8 @@
               <v-icon size="20" :icon="d.Icon" :color="d.Color" />
               {{ d.Value }}
             </span>
-            <print-action :actions="w.Actions" />
-            <print-deployable :deployables="w.Deployables" />
+            <print-action :compact="true" :actions="w.Actions" />
+            <print-deployable :compact="true" :deployables="w.Deployables" />
             <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
               <v-chip
                 v-for="t in w.Tags"
@@ -266,8 +266,8 @@
           <div v-if="blank" style="height: 75px" />
           <div v-else class="pb-1">
             <div v-if="g.Description" v-html-safe="g.Description" />
-            <print-action :actions="g.Actions" />
-            <print-deployable :deployables="g.Deployables" />
+            <print-action :compact="true" :actions="g.Actions" />
+            <print-deployable :compact="true" :deployables="g.Deployables" />
           </div>
           <div class="text-right">
             <v-chip
@@ -303,7 +303,7 @@
       <div class="text-caption mb-n1 mt-1 text-primary">RESERVES</div>
       <v-row dense>
         <v-col
-          v-for="r in options.pilotInclude.some((x) => x.title === 'Extra Reserves Space') ? 8 : 4"
+          v-for="r in hasPilotOption('Extra Reserve Space') ? 8 : 4"
           cols="3">
           <blank-line :height="26" />
         </v-col>
@@ -315,11 +315,13 @@
 <script lang="ts">
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
-import PrintAction from './components/PrintAction.vue';
-import PrintDeployable from './components/PrintDeployable.vue';
+import PrintAction from '../../components/PrintAction.vue';
+import PrintDeployable from '../../components/PrintDeployable.vue';
+import { usePrintOptions } from '../_usePrintOptions';
 
 export default {
   name: 'pilot-print',
+  mixins: [usePrintOptions],
   components: {
     blankLine,
     notes,

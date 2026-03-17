@@ -84,8 +84,11 @@
 
 <script>
 import { License } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'cc-license-expandable',
   props: {
     items: {
@@ -106,9 +109,6 @@ export default {
   },
   emits: ['add', 'remove'],
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     isRanked() {
       return !!this.controller;
     },

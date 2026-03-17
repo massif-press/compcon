@@ -64,7 +64,9 @@
   </v-card>
 </template>
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'AchievementItem',
   props: {
     item: {
@@ -73,9 +75,6 @@ export default {
     },
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     getColor(a: any) {
       if (!this.item.Unlocked) {
         return 'grey-darken-2';

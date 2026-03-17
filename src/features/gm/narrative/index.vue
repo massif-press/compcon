@@ -37,8 +37,11 @@ import NarrativeCollection from './_components/narrativeCollection.vue';
 import Organizer from '../_components/Organizer.vue';
 import Importer from '../_components/NpcImporter.vue';
 import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'narrative-roster',
   components: {
     NarrativeCollection,
@@ -67,11 +70,6 @@ export default {
     if (this.type) {
       this.tab = ['character', 'location', 'faction'].indexOf(this.type);
     }
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
   },
 };
 </script>

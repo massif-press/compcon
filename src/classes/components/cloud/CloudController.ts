@@ -124,8 +124,21 @@ class CloudController {
     this.GenerateMetadata()
   }
 
+  private static stringifySafe(data: any): string {
+    if (typeof data === 'string') return data
+
+    const seen = new WeakSet<object>()
+    return JSON.stringify(data, (_key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) return '[Circular]'
+        seen.add(value)
+      }
+      return value
+    })
+  }
+
   public static computeContentHash(data: any): string {
-    const str = typeof data === 'string' ? data : JSON.stringify(data)
+    const str = CloudController.stringifySafe(data)
     const len = str.length
     const head = str.slice(0, 100)
     const tail = str.slice(-100)
@@ -137,7 +150,7 @@ class CloudController {
   }
 
   public SetItemSize(data: any) {
-    if (this.Metadata) this.Metadata.Size = JSON.stringify(data).length
+    if (this.Metadata) this.Metadata.Size = CloudController.stringifySafe(data).length
   }
 
   public get SyncStatus(): SyncStatus {
@@ -184,7 +197,7 @@ class CloudController {
     // called after we're sure cloud needs to be updated
     this.Metadata.ItemModified = this.Parent.SaveController.LastModified
     this.Metadata.Name = this.Parent.Name
-    this.Metadata.Size = JSON.stringify(savedata).length
+    this.Metadata.Size = CloudController.stringifySafe(savedata).length
 
     // Save previous metadata so we can roll back if upload fails
     const previousMetadata = this.Metadata.raw ? { ...this.Metadata.raw } : null
@@ -204,7 +217,7 @@ class CloudController {
 
         // Only commit metadata and persist after confirmed upload
         if (res.data) {
-          this.Metadata = res.data
+          this.Metadata = { ...this.Metadata.raw, ...res.data, updated: Date.now() }
           this._lastContentHash = newHash
           this.Parent.SaveController.saveSilent()
         }
@@ -247,7 +260,7 @@ class CloudController {
 
       item.CloudController.Metadata.ItemModified = item.SaveController.LastModified
       item.CloudController.Metadata.Name = item.Name
-      item.CloudController.Metadata.Size = JSON.stringify(savedata).length
+      item.CloudController.Metadata.Size = CloudController.stringifySafe(savedata).length
 
       const meta = item.CloudController.Metadata.Serialize()
       // itemScope controls share code length on the backend
@@ -302,7 +315,11 @@ class CloudController {
 
             // Commit metadata + hash on success
             if (task.result.data) {
-              task.item.CloudController.Metadata = task.result.data
+              task.item.CloudController.Metadata = {
+                ...task.item.CloudController.Metadata.raw,
+                ...task.result.data,
+                updated: Date.now(),
+              }
               task.item.CloudController._lastContentHash = task.hash
               task.item.SaveController.saveSilent()
             }
@@ -433,14 +450,41 @@ class CloudController {
     }
     const itemType = normalizeItemType(item.CloudController.Metadata.SortKey.split('_')[1])
 
+    // Capture the original cloud metadata before creating the new local item
+    const originalMeta = item.CloudController?.Metadata?.raw
+      ? { ...item.CloudController.Metadata.raw }
+      : item.IsCloudOnly && item.raw
+        ? { ...item.raw }
+        : null
+
     const data = item.IsCloudOnly
       ? await downloadFromS3(item.raw.uri)
       : await item.CloudController.Download()
 
-    if (data && item.IsCloudOnly)
+    if (!data) {
+      UserStore().addCloudNotification(
+        `Unable to sync "${item.Name}": no cloud data found. Upload the item first.`,
+        'error'
+      )
+      return
+    }
+
+    if (item.IsCloudOnly)
       UserStore().addCloudNotification(`Added ${item.ItemType} "${item.Name}" from cloud data.`)
 
-    await CloudController.AddByType(itemType, this.NewByType(itemType, data))
+    const newItem = this.NewByType(itemType, data)
+
+    // Transfer original cloud metadata so the item appears synced
+    if (originalMeta) {
+      const now = Date.now()
+      newItem.CloudController.Metadata = { ...originalMeta, updated: now }
+      // Align local LastModified to cloud's item_modified so SyncStatus = Synced
+      if (originalMeta.item_modified) {
+        newItem.SaveController.LastModified = originalMeta.item_modified
+      }
+    }
+
+    await CloudController.AddByType(itemType, newItem)
   }
 
   public static NewByType(itemType: string, data: any): ICloudSyncable {

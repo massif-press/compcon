@@ -47,6 +47,10 @@ const NavStore = defineStore('nav', {
     setLanguage(lang: string) {
       this._language = lang
     },
+    addToIndex(items: IndexItem | IndexItem[]) {
+      const arr = Array.isArray(items) ? items : [items]
+      this.Index.push(...arr)
+    },
     async CreateIndex(): Promise<void> {
       const index: IndexItem[] = []
 

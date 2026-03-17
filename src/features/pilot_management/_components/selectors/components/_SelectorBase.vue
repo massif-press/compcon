@@ -91,7 +91,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
   export default {
+  mixins: [useMobile],
     name: 'Selector',
     props: {
       title: {
@@ -121,9 +123,6 @@
       showNav: null,
     }),
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       floatSize() {
         const unit = this.modal ? '%' : 'vw'
 

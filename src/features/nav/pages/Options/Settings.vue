@@ -1,106 +1,76 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-row
-      align="center"
+    <v-row align="center"
       justify="space-between"
-      dense
-    >
+      dense>
       <v-col cols="auto">
-        <cc-button
-          block
+        <cc-button block
           color="primary"
           size="small"
           prepend-icon="mdi-bell-ring-outline"
-          @click="showUpdates"
-        >
+          @click="showUpdates">
           Show Update Messages
         </cc-button>
       </v-col>
       <v-col cols="auto">
-        <cc-switch
-          v-model="userViewExotics"
+        <cc-switch v-model="userViewExotics"
           color="exotic"
           density="compact"
           off-icon="mdi-star-off-outline"
           on-icon="mdi-star"
           tooltip="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED if you are not the GM"
-          label="Show Exotic items in the Compendium"
-        ></cc-switch>
+          label="Show Exotic items in the Compendium"></cc-switch>
       </v-col>
     </v-row>
 
     <v-row dense>
-      <v-col
-        cols="12"
-        sm="6"
-      >
+      <v-col cols="12"
+        sm="6">
         <div>
-          <cc-heading
-            is-title
-            text="Theme"
-          />
-          <cc-select
-            v-model="theme"
+          <cc-heading is-title
+            text="Theme" />
+          <cc-select v-model="theme"
             :items="themes.sort((a, b) => a.community - b.community)"
-            :item-title="item => `${item.name}${item.community ? ' (Community)' : ''}`"
-          />
+            :item-title="item => `${item.name}${item.community ? ' (Community)' : ''}`" />
 
-          <i
-            class="text-caption"
-            style="opacity: 0.75"
-          >
+          <i class="text-caption"
+            style="opacity: 0.75">
             Community themes by
-            <a
-              target="_blank"
-              href="https://github.com/vialra"
-            >
+            <a target="_blank"
+              href="https://github.com/vialra">
               vialra,
             </a>
             Asger Toft,
-            <a
-              target="_blank"
-              href="https://github.com/Lunardog15"
-            >
+            <a target="_blank"
+              href="https://github.com/Lunardog15">
               thecrystalwoods,
             </a>
             and
-            <a
-              target="_blank"
-              href="https://github.com/nimoooos"
-            >
+            <a target="_blank"
+              href="https://github.com/nimoooos">
               Suji
             </a>
           </i>
         </div>
         <div>
-          <cc-heading
-            is-title
-            text="Font"
-          />
-          <cc-select
-            v-model="font"
+          <cc-heading is-title
+            text="Font" />
+          <cc-select v-model="font"
             :items="fonts"
             item-title="label"
-            item-value="value"
-          />
+            item-value="value" />
         </div>
       </v-col>
-      <v-col
-        cols="
+      <v-col cols="
             12"
-        sm="6"
-      >
-        <cc-heading
-          is-title
-          text="Log Level"
-        />
+        sm="6">
+        <cc-heading is-title
+          text="Log Level" />
         <v-menu>
           <template #activator="{ props }">
-            <v-list-item
-              v-bind="props"
+            <v-list-item v-bind="props"
               three-line
-              border
-            >
+              border>
               <v-list-item-title>Log level:</v-list-item-title>
               <v-list-item-subtitle>
                 <b class="text-uppercase">{{ logLevel.name }}</b>
@@ -111,46 +81,34 @@
             </v-list-item>
           </template>
           <v-list>
-            <v-list-item
-              v-for="item in logLevels"
+            <v-list-item v-for="item in logLevels"
               :key="item.level"
               :title="item.name"
               :subtitle="item.detail"
-              @click="setLogLevel(item)"
-            />
+              @click="setLogLevel(item)" />
           </v-list>
         </v-menu>
 
-        <cc-heading
-          is-title
+        <cc-heading is-title
           text="Error Reporting"
-          class="mt-3 mb-1"
-        />
+          class="mt-3 mb-1" />
         <v-row>
           <v-col cols="auto">
-            <cc-checkbox
-              v-model="user.ErrorReporting"
+            <cc-checkbox v-model="user.ErrorReporting"
               :disabled="user.EnhancedReporting"
-              color="primary"
-            />
+              color="primary" />
           </v-col>
-          <v-col
-            cols="auto"
-            :class="`text-${user.ErrorReporting ? 'success' : 'disabled'}`"
-          >
+          <v-col cols="auto"
+            :class="`text-${user.ErrorReporting ? 'success' : 'disabled'}`">
             Error reporting {{ user.ErrorReporting ? 'enabled' : 'disabled' }}
           </v-col>
           <v-col cols="auto">
-            <v-tooltip
-              location="top"
-              max-width="400px"
-            >
+            <v-tooltip location="top"
+              max-width="400px">
               <template #activator="{ props }">
-                <v-icon
-                  v-bind="props"
+                <v-icon v-bind="props"
                   class="fade-select mx-1"
-                  icon="mdi-information-slab-box-outline"
-                />
+                  icon="mdi-information-slab-box-outline" />
               </template>
               Error reporting allows anonymous error data to be sent to the developer to help
               identify and resolve bugs and other issues.
@@ -163,28 +121,20 @@
         <v-slide-y-reverse-transition>
           <v-row v-if="user.ErrorReporting">
             <v-col cols="auto">
-              <cc-checkbox
-                v-model="user.EnhancedReporting"
-                color="primary"
-              />
+              <cc-checkbox v-model="user.EnhancedReporting"
+                color="primary" />
             </v-col>
-            <v-col
-              cols="auto"
-              :class="`text-${user.EnhancedReporting ? 'success' : 'disabled'}`"
-            >
+            <v-col cols="auto"
+              :class="`text-${user.EnhancedReporting ? 'success' : 'disabled'}`">
               Enhanced error reporting {{ user.EnhancedReporting ? 'enabled' : 'disabled' }}
             </v-col>
             <v-col cols="auto">
-              <v-tooltip
-                location="top"
-                max-width="400px"
-              >
+              <v-tooltip location="top"
+                max-width="400px">
                 <template #activator="{ props }">
-                  <v-icon
-                    v-bind="props"
+                  <v-icon v-bind="props"
                     class="fade-select mx-1"
-                    icon="mdi-information-slab-box-outline"
-                  />
+                    icon="mdi-information-slab-box-outline" />
                 </template>
 
                 Enhanced error reporting sends the developer additional data, including
@@ -203,39 +153,29 @@
     </v-row>
 
     <v-row class="mt-4">
-      <v-col
-        cols="12"
-        md="6"
-      >
-        <cc-button
-          block
+      <v-col cols="12"
+        md="6">
+        <cc-button block
           size="large"
           color="primary"
           prepend-icon="mdi-database"
           tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-          @click="bulkExport"
-        >
+          @click="bulkExport">
           Create Data Backup
         </cc-button>
       </v-col>
 
-      <v-col
-        cols="12"
-        md="6"
-      >
-        <v-dialog
-          v-model="importDialog"
-          width="50%"
-        >
+      <v-col cols="12"
+        md="6">
+        <v-dialog v-model="importDialog"
+          width="50%">
           <template #activator="{ props }">
-            <cc-button
-              v-bind="props"
+            <cc-button v-bind="props"
               block
               size="large"
               color="primary"
               prepend-icon="mdi-database"
-              tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-            >
+              tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
               Load Data Backup
             </cc-button>
           </template>
@@ -250,8 +190,7 @@
                 <b class="text-accent">cannot</b>
                 be undone.
               </p>
-              <v-file-input
-                v-model="fileValue"
+              <v-file-input v-model="fileValue"
                 accept=".compcon"
                 variant="outlined"
                 density="compact"
@@ -259,8 +198,7 @@
                 autofocus
                 placeholder="Select COMP/CON Bulk Export File"
                 prepend-icon="mdi-paperclip"
-                @change="bulkImport"
-              />
+                @change="bulkImport" />
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -268,18 +206,14 @@
     </v-row>
 
     <div class="text-right">
-      <v-btn
-        size="x-small"
+      <v-btn size="x-small"
         variant="text"
-        to="/ui-test"
-      >
+        to="/ui-test">
         UI Test I
       </v-btn>
-      <v-btn
-        size="x-small"
+      <v-btn size="x-small"
         variant="text"
-        to="/ui-test-new"
-      >
+        to="/ui-test-new">
         UI Test II
       </v-btn>
     </div>
@@ -287,140 +221,162 @@
 </template>
 
 <script lang="ts">
-  import * as allThemes from '@/ui/style/themes'
-  import * as _ from 'lodash-es'
+import * as allThemes from '@/ui/style/themes'
+import * as _ from 'lodash-es'
 
-  import { UserStore } from '@/stores'
-  import { exportAll, importAll, clearAllData } from '@/io/BulkData'
-  import { saveFile } from '@/io/Data'
+import { UserStore } from '@/stores'
+import { exportAll, importAll } from '@/io/BulkData'
+import { saveFile } from '@/io/Data'
+import { ClearAllData } from '@/io/Storage'
 
-  export default {
-    name: 'OptionsSettings',
-    emits: ['show-message'],
-    data: () => ({
-      importDialog: false,
-      fileValue: null as any,
-      deleteDialog: false,
-      logLevel: {
+export default {
+  name: 'OptionsSettings',
+  emits: ['show-message'],
+  data: () => ({
+    importDialog: false,
+    fileValue: null as any,
+    deleteDialog: false,
+    logLevel: {
+      name: 'Warning',
+      level: 3,
+      detail: 'Record warning and error messages (recommended)',
+    },
+    logLevels: [
+      {
+        name: 'Debug',
+        level: 1,
+        detail: 'Record all log messages (very slow)',
+      },
+      {
+        name: 'Info',
+        level: 2,
+        detail: 'Record info, warning, and error messages',
+      },
+      {
         name: 'Warning',
         level: 3,
         detail: 'Record warning and error messages (recommended)',
       },
-      logLevels: [
-        {
-          name: 'Debug',
-          level: 1,
-          detail: 'Record all log messages (very slow)',
-        },
-        {
-          name: 'Info',
-          level: 2,
-          detail: 'Record info, warning, and error messages',
-        },
-        {
-          name: 'Warning',
-          level: 3,
-          detail: 'Record warning and error messages (recommended)',
-        },
-        { name: 'Error', level: 4, detail: 'Record only error messages' },
-      ],
-      fonts: [
-        { label: 'Inter (v3 default)', value: 'inter' },
-        { label: 'Noto Sans (v3 alt)', value: 'noto' },
-        { label: 'Helvetica (v2 default)', value: 'helvetica' },
-        { label: 'OpenDyslexic (experimental)', value: 'opendyslexic' },
-      ],
-    }),
-    computed: {
-      mobile() {
-        return this.$vuetify.display.mdAndDown
+      { name: 'Error', level: 4, detail: 'Record only error messages' },
+    ],
+    fonts: [
+      { label: 'Inter (v3 default)', value: 'inter' },
+      { label: 'Noto Sans (v3 alt)', value: 'noto' },
+      { label: 'Helvetica (v2 default)', value: 'helvetica' },
+      { label: 'OpenDyslexic (experimental)', value: 'opendyslexic' },
+    ],
+  }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown
+    },
+    user() {
+      return UserStore().User
+    },
+    userViewExotics: {
+      get: function () {
+        return this.user.Option('showExotics')
       },
-      user() {
-        return UserStore().User
-      },
-      userViewExotics: {
-        get: function () {
-          return this.user.Option('showExotics')
-        },
-        set: function (newVal) {
-          this.user.SetOption('showExotics', newVal)
-        },
-      },
-      font: {
-        get: function () {
-          return this.user.Font
-        },
-        set: function (newVal) {
-          this.user.Font = newVal
-          document.documentElement.setAttribute('data-font', newVal)
-        },
-      },
-      theme: {
-        get: function () {
-          return this.user.Theme
-        },
-        set: function (newVal) {
-          this.user.Theme = newVal
-          this.$vuetify.theme.global.name = newVal
-        },
-      },
-      userID() {
-        return this.user.ID
-      },
-      themes() {
-        return Object.keys(allThemes).map(x => ({
-          name: allThemes[x].name,
-          value: x,
-          community: allThemes[x].community,
-        }))
+      set: function (newVal) {
+        this.user.SetOption('showExotics', newVal)
       },
     },
-    created() {
-      this.logLevel =
-        this.logLevels.find(x => x.name.toLowerCase() === this.user.LogLevel) || this.logLevels[2]
+    font: {
+      get: function () {
+        return this.user.Font
+      },
+      set: function (newVal) {
+        this.user.Font = newVal
+        document.documentElement.setAttribute('data-font', newVal)
+      },
     },
-    methods: {
-      reload() {
-        location.reload()
+    theme: {
+      get: function () {
+        return this.user.Theme
       },
-      showUpdates() {
-        this.user.ReadMessages = []
-        this.reload()
+      set: function (newVal) {
+        this.user.Theme = newVal
+        this.$vuetify.theme.global.name = newVal
       },
-      setLogLevel(item) {
-        this.logLevel = item
-        this.user.LogLevel = item.name.toLowerCase()
-      },
-      async bulkExport() {
-        const result = await exportAll()
-        await saveFile(
-          `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
-          JSON.stringify(result),
-          'Save COMP/CON Archive'
-        )
-      },
-      async bulkImport(file) {
-        await importAll(file)
-          .then(() =>
-            this.$notify({
-              title: 'Data import successful',
-              text: `Local user data has been overwritten.`,
-              data: { icon: 'mdi-database-arrow-left-outline' },
-            })
-          )
-          .catch(err =>
-            this.$notify({
-              title: 'Unable to import data',
-              text: `ERROR: ${err}`,
-              data: { color: 'error', icon: 'mdi-database-off-outline' },
-            })
-          )
+    },
+    userID() {
+      return this.user.ID
+    },
+    themes() {
+      return Object.keys(allThemes).map(x => ({
+        name: allThemes[x].name,
+        value: x,
+        community: allThemes[x].community,
+      }))
+    },
+  },
+  created() {
+    this.logLevel =
+      this.logLevels.find(x => x.name.toLowerCase() === this.user.LogLevel) || this.logLevels[2]
+  },
+  methods: {
+    reload() {
+      location.reload()
+    },
+    showUpdates() {
+      this.user.ReadMessages = []
+      this.reload()
+    },
+    setLogLevel(item) {
+      this.logLevel = item
+      this.user.LogLevel = item.name.toLowerCase()
+    },
+    async bulkExport() {
+      const result = await exportAll()
+      const seen = new WeakSet()
+      const serialized = JSON.stringify(
+        result,
+        (_key, value) => {
+          if (typeof value === 'object' && value !== null) {
+            if (seen.has(value)) return '[Circular]'
+            seen.add(value)
+          }
+          return value
+        },
+        2
+      )
+      await saveFile(
+        `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
+        serialized,
+        'Save COMP/CON Archive'
+      )
+    },
+    async bulkImport(input) {
+      const file = Array.isArray(input)
+        ? input[0]
+        : input?.target?.files?.[0] || input
+
+      if (!(file instanceof File)) return
+
+      try {
+        const text = await file.text()
+        const nested = JSON.parse(text).data
+        const data = JSON.parse(nested)
+        await importAll(data)
+        this.$notify({
+          title: 'Data import successful',
+          text: `Local user data has been overwritten.`,
+          data: { icon: 'mdi-database-arrow-left-outline' },
+        })
         this.importDialog = false
-      },
-      async deleteAll() {
-        await clearAllData()
-        this.deleteDialog = false
-      },
+      } catch (err) {
+        this.$notify({
+          title: 'Unable to import data',
+          text: `ERROR: ${err}`,
+          data: { color: 'error', icon: 'mdi-database-off-outline' },
+        })
+      }
     },
-  }
+    async deleteAll() {
+      this.user.Reset();
+      await ClearAllData();
+      window.location.reload();
+    },
+  },
+}
 </script>

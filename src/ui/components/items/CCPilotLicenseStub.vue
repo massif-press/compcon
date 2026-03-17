@@ -18,7 +18,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'cc-pilot-license-stub',
   props: {
     pilotLicense: {
@@ -33,11 +35,6 @@ export default {
     dialog: false,
     color: 'primary',
   }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
   methods: {
     remove() {
       this.$emit('remove');

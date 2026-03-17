@@ -35,17 +35,14 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'requirement-item',
   props: {
     license: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

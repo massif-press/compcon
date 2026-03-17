@@ -235,8 +235,11 @@ import StepperContent from '../../_components/StepperContent.vue';
 import BackgroundSelector from '../../_components/selectors/BackgroundSelector.vue';
 import { name, callsign } from '@/io/Generators';
 import { Pilot } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'identification-page',
   components: { StepperContent, BackgroundSelector },
   props: {
@@ -251,11 +254,6 @@ export default {
     appearanceDialog: false,
   }),
   emits: ['set', 'templates', 'next', 'done'],
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
   methods: {
     async randomCallsign() {
       const generatedCallsign = await callsign();

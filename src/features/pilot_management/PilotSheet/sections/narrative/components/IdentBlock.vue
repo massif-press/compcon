@@ -1,22 +1,43 @@
 <template>
-  <v-row
-    dense
+  <v-row dense
     class="stat-text text-center mb-2"
     :justify="mobile ? 'start' : 'space-between'"
     align="center">
-    <v-col cols="12" sm="6" xl="3" :class="mobile && 'd-flex justify-start'">
-      <cc-text-label v-model="pilot.Callsign" :readonly="pilot.IsRemote" label="Callsign" />
+    <v-col cols="12"
+      sm="6"
+      lg="3"
+      :class="mobile && 'd-flex justify-start'">
+      <cc-text-label v-model="pilot.Callsign"
+        :readonly="pilot.IsRemote"
+        label="Callsign" />
     </v-col>
-    <v-col cols="12" sm="6" xl="3" :class="mobile && 'd-flex justify-start'">
-      <cc-text-label v-model="pilot.Name" :readonly="pilot.IsRemote" label="Name" />
+    <v-col cols="12"
+      sm="6"
+      lg="3"
+      :class="mobile && 'd-flex justify-start'">
+      <cc-text-label v-model="pilot.Name"
+        :readonly="pilot.IsRemote"
+        label="Name" />
     </v-col>
-    <v-col cols="12" sm="6" xl="3" :class="mobile && 'd-flex justify-start'">
-      <cc-text-label v-model="pilot.PlayerName" :readonly="pilot.IsRemote" label="Player" />
+    <v-col cols="12"
+      sm="6"
+      lg="3"
+      :class="mobile && 'd-flex justify-start'">
+      <cc-text-label v-model="pilot.PlayerName"
+        :readonly="pilot.IsRemote"
+        label="Player" />
     </v-col>
-    <v-col cols="12" sm="6" xl="3" :class="mobile && 'd-flex justify-start'">
-      <cc-text-label v-model="pilot.Background" :readonly="pilot.IsRemote" label="Background">
+    <v-col cols="12"
+      sm="6"
+      lg="3"
+      :class="mobile && 'd-flex justify-start'">
+      <cc-text-label v-model="pilot.Background"
+        :readonly="pilot.IsRemote"
+        label="Background">
         <template #append>
-          <background-selector v-if="!pilot.IsRemote" small @select="pilot.Background = $event" />
+          <background-selector v-if="!pilot.IsRemote"
+            small
+            @select="pilot.Background = $event" />
         </template>
       </cc-text-label>
     </v-col>
@@ -26,8 +47,11 @@
 <script lang="ts">
 import { Pilot } from '@/class';
 import BackgroundSelector from '../../../../_components/selectors/BackgroundSelector.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'ident-block',
   components: { BackgroundSelector },
   props: {
@@ -49,9 +73,6 @@ export default {
     notification: '',
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     statusColor(): string {
       switch (this.pilot.Status.toLowerCase()) {
         case 'active':

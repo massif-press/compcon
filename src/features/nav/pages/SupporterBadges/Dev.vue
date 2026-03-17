@@ -1,13 +1,15 @@
 <template>
-  <v-col cols="12" md="">
-    <v-card variant="tonal" class="rounded-ts-xl rounded-be-xl">
+  <v-col cols="12"
+    md="">
+    <v-card variant="tonal"
+      class="rounded-ts-xl rounded-be-xl">
       <v-card-text class="pa-1">
         <v-row align="center">
           <v-col cols="auto">
-            <v-avatar size="80px">
-              <v-img v-if="info.image" :src="info.image" />
-              <span
-                v-else
+            <v-avatar size="60px">
+              <v-img v-if="info.image"
+                :src="info.image" />
+              <span v-else
                 class="text-white heading"
                 :style="`font-size: ${mobile ? '12vw' : '3.5vw'}`">
                 {{ info.name.split(' ')[0].substring(0, 1)
@@ -16,21 +18,36 @@
             </v-avatar>
           </v-col>
           <v-col>
-            <div class="heading h2 mb-1" :style="`font-size: ${mobile ? '4vw' : '1.5vw'}`">
+            <div class="heading h2 mb-1"
+              :style="`font-size: ${mobile ? '20px' : '22px'}`">
               {{ info.name }}
             </div>
-            <a v-if="info.website" target="_blank" :href="`${info.website}`">
-              <v-icon start color="primary" icon="mdi-web" />
+            <a v-if="info.website"
+              target="_blank"
+              :href="`${info.website}`">
+              <v-icon start
+                color="primary"
+                icon="mdi-web" />
               <span>Website</span>
             </a>
-            <span v-if="info.twitter && info.website" class="mx-3">|</span>
-            <a v-if="info.twitter" target="_blank" :href="`https://twitter.com/${info.twitter}`">
-              <v-icon start color="primary" icon="mdi-twitter" />
+            <span v-if="info.twitter && info.website"
+              class="mx-3">|</span>
+            <a v-if="info.twitter"
+              target="_blank"
+              :href="`https://twitter.com/${info.twitter}`">
+              <v-icon start
+                color="primary"
+                icon="mdi-twitter" />
               <span>@{{ info.twitter }}</span>
             </a>
-            <span v-if="info.website && info.github" class="mx-3">|</span>
-            <a v-if="info.github" target="_blank" :href="`https://github.com/${info.github}`">
-              <v-icon start color="primary" icon="mdi-github" />
+            <span v-if="info.website && info.github"
+              class="mx-3">|</span>
+            <a v-if="info.github"
+              target="_blank"
+              :href="`https://github.com/${info.github}`">
+              <v-icon start
+                color="primary"
+                icon="mdi-github" />
               <span>GitHub</span>
             </a>
           </v-col>
@@ -41,19 +58,16 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
-  name: 'dev-badge',
+  name: 'DevBadge',
+  mixins: [useMobile],
   props: {
     info: {
       type: Object,
       required: true,
     },
     cols: { type: Number, default: 6 },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
   },
 };
 </script>

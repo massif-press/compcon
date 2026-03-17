@@ -1,16 +1,17 @@
 <template>
-  <v-container class="px-12">
-    <v-expansion-panels class="px-12">
-      <v-expansion-panel v-for="l in lists">
+  <v-container :class="mobile ? '' : 'px-12'">
+    <v-expansion-panels>
+      <v-expansion-panel v-for="l in lists"
+        :key="l.name">
         <v-expansion-panel-title class="heading h3 text-accent">
           {{ l.name }}
         </v-expansion-panel-title>
         <v-expansion-panel-text v-if="l.type === 'string'">
           <v-card v-for="s in l.data"
+            v-html-safe="s"
             variant="outlined"
             style="border-color: rgb(var(--v-theme-subtle))"
-            class="pa-3 ma-4"
-            v-html-safe="s" />
+            class="pa-3 ma-4" />
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -19,11 +20,13 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
 export default {
-  name: 'lists',
+  name: 'Lists',
+  mixins: [useMobile],
   computed: {
     lists() {
-      let out = [] as { name: string; data: any[]; type: string }[];
+      const out = [] as { name: string; data: any[]; type: string }[];
       const lists = CompendiumStore().Lists;
       for (const t in lists) {
         if (lists.hasOwnProperty(t) && lists[t].length > 0)

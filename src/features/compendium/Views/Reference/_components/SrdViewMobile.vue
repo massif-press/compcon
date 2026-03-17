@@ -81,8 +81,11 @@
 
 <script lang="ts">
 import { NavStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'using-compcon',
   inheritAttrs: false,
   props: {
@@ -104,9 +107,6 @@ export default {
     } else window.scrollTo({ top: 0 });
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     lang() {
       return NavStore().Language;
     },

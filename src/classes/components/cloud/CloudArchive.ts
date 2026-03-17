@@ -1,5 +1,5 @@
-import { downloadFromS3, updateItem, uploadToS3 } from '@/io/apis/account';
-import { dbItemMeta } from './CloudController';
+import { downloadFromS3, updateItem, uploadToS3 } from '@/io/apis/account'
+import { dbItemMeta } from './CloudController'
 import {
   CampaignStore,
   EncounterStore,
@@ -8,14 +8,14 @@ import {
   NpcStore,
   PilotStore,
   UserStore,
-} from '@/stores';
-import { exportAll, importAll } from '@/io/BulkData';
+} from '@/stores'
+import { exportAll, importAll } from '@/io/BulkData'
 
 const generateCloudArchive = async (
   source: 'Automatic' | 'Manual'
 ): Promise<{ meta: dbItemMeta; archive: any }> => {
-  const sortkey = `archive_${Date.now()}`;
-  const user_id = UserStore().Cognito.userId;
+  const sortkey = `archive_${Date.now()}`
+  const user_id = UserStore().Cognito.userId
   const meta = {
     user_id,
     sortkey,
@@ -25,42 +25,42 @@ const generateCloudArchive = async (
     item_modified: Date.now(),
     uri: `${user_id}/archives/${sortkey}.json`,
     preserve: false,
-  } as dbItemMeta;
-  const archive = await exportAll();
+  } as dbItemMeta
+  const archive = await exportAll()
 
-  meta.size = JSON.stringify(archive).length;
+  meta.size = JSON.stringify(archive).length
 
-  return { meta, archive };
-};
+  return { meta, archive }
+}
 
 export const PostCloudArchive = async (source: 'Automatic' | 'Manual') => {
-  const { meta, archive } = await generateCloudArchive(source);
+  const { meta, archive } = await generateCloudArchive(source)
 
-  const res = await updateItem(meta);
+  const res = await updateItem(meta)
   if (res.presign?.upload) {
-    const uploadResult = await uploadToS3(archive, res.presign.upload);
-    UserStore().addCloudNotification(`Archive ${new Date().toLocaleString()} uploaded to cloud.`);
-    return uploadResult;
+    const uploadResult = await uploadToS3(archive, res.presign.upload)
+    UserStore().addCloudNotification(`Archive ${new Date().toLocaleString()} uploaded to cloud.`)
+    return uploadResult
   } else {
-    throw new Error('No presign returned.');
+    throw new Error('No presign returned.')
   }
-};
+}
 
 export const DownloadCloudArchive = async (uri: string) => {
-  return await downloadFromS3(uri);
-};
+  return await downloadFromS3(uri)
+}
 
 export const SetCloudArchive = async (data: any, overwriteCloud: boolean) => {
-  await importAll(data);
+  await importAll(data.data)
 
-  await PilotStore().LoadPilots();
-  await NpcStore().LoadNpcs();
-  await NarrativeStore().LoadCollectionItems();
-  await EncounterStore().LoadEncounters();
-  await CampaignStore().LoadCampaigns();
-  await NavStore().CreateIndex();
+  await PilotStore().LoadPilots()
+  await NpcStore().LoadNpcs()
+  await NarrativeStore().LoadCollectionItems()
+  await EncounterStore().LoadEncounters()
+  await CampaignStore().LoadCampaigns()
+  await NavStore().CreateIndex()
 
   if (overwriteCloud) {
-    UserStore().AutoSync('local');
+    UserStore().AutoSync('local')
   }
-};
+}

@@ -30,8 +30,11 @@
 
 <script lang="ts">
 import deployableInfoBase from './_deployableInfoBase.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'action-hover',
   components: { deployableInfoBase },
   props: {
@@ -42,11 +45,6 @@ export default {
     tier: {
       type: Number,
       required: false,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

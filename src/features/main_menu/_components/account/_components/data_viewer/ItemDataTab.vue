@@ -1,45 +1,37 @@
 <template>
-  <v-btn-toggle
-    v-if="!mobile"
+  <v-btn-toggle v-if="!mobile"
     v-model="itemTypeFilter"
     multiple
     tile
     flat
     column
-    style="height: 20px; margin-top: -6px; width: 100%"
-  >
-    <v-btn
-      v-for="itemType in syncableItemTypes"
+    style="height: 20px; margin-top: -6px; width: 100%">
+    <v-btn v-for="itemType in syncableItemTypes"
       :key="itemType.value"
       v-model="itemTypeFilter"
       size="small"
       :value="itemType.value"
       :style="`width: ${100 / syncableItemTypes.length}%`"
-      color="primary"
-    >
+      color="primary">
       {{ itemType.title }}
     </v-btn>
   </v-btn-toggle>
-  <cc-select
-    v-else
+  <cc-select v-else
     v-model="itemTypeFilter"
     :items="syncableItemTypes"
     multiple
-    color="primary"
-  >
+    color="primary">
     <template #prepend-inner>
       <v-icon>mdi-filter</v-icon>
     </template>
   </cc-select>
-  <v-data-table
-    density="compact"
+  <v-data-table density="compact"
     :mobile="mobile"
     :headers="<any>dataHeaders"
     :items="shownItems"
     item-key="name"
     :loading="loading"
-    :items-per-page="50"
-  >
+    :items-per-page="50">
     <template #item.Name="{ item }">
       {{ item.Name }}
     </template>
@@ -49,19 +41,15 @@
       <span v-else-if="item.ItemType === 'EncounterInstance'">Active Encounter</span>
       <span v-else-if="item.ItemType === 'EncounterArchive'">Archived Encounter</span>
       <span v-else-if="item.ItemType === 'PilotSheet'">Pilot Sheet</span>
-      <span
-        v-else
-        v-text="item.ItemType"
-      />
+      <span v-else
+        v-text="item.ItemType" />
     </template>
     <template #item.lastSync="{ item }">
       <span v-if="item.CloudController.Metadata?.Updated">
         {{ new Date(item.CloudController.Metadata.Updated).toLocaleString() }}
       </span>
-      <i
-        v-else
-        class="text-disabled"
-      >
+      <i v-else
+        class="text-disabled">
         No Data
       </i>
     </template>
@@ -69,10 +57,8 @@
       <span v-if="item.SaveController?.LastModified">
         {{ new Date(item.SaveController.LastModified).toLocaleString() }}
       </span>
-      <i
-        v-else
-        class="text-disabled"
-      >
+      <i v-else
+        class="text-disabled">
         No Data
       </i>
     </template>
@@ -80,41 +66,31 @@
       <span v-if="item.CloudController.Metadata?.ItemModified">
         {{ new Date(item.CloudController.Metadata?.ItemModified).toLocaleString() }}
       </span>
-      <i
-        v-else
-        class="text-disabled"
-      >
+      <i v-else
+        class="text-disabled">
         No Data
       </i>
     </template>
     <template #item.syncStatus="{ item }">
       <span v-if="item.CloudController.Metadata.Deleted">
-        <v-tooltip
-          max-width="300px"
-          location="top"
-        >
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              start
+            <v-icon start
               color="error"
               v-bind="props"
-              icon="mdi-delete-clock"
-            />
+              icon="mdi-delete-clock" />
           </template>
           <div class="text-center">This item has been marked as deleted.</div>
         </v-tooltip>
       </span>
       <span v-else-if="item.CloudController.SyncStatus === 'Synced'">
-        <v-tooltip
-          max-width="300px"
-          location="top"
-        >
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
+            <v-icon v-bind="props"
               color="success"
-              icon="mdi-cloud-check-variant-outline"
-            />
+              icon="mdi-cloud-check-variant-outline" />
           </template>
           <div class="text-center">
             Synced
@@ -124,16 +100,12 @@
         </v-tooltip>
       </span>
       <span v-if="item.CloudController.SyncStatus === 'LocalNewer'">
-        <v-tooltip
-          max-width="300px"
-          location="top"
-        >
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
+            <v-icon v-bind="props"
               color="warning"
-              icon="mdi-cloud-download"
-            />
+              icon="mdi-cloud-download" />
           </template>
           <div class="text-center">
             Cloud Out of Date
@@ -145,16 +117,12 @@
         </v-tooltip>
       </span>
       <span v-if="item.CloudController.SyncStatus === 'CloudNewer'">
-        <v-tooltip
-          max-width="300px"
-          location="top"
-        >
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
+            <v-icon v-bind="props"
               color="warning"
-              icon="mdi-cloud-upload"
-            />
+              icon="mdi-cloud-upload" />
           </template>
           <div class="text-center">
             Local Out of Date
@@ -166,15 +134,11 @@
         </v-tooltip>
       </span>
       <span v-else-if="item.CloudController.SyncStatus === 'LocalOnly'">
-        <v-tooltip
-          max-width="300px"
-          location="top"
-        >
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
-              color="warning"
-            >
+            <v-icon v-bind="props"
+              color="warning">
               mdi-desktop-classic
             </v-icon>
           </template>
@@ -188,15 +152,11 @@
         </v-tooltip>
       </span>
       <span v-else-if="item.CloudController.SyncStatus === 'CloudOnly'">
-        <v-tooltip
-          max-width="300px"
-          location="top"
-        >
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
-              color="warning"
-            >
+            <v-icon v-bind="props"
+              color="warning">
               mdi-cloud-outline
             </v-icon>
           </template>
@@ -212,16 +172,12 @@
     </template>
     <template #item.code="{ item }">
       <span v-if="item.ItemType === 'Campaign'">
-        <v-tooltip
-          max-width="400px"
-          location="top"
-        >
+        <v-tooltip max-width="400px"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              icon="mdi-information-outline"
+            <v-icon icon="mdi-information-outline"
               class="fade-select"
-              v-bind="props"
-            />
+              v-bind="props" />
           </template>
           <div class="text-center">
             This is an editable campaign you have created in the GM Campaign Editor. This data can
@@ -240,19 +196,15 @@
             8
           )}-${item.CloudController.Metadata.Code.slice(8, 12)}`
         }}
-        <v-tooltip
-          max-width="300px"
-          location="top"
-        >
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
+            <v-icon v-bind="props"
               color="accent"
               size="small"
               icon="mdi-content-copy"
               class="fade-select"
-              @click="copy(item.CloudController.Metadata.Code)"
-            />
+              @click="copy(item.CloudController.Metadata.Code)" />
           </template>
           <div class="text-center">Copy Share Code</div>
         </v-tooltip>
@@ -260,19 +212,15 @@
     </template>
     <template #item.actions="{ item }">
       <div v-if="item.CloudController.Metadata.Deleted">
-        <v-tooltip
-          max-width="300px"
-          location="top"
-        >
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-btn
-              size="small"
+            <v-btn size="small"
               color="accent"
               icon
               variant="text"
               v-bind="props"
-              @click="restoreItem(item)"
-            >
+              @click="restoreItem(item)">
               <v-icon size="x-large">mdi-restore</v-icon>
             </v-btn>
           </template>
@@ -287,24 +235,18 @@
         </v-tooltip>
         <v-dialog max-width="600px">
           <template #activator="{ props }">
-            <v-btn
-              size="x-small"
+            <v-btn size="x-small"
               color="error"
               class="mx-1"
               flat
               icon
               v-bind="skipDeleteWarningPerm ? '' : props"
-              @click="skipDeleteWarningPerm ? deleteItemPermanent(item) : ''"
-            >
-              <v-tooltip
-                max-width="300px"
-                location="top"
-              >
+              @click="skipDeleteWarningPerm ? deleteItemPermanent(item) : ''">
+              <v-tooltip max-width="300px"
+                location="top">
                 <template #activator="{ props }">
-                  <v-icon
-                    size="24"
-                    v-bind="props"
-                  >
+                  <v-icon size="24"
+                    v-bind="props">
                     mdi-delete-forever
                   </v-icon>
                 </template>
@@ -314,45 +256,35 @@
           </template>
           <template #default="{ isActive }">
             <v-card>
-              <v-toolbar
-                flat
-                color="error"
-              >
+              <v-toolbar flat
+                color="error">
                 <v-toolbar-title>
                   <span class="heading h3">Delete Immediately</span>
                 </v-toolbar-title>
                 <v-spacer />
-                <v-btn
-                  icon
-                  @click="isActive.value = false"
-                >
+                <v-btn icon
+                  @click="isActive.value = false">
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
               </v-toolbar>
               <v-card-text>
                 Deleting this item will remove it from cloud storage. This will not modify any local
                 copies of this item.
-                <v-checkbox
-                  v-model="skipDeleteWarningPerm"
+                <v-checkbox v-model="skipDeleteWarningPerm"
                   label="Do not show this warning again"
-                  hide-details
-                />
+                  hide-details />
               </v-card-text>
               <v-divider />
               <v-card-actions>
-                <v-btn
-                  variant="text"
-                  @click="isActive.value = false"
-                >
+                <v-btn variant="text"
+                  @click="isActive.value = false">
                   Cancel
                 </v-btn>
                 <v-spacer />
-                <v-btn
-                  variant="elevated"
+                <v-btn variant="elevated"
                   color="error"
                   :loading="loading"
-                  @click="!!deleteItemPermanent(item) ? (isActive.value = false) : ''"
-                >
+                  @click="!!deleteItemPermanent(item) ? (isActive.value = false) : ''">
                   Delete
                 </v-btn>
               </v-card-actions>
@@ -361,20 +293,16 @@
         </v-dialog>
       </div>
       <div v-else>
-        <v-tooltip
-          v-if="showDiffTool(item)"
+        <v-tooltip v-if="showDiffTool(item)"
           max-width="300px"
-          location="top"
-        >
+          location="top">
           <template #activator="{ props }">
-            <v-btn
-              size="small"
+            <v-btn size="small"
               color="accent"
               variant="text"
               icon
               v-bind="props"
-              @click="openDiffViewer(item)"
-            >
+              @click="openDiffViewer(item)">
               <v-icon>mdi-file-compare</v-icon>
             </v-btn>
           </template>
@@ -389,23 +317,17 @@
 
         <v-menu offset-y>
           <template #activator="{ props }">
-            <v-btn
-              size="small"
+            <v-btn size="small"
               color="accent"
               icon
               variant="text"
               :disabled="cloudStorageFull"
-              v-bind="props"
-            >
-              <v-tooltip
-                max-width="300px"
-                location="top"
-              >
+              v-bind="props">
+              <v-tooltip max-width="300px"
+                location="top">
                 <template #activator="{ props }">
-                  <v-icon
-                    size="x-large"
-                    v-bind="props"
-                  >
+                  <v-icon size="x-large"
+                    v-bind="props">
                     mdi-cloud-braces
                   </v-icon>
                 </template>
@@ -414,47 +336,35 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item
-              title="Sync"
+            <v-list-item title="Sync"
               subtitle="Sync this item to the cloud, following the your resolution setting."
-              @click="sync(item)"
-            />
-            <v-list-item
-              title="Force Sync"
+              @click="sync(item)" />
+            <v-list-item title="Force Sync"
               subtitle="Sync this item to the latest version, ignoring settings and conflicts."
-              @click="forceSync(item)"
-            />
-            <v-list-item
-              title="Force update Cloud to Local"
+              @click="forceSync(item)" />
+            <v-list-item title="Force update Cloud to Local"
               subtitle="Overwrite cloud data with local data."
               :disabled="!item.SaveController"
-              @click="forceSyncLocal(item)"
-            />
-            <v-list-item
-              title="Force update Local to Cloud"
+              @click="forceSyncLocal(item)" />
+            <v-list-item title="Force update Local to Cloud"
               subtitle="Overwrite local data with cloud data."
               :disabled="!item.CloudController?.Metadata?.Updated"
-              @click="forceSyncCloud(item)"
-            />
+              @click="forceSyncCloud(item)" />
           </v-list>
         </v-menu>
 
         <v-dialog max-width="600px">
           <template #activator="{ props }">
-            <v-tooltip
-              v-if="item.CloudController.SyncStatus === 'LocalOnly'"
+            <v-tooltip v-if="item.CloudController.SyncStatus === 'LocalOnly'"
               max-width="300px"
-              location="top"
-            >
+              location="top">
               <template #activator="{ props }">
-                <v-btn
-                  size="small"
+                <v-btn size="small"
                   color="warning"
                   icon
                   variant="text"
                   v-bind="props"
-                  @click="item.SaveController.Delete()"
-                >
+                  @click="item.SaveController.Delete()">
                   <v-icon size="x-large">mdi-delete-outline</v-icon>
                 </v-btn>
               </template>
@@ -466,24 +376,18 @@
                 </i>
               </div>
             </v-tooltip>
-            <v-btn
-              v-else
+            <v-btn v-else
               size="small"
               color="accent"
               icon
               variant="text"
               v-bind="skipDeleteWarning ? '' : props"
-              @click="skipDeleteWarning ? deleteItem(item) : ''"
-            >
-              <v-tooltip
-                max-width="300px"
-                location="top"
-              >
+              @click="skipDeleteWarning ? deleteItem(item) : ''">
+              <v-tooltip max-width="300px"
+                location="top">
                 <template #activator="{ props }">
-                  <v-icon
-                    size="x-large"
-                    v-bind="props"
-                  >
+                  <v-icon size="x-large"
+                    v-bind="props">
                     mdi-delete-outline
                   </v-icon>
                 </template>
@@ -494,18 +398,14 @@
           </template>
           <template #default="{ isActive }">
             <v-card>
-              <v-toolbar
-                flat
-                color="error"
-              >
+              <v-toolbar flat
+                color="error">
                 <v-toolbar-title>
                   <span class="heading h3">Delete Cloud Item</span>
                 </v-toolbar-title>
                 <v-spacer />
-                <v-btn
-                  icon
-                  @click="isActive.value = false"
-                >
+                <v-btn icon
+                  @click="isActive.value = false">
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
               </v-toolbar>
@@ -514,27 +414,21 @@
                 item locally, but will prevent it from syncing to the cloud or to other devices.
                 Deleted items can be recovered via the "Deleted Items" tab. Recoverable items still
                 count towards your storage limit.
-                <v-checkbox
-                  v-model="skipDeleteWarning"
+                <v-checkbox v-model="skipDeleteWarning"
                   label="Do not show this warning again"
-                  hide-details
-                />
+                  hide-details />
               </v-card-text>
               <v-divider />
               <v-card-actions>
-                <v-btn
-                  variant="text"
-                  @click="isActive.value = false"
-                >
+                <v-btn variant="text"
+                  @click="isActive.value = false">
                   Cancel
                 </v-btn>
                 <v-spacer />
-                <v-btn
-                  variant="elevated"
+                <v-btn variant="elevated"
                   color="error"
                   :loading="loading"
-                  @click="!!deleteItem(item) ? (isActive.value = false) : ''"
-                >
+                  @click="!!deleteItem(item) ? (isActive.value = false) : ''">
                   Delete
                 </v-btn>
               </v-card-actions>
@@ -544,331 +438,328 @@
       </div>
     </template>
   </v-data-table>
-  <v-dialog
-    v-model="diffDialog"
-    fullscreen
-  >
-    <diff-viewer
-      ref="diffViewer"
+  <v-dialog v-model="diffDialog"
+    fullscreen>
+    <diff-viewer ref="diffViewer"
       :local="localDiff"
       :cloud="cloudDiff"
       :loading="diffLoading"
       @take-local="takeDiff('local')"
       @take-cloud="takeDiff('cloud')"
-      @close="diffDialog = false"
-    />
+      @close="diffDialog = false" />
   </v-dialog>
 </template>
 
 <script lang="ts">
-  import { UserStore } from '@/stores'
-  import DiffViewer from './diffViewer.vue'
-  import { CloudController } from '@/classes/components/cloud/CloudController'
-  import { expandFilterTypes, normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
-  import { cloudDelete, downloadFromS3 } from '@/io/apis/account'
-  import logger from '@/user/logger'
+import { UserStore } from '@/stores'
+import DiffViewer from './diffViewer.vue'
+import { CloudController } from '@/classes/components/cloud/CloudController'
+import { expandFilterTypes, normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
+import { cloudDelete, downloadFromS3 } from '@/io/apis/account'
+import logger from '@/user/logger'
 
-  export default {
-    name: 'CloudItemDataTab',
-    components: {
-      DiffViewer,
+export default {
+  name: 'CloudItemDataTab',
+  components: {
+    DiffViewer,
+  },
+  props: {
+    search: {
+      type: String,
+      default: '',
     },
-    props: {
-      search: {
-        type: String,
-        default: '',
-      },
-      loading: {
-        type: Boolean,
-        default: false,
-      },
+    loading: {
+      type: Boolean,
+      default: false,
     },
-    emits: ['refresh'],
-    data: () => ({
-      tab: 'Data',
-      diffLoading: false,
-      diffDialog: false,
-      deleteLoading: false,
-      diffItem: {},
-      localDiff: {},
-      cloudDiff: {},
-      dataHeaders: [
-        { title: 'Name', key: 'Name' },
-        { title: 'Type', key: 'ItemType' },
-        {
-          title: 'Last Sync',
-          key: 'lastSync',
-          align: 'center',
-          sortRaw: (a, b) =>
-            a.CloudController.Metadata?.Updated - b.CloudController.Metadata?.Updated,
-        },
-        {
-          title: 'Last Modified (Cloud)',
-          key: 'cloudLastModified',
-          align: 'center',
-          sortRaw: (a, b) =>
-            a.CloudController.Metadata?.ItemModified - b.CloudController.Metadata?.ItemModified,
-        },
-        {
-          title: 'Last Modified (Local)',
-          key: 'localLastModified',
-          value: 'SaveController.LastModified',
-          align: 'center',
-        },
-        {
-          title: 'Sync Status',
-          key: 'syncStatus',
-          width: '0px',
-          align: 'center',
-          sortRaw: (a, b) => {
-            const order = ['Synced', 'LocalNewer', 'CloudNewer', 'LocalOnly', 'CloudOnly']
-            return (
-              order.indexOf(a.CloudController.SyncStatus) -
-              order.indexOf(b.CloudController.SyncStatus)
-            )
-          },
-        },
-        {
-          title: 'Share Code',
-          key: 'code',
-          align: 'center',
-          width: '195px',
-          sortable: false,
-        },
-        { title: '', key: 'actions', width: '152px', align: 'end' },
-      ],
-      itemTypeFilter: ['pilot', 'npc', 'collectionItem', 'encounter', 'campaign'],
-      syncableItemTypes: [
-        { title: 'Pilot', value: 'pilot' },
-        { title: 'NPC', value: 'npc' },
-        { title: 'Narrative Element', value: 'collectionItem' },
-        { title: 'Encounter', value: 'encounter' },
-        { title: 'Campaign', value: 'campaign' },
-      ],
-    }),
-    computed: {
-      mobile() {
-        return this.$vuetify.display.mdAndDown
+  },
+  emits: ['refresh'],
+  data: () => ({
+    tab: 'Data',
+    diffLoading: false,
+    diffDialog: false,
+    deleteLoading: false,
+    diffItem: {},
+    localDiff: {},
+    cloudDiff: {},
+    dataHeaders: [
+      { title: 'Name', key: 'Name' },
+      { title: 'Type', key: 'ItemType' },
+      {
+        title: 'Last Sync',
+        key: 'lastSync',
+        align: 'center',
+        sortRaw: (a, b) =>
+          a.CloudController.Metadata?.Updated - b.CloudController.Metadata?.Updated,
       },
-      allSyncableItems() {
-        return UserStore().AllSyncableItems
+      {
+        title: 'Last Modified (Cloud)',
+        key: 'cloudLastModified',
+        align: 'center',
+        sortRaw: (a, b) =>
+          a.CloudController.Metadata?.ItemModified - b.CloudController.Metadata?.ItemModified,
       },
-      cloudOnlyItems() {
-        return UserStore().CloudOnlyItems
+      {
+        title: 'Last Modified (Local)',
+        key: 'localLastModified',
+        value: 'SaveController.LastModified',
+        align: 'center',
       },
-      cloudStorageFull() {
-        return UserStore().CloudStorageFull
+      {
+        title: 'Sync Status',
+        key: 'syncStatus',
+        width: '0px',
+        align: 'center',
+        sortRaw: (a, b) => {
+          const order = ['Synced', 'LocalNewer', 'CloudNewer', 'LocalOnly', 'CloudOnly']
+          return (
+            order.indexOf(a.CloudController.SyncStatus) -
+            order.indexOf(b.CloudController.SyncStatus)
+          )
+        },
       },
-      shownItems() {
-        const typeFilter = expandFilterTypes(this.itemTypeFilter)
+      {
+        title: 'Share Code',
+        key: 'code',
+        align: 'center',
+        width: '195px',
+        sortable: false,
+      },
+      { title: '', key: 'actions', width: '152px', align: 'end' },
+    ],
+    itemTypeFilter: ['pilot', 'npc', 'collectionItem', 'encounter', 'campaign'],
+    syncableItemTypes: [
+      { title: 'Pilot', value: 'pilot' },
+      { title: 'NPC', value: 'npc' },
+      { title: 'Narrative Element', value: 'collectionItem' },
+      { title: 'Encounter', value: 'encounter' },
+      { title: 'Campaign', value: 'campaign' },
+    ],
+  }),
+  computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown
+    },
+    allSyncableItems() {
+      return UserStore().AllSyncableItems
+    },
+    cloudOnlyItems() {
+      return UserStore().CloudOnlyItems
+    },
+    cloudStorageFull() {
+      return UserStore().CloudStorageFull
+    },
+    shownItems() {
+      const typeFilter = expandFilterTypes(this.itemTypeFilter)
 
-        return this.allSyncableItems.filter(item => {
-          if (typeFilter.length && !typeFilter.includes(normalizeItemType(item.ItemType)))
-            return false
+      return this.allSyncableItems.filter(item => {
+        if (typeFilter.length && !typeFilter.includes(normalizeItemType(item.ItemType)))
+          return false
 
-          if (this.search && !item.Name.toLowerCase().includes(this.search.toLowerCase()))
-            return false
+        if (this.search && !item.Name.toLowerCase().includes(this.search.toLowerCase()))
+          return false
 
-          return true
-        })
+        return true
+      })
+    },
+    skipDeleteWarning: {
+      get() {
+        return UserStore().User.View('skipDeleteWarning_item', false)
       },
-      skipDeleteWarning: {
-        get() {
-          return UserStore().User.View('skipDeleteWarning_item', false)
-        },
-        set(val) {
-          UserStore().User.SetView('skipDeleteWarning_item', val)
-        },
-      },
-      skipDeleteWarningPerm: {
-        get() {
-          return UserStore().User.View('skipDeleteWarningPerm_item', false)
-        },
-        set(val) {
-          UserStore().User.SetView('skipDeleteWarningPerm_item', val)
-        },
+      set(val) {
+        UserStore().User.SetView('skipDeleteWarning_item', val)
       },
     },
-    watch: {
-      itemTypeFilter(val) {
-        if (!val) return
-        UserStore().User.SetView('cloudItemFilters', val)
+    skipDeleteWarningPerm: {
+      get() {
+        return UserStore().User.View('skipDeleteWarningPerm_item', false)
+      },
+      set(val) {
+        UserStore().User.SetView('skipDeleteWarningPerm_item', val)
       },
     },
-    created() {
-      this.itemTypeFilter = UserStore().User.View('cloudItemFilters', [
-        'pilot',
-        'npc',
-        'collectionItem',
-        'encounter',
-        'campaign',
-      ])
+  },
+  watch: {
+    itemTypeFilter(val) {
+      if (!val) return
+      UserStore().User.SetView('cloudItemFilters', val)
     },
-    methods: {
-      async sync(item) {
-        try {
-          await CloudController.AutoSync(item)
-          this.$notify({
-            title: `Sync Complete`,
-            text: `${item.ItemType} ${item.Name} synced.`,
-            data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
-          })
-        } catch (err) {
-          console.error(err)
-          logger.error(`Error syncing item: ${err}`, this, err)
-          this.$notify({
-            title: `Sync Failed`,
-            text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
-            data: { icon: 'mdi-alert', color: 'error' },
-          })
-        }
-      },
-      async forceSync(item) {
-        const status = item.CloudController.SyncStatus
-        if (status === 'LocalNewer' || status === 'LocalOnly') this.forceSyncLocal(item)
-        else if (status === 'CloudNewer' || status === 'CloudOnly') this.forceSyncCloud(item)
-      },
-      async forceSyncLocal(item) {
-        try {
-          await CloudController.SyncToLocal(item)
-          this.$notify({
-            title: `Upload Complete`,
-            text: `${item.ItemType} ${item.Name} synced.`,
-            data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
-          })
-        } catch (err) {
-          logger.error(`Error syncing to local: ${err}`, this, err)
-          this.$notify({
-            title: `Sync Failed`,
-            text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
-            data: { icon: 'mdi-alert', color: 'error' },
-          })
-        }
-      },
-      async forceSyncCloud(item) {
-        try {
-          await CloudController.SyncToCloud(item)
-          this.$emit('refresh')
-          this.$notify({
-            title: `Sync Complete`,
-            text: `${item.ItemType} ${item.Name} synced.`,
-            data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
-          })
-        } catch (err) {
-          logger.error(`Error syncing to cloud: ${err}`, this, err)
-          this.$notify({
-            title: `Sync Failed`,
-            text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
-            data: { icon: 'mdi-alert', color: 'error' },
-          })
-        }
-      },
-      showDiffTool(item) {
-        const statuses = ['LocalNewer', 'CloudNewer']
-        return statuses.includes(item.CloudController.SyncStatus)
-      },
-      async openDiffViewer(item) {
-        this.diffItem = item
-        this.localDiff = item.Serialize()
-        this.cloudDiff = (await item.IsCloudOnly)
-          ? await downloadFromS3(item.raw.uri)
-          : await item.CloudController.Download()
-        this.diffDialog = true
-      },
-      async takeDiff(diff: 'local' | 'cloud') {
-        this.diffLoading = true
-        if (diff === 'local') this.forceSyncLocal(this.diffItem)
-        else this.forceSyncCloud(this.diffItem)
-
-        this.diffItem = {}
-        this.localDiff = {}
-        this.cloudDiff = {}
-        this.diffDialog = false
-        this.diffLoading = false
-      },
-      async deleteItem(item) {
-        this.deleteLoading = true
-        try {
-          await CloudController.MarkCloudDeleted(item.CloudController.Metadata)
-          this.$notify({
-            title: `Item Deleted`,
-            text: `Marked ${item.ItemType} ${item.Name} as deleted.`,
-            data: { icon: 'mdi-delete', color: 'success' },
-          })
-          this.deleteLoading = false
-          return true
-        } catch (err) {
-          logger.error(`Error deleting item: ${err}`, this, err)
-          this.$notify({
-            title: `Delete Failed`,
-            text: `Unable to communicate with server. ${err}`,
-            data: { icon: 'mdi-alert', color: 'error' },
-          })
-        }
-        this.deleteLoading = false
-      },
-      async restoreItem(item) {
-        this.deleteLoading = true
-        try {
-          await CloudController.Undelete(item.CloudController.Metadata)
-          this.$notify({
-            title: `Item Restored`,
-            text: `Restored ${item.ItemType} ${item.Name}.`,
-            data: { icon: 'mdi-delete', color: 'success' },
-          })
-          this.deleteLoading = false
-          return true
-        } catch (err) {
-          logger.error(`Error restoring item: ${err}`, this, err)
-          this.$notify({
-            title: `Restore Failed`,
-            text: `Unable to communicate with server. ${err}`,
-            data: { icon: 'mdi-alert', color: 'error' },
-          })
-        }
-        this.deleteLoading = false
-      },
-      async deleteItemPermanent(item) {
-        this.deleteLoading = true
-        try {
-          const { user_id, sortkey, uri } = item.CloudController.Metadata.Serialize()
-          await cloudDelete(user_id, sortkey, uri)
-          if (item.SaveController) {
-            item.CloudController.Metadata = CloudController.GenerateMetadata(item.CloudController)
-            delete item.CloudController.Metadata.ItemModified
-          }
-          this.$emit('refresh')
-          this.$notify({
-            title: `Item Deleted Permanently`,
-            text: `Removed ${item.ItemType} ${item.Name}.`,
-            data: { icon: 'mdi-delete', color: 'success' },
-          })
-          this.deleteLoading = false
-          return true
-        } catch (err) {
-          logger.error(`Error deleting item: ${err}`, this, err)
-          this.$notify({
-            title: `Deletion Failed`,
-            text: `Unable to communicate with server. ${err}`,
-            data: { icon: 'mdi-alert', color: 'error' },
-          })
-        }
-        this.deleteLoading = false
-      },
-      copy(text: string) {
-        navigator.clipboard.writeText(text)
+  },
+  created() {
+    this.itemTypeFilter = UserStore().User.View('cloudItemFilters', [
+      'pilot',
+      'npc',
+      'collectionItem',
+      'encounter',
+      'campaign',
+    ])
+  },
+  methods: {
+    async sync(item) {
+      try {
+        await CloudController.AutoSync(item)
         this.$notify({
-          title: 'Copied',
-          text: 'Share code copied to clipboard.',
-          data: { icon: 'mdi-content-copy', color: 'success' },
+          title: `Sync Complete`,
+          text: `${item.ItemType} ${item.Name} synced.`,
+          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         })
-      },
+      } catch (err) {
+        console.error(err)
+        logger.error(`Error syncing item: ${err}`, this, err)
+        this.$notify({
+          title: `Sync Failed`,
+          text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        })
+      }
     },
-  }
+    async forceSync(item) {
+      const status = item.CloudController.SyncStatus
+      if (status === 'LocalNewer' || status === 'LocalOnly') this.forceSyncLocal(item)
+      else if (status === 'CloudNewer' || status === 'CloudOnly') this.forceSyncCloud(item)
+    },
+    async forceSyncLocal(item) {
+      try {
+        await CloudController.SyncToLocal(item)
+        this.$notify({
+          title: `Upload Complete`,
+          text: `${item.ItemType} ${item.Name} synced.`,
+          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+        })
+      } catch (err) {
+        logger.error(`Error syncing to local: ${err}`, this, err)
+        this.$notify({
+          title: `Sync Failed`,
+          text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        })
+      }
+    },
+    async forceSyncCloud(item) {
+      try {
+        await CloudController.SyncToCloud(item)
+        this.$emit('refresh')
+        this.$notify({
+          title: `Sync Complete`,
+          text: `${item.ItemType} ${item.Name} synced.`,
+          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+        })
+      } catch (err) {
+        logger.error(`Error syncing to cloud: ${err}`, this, err)
+        this.$notify({
+          title: `Sync Failed`,
+          text: `Failed to sync ${item.ItemType} ${item.Name}. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        })
+      }
+    },
+    showDiffTool(item) {
+      const statuses = ['LocalNewer', 'CloudNewer']
+      return statuses.includes(item.CloudController.SyncStatus)
+    },
+    async openDiffViewer(item) {
+      this.diffItem = item
+      this.localDiff = item.Serialize()
+      this.cloudDiff = (await item.IsCloudOnly)
+        ? await downloadFromS3(item.raw.uri)
+        : await item.CloudController.Download()
+      this.diffDialog = true
+    },
+    async takeDiff(diff: 'local' | 'cloud') {
+      this.diffLoading = true
+      if (diff === 'local') this.forceSyncLocal(this.diffItem)
+      else this.forceSyncCloud(this.diffItem)
+
+      this.diffItem = {}
+      this.localDiff = {}
+      this.cloudDiff = {}
+      this.diffDialog = false
+      this.diffLoading = false
+    },
+    async deleteItem(item) {
+      this.deleteLoading = true
+      try {
+        await CloudController.MarkCloudDeleted(item.CloudController.Metadata)
+        this.$emit('refresh')
+        this.$notify({
+          title: `Item Deleted`,
+          text: `Marked ${item.ItemType} ${item.Name} as deleted.`,
+          data: { icon: 'mdi-delete', color: 'success' },
+        })
+        this.deleteLoading = false
+        return true
+      } catch (err) {
+        logger.error(`Error deleting item: ${err}`, this, err)
+        this.$notify({
+          title: `Delete Failed`,
+          text: `Unable to communicate with server. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        })
+      }
+      this.deleteLoading = false
+    },
+    async restoreItem(item) {
+      this.deleteLoading = true
+      try {
+        await CloudController.Undelete(item.CloudController.Metadata)
+        this.$notify({
+          title: `Item Restored`,
+          text: `Restored ${item.ItemType} ${item.Name}.`,
+          data: { icon: 'mdi-delete', color: 'success' },
+        })
+        this.deleteLoading = false
+        return true
+      } catch (err) {
+        logger.error(`Error restoring item: ${err}`, this, err)
+        this.$notify({
+          title: `Restore Failed`,
+          text: `Unable to communicate with server. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        })
+      }
+      this.deleteLoading = false
+    },
+    async deleteItemPermanent(item) {
+      this.deleteLoading = true
+      try {
+        const { user_id, sortkey, uri } = item.CloudController.Metadata.Serialize()
+        await cloudDelete(user_id, sortkey, uri)
+        if (item.SaveController) {
+          item.CloudController.Metadata = CloudController.GenerateMetadata(item.CloudController)
+          delete item.CloudController.Metadata.ItemModified
+        }
+        this.$emit('refresh')
+        this.$notify({
+          title: `Item Deleted Permanently`,
+          text: `Removed ${item.ItemType} ${item.Name}.`,
+          data: { icon: 'mdi-delete', color: 'success' },
+        })
+        this.deleteLoading = false
+        return true
+      } catch (err) {
+        logger.error(`Error deleting item: ${err}`, this, err)
+        this.$notify({
+          title: `Deletion Failed`,
+          text: `Unable to communicate with server. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        })
+      }
+      this.deleteLoading = false
+    },
+    copy(text: string) {
+      navigator.clipboard.writeText(text)
+      this.$notify({
+        title: 'Copied',
+        text: 'Share code copied to clipboard.',
+        data: { icon: 'mdi-content-copy', color: 'success' },
+      })
+    },
+  },
+}
 </script>
 
 <style>
-  .v-data-table-header__content {
-    font-weight: bold !important;
-  }
+.v-data-table-header__content {
+  font-weight: bold !important;
+}
 </style>

@@ -41,10 +41,13 @@ import {
 } from 'chart.js';
 import { Frame } from '@/class';
 import FrameStatblock from './_FrameStatblock.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 export default {
+  mixins: [useMobile],
   name: 'FrameCombatChart',
   components: { Radar, FrameStatblock },
   props: {

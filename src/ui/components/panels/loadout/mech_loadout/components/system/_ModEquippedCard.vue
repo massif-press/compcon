@@ -42,8 +42,11 @@
 <script lang="ts">
 import SlotCardBase from '../_SlotCardBase.vue';
 import EquipmentOptions from '../_EquipmentOptions.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'mod-equipped-card',
   components: {
     SlotCardBase,
@@ -75,10 +78,5 @@ export default {
   data: () => ({
     hide: false,
   }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
 };
 </script>

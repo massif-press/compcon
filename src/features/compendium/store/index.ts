@@ -33,7 +33,7 @@ import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
 import { NpcClass } from '@/classes/npc/class/NpcClass'
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate'
 import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
-import { IndexItem } from '@/stores'
+import { IndexItem, NavStore } from '@/stores'
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection'
 import { BondPower } from '@/classes/pilot/components/bond/Bond'
 import logger from '@/user/logger'
@@ -391,6 +391,7 @@ export const CompendiumStore = defineStore('compendium', {
         const pack = new ContentPack(packData)
         pack.SetActive(true)
         this.ContentPacks.push(pack)
+        NavStore().addToIndex(pack.GetIndexItems())
       })
 
       await Promise.all(promises)

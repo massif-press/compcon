@@ -250,8 +250,11 @@
 import { PilotStore } from '@/stores';
 import SheetItem from './_components/SheetItem.vue';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'SheetManager',
   components: {
     SheetItem,
@@ -262,9 +265,6 @@ export default {
     search: '',
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     activeSheets() {
       let sheets = PilotStore().PilotSheets.filter(x => !x.Archived && !x.SaveController.IsDeleted);
 

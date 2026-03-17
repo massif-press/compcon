@@ -72,7 +72,7 @@
             <td class="text-center">
               <v-tooltip location="top"
                 max-width="300px">
-                <template v-slot:activator="{ props }">
+                <template #activator="{ props }">
                   <v-icon v-bind="props"
                     :icon="item.status ? 'mdi-check' : 'mdi-warning'"
                     :color="item.status ? 'success' : 'error'" />
@@ -105,8 +105,8 @@
             The data to be imported requires the following content packs that
             are not currently installed/active, or have mismatching versions:
           </p>
-          <p class="effect-text text-center"
-            v-html-safe="missingContent" />
+          <p v-html-safe="missingContent"
+            class="effect-text text-center" />
           <p class="text-text">
             This data cannot be imported until the missing content packs are
             installed and activated, or the content pack versions are
@@ -156,7 +156,8 @@ import { Faction } from '@/classes/narrative/Faction';
 import { Encounter } from '@/classes/encounter/Encounter';
 
 export default {
-  name: 'file-import',
+  name: 'FileImport',
+  emits: ['complete'],
   data: () => ({
     selected: [] as any[],
     // fileValue is just used to clear the file input
@@ -167,7 +168,6 @@ export default {
     stagedItems: [] as any[],
     alreadyPresent: '',
   }),
-  emits: ['complete'],
   methods: {
     reset() {
       this.fileValue = null;
@@ -303,9 +303,6 @@ export default {
           } else if (item.itemType === 'encounter') {
             EncounterStore().AddEncounter(Encounter.Deserialize(item));
           }
-
-          this.reset();
-          this.$emit('complete');
         } catch (error) {
           console.error(error);
           this.$notify({
@@ -315,6 +312,9 @@ export default {
           });
         }
       });
+
+      this.reset();
+      this.$emit('complete');
     },
     cancelImport() {
       this.reset();

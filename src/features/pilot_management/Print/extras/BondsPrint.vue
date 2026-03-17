@@ -6,7 +6,7 @@
         <div v-if="blank" style="min-width: 250px">
           <blank-line :height="40" />
         </div>
-        <div v-else class="heading h2 my-n2">
+        <div v-else-if="bc.Bond" class="heading h2 my-n2">
           {{ bc.Bond.Name }}
         </div>
       </v-col>
@@ -37,7 +37,7 @@
       <blank-line :height="24" />
     </div>
 
-    <v-row v-else dense justify="space-between" class="pt-4">
+    <v-row v-else-if="bc.Bond" dense justify="space-between" class="pt-4">
       <v-col v-for="(q, i) in bc.Bond.Questions" v-show="bc.Answers[i]">
         <div class="text-overline mt-n5" style="line-height: 12px">{{ q.question }}</div>
         <div class="text-left caption" v-text="bc.Answers[i]" />

@@ -1,8 +1,9 @@
 <template>
-  <quill-editor :options="editorOptions"
+  <quill-editor v-model:content="text"
+    :options="editorOptions"
     theme="snow"
-    v-model:content="text"
-    content-type="html" />
+    content-type="html"
+    style="min-height: 75px;" />
 </template>
 
 <script lang="ts">
@@ -10,8 +11,7 @@ import { options } from '@/ui/style/quillSetup';
 import { debounce } from 'lodash-es';
 
 export default {
-  name: 'cc-text-editor',
-  emits: ['save'],
+  name: 'CcTextEditor',
   props: {
     original: {
       type: String,
@@ -19,23 +19,24 @@ export default {
       default: '',
     },
   },
+  emits: ['save'],
   data: () => ({
     title: '',
     text: '',
   }),
-  created() {
-    if (this.original) this.text = this.original;
-  },
-  watch: {
-    text(value) {
-      const self = this;
-      debounce(() => self.$emit('save', value), 300)();
-    },
-  },
   computed: {
     editorOptions() {
       return options;
     },
+  },
+  watch: {
+    text(value) {
+      this.emitSave(value);
+    },
+  },
+  created() {
+    if (this.original) this.text = this.original;
+    this.emitSave = debounce((value: string) => this.$emit('save', value), 300);
   },
 };
 </script>

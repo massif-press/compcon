@@ -100,25 +100,13 @@ abstract class Npc
     this.SaveController.save()
   }
 
-  public Clone(): ISaveable {
-    throw new Error('Method inaccessible in abstract class.')
-  }
+  public abstract Clone(): ISaveable
 
-  public Serialize(): object {
-    throw new Error('Method inaccessible in abstract class.')
-  }
+  public abstract Serialize(): object
 
-  public Deserialize() {
-    throw new Error('Method inaccessible in abstract class.')
-  }
+  public abstract CreateInstance<T>(): T
 
-  public CreateInstance() {
-    throw new Error('Method inaccessible in abstract class.')
-  }
-
-  public get Icon(): string {
-    throw new Error('Method inaccessible in abstract class.')
-  }
+  public abstract get Icon(): string
 
   public static LoadError(self: Npc, err: any, message: string): void {
     logger.error(`Error loading NPC ${self.Name}: ${message}; ${err}`, this, err)

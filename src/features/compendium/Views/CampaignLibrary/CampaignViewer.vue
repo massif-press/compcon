@@ -39,8 +39,11 @@ import Page from './pages/contentPage.vue';
 import Indices from './pages/indices.vue';
 
 import { CampaignStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'campaign-viewer',
   components: { sidebar, Credits, Page, Indices },
   props: {
@@ -59,9 +62,6 @@ export default {
   },
 
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     itemComponent() {
       switch (this.componentType.toLowerCase()) {
         case 'credits':

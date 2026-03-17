@@ -2,8 +2,7 @@
   <v-row dense>
     <v-col>
       <div class="text-cc-overline text-disabled">Skill Check Roll</div>
-      <v-text-field
-        v-model="roll"
+      <v-text-field v-model="roll"
         density="compact"
         variant="outlined"
         type="number"
@@ -12,14 +11,14 @@
         hide-details
         tile>
         <template #prepend-inner>
-          <v-icon size="25" icon="mdi-dice-d20" />
+          <v-icon size="25"
+            icon="mdi-dice-d20" />
         </template>
       </v-text-field>
     </v-col>
     <v-col>
       <div class="text-cc-overline text-disabled">Bonus</div>
-      <v-text-field
-        v-model="bonus"
+      <v-text-field v-model="bonus"
         density="compact"
         variant="outlined"
         type="number"
@@ -28,11 +27,11 @@
         hide-details
         tile>
         <template #prepend-inner>
-          <v-icon size="25" :icon="bonus < 0 ? 'mdi-minus' : 'mdi-plus'" />
+          <v-icon size="25"
+            :icon="bonus < 0 ? 'mdi-minus' : 'mdi-plus'" />
         </template>
       </v-text-field>
-      <v-card
-        v-for="a in applicableBonuses.bonuses"
+      <v-card v-for="a in applicableBonuses.bonuses"
         flat
         tile
         class="pa-1 text-cc-overline"
@@ -42,52 +41,62 @@
     </v-col>
     <v-col>
       <div class="text-cc-overline text-disabled">
-        {{ accDiff < 0 ? 'Difficulty' : 'Accuracy' }}
-      </div>
-      <v-text-field
-        v-model="accDiff"
-        density="compact"
-        variant="outlined"
-        type="number"
-        flat
-        hide-details
-        tile>
-        <template #prepend-inner>
-          <v-tooltip location="top">
-            <template #activator="{ props }">
-              <v-icon
-                v-bind="props"
-                size="x-large"
-                :icon="accDiff > 0 ? 'cc:accuracy' : 'cc:difficulty'" />
+        {{ accDiff < 0
+          ? 'Difficulty'
+          : 'Accuracy'
+          }}
+          </div>
+          <v-text-field v-model="accDiff"
+            density="compact"
+            variant="outlined"
+            type="number"
+            flat
+            hide-details
+            tile>
+            <template #prepend-inner>
+              <v-tooltip location="top">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props"
+                    size="x-large"
+                    :icon="accDiff > 0 ? 'cc:accuracy' : 'cc:difficulty'" />
+                </template>
+              </v-tooltip>
             </template>
-          </v-tooltip>
-        </template>
-      </v-text-field>
-      <v-card v-if="difficult" flat tile class="pa-1 text-cc-overline" color="light-panel">
-        -1 (Difficult)
-      </v-card>
-      <v-card
-        v-for="a in applicableBonuses.accDiff"
-        flat
-        tile
-        class="pa-1 text-cc-overline"
-        color="light-panel">
-        {{ a.Accuracy > 0 ? '+' : '' }}{{ a.Accuracy }} ({{ a.Source }})
-      </v-card>
+          </v-text-field>
+          <v-card v-if="difficult"
+            flat
+            tile
+            class="pa-1 text-cc-overline"
+            color="light-panel">
+            -1 (Difficult)
+          </v-card>
+          <v-card v-for="a in applicableBonuses.accDiff"
+            flat
+            tile
+            class="pa-1 text-cc-overline"
+            color="light-panel">
+            {{ a.Accuracy > 0 ? '+' : '' }}{{ a.Accuracy }} ({{ a.Source }})
+          </v-card>
     </v-col>
     <slot />
   </v-row>
 
-  <v-btn flat tile class="mt-2" color="primary" size="small" block @click="rollCheck()">Roll</v-btn>
+  <v-btn flat
+    tile
+    class="mt-2"
+    color="primary"
+    size="small"
+    block
+    @click="rollCheck()">Roll</v-btn>
 
-  <div class="pa-2 border-s mt-2 text-left" v-if="rollResults.length">
+  <div v-if="rollResults.length"
+    class="pa-2 border-s mt-2 text-left">
     <div class="text-cc-overline text-disabled">Roll Results</div>
-    <div
-      v-for="(r, idx) in rollResults"
-      class="text-caption"
-      :class="idx === 0 ? 'font-weight-bold text-accent' : 'text-disabled'"
+    <div v-for="(r, idx) in rollResults"
       :key="`${r.text}_${idx}`"
-      v-html-safe="r.text" />
+      v-html-safe="r.text"
+      class="text-caption"
+      :class="idx === 0 ? 'font-weight-bold text-accent' : 'text-disabled'" />
   </div>
 </template>
 
@@ -105,22 +114,6 @@ export default {
     accDiff: 0,
     rollResults: [],
   }),
-  watch: {
-    difficult(newVal) {
-      if (newVal) {
-        this.accDiff -= 1;
-      } else {
-        this.accDiff += 1;
-      }
-    },
-    applicableBonuses: {
-      immediate: true,
-      handler(newVal) {
-        this.bonus = newVal.bonuses.reduce((acc, curr) => acc + curr.Value, 0);
-        this.accDiff = newVal.accDiff.reduce((acc, curr) => acc + curr.Accuracy, 0);
-      },
-    },
-  },
   computed: {
     applicableBonuses() {
       let bonuses = [];
@@ -144,6 +137,22 @@ export default {
       }
 
       return result;
+    },
+  },
+  watch: {
+    difficult(newVal) {
+      if (newVal) {
+        this.accDiff -= 1;
+      } else {
+        this.accDiff += 1;
+      }
+    },
+    applicableBonuses: {
+      immediate: true,
+      handler(newVal) {
+        this.bonus = newVal.bonuses.reduce((acc, curr) => acc + curr.Value, 0);
+        this.accDiff = newVal.accDiff.reduce((acc, curr) => acc + curr.Accuracy, 0);
+      },
     },
   },
   methods: {

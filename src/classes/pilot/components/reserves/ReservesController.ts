@@ -36,6 +36,7 @@ class ReservesController implements IFeatureContainer {
   }
 
   public AddReserve(reserve: Reserve): void {
+    reserve.SetPilot(this.Parent)
     this._reserves.push(reserve)
     this.Parent.SaveController.save()
   }
@@ -55,6 +56,7 @@ class ReservesController implements IFeatureContainer {
   }
 
   public AddOrganization(org: Organization): void {
+    org.SetPilot(this.Parent)
     this._orgs.push(org)
     this.Parent.SaveController.save()
   }
@@ -81,11 +83,19 @@ class ReservesController implements IFeatureContainer {
       )
 
     parent.ReservesController._reserves = data.reserves
-      ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
+      ? data.reserves.map((x: IReserveData) => {
+          const r = Reserve.Deserialize(x)
+          r.SetPilot(parent)
+          return r
+        })
       : []
 
     parent.ReservesController._orgs = data.orgs
-      ? data.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
+      ? data.orgs.map((x: IOrganizationData) => {
+          const o = Organization.Deserialize(x)
+          o.SetPilot(parent)
+          return o
+        })
       : []
   }
 }

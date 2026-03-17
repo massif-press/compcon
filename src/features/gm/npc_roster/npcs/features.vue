@@ -21,7 +21,7 @@
       :template-controller="npc.NpcTemplateController"
       expanded />
 
-    <masonry-wall :items="shownFeatures"
+    <cc-masonry-grid :items="shownFeatures"
       :column-width="400"
       :gap="14"
       :min-columns="1"
@@ -38,7 +38,7 @@
           </template>
         </cc-dense-card>
       </template>
-    </masonry-wall>
+    </cc-masonry-grid>
 
     <npc-feature-selector v-if="!readonly"
       :npc="npc" />

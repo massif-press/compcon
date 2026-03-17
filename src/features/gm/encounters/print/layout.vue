@@ -127,7 +127,7 @@
         </v-row>
 
         <component :is="getComponentByType(n.type)"
-          :npc="<Npc>n.npc"
+          :npc="n.actor"
           :options="UnitOptions" />
       </v-card>
       <page-break v-if="i + 1 < encounter.Combatants.length" />

@@ -106,11 +106,11 @@ const ImportData = async function <T>(file: File): Promise<T> {
     else return json as T
   } catch (error) {
     logger.error('Error parsing imported data:', {}, error)
-    throw new Error('Invalid JSON')
+    throw new Error('Invalid JSON', { cause: error })
   }
 }
 
-const saveFile = function (filename: string, data: Object, exportType: string) {
+const saveFile = function (filename: string, data: object, exportType: string) {
   const json = JSON.stringify({ EXPORT_TYPE: exportType, data })
 
   const blob = new Blob([json])

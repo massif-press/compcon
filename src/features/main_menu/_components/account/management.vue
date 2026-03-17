@@ -112,7 +112,7 @@
               variant="outlined"
               :loading="nameLoading"
               :disabled="!nameDirty"
-              @click="userUpdate('username')" />
+              @click="userUpdate('Username')" />
           </v-col>
         </v-row>
       </v-col>
@@ -440,9 +440,10 @@ export default {
         });
     },
     async userUpdate(key: string) {
-      if (key === 'username') this.nameLoading = true;
+      if (key === 'Username') this.nameLoading = true;
 
-      const res = await updateUser(this.cognito.userId, { [key]: this.meta[key] });
+      const backendKeys = { Username: 'username' };
+      const res = await updateUser(this.cognito.userId, { [backendKeys[key] || key]: this.meta[key] });
       if (res && res.status === 200) {
         this.$notify({
           title: 'Update complete',

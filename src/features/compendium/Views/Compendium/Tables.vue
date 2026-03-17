@@ -1,7 +1,8 @@
 <template>
-  <v-container class="px-12">
-    <v-expansion-panels class="px-12">
-      <v-expansion-panel v-for="t in tables">
+  <v-container :class="mobile ? '' : 'px-12'">
+    <v-expansion-panels>
+      <v-expansion-panel v-for="t in tables"
+        :key="t.ID">
         <v-expansion-panel-title class="heading h3 text-accent">
           <cc-lcp-info :item="t"
             class="mb-1 mr-4" />
@@ -21,11 +22,13 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 import { CompendiumStore } from '@/stores';
 import { sortBy } from 'lodash-es';
 
 export default {
-  name: 'tables',
+  name: 'Tables',
+  mixins: [useMobile],
   computed: {
     tables() {
       return sortBy(CompendiumStore().Tables, 'LcpName', 'Title');

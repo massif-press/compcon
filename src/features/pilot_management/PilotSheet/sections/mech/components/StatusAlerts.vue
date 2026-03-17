@@ -1,11 +1,13 @@
 <template>
-  <v-row v-if="statuses.length" class="pa-4" dense>
-    <v-col v-for="status in statuses" style="min-width: 20vw">
-      <cc-alert :color="status.color" :icon="status.icon" :title="status.title">
-        <p v-text="status.text" />
-      </cc-alert>
-    </v-col>
-  </v-row>
+  <div v-if="statuses.length">
+    <cc-alert v-for="status in statuses"
+      class="mb-2"
+      :color="status.color"
+      :icon="status.icon"
+      :title="status.title">
+      <p v-text="status.text" />
+    </cc-alert>
+  </div>
 </template>
 
 <script lang="ts">

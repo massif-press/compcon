@@ -14,7 +14,6 @@ import { Encounter } from '@/classes/encounter/Encounter'
 import { getCurrentUser, fetchAuthSession, signOut } from 'aws-amplify/auth'
 import {
   getUser,
-  updateUser,
   getUserData,
   getUserDataChanged,
   cloudDelete,
@@ -23,7 +22,6 @@ import {
   GetFromCode,
   downloadFromS3,
   getFromPresignDirect,
-  VersionConflictError,
   UnauthorizedError,
 } from '@/io/apis/account'
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
@@ -35,7 +33,7 @@ import logger from '../logger'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
 import PilotSheet from '@/features/pilot_management/store/PilotSheet'
-import { withSyncLock, isSyncLocked, setSyncTimer as setSyncTimerService } from './SyncService'
+import { withSyncLock, setSyncTimer as setSyncTimerService } from './SyncService'
 import { pruneBackups, autoBackup } from './BackupService'
 import * as OAuthService from './OAuthService'
 import { SyncQueue } from './SyncQueue'
@@ -134,6 +132,7 @@ export const UserStore = defineStore('cloud', {
     UserPublishedCollections: [] as any[],
     RemoteCollections: [] as any[],
     LastQuery: 0,
+    SyncVersion: 0,
     CloudStorageUsed: 0,
     StorageWarning: false,
     StorageFull: false,
@@ -234,6 +233,8 @@ export const UserStore = defineStore('cloud', {
     },
     // does not include remote items
     AllSyncableItems(): any[] {
+      // Touch SyncVersion so this getter recomputes after sync completes
+      void this.SyncVersion
       return this.AllLocalItems.concat(this.CloudOnlyItems)
     },
     AllItemsToSync(): any[] {
@@ -675,6 +676,7 @@ export const UserStore = defineStore('cloud', {
           }
 
         await this.setMetadataFromDynamo()
+        this.SyncVersion++
         return failures
       })
     },

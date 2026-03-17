@@ -59,8 +59,12 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile'
+import { manufacturerColor } from '../_utils'
+
 export default {
   name: 'cb-mount-menu',
+  mixins: [useMobile],
   props: {
     mech: {
       type: Object,
@@ -72,14 +76,11 @@ export default {
     },
   },
   computed: {
-    portrait(): boolean {
-      return this.$vuetify.display.xs;
-    },
     hasEffect(): boolean {
       return this.mount.Bonuses.length;
     },
     color(): string {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
+      return manufacturerColor(this.mech, this.$vuetify.theme.current.dark)
     },
     visible(): boolean {
       return this.mech.AvailableBonuses.length || this.mount.Bonuses.length;

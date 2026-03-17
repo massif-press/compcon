@@ -42,8 +42,11 @@ import DirectoryTable from './components/DirectoryTable.vue';
 import { scan } from './api';
 import MassifLcpTable from '@/features/main_menu/_components/MassifLcpTable.vue';
 import logger from '@/user/logger';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'PacksDirectory',
   components: {
     DirectoryTable,
@@ -62,9 +65,6 @@ export default {
     ],
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     massifHeaders() {
       return this.mobile ? this._massifHeaders.slice(1) : this._massifHeaders;
     },

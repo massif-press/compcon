@@ -610,6 +610,8 @@ import LicenseExpandable from './components/_license-expandable.vue';
 
 import { CompendiumItem, License, LicensedItem, Manufacturer } from '@/class';
 import { CompendiumStore, UserStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 type BrowserOptions = {
   views: string[];
@@ -664,6 +666,7 @@ const manufacturerSortFn = (a: string, b: string): number => {
 };
 
 export default {
+  mixins: [useMobile],
   name: 'cc-selector',
   components: {
     SelectorListItem,
@@ -788,9 +791,6 @@ export default {
     );
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     minSliceIndex() {
       return (this.page - 1) * this.itemsPerPage;
     },

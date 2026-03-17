@@ -54,7 +54,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'campaign-detail-panel',
   props: {
     campaign: Object,
@@ -62,11 +64,6 @@ export default {
   data: () => ({
     dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
   }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
   methods: {
     getLatest(publish_info) {
       return publish_info.version_history[publish_info.version_history.length - 1];

@@ -98,8 +98,11 @@
 <script>
 import logger from '@/user/logger';
 import { marked } from 'marked';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'errata',
   data: () => ({
     faq: '',
@@ -107,9 +110,6 @@ export default {
     showNav: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     books() {
       return new Set(this.faq.map((item) => item.book));
     },

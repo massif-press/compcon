@@ -1,11 +1,11 @@
 <template>
   <div
     v-if="width"
-    :style="`height: ${height}px; width: ${width}px;  background-color: rgba(0,0,0,0.075); border-radius: 3px; `"
+    :style="`height: ${height}px; width: ${width}px; border-bottom: 1px solid rgba(0,0,0,0.25); border-radius: 0;`"
   />
   <div
     v-else
-    :style="`height: ${height}px; width: 100%;  background-color: rgba(0,0,0,0.075); border-radius: 3px; `"
+    :style="`height: ${height}px; width: 100%; border-bottom: 1px solid rgba(0,0,0,0.25); border-radius: 0;`"
   />
 </template>
 

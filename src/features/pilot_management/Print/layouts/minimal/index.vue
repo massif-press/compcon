@@ -12,42 +12,12 @@
 import PilotPrint from './PilotPrint.vue';
 import BondsPrint from '../../extras/BondsPrint.vue';
 import MechPrint from './MechPrint.vue';
-
-import { Pilot, Mech } from '@/class';
 import PageBreak from '../../components/PageBreak.vue';
+import { usePrintLayout } from '../_usePrintLayout';
 
 export default {
   name: 'minimal-print',
-  components: {
-    PilotPrint,
-    BondsPrint,
-    MechPrint,
-    PageBreak,
-  },
-  props: {
-    selectedPilot: {
-      type: Pilot,
-      required: true,
-    },
-    selectedMech: {
-      type: Mech,
-      required: false,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-    hasBonds: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    showBondPrint() {
-      if (!this.selectedPilot) return false;
-      if (!this.hasBonds) return false;
-      if (this.options.bonds.title === 'Omit') return false;
-      return this.options.content.title === 'Blank' || this.selectedPilot.BondController.Bond;
-    },
-  },
+  mixins: [usePrintLayout],
+  components: { PilotPrint, BondsPrint, MechPrint, PageBreak },
 };
 </script>

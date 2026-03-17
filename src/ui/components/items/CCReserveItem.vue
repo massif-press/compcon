@@ -10,8 +10,8 @@
         block
         :prepend-icon="reserve.Icon"
         @click="open">
-        <template #info
-          v-if="reserve.Used">
+        <template v-if="reserve.Used"
+          #info>
           <v-icon icon="mdi-circle-off-outline" />
         </template>
         {{ reserve.Name }}
@@ -19,7 +19,7 @@
     </template>
     <template #toolbar-items="{ close }">
       <v-btn icon
-        @click="remove()">
+        @click="remove(close)">
         <v-icon icon="mdi-delete" />
       </v-btn>
     </template>
@@ -87,8 +87,10 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
-  name: 'cc-reserve-item',
+  mixins: [useMobile],
+  name: 'CcReserveItem',
   props: {
     reserve: {
       type: Object,
@@ -100,19 +102,20 @@ export default {
       default: false,
     },
   },
+  emits: ['remove', 'update'],
   data: () => ({
     dialog: false,
   }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
   methods: {
-    remove() {
+    remove(close: () => void) {
       this.$emit('remove');
       this.dialog = false;
+      close();
     },
+    saveAndClose(close: () => void) {
+      this.$emit('update', this.reserve);
+      close();
+    }
   },
 };
 </script>

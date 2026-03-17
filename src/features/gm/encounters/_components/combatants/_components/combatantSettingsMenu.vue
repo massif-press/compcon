@@ -1,21 +1,25 @@
 <template>
   <v-menu :close-on-content-click="false">
     <template #activator="{ props }">
-      <v-chip
-        size="small"
+      <v-chip size="small"
         style="margin-top: 3px"
         class="mr-2"
         label
+        variant="elevated"
+        flat
+        tile
         :color="sideColor"
         v-bind="props">
         <v-tooltip location="top">
           <template #activator="{ props }">
-            <span class="text-capitalize">
-              {{ item.side }} {{ item.actor.Tag }}&nbsp;&mdash;&nbsp;
-            </span>
-            <span v-if="item.reinforcement">Reinforcement</span>
-            <span v-else>Main Force</span>
-            <span v-if="item.playerCount > 1">&nbsp;({{ item.playerCount }}+ PCs)</span>
+            <div v-bind="props">
+              <span class="text-capitalize">
+                {{ item.side }} {{ item.actor.Tag }}&nbsp;&mdash;&nbsp;
+              </span>
+              <span v-if="item.reinforcement">Reinforcement</span>
+              <span v-else>Main Force</span>
+              <span v-if="item.playerCount > 1">&nbsp;({{ item.playerCount }}+ PCs)</span>
+            </div>
           </template>
           Click to Edit
         </v-tooltip>
@@ -23,18 +27,8 @@
     </template>
     <v-card>
       <v-card-text>
-        <v-btn-toggle v-model="item.side" density="compact">
-          <v-btn
-            v-for="side in ['enemy', 'ally', 'neutral']"
-            :value="side"
-            size="small"
-            @click="item.side = side">
-            {{ side }}
-          </v-btn>
-        </v-btn-toggle>
         <div class="text-caption">Side</div>
-        <v-select
-          v-model="item.side"
+        <v-select v-model="item.side"
           density="compact"
           hide-details
           :items="[
@@ -49,7 +43,9 @@
           At PC Count
           <v-tooltip max-width="300px">
             <template #activator="{ props }">
-              <v-icon v-bind="props" size="small" icon="mdi-information-outline" />
+              <v-icon v-bind="props"
+                size="small"
+                icon="mdi-information-outline" />
             </template>
             <span>
               This NPC will be marked as being part of the encounter only if there are at least as
@@ -58,8 +54,7 @@
             </span>
           </v-tooltip>
         </div>
-        <v-text-field
-          v-model="item.playerCount"
+        <v-text-field v-model="item.playerCount"
           type="number"
           clearable
           persistent-hint
@@ -68,8 +63,7 @@
 
         <v-divider class="my-2" />
 
-        <v-checkbox
-          v-model="item.reinforcement"
+        <v-checkbox v-model="item.reinforcement"
           label="Reinforcement"
           density="compact"
           hide-details />
@@ -79,7 +73,9 @@
             On Turn
             <v-tooltip max-width="300px">
               <template #activator="{ props }">
-                <v-icon v-bind="props" size="small" icon="mdi-information-outline" />
+                <v-icon v-bind="props"
+                  size="small"
+                  icon="mdi-information-outline" />
               </template>
               <span>
                 This NPC will be marked as joining the encounter on the specified turn. Leaving this
@@ -88,8 +84,7 @@
               </span>
             </v-tooltip>
           </div>
-          <v-text-field
-            v-model.number="item.reinforcementTurn"
+          <v-text-field v-model.number="item.reinforcementTurn"
             type="number"
             clearable
             persistent-hint
@@ -103,7 +98,7 @@
 
 <script lang="ts">
 export default {
-  name: 'combatant-settings-menu',
+  name: 'CombatantSettingsMenu',
   props: {
     item: { type: Object, required: true },
     readonly: { type: Boolean, default: false },

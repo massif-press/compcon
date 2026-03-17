@@ -32,14 +32,12 @@
 <script lang="ts">
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import GmItemListElement from './_components/GMItemListElement.vue';
-import FolderMenu from './_components/FolderMenu.vue';
-import GmItemTable from './GMItemTable.vue';
 import * as _ from 'lodash-es';
 import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {
   name: 'item-sidebar-list',
-  components: { GmItemListElement, GmItemTable, FolderMenu },
+  components: { GmItemListElement },
   props: {
     itemType: { type: String, required: true },
     items: { type: Array, required: true },

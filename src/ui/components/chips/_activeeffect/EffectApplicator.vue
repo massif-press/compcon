@@ -29,23 +29,19 @@ import BaseSaveRoller from './_shared/BaseSaveRoller.vue';
 import BaseTargetSelector from './_shared/BaseTargetSelector.vue';
 import DamageApplicator from './_shared/DamageApplicator.vue';
 import OtherApplicator from './_shared/OtherApplicator.vue';
-import SaveHalfToggle from './_shared/SaveHalfToggle.vue';
-import SaveRollInterface from './_shared/SaveRollInterface.vue';
 import ResistanceApplicator from './_shared/ResistanceApplicator.vue';
 import SpecialConditionApplicator from './_shared/SpecialConditionApplicator.vue';
 import SpecialConditionRemover from './_shared/SpecialConditionRemover.vue';
 import LocalTargetSelector from './_shared/LocalTargetSelector.vue';
 
 export default {
-  name: 'effect-applicator',
+  name: 'EffectApplicator',
   components: {
     BaseAttackRoller,
     BaseSaveRoller,
     BaseTargetSelector,
     DamageApplicator,
     OtherApplicator,
-    SaveHalfToggle,
-    SaveRollInterface,
     StatusApplicator,
     ResistanceApplicator,
     SpecialConditionApplicator,

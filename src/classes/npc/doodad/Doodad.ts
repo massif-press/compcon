@@ -84,7 +84,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
     const data = {
       npcType: 'doodad',
       id: doodad.ID,
-      instance: doodad.IsInstance || asInstance,
+      instance: doodad.IsInstance || !!asInstance,
       instanceId: doodad.InstanceID,
       description: doodad.Description,
       gmDescription: doodad.GmDescription,
@@ -109,11 +109,11 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
 
   public static Deserialize(data: DoodadData): Doodad {
     const doodad = new Doodad(data)
-    SaveController.Deserialize(doodad, data.save)
+    SaveController.Deserialize(doodad, data.save || {})
     BrewController.Deserialize(doodad, data)
-    PortraitController.Deserialize(doodad, data.img)
-    NarrativeController.Deserialize(doodad, data.narrative)
-    CombatController.Deserialize(doodad.CombatController, data.combat_data)
+    PortraitController.Deserialize(doodad, data.img || {})
+    NarrativeController.Deserialize(doodad, data.narrative || {})
+    CombatController.Deserialize(doodad.CombatController, data.combat_data || {})
     FolderController.Deserialize(doodad, data.folder)
     return doodad
   }

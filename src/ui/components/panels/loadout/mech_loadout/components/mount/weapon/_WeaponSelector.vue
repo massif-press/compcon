@@ -160,11 +160,12 @@
 
   import { CompendiumStore } from '@/stores'
   import { Rules, MechWeapon, Mech, Range, Damage, Tag } from '@/class'
-  import { flavorID } from '@/io/Generators'
-  import { Bonus } from '@/classes/components/feature/bonus/Bonus'
+  import { useMobile } from '@/mixins/useMobile'
+  import { selectorMixin } from '../../_mixins/selectorMixin'
 
   export default {
     name: 'WeaponSelector',
+    mixins: [useMobile, selectorMixin],
     props: {
       weaponSlot: {
         type: Object,
@@ -193,51 +194,25 @@
         { title: 'Range', align: 'left', key: 'Range' },
         { title: 'Damage', align: 'left', key: 'Damage' },
       ],
-      showUnlicensed: false,
-      showOverSP: false,
       selected: null as unknown as MechWeapon | null,
     }),
     computed: {
-      mobile(): boolean {
-        return this.$vuetify.display.smAndDown
-      },
       freeSP(): number {
         return this.weaponSlot.Weapon
           ? this.mech.FreeSP + this.weaponSlot.Weapon.SP
           : this.mech.FreeSP
       },
-      allWeapons() {
-        if (!this.mech.Parent.LcpConfig) return CompendiumStore().MechWeapons
-        return CompendiumStore().MechWeapons.filter(
-          x =>
-            !x.InLcp ||
-            this.mech.Parent.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-            this.mech.Parent.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
-        )
-      },
       availableWeapons(): MechWeapon[] {
         const fittings = Rules.MountFittings[this.weaponSlot.Size]
-        // filter by fitting size
-        let i = this.allWeapons.filter(
+        let i = this.filterByLcp(CompendiumStore().MechWeapons).filter(
           x => x.Source && fittings.includes(x.Size) && !x.IsHidden && !x.IsExotic
         )
 
-        // filter already equipped
         if (this.weaponSlot.Weapon) i = i.filter(x => x.ID !== this.weaponSlot.Weapon.ID)
 
-        // filter ai
-        if (
-          this.mech.MechLoadoutController.ActiveLoadout.AICount >=
-          1 + Bonus.get('ai_cap', this.mech as Mech)
-        ) {
-          i = i.filter(x => !x.IsAI)
-        }
+        if (this.isAICapacityFull()) i = i.filter(x => !x.IsAI)
 
-        if (!this.showUnlicensed) {
-          i = i.filter(
-            x => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
-          )
-        }
+        if (!this.showUnlicensed) i = i.filter(x => this.isLicensed(x))
 
         i = i.concat(
           this.mech.Pilot.SpecialEquipment.filter(
@@ -245,7 +220,6 @@
           )
         )
 
-        // filter unique
         i = i.filter(
           x =>
             !this.mech.MechLoadoutController.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(
@@ -256,13 +230,7 @@
         return i
       },
     },
-    mounted() {
-      this.options.initialView = this.mobile ? 'list' : 'single'
-    },
     methods: {
-      fID(template: string): string {
-        return flavorID(template)
-      },
       handleEquip(event) {
         this.$emit('equip', event)
       },

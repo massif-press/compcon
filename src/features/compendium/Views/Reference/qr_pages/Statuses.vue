@@ -2,7 +2,7 @@
   <v-container class="pb-12">
     <h1 class="heading"
       id="statuses">Statuses</h1>
-    <masonry-wall :items="statuses"
+    <cc-masonry-grid :items="statuses"
       :column-width="400"
       :gap="16"
       :min-columns="1"
@@ -10,11 +10,11 @@
       <template #default="{ item }">
         <status-card :status="item" />
       </template>
-    </masonry-wall>
+    </cc-masonry-grid>
 
     <h1 class="heading"
       id="conditions">Conditions</h1>
-    <masonry-wall :items="conditions"
+    <cc-masonry-grid :items="conditions"
       :column-width="400"
       :gap="16"
       :min-columns="1"
@@ -22,7 +22,7 @@
       <template #default="{ item }">
         <status-card :status="item" />
       </template>
-    </masonry-wall>
+    </cc-masonry-grid>
   </v-container>
   <v-footer border
     app

@@ -35,7 +35,7 @@
     </i>
     <v-card-text :style="!mobile && 'height: calc(100vh - 198px); overflow-y: scroll'">
       <v-slide-y-reverse-transition mode="out-in">
-        <masonry-wall :key="searchText"
+        <cc-masonry-grid :key="searchText"
           :items="searchResults"
           :column-width="400"
           :gap="16"
@@ -44,7 +44,7 @@
           <template #default="{ item }">
             <cc-search-result-modal :item="item" />
           </template>
-        </masonry-wall>
+        </cc-masonry-grid>
       </v-slide-y-reverse-transition>
     </v-card-text>
   </v-container>
@@ -55,23 +55,18 @@ import { flatten, values, pick } from 'lodash-es';
 import { CompendiumItem, LicensedItem, Frame } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
 import { CompendiumStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
-  name: 'search-results',
+  mixins: [useMobile],
+  name: 'SearchResults',
   data: () => ({
     selected: null as any,
     searchText: '',
     loaded: false,
   }),
-  watch: {
-    searchText(newVal) {
-      this.setSearch(newVal);
-    },
-  },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     widescreen() {
       return this.$vuetify.display.lgAndUp;
     },
@@ -100,6 +95,11 @@ export default {
         (r) => !r.IsHidden && accentInclude(r.Name, this.searchText)
       );
       return results;
+    },
+  },
+  watch: {
+    searchText(newVal) {
+      this.setSearch(newVal);
     },
   },
   mounted() {

@@ -72,8 +72,11 @@ import DoodadIndex from './doodads/index.vue';
 import EidolonIndex from './eidolons/index.vue';
 import Organizer from '../_components/Organizer.vue';
 import Importer from '../_components/NpcImporter.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'npc-roster',
   components: { NpcIndex, DoodadIndex, EidolonIndex, Organizer, Importer },
   props: {
@@ -96,11 +99,6 @@ export default {
     if (this.type) {
       this.tab = ['npc', 'doodad', 'eidolon'].indexOf(this.type);
     }
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
   },
 };
 </script>

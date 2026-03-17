@@ -7,17 +7,14 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'cb-card',
   props: {
     bonus: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

@@ -86,7 +86,6 @@ class LicenseController {
   }
 
   public AddLicense(license: License): void {
-    console.log('on add lic', this.Parent.IsLevelEdit)
     const index = this._licenses.findIndex(x => x.License && x.License.FrameID === license.FrameID)
     if (index === -1) {
       this._licenses.push(new PilotLicense(license, 1))
@@ -108,8 +107,6 @@ class LicenseController {
         AchievementEventSystem.emit(`ll_${source}_single`, 3)
       }
 
-      console.log(level)
-
       if (this.Parent.Level === 12 && !this.IsMissingLicenses) {
         if (!this._licenses.filter(license => license.Rank === 3).length) {
           AchievementEventSystem.emit('multiclass')
@@ -120,21 +117,21 @@ class LicenseController {
         }
 
         // collect total license levels by source, for each source:
-        const sourceLevels = this._licenses.reduce(
-          (acc, license) => {
-            const source = license.License!.Source.toLowerCase()
-            if (!acc[source]) {
-              acc[source] = 0
-            }
-            acc[source] += license.Rank
-            return acc
-          },
-          {} as Record<string, number>
-        )
+        const sourceLevels = this._licenses
+          .filter(l => l.License)
+          .reduce(
+            (acc, license) => {
+              const source = license.License!.Source.toLowerCase()
+              if (!acc[source]) {
+                acc[source] = 0
+              }
+              acc[source] += license.Rank
+              return acc
+            },
+            {} as Record<string, number>
+          )
 
-        console.log('sourcelevels', sourceLevels)
-
-        if (Object.keys(sourceLevels).length === 1) {
+        if (Object.keys(sourceLevels).length === 1 && Object.values(sourceLevels)[0] === 12) {
           switch (Object.keys(sourceLevels)[0]) {
             case 'ips-n':
               AchievementEventSystem.emit('ll_ips-n', 12)

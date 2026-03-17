@@ -38,7 +38,9 @@
 </template>
 
 <script>
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'cc-panel',
   props: {
     color: {
@@ -77,9 +79,6 @@ export default {
     closed: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     compact() {
       return this.density === 'compact';
     },

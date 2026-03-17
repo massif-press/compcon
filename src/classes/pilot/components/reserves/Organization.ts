@@ -1,89 +1,94 @@
-import { CompendiumStore } from '@/stores';
-import { OrgType } from '@/class';
-import { IOrganizationData } from '@/interface';
+import { OrgType, Pilot } from '@/class'
+import { IOrganizationData } from '@/interface'
 
 class Organization {
-  private _purpose: OrgType;
-  private _name: string;
-  private _description: string;
-  private _efficiency: number;
-  private _influence: number;
-  private _actions: string;
+  private _pilot = null as Pilot | null
+
+  private _purpose: OrgType
+  private _name: string
+  private _description: string
+  private _efficiency: number
+  private _influence: number
+  private _actions: string
 
   public constructor(data: IOrganizationData) {
-    this._name = data.name;
-    this._purpose = data.purpose as OrgType;
-    this._efficiency = data.efficiency;
-    this._influence = data.influence;
-    this._description = data.description;
-    this._actions = data.actions;
+    this._name = data.name
+    this._purpose = data.purpose as OrgType
+    this._efficiency = data.efficiency
+    this._influence = data.influence
+    this._description = data.description
+    this._actions = data.actions
   }
 
   public static Clone(org: Organization): Organization {
-    return new Organization(Organization.Serialize(org));
+    return new Organization(Organization.Serialize(org))
   }
 
-  // private save(): void {
-  //   store.dispatch('set_pilot_dirty');
-  // }
+  public SetPilot(pilot: Pilot): void {
+    this._pilot = pilot
+  }
+
+  protected save(): void {
+    if (this._pilot) this._pilot.SaveController.save()
+  }
 
   public get Type(): string {
-    return 'Organization';
+    return 'Organization'
   }
 
   public get Purpose(): OrgType {
-    return this._purpose;
+    return this._purpose
   }
 
   public set Purpose(val: OrgType) {
-    this._purpose = val;
+    this._purpose = val
     // this.save();
   }
 
   public get Name(): string {
-    return this._name;
+    return this._name
   }
 
   public set Name(name: string) {
-    this._name = name;
+    this._name = name
     // this.save();
   }
 
   public get Actions(): string {
-    return this._actions;
+    return this._actions
   }
 
   public set Actions(actions: string) {
-    this._actions = actions;
+    this._actions = actions
     // this.save();
   }
 
   public get Description(): string {
-    return this._description;
+    return this._description
   }
 
   public set Description(description: string) {
-    this._description = description;
+    this._description = description
     // this.save();
   }
 
   public get Efficiency(): number {
-    return this._efficiency;
+    return this._efficiency
   }
 
   public set Efficiency(n: number) {
-    this._efficiency = n;
-    if (this._efficiency > 6) this._efficiency = 6;
+    this._efficiency = n
+    if (this._efficiency > 6) this._efficiency = 6
     // this.save();
   }
 
   public get Influence(): number {
-    return this._influence;
+    return this._influence
   }
 
   public set Influence(n: number) {
-    this._influence = n;
-    if (this._influence > 6) this._influence = 6;
+    this._influence = n
+    if (this._influence > 6) this._influence = 6
     // this.save();
   }
 
@@ -95,12 +100,12 @@ class Organization {
       efficiency: org.Efficiency,
       influence: org.Influence,
       actions: org.Actions,
-    };
+    }
   }
 
   public static Deserialize(data: IOrganizationData): Organization {
-    return new Organization(data);
+    return new Organization(data)
   }
 }
 
-export default Organization;
+export default Organization

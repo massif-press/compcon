@@ -7,23 +7,28 @@
     :weapon="true"
     :extended="mobile">
     <template #header>
-      <div v-if="item"
-        class="mt-n2 pl-1">
-        <span v-if="intWeapon">&emsp;</span>
-        <equipment-options v-if="!readonly"
-          :item="item" />
-        <cc-broken-reference v-if="item"
-          :item="item" />
-        {{ item.Name }}
-        <div v-if="!mobile"
-          class="text-cc-overline text-disabled ml-10"
-          style="line-height: 4px"
-          :style="`margin-top: ${readonly ? '2px' : '-6px'}`">
-          {{ item.WeaponType }}
-          {{ item.Size }}
-          {{ item.WeaponTypes.join('/') }}
-        </div>
-      </div>
+      <v-row v-if="item"
+        align="center"
+        no-gutters
+        style="line-height: 18px;">
+        <v-col cols="auto"
+          class="mr-2">
+          <equipment-options v-if="!readonly"
+            :item="item"
+            @update="save()" />
+          <cc-broken-reference v-if="item"
+            :item="item" />
+        </v-col>
+        <v-col>
+          {{ item.Name }}
+          <div v-if="!mobile"
+            class="text-cc-overline text-disabled ">
+            {{ item.WeaponType }}
+            {{ item.Size }}
+            {{ item.WeaponTypes.join('/') }}
+          </div>
+        </v-col>
+      </v-row>
       <div v-else
         class="px-2">
         {{ weaponSlot.Size }} Weapon
@@ -207,6 +212,8 @@ import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import WeaponSlotToolbarItems from './_WeaponSlotToolbarItems.vue'
 import { MechWeapon, WeaponMod, WeaponSize, EquippableMount, Range, Damage, Mech } from '@/class'
 import EngWeaponSettings from './_EngWeaponSettings.vue'
+import { useMobile } from '@/mixins/useMobile'
+import { manufacturerColor } from '../../_utils'
 
 export default {
   name: 'WeaponSlotCard',
@@ -223,6 +230,7 @@ export default {
     WeaponSlotToolbarItems,
     EngWeaponSettings,
   },
+  mixins: [useMobile],
   props: {
     weaponSlot: {
       type: Object,
@@ -252,12 +260,6 @@ export default {
     isEngineerWeapon() {
       return this.item && this.item.ID.includes('mw_prototype_')
     },
-    mobile() {
-      return this.$vuetify.display.smAndDown
-    },
-    small() {
-      return this.$vuetify.display.mdAndDown
-    },
     item() {
       return this.weaponSlot.Weapon
     },
@@ -265,7 +267,7 @@ export default {
       return this.item.Mod
     },
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark)
+      return manufacturerColor(this.mech, this.$vuetify.theme.current.dark)
     },
     // armoryLevel() {
     //   if (!this.item) return 0
@@ -323,6 +325,9 @@ export default {
         this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
       }
       this.weaponSlot.UnequipWeapon()
+    },
+    save() {
+      this.mech.Parent.SaveController.save();
     },
   },
 }

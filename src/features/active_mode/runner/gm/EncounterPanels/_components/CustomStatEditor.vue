@@ -105,6 +105,8 @@
 <script>
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import { Bonus } from '@/classes/components';
+import { useMobile } from '@/mixins/useMobile';
+
 
 const npcStatOrder = [
   'hull',
@@ -158,6 +160,7 @@ const statics = [
 ];
 
 export default {
+  mixins: [useMobile],
   name: 'stat-editor',
   props: {
     item: { type: Object, required: true },
@@ -185,9 +188,6 @@ export default {
   computed: {
     controller() {
       return this.item.StatController;
-    },
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
     coreStats() {
       return StatController.CoreStats;

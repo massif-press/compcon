@@ -123,17 +123,9 @@ abstract class CollectionItem
     this.SaveController.save()
   }
 
-  public Clone<T>(): T {
-    throw new Error('Method inaccessible in abstract class.')
-  }
+  public abstract Clone<T>(): T
 
-  public Serialize<T>(): T {
-    throw new Error('Method inaccessible in abstract class.')
-  }
-
-  public Deserialize<T>(): T {
-    throw new Error('Method inaccessible in abstract class.')
-  }
+  public abstract Serialize<T>(): T
 }
 
 export { ICollectionItemData, CollectionItem }

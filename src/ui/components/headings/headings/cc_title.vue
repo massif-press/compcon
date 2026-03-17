@@ -10,18 +10,15 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'cc-title',
   props: {
     textColor: { type: String, default: 'accent' },
     text: { type: String, default: '' },
     small: { type: Boolean, default: false },
     tooltip: { type: String, default: '' },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
   },
 };
 </script>

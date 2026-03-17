@@ -34,17 +34,11 @@
 <script lang="ts">
 import NpcTracker from '../components/NpcTracker.vue';
 
-import Notes from '../components/blank/notes.vue';
-import BlankLine from '../components/blank/line.vue';
-import PageBreak from '../components/PageBreak.vue';
 import * as _ from 'lodash-es';
 
 export default {
   name: 'gm-tracker-print',
   components: {
-    Notes,
-    BlankLine,
-    PageBreak,
     NpcTracker,
   },
 

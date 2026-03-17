@@ -1,49 +1,17 @@
 import { Rules, HASE } from '../../../class'
 
 class MechSkills {
-  private hull: number
-  private agi: number
-  private sys: number
-  private eng: number
+  public Hull: number
+  public Agi: number
+  public Sys: number
+  public Eng: number
 
   public constructor(arr?: number[]) {
     const d = !arr || arr.length < 4
-    this.hull = d ? 0 : arr[0]
-    this.agi = d ? 0 : arr[1]
-    this.sys = d ? 0 : arr[2]
-    this.eng = d ? 0 : arr[3]
-  }
-
-  public get Hull(): number {
-    return this.hull
-  }
-
-  public set Hull(val: number) {
-    this.hull = val
-  }
-
-  public get Agi(): number {
-    return this.agi
-  }
-
-  public set Agi(val: number) {
-    this.agi = val
-  }
-
-  public get Sys(): number {
-    return this.sys
-  }
-
-  public set Sys(val: number) {
-    this.sys = val
-  }
-
-  public get Eng(): number {
-    return this.eng
-  }
-
-  public set Eng(val: number) {
-    this.eng = val
+    this.Hull = d ? 0 : arr[0]
+    this.Agi = d ? 0 : arr[1]
+    this.Sys = d ? 0 : arr[2]
+    this.Eng = d ? 0 : arr[3]
   }
 
   public Increment(field: HASE): void {
@@ -55,14 +23,14 @@ class MechSkills {
   }
 
   public Reset(): void {
-    this.hull = 0
-    this.agi = 0
-    this.sys = 0
-    this.eng = 0
+    this.Hull = 0
+    this.Agi = 0
+    this.Sys = 0
+    this.Eng = 0
   }
 
   public get Sum(): number {
-    return this.hull + this.agi + this.sys + this.eng
+    return this.Hull + this.Agi + this.Sys + this.Eng
   }
 
   public static Serialize(item: MechSkills): number[] {

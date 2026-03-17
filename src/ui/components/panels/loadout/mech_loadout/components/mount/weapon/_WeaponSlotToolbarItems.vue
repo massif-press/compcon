@@ -40,7 +40,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'weapon-slot-card',
   props: {
     item: {
@@ -60,10 +62,5 @@ export default {
     },
   },
   emits: ['remove', 'swap'],
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
 };
 </script>

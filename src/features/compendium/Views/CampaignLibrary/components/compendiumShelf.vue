@@ -124,8 +124,11 @@ import { orderBy } from 'lodash-es';
 import CampaignDetailPanel from './CampaignDetailPanel.vue';
 import { downloadFromS3, GetFromCode } from '@/io/apis/account';
 import logger from '@/user/logger';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'campaign-library-compendium',
   components: { CampaignDetailPanel },
   props: {
@@ -149,9 +152,6 @@ export default {
   }),
 
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     campaigns() {
       return orderBy(
         CampaignStore().CampaignCollection.filter((c) =>

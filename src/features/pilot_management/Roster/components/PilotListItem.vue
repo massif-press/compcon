@@ -209,8 +209,10 @@
   import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue'
   import { PilotStore } from '@/stores'
   import PilotListItemDetails from './_pilotListItemDetails.vue'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'PilotListItem',
     components: {
       EditMenu,
@@ -226,9 +228,6 @@
       },
     },
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       missingContent() {
         return this.pilot.BrewController.IsUnableToLoad
       },

@@ -216,8 +216,11 @@
 import { CompendiumStore, UserStore } from '@/stores';
 import { collectionDataQuery } from '@/user/api';
 import logger from '@/user/logger';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'massif-lcp-table',
   props: {
     headers: { type: Array, required: false },
@@ -242,9 +245,6 @@ export default {
     await this.refresh();
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     tableHeaders() {
       if (this.headers) return this.headers;
       return this.mobile ? this.lcpHeaders.slice(1) : this.lcpHeaders;

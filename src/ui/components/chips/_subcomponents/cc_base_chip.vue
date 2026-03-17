@@ -28,7 +28,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'cc-base-chip',
   props: {
     color: {
@@ -53,9 +55,6 @@ export default {
   },
   emits: ['click'],
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     hasTooltipContent() {
       const slot = this.$slots['tooltip'];
       if (slot && slot()[0] && slot()[0].children) {

@@ -15,8 +15,11 @@
 <script lang="ts">
 import TalentEmblem from './_TalentEmblem.vue';
 import TalentRankContents from './_TalentRankContents.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'talent-full',
   components: { TalentEmblem, TalentRankContents },
   emits: ['expand', 'add', 'remove'],
@@ -34,9 +37,6 @@ export default {
     showAll: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     showFull() {
       if (this.hideLocked) return this.showAll;
       return true;

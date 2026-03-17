@@ -32,11 +32,10 @@
   </v-card>
 </template>
 
-<script>
-import { over } from 'lodash-es';
+<script lang="ts">
 
 export default {
-  name: '_tickbarMenu',
+  name: 'TickbarMenu',
   props: {
     modelValue: {
       type: Number,

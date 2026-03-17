@@ -32,8 +32,11 @@
 
 <script lang="ts">
 import ActionBase from './_actionBase.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'action-hover',
   components: { ActionBase },
   props: {
@@ -49,11 +52,6 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

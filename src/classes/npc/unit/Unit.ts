@@ -138,7 +138,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     const data = {
       npcType: 'unit',
       id: unit.ID,
-      instance: unit.IsInstance || asInstance,
+      instance: unit.IsInstance || !!asInstance,
       instanceId: unit.InstanceID,
       originId: unit.OriginId,
       name: unit._name,

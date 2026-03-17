@@ -178,8 +178,8 @@ export default {
       );
     },
     endRound(isActive) {
-      this.sheet.EndRound();
       isActive.value = false;
+      this.sheet.EndRound();
     },
   },
 };

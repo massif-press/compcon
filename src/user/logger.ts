@@ -70,7 +70,7 @@ class Logger {
     const history = this._history.map(log => {
       return `${new Date(log.timestamp).toLocaleString()} - ${log.type.toUpperCase()} - ${
         log.message
-      }\nTRACE:\n${log.trace.join('\n')}\nCALLER:\n${this.SafeStringify(log.caller || [])}\n\n`
+      }\n${JSON.stringify({ caller: log.caller, trace: log.trace }, null, 2)}\n\n`
     })
 
     out += history

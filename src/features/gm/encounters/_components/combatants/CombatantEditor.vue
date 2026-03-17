@@ -1,40 +1,50 @@
 <template>
   <div class="text-overline mt-1">COMBATANTS</div>
 
-  <v-card flat tile>
+  <v-card flat
+    tile>
     <v-card-text class="py-2 px-4">
       <div v-if="encounter.Combatants.filter((x) => x.side === 'enemy').length > 0">
-        <v-row dense align="center">
-          <v-col cols="auto" style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto" class="text-caption text-disabled">ENEMY FORCES</v-col>
+        <v-row dense
+          align="center">
+          <v-col cols="auto"
+            style="width: 30px"><v-divider /></v-col>
+          <v-col cols="auto"
+            class="text-caption text-disabled">ENEMY FORCES</v-col>
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
-      <combatant-list-item
-        v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'enemy')"
+      <combatant-list-item v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'enemy')"
         :item="c"
         :odd="i % 2 === 0"
         :readonly="readonly"
         @open="editUnit"
         @remove="encounter.RemoveCombatant(i)" />
-      <div v-if="encounter.Combatants.filter((x) => x.side === 'ally').length > 0" class="mt-3">
-        <v-row dense align="center">
-          <v-col cols="auto" style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto" class="text-caption text-disabled">ALLIED FORCES</v-col>
+      <div v-if="encounter.Combatants.filter((x) => x.side === 'ally').length > 0"
+        class="mt-3">
+        <v-row dense
+          align="center">
+          <v-col cols="auto"
+            style="width: 30px"><v-divider /></v-col>
+          <v-col cols="auto"
+            class="text-caption text-disabled">ALLIED FORCES</v-col>
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
-      <combatant-list-item
-        v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'ally')"
+      <combatant-list-item v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'ally')"
         :item="c"
         :odd="i % 2 === 0"
         :readonly="readonly"
         @open="editUnit"
         @remove="encounter.RemoveCombatant(i)" />
-      <div v-if="encounter.Combatants.filter((x) => x.side === 'neutral').length > 0" class="mt-3">
-        <v-row dense align="center">
-          <v-col cols="auto" style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto" class="text-caption text-disabled">NEUTRAL</v-col>
+      <div v-if="encounter.Combatants.filter((x) => x.side === 'neutral').length > 0"
+        class="mt-3">
+        <v-row dense
+          align="center">
+          <v-col cols="auto"
+            style="width: 30px"><v-divider /></v-col>
+          <v-col cols="auto"
+            class="text-caption text-disabled">NEUTRAL</v-col>
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
@@ -46,20 +56,25 @@
         @open="editUnit"
         @remove="encounter.RemoveCombatant(i)" />
     </v-card-text>
-    <v-toolbar density="compact" color="panel">
+    <v-toolbar density="compact"
+      color="panel">
       <v-toolbar-title class="text-caption">
-        <v-icon icon="cc:mech" class="mt-n1" color="error" />
-        {{ encounter.Combatants.filter((x) => x.side === 'enemy').length }}
+        <v-icon icon="cc:mech"
+          class="mt-n1"
+          color="error" />
+        {{encounter.Combatants.filter((x) => x.side === 'enemy').length}}
         <cc-slashes class="mx-2" />
-        <v-icon icon="cc:mech" class="mt-n1" color="success" />
-        {{ encounter.Combatants.filter((x) => x.side === 'ally').length }}
+        <v-icon icon="cc:mech"
+          class="mt-n1"
+          color="success" />
+        {{encounter.Combatants.filter((x) => x.side === 'ally').length}}
         <cc-slashes class="mx-2" />
-        <v-icon icon="cc:mech" class="mt-n1" />
-        {{ encounter.Combatants.filter((x) => x.side === 'neutral').length }}
+        <v-icon icon="cc:mech"
+          class="mt-n1" />
+        {{encounter.Combatants.filter((x) => x.side === 'neutral').length}}
       </v-toolbar-title>
       <v-spacer />
-      <cc-button
-        v-if="!readonly"
+      <cc-button v-if="!readonly"
         color="accent"
         prepend-icon="mdi-plus"
         class="mr-2"
@@ -69,47 +84,60 @@
     </v-toolbar>
   </v-card>
 
-  <v-dialog v-if="!readonly" v-model="addDialog" fullscreen>
+  <v-dialog v-if="!readonly"
+    v-model="addDialog"
+    fullscreen>
     <v-card>
       <v-toolbar density="compact">
         <v-toolbar-title class="heading h3">
           <span>SELECT NPC</span>
-          <v-btn-toggle
-            v-model="selectorView"
+          <v-btn-toggle v-model="selectorView"
             class="py-2 ml-6"
             variant="tonal"
             color="accent"
             mandatory>
-            <v-btn value="list" icon><v-icon icon="mdi-view-list" /></v-btn>
-            <v-btn value="table" icon><v-icon icon="mdi-table" /></v-btn>
+            <v-btn value="list"
+              icon><v-icon icon="mdi-view-list" /></v-btn>
+            <v-btn value="table"
+              icon><v-icon icon="mdi-table" /></v-btn>
           </v-btn-toggle>
         </v-toolbar-title>
         <v-spacer />
-        <v-btn icon @click="addDialog = false">
+        <v-btn icon
+          @click="addDialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <combatant-selector :encounter="encounter" :mode="selectorView" @select="addUnit" />
+      <combatant-selector :encounter="encounter"
+        :mode="selectorView"
+        @select="addUnit" />
     </v-card>
   </v-dialog>
 
-  <v-dialog v-model="editDialog" fullscreen>
+  <v-dialog v-model="editDialog"
+    fullscreen>
     <v-card>
-      <v-toolbar class="pl-4 border-b" density="compact">
+      <v-toolbar class="pl-4 border-b"
+        density="compact">
         <div>
-          <div v-if="!readonly" class="text-caption text-disabled mb-n1">CURRENTLY EDITING</div>
+          <div v-if="!readonly"
+            class="text-caption text-disabled mb-n1">CURRENTLY EDITING</div>
           <div>
-            <v-icon :icon="selected?.actor.Icon" size="x-small" class="mt-n1" start />
+            <v-icon :icon="selected?.actor.Icon"
+              size="x-small"
+              class="mt-n1"
+              start />
             <span class="heading">{{ selected?.actor.Name }}</span>
             <span class="text-caption text-disabled">
               &emsp;(Encounter Instance #{{ selected.index }})
             </span>
 
             <span v-if="!readonly">
-              <v-tooltip location="bottom" open-delay="200" max-width="300px">
+              <v-tooltip location="bottom"
+                open-delay="200"
+                max-width="300px">
                 <template #activator="{ props }">
-                  <v-icon
-                    v-bind="props"
+                  <v-icon v-bind="props"
                     end
                     class="fade-select"
                     size="x-small"
@@ -124,12 +152,15 @@
           </div>
         </div>
         <v-spacer />
-        <combatant-settings-menu :readonly="readonly" :item="selected" />
+        <combatant-settings-menu :readonly="readonly"
+          :item="selected" />
         <v-spacer />
-        <v-tooltip v-if="!readonly" location="bottom" open-delay="200" max-width="300px">
+        <v-tooltip v-if="!readonly"
+          location="bottom"
+          open-delay="200"
+          max-width="300px">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
+            <v-icon v-bind="props"
               :color="selected.actor.IsLinked ? 'success' : ''"
               :icon="selected.actor.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
               start />
@@ -142,11 +173,12 @@
           <span v-else>This NPC instance is not linked to a valid source in your NPC roster.</span>
         </v-tooltip>
 
-        <b v-if="!readonly" :class="selected.actor.IsLinked ? 'text-accent' : 'text-disabled'">
-          <v-menu :close-on-content-click="false" width="50vw">
+        <b v-if="!readonly"
+          :class="selected.actor.IsLinked ? 'text-accent' : 'text-disabled'">
+          <v-menu :close-on-content-click="false"
+            width="50vw">
             <template #activator="{ props }">
-              <v-btn
-                v-bind="props"
+              <v-btn v-bind="props"
                 size="x-small"
                 variant="outlined"
                 :disabled="!selected.actor.IsLinked">
@@ -160,34 +192,37 @@
                 <v-divider class="my-2" />
                 <div class="text-caption text-disabled"></div>
                 <div v-if="itemDiff && Object.keys(itemDiff).length">
-                  <v-row dense class="text-caption text-disabled">
+                  <v-row dense
+                    class="text-caption text-disabled">
                     <v-col>Change</v-col>
                     <v-col>This Instance</v-col>
                     <v-col>Source</v-col>
                     <v-col cols="auto">Update</v-col>
                   </v-row>
-                  <v-row dense v-for="key in Object.keys(itemDiff)">
+                  <v-row v-for="key in Object.keys(itemDiff)"
+                    dense>
                     <v-col>{{ key }}</v-col>
-                    <v-col
-                      :class="
-                        itemDiff[key].instance.length > itemDiff[key].source.length
-                          ? 'text-success'
-                          : 'text-error'
+                    <v-col :class="itemDiff[key].instance.length > itemDiff[key].source.length
+                        ? 'text-success'
+                        : 'text-error'
                       ">
                       {{ itemDiff[key].instance }}
                     </v-col>
                     <v-col>{{ itemDiff[key].source }}</v-col>
                     <v-col cols="auto">
-                      <v-tooltip location="bottom" open-delay="200" max-width="300px">
+                      <v-tooltip location="bottom"
+                        open-delay="200"
+                        max-width="300px">
                         <template #activator="{ props }">
-                          <v-btn
-                            icon
+                          <v-btn icon
                             color="accent"
                             variant="text"
                             size="x-small"
                             class="mt-n1"
                             @click="diffUpdate(key)">
-                            <v-icon v-bind="props" size="large" icon="mdi-update" />
+                            <v-icon v-bind="props"
+                              size="large"
+                              icon="mdi-update" />
                           </v-btn>
                         </template>
                         <span>Update this instance property to the source</span>
@@ -197,10 +232,11 @@
                   <v-divider class="my-2" />
                   <v-row dense>
                     <v-col offset="10">
-                      <v-tooltip location="bottom" open-delay="200" max-width="300px">
+                      <v-tooltip location="bottom"
+                        open-delay="200"
+                        max-width="300px">
                         <template #activator="{ props }">
-                          <v-btn
-                            v-bind="props"
+                          <v-btn v-bind="props"
                             size="small"
                             variant="tonal"
                             color="accent"
@@ -213,21 +249,22 @@
                     </v-col>
                   </v-row>
                 </div>
-                <div v-else class="pl-2 font-italic">No changes</div>
+                <div v-else
+                  class="pl-2 font-italic">No changes</div>
               </v-card-text>
             </v-card>
           </v-menu>
         </b>
 
         <v-spacer v-if="!readonly" />
-        <v-btn icon @click="editDialog = false">
+        <v-btn icon
+          @click="editDialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
       <div style="height: calc(100vh - 64px); overflow-y: auto; overflow-x: hidden; padding: 0 8px">
-        <component
+        <component :is="editorComponent"
           v-if="selected"
-          :is="editorComponent"
           :item="selected.actor"
           :readonly="readonly || !selected.actor.IsLinked"
           hide-toolbar
@@ -249,7 +286,7 @@ import CombatantSettingsMenu from './_components/combatantSettingsMenu.vue';
 import { GenerateItemDiff, SetDiff } from '@/classes/npc/NpcDiff';
 
 export default {
-  name: 'combatant-editor',
+  name: 'CombatantEditor',
   components: {
     CombatantSelector,
     CombatantListItem,
@@ -269,17 +306,6 @@ export default {
     selectorView: 'list',
     hasChanges: false,
   }),
-  watch: {
-    selectorView(val) {
-      if (!val) return;
-      UserStore().User.SetView('combatantSelectorView', val);
-    },
-  },
-  created() {
-    const user = UserStore().User;
-    if (!user || !user.View) return;
-    this.selectorView = user.View('combatantSelectorView', 'list');
-  },
   computed: {
     editorComponent() {
       if (!this.selected) return null;
@@ -298,6 +324,17 @@ export default {
       if (this.selected && this.selected.actor.IsLinked)
         return GenerateItemDiff(this.selected.actor, this.selected.actor.GetLinkedItem());
     },
+  },
+  watch: {
+    selectorView(val) {
+      if (!val) return;
+      UserStore().User.SetView('combatantSelectorView', val);
+    },
+  },
+  created() {
+    const user = UserStore().User;
+    if (!user || !user.View) return;
+    this.selectorView = user.View('combatantSelectorView', 'list');
   },
   methods: {
     addUnit(item: Npc) {

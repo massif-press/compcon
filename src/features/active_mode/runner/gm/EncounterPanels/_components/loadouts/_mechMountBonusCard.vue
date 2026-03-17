@@ -73,7 +73,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'mech-mount-bonus-card',
   components: {},
   props: {

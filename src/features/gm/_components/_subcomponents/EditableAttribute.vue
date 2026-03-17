@@ -80,8 +80,8 @@
         </v-col>
       </v-row>
 
-      <div v-if="bonuses.length"
-        v-for="bonus in bonuses"
+      <div v-for="bonus in bonuses"
+        v-if="bonuses.length"
         class="text-right">
         <v-menu open-on-hover>
           <template #activator="{ props }">
@@ -129,7 +129,7 @@
 
 <script lang="ts">
 export default {
-  name: 'editable-attribute',
+  name: 'EditableAttribute',
   props: {
     stat: {
       type: Object,
@@ -171,6 +171,16 @@ export default {
     cardColor: '',
     sizeOptions: [0.5, 1, 2, 3, 4],
   }),
+  computed: {
+    overwriteVal() {
+      const overwrite = this.bonuses.find((x) => x.Overwrite);
+      if (overwrite) return overwrite.Value;
+      return '';
+    },
+    totalWithBonus() {
+      return this.val + this.bonuses.filter(x => !x.PerPc).reduce((acc, x) => acc + x.Value || 0, 0);
+    },
+  },
   watch: {
     val: {
       immediate: true,
@@ -183,16 +193,6 @@ export default {
   },
   created() {
     this.model = this.val;
-  },
-  computed: {
-    overwriteVal() {
-      const overwrite = this.bonuses.find((x) => x.Overwrite);
-      if (overwrite) return overwrite.Value;
-      return '';
-    },
-    totalWithBonus() {
-      return this.val + this.bonuses.filter(x => !x.PerPc).reduce((acc, x) => acc + x.Value || 0, 0);
-    },
   },
   methods: {
     flashBackground() {

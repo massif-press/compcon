@@ -32,19 +32,17 @@ import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import SkillSelector from '@/features/pilot_management/_components/selectors/SkillSelector.vue';
 import { Pilot } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'skill-block',
   components: { SectionEditChip, SectionHeader, NoDataBlock, SkillSelector },
   props: {
     pilot: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

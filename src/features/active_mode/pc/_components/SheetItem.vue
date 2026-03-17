@@ -263,7 +263,9 @@
 </template>
 
 <script>
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'sheet-list-item',
   props: {
     sheet: {
@@ -276,9 +278,6 @@ export default {
     loading: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     pilot() {
       return this.sheet.Combatant.actor;
     },

@@ -187,17 +187,16 @@
 import { CompendiumStore, UserStore } from '@/stores'
 import { LcpConfig, LcpConfigData } from '@/user'
 import _ from 'lodash'
+import { useMobile } from '@/mixins/useMobile';
 
 export default {
+  mixins: [useMobile],
   name: 'PackConfig',
   data: () => ({
     selection: null as any,
     editingIndex: null as number | null,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown
-    },
     user() {
       return UserStore().User
     },

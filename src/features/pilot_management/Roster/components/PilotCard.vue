@@ -1,56 +1,57 @@
 <template>
-  <div class="d-inline-flex" :class="small ? 'ma-1' : 'ma-2'" :style="`width: ${minWidth};`">
+  <div class="d-inline-flex"
+    :class="small ? 'ma-1' : 'ma-2'"
+    :style="`width: ${minWidth};`">
     <v-hover>
-      <template v-slot="{ isHovering, props }">
-        <v-card
-          :class="missingContent ? 'card-missing-outline' : 'card-outline'"
+      <template #default="{ isHovering, props }">
+        <v-card class="card-outline"
           :min-height="minWidth"
           :min-width="minWidth"
           tile
           flat
           v-bind="props"
-          :style="missingContent ? 'cursor: not-allowed' : ''"
-          @click="!missingContent ? toPilotSheet() : null">
-          <div
-            v-show="!small"
-            class="clipped-large"
-            :class="missingContent ? 'background-missing' : 'background-standard'"
+          @click="toPilotSheet()">
+          <div v-show="!small"
+            class="clipped-large background-standard"
             :style="`
-              z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: ${
-                small ? '25' : '32'
-              }px; ${
-                small && isHovering ? 'opacity: 1' : 'opacity: 0.6'
+              z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: ${small ? '25' : '32'
+              }px; ${small && isHovering ? 'opacity: 1' : 'opacity: 0.6'
               }; transition: opacity 0.2s;`">
-            <div
-              :class="`heading h3 text-white flavor-text ml-2 mt-1`"
+            <div :class="`heading h3 text-white flavor-text ml-2 mt-1`"
               style="letter-spacing: 3px; text-overflow: ellipsis">
-              <v-icon v-if="remoteResource" size="small">mdi-broadcast</v-icon>
-              <v-icon v-if="missingContent" size="small">mdi-alert-rhombus</v-icon>
+              <v-icon v-if="remoteResource"
+                size="small">mdi-broadcast</v-icon>
               {{ pilot.Callsign }}
             </div>
           </div>
-          <div v-show="!small" :class="small ? 'small-triangle' : 'triangle'" />
-          <div v-show="!small" class="ll text-white" style="line-height: 25px">
-            <div v-if="!small" class="text-overline mb-n1 text-right">LL</div>
+          <div v-show="!small"
+            :class="small ? 'small-triangle' : 'triangle'" />
+          <div v-show="!small"
+            class="ll text-white"
+            style="line-height: 25px">
+            <div v-if="!small"
+              class="text-overline mb-n1 text-right">LL</div>
             <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
               {{ pilot.Level.toString().padStart(2, '0') }}
             </div>
           </div>
           <div style="position: relative">
-            <cc-img
-              :src="pilot.Portrait"
+            <cc-img :src="pilot.Portrait"
               position="top center"
               height="100%"
               :aspect-ratio="1"
               cover>
               <v-expand-transition>
-                <div
-                  v-if="isHovering && !small"
+                <div v-if="isHovering && !small"
                   class="flavor-text bg-grey-darken-3 pa-3"
                   style="height: 100%; max-width: 100%; opacity: 0.85">
-                  <div v-if="remoteResource" class="mt-6" style="letter-spacing: 6px !important">
-                    <v-chip label size="x-small">
-                      <v-icon start class="mr-3">mdi-broadcast</v-icon>
+                  <div v-if="remoteResource"
+                    class="mt-6"
+                    style="letter-spacing: 6px !important">
+                    <v-chip label
+                      size="x-small">
+                      <v-icon start
+                        class="mr-3">mdi-broadcast</v-icon>
                       REMOTE RESOURCE
                     </v-chip>
                   </div>
@@ -67,16 +68,7 @@
                   {{ pilot.MechSkillsController.MechSkills.Sys }} ENG
                   {{ pilot.MechSkillsController.MechSkills.Eng }}
                   <v-divider />
-                  <v-alert
-                    v-if="missingContent"
-                    density="compact"
-                    icon="mdi-alert-rhombus"
-                    color="error">
-                    <b>Missing Content</b>
-                    <br />
-                    COMP/CON is unable to load this pilot due to missing Content Packs.
-                  </v-alert>
-                  <div v-else>
+                  <div>
                     <div v-for="s in pilot.TalentsController.Talents">
                       {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
                     </div>
@@ -100,7 +92,7 @@
 
 <script lang="ts">
 export default {
-  name: 'pilot-card',
+  name: 'PilotCard',
   props: {
     pilot: {
       type: Object,
@@ -111,9 +103,6 @@ export default {
   computed: {
     small() {
       return this.$vuetify.display.smAndDown;
-    },
-    missingContent() {
-      return this.pilot.BrewController.IsUnableToLoad;
     },
     remoteResource() {
       return this.pilot.SaveController.IsRemote;

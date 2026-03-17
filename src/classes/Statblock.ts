@@ -94,10 +94,7 @@ class Statblock {
             )}`
           }
         }
-      }
-
-      if (view === 'full') {
-        output += '***\n'
+        output += '\n'
       }
 
       if (view === 'pilotBuild') {
@@ -117,10 +114,14 @@ class Statblock {
         output += '[ LICENSES ]\n  '
         for (let i = 0; i < pilot.LicenseController.Licenses.length; i++) {
           const l = pilot.LicenseController.Licenses[i]
-          output += `${l.License!.Source} ${l.License!.Name} ${l.Rank}${linebreak(
-            i,
-            pilot.LicenseController.Licenses.length
-          )}`
+
+          if (l.License)
+            output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
+              i,
+              pilot.LicenseController.Licenses.length
+            )}`
+          else if (l.Stub)
+            output += `${l.Stub.Source} ${l.Stub.Name}${linebreak(i, pilot.LicenseController.Licenses.length)}`
         }
       }
 
@@ -206,9 +207,10 @@ class Statblock {
 [ LICENSES ]
   ${
     pilot.LicenseController.Licenses.length
-      ? `${pilot.LicenseController.Licenses.map(
-          l => `${l.License!.Source} ${l.License!.Name} ${l.Rank}`
-        ).join(', ')}`
+      ? `${pilot.LicenseController.Licenses.map(l => {
+          if (l.License) return `${l.License.Source} ${l.License.Name} ${l.Rank}`
+          else if (l.Stub) return `${l.Stub.Source} ${l.Stub.Name}`
+        }).join(', ')}`
       : 'N/A'
   }
 [ CORE BONUSES ]

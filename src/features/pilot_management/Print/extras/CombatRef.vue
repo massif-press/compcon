@@ -50,7 +50,7 @@
         or reaction.
       </div>
     </fieldset>
-    <v-row dense>
+    <v-row dense class="print-section">
       <v-col>
         <fieldset class="px-2">
           <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">Engagement</legend>
@@ -79,7 +79,7 @@
         </fieldset>
       </v-col>
     </v-row>
-    <v-row dense class="mt-n3">
+    <v-row dense class="mt-n3 print-section">
       <v-col>
         <fieldset class="px-2">
           <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">
@@ -120,7 +120,7 @@
       </v-col>
     </v-row>
     <cc-icon-divider icon="cc:weapon" dense class="mt-0 mb-n5" />
-    <v-row dense>
+    <v-row dense class="print-section">
       <v-col cols="auto">
         <fieldset class="px-2">
           <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">
@@ -172,7 +172,7 @@
         </fieldset>
       </v-col>
     </v-row> -->
-    <v-row dense class="mt-n3">
+    <v-row dense class="mt-n3 print-section">
       <v-col>
         <fieldset class="px-2">
           <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">
@@ -264,7 +264,7 @@
         damage is halved.
       </div>
     </fieldset>
-    <v-row dense>
+    <v-row dense class="print-section">
       <v-col>
         <fieldset class="px-2">
           <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">

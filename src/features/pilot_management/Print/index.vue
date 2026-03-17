@@ -1,39 +1,52 @@
 <template>
   <div class="printable">
-    <v-card
-      tile
+    <v-card tile
       flat
       :class="options.orientation.title"
       class="print-card"
       style="margin-left: auto; margin-right: auto">
       <div>
-        <component
-          :is="options.layout.title"
+        <component :is="options.layout.title"
           :options="options"
           :selected-mech="<Mech>selectedMech"
           :selected-pilot="<Pilot>selectedPilot"
-          :hasBonds="hasBondData" />
+          :has-bonds="hasBondData" />
         <div v-if="selectedPilot && options && options.extras">
-          <combat-ref v-if="has('combat quick reference')" />
-          <action-ref v-if="has('action reference')" />
-          <downtime-ref v-if="has('downtime quick reference')" />
-          <trigger-info-print
-            v-if="has('relevant trigger reference')"
-            :pilot="<Pilot>selectedPilot" />
-          <tag-info-print
-            v-if="has('Relevant Tag Reference')"
-            :pilot="<Pilot>selectedPilot"
-            :mech="<Mech>selectedMech" />
+          <template v-if="has('combat quick reference')">
+            <page-break />
+            <combat-ref />
+          </template>
+          <template v-if="has('action reference')">
+            <page-break />
+            <action-ref />
+          </template>
+          <template v-if="has('downtime quick reference')">
+            <page-break />
+            <downtime-ref />
+          </template>
+          <template v-if="has('relevant trigger reference')">
+            <page-break />
+            <trigger-info-print :pilot="<Pilot>selectedPilot" />
+          </template>
+          <template v-if="has('relevant tag reference')">
+            <page-break />
+            <tag-info-print :pilot="<Pilot>selectedPilot"
+              :mech="<Mech>selectedMech" />
+          </template>
         </div>
       </div>
 
-      <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
-        <v-btn stacked @click="$router.go(-1)">
+      <v-bottom-navigation fixed
+        grow
+        horizontal
+        color="primary"
+        class="no-print pa-2">
+        <v-btn stacked
+          @click="$router.go(-1)">
           <span>Close Preview</span>
           <v-icon icon="mdi-close" />
         </v-btn>
-        <v-select
-          v-model="selectedPilot"
+        <v-select v-model="selectedPilot"
           :items="allPilots"
           :item-title="(x: Pilot) => `${x.Name} // ${x.Callsign}`"
           return-object
@@ -44,8 +57,7 @@
           class="mx-3"
           clearable
           style="width: 10vw" />
-        <v-select
-          v-model="selectedMech"
+        <v-select v-model="selectedMech"
           :items="pilotMechs"
           :item-title="(x: Mech) => `${x.Name} // ${x.Frame.Name}`"
           return-object
@@ -65,7 +77,8 @@
               <v-icon icon="mdi-cog" />
             </v-btn>
           </template>
-          <options-dialog :has-bonds="hasBondData" :options="options" />
+          <options-dialog :has-bonds="hasBondData"
+            :options="options" />
         </cc-modal>
         <v-btn @click="print()">
           <span>Print</span>
@@ -73,7 +86,8 @@
         </v-btn>
       </v-bottom-navigation>
     </v-card>
-    <div class="no-print" style="min-height: 70px !important" />
+    <div class="no-print"
+      style="min-height: 70px !important" />
   </div>
 </template>
 
@@ -97,7 +111,7 @@ import { Pilot, Mech } from '@/class';
 import PageBreak from './components/PageBreak.vue';
 
 export default {
-  name: 'combined-print',
+  name: 'CombinedPrint',
   components: {
     Standard,
     Terse,
@@ -139,22 +153,6 @@ export default {
       card: [],
     } as any,
   }),
-  mounted() {
-    if (!this.presetPilot) return;
-    if (this.presetPilot)
-      this.selectedPilot = PilotStore().Pilots.find((p) => p.ID === this.presetPilot) as Pilot;
-    if (this.presetMech)
-      this.selectedMech = this.selectedPilot?.Mechs.find((m) => m.ID === this.presetMech) || null;
-  },
-  watch: {
-    selectedPilot(newPilot) {
-      if (newPilot) {
-        this.selectedMech = newPilot.Mechs[0] || null;
-      } else {
-        this.selectedMech = null;
-      }
-    },
-  },
   computed: {
     allPilots() {
       return PilotStore().Pilots.filter((x) => !x.SaveController.IsDeleted);
@@ -183,6 +181,21 @@ export default {
       return titles;
     },
   },
+  watch: {
+    selectedPilot(newPilot) {
+      if (newPilot) {
+        this.selectedMech = newPilot.Mechs[0] || null;
+      } else {
+        this.selectedMech = null;
+      }
+    },
+  },
+  mounted() {
+    if (!this.presetPilot) return;
+    this.selectedPilot = PilotStore().Pilots.find((p) => p.ID === this.presetPilot) as Pilot;
+    if (this.presetMech)
+      this.selectedMech = this.selectedPilot?.Mechs.find((m) => m.ID === this.presetMech) || null;
+  },
   methods: {
     print() {
       window.print();
@@ -200,6 +213,63 @@ export default {
 }
 </style>
 
+<style>
+@media print {
+
+  html,
+  body {
+    background-color: white !important;
+  }
+
+  * {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  p,
+  .flavor-text,
+  .caption,
+  .text-caption {
+    widows: 2;
+    orphans: 2;
+  }
+
+  .print-section,
+  .no-print-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-section-header {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  fieldset {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  fieldset>legend {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Keep section overline labels attached to the content that follows */
+  .text-overline {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .heading,
+  legend {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+}
+</style>
+
 <style scoped>
 .Portrait {
   background-color: white !important;
@@ -212,6 +282,7 @@ export default {
 }
 
 .print-card {
+  padding: 8px;
   background-color: white;
   color: black;
   margin-top: 16px;
@@ -219,22 +290,10 @@ export default {
 
 @page {
   margin: 0;
-  padding: 0;
+  size: portrait;
 }
 
 @media print {
-  @page {
-    size: portrait;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0;
-    padding: 0;
-    color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
-    background-color: white !important;
-    overflow: visible;
-  }
-
   .print-card {
     margin: 0;
     padding: 0;
@@ -243,14 +302,11 @@ export default {
   }
 
   .printable {
-    /* zoom: 75%; */
     width: 100% !important;
     max-width: 100% !important;
     background-color: white;
     margin: 0 !important;
     padding: 0 !important;
-    print-color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
     overflow: visible;
   }
 }

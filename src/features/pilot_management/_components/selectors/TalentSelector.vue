@@ -90,8 +90,10 @@
   import { accentInclude } from '@/classes/utility/accent_fold'
   import logger from '@/user/logger'
   import MissingItemAlert from './components/_MissingItemAlert.vue'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'TalentSelector',
     components: { Selector, MissingItemAlert },
     props: {
@@ -106,9 +108,6 @@
       jump: '',
     }),
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       newPilot(): boolean {
         return this.pilot.Level === 0
       },

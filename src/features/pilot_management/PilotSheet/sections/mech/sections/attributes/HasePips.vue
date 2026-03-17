@@ -29,8 +29,10 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
-  name: 'hase-pips',
+  name: 'HasePips',
+  mixins: [useMobile],
   props: {
     mech: {
       type: Object,
@@ -53,11 +55,6 @@ export default {
   data: () => ({
     maxHASE: 6,
   }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
 };
 </script>
 

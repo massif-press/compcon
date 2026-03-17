@@ -61,7 +61,7 @@
           :items="deleteDaySelections"
           hide-details
           density="compact"
-          @update:modelValue="updateDeleteDays()" />
+          @update:model-value="updateDeleteDays()" />
         <div class="text-caption text-right text-stark">
           <span v-if="!deleteDays">
             COMP/CON will <b class="text-accent">never</b> automatically delete data marked for
@@ -165,15 +165,14 @@
 </template>
 
 <script lang="ts">
-import { clearAllData } from '@/io/BulkData';
 import DeletedItems from './components/DeletedItems.vue';
 import UserDataViewer from './components/UserDataViewer.vue';
-import { GetLength } from '@/io/Storage';
+import { ClearAllData, GetLength } from '@/io/Storage';
 import logger from '@/user/logger';
 import { UserStore } from '@/stores';
 
 export default {
-  name: 'options-storage',
+  name: 'OptionsStorage',
   components: { DeletedItems, UserDataViewer },
   data: () => ({
     importDialog: false,
@@ -203,6 +202,14 @@ export default {
       { title: '1 Year', value: 365 },
     ],
   }),
+  computed: {
+    user() {
+      return UserStore().User;
+    },
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
+  },
   async created() {
     this.storageRange[0] = this.user.StorageWarning;
     this.storageRange[1] = this.user.StorageMax;
@@ -227,14 +234,6 @@ export default {
         this
       );
   },
-  computed: {
-    user() {
-      return UserStore().User;
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
   methods: {
     bytesToSize(bytes: number) {
       const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -244,7 +243,7 @@ export default {
       return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`;
     },
     async deleteAll() {
-      await clearAllData();
+      await ClearAllData();
       this.deleteDialog = false;
     },
     async GetLength(db: string): Promise<any> {

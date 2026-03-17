@@ -162,8 +162,11 @@
 <script lang="ts">
 import StatblockItem from './StatblockItem.vue';
 import HasePips from './HasePips.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'attributes-block',
   components: { StatblockItem, HasePips },
   props: {

@@ -2,160 +2,131 @@
   <v-container class="pb-12">
     <v-row dense>
       <v-col>
-        <h1
-          id="mechactions"
-          class="heading"
-        >
+        <h1 id="mechactions"
+          class="heading">
           Mech Actions
         </h1>
       </v-col>
-      <v-col
-        v-if="!mobile"
-        cols="auto"
-      >
-        <cc-switch
-          v-model="expanded"
-          label="Show Full"
-        />
+      <v-col v-if="!mobile"
+        cols="auto">
+        <cc-switch v-model="expanded"
+          label="Show Full" />
       </v-col>
     </v-row>
-    <masonry-wall
-      :items="actions"
+    <cc-masonry-grid :items="actions"
       :column-width="400"
       :gap="16"
       :min-columns="1"
-      :max-columns="widescreen ? 3 : 2"
-    >
+      :max-columns="widescreen ? 3 : 2">
       <template #default="{ item }">
-        <action-card
-          :action="item"
-          :clickable="!expanded"
-        />
+        <action-card :action="item"
+          :clickable="!expanded" />
       </template>
-    </masonry-wall>
+    </cc-masonry-grid>
 
-    <h1
-      id="pilotactions"
-      class="heading"
-    >
+    <h1 id="pilotactions"
+      class="heading">
       Pilot Actions
     </h1>
-    <masonry-wall
-      :items="pilotActions"
+    <cc-masonry-grid :items="pilotActions"
       :column-width="400"
       :gap="16"
       :min-columns="1"
-      :max-columns="widescreen ? 3 : 2"
-    >
+      :max-columns="widescreen ? 3 : 2">
       <template #default="{ item }">
-        <action-card
-          :action="item"
-          :clickable="!expanded"
-        />
+        <action-card :action="item"
+          :clickable="!expanded" />
       </template>
-    </masonry-wall>
+    </cc-masonry-grid>
 
-    <h1
-      id="downtimeactions"
-      class="heading"
-    >
+    <h1 id="downtimeactions"
+      class="heading">
       Downtime Actions
     </h1>
-    <masonry-wall
-      :items="downtimeActions"
+    <cc-masonry-grid :items="downtimeActions"
       :column-width="400"
       :gap="16"
       :min-columns="1"
-      :max-columns="widescreen ? 3 : 2"
-    >
+      :max-columns="widescreen ? 3 : 2">
       <template #default="{ item }">
         <cc-dense-card :item="item" />
       </template>
-    </masonry-wall>
+    </cc-masonry-grid>
   </v-container>
 
-  <v-footer
-    v-if="!isModal"
+  <v-footer v-if="!isModal"
     border
     app
-    class="py-0 bg-primary"
-  >
-    <v-tabs
-      density="compact"
+    class="py-0 bg-primary">
+    <v-tabs density="compact"
       center-active
-      grow
-    >
-      <v-tab
-        v-for="item in content"
+      grow>
+      <v-tab v-for="item in content"
         @click="scrollTo(item)"
-        v-text="item"
-      />
+        v-text="item" />
     </v-tabs>
   </v-footer>
-  <v-btn
-    size="x-small"
+  <v-btn size="x-small"
     icon
     color="primary"
     variant="plain"
     style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
-    @click="scrollTo(content[0])"
-  >
+    @click="scrollTo(content[0])">
     <v-icon size="30">mdi-arrow-up</v-icon>
   </v-btn>
 </template>
 
 <script lang="ts">
-  import ActionCard from '../_components/ActionCard.vue'
-  import scrollTo from '@/util/scrollTo'
+import ActionCard from '../_components/ActionCard.vue'
+import scrollTo from '@/util/scrollTo'
 
-  import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/stores'
+import { useMobile } from '@/mixins/useMobile';
 
-  export default {
-    name: 'ActionEconomy',
-    components: { ActionCard },
-    props: {
-      isModal: {
-        type: Boolean,
-      },
+export default {
+  mixins: [useMobile],
+  name: 'ActionEconomy',
+  components: { ActionCard },
+  props: {
+    isModal: {
+      type: Boolean,
     },
-    data: () => ({
-      content: ['mech actions', 'pilot actions', 'downtime actions'],
-      actionTypes: [
-        { action: 'move', icon: 'mdi-arrow-right-bold-hexagon-outline' },
-        { action: 'overcharge', icon: 'cc:overcharge' },
-        { action: 'reaction', icon: 'cc:reaction' },
-        { action: 'free', icon: 'cc:free' },
-      ],
-      expanded: false,
-    }),
-    computed: {
-      widescreen() {
-        return this.$vuetify.display.lgAndUp
-      },
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
-      allActions() {
-        return CompendiumStore().Actions.filter(a => a && !a.Hidden)
-      },
-      actions() {
-        return this.allActions.filter(a => a && !a.IsDowntimeAction && !a.IsPilotAction)
-      },
-      pilotActions() {
-        return this.allActions.filter(a => a && a.IsPilotAction)
-      },
-      downtimeActions() {
-        return CompendiumStore().DowntimeActions
-      },
+  },
+  data: () => ({
+    content: ['mech actions', 'pilot actions', 'downtime actions'],
+    actionTypes: [
+      { action: 'move', icon: 'mdi-arrow-right-bold-hexagon-outline' },
+      { action: 'overcharge', icon: 'cc:overcharge' },
+      { action: 'reaction', icon: 'cc:reaction' },
+      { action: 'free', icon: 'cc:free' },
+    ],
+    expanded: false,
+  }),
+  computed: {
+    widescreen() {
+      return this.$vuetify.display.lgAndUp
     },
-    created() {
-      this.expanded = this.widescreen
+    allActions() {
+      return CompendiumStore().Actions.filter(a => a && !a.Hidden)
     },
-    methods: {
-      scrollTo(item: any): void {
-        const el = document.getElementById(`${item.replace(/\W/g, '')}`)
-        if (el) scrollTo(el, this.isModal)
-      },
+    actions() {
+      return this.allActions.filter(a => a && !a.IsDowntimeAction && !a.IsPilotAction)
     },
-  }
+    pilotActions() {
+      return this.allActions.filter(a => a && a.IsPilotAction)
+    },
+    downtimeActions() {
+      return CompendiumStore().DowntimeActions
+    },
+  },
+  created() {
+    this.expanded = this.widescreen
+  },
+  methods: {
+    scrollTo(item: any): void {
+      const el = document.getElementById(`${item.replace(/\W/g, '')}`)
+      if (el) scrollTo(el, this.isModal)
+    },
+  },
+}
 </script>

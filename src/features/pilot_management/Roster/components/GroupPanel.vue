@@ -8,18 +8,21 @@
       style="position: relative; clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px)"
       @click="setGroupExpand()">
       <v-avatar v-if="group.PortraitController.HasImage"
-        size="36px"
+        size="30px"
         class="mr-2">
         <cc-img :src="group.Portrait" />
       </v-avatar>
+      <div v-else
+        class="mr-2"
+        style="width: 30px; height: 30px;" />
       <v-menu location="left">
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-icon v-bind="props"
-            @click.stop
             icon="mdi-queue-first-in-last-out"
             start
             size="small"
-            class="fade-select" />
+            class="fade-select"
+            @click.stop />
         </template>
         <div class="bg-panel pa-1"
           style="display: grid; border: 1px solid rgb(var(--v-theme-primary)); border-radius: 4px">
@@ -138,10 +141,11 @@
           </v-row>
           <v-card-text class="py-0"
             :class="[rosterView.includes('card') ? 'text-center' : '', mobile ? 'px-0' : 'px-2']">
-            <component v-for="pilot in pilots"
-              :is="pilotCardType"
+            <component :is="pilotCardType"
+              v-for="pilot in pilots"
+              :key="pilot.ID"
               :pilot="pilot"
-              @goTo="toPilotSheet(pilot.ID, pilot.Callsign)" />
+              @go-to="toPilotSheet(pilot.ID, pilot.Callsign)" />
           </v-card-text>
           <v-expand-transition>
             <v-row v-if="edit"
@@ -158,7 +162,7 @@
               <v-col cols="auto">
                 <v-dialog v-model="deleteDialog"
                   width="auto">
-                  <template v-slot:activator="{ props }">
+                  <template #activator="{ props }">
                     <cc-button color="error"
                       size="small"
                       prepend-icon="mdi-delete"
@@ -169,26 +173,24 @@
 
                   <v-card tile>
                     <v-card-text>
-                      <cc-alert color="warning"
-                        prominent
+                      <cc-alert color="error"
                         icon="mdi-alert"
-                        width="500px">
-                        <div class="heading h3">This will delete {{ group.Name }}</div>
-                        <span v-if="pilots.length">
+                        :title="`Delete ${group.Name}?`">
+                        <div v-if="pilots.length"
+                          class="pa-1">
                           <span v-if="deletePilotsToggle">
-                            and delete all pilots assigned to the group.
+                            All pilots assigned to this group will be permanently deleted.
                           </span>
                           <span v-else>
-                            <br />
                             All pilots assigned to this group will be moved to the "No Group"
                             section
                           </span>
-                        </span>
+                        </div>
                       </cc-alert>
                       <v-row v-if="pilots.length"
                         justify="end">
                         <v-col cols="auto">
-                          <v-switch v-model="deletePilotsToggle"
+                          <cc-switch v-model="deletePilotsToggle"
                             inset
                             color="error"
                             label="Delete pilots"
@@ -226,9 +228,9 @@
           align="center"
           class="py-2 px-4 text-center"
           :dense="mobile">
-          <v-col cols="12"
-            sm="auto"
-            v-if="!noGroup">
+          <v-col v-if="!noGroup"
+            cols="12"
+            sm="auto">
             <v-tooltip :text="edit ? 'Finish Editing' : 'Edit Group Information'">
               <template #activator="{ props }">
                 <cc-button v-if="mobile"
@@ -236,8 +238,8 @@
                   color="primary"
                   size="x-small"
                   block
-                  @click="edit = !edit"
-                  v-bind="props">
+                  v-bind="props"
+                  @click="edit = !edit">
                   Edit Group
                 </cc-button>
                 <cc-button v-else
@@ -245,14 +247,14 @@
                   color="primary"
                   size="small"
                   variant="outlined"
-                  @click="edit = !edit"
-                  v-bind="props" />
+                  v-bind="props"
+                  @click="edit = !edit" />
               </template>
             </v-tooltip>
           </v-col>
 
-          <v-col cols="auto"
-            v-if="transferrable.length"
+          <v-col v-if="transferrable.length"
+            cols="auto"
             :order="mobile ? 1 : ''">
             <cc-button color="primary"
               :size="mobile ? 'x-small' : 'small'"
@@ -264,6 +266,7 @@
               <v-menu activator="parent">
                 <v-list max-height="400px">
                   <v-list-item v-for="pilot in transferrable"
+                    :key="`transfer_${pilot.ID}`"
                     :title="pilot.Name"
                     @click="transferPilot(pilot as Pilot)" />
                 </v-list>
@@ -309,7 +312,8 @@
                 border>
                 <v-card-text>
                   <cc-modal title="Import"
-                    icon="mdi-import">
+                    icon="mdi-import"
+                    max-width="900">
                     <template #activator="{ open }">
                       <cc-button color="primary"
                         size="small"
@@ -346,25 +350,25 @@ import { saveFile } from '@/io/Data';
 import * as _ from 'lodash-es';
 import FileImport from './add_panels/FileImport.vue';
 import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
-  name: 'group-panel',
+  name: 'GroupPanel',
+  components: { PilotCard, PilotListItem, FileImport, ShareCodeDialog },
+  mixins: [useMobile],
   props: {
     group: {
       type: Object,
       required: true,
     },
   },
-  components: { PilotCard, PilotListItem, FileImport, ShareCodeDialog },
   data: () => ({
     edit: false,
     deleteDialog: false,
     deletePilotsToggle: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     noGroup(): boolean {
       return this.group.ID === 'no_group';
     },
@@ -398,8 +402,8 @@ export default {
     toPilotSheet(pilotID: string, callsign: string) {
       this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID, callsign } });
     },
-    transferPilot(pilot: Pilot) {
-      PilotStore().TransferPilot(pilot, this.group.ID);
+    async transferPilot(pilot: Pilot) {
+      await PilotStore().TransferPilot(pilot, this.group.ID);
     },
     deleteGroup() {
       PilotStore().DeleteGroup(this.group as PilotGroup, this.deletePilotsToggle);
@@ -419,7 +423,7 @@ export default {
 
       saveFile(
         this.group.Name.toUpperCase().replace(/\W/g, '') + '.json',
-        JSON.stringify(exportObj),
+        JSON.stringify(exportObj, null, 2) as any,
         'Pilot Group'
       );
     },

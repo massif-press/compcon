@@ -205,21 +205,22 @@ export default {
       );
     },
     allGroups() {
-      return PilotStore().PilotGroups;
+      return PilotStore().getPilotGroups();
     },
   },
   methods: {
-    setGroup() {
-      this.selected.forEach((id) => {
+    async setGroup() {
+      for (const id of this.selected) {
         const item = this.items.find((x: any) => x.ID === id) as any;
-        if (item && this.stagedGroup) {
-          PilotStore().TransferPilot(item, (this.stagedGroup as PilotGroup).ID);
+        if (item) {
+          await PilotStore().TransferPilot(item, this.stagedGroup ? (this.stagedGroup as PilotGroup).ID : undefined);
         }
-      });
+      }
+
       this.stagedGroup = null;
       this.setGroupDialog = false;
-      PilotStore().SaveGroupData();
-      PilotStore().SavePilotData();
+      await PilotStore().SaveGroupData();
+      await PilotStore().SavePilotData();
     },
     exportItems() {
       let json = {} as any;

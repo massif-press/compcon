@@ -62,8 +62,11 @@
 
 <script lang="ts">
 import { Mech, Pilot, Statblock } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'statblock-dialog',
   props: {
     pilot: {
@@ -92,9 +95,6 @@ export default {
     this.selected_mech = this.defaultMechID;
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     defaultMechID() {
       if (this.$route.name === 'mech-sheet') {
         return this.mechID;

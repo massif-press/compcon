@@ -38,7 +38,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'skill-select-item',
   props: {
     skill: {
@@ -57,11 +59,6 @@ export default {
       type: Number,
       required: false,
       default: 0,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

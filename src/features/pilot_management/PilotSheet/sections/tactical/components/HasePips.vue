@@ -4,13 +4,13 @@
   <v-tooltip :text="tooltip()">
     <template #activator="{ props }">
       <span v-bind="props">
-        <v-icon v-if="filled"
-          v-for="n in filled"
+        <v-icon v-for="n in filled"
+          v-if="filled"
           color="secondary"
           size="large"
           icon="mdi-hexagon" />
-        <v-icon v-if="empty"
-          v-for="n in empty"
+        <v-icon v-for="n in empty"
+          v-if="empty"
           color="secondary"
           size="large"
           icon="mdi-hexagon-outline" />
@@ -21,7 +21,7 @@
 
 <script lang="ts">
 export default {
-  name: 'hase-pips',
+  name: 'HasePips',
   props: {
     title: {
       type: String,

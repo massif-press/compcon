@@ -1,1 +1,10 @@
 npx lint-staged
+
+# Enforce commit signing
+if [ "$(git config --get commit.gpgsign)" != "true" ]; then
+  echo "ERROR: Commit signing is required. Run:"
+  echo "  git config --global gpg.format ssh"
+  echo "  git config --global user.signingkey ~/.ssh/id_ed25519.pub"
+  echo "  git config --global commit.gpgsign true"
+  exit 1
+fi

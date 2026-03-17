@@ -7,8 +7,11 @@
 import basics from '@/assets/srd/lib/basics.json';
 import SrdView from './_components/SrdView.vue';
 import SwitchLangTemp from './_components/SwitchLangTEMP.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'basics',
   inheritAttrs: false,
   components: {
@@ -24,9 +27,6 @@ export default {
   computed: {
     basics() {
       return basics;
-    },
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

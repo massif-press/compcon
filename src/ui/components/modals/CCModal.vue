@@ -66,7 +66,9 @@
 </template>
 
 <script>
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'cc-modal',
   data: () => ({
     modal: false,
@@ -115,11 +117,6 @@ export default {
     },
   },
   emits: ['cancel', 'confirm'],
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
   methods: {
     open() {
       this.modal = true;

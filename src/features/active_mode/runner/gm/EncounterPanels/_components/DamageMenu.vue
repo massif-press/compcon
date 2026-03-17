@@ -116,8 +116,8 @@
                 </v-col>
               </v-row>
 
-              <v-card flat
-                v-for="s in getActiveStatuses"
+              <v-card v-for="s in getActiveStatuses"
+                flat
                 tile
                 class="py-1 text-center"
                 color="damage--burn">
@@ -149,14 +149,14 @@
                   class="text-cc-overline"
                   align="center">
                   <v-col>
-                    <v-text-field type="number"
+                    <v-text-field v-model="totalDamage"
+                      type="number"
                       min="0"
                       max="100"
                       hide-details
                       density="compact"
                       variant="outlined"
-                      tile
-                      v-model="totalDamage" />
+                      tile />
                   </v-col>
                   <v-cols cols="auto"
                     class="ml-n1 mr-n5">
@@ -188,8 +188,11 @@
 <script>
 import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'DamageMenu',
   props: {
     controller: {
@@ -220,20 +223,7 @@ export default {
       { ID: 6, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
     ],
   }),
-  watch: {
-    incomingDamageValue() {
-      this.recalc();
-    },
-    damageMods: {
-      handler() {
-        this.recalc();
-      }, deep: true
-    },
-  },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     getActiveStatuses() {
       if (!this.controller || !this.controller.Statuses) return [];
 
@@ -254,6 +244,16 @@ export default {
 
       return this.controller.Statuses.filter(x => relevantStatuses.some(r => r.id === x.status.ID)).map((s) => relevantStatuses.find((as) => as.id === s.status.ID)
       );
+    },
+  },
+  watch: {
+    incomingDamageValue() {
+      this.recalc();
+    },
+    damageMods: {
+      handler() {
+        this.recalc();
+      }, deep: true
     },
   },
   getActiveResistances() {

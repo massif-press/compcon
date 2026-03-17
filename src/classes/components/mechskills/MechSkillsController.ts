@@ -17,6 +17,41 @@ class MechSkillsController {
     this._mechSkills = new MechSkills()
   }
 
+  public get Hull(): number {
+    return this._mechSkills.Hull
+  }
+  public set Hull(value: number) {
+    this.setSkill('Hull', value)
+  }
+
+  public get Agi(): number {
+    return this._mechSkills.Agi
+  }
+  public set Agi(value: number) {
+    this.setSkill('Agi', value)
+  }
+
+  public get Sys(): number {
+    return this._mechSkills.Sys
+  }
+  public set Sys(value: number) {
+    this.setSkill('Sys', value)
+  }
+
+  public get Eng(): number {
+    return this._mechSkills.Eng
+  }
+  public set Eng(value: number) {
+    this.setSkill('Eng', value)
+  }
+
+  private setSkill(field: 'Hull' | 'Agi' | 'Sys' | 'Eng', value: number): void {
+    if (value < 0 || value > 6) return
+    if (value > this._mechSkills[field] && this.HASERemaining < value) value = this.HASERemaining
+    this._mechSkills[field] = value
+    this.Parent.SaveController.save()
+  }
+
   public get MechSkills(): MechSkills {
     return this._mechSkills
   }

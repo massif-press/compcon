@@ -298,8 +298,11 @@ import { Mech, Pilot, PilotGroup } from '@/class';
 import MechCardLoadoutField from '@/features/pilot_management/PilotSheet/sections/hangar/components/MechCardLoadoutField.vue';
 import PilotListItemDetails from '@/features/pilot_management/Roster/components/_pilotListItemDetails.vue';
 import { PilotStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'NewSheet',
   components: {
     PilotListItemDetails,
@@ -314,9 +317,6 @@ export default {
     campaign: '',
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     groups() {
       let groups = [{ title: 'All Pilots', value: null }];
       return [...groups,

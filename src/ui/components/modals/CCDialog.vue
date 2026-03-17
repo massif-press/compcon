@@ -38,7 +38,9 @@
 </template>
 
 <script>
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   data: () => ({
     dialog: false,
   }),
@@ -69,11 +71,6 @@ export default {
     noGutters: {
       type: Boolean,
       default: false,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

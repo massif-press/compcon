@@ -204,8 +204,10 @@
   import StatblockDialog from './components/StatblockDialog.vue'
   import logger from '@/user/logger'
   import LcpConfigSelector from './components/LcpConfigSelector.vue'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'EditMenu',
     components: {
       StatblockDialog,
@@ -223,11 +225,6 @@
       loading: false,
       deleteDialog: false,
     }),
-    computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
-    },
     methods: {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
       delete_pilot(close?: Function) {

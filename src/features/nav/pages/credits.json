@@ -8,21 +8,23 @@
     {
       "name": "Tom Parkinson Morgan",
       "website": "https://killsixbilliondemons.com/",
-      "image": "https://pbs.twimg.com/profile_images/1510312159766589445/PkrtGbgZ_400x400.png"
+      "image": "/badges/tom.png",
+      "bsky": "https://bsky.app/profile/orbitaldropkick.bsky.social"
     }
   ],
   "lead_devs": [
     {
       "name": "John Arena",
       "website": "http://jarena3.github.io/",
-      "image": "https://pbs.twimg.com/profile_images/1645475965902921728/6QCM9Xq2_400x400.jpg",
-      "github": "https://github.com/massif-press"
+      "image": "/badges/beef.webp",
+      "github": "https://github.com/massif-press",
+      "bsky": "https://bsky.app/profile/beeftime.itch.io"
     }
   ],
   "devs1": [
     {
       "name": "Ari K",
-      "image": "https://pbs.twimg.com/profile_images/1589737654610010112/ZxsYT-Jj_400x400.png"
+      "image": "/badges/ari.png"
     },
     {
       "name": "Matthew Johnston",
@@ -30,8 +32,7 @@
       "image": "https://avatars.githubusercontent.com/u/49248157?v=4"
     },
     {
-      "name": "Scott Macmillan",
-      "website": "https://commandertso.com"
+      "name": "Scott Macmillan"
     }
   ],
   "devs2": [
@@ -49,12 +50,11 @@
   ],
   "graphics": [
     {
-      "name": "Justin Saenger",
-      "image": "https://pbs.twimg.com/profile_images/976634335968231425/VP8lbjMB_400x400.jpg"
+      "name": "Justin Saenger"
     },
     {
       "name": "Steve",
-      "image": "https://pbs.twimg.com/profile_images/1271111899447517184/5WrdBEzU_400x400.jpg"
+      "image": "/badges/steve.jpg"
     },
     {
       "name": "Danny Kane"
@@ -63,8 +63,9 @@
   "art": [
     {
       "name": "Retrograde Minis",
-      "image": "https://pbs.twimg.com/profile_images/1787435528943730688/KhQnnO9y_400x400.jpg",
-      "website": "https://www.retrogrademinis.com/"
+      "image": "/badges/retrograde.webp",
+      "website": "https://www.retrogrademinis.com/",
+      "bsky": "https://bsky.app/profile/retrogrademinis.bsky.social"
     },
     {
       "name": "juan gee",

@@ -49,7 +49,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
   export default {
+  mixins: [useMobile],
     name: 'CcBondInfo',
     props: {
       power: { type: Object, required: true },
@@ -57,9 +59,6 @@
       disabled: { type: Boolean },
     },
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       headerColor() {
         if (this.power.veteran) return 'indigo-lighten-1'
         if (this.power.master) return 'deep-purple-darken-3'

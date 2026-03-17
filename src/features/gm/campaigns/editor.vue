@@ -65,8 +65,11 @@ import ContentPage from '@/features/compendium/Views/CampaignLibrary/pages/conte
 import Page from './pages/CampaignPage.vue';
 
 import { CampaignStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'campaign-editor',
   components: { campaignEditorSidebar, Overview, Page, Credits, ContentPage },
   props: {
@@ -80,9 +83,6 @@ export default {
   }),
 
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     itemComponent() {
       switch (this.componentType.toLowerCase()) {
         case 'overview':

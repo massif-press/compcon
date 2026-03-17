@@ -4,22 +4,29 @@
       <ident-block :pilot="pilot" />
     </div>
     <v-row>
-      <v-col :class="!mobile && 'mt-n10'">
-        <clone-block :pilot="pilot" :readonly="pilot.IsRemote" />
+      <v-col>
+        <clone-block :pilot="pilot"
+          :readonly="pilot.IsRemote" />
 
         <section-header title="Pilot Biography" />
-        <cc-rich-text-area v-model="pilot.History" :readonly="pilot.IsRemote" class="pt-2 mb-3" />
+        <cc-rich-text-area v-model="pilot.History"
+          :readonly="pilot.IsRemote"
+          class="pt-2 mb-3" />
 
         <section-header title="Pilot Appearance" />
-        <cc-rich-text-area
-          v-model="pilot.TextAppearance"
+        <cc-rich-text-area v-model="pilot.TextAppearance"
           :readonly="pilot.IsRemote"
           class="pt-2 mb-2" />
 
         <section-header title="Pilot Notes" />
-        <cc-rich-text-area v-model="pilot.Notes" :readonly="pilot.IsRemote" class="pt-2 mb-3" />
+        <cc-rich-text-area v-model="pilot.Notes"
+          :readonly="pilot.IsRemote"
+          class="pt-2 mb-3" />
       </v-col>
-      <v-col cols="12" sm="4" :order="mobile && '-1'" :class="!mobile && 'pt-6'">
+      <v-col cols="12"
+        sm="4"
+        :order="mobile && '-1'"
+        :class="!mobile && 'pt-6'">
         <image-block :pilot="pilot" />
       </v-col>
     </v-row>

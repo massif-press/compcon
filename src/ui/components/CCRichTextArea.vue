@@ -21,7 +21,7 @@ import { options } from '@/ui/style/quillSetup';
 import { debounce } from 'lodash-es';
 
 export default {
-  name: 'cc-rich-text-area',
+  name: 'CcRichTextArea',
   props: {
     modelValue: {
       type: String,
@@ -34,19 +34,20 @@ export default {
   data: () => ({
     quill: null as any,
   }),
-  methods: {
-    set(e) {
-      if (!this.quill) return;
-      const self = this;
-
-      debounce(() => {
-        self.$emit('update:modelValue', self.quill.root.innerHTML);
-      }, 300)();
-    },
-  },
   computed: {
     editorOptions() {
       return options;
+    },
+  },
+  created() {
+    this.emitUpdate = debounce(function (this: any) {
+      this.$emit('update:modelValue', this.quill.root.innerHTML);
+    }, 300);
+  },
+  methods: {
+    set(e) {
+      if (!this.quill) return;
+      this.emitUpdate();
     },
   },
 };

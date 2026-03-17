@@ -105,7 +105,7 @@
       </v-menu>
     </v-col>
   </v-row>
-  <masonry-wall :items="features"
+  <cc-masonry-grid :items="features"
     :column-width="600"
     :gap="16"
     :min-columns="1"
@@ -121,7 +121,7 @@
           @deploy="$emit('deploy', $event)" />
       </fieldset>
     </template>
-  </masonry-wall>
+  </cc-masonry-grid>
 </template>
 
 <script>

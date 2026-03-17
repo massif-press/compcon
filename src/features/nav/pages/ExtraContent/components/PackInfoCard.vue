@@ -112,8 +112,11 @@ import { IContentPack, IContentPackManifest, ContentPackDependency } from '@/int
 import * as _ from 'lodash-es';
 import { PropType } from 'vue';
 import { CompendiumStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   props: {
     pack: { type: Object as PropType<IContentPack | ContentPack>, required: true },
   },
@@ -147,9 +150,6 @@ export default {
   }),
 
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     manifest() {
       return (this.pack as IContentPack).manifest
         ? (this.pack as IContentPack).manifest

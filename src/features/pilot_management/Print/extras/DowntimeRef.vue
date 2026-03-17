@@ -3,7 +3,7 @@
     <div class="text-overline text-primary" style="line-height: 15px">DOWNTIME REFERENCE</div>
 
     <v-row dense>
-      <v-col v-for="action in actions" cols="12" class="my-n1 caption">
+      <v-col v-for="action in actions" cols="12" class="my-n1 caption no-print-break">
         <fieldset class="px-2">
           <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">
             <v-icon icon="cc:downtime" />

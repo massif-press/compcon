@@ -24,7 +24,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'cc-tabs',
   props: {
     color: { type: String, default: 'primary' },
@@ -39,11 +41,6 @@ export default {
   watch: {
     tab() {
       this.$emit('changed', this.tab);
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

@@ -1,0 +1,39 @@
+name: Feature Request
+description: Suggest a new feature or improvement
+labels: ['feature', 'triage']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Motivation
+      description: What problem does this solve? Why is it needed?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the feature or change you'd like.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Related Area
+      options:
+        - Pilot Management
+        - Compendium
+        - Encounter Builder
+        - NPC Builder
+        - Active Mode / Combat
+        - Content Packs
+        - UI / UX
+        - Other
+    validations:
+      required: false
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+    validations:
+      required: false

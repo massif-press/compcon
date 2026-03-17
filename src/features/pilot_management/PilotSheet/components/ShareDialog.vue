@@ -104,7 +104,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'share-dialog',
   props: {
     pilot: { type: Object, required: true },
@@ -114,9 +116,6 @@ export default {
     shareMech: '',
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     shareLink() {
       return `https://dev.compcon.app/link/pilot/${this.pilot.CloudController.ShareCode}/${this.linkStyle}/${this.shareMech}`;
     },

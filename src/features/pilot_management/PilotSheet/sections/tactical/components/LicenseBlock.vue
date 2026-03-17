@@ -38,19 +38,17 @@ import NoDataBlock from '../../components/NoDataBlock.vue';
 import LicenseSelector from '@/features/pilot_management/_components/selectors/LicenseSelector.vue';
 import { Pilot } from '@/class';
 import { CompendiumStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'license-block',
   components: { SectionHeader, SectionEditChip, NoDataBlock, LicenseSelector },
   props: {
     pilot: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

@@ -4,7 +4,7 @@
       justify="center">
       <v-col cols="6">
         <v-file-input v-model="fileValue"
-          accept="text/json"
+          accept=".json, text/json"
           variant="outlined"
           label="Select Pilot Data File"
           prepend-icon="mdi-paperclip"
@@ -21,7 +21,7 @@
         max-width="900px"
         class="mx-auto"
         border>
-        <cc-alert v-if="!stagedData.itemType"
+        <cc-alert v-if="isV2"
           icon="mdi-alert-circle-outline"
           title="v2 Data">
           <p class="text-text">
@@ -80,14 +80,22 @@
         border>
         <v-card-text class="text-center">
           <p class="heading h4 text-accent">
-            This Pilot requires the following content packs that are not currently installed/active,
+            This Pilot contains content from the following Lancer Content Packs that are not
+            currently installed/active,
             or have mismatching versions:
           </p>
-          <p class="effect-text text-center"
-            v-html-safe="missingContent" />
-          <p class="text-text">
+          <p v-html-safe="missingContent"
+            class="effect-text text-center" />
+          <p v-if="isV2"
+            class="text-text">
             This Pilot cannot be imported until the missing content packs are installed and
             activated, or the content pack versions are synchronized.
+          </p>
+          <p v-else
+            class="text-text">
+            This Pilot may be imported, but some items from missing content packs will be instanced
+            from saved data. If removed, these items will not be able to be re-equipped without the
+            missing content packs.
           </p>
         </v-card-text>
       </v-card>
@@ -102,7 +110,7 @@
           color="primary"
           block
           prepend-icon="mdi-plus"
-          :disabled="missingContent.length > 0"
+          :disabled="isV2 && missingContent.length > 0"
           @click="importFile()">
           Import {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
         </cc-button>
@@ -122,7 +130,7 @@ import * as _ from 'lodash-es';
 import logger from '@/user/logger';
 
 export default {
-  name: 'file-import',
+  name: 'FileImport',
   props: {
     groupId: {
       type: String,
@@ -140,6 +148,11 @@ export default {
     stagedData: null as PilotData | null,
     alreadyPresent: '',
   }),
+  computed: {
+    isV2() {
+      return !this.stagedData?.itemType;
+    },
+  },
   watch: {
     stagedData(newVal) {
       if (!newVal) {
@@ -175,7 +188,7 @@ export default {
         const installedPacks = CompendiumStore()
           .ContentPacks.filter((x) => x.Active)
           .map((x) => x.ID);
-        let missing = [] as string[];
+        const missing = [] as string[];
         pilotData.brews.forEach((b) => {
           if (!installedPacks.includes(b.LcpId)) {
             missing.push(`${b.LcpName} @ ${b.LcpVersion}`);

@@ -43,10 +43,23 @@ import Builder from './builder.vue';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 import { CompendiumStore, NpcStore } from '@/stores';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
+import { useMobile } from '@/mixins/useMobile';
+import { ref, onUnmounted } from 'vue';
+
 
 export default {
+  mixins: [useMobile],
   name: 'eidolon-roster',
   components: { GmSplitView, Editor, Builder, NoGmItem },
+  setup() {
+    const npcStore = NpcStore();
+    const eidolons = ref(npcStore.getEidolons.filter((x) => !x.SaveController.IsDeleted));
+    const unsub = npcStore.$subscribe(() => {
+      eidolons.value = npcStore.getEidolons.filter((x) => !x.SaveController.IsDeleted);
+    });
+    onUnmounted(unsub);
+    return { npcStore, eidolons };
+  },
   props: {
     id: {
       type: String,
@@ -62,16 +75,12 @@ export default {
     selected: null as Eidolon | null,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     eidolonAccess() {
       return CompendiumStore().hasEidolonAccess;
     },
     groupings() {
       const allLabelTitles = new Set(
-        NpcStore()
-          .getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
           .map((x: any) => x.title)
       );
 
@@ -81,8 +90,7 @@ export default {
     },
     sortings() {
       const allLabelTitles = new Set(
-        NpcStore()
-          .getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
           .map((x: any) => x.title)
       );
 
@@ -91,9 +99,6 @@ export default {
       return [...baseSortings, ...allLabelTitles];
     },
 
-    eidolons() {
-      return NpcStore().getEidolons.filter((x) => !x.SaveController.IsDeleted);
-    },
   },
   mounted() {
     if (this.id) {

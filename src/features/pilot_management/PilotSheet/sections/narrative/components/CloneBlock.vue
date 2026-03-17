@@ -52,6 +52,7 @@
       <section-header title="Clone Quirks" />
 
       <v-row v-for="(q, i) in pilot.Quirks"
+        :key="`quirk_${i}`"
         dense
         align="start"
         class="my-1">
@@ -72,14 +73,18 @@
           </v-alert>
         </v-col>
         <v-col cols="auto">
-          <cc-tooltip content="Remove Clone Quirk">
-            <v-btn icon
-              size="x-small"
-              variant="plain"
-              @click="pilot.RemoveQuirk(i)">
-              <v-icon size="large">mdi-delete</v-icon>
-            </v-btn>
-          </cc-tooltip>
+          <v-tooltip text="Remove Clone Quirk">
+            <template #activator="{ props }">
+              <v-btn icon
+                v-bind="props"
+                color="error"
+                size="x-small"
+                variant="plain"
+                @click="pilot.RemoveQuirk(i)">
+                <v-icon size="large">mdi-delete</v-icon>
+              </v-btn>
+            </template>
+          </v-tooltip>
         </v-col>
       </v-row>
     </div>

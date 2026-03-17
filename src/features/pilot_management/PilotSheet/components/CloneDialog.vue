@@ -133,8 +133,11 @@
 import { CompendiumStore, PilotStore } from '@/stores';
 import * as _ from 'lodash-es';
 import { Pilot } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'clone-dialog',
   props: {
     pilot: {
@@ -145,11 +148,6 @@ export default {
   data: () => ({
     quirk: null,
   }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
   methods: {
     show() {
       (this.$refs.dialog as any).show();

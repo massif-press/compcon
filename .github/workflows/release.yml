@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Create Release PR or Publish
+        uses: changesets/action@v1
+        with:
+          version: npm run version
+          publish: npm run release
+          title: 'Release'
+          commit: 'chore: release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

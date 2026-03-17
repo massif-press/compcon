@@ -52,7 +52,7 @@
           class="ml-auto">
           <cc-chip size="x-small"
             variant="elevated"
-            :bgColor="`action--${cs.Activation.toLowerCase()}`">
+            :bg-color="`action--${cs.Activation.toLowerCase()}`">
             {{ cs.Activation.toUpperCase() }}
           </cc-chip>
         </v-col>
@@ -73,8 +73,8 @@
       </div>
     </div>
 
-    <v-row dense
-      v-if="cs.PassiveName">
+    <v-row v-if="cs.PassiveName"
+      dense>
       <v-col cols="auto">
         <span class="heading h3 text-accent">
           <v-chip color="primary"
@@ -136,8 +136,10 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
-  name: 'core-system-panel',
+  name: 'CoreSystemPanel',
+  mixins: [useMobile],
   props: {
     frame: {
       type: Object,
@@ -158,9 +160,6 @@ export default {
   computed: {
     cs() {
       return this.frame.CoreSystem;
-    },
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
     isTerse() {
       return this.terse || this.small;

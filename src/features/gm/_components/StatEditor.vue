@@ -126,6 +126,8 @@
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
 import { Bonus } from '@/classes/components';
+import { useMobile } from '@/mixins/useMobile';
+
 
 const npcStatOrder = [
   'hull',
@@ -152,6 +154,7 @@ const npcStatOrder = [
 ];
 
 export default {
+  mixins: [useMobile],
   name: 'stat-editor',
   components: { EditableAttribute },
   props: {
@@ -179,9 +182,6 @@ export default {
     ],
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     coreStats() {
       return StatController.CoreStats;
     },

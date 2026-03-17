@@ -1,14 +1,16 @@
 <template>
-  <v-card flat tile>
-    <v-card-text class="pa-0 flavor-text">
+  <v-card flat
+    tile
+    max-width="600px">
+    <v-card-text class="pa-2 flavor-text">
       <span class="text-cc-overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
       <br />
-      <span v-if="!noCc" style="opacity: 0.4">>>COMP/CON//&nbsp;</span>
+      <span v-if="!noCc"
+        style="opacity: 0.4">>>COMP/CON//&nbsp;</span>
       <span v-html-safe="content" />
       <v-divider class="my-2" />
       <v-card-actions class="my-n3">
-        <cc-button
-          v-if="cancellable"
+        <cc-button v-if="cancellable"
           size="small"
           variant="text"
           color="error"
@@ -16,7 +18,9 @@
           CANCEL
         </cc-button>
         <v-spacer />
-        <cc-button size="small" color="primary" @click="$emit('confirm')">CONFIRM</cc-button>
+        <cc-button size="small"
+          color="primary"
+          @click="$emit('confirm')">CONFIRM</cc-button>
       </v-card-actions>
     </v-card-text>
   </v-card>
@@ -24,7 +28,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-confirmation',
+  name: 'CcConfirmation',
   props: {
     content: {
       type: String,

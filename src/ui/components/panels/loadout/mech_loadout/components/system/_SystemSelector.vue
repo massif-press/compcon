@@ -96,12 +96,13 @@
   import * as _ from 'lodash-es'
 
   import { CompendiumStore } from '@/stores'
-  import { Mech, MechSystem } from '@/class'
-  import { flavorID } from '@/io/Generators'
-  import { Bonus } from '@/classes/components/feature/bonus/Bonus'
+  import { MechSystem } from '@/class'
+  import { useMobile } from '@/mixins/useMobile'
+  import { selectorMixin } from '../_mixins/selectorMixin'
 
   export default {
     name: 'SystemSelector',
+    mixins: [useMobile, selectorMixin],
     props: {
       equipped: {
         type: Object,
@@ -135,44 +136,21 @@
         { title: 'License Level', align: 'left', key: 'LicenseLevel' },
         { title: 'SP Cost', align: 'left', key: 'SP' },
       ],
-      showUnlicensed: false,
-      showOverSP: false,
     }),
     computed: {
-      mobile(): boolean {
-        return this.$vuetify.display.smAndDown
-      },
       freeSP(): number {
         if (this.equipped) return this.mech.FreeSP + this.equipped.SP
         else if (this.swapSystem) return this.mech.FreeSP + this.swapSystem.SP
         return this.mech.FreeSP
       },
-      allSystems() {
-        if (!this.mech.Parent.LcpConfig) return CompendiumStore().MechSystems
-        return CompendiumStore().MechSystems.filter(
-          x =>
-            !x.InLcp ||
-            this.mech.Parent.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-            this.mech.Parent.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
-        )
-      },
       availableSystems(): MechSystem[] {
-        // filter unique
-        let i = this.allSystems.filter(x => x.Source && !x.IsHidden && !x.IsExotic)
+        let i = this.filterByLcp(CompendiumStore().MechSystems).filter(
+          x => x.Source && !x.IsHidden && !x.IsExotic
+        )
 
-        // filter ai
-        if (
-          this.mech.MechLoadoutController.ActiveLoadout.AICount >=
-          1 + Bonus.get('ai_cap', this.mech as Mech)
-        ) {
-          i = i.filter(x => !x.IsAI)
-        }
+        if (this.isAICapacityFull()) i = i.filter(x => !x.IsAI)
 
-        if (!this.showUnlicensed) {
-          i = i.filter(
-            x => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
-          )
-        }
+        if (!this.showUnlicensed) i = i.filter(x => this.isLicensed(x))
 
         i = i
           .concat(this.mech.SpecialEquipment.filter(x => x.ItemType === 'MechSystem'))
@@ -183,20 +161,12 @@
               )
           )
 
-        if (!this.showOverSP) {
-          i = i.filter(x => x.SP <= this.freeSP)
-        }
+        if (!this.showOverSP) i = i.filter(x => x.SP <= this.freeSP)
 
         return _.sortBy(i, ['Source', 'Name'])
       },
     },
-    mounted() {
-      this.options.initialView = this.mobile ? 'list' : 'single'
-    },
     methods: {
-      fID(template: string): string {
-        return flavorID(template)
-      },
       handleEquip(sys: MechSystem) {
         if (this.equipped) {
           this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(

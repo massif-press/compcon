@@ -106,7 +106,7 @@
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall :items="traits"
+          <cc-masonry-grid :items="traits"
             :column-width="500"
             :gap="8"
             :min-columns="1"
@@ -115,12 +115,12 @@
               <div class="heading h4 text-accent">{{ item.name }}</div>
               <p v-html-safe="item.detail" />
             </template>
-          </masonry-wall>
+          </cc-masonry-grid>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <masonry-wall :items="features"
+    <cc-masonry-grid :items="features"
       :column-width="600"
       :gap="16"
       :min-columns="1"
@@ -135,7 +135,7 @@
             @deploy="deploy($event)" />
         </fieldset>
       </template>
-    </masonry-wall>
+    </cc-masonry-grid>
   </panel-base>
 </template>
 

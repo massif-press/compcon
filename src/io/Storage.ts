@@ -105,7 +105,7 @@ const SetItem = async function (collection: string, item: any) {
   }
 
   let save = true
-  let id = item.ID ? item.ID : item.sortkey ? item.sortkey : item.id
+  const id = item.ID ? item.ID : item.sortkey ? item.sortkey : item.id
 
   if (item.SaveController) {
     save = item.SaveController.IsDirty
@@ -131,7 +131,12 @@ const GetAll = async function (collection: string) {
 
   await storeRegistry[collection.toLowerCase()]
     .iterate(function (value: any) {
-      output.push(JSON.parse(value))
+      try {
+        const obj = JSON.parse(value)
+        output.push(obj)
+      } catch (err) {
+        logger.error('Error parsing collection item', { collection, value }, err)
+      }
     })
     .catch(function (err) {
       logger.error('Error getting collection data', {}, err)
@@ -176,6 +181,16 @@ const GetBlob = async function (collection: string, key: string) {
   return await db.getItem(key)
 }
 
+const ClearAllData = async function (): Promise<void> {
+  localforage
+    .dropInstance({
+      name: dbName,
+    })
+    .then(function () {
+      logger.info('All data cleared!')
+    })
+}
+
 // const convertLocalstorage = async function (): Promise<void> {
 //   // TODO
 //   const pv2 = localStorage.getItem('pilots_v2.json');
@@ -201,4 +216,5 @@ export {
   ClearAll,
   SetValue,
   GetValue,
+  ClearAllData,
 }

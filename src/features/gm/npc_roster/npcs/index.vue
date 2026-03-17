@@ -1,6 +1,5 @@
 <template>
-  <gm-split-view
-    ref="view"
+  <gm-split-view ref="view"
     title="NPCs"
     item-type="Unit"
     :items="npcs"
@@ -9,15 +8,20 @@
     :sortings="sortings"
     @add-new="addNew()"
     @open="openItem($event)">
-    <editor
-      v-if="!!selected"
+    <editor v-if="!!selected"
       :key="selected.ID"
       :item="selected"
       :readonly="selected.Readonly"
       hide-toolbar
       @exit="exit()">
-      <builder slot="upper" :item="selected" :readonly="selected.Readonly" />
-      <features slot="lower" :npc="selected" :readonly="selected.Readonly" />
+      <template #upper>
+        <builder :item="selected"
+          :readonly="selected.Readonly" />
+      </template>
+      <template #lower>
+        <features :npc="selected"
+          :readonly="selected.Readonly" />
+      </template>
     </editor>
     <no-gm-item v-else />
   </gm-split-view>
@@ -32,10 +36,23 @@ import { Unit } from '@/classes/npc/unit/Unit';
 
 import { NpcStore } from '@/stores';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
+import { useMobile } from '@/mixins/useMobile';
+import { ref, onUnmounted } from 'vue';
+
 
 export default {
-  name: 'npc-roster',
+  name: 'NpcRoster',
   components: { GmSplitView, NoGmItem, Editor, Builder, Features },
+  mixins: [useMobile],
+  setup() {
+    const npcStore = NpcStore();
+    const npcs = ref(npcStore.getUnits.filter((x) => !x.SaveController.IsDeleted));
+    const unsub = npcStore.$subscribe(() => {
+      npcs.value = npcStore.getUnits.filter((x) => !x.SaveController.IsDeleted);
+    });
+    onUnmounted(unsub);
+    return { npcStore, npcs };
+  },
   props: {
     id: {
       type: String,
@@ -45,38 +62,20 @@ export default {
   data: () => ({
     selected: null as Unit | null,
   }),
-  mounted() {
-    if (this.id) {
-      const item = NpcStore().getNpcByID(this.id);
-      if (item && item instanceof Unit) {
-        this.selected = item;
-        (this.$refs as any).view.dialog = true;
-      }
-    }
-  },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     groupings() {
       const allLabelTitles = new Set(
-        NpcStore()
-          .getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
           .map((x: any) => x.title)
-      );
-
-      const statGroupings = new Set(
-        this.npcs.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
       );
 
       const baseGroupings = ['None', 'Tier', 'Role', 'Tag', 'Folder'];
 
-      return [...baseGroupings, ...statGroupings, ...allLabelTitles];
+      return [...baseGroupings, ...allLabelTitles];
     },
     sortings() {
       const allLabelTitles = new Set(
-        NpcStore()
-          .getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
           .map((x: any) => x.title)
       );
 
@@ -88,10 +87,15 @@ export default {
 
       return [...baseSortings, ...statSortings, ...allLabelTitles];
     },
-
-    npcs() {
-      return NpcStore().getUnits.filter((x) => !x.SaveController.IsDeleted);
-    },
+  },
+  mounted() {
+    if (this.id) {
+      const item = NpcStore().getNpcByID(this.id);
+      if (item && item instanceof Unit) {
+        this.selected = item;
+        (this.$refs as any).view.dialog = true;
+      }
+    }
   },
   methods: {
     openItem(item) {

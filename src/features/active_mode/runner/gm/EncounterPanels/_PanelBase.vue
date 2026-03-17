@@ -48,8 +48,9 @@
                 class="ml-auto mr-1 mt-1">
                 <v-menu>
                   <template #activator="{ props }">
-
                     <v-btn v-for="i in item.CombatController.StatController.MaxStats['activations']"
+                      :key="`activation-${i}`"
+                      v-btn
                       icon="cc:activate"
                       size="40"
                       flat
@@ -61,8 +62,7 @@
                         ? 'panel'
                         : 'grey'
                         "
-                      v-bind="props"
-                      </v-btn>
+                      v-bind="props" />
                   </template>
                   <v-card flat
                     tile
@@ -72,8 +72,8 @@
                     <div>Mark an activation as complete?
                     </div>
 
-                    <div class="text-cc-overline text-text mt-1 mb-2"
-                      v-if="item.CombatController.StatController.CurrentStats['activations'] > 1">
+                    <div v-if="item.CombatController.StatController.CurrentStats['activations'] > 1"
+                      class="text-cc-overline text-text mt-1 mb-2">
                       This will reduce reduced the remaining activations
                       by 1 and
                       reset all actions.
@@ -118,13 +118,14 @@
                   </template>
                 </v-tooltip>
               </v-col>
-              <v-col cols="auto"
-                v-for="(stat, index) in item.StatController.GetStatCollection([
-                  'hull',
-                  'agi',
-                  'sys',
-                  'eng',
-                ])">
+              <v-col v-for="stat in item.StatController.GetStatCollection([
+                'hull',
+                'agi',
+                'sys',
+                'eng',
+              ])"
+                :key="stat"
+                cols="auto">
                 <v-tooltip :text="stat.title"
                   location="top"
                   open-delay="400">
@@ -144,14 +145,15 @@
                   icon />
               </v-col>
               <v-col cols="1" />
-              <v-col cols="auto"
-                v-for="(stat, index) in item.StatController.GetStatCollection([
-                  'evasion',
-                  'edef',
-                  'techattack',
-                  'sensorRange',
-                  'saveTarget',
-                ])">
+              <v-col v-for="stat in item.StatController.GetStatCollection([
+                'evasion',
+                'edef',
+                'techattack',
+                'sensorRange',
+                'saveTarget',
+              ])"
+                :key="stat"
+                cols="auto">
                 <v-tooltip :text="stat.title"
                   location="top"
                   open-delay="400">
@@ -331,27 +333,20 @@
   </v-card>
 </template>
 
-<script>
-import * as _ from 'lodash-es';
-import { CompendiumStore } from '@/stores';
-import StatMiniPanel from './_components/StatMiniPanel.vue';
+<script lang="ts">
 import DamageConditionSelector from './_components/DamageConditionSelector.vue';
 import CombatActionPanel from './_components/CombatActionPanel.vue';
 import StatusConditionSelector from './_components/StatusConditionSelector.vue';
 import DamageMenu from './_components/DamageMenu.vue';
-import { Rules } from '@/class';
 import CustomStatEditor from './_components/CustomStatEditor.vue';
 import ActiveEffectPanel from './_components/ActiveEffectPanel.vue';
 import TimedEffectPanel from './_components/TimedEffectPanel.vue';
-import SimpleMiniPanel from './_components/SimpleMiniPanel.vue';
 import TrackableStatsComplex from './_components/TrackableStatsComplex.vue';
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue';
 
 export default {
   name: 'EncounterPanelBase',
   components: {
-    StatMiniPanel,
-    SimpleMiniPanel,
     DamageConditionSelector,
     CombatActionPanel,
     StatusConditionSelector,

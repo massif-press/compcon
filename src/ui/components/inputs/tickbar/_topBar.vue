@@ -2,14 +2,15 @@
   <div>
     <v-row no-gutters>
       <v-col cols="auto">
-        <v-tooltip location="top" :text="label" :open-delay="400">
+        <v-tooltip location="top"
+          :text="label"
+          :open-delay="400">
           <template #activator="{ props }">
             <div v-bind="props">
               <v-menu :close-on-content-click="false">
                 <template #activator="{ props }">
                   <!-- activator button -->
-                  <v-btn
-                    v-bind="props"
+                  <v-btn v-bind="props"
                     size="small"
                     tile
                     flat
@@ -18,23 +19,27 @@
                     height="24px"
                     width="125px"
                     :class="`bg-${bgColor}`">
-                    <v-icon start :icon="icon" size="20" />
-                    <span v-if="valueAtlas?.length" class="heading" style="font-size: 14px">
+                    <v-icon start
+                      :icon="icon"
+                      size="20" />
+                    <span v-if="valueAtlas?.length"
+                      class="heading"
+                      style="font-size: 14px">
                       {{ valueAtlas[modelValue] }}
                     </span>
-                    <span v-else class="heading" style="font-size: 14px">{{ modelValue }}</span>
+                    <span v-else
+                      class="heading"
+                      style="font-size: 14px">{{ modelValue }}</span>
                   </v-btn>
                 </template>
 
                 <!-- menu content -->
-                <tickbar-menu
-                  :icon="icon"
+                <tickbar-menu :icon="icon"
                   :label="label"
                   :editable="editable"
                   @set="setVal($event)"
                   @reset="$emit('reset')">
-                  <v-text-field
-                    v-model.number="internalValue"
+                  <v-text-field v-model.number="internalValue"
                     variant="outlined"
                     type="number"
                     tile
@@ -45,8 +50,7 @@
                     @update:model-value="setVal(Number($event))" />
                   <slot name="menu-content" />
                   <template #edit-max-value>
-                    <v-text-field
-                      :model-value.number="internalValue"
+                    <v-text-field :model-value.number="internalValue"
                       variant="outlined"
                       type="number"
                       tile
@@ -65,34 +69,33 @@
 
       <!-- bar content -->
       <v-col class="ml-1">
-        <div
-          v-if="!ticks && !modelValue"
+        <div v-if="!ticks && !modelValue"
           class="ml-1"
           :class="`bg-${bgColor}`"
           style="height: 20px; width: 100%; margin-bottom: 4px" />
 
-        <v-tooltip v-else-if="!ticks && modelValue" location="top" :open-delay="400">
+        <v-tooltip v-else-if="!ticks && modelValue"
+          location="top"
+          :open-delay="400">
           <template #activator="{ props }">
-            <div
-              style="
+            <div style="
                 display: flex;
                 justify-content: space-between;
                 height: 20px;
                 width: 100%;
                 margin-bottom: 4px;
               ">
-              <v-btn
-                v-for="i in modelValue"
+              <v-btn v-for="i in modelValue"
                 v-bind="props"
                 tile
                 flat
                 class="pa-0 ml-1"
-                @mouseover="hover = i"
-                @mouseleave="hover = null"
                 :readonly="readonly || disabled || loading"
                 :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`}`"
                 style="height: 20px; min-width: 0 !important"
                 :style="`width: calc(calc(100% / ${modelValue}) - 4px)`"
+                @mouseover="hover = i"
+                @mouseleave="hover = null"
                 @click="setVal(i)" />
             </div>
           </template>
@@ -107,27 +110,28 @@
           </div>
         </v-tooltip>
 
-        <div
-          v-else-if="ticks && ticks > tickThreshold"
+        <div v-else-if="ticks && ticks > tickThreshold"
           style="height: 20px; width: 100%; margin-bottom: 4px; margin-right: 4px"
           :style="pctBackground" />
 
         <div v-else-if="ticks">
-          <div v-for="i in ticks" class="d-inline-block pl-1" :style="`width: ${100 / ticks}%;`">
-            <v-tooltip location="top" :open-delay="400">
+          <div v-for="i in ticks"
+            class="d-inline-block pl-1"
+            :style="`width: ${100 / ticks}%;`">
+            <v-tooltip location="top"
+              :open-delay="400">
               <template #activator="{ props }">
-                <v-btn
-                  v-bind="props"
+                <v-btn v-bind="props"
                   tile
                   flat
                   :readonly="readonly || disabled || loading"
-                  @mouseover="hover = i"
-                  @mouseleave="hover = null"
                   height="20px"
                   style="width: 100%; margin-top: -5px"
-                  @click="setVal(i)"
                   class="tick"
-                  :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`}`" />
+                  :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`}`"
+                  @mouseover="hover = i"
+                  @mouseleave="hover = null"
+                  @click="setVal(i)" />
               </template>
               <div class="heading h3 text-center">
                 <div class="text-cc-overline text-disabled">{{ label }}</div>
@@ -143,8 +147,10 @@
         </div>
       </v-col>
 
-      <v-col cols="auto" style="width: 48px; margin-left: 10px">
-        <div :class="`bg-${bgColor}`" style="height: 24px" />
+      <v-col cols="auto"
+        style="width: 48px; margin-left: 10px">
+        <div :class="`bg-${bgColor}`"
+          style="height: 24px" />
       </v-col>
     </v-row>
   </div>
@@ -154,7 +160,7 @@
 import TickbarMenu from './_tickbarMenu.vue';
 
 export default {
-  name: 'cc-tickbar',
+  name: 'CcTickbarTop',
   components: { TickbarMenu },
   props: {
     modelValue: { type: Number, default: 0 },
@@ -170,20 +176,12 @@ export default {
     editable: { type: Boolean, default: false },
     valueAtlas: { type: Array, required: false },
   },
+  emits: ['update:modelValue', 'reset'],
   data() {
     return {
       hover: null as number | null,
       internalValue: this.modelValue,
     };
-  },
-  emits: ['update:modelValue', 'reset'],
-  watch: {
-    modelValue(val) {
-      this.internalValue = val;
-    },
-    internalValue(val) {
-      this.$emit('update:modelValue', val);
-    },
   },
   computed: {
     tickThreshold() {
@@ -197,6 +195,14 @@ export default {
       const pct = Math.round((this.modelValue / this.ticks) * 100);
 
       return `background: linear-gradient(45deg, rgb(var(--v-theme-${this.color})) ${pct}%, rgb(var(--v-theme-${this.bgColor})) ${pct}%)`;
+    },
+  },
+  watch: {
+    modelValue(val) {
+      this.internalValue = val;
+    },
+    internalValue(val) {
+      this.$emit('update:modelValue', val);
     },
   },
   methods: {

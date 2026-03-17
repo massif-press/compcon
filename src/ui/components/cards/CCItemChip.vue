@@ -29,8 +29,11 @@
 <script lang="ts">
 import * as _ from 'lodash-es';
 import ItemCardLink from './items/_components/ItemCardLink.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'CCItemModal',
   props: {
     item: {
@@ -63,9 +66,6 @@ export default {
     ItemCardLink,
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     wide() {
       return this.$vuetify.display.lgAndUp;
     },

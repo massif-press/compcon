@@ -299,17 +299,6 @@ export default {
     stagedFolderName: '',
     showDeleteConfirm: false,
   }),
-  mounted: function () {
-    if (this.type === 'npc') {
-      this.allTypes = ['unit', 'doodad', 'eidolon'];
-    } else if (this.type === 'narrative') {
-      this.allTypes = ['character', 'location', 'faction'];
-    } else if (this.type === 'encounter') {
-      this.allTypes = ['encounter'];
-    }
-
-    this.shownTypes = this.allTypes;
-  },
   computed: {
     items() {
       let items = [] as any[];
@@ -337,7 +326,7 @@ export default {
       return items;
     },
     allFolders() {
-      return NpcStore().getFolders.concat(NarrativeStore().getFolders);
+      return [...NpcStore().getFolders, EncounterStore().getFolders, ...NarrativeStore().getFolders];
     },
     allLabels() {
       return NarrativeStore().getAllLabels;
@@ -345,6 +334,17 @@ export default {
     selectedLabels() {
       return this.getSelectedData('label');
     },
+  },
+  mounted: function () {
+    if (this.type === 'npc') {
+      this.allTypes = ['unit', 'doodad', 'eidolon'];
+    } else if (this.type === 'narrative') {
+      this.allTypes = ['character', 'location', 'faction'];
+    } else if (this.type === 'encounter') {
+      this.allTypes = ['encounter'];
+    }
+
+    this.shownTypes = this.allTypes;
   },
   methods: {
     getSelectedData(prop: 'stat' | 'label') {
@@ -411,7 +411,7 @@ export default {
         this.type
       );
 
-      let filename =
+      const filename =
         this.selected.length === 1
           ? this.items.find((x: any) => x.ID === this.selected[0]).Name
           : `GM_export_${new Date().toLocaleDateString().replaceAll('/', '-')}.json`;

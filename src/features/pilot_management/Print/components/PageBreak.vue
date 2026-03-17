@@ -6,7 +6,7 @@
   </v-row>
   <div style="display: block">
     <div
-      style="page-break-inside: avoid; page-break-before: always; min-height: 6px; padding: 10px" />
+      style="break-before: page; page-break-before: always; break-inside: avoid; page-break-inside: avoid;" />
   </div>
 </template>
 

@@ -13,7 +13,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-reserve-card',
+  name: 'CcReserveCard',
   props: {
     item: { type: Object, required: true },
   },

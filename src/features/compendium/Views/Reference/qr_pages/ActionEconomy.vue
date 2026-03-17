@@ -36,8 +36,11 @@
 
 <script lang="ts">
 import ActionCard from '../_components/ActionCard.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'action-economy',
   components: { ActionCard },
 
@@ -49,10 +52,5 @@ export default {
       { action: 'free', icon: 'cc:free' },
     ],
   }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
 };
 </script>

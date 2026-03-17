@@ -1,0 +1,63 @@
+name: Bug Report
+description: Report a bug in COMP/CON
+labels: ['bug', 'triage']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: What happened? What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Minimal steps to reproduce the bug.
+      value: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected Area
+      options:
+        - Pilot Management
+        - Compendium
+        - Encounter Builder
+        - NPC Builder
+        - Active Mode
+        - Content Packs
+        - Cloud Sync
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: COMP/CON Version
+      placeholder: e.g. 3.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: false
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Console Errors
+      description: Paste screenshots or browser console output if applicable.
+    validations:
+      required: false

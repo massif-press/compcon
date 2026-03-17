@@ -45,6 +45,7 @@ import { INpcTemplateData, NpcTemplate } from './npc/template/NpcTemplate'
 import { NpcFeatureFactory } from './npc/feature/NpcFeatureFactory'
 import { EidolonLayer, IEidolonLayerData } from './npc/eidolon/EidolonLayer'
 import { DowntimeAction, IDowntimeActionData } from './DowntimeAction'
+import { IndexItem } from '@/stores'
 
 type ContentPackDependency = {
   name: string
@@ -396,6 +397,36 @@ class ContentPack {
 
   public get v3(): boolean {
     return this.CCVersion >= 3
+  }
+
+  public GetIndexItems(): IndexItem[] {
+    return [
+      ...this._Manufacturers,
+      ...this._Frames,
+      ...this._CoreBonuses,
+      ...this._MechWeapons,
+      ...this._MechSystems,
+      ...this._WeaponMods,
+      ...this._PilotGear,
+      ...this._Talents,
+      ...this._NpcClasses,
+      ...this._NpcTemplates,
+      ...this._NpcFeatures,
+      ...this._EidolonLayers,
+      ...this._Statuses,
+      ...this._Environments,
+      ...this._PlayerActions,
+      ...this._Sitreps,
+      ...this._Bonds,
+      ...this._Reserves,
+      ...this._DowntimeActions,
+      ...this._Skills,
+      ...this._Backgrounds,
+      ...this._Tags,
+      ...this._Tables,
+      ...this._Lists,
+      ...this._BondPowers,
+    ]
   }
 
   public Serialize(): IContentPack {

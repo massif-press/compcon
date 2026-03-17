@@ -1,32 +1,35 @@
 <template>
   <v-dialog>
     <template #activator="{ props }">
-      <div class="text-right">
-        <v-btn color="accent" size="small" prepend-icon="mdi-plus" class="mt-2" v-bind="props">
+      <div class="d-flex flex-column align-end">
+        <cc-button color="accent"
+          prepend-icon="mdi-plus"
+          class="mt-2"
+          v-bind="props">
           Add Item
-        </v-btn>
+        </cc-button>
       </div>
     </template>
     <template #default="{ isActive }">
       <v-card min-height="90vh">
-        <v-toolbar density="compact" color="primary">
+        <v-toolbar density="compact"
+          color="primary">
           <v-toolbar-title>Add Collection Item</v-toolbar-title>
-          <v-text-field
-            v-model="search"
+          <v-text-field v-model="search"
             prepend-inner-icon="mdi-magnify"
             clearable
             density="compact"
             label="Search"
             hide-details />
           <v-spacer />
-          <v-btn icon @click="isActive.value = false">
+          <v-btn icon
+            @click="isActive.value = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
         <v-layout>
           <v-navigation-drawer>
-            <v-list
-              v-model="selectedType"
+            <v-list v-model="selectedType"
               density="compact"
               :items="itemTypes"
               @click:select="selectedType = $event.id" />
@@ -35,8 +38,7 @@
             <v-card-text>
               <div class="heading h3">{{ selectedType }}</div>
               <v-divider />
-              <v-alert
-                v-if="selectedType === 'campaigns' || selectedType === 'lcps'"
+              <v-alert v-if="selectedType === 'campaigns' || selectedType === 'lcps'"
                 color="warning"
                 prominent
                 density="compact"
@@ -50,8 +52,7 @@
                 Please ensure you have the rights to distribute any content you add to the cloud
                 service. If in doubt, contact the author of the content.
               </v-alert>
-              <v-data-table
-                :items="filteredItems"
+              <v-data-table :items="filteredItems"
                 :headers="<any>headers"
                 :items-per-page="-1"
                 hide-default-footer>
@@ -59,8 +60,13 @@
                   {{ new Date((item as any).SaveController.LastModified).toLocaleString() }}
                 </template>
                 <template #item.actions="{ item }">
-                  <v-btn icon variant="tonal" color="accent" size="small" @click="AddItem(item)">
-                    <v-icon size="large" icon="mdi-plus" />
+                  <v-btn icon
+                    variant="tonal"
+                    color="accent"
+                    size="small"
+                    @click="AddItem(item)">
+                    <v-icon size="large"
+                      icon="mdi-plus" />
                   </v-btn>
                 </template>
               </v-data-table>

@@ -127,8 +127,10 @@
   import { Bonus } from '@/classes/components/feature/bonus/Bonus'
   import logger from '@/user/logger'
   import MissingItemAlert from './components/_MissingItemAlert.vue'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'CoreBonusSelector',
     components: { Selector, CoreBonusSelectItem, MissingItemAlert },
     props: {
@@ -142,9 +144,6 @@
       jump: '',
     }),
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       baseCoreBonuses() {
         if (!this.pilot.LcpConfig) return CompendiumStore().CoreBonuses
         return CompendiumStore().CoreBonuses.filter(

@@ -261,8 +261,10 @@
   import CampaignShareCodeDialog from './campaignShareCodeDialog.vue'
   import { GetFromCode } from '@/io/apis/account'
   import logger from '@/user/logger'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'CampaignBookshelf',
     components: { DenseShelf, CompendiumShelf, CampaignShareCodeDialog },
     props: {
@@ -281,9 +283,6 @@
     }),
 
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       campaigns() {
         if (!this.search) return CampaignStore().CampaignCollection
         return CampaignStore().CampaignCollection.filter(c =>

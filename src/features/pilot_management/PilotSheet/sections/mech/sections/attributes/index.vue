@@ -1,23 +1,21 @@
 <template>
-  <mech-statblock :mech="mech" :pilot="pilot" :color="color">
+  <mech-statblock :mech="mech"
+    :pilot="pilot"
+    :color="color">
     <template #prepend>
-      <hase-pips
-        :mech="mech"
+      <hase-pips :mech="mech"
         attr="hull"
         :val="pilot.MechSkillsController.MechSkills.Hull"
         :color="color" />
-      <hase-pips
-        :mech="mech"
+      <hase-pips :mech="mech"
         attr="agility"
         :val="pilot.MechSkillsController.MechSkills.Agi"
         :color="color" />
-      <hase-pips
-        :mech="mech"
+      <hase-pips :mech="mech"
         attr="systems"
         :val="pilot.MechSkillsController.MechSkills.Sys"
         :color="color" />
-      <hase-pips
-        :mech="mech"
+      <hase-pips :mech="mech"
         attr="engineering"
         :val="pilot.MechSkillsController.MechSkills.Eng"
         :color="color" />
@@ -26,13 +24,16 @@
         <span class="text-overline no-height">System Points</span>
         <v-tooltip>
           <template #activator="{ props }">
-            <span v-bind="props" class="heading h3 no-height text-accent">
+            <span v-bind="props"
+              class="heading h3 no-height text-accent">
               &nbsp;{{ mech.MaxSP }}
             </span>
           </template>
-          <div class="heading h4" v-text="`${mech.MaxSP} System Points`" />
+          <div class="heading h4"
+            v-text="`${mech.MaxSP} System Points`" />
           <v-divider />
-          <p class="py-2" v-html-safe="mech.SPContributors.join('<br />')" />
+          <p v-html-safe="mech.SPContributors.join('<br />')"
+            class="py-2" />
         </v-tooltip>
       </div>
     </template>
@@ -40,13 +41,15 @@
 </template>
 
 <script lang="ts">
-import StatblockItem from './StatblockItem.vue';
 import HasePips from './HasePips.vue';
 import MechStatblock from './MechStatblock.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
-  name: 'attributes-block',
-  components: { StatblockItem, HasePips, MechStatblock },
+  name: 'AttributesBlock',
+  components: { HasePips, MechStatblock },
+  mixins: [useMobile],
   props: {
     mech: {
       type: Object,

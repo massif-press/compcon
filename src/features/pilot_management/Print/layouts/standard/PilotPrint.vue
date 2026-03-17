@@ -1,6 +1,6 @@
 <template>
   <div class="text-black px-2">
-    <v-row dense>
+    <v-row dense class="print-section">
       <v-col>
         <v-row dense align="center" class="mt-2">
           <v-col :cols="blank ? '' : 'auto'">
@@ -42,7 +42,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="mt-n3">
+    <v-row class="mt-n3 print-section">
       <v-col>
         <v-row class="text-center" justify="space-between">
           <v-col cols="auto">
@@ -93,7 +93,7 @@
           </v-col>
         </v-row>
 
-        <v-row dense class="mt-n4">
+        <v-row dense class="mt-n4 print-section">
           <v-col>
             <v-row class="text-center">
               <v-col>
@@ -155,7 +155,7 @@
         </v-row>
 
         <div>
-          <div v-if="options.pilotInclude.some((x) => x.title === 'Appearance Notes')" class="mt-1">
+          <div v-if="hasPilotOption('Appearance Notes')" class="mt-1">
             <div class="text-cc-overline text-primary">APPEARANCE</div>
             <div v-if="blank" class="mb-4"><notes :rows="5" lined /></div>
             <div v-else v-html-safe="pilot.Notes" class="caption" />
@@ -192,42 +192,45 @@
             <blank-line :height="48" inline />
           </v-col>
         </v-row>
-        <v-chip
-          v-else-if="options.pilotInclude.some((x) => x.title === 'Separate Talent Detail')"
-          v-for="t in pilot.TalentsController.Talents"
-          label
-          variant="outlined"
-          size="small"
-          class="caption mx-1 mt-1">
-          <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" />
-          {{ t.Talent.Name }}
-          {{ 'I'.repeat(t.Rank) }}
-        </v-chip>
-        <v-row
-          v-else
-          v-for="t in pilot.TalentsController.Talents"
-          dense
-          justify="space-between"
-          class="mt-n1 caption"
-          style="position: relative">
-          <v-col>
-            <fieldset>
-              <legend class="heading ml-1 px-2">{{ t.Talent.Name }}</legend>
-              <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
-                <v-col cols="auto" class="mr-2">
-                  <v-icon :icon="`cc:rank_${n}`" color="grey-darken-2" class="mb-1" />
-                </v-col>
-                <v-col>
-                  <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
-                  <print-action v-if="t.Talent.Actions.length" :actions="t.Talent.Actions" />
-                  <print-deployable
-                    v-if="t.Talent.Deployables.length"
-                    :deployables="t.Talent.Deployables" />
-                </v-col>
-              </v-row>
-            </fieldset>
-          </v-col>
-        </v-row>
+        <template
+          v-else-if="hasPilotOption('Separate Talent Detail')">
+          <v-chip
+            v-for="t in pilot.TalentsController.Talents"
+            label
+            variant="outlined"
+            size="small"
+            class="caption mx-1 mt-1">
+            <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" />
+            {{ t.Talent.Name }}
+            {{ 'I'.repeat(t.Rank) }}
+          </v-chip>
+        </template>
+        <template v-else>
+          <v-row
+            v-for="t in pilot.TalentsController.Talents"
+            dense
+            justify="space-between"
+            class="mt-n1 caption"
+            style="position: relative">
+            <v-col>
+              <fieldset>
+                <legend class="heading ml-1 px-2">{{ t.Talent.Name }}</legend>
+                <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
+                  <v-col cols="auto" class="mr-2">
+                    <v-icon :icon="`cc:rank_${n}`" color="grey-darken-2" class="mb-1" />
+                  </v-col>
+                  <v-col>
+                    <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
+                    <print-action v-if="t.Talent.Actions.length" :actions="t.Talent.Actions" />
+                    <print-deployable
+                      v-if="t.Talent.Deployables.length"
+                      :deployables="t.Talent.Deployables" />
+                  </v-col>
+                </v-row>
+              </fieldset>
+            </v-col>
+          </v-row>
+        </template>
       </v-col>
     </v-row>
 
@@ -240,7 +243,7 @@
       <v-col
         v-for="n in 4"
         :cols="
-          landscape ? (options.pilotInclude.some((x) => x.title === 'Pilot Portrait') ? 6 : 3) : 6
+          landscape ? (hasPilotOption('Pilot Portrait') ? 6 : 3) : 6
         ">
         <blank-line :height="48" inline />
       </v-col>
@@ -344,7 +347,7 @@
 
     <v-row dense justify="space-between" class="mt-n2 caption">
       <v-col
-        v-if="options.pilotInclude.some((x) => x.title === 'Extra Equipment Space')"
+        v-if="hasPilotOption('Extra Equipment Space')"
         v-for="n in 3"
         style="position: relative"
         cols="12">
@@ -385,7 +388,7 @@
     <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
     <v-row>
       <v-col
-        v-for="r in options.pilotInclude.some((x) => x.title === 'Extra Reserves Space') ? 9 : 6"
+        v-for="r in hasPilotOption('Extra Reserve Space') ? 9 : 6"
         cols="6">
         <fieldset class="mt-2" style="position: relative">
           <legend class="px-1">
@@ -416,19 +419,19 @@
   </div>
 
   <fieldset
-    v-if="options.pilotInclude.some((x) => x.title === 'Append Lined Section')"
+    v-if="hasPilotOption('Append Lined Section')"
     class="mx-1 my-3 px-3">
     <div class="mb-4"><notes :rows="24" lined /></div>
   </fieldset>
 
   <fieldset
-    v-if="options.pilotInclude.some((x) => x.title === 'Append Unined Section')"
+    v-if="hasPilotOption('Append Unlined Section')"
     class="mx-1 my-3 px-3">
     <div class="mb-4"><notes :rows="24" /></div>
   </fieldset>
 
   <div
-    v-if="options.pilotInclude.some((x) => x.title === 'Separate Talent Detail')"
+    v-if="hasPilotOption('Separate Talent Detail')"
     v-for="t in pilot.TalentsController.Talents"
     dense
     justify="space-between"
@@ -455,14 +458,16 @@
 </template>
 
 <script lang="ts">
-import PrintAction from './components/PrintAction.vue';
-import PrintDeployable from './components/PrintDeployable.vue';
+import PrintAction from '../../components/PrintAction.vue';
+import PrintDeployable from '../../components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
-import tagBlock from './components/TagBlock.vue';
+import tagBlock from '../../components/TagBlock.vue';
+import { usePrintOptions } from '../_usePrintOptions';
 
 export default {
   name: 'pilot-print',
+  mixins: [usePrintOptions],
   components: {
     blankLine,
     notes,

@@ -1,5 +1,6 @@
 <template>
-  <v-card-text class="pt-0" :class="{ 'px-0': mobile }">
+  <v-card-text class="pt-0"
+    :class="{ 'px-0': mobile }">
     <v-row>
       <v-col>
         <div class="heading h3 mb-2">
@@ -7,14 +8,19 @@
         </div>
 
         <div>
-          <cc-panel v-if="item.Flavor" title="Description" :title-color="item.Color" class="mb-2">
+          <cc-panel v-if="item.Flavor"
+            title="Description"
+            :title-color="item.Color"
+            class="mb-2">
             <p v-html-safe="item.Flavor" />
           </cc-panel>
-          <cc-panel v-if="item.Tactics" title="Tactics" :title-color="item.Color" class="mb-2">
+          <cc-panel v-if="item.Tactics"
+            title="Tactics"
+            :title-color="item.Color"
+            class="mb-2">
             <p v-html-safe="item.Tactics" />
           </cc-panel>
-          <cc-panel
-            v-if="item.ClassFeatureSelectionInfo"
+          <cc-panel v-if="item.ClassFeatureSelectionInfo"
             title="Feature Selection"
             :title-color="item.Color"
             class="mb-2">
@@ -22,27 +28,35 @@
           </cc-panel>
         </div>
       </v-col>
-      <v-col cols="4" v-if="!mobile">
+      <v-col cols="4"
+        v-if="!mobile">
         <class-combat-chart :npc-class="item" />
       </v-col>
     </v-row>
 
-    <cc-heading small line dense>Class Stats</cc-heading>
+    <cc-heading small
+      line
+      dense>Class Stats</cc-heading>
     <div class="text-cc-overline text-center mt-n3">
-      <v-chip size="x-small" tile>T1 / T2 / T3</v-chip>
+      <v-chip size="x-small"
+        tile>T1 / T2 / T3</v-chip>
     </div>
 
-    <v-row dense justify="space-around">
-      <cc-tiered-attribute v-for="i in statArr" :title="i" :arr="item.Stats.StatArr(i)" />
+    <v-row dense
+      justify="space-around">
+      <cc-tiered-attribute v-for="i in statArr"
+        :title="i"
+        :arr="item.Stats.StatArr(i)" />
     </v-row>
 
-    <cc-heading small line dense>
+    <cc-heading small
+      line
+      dense>
       Class Base Features
       <span class="text-caption text-disabled">({{ item.BaseFeatures.length }})</span>
     </cc-heading>
 
-    <masonry-wall
-      :items="item.BaseFeatures"
+    <cc-masonry-grid :items="item.BaseFeatures"
       :column-width="400"
       :gap="16"
       :min-columns="1"
@@ -50,30 +64,36 @@
       <template #default="{ item }">
         <cc-dense-card :item="item" />
       </template>
-    </masonry-wall>
+    </cc-masonry-grid>
 
-    <cc-heading small line dense>
+    <cc-heading small
+      line
+      dense>
       Class Optional Features
       <span class="text-caption text-disabled">({{ item.OptionalFeatures.length }})</span>
     </cc-heading>
 
-    <masonry-wall
-      :items="item.OptionalFeatures"
+    <cc-masonry-grid :items="item.OptionalFeatures"
       :column-width="400"
       :gap="16"
       :min-columns="1"
       :max-columns="widescreen ? 3 : 2">
       <template #default="{ item }">
-        <cc-dense-card :item="item" class="my-1" full-height />
+        <cc-dense-card :item="item"
+          class="my-1"
+          full-height />
       </template>
-    </masonry-wall>
+    </cc-masonry-grid>
   </v-card-text>
 </template>
 
 <script lang="ts">
 import ClassCombatChart from './_components/_NpcClassCombatChart.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'cc-frame-card',
   components: {
     ClassCombatChart,
@@ -102,9 +122,6 @@ export default {
     ],
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     widescreen() {
       return this.$vuetify.display.lgAndUp;
     },

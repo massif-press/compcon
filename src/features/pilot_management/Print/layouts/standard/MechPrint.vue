@@ -5,7 +5,7 @@
         <v-row dense
           align="center">
           <v-col cols="auto">
-            <div class="text-overline mt-n4 mb-n4 text-primary">MECH</div>
+            <div class="text-overline mb-n4 text-primary">MECH</div>
             <blank-line v-if="blank"
               :height="46"
               :width="500"
@@ -315,18 +315,19 @@
               class="caption ml-6 mb-1" />
             <print-action :actions="mech.Frame.CoreSystem.PassiveActions" />
           </div>
-          <div v-if="mech.Frame.CoreSystem.PassiveEffect"
-            class="heading ml-4">
-            {{
-              mech.Frame.CoreSystem.ActiveName
-                ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
-                : 'CORE ACTIVE'
-            }}
-          </div>
-          <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
-            class="caption ml-6 mb-1" />
-          <print-action :actions="mech.Frame.CoreSystem.ActiveActions" />
-          <print-deployable :deployables="mech.Frame.CoreSystem.Deployables" />
+          <template v-if="mech.Frame.CoreSystem.ActiveEffect">
+            <div class="heading ml-4">
+              {{
+                mech.Frame.CoreSystem.ActiveName
+                  ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
+                  : 'CORE ACTIVE'
+              }}
+            </div>
+            <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
+              class="caption ml-6 mb-1" />
+            <print-action :actions="mech.Frame.CoreSystem.ActiveActions" />
+            <print-deployable :deployables="mech.Frame.CoreSystem.Deployables" />
+          </template>
 
           <div v-if="mech.Frame.CoreSystem.Tags"
             class="text-right">
@@ -375,7 +376,7 @@
     <div class="text-overline mb-n3 mt-1 text-primary">LOADOUT</div>
 
     <div v-if="blank">
-      <fieldset v-for="n in options.mechInclude.includes('extra mount panel') ? 5 : 4"
+      <fieldset v-for="n in hasMechOption('Extra Mount Panel') ? 5 : 4"
         class="my-1 pb-1">
         <legend class="heading h4 ml-1 px-2">
           <v-row dense
@@ -424,7 +425,7 @@
         <span class="text-overline">// SUPERHEAVY WEAPON BRACING //</span>
       </div>
       <div v-else
-        v-for="w in m.Weapons"
+        v-for="w in m.Weapons.filter(Boolean)"
         class="px-1">
         <v-row dense
           align="center">
@@ -522,7 +523,7 @@
     <div v-if="blank">
       <fieldset>
         <legend class="heading h4 ml-1 px-2 py-1 text-primary">SYSTEMS</legend>
-        <div v-for="n in options.mechInclude.includes('extra system space') ? 8 : 6">
+        <div v-for="n in hasMechOption('Extra System Space') ? 8 : 6">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">SYSTEM</div>
@@ -545,7 +546,7 @@
 
     <fieldset v-else>
       <legend class="heading h3 ml-1 px-2">Systems</legend>
-      <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems"
+      <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)"
         variant="outlined"
         class="pa-1 my-1 no-print-break"
         style="position: relative; border-color: rgba(0, 0, 0, 0.2)">
@@ -584,7 +585,7 @@
       </v-card>
     </fieldset>
 
-    <fieldset v-if="options.mechInclude.includes('Append Lined Section')"
+    <fieldset v-if="hasMechOption('Append Lined Section')"
       class="mx-1 my-3 px-3 no-print-break">
       <div class="mb-4">
         <notes :rows="24"
@@ -592,7 +593,7 @@
       </div>
     </fieldset>
 
-    <fieldset v-if="options.mechInclude.includes('Append Unlined Section')"
+    <fieldset v-if="hasMechOption('Append Unlined Section')"
       class="mx-1 my-3 px-3 no-print-break">
       <div class="mb-4">
         <notes :rows="24" />
@@ -603,17 +604,19 @@
 
 <script lang="ts">
 import { Synergy, Mech } from '@/class';
-import PrintAction from './components/PrintAction.vue';
-import PrintDeployable from './components/PrintDeployable.vue';
+import PrintAction from '../../components/PrintAction.vue';
+import PrintDeployable from '../../components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
-import tagBlock from './components/TagBlock.vue';
+import tagBlock from '../../components/TagBlock.vue';
 import PageBreak from '../../components/PageBreak.vue';
 import PrintOvercharge from '../../components/PrintOvercharge.vue';
 import PrintStatRow from '../../components/PrintStatRow.vue';
+import { usePrintOptions } from '../_usePrintOptions';
 
 export default {
   name: 'mech-print',
+  mixins: [usePrintOptions],
   components: {
     PrintAction,
     PrintDeployable,

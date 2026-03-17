@@ -31,8 +31,11 @@
 
 <script lang="ts">
 import { Tag } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'CCTags',
   props: {
     size: {

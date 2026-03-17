@@ -1,6 +1,6 @@
 <template>
   <div class="text-black pa-2">
-    <v-row dense align="start">
+    <v-row dense align="start" class="print-section">
       <v-col class="mr-4" cols="auto">
         <div class="text-caption text-primary mb-n3">CALLSIGN</div>
         <div v-if="blank" style="min-width: 250px">
@@ -70,7 +70,7 @@
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-between" class="mt-n3">
+    <v-row dense justify="space-between" class="mt-n3 print-section">
       <v-col>
         <div class="text-caption text-primary">SKILL TRIGGERS</div>
         <div class="text-left">
@@ -158,7 +158,7 @@
             v-for="n in 12"
             :cols="
               landscape
-                ? options.pilotInclude.some((x) => x.title === 'Pilot Portrait')
+                ? hasPilotOption('Pilot Portrait')
                   ? 6
                   : 3
                 : 6
@@ -167,7 +167,7 @@
           </v-col>
         </v-row>
         <v-chip
-          v-else-if="options.pilotInclude.some((x) => x.title === 'Separate Talent Detail')"
+          v-else-if="hasPilotOption('Separate Talent Detail')"
           v-for="t in pilot.TalentsController.Talents"
           label
           variant="outlined"
@@ -194,9 +194,11 @@
                 <v-col>
                   <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
                   <print-action
+                    :compact="true"
                     v-if="t.Talent.Ranks[n - 1].Actions.length"
                     :actions="t.Talent.Ranks[n - 1].Actions" />
                   <print-deployable
+                    :compact="true"
                     v-if="t.Talent.Ranks[n - 1].Deployables.length"
                     :deployables="t.Talent.Ranks[n - 1].Deployables" />
                 </v-col>
@@ -206,7 +208,7 @@
         </v-row>
       </v-col>
       <v-col
-        v-if="options.pilotInclude.some((x) => x.title === 'Pilot Portrait')"
+        v-if="hasPilotOption('Pilot Portrait')"
         cols="4"
         class="mt-5">
         <v-card height="100%" variant="outlined" color="grey">
@@ -226,7 +228,7 @@
       <v-col
         v-for="n in 4"
         :cols="
-          landscape ? (options.pilotInclude.some((x) => x.title === 'Pilot Portrait') ? 6 : 3) : 6
+          landscape ? (hasPilotOption('Pilot Portrait') ? 6 : 3) : 6
         ">
         <blank-line :height="24" inline />
       </v-col>
@@ -283,8 +285,8 @@
                 <span v-text="`${a.Speed(pilot) ? `${a.Speed(pilot)}` : ''}`" />
               </v-col>
             </v-row>
-            <print-action :actions="a.Actions" />
-            <print-deployable :deployables="a.Deployables" />
+            <print-action :compact="true" :actions="a.Actions" />
+            <print-deployable :compact="true" :deployables="a.Deployables" />
             <div class="text-right">
               <v-chip
                 v-for="t in a.Tags"
@@ -319,8 +321,8 @@
               {{ d.Value }}
             </span>
             <div v-if="w.Effect" v-html-safe="w.Effect" />
-            <print-action :actions="w.Actions" />
-            <print-deployable :deployables="w.Deployables" />
+            <print-action :compact="true" :actions="w.Actions" />
+            <print-deployable :compact="true" :deployables="w.Deployables" />
             <div class="text-right">
               <v-chip
                 v-for="t in w.Tags"
@@ -349,8 +351,8 @@
           <div v-if="blank" style="height: 150px" />
           <div v-else class="pb-1">
             <div v-if="g.Description" v-html-safe="g.Description" />
-            <print-action :actions="g.Actions" />
-            <print-deployable :deployables="g.Deployables" />
+            <print-action :compact="true" :actions="g.Actions" />
+            <print-deployable :compact="true" :deployables="g.Deployables" />
             <div class="text-right">
               <v-chip
                 v-for="t in g.Tags"
@@ -369,7 +371,7 @@
 
     <v-row dense justify="space-between" class="mt-n4 caption pb-3">
       <v-col
-        v-if="options.pilotInclude.some((x) => x.title === 'Extra Equipment Space')"
+        v-if="hasPilotOption('Extra Equipment Space')"
         v-for="n in 3"
         style="position: relative">
         <fieldset>
@@ -404,7 +406,7 @@
       <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
       <v-row dense>
         <v-col
-          v-for="r in options.pilotInclude.some((x) => x.title === 'Extra Reserves Space') ? 9 : 6"
+          v-for="r in hasPilotOption('Extra Reserve Space') ? 9 : 6"
           cols="4">
           <fieldset class="mt-2" style="position: relative">
             <legend class="px-1">
@@ -417,17 +419,17 @@
       </v-row>
     </div>
 
-    <div v-if="options.pilotInclude.some((x) => x.title === 'Appearance Notes')">
+    <div v-if="hasPilotOption('Appearance Notes')">
       <div class="text-overline text-primary" style="line-height: 0">APPEARANCE</div>
       <div v-if="blank" class="mb-4"><notes :rows="5" lined /></div>
       <div v-else v-html-safe="pilot.AppearanceNotes" class="mt-2 caption" />
     </div>
-    <div v-if="options.pilotInclude.some((x) => x.title === 'Pilot Biography')">
+    <div v-if="hasPilotOption('Pilot Biography')">
       <div class="text-overline text-primary" style="line-height: 0">BIOGRAPHY</div>
       <div v-if="blank" class="mb-4"><notes :rows="5" lined /></div>
       <div v-else v-html-safe="pilot.History" class="mt-2 caption" />
     </div>
-    <div v-if="options.pilotInclude.some((x) => x.title === 'Pilot Notes')">
+    <div v-if="hasPilotOption('Pilot Notes')">
       <div class="text-overline text-primary" style="line-height: 0">NOTES</div>
       <div v-if="blank" class="mb-4"><notes :rows="5" lined /></div>
       <div v-else v-html-safe="pilot.Notes" class="mt-2 caption" />
@@ -435,19 +437,19 @@
   </div>
 
   <fieldset
-    v-if="options.pilotInclude.some((x) => x.title === 'Append Lined Section')"
+    v-if="hasPilotOption('Append Lined Section')"
     class="mx-1 my-3 px-3">
     <div class="mb-4"><notes :rows="16" lined /></div>
   </fieldset>
 
   <fieldset
-    v-if="options.pilotInclude.some((x) => x.title === 'Append Unlined Section')"
+    v-if="hasPilotOption('Append Unlined Section')"
     class="mx-1 my-3 px-3">
     <div class="mb-4"><notes :rows="16" /></div>
   </fieldset>
 
   <div
-    v-if="options.pilotInclude.some((x) => x.title === 'Separate Talent Detail')"
+    v-if="hasPilotOption('Separate Talent Detail')"
     v-for="t in pilot.TalentsController.Talents"
     no-gutters
     justify="space-between"
@@ -462,9 +464,11 @@
         <v-col>
           <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
           <print-action
+            :compact="true"
             v-if="t.Talent.Ranks[n - 1].Actions.length"
             :actions="t.Talent.Ranks[n - 1].Actions" />
           <print-deployable
+            :compact="true"
             v-if="t.Talent.Ranks[n - 1].Deployables.length"
             :deployables="t.Talent.Ranks[n - 1].Deployables" />
         </v-col>
@@ -476,11 +480,13 @@
 <script lang="ts">
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
-import PrintAction from '../minimal/components/PrintAction.vue';
-import PrintDeployable from '../minimal/components/PrintDeployable.vue';
+import PrintAction from '../../components/PrintAction.vue';
+import PrintDeployable from '../../components/PrintDeployable.vue';
+import { usePrintOptions } from '../_usePrintOptions';
 
 export default {
   name: 'pilot-print',
+  mixins: [usePrintOptions],
   components: {
     blankLine,
     notes,

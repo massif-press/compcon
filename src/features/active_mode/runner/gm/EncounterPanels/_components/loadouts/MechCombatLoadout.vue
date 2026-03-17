@@ -1,6 +1,6 @@
 <template>
   <div class="text-cc-overline">// WEAPONS</div>
-  <masonry-wall :items="mounts"
+  <cc-masonry-grid :items="mounts"
     :column-width="600"
     :gap="16"
     :min-columns="1"
@@ -42,9 +42,9 @@
         </div>
       </fieldset>
     </template>
-  </masonry-wall>
+  </cc-masonry-grid>
   <div class="text-cc-overline mt-2">// SYSTEMS</div>
-  <masonry-wall :items="systems"
+  <cc-masonry-grid :items="systems"
     :column-width="600"
     :gap="16"
     :min-columns="1"
@@ -63,7 +63,7 @@
           @deploy="$emit('deploy', $event)" />
       </fieldset>
     </template>
-  </masonry-wall>
+  </cc-masonry-grid>
 </template>
 
 <script lang="ts">

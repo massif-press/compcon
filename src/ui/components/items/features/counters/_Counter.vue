@@ -1,14 +1,19 @@
 <template>
-  <cc-panel v-if="counter" color="primary" min-width="200px" class="text-center" density="compact">
+  <cc-panel v-if="counter"
+    color="primary"
+    min-width="200px"
+    class="text-center"
+    density="compact">
     <div class="d-flex align-center justify-space-between mt-n2">
       <div class="heading h3">
         {{ counter.Name }}
       </div>
       <v-spacer />
-      <v-tooltip text="Reset Counter" location="top" open-delay="400">
+      <v-tooltip text="Reset Counter"
+        location="top"
+        open-delay="400">
         <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
+          <v-btn v-bind="props"
             variant="text"
             icon
             size="x-small"
@@ -19,30 +24,38 @@
         </template>
       </v-tooltip>
 
-      <v-tooltip v-if="counterData.custom" text="Delete Counter">
+      <v-tooltip v-if="counterData.custom"
+        text="Delete Counter">
         <template #activator="{ props }">
-          <v-btn v-bind="props" variant="text" icon size="x-small" @click="$emit('delete')">
+          <v-btn v-bind="props"
+            variant="text"
+            icon
+            size="x-small"
+            @click="$emit('delete')">
             <v-icon size="22">mdi-delete</v-icon>
           </v-btn>
         </template>
       </v-tooltip>
     </div>
     <v-card-text class="py-1 px-0">
-      <v-row justify="center" align="center" class="counterContent" no-gutters>
-        <v-col cols="auto" class="mr-2">
-          <v-btn
-            icon
+      <v-row justify="center"
+        align="center"
+        class="counterContent"
+        no-gutters>
+        <v-col cols="auto"
+          class="mr-2">
+          <v-btn icon
             variant="text"
             size="x-small"
             :disabled="counter.Value <= counter.Min"
             @click="counter.Decrement()">
-            <v-icon size="30" icon="mdi-minus" />
+            <v-icon size="30"
+              icon="mdi-minus" />
           </v-btn>
         </v-col>
 
         <v-col cols="auto">
-          <v-text-field
-            type="number"
+          <v-text-field type="number"
             variant="outlined"
             density="compact"
             hide-details
@@ -57,14 +70,15 @@
             @input="onInput" />
         </v-col>
 
-        <v-col cols="auto" class="ml-2">
-          <v-btn
-            icon
+        <v-col cols="auto"
+          class="ml-2">
+          <v-btn icon
             variant="text"
             size="x-small"
             :disabled="counter.Value >= counter.Max"
             @click="counter.Increment()">
-            <v-icon size="30" icon="mdi-plus" />
+            <v-icon size="30"
+              icon="mdi-plus" />
           </v-btn>
         </v-col>
       </v-row>
@@ -88,6 +102,10 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    counter: null as any,
+    dirty: false,
+  }),
   watch: {
     counter: {
       handler(val: Counter) {
@@ -96,10 +114,6 @@ export default {
       deep: true,
     },
   },
-  data: () => ({
-    counter: null as any,
-    dirty: false,
-  }),
   created(): void {
     this.counter = new Counter(this.counterData as ICounterData);
 

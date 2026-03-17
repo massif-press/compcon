@@ -67,14 +67,13 @@
 
 <script lang="ts">
   import LandingCard from './_components/LandingCard.vue'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'Home',
     components: { LandingCard },
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       isDevsite() {
         return (
           window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'

@@ -32,9 +32,9 @@
     <div class="text-center mt-8">
       <span class="heading h3">
         The continued development of COMP/CON would not be possible without the generous
-        <a target="_blank"
-          href="https://www.patreon.com/compcon"
-          v-html-safe="'support'" />
+        <a v-html-safe="'support'"
+          target="_blank"
+          href="https://www.patreon.com/compcon" />
         of:
       </span>
     </div>
@@ -83,9 +83,12 @@ import * as _ from 'lodash-es';
 import credits from './credits.json';
 import DevBadge from './SupporterBadges/Dev.vue';
 import { getPatreonSubscribers } from '@/user/oauth';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
-  name: 'credits',
+  mixins: [useMobile],
+  name: 'Credits',
   components: { DevBadge },
   data: () => ({
     credits: credits,
@@ -99,11 +102,6 @@ export default {
     this.patrons = data;
 
     this.loading = false;
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
   },
   methods: {
     cleanName(patron: any) {

@@ -26,7 +26,9 @@
       <li>Revoke any purchases through itch.io or end your Patreon subscription</li>
     </ul>
 
-    <cc-alert color="error" icon="mdi-alert" prominent>
+    <cc-alert color="error"
+      icon="mdi-alert"
+      prominent>
       <b>This action is irreversible. This data will be permanently and irrevocably deleted.</b>
       <br />
       Please ensure you have a local backup of any data you wish to keep.
@@ -37,19 +39,24 @@
       <i><b>delete account</b></i>
       to confirm account deletion.
     </div>
-    <v-text-field v-model="confirm" label="delete account" type="text" required hide-details />
-    <cc-button
-      type="submit"
+    <v-text-field v-model="confirm"
+      placeholder="delete account"
+      type="text"
+      required
+      hide-details />
+    <cc-button type="submit"
       color="red-darken-3"
       block
       size="x-large"
       class="mt-2"
       :loading="loading"
-      :disabled="!confirmValid">
+      :disabled="!confirmValid"
+      @click="handleDeleteUser">
       Delete Account
     </cc-button>
     <v-fade-transition>
-      <div v-if="loading" class="text-caption text-center my-1">
+      <div v-if="loading"
+        class="text-caption text-center my-1">
         <i>
           Deletion in progress. This may take a few moments. COMP/CON will restart once this process
           is complete.
@@ -65,7 +72,7 @@ import logger from '@/user/logger';
 import { deleteUser } from 'aws-amplify/auth';
 
 export default {
-  name: 'delete-cloud-account',
+  name: 'DeleteCloudAccount',
   data: () => ({
     confirm: '',
     loading: false,

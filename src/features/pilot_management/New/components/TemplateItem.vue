@@ -136,8 +136,11 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'template-item',
   props: {
     template: { type: Object, required: true },
@@ -147,12 +150,6 @@ export default {
     expanded: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-    portrait() {
-      return this.$vuetify.display.xs;
-    },
     frameImage() {
       return this.template.image;
     },

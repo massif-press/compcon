@@ -164,8 +164,11 @@
 
 <script lang="ts">
 import MechCardLoadoutField from './MechCardLoadoutField.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'mech-card',
   components: {
     MechCardLoadoutField,
@@ -175,12 +178,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-
   },
 };
 </script>

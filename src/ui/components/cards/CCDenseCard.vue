@@ -24,7 +24,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'CCDenseCard',
   props: {
     item: {
@@ -52,9 +54,6 @@ export default {
     },
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     hexColor(): string {
       return this.item.Color;
     },

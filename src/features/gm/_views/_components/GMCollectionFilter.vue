@@ -1,9 +1,11 @@
 <template>
-  <v-dialog v-model="filterDialog" max-width="70vw">
-    <template v-slot:activator="{ props }">
-      <v-badge :model-value="filters.length > 0" dot color="secondary">
-        <cc-button
-          icon="mdi-filter-variant"
+  <v-dialog v-model="filterDialog"
+    max-width="70vw">
+    <template #activator="{ props }">
+      <v-badge :model-value="filters.length > 0"
+        dot
+        color="secondary">
+        <cc-button icon="mdi-filter-variant"
           color="primary"
           variant="elevated"
           size="small"
@@ -11,10 +13,12 @@
       </v-badge>
     </template>
     <v-card>
-      <v-toolbar density="compact" color="primary">
+      <v-toolbar density="compact"
+        color="primary">
         <v-toolbar-title>Filters</v-toolbar-title>
         <v-spacer />
-        <v-btn icon @click="filterDialog = false">
+        <v-btn icon
+          @click="filterDialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
@@ -28,23 +32,25 @@
               <v-row>
                 <v-col>
                   <div class="text-caption text-disabled"><i>Show items with:</i></div>
-                  <v-chip
-                    v-for="f in statFilters.filter((f) => !filters.some((x) => x === f))"
+                  <v-chip v-for="f in statFilters.filter((f) => !filters.some((x) => x === f))"
                     size="small"
                     class="mr-1 mb-1"
                     @click="$emit('add-filter', f)">
-                    <v-icon start size="x-small" icon="mdi-eye" />
+                    <v-icon start
+                      size="x-small"
+                      icon="mdi-eye" />
                     {{ f }}
                   </v-chip>
                 </v-col>
                 <v-col>
                   <div class="text-caption text-disabled"><i>Hide items with:</i></div>
-                  <v-chip
-                    v-for="f in statFilters.filter((f) => filters.some((x) => x === f))"
+                  <v-chip v-for="f in statFilters.filter((f) => filters.some((x) => x === f))"
                     size="small"
                     class="mr-1 mb-1"
                     @click="$emit('remove-filter', f)">
-                    <v-icon start size="x-small" icon="mdi-eye-off" />
+                    <v-icon start
+                      size="x-small"
+                      icon="mdi-eye-off" />
                     {{ f }}
                   </v-chip>
                 </v-col>
@@ -57,23 +63,25 @@
               <v-row>
                 <v-col>
                   <div class="text-caption text-disabled"><i>Show items with:</i></div>
-                  <v-chip
-                    v-for="f in labelFilters.filter((f) => !filters.some((x) => x === f))"
+                  <v-chip v-for="f in labelFilters.filter((f) => !filters.some((x) => x === f))"
                     size="small"
                     class="mr-1 mb-1"
                     @click="$emit('add-filter', f)">
-                    <v-icon start size="x-small" icon="mdi-eye" />
+                    <v-icon start
+                      size="x-small"
+                      icon="mdi-eye" />
                     {{ f }}
                   </v-chip>
                 </v-col>
                 <v-col>
                   <div class="text-caption text-disabled"><i>Hide items with:</i></div>
-                  <v-chip
-                    v-for="f in labelFilters.filter((f) => filters.some((x) => x === f))"
+                  <v-chip v-for="f in labelFilters.filter((f) => filters.some((x) => x === f))"
                     size="small"
                     class="mr-1 mb-1"
                     @click="$emit('remove-filter', f)">
-                    <v-icon start size="x-small" icon="mdi-eye-off" />
+                    <v-icon start
+                      size="x-small"
+                      icon="mdi-eye-off" />
                     {{ f }}
                   </v-chip>
                 </v-col>
@@ -82,8 +90,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-btn
-                block
+              <v-btn block
                 variant="plain"
                 color="accent"
                 size="x-small"
@@ -92,8 +99,7 @@
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn
-                block
+              <v-btn block
                 variant="plain"
                 color="accent"
                 size="x-small"
@@ -102,8 +108,7 @@
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn
-                block
+              <v-btn block
                 variant="plain"
                 color="accent"
                 size="x-small"
@@ -112,8 +117,7 @@
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn
-                block
+              <v-btn block
                 variant="plain"
                 color="accent"
                 size="x-small"
@@ -124,8 +128,12 @@
           </v-row>
         </div>
         <div class="text-right mt-6">
-          <v-btn color="accent" variant="tonal" size="small" @click="$emit('set-filters', [])">
-            <v-icon left start>mdi-filter-off</v-icon>
+          <v-btn color="accent"
+            variant="tonal"
+            size="small"
+            @click="$emit('set-filters', [])">
+            <v-icon left
+              start>mdi-filter-off</v-icon>
             Clear All Filters
           </v-btn>
         </div>
@@ -133,7 +141,9 @@
       <v-divider />
       <v-card-actions>
         <v-spacer />
-        <v-btn color="accent" variant="text" @click="filterDialog = false">Dismiss</v-btn>
+        <v-btn color="accent"
+          variant="text"
+          @click="filterDialog = false">Dismiss</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -141,16 +151,16 @@
 
 <script lang="ts">
 export default {
-  name: 'gm-collection-filter',
+  name: 'GmCollectionFilter',
   props: {
     items: { type: Array, required: true },
     filters: { type: Array, required: true },
   },
+  emits: ['add-filter', 'remove-filter', 'set-filters'],
   data: () => ({
     filterDialog: false,
     filterSets: ['Stats', 'Labels'],
   }),
-  emits: ['add-filter', 'remove-filter', 'set-filters'],
   computed: {
     labelFilters() {
       if (!this.items.length || !(this.items as any)[0].NarrativeController) return [];

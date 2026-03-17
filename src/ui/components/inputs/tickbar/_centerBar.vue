@@ -63,8 +63,8 @@
         class="angled"
         style="height: 36px"
         :style="pctBackground" />
-      <div v-else
-        v-for="i in ticks"
+      <div v-for="i in ticks"
+        v-else
         class="d-inline-block"
         :style="`width: ${100 / ticks}%;`">
         <v-tooltip location="top"
@@ -78,12 +78,12 @@
                 loading ||
                 (!!maxSelectable && modelValue + i - 1 >= maxSelectable)
                 "
+              style="width: calc(100% - 6px)"
+              class="tick"
+              :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`} ${reverse ? 'reverse ml-1' : 'angled'}  px-0 `"
               @mouseover="hover = i"
               @mouseleave="hover = null"
-              style="width: calc(100% - 6px)"
-              @click="setVal(i)"
-              class="tick"
-              :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`} ${reverse ? 'reverse ml-1' : 'angled'}  px-0 `" />
+              @click="setVal(i)" />
           </template>
           <div class="heading h3 text-center">
             <div class="text-cc-overline text-disabled">{{ label }}</div>
@@ -108,7 +108,7 @@
 import TickbarMenu from './_tickbarMenu.vue';
 
 export default {
-  name: 'cc-tickbar',
+  name: 'CcTickbarCenter',
   components: { TickbarMenu },
   props: {
     modelValue: { type: Number, default: 0 },
@@ -131,20 +131,12 @@ export default {
     noClip: { type: Boolean },
     editable: { type: Boolean, default: false },
   },
+  emits: ['update:modelValue', 'reset'],
   data() {
     return {
       hover: null as number | null,
       internalValue: this.modelValue,
     };
-  },
-  emits: ['update:modelValue', 'reset'],
-  watch: {
-    modelValue(val) {
-      this.internalValue = val;
-    },
-    internalValue(val) {
-      this.$emit('update:modelValue', val);
-    },
   },
   computed: {
     tickThreshold() {
@@ -156,6 +148,14 @@ export default {
       const pct = Math.round((this.modelValue / this.ticks) * 100);
 
       return `background: linear-gradient(to right, rgb(var(--v-theme-${this.color})) ${pct}%, rgb(var(--v-theme-${this.bgColor})) ${pct}%)`;
+    },
+  },
+  watch: {
+    modelValue(val) {
+      this.internalValue = val;
+    },
+    internalValue(val) {
+      this.$emit('update:modelValue', val);
     },
   },
   methods: {

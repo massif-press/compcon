@@ -4066,41 +4066,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yeger/debounce@npm:2.0.17":
-  version: 2.0.17
-  resolution: "@yeger/debounce@npm:2.0.17"
-  checksum: 10c0/1b4bfada6942695901dba89dfccd6f60df66abcf317944b27675db595755bf03a65590767b73b904d093ab349f85b085aab4829d3fce95a9704dfe98c06e8a89
-  languageName: node
-  linkType: hard
-
-"@yeger/vue-lib-adapter@npm:2.0.16":
-  version: 2.0.16
-  resolution: "@yeger/vue-lib-adapter@npm:2.0.16"
-  checksum: 10c0/2c688d38dac74f6a6c68359096ff0da9fb3926e8320bcce96f4824e1ab0e5cb3827e7ec6e8a64ebfb316169236dcf87a54cda5e0117d4216198298e750307afb
-  languageName: node
-  linkType: hard
-
-"@yeger/vue-masonry-wall-core@npm:5.0.22":
-  version: 5.0.22
-  resolution: "@yeger/vue-masonry-wall-core@npm:5.0.22"
-  dependencies:
-    "@yeger/debounce": "npm:2.0.17"
-    "@yeger/vue-lib-adapter": "npm:2.0.16"
-  checksum: 10c0/16b94773314ee03df87569c229d1c0ea9729960e4649a9dbd8dcc44c853da6ffb6a2d684c6cc58e16bcec60d44cecd5eeceb945f81e9d4739a4700d886ed6b0d
-  languageName: node
-  linkType: hard
-
-"@yeger/vue-masonry-wall@npm:^5.1.5":
-  version: 5.1.5
-  resolution: "@yeger/vue-masonry-wall@npm:5.1.5"
-  dependencies:
-    "@yeger/vue-masonry-wall-core": "npm:5.0.22"
-  peerDependencies:
-    vue: ^3.0.0
-  checksum: 10c0/a5ba7466374880a73a144ea4a0a9546af6b1836c9847ce38badb9d99d31eb5a958a7f323e3a9cb430cf1f6f5a35578c6b931ff52e9a0ef30cab903c6bacfb0a6
-  languageName: node
-  linkType: hard
-
 "abbrev@npm:^4.0.0":
   version: 4.0.0
   resolution: "abbrev@npm:4.0.0"
@@ -4592,7 +4557,6 @@ __metadata:
     "@vitejs/plugin-vue": "npm:5.2.4"
     "@vue/eslint-config-typescript": "npm:^14.7.0"
     "@vueup/vue-quill": "npm:^1.2.0"
-    "@yeger/vue-masonry-wall": "npm:^5.1.5"
     aws-amplify: "npm:6.16.2"
     chart.js: "npm:4.5.1"
     chartjs-plugin-annotation: "npm:3.1.0"

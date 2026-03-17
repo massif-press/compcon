@@ -4,12 +4,23 @@
     icon="mdi-circle-edit-outline"
     :max-width="width"
     shrink>
-    <v-card-text class="px-0">
-      <quill-editor :options="editorOptions"
+    <v-card-text class="px-0 pb-0">
+      <quill-editor v-model:content="text"
+        :options="editorOptions"
         theme="snow"
-        v-model:content="text"
+        style="min-height: 150px;"
         content-type="html" />
     </v-card-text>
+    <v-row dense
+      class="mt-3">
+      <v-col cols="auto"
+        class="ml-auto">
+        <cc-button color="primary"
+          @click="dialogValue = false">
+          Save and Close
+        </cc-button>
+      </v-col>
+    </v-row>
   </cc-solo-modal>
 </template>
 
@@ -18,8 +29,7 @@ import { options } from '@/ui/style/quillSetup';
 import { debounce } from 'lodash-es';
 
 export default {
-  name: 'cc-text-editor',
-  emits: ['save', 'update:modelValue'],
+  name: 'CcTextEditor',
   props: {
     modelValue: {
       type: Boolean,
@@ -41,20 +51,10 @@ export default {
       default: '70vw',
     },
   },
+  emits: ['save', 'update:modelValue'],
   data: () => ({
-    title: '',
     text: '',
   }),
-  created() {
-    if (this.original) this.text = this.original;
-  },
-  watch: {
-    text(value) {
-      const self = this;
-
-      debounce(() => self.$emit('save', value), 300)();
-    },
-  },
   computed: {
     dialogValue: {
       get() {
@@ -67,6 +67,15 @@ export default {
     editorOptions() {
       return options;
     },
+  },
+  watch: {
+    text(value) {
+      this.emitSave(value);
+    },
+  },
+  created() {
+    if (this.original) this.text = this.original;
+    this.emitSave = debounce((value: string) => this.$emit('save', value), 300);
   },
 };
 </script>

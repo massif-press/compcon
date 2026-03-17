@@ -35,7 +35,9 @@
 </template>
 
 <script>
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   data: () => ({
     dialog: false,
   }),
@@ -71,11 +73,6 @@ export default {
     },
     dialog(val) {
       this.$emit('update:modelValue', val);
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

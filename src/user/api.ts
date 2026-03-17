@@ -1,14 +1,11 @@
-import { USER_API_BASE_URL, CONTENT_API_BASE_URL } from '@/config/api'
-
-let lcp_meta_key = process.env.VITE_LCP_META_KEY || ''
-if (!lcp_meta_key) lcp_meta_key = import.meta.env.VITE_LCP_META_KEY || ''
-
 const createFetchRequest = async (endpoint: string, options: RequestInit = {}) => {
-  const url = endpoint.startsWith('http') ? endpoint : `${USER_API_BASE_URL}${endpoint}`
+  const url = endpoint.startsWith('http')
+    ? endpoint
+    : `${import.meta.env.VITE_APP_INVOKE_URL}${endpoint}`
 
   const defaultHeaders = {
     'Content-Type': 'application/json',
-    'x-api-key': lcp_meta_key,
+    'x-api-key': import.meta.env.VITE_APP_API_KEY,
   }
 
   const response = await fetch(url, {
@@ -61,10 +58,10 @@ const getLcpPresigned = (packName: string) => {
 const collectionDataQuery = async itemtype => {
   const collectionHeaders = {
     'Content-Type': 'application/json',
-    'x-api-key': import.meta.env.VITE_LCP_META_KEY as string,
+    'x-api-key': import.meta.env.VITE_APP_API_KEY as string,
   }
 
-  const result = await fetch(`${CONTENT_API_BASE_URL}/content`, {
+  const result = await fetch(`${import.meta.env.VITE_APP_INVOKE_URL}/content`, {
     method: 'POST',
     headers: collectionHeaders,
     body: JSON.stringify({ itemtype }),
@@ -80,10 +77,10 @@ const collectionDataQuery = async itemtype => {
 const getItemDownloadLink = async (itch_userid, game_id, item_uri) => {
   const collectionHeaders = {
     'Content-Type': 'application/json',
-    'x-api-key': import.meta.env.VITE_LCP_META_KEY as string,
+    'x-api-key': import.meta.env.VITE_APP_API_KEY as string,
   }
 
-  let url = `${CONTENT_API_BASE_URL}/content`
+  let url = `${import.meta.env.VITE_APP_INVOKE_URL}/content`
   url += `?itch_userid=${itch_userid}&game_id=${game_id}&item_uri=${item_uri}`
 
   const result = await fetch(url, {

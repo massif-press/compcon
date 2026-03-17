@@ -1,5 +1,6 @@
 <template>
   <v-img
+    v-if="!loadFailed"
     :src="image"
     :key="src"
     @error="handleImageError"
@@ -68,6 +69,7 @@ export default {
   },
   data: () => ({
     imageUrl: '',
+    loadFailed: false,
   }),
   watch: {
     src(newVal) {
@@ -91,7 +93,7 @@ export default {
         this.imageUrl = URL.createObjectURL(blob);
       } catch (error) {
         console.error('Failed to create object URL for image:', error);
-        this.imageUrl = ''; // Fallback to empty string if URL creation fails
+        this.loadFailed = true;
       }
     },
   },

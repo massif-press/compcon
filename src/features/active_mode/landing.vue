@@ -221,7 +221,7 @@ export default {
       return EncounterStore().getActiveEncounter(EncounterStore().CurrentActiveID);
     },
     lastLocalSheet() {
-      return PilotStore().GetSheet(EncounterStore().CurrentActiveID);
+      return PilotStore().GetSheet(PilotStore().CurrentActiveID);
     },
   },
   methods: {

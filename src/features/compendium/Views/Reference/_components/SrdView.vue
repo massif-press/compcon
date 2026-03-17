@@ -6,8 +6,11 @@
 import { NavStore } from '@/stores';
 import SrdViewMobile from './SrdViewMobile.vue';
 import SrdViewDesktop from './SrdViewDesktop.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'using-compcon',
   props: {
     title: {
@@ -23,9 +26,6 @@ export default {
     },
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     component() {
       return this.mobile ? SrdViewMobile : SrdViewDesktop;
     },

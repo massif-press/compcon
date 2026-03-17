@@ -1,9 +1,5 @@
-import { readFile, writeFile } from './Data'
-import PromisifyFileReader from 'promisify-file-reader'
 import Startup from './Startup'
-import * as _ from 'lodash-es'
-import localForage from 'localforage'
-import { GetAll, storeRegistry, ClearAll, SetAll } from './Storage'
+import { GetAll, storeRegistry, SetAll, ClearAllData, Initialize } from './Storage'
 import logger from '@/user/logger'
 
 type exportArchive = {
@@ -29,20 +25,20 @@ const exportAll = async function (): Promise<exportArchive> {
 }
 
 const importAll = async function (data: any): Promise<void> {
-  const items = data.data
-  items.forEach(async e => {
-    const collection = e.collection
-    if (!storeRegistry[collection.toLowerCase()]) return
-    await ClearAll(collection)
-    if (e.items?.length) SetAll(collection, e.items)
-  })
+  await ClearAllData()
+  await Initialize()
+
+  console.log(data)
+
+  for (const collection in storeRegistry) {
+    const collectionData = data.data.find((d: any) => d.collection.toLowerCase() === collection)
+    if (collectionData) {
+      await SetAll(collection, collectionData.items)
+    }
+  }
 
   logger.info('Import data loaded! Running startup...')
   await Startup(true)
 }
 
-const clearAllData = async function (): Promise<void> {
-  await localForage.clear()
-}
-
-export { exportAll, importAll, clearAllData }
+export { exportAll, importAll }

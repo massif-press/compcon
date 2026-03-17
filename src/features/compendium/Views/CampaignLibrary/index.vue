@@ -51,19 +51,17 @@
 <script lang="ts">
 import SearchBar from '../../SearchBar.vue';
 import CampaignBookshelf from './components/CampaignBookshelf.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'compendium-home',
   components: { SearchBar, CampaignBookshelf },
   data: () => ({
     search: '',
     isFocused: false,
   }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
 };
 </script>
 

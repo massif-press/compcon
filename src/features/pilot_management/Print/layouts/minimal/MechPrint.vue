@@ -158,7 +158,7 @@
     </v-row>
 
     <v-row dense>
-      <v-col :cols="options.mechInclude.includes('mech image') ? (landscape ? 9 : 8) : 12">
+      <v-col :cols="hasMechOption('Mech Image') ? (landscape ? 9 : 8) : 12">
         <v-row dense justify="space-between" class="mt-n3">
           <v-col cols="auto">
             <span class="text-primary" style="font-size: 15px">ATK</span>
@@ -206,7 +206,7 @@
         <v-row dense v-if="blank">
           <v-col v-for="n in 4" cols="6">
             <blank-line
-              :height="landscape ? (options.mechInclude.includes('mech image') ? 80 : 40) : 64" />
+              :height="landscape ? (hasMechOption('Mech Image') ? 80 : 40) : 64" />
           </v-col>
         </v-row>
         <v-row v-else dense justify="space-between" class="caption mt-n1">
@@ -214,8 +214,8 @@
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
-              <print-action :actions="t.Actions" />
-              <print-deployable :deployables="t.Deployables" />
+              <print-action :compact="true" :actions="t.Actions" />
+              <print-deployable :compact="true" :deployables="t.Deployables" />
             </fieldset>
           </v-col>
         </v-row>
@@ -223,13 +223,13 @@
         <div class="text-overline mb-n1 text-primary mt-n1">CORE SYSTEM</div>
         <div dense v-if="blank" class="">
           <blank-line
-            :height="landscape ? (options.mechInclude.includes('mech image') ? 92 : 40) : 64" />
+            :height="landscape ? (hasMechOption('Mech Image') ? 92 : 40) : 64" />
         </div>
         <fieldset v-else class="mt-n2" style="height: fit-content">
           <legend class="caption font-weight-bold ml-1 px-2">
             {{ mech.Frame.CoreSystem.Name }}
           </legend>
-          <print-action :actions="mech.Frame.CoreSystem.PassiveActions" />
+          <print-action :compact="true" :actions="mech.Frame.CoreSystem.PassiveActions" />
           <div v-if="mech.Frame.CoreSystem.PassiveEffect">
             <span class="heading ml-4">
               {{
@@ -240,16 +240,18 @@
             </span>
             <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect" class="caption ml-6 mb-1" />
           </div>
-          <div v-if="mech.Frame.CoreSystem.PassiveEffect" class="heading ml-4">
-            {{
-              mech.Frame.CoreSystem.ActiveName
-                ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
-                : 'CORE ACTIVE'
-            }}
-          </div>
-          <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="caption ml-6 mb-1" />
-          <print-action :actions="mech.Frame.CoreSystem.ActiveActions" />
-          <print-deployable :deployables="mech.Frame.CoreSystem.Deployables" />
+          <template v-if="mech.Frame.CoreSystem.ActiveEffect">
+            <div class="heading ml-4">
+              {{
+                mech.Frame.CoreSystem.ActiveName
+                  ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
+                  : 'CORE ACTIVE'
+              }}
+            </div>
+            <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="caption ml-6 mb-1" />
+            <print-action :compact="true" :actions="mech.Frame.CoreSystem.ActiveActions" />
+            <print-deployable :compact="true" :deployables="mech.Frame.CoreSystem.Deployables" />
+          </template>
 
           <div v-if="mech.Frame.CoreSystem.Tag" class="text-right">
             <span v-for="t in mech.Frame.CoreSystem.Tags" class="mx-1">
@@ -259,14 +261,14 @@
         </fieldset>
 
         <div
-          v-if="options.mechInclude.includes('mech notes') && mech.Notes && !blank"
+          v-if="hasMechOption('Mech Notes') && mech.Notes && !blank"
           class="pt-2 no-print-break">
           <div class="text-overline text-primary mb-2 mt-3" style="line-height: 0">NOTES</div>
           <div v-html-safe="mech.Notes" class="mt-2 caption" />
         </div>
       </v-col>
 
-      <v-col v-if="options.mechInclude.includes('mech image')" class="no-print-break">
+      <v-col v-if="hasMechOption('Mech Image')" class="no-print-break">
         <div style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
           <cc-img v-if="!blank" :src="mech.Portrait" />
           <div v-else style="height: 355px" />
@@ -274,7 +276,7 @@
       </v-col>
     </v-row>
 
-    <div v-if="options.mechInclude.includes('mech notes') && blank" class="pt-3 no-print-break">
+    <div v-if="hasMechOption('Mech Notes') && blank" class="pt-3 no-print-break">
       <div class="text-overline text-primary mb-2" style="line-height: 0">NOTES</div>
       <div class=""><notes :rows="5" lined /></div>
     </div>
@@ -283,7 +285,7 @@
 
     <div v-if="blank">
       <fieldset
-        v-for="n in options.mechInclude.includes('extra mount panel') ? 5 : 4"
+        v-for="n in hasMechOption('Extra Mount Panel') ? 5 : 4"
         class="my-1 pb-1 no-print-break">
         <legend class="caption ml-1 px-2">
           <v-row dense align="center">
@@ -332,7 +334,7 @@
             <span class="text-overline">// SUPERHEAVY WEAPON BRACING //</span>
           </div>
           <v-row v-else dense>
-            <v-col v-for="w in m.Weapons" class="px-1 caption">
+            <v-col v-for="w in m.Weapons.filter(Boolean)" class="px-1 caption">
               <v-row dense align="center">
                 <v-col cols="auto">
                   <b class="caption font-weight-bold" style="line-height: 0">{{ w.Name }}</b>
@@ -387,8 +389,8 @@
                     <b>ON CRIT:</b>
                     {{ p.OnCrit.Detail }}
                   </div>
-                  <print-action :actions="p.Actions" />
-                  <print-deployable :deployables="p.Deployables" />
+                  <print-action :compact="true" :actions="p.Actions" />
+                  <print-deployable :compact="true" :deployables="p.Deployables" />
                 </div>
                 <div class="text-right" style="position: absolute; bottom: 0; right: 0">
                   <v-chip
@@ -419,7 +421,7 @@
     <v-divider v-if="blank" class="my-2" />
     <v-row v-if="blank" dense>
       <v-col
-        v-for="n in options.mechInclude.includes('extra system space') ? 8 : 6"
+        v-for="n in hasMechOption('Extra System Space') ? 8 : 6"
         style="min-width: 20vw"
         class="no-print-break">
         <v-card variant="outlined" class="pa-1" style="border-color: rgba(0, 0, 0, 0.3)">
@@ -444,7 +446,7 @@
 
     <v-card
       v-else
-      v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems"
+      v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)"
       variant="outlined"
       class="px-1 no-print-break"
       :class="s.Tags ? 'pb-1 mb-1' : ''"
@@ -463,8 +465,8 @@
         </v-col>
       </v-row>
       <div v-if="s.Effect" class="caption mb-n1" v-html-safe="s.Effect" />
-      <print-action :actions="s.Actions" />
-      <print-deployable :deployables="s.Deployables" />
+      <print-action :compact="true" :actions="s.Actions" />
+      <print-deployable :compact="true" :deployables="s.Deployables" />
       <div class="text-right">
         <v-chip
           v-for="t in s.Tags"
@@ -481,13 +483,15 @@
 </template>
 
 <script lang="ts">
-import PrintAction from './components/PrintAction.vue';
-import PrintDeployable from './components/PrintDeployable.vue';
+import PrintAction from '../../components/PrintAction.vue';
+import PrintDeployable from '../../components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
+import { usePrintOptions } from '../_usePrintOptions';
 
 export default {
   name: 'mech-print',
+  mixins: [usePrintOptions],
   components: { PrintAction, PrintDeployable, blankLine, notes },
   props: {
     mech: {

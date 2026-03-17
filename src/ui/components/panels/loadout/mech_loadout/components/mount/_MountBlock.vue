@@ -1,17 +1,23 @@
 <template>
-  <fieldset class="pb-2 px-3" style="border-color: rgba(155, 155, 155, 0.6)">
-    <legend :style="`color: ${color}`" class="heading h4 mx-2">
+  <fieldset class="pb-2 px-3"
+    style="border-color: rgba(155, 155, 155, 0.6)">
+    <legend :style="`color: ${color}`"
+      class="heading h4 mx-2">
       {{ mount.Name }}
-      <span class="text-cc-overline" v-if="impArm">(IMPROVED ARMAMENT)</span>
-      <span class="text-cc-overline" v-if="superheavy">(SUPERHEAVY MOUNTING)</span>
+      <span v-if="impArm"
+        class="text-cc-overline">(IMPROVED ARMAMENT)</span>
+      <span v-if="superheavy"
+        class="text-cc-overline">(SUPERHEAVY MOUNTING)</span>
     </legend>
 
-    <cb-mount-menu v-if="!intWeapon && !integrated && !readonly" :mech="mech" :mount="mount" />
-    <cb-card v-for="b in mount.Bonuses" :bonus="b" />
+    <cb-mount-menu v-if="!intWeapon && !integrated && !readonly"
+      :mech="mech"
+      :mount="mount" />
+    <cb-card v-for="b in mount.Bonuses"
+      :bonus="b" />
     <sh-lock-card v-if="mount.IsLocked" />
-    <weapon-slot-card
+    <weapon-slot-card v-for="s in mount.Slots"
       v-if="!mount.IsLocked"
-      v-for="s in mount.Slots"
       :weapon-slot="s"
       :mech="mech"
       :mount="mount"
@@ -27,7 +33,7 @@ import CbCard from './_CbCard.vue';
 import ShLockCard from './_ShLockCard.vue';
 
 export default {
-  name: 'mount-block',
+  name: 'MountBlock',
   components: { WeaponSlotCard, CbMountMenu, CbCard, ShLockCard },
   props: {
     color: {

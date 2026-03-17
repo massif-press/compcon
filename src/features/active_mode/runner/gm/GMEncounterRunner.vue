@@ -1,6 +1,6 @@
 <template>
-  <div :key="instanceID"
-    v-if="!instance">
+  <div v-if="!instance"
+    :key="instanceID">
     <v-progress-linear indeterminate
       color="primary"
       height="20"
@@ -95,9 +95,9 @@
           permanent>
           <gm-tool-palette :expanded="showRight"
             :selected="panel"
-            @selectPanel="selectPanel"
-            @openDiceRoller="diceDialog = true"
-            @openTableIndex="tableDialog = true" />
+            @select-panel="selectPanel"
+            @open-dice-roller="diceDialog = true"
+            @open-table-index="tableDialog = true" />
         </v-navigation-drawer>
         <v-footer app
           height="36"
@@ -118,16 +118,16 @@
     <v-dialog v-model="diceDialog"
       max-height="80vh"
       max-width="80vw">
-      <gm-dice-roller @close="diceDialog = false"
-        :encounter="instance"
-        :selected="selected" />
+      <gm-dice-roller :encounter="instance"
+        :selected="selected"
+        @close="diceDialog = false" />
     </v-dialog>
 
     <v-dialog v-model="tableDialog"
       max-width="80vw">
       <rollable-table-index :instance="instance"
-        @close="tableDialog = false"
-        :selected="selected" />
+        :selected="selected"
+        @close="tableDialog = false" />
     </v-dialog>
   </div>
 </template>
@@ -161,7 +161,7 @@ import CombatStatblockExport from './EncounterPanels/_components/CombatStatblock
 import ActorTelemetry from './EncounterPanels/_components/ActorTelemetry.vue';
 
 export default {
-  name: 'gm-encounter-runner',
+  name: 'GmEncounterRunner',
   components: {
     GmInitiativePanel,
     Sortable,
@@ -185,6 +185,13 @@ export default {
     CombatStatblockExport,
     ActorTelemetry,
   },
+  props: {
+    id: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
   data: () => ({
     selected: null,
     diceDialog: false,
@@ -195,19 +202,6 @@ export default {
     showRight: false,
     sortableKey: `sk-0`,
   }),
-  props: {
-    id: {
-      type: String,
-      required: false,
-      default: null,
-    },
-  },
-  mounted() {
-    if (this.mobile) {
-      this.showLeft = false;
-      this.showRight = false;
-    }
-  },
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
@@ -246,6 +240,12 @@ export default {
     actorCount(newval, oldval) {
       if (this.instance && newval > 0 && newval !== oldval) this.setEidolonHp();
     },
+  },
+  mounted() {
+    if (this.mobile) {
+      this.showLeft = false;
+      this.showRight = false;
+    }
   },
   methods: {
     setEidolonHp() {

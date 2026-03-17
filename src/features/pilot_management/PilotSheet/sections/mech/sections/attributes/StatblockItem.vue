@@ -36,7 +36,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'statblock-item',
   props: {
     attr: { type: String, required: true },

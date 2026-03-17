@@ -14,6 +14,7 @@
           icons-and-text
           show-arrows>
           <v-tab v-for="(m, i) in manufacturers"
+            :key="m.ID"
             ripple>
             <v-row dense
               align="center">
@@ -31,8 +32,10 @@
       </v-col>
       <v-col>
         <v-window v-model="tabModel">
-          <v-window-item v-for="m in manufacturers">
+          <v-window-item v-for="m in manufacturers"
+            :key="`manufacturer-${m.ID}`">
             <cc-panel color="panel-dark"
+              :density="mobile ? 'compact' : ''"
               style="position: relative">
               <cc-lcp-info :item="m"
                 style="position: absolute; top: 4px; right: 4px" />
@@ -43,15 +46,16 @@
                 </span>
               </div>
               <v-card-text class="pr-4 pt-0">
-                <div style="float: right; width: 22vw; height: 22vw">
-                  <cc-logo v-if="!mobile"
-                    width="22vw"
+                <div v-if="!mobile"
+                  style="float: right; width: 22vw; height: 22vw">
+                  <cc-logo width="22vw"
                     :source="m"
                     :color="m.Color" />
                 </div>
                 <blockquote v-html-safe="m.Quote"
                   class="quote-block" />
-                <v-divider class="ma-2"
+                <v-divider v-if="!mobile"
+                  class="ma-2"
                   style="width: 30vw" />
                 <p v-html-safe="m.Description"
                   class="body-text stark-text-text mb-2" />
@@ -65,20 +69,18 @@
 </template>
 
 <script lang="ts">
-import DOMPurify from 'dompurify';
 import { CompendiumStore } from '@/stores';
-import { Manufacturer } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
-  name: 'manufacturers',
+  name: 'Manufacturers',
+  mixins: [useMobile],
   data: () => ({
     tabModel: 0,
     loading: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     manufacturers() {
       return CompendiumStore().Manufacturers.filter((x) => !x.IsHidden);
     },
@@ -89,8 +91,8 @@ export default {
 <style scoped>
 .quote-block {
   border-left: 6px solid rgb(var(--v-theme-panel));
-  border-radius: 3px;
+  border-radius: 0px;
   padding-left: 12px;
-  font-size: 1.3rem;
+  font-size: 1.15rem;
 }
 </style>

@@ -205,8 +205,11 @@ import { ContentPack, IContentPack } from '@/classes/ContentPack';
 import { compare, coerce } from 'semver';
 import { set } from 'lodash-es';
 import logger from '@/user/logger';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'PackInstall',
   components: { PackInfo },
   data: () => ({
@@ -216,9 +219,6 @@ export default {
     error: '',
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     hasAlreadyInstalled() {
       return this.contentPacks.some((pack) => this.packAlreadyInstalled(pack));
     },

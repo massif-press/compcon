@@ -28,7 +28,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'CompendiumPageButton',
   props: {
     name: {
@@ -56,11 +58,6 @@ export default {
     },
     disabled: {
       type: Boolean,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

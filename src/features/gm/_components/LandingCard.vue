@@ -53,7 +53,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
   export default {
+  mixins: [useMobile],
     name: 'GmLandingCard',
     props: {
       to: { type: String, required: true },
@@ -63,11 +65,6 @@
       img: { type: String, required: true },
       maxHeight: { type: [String, Number], required: false, default: '' },
       disabled: { type: Boolean, required: false, default: false },
-    },
-    computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
     },
   }
 </script>

@@ -302,7 +302,7 @@
                   <cc-slashes />
                   Frame Traits
                 </div>
-                <masonry-wall :items="selected.ActiveMech.Frame.Traits"
+                <cc-masonry-grid :items="selected.ActiveMech.Frame.Traits"
                   :column-width="500"
                   :gap="16"
                   :min-columns="1"
@@ -311,14 +311,14 @@
                     <cc-trait-item :trait="item"
                       class="mb-2" />
                   </template>
-                </masonry-wall>
+                </cc-masonry-grid>
 
                 <div v-if="selected.CoreBonusController.CoreBonuses.length">
                   <div class="text-cc-overline text-disabled mt-3">
                     <cc-slashes />
                     Core Bonuses
                   </div>
-                  <masonry-wall :items="selected.CoreBonusController.CoreBonuses"
+                  <cc-masonry-grid :items="selected.CoreBonusController.CoreBonuses"
                     :column-width="500"
                     :gap="16"
                     :min-columns="1"
@@ -328,7 +328,7 @@
                         terse
                         :bonus="item" />
                     </template>
-                  </masonry-wall>
+                  </cc-masonry-grid>
                 </div>
 
                 <div class="text-cc-overline text-disabled mt-3">

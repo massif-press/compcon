@@ -106,8 +106,11 @@
 import { ReserveType } from '@/class';
 import MechPanel from './MechPanel.vue';
 import PilotPanel from './PilotPanel.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'PcPanel',
   components: {
     MechPanel,
@@ -128,9 +131,6 @@ export default {
     unusedOnly: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     mech() {
       return this.combatant.actor.ActiveMech;
     },

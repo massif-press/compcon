@@ -56,8 +56,11 @@
 
 <script lang="ts">
 import { CompendiumItem } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'selector-table',
   props: {
     items: {
@@ -77,9 +80,6 @@ export default {
   },
   emits: ['clear'],
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     isNpcClass() {
       return (this.selected as CompendiumItem).ItemType === 'NpcClass';
     },

@@ -33,17 +33,7 @@ export const PilotStore = defineStore('pilot', {
     getPilots: (state: any) => (groupID: string, showDeleted?: boolean) => {
       if (!state.Pilots.length) return []
       const group = state.PilotGroups.find((x: PilotGroup) => x.ID === groupID)
-
-      let out = state.Pilots.filter(p => group.Pilots.map(x => x.id).includes(p.ID))
-
-      // group.Pilots.forEach((pi, idx) => {
-      //   const found = state.Pilots.find((p) => p.ID === pi.id);
-      //   if (found) found.SortIndex = pi.index;
-      //   else group.Pilots.splice(idx, 1);
-      // });
-
-      // out = _.sortBy(out, 'SortIndex', 'asc');
-
+      let out = state.Pilots.filter(p => group.Pilots.some(x => x.id === p.ID))
       if (!showDeleted) out = out.filter((x: Pilot) => !x.SaveController.IsDeleted)
       return out
     },
@@ -88,10 +78,10 @@ export const PilotStore = defineStore('pilot', {
   },
   actions: {
     async LoadPilots(): Promise<void> {
-      let pilotGroupData = await GetAll('pilot_groups')
+      const pilotGroupData = await GetAll('pilot_groups')
       this.PilotGroups = pilotGroupData.map(x => PilotGroup.Deserialize(x))
 
-      let pilotData = await GetAll('pilots')
+      const pilotData = await GetAll('pilots')
       this.Pilots = pilotData.map(x => Pilot.Deserialize(x))
 
       if (!this.PilotGroups.some(x => x.ID === 'no_group')) {
@@ -110,22 +100,24 @@ export const PilotStore = defineStore('pilot', {
         )
       }
 
-      this.ImportUngroupedPilots()
+      await this.ImportUngroupedPilots()
       await this.LoadPilotSheets()
     },
-    ImportUngroupedPilots(): void {
+    async ImportUngroupedPilots(): Promise<void> {
       // import v2 pilots
       // const localData = localStorage.getItem('pilots_v2');
       // if (localData) {
       //   const localPilots = JSON.parse(localData);
       // }
 
-      const groupedIds = this.PilotGroups.flatMap(x => x.Pilots)
-      const ungroupedPilots = this.Pilots.filter(x => !groupedIds.map(x => x.id).includes(x.ID))
+      const groupedIds = this.PilotGroups.flatMap(x => x.Pilots).map(x => x.id)
+      const ungroupedPilots = (this.Pilots as Pilot[]).filter(
+        (p: Pilot) => !groupedIds.includes(p.ID)
+      )
 
-      ungroupedPilots.forEach(p => {
-        this.TransferPilot(p as Pilot)
-      })
+      for (const p of ungroupedPilots) {
+        await this.TransferPilot(p as Pilot)
+      }
     },
     async AddPilot(pilot: Pilot, groupID?: string): Promise<void> {
       if (this.Pilots.some(x => x.ID === pilot.ID)) {
@@ -149,17 +141,19 @@ export const PilotStore = defineStore('pilot', {
       await this.SavePilotData()
     },
     async AddGroup(group: PilotGroup): Promise<void> {
-      this.PilotGroups.push(group)
+      this.PilotGroups.unshift(group)
       await this.SavePilotData()
     },
     async DeleteGroup(group: PilotGroup, deletePilots: boolean): Promise<void> {
-      for (const p of group.Pilots) {
-        await this.TransferPilot(this.getPilotByID(p.id))
+      const pilotIDs = group.Pilots.map(p => p.id)
+
+      for (const id of pilotIDs) {
+        await this.TransferPilot(this.getPilotByID(id))
       }
 
       if (deletePilots) {
-        for (const p of group.Pilots) {
-          this.getPilotByID(p.id).SaveController.Delete()
+        for (const id of pilotIDs) {
+          this.getPilotByID(id).SaveController.Delete()
         }
       }
 
@@ -220,17 +214,22 @@ export const PilotStore = defineStore('pilot', {
       }
     },
     async TransferPilot(p: Pilot, destinationID?: string): Promise<void> {
-      const dest = destinationID ? destinationID : 'no_group'
+      const dest = destinationID ?? 'no_group'
       const destinationIndex = this.PilotGroups.findIndex(x => x.ID === dest)
-      const sourceIndex = this.PilotGroups.findIndex(x => x.Pilots.map(x => x.id).includes(p.ID))
 
-      if (destinationIndex > -1) {
-        this.PilotGroups[destinationIndex].Pilots.push({ id: p.ID, index: -1 })
+      // Remove from every group except the destination. Iterating all groups (rather
+      // than finding a single source) handles corrupted data where a pilot may have
+      // been registered in multiple groups by previous code bugs.
+      // Use the Pilots setter (not splice) so Vue 3's reactive set trap fires correctly.
+      for (const group of this.PilotGroups) {
+        if (group.ID === dest) continue
+        if (group.Pilots.some(x => x.id === p.ID)) {
+          group.Pilots = group.Pilots.filter(x => x.id !== p.ID)
+        }
       }
 
-      if (sourceIndex > -1) {
-        const pilotIndex = this.PilotGroups[sourceIndex].Pilots.findIndex(p => p.id === p.id)
-        if (pilotIndex > -1) this.PilotGroups[sourceIndex].Pilots.splice(pilotIndex, 1)
+      if (destinationIndex > -1 && !this.PilotGroups[destinationIndex].Pilots.some(x => x.id === p.ID)) {
+        this.PilotGroups[destinationIndex].Pilots.push({ id: p.ID, index: -1 })
       }
 
       await this.SaveGroupData()
@@ -320,14 +319,13 @@ export const PilotStore = defineStore('pilot', {
       if (id) this.CurrentActiveID = id
     },
     GetSheet(id: string): PilotSheet | null {
-      this.PilotSheets
       const sheet = this.PilotSheets.find((ps: any) => ps.ID === id)
       if (sheet) return sheet as PilotSheet
       logger.error('No pilot sheet found with ID ' + id)
       return null
     },
     GetActiveSheet(): PilotSheet | null {
-      let activeSheet = this.PilotSheets.find((ps: any) => ps.ID === this.CurrentActiveID)
+      const activeSheet = this.PilotSheets.find((ps: any) => ps.ID === this.CurrentActiveID)
       if (activeSheet) return activeSheet as PilotSheet
       logger.error('No active pilot sheet found')
       return null

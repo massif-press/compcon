@@ -34,8 +34,10 @@
   import CompendiumView from './Views/Compendium/index.vue'
   import ReferenceView from './Views/Reference/index.vue'
   import CampaignLibrary from './Views/CampaignLibrary/index.vue'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'CompendiumIndex',
     components: { CompendiumView, ReferenceView, CampaignLibrary },
     computed: {

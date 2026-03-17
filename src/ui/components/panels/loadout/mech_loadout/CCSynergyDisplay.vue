@@ -58,8 +58,11 @@
 
 <script lang="ts">
 import { Mech, Synergy } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'cc-synergy-display',
   props: {
     item: {
@@ -81,9 +84,6 @@ export default {
     alert: { type: Boolean },
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     synergies() {
       return Synergy.Collect(this.location, this.mech as Mech, this.item as any);
     },

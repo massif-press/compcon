@@ -109,14 +109,12 @@
 <script lang="ts">
 import SearchBar from '../../SearchBar.vue';
 import CompendiumPageButton from '../../components/CompendiumPageButton.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'compendium-home',
   components: { SearchBar, CompendiumPageButton },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
 };
 </script>

@@ -14,8 +14,11 @@
 <script lang="ts">
 import logger from '@/user/logger';
 import * as cards from './items';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'CCItemCard',
   props: {
     item: Object,
@@ -63,9 +66,6 @@ export default {
       }
 
       return cards[t];
-    },
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

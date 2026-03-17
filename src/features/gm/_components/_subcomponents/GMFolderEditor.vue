@@ -1,11 +1,13 @@
 <template>
   <div v-show="allFolders.length">
-    <fieldset class="pb-2 px-3" style="position: relative">
+    <fieldset class="pb-2 px-3"
+      style="position: relative">
       <legend class="text-caption text-left ml-2 px-2">COLLECTION FOLDER</legend>
-      <v-menu width="250px" :close-on-content-click="false" :disabled="readonly">
+      <v-menu width="250px"
+        :close-on-content-click="false"
+        :disabled="readonly">
         <template #activator="{ props }">
-          <v-chip
-            size="small"
+          <v-chip size="small"
             label
             prepend-icon="mdi-folder-outline"
             :class="!item.FolderController.Folder ? 'fade-select' : ''"
@@ -15,8 +17,7 @@
         </template>
         <v-card>
           <v-card-text>
-            <v-combobox
-              v-model="stagedName"
+            <v-combobox v-model="stagedName"
               :items="allFolders"
               label="Folder"
               outlined
@@ -26,9 +27,12 @@
           </v-card-text>
           <v-divider />
           <v-card-actions>
-            <v-btn text @click="menu = false">Cancel</v-btn>
+            <v-btn text
+              @click="menu = false">Cancel</v-btn>
             <v-spacer />
-            <v-btn text @click="set" color="accent">Set</v-btn>
+            <v-btn text
+              color="accent"
+              @click="set">Set</v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -36,11 +40,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { EncounterStore, NarrativeStore } from '@/stores';
 import { NpcStore } from '../../store/npc_store';
 
 export default {
-  name: 'gm-folder-editor',
+  name: 'GmFolderEditor',
   props: {
     item: {
       type: Object,
@@ -54,6 +59,11 @@ export default {
     stagedName: '',
     menu: false,
   }),
+  computed: {
+    allFolders() {
+      return [...NpcStore().getFolders, EncounterStore().getFolders, ...NarrativeStore().getFolders];
+    },
+  },
   created() {
     this.stagedName = this.item.FolderController.Folder;
   },
@@ -62,11 +72,6 @@ export default {
       this.item.FolderController.Folder = this.stagedName;
       this.stagedName = '';
       this.menu = false;
-    },
-  },
-  computed: {
-    allFolders() {
-      return NpcStore().getFolders;
     },
   },
 };

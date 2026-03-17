@@ -40,8 +40,8 @@
             class="py-2 px-3 mb-4">
             <v-row dense>
               <v-col>
-                <div class="result-headline heading h4"
-                  v-html-safe="highlightText(result.title)" />
+                <div v-html-safe="highlightText(result.title)"
+                  class="result-headline heading h4" />
               </v-col>
               <v-col cols="auto"
                 align-self="start">
@@ -54,8 +54,8 @@
               </v-col>
             </v-row>
             <v-card-text :class="!mobile && 'px-12'">
-              <div class="result-body"
-                v-html-safe="highlightText(result.content)" />
+              <div v-html-safe="highlightText(result.content)"
+                class="result-body" />
             </v-card-text>
           </v-card>
         </v-container>
@@ -71,6 +71,8 @@ import combat from '@/assets/srd/lib/combat.json';
 import mechs from '@/assets/srd/lib/mechs.json';
 import pilots from '@/assets/srd/lib/pilots.json';
 import narrative_play from '@/assets/srd/lib/narrative_play.json';
+import { useMobile } from '@/mixins/useMobile';
+
 
 function searchObject(obj, str) {
   const coll = [] as any[];
@@ -157,32 +159,14 @@ function extract(str) {
 }
 
 export default {
-  name: 'search-results',
+  mixins: [useMobile],
+  name: 'SearchResults',
   data: () => ({
     lang: 'en',
     searchText: '',
     data: [] as any[],
   }),
-  created() {
-    this.data = [
-      ...fillDataObject(basics, 'basics'),
-      // ...fillDataObject(using_compcon, 'compcon'),
-      ...fillDataObject(combat, 'combat'),
-      ...fillDataObject(mechs, 'mechs'),
-      ...fillDataObject(pilots, 'pilots'),
-      ...fillDataObject(narrative_play, 'narrative_play'),
-    ];
-    this.data = flatten(this.data);
-  },
-  watch: {
-    searchText(newVal) {
-      this.setSearch(newVal);
-    },
-  },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     searchResults(): any {
       if (this.searchText.length < 3) {
         return [];
@@ -209,6 +193,22 @@ export default {
         }
       });
     },
+  },
+  watch: {
+    searchText(newVal) {
+      this.setSearch(newVal);
+    },
+  },
+  created() {
+    this.data = [
+      ...fillDataObject(basics, 'basics'),
+      // ...fillDataObject(using_compcon, 'compcon'),
+      ...fillDataObject(combat, 'combat'),
+      ...fillDataObject(mechs, 'mechs'),
+      ...fillDataObject(pilots, 'pilots'),
+      ...fillDataObject(narrative_play, 'narrative_play'),
+    ];
+    this.data = flatten(this.data);
   },
   mounted() {
     this.searchText = this.$route.query.search as string;

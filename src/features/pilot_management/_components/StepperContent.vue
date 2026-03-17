@@ -31,7 +31,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'stepper-content',
   props: {
     noConfirm: {
@@ -53,11 +55,6 @@ export default {
     exit: {
       type: String,
       required: true,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

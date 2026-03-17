@@ -115,10 +115,10 @@
                     <v-icon v-bind="props"
                       start
                       color="white"
-                      @click.stop
                       icon="mdi-cog"
                       size="small"
-                      class="fade-select" />
+                      class="fade-select"
+                      @click.stop />
                   </template>
                   <v-card>
                     <v-list>
@@ -177,17 +177,17 @@
                 <div v-for="side in ['ally', 'enemy', 'neutral']"
                   class="mb-2">
                   <v-chip v-for="item in e.Combatants.filter(c => c.side === side)"
+                    :key="item.actor.ID"
                     :prepend-icon="side === 'ally' ? 'cc:pilot' : side === 'enemy' ? 'cc:mech' : 'mdi-cube-outline'"
                     :color="side === 'ally' ? 'info' : side === 'enemy' ? 'error' : 'background'"
                     tile
                     variant="elevated"
                     size="x-small"
-                    :key="item.actor.ID"
                     class="mr-1 mb-1 elevation-0">
                     {{ item.actor.CombatController.CombatName }}
                     <span v-if="(item.actor as any).PlayerName">&nbsp;({{ (item.actor as
                       any).PlayerName
-                      }})</span>
+                    }})</span>
                   </v-chip>
                 </div>
                 <br />
@@ -253,8 +253,8 @@
                 :title="`${e.Name} - After Action Report`">
                 <template #activator="{ open }">
                   <cc-button size="small"
-                    @click="open()"
-                    color="primary">After-Action Report</cc-button>
+                    color="primary"
+                    @click="open()">After-Action Report</cc-button>
                 </template>
                 <v-card flat
                   tile>
@@ -293,8 +293,8 @@
                 :title="`${e.Name} - LOGS AND TELEMETRY`">
                 <template #activator="{ open }">
                   <cc-button size="small"
-                    @click="open()"
-                    color="primary">Logs & Telemetry</cc-button>
+                    color="primary"
+                    @click="open()">Logs & Telemetry</cc-button>
                 </template>
                 <v-card flat
                   tile>
@@ -423,21 +423,21 @@ import { Encounter } from '@/classes/encounter/Encounter';
 import { EncounterArchive } from '@/classes/encounter/EncounterArchive';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { EncounterStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
   name: 'EncounterManager',
+  mixins: [useMobile],
   data: () => ({
     search: '',
     sort: '',
     asc: true,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     encounters() {
       if (this.sort) {
-        let sorted = [...EncounterStore().ActiveEncounters].filter(
+        const sorted = [...EncounterStore().ActiveEncounters].filter(
           (e) => !e.SaveController.IsDeleted
         );
         sorted.sort((a, b) => {

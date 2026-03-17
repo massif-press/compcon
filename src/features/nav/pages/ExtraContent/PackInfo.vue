@@ -55,17 +55,15 @@ import PackInfoCard from './components/PackInfoCard.vue';
 import { IContentPack } from '@/classes/ContentPack';
 import * as _ from 'lodash-es';
 import { PropType } from 'vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'PackInfo',
   props: {
     pack: { type: Object as PropType<IContentPack>, required: true },
   },
   components: { PackInfoCard },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
 };
 </script>

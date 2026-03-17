@@ -21,7 +21,7 @@
         </div>
       </div>
       <div style="position: relative; overflow-anchor: none">
-        <masonry-wall :items="systemItems"
+        <cc-masonry-grid :items="systemItems"
           :column-width="400"
           :gap="16"
           :min-columns="1"
@@ -39,7 +39,7 @@
               @selector-open="selector = true"
               @switch="switchSystem($event)" />
           </template>
-        </masonry-wall>
+        </cc-masonry-grid>
       </div>
 
       <v-row v-if="!readonly && mech.FreeSP <= 0"
@@ -73,8 +73,11 @@ import * as _ from 'lodash-es';
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
 import SystemSelector from './_SystemSelector.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'systems-block',
   components: { SystemSlotCard, ModEquippedCard, SystemSelector },
   props: {
@@ -106,9 +109,6 @@ export default {
     },
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     moddedWeapons() {
       return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod);
     },
@@ -226,9 +226,5 @@ legend {
   height: 28px;
   border: 1px solid grey;
   border-radius: 5px;
-}
-
-#masonry-wall-container {
-  contain: layout style;
 }
 </style>

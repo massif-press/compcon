@@ -1,20 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { ICloudSyncable } from '@/classes/components'
-// import { SyncItem, getCognitoIdentity } from '@/cloud/item_sync'
-import sleep from '@/util/sleep'
-import { EXTRA_CONTENT_API_BASE_URL } from '@/config/api'
-
-const lcp_meta_key = import.meta.env.VITE_LCP_META_KEY || ''
 
 // Helper function to create fetch requests
 const createFetchRequest = async (endpoint: string, options: RequestInit = {}) => {
-  const url = `${EXTRA_CONTENT_API_BASE_URL}${endpoint}`
+  const url = `${import.meta.env.VITE_APP_INVOKE_URL}${endpoint}`
 
   const defaultHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
-    'x-api-key': lcp_meta_key,
+    'x-api-key': import.meta.env.VITE_APP_API_KEY,
   }
 
   const response = await fetch(url, {

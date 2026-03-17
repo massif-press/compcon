@@ -116,8 +116,11 @@
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
 import semver from 'semver';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'content-pack-directory-table',
   data: () => ({
     expanded: [],
@@ -131,9 +134,6 @@ export default {
     loading: { type: Boolean },
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     tableHeaders() {
       if (this.noAuthor)
         return [

@@ -29,11 +29,12 @@ export const NpcStore = defineStore('npc', {
     },
     getFolders: (state: any): string[] =>
       _.uniq(
-        state.Folders.concat(
-          state.Npcs.filter(x => !x.SaveController.IsDeleted).flatMap(
+        [
+          ...state.Folders,
+          ...state.Npcs.filter(x => !x.SaveController.IsDeleted).flatMap(
             (x: any) => x.FolderController.Folder
-          )
-        ).filter(x => !!x)
+          ),
+        ].filter(x => !!x)
       ) as string[],
     getMissingDataNpcs: (state: any) => {
       return state.Npcs.filter((x: Npc) => x.BrewController.MissingContent)

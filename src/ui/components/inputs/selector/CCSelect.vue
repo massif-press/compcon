@@ -119,8 +119,11 @@
 
 <script lang="ts">
 import { VSelect, VAutocomplete, VCombobox } from 'vuetify/components';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'CCSelect',
   props: {
     modelValue: { type: String },
@@ -160,9 +163,6 @@ export default {
   }),
   emits: ['update:model-value'],
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     getChipClass() {
       return this.lightChip ? 'chip-light' : 'chip-dark';
     },

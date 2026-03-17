@@ -186,10 +186,12 @@
   import StatblockDialog from './StatblockDialog.vue'
   import logger from '@/user/logger'
   import LcpConfigSelector from './LcpConfigSelector.vue'
+import { useMobile } from '@/mixins/useMobile';
 
   // import { RemoteSyncItem } from '@/cloud/item_sync';
 
   export default {
+  mixins: [useMobile],
     name: 'EditMenu',
     components: {
       StatblockDialog,
@@ -218,11 +220,6 @@
       deleteDialog: false,
       menu: false,
     }),
-    computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
-    },
     methods: {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
       delete_pilot(close?: Function) {

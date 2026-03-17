@@ -8,7 +8,8 @@
       Browser).
     </i>
 
-    <v-table class="text-left mt-2" density="compact">
+    <v-table class="text-left mt-2"
+      density="compact">
       <thead>
         <tr>
           <th>Item</th>
@@ -20,20 +21,26 @@
           <td v-text="key.replace('_', '')" />
           <td v-if="key === '_options'">
             <v-row dense>
-              <v-col cols="4" v-for="viewKey in Object.keys(user[key].views)">
+              <v-col cols="4"
+                v-for="viewKey in Object.keys(user[key].views)">
                 {{ viewKey }}:
                 <b class="text-accent">{{ user[key].views[viewKey] }}</b>
               </v-col>
             </v-row>
           </td>
-          <td v-else-if="Array.isArray(user[key])" v-text="`${user[key].length} items`" />
-          <td v-else v-text="user[key]" />
+          <td v-else-if="Array.isArray(user[key])"
+            v-text="`${user[key].length} items`" />
+          <td v-else
+            v-text="user[key]" />
         </tr>
       </tbody>
     </v-table>
 
     <div class="text-right">
-      <cc-button size="small" variant="tonal" color="error" @click="resetUserData()">
+      <cc-button size="small"
+        variant="tonal"
+        color="error"
+        @click="resetUserData()">
         Reset User Data
       </cc-button>
     </div>
@@ -42,8 +49,11 @@
 
 <script lang="ts">
 import { UserStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'deleted-items',
   data: () => ({
     resetDialog: false,
@@ -60,14 +70,10 @@ export default {
       const data = [...Object.keys(UserStore().User)];
       return data.filter((key) => !skipKeys.includes(key));
     },
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
   },
   methods: {
     resetUserData() {
       this.user.Reset();
-      // @ts-ignore
       this.$vuetify.theme.global.name = this.user.Theme;
       this.resetDialog = false;
     },

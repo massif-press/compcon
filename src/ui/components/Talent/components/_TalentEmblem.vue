@@ -1,12 +1,10 @@
 <template>
   <div>
-    <div
-      v-if="talent.Svg"
+    <div v-if="talent.Svg"
       v-html-safe="cleanSvg(talent.Svg)"
       :style="`width: ${iconSize}; height: ${iconSize}; fill: #fff`" />
 
-    <v-img
-      v-else
+    <v-img v-else
       ref="img"
       :src="src"
       class="pa-2"
@@ -15,7 +13,8 @@
       contain
       :class="!dark ? 'white-emblem' : 'black-emblem'"
       @error="imageLoadFailed()" />
-    <div v-if="backup" :class="`banner text-cc-overline`">
+    <div v-if="backup"
+      :class="`banner text-cc-overline`">
       {{ backup }}
     </div>
   </div>

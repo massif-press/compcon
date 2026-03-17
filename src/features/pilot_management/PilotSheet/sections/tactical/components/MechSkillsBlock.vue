@@ -24,7 +24,7 @@
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-h-box-outline"
-          v-model="pilot.MechSkillsController.MechSkills.Hull" />
+          v-model="pilot.MechSkillsController.Hull" />
       </v-col>
       <v-col class="mx-2"
         style="min-width: 400px">
@@ -32,7 +32,7 @@
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-a-box-outline"
-          v-model="pilot.MechSkillsController.MechSkills.Agi" />
+          v-model="pilot.MechSkillsController.Agi" />
       </v-col>
       <v-col class="mx-2"
         style="min-width: 400px">
@@ -40,7 +40,7 @@
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-s-box-outline"
-          v-model="pilot.MechSkillsController.MechSkills.Sys" />
+          v-model="pilot.MechSkillsController.Sys" />
       </v-col>
       <v-col class="mx-2"
         style="min-width: 400px">
@@ -48,7 +48,7 @@
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-e-box-outline"
-          v-model="pilot.MechSkillsController.MechSkills.Eng" />
+          v-model="pilot.MechSkillsController.Eng" />
       </v-col>
     </v-row>
   </div>
@@ -60,19 +60,17 @@ import SectionEditChip from '../../components/SectionEditChip.vue';
 import MechSkillsSelector from '@/features/pilot_management/_components/selectors/MechSkillsSelector.vue';
 import HasePips from './HasePips.vue';
 import { Pilot } from '@/class';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'skill-block',
   components: { SectionHeader, SectionEditChip, HasePips, MechSkillsSelector },
   props: {
     pilot: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
 };

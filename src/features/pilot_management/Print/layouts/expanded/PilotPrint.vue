@@ -1,6 +1,6 @@
 <template>
   <div class="text-black px-2">
-    <v-row dense>
+    <v-row dense class="print-section">
       <v-col>
         <v-row dense align="center" class="mt-2">
           <v-col :cols="blank ? '' : 'auto'" class="pr-6 mt-n1">
@@ -30,7 +30,7 @@
       </v-col>
     </v-row>
 
-    <v-row dense>
+    <v-row dense class="print-section">
       <v-col>
         <div class="text-caption text-primary h0">PILOT</div>
         <blank-line v-if="blank" :height="38" class="my-2" />
@@ -92,7 +92,7 @@
     </fieldset>
 
     <fieldset
-      v-if="options.pilotInclude.includes('expanded mission log')"
+      v-if="hasPilotOption('Expanded Mission Log')"
       class="pa-1 no-print-break">
       <legend class="heading ml-1 px-2">
         Mission Log
@@ -146,7 +146,7 @@
       </v-col>
     </v-row>
     <v-chip
-      v-else-if="options.pilotInclude.some((x) => x.title === 'Separate Talent Detail')"
+      v-else-if="hasPilotOption('Separate Talent Detail')"
       v-for="t in pilot.TalentsController.Talents"
       label
       variant="outlined"
@@ -396,7 +396,7 @@
 
     <v-row dense justify="space-between" class="mt-n2 caption pb-3">
       <v-col
-        v-if="options.pilotInclude.some((x) => x.title === 'Extra Equipment Space')"
+        v-if="hasPilotOption('Extra Equipment Space')"
         v-for="n in 3"
         style="position: relative"
         cols="12">
@@ -429,7 +429,7 @@
   <div v-if="blank" class="pa-2">
     <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
     <fieldset
-      v-for="r in options.pilotInclude.some((x) => x.title === 'Extra Reserves Space') ? 9 : 6"
+      v-for="r in hasPilotOption('Extra Reserve Space') ? 9 : 6"
       class="mt-2"
       style="position: relative">
       <legend class="px-1">
@@ -458,19 +458,19 @@
   </div>
 
   <fieldset
-    v-if="options.pilotInclude.some((x) => x.title === 'Append Lined Section')"
+    v-if="hasPilotOption('Append Lined Section')"
     class="mx-1 my-3 px-3 no-print-break">
     <div class="mb-4"><notes :rows="48" lined /></div>
   </fieldset>
 
   <fieldset
-    v-if="options.pilotInclude.some((x) => x.title === 'Append Unined Section')"
+    v-if="hasPilotOption('Append Unlined Section')"
     class="mx-1 my-3 px-3 no-print-break">
     <div class="mb-4"><notes :rows="48" /></div>
   </fieldset>
 
   <div
-    v-if="options.pilotInclude.some((x) => x.title === 'Separate Talent Detail')"
+    v-if="hasPilotOption('Separate Talent Detail')"
     v-for="t in pilot.TalentsController.Talents"
     dense
     justify="space-between"
@@ -491,15 +491,17 @@
 </template>
 
 <script lang="ts">
-import PrintAction from '../standard/components/PrintAction.vue';
-import PrintDeployable from '../standard/components/PrintDeployable.vue';
+import PrintAction from '../../components/PrintAction.vue';
+import PrintDeployable from '../../components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
-import tagBlock from './components/TagBlock.vue';
+import tagBlock from '../../components/TagBlock.vue';
 import PageBreak from '../../components/PageBreak.vue';
+import { usePrintOptions } from '../_usePrintOptions';
 
 export default {
   name: 'pilot-print',
+  mixins: [usePrintOptions],
   components: {
     blankLine,
     notes,

@@ -91,7 +91,7 @@
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall :items="pilot.TalentsController.Talents"
+          <cc-masonry-grid :items="pilot.TalentsController.Talents"
             :column-width="500"
             :gap="8"
             :min-columns="1"
@@ -121,7 +121,7 @@
                 </template>
               </cc-talent>
             </template>
-          </masonry-wall>
+          </cc-masonry-grid>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>

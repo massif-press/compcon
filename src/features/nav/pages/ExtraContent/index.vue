@@ -63,8 +63,10 @@
   import PackInstall from './PackInstall.vue'
   import PacksDirectory from './PacksDirectory.vue'
   import PackConfig from './PackConfig.vue'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'ExtraContent',
     components: { PacksList, PackInstall, PacksDirectory, MissingContent, PackConfig },
     props: {
@@ -75,11 +77,6 @@
       tabs: 0,
       modal: false,
     }),
-    computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
-    },
     watch: {
       modelValue: {
         handler(val) {

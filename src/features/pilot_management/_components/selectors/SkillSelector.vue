@@ -113,8 +113,10 @@
 
   import * as _ from 'lodash-es'
   import logger from '@/user/logger'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'SkillSelector',
     components: { Selector, SkillSelectItem, AddCustomSkill },
     props: {
@@ -129,9 +131,6 @@
       jump: '',
     }),
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       staticSkills() {
         return _.groupBy(this.baseSkills, 'Family')
       },

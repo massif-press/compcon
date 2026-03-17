@@ -98,8 +98,10 @@
 import { ContentPack } from '@/class'
 import PackInfoCard from './components/PackInfoCard.vue'
 import { CompendiumStore } from '@/stores'
+import { useMobile } from '@/mixins/useMobile';
 
 export default {
+  mixins: [useMobile],
   name: 'PacksList',
   components: { PackInfoCard },
   data: () => ({
@@ -116,9 +118,6 @@ export default {
     loading: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown
-    },
     headers() {
       return this.mobile ? this.initHeaders.slice(1) : this.initHeaders
     },

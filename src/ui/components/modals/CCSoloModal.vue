@@ -37,7 +37,9 @@
 </template>
 
 <script>
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'cc-modal',
   data: () => ({
     modal: false,
@@ -87,11 +89,6 @@ export default {
     modal(val) {
       this.$emit('update:modelValue', val);
       if (!val) this.$emit('close');
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {

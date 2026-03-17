@@ -77,25 +77,13 @@
 </template>
 
 <script lang="ts">
-import BaseAttackRoller from './BaseAttackRoller.vue';
-import BaseSaveRoller from './BaseSaveRoller.vue';
-import CheckRollInterface from './CheckRollInterface.vue';
-
+import { useMobile } from '@/mixins/useMobile';
 
 export default {
+  mixins: [useMobile],
   name: 'LocalTargetSelector',
-  components: {
-    BaseAttackRoller,
-    BaseSaveRoller,
-    CheckRollInterface,
-  },
   props: {
     event: { type: Object, required: true },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown
-    }
   },
   methods: {
     getOrdinal(n) {

@@ -23,12 +23,12 @@
           :icon="tertiaryIcon"
           :editable="editable"
           :readonly="readonly"
-          :bgColor="bgColor"
-          :modelValue="tertiary"
-          @update:modelValue="(val) => setTertiaryVal(val)"
+          :bg-color="bgColor"
+          :model-value="tertiary"
           :ticks="tertiaryTicks"
           :color="tertiaryColor"
-          :value-atlas="valueAtlas">
+          :value-atlas="valueAtlas"
+          @update:model-value="(val) => setTertiaryVal(val)">
           <template #menu-content>
             <slot name="top-menu" />
           </template>
@@ -38,12 +38,12 @@
           :icon="icon"
           :editable="editable"
           :readonly="readonly"
-          :bgColor="bgColor"
-          :modelValue="modelValue"
-          @update:modelValue="(val) => setVal(val)"
+          :bg-color="bgColor"
+          :model-value="modelValue"
           :ticks="ticks"
           :color="color"
-          :reverse="reverse">
+          :reverse="reverse"
+          @update:model-value="(val) => setVal(val)">
           <slot name="middle-menu" />
         </center-bar>
         <bottom-bar v-if="secondaryLabel"
@@ -51,17 +51,17 @@
           :icon="secondaryIcon"
           :editable="editable"
           :readonly="readonly"
-          :bgColor="bgColor"
-          :modelValue="secondary"
-          @update:modelValue="(val) => setSecondaryVal(val)"
+          :bg-color="bgColor"
+          :model-value="secondary"
           :ticks="secondaryTicks"
-          :color="secondaryColor">
+          :color="secondaryColor"
+          @update:model-value="(val) => setSecondaryVal(val)">
           <slot name="bottom-menu" />
         </bottom-bar>
       </v-col>
 
-      <v-col cols="auto"
-        v-if="$slots.options">
+      <v-col v-if="$slots.options"
+        cols="auto">
         <v-menu offset-y>
           <template #activator="{ props }">
             <v-btn :size="optionsSize"
@@ -105,8 +105,8 @@
             icon="mdi-close-circle-outline" />
         </v-btn>
       </v-col>
-      <v-col cols="auto"
-        v-if="tooltip"
+      <v-col v-if="tooltip"
+        cols="auto"
         align-self="center">
         <v-tooltip location="top"
           max-width="300px">
@@ -139,7 +139,7 @@ import CenterBar from './_centerBar.vue';
 import TopBar from './_topBar.vue';
 
 export default {
-  name: 'cc-tickbar',
+  name: 'CcTickbar',
   components: {
     TopBar,
     BottomBar,
@@ -184,6 +184,7 @@ export default {
     editable: { type: Boolean, default: false },
     valueAtlas: { type: Array },
   },
+  emits: ['update:secondary', 'update:model-value', 'update:tertiary'],
   data: () => ({
     hover: null as number | null,
   }),
@@ -209,21 +210,26 @@ export default {
           return '44px';
         case 'x-large':
           return '52px';
+        default:
+          return '36px';
       }
     },
   },
   methods: {
     setVal(val: number) {
+      if (this.stopAdd && val > Number(this.modelValue)) return
       if (val < 0) val = 0
       if (val > Math.min(this.max || 100, this.ticks)) val = Math.min(this.max || 100, this.ticks)
       this.$emit('update:model-value', val);
     },
     setTertiaryVal(val: number) {
+      if (this.stopAdd && val > Number(this.tertiary)) return
       if (val < 0) val = 0
       if (val > Math.min(this.max || 100, this.ticks)) val = Math.min(this.max || 100, this.tertiaryTicks || 100)
       this.$emit('update:tertiary', val);
     },
     setSecondaryVal(val: number) {
+      if (this.stopAdd && val > Number(this.secondary)) return
       if (val < 0) val = 0
       if (val > Math.min(this.max || 100, this.ticks)) val = Math.min(this.max || 100, this.secondaryTicks || 100)
       this.$emit('update:secondary', val);

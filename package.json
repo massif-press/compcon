@@ -30,7 +30,6 @@
     "@sentry/vite-plugin": "^5.1.1",
     "@sentry/vue": "^10.40.0",
     "@vueup/vue-quill": "^1.2.0",
-    "@yeger/vue-masonry-wall": "^5.1.5",
     "aws-amplify": "6.16.2",
     "chart.js": "4.5.1",
     "chartjs-plugin-annotation": "3.1.0",

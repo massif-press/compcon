@@ -1,6 +1,5 @@
 <template>
-  <gm-split-view
-    ref="view"
+  <gm-split-view ref="view"
     title="Doodads"
     item-type="Doodad"
     :items="doodads"
@@ -15,8 +14,11 @@
           text="Non-character objects (such as terrain items) that can be tracked in combat encounters."
           location="bottom"
           max-width="400">
-          <template v-slot:activator="{ props }">
-            <v-chip v-bind="props" size="x-small" block append-icon="mdi-information-outline">
+          <template #activator="{ props }">
+            <v-chip v-bind="props"
+              size="x-small"
+              block
+              append-icon="mdi-information-outline">
               What is a Doodad?
             </v-chip>
           </template>
@@ -24,8 +26,7 @@
       </div>
     </template>
 
-    <editor
-      v-if="selected"
+    <editor v-if="selected"
       :item="selected"
       :footer-offset="view !== 'collection'"
       :hide-toolbar="view !== 'collection'"
@@ -42,10 +43,20 @@ import Builder from './builder.vue';
 import { NpcStore } from '../../store/npc_store';
 import { Doodad } from '@/classes/npc/doodad/Doodad';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
+import { ref, onUnmounted } from 'vue';
 
 export default {
-  name: 'doodad-roster',
+  name: 'DoodadRoster',
   components: { GmSplitView, Editor, Builder, NoGmItem },
+  setup() {
+    const npcStore = NpcStore();
+    const doodads = ref(npcStore.getDoodads.filter((x) => !x.SaveController.IsDeleted));
+    const unsub = npcStore.$subscribe(() => {
+      doodads.value = npcStore.getDoodads.filter((x) => !x.SaveController.IsDeleted);
+    });
+    onUnmounted(unsub);
+    return { npcStore, doodads };
+  },
   props: {
     id: {
       type: String,
@@ -60,35 +71,20 @@ export default {
   data: () => ({
     selected: null as Doodad | null,
   }),
-  mounted() {
-    if (this.id) {
-      const item = NpcStore().getNpcByID(this.id);
-      if (item && item instanceof Doodad) {
-        this.selected = item;
-        (this.$refs as any).view.dialog = true;
-      }
-    }
-  },
   computed: {
     groupings() {
       const allLabelTitles = new Set(
-        NpcStore()
-          .getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
           .map((x: any) => x.title)
-      );
-
-      const statGroupings = new Set(
-        this.doodads.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
       );
 
       const baseGroupings = ['None'];
 
-      return [...baseGroupings, ...statGroupings, ...allLabelTitles];
+      return [...baseGroupings, ...allLabelTitles];
     },
     sortings() {
       const allLabelTitles = new Set(
-        NpcStore()
-          .getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
           .map((x: any) => x.title)
       );
 
@@ -101,9 +97,15 @@ export default {
       return [...baseSortings, ...statSortings, ...allLabelTitles];
     },
 
-    doodads() {
-      return NpcStore().getDoodads.filter((x) => !x.SaveController.IsDeleted);
-    },
+  },
+  mounted() {
+    if (this.id) {
+      const item = NpcStore().getNpcByID(this.id);
+      if (item && item instanceof Doodad) {
+        this.selected = item;
+        (this.$refs as any).view.dialog = true;
+      }
+    }
   },
   methods: {
     openItem(item) {

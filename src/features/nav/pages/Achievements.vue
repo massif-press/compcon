@@ -315,8 +315,11 @@ import { UserStore } from '@/stores';
 import { AchievementManager } from '@/user/achievements/AchievementManager';
 import { GetAchievement } from '@/io/apis/account';
 import logger from '@/user/logger';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'AchievementsViewer',
   components: {
     AchievementItem,
@@ -347,9 +350,6 @@ export default {
     this.showLabels = this.labels;
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     user() {
       return UserStore().User;
     },

@@ -1,9 +1,12 @@
 <template>
-  <v-card flat border tile class="mb-4">
-    <v-toolbar density="compact" color="panel">
+  <v-card flat
+    border
+    tile
+    class="mb-4">
+    <v-toolbar density="compact"
+      color="panel">
       <v-toolbar-title>
-        <cc-heading
-          is-title
+        <cc-heading is-title
           :text="mobile ? 'Author Content' : 'AUTHOR CONTENT SUBSCRIPTIONS'"
           tooltip=" You can subscribe to COMP/CON data content authors to receive updates when they
               publish new content. This can include pilots, GM data like NPCs and Narrative
@@ -16,11 +19,10 @@
                 own discretion.
               </strong>" />
       </v-toolbar-title>
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip max-width="300px"
+        location="top">
         <template #activator="{ props }">
-          <cc-button
-            icon="mdi-refresh"
-            variant="tonal"
+          <cc-button icon="mdi-refresh"
             class="mx-1"
             :size="mobile ? 'small' : ''"
             v-bind="props"
@@ -32,11 +34,10 @@
           (This does not sync)
         </div>
       </v-tooltip>
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip max-width="300px"
+        location="top">
         <template #activator="{ props }">
-          <cc-button
-            icon="mdi-download-multiple-outline"
-            variant="tonal"
+          <cc-button icon="mdi-download-multiple-outline"
             class="mx-1"
             :size="mobile ? 'small' : ''"
             v-bind="props"
@@ -46,15 +47,13 @@
       </v-tooltip>
     </v-toolbar>
     <v-divider />
-    <cc-select
-      v-model="cloudUser.CollectionSubscriptionSettings.updateOn"
+    <cc-select v-model="cloudUser.CollectionSubscriptionSettings.updateOn"
       label="Updates"
       color="primary"
       :items="update_on"
       :loading="loading"
       @update:model-value="saveUserMetadata()" />
-    <v-data-table
-      v-model:expanded="expanded"
+    <v-data-table v-model:expanded="expanded"
       density="compact"
       :headers="<any>collectionHeaders"
       :items="collectionItems"
@@ -70,10 +69,10 @@
         <span v-if="!getLocalUserSetting(item)">-</span>
         <span v-else>
           {{ getLocalUserSetting(item)!.metadata.version }}
-          <v-tooltip max-width="300px" location="top">
+          <v-tooltip max-width="300px"
+            location="top">
             <template #activator="{ props }">
-              <v-icon
-                v-bind="props"
+              <v-icon v-bind="props"
                 :color="isLatestVersion(item) ? 'success' : 'warning'"
                 :icon="isLatestVersion(item) ? 'mdi-check' : 'mdi-alert'" />
             </template>
@@ -92,31 +91,35 @@
         </span>
       </template>
       <template #item.actions="{ item }">
-        <v-tooltip max-width="300px" location="top">
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-btn
-              variant="text"
+            <v-btn variant="text"
               size="small"
               icon
               v-bind="props"
               :loading="loading"
               :disabled="isLatestVersion(item)"
               @click="update(item)">
-              <v-icon color="accent" size="large" icon="mdi-download" />
+              <v-icon color="accent"
+                size="large"
+                icon="mdi-download" />
             </v-btn>
           </template>
           Update to Latest
         </v-tooltip>
-        <v-tooltip max-width="300px" location="top">
+        <v-tooltip max-width="300px"
+          location="top">
           <template #activator="{ props }">
-            <v-btn
-              variant="text"
+            <v-btn variant="text"
               size="small"
               icon
               v-bind="props"
               :loading="loading"
               @click="unsubscribe(item)">
-              <v-icon color="error" size="large" icon="mdi-broadcast-off" />
+              <v-icon color="error"
+                size="large"
+                icon="mdi-broadcast-off" />
             </v-btn>
           </template>
           <div class="text-center">
@@ -131,33 +134,32 @@
         </v-tooltip>
       </template>
       <template v-slot:expanded-row="{ columns, item }">
-        <td :colspan="columns.length" class="pa-4 w-100 bg-light-panel">
-          <v-alert
-            v-if="!isLatestVersion(item)"
+        <td :colspan="columns.length"
+          class="pa-4 w-100 bg-light-panel">
+          <v-alert v-if="!isLatestVersion(item)"
             density="compact"
             border
             color="warning"
-            variant="tonal"
             icon="mdi-alert"
             class="mb-2">
             There is a new version of this collection available.
             <div class="text-right">
-              <v-btn size="small" color="warning" @click="update(item)">Update Now</v-btn>
+              <v-btn size="small"
+                color="warning"
+                @click="update(item)">Update Now</v-btn>
             </div>
           </v-alert>
           <collection-info :collection="item" />
         </td>
       </template>
     </v-data-table>
-    <v-alert
-      v-for="item in remoteDeletedItems"
+    <v-alert v-for="item in remoteDeletedItems"
       class="mx-8 my-2"
       density="compact"
       prominent
       border
       closable
       color="error"
-      variant="tonal"
       icon="mdi-alert"
       @click:close="unsubscribe(item.metadata)">
       <div class="heading h4">Deleted Collection</div>
@@ -179,8 +181,11 @@ import { UserStore } from '@/stores';
 import CollectionShareCodeDialog from './data_viewer/collectionShareCodeDialog.vue';
 import CollectionInfo from './data_viewer/collectionInfo.vue';
 import logger from '@/user/logger';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'collection-subscriptions',
   components: { CollectionShareCodeDialog, CollectionInfo },
   data: () => ({
@@ -205,9 +210,6 @@ export default {
     ],
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     cloudUser() {
       return UserStore().UserMetadata;
     },

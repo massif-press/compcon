@@ -119,7 +119,7 @@
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall :items="mech.Frame.Traits"
+          <cc-masonry-grid :items="mech.Frame.Traits"
             :column-width="500"
             :gap="8"
             :min-columns="1"
@@ -147,7 +147,7 @@
                 </template>
               </cc-trait-item>
             </template>
-          </masonry-wall>
+          </cc-masonry-grid>
         </v-expansion-panel-text>
       </v-expansion-panel>
 
@@ -161,7 +161,7 @@
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall :items="mech.Parent.CoreBonusController.CoreBonuses"
+          <cc-masonry-grid :items="mech.Parent.CoreBonusController.CoreBonuses"
             :column-width="500"
             :gap="8"
             :min-columns="1"
@@ -189,7 +189,7 @@
                 </template>
               </cc-core-bonus-item>
             </template>
-          </masonry-wall>
+          </cc-masonry-grid>
         </v-expansion-panel-text>
       </v-expansion-panel>
 
@@ -203,7 +203,7 @@
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <masonry-wall :items="mech.Parent.TalentsController.Talents"
+          <cc-masonry-grid :items="mech.Parent.TalentsController.Talents"
             :column-width="500"
             :gap="8"
             :min-columns="1"
@@ -233,7 +233,7 @@
                 </template>
               </cc-talent>
             </template>
-          </masonry-wall>
+          </cc-masonry-grid>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>

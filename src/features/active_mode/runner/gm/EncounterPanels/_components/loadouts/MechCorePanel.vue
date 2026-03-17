@@ -117,8 +117,11 @@
 
 <script lang="ts">
 import DeployButton from './_deployButton.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'mech-core-panel',
   components: {
     DeployButton
@@ -140,9 +143,6 @@ export default {
   computed: {
     cs() {
       return this.mech.Frame.CoreSystem;
-    },
-    mobile() {
-      return this.$vuetify.display.smAndDown;
     },
     active() {
       return this.mech.CombatController.CoreActive;

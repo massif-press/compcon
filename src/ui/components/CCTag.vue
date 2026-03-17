@@ -22,7 +22,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'CCTag',
   props: {
     size: {
@@ -59,9 +61,6 @@ export default {
     },
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     getColor(): string {
       return this.tag.err ? 'error' : this.tag.IsExotic ? 'exotic' : this.color;
     },

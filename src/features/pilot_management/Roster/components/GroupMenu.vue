@@ -1,12 +1,14 @@
 <template>
   <v-card-text class="pt-2">
-    <div class="heading" :class="mobile ? 'h4' : 'h3'">
+    <div class="heading"
+      :class="mobile ? 'h4' : 'h3'">
       UAD/CAVCOM Office of Records
       <cc-slashes />
       <br v-if="mobile" />
       &nbsp;I-7a Self-Service Unit Registration
     </div>
-    <v-container class="flavor-text" style="font-size: 13px">
+    <v-container class="flavor-text"
+      style="font-size: 13px">
       <div class="mt-n2">
         IDENT-CR-7a (CAVALRY UNIT REGISTRATION) is a self-directed registration form for the purpose
         of registering a new unit designation for one or more IDENT-registered pilots. This form is
@@ -26,28 +28,30 @@
             <i class="text-disabled">(OPTIONAL)</i>
           </div>
           <div class="px-10 pt-1">
-            <group-file-import @toggle-import="importHide = $event" @done="$emit('close')" />
+            <group-file-import @toggle-import="importHide = $event"
+              @done="$emit('close')" />
           </div>
         </div>
       </v-col>
     </v-row>
-    <v-divider v-if="!importHide" class="mt-4 mb-5" />
+    <v-divider v-if="!importHide"
+      class="mt-4 mb-5" />
     <v-expand-transition>
       <div v-if="!importHide">
         <v-row align="start">
-          <v-col cols="12" md="5" class="mr-auto">
+          <v-col cols="12"
+            md="5"
+            class="mr-auto">
             <div class="my-2">
               <div class="text-caption">CR-7-01 // UNIT DESIGNATION</div>
-              <cc-text-field
-                v-model="group.Name"
+              <cc-text-field v-model="group.Name"
                 variant="outlined"
                 placeholder="Name"
                 :icon="group.Name ? 'mdi-check-circle-outline' : 'mdi-alert'"
                 :color="group.Name ? 'success' : 'error'"
                 class="my-1 d-inline">
                 <template #extra>
-                  <cc-button
-                    icon="mdi-dice-multiple"
+                  <cc-button icon="mdi-dice-multiple"
                     variant="outlined"
                     size="small"
                     tooltip="Generate random name"
@@ -58,16 +62,15 @@
 
             <div class="my-4">
               <div class="text-caption">CR-7-02a // ATTACHED NDAP COMP/DISP ANALYSIS RESULTS</div>
-              <v-row align="center" dense>
+              <v-row align="center"
+                dense>
                 <v-col>
-                  <cc-modal
-                    title="Group Description"
+                  <cc-modal title="Group Description"
                     icon="mdi-account-group"
                     shrink
                     max-width="75vw">
                     <template #activator="{ open }">
-                      <cc-button
-                        block
+                      <cc-button block
                         size="small"
                         prepend-icon="mdi-pencil"
                         :color="group.Description ? 'success' : 'panel'"
@@ -78,11 +81,12 @@
                     </template>
                     <template #default="{ close }">
                       <v-card-text>
-                        <cc-text-editor-inline
-                          :original="group.Description"
+                        <cc-text-editor-inline :original="group.Description"
                           @save="group.Description = $event" />
                         <div class="text-right mt-3">
-                          <cc-button color="primary" size="small" @click="close">
+                          <cc-button color="primary"
+                            size="small"
+                            @click="close">
                             Save and Close
                           </cc-button>
                         </div>
@@ -91,10 +95,14 @@
                   </cc-modal>
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon size="large" v-if="!group.Description" color="grey">
+                  <v-icon v-if="!group.Description"
+                    size="large"
+                    color="grey">
                     mdi-circle-outline
                   </v-icon>
-                  <v-icon size="large" v-else color="success">mdi-check-circle-outline</v-icon>
+                  <v-icon v-else
+                    size="large"
+                    color="success">mdi-check-circle-outline</v-icon>
                 </v-col>
               </v-row>
             </div>
@@ -103,16 +111,15 @@
               <div class="text-caption">
                 CR-7-02b // ATTACHED TACANALYSIS RECORDS (SUPPLEMENTAL)
               </div>
-              <v-row align="center" dense>
+              <v-row align="center"
+                dense>
                 <v-col>
-                  <cc-modal
-                    title="Group Description"
+                  <cc-modal title="Group Description"
                     icon="mdi-account-group"
                     shrink
                     max-width="75vw">
                     <template #activator="{ open }">
-                      <cc-button
-                        block
+                      <cc-button block
                         size="small"
                         prepend-icon="mdi-pencil"
                         :color="group.History ? 'success' : 'panel'"
@@ -123,11 +130,12 @@
                     </template>
                     <template #default="{ close }">
                       <v-card-text>
-                        <cc-text-editor-inline
-                          :original="group.History"
+                        <cc-text-editor-inline :original="group.History"
                           @save="group.History = $event" />
                         <div class="text-right mt-3">
-                          <cc-button color="primary" size="small" @click="close">
+                          <cc-button color="primary"
+                            size="small"
+                            @click="close">
                             Save and Close
                           </cc-button>
                         </div>
@@ -136,23 +144,35 @@
                   </cc-modal>
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon size="large" v-if="!group.History" color="grey">
+                  <v-icon v-if="!group.History"
+                    size="large"
+                    color="grey">
                     mdi-circle-outline
                   </v-icon>
-                  <v-icon size="large" v-else color="success">mdi-check-circle-outline</v-icon>
+                  <v-icon v-else
+                    size="large"
+                    color="success">mdi-check-circle-outline</v-icon>
                 </v-col>
               </v-row>
             </div>
           </v-col>
-          <v-col cols="12" md="5" class="ml-auto">
+          <v-col cols="12"
+            md="5"
+            class="ml-auto">
             <div class="text-caption">CR-7-03 // UNIT LIVERY</div>
-            <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
-              <cc-img v-if="group.Portrait" :src="group.Portrait" aspect-ratio="1" />
+            <div class="border mr-8 ml-auto mr-auto"
+              style="width: 300px; height: 300px">
+              <cc-img v-if="group.Portrait"
+                :src="group.Portrait"
+                aspect-ratio="1" />
               <div class="mt-3 text-center">
-                <cc-modal title="Set Group Emblem" icon="mdi-image">
+                <cc-modal title="Set Group Emblem"
+                  icon="mdi-image">
                   <template #activator="{ open }">
                     <div class="d-flex justify-center">
-                      <cc-button size="small" color="secondary" @click="open">
+                      <cc-button size="small"
+                        color="secondary"
+                        @click="open">
                         <div v-if="!group.Portrait">
                           <v-icon start>mdi-plus</v-icon>
                           Add group emblem
@@ -164,7 +184,9 @@
                       </cc-button>
                     </div>
                   </template>
-                  <cc-image-selector ref="imageSelector" :item="group" type="emblem" />
+                  <cc-image-selector ref="imageSelector"
+                    :item="group"
+                    type="emblem" />
                 </cc-modal>
               </div>
             </div>
@@ -174,7 +196,10 @@
     </v-expand-transition>
   </v-card-text>
   <div style="position: fixed; bottom: 0; right: 0; left: 0">
-    <cc-button block color="primary" :disabled="!group.Name" @click="submit()">Submit</cc-button>
+    <cc-button block
+      color="primary"
+      :disabled="!group.Name"
+      @click="submit()">Submit</cc-button>
   </div>
 </template>
 
@@ -183,23 +208,21 @@ import { PilotStore } from '../../store';
 import { PilotGroup } from '../../store/PilotGroup';
 import { teamName } from '@/io/Generators';
 import GroupFileImport from './add_panels/GroupFileImport.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
-  name: 'group-menu',
+  mixins: [useMobile],
+  name: 'GroupMenu',
+  components: { GroupFileImport },
+  emits: ['close'],
   data: () => ({
     group: {} as PilotGroup,
     fileValue: null,
     importHide: false,
   }),
-  components: { GroupFileImport },
   created: function () {
     this.group = new PilotGroup();
-  },
-  emits: ['close'],
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
   },
   methods: {
     async randomName() {

@@ -74,8 +74,11 @@
 
 <script lang="ts">
 import ItemCardLink from '../../cards/items/_components/ItemCardLink.vue';
+import { useMobile } from '@/mixins/useMobile';
+
 
 export default {
+  mixins: [useMobile],
   name: 'selector-list-item',
   props: {
     item: {
@@ -97,9 +100,6 @@ export default {
     ItemCardLink,
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     useCard(): boolean {
       switch (this.item && this.item.ItemType) {
         case 'Skill':

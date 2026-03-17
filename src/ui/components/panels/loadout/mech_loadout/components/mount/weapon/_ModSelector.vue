@@ -101,12 +101,13 @@
 
 <script lang="ts">
   import { CompendiumStore } from '@/stores'
-  import { Mech, MechSystem, WeaponMod } from '@/class'
-  import { flavorID } from '@/io/Generators'
-  import { Bonus } from '@/classes/components/feature/bonus/Bonus'
+  import { WeaponMod } from '@/class'
+  import { useMobile } from '@/mixins/useMobile'
+  import { selectorMixin } from '../../_mixins/selectorMixin'
 
   export default {
     name: 'ModSelector',
+    mixins: [useMobile, selectorMixin],
     props: {
       weapon: {
         type: Object,
@@ -131,77 +132,38 @@
         { title: 'License Level', align: 'left', key: 'LicenseLevel' },
         { title: 'SP Cost', align: 'left', key: 'SP' },
       ],
-      showUnlicensed: false,
       showIncompatible: false,
-      showOverSP: false,
     }),
     computed: {
-      allMods() {
-        if (!this.mech.Parent.LcpConfig) return CompendiumStore().WeaponMods
-        return CompendiumStore().WeaponMods.filter(
-          x =>
-            !x.InLcp ||
-            this.mech.Parent.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-            this.mech.Parent.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
-        )
-      },
-      mobile(): boolean {
-        return this.$vuetify.display.smAndDown
-      },
       freeSP(): number {
         return this.weapon.Mod ? this.mech.FreeSP + this.weapon.Mod.SP : this.mech.FreeSP
       },
       availableMods(): WeaponMod[] {
-        let i = this.allMods.filter(x => !x.IsHidden && !x.IsExotic)
+        let i = this.filterByLcp(CompendiumStore().WeaponMods).filter(x => !x.IsHidden && !x.IsExotic)
 
         if (!this.showIncompatible) {
-          // filter by applied_to
           i = i.filter(x => x.AllowedTypes && x.AllowedTypes.includes(this.weapon.ModType))
           i = i.filter(x => x.AllowedSizes && x.AllowedSizes.includes(this.weapon.ModSize))
-
-          // // filter out any mount restrictions
           i = i.filter(x => !x.RestrictedTypes || !x.RestrictedTypes.includes(this.weapon.ModType))
           i = i.filter(x => !x.RestrictedSizes || !x.RestrictedSizes.includes(this.weapon.ModSize))
         }
 
-        // filter already equipped
         if (this.weapon.Mod) i = i.filter(x => x.ID !== this.weapon.Mod.ID)
 
-        // filter unique
         i = i.filter(
           x =>
             !this.mech.MechLoadoutController.ActiveLoadout.UniqueMods.map(y => y.ID).includes(x.ID)
         )
 
-        // filter ai
-        if (
-          this.mech.MechLoadoutController.ActiveLoadout.AICount >=
-          1 + Bonus.get('ai_cap', this.mech as Mech)
-        ) {
-          i = i.filter(x => !x.IsAI)
-        }
+        if (this.isAICapacityFull()) i = i.filter(x => !x.IsAI)
 
-        if (!this.showUnlicensed) {
-          i = i.filter(
-            x => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
-          )
-        }
+        if (!this.showUnlicensed) i = i.filter(x => this.isLicensed(x))
 
-        if (!this.showOverSP) {
-          i = i.filter(x => x.SP <= this.freeSP)
-        }
+        if (!this.showOverSP) i = i.filter(x => x.SP <= this.freeSP)
 
         i = i.concat(this.mech.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
 
         return i
-      },
-    },
-    mounted() {
-      this.options.initialView = this.mobile ? 'list' : 'single'
-    },
-    methods: {
-      fID(template: string): string {
-        return flavorID(template)
       },
     },
   }

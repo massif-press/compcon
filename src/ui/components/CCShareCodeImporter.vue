@@ -160,8 +160,10 @@
   import { downloadFromS3, GetFromCode } from '@/io/apis/account'
   import { UserStore } from '@/stores'
   import logger from '@/user/logger'
+import { useMobile } from '@/mixins/useMobile';
 
   export default {
+  mixins: [useMobile],
     name: 'ShareCodeImporter',
     props: {
       importType: {
@@ -188,9 +190,6 @@
       dlLoading: false,
     }),
     computed: {
-      mobile() {
-        return this.$vuetify.display.smAndDown
-      },
       qrImportType() {
         return this.queryResult && this.queryResult.sortkey.split('_')[1].toLowerCase()
       },

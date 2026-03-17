@@ -1,5 +1,3 @@
-const lcp_meta_key = import.meta.env.VITE_LCP_META_KEY || ''
-
 // garbage api. awful api. terrible api. bad api. no good. no good at all. this is a dog's api.
 const cleanPatreonData = (data: any) => {
   const { full_name, thumb_url } = data.data.attributes
@@ -22,7 +20,7 @@ const cleanPatreonData = (data: any) => {
 }
 
 const authPatreon = async (code: string) => {
-  const response = await fetch(`${import.meta.env.VITE_APP_OAUTH_API || ''}/patreon/callback/`, {
+  const response = await fetch(`${import.meta.env.VITE_APP_INVOKE_URL}/patreon/callback/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -36,7 +34,7 @@ const authPatreon = async (code: string) => {
 }
 
 const authItch = async (access_token: string) => {
-  const response = await fetch(`${import.meta.env.VITE_APP_OAUTH_API || ''}/itch/callback/`, {
+  const response = await fetch(`${import.meta.env.VITE_APP_INVOKE_URL}/itch/callback/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -49,10 +47,10 @@ const authItch = async (access_token: string) => {
 }
 
 const getPatronProfile = async (access_token: string) => {
-  const url = `${import.meta.env.VITE_APP_OAUTH_API || ''}/patreon/proxy?access_token=${access_token}`
+  const url = `${import.meta.env.VITE_APP_INVOKE_URL}/patreon/proxy?access_token=${access_token}`
   const response = await fetch(url, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': lcp_meta_key },
+    headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_APP_API_KEY },
   })
   const json = await response.json()
 
@@ -64,12 +62,14 @@ const getPatronProfile = async (access_token: string) => {
 }
 
 async function getPatreonSubscribers() {
-  const url = `${import.meta.env.VITE_APP_OAUTH_API}/patreon/${import.meta.env.VITE_APP_SUBSCRIBERS_ENDPOINT || ''}`
+  const url = `${import.meta.env.VITE_APP_INVOKE_URL}/${import.meta.env.VITE_APP_SUBSCRIBERS_ENDPOINT}`
   const response = await fetch(url, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': lcp_meta_key },
+    headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_APP_API_KEY },
   })
+  console.log(response)
   const json = await response.json()
+  console.log(json)
 
   if (json.errors) {
     throw new Error(json.errors[0])

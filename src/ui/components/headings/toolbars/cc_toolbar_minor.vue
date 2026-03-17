@@ -24,7 +24,9 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
+  mixins: [useMobile],
   name: 'cc-title',
   props: {
     color: { type: String, default: 'primary' },
@@ -35,9 +37,6 @@ export default {
     extensionHeight: { type: String, default: 'auto' },
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     hasExtensionContent() {
       return this._hasContent('extension');
     },

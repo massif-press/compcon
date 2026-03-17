@@ -1,22 +1,34 @@
 <template>
   <div class="text-center px-2 pt-2 pb-4">
-    <v-btn-toggle
-      v-model="customType"
+    <v-btn-toggle v-model="customType"
       mandatory
       base-color="panel"
       color="primary"
       flat
       tile
       style="width: 100%">
-      <v-btn size="small" height="30" width="33.33%" value="Resource">Resource</v-btn>
-      <v-btn size="small" height="30" width="33.33%" value="Mech">Mech</v-btn>
-      <v-btn size="small" height="30" width="33.33%" value="Tactical">Tactical</v-btn>
+      <v-btn size="small"
+        height="30"
+        width="33.33%"
+        value="Resource">Resource</v-btn>
+      <v-btn size="small"
+        height="30"
+        width="33.33%"
+        value="Mech">Mech</v-btn>
+      <v-btn size="small"
+        height="30"
+        width="33.33%"
+        value="Tactical">Tactical</v-btn>
     </v-btn-toggle>
-    <cc-text-field v-model="customName" color="primary" variant="outlined" label="Resource Name" />
+    <cc-text-field v-model="customName"
+      color="primary"
+      variant="outlined"
+      label="Resource Name" />
     <div class="mt-4" />
-    <cc-text-area v-model="details" color="primary" label="Details" />
-    <cc-button
-      block
+    <cc-text-area v-model="details"
+      color="primary"
+      label="Details" />
+    <cc-button block
       tile
       class="mt-4"
       color="primary"
@@ -33,7 +45,7 @@
 import { Reserve } from '@/class';
 
 export default {
-  name: 'custom-reserve-panel',
+  name: 'CustomReservePanel',
   data: () => ({
     customType: 'Resource',
     customName: '',
