@@ -42,8 +42,8 @@
           </v-btn>
         </template>
 
-        <p class="pa-2"
-          v-html-safe="mech.Frame.Description" />
+        <p v-html-safe="mech.Frame.Description"
+          class="pa-2" />
       </cc-dialog>
       <cc-broken-reference :item="mech.Frame" />
     </div>
@@ -75,7 +75,7 @@
     <mech-nav :selected="0"
       :pilot="pilot"
       :mech="mech"
-      :mechID="mech.ID"
+      :mech-i-d="mech.ID"
       @delete="($refs as any).deleteDialog.show()" />
 
     <v-container>
@@ -157,8 +157,7 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
-  name: 'mech-sheet',
+  name: 'MechSheet',
   components: {
     MechNav,
     RequirementItem,
@@ -167,6 +166,7 @@ export default {
     SectionHeader,
     StatusAlerts,
   },
+  mixins: [useMobile],
   props: {
     pilotID: {
       type: String,
@@ -177,12 +177,8 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    if (this.mech && this.mech.Frame)
-      document.title = `${this.mech.Name} (${this.mech.Frame.Source} ${this.mech.Frame.Name})`;
-  },
   computed: {
-    mobile(): Boolean {
+    mobile(): boolean {
       return this.$vuetify.display.smAndDown;
     },
     pilot(): Pilot {
@@ -198,6 +194,10 @@ export default {
     reqLicenses() {
       return this.mech.RequiredLicenses;
     },
+  },
+  mounted() {
+    if (this.mech && this.mech.Frame)
+      document.title = `${this.mech.Name} (${this.mech.Frame.Source} ${this.mech.Frame.Name})`;
   },
   methods: {
     deleteMech() {

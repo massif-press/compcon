@@ -28,8 +28,6 @@ const importAll = async function (data: any): Promise<void> {
   await ClearAllData()
   await Initialize()
 
-  console.log(data)
-
   for (const collection in storeRegistry) {
     const collectionData = data.data.find((d: any) => d.collection.toLowerCase() === collection)
     if (collectionData) {

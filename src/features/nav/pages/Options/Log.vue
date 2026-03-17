@@ -116,7 +116,6 @@ export default {
       );
     },
     sendToClipboard(item: any) {
-      console.log(item)
       const trace = Array.isArray(item.trace) ? item.trace.join('\n') : item.trace;
       const text = `${item.message} (${item.type})\n------\ntrace:\n${trace}\n------\n${item.caller ? 'caller:\n' + JSON.stringify(item.caller, null, 2) : 'no caller'
         }`;
