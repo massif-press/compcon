@@ -64,6 +64,13 @@ class PortraitController {
     } else return '/img/pilot/nodata.png';
   }
 
+  // Returns the local image key as a fallback when a cloud portrait is set but unavailable.
+  // Use this as a secondary src when rendering with CCImg.
+  public get FallbackPortrait(): string {
+    if (this._cloud_portrait && this._portrait) return this._portrait;
+    return '';
+  }
+
   public get CloudImage(): string {
     return this._cloud_portrait;
   }

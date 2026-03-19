@@ -34,7 +34,6 @@ import CCConfigTip from './components/CCConfigTip.vue'
 import CCCompendiumBrowser from './components/CompendiumBrowser/CCCompendiumBrowser.vue'
 import CCBondInfo from './components/CCBondInfo.vue'
 import CCBondPowerCard from './components/CCBondPowerCard.vue'
-import CCBtn from './components/CCBtn.vue'
 import CCClock from './components/CCClock.vue'
 import CCConfirmation from './components/CCConfirmation.vue'
 import CCDamageElement from './components/CCDamageElement.vue'
@@ -157,7 +156,6 @@ export {
   CCDeployableInfo,
   CCBondInfo,
   CCBondPowerCard,
-  CCBtn,
   CCClock,
   CCConfirmation,
   CCDamageElement,

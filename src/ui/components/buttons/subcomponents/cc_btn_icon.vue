@@ -1,14 +1,13 @@
 <template>
-  <v-tooltip
-    :disabled="!tooltip"
+  <v-tooltip :disabled="!tooltip"
     :text="tooltip"
     :location="<any>tooltipLocation"
     style="position: relative">
     <template #activator="{ props }">
-      <div class="top-element" v-bind="props">
+      <div class="top-element"
+        v-bind="props">
         <span :class="`light ${size} bg-${color} ${tonal && 'tonal-light'}`" />
-        <v-btn
-          :class="`hex ${size} ${colorClass}`"
+        <v-btn :class="`hex ${size} ${colorClass}`"
           style="container-type: inline-size"
           :variant="variant ? 'tonal' : undefined"
           :color="getColor"
@@ -24,8 +23,7 @@
           :to="to"
           :target="target"
           @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-icon
-            style="font-size: 75cqw; margin-top: 4cqw"
+          <v-icon style="font-size: 75cqw; margin-top: -2px"
             :color="tonal ? color : ''"
             :icon="icon" />
         </v-btn>
@@ -36,7 +34,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-btn-icon',
+  name: 'CcBtnIcon',
   props: {
     color: { type: String },
     disabled: { type: Boolean },
@@ -108,6 +106,10 @@ export default {
 
 .tonal-light {
   opacity: 0.35;
+}
+
+.top-element {
+  position: relative;
 }
 
 .top-element:hover .light {

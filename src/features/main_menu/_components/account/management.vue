@@ -405,7 +405,6 @@ export default {
       this.loading = false;
     },
     async sendVerify(open) {
-      open();
       this.sendingVerify = true;
       try {
         await updateUserAttributes({ userAttributes: { email: this.newEmail } });
@@ -414,7 +413,10 @@ export default {
           text: 'Please check your inbox for the verification code',
           data: { color: 'success' },
         });
+        open();
+
       } catch (err) {
+        logger.error(`Failed to initiate email change: ${err}`, this, err);
         this.$notify({
           title: 'Failed to initiate email change',
           text: 'The server returned an error',

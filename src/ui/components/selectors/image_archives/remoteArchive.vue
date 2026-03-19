@@ -152,22 +152,10 @@ export default {
       this.$emit('set-staged', image);
     },
     async setRemoteImage() {
-      if (!this.remoteInput) return;
-      if (!this.validURL(this.remoteInput)) {
+      if (!this.remoteInput || !this.validURL(this.remoteInput)) {
         this.remoteError = 'Invalid URL';
         return;
       }
-
-      const http = new XMLHttpRequest();
-
-      http.open('GET', this.remoteInput, false);
-      http.send();
-
-      if (http.status === 404) {
-        this.remoteError = 'Image not found';
-        return;
-      }
-
       this.remoteError = '';
       this.selectedImage = this.remoteInput;
       await SetItem('remote_images', this.remoteInput);

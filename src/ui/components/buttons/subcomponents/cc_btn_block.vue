@@ -59,9 +59,9 @@
         </v-card>
       </v-col>
 
-      <v-col cols="auto"
-        class="pa-0"
-        v-if="$slots.options">
+      <v-col v-if="$slots.options"
+        cols="auto"
+        class="pa-0">
         <v-menu :close-on-content-click="false"
           offset-y>
           <template #activator="{ props }">
@@ -87,8 +87,8 @@
 <script lang="ts">
 import { useMobile } from '@/mixins/useMobile';
 export default {
+  name: 'CcBtnBlock',
   mixins: [useMobile],
-  name: 'cc-btn-block',
   props: {
     color: { type: String },
     disabled: { type: Boolean },
@@ -133,7 +133,7 @@ export default {
     },
     alignment() {
       if (this.size === 'x-small' || this.size === 'small')
-        return !!this.$slots.subtitle ? 'center' : 'start';
+        return this.$slots.subtitle ? 'center' : 'start';
       return 'center';
     },
     hasInfoContent() {

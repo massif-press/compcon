@@ -207,6 +207,10 @@ export const PilotStore = defineStore('pilot', {
 
       this.Pilots.splice(this.Pilots.indexOf(pilot), 1)
 
+      if (pilot.PortraitController.LocalImage) {
+        await RemoveItem('images', pilot.PortraitController.LocalImage)
+      }
+
       await RemoveItem('pilots', pilot.ID)
 
       if (pilot.CloudController.ShareCode) {

@@ -31,7 +31,7 @@
 
     <v-menu v-if="$slots.options"
       offset-y>
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn icon
           variant="tonal"
           :class="`${optionsSize}`"
@@ -49,7 +49,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-btn-std',
+  name: 'CcBtnStd',
   props: {
     pipColor: { type: String },
     color: { type: String, default: 'panel' },
@@ -148,7 +148,7 @@ export default {
 .light.x-small {
   width: 8px;
   height: 8px;
-  top: 2px;
+  top: 0px;
 }
 
 .light.small {
@@ -177,7 +177,9 @@ export default {
 }
 
 .size-x-small {
-  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+  corner-shape: bevel;
+  border-radius: 10px 0 0 0 !important;
+
   font-size: 0.6rem;
   letter-spacing: 3px;
   height: 20px !important;
@@ -186,7 +188,8 @@ export default {
 }
 
 .size-small {
-  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+  corner-shape: bevel;
+  border-radius: 12px 0 0 0 !important;
   font-size: 9.5pt !important;
   letter-spacing: 2px;
   height: 26px !important;
@@ -196,7 +199,8 @@ export default {
 }
 
 .size-default {
-  clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
+  corner-shape: bevel;
+  border-radius: 16px 0 0 0 !important;
   font-size: 0.85rem;
   letter-spacing: 3px;
   height: 32px !important;
@@ -205,31 +209,34 @@ export default {
 }
 
 .size-large {
-  clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
-  font-size: 1.2rem;
+  corner-shape: bevel;
+  border-radius: 20px 0 0 0 !important;
+  font-size: 1rem;
   letter-spacing: 4px;
   font-weight: 500;
-  height: 40px !important;
+  height: 36px !important;
   padding-left: 16px !important;
   padding-right: 8px !important;
 }
 
 .size-x-large {
-  clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
-  font-size: 1.6rem;
+  corner-shape: bevel;
+  border-radius: 24px 0 0 0 !important;
+  font-size: 1.3rem;
   letter-spacing: 6px;
   font-weight: 600;
-  height: 50px !important;
+  height: 40px !important;
   padding-left: 23px !important;
   padding-right: 10px !important;
 }
 
 .size-xx-large {
-  clip-path: polygon(30px 0, 100% 0, 100% 100%, 0 100%, 0 30px);
-  font-size: 2.3rem;
+  corner-shape: bevel;
+  border-radius: 32px 0 0 0 !important;
+  font-size: 1.8rem;
   letter-spacing: 10px;
   font-weight: 600;
-  height: 64px !important;
+  height: 56px !important;
   padding-left: 26px !important;
   padding-right: 10px !important;
 }

@@ -3,27 +3,53 @@
     <v-divider />
     <cc-title class="mb-2">dice menu</cc-title>
     <cc-dice-menu />
-    <cc-dice-menu preset="2d6+1" title="preset 1" autoroll />
-    <cc-dice-menu preset="2d6+1d20+3d8-9" :preset-accuracy="-2" title="preset 2" />
+    <cc-dice-menu preset="2d6+1"
+      title="preset 1"
+      autoroll />
+    <cc-dice-menu preset="2d6+1d20+3d8-9"
+      :preset-accuracy="-2"
+      title="preset 2" />
 
     <v-divider />
     <cc-title class="mb-2">new talent ui</cc-title>
 
     <v-row density="compact">
-      <cc-talent :talent="exampleTalents[0]" micro rank="2" selectable />
-      <cc-talent :talent="exampleTalents[1]" micro rank="1" />
-      <cc-talent :talent="exampleTalents[2]" micro />
+      <cc-talent :talent="exampleTalents[0]"
+        micro
+        rank="2"
+        selectable />
+      <cc-talent :talent="exampleTalents[1]"
+        micro
+        rank="1" />
+      <cc-talent :talent="exampleTalents[2]"
+        micro />
     </v-row>
     <v-row density="compact">
-      <cc-talent :talent="exampleTalents[0]" small rank="2" selectable />
-      <cc-talent :talent="exampleTalents[1]" small rank="1" hide-locked />
-      <cc-talent :talent="exampleTalents[2]" small />
+      <cc-talent :talent="exampleTalents[0]"
+        small
+        rank="2"
+        selectable />
+      <cc-talent :talent="exampleTalents[1]"
+        small
+        rank="1"
+        hide-locked />
+      <cc-talent :talent="exampleTalents[2]"
+        small />
     </v-row>
-    <cc-talent :talent="exampleTalents[0]" terse rank="1" selectable />
-    <cc-talent :talent="exampleTalents[1]" terse rank="3" />
-    <cc-talent :talent="exampleTalents[2]" terse />
-    <cc-talent :talent="exampleTalents[3]" rank="2" selectable />
-    <cc-talent :talent="exampleTalents[0]" rank="1" />
+    <cc-talent :talent="exampleTalents[0]"
+      terse
+      rank="1"
+      selectable />
+    <cc-talent :talent="exampleTalents[1]"
+      terse
+      rank="3" />
+    <cc-talent :talent="exampleTalents[2]"
+      terse />
+    <cc-talent :talent="exampleTalents[3]"
+      rank="2"
+      selectable />
+    <cc-talent :talent="exampleTalents[0]"
+      rank="1" />
     <cc-talent :talent="exampleTalents[1]" />
     <v-divider />
     <cc-title>typography</cc-title>
@@ -67,7 +93,9 @@
     <cc-title>glyphs</cc-title>
     <v-container grid-list-xs>
       <v-row density="compact">
-        <v-col v-for="i in allIcons()" density="compact" style="min-width: 200px">
+        <v-col v-for="i in allIcons()"
+          density="compact"
+          style="min-width: 200px">
           <v-card outlined>
             <v-card-text class="text-center">
               <v-icon size="70px">cc:{{ i }}</v-icon>
@@ -92,27 +120,20 @@
     <v-container class="text-center">
       <v-row class="my-2">
         <v-col>
-          <cc-btn small color="primary">small button</cc-btn>
+          <v-btn block
+            color="primary"
+            tile>block button</v-btn>
         </v-col>
         <v-col>
-          <cc-btn color="secondary">regular button</cc-btn>
+          <v-btn block
+            color="primary"
+            tile
+            variant="outlined">outlined block button</v-btn>
         </v-col>
         <v-col>
-          <cc-btn large color="info">large button</cc-btn>
-        </v-col>
-        <v-col>
-          <cc-btn size="x-large" color="success">x-large button</cc-btn>
-        </v-col>
-      </v-row>
-      <v-row class="my-2">
-        <v-col>
-          <v-btn block color="primary" tile>block button</v-btn>
-        </v-col>
-        <v-col>
-          <v-btn block color="primary" tile variant="outlined">outlined block button</v-btn>
-        </v-col>
-        <v-col>
-          <v-btn block color="primary" variant="text">text block button</v-btn>
+          <v-btn block
+            color="primary"
+            variant="text">text block button</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -121,7 +142,8 @@
     <v-container class="text-center">
       <v-row class="my-2">
         <v-col>
-          <cc-dialog small @confirm="dialog1Confirm()">
+          <cc-dialog small
+            @confirm="dialog1Confirm()">
             <template #button>small dialog</template>
             <template #title>Small Dialog Box (#title)</template>
             Dialog contents
@@ -135,7 +157,8 @@
           </cc-dialog>
         </v-col>
         <v-col>
-          <cc-dialog large @confirm="dialog1Confirm()">
+          <cc-dialog large
+            @confirm="dialog1Confirm()">
             <template #button>large dialog</template>
             <template #title>Large Dialog Box (#title)</template>
             Dialog contents
@@ -150,18 +173,23 @@
     <v-container>
       <v-row>
         <v-col cols="3">
-          <v-text-field v-model="notificationText" class="pt-0 mt-0" />
+          <v-text-field v-model="notificationText"
+            class="pt-0 mt-0" />
         </v-col>
         <v-col cols="3">
-          <v-select v-model="notificationType" class="pt-0 mt-0" :items="notificationTypes" />
+          <v-select v-model="notificationType"
+            class="pt-0 mt-0"
+            :items="notificationTypes" />
         </v-col>
         <v-col cols="2">
-          <v-btn :disabled="!notificationText" @click="doNotify">Notify</v-btn>
+          <v-btn :disabled="!notificationText"
+            @click="doNotify">Notify</v-btn>
         </v-col>
       </v-row>
     </v-container>
     <router-link to="/">
-      <v-btn variant="text" x-large>back</v-btn>
+      <v-btn variant="text"
+        x-large>back</v-btn>
     </router-link>
   </v-container>
 </template>

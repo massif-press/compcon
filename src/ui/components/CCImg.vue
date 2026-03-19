@@ -66,6 +66,11 @@ export default {
       type: String,
       required: false,
     },
+    fallbackSrc: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   data: () => ({
     imageUrl: '',
@@ -73,28 +78,40 @@ export default {
   }),
   watch: {
     src(newVal) {
+      if (this.imageUrl?.startsWith('blob:')) URL.revokeObjectURL(this.imageUrl);
       this.imageUrl = newVal;
+      this.loadFailed = false;
     },
   },
   computed: {
     image() {
-      // Get the image blob URI from the src prop
       return this.imageUrl;
     },
   },
   created() {
     this.imageUrl = this.src;
   },
+  beforeUnmount() {
+    if (this.imageUrl?.startsWith('blob:')) URL.revokeObjectURL(this.imageUrl);
+  },
   methods: {
     async handleImageError() {
-      // if the image fails to load, create a url from the blob
-      const blob = await GetBlob('images', this.src);
-      try {
-        this.imageUrl = URL.createObjectURL(blob);
-      } catch (error) {
-        console.error('Failed to create object URL for image:', error);
-        this.loadFailed = true;
+      // Try IndexedDB blob lookup for local keys (no protocol prefix)
+      const isRemoteUrl =
+        this.src.startsWith('http') || this.src.startsWith('/') || this.src.startsWith('blob:');
+      if (!isRemoteUrl) {
+        const blob = await GetBlob('images', this.src);
+        if (blob) {
+          this.imageUrl = URL.createObjectURL(blob);
+          return;
+        }
       }
+      // Try the fallback src (e.g. local portrait when cloud URL is stale)
+      if (this.fallbackSrc && this.imageUrl !== this.fallbackSrc) {
+        this.imageUrl = this.fallbackSrc;
+        return;
+      }
+      this.loadFailed = true;
     },
   },
 };

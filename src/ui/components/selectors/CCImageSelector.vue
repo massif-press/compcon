@@ -5,9 +5,8 @@
       grow
       bg-color="primary">
       <v-tab>Cloud Account</v-tab>
-      <v-tab>Local Image Archive</v-tab>
-      <v-tab>COMP/CON Image Archive</v-tab>
       <v-tab>Remote Images</v-tab>
+      <v-tab>COMP/CON Image Archive</v-tab>
     </v-tabs>
     <v-container>
       <v-row align="center">
@@ -19,15 +18,12 @@
               <cloud-archive @set-staged="setCloudImage($event)" />
             </v-window-item>
             <v-window-item>
-              <local-archive @set-staged="setLocalImage($event)" />
+              <remote-archive @set-staged="setRemoteImage($event)" />
             </v-window-item>
             <v-window-item>
               <library-archive :item="item"
                 :type="type"
                 @set-staged="setLibImage($event)" />
-            </v-window-item>
-            <v-window-item>
-              <remote-archive @set-staged="setRemoteImage($event)" />
             </v-window-item>
           </v-window>
         </v-col>
@@ -53,8 +49,8 @@
                   no avatar set
                   <br />
                   <div v-if="!item.PortraitController.CloudImage"
-                    v-text="'Requires Image Selection'"
-                    class="pt-4" />
+                    class="pt-4"
+                    v-text="'Requires Image Selection'" />
                 </div>
               </v-card>
             </v-card>
@@ -116,15 +112,14 @@
 import * as _ from 'lodash-es';
 import ImageCrop from './components/_ImageCrop.vue';
 import CloudArchive from './image_archives/cloudArchive.vue';
-import LocalArchive from './image_archives/localArchive.vue';
 import LibraryArchive from './image_archives/libraryArchive.vue';
 import RemoteArchive from './image_archives/remoteArchive.vue';
 
 const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
 
 export default {
-  name: 'image-selector',
-  components: { ImageCrop, CloudArchive, LocalArchive, LibraryArchive, RemoteArchive },
+  name: 'ImageSelector',
+  components: { ImageCrop, CloudArchive, LibraryArchive, RemoteArchive },
   props: {
     item: {
       type: Object,
