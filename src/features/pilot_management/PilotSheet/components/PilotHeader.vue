@@ -182,7 +182,7 @@
               @click="
                 $router.push({
                   name: 'level-up',
-                  params: { pilotID: pilot.ID, callsign: pilot.Callsign },
+                  params: { pilotID: pilot.ID },
                 })
                 ">
               Level Up

@@ -216,7 +216,7 @@ export default {
       return this.unit.NpcClassController?.Tier || 1
     },
     showCommandPanel() {
-      return !this.IsCombatPassive
+      return !this.item.IsCombatPassive
     },
   },
   mounted() {

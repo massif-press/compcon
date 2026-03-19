@@ -116,6 +116,10 @@ import { useMobile } from '@/mixins/useMobile';
         type: Number,
         required: false,
       },
+      flat: {
+        type: Boolean,
+        required: false,
+      },
     },
     data: () => ({
       floating: false,

@@ -18,12 +18,11 @@
     </cc-alert>
     <v-menu v-else v-for="item in templateController.FeatureRequirements" open-on-hover>
       <template v-slot:activator="{ props }">
-        <div v-bind="props" class="d-inline-block mx-1">
+        <div v-bind="props" class="d-inline-block mx-1" v-show="showItem(item)">
           <cc-button
             :icon="getIcon(item)"
             :color="getColor(item)"
-            size="small"
-            v-show="showItem(item)" />
+            size="small" />
         </div>
       </template>
       <v-card flat tile border>

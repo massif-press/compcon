@@ -44,7 +44,9 @@ export default {
       type: Boolean,
       required: true,
     },
+    id: { type: String },
   },
+  emits: ['add', 'remove'],
   methods: {
     ttContent() {
       if (!this.isSelected && !this.isSelectable) return 'Locked';

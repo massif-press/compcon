@@ -30,6 +30,12 @@ export default {
       type: Object,
       required: true,
     },
+    notes: { type: Boolean },
+    smallTags: { type: Boolean },
+    dense: { type: Boolean },
+    charts: { type: Boolean },
+    collapseActions: { type: Boolean },
+    tier: { type: Number },
   },
   computed: {
     diceQuantity(): number {

@@ -6,7 +6,8 @@
     slider-color="secondary"
     :height="mobile ? '24px' : '32px'"
     density="compact"
-    grow
+    :grow="!fixedTabs"
+    :fixed-tabs="fixedTabs"
     style="margin-top: -1px"
     :style="modal && 'left: 1px; width: calc(100% - 2px);'">
     <slot name="tabs"
@@ -33,6 +34,7 @@ export default {
     sliderColor: { type: String, default: 'secondary' },
     fixed: { type: Boolean, default: false },
     modal: { type: Boolean, default: false },
+    fixedTabs: { type: Boolean, default: false },
   },
   emits: ['changed'],
   data: () => ({

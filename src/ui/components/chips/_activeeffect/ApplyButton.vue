@@ -137,7 +137,6 @@
 <script lang="ts">
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { ByTier } from '@/util/tierFormat';
 
 export default {
@@ -148,7 +147,7 @@ export default {
     action: { type: Object, required: false },
     actionId: { type: [String, Array], required: false },
     activationOverride: { type: String, required: false },
-    encounter: { type: EncounterInstance, required: true },
+    encounter: { type: Object, required: true },
     owner: { type: Object, required: true },
     close: { type: Function, required: true },
     embedded: { type: Boolean, default: false },
@@ -236,22 +235,6 @@ export default {
   methods: {
     byTier(detail: string) {
       return ByTier(detail, this.owner.actor.CombatController.Tier);
-    },
-    frequencyText(frequency: string): string {
-      const str = frequency.toLowerCase();
-      switch (str) {
-        case '1/round':
-          return 'Usable once per Round';
-        case '1/turn':
-          return 'Usable once per Turn';
-        case '1/scene':
-        case '1/encounter':
-          return 'Usable once per Encounter';
-        case '1/mission':
-          return 'Usable once per Mission';
-        default:
-          return frequency;
-      }
     },
     stage(asFree) {
       this.events.forEach(e => e.Staged = true)

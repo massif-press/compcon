@@ -147,6 +147,7 @@ import { useMobile } from '@/mixins/useMobile';
       pilot: { type: Pilot, required: true },
       levelUp: Boolean,
       modal: Boolean,
+      flat: Boolean,
     },
     data: () => ({
       search: '',

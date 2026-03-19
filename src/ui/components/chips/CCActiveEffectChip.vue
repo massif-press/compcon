@@ -184,7 +184,6 @@ import { ActiveEffect } from '@/classes/components/feature/active_effects/Active
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { ByTier } from '@/util/tierFormat';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
 export default {
   name: 'cc-active-effect-chip',
@@ -194,7 +193,7 @@ export default {
   props: {
     activeEffect: { type: ActiveEffect, required: true },
     tier: { type: Number, required: false, default: 1 },
-    encounter: { type: EncounterInstance, required: true },
+    encounter: { type: Object, required: true },
     owner: { type: Object, required: true },
   },
   computed: {

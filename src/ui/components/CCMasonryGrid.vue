@@ -26,11 +26,16 @@ export default {
       type: Function,
       default: null,
     },
+    xlColumns: {
+      type: Number,
+      default: 3,
+    },
   },
   computed: {
     columns() {
       if (this.$vuetify.display.mdAndDown) return 1
       if (this.$vuetify.display.lg) return 2
+      if (this.$vuetify.display.xl) return this.xlColumns
       return 3
     },
     gridStyle() {

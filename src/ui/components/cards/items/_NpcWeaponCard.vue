@@ -2,7 +2,7 @@
   <equipment-card-base :item="item" :dense="dense" small-tags :footer="dense" :tier="tier">
     <v-row dense justify="space-around" class="text-center" align="center">
       <v-col :cols="dense ? 'auto' : ''">
-        <cc-range-element :range="item.Range" :small="dense" />
+        <cc-range-element :range="item.Range(tier || 1)" :small="dense" />
       </v-col>
       <v-col v-if="item.Damage(0).length" :cols="dense ? 'auto' : ''" :class="dense ? '' : 'mt-n2'">
         <div :class="dense ? '' : 'heading h1'">

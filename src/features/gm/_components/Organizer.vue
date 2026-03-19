@@ -281,6 +281,7 @@ export default {
       required: true,
     },
   },
+  emits: ['exit'],
   data: () => ({
     selected: [] as any[],
     addKvp: {

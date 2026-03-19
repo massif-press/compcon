@@ -151,7 +151,7 @@ export default {
     tertiary: { type: Number, default: 0 },
     label: { type: String },
     secondaryLabel: { type: String },
-    tertiaryLabel: { type: String },
+    tertiaryLabel: { type: [String, Boolean] },
     color: { type: String, default: 'primary' },
     secondaryColor: { type: String, default: 'secondary' },
     tertiaryColor: { type: String, default: 'accent' },

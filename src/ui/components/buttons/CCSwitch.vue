@@ -90,7 +90,7 @@ export default {
       type: String,
     },
     label: {
-      type: String,
+      type: [String, Boolean],
     },
   },
   computed: {

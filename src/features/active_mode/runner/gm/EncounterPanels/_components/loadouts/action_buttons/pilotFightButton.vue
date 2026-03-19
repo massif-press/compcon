@@ -148,7 +148,6 @@
 <script lang="ts">
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import { CombatantData } from '@/classes/encounter/Encounter';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
@@ -168,7 +167,7 @@ export default {
       required: true,
     },
     encounter: {
-      type: EncounterInstance,
+      type: Object,
       required: true,
     },
     presetWeapon: {

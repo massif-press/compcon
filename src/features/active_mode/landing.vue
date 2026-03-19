@@ -143,7 +143,7 @@ export default {
           title: 'Active Character Sheets',
           subtitle: 'Create, manage, and run active Player Character sheets',
           icon: 'cc:pilot',
-          to: 'active-mode/sheet-manager',
+          to: '/active-mode/sheet-manager',
         },
         {
           id: 'last-sheet',
@@ -157,7 +157,7 @@ export default {
           subtitle: 'Feature in development (v3.2)',
           disabled: true,
           icon: 'cc:squad',
-          to: '/active-mode/join-table',
+          to: '',
         },
       ],
       [
@@ -179,14 +179,14 @@ export default {
           subtitle: 'Feature in development (v3.1)',
           disabled: true,
           icon: 'cc:campaign',
-          to: '/active-mode/manage-tables',
+          to: '',
         },
         {
           title: 'Host an Online Table',
           subtitle: 'Feature in development (v3.2)',
           disabled: true,
           icon: 'mdi-lan',
-          to: '/active-mode/manage-tables',
+          to: '',
         },
       ],
       [
@@ -195,7 +195,7 @@ export default {
           subtitle: 'Feature in development (v3.2)',
           disabled: true,
           icon: 'mdi-monitor-share',
-          to: '/active-mode/spectate',
+          to: '',
         },
         {
           small: true,
@@ -208,7 +208,7 @@ export default {
           subtitle: 'Feature in development (v3.2)',
           disabled: true,
           icon: 'mdi-monitor-dashboard',
-          to: '/active-mode/campaign',
+          to: '',
         },
       ],
     ],

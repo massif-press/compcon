@@ -79,7 +79,7 @@ export default {
       required: true,
     },
   },
-
+  emits: ['deselect'],
   computed: {
     actor() {
       return this.combatant.actor;

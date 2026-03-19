@@ -139,6 +139,7 @@ import { CompendiumStore } from '@/stores';
 import PanelBase from './_PanelBase.vue';
 import PilotActionsPanel from './_components/PilotActionsPanel.vue';
 import PilotCombatLoadout from './_components/loadouts/PilotCombatLoadout.vue';
+import DeployButton from './_components/loadouts/_deployButton.vue';
 
 export default {
   name: 'PcPanel',
@@ -146,6 +147,7 @@ export default {
     PanelBase,
     PilotActionsPanel,
     PilotCombatLoadout,
+    DeployButton,
   },
   props: {
     combatant: {
@@ -157,6 +159,7 @@ export default {
       required: true,
     },
   },
+  emits: ['deselect'],
   computed: {
     pilot() {
       return this.combatant.actor;

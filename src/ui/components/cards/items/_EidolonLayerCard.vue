@@ -64,10 +64,12 @@ export default {
       type: Object,
       required: true,
     },
-    tier: {
-      type: Number,
-      required: false,
-    },
+    notes: { type: Boolean },
+    smallTags: { type: Boolean },
+    dense: { type: Boolean },
+    charts: { type: Boolean },
+    collapseActions: { type: Boolean },
+    tier: { type: Number },
   },
   computed: {
     widescreen() {

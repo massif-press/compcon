@@ -16,8 +16,8 @@
 
   <v-row dense
     class="mt-n1">
-    <v-col :order="mounted ? 0 : 1"
-      v-if="mech"
+    <v-col v-if="mech"
+      :order="mounted ? 0 : 1"
       :cols="view === 'mech' ? '' : 'auto'">
       <cc-button size="small"
         :color="view === 'mech' ? 'primary' : 'panel'"
@@ -54,8 +54,8 @@
 
   <v-window v-model="view">
     <v-window-item value="mech">
-      <mech-panel :encounter-instance="encounterInstance"
-        v-if="mech"
+      <mech-panel v-if="mech"
+        :encounter-instance="encounterInstance"
         :combatant="combatant" />
     </v-window-item>
     <v-window-item value="pilot">
@@ -102,7 +102,7 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
 import { ReserveType } from '@/class';
 import MechPanel from './MechPanel.vue';
 import PilotPanel from './PilotPanel.vue';
@@ -110,12 +110,12 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
   name: 'PcPanel',
   components: {
     MechPanel,
     PilotPanel,
   },
+  mixins: [useMobile],
   props: {
     combatant: {
       type: Object,
@@ -125,7 +125,12 @@ export default {
       type: Object,
       required: true,
     },
+    encounter: { type: Object, required: false },
+    selected: { type: [String, Boolean, Number, Object], required: false },
+    sheet: { type: Object, required: false },
+    pc: { type: [Object, String], required: false },
   },
+  emits: ['deselect'],
   data: () => ({
     view: 'mech', // default view
     unusedOnly: false,

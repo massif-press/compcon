@@ -1,5 +1,5 @@
 <template>
-  <preview :width="size" :height="size" :image="avatar.image" :coordinates="avatar.coordinates" />
+  <preview :width="Number(size)" :height="Number(size)" :image="avatar.image" :coordinates="avatar.coordinates" />
 </template>
 
 <script lang="ts">
@@ -17,7 +17,7 @@ export default {
       required: true,
     },
     size: {
-      type: Number,
+      type: [Number, String],
       required: false,
       default: 200,
     },

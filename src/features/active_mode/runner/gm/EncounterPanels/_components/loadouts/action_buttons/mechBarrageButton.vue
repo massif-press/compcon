@@ -232,7 +232,6 @@ import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import MechMountBonusCard from '../_mechMountBonusCard.vue';
 import { MechWeapon } from '@/class';
 import { CombatantData } from '@/classes/encounter/Encounter';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
 import MechWeaponAttack from './_mechWeaponAttack.vue';
@@ -252,7 +251,7 @@ export default {
       required: true,
     },
     encounter: {
-      type: EncounterInstance,
+      type: Object,
       required: true,
     },
     presetWeapon: {

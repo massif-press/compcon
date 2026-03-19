@@ -112,7 +112,6 @@
 </template>
 
 <script lang="ts">
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { EncounterStore } from '@/stores';
 import * as _ from 'lodash-es';
 
@@ -120,7 +119,7 @@ export default {
   name: 'DamageMenu',
   props: {
     encounterInstance: {
-      type: EncounterInstance,
+      type: Object,
       required: true,
     },
   },

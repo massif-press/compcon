@@ -2,7 +2,7 @@
   <v-hover #default="{ isHovering, props }">
     <div class="top-element mx-1"
       style="display: block; position: relative"
-      v-bind="props">
+      v-bind="{ ...props, ...$attrs }">
       <v-text-field :model-value="modelValue"
         :color="color"
         :base-color="color"
@@ -20,6 +20,7 @@
         hide-details
         :autocomplete="autocomplete"
         :type="type"
+        :max="max"
         rounded="0"
         :max-width="maxWidth"
         :bg-color="isFocused ? 'surface-variant' : 'panel'"
@@ -104,11 +105,12 @@
 <script lang="ts">
 export default {
   name: 'CCTextField',
+  inheritAttrs: false,
   props: {
     modelValue: { type: [String, Number] },
     color: { type: String, default: 'panel' },
     size: { type: String },
-    variant: { type: String, default: 'default' },
+    variant: { type: String, default: 'solo' },
     prependInnerIcon: { type: String },
     appendInnerIcon: { type: String },
     block: { type: Boolean },
@@ -133,6 +135,11 @@ export default {
     hideDetails: { type: Boolean },
     maxWidth: { type: String },
     items: { type: Array, default: () => [] },
+    max: { type: [Number, String] },
+    density: { type: String },
+    dense: { type: Boolean },
+    hideDetails: { type: [Boolean, String] },
+    modelModifiers: { default: () => ({}) },
   },
   data: () => ({
     isFocused: false,

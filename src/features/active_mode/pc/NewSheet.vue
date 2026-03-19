@@ -232,9 +232,8 @@
           v-if="!mobile"
           class="text-center">
           <v-icon icon="mdi-checkbox-marked-circle-auto-outline"
-            color="success""
-            size="
-            50" />
+            color="success"
+            size="50" />
         </v-col>
         <v-col>
           <cc-panel>

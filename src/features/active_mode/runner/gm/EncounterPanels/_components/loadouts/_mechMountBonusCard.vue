@@ -74,10 +74,11 @@
 
 <script lang="ts">
 import { useMobile } from '@/mixins/useMobile';
+import DeployButton from './_deployButton.vue';
 export default {
   mixins: [useMobile],
   name: 'mech-mount-bonus-card',
-  components: {},
+  components: { DeployButton },
   props: {
     bonus: {
       type: Object,

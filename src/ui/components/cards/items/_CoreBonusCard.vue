@@ -15,6 +15,8 @@ export default {
     },
     notes: { type: Boolean },
     charts: { type: Boolean },
+    collapseActions: { type: Boolean },
+    tier: { type: Number },
   },
 };
 </script>

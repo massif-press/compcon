@@ -37,7 +37,7 @@
       'user.Theme': {
         handler: function (newVal) {
           if (!newVal) return
-          this.$vuetify.theme.global.name = newVal
+          this.$vuetify.theme.change(newVal)
         },
         immediate: true,
       },

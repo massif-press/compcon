@@ -30,7 +30,7 @@ export default {
       type: String,
     },
     label: {
-      type: String,
+      type: [String, Number],
     },
     icon: {
       type: String,

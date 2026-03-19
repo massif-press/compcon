@@ -25,7 +25,7 @@
       </v-col>
       <v-col cols="12"
         sm="4"
-        :order="mobile && '-1'"
+        :order="mobile ? '-1' : undefined"
         :class="!mobile && 'pt-6'">
         <image-block :pilot="pilot" />
       </v-col>

@@ -50,7 +50,6 @@
                   <template #activator="{ props }">
                     <v-btn v-for="i in item.CombatController.StatController.MaxStats['activations']"
                       :key="`activation-${i}`"
-                      v-btn
                       icon="cc:activate"
                       size="40"
                       flat

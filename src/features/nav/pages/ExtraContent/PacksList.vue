@@ -14,7 +14,7 @@
       :mobile="$vuetify.display.xs">
       <template #item.toggleActive="{ item }">
         <cc-switch v-if="!item.Missing"
-          :value="item.Active"
+          :model-value="item.Active"
           size="large"
           @update:model-value="toggleActive(item.ID, item.Active)" />
         <cc-tooltip v-else

@@ -131,6 +131,14 @@ export default {
       type: Object,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    customDisabledText: {
+      type: String,
+      default: '',
+    },
   },
   emits: ['deploy'],
   data: () => ({

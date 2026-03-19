@@ -78,12 +78,10 @@
 </template>
 
 <script lang="ts">
-import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { ByTier } from '@/util/tierFormat';
 
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import EffectApplicator from './EffectApplicator.vue';
 import ApplyButton from './ApplyButton.vue'
 
@@ -95,8 +93,8 @@ export default {
     ApplyButton,
   },
   props: {
-    activeEffect: { type: ActiveEffect, required: true },
-    encounter: { type: EncounterInstance, required: true },
+    activeEffect: { type: Object, required: true },
+    encounter: { type: Object, required: true },
     owner: { type: Object, required: true },
     close: { type: Function, required: true },
     hideInput: { type: Boolean, default: false },
@@ -104,6 +102,7 @@ export default {
     color: { type: String, default: 'panel' },
     overrideMissingInputs: { type: Boolean, default: null },
     initialTargets: { type: Array, default: () => [] },
+    action: { type: Object, required: false },
   },
   data: () => ({
     event: {} as ActiveEffectEvent,
@@ -165,23 +164,6 @@ export default {
     byTier(detail: string) {
       return ByTier(detail, this.owner.actor.CombatController.Tier);
     },
-    frequencyText(frequency: string): string {
-      const str = frequency.toLowerCase();
-      switch (str) {
-        case '1/round':
-          return 'Usable once per Round';
-        case '1/turn':
-          return 'Usable once per Turn';
-        case '1/scene':
-        case '1/encounter':
-          return 'Usable once per Encounter';
-        case '1/mission':
-          return 'Usable once per Mission';
-        default:
-          return frequency;
-      }
-    },
-
     reset(clearAction = false) {
       if (clearAction) this.owner.actor.CombatController.ClearActionUsed(this.activeEffect.ID);
       const self = this.encounter.Combatants.find(

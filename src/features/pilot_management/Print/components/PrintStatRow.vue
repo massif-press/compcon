@@ -67,8 +67,18 @@
 </template>
 
 <script>
+import { h } from 'vue';
+
+const BlankLine = {
+  props: { width: Number, height: Number },
+  render() {
+    return h('div', { style: { width: this.width + 'px', height: this.height + 'px', borderBottom: '2px solid currentColor' } });
+  },
+};
+
 export default {
   name: 'PrintStatRow',
+  components: { BlankLine },
   props: {
     mech: {
       type: Object,

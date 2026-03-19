@@ -24,8 +24,8 @@ export default {
   name: 'CcRichTextArea',
   props: {
     modelValue: {
-      type: String,
-      required: true,
+      type: [String, Array],
+      default: '',
     },
     readonly: {
       type: Boolean,

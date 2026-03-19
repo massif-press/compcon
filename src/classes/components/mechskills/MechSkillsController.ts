@@ -47,7 +47,7 @@ class MechSkillsController {
 
   private setSkill(field: 'Hull' | 'Agi' | 'Sys' | 'Eng', value: number): void {
     if (value < 0 || value > 6) return
-    if (value > this._mechSkills[field] && this.HASERemaining < value) value = this.HASERemaining
+    if (value > this._mechSkills[field] && this.HASERemaining < value - this._mechSkills[field]) value = this._mechSkills[field] + this.HASERemaining
     this._mechSkills[field] = value
     this.Parent.SaveController.save()
   }

@@ -106,8 +106,10 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 export default {
   name: 'cc-text-label',
+  mixins: [useMobile],
   props: {
     modelValue: { type: String },
     label: { type: String },

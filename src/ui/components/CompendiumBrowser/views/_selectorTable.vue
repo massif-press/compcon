@@ -108,19 +108,19 @@
           </div>
 
           <div v-else-if="h.key === 'T1'">
-            <cc-item-modal v-for="e in (item as License).Unlocks[0]"
-              :item="e"
-              style="padding: 2px" />
+            <div v-for="e in (item as License).Unlocks[0]" style="padding: 2px">
+              <cc-item-modal :item="e" />
+            </div>
           </div>
           <div v-else-if="h.key === 'T2'">
-            <cc-item-modal v-for="e in (item as License).Unlocks[1]"
-              :item="e"
-              style="padding: 2px" />
+            <div v-for="e in (item as License).Unlocks[1]" style="padding: 2px">
+              <cc-item-modal :item="e" />
+            </div>
           </div>
           <div v-else-if="h.key === 'T3'">
-            <cc-item-modal v-for="e in (item as License).Unlocks[2]"
-              :item="e"
-              style="padding: 2px" />
+            <div v-for="e in (item as License).Unlocks[2]" style="padding: 2px">
+              <cc-item-modal :item="e" />
+            </div>
           </div>
           <div v-else-if="h.tier"
             class="text-center">

@@ -71,6 +71,7 @@ export default {
       type: String,
       default: '',
     },
+    smallBtn: { type: Boolean },
   },
   components: {
     ItemCardLink,

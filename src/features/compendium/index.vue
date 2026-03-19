@@ -2,7 +2,6 @@
   <cc-tabs
     ref="tabs"
     fixed
-    prominent
     @changed="setTab($event)"
   >
     <template #tabs>

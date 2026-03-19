@@ -196,7 +196,7 @@ export default {
     readonly: { type: Boolean, default: false },
     hideToolbar: { type: Boolean, default: false },
   },
-  emits: ['exit', 'export', 'convert'],
+  emits: ['exit', 'export', 'convert', 'print'],
   data: () => ({
     deleteMenu: false,
     dupeMenu: false,

@@ -365,6 +365,7 @@
 
 <script lang="ts">
 import { CompendiumStore, EncounterStore, UserStore } from '@/stores';
+import { useMobile } from '@/mixins/useMobile';
 import SectionEditor from '../../_components/SectionEditor.vue';
 import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue';
 import GmFolderEditor from '../../_components/_subcomponents/GMFolderEditor.vue';
@@ -380,6 +381,7 @@ import { CloudController } from '@/classes/components';
 
 export default {
   name: 'gm-encounter-editor',
+  mixins: [useMobile],
   components: {
     SectionEditor,
     GmLabelEditor,

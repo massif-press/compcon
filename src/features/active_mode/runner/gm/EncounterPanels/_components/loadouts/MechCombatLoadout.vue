@@ -3,8 +3,7 @@
   <cc-masonry-grid :items="mounts"
     :column-width="600"
     :gap="16"
-    :min-columns="1"
-    :max-columns="2">
+    :xl-columns="2">
     <template #default="{ item }">
       <fieldset :class="mobile ? 'pa-1' : 'pb-2 px-3'"
         style="border-color: rgba(155, 155, 155, 0.6)">
@@ -24,8 +23,6 @@
           :encounter="encounterInstance"
           @deploy="$emit('deploy', $event)" />
 
-        <cb-card v-for="b in item.mount.Bonuses"
-          :bonus="b" />
         <sh-lock-card v-if="item.mount.IsLocked" />
         <div v-for="(s, idx) in item.mount.Slots">
           <div v-if="Number(idx) > 0"

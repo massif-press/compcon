@@ -158,12 +158,12 @@
                       variant="outlined"
                       tile />
                   </v-col>
-                  <v-cols cols="auto"
+                  <v-col cols="auto"
                     class="ml-n1 mr-n5">
                     <v-icon :icon="incomingDamageType.icon"
                       :color="incomingDamageType.color"
                       size="40" />
-                  </v-cols>
+                  </v-col>
                 </v-row>
               </v-card>
             </v-col>

@@ -40,7 +40,7 @@ export default {
     absolute: { type: Boolean },
     readonly: { type: Boolean },
     justify: { type: String, required: false, default: 'center' },
-    maxWidth: { type: String, required: false },
+    maxWidth: { type: [String, Boolean], required: false },
     minWidth: { type: String, required: false },
   },
   data: () => ({

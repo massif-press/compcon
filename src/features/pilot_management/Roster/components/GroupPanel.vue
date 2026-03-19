@@ -145,7 +145,7 @@
               v-for="pilot in pilots"
               :key="pilot.ID"
               :pilot="pilot"
-              @go-to="toPilotSheet(pilot.ID, pilot.Callsign)" />
+              @go-to="toPilotSheet(pilot.ID)" />
           </v-card-text>
           <v-expand-transition>
             <v-row v-if="edit"
@@ -399,8 +399,8 @@ export default {
     },
   },
   methods: {
-    toPilotSheet(pilotID: string, callsign: string) {
-      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID, callsign } });
+    toPilotSheet(pilotID: string) {
+      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID } });
     },
     async transferPilot(pilot: Pilot) {
       await PilotStore().TransferPilot(pilot, this.group.ID);

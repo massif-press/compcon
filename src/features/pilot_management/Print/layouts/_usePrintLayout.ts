@@ -4,7 +4,8 @@ export const usePrintLayout = {
   props: {
     selectedPilot: {
       type: Pilot,
-      required: true,
+      required: false,
+      default: null,
     },
     selectedMech: {
       type: Mech,

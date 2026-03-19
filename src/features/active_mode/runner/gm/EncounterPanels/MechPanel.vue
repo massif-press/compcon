@@ -260,11 +260,13 @@ import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
 import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 import MechActionsPanel from './_components/MechActionsPanel.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
+import DeployButton from './_components/loadouts/_deployButton.vue';
 
 export default {
   name: 'MechPanel',
   components: {
     PanelBase,
+    DeployButton,
     MechCombatLoadout,
     MechCorePanel,
     MechActionsPanel,

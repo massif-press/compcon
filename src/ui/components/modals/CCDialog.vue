@@ -72,7 +72,20 @@ export default {
       type: Boolean,
       default: false,
     },
+    noActions: {
+      type: Boolean,
+      default: false,
+    },
+    large: {
+      type: Boolean,
+      default: false,
+    },
+    controller: {
+      type: Object,
+      required: false,
+    },
   },
+  emits: ['activate'],
   methods: {
     open() {
       this.dialog = true;

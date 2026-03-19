@@ -72,7 +72,7 @@ export default {
 
       this.$router.push({
         name: 'pilot_sheet_redirect',
-        params: { pilotID: this.pilot.ID, callsign: this.pilot.Callsign },
+        params: { pilotID: this.pilot.ID },
       });
     },
     canContinue() {

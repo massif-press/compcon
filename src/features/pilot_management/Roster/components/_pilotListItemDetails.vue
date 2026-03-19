@@ -50,7 +50,7 @@ import { Pilot } from '@/class';
 export default {
   name: 'pilot-list-item-details',
   props: {
-    pilot: { type: Pilot, required: true }
+    pilot: { type: Object, required: true }
   }
 }
 </script>

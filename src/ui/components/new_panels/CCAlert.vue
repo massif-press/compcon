@@ -48,11 +48,11 @@ export default {
       default: 'panel',
     },
     title: {
-      type: String,
+      type: [String, Boolean],
       default: '',
     },
     icon: {
-      type: String,
+      type: [String, Boolean],
       default: '',
     },
     prominent: {

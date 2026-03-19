@@ -70,10 +70,14 @@
 
 <script lang="ts">
 import * as _ from 'lodash-es';
+import { markRaw } from 'vue';
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
 import SystemSelector from './_SystemSelector.vue';
 import { useMobile } from '@/mixins/useMobile';
+
+const _SystemSlotCard = markRaw(SystemSlotCard);
+const _ModEquippedCard = markRaw(ModEquippedCard);
 
 
 export default {
@@ -125,7 +129,7 @@ export default {
 
       this.integratedSystems.forEach((s) => {
         arr.push({
-          component: SystemSlotCard,
+          component: _SystemSlotCard,
           id: s.ID,
           props: {
             mech: this.mech,
@@ -140,7 +144,7 @@ export default {
 
       this.moddedWeapons.forEach((w) => {
         arr.push({
-          component: ModEquippedCard,
+          component: _ModEquippedCard,
           id: w.ID,
           props: {
             mech: this.mech,
@@ -154,7 +158,7 @@ export default {
 
       this.activeSystems.forEach((s) => {
         arr.push({
-          component: SystemSlotCard,
+          component: _SystemSlotCard,
           id: s.ID,
           props: {
             mech: this.mech,
@@ -168,7 +172,7 @@ export default {
 
       if (this.mech.FreeSP > 0 && !this.readonly) {
         arr.push({
-          component: SystemSlotCard,
+          component: _SystemSlotCard,
           id: 'add-system',
           props: {
             mech: this.mech,

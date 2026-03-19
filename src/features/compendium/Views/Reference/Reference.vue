@@ -3,12 +3,7 @@
     style="position: absolute; top: 0; left: 0; right: 0; height: 45px"
     class="bg-primary"
   />
-  <cc-tabs
-    v-model="tab"
-    fixed-tabs
-    bg-color="primary"
-    density="compact"
-  >
+  <cc-tabs fixed-tabs>
     <template #tabs>
       <v-tab>Actions</v-tab>
       <v-tab>Statuses & Conditions</v-tab>
@@ -56,9 +51,6 @@
         default: '',
       },
     },
-    data: () => ({
-      tab: '0',
-    }),
     mounted() {
       if (this.preScroll) {
         this.$nextTick(() => {

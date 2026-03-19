@@ -83,12 +83,17 @@ export default {
       type: String,
       required: false,
     },
+    mech: {
+      type: Object,
+      required: false,
+    },
   },
+  emits: ['delete'],
   methods: {
     toTacticalProfile() {
       this.$router.push({
         name: 'pilot_sheet_redirect',
-        params: { pilotID: this.pilot.ID, callsign: this.pilot.Callsign },
+        params: { pilotID: this.pilot.ID },
       });
     },
   },

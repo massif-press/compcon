@@ -1,10 +1,8 @@
 <template>
-  <v-card
-    flat
+  <v-card flat
     tile>
     <equipment-destroyed-overlay :destroyed="item.Destroyed" />
-    <v-row
-      align="center"
+    <v-row align="center"
       no-gutters
       justify="end"
       class="pr-1"
@@ -20,68 +18,56 @@
       </v-col>
 
       <v-col cols="auto">
-        <cc-range-element
-          v-if="item.Range"
+        <cc-range-element v-if="item.Range"
           small
           :range="item.Range" />
-        <cc-slashes
-          v-if="item.Range && item.Damage"
+        <cc-slashes v-if="item.Range && item.Damage"
           class="pr-1" />
-        <cc-damage-element
-          v-if="item.Damage"
+        <cc-damage-element v-if="item.Damage"
           small
           :damage="item.Damage"
           :type-override="item.DamageTypeOverride" />
       </v-col>
     </v-row>
 
-    <div
-      class="pa-0"
+    <div class="pa-0"
       style="position: relative"
       :style="item.Used ? 'opacity: 0.4' : ''">
       <v-card-text class="pa-0">
         <equipment-flavor-description :description="item.FlavorDescription" />
 
-        <div
-          v-if="item"
+        <div v-if="item"
           class="pt-1">
-          <on-element
-            v-for="action in ['hit', 'crit', 'attack']"
+          <on-element v-for="action in ['hit', 'crit', 'attack']"
             :profile="item"
             :action="action" />
         </div>
 
         <div v-if="item">
           <div v-if="item.Effect">
-            <p
-              v-html-safe="item.Effect"
+            <p v-html-safe="item.Effect"
               class="mb-1 px-2" />
           </div>
 
-          <equipment-actions-deployables
-            :item="item"
+          <equipment-actions-deployables :item="item"
             :actor="pilot"
             :owner="owner"
             :encounter="encounter"
-            action-icon="cc:mechweapon"
+            action-icon="cc:weapon"
             @deploy="$emit('deploy', $event)" />
 
-          <v-row
-            dense
+          <v-row dense
             align="center">
             <v-col cols="auto">
-              <cc-tags
-                v-if="item.Tags"
+              <cc-tags v-if="item.Tags"
                 combat
                 :tags="item.Tags"
                 color="pilot"
                 :bonus="pilot.LimitedBonus" />
             </v-col>
-            <v-col
-              cols="auto"
+            <v-col cols="auto"
               class="ml-auto mr-4">
-              <cc-bonus
-                v-for="b in item.Bonuses"
+              <cc-bonus v-for="b in item.Bonuses"
                 :bonus="b"
                 chip />
             </v-col>
@@ -89,8 +75,7 @@
         </div>
       </v-card-text>
     </div>
-    <equip-command-panel
-      :owner="owner"
+    <equip-command-panel :owner="owner"
       :controller="pilot.CombatController"
       :encounter="encounter"
       :item="item" />

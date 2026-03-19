@@ -80,7 +80,7 @@
             <div :class="`bg-${color}`"
               style="width: 25px; height: 100%" />
             <v-btn block
-              :variant="variant === 'default' ? 'tonal' : (variant as any)"
+              :variant="(variant as any)"
               class="fade-select mt-1"
               style="container-type: inline-size; text-transform: uppercase"
               tile
@@ -114,7 +114,7 @@ export default {
     modelValue: { type: [String, Number] },
     color: { type: String, default: 'panel' },
     size: { type: String },
-    variant: { type: String, default: 'default' },
+    variant: { type: String, default: 'solo' },
     prependInnerIcon: { type: String },
     appendInnerIcon: { type: String },
     block: { type: Boolean },

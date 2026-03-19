@@ -111,13 +111,19 @@ import { max, min } from 'lodash-es';
 
 export default {
   name: 'CCTextField',
+  inheritAttrs: false,
   props: {
     modelValue: { type: [String, Number] },
-    min: { type: Number, default: 0 },
-    max: { type: Number, default: 100 },
+    min: { type: [Number, String], default: 0 },
+    max: { type: [Number, String], default: 100 },
+    density: { type: String },
+    dense: { type: Boolean },
+    hideDetails: { type: [Boolean, String] },
+    type: { type: String },
+    modelModifiers: { default: () => ({}) },
     color: { type: String, default: 'panel' },
     size: { type: String },
-    variant: { type: String, default: 'default' },
+    variant: { type: String, default: 'solo' },
     controls: { type: Boolean },
     block: { type: Boolean },
     loading: { type: Boolean },

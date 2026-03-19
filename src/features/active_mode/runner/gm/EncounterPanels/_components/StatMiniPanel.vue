@@ -113,7 +113,7 @@ export default {
   name: 'StatMiniPanel',
   props: {
     modelValue: {
-      type: Number,
+      type: [Number, Boolean],
     },
     title: {
       type: String,

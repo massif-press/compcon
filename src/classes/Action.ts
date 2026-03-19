@@ -274,6 +274,8 @@ class Action {
         return 'mdi-hexagon-slice-3'
       case ActivationType.Move:
         return 'mdi-arrow-right-bold-hexagon-outline'
+      case ActivationType.Jockey:
+        return 'cc:activation_full'
       default:
         return `cc:${this.Activation.toLowerCase().replace(' ', '_')}`
     }
@@ -287,6 +289,8 @@ class Action {
         return 'mdi-hexagon-slice-3'
       case ActivationType.Move:
         return 'mdi-arrow-right-bold-hexagon-outline'
+      case ActivationType.Jockey:
+        return 'cc:activation_full'
       default:
         return `cc:${activation.toLowerCase().replace(' ', '_')}`
     }

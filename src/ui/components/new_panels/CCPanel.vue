@@ -67,11 +67,11 @@ export default {
       default: 'elevated',
     },
     title: {
-      type: String,
+      type: [String, Boolean],
       default: '',
     },
     icon: {
-      type: String,
+      type: [String, Boolean],
       default: '',
     },
     height: {
