@@ -1,9 +1,11 @@
 <template>
   <v-card-text :style="mobile ? 'margin-top: 14px' : 'margin-top: 16px'">
-    <div class="packsList" style="min-height: 300px">
+    <div class="packsList"
+      style="min-height: 300px">
       <div class="heading h2 text-stark mt-3 px-2">
         Official
-        <a href="https://massifpress.com/shop" target="_blank">MASSIF PRESS</a>
+        <a href="https://massifpress.com/shop"
+          target="_blank">MASSIF PRESS</a>
         Content
       </div>
       <massif-lcp-table :headers="massifHeaders" />
@@ -12,7 +14,9 @@
         LANCER Community Content
         <cc-dialog title="LANCER Community Content Packs">
           <template #activator="{ open }">
-            <v-icon size="x-small" class="mt-n1 fade-select" @click="open">
+            <v-icon size="x-small"
+              class="mt-n1 fade-select"
+              @click="open">
               mdi-information-slab-box-outline
             </v-icon>
           </template>
@@ -24,15 +28,15 @@
             <br />
             If you are interested in creating your own homebrew LANCER content, or submitting your
             content to be featured in this directory, please
-            <a
-              href="https://github.com/massif-press/lancer-data#lancer-community-content-packs"
+            <a href="https://github.com/massif-press/lancer-data#lancer-community-content-packs"
               target="_blank">
               click here.
             </a>
           </v-card-text>
         </cc-dialog>
       </div>
-      <directory-table :items="communityPacks" :loading="loading" />
+      <directory-table :items="communityPacks"
+        :loading="loading" />
     </div>
   </v-card-text>
 </template>
@@ -46,12 +50,12 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
   name: 'PacksDirectory',
   components: {
     DirectoryTable,
     MassifLcpTable,
   },
+  mixins: [useMobile],
   data: () => ({
     communityPacks: [],
     loading: true,
@@ -70,15 +74,17 @@ export default {
     },
   },
   async created(): Promise<void> {
-    scan()
-      .then((res: any) => {
-        this.communityPacks = res.data.community.Items;
-        this.loading = false;
-      })
-      .catch((err) => {
-        logger.error(`Error loading community packs: ${err}`, this, err);
-        this.loading = false;
-      });
+    this.communityPacks = [];
+    this.loading = false;
+    // scan()
+    //   .then((res: any) => {
+    //     this.communityPacks = res.data.community.Items;
+    //     this.loading = false;
+    //   })
+    //   .catch((err) => {
+    //     logger.error(`Error loading community packs: ${err}`, this, err);
+    //     this.loading = false;
+    //   });
   },
 };
 </script>
