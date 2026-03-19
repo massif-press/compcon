@@ -2,7 +2,8 @@
   <div v-show="!item || (item && !item.NoSynergies)"
     :class="inline ? 'd-inline-block' : ''">
     <div v-if="alert">
-      <div v-for="s in synergies"
+      <div v-for="(s, index) in synergies"
+        :key="`synergy-${index}`"
         style="position: relative">
         <cc-alert variant="outlined"
           border-color="primary"
@@ -36,7 +37,8 @@
         style="opacity: 0.5">
         <i>None</i>
       </div>
-      <v-tooltip v-for="s in synergies"
+      <v-tooltip v-for="(s, index) in synergies"
+        :key="`synergy-${index}`"
         max-width="350"
         location="top">
         <template #activator="{ props }">

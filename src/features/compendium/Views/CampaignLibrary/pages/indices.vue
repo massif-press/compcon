@@ -16,7 +16,7 @@
     <div v-if="campaign.VersionHistory && campaign.VersionHistory.length">
       <fieldset style="border-radius: 3px">
         <legend class="ml-2 px-2 text-caption">Version History</legend>
-        <div v-for="hist in campaign.VersionHistory" class="px-4 py-2">
+        <div v-for="(hist, histIdx) in campaign.VersionHistory" :key="`hist-${histIdx}`" class="px-4 py-2">
           <div class="text-caption">
             v.
             <span class="heading h3">{{ hist.ver }}</span>

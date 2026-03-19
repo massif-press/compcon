@@ -45,7 +45,7 @@
     height="22"
     align-tabs="center"
     bg-color="primary">
-    <v-tab v-for="l in links" color="accent" style="margin-top: -2px" @click="scrollTo(l.target)">
+    <v-tab v-for="l in links" :key="l.target" color="accent" style="margin-top: -2px" @click="scrollTo(l.target)">
       {{ l.title }}
     </v-tab>
   </v-tabs>

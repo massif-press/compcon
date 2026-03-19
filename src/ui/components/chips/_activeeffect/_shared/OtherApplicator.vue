@@ -1,7 +1,7 @@
 <template>
   <v-col :cols="cols"
     v-if="event.OtherEvents.length">
-    <div v-for="o in event.OtherEvents">
+    <div v-for="(o, index) in event.OtherEvents" :key="`other-${index}`">
       <div class="text-cc-overline text-disabled">{{ o.Type }}</div>
       <v-text-field v-if="['overshield', 'hp', 'repair'].includes(o.Type)"
         v-model="o.Value"

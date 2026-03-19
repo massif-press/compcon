@@ -84,7 +84,7 @@
       hover
       density="compact">
       <tbody>
-        <tr v-for="a in item.Ammo">
+        <tr v-for="(a, index) in item.Ammo" :key="`ammo-${index}`">
           <td v-if="!portrait"
             style="min-width: 120px"
             class="text-accent">

@@ -53,7 +53,7 @@
       <v-card-text>
         <div>COMP/CON has linked the following itch.io purchases to your account:</div>
         <cc-chip
-          v-for="game in itch.gamedata"
+          v-for="(game, gameIdx) in itch.gamedata" :key="`game-${gameIdx}`"
           bg-color="primary"
           color="accent"
           variant="elevated"
@@ -65,7 +65,7 @@
         </div>
         <v-card flat border>
           <v-card-text>
-            <v-row v-for="item in map" dense :class="{ 'text-disabled': !item.enabled }">
+            <v-row v-for="(item, itemIdx) in map" :key="`map-${itemIdx}`" dense :class="{ 'text-disabled': !item.enabled }">
               <v-col cols="auto">
                 <v-icon
                   :color="item.enabled ? 'success' : ''"

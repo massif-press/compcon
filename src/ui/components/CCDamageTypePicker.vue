@@ -5,6 +5,7 @@
         <span class="heading h2">Select Damage Type</span>
         <cc-button
           v-for="t in availableTypes"
+          :key="t"
           block
           size="small"
           class="mb-2"

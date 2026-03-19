@@ -23,7 +23,8 @@
         <v-card-text class="text-center">
           <v-row dense>
             <cc-button
-              v-for="b in mech.AvailableBonuses"
+              v-for="(b, index) in mech.AvailableBonuses"
+              :key="`available-${index}`"
               size="small"
               block
               color="primary"
@@ -37,7 +38,8 @@
               Install {{ b.Name }}
             </cc-button>
             <cc-button
-              v-for="b in mount.Bonuses"
+              v-for="(b, index) in mount.Bonuses"
+              :key="`bonus-${index}`"
               size="small"
               block
               color="secondary"

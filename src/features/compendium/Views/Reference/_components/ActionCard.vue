@@ -14,7 +14,7 @@
           <div v-if="action.SubActions && action.SubActions.length">
             <div class="text-overline text-disabled">OPTIONS</div>
             <v-row no-gutters justify="center">
-              <v-col v-for="a in action.SubActions" cols="auto">
+              <v-col v-for="(a, index) in action.SubActions" :key="`sub-${index}`" cols="auto">
                 <cc-action :action="a" :panel="false" class="ma-2" />
               </v-col>
             </v-row>
@@ -27,7 +27,7 @@
       <div v-if="action.SubActions && action.SubActions.length">
         <div class="text-overline text-disabled">OPTIONS</div>
         <v-row no-gutters justify="center">
-          <v-col v-for="a in action.SubActions" cols="auto">
+          <v-col v-for="(a, index) in action.SubActions" :key="`dialog-sub-${index}`" cols="auto">
             <cc-action :action="a" :panel="false" class="ma-2" />
           </v-col>
         </v-row>

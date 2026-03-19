@@ -3,7 +3,7 @@
     <div class="text-overline text-primary" style="line-height: 15px">DOWNTIME REFERENCE</div>
 
     <v-row dense>
-      <v-col v-for="action in actions" cols="12" class="my-n1 caption no-print-break">
+      <v-col v-for="action in actions" :key="action.ID" cols="12" class="my-n1 caption no-print-break">
         <fieldset class="px-2">
           <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">
             <v-icon icon="cc:downtime" />
@@ -12,7 +12,7 @@
           <p v-html-safe="action.Detail" class="my-1" />
 
           <div v-if="action.Table" class="pb-2">
-            <v-row dense v-for="result in action.Table.results" class="mb-n2">
+            <v-row dense v-for="(result, index) in action.Table.results" :key="`result-${index}`" class="mb-n2">
               <v-col cols="1" v-if="result.min === result.max" class="text-center">
                 {{ result.min }}
               </v-col>

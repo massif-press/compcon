@@ -1,13 +1,13 @@
 <template>
   <div>
-    <template v-for="item in <any[]>items">
+    <template v-for="(item, index) in <any[]>items" :key="`toc-${index}`">
       <div v-if="item" class="heading mt-3" :style="{ marginLeft: `${level * 8}px` }">
         <div :style="`font-size: ${textSize}`">
           <v-icon :icon="getIconByType(item.SectionType)" start />
           {{ item.Title }}
         </div>
         <div v-if="item.Content.length" class="body-text font-weight-light">
-          <div v-for="e in item.Content" class="mt-2 ml-4 text-button">
+          <div v-for="(e, eIdx) in item.Content" :key="`content-${eIdx}`" class="mt-2 ml-4 text-button">
             <v-icon :icon="getIconByType(e.ContentType)" start size="small" />
             {{ e.Title }}
           </div>

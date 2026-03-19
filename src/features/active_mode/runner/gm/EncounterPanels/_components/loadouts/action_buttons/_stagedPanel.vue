@@ -5,6 +5,7 @@
     <div class="bg-background pb-1"
       style="position: relative; max-height: 200px; overflow-y: auto;">
       <code v-for="(e, idx) in events"
+        :key="`staged-${idx}`"
         style="white-space: pre-wrap; font-size: 12px;">
           <br v-if="Number(idx) > 0">
           {{ e.Summary }}

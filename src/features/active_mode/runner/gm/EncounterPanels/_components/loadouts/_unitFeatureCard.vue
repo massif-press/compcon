@@ -96,6 +96,7 @@
             class="pt-1">
             <on-element
               v-for="action in ['hit', 'crit', 'attack']"
+              :key="action"
               :profile="item"
               :action="action" />
 
@@ -146,7 +147,8 @@
                 cols="auto"
                 class="ml-auto mr-4">
                 <cc-bonus
-                  v-for="b in item.Bonuses"
+                  v-for="(b, index) in item.Bonuses"
+                  :key="`bonus-${index}`"
                   :bonus="b"
                   chip
                   :tier="tier" />

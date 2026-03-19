@@ -37,7 +37,7 @@
   </v-card>
   <div v-else>
     <v-tabs v-model="tab" density="compact" class="mt-2" fixed-tabs bg-color="primary">
-      <v-tab v-for="(layer, idx) in item.Layers">
+      <v-tab v-for="(layer, idx) in item.Layers" :key="layer.ID">
         <v-tooltip v-if="idx > 1" location="top">
           <template #activator="{ props }">
             <v-icon
@@ -66,7 +66,7 @@
       </v-tab>
     </v-tabs>
     <v-window v-model="tab">
-      <v-window-item v-for="(layer, index) in item.Layers">
+      <v-window-item v-for="(layer, index) in item.Layers" :key="layer.ID">
         <v-card
           variant="outlined"
           class="rounded-0 rounded-b bg-transparent"

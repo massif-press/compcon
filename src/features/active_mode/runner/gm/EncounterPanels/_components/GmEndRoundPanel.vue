@@ -80,12 +80,15 @@
 
             <div class="text-cc-overline mt-2">Next Round:</div>
             <div v-for="a in activeActors"
+              :key="a.Parent.ID"
               class="my-1">
-              <div v-for="s in getTimeoutStatuses(a)"
+              <div v-for="(s, index) in getTimeoutStatuses(a)"
+                :key="`timeout-${index}`"
                 class="mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ a.CombatName }}</b>
                 will lose the following statuses:
-                <div v-for="s in getTimeoutStatuses(a)"
+                <div v-for="(s, sIdx) in getTimeoutStatuses(a)"
+                  :key="`timeout-inner-${sIdx}`"
                   class="px-2 text-text bg-panel">
                   <b class="text-accent text-uppercase">
                     <v-icon :icon="s.status.Icon"
@@ -100,11 +103,13 @@
                   </b>
                 </div>
               </div>
-              <div v-for="s in getTimeoutStatuses(a, true)"
+              <div v-for="(s, index) in getTimeoutStatuses(a, true)"
+                :key="`timeout-custom-${index}`"
                 class="my-1 mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ a.CombatName }}</b>
                 will lose the following statuses:
-                <div v-for="s in getTimeoutStatuses(a)"
+                <div v-for="(s, sIdx) in getTimeoutStatuses(a)"
+                  :key="`timeout-custom-inner-${sIdx}`"
                   class="my-1 mx-4 px-2 text-text bg-panel">
                   <b class="text-accent text-uppercase">
                     {{ s.status.Name }}
@@ -119,6 +124,7 @@
             </div>
 
             <div v-for="b in braced"
+              :key="b.Parent.ID"
               class="my-1 mx-4 px-2 text-text bg-panel">
               <b class="text-secondary">{{ b.CombatName }}</b>
               exits
@@ -134,6 +140,7 @@
           <div class="text-cc-overline mt-2">reinforcements ready next round:</div>
           <div v-if="reinforcements.length">
             <div v-for="r in reinforcements"
+              :key="r.actor.ID"
               class="my-1 mx-4 px-2 text-text bg-panel">
               <b class="text-secondary">{{ r.CombatName }}</b>
               will be ready to deploy.

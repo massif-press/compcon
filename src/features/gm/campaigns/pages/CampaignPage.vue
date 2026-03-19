@@ -14,6 +14,7 @@
     </div>
     <v-divider class="my-4" />
     <page-content-container v-for="(e, i) in item.Content"
+      :key="`content-${i}`"
       :item="e"
       class="mb-4"
       @delete-item="item.RemoveContentItem(i)" />
@@ -72,7 +73,8 @@
           <v-card-text>
             <v-row dense>
               <v-col cols="auto"
-                v-for="t in sectionTypes">
+                v-for="t in sectionTypes"
+                :key="t">
                 <v-btn variant="tonal"
                   size="small"
                   :color="item.SectionType === t ? 'secondary' : 'accent'"

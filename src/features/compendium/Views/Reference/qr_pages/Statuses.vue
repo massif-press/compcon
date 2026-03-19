@@ -31,6 +31,7 @@
       center-active
       grow>
       <v-tab v-for="item in content"
+        :key="item"
         v-text="item"
         @click="scrollTo(item)" />
     </v-tabs>

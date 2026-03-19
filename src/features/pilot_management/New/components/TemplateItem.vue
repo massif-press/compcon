@@ -52,7 +52,7 @@
                 <b>SKILLS</b>
               </div>
               <v-row dense justify="center" class="px-2 text-center">
-                <v-col v-for="s in template.build.skills">
+                <v-col v-for="s in template.build.skills" :key="s">
                   <v-tooltip location="top" max-width="600px" :open-on-click="mobile">
                     <template #activator="{ props }">
                       <cc-chip v-bind="props" bg-color="info">
@@ -73,7 +73,7 @@
                 <b>TALENTS</b>
               </div>
               <v-row dense justify="center" class="px-2 text-center">
-                <v-col v-for="t in template.build.talents" cols="12" md="auto" class="mx-1">
+                <v-col v-for="t in template.build.talents" :key="t" cols="12" md="auto" class="mx-1">
                   <v-tooltip location="top" max-width="600px" :open-on-click="mobile">
                     <template #activator="{ props }">
                       <cc-chip v-bind="props" bg-color="accent">
@@ -99,10 +99,10 @@
             <b>LOADOUT</b>
           </div>
           <v-row dense justify="center" class="px-2 text-center">
-            <v-col v-for="m in template.build.mech.mounts">
+            <v-col v-for="(m, index) in template.build.mech.mounts" :key="`mount-${index}`">
               <div class="flavor-text text-stark text-center">{{ m.mount_type }} Mount</div>
               <v-row dense>
-                <v-col v-for="w in m.slots" class="text-center">
+                <v-col v-for="(w, index) in m.slots" :key="`slot-${index}`" class="text-center">
                   <cc-item-modal class="mx-1" :item="item('MechWeapons', w)" />
                 </v-col>
               </v-row>
@@ -110,7 +110,7 @@
           </v-row>
           <div class="flavor-text text-stark text-center mt-1">Systems</div>
           <v-row dense justify="center" class="px-2 text-center">
-            <v-col v-for="s in template.build.mech.systems" class="text-center mx-2" cols="auto">
+            <v-col v-for="s in template.build.mech.systems" :key="s" class="text-center mx-2" cols="auto">
               <cc-item-modal :item="item('MechSystems', s)" />
             </v-col>
           </v-row>

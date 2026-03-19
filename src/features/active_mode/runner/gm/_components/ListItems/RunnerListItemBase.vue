@@ -68,7 +68,8 @@
                       'heatcap',
                       'structure',
                       'repairCapacity',
-                    ])">
+                    ])"
+                    :key="stat.key">
                     <v-tooltip location="top"
                       open-delay="400">
                       <template #activator="{ props }">
@@ -106,7 +107,8 @@
                       'evasion',
                       'edef',
                       'saveTarget',
-                    ])">
+                    ])"
+                    :key="stat.key">
                     <v-tooltip :text="stat.title"
                       location="top"
                       open-delay="400">
@@ -156,6 +158,7 @@
                 justify="center"
                 class="text-center my-1">
                 <v-tooltip v-for="damage in actor.CombatController.Resistances"
+                  :key="`${damage.type}-${damage.condition}`"
                   location="top">
                   <template #activator="{ props }">
                     <v-icon v-bind="props"
@@ -274,7 +277,8 @@
                 </span>
               </v-card>
 
-              <div v-for="cs in customStatuses"
+              <div v-for="(cs, index) in customStatuses"
+                :key="`custom-${index}`"
                 class="d-flex">
                 <v-tooltip location="top"
                   max-width="400px">
@@ -307,6 +311,7 @@
               </div>
 
               <div v-for="status in actor.CombatController.Statuses"
+                :key="status.status.ID"
                 class="mb-1">
                 <v-progress-linear model-value="100"
                   height="16"
@@ -342,6 +347,7 @@
                     <v-icon v-else
                       v-bind="props"
                       v-for="n in activations"
+                      :key="`activation-${n}`"
                       icon="cc:activate"
                       size="20"
                       class="d-block" />

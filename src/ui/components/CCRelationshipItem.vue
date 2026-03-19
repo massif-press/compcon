@@ -77,9 +77,10 @@
                 <v-card>
                   <v-list>
                     <v-list-item
-                      v-for="s in (linkedItem as any).GetRelationshipSuggestions(
+                      v-for="(s, index) in (linkedItem as any).GetRelationshipSuggestions(
                         originItem.ItemType
                       )"
+                      :key="`suggestion-${index}`"
                       @click="item.relationship = s"
                       :title="s" />
                   </v-list>

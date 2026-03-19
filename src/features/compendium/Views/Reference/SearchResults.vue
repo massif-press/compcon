@@ -36,7 +36,8 @@
     <v-card-text :style="!mobile && 'height: calc(100vh - 190px); overflow-y: scroll'">
       <v-slide-y-reverse-transition mode="out-in">
         <v-container>
-          <v-card v-for="result in searchResults"
+          <v-card v-for="(result, index) in searchResults"
+            :key="`result-${index}`"
             class="py-2 px-3 mb-4">
             <v-row dense>
               <v-col>

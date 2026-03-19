@@ -43,12 +43,12 @@
           icon="mdi-alert-rhombus"
           variant="tonal"
         >
-          <div v-for="pack in missingPacks">
+          <div v-for="(pack, packIdx) in missingPacks" :key="`missing-pack-${packIdx}`">
             Lancer Content Pack
             <b>{{ pack.Name }}</b>
             cannot be loaded because it is missing the following dependencies:
             <ul class="py-2 pl-8">
-              <li v-for="dep in getMissingDependencies(pack)">
+              <li v-for="(dep, depIdx) in getMissingDependencies(pack)" :key="`dep-${depIdx}`">
                 <b>{{ dep.name }}</b>
                 at version
                 <b>{{ dep.version }}</b>
@@ -67,7 +67,8 @@
 
         <div>
           <v-card
-            v-for="item in allItems"
+            v-for="(item, itemIdx) in allItems"
+            :key="`item-${itemIdx}`"
             variant="tonal"
             class="mt-1 mb-2"
           >
@@ -116,7 +117,8 @@
                   <div v-if="item.BrewController.DeactivatedBrews.length">
                     <b>DEACTIVATED LCPS</b>
                     <div
-                      v-for="brew in item.BrewController.DeactivatedBrews"
+                      v-for="(brew, brewIdx) in item.BrewController.DeactivatedBrews"
+                      :key="`deactivated-${brewIdx}`"
                       class="ml-2"
                     >
                       <b
@@ -134,7 +136,8 @@
                   <div v-if="item.BrewController.MissingBrews.length">
                     <b>MISSING LCPS</b>
                     <div
-                      v-for="brew in item.BrewController.MissingBrews"
+                      v-for="(brew, brewIdx) in item.BrewController.MissingBrews"
+                      :key="`missing-${brewIdx}`"
                       class="ml-2"
                     >
                       <b
@@ -161,7 +164,8 @@
                   <div v-if="item.BrewController.OutdatedBrews.length">
                     <b>OUTDATED LCPS</b>
                     <div
-                      v-for="brew in item.BrewController.OutdatedBrews"
+                      v-for="(brew, brewIdx) in item.BrewController.OutdatedBrews"
+                      :key="`outdated-${brewIdx}`"
                       class="ml-2"
                     >
                       <span>

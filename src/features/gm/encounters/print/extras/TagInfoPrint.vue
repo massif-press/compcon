@@ -2,6 +2,7 @@
   <div class="pa-2 mt-n3">
     <div class="text-overline text-primary">EQUIPMENT TAG DETAIL</div>
     <div v-for="t in tags"
+      :key="t.ID"
       style="border: 1px solid grey; border-radius: 3px"
       class="px-2 mb-1 no-print-break">
       <div class="text-caption font-weight-bold text-uppercase mb-n1">

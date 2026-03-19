@@ -33,7 +33,7 @@
               </template>
             </v-list-item>
             <v-divider />
-            <v-list-item tile v-for="lcp in lcps" :title="<any>lcp">
+            <v-list-item tile v-for="lcp in lcps" :key="`lcp-${lcp}`" :title="<any>lcp">
               <template v-slot:prepend>
                 <v-checkbox-btn
                   :value="lcp"

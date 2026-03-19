@@ -11,6 +11,7 @@
     <div class="my-1">
       <v-chip
         v-for="t in item.NpcTemplateController.Templates"
+        :key="t.ID"
         size="x-small"
         variant="plain"
         label

@@ -12,6 +12,7 @@
     </div>
     <v-chip
       v-for="l in item.Layers"
+      :key="l.ID"
       size="x-small"
       label
       prepend-icon="mdi-layers"

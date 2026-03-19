@@ -72,7 +72,7 @@
         <span>Sort by Next Session</span>
       </v-tooltip>
     </div>
-    <cc-panel v-for="table in tables" class="my-4" tile flat>
+    <cc-panel v-for="table in tables" :key="table.name" class="my-4" tile flat>
       <div>
         <span class="heading h2 text-accent">
           {{ table.name }}

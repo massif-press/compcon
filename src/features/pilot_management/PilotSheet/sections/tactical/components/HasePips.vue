@@ -5,11 +5,13 @@
     <template #activator="{ props }">
       <span v-bind="props">
         <v-icon v-for="n in filled"
+          :key="`filled-${n}`"
           v-if="filled"
           color="secondary"
           size="large"
           icon="mdi-hexagon" />
         <v-icon v-for="n in empty"
+          :key="`empty-${n}`"
           v-if="empty"
           color="secondary"
           size="large"

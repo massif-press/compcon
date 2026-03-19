@@ -2,7 +2,7 @@
   <v-col class="text-center" cols="6" sm="3" md="2">
     <div class="heading text-accent">{{ title.toUpperCase() }}</div>
     <div class="mt-n2">
-      <span v-for="(v, i) in arr" class="heading h3 text-stark">
+      <span v-for="(v, i) in arr" :key="`tier-${i}`" class="heading h3 text-stark">
         <span v-html-safe="cleanValue(v)" />
         <span v-if="i + 1 < arr.length" class="text-disabled px-1">/</span>
       </span>

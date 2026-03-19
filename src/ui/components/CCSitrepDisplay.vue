@@ -34,7 +34,7 @@
       <v-divider style="width: 150px" />
       {{ sitrep.Objective }}
     </div>
-    <div v-for="c in sitrep.Conditions" class="mt-1">
+    <div v-for="(c, index) in sitrep.Conditions" :key="`condition-${index}`" class="mt-1">
       <div class="text-caption">
         <b class="text-accent">{{ c.title }}</b>
       </div>

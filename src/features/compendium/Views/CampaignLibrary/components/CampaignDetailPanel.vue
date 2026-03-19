@@ -37,7 +37,7 @@
               {{ campaign.website }}
             </a>
             <v-row dense justify="end">
-              <v-col cols="auto" v-for="e in campaign.author_contact">
+              <v-col cols="auto" v-for="(e, index) in campaign.author_contact" :key="`contact-${index}`">
                 <cc-chip>
                   {{ e.service }}
                   <cc-slashes class="mx-1" />

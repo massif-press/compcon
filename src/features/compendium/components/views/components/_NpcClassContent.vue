@@ -6,7 +6,7 @@
         <span class="heading h4">{{ item.Role }}</span>
       </div>
       <div class="pa-1">
-        <cc-item-modal v-for="f in item.Features" size="x-small" :item="f" density="compact" />
+        <cc-item-modal v-for="(f, index) in item.Features" :key="`feature-${index}`" size="x-small" :item="f" density="compact" />
       </div>
     </template>
     <template #overline>&mdash; NPC Class</template>

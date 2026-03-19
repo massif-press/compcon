@@ -1,6 +1,7 @@
 <template>
   <div v-if="statuses.length">
-    <cc-alert v-for="status in statuses"
+    <cc-alert v-for="(status, index) in statuses"
+      :key="`status-${index}`"
       class="mb-2"
       :color="status.color"
       :icon="status.icon"

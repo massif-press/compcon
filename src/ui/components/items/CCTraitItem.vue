@@ -12,13 +12,14 @@
     </template>
     <p v-html-safe="trait.Description" />
     <div v-if="!combat">
-      <cc-action v-for="a in trait.Actions" :action="a" :panel="!mobile" class="my-2" />
+      <cc-action v-for="(a, index) in trait.Actions" :key="`action-${index}`" :action="a" :panel="!mobile" class="my-2" />
       <cc-deployable-info
-        v-for="d in trait.Deployables"
+        v-for="(d, index) in trait.Deployables"
+        :key="`deployable-${index}`"
         :deployable="d"
         :panel="!mobile"
         class="my-2" />
-      <cc-integrated-info v-for="x in trait.Integrated" :item="x" :panel="!mobile" class="my-2" />
+      <cc-integrated-info v-for="(x, index) in trait.Integrated" :key="`integrated-${index}`" :item="x" :panel="!mobile" class="my-2" />
     </div>
     <slot name="combat" />
   </cc-panel>

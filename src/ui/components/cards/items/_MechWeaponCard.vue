@@ -56,6 +56,7 @@
     </v-row>
 
     <on-element v-for="action in ['hit', 'crit', 'attack']"
+      :key="`on-${action}`"
       :profile="item.Profiles[tab]"
       :action="action" />
 
@@ -81,7 +82,8 @@
         <div class="text-cc-overline text-disabled">//PROFILE ACTIONS</div>
         <v-row no-gutters
           justify="center">
-          <v-col v-for="a in item.Profiles[tab].Actions"
+          <v-col v-for="(a, index) in item.Profiles[tab].Actions"
+            :key="`action-${index}`"
             cols="auto">
             <cc-action :action="a"
               :panel="$vuetify.display.lgAndUp"
@@ -95,6 +97,7 @@
         <v-row no-gutters
           justify="center">
           <v-col v-for="(d, i) in item.Profiles[tab].Deployables"
+            :key="`deployable-${i}`"
             cols="auto">
             <cc-deployable-info :deployable="d"
               :panel="$vuetify.display.lgAndUp"

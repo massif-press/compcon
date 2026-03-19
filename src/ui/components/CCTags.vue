@@ -20,6 +20,7 @@
 
   <div v-else-if="!extended || mobile">
     <cc-tag v-for="t in filteredTags"
+      :key="t.ID"
       :tag="t"
       :size="size ? size : mobile ? 'x-small' : 'small'"
       :density="density"

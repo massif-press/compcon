@@ -3,6 +3,7 @@
     <v-row dense
       align="center">
       <v-col v-for="image in displayedRemoteImages"
+        :key="image"
         cols="4"
         md="3">
         <v-card class="ma-2"

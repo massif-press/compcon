@@ -19,7 +19,7 @@
         </div>
         <div location="left"
           class="bg-background border-sm"
-          :style="`width: ${showLeft ? '420' : '115'}px;`""
+          :style="`width: ${showLeft ? '420' : '115'}px;`"
           style="
           position:
           absolute;

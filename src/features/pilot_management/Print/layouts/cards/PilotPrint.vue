@@ -116,6 +116,7 @@
             PILOT&emsp;SKILL TRIGGERS
           </div>
           <v-card v-for="s in pilot.SkillsController.Skills"
+            :key="s.Skill.ID"
             label
             variant="tonal"
             class="mx-2 mb-2">
@@ -143,7 +144,7 @@
           </v-avatar>
         </div>
       </card>
-      <card v-for="t in pilot.TalentsController.Talents">
+      <card v-for="t in pilot.TalentsController.Talents" :key="t.Talent.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           PILOT&emsp;TALENT
@@ -158,6 +159,7 @@
           <v-col><v-divider /></v-col>
         </v-row>
         <div v-for="n in t.Rank"
+          :key="`rank-${n}`"
           class="caption mb-2">
           <div class="heading">
             <v-icon :icon="`cc:rank_${n}`"
@@ -183,6 +185,7 @@
         </div>
         <v-divider />
         <div v-for="cb in pilot.CoreBonusController.CoreBonuses"
+          :key="cb.ID"
           class="my-2">
           <div cols="auto"
             class="heading"
@@ -201,7 +204,7 @@
             size="40" />
         </v-avatar>
       </card>
-      <card v-for="a in pilot.Loadout.Armor.filter((x) => x)">
+      <card v-for="a in pilot.Loadout.Armor.filter((x) => x)" :key="a.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           PILOT ARMOR
@@ -266,7 +269,7 @@
             :options="options" />
         </div>
       </card>
-      <card v-for="w in pilot.Loadout.Weapons.filter((x) => x)">
+      <card v-for="w in pilot.Loadout.Weapons.filter((x) => x)" :key="w.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           PILOT WEAPON
@@ -285,7 +288,8 @@
           <v-col>
             <v-card variant="tonal"
               class="py-2">
-              <b v-for="r in w.Range"
+              <b v-for="(r, ri) in w.Range"
+                :key="`range-${ri}`"
                 class="px-1">
                 <v-icon class="mt-n1"
                   :icon="r.Icon" />
@@ -296,7 +300,7 @@
           <v-col>
             <v-card variant="tonal"
               class="py-2">
-              <b v-for="d in w.Damage">
+              <b v-for="(d, di) in w.Damage" :key="`damage-${di}`">
                 <v-icon class="mt-n1"
                   :icon="d.Icon"
                   :color="d.Color" />
@@ -311,7 +315,7 @@
         <tag-block :tags="w.Tags"
           :options="options" />
       </card>
-      <card v-for="g in pilot.Loadout.Gear.filter((x) => x)">
+      <card v-for="g in pilot.Loadout.Gear.filter((x) => x)" :key="g.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           PILOT GEAR
@@ -329,6 +333,7 @@
           justify="end"
           class="mt-n5 mb-n1">
           <v-col v-for="n in g.MaxUses"
+            :key="`use-${n}`"
             cols="auto"
             class="mx-n1">
             <v-icon size="x-small"
@@ -343,7 +348,7 @@
         <tag-block :tags="g.Tags"
           :options="options" />
       </card>
-      <card v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')">
+      <card v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')" :key="r.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           RESERVE
@@ -375,15 +380,19 @@
         </div>
       </card>
       <action-card v-for="a in gearActions"
+        :key="a.ID"
         :action="a"
         header="PILOT GEAR" />
       <action-card v-for="a in talentActions"
+        :key="a.ID"
         :action="a"
         header="PILOT TALENT" />
       <deployable-card v-for="d in gearDeployables"
+        :key="d.ID"
         :deployable="d"
         header="PILOT GEAR" />
       <deployable-card v-for="d in talentDeployables"
+        :key="d.ID"
         :deployable="d"
         header="PILOT TALENT" />
     </v-row>

@@ -22,7 +22,7 @@
     <div class="mt-4 mb-6" :style="!mobile && 'padding-right: 180px'">
       <no-data-block v-if="!pilot.LicenseController.Licenses.length" />
       <v-row v-else>
-        <v-col v-for="l in pilot.LicenseController.Licenses" cols="12" md="4">
+        <v-col v-for="l in pilot.LicenseController.Licenses" :key="l.Stub.ID" cols="12" md="4">
           <cc-pilot-license-item v-if="inCompendium(l)" :pilot-license="l" title />
           <cc-pilot-license-stub v-else :pilot-license="l" />
         </v-col>

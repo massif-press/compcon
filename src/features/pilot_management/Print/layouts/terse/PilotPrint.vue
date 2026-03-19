@@ -75,7 +75,7 @@
         <div class="text-caption text-primary">SKILL TRIGGERS</div>
         <div class="text-left">
           <v-row dense v-if="blank" class="mt-n2">
-            <v-col v-for="n in 6" cols="6">
+            <v-col v-for="n in 6" :key="`skill-${n}`" cols="6">
               <v-row dense align="center">
                 <v-col cols="9"><blank-line :height="24" inline /></v-col>
                 <v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col>
@@ -86,6 +86,7 @@
           <v-chip
             v-else
             v-for="s in pilot.SkillsController.Skills"
+            :key="s.Skill.ID"
             label
             variant="outlined"
             size="small"
@@ -139,7 +140,7 @@
           </v-col>
         </v-row>
         <v-row dense v-if="blank" class="mt-n2">
-          <v-col v-for="n in 2" cols="12">
+          <v-col v-for="n in 2" :key="`extra-skill-${n}`" cols="12">
             <v-row dense align="center">
               <v-col cols="9"><blank-line :height="24" inline /></v-col>
               <v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col>
@@ -156,6 +157,7 @@
         <v-row dense v-if="blank">
           <v-col
             v-for="n in 12"
+            :key="`talent-${n}`"
             :cols="
               landscape
                 ? hasPilotOption('Pilot Portrait')
@@ -169,6 +171,7 @@
         <v-chip
           v-else-if="hasPilotOption('Separate Talent Detail')"
           v-for="t in pilot.TalentsController.Talents"
+          :key="t.Talent.ID"
           label
           variant="outlined"
           size="small"
@@ -180,6 +183,7 @@
         <v-row
           v-else
           v-for="t in pilot.TalentsController.Talents"
+          :key="t.Talent.ID"
           dense
           justify="space-between"
           class="mt-n1 caption"
@@ -187,7 +191,7 @@
           <v-col>
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Talent.Name }}</legend>
-              <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
+              <v-row v-for="n in t.Rank" :key="`rank-${n}`" align="center" dense class="my-n1">
                 <v-col cols="auto" class="mr-2">
                   <v-icon :icon="`cc:rank_${n}`" color="grey-darken-2" class="mb-1" />
                 </v-col>
@@ -227,6 +231,7 @@
     <v-row dense v-if="blank">
       <v-col
         v-for="n in 4"
+        :key="`cb-${n}`"
         :cols="
           landscape ? (hasPilotOption('Pilot Portrait') ? 6 : 3) : 6
         ">
@@ -237,6 +242,7 @@
     <v-row
       v-else-if="pilot.CoreBonusController.CoreBonuses.length"
       v-for="b in pilot.CoreBonusController.CoreBonuses"
+      :key="b.ID"
       dense
       justify="space-between"
       class="mt-n1 caption">
@@ -252,6 +258,7 @@
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col
         v-for="a in pilot.Loadout.Armor.filter((x) => x)"
+        :key="a.ID"
         style="position: relative; break-inside: avoid">
         <fieldset v-if="a">
           <legend class="heading ml-1 px-1">
@@ -290,6 +297,7 @@
             <div class="text-right">
               <v-chip
                 v-for="t in a.Tags"
+                :key="t.ID"
                 size="x-small"
                 v-show="showTag(t.ID)"
                 label
@@ -301,7 +309,7 @@
           </div>
         </fieldset>
       </v-col>
-      <v-col v-for="w in pilot.Loadout.Weapons.filter((x) => x)" style="position: relative">
+      <v-col v-for="w in pilot.Loadout.Weapons.filter((x) => x)" :key="w.ID" style="position: relative">
         <fieldset v-if="w || blank">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
@@ -312,11 +320,11 @@
           </legend>
           <div v-if="blank" style="height: 150px" />
           <div v-else>
-            <span v-for="r in w.Range">
+            <span v-for="(r, ri) in w.Range" :key="`range-${ri}`">
               <v-icon size="15" :icon="r.Icon" />
               {{ r.Value }}
             </span>
-            <span v-for="d in w.Damage">
+            <span v-for="(d, di) in w.Damage" :key="`damage-${di}`">
               <v-icon size="20" :icon="d.Icon" :color="d.Color" />
               {{ d.Value }}
             </span>
@@ -326,6 +334,7 @@
             <div class="text-right">
               <v-chip
                 v-for="t in w.Tags"
+                :key="t.ID"
                 size="x-small"
                 v-show="showTag(t.ID)"
                 label
@@ -339,7 +348,7 @@
       </v-col>
     </v-row>
     <v-row dense justify="space-between" class="mt-n1 caption pb-3">
-      <v-col v-for="g in pilot.Loadout.Gear.filter((x) => x)" style="position: relative">
+      <v-col v-for="g in pilot.Loadout.Gear.filter((x) => x)" :key="g.ID" style="position: relative">
         <fieldset v-if="g || blank">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
@@ -356,6 +365,7 @@
             <div class="text-right">
               <v-chip
                 v-for="t in g.Tags"
+                :key="t.ID"
                 v-show="showTag(t.ID)"
                 size="x-small"
                 label
@@ -373,6 +383,7 @@
       <v-col
         v-if="hasPilotOption('Extra Equipment Space')"
         v-for="n in 3"
+        :key="`equip-${n}`"
         style="position: relative">
         <fieldset>
           <legend class="heading ml-1 px-1">
@@ -387,7 +398,8 @@
       <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
       <v-row dense>
         <v-col
-          v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
+          v-for="(r, index) in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
+          :key="`reserve-${index}`"
           style="min-width: 18vw">
           <fieldset>
             <legend class="heading caption mb-n1 text-primary px-1">{{ r.Name }}</legend>
@@ -407,6 +419,7 @@
       <v-row dense>
         <v-col
           v-for="r in hasPilotOption('Extra Reserve Space') ? 9 : 6"
+          :key="`reserve-${r}`"
           cols="4">
           <fieldset class="mt-2" style="position: relative">
             <legend class="px-1">
@@ -451,13 +464,14 @@
   <div
     v-if="hasPilotOption('Separate Talent Detail')"
     v-for="t in pilot.TalentsController.Talents"
+    :key="t.Talent.ID"
     no-gutters
     justify="space-between"
     class="mt-n1 caption px-2"
     style="position: relative">
     <fieldset class="pb-2 my-2">
       <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
-      <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
+      <v-row v-for="n in t.Rank" :key="`rank-${n}`" align="center" dense class="my-n1">
         <v-col cols="auto" class="mr-2">
           <v-icon :icon="`cc:rank_${n}`" color="primary" size="large" class="mb-1" />
         </v-col>

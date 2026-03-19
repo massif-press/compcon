@@ -48,7 +48,7 @@
                   collectionLimit > -1 ? collectionLimit : '∞'
                 }})
               </div>
-              <v-tab v-for="collection in collections"
+              <v-tab v-for="(collection, colTabIdx) in collections" :key="`col-tab-${colTabIdx}`"
                 density="compact"
                 prepend-icon="mdi-broadcast"
                 size="small"
@@ -70,7 +70,7 @@
             class="my-1" />
           <v-col>
             <v-window v-model="colIdx">
-              <v-window-item v-for="collection in collections">
+              <v-window-item v-for="(collection, colWinIdx) in collections" :key="`col-win-${colWinIdx}`">
                 <v-card flat>
                   <div class="px-4">
                     <v-row dense>
@@ -226,7 +226,7 @@
                             </cc-button>
                           </v-toolbar>
                           <v-card-text>
-                            <div v-for="entry in collection.Changelog">
+                            <div v-for="(entry, entryIdx) in collection.Changelog" :key="`entry-${entryIdx}`">
                               <div class="heading h4">version {{ entry.version }}</div>
                               <v-textarea v-model="entry.changes"
                                 density="compact"
@@ -269,7 +269,7 @@
                     <span class="text-caption">COLLECTION SHARE CODE</span>
                     <div v-if="collection.Metadata?.code"
                       class="text-center">
-                      <v-chip v-for="n in collection.Metadata.code.substring(0, 4)"
+                      <v-chip v-for="(n, nIdx) in collection.Metadata.code.substring(0, 4)" :key="`code0-${nIdx}`"
                         color="primary"
                         class="mt-1 mx-1"
                         size="x-large"
@@ -282,7 +282,7 @@
                         label>
                         <span class="heading h2">&ndash;</span>
                       </v-chip>
-                      <v-chip v-for="n in collection.Metadata.code.substring(4, 8)"
+                      <v-chip v-for="(n, nIdx) in collection.Metadata.code.substring(4, 8)" :key="`code4-${nIdx}`"
                         color="primary"
                         class="mt-1 mx-1"
                         size="x-large"
@@ -295,7 +295,7 @@
                         label>
                         <span class="heading h2">&ndash;</span>
                       </v-chip>
-                      <v-chip v-for="n in collection.Metadata.code.substring(8, 12)"
+                      <v-chip v-for="(n, nIdx) in collection.Metadata.code.substring(8, 12)" :key="`code8-${nIdx}`"
                         color="primary"
                         class="mt-1 mx-1"
                         size="x-large"

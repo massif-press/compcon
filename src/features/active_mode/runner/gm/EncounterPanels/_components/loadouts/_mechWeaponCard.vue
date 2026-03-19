@@ -54,7 +54,8 @@
                 height="20"
                 align="center"
                 center-active>
-                <v-tab v-for="p in item.Profiles">{{ p.Name }}</v-tab>
+                <v-tab v-for="p in item.Profiles"
+                  :key="p.ID">{{ p.Name }}</v-tab>
               </v-tabs>
 
               <v-chip-group v-else
@@ -94,6 +95,7 @@
               </div>
 
               <cc-combat-action-chip v-for="a in item.Profiles[item.ProfileIndex].Actions"
+                :key="a.ID"
                 :action="a"
                 :owner="owner"
                 :encounter="encounter"
@@ -130,11 +132,13 @@
                   :bonus="mech.LimitedBonus" />
               </div>
               <on-element v-for="action in ['hit', 'crit', 'attack']"
+                :key="action"
                 :profile="item.Profiles[item.ProfileIndex]"
                 :action="action" />
             </div>
             <div v-else>
               <on-element v-for="action in ['hit', 'crit', 'attack']"
+                :key="action"
                 :profile="item.Profiles[0]"
                 :action="action" />
             </div>
@@ -172,6 +176,7 @@
             </v-col>
 
             <v-col v-for="p in item.Profiles"
+              :key="p.ID"
               v-show="item.Profiles.length > 1"
               class="mr-4"
               cols="auto">
@@ -195,7 +200,8 @@
             </v-col>
             <v-col cols="auto"
               class="ml-auto mr-4">
-              <cc-bonus v-for="b in item.Bonuses"
+              <cc-bonus v-for="(b, index) in item.Bonuses"
+                :key="`bonus-${index}`"
                 :bonus="b"
                 chip />
               <cc-synergy-display :item="item"

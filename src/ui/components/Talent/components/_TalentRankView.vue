@@ -1,6 +1,6 @@
 <template>
   <cc-panel icon="cc:talent" :title="talent.Name" title-color="primary">
-    <v-row v-for="n in rank" dense>
+    <v-row v-for="n in rank" :key="`rank-${n}`" dense>
       <v-col cols="auto" style="position: relative">
         <v-icon>cc:rank_{{ n }}</v-icon>
       </v-col>

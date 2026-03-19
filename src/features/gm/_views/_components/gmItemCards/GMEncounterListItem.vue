@@ -32,7 +32,8 @@
             </v-col>
             <v-col cols="auto" class="ml-auto">
               <cc-split-chip
-                v-for="label in item.NarrativeController.Labels"
+                v-for="(label, index) in item.NarrativeController.Labels"
+                :key="`label-${index}`"
                 :label="label"
                 class="mx-1" />
             </v-col>
@@ -40,6 +41,7 @@
           <div class="mt-1">
             <combatant-chip
               v-for="c in item.Combatants.filter((x) => !x.reinforcement)"
+              :key="c.id"
               :item="c" />
             <v-tooltip v-if="item.Combatants.filter((x) => x.reinforcement).length" location="top">
               <template #activator="{ props }">
@@ -50,7 +52,7 @@
               </template>
               Reinforcements
             </v-tooltip>
-            <combatant-chip v-for="c in item.Combatants.filter((x) => x.reinforcement)" :item="c" />
+            <combatant-chip v-for="c in item.Combatants.filter((x) => x.reinforcement)" :key="c.id" :item="c" />
           </div>
         </v-col>
         <sort-chips :sorting="sorting" />

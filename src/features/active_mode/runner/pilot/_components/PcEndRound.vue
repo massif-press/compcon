@@ -82,7 +82,8 @@
               <div class="mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ controller.CombatName }}</b>
                 will lose the following statuses:
-                <div v-for="s in getTimeoutStatuses()"
+                <div v-for="(s, index) in getTimeoutStatuses()"
+                  :key="`timeout-${index}`"
                   class="px-2 text-text bg-panel">
                   <b class="text-accent text-uppercase">
                     <v-icon :icon="s.status.Icon"
@@ -97,11 +98,13 @@
                   </b>
                 </div>
               </div>
-              <div v-for="s in getTimeoutStatuses(true)"
+              <div v-for="(s, index) in getTimeoutStatuses(true)"
+                :key="`timeout-custom-${index}`"
                 class="my-1 mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ controller.CombatName }}</b>
                 will lose the following statuses:
-                <div v-for="s in getTimeoutStatuses()"
+                <div v-for="(s, sIdx) in getTimeoutStatuses()"
+                  :key="`timeout-custom-inner-${sIdx}`"
                   class="my-1 mx-4 px-2 text-text bg-panel">
                   <b class="text-accent text-uppercase">
                     {{ s.status.Name }}
@@ -115,7 +118,8 @@
               </div>
             </div>
 
-            <div v-for="b in braced"
+            <div v-for="(b, index) in braced"
+              :key="`braced-${index}`"
               class="my-1 mx-4 px-2 text-text bg-panel">
               You exit
               <b class="text-accent">BRACED</b>

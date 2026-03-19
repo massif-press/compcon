@@ -65,6 +65,7 @@
       </v-card-text>
       <v-card-text class="px-0">
         <v-row v-for="n in 3"
+          :key="`rank-${n}`"
           dense
           v-show="showFull || (!showFull && rank && Number(rank) >= n)"
           :style="!isUnlocked(n) && 'opacity: 0.35'">

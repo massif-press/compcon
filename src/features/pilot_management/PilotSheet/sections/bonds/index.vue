@@ -46,7 +46,8 @@
             md="6">
             <cc-heading line>Major Ideals</cc-heading>
             <ul>
-              <li v-for="m in pilot.BondController.Bond.MajorIdeals"
+              <li v-for="(m, index) in pilot.BondController.Bond.MajorIdeals"
+                :key="`ideal-${index}`"
                 v-text="m" />
             </ul>
           </v-col>
@@ -61,6 +62,7 @@
               variant="outlined" />
           </v-col>
           <v-col v-for="(q, i) in pilot.BondController.Bond.Questions"
+            :key="`question-${i}`"
             md="6"
             cols="12">
             <cc-heading line>{{ q.question }}</cc-heading>
@@ -272,7 +274,7 @@
 
         <section-header title="Burdens" />
         <div>
-          <div v-for="(b, i) in pilot.BondController.Burdens">
+          <div v-for="(b, i) in pilot.BondController.Burdens" :key="`burden-${i}`">
             <cc-clock :clock="b"
               class="mx-1 my-2"
               color="overcharge"
@@ -293,7 +295,7 @@
         <section-header title="Other Clocks" />
 
         <div>
-          <div v-for="(b, i) in pilot.BondController.Clocks">
+          <div v-for="(b, i) in pilot.BondController.Clocks" :key="`clock-${i}`">
             <cc-clock :clock="b"
               class="mx-1 my-2"
               color="overcharge"

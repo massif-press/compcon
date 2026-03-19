@@ -72,7 +72,8 @@
       <cc-icon-divider icon="cc:pilot" class="mt-n4" />
       <div class="d-flex flex-wrap justify-center">
         <cc-item-modal
-          v-for="s in pilot.PilotLoadoutController.ActiveLoadout.Items"
+          v-for="(s, index) in pilot.PilotLoadoutController.ActiveLoadout.Items"
+          :key="`loadout-${index}`"
           :item="s"
           hide-link />
       </div>
@@ -156,6 +157,7 @@
         <div class="px-2 pb-4 pt-2">
           <cc-core-bonus-item
             v-for="b in pilot.CoreBonusController.CoreBonuses"
+            :key="b.ID"
             :bonus="b"
             readonly
             terse />
@@ -163,11 +165,11 @@
 
         <cc-icon-divider icon="cc:weapon" class="mt-n4" />
         <div class="d-flex flex-wrap justify-center">
-          <cc-item-modal v-for="w in mech.MechLoadoutController.ActiveLoadout.Weapons" :item="w" />
+          <cc-item-modal v-for="(w, index) in mech.MechLoadoutController.ActiveLoadout.Weapons" :key="`weapon-${index}`" :item="w" />
         </div>
         <cc-icon-divider icon="cc:system" class="mt-1" />
         <div class="d-flex flex-wrap justify-center">
-          <cc-item-modal v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems" :item="s" />
+          <cc-item-modal v-for="(s, index) in mech.MechLoadoutController.ActiveLoadout.Systems" :key="`system-${index}`" :item="s" />
         </div>
       </v-col>
     </v-row>

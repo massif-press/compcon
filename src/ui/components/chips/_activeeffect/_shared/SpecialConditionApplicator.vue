@@ -1,7 +1,7 @@
 <template>
   <v-col :cols="cols"
     v-if="event.SpecialEvents.length">
-    <div v-for="s in event.SpecialEvents">
+    <div v-for="(s, index) in event.SpecialEvents" :key="`special-${index}`">
       <v-tooltip location="top"
         max-width="400px">
         <template #activator="{ props }">

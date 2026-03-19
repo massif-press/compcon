@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel v-for="item in items" flat tile :height="mobile ? 50 : 80">
+  <v-expansion-panel v-for="item in items" :key="item.ID" flat tile :height="mobile ? 50 : 80">
     <v-expansion-panel-title :id="item.ID" class="hover-parent py-0 pr-0 pl-3" hide-actions flat>
       <template #default="{ expanded }">
         <v-row
@@ -16,7 +16,8 @@
           </v-col>
           <v-col cols="auto" md="12" class="px-2 ml-auto">
             <cc-chip
-              v-for="f in item.Frame.MechType"
+              v-for="(f, index) in item.Frame.MechType"
+              :key="`type-${index}`"
               :size="mobile ? 'x-small' : 'small'"
               bg-color="primary"
               variant="elevated"

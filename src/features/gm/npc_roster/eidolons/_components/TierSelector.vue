@@ -4,6 +4,7 @@
     <v-col cols="auto">
       <v-btn
         v-for="i in 3"
+        :key="`tier-${i}`"
         @click="updateTier(i)"
         :variant="item.Tier === i ? 'tonal' : 'text'"
         :color="item.Tier === i ? 'accent' : ''"

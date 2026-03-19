@@ -11,6 +11,7 @@
       justify="space-around">
       <v-col cols="auto"
         v-for="(c, n) in campaigns"
+        :key="`campaign-${n}`"
         class="mx-1">
         <v-badge :model-value="!!c.hasUpdate"
           color="secondary"

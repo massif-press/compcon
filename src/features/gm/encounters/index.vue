@@ -66,6 +66,7 @@
       </v-toolbar>
 
       <gm-collection-folder v-for="folder in folders"
+        :key="folder"
         :folder="folder"
         :filtered-items="filteredItems"
         :items="items"

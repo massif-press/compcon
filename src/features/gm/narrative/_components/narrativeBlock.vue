@@ -9,7 +9,8 @@
     <v-divider class="my-4" />
     <div class="text-cc-overline mb-2">CLOCKS</div>
     <cc-clock
-      v-for="c in item.NarrativeController.Clocks"
+      v-for="(c, ci) in item.NarrativeController.Clocks"
+      :key="`clock-${ci}`"
       :clock="c"
       class="mx-1 my-4"
       :readonly="readonly"
@@ -33,7 +34,8 @@
       TABLES
     </div>
     <cc-rollable-table
-      v-for="t in item.NarrativeController.Tables"
+      v-for="(t, ti) in item.NarrativeController.Tables"
+      :key="`table-${ti}`"
       :table="t"
       class="mx-1 my-4"
       :readonly="readonly"

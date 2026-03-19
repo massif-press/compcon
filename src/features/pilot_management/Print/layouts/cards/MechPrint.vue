@@ -179,6 +179,7 @@
     </div>
     <v-divider />
     <div v-for="t in mech.Frame.Traits"
+      :key="t.Name"
       class="caption">
       <div class="heading">{{ t.Name }}</div>
       <div v-html-safe="t.Description" />
@@ -254,6 +255,7 @@
         <v-col><v-divider /></v-col>
         <v-col cols="auto">
           <v-icon v-for="n in mech.MaxStructure"
+            :key="`struct-${n}`"
             icon="mdi-hexagon-outline"
             size="x-small"
             color="primary" />
@@ -278,6 +280,7 @@
         <v-col><v-divider /></v-col>
         <v-col cols="auto">
           <v-icon v-for="n in mech.MaxStress"
+            :key="`stress-${n}`"
             icon="mdi-hexagon-outline"
             size="x-small"
             color="heat" />
@@ -355,7 +358,7 @@
     </div>
   </card>
 
-  <card v-for="m in mounts.filter((x) => !x.IsLocked)">
+  <card v-for="m in mounts.filter((x) => !x.IsLocked)" :key="m.ID">
     <div class="caption text-center mt-n1"
       style="letter-spacing: 6px; font-size: 10px">
       MECH WEAPON MOUNT
@@ -370,6 +373,7 @@
       </v-col>
     </v-row>
     <v-card v-for="w in m.Weapons.filter(Boolean)"
+      :key="w.ID"
       class="px-1 mb-2"
       variant="outlined"
       style="border-color: dimgrey">
@@ -392,6 +396,7 @@
       <v-row v-if="w.Uses"
         justify="space-around">
         <v-col v-for="n in w.getTotalUses(mech.LimitedBonus)"
+          :key="`use-${n}`"
           cols="auto">
           <v-icon size="small"
             color="primary">mdi-hexagon-outline</v-icon>
@@ -401,12 +406,13 @@
       <div>
         <div v-if="showCollectedEffect(w)"
           class="caption mb-2">{{ w.Profiles[0].Effect }}</div>
-        <div v-for="p in w.Profiles">
+        <div v-for="(p, index) in w.Profiles" :key="`profile-${index}`">
           <div class="flavor-text text-black"
             style="font-size: 12px">
             <span v-if="w.Profiles.length > 1 && p.Name"
               class="heading">{{ p.Name }}:&nbsp;</span>
-            <b v-for="r in p.Range"
+            <b v-for="(r, ri) in p.Range"
+              :key="`range-${ri}`"
               class="px-1">
               <v-icon class="mt-n1"
                 :icon="r.Icon" />
@@ -414,7 +420,7 @@
             </b>
             <span v-if="p.Damage && p.Damage.length"
               class="pl-2 pr-1"><cc-slashes /></span>
-            <b v-for="d in p.Damage">
+            <b v-for="(d, di) in p.Damage" :key="`damage-${di}`">
               <v-icon class="mr-n2"
                 :icon="d.Icon"
                 :color="d.Color" />
@@ -467,7 +473,7 @@
     </v-card>
   </card>
 
-  <card v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)">
+  <card v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)" :key="s.ID">
     <div class="caption text-center mt-n1"
       style="letter-spacing: 11px; font-size: 10px">
       MECH SYSTEM
@@ -496,6 +502,7 @@
         cols="auto"
         class="ml-auto">
         <v-icon v-for="n in s.getTotalUses(mech.LimitedBonus)"
+          :key="`use-${n}`"
           size="15"
           color="primary">
           mdi-hexagon-outline
@@ -507,6 +514,7 @@
       class="caption" />
 
     <v-card v-for="action in s.Actions"
+      :key="action.ID"
       variant="text"
       class="my-1 px-1 text-caption">
       Gain
@@ -521,6 +529,7 @@
     </v-card>
 
     <v-card v-for="deployable in s.Deployables"
+      :key="deployable.ID"
       variant="text"
       class="my-1 px-1 text-caption">
       Gain
@@ -539,9 +548,11 @@
   </card>
 
   <action-card v-for="a in allActions"
+    :key="a.ID"
     :action="a"
     header="MECH" />
   <deployable-card v-for="d in allDeployables"
+    :key="d.ID"
     :deployable="d"
     header="MECH" />
 </template>

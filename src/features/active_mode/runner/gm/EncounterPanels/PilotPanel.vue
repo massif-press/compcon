@@ -107,6 +107,7 @@
                   <div v-if="item.Talent.AllActions?.length"
                     class="mb-2 mt-1">
                     <cc-combat-action-chip v-for="a in item.Talent.AllActions"
+                      :key="a.ID"
                       :action="a"
                       :owner="combatant"
                       :encounter="encounterInstance" />
@@ -114,6 +115,7 @@
                   <div v-if="item.Talent.AllDeployables?.length"
                     class="mb-2">
                     <deploy-button v-for="d in item.Talent.AllDeployables"
+                      :key="d.ID"
                       :deployable="d"
                       :actor="pilot"
                       @deploy="deploy($event)" />

@@ -30,6 +30,7 @@
       :class="!mobile && 'px-5'"
       justify="space-around">
       <v-col v-for="(list, i) in lists"
+        :key="`list-${i}`"
         cols="12"
         lg="">
         <v-card variant="tonal"
@@ -51,7 +52,8 @@
                 v-text="headers[i].subtitle"
                 class="text-cc-overline my-n1" />
             </v-list-item>
-            <div v-for="e in list">
+            <div v-for="(e, index) in list"
+              :key="`entry-${index}`">
               <v-list-item v-if="!e.small"
                 lines="two"
                 :key="e.title"

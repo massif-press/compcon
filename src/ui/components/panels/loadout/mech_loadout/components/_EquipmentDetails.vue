@@ -13,7 +13,7 @@
           class="mt-n1" />
         EQUIPMENT ACTIONS
       </div>
-      <cc-action v-for="a in item.Actions"
+      <cc-action v-for="(a, index) in item.Actions" :key="`action-${index}`"
         :action="a"
         :panel="!mobile"
         class="mb-1" />
@@ -27,7 +27,7 @@
           class="mt-n1" />
         EQUIPMENT DEPLOYABLES
       </div>
-      <cc-deployable-info v-for="d in item.Deployables"
+      <cc-deployable-info v-for="(d, index) in item.Deployables" :key="`deployable-${index}`"
         :deployable="d"
         :panel="!mobile"
         class="mb-1"
@@ -43,7 +43,7 @@
           :bonus="mech.LimitedBonus" />
       </v-col>
 
-      <v-col v-for="p in item.Profiles"
+      <v-col v-for="(p, index) in item.Profiles" :key="`profile-${index}`"
         v-show="item.Profiles.length > 1"
         class="mr-4"
         cols="auto">
@@ -66,7 +66,7 @@
 
       <v-col cols="auto"
         class="ml-auto mr-4">
-        <cc-bonus v-for="b in item.Bonuses"
+        <cc-bonus v-for="(b, index) in item.Bonuses" :key="`bonus-${index}`"
           :bonus="b"
           chip />
         <cc-synergy-display :item="item"

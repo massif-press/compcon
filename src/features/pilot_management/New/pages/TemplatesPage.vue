@@ -52,6 +52,7 @@
     </v-row>
     <div class="my-4">
       <template-item v-for="t in templates"
+        :key="t.name"
         :template="t"
         :isSelected="selected && t.name === selected.name"
         @select="selected = t" />

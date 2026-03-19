@@ -54,18 +54,20 @@
       class="my-4" />
 
     <div class="text-text px-4">
-      <v-card v-for="t in item.NarrativeController.TextItems" variant="plain">
+      <v-card v-for="(t, index) in item.NarrativeController.TextItems" :key="`text-${index}`" variant="plain">
         <div class="heading mt-1">{{ t.header }}</div>
         <p class="pl-4" v-html-safe="t.body" />
       </v-card>
       <cc-clock
-        v-for="c in item.NarrativeController.Clocks"
+        v-for="(c, index) in item.NarrativeController.Clocks"
+        :key="`clock-${index}`"
         :clock="c"
         density="compact"
         class="my-2"
         readonly />
       <cc-rollable-table
-        v-for="t in item.NarrativeController.Tables"
+        v-for="(t, index) in item.NarrativeController.Tables"
+        :key="`table-${index}`"
         :table="t"
         density="compact"
         class="my-2"

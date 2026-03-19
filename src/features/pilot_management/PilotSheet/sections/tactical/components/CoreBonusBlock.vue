@@ -20,6 +20,7 @@
 
       <cc-core-bonus-item
         v-for="item in pilot.CoreBonusController.CoreBonuses"
+        :key="item.ID"
         :bonus="item"
         terse />
     </v-container>

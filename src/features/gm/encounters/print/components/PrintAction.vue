@@ -1,5 +1,5 @@
 <template>
-  <div v-for="a in actions" class="no-print-break">
+  <div v-for="(a, index) in actions" :key="`action-${index}`" class="no-print-break">
     <div>
       <v-icon size="x-small" :icon="(a as Action).Icon" />
       <span class="caption">

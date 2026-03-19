@@ -44,7 +44,7 @@
 
     <v-row dense
       justify="space-around">
-      <cc-tiered-attribute v-for="i in statArr"
+      <cc-tiered-attribute v-for="i in statArr" :key="i"
         :title="i"
         :arr="item.Stats.StatArr(i)" />
     </v-row>

@@ -24,7 +24,8 @@
           @deploy="$emit('deploy', $event)" />
 
         <sh-lock-card v-if="item.mount.IsLocked" />
-        <div v-for="(s, idx) in item.mount.Slots">
+        <div v-for="(s, idx) in item.mount.Slots"
+          :key="`slot-${idx}`">
           <div v-if="Number(idx) > 0"
             class="my-4" />
           <mech-weapon-card v-if="s && s.Weapon"

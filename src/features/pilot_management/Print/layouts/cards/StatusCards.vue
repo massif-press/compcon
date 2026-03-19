@@ -1,5 +1,5 @@
 <template>
-  <card v-for="s in statuses">
+  <card v-for="s in statuses" :key="s.Name">
     <div class="caption heading text-center mt-n1 warning-stripes mx-n5 pa-1">
       <v-chip size="x-small" variant="outlined" class="bg-white">
         <span style="letter-spacing: 4px; font-size: 11px">

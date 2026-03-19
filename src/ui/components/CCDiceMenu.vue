@@ -104,7 +104,7 @@
               <v-col cols="auto">
                 <v-chip v-if="!dice.length" variant="outlined" style="opacity: 0.5">No Roll</v-chip>
               </v-col>
-              <v-col v-for="(d, i) in dice" cols="auto">
+              <v-col v-for="(d, i) in dice" :key="`dice-${i}`" cols="auto">
                 <v-chip
                   variant="outlined"
                   class="mx-1"
@@ -149,10 +149,10 @@
             <v-divider v-if="result" />
             <div style="min-height: 20px">
               <div v-if="result">
-                <div v-for="(r, j) in result">
+                <div v-for="(r, j) in result" :key="`result-${j}`">
                   <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
                   <v-row no-gutters>
-                    <v-col v-for="(val, i) in r.rolls" cols="auto">
+                    <v-col v-for="(val, i) in r.rolls" :key="`roll-${i}`" cols="auto">
                       <v-chip
                         x-small
                         label
@@ -194,7 +194,7 @@
                     {{ accuracy > 0 ? 'ACCURACY' : 'DIFFICULTY' }}
                   </div>
                   <v-row no-gutters>
-                    <v-col v-for="(a, i) in accRolls" cols="auto">
+                    <v-col v-for="(a, i) in accRolls" :key="`acc-${i}`" cols="auto">
                       <v-chip
                         x-small
                         label
@@ -225,7 +225,7 @@
                   style="border: 1px solid rgb(var(--v-theme-heat)); border-radius: 2px">
                   <v-col cols="auto" class="ml-auto text-stark text-right">
                     <div class="caption">// OVERKILL //</div>
-                    <v-chip v-for="n in overkillRolls" x-small color="heat">
+                    <v-chip v-for="(n, index) in overkillRolls" :key="`overkill-${index}`" x-small color="heat">
                       <v-icon small>cc:heat</v-icon>
                     </v-chip>
                   </v-col>

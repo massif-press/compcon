@@ -86,6 +86,7 @@
                 margin-bottom: 4px;
               ">
               <v-btn v-for="i in modelValue"
+                :key="`tick-${i}`"
                 v-bind="props"
                 tile
                 flat
@@ -116,6 +117,7 @@
 
         <div v-else-if="ticks">
           <div v-for="i in ticks"
+            :key="`tick-${i}`"
             class="d-inline-block pl-1"
             :style="`width: ${100 / ticks}%;`">
             <v-tooltip location="top"

@@ -121,6 +121,7 @@
     </v-textarea>
 
     <v-card v-for="(c, i) in item.Sitrep.Conditions"
+      :key="`condition-${i}`"
       class="pa-2">
       <v-text-field v-model="c.title"
         :readonly="readonly"
@@ -149,6 +150,7 @@
     <v-row v-if="!readonly"
       dense>
       <v-col v-for="key in keys.filter((x) => !item.Sitrep[x])"
+        :key="key"
         cols="auto">
         <cc-button color="primary"
           size="small"

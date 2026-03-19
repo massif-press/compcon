@@ -42,13 +42,14 @@
       <v-chip-group column>
         <v-chip
           v-for="a in item.PossibleTypes"
+          :key="a"
           size="small"
           tile
           variant="outlined"
           class="text-uppercase">
           {{ a }}
         </v-chip>
-        <v-chip v-for="a in item.PossibleSizes" size="small" tile class="text-uppercase">
+        <v-chip v-for="a in item.PossibleSizes" :key="a" size="small" tile class="text-uppercase">
           {{ a }}
         </v-chip>
       </v-chip-group>
@@ -57,6 +58,7 @@
         <v-chip-group column>
           <v-chip
             v-for="a in item.RestrictedTypes"
+            :key="a"
             size="small"
             tile
             variant="outlined"
@@ -66,6 +68,7 @@
           </v-chip>
           <v-chip
             v-for="a in item.RestrictedSizes"
+            :key="a"
             size="small"
             tile
             color="error"

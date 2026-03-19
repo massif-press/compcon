@@ -63,9 +63,10 @@
               <v-card flat
                 tile
                 v-for="doodad in doodads"
+                :key="doodad.ID"
                 class="border-sm mb-1"
                 @click="add(doodad)">
-                <v-row :key="doodad.ID">
+                <v-row>
                   <v-col cols="auto">
                     <cc-img :src="doodad.Portrait"
                       width="80" />
@@ -82,9 +83,10 @@
               <v-card flat
                 tile
                 v-for="e in eidolons"
+                :key="e.ID"
                 class="border-sm mb-1"
                 @click="addEidolon(e)">
-                <v-row :key="e.ID">
+                <v-row>
                   <v-col cols="auto">
                     <cc-img :src="e.Portrait"
                       width="80" />

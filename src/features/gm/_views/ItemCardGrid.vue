@@ -8,6 +8,7 @@
     @open="$emit('open', $event)" />
   <div v-else>
     <div v-for="key in Object.keys(groupings)"
+      :key="key"
       class="mb-4 mt-n2">
       <v-row dense
         align="center">
@@ -29,6 +30,7 @@
       <v-row v-else
         dense>
         <v-col v-for="(item, i) in groupedItems(groupings[key])"
+          :key="(item as any).ID"
           :cols="list ? 12 : big ? 3 : 2"
           style="position: relative">
           <folder-menu v-if="allFolders && allFolders.length > 0"

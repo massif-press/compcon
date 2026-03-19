@@ -64,13 +64,14 @@
     <v-row dense justify="space-between" class="mt-n2 print-section">
       <v-col>
         <v-row v-if="blank" dense>
-          <v-col v-for="n in 6" cols="4">
+          <v-col v-for="n in 6" :key="`skill-${n}`" cols="4">
             <blank-line :height="24" />
           </v-col>
         </v-row>
         <div v-else class="text-left">
           <v-chip
             v-for="s in pilot.SkillsController.Skills"
+            :key="s.Skill.ID"
             label
             variant="outlined"
             size="small"
@@ -115,13 +116,14 @@
       <v-col :cols="blank ? 8 : 'auto'">
         <div class="text-caption mb-n1 text-primary">TALENTS</div>
         <v-row v-if="blank" dense>
-          <v-col v-for="n in 9" cols="4">
+          <v-col v-for="n in 9" :key="`talent-${n}`" cols="4">
             <blank-line :height="24" />
           </v-col>
         </v-row>
         <v-chip
           v-else
           v-for="t in pilot.TalentsController.Talents"
+          :key="t.Talent.ID"
           label
           variant="outlined"
           size="small"
@@ -139,7 +141,7 @@
         </div>
 
         <v-row v-if="blank" dense>
-          <v-col v-for="n in 3" cols="12">
+          <v-col v-for="n in 3" :key="`cb-${n}`" cols="12">
             <blank-line :height="24" />
           </v-col>
         </v-row>
@@ -147,6 +149,7 @@
         <v-chip
           v-else
           v-for="b in pilot.CoreBonusController.CoreBonuses"
+          :key="b.ID"
           label
           variant="outlined"
           size="small"
@@ -160,6 +163,7 @@
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col
         v-for="a in pilot.Loadout.Armor.filter((x) => x)"
+        :key="a.ID"
         style="position: relative"
         class="no-print-break">
         <fieldset v-if="a">
@@ -199,6 +203,7 @@
             <div class="text-right mb-n2">
               <v-chip
                 v-for="t in a.Tags"
+                :key="t.ID"
                 size="x-small"
                 v-show="showTag(t.ID)"
                 label
@@ -212,6 +217,7 @@
       </v-col>
       <v-col
         v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
+        :key="w.ID"
         style="position: relative"
         class="no-print-break">
         <fieldset v-if="w || blank">
@@ -224,11 +230,11 @@
           </legend>
           <div v-if="blank" style="height: 75px" />
           <div v-else>
-            <span v-for="r in w.Range">
+            <span v-for="(r, ri) in w.Range" :key="`range-${ri}`">
               <v-icon size="15" :icon="r.Icon" />
               {{ r.Value }}
             </span>
-            <span v-for="d in w.Damage">
+            <span v-for="(d, di) in w.Damage" :key="`damage-${di}`">
               <v-icon size="20" :icon="d.Icon" :color="d.Color" />
               {{ d.Value }}
             </span>
@@ -237,6 +243,7 @@
             <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
               <v-chip
                 v-for="t in w.Tags"
+                :key="t.ID"
                 size="x-small"
                 v-show="showTag(t.ID)"
                 label
@@ -253,6 +260,7 @@
     <v-row dense justify="space-between" class="mt-n1 caption pb-1">
       <v-col
         v-for="g in pilot.Loadout.Gear.filter((x) => x)"
+        :key="g.ID"
         style="position: relative"
         class="no-print-break">
         <fieldset v-if="g || blank">
@@ -272,6 +280,7 @@
           <div class="text-right">
             <v-chip
               v-for="t in g.Tags"
+              :key="t.ID"
               v-show="showTag(t.ID)"
               size="x-small"
               label
@@ -289,6 +298,7 @@
       <div class="pb-1">
         <v-chip
           v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
+          :key="r.ID"
           label
           variant="outlined"
           size="small"
@@ -304,6 +314,7 @@
       <v-row dense>
         <v-col
           v-for="r in hasPilotOption('Extra Reserve Space') ? 8 : 4"
+          :key="`reserve-${r}`"
           cols="3">
           <blank-line :height="26" />
         </v-col>

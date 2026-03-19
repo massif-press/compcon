@@ -69,11 +69,11 @@
                   {{ pilot.MechSkillsController.MechSkills.Eng }}
                   <v-divider />
                   <div>
-                    <div v-for="s in pilot.TalentsController.Talents">
+                    <div v-for="s in pilot.TalentsController.Talents" :key="s.Talent.ID">
                       {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
                     </div>
                     <v-divider />
-                    <div v-for="b in pilot.CoreBonusController.CoreBonuses">
+                    <div v-for="b in pilot.CoreBonusController.CoreBonuses" :key="b.ID">
                       {{ b.Name }}
                     </div>
                   </div>

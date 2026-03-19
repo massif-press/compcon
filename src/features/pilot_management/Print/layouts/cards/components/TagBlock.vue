@@ -3,6 +3,7 @@
     <v-divider />
     <v-chip
       v-for="t in (tags as any[])"
+      :key="t.ID"
       size="x-small"
       v-show="showTag(t.ID)"
       label

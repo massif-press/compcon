@@ -49,13 +49,14 @@
           {{ campaign.Website }}
         </a>
       </v-col>
-      <v-col cols="auto" v-for="item in campaign.AuthorContact">
+      <v-col cols="auto" v-for="(item, index) in campaign.AuthorContact" :key="`contact-${index}`">
         {{ item.service }}: {{ item.contact }}
       </v-col>
     </v-row>
 
     <page-content-container
       v-for="(item, i) in campaign.TitlePageContent.Content"
+      :key="`content-${i}`"
       :item="item"
       class="mb-4"
       @delete-item="campaign.TitlePageContent.RemoveContentItem(i)" />

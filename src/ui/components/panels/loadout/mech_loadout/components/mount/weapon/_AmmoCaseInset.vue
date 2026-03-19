@@ -23,7 +23,7 @@
       <v-col v-if="selected.cost" class="ml-auto pl-4 pr-3 text-left">
         <div class="text-overline my-n2">COST::AMMO CASE</div>
         <div>
-          <v-icon v-for="n in selected.cost">mdi-hexagon-slice-6</v-icon>
+          <v-icon v-for="(n, index) in selected.cost" :key="`ammo-${index}`">mdi-hexagon-slice-6</v-icon>
         </div>
       </v-col>
     </v-row>

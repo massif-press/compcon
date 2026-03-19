@@ -20,10 +20,10 @@
           !pilot.ReservesController.Organizations.length
         " />
       <v-row v-else>
-        <v-col cols="12" md="6" lg="4" v-for="(r, i) in pilot.ReservesController.Reserves">
+        <v-col cols="12" md="6" lg="4" v-for="(r, i) in pilot.ReservesController.Reserves" :key="`reserve-${i}`">
           <cc-reserve-item :reserve="r" @remove="pilot.ReservesController.RemoveReserve(i)" />
         </v-col>
-        <v-col cols="12" md="6" lg="4" v-for="(o, i) in pilot.ReservesController.Organizations">
+        <v-col cols="12" md="6" lg="4" v-for="(o, i) in pilot.ReservesController.Organizations" :key="`org-${i}`">
           <cc-org-item :org="o" @remove="pilot.ReservesController.RemoveOrganization(i)" />
         </v-col>
       </v-row>

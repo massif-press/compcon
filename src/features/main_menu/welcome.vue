@@ -31,7 +31,7 @@
                 bg-color="primary"
                 slider-color="secondary"
                 height="26">
-                <v-tab v-for="m in systemMessages">
+                <v-tab v-for="(m, mIdx) in systemMessages" :key="`tab-${mIdx}`">
                   <v-badge v-if="isUnread(m)" dot floating class="mt-1" color="warning">
                     {{ new Date(m.created * 1000).toLocaleDateString() }}
                   </v-badge>
@@ -41,7 +41,7 @@
             </div>
             <cc-panel height="70vh" color="panel" border style="margin-top: -2px">
               <v-window v-model="tab">
-                <v-window-item v-for="m in systemMessages">
+                <v-window-item v-for="(m, mIdx) in systemMessages" :key="`window-${mIdx}`">
                   <div class="text-cc-overline">
                     {{
                       new Date(m.created * 1000).toLocaleString(undefined, {

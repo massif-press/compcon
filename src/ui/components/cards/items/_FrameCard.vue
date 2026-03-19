@@ -54,7 +54,7 @@
   <div class="text-cc-overline text-text">AVAILABLE WEAPON MOUNTS</div>
   <v-row justify="space-around"
     class="mb-3">
-    <v-col v-for="m in item.Mounts">
+    <v-col v-for="(m, index) in item.Mounts" :key="`mount-${index}`">
       <v-tooltip location="bottom"
         max-width="300">
         <template #activator="{ props }">

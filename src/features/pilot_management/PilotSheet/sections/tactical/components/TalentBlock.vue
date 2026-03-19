@@ -19,6 +19,7 @@
       <no-data-block v-if="!pilot.TalentsController.Talents.length" />
       <cc-talent
         v-for="t in pilot.TalentsController.Talents"
+        :key="t.Talent.ID"
         hide-locked
         :talent="t.Talent"
         :rank="t.Rank"

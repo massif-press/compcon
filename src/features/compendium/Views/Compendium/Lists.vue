@@ -7,7 +7,8 @@
           {{ l.name }}
         </v-expansion-panel-title>
         <v-expansion-panel-text v-if="l.type === 'string'">
-          <v-card v-for="s in l.data"
+          <v-card v-for="(s, sIdx) in l.data"
+            :key="`list-item-${sIdx}`"
             v-html-safe="s"
             variant="outlined"
             style="border-color: rgb(var(--v-theme-subtle))"

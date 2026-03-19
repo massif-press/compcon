@@ -19,7 +19,7 @@
           <v-icon icon="mdi-information-outline" />
         </cc-tooltip>
       </v-toolbar>
-      <v-row v-for="(a, i) in AiSystems" class="heading h3 py-2" align="center">
+      <v-row v-for="(a, i) in AiSystems" :key="`ai-${i}`" class="heading h3 py-2" align="center">
         <v-col>
           {{ a.Name }}
         </v-col>

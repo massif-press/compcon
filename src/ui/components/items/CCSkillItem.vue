@@ -13,7 +13,7 @@
               <div class="centered text-left pl-2">
                 <div class="stat-text">{{ skill.Trigger }}</div>
                 <div v-if="bonus" class="pa-1">
-                  <v-icon v-for="n in bonus" color="accent" size="small">mdi-hexagon</v-icon>
+                  <v-icon v-for="(n, index) in bonus" :key="`bonus-${index}`" color="accent" size="small">mdi-hexagon</v-icon>
                   <span class="text-cc-overline text-disabled">(+{{ bonus }})</span>
                 </div>
                 <div v-else-if="bonus" class="font-weight-bold text-accent pl-2">+{{ bonus }}</div>

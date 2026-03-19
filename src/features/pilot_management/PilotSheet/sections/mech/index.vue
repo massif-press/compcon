@@ -89,6 +89,7 @@
           <section-header title="Licenses Required" />
           <div class="pt-1">
             <requirement-item v-for="l in reqLicenses.filter(x => x.source)"
+              :key="l.source"
               :license="l" />
           </div>
 
@@ -97,6 +98,7 @@
           <section-header :title="`${mech.Frame.Source} ${mech.Frame.Name} Frame Traits`"
             class="mt-2" />
           <cc-trait-item v-for="t in mech.Frame.Traits"
+            :key="t.Name"
             :trait="t"
             :color="color"
             class="ma-3" />

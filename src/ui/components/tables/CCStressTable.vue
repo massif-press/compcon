@@ -19,7 +19,7 @@
               rolls remaining
             </span>
             <br />
-            <div v-for="n in rolls.length">
+            <div v-for="n in rolls.length" :key="`roll-${n}`">
               <v-tooltip text="Click to re-roll">
                 <template #activator="{ props }">
                   <v-btn v-bind="props" icon @click="rolls.splice(n - 1, 1)">
@@ -31,7 +31,7 @@
                 </template>
               </v-tooltip>
             </div>
-            <div v-for="n in totalRolls - rolls.length" class="d-inline">
+            <div v-for="n in totalRolls - rolls.length" :key="`empty-${n}`" class="d-inline">
               <v-btn icon size="x-large" disabled>
                 <v-icon size="x-large" v-html-safe="'mdi-checkbox-blank-outline'" />
               </v-btn>
@@ -52,6 +52,7 @@
                 <v-divider vertical class="mr-3" />
                 <v-btn
                   v-for="n in 6"
+                  :key="`die-${n}`"
                   class="mt-0 mb-4"
                   :ripple="false"
                   x-large

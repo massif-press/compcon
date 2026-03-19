@@ -1,6 +1,6 @@
 <template>
   <div v-if="show()" class="px-4">
-    <v-card v-for="t in (tags as any[])" class="pa-1 my-n1" variant="plain">
+    <v-card v-for="(t, index) in (tags as any[])" :key="`tag-${index}`" class="pa-1 my-n1" variant="plain">
       <v-row no-gutters>
         <v-col cols="auto"> <v-icon start size="x-small" icon="mdi-tag-outline" /> </v-col
         ><v-col
@@ -14,7 +14,8 @@
   </div>
   <div v-else class="text-right pb-1">
     <v-chip
-      v-for="t in (tags as any[])"
+      v-for="(t, index) in (tags as any[])"
+      :key="`chip-${index}`"
       size="x-small"
       v-show="showTag(t.ID)"
       label

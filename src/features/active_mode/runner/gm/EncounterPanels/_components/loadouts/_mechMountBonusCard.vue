@@ -28,6 +28,7 @@
         </v-row>
 
         <cc-combat-action-chip v-for="a in bonus.Actions"
+          :key="a.ID"
           v-if="!expanded"
           :action="a"
           :owner="owner"
@@ -45,6 +46,7 @@
         </cc-combat-action-chip>
 
         <deploy-button v-for="d in bonus.Deployables"
+          :key="d.ID"
           v-if="!expanded"
           :deployable="d"
           :actor="mech"

@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="content in JSON.parse(collection.contents)">
+          <tr v-for="(content, contentIdx) in JSON.parse(collection.contents)" :key="`content-${contentIdx}`">
             <td>{{ content.name }}</td>
             <td>{{ content.item_type }}</td>
             <td>{{ new Date(content.last_updated).toLocaleString() }}</td>
@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="content in sortedChangelog(collection.changelog)">
+          <tr v-for="(content, contentIdx) in sortedChangelog(collection.changelog)" :key="`changelog-${contentIdx}`">
             <td>{{ content.version }}</td>
             <td v-html-safe="content.changes.join('<br>')" />
           </tr>

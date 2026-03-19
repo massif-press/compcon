@@ -4,7 +4,7 @@
     <no-data-block v-if="!pilot.SpecialEquipment.length" />
     <v-card v-else flat tile border>
       <v-row density="compact" justify="space-around">
-        <v-col v-for="i in pilot.SpecialEquipment" cols="12" md="6" lg="4" class="text-center">
+        <v-col v-for="i in pilot.SpecialEquipment" :key="i.ID" cols="12" md="6" lg="4" class="text-center">
           <v-chip tile class="ma-2">
             <cc-item-modal :item="i" />
             <cc-button

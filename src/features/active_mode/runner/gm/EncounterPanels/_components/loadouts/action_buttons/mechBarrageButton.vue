@@ -153,7 +153,8 @@
             <div class="text-cc-overline text-disabled mb-1">
               additional {{ selectedMount(selectedWeapon).Name }} aux weapons
             </div>
-            <div v-for="(aux, aidx) in events[idx]?.auxEvents">
+            <div v-for="(aux, aidx) in events[idx]?.auxEvents"
+              :key="`aux-${aidx}`">
               <v-row dense
                 align="center"
                 class="bg-panel mb-1 heading">

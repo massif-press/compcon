@@ -1,6 +1,6 @@
 <template>
   <div class="mt-1 mb-3 mx-2 no-print-break">
-    <div v-for="d in deployables" style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
+    <div v-for="(d, index) in deployables" :key="`deployable-${index}`" style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
       <div class="text-center mb-1">
         <v-chip size="x-small">
           <b>{{ (d as any).name }}</b>

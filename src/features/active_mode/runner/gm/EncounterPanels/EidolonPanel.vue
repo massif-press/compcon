@@ -6,6 +6,7 @@
       <div class="text-cc-overline">Tier {{ combatant.actor.Tier }} Eidolon</div>
     </v-col>
     <v-col v-for="n in combatant.actor.Layers.length"
+      :key="`layer-${n}`"
       cols="auto"
       align-self="center"
       class="text-center">

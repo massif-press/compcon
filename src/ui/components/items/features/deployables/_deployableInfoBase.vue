@@ -74,7 +74,7 @@
 
     <div v-if="deployable.Actions && deployable.Actions.length">
       <v-row no-gutters justify="center">
-        <v-col v-for="a in deployable.Actions" cols="auto">
+        <v-col v-for="(a, index) in deployable.Actions" :key="`action-${index}`" cols="auto">
           <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" :tier="tier" />
         </v-col>
       </v-row>

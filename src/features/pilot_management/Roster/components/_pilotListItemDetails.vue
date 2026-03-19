@@ -7,7 +7,7 @@
       <span v-if="!pilot.SkillsController.Skills.length"
         style="opacity: 0.6"
         v-text="`[ NO DATA ]`" />
-      <span v-for="(s, i) in pilot.SkillsController.Skills">
+      <span v-for="(s, i) in pilot.SkillsController.Skills" :key="s.Skill.ID">
         {{ s.Skill.Name }} {{ 'I'.repeat(s.Rank) }}
         <cc-slashes v-if="i < pilot.SkillsController.Skills.length - 1"
           class="pr-3"
@@ -21,7 +21,7 @@
       <span v-if="!pilot.TalentsController.Talents.length"
         style="opacity: 0.6"
         v-text="`[ NO DATA ]`" />
-      <span v-for="(s, i) in pilot.TalentsController.Talents">
+      <span v-for="(s, i) in pilot.TalentsController.Talents" :key="s.Talent.ID">
         {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
         <cc-slashes v-if="i < pilot.TalentsController.Talents.length - 1"
           class="pr-3"
@@ -34,7 +34,7 @@
       <v-icon icon="cc:corebonus"
         start
         class="mt-n1" />
-      <span v-for="(b, i) in pilot.CoreBonusController.CoreBonuses">
+      <span v-for="(b, i) in pilot.CoreBonusController.CoreBonuses" :key="b.ID">
         {{ b.Name }}
         <cc-slashes v-if="i < pilot.CoreBonusController.CoreBonuses.length - 1"
           class="pr-3"

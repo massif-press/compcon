@@ -9,11 +9,11 @@
     </legend>
     <div v-if="mech.MechLoadoutController.ActiveLoadout"
       class="px-2 pb-2">
-      <span v-for="(item, i) in loadoutWeapons">
+      <span v-for="(item, i) in loadoutWeapons" :key="`weapon-${i}`">
         <span v-html-safe="item" />
         <span v-if="i + 1 < loadoutWeapons.length">&nbsp;&mdash;&nbsp;</span></span>
       <div class="mt-1" />
-      <span v-for="(item, i) in loadoutSystems">
+      <span v-for="(item, i) in loadoutSystems" :key="`system-${i}`">
         {{ Number(i) > 0 ? ' - ' : '' }}
         <span class="text-text"
           v-html-safe="item" />

@@ -11,11 +11,13 @@
     <v-col>
       <div class="text-caption">ENEMIES</div>
       <npc-tracker v-for="c in Enemies"
+        :key="c.id"
         :combatant="c" />
     </v-col>
     <v-col>
       <div class="text-caption">PCS/ALLIES</div>
       <npc-tracker v-for="c in Allies"
+        :key="c.id"
         :combatant="c" />
     </v-col>
   </v-row>
@@ -24,6 +26,7 @@
     <v-row dense>
       <v-col cols="auto"
         v-for="c in Neutral"
+        :key="c.id"
         style="min-width: 30vw">
         <npc-tracker :combatant="c" />
       </v-col>

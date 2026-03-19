@@ -72,6 +72,7 @@
               SELECTED TEMPLATE{{ npc.NpcTemplateController.Templates.length > 1 ? 'S' : '' }}
             </v-list-subheader>
             <v-list-item v-for="t in npc.NpcTemplateController.Templates"
+              :key="t.ID"
               prepend-icon="cc:npc_template"
               color="accent"
               @click="featureSet = t.ID">
@@ -94,6 +95,7 @@
               </template>
 
               <v-list-item v-for="c in allClasses"
+                :key="c.ID"
                 color="accent"
                 class="ml-n8"
                 :prepend-icon="c.Icon"
@@ -117,6 +119,7 @@
               </template>
 
               <v-list-item v-for="t in allTemplates"
+                :key="t.ID"
                 color="accent"
                 class="ml-n8"
                 prepend-icon="cc:npc_template"

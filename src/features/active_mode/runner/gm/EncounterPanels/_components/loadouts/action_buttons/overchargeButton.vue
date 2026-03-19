@@ -95,6 +95,7 @@
         <v-row no-gutters>
           <v-col
             v-for="(t, n) in controller.OverchargeTrack"
+            :key="`overcharge-${n}`"
             class="text-center mx-n4"
           >
             <v-card

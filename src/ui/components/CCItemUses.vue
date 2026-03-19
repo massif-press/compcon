@@ -1,7 +1,8 @@
 <template>
   <div class="mt-n2">
     <v-btn
-      v-for="n in max"
+      v-for="(n, index) in max"
+      :key="`use-${index}`"
       class="d-inline my-0 mx-n1 pa-0"
       icon
       size="small"

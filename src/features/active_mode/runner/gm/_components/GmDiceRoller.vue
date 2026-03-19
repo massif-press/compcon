@@ -217,7 +217,8 @@
           <v-divider class="my-2" />
           <div class="text-cc-overline mb-2">Session History</div>
           <div style="max-height: 300px; overflow-y: scroll">
-            <div v-for="n in encounter.RollHistory"
+            <div v-for="(n, index) in encounter.RollHistory"
+              :key="`roll-${index}`"
               class="text-cc-overline bg-panel mb-1 pa-1"
               v-html-safe="n" />
           </div>

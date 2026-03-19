@@ -16,7 +16,8 @@
         </template>
         <v-list density="compact">
           <div class="text-overline px-3">Available Loadouts</div>
-          <v-list-item v-for="l in loadouts"
+          <v-list-item v-for="(l, index) in loadouts"
+            :key="`loadout-${index}`"
             :title="(l as Loadout).Name"
             @click="$emit('set-active', l)" />
           <v-divider v-if="!readonly" />

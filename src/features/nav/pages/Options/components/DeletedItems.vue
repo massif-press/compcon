@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in items">
+        <tr v-for="item in items" :key="item.ID">
           <td>{{ item.ItemType.toUpperCase() }}</td>
           <td>{{ item.Name }} {{ (item as any).Callsign ? ` (${(item as any).Callsign})` : '' }}
           </td>

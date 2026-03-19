@@ -123,8 +123,9 @@
   <v-row no-gutters
     class="mt-2">
     <v-col v-for="(ae, idx) in sortedActiveEffects"
+      :key="`ae_${idx}_${ae.Name}`"
       cols="auto">
-      <cc-active-effect-chip :key="`ae_${idx}_${ae.Name}`"
+      <cc-active-effect-chip
         :active-effect="ae"
         :owner="item"
         :encounter="encounter" />

@@ -65,15 +65,16 @@
             prepend-inner-icon="mdi-magnify"
             clearable />
           <v-tabs v-model="tab">
-            <v-tab v-for="t in ['Characters', 'Locations', 'Factions']">
+            <v-tab v-for="t in ['Characters', 'Locations', 'Factions']" :key="t">
               {{ t }}
             </v-tab>
           </v-tabs>
           <v-window v-model="tab">
-            <v-window-item v-for="t in [characters, locations, factions]">
+            <v-window-item v-for="(t, index) in [characters, locations, factions]" :key="`tab-${index}`">
               <v-list density="compact" lines="three">
                 <v-list-item
                   v-for="(e, i) in t"
+                  :key="e.ID"
                   :style="i % 2 ? 'background-color: rgba(155,155,155,0.1)' : ''"
                   :title="e.Name"
                   :prepend-avatar="e.Portrait"

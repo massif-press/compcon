@@ -155,7 +155,8 @@
               dense
               justify="center"
               class="my-1">
-              <v-col v-for="d in item.Deployables"
+              <v-col v-for="(d, index) in item.Deployables"
+                :key="`deployable-${index}`"
                 cols="auto">
                 <cc-deployable-info :deployable="d"
                   hover

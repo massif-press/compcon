@@ -86,6 +86,7 @@
         <i class="text-disabled text-caption">No reserves available</i>
       </div>
       <v-row v-for="r in orderedReserves"
+        :key="r.ID"
         dense>
         <v-col>
           <cc-reserve-item :reserve="r"

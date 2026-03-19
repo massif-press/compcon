@@ -17,12 +17,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="key in userDataKeys">
+        <tr v-for="key in userDataKeys" :key="key">
           <td v-text="key.replace('_', '')" />
           <td v-if="key === '_options'">
             <v-row dense>
               <v-col cols="4"
-                v-for="viewKey in Object.keys(user[key].views)">
+                v-for="viewKey in Object.keys(user[key].views)"
+              :key="viewKey">
                 {{ viewKey }}:
                 <b class="text-accent">{{ user[key].views[viewKey] }}</b>
               </v-col>

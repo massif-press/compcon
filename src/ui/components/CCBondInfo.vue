@@ -25,19 +25,22 @@
         <v-col class="text-text">
           <div class="heading h4 font-weight-bold">MAJOR IDEALS</div>
           <ul class="ml-6 mb-3">
-            <li v-for="s in bond.MajorIdeals"
+            <li v-for="(s, index) in bond.MajorIdeals"
+              :key="`major-${index}`"
               v-text="s" />
           </ul>
           <div class="heading h4 font-weight-bold">MINOR IDEALS</div>
           <ul class="ml-6 mb-3">
-            <li v-for="s in bond.MinorIdeals"
+            <li v-for="(s, index) in bond.MinorIdeals"
+              :key="`minor-${index}`"
               v-text="s" />
           </ul>
-          <div v-for="q in bond.Questions">
+          <div v-for="(q, index) in bond.Questions" :key="`question-${index}`">
             <div class="heading h4 font-weight-bold"
               v-text="q.question" />
             <ul class="ml-6 mb-3">
-              <li v-for="o in q.options"
+              <li v-for="(o, index) in q.options"
+                :key="`option-${index}`"
                 v-text="o" />
             </ul>
           </div>

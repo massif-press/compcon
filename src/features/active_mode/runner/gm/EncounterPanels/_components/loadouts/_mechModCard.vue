@@ -14,6 +14,7 @@
 
       <cc-combat-action-chip
         v-for="a in mod.Actions"
+        :key="a.ID"
         :action="a"
         :owner="owner"
         class="mt-1"
@@ -35,6 +36,7 @@
 
       <deploy-button
         v-for="d in mod.Deployables"
+        :key="d.ID"
         :deployable="d"
         :actor="mech"
         @deploy="$emit('deploy', d)" />

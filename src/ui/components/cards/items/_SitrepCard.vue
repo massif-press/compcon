@@ -2,7 +2,7 @@
   <v-card-text class="text-text pt-1">
     <p v-html-safe="item.Description" class="flavor-text" />
     <v-row class="pb-2 pt-6">
-      <v-col v-for="c in item.Conditions">
+      <v-col v-for="(c, index) in item.Conditions" :key="`condition-${index}`">
         <div class="heading h2 text-primary mb-2">{{ c.title }}</div>
         <p v-html-safe="c.condition" />
       </v-col>

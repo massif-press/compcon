@@ -1,5 +1,6 @@
 <template>
   <v-list v-for="key in Object.keys(groupings)"
+    :key="key"
     class="mb-4 mt-n2"
     slim
     density="compact">
@@ -20,7 +21,7 @@
     </v-row>
     <div v-if="!items.length"
       class="text-center text-disabled"><i>No Data</i></div>
-    <gm-item-list-element v-for="item in groupedItems(groupings[key])"
+    <gm-item-list-element v-for="item in groupedItems(groupings[key])" :key="(item as any).ID"
       :item="<any>item"
       :grouping="grouping"
       :sorting="sorting"

@@ -13,6 +13,7 @@
                     density="compact"
                     multiple>
                     <v-btn v-for="t in allTypes"
+                      :key="t"
                       size="small"
                       :value="t">{{ t }}</v-btn>
                   </v-btn-toggle>
@@ -50,7 +51,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in items">
+            <tr v-for="item in items"
+              :key="(item as any).ID">
               <td>
                 <v-checkbox v-model="selected"
                   multiple
@@ -71,7 +73,8 @@
                 </v-chip>
               </th>
               <td>
-                <cc-split-chip v-for="label in (item as any).NarrativeController.Labels"
+                <cc-split-chip v-for="(label, li) in (item as any).NarrativeController.Labels"
+                  :key="`label-${li}`"
                   :label="label"
                   class="mr-1 mb-1" />
               </td>

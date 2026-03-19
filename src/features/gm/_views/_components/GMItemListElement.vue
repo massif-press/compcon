@@ -38,6 +38,7 @@
       <div v-if="item.NpcTemplateController">
         <cc-chip
           v-for="t in item.NpcTemplateController.Templates"
+          :key="t.ID"
           size="x-small"
         >
           <v-icon icon="cc:npc_template" />

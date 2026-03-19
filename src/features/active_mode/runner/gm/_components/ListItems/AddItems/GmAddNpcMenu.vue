@@ -52,9 +52,10 @@
           <v-card flat
             tile
             v-for="npc in npcs"
+            :key="npc.ID"
             class="border-sm mb-1"
             @click="add(npc)">
-            <v-row :key="npc.ID">
+            <v-row>
               <v-col cols="auto">
                 <cc-img :src="npc.Portrait"
                   width="80" />

@@ -11,7 +11,8 @@
     <v-card-text>
       <div class="text-cc-overline text-disabled">Encounter Clocks</div>
       <cc-clock
-        v-for="clock in encounter.NarrativeController.Clocks"
+        v-for="(clock, index) in encounter.NarrativeController.Clocks"
+        :key="`clock-${index}`"
         :clock="clock"
         density="compact"
         class="my-1" />

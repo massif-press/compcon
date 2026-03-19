@@ -66,7 +66,8 @@
     <effect-applicator :pc="isPilotSheet"
       :event="event.BaseEvent" />
 
-    <cc-panel v-for="e in event.TargetEvents"
+    <cc-panel v-for="(e, index) in event.TargetEvents"
+      :key="`target-${index}`"
       :title="e.Effect.Name"
       density="compact"
       variant="tonal"

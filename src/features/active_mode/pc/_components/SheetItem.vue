@@ -146,7 +146,8 @@
                     'heatcap',
                     'structure',
                     'repairCapacity',
-                  ])">
+                  ])"
+                  :key="`pilot-stat-${stat.key}`">
                   <v-tooltip location="top"
                     open-delay="400">
                     <template #activator="{ props }">
@@ -172,7 +173,8 @@
                     'evasion',
                     'edef',
                     'saveTarget',
-                  ])">
+                  ])"
+                  :key="`pilot-def-${stat.key}`">
                   <v-tooltip :text="stat.title"
                     location="top"
                     open-delay="400">
@@ -202,7 +204,8 @@
                     'heatcap',
                     'structure',
                     'repairCapacity',
-                  ])">
+                  ])"
+                  :key="`mech-stat-${stat.key}`">
                   <v-tooltip location="top"
                     open-delay="400">
                     <template #activator="{ props }">
@@ -228,7 +231,8 @@
                     'evasion',
                     'edef',
                     'saveTarget',
-                  ])">
+                  ])"
+                  :key="`mech-def-${stat.key}`">
                   <v-tooltip :text="stat.title"
                     location="top"
                     open-delay="400">

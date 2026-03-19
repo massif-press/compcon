@@ -38,10 +38,10 @@
           <v-icon icon="itemc:heat" class="ml-3" />
           {{ item.actor.StatController.getStat('heat') }}
         </div>
-        <cc-item-chip v-for="f in item.actor.NpcFeatureController.Features" :item="f" />
+        <cc-item-chip v-for="f in item.actor.NpcFeatureController.Features" :key="f.ID" :item="f" />
       </v-card-text>
       <v-card-text v-if="item.actor.Layers">
-        <cc-item-chip v-for="l in item.actor.Layers" :item="l" />
+        <cc-item-chip v-for="l in item.actor.Layers" :key="l.ID" :item="l" />
       </v-card-text>
     </v-card>
   </v-menu>

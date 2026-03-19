@@ -8,7 +8,7 @@
   </div>
   <v-row align="center">
     <v-col v-if="item.NpcTemplateController.Templates.length" cols="auto" dense align="center">
-      <cc-chip v-for="t in item.NpcTemplateController.Templates" size="large" class="mr-4">
+      <cc-chip v-for="t in item.NpcTemplateController.Templates" :key="t.ID" size="large" class="mr-4">
         <v-tooltip :text="t.Description || t.Tactics" max-width="350px">
           <template #activator="{ props }">
             <span v-bind="props" class="heading h4 pr-2">
@@ -56,6 +56,7 @@
         <v-list density="compact" slim>
           <v-list-item
             v-for="item in templates"
+            :key="item.ID"
             :color="selected === item ? '' : 'accent'"
             :class="isAssigned(item) ? 'bg-primary' : ''"
             :value="item"

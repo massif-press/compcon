@@ -16,6 +16,7 @@
     <v-chip
       v-if="!item.BrewController.IsUnableToLoad"
       v-for="l in item.Layers"
+      :key="l.ID"
       label
       prepend-icon="mdi-layers"
       class="mx-1 my-1">

@@ -8,7 +8,7 @@
           @delete="deleteCustom(pcd.id)"
           @update="updateCounter($event)" />
       </v-col> -->
-      <v-col v-for="cd in controller.CounterData" cols="auto">
+      <v-col v-for="cd in controller.CounterData" :key="cd.id" cols="auto">
         <counter-component
           :counter-data="cd"
           :save-data="controller.CounterSaveData"

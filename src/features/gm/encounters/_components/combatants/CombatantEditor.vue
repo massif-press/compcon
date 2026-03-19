@@ -15,6 +15,7 @@
         </v-row>
       </div>
       <combatant-list-item v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'enemy')"
+        :key="c.id"
         :item="c"
         :odd="i % 2 === 0"
         :readonly="readonly"
@@ -32,6 +33,7 @@
         </v-row>
       </div>
       <combatant-list-item v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'ally')"
+        :key="c.id"
         :item="c"
         :odd="i % 2 === 0"
         :readonly="readonly"
@@ -50,6 +52,7 @@
       </div>
       <combatant-list-item
         v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'neutral')"
+        :key="c.id"
         :item="c"
         :odd="i % 2 === 0"
         :readonly="readonly"
@@ -200,6 +203,7 @@
                     <v-col cols="auto">Update</v-col>
                   </v-row>
                   <v-row v-for="key in Object.keys(itemDiff)"
+                    :key="key"
                     dense>
                     <v-col>{{ key }}</v-col>
                     <v-col :class="itemDiff[key].instance.length > itemDiff[key].source.length

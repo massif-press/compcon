@@ -10,7 +10,8 @@
       <v-expansion-panel-title class="heading h4 py-0">All Actions</v-expansion-panel-title>
       <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
         <v-row dense>
-          <v-col v-for="pa in controller.AllActions('Protocol')">
+          <v-col v-for="pa in controller.AllActions('Protocol')"
+            :key="pa.ID">
             <basic-action-button
               :action="pa"
               :owner="owner"
@@ -18,7 +19,8 @@
               @activate="activate($event)"
             />
           </v-col>
-          <v-col v-for="fa in controller.AllActions('Free')">
+          <v-col v-for="fa in controller.AllActions('Free')"
+            :key="fa.ID">
             <basic-action-button
               :action="fa"
               :owner="owner"
@@ -35,7 +37,8 @@
         >
           <v-col>
             <v-row dense>
-              <v-col v-for="action in quickNpcActions">
+              <v-col v-for="(action, index) in quickNpcActions"
+                :key="`quick-${index}`">
                 <invade-button
                   v-if="action === 'act_invade'"
                   :action="getBaseAction(action)"
@@ -52,7 +55,8 @@
                 />
               </v-col>
               <v-divider class="my-1" />
-              <v-col v-for="qa in controller.AllActions('Quick')">
+              <v-col v-for="qa in controller.AllActions('Quick')"
+                :key="qa.ID">
                 <basic-action-button
                   :action="qa"
                   :owner="owner"
@@ -60,7 +64,8 @@
                   @activate="activate($event)"
                 />
               </v-col>
-              <v-col v-for="qta in controller.AllActions('Quick Tech')">
+              <v-col v-for="qta in controller.AllActions('Quick Tech')"
+                :key="qta.ID">
                 <basic-action-button
                   :action="qta"
                   :owner="owner"
@@ -72,7 +77,8 @@
           </v-col>
           <v-col>
             <v-row dense>
-              <v-col v-for="action in fullNpcActions">
+              <v-col v-for="(action, index) in fullNpcActions"
+                :key="`full-${index}`">
                 <basic-action-button
                   :action="getBaseAction(action)"
                   :owner="owner"
@@ -81,7 +87,8 @@
                 />
               </v-col>
               <v-divider class="my-1" />
-              <v-col v-for="fa in controller.AllActions('Full')">
+              <v-col v-for="fa in controller.AllActions('Full')"
+                :key="fa.ID">
                 <basic-action-button
                   :action="fa"
                   :owner="owner"
@@ -89,7 +96,8 @@
                   @activate="activate($event)"
                 />
               </v-col>
-              <v-col v-for="fta in controller.AllActions('Full Tech')">
+              <v-col v-for="fta in controller.AllActions('Full Tech')"
+                :key="fta.ID">
                 <basic-action-button
                   :action="fta"
                   :owner="owner"
@@ -110,7 +118,8 @@
               :encounter="encounter"
             />
           </v-col>
-          <v-col v-for="ra in controller.AllActions('Reaction')">
+          <v-col v-for="ra in controller.AllActions('Reaction')"
+            :key="ra.ID">
             <basic-action-button
               :action="ra"
               :owner="owner"

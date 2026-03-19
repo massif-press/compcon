@@ -19,7 +19,7 @@
           </div>
         </v-toolbar>
         <v-card-text v-if="rank" class="pa-2">
-          <div v-for="n in rank">
+          <div v-for="n in rank" :key="`rank-${n}`">
             <b>{{ talent.Rank(n).Name }}</b>
             <cc-slashes class="px-2" />
             <span class="text-cc-overline text-disabled">RANK {{ 'I'.repeat(Number(n)) }}</span>

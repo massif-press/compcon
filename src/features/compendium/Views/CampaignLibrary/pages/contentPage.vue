@@ -11,6 +11,7 @@
     <v-divider class="mt-n1 mb-3" />
     <page-content-container
       v-for="(e, i) in item.Content"
+      :key="`content-${i}`"
       :item="e"
       class="mb-4"
       @delete-item="item.RemoveContentItem(i)" />

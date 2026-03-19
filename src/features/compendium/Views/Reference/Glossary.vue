@@ -26,7 +26,8 @@
           clearable
           class="mt-2" />
         <v-divider class="mt-2" />
-        <v-list-item v-for="e in glossary"
+        <v-list-item v-for="(e, index) in glossary"
+          :key="`glossary-${index}`"
           :title="e.name"
           :active="!!selected && (selected as any).name === e.name"
           active-class="bg-primary"
@@ -40,7 +41,8 @@
       <div id="content"
         :style="`padding: 16px 64px 16px 64px`"
         style="height: calc(100vh - 65px) !important; overflow-y: scroll">
-        <div v-for="e in glossary"
+        <div v-for="(e, index) in glossary"
+          :key="`glossary-item-${index}`"
           :id="`e_${e.name.replace(/\W/g, '')}`"
           class="my-5">
           <cc-titled-panel :icon="icon || ''"

@@ -64,6 +64,7 @@
           dense
           justify="center">
           <v-col v-for="(a, i) in cs.ActiveActions"
+            :key="`active-action-${i}`"
             :cols="i + 1 === cs.ActiveActions.length && i % 2 === 0 ? '12' : '6'">
             <cc-action :action="a"
               :panel="$vuetify.display.lgAndUp"
@@ -98,6 +99,7 @@
         dense
         justify="center">
         <v-col v-for="(a, i) in cs.PassiveActions"
+          :key="`passive-action-${i}`"
           :cols="i + 1 === cs.PassiveActions.length && i % 2 === 0 ? '12' : '6'">
           <cc-action :action="a"
             :panel="$vuetify.display.lgAndUp"
@@ -114,7 +116,7 @@
     <v-row v-if="cs.IntegratedEquipment.length"
       no-gutters
       justify="center">
-      <v-col v-for="x in cs.IntegratedEquipment">
+      <v-col v-for="(x, index) in cs.IntegratedEquipment" :key="`integrated-${index}`">
         <cc-integrated-info :item="x"
           :panel="!isTerse && !mobile" />
       </v-col>
@@ -124,6 +126,7 @@
       no-gutters
       justify="center">
       <v-col v-for="(d, i) in cs.Deployables"
+        :key="`deployable-${i}`"
         cols="auto">
         <cc-deployable-info :deployable="d"
           panel

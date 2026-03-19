@@ -64,7 +64,7 @@
 
     <v-card-text>
       <v-card flat
-        v-for="t in tiers"
+        v-for="t in tiers" :key="t.title"
         :disabled="missingTier(t.title)"
         class="mb-6">
         <v-row dense>
@@ -72,7 +72,7 @@
             lg="3"
             class="heading text-accent pr-3">{{ t.title }}</v-col>
           <v-col>
-            <div v-for="b in t.benefits">
+            <div v-for="(b, bIdx) in t.benefits" :key="`benefit-${bIdx}`">
               <v-icon :color="missingTier(t.title) ? '' : 'success'"
                 :icon="missingTier(t.title) ? 'mdi-close' : 'mdi-check-bold'" />
               {{ b }}

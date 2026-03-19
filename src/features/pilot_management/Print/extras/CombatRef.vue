@@ -336,6 +336,7 @@
       <v-row dense class="caption">
         <v-col
           v-for="s in statuses.filter((x) => x.StatusType === 'Status')"
+          :key="s.Name"
           style="min-width: 14vw"
         >
           <div class="text-primary font-weight-bold">
@@ -350,6 +351,7 @@
       <v-row dense class="caption">
         <v-col
           v-for="s in statuses.filter((x) => x.StatusType === 'Condition')"
+          :key="s.Name"
           style="min-width: 14vw"
         >
           <div class="text-primary font-weight-bold">

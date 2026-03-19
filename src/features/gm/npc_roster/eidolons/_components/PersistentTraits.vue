@@ -5,6 +5,7 @@
       <v-expansion-panels color="primary">
         <v-expansion-panel
           v-for="n in 4"
+          :key="`trait-a-${n}`"
           tile
           :title="traits[n - 1].name"
           :text="traits[n - 1].detail" />
@@ -14,6 +15,7 @@
       <v-expansion-panels color="primary">
         <v-expansion-panel
           v-for="n in 3"
+          :key="`trait-b-${n}`"
           tile
           :title="traits[n + 3].name"
           :text="traits[n + 3].detail"></v-expansion-panel>

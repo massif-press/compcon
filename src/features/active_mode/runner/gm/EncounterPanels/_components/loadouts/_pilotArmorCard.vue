@@ -75,7 +75,8 @@
             </v-col>
             <v-col cols="auto"
               class="ml-auto mr-4">
-              <cc-bonus v-for="b in item.Bonuses"
+              <cc-bonus v-for="(b, index) in item.Bonuses"
+                :key="`bonus-${index}`"
                 :bonus="b"
                 chip />
             </v-col>

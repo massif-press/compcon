@@ -23,7 +23,7 @@
           showNav && ' position: fixed',
         ]">
         <v-list density="compact" slim nav>
-          <v-list-group v-for="b in books" no-action color="accent">
+          <v-list-group v-for="(b, bIdx) in books" :key="`book-${bIdx}`" no-action color="accent">
             <template v-slot:activator="{ props }">
               <v-list-item
                 class="heading text-uppercase"
@@ -33,7 +33,8 @@
             </template>
 
             <v-list-item
-              v-for="item in faq.filter((x) => x.book === b)"
+              v-for="(item, itemIdx) in faq.filter((x) => x.book === b)"
+              :key="`faq-nav-${itemIdx}`"
               :title="item.title"
               @click="() => scrollTo(item.title)" />
           </v-list-group>
@@ -66,7 +67,7 @@
             .
           </div>
         </cc-alert>
-        <v-card v-for="(faq, i) in faq" flat tile class="mb-5">
+        <v-card v-for="(faq, i) in faq" :key="`faq-${i}`" flat tile class="mb-5">
           <v-toolbar
             density="compact"
             color="primary"

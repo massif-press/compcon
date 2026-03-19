@@ -1,6 +1,7 @@
 <template>
   <div :class="mobile ? 'px-2 pt-1' : 'py-5'">
     <v-row v-for="(t, idx) in event.Targets"
+      :key="`target-${idx}`"
       no-gutters>
       <v-col cols="auto"
         class="mt-1 mr-1">

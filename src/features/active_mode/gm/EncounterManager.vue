@@ -77,6 +77,7 @@
       instead.
     </cc-alert> -->
     <div v-for="e in encounters"
+      :key="e.ID"
       style="position: relative"
       class="li-top-element my-2"
       @click="launch(e)">
@@ -175,6 +176,7 @@
               <v-col cols="12"
                 class="mt-1 py-0">
                 <div v-for="side in ['ally', 'enemy', 'neutral']"
+                  :key="side"
                   class="mb-2">
                   <v-chip v-for="item in e.Combatants.filter(c => c.side === side)"
                     :key="item.actor.ID"
@@ -225,6 +227,7 @@
             <i>No archived encounters found{{ search ? ` including "${search}"` : '' }}.</i>
           </div>
           <v-row v-for="e in archived"
+            :key="e.ID"
             class="text-cc-overline bg-background my-1"
             align="center">
             <v-col cols="auto"

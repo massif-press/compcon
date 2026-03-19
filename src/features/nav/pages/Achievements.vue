@@ -35,7 +35,7 @@
               tile>
               <v-card-text>
                 <div class="text-cc-overline text-center font-weight-bold">By Rarity:</div>
-                <div v-for="(r, i) in rarities">
+                <div v-for="(r, i) in rarities" :key="`rarity-${i}`">
                   <v-progress-linear
                     :model-value="(byRarity(i + 1).has / byRarity(i + 1).total) * 100"
                     height="25px"
@@ -54,7 +54,7 @@
                 <v-divider class="my-2" />
                 <div class="text-cc-overline text-center font-weight-bold">By Label:</div>
                 <v-row dense>
-                  <v-col v-for="l in labels"
+                  <v-col v-for="(l, lIdx) in labels" :key="`label-${lIdx}`"
                     cols="6">
                     <v-progress-linear :model-value="(byLabel(l).has / byLabel(l).total) * 100"
                       height="20px"
@@ -213,7 +213,7 @@
     </v-row>
     <v-container class="pt-1"
       :class="mobile && 'px-0'">
-      <achievement-item v-for="a in shownAchievements"
+      <achievement-item v-for="(a, aIdx) in shownAchievements" :key="`achievement-${aIdx}`"
         :item="a" />
       <div v-if="hiddenAchievements > 0"
         class="text-right text-caption px-4">

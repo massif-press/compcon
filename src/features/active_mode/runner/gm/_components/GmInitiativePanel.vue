@@ -69,6 +69,7 @@
     </div>
 
     <reinforcement-list-item v-for="r in reinforcements"
+      :key="r.id"
       :combatant="r"
       :collapsed="!expanded"
       :selected="selected && selected.id === r.id"
@@ -90,6 +91,7 @@
       class="my-2" />
 
     <destroyed-list-item v-for="r in destroyedCombatants"
+      :key="r.id"
       :combatant="r"
       :collapsed="!expanded"
       :selected="selected && selected.id === r.id"

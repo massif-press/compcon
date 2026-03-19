@@ -3,6 +3,7 @@
     <cc-alert
       v-if="expanded"
       v-for="item in templateController.FeatureRequirements"
+      :key="item.source_id"
       v-show="showItem(item)"
       density="compact"
       prominent
@@ -16,7 +17,7 @@
       </div>
       <div v-else>{{ item.source }} selections complete</div>
     </cc-alert>
-    <v-menu v-else v-for="item in templateController.FeatureRequirements" open-on-hover>
+    <v-menu v-else v-for="item in templateController.FeatureRequirements" :key="item.source_id" open-on-hover>
       <template v-slot:activator="{ props }">
         <div v-bind="props" class="d-inline-block mx-1" v-show="showItem(item)">
           <cc-button

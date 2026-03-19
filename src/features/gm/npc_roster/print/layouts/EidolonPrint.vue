@@ -38,7 +38,7 @@
         style="line-height: 14px; border: 1px solid grey; border-radius: 3px">
         Persistent Traits
       </legend>
-      <div v-for="t in persistentTraits" class="no-print-break">
+      <div v-for="(t, index) in persistentTraits" :key="`trait-${index}`" class="no-print-break">
         <b class="text-caption font-weight-bold">
           <v-icon size="small" icon="cc:trait" class="mt-n1" />
           {{ t.name }}
@@ -47,7 +47,7 @@
       </div>
     </fieldset>
 
-    <fieldset class="mx-1 pa-1 mb-2 no-print-break" v-for="l in npc.Layers">
+    <fieldset class="mx-1 pa-1 mb-2 no-print-break" v-for="l in npc.Layers" :key="l.ID">
       <legend
         class="text-overline text-primary px-1"
         style="line-height: 14px; border: 1px solid grey; border-radius: 3px">
@@ -61,6 +61,7 @@
         <div v-html-safe="l.Layer.Rules" class="pl-3 caption" />
         <div
           v-for="(f, i) in l.Layer.Features.filter((x) => !x.HideActive)"
+          :key="f.ID"
           class="mt-1 pl-3 caption">
           <npc-feature-print :feature="f" :tier="npc.Tier" />
           <v-divider v-if="i + 1 < l.Layer.Features.length" class="mt-1" />
@@ -75,6 +76,7 @@
       <print-npc-stats :item="l.Layer.Shards" :bonuses="[]" :tier="npc.Tier" hide-zero />
       <div
         v-for="(f, i) in l.Layer.Shards.Features.filter((x) => !x.HideActive)"
+        :key="f.ID"
         class="mt-1 pl-3 caption no-print-break">
         <npc-feature-print :feature="f" :tier="npc.Tier" />
         <v-divider v-if="i + 1 < l.Layer.Shards.Features.length" class="mt-1" />
@@ -96,7 +98,7 @@
         npc.NarrativeController.TextItems.length
       "
       class="mx-1 my-2 px-3 no-print-break">
-      <div v-for="t in npc.NarrativeController.TextItems" class="no-print-break">
+      <div v-for="(t, index) in npc.NarrativeController.TextItems" :key="`text-${index}`" class="no-print-break">
         <div class="font-weight-bold mb-n2" v-text="t.header" />
         <div v-html-safe="t.body" class="pl-2" />
       </div>
@@ -108,12 +110,13 @@
       "
       class="mx-1 my-2">
       <v-card
-        v-for="c in npc.NarrativeController.Clocks"
+        v-for="(c, index) in npc.NarrativeController.Clocks"
+        :key="`clock-${index}`"
         variant="outlined"
         class="text-caption px-2 pb-1 no-print-break">
         <div class="font-weight-bold text-caption" v-text="c.Title" />
         <v-row no-gutters>
-          <v-col v-for="n in c.Segments" class="px-1">
+          <v-col v-for="n in c.Segments" :key="`segment-${n}`" class="px-1">
             <blank-line :height="20" />
           </v-col>
         </v-row>
@@ -130,12 +133,13 @@
       "
       class="mx-1 my-2">
       <v-card
-        v-for="t in npc.NarrativeController.Tables"
+        v-for="(t, index) in npc.NarrativeController.Tables"
+        :key="`table-${index}`"
         variant="outlined"
         class="text-caption px-2 no-print-break">
         <div class="font-weight-bold text-caption" v-text="t.Title" />
         <div v-html-safe="t.Description" class="pl-2" />
-        <v-row dense v-for="r in t.Results">
+        <v-row dense v-for="(r, ri) in t.Results" :key="`result-${ri}`">
           <v-col cols="auto">
             <b>{{ r.min }}-{{ r.max }}</b>
           </v-col>

@@ -54,7 +54,7 @@
       npc.NarrativeController.TextItems.length
     "
       class="mx-1 my-2 px-3 no-print-break">
-      <div v-for="t in npc.NarrativeController.TextItems">
+      <div v-for="(t, index) in npc.NarrativeController.TextItems" :key="`text-${index}`">
         <div class="font-weight-bold mb-n2"
           v-text="t.header" />
         <div v-html-safe="t.body"
@@ -66,13 +66,15 @@
       options.include.some((x) => x.title === 'Clocks') && npc.NarrativeController.Clocks.length
     "
       class="mx-1 my-2">
-      <v-card v-for="c in npc.NarrativeController.Clocks"
+      <v-card v-for="(c, index) in npc.NarrativeController.Clocks"
+        :key="`clock-${index}`"
         variant="outlined"
         class="text-caption px-2 pb-1 no-print-break">
         <div class="font-weight-bold text-caption"
           v-text="c.Title" />
         <v-row no-gutters>
           <v-col v-for="n in c.Segments"
+            :key="`segment-${n}`"
             class="px-1">
             <blank-line :height="20" />
           </v-col>
@@ -94,14 +96,16 @@
       options.include.some((x) => x.title === 'Tables') && npc.NarrativeController.Tables.length
     "
       class="mx-1 my-2">
-      <v-card v-for="t in npc.NarrativeController.Tables"
+      <v-card v-for="(t, index) in npc.NarrativeController.Tables"
+        :key="`table-${index}`"
         variant="outlined"
         class="text-caption px-2 no-print-break">
         <div class="font-weight-bold text-caption"
           v-text="t.Title" />
         <div v-html-safe="t.Description"
           class="pl-2" />
-        <v-row v-for="r in t.Results"
+        <v-row v-for="(r, ri) in t.Results"
+          :key="`result-${ri}`"
           dense>
           <v-col cols="auto">
             <b>{{ r.min }}-{{ r.max }}</b>

@@ -143,7 +143,7 @@
                     <i>These colors will change based on the user's selected COMP/CON theme</i>
                   </div>
                   <v-row dense justify="center" align="center">
-                    <v-col cols="3" v-for="color in colorSelections">
+                    <v-col cols="3" v-for="color in colorSelections" :key="color">
                       <v-card
                         class="pa-2 pr-4 text-capitalize text-caption"
                         :color="color"
@@ -163,7 +163,7 @@
                         change based on the user's selected COMP/CON theme
                       </i>
                     </div>
-                    <v-col cols="3" v-for="color in colorPalette">
+                    <v-col cols="3" v-for="color in colorPalette" :key="color">
                       <v-card
                         class="pa-2 pr-4 text-capitalize text-caption"
                         :color="color"

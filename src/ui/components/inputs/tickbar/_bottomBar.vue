@@ -68,6 +68,7 @@
           :style="pctBackground" />
 
         <div v-for="i in ticks"
+          :key="`tick-${i}`"
           v-else-if="ticks"
           class="d-inline-block"
           :style="`width: ${100 / ticks}%;`">

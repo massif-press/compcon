@@ -7,7 +7,11 @@
       CLASS {{ item.actor.Class }}
     </template>
 
-    <v-chip v-for="l in item.actor.Layers" label prepend-icon="mdi-layers" class="mx-1 my-1">
+    <v-chip v-for="l in item.actor.Layers"
+      :key="l.ID"
+      label
+      prepend-icon="mdi-layers"
+      class="mx-1 my-1">
       {{ l.Layer.Name }}
     </v-chip>
   </c-list-item-base>

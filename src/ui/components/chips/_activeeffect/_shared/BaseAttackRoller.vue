@@ -4,7 +4,7 @@
     v-if="event.Attack">
     <div v-if="!mobile"
       class="text-cc-overline text-disabled">vs {{ event.AttackStat }}</div>
-    <div v-for="(s, idx) in event.Targets">
+    <div v-for="(s, idx) in event.Targets" :key="`target-${idx}`">
       <v-row v-if="!s"
         no-gutters
         align="center"

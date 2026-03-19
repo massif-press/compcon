@@ -31,7 +31,8 @@
         density="compact">
         <tbody>
           <tr
-            v-for="a in item.Ammo">
+            v-for="(a, index) in item.Ammo"
+            :key="`ammo-${index}`">
             <td
               v-if="!portrait"
               style="min-width: 120px"
@@ -88,7 +89,8 @@
             cols="auto"
             class="ml-auto mr-4">
             <cc-bonus
-              v-for="b in item.Bonuses"
+              v-for="(b, index) in item.Bonuses"
+              :key="`bonus-${index}`"
               :bonus="b"
               chip />
             <cc-synergy-display

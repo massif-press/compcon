@@ -11,34 +11,34 @@
             <th class="text-center font-weight-bold text-primary side-border">
               <cc-item-modal small-btn hide-type :item="selected" />
             </th>
-            <th v-for="item in items" class="text-center side-border">
+            <th v-for="item in items" :key="(item as any).ID" class="text-center side-border">
               <cc-item-modal small-btn hide-type :item="item" />
             </th>
           </tr>
         </thead>
         <tbody v-if="!isNpcClass">
-          <tr v-for="metric in relevantMetrics">
+          <tr v-for="metric in relevantMetrics" :key="metric.value">
             <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
             </td>
             <td class="text-center heading h3 side-border font-weight-bold bg-primary">
               {{ selected.Stats[metric.value] }}
             </td>
-            <td v-for="item in items" class="text-center heading h3 font-weight-bold side-border">
+            <td v-for="item in items" :key="(item as any).ID" class="text-center heading h3 font-weight-bold side-border">
               {{ (item as any).Stats[metric.value] }}
               <div class="mt-n3" v-html-safe="diff(metric.value, item)" />
             </td>
           </tr>
         </tbody>
         <tbody v-else>
-          <tr v-for="metric in metrics">
+          <tr v-for="metric in metrics" :key="metric.value">
             <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
             </td>
             <td class="text-center heading h3 side-border font-weight-bold text-accent">
               {{ selected.Stats.Stat(metric.value, tier) }}
             </td>
-            <td v-for="item in items" class="text-center heading h3 side-border">
+            <td v-for="item in items" :key="(item as any).ID" class="text-center heading h3 side-border">
               {{ (item as any).Stats.Stat(metric.value, tier) }}
               <div class="mt-n3" v-html-safe="npcDiff(metric.value, item)" />
             </td>

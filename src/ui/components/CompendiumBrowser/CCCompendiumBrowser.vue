@@ -47,6 +47,7 @@
 
         <div v-if="group === 'lcp'">
           <v-list-group v-for="lcp in lcps.filter((l) => lcpFilter.includes(l))"
+            :key="`lcp-${lcp}`"
             :value="lcp"
             color="accent"
             class="pt-0">
@@ -65,6 +66,7 @@
               v-for="item in itemsByLcp[lcp].filter((i) =>
                 search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
               )"
+              :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -84,10 +86,12 @@
 
             <b-list-group v-else-if="itemType === 'NpcClass'"
               v-for="role in rolesByLcp[lcp]"
+              :key="`role-${lcp}-${role}`"
               :parent="lcp"
               :collection="role"
               :role="role">
               <b-list-item v-for="item in getRoleItems(role, lcp)"
+                :key="item.ID"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -108,6 +112,7 @@
 
             <b-list-group v-else-if="itemType === 'NpcFeature'"
               v-for="origin in originsByLcp[lcp]"
+              :key="`origin-${lcp}-${origin}`"
               v-show="search
                 ? getOriginItems(origin, lcp).filter((i) =>
                   i.Name.toLowerCase().includes(search.toLowerCase())
@@ -119,6 +124,7 @@
               <b-list-item v-for="item in getOriginItems(origin, lcp).filter((i) =>
                 search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
               )"
+                :key="item.ID"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -139,10 +145,12 @@
 
             <b-list-group v-else
               v-for="manufacturer in manufacturersByLcp[lcp]"
+              :key="`mf-${lcp}-${manufacturer}`"
               :parent="lcp"
               :collection="manufacturer"
               :manufacturer="mf(manufacturer)">
               <b-list-item v-for="item in getItems(manufacturer, lcp)"
+                :key="item.ID"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -165,6 +173,7 @@
 
         <div v-else-if="group === 'source'">
           <v-list-group v-for="manufacturer in manufacturers"
+            :key="`mf-${manufacturer}`"
             :value="manufacturer"
             color="accent"
             class="pt-0">
@@ -185,6 +194,7 @@
             </template>
 
             <b-list-item v-for="item in getItems(manufacturer)"
+              :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -206,9 +216,11 @@
 
         <div v-else-if="group === 'role'">
           <b-list-group v-for="role in roles"
+            :key="`role-${role}`"
             :collection="role"
             :role="role">
             <b-list-item v-for="item in getRoleItems(role)"
+              :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -230,9 +242,11 @@
 
         <div v-else-if="group === 'featureType'">
           <b-list-group v-for="featureType in featureTypes"
+            :key="`feat-${featureType}`"
             :collection="featureType"
             :feature="featureType">
             <b-list-item v-for="item in getFeatureItems(featureType)"
+              :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -254,8 +268,10 @@
 
         <div v-else-if="group === 'origin'">
           <b-list-group v-for="origin in origins"
+            :key="`origin-${origin}`"
             :collection="origin">
             <b-list-item v-for="item in getOriginItems(origin)"
+              :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -277,6 +293,7 @@
 
         <div v-else-if="group === 'license'">
           <v-list-group v-for="license in licenses"
+            :key="`lic-${license}`"
             :value="license"
             color="accent"
             class="pt-0">
@@ -291,6 +308,7 @@
               </v-list-item>
             </template>
             <b-list-item v-for="item in getLicenseItems(license)"
+              :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -312,6 +330,7 @@
 
         <div v-else-if="group === 'type'">
           <v-list-group v-for="subtype in subtypes"
+            :key="`subtype-${subtype}`"
             :value="subtype"
             color="accent"
             class="pt-0">
@@ -326,6 +345,7 @@
               </v-list-item>
             </template>
             <b-list-item v-for="item in getSubtypeItems(subtype)"
+              :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -347,6 +367,7 @@
 
         <div v-else>
           <b-list-item v-for="item in shownItems"
+            :key="item.ID"
             :selected="!!selectedItem && selectedItem.ID === item.ID"
             :compare="view === 'compare'"
             :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -408,7 +429,7 @@
           </div>
 
           <div v-if="view === 'list' && itemType === 'License'">
-            <v-row v-for="m in manufacturers">
+            <v-row v-for="m in manufacturers" :key="`mf-list-${m}`">
               <v-col v-if="!!mf(m)"
                 class="text-center pa-3">
                 <v-row align="center"
@@ -435,6 +456,7 @@
 
           <div v-else-if="view === 'list'"
             v-for="item in <any[]>items"
+            :key="item.ID"
             :id="item.ID"
             class="mb-4">
             <selector-list-item :hide-title="options.hideTitle"
@@ -446,7 +468,7 @@
 
           <div v-else-if="view === 'table'">
             <div v-if="group === 'lcp'">
-              <div v-for="lcp in lcpFilter">
+              <div v-for="lcp in lcpFilter" :key="`lcp-table-${lcp}`">
                 <div class="heading mech"
                   v-text="lcp" />
                 <selector-table :headers="tableHeaders"
@@ -458,7 +480,7 @@
             </div>
 
             <div v-else-if="group === 'source'">
-              <div v-for="manufacturer in manufacturers">
+              <div v-for="manufacturer in manufacturers" :key="`mf-table-${manufacturer}`">
                 <v-row align="center">
                   <v-col cols="auto">
                     <cc-logo :source="mf(manufacturer)"
@@ -480,7 +502,7 @@
 
             <div v-else-if="group === 'license'"
               cols="12">
-              <div v-for="license in licenses">
+              <div v-for="license in licenses" :key="`lic-table-${license}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="license" />
 
@@ -494,7 +516,7 @@
 
             <div v-else-if="group === 'type'"
               cols="12">
-              <div v-for="subtype in subtypes">
+              <div v-for="subtype in subtypes" :key="`subtype-table-${subtype}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="subtype" />
 
@@ -508,7 +530,7 @@
 
             <div v-else-if="group === 'role'"
               cols="12">
-              <div v-for="role in roles">
+              <div v-for="role in roles" :key="`role-table-${role}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="role" />
 
@@ -522,7 +544,7 @@
 
             <div v-else-if="group === 'featureType'"
               cols="12">
-              <div v-for="featureType in featureTypes">
+              <div v-for="featureType in featureTypes" :key="`feat-table-${featureType}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="featureType" />
 
@@ -536,7 +558,7 @@
 
             <div v-else-if="group === 'origin'"
               cols="12">
-              <div v-for="origin in origins">
+              <div v-for="origin in origins" :key="`origin-table-${origin}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="origin" />
 
@@ -564,6 +586,7 @@
               :length="Math.ceil(shownItems.length / itemsPerPage)" />
             <v-row>
               <selector-card-item v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
+                :key="item.ID"
                 :id="item.ID"
                 :item="item"
                 :highlighted="selectedItem ? selectedItem.ID === item.ID : false"

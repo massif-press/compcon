@@ -89,6 +89,7 @@
               </span>
               <v-chip
                 v-for="s in pilot.SkillsController.Skills"
+                :key="s.Skill.ID"
                 v-else
                 color="accent"
                 class="ma-1"
@@ -107,6 +108,7 @@
               </span>
               <v-chip
                 v-for="t in pilot.TalentsController.Talents"
+                :key="t.Talent.ID"
                 v-else
                 color="accent"
                 class="ma-1"

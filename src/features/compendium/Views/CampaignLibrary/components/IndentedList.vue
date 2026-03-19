@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-for="item in <any[]>items">
+    <template v-for="(item, index) in <any[]>items" :key="`item-${index}`">
       <div v-if="item" class="my-1" :style="{ marginLeft: `${level * 6}px` }">
         <v-btn
           @click="$emit('clicked', item)"

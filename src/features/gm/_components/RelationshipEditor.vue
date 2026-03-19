@@ -2,6 +2,7 @@
   <div class="text-overline">RELATIONSHIPS</div>
   <cc-relationship-item
     v-for="(r, idx) in item.NarrativeController.Relationships"
+    :key="`relationship-${idx}`"
     :item="r"
     :ref="'relationship' + idx"
     :origin-item="item"
@@ -20,7 +21,10 @@
   </div>
 
   <div class="text-overline">LINKED ENTITIES</div>
-  <cc-relationship-item v-for="l in linkedRelationships" :item="l.item" :origin-item="l.origin" />
+  <cc-relationship-item v-for="(l, index) in linkedRelationships"
+    :key="`linked-${index}`"
+    :item="l.item"
+    :origin-item="l.origin" />
 </template>
 
 <script lang="ts">

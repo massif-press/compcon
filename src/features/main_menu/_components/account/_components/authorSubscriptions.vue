@@ -153,7 +153,7 @@
         </td>
       </template>
     </v-data-table>
-    <v-alert v-for="item in remoteDeletedItems"
+    <v-alert v-for="(item, itemIdx) in remoteDeletedItems" :key="`deleted-${itemIdx}`"
       class="mx-8 my-2"
       density="compact"
       prominent

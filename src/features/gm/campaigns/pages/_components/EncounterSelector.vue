@@ -12,7 +12,7 @@
       prepend-inner-icon="mdi-magnify"
       hide-details />
     <v-card-text>
-      <div v-for="(encounter, i) in encounters" @click="$emit('select', encounter)">
+      <div v-for="(encounter, i) in encounters" :key="encounter.ID" @click="$emit('select', encounter)">
         <gm-encounter-list-item :odd="i % 2 === 0" :item="encounter" />
       </div>
     </v-card-text>

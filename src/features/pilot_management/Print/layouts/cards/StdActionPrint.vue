@@ -1,5 +1,5 @@
 <template>
-  <action-card v-for="a in actions" :action="a" />
+  <action-card v-for="(a, index) in actions" :key="`action-${index}`" :action="a" />
 </template>
 
 <script lang="ts">

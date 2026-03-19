@@ -111,6 +111,7 @@
           <v-list v-model="selectedRevisions" multiple density="compact" slim flat tile border>
             <v-list-item
               v-for="(rev, idx) in revisions"
+              :key="`rev-${idx}`"
               @click="setRevision(rev.value)"
               :active="selectedRevisions.includes(rev.value)"
               active-class="bg-primary"

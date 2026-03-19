@@ -24,6 +24,7 @@
         </div>
         <v-card v-else
           v-for="(c, i) in campaigns"
+          :key="c.ID"
           class="px-2 py-3"
           elevation="0"
           :color="i % 2 === 0 ? 'rgba(125, 125, 125, 0.05)' : 'rgba(125, 125, 125, 0.16)'">

@@ -135,7 +135,8 @@
             :item="item" />
           <v-divider class="my-2" />
           <div class="text-caption">CLOCKS</div>
-          <cc-clock v-for="c in item.NarrativeController.Clocks"
+          <cc-clock v-for="(c, ci) in item.NarrativeController.Clocks"
+            :key="`clock-${ci}`"
             :readonly="isRemote"
             :clock="c"
             class="mx-1 my-2"
@@ -153,7 +154,8 @@
           </v-row>
           <v-divider class="my-2" />
           <div class="text-caption">TABLES</div>
-          <cc-rollable-table v-for="t in item.NarrativeController.Tables"
+          <cc-rollable-table v-for="(t, ti) in item.NarrativeController.Tables"
+            :key="`table-${ti}`"
             :readonly="isRemote"
             :table="t"
             class="mx-1 my-2"

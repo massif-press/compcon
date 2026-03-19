@@ -14,12 +14,14 @@
     <div class="mt-n2 ml-1">
       <span class="no-height">
         <v-icon v-for="n in val"
+          :key="`filled-${n}`"
           size="small"
           :color="color"
           icon="mdi-hexagon" />
       </span>
       <span class="no-height">
         <v-icon v-for="n in 6 - val"
+          :key="`empty-${n}`"
           size="small"
           color="grey"
           icon="mdi-hexagon-outline" />

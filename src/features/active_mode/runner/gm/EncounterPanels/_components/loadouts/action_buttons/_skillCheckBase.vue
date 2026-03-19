@@ -31,7 +31,8 @@
             :icon="bonus < 0 ? 'mdi-minus' : 'mdi-plus'" />
         </template>
       </v-text-field>
-      <v-card v-for="a in applicableBonuses.bonuses"
+      <v-card v-for="(a, index) in applicableBonuses.bonuses"
+        :key="`bonus-${index}`"
         flat
         tile
         class="pa-1 text-cc-overline"
@@ -70,7 +71,8 @@
             color="light-panel">
             -1 (Difficult)
           </v-card>
-          <v-card v-for="a in applicableBonuses.accDiff"
+          <v-card v-for="(a, index) in applicableBonuses.accDiff"
+            :key="`accdiff-${index}`"
             flat
             tile
             class="pa-1 text-cc-overline"

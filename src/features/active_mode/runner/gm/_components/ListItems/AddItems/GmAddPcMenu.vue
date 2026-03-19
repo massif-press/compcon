@@ -52,8 +52,9 @@
           <v-card flat
             tile
             v-for="pc in pilots"
+            :key="pc.ID"
             class="border-sm mb-1">
-            <v-row :key="pc.ID">
+            <v-row>
               <v-col cols="auto">
                 <cc-img :src="pc.Portrait"
                   width="80" />

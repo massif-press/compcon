@@ -2,7 +2,7 @@
   <div class="pa-2 mt-3">
     <div class="text-overline text-primary" style="line-height: 15px">SKILL TRIGGER DETAIL</div>
     <v-row dense>
-      <v-col v-for="t in triggers" style="min-width: 16vw" class="no-print-break">
+      <v-col v-for="t in triggers" :key="t.ID" style="min-width: 16vw" class="no-print-break">
         <v-card variant="outlined" class="pa-1" color="grey" style="height: 100%">
           <div class="caption heading text-black">
             <v-icon icon="cc:skill" class="mt-n1" />

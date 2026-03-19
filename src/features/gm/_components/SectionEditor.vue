@@ -1,7 +1,10 @@
 <template>
   <div>
     <div v-if="item.NarrativeController.TextItems.length">
-      <v-card v-for="s in item.NarrativeController.TextItems" variant="tonal" class="mb-2">
+      <v-card v-for="(s, index) in item.NarrativeController.TextItems"
+        :key="`section-${index}`"
+        variant="tonal"
+        class="mb-2">
         <v-toolbar density="compact" class="px-3">
           <div class="heading h3">
             <cc-short-string-editor large @set="s.header = $event">

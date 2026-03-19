@@ -68,6 +68,7 @@
     </div>
 
     <sheet-item v-for="sheet in activeSheets"
+      :key="sheet.ID"
       :sheet="sheet"
       @launch="launch(sheet)"
       @archive="sheet.Archive()"
@@ -118,6 +119,7 @@
             <i>No archived sheets found{{ search ? ` including "${search}"` : '' }}.</i>
           </div>
           <v-row v-for="e in archived"
+            :key="e.ID"
             class="text-cc-overline bg-background my-1"
             align="center">
             <v-col cols="auto"

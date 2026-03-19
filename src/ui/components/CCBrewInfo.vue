@@ -17,6 +17,7 @@
       </v-toolbar>
       <v-card-text class="py-2">
         <v-row v-for="b in controller.Brews"
+          :key="b.LcpName"
           dense
           align="center">
           <v-col cols="auto">

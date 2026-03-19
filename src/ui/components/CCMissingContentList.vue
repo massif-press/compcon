@@ -3,6 +3,7 @@
     <v-row
       v-if="!controller.OtherError"
       v-for="b in controller.Brews"
+      :key="b.LcpName"
       dense
       align="center"
       class="ml-1">

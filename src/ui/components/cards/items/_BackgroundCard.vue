@@ -6,6 +6,7 @@
     <div class="text-cc-overline text-accent">Suggested Skills</div>
     <v-tooltip
       v-for="s in item.SuggestedSkills"
+      :key="s.ID"
       location="top"
       :open-on-click="mobile"
       max-width="400px">

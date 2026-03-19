@@ -62,6 +62,7 @@
         <div v-if="active && cs.ActiveActions?.length"
           class="mb-2 mt-1">
           <cc-combat-action-chip v-for="a in cs.ActiveActions"
+            :key="a.ID"
             :action="a"
             :owner="owner"
             :encounter="encounterInstance" />
@@ -71,6 +72,7 @@
       <div v-if="cs.Deployables?.length"
         class="mb-2">
         <deploy-button v-for="d in cs.Deployables"
+          :key="d.ID"
           :deployable="d"
           :actor="mech"
           @deploy="$emit('deploy', d)" />
@@ -107,6 +109,7 @@
       <div v-if="cs.PassiveActions?.length"
         class="mb-2 mt-1">
         <cc-combat-action-chip v-for="a in cs.PassiveActions"
+          :key="a.ID"
           :action="a"
           :owner="owner"
           :encounter="encounterInstance" />

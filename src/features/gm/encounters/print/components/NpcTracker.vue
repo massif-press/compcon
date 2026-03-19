@@ -38,7 +38,7 @@
     </v-row>
 
     <v-row dense class="text-center mt-n3" justify="space-around">
-      <v-col v-for="s in npc.StatController.TrackableStats" cols="auto">
+      <v-col v-for="s in npc.StatController.TrackableStats" :key="s.key" cols="auto">
         <div class="text-caption mb-n1 text-uppercase">{{ s.key }}</div>
         <blank-line :height="20" :width="60" class="d-inline-block mb-n1" />
         <b class="flavor-text pt-3 text-black" v-text="`/${getBonusVal(s.key)}`" />
@@ -48,6 +48,7 @@
     <div class="text-center mt-1">
       <v-chip
         v-for="s in statuses"
+        :key="s.ID"
         prepend-icon="mdi-checkbox-blank-outline"
         size="small"
         variant="outlined"

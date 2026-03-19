@@ -33,6 +33,7 @@
                 <v-col>
                   <div class="text-caption text-disabled"><i>Show items with:</i></div>
                   <v-chip v-for="f in statFilters.filter((f) => !filters.some((x) => x === f))"
+                    :key="`show-stat-${f}`"
                     size="small"
                     class="mr-1 mb-1"
                     @click="$emit('add-filter', f)">
@@ -45,6 +46,7 @@
                 <v-col>
                   <div class="text-caption text-disabled"><i>Hide items with:</i></div>
                   <v-chip v-for="f in statFilters.filter((f) => filters.some((x) => x === f))"
+                    :key="`hide-stat-${f}`"
                     size="small"
                     class="mr-1 mb-1"
                     @click="$emit('remove-filter', f)">
@@ -64,6 +66,7 @@
                 <v-col>
                   <div class="text-caption text-disabled"><i>Show items with:</i></div>
                   <v-chip v-for="f in labelFilters.filter((f) => !filters.some((x) => x === f))"
+                    :key="`show-label-${f}`"
                     size="small"
                     class="mr-1 mb-1"
                     @click="$emit('add-filter', f)">
@@ -76,6 +79,7 @@
                 <v-col>
                   <div class="text-caption text-disabled"><i>Hide items with:</i></div>
                   <v-chip v-for="f in labelFilters.filter((f) => filters.some((x) => x === f))"
+                    :key="`hide-label-${f}`"
                     size="small"
                     class="mr-1 mb-1"
                     @click="$emit('remove-filter', f)">

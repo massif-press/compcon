@@ -109,6 +109,7 @@
             </template>
             <template #[`item.Features`]="{ item }">
               <cc-item-chip v-for="f in (item as Unit).NpcFeatureController.Features"
+                :key="f.ID"
                 :item="f"
                 :tier="(item as Unit).NpcClassController.Tier"
                 size="x-small"
@@ -185,6 +186,7 @@
             </template>
             <template #[`item.Layers`]="{ item }">
               <v-chip v-for="l in (item as Eidolon).Layers"
+                :key="l.ID"
                 size="small"
                 label
                 prepend-icon="mdi-layers"

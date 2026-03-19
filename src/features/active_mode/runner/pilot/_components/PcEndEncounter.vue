@@ -33,6 +33,7 @@
             class="mt-1 mb-4">
             <v-card-text class="pa-2">
               <v-row v-for="c in actionReport"
+                :key="c.id"
                 dense
                 align="center">
                 <v-col><cc-chip :bg-color="c.pilotStatus ? 'info' : 'primary'"

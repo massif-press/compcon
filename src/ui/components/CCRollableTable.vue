@@ -55,6 +55,7 @@
             <v-card>
               <v-card-text>
                 <v-btn v-for="n in 5"
+                  :key="`mult-${n}`"
                   icon
                   variant="tonal"
                   color="accent"
@@ -85,6 +86,7 @@
             <v-card>
               <v-card-text>
                 <v-btn v-for="n in dice"
+                  :key="`dice-${n}`"
                   icon
                   variant="tonal"
                   color="accent"

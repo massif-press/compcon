@@ -2,13 +2,14 @@
   <v-layout>
     <v-navigation-drawer style="position: fixed" width="320">
       <v-list density="compact" slim color="primary" class="my-6 text-link">
-        <div v-for="(item, index) in content" :value="index" class="my-3">
+        <div v-for="(item, index) in content" :key="`section-${index}`" :value="index" class="my-3">
           <v-list-item @click="scrollTo(item)" class="py-0">
             <span class="heading h3">{{ getLangItem(item, 'title') }}</span>
           </v-list-item>
           <v-list-item
             v-if="(item as any).children"
-            v-for="child in (item as any).children"
+            v-for="(child, childIdx) in (item as any).children"
+            :key="`child-nav-${childIdx}`"
             class="pl-8 my-n2"
             @click="scrollTo(child)"
             :title="getLangItem(child, 'title')" />
@@ -24,7 +25,8 @@
           {{ title }}
         </div>
         <div
-          v-for="item in content"
+          v-for="(item, index) in content"
+          :key="`content-${index}`"
           :id="`e_${(item as any).title.en.replace(/\W/g, '')}`"
           class="px-12">
           <cc-title
@@ -45,7 +47,8 @@
           </cc-title>
           <div v-html-safe="getLangItem(item, 'content')" class="content" />
           <div
-            v-for="child in (item as any).children"
+            v-for="(child, childIdx) in (item as any).children"
+            :key="`child-${childIdx}`"
             :id="`e_${child.title.en.replace(/\W/g, '')}`">
             <h3
               class="text-accent mt-4"
@@ -53,7 +56,8 @@
               v-text="getLangItem(child, 'title')" />
             <div v-html-safe="getLangItem(child, 'content')" class="content" />
             <div
-              v-for="subchild in (child as any).children"
+              v-for="(subchild, subIdx) in (child as any).children"
+              :key="`subchild-${subIdx}`"
               :id="`e_${subchild.title.en.replace(/\W/g, '')}`">
               <b class="text-accent ml-n2" v-text="getLangItem(subchild, 'title')" />
               <div v-html-safe="getLangItem(subchild, 'content')" class="content" />

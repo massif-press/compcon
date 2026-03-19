@@ -48,7 +48,8 @@
                 <v-col cols="3">Value (optional)</v-col>
               </v-row>
               <v-row
-                v-for="label in item.NarrativeController.Labels"
+                v-for="(label, index) in item.NarrativeController.Labels"
+                :key="`label-${index}`"
                 dense
                 align="center"
               >
@@ -138,6 +139,7 @@
                 >
                   <v-chip
                     v-for="label in availableLabels"
+                    :key="label.title"
                     size="small"
                     color="accent"
                     @click="addPaletteChip(label.title)"
@@ -176,7 +178,8 @@
     </div>
 
     <cc-split-chip
-      v-for="label in item.NarrativeController.Labels"
+      v-for="(label, li) in item.NarrativeController.Labels"
+      :key="`chip-${li}`"
       :label="label"
       class="mx-1"
     />

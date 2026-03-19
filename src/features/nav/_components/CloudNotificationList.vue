@@ -3,6 +3,7 @@
     <v-list v-if="store.CloudNotifications.length" density="compact">
       <v-list-item
         v-for="(notification, idx) in store.CloudNotifications"
+        :key="`notification-${idx}`"
         :title="notification.text"
         :prepend-icon="notification.type === 'error' ? 'mdi-alert-circle' : 'mdi-information'"
         :color="notification.type === 'error' ? 'error' : ''">

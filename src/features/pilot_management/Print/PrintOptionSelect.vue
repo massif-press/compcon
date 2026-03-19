@@ -9,7 +9,7 @@
       :multiple="multiple"
     >
       <v-row justify="space-around" align="center">
-        <v-col v-for="i in items" style="min-width: 16vw">
+        <v-col v-for="i in items" :key="(i as any).title" style="min-width: 16vw">
           <v-item :value="i" v-slot="{ isSelected, toggle }">
             <v-card
               :color="isSelected ? 'accent' : ''"

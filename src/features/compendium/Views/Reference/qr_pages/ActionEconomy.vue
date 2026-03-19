@@ -18,6 +18,7 @@
           </v-col>
           <v-col
             v-for="a in actionTypes"
+            :key="a.action"
             cols="12"
             sm=""
             style="min-width: 12vw"

@@ -27,6 +27,7 @@
               v-html-safe="item.Tag" />
             <cc-divider v-if="item.NarrativeController.Labels.length" />
             <v-chip v-for="(l, i) in item.Labels"
+              :key="`label-${i}`"
               small
               variant="outlined"
               label
@@ -190,6 +191,7 @@
           justify="center"
           style="page-break-after: always">
           <v-col v-for="i in item.Items"
+            :key="i.ID"
             :class="` ${i.HideOnPrint ? 'no-print' : ''}`"
             style="page-break-inside: avoid !important; min-width: 45vw">
             <cc-npc-item-card :item="i"
@@ -199,6 +201,7 @@
 
         <div v-if="item.NarrativeController.TextItems.length">
           <v-row v-for="(s, i) in item.Sections"
+            :key="`section-${i}`"
             density="compact">
             <v-col>
               <v-row no-gutters
@@ -217,11 +220,13 @@
           </v-row>
         </div>
         <cc-clock v-for="(c, i) in item.NarrativeController.Clocks"
+          :key="`clock-${i}`"
           :clock="c"
           class="mx-1 my-2"
           print />
         <div v-if="item.NarrativeController.Tables.length">
           <cc-rollable-table v-for="(t, i) in item.Tables"
+            :key="`table-${i}`"
             :table="t"
             class="mx-1 my-2"
             print />

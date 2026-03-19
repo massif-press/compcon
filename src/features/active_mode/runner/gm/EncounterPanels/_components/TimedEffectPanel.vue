@@ -2,6 +2,7 @@
   <div v-if="item.CombatController.TimedEffects.length"
     class="text-cc-overline text-disabled mt-2">PENDING</div>
   <v-row v-for="(t, idx) in item.CombatController.TimedEffects"
+    :key="`timed-${idx}`"
     dense
     align="center"
     :class="getRoundsRemaining(t) ? 'border-md  rounded-e-xl' : 'animated-gradient-border'"

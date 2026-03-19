@@ -13,10 +13,12 @@
     <cb-mount-menu v-if="!intWeapon && !integrated && !readonly"
       :mech="mech"
       :mount="mount" />
-    <cb-card v-for="b in mount.Bonuses"
+    <cb-card v-for="(b, index) in mount.Bonuses"
+      :key="`bonus-${index}`"
       :bonus="b" />
     <sh-lock-card v-if="mount.IsLocked" />
-    <weapon-slot-card v-for="s in mount.Slots"
+    <weapon-slot-card v-for="(s, index) in mount.Slots"
+      :key="`slot-${index}`"
       v-if="!mount.IsLocked"
       :weapon-slot="s"
       :mech="mech"

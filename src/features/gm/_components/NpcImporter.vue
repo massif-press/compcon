@@ -47,7 +47,8 @@
             <th class="text-center">Status</th>
           </tr>
         </thead>
-        <tbody v-for="item in stagedItems">
+        <tbody v-for="item in stagedItems"
+          :key="item.id">
           <tr>
             <td>
               <v-checkbox v-model="selected"

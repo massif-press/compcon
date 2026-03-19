@@ -30,7 +30,8 @@
       class="py-0">
       <div class="text-cc-overline text-disabled">Detail</div>
 
-      <div v-for="item in encounter.NarrativeController.TextItems">
+      <div v-for="(item, index) in encounter.NarrativeController.TextItems"
+        :key="`text-${index}`">
         <div class="heading h3 text-accent">{{ item.header }}</div>
         <p v-html-safe="item.body" />
         <div class="text-right mt-n2">
@@ -52,7 +53,8 @@
     <v-card-text class="py-2">
       <div class="text-cc-overline text-disabled">SITREP</div>
       <div class="heading h3 text-accent">{{ encounter.Sitrep.Name }}</div>
-      <div v-for="block in sitrepBlocks">
+      <div v-for="block in sitrepBlocks"
+        :key="block">
         <div v-if="encounter.Sitrep[block].length"
           class="mb-4">
           <div class="text-cc-overline">{{ block }}</div>

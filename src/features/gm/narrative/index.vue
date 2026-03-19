@@ -14,7 +14,8 @@
   </v-tabs>
 
   <v-window v-model="tab">
-    <v-window-item v-for="itemType in itemTypes">
+    <v-window-item v-for="itemType in itemTypes"
+      :key="itemType">
       <narrative-collection
         :itemType="itemType"
         :id="id"

@@ -13,12 +13,12 @@
       <span class="text-grey pl-1">{{ feature.FeatureType }}</span>
     </v-col>
     <v-col v-if="feature.WeaponType" class="px-1 text-center">
-      <span class="pl-1" v-for="r in feature.Range">
+      <span class="pl-1" v-for="(r, ri) in feature.Range" :key="`range-${ri}`">
         <v-icon :icon="r.Icon" class="mt-n1" />
         {{ r.Value }}
       </span>
       <cc-slashes class="pl-2" v-if="feature.Damage(tier).length" />
-      <span class="pl-1" v-for="d in feature.Damage(tier)">
+      <span class="pl-1" v-for="(d, di) in feature.Damage(tier)" :key="`damage-${di}`">
         <v-icon :icon="d.Icon" class="mt-n1" />
         {{ d.Value }}
       </span>
@@ -34,7 +34,7 @@
       </span>
     </v-col>
     <v-col cols="auto" class="ml-auto">
-      <v-chip v-for="tag in feature.Tags" label size="x-small" class="ml-1">
+      <v-chip v-for="tag in feature.Tags" :key="tag.ID" label size="x-small" class="ml-1">
         <span>{{ tag.GetName(0, tier).toUpperCase() }}</span>
       </v-chip>
     </v-col>

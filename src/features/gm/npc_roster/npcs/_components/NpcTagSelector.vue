@@ -32,6 +32,7 @@
         <v-divider />
         <v-list-item
           v-for="t in tags"
+          :key="t.name"
           :title="t.name"
           :subtitle="t.description"
           :prepend-icon="t.icon"

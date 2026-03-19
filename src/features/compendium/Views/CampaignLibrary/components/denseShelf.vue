@@ -14,7 +14,7 @@
       selected-class="text-secondary"
       show-arrows
       center-active>
-      <v-slide-group-item v-for="(c, n) in campaigns"
+      <v-slide-group-item v-for="(c, n) in campaigns" :key="`campaign-${n}`"
         v-slot="{ isSelected, toggle, selectedClass }">
         <v-card :class="['ma-4', selectedClass]"
           :color="c.cover_image_url ? 'transparent' : 'rgba(125, 125, 125, 0.5)'"

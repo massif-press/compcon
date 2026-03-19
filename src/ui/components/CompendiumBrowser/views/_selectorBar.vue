@@ -1,7 +1,7 @@
 <template>
   <div v-if="group === 'lcp'">
     <div class="text-center">
-      <v-btn v-for="(lcp, i) in lcpFilter"
+      <v-btn v-for="(lcp, i) in lcpFilter" :key="`lcp-btn-${i}`"
         :active="lcpTab === i"
         :color="lcpTab === i ? 'accent' : ''"
         variant="tonal"
@@ -14,6 +14,7 @@
 
     <v-window v-model="lcpTab">
       <v-window-item v-for="lcp in lcpFilter"
+        :key="`lcp-win-${lcp}`"
         eager>
         <div class="heading mech"
           v-text="lcp" />
@@ -27,7 +28,7 @@
 
   <div v-else-if="group === 'source'">
     <div class="text-center">
-      <v-btn v-for="(m, i) in manufacturers"
+      <v-btn v-for="(m, i) in manufacturers" :key="`mf-btn-${i}`"
         :active="mfTab === i"
         :color="mfTab === i ? 'primary' : ''"
         variant="tonal"
@@ -48,6 +49,7 @@
 
     <v-window v-model="mfTab">
       <v-window-item v-for="manufacturer in manufacturers"
+        :key="`mf-win-${manufacturer}`"
         eager>
         <v-row v-if="manufacturer"
           align="center">
@@ -82,7 +84,7 @@
 
   <div v-else-if="group === 'license'">
     <div class="text-center">
-      <v-btn v-for="(l, i) in licenses"
+      <v-btn v-for="(l, i) in licenses" :key="`lic-btn-${i}`"
         :active="licenseTab === i"
         :color="licenseTab === i ? 'primary' : ''"
         variant="tonal"
@@ -95,6 +97,7 @@
 
     <v-window v-model="licenseTab">
       <v-window-item v-for="l in licenses"
+        :key="`lic-win-${l}`"
         eager>
         <div class="heading h2 text-primary mt-4"
           v-text="l" />

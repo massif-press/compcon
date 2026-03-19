@@ -18,7 +18,8 @@
       </div>
       <div class="heading">
         <cc-button
-          v-for="m in availableMounts"
+          v-for="(m, index) in availableMounts"
+          :key="`mount-${index}`"
           x-large
           block
           variant="outlined"

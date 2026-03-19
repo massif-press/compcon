@@ -7,7 +7,7 @@
     style="width: 100%">
     <template v-slot:item="{ item }">
       <tr :id="item.ID">
-        <td v-for="h in <any[]>headers"
+        <td v-for="h in <any[]>headers" :key="h.key"
           class="text-left px-2"
           :class="`text-${h.align} ${selected && (selected as any).ID === item.ID ? 'bg-light-panel' : ''
             }`">
@@ -108,17 +108,17 @@
           </div>
 
           <div v-else-if="h.key === 'T1'">
-            <div v-for="e in (item as License).Unlocks[0]" style="padding: 2px">
+            <div v-for="e in (item as License).Unlocks[0]" :key="e.ID" style="padding: 2px">
               <cc-item-modal :item="e" />
             </div>
           </div>
           <div v-else-if="h.key === 'T2'">
-            <div v-for="e in (item as License).Unlocks[1]" style="padding: 2px">
+            <div v-for="e in (item as License).Unlocks[1]" :key="e.ID" style="padding: 2px">
               <cc-item-modal :item="e" />
             </div>
           </div>
           <div v-else-if="h.key === 'T3'">
-            <div v-for="e in (item as License).Unlocks[2]" style="padding: 2px">
+            <div v-for="e in (item as License).Unlocks[2]" :key="e.ID" style="padding: 2px">
               <cc-item-modal :item="e" />
             </div>
           </div>

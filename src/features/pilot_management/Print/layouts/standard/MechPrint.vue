@@ -96,6 +96,7 @@
             align="center">
             <v-col class="text-primary">
               <v-icon v-for="n in mech.Armor"
+                :key="`armor-${n}`"
                 size="40"
                 style="opacity: 0.6"
                 icon="mdi-shield-outline" />
@@ -271,6 +272,7 @@
         <v-row dense
           v-if="blank">
           <v-col v-for="n in 4"
+            :key="`trait-${n}`"
             cols="6">
             <blank-line :height="80" />
           </v-col>
@@ -281,7 +283,8 @@
           class="caption mt-n1">
           <v-col :cols="t.Actions.length + t.Deployables.length > 0 ? '12' : ''"
             class="no-print-break"
-            v-for="t in mech.Frame.Traits">
+            v-for="t in mech.Frame.Traits"
+            :key="t.Name">
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
@@ -377,6 +380,7 @@
 
     <div v-if="blank">
       <fieldset v-for="n in hasMechOption('Extra Mount Panel') ? 5 : 4"
+        :key="`mount-${n}`"
         class="my-1 pb-1">
         <legend class="heading h4 ml-1 px-2">
           <v-row dense
@@ -389,7 +393,7 @@
               class="text-primary">MOUNT</v-col>
           </v-row>
         </legend>
-        <div v-for="n in 2">
+        <div v-for="n in 2" :key="`slot-${n}`">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">WEAPON</div>
@@ -416,6 +420,7 @@
 
     <fieldset v-else
       v-for="m in mounts"
+      :key="m.ID"
       class="no-print-break">
       <legend class="heading h4 ml-1 px-2">{{ m.Name }}</legend>
       <div v-if="m.IsLocked"
@@ -426,6 +431,7 @@
       </div>
       <div v-else
         v-for="w in m.Weapons.filter(Boolean)"
+        :key="w.ID"
         class="px-1">
         <v-row dense
           align="center">
@@ -441,6 +447,7 @@
           <v-col v-if="w.Uses"
             cols="auto">
             <v-icon v-for="n in w.getTotalUses(mech.LimitedBonus)"
+              :key="`use-${n}`"
               size="small"
               color="primary">
               mdi-hexagon-outline
@@ -451,7 +458,8 @@
         <div class="pl-7 mt-n2 mb-2">
           <div v-if="showCollectedEffect(w)"
             class="caption mb-1">{{ w.Profiles[0].Effect }}</div>
-          <div v-for="p in w.Profiles"
+          <div v-for="(p, index) in w.Profiles"
+            :key="`profile-${index}`"
             class="mb-n4">
             <div class="flavor-text text-black mt-n1"
               style="font-size: 16px">
@@ -459,7 +467,8 @@
                 class="heading">
                 {{ p.Name }}:&nbsp;
               </span>
-              <b v-for="r in p.Range"
+              <b v-for="(r, ri) in p.Range"
+                :key="`range-${ri}`"
                 class="px-1">
                 <v-icon size="small"
                   class="mt-n1"
@@ -468,7 +477,7 @@
               </b>
               <span v-if="p.Damage && p.Damage.length"
                 class="pl-2 pr-1"><cc-slashes /></span>
-              <b v-for="d in p.Damage">
+              <b v-for="(d, di) in p.Damage" :key="`damage-${di}`">
                 <v-icon size="small"
                   class="mt-n1 mr-n2"
                   :icon="d.Icon"
@@ -523,7 +532,7 @@
     <div v-if="blank">
       <fieldset>
         <legend class="heading h4 ml-1 px-2 py-1 text-primary">SYSTEMS</legend>
-        <div v-for="n in hasMechOption('Extra System Space') ? 8 : 6">
+        <div v-for="n in hasMechOption('Extra System Space') ? 8 : 6" :key="`sys-${n}`">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">SYSTEM</div>
@@ -547,6 +556,7 @@
     <fieldset v-else>
       <legend class="heading h3 ml-1 px-2">Systems</legend>
       <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)"
+        :key="s.ID"
         variant="outlined"
         class="pa-1 my-1 no-print-break"
         style="position: relative; border-color: rgba(0, 0, 0, 0.2)">
@@ -566,6 +576,7 @@
             cols="auto"
             class="ml-auto">
             <v-icon v-for="n in s.getTotalUses(mech.LimitedBonus)"
+              :key="`use-${n}`"
               size="small"
               color="primary">
               mdi-hexagon-outline

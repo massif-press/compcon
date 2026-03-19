@@ -9,14 +9,14 @@
       <legend class="text-cc-overline pa-1">CONTENTS</legend>
       <v-card-text class="pa-0 my-2">
         <v-row justify="space-around">
-          <v-col v-for="n in Math.ceil(content.length / 3)">
-            <div v-for="item in content.slice(3 * (n - 1), 3 * n)">
+          <v-col v-for="n in Math.ceil(content.length / 3)" :key="`col-${n}`">
+            <div v-for="(item, itemIdx) in content.slice(3 * (n - 1), 3 * n)" :key="`toc-item-${itemIdx}`">
               <div
                 class="heading h3 my-2 text-link"
                 style="cursor: pointer"
                 @click="scrollTo(item)"
                 v-text="getLangItem(item, 'title')" />
-              <div v-for="child in (item as any).children">
+              <div v-for="(child, childIdx) in (item as any).children" :key="`toc-child-${childIdx}`">
                 <div
                   color="accent"
                   class="heading h4 ml-4 my-1 text-link"
@@ -29,7 +29,7 @@
       </v-card-text>
     </fieldset>
     <v-container :class="mobile ? 'px-4' : 'px-12 pb-12'">
-      <div v-for="item in content" :id="`e_${(item as any).title.en.replace(/\W/g, '')}`">
+      <div v-for="(item, itemIdx) in content" :key="`content-${itemIdx}`" :id="`e_${(item as any).title.en.replace(/\W/g, '')}`">
         <cc-title
           v-if="mobile"
           small
@@ -47,14 +47,15 @@
           {{ getLangItem(item, 'title') }}
         </cc-title>
         <div v-html-safe="getLangItem(item, 'content')" class="content" />
-        <div v-for="child in (item as any).children" :id="`e_${child.title.en.replace(/\W/g, '')}`">
+        <div v-for="(child, childIdx) in (item as any).children" :key="`child-${childIdx}`" :id="`e_${child.title.en.replace(/\W/g, '')}`">
           <h3
             class="text-accent mt-4"
             :class="mobile ? 'ml-n2' : 'ml-n5'"
             v-text="getLangItem(child, 'title')" />
           <div v-html-safe="getLangItem(child, 'content')" class="content" />
           <div
-            v-for="subchild in (child as any).children"
+            v-for="(subchild, subIdx) in (child as any).children"
+            :key="`subchild-${subIdx}`"
             :id="`e_${subchild.title.en.replace(/\W/g, '')}`">
             <b class="text-accent ml-n2" v-text="getLangItem(subchild, 'title')" />
             <div v-html-safe="getLangItem(subchild, 'content')" class="content" />
@@ -65,7 +66,7 @@
   </v-container>
   <v-footer border app class="py-0 bg-primary">
     <v-tabs density="compact" center-active grow>
-      <v-tab v-for="item in content" v-text="getLangItem(item, 'title')" @click="scrollTo(item)" />
+      <v-tab v-for="(item, itemIdx) in content" :key="`tab-${itemIdx}`" v-text="getLangItem(item, 'title')" @click="scrollTo(item)" />
     </v-tabs>
   </v-footer>
   <v-btn

@@ -103,6 +103,7 @@
               <div class="text-cc-overline text-disabled">Defender Status</div>
               <v-divider class="mb-2" />
               <v-row v-for="damage in controller.Resistances"
+                :key="`${damage.type}-${damage.condition}`"
                 no-gutters
                 justify="center"
                 :class="damageClass(damage)"
@@ -117,6 +118,7 @@
               </v-row>
 
               <v-card v-for="s in getActiveStatuses"
+                :key="s.id"
                 flat
                 tile
                 class="py-1 text-center"

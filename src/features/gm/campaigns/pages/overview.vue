@@ -136,7 +136,7 @@
           hint="Must be an itch.io URL to enable automatic management in COMP/CON"
           class="my-3" />
         <div class="text-caption text-disabled">Author Contact Information (Optional)</div>
-        <v-row v-for="item in campaign.AuthorContact" dense align="center" class="mt-2">
+        <v-row v-for="(item, index) in campaign.AuthorContact" :key="`contact-${index}`" dense align="center" class="mt-2">
           <v-col cols="3">
             <v-combobox
               v-model="item.service"
@@ -222,6 +222,7 @@
     </v-row>
     <page-content-container
       v-for="(item, i) in campaign.TitlePageContent.Content"
+      :key="`content-${i}`"
       :item="item"
       class="mb-4"
       @delete-item="campaign.TitlePageContent.RemoveContentItem(i)" />
@@ -241,7 +242,7 @@
       <v-divider class="my-3" />
       <fieldset style="border-radius: 3px">
         <legend class="ml-2 px-2 text-caption">Version History</legend>
-        <div v-for="hist in campaign.VersionHistory" class="px-4 py-2">
+        <div v-for="(hist, index) in campaign.VersionHistory" :key="`hist-${index}`" class="px-4 py-2">
           <div class="text-caption">
             v.
             <span class="heading h3">{{ hist.ver }}</span>

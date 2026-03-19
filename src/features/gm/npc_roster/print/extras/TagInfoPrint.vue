@@ -3,6 +3,7 @@
     <div class="text-overline text-primary"
       style="line-height: 0">EQUIPMENT TAG DETAIL</div>
     <div v-for="t in tags"
+      :key="t.ID"
       class="ma-2">
       <v-card variant="outlined"
         class="pa-2"

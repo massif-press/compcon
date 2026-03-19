@@ -308,7 +308,7 @@
 
         <div class="text-overline mb-n3 text-primary">FRAME TRAITS</div>
         <v-row dense v-if="blank">
-          <v-col v-for="n in 4" cols="6">
+          <v-col v-for="n in 4" :key="`trait-${n}`" cols="6">
             <blank-line
               :height="
                 landscape
@@ -320,7 +320,7 @@
           </v-col>
         </v-row>
         <v-row v-else dense justify="space-between" class="caption mt-n1">
-          <v-col v-for="t in mech.Frame.Traits">
+          <v-col v-for="t in mech.Frame.Traits" :key="t.Name">
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
@@ -407,6 +407,7 @@
     <div v-if="blank">
       <fieldset
         v-for="n in hasMechOption('Extra Mount Panel') ? 5 : 4"
+        :key="`mount-${n}`"
         class="my-1 pb-1">
         <legend class="heading h4 ml-1 px-2">
           <v-row dense align="center">
@@ -416,7 +417,7 @@
             <v-col cols="auto" class="text-primary">MOUNT</v-col>
           </v-row>
         </legend>
-        <div v-for="n in 2">
+        <div v-for="n in 2" :key="`slot-${n}`">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">WEAPON</div>
@@ -443,6 +444,7 @@
     <fieldset
       v-else
       v-for="m in mounts"
+      :key="m.ID"
       style="position: relative; break-inside: avoid"
       class="pb-1 no-print-break">
       <legend class="heading h4 ml-1 px-2 mb-n1">{{ m.Name }}</legend>
@@ -451,7 +453,7 @@
         <br />
         <span class="text-overline">// SUPERHEAVY WEAPON BRACING //</span>
       </div>
-      <div v-else v-for="w in m.Weapons.filter(Boolean)" class="px-1 caption">
+      <div v-else v-for="w in m.Weapons.filter(Boolean)" :key="w.ID" class="px-1 caption">
         <v-row dense>
           <v-col cols="auto">
             <b class="text-cc-overline font-weight-black">{{ w.Name }}</b>
@@ -462,19 +464,19 @@
             </span>
           </v-col>
           <v-col v-if="w.Uses" cols="auto">
-            <v-icon v-for="n in w.getTotalUses(mech.LimitedBonus)" size="small" color="primary">
+            <v-icon v-for="n in w.getTotalUses(mech.LimitedBonus)" :key="`use-${n}`" size="small" color="primary">
               mdi-hexagon-outline
             </v-icon>
           </v-col>
         </v-row>
 
         <div v-if="showCollectedEffect(w)" class="caption mb-1">{{ w.Profiles[0].Effect }}</div>
-        <div v-for="p in w.Profiles">
+        <div v-for="(p, index) in w.Profiles" :key="`profile-${index}`">
           <div class="caption">
             <span v-if="w.Profiles.length > 1 && p.Name" class="heading">{{ p.Name }}:&nbsp;</span>
-            <b v-for="r in p.Range" class="px-1">{{ r.Text }}</b>
+            <b v-for="(r, ri) in p.Range" :key="`range-${ri}`" class="px-1">{{ r.Text }}</b>
             <span v-if="p.Damage && p.Damage.length" class="px-1">|</span>
-            <b v-for="d in p.Damage" class="px-1">{{ d.Text }}</b>
+            <b v-for="(d, di) in p.Damage" :key="`damage-${di}`" class="px-1">{{ d.Text }}</b>
             <div v-if="p.Effect && !showCollectedEffect(w)" class="caption">{{ p.Effect }}</div>
             <div v-if="p.OnMiss" class="caption">
               <b>ON MISS:</b>
@@ -498,6 +500,7 @@
           <div class="text-right">
             <v-chip
               v-for="t in p.Tags"
+              :key="t.ID"
               size="x-small"
               label
               variant="outlined"
@@ -521,7 +524,7 @@
     <div v-if="blank">
       <fieldset>
         <legend class="heading h4 ml-1 px-2 py-1 text-primary">SYSTEMS</legend>
-        <div v-for="n in hasMechOption('Extra System Space') ? 8 : 6">
+        <div v-for="n in hasMechOption('Extra System Space') ? 8 : 6" :key="`sys-${n}`">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">SYSTEM</div>
@@ -545,6 +548,7 @@
       <legend class="heading h4 ml-1 px-2">Systems</legend>
       <v-card
         v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)"
+        :key="s.ID"
         variant="outlined"
         class="px-1 no-print-break"
         :class="s.Tags ? 'pb-2 mb-1' : ''"
@@ -557,7 +561,7 @@
             <span class="text-overline" style="line-height: 0">{{ s.Source }} {{ s.Type }}</span>
           </v-col>
           <v-col v-if="s.Uses" cols="auto">
-            <v-icon v-for="n in s.getTotalUses(mech.LimitedBonus)" size="small" color="primary">
+            <v-icon v-for="n in s.getTotalUses(mech.LimitedBonus)" :key="`use-${n}`" size="small" color="primary">
               mdi-hexagon-outline
             </v-icon>
           </v-col>
@@ -568,6 +572,7 @@
         <div class="text-right mb-n2">
           <v-chip
             v-for="t in s.Tags"
+            :key="t.ID"
             v-show="showTag(t.ID)"
             size="x-small"
             label

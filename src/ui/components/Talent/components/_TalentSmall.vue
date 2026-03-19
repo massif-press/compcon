@@ -39,6 +39,7 @@
       <v-row no-gutters class="fill-height">
         <v-col
           v-for="n in 3"
+          :key="`rank-${n}`"
           v-show="showFull || (!showFull && rank && Number(rank) >= n)"
           cols="12"
           md=""

@@ -136,9 +136,9 @@
         :style="mobile ? '' : 'height: calc(95vh - 83px)'"
         style="overflow-y: scroll">
         <v-fade-transition mode="out-in"
-          v-for="contentPack in contentPacks">
+          v-for="contentPack in contentPacks"
+          :key="contentPack ? contentPack.id : 'nopack'">
           <div v-if="contentPack"
-            :key="contentPack.id"
             class="mb-4">
             <pack-info :pack="contentPack" />
             <v-alert v-show="packAlreadyInstalled(contentPack) && !installing"

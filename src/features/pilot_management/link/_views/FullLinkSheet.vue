@@ -98,7 +98,7 @@
               {{ pilot.BondController.MinorIdeal }}
             </div>
           </v-col>
-          <v-col md="6" cols="12" v-for="(q, i) in pilot.BondController.Bond.Questions">
+          <v-col md="6" cols="12" v-for="(q, i) in pilot.BondController.Bond.Questions" :key="`question-${i}`">
             <cc-heading line>{{ q.question }}</cc-heading>
             <div class="text-cc-body">
               {{ pilot.BondController.Answers[i] }}
@@ -117,7 +117,7 @@
     :key="s.ID" />
 
   <cc-title class="mt-4 mb-2" id="reserves">Reserves</cc-title>
-  <div v-for="r in pilot.ReservesController.Reserves" class="mb-1">
+  <div v-for="(r, index) in pilot.ReservesController.Reserves" :key="`reserve-${index}`" class="mb-1">
     <cc-reserve-item :reserve="r" />
   </div>
 
@@ -127,7 +127,7 @@
   <div v-if="pilot.LicenseController.Licenses.length" id="licenses">
     <cc-title class="mt-4 mb-2">Licenses</cc-title>
     <v-row>
-      <v-col v-for="l in pilot.LicenseController.Licenses">
+      <v-col v-for="l in pilot.LicenseController.Licenses" :key="l.Stub.ID">
         <cc-pilot-license-stub :pilot-license="l" />
       </v-col>
     </v-row>
@@ -137,6 +137,7 @@
     <cc-title class="mt-4 mb-2">Talents</cc-title>
     <cc-talent
       v-for="t in pilot.TalentsController.Talents"
+      :key="t.Talent.ID"
       hide-locked
       :talent="t.Talent"
       :rank="t.Rank"
@@ -147,6 +148,7 @@
     <cc-title class="mt-4 mb-2">Core Bonuses</cc-title>
     <cc-core-bonus-item
       v-for="b in pilot.CoreBonusController.CoreBonuses"
+      :key="b.ID"
       :bonus="b"
       readonly
       terse />
@@ -228,7 +230,7 @@
           </v-col>
         </v-row>
         <v-row dense class="mb-2">
-          <v-col v-for="t in mech.Frame.Traits">
+          <v-col v-for="t in mech.Frame.Traits" :key="t.Name">
             <cc-trait-item :trait="t" />
           </v-col>
         </v-row>
@@ -241,6 +243,7 @@
     <div class="px-2 pb-4 pt-2">
       <cc-core-bonus-item
         v-for="b in pilot.CoreBonusController.CoreBonuses"
+        :key="b.ID"
         :bonus="b"
         readonly
         terse />

@@ -18,6 +18,7 @@
       <no-data-block v-if="!pilot.SkillsController.Skills.length" />
       <cc-skill-item
         v-for="s in pilot.SkillsController.Skills"
+        :key="s.Skill.ID"
         v-else
         :bonus="s.Bonus"
         :skill="s.Skill"

@@ -2,7 +2,7 @@
   <v-col :cols="cols"
     v-if="event.SpecialEvents.length">
     <div class="text-cc-overline text-disabled">remove special condition</div>
-    <v-card v-for="s in event.RemoveSpecialStatus"
+    <v-card v-for="(s, index) in event.RemoveSpecialStatus" :key="`removestatus-${index}`"
       flat
       border="sm"
       color="exotic"

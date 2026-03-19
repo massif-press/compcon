@@ -509,6 +509,7 @@
         <legend class="text-cc-overline text-accent px-2 font-weight-bold">Statuses</legend>
         <v-row dense>
           <v-col v-for="s in statuses.filter((x) => x.StatusType === 'Status')"
+            :key="s.ID"
             cols="12"
             md=""
             style="min-width: 14vw">
@@ -531,6 +532,7 @@
         <legend class="text-cc-overline text-accent px-2 font-weight-bold">CONDITIONS</legend>
         <v-row dense>
           <v-col v-for="s in statuses.filter((x) => x.StatusType === 'Condition')"
+            :key="s.ID"
             cols="12"
             md=""
             style="min-width: 14vw">

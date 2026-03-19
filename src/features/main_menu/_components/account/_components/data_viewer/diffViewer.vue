@@ -85,7 +85,7 @@
                 No cloud data available
               </v-card>
             </div>
-            <div v-for="(value, key) in cloud">
+            <div v-for="(value, key) in cloud" :key="key">
               <v-alert
                 v-if="key !== 'cloud'"
                 :color="getCardColor(key, 'cloud')"

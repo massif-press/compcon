@@ -7,7 +7,7 @@
       <v-col cols="auto"
         v-if="event.SaveHalf && !!event.Targets[0]">Half</v-col>
     </v-row>
-    <div v-for="(s, idx) in event.Targets">
+    <div v-for="(s, idx) in event.Targets" :key="`target-${idx}`">
       <v-row v-if="!s"
         no-gutters
         align="center"

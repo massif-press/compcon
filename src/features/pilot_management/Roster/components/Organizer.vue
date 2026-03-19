@@ -35,7 +35,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in items">
+            <tr v-for="item in items" :key="item.ID">
               <td>
                 <v-checkbox v-model="selected"
                   multiple

@@ -114,7 +114,7 @@
     <div class="text-caption text-primary mb-n2 mt-2">SKILL TRIGGERS</div>
     <div class="text-left">
       <v-row dense v-if="blank" class="mt-n2">
-        <v-col v-for="n in 8" cols="6">
+        <v-col v-for="n in 8" :key="`skill-${n}`" cols="6">
           <v-row dense align="center">
             <v-col cols="9"><blank-line :height="32" inline /></v-col>
             <v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col>
@@ -125,6 +125,7 @@
       <v-card
         v-else
         v-for="s in pilot.SkillsController.Skills"
+        :key="s.Skill.ID"
         variant="outlined"
         class="my-2 py-1 px-2 no-print-break">
         <v-row>
@@ -141,13 +142,14 @@
 
     <div class="text-caption mb-n2 mt-1 text-primary">TALENTS</div>
     <v-row dense v-if="blank">
-      <v-col v-for="n in 8" :cols="12">
+      <v-col v-for="n in 8" :key="`talent-${n}`" :cols="12">
         <blank-line :height="120" inline />
       </v-col>
     </v-row>
     <v-chip
       v-else-if="hasPilotOption('Separate Talent Detail')"
       v-for="t in pilot.TalentsController.Talents"
+      :key="t.Talent.ID"
       label
       variant="outlined"
       size="small"
@@ -159,13 +161,14 @@
     <div
       v-else
       v-for="t in pilot.TalentsController.Talents"
+      :key="t.Talent.ID"
       dense
       justify="space-between"
       class="mt-n1 caption no-print-break"
       style="position: relative">
       <fieldset class="pb-2 my-2">
         <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
-        <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
+        <v-row v-for="n in t.Rank" :key="`rank-${n}`" align="center" dense class="my-n1">
           <v-col cols="auto" class="mr-2">
             <v-icon :icon="`cc:rank_${n}`" color="primary" size="large" class="mb-1" />
           </v-col>
@@ -188,13 +191,14 @@
       CORE BONUSES
     </div>
     <v-row dense v-if="blank">
-      <v-col v-for="n in 4" cols="6">
+      <v-col v-for="n in 4" :key="`cb-${n}`" cols="6">
         <blank-line :height="80" inline />
       </v-col>
     </v-row>
     <div
       v-else-if="pilot.CoreBonusController.CoreBonuses.length"
       v-for="b in pilot.CoreBonusController.CoreBonuses"
+      :key="b.ID"
       dense
       justify="space-between"
       class="mt-n1 caption no-print-break">
@@ -301,6 +305,7 @@
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col
         v-for="a in pilot.Loadout.Armor.filter((x) => x)"
+        :key="a.ID"
         style="position: relative"
         cols="12"
         class="no-print-break">
@@ -339,6 +344,7 @@
       </v-col>
       <v-col
         v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
+        :key="w.ID"
         style="position: relative"
         class="no-print-break"
         cols="12">
@@ -352,12 +358,12 @@
           </legend>
           <div v-if="blank" style="height: 150px" />
           <div v-else>
-            <b v-for="r in w.Range" class="px-1">
+            <b v-for="(r, ri) in w.Range" :key="`range-${ri}`" class="px-1">
               <v-icon class="mt-n1" :icon="r.Icon" />
               {{ r.Text }}
             </b>
             <span v-if="w.Damage && w.Damage.length" class="pl-2 pr-1"><cc-slashes /></span>
-            <b v-for="d in w.Damage">
+            <b v-for="(d, di) in w.Damage" :key="`damage-${di}`">
               <v-icon class="mt-n1" :icon="d.Icon" :color="d.Color" />
               {{ d.Text }}
             </b>
@@ -372,6 +378,7 @@
     <v-row dense justify="space-between" class="mt-n1 caption pb-3">
       <v-col
         v-for="g in pilot.Loadout.Gear.filter((x) => x)"
+        :key="g.ID"
         style="position: relative"
         cols="12"
         class="no-print-break">
@@ -398,6 +405,7 @@
       <v-col
         v-if="hasPilotOption('Extra Equipment Space')"
         v-for="n in 3"
+        :key="`equip-${n}`"
         style="position: relative"
         cols="12">
         <fieldset>
@@ -412,7 +420,7 @@
 
   <div v-if="!blank && pilot.ReservesController.Reserves.length" class="pa-2 no-print-break">
     <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
-    <fieldset v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')">
+    <fieldset v-for="(r, index) in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')" :key="`reserve-${index}`">
       <legend class="px-1 mb-n2">
         <span class="heading caption text-primary">{{ r.Name }}</span>
         <i class="caption text-grey">&nbsp;({{ r.Type }})</i>
@@ -430,6 +438,7 @@
     <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
     <fieldset
       v-for="r in hasPilotOption('Extra Reserve Space') ? 9 : 6"
+      :key="`reserve-${r}`"
       class="mt-2"
       style="position: relative">
       <legend class="px-1">
@@ -472,13 +481,14 @@
   <div
     v-if="hasPilotOption('Separate Talent Detail')"
     v-for="t in pilot.TalentsController.Talents"
+    :key="t.Talent.ID"
     dense
     justify="space-between"
     class="mt-n1 caption px-2 no-print-break"
     style="position: relative">
     <fieldset class="pb-2 my-2">
       <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
-      <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
+      <v-row v-for="n in t.Rank" :key="`rank-${n}`" align="center" dense class="my-n1">
         <v-col cols="auto" class="mr-2">
           <v-icon :icon="`cc:rank_${n}`" color="primary" size="large" class="mb-1" />
         </v-col>

@@ -25,6 +25,7 @@
       </template>
       <template v-slot:item.Layers="{ item }">
         <v-chip v-for="l in (item as any).Layers"
+          :key="l.ID"
           label
           size="x-small"
           prepend-icon="mdi-layers"
@@ -34,6 +35,7 @@
       </template>
       <template v-slot:item.Templates="{ item }">
         <v-chip v-for="t in (item as any).NpcTemplateController.Templates"
+          :key="t.ID"
           label
           size="x-small"
           prepend-icon="cc:npc_template"

@@ -47,7 +47,7 @@
           title="Shard Features"
           :subtitle="`(${item.Shards.Features.length})`"
           class="mt-2" />
-        <cc-dense-card v-for="b in item.Shards.Features"
+        <cc-dense-card v-for="b in item.Shards.Features" :key="b.ID"
           :item="b"
           class="my-1"
           :tier="tier" />

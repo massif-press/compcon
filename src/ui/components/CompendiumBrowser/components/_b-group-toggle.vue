@@ -10,7 +10,7 @@
     density="compact"
     style="width: 100%; height: 30px"
     class="mb-2">
-    <v-tooltip v-for="g in options.groups" :text="groupTooltip(g)" location="top">
+    <v-tooltip v-for="g in options.groups" :key="`group-${g}`" :text="groupTooltip(g)" location="top">
       <template #activator="{ props }">
         <v-btn
           v-bind="props"

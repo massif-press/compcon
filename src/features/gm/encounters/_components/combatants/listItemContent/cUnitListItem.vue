@@ -11,6 +11,7 @@
       <span class="px-4">
         <cc-chip
           v-for="t in item.actor.NpcTemplateController.Templates"
+          :key="t.ID"
           size="small"
           variant="plain"
           label
@@ -25,6 +26,7 @@
     <div class="py-1">
       <cc-item-chip
         v-for="f in item.actor.NpcFeatureController.Features"
+        :key="f.ID"
         :item="f"
         :tier="item.actor.NpcClassController.Tier"
         style="margin: 2px" />

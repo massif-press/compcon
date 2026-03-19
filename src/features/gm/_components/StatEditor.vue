@@ -4,6 +4,7 @@
       <v-row dense v-if="item.StatController.DisplayKeys.length">
         <v-col
           v-for="kvp in displayKeys.filter((x) => !hiddenKeys.includes(x.key))"
+          :key="kvp.key"
           v-show="kvp.key !== 'sizes'"
           :style="`min-width: ${mobile ? 'fit-content' : '12vw'}`">
           <editable-attribute

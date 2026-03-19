@@ -32,7 +32,7 @@
             +
             <b>{{ item.AttackBonus(tier) }}</b>
           </span>
-          <span v-else v-for="n in 3">
+          <span v-else v-for="n in 3" :key="`ab-${n}`">
             +
             <b>{{ item.AttackBonus(n) }}</b>
             {{ n < 3 ? '&nbsp;/' : '' }}
@@ -59,7 +59,7 @@
             +
             <b>{{ item.Accuracy(tier) }}</b>
           </span>
-          <span v-else v-for="n in 3">
+          <span v-else v-for="n in 3" :key="`acc-${n}`">
             +
             <b>{{ item.Accuracy(n) }}</b>
             {{ n < 3 ? '&nbsp;/' : '' }}

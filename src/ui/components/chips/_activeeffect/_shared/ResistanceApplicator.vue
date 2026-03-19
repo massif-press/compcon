@@ -1,7 +1,8 @@
 <template>
   <v-col :cols="cols"
     v-if="event.ResistEvents.length">
-    <v-row v-for="r in event.ResistEvents"
+    <v-row v-for="(r, index) in event.ResistEvents"
+      :key="`resist-${index}`"
       no-gutters>
       <v-col>
         <div class="text-cc-overline text-disabled">damage type</div>

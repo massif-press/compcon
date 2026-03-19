@@ -105,10 +105,10 @@
 
       <div class="mt-1" v-html-safe="(deployable as any).Detail" />
 
-      <action-internal v-for="action in actions" :action="action" />
+      <action-internal v-for="action in actions" :key="action.ID" :action="action" />
     </div>
     <div style="position: absolute; bottom: 1px; right: 1px">
-      <v-icon v-for="a in actions" :icon="a.Icon" :color="a.Color" Size="40" />
+      <v-icon v-for="a in actions" :key="a.ID" :icon="a.Icon" :color="a.Color" Size="40" />
       <v-icon icon="cc:drone" color="primary" Size="40" />
     </div>
   </card>

@@ -28,7 +28,7 @@
         <b v-else>{{ license.name }} RANK {{ license.rank }}</b>
         <v-divider class="my-1" />
         <div class="text-cc-overline text-disabled">Required for:</div>
-        <cc-chip size="small" v-for="item in license.items" class="ma-1">{{ item }}</cc-chip>
+        <cc-chip size="small" v-for="(item, index) in license.items" :key="`item-${index}`" class="ma-1">{{ item }}</cc-chip>
       </v-card-text>
     </v-card>
   </v-menu>

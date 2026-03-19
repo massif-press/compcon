@@ -80,7 +80,8 @@
         </v-col>
       </v-row>
 
-      <div v-for="bonus in bonuses"
+      <div v-for="(bonus, bi) in bonuses"
+        :key="`bonus-${bi}`"
         v-if="bonuses.length"
         class="text-right">
         <v-menu open-on-hover>

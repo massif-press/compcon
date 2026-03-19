@@ -10,7 +10,7 @@
     density="compact"
     style="width: 100%; height: 30px"
     class="mb-2">
-    <v-tooltip v-for="v in options.views" :text="viewTooltip(v)" location="top">
+    <v-tooltip v-for="v in options.views" :key="`view-${v}`" :text="viewTooltip(v)" location="top">
       <template v-slot:activator="{ props }">
         <v-btn
           v-bind="props"

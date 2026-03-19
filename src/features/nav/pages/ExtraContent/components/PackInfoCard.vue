@@ -10,7 +10,8 @@
         <div>
           <cc-heading line>CONTENT</cc-heading>
           <div>
-            <v-chip v-for="item in packContents"
+            <v-chip v-for="(item, itemIdx) in packContents"
+              :key="`content-${itemIdx}`"
               variant="outlined"
               color="accent"
               size="small"
@@ -31,7 +32,8 @@
           <i v-if="packDependencies.length === 0"
             class="pl-2">None</i>
           <div v-else>
-            <v-card v-for="item in packDependencies"
+            <v-card v-for="(item, itemIdx) in packDependencies"
+              :key="`dep-${itemIdx}`"
               :variant="d(item).installed ? 'flat' : 'text'"
               :color="d(item).installed ? 'success' : 'error'"
               size="small"
@@ -70,14 +72,16 @@
           <i v-if="!manifest.version_history || manifest.version_history.length === 0"
             class="pl-2">None</i>
           <div v-else>
-            <v-card v-for="item in manifest.version_history"
+            <v-card v-for="(item, itemIdx) in manifest.version_history"
+              :key="`version-${itemIdx}`"
               class="ma-1 pa-1">
               <div class="font-weight-bold bg-primary px-2">
                 {{ item.version }} ({{ new Date(item.date).toLocaleDateString() }}):
               </div>
               <div class="pa-2">
                 <ul>
-                  <li v-for="change in item.changes"
+                  <li v-for="(change, changeIdx) in item.changes"
+                    :key="`change-${changeIdx}`"
                     v-html-safe="change" />
                 </ul>
               </div>

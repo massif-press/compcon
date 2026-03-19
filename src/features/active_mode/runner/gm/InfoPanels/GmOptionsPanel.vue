@@ -170,7 +170,8 @@
       <v-expansion-panels variant="accordion"
         color="panel">
         <v-expansion-panel
-          v-for="combatant in encounterInstance.Combatants.filter((c) => !c.reinforcement)">
+          v-for="combatant in encounterInstance.Combatants.filter((c) => !c.reinforcement)"
+          :key="combatant.id">
           <v-expansion-panel-title>
             <div class="heading h3">{{ combatant.actor.Name }}</div>
           </v-expansion-panel-title>

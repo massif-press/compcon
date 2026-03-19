@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-tooltip v-for="s in sortedStats" location="top" open-delay="300">
+    <v-tooltip v-for="s in sortedStats" :key="s.key" location="top" open-delay="300">
       <template #activator="{ props }">
         <v-chip label class="mr-1 mb-1" style="height: 20px" v-bind="props">
           <v-icon :icon="s.icon" start />

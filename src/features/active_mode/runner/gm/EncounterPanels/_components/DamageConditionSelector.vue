@@ -4,6 +4,7 @@
     <v-row dense
       justify="center">
       <v-col v-for="damage in damageTypes"
+        :key="damage.Name"
         cols="4">
         <v-tooltip :open-delay="400"
           location="top"

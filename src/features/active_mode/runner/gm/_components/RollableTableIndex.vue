@@ -34,6 +34,7 @@
             <div class="text-cc-overline">Encounter Tables</div>
             <v-list-item :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
               v-for="t in tables"
+              :key="t.ID"
               :title="t.Title"
               :subtitle="t.LcpName"
               :append-icon="t.InLcp ? 'cc:compendium' : ''"
@@ -43,6 +44,7 @@
               <div class="text-cc-overline">Other Tables</div>
               <v-list-item :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
                 v-for="t in otherTables"
+                :key="t.ID"
                 :title="t.Title"
                 @click="selectedTable = t" />
             </div>

@@ -2,31 +2,31 @@
   <v-container>
     <div class="heading h2 mb-1">LANCER by:</div>
     <v-row>
-      <dev-badge v-for="c in credits.writers"
+      <dev-badge v-for="(c, cIdx) in credits.writers" :key="`writer-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">COMP/CON by:</div>
     <v-row>
-      <dev-badge v-for="c in credits.lead_devs"
+      <dev-badge v-for="(c, cIdx) in credits.lead_devs" :key="`lead-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="heading h3 mt-4 mb-1">With:</div>
     <v-row dense>
-      <dev-badge v-for="c in credits.devs1"
+      <dev-badge v-for="(c, cIdx) in credits.devs1" :key="`dev1-${cIdx}`"
         :info="c" />
     </v-row>
     <v-row dense>
-      <dev-badge v-for="c in credits.devs2"
+      <dev-badge v-for="(c, cIdx) in credits.devs2" :key="`dev2-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">Graphic design by:</div>
     <v-row dense>
-      <dev-badge v-for="c in credits.graphics"
+      <dev-badge v-for="(c, cIdx) in credits.graphics" :key="`graphic-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">Additional art by:</div>
     <v-row dense>
-      <dev-badge v-for="c in credits.art"
+      <dev-badge v-for="(c, cIdx) in credits.art" :key="`art-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="text-center mt-8">
@@ -47,14 +47,14 @@
         indeterminate />
     </div>
     <div v-else>
-      <div v-for="t in tiers"
+      <div v-for="t in tiers" :key="t"
         class="mb-6">
         <cc-title small
           class="my-2">{{ t.toUpperCase() }} TIER</cc-title>
         <v-row align="center"
           justify="space-around"
           dense>
-          <v-col v-for="p in patrons.filter((x) => x.tier.toLowerCase().includes(t.toLowerCase()))"
+          <v-col v-for="(p, pIdx) in patrons.filter((x) => x.tier.toLowerCase().includes(t.toLowerCase()))" :key="`patron-${pIdx}`"
             cols="12"
             :md="getCols(t)">
             <v-chip border

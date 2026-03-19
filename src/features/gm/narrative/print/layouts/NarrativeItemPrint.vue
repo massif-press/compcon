@@ -39,7 +39,9 @@
       style="line-height: 14px; border: 1px solid grey; border-radius: 3px">
       Relationships
     </legend>
-    <div v-for="r in item.NarrativeController.Relationships" class="pl-2 no-print-break">
+    <div v-for="(r, index) in item.NarrativeController.Relationships"
+      :key="`relationship-${index}`"
+      class="pl-2 no-print-break">
       <b v-text="r.name" />
       <v-chip class="mx-2" size="x-small">{{ r.relationship }}</v-chip>
       <div v-html-safe="r.notes" class="pl-2" />
@@ -53,7 +55,8 @@
         item.NarrativeController.TextItems.length
       "
       class="mx-1 my-2 px-3">
-      <div v-for="t in item.NarrativeController.TextItems">
+      <div v-for="(t, index) in item.NarrativeController.TextItems"
+        :key="`text-${index}`">
         <div class="font-weight-bold mb-n2 no-print-break" v-text="t.header" />
         <div v-html-safe="t.body" class="pl-2" />
       </div>
@@ -65,12 +68,15 @@
       "
       class="mx-1 my-2">
       <v-card
-        v-for="c in item.NarrativeController.Clocks"
+        v-for="(c, index) in item.NarrativeController.Clocks"
+        :key="`clock-${index}`"
         variant="outlined"
         class="text-caption px-2 pb-1 no-print-break">
         <div class="font-weight-bold text-caption" v-text="c.Title" />
         <v-row no-gutters>
-          <v-col v-for="n in c.Segments" class="px-1">
+          <v-col v-for="(n, si) in c.Segments"
+            :key="`segment-${si}`"
+            class="px-1">
             <blank-line :height="20" />
           </v-col>
         </v-row>
@@ -87,12 +93,15 @@
       "
       class="mx-1 my-2">
       <v-card
-        v-for="t in item.NarrativeController.Tables"
+        v-for="(t, index) in item.NarrativeController.Tables"
+        :key="`table-${index}`"
         variant="outlined"
         class="text-caption px-2 no-print-break">
         <div class="font-weight-bold text-caption" v-text="t.Title" />
         <div v-html-safe="t.Description" class="pl-2" />
-        <v-row dense v-for="r in t.Results">
+        <v-row dense
+          v-for="(r, ri) in t.Results"
+          :key="`result-${ri}`">
           <v-col cols="auto">
             <b>{{ r.min }}-{{ r.max }}</b>
           </v-col>

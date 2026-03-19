@@ -48,7 +48,8 @@
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.Objective }}
     </div>
-    <div v-for="c in encounter.Sitrep.Conditions"
+    <div v-for="(c, index) in encounter.Sitrep.Conditions"
+      :key="`condition-${index}`"
       class="mt-1">
       <div class="text-caption">
         <b>{{ c.title }}</b>
@@ -97,7 +98,8 @@
       {{encounter.Combatants.filter((x) => x.side === 'neutral').length}}
       NEUTRAL
     </legend>
-    <div v-for="(n, i) in SortedCombatants">
+    <div v-for="(n, i) in SortedCombatants"
+      :key="`combatant-${i}`">
       <v-card class="pa-2"
         color="transparent">
         <v-row dense
@@ -137,7 +139,8 @@
   <div class="mt-n3">
     <fieldset v-if="encounter.NarrativeController.TextItems.length"
       class="mx-1 my-2 px-3">
-      <div v-for="t in encounter.NarrativeController.TextItems">
+      <div v-for="(t, index) in encounter.NarrativeController.TextItems"
+        :key="`text-${index}`">
         <div class="font-weight-bold mb-n2"
           v-text="t.header" />
         <div v-html-safe="t.body"
@@ -147,13 +150,15 @@
 
     <div v-if="encounter.NarrativeController.Clocks.length"
       class="mx-1 my-2">
-      <v-card v-for="c in encounter.NarrativeController.Clocks"
+      <v-card v-for="(c, index) in encounter.NarrativeController.Clocks"
+        :key="`clock-${index}`"
         variant="outlined"
         class="text-caption px-2 pb-1">
         <div class="font-weight-bold text-caption"
           v-text="c.Title" />
         <v-row no-gutters>
-          <v-col v-for="n in c.Segments"
+          <v-col v-for="(n, si) in c.Segments"
+            :key="`segment-${si}`"
             class="px-1">
             <blank-line :height="20" />
           </v-col>
@@ -173,7 +178,8 @@
 
     <div v-if="encounter.NarrativeController.Tables.length"
       class="mx-1 my-2">
-      <v-card v-for="t in encounter.NarrativeController.Tables"
+      <v-card v-for="(t, index) in encounter.NarrativeController.Tables"
+        :key="`table-${index}`"
         variant="outlined"
         class="text-caption px-2">
         <div class="font-weight-bold text-caption"
@@ -181,7 +187,8 @@
         <div v-html-safe="t.Description"
           class="pl-2" />
         <v-row dense
-          v-for="r in t.Results">
+          v-for="(r, ri) in t.Results"
+          :key="`result-${ri}`">
           <v-col cols="auto">
             <b>{{ r.min }}-{{ r.max }}</b>
           </v-col>

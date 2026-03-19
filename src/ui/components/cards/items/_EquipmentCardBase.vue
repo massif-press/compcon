@@ -38,7 +38,8 @@
       EQUIPMENT ACTIONS
     </div>
     <cc-action
-      v-for="a in item.Actions"
+      v-for="(a, index) in item.Actions"
+      :key="`action-${index}`"
       :action="a"
       :panel="!collapseActions || $vuetify.display.lgAndUp"
       :hover="dense && collapseActions"
@@ -47,7 +48,7 @@
   </div>
 
   <div v-if="item && item.Ammo && item.Ammo.length">
-    <div v-for="a in item.Ammo">
+    <div v-for="(a, index) in item.Ammo" :key="`ammo-${index}`">
       <b>{{ a.name }}</b>
       :
       <span v-html-safe="a.detail" />
@@ -60,7 +61,7 @@
       EQUIPMENT DEPLOYABLES
     </div>
     <v-row dense justify="center">
-      <v-col v-for="d in item.Deployables" cols="auto">
+      <v-col v-for="(d, index) in item.Deployables" :key="`deployable-${index}`" cols="auto">
         <cc-deployable-info
           :deployable="d"
           :panel="!collapseActions || $vuetify.display.lgAndUp"
@@ -74,7 +75,8 @@
   <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
     <div v-show="!dense" class="text-cc-overline text-disabled">//INTEGRATED EQUIPMENT</div>
     <cc-integrated-info
-      v-for="x in item.IntegratedEquipment"
+      v-for="(x, index) in item.IntegratedEquipment"
+      :key="`integrated-${index}`"
       :item="x"
       :panel="!collapseActions || $vuetify.display.mdAndUp" />
   </div>
@@ -119,7 +121,7 @@
       </v-col>
       <v-col v-if="!hideBonuses" cols="auto" class="ml-auto">
         <div>
-          <cc-bonus v-for="b in item.Bonuses" :bonus="b" chip :tier="tier" />
+          <cc-bonus v-for="(b, index) in item.Bonuses" :key="`bonus-${index}`" :bonus="b" chip :tier="tier" />
         </div>
       </v-col>
     </v-row>

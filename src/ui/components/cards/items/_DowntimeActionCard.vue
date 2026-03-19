@@ -7,13 +7,13 @@
     <thead>
       <tr>
         <th class="text-center">
-          <v-icon v-for="n in diceQuantity" size="35" :icon="diceIcon" />
+          <v-icon v-for="(n, index) in diceQuantity" :key="`dice-${index}`" size="35" :icon="diceIcon" />
         </th>
         <th class="text-overline">Result</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="result in item.Table.results">
+      <tr v-for="(result, index) in item.Table.results" :key="`result-${index}`">
         <td v-if="result.min === result.max" class="text-center">{{ result.min }}</td>
         <td v-else class="text-center">{{ result.min }}&ndash;{{ result.max }}</td>
         <td v-html-safe="result.text" class="text-text" />

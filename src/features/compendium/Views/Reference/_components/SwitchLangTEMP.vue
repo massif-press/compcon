@@ -17,6 +17,7 @@
           <v-list density="compact" slim>
             <v-list-item
               v-for="lang in languages"
+              :key="lang.value"
               :base-color="lang.value === selected ? 'accent' : ''"
               :value="lang.value"
               :title="lang.title"
