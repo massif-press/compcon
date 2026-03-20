@@ -104,7 +104,7 @@
 
       <div class="px-2 pb-1"
         style="height: 100%"
-        @click.stop="detailDialog = true">
+        @click.stop="item ? detailDialog = true : selectorDialog = true">
         <div style="cursor: pointer">
           <v-row v-if="item">
             <v-col class="h3 heading pb-0">
@@ -175,8 +175,7 @@
 
         <div v-else
           class="text-center fade-select"
-          style="height: 60px; position: relative; cursor: pointer"
-          @click.stop="selectorDialog = true">
+          style="height: 60px; position: relative; cursor: pointer">
           <div class="heading h2 text-disabled"
             style="position: absolute; transform: translateY(40%); left: 0; right: 0">
             <cc-slashes />

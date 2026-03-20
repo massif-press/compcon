@@ -47,9 +47,9 @@ import PilotGearCard from './_PLGearCard.vue'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {
-  mixins: [useMobile],
   name: 'CcPilotLoadout',
   components: { PilotArmorCard, PilotWeaponCard, PilotGearCard },
+  mixins: [useMobile],
   props: {
     pilot: {
       type: Object,
