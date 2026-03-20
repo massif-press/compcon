@@ -120,6 +120,8 @@ export default {
     fullscreen: { type: Boolean, default: false },
     noConfirm: { type: Boolean, default: false },
     class: { type: [String, Array, Object] },
+    modelValue: { type: Boolean },
+    minWidth: { type: [String, Number] },
   },
   emits: ['cancel', 'confirm'],
   methods: {

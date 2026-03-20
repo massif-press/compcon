@@ -24,7 +24,7 @@
 import DOMPurify from 'dompurify';
 
 export default {
-  name: 'talent-emblem',
+  name: 'TalentEmblem',
   props: {
     talent: { type: Object, required: true },
     size: { type: String, default: 'default' },
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     imageLoadFailed() {
-      this.src = '/public/talent/GENERIC TALENT.svg';
+      this.src = '/talent/GENERIC%20TALENT.svg';
       this.backup = this.talent.Name;
     },
     getImageLoc() {
