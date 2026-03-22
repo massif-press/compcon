@@ -5,21 +5,24 @@
         :key="`section-${index}`"
         variant="tonal"
         class="mb-2">
-        <v-toolbar density="compact" class="px-3">
+        <v-toolbar density="compact"
+          class="px-3">
           <div class="heading h3">
-            <cc-short-string-editor large @set="s.header = $event">
+            <cc-short-string-editor large
+              @set="s.header = $event">
               {{ s.header }}
             </cc-short-string-editor>
           </div>
           <div style="width: 100px" />
 
-          <v-checkbox-btn v-model="s.GmOnly" hide-details>
+          <v-checkbox-btn v-model="s.GmOnly"
+            hide-details
+            @update:model-value="debouncedSave">
             <template #label>
               GM Only
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-icon
-                    class="fade-select"
+                  <v-icon class="fade-select"
                     size="small"
                     end
                     icon="mdi-information-outline"
@@ -33,9 +36,14 @@
             </template>
           </v-checkbox-btn>
 
-          <v-menu offset-x left>
+          <v-menu offset-x
+            left>
             <template #activator="{ props }">
-              <v-btn size="small" icon color="error" variant="plain" v-bind="props">
+              <v-btn size="small"
+                icon
+                color="error"
+                variant="plain"
+                v-bind="props">
                 <v-icon icon="mdi-delete" />
               </v-btn>
             </template>
@@ -47,7 +55,9 @@
               <v-divider />
               <v-card-actions>
                 <v-spacer />
-                <v-btn size="small" color="error" @click="deleteTextItem(s)">
+                <v-btn size="small"
+                  color="error"
+                  @click="deleteTextItem(s)">
                   Confirm Deletion
                 </v-btn>
               </v-card-actions>
@@ -55,20 +65,19 @@
           </v-menu>
         </v-toolbar>
         <div class="pa-2">
-          <cc-rich-text-area v-model="s.body" />
+          <cc-rich-text-area v-model="s.body"
+            @update:model-value="debouncedSave" />
         </div>
       </v-card>
     </div>
-    <v-menu
-      v-if="!readonly"
+    <v-menu v-if="!readonly"
       v-model="textItemMenu"
       offset-x
       left
       :close-on-click="false"
       :close-on-content-click="false">
       <template #activator="{ props }">
-        <cc-button
-          block
+        <cc-button block
           size="x-small"
           prepend-icon="mdi-plus"
           color="primary"
@@ -78,13 +87,11 @@
       </template>
       <v-card>
         <v-card-text>
-          <v-combobox
-            v-if="item.SectionSuggestions"
+          <v-combobox v-if="item.SectionSuggestions"
             v-model="newTextItemHeader"
             label="Title"
             :items="item.SectionSuggestions" />
-          <v-text-field
-            v-else
+          <v-text-field v-else
             v-model="newTextItemHeader"
             label="New Title"
             density="compact"
@@ -93,9 +100,11 @@
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn variant="text" @click="textItemMenu = false">Cancel</v-btn>
+          <v-btn variant="text"
+            @click="textItemMenu = false">Cancel</v-btn>
           <v-spacer />
-          <v-btn color="secondary" @click="addTextItem">Add</v-btn>
+          <v-btn color="secondary"
+            @click="addTextItem">Add</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -104,7 +113,7 @@
 
 <script lang="ts">
 export default {
-  name: 'campaign-item-textItem-editor',
+  name: 'CampaignItemTextItemEditor',
   props: {
     item: { type: Object, required: true },
     readonly: { type: Boolean, default: false },
@@ -112,8 +121,16 @@ export default {
   data: () => ({
     textItemMenu: false,
     newTextItemHeader: '',
+    _saveTimer: null as ReturnType<typeof setTimeout> | null,
   }),
   methods: {
+    save() {
+      this.item.SaveController.save();
+    },
+    debouncedSave() {
+      if (this._saveTimer) clearTimeout(this._saveTimer)
+      this._saveTimer = setTimeout(() => { this.save() }, 500)
+    },
     addTextItem() {
       this.item.NarrativeController.AddTextItem({
         header: this.newTextItemHeader,

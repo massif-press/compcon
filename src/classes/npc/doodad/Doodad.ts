@@ -90,7 +90,8 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
       gmDescription: doodad.GmDescription,
       name: doodad.Name,
       note: doodad.Note,
-    }
+      config: doodad.LcpConfig,
+    } as DoodadData
 
     SaveController.Serialize(doodad, data)
     CloudController.Serialize(doodad, data)

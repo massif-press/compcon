@@ -1,37 +1,50 @@
 <template>
-  <cc-tabs ref="tabs" fixed>
+  <cc-tabs ref="tabs"
+    fixed>
     <template #tabs>
       <v-tab>
-        <v-icon v-if="step > 1" start icon="mdi-check" />
+        <v-icon v-if="step > 1"
+          start
+          icon="mdi-check" />
         Overview
       </v-tab>
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.SkillsController.HasFullSkills" start icon="mdi-check" />
+        <v-icon v-if="pilot.SkillsController.HasFullSkills"
+          start
+          icon="mdi-check" />
         Skills
       </v-tab>
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.TalentsController.HasFullTalents" start icon="mdi-check" />
+        <v-icon v-if="pilot.TalentsController.HasFullTalents"
+          start
+          icon="mdi-check" />
         Talents
       </v-tab>
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.MechSkillsController.HasFullHASE" start icon="mdi-check" />
+        <v-icon v-if="pilot.MechSkillsController.HasFullHASE"
+          start
+          icon="mdi-check" />
         Mech Skills
       </v-tab>
       <v-divider />
 
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.LicenseController.HasLicenses" start icon="mdi-check" />
+        <v-icon v-if="pilot.LicenseController.HasLicenses"
+          start
+          icon="mdi-check" />
         Licenses
       </v-tab>
       <v-divider />
 
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.CoreBonusController.HasCBs" start icon="mdi-check" />
+        <v-icon v-if="pilot.CoreBonusController.HasCBs"
+          start
+          icon="mdi-check" />
         CORE Bonuses
       </v-tab>
       <v-divider />
@@ -40,29 +53,40 @@
     <v-container>
       <template #default>
         <v-window-item>
-          <overview-page :pilot="pilot" :cb-eligible="cbEligible" @next="setStep(1)" />
+          <overview-page :pilot="pilot"
+            :cb-eligible="cbEligible"
+            @next="setStep(1)" />
         </v-window-item>
         <v-window-item>
-          <skills-page :pilot="pilot" @next="setStep(2)" @back="setStep(0)" />
+          <skills-page :pilot="pilot"
+            @next="setStep(2)"
+            @back="setStep(0)" />
         </v-window-item>
         <v-window-item>
-          <talents-page :pilot="pilot" @next="setStep(3)" @back="setStep(1)" />
+          <talents-page :pilot="pilot"
+            @next="setStep(3)"
+            @back="setStep(1)" />
         </v-window-item>
         <v-window-item>
-          <mech-skills-page :pilot="pilot" @next="setStep(4)" @back="setStep(2)" />
+          <mech-skills-page :pilot="pilot"
+            @next="setStep(4)"
+            @back="setStep(2)" />
         </v-window-item>
         <v-window-item>
-          <license-page :pilot="pilot" @next="setStep(5)" @back="setStep(3)" />
+          <license-page :pilot="pilot"
+            @next="setStep(5)"
+            @back="setStep(3)" />
         </v-window-item>
         <v-window-item>
-          <core-bonus-page
-            :pilot="pilot"
+          <core-bonus-page :pilot="pilot"
             :cb-eligible="cbEligible"
             @next="setStep(6)"
             @back="setStep(4)" />
         </v-window-item>
         <v-window-item>
-          <confirm-page :pilot="pilot" :original="currentPilot" @back="setStep(6)" />
+          <confirm-page :pilot="pilot"
+            :original="currentPilot"
+            @back="setStep(5)" />
         </v-window-item>
       </template>
     </v-container>

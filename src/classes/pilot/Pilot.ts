@@ -254,7 +254,7 @@ class Pilot
     this._status = data?.status || 'ACTIVE'
     this._text_appearance = data?.text_appearance || ''
     this._notes = data?.notes || ''
-    this._history = data?.history || ''
+    this._history = typeof data?.history === 'string' ? data.history : ''
     this._quirks = data?.quirks || []
     this._background = data?.background || ''
     try {
@@ -446,10 +446,12 @@ class Pilot
 
   public AddQuirk(val: string): void {
     this._quirks.push(val)
+    this.SaveController.save()
   }
 
   public RemoveQuirk(idx: number): void {
     this._quirks.splice(idx, 1)
+    this.SaveController.save()
   }
 
   public get History(): string {
@@ -674,7 +676,7 @@ class Pilot
       status: p._status,
       text_appearance: p.TextAppearance,
       notes: p.Notes,
-      history: p.History,
+      history: p._history,
       quirks: p.Quirks,
       background: p.Background,
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x, asInstance)) : [],

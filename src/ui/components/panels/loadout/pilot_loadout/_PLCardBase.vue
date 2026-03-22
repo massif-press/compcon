@@ -147,9 +147,21 @@
           </v-card>
         </div>
 
+
         <div v-if="item"
           class="text-center">
           <slot />
+          <div v-if="item.Actions.length">
+            <v-row no-gutters
+              justify="center">
+              <v-col v-for="(a, i) in item.Actions"
+                :key="`dprof_${i}`"
+                cols="auto">
+                <cc-action :action="a"
+                  class="ma-2" />
+              </v-col>
+            </v-row>
+          </div>
           <div v-if="item.Deployables.length">
             <v-row v-if="item.Deployables"
               dense
@@ -159,7 +171,6 @@
                 :key="`deployable-${index}`"
                 cols="auto">
                 <cc-deployable-info :deployable="d"
-                  hover
                   :name-override="item.Name"
                   class="mx-2" />
               </v-col>

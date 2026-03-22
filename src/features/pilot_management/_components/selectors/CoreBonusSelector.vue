@@ -1,20 +1,15 @@
 <template>
-  <missing-item-alert
-    v-if="pilot.CoreBonusController.MissingCoreBonuses.length"
+  <missing-item-alert v-if="pilot.CoreBonusController.MissingCoreBonuses.length"
     type="core bonuses"
     :items="pilot.CoreBonusController.MissingCoreBonuses"
-    @remove="pilot.CoreBonusController.RemoveCoreBonus($event)"
-  />
+    @remove="pilot.CoreBonusController.RemoveCoreBonus($event)" />
 
-  <selector
-    title="Pilot Core Bonuses"
+  <selector title="Pilot Core Bonuses"
     :success="!pilot.CoreBonusController.IsMissingCBs"
     :selected="pilot.CoreBonusController.CurrentCBPoints"
-    :total="pilot.CoreBonusController.MaxCBPoints"
-  >
+    :total="pilot.CoreBonusController.MaxCBPoints">
     <template #float>
-      <v-card
-        v-if="!pilot.CoreBonusController.IsMissingCBs"
+      <v-card v-if="!pilot.CoreBonusController.IsMissingCBs"
         flat
         tile
         class="text-cc-overline"
@@ -22,8 +17,7 @@
         variant="outlined"
         density="compact"
         color="success"
-        v-text="'Core Bonus Selection Complete'"
-      />
+        v-text="'Core Bonus Selection Complete'" />
       <v-card
         v-if="pilot.CoreBonusController.MaxCBPoints > pilot.CoreBonusController.CurrentCBPoints"
         flat
@@ -33,75 +27,56 @@
         variant="outlined"
         density="compact"
         color="accent"
-        v-text="
-          `${pilot.CoreBonusController.MaxCBPoints - pilot.CoreBonusController.CurrentCBPoints}
+        v-text="`${pilot.CoreBonusController.MaxCBPoints - pilot.CoreBonusController.CurrentCBPoints}
             Core Bonus Selections remaining`
-        "
-      />
+          " />
 
-      <cc-button
-        variant="text"
+      <cc-button variant="text"
         size="x-small"
         block
         :disabled="!pilot.CoreBonusController.CoreBonuses.length"
-        @click="pilot.CoreBonusController.ClearCoreBonuses()"
-      >
+        @click="pilot.CoreBonusController.ClearCoreBonuses()">
         Reset
       </cc-button>
     </template>
 
     <template #jump>
       <div class="px-2">
-        <cc-select
-          v-model="jump"
+        <cc-select v-model="jump"
           label="jump to"
           color="primary"
           variant="outlined"
-          :items="jumpItems"
-        />
+          :items="jumpItems" />
       </div>
     </template>
 
     <template #right-column>
-      <v-expansion-panels
-        v-model="open"
+      <v-expansion-panels v-model="open"
         multiple
         flat
-        tile
-      >
-        <v-expansion-panel
-          v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs"
-          :key="`panel_${manufacturer.ID}`"
-        >
+        tile>
+        <v-expansion-panel v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs"
+          :key="`panel_${manufacturer.ID}`">
           <v-expansion-panel-title>
             <div class="pr-5">
-              <div
-                class="heading h1"
+              <div class="heading h1"
                 :style="`color: ${manufacturer.Color}`"
-                style="font-size: calc(20px + 1vw)"
-              >
-                <v-icon
-                  :icon="manufacturer.Icon"
-                  class="mt-n1"
-                />
+                style="font-size: calc(20px + 1vw)">
+                <v-icon :icon="manufacturer.Icon"
+                  class="mt-n1" />
                 {{ manufacturer.Name }}
               </div>
-              <v-card
-                variant="outlined"
+              <v-card variant="outlined"
                 :color="manufacturer.GetColor($vuetify.theme.current.dark)"
-                class="my-1 pa-3"
-              >
-                <div
-                  v-html-safe="requirement(manufacturer)"
-                  class="flavor-text text-text text-center"
-                />
+                class="my-1 pa-3">
+                <div v-html-safe="requirement(manufacturer)"
+                  class="flavor-text text-text text-center" />
               </v-card>
             </div>
           </v-expansion-panel-title>
 
           <v-expansion-panel-text color="panel">
-            <core-bonus-select-item
-              v-for="b in coreBonuses"
+            <core-bonus-select-item v-for="b in coreBonuses"
               :id="b.ID"
               :key="b.ID"
               :bonus="b"
@@ -109,8 +84,7 @@
               :is-selected="isSelected(b)"
               :color="manufacturer.GetColor($vuetify.theme.current.dark)"
               @add="pilot.CoreBonusController.AddCoreBonus(b)"
-              @remove="pilot.CoreBonusController.RemoveCoreBonus(b)"
-            />
+              @remove="pilot.CoreBonusController.RemoveCoreBonus(b)" />
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -119,162 +93,161 @@
 </template>
 
 <script lang="ts">
-  import Selector from './components/_SelectorBase.vue'
-  import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue'
+import Selector from './components/_SelectorBase.vue'
+import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue'
 
-  import { CompendiumStore } from '@/stores'
-  import { Pilot, CoreBonus, Manufacturer } from '@/class'
-  import { Bonus } from '@/classes/components/feature/bonus/Bonus'
-  import logger from '@/user/logger'
-  import MissingItemAlert from './components/_MissingItemAlert.vue'
+import { CompendiumStore } from '@/stores'
+import { Pilot, CoreBonus, Manufacturer } from '@/class'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus'
+import logger from '@/user/logger'
+import MissingItemAlert from './components/_MissingItemAlert.vue'
 import { useMobile } from '@/mixins/useMobile';
 
-  export default {
+export default {
+  name: 'CoreBonusSelector',
+  components: { Selector, CoreBonusSelectItem, MissingItemAlert },
   mixins: [useMobile],
-    name: 'CoreBonusSelector',
-    components: { Selector, CoreBonusSelectItem, MissingItemAlert },
-    props: {
-      pilot: { type: Object, required: true },
-      levelUp: { type: Boolean, default: false },
-      modal: { type: Boolean, default: false },
-      flat: { type: Boolean, default: false },
+  props: {
+    pilot: { type: Object, required: true },
+    levelUp: { type: Boolean, default: false },
+    modal: { type: Boolean, default: false },
+    flat: { type: Boolean, default: false },
+  },
+  data: () => ({
+    search: '',
+    open: [] as number[],
+    jump: '',
+  }),
+  computed: {
+    baseCoreBonuses() {
+      if (!this.pilot.LcpConfig) return CompendiumStore().CoreBonuses
+      return CompendiumStore().CoreBonuses.filter(
+        x =>
+          !x.InLcp ||
+          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
+          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+      )
     },
-    data: () => ({
-      search: '',
-      open: [] as number[],
-      jump: '',
-    }),
-    computed: {
-      baseCoreBonuses() {
-        if (!this.pilot.LcpConfig) return CompendiumStore().CoreBonuses
-        return CompendiumStore().CoreBonuses.filter(
-          x =>
-            !x.InLcp ||
-            this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-            this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
-        )
-      },
-      coreBonuses(): CoreBonus[] {
-        const cbs = this.baseCoreBonuses.filter(x => !x.IsHidden)
-        if (this.search) {
-          return cbs.filter(x => x.Name.toLowerCase().includes(this.search.toLowerCase()))
-        }
-        return cbs
-      },
-      jumpItems(): { title: string; value: string; subtitle?: string }[] {
-        return [
-          ...this.pilot.CoreBonusController.CoreBonuses.map(x => ({
+    coreBonuses(): CoreBonus[] {
+      const cbs = this.baseCoreBonuses.filter(x => !x.IsHidden)
+      if (this.search) {
+        return cbs.filter(x => x.Name.toLowerCase().includes(this.search.toLowerCase()))
+      }
+      return cbs
+    },
+    jumpItems(): { title: string; value: string; subtitle?: string }[] {
+      return [
+        ...this.pilot.CoreBonusController.CoreBonuses.map(x => ({
+          title: x.Name,
+          value: x.ID,
+          subtitle: `// Unlocked`,
+        })),
+        ...this.coreBonuses
+          .filter(x => !this.pilot.has('CoreBonus', x.ID))
+          .map(x => ({
             title: x.Name,
             value: x.ID,
-            subtitle: `// Unlocked`,
           })),
-          ...this.coreBonuses
-            .filter(x => !this.pilot.has('CoreBonus', x.ID))
-            .map(x => ({
-              title: x.Name,
-              value: x.ID,
-            })),
-        ]
-      },
-      manufacturersWithCBs(): {
-        manufacturer: Manufacturer
-        coreBonuses: CoreBonus[]
-      }[] {
-        const manufacturers = CompendiumStore().Manufacturers
+      ]
+    },
+    manufacturersWithCBs(): {
+      manufacturer: Manufacturer
+      coreBonuses: CoreBonus[]
+    }[] {
+      const manufacturers = CompendiumStore().Manufacturers
 
-        return manufacturers
-          .filter(x => !x.IsHidden)
-          .map(manufacturer => ({
-            manufacturer,
-            coreBonuses: this.coreBonuses.filter(cb => cb.Manufacturer.ID === manufacturer.ID),
-          }))
-          .filter(x => x.coreBonuses.length > 0)
-      },
-      selectionComplete(): boolean {
-        return this.levelUp && !this.pilot.CoreBonusController.IsMissingCBs
-      },
+      return manufacturers
+        .filter(x => !x.IsHidden)
+        .map(manufacturer => ({
+          manufacturer,
+          coreBonuses: this.coreBonuses.filter(cb => cb.Manufacturer.ID === manufacturer.ID),
+        }))
+        .filter(x => x.coreBonuses.length > 0)
     },
-    watch: {
-      'pilot.CoreBonusController.CoreBonuses': {
-        handler: function () {
-          this.$emit('update:selectionComplete', this.selectionComplete)
-        },
-        deep: true,
-      },
-      jump(val) {
-        this.scroll(val)
-      },
-      search(newval: string) {
-        if (!newval) this.open = []
-        else this.open = this.manufacturersWithCBs.map((x, i) => i)
-      },
+    selectionComplete(): boolean {
+      return this.levelUp && !this.pilot.CoreBonusController.IsMissingCBs
     },
-    mounted() {
-      this.$emit('update:selectionComplete', this.selectionComplete)
+  },
+  watch: {
+    'pilot.CoreBonusController.CoreBonuses': {
+      handler: function () {
+        this.$emit('update:selectionComplete', this.selectionComplete)
+      },
+      deep: true,
     },
-    methods: {
-      requirement(m: Manufacturer): string {
-        const br = this.$vuetify.display.mdAndDown ? '<br>' : '&emsp;//&emsp;'
-        const abbr = `<b>${m.ID}</b>`
-        const name = `<b>${m.Name}</b>`
-        if (m.ID === 'GMS')
-          return `<b>${this.selectedCount(
-            m.ID
-          )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
-        const lvl = `<b>${this.pilot.LicenseController.LicenseLevel(m.ID)}</b>`
-        let output = `${lvl} ${abbr} Licenses Acquired ${br} `
-        let remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseController.LicenseLevel(m.ID)
-        if (remain < 1) remain += 3
-        output += `<b>${this.availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available ${br} `
-        output += `<b>${this.selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`
-        if (this.pilot.Level < 12)
-          output += `<br>${
-            this.pilot.Level < 3 ? 'First' : 'Next'
+    jump(val) {
+      this.scroll(val)
+    },
+    search(newval: string) {
+      if (!newval) this.open = []
+      else this.open = this.manufacturersWithCBs.map((x, i) => i)
+    },
+  },
+  mounted() {
+    this.$emit('update:selectionComplete', this.selectionComplete)
+  },
+  methods: {
+    requirement(m: Manufacturer): string {
+      const br = this.$vuetify.display.mdAndDown ? '<br>' : '&emsp;//&emsp;'
+      const abbr = `<b>${m.ID}</b>`
+      const name = `<b>${m.Name}</b>`
+      if (m.ID === 'GMS')
+        return `<b>${this.selectedCount(
+          m.ID
+        )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
+      const lvl = `<b>${this.pilot.LicenseController.LicenseLevel(m.ID)}</b>`
+      let output = `${lvl} ${abbr} Licenses Acquired ${br} `
+      let remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseController.LicenseLevel(m.ID)
+      if (remain < 1) remain += 3
+      output += `<b>${this.availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available ${br} `
+      output += `<b>${this.selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`
+      if (this.pilot.Level < 12)
+        output += `<br>${this.pilot.Level < 3 ? 'First' : 'Next'
           } ${name} CORE Bonus available in <b>${remain}</b> License Level${remain === 1 ? '' : 's'}`
-        return output
-      },
-
-      selectedCount(m: string): number {
-        return this.pilot.CoreBonusController.CoreBonuses.filter((x: CoreBonus) => x.Source === m)
-          .length
-      },
-      availableCount(m: string): number {
-        if (m.toUpperCase() === 'GMS') return Infinity
-        const extraLicenses = Bonus.Int(0, 'cb_point', this.pilot as Pilot)
-        return (
-          Math.floor(this.pilot.LicenseController.LicenseLevel(m) / 3) +
-          extraLicenses -
-          this.selectedCount(m)
-        )
-      },
-      isSelectable(b: CoreBonus): boolean {
-        if (
-          b.ID === 'cb_superheavy_mounting' &&
-          this.pilot.has('CoreBonus', 'cb_improved_armament')
-        )
-          return false
-        if (
-          b.ID === 'cb_improved_armament' &&
-          this.pilot.has('CoreBonus', 'cb_superheavy_mounting')
-        )
-          return false
-
-        return this.availableCount(b.Source) > 0 && this.pilot.CoreBonusController.IsMissingCBs
-      },
-      isSelected(b: CoreBonus): boolean {
-        return this.pilot.has('CoreBonus', b.ID)
-      },
-      scroll(id) {
-        this.scrollTo(`${id}`)
-      },
-      scrollTo(e: any): void {
-        const el = document.getElementById(e)
-        if (!el) {
-          logger.warn(`Element with ID ${e} not found`, this)
-          return
-        }
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      },
+      return output
     },
-  }
+
+    selectedCount(m: string): number {
+      return this.pilot.CoreBonusController.CoreBonuses.filter((x: CoreBonus) => x.Source === m)
+        .length
+    },
+    availableCount(m: string): number {
+      if (m.toUpperCase() === 'GMS') return Infinity
+      const extraLicenses = Bonus.Int(0, 'cb_point', this.pilot as Pilot)
+      return (
+        Math.floor(this.pilot.LicenseController.LicenseLevel(m) / 3) +
+        extraLicenses -
+        this.selectedCount(m)
+      )
+    },
+    isSelectable(b: CoreBonus): boolean {
+      if (
+        b.ID === 'cb_superheavy_mounting' &&
+        this.pilot.has('CoreBonus', 'cb_improved_armament')
+      )
+        return false
+      if (
+        b.ID === 'cb_improved_armament' &&
+        this.pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      )
+        return false
+
+      return this.availableCount(b.Source) > 0 && this.pilot.CoreBonusController.IsMissingCBs
+    },
+    isSelected(b: CoreBonus): boolean {
+      return this.pilot.has('CoreBonus', b.ID)
+    },
+    scroll(id) {
+      this.scrollTo(`${id}`)
+    },
+    scrollTo(e: any): void {
+      const el = document.getElementById(e)
+      if (!el) {
+        logger.warn(`Element with ID ${e} not found`, this)
+        return
+      }
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    },
+  },
+}
 </script>

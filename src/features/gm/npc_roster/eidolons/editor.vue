@@ -1,6 +1,5 @@
 <template>
-  <editor-base
-    :item="item"
+  <editor-base :item="item"
     :readonly="readonly"
     :hide-toolbar="hideToolbar"
     :hide-footer="hideFooter"
@@ -9,14 +8,17 @@
     @delete="deleteItem()"
     @export="exportItem($event)"
     @copy="dupe()">
-    <template v-slot:builder>
-      <builder :item="item" :readonly="readonly" />
+    <template #builder>
+      <builder :item="item"
+        :readonly="readonly" />
     </template>
-    <template v-slot:stats>
+    <template #stats>
       <persistent-traits />
     </template>
-    <tier-selector v-if="!readonly" :item="item" />
-    <eidolon-layer-editor :item="item" :readonly="readonly" />
+    <tier-selector v-if="!readonly"
+      :item="item" />
+    <eidolon-layer-editor :item="item"
+      :readonly="readonly" />
   </editor-base>
 </template>
 
@@ -32,7 +34,7 @@ import TierSelector from './_components/TierSelector.vue';
 import exportAsJson from '@/util/jsonExport';
 
 export default {
-  name: 'gm-eidolon-editor-base',
+  name: 'GmEidolonEditorBase',
   components: { Builder, EditorBase, EidolonLayerEditor, PersistentTraits, TierSelector },
   props: {
     item: { type: Object, required: true },

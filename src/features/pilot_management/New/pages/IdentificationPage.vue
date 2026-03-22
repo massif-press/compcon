@@ -1,6 +1,5 @@
 <template>
-  <stepper-content
-    :complete="pilot.HasIdent"
+  <stepper-content :complete="pilot.HasIdent"
     mandatory
     exit="../pilot_management"
     @complete="$emit('next')">
@@ -10,7 +9,8 @@
       <cc-slashes />
       RM-4 Personnel::Pilot (C)
     </div>
-    <p class="flavor-text" style="font-size: 14px">
+    <p class="flavor-text"
+      style="font-size: 14px">
       Welcome to the Union Administrative Department's IDENT registration service. IDENT is the
       omninet-based certification system that guides the user through the UAD's pilot registration
       process. IDENT helps ensure pilots meet regulatory and policy requirements through the use of
@@ -18,10 +18,15 @@
       IDENT fingerprint should not complete this form unless instructed to by their commanding
       officer.
     </p>
-    <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
+    <v-alert color="accent"
+      variant="outlined"
+      density="compact"
+      class="mt-2">
       <div class="heading">
         All fields marked with the
-        <v-icon color="error" size="small" class="mt-n1">mdi-alert</v-icon>
+        <v-icon color="error"
+          size="small"
+          class="mt-n1">mdi-alert</v-icon>
         glyph must be populated.
       </div>
       <p class="text-cc-overline">
@@ -32,20 +37,22 @@
     </v-alert>
 
     <v-row dense>
-      <v-col cols="12" md="5" class="mr-auto">
+      <v-col cols="12"
+        md="5"
+        class="mr-auto">
         <div class="my-2">
-          <div v-if="!mobile" class="text-caption">RM-4-01 // FULL NAME OR PRIMARY ALIAS</div>
-          <div v-else class="text-caption">PILOT NAME</div>
-          <cc-text-field
-            v-model="pilot.Name"
+          <div v-if="!mobile"
+            class="text-caption">RM-4-01 // FULL NAME OR PRIMARY ALIAS</div>
+          <div v-else
+            class="text-caption">PILOT NAME</div>
+          <cc-text-field v-model="pilot.Name"
             variant="outlined"
             placeholder="Name"
             :icon="pilot.Name ? 'mdi-check-circle-outline' : 'mdi-alert'"
             :color="pilot.Name ? 'success' : 'error'"
             class="my-1 d-inline">
             <template #extra>
-              <cc-button
-                icon="mdi-dice-multiple"
+              <cc-button icon="mdi-dice-multiple"
                 variant="outlined"
                 size="small"
                 tooltip="Generate random name"
@@ -55,20 +62,20 @@
         </div>
 
         <div class="my-4">
-          <div v-if="!mobile" class="text-caption">
+          <div v-if="!mobile"
+            class="text-caption">
             RM-4-02 // APPROVED CALLSIGN (OR CADET DESIGNATION, IF APPLICABLE)
           </div>
-          <div v-else class="text-caption">CALLSIGN</div>
-          <cc-text-field
-            v-model="pilot.Callsign"
+          <div v-else
+            class="text-caption">CALLSIGN</div>
+          <cc-text-field v-model="pilot.Callsign"
             variant="outlined"
             placeholder="Callsign"
             :icon="pilot.Callsign ? 'mdi-check-circle-outline' : 'mdi-alert'"
             :color="pilot.Callsign ? 'success' : 'error'"
             class="my-1 d-inline">
             <template #extra>
-              <cc-button
-                icon="mdi-dice-multiple"
+              <cc-button icon="mdi-dice-multiple"
                 variant="outlined"
                 size="small"
                 tooltip="Generate random callsign"
@@ -78,12 +85,13 @@
         </div>
 
         <div class="my-4">
-          <div v-if="!mobile" class="text-caption">
+          <div v-if="!mobile"
+            class="text-caption">
             RM-4-03 // PRIOR OCCUPATION OR POSITION (ANSWER 17b ON RM-2-C)
           </div>
-          <div v-else class="text-caption">BACKGROUND</div>
-          <cc-text-field
-            v-model="pilot.Background"
+          <div v-else
+            class="text-caption">BACKGROUND</div>
+          <cc-text-field v-model="pilot.Background"
             variant="outlined"
             placeholder="Background"
             :icon="pilot.Background ? 'mdi-check-circle-outline' : 'mdi-circle-outline'"
@@ -103,68 +111,77 @@
         </div>
 
         <div class="my-4">
-          <div v-if="!mobile" class="text-caption">
+          <div v-if="!mobile"
+            class="text-caption">
             RM-4-04 // ATTACHED BIOGRAPHICAL DOSSIER (RM-4b SUPPLEMENTAL)
           </div>
-          <div v-else class="text-caption">BIOGRAPHY</div>
-          <v-row align="center" dense>
+          <div v-else
+            class="text-caption">BIOGRAPHY</div>
+          <v-row align="center"
+            dense>
             <v-col>
-              <cc-button
-                block
+              <cc-button block
                 size="small"
                 :color="!pilot.History ? 'light-panel' : 'success'"
                 @click="bioDialog = true">
                 <div v-if="!pilot.History">Add Pilot Biography</div>
                 <div v-else>Edit Pilot Biography</div>
-                <cc-text-editor-dialog
-                  v-model="bioDialog"
-                  title="edit Pilot Biography"
+                <cc-text-editor-dialog v-model="bioDialog"
+                  title="Edit Pilot Biography"
                   :original="pilot.History"
                   @save="$emit('set', { attr: 'History', val: $event })" />
               </cc-button>
             </v-col>
-            <v-col cols="auto" class="ml-2">
-              <v-icon v-if="!pilot.History" color="grey">mdi-circle-outline</v-icon>
-              <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
+            <v-col cols="auto"
+              class="ml-2">
+              <v-icon v-if="!pilot.History"
+                color="grey">mdi-circle-outline</v-icon>
+              <v-icon v-else
+                color="success">mdi-check-circle-outline</v-icon>
             </v-col>
           </v-row>
         </div>
 
         <div class="my-4">
-          <div v-if="!mobile" class="text-caption">
+          <div v-if="!mobile"
+            class="text-caption">
             RM-4-05 // ATTACHED OHM HEALTH EXAMINATION RESULTS
           </div>
-          <div v-else class="text-caption">APPEARANCE</div>
-          <v-row align="center" dense>
+          <div v-else
+            class="text-caption">APPEARANCE</div>
+          <v-row align="center"
+            dense>
             <v-col>
-              <cc-button
-                block
+              <cc-button block
                 size="small"
                 :color="!pilot.TextAppearance ? 'light-panel' : 'success'"
                 @click="appearanceDialog = true">
                 <div v-if="!pilot.TextAppearance">Add Pilot Description</div>
                 <div v-else>Edit Pilot Description</div>
-                <cc-text-editor-dialog
-                  v-model="appearanceDialog"
+                <cc-text-editor-dialog v-model="appearanceDialog"
                   title="edit Pilot Description"
                   :original="pilot.TextAppearance"
                   @save="$emit('set', { attr: 'TextAppearance', val: $event })" />
               </cc-button>
             </v-col>
-            <v-col cols="auto" class="ml-2">
-              <v-icon v-if="!pilot.TextAppearance" color="grey">mdi-circle-outline</v-icon>
-              <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
+            <v-col cols="auto"
+              class="ml-2">
+              <v-icon v-if="!pilot.TextAppearance"
+                color="grey">mdi-circle-outline</v-icon>
+              <v-icon v-else
+                color="success">mdi-check-circle-outline</v-icon>
             </v-col>
           </v-row>
         </div>
 
         <div class="my-4">
-          <div v-if="!mobile" class="text-caption">
+          <div v-if="!mobile"
+            class="text-caption">
             RM-4-δ // EXTERNAL LICENSE DATA TRANSFER (IF APPLICABLE)
           </div>
-          <div v-else class="text-caption">STARTING LL</div>
-          <cc-number-field
-            v-model.number="pilot.Level"
+          <div v-else
+            class="text-caption">STARTING LL</div>
+          <cc-number-field v-model.number="pilot.Level"
             type="number"
             label="Starting License Level"
             :max="12"
@@ -175,19 +192,26 @@
             class="my-1 d-inline" />
         </div>
       </v-col>
-      <v-col cols="12" md="auto" class="mx-auto mt-2" style="max-width: 325px">
-        <div v-if="!mobile" class="text-caption">
+      <v-col cols="12"
+        md="auto"
+        class="mx-auto mt-2"
+        style="max-width: 325px">
+        <div v-if="!mobile"
+          class="text-caption">
           RM-4-06 // ATTACHED OHM IMAGING SCAN
           <div class="mt-n1 text-disabled">(MUST INCLUDE RETINAL DATA)</div>
         </div>
-        <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
-          <cc-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
+        <div class="border mr-8 ml-auto mr-auto"
+          style="width: 300px; height: 300px">
+          <cc-img v-if="pilot.Portrait"
+            :src="pilot.Portrait"
+            aspect-ratio="1" />
         </div>
         <div class="mt-3">
-          <cc-modal title="set pilot portrait" icon="cc:pilot">
+          <cc-modal title="set pilot portrait"
+            icon="cc:pilot">
             <template #activator="{ open }">
-              <cc-button
-                block
+              <cc-button block
                 size="small"
                 :color="pilot.Portrait ? 'success' : 'panel'"
                 :append-icon="pilot.Portrait ? '' : 'mdi-check-circle-outline'"
@@ -196,15 +220,19 @@
                 {{ pilot.Portrait ? 'Edit Pilot Image' : 'Add Pilot Image' }}
               </cc-button>
             </template>
-            <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" avatar />
+            <cc-image-selector ref="imageSelector"
+              :item="pilot"
+              type="pilot"
+              avatar />
           </cc-modal>
         </div>
       </v-col>
     </v-row>
-    <v-row dense class="text-center my-6 pt-2 pb-1 px-3 bg-surface">
-      <v-col cols="12" sm="6">
-        <cc-button
-          size="x-small"
+    <v-row dense
+      class="text-center my-6 pt-2 pb-1 px-3 bg-surface">
+      <v-col cols="12"
+        sm="6">
+        <cc-button size="x-small"
           block
           color="primary"
           :disabled="!pilot.HasIdent"
@@ -214,9 +242,9 @@
         <div class="text-caption text-disabled"><i>Recommended for Advanced Users</i></div>
       </v-col>
       <v-spacer />
-      <v-col cols="12" sm="6">
-        <cc-button
-          size="x-small"
+      <v-col cols="12"
+        sm="6">
+        <cc-button size="x-small"
           block
           color="primary"
           :disabled="!pilot.HasIdent"

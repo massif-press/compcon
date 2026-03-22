@@ -137,14 +137,15 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
+  name: 'CloneDialog',
   mixins: [useMobile],
-  name: 'clone-dialog',
   props: {
     pilot: {
       type: Object,
       required: true,
     },
   },
+  emits: ['close'],
   data: () => ({
     quirk: null,
   }),
@@ -154,7 +155,7 @@ export default {
     },
     hide() {
       this.quirk = null;
-      (this.$refs.dialog as any).hide();
+      this.$emit('close');
     },
     rollQuirk() {
       const compendium = CompendiumStore();

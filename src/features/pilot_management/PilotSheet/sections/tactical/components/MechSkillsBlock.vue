@@ -20,35 +20,35 @@
       justify="space-around">
       <v-col class="mx-2"
         style="min-width: 400px">
-        <cc-tickbar label="hull"
+        <cc-tickbar v-model="pilot.MechSkillsController.Hull"
+          label="hull"
           :size="mobile ? 'small' : 'default'"
           readonly
-          icon="mdi-alpha-h-box-outline"
-          v-model="pilot.MechSkillsController.Hull" />
+          icon="mdi-alpha-h-box-outline" />
       </v-col>
       <v-col class="mx-2"
         style="min-width: 400px">
-        <cc-tickbar label="agility"
+        <cc-tickbar v-model="pilot.MechSkillsController.Agi"
+          label="agility"
           :size="mobile ? 'small' : 'default'"
           readonly
-          icon="mdi-alpha-a-box-outline"
-          v-model="pilot.MechSkillsController.Agi" />
+          icon="mdi-alpha-a-box-outline" />
       </v-col>
       <v-col class="mx-2"
         style="min-width: 400px">
-        <cc-tickbar label="systems"
+        <cc-tickbar v-model="pilot.MechSkillsController.Sys"
+          label="systems"
           :size="mobile ? 'small' : 'default'"
           readonly
-          icon="mdi-alpha-s-box-outline"
-          v-model="pilot.MechSkillsController.Sys" />
+          icon="mdi-alpha-s-box-outline" />
       </v-col>
       <v-col class="mx-2"
         style="min-width: 400px">
-        <cc-tickbar label="engineering"
+        <cc-tickbar v-model="pilot.MechSkillsController.Eng"
+          label="engineering"
           :size="mobile ? 'small' : 'default'"
           readonly
-          icon="mdi-alpha-e-box-outline"
-          v-model="pilot.MechSkillsController.Eng" />
+          icon="mdi-alpha-e-box-outline" />
       </v-col>
     </v-row>
   </div>
@@ -58,15 +58,13 @@
 import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import MechSkillsSelector from '@/features/pilot_management/_components/selectors/MechSkillsSelector.vue';
-import HasePips from './HasePips.vue';
-import { Pilot } from '@/class';
 import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
+  name: 'SkillBlock',
+  components: { SectionHeader, SectionEditChip, MechSkillsSelector },
   mixins: [useMobile],
-  name: 'skill-block',
-  components: { SectionHeader, SectionEditChip, HasePips, MechSkillsSelector },
   props: {
     pilot: {
       type: Object,

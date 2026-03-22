@@ -33,10 +33,12 @@
                 <gm-label-editor :readonly="readonly"
                   :item="item"
                   class="mb-1" />
-                <cc-dialog :close-on-click="false">
+                <cc-dialog v-if="!isNarrativeItem"
+                  :close-on-click="false">
                   <template #activator="{ open }">
                     <cc-button size="x-small"
                       block
+                      :disabled="readonly"
                       prepend-icon="mdi-list-status"
                       class="mb-3"
                       color="primary"
@@ -132,11 +134,12 @@ export default {
       if (!this.item) return 'ERR'
       return this.item.ItemType.toUpperCase()
     },
-    isRemote() {
-      return this.item.SaveController.IsRemote
-    },
     isAuthed() {
       return UserStore().IsLoggedIn
+    },
+    isNarrativeItem() {
+      const narrativeTypes = ['character', 'location', 'faction']
+      return narrativeTypes.includes(this.item.ItemType.toLowerCase())
     },
   },
   methods: {

@@ -43,6 +43,7 @@ export default {
   name: 'cc-modal',
   data: () => ({
     modal: false,
+    _savedScrollY: 0,
   }),
   props: {
     modelValue: Boolean,
@@ -87,6 +88,11 @@ export default {
       immediate: true,
     },
     modal(val) {
+      if (val) {
+        this._savedScrollY = window.scrollY;
+      } else {
+        this.$nextTick(() => window.scrollTo({ top: this._savedScrollY, behavior: 'instant' }));
+      }
       this.$emit('update:modelValue', val);
       if (!val) this.$emit('close');
     },

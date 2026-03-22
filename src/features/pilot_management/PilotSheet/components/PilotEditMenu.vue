@@ -1,173 +1,130 @@
 <template>
   <div>
-    <v-btn
-      icon
+    <v-btn icon
       :size="size"
       variant="plain"
-      @click.native.stop
-    >
-      <v-icon
-        icon="mdi-cog"
+      @click.native.stop>
+      <v-icon icon="mdi-cog"
         color="white"
-        size="large"
-      />
-      <v-menu
-        v-model="menu"
-        activator="parent"
-      >
-        <v-card
-          tile
-          border
-        >
-          <v-toolbar
-            density="compact"
+        size="large" />
+      <v-menu v-model="menu"
+        activator="parent">
+        <v-card tile
+          border>
+          <v-toolbar density="compact"
             color="primary"
-            height="46"
-          >
-            <div
-              v-if="!dense"
-              class="heading h3 py-0 px-2"
-            >
+            height="46">
+            <div v-if="!dense"
+              class="heading h3 py-0 px-2">
               Pilot Options
             </div>
           </v-toolbar>
-          <v-list
-            :lines="mobile ? 'one' : 'two'"
+          <v-list :lines="mobile ? 'one' : 'two'"
             subheader
             color="panel"
             density="compact"
-            slim
-          >
-            <v-list-item
-              title="Print"
+            slim>
+            <v-list-item title="Print"
               prepend-icon="mdi-printer"
               subtitle="Print tabletop-ready character and mech sheets"
-              @click="$router.push(`/print/${pilot.ID}`)"
-            />
-            <cc-modal
-              title="Statblock Generator"
-              icon="mdi-code-block-tags"
-            >
+              @click="$router.push(`/print/${pilot.ID}`)" />
+            <cc-modal title="Statblock Generator"
+              icon="mdi-code-block-tags">
               <template #activator="{ open }">
-                <v-list-item
-                  prepend-icon="mdi-file-document-outline"
+                <v-list-item prepend-icon="mdi-file-document-outline"
                   title="Generate Statblock"
                   subtitle="Get a plaintext representation of this character's build"
-                  @click.stop="open"
-                />
+                  @click.stop="open" />
               </template>
               <statblock-dialog :pilot="pilot" />
             </cc-modal>
-            <v-list-item
-              v-if="!pilot.IsRemote"
+            <v-list-item v-if="!pilot.IsRemote"
               prepend-icon="mdi-export-variant"
               title="Export Pilot"
               subtitle="Export this pilot as a JSON file"
-              @click="exportPilot()"
-            />
+              @click="exportPilot()" />
 
-            <cc-dialog
-              v-if="pilot.IsRemote"
+            <cc-dialog v-if="pilot.IsRemote"
               :close-on-click="false"
               title="convert remote pilot"
-              icon="cc:pilot"
-            >
+              icon="cc:pilot">
               <template #activator="{ open }">
-                <v-list-item
-                  prepend-icon="mdi-content-copy"
+                <v-list-item prepend-icon="mdi-content-copy"
                   title="Convert to Local"
                   subtitle="Convert this Pilot to an editable local data instance."
-                  @click.stop="open"
-                />
+                  @click.stop="open" />
               </template>
               <template #default="{ close }">
-                <cc-confirmation
-                  content="Converting this pilot to local data will allow local editing but remove its
+                <cc-confirmation content="Converting this pilot to local data will allow local editing but remove its
                     remote link to the author's cloud account, and prevent any further updates from
                     being received. To re-enable remote syncing, you will have to re-import this
                     pilot via its share code."
                   cancellable
                   @confirm="convert()"
-                  @cancel="close"
-                />
+                  @cancel="close" />
               </template>
             </cc-dialog>
 
-            <cc-modal
-              v-else
+            <cc-modal v-else
               title="Clone Pilot"
-              icon="mdi-dna"
-            >
+              icon="mdi-dna">
               <template #activator="{ open }">
-                <v-list-item
-                  prepend-icon="mdi-dna"
+                <v-list-item prepend-icon="mdi-dna"
                   title="Clone"
                   subtitle="Duplicate or Flash Clone this character"
-                  @click.stop="open"
-                />
+                  @click.stop="open" />
               </template>
-              <clone-dialog :pilot="pilot" />
+              <template #default="{ close }">
+                <clone-dialog :pilot="pilot"
+                  @close="close" />
+              </template>
             </cc-modal>
 
-            <cc-dialog
-              title="Set LCP Configuration"
+            <cc-dialog title="Set LCP Configuration"
               :close-on-click="false"
-              icon="mdi-list-status"
-            >
+              icon="mdi-list-status">
               <template #activator="{ open }">
-                <v-list-item
-                  v-if="!pilot.IsRemote"
+                <v-list-item v-if="!pilot.IsRemote"
                   prepend-icon="mdi-list-status"
                   title="Set LCP Configuration"
                   subtitle="Manage which content packs are accessible to this pilot"
-                  @click.stop="open"
-                />
+                  @click.stop="open" />
               </template>
               <lcp-config-selector :actor="pilot" />
             </cc-dialog>
 
-            <v-list-item
-              v-if="pilot.IsRemote"
+            <v-list-item v-if="pilot.IsRemote"
               :loading="loading"
               :disabled="pilot.CloudController.SyncStatus === 'Synced'"
               prepend-icon="mdi-cloud-sync"
               title="Download Latest Data"
-              :subtitle="
-                pilot.CloudController.SyncStatus === 'Synced'
-                  ? 'Pilot is up to date with remote data'
-                  : 'Download all remote changes to this pilot, overwriting local data.'
-              "
-              @click="remoteUpdate()"
-            />
+              :subtitle="pilot.CloudController.SyncStatus === 'Synced'
+                ? 'Pilot is up to date with remote data'
+                : 'Download all remote changes to this pilot, overwriting local data.'
+                "
+              @click="remoteUpdate()" />
 
-            <v-divider v-if="!pilot.IsRemote" />
-            <cc-dialog
-              :close-on-click="false"
+            <v-divider />
+            <cc-dialog :close-on-click="false"
               title="confirm pilot deletion"
-              icon="cc:pilot"
-            >
+              icon="cc:pilot">
               <template #activator="{ open }">
-                <v-list-item
-                  v-if="!pilot.IsRemote"
-                  title="Delete Pilot"
+                <v-list-item title="Delete Pilot"
                   subtitle="Remove this pilot from the roster"
-                  @click.stop="open"
-                >
+                  @click.stop="open">
                   <template #prepend>
                     <v-icon color="error">mdi-delete</v-icon>
                   </template>
                 </v-list-item>
               </template>
               <template #default="{ close }">
-                <cc-confirmation
-                  :content="`Lancer, please confirm deletion of Pilot Registration Information for:<br/>
+                <cc-confirmation :content="`Lancer, please confirm deletion of Pilot Registration Information for:<br/>
           <span class='text-accent'>
             ${pilot.Callsign} (${pilot.Name}, LL${pilot.Level})
           </span>`"
                   cancellable
                   @confirm="delete_pilot(close)"
-                  @cancel="close"
-                />
+                  @cancel="close" />
               </template>
             </cc-dialog>
           </v-list>
@@ -178,107 +135,107 @@
 </template>
 
 <script lang="ts">
-  import { saveFile } from '@/io/Data'
-  import { Pilot } from '@/class'
-  import { UserStore } from '@/stores'
-  import { CloudController } from '@/classes/components'
-  import CloneDialog from './CloneDialog.vue'
-  import StatblockDialog from './StatblockDialog.vue'
-  import logger from '@/user/logger'
-  import LcpConfigSelector from './LcpConfigSelector.vue'
+import { saveFile } from '@/io/Data'
+import { Pilot } from '@/class'
+import { UserStore } from '@/stores'
+import { CloudController } from '@/classes/components'
+import CloneDialog from './CloneDialog.vue'
+import StatblockDialog from './StatblockDialog.vue'
+import logger from '@/user/logger'
+import LcpConfigSelector from './LcpConfigSelector.vue'
 import { useMobile } from '@/mixins/useMobile';
 
-  // import { RemoteSyncItem } from '@/cloud/item_sync';
+// import { RemoteSyncItem } from '@/cloud/item_sync';
 
-  export default {
+export default {
   mixins: [useMobile],
-    name: 'EditMenu',
-    components: {
-      StatblockDialog,
-      CloneDialog,
-      LcpConfigSelector,
+  name: 'EditMenu',
+  components: {
+    StatblockDialog,
+    CloneDialog,
+    LcpConfigSelector,
+  },
+  props: {
+    pilot: {
+      type: Pilot,
+      required: true,
     },
-    props: {
-      pilot: {
-        type: Pilot,
-        required: true,
-      },
-      light: {
-        type: Boolean,
-      },
-      dense: {
-        type: Boolean,
-      },
-      size: {
-        type: String,
-        default: 'small',
-      },
+    light: {
+      type: Boolean,
     },
-    emits: ['close'],
-    data: () => ({
-      loading: false,
-      deleteDialog: false,
-      menu: false,
-    }),
-    methods: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-      delete_pilot(close?: Function) {
-        this.menu = false
-        this.pilot.SaveController.Delete()
-        if (close) close()
-        if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
-      },
-      exportPilot() {
-        try {
-          saveFile(
-            this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
-            Pilot.Serialize(this.pilot as Pilot),
-            'Save Pilot'
-          )
-          this.$notify({
-            title: 'Export Success',
-            text: `Pilot data saved as "${this.pilot.Callsign.toUpperCase().replace(
-              /\W/g,
-              ''
-            )}.json"`,
-            data: { type: 'success', icon: 'mdi-check' },
-          })
-        } catch (error) {
-          logger.error(`Pilot export failed: ${error}`, this, error)
-          this.$notify({
-            title: 'Export Error',
-            text: 'COMP/CON was unable to export pilot data',
-            data: { type: 'error', icon: 'mdi-alert' },
-          })
-        }
-      },
-      async remoteUpdate() {
-        try {
-          await CloudController.UpdateRemote(this.pilot)
-          await UserStore().refreshDbData()
-          this.$notify({
-            title: `Sync Complete`,
-            text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
-            data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
-          })
-        } catch (err) {
-          logger.error(`Error syncing item: ${err}`, this, err)
-          this.$notify({
-            title: `Sync Failed`,
-            text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
-            data: { icon: 'mdi-alert', color: 'error' },
-          })
-        }
-      },
-      async convert() {
-        this.loading = true
-        UserStore().deleteRemoteItem(this.pilot.SaveController.RemoteCode)
-        this.pilot.CloudController.GenerateMetadata()
-        this.pilot.SaveController.ClearRemote()
+    dense: {
+      type: Boolean,
+    },
+    size: {
+      type: String,
+      default: 'small',
+    },
+  },
+  emits: ['close'],
+  data: () => ({
+    loading: false,
+    deleteDialog: false,
+    menu: false,
+  }),
+  methods: {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+    delete_pilot(close?: Function) {
+      this.menu = false
+      this.pilot.SaveController.Delete()
+      if (close) close()
+      if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
+    },
+    exportPilot() {
+      try {
+        saveFile(
+          this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
+          Pilot.Serialize(this.pilot as Pilot),
+          'Save Pilot'
+        )
+        this.$notify({
+          title: 'Export Success',
+          text: `Pilot data saved as "${this.pilot.Callsign.toUpperCase().replace(
+            /\W/g,
+            ''
+          )}.json"`,
+          data: { type: 'success', icon: 'mdi-check' },
+        })
+      } catch (error) {
+        logger.error(`Pilot export failed: ${error}`, this, error)
+        this.$notify({
+          title: 'Export Error',
+          text: 'COMP/CON was unable to export pilot data',
+          data: { type: 'error', icon: 'mdi-alert' },
+        })
+      }
+    },
+    async remoteUpdate() {
+      try {
+        await CloudController.UpdateRemote(this.pilot)
         await UserStore().refreshDbData()
-        this.loading = false
-        this.$emit('close')
-      },
+        this.$notify({
+          title: `Sync Complete`,
+          text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
+          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+        })
+      } catch (err) {
+        logger.error(`Error syncing item: ${err}`, this, err)
+        this.$notify({
+          title: `Sync Failed`,
+          text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        })
+      }
     },
-  }
+    async convert() {
+      this.loading = true
+      UserStore().deleteRemoteItem(this.pilot.SaveController.RemoteCode)
+      this.pilot.CloudController.GenerateMetadata()
+      this.pilot.SaveController.ClearRemote()
+      await UserStore().refreshDbData()
+      this.loading = false
+      this.$emit('close')
+    },
+  },
+}
 </script>

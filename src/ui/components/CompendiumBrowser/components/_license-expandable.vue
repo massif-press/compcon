@@ -1,22 +1,30 @@
 <template>
-  <v-expansion-panel v-for="item in items" :key="item.ID" flat tile :height="mobile ? 50 : 80">
-    <v-expansion-panel-title :id="item.ID" class="hover-parent py-0 pr-0 pl-3" hide-actions flat>
+  <v-expansion-panel v-for="item in items"
+    :key="item.ID"
+    flat
+    tile
+    :height="mobile ? 50 : 80">
+    <v-expansion-panel-title :id="item.ID"
+      class="hover-parent py-0 pr-0 pl-3"
+      hide-actions
+      flat>
       <template #default="{ expanded }">
-        <v-row
-          :align="mobile ? 'center' : 'start'"
+        <v-row :align="mobile ? 'center' : 'start'"
           no-gutters
           style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
           class="gradient-background py-2"
           :class="{ mobile: mobile, selected: selected?.ID === item.ID }">
-          <v-col class="px-2" cols="auto">
+          <v-col class="px-2"
+            cols="auto">
             <div class="text-cc-overline">{{ item.Frame.Source }}</div>
             <div class="heading h2 font-weight-bold">
               {{ item.Frame.Name }}
             </div>
           </v-col>
-          <v-col cols="auto" md="12" class="px-2 ml-auto">
-            <cc-chip
-              v-for="(f, index) in item.Frame.MechType"
+          <v-col cols="auto"
+            md="12"
+            class="px-2 ml-auto">
+            <cc-chip v-for="(f, index) in item.Frame.MechType"
               :key="`type-${index}`"
               :size="mobile ? 'x-small' : 'small'"
               bg-color="primary"
@@ -26,15 +34,13 @@
             </cc-chip>
           </v-col>
         </v-row>
-        <div
-          class="img"
+        <div class="img"
           :class="expanded && !mobile ? 'img-expanded' : 'img-hover'"
           :style="getBgStyle(item)" />
       </template>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
-      <v-alert
-        v-if="item && item.Prerequisite"
+      <v-alert v-if="item && item.Prerequisite"
         variant="outlined"
         density="compact"
         class="text-center mx-10 mt-2 mb-n1"
@@ -50,15 +56,15 @@
         </div>
       </v-alert>
 
-      <cc-license-panel
-        :license="item"
+      <cc-license-panel :license="item"
         :ranked="isRanked"
         :rank="isRanked ? getControllerRank(item) : undefined" />
 
       <v-row dense>
-        <v-col v-if="getControllerRank(item)" cols="12" md="">
-          <cc-button
-            block
+        <v-col v-if="getControllerRank(item)"
+          cols="12"
+          md="">
+          <cc-button block
             size="x-small"
             color="error"
             prepend-icon="mdi-minus"
@@ -67,9 +73,10 @@
           </cc-button>
         </v-col>
 
-        <v-col v-if="getControllerRank(item) < item.Unlocks.length && selectable" cols="12" md="">
-          <cc-button
-            block
+        <v-col v-if="getControllerRank(item) < item.Unlocks.length && selectable"
+          cols="12"
+          md="">
+          <cc-button block
             :disabled="!controller.IsMissingLicenses"
             size="small"
             color="success"
@@ -83,14 +90,13 @@
   </v-expansion-panel>
 </template>
 
-<script>
-import { License } from '@/class';
+<script lang="ts">
 import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
+  name: 'CcLicenseExpandable',
   mixins: [useMobile],
-  name: 'cc-license-expandable',
   props: {
     items: {
       type: Array,
@@ -133,22 +139,18 @@ export default {
 
 <style scoped>
 .gradient-background {
-  background: linear-gradient(
-    to right,
-    rgba(var(--v-theme-surface), 1),
-    rgba(var(--v-theme-surface), 0.75),
-    rgba(var(--v-theme-surface), 0.15),
-    rgba(var(--v-theme-surface), 0)
-  );
+  background: linear-gradient(to right,
+      rgba(var(--v-theme-surface), 1),
+      rgba(var(--v-theme-surface), 0.75),
+      rgba(var(--v-theme-surface), 0.15),
+      rgba(var(--v-theme-surface), 0));
 }
 
 .gradient-background.mobile {
-  background: linear-gradient(
-    to right,
-    rgba(var(--v-theme-surface), 1),
-    rgba(var(--v-theme-surface), 0.55),
-    rgba(var(--v-theme-surface), 1)
-  );
+  background: linear-gradient(to right,
+      rgba(var(--v-theme-surface), 1),
+      rgba(var(--v-theme-surface), 0.55),
+      rgba(var(--v-theme-surface), 1));
 }
 
 .img {
@@ -160,12 +162,10 @@ export default {
 }
 
 .selected {
-  background: linear-gradient(
-    to right,
-    rgba(var(--v-theme-primary), 0.5),
-    rgba(var(--v-theme-primary), 0.25),
-    rgba(var(--v-theme-primary), 0.15),
-    rgba(var(--v-theme-primary), 0)
-  );
+  background: linear-gradient(to right,
+      rgba(var(--v-theme-primary), 0.5),
+      rgba(var(--v-theme-primary), 0.25),
+      rgba(var(--v-theme-primary), 0.15),
+      rgba(var(--v-theme-primary), 0));
 }
 </style>

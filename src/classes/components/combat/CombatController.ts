@@ -56,7 +56,7 @@ class CombatData {
   combatActions: any = {}
   usedActions: string[] = []
 
-  history: CombatLogEntry[] = []
+  combat_history: CombatLogEntry[] = []
   round: number = 1
   turn: number = 1
   action: number = 1
@@ -1066,7 +1066,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     target.combatActions = controller.CombatActions
 
-    target.history = controller.CombatLog.History
+    target.combat_history = controller.CombatLog.History
     target.round = controller.Round
     target.turn = controller.Turn
     target.action = controller.Action
@@ -1112,7 +1112,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     controller._usedActions = data?.usedActions || []
 
-    controller.CombatLog.History = data?.history || []
+    controller.CombatLog.History = data?.combat_history || []
 
     controller.Round = data?.round || 1
     controller.Turn = data?.turn || 1

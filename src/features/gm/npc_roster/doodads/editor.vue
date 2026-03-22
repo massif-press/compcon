@@ -1,6 +1,5 @@
 <template>
-  <editor-base
-    :item="item"
+  <editor-base :item="item"
     :readonly="readonly"
     hide-toolbar
     :hide-footer="hideFooter"
@@ -10,11 +9,14 @@
     @export="exportItem($event)"
     @copy="dupe()">
     <template #builder>
-      <builder :item="item" :readonly="readonly" />
+      <builder :item="item"
+        :readonly="readonly" />
     </template>
     <template #stats>
       <div class="my-6" />
-      <stat-editor :item="item" :controller="item" :readonly="readonly" />
+      <stat-editor :item="item"
+        :controller="item"
+        :readonly="readonly" />
     </template>
   </editor-base>
 </template>
@@ -30,7 +32,7 @@ import StatEditor from '../../_components/StatEditor.vue';
 import exportAsJson from '@/util/jsonExport';
 
 export default {
-  name: 'gm-doodad-editor-base',
+  name: 'GmDoodadEditorBase',
   components: { Builder, EditorBase, StatEditor },
   props: {
     item: { type: Object, required: true },

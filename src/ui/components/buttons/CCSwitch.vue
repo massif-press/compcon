@@ -1,42 +1,55 @@
 <template>
+  <div v-if="topLabel"
+    class="text-cc-overline">
+    <cc-slashes class="mr-1" />
+    {{ topLabel }}
+  </div>
   <div style="display: inline-flex">
-    <v-icon
-      v-if="prependIcon"
+    <v-icon v-if="prependIcon"
       style="align-self: center"
       :size="size"
       :start="!label"
       :icon="prependIcon" />
-    <div v-if="label" class="d-inline-block text-cc-overline ml-3" style="align-self: center">
+    <div v-if="label"
+      class="d-inline-block text-cc-overline ml-3"
+      style="align-self: center">
       {{ label }}
       <cc-slashes class="mr-2 ml-1" />
     </div>
     <v-hover>
       <template #default="{ props, isHovering }">
-        <div
-          v-bind="props"
+        <div v-bind="props"
           class="top-element"
           style="display: inline-block; position: relative; align-self: center">
-          <span
-            :class="`light ${size} bg-${getLightColor(isHovering)}`"
+          <span :class="`light ${size} bg-${getLightColor(isHovering)}`"
             style="position: absolute; left: 0" />
-          <div
-            class="toggle"
+          <div class="toggle"
             :class="`${size} ${isOn && 'on'} size-${size} bg-${bgColor}`"
             @click="toggle">
-            <div class="toggle-knob" :class="`${size} bg-${isOn ? activeColor : color}`" />
+            <div class="toggle-knob"
+              :class="`${size} bg-${isOn ? activeColor : color}`" />
           </div>
         </div>
       </template>
     </v-hover>
     <v-slide-x-transition leave-absolute>
-      <v-icon v-if="isOn && onIcon" style="align-self: center" end :size="size" :icon="onIcon" />
-      <v-icon v-if="!isOn && offIcon" style="align-self: center" end :size="size" :icon="offIcon" />
+      <v-icon v-if="isOn && onIcon"
+        style="align-self: center"
+        end
+        :size="size"
+        :icon="onIcon" />
+      <v-icon v-if="!isOn && offIcon"
+        style="align-self: center"
+        end
+        :size="size"
+        :icon="offIcon" />
     </v-slide-x-transition>
 
-    <v-tooltip v-if="tooltip" location="top" max-width="300px">
+    <v-tooltip v-if="tooltip"
+      location="top"
+      max-width="300px">
       <template v-slot:activator="{ props }">
-        <v-icon
-          style="align-self: center"
+        <v-icon style="align-self: center"
           :size="size"
           v-bind="props"
           class="fade-select mx-1"
@@ -91,6 +104,11 @@ export default {
     },
     label: {
       type: [String, Boolean],
+    },
+    topLabel: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   computed: {

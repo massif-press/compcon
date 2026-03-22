@@ -40,6 +40,7 @@
 <script>
 import { useMobile } from '@/mixins/useMobile';
 export default {
+  inheritAttrs: false,
   mixins: [useMobile],
   data: () => ({
     dialog: false,

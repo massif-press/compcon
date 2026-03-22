@@ -1,12 +1,13 @@
 <template>
-  <stepper-content
-    :complete="canContinue()"
+  <stepper-content :complete="canContinue()"
     :exit="`/pilot/${pilot.ID}`"
     back
     no-confirm
     @back="$emit('back')">
-    <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" />
-    <cc-alert v-if="!pilotReady" color="error">
+    <pilot-registration-card :pilot="pilot"
+      :pilot-ready="pilotReady" />
+    <cc-alert v-if="!pilotReady"
+      color="error">
       <div class="stat-text">
         WARNING: Submission for IDENT record {{ pilot.ID }} has the following issue(s):
       </div>
@@ -24,7 +25,11 @@
         <li v-if="!pilot.CoreBonusController.HasCBs">PILOT CORE BONUSES incomplete or invalid</li>
       </ul>
     </cc-alert>
-    <cc-button block color="success" class="my-6" prepend-icon="cc:orbital" @click="savePilot()">
+    <cc-button block
+      color="success"
+      class="my-6"
+      prepend-icon="cc:orbital"
+      @click="savePilot()">
       Update Pilot Record // {{ pilot.Callsign }} ({{ pilot.Name }})
     </cc-button>
   </stepper-content>
@@ -38,7 +43,7 @@ import StepperContent from '../../_components/StepperContent.vue';
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 export default {
-  name: 'confirm-page',
+  name: 'ConfirmPage',
   components: { PilotRegistrationCard, StepperContent },
   props: {
     pilot: {
@@ -50,6 +55,7 @@ export default {
       required: true,
     },
   },
+  emits: ['back'],
   computed: {
     pilotReady(): boolean {
       return (

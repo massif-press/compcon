@@ -44,6 +44,12 @@ export default {
   name: 'NpcRoster',
   components: { GmSplitView, NoGmItem, Editor, Builder, Features },
   mixins: [useMobile],
+  props: {
+    id: {
+      type: String,
+      required: false,
+    },
+  },
   setup() {
     const npcStore = NpcStore();
     const npcs = ref(npcStore.getUnits.filter((x) => !x.SaveController.IsDeleted));
@@ -52,12 +58,6 @@ export default {
     });
     onUnmounted(unsub);
     return { npcStore, npcs };
-  },
-  props: {
-    id: {
-      type: String,
-      required: false,
-    },
   },
   data: () => ({
     selected: null as Unit | null,

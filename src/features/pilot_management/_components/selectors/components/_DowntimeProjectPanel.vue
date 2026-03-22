@@ -1,55 +1,47 @@
 <template>
-  <v-row justify="center">
+  <v-row justify="center"
+    align="center">
     <v-col>
-      <cc-titled-panel title="New Project" icon="mdi-atom-variant" color="reserve">
+      <cc-titled-panel title="New Project"
+        icon="mdi-atom-variant"
+        color="reserve">
         <v-row density="compact">
-          <v-col cols="12" md="">
-            <v-text-field
-              v-model="projectName"
+          <v-col cols="12"
+            md="">
+            <v-text-field v-model="projectName"
               color="accent"
               label="Project Name"
               variant="outlined"
               hide-details />
           </v-col>
-          <v-col cols="12" md="auto">
-            <v-row no-gutters align="start">
-              <v-col cols="auto" class="text-center">
-                <v-switch
-                  v-model="complicated"
+          <v-col cols="12"
+            md="auto">
+            <v-row class="stat-text text-text">
+              <v-col cols="auto"
+                class="text-center">
+                <cc-switch v-model="complicated"
                   density="compact"
                   inset
                   hide-details
                   color="secondary"
-                  class="mr-3">
-                  <template #label class="stat-text text-text">
-                    Complicated
-                    <cc-tooltip
-                      simple
-                      inline
-                      content="This project is complex, resource-intensive, or generally difficult to complete">
-                      <v-icon size="small" end>mdi-help-circle-outline</v-icon>
-                    </cc-tooltip>
-                  </template>
-                </v-switch>
+                  tooltip="This project is complex, resource-intensive, or generally difficult to complete"
+                  top-label="Complicated"
+                  class="mr-3" />
               </v-col>
-              <v-col cols="auto" class="text-center">
-                <v-switch v-model="finished" density="compact" inset hide-details color="secondary">
-                  <template #label class="stat-text text-text">
-                    Finished
-                    <cc-tooltip
-                      simple
-                      inline
-                      content="This project is complete and available to use as a <strong>reserve</strong>">
-                      <v-icon size="small" end>mdi-help-circle-outline</v-icon>
-                    </cc-tooltip>
-                  </template>
-                </v-switch>
+              <v-col cols="auto"
+                class="text-center">
+                <cc-switch v-model="finished"
+                  density="compact"
+                  inset
+                  hide-details
+                  top-label="Finished"
+                  tooltip="This project is complete and available to use as a reserve"
+                  color="secondary" />
               </v-col>
             </v-row>
           </v-col>
         </v-row>
-        <v-textarea
-          v-model="details"
+        <v-textarea v-model="details"
           auto-grow
           rows="2"
           label="Details"
@@ -57,8 +49,7 @@
           hide-details
           color="accent"
           class="my-3" />
-        <v-combobox
-          v-model="costs"
+        <v-combobox v-model="costs"
           label="Requirements"
           :items="projectCosts"
           chips
@@ -68,8 +59,7 @@
           density="compact"
           class="mr-5 ml-5 mt-5"
           :disabled="finished"></v-combobox>
-        <v-btn
-          block
+        <v-btn block
           tile
           large
           class="mb-2 mt-n2"

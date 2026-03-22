@@ -2,35 +2,42 @@
   <v-window-item>
     <cc-heading size="large">panels</cc-heading>
 
-    <cc-heading small line>standard</cc-heading>
+    <cc-heading small
+      line>standard</cc-heading>
 
-    <v-card flat border>
+    <v-card flat
+      border>
       <v-row justify="center">
         <v-col align-self="center">
           <v-card-text>
-            <cc-panel :border="border" :variant="variant" :title="title">
-              <span v-html-safe="loremIpsum" />
+            <cc-panel :border="border"
+              :variant="variant"
+              :title="title">
+              <span v-html-safe="loremIpsum"
+                class="text-text" />
             </cc-panel>
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 400px">
+        <v-col cols="3"
+          style="min-width: 400px">
           <v-card flat>
             <v-card-text>
-              <v-select
-                density="compact"
+              <v-select density="compact"
                 label="variant"
                 hide-details
                 clearable
                 v-model="variant"
                 :items="variants" />
-              <v-text-field
-                density="compact"
+              <v-text-field density="compact"
                 hide-details
                 clearable
                 v-model="title"
                 label="title" />
-              <v-checkbox density="compact" hide-details v-model="border" label="border" />
+              <v-checkbox density="compact"
+                hide-details
+                v-model="border"
+                label="border" />
             </v-card-text>
           </v-card>
         </v-col>
@@ -39,27 +46,38 @@
 
     <div class="my-12" />
 
-    <v-card flat border>
+    <v-card flat
+      border>
       <v-row justify="center">
         <v-col align-self="center">
           <v-card-text>
-            <cc-alert :title="title" :icon="icon" :prominent="prominent" closeable>
+            <cc-alert :title="title"
+              :icon="icon"
+              :prominent="prominent"
+              closeable>
               <span v-html-safe="loremIpsum" />
             </cc-alert>
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 400px">
+        <v-col cols="3"
+          style="min-width: 400px">
           <v-card flat>
             <v-card-text>
-              <v-text-field
-                density="compact"
+              <v-text-field density="compact"
                 hide-details
                 clearable
                 v-model="title"
                 label="title" />
-              <v-select v-model="icon" :items="icons" label="icon" hide-details clearable />
-              <v-checkbox density="compact" hide-details v-model="prominent" label="prominent" />
+              <v-select v-model="icon"
+                :items="icons"
+                label="icon"
+                hide-details
+                clearable />
+              <v-checkbox density="compact"
+                hide-details
+                v-model="prominent"
+                label="prominent" />
             </v-card-text>
           </v-card>
         </v-col>

@@ -11,8 +11,8 @@
       :options="editorOptions"
       content-type="html"
       @ready="quill = $event"
-      @blur="set($event)"
-      @update:content="set($event)" />
+      @blur="set()"
+      @update:content="set()" />
   </div>
 </template>
 
@@ -24,15 +24,17 @@ export default {
   name: 'CcRichTextArea',
   props: {
     modelValue: {
-      type: [String, Array],
+      type: String,
       default: '',
     },
     readonly: {
       type: Boolean,
     },
   },
+  emits: ['update:modelValue'],
   data: () => ({
     quill: null as any,
+    emitUpdate: null as any,
   }),
   computed: {
     editorOptions() {
@@ -41,11 +43,15 @@ export default {
   },
   created() {
     this.emitUpdate = debounce(function (this: any) {
+      console.log('aaa')
       this.$emit('update:modelValue', this.quill.root.innerHTML);
     }, 300);
   },
+  beforeUnmount() {
+    this.emitUpdate.flush();
+  },
   methods: {
-    set(e) {
+    set() {
       if (!this.quill) return;
       this.emitUpdate();
     },
