@@ -78,6 +78,7 @@ class Logger {
   }
 
   public log(message: string, t?: string, caller?: any): void {
+    if (t) t = t.toLowerCase()
     if (!t || !severityMap[t]) t = 'info'
     if (severityMap[t] < severityMap[this.level]) return
     const type = t || 'info'

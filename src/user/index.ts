@@ -367,7 +367,8 @@ class UserProfile {
     profile._font = data.font || 'inter'
     profile._achievement_unlocks = data.achievement_unlocks || []
     profile._options = data.options ? data.options : defaultOptions()
-    profile._logLevel = data.logLevel || 'warn'
+    const rawLevel = (data.logLevel || 'warn') as string
+    profile._logLevel = (rawLevel === 'warning' ? 'warn' : rawLevel) as 'debug' | 'info' | 'warn' | 'error'
     logger.level = profile._logLevel as any
     profile._storageWarning = data.storage_warning || 40
     profile._storageMax = data.storage_max || 60

@@ -45,14 +45,10 @@
               <v-divider />
               <div v-if="item.caller">
                 <div class="text-accent font-weight-bold">
-                  {{ item.caller.constructor.name }}
+                  {{ item.caller.constructor?.name ?? '' }}
                 </div>
-                <v-list density="compact">
-                  <v-list-item v-for="(k, idxc) in Object.keys(item.caller)"
-                    :key="`caller-${idxc}`"
-                    :title="k"
-                    :subtitle="safeStringify(item.caller[k])" />
-                </v-list>
+                <pre class="text-caption"
+                  style="white-space: pre-wrap; word-break: break-all">{{ safeStringify(sanitizeCaller(item.caller)) }}</pre>
               </div>
               <div v-else
                 class="text-center text-disabled"><i>no data</i></div>
@@ -81,7 +77,9 @@ export default {
   name: 'Log',
   computed: {
     history() {
-      return logger.History.reverse();
+      const severityMap = { debug: 1, info: 2, warn: 3, error: 4 };
+      const minLevel = severityMap[logger.level] ?? 0;
+      return logger.History.filter(item => (severityMap[item.type] ?? 0) >= minLevel).reverse();
     },
     logger() {
       return logger;
@@ -136,6 +134,15 @@ export default {
     },
     safeStringify(obj) {
       return logger.SafeStringify(obj);
+    },
+    sanitizeCaller(caller: any) {
+      if (!caller || typeof caller !== 'object') return caller;
+      const out: Record<string, any> = {};
+      for (const key of Object.keys(caller)) {
+        if (key.startsWith('$')) continue;
+        out[key] = key.toLowerCase() === 'password' ? '[REDACTED]' : caller[key];
+      }
+      return out;
     },
   },
 };
