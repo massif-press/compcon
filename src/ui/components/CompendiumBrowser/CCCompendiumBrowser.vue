@@ -9,11 +9,11 @@
     </div>
     <v-navigation-drawer v-model="showNav"
       :width="mobile ? 320 : 350">
-      <v-list density="compact"
+      <v-list v-model:opened="open"
+        density="compact"
         style="padding-bottom: 60px"
         tile
-        nav
-        v-model:opened="open">
+        nav>
         <v-alert v-show="!!$slots.header"
           variant="outlined"
           class="mb-3 py-1"
@@ -51,7 +51,7 @@
             :value="lcp"
             color="accent"
             class="pt-0">
-            <template v-slot:activator="{ props }">
+            <template #activator="{ props }">
               <v-list-item v-bind="props"
                 tile>
                 <template #title>
@@ -62,10 +62,10 @@
               </v-list-item>
             </template>
 
-            <b-list-item v-if="options.noSource"
-              v-for="item in itemsByLcp[lcp].filter((i) =>
-                search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
-              )"
+            <b-list-item v-for="item in itemsByLcp[lcp].filter((i) =>
+              search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
+            )"
+              v-if="options.noSource"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -76,16 +76,16 @@
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
               <template #checkbox>
-                <v-checkbox-btn density="compact"
-                  v-model="comparisons"
-                  @click.stop
+                <v-checkbox-btn v-model="comparisons"
+                  density="compact"
                   class="d-inline ml-3"
-                  :value="item" />
+                  :value="item"
+                  @click.stop />
               </template>
             </b-list-item>
 
-            <b-list-group v-else-if="itemType === 'NpcClass'"
-              v-for="role in rolesByLcp[lcp]"
+            <b-list-group v-for="role in rolesByLcp[lcp]"
+              v-else-if="itemType === 'NpcClass'"
               :key="`role-${lcp}-${role}`"
               :parent="lcp"
               :collection="role"
@@ -95,30 +95,30 @@
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-                @equip="handleEquip(item)"
                 :item="<CompendiumItem>item"
+                @equip="handleEquip(item)"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                   ">
                 <template #checkbox>
-                  <v-checkbox-btn density="compact"
-                    v-model="comparisons"
-                    @click.stop
+                  <v-checkbox-btn v-model="comparisons"
+                    density="compact"
                     class="d-inline ml-3"
-                    :value="item" />
+                    :value="item"
+                    @click.stop />
                 </template>
               </b-list-item>
             </b-list-group>
 
-            <b-list-group v-else-if="itemType === 'NpcFeature'"
-              v-for="origin in originsByLcp[lcp]"
-              :key="`origin-${lcp}-${origin}`"
+            <b-list-group v-for="origin in originsByLcp[lcp]"
+              v-else-if="itemType === 'NpcFeature'"
               v-show="search
                 ? (itemsByLcpByOrigin[lcp]?.[origin] ?? []).some((i) =>
                   i.Name.toLowerCase().includes(search.toLowerCase())
                 )
                 : true
                 "
+              :key="`origin-${lcp}-${origin}`"
               :parent="lcp"
               :collection="origin">
               <b-list-item v-for="item in (itemsByLcpByOrigin[lcp]?.[origin] ?? []).filter((i) =>
@@ -128,23 +128,23 @@
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-                @equip="handleEquip(item)"
                 :item="<CompendiumItem>item"
+                @equip="handleEquip(item)"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                   ">
                 <template #checkbox>
-                  <v-checkbox-btn density="compact"
-                    v-model="comparisons"
-                    @click.stop
+                  <v-checkbox-btn v-model="comparisons"
+                    density="compact"
                     class="d-inline ml-3"
-                    :value="item" />
+                    :value="item"
+                    @click.stop />
                 </template>
               </b-list-item>
             </b-list-group>
 
-            <b-list-group v-else
-              v-for="manufacturer in manufacturersByLcp[lcp]"
+            <b-list-group v-for="manufacturer in manufacturersByLcp[lcp]"
+              v-else
               :key="`mf-${lcp}-${manufacturer}`"
               :parent="lcp"
               :collection="manufacturer"
@@ -154,17 +154,17 @@
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-                @equip="handleEquip(item as any)"
                 :item="<CompendiumItem>item"
+                @equip="handleEquip(item as any)"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                   ">
                 <template #checkbox>
-                  <v-checkbox-btn density="compact"
-                    v-model="comparisons"
-                    @click.stop
+                  <v-checkbox-btn v-model="comparisons"
+                    density="compact"
                     class="d-inline ml-3"
-                    :value="item" />
+                    :value="item"
+                    @click.stop />
                 </template>
               </b-list-item>
             </b-list-group>
@@ -177,7 +177,7 @@
             :value="manufacturer"
             color="accent"
             class="pt-0">
-            <template v-slot:activator="{ props }">
+            <template #activator="{ props }">
               <v-list-item tile
                 v-bind="props"
                 slim>
@@ -204,11 +204,11 @@
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
               <template #checkbox>
-                <v-checkbox-btn density="compact"
-                  v-model="comparisons"
-                  @click.stop
+                <v-checkbox-btn v-model="comparisons"
+                  density="compact"
                   class="d-inline ml-3"
-                  :value="item" />
+                  :value="item"
+                  @click.stop />
               </template>
             </b-list-item>
           </v-list-group>
@@ -224,17 +224,17 @@
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="handleEquip(item)"
               :item="<CompendiumItem>item"
+              @equip="handleEquip(item)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
               <template #checkbox>
-                <v-checkbox-btn density="compact"
-                  v-model="comparisons"
-                  @click.stop
+                <v-checkbox-btn v-model="comparisons"
+                  density="compact"
                   class="d-inline ml-3"
-                  :value="item" />
+                  :value="item"
+                  @click.stop />
               </template>
             </b-list-item>
           </b-list-group>
@@ -250,17 +250,17 @@
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="handleEquip(item)"
               :item="<CompendiumItem>item"
+              @equip="handleEquip(item)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
               <template #checkbox>
-                <v-checkbox-btn density="compact"
-                  v-model="comparisons"
-                  @click.stop
+                <v-checkbox-btn v-model="comparisons"
+                  density="compact"
                   class="d-inline ml-3"
-                  :value="item" />
+                  :value="item"
+                  @click.stop />
               </template>
             </b-list-item>
           </b-list-group>
@@ -275,17 +275,17 @@
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="handleEquip(item)"
               :item="<CompendiumItem>item"
+              @equip="handleEquip(item)"
               @clicked="
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
               <template #checkbox>
-                <v-checkbox-btn density="compact"
-                  v-model="comparisons"
-                  @click.stop
+                <v-checkbox-btn v-model="comparisons"
+                  density="compact"
                   class="d-inline ml-3"
-                  :value="item" />
+                  :value="item"
+                  @click.stop />
               </template>
             </b-list-item>
           </b-list-group>
@@ -297,7 +297,7 @@
             :value="license"
             color="accent"
             class="pt-0">
-            <template v-slot:activator="{ props }">
+            <template #activator="{ props }">
               <v-list-item tile
                 v-bind="props">
                 <template #title>
@@ -318,11 +318,11 @@
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
               <template #checkbox>
-                <v-checkbox-btn density="compact"
-                  v-model="comparisons"
-                  @click.stop
+                <v-checkbox-btn v-model="comparisons"
+                  density="compact"
                   class="d-inline ml-3"
-                  :value="item" />
+                  :value="item"
+                  @click.stop />
               </template>
             </b-list-item>
           </v-list-group>
@@ -334,7 +334,7 @@
             :value="subtype"
             color="accent"
             class="pt-0">
-            <template v-slot:activator="{ props }">
+            <template #activator="{ props }">
               <v-list-item tile
                 v-bind="props">
                 <template #title>
@@ -355,11 +355,11 @@
                 selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
               <template #checkbox>
-                <v-checkbox-btn density="compact"
-                  v-model="comparisons"
-                  @click.stop
+                <v-checkbox-btn v-model="comparisons"
+                  density="compact"
                   class="d-inline ml-3"
-                  :value="item" />
+                  :value="item"
+                  @click.stop />
               </template>
             </b-list-item>
           </v-list-group>
@@ -371,17 +371,17 @@
             :selected="!!selectedItem && selectedItem.ID === item.ID"
             :compare="view === 'compare'"
             :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-            @equip="handleEquip(item)"
             :item="<CompendiumItem>item"
+            @equip="handleEquip(item)"
             @clicked="
               selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
             <template #checkbox>
-              <v-checkbox-btn density="compact"
-                v-model="comparisons"
-                @click.stop
+              <v-checkbox-btn v-model="comparisons"
+                density="compact"
                 class="d-inline ml-3"
-                :value="item" />
+                :value="item"
+                @click.stop />
             </template>
           </b-list-item>
         </div>
@@ -405,8 +405,8 @@
           <div v-if="view === 'single'">
             <selector-list-item :hide-title="options.hideTitle"
               :selectable="equippable"
-              @select="$emit('equip', $event)"
-              :item="<CompendiumItem>selectedItem" />
+              :item="<CompendiumItem>selectedItem"
+              @select="$emit('equip', $event)" />
           </div>
 
           <div v-else-if="view === 'scatter'">
@@ -429,7 +429,8 @@
           </div>
 
           <div v-if="view === 'list' && itemType === 'License'">
-            <v-row v-for="m in manufacturers" :key="`mf-list-${m}`">
+            <v-row v-for="m in manufacturers"
+              :key="`mf-list-${m}`">
               <v-col v-if="!!mf(m)"
                 class="text-center pa-3">
                 <v-row align="center"
@@ -454,33 +455,35 @@
             </v-row>
           </div>
 
-          <div v-else-if="view === 'list'"
-            v-for="item in <any[]>items"
-            :key="item.ID"
+          <div v-for="item in <any[]>items"
+            v-else-if="view === 'list'"
             :id="item.ID"
+            :key="item.ID"
             class="mb-4">
             <selector-list-item :hide-title="options.hideTitle"
               :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
               :selectable="equippable"
-              @select="$emit('equip', $event)"
-              :item="item" />
+              :item="item"
+              @select="$emit('equip', $event)" />
           </div>
 
           <div v-else-if="view === 'table'">
             <div v-if="group === 'lcp'">
-              <div v-for="lcp in lcpFilter" :key="`lcp-table-${lcp}`">
+              <div v-for="lcp in lcpFilter"
+                :key="`lcp-table-${lcp}`">
                 <div class="heading mech"
                   v-text="lcp" />
                 <selector-table :headers="tableHeaders"
                   :items="itemsByLcp[lcp]"
                   :selectable="equippable"
-                  @select="$emit('equip', $event)"
-                  :selected="<CompendiumItem>selectedItem" />
+                  :selected="<CompendiumItem>selectedItem"
+                  @select="$emit('equip', $event)" />
               </div>
             </div>
 
             <div v-else-if="group === 'source'">
-              <div v-for="manufacturer in manufacturers" :key="`mf-table-${manufacturer}`">
+              <div v-for="manufacturer in manufacturers"
+                :key="`mf-table-${manufacturer}`">
                 <v-row align="center">
                   <v-col cols="auto">
                     <cc-logo :source="mf(manufacturer)"
@@ -495,78 +498,83 @@
                 <selector-table :headers="tableHeaders"
                   :items="itemsBySourceGroup[manufacturer]"
                   :selectable="equippable"
-                  @select="$emit('equip', $event)"
-                  :selected="<CompendiumItem>selectedItem" />
+                  :selected="<CompendiumItem>selectedItem"
+                  @select="$emit('equip', $event)" />
               </div>
             </div>
 
             <div v-else-if="group === 'license'"
               cols="12">
-              <div v-for="license in licenses" :key="`lic-table-${license}`">
+              <div v-for="license in licenses"
+                :key="`lic-table-${license}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="license" />
 
                 <selector-table :headers="tableHeaders"
                   :items="itemsByLicenseGroup[license]"
                   :selectable="equippable"
-                  @select="$emit('equip', $event)"
-                  :selected="<CompendiumItem>selectedItem" />
+                  :selected="<CompendiumItem>selectedItem"
+                  @select="$emit('equip', $event)" />
               </div>
             </div>
 
             <div v-else-if="group === 'type'"
               cols="12">
-              <div v-for="subtype in subtypes" :key="`subtype-table-${subtype}`">
+              <div v-for="subtype in subtypes"
+                :key="`subtype-table-${subtype}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="subtype" />
 
                 <selector-table :headers="getMultiHeader(subtype)"
                   :items="itemsByType[subtype]"
                   :selectable="equippable"
-                  @select="$emit('equip', $event)"
-                  :selected="<CompendiumItem>selectedItem" />
+                  :selected="<CompendiumItem>selectedItem"
+                  @select="$emit('equip', $event)" />
               </div>
             </div>
 
             <div v-else-if="group === 'role'"
               cols="12">
-              <div v-for="role in roles" :key="`role-table-${role}`">
+              <div v-for="role in roles"
+                :key="`role-table-${role}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="role" />
 
                 <selector-table :headers="tableHeaders"
                   :items="itemsByRoleGroup[role]"
                   :selectable="equippable"
-                  @select="$emit('equip', $event)"
-                  :selected="<CompendiumItem>selectedItem" />
+                  :selected="<CompendiumItem>selectedItem"
+                  @select="$emit('equip', $event)" />
               </div>
             </div>
 
             <div v-else-if="group === 'featureType'"
               cols="12">
-              <div v-for="featureType in featureTypes" :key="`feat-table-${featureType}`">
+              <div v-for="featureType in featureTypes"
+                :key="`feat-table-${featureType}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="featureType" />
 
                 <selector-table :headers="tableHeaders"
                   :items="itemsByFeatureTypeGroup[featureType]"
                   :selectable="equippable"
-                  @select="$emit('equip', $event)"
-                  :selected="<CompendiumItem>selectedItem" />
+                  :selected="<CompendiumItem>selectedItem"
+                  @select="$emit('equip', $event)" />
               </div>
             </div>
 
             <div v-else-if="group === 'origin'"
               cols="12">
-              <div v-for="origin in origins" :key="`origin-table-${origin}`">
+              <div v-for="origin in origins"
+                :key="`origin-table-${origin}`">
                 <div class="heading h2 text-accent mt-4"
                   v-text="origin" />
 
                 <selector-table :headers="tableHeaders"
                   :items="itemsByOriginGroup[origin]"
                   :selectable="equippable"
-                  @select="$emit('equip', $event)"
-                  :selected="<CompendiumItem>selectedItem" />
+                  :selected="<CompendiumItem>selectedItem"
+                  @select="$emit('equip', $event)" />
               </div>
             </div>
 
@@ -575,8 +583,8 @@
               <selector-table :headers="tableHeaders"
                 :items="shownItems"
                 :selectable="equippable"
-                @select="$emit('equip', $event)"
-                :selected="<CompendiumItem>selectedItem" />
+                :selected="<CompendiumItem>selectedItem"
+                @select="$emit('equip', $event)" />
             </div>
           </div>
 
@@ -586,8 +594,8 @@
               :length="Math.ceil(shownItems.length / itemsPerPage)" />
             <v-row>
               <selector-card-item v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
-                :key="item.ID"
                 :id="item.ID"
+                :key="item.ID"
                 :item="item"
                 :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
                 :selectable="equippable"
@@ -689,8 +697,7 @@ const manufacturerSortFn = (a: string, b: string): number => {
 };
 
 export default {
-  mixins: [useMobile],
-  name: 'cc-selector',
+  name: 'CcSelector',
   components: {
     SelectorListItem,
     SelectorCardItem,
@@ -705,7 +712,7 @@ export default {
     bListGroup,
     LicenseExpandable,
   },
-  emits: ['equip', 'select', 'view-change'],
+  mixins: [useMobile],
   props: {
     items: {
       type: Array,
@@ -744,6 +751,7 @@ export default {
       default: 1,
     },
   },
+  emits: ['equip', 'select', 'view-change'],
   data: () => ({
     open: [] as string[],
     view: 'list',
@@ -757,47 +765,6 @@ export default {
     itemsPerPage: 15,
     showNav: true,
   }),
-  watch: {
-    group(val) {
-      this.open = [];
-      UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_group`, val);
-    },
-    comparisons() {
-      const idx = this.comparisons.findIndex((x) => x.ID === this.selectedItem?.ID);
-      if (idx > -1) this.comparisons.splice(idx, 1);
-    },
-    items() {
-      this.lcpFilter = this.lcps;
-    },
-    view(val) {
-      this.$emit('view-change', val);
-      UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_view`, val);
-    },
-    search() {
-      this.open = [
-        ...this.lcps,
-        ...this.manufacturers,
-        ...this.subtypes,
-        ...this.licenses,
-        ...this.allOrigins,
-        ...this.allRoles,
-      ];
-    },
-  },
-  created() {
-    this.lcpFilter = this.lcps;
-
-    const user = UserStore().User;
-    this.view = user.View(
-      `compendium_${this.itemType.toLowerCase()}_view`,
-      this.options.initialView
-    );
-
-    this.group = user.View(
-      `compendium_${this.itemType.toLowerCase()}_group`,
-      this.options.initialGroup
-    );
-  },
   computed: {
     minSliceIndex() {
       return (this.page - 1) * this.itemsPerPage;
@@ -969,6 +936,47 @@ export default {
       if (this.isInModal) return 98;
       return 50;
     },
+  },
+  watch: {
+    group(val) {
+      this.open = [];
+      UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_group`, val);
+    },
+    comparisons() {
+      const idx = this.comparisons.findIndex((x) => x.ID === this.selectedItem?.ID);
+      if (idx > -1) this.comparisons.splice(idx, 1);
+    },
+    items() {
+      this.lcpFilter = this.lcps;
+    },
+    view(val) {
+      this.$emit('view-change', val);
+      UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_view`, val);
+    },
+    search() {
+      this.open = [
+        ...this.lcps,
+        ...this.manufacturers,
+        ...this.subtypes,
+        ...this.licenses,
+        ...this.allOrigins,
+        ...this.allRoles,
+      ];
+    },
+  },
+  created() {
+    this.lcpFilter = this.lcps;
+
+    const user = UserStore().User;
+    this.view = user.View(
+      `compendium_${this.itemType.toLowerCase()}_view`,
+      this.options.initialView
+    );
+
+    this.group = user.View(
+      `compendium_${this.itemType.toLowerCase()}_group`,
+      this.options.initialGroup
+    );
   },
   methods: {
     getItems(manufacturer: string, lcp?: string): CompendiumItem[] | License[] {
