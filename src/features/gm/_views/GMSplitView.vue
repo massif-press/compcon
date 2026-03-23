@@ -65,7 +65,7 @@
           size="x-small"
           class="mt-1"
           @click="$emit('open-organizer')">
-          ORGANIZE NPCS
+          ORGANIZE
         </v-btn>
         <v-divider class="my-1" />
 
@@ -169,9 +169,6 @@ export default {
     ShareCodeDialog,
   },
   mixins: [useMobile],
-  setup() {
-    return { npcStore: NpcStore(), narrativeStore: NarrativeStore() };
-  },
   props: {
     items: { type: Array, required: true },
     itemType: { type: String, required: true },
@@ -181,6 +178,9 @@ export default {
     selected: { type: Object, required: false },
   },
   emits: ['open', 'add-new', 'open-import', 'open-organizer'],
+  setup() {
+    return { npcStore: NpcStore(), narrativeStore: NarrativeStore() };
+  },
   data: () => ({
     search: '',
     view: 'list',

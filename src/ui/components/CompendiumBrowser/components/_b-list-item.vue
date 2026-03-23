@@ -14,19 +14,14 @@
       </span>
     </template>
     <template #append v-if="equippable">
-      <v-tooltip>
-        <template v-slot:activator="{ props }">
-          <cc-button
-            v-bind="props"
-            icon="mdi-plus"
-            size="small"
-            variant="outlined"
-            color="secondary"
-            class="mt-n4"
-            @click.stop="$emit('equip', item)"></cc-button>
-        </template>
-        <span>Select {{ item.Name }}</span>
-      </v-tooltip>
+      <cc-button
+        :title="`Select ${item.Name}`"
+        icon="mdi-plus"
+        size="small"
+        variant="outlined"
+        color="secondary"
+        class="mt-n4"
+        @click.stop="$emit('equip', item)"></cc-button>
     </template>
   </v-list-item>
 </template>

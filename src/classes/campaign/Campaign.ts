@@ -7,7 +7,7 @@ import {
   SaveController,
 } from '../components'
 import { ICampaignSectionData, CampaignSection } from './CampaignSection'
-import { isEqual } from 'lodash-es'
+import { isEqual, cloneDeep } from 'lodash-es'
 import { EncounterDataContainer } from './EncounterDataContainer'
 
 type ICampaignData = {
@@ -372,7 +372,7 @@ class Campaign implements ISaveable, ICloudSyncable {
   }
 
   public Clone(): Campaign {
-    const itemData = Campaign.Serialize(this)
+    const itemData = cloneDeep(Campaign.Serialize(this))
     itemData.id = uuid()
     const newItem = Campaign.Deserialize(itemData)
     newItem.Title += ' (COPY)'

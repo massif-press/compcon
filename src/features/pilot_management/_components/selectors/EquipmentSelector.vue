@@ -57,22 +57,20 @@
       },
       allEquipment() {
         if (!this.pilot.LcpConfig) return CompendiumStore().allEquipment
+        const packIDs = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packID))
+        const packNames = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packName))
         return CompendiumStore().allEquipment.filter(
-          x =>
-            !x.InLcp ||
-            this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-            this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+          (x: any) => !x.InLcp || packIDs.has(x.Brew.LcpId) || packNames.has(x.Brew.LcpName)
         )
       },
       availableItems(): CompendiumItem[] {
         if (this.exotic)
-          return (this.allEquipment.filter(x => x.IsExotic) as CompendiumItem[]).concat(
+          return (this.allEquipment.filter((x: any) => x.IsExotic) as CompendiumItem[]).concat(
             CompendiumStore().PilotGear.filter((x: any) => x.IsExotic) as CompendiumItem[]
           )
 
-        return this.allEquipment.filter(
-          x => !this.pilot.LicenseController.LicensedItems.some(y => y.ID === x.ID)
-        )
+        const licensedIDs = new Set(this.pilot.LicenseController.LicensedItems.map((y: any) => y.ID))
+        return this.allEquipment.filter((x: any) => !licensedIDs.has(x.ID))
       },
     },
   }

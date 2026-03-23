@@ -63,6 +63,7 @@
 <script lang="ts">
 export default {
   name: 'cc-switch',
+  inheritAttrs: false,
   props: {
     modelValue: {
       type: Boolean,

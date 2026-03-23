@@ -8,10 +8,10 @@ enum LEVELS {
 }
 
 const severityMap = {
-  debug: 0,
-  info: 1,
-  warn: 2,
-  error: 3,
+  debug: 1,
+  info: 2,
+  warn: 3,
+  error: 4,
 }
 
 class Logger {

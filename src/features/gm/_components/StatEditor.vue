@@ -1,14 +1,15 @@
 <template>
   <div class="px-2">
-    <v-card flat tile class="pa-1">
-      <v-row dense v-if="item.StatController.DisplayKeys.length">
-        <v-col
-          v-for="kvp in displayKeys.filter((x) => !hiddenKeys.includes(x.key))"
-          :key="kvp.key"
+    <v-card flat
+      tile
+      class="pa-1">
+      <v-row v-if="item.StatController.DisplayKeys.length"
+        dense>
+        <v-col v-for="kvp in displayKeys.filter((x) => !hiddenKeys.includes(x.key))"
           v-show="kvp.key !== 'sizes'"
+          :key="item.ID + '_' + kvp.key"
           :style="`min-width: ${mobile ? 'fit-content' : '12vw'}`">
-          <editable-attribute
-            :readonly="readonly || !editing"
+          <editable-attribute :readonly="readonly || !editing"
             :stat="kvp"
             :selections="item.StatController.StatSelections(kvp.key)"
             :val="item.StatController.MaxStats[kvp.key]"
@@ -18,25 +19,32 @@
             @remove="item.StatController.RemoveStat($event)" />
         </v-col>
       </v-row>
-      <div v-else class="text-center text-disabled text-caption pa-2">
+      <div v-else
+        class="text-center text-disabled text-caption pa-2">
         <i>No stats to display</i>
       </div>
     </v-card>
-    <v-row v-if="!readonly" dense class="mt-2 mb-1">
+    <v-row v-if="!readonly"
+      dense
+      class="mt-2 mb-1">
       <v-col cols="auto">
-        <cc-button
-          :color="editing ? 'success' : 'primary'"
+        <cc-button :color="editing ? 'success' : 'primary'"
           size="small"
           :prepend-icon="editing ? 'mdi-check' : 'mdi-pencil'"
-          @click="editing = !editing">
+          @click="toggleEditing()">
           {{ editing ? 'Done' : 'Edit' }}
         </cc-button>
       </v-col>
 
-      <v-col cols="auto" class="ml-auto">
-        <v-menu v-model="resetMenu" :close-on-content-click="false">
-          <template v-slot:activator="{ props }">
-            <cc-button v-bind="props" size="small" color="error" prepend-icon="mdi-undo-variant">
+      <v-col cols="auto"
+        class="ml-auto">
+        <v-menu v-model="resetMenu"
+          :close-on-content-click="false">
+          <template #activator="{ props }">
+            <cc-button v-bind="props"
+              size="small"
+              color="error"
+              prepend-icon="mdi-undo-variant">
               Reset
             </cc-button>
           </template>
@@ -46,14 +54,13 @@
               {{ controller.Class ? controller.Class.Name : controller.Layer.Name }}
               default values. Are you sure?
             </v-card-text>
-            <cc-button
-              block
+            <cc-button block
               size="small"
               class="px-4 mb-2"
               color="error"
               @click="
                 controller.ResetStats();
-                resetMenu = false;
+              resetMenu = false;
               ">
               Confirm Reset Stats
             </cc-button>
@@ -63,14 +70,23 @@
       <v-spacer />
       <v-col cols="auto">
         <v-menu :close-on-content-click="false">
-          <template v-slot:activator="{ props }">
-            <cc-button v-bind="props" size="small" color="primary" prepend-icon="cc:compendium">
+          <template #activator="{ props }">
+            <cc-button v-bind="props"
+              size="small"
+              color="primary"
+              prepend-icon="cc:compendium">
               Add Stat
             </cc-button>
           </template>
 
-          <v-card width="300px" flat tile border>
-            <v-tabs v-model="menuTab" height="24" bg-color="primary" density="compact">
+          <v-card width="300px"
+            flat
+            tile
+            border>
+            <v-tabs v-model="menuTab"
+              height="24"
+              bg-color="primary"
+              density="compact">
               <v-tab>Core</v-tab>
               <v-tab>Custom</v-tab>
             </v-tabs>
@@ -78,8 +94,7 @@
             <v-card-text>
               <v-window v-model="menuTab">
                 <v-window-item>
-                  <v-select
-                    v-model="statsToAdd"
+                  <v-select v-model="statsToAdd"
                     :items="availableCoreStats"
                     item-value="key"
                     multiple
@@ -87,8 +102,7 @@
                     density="compact"
                     hide-details
                     chips />
-                  <cc-button
-                    block
+                  <cc-button block
                     class="my-2"
                     color="primary"
                     size="small"
@@ -99,14 +113,12 @@
                   </cc-button>
                 </v-window-item>
                 <v-window-item>
-                  <v-text-field
-                    v-model="customTitle"
+                  <v-text-field v-model="customTitle"
                     clearable
                     density="compact"
                     label="Stat Name"
                     hide-details />
-                  <cc-button
-                    block
+                  <cc-button block
                     color="primary"
                     class="my-2"
                     size="small"
@@ -155,9 +167,9 @@ const npcStatOrder = [
 ];
 
 export default {
-  mixins: [useMobile],
-  name: 'stat-editor',
+  name: 'StatEditor',
   components: { EditableAttribute },
+  mixins: [useMobile],
   props: {
     item: { type: Object, required: true },
     controller: { type: Object, required: true },
@@ -212,6 +224,12 @@ export default {
     addCustomStat() {
       this.item.StatController.AddCustomStat(this.customTitle);
       this.customTitle = '';
+    },
+    toggleEditing() {
+      this.editing = !this.editing;
+      if (!this.editing) {
+        this.item.SaveController.save();
+      }
     },
   },
 };

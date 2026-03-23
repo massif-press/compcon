@@ -13,7 +13,7 @@
     <div class="pa-0">
       <p v-if="mod.Effect" class="py-1 px-2" v-html-safe="mod.EffectByTier(tier)" />
       <cc-bonus v-for="bonus in mod.Bonuses" :key="bonus.ID" :bonus="bonus" />
-      <cc-tags v-for="tag in mod.Tags" :key="tag.ID" :tag="tag" />
+      <cc-tags v-if="mod.Tags?.length" :tags="mod.Tags" />
       <cc-deployable v-for="deployable in mod.Deployables" :key="deployable.ID" :deployable="deployable" />
       <cc-action v-for="action in mod.Actions" :key="action.ID" :action="action" panel />
     </div>

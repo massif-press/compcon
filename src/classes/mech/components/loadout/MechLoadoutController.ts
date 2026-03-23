@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash-es'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
 import { Mech } from '../../Mech';
 import { MechLoadout } from './MechLoadout';
@@ -86,7 +87,7 @@ class MechLoadoutController implements IFeatureContainer {
   public CloneLoadout(): void {
     const index = this._loadouts.findIndex((x) => x.ID === this.ActiveLoadout.ID);
     const newLoadout = MechLoadout.Deserialize(
-      MechLoadout.Serialize(this.ActiveLoadout),
+      cloneDeep(MechLoadout.Serialize(this.ActiveLoadout)),
       this.Parent
     );
     newLoadout.RenewID();

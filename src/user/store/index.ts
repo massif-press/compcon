@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { GetTotalStorageSize } from '@/io/Storage'
 import { debounce } from 'lodash-es'
 import * as Client from '../index'
 import {
@@ -286,7 +287,8 @@ export const UserStore = defineStore('cloud', {
       await this.setCognito()
 
       const est = await navigator.storage.estimate()
-      const currentPct = ((est.usage || 0) / (est.quota || 1)) * 100
+      const actualUsage = await GetTotalStorageSize()
+      const currentPct = ((actualUsage || 0) / (est.quota || 1)) * 100
       if (currentPct > this.User.StorageWarning) {
         this.setStorageWarning(true)
       }

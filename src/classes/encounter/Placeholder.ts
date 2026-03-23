@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash-es'
 import { CombatController } from '../components/combat/CombatController'
 import { SaveController } from '../components/save/SaveController'
 import { ItemType } from '@/class'
@@ -96,7 +97,7 @@ class Placeholder {
   }
 
   public Clone(): Placeholder {
-    return Placeholder.Deserialize(this.Serialize())
+    return Placeholder.Deserialize(cloneDeep(this.Serialize()))
   }
 }
 export { Placeholder }

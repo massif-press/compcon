@@ -1,15 +1,15 @@
 <template>
-  <v-dialog v-model="dialog" :fullscreen="mobile" :max-width="mobile ? '100vw' : maxWidth">
-    <v-card
-      tile
+  <v-dialog v-model="dialog"
+    :fullscreen="mobile"
+    :max-width="mobile ? '100vw' : maxWidth">
+    <v-card tile
       flat
       :class="!mobile && 'cc-panel-clip'"
       style="position: relative"
       border="sm"
       :ripple="false"
       @click.stop="closeOnClick ? close() : undefined">
-      <cc-toolbar
-        minor
+      <cc-toolbar minor
         :title="title"
         :icon="icon"
         :color="color"
@@ -18,8 +18,11 @@
         @close="close">
         <slot name="title" />
         <template #toolbar-items>
-          <slot name="toolbar-items" v-bind="{ close }" />
-          <v-btn v-if="!closeOnClick && mobile" icon @click="close">
+          <slot name="toolbar-items"
+            v-bind="{ close }" />
+          <v-btn v-if="!closeOnClick && mobile"
+            icon
+            @click="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
@@ -34,13 +37,10 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { useMobile } from '@/mixins/useMobile';
 export default {
   mixins: [useMobile],
-  data: () => ({
-    dialog: false,
-  }),
   props: {
     modelValue: Boolean,
     title: {
@@ -49,6 +49,7 @@ export default {
     },
     icon: {
       type: String,
+      default: '',
     },
     color: {
       type: String,
@@ -64,6 +65,9 @@ export default {
     },
   },
   emits: ['update:modelValue'],
+  data: () => ({
+    dialog: false,
+  }),
   watch: {
     modelValue: {
       handler(val) {

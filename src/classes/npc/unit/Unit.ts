@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { cloneDeep } from 'lodash-es'
 import { SaveController, CloudController, PortraitController } from '@/classes/components'
 import { BrewController } from '@/classes/components/brew/BrewController'
 import { NarrativeController } from '@/classes/narrative/NarrativeController'
@@ -197,7 +198,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
   }
 
   public Clone<Unit>(): Unit {
-    const itemData = Unit.Serialize(this, false)
+    const itemData = cloneDeep(Unit.Serialize(this, false))
     const newItem = Unit.Deserialize(itemData)
     newItem.RenewID()
     if (newItem._name) newItem._name += ' (COPY)'

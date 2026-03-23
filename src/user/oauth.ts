@@ -20,28 +20,30 @@ const cleanPatreonData = (data: any) => {
 }
 
 const authPatreon = async (code: string) => {
-  const response = await fetch(`${import.meta.env.VITE_APP_INVOKE_URL}/patreon/callback/`, {
+  const response = await fetch(`${import.meta.env.VITE_APP_INVOKE_URL}/patreon-callback`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_APP_API_KEY },
     body: JSON.stringify({
       code,
       redirect_uri: import.meta.env.VITE_APP_OAUTH_CALLBACK_URI,
     }),
   })
 
+  if (!response.ok) throw new Error(`Patreon callback failed: ${response.status}`)
   const data = await response.json()
   return data
 }
 
 const authItch = async (access_token: string) => {
-  const response = await fetch(`${import.meta.env.VITE_APP_INVOKE_URL}/itch/callback/`, {
+  const response = await fetch(`${import.meta.env.VITE_APP_INVOKE_URL}/itch-callback`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_APP_API_KEY },
     body: JSON.stringify({
       access_token,
     }),
   })
 
+  if (!response.ok) throw new Error(`Itch callback failed: ${response.status}`)
   const data = await response.json()
   return data
 }

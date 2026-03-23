@@ -48,6 +48,7 @@ export default {
     id: {
       type: String,
       required: false,
+      default: null,
     },
   },
   setup() {
@@ -82,7 +83,7 @@ export default {
       const baseSortings = ['Name', 'Created', 'Updated', 'Tier', 'Role', 'Tag'];
 
       const statSortings = new Set(
-        this.npcs.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
+        this.npcs.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title)).filter((t) => t !== 'Burn')
       );
 
       return [...baseSortings, ...statSortings, ...allLabelTitles];

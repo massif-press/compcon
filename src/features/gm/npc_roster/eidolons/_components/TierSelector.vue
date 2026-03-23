@@ -1,14 +1,14 @@
 <template>
   <div class="text-overline mt-3">EIDOLON TIER</div>
-  <v-row dense align="center">
+  <v-row dense
+    align="center">
     <v-col cols="auto">
-      <v-btn
-        v-for="i in 3"
+      <v-btn v-for="i in 3"
         :key="`tier-${i}`"
-        @click="updateTier(i)"
         :variant="item.Tier === i ? 'tonal' : 'text'"
         :color="item.Tier === i ? 'accent' : ''"
-        class="mx-1">
+        class="mx-1"
+        @click="updateTier(i)">
         <v-icon start>cc:rank_1</v-icon>
         Tier {{ i }}
       </v-btn>
@@ -18,14 +18,14 @@
 
 <script lang="ts">
 export default {
-  name: 'layer-tier-selector',
+  name: 'LayerTierSelector',
   props: { item: { type: Object, required: true } },
+  emits: ['update'],
   data: () => ({
     showConfirmation: false,
     changed: [] as string[],
     stagedTier: 0,
   }),
-  emits: ['update'],
   methods: {
     confirm() {
       this.showConfirmation = false;

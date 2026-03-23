@@ -1,11 +1,11 @@
 <template>
   <v-card-text>
     <div class="text-right mb-2">
-      <cc-switch v-model="narrativeElements" label="Include Narrative Elements" />
+      <cc-switch v-model="narrativeElements"
+        label="Include Narrative Elements" />
     </div>
 
-    <v-textarea
-      :value="statblock"
+    <v-textarea :value="statblock"
       auto-grow
       readonly
       rows="20"
@@ -13,7 +13,9 @@
       variant="outlined"
       class="flavor-text" />
     <div class="text-right my-4">
-      <cc-button prepend-icon="mdi-clipboard-text-outline" color="accent" @click="copy()">
+      <cc-button prepend-icon="mdi-clipboard-text-outline"
+        color="accent"
+        @click="copy()">
         Copy to Clipboard
       </cc-button>
     </div>
@@ -25,7 +27,7 @@ import { Statblock } from '@/class';
 import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {
-  name: 'statblock-dialog',
+  name: 'StatblockDialog',
   props: {
     item: {
       type: Unit,

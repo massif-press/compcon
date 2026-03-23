@@ -1,5 +1,6 @@
 // container for pilot-as-combatant data
 import { v4 as uuid } from 'uuid'
+import { cloneDeep } from 'lodash-es'
 import { Deployable, ItemType, Mech, Pilot } from '@/class'
 import { CombatantData, Encounter } from '@/classes/encounter/Encounter'
 import {
@@ -90,9 +91,13 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     return new PilotSheet(data)
   }
 
+  public Save() {
+    this.SaveController.save()
+  }
+
   public Archive() {
     this.Archived = true
-    this.SaveController.save()
+    this.Save()
   }
 
   public get Created(): number {
@@ -116,7 +121,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
 
   public SetActiveMech(mech: Mech) {
     this.Pilot.ActiveMech = mech
-    this.SaveController.save()
+    this.Save()
   }
 
   public Deploy(deployable: Deployable, combatant: CombatantData): void {
@@ -130,7 +135,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     this.Pilot.ActiveMech!.CombatController.EndRound(this)
 
     if (this.Autosave) {
-      this.SaveController.save()
+      this.Save()
     }
   }
 
@@ -164,7 +169,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
   }
 
   public Clone(): PilotSheet {
-    return PilotSheet.Deserialize(PilotSheet.Serialize(this))
+    return PilotSheet.Deserialize(cloneDeep(PilotSheet.Serialize(this)))
   }
 
   public static Deserialize(data: any): PilotSheet {

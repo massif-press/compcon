@@ -1,14 +1,25 @@
 <template>
-  <v-card v-if="!itch?.hasItch" size="small" color="itch" tile flat @click="loginWithItch">
+  <v-card v-if="!itch?.hasItch"
+    size="small"
+    color="itch"
+    tile
+    flat
+    @click="loginWithItch">
     <b>itch.io account:</b>
-    <div v-if="loadItch" class="ma-2">
-      <v-progress-linear tile indeterminate color="white" height="12" />
+    <div v-if="loadItch"
+      class="ma-2">
+      <v-progress-linear tile
+        indeterminate
+        color="white"
+        height="12" />
     </div>
-    <div v-else class="text-disabled">Unlinked</div>
+    <div v-else
+      class="text-disabled">Unlinked</div>
     Link itch.io
     <v-tooltip max-width="400px">
       <template #activator="{ props }">
-        <v-icon v-bind="props" size="x-small">mdi-help-circle-outline</v-icon>
+        <v-icon v-bind="props"
+          size="x-small">mdi-help-circle-outline</v-icon>
       </template>
       Linking your itch.io account will allow you to download Massif content from the itch.io store
       with one click.
@@ -18,23 +29,27 @@
     </v-tooltip>
   </v-card>
 
-  <cc-dialog v-if="itch && itch.hasItch" title="Linked Massif Content" max-width="800">
+  <cc-dialog v-if="itch && itch.hasItch"
+    title="Linked Massif Content"
+    max-width="800">
     <template #activator="{ open }">
-      <v-card
-        @click="open"
-        variant="outlined"
+      <v-card variant="outlined"
         tile
         flat
-        style="border-color: rgb(var(--v-theme-itch))">
-        <div class="bg-itch text-caption" style="letter-spacing: 4px !important">
+        style="border-color: rgb(var(--v-theme-itch))"
+        @click="open">
+        <div class="bg-itch text-caption"
+          style="letter-spacing: 4px !important">
           <cc-slashes />
           <b class="px-2">ITCH LINKED</b>
           <cc-slashes />
         </div>
-        <v-card-text class="py-2">
+        <v-card-text v-if="itch.user"
+          class="py-2">
           <v-row>
             <v-col cols="auto">
-              <v-avatar size="40" color="primary">
+              <v-avatar size="40"
+                color="primary">
                 <v-img :src="itch.user.cover_url" />
               </v-avatar>
             </v-col>
@@ -49,11 +64,12 @@
       </v-card>
     </template>
 
-    <v-card :loading="loading" flat>
+    <v-card :loading="loading"
+      flat>
       <v-card-text>
         <div>COMP/CON has linked the following itch.io purchases to your account:</div>
-        <cc-chip
-          v-for="(game, gameIdx) in itch.gamedata" :key="`game-${gameIdx}`"
+        <cc-chip v-for="(game, gameIdx) in itch.gamedata"
+          :key="`game-${gameIdx}`"
           bg-color="primary"
           color="accent"
           variant="elevated"
@@ -63,12 +79,15 @@
         <div class="mt-2">
           Your COMP/CON cloud account is eligible for the following automatic updates:
         </div>
-        <v-card flat border>
+        <v-card flat
+          border>
           <v-card-text>
-            <v-row v-for="(item, itemIdx) in map" :key="`map-${itemIdx}`" dense :class="{ 'text-disabled': !item.enabled }">
+            <v-row v-for="(item, itemIdx) in map"
+              :key="`map-${itemIdx}`"
+              dense
+              :class="{ 'text-disabled': !item.enabled }">
               <v-col cols="auto">
-                <v-icon
-                  :color="item.enabled ? 'success' : ''"
+                <v-icon :color="item.enabled ? 'success' : ''"
                   :icon="item.enabled ? 'mdi-check-bold' : 'mdi-cancel'" />
               </v-col>
               <v-col>{{ item.name }}</v-col>
@@ -82,8 +101,7 @@
           </div>
         </v-card>
 
-        <cc-alert
-          color="accent"
+        <cc-alert color="accent"
           density="compact"
           class="mt-2"
           prominent
@@ -102,12 +120,11 @@
           COMP/CON last polled your itch account on
           {{ new Date(itch.lastUpdate).toLocaleString() }}
           <br />
-          <cc-button
-            color="accent"
+          <cc-button color="accent"
             class="mt-4"
             prepend-icon="mdi-refresh"
-            @click.stop="updateItch"
-            :loading="loading">
+            :loading="loading"
+            @click.stop="updateItch">
             Update
           </cc-button>
         </div>
@@ -122,7 +139,7 @@ import logger from '@/user/logger';
 import { authItch } from '@/user/oauth';
 
 export default {
-  name: 'itch-card',
+  name: 'ItchCard',
   props: {
     active: Boolean,
   },

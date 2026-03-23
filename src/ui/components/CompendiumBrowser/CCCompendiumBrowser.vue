@@ -90,7 +90,7 @@
               :parent="lcp"
               :collection="role"
               :role="role">
-              <b-list-item v-for="item in getRoleItems(role, lcp)"
+              <b-list-item v-for="item in (itemsByLcpByRole[lcp]?.[role] ?? [])"
                 :key="item.ID"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
@@ -114,14 +114,14 @@
               v-for="origin in originsByLcp[lcp]"
               :key="`origin-${lcp}-${origin}`"
               v-show="search
-                ? getOriginItems(origin, lcp).filter((i) =>
+                ? (itemsByLcpByOrigin[lcp]?.[origin] ?? []).some((i) =>
                   i.Name.toLowerCase().includes(search.toLowerCase())
-                ).length > 0
+                )
                 : true
                 "
               :parent="lcp"
               :collection="origin">
-              <b-list-item v-for="item in getOriginItems(origin, lcp).filter((i) =>
+              <b-list-item v-for="item in (itemsByLcpByOrigin[lcp]?.[origin] ?? []).filter((i) =>
                 search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
               )"
                 :key="item.ID"
@@ -149,7 +149,7 @@
               :parent="lcp"
               :collection="manufacturer"
               :manufacturer="mf(manufacturer)">
-              <b-list-item v-for="item in getItems(manufacturer, lcp)"
+              <b-list-item v-for="item in (itemsByLcpBySource[lcp]?.[manufacturer] ?? [])"
                 :key="item.ID"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
@@ -193,7 +193,7 @@
               </v-list-item>
             </template>
 
-            <b-list-item v-for="item in getItems(manufacturer)"
+            <b-list-item v-for="item in itemsBySourceGroup[manufacturer]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -219,7 +219,7 @@
             :key="`role-${role}`"
             :collection="role"
             :role="role">
-            <b-list-item v-for="item in getRoleItems(role)"
+            <b-list-item v-for="item in itemsByRoleGroup[role]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -245,7 +245,7 @@
             :key="`feat-${featureType}`"
             :collection="featureType"
             :feature="featureType">
-            <b-list-item v-for="item in getFeatureItems(featureType)"
+            <b-list-item v-for="item in itemsByFeatureTypeGroup[featureType]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -270,7 +270,7 @@
           <b-list-group v-for="origin in origins"
             :key="`origin-${origin}`"
             :collection="origin">
-            <b-list-item v-for="item in getOriginItems(origin)"
+            <b-list-item v-for="item in itemsByOriginGroup[origin]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -307,7 +307,7 @@
                 </template>
               </v-list-item>
             </template>
-            <b-list-item v-for="item in getLicenseItems(license)"
+            <b-list-item v-for="item in itemsByLicenseGroup[license]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -344,7 +344,7 @@
                 </template>
               </v-list-item>
             </template>
-            <b-list-item v-for="item in getSubtypeItems(subtype)"
+            <b-list-item v-for="item in itemsByType[subtype]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -493,7 +493,7 @@
                 </v-row>
 
                 <selector-table :headers="tableHeaders"
-                  :items="getItems(manufacturer)"
+                  :items="itemsBySourceGroup[manufacturer]"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
                   :selected="<CompendiumItem>selectedItem" />
@@ -507,7 +507,7 @@
                   v-text="license" />
 
                 <selector-table :headers="tableHeaders"
-                  :items="getLicenseItems(license)"
+                  :items="itemsByLicenseGroup[license]"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
                   :selected="<CompendiumItem>selectedItem" />
@@ -521,7 +521,7 @@
                   v-text="subtype" />
 
                 <selector-table :headers="getMultiHeader(subtype)"
-                  :items="getSubtypeItems(subtype)"
+                  :items="itemsByType[subtype]"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
                   :selected="<CompendiumItem>selectedItem" />
@@ -535,7 +535,7 @@
                   v-text="role" />
 
                 <selector-table :headers="tableHeaders"
-                  :items="getRoleItems(role)"
+                  :items="itemsByRoleGroup[role]"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
                   :selected="<CompendiumItem>selectedItem" />
@@ -549,7 +549,7 @@
                   v-text="featureType" />
 
                 <selector-table :headers="tableHeaders"
-                  :items="getFeatureItems(featureType)"
+                  :items="itemsByFeatureTypeGroup[featureType]"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
                   :selected="<CompendiumItem>selectedItem" />
@@ -563,7 +563,7 @@
                   v-text="origin" />
 
                 <selector-table :headers="tableHeaders"
-                  :items="getOriginItems(origin)"
+                  :items="itemsByOriginGroup[origin]"
                   :selectable="equippable"
                   @select="$emit('equip', $event)"
                   :selected="<CompendiumItem>selectedItem" />
@@ -759,14 +759,7 @@ export default {
   }),
   watch: {
     group(val) {
-      this.open = [
-        ...this.lcps,
-        ...this.manufacturers,
-        ...this.subtypes,
-        ...this.licenses,
-        ...this.allOrigins,
-        ...this.allRoles,
-      ];
+      this.open = [];
       UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_group`, val);
     },
     comparisons() {
@@ -775,14 +768,6 @@ export default {
     },
     items() {
       this.lcpFilter = this.lcps;
-      this.open = [
-        ...this.lcps,
-        ...this.manufacturers,
-        ...this.subtypes,
-        ...this.licenses,
-        ...this.allOrigins,
-        ...this.allRoles,
-      ];
     },
     view(val) {
       this.$emit('view-change', val);
@@ -810,7 +795,7 @@ export default {
 
     this.group = user.View(
       `compendium_${this.itemType.toLowerCase()}_group`,
-      this.options.initialView
+      this.options.initialGroup
     );
   },
   computed: {
@@ -822,6 +807,48 @@ export default {
     },
     itemsByLcp() {
       return _.groupBy(this.items as CompendiumItem[], 'LcpName');
+    },
+    itemsByType() {
+      return _.groupBy(this.shownItems, (x: any) => x.Type);
+    },
+    itemsBySourceGroup() {
+      return _.groupBy(this.shownItems, (x: any) => x.Source);
+    },
+    itemsByLicenseGroup() {
+      return _.groupBy(this.shownItems, (x: any) => x.License);
+    },
+    itemsByRoleGroup() {
+      return _.groupBy(this.shownItems, (x: any) => x.Role);
+    },
+    itemsByFeatureTypeGroup() {
+      return _.groupBy(this.shownItems, (x: any) => x.FeatureType);
+    },
+    itemsByOriginGroup() {
+      return _.groupBy(this.shownItems, (x: any) => x.Origin?.Name);
+    },
+    itemsByLcpBySource() {
+      const out = {} as Record<string, Record<string, any[]>>;
+      for (const lcp of this.lcps) {
+        out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.Source);
+      }
+      return out;
+    },
+    itemsByLcpByRole() {
+      const out = {} as Record<string, Record<string, any[]>>;
+      for (const lcp of this.lcps) {
+        out[lcp] = _.groupBy(
+          this.itemsByLcp[lcp].filter((x: any) => x.Role),
+          (x: any) => x.Role
+        );
+      }
+      return out;
+    },
+    itemsByLcpByOrigin() {
+      const out = {} as Record<string, Record<string, any[]>>;
+      for (const lcp of this.lcps) {
+        out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.Origin?.Name);
+      }
+      return out;
     },
     manufacturers() {
       return _.uniq(this.shownItems.map((x: any) => x.Source)).sort((a, b) =>

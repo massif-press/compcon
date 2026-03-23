@@ -61,14 +61,14 @@
           <v-col v-if="reserve.Type !== 'Project'"
             cols="auto"
             class="ml-auto">
-            <cc-switch v-model="reserve.Used"
+            <cc-switch v-model="reserve.ReserveUsed"
               density="compact"
               inset
               hide-details
               color="success"
               active-color="error"
               label="Used"
-              tooltip="Mark this resource as used or unavailable (but not consumed, destroyed or lost)"></cc-switch>
+              tooltip="Mark this resource as used or unavailable (but not consumed, destroyed or lost)" />
           </v-col>
         </v-row>
         <br />
@@ -89,8 +89,8 @@
 <script lang="ts">
 import { useMobile } from '@/mixins/useMobile';
 export default {
-  mixins: [useMobile],
   name: 'CcReserveItem',
+  mixins: [useMobile],
   props: {
     reserve: {
       type: Object,

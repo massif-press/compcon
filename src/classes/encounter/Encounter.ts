@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { cloneDeep } from 'lodash-es'
 import {
   CloudController,
   IPortraitData,
@@ -326,7 +327,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public Clone(): Encounter {
-    return Encounter.Deserialize(Encounter.Serialize(this))
+    return Encounter.Deserialize(cloneDeep(Encounter.Serialize(this)))
   }
 
   public static Deserialize(data: IEncounterData): Encounter {

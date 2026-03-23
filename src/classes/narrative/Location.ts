@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash-es'
 import { CollectionItem, ICollectionItemData } from './CollectionItem'
 import { CloudController, PortraitController, SaveController } from '../components'
 import { NarrativeController } from './NarrativeController'
@@ -102,7 +103,7 @@ class Location extends CollectionItem {
   }
 
   public Clone<Location>(): Location {
-    const itemData = Location.Serialize(this)
+    const itemData = cloneDeep(Location.Serialize(this))
     const newItem = Location.Deserialize(itemData)
     newItem.RenewID()
     newItem.Name += ' (COPY)'

@@ -181,14 +181,25 @@ const GetBlob = async function (collection: string, key: string) {
   return await db.getItem(key)
 }
 
+const GetTotalStorageSize = async function (): Promise<number> {
+  let total = 0
+  for (const store of Object.values(storeRegistry)) {
+    await store.iterate((value: any) => {
+      if (value instanceof Blob) {
+        total += value.size
+      } else if (typeof value === 'string') {
+        total += value.length
+      } else {
+        total += JSON.stringify(value).length
+      }
+    })
+  }
+  return total
+}
+
 const ClearAllData = async function (): Promise<void> {
-  localforage
-    .dropInstance({
-      name: dbName,
-    })
-    .then(function () {
-      logger.info('All data cleared!')
-    })
+  await Promise.all(Object.values(storeRegistry).map(store => store.clear()))
+  logger.info('All data cleared!')
 }
 
 // const convertLocalstorage = async function (): Promise<void> {
@@ -217,4 +228,5 @@ export {
   SetValue,
   GetValue,
   ClearAllData,
+  GetTotalStorageSize,
 }

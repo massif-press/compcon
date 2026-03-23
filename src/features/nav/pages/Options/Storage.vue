@@ -167,7 +167,7 @@
 <script lang="ts">
 import DeletedItems from './components/DeletedItems.vue';
 import UserDataViewer from './components/UserDataViewer.vue';
-import { ClearAllData, GetLength } from '@/io/Storage';
+import { ClearAllData, GetLength, GetTotalStorageSize } from '@/io/Storage';
 import logger from '@/user/logger';
 import { UserStore } from '@/stores';
 
@@ -216,8 +216,9 @@ export default {
     this.deleteDays = this.user.AutoDeleteDays;
 
     const est = await navigator.storage.estimate();
+    const actualUsage = await GetTotalStorageSize();
 
-    this.size = est;
+    this.size = { usage: actualUsage, quota: est.quota };
 
     for (const db of Object.keys(this.data)) {
       const len = await this.GetLength(db);

@@ -244,20 +244,23 @@ export default {
     logLevels: [
       {
         name: 'Debug',
+        key: 'debug',
         level: 1,
         detail: 'Record all log messages (very slow)',
       },
       {
         name: 'Info',
+        key: 'info',
         level: 2,
         detail: 'Record info, warning, and error messages',
       },
       {
         name: 'Warning',
+        key: 'warn',
         level: 3,
         detail: 'Record warning and error messages (recommended)',
       },
-      { name: 'Error', level: 4, detail: 'Record only error messages' },
+      { name: 'Error', key: 'error', level: 4, detail: 'Record only error messages' },
     ],
     fonts: [
       { label: 'Inter (v3 default)', value: 'inter' },
@@ -312,7 +315,7 @@ export default {
   },
   created() {
     this.logLevel =
-      this.logLevels.find(x => x.name.toLowerCase() === this.user.LogLevel) || this.logLevels[2]
+      this.logLevels.find(x => x.key === this.user.LogLevel) || this.logLevels[2]
   },
   methods: {
     reload() {
@@ -324,7 +327,7 @@ export default {
     },
     setLogLevel(item) {
       this.logLevel = item
-      this.user.LogLevel = item.name.toLowerCase()
+      this.user.LogLevel = item.key
     },
     async bulkExport() {
       const result = await exportAll()

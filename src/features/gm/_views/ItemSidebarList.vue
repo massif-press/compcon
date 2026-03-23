@@ -21,7 +21,8 @@
     </v-row>
     <div v-if="!items.length"
       class="text-center text-disabled"><i>No Data</i></div>
-    <gm-item-list-element v-for="item in groupedItems(groupings[key])" :key="(item as any).ID"
+    <gm-item-list-element v-for="item in groupedItems(groupings[key])"
+      :key="(item as any).ID"
       :item="<any>item"
       :grouping="grouping"
       :sorting="sorting"
@@ -37,7 +38,7 @@ import * as _ from 'lodash-es';
 import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {
-  name: 'item-sidebar-list',
+  name: 'ItemSidebarList',
   components: { GmItemListElement },
   props: {
     itemType: { type: String, required: true },
@@ -191,7 +192,7 @@ export default {
   methods: {
     groupedItems(group) {
       if (this.grouping === 'None') return this.sort(this.searchedItems);
-      return group.filter((x: any) => (x as any).Name.includes(this.search));
+      return this.sort(group.filter((x: any) => (x as any).Name.includes(this.search)));
     },
     sort(items) {
       return _.orderBy(items, (x: any) => {
@@ -200,8 +201,12 @@ export default {
 
         if (x[this.sorting]) return x[this.sorting];
 
-        if (x.StatController && x.StatController.getStat(this.sorting))
-          return x.StatController.getStat(this.sorting);
+        if (x.StatController) {
+          const dk = x.StatController.DisplayKeys.find(
+            (k) => k.title === this.sorting || k.key === this.sorting
+          );
+          if (dk) return x.StatController.getStat(dk.key);
+        }
         if (x.NarrativeController && x.NarrativeController.LabelDictionary[this.sorting])
           return x.NarrativeController.LabelDictionary[this.sorting];
         if (x.NpcClassController) {
@@ -209,7 +214,7 @@ export default {
           if (this.sorting === 'Tier') return x.NpcClassController.Tier;
           if (this.sorting === 'Tag') return x.Tag;
         }
-      });
+      }, this.sortDir);
     },
   },
 };

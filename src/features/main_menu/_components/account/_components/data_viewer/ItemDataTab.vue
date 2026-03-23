@@ -728,6 +728,9 @@ export default {
           item.CloudController.Metadata = CloudController.GenerateMetadata(item.CloudController)
           delete item.CloudController.Metadata.ItemModified
         }
+        const store = UserStore()
+        const cidx = store.CloudItems.findIndex(x => x.sortkey === sortkey)
+        if (cidx > -1) store.CloudItems.splice(cidx, 1)
         this.$emit('refresh')
         this.$notify({
           title: `Item Deleted Permanently`,

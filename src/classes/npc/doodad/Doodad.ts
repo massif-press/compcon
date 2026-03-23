@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { cloneDeep } from 'lodash-es'
 import { CloudController, PortraitController, SaveController } from '../../components'
 import { NpcData, Npc } from '../Npc'
 import { BrewController } from '@/classes/components/brew/BrewController'
@@ -120,7 +121,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   }
 
   public Clone<Doodad>(): Doodad {
-    const itemData = Doodad.Serialize(this, false)
+    const itemData = cloneDeep(Doodad.Serialize(this, false))
     const newItem = Doodad.Deserialize(itemData)
     newItem.RenewID()
     newItem.Name += ' (COPY)'

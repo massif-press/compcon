@@ -139,6 +139,7 @@ class Reserve extends CompendiumItem {
 
   public set ResourceName(name: string) {
     this._resource_name = name
+    this.save()
   }
 
   public get ResourceCost(): string {
@@ -147,6 +148,7 @@ class Reserve extends CompendiumItem {
 
   public set ResourceCost(cost: string) {
     this._resource_cost = cost
+    this.save()
   }
 
   public get Description(): string {
@@ -162,6 +164,15 @@ class Reserve extends CompendiumItem {
     this.save()
   }
 
+  public get ReserveUsed(): boolean {
+    return this._used
+  }
+
+  public set ReserveUsed(val: boolean) {
+    this._used = val
+    this.save()
+  }
+
   public static Serialize(reserve: Reserve): IReserveData {
     return {
       id: reserve.ID,
@@ -173,7 +184,7 @@ class Reserve extends CompendiumItem {
       resource_note: reserve.Note,
       resource_cost: reserve.ResourceCost,
       consumable: reserve.Consumable,
-      used: reserve.Used,
+      used: reserve.ReserveUsed,
       bonuses: reserve.Bonuses.map(x => Bonus.Serialize(x)),
       actions: reserve.Actions.map(x => Action.Serialize(x)),
       synergies: reserve.Synergies.map(x => Synergy.Serialize(x)),

@@ -1,4 +1,12 @@
 <template>
+  <cc-alert prominent
+    icon="mdi-alert"
+    title="Development Preview"
+    class="ma-4"
+    color="warning">
+    Campaigns are currently in active development and will not be deployed until v3.1. This preview
+    should be ignored for testing, but feel free to explore the existing functionality.
+  </cc-alert>
   <v-container fluid>
     <div v-if="!mobile"
       class="font-weight-light text-center my-n4"

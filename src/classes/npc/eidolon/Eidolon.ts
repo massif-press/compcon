@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { cloneDeep } from 'lodash-es'
 import { CloudController, SaveController, PortraitController } from '@/classes/components'
 import { BrewController } from '@/classes/components/brew/BrewController'
 import { NarrativeController } from '@/classes/narrative/NarrativeController'
@@ -197,7 +198,7 @@ class Eidolon extends Npc implements IInstanceable {
   }
 
   public Clone<Eidolon>(): Eidolon {
-    const itemData = Eidolon.Serialize(this)
+    const itemData = cloneDeep(Eidolon.Serialize(this))
     const newItem = Eidolon.Deserialize(itemData)
     newItem.RenewID()
     newItem.Name += ' (COPY)'

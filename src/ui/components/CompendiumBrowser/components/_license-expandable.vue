@@ -61,17 +61,20 @@
         :rank="isRanked ? getControllerRank(item) : undefined" />
 
       <v-row dense>
-        <v-col v-if="getControllerRank(item)"
-          cols="12"
-          md="">
-          <cc-button block
-            size="x-small"
-            color="error"
-            prepend-icon="mdi-minus"
-            @click="$emit('remove', item)">
-            Remove {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
-          </cc-button>
-        </v-col>
+        <v-slide-x-transition>
+          <v-col v-if="getControllerRank(item)"
+            cols="12"
+            md="">
+            <cc-button block
+              :size="mobile ? 'x-small' : 'small'"
+              color="error"
+              prepend-icon="mdi-minus"
+              @click="$emit('remove', item)">
+              Remove {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
+            </cc-button>
+          </v-col>
+        </v-slide-x-transition>
+
 
         <v-col v-if="getControllerRank(item) < item.Unlocks.length && selectable"
           cols="12"
@@ -91,6 +94,7 @@
 </template>
 
 <script lang="ts">
+import { LicenseController } from '@/classes/pilot/components';
 import { useMobile } from '@/mixins/useMobile';
 
 
@@ -103,8 +107,9 @@ export default {
       required: true,
     },
     controller: {
-      type: Object,
+      type: LicenseController,
       required: false,
+      default: null,
     },
     selectable: {
       type: Boolean,
@@ -112,6 +117,7 @@ export default {
     selected: {
       type: Object,
       required: false,
+      default: null,
     },
   },
   emits: ['add', 'remove'],

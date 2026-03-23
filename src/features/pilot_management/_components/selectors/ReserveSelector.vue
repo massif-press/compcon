@@ -96,11 +96,10 @@ export default {
   computed: {
     allReserves() {
       if (!this.pilot.LcpConfig) return CompendiumStore().Reserves
+      const packIDs = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packID))
+      const packNames = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packName))
       return CompendiumStore().Reserves.filter(
-        x =>
-          !x.InLcp ||
-          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+        (x: any) => !x.InLcp || packIDs.has(x.Brew.LcpId) || packNames.has(x.Brew.LcpName)
       )
     },
     reserves() {

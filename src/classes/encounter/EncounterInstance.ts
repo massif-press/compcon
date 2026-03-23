@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { cloneDeep } from 'lodash-es'
 import {
   CloudController,
   ICloudData,
@@ -245,7 +246,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   }
 
   public Clone(): EncounterInstance {
-    return EncounterInstance.Deserialize(EncounterInstance.Serialize(this))
+    return EncounterInstance.Deserialize(cloneDeep(EncounterInstance.Serialize(this)))
   }
 
   public static Deserialize(data: IEncounterInstanceData): EncounterInstance {

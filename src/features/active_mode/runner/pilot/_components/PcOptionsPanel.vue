@@ -8,8 +8,8 @@
           class="heading">
           Last Saved:
           <b v-if="sheet.SaveController.LastModified > 0"
-            class="text-accent ml-1"
-            :key="saveUpdate">
+            :key="saveUpdate"
+            class="text-accent ml-1">
             {{
               new Date(sheet.SaveController.LastModified).toLocaleString(undefined, {
                 dateStyle: 'long',
@@ -189,7 +189,7 @@ import { PilotStore } from '@/stores';
 
 
 export default {
-  name: 'pc-options-panel',
+  name: 'PcOptionsPanel',
   props: {
     sheet: {
       type: Object,

@@ -120,6 +120,10 @@ export default {
       const text = `${item.message} (${item.type})\n------\ntrace:\n${trace}\n------\n${item.caller ? 'caller:\n' + JSON.stringify(item.caller, null, 2) : 'no caller'
         }`;
       navigator.clipboard.writeText(text);
+      this.$notify({
+        type: 'success',
+        text: 'Log entry copied to clipboard',
+      });
     },
     exportLog() {
       const data = logger.export();
