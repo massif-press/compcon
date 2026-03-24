@@ -135,12 +135,14 @@ export default {
     groupId: {
       type: String,
       required: false,
+      default: null,
     },
     skipRosterSave: {
       type: Boolean,
       default: false,
     },
   },
+  emits: ['done', 'import-complete'],
   data: () => ({
     // fileValue is just used to clear the file input
     fileValue: null,

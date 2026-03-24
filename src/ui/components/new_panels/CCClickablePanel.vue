@@ -1,8 +1,8 @@
 <template>
-  <div class="top-element" style="position: relative">
+  <div class="top-element"
+    style="position: relative">
     <div :class="`${disabled && 'disabled'} light bg-${titleColor}`" />
-    <v-card
-      class="parent cc-panel-clip"
+    <v-card class="parent cc-panel-clip"
       :color="color"
       flat
       tile
@@ -11,8 +11,7 @@
       style="clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px)"
       @click.stop="$emit('click', $event)">
       <slot name="toolbar" />
-      <v-toolbar
-        v-if="hasTitle"
+      <v-toolbar v-if="hasTitle"
         flat
         density="compact"
         :color="titleColor"
@@ -20,9 +19,14 @@
         style="clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px)">
         <div class="mt-n1 px-2 pt-2 pb-1">
           <div class="text-cc-overline">
-            <v-icon v-if="icon" :icon="icon" start class="mt-n1" />
-            <span v-if="title" v-text="title" />
-            <slot v-else-if="$slots.title" name="title" />
+            <v-icon v-if="icon"
+              :icon="icon"
+              start
+              class="mt-n1" />
+            <span v-if="title"
+              v-text="title" />
+            <slot v-else-if="$slots.title"
+              name="title" />
           </div>
         </div>
         <v-spacer />
@@ -30,13 +34,13 @@
           <slot name="toolbar-items" />
         </v-toolbar-items>
       </v-toolbar>
-      <v-card-text
-        :class="[densityClass, variantClass]"
+      <v-card-text :class="[densityClass, variantClass]"
         :style="height && `height: ${height}`"
         style="opacity: 0.8; overflow-y: scroll">
-        <slot>Default Content</slot>
+        <slot />
       </v-card-text>
-      <div v-if="border" class="clip-fix" />
+      <div v-if="border"
+        class="clip-fix" />
     </v-card>
   </div>
 </template>

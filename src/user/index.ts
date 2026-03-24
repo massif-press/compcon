@@ -329,6 +329,11 @@ class UserProfile {
     this.save()
   }
 
+  public ClearPatreonData(): void {
+    UserStore().UserMetadata.PatreonData = { hasPatreon: false }
+    this.save()
+  }
+
   public Reset() {
     this._theme = 'gms_dark'
     this.localSave('theme', this._theme)
@@ -368,7 +373,11 @@ class UserProfile {
     profile._achievement_unlocks = data.achievement_unlocks || []
     profile._options = data.options ? data.options : defaultOptions()
     const rawLevel = (data.logLevel || 'warn') as string
-    profile._logLevel = (rawLevel === 'warning' ? 'warn' : rawLevel) as 'debug' | 'info' | 'warn' | 'error'
+    profile._logLevel = (rawLevel === 'warning' ? 'warn' : rawLevel) as
+      | 'debug'
+      | 'info'
+      | 'warn'
+      | 'error'
     logger.level = profile._logLevel as any
     profile._storageWarning = data.storage_warning || 40
     profile._storageMax = data.storage_max || 60

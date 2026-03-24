@@ -37,6 +37,7 @@
     </v-fade-transition>
     <v-fade-transition>
       <div v-if="!signingIn">
+        <form @submit.prevent="signIn" @keyup.enter="signIn">
         <v-row class="mt-1">
           <v-col lg="6" cols="12">
             <div class="text-cc-overline pl-3">E-Mail</div>
@@ -44,7 +45,9 @@
               v-model="email"
               icon="mdi-email-outline"
               color="primary"
-              variant="outlined" />
+              variant="outlined"
+              type="email"
+              autocomplete="username" />
           </v-col>
           <v-col lg="6" cols="12">
             <div class="text-cc-overline pl-3">Password</div>
@@ -55,6 +58,7 @@
               variant="outlined"
               :type="show ? 'text' : 'password'"
               :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              autocomplete="current-password"
               @click-append-inner="show = !show" />
           </v-col>
         </v-row>
@@ -63,7 +67,6 @@
             size="large"
             block
             color="secondary"
-            type="submit"
             :loading="loading"
             :disabled="loading || !email || !password"
             @click="signIn">
@@ -79,6 +82,7 @@
             Create Account
           </cc-button>
         </div>
+        </form>
         <v-footer style="position: absolute; bottom: 0; left: 0; right: 0">
           <cc-button
             :size="mobile ? 'small' : 'default'"

@@ -35,7 +35,7 @@
     <v-card-text :class="[densityClass, variantClass]"
       :style="[height && `height: ${height}`]"
       style="overflow-y: scroll">
-      <slot>Default Content</slot>
+      <slot />
     </v-card-text>
     <div v-if="border"
       class="clip-fix" />

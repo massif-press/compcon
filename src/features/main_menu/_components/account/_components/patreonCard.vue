@@ -60,11 +60,19 @@
           </v-row>
         </v-card-text>
       </v-card>
+      <div class="text-right">
+        <v-btn size="x-small"
+          flat
+          tile
+          variant="tonal"
+          @click="unlinkPatreon()">Unlink</v-btn>
+      </div>
     </template>
 
     <v-card-text>
       <v-card flat
-        v-for="t in tiers" :key="t.title"
+        v-for="t in tiers"
+        :key="t.title"
         :disabled="missingTier(t.title)"
         class="mb-6">
         <v-row dense>
@@ -72,7 +80,8 @@
             lg="3"
             class="heading text-accent pr-3">{{ t.title }}</v-col>
           <v-col>
-            <div v-for="(b, bIdx) in t.benefits" :key="`benefit-${bIdx}`">
+            <div v-for="(b, bIdx) in t.benefits"
+              :key="`benefit-${bIdx}`">
               <v-icon :color="missingTier(t.title) ? '' : 'success'"
                 :icon="missingTier(t.title) ? 'mdi-close' : 'mdi-check-bold'" />
               {{ b }}
@@ -226,6 +235,14 @@ export default {
         });
       }
     },
+    async unlinkPatreon() {
+      UserStore().User.ClearPatreonData();
+      this.$notify({
+        title: 'Patreon Unlinked',
+        text: 'Your Patreon account has been unlinked',
+        data: { color: 'success' },
+      });
+    }
   },
 };
 </script>

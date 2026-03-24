@@ -62,6 +62,13 @@
           </v-row>
         </v-card-text>
       </v-card>
+      <div class="text-right">
+        <v-btn size="x-small"
+          flat
+          tile
+          variant="tonal"
+          @click="unlinkItch()">Unlink</v-btn>
+      </div>
     </template>
 
     <v-card :loading="loading"
@@ -222,6 +229,14 @@ export default {
         `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no`
       );
     },
-  },
+    async unlinkItch() {
+      await UserStore().setItchData('', null);
+      this.$notify({
+        title: 'Itch.io Unlinked',
+        text: 'Your itch.io account has been unlinked',
+        data: { color: 'success' },
+      });
+    },
+  }
 };
 </script>

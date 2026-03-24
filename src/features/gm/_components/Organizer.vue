@@ -101,12 +101,12 @@
             subtitle="Set item folder"
             prepend-icon="mdi-folder"
             :disabled="!selected.length"
-            @click="setFolderDialog = true" />
+            @click="($refs.folderDialog as any).open()" />
           <v-list-item title="Set GM Label"
             subtitle="Add, set, or delete a GM Label"
             prepend-icon="mdi-label"
             :disabled="!selected.length"
-            @click="addLabelDialog = true" />
+            @click="($refs.labelDialog as any).open()" />
           <v-list-item :title="selected.length < 2 ? 'Print' : 'Print Multiple'"
             subtitle="Generate item printables"
             prepend-icon="mdi-printer"
@@ -159,104 +159,14 @@
       </v-col>
     </v-row>
   </v-card-text>
-  <v-dialog v-model="setFolderDialog"
-    max-width="500px">
-    <v-card>
-      <v-toolbar density="compact">
-        <v-toolbar-title>Set Folder</v-toolbar-title>
-        <v-spacer />
-        <v-btn icon
-          @click="setFolderDialog = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-card-text>
-        <v-combobox v-model="stagedFolderName"
-          :items="allFolders"
-          label="Folder"
-          outlined
-          dense
-          clearable
-          hide-details />
-      </v-card-text>
-      <v-divider />
-      <v-card-actions>
-        <v-btn variant="text"
-          @click="setFolderDialog = false">Cancel</v-btn>
-        <v-spacer />
-        <v-btn variant="text"
-          @click="setFolder"
-          color="accent">Set</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <folder-dialog ref="folderDialog"
+    :folders="allFolders"
+    @confirm="setFolder($event)" />
 
-  <cc-solo-dialog v-model="addLabelDialog"
-    title="Set GM Label"
-    :close-on-click="false"
-    max-width="500px">
-
-    <v-tabs v-model="labelTab"
-      grow
-      density="compact">
-      <v-tab value="set">Set</v-tab>
-      <v-tab value="delete">Delete</v-tab>
-    </v-tabs>
-    <v-card-text>
-      <v-window v-model="labelTab">
-        <v-window-item value="set">
-          <div class="text-caption">
-            This will add
-            <b>or overwrite</b>
-            the label value for all selected items.
-          </div>
-          <v-row class="mt-2">
-            <v-col>
-              <v-combobox v-model="addKvp.key"
-                :items="allLabels"
-                item-text="title"
-                item-value="key"
-                label="Label"
-                :rules="[(v) => !!v || 'required']" />
-            </v-col>
-            <v-col>
-              <v-text-field v-model="addKvp.value"
-                label="Value" />
-            </v-col>
-          </v-row>
-        </v-window-item>
-        <v-window-item value="delete">
-          <div class="text-caption">
-            This will
-            <b>delete</b>
-            the label value for all selected items.
-          </div>
-          <v-row class="mt-2">
-            <v-col>
-              <v-select v-model="addKvp.key"
-                :items="selectedLabels"
-                item-text="title"
-                item-value="key"
-                label="Label"
-                :rules="[(v) => !!v || 'required']" />
-            </v-col>
-          </v-row>
-        </v-window-item>
-      </v-window>
-    </v-card-text>
-    <v-divider />
-    <v-card-actions>
-      <v-btn variant="text"
-        @click="addLabelDialog = false">Cancel</v-btn>
-      <v-spacer />
-      <v-btn variant="tonal"
-        :color="labelTab === 'set' ? 'accent' : 'error'"
-        :disabled="!addKvp.key"
-        @click="setData('label', labelTab)">
-        {{ labelTab }}
-      </v-btn>
-    </v-card-actions>
-  </cc-solo-dialog>
+  <label-dialog ref="labelDialog"
+    :all-labels="allLabels"
+    :selected-labels="selectedLabels"
+    @confirm="setData('label', $event)" />
 </template>
 
 <script lang="ts">
@@ -267,9 +177,12 @@ import { NpcStore } from '../store/npc_store';
 import exportAsJson from '@/util/jsonExport';
 import { EncounterStore } from '@/stores';
 import { DeleteItemPermanent, GenerateExportCollection } from '@/io/Importer';
+import FolderDialog from './_subcomponents/FolderDialog.vue';
+import LabelDialog from './_subcomponents/LabelDialog.vue';
 
 export default {
   name: 'Organizer',
+  components: { FolderDialog, LabelDialog },
   props: {
     type: {
       type: String,
@@ -279,20 +192,11 @@ export default {
   emits: ['exit'],
   data: () => ({
     selected: [] as any[],
-    addKvp: {
-      key: '',
-      value: '',
-    },
-    statTab: 'set' as 'set' | 'delete',
-    addLabelDialog: false,
-    labelTab: 'set' as 'set' | 'delete',
     printDialog: false,
     deleteDialog: false,
     shownTypes: [] as string[],
     allTypes: [] as string[],
     showDeleted: false,
-    setFolderDialog: false,
-    stagedFolderName: '',
     showDeleteConfirm: false,
   }),
   computed: {
@@ -354,50 +258,38 @@ export default {
         prop === 'stat' ? 'key' : 'title'
       );
     },
-    setData(prop: 'stat' | 'label', op: 'set' | 'delete') {
+    setData(prop: 'stat' | 'label', payload: any) {
+      const op = typeof payload === 'string' ? payload : payload.op;
+      const kvpKey = typeof payload === 'string' ? '' : payload.key;
+      const kvpValue = typeof payload === 'string' ? '' : payload.value;
+
       this.selected.forEach((id) => {
         const item = this.items.find((x: any) => x.ID === id) as any;
         if (item) {
-          if (prop === 'stat') {
-            if (op === 'set') {
-              item.StatController.setMax(this.addKvp.key, this.addKvp.value);
-            }
-            if (op === 'delete') {
-              item.StatController.RemoveStat(this.addKvp.key);
-            }
-          }
           if (prop === 'label') {
+            const key = kvpKey?.title ? kvpKey.title : kvpKey;
+            const val = kvpKey?.value ? kvpKey.value : kvpValue;
             if (op === 'set') {
-              item.NarrativeController.Labels.push({
-                title: this.addKvp.key,
-                value: this.addKvp.value,
-              });
+              item.NarrativeController.Labels.push({ title: key, value: val });
             }
             if (op === 'delete') {
               item.NarrativeController.Labels = item.NarrativeController.Labels.filter(
-                (x: any) => x.title !== this.addKvp.key
+                (x: any) => x.title !== key
               );
             }
           }
         }
       });
-      this.addKvp = {
-        key: '',
-        value: '',
-      };
-      this.addLabelDialog = this.setFolderDialog = false;
       NarrativeStore().SaveItemData();
       NpcStore().SaveNpcData();
     },
-    setFolder() {
+    setFolder(folderName: string) {
       this.selected.forEach((id) => {
         const item = this.items.find((x: any) => x.ID === id) as any;
         if (item) {
-          item.FolderController.Folder = this.stagedFolderName;
+          item.FolderController.Folder = folderName;
         }
       });
-      this.stagedFolderName = '';
-      this.setFolderDialog = false;
       NarrativeStore().SaveItemData();
       NpcStore().SaveNpcData();
     },

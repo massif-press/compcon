@@ -1,19 +1,17 @@
 <template>
-  <gm-split-view
-    :title="itemType + 's'"
+  <gm-split-view :title="itemType + 's'"
     :item-type="itemType"
     :items="items"
     :groupings="groupings"
     :sortings="sortings"
     @add-new="addNew()"
     @open="openItem($event)">
-    <component
+    <component :is="editorComponent"
       v-if="selected"
-      :is="editorComponent"
       :item="selected"
-      @exit="exit()"
       :footer-offset="view !== 'collection'"
-      hide-toolbar />
+      hide-toolbar
+      @exit="exit()" />
     <no-gm-item v-else />
   </gm-split-view>
 </template>
@@ -31,7 +29,7 @@ import GmSplitView from '../../_views/GMSplitView.vue';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
 
 export default {
-  name: 'character-roster',
+  name: 'CharacterRoster',
   components: { GmSplitView, NoGmItem },
   props: {
     itemType: {
@@ -41,6 +39,7 @@ export default {
     id: {
       type: String,
       required: false,
+      default: null,
     },
     view: {
       type: String,
@@ -51,26 +50,20 @@ export default {
   data: () => ({
     selected: null as INarrativeElement | null,
   }),
-  mounted() {
-    if (this.id) {
-      const item = NarrativeStore().getItemByID(this.id);
-      if (item) {
-        this.selected = item;
-      }
-    }
-  },
   computed: {
     allNarrativeItems() {
       return NarrativeStore().CollectionItems.length;
     },
     groupings() {
+      const baseGroupings = ['None', 'Folder'];
+
       const allLabelTitles = new Set(
         NarrativeStore()
           .getAllLabels.filter((x: any) => x.title.length > 0)
           .map((x: any) => x.title)
       );
 
-      return ['None', ...allLabelTitles];
+      return [...baseGroupings, ...allLabelTitles];
     },
     sortings() {
       const allLabelTitles = new Set(
@@ -107,6 +100,14 @@ export default {
           return [];
       }
     },
+  },
+  mounted() {
+    if (this.id) {
+      const item = NarrativeStore().getItemByID(this.id);
+      if (item) {
+        this.selected = item;
+      }
+    }
   },
   methods: {
     exit() {

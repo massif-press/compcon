@@ -206,9 +206,9 @@
             <v-row dense
               class="bg-background pa-1"
               justify="space-around">
-              <v-col cols="auto"
-                v-for="(talent, i) in selected.TalentsController.Talents"
+              <v-col v-for="(talent, i) in selected.TalentsController.Talents"
                 :key="i"
+                cols="auto"
                 class="px-2">
                 <cc-talent :talent="talent.Talent"
                   :rank="talent.Rank"
@@ -384,12 +384,12 @@
   </cc-modal>
 </template>
 
-<script>
+<script lang="ts">
 import MechStatblock from '@/features/pilot_management/PilotSheet/sections/mech/sections/attributes/MechStatblock.vue';
 import { PilotStore } from '@/stores';
 
 export default {
-  name: 'add-from-roster',
+  name: 'AddFromRoster',
   components: {
     MechStatblock,
   },

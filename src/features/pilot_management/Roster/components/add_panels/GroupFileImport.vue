@@ -1,96 +1,129 @@
 <template>
-  <v-file-input v-model="fileValue"
-    accept="text/json"
-    variant="outlined"
-    label="Import from File"
-    prepend-icon="mdi-paperclip"
-    density="compact"
-    hide-details
-    @change="stageImport"
-    @click:clear="reset" />
-  <v-row v-if="stagedPilots.length"
-    justify="end">
-    <v-col cols="auto">
-      <v-checkbox v-model="importPilots"
-        color="accent"
-        :label="`Import Pilots (${stagedPilots.length})`"
-        density="compact"
-        hide-details />
-    </v-col>
-  </v-row>
-  <v-card v-if="stagedPilots.length && missingContent.length">
-    <v-card-text class="text-center">
-      <p class="heading h4 text-accent">
-        One or more imported Pilots require the following content packs that are not currently
-        installed/active, or have mismatching versions:
-      </p>
-      <p class="effect-text text-center"
-        v-html-safe="missingContent" />
-      <p class="text-text">
-        These Pilots cannot be imported until the missing content packs are installed and activated,
-        or the content pack versions are synchronized.
-      </p>
-    </v-card-text>
-    <v-divider />
-    <v-card-actions>
-      <v-spacer />
-      <v-btn text
+  <v-card-text>
+    <v-row align="center"
+      justify="center">
+      <v-col cols="6">
+        <v-file-input v-model="fileValue"
+          accept=".json, text/json"
+          variant="outlined"
+          label="Select Pilot Data File"
+          prepend-icon="mdi-paperclip"
+          density="compact"
+          @change="stageImport"
+          @click:clear="reset" />
+      </v-col>
+    </v-row>
+    <v-container v-if="stagedPilots.length">
+
+      <v-card flat
+        tile
         color="primary"
-        @click="reset">Abort Import</v-btn>
-    </v-card-actions>
-  </v-card>
-  <div class="mt-2">
-    <p v-if="alreadyPresent"
-      class="text-center"
-      v-text="alreadyPresent" />
-    <v-slide-x-reverse-transition>
-      <v-row v-if="stagedData"
-        align="center"
-        justify="center">
+        class="pa-1 heading h2 text-center">{{ stagedData.name }}</v-card>
+
+      <v-card flat
+        tile
+        variant="outlined"
+        color="panel"
+        :disabled="!importPilots"
+        class="pa-2">
+        <v-row v-for="p in stagedPilots"
+          :key="p.id"
+          dense>
+          <v-col cols="auto">
+            <v-avatar size="100"
+              flat
+              tile>
+              <v-img :src="p.img.portrait || p.img.cloud_portrait || '/img/pilot/nodata.png'" />
+            </v-avatar>
+          </v-col>
+          <v-col class="text-text">
+            <div class="heading h3">
+              {{ p.name }}
+              <cc-slashes />
+              {{ p.callsign }}
+            </div>
+            <div class="text-caption">
+              {{ p.background || 'Unknown Background' }}, LL {{ p.level }} <span v-if=p.player_name>
+                ({{ p.player_name
+                }})</span>
+            </div>
+            <cc-panel v-for="m in p.mechs"
+              :key="m.id"
+              density="compact"
+              class="text-caption">
+              <div>
+                {{ m.name }} ({{ m.frameData.source }} {{ m.frameData.name }})
+              </div>
+            </cc-panel>
+          </v-col>
+        </v-row>
+      </v-card>
+
+      <v-row justify="end">
         <v-col cols="auto">
-          <v-btn color="accent"
-            prepend-icon="mdi-plus"
-            :disabled="missingContent.length > 0"
-            @click="importFile()">
-            Import {{ (stagedData as any).name }}
-            <span v-if="stagedPilots.length && importPilots">
-              &nbsp;and {{ stagedPilots.length }} Pilot{{
-                stagedPilots.length > 1 ? 's' : ''
-              }}</span>
-          </v-btn>
+          <cc-checkbox v-model="importPilots"
+            color="accent"
+            :label="`Import Pilots (${stagedPilots.length})`"
+            density="compact"
+            hide-details />
         </v-col>
       </v-row>
-    </v-slide-x-reverse-transition>
-  </div>
+
+      <div class="mt-2">
+        <cc-alert v-if="alreadyPresent"
+          color="warning"
+          icon="mdi-alert"
+          title="Group Already Exists"
+          class="my-2">
+          <p class="text-center"
+            v-text="alreadyPresent" />
+        </cc-alert>
+        <v-slide-x-reverse-transition>
+          <v-row v-if="stagedData"
+            align="center"
+            justify="center">
+            <v-col cols="auto">
+              <cc-button color="accent"
+                block
+                prepend-icon="mdi-plus"
+                @click="importFile()">
+                Import {{ (stagedData as any).name }}
+                <span v-if="stagedPilots.length && importPilots">
+                  &nbsp;and {{ stagedPilots.length }} Pilot{{
+                    stagedPilots.length > 1 ? 's' : ''
+                  }}</span>
+              </cc-button>
+            </v-col>
+          </v-row>
+        </v-slide-x-reverse-transition>
+      </div>
+    </v-container>
+  </v-card-text>
 </template>
 
 <script lang="ts">
 import { Pilot, PilotGroup } from '@/class';
 import { ImportData } from '@/io/Data';
 
-import { CompendiumStore, PilotStore } from '@/stores';
+import { PilotStore } from '@/stores';
 import { PilotData } from '@/interface';
 
-import * as _ from 'lodash-es';
+import { logger } from '@sentry/vue';
 
 export default {
-  name: 'file-import',
+  name: 'FileImport',
+  emits: ['toggle-import', 'done'],
   data: () => ({
     // fileValue is just used to clear the file input
     fileValue: null,
-    oldBrewsWarning: false,
-    missingContent: '',
     stagedData: null as any,
     stagedPilots: [] as PilotData[],
     importPilots: true,
     alreadyPresent: '',
   }),
-  emits: ['toggle-import', 'done'],
   methods: {
     reset() {
       this.fileValue = null;
-      this.oldBrewsWarning = false;
-      this.missingContent = '';
       this.stagedData = null;
       this.stagedPilots = [];
       this.importPilots = true;
@@ -100,44 +133,41 @@ export default {
     async stageImport(file) {
       if (!file) return;
       this.$emit('toggle-import', true);
-      const groupExportData = await ImportData<any>(file.target.files[0]);
-
-      groupExportData.groupData.pilots = [];
-
-      if (this.importPilots && groupExportData.pilotData.length) {
-        groupExportData.pilotData.forEach((pilotData) => {
-          if (!pilotData.brews) pilotData.brews = [];
-
-          const installedPacks = CompendiumStore()
-            .ContentPacks.filter((x) => x.Active)
-            .map((x) => x.ID);
-          let missing = [] as string[];
-          pilotData.brews.forEach((b) => {
-            if (!installedPacks.includes(b.LcpId)) {
-              if (!missing.includes(`${b.LcpName} @ ${b.LcpVersion}`))
-                missing.push(`${b.LcpName} @ ${b.LcpVersion}`);
-            }
-          });
-
-          if (missing.length) this.missingContent = missing.join('<br />');
+      let data;
+      let pilotData;
+      try {
+        let importedData = await ImportData<any>(file.target.files[0]);
+        importedData = JSON.parse(importedData);
+        data = importedData.groupData;
+        pilotData = importedData.pilotData;
+      } catch (error) {
+        this.$notify({
+          title: 'Import Error',
+          text: `Unable to read file: ${error}`,
+          data: { icon: 'mdi-account-multiple', color: 'error' },
         });
+        logger.error('File Import Error', { error, fileName: file.target.files[0].name });
+        this.reset();
+        return;
       }
 
       const exists = PilotStore().PilotGroups.find(
-        (x) => x.Name === groupExportData.groupData.name
+        (x) => x.Name === data.name
       );
 
       if (exists && !exists.SaveController.IsDeleted) {
         this.alreadyPresent =
           'A pilot group with this name already exists in the roster. Importing will create a unique copy of this group.';
         const num = PilotStore().PilotGroups.filter(
-          (x) => x.Name === groupExportData.groupData.name
+          (x) => x.Name === data.name
         ).length;
-        groupExportData.groupData.name += ` (${num})`;
+        data.name += ` (${num})`;
       }
 
-      this.stagedData = groupExportData.groupData;
-      this.stagedPilots = this.importPilots ? groupExportData.pilotData : [];
+      console.log(data)
+
+      this.stagedData = data;
+      this.stagedPilots = pilotData || [];
     },
     importFile() {
       let newID = '';
@@ -161,7 +191,6 @@ export default {
       this.stagedPilots.forEach((stagedPilot) => {
         try {
           const importPilot = Pilot.Deserialize(stagedPilot as PilotData);
-          importPilot.CloudController.reset();
           importPilot.RenewID();
           if (PilotStore().Pilots.some((x) => x.Name === importPilot.Name)) {
             const num = PilotStore().Pilots.filter((x) => x.Name === importPilot.Name).length;

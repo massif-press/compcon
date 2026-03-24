@@ -42,9 +42,11 @@
                 <v-col cols="9">
                   <v-combobox v-model="label.title"
                     :items="availableLabels.map(x => x.title)"
+                    :error="labelExists(label)"
+                    :error-messages="labelExists(label) ? ['Label with this name and value already exists'] : []"
                     density="compact"
                     item-value="title"
-                    hide-details
+                    :hide-details="!labelExists(label)"
                     placeholder="Label"
                     class="mt-2" />
                 </v-col>
@@ -52,9 +54,10 @@
                   <v-combobox v-model="label.value"
                     :items="getLabelValues(label)"
                     density="compact"
+                    :error="labelExists(label)"
                     item-value="value"
                     placeholder="Value"
-                    hide-details
+                    :hide-details="!labelExists(label)"
                     class="mt-2" />
                 </v-col>
                 <v-col cols="auto">
@@ -144,6 +147,7 @@
 </template>
 
 <script lang="ts">
+import { uniqBy } from 'lodash';
 import { NarrativeStore } from '../../store/narrative_store'
 import { NpcStore } from '../../store/npc_store'
 
@@ -169,10 +173,10 @@ export default {
       })
     },
     allLabels() {
-      return [...NarrativeStore().getAllLabels, ...NpcStore().getAllLabels].filter(
+      return uniqBy([...NarrativeStore().getAllLabels, ...NpcStore().getAllLabels].filter(
         x => x.title.length > 0
-      )
-    },
+      ), 'title');
+    }
   },
   watch: {
     dialog(val) {
@@ -201,6 +205,9 @@ export default {
     },
     addLabel() {
       this.item.NarrativeController.Labels.push({ title: '', value: '' })
+    },
+    labelExists(label) {
+      return this.item.NarrativeController.Labels.filter(x => x.title === label.title && x.value === label.value).length > 1
     },
   },
 }

@@ -150,24 +150,14 @@
           <v-expand-transition>
             <v-row v-if="edit"
               class="pa-1">
-              <v-col cols="auto">
-                <cc-button color="primary"
-                  size="small"
-                  prepend-icon="mdi-export"
-                  @click="exportGroup()">
-                  Export Group
-                </cc-button>
-              </v-col>
               <v-spacer />
               <v-col cols="auto">
                 <v-dialog v-model="deleteDialog"
                   width="auto">
                   <template #activator="{ props }">
                     <cc-button color="error"
-                      size="small"
-                      prepend-icon="mdi-delete"
+                      icon="mdi-delete"
                       v-bind="props">
-                      Delete Group
                     </cc-button>
                   </template>
 
@@ -335,6 +325,14 @@
               </v-card>
             </v-menu>
           </v-col>
+          <cc-button color="primary"
+            :size="mobile ? 'x-small' : 'small'"
+            :stacked="!mobile"
+            :block="mobile"
+            prepend-icon="mdi-export"
+            @click="exportGroup()">
+            Export
+          </cc-button>
         </v-row>
       </v-card>
     </v-expand-transition>

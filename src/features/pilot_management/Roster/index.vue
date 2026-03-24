@@ -50,21 +50,56 @@
         <organizer type="pilot" />
       </cc-modal>
       <v-spacer />
-      <cc-modal title="Create Pilot Group"
-        icon="mdi-account-group">
-        <template #activator="{ open }">
-          <cc-button size="small"
-            color="primary"
-            @click="open">
-            <v-icon start
-              icon="mdi-plus" />
+
+      <v-menu offset-y>
+        <template #activator="{ props }">
+          <cc-button color="primary"
+            size="small"
+            prepend-icon="mdi-plus"
+            @click="props.onClick($event)">
             Add Group
           </cc-button>
         </template>
-        <template #default="{ close }">
-          <group-menu @close="close" />
-        </template>
-      </cc-modal>
+        <v-card tile
+          border>
+          <v-card-text>
+            <cc-modal title="Create Pilot Group"
+              icon="mdi-account-group">
+              <template #activator="{ open }">
+                <cc-button color="primary"
+                  size="small"
+                  block
+                  prepend-icon="mdi-plus"
+                  @click="open">
+                  Add New
+                </cc-button>
+              </template>
+              <template #default="{ close }">
+                <group-menu @close="close" />
+              </template>
+            </cc-modal>
+            <br />
+            <cc-modal title="Import"
+              icon="mdi-import"
+              max-width="900">
+              <template #activator="{ open }">
+                <cc-button color="primary"
+                  size="small"
+                  block
+                  prepend-icon="mdi-import"
+                  @click="open">
+                  File Import
+                </cc-button>
+              </template>
+              <template #default="{ close }">
+                <group-file-import @done="close" />
+              </template>
+            </cc-modal>
+
+          </v-card-text>
+        </v-card>
+      </v-menu>
+
     </v-footer>
   </v-container>
 </template>
@@ -76,12 +111,13 @@ import GroupMenu from './components/GroupMenu.vue';
 
 import { UserStore, PilotStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
+import GroupFileImport from './components/add_panels/GroupFileImport.vue';
 
 
 export default {
-  mixins: [useMobile],
   name: 'RosterView',
-  components: { Organizer, GroupPanel, GroupMenu },
+  components: { Organizer, GroupPanel, GroupMenu, GroupFileImport },
+  mixins: [useMobile],
   data: () => ({
     sortParams: null,
     newGroupMenu: false,
