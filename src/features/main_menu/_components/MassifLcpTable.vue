@@ -15,7 +15,7 @@
       {{ item.version || 'Unknown' }}
     </template>
     <!-- v3 -->
-    <template v-slot:item.v3="{ item }">
+    <template #item.v3="{ item }">
       <v-tooltip v-if="item.v3"
         max-width="300px">
         <template #activator="{ props }">
@@ -72,12 +72,12 @@
                 icon="mdi-checkbox-blank-outline" />
             </v-btn>
           </template>
-          <div class="text-center"
-            v-if="hasSubscription(item)">
+          <div v-if="hasSubscription(item)"
+            class="text-center">
             Currently subscribed to latest updates. Click to unsubscribe.
           </div>
-          <div class="text-center"
-            v-else>
+          <div v-else
+            class="text-center">
             Click to allow COMP/CON to update this LCP whenever a new version is published
           </div>
         </v-tooltip>
@@ -102,14 +102,14 @@
             class="fade-select mr-2"
             icon="mdi-cancel" />
         </template>
-        <div class="text-center"
-          v-if="canDownload(item)">Download and install latest version</div>
-        <div class="text-center"
-          v-else-if="!loggedIn">
+        <div v-if="canDownload(item)"
+          class="text-center">Download and install latest version</div>
+        <div v-else-if="!loggedIn"
+          class="text-center">
           Direct download requires a COMP/CON account
         </div>
-        <div class="text-center"
-          v-else>Requires linked itch.io purchase</div>
+        <div v-else
+          class="text-center">Requires linked itch.io purchase</div>
       </v-tooltip>
       <v-tooltip max-width="300px"
         location="top">
@@ -128,7 +128,7 @@
         <div class="text-center">Open Website</div>
       </v-tooltip>
     </template>
-    <template v-slot:expanded-row="{ columns, item }">
+    <template #expanded-row="{ columns, item }">
       <td :colspan="columns.length"
         class="pa-4 w-100 bg-light-panel">
         <v-row>
@@ -220,8 +220,8 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
+  name: 'MassifLcpTable',
   mixins: [useMobile],
-  name: 'massif-lcp-table',
   props: {
     headers: { type: Array, required: false },
     extLoading: { type: Boolean, default: false },
@@ -241,9 +241,6 @@ export default {
     packs: [] as any[],
     loading: true,
   }),
-  async mounted() {
-    await this.refresh();
-  },
   computed: {
     tableHeaders() {
       if (this.headers) return this.headers;
@@ -264,6 +261,9 @@ export default {
     loggedIn() {
       return UserStore().IsLoggedIn;
     },
+  },
+  async mounted() {
+    await this.refresh();
   },
   methods: {
     async refresh() {

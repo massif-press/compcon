@@ -5,7 +5,7 @@
     align="center">
     <v-col cols="12"
       sm="6"
-      lg="3"
+      md="3"
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.Callsign"
         :readonly="pilot.IsRemote"
@@ -13,7 +13,7 @@
     </v-col>
     <v-col cols="12"
       sm="6"
-      lg="3"
+      md="3"
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.Name"
         :readonly="pilot.IsRemote"
@@ -21,7 +21,7 @@
     </v-col>
     <v-col cols="12"
       sm="6"
-      lg="3"
+      md="3"
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.PlayerName"
         :readonly="pilot.IsRemote"
@@ -29,7 +29,7 @@
     </v-col>
     <v-col cols="12"
       sm="6"
-      lg="3"
+      md="3"
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.Background"
         :readonly="pilot.IsRemote"

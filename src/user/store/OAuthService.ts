@@ -9,16 +9,21 @@ export interface OAuthContext {
   setUserMetadata: () => Promise<void>
 }
 
+const PATREON_REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000 // 24 hours
+
 export async function setPatreonData(ctx: OAuthContext, data: any): Promise<void> {
   ctx.UserMetadata.PatreonData.token = data
   const profile = await getPatronProfile(data.access_token)
   ctx.UserMetadata.PatreonData.profile = profile
   ctx.UserMetadata.PatreonData.hasPatreon = true
+  ctx.UserMetadata.PatreonData.lastUpdate = Date.now()
   ctx.setUserMetadata()
 }
 
 export async function refreshPatreonData(ctx: OAuthContext): Promise<string> {
   if (!ctx.UserMetadata.PatreonData.token) return ''
+  const lastUpdate = ctx.UserMetadata.PatreonData.lastUpdate
+  if (lastUpdate && Date.now() - lastUpdate < PATREON_REFRESH_INTERVAL_MS) return 'skipped'
   try {
     await setPatreonData(ctx, ctx.UserMetadata.PatreonData.token)
     return 'success'

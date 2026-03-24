@@ -29,6 +29,7 @@
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
+                    max-width: calc(100vw - 530px);
                   ">
                   {{ pilot.Callsign }}
                 </div>
@@ -267,6 +268,13 @@ export default {
   height: 215px;
   background-color: rgb(var(--v-theme-primary));
   z-index: 2;
+}
+
+.stat-text.mt-n2.mb-n1 {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #triangle {

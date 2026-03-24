@@ -1,70 +1,86 @@
 <template>
-  <v-hover :disabled="mobile" #default="{ isHovering, props }">
-    <div class="d-inline top-element" style="position: relative">
+  <v-hover v-slot="{ isHovering, props }"
+    :disabled="mobile">
+    <div class="d-inline top-element"
+      style="position: relative">
       <v-slide-x-transition>
-        <span
-          v-if="(isHovering || menu || outlined) && !text"
+        <span v-if="(isHovering || menu || outlined) && !text"
           :class="`light bg-${color || 'stark'}`" />
       </v-slide-x-transition>
-      <v-chip
-        tile
+      <v-chip tile
         v-bind="props"
         offset-y
         class="label-clip"
         :color="color"
         :variant="<any>variant"
         @click="menu = !menu">
-        <v-menu v-if="!readonly" v-model="menu" :close-on-content-click="false" location="bottom">
+        <v-menu v-if="!readonly"
+          v-model="menu"
+          :close-on-content-click="false"
+          location="bottom">
           <template #activator="{ props }">
             <v-slide-x-reverse-transition>
-              <span
-                v-if="isHovering || menu"
+              <span v-if="isHovering || menu"
                 v-bind="props"
                 class="cursor-pointer"
                 style="position: relative">
-                <v-icon variant="plain" class="ml-n1">mdi-circle-edit-outline</v-icon>
+                <v-icon variant="plain"
+                  class="ml-n1">mdi-circle-edit-outline</v-icon>
                 <div class="vertical-line"></div>
               </span>
             </v-slide-x-reverse-transition>
           </template>
 
-          <v-card tile min-width="300px" class="mt-n10 ml-6 pa-3" border>
-            <v-text-field
-              :model-value="modelValue"
+          <v-card tile
+            min-width="300px"
+            class="mt-n10 ml-6 pa-3"
+            border>
+            <v-text-field v-model="localValue"
               :placeholder="placeholder"
               variant="outlined"
               tile
               hide-details
               autofocus
-              density="compact"
-              @update:model-value="$emit('update:model-value', $event)" />
-            <p v-if="detail" class="mt-2">{{ detail }}</p>
+              density="compact" />
+            <p v-if="detail"
+              class="mt-2">{{ detail }}</p>
           </v-card>
         </v-menu>
 
-        <div v-if="prependIcon || label">
-          <v-icon
-            v-if="prependIcon"
-            :icon="prependIcon"
-            class="mr-1"
-            :class="[label && 'ml-2 mt-n1']" />
-          <div v-if="label" class="d-inline-block text-cc-overline mx-1" style="line-height: 0">
-            {{ label }}
-            <cc-slashes />
+        <div
+          style="display: flex; flex-direction: column; align-items: flex-start; max-width: 175px;">
+          <div v-if="prependIcon || label">
+            <v-icon v-if="prependIcon"
+              :icon="prependIcon"
+              class="mr-1"
+              :class="[label && 'ml-2']" />
+
+            <div v-if="label"
+              class="text-cc-overline mt-1 text-disabled"
+              style="line-height: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 175px;">
+              {{ label }}
+              <cc-slashes />
+            </div>
+          </div>
+
+          <div
+            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 175px;">
+            <span v-if="modelValue">
+              {{ modelValue }}
+            </span>
+            <i v-else
+              style="opacity: 0.5">NO DATA</i>
+            <v-icon v-if="appendIcon"
+              :icon="appendIcon"
+              class="mr-1" />
           </div>
         </div>
-
-        <span v-if="modelValue">
-          {{ modelValue }}
-        </span>
-        <i v-else class="flavor-text" style="opacity: 0.5">NO DATA</i>
-        <v-icon v-if="appendIcon" :icon="appendIcon" class="mr-1" />
       </v-chip>
 
-      <v-menu v-if="$slots.options" offset-y>
-        <template v-slot:activator="{ props }">
-          <v-btn
-            size="32"
+      <v-menu v-if="$slots.options"
+        offset-y>
+        <template #activator="{ props }">
+          <v-btn size="32"
             :color="color"
             icon
             :variant="<any>variant"
@@ -78,8 +94,7 @@
         <slot name="options" />
       </v-menu>
 
-      <div
-        :class="`bg-${color} ${isHovering && 'color-rotate'}`"
+      <div :class="`bg-${color} ${isHovering && 'color-rotate'}`"
         style="
           display: inline-block;
           width: 3px;
@@ -91,10 +106,11 @@
           transition: all 0.2s ease-in-out;
         " />
 
-      <v-tooltip v-if="tooltip" location="top" max-width="300px">
-        <template v-slot:activator="{ props }">
-          <v-icon
-            v-bind="props"
+      <v-tooltip v-if="tooltip"
+        location="top"
+        max-width="300px">
+        <template #activator="{ props }">
+          <v-icon v-bind="props"
             class="fade-select mx-1"
             :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
         </template>
@@ -108,7 +124,7 @@
 <script lang="ts">
 import { useMobile } from '@/mixins/useMobile';
 export default {
-  name: 'cc-text-label',
+  name: 'CcTextLabel',
   mixins: [useMobile],
   props: {
     modelValue: { type: String },
@@ -127,7 +143,17 @@ export default {
   emits: ['update:model-value'],
   data: () => ({
     menu: false,
+    localValue: '',
   }),
+  watch: {
+    menu(val) {
+      if (val) {
+        this.localValue = this.modelValue || ''
+      } else {
+        this.$emit('update:model-value', this.localValue)
+      }
+    },
+  },
   computed: {
     outlined() {
       return this.variant === 'outlined';

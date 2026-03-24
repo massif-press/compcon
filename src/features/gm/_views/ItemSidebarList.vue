@@ -5,7 +5,9 @@
     slim
     density="compact">
     <v-row dense
-      align="center">
+      align="center"
+      style="cursor: pointer"
+      @click="toggleCollapsed(key)">
       <v-col cols="auto"
         style="width: 2vw"><v-divider /></v-col>
       <v-col cols="auto"
@@ -18,16 +20,23 @@
       <v-col>
         <v-divider />
       </v-col>
+      <v-col cols="auto">
+        <v-icon size="small">{{ collapsed.includes(key) ? 'mdi-chevron-right' : 'mdi-chevron-down' }}</v-icon>
+      </v-col>
     </v-row>
     <div v-if="!items.length"
       class="text-center text-disabled"><i>No Data</i></div>
-    <gm-item-list-element v-for="item in groupedItems(groupings[key])"
-      :key="(item as any).ID"
-      :item="<any>item"
-      :grouping="grouping"
-      :sorting="sorting"
-      :selected-id="selectedId"
-      @open="$emit('open', item)" />
+    <v-expand-transition>
+      <div v-show="!collapsed.includes(key)">
+        <gm-item-list-element v-for="item in groupedItems(groupings[key])"
+          :key="(item as any).ID"
+          :item="<any>item"
+          :grouping="grouping"
+          :sorting="sorting"
+          :selected-id="selectedId"
+          @open="$emit('open', item)" />
+      </div>
+    </v-expand-transition>
   </v-list>
 </template>
 
@@ -55,6 +64,9 @@ export default {
     disabled: { type: Boolean, required: false, default: false },
   },
   emits: ['open', 'add-new'],
+  data: () => ({
+    collapsed: [] as string[],
+  }),
   computed: {
     groupings() {
       if (this.grouping === 'None') return [`All`];
@@ -190,6 +202,11 @@ export default {
     },
   },
   methods: {
+    toggleCollapsed(key: string) {
+      const i = this.collapsed.indexOf(key)
+      if (i === -1) this.collapsed.push(key)
+      else this.collapsed.splice(i, 1)
+    },
     groupedItems(group) {
       if (this.grouping === 'None') return this.sort(this.searchedItems);
       return this.sort(group.filter((x: any) => (x as any).Name.includes(this.search)));

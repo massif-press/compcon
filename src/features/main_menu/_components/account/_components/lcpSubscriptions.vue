@@ -1,19 +1,23 @@
 <template>
-  <v-card flat border tile class="mb-4">
-    <v-toolbar density="compact" color="panel">
+  <v-card flat
+    border
+    tile
+    class="mb-4">
+    <v-toolbar density="compact"
+      color="panel">
       <v-toolbar-title>
-        <cc-heading
-          is-title
+        <cc-heading is-title
           :text="mobile ? 'LCPs' : 'LCP Subscriptions'"
           tooltip="Paid LCP content requires a linked itch.io purchase before they can be automatically
               updated. At this time, only Massif-published LCPs are supported." />
       </v-toolbar-title>
       <v-spacer />
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip max-width="300px"
+        location="top">
         <template #activator="{ props }">
-          <span class="mx-1" v-bind="props">
-            <cc-button
-              icon="mdi-refresh"
+          <span class="mx-1"
+            v-bind="props">
+            <cc-button icon="mdi-refresh"
               :loading="loading"
               class="mx-1"
               variant="tonal"
@@ -27,11 +31,12 @@
           (This does not sync)
         </div>
       </v-tooltip>
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip max-width="300px"
+        location="top">
         <template #activator="{ props }">
-          <span class="mx-1" v-bind="props">
-            <cc-button
-              icon="mdi-download-multiple-outline"
+          <span class="mx-1"
+            v-bind="props">
+            <cc-button icon="mdi-download-multiple-outline"
               :loading="loading"
               class="mx-1"
               variant="tonal"
@@ -55,7 +60,7 @@ import MassifLcpTable from '../../MassifLcpTable.vue';
 import logger from '@/user/logger';
 
 export default {
-  name: 'lcp-subscriptions',
+  name: 'LcpSubscriptions',
   components: { MassifLcpTable },
   data: () => ({
     lcpHeaders: [
@@ -69,9 +74,6 @@ export default {
     packs: [] as any[],
     loading: true,
   }),
-  async mounted() {
-    await this.refresh();
-  },
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
@@ -88,6 +90,9 @@ export default {
     user() {
       return UserStore().User;
     },
+  },
+  async mounted() {
+    await this.refresh();
   },
   methods: {
     async refresh() {

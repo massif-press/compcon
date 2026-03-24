@@ -101,10 +101,12 @@ export default async function (skipSync = false): Promise<void> {
         const remoteLcps = await collectionDataQuery('lcp')
         for (const lcp of remoteLcps) {
           if (!subscribedLcps.includes(lcp.sortkey)) continue
+
           const installedPack = CompendiumStore().ContentPacks.find(
             p => p.Manifest.name === lcp.name || p.Manifest.name === lcp.title
           )
           if (!installedPack || installedPack.Manifest.version < lcp.version) {
+            console.log(installedPack)
             try {
               await UserStore().downloadLcp(lcp)
               UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`)
