@@ -139,10 +139,11 @@ class CloudController {
 
   public static computeContentHash(data: any): string {
     const str = CloudController.stringifySafe(data)
-    const len = str.length
-    const head = str.slice(0, 100)
-    const tail = str.slice(-100)
-    return `${len}:${head}:${tail}`
+    let hash = 5381
+    for (let i = 0; i < str.length; i++) {
+      hash = (((hash << 5) + hash) ^ str.charCodeAt(i)) >>> 0
+    }
+    return `${str.length}:${hash}`
   }
 
   public GenerateSortKey(): string {
@@ -276,19 +277,29 @@ class CloudController {
 
     const failures: any[] = []
 
-    // Process in BATCH_SIZE chunks
+    // Process in BATCH_SIZE chunks — pipeline batchUpsert for chunk N+1
+    // while S3 uploads for chunk N are in-flight.
     const syncTimestamp = Date.now()
+    const userId = UserStore().Cognito.userId
+    let nextBatchPromise: Promise<any> | null = null
+
     for (let i = 0; i < prepared.length; i += BATCH_SIZE) {
       const chunk = prepared.slice(i, i + BATCH_SIZE)
       const batchItems = chunk.map(p => p.meta)
 
       // Deterministic key: same key on retry, unique per chunk
-      const idempotencyKey = generateDeterministicKey(
-        UserStore().Cognito.userId,
-        `batch-${i}`,
-        syncTimestamp
-      )
-      const response = await batchUpsert(batchItems, idempotencyKey)
+      const idempotencyKey = generateDeterministicKey(userId, `batch-${i}`, syncTimestamp)
+
+      // Resolve presigned URLs — either from pre-fetched promise or fresh call
+      const response = await (nextBatchPromise ?? batchUpsert(batchItems, idempotencyKey))
+      nextBatchPromise = null
+
+      // Pre-fetch next chunk's presigned URLs while we upload this chunk
+      const nextOffset = i + BATCH_SIZE
+      if (nextOffset < prepared.length) {
+        const nextKey = generateDeterministicKey(userId, `batch-${nextOffset}`, syncTimestamp)
+        nextBatchPromise = batchUpsert(prepared.slice(nextOffset, nextOffset + BATCH_SIZE).map(p => p.meta), nextKey)
+      }
 
       if (!response.results || !Array.isArray(response.results)) {
         logger.error('BatchUpdateCloud: unexpected batch response', response)
@@ -547,7 +558,7 @@ class CloudController {
         await EncounterStore().AddEncounterArchive(item)
         break
       case 'pilotsheet':
-        await PilotStore().AddPilotSheet(item)
+        await PilotStore().ImportPilotSheet(item)
         break
       case 'campaign':
         await CampaignStore().AddCampaign(item)

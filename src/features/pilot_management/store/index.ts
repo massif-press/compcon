@@ -299,8 +299,9 @@ export const PilotStore = defineStore('pilot', {
       if (idx !== -1) {
         logger.info(`Pilot sheet ${pilotSheet.Name} already exists`, this)
         this.PilotSheets.splice(idx, 1, pilotSheet)
+      } else {
+        this.PilotSheets.push(pilotSheet)
       }
-      this.PilotSheets.push(pilotSheet)
       await SetItem('pilot_sheets', PilotSheet.Serialize(pilotSheet))
       await this.SetActiveSheet(pilotSheet.ID)
     },

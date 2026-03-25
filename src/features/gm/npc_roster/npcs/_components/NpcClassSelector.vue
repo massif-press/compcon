@@ -6,7 +6,7 @@
     </v-container>
   </v-card-text>
   <div v-else
-    style="height: 90vh; overflow-y: hidden">
+    style="overflow-y: hidden">
     <cc-compendium-browser ref="browser"
       :items="classes"
       item-type="NpcClass"

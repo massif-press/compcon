@@ -1,58 +1,77 @@
 <template>
-  <div v-if="item" class="pa-1" style="border: 1px solid rgba(155, 155, 155, 0.1)">
-    <v-row
-      v-if="!hideTitle"
+  <div v-if="item"
+    class="pa-1"
+    style="position: relative; border: 1px solid rgba(155, 155, 155, 0.1)">
+    <v-row v-if="!hideTitle"
       no-gutters
       class="heading h2 bg-surface"
       align="start"
       style="font-size: calc(14px + 1vw)"
       :class="highlighted ? 'text-secondary' : 'text-accent'">
-      <v-col v-if="item.Manufacturer" cols="auto" class="px-2">
-        <v-icon
-          v-if="item.Manufacturer.Icon"
+      <v-col v-if="item.Manufacturer"
+        cols="auto"
+        class="px-2">
+        <v-icon v-if="item.Manufacturer.Icon"
           :icon="item.Manufacturer.Icon"
           :color="item.Manufacturer.Color" />
       </v-col>
       <v-col>
-        <v-icon v-if="item.Icon && !item.Manufacturer" :icon="item.Icon" />
+        <v-icon v-if="item.Icon && !item.Manufacturer"
+          :icon="item.Icon" />
         {{ item.Name }}
       </v-col>
-      <v-col cols="auto" class="ml-auto text-caption px-2">
+      <v-col cols="auto"
+        class="ml-auto text-caption px-2">
         <cc-lcp-info :item="item" />
       </v-col>
     </v-row>
 
-    <cc-bond-info v-if="item.ItemType === 'Bond'" :bond="item" />
+    <cc-bond-info v-if="item.ItemType === 'Bond'"
+      :bond="item" />
 
-    <cc-talent v-else-if="item.ItemType === 'Talent'" :talent="item" hide-change />
+    <cc-talent v-else-if="item.ItemType === 'Talent'"
+      :talent="item"
+      hide-change />
 
-    <cc-panel v-else color="surface">
+    <cc-panel v-else
+      color="surface">
       <div v-if="useCard">
-        <div v-if="item.Detail" v-html-safe="item.Detail" class="body-text" />
-        <div v-else v-html-safe="item.Description" class="body-text" />
+        <div v-if="item.Detail"
+          v-html-safe="item.Detail"
+          class="body-text" />
+        <div v-else
+          v-html-safe="item.Description"
+          class="body-text" />
       </div>
 
-      <div v-else-if="item.ItemType === 'Status'" class="pb-2">
+      <div v-else-if="item.ItemType === 'Status'"
+        class="pb-2">
         <v-row align="center">
-          <v-col v-if="!mobile" cols="auto">
-            <v-icon v-if="item.Icon" size="80" color="accent" :icon="item.Icon" />
+          <v-col v-if="!mobile"
+            cols="auto">
+            <v-icon v-if="item.Icon"
+              size="80"
+              color="accent"
+              :icon="item.Icon" />
           </v-col>
           <v-col>
-            <div class="flavor-text" v-text="item.StatusType" />
+            <div class="flavor-text"
+              v-text="item.StatusType" />
             <v-divider class="my-1" />
             <p v-html-safe="item.Effects" />
           </v-col>
         </v-row>
       </div>
 
-      <cc-item-card v-else :item="item" charts />
+      <cc-item-card v-else
+        :item="item"
+        charts />
     </cc-panel>
 
     <item-card-link :item="item" />
 
     <div v-if="selectable">
-      <cc-button
-        block
+      <cc-button block
         size="small"
         color="success"
         :prepend-icon="item.Icon || undefined"
@@ -65,8 +84,10 @@
       </cc-button>
     </div>
   </div>
-  <div v-else style="height: 100px">
-    <div class="heading h2 light-text-panel text-center" style="margin-top: calc(50vh - 150px)">
+  <div v-else
+    style="height: 100px">
+    <div class="heading h2 light-text-panel text-center"
+      style="margin-top: calc(50vh - 150px)">
       NO SELECTION
     </div>
   </div>

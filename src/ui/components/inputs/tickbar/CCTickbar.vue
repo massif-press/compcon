@@ -225,13 +225,13 @@ export default {
     setTertiaryVal(val: number) {
       if (this.stopAdd && val > Number(this.tertiary)) return
       if (val < 0) val = 0
-      if (val > Math.min(this.max || 100, this.ticks)) val = Math.min(this.max || 100, this.tertiaryTicks || 100)
+      if (val > Math.min(this.max || 100, this.tertiaryTicks || 100)) val = Math.min(this.max || 100, this.tertiaryTicks || 100)
       this.$emit('update:tertiary', val);
     },
     setSecondaryVal(val: number) {
       if (this.stopAdd && val > Number(this.secondary)) return
       if (val < 0) val = 0
-      if (val > Math.min(this.max || 100, this.ticks)) val = Math.min(this.max || 100, this.secondaryTicks || 100)
+      if (val > Math.min(this.max || 100, this.secondaryTicks || 100)) val = Math.min(this.max || 100, this.secondaryTicks || 100)
       this.$emit('update:secondary', val);
     },
   },

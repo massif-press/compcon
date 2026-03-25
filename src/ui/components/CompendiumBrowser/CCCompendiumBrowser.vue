@@ -197,6 +197,7 @@
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
+              class="ml-n10"
               :item="<CompendiumItem>item"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
               @equip="handleEquip(item as any)"
@@ -217,6 +218,7 @@
         <div v-else-if="group === 'role'">
           <b-list-group v-for="role in roles"
             :key="`role-${role}`"
+            no-indent
             :collection="role"
             :role="role">
             <b-list-item v-for="item in itemsByRoleGroup[role]"

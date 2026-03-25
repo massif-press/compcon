@@ -71,7 +71,7 @@ import Layout from './layouts/index.vue';
 import OptionsDialog from './OptionsDialog.vue';
 
 import { NarrativeStore } from '@/stores';
-import PageBreak from './components/PageBreak.vue';
+import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { CollectionItem } from '@/classes/narrative/CollectionItem';
 import { options } from 'marked';
 

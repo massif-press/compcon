@@ -1,19 +1,18 @@
 <template>
   <v-card-text class="flavor-text">
-    <v-card flat tile>
+    <v-card flat
+      tile>
       <fieldset class="pa-2">
         <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
         <v-row v-if="options.layout.title !== 'Cards'">
           <v-col>
-            <print-option-select
-              v-model="options.paper"
+            <print-option-select v-model="options.paper"
               mandatory
               title="Paper"
               :items="paperOptions" />
           </v-col>
           <v-col>
-            <print-option-select
-              v-model="options.orientation"
+            <print-option-select v-model="options.orientation"
               mandatory
               title="Orientation"
               :items="orientationOptions" />
@@ -21,8 +20,7 @@
         </v-row>
         <v-row v-else>
           <v-col>
-            <print-option-select
-              v-model="options.paper"
+            <print-option-select v-model="options.paper"
               mandatory
               title="Paper"
               :items="paperOptions" />
@@ -31,10 +29,15 @@
       </fieldset>
     </v-card>
     <v-scroll-y-transition>
-      <v-card v-if="includeOptions.length > 0" flat tile>
+      <v-card v-if="includeOptions.length > 0"
+        flat
+        tile>
         <fieldset class="pa-2">
           <legend class="clipped-small heading h3">Options&emsp;</legend>
-          <print-option-select v-model="options.include" multiple widen :items="includeOptions" />
+          <print-option-select v-model="options.include"
+            multiple
+            widen
+            :items="includeOptions" />
         </fieldset>
       </v-card>
     </v-scroll-y-transition>
@@ -45,7 +48,7 @@
 import PrintOptionSelect from './PrintOptionSelect.vue';
 
 export default {
-  name: 'print-options-dialog',
+  name: 'PrintOptionsDialog',
   components: { PrintOptionSelect },
   props: {
     options: {
@@ -63,14 +66,6 @@ export default {
       { title: 'A4', icon: 'mdi-file-star-four-points-outline' },
     ],
   }),
-  methods: {
-    show() {
-      (this.$refs.dialog as any).show();
-    },
-    hide() {
-      (this.$refs.dialog as any).hide();
-    },
-  },
   computed: {
     includeOptions() {
       switch (this.options.layout.title) {
@@ -86,6 +81,14 @@ export default {
             { title: 'Append Unlined Section' },
           ];
       }
+    },
+  },
+  methods: {
+    show() {
+      (this.$refs.dialog as any).show();
+    },
+    hide() {
+      (this.$refs.dialog as any).hide();
     },
   },
 };

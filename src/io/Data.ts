@@ -50,6 +50,7 @@ const saveDelta = async function <T>(collection: string, data: T[]): Promise<voi
 const deleteDataById = async function (collection: string, ids: string[]): Promise<void> {
   if (!ids.length) return
   const item = await localForage.getItem(collection)
+  if (!item) return
   const mem = JSON.parse(item as string)
   ids.forEach((e: any) => {
     const idx = mem.findIndex((x: any) => x.id === e)

@@ -40,6 +40,8 @@ import * as OAuthService from './OAuthService'
 import { SyncQueue } from './SyncQueue'
 
 let _pendingMetadataResolvers: Array<() => void> = []
+let _lastUserMetadataFetch = 0
+const USER_METADATA_TTL_MS = 30_000
 
 const _debouncedSetUserMetadata = debounce(
   async (store: any) => {
@@ -208,6 +210,7 @@ export const UserStore = defineStore('cloud', {
     },
     CloudOnlyItems(): any[] {
       const raw = UserStore().CloudItems.filter(x => {
+        if (x.deleted) return false
         const itemId = x.sortkey.split('_')[2]
         return !this.AllLocalItems.some(y => !!y && y.ID === itemId)
       })
@@ -308,8 +311,12 @@ export const UserStore = defineStore('cloud', {
       }
     },
     signOut(): void {
+      if (this.Cognito.userId) {
+        localStorage.removeItem(`cc_last_query_${this.Cognito.userId}`)
+      }
       this.IsLoggedIn = false
       this.Cognito = {}
+      this.LastQuery = 0
     },
     async refreshDbData(): Promise<void> {
       if (!this.IsLoggedIn) {
@@ -317,9 +324,17 @@ export const UserStore = defineStore('cloud', {
         return
       }
       await this.getUserMetadata()
+
+      // Restore persisted LastQuery so page reloads use delta sync instead of full sync
+      if (this.LastQuery === 0 && this.Cognito.userId) {
+        const stored = localStorage.getItem(`cc_last_query_${this.Cognito.userId}`)
+        if (stored) this.LastQuery = parseInt(stored, 10) || 0
+      }
+
       await this.setMetadataFromDynamo()
     },
     async getUserMetadata(): Promise<void> {
+      if (Date.now() - _lastUserMetadataFetch < USER_METADATA_TTL_MS) return
       let data: any
       try {
         data = await getUser(this.Cognito.userId)
@@ -336,6 +351,7 @@ export const UserStore = defineStore('cloud', {
         }
         throw e
       }
+      _lastUserMetadataFetch = Date.now()
       this.UserMetadata = new UserMetadata(data)
       if (this.UserMetadata.UserSettingData) {
         if (
@@ -368,8 +384,12 @@ export const UserStore = defineStore('cloud', {
 
         const data = await getUserData(this.Cognito.userId)
         this.LastQuery = Date.now()
+        if (this.Cognito.userId) {
+          localStorage.setItem(`cc_last_query_${this.Cognito.userId}`, String(this.LastQuery))
+        }
         let totalSizeBytes = 0
         data.forEach(item => {
+          if (item.deleted) return
           const localItem = this.getLocalItem(item.sortkey)
           if (item.size && !isNaN(item.size)) totalSizeBytes += item.size
           if (localItem) {
@@ -383,10 +403,18 @@ export const UserStore = defineStore('cloud', {
         // Delta sync: only fetch items changed since last query
         const result = await getUserDataChanged(this.Cognito.userId, this.LastQuery)
         this.LastQuery = result.serverTime
+        if (this.Cognito.userId) {
+          localStorage.setItem(`cc_last_query_${this.Cognito.userId}`, String(this.LastQuery))
+        }
 
         let totalSizeBytes = this.CloudStorageUsed
         result.items.forEach(item => {
           const localItem = this.getLocalItem(item.sortkey)
+          if (item.deleted) {
+            // evict from CloudItems cache if present
+            this.CloudItems = this.CloudItems.filter(x => x.sortkey !== item.sortkey)
+            return
+          }
           if (localItem) {
             // Update size delta
             const oldSize = localItem.CloudController?.Metadata?.Size || 0
@@ -418,6 +446,7 @@ export const UserStore = defineStore('cloud', {
 
       const downloadPromises: Promise<void>[] = []
       for (const item of data) {
+        if (item.deleted) continue
         const localItem = this.getLocalItem(item.sortkey)
         if (localItem) {
           localItem.CloudController.Metadata = item
@@ -627,7 +656,14 @@ export const UserStore = defineStore('cloud', {
         for (const item of toCloud) {
           const sortKey = item.CloudController?.Metadata?.sortkey
           try {
-            if (sortKey) await queue.enqueue(sortKey)
+            if (sortKey) await queue.enqueue({
+              id: sortKey,
+              itemType: sortKey.split('_')[1] || 'unknown',
+              name: item.Name || item.CloudController?.Metadata?.name || '',
+              direction: 'download',
+              enqueuedAt: Date.now(),
+              retries: 0,
+            })
             await CloudController.SyncToCloud(item)
             if (sortKey) await queue.dequeue(sortKey)
           } catch (e) {
@@ -642,7 +678,14 @@ export const UserStore = defineStore('cloud', {
           // Enqueue all
           for (const item of toLocal) {
             const sortKey = item.CloudController?.Metadata?.sortkey
-            if (sortKey) await queue.enqueue(sortKey)
+            if (sortKey) await queue.enqueue({
+              id: sortKey,
+              itemType: sortKey.split('_')[1] || 'unknown',
+              name: item.Name || item.CloudController?.Metadata?.name || '',
+              direction: 'upload',
+              enqueuedAt: Date.now(),
+              retries: 0,
+            })
           }
 
           try {
@@ -795,6 +838,32 @@ export const UserStore = defineStore('cloud', {
       else out += 'No items to remove\n'
 
       return out
+    },
+    async permDeleteFlaggedItems(): Promise<number> {
+      const flagged = this.CloudItems.filter(x => x.deleted)
+
+      const BULK_SIZE = 25
+      for (let i = 0; i < flagged.length; i += BULK_SIZE) {
+        const batch = flagged.slice(i, i + BULK_SIZE)
+        const sortkeys = batch.map(item => item.sortkey)
+        const uris = batch.filter(item => item.uri).map(item => item.uri)
+        try {
+          const result = await bulkDelete(this.UserMetadata.UserID, sortkeys, uris)
+          if (result.unprocessed > 0) {
+            logger.warn(`permDeleteFlaggedItems: ${result.unprocessed} unprocessed items`)
+          }
+        } catch (e) {
+          logger.error('permDeleteFlaggedItems: bulk delete failed, falling back to individual deletes', e)
+          await Promise.allSettled(
+            batch.map(item => cloudDelete(this.UserMetadata.UserID, item.sortkey, item.uri))
+          )
+        }
+      }
+
+      const deletedSortkeys = new Set(flagged.map(x => x.sortkey))
+      this.CloudItems = this.CloudItems.filter(x => !deletedSortkeys.has(x.sortkey))
+
+      return flagged.length
     },
     async deleteAllCloudData(): Promise<void> {
       const allItems = [...this.CloudItems, ...this.CloudArchives, ...this.CloudImages]

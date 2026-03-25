@@ -47,7 +47,9 @@ export const PostCloudArchive = async (source: 'Automatic' | 'Manual') => {
 }
 
 export const DownloadCloudArchive = async (uri: string) => {
-  return await downloadFromS3(uri)
+  const data = await downloadFromS3(uri)
+  if (!data) throw new Error(`Failed to download archive: ${uri}`)
+  return data
 }
 
 export const SetCloudArchive = async (data: any, overwriteCloud: boolean) => {

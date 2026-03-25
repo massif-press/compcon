@@ -48,7 +48,7 @@
             <v-col>
               <print-option-select
                 v-model="options.card"
-                mandatory
+                multiple
                 title="Card Options"
                 :items="cardOptions" />
             </v-col>
@@ -188,32 +188,29 @@ export default {
       }
     },
     mechIncludeOptions() {
+      const isBlank = this.options.content.title === 'Blank';
       switch (this.options.layout.title) {
         case 'Minimal':
-          return [{ title: 'Extra Mount Panel' }, { title: 'Extra System Space' }];
+          return isBlank ? [{ title: 'Extra Mount Panel' }, { title: 'Extra System Space' }] : [];
         case 'Terse':
           return [
             { title: 'Mech Image' },
             { title: 'Mech Notes' },
-            { title: 'Extra Mount Panel' },
-            { title: 'Extra System Space' },
+            ...(isBlank ? [{ title: 'Extra Mount Panel' }, { title: 'Extra System Space' }] : []),
             { title: 'Append Unlined Section' },
             { title: 'Append Lined Section' },
           ];
         case 'Standard':
           return [
             { title: 'Show Expanded Tags' },
-            { title: 'Extra Mount Panel' },
-            { title: 'Extra System Space' },
+            ...(isBlank ? [{ title: 'Extra Mount Panel' }, { title: 'Extra System Space' }] : []),
             { title: 'Append Unlined Section' },
             { title: 'Append Lined Section' },
           ];
         case 'Expanded':
           return [
-            { title: 'Extra Mount Panel' },
-            { title: 'Extra System Space' },
+            ...(isBlank ? [{ title: 'Extra Mount Panel' }, { title: 'Extra System Space' }] : []),
             { title: 'Append Unlined Section' },
-            { title: 'Print Alternate Loadouts' },
             { title: 'Append Lined Section' },
           ];
         default:

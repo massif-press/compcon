@@ -1,9 +1,9 @@
 <template>
-  <div style="position: fixed; bottom: 2px; right: 8px">
-    <v-tooltip location="top" open-delay="300">
+  <div style="position: absolute; bottom: 5px; right: 11px">
+    <v-tooltip location="top"
+      open-delay="300">
       <template #activator="{ props }">
-        <v-icon
-          v-bind="props"
+        <v-icon v-bind="props"
           size="small"
           class="fade-select"
           color="secondary"

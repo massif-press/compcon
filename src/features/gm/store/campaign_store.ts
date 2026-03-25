@@ -54,11 +54,13 @@ export const CampaignStore = defineStore('campaign', {
       await SetItem('campaigns', Campaign.Serialize(payload))
     },
     async AddCampaign(payload: Campaign): Promise<void> {
-      const sameId = this.Campaigns.find(x => x.ID === payload.ID) as Campaign
-      if (sameId) {
-        await this.DeleteCampaign(sameId)
+      const idx = this.Campaigns.findIndex(x => x.ID === payload.ID)
+      if (idx !== -1) {
+        logger.warn(`Campaign with ID ${payload.ID} already exists, updating instead.`)
+        this.Campaigns.splice(idx, 1, payload)
+      } else {
+        this.Campaigns.push(payload)
       }
-      this.Campaigns.push(payload)
       await this.SaveCampaigns()
     },
     async AddCollectionCampaign(payload: ICampaignData): Promise<void> {

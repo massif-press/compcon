@@ -37,6 +37,7 @@
       </div>
       <div v-else>
         <cc-modal title="select NPC class"
+          fullscreen
           icon="cc:encounter">
           <template #activator="{ open }">
             <cc-button block
@@ -80,7 +81,6 @@ import * as _ from 'lodash-es';
 import {
   NpcClassSelector,
   NpcTemplateSelector,
-  NpcTierSelector,
   NpcTagSelector,
 } from './_components';
 
@@ -104,7 +104,6 @@ export default {
   components: {
     NpcClassSelector,
     NpcTemplateSelector,
-    NpcTierSelector,
     NpcTagSelector,
   },
   props: {

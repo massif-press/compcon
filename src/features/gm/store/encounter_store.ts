@@ -122,15 +122,16 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     async AddEncounterInstance(payload: EncounterInstance): Promise<void> {
-      if (this.ActiveEncounters.some(x => x.ID === payload.ID)) {
+      const idx = this.ActiveEncounters.findIndex(x => x.ID === payload.ID)
+      if (idx !== -1) {
         logger.warn(
           `EncounterInstance with ID ${payload.ID} already exists, updating instead.`,
           this
         )
-        this.SetActiveEncounter(payload.ID)
-        return
+        this.ActiveEncounters.splice(idx, 1, payload)
+      } else {
+        this.ActiveEncounters.push(payload)
       }
-      this.ActiveEncounters.push(payload)
       this.SaveActiveEncounterData()
     },
 
@@ -159,14 +160,16 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     async AddEncounterArchive(payload: EncounterArchive): Promise<void> {
-      if (this.ArchivedEncounters.some(x => x.ID === payload.ID)) {
+      const idx = this.ArchivedEncounters.findIndex(x => x.ID === payload.ID)
+      if (idx !== -1) {
         logger.warn(
           `EncounterArchive with ID ${payload.ID} already exists, updating instead.`,
           this
         )
-        return
+        this.ArchivedEncounters.splice(idx, 1, payload)
+      } else {
+        this.ArchivedEncounters.push(payload)
       }
-      this.ArchivedEncounters.push(payload)
       await SetItem('encounter_archives', payload.Serialize())
     },
 

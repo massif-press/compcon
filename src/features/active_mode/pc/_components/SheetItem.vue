@@ -75,23 +75,23 @@
                   <v-icon v-bind="props"
                     start
                     color="white"
-                    @click.stop
                     icon="mdi-cog"
                     size="small"
-                    class="fade-select" />
+                    class="fade-select"
+                    @click.stop />
                 </template>
                 <div class="bg-panel pa-1">
-                  <v-list-item @click="$emit('archive')"
-                    prepend-icon="mdi-archive">
+                  <v-list-item prepend-icon="mdi-archive"
+                    @click="$emit('archive')">
                     <v-list-item-title>Archive Sheet</v-list-item-title>
                   </v-list-item>
-                  <v-list-item @click="$emit('export')"
-                    prepend-icon="mdi-file-export">
+                  <v-list-item prepend-icon="mdi-file-export"
+                    @click="$emit('export')">
                     <v-list-item-title>Export Sheet</v-list-item-title>
                   </v-list-item>
                   <v-divider class="my-1" />
-                  <v-list-item @click="$emit('delete')"
-                    prepend-icon="mdi-delete">
+                  <v-list-item prepend-icon="mdi-delete"
+                    @click="$emit('delete')">
                     <v-list-item-title>Delete Sheet</v-list-item-title>
                   </v-list-item>
                 </div>
@@ -105,7 +105,7 @@
           <div v-if="pilot.CombatController.Mounted">
             <b class="text-stark">MOUNTED</b> &mdash; <i>{{ mech.Name }} ({{ mech.Frame.Source }} {{
               mech.Frame.Name
-              }})</i>
+            }})</i>
           </div>
           <div v-else>
             <b class="text-stark">UNMOUNTED</b>
@@ -138,16 +138,16 @@
                 justify="space-around"
                 class="pt-1"
                 align="center">
-                <v-col cols="auto"
-                  v-for="stat in pilot.StatController.GetStatCollection([
-                    'hp',
-                    'overshield',
-                    'stress',
-                    'heatcap',
-                    'structure',
-                    'repairCapacity',
-                  ])"
-                  :key="`pilot-stat-${stat.key}`">
+                <v-col v-for="stat in pilot.StatController.GetStatCollection([
+                  'hp',
+                  'overshield',
+                  'stress',
+                  'heatcap',
+                  'structure',
+                  'repairCapacity',
+                ])"
+                  :key="`pilot-stat-${stat.key}`"
+                  cols="auto">
                   <v-tooltip location="top"
                     open-delay="400">
                     <template #activator="{ props }">
@@ -167,14 +167,14 @@
                     </div>
                   </v-tooltip>
                 </v-col>
-                <v-col cols="auto"
-                  v-for="stat in pilot.StatController.GetStatCollection([
-                    'armor',
-                    'evasion',
-                    'edef',
-                    'saveTarget',
-                  ])"
-                  :key="`pilot-def-${stat.key}`">
+                <v-col v-for="stat in pilot.StatController.GetStatCollection([
+                  'armor',
+                  'evasion',
+                  'edef',
+                  'saveTarget',
+                ])"
+                  :key="`pilot-def-${stat.key}`"
+                  cols="auto">
                   <v-tooltip :text="stat.title"
                     location="top"
                     open-delay="400">
@@ -196,16 +196,16 @@
               <v-row dense
                 justify="space-around"
                 align="center">
-                <v-col cols="auto"
-                  v-for="stat in pilot.StatController.GetStatCollection([
-                    'hp',
-                    'overshield',
-                    'stress',
-                    'heatcap',
-                    'structure',
-                    'repairCapacity',
-                  ])"
-                  :key="`mech-stat-${stat.key}`">
+                <v-col v-for="stat in pilot.StatController.GetStatCollection([
+                  'hp',
+                  'overshield',
+                  'stress',
+                  'heatcap',
+                  'structure',
+                  'repairCapacity',
+                ])"
+                  :key="`mech-stat-${stat.key}`"
+                  cols="auto">
                   <v-tooltip location="top"
                     open-delay="400">
                     <template #activator="{ props }">
@@ -225,14 +225,14 @@
                     </div>
                   </v-tooltip>
                 </v-col>
-                <v-col cols="auto"
-                  v-for="stat in mech.StatController.GetStatCollection([
-                    'armor',
-                    'evasion',
-                    'edef',
-                    'saveTarget',
-                  ])"
-                  :key="`mech-def-${stat.key}`">
+                <v-col v-for="stat in mech.StatController.GetStatCollection([
+                  'armor',
+                  'evasion',
+                  'edef',
+                  'saveTarget',
+                ])"
+                  :key="`mech-def-${stat.key}`"
+                  cols="auto">
                   <v-tooltip :text="stat.title"
                     location="top"
                     open-delay="400">
@@ -269,8 +269,8 @@
 <script>
 import { useMobile } from '@/mixins/useMobile';
 export default {
+  name: 'SheetListItem',
   mixins: [useMobile],
-  name: 'sheet-list-item',
   props: {
     sheet: {
       type: Object,

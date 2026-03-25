@@ -190,7 +190,7 @@
         <v-row dense
           :class="blank ? 'mt-n3' : ''">
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 4vw">
+            style="min-width: 11vw">
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">ATTACK BONUS</legend>
               <div v-if="!blank"
@@ -200,7 +200,7 @@
             </fieldset>
           </v-col>
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+            style="min-width: 11vw">
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">TECH ATTACK</legend>
               <div v-if="!blank"
@@ -210,7 +210,7 @@
             </fieldset>
           </v-col>
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+            style="min-width: 11vw">
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">SAVE</legend>
               <div v-if="!blank"
@@ -218,7 +218,7 @@
             </fieldset>
           </v-col>
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+            style="min-width: 11vw">
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">SPEED</legend>
               <div v-if="!blank"
@@ -226,7 +226,7 @@
             </fieldset>
           </v-col>
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+            style="min-width: 12vw">
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">E-DEFENSE</legend>
               <div v-if="!blank"
@@ -234,7 +234,7 @@
             </fieldset>
           </v-col>
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+            style="min-width: 11vw">
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">EVASION</legend>
               <div v-if="!blank"
@@ -242,7 +242,7 @@
             </fieldset>
           </v-col>
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+            style="min-width: 11vw">
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">SENSOR RANGE</legend>
               <div v-if="!blank"
@@ -250,7 +250,7 @@
             </fieldset>
           </v-col>
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+            style="min-width: 11vw">
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">LIMITED BONUS</legend>
               <div v-if="!blank"
@@ -261,7 +261,7 @@
           </v-col>
           <v-col v-if="blank"
             :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+            style="min-width: 11vw">
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">SYSTEM POINTS</legend>
             </fieldset>
@@ -357,7 +357,7 @@
           <v-row style="height: 100%"
             align="center">
             <v-col>
-              <cc-img v-if="!blank"
+              <print-img v-if="!blank"
                 :src="mech.Portrait"
                 cover />
             </v-col>
@@ -393,7 +393,8 @@
               class="text-primary">MOUNT</v-col>
           </v-row>
         </legend>
-        <div v-for="n in 2" :key="`slot-${n}`">
+        <div v-for="n in 2"
+          :key="`slot-${n}`">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">WEAPON</div>
@@ -477,7 +478,8 @@
               </b>
               <span v-if="p.Damage && p.Damage.length"
                 class="pl-2 pr-1"><cc-slashes /></span>
-              <b v-for="(d, di) in p.Damage" :key="`damage-${di}`">
+              <b v-for="(d, di) in p.Damage"
+                :key="`damage-${di}`">
                 <v-icon size="small"
                   class="mt-n1 mr-n2"
                   :icon="d.Icon"
@@ -532,7 +534,8 @@
     <div v-if="blank">
       <fieldset>
         <legend class="heading h4 ml-1 px-2 py-1 text-primary">SYSTEMS</legend>
-        <div v-for="n in hasMechOption('Extra System Space') ? 8 : 6" :key="`sys-${n}`">
+        <div v-for="n in hasMechOption('Extra System Space') ? 8 : 6"
+          :key="`sys-${n}`">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">SYSTEM</div>

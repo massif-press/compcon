@@ -270,7 +270,7 @@
 
       <v-col v-if="hasMechOption('Mech Image')" class="no-print-break">
         <div style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
-          <cc-img v-if="!blank" :src="mech.Portrait" />
+          <print-img v-if="!blank" :src="mech.Portrait" />
           <div v-else style="height: 355px" />
         </div>
       </v-col>

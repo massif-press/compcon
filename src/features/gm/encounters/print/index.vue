@@ -72,7 +72,7 @@ import GmTracker from './extras/GmTracker.vue';
 import OptionsDialog from './OptionsDialog.vue';
 
 import { EncounterStore } from '@/stores';
-import PageBreak from './components/PageBreak.vue';
+import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { Encounter } from '@/classes/encounter/Encounter';
 
 export default {

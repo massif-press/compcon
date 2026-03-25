@@ -79,7 +79,7 @@ import TagInfoPrint from './extras/TagInfoPrint.vue';
 import OptionsDialog from './OptionsDialog.vue';
 
 import { NpcStore } from '@/stores';
-import PageBreak from './components/PageBreak.vue';
+import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { Npc } from '@/classes/npc/Npc';
 import { options } from 'marked';
 

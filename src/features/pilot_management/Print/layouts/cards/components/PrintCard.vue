@@ -4,9 +4,8 @@
       variant="outlined"
       class="pa-2 no-print-break"
       width="2.5in"
-      height="3.5in"
       color="primary"
-      style="position: relative">
+      style="position: relative; min-height: 3.5in; height: auto">
       <div class="text-black">
         <slot />
       </div>

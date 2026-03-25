@@ -1,42 +1,64 @@
 <template>
   <div class="text-black px-2">
-    <v-row dense class="print-section">
+    <v-row dense
+      class="print-section">
       <v-col>
-        <v-row dense align="center" class="mt-2">
+        <v-row dense
+          align="center"
+          class="mt-2">
           <v-col :cols="blank ? '' : 'auto'">
             <div class="text-caption text-primary h0">CALLSIGN</div>
-            <blank-line v-if="blank" :height="32" class="my-2" />
-            <div v-else class="heading h2">
+            <blank-line v-if="blank"
+              :height="32"
+              class="my-2" />
+            <div v-else
+              class="heading h2">
               {{ pilot.Callsign }}
             </div>
           </v-col>
           <v-col cols="auto"><cc-slashes /></v-col>
           <v-col :cols="blank ? '' : 'auto'">
             <div class="text-caption text-primary h0">PILOT</div>
-            <blank-line v-if="blank" :height="32" class="my-2" />
-            <div v-else class="heading h2">
+            <blank-line v-if="blank"
+              :height="32"
+              class="my-2" />
+            <div v-else
+              class="heading h2">
               {{ pilot.Name }}
-              <div v-if="pilot.Background" class="text-cc-overline" style="line-height: 0">
+              <div v-if="pilot.Background"
+                class="text-cc-overline"
+                style="line-height: 0">
                 {{ pilot.Background }}
               </div>
             </div>
           </v-col>
 
-          <v-col cols="auto" class="ml-auto">
+          <v-col cols="auto"
+            class="ml-auto">
             <div class="text-caption text-primary h0">LICENSE LEVEL</div>
-            <blank-line v-if="blank" :height="32" class="my-2" />
-            <div v-else class="heading h2 text-right">
+            <blank-line v-if="blank"
+              :height="32"
+              class="my-2" />
+            <div v-else
+              class="heading h2 text-right">
               {{ pilot.Level }}
             </div>
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="auto" class="text-right ml-4">
+      <v-col cols="auto"
+        class="text-right ml-4">
         <div class="text-caption mr-9 text-primary">GRIT</div>
-        <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-n2 mr-4">
+        <v-icon v-if="blank"
+          size="50"
+          color="primary"
+          style="opacity: 0.5"
+          class="mt-n2 mr-4">
           mdi-hexagon-outline
         </v-icon>
-        <div v-else class="heading mt-n5" style="font-size: 65px; line-height: 60px">
+        <div v-else
+          class="heading mt-n5"
+          style="font-size: 65px; line-height: 60px">
           +{{ pilot.Grit }}
         </div>
       </v-col>
@@ -44,104 +66,171 @@
 
     <v-row class="mt-n3 print-section">
       <v-col>
-        <v-row class="text-center" justify="space-between">
+        <v-row class="text-center"
+          justify="space-between">
           <v-col cols="auto">
             <div class="font-weight-bold caption text-primary mb-n3">PILOT HP</div>
-            <v-row v-if="blank" dense align="center" justify="center" class="mt-2">
+            <v-row v-if="blank"
+              dense
+              align="center"
+              justify="center"
+              class="mt-2">
               <v-col cols="auto">
-                <blank-line :width="80" :height="35" class="d-inline-block" />
+                <blank-line :width="80"
+                  :height="35"
+                  class="d-inline-block" />
               </v-col>
-              <v-col cols="auto" class="px-1">
-                <span class="heading h3 text-grey" style="line-height: 0">/</span>
+              <v-col cols="auto"
+                class="px-1">
+                <span class="heading h3 text-grey"
+                  style="line-height: 0">/</span>
               </v-col>
               <v-col cols="auto">
-                <blank-line :width="80" :height="35" class="d-inline-block" />
+                <blank-line :width="80"
+                  :height="35"
+                  class="d-inline-block" />
               </v-col>
             </v-row>
-            <div v-else class="mt-3">
-              <blank-line :height="26" :width="50" class="d-inline-block ml-5" />
-              <b v-if="!blank" class="flavor-text text-black" v-text="`/${pilot.MaxHP}`" />
+            <div v-else
+              class="mt-3">
+              <blank-line :height="26"
+                :width="50"
+                class="d-inline-block ml-5" />
+              <b v-if="!blank"
+                class="flavor-text text-black"
+                v-text="`/${pilot.MaxHP}`" />
             </div>
           </v-col>
           <v-col cols="auto">
             <div class="font-weight-bold caption text-primary mb-n3">ARMOR</div>
-            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2">
+            <v-icon v-if="blank"
+              size="45"
+              color="primary"
+              style="opacity: 0.5"
+              class="mt-2">
               mdi-hexagon-outline
             </v-icon>
-            <div v-else class="heading p-stat" v-text="pilot.Armor" />
+            <div v-else
+              class="heading p-stat"
+              v-text="pilot.Armor" />
           </v-col>
           <v-col cols="auto">
             <div class="font-weight-bold caption text-primary mb-n3">E-DEFENSE</div>
-            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2">
+            <v-icon v-if="blank"
+              size="45"
+              color="primary"
+              style="opacity: 0.5"
+              class="mt-2">
               mdi-hexagon-outline
             </v-icon>
-            <div v-else class="heading p-stat" v-text="pilot.EDefense" />
+            <div v-else
+              class="heading p-stat"
+              v-text="pilot.EDefense" />
           </v-col>
           <v-col cols="auto">
             <div class="font-weight-bold caption text-primary mb-n3">EVASION</div>
-            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2">
+            <v-icon v-if="blank"
+              size="45"
+              color="primary"
+              style="opacity: 0.5"
+              class="mt-2">
               mdi-hexagon-outline
             </v-icon>
-            <div v-else class="heading p-stat" v-text="pilot.Evasion" />
+            <div v-else
+              class="heading p-stat"
+              v-text="pilot.Evasion" />
           </v-col>
           <v-col cols="auto">
             <div class="font-weight-bold caption text-primary mb-n3">SPEED</div>
-            <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2">
+            <v-icon v-if="blank"
+              size="45"
+              color="primary"
+              style="opacity: 0.5"
+              class="mt-2">
               mdi-hexagon-outline
             </v-icon>
-            <div v-else class="heading p-stat" v-text="pilot.Speed" />
+            <div v-else
+              class="heading p-stat"
+              v-text="pilot.Speed" />
           </v-col>
         </v-row>
 
-        <v-row dense class="mt-n4 print-section">
+        <v-row dense
+          class="mt-n4 print-section">
           <v-col>
             <v-row class="text-center">
               <v-col>
                 <div class="font-weight-bold caption text-primary mb-n2">HULL</div>
-                <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
+                <blank-line v-if="blank"
+                  :width="80"
+                  :height="35"
+                  class="d-inline-block mt-2" />
 
-                <div
-                  v-else
+                <div v-else
                   class="heading h2"
                   v-html-safe="pilot.MechSkillsController.MechSkills.Hull" />
               </v-col>
               <v-col>
                 <div class="font-weight-bold caption text-primary mb-n2 text-primary">AGILITY</div>
-                <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
+                <blank-line v-if="blank"
+                  :width="80"
+                  :height="35"
+                  class="d-inline-block mt-2" />
 
-                <div v-else class="heading h2" v-html-safe="pilot.MechSkillsController.MechSkills.Agi" />
+                <div v-else
+                  class="heading h2"
+                  v-html-safe="pilot.MechSkillsController.MechSkills.Agi" />
               </v-col>
               <v-col>
                 <div class="font-weight-bold caption text-primary mb-n2">SYSTEMS</div>
-                <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
+                <blank-line v-if="blank"
+                  :width="80"
+                  :height="35"
+                  class="d-inline-block mt-2" />
 
-                <div v-else class="heading h2" v-html-safe="pilot.MechSkillsController.MechSkills.Sys" />
+                <div v-else
+                  class="heading h2"
+                  v-html-safe="pilot.MechSkillsController.MechSkills.Sys" />
               </v-col>
               <v-col>
                 <div class="font-weight-bold caption text-primary mb-n2">ENGINEERING</div>
-                <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
+                <blank-line v-if="blank"
+                  :width="80"
+                  :height="35"
+                  class="d-inline-block mt-2" />
 
-                <div v-else class="heading h2" v-html-safe="pilot.MechSkillsController.MechSkills.Eng" />
+                <div v-else
+                  class="heading h2"
+                  v-html-safe="pilot.MechSkillsController.MechSkills.Eng" />
               </v-col>
             </v-row>
           </v-col>
         </v-row>
 
-        <v-row dense justify="space-between" class="mt-n3">
+        <v-row dense
+          justify="space-between"
+          class="mt-n3">
           <v-col>
             <div class="text-caption text-primary">SKILL TRIGGERS</div>
             <div class="text-left">
-              <v-row dense v-if="blank" class="mt-n2">
-                <v-col v-for="n in 8" :key="`skill-${n}`" cols="6">
-                  <v-row dense align="center">
-                    <v-col cols="9"><blank-line :height="32" inline /></v-col>
-                    <v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col>
-                    <v-col cols="2"><blank-line :height="32" inline /></v-col>
+              <v-row dense
+                v-if="blank"
+                class="mt-n2">
+                <v-col v-for="n in 8"
+                  :key="`skill-${n}`"
+                  cols="6">
+                  <v-row dense
+                    align="center">
+                    <v-col cols="9"><blank-line :height="32"
+                        inline /></v-col>
+                    <v-col cols="auto"
+                      class="heading h3 mr-n1 mt-n1">+</v-col>
+                    <v-col cols="2"><blank-line :height="32"
+                        inline /></v-col>
                   </v-row>
                 </v-col>
               </v-row>
-              <v-chip
-                v-else
+              <v-chip v-else
                 v-for="s in pilot.SkillsController.Skills"
                 :key="s.Skill.ID"
                 label
@@ -156,60 +245,89 @@
         </v-row>
 
         <div>
-          <div v-if="hasPilotOption('Appearance Notes')" class="mt-1">
+          <div v-if="hasPilotOption('Appearance Notes')"
+            class="mt-1">
             <div class="text-cc-overline text-primary">APPEARANCE</div>
-            <div v-if="blank" class="mb-4"><notes :rows="5" lined /></div>
-            <div v-else v-html-safe="pilot.Notes" class="caption" />
+            <div v-if="blank"
+              class="mb-4">
+              <notes :rows="5"
+                lined />
+            </div>
+            <div v-else
+              v-html-safe="pilot.Notes"
+              class="caption" />
           </div>
-          <div v-if="blank || pilot.History.length > 0" class="mt-1">
+          <div v-if="blank || pilot.History.length > 0"
+            class="mt-1">
             <div class="text-cc-overline text-primary">BIOGRAPHY</div>
-            <div v-if="blank" class="mb-4"><notes :rows="5" lined /></div>
-            <div v-else v-html-safe="pilot.History" class="caption" />
+            <div v-if="blank"
+              class="mb-4">
+              <notes :rows="5"
+                lined />
+            </div>
+            <div v-else
+              v-html-safe="pilot.History"
+              class="caption" />
           </div>
           <div class="mt-1">
             <div class="text-cc-overline text-primary">NOTES</div>
-            <div v-if="blank || !pilot.Notes.length" class="mb-4"><notes :rows="5" lined /></div>
-            <div v-else v-html-safe="pilot.Notes" class="caption" />
+            <div v-if="blank || !pilot.Notes.length"
+              class="mb-4">
+              <notes :rows="5"
+                lined />
+            </div>
+            <div v-else
+              v-html-safe="pilot.Notes"
+              class="caption" />
           </div>
         </div>
       </v-col>
 
       <v-col cols="4">
-        <v-card height="100%" variant="outlined" color="grey">
-          <v-row style="height: 100%" align="center">
+        <v-card height="100%"
+          variant="outlined"
+          color="grey">
+          <v-row style="height: 100%"
+            align="center">
             <v-col>
-              <cc-img v-if="!blank && pilot.HasPortrait" :src="pilot.Portrait" cover />
+              <print-img v-if="!blank && pilot.HasPortrait"
+                :src="pilot.Portrait"
+                cover />
             </v-col>
           </v-row>
         </v-card>
       </v-col>
     </v-row>
 
-    <v-row dense class="mt-n6">
+    <v-row dense
+      class="mt-n6">
       <v-col>
         <div class="text-caption mb-n2 mt-1 text-primary">TALENTS</div>
-        <v-row dense v-if="blank">
-          <v-col v-for="n in 12" :key="`talent-${n}`" :cols="6">
-            <blank-line :height="48" inline />
+        <v-row dense
+          v-if="blank">
+          <v-col v-for="n in 12"
+            :key="`talent-${n}`"
+            :cols="6">
+            <blank-line :height="48"
+              inline />
           </v-col>
         </v-row>
-        <template
-          v-else-if="hasPilotOption('Separate Talent Detail')">
-          <v-chip
-            v-for="t in pilot.TalentsController.Talents"
+        <template v-else-if="hasPilotOption('Separate Talent Detail')">
+          <v-chip v-for="t in pilot.TalentsController.Talents"
             :key="t.Talent.ID"
             label
             variant="outlined"
             size="small"
             class="caption mx-1 mt-1">
-            <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" />
+            <v-icon :icon="`cc:rank_${t.Rank}`"
+              color="primary"
+              class="ml-n2" />
             {{ t.Talent.Name }}
             {{ 'I'.repeat(t.Rank) }}
           </v-chip>
         </template>
         <template v-else>
-          <v-row
-            v-for="t in pilot.TalentsController.Talents"
+          <v-row v-for="t in pilot.TalentsController.Talents"
             :key="t.Talent.ID"
             dense
             justify="space-between"
@@ -218,15 +336,22 @@
             <v-col>
               <fieldset>
                 <legend class="heading ml-1 px-2">{{ t.Talent.Name }}</legend>
-                <v-row v-for="n in t.Rank" :key="`rank-${n}`" align="center" dense class="my-n1">
-                  <v-col cols="auto" class="mr-2">
-                    <v-icon :icon="`cc:rank_${n}`" color="grey-darken-2" class="mb-1" />
+                <v-row v-for="n in t.Rank"
+                  :key="`rank-${n}`"
+                  align="center"
+                  dense
+                  class="my-n1">
+                  <v-col cols="auto"
+                    class="mr-2">
+                    <v-icon :icon="`cc:rank_${n}`"
+                      color="grey-darken-2"
+                      class="mb-1" />
                   </v-col>
                   <v-col>
                     <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
-                    <print-action v-if="t.Talent.Actions.length" :actions="t.Talent.Actions" />
-                    <print-deployable
-                      v-if="t.Talent.Deployables.length"
+                    <print-action v-if="t.Talent.Actions.length"
+                      :actions="t.Talent.Actions" />
+                    <print-deployable v-if="t.Talent.Deployables.length"
                       :deployables="t.Talent.Deployables" />
                   </v-col>
                 </v-row>
@@ -237,24 +362,22 @@
       </v-col>
     </v-row>
 
-    <div
-      v-if="pilot.CoreBonusController.length || blank"
+    <div v-if="pilot.CoreBonusController.length || blank"
       class="text-caption mb-n2 mt-2 text-primary">
       CORE BONUSES
     </div>
-    <v-row dense v-if="blank">
-      <v-col
-        v-for="n in 4"
+    <v-row dense
+      v-if="blank">
+      <v-col v-for="n in 4"
         :key="`cb-${n}`"
-        :cols="
-          landscape ? (hasPilotOption('Pilot Portrait') ? 6 : 3) : 6
-        ">
-        <blank-line :height="48" inline />
+        :cols="landscape ? (hasPilotOption('Pilot Portrait') ? 6 : 3) : 6
+          ">
+        <blank-line :height="48"
+          inline />
       </v-col>
     </v-row>
 
-    <v-row
-      v-else-if="pilot.CoreBonusController.CoreBonuses.length"
+    <v-row v-else-if="pilot.CoreBonusController.CoreBonuses.length"
       v-for="b in pilot.CoreBonusController.CoreBonuses"
       :key="b.ID"
       dense
@@ -269,19 +392,27 @@
     </v-row>
 
     <div class="text-caption mb-n2 mt-1 text-primary">PILOT LOADOUT</div>
-    <v-row dense justify="space-between" class="mt-n1 caption">
-      <v-col v-for="a in pilot.Loadout.Armor.filter((x) => x)" :key="a.ID" style="position: relative" cols="12">
+    <v-row dense
+      justify="space-between"
+      class="mt-n1 caption">
+      <v-col v-for="a in pilot.Loadout.Armor.filter((x) => x)"
+        :key="a.ID"
+        style="position: relative"
+        cols="12">
         <fieldset v-if="a">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ a.Name }}
               <span class="text-caption flavor-text">//ARMOR</span>
             </span>
-            <span v-else class="text-grey">Pilot Armor</span>
+            <span v-else
+              class="text-grey">Pilot Armor</span>
           </legend>
-          <div v-if="blank" style="height: 150px" />
+          <div v-if="blank"
+            style="height: 150px" />
           <div v-else>
-            <v-row dense justify="space-around">
+            <v-row dense
+              justify="space-around">
               <v-col cols="auto">
                 <span v-text="`+${a.Armor(pilot) || 0} Armor`" />
               </v-col>
@@ -300,12 +431,12 @@
             </v-row>
             <print-action :actions="a.Actions" />
             <print-deployable :deployables="a.Deployables" />
-            <tag-block :tags="a.Tags" :options="options" />
+            <tag-block :tags="a.Tags"
+              :options="options" />
           </div>
         </fieldset>
       </v-col>
-      <v-col
-        v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
+      <v-col v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
         :key="w.ID"
         style="position: relative"
         cols="12">
@@ -315,52 +446,70 @@
               {{ w.Name }}
               <span class="text-caption flavor-text">//WEAPON</span>
             </span>
-            <span v-else class="text-grey">Pilot Weapon</span>
+            <span v-else
+              class="text-grey">Pilot Weapon</span>
           </legend>
-          <div v-if="blank" style="height: 150px" />
+          <div v-if="blank"
+            style="height: 150px" />
           <div v-else>
-            <b v-for="(r, ri) in w.Range" :key="`range-${ri}`">{{ r.Text }}</b>
+            <b v-for="(r, ri) in w.Range"
+              :key="`range-${ri}`">{{ r.Text }}</b>
             |
-            <b v-for="(d, di) in w.Damage" :key="`damage-${di}`">{{ d.Text }}</b>
-            <div v-if="w.Effect" v-html-safe="w.Effect" />
+            <b v-for="(d, di) in w.Damage"
+              :key="`damage-${di}`">{{ d.Text }}</b>
+            <div v-if="w.Effect"
+              v-html-safe="w.Effect" />
             <print-action :actions="w.Actions" />
             <print-deployable :deployables="w.Deployables" />
-            <tag-block :tags="w.Tags" :options="options" />
+            <tag-block :tags="w.Tags"
+              :options="options" />
           </div>
         </fieldset>
       </v-col>
     </v-row>
-    <v-row dense justify="space-between" class="mt-n1 caption pb-3">
-      <v-col v-for="g in pilot.Loadout.Gear.filter((x) => x)" :key="g.ID" style="position: relative" cols="12">
+    <v-row dense
+      justify="space-between"
+      class="mt-n1 caption pb-3">
+      <v-col v-for="g in pilot.Loadout.Gear.filter((x) => x)"
+        :key="g.ID"
+        style="position: relative"
+        cols="12">
         <fieldset v-if="g || blank">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ g.Name }}
               <span class="text-caption flavor-text">//GEAR</span>
             </span>
-            <span v-else class="text-grey">Pilot Gear</span>
+            <span v-else
+              class="text-grey">Pilot Gear</span>
           </legend>
-          <div v-if="blank" style="height: 150px" />
-          <div v-else class="pb-1">
-            <div v-if="g.Description" v-html-safe="g.Description" />
+          <div v-if="blank"
+            style="height: 150px" />
+          <div v-else
+            class="pb-1">
+            <div v-if="g.Description"
+              v-html-safe="g.Description" />
             <print-action :actions="g.Actions" />
             <print-deployable :deployables="g.Deployables" />
-            <tag-block :tags="g.Tags" :options="options" />
+            <tag-block :tags="g.Tags"
+              :options="options" />
           </div>
         </fieldset>
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-between" class="mt-n2 caption">
-      <v-col
-        v-if="hasPilotOption('Extra Equipment Space')"
+    <v-row dense
+      justify="space-between"
+      class="mt-n2 caption">
+      <v-col v-if="hasPilotOption('Extra Equipment Space')"
         v-for="n in 3"
         :key="`equip-${n}`"
         style="position: relative"
         cols="12">
         <fieldset>
           <legend class="heading ml-1 px-1">
-            <blank-line :width="150" :height="20" />
+            <blank-line :width="150"
+              :height="20" />
           </legend>
           <div style="height: 150px" />
         </fieldset>
@@ -368,13 +517,14 @@
     </v-row>
   </div>
 
-  <div v-if="!blank && pilot.ReservesController.Reserves.length" class="pa-2">
+  <div v-if="!blank && pilot.ReservesController.Reserves.length"
+    class="pa-2">
     <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
     <v-row dense>
       <v-col
         v-for="(r, index) in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
         :key="`reserve-${index}`"
-        style="min-width: 20vw"
+        style="min-width: 30vw"
         class="my-n1">
         <fieldset>
           <legend class="px-1 mb-n2">
@@ -386,61 +536,91 @@
             <div class="caption">{{ r.Note }}</div>
             <div class="caption text-grey text-right">{{ r.ResourceCost }}</div>
           </div>
-          <blank-line v-else :height="50" class="my-1" style="min-height: 64px; height: 85%" />
+          <blank-line v-else
+            :height="50"
+            class="my-1"
+            style="min-height: 64px; height: 85%" />
         </fieldset>
       </v-col>
     </v-row>
   </div>
 
-  <div v-if="blank" class="pa-2">
+  <div v-if="blank"
+    class="pa-2">
     <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
     <v-row>
-      <v-col
-        v-for="r in hasPilotOption('Extra Reserve Space') ? 9 : 6"
+      <v-col v-for="r in hasPilotOption('Extra Reserve Space') ? 9 : 6"
         :key="`reserve-${r}`"
         cols="6">
-        <fieldset class="mt-2" style="position: relative">
+        <fieldset class="mt-2"
+          style="position: relative">
           <legend class="px-1">
-            <blank-line :height="26" :width="200" />
+            <blank-line :height="26"
+              :width="200" />
           </legend>
-          <div v-if="landscape" style="position: absolute; top: -26px; right: 10px">
-            <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+          <div v-if="landscape"
+            style="position: absolute; top: -26px; right: 10px">
+            <v-chip label
+              size="x-small"
+              variant="outlined"
+              color="grey"
+              class="bg-white px-1 mx-1">
               BONUS
             </v-chip>
-            <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+            <v-chip label
+              size="x-small"
+              variant="outlined"
+              color="grey"
+              class="bg-white px-1 mx-1">
               RESOURCE
             </v-chip>
-            <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+            <v-chip label
+              size="x-small"
+              variant="outlined"
+              color="grey"
+              class="bg-white px-1 mx-1">
               TACTICAL
             </v-chip>
-            <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+            <v-chip label
+              size="x-small"
+              variant="outlined"
+              color="grey"
+              class="bg-white px-1 mx-1">
               MECH
             </v-chip>
-            <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1">
+            <v-chip label
+              size="x-small"
+              variant="outlined"
+              color="grey"
+              class="bg-white px-1 mx-1">
               OTHER
             </v-chip>
           </div>
 
-          <blank-line :height="80" class="my-1" style="min-height: 70px; height: 90%" />
+          <blank-line :height="80"
+            class="my-1"
+            style="min-height: 70px; height: 90%" />
         </fieldset>
       </v-col>
     </v-row>
   </div>
 
-  <fieldset
-    v-if="hasPilotOption('Append Lined Section')"
+  <fieldset v-if="hasPilotOption('Append Lined Section')"
     class="mx-1 my-3 px-3">
-    <div class="mb-4"><notes :rows="24" lined /></div>
+    <div class="mb-4">
+      <notes :rows="24"
+        lined />
+    </div>
   </fieldset>
 
-  <fieldset
-    v-if="hasPilotOption('Append Unlined Section')"
+  <fieldset v-if="hasPilotOption('Append Unlined Section')"
     class="mx-1 my-3 px-3">
-    <div class="mb-4"><notes :rows="24" /></div>
+    <div class="mb-4">
+      <notes :rows="24" />
+    </div>
   </fieldset>
 
-  <div
-    v-if="hasPilotOption('Separate Talent Detail')"
+  <div v-if="hasPilotOption('Separate Talent Detail')"
     v-for="t in pilot.TalentsController.Talents"
     :key="t.Talent.ID"
     dense
@@ -449,17 +629,23 @@
     style="position: relative">
     <fieldset class="pb-2 my-2">
       <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
-      <v-row v-for="n in t.Rank" :key="`rank-${n}`" align="center" dense class="my-n1">
-        <v-col cols="auto" class="mr-2">
-          <v-icon :icon="`cc:rank_${n}`" color="primary" size="large" class="mb-1" />
+      <v-row v-for="n in t.Rank"
+        :key="`rank-${n}`"
+        align="center"
+        dense
+        class="my-n1">
+        <v-col cols="auto"
+          class="mr-2">
+          <v-icon :icon="`cc:rank_${n}`"
+            color="primary"
+            size="large"
+            class="mb-1" />
         </v-col>
         <v-col>
           <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
-          <print-action
-            v-if="t.Talent.Ranks[n - 1].Actions.length"
+          <print-action v-if="t.Talent.Ranks[n - 1].Actions.length"
             :actions="t.Talent.Ranks[n - 1].Actions" />
-          <print-deployable
-            v-if="t.Talent.Ranks[n - 1].Deployables.length"
+          <print-deployable v-if="t.Talent.Ranks[n - 1].Deployables.length"
             :deployables="t.Talent.Ranks[n - 1].Deployables" />
         </v-col>
       </v-row>

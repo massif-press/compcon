@@ -117,11 +117,6 @@ export default {
     enableJustify: true,
     lineWidth: 110,
   }),
-  mounted() {
-    if (this.$vuetify.display.smAndDown) {
-      this.enableJustify = false;
-    }
-  },
   computed: {
     rootActor() {
       return this.actor.CombatController.RootActor
@@ -198,7 +193,7 @@ export default {
       ]);
       out += this.justify(firstLine) + '\n';
 
-      let secondLine = [
+      const secondLine = [
         this.getMaxStat('evasion', 'Evasion'),
         this.getMaxStat('edef', 'E-Def'),
         this.getMaxStat('sensorRange', 'Sensors'),
@@ -210,7 +205,7 @@ export default {
     },
     trackedStats() {
       let out = ''
-      let firstLine = [
+      const firstLine = [
         this.getStat('hp', 'HP'),
         this.getStat('structure', 'Structure'),
         this.getCurrentStat('armor', 'Armor'),
@@ -218,7 +213,7 @@ export default {
       ];
       out += this.justify(firstLine) + '\n';
 
-      let secondLine = [
+      const secondLine = [
         this.getStat('heatcap', 'Heat'),
         this.getStat('stress', 'Stress'),
         '',
@@ -226,7 +221,7 @@ export default {
       ];
       out += this.justify(secondLine) + '\n';
 
-      let thirdLine = [
+      const thirdLine = [
         this.getStat('speed', 'Movement'),
         this.getStat('repairCapacity', 'Repairs'),
         '',
@@ -239,7 +234,7 @@ export default {
     },
     features() {
       if (!this.showLoadout) return '';
-      let out = '\n// LOADOUT\n';
+      const out = '\n// LOADOUT\n';
       if (this.isPilot) return out + this.pilotLoadout;
       else return out + this.npcLoadout;
     },
@@ -251,7 +246,7 @@ export default {
         weapons.forEach(w => {
           if (w.Destroyed) out += `${this.justify([w.Name, '', '', '', '✖ DESTROYED'])}\n`;
           else {
-            let arr = [w.Name, w.Range.map(r => r.Text).join(', '), w.Damage.map(d => d.Text).join(', ')];
+            const arr = [w.Name, w.Range.map(r => r.Text).join(', '), w.Damage.map(d => d.Text).join(', ')];
             if (w.MaxUses) arr.push(`${w.Uses} / ${w.MaxUses} Uses`);
             else arr.push('');
             arr.push(w.Used ? w.IsLoading ? '[ reload ]' : '[   used ]' : '[  READY ]');
@@ -261,7 +256,7 @@ export default {
         systems.forEach(s => {
           if (s.Destroyed) out += `${s.Name} // DESTROYED // \n`;
           else {
-            let arr = [s.Name, '', ''];
+            const arr = [s.Name, '', ''];
             if (s.MaxUses) arr.push(`${s.Uses} / ${s.MaxUses} Uses`);
             else arr.push('');
             arr.push(s.Used ? s.IsLoading ? '[ reload ]' : '[   used ]' : '[  READY ]');
@@ -278,7 +273,7 @@ export default {
       let out = '';
       const features = this.actor.NpcFeatureController.Features;
       features.forEach((feature: any) => {
-        let arr = [feature.Name];
+        const arr = [feature.Name];
         if (feature.RangeData) {
           const mods = this.actor.NpcFeatureController.GetModifiers(feature);
           arr.push(feature.Range(this.controller.Tier, mods).map((r: any) => r.Text).join(', '));
@@ -325,6 +320,11 @@ ${this.features}
 ${this.reserves}`;
     },
   },
+  mounted() {
+    if (this.$vuetify.display.smAndDown) {
+      this.enableJustify = false;
+    }
+  },
   methods: {
     justify(arr) {
       if (!this.enableJustify) return arr.filter(x => x.length).join('   ');
@@ -339,7 +339,7 @@ ${this.reserves}`;
         starts.push(Math.floor(i * step));
       }
 
-      let line = Array(this.lineWidth).fill(" ");
+      const line = Array(this.lineWidth).fill(" ");
 
       for (let i = 0; i < cols; i++) {
         const start = starts[i];
@@ -354,7 +354,7 @@ ${this.reserves}`;
     },
     getMaxStat(stat: string, shortHand: string, separator: string = '') {
       const c = this.isPilot && this.controller.Mounted ? this.mech.CombatController : this.controller;
-      let max = c.StatController.MaxStats[stat];
+      const max = c.StatController.MaxStats[stat];
       return `${shortHand}: ${max}${separator}`;
     },
     getCurrentStat(stat: string, shortHand: string, fallback?: number) {
@@ -365,8 +365,8 @@ ${this.reserves}`;
     },
     getStat(stat: string, shortHand: string) {
       const c = this.isPilot && this.controller.Mounted ? this.mech.CombatController : this.controller;
-      let current = c.StatController.CurrentStats[stat];
-      let max = c.StatController.MaxStats[stat];
+      const current = c.StatController.CurrentStats[stat];
+      const max = c.StatController.MaxStats[stat];
       return `${shortHand}: ${current}/${max}`;
     },
     copyContent() {

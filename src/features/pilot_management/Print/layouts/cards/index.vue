@@ -3,8 +3,8 @@
     <v-row>
       <pilot-print v-if="selectedPilot" :pilot="selectedPilot" :options="options" />
       <mech-print v-if="selectedMech" :mech="selectedMech" :options="options" />
-      <std-action-print v-if="options.card.includes('include standard actions')" />
-      <status-cards v-if="options.card.includes('include status/condition cards')" />
+      <std-action-print v-if="Array.isArray(options.card) && options.card.some(x => x.title === 'Include Standard Actions')" />
+      <status-cards v-if="Array.isArray(options.card) && options.card.some(x => x.title === 'Include Status/Condition Cards')" />
     </v-row>
   </div>
 </template>

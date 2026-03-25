@@ -38,6 +38,33 @@
           track-fill-color="secondary"
           color="primary"
           @end="updateUserStorage" />
+        <v-row dense
+          class="mt-2">
+          <v-col>
+            <v-text-field v-model.number="storageRange[0]"
+              label="Warning threshold (%)"
+              type="number"
+              min="0"
+              :max="storageRange[1]"
+              variant="outlined"
+              tile
+              hide-details
+              density="compact"
+              @change="updateUserStorage" />
+          </v-col>
+          <v-col>
+            <v-text-field v-model.number="storageRange[1]"
+              label="Max threshold (%)"
+              type="number"
+              :min="storageRange[0]"
+              max="100"
+              variant="outlined"
+              tile
+              hide-details
+              density="compact"
+              @change="updateUserStorage" />
+          </v-col>
+        </v-row>
         <div class="text-caption text-right text-stark">
           COMP/CON will display a warning message when {{ storageRange[0].toFixed(2) }}% of
           available system storage (

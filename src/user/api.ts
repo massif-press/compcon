@@ -33,28 +33,6 @@ const get = (id: string) => {
   return createFetchRequest(`user?${queryString}`)
 }
 
-const storageInfo = (id: string) => {
-  const queryString = buildQueryString({ id })
-  return createFetchRequest(`/storage/info?${queryString}`)
-}
-
-const getPresignedLink = (id: string, itemType: string, itemTag: string, filename: string) => {
-  const queryString = buildQueryString({ id, itemType, itemTag, filename })
-  return createFetchRequest(`/storage/presign?${queryString}`)
-}
-
-const deleteStorage = (key: string) => {
-  const queryString = buildQueryString({ key })
-  return createFetchRequest(`/storage?${queryString}`, {
-    method: 'DELETE',
-  })
-}
-
-const getLcpPresigned = (packName: string) => {
-  const queryString = buildQueryString({ packName })
-  return createFetchRequest(`/lcp?${queryString}`)
-}
-
 const collectionDataQuery = async itemtype => {
   const collectionHeaders = {
     'Content-Type': 'application/json',
@@ -95,12 +73,4 @@ const getItemDownloadLink = async (itch_userid, game_id, item_uri) => {
   return data
 }
 
-export {
-  get,
-  storageInfo,
-  getPresignedLink,
-  deleteStorage,
-  getLcpPresigned,
-  collectionDataQuery,
-  getItemDownloadLink,
-}
+export { get, collectionDataQuery, getItemDownloadLink }

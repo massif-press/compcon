@@ -2,9 +2,8 @@
   <div class="printable">
     <v-card tile
       flat
-      :class="options.orientation.title"
       class="print-card"
-      style="margin-left: auto; margin-right: auto">
+      :style="{ marginLeft: 'auto', marginRight: 'auto', width: previewWidth }">
       <div>
         <component :is="options.layout.title"
           :options="options"
@@ -70,7 +69,7 @@
           style="width: 10vw" />
         <v-spacer />
 
-        <cc-modal>
+        <cc-modal title="Print Options">
           <template #activator="{ open }">
             <v-btn @click="open">
               <span>Options</span>
@@ -163,6 +162,12 @@ export default {
     hasBondData() {
       return CompendiumStore().Bonds.length > 0;
     },
+    previewWidth() {
+      const portrait = this.options.orientation.title === 'Portrait'
+      const letter = this.options.paper.title === 'Letter'
+      if (portrait) return letter ? '216mm' : '210mm'
+      return letter ? '279mm' : '297mm'
+    },
     optionsFields() {
       const titles = [] as string[];
 
@@ -198,7 +203,15 @@ export default {
   },
   methods: {
     print() {
-      window.print();
+      const orientation = this.options.orientation.title.toLowerCase()
+      const paper = this.options.paper.title === 'A4' ? 'A4' : 'letter'
+      const existing = document.getElementById('__cc-print-page')
+      if (existing) existing.remove()
+      const style = document.createElement('style')
+      style.id = '__cc-print-page'
+      style.textContent = `@page { size: ${paper} ${orientation}; margin: 0; }`
+      document.head.appendChild(style)
+      window.print()
     },
     has(str: string) {
       return this.optionsFields.includes(str);
@@ -271,16 +284,6 @@ export default {
 </style>
 
 <style scoped>
-.Portrait {
-  background-color: white !important;
-  width: 210mm;
-}
-
-.Landscape {
-  background-color: white !important;
-  width: 297mm;
-}
-
 .print-card {
   padding: 8px;
   background-color: white;
@@ -290,7 +293,6 @@ export default {
 
 @page {
   margin: 0;
-  size: portrait;
 }
 
 @media print {

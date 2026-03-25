@@ -31,6 +31,8 @@ import Startup from './io/Startup'
 import { reportWebVitals } from '@/util/performance'
 
 import { Amplify } from 'aws-amplify'
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito'
+import { sessionStorage } from 'aws-amplify/utils'
 
 Amplify.configure({
   Auth: {
@@ -58,6 +60,8 @@ Amplify.configure({
     },
   },
 })
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage)
 
 const compcon = createApp(App)
 

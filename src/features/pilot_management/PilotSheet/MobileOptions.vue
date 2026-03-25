@@ -65,7 +65,8 @@
         </cc-button>
       </template>
       <template #default="{ close }">
-        <cc-confirmation content="Converting this pilot to local data will allow local editing but remove its
+        <cc-confirmation full-width
+          content="Converting this pilot to local data will allow local editing but remove its
                     remote link to the author's cloud account, and prevent any further updates from
                     being received. To re-enable remote syncing, you will have to re-import this
                     pilot via its share code."
@@ -156,7 +157,8 @@
         </cc-button>
       </template>
       <template #default="{ close }">
-        <cc-confirmation :content="`Lancer, please confirm deletion of Pilot Registration Information for:<br/>
+        <cc-confirmation full-width
+          :content="`Lancer, please confirm deletion of Pilot Registration Information for:<br/>
           <span class='text-accent'>
             ${pilot.Callsign} (${pilot.Name}, LL${pilot.Level})
           </span>`"

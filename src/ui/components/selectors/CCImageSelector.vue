@@ -179,10 +179,11 @@ export default {
       if (!this.avatar) this.close();
     },
     open() {
-      (this.$refs as any).dialog.show();
+      if ((this.$refs as any).dialog) (this.$refs as any).dialog.show();
     },
     close() {
-      (this.$refs as any).dialog.hide();
+      if ((this.$refs as any).dialog) (this.$refs as any).dialog.hide();
+      else this.$emit('close');
     },
     clearCrop() {
       this.item.PortraitController.Avatar = undefined;

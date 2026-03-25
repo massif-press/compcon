@@ -125,7 +125,6 @@
 <script lang="ts">
 // import { UserStore } from '@/store';
 import * as _ from 'lodash-es';
-import { storageInfo, getPresignedLink, s3api, deleteStorage } from '@/user/api';
 import { UserStore } from '@/stores';
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account';
 import { CloudController } from '@/classes/components';

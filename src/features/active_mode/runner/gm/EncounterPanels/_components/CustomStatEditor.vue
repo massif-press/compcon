@@ -5,7 +5,7 @@
       <v-spacer />
       <v-col cols="auto">
         <v-menu :close-on-content-click="false">
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <cc-button v-bind="props"
               size="x-small"
               color="primary"
@@ -160,8 +160,8 @@ const statics = [
 ];
 
 export default {
+  name: 'StatEditor',
   mixins: [useMobile],
-  name: 'stat-editor',
   props: {
     item: { type: Object, required: true },
     bonuses: { type: Array, default: () => [] },

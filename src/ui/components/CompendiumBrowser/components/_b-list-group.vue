@@ -1,16 +1,18 @@
 <template>
-  <v-list-group :value="groupValue" color="accent" class="pt-0">
-    <template v-slot:activator="{ props }">
-      <v-list-item tile v-bind="props">
+  <v-list-group :value="groupValue"
+    color="accent"
+    class="pt-0">
+    <template #activator="{ props }">
+      <v-list-item tile
+        v-bind="props"
+        :class="noIndent ? '' : 'ml-n10'">
         <template #title>
           <div v-if="manufacturer">
-            <cc-logo
-              v-if="manufacturer.LogoIsExternal"
+            <cc-logo v-if="manufacturer.LogoIsExternal"
               :source="manufacturer"
               size="small"
               class="pt-3 mb-n1 mr-2" />
-            <v-icon
-              v-else
+            <v-icon v-else
               size="30"
               :icon="manufacturer.Icon"
               :color="manufacturer.GetColor($vuetify.theme.current.dark)"
@@ -22,13 +24,19 @@
             </span>
           </div>
           <div v-else-if="role">
-            <v-icon size="30" :icon="roleIcon()" start class="mt-n1" />
+            <v-icon size="30"
+              :icon="roleIcon()"
+              start
+              class="mt-n1" />
             <span class="text-button">
               <b>{{ role }}</b>
             </span>
           </div>
           <div v-else-if="feature">
-            <v-icon size="30" :icon="featureIcon()" start class="mt-n1" />
+            <v-icon size="30"
+              :icon="featureIcon()"
+              start
+              class="mt-n1" />
             <span class="text-button">
               <b>{{ feature }}</b>
             </span>
@@ -41,14 +49,15 @@
         </template>
       </v-list-item>
     </template>
-    <slot />
+    <div :style="noIndent ? '' : 'margin-left: -82px'">
+      <slot />
+    </div>
   </v-list-group>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'browser-list-item',
-  emits: ['clicked', 'equip'],
+  name: 'BrowserListItem',
   props: {
     parent: {
       type: String,
@@ -70,7 +79,11 @@ export default {
       type: String,
       required: false,
     },
+    noIndent: {
+      type: Boolean,
+    },
   },
+  emits: ['clicked', 'equip'],
   computed: {
     groupValue(): string {
       if (this.parent) return `${this.parent}_${this.collection}`;

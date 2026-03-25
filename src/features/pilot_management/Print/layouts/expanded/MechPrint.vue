@@ -284,7 +284,7 @@
           <v-row style="height: 100%"
             align="center">
             <v-col>
-              <cc-img v-if="!blank"
+              <print-img v-if="!blank"
                 :src="mech.Portrait"
                 cover />
             </v-col>

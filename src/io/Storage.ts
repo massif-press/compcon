@@ -94,6 +94,7 @@ const SetValue = async function (key: string, value: any) {
 
 const GetValue = async function (key: string): Promise<any> {
   const item = (await storeRegistry['settings'].getItem(key)) as string
+  if (item == null) return null
   return JSON.parse(item)
 }
 
@@ -118,6 +119,7 @@ const SetItem = async function (collection: string, item: any) {
 
 const GetItem = async function (collection: string, id: string) {
   const item = await storeRegistry[collection.toLowerCase()].getItem(id)
+  if (item == null) return null
   return JSON.parse(item)
 }
 

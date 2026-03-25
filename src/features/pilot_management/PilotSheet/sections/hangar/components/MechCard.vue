@@ -3,7 +3,7 @@
     sm="6"
     class="top-element">
     <v-hover>
-      <template v-slot="{ isHovering, props }">
+      <template #default="{ isHovering, props }">
         <div style="position: relative">
           <div :style="`background-color: ${mech.Frame.Manufacturer.GetColor(
             $vuetify.theme.current.dark
@@ -142,7 +142,8 @@
       title="Delete Mech"
       color="error"
       icon="mdi-delete">
-      <cc-confirmation :content="`Lancer, please confirm deletion of Mech Configuration:
+      <cc-confirmation full-width
+        :content="`Lancer, please confirm deletion of Mech Configuration:
           <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"
@@ -153,11 +154,12 @@
       :close-on-click="false"
       title="Duplicate Mech"
       icon="mdi-content-copy">
-      <cc-confirmation :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:
+      <cc-confirmation full-width
+        :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:
           <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"
-        @confirm="$emit('copy', mech)" />
+        @confirm="copyAndClose()" />
     </cc-dialog>
   </v-col>
 </template>
@@ -168,15 +170,21 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
-  name: 'mech-card',
+  name: 'MechCard',
   components: {
     MechCardLoadoutField,
   },
+  mixins: [useMobile],
   props: {
     mech: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    copyAndClose() {
+      this.$emit('copy', this.mech);
+      (this.$refs as any).copy.close();
     },
   },
 };

@@ -9,7 +9,7 @@
 import UnitPrint from './UnitPrint.vue';
 import EidolonPrint from './EidolonPrint.vue';
 import DoodadPrint from './DoodadPrint.vue';
-import PageBreak from '../components/PageBreak.vue';
+import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { Npc } from '@/classes/npc/Npc';
 
 export default {

@@ -12,7 +12,6 @@ const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`
 const baseHeaders: Record<string, string> = {
   'Content-Type': 'application/json',
   'x-api-key': (import.meta as any).env.VITE_APP_API_KEY || '',
-  'Access-Control-Request-Headers': 'Content-Type,x-api-key',
 }
 
 async function getHeaders(forceRefresh = false): Promise<Record<string, string>> {
@@ -345,10 +344,11 @@ export async function downloadFromS3(s3Url) {
       }
       return jsonData
     } else {
-      logger.error('Download failed:', response.statusText)
+      throw new Error(`Download failed: ${response.status} ${response.statusText}`)
     }
   } catch (error) {
     logger.error('Error downloading JSON:', {}, error)
+    throw error
   }
 }
 
@@ -356,13 +356,13 @@ export async function getFromPresignDirect(url) {
   try {
     const response = await fetch(url)
     if (response.ok) {
-      const rawData = await response.blob()
-      return rawData
+      return await response.blob()
     } else {
-      logger.error('Download failed:', response.statusText)
+      throw new Error(`Download failed: ${response.status} ${response.statusText}`)
     }
   } catch (error) {
     logger.error('Error downloading JSON:', {}, error)
+    throw error
   }
 }
 

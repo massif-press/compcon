@@ -1,7 +1,7 @@
 <template>
   <v-card flat
     tile
-    max-width="600px">
+    :max-width="fullWidth ? '' : '600px'">
     <v-card-text class="pa-2 flavor-text">
       <span class="text-cc-overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
       <br />
@@ -36,6 +36,7 @@ export default {
     },
     noCc: { type: Boolean },
     cancellable: { type: Boolean },
+    fullWidth: { type: Boolean },
   },
   emits: ['confirm', 'cancel'],
 };

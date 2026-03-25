@@ -120,6 +120,10 @@
           <v-list-item title="Overwite to Cloud"
             subtitle="Overwrites all local items with cloud data, regardless of when the items were last modified."
             @click="runSync('cloud')" />
+          <v-divider />
+          <v-list-item title="Remove Deleted Items"
+            subtitle="Permanently removes items flagged for deletion."
+            @click="permDeleteSync()" />
         </v-list>
       </template>
     </cc-button>
@@ -274,6 +278,25 @@ export default {
         })
       }
     },
+    async permDeleteSync() {
+      this.syncing = true
+      try {
+        const count = await UserStore().permDeleteFlaggedItems()
+        this.$notify({
+          title: `${count} Item${count !== 1 ? 's' : ''} Permanently Deleted`,
+          text: count > 0 ? 'All flagged items have been removed from the cloud.' : 'No items were flagged for deletion.',
+          type: count > 0 ? 'success' : 'info',
+        })
+      } catch (e) {
+        this.$notify({
+          title: 'Deletion Failed',
+          text: 'An error occurred while deleting flagged items.',
+          type: 'error',
+        })
+      } finally {
+        this.syncing = false
+      }
+    }
   },
 }
 </script>

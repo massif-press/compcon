@@ -1,21 +1,28 @@
 <template>
-  <v-list-item
-    tile
+  <v-list-item tile
     :class="selected && !equippable ? 'bg-primary' : ''"
     :style="selected && equippable ? 'border: 3px solid rgb(var(--v-theme-primary)' : ''"
     height="0px"
     @click="$emit('clicked')">
     <template #title>
       <span class="text-button">
-        <slot v-if="compare && !selected" name="checkbox" />
-        <v-icon v-else-if="item.IsExotic" start class="ml-3" icon="mdi-star" color="exotic" />
-        <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
+        <slot v-if="compare && !selected"
+          name="checkbox" />
+        <v-icon v-else-if="item.IsExotic"
+          start
+          class="ml-3"
+          icon="mdi-star"
+          color="exotic" />
+        <v-icon v-else
+          start
+          class="ml-3"
+          :icon="(item as CompendiumItem).Icon" />
         {{ (item as CompendiumItem).Name }}
       </span>
     </template>
-    <template #append v-if="equippable">
-      <cc-button
-        :title="`Select ${item.Name}`"
+    <template v-if="equippable"
+      #append>
+      <cc-button :title="`Select ${item.Name}`"
         icon="mdi-plus"
         size="small"
         variant="outlined"
@@ -27,14 +34,15 @@
 </template>
 
 <script lang="ts">
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CompendiumItem } from '@/class';
 
 export default {
-  name: 'browser-list-item',
-  emits: ['clicked', 'equip'],
+  name: 'BrowserListItem',
   props: {
     comparisons: {
       type: Array,
+      default: () => [],
     },
     item: {
       type: Object,
@@ -50,5 +58,6 @@ export default {
       type: Boolean,
     },
   },
+  emits: ['clicked', 'equip'],
 };
 </script>

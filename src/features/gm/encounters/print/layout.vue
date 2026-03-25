@@ -221,7 +221,7 @@ import DoodadPrint from '@/features/gm/npc_roster/print/layouts/DoodadPrint.vue'
 
 import Notes from './components/blank/notes.vue';
 import BlankLine from './components/blank/line.vue';
-import PageBreak from './components/PageBreak.vue';
+import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { Npc } from '@/classes/npc/Npc';
 import * as _ from 'lodash-es';
 
