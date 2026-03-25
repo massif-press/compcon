@@ -382,7 +382,11 @@ export const UserStore = defineStore('cloud', {
         this.CloudImages = []
         this.UserPublishedCollections = []
 
-        const data = await getUserData(this.Cognito.userId)
+        const rawData = await getUserData(this.Cognito.userId)
+        const data = Array.isArray(rawData) ? rawData : []
+        if (!Array.isArray(rawData)) {
+          logger.warn('getUserData returned unexpected non-array response', { rawData })
+        }
         this.LastQuery = Date.now()
         if (this.Cognito.userId) {
           localStorage.setItem(`cc_last_query_${this.Cognito.userId}`, String(this.LastQuery))
