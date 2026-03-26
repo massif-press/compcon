@@ -1,10 +1,17 @@
 <template>
   <div style="display: block">
-    <pilot-print v-if="selectedPilot" :pilot="selectedPilot" :options="options" />
-    <page-break v-if="showBondPrint" />
-    <bonds-print v-if="showBondPrint" :bc="selectedPilot.BondController" :options="options" />
+    <pilot-print v-if="selectedPilot"
+      :pilot="selectedPilot"
+      :options="options" />
+    <page-break v-if="showBondPrint"
+      silent />
+    <bonds-print v-if="showBondPrint"
+      :bc="selectedPilot.BondController"
+      :options="options" />
     <page-break v-if="selectedMech" />
-    <mech-print v-if="selectedMech" :mech="selectedMech" :options="options" />
+    <mech-print v-if="selectedMech"
+      :mech="selectedMech"
+      :options="options" />
   </div>
 </template>
 

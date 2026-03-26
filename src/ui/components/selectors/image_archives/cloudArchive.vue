@@ -66,7 +66,8 @@
         <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
         <v-row align="center">
           <v-col>
-            <v-file-input density="compact"
+            <v-file-input v-model="file"
+              density="compact"
               hide-details
               flat
               tile
@@ -129,6 +130,7 @@ import { UserStore } from '@/stores';
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account';
 import { CloudController } from '@/classes/components';
 import logger from '@/user/logger';
+import { file } from 'jszip';
 // import { Auth } from '@aws-amplify/auth';
 
 const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
@@ -150,6 +152,7 @@ export default {
     stagedImage: null as unknown as any,
     showAll: false,
     imageuri: '',
+    file: null as unknown as any,
   }),
   computed: {
     store() {
@@ -181,7 +184,11 @@ export default {
   },
   methods: {
     async handleImageClick(image) {
-      this.isSelected(image.uri) ? (this.selectedImage = null) : (this.selectedImage = image);
+      if (this.isSelected(image.uri)) {
+        this.selectedImage = null;
+      } else {
+        this.selectedImage = image;
+      }
       if (this.selectedImage) this.$emit('set-staged', this.selectedImage);
     },
     onFileChange(e) {
@@ -215,6 +222,7 @@ export default {
       this.stagedImage = null;
       this.selectedImage = null;
       this.loading = false;
+      this.file = null;
     },
     async deleteCloudImage(item) {
       this.loading = true;

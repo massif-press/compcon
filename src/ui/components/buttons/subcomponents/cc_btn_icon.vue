@@ -23,7 +23,7 @@
           :to="to"
           :target="target"
           @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-icon style="font-size: 75cqw; margin-top: -2px"
+          <v-icon style="font-size: 75cqw"
             :color="tonal ? color : ''"
             :icon="icon" />
         </v-btn>
@@ -69,7 +69,7 @@ export default {
         case 'x-small':
           return '22px';
         case 'small':
-          return '28px';
+          return '27px';
         case 'large':
           return '38px';
         case 'x-large':
@@ -88,6 +88,34 @@ export default {
 .hex {
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   outline: 4px solid #2c3e50;
+  /* width = height × (sqrt3/2) for a regular hexagon */
+  width: 31.18px !important;
+  min-width: 0 !important;
+}
+
+/* x-small: 22px height */
+.hex.x-small {
+  width: 19.05px !important;
+}
+
+/* small: 27px height */
+.hex.small {
+  width: 23.38px !important;
+}
+
+/* large: 38px height */
+.hex.large {
+  width: 32.91px !important;
+}
+
+/* x-large: 48px height */
+.hex.x-large {
+  width: 41.57px !important;
+}
+
+/* xx-large: 60px height */
+.hex.xx-large {
+  width: 51.96px !important;
 }
 
 .v-btn {
@@ -117,27 +145,27 @@ export default {
 }
 
 .light.x-small {
-  width: 8.5px;
+  width: 6px;
   height: 4px;
 }
 
 .light.small {
-  width: 11.5px;
-  height: 5.5px;
+  width: 8px;
+  height: 5px;
 }
 
 .light.large {
-  width: 15.5px;
-  height: 8px;
+  width: 10px;
+  height: 6px;
 }
 
 .light.x-large {
-  width: 17px;
-  height: 8.5px;
+  width: 14px;
+  height: 8px;
 }
 
 .light.xx-large {
-  width: 24.5px;
-  height: 12.5px;
+  width: 19px;
+  height: 10px;
 }
 </style>

@@ -1,5 +1,12 @@
 [
   {
+    "id": "stress-test-announce",
+    "title": "v3 Stress Test",
+    "body": "Hello everyone, I'm excited to announce that v3 feature development is complete and we're starting pre-release stress testing before launch in late April. Please see <a href=\"https://www.patreon.com/posts/comp-con-v3-pre-154024192\" target=\"_blank\">this post</a> for more details. ",
+    "level": "info",
+    "created": 1774554350
+  },
+  {
     "id": "0c35ff16-742c-482d-95f3-6abbc6754bf2",
     "title": "v3 Feedback II",
     "body": "Hello everyone, I'm excited to announce that the mobile development phase is now complete and a new feedback phase is starting. Please check out <a href=\"https://www.patreon.com/posts/126572661\" target=\"_blank\">this post</a> for more details. Any and all feedback is greatly appreciated!",

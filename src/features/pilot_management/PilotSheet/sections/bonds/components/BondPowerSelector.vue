@@ -105,7 +105,7 @@
                 <div v-if="item">
                   <cc-bond-power-card :power="item" />
                   <cc-button v-if="!item.veteran && (!hasPower(item) || allowDupes)"
-                    color="primary"
+                    color="success"
                     block
                     size="x-small"
                     @click="pilot.BondController.AddPower(item)">

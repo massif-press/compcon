@@ -1,20 +1,29 @@
 <template>
-  <v-scale-transition leave-absolute mode="out-in">
-    <div v-if="panel" :class="mobile ? 'takeover' : 'sidePanel'">
-      <v-row no-gutters justify="center" align="center" style="height: 100%">
+  <v-scale-transition leave-absolute
+    mode="out-in">
+    <div v-if="panel"
+      :class="mobile ? 'takeover' : 'sidePanel'">
+      <v-row no-gutters
+        justify="center"
+        align="center"
+        style="height: 100%">
         <v-col cols="auto">
-          <div :style="!mobile && 'min-width: 600px'" style="max-width: 600px">
-            <cc-toolbar
-              title="CC.SYSADMIN// NOTIFY"
+          <div :style="!mobile && 'min-width: 600px'"
+            style="max-width: 600px">
+            <cc-toolbar title="CC.SYSADMIN// NOTIFY"
               color="primary"
               icon="cc:gms"
               class="border-b-sm"
               @close="panel = false">
               <template #toolbar-items>
-                <v-tooltip max-width="300" location="top">
+                <v-tooltip max-width="300"
+                  location="top">
                   <template #activator="{ props }">
                     <span v-bind="props">
-                      <cc-button tile variant="text" icon="mdi-check-all" @click="markAllAsRead" />
+                      <cc-button tile
+                        variant="text"
+                        icon="mdi-check-all"
+                        @click="markAllAsRead" />
                     </span>
                   </template>
                   <span>Mark all messages as Read</span>
@@ -22,8 +31,7 @@
               </template>
             </cc-toolbar>
             <div style="width: 100%">
-              <v-tabs
-                v-model="tab"
+              <v-tabs v-model="tab"
                 grow
                 center-active
                 show-arrows
@@ -31,17 +39,26 @@
                 bg-color="primary"
                 slider-color="secondary"
                 height="26">
-                <v-tab v-for="(m, mIdx) in systemMessages" :key="`tab-${mIdx}`">
-                  <v-badge v-if="isUnread(m)" dot floating class="mt-1" color="warning">
+                <v-tab v-for="(m, mIdx) in systemMessages"
+                  :key="`tab-${mIdx}`">
+                  <v-badge v-if="isUnread(m)"
+                    dot
+                    floating
+                    class="mt-1"
+                    color="warning">
                     {{ new Date(m.created * 1000).toLocaleDateString() }}
                   </v-badge>
                   <span v-else>{{ new Date(m.created * 1000).toLocaleDateString() }}</span>
                 </v-tab>
               </v-tabs>
             </div>
-            <cc-panel height="70vh" color="panel" border style="margin-top: -2px">
+            <cc-panel height="70vh"
+              color="panel"
+              border
+              style="margin-top: -2px">
               <v-window v-model="tab">
-                <v-window-item v-for="(m, mIdx) in systemMessages" :key="`window-${mIdx}`">
+                <v-window-item v-for="(m, mIdx) in systemMessages"
+                  :key="`window-${mIdx}`">
                   <div class="text-cc-overline">
                     {{
                       new Date(m.created * 1000).toLocaleString(undefined, {
@@ -52,8 +69,13 @@
                   </div>
                   <v-divider class="my-2" />
                   <div class="heading h3 text-accent">{{ m.title }}</div>
-                  <p class="pa-2" v-html-safe="m.body" />
-                  <cc-button class="ma-4" block color="accent" size="x-small" @click="ack(m)">
+                  <p v-html-safe="m.body"
+                    class="pa-2" />
+                  <cc-button class="ma-4"
+                    block
+                    color="accent"
+                    size="x-small"
+                    @click="ack(m)">
                     Mark as Read
                   </cc-button>
                 </v-window-item>
@@ -71,17 +93,11 @@ import { CompendiumStore, UserStore } from '@/stores';
 import systemMessages from '@/assets/system_messages.json';
 
 export default {
-  name: 'welcome-dialog',
+  name: 'WelcomeDialog',
   data: () => ({
     panel: false,
     tab: 0,
   }),
-  mounted() {
-    this.panel = this.unreadMessages.length > 0;
-    this.tab = this.systemMessages.findIndex((message) =>
-      this.unreadMessages.find((m) => m.id === message.id)
-    );
-  },
   computed: {
     systemMessages() {
       return systemMessages;
@@ -96,6 +112,12 @@ export default {
     mobile() {
       return this.$vuetify.display.mdAndDown;
     },
+  },
+  mounted() {
+    this.panel = this.unreadMessages.length > 0;
+    this.tab = this.systemMessages.findIndex((message) =>
+      this.unreadMessages.find((m) => m.id === message.id)
+    );
   },
   methods: {
     isUnread(message) {

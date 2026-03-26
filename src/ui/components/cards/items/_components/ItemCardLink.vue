@@ -3,7 +3,7 @@
     <v-tooltip location="top"
       open-delay="300">
       <template #activator="{ props }">
-        <v-icon v-bind="props"
+        <cc-button v-bind="props"
           size="small"
           class="fade-select"
           color="secondary"

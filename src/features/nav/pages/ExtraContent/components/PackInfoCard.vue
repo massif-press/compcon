@@ -150,6 +150,7 @@ export default {
       tables: ['Data Table', 'Data Tables'],
       eidolonLayers: ['Eidolon Layer', 'Eidolon Layers'],
       downtimeActions: ['Downtime Action', 'Downtime Actions'],
+      bondPowers: ['Bond Power', 'Bond Powers'],
     },
   }),
 

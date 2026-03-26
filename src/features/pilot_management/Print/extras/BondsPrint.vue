@@ -1,12 +1,15 @@
 <template>
   <div class="text-black px-2 pb-2">
-    <v-row dense align="center">
+    <v-row dense
+      align="center">
       <v-col cols="auto">
         <div class="text-overline mt-n2 mb-n2 text-primary">BOND</div>
-        <div v-if="blank" style="min-width: 250px">
+        <div v-if="blank"
+          style="min-width: 250px">
           <blank-line :height="40" />
         </div>
-        <div v-else-if="bc.Bond" class="heading h2 my-n2">
+        <div v-else-if="bc.Bond"
+          class="heading h2 my-n2">
           {{ bc.Bond.Name }}
         </div>
       </v-col>
@@ -14,7 +17,12 @@
       <v-col class="text-right">
         <div class="text-overline text-primary mt-n2 mb-n3">XP</div>
         <div>
-          <v-icon v-for="n in 8" :key="`xp-${n}`" :size="31" color="primary" style="opacity: 0.5" class="mr-n1">
+          <v-icon v-for="n in 8"
+            :key="`xp-${n}`"
+            :size="31"
+            color="primary"
+            style="opacity: 0.5"
+            class="mr-n1">
             mdi-hexagon-outline
           </v-icon>
         </div>
@@ -22,44 +30,67 @@
       <v-col class="text-right">
         <div class="text-overline text-primary mt-n2 mb-n3 ml-n7">STRESS</div>
         <div>
-          <v-icon v-for="n in 8" :key="`stress-${n}`" :size="31" color="primary" style="opacity: 0.5">
+          <v-icon v-for="n in 8"
+            :key="`stress-${n}`"
+            :size="31"
+            color="primary"
+            style="opacity: 0.5">
             mdi-heart-outline
           </v-icon>
         </div>
       </v-col>
     </v-row>
 
-    <div v-if="blank" dense class="mb-4">
+    <div v-if="blank"
+      dense
+      class="mb-4">
       <div class="text-overline mt-n2 mb-n2 text-primary">MAJOR IDEAL</div>
       <blank-line :height="24" />
       <div class="text-cc-overline text-primary">MINOR IDEALS</div>
-      <blank-line :height="24" class="mt-n2 mb-1" />
+      <blank-line :height="24"
+        class="mt-n2 mb-1" />
       <blank-line :height="24" />
     </div>
 
-    <v-row v-else-if="bc.Bond" dense justify="space-between" class="pt-4">
-      <v-col v-for="(q, i) in bc.Bond.Questions" :key="`question-${i}`" v-show="bc.Answers[i]">
-        <div class="text-overline mt-n5" style="line-height: 12px">{{ q.question }}</div>
-        <div class="text-left caption" v-text="bc.Answers[i]" />
+    <v-row v-else-if="bc.Bond"
+      dense
+      justify="space-between"
+      class="pt-4">
+      <v-col v-for="(q, i) in bc.Bond.Questions"
+        :key="`question-${i}`"
+        v-show="bc.Answers[i]">
+        <div class="text-overline mt-n5"
+          style="line-height: 12px">{{ q.question }}</div>
+        <div class="text-left caption"
+          v-text="bc.Answers[i]" />
       </v-col>
       <v-col v-if="bc.MinorIdeal">
-        <div class="text-overline mt-n5" style="line-height: 12px">MINOR IDEAL</div>
-        <div class="text-left caption" v-text="bc.MinorIdeal" />
+        <div class="text-overline mt-n5"
+          style="line-height: 12px">MINOR IDEAL</div>
+        <div class="text-left caption"
+          v-text="bc.MinorIdeal" />
       </v-col>
     </v-row>
 
-    <div v-if="blank" dense class="mb-4">
+    <div v-if="blank"
+      dense
+      class="mb-4">
       <div class="text-overline mt-n2 mb-n3 text-primary">BURDENS</div>
-      <v-row v-for="n in 3" :key="`row-${n}`" dense>
-        <v-col cols="auto"><blank-line v-if="blank" :width="58" :height="58" /></v-col>
-        <v-col><blank-line v-if="blank" :height="58" /></v-col>
+      <v-row v-for="n in 3"
+        :key="`row-${n}`"
+        dense>
+        <v-col cols="auto"><blank-line v-if="blank"
+            :width="58"
+            :height="58" /></v-col>
+        <v-col><blank-line v-if="blank"
+            :height="58" /></v-col>
       </v-row>
     </div>
 
     <div v-else-if="bc.Burdens.length">
-      <div class="text-overline text-primary" style="line-height: 0">BURDENS</div>
-      <v-row
-        v-for="(b, index) in bc.Burdens"
+      <div class="text-overline text-primary"
+        style="line-height: 0">BURDENS</div>
+      <v-row v-for="(b, index) in bc.Burdens"
         :key="`burden-${index}`"
         density="compact"
         justify="space-between"
@@ -68,25 +99,27 @@
         <v-col>
           <fieldset>
             <legend class="heading ml-1 px-2">{{ b.Title }}</legend>
-            <v-row no-gutters class="pb-1">
-              <v-col cols="auto" class="mr-4">
+            <v-row no-gutters
+              class="pb-1">
+              <v-col cols="auto"
+                class="mr-4">
                 <span class="heading h2 text-grey">&emsp;/{{ b.Segments }}</span>
               </v-col>
-              <v-col><div v-html-safe="b.Description" /></v-col>
+              <v-col>
+                <div v-html-safe="b.Description" />
+              </v-col>
             </v-row>
           </fieldset>
         </v-col>
       </v-row>
     </div>
 
-    <div
-      v-if="bc.Clocks.length > 0 && !blank"
+    <div v-if="bc.Clocks.length > 0 && !blank"
       class="text-overline text-primary mt-4"
       style="line-height: 0">
       OTHER CLOCKS
     </div>
-    <v-row
-      v-if="!blank"
+    <v-row v-if="!blank"
       v-for="(b, index) in bc.Clocks"
       :key="`clock-${index}`"
       density="compact"
@@ -96,54 +129,70 @@
       <v-col>
         <fieldset>
           <legend class="heading ml-1 px-2">{{ b.Title }}</legend>
-          <v-row no-gutters class="pb-1">
-            <v-col cols="auto" class="mr-4">
+          <v-row no-gutters
+            class="pb-1">
+            <v-col cols="auto"
+              class="mr-4">
               <span class="heading h2 text-grey">&emsp;/{{ b.Segments }}</span>
             </v-col>
-            <v-col><div v-html-safe="b.Description" /></v-col>
+            <v-col>
+              <div v-html-safe="b.Description" />
+            </v-col>
           </v-row>
         </fieldset>
       </v-col>
     </v-row>
 
-    <div class="text-overline text-primary mt-4" style="line-height: 0">BOND POWERS</div>
-    <div v-if="blank" class="mt-2">
+    <div class="text-overline text-primary mt-4"
+      style="line-height: 8px">BOND POWERS</div>
+    <div v-if="blank"
+      class="mt-2">
       <v-row dense>
-        <v-col v-for="n in 6" :key="`power-${n}`" :cols="landscape ? 3 : 6">
-          <blank-line v-if="blank" :height="landscape ? 120 : 60" />
+        <v-col v-for="n in 6"
+          :key="`power-${n}`"
+          :cols="landscape ? 3 : 6">
+          <blank-line v-if="blank"
+            :height="landscape ? 120 : 60" />
         </v-col>
         <v-col :cols="landscape ? 3 : 6">
-          <div
-            class="text-overline text-white bg-grey-lighten-1 text-center"
-            :style="
-              landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
-            ">
+          <div class="text-overline text-white bg-grey-lighten-1 text-center"
+            :style="landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
+              ">
             VETERAN POWER
           </div>
 
-          <blank-line v-if="blank" :width="landscape ? 270 : 375" :height="landscape ? 100 : 60" />
+          <blank-line v-if="blank"
+            :width="landscape ? 270 : 375"
+            :height="landscape ? 100 : 60" />
         </v-col>
         <v-col :cols="landscape ? 3 : 6">
-          <div
-            class="text-overline text-white bg-grey-lighten-1 text-center"
-            :style="
-              landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
-            ">
+          <div class="text-overline text-white bg-grey-lighten-1 text-center"
+            :style="landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
+              ">
             MASTER POWER
           </div>
 
-          <blank-line v-if="blank" :width="landscape ? 270 : 375" :height="landscape ? 100 : 60" />
+          <blank-line v-if="blank"
+            :width="landscape ? 270 : 375"
+            :height="landscape ? 100 : 60" />
         </v-col>
       </v-row>
     </div>
-    <v-row v-else dense justify="center" class="mt-n1 caption">
-      <v-col v-for="p in bc.BondPowers" :key="p.name" cols="6" style="position: relative">
+    <v-row v-else
+      dense
+      justify="center"
+      class="mt-n1 caption">
+      <v-col v-for="p in bc.BondPowers"
+        :key="p.name"
+        cols="6"
+        style="position: relative">
         <fieldset>
           <legend class="heading ml-1 px-2">
             {{ p.name }}
             {{ p.veteran ? '(VETERAN POWER)' : p.master ? '(MASTER POWER)' : '' }}
           </legend>
-          <div class="pa-1 mt-n1" v-html-safe="p.description" />
+          <div class="pa-1 mt-n1"
+            v-html-safe="p.description" />
         </fieldset>
       </v-col>
     </v-row>
