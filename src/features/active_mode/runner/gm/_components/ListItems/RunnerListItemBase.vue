@@ -8,8 +8,8 @@
           flat
           tile
           variant="outlined"
-          @click.stop="$emit('click', $event)"
-          :style="`border-color: ${selected ? 'rgb(var(--v-theme-accent))' : isHovering ? 'rgb(var(--v-theme-primary))' : 'rgb(var(--v-theme-panel))'};`">
+          :style="`border-color: ${selected ? 'rgb(var(--v-theme-accent))' : isHovering ? 'rgb(var(--v-theme-primary))' : 'rgb(var(--v-theme-panel))'};`"
+          @click.stop="$emit('click', $event)">
           <v-row justify="space-between"
             dense
             :style="collapsed && !activations ? 'opacity: 0.4' : ''">
@@ -54,22 +54,22 @@
               class="mx-1">
               <slot />
 
-              <div style="font-size: 16px"
-                v-if="!destroyed && !reinforcementTurn">
+              <div v-if="!destroyed && !reinforcementTurn && !isReinforcement"
+                style="font-size: 16px">
                 <v-row dense
                   justify="space-between"
                   align="center"
                   class="pr-1">
-                  <v-col cols="auto"
-                    v-for="stat in actor.StatController.GetStatCollection([
-                      'hp',
-                      'overshield',
-                      'stress',
-                      'heatcap',
-                      'structure',
-                      'repairCapacity',
-                    ])"
-                    :key="stat.key">
+                  <v-col v-for="stat in actor.StatController.GetStatCollection([
+                    'hp',
+                    'overshield',
+                    'stress',
+                    'heatcap',
+                    'structure',
+                    'repairCapacity',
+                  ])"
+                    :key="stat.key"
+                    cols="auto">
                     <v-tooltip location="top"
                       open-delay="400">
                       <template #activator="{ props }">
@@ -101,14 +101,14 @@
                   justify="space-between"
                   align="center"
                   class="pl-2 pr-6">
-                  <v-col cols="auto"
-                    v-for="stat in actor.StatController.GetStatCollection([
-                      'armor',
-                      'evasion',
-                      'edef',
-                      'saveTarget',
-                    ])"
-                    :key="stat.key">
+                  <v-col v-for="stat in actor.StatController.GetStatCollection([
+                    'armor',
+                    'evasion',
+                    'edef',
+                    'saveTarget',
+                  ])"
+                    :key="stat.key"
+                    cols="auto">
                     <v-tooltip :text="stat.title"
                       location="top"
                       open-delay="400">
@@ -126,21 +126,22 @@
                 </v-row>
               </div>
 
-              <div v-else-if="!destroyed && reinforcementTurn">
+              <div v-else-if="!destroyed && (reinforcementTurn || isReinforcement)">
                 <v-card flat
                   tile
                   class="text-center text-cc-overline mt-1">
                   <span v-if="timeToDeploy > 1"
                     class="fade-select">
-                    Deploys on Turn {{ reinforcementTurn }}
+                    Deploys on Round {{ reinforcementTurn }}
                   </span>
                   <div v-else-if="timeToDeploy === 1"
                     class="bg-background pa-1 font-weight-bold text-accent">
-                    Deploys Next Turn
+                    Deploys Next Round
                   </div>
                 </v-card>
-                <div class="d-flex justify-end">
-                  <cc-button v-if="timeToDeploy < 1"
+
+                <div class="">
+                  <cc-button v-if="!timeToDeploy || timeToDeploy < 1"
                     block
                     color="success"
                     size="x-small"
@@ -149,6 +150,17 @@
                     @click="$emit('activate', combatant)">
                     Ready to Deploy
                   </cc-button>
+                  <v-btn v-else
+                    block
+                    flat
+                    tile
+                    color="success"
+                    size="x-small"
+                    class="mt-2 fade-select"
+                    prepend-icon="mdi-arrow-right-bold-box-outline"
+                    @click="$emit('activate', combatant)">
+                    Force Deploy
+                  </v-btn>
                 </div>
               </div>
 
@@ -158,7 +170,7 @@
                 justify="center"
                 class="text-center my-1">
                 <v-tooltip v-for="damage in actor.CombatController.Resistances"
-                  :key="`${damage.type}-${damage.condition}`"
+                  :key="`${actor.CombatController.Resistances.length}_${damage.type}-${damage.condition}`"
                   location="top">
                   <template #activator="{ props }">
                     <v-icon v-bind="props"
@@ -328,6 +340,7 @@
                 </v-progress-linear>
               </div>
             </v-col>
+
             <v-col v-if="!collapsed && !reinforcementTurn"
               class="d-flex align-center"
               style="padding-left: 2px; padding-right: 2px"
@@ -344,9 +357,9 @@
                     <v-icon v-else-if="!activations"
                       icon="cc:activate"
                       size="20" />
-                    <v-icon v-else
+                    <v-icon v-for="n in activations"
+                      v-else
                       v-bind="props"
-                      v-for="n in activations"
                       :key="`activation-${n}`"
                       icon="cc:activate"
                       size="20"
@@ -360,10 +373,10 @@
             </v-col>
           </v-row>
           <deployable-list-item v-for="d in deployed"
+            :key="d.ID"
             :deployable="d"
             :parent="actor"
             :collapsed="collapsed"
-            :key="d.ID"
             @click.stop="$emit('deployable-click', d)">
             {{ d.Name }}
           </deployable-list-item>
@@ -376,8 +389,7 @@
   </div>
 </template>
 
-<script>
-import { CombatController } from '@/classes/components/combat/CombatController';
+<script lang="ts">
 import DeployableListItem from './DeployableListItem.vue';
 
 export default {
@@ -417,6 +429,10 @@ export default {
     deployed: {
       type: Array,
       default: () => [],
+    },
+    isReinforcement: {
+      type: Boolean,
+      default: false,
     },
     reinforcementTurn: {
       type: Number,

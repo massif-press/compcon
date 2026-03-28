@@ -54,7 +54,8 @@
   <div class="text-cc-overline text-text">AVAILABLE WEAPON MOUNTS</div>
   <v-row justify="space-around"
     class="mb-3">
-    <v-col v-for="(m, index) in item.Mounts" :key="`mount-${index}`">
+    <v-col v-for="(m, index) in item.Mounts"
+      :key="`mount-${index}`">
       <v-tooltip location="bottom"
         max-width="300">
         <template #activator="{ props }">
@@ -76,18 +77,17 @@
 </template>
 
 <script lang="ts">
-import { FrameStatblock, FrameCombatChart } from '../frame';
+import { FrameCombatChart } from '../frame';
 import { glossary } from '@massif/lancer-data';
 import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
-  name: 'cc-frame-card',
+  name: 'CcFrameCard',
   components: {
-    FrameStatblock,
     FrameCombatChart,
   },
+  mixins: [useMobile],
   props: {
     item: {
       type: Object,

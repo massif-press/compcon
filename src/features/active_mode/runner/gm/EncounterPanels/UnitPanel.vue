@@ -42,11 +42,10 @@
         </v-col>
       </v-row>
     </template>
-    <template #pre>
-      <unit-combat-loadout :encounter-instance="encounterInstance"
-        :unit="actor"
-        :owner="combatant" />
-    </template>
+
+    <unit-combat-loadout :encounter-instance="encounterInstance"
+      :unit="actor"
+      :owner="combatant" />
 
     <template #actions>
       <npc-actions-panel :owner="combatant"
@@ -55,7 +54,7 @@
   </panel-base>
 </template>
 
-<script>
+<script lang="ts">
 import UnitCombatLoadout from './_components/loadouts/UnitCombatLoadout.vue';
 import NpcActionsPanel from './_components/NpcActionsPanel.vue';
 import ScanMenu from './_components/ScanMenu.vue';

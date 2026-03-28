@@ -174,7 +174,7 @@ export default {
     },
     allLabels() {
       return uniqBy([...NarrativeStore().getAllLabels, ...NpcStore().getAllLabels].filter(
-        x => x.title.length > 0
+        x => x.title && x.title.length > 0
       ), 'title');
     }
   },

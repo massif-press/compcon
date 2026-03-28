@@ -106,16 +106,14 @@
     </v-col>
   </v-row>
   <cc-masonry-grid :items="features"
-    :column-width="600"
     :gap="16"
-    :min-columns="1"
-    :max-columns="4">
+    :xl-columns="2">
     <template #default="{ item }">
       <fieldset class="px-2"
         style="border-color: rgba(155, 155, 155, 0.6)">
-        <unit-feature-card :owner="owner"
+        <unit-feature-card :key="item.ID"
+          :owner="owner"
           :encounter="encounterInstance"
-          :key="item.ID"
           :item="item"
           :unit="unit"
           @deploy="$emit('deploy', $event)" />
@@ -124,12 +122,12 @@
   </cc-masonry-grid>
 </template>
 
-<script>
+<script lang="ts">
 import UnitFeatureCard from './_unitFeatureCard.vue';
 import * as _ from 'lodash-es';
 
 export default {
-  name: 'mech-combat-loadout',
+  name: 'MechCombatLoadout',
   components: {
     UnitFeatureCard,
   },
@@ -153,22 +151,6 @@ export default {
     hiddenFeatureCount: 0,
     hidePassives: true,
   }),
-  methods: {
-    roll() {
-      this.result = Math.floor(Math.random() * 6) + 1;
-    },
-    apply() {
-      this.features.forEach((feature) => {
-        if (this.result >= feature.Recharge) {
-          feature.Used = false;
-        }
-      });
-      this.result = 0;
-    },
-    getModName(modId) {
-      return this.unit.NpcFeatureController.Features.find((x) => x.ID === modId).Name || 'Unknown';
-    },
-  },
   computed: {
     features() {
       let features = this.unit.NpcFeatureController.Features.filter((x) => !x.Mod).sort((a, b) => {
@@ -198,6 +180,22 @@ export default {
       return this.features.filter(
         (feature) => feature.Recharge > 0 && this.result >= feature.Recharge && feature.Used
       );
+    },
+  },
+  methods: {
+    roll() {
+      this.result = Math.floor(Math.random() * 6) + 1;
+    },
+    apply() {
+      this.features.forEach((feature) => {
+        if (this.result >= feature.Recharge) {
+          feature.Used = false;
+        }
+      });
+      this.result = 0;
+    },
+    getModName(modId) {
+      return this.unit.NpcFeatureController.Features.find((x) => x.ID === modId).Name || 'Unknown';
     },
   },
 };

@@ -5,7 +5,7 @@
     <template #activator="{ props }">
       <v-list-item tile
         v-bind="props"
-        :class="noIndent ? '' : 'ml-n10'">
+        :class="noIndent ? '' : 'ml-n7'">
         <template #title>
           <div v-if="manufacturer">
             <cc-logo v-if="manufacturer.LogoIsExternal"

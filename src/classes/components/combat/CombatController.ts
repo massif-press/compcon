@@ -428,7 +428,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public SetResistance(type: string, condition?: string): void {
-    condition = condition?.toLowerCase() || 'vulnerable'
+    condition = condition?.toLowerCase() || 'off'
 
     const existingIndex = this.ActiveActor.CombatController.Resistances.findIndex(
       s => s.type === type
@@ -436,7 +436,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (existingIndex === -1) {
       this.ActiveActor.CombatController.Resistances.push({ type, condition })
       this.log(`Gained ${type} ${condition}`)
-    } else if (condition) {
+    } else if (condition && condition !== 'off') {
       this.ActiveActor.CombatController.Resistances[existingIndex].condition = condition
     } else {
       this.Resistances.splice(existingIndex, 1)

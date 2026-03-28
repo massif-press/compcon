@@ -31,7 +31,7 @@
               offset-x
               top
               left>
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <v-btn block
                   variant="tonal"
                   color="error"
@@ -50,7 +50,7 @@
     </v-row>
     <v-pagination v-model="currentRemotePage"
       :length="totalRemotePages"
-      total-visible="9"
+      total-visible="5"
       @input="currentRemotePage = $event" />
     <v-divider class="my-3" />
     <cc-alert density="compact"
@@ -110,7 +110,8 @@ import * as _ from 'lodash-es';
 import { SetItem, RemoveItem, GetKeys } from '@/io/Storage';
 
 export default {
-  name: 'remote-image-archive',
+  name: 'RemoteImageArchive',
+  emits: ['set-staged'],
   data: () => ({
     currentRemotePage: 1,
     itemsPerPage: 12,
@@ -126,10 +127,6 @@ export default {
     remoteImages: [] as string[],
     urls: [] as string[],
   }),
-  emits: ['set-staged'],
-  async created() {
-    await this.getRemoteImages();
-  },
   computed: {
     displayedRemoteImages() {
       const startIndex = (this.currentRemotePage - 1) * this.itemsPerPage;
@@ -139,6 +136,9 @@ export default {
     totalRemotePages() {
       return Math.ceil(this.remoteImages.length / this.itemsPerPage);
     },
+  },
+  async created() {
+    await this.getRemoteImages();
   },
   methods: {
     async getRemoteImages() {

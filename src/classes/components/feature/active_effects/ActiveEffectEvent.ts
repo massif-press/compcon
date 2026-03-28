@@ -159,9 +159,9 @@ class ActiveEffectEvent {
       this.Initiator.id
     )
 
-    return availableTargets.filter(
-      x => !this._targets.some(y => y && y.Combatant && y.Combatant.id === x.id)
-    )
+    return availableTargets
+      .filter(x => !x.actor.CombatController.IsDestroyed && !x.reinforcement)
+      .filter(x => !this._targets.some(y => y && y.Combatant && y.Combatant.id === x.id))
   }
 
   public get AttackStat() {

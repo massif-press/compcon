@@ -914,7 +914,7 @@ export const UserStore = defineStore('cloud', {
     async refreshItchData(): Promise<string> {
       return OAuthService.refreshItchData(this)
     },
-    async downloadLcp(dbItem: any): Promise<void> {
+    async fetchLcp(dbItem: any): Promise<any> {
       const presign = await getItemDownloadLink(
         this.UserMetadata.ItchData.user.id,
         dbItem.game_id,
@@ -924,6 +924,10 @@ export const UserStore = defineStore('cloud', {
       const fileData = await this.readAsBinaryStringAsync(file)
       const lcp = await parseContentPack(fileData as string)
       lcp.active = true
+      return lcp
+    },
+    async downloadLcp(dbItem: any): Promise<void> {
+      const lcp = await this.fetchLcp(dbItem)
       await CompendiumStore().installContentPack(lcp)
     },
     readAsBinaryStringAsync(file) {

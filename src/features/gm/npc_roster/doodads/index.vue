@@ -74,7 +74,7 @@ export default {
   computed: {
     groupings() {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 
@@ -84,7 +84,7 @@ export default {
     },
     sortings() {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 

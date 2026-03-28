@@ -48,8 +48,8 @@
           :collapsed="!expanded"
           :selected="selected && selected.id === element.id"
           @select="$emit('select', $event)" />
-        <component v-else
-          :is="`${element.type}-runner-list-item`"
+        <component :is="`${element.type}-runner-list-item`"
+          v-else
           :combatant="element"
           :collapsed="!expanded"
           :selected="selected && selected.id === element.id"
@@ -57,26 +57,37 @@
       </div>
     </template>
   </sortable>
+
   <v-card v-if="reinforcements.length"
     class="ma-2"
     flat
     tile
     color="background">
     <div v-if="expanded"
-      class="text-cc-overline pa-1 text-disabled">
+      class="text-cc-overline pa-1 text-disabled d-flex align-center"
+      style="cursor: pointer; user-select: none"
+      @click="reinforcementsCollapsed = !reinforcementsCollapsed">
       <cc-slashes />
       reinforcements
+      <v-spacer />
+      <v-icon size="small"
+        :icon="reinforcementsCollapsed ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
     </div>
 
-    <reinforcement-list-item v-for="r in reinforcements"
-      :key="r.id"
-      :combatant="r"
-      :collapsed="!expanded"
-      :selected="selected && selected.id === r.id"
-      :round="encounter.Round"
-      no-drag
-      @activate="activateReinforcement(r)"
-      @select="$emit('select', $event)" />
+    <v-scroll-y-reverse-transition>
+      <div v-if="!reinforcementsCollapsed">
+        <reinforcement-list-item v-for="r in reinforcements"
+          :key="r.id"
+          :combatant="r"
+          :collapsed="!expanded"
+          :selected="selected && selected.id === r.id"
+          :round="encounter.Round"
+          is-reinforcement
+          no-drag
+          @activate="activateReinforcement(r)"
+          @select="$emit('select', $event)" />
+      </div>
+    </v-scroll-y-reverse-transition>
   </v-card>
 
   <v-card v-if="destroyedCombatants.length"
@@ -160,7 +171,7 @@ import ReinforcementListItem from './ListItems/ReinforcementListItem.vue';
 import DestroyedListItem from './ListItems/DestroyedListItem.vue';
 
 export default {
-  name: 'gm-encounter-runner-initiative-panel',
+  name: 'GmEncounterRunnerInitiativePanel',
   components: {
     Sortable,
     UnitRunnerListItem,
@@ -189,12 +200,13 @@ export default {
       default: null,
     },
   },
+  emits: ['select'],
   data: () => ({
     sort: '',
     sortAsc: true,
     sortableKey: `sk-0`,
+    reinforcementsCollapsed: false,
   }),
-  emits: ['select'],
 
   computed: {
     combatants() {
@@ -215,7 +227,7 @@ export default {
   },
   methods: {
     itemSort(key) {
-      let sorted = [...this.combatants];
+      const sorted = [...this.combatants];
 
       if (key === 'name') {
         sorted.sort((a, b) =>

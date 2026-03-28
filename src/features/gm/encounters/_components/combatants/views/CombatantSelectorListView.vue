@@ -9,7 +9,8 @@
     </div>
     <v-navigation-drawer v-model="showNav"
       :width="mobile ? 320 : 350">
-      <v-text-field density="compact"
+      <v-text-field v-model=search
+        density="compact"
         hide-details
         clearable
         flat
@@ -122,6 +123,7 @@ export default {
     selected: null,
     itemTypes: ['unit', 'doodad', 'eidolon'],
     showNav: true,
+    search: '',
   }),
   computed: {
     mobile() {
@@ -131,7 +133,11 @@ export default {
       return NpcStore().Npcs.filter((x) => !x.SaveController.IsDeleted);
     },
     filteredNpcs() {
-      return this.npcs.filter((n) => this.itemTypes.includes(n.ItemType.toLowerCase()));
+      let out = this.npcs.filter((n) => this.itemTypes.includes(n.ItemType.toLowerCase()));
+      if (this.search) {
+        out = out.filter((x) => x.Name.toLowerCase().includes(this.search.toLowerCase()));
+      }
+      return out;
     },
     npcsByFolder() {
       return _.groupBy(this.filteredNpcs, 'FolderController.Folder');

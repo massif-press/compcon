@@ -69,9 +69,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import * as _ from 'lodash-es';
-import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'DamageConditionSelector',

@@ -179,9 +179,9 @@ export default {
       return this.braced.length || this.activeActors.some(c => this.getTimeoutStatuses(c).length || this.getTimeoutStatuses(c, true).length);
     },
     activeActors() {
-      return this.encounterInstance.Combatants.filter((x) => x.type !== 'doodad').map(
+      return this.encounterInstance.Combatants.filter((x) => x.type !== 'doodad' && !x.actor.CombatController.IsDestroyed && !x.reinforcement).map(
         (x) => x.actor.CombatController.ActiveActor.CombatController
-      );
+      )
     },
     hasRemainingActions() {
       return this.activeActors.filter((c) => c.HasRemainingActions);

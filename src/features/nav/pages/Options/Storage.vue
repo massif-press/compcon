@@ -279,6 +279,14 @@ export default {
       if (len) return len;
     },
     updateUserStorage() {
+      const warn = Number(this.storageRange[0]);
+      if (isNaN(warn)) return;
+      const max = Number(this.storageRange[1]);
+      if (isNaN(max)) return;
+      if (warn < 0) this.storageRange[0] = 0;
+      if (max > 100) this.storageRange[1] = 100;
+      if (warn > max) this.storageRange[0] = max;
+
       this.user.StorageWarning = this.storageRange[0];
       this.user.StorageMax = this.storageRange[1];
     },

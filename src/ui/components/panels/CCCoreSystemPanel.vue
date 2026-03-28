@@ -116,7 +116,8 @@
     <v-row v-if="cs.IntegratedEquipment.length"
       no-gutters
       justify="center">
-      <v-col v-for="(x, index) in cs.IntegratedEquipment" :key="`integrated-${index}`">
+      <v-col v-for="(x, index) in cs.IntegratedEquipment"
+        :key="`integrated-${index}`">
         <cc-integrated-info :item="x"
           :panel="!isTerse && !mobile" />
       </v-col>

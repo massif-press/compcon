@@ -94,16 +94,6 @@
       <v-toolbar density="compact">
         <v-toolbar-title class="heading h3">
           <span>SELECT NPC</span>
-          <v-btn-toggle v-model="selectorView"
-            class="py-2 ml-6"
-            variant="tonal"
-            color="accent"
-            mandatory>
-            <v-btn value="list"
-              icon><v-icon icon="mdi-view-list" /></v-btn>
-            <v-btn value="table"
-              icon><v-icon icon="mdi-table" /></v-btn>
-          </v-btn-toggle>
         </v-toolbar-title>
         <v-spacer />
         <v-btn icon
@@ -207,8 +197,8 @@
                     dense>
                     <v-col>{{ key }}</v-col>
                     <v-col :class="itemDiff[key].instance.length > itemDiff[key].source.length
-                        ? 'text-success'
-                        : 'text-error'
+                      ? 'text-success'
+                      : 'text-error'
                       ">
                       {{ itemDiff[key].instance }}
                     </v-col>

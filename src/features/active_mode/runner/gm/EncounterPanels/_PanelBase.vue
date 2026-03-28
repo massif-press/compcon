@@ -101,7 +101,8 @@
 
             <v-row class="mt-n1"
               dense>
-              <v-col v-if="Object.keys(item.StatController.MaxStats).includes('grit')"
+              <v-col
+                v-if="Object.keys(item.StatController.MaxStats).includes('grit') || (item.Parent && Object.keys(item.Parent.StatController.MaxStats).includes('grit'))"
                 cols="auto">
                 <v-tooltip location="top"
                   text="Pilot Grit">
@@ -112,7 +113,7 @@
                         :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
                       <span :class="mobile ? '' : 'h2'"
                         class="heading text-accent">
-                        {{ item.Grit }}</span>
+                        {{ item.Grit || item.Parent?.Grit || 0 }}</span>
                     </span>
                   </template>
                 </v-tooltip>

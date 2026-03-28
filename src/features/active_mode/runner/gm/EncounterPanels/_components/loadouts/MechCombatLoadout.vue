@@ -1,8 +1,6 @@
 <template>
   <div class="text-cc-overline">// WEAPONS</div>
   <cc-masonry-grid :items="mounts"
-    :column-width="600"
-    :gap="16"
     :xl-columns="2">
     <template #default="{ item }">
       <fieldset :class="mobile ? 'pa-1' : 'pb-2 px-3'"
@@ -43,10 +41,7 @@
   </cc-masonry-grid>
   <div class="text-cc-overline mt-2">// SYSTEMS</div>
   <cc-masonry-grid :items="systems"
-    :column-width="600"
-    :gap="16"
-    :min-columns="1"
-    :max-columns="2">
+    :xl-columns="2">
     <template #default="{ item }">
       <fieldset class="pb-2 px-3"
         style="border-color: rgba(155, 155, 155, 0.6)">

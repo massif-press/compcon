@@ -92,6 +92,8 @@
             variant="text"
             size="small"
             color="accent"
+            :disabled="isLatest(item)"
+            :loading="downloadingPacks.includes(item.sortkey)"
             v-bind="props"
             @click="installLatest(item)">
             <v-icon size="large"
@@ -240,6 +242,7 @@ export default {
     expanded: [],
     packs: [] as any[],
     loading: true,
+    downloadingPacks: [] as string[],
   }),
   computed: {
     tableHeaders() {
@@ -287,6 +290,10 @@ export default {
       if (!this.user.Itch || !this.user.Itch.gamedata?.length) return false;
       return this.user.Itch.gamedata?.some((purchase) => purchase.game_id === pack.game_id);
     },
+    isLatest(pack) {
+      const installed = this.getInstalledPack(pack);
+      return !!installed && installed.Manifest.version === pack.version;
+    },
     hasSubscription(pack) {
       return this.lcpSubscriptions.includes(pack.sortkey);
     },
@@ -306,7 +313,8 @@ export default {
       }
     },
     async installLatest(pack) {
-      this.loading = true;
+      if (this.isLatest(pack) || this.downloadingPacks.includes(pack.sortkey)) return;
+      this.downloadingPacks.push(pack.sortkey);
       try {
         await UserStore().downloadLcp(pack);
         this.$notify({
@@ -322,21 +330,34 @@ export default {
           data: { color: 'error', icon: 'mdi-alert-circle-outline' },
         });
       } finally {
-        this.loading = false;
+        this.downloadingPacks = this.downloadingPacks.filter((k) => k !== pack.sortkey);
       }
     },
     async updateAll() {
       this.loading = true;
-      for (const pack of this.packs) {
-        if (this.hasSubscription(pack)) {
-          if (
-            !this.getInstalledPack(pack) ||
-            this.getInstalledPack(pack)?.Manifest.version !== pack.version
-          )
-            await this.installLatest(pack);
+      try {
+        const toUpdate = this.packs.filter(
+          (pack) => this.hasSubscription(pack) && this.getInstalledPack(pack) && !this.isLatest(pack)
+        );
+        if (toUpdate.length) {
+          const lcps = await Promise.all(toUpdate.map((pack) => UserStore().fetchLcp(pack)));
+          await CompendiumStore().installContentPacks(lcps);
         }
+        this.$notify({
+          title: 'LCPs Updated',
+          text: 'All LCPs have been updated.',
+          data: { color: 'success', icon: 'mdi-check-bold' },
+        });
+      } catch (err) {
+        logger.error(`Error updating LCPs: ${err}`, this, err);
+        this.$notify({
+          title: 'Error Updating LCPs',
+          text: 'An error occurred while attempting to update your LCPs.',
+          data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+        });
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
     },
   },
 };

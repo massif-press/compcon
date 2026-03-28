@@ -103,14 +103,19 @@
         class="text-disabled">
         No encounter reinforcements.
       </span>
-      <div v-else>
+      <cc-panel v-else
+        variant="outlined"
+        class="ml-2">
         <v-row v-for="reinforcement in reinforcementsByTurn"
           :key="reinforcement.turn"
+          dense
           align="center">
           <v-col cols="auto"
-            class="text-accent heading">Turn {{ reinforcement.turn }}</v-col>
+            class="text-accent heading"><span v-if=reinforcement.turn>Turn {{ reinforcement.turn
+              }}</span>
+            <span v-else> Free Deployment</span></v-col>
           <v-col>
-            <ul>
+            <ul class="text-text">
               <li v-for="combatant in reinforcement.combatants"
                 :key="combatant.id">
                 {{ combatant.actor.Name }}
@@ -118,12 +123,12 @@
             </ul>
           </v-col>
         </v-row>
-      </div>
+      </cc-panel>
     </v-card-text>
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
 import * as _ from 'lodash-es';
 
 export default {
@@ -133,21 +138,27 @@ export default {
       type: Object,
       required: true,
     },
+    encounterInstance: {
+      type: Object,
+      default: null,
+    },
   },
   data: () => ({
     sitrepBlocks: ['Description', 'Deployment', 'Objective', 'Extraction', 'Conditions'],
   }),
   computed: {
     reinforcementsByTurn() {
-      if (!this.encounter || !this.encounter.Combatants) return [];
+      const source = this.encounterInstance || this.encounter;
+      if (!source || !source.Combatants) return [];
 
       const reinforcements = {};
-      this.encounter.Combatants.forEach((combatant) => {
-        if (combatant.reinforcement && combatant.reinforcementTurn) {
-          if (!reinforcements[combatant.reinforcementTurn]) {
-            reinforcements[combatant.reinforcementTurn] = [];
+      source.Combatants.forEach((combatant) => {
+        if (combatant.reinforcement) {
+          const turn = combatant.reinforcementTurn || 0;
+          if (!reinforcements[turn]) {
+            reinforcements[turn] = [];
           }
-          reinforcements[combatant.reinforcementTurn].push(combatant);
+          reinforcements[turn].push(combatant);
         }
       });
       const res = Object.entries(reinforcements).map(([turn, combatants]) => ({

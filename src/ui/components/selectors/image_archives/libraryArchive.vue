@@ -68,7 +68,7 @@
     </v-row>
     <v-pagination v-model="currentArtistPage"
       :length="totalArtistPages"
-      total-visible="9"
+      total-visible="5"
       @input="currentArtistPage = $event" />
   </v-card>
 </template>

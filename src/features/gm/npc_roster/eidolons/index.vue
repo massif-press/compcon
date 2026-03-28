@@ -1,6 +1,5 @@
 <template>
-  <gm-split-view
-    ref="view"
+  <gm-split-view ref="view"
     title="Eidolons"
     item-type="Eidolon"
     :items="eidolons"
@@ -9,19 +8,28 @@
     :sortings="sortings"
     @add-new="addNew()"
     @open="openItem($event)">
-    <editor v-if="selected" :item="selected" hide-toolbar @exit="exit()">
-      <builder slot="upper" :item="selected" />
+    <editor v-if="selected"
+      :item="selected"
+      hide-toolbar
+      @exit="exit()">
+      <builder slot="upper"
+        :item="selected" />
     </editor>
-    <v-row v-else-if="!eidolonAccess" style="height: 85vh">
-      <v-col cols="auto" class="mx-auto text-center my-auto text-disabled" style="max-width: 800px">
+    <v-row v-else-if="!eidolonAccess"
+      style="height: 85vh">
+      <v-col cols="auto"
+        class="mx-auto text-center my-auto text-disabled"
+        style="max-width: 800px">
         <div>
-          <v-icon size="100" class="">mdi-book-off-outline</v-icon>
+          <v-icon size="100"
+            class="">mdi-book-off-outline</v-icon>
           <div class="heading h4">Missing GM Content</div>
           <div class="heading h2 mb-2 text-center pb-4">No Eidolon editor data found!</div>
 
           Eidolon data are included with the paid version of No Room for a Wallflower: Act 1, and
           can be found in the downloadable content section on the
-          <a href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1" target="_blank">
+          <a href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1"
+            target="_blank">
             No Room for a Wallflower: Act 1 itch.io page.
           </a>
           <br />
@@ -80,7 +88,7 @@ export default {
     },
     groupings() {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 
@@ -90,7 +98,7 @@ export default {
     },
     sortings() {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title.length > 0)
+        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 

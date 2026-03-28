@@ -43,7 +43,7 @@
         <v-col cols="12"
           md="6">
           <cc-select v-model="settings.includeShared"
-            label="Snyc Shared Items"
+            label="Sync Shared Items"
             tooltip="On sync events, COMP/CON will also update all shared items to the latest version."
             :items="[
               { title: 'On', value: true },

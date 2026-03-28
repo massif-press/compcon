@@ -1,11 +1,11 @@
 <template>
-  <runner-list-item-base
-    :actor="combatant.actor"
+  <runner-list-item-base :actor="combatant.actor"
     :collapsed="collapsed"
     :selected="selected"
     :side="combatant.side"
     :icon="combatant.actor.Icon"
-    :reinforcementTurn="combatant.reinforcementTurn"
+    is-reinforcement
+    :reinforcement-turn="combatant.reinforcementTurn"
     :round="round"
     @activate="$emit('activate', combatant)"
     @click="$emit('select', combatant)">
@@ -25,7 +25,6 @@ export default {
   components: {
     RunnerListItemBase,
   },
-  emits: ['select'],
   props: {
     combatant: {
       type: Object,
@@ -43,6 +42,7 @@ export default {
       default: 1,
     },
   },
+  emits: ['select'],
   emits: ['select'],
 };
 </script>

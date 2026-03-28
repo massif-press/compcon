@@ -1,9 +1,6 @@
 <template>
   <cc-masonry-grid :items="equipment"
-    :column-width="600"
-    :gap="16"
-    :min-columns="1"
-    :max-columns="2">
+    :xl-columns="1">
     <template #default="{ item }">
       <fieldset class="pb-2 px-3"
         style="border-color: rgba(155, 155, 155, 0.6)">

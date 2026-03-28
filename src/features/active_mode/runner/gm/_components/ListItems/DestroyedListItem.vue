@@ -1,6 +1,5 @@
 <template>
-  <runner-list-item-base
-    :actor="combatant.actor"
+  <runner-list-item-base :actor="combatant.actor"
     :collapsed="collapsed"
     :selected="selected"
     :side="combatant.side"
@@ -22,7 +21,6 @@ export default {
   components: {
     RunnerListItemBase,
   },
-  emits: ['select'],
   props: {
     combatant: {
       type: Object,
@@ -36,6 +34,7 @@ export default {
       type: Boolean,
     },
   },
+  emits: ['select'],
   emits: ['select'],
 };
 </script>
