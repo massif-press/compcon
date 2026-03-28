@@ -1,3 +1,5 @@
+import { getHeaders } from '@/io/apis/account'
+
 // garbage api. awful api. terrible api. bad api. no good. no good at all. this is a dog's api.
 const cleanPatreonData = (data: any) => {
   const { full_name, thumb_url } = data?.data?.attributes ?? {}
@@ -49,13 +51,10 @@ const authItch = async (access_token: string) => {
 
 const getPatronProfile = async (access_token: string) => {
   const url = `${import.meta.env.VITE_APP_INVOKE_URL}/patreon/proxy`
+  const headers = await getHeaders()
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': import.meta.env.VITE_APP_API_KEY,
-      'X-Patreon-Token': access_token,
-    },
+    headers: { ...headers, 'X-Patreon-Token': access_token },
   })
 
   if (!response.ok) throw new Error(`Patreon profile fetch failed: ${response.status}`)

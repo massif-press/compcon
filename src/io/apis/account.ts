@@ -14,7 +14,7 @@ const baseHeaders: Record<string, string> = {
   'x-api-key': (import.meta as any).env.VITE_APP_API_KEY || '',
 }
 
-async function getHeaders(forceRefresh = false): Promise<Record<string, string>> {
+export async function getHeaders(forceRefresh = false): Promise<Record<string, string>> {
   try {
     const session = await fetchAuthSession({ forceRefresh })
     const idToken = session.tokens?.idToken?.toString()
