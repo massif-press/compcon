@@ -153,6 +153,11 @@ export default {
       return this.$vuetify.display.mdAndDown
     },
   },
+  async mounted() {
+    if (UserStore().IsLoggedIn) {
+      await this.refresh()
+    }
+  },
   methods: {
     async refresh() {
       this.loading = true
