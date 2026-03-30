@@ -1,6 +1,5 @@
 <template>
-  <component
-    :is="type"
+  <component :is="type"
     :selectable="selectable"
     :rank="rank"
     :can-add="canAdd"
@@ -27,7 +26,7 @@ import TalentFull from './components/_TalentFull.vue';
 import TalentRankView from './components/_TalentRankView.vue';
 
 export default {
-  name: 'talent',
+  name: 'Talent',
   components: {
     TalentMicro,
     TalentSmall,

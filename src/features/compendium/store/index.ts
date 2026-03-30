@@ -137,6 +137,7 @@ export const CompendiumStore = defineStore('compendium', {
     },
     hasEidolonAccess(): boolean {
       if (!this.loaded) return false
+      console.log(this.EidolonLayers)
       return this.EidolonLayers.length > 0
     },
     NpcClasses: state => collect<NpcClass>(state, 'npc_classes', NpcClass),

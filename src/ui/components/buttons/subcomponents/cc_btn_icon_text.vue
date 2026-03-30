@@ -1,37 +1,32 @@
 <template>
-  <v-tooltip
-    :disabled="!tooltip"
+  <v-tooltip :disabled="!tooltip"
     :text="tooltip"
     :location="<any>tooltipLocation"
     style="position: relative">
     <template #activator="{ props }">
-      <div
-        class="top-element d-inline-block"
+      <div class="top-element d-inline-block"
         style="position: relative; align-content: center"
-        v-bind="props">
-        <v-icon
-          v-if="outlined"
-          :size="iconSize * 2"
+        v-bind="props"
+        @click.stop="!disabled && !loading && $emit('click', $event)">
+        <v-icon v-if="outlined"
+          :size="iconSize * 1.85"
           :color="getColor"
           :disabled="disabled"
           icon="cc:hex_thin"
           :class="!disabled && 'hover outline-hover'"
           style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" />
-        <v-btn
-          variant="text"
+        <v-btn variant="text"
           icon
           :disabled="disabled"
           :size="iconSize"
           :loading="loading"
-          :class="`pa-0 ${!disabled && 'hover'} text-${getColor}`"
+          :class="`${!disabled && 'hover'} text-${getColor}`"
           :to="to"
           :href="href"
-          :target="target"
-          @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-icon
-            :size="iconSize"
-            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+          :target="target">
+          <v-icon :size="iconSize"
             :icon="icon"
+            style="margin-top: -1px;"
             :disabled="disabled" />
         </v-btn>
       </div>
@@ -41,7 +36,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-btn-icon',
+  name: 'CcBtnIcon',
   props: {
     color: { type: String },
     loading: { type: Boolean },
@@ -69,17 +64,17 @@ export default {
     iconSize() {
       switch (this.size) {
         case 'x-small':
-          return 14;
+          return 17;
         case 'small':
-          return 22;
+          return 25;
         case 'large':
-          return 32;
+          return 35;
         case 'x-large':
-          return 42;
+          return 43;
         case 'xx-large':
-          return 50;
+          return 51;
         default:
-          return 28;
+          return 29;
       }
     },
   },

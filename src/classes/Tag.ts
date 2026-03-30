@@ -1,6 +1,5 @@
 import { CompendiumItem, ContentPack, ItemType } from '@/class'
 import { CompendiumStore } from '@/stores'
-import { ActivationType } from './enums'
 import { ITagData } from '@/interface'
 import logger from '@/user/logger'
 import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
@@ -147,8 +146,9 @@ class Tag implements ILcpTracked {
   }
 
   public static _genTag(id: string): Tag {
-    const t = CompendiumStore().TagData.find(x => x.id === id)
+    const t = CompendiumStore().TagData.find(x => x.id === id || (x as any).ID === id)
     if (!t) throw new Error(`Tag ${id} not found`)
+    if ((t as any).ID !== undefined) return t as unknown as Tag
     return new Tag(t)
   }
 
@@ -199,8 +199,7 @@ class Tag implements ILcpTracked {
     if (!data) return output
     data.forEach(x => {
       let t: Tag
-
-      if (CompendiumStore().TagData.find(t => t.id === x.id)) t = Tag._genTag(x.id)
+      if (CompendiumStore().TagData.find(t => t.id === x.id || (t as any).ID === x.id)) t = Tag._genTag(x.id)
       else {
         if (!packTags) throw new Error(`LCP data not provided for tag id: ${x.id}`)
         const pt = packTags.find(t => t.id === x.id)

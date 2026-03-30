@@ -2,12 +2,12 @@
   <v-col :cols="portrait ? 12 : landscape ? 6 : 4">
     <v-hover>
       <template #default="{ isHovering, props }">
-        <cc-modal :icon="item.Icon" :title="itemDialogTitle">
+        <cc-modal :icon="item.Icon"
+          :title="itemDialogTitle">
           <template #activator="{ open }">
             <div style="position: relative">
               <div :class="`pip bg-${isHovering ? 'accent' : 'panel'}`" />
-              <v-card
-                v-bind="props"
+              <v-card v-bind="props"
                 :color="isHovering ? '' : 'panel'"
                 flat
                 tile
@@ -15,15 +15,13 @@
                 variant="outlined"
                 @click="open()"
                 @keydown.enter="open()">
-                <component
-                  :is="componentLoader"
+                <component :is="componentLoader"
                   v-if="componentLoader"
                   :item="item"
                   :hover="isHovering"
                   :highlighted="highlighted"
                   :small="small || portrait || landscape" />
-                <v-btn
-                  v-if="selectable"
+                <v-btn v-if="selectable"
                   block
                   color="success"
                   size="small"

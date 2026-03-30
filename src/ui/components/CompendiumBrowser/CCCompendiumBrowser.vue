@@ -641,7 +641,7 @@ import bListGroup from './components/_b-list-group.vue';
 
 import LicenseExpandable from './components/_license-expandable.vue';
 
-import { CompendiumItem, License, LicensedItem, Manufacturer } from '@/class';
+import { CompendiumItem, License } from '@/class';
 import { CompendiumStore, UserStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
 
@@ -699,7 +699,7 @@ const manufacturerSortFn = (a: string, b: string): number => {
 };
 
 export default {
-  name: 'CcSelector',
+  name: 'CCCompendiumBrowser',
   components: {
     SelectorListItem,
     SelectorCardItem,
@@ -798,7 +798,7 @@ export default {
     itemsByLcpBySource() {
       const out = {} as Record<string, Record<string, any[]>>;
       for (const lcp of this.lcps) {
-        out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.Source);
+        out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.IsExotic ? 'exotic' : x.Source);
       }
       return out;
     },
@@ -827,7 +827,7 @@ export default {
     manufacturersByLcp() {
       const m = {} as any;
       for (const lcp of this.lcps) {
-        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Source)).sort((a, b) =>
+        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.IsExotic ? 'exotic' : x.Source)).sort((a, b) =>
           sortFn(a, b)
         );
       }

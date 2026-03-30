@@ -614,6 +614,12 @@ export const UserStore = defineStore('cloud', {
           const frequency = this.SyncSettings?.frequency?.toLowerCase() ?? ''
           if (!frequency.includes('start')) return []
         }
+        if (this.SyncSettings.includeSettings) {
+          const cloudLatestChange = this.UserMetadata?.UserSettingData?.latest_change ?? 0
+          if (this.User.latest_change >= cloudLatestChange) {
+            await this.setUserMetadata()
+          }
+        }
         const strategy = this.SyncSettings.resolutionStrategy
         if (strategy === 'manual') return []
         const items = this.AllItemsToSync
@@ -660,14 +666,15 @@ export const UserStore = defineStore('cloud', {
         for (const item of toCloud) {
           const sortKey = item.CloudController?.Metadata?.sortkey
           try {
-            if (sortKey) await queue.enqueue({
-              id: sortKey,
-              itemType: sortKey.split('_')[1] || 'unknown',
-              name: item.Name || item.CloudController?.Metadata?.name || '',
-              direction: 'download',
-              enqueuedAt: Date.now(),
-              retries: 0,
-            })
+            if (sortKey)
+              await queue.enqueue({
+                id: sortKey,
+                itemType: sortKey.split('_')[1] || 'unknown',
+                name: item.Name || item.CloudController?.Metadata?.name || '',
+                direction: 'download',
+                enqueuedAt: Date.now(),
+                retries: 0,
+              })
             await CloudController.SyncToCloud(item)
             if (sortKey) await queue.dequeue(sortKey)
           } catch (e) {
@@ -682,14 +689,15 @@ export const UserStore = defineStore('cloud', {
           // Enqueue all
           for (const item of toLocal) {
             const sortKey = item.CloudController?.Metadata?.sortkey
-            if (sortKey) await queue.enqueue({
-              id: sortKey,
-              itemType: sortKey.split('_')[1] || 'unknown',
-              name: item.Name || item.CloudController?.Metadata?.name || '',
-              direction: 'upload',
-              enqueuedAt: Date.now(),
-              retries: 0,
-            })
+            if (sortKey)
+              await queue.enqueue({
+                id: sortKey,
+                itemType: sortKey.split('_')[1] || 'unknown',
+                name: item.Name || item.CloudController?.Metadata?.name || '',
+                direction: 'upload',
+                enqueuedAt: Date.now(),
+                retries: 0,
+              })
           }
 
           try {
@@ -857,7 +865,10 @@ export const UserStore = defineStore('cloud', {
             logger.warn(`permDeleteFlaggedItems: ${result.unprocessed} unprocessed items`)
           }
         } catch (e) {
-          logger.error('permDeleteFlaggedItems: bulk delete failed, falling back to individual deletes', e)
+          logger.error(
+            'permDeleteFlaggedItems: bulk delete failed, falling back to individual deletes',
+            e
+          )
           await Promise.allSettled(
             batch.map(item => cloudDelete(this.UserMetadata.UserID, item.sortkey, item.uri))
           )

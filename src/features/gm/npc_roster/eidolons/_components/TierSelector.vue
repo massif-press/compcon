@@ -38,6 +38,7 @@ export default {
     },
     updateTier(tier: number) {
       this.item.Tier = tier;
+      this.item.SaveController.save();
     },
     overwrite() {
       this.item.Tier = this.stagedTier;

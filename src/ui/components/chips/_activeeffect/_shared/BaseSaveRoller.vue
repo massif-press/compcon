@@ -7,7 +7,8 @@
       <v-col cols="auto"
         v-if="event.SaveHalf && !!event.Targets[0]">Half</v-col>
     </v-row>
-    <div v-for="(s, idx) in event.Targets" :key="`target-${idx}`">
+    <div v-for="(s, idx) in event.Targets"
+      :key="`target-${idx}`">
       <v-row v-if="!s"
         no-gutters
         align="center"
@@ -125,7 +126,7 @@ export default {
     overrideSave(s) {
       if (!s.SaveResult) return;
       if (s.SaveResult === 'success') {
-        s.SaveRolledValue = 0;
+        s.SaveRolledValue = 1;
       } else {
         s.SaveRolledValue = s.SaveTarget
       }

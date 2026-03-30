@@ -90,7 +90,7 @@ export default {
       return this.collection.toString();
     },
     mName(): string {
-      if (this.collection.toLowerCase() === 'exotic') return 'Exotic';
+      if (this.collection?.toLowerCase() === 'exotic') return 'Exotic';
       const name = this.manufacturer?.Name || 'Other';
       if (name === 'err') return 'Other';
       return name;

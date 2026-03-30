@@ -64,67 +64,76 @@
       </v-btn>
     </template>
     <template #default="{ close }">
-      <v-sheet class="ml-n2"
-        :class="mobile ? '' : 'd-flex'">
-        <v-tabs v-model="tab"
-          direction="vertical"
-          density="compact">
-          <v-tab height="30"
-            value="invade">Invade</v-tab>
-          <v-divider v-if="!mobile" />
-          <div class="pa-2 text-cc-overline text-disabled">Available Invade Actions</div>
-          <v-tab height="30"
-            v-for="item in invadeActions"
-            :border="mobile"
-            :key="item.ID"
-            :value="item.ID">
-            <v-icon :icon="item.Icon"
-              class="mr-2" />
-            {{ item.Name }}
-          </v-tab>
-        </v-tabs>
-        <v-divider :vertical="!mobile"
-          :class="mobile ? 'my-4' : 'mr-1'" />
-        <v-tabs-window v-model="tab"
-          class="px-2">
-          <div v-if="tab === 'invade'">
-            <div class="heading h4">{{ action.Name }}</div>
-            <p class="text-text pl-2"
-              v-html-safe="action.Detail" />
-            <v-row dense
-              align="center"
-              class="my-2">
-              <v-col><v-divider /></v-col>
-              <v-col class="heading text-disabled"
-                cols="auto">Select an Invade Action</v-col>
-              <v-col><v-divider /></v-col>
-            </v-row>
-          </div>
-          <div v-else>
-            <cc-synergy-display location="tech_attack"
-              :mech="controller.Parent"
-              alert />
+      <v-row>
+        <v-col cols="12"
+          md="4">
+          <v-tabs v-model="tab"
+            direction="vertical"
+            density="compact">
+            <v-tab height="30"
+              value="invade">Invade</v-tab>
+            <v-divider v-if="!mobile" />
+            <div class="pa-2 text-cc-overline text-disabled">Available Invade Actions</div>
+            <v-tab v-for="item in invadeActions"
+              :key="item.ID"
+              height="30"
+              class="bg-action--invade"
+              :border="mobile"
+              :value="item.ID">
+              <v-icon :icon="item.Icon"
+                class="mr-2" />
+              {{ item.Name }}
+            </v-tab>
+          </v-tabs>
+        </v-col>
+        <v-col cols="12"
+          md="8">
+          <v-divider :vertical="!mobile"
+            :class="mobile ? 'my-4' : 'mr-1'" />
+          <v-tabs-window v-model="tab"
+            class="px-2">
+            <div v-if="tab === 'invade'">
+              <div class="heading h4">{{ action.Name }}</div>
+              <p v-html-safe="action.Detail"
+                class="text-text pl-2" />
+              <v-row dense
+                align="center"
+                class="my-2">
+                <v-col><v-divider /></v-col>
+                <v-col class="heading text-disabled"
+                  cols="auto">Select an Invade Action</v-col>
+                <v-col><v-divider /></v-col>
+              </v-row>
+            </div>
+            <div v-else>
+              <cc-synergy-display location="tech_attack"
+                :mech="controller.Parent"
+                alert />
 
-            <menu-input :key="controller.ID"
-              :active-effect="getSelectedAction(tab)"
-              :encounter="encounter"
-              :owner="owner"
-              :close="close"
-              @apply="apply"
-              @reset="reset" />
-          </div>
-        </v-tabs-window>
-      </v-sheet>
+              <menu-input :key="controller.ID"
+                :active-effect="getSelectedAction(tab)"
+                :encounter="encounter"
+                :owner="owner"
+                :close="close"
+                @apply="apply"
+                @reset="reset" />
+            </div>
+          </v-tabs-window>
+        </v-col>
+      </v-row>
     </template>
   </cc-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { CompendiumStore } from '@/stores';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
 export default {
   name: 'InvadeButton',
+  components: {
+    MenuInput,
+  },
   props: {
     action: {
       type: Object,
@@ -137,11 +146,9 @@ export default {
     encounter: {
       type: Object,
       required: true,
-    },
+    }
   },
-  components: {
-    MenuInput,
-  },
+  emits: ['activate'],
   data: () => ({
     tab: 'invade',
   }),
@@ -150,7 +157,7 @@ export default {
       return this.$vuetify.display.mdAndDown;
     },
     controller() {
-      return this.owner.actor.CombatController;
+      return this.owner.actor.CombatController.ActiveActor.CombatController;
     },
     canActivate() {
       return this.controller.CanActivate(this.action.Activation);
@@ -162,20 +169,18 @@ export default {
       return this.canActivate && this.canUse;
     },
     invadeActions() {
-      return CompendiumStore()
-        .Actions.filter((a) => a.Activation === 'Invade')
+      return [...CompendiumStore().Actions.filter((a) => a.Activation === 'Invade'),
+      ...this.controller.AllActions('Invade')]
         .sort((a, b) => a.Name.localeCompare(b.Name));
     },
   },
-  emits: ['activate'],
   methods: {
     getSelectedAction(id) {
-      return CompendiumStore().Actions.find((a) => a.ID === id);
+      return this.invadeActions.find((a) => a.ID === id);
     },
-    apply(close) {
+    apply() {
       this.controller.toggleCombatAction(this.action.Activation);
       this.$emit('activate', this.actionId);
-      // close();
     },
     reset() {
       this.controller.ResetActivation(this.action.Activation);

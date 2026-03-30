@@ -327,7 +327,9 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public Clone(): Encounter {
-    return Encounter.Deserialize(cloneDeep(Encounter.Serialize(this)))
+    const clone = Encounter.Deserialize(cloneDeep(Encounter.Serialize(this)))
+    clone.RenewID()
+    return clone
   }
 
   public static Deserialize(data: IEncounterData): Encounter {

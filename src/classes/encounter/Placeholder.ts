@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid'
 import { cloneDeep } from 'lodash-es'
 import { CombatController } from '../components/combat/CombatController'
 import { SaveController } from '../components/save/SaveController'
@@ -97,7 +98,9 @@ class Placeholder {
   }
 
   public Clone(): Placeholder {
-    return Placeholder.Deserialize(cloneDeep(this.Serialize()))
+    const data = cloneDeep(this.Serialize())
+    data.id = uuid()
+    return Placeholder.Deserialize(data)
   }
 }
 export { Placeholder }

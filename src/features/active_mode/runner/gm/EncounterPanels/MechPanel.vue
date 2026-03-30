@@ -213,28 +213,29 @@
             :min-columns="1"
             :max-columns="2">
             <template #default="{ item, index }">
-              <cc-talent rank-view
-                :key="item.Talent.ID"
+              <cc-talent :key="item.Talent.ID"
+                rank-view
                 :talent="item.Talent"
                 :rank="item.Rank"
                 hide-locked
                 hide-change>
                 <template #combat>
-                  <div v-if="item.Talent.AllActions?.length"
-                    class="mb-2 mt-1">
-                    <cc-combat-action-chip v-for="a in item.Talent.AllActions"
-                      :key="a.ID"
-                      :action="a"
-                      :owner="combatant"
-                      :encounter="encounterInstance" />
-                  </div>
-                  <div v-if="item.Talent.AllDeployables?.length"
-                    class="mb-2">
-                    <deploy-button v-for="d in item.Talent.AllDeployables"
-                      :key="d.ID"
-                      :deployable="d"
-                      :actor="mech"
-                      @deploy="deploy($event)" />
+                  <div v-for="(rank, n) in item.Talent.Ranks"
+                    :key="`rank-${index}-${n}`">
+                    <div
+                      v-if="item.Rank >= n + 1 && (rank.Actions?.length || rank.Deployables?.length)"
+                      class="mb-2 mt-1">
+                      <cc-combat-action-chip v-for="a in rank.Actions"
+                        :key="a.ID"
+                        :action="a"
+                        :owner="combatant"
+                        :encounter="encounterInstance" />
+                      <deploy-button v-for="d in rank.Deployables"
+                        :key="d.ID"
+                        :deployable="d"
+                        :actor="mech"
+                        @deploy="deploy($event)" />
+                    </div>
                   </div>
                 </template>
               </cc-talent>

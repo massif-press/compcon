@@ -72,7 +72,10 @@ class DamageEvent {
     return str + ' Damage'
   }
 
-  public CalcFinalDamage(event: ActiveEffectEvent, target: ActiveEventTarget) {
+  public CalcFinalDamageValues(
+    event: ActiveEffectEvent,
+    target: ActiveEventTarget
+  ): { finalDamage: number; armorReduction: number } {
     let incoming = 0
     let bonus = 0
 
@@ -86,7 +89,7 @@ class DamageEvent {
       }
     }
 
-    target.FinalDamageValue =
+    const finalDamage =
       target.Combatant?.actor.CombatController.CalculateDamage(
         this.DamageType,
         incoming,
@@ -95,13 +98,21 @@ class DamageEvent {
         this.Reliable
       ).total || incoming
 
-    target.TotalArmorReduction =
+    const armorReduction =
       target.Combatant?.actor.CombatController.CalculateArmorReduction(
         this.DamageType,
         incoming,
         this.AP,
         this.Irreducible
       ) || 0
+
+    return { finalDamage, armorReduction }
+  }
+
+  public CalcFinalDamage(event: ActiveEffectEvent, target: ActiveEventTarget) {
+    const { finalDamage, armorReduction } = this.CalcFinalDamageValues(event, target)
+    target.FinalDamageValue = finalDamage
+    target.TotalArmorReduction = armorReduction
   }
 
   public ToJSON() {

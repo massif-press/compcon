@@ -82,7 +82,7 @@ import { Action } from '@/interface';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
 
 export default {
-  name: 'cc-combat-action-chip',
+  name: 'CcCombatActionChip',
   components: {
     MenuInput,
   },
@@ -94,6 +94,7 @@ export default {
     disabled: { type: Boolean, required: false, default: false },
     customDisabledText: { type: String, required: false, default: '' },
   },
+  emits: ['activate', 'reset'],
   computed: {
     isDeployable(): boolean {
       return !!this.action.Deployable;
@@ -105,7 +106,6 @@ export default {
       return !this.disabled && this.controller.CanActivate(this.action.Activation);
     },
   },
-  emits: ['activate', 'reset'],
   methods: {
     apply() {
       this.controller.toggleCombatAction(this.action.Activation);

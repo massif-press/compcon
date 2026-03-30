@@ -4,7 +4,8 @@
     v-if="event.Attack">
     <div v-if="!mobile"
       class="text-cc-overline text-disabled">vs {{ event.AttackStat }}</div>
-    <div v-for="(s, idx) in event.Targets" :key="`target-${idx}`">
+    <div v-for="(s, idx) in event.Targets"
+      :key="`target-${idx}`">
       <v-row v-if="!s"
         no-gutters
         align="center"
@@ -138,7 +139,7 @@ export default {
     overrideSave(s) {
       if (!s.HitResult) return;
       if (s.HitResult === 'crit') {
-        s.AttackRolledValue = 0;
+        s.AttackRolledValue = 1;
       } else if (s.HitResult === 'miss') {
         s.AttackRolledValue = s.TargetDefenseValue
       } else {

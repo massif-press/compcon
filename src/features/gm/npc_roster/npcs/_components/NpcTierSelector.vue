@@ -1,17 +1,20 @@
 <template>
-  <v-row dense align="center" class="heading h3 mb-1" :class="readonly ? 'pb-4' : ''">
-    <v-col cols="auto" style="margin-bottom: -2px">Tier</v-col>
+  <v-row dense
+    align="center"
+    class="heading h3 mb-1"
+    :class="readonly ? 'pb-4' : ''">
+    <v-col cols="auto"
+      style="margin-bottom: -2px">Tier</v-col>
     <v-col cols="auto">
-      <v-btn
-        v-for="i in 3"
+      <v-btn v-for="i in 3"
         :key="`tier-${i}`"
-        @click="updateTier(i)"
         flat
         tile
         size="small"
         icon
         variant="tonal"
-        :color="item.NpcClassController.Tier === i ? 'accent' : ''">
+        :color="item.NpcClassController.Tier === i ? 'accent' : ''"
+        @click="updateTier(i)">
         <span class="heading h3">{{ i }}</span>
       </v-btn>
     </v-col>
@@ -20,14 +23,14 @@
 
 <script lang="ts">
 export default {
-  name: 'npc-tier-selector',
+  name: 'NpcTierSelector',
   props: { item: { type: Object, required: true }, readonly: { type: Boolean, default: false } },
+  emits: ['update'],
   data: () => ({
     showConfirmation: false,
     changed: [] as string[],
     stagedTier: 0,
   }),
-  emits: ['update'],
   methods: {
     confirm() {
       this.showConfirmation = false;

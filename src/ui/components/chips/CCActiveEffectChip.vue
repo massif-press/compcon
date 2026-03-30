@@ -132,8 +132,8 @@
                 <b>{{ activeEffect.Condition }}</b>
               </cc-alert>
 
-              <div class="text-text pa-1"
-                v-html-safe="byTier(activeEffect.Detail)" />
+              <div v-html-safe="byTier(activeEffect.Detail)"
+                class="text-text pa-1" />
 
               <div v-if="activeEffect.Frequency"
                 class="text-cc-overline text-center">
@@ -179,14 +179,13 @@
 </template>
 
 <script lang="ts">
-import { Damage } from '@/class';
 import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { ByTier } from '@/util/tierFormat';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
 
 export default {
-  name: 'cc-active-effect-chip',
+  name: 'CcActiveEffectChip',
   components: {
     MenuInput,
   },

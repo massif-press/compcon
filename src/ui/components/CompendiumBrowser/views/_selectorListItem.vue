@@ -75,6 +75,7 @@
         size="small"
         color="success"
         :prepend-icon="item.Icon || undefined"
+        style="max-width: calc(100% - 55px);"
         class="mx-4 mt-n1"
         @click="$emit('select', item)">
         Select {{ item.Name }}
@@ -99,8 +100,11 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
+  name: 'SelectorListItem',
+  components: {
+    ItemCardLink,
+  },
   mixins: [useMobile],
-  name: 'selector-list-item',
   props: {
     item: {
       type: Object,
@@ -117,9 +121,6 @@ export default {
     },
   },
   emits: ['select'],
-  components: {
-    ItemCardLink,
-  },
   computed: {
     useCard(): boolean {
       switch (this.item && this.item.ItemType) {

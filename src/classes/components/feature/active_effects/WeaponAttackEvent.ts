@@ -107,7 +107,7 @@ class WeaponAttackEvent {
     str += `${this.AttackActionString} with ${this.Weapon.Name}:\n`
     this.BaseEvent.Targets.forEach((t, idx) => {
       this.BaseEvent.DamageEvents.forEach(de => {
-        de.CalcFinalDamage(this.BaseEvent, t)
+        const { finalDamage } = de.CalcFinalDamageValues(this.BaseEvent, t)
         str += `   - [${t.Combatant?.actor.CombatController.CombatName || `Target ${idx + 1}`}]`
         switch (this.BaseEvent.Attack && t.HitResult) {
           case 'crit':
@@ -130,7 +130,7 @@ class WeaponAttackEvent {
             str += `\n     ${de.IncomingSummary} `
             str += `${t.DamageModSummary(de.DamageType, de.AP, de.Irreducible)}`
           }
-          str += `\n     Total Damage: ${t.FinalDamageValue} ${de.DamageType}`
+          str += `\n     Total Damage: ${finalDamage} ${de.DamageType}`
           if (de.Reliable && (de.DamageRolledValue! < de.Reliable || t.HitResult === 'miss'))
             str += ` (Reliable ${de.Reliable})`
           const totalHeat =

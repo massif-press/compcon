@@ -246,7 +246,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   }
 
   public Clone(): EncounterInstance {
-    return EncounterInstance.Deserialize(cloneDeep(EncounterInstance.Serialize(this)))
+    const data = cloneDeep(EncounterInstance.Serialize(this))
+    data.id = uuid()
+    return EncounterInstance.Deserialize(data)
   }
 
   public static Deserialize(data: IEncounterInstanceData): EncounterInstance {

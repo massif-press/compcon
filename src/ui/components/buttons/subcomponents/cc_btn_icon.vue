@@ -23,7 +23,7 @@
           :to="to"
           :target="target"
           @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-icon style="font-size: 75cqw"
+          <v-icon style="font-size: 75cqw; margin-left: -2px"
             :color="tonal ? color : ''"
             :icon="icon" />
         </v-btn>
@@ -100,7 +100,7 @@ export default {
 
 /* small: 27px height */
 .hex.small {
-  width: 23.38px !important;
+  width: 25.38px !important;
 }
 
 /* large: 38px height */

@@ -1,6 +1,5 @@
 <template>
-  <compendium-card
-    :item="item"
+  <compendium-card :item="item"
     :highlighted="highlighted"
     :selectable="selectable"
     @select="$emit('select')" />
@@ -10,7 +9,7 @@
 import CompendiumCard from '@/features/compendium/components/views/CompendiumCard.vue';
 
 export default {
-  name: 'selector-cards-view',
+  name: 'SelectorCardsView',
   components: { CompendiumCard },
   props: {
     item: {

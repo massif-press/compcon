@@ -140,6 +140,7 @@ export default {
   }),
   computed: {
     currentIcon() {
+      if (!this.item.CombatController.CorePower) return 'mdi-battery-outline';
       return this.batteryIcons[this.batteryIndex];
     },
     overchargeTrack() {

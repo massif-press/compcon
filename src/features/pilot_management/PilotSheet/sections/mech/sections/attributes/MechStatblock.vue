@@ -1,14 +1,18 @@
 <template>
   <v-row dense>
-    <v-col v-if="!!$slots.prepend" cols="12" md="auto" class="mr-3">
+    <v-col v-if="!!$slots.prepend"
+      cols="12"
+      md="auto"
+      class="mr-3">
       <slot name="prepend" />
     </v-col>
     <v-col>
-      <v-row align="center" no-gutters>
+      <v-row align="center"
+        no-gutters>
         <v-col>
-          <v-row justify="space-between" no-gutters>
-            <statblock-item
-              v-if="mobile"
+          <v-row justify="space-between"
+            no-gutters>
+            <statblock-item v-if="mobile"
               cols="3"
               sm="3"
               attr="Size"
@@ -16,8 +20,7 @@
               :val="mech.Size"
               :contributors="mech.SizeContributors"
               :color="color" />
-            <statblock-item
-              cols="3"
+            <statblock-item cols="3"
               sm=""
               md="4"
               :attr="portrait ? 'Struct' : 'Structure'"
@@ -25,8 +28,7 @@
               :val="mech.MaxStructure"
               :contributors="mech.StructureContributors"
               :color="color" />
-            <statblock-item
-              cols="3"
+            <statblock-item cols="3"
               sm=""
               md=""
               attr="HP"
@@ -34,8 +36,7 @@
               :val="mech.MaxHP"
               :contributors="mech.HPContributors"
               :color="color" />
-            <statblock-item
-              cols="3"
+            <statblock-item cols="3"
               sm=""
               md="4"
               attr="Armor"
@@ -43,8 +44,7 @@
               icon="mdi-shield"
               :contributors="mech.ArmorContributors"
               :color="color" />
-            <statblock-item
-              cols="4"
+            <statblock-item cols="4"
               sm="4"
               md="4"
               attr="Stress"
@@ -52,8 +52,7 @@
               icon="cc:reactor"
               :contributors="mech.StressContributors"
               :color="color" />
-            <statblock-item
-              cols="4"
+            <statblock-item cols="4"
               sm=""
               md=""
               :attr="portrait ? 'Heatcap' : 'Heat Capacity'"
@@ -61,8 +60,7 @@
               :val="mech.HeatCapacity"
               :contributors="mech.HeatCapContributors"
               :color="color" />
-            <statblock-item
-              cols="4"
+            <statblock-item cols="4"
               sm="4"
               md="4"
               :attr="portrait ? 'Repcap' : 'Repair Capacity'"
@@ -72,11 +70,13 @@
               :color="color" />
           </v-row>
         </v-col>
-        <v-col cols="auto" v-if="!mobile">
+        <v-col cols="auto"
+          v-if="!mobile">
           <div style="position: relative">
-            <v-icon size="120" :color="color" :icon="mech.SizeIcon" />
-            <v-icon
-              size="110"
+            <v-icon size="120"
+              :color="color"
+              :icon="mech.SizeIcon" />
+            <v-icon size="110"
               style="
                 position: absolute;
                 top: 50%;
@@ -90,67 +90,69 @@
           </div>
         </v-col>
       </v-row>
-      <v-row align="center" no-gutters justify="space-between">
-        <statblock-item
-          cols="3"
+      <v-row align="center"
+        no-gutters
+        justify="space-between">
+        <statblock-item cols="3"
           sm="4"
           md="3"
           :attr="portrait ? '+ LTD SYS' : widescreen ? 'Limited System Bonus' : 'Limited Sys Bonus'"
           signed
+          icon="cc:ammo"
           :val="mech.LimitedBonus"
           :contributors="mech.LimitedContributors"
           :color="color" />
-        <statblock-item
-          cols="4"
+        <statblock-item cols="4"
           sm="3"
           :attr="portrait ? 'ATK Bonus' : 'Attack Bonus'"
           signed
+          icon="cc:weapon"
           :val="mech.AttackBonus"
           :contributors="mech.AttackBonusContributors"
           :color="color" />
-        <statblock-item
-          attr="Speed"
+        <statblock-item attr="Speed"
           sm=""
           :val="mech.Speed"
+          icon="mdi-arrow-right-bold-hexagon-outline"
           :contributors="mech.SpeedContributors"
           :color="color" />
-        <statblock-item
-          cols="4"
+        <statblock-item cols="4"
           sm="2"
           md="3"
           attr="Evasion"
+          icon="cc:evasion"
           :val="mech.Evasion"
           :contributors="mech.EvasionContributors"
           :color="color" />
-        <statblock-item
-          cols="4"
+        <statblock-item cols="4"
           sm="3"
           md="3"
           :attr="portrait ? 'Tech ATK' : 'Tech Attack'"
+          icon="cc:full_tech"
           signed
           :val="mech.TechAttack"
           :contributors="mech.TechAttackContributors"
           :color="color" />
-        <statblock-item
-          cols="4"
+        <statblock-item cols="4"
           sm="3"
           md=""
+          icon="cc:e_def"
           :attr="portrait ? 'EDEF' : 'E-Defense'"
           :val="mech.EDefense"
           :contributors="mech.EDefenseContributors"
           :color="color" />
-        <statblock-item
-          cols="6"
+        <statblock-item cols="6"
           sm="3"
           attr="Sensors"
+          icon="cc:sensor"
           :val="mech.SensorRange"
           :contributors="mech.SensorRangeContributors"
           :color="color" />
-        <statblock-item
-          cols="6"
+        <statblock-item cols="6"
           sm=""
           md="3"
           attr="Save"
+          icon="cc:save"
           :val="mech.SaveTarget"
           :contributors="mech.SaveTargetContributors"
           :color="color" />
