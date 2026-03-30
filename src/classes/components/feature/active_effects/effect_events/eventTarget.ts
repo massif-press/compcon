@@ -1,4 +1,4 @@
-import { D20RollResult, DamageType } from '@/class'
+import { D20RollResult } from '@/class'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import { ActiveEffect } from '../ActiveEffect'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
@@ -44,8 +44,8 @@ class ActiveEventTarget {
 
   constructor(event: ActiveEffectEvent, combatant: CombatantData | null, effect: ActiveEffect) {
     this.Event = event
-    this.Combatant = combatant
     this.AttackType = event.Attack
+    this.Combatant = combatant
     this.AttackAccuracy = event.Accuracy || 0
 
     if (effect.Save) {
@@ -69,14 +69,13 @@ class ActiveEventTarget {
       case 'tech':
         this.TargetDefense = 'E-Defense'
         this.TargetDefenseValue =
-          this._combatant?.actor.CombatController.ActiveActor.StatController.CurrentStats['edef'] ||
-          10
+          this._combatant?.actor.CombatController.ActiveActor.StatController.MaxStats['edef'] || 10
+        break
       default:
         this.TargetDefense = 'Evasion'
         this.TargetDefenseValue =
-          this._combatant?.actor.CombatController.ActiveActor.StatController.CurrentStats[
-            'evasion'
-          ] || 10
+          this._combatant?.actor.CombatController.ActiveActor.StatController.MaxStats['evasion'] ||
+          10
         break
     }
   }

@@ -1,17 +1,17 @@
-import { IContentPack, IRangeData, ITagData } from '@/interface'
+import { IRangeData } from '@/interface'
 import { INpcFeatureData, NpcFeature, NpcFeatureType } from '../NpcFeature'
 import { ContentPack, Damage, DamageType, ItemType, Range } from '@/class'
 import {
   ActiveEffect,
   IActiveEffectData,
 } from '@/classes/components/feature/active_effects/ActiveEffect'
-import { Npc } from '../../Npc'
 import { Eidolon } from '../../eidolon/Eidolon'
 import { Unit } from '../../unit/Unit'
 
 export interface INpcDamageData {
   type: string
   val: string | number | (string | number)[]
+  reliable?: number | number[]
 }
 
 export interface INpcWeaponData extends INpcFeatureData {
@@ -173,12 +173,15 @@ export class NpcWeapon extends NpcFeature {
         })
       }
 
+      const reliable = Array.isArray(x.reliable) ? x.reliable[tier - 1] : x.reliable
+
       const dmg = new Damage({
         type: x.type as DamageType,
         val,
+        ...(reliable !== undefined ? { reliable } : {}),
       })
 
-      dmg.setDamageAttributes(this)
+      dmg.setDamageAttributes(this, tier)
 
       return dmg
     })

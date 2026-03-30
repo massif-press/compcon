@@ -19,14 +19,16 @@
               :icon="mech.SizeIcon"
               :val="mech.Size"
               :contributors="mech.SizeContributors"
+              :bonuses="getBonuses('size')"
               :color="color" />
             <statblock-item cols="3"
               sm=""
               md="4"
-              :attr="portrait ? 'Struct' : 'Structure'"
+              :attr="mobile ? 'Struct' : 'Structure'"
               icon="cc:structure"
               :val="mech.MaxStructure"
               :contributors="mech.StructureContributors"
+              :bonuses="getBonuses('structure')"
               :color="color" />
             <statblock-item cols="3"
               sm=""
@@ -35,6 +37,7 @@
               icon="mdi-heart"
               :val="mech.MaxHP"
               :contributors="mech.HPContributors"
+              :bonuses="getBonuses('hp')"
               :color="color" />
             <statblock-item cols="3"
               sm=""
@@ -43,6 +46,7 @@
               :val="mech.Armor"
               icon="mdi-shield"
               :contributors="mech.ArmorContributors"
+              :bonuses="getBonuses('armor')"
               :color="color" />
             <statblock-item cols="4"
               sm="4"
@@ -51,27 +55,30 @@
               :val="mech.MaxStress"
               icon="cc:reactor"
               :contributors="mech.StressContributors"
+              :bonuses="getBonuses('stress')"
               :color="color" />
             <statblock-item cols="4"
               sm=""
               md=""
-              :attr="portrait ? 'Heatcap' : 'Heat Capacity'"
+              :attr="mobile ? 'Heatcap' : 'Heat Capacity'"
               icon="cc:heat"
               :val="mech.HeatCapacity"
               :contributors="mech.HeatCapContributors"
+              :bonuses="getBonuses('heatcap')"
               :color="color" />
             <statblock-item cols="4"
               sm="4"
               md="4"
-              :attr="portrait ? 'Repcap' : 'Repair Capacity'"
+              :attr="mobile ? 'Repcap' : 'Repair Capacity'"
               icon="cc:repair"
               :val="mech.RepairCapacity"
               :contributors="mech.RepCapContributors"
+              :bonuses="getBonuses('repcap')"
               :color="color" />
           </v-row>
         </v-col>
-        <v-col cols="auto"
-          v-if="!mobile">
+        <v-col v-if="!mobile"
+          cols="auto">
           <div style="position: relative">
             <v-icon size="120"
               :color="color"
@@ -101,6 +108,7 @@
           icon="cc:ammo"
           :val="mech.LimitedBonus"
           :contributors="mech.LimitedContributors"
+          :bonuses="getBonuses('limited')"
           :color="color" />
         <statblock-item cols="4"
           sm="3"
@@ -109,12 +117,14 @@
           icon="cc:weapon"
           :val="mech.AttackBonus"
           :contributors="mech.AttackBonusContributors"
+          :bonuses="getBonuses('attackbonus')"
           :color="color" />
         <statblock-item attr="Speed"
           sm=""
           :val="mech.Speed"
           icon="mdi-arrow-right-bold-hexagon-outline"
           :contributors="mech.SpeedContributors"
+          :bonuses="getBonuses('speed')"
           :color="color" />
         <statblock-item cols="4"
           sm="2"
@@ -123,6 +133,7 @@
           icon="cc:evasion"
           :val="mech.Evasion"
           :contributors="mech.EvasionContributors"
+          :bonuses="getBonuses('evasion')"
           :color="color" />
         <statblock-item cols="4"
           sm="3"
@@ -132,6 +143,7 @@
           signed
           :val="mech.TechAttack"
           :contributors="mech.TechAttackContributors"
+          :bonuses="getBonuses('techattack')"
           :color="color" />
         <statblock-item cols="4"
           sm="3"
@@ -140,6 +152,7 @@
           :attr="portrait ? 'EDEF' : 'E-Defense'"
           :val="mech.EDefense"
           :contributors="mech.EDefenseContributors"
+          :bonuses="getBonuses('edef')"
           :color="color" />
         <statblock-item cols="6"
           sm="3"
@@ -147,6 +160,7 @@
           icon="cc:sensor"
           :val="mech.SensorRange"
           :contributors="mech.SensorRangeContributors"
+          :bonuses="getBonuses('sensors')"
           :color="color" />
         <statblock-item cols="6"
           sm=""
@@ -155,6 +169,7 @@
           icon="cc:save"
           :val="mech.SaveTarget"
           :contributors="mech.SaveTargetContributors"
+          :bonuses="getBonuses('save')"
           :color="color" />
       </v-row>
     </v-col>
@@ -163,21 +178,22 @@
 
 <script lang="ts">
 import StatblockItem from './StatblockItem.vue';
-import HasePips from './HasePips.vue';
 import { useMobile } from '@/mixins/useMobile';
+import { Mech } from '@/class';
+import Pilot from '@/assets/icons/svg/pilot.vue';
 
 
 export default {
+  name: 'AttributesBlock',
+  components: { StatblockItem },
   mixins: [useMobile],
-  name: 'attributes-block',
-  components: { StatblockItem, HasePips },
   props: {
     mech: {
-      type: Object,
+      type: Mech,
       required: true,
     },
     pilot: {
-      type: Object,
+      type: Pilot,
       required: true,
     },
     color: {
@@ -195,6 +211,11 @@ export default {
     },
     widescreen(): boolean {
       return this.$vuetify.display.lgAndUp;
+    },
+  },
+  methods: {
+    getBonuses(key: string): any[] {
+      return this.mech.FeatureController.Bonuses.filter((x) => x.ID.includes(key));
     },
   },
 };

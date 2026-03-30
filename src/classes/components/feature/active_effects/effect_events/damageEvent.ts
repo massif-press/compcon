@@ -17,11 +17,15 @@ class DamageEvent {
   public Bonus: boolean = false
   public BonusDamageEvent?: DamageEvent
 
-  constructor(damage: Damage, isChild: boolean = false) {
+  constructor(damage: Damage, tier: number, isChild: boolean = false) {
     this.DamageType = damage.Type
-    this.DamageRollString = damage.Value
-    if (typeof damage.Value === 'number' || !damage.Value.includes('d')) {
-      this.DamageRolledValue = Number(damage.Value)
+    const rawValue = String(damage.Value)
+    const value = rawValue.includes('/')
+      ? rawValue.split('/')[Math.min(tier - 1, 2)]
+      : rawValue
+    this.DamageRollString = value
+    if (typeof damage.Value === 'number' || !value.includes('d')) {
+      this.DamageRolledValue = Number(value)
     }
     this.AP = damage.AP || false
     this.Irreducible = damage.Irreducible || false
@@ -34,6 +38,7 @@ class DamageEvent {
           type: damage.Type,
           val: damage.Bonus || 0,
         }),
+        tier,
         true
       )
   }
@@ -41,7 +46,7 @@ class DamageEvent {
   public get IncomingSummary(): string {
     if (!this.DamageRolledValue) return 'roll pending'
 
-    let str = ''
+    let str
     if (this.DamageRollString.includes('d')) {
       str = `(${this.IsCrit ? 'CRIT ' : ''}${this.DamageRollString}) → ${this.DamageRolledValue}`
     } else {

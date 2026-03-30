@@ -70,7 +70,7 @@ class Damage {
     if (damage.attack) this.Attack = damage.attack
   }
 
-  public setDamageAttributes(obj: any) {
+  public setDamageAttributes(obj: any, tier?: number): void {
     if (!obj.Range) return
     const nonAoeTypes = [RangeType.Range, RangeType.Threat, RangeType.Thrown]
     if (!this.AoE) {
@@ -84,7 +84,11 @@ class Damage {
     if (!this.Irreducible && obj.Tags)
       this.Irreducible = (obj.Tags as Tag[]).some(t => t.ID === 'tg_irreducible')
     if (!this.Reliable && obj.Tags) {
-      this.Reliable = Number((obj.Tags as Tag[]).find(t => t.ID === 'tg_reliable')?.Value) || 0
+      const reliableRaw = String((obj.Tags as Tag[]).find(t => t.ID === 'tg_reliable')?.Value || 0)
+      const reliableValue = reliableRaw.includes('/')
+        ? reliableRaw.split('/')[Math.min((tier ?? 1) - 1, 2)]
+        : reliableRaw
+      this.Reliable = Number(reliableValue) || 0
     }
   }
 

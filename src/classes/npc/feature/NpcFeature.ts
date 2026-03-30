@@ -1,5 +1,5 @@
-import { CompendiumItem, ContentPack, Tag } from '@/class'
-import { Action, IActionData, ICompendiumItemData, IContentPack, ITagData } from '@/interface'
+import { CompendiumItem, ContentPack } from '@/class'
+import { ICompendiumItemData, ITagData } from '@/interface'
 import { NpcClass } from '../class/NpcClass'
 import { NpcTemplate } from '../template/NpcTemplate'
 import { CompendiumStore } from '@/stores'

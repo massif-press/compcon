@@ -80,50 +80,11 @@
         </v-col>
       </v-row>
 
-      <div v-for="(bonus, bi) in bonuses"
-        :key="`bonus-${bi}`"
-        v-if="bonuses.length"
-        class="text-right">
-        <v-menu open-on-hover>
-          <template #activator="{ props }">
-            <v-icon v-if="readonly"
-              v-bind="props"
-              :icon="bonus.Icon"
-              color="exotic"
-              style="position: absolute; right: 2px; bottom: 0" />
-            <v-chip v-else
-              dense
-              variant="elevated"
-              elevation="0"
-              size="x-small"
-              class="mt-1"
-              color="exotic"
-              v-bind="props">
-              <b class="pr-2">{{ bonus.Symbol }}{{ bonus.Value }}</b>
-              {{ stat.title }}
-            </v-chip>
-          </template>
-          <v-card>
-            <v-toolbar density="compact"
-              color="exotic"
-              height="46">
-              <div class="heading h4 px-2">
-                <v-icon start
-                  :icon="bonus.Icon" />
-                {{ bonus.Title }}
-              </div>
-            </v-toolbar>
-            <v-card-text class="pt-1 pb-3">
-              <div>
-                {{ bonus.Detail }}
-              </div>
-              <div class="text-right text-disabled">
-                <i>From {{ bonus.Source }}</i>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-menu>
-      </div>
+      <cc-bonus-tooltip v-if="bonuses.length"
+        :bonuses="bonuses"
+        :stat-title="stat.title"
+        :readonly="readonly" />
+
     </v-card-text>
   </v-card>
 </template>

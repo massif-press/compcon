@@ -142,12 +142,13 @@
                 <span class="heading h3">{{ currentSelection }} Features</span>
               </v-col>
               <v-col cols="auto">
-                <cc-switch v-if="featureSet === 'all'"
-                  v-model="ignoreLimit"
-                  label="Ignore Limit" />
-                <cc-switch v-else
+                <cc-switch v-if="featureSet === 'assigned'"
                   v-model="allowDupes"
                   label="Allow Duplicates" />
+                <cc-switch v-else
+                  v-model="ignoreLimit"
+                  label="Ignore Limit" />
+
               </v-col>
             </v-row>
             <npc-feature-alerts :hide="npc.BrewController.MissingContent"

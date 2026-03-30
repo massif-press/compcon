@@ -8,8 +8,8 @@
           class="heading">
           Last Saved:
           <b v-if="encounterInstance.SaveController.LastModified > 0"
-            class="text-accent ml-1"
-            :key="saveUpdate">
+            :key="saveUpdate"
+            class="text-accent ml-1">
             {{
               new Date(encounterInstance.SaveController.LastModified).toLocaleString(undefined, {
                 dateStyle: 'long',
@@ -157,8 +157,8 @@
         justify="space-between">
         <v-col class="heading">Set Round</v-col>
         <v-col>
-          <cc-number-field color="primary"
-            v-model="encounterInstance.Round"
+          <cc-number-field v-model="encounterInstance.Round"
+            color="primary"
             min="1" />
         </v-col>
       </v-row>
@@ -191,13 +191,13 @@
                 <v-col class="heading">{{ key }}</v-col>
                 <v-col class="mx-6">
                   <div class="text-cc-overline ml-4 text-disabled">Current</div>
-                  <cc-number-field color="primary"
-                    v-model="combatant.actor.StatController.CurrentStats[key]" />
+                  <cc-number-field v-model="combatant.actor.StatController.CurrentStats[key]"
+                    color="primary" />
                 </v-col>
                 <v-col>
                   <div class="text-cc-overline ml-4 text-disabled">Max</div>
-                  <cc-number-field color="exotic"
-                    v-model="combatant.actor.StatController.MaxStats[key]" />
+                  <cc-number-field v-model="combatant.actor.StatController.MaxStats[key]"
+                    color="exotic" />
                 </v-col>
               </v-row>
               <div class="d-flex justify-space-between pa-2">
@@ -229,8 +229,8 @@
         align="center">
         <v-col class="heading h3">{{ combatant.actor.Name }}</v-col>
         <v-col cols="auto">
-          <cc-number-field color="primary"
-            v-model="combatant.reinforcementTurn"
+          <cc-number-field v-model="combatant.reinforcementTurn"
+            color="primary"
             label="Round"
             min="1" />
         </v-col>
@@ -262,7 +262,7 @@ import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { EncounterStore } from '@/stores';
 
 export default {
-  name: 'gm-options-panel',
+  name: 'GmOptionsPanel',
   props: {
     encounterInstance: {
       type: Object,
@@ -278,13 +278,13 @@ export default {
       saveUpdate: Date.now(),
     };
   },
-  mounted() {
-    this.reset();
-  },
   computed: {
     reinforcements() {
       return this.encounterInstance.Combatants.filter((c) => c.reinforcement);
     },
+  },
+  mounted() {
+    this.reset();
   },
   methods: {
     reset() {

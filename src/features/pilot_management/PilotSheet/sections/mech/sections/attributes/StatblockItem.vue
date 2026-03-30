@@ -1,35 +1,43 @@
 <template>
-  <v-col
-    class="text-center flavor-text"
+  <v-col class="text-center flavor-text"
     :style="portrait ? 'margin-bottom:1px' : 'margin-bottom: 4px'"
     :class="!portrait && 'mx-1'"
     :cols="cols"
     :sm="sm"
     :md="md">
-    <v-card flat tile class="clipped" color="panel">
-      <v-toolbar
-        :color="color"
-        :class="mobile ? 'text-cc-overline' : 'heading h5'"
-        :height="mobile ? 18 : 24">
-        <v-tooltip location="top" :open-on-click="mobile">
-          <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
-              :icon="icon || 'cc:talent'"
+    <v-card flat
+      tile
+      class="clipped"
+      color="panel">
+      <v-tooltip location="top"
+        :open-on-click="mobile">
+        <template #activator="{ props }">
+          <v-toolbar v-bind="props"
+            :color="color"
+            :class="mobile ? 'text-cc-overline' : 'heading h5'"
+            :height="mobile ? 18 : 24">
+            <v-icon :icon="icon || 'cc:talent'"
               size="small"
               :style="mobile ? 'margin-left: 2px' : 'margin-left: 4px'"
               class="fade-select" />
-          </template>
-          <div class="heading h5" v-text="title" />
-          <v-divider />
-          <p class="py-2" v-html-safe="content" />
-        </v-tooltip>
-        <span class="pa-1">{{ attr?.toUpperCase() }}</span>
-      </v-toolbar>
+            <span class="pa-1">{{ attr?.toUpperCase() }}</span>
+          </v-toolbar>
+        </template>
+        <div class="heading h5"
+          v-text="title" />
+        <v-divider />
+        <p v-html-safe="content"
+          class="py-2" />
+      </v-tooltip>
+
       <v-card-text class="pa-0">
-        <span class="text-text font-weight-black" :style="`font-size: ${mobile ? '20px' : '32px'}`">
+        <span class="text-text font-weight-black"
+          :style="`font-size: ${mobile ? '20px' : '32px'}`">
           {{ `${signed ? (val > -1 ? '+' : '-') : ''}${Math.abs(val)}` }}
         </span>
+        <cc-bonus-tooltip v-if="bonuses && bonuses.length > 0"
+          :bonuses="bonuses"
+          :right-offset="15" />
       </v-card-text>
     </v-card>
   </v-col>
@@ -38,8 +46,8 @@
 <script lang="ts">
 import { useMobile } from '@/mixins/useMobile';
 export default {
+  name: 'StatblockItem',
   mixins: [useMobile],
-  name: 'statblock-item',
   props: {
     attr: { type: String, required: true },
     val: { type: Number, required: true },
@@ -64,6 +72,10 @@ export default {
     },
     md: {
       type: String,
+      required: false,
+    },
+    bonuses: {
+      type: Array,
       required: false,
     },
   },

@@ -1,33 +1,40 @@
 <template>
   <div v-if="!hide">
-    <cc-alert
-      v-if="expanded"
-      v-for="item in templateController.FeatureRequirements"
-      :key="item.source_id"
-      v-show="showItem(item)"
-      density="compact"
-      prominent
-      :color="getColor(item)"
-      :icon="getIcon(item)"
-      class="mb-4">
-      <div class="heading">{{ item.source }}</div>
-      <div v-if="!item.complete">Select {{ item.max - item.selected }} additional features</div>
-      <div v-else-if="!item.optional_complete">
-        You may select up to {{ item.optionalMax - item.selected }} additional features
-      </div>
-      <div v-else>{{ item.source }} selections complete</div>
-    </cc-alert>
-    <v-menu v-else v-for="item in templateController.FeatureRequirements" :key="item.source_id" open-on-hover>
-      <template v-slot:activator="{ props }">
-        <div v-bind="props" class="d-inline-block mx-1" v-show="showItem(item)">
-          <cc-button
-            :icon="getIcon(item)"
+    <div v-if="expanded">
+      <cc-alert
+        v-for="item in templateController.FeatureRequirements.filter(item => !item.complete || !item.optional_complete)"
+        v-show="showItem(item)"
+        :key="`alert-${item.source_id}`"
+        density="compact"
+        :title="item.source"
+        :color="getColor(item)"
+        :icon="getIcon(item)"
+        class="mb-4">
+        <div v-if="!item.complete">Select {{ item.max - item.selected }} additional features</div>
+        <div v-else-if="!item.optional_complete">
+          You may select up to {{ item.optionalMax - item.selected }} additional features
+        </div>
+      </cc-alert>
+    </div>
+    <v-menu v-for="item in templateController.FeatureRequirements"
+      v-else
+      :key="`menu-${item.source_id}`"
+      open-on-hover>
+      <template #activator="{ props }">
+        <div v-show="showItem(item)"
+          v-bind="props"
+          class="d-inline-block mx-1">
+          <cc-button :icon="getIcon(item)"
             :color="getColor(item)"
             size="small" />
         </div>
       </template>
-      <v-card flat tile border>
-        <v-toolbar density="compact" height="42" :color="getColor(item)">
+      <v-card flat
+        tile
+        border>
+        <v-toolbar density="compact"
+          height="42"
+          :color="getColor(item)">
           <div class="heading h3 px-2">
             <v-icon :icon="getIcon(item)" />
             {{ item.source }}
@@ -47,7 +54,7 @@
 
 <script lang="ts">
 export default {
-  name: 'npc-feature-alerts',
+  name: 'NpcFeatureAlerts',
   props: {
     templateController: {
       type: Object,

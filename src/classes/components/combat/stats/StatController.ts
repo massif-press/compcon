@@ -138,18 +138,14 @@ class StatController {
 
   public AddCoreStat(key: string): void {
     this._maxStats[key] = Stats.DefaultStats[key]
+    this._currentStats[key] = Stats.DefaultStats[key]
     this.save()
   }
 
-  public AddCustomStat(title: string, type: string): void {
+  public AddCustomStat(title: string): void {
     const key = Stats.cleanKey(_.camelCase(title))
-    switch (type) {
-      case 'array':
-        this._maxStats[key] = []
-        break
-      default:
-        this._maxStats[key] = Array(3).fill(0)
-    }
+    this._maxStats[key] = 0
+    this._currentStats[key] = 0
     this.save()
   }
 

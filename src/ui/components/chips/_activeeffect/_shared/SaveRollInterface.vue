@@ -17,7 +17,7 @@
         </v-btn>
       </div>
     </template>
-    <template #default="{ isActive }">
+    <template #default>
       <v-card class="text-center text-text text-cc-overline"
         style="overflow-x: hidden;"
         border>
@@ -36,7 +36,7 @@
             <v-col cols="auto"
               class="mx-2">+</v-col>
             <v-col cols="auto">
-              <v-text-field v-model="plus"
+              <v-text-field v-model="rollData.SaveBonus"
                 density="compact"
                 variant="outlined"
                 type="number"
@@ -127,7 +127,7 @@
   </v-menu>
 </template>
 
-<script>
+<script lang="ts">
 import { DiceRoller } from '@/class';
 
 export default {

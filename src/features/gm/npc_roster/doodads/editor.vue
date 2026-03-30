@@ -15,7 +15,6 @@
     <template #stats>
       <div class="my-6" />
       <stat-editor :item="item"
-        :controller="item"
         :readonly="readonly" />
     </template>
   </editor-base>

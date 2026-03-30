@@ -2,23 +2,23 @@
   <component :is="component"
     v-bind="$props">
     <slot />
-    <template #options
-      v-if="!!$slots.options">
+    <template v-if="!!$slots.options"
+      #options>
       <slot name="options" />
     </template>
-    <template #subtitle
-      v-if="!!$slots.subtitle">
+    <template v-if="!!$slots.subtitle"
+      #subtitle>
       <slot name="subtitle" />
     </template>
-    <template #info
-      v-if="!!$slots.info">
+    <template v-if="!!$slots.info"
+      #info>
       <slot name="info" />
     </template>
     <template #tooltip>
       <slot name="tooltip" />
     </template>
-    <template #items
-      v-if="!!$slots.items">
+    <template v-if="!!$slots.items"
+      #items>
       <slot name="items" />
     </template>
   </component>
@@ -34,7 +34,7 @@ import blk from './subcomponents/cc_btn_block.vue';
 import stk from './subcomponents/cc_btn_stk.vue';
 
 export default {
-  name: 'cc-button',
+  name: 'CcButton',
   props: {
     color: { type: String },
     pipColor: { type: String, required: false },

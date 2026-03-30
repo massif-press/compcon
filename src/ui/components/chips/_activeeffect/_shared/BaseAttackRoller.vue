@@ -1,7 +1,7 @@
 <template>
-  <v-col cols="auto"
-    class="mt-1"
-    v-if="event.Attack">
+  <v-col v-if="event.Attack"
+    cols="auto"
+    class="mt-1">
     <div v-if="!mobile"
       class="text-cc-overline text-disabled">vs {{ event.AttackStat }}</div>
     <div v-for="(s, idx) in event.Targets"
@@ -40,8 +40,8 @@
           <div class="text-center text-cc-overline px-2">VS</div>
         </v-col>
         <v-col align-self="center">
-          <v-text-field v-model="s.TargetDefenseValue"
-            :key="s.Combatant?.ID || `defense_${idx}`"
+          <v-text-field :key="s.Combatant?.ID || `defense_${idx}`"
+            v-model="s.TargetDefenseValue"
             density="compact"
             :class="mobile ? 'short' : 'mb-1'"
             variant="outlined"
@@ -108,7 +108,7 @@
   </v-col>
 </template>
 
-<script>
+<script lang="ts">
 import CheckRollInterface from './CheckRollInterface.vue';
 
 export default {

@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 import { ActiveEffect } from './ActiveEffect'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { CombatantData } from '@/classes/encounter/Encounter'
-import { Damage, MechWeapon } from '@/class'
+import { Damage } from '@/class'
 
 import { DamageEvent } from './effect_events/damageEvent'
 import { ActiveEventTarget } from './effect_events/eventTarget'
@@ -60,7 +60,9 @@ class ActiveEffectEvent {
       this.Save = effect.Save.Stat
     }
 
-    if (effect.Damage) this.DamageEvents = effect.Damage.map(d => new DamageEvent(d))
+    const tier = this.Initiator.actor.CombatController.Tier
+
+    if (effect.Damage) this.DamageEvents = effect.Damage.map(d => new DamageEvent(d, tier))
     if (this.DamageEvents[0]) {
       this.SaveHalf = effect.Damage[0].SaveHalf
       this.Save = effect.Damage[0].Save?.Stat
@@ -189,7 +191,7 @@ class ActiveEffectEvent {
   }
 
   public get AoeIcon(): string {
-    let aoe = this.AoE
+    const aoe = this.AoE
     if (!aoe) {
       return 'cc:range'
     }
@@ -211,7 +213,7 @@ class ActiveEffectEvent {
 
   public get Ready(): boolean {
     if (this.IsPassive) return true
-    let ready = true
+    let ready
     if (!this._targets || !this._targets.length || !this._targets[0]) return false
     ready = this._targets.every(t => !!t)
     if (this.Save || this.Attack)

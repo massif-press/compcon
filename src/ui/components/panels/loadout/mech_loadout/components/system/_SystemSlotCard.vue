@@ -40,7 +40,7 @@
           {{ item.SP }}
           <span style="font-size: 13px; margin-left: -4px">SP</span>
         </v-col>
-        <v-col v-if="!readonly"
+        <v-col v-if="!readonly && !integrated"
           cols="auto">
           <div class="ml-2"
             style="border-left: 1px solid rgba(155, 155, 155, 0.3)">
@@ -84,7 +84,8 @@
       hover
       density="compact">
       <tbody>
-        <tr v-for="(a, index) in item.Ammo" :key="`ammo-${index}`">
+        <tr v-for="(a, index) in item.Ammo"
+          :key="`ammo-${index}`">
           <td v-if="!portrait"
             style="min-width: 120px"
             class="text-accent">

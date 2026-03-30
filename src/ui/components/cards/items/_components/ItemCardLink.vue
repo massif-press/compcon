@@ -3,12 +3,16 @@
     <v-tooltip location="top"
       open-delay="300">
       <template #activator="{ props }">
-        <cc-button v-bind="props"
-          size="small"
+        <v-btn v-bind="props"
+          size="25"
+          flat
+          tile
+          variant="outlined"
           class="fade-select"
           color="secondary"
-          icon="mdi-share-variant"
-          @click="copyToClipboard" />
+          @click="copyToClipboard">
+          <v-icon icon="mdi-share-variant" />
+        </v-btn>
       </template>
       <span>Copy link</span>
     </v-tooltip>
@@ -33,7 +37,12 @@ export default {
   },
   methods: {
     copyToClipboard() {
-      navigator.clipboard.writeText(this.link);
+      navigator.clipboard.writeText(encodeURI(this.link));
+      this.$notify({
+        type: 'success',
+        title: 'Link Copied',
+        text: `${this.item.Name} static link has been copied to the clipboard.`,
+      });
     },
   },
 };

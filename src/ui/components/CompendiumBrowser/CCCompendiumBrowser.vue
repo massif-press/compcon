@@ -197,7 +197,6 @@
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
-              class="ml-n10"
               :item="<CompendiumItem>item"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
               @equip="handleEquip(item as any)"

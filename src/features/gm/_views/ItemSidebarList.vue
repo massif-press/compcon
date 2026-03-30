@@ -222,14 +222,14 @@ export default {
           const dk = x.StatController.DisplayKeys.find(
             (k) => k.title === this.sorting || k.key === this.sorting
           );
-          if (dk) return x.StatController.getStat(dk.key);
+          if (dk) return x.StatController.getStat(dk.key) ?? 0;
         }
         if (x.NarrativeController && x.NarrativeController.LabelDictionary[this.sorting])
           return x.NarrativeController.LabelDictionary[this.sorting];
         if (x.NpcClassController) {
-          if (this.sorting === 'Role') return x.NpcClassController.Class.Role;
-          if (this.sorting === 'Tier') return x.NpcClassController.Tier;
-          if (this.sorting === 'Tag') return x.Tag;
+          if (this.sorting === 'Role') return x.NpcClassController.Class?.Role ?? '';
+          if (this.sorting === 'Tier') return x.NpcClassController.Tier ?? 0;
+          if (this.sorting === 'Tag') return x.Tag ?? '';
         }
       }, this.sortDir);
     },

@@ -92,6 +92,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
       name: doodad.Name,
       note: doodad.Note,
       config: doodad.LcpConfig,
+      combat_data: {} as any,
     } as DoodadData
 
     SaveController.Serialize(doodad, data)
@@ -99,7 +100,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
     PortraitController.Serialize(doodad, data)
     BrewController.Serialize(doodad, data)
     NarrativeController.Serialize(doodad, data)
-    CombatController.Serialize(doodad.CombatController, data)
+    CombatController.Serialize(doodad.CombatController, data.combat_data)
     FolderController.Serialize(doodad, data)
 
     return data as DoodadData

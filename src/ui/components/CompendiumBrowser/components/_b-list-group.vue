@@ -1,11 +1,11 @@
 <template>
   <v-list-group :value="groupValue"
     color="accent"
-    class="pt-0">
+    class="pt-0"
+    style="--indent-padding: 6px;">
     <template #activator="{ props }">
       <v-list-item tile
-        v-bind="props"
-        :class="noIndent ? '' : 'ml-n7'">
+        v-bind="props">
         <template #title>
           <div v-if="manufacturer">
             <cc-logo v-if="manufacturer.LogoIsExternal"
@@ -49,9 +49,7 @@
         </template>
       </v-list-item>
     </template>
-    <div :style="noIndent ? '' : 'margin-left: -82px'">
-      <slot />
-    </div>
+    <slot />
   </v-list-group>
 </template>
 
@@ -78,9 +76,6 @@ export default {
     feature: {
       type: String,
       required: false,
-    },
-    noIndent: {
-      type: Boolean,
     },
   },
   emits: ['clicked', 'equip'],

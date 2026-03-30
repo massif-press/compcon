@@ -26,6 +26,7 @@ import CCSoloDialog from './components/modals/CCSoloDialog.vue'
 import CCTabs from './components/CCTabs.vue'
 
 import CCChip from './components/chips/CCChip.vue'
+import CCBonusTooltip from './components/CCBonusTooltip.vue'
 
 import CCText from './components/CCText.vue'
 
@@ -232,4 +233,5 @@ export {
   CCCombatActionChip,
   CCConfigTip,
   CCMasonryGrid,
+  CCBonusTooltip,
 }

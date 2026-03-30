@@ -1,24 +1,22 @@
 <template>
-  <v-row dense>
-    <v-col cols="auto"
-      md="">
-      <local-target-selector v-if="pc"
-        :event="event" />
-      <base-target-selector v-else
-        :event="event" />
+  <v-row dense
+    align="start">
+    <v-col v-if="pc"
+      cols="12"
+      sm="auto">
+      <local-target-selector :event="event" />
     </v-col>
+    <base-target-selector v-else
+      :event="event" />
 
     <base-attack-roller :event="event" />
     <base-save-roller :event="event" />
-    <v-col cols="auto">
-      <status-applicator :event="event" />
-      <damage-applicator :event="event" />
-      <other-applicator :event=event />
-      <resistance-applicator :event="event" />
-      <special-condition-applicator :event="event" />
-      <special-condition-remover :event="event" />
-    </v-col>
-
+    <status-applicator :event="event" />
+    <damage-applicator :event="event" />
+    <other-applicator :event="event" />
+    <resistance-applicator :event="event" />
+    <special-condition-applicator :event="event" />
+    <special-condition-remover :event="event" />
   </v-row>
 </template>
 

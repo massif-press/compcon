@@ -16,7 +16,7 @@
         </v-btn>
       </div>
     </template>
-    <template #default="{ isActive }">
+    <template #default>
       <v-card class="text-center text-text text-cc-overline"
         style="overflow-x: hidden;"
         border>
@@ -37,8 +37,8 @@
             <div v-if="isRanged && engagedDifficulty">
               - {{ engagedDifficulty }} (Currently ENGAGED)
             </div>
-            <div v-if="isRanged && getTargetCoverDifficulty(idx)">
-              - {{ targetCoverDifficulty(idx) }} (Target is in COVER)
+            <div v-if="isRanged && getTargetCoverDifficulty">
+              - {{ targetCoverDifficulty }} (Target is in COVER)
             </div>
           </div>
 
@@ -140,7 +140,7 @@
   </v-menu>
 </template>
 
-<script>
+<script lang="ts">
 import { DiceRoller } from '@/class';
 
 export default {
@@ -148,11 +148,11 @@ export default {
   props: {
     rollData: { type: Object, required: true },
   },
+  emits: ['rolled'],
   data: () => ({
     plus: 0,
     dice: [2, 3, 4, 6, 8, 10, 12, 20, 100],
   }),
-  emits: ['rolled'],
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
@@ -179,9 +179,8 @@ export default {
       this.$emit('rolled', 0);
     },
     rollAttack() {
-      const diceValue = this.count && this.die ? `${this.count}d${this.die}+${this.plus || 0}` : 0;
       const rollResult = DiceRoller.rollSkillCheck(
-        0, this.rollData.AttackAccuracy
+        Number(this.plus), this.rollData.AttackAccuracy
       );
       this.rollData.AttackRollResult = rollResult;
       this.rollData.AttackRolledValue = rollResult.total;

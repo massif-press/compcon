@@ -68,7 +68,7 @@
       style="cursor: pointer; user-select: none"
       @click="reinforcementsCollapsed = !reinforcementsCollapsed">
       <cc-slashes />
-      reinforcements
+      reinforcements ({{ reinforcements.length }})
       <v-spacer />
       <v-icon size="small"
         :icon="reinforcementsCollapsed ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
@@ -91,23 +91,34 @@
   </v-card>
 
   <v-card v-if="destroyedCombatants.length"
+    class="ma-2"
     flat
-    tile>
+    tile
+    color="background">
     <div v-if="expanded"
-      class="text-cc-overline pa-1 text-disabled">
+      class="text-cc-overline pa-1 text-disabled d-flex align-center"
+      style="cursor: pointer; user-select: none"
+      @click="destroyedCollapsed = !destroyedCollapsed">
       <cc-slashes />
-      Destroyed Combatants
+      Destroyed ({{ destroyedCombatants.length }})
+      <v-spacer />
+      <v-icon size="small"
+        :icon="destroyedCollapsed ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
     </div>
     <v-divider v-else
       class="my-2" />
 
-    <destroyed-list-item v-for="r in destroyedCombatants"
-      :key="r.id"
-      :combatant="r"
-      :collapsed="!expanded"
-      :selected="selected && selected.id === r.id"
-      no-drag
-      @select="$emit('select', $event)" />
+    <v-scroll-y-reverse-transition>
+      <div v-if="!destroyedCollapsed">
+        <destroyed-list-item v-for="r in destroyedCombatants"
+          :key="r.id"
+          :combatant="r"
+          :collapsed="!expanded"
+          :selected="selected && selected.id === r.id"
+          no-drag
+          @select="$emit('select', $event)" />
+      </div>
+    </v-scroll-y-reverse-transition>
   </v-card>
 
   <div style="height: 50px" />
@@ -206,6 +217,7 @@ export default {
     sortAsc: true,
     sortableKey: `sk-0`,
     reinforcementsCollapsed: false,
+    destroyedCollapsed: false,
   }),
 
   computed: {
@@ -216,7 +228,35 @@ export default {
       return this.encounter.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
     },
     activeCombatants() {
-      return this.combatants.filter((c) => !c.reinforcement);
+      let list = this.combatants.filter((c) => !c.reinforcement);
+      if (!this.sort) return list;
+      list = [...list];
+      if (this.sort === 'name') {
+        list.sort((a, b) =>
+          (a.actor.Callsign || a.actor.Name).localeCompare(b.actor.Callsign || b.actor.Name)
+        );
+      } else if (this.sort === 'type') {
+        list.sort((a, b) => {
+          if (a.actor.ItemType === 'Pilot') return -1;
+          if (b.actor.ItemType === 'Pilot') return 1;
+          if (a.actor.ItemType === b.actor.ItemType) {
+            return (a.actor.Callsign || a.actor.Name).localeCompare(
+              b.actor.Callsign || b.actor.Name
+            );
+          }
+          return a.actor.ItemType.localeCompare(b.actor.ItemType);
+        });
+      } else if (this.sort === 'activations') {
+        list.sort((a, b) => {
+          const aVal = a.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
+          const bVal = b.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
+          return aVal - bVal;
+        });
+      } else if (this.sort === 'side') {
+        list.sort((a, b) => a.side.localeCompare(b.side));
+      }
+      if (!this.sortAsc) list.reverse();
+      return list;
     },
     reinforcements() {
       return this.combatants.filter((c) => c.reinforcement);
@@ -227,48 +267,12 @@ export default {
   },
   methods: {
     itemSort(key) {
-      const sorted = [...this.combatants];
-
-      if (key === 'name') {
-        sorted.sort((a, b) =>
-          (a.actor.Callsign || a.actor.Name).localeCompare(b.actor.Callsign || b.actor.Name)
-        );
-      } else if (key === 'type') {
-        sorted.sort((a, b) => {
-          if (a.actor.ItemType === 'Pilot') return -1;
-          if (a.actor.ItemType === b.actor.ItemType) {
-            return (a.actor.Callsign || a.actor.Name).localeCompare(
-              b.actor.Callsign || b.actor.Name
-            );
-          }
-          return a.actor.ItemType.localeCompare(b.actor.ItemType);
-        });
-      } else if (key === 'activations') {
-        sorted.sort((a, b) => {
-          const aVal = a.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
-          const bVal = b.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
-          return aVal - bVal;
-        });
-      } else if (key === 'side') {
-        sorted.sort((a, b) => a.side.localeCompare(b.side));
-      }
-
       if (this.sort === key) {
         this.sortAsc = !this.sortAsc;
       } else {
         this.sort = key;
         this.sortAsc = true;
       }
-
-      if (!this.sortAsc) {
-        sorted.reverse();
-      }
-
-      sorted.forEach((c, i) => {
-        c.index = i;
-      });
-
-      this.combatants = sorted;
       this.sortableKey = `sk-${Math.floor(Math.random() * 1000)}`;
     },
     selectActor(actor) {

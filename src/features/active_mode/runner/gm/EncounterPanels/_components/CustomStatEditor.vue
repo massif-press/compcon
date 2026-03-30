@@ -43,16 +43,16 @@
                     hide-details />
                   <cc-button block
                     class="my-2"
-                    :color="hasStat(trackableStat && trackableStat.title) ? 'success' : 'primary'"
+                    :color="hasStat(trackableStat) ? 'success' : 'primary'"
                     size="small"
                     :disabled="!trackableStat"
                     @click="addTrackableStat()">
-                    {{ hasStat(trackableStat && trackableStat.title) ? 'Save' : 'Add' }}
+                    {{ hasStat(trackableStat) ? 'Save' : 'Add' }}
                   </cc-button>
                   <cc-button v-if="
                     trackableStat &&
-                    isCoreStat(trackableStat.title) &&
-                    hasStat(trackableStat.title)
+                    isCoreStat(trackableStat) &&
+                    hasStat(trackableStat)
                   "
                     block
                     class="my-2"
@@ -225,19 +225,27 @@ export default {
     },
     addTrackableStat() {
       if (!this.trackableStat) return;
-      this.item.StatController.MaxStats[this.trackableStat] = Number(this.trackableValue) || 0;
+      const val = Number(this.trackableValue) || 0;
+      this.item.StatController.setMax(this.trackableStat, val);
+      this.item.StatController.CurrentStats[this.trackableStat] = val;
+      this.item.save();
       this.trackableStat = undefined;
       this.trackableValue = 0;
     },
     addStaticStat() {
       if (!this.staticStat) return;
-      this.item.StatController.MaxStats[this.staticStat] = Number(this.staticValue) || 0;
+      const val = Number(this.staticValue) || 0;
+      this.item.StatController.setMax(this.staticStat, val);
+      this.item.StatController.CurrentStats[this.staticStat] = val;
+      this.item.save();
       this.staticStat = undefined;
       this.staticValue = 0;
     },
-    removeStat() {
+    removeStat(key) {
       if (!this.hasStat(key)) return;
       delete this.item.StatController.MaxStats[key];
+      delete this.item.StatController.CurrentStats[key];
+      this.item.save();
     },
   },
 };

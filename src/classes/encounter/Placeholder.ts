@@ -11,6 +11,7 @@ interface IPlaceholderData {
   type: string // 'pilot' | 'npc' | 'other'
   side: string // 'ally' | 'enemy'
   notes?: string
+  combat_data?: any
 }
 
 class Placeholder {
@@ -69,6 +70,8 @@ class Placeholder {
   }
 
   public Serialize(): IPlaceholderData {
+    const combat_data = {} as any
+    CombatController.Serialize(this.CombatController, combat_data)
     return {
       id: this.ID,
       name: this.Name,
@@ -76,6 +79,7 @@ class Placeholder {
       type: this.PlaceholderType,
       side: this.Side,
       notes: this.Notes,
+      combat_data,
     }
   }
 
@@ -83,7 +87,7 @@ class Placeholder {
     if (!data || !data.id) {
       throw new Error('Invalid Placeholder data')
     }
-    return new Placeholder({
+    const p = new Placeholder({
       id: data.id,
       name: data.name,
       Mechname: data.Mechname,
@@ -91,11 +95,11 @@ class Placeholder {
       side: data.side,
       notes: data.notes,
     })
+    if (data.combat_data) CombatController.Deserialize(p.CombatController, data.combat_data)
+    return p
   }
 
-  public save(): void {
-    this.SaveController.save()
-  }
+  public save(): void {}
 
   public Clone(): Placeholder {
     const data = cloneDeep(this.Serialize())

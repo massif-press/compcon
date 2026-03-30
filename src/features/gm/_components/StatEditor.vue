@@ -36,7 +36,8 @@
         </cc-button>
       </v-col>
 
-      <v-col cols="auto"
+      <v-col v-if="controller"
+        cols="auto"
         class="ml-auto">
         <v-menu v-model="resetMenu"
           :close-on-content-click="false">
@@ -172,7 +173,7 @@ export default {
   mixins: [useMobile],
   props: {
     item: { type: Object, required: true },
-    controller: { type: Object, required: true },
+    controller: { type: Object, required: false },
     bonuses: { type: Array, default: () => [] },
     prefix: { type: String, default: '' },
     readonly: { type: Boolean, default: false },
@@ -215,7 +216,27 @@ export default {
   },
   methods: {
     getBonuses(key: string) {
-      return (this.bonuses as Bonus[]).filter((x) => x.ID.includes(key));
+      const tier: number = this.tierOverride || (this.item as any).CombatController?.Tier || 1;
+      return (this.bonuses as Bonus[])
+        .filter((x) => x.ID.includes(key))
+        .map((b) => {
+          let resolved: number | null = null;
+          if (Array.isArray(b.Value)) {
+            resolved = Number(b.Value[Math.min(tier - 1, b.Value.length - 1)]);
+          } else if (typeof b.Value === 'string' && b.Value.includes('/')) {
+            const parts = b.Value.split('/');
+            resolved = Number(parts[Math.min(tier - 1, parts.length - 1)]);
+          }
+          if (resolved === null) return b;
+          const icon = b.Overwrite || b.Replace
+            ? 'mdi-tooltip-edit-outline'
+            : resolved > 0 ? 'mdi-tooltip-plus-outline'
+            : resolved < 0 ? 'mdi-tooltip-minus-outline'
+            : 'mdi-tooltip-check-outline';
+          const originalValStr = Array.isArray(b.Value) ? b.Value.join(', ') : String(b.Value);
+          const detail = String(b.Detail).replace(originalValStr, String(resolved));
+          return { ...b, Value: resolved, Icon: icon, Detail: detail };
+        });
     },
     addCoreStats() {
       this.statsToAdd.forEach((x) => this.item.StatController.AddCoreStat(x));
