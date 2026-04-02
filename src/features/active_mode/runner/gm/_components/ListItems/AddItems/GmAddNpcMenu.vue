@@ -116,6 +116,7 @@ export default {
 
       npc.SetStats();
       npc.CombatController.SetBonusStats(this.encounterInstance)
+      npc.CombatController.StatController.resetCurrentStats()
       npc.CombatController.Reset();
 
       this.encounterInstance.Combatants.push({

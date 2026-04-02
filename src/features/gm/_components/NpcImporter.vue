@@ -3,7 +3,7 @@
     <v-row align="center"
       justify="center">
       <v-col cols="6">
-        <v-file-input v-model="<any>fileValue"
+        <v-file-input v-model="fileValue"
           accept="text/json"
           variant="outlined"
           label="Select Data File"
@@ -28,7 +28,6 @@
                   selected.length
                     ? (selected = [])
                     : (selected = stagedItems
-                      .filter((x) => x.status)
                       .map((x: any) => x.id))
                   ">
                 <v-icon size="x-large"
@@ -54,19 +53,15 @@
               <v-checkbox v-model="selected"
                 :value="item.id"
                 multiple
-                hide-details
-                :disabled="!item.status" />
+                hide-details />
             </td>
-            <td :class="item.status ? '' : 'text-disabled text-decoration-line-through'
-              ">
+            <td>
               {{ item.name }}
             </td>
-            <td :class="item.status ? '' : 'text-disabled text-decoration-line-through'
-              ">
+            <td>
               {{ item.collection }}
             </td>
-            <td :class="item.status ? '' : 'text-disabled text-decoration-line-through'
-              ">
+            <td>
               {{ item.type }}
             </td>
             <td>{{ item.content_packs }}</td>
@@ -75,14 +70,16 @@
                 max-width="300px">
                 <template #activator="{ props }">
                   <v-icon v-bind="props"
-                    :icon="item.status ? 'mdi-check' : 'mdi-warning'"
-                    :color="item.status ? 'success' : 'error'" />
+                    :icon="item.status === 'ok' ? 'mdi-check' : 'mdi-alert'"
+                    :color="item.status === 'ok' ? 'success' : 'warning'" />
                 </template>
-                <span v-if="item.status">Item is ready for import</span>
-                <span v-else>
-                  Item is missing one or more content packs and cannot be
-                  imported. Items without LCP support may only be imported as
-                  <b>instances</b>
+                <span v-if="item.status === 'ok'">Item is ready for import</span>
+                <span v-else-if="item.status === 'missing_content'">
+                  Item is missing required content packs. This item will be saved to the v2 Imports
+                  collection in
+                  the Content Manager, and can be imported once the required content packs are
+                  installed and
+                  activated.
                 </span>
               </v-tooltip>
             </td>
@@ -90,38 +87,32 @@
         </tbody>
       </v-table>
 
-      <v-card v-if="missingContent.length"
-        variant="tonal"
-        class="mx-12">
-        <p v-if="oldBrewsWarning"
-          class="heading h3 text-accent">
-          WARNING: The data to be imported was created using an older version of
-          COMP/CON. Lancer Content Pack analysis may not be comprehensive and
-          there is a chance COMP/CON will be unable to correctly load this data.
-          Export the original file in the latest version of COMP/CON to
-          guarantee LCP validation.
+      <cc-alert v-if="missingContent.length"
+        class="mx-12 mt-4"
+        icon="mdi-alert"
+        title="Missing Content Packs">
+        <p>
+          Some data to be imported was created using an older version of
+          COMP/CON and does not include nested content pack information. This data will be saved to
+          the v2 Imports collection in the Content Manager, but cannot be imported until the
+          required
+          content packs are installed
+          and activated. These items can be imported once the required content packs are installed
+          and activated,
+          or
+          force-imported in the Content Manager.
         </p>
-        <v-card-text class="text-center">
+        <v-card-text>
           <p class="heading h4 text-accent">
-            The data to be imported requires the following content packs that
-            are not currently installed/active, or have mismatching versions:
+            Missing content packs:
           </p>
           <p v-html-safe="missingContent"
-            class="effect-text text-center" />
-          <p class="text-text">
-            This data cannot be imported until the missing content packs are
-            installed and activated, or the content pack versions are
-            synchronized.
+            class="effect-text text-center bg-background pa-1 ma-1" />
+          <p>
+
           </p>
         </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="tonal"
-            color="error"
-            @click="reset">Abort Import</v-btn>
-        </v-card-actions>
-      </v-card>
+      </cc-alert>
     </v-container>
 
     <v-row justify="end"
@@ -130,7 +121,6 @@
         <v-btn variant="tonal"
           color="accent"
           prepend-icon="mdi-plus"
-          :disabled="missingContent.length > 0"
           @click="importFile()">
           Complete Import ({{ selected.length }} Items)
         </v-btn>
@@ -142,7 +132,6 @@
 <script lang="ts">
 import { ImportData } from '@/io/Data';
 import {
-  CompendiumStore,
   NpcStore,
   NarrativeStore,
   EncounterStore,
@@ -155,6 +144,15 @@ import { Character } from '@/classes/narrative/Character';
 import { Location } from '@/classes/narrative/Location';
 import { Faction } from '@/classes/narrative/Faction';
 import { Encounter } from '@/classes/encounter/Encounter';
+import {
+  isV2Npc,
+  isV2Encounter,
+  getV2NpcMissingLcps,
+  getV2EncounterMissingNpcs,
+  preprocessNpcImport,
+  preprocessEncounterImport,
+} from '@/io/V2Importer';
+import { ImportNpcData, ImportEncounter } from '@/io/Importer';
 
 export default {
   name: 'FileImport',
@@ -164,16 +162,25 @@ export default {
     // fileValue is just used to clear the file input
     fileValue: null,
     oldBrewsWarning: false,
-    missingContent: '',
     stagedData: [] as any[],
     stagedItems: [] as any[],
     alreadyPresent: '',
   }),
+  computed: {
+    missingContent() {
+      const missing = new Set<string>();
+      this.stagedItems.forEach((item) => {
+        if (item.status === 'missing_content') {
+          (item.missingInfo as string[]).forEach((m) => missing.add(m));
+        }
+      });
+      return Array.from(missing).join('<br>');
+    },
+  },
   methods: {
     reset() {
       this.fileValue = null;
       this.oldBrewsWarning = false;
-      this.missingContent = '';
       this.stagedData = [];
       this.stagedItems = [];
       this.selected = [];
@@ -186,123 +193,100 @@ export default {
       if (data.type && data.type.includes('collection')) content = data.data;
       else content.push(data);
 
-      this.stagedItems = [...content];
       this.stagedData = content;
+      this.stagedItems = [...content];
 
       this.stagedItems.forEach((item) => {
-        if (item.npcType) {
+        if (isV2Npc(item)) {
+          const { missingIds, missingNames } = getV2NpcMissingLcps(item);
+          item.collection = 'v2 NPC';
+          item.type = 'NPC';
+          item.content_packs = item.brews
+            ? item.brews.map((x) => `${x.LcpName} @ ${x.LcpVersion}`).join(', ')
+            : 'N/A';
+          item.status = missingIds.length === 0 ? 'ok' : 'missing_content';
+          item.missingInfo = missingNames;
+        } else if (isV2Encounter(item)) {
+          const missing = getV2EncounterMissingNpcs(item);
+          item.collection = 'v2 Encounter';
+          item.type = 'Encounter';
+          item.content_packs = 'N/A';
+          item.status = missing.length === 0 ? 'ok' : 'missing_content';
+          item.missingInfo = missing.map((id) => `NPC: ${id}`);
+        } else if (item.npcType) {
           item.collection = 'NPC';
           item.type =
             item.npcType.charAt(0).toUpperCase() + item.npcType.slice(1);
           item.content_packs = item.brews
-            .map((x) => `${x.LcpName} @ ${x.LcpVersion}`)
-            .join(', ');
-          item.status = true; // this.findContent(item);
+            ? item.brews.map((x) => `${x.LcpName} @ ${x.LcpVersion}`).join(', ')
+            : 'N/A';
+          item.status = 'ok';
+          item.missingInfo = [];
         } else if (item.collectionItemType) {
           item.collection = 'Narrative Item';
           item.type =
             item.collectionItemType.charAt(0).toUpperCase() +
             item.collectionItemType.slice(1);
           item.content_packs = 'N/A';
-          item.status = true;
-        } else if (item.itemType === 'encounter') {
+          item.status = 'ok';
+          item.missingInfo = [];
+        } else if (item.itemType === 'Encounter' || item.itemType === 'encounter') {
           item.collection = 'Encounter';
           item.type = 'Encounter';
           item.content_packs = 'N/A';
-          item.status = true;
+          item.status = 'ok';
+          item.missingInfo = [];
         }
       });
 
-      this.selected = this.stagedItems.filter((x) => x.status).map((x) => x.id);
-
-      // if (!pilotData.brews) pilotData.brews = [];
-      // // catch old style brews
-      // if (pilotData.brews.length && !pilotData.brews[0].LcpId) {
-      //   this.oldBrewsWarning = true;
-
-      //   const installedPacks = CompendiumStore()
-      //     .ContentPacks.filter((x) => x.Active)
-      //     .map((x) => `${x.Name} @ ${x.Version}`);
-      //   const missingPacks = _.pullAll(pilotData.brews, installedPacks as any);
-      //   if (missingPacks.length) this.missingContent = missingPacks.join('<br />');
-      // } else {
-      //   const installedPacks = CompendiumStore()
-      //     .ContentPacks.filter((x) => x.Active)
-      //     .map((x) => x.ID);
-      //   let missing = [] as string[];
-      //   pilotData.brews.forEach((b) => {
-      //     if (!installedPacks.includes(b.LcpId)) {
-      //       missing.push(`${b.LcpName} @ ${b.LcpVersion}`);
-      //     }
-      //   });
-      //   if (missing.length) this.missingContent = missing.join('<br />');
-      // }
-
-      // const exists = PilotStore().Pilots.find((x) => x.ID === pilotData.id);
-      // if (exists && !exists.SaveController.IsDeleted) {
-      //   this.alreadyPresent =
-      //     'A Pilot with this ID already exists in the roster. Importing will create a unique copy of this pilot.';
-      //   const num = PilotStore().Pilots.filter((x) => x.Name === pilotData.name).length;
-      //   pilotData.name += ` (${num})`;
-      // }
-      // this.stagedData = pilotData;
+      this.selected = this.stagedItems.map((x) => x.id);
     },
-    findContent(item) {
-      if (item.npcType === 'unit') {
-        if (!CompendiumStore().NpcClasses.some((x) => x.ID === item.class))
-          return false;
-        if (
-          item.templates.some(
-            (x) => !CompendiumStore().NpcTemplates.some((y) => y.ID === x)
-          )
-        )
-          return false;
-        if (
-          item.features.some(
-            (x) => !CompendiumStore().NpcFeatures.some((y) => y.ID === x)
-          )
-        )
-          return false;
-
-        return true;
-      } else if (item.npcType === 'doodad') {
-        return true;
-      } else if (item.npcType === 'eidolon') {
-        if (
-          item.layer_data.some(
-            (x) => !CompendiumStore().EidolonLayers.some((y) => y.ID === x.id)
-          )
-        )
-          return false;
-        return true;
-      }
-      return false;
-    },
-    importFile() {
+    async importFile() {
       const staged = this.stagedData.filter((x) =>
         this.selected.includes(x.id)
       );
 
-      staged.forEach((item) => {
-        item.id = uuid();
+      let backedUp = 0;
+
+      for (const item of staged) {
         try {
-          if (item.npcType) {
-            if (item.npcType === 'unit') {
-              NpcStore().AddNpc(Unit.Deserialize(item));
-            } else if (item.npcType === 'doodad') {
-              NpcStore().AddNpc(Doodad.Deserialize(item));
-            } else if (item.npcType === 'eidolon') {
-              NpcStore().AddNpc(Eidolon.Deserialize(item));
+          if (isV2Npc(item)) {
+            const result = await preprocessNpcImport(item);
+            if (result.action === 'import' && result.transformed) {
+              await ImportNpcData(result.transformed);
+            } else if (result.action === 'backup') {
+              backedUp++;
             }
-          } else if (item.collectionItemType) {
-            if (item.collectionItemType === 'character')
-              NarrativeStore().AddItem(Character.Deserialize(item));
-            else if (item.collectionItemType === 'location')
-              NarrativeStore().AddItem(Location.Deserialize(item));
-            else if (item.collectionItemType === 'faction')
-              NarrativeStore().AddItem(Faction.Deserialize(item));
-          } else if (item.itemType === 'encounter') {
-            EncounterStore().AddEncounter(Encounter.Deserialize(item));
+          } else if (isV2Encounter(item)) {
+            const result = await preprocessEncounterImport(item);
+            if (result.action === 'import' && result.transformed) {
+              const encs = Array.isArray(result.transformed)
+                ? result.transformed
+                : [result.transformed];
+              for (const enc of encs) await ImportEncounter(enc);
+            } else if (result.action === 'backup') {
+              backedUp++;
+            }
+          } else {
+            item.id = uuid();
+            if (item.npcType) {
+              if (item.npcType === 'unit') {
+                await NpcStore().AddNpc(Unit.Deserialize(item));
+              } else if (item.npcType === 'doodad') {
+                await NpcStore().AddNpc(Doodad.Deserialize(item));
+              } else if (item.npcType === 'eidolon') {
+                await NpcStore().AddNpc(Eidolon.Deserialize(item));
+              }
+            } else if (item.collectionItemType) {
+              if (item.collectionItemType === 'character')
+                await NarrativeStore().AddItem(Character.Deserialize(item));
+              else if (item.collectionItemType === 'location')
+                await NarrativeStore().AddItem(Location.Deserialize(item));
+              else if (item.collectionItemType === 'faction')
+                await NarrativeStore().AddItem(Faction.Deserialize(item));
+            } else if (item.itemType === 'Encounter' || item.itemType === 'encounter') {
+              await EncounterStore().AddEncounter(Encounter.Deserialize(item));
+            }
           }
         } catch (error) {
           console.error(error);
@@ -312,7 +296,15 @@ export default {
             data: { icon: 'cc:compendium', color: 'error' },
           });
         }
-      });
+      }
+
+      if (backedUp > 0) {
+        this.$notify({
+          title: 'v2 Import Backup',
+          text: `${backedUp} item(s) saved to pending v2 imports in the Content Manager/`,
+          data: { icon: 'mdi-information-box-outline', color: 'info' },
+        });
+      }
 
       this.reset();
       this.$emit('complete');

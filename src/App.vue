@@ -3,55 +3,56 @@
     <pwa-update-prompt />
     <cc-notify />
     <navbar />
-    <div :style="`height: ${heightOffset}`" class="no-print" />
+    <div :style="`height: ${heightOffset}`"
+      class="no-print" />
     <router-view :key="$route.fullPath" />
   </v-app>
 </template>
 
 <script lang="ts">
-  import CcNotify from '@/ui/notification/CCNotify.vue'
-  import Navbar from './features/nav/index.vue'
-  import PwaUpdatePrompt from '@/ui/components/PWAUpdatePrompt.vue'
-  import { UserStore } from './stores'
+import CcNotify from '@/ui/notification/CCNotify.vue'
+import Navbar from './features/nav/index.vue'
+import PwaUpdatePrompt from '@/ui/components/PWAUpdatePrompt.vue'
+import { UserStore } from './stores'
 
-  export default {
-    name: 'Compcon',
-    components: {
-      CcNotify,
-      Navbar,
-      PwaUpdatePrompt,
+export default {
+  name: 'Compcon',
+  components: {
+    CcNotify,
+    Navbar,
+    PwaUpdatePrompt,
+  },
+  computed: {
+    heightOffset() {
+      if (this.$vuetify.display.xs) {
+        return '24px'
+      } else {
+        return '41px'
+      }
     },
-    computed: {
-      heightOffset() {
-        if (this.$vuetify.display.xs) {
-          return '24px'
-        } else {
-          return '41px'
-        }
-      },
-      user() {
-        return UserStore().User
-      },
+    user() {
+      return UserStore().User
     },
-    watch: {
-      'user.Theme': {
-        handler: function (newVal) {
-          if (!newVal) return
-          this.$vuetify.theme.change(newVal)
-        },
-        immediate: true,
+  },
+  watch: {
+    'user.Theme': {
+      handler: function (newVal) {
+        if (!newVal) return
+        this.$vuetify.theme.change(newVal)
       },
-      'user.Font': {
-        handler: function (newVal) {
-          if (!newVal) return
-          document.documentElement.setAttribute('data-font', newVal)
-        },
-        immediate: true,
+      immediate: true,
+    },
+    'user.Font': {
+      handler: function (newVal) {
+        if (!newVal) return
+        document.documentElement.setAttribute('data-font', newVal)
       },
+      immediate: true,
     },
-    created() {
-      document.documentElement.setAttribute('data-font', 'inter')
-      window.addEventListener('beforeunload', UserStore().OnUnload)
-    },
-  }
+  },
+  created() {
+    document.documentElement.setAttribute('data-font', 'inter')
+    window.addEventListener('beforeunload', UserStore().OnUnload)
+  },
+}
 </script>

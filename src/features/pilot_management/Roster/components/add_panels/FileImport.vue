@@ -88,8 +88,9 @@
             class="effect-text text-center" />
           <p v-if="isV2"
             class="text-text">
-            This Pilot cannot be imported until the missing content packs are installed and
-            activated, or the content pack versions are synchronized.
+            This Pilot will be saved to the v2 Imports collection in the Content Manager. It can be
+            imported once the missing content packs are installed and activated, or force-imported
+            with missing items stripped.
           </p>
           <p v-else
             class="text-text">
@@ -110,7 +111,6 @@
           color="primary"
           block
           prepend-icon="mdi-plus"
-          :disabled="isV2 && missingContent.length > 0"
           @click="importFile()">
           Import {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
         </cc-button>
@@ -128,6 +128,11 @@ import { PilotData } from '@/interface';
 
 import * as _ from 'lodash-es';
 import logger from '@/user/logger';
+import {
+  isV2Pilot,
+  getV2PilotMissingLcps,
+  preprocessPilotImport,
+} from '@/io/V2Importer';
 
 export default {
   name: 'FileImport',
@@ -152,7 +157,7 @@ export default {
   }),
   computed: {
     isV2() {
-      return !this.stagedData?.itemType;
+      return isV2Pilot(this.stagedData);
     },
   },
   watch: {
@@ -179,8 +184,12 @@ export default {
       const pilotData = await ImportData<PilotData>(file.target.files[0]);
 
       if (!pilotData.brews) pilotData.brews = [];
-      // catch old style brews
-      if (pilotData.brews.length && !pilotData.brews[0].LcpId) {
+
+      if (isV2Pilot(pilotData)) {
+        const { missingNames } = getV2PilotMissingLcps(pilotData);
+        if (missingNames.length) this.missingContent = missingNames.join('<br />');
+      } else if (pilotData.brews.length && !(pilotData.brews[0] as any).LcpId) {
+        // old-style brews (array of strings)
         const installedPacks = CompendiumStore()
           .ContentPacks.filter((x) => x.Active)
           .map((x) => `${x.Name} @ ${x.Version}`);
@@ -192,8 +201,8 @@ export default {
           .map((x) => x.ID);
         const missing = [] as string[];
         pilotData.brews.forEach((b) => {
-          if (!installedPacks.includes(b.LcpId)) {
-            missing.push(`${b.LcpName} @ ${b.LcpVersion}`);
+          if (!installedPacks.includes((b as any).LcpId)) {
+            missing.push(`${(b as any).LcpName} @ ${(b as any).LcpVersion}`);
           }
         });
         if (missing.length) this.missingContent = missing.join('<br />');
@@ -208,24 +217,37 @@ export default {
       }
       this.stagedData = pilotData;
     },
-    importFile() {
+    async importFile() {
       try {
-        const importPilot = Pilot.Deserialize(this.stagedData as PilotData);
-        importPilot.RenewID();
-        if (!this.skipRosterSave) {
-          PilotStore().AddPilot(importPilot, this.groupId);
-        } else {
-          this.$emit('import-complete', importPilot);
+        const result = await preprocessPilotImport(this.stagedData);
+
+        if (result.action === 'backup') {
+          this.$notify({
+            title: 'v2 Import Backup',
+            text: `${(this.stagedData as any).callsign} saved to pending v2 imports in the Content Manager.`,
+            data: { icon: 'mdi-information-box-outline', color: 'info' },
+          });
+          this.reset();
           this.$emit('done');
           return;
         }
-        this.reset();
-        this.$notify({
-          title: 'Import Successful',
-          text: `${importPilot.Name} // ${importPilot.Callsign} successfully added to roster.`,
-          data: { icon: 'cc:pilot' },
-        });
-        this.$emit('done');
+
+        const importPilot = new Pilot(result.transformed as PilotData);
+        importPilot.RenewID();
+
+        if (!this.skipRosterSave) {
+          await PilotStore().AddPilot(importPilot, this.groupId);
+          this.reset();
+          this.$notify({
+            title: 'Import Successful',
+            text: `${importPilot.Name} // ${importPilot.Callsign} successfully added to roster.`,
+            data: { icon: 'cc:pilot' },
+          });
+          this.$emit('done');
+        } else {
+          this.$emit('import-complete', importPilot);
+          this.$emit('done');
+        }
       } catch (error) {
         logger.error(`Pilot import error: ${error}`, this, error);
         this.$notify({

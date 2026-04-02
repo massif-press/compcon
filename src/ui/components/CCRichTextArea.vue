@@ -43,7 +43,6 @@ export default {
   },
   created() {
     this.emitUpdate = debounce(function (this: any) {
-      console.log('aaa')
       this.$emit('update:modelValue', this.quill.root.innerHTML);
     }, 300);
   },

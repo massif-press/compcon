@@ -6,7 +6,7 @@
     :selected="selected"
     :side="combatant.side"
     @click="$emit('select', combatant)"
-    @deployable-click.stop="$emit('select', $event)">
+    @deployable-click="$emit('select', $event)">
     <div>
       <span class="heading h4">
         {{ combatant.actor.Name }}

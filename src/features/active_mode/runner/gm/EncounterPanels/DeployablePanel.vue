@@ -40,9 +40,9 @@
             bg-color=panel
             border
             tile>
-            <v-list-item @click="handleRedeploy(true)"
-              class="bg-action--free"
-              title="Activate (Free Action)">
+            <v-list-item class="bg-action--free"
+              title="Activate (Free Action)"
+              @click="handleRedeploy(true)">
               <template #prepend>
                 <v-icon icon="cc:free"
                   class="mr-n5" />
@@ -127,9 +127,9 @@
               bg-color=panel
               border
               tile>
-              <v-list-item @click="handleRecall(true)"
-                class="bg-action--free"
-                title="Activate (Free Action)">
+              <v-list-item class="bg-action--free"
+                title="Activate (Free Action)"
+                @click="handleRecall(true)">
                 <template #prepend>
                   <v-icon icon="cc:free"
                     class="mr-n5" />
@@ -154,8 +154,7 @@
   </div>
 </template>
 
-<script>
-import { remove } from 'lodash-es';
+<script lang="ts">
 import StatMiniPanel from './_components/StatMiniPanel.vue';
 import PanelBase from './_PanelBase.vue';
 import { Action } from '@/classes/Action';
@@ -176,12 +175,12 @@ export default {
       required: true,
     },
   },
+  emits: ['deselect'],
   data() {
     return {
       hide: false,
     };
   },
-  emits: ['deselect'],
   computed: {
     isDeployable() {
       return this.combatant.Base.Type === 'Deployable';

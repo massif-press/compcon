@@ -1,8 +1,9 @@
 <template>
-  <v-hover #default="{ isHovering, props }">
     <div class="top-element mx-1"
       style="display: block; position: relative"
-      v-bind="{ ...props, ...$attrs }">
+      v-bind="$attrs"
+      @mouseenter="isHovering = true"
+      @mouseleave="isHovering = false">
       <v-text-field :model-value="modelValue"
         :color="color"
         :base-color="color"
@@ -99,7 +100,6 @@
         </div>
       </v-slide-y-transition>
     </div>
-  </v-hover>
 </template>
 
 <script lang="ts">
@@ -143,6 +143,7 @@ export default {
   },
   data: () => ({
     isFocused: false,
+    isHovering: false,
   }),
   emits: ['update:model-value', 'click-append-inner'],
 };

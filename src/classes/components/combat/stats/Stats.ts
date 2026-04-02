@@ -26,6 +26,9 @@ class Stats {
       agi: 0,
       sys: 0,
       eng: 0,
+      overcharge: 0,
+      burn: 0,
+      overshield: 0,
     };
   }
 
@@ -58,6 +61,8 @@ class Stats {
     sys: 'mdi-alpha-s-box-outline',
     eng: 'mdi-alpha-e-box-outline',
     overshield: 'mdi-hexagon-multiple-outline',
+    overcharge: 'cc:overcharge',
+    burn: 'mdi-fire',
   };
 
   public static SortMap = {

@@ -12,8 +12,7 @@
         :color="available ? action.Color : 'panel'"
         @click="open">
         <span class="ml-1">
-          <v-icon v-bind="props"
-            :icon="action.Icon"
+          <v-icon :icon="action.Icon"
             :color="available ? '' : 'error'"
             start />
           <v-tooltip v-if="!available"

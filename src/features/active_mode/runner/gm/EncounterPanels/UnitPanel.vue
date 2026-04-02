@@ -45,11 +45,13 @@
 
     <unit-combat-loadout :encounter-instance="encounterInstance"
       :unit="actor"
-      :owner="combatant" />
+      :owner="combatant"
+      @deploy="deploy($event)" />
 
     <template #actions>
       <npc-actions-panel :owner="combatant"
-        :encounter="encounterInstance" />
+        :encounter="encounterInstance"
+        @deploy="deploy($event)" />
     </template>
   </panel-base>
 </template>
@@ -82,6 +84,11 @@ export default {
   computed: {
     actor() {
       return this.combatant.actor;
+    },
+  },
+  methods: {
+    deploy(deployable) {
+      this.encounterInstance.Deploy(deployable, this.combatant);
     },
   },
 };

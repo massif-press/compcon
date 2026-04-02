@@ -377,7 +377,7 @@
             :deployable="d"
             :parent="actor"
             :collapsed="collapsed"
-            @click.stop="$emit('deployable-click', d)">
+            @click="onDeployableClick($event, d)">
             {{ d.Name }}
           </deployable-list-item>
           <div v-if="collapsed"
@@ -447,7 +447,7 @@ export default {
       default: false,
     },
   },
-  emits: ['click', 'deployable-click'],
+  emits: ['click', 'deployable-click', 'activate'],
   computed: {
     activations() {
       return this.actor.StatController.CurrentStats['activations'] || 0;
@@ -458,14 +458,15 @@ export default {
     customStatuses() {
       return this.actor.CombatController.CustomStatuses || [];
     },
-    customStatuses() {
-      return this.actor.CombatController.CustomStatuses || [];
-    },
     timeToDeploy() {
       return this.reinforcementTurn - this.round;
     },
   },
   methods: {
+    onDeployableClick(e, d) {
+      if (e?.stopPropagation) e.stopPropagation()
+      this.$emit('deployable-click', d)
+    },
     damageClass(damage) {
       if (damage.condition === 'immunity') {
         return 'bg-exotic';

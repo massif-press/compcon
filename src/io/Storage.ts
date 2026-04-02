@@ -79,6 +79,11 @@ const storeRegistry = {
     storeName: 'settings',
     description: 'Stores application settings',
   }),
+  v2_backup: localforage.createInstance({
+    name: dbName,
+    storeName: 'v2_backup',
+    description: 'Stores v2 data awaiting LCP installation for re-import',
+  }),
 }
 
 const Initialize = async function () {
@@ -203,16 +208,6 @@ const ClearAllData = async function (): Promise<void> {
   await Promise.all(Object.values(storeRegistry).map(store => store.clear()))
   logger.info('All data cleared!')
 }
-
-// const convertLocalstorage = async function (): Promise<void> {
-//   // TODO
-//   const pv2 = localStorage.getItem('pilots_v2.json');
-//   if (pv2 && pv2.length) {
-//     const pilots = JSON.parse(pv2);
-//     await Promise.all(pilots.map((x) => SetItem('pilots', x)));
-//     localStorage.removeItem('pilots_v2.json');
-//   }
-// };
 
 export {
   storeRegistry,

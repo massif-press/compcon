@@ -14,6 +14,7 @@ import { Initialize } from './Storage'
 import { AchievementManager } from '@/user/achievements/AchievementManager'
 import { UnauthorizedError } from '@/io/apis/account'
 import logger from '@/user/logger'
+import { migrateV2LocalStorage } from './FullImporter'
 
 export default async function (skipSync = false): Promise<void> {
   UserStore().IsLoading = true
@@ -25,6 +26,13 @@ export default async function (skipSync = false): Promise<void> {
 
   logger.info('loading user')
   await UserStore().loadUser()
+
+  // Migrate v2 localStorage data before loading compendium content
+  const migrationResult = await migrateV2LocalStorage()
+  if (migrationResult) {
+    logger.info('v2 localStorage migration complete', migrationResult)
+    // TODO: expose migrationResult to UI for summary display and .compcon download offer
+  }
 
   logger.info('refreshing extra content')
   await CompendiumStore().refreshExtraContent()
@@ -77,6 +85,9 @@ export default async function (skipSync = false): Promise<void> {
 
     // Skip remaining cloud operations if the user was signed out
     if (UserStore().IsLoggedIn) {
+      logger.info('checking v2 cloud migration status')
+      await UserStore().checkV2CloudMigration()
+
       logger.info('checking auto backups')
       try {
         await UserStore().PruneBackups()
@@ -106,7 +117,6 @@ export default async function (skipSync = false): Promise<void> {
             p => p.Manifest.name === lcp.name || p.Manifest.name === lcp.title
           )
           if (!installedPack || installedPack.Manifest.version < lcp.version) {
-            console.log(installedPack)
             try {
               await UserStore().downloadLcp(lcp)
               UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`)

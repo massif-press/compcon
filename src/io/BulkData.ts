@@ -24,9 +24,19 @@ const exportAll = async function (): Promise<exportArchive> {
   return data as exportArchive
 }
 
-const importAll = async function (data: any): Promise<void> {
-  await ClearAllData()
-  await Initialize()
+const importAll = async function (data: any, overwrite: boolean): Promise<void> {
+  if (!data || !data.data || !Array.isArray(data.data)) {
+    logger.error('Invalid data format for import!')
+    return
+  }
+
+  if (overwrite) {
+    logger.info('Overwriting all existing data with imported data')
+    await ClearAllData()
+    await Initialize()
+  } else {
+    logger.info('Merging imported data with existing data')
+  }
 
   for (const collection in storeRegistry) {
     const collectionData = data.data.find((d: any) => d.collection.toLowerCase() === collection)

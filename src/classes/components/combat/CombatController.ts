@@ -410,18 +410,17 @@ class CombatController implements ICounterContainer, IStatContainer {
   public SetBonusStats(encounter): void {
     this.Bonuses.forEach(bonus => {
       let statId = bonus.ID
-      if (typeof bonus.Value !== 'number') {
-        console.info('Non-numeric bonus value detected:', bonus.Value)
-        return
-      }
 
-      let value = Number(bonus.Value)
       if (bonus.PerPc) {
         if (encounter.Combatants.filter(c => c.type === 'pilot').length >= Number(bonus.Value)) {
           statId = bonus.ID.replace('_pct', '')
-          value = 1
+          this.StatController.setMax(statId, this.StatController.getStat(statId) + 1)
         }
+        return
       }
+
+      const value = Bonus.Evaluate(bonus, this.Parent)
+      if (!value) return
 
       this.StatController.setMax(statId, this.StatController.getStat(statId) + value)
     })
@@ -622,10 +621,10 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     if (resist) {
       if (resist.condition === 'vulnerable') {
-        out.total = Math.floor(out.total * 2)
+        out.total = Math.ceil(out.total * 2)
         out.resist.push('vulnerable')
       } else if (!this.HasStatus('shredded') && resist.condition === 'resistance') {
-        out.total = Math.floor(out.total / 2)
+        out.total = Math.ceil(out.total / 2)
         out.resist.push('resistance')
       } else if (!this.HasStatus('shredded') && resist.condition === 'immunity') {
         out.total = 0

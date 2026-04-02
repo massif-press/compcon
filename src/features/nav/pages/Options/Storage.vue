@@ -273,6 +273,7 @@ export default {
     async deleteAll() {
       await ClearAllData();
       this.deleteDialog = false;
+      window.location.reload();
     },
     async GetLength(db: string): Promise<any> {
       const len = await GetLength(db);

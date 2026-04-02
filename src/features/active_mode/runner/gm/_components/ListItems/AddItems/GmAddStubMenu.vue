@@ -77,7 +77,7 @@
             tile
             prepend-icon="mdi-plus"
             color="primary"
-            :disabled="!newPlaceholder.name"
+            :disabled="canAdd"
             @click="
               add();
             isActive.value = false;
@@ -90,7 +90,7 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { Placeholder } from '@/classes/encounter/Placeholder';
 import * as _ from 'lodash-es';
 
@@ -111,6 +111,14 @@ export default {
       notes: '',
     },
   }),
+  computed: {
+    canAdd(): boolean {
+      if (this.newPlaceholder.type === 'pilot') {
+        return !this.newPlaceholder.name.trim().length || !this.newPlaceholder.Mechname.trim().length;
+      }
+      return !this.newPlaceholder.name.trim().length;
+    },
+  },
   methods: {
     add() {
       const ph = new Placeholder({

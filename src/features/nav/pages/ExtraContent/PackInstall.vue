@@ -375,6 +375,11 @@ export default {
           this,
           e
         );
+        this.$notify({
+          title: 'Error',
+          text: `Removed ${pack.manifest.name || pack.manifest.title || 'unknown LCP'} from import -- invalid version string breaks semver`,
+          data: { color: 'error' },
+        });
         return 'error';
       }
     },

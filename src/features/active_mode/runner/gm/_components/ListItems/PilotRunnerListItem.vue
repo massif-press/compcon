@@ -1,6 +1,5 @@
 <template>
-  <runner-list-item-base
-    :actor="activeActor"
+  <runner-list-item-base :actor="activeActor"
     :portrait="activeActor.Portrait"
     :deployed="combatant.deployables"
     :collapsed="collapsed"
@@ -15,27 +14,34 @@
       <span class="text-caption text-disabled ml-2">
         <cc-slashes />
         {{ combatant.actor.Name }}
-        <span v-if="combatant.actor.Player" v-text="`(${combatant.actor.Player})`"></span>
+        <span v-if="combatant.actor.Player"
+          v-text="`(${combatant.actor.Player})`"></span>
       </span>
     </div>
-    <v-card v-if="mech.CombatController.IsAIControlled" flat tile class="mb-1">
+    <v-card v-if="mech.CombatController.IsAIControlled"
+      flat
+      tile
+      class="mb-1">
       <div class="text-cc-overline text-center">
         <div class="text-disabled">Mech under AI Control</div>
         <v-divider />
-        <div class="text-accent">{{ aiSystems.map((x) => x.Name).join(' // ') }}</div>
+        <div class="text-accent">{{aiSystems.map((x) => x.Name).join(' // ')}}</div>
       </div>
     </v-card>
-    <div v-if="mech.CombatController.IsInSelfDestruct" class="sd-pulse">
+    <div v-if="mech.CombatController.IsInSelfDestruct"
+      class="sd-pulse">
       <div class="text-cc-overline text-center">
-        <v-icon icon="mdi-alert-outline" size="15" />
+        <v-icon icon="mdi-alert-outline"
+          size="15" />
         SELF DESTRUCT INITIATED
-        <v-icon icon="mdi-alert-outline" size="15" />
+        <v-icon icon="mdi-alert-outline"
+          size="15" />
       </div>
     </div>
   </runner-list-item-base>
 </template>
 
-<script>
+<script lang="ts">
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
 export default {
@@ -43,7 +49,6 @@ export default {
   components: {
     RunnerListItemBase,
   },
-  emits: ['select'],
   props: {
     combatant: {
       type: Object,
@@ -93,9 +98,11 @@ export default {
   0% {
     background-color: rgb(145, 11, 50);
   }
+
   50% {
     background-color: rgb(230, 39, 39);
   }
+
   100% {
     background-color: rgb(145, 11, 50);
   }

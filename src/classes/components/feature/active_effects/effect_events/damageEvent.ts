@@ -20,9 +20,7 @@ class DamageEvent {
   constructor(damage: Damage, tier: number, isChild: boolean = false) {
     this.DamageType = damage.Type
     const rawValue = String(damage.Value)
-    const value = rawValue.includes('/')
-      ? rawValue.split('/')[Math.min(tier - 1, 2)]
-      : rawValue
+    const value = rawValue.includes('/') ? rawValue.split('/')[Math.min(tier - 1, 2)] : rawValue
     this.DamageRollString = value
     if (typeof damage.Value === 'number' || !value.includes('d')) {
       this.DamageRolledValue = Number(value)
@@ -87,10 +85,10 @@ class DamageEvent {
     if (target.HitResult !== 'miss') {
       incoming += this.DamageRolledValue || 0
       if (this.BonusDamageEvent) bonus = this.BonusDamageEvent.DamageRolledValue || 0
-      if (event.AoE) bonus = Math.floor(bonus / 2)
+      if (event.AoE) bonus = Math.ceil(bonus / 2)
       incoming += bonus
       if (target.SavedHalf) {
-        incoming = Math.floor(incoming / 2)
+        incoming = Math.ceil(incoming / 2)
       }
     }
 

@@ -164,12 +164,7 @@ export default {
       });
 
       if (this.hidePassives) {
-        features = features.filter((feature) => !feature.IsCombatPassive);
-        this.hiddenFeatureCount = this.unit.NpcFeatureController.Features.filter(
-          (feature) => feature.IsCombatPassive
-        ).length;
-      } else {
-        this.hiddenFeatureCount = 0;
+        features = features.filter((feature: any) => !feature.IsCombatPassive);
       }
       return features;
     },
@@ -178,8 +173,19 @@ export default {
         return [];
       }
       return this.features.filter(
-        (feature) => feature.Recharge > 0 && this.result >= feature.Recharge && feature.Used
+        (feature: any) => feature.Recharge > 0 && this.result >= feature.Recharge && feature.Used
       );
+    },
+  },
+  watch: {
+    hidePassives() {
+      if (this.hidePassives) {
+        this.hiddenFeatureCount = this.unit.NpcFeatureController.Features.filter(
+          (feature: any) => feature.IsCombatPassive
+        ).length;
+      } else {
+        this.hiddenFeatureCount = 0;
+      }
     },
   },
   methods: {

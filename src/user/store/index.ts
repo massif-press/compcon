@@ -38,6 +38,7 @@ import { withSyncLock, setSyncTimer as setSyncTimerService } from './SyncService
 import { pruneBackups, autoBackup } from './BackupService'
 import * as OAuthService from './OAuthService'
 import { SyncQueue } from './SyncQueue'
+import { checkV2CloudData, type V2CloudDetectResult } from '@/io/V2CloudImporter'
 
 let _pendingMetadataResolvers: Array<() => void> = []
 let _lastUserMetadataFetch = 0
@@ -56,6 +57,7 @@ const _debouncedSetUserMetadata = debounce(
         user_setting_data: Client.UserProfile.Serialize(userSettings),
         patreon_data: store.UserMetadata.PatreonData,
         itch_data: store.UserMetadata.ItchData,
+        v2_cloud_import_status: store.UserMetadata.V2CloudImportStatus,
       }
       // Use PATCH semantics: only send changed fields to avoid full-replace overwrites
       await patchItem('meta', payload)
@@ -101,7 +103,7 @@ class UserMetadata {
   public UserSettingData: Client.IUserProfile
   public CollectionSubscriptionSettings: CollectionSubscriptionSettings
   public RemoteItems: string[]
-  public UserMigrated: boolean
+  public V2CloudImportStatus: 'none' | 'pending' | 'complete' | 'error'
   public PatreonData: any
   public ItchData: any
 
@@ -117,7 +119,7 @@ class UserMetadata {
     else this.CollectionSubscriptionSettings = data.collection_subscription_settings
     this.UserSettingData = data.user_setting_data
     this.RemoteItems = data.remote_items || []
-    this.UserMigrated = data.user_migrated || false
+    this.V2CloudImportStatus = data.v2_cloud_import_status || 'none'
     this.PatreonData = data.patreon_data || { hasPatreon: false }
     this.ItchData = data.itch_data || { hasItch: false, user: { id: 1 }, gamedata: [] }
   }
@@ -142,6 +144,7 @@ export const UserStore = defineStore('cloud', {
     IsLoggedIn: false,
     IsSyncing: false,
     CloudNotifications: [] as any[],
+    V2CloudDetectData: null as V2CloudDetectResult | null,
   }),
   getters: {
     MaxCloudStorage: state => {
@@ -372,6 +375,24 @@ export const UserStore = defineStore('cloud', {
         _pendingMetadataResolvers.push(resolve)
         _debouncedSetUserMetadata(this)
       })
+    },
+    async checkV2CloudMigration(): Promise<void> {
+      if (!this.IsLoggedIn) return
+      if (this.UserMetadata.V2CloudImportStatus === 'complete') return
+      try {
+        const detect = await checkV2CloudData(this.Cognito.userId)
+        this.V2CloudDetectData = detect
+        if (this.UserMetadata.V2CloudImportStatus === 'none') {
+          this.UserMetadata.V2CloudImportStatus = detect.hasV2Data ? 'pending' : 'complete'
+          await this.setUserMetadata()
+        }
+      } catch (err) {
+        console.warn('V2 cloud migration check skipped:', err)
+      }
+    },
+    async resetV2CloudMigration(): Promise<void> {
+      this.UserMetadata.V2CloudImportStatus = 'pending'
+      await this.setUserMetadata()
     },
     async setMetadataFromDynamo(): Promise<void> {
       // On first load (LastQuery === 0), do full fetch then switch to delta sync

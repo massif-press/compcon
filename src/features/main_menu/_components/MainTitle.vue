@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div
-      class="bg-primary"
+    <div class="bg-primary"
       style="
         position: absolute;
         z-index: 2;
@@ -13,11 +12,22 @@
         text-align: right;
       ">
       <div class="pa-1">
-        <div style="display: inline-block; position: relative" class="mr-1">
+        <div style="display: inline-block; position: relative"
+          class="mr-1">
+          <v2-auto />
+        </div>
+
+        <div style="display: inline-block; position: relative"
+          class="mr-1">
+          <search-component />
+        </div>
+
+
+        <div style="display: inline-block; position: relative"
+          class="mr-1">
           <v-tooltip location="bottom">
             <template #activator="{ props }">
-              <cc-button
-                v-bind="props"
+              <cc-button v-bind="props"
                 size="small"
                 variant="text"
                 style="font-family: 'Consolas', monospace"
@@ -33,17 +43,24 @@
         </div>
       </div>
     </div>
-    <div class="clipped pl-4 pt-3" style="position: absolute; height: 74px; left: 0; top: 0">
+    <div class="clipped pl-4 pt-3"
+      style="position: absolute; height: 74px; left: 0; top: 0">
       <div id="title">COMP/CON</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import V2Auto from '@/features/nav/pages/ExtraContent/components/v2Auto.vue';
+import SearchComponent from '@/features/nav/search/index.vue';
 import * as p from '../../../../package.json';
 
 export default {
-  name: 'cc:banner',
+  name: 'CcBanner',
+  components: {
+    V2Auto,
+    SearchComponent,
+  },
   computed: {
     version() {
       return p.version;

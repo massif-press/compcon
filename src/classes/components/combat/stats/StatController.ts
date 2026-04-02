@@ -212,9 +212,14 @@ class StatController {
       )
 
     if (data.max) parent.StatController._maxStats = data.max
-    if (data.current && Object.keys(data.current).length)
+    if (data.current && Object.keys(data.current).length) {
       parent.StatController._currentStats = data.current
-    else {
+      for (const key of MandatoryStats) {
+        if (!(key in parent.StatController._currentStats)) {
+          parent.StatController._currentStats[key] = parent.StatController._maxStats[key] ?? 0
+        }
+      }
+    } else {
       ;(parent as any).Parent.SetStats()
       parent.StatController.resetCurrentStats()
     }

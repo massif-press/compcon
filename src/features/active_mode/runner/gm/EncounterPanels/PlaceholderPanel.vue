@@ -80,11 +80,13 @@ import IconSelectMenu from './_components/IconSelectMenu.vue';
 import PanelBase from './_PanelBase.vue';
 
 export default {
-  name: 'PcPanel',
+  name: 'PlaceholderPanel',
   components: {
     PanelBase,
     IconSelectMenu,
   },
+  inheritAttrs: false,
+  emits: ['deselect'],
   props: {
     combatant: {
       type: Object,

@@ -138,6 +138,7 @@
 
 <script lang="ts">
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
+import { Stats } from '@/classes/components/combat/stats/Stats';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
 import { Bonus } from '@/classes/components';
 import { useMobile } from '@/mixins/useMobile';
@@ -218,7 +219,7 @@ export default {
     getBonuses(key: string) {
       const tier: number = this.tierOverride || (this.item as any).CombatController?.Tier || 1;
       return (this.bonuses as Bonus[])
-        .filter((x) => x.ID.includes(key))
+        .filter((x) => Stats.cleanKey(x.ID) === key)
         .map((b) => {
           let resolved: number | null = null;
           if (Array.isArray(b.Value)) {

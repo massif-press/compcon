@@ -79,7 +79,7 @@
       <template #append>
         <v-menu v-if="$slots.options"
           offset-y>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn size="32"
               :color="color"
               icon
@@ -123,8 +123,8 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
   name: 'CCSelect',
+  mixins: [useMobile],
   props: {
     modelValue: { type: [String, Number, Boolean, Array] },
     items: { type: Array, default: () => [] },
@@ -158,10 +158,10 @@ export default {
     small: { type: Boolean },
     bgColor: { type: String, default: 'background' },
   },
+  emits: ['update:model-value'],
   data: () => ({
     isFocused: false,
   }),
-  emits: ['update:model-value'],
   computed: {
     getChipClass() {
       return this.lightChip ? 'chip-light' : 'chip-dark';

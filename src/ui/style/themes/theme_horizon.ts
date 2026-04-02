@@ -17,7 +17,7 @@ const theme = {
     error: '#e54c29',
     info: '#7EBDC2',
     success: '#00C853',
-    warning: '#ffca0d',
+    warning: '#ffd027',
 
     pilot: '#424242',
     exotic: '#9A275A',

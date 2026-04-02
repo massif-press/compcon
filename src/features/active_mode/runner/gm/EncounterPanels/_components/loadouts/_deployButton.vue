@@ -121,7 +121,7 @@
 
 <script>
 export default {
-  name: 'deploy-button',
+  name: 'DeployButton',
   props: {
     deployable: {
       type: Object,
@@ -144,18 +144,18 @@ export default {
   data: () => ({
     menu: false,
   }),
-  methods: {
-    deploy() {
-      this.$emit('deploy', this.deployable);
-      this.menu = false;
-    },
-  },
   computed: {
     canActivate() {
       return (
         !this.disabled &&
         this.actor.CombatController.CanActivate(this.deployable.DeployAction.Activation)
       );
+    },
+  },
+  methods: {
+    deploy() {
+      this.$emit('deploy', this.deployable);
+      this.menu = false;
     },
   },
 };

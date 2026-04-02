@@ -207,6 +207,8 @@ export default {
         return;
       }
 
+      await UserStore().checkV2CloudMigration();
+
       await this.addLoginLog('Redirecting to account menu...');
 
       await setTimeout(() => {}, 2000);

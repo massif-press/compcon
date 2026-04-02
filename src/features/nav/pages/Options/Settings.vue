@@ -159,49 +159,119 @@
           size="large"
           color="primary"
           prepend-icon="mdi-database"
-          tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
+          tooltip="COMP/CON relies on your browser's secure storage to save and load its data. Generally, this data is safe from deletion, but certain browser settings and utilities can sometimes clear this data, resulting in the loss of your COMP/CON data. It's good practice to back up your data from time to time."
           @click="bulkExport">
           Create Data Backup
+        </cc-button>
+        <cc-button v-if="v2BackupData"
+          block
+          size="x-small"
+          color="primary"
+          prepend-icon="mdi-database"
+          tooltip="COMP/CON has saved a complete backup of your v2 COMP/CON data. This can be imported into the v2 app at old.compcon.app."
+          @click="downloadV2Backup">
+          Download Stored v2 Backup
         </cc-button>
       </v-col>
 
       <v-col cols="12"
         md="6">
-        <v-dialog v-model="importDialog"
-          width="50%">
-          <template #activator="{ props }">
-            <cc-button v-bind="props"
-              block
+        <cc-dialog title="Load Data Backup"
+          :close-on-click="false">
+          <template #activator="{ open }">
+            <cc-button block
               size="large"
               color="primary"
+              tooltip=".compcon files are COMP/CON bulk export files that contain all of your local data in a single file. You can create a .compcon backup file using the 'Create Data Backup' button. Use this option to load .compcon backup files that you have created or obtained from another source. It is recommended to create a backup before loading a .compcon file, especially if the file came from another source."
               prepend-icon="mdi-database"
-              tooltip="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
+              @click="open()">
               Load Data Backup
             </cc-button>
           </template>
-          <v-card>
+          <template #default="{ close }">
             <v-card-text class="pa-6">
-              <p class="text-center heading h3 text-text">
-                This will OVERWRITE
-                <b class="text-accent">ALL</b>
-                local COMP/CON data.
-                <br />
-                This
-                <b class="text-accent">cannot</b>
-                be undone.
-              </p>
+              <div v-if="!isV2File">
+                <div class="text-cc-overline text-disabled">
+                  // Import Strategy
+                </div>
+                <v-btn-toggle v-model="strategy"
+                  mandatory
+                  size="small"
+                  color="primary"
+                  flat
+                  tile
+                  density="compact"
+                  class="mb-4">
+                  <v-btn value="append">
+                    Merge with existing data
+                  </v-btn>
+                  <v-btn value="overwrite">
+                    Overwrite all existing data
+                  </v-btn>
+                </v-btn-toggle>
+                <cc-alert v-if="strategy === 'append'"
+                  color="warning"
+                  variant="outlined"
+                  class="mb-4">
+                  <p class="text-text">
+                    COMP/CON will attempt to merge import data with your existing data.
+                  </p>
+                </cc-alert>
+                <cc-alert v-else-if="strategy === 'overwrite'"
+                  color="error"
+                  variant="outlined"
+                  title="Warning"
+                  icon="mdi-alert"
+                  class="mb-4">
+                  The overwrite strategy will replace all of your existing local data with the data
+                  from the imported file and cannot be undone. It is strongly recommended to
+                  create a backup before using this option.
+                </cc-alert>
+              </div>
+
               <v-file-input v-model="fileValue"
                 accept=".compcon"
                 variant="outlined"
                 density="compact"
                 hide-details
                 autofocus
-                placeholder="Select COMP/CON Bulk Export File"
+                label="Select .compcon Bulk Export File"
                 prepend-icon="mdi-paperclip"
-                @change="bulkImport" />
+                @change="onFileSelect" />
+
+              <cc-alert v-if="isV2File"
+                color="warning"
+                icon="mdi-alert"
+                variant="outlined"
+                title="v2 Backup Detected"
+                class="mt-4">
+                <p class="text-text">
+                  This is a v2 COMP/CON backup file. It will be processed using the v2 import
+                  system: content packs will be installed first, followed by pilots, NPCs, and
+                  encounters. Items that require LCPs not present in this backup will be saved to
+                  pending v2 imports in the Content Manager.
+                </p>
+                <p class="mt-2">
+                  v2 backup imports are always processed using the "append" strategy.
+                </p>
+              </cc-alert>
+
+              <v-row v-if="stagedImportData"
+                justify="end"
+                class="mt-4">
+                <v-col cols="auto">
+                  <cc-button color="primary"
+                    :loading="importLoading"
+                    prepend-icon="mdi-database-arrow-left-outline"
+                    @click="doImport(close)">
+                    {{ isV2File ? 'Import v2 Backup' : 'Confirm Import' }}
+                  </cc-button>
+                </v-col>
+              </v-row>
             </v-card-text>
-          </v-card>
-        </v-dialog>
+          </template>
+        </cc-dialog>
+
       </v-col>
     </v-row>
 
@@ -222,12 +292,13 @@
 
 <script lang="ts">
 import * as allThemes from '@/ui/style/themes'
-import * as _ from 'lodash-es'
 
 import { UserStore } from '@/stores'
 import { exportAll, importAll } from '@/io/BulkData'
 import { saveFile } from '@/io/Data'
 import { ClearAllData } from '@/io/Storage'
+import { isFullBackup, processFullBackup, downloadFullBackup } from '@/io/FullImporter'
+import { GetValue } from '@/io/Storage'
 
 export default {
   name: 'OptionsSettings',
@@ -236,6 +307,11 @@ export default {
     importDialog: false,
     fileValue: null as any,
     deleteDialog: false,
+    strategy: 'append',
+    stagedImportData: null as any,
+    isV2File: false,
+    importLoading: false,
+    v2BackupData: null as any,
     logLevel: {
       name: 'Warning',
       level: 3,
@@ -317,6 +393,9 @@ export default {
     this.logLevel =
       this.logLevels.find(x => x.key === this.user.LogLevel) || this.logLevels[2]
   },
+  async mounted() {
+    this.v2BackupData = await GetValue('v2_backup_download')
+  },
   methods: {
     reload() {
       location.reload()
@@ -328,6 +407,9 @@ export default {
     setLogLevel(item) {
       this.logLevel = item
       this.user.LogLevel = item.key
+    },
+    downloadV2Backup() {
+      downloadFullBackup(this.v2BackupData)
     },
     async bulkExport() {
       const result = await exportAll()
@@ -349,24 +431,63 @@ export default {
         'Save COMP/CON Archive'
       )
     },
-    async bulkImport(input) {
-      const file = Array.isArray(input)
-        ? input[0]
-        : input?.target?.files?.[0] || input
-
+    async onFileSelect(event) {
+      const file = event?.target?.files?.[0]
       if (!(file instanceof File)) return
-
       try {
-        const text = await file.text()
-        const nested = JSON.parse(text).data
-        const data = JSON.parse(nested)
-        await importAll(data)
+        const outer = JSON.parse(await file.text())
+        if (isFullBackup(outer)) {
+          // v2 format: top-level array of {filename, data} entries
+          this.isV2File = true
+          this.stagedImportData = outer
+        } else {
+          // v3 format: {EXPORT_TYPE, data: "<JSON string>"}
+          // .data is itself a serialized string and requires a second parse
+          this.isV2File = false
+          this.stagedImportData = JSON.parse(outer.data)
+        }
+      } catch (err) {
+        this.stagedImportData = null
+        this.isV2File = false
         this.$notify({
-          title: 'Data import successful',
-          text: `Local user data has been overwritten.`,
-          data: { icon: 'mdi-database-arrow-left-outline' },
+          title: 'Unable to read file',
+          text: `ERROR: ${err}`,
+          data: { color: 'error', icon: 'mdi-database-off-outline' },
         })
-        this.importDialog = false
+      }
+    },
+    async doImport(close) {
+      this.importLoading = true
+      try {
+        if (this.isV2File) {
+          const result = await processFullBackup(this.stagedImportData)
+          const parts = [] as string[]
+          if (result.pilotsImported) parts.push(`${result.pilotsImported} pilot(s) imported`)
+          if (result.pilotsBackedUp) parts.push(`${result.pilotsBackedUp} pilot(s) pending LCPs`)
+          if (result.npcsImported) parts.push(`${result.npcsImported} NPC(s) imported`)
+          if (result.npcsBackedUp) parts.push(`${result.npcsBackedUp} NPC(s) pending LCPs`)
+          if (result.encountersImported) parts.push(`${result.encountersImported} encounter(s) imported`)
+          if (result.encountersBackedUp) parts.push(`${result.encountersBackedUp} encounter(s) pending NPCs`)
+          if (result.lcpsImported) parts.push(`${result.lcpsImported} content pack(s) installed`)
+          this.$notify({
+            title: 'v2 backup imported',
+            text: parts.length ? parts.join(', ') + '.' : 'No data found.',
+            data: { icon: 'mdi-database-arrow-left-outline' },
+          })
+        } else {
+          await importAll(this.stagedImportData, this.strategy === 'overwrite')
+          this.$notify({
+            title: 'Data import successful',
+            text: this.strategy === 'overwrite'
+              ? 'All existing data has been replaced with imported data.'
+              : 'Imported data has been merged with existing data.',
+            data: { icon: 'mdi-database-arrow-left-outline' },
+          })
+        }
+        this.stagedImportData = null
+        this.isV2File = false
+        this.fileValue = null
+        close()
       } catch (err) {
         this.$notify({
           title: 'Unable to import data',
@@ -374,6 +495,7 @@ export default {
           data: { color: 'error', icon: 'mdi-database-off-outline' },
         })
       }
+      this.importLoading = false
     },
     async deleteAll() {
       this.user.Reset();

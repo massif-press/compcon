@@ -1,6 +1,5 @@
 <template>
-  <runner-list-item-base
-    :actor="combatant.actor"
+  <runner-list-item-base :actor="combatant.actor"
     :portrait="combatant.actor.Portrait"
     :deployed="combatant.deployables"
     :collapsed="collapsed"
@@ -12,12 +11,13 @@
       <span class="heading h4">
         {{ combatant.actor.Name }}
       </span>
-      <span v-if="combatant.number" class="text-accent ml-2">#{{ combatant.number }}</span>
+      <span v-if="combatant.number"
+        class="text-accent ml-2">#{{ combatant.number }}</span>
     </div>
   </runner-list-item-base>
 </template>
 
-<script>
+<script lang="ts">
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
 export default {
@@ -25,7 +25,6 @@ export default {
   components: {
     RunnerListItemBase,
   },
-  emits: ['select'],
   props: {
     combatant: {
       type: Object,

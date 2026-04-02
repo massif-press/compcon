@@ -164,8 +164,6 @@ export default {
         data.name += ` (${num})`;
       }
 
-      console.log(data)
-
       this.stagedData = data;
       this.stagedPilots = pilotData || [];
     },

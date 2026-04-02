@@ -1,5 +1,7 @@
 <template>
-  <cc-tabs modal fixed>
+  <cc-tabs ref="tabs"
+    modal
+    fixed>
     <template #tabs>
       <v-tab>Account Management</v-tab>
       <v-tab>Cloud Data</v-tab>
@@ -10,7 +12,7 @@
       <Management @set-state="$emit('set-state', $event)" />
     </v-window-item>
     <v-window-item>
-      <Data />
+      <data-tab @reset="($refs as any).tabs.setTab(0)" />
     </v-window-item>
     <v-window-item>
       <Subscriptions />
@@ -22,17 +24,14 @@
 </template>
 
 <script lang="ts">
-import Data from './data.vue';
+import DataTab from './data.vue';
 import Management from './management.vue';
 import Publishing from './publishing.vue';
 import Subscriptions from './subscriptions.vue';
 
 export default {
-  name: 'cloud-account',
-  components: { Data, Management, Subscriptions, Publishing },
-  data: () => ({
-    tab: 0,
-  }),
+  name: 'CloudAccount',
+  components: { DataTab, Management, Subscriptions, Publishing },
   emits: ['set-state'],
   computed: {
     mobile() {

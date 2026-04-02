@@ -113,6 +113,8 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       this.Combatants.forEach((combatant, index) => {
         combatant.index = index
         combatant.actor.SetStats()
+        combatant.actor.CombatController.SetBonusStats(this)
+        combatant.actor.CombatController.StatController.resetCurrentStats()
       })
     }
 

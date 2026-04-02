@@ -225,6 +225,8 @@
       Offline
     </v-chip>
 
+    <v2-auto />
+
     <search-component />
 
     <v-divider v-if="!portrait"
@@ -347,6 +349,7 @@ import { UserStore } from '@/stores'
 import { useOnlineStatus } from '@/composables/useOnlineStatus'
 
 import SearchComponent from './search/index.vue'
+import V2Auto from './pages/ExtraContent/components/v2Auto.vue'
 
 export default {
   name: 'CcNav',
@@ -360,6 +363,7 @@ export default {
     AchievementsPage,
     Reference,
     SearchComponent,
+    V2Auto,
   },
   props: {
     pilotManagement: { type: Boolean },

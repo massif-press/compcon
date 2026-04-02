@@ -13,8 +13,7 @@
         :color="available ? action.Color : 'panel'"
         @click="open">
         <span class="ml-1">
-          <v-icon v-bind="props"
-            :icon="action.Icon"
+          <v-icon :icon="action.Icon"
             :color="available ? '' : 'error'"
             start />
           <v-tooltip v-if="!available"
@@ -213,7 +212,7 @@ export default {
       return this.controller.CanActivate(this.action.Activation);
     },
     canUse() {
-      return !this.controller.IsActionUsed(this.actionId);
+      return !this.controller.IsActionUsed(this.action.ID);
     },
     available() {
       return this.canActivate && this.canUse;
@@ -262,7 +261,7 @@ export default {
         this.selectedTarget.actor.CombatController.RemoveStatus(this.clearAlliedCondition.ID);
       }
 
-      this.$emit('activate', this.actionId);
+      this.$emit('activate', this.action.ID);
       // close();
     },
     reset() {

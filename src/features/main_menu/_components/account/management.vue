@@ -1,49 +1,6 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-fade-transition>
-      <v-alert v-if="showAccountMigration"
-        border="start"
-        border-color="accent"
-        variant="outlined"
-        color="accent"
-        icon="mdi-transfer"
-        class="mb-2"
-        prominent>
-        <div>
-          <div class="heading h3">
-            v2
-            <v-icon icon="mdi-arrow-right"
-              size="small" />
-            v3 Account Migration
-          </div>
-          <div class="text-text"
-            style="font-size: 14px">
-            COMP/CON has detected that you have an existing account that has not yet been migrated
-            to the new cloud system. The account migration tool will attempt to transfer all v2
-            cloud data to the new v3 backend. This process may take some time; please don't refresh
-            or close the page during the migration process. After using this tool (or dismissing
-            it), you can find it again in the "Cloud Data" tab.
-            <br />
-            This tool will be available until XX/XX/XXXX, after which all v2 data will be archived.
-          </div>
-          <v-row class="mt-1">
-            <v-col>
-              <v-btn block
-                color="accent"
-                :loading="loading"
-                disabled
-                @click="">
-                Migrate v2 Account
-              </v-btn>
-            </v-col>
-            <v-col cols="auto">
-              <v-btn color="error"
-                @click="setDismissMigration">Dismiss</v-btn>
-            </v-col>
-          </v-row>
-        </div>
-      </v-alert>
-    </v-fade-transition>
+    <v2-cloud-migration-panel />
 
     <v-expansion-panels class="mb-4"
       flat
@@ -315,10 +272,11 @@ import PatreonCard from './_components/patreonCard.vue';
 import ItchCard from './_components/itchCard.vue';
 import CloudNotificationList from '@/features/nav/_components/CloudNotificationList.vue';
 import logger from '@/user/logger';
+import V2CloudMigrationPanel from './_components/v2CloudMigrationPanel.vue';
 
 export default {
   name: 'AccountManagement',
-  components: { DeleteAccount, PatreonCard, ItchCard, CloudNotificationList },
+  components: { DeleteAccount, PatreonCard, ItchCard, CloudNotificationList, V2CloudMigrationPanel },
   emits: ['set-state'],
   data: () => ({
     loading: false,
@@ -366,15 +324,8 @@ export default {
     },
   },
   created() {
-    if (UserStore().UserMetadata.UserMigrated) this.showAccountMigration = false;
-    const buttonDismissed = localStorage.getItem('dismissedMigration');
-    if (buttonDismissed) this.showAccountMigration = false;
   },
   methods: {
-    setDismissMigration() {
-      localStorage.setItem('dismissedMigration', 'true');
-      this.showAccountMigration = false;
-    },
     copy(str: string) {
       navigator.clipboard.writeText(str);
       this.$notify({
@@ -498,6 +449,7 @@ export default {
         data: { color: 'info' },
       });
     },
+
   },
 };
 </script>

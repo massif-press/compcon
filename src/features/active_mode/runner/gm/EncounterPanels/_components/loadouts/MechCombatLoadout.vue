@@ -7,10 +7,10 @@
         style="border-color: rgba(155, 155, 155, 0.6)">
         <legend class="heading h4 mx-2 px-2 text-accent">
           {{ item.mount.Name }}
-          <span class="text-cc-overline"
-            v-if="item.isImpArm">(IMPROVED ARMAMENT)</span>
-          <span class="text-cc-overline"
-            v-if="item.isSuperheavy">(SUPERHEAVY MOUNTING)</span>
+          <span v-if="item.isImpArm"
+            class="text-cc-overline">(IMPROVED ARMAMENT)</span>
+          <span v-if="item.isSuperheavy"
+            class="text-cc-overline">(SUPERHEAVY MOUNTING)</span>
         </legend>
 
         <mech-mount-bonus-card v-for="b in item.mount.Bonuses"
@@ -27,8 +27,8 @@
           <div v-if="Number(idx) > 0"
             class="my-4" />
           <mech-weapon-card v-if="s && s.Weapon"
-            :owner="owner"
             :key="s.ID"
+            :owner="owner"
             :item="s.Weapon"
             :mech="mech"
             :mount="item.mount"
@@ -66,7 +66,7 @@ import MechWeaponCard from './_mechWeaponCard.vue';
 import MechMountBonusCard from './_mechMountBonusCard.vue';
 
 export default {
-  name: 'mech-combat-loadout',
+  name: 'MechCombatLoadout',
   components: {
     MechWeaponCard,
     MechSystemCard,
@@ -96,7 +96,7 @@ export default {
       return this.mech.MechLoadoutController.ActiveLoadout.Systems;
     },
     mounts() {
-      let items = [] as {
+      const items = [] as {
         mount: any;
         isIntegrated: boolean;
         isIntWeapon: boolean;

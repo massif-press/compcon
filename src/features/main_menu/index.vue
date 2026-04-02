@@ -15,7 +15,7 @@ import WelcomeMessage from './welcome.vue';
 import StorageWarning from './_components/StorageWarning.vue';
 
 export default {
-  name: 'landing-page',
+  name: 'LandingPage',
   components: {
     LandingPageMobile,
     LandingPageDesktop,

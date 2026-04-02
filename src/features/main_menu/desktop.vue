@@ -165,11 +165,11 @@ import AboutPage from '../nav/pages/About.vue';
 import CreditsPage from '../nav/pages/Credits.vue';
 import HelpPage from '../nav/pages/Help.vue';
 import OptionsPage from '../nav/pages/Options/index.vue';
-import { UserStore, PilotStore, NpcStore } from '@/stores';
+import { UserStore } from '@/stores';
 import CloudNotifications from '../nav/CloudNotifications.vue';
 
 export default {
-  name: 'landing-page',
+  name: 'LandingPageDesktop',
   components: {
     MainTitle,
     MainBtn,
@@ -248,6 +248,7 @@ export default {
             'gms-upm compcon changelog -l',
             'View COMP/CON changelog and latest updates'
           );
+          break;
         default:
           break;
       }

@@ -18,6 +18,15 @@ import { Doodad } from '@/classes/npc/doodad/Doodad'
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon'
 import { Unit } from '@/classes/npc/unit/Unit'
 import logger from '@/user/logger'
+import {
+  isV2Pilot,
+  isV2Npc,
+  isV2Encounter,
+  preprocessPilotImport,
+  preprocessNpcImport,
+  preprocessEncounterImport,
+} from './V2Importer'
+import { isFullBackup, processFullBackup } from './FullImporter'
 
 class StagedObject {
   collection: string
@@ -48,7 +57,15 @@ class StagedObject {
 
 export const StageFileImport = async (file: any): Promise<StagedObject[]> => {
   if (!file) throw new Error('No file provided tp importer')
-  const data = await ImportData<any>(file.target.files[0])
+  const fileObj: File = file.target.files[0]
+  const data = await ImportData<any>(fileObj)
+
+  // Route .compcon full backup files to FullImporter
+  if (fileObj.name.endsWith('.compcon') || isFullBackup(data)) {
+    await processFullBackup(data)
+    return []
+  }
+
   return await StageImport(data)
 }
 
@@ -58,22 +75,56 @@ export const StageImport = async (data: any): Promise<StagedObject[]> => {
   const stagedObjects: StagedObject[] = []
   let content = [] as any[]
 
-  if (data.type && data.type.includes('collection')) content = data.data
-  else content.push(data)
+  if (Array.isArray(data) && isV2Encounter(data)) {
+    // v2 encounter files are top-level arrays — treat each element as a separate item
+    content = data
+  } else if (data.type && data.type.includes('collection')) {
+    content = data.data
+  } else {
+    content.push(data)
+  }
 
-  content.forEach(item => {
-    if (item.npcType) {
+  for (const item of content) {
+    if (isV2Pilot(item)) {
+      const result = await preprocessPilotImport(item)
+      if (result.action === 'import' && result.transformed) {
+        stagedObjects.push(new StagedObject('Pilot', 'pilot', result.transformed))
+      } else if (result.action === 'backup') {
+        stagedObjects.push(new StagedObject('V2Backup', 'pilot', item))
+      }
+    } else if (isV2Npc(item)) {
+      const result = await preprocessNpcImport(item)
+      if (result.action === 'import' && result.transformed) {
+        stagedObjects.push(
+          new StagedObject('NPC', result.transformed.npcType || 'unit', result.transformed)
+        )
+      } else if (result.action === 'backup') {
+        stagedObjects.push(new StagedObject('V2Backup', 'npc', item))
+      }
+    } else if (isV2Encounter(item)) {
+      const result = await preprocessEncounterImport(item)
+      if (result.action === 'import' && result.transformed) {
+        const transformed = Array.isArray(result.transformed)
+          ? result.transformed
+          : [result.transformed]
+        for (const enc of transformed) {
+          stagedObjects.push(new StagedObject('Encounter', 'Encounter', enc))
+        }
+      } else if (result.action === 'backup') {
+        stagedObjects.push(new StagedObject('V2Backup', 'encounter', item))
+      }
+    } else if (item.npcType) {
       stagedObjects.push(new StagedObject('NPC', item.npcType, item))
     } else if (item.collectionItemType) {
       stagedObjects.push(new StagedObject('Narrative Item', item.collectionItemType, item))
-    } else if (item.itemType === 'encounter') {
+    } else if (item.itemType === 'Encounter') {
       stagedObjects.push(new StagedObject('Encounter', item.itemType, item))
     } else if (item.itemType === 'pilot') {
-      stagedObjects.push(new StagedObject('Pilot', item.ItemType, item))
+      stagedObjects.push(new StagedObject('Pilot', item.itemType, item))
     } else if (item.itemType === 'campaign') {
-      stagedObjects.push(new StagedObject('Campaign', item.ItemType, item))
+      stagedObjects.push(new StagedObject('Campaign', item.itemType, item))
     }
-  })
+  }
 
   return stagedObjects
 }
@@ -210,7 +261,7 @@ export const DeleteItemPermanent = async (item: any): Promise<void> => {
 
 export const GenerateExportCollection = (items: any[], type: string) => {
   if (!items || items.length === 0) throw new Error('No items provided to export')
-  let json = {} as any
+  let json
   if (items.length === 1) {
     const item = items[0]
     json = (item as any).Serialize()

@@ -109,7 +109,6 @@ export default {
     tab: 'Roster',
     search: '',
     group: null,
-    groups: [],
   }),
   computed: {
     pilots() {
@@ -141,6 +140,7 @@ export default {
 
       pc.SetStats();
       pc.CombatController.SetBonusStats(this.encounterInstance)
+      pc.CombatController.StatController.resetCurrentStats()
       pc.CombatController.Reset();
 
       this.encounterInstance.Combatants.push({

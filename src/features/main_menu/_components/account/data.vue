@@ -1,12 +1,14 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-progress-linear
-      :model-value="(cloudUseMb / cloudMaxMb) * 100"
+    <v-progress-linear :model-value="(cloudUseMb / cloudMaxMb) * 100"
       color="secondary"
       bg-color="primary"
       tile
       height="35">
-      <v-chip size="small" tile variant="elevated" elevation="0">
+      <v-chip size="small"
+        tile
+        variant="elevated"
+        elevation="0">
         {{ ((cloudUseMb / cloudMaxMb) * 100).toFixed(3) }}%
       </v-chip>
     </v-progress-linear>
@@ -15,7 +17,11 @@
       <cc-slashes />
       {{ (cloudUseMb >= 1 ? cloudUseMb : cloudUseKb).toFixed(2) }}
       {{ cloudUseMb >= 1 ? 'MB' : 'KB' }} of {{ cloudMaxMb.toFixed(2) }} MB
-      <cc-button size="small" variant="tonal" color="info" prepend-icon="mdi-star" class="my-1">
+      <cc-button size="small"
+        variant="tonal"
+        color="info"
+        prepend-icon="mdi-star"
+        class="my-1">
         Upgrade
       </cc-button>
     </div>
@@ -27,7 +33,9 @@
     <cloud-archive />
 
     <div class="my-8 text-right">
-      <cc-button color="accent" size="small" disabled>Account Migration Tool</cc-button>
+      <cc-button color="primary"
+        :loading="resetting"
+        @click="resetMigration()">Reset Account Migration Tool</cc-button>
     </div>
   </v-container>
 </template>
@@ -39,8 +47,12 @@ import CloudDataViewer from './_components/cloudDataViewer.vue';
 import SyncSettings from './_components/syncSettings.vue';
 
 export default {
-  name: 'cloud-account-data',
+  name: 'CloudAccountData',
   components: { SyncSettings, CloudDataViewer, CloudArchive },
+  emits: ['reset'],
+  data: () => ({
+    resetting: false,
+  }),
   computed: {
     cloudUseKb() {
       return UserStore().CloudStorageUsed / 1024;
@@ -53,6 +65,15 @@ export default {
     },
     mobile() {
       return this.$vuetify.display.mdAndDown;
+    },
+  },
+  methods: {
+    async resetMigration() {
+      this.resetting = true;
+      await UserStore().resetV2CloudMigration();
+      await UserStore().checkV2CloudMigration()
+      this.resetting = false;
+      this.$emit('reset')
     },
   },
 };
