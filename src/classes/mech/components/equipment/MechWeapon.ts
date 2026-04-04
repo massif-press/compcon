@@ -22,10 +22,8 @@ import {
   ISynergyData,
   ICounterData,
   ITagCompendiumData,
-  Action,
   ICompendiumItemData,
   IEquipmentData,
-  IContentPack,
 } from '@/interface'
 import { IActionData } from '@/classes/Action'
 import { IBonusData } from '@/classes/components'
@@ -394,7 +392,7 @@ class MechWeapon extends MechEquipment {
         this._custom_tags = val
         break
       case 'uses':
-        this.max_use_override = MechWeapon.SanitizeUsesInput(val)
+        this.MaxUses = MechWeapon.SanitizeUsesInput(val)
         break
       case 'effect':
         this._custom_effect = val

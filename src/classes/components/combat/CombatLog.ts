@@ -230,7 +230,7 @@ class CombatLog {
     }
 
     //calculate movement for the turn
-    const movement = this.CombatController.ActiveActor.StatController.CurrentStats['speed']
+    const movement = this.CombatController.ActiveActor.StatController.getCurrent('speed')
     this._telemetryCache.movement += movement
     if (!this.CombatController.Mounted) {
       this._telemetryCache.pilot_movement += movement
@@ -280,7 +280,7 @@ class CombatLog {
       starts.push(Math.floor(i * step))
     }
 
-    let line = Array(lineWidth).fill(' ')
+    const line = Array(lineWidth).fill(' ')
 
     for (let i = 0; i < cols; i++) {
       const start = starts[i]

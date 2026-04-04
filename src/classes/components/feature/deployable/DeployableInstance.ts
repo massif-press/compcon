@@ -153,7 +153,7 @@ class DeployableInstance implements ICombatant {
       { key: 'sensors', val: this.stringEval(this.Base.Sensors) },
       { key: 'edef', val: this.stringEval(this.Base.EDefense) || 8 },
       { key: 'attack', val: this.stringEval(this.Base.AttackBonus) },
-      { key: 'tech_attack', val: this.stringEval(this.Base.TechAttack) },
+      { key: 'techAttack', val: this.stringEval(this.Base.TechAttack) },
       { key: 'grapple', val: this.stringEval(this.Base.Grapple) },
       { key: 'ram', val: this.stringEval(this.Base.Ram) },
       { key: 'hp', val: this.stringEval(this.Base.MaxHP) || 5 },
@@ -165,8 +165,8 @@ class DeployableInstance implements ICombatant {
     const ownerStats = (this.Owner.actor as any).CombatController.StatController;
     if (ownerStats) {
       kvps.push({
-        key: 'limited_bonus',
-        val: ownerStats['limited_bonus'] || 0,
+        key: 'limitedBonus',
+        val: ownerStats.getMax('limitedBonus') || 0,
       });
     }
 
@@ -183,6 +183,17 @@ class DeployableInstance implements ICombatant {
     }
 
     this.CombatController.setStats(kvps);
+
+    const ownerActor = this.Owner.actor as any;
+    // Use ActiveActor so that a mounted pilot resolves to the mech (where frame traits live)
+    const activeActor = ownerActor?.CombatController?.ActiveActor ?? ownerActor;
+    if (activeActor?.FeatureController?.BonusController) {
+      const bc = activeActor.FeatureController.BonusController;
+      const isDrone = this.Base.Type.toLowerCase() === 'drone';
+      // deployable_* applies to all deployed entities; drone_* applies only to drones
+      bc.applyChildBonuses(this.CombatController.StatController, 'deployable_');
+      if (isDrone) bc.applyChildBonuses(this.CombatController.StatController, 'drone_');
+    }
   }
 
   public static Serialize(instance: DeployableInstance): IDeployableInstanceData {

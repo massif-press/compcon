@@ -42,7 +42,7 @@ export default {
     },
     getBonuses(key: string): Bonus[] {
       if (!this.bonuses) return [];
-      return (this.bonuses as Bonus[]).filter((x) => x.ID.includes(key));
+      return (this.bonuses as Bonus[]).filter((x) => x.ID === key);
     },
   },
 };

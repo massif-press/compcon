@@ -141,7 +141,7 @@
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">E-DEFENSE</div>
                 <v-icon class="ml-1 mt-n1"
-                  icon="cc:e_def" />
+                  icon="cc:edef" />
                 {{ selected.EDefense }}
               </v-col>
 

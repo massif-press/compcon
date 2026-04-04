@@ -2,7 +2,7 @@ import { IFeatureContainer } from '@/classes/components/feature/IFeatureContaine
 import { Rules, Pilot, PilotLoadout, PilotEquipment } from '@/class'
 
 import { IPilotLoadoutData } from './PilotLoadout'
-import { Bonus } from '@/classes/components'
+import { Bonus, BonusId } from '@/classes/components'
 import logger from '@/user/logger'
 
 interface IPilotLoadoutSaveData {
@@ -52,15 +52,15 @@ class PilotLoadoutController implements IFeatureContainer {
   }
 
   public get MaxArmorSlots(): number {
-    return Bonus.Int(Rules.MaxPilotArmor, 'pilot_armor_slots', this.Parent)
+    return Bonus.Int(Rules.MaxPilotArmor, BonusId.PILOT_ARMOR_SLOTS, this.Parent)
   }
 
   public get MaxWeaponSlots(): number {
-    return Bonus.Int(Rules.MaxPilotWeapons, 'pilot_weapon_slots', this.Parent)
+    return Bonus.Int(Rules.MaxPilotWeapons, BonusId.PILOT_WEAPON_SLOTS, this.Parent)
   }
 
   public get MaxGearSlots(): number {
-    return Bonus.Int(Rules.MaxPilotGear, 'pilot_gear_slots', this.Parent)
+    return Bonus.Int(Rules.MaxPilotGear, BonusId.PILOT_GEAR_SLOTS, this.Parent)
   }
 
   public get FeatureSource(): any[] {

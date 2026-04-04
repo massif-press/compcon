@@ -17,7 +17,7 @@
   </runner-list-item-base>
 </template>
 
-<script>
+<script lang="ts">
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
 export default {
@@ -42,7 +42,6 @@ export default {
       default: 1,
     },
   },
-  emits: ['select'],
-  emits: ['select'],
+  emits: ['select', 'activate'],
 };
 </script>

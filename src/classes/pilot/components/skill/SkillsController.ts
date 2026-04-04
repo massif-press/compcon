@@ -1,5 +1,5 @@
 import { IRankedData } from '../../../../interface';
-import { Bonus } from '../../../components/feature/bonus/Bonus';
+import { Bonus, BonusId } from '../../../components/feature/bonus/Bonus';
 import { Rules } from '../../../utility/Rules';
 import CustomSkill from './CustomSkill';
 import { Pilot } from '../../Pilot';
@@ -42,7 +42,7 @@ class SkillsController {
   }
 
   public get MaxSkillPoints(): number {
-    return Bonus.Int(Rules.MinimumPilotSkills + this.Parent.Level, 'skill_point', this.Parent);
+    return Bonus.Int(Rules.MinimumPilotSkills + this.Parent.Level, BonusId.SKILL_POINT, this.Parent);
   }
 
   public get IsMissingSkills(): boolean {

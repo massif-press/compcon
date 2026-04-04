@@ -250,6 +250,9 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
     eidolonLayers.push(CoreLayerData);
   }
 
+  const customStats = (await readZipJSON<any[]>(zip, 'custom_stats.json')) || [];
+  const bonusDictionary = (await readZipJSON<any[]>(zip, 'bonus_dictionary.json')) || [];
+
   const id = await getPackID(manifest);
 
   return {
@@ -282,6 +285,8 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
       reserves,
       eidolonLayers,
       downtimeActions,
+      customStats,
+      bonusDictionary,
     },
   };
 };

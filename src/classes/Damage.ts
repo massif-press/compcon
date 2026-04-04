@@ -1,5 +1,5 @@
 import { DamageType, Mech, MechWeapon, Range, RangeType, Tag } from '@/class'
-import { Bonus } from './components/feature/bonus/Bonus'
+import { Bonus, BonusId } from './components/feature/bonus/Bonus'
 import { EffectSave } from './components/feature/active_effects/effect_subtype/EffectSave'
 import { FeatureController } from './components/feature/FeatureController'
 
@@ -135,7 +135,7 @@ class Damage {
 
   public static CalculateDamage(item: MechWeapon, mech: Mech): Damage[] {
     if (!item || !mech) return []
-    if (!Bonus.get('damage', mech) || item.NoCoreBonus || item.NoBonuses) return item.Damage
+    if (!Bonus.get(BonusId.DAMAGE, mech) || item.NoCoreBonus || item.NoBonuses) return item.Damage
     const bonuses = mech.FeatureController.Bonuses.filter(x => x.ID === 'damage')
     const output = [] as Damage[]
     item.Damage.forEach(d => {

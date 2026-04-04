@@ -29,11 +29,6 @@
         <div v-if="item.InLcp" class="flavor-text text-disabled">
           {{ item.LcpName }}
         </div>
-        <div v-if="item.Restricted">
-          <span class="stat-text text-error">
-            RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS
-          </span>
-        </div>
       </v-col>
     </v-row>
 
@@ -41,7 +36,7 @@
       <div class="text-overline mb-n3">CAN BE APPLIED TO</div>
       <v-chip-group column>
         <v-chip
-          v-for="a in item.PossibleTypes"
+          v-for="a in item.AllowedTypes"
           :key="a"
           size="small"
           tile
@@ -49,34 +44,10 @@
           class="text-uppercase">
           {{ a }}
         </v-chip>
-        <v-chip v-for="a in item.PossibleSizes" :key="a" size="small" tile class="text-uppercase">
+        <v-chip v-for="a in item.AllowedSizes" :key="a" size="small" tile class="text-uppercase">
           {{ a }}
         </v-chip>
       </v-chip-group>
-      <div v-if="item.RestrictedTypes.length || item.RestrictedSizes.length">
-        <div class="text-overline mb-n3">RESTRICTED</div>
-        <v-chip-group column>
-          <v-chip
-            v-for="a in item.RestrictedTypes"
-            :key="a"
-            size="small"
-            tile
-            variant="outlined"
-            color="error"
-            class="text-uppercase">
-            {{ a }}
-          </v-chip>
-          <v-chip
-            v-for="a in item.RestrictedSizes"
-            :key="a"
-            size="small"
-            tile
-            color="error"
-            class="text-uppercase">
-            {{ a }}
-          </v-chip>
-        </v-chip-group>
-      </div>
     </template>
   </equipment-card-base>
 </template>

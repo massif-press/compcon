@@ -1,6 +1,6 @@
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import * as _ from 'lodash-es'
-import { Bonus } from '../../../components/feature/bonus/Bonus'
+import { Bonus, BonusId } from '../../../components/feature/bonus/Bonus'
 import { Pilot } from '../../Pilot'
 import { CoreBonus, ICoreBonusData } from './CoreBonus'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
@@ -42,7 +42,7 @@ class CoreBonusController implements IFeatureContainer {
   }
 
   public get MaxCBPoints(): number {
-    return Bonus.Int(Math.floor(this.Parent.Level / 3), 'cb_point', this.Parent)
+    return Bonus.Int(Math.floor(this.Parent.Level / 3), BonusId.CB_POINT, this.Parent)
   }
 
   public get IsMissingCBs(): boolean {

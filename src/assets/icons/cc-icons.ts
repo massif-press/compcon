@@ -171,7 +171,7 @@ const svgs: any = {
   difficulty,
   downtime,
   drone,
-  e_def,
+  edef: e_def,
   eclipse,
   encounter,
   energy,

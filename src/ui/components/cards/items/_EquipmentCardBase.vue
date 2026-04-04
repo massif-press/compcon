@@ -1,44 +1,62 @@
 <template>
   <slot />
 
-  <v-toolbar v-if="item && item.IsDeprecated" color="error" class="text-center heading" dense>
+  <v-toolbar v-if="item && item.IsDeprecated"
+    color="error"
+    class="text-center heading"
+    dense>
     This item is deprecated and can be removed.
   </v-toolbar>
 
-  <cc-heading v-if="item.Mod" size="small" line>
+  <cc-heading v-if="item.Mod"
+    size="small"
+    line>
     <cc-chip>
-      <v-icon start icon="cc:weaponmod" />
+      <v-icon start
+        icon="cc:weaponmod" />
       Modifies: {{ item.ModTarget?.Name || 'unknown' }}
     </cc-chip>
   </cc-heading>
 
-  <v-row v-if="item.Kit" dense align="center" class="text-cc-overline mt-2">
+  <v-row v-if="item.Kit"
+    dense
+    align="center"
+    class="text-cc-overline mt-2">
     <v-col><v-divider /></v-col>
     <v-col cols="auto">
-      <v-icon size="small" icon="mdi-package-variant" />
+      <v-icon size="small"
+        icon="mdi-package-variant" />
       {{ item.Kit }} Kit
     </v-col>
     <v-col><v-divider /></v-col>
   </v-row>
 
-  <cc-icon-divider v-if="item.LicenseString" :icon="item.Icon" dense />
+  <cc-icon-divider v-if="item.LicenseString"
+    :icon="item.Icon"
+    dense />
 
   <div class="mb-2">
     <slot name="statblock" />
   </div>
 
-  <div v-if="item.Effect" class="mb-2">
-    <p v-if="tier" v-html-safe="item.EffectByTier(tier)" class="text-text" />
-    <p v-else v-html-safe="item.Effect" class="text-text" />
+  <div v-if="item.Effect"
+    class="mb-2">
+    <p v-if="tier"
+      v-html-safe="item.EffectByTier(tier)"
+      class="text-text" />
+    <p v-else
+      v-html-safe="item.Effect"
+      class="text-text" />
   </div>
 
   <div v-if="item.Actions && item.Actions.length">
-    <div v-show="!dense" class="text-cc-overline text-disabled">
-      <v-icon size="small" icon="cc:activate" />
+    <div v-show="!dense"
+      class="text-cc-overline text-disabled">
+      <v-icon size="small"
+        icon="cc:activate" />
       EQUIPMENT ACTIONS
     </div>
-    <cc-action
-      v-for="(a, index) in item.Actions"
+    <cc-action v-for="(a, index) in item.Actions"
       :key="`action-${index}`"
       :action="a"
       :panel="!collapseActions || $vuetify.display.lgAndUp"
@@ -48,7 +66,8 @@
   </div>
 
   <div v-if="item && item.Ammo && item.Ammo.length">
-    <div v-for="(a, index) in item.Ammo" :key="`ammo-${index}`">
+    <div v-for="(a, index) in item.Ammo"
+      :key="`ammo-${index}`">
       <b>{{ a.name }}</b>
       :
       <span v-html-safe="a.detail" />
@@ -56,14 +75,18 @@
   </div>
 
   <div v-if="item.Deployables && item.Deployables.length">
-    <div v-show="!dense" class="text-cc-overline text-disabled">
-      <v-icon size="small" icon="cc:drone" />
+    <div v-show="!dense"
+      class="text-cc-overline text-disabled">
+      <v-icon size="small"
+        icon="cc:drone" />
       EQUIPMENT DEPLOYABLES
     </div>
-    <v-row dense justify="center">
-      <v-col v-for="(d, index) in item.Deployables" :key="`deployable-${index}`" cols="auto">
-        <cc-deployable-info
-          :deployable="d"
+    <v-row dense
+      justify="center">
+      <v-col v-for="(d, index) in item.Deployables"
+        :key="`deployable-${index}`"
+        cols="auto">
+        <cc-deployable-info :deployable="d"
           :panel="!collapseActions || $vuetify.display.lgAndUp"
           :hover="dense && collapseActions"
           :tier="tier"
@@ -73,9 +96,9 @@
   </div>
 
   <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
-    <div v-show="!dense" class="text-cc-overline text-disabled">//INTEGRATED EQUIPMENT</div>
-    <cc-integrated-info
-      v-for="(x, index) in item.IntegratedEquipment"
+    <div v-show="!dense"
+      class="text-cc-overline text-disabled">//INTEGRATED EQUIPMENT</div>
+    <cc-integrated-info v-for="(x, index) in item.IntegratedEquipment"
       :key="`integrated-${index}`"
       :item="x"
       :panel="!collapseActions || $vuetify.display.mdAndUp" />
@@ -86,23 +109,30 @@
   <slot name="charts" />
 
   <div v-if="!footer && showFooter && item.Tags?.length">
-    <div v-show="!dense" class="text-cc-overline text-disabled">//EQUIPMENT TAGS</div>
-    <cc-tags :tags="item.Tags" :extended="!smallTags" :tier="tier" />
+    <div v-show="!dense"
+      class="text-cc-overline text-disabled">//EQUIPMENT TAGS</div>
+    <cc-tags :tags="item.Tags"
+      :extended="!smallTags"
+      :tier="tier" />
   </div>
 
-  <div v-if="item.Description?.length" class="my-4">
-    <div v-show="!dense" class="text-cc-overline text-disabled">//COMPENDIUM DATA</div>
-    <div v-html-safe="item.Description" class="flavor-text" />
+  <div v-if="item.Description?.length"
+    class="my-4">
+    <div v-show="!dense"
+      class="text-cc-overline text-disabled">//COMPENDIUM DATA</div>
+    <div v-html-safe="item.Description"
+      class="flavor-text" />
   </div>
 
   <div v-if="item.FlavorDescription?.length">
-    <div v-show="!dense" class="text-cc-overline text-disabled">//FIELD DATA</div>
-    <div v-html-safe="item.FlavorDescription" class="flavor-text" />
+    <div v-show="!dense"
+      class="text-cc-overline text-disabled">//FIELD DATA</div>
+    <div v-html-safe="item.FlavorDescription"
+      class="flavor-text" />
   </div>
 
   <div v-if="notes">
-    <v-textarea
-      v-model="item.Note"
+    <v-textarea v-model="item.Note"
       variant="outlined"
       auto-grow
       rows="2"
@@ -114,14 +144,25 @@
       class="mt-2" />
   </div>
 
-  <v-footer v-if="footer && showFooter" color="transparent" class="mx-n4 py-0 mt-2">
+  <v-footer v-if="footer && showFooter"
+    color="transparent"
+    class="mx-n4 py-0 mt-2">
     <v-row>
-      <v-col v-if="!hideTags" cols="auto">
-        <cc-tags :tags="item.Tags" :extended="!smallTags" :tier="tier" />
+      <v-col v-if="!hideTags"
+        cols="auto">
+        <cc-tags :tags="item.Tags"
+          :extended="!smallTags"
+          :tier="tier" />
       </v-col>
-      <v-col v-if="!hideBonuses" cols="auto" class="ml-auto">
+      <v-col v-if="!hideBonuses"
+        cols="auto"
+        class="ml-auto">
         <div>
-          <cc-bonus v-for="(b, index) in item.Bonuses" :key="`bonus-${index}`" :bonus="b" chip :tier="tier" />
+          <cc-bonus v-for="(b, index) in item.Bonuses"
+            :key="`bonus-${index}`"
+            :bonus="b"
+            chip
+            :tier="tier" />
         </div>
       </v-col>
     </v-row>
@@ -130,7 +171,7 @@
 
 <script lang="ts">
 export default {
-  name: 'equipment-card-base',
+  name: 'EquipmentCardBase',
   props: {
     item: {
       type: Object,

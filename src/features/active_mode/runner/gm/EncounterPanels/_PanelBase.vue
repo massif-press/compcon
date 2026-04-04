@@ -20,7 +20,7 @@
     class="pa-2">
     <v-row no-gutters>
       <v-col cols="12"
-        xl="">
+        :xl="onePanel ? '12' : ''">
         <v-row class="pr-4">
           <v-col v-if="item.Portrait && !mobile"
             cols="auto">
@@ -136,7 +136,7 @@
                       :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
                     <span :class="mobile ? '' : 'h2'"
                       class="heading text-accent">
-                      {{ item.StatController.MaxStats[stat.key] }}
+                      {{ item.StatController.MaxStats[stat.key] || 0 }}
                     </span>
                   </template>
                 </v-tooltip>
@@ -145,10 +145,11 @@
                   icon />
               </v-col>
               <v-col cols="1" />
+
               <v-col v-for="stat in item.StatController.GetStatCollection([
                 'evasion',
                 'edef',
-                'techattack',
+                'techAttack',
                 'sensorRange',
                 'saveTarget',
               ])"
@@ -164,7 +165,7 @@
                       :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
                     <span :class="mobile ? '' : 'h2'"
                       class="heading text-accent">
-                      {{ item.StatController.MaxStats[stat.key] }}
+                      {{ item.StatController.MaxStats[stat.key] || 0 }}
                     </span>
                   </template>
                 </v-tooltip>
@@ -172,6 +173,29 @@
                   :bonus="getBonus(stat.key)"
                   icon />
               </v-col>
+
+              <v-col v-for="stat in item.StatController.CustomStats"
+                :key="stat"
+                cols="auto">
+                <v-tooltip :text="stat.title"
+                  location="top"
+                  open-delay="400">
+                  <template #activator="{ props }">
+                    <v-icon v-bind="props"
+                      :icon="stat.icon"
+                      :size="mobile ? '20' : 'x-large'"
+                      :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
+                    <span :class="mobile ? '' : 'h2'"
+                      class="heading text-accent">
+                      {{ item.StatController.MaxStats[stat.key] || 0 }}
+                    </span>
+                  </template>
+                </v-tooltip>
+                <cc-bonus v-if="getBonus(stat.key)"
+                  :bonus="getBonus(stat.key)"
+                  icon />
+              </v-col>
+
               <v-col cols="auto">
                 <cc-synergy-display location="stats"
                   :mech="item"
@@ -222,48 +246,6 @@
               <trackable-stats-complex v-else
                 :item="item" />
             </div>
-
-            <!-- <div v-else>
-              <v-row align="center">
-                <v-col>
-                  <div v-for="stat in orderedStats"
-                    class="mb-3">
-                    <div class="text-cc-overline">
-                      <cc-slashes />
-                      {{ stat.title }}
-                    </div>
-                    <cc-tickbar v-model="item.StatController.CurrentStats[stat.key]"
-                      :color="stat.color"
-                      :icon="stat.icon"
-                      :ticks="item.StatController.MaxStats[stat.key]" />
-                  </div>
-                </v-col>
-
-
-                <v-col cols="auto"
-                  v-if="item.StatController.MaxStats['hp']">
-                  <div style="display: flex; height: 100%"
-                    class="py-3">
-                    <div style="flex: 1; display: flex; flex-direction: column">
-                      <stat-mini-panel title="armor"
-                        icon="mdi-shield-outline"
-                        color="armor"
-                        v-model="item.StatController.CurrentStats['armor']" />
-                      <div class="my-1" />
-                      <stat-mini-panel title="overshield"
-                        icon="mdi-hexagon-multiple-outline"
-                        color="overshield"
-                        v-model="item.StatController.CurrentStats['overshield']" />
-                      <div class="my-1" />
-                      <stat-mini-panel title="burn"
-                        icon="cc:burn"
-                        color="damage--burn"
-                        v-model="item.StatController.CurrentStats['burn']" />
-                    </div>
-                  </div>
-                </v-col>
-              </v-row>
-            </div> -->
 
             <custom-stat-editor :item="item" />
 
@@ -326,7 +308,7 @@
         <cc-counter-set :actor="item" />
       </v-col>
       <v-col cols="12"
-        xl="">
+        :xl="onePanel ? '12' : ''">
         <slot />
       </v-col>
     </v-row>
@@ -382,6 +364,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    onePanel: {
+      type: Boolean,
+      default: false,
+    },
+
   },
   computed: {
     mobile() {

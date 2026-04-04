@@ -31,7 +31,7 @@
         <v-icon size="small"
           class="mt-n1"
           end
-          icon="cc:e_def" />
+          icon="cc:edef" />
         <span class="heading h4"> {{ item.EdefString }} </span>
         <v-icon size="small"
           class="mt-n1"

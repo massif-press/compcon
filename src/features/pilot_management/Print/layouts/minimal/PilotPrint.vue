@@ -182,7 +182,7 @@
                 <span v-text="`+${a.Armor(pilot)}`" />
               </v-col>
               <v-col cols="auto">
-                <v-icon icon="cc:e_def" />
+                <v-icon icon="cc:edef" />
                 <span v-text="`${a.EDefense(pilot)}`" />
               </v-col>
               <v-col cols="auto">

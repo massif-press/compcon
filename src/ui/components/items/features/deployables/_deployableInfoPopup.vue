@@ -24,7 +24,7 @@
       </v-chip>
     </template>
 
-    <deployable-info-base :deployable="deployable" :tier="tier" />
+    <deployable-info-base :deployable="deployable" :tier="tier" :owner="owner" />
   </cc-dialog>
 </template>
 
@@ -42,6 +42,11 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+    owner: {
+      type: Object,
+      required: false,
+      default: null,
     },
   },
   computed: {

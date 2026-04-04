@@ -2,6 +2,7 @@ import { IFeatureContainer } from './IFeatureContainer'
 import { FeatureCollector } from './FeatureCollector'
 import { IFeatureController } from './IFeatureController'
 import { Bonus } from './bonus/Bonus'
+import { BonusController } from './bonus/BonusController'
 import { Synergy } from '@/classes/components/feature/synergy/Synergy'
 import { Action } from '@/classes/Action'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
@@ -41,10 +42,12 @@ const strDict = [
 class FeatureController {
   public readonly Parent: IFeatureController
   public Containers: IFeatureContainer[]
+  public readonly BonusController: BonusController
 
   public constructor(parent: IFeatureController) {
     this.Parent = parent
     this.Containers = []
+    this.BonusController = new BonusController(parent)
   }
 
   public Register(...containers: IFeatureContainer[]) {
@@ -90,20 +93,42 @@ class FeatureController {
   }
 
   public EvaluateSpecial(str: string, returnString = false): string | number {
+    if (!str) return returnString ? '' : 0
     let vStr = str
-    strDict.forEach(
-      p =>
-        (vStr = vStr
-          .replace(`_`, '')
-          .replace(new RegExp(`{${p.key}}`, 'g'), this.getRootProperty(p.prop)?.toString() || '0'))
-    )
+
+    const ctx = this.Parent.getExpressionContext?.() ?? this._buildLegacyContext()
+
+    for (const [key, val] of Object.entries(ctx)) {
+      vStr = vStr.replace(new RegExp(`\\{${key}\\}`, 'g'), String(val))
+    }
+
+    // deep references: {entity.stat}
+    vStr = vStr.replace(/\{(\w+)\.(\w+)\}/g, (_, entityName, key) => {
+      const ref = this.Parent.getEntityRef?.(entityName)
+      if (!ref) return '0'
+      const refCtx = ref.getExpressionContext?.() ?? {}
+      return String(refCtx[key] ?? 0)
+    })
 
     vStr = vStr.replace(/[^-()\d/*+.]/g, '')
 
     if (returnString) return vStr as string
+    if (!vStr.trim()) return 0
     const parser = new Parser()
-    const xpr = parser.parse(vStr)
-    return Math.ceil(xpr.evaluate())
+    try {
+      const xpr = parser.parse(vStr)
+      return Math.ceil(xpr.evaluate())
+    } catch {
+      return 0
+    }
+  }
+
+  private _buildLegacyContext(): Record<string, number> {
+    const ctx: Record<string, number> = {}
+    strDict.forEach(p => {
+      ctx[p.key] = Number(this.getRootProperty<number>(p.prop) ?? 0)
+    })
+    return ctx
   }
 
   private get isCoreActive(): boolean {

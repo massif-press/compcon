@@ -1,6 +1,5 @@
 <template>
-  <runner-list-item-base
-    :actor="layer"
+  <runner-list-item-base :actor="layer"
     :portrait="combatant.actor.Portrait"
     :deployed="combatant.deployables"
     :collapsed="collapsed"
@@ -20,7 +19,7 @@
   </runner-list-item-base>
 </template>
 
-<script>
+<script lang="ts">
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
 export default {
@@ -28,7 +27,6 @@ export default {
   components: {
     RunnerListItemBase,
   },
-  emits: ['select'],
   props: {
     combatant: {
       type: Object,

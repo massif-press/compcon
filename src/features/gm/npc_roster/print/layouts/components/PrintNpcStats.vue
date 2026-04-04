@@ -35,8 +35,8 @@ export default {
   },
   methods: {
     getBonusVal(key: string) {
-      const baseVal = this.item.StatController.getStat(key);
-      const bonuses = (this.bonuses as Bonus[]).filter((x) => x.ID.includes(key));
+      const baseVal = this.item.StatController.getMax(key);
+      const bonuses = (this.bonuses as Bonus[]).filter((x) => x.ID === key);
       if (bonuses.some((b) => b.Overwrite)) return bonuses.find((b) => b.Overwrite)!.Value;
       let bonusVal = 0;
       bonuses.forEach((b) => {

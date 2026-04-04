@@ -26,12 +26,12 @@
           </v-btn>
         </v-toolbar>
         <v-divider />
-        <v-tabs grow
-          v-model="tab"
+        <v-tabs v-model="tab"
+          grow
           bg-color="primary"
           height="30">
-          <v-tab>Doodad</v-tab>
-          <v-tab>Eidolon</v-tab>
+          <v-tab value="Doodad">Doodad</v-tab>
+          <v-tab value="Eidolon">Eidolon</v-tab>
         </v-tabs>
         <v-window v-model="tab"
           class="pa-4">
@@ -49,8 +49,8 @@
                 class="ml-2 mr-n4" />
             </v-col>
             <v-col>
-              <cc-select v-model="group"
-                :items="groups"
+              <cc-select v-model="folder"
+                :items="folders"
                 clearable
                 return-object
                 item-text="Name"
@@ -60,10 +60,10 @@
           </v-row>
           <v-window-item value="Doodad">
             <v-card-text class="pt-0">
-              <v-card flat
-                tile
-                v-for="doodad in doodads"
+              <v-card v-for="doodad in doodads"
                 :key="doodad.ID"
+                flat
+                tile
                 class="border-sm mb-1"
                 @click="add(doodad)">
                 <v-row>
@@ -80,10 +80,10 @@
           </v-window-item>
           <v-window-item value="Eidolon">
             <v-card-text class="pt-0">
-              <v-card flat
-                tile
-                v-for="e in eidolons"
+              <v-card v-for="e in eidolons"
                 :key="e.ID"
+                flat
+                tile
                 class="border-sm mb-1"
                 @click="addEidolon(e)">
                 <v-row>
@@ -108,35 +108,39 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { Npc } from '@/classes/npc/Npc';
 import { NpcStore } from '@/stores';
 import * as _ from 'lodash-es';
 
 export default {
   name: 'GmAddNpcMenu',
-  data: () => ({
-    tab: 'Doodad',
-    search: '',
-  }),
   props: {
     encounterInstance: {
       type: Object,
       required: true,
     },
   },
+  data: () => ({
+    tab: 'Doodad',
+    search: '',
+    folder: null,
+  }),
   computed: {
+    folders() {
+      return NpcStore().getFolders;
+    },
     doodads() {
       return NpcStore()
         .getDoodads.filter(
-          (npc) => this.search === '' || npc.Name.toLowerCase().includes(this.search.toLowerCase())
+          (npc) => !this.search || npc.Name.toLowerCase().includes(this.search.toLowerCase())
         )
         .filter((npc) => (this.folder ? npc.FolderController.Folder === this.folder : true));
     },
     eidolons() {
       return NpcStore()
         .getEidolons.filter(
-          (npc) => this.search === '' || npc.Name.toLowerCase().includes(this.search.toLowerCase())
+          (npc) => !this.search || npc.Name.toLowerCase().includes(this.search.toLowerCase())
         )
         .filter((npc) => (this.folder ? npc.FolderController.Folder === this.folder : true));
     },

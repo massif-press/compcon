@@ -9,7 +9,7 @@
       <v-row dense justify="center">
         <cc-statblock-panel icon="mdi-shield" name="Armor" :value="item.ArmorString" />
         <cc-statblock-panel icon="mdi-heart" name="HP Bonus" :value="`+${item.HpString}`" />
-        <cc-statblock-panel icon="cc:e_def" name="E-Defense" :value="item.EdefString" />
+        <cc-statblock-panel icon="cc:edef" name="E-Defense" :value="item.EdefString" />
         <cc-statblock-panel icon="cc:evasion" name="Evasion" :value="item.EvasionString" />
         <cc-statblock-panel
           icon="mdi-arrow-right-bold-hexagon-outline"

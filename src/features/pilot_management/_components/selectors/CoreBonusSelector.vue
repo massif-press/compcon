@@ -98,7 +98,7 @@ import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue'
 
 import { CompendiumStore } from '@/stores'
 import { Pilot, CoreBonus, Manufacturer } from '@/class'
-import { Bonus } from '@/classes/components/feature/bonus/Bonus'
+import { Bonus, BonusId } from '@/classes/components/feature/bonus/Bonus'
 import logger from '@/user/logger'
 import MissingItemAlert from './components/_MissingItemAlert.vue'
 import { useMobile } from '@/mixins/useMobile';
@@ -213,7 +213,7 @@ export default {
     },
     availableCount(m: string): number {
       if (m.toUpperCase() === 'GMS') return Infinity
-      const extraLicenses = Bonus.Int(0, 'cb_point', this.pilot as Pilot)
+      const extraLicenses = Bonus.Int(0, BonusId.CB_POINT, this.pilot as Pilot)
       return (
         Math.floor(this.pilot.LicenseController.LicenseLevel(m) / 3) +
         extraLicenses -

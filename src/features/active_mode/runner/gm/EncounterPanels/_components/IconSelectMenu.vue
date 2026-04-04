@@ -52,7 +52,7 @@ export default {
         'cc:squad',
         'cc:manufacturer',
         'cc:invade',
-        'cc:e_def',
+        'cc:edef',
         'cc:evasion',
         'cc:npc_tier_custom',
         'cc:npc_tier_3',

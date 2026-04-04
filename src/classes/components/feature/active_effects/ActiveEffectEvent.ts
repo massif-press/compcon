@@ -124,7 +124,7 @@ class ActiveEffectEvent {
   }
 
   public get Grit(): number {
-    return this.Initiator.actor.CombatController.RootActor.StatController.MaxStats['grit'] || 0
+    return this.Initiator.actor.CombatController.RootActor.StatController.getMax('grit') || 0
   }
 
   public get Targets(): ActiveEventTarget[] {

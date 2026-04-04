@@ -138,7 +138,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   }
 
   public get SizeIcon(): string {
-    return `cc:size_${this.StatController.getStat('size') || 1}`
+    return `cc:size_${this.StatController.getMax('size') || 1}`
   }
 }
 

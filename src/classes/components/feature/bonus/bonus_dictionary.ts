@@ -1,4 +1,114 @@
-export default [
+export const BonusId = {
+  SKILL_POINT: 'skill_point',
+  MECH_SKILL_POINT: 'mech_skill_point',
+  TALENT_POINT: 'talent_point',
+  LICENSE_POINT: 'license_point',
+  CB_POINT: 'cb_point',
+  PILOT_GEAR: 'pilot_gear',
+  RANGE: 'range',
+  DAMAGE: 'damage',
+  HP: 'hp',
+  ARMOR: 'armor',
+  STRUCTURE: 'structure',
+  STRESS: 'stress',
+  HEATCAP: 'heatcap',
+  REPCAP: 'repcap',
+  CORE_POWER: 'core_power',
+  SPEED: 'speed',
+  EVASION: 'evasion',
+  EDEF: 'edef',
+  SENSOR: 'sensor',
+  TECH_ATTACK: 'tech_attack',
+  SAVE: 'save',
+  SP: 'sp',
+  SIZE: 'size',
+  AI_CAP: 'ai_cap',
+  CHEAP_STRUCT: 'cheap_struct',
+  CHEAP_STRESS: 'cheap_stress',
+  OVERCHARGE: 'overcharge',
+  LIMITED_BONUS: 'limited_bonus',
+  PILOT_HP: 'pilot_hp',
+  PILOT_ARMOR: 'pilot_armor',
+  PILOT_EVASION: 'pilot_evasion',
+  PILOT_EDEF: 'pilot_edef',
+  PILOT_SPEED: 'pilot_speed',
+  PILOT_GEAR_SLOTS: 'pilot_gear_slots',
+  PILOT_WEAPON_SLOTS: 'pilot_weapon_slots',
+  PILOT_ARMOR_SLOTS: 'pilot_armor_slots',
+  DEPLOYABLE_HP: 'deployable_hp',
+  DEPLOYABLE_SIZE: 'deployable_size',
+  DEPLOYABLE_CHARGES: 'deployable_charges',
+  DEPLOYABLE_ARMOR: 'deployable_armor',
+  DEPLOYABLE_EVASION: 'deployable_evasion',
+  DEPLOYABLE_EDEF: 'deployable_edef',
+  DEPLOYABLE_HEATCAP: 'deployable_heatcap',
+  DEPLOYABLE_REPCAP: 'deployable_repcap',
+  DEPLOYABLE_SENSOR_RANGE: 'deployable_sensor_range',
+  DEPLOYABLE_TECH_ATTACK: 'deployable_tech_attack',
+  DEPLOYABLE_SAVE: 'deployable_save',
+  DEPLOYABLE_SPEED: 'deployable_speed',
+  DEPLOY_COUNT: 'deploy_count',
+  DRONE_HP: 'drone_hp',
+  DRONE_SIZE: 'drone_size',
+  DRONE_CHARGES: 'drone_charges',
+  DRONE_ARMOR: 'drone_armor',
+  DRONE_EVASION: 'drone_evasion',
+  DRONE_EDEF: 'drone_edef',
+  DRONE_HEATCAP: 'drone_heatcap',
+  DRONE_REPCAP: 'drone_repcap',
+  DRONE_SENSOR_RANGE: 'drone_sensor_range',
+  DRONE_TECH_ATTACK: 'drone_tech_attack',
+  DRONE_SAVE: 'drone_save',
+  DRONE_SPEED: 'drone_speed',
+  ACTIVATIONS: 'activations',
+  ACTIVATIONS_PCT: 'activations_pct',
+  HP_PER_PLAYER: 'hp_per_player',
+  IMMUNITY: 'immunity',
+  RESISTANCE: 'resistance',
+  MOUNT_ACCURACY: 'mount_accuracy',
+  MOUNT_RANGE: 'mount_range',
+  MOUNT_DAMAGE: 'mount_damage',
+  MOUNT_DAMAGE_TYPE: 'mount_damage_type (override)',
+  MOUNT_RANGE_TYPE: 'mount_range_type (override)',
+  MOUNT_WEAPON_TYPE: 'mount_weapon_type (override)',
+  ADD_MOUNT: 'add_mount',
+  NO_MODS: 'no_mods',
+  ARMOR_MAX: 'armor_max',
+  BOOST: 'boost',
+  MIN_RANGE: 'min_range',
+  MIN_DAMAGE: 'min_damage',
+  EXTRA_ACTION: 'extra_action',
+  UNSTABLE_SYSTEM: 'unstable_system',
+  KNOCKBACK: 'knockback',
+  ATTACK: 'attack',
+  NO_CASCADE: 'no_cascade',
+  THROWN: 'thrown',
+  DRONE_RESIST: 'drone_resist',
+  DEPLOYABLE_RESIST: 'deployable_resist',
+  HULL: 'hull',
+  AGILITY: 'agility',
+  SYSTEMS: 'systems',
+  ENGINEERING: 'engineering',
+  CHECK: 'check',
+  THREAT: 'threat',
+  ADD_WEAPON_TYPE: 'add_weapon_type',
+  GRAPPLE: 'grapple',
+  RAM: 'ram',
+  SIZES: 'sizes',
+  MELEE: 'melee',
+  HEAT_CAP: 'heat_cap',
+  ACCURACY: 'accuracy',
+} as const
+
+export type BonusIdType = (typeof BonusId)[keyof typeof BonusId]
+
+interface IBonusMeta {
+  id: string
+  title: string
+  detail: string
+}
+
+const _coreEntries: IBonusMeta[] = [
   {
     id: 'skill_point',
     title: 'Pilot Skill Trigger',
@@ -413,6 +523,7 @@ export default [
   { id: 'threat', title: 'Threat', detail: '{INC_DEC} weapon Threat by {VAL}' },
   { id: 'add_weapon_type', title: 'Set Weapon Type', detail: 'Set weapon type to {VAL}' },
   { id: 'grapple', title: 'Threat', detail: '{INC_DEC} Grapple by {VAL}' },
+  { id: 'ram', title: 'Ram', detail: '{INC_DEC} Ram by {VAL}' },
   { id: 'sizes', title: 'Size Options', detail: 'Extend NPC size creation options ({VAL})' },
   { id: 'melee', title: 'Melee', detail: '{INC_DEC} Melee attacks by {VAL}' },
   { id: 'heat_cap', title: 'Heat Cap', detail: '{INC_DEC} Heat Capacity by {VAL}' },
@@ -422,3 +533,21 @@ export default [
     detail: '{INC_DEC} attacks, checks, and saves by {VAL} accuracy',
   },
 ]
+
+const _extensions: IBonusMeta[] = []
+
+function registerBonus(entry: IBonusMeta): void {
+  _extensions.push(entry)
+}
+
+function clearBonusExtensions(): void {
+  _extensions.length = 0
+}
+
+function getBonusDictionary(): IBonusMeta[] {
+  return [..._coreEntries, ..._extensions]
+}
+
+export { registerBonus, clearBonusExtensions, getBonusDictionary }
+export type { IBonusMeta }
+export default _coreEntries

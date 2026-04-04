@@ -17,6 +17,7 @@ import { INpcClassData } from '../class/NpcClass'
 import { CombatController, CombatData } from '@/classes/components/combat/CombatController'
 import { ICombatant } from '@/classes/components/combat/ICombatant'
 import { StatController } from '@/classes/components/combat/stats/StatController'
+import { IFeatureController } from '@/classes/components/feature/IFeatureController'
 import { ItemType } from '@/class'
 
 class UnitData
@@ -109,6 +110,29 @@ class Unit extends Npc implements ICombatant, IInstanceable {
 
   public get StatController(): StatController {
     return this.CombatController.StatController
+  }
+
+  public getExpressionContext(): Record<string, number> {
+    const sc = this.CombatController.StatController
+    return {
+      tier: this.Tier,
+      hull: sc.getMax('hull') ?? 0,
+      agi: sc.getMax('agi') ?? 0,
+      sys: sc.getMax('sys') ?? 0,
+      eng: sc.getMax('eng') ?? 0,
+      size: sc.getMax('size') ?? 0,
+      hp: sc.getMax('hp') ?? 0,
+      speed: sc.getMax('speed') ?? 0,
+      evasion: sc.getMax('evasion') ?? 0,
+      edef: sc.getMax('edef') ?? 0,
+      heatcap: sc.getMax('heatcap') ?? 0,
+      sensors: sc.getMax('sensorRange') ?? 0,
+      save: sc.getMax('saveTarget') ?? 0,
+    }
+  }
+
+  public getEntityRef(name: string): IFeatureController | null {
+    return name.toLowerCase() === 'self' ? this : null
   }
 
   public SetStats(): void {
@@ -215,8 +239,8 @@ class Unit extends Npc implements ICombatant, IInstanceable {
   }
 
   public get SizeIcon(): string {
-    if (!this.StatController.getStat('size')) return 'cc:size_1'
-    return `cc:size_${this.StatController.getStat('size') === 0.5 ? 'half' : this.StatController.getStat('size')}`
+    if (!this.StatController.getMax('size')) return 'cc:size_1'
+    return `cc:size_${this.StatController.getMax('size') === 0.5 ? 'half' : this.StatController.getMax('size')}`
   }
 }
 

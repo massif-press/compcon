@@ -1,6 +1,6 @@
 <template>
   <panel-base :encounter-instance="encounterInstance"
-    :owner="combatant">
+    :item="combatant.actor">
     <template #name-block>
       <div class="heading h2">{{ combatant.actor.Name }}</div>
       <div class="text-cc-overline">Doodad</div>
@@ -16,6 +16,7 @@ export default {
   components: {
     PanelBase,
   },
+  emits: ['deselect'],
   props: {
     combatant: {
       type: Object,

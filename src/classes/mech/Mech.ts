@@ -3,13 +3,12 @@ import { v4 as uuid } from 'uuid'
 import * as _ from 'lodash-es'
 import { Rules, Pilot, Frame, CoreBonus, Mount } from '@/class'
 import { ImageTag } from '@/io/ImageManagement'
-import { Bonus } from '../components/feature/bonus/Bonus'
+import { Bonus, BonusId } from '../components/feature/bonus/Bonus'
 import { IMechLoadoutData } from './components/loadout/MechLoadout'
 import {
   IPortraitContainer,
   IPortraitData,
   ISaveable,
-  ISaveData,
   PortraitController,
   SaveController,
 } from '../components'
@@ -186,7 +185,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
     let size =
       this._frame.Size >= Rules.MaxFrameSize
         ? this._frame.Size
-        : Bonus.Int(this._frame.Size, 'size', this)
+        : Bonus.Int(this._frame.Size, BonusId.SIZE, this)
     if (size < 0.5) size = 0.5
     if (size > 0.5 && size % 1 !== 0) size = Math.floor(size)
     return size
@@ -194,7 +193,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
 
   public get SizeContributors(): string[] {
     const output = [`FRAME Base Size: ${this.Frame.Size}`]
-    Bonus.Contributors('size', this).forEach(b => {
+    Bonus.Contributors(BonusId.SIZE, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -202,13 +201,13 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get Armor(): number {
-    const armor = Bonus.Int(this._frame.Armor, 'armor', this)
+    const armor = Bonus.Int(this._frame.Armor, BonusId.ARMOR, this)
     return armor > Rules.MaxMechArmor ? Rules.MaxMechArmor : armor
   }
 
   public get ArmorContributors(): string[] {
     const output = [`FRAME Base Armor: ${this.Frame.Armor}`]
-    Bonus.Contributors('armor', this).forEach(b => {
+    Bonus.Contributors(BonusId.ARMOR, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -216,7 +215,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get SaveTarget(): number {
-    return Bonus.Int(this._frame.SaveTarget, 'save', this) + this._pilot.Grit
+    return Bonus.Int(this._frame.SaveTarget, BonusId.SAVE, this) + this._pilot.Grit
   }
 
   public get SaveTargetContributors(): string[] {
@@ -224,7 +223,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       `FRAME Base Save Target: ${this.Frame.SaveTarget}`,
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
     ]
-    Bonus.Contributors('save', this).forEach(b => {
+    Bonus.Contributors(BonusId.SAVE, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -233,7 +232,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
 
   public get Evasion(): number {
     // if (this.IsStunned) return 5
-    return Bonus.Int(this._frame.Evasion + this.Agi, 'evasion', this)
+    return Bonus.Int(this._frame.Evasion + this.Agi, BonusId.EVASION, this)
   }
 
   public get EvasionContributors(): string[] {
@@ -241,7 +240,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       `FRAME Base Evasion: ${this.Frame.Evasion}`,
       `Pilot AGILITY Bonus: +${this.Agi}`,
     ]
-    Bonus.Contributors('evasion', this).forEach(b => {
+    Bonus.Contributors(BonusId.EVASION, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -249,7 +248,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get Speed(): number {
-    return Bonus.Int(this._frame.Speed + Math.floor(this.Agi / 2), 'speed', this)
+    return Bonus.Int(this._frame.Speed + Math.floor(this.Agi / 2), BonusId.SPEED, this)
   }
 
   public get SpeedContributors(): string[] {
@@ -257,7 +256,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       `FRAME Base Speed: ${this.Frame.Speed}`,
       `Pilot AGILITY Bonus: +${Math.floor(this.Agi / 2)}`,
     ]
-    Bonus.Contributors('speed', this).forEach(b => {
+    Bonus.Contributors(BonusId.SPEED, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -265,12 +264,12 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get SensorRange(): number {
-    return Bonus.Int(this._frame.SensorRange, 'sensor', this)
+    return Bonus.Int(this._frame.SensorRange, BonusId.SENSOR, this)
   }
 
   public get SensorRangeContributors(): string[] {
     const output = [`FRAME Base Sensor Range: ${this.Frame.SensorRange}`]
-    Bonus.Contributors('sensor', this).forEach(b => {
+    Bonus.Contributors(BonusId.SENSOR, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -278,7 +277,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get EDefense(): number {
-    return Bonus.Int(this._frame.EDefense + this.Sys, 'edef', this)
+    return Bonus.Int(this._frame.EDefense + this.Sys, BonusId.EDEF, this)
   }
 
   public get EDefenseContributors(): string[] {
@@ -286,7 +285,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       `FRAME Base E-Defense: ${this.Frame.EDefense}`,
       `Pilot SYSTEMS Bonus: +${this.Sys}`,
     ]
-    Bonus.Contributors('edef', this).forEach(b => {
+    Bonus.Contributors(BonusId.EDEF, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -294,12 +293,12 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get LimitedBonus(): number {
-    return Bonus.Int(Math.floor(this.Eng / 2), 'limited_bonus', this)
+    return Bonus.Int(Math.floor(this.Eng / 2), BonusId.LIMITED_BONUS, this)
   }
 
   public get LimitedContributors(): string[] {
     const output = [`Pilot ENGINEERING Bonus: +${Math.floor(this.Eng / 2)}`]
-    Bonus.Contributors('limited_bonus', this).forEach(b => {
+    Bonus.Contributors(BonusId.LIMITED_BONUS, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -307,12 +306,12 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get AttackBonus(): number {
-    return Bonus.Int(this._pilot.Grit, 'attack', this)
+    return Bonus.Int(this._pilot.Grit, BonusId.ATTACK, this)
   }
 
   public get AttackBonusContributors(): string[] {
     const output = [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
-    Bonus.Contributors('attack', this).forEach(b => {
+    Bonus.Contributors(BonusId.ATTACK, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -320,7 +319,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get TechAttack(): number {
-    return Bonus.Int(this._frame.TechAttack + this.Sys, 'tech_attack', this)
+    return Bonus.Int(this._frame.TechAttack + this.Sys, BonusId.TECH_ATTACK, this)
   }
 
   public get TechAttackContributors(): string[] {
@@ -328,7 +327,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       `FRAME Base Tech Attack: ${this.Frame.TechAttack}`,
       `Pilot SYSTEMS Bonus: +${this.Sys}`,
     ]
-    Bonus.Contributors('tech_attack', this).forEach(b => {
+    Bonus.Contributors(BonusId.TECH_ATTACK, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -336,12 +335,12 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get Grapple(): number {
-    return Bonus.Int(Rules.BaseGrapple, 'grapple', this)
+    return Bonus.Int(Rules.BaseGrapple, BonusId.GRAPPLE, this)
   }
 
   public get GrappleContributors(): string[] {
     const output = [`Base Grapple Value: ${this.Grapple}`]
-    Bonus.Contributors('grapple', this).forEach(b => {
+    Bonus.Contributors(BonusId.GRAPPLE, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -349,12 +348,12 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get Ram(): number {
-    return Bonus.Int(Rules.BaseRam, 'ram', this)
+    return Bonus.Int(Rules.BaseRam, BonusId.RAM, this)
   }
 
   public get RamContributors(): string[] {
     const output = [`Base Ram Value: ${this.Ram}`]
-    Bonus.Contributors('ram', this).forEach(b => {
+    Bonus.Contributors(BonusId.RAM, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -362,12 +361,12 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get SaveBonus(): number {
-    return Bonus.Int(this._pilot.Grit, 'save', this)
+    return Bonus.Int(this._pilot.Grit, BonusId.SAVE, this)
   }
 
   public get SaveBonusContributors(): string[] {
     const output = [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
-    Bonus.Contributors('save', this).forEach(b => {
+    Bonus.Contributors(BonusId.SAVE, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -393,12 +392,12 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
 
   // -- Stats -------------------------------------------------------------------------------------
   public get MaxStructure(): number {
-    return Bonus.Int(this._frame.Structure, 'structure', this)
+    return Bonus.Int(this._frame.Structure, BonusId.STRUCTURE, this)
   }
 
   public get StructureContributors(): string[] {
     const output = [`FRAME Base Structure: ${this.Frame.Structure}`]
-    Bonus.Contributors('structure', this).forEach(b => {
+    Bonus.Contributors(BonusId.STRUCTURE, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -406,7 +405,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get MaxHP(): number {
-    return Bonus.Int(this._frame.HP + this._pilot.Grit + this.Hull * 2, 'hp', this)
+    return Bonus.Int(this._frame.HP + this._pilot.Grit + this.Hull * 2, BonusId.HP, this)
   }
 
   public get HPContributors(): string[] {
@@ -415,7 +414,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
       `Pilot HULL Bonus: +${this.Hull * 2}`,
     ]
-    Bonus.Contributors('hp', this).forEach(b => {
+    Bonus.Contributors(BonusId.HP, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -428,7 +427,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get MaxSP(): number {
-    return Bonus.Int(this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2), 'sp', this)
+    return Bonus.Int(this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2), BonusId.SP, this)
   }
 
   public get FreeSP(): number {
@@ -441,7 +440,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
       `Pilot SYSTEMS Bonus: +${Math.floor(this.Sys / 2)}`,
     ]
-    Bonus.Contributors('sp', this).forEach(b => {
+    Bonus.Contributors(BonusId.SP, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -449,7 +448,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get HeatCapacity(): number {
-    return Bonus.Int(this._frame.HeatCap + this.Eng, 'heatcap', this)
+    return Bonus.Int(this._frame.HeatCap + this.Eng, BonusId.HEATCAP, this)
   }
 
   public get HeatCapContributors(): string[] {
@@ -457,7 +456,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       `FRAME Base Heat Capacity: ${this.Frame.HeatCap}`,
       `Pilot ENGINEERING Bonus: +${this.Eng}`,
     ]
-    Bonus.Contributors('heatcap', this).forEach(b => {
+    Bonus.Contributors(BonusId.HEATCAP, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -465,12 +464,12 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get MaxStress(): number {
-    return Bonus.Int(this._frame.HeatStress, 'stress', this)
+    return Bonus.Int(this._frame.HeatStress, BonusId.STRESS, this)
   }
 
   public get StressContributors(): string[] {
     const output = [`FRAME Base Reactor Stress: ${this.Frame.HeatStress}`]
-    Bonus.Contributors('stress', this).forEach(b => {
+    Bonus.Contributors(BonusId.STRESS, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -478,7 +477,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get RepairCapacity(): number {
-    return Bonus.Int(this._frame.RepCap + Math.floor(this.Hull / 2), 'repcap', this)
+    return Bonus.Int(this._frame.RepCap + Math.floor(this.Hull / 2), BonusId.REPCAP, this)
   }
 
   public get RepCapContributors(): string[] {
@@ -486,7 +485,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       `FRAME Base Repair Capacity: ${this.Frame.RepCap}`,
       `Pilot HULL Bonus: +${Math.floor(this.Hull / 2)}`,
     ]
-    Bonus.Contributors('repcap', this).forEach(b => {
+    Bonus.Contributors(BonusId.REPCAP, this).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -494,8 +493,69 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public get OverchargeTrack(): string[] {
-    const b = Bonus.getUneval('overcharge', this)
+    const b = Bonus.getUneval(BonusId.OVERCHARGE, this)
     return b.length ? b[0].Value : Rules.Overcharge
+  }
+
+  public getExpressionContext(): Record<string, number> {
+    const sc = this.CombatController.StatController
+    return {
+      grit: this._pilot?.Grit ?? 0,
+      ll: this._pilot?.Level ?? 0,
+      hull: this.Hull,
+      agi: this.Agi,
+      sys: this.Sys,
+      eng: this.Eng,
+      size: sc.getMax('size') ?? 0,
+      structure: sc.getMax('structure') ?? 0,
+      stress: sc.getMax('stress') ?? 0,
+      hp: sc.getMax('hp') ?? 0,
+      armor: sc.getMax('armor') ?? 0,
+      speed: sc.getMax('speed') ?? 0,
+      evasion: sc.getMax('evasion') ?? 0,
+      edef: sc.getMax('edef') ?? 0,
+      heatcap: sc.getMax('heatcap') ?? 0,
+      sensors: sc.getMax('sensorRange') ?? 0,
+      repcap: sc.getMax('repairCapacity') ?? 0,
+      save: sc.getMax('saveTarget') ?? 0,
+    }
+  }
+
+  public getEntityRef(name: string): IFeatureController | null {
+    switch (name.toLowerCase()) {
+      case 'pilot':
+        return this._pilot ?? null
+      case 'self':
+      case 'mech':
+        return this
+      default:
+        return null
+    }
+  }
+
+  public getExpressionContext(): Record<string, number> {
+    return {
+      ll: this._pilot.Level,
+      grit: this._pilot.Grit,
+      hull: this.Hull,
+      agi: this.Agi,
+      sys: this.Sys,
+      eng: this.Eng,
+      size: this.Size,
+      structure: this.MaxStructure,
+      stress: this.MaxStress,
+      armor: this.Armor,
+      hp: this.MaxHP,
+      speed: this.Speed,
+      evasion: this.Evasion,
+      edef: this.EDefense,
+      heatcap: this.HeatCapacity,
+      sensors: this.SensorRange,
+      repcap: this.RepairCapacity,
+      save: this.SaveTarget,
+      sp: this.MaxSP,
+      overshield: 0,
+    }
   }
 
   public SetStats() {
@@ -512,9 +572,9 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       { key: 'speed', val: this.Speed },
       { key: 'sensors', val: this.SensorRange },
       { key: 'edef', val: this.EDefense },
-      { key: 'limited_bonus', val: this.LimitedBonus },
+      { key: 'limitedBonus', val: this.LimitedBonus },
       { key: 'attack', val: this.AttackBonus },
-      { key: 'tech_attack', val: this.TechAttack },
+      { key: 'techAttack', val: this.TechAttack },
       { key: 'grapple', val: this.Grapple },
       { key: 'ram', val: this.Ram },
       { key: 'hp', val: this.MaxHP },
@@ -554,12 +614,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
 
   public HasCompatibleMods(): boolean {
     for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(x => !!x.Mod)) {
-      if (
-        !w.Mod!.AllowedTypes.includes(w.ModType) ||
-        !w.Mod!.AllowedSizes.includes(w.ModSize) ||
-        w.Mod!.RestrictedTypes.includes(w.ModType) ||
-        w.Mod!.RestrictedSizes.includes(w.ModSize)
-      ) {
+      if (!w.Mod!.AllowedTypes.includes(w.ModType) || !w.Mod!.AllowedSizes.includes(w.ModSize)) {
         return false
       }
     }

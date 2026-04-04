@@ -1,6 +1,6 @@
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
 import { IRankedData } from '../../../../interface';
-import { Bonus } from '../../../components/feature/bonus/Bonus';
+import { Bonus, BonusId } from '../../../components/feature/bonus/Bonus';
 import { Rules } from '../../../utility/Rules';
 import { Pilot } from '../../Pilot';
 import PilotTalent from './PilotTalent';
@@ -58,7 +58,7 @@ class TalentsController implements IFeatureContainer {
   }
 
   public get MaxTalentPoints(): number {
-    return Bonus.Int(Rules.MinimumPilotTalents + this.Parent.Level, 'talent_point', this.Parent);
+    return Bonus.Int(Rules.MinimumPilotTalents + this.Parent.Level, BonusId.TALENT_POINT, this.Parent);
   }
 
   public get HasFullTalents(): boolean {

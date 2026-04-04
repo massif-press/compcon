@@ -2,7 +2,8 @@
   <component
     :is="hover ? 'deployableInfoHover' : panel ? 'deployableInfoPanel' : 'deployableInfoPopup'"
     :deployable="deployable"
-    :tier="tier" />
+    :tier="tier"
+    :owner="owner" />
 </template>
 
 <script lang="ts">
@@ -11,7 +12,7 @@ import deployableInfoPanel from './_deployableInfoPanel.vue';
 import deployableInfoPopup from './_deployableInfoPopup.vue';
 
 export default {
-  name: 'cc-deployable-info',
+  name: 'CcDeployableInfo',
   components: { deployableInfoHover, deployableInfoPanel, deployableInfoPopup },
   props: {
     deployable: {
@@ -31,6 +32,11 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+    owner: {
+      type: Object,
+      required: false,
+      default: null,
     },
   },
 };

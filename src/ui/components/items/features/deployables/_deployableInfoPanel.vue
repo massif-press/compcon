@@ -1,7 +1,7 @@
 <template>
   <cc-alert :title="deployable.Name" :icon="deployable.Icon">
     <div class="text-text">
-      <deployable-info-base :deployable="deployable" :tier="tier" />
+      <deployable-info-base :deployable="deployable" :tier="tier" :owner="owner" />
     </div>
   </cc-alert>
 </template>
@@ -20,6 +20,11 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+    owner: {
+      type: Object,
+      required: false,
+      default: null,
     },
   },
   computed: {

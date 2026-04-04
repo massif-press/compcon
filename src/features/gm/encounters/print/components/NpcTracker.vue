@@ -26,10 +26,10 @@
       </v-col>
       <!-- <v-col cols="auto">
         <v-icon icon="mdi-arrow-right-bold-hexagon-outline" />
-        {{ npc.StatController.getStat('Activations') }}
+        {{ npc.StatController.getMax('Activations') }}
       </v-col>
       <v-col cols="auto">
-        <v-icon v-for="n in npc.StatController.getStat('Activations')" icon="cc:activate" />
+        <v-icon v-for="n in npc.StatController.getMax('Activations')" icon="cc:activate" />
       </v-col> -->
       <v-col cols="auto">
         <v-icon icon="mdi-checkbox-blank-outline" />
@@ -92,10 +92,8 @@ export default {
   },
   methods: {
     getBonusVal(key: string) {
-      const baseVal = this.npc.StatController.getStat(key);
-      const bonuses = (this.npc.FeatureController.Bonuses as Bonus[]).filter((x) =>
-        x.ID.includes(key)
-      );
+      const baseVal = this.npc.StatController.getMax(key);
+      const bonuses = (this.npc.FeatureController.Bonuses as Bonus[]).filter((x) => x.ID === key);
       if (bonuses.some((b) => b.Overwrite)) return bonuses.find((b) => b.Overwrite)!.Value;
       let bonusVal = 0;
       bonuses.forEach((b) => {

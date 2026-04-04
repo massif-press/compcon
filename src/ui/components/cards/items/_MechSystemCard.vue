@@ -38,7 +38,7 @@
 import EquipmentCardBase from './_EquipmentCardBase.vue';
 
 export default {
-  name: 'cc-mech-system-card',
+  name: 'CcMechSystemCard',
   components: { EquipmentCardBase },
   props: {
     item: {

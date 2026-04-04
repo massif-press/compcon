@@ -149,6 +149,7 @@
                 cols="auto">
                 <cc-deployable-info :deployable="d"
                   :panel="$vuetify.display.lgAndUp"
+                  :owner="mech"
                   :name-override="item.Name"
                   class="ma-2" />
               </v-col>

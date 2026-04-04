@@ -1,6 +1,6 @@
 import { CompendiumStore } from '@/stores'
 import { MechEquipment, SystemType, ItemType, ContentPack } from '@/class'
-import { IContentPack, IEquipmentData, IMechEquipmentData, ITagCompendiumData } from '@/interface'
+import { IEquipmentData, IMechEquipmentData } from '@/interface'
 
 interface IMechSystemData extends IMechEquipmentData {
   type: SystemType
@@ -62,8 +62,6 @@ class MechSystem extends MechEquipment {
     item._flavor_name = data.flavorName || ''
     item._flavor_description = data.flavorDescription || ''
 
-    // combat props
-    // item.MaxUses = data.maxUses || 0;
     item.Uses = data.currentUses || 0
     item.Destroyed = data.destroyed || false
     item.Used = data.isUsed || false

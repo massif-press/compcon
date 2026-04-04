@@ -101,6 +101,7 @@
             :key="t.Name"
             :trait="t"
             :color="color"
+            :mech="mech"
             class="ma-3" />
         </v-col>
 
@@ -139,7 +140,8 @@
       <cc-core-system-panel :frame="mech.Frame"
         :small="!!mobile"
         terse
-        :color="color" />
+        :color="color"
+        :owner="mech" />
 
       <loadout-block :mech="mech" />
     </v-container>

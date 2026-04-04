@@ -13,7 +13,7 @@ import {
   WeaponMod,
 } from '../../class'
 import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface'
-import { Bonus } from '../components/feature/bonus/Bonus'
+import { Bonus, BonusId } from '../components/feature/bonus/Bonus'
 import {
   CoreBonusController,
   ILicenseSaveData,
@@ -479,29 +479,29 @@ class Pilot
   }
 
   public get MaxHP(): number {
-    return Bonus.Int(Rules.BasePilotHP + this.Grit, 'pilot_hp', this)
+    return Bonus.Int(Rules.BasePilotHP + this.Grit, BonusId.PILOT_HP, this)
   }
 
   public get Armor(): number {
-    return Bonus.Int(0, 'pilot_armor', this)
+    return Bonus.Int(0, BonusId.PILOT_ARMOR, this)
   }
 
   public get Speed(): number {
-    return Bonus.Int(Rules.BasePilotSpeed, 'pilot_speed', this)
+    return Bonus.Int(Rules.BasePilotSpeed, BonusId.PILOT_SPEED, this)
   }
 
   public get Evasion(): number {
-    return Bonus.Int(Rules.BasePilotEvasion, 'pilot_evasion', this)
+    return Bonus.Int(Rules.BasePilotEvasion, BonusId.PILOT_EVASION, this)
   }
 
   public get EDefense(): number {
-    return Bonus.Int(Rules.BasePilotEdef, 'pilot_edef', this)
+    return Bonus.Int(Rules.BasePilotEdef, BonusId.PILOT_EDEF, this)
   }
 
   public get LimitedBonus(): number {
     return Bonus.Int(
       Math.floor(this.MechSkillsController.MechSkills.Eng / 2),
-      'limited_bonus',
+      BonusId.LIMITED_BONUS,
       this
     )
   }
@@ -524,6 +524,32 @@ class Pilot
     this.SaveController.save()
   }
 
+  public getExpressionContext(): Record<string, number> {
+    const sc = this.CombatController.StatController
+    return {
+      ll: this.Level,
+      grit: this.Grit,
+      hull: this.MechSkillsController.Hull,
+      agi: this.MechSkillsController.Agi,
+      sys: this.MechSkillsController.Sys,
+      eng: this.MechSkillsController.Eng,
+      hp: sc.getMax('hp') ?? 0,
+      armor: sc.getMax('armor') ?? 0,
+      speed: sc.getMax('speed') ?? 0,
+      evasion: sc.getMax('evasion') ?? 0,
+      edef: sc.getMax('edef') ?? 0,
+    }
+  }
+
+  public getEntityRef(name: string): IFeatureController | null {
+    switch (name.toLowerCase()) {
+      case 'mech': return this.ActiveMech ?? null
+      case 'self':
+      case 'pilot': return this
+      default: return null
+    }
+  }
+
   public SetStats() {
     const kvps = [
       { key: 'grit', val: this.Grit },
@@ -532,7 +558,7 @@ class Pilot
       { key: 'speed', val: this.Speed },
       { key: 'evasion', val: this.Evasion },
       { key: 'edef', val: this.EDefense },
-      { key: 'limited_bonus', val: this.LimitedBonus },
+      { key: 'limitedBonus', val: this.LimitedBonus },
       { key: 'activations', val: 1 },
     ] as { key: string; val: number }[]
 

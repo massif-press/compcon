@@ -37,6 +37,8 @@ import { IndexItem, NavStore } from '@/stores'
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection'
 import { BondPower } from '@/classes/pilot/components/bond/Bond'
 import logger from '@/user/logger'
+import { StatController } from '@/classes/components/combat/stats/StatController'
+import { registerBonus, clearBonusExtensions } from '@/classes/components/feature/bonus/bonus_dictionary'
 import { RollableTable } from '@/classes/narrative/elements/RollableTable'
 
 const hydratedKeys = {
@@ -437,6 +439,13 @@ export const CompendiumStore = defineStore('compendium', {
       this.ContentPacks = []
       await this.loadExtraContent()
       await this.loadContentCollections()
+
+      StatController.ClearCustomStats()
+      clearBonusExtensions()
+      for (const pack of this.ContentPacks.filter(p => p.Active)) {
+        for (const stat of pack.CustomStats) StatController.RegisterCustomStat(stat)
+        for (const entry of pack.BonusDictionary) registerBonus(entry)
+      }
 
       this.loaded = true
     },

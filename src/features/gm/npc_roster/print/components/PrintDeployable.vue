@@ -39,8 +39,8 @@
         <v-col v-if="(d as any).sensor" cols="auto">
           <div class="caption" v-html-safe="`<b>Sensor Range:</b> ${(d as any).sensor}`" />
         </v-col>
-        <v-col v-if="(d as any).techattack" cols="auto">
-          <div class="caption" v-html-safe="`<b>Tech Attack:</b> ${(d as any).techattack}`" />
+        <v-col v-if="(d as any).tech_attack" cols="auto">
+          <div class="caption" v-html-safe="`<b>Tech Attack:</b> ${(d as any).tech_attack}`" />
         </v-col>
         <v-col v-if="(d as any).repcap" cols="auto">
           <div class="caption" v-html-safe="`<b>Repair Capacity:</b> ${(d as any).repcap}`" />

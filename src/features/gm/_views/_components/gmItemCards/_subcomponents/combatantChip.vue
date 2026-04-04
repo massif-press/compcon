@@ -28,15 +28,15 @@
       <v-card-text v-if="item.actor.NpcFeatureController" class="px-2 py-1">
         <div class="pa-1">
           <v-icon icon="itemc:structure" />
-          {{ item.actor.StatController.getStat('structure') }}
+          {{ item.actor.StatController.getMax('structure') }}
           <v-icon icon="mdi-heart" class="ml-3" />
-          {{ item.actor.StatController.getStat('hp') }}
+          {{ item.actor.StatController.getMax('hp') }}
           <v-icon icon="mdi-shield" class="ml-3" />
-          {{ item.actor.StatController.getStat('armor') }}
+          {{ item.actor.StatController.getMax('armor') }}
           <v-icon icon="itemc:reactor" class="ml-3" />
-          {{ item.actor.StatController.getStat('stress') }}
+          {{ item.actor.StatController.getMax('stress') }}
           <v-icon icon="itemc:heat" class="ml-3" />
-          {{ item.actor.StatController.getStat('heat') }}
+          {{ item.actor.StatController.getMax('heat') }}
         </div>
         <cc-item-chip v-for="f in item.actor.NpcFeatureController.Features" :key="f.ID" :item="f" />
       </v-card-text>

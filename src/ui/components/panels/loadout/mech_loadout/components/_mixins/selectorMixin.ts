@@ -1,5 +1,5 @@
 import { flavorID } from '@/io/Generators'
-import { Bonus } from '@/classes/components/feature/bonus/Bonus'
+import { Bonus, BonusId } from '@/classes/components/feature/bonus/Bonus'
 import { Mech } from '@/class'
 
 export const selectorMixin = {
@@ -29,7 +29,7 @@ export const selectorMixin = {
     isAICapacityFull(): boolean {
       return (
         this.mech.MechLoadoutController.ActiveLoadout.AICount >=
-        1 + Bonus.get('ai_cap', this.mech as Mech)
+        1 + Bonus.get(BonusId.AI_CAP, this.mech as Mech)
       )
     },
   },

@@ -1,8 +1,10 @@
 <template>
-  <cc-panel :title-color="color" :title="trait.Name" height="100%">
-    <template v-if="trait.Use" #toolbar-items>
-      <v-chip
-        v-if="trait.Use !== 'Mission'"
+  <cc-panel :title-color="color"
+    :title="trait.Name"
+    height="100%">
+    <template v-if="trait.Use"
+      #toolbar-items>
+      <v-chip v-if="trait.Use !== 'Mission'"
         size="small"
         flat
         tile
@@ -12,14 +14,22 @@
     </template>
     <p v-html-safe="trait.Description" />
     <div v-if="!combat">
-      <cc-action v-for="(a, index) in trait.Actions" :key="`action-${index}`" :action="a" :panel="!mobile" class="my-2" />
-      <cc-deployable-info
-        v-for="(d, index) in trait.Deployables"
+      <cc-action v-for="(a, index) in trait.Actions"
+        :key="`action-${index}`"
+        :action="a"
+        :panel="!mobile"
+        class="my-2" />
+      <cc-deployable-info v-for="(d, index) in trait.Deployables"
         :key="`deployable-${index}`"
         :deployable="d"
         :panel="!mobile"
+        :owner="mech"
         class="my-2" />
-      <cc-integrated-info v-for="(x, index) in trait.Integrated" :key="`integrated-${index}`" :item="x" :panel="!mobile" class="my-2" />
+      <cc-integrated-info v-for="(x, index) in trait.Integrated"
+        :key="`integrated-${index}`"
+        :item="x"
+        :panel="!mobile"
+        class="my-2" />
     </div>
     <slot name="combat" />
   </cc-panel>
@@ -28,8 +38,8 @@
 <script lang="ts">
 import { useMobile } from '@/mixins/useMobile';
 export default {
+  name: 'CcTraitItem',
   mixins: [useMobile],
-  name: 'cc-trait-item',
   props: {
     trait: {
       type: Object,
@@ -42,6 +52,11 @@ export default {
     },
     combat: {
       type: Boolean,
+    },
+    mech: {
+      type: Object,
+      required: false,
+      default: null,
     },
   },
   computed: {

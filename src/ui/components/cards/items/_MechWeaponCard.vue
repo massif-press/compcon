@@ -8,8 +8,8 @@
         density="compact"
         class="my-2">
         <v-tab v-for="(p, index) in item.Profiles"
-          @click.stop="tab = index"
-          :key="p.Name">
+          :key="p.Name"
+          @click.stop="tab = index">
           <b>{{ p.Name }}</b>
         </v-tab>
       </v-tabs>
@@ -120,17 +120,12 @@ import EquipmentCardBase from './_EquipmentCardBase.vue';
 import OnElement from './_components/OnElement.vue';
 
 export default {
-  name: 'mech-weapon-card',
+  name: 'MechWeaponCard',
   components: { EquipmentCardBase, OnElement },
   props: {
     item: { type: Object, required: true },
     notes: Boolean,
     charts: Boolean,
-  },
-  watch: {
-    item() {
-      this.tab = 0;
-    },
   },
   data: () => ({
     tab: 0,
@@ -138,6 +133,11 @@ export default {
   computed: {
     portrait(): boolean {
       return this.$vuetify.display.xs;
+    },
+  },
+  watch: {
+    item() {
+      this.tab = 0;
     },
   },
 };

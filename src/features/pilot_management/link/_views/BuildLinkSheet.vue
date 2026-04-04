@@ -144,7 +144,7 @@
                 :val="mech.MaxStress"
                 icon="mdi-arrow-right-bold-hexagon-outline" />
               <mech-stat-item attr="Evasion" :val="mech.HeatCapacity" icon="cc:evasion" />
-              <mech-stat-item attr="E-Defense" :val="mech.RepairCapacity" icon="cc:e_def" />
+              <mech-stat-item attr="E-Defense" :val="mech.RepairCapacity" icon="cc:edef" />
               <mech-stat-item
                 cols="6"
                 attr="Sensor Range"

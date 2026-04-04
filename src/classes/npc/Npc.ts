@@ -96,7 +96,6 @@ abstract class Npc
   }
 
   save(): void {
-    // if (this.IsInstance) return;
     this.SaveController.save()
   }
 

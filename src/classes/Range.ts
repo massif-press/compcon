@@ -1,5 +1,5 @@
 import { Mech, MechWeapon, RangeType } from '@/class'
-import { Bonus } from './components/feature/bonus/Bonus'
+import { Bonus, BonusId } from './components/feature/bonus/Bonus'
 import { FeatureController } from './components/feature/FeatureController'
 
 interface IRangeData {
@@ -122,7 +122,7 @@ class Range {
       )
     })
 
-    if (!Bonus.get('range', mech) || item.NoCoreBonus) return output
+    if (!Bonus.get(BonusId.RANGE, mech) || item.NoCoreBonus) return output
     const bonuses = mech.FeatureController.Bonuses.filter(x => x.ID === 'range')
     output.forEach(r => {
       if (r.Override) return

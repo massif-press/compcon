@@ -105,6 +105,8 @@ interface IContentPackData {
 
   tables: any
   lists: any
+  customStats?: any[]
+  bonusDictionary?: any[]
 }
 
 interface IContentPack {
@@ -375,6 +377,14 @@ class ContentPack {
   private _Reserves: any = []
   public get Reserves(): any {
     return this._Reserves
+  }
+
+  public get CustomStats(): any[] {
+    return this._data.customStats || []
+  }
+
+  public get BonusDictionary(): any[] {
+    return this._data.bonusDictionary || []
   }
 
   public get Missing(): boolean {

@@ -21,7 +21,7 @@
         <v-col v-if="item.EdefString" cols="auto">
           <v-tooltip text="Electronic Defense">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="cc:e_def" />
+              <v-icon v-bind="props" icon="cc:edef" />
             </template>
           </v-tooltip>
           <span class="stat-text">{{ item.EdefString }}</span>

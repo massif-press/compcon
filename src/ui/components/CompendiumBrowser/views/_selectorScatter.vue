@@ -66,6 +66,7 @@ ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartD
 
 export default {
   name: 'SelectorScatter',
+  components: { Scatter },
   props: {
     items: {
       type: Array,
@@ -91,20 +92,11 @@ export default {
       default: 1,
     },
   },
-  components: { Scatter },
   data: () => ({
     xAxis: { title: '', value: '' },
     yAxis: { title: '', value: '' },
     colors: [] as string[],
   }),
-  created() {
-    this.xAxis = this.axes[0];
-    this.yAxis = this.axes[1];
-    this.colors = Array.from(
-      { length: this.items.length },
-      () => '#' + Math.floor(Math.random() * 16777215).toString(16)
-    );
-  },
   computed: {
     itemMap() {
       let arr = [] as any[];
@@ -209,7 +201,7 @@ export default {
       ] as any[];
 
       if (this.group === 'source' || this.group === 'license') {
-        let bySource = _.groupBy(this.itemMap, 'source');
+        const bySource = _.groupBy(this.itemMap, 'source');
 
         datasets = Object.keys(bySource).map((key) => {
           return {
@@ -222,7 +214,7 @@ export default {
       }
 
       if (this.group === 'lcp') {
-        let byLcp = _.groupBy(this.itemMap, 'lcp');
+        const byLcp = _.groupBy(this.itemMap, 'lcp');
         datasets = Object.keys(byLcp).map((key, i) => {
           return {
             id: key || 'None',
@@ -238,7 +230,7 @@ export default {
       };
     },
     options() {
-      let o = {
+      const o = {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
@@ -318,6 +310,14 @@ export default {
 
       return o;
     },
+  },
+  created() {
+    this.xAxis = this.axes[0];
+    this.yAxis = this.axes[1];
+    this.colors = Array.from(
+      { length: this.items.length },
+      () => '#' + Math.floor(Math.random() * 16777215).toString(16)
+    );
   },
   methods: {
     collateData(items: any[]) {

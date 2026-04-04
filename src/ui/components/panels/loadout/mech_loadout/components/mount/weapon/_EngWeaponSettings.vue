@@ -1,12 +1,14 @@
 <template>
-  <cc-panel :title="`CONFIGURATION // ${itemName}`" icon="cc:weapon">
-    <v-row dense justify="space-around">
-      <v-col cols="12" lg="">
-        <div class="text-cc-overline">WEAPON TYPE</div>
+  <cc-panel :title="`CONFIGURATION // ${itemName}`"
+    icon="cc:weapon">
+    <v-row dense
+      justify="space-around">
+      <v-col cols="auto"
+        style="min-width: 55px;">
+        <div class="text-cc-overline text-disabled">WEAPON TYPE</div>
         <v-menu>
           <template #activator="{ props }">
-            <cc-button
-              block
+            <cc-button block
               size="x-small"
               :prepend-icon="weaponType ? item.Range[0].Icon : 'mdi-help'"
               :color="weaponType ? 'primary' : 'panel'"
@@ -14,25 +16,28 @@
               {{ weaponType || 'NOT SET' }}
             </cc-button>
           </template>
-          <v-list density="compact" slim flat tile border>
-            <v-list-item
-              v-for="(type, index) in weaponTypes"
+          <v-list density="compact"
+            slim
+            flat
+            tile
+            border>
+            <v-list-item v-for="(type, index) in weaponTypes"
               :key="index"
               @click="setWeaponType(type.value)">
               <v-list-item-title>
-                <v-icon start size="small">{{ type.icon }}</v-icon>
+                <v-icon start
+                  size="small">{{ type.icon }}</v-icon>
                 {{ type.title }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
       </v-col>
-      <v-col cols="12" lg="">
-        <div class="text-cc-overline">DAMAGE TYPE</div>
+      <v-col cols="auto">
+        <div class="text-cc-overline text-disabled">DAMAGE TYPE</div>
         <v-menu>
           <template #activator="{ props }">
-            <cc-button
-              block
+            <cc-button block
               size="x-small"
               :prepend-icon="damageType ? `cc:${damageType}` : 'mdi-help'"
               :color="damageType ? `damage--${damageType}` : 'panel'"
@@ -40,25 +45,28 @@
               {{ damageType || 'NOT SET' }}
             </cc-button>
           </template>
-          <v-list density="compact" slim flat tile border>
-            <v-list-item
-              v-for="(type, index) in damageTypes"
+          <v-list density="compact"
+            slim
+            flat
+            tile
+            border>
+            <v-list-item v-for="(type, index) in damageTypes"
               :key="index"
               @click="setDamageType(type.value)">
               <v-list-item-title>
-                <v-icon start size="small">cc:{{ type.value }}</v-icon>
+                <v-icon start
+                  size="small">cc:{{ type.value }}</v-icon>
                 {{ type.title }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
       </v-col>
-      <v-col cols="12" lg="">
-        <div class="text-cc-overline">USES</div>
+      <v-col style="min-width: 55px;">
+        <div class="text-cc-overline text-disabled">USES</div>
         <v-menu :close-on-content-click="false">
           <template #activator="{ props }">
-            <cc-button
-              block
+            <cc-button block
               size="x-small"
               :prepend-icon="uses ? 'mdi-dice-d20-outline' : 'mdi-help'"
               :color="uses ? 'primary' : 'panel'"
@@ -66,38 +74,51 @@
               {{ uses ? uses : 'NOT SET' }}
             </cc-button>
           </template>
-          <v-card flat tile border>
+          <v-card flat
+            tile
+            border>
             <v-card-text class="pt-1">
-              <div class="text-cc-overline mb-2">
+              <div class="text-cc-overline text-disabled mb-2">
                 SET USES
                 <cc-slashes />
-                {{ level < 3 ? `1d6+2` : `2d6` }}
-              </div>
+                {{ level < 3
+                  ?
+                  `1d6+2`
+                  :
+                  `2d6`
+                  }}
+                  </div>
 
-              <v-row dense align="center" justify="space-between">
-                <v-col cols="auto">
-                  <v-btn size="x-small" icon variant="text" @click="rollUses">
-                    <v-icon size="x-large">mdi-dice-multiple-outline</v-icon>
-                  </v-btn>
-                </v-col>
-                <v-col>
-                  <cc-number-field
-                    v-model="uses"
-                    :min="0"
-                    :max="level < 3 ? 8 : 12"
-                    size="x-small" />
-                </v-col>
-              </v-row>
+                  <v-row dense
+                    align="center"
+                    justify="space-between">
+                    <v-col cols="auto">
+                      <v-btn size="x-small"
+                        icon
+                        variant="text"
+                        @click="rollUses">
+                        <v-icon size="x-large">mdi-dice-multiple-outline</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <v-col>
+                      <cc-number-field v-model="uses"
+                        :min="0"
+                        :max="level < 3 ? 8 : 12"
+                        size="x-small" />
+                    </v-col>
+                  </v-row>
             </v-card-text>
           </v-card>
         </v-menu>
       </v-col>
-      <v-col v-if="level > 1" cols="12" lg="6">
-        <div class="text-cc-overline">REVISIONS</div>
-        <v-menu :close-on-content-click="false" :max-width="300">
+      <v-col v-if="level > 1"
+        cols="12"
+        lg="6">
+        <div class="text-cc-overline text-disabled">REVISIONS</div>
+        <v-menu :close-on-content-click="false"
+          :max-width="300">
           <template #activator="{ props }">
-            <cc-button
-              block
+            <cc-button block
               size="x-small"
               :prepend-icon="selectedRevisions[0] ? `cc:talent` : 'mdi-help'"
               :color="selectedRevisions[0] ? `primary` : 'panel'"
@@ -108,16 +129,23 @@
               </span>
             </cc-button>
           </template>
-          <v-list v-model="selectedRevisions" multiple density="compact" slim flat tile border>
-            <v-list-item
-              v-for="(rev, idx) in revisions"
+          <v-list v-model="selectedRevisions"
+            multiple
+            density="compact"
+            slim
+            flat
+            tile
+            border>
+            <v-list-item v-for="(rev, idx) in revisions"
               :key="`rev-${idx}`"
-              @click="setRevision(rev.value)"
               :active="selectedRevisions.includes(rev.value)"
               active-class="bg-primary"
-              :disabled="!selectedRevisions.includes(rev.value) && selectedRevisions.length >= 2">
+              :disabled="!selectedRevisions.includes(rev.value) && selectedRevisions.length >= 2"
+              @click="setRevision(rev.value)">
               <v-list-item-title>
-                <v-icon start size="small" icon="cc:talent" />
+                <v-icon start
+                  size="small"
+                  icon="cc:talent" />
                 {{ rev.title }}
               </v-list-item-title>
             </v-list-item>
@@ -126,20 +154,23 @@
       </v-col>
     </v-row>
   </cc-panel>
-  <cc-alert
-    v-if="selectedRevisions.includes('stripped_reactor')"
+  <cc-alert v-if="selectedRevisions.includes('stripped_reactor')"
     :title="`Stripped Reactor Shielding`"
     icon="cc:talent"
     color="weapon"
     class="mt-2">
-    <div v-html-safe="revisions[2].detail" class="text-cc-overline" />
+    <div v-html-safe="revisions[2].detail"
+      class="text-cc-overline text-disabled" />
   </cc-alert>
-  <cc-tags v-if="item.CustomTags" :tags="item.CustomTags" color="exotic" extended />
+  <cc-tags v-if="item.CustomTags"
+    :tags="item.CustomTags"
+    color="exotic"
+    extended />
 </template>
 
 <script lang="ts">
 export default {
-  name: 'engineer-weapon-inset',
+  name: 'EngineerWeaponInset',
   props: {
     item: { type: Object, required: true },
     mech: { type: Object, required: true },
@@ -185,25 +216,6 @@ export default {
     ],
     selectedRevisions: [] as string[],
   }),
-  created() {
-    this.weaponType = this.item.GetOverride('weapon_type') || null;
-    this.damageType = this.item.GetOverride('damage') || null;
-    this.uses = this.item.GetOverride('uses') || 0;
-    if (this.item.GetOverride('tags').some((t) => t.id === 'tg_accurate')) {
-      this.selectedRevisions.push('tweaked_optics');
-    }
-    if (this.item.GetOverride('tags').some((t) => t.id === 'tg_smart')) {
-      this.selectedRevisions.push('tweaked_computer');
-    }
-    if (this.item.GetOverride('effect')) {
-      this.selectedRevisions.push('stripped_reactor');
-    }
-  },
-  watch: {
-    uses() {
-      this.setUses();
-    },
-  },
   computed: {
     level() {
       return this.item.ID.split('_')[2] || 1;
@@ -219,6 +231,25 @@ export default {
         })
         .join(', ');
     },
+  },
+  watch: {
+    uses() {
+      this.setUses();
+    },
+  },
+  created() {
+    this.weaponType = this.item.GetOverride('weapon_type') || null;
+    this.damageType = this.item.GetOverride('damage') || null;
+    this.uses = this.item.GetOverride('uses') || 0;
+    if (this.item.GetOverride('tags').some((t) => t.id === 'tg_accurate')) {
+      this.selectedRevisions.push('tweaked_optics');
+    }
+    if (this.item.GetOverride('tags').some((t) => t.id === 'tg_smart')) {
+      this.selectedRevisions.push('tweaked_computer');
+    }
+    if (this.item.GetOverride('effect')) {
+      this.selectedRevisions.push('stripped_reactor');
+    }
   },
   methods: {
     setWeaponType(type) {

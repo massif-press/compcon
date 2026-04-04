@@ -37,7 +37,7 @@
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 size="large"
-                icon="cc:e_def" />
+                icon="cc:edef" />
             </template>
           </v-tooltip>
           <span class="stat-text">{{ item.EDefense(pilot) }}</span>

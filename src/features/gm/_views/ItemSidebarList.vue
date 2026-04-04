@@ -222,7 +222,7 @@ export default {
           const dk = x.StatController.DisplayKeys.find(
             (k) => k.title === this.sorting || k.key === this.sorting
           );
-          if (dk) return x.StatController.getStat(dk.key) ?? 0;
+          if (dk) return x.StatController.getMax(dk.key) ?? 0;
         }
         if (x.NarrativeController && x.NarrativeController.LabelDictionary[this.sorting])
           return x.NarrativeController.LabelDictionary[this.sorting];

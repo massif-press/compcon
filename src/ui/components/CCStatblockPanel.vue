@@ -54,6 +54,7 @@ export default {
     cols: {
       type: [String, Number],
       required: false,
+      default: '',
     },
     inline: {
       type: Boolean,
@@ -79,8 +80,10 @@ export default {
       return isArray(this.value);
     },
     glossary() {
-      const n = glossary.find((x) => x.name.toLowerCase() === this.name.toLowerCase());
-      return n ? n.description : 'MISSING';
+      let name = this.name.toLowerCase();
+      if (name === 'e-def') name = 'e-defense'
+      const n = glossary.find((x) => x.name.toLowerCase() === name.toLowerCase());
+      return n ? n.description : 'MISSING ' + this.name;
     },
   },
 };

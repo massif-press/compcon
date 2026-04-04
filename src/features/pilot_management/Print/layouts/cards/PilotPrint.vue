@@ -240,7 +240,7 @@
             <v-col cols="4">
               <v-card variant="tonal"
                 class="py-2">
-                <v-icon icon="cc:e_def"
+                <v-icon icon="cc:edef"
                   class="mt-n1" />
                 <span v-text="`${a.EDefense(pilot) || 'N/A'} `"
                   class="heading h3" />

@@ -69,12 +69,12 @@ class ActiveEventTarget {
       case 'tech':
         this.TargetDefense = 'E-Defense'
         this.TargetDefenseValue =
-          this._combatant?.actor.CombatController.ActiveActor.StatController.MaxStats['edef'] || 10
+          this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('edef') || 10
         break
       default:
         this.TargetDefense = 'Evasion'
         this.TargetDefenseValue =
-          this._combatant?.actor.CombatController.ActiveActor.StatController.MaxStats['evasion'] ||
+          this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('evasion') ||
           10
         break
     }
@@ -131,7 +131,7 @@ class ActiveEventTarget {
     if (this.IsExposed) str += 'x2 (target Exposed) '
     if (this.Resistance(damageType) === 'vulnerable') str += 'x2 (target Vulnerable) '
     if (isIrreducible) return `${str} (Irreducible)`
-    const armor = this.Combatant?.actor.CombatController.StatController.CurrentStats['armor'] || 0
+    const armor = this.Combatant?.actor.CombatController.StatController.getCurrent('armor') || 0
     if (armor && !['heat', 'burn'].includes(damageType.toLowerCase())) {
       if (isAp) str += `- 0 (target Armor ignored) `
       else if (this.IsShredded) str += `- 0 (target Shredded) `
@@ -167,8 +167,11 @@ class ActiveEventTarget {
         this.Combatant.actor.CombatController.Cover = otherEvent.Value as CoverType
         break
       default:
-        this.Combatant.actor.CombatController.StatController.CurrentStats[otherEvent.Type] +=
-          otherEvent.Value as number
+        this.Combatant.actor.CombatController.StatController.setCurrentStat(
+          otherEvent.Type,
+          (this.Combatant.actor.CombatController.StatController.getCurrent(otherEvent.Type) || 0) +
+            (otherEvent.Value as number)
+        )
         break
     }
   }

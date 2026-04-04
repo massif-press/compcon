@@ -41,7 +41,7 @@
       handle: '.handle',
     }"
     item-key="index">
-    <template #item="{ element, index }">
+    <template #item="{ element }">
       <div class="mb-1">
         <placeholder-runner-list-item v-if="element.actor?.Placeholder"
           :combatant="element"
@@ -164,11 +164,8 @@
   </div>
 </template>
 
-<script>
-import _, { round } from 'lodash-es';
-
+<script lang="ts">
 import { Sortable } from 'sortablejs-vue3';
-import { CompendiumStore } from '@/stores';
 import UnitRunnerListItem from './ListItems/UnitRunnerListItem.vue';
 import PilotRunnerListItem from './ListItems/PilotRunnerListItem.vue';
 import DoodadRunnerListItem from './ListItems/DoodadRunnerListItem.vue';
@@ -180,6 +177,7 @@ import GmAddStubMenu from './ListItems/AddItems/GmAddStubMenu.vue';
 import PlaceholderRunnerListItem from './ListItems/PlaceholderRunnerListItem.vue';
 import ReinforcementListItem from './ListItems/ReinforcementListItem.vue';
 import DestroyedListItem from './ListItems/DestroyedListItem.vue';
+import { CombatantData } from '@/classes/encounter/Encounter';
 
 export default {
   name: 'GmEncounterRunnerInitiativePanel',
@@ -227,7 +225,7 @@ export default {
       }
       return this.encounter.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
     },
-    activeCombatants() {
+    activeCombatants(): CombatantData[] {
       let list = this.combatants.filter((c) => !c.reinforcement);
       if (!this.sort) return list;
       list = [...list];

@@ -220,7 +220,7 @@
             },
             {
               name: 'E-Defense',
-              icon: 'cc:e_def',
+              icon: 'cc:edef',
             },
             {
               name: 'Sensor Range',

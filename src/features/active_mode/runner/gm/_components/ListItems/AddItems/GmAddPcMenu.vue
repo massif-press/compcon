@@ -139,7 +139,7 @@ export default {
       if (this.encounterInstance.Combatants.some((p) => p.ID === pc.ID)) return;
 
       pc.SetStats();
-      pc.CombatController.SetBonusStats(this.encounterInstance)
+      pc.FeatureController.BonusController.applyToStats(pc.CombatController.StatController, this.encounterInstance)
       pc.CombatController.StatController.resetCurrentStats()
       pc.CombatController.Reset();
 

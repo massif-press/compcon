@@ -108,7 +108,7 @@
           icon="cc:ammo"
           :val="mech.LimitedBonus"
           :contributors="mech.LimitedContributors"
-          :bonuses="getBonuses('limited')"
+          :bonuses="getBonuses('limited_bonus')"
           :color="color" />
         <statblock-item cols="4"
           sm="3"
@@ -117,7 +117,7 @@
           icon="cc:weapon"
           :val="mech.AttackBonus"
           :contributors="mech.AttackBonusContributors"
-          :bonuses="getBonuses('attackbonus')"
+          :bonuses="getBonuses('attack')"
           :color="color" />
         <statblock-item attr="Speed"
           sm=""
@@ -143,12 +143,12 @@
           signed
           :val="mech.TechAttack"
           :contributors="mech.TechAttackContributors"
-          :bonuses="getBonuses('techattack')"
+          :bonuses="getBonuses('tech_attack')"
           :color="color" />
         <statblock-item cols="4"
           sm="3"
           md=""
-          icon="cc:e_def"
+          icon="cc:edef"
           :attr="portrait ? 'EDEF' : 'E-Defense'"
           :val="mech.EDefense"
           :contributors="mech.EDefenseContributors"
@@ -160,7 +160,7 @@
           icon="cc:sensor"
           :val="mech.SensorRange"
           :contributors="mech.SensorRangeContributors"
-          :bonuses="getBonuses('sensors')"
+          :bonuses="getBonuses('sensor')"
           :color="color" />
         <statblock-item cols="6"
           sm=""
@@ -215,7 +215,7 @@ export default {
   },
   methods: {
     getBonuses(key: string): any[] {
-      return this.mech.FeatureController.Bonuses.filter((x) => x.ID.includes(key));
+      return this.mech.FeatureController.Bonuses.filter((x) => x.ID === key);
     },
   },
 };

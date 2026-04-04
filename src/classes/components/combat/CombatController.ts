@@ -1,6 +1,7 @@
 import { ActivationType, Counter, DamageType, DiceRoller, Mech, Pilot, Rules } from '@/class'
 import { ICombatant } from './ICombatant'
 import { IStatData, StatController } from './stats/StatController'
+import { StatKey } from './stats/Stats'
 import { CounterController, ICounterCollection } from './counters/CounterController'
 import { SaveController } from '../save/SaveController'
 import { ICounterContainer } from './counters/ICounterContainer'
@@ -19,7 +20,7 @@ import {
   IEffectSpecialData,
 } from '../feature/active_effects/effect_subtype/EffectSpecial'
 import { Action } from '@/classes/Action'
-import { Bonus } from '../feature/bonus/Bonus'
+import { BonusController } from '../feature/bonus/BonusController'
 import { CompendiumStore } from '@/stores'
 import { expiration } from './Expiration'
 import { CombatLogEntry, CombatLog } from './CombatLog'
@@ -183,11 +184,11 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   // for pc table prompt watchers
   public get CurrentStructure(): number {
-    return this.StatController.CurrentStats['structure'] || 0
+    return this.StatController.getCurrent(StatKey.STRUCTURE) || 0
   }
 
   public get CurrentStress(): number {
-    return this.StatController.CurrentStats['stress'] || 0
+    return this.StatController.getCurrent(StatKey.STRESS) || 0
   }
 
   private log(str: string): void {
@@ -195,7 +196,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
   // ------------------------------------------------------
   public get Activations(): number {
-    return this.StatController.getStat('activations')
+    return this.StatController.getMax(StatKey.ACTIVATIONS)
   }
 
   public get ActiveEffects(): ActiveEffect[] {
@@ -215,13 +216,16 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public EndTurn(): void {
-    this.StatController.CurrentStats['activations']--
-    if (this.StatController.CurrentStats['activations'] < 0) {
+    this.StatController.setCurrentStat(
+      StatKey.ACTIVATIONS,
+      this.StatController.getCurrent(StatKey.ACTIVATIONS) - 1
+    )
+    if (this.StatController.getCurrent(StatKey.ACTIVATIONS) < 0) {
       this.Reset()
       this.Turn++
       this.CombatLog.AddTurn()
       this.CombatLog.LogSimpleEvent(
-        `Turn complete. ${this.StatController.CurrentStats['activations']} turns remaining this round.`
+        `Turn complete. ${this.StatController.getCurrent(StatKey.ACTIVATIONS)} turns remaining this round.`
       )
     }
   }
@@ -246,7 +250,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get SaveTarget(): number {
-    return this.StatController.CurrentStats.saveTarget
+    return this.StatController.getCurrent(StatKey.SAVE_TARGET)
   }
 
   public get IsAIControlled(): boolean {
@@ -286,7 +290,7 @@ class CombatController implements ICounterContainer, IStatContainer {
           this.CombatActions.Quick2 &&
           this.CombatActions.Full &&
           this.CombatActions.Overcharge &&
-          this.StatController.CurrentStats['speed'] >= this.StatController.MaxStats['speed']
+          this.StatController.getCurrent(StatKey.SPEED) >= this.StatController.getMax(StatKey.SPEED)
         )
       case 'full':
       case 'fulltech':
@@ -301,7 +305,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       case 'reaction':
         return this.CombatActions.Reaction
       case 'move':
-        return this.StatController.CurrentStats['speed'] > 0
+        return this.StatController.getCurrent(StatKey.SPEED) > 0
       default:
         return false
     }
@@ -403,27 +407,12 @@ class CombatController implements ICounterContainer, IStatContainer {
     statArr.forEach(kvp => {
       this.StatController.setMax(kvp.key, kvp.val)
     })
-
+    this.StatController.applyRegisteredCustomStats()
     this.StatController.resetCurrentStats()
   }
 
-  public SetBonusStats(encounter): void {
-    this.Bonuses.forEach(bonus => {
-      let statId = bonus.ID
-
-      if (bonus.PerPc) {
-        if (encounter.Combatants.filter(c => c.type === 'pilot').length >= Number(bonus.Value)) {
-          statId = bonus.ID.replace('_pct', '')
-          this.StatController.setMax(statId, this.StatController.getStat(statId) + 1)
-        }
-        return
-      }
-
-      const value = Bonus.Evaluate(bonus, this.Parent)
-      if (!value) return
-
-      this.StatController.setMax(statId, this.StatController.getStat(statId) + value)
-    })
+  public get BonusController(): BonusController {
+    return this.Parent.FeatureController.BonusController
   }
 
   public SetResistance(type: string, condition?: string): void {
@@ -510,14 +499,18 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get IsDestroyed(): boolean {
-    return this.StatController.CurrentStats['structure'] <= 0
+    if (this.StatController.getMax(StatKey.STRUCTURE) > 0)
+      return this.StatController.getCurrent(StatKey.STRUCTURE) <= 0
+    else if (this.StatController.getMax(StatKey.HP) > 0)
+      return this.StatController.getCurrent(StatKey.HP) <= 0
+    return false
   }
 
   public get IsInDangerZone(): boolean {
-    if (!this.StatController.MaxStats['heatcap']) return false
+    if (!this.StatController.getMax(StatKey.HEATCAP)) return false
     return (
-      this.StatController.CurrentStats['heatcap'] >=
-      Math.ceil(this.StatController.MaxStats['heatcap'] / 2)
+      this.StatController.getCurrent(StatKey.HEATCAP) >=
+      Math.ceil(this.StatController.getMax(StatKey.HEATCAP) / 2)
     )
   }
 
@@ -542,7 +535,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get OverchargeLevel(): number {
-    return this.StatController.CurrentStats['overcharge'] || 0
+    return this.StatController.getCurrent(StatKey.OVERCHARGE) || 0
   }
 
   public get OverchargeCost(): string | number {
@@ -552,7 +545,10 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public IncreaseOverchargeLevel(): void {
     if (this.OverchargeLevel < this.OverchargeTrack.length - 1) {
-      this.StatController.CurrentStats['overcharge'] += 1
+      this.StatController.setCurrentStat(
+        StatKey.OVERCHARGE,
+        this.StatController.getCurrent(StatKey.OVERCHARGE) + 1
+      )
       this.log(
         `Increased overcharge to level ${this.OverchargeLevel} (${this.OverchargeCost} Heat)`
       )
@@ -562,7 +558,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public getCheckBonus(type: 'Hull' | 'Agi' | 'Sys' | 'Eng'): number {
     if (this.Parent instanceof Pilot) {
       return this.Parent.ActiveMech![type]
-    } else return this.StatController.MaxStats[type.toLowerCase()] || 0
+    } else return this.StatController.getMax(type.toLowerCase()) || 0
   }
 
   // these are split out to furnish UI with more detailed breakdowns
@@ -580,7 +576,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       type === DamageType.AppliedBurn
     )
       return 0
-    return this.ActiveActor.StatController.CurrentStats['armor'] || 0
+    return this.ActiveActor.StatController.getCurrent(StatKey.ARMOR) || 0
   }
 
   public CalculateDamage(
@@ -639,6 +635,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     return out
   }
 
+  // TODO: audit damage calcs to ensure everything is coming through as enum (or constant)
   public TakeDamage(
     type: DamageType,
     value: number,
@@ -647,7 +644,10 @@ class CombatController implements ICounterContainer, IStatContainer {
   ): void {
     if (this.SaveLock) return
 
-    if (type === DamageType.Heat && !this.ActiveActor.StatController.MaxStats['stress']) {
+    if (
+      type === DamageType.Heat.toLowerCase() &&
+      !this.ActiveActor.StatController.getMax(StatKey.STRESS)
+    ) {
       type = DamageType.Energy
     }
 
@@ -663,36 +663,48 @@ class CombatController implements ICounterContainer, IStatContainer {
   public ApplyDamage(type: DamageType, value: number) {
     const target = this.ActiveActor.CombatController
 
-    if (type === DamageType.Heat) {
+    if (type.toLowerCase() === DamageType.Heat.toLowerCase()) {
       target.ApplyHeat(value)
     }
-    if (type === DamageType.Burn) {
-      target.StatController.CurrentStats['burn'] += value
+    if (type.toLowerCase() === DamageType.Burn.toLowerCase()) {
+      target.StatController.setCurrentStat(
+        StatKey.BURN,
+        target.StatController.getCurrent(StatKey.BURN) + value
+      )
     }
 
     // subtract this damage from current hp
-    this.ActiveActor.StatController.CurrentStats['hp'] -= value
+    this.ActiveActor.StatController.setCurrentStat(
+      StatKey.HP,
+      this.ActiveActor.StatController.getCurrent(StatKey.HP) - value
+    )
     this.log(`Took ${value} ${type} damage`)
     this.CombatLog.StatChange(-value, 'hp')
 
     // if hull goes below 0, subtract 1 from structure and add max hp back to current hp
     while (
-      target.StatController.CurrentStats['hp'] <= 0 &&
-      target.StatController.CurrentStats['structure'] > 0
+      target.StatController.getCurrent(StatKey.HP) <= 0 &&
+      target.StatController.getCurrent(StatKey.STRUCTURE) > 0
     ) {
-      target.StatController.CurrentStats['structure'] -= 1
-      if (target.StatController.CurrentStats['structure'] >= 0)
+      target.StatController.setCurrentStat(
+        StatKey.STRUCTURE,
+        target.StatController.getCurrent(StatKey.STRUCTURE) - 1
+      )
+      if (target.StatController.getCurrent(StatKey.STRUCTURE) >= 0)
         this.log(
-          `Structure damaged! Remaining structure: ${target.StatController.CurrentStats['structure']}`
+          `Structure damaged! Remaining structure: ${target.StatController.getCurrent(StatKey.STRUCTURE)}`
         )
-      if (target.StatController.CurrentStats['structure'] > 0)
+      if (target.StatController.getCurrent(StatKey.STRUCTURE) > 0)
         this.CombatLog.StatChange(-1, 'structure')
-      target.StatController.CurrentStats['hp'] += target.StatController.MaxStats['hp']
+      target.StatController.setCurrentStat(
+        StatKey.HP,
+        target.StatController.getCurrent(StatKey.HP) + target.StatController.getMax(StatKey.HP)
+      )
     }
 
     // if structure goes below 0, set to 0
-    if (target.StatController.CurrentStats['structure'] < 0) {
-      target.StatController.CurrentStats['structure'] = 0
+    if (target.StatController.getCurrent(StatKey.STRUCTURE) < 0) {
+      target.StatController.setCurrentStat(StatKey.STRUCTURE, 0)
     }
   }
 
@@ -700,32 +712,44 @@ class CombatController implements ICounterContainer, IStatContainer {
     const totalValue = value
     const target = this.ActiveActor.CombatController
 
-    target.StatController.CurrentStats['heatcap'] += totalValue
+    target.StatController.setCurrentStat(
+      StatKey.HEATCAP,
+      target.StatController.getCurrent(StatKey.HEATCAP) + totalValue
+    )
     this.log(`Gained ${totalValue} Heat`)
     this.CombatLog.StatChange(value, 'heat')
 
     if (this.IsInDangerZone)
-      this.log(`In Danger Zone! Current Heat: ${target.StatController.CurrentStats['heatcap']}`)
+      this.log(`In Danger Zone! Current Heat: ${target.StatController.getCurrent(StatKey.HEATCAP)}`)
 
     // if heatcap goes above max, subtract 1 from stress and set heatcap to 0
     while (
-      target.StatController.CurrentStats['heatcap'] > target.StatController.MaxStats['heatcap']
+      target.StatController.getCurrent(StatKey.HEATCAP) >
+      target.StatController.getMax(StatKey.HEATCAP)
     ) {
-      target.StatController.CurrentStats['stress'] -= 1
-      if (target.StatController.CurrentStats['stress'] >= 0)
+      target.StatController.setCurrentStat(
+        StatKey.STRESS,
+        target.StatController.getCurrent(StatKey.STRESS) - 1
+      )
+      if (target.StatController.getCurrent(StatKey.STRESS) >= 0)
         this.log(
-          `Reactor stressed! Remaining Reactor Stress: ${target.StatController.CurrentStats['stress']}`
+          `Reactor stressed! Remaining Reactor Stress: ${target.StatController.getCurrent(StatKey.STRESS)}`
         )
-      if (target.StatController.CurrentStats['stress'] > 0) this.CombatLog.StatChange(-1, 'stress')
-      target.StatController.CurrentStats['heatcap'] -= target.StatController.MaxStats['heatcap']
+      if (target.StatController.getCurrent(StatKey.STRESS) > 0)
+        this.CombatLog.StatChange(-1, 'stress')
+      target.StatController.setCurrentStat(
+        StatKey.HEATCAP,
+        target.StatController.getCurrent(StatKey.HEATCAP) -
+          target.StatController.getMax(StatKey.HEATCAP)
+      )
     }
 
     // if stress goes below 0, set to 0
-    if (target.StatController.CurrentStats['stress'] < 0) {
-      target.StatController.CurrentStats['stress'] = 0
+    if (target.StatController.getCurrent(StatKey.STRESS) < 0) {
+      target.StatController.setCurrentStat(StatKey.STRESS, 0)
     }
 
-    if (target.StatController.CurrentStats['stress'] === 0) {
+    if (target.StatController.getCurrent(StatKey.STRESS) === 0) {
       this.ReactorDestroyed = true
       this.log('Reactor destroyed!')
     }
@@ -785,14 +809,10 @@ class CombatController implements ICounterContainer, IStatContainer {
   public AddStatVal(stat, val): void {
     const osVal = Number(val)
     if (isNaN(osVal)) return
-    if (!this.StatController.CurrentStats[stat]) this.StatController.CurrentStats[stat] = 0
-    this.StatController.CurrentStats[stat] += osVal
-    if (
-      this.StatController.MaxStats[stat] &&
-      this.StatController.CurrentStats[stat] > this.StatController.MaxStats[stat]
-    ) {
-      this.StatController.CurrentStats[stat] = this.StatController.MaxStats[stat]
-    }
+    const current = this.StatController.getCurrent(stat) || 0
+    const max = this.StatController.getMax(stat)
+    const newVal = max ? Math.min(current + osVal, max) : current + osVal
+    this.StatController.setCurrentStat(stat, newVal)
   }
 
   public SetCore(active: boolean): void {
@@ -806,13 +826,16 @@ class CombatController implements ICounterContainer, IStatContainer {
   ): void {
     switch (action) {
       case 'cool':
-        this.StatController.CurrentStats['heatcap'] = 0
+        this.StatController.setCurrentStat(StatKey.HEATCAP, 0)
         this.RemoveStatus('exposed')
         this.log('Stabilized: Cleared Heat and removed Exposed status')
         break
       case 'repair':
-        this.StatController.CurrentStats['hp'] = this.StatController.MaxStats['hp']
-        this.StatController.CurrentStats['repcap'] -= 1
+        this.StatController.setCurrentStat(StatKey.HP, this.StatController.getMax(StatKey.HP))
+        this.StatController.setCurrentStat(
+          StatKey.REPAIR_CAPACITY,
+          this.StatController.getCurrent(StatKey.REPAIR_CAPACITY) - 1
+        )
         this.log('Stabilized: Repaired to full HP')
         break
       case 'reload':
@@ -820,12 +843,12 @@ class CombatController implements ICounterContainer, IStatContainer {
         this.log('Stabilized: Reloaded all equipment')
         break
       case 'clear_burn':
-        this.StatController.CurrentStats['burn'] = 0
+        this.StatController.setCurrentStat(StatKey.BURN, 0)
         this.log('Stabilized: Cleared Burn')
         break
       case 'npc':
         this.Reload()
-        this.StatController.CurrentStats['heatcap'] = 0
+        this.StatController.setCurrentStat(StatKey.HEATCAP, 0)
         this.RemoveStatus('exposed')
         this.log('Stabilized')
         break
@@ -912,7 +935,7 @@ class CombatController implements ICounterContainer, IStatContainer {
         Reaction: false,
       }
     } else {
-      this.StatController.CurrentStats['speed'] = this.StatController.MaxStats['speed']
+      this.StatController.setCurrentStat(StatKey.SPEED, this.StatController.getMax(StatKey.SPEED))
       this.CombatActions = {
         Protocol: true,
         Full: true,
@@ -922,7 +945,10 @@ class CombatController implements ICounterContainer, IStatContainer {
         Reaction: true,
       }
     }
-    this.StatController.CurrentStats['activations'] = this.StatController.MaxStats['activations']
+    this.StatController.setCurrentStat(
+      StatKey.ACTIVATIONS,
+      this.StatController.getMax(StatKey.ACTIVATIONS)
+    )
     this._usedActions = []
     this.AllEquipment.forEach(eq => {
       if (!eq.IsReloading) return
@@ -931,15 +957,15 @@ class CombatController implements ICounterContainer, IStatContainer {
     })
 
     //create burn events
-    if (this.StatController.CurrentStats['burn'] > 0) {
+    if (this.StatController.getCurrent(StatKey.BURN) > 0) {
       this.TimedEffects.push(
         new TimedEffect({
           name: 'Burn Damage',
-          detail: `Take ${this.StatController.CurrentStats['burn']} burn damage at the start of this round.`,
+          detail: `Take ${this.StatController.getCurrent(StatKey.BURN)} burn damage at the start of this round.`,
           round: this.Round + 1,
           apply: {
             damage: [
-              { type: DamageType.AppliedBurn, value: this.StatController.CurrentStats['burn'] },
+              { type: DamageType.AppliedBurn, value: this.StatController.getCurrent(StatKey.BURN) },
             ],
           },
         })
@@ -985,8 +1011,11 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public Reset(): void {
     this.ResetCombatActions()
-    this.StatController.CurrentStats['activations'] = this.StatController.MaxStats['activations']
-    this.StatController.CurrentStats['speed'] = this.StatController.MaxStats['speed']
+    this.StatController.setCurrentStat(
+      StatKey.ACTIVATIONS,
+      this.StatController.getMax(StatKey.ACTIVATIONS)
+    )
+    this.StatController.setCurrentStat(StatKey.SPEED, this.StatController.getMax(StatKey.SPEED))
     this._usedActions = []
     this.AllEquipment.forEach(eq => {
       if (!eq.IsReloading) return
@@ -1019,10 +1048,10 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public CommitSelfDestruct(): void {
-    this.StatController.CurrentStats['structure'] = 0
-    this.StatController.CurrentStats['hp'] = 0
-    this.StatController.CurrentStats['heatcap'] = 0
-    this.StatController.CurrentStats['stress'] = 0
+    this.StatController.setCurrentStat(StatKey.STRUCTURE, 0)
+    this.StatController.setCurrentStat(StatKey.HP, 0)
+    this.StatController.setCurrentStat(StatKey.HEATCAP, 0)
+    this.StatController.setCurrentStat(StatKey.STRESS, 0)
     this.ReactorDestroyed = true
     this.IsInSelfDestruct = false
     if (this.Mounted && this.Parent instanceof Mech) {
@@ -1033,7 +1062,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public Kill(): void {
-    this.StatController.CurrentStats['hp'] = 0
+    this.StatController.setCurrentStat(StatKey.HP, 0)
     this.IsDead = true
     this.log('Pilot registered as KIA')
   }

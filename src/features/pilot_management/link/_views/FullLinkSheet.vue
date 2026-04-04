@@ -297,7 +297,7 @@
                 icon="cc:evasion" />
               <mech-stat-item attr="E-Defense"
                 :val="mech.RepairCapacity"
-                icon="cc:e_def" />
+                icon="cc:edef" />
               <mech-stat-item cols="6"
                 attr="Sensor Range"
                 :val="mech.RepairCapacity"

@@ -310,25 +310,25 @@ class Statblock {
         : ', Custom '
     output += `${npc.Tag}\n`
     output += '[ STATS ]\n'
-    output += `  H: ${npc.StatController.getStat('Hull')} | A: ${npc.StatController.getStat(
+    output += `  H: ${npc.StatController.getMax('Hull')} | A: ${npc.StatController.getMax(
       'Agi'
-    )} | S: ${npc.StatController.getStat('Sys')} | E: ${npc.StatController.getStat('Eng')}\n`
-    output += `  STRUCT: ${npc.StatController.getStat(
+    )} | S: ${npc.StatController.getMax('Sys')} | E: ${npc.StatController.getMax('Eng')}\n`
+    output += `  STRUCT: ${npc.StatController.getMax(
       'Structure'
-    )} | ARMOR: ${npc.StatController.getStat('Armor')} | HP: ${npc.StatController.getStat('hp')}\n`
-    output += `  STRESS: ${npc.StatController.getStat(
+    )} | ARMOR: ${npc.StatController.getMax('Armor')} | HP: ${npc.StatController.getMax('hp')}\n`
+    output += `  STRESS: ${npc.StatController.getMax(
       'Stress'
-    )} | HEATCAP: ${npc.StatController.getStat('heat')} | SPD: ${npc.StatController.getStat(
+    )} | HEATCAP: ${npc.StatController.getMax('heat')} | SPD: ${npc.StatController.getMax(
       'Speed'
     )}\n`
-    output += `  SAVE: ${npc.StatController.getStat(
+    output += `  SAVE: ${npc.StatController.getMax(
       'SaveTarget'
-    )} | EVADE: ${npc.StatController.getStat('Evasion')} | EDEF: ${npc.StatController.getStat(
+    )} | EVADE: ${npc.StatController.getMax('Evasion')} | EDEF: ${npc.StatController.getMax(
       'EDefense'
     )}\n`
-    output += `  SENS: ${npc.StatController.getStat(
+    output += `  SENS: ${npc.StatController.getMax(
       'SensorRange'
-    )} | SIZE: ${npc.StatController.getStat('Size')} | ACT: ${npc.StatController.getStat(
+    )} | SIZE: ${npc.StatController.getMax('Size')} | ACT: ${npc.StatController.getMax(
       'Activations'
     )}\n`
     output += '[ FEATURES ]\n  '
@@ -354,22 +354,22 @@ class Statblock {
         ? `, Tier ${npc.NpcClassController.Tier} `
         : ', Custom '
     output += `${npc.Tag}\n\n`
-    output += `ACTIVATIONS: ${npc.StatController.CurrentStats['activations']} / ${npc.StatController.MaxStats['activations']}\n`
+    output += `ACTIVATIONS: ${npc.StatController.getCurrent('activations')} / ${npc.StatController.getMax('activations')}\n`
 
-    output += `STRUCT: ${npc.StatController.CurrentStats['structure']} / ${npc.StatController.MaxStats['structure']} | ARMOR: ${npc.StatController.MaxStats['armor']} | HP: ${npc.StatController.CurrentStats['hp']} / ${npc.StatController.MaxStats['hp']}\n`
-    output += `STRESS: ${npc.StatController.CurrentStats['stress']} / ${npc.StatController.MaxStats['stress']} | HEATCAP: ${npc.StatController.CurrentStats['heat']} / ${npc.StatController.MaxStats['heat']} | SPD: ${npc.StatController.CurrentStats['speed']} / ${npc.StatController.MaxStats['speed']}\n\n`
+    output += `STRUCT: ${npc.StatController.getCurrent('structure')} / ${npc.StatController.getMax('structure')} | ARMOR: ${npc.StatController.getMax('armor')} | HP: ${npc.StatController.getCurrent('hp')} / ${npc.StatController.getMax('hp')}\n`
+    output += `STRESS: ${npc.StatController.getCurrent('stress')} / ${npc.StatController.getMax('stress')} | HEATCAP: ${npc.StatController.getCurrent('heat')} / ${npc.StatController.getMax('heat')} | SPD: ${npc.StatController.getCurrent('speed')} / ${npc.StatController.getMax('speed')}\n\n`
 
-    output += `H: ${npc.StatController.getStat('Hull')} | A: ${npc.StatController.getStat(
+    output += `H: ${npc.StatController.getMax('Hull')} | A: ${npc.StatController.getMax(
       'Agi'
-    )} | S: ${npc.StatController.getStat('Sys')} | E: ${npc.StatController.getStat('Eng')}\n`
-    output += `SAVE: ${npc.StatController.getStat(
+    )} | S: ${npc.StatController.getMax('Sys')} | E: ${npc.StatController.getMax('Eng')}\n`
+    output += `SAVE: ${npc.StatController.getMax(
       'SaveTarget'
-    )} | EVADE: ${npc.StatController.getStat('Evasion')} | EDEF: ${npc.StatController.getStat(
+    )} | EVADE: ${npc.StatController.getMax('Evasion')} | EDEF: ${npc.StatController.getMax(
       'EDefense'
     )}\n`
-    output += `SENS: ${npc.StatController.getStat(
+    output += `SENS: ${npc.StatController.getMax(
       'SensorRange'
-    )} | TECH_ATK: ${npc.StatController.getStat('Tech Attack')} | SIZE: ${npc.StatController.getStat('Size')} \n\n`
+    )} | TECH_ATK: ${npc.StatController.getMax('Tech Attack')} | SIZE: ${npc.StatController.getMax('Size')} \n\n`
 
     output += '[ FEATURES ]\n  '
     output += npc.NpcFeatureController.Features.map(

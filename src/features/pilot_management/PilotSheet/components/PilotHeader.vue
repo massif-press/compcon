@@ -119,7 +119,7 @@
                   {{ pilot.MaxHP }}
                   <v-icon size="18"
                     class="ml-1 mt-n1"
-                    icon="cc:e_def" />
+                    icon="cc:edef" />
                   {{ pilot.EDefense }}
                   <v-icon size="18"
                     class="ml-1 mt-n1"

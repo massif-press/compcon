@@ -1,8 +1,7 @@
 <template>
   <v-row dense>
-    <v-col>
-      <simple-mini-panel v-if="item.StatController.MaxStats['hp']"
-        v-model.number="item.StatController.CurrentStats['hp']"
+    <v-col v-if="item.StatController.MaxStats['hp']">
+      <simple-mini-panel v-model.number="item.StatController.CurrentStats['hp']"
         :max="item.StatController.MaxStats['hp']"
         title="Hit Points"
         color=hp
@@ -20,11 +19,11 @@
         title="Overshield"
         color=hp
         icon="mdi-hexagon-multiple-outline" />
-      <simple-mini-panel title="armor"
+      <simple-mini-panel v-model.number="item.StatController.CurrentStats['armor']"
+        title="armor"
         icon="mdi-shield-outline"
         color="armor"
-        :base-value="item.StatController.MaxStats['armor']"
-        v-model.number="item.StatController.CurrentStats['armor']" />
+        :base-value="item.StatController.MaxStats['armor']" />
     </v-col>
   </v-row>
 
@@ -45,11 +44,11 @@
     </v-col>
     <v-col cols="12"
       md="">
-      <simple-mini-panel title="Burn"
+      <simple-mini-panel v-model.number="item.StatController.CurrentStats['burn']"
+        title="Burn"
         icon="cc:burn"
         color="damage--burn"
-        :base-value="item.StatController.MaxStats['burn']"
-        v-model.number="item.StatController.CurrentStats['burn']" />
+        :base-value="item.StatController.MaxStats['burn']" />
 
       <v-row v-if="item.StatController.MaxStats['overcharge']"
         no-gutters
@@ -152,14 +151,12 @@
 
 <script lang="ts">
 import { Rules } from '@/class';
-import StatMiniPanel from './StatMiniPanel.vue';
 import SimpleMiniPanel from './SimpleMiniPanel.vue';
 
 
 export default {
-  name: 'trackable-stats-complex',
+  name: 'TrackableStatsComplex',
   components: {
-    StatMiniPanel,
     SimpleMiniPanel,
   },
   props: {
@@ -194,7 +191,7 @@ export default {
         reactor: 'cc:reactor',
         heat: 'cc:heat',
         repair: 'cc:repair',
-        techattack: 'cc:tech_quick',
+        techAttack: 'cc:quick_tech',
       };
       return icons[stat];
     },

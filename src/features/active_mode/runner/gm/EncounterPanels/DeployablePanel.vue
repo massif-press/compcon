@@ -75,6 +75,7 @@
           :item="combatant"
           no-actions
           no-conditions
+          one-panel
           hide-palette>
           <template #name-block>
             <v-card flat
@@ -155,7 +156,6 @@
 </template>
 
 <script lang="ts">
-import StatMiniPanel from './_components/StatMiniPanel.vue';
 import PanelBase from './_PanelBase.vue';
 import { Action } from '@/classes/Action';
 
@@ -163,7 +163,6 @@ export default {
   name: 'DeployablePanel',
   components: {
     PanelBase,
-    StatMiniPanel,
   },
   props: {
     combatant: {

@@ -2,6 +2,7 @@ import { INpcClassData, NpcClass } from './NpcClass'
 import { CompendiumStore } from '@/stores'
 import { Unit } from '../unit/Unit'
 import { Stats } from '@/classes/components/combat/stats/Stats'
+import { StatController } from '@/classes/components/combat/stats/StatController'
 
 interface INpcClassSaveData {
   class: { id: string; data: INpcClassData }
@@ -42,7 +43,11 @@ class NpcClassController {
     })
 
     allStats.forEach(key => {
-      let statVal = c?.Stats.Stat(key, this.Tier) || Stats.DefaultStats[key]
+      const tieredDef = Stats.TieredDefaults[key]
+      const fallback = tieredDef
+        ? StatController.resolveDefault(tieredDef, this.Tier - 1)
+        : (Stats.DefaultStats[key] ?? 0)
+      let statVal = c?.Stats.Stat(key, this.Tier) || fallback
       if (key === 'sizes') {
         statVal = c?.Stats.Stat('size', this.Tier) || 1
       }
@@ -66,7 +71,7 @@ class NpcClassController {
     this.Parent.CombatController.StatController.MaxStats.forEach(key => {
       if (key === 'size' || key === 'sizes') return
       if (
-        this.Parent.CombatController.StatController.getStat(key) !== c.Stats.Stat(key, this.Tier)
+        this.Parent.CombatController.StatController.getMax(key) !== c.Stats.Stat(key, this.Tier)
       ) {
         changedStats[key] = c.Stats.Stat(key, this.Tier)
       }

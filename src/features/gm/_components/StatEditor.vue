@@ -189,7 +189,7 @@ export default {
     hiddenKeys: [
       'overcharge',
       'overshield',
-      'attackbonus',
+      'attackBonus',
       'limitedBonus',
       'heatcap',
       'repairCapacity',

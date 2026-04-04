@@ -1,4 +1,4 @@
-import { Bonus } from '../feature/bonus/Bonus'
+import { Bonus, BonusId } from '../feature/bonus/Bonus'
 import { HASE } from '../../enums'
 import { Pilot } from '../../pilot/Pilot'
 import { Rules } from '../../utility/Rules'
@@ -84,7 +84,7 @@ class MechSkillsController {
   }
 
   public get MaxHASEPoints(): number {
-    return Bonus.Int(Rules.MinimumMechSkills + this.Parent.Level, 'mech_skill_point', this.Parent)
+    return Bonus.Int(Rules.MinimumMechSkills + this.Parent.Level, BonusId.MECH_SKILL_POINT, this.Parent)
   }
 
   public get HASERemaining(): number {

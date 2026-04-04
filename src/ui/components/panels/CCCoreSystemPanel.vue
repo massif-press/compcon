@@ -128,9 +128,11 @@
       justify="center">
       <v-col v-for="(d, i) in cs.Deployables"
         :key="`deployable-${i}`"
-        cols="auto">
+        cols="auto"
+        style="max-width: 700px;">
         <cc-deployable-info :deployable="d"
           panel
+          :owner="owner"
           class="ma-2" />
       </v-col>
     </v-row>
@@ -159,6 +161,11 @@ export default {
     small: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: Object,
+      required: false,
+      default: null,
     },
   },
   computed: {

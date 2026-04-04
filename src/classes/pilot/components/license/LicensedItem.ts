@@ -7,7 +7,7 @@ import {
   Manufacturer,
   Pilot,
 } from '../../../../class'
-import { ICompendiumItemData, IContentPack, ITagCompendiumData } from '../../../../interface'
+import { ICompendiumItemData } from '../../../../interface'
 import logger from '@/user/logger'
 
 interface ILicenseRequirement {

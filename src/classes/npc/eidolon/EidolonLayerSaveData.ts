@@ -1,4 +1,5 @@
 import { SaveController } from '@/classes/components';
+import { StatKey } from '@/classes/components/combat/stats/Stats';
 import { IStatData, StatController } from '@/classes/components/combat/stats/StatController';
 import { CompendiumStore } from '@/stores';
 import { Eidolon } from './Eidolon';
@@ -7,8 +8,11 @@ import { FeatureController } from '@/classes/components/feature/FeatureControlle
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature';
 import { CombatController } from '@/classes/components/combat/CombatController';
+import { ICombatant } from '@/classes/components/combat/ICombatant';
 
-class EidolonLayerSaveData implements IFeatureContainer {
+class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
+  public readonly IsEncounterInstance: boolean = false;
+  public readonly ItemType: string = 'EidolonLayer';
   public readonly Parent: Eidolon;
   public readonly ID: string;
   public readonly Name: string;
@@ -20,22 +24,22 @@ class EidolonLayerSaveData implements IFeatureContainer {
   private _description: string;
 
   public MandatoryStats: string[] = [
-    'activations',
-    'size',
-    'structure',
-    'hp',
-    'armor',
-    'stress',
-    'heat',
-    'speed',
-    'evasion',
-    'edef',
-    'sensorRange',
-    'saveTarget',
-    'hull',
-    'agi',
-    'sys',
-    'eng',
+    StatKey.ACTIVATIONS,
+    StatKey.SIZE,
+    StatKey.STRUCTURE,
+    StatKey.HP,
+    StatKey.ARMOR,
+    StatKey.STRESS,
+    StatKey.HEAT,
+    StatKey.SPEED,
+    StatKey.EVASION,
+    StatKey.EDEF,
+    StatKey.SENSOR_RANGE,
+    StatKey.SAVE_TARGET,
+    StatKey.HULL,
+    StatKey.AGI,
+    StatKey.SYS,
+    StatKey.ENG,
   ];
 
   public constructor(
@@ -90,7 +94,7 @@ class EidolonLayerSaveData implements IFeatureContainer {
   public ResetHp(playerCount: number, reset: boolean = false) {
     const maxHp = this.Layer.HpPerPlayer * playerCount;
     this.StatController.setMax('hp', maxHp);
-    if (reset) this.StatController.CurrentStats['hp'] = maxHp;
+    if (reset) this.StatController.setCurrentStat(StatKey.HP, maxHp);
   }
 
   public get FeatureSource(): NpcFeature[] {
@@ -128,7 +132,7 @@ class EidolonLayerSaveData implements IFeatureContainer {
     this.MandatoryStats.forEach((key) => {
       if (key === 'size' || key === 'sizes') return;
       if (
-        this.StatController.getStat(key) !==
+        this.StatController.getMax(key) !==
         (this.Layer as EidolonLayer).Stats.Stat(key, this.Parent.Tier)
       ) {
         changedStats[key] = (this.Layer as EidolonLayer).Stats.Stat(key, this.Parent.Tier);

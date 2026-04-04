@@ -206,8 +206,8 @@ export default {
 
         if (x[this.sorting]) return x[this.sorting];
 
-        if (x.StatController && x.StatController.getStat(this.sorting))
-          return x.StatController.getStat(this.sorting);
+        if (x.StatController && x.StatController.getMax(this.sorting))
+          return x.StatController.getMax(this.sorting);
         if (x.NarrativeController && x.NarrativeController.LabelDictionary[this.sorting])
           return x.NarrativeController.LabelDictionary[this.sorting];
         if (x.NpcClassController) {

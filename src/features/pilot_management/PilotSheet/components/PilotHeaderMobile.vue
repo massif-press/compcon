@@ -52,7 +52,7 @@
           {{ pilot.MaxHP }}
           <v-icon size="11"
             class="mt-n1 mr-n1"
-            icon="cc:e_def" />
+            icon="cc:edef" />
           {{ pilot.EDefense }}
           <v-icon size="13"
             class="mt-n1 mr-n1"

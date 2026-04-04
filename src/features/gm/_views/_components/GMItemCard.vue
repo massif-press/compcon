@@ -67,7 +67,7 @@ export default {
       let out = '' as any;
       if (this.item[this.sorting]) out = { title: this.sorting, value: this.item[this.sorting] };
       if (this.item.StatController)
-        out = { title: this.sorting, value: this.item.StatController.getStat(this.sorting) };
+        out = { title: this.sorting, value: this.item.StatController.getMax(this.sorting) };
       if (this.item.NarrativeController)
         out = {
           title: this.sorting,

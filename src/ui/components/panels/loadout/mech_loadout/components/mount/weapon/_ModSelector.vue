@@ -144,8 +144,6 @@
         if (!this.showIncompatible) {
           i = i.filter(x => x.AllowedTypes && x.AllowedTypes.includes(this.weapon.ModType))
           i = i.filter(x => x.AllowedSizes && x.AllowedSizes.includes(this.weapon.ModSize))
-          i = i.filter(x => !x.RestrictedTypes || !x.RestrictedTypes.includes(this.weapon.ModType))
-          i = i.filter(x => !x.RestrictedSizes || !x.RestrictedSizes.includes(this.weapon.ModSize))
         }
 
         if (this.weapon.Mod) i = i.filter(x => x.ID !== this.weapon.Mod.ID)

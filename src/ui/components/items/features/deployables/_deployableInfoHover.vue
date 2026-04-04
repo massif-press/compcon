@@ -22,7 +22,7 @@
         </v-toolbar-title>
       </v-toolbar>
       <v-card-text class="mt-n3">
-        <deployable-info-base :deployable="deployable" :tier="tier" />
+        <deployable-info-base :deployable="deployable" :tier="tier" :owner="owner" />
       </v-card-text>
     </v-card>
   </v-menu>
@@ -45,6 +45,11 @@ export default {
     tier: {
       type: Number,
       required: false,
+    },
+    owner: {
+      type: Object,
+      required: false,
+      default: null,
     },
   },
 };

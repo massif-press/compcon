@@ -1,11 +1,11 @@
 import { DamageType, RangeType, WeaponSize, WeaponType } from '@/class'
 import { IFeatureController } from '../IFeatureController'
-import dict from './bonus_dictionary'
+import { getBonusDictionary } from './bonus_dictionary'
 import { IBonusDataContainer } from './IBonusDataContainer'
 
 interface IBonusData {
   id: string
-  val: string | number | string[]
+  val: string | number | string[] | boolean
   accuracy?: number
   damage_types?: DamageType[]
   range_types?: RangeType[]
@@ -13,6 +13,8 @@ interface IBonusData {
   weapon_sizes?: WeaponSize[]
   overwrite?: boolean
   replace?: boolean
+  type?: 'flag'
+  condition?: string
 }
 
 class Bonus {
@@ -29,9 +31,11 @@ class Bonus {
   public readonly Overwrite: boolean
   public readonly Replace: boolean
   public readonly PerPc: boolean = false
+  public readonly IsFlag: boolean
+  public readonly Condition: string | undefined
 
   public constructor(data: IBonusData, source: string) {
-    const entry = dict.find(x => x.id === data.id)
+    const entry = getBonusDictionary().find(x => x.id === data.id)
     this.ID = data.id
     this.Source = source
     this.PerPc = data.id.includes('_pct') || false
@@ -44,6 +48,8 @@ class Bonus {
     this.WeaponSizes = data.weapon_sizes || []
     this.Overwrite = data.overwrite || false
     this.Replace = data.replace || false
+    this.IsFlag = data.type === 'flag' || data.val === true
+    this.Condition = data.condition
 
     this.Title = entry ? entry.title : 'UNKNOWN BONUS'
     this.Detail = entry ? this.parseDetail(entry.detail) : 'UNKNOWN BONUS'
@@ -75,10 +81,7 @@ class Bonus {
       : typeof rep === 'string' && rep.includes('/')
         ? Number(rep.split('/')[0])
         : Number(rep)
-    str = str.replace(
-      /{INC_DEC}/g,
-      !isNaN(repNum) && repNum > -1 ? 'Increases' : 'Decreases'
-    )
+    str = str.replace(/{INC_DEC}/g, !isNaN(repNum) && repNum > -1 ? 'Increases' : 'Decreases')
     str = str.replace(
       /{RANGE_TYPES}/g,
       ` ${this.RangeTypes.length ? this.RangeTypes.join('/').toUpperCase() : ''}`
@@ -130,11 +133,29 @@ class Bonus {
   }
 
   public static Int(base: number, id: string, source?: IFeatureController): number {
-    let val = base
     if (!source) return base
-    const replace = source.FeatureController.Bonuses.filter(x => x.ID === id && x.Replace)
-    if (replace.length) val = replace.reduce((sum, bonus) => sum + this.Evaluate(bonus, source), 0)
-    return val + this.get(id, source)
+
+    const all = source.FeatureController.Bonuses.filter(x => x.ID === id)
+
+    // overwrite: ignore base and all other bonuses; take the highest overwrite value
+    const overwrites = all.filter(b => b.Overwrite && !b.Replace)
+    if (overwrites.length) {
+      return Math.max(...overwrites.map(b => this.Evaluate(b, source)))
+    }
+
+    // replace: sum of replace bonuses becomes the new base
+    const replaces = all.filter(b => b.Replace)
+    let val = replaces.length
+      ? replaces.reduce((sum, b) => sum + this.Evaluate(b, source), 0)
+      : base
+
+    // additive: sum remaining bonuses
+    return (
+      val +
+      all
+        .filter(b => !b.Overwrite && !b.Replace)
+        .reduce((sum, b) => sum + this.Evaluate(b, source), 0)
+    )
   }
 
   public static get(id: string, source: IFeatureController): number {
@@ -183,7 +204,7 @@ class Bonus {
   }
 
   public static Serialize(bonus: Bonus): IBonusData {
-    return {
+    const data: IBonusData = {
       id: bonus.ID,
       val: bonus.Value,
       damage_types: bonus.DamageTypes,
@@ -193,8 +214,12 @@ class Bonus {
       overwrite: bonus.Overwrite,
       replace: bonus.Replace,
     }
+    if (bonus.Condition) data.condition = bonus.Condition
+    return data
   }
 }
 
 export { Bonus }
 export type { IBonusData }
+export { BonusId } from './bonus_dictionary'
+export type { BonusIdType } from './bonus_dictionary'

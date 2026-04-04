@@ -1,4 +1,5 @@
-import { Bonus, IBonusData } from './feature/bonus/Bonus';
+import { Bonus, BonusId, IBonusData } from './feature/bonus/Bonus';
+import { BonusController } from './feature/bonus/BonusController';
 import { CloudController, ICloudData } from './cloud/CloudController';
 import { ICloudSyncable } from './cloud/ICloudSyncable';
 import { IPortraitContainer } from './portrait/IPortraitContainer';
@@ -18,6 +19,8 @@ import { ISaveData, SaveController } from './save/SaveController';
 
 export {
   Bonus,
+  BonusId,
+  BonusController,
   CloudController,
   PortraitController,
   Counter,

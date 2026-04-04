@@ -199,7 +199,7 @@ export default {
         this.getMaxStat('sensorRange', 'Sensors'),
         this.getMaxStat('saveTarget', 'Save'),
       ];
-      if (this.isPilot) secondLine.push(this.getMaxStat('techattack', 'Tech Atk.'));
+      if (this.isPilot) secondLine.push(this.getMaxStat('techAttack', 'Tech Atk.'));
       out += this.justify(secondLine) + '\n';
       return out;
     },

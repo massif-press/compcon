@@ -49,6 +49,10 @@ class SaveController {
   }
 
   private async _save(silent = false) {
+    // instance entities (encounter NPCs) live in encounter data and must never
+    // write themselves to their own storage type independently.
+    if ((this.Parent as any).IsInstance) return
+
     if (!silent) {
       this.IsDirty = true
       this.LastModified = new Date().getTime()
