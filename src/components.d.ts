@@ -27,7 +27,6 @@ declare module 'vue' {
     _BondCard: typeof import('./ui/components/cards/items/_BondCard.vue')['default']
     _bonusBase: typeof import('./ui/components/items/features/bonuses/_bonusBase.vue')['default']
     _bonusChip: typeof import('./ui/components/items/features/bonuses/_bonusChip.vue')['default']
-    _bonusPanel: typeof import('./ui/components/items/features/bonuses/_bonusPanel.vue')['default']
     _bonusPopup: typeof import('./ui/components/items/features/bonuses/_bonusPopup.vue')['default']
     _bottomBar: typeof import('./ui/components/inputs/tickbar/_bottomBar.vue')['default']
     _bViewToggle: typeof import('./ui/components/CompendiumBrowser/components/_b-view-toggle.vue')['default']

@@ -73,13 +73,16 @@
           :key="`bonus-${index}`"
           :bonus="b"
           chip />
+      </v-col>
+
+      <v-col cols="auto"
+        class="ml-auto">
         <cc-bonus v-for="(b, index) in externalItemBonuses"
           :key="`ext-bonus-${index}`"
-          :bonus="b"
-          chip />
+          :bonus="b" />
       </v-col>
       <v-col cols="auto"
-        class="ml-auto mr-4">
+        class="mr-4">
 
         <cc-synergy-display :item="item"
           :location="synergyLocation"

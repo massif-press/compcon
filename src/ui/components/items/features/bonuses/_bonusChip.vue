@@ -1,18 +1,17 @@
 <template>
   <v-menu open-on-hover>
     <template #activator="{ props }">
-      <v-avatar
-        v-if="icon"
+      <v-avatar v-if="icon"
         v-bind="props"
         size="18"
         color="exotic"
         class="mx-1"
         flat
         style="corner-shape: bevel; border-radius: 0; border-bottom-right-radius: 4px">
-        <v-icon size="15" :icon="bonus.Icon" />
+        <v-icon size="15"
+          :icon="bonus.Icon" />
       </v-avatar>
-      <cc-chip
-        v-else
+      <cc-chip v-else
         v-bind="props"
         size="small"
         color="exotic"
@@ -20,9 +19,12 @@
         :icon="bonus.Icon"
         :label="bonus.Title" />
     </template>
-    <cc-panel tile color="surface">
+    <cc-panel tile
+      color="surface">
       <template #toolbar>
-        <v-toolbar density="compact" color="exotic" height="54">
+        <v-toolbar density="compact"
+          color="exotic"
+          height="54">
           <div class="px-3 pt-1">
             <div class="text-cc-overline text-disabled">
               bonus

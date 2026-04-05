@@ -1,84 +1,82 @@
 <template>
   <div>
-    <v-row justify="center" dense>
-      <cc-statblock-panel
-        v-if="deployable.Size"
+    <v-row justify="center"
+      dense>
+      <cc-statblock-panel v-if="deployable.Size"
         :icon="`cc:size_${deployable.Size === 0.5 ? 'half' : deployable.Size}`"
         name="Size"
         inline
         :value="`${deployable.Size === 0.5 ? '½' : deployable.Size}`" />
-      <cc-statblock-panel
-        v-if="deployable.Armor"
+      <cc-statblock-panel v-if="deployable.Armor"
         icon="mdi-shield"
         name="Armor"
         inline
         :value="effectiveStatValue(deployable.Armor, 'armor')" />
-      <cc-statblock-panel
-        v-if="deployable.HP || deployable.Size"
+      <cc-statblock-panel v-if="deployable.HP || deployable.Size"
         icon="mdi-heart"
         name="HP"
         inline
         :value="effectiveStatValue(deployable.HP || parseFloat(deployable.Size || 0.5) * 10, 'hp')" />
-      <cc-statblock-panel
-        v-if="deployable.Size"
+      <cc-statblock-panel v-if="deployable.Size"
         icon="cc:evasion"
         inline
         name="Evasion"
         :value="effectiveStatValue(deployable.evasion, 'evasion', 5) || 5" />
-      <cc-statblock-panel
-        v-if="deployable.EDefense"
+      <cc-statblock-panel v-if="deployable.EDefense"
         icon="cc:edef"
         inline
         name="E-Def"
         :value="effectiveStatValue(deployable.EDefense, 'edef')" />
-      <cc-statblock-panel
-        v-if="deployable.Heatcap"
+      <cc-statblock-panel v-if="deployable.Heatcap"
         icon="cc:heat"
         inline
         name="Heat Capacity"
         :value="effectiveStatValue(deployable.Heatcap, 'heatcap')" />
-      <cc-statblock-panel
-        v-if="deployable.Sensors"
+      <cc-statblock-panel v-if="deployable.Sensors"
         icon="cc:sensor"
         inline
         name="Sensor Range"
         :value="effectiveStatValue(deployable.Sensors, 'sensor_range')" />
-      <cc-statblock-panel
-        v-if="deployable.TechAttack"
+      <cc-statblock-panel v-if="deployable.TechAttack"
         icon="cc:full_tech"
         inline
         name="Tech Attack"
         :value="effectiveStatValue(deployable.TechAttack, 'tech_attack')" />
-      <cc-statblock-panel
-        v-if="deployable.Repcap"
+      <cc-statblock-panel v-if="deployable.Repcap"
         icon="cc:repair"
         inline
         name="Repair Capacity"
         :value="effectiveStatValue(deployable.Repcap, 'repcap')" />
-      <cc-statblock-panel
-        v-if="deployable.Save"
+      <cc-statblock-panel v-if="deployable.Save"
         icon="cc:save"
         inline
         name="Save Target"
         :value="effectiveStatValue(deployable.Save, 'save')" />
-      <cc-statblock-panel
-        v-if="deployable.Speed"
+      <cc-statblock-panel v-if="deployable.Speed"
         icon="mdi-arrow-right-bold-hexagon-outline"
         inline
         name="Speed"
         :value="effectiveStatValue(deployable.Speed, 'speed')" />
     </v-row>
-    <p v-html-safe="deployable.getDetail(tier)" class="pa-2" />
+    <p v-html-safe="deployable.getDetail(tier)"
+      class="pa-2" />
 
     <div v-if="deployable.Actions && deployable.Actions.length">
-      <v-row no-gutters justify="center">
-        <v-col v-for="(a, index) in deployable.Actions" :key="`action-${index}`" cols="auto">
-          <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" :tier="tier" />
+      <v-row no-gutters
+        justify="center">
+        <v-col v-for="(a, index) in deployable.Actions"
+          :key="`action-${index}`"
+          cols="auto">
+          <cc-action :action="a"
+            :panel="$vuetify.display.lgAndUp"
+            class="ma-2"
+            :tier="tier" />
         </v-col>
       </v-row>
     </div>
 
-    <cc-tags v-if="deployable.Tags && deployable.Tags.length" :tags="deployable.Tags" />
+    <cc-tags v-if="deployable.Tags && deployable.Tags.length"
+      :tags="deployable.Tags" />
   </div>
 </template>
 
@@ -86,7 +84,7 @@
 import { ByTier, ByTierArray } from '@/util/tierFormat';
 
 export default {
-  name: 'deployable-info-base',
+  name: 'DeployableInfoBase',
   props: {
     deployable: {
       type: Object,
@@ -124,10 +122,9 @@ export default {
       if (raw === undefined || raw === null || raw === '') return defaultVal;
       if (typeof raw === 'number') return raw;
       const str = String(raw).trim();
-      // Expression referencing owner stats e.g. "{edef}", "2+{hull}"
       if (str.includes('{')) {
         if (!this.owner) return undefined;
-        // Prefer getExpressionContext() (always current) over MaxStats (only populated post-SetStats)
+        // prefer getExpressionContext() (always current) over MaxStats (only populated post-SetStats)
         const ctx: Record<string, number> =
           this.owner.getExpressionContext?.() ??
           this.owner.CombatController?.StatController?.MaxStats ??
@@ -136,12 +133,10 @@ export default {
         const num = parseFloat(resolved);
         return isNaN(num) ? undefined : Math.floor(num);
       }
-      // Tier array e.g. '[5,8,12]' or plain numeric string
       const tierResult = ByTierArray(str, this.tier);
       const num = parseFloat(tierResult as string);
       return isNaN(num) ? defaultVal : num;
     },
-    // Returns the effective stat value, applying owner child-bonuses when an owner is present.
     // raw: the raw deployable stat (number, tier string, expression, or undefined)
     // bonusSuffix: the part after 'deployable_' / 'drone_' in the bonus ID (e.g. 'hp', 'edef')
     // defaultVal: fallback when raw is absent

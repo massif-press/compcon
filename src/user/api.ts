@@ -64,6 +64,7 @@ const getItemDownloadLink = async (itch_userid, game_id, item_uri) => {
   const result = await fetch(url, {
     method: 'GET',
     headers: collectionHeaders,
+    cache: 'no-store',
   })
 
   if (!result.ok) {
