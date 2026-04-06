@@ -120,10 +120,7 @@
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <cc-masonry-grid :items="mech.Frame.Traits"
-            :column-width="500"
-            :gap="8"
-            :min-columns="1"
-            :max-columns="2">
+            :xl-columns="xlColumns">
             <template #default="{ item, index }">
               <cc-trait-item :trait="item"
                 color="primary"
@@ -164,10 +161,7 @@
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <cc-masonry-grid :items="mech.Parent.CoreBonusController.CoreBonuses"
-            :column-width="500"
-            :gap="8"
-            :min-columns="1"
-            :max-columns="2">
+            :xl-columns="xlColumns">
             <template #default="{ item, index }">
               <cc-core-bonus-item :key="item.ID"
                 terse
@@ -208,10 +202,7 @@
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <cc-masonry-grid :items="mech.Parent.TalentsController.Talents"
-            :column-width="500"
-            :gap="8"
-            :min-columns="1"
-            :max-columns="2">
+            :xl-columns="xlColumns">
             <template #default="{ item, index }">
               <cc-talent :key="item.Talent.ID"
                 rank-view
@@ -259,15 +250,14 @@
   </panel-base>
 </template>
 
-<script>
-import _, { over } from 'lodash-es';
+<script lang="ts">
 import { CompendiumStore } from '@/stores';
 import PanelBase from './_PanelBase.vue';
 import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
 import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 import MechActionsPanel from './_components/MechActionsPanel.vue';
-import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
+import { useMobile } from '@/mixins/useMobile';
 
 export default {
   name: 'MechPanel',
@@ -277,8 +267,8 @@ export default {
     MechCombatLoadout,
     MechCorePanel,
     MechActionsPanel,
-    MenuInput,
   },
+  mixins: [useMobile],
   props: {
     combatant: {
       type: Object,
@@ -290,6 +280,10 @@ export default {
     },
   },
   computed: {
+    xlColumns() {
+      if (this.mobile) return 1
+      else return this.encounterInstance.MaxMasonryColumns
+    },
     mech() {
       return this.combatant.actor.ActiveMech;
     },

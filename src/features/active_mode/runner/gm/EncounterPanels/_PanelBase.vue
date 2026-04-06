@@ -20,7 +20,7 @@
     class="pa-2">
     <v-row no-gutters>
       <v-col cols="12"
-        :xl="onePanel ? '12' : ''">
+        :xl="xlPanels">
         <v-row class="pr-4">
           <v-col v-if="item.Portrait && !mobile"
             cols="auto">
@@ -241,9 +241,7 @@
             </v-row>
 
             <div class="mb-2">
-              <trackable-stats-simple v-if="mobile || encounterInstance.SimpleTickbars"
-                :item="item" />
-              <trackable-stats-complex v-else
+              <component :is="trackableStatsComponent"
                 :item="item" />
             </div>
 
@@ -308,7 +306,7 @@
         <cc-counter-set :actor="item" />
       </v-col>
       <v-col cols="12"
-        :xl="onePanel ? '12' : ''">
+        :xl="xlPanels">
         <slot />
       </v-col>
     </v-row>
@@ -371,10 +369,22 @@ export default {
 
   },
   computed: {
+    xlPanels() {
+      if (this.onePanel) return 12;
+      if (this.mobile) return 12;
+      return ''
+    },
+
     mobile() {
       return this.$vuetify.display.mdAndDown;
     },
-
+    trackableStatsComponent() {
+      if (!this.encounterInstance.ForceComplexTickbars && (this.mobile || this.encounterInstance.SimpleTickbars)) {
+        return 'TrackableStatsSimple';
+      } else {
+        return 'TrackableStatsComplex';
+      }
+    },
     orderedStats() {
       const order = [
         'activations',

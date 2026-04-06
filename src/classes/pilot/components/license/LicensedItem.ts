@@ -94,7 +94,10 @@ abstract class LicensedItem extends CompendiumItem {
       if (f.Variant)
         return (
           CompendiumStore().Frames.find(x => x.ID.toLowerCase().includes(f.Variant.toLowerCase()))
-            ?.ID || this.LicenseID
+            ?.ID ||
+          CompendiumStore().Frames.find(x => x.Name.toLowerCase().includes(f.Variant.toLowerCase()))
+            ?.ID ||
+          this.LicenseID
         )
     }
     return this.LicenseID

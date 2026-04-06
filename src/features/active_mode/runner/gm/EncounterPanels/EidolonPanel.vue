@@ -108,11 +108,8 @@
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <cc-masonry-grid :items="traits"
-            :column-width="500"
-            :gap="8"
-            :min-columns="1"
-            :max-columns="2">
-            <template #default="{ item, index }">
+            :xl-columns="xlColumns">
+            <template #default="{ item }">
               <div class="heading h4 text-accent">{{ item.name }}</div>
               <p v-html-safe="item.detail" />
             </template>
@@ -122,17 +119,15 @@
     </v-expansion-panels>
 
     <cc-masonry-grid :items="features"
-      :column-width="600"
-      :gap="16"
-      :min-columns="1"
-      :max-columns="2">
+      :xl-columns="xlColumns">
       <template #default="{ item }">
         <fieldset class="px-2 pb-2"
           style="border-color: rgba(155, 155, 155, 0.6)">
-          <unit-feature-card :encounter="encounterInstance"
-            :key="item.ID"
+          <unit-feature-card :key="item.ID"
+            :encounter="encounterInstance"
             :item="item"
             :unit="layer"
+            :owner="combatant"
             @deploy="deploy($event)" />
         </fieldset>
       </template>
@@ -140,7 +135,8 @@
   </panel-base>
 </template>
 
-<script>
+<script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 import UnitFeatureCard from './_components/loadouts/_unitFeatureCard.vue';
 import PanelBase from './_PanelBase.vue';
 import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json';
@@ -151,6 +147,7 @@ export default {
     PanelBase,
     UnitFeatureCard,
   },
+  mixins: [useMobile],
   props: {
     combatant: {
       type: Object,
@@ -162,6 +159,10 @@ export default {
     },
   },
   computed: {
+    xlColumns() {
+      if (this.mobile) return 1
+      else return this.encounterInstance.MaxMasonryColumns
+    },
     traits() {
       return PersistentTraits;
     },

@@ -263,6 +263,10 @@ export default {
       type: Object,
       required: true,
     },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['deploy'],
   computed: {

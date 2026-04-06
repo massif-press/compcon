@@ -106,8 +106,7 @@
     </v-col>
   </v-row>
   <cc-masonry-grid :items="features"
-    :gap="16"
-    :xl-columns="2">
+    :xl-columns="xlColumns">
     <template #default="{ item }">
       <fieldset class="px-2"
         style="border-color: rgba(155, 155, 155, 0.6)">
@@ -123,6 +122,7 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 import UnitFeatureCard from './_unitFeatureCard.vue';
 import * as _ from 'lodash-es';
 
@@ -131,6 +131,7 @@ export default {
   components: {
     UnitFeatureCard,
   },
+  mixins: [useMobile],
   props: {
     owner: {
       type: Object,
@@ -152,6 +153,10 @@ export default {
     hidePassives: true,
   }),
   computed: {
+    xlColumns() {
+      if (this.mobile) return 1
+      else return this.encounterInstance.MaxMasonryColumns
+    },
     features() {
       let features = this.unit.NpcFeatureController.Features.filter((x) => !x.Mod).sort((a, b) => {
         const getPriority = (item) => {

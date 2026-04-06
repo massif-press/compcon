@@ -67,7 +67,7 @@ class License {
   }
 
   private licenseMatch(licenseItem: LicensedItem): boolean {
-    if (!!licenseItem.LicenseID) {
+    if (licenseItem.LicenseID) {
       return licenseItem.LicenseID === this.FrameID
     } else if ((licenseItem as Frame).Variant) {
       return (licenseItem as Frame).Variant.toLowerCase() === this.FrameName

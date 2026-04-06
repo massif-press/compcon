@@ -25,6 +25,9 @@ interface IEncounterInstanceData {
   isActive?: boolean
   autosave?: boolean
   simple_tickbars?: boolean
+  force_complex_tickbars?: boolean
+  layout_columns?: boolean
+  max_masonry_columns?: number
 }
 
 class EncounterInstance implements ISaveable, ICloudSyncable {
@@ -37,6 +40,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   public Encounter!: Encounter
   public Autosave: boolean = true
   public SimpleTickbars: boolean = false
+  public ForceComplexTickbars: boolean = false
+  public LayoutColumns: boolean = true
+  public MaxMasonryColumns: number = 2
 
   private _id: string
   private _round: number = 0
@@ -59,6 +65,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     this._round = data?.round || 1
     this.IsActive = data?.isActive || false
     this.SimpleTickbars = data?.simple_tickbars || false
+    this.ForceComplexTickbars = data?.force_complex_tickbars || false
+    this.LayoutColumns = data?.layout_columns || true
+    this.MaxMasonryColumns = data?.max_masonry_columns || 2
 
     if (data) {
       if (data.combatants)
@@ -118,7 +127,11 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       this.Combatants.forEach((combatant, index) => {
         combatant.index = index
         combatant.actor.SetStats()
-        combatant.actor.FeatureController.BonusController.applyToStats(combatant.actor.CombatController.StatController, this)
+        if (combatant.actor.FeatureController?.BonusController)
+          combatant.actor.FeatureController.BonusController.applyToStats(
+            combatant.actor.CombatController.StatController,
+            this
+          )
         combatant.actor.CombatController.StatController.resetCurrentStats()
       })
     }
@@ -240,6 +253,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       isActive: instance.IsActive,
       autosave: instance.Autosave,
       simple_tickbars: instance.SimpleTickbars,
+      force_complex_tickbars: instance.ForceComplexTickbars,
+      layout_columns: instance.LayoutColumns,
+      max_masonry_columns: instance.MaxMasonryColumns,
     } as IEncounterInstanceData
 
     SaveController.Serialize(instance, data)

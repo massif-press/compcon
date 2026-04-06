@@ -92,13 +92,10 @@
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <cc-masonry-grid :items="pilot.TalentsController.Talents"
-            :column-width="500"
-            :gap="8"
-            :min-columns="1"
-            :max-columns="2">
-            <template #default="{ item, index }">
-              <cc-talent rank-view
-                :key="item.Talent.ID"
+            :xl-columns="xlColumns">
+            <template #default="{ item }">
+              <cc-talent :key="item.Talent.ID"
+                rank-view
                 :talent="item.Talent"
                 :rank="item.Rank"
                 hide-locked
@@ -135,9 +132,8 @@
   </panel-base>
 </template>
 
-<script>
-import * as _ from 'lodash-es';
-import { CompendiumStore } from '@/stores';
+<script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
 import PanelBase from './_PanelBase.vue';
 import PilotActionsPanel from './_components/PilotActionsPanel.vue';
 import PilotCombatLoadout from './_components/loadouts/PilotCombatLoadout.vue';
@@ -151,6 +147,7 @@ export default {
     PilotCombatLoadout,
     DeployButton,
   },
+  mixins: [useMobile],
   props: {
     combatant: {
       type: Object,
@@ -163,6 +160,10 @@ export default {
   },
   emits: ['deselect'],
   computed: {
+    xlColumns() {
+      if (this.mobile) return 1
+      else return this.encounterInstance.MaxMasonryColumns
+    },
     pilot() {
       return this.combatant.actor;
     },

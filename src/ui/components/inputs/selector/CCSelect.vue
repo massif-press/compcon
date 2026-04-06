@@ -126,7 +126,7 @@ export default {
   name: 'CCSelect',
   mixins: [useMobile],
   props: {
-    modelValue: { type: [String, Number, Boolean, Array] },
+    modelValue: { type: [String, Number, Boolean, Array, Object] },
     items: { type: Array, default: () => [] },
     color: { type: String, default: 'panel' },
     size: { type: String },

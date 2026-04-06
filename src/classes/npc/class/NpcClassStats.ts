@@ -20,7 +20,6 @@ export interface INpcClassStats {
 }
 
 const statMap = {
-  heatcap: 'heat',
   evade: 'evasion',
   sensor: 'sensorRange',
   save: 'saveTarget',

@@ -33,6 +33,7 @@ export default {
   },
   computed: {
     columns() {
+      if (this.items.length <= 1) return 1
       if (this.$vuetify.display.mdAndDown) return 1
       if (this.$vuetify.display.lg) return 2
       if (this.$vuetify.display.xl) return this.xlColumns

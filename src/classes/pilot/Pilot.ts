@@ -206,7 +206,6 @@ class Pilot
       PortraitController.Deserialize(this, data.img)
       BrewController.Deserialize(this, data)
       ReservesController.Deserialize(this, data)
-      CombatController.Deserialize(this.CombatController, data.combat_data)
 
       try {
         SkillsController.Deserialize(this, data)
@@ -246,6 +245,10 @@ class Pilot
       this.ReservesController,
       this.PilotLoadoutController
     )
+
+    if (data) {
+      CombatController.Deserialize(this.CombatController, data.combat_data)
+    }
 
     this._level = data?.level || 0
     this._callsign = data?.callsign || ''

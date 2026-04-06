@@ -288,7 +288,8 @@ export default {
       if (!this.loggedIn) return false;
       if (!pack.paid) return true;
       if (!this.user.Itch || !this.user.Itch.gamedata?.length) return false;
-      return this.user.Itch.gamedata?.some((purchase) => purchase.game_id === pack.game_id);
+
+      return this.user.Itch.gamedata.some((purchase) => purchase.game_id === pack.game_id);
     },
     isLatest(pack) {
       const installed = this.getInstalledPack(pack);

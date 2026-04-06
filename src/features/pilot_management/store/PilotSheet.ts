@@ -24,6 +24,9 @@ type PilotSheetData = {
   cloud: ICloudData
   campaign?: string
   simple_tickbars?: boolean
+  force_complex_tickbars?: boolean
+  layout_columns?: number
+  max_masonry_columns?: number
   autosave?: boolean
 }
 
@@ -40,6 +43,9 @@ class PilotSheet implements ISaveable, ICloudSyncable {
   public Archived: boolean = false
 
   public SimpleTickbars: boolean = false
+  public ForceComplexTickbars: boolean = false
+  public LayoutColumns: number = 2
+  public MaxMasonryColumns: number = 2
   public Autosave: boolean = true
 
   public SaveController: SaveController
@@ -55,6 +61,9 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     this.Archived = data.archived
 
     this.SimpleTickbars = data.simple_tickbars || false
+    this.ForceComplexTickbars = data.force_complex_tickbars || false
+    this.LayoutColumns = data.layout_columns || true
+    this.MaxMasonryColumns = data.max_masonry_columns || 2
     this.Autosave = data.autosave || true
 
     this.Combatant = Encounter.DeserializeCombatant(data.combatant)
@@ -66,6 +75,9 @@ class PilotSheet implements ISaveable, ICloudSyncable {
   }
 
   public static FromPilot(pilot: Pilot, campaign?: string) {
+    pilot.SetStats()
+    pilot.FeatureController.BonusController.applyToStats(pilot.CombatController.StatController)
+    pilot.CombatController.StatController.resetCurrentStats()
     const data = {
       id: uuid(),
       combatant: {
@@ -157,6 +169,9 @@ class PilotSheet implements ISaveable, ICloudSyncable {
       simple_tickbars: pilotSheet.SimpleTickbars,
       autosave: pilotSheet.Autosave,
       round: pilotSheet.Round,
+      force_complex_tickbars: pilotSheet.ForceComplexTickbars,
+      layout_columns: pilotSheet.LayoutColumns,
+      max_masonry_columns: pilotSheet.MaxMasonryColumns,
     }
 
     SaveController.Serialize(pilotSheet, data)

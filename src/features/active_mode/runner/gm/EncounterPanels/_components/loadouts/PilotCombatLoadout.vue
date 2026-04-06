@@ -1,6 +1,6 @@
 <template>
   <cc-masonry-grid :items="equipment"
-    :xl-columns="1">
+    :xl-columns="xlColumns">
     <template #default="{ item }">
       <fieldset class="pb-2 px-3"
         style="border-color: rgba(155, 155, 155, 0.6)">
@@ -34,6 +34,7 @@
 import PilotGearCard from './_pilotGearCard.vue'
 import PilotWeaponCard from './_pilotWeaponCard.vue'
 import PilotArmorCard from './_pilotArmorCard.vue'
+import { useMobile } from '@/mixins/useMobile';
 
 export default {
   name: 'PilotCombatLoadout',
@@ -42,6 +43,7 @@ export default {
     PilotGearCard,
     PilotArmorCard,
   },
+  mixins: [useMobile],
   props: {
     owner: {
       type: Object,
@@ -54,6 +56,10 @@ export default {
   },
   emits: ['deploy'],
   computed: {
+    xlColumns() {
+      if (this.mobile) return 1
+      else return this.encounterInstance.MaxMasonryColumns
+    },
     pilot() {
       return this.owner.actor
     },
