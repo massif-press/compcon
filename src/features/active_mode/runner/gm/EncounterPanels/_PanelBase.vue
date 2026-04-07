@@ -33,11 +33,11 @@
           <v-col>
             <v-row no-gutters
               align="center">
-              <v-col v-if="item.SizeIcon"
+              <v-col v-if="item.StatController.SizeIcon"
                 cols="auto"
                 align-self="center"
                 class="ml-n2 mr-2">
-                <v-icon :icon="item.SizeIcon"
+                <v-icon :icon="item.StatController.SizeIcon"
                   size="60" />
               </v-col>
               <v-col>
@@ -141,8 +141,7 @@
                   </template>
                 </v-tooltip>
                 <cc-bonus v-if="getBonus(stat.key)"
-                  :bonus="getBonus(stat.key)"
-                  icon />
+                  :bonus="getBonus(stat.key)" />
               </v-col>
               <v-col cols="1" />
 
@@ -170,11 +169,11 @@
                   </template>
                 </v-tooltip>
                 <cc-bonus v-if="getBonus(stat.key)"
-                  :bonus="getBonus(stat.key)"
-                  icon />
+                  :bonus="getBonus(stat.key)" />
               </v-col>
 
-              <v-col v-for="stat in item.StatController.CustomStats"
+              <v-col
+                v-for="stat in item.StatController.GetStatCollection(extraStatSet).filter(x => item.StatController.MaxStats[x.key])"
                 :key="stat"
                 cols="auto">
                 <v-tooltip :text="stat.title"
@@ -192,8 +191,28 @@
                   </template>
                 </v-tooltip>
                 <cc-bonus v-if="getBonus(stat.key)"
-                  :bonus="getBonus(stat.key)"
-                  icon />
+                  :bonus="getBonus(stat.key)" />
+              </v-col>
+
+              <v-col v-for="stat in item.StatController.CustomStats(item.ItemType)"
+                :key="stat"
+                cols="auto">
+                <v-tooltip :text="stat.title"
+                  location="top"
+                  open-delay="400">
+                  <template #activator="{ props }">
+                    <v-icon v-bind="props"
+                      :icon="stat.icon"
+                      :size="mobile ? '20' : 'x-large'"
+                      :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
+                    <span :class="mobile ? '' : 'h2'"
+                      class="heading text-accent">
+                      {{ item.StatController.MaxStats[stat.key] || 0 }}
+                    </span>
+                  </template>
+                </v-tooltip>
+                <cc-bonus v-if="getBonus(stat.key)"
+                  :bonus="getBonus(stat.key)" />
               </v-col>
 
               <v-col cols="auto">
@@ -374,6 +393,12 @@ export default {
       if (this.mobile) return 12;
       return ''
     },
+
+    extraStatSet() {
+      if (this.item.ItemType === 'mech') return []
+      return ['attackBonus', 'grapple', 'ram']
+    },
+
 
     mobile() {
       return this.$vuetify.display.mdAndDown;

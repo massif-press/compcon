@@ -158,13 +158,15 @@ class StatController {
     return this.DisplayKeys.filter(x => keys.includes(x.key))
   }
 
-  public get CustomStats(): { key: string; title: string; type: string }[] {
-    const OtherStats = ['limitedBonus', 'attackBonus', 'sp']
+  public CustomStats(itemType: string): { key: string; title: string; type: string }[] {
+    const hiddenStats = {
+      mech: ['limitedbonus', 'attack', 'sp', 'attackbonus'],
+    }
     return this.DisplayKeys.filter(
       x =>
         !Object.keys(Stats.IconMap).includes(x.key) &&
         !this.Parent.AdditionalStats?.includes(x.key) &&
-        !OtherStats.includes(x.key)
+        !hiddenStats[itemType]?.includes(x.key.toLowerCase())
     )
   }
 

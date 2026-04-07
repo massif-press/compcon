@@ -8,17 +8,24 @@
     color="light-panel">
     <div class="text-text text-caption text-center">
       <span>Until&nbsp;</span>
-      <b>{{ duration }}</b>
+      <b>{{ displayDuration }}</b>
     </div>
   </v-card>
 </template>
 
 
-<script>
+<script lang="ts">
+import { EffectDuration, EffectDurationText } from '@/classes/components/feature/active_effects/effect_subtype/EffectDuration';
+
 export default {
   name: 'BaseDurationDisplay',
   props: {
-    duration: { type: Object, required: true }
+    duration: { type: String, required: true }
   },
+  computed: {
+    displayDuration(): string {
+      return EffectDurationText(this.duration as EffectDuration);
+    }
+  }
 };
 </script>

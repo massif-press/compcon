@@ -1,8 +1,9 @@
 <template>
-  <v-col :cols="cols"
-    v-if="event.SpecialEvents.length">
+  <v-col v-if="event.RemoveSpecialStatus.length"
+    :cols="cols">
     <div class="text-cc-overline text-disabled">remove special condition</div>
-    <v-card v-for="(s, index) in event.RemoveSpecialStatus" :key="`removestatus-${index}`"
+    <v-card v-for="(s, index) in event.RemoveSpecialStatus"
+      :key="`remove-special-status-${index}`"
       flat
       border="sm"
       color="exotic"
@@ -14,8 +15,7 @@
 
 
 
-<script>
-import { CompendiumStore } from '@/stores';
+<script lang="ts">
 
 export default {
   name: 'SpecialConditionRemover',

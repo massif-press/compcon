@@ -471,29 +471,31 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public HasStatus(statusID: string): boolean {
-    return this.Statuses.some(s => s.status.ID === statusID)
+    return this.ActiveActor.CombatController.Statuses.some(s => s.status.ID === statusID)
   }
 
   public AddStatus(statusID: string, expires?: any): void {
     const status = CompendiumStore().Statuses.find(s => s.ID === statusID)
     if (!status) return
-    const existingIndex = this.Statuses.findIndex(s => s.status.ID === status.ID)
+    const target = this.ActiveActor.CombatController
+    const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
-      this.Statuses.push({ status, expires })
+      target.Statuses.push({ status, expires })
       this.log(`Gained ${status.Name}`)
     } else if (expires) {
-      this.Statuses[existingIndex].expires = expires
+      target.Statuses[existingIndex].expires = expires
     }
   }
 
   public ToggleStatus(status: Status, expires?: any): void {
     if (!status) return
-    const existingIndex = this.Statuses.findIndex(s => s.status.ID === status.ID)
+    const target = this.ActiveActor.CombatController
+    const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
-      this.Statuses.push({ status, expires })
+      target.Statuses.push({ status, expires })
       this.log(`Gained ${status.Name}`)
     } else {
-      this.Statuses.splice(existingIndex, 1)
+      target.Statuses.splice(existingIndex, 1)
       this.log(`Lost ${status.Name}`)
     }
   }

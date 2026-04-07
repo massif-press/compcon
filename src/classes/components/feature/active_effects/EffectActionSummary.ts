@@ -56,18 +56,26 @@ class ActionSummary {
 
   private summarizeDamageEvents(events: any[], perspective: 'initiator' | 'target'): string[] {
     if (!events || events.length === 0) return []
-    return events.map(e => {
+    return events.flatMap(e => {
+      const hasAttack = e.AttackRolledValue !== undefined
+      const hasDamage = e.HitResult !== 'miss' && e.FinalDamageValue > 0
+      if (!hasAttack && !hasDamage) return []
+
       let str = ''
       if (perspective === 'initiator') {
-        str += `[${e.CombatantName}] ${e.AttackRolledValue} vs ${e.TargetDefenseValue} ${e.TargetDefense} : ${e.HitResult.toUpperCase()}`
+        if (hasAttack) {
+          str += `[${e.CombatantName}] ${e.AttackRolledValue} vs ${e.TargetDefenseValue} ${e.TargetDefense} : ${e.HitResult.toUpperCase()}`
+        }
       } else {
-        str += `Incoming ${e.AttackRolledValue} vs ${e.TargetDefenseValue} ${e.TargetDefense} : ${e.HitResult.toUpperCase()}`
+        if (hasAttack) {
+          str += `Incoming ${e.AttackRolledValue} vs ${e.TargetDefenseValue} ${e.TargetDefense} : ${e.HitResult.toUpperCase()}`
+        }
       }
-      if (e.HitResult !== 'miss' && e.FinalDamageValue > 0) {
-        str += ` - Total Damage: ${e.FinalDamageValue} ${e.DamageType}${e.AP ? ' (AP)' : ''}${e.Irreducible ? ' (Irreducible)' : ''}${e.FinalDamageValue === e.Reliable ? `( Reliable ${e.Reliable})` : ''}`
+      if (hasDamage) {
+        const prefix = str ? ' - ' : perspective === 'initiator' ? `[${e.CombatantName}] ` : ''
+        str += `${prefix}Total Damage: ${e.FinalDamageValue} ${e.DamageType}${e.AP ? ' (AP)' : ''}${e.Irreducible ? ' (Irreducible)' : ''}${e.FinalDamageValue === e.Reliable ? `( Reliable ${e.Reliable})` : ''}`
       }
-
-      return str
+      return [str]
     })
   }
 
@@ -81,9 +89,6 @@ class ActionSummary {
         if (e.SaveRolledValue) {
           if (e.SaveResult === 'failed') {
             str += `Failed Save (${e.SaveRolledValue} vs ${e.SaveTarget}) → Applied ${eventName}${e.Duration ? ` for ${e.Duration}` : ''}`
-            if (e.Duration) {
-              str += ` for ${e.Duration}`
-            }
           } else {
             str += `Successful Save (${e.SaveRolledValue} vs ${e.SaveTarget})`
           }
@@ -129,9 +134,9 @@ class ActionSummary {
       activation: (event.Effect as any).Activation,
       damageEvents: this.processSubEventArray(event.DamageEvents, event.Targets),
       statusEvents: this.processSubEventArray(event.StatusEvents, event.Targets),
-      otherEvents: this.processSubEventArray(event.StatusEvents, event.Targets),
-      specialEvents: this.processSubEventArray(event.StatusEvents, event.Targets),
-      resistEvents: this.processSubEventArray(event.StatusEvents, event.Targets),
+      otherEvents: this.processSubEventArray(event.OtherEvents, event.Targets),
+      specialEvents: this.processSubEventArray(event.SpecialEvents, event.Targets),
+      resistEvents: this.processSubEventArray(event.ResistEvents, event.Targets),
     }
   }
 

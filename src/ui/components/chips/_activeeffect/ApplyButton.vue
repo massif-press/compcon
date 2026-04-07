@@ -20,7 +20,7 @@
         size="small"
         stacked
         :color="color"
-        :disabled="isApplied || mandatoryRemaining"
+        :disabled="!isFree && (isApplied || mandatoryRemaining)"
         @click="stage(false)">
         <div class="px-4">
           <v-icon v-if="icon"
@@ -32,7 +32,8 @@
           <div class="text-disabled">
             <span v-if="activation"
               style="letter-spacing: 1px">
-              {{ (activeEffect as any).Activation }}
+              {{ isFree ? 'Free*' : (activeEffect as any).Activation }}
+
             </span>
             <span v-if="
               (activeEffect as any).Activation &&
@@ -54,12 +55,12 @@
             border
             tile>
 
-            <v-list-item @click="stage(true)"
-              class="bg-action--free"
+            <v-list-item class="bg-action--free"
               :disabled="mandatoryRemaining"
-              title="Activate (Free Action)">
-              <template #subtitle
-                v-if="mandatoryRemaining">
+              title="Activate (Free Action)"
+              @click="stage(true)">
+              <template v-if="mandatoryRemaining"
+                #subtitle>
                 <v-list-item-subtitle>Mandatory Fields Remaining</v-list-item-subtitle>
               </template>
               <template #prepend>
@@ -68,8 +69,8 @@
               </template>
             </v-list-item>
             <v-divider class="my-2" />
-            <v-list-item @click="$emit('reset', false)"
-              title="Reset All Inputs">
+            <v-list-item title="Reset All Inputs"
+              @click="$emit('reset', false)">
               <template #prepend>
                 <v-icon icon="mdi-reload"
                   class="mr-n5" />
@@ -82,8 +83,8 @@
       <cc-button v-else
         size="small"
         stacked
-        :color="isFree ? 'action--free' : color"
-        :disabled="isApplied"
+        :color="color"
+        :disabled="!isFree && isApplied"
         @click="apply(close)">
         <div class="px-4">
           <v-icon v-if="icon"
@@ -94,7 +95,7 @@
           <div class="text-disabled">
             <span v-if="activation"
               style="letter-spacing: 1px">
-              {{ isFree ? 'Free' : (activeEffect as any).Activation }}
+              {{ isFree ? 'Free*' : (activeEffect as any).Activation }}
             </span>
             <span v-if="
               (activeEffect as any).Activation &&
@@ -115,8 +116,8 @@
             border
             tile>
 
-            <v-list-item @click="$emit('reset', false)"
-              title="Reset All Inputs">
+            <v-list-item title="Reset All Inputs"
+              @click="$emit('reset', false)">
               <template #prepend>
                 <v-icon icon="mdi-reload"
                   class="mr-n5" />
@@ -152,6 +153,7 @@ export default {
     close: { type: Function, required: true },
     embedded: { type: Boolean, default: false },
   },
+  emits: ['stage', 'apply', 'reset'],
   data: () => ({
     ready: false,
     isFree: false,
@@ -181,6 +183,7 @@ export default {
       return this.action?.Icon || (this.activeEffect as any).Icon || this.activeEffect.Origin.Icon || '';
     },
     color() {
+      if (this.isFree) return 'action--free';
       return this.action?.Color || (this.activeEffect as any).Color || this.activeEffect.Origin.Color || 'primary';
     },
     isApplied(): boolean {
@@ -239,12 +242,12 @@ export default {
     stage(asFree) {
       this.events.forEach(e => e.Staged = true)
       this.isFree = asFree || false;
-      if (this.isApplied) return;
+      if (!this.isFree && this.isApplied) return;
       this.ready = true;
       this.$emit('stage');
     },
     apply(close: Function) {
-      if (this.isApplied || !this.ready) return;
+      if (!this.isFree && (this.isApplied || !this.ready)) return;
       if (!this.isFree) {
         this.owner.actor.CombatController.MarkActionUsed(this.activeEffect.ID);
         const action = this.action?.Activation || (this.activeEffect as any).Activation || 'free';

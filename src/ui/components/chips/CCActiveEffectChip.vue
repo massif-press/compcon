@@ -172,7 +172,6 @@
         :active-effect="activeEffect"
         :encounter="encounter"
         :owner="getCombatant"
-        :tier="tier"
         :close="close" />
     </template>
   </cc-dialog>

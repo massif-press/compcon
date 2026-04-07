@@ -93,6 +93,7 @@ class Stats {
     eng: 'mdi-alpha-e-box-outline',
     overshield: 'mdi-hexagon-multiple-outline',
     overcharge: 'cc:overcharge',
+    grit: 'mdi-star-four-points-outline',
   }
 
   public static TieredDefaults: Record<string, string> = {

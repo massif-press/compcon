@@ -172,6 +172,12 @@ import { NpcFeatureType } from '@/classes/npc/feature/NpcFeature';
 
 export default {
   name: 'MechBarrageButton',
+  components: {
+    MenuInput,
+    NpcWeaponAttack,
+    ApplyButton,
+    StagedPanel
+  },
   props: {
     action: {
       type: Object,
@@ -190,21 +196,12 @@ export default {
       required: false,
     },
   },
-  components: {
-    MenuInput,
-    NpcWeaponAttack,
-    ApplyButton,
-    StagedPanel
-  },
   data: () => ({
     events: [] as {
       weaponEvent: WeaponAttackEvent,
     }[],
     selectedWeapons: [] as NpcWeapon[],
   }),
-  created() {
-    this.reset();
-  },
   computed: {
     available() {
       return this.canActivate && this.canUse;
@@ -233,7 +230,7 @@ export default {
       return arr;
     },
     eventArray() {
-      let out = [] as any[];
+      const out = [] as any[];
       for (let i = 0; i < this.selectedWeapons.length; i++) {
         const ev = this.events[i];
         if (ev && ev.weaponEvent) {
@@ -246,6 +243,9 @@ export default {
       if (!this.eventArray.length) return false;
       return this.eventArray.every((e) => e.BaseEvent.Staged);
     }
+  },
+  created() {
+    this.reset();
   },
   methods: {
     ordnanceWarning(selectedWeapon) {

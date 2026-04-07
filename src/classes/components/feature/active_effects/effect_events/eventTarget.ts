@@ -74,8 +74,7 @@ class ActiveEventTarget {
       default:
         this.TargetDefense = 'Evasion'
         this.TargetDefenseValue =
-          this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('evasion') ||
-          10
+          this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('evasion') || 10
         break
     }
   }
@@ -178,7 +177,7 @@ class ActiveEventTarget {
 
   public ApplySpecial(specialEvent: SpecialEvent) {
     if (!this.Combatant) return
-    this.Combatant.actor.CombatController.SetCustomStatus(
+    this.Combatant.actor.CombatController.ActiveActor.CombatController.SetCustomStatus(
       new EffectSpecial({
         attribute: specialEvent.Attribute,
         detail: specialEvent.Detail,
