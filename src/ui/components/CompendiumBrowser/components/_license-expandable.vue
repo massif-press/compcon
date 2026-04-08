@@ -62,30 +62,41 @@
 
       <v-row dense>
         <v-slide-x-transition>
-          <v-col v-if="getControllerRank(item)"
-            cols="12"
-            md="">
+          <v-col cols="12"
+            md="auto">
             <cc-button block
               :size="mobile ? 'x-small' : 'small'"
               color="error"
+              :disabled="!getControllerRank(item)"
               prepend-icon="mdi-minus"
               @click="$emit('remove', item)">
-              Remove {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
+              <span v-if="getControllerRank(item)">
+                Remove {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
+              </span>
+              <span v-else>
+                No License Ranks
+              </span>
+
             </cc-button>
           </v-col>
         </v-slide-x-transition>
 
 
-        <v-col v-if="getControllerRank(item) < item.Unlocks.length && selectable"
-          cols="12"
+        <v-col cols="12"
           md="">
           <cc-button block
-            :disabled="!controller.IsMissingLicenses"
             size="small"
             color="success"
+            :disabled="!controller.IsMissingLicenses || getControllerRank(item) >= item.Unlocks.length"
             prepend-icon="mdi-plus"
             @click="$emit('add', item)">
-            Unlock {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) + 1) }}
+            <span v-if="getControllerRank(item) < item.Unlocks.length">
+              Unlock {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) + 1) }}
+            </span>
+            <span v-else>
+              All Ranks Unlocked
+            </span>
+
           </cc-button>
         </v-col>
       </v-row>

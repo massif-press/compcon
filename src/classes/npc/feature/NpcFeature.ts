@@ -1,5 +1,5 @@
-import { CompendiumItem, ContentPack } from '@/class'
-import { ICompendiumItemData, ITagData } from '@/interface'
+import { ActivationType, CompendiumItem, ContentPack } from '@/class'
+import { Action, ICompendiumItemData, ITagData } from '@/interface'
 import { NpcClass } from '../class/NpcClass'
 import { NpcTemplate } from '../template/NpcTemplate'
 import { CompendiumStore } from '@/stores'
@@ -61,6 +61,41 @@ abstract class NpcFeature extends CompendiumItem {
     if (data.mod) this.Mod = data.mod
 
     this.BuildFeature = data.build_feature || false
+
+    // if pack is v2, auto generate action based on tag:
+    if (pack && !pack.v3) {
+      const tagActivation = this.getActivationFromTags(data.tags)
+      if (!tagActivation) return
+      this.Actions.push(
+        new Action({
+          id: this.ID,
+          name: this.Name,
+          activation: tagActivation,
+          description: this.Description,
+          detail: this.Description,
+          trigger: (data as any).trigger,
+          effect: this.Effect,
+          hide_active: this.HideActive,
+          heat_cost: this.HeatCost,
+          hidden: this.IsHidden,
+        })
+      )
+    }
+  }
+
+  private getActivationFromTags(tags: ITagData[]): ActivationType | null {
+    if (!tags || !tags.length) return null
+    const ids = tags.map(t => t.id.replace('tg_', ''))
+    if (ids.includes('free')) return ActivationType.Free
+    if (ids.includes('protocol')) return ActivationType.Protocol
+    if (ids.includes('quick_tech')) return ActivationType.QuickTech
+    if (ids.includes('full_tech')) return ActivationType.FullTech
+    if (ids.includes('quick')) return ActivationType.Quick
+    if (ids.includes('full')) return ActivationType.Full
+    if (ids.includes('invade')) return ActivationType.Invade
+    if (ids.includes('jockey')) return ActivationType.Jockey
+    if (ids.includes('reaction')) return ActivationType.Reaction
+    return null
   }
 
   public get Name(): string {

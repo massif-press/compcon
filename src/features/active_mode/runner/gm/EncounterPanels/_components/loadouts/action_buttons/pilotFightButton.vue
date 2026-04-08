@@ -136,7 +136,7 @@
           :close="close"
           :action="action"
           :action-id="selectedWeapon ? selectedWeapon.InstanceID : ''"
-          activation-override="quick"
+          :activation-override="selectedWeapon?.IsSidearm ? 'quick' : 'full'"
           @reset="reset($event)"
           @apply="apply" />
       </div>
@@ -258,11 +258,7 @@ export default {
     apply() {
       const actor = this.owner.actor.CombatController.ActiveActor.CombatController;
       actor.MarkActionUsed(this.selectedWeapon!.InstanceID);
-
-      const action = this.selectedWeapon?.IsSidearm ? 'quick' : 'full'
-      if (actor.CanActivate(action)) {
-        actor.toggleCombatAction(action);
-      }
+      if (this.selectedWeapon!.IsLoading) this.selectedWeapon!.Used = true;
       this.reset();
     },
     onWeaponChanged(weapon: PilotWeapon) {

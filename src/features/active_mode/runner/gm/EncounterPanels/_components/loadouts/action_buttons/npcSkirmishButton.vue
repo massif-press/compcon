@@ -265,9 +265,7 @@ export default {
     apply() {
       const actor = this.owner.actor.CombatController.ActiveActor.CombatController;
       actor.MarkActionUsed(this.selectedWeapon!.InstanceID);
-      if (actor.CanActivate('quick')) {
-        actor.toggleCombatAction('quick');
-      }
+      if (this.selectedWeapon!.IsLoading) this.selectedWeapon!.Used = true;
       this.reset();
     },
     onWeaponChanged(weapon: NpcWeapon) {

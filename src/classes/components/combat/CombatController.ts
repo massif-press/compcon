@@ -406,7 +406,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (index !== -1) this._usedActions.splice(index, 1)
   }
 
-  public setStats(statArr: { key: string; val: number }[], encounter?: EncounterInstance): void {
+  public setStats(statArr: { key: string; val: number }[]): void {
     statArr.forEach(kvp => {
       this.StatController.setMax(kvp.key, kvp.val)
     })

@@ -47,7 +47,6 @@ class ActiveEventTarget {
     this.AttackType = event.Attack
     this.Combatant = combatant
     this.AttackAccuracy = event.Accuracy || 0
-    console.log(this.Event.Initiator.actor.CombatController)
     this.SaveTarget = this.Event.Initiator.actor.CombatController.SaveTarget
 
     if (effect.Save) {

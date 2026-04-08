@@ -293,10 +293,8 @@ export default {
       const actor = this.owner.actor.CombatController.ActiveActor.CombatController;
       this.selectedWeapons.forEach((w) => {
         actor.MarkActionUsed(w.InstanceID);
+        if (w.IsLoading) w.Used = true;
       });
-      if (actor.CanActivate('full')) {
-        actor.toggleCombatAction('full');
-      }
       this.reset();
     },
   },

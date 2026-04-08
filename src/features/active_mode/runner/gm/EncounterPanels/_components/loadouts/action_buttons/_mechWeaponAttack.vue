@@ -26,7 +26,7 @@
         This mech has taken non-Protocol actions this turn. This ordnance weapon cannot be
         activated.
       </cc-alert>
-      <cc-alert v-if="weapon.IsLimited && weapon.Uses === 0"
+      <cc-alert v-if="weapon.IsLimited && weapon.Uses === 0 && !weapon.CanSetUses"
         color="warning"
         class="my-2">
         <v-icon start
@@ -50,13 +50,13 @@
 
     <div v-if="weapon.Profiles.length > 1">
       <v-btn v-for="(profile, index) in weapon.Profiles"
+        :key="`profile_${index}`"
         size="small"
         flat
         tile
         :color="index === weapon.ProfileIndex ? 'primary' : 'panel'"
         height="24"
         :style="`width: calc(100%/${weapon.Profiles.length})`"
-        :key="`profile_${index}`"
         @click="weapon.ProfileIndex = index">
         {{ profile.Name }}
       </v-btn>
@@ -88,15 +88,15 @@ import EffectApplicator from '@/ui/components/chips/_activeeffect/EffectApplicat
 
 export default {
   name: 'MechWeaponAttack',
+  components: {
+    EffectApplicator,
+  },
   props: {
     event: { type: WeaponAttackEvent, required: true },
     profile: { type: WeaponProfile, required: true },
     owner: { type: Object, required: true },
     encounter: { type: Object, required: true },
     isAdditionalAux: { type: Boolean, default: false },
-  },
-  components: {
-    EffectApplicator,
   },
   computed: {
     isPilotSheet() {

@@ -131,7 +131,6 @@ class NpcTemplate implements ILcpTracked {
   }
 
   public get BaseFeatures(): NpcFeature[] {
-    console.log(this.Features)
     return this.Features.filter(x => x.Base && !x.Deprecated)
   }
 

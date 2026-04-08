@@ -17,6 +17,17 @@
       </v-row>
       <v-row v-else
         no-gutters>
+        <v-col v-if="s.HitResult === 'miss' && reliableDamageEvents.length"
+          cols="12"
+          class="text-center mt-1 mb-n1">
+          <v-chip v-for="de in reliableDamageEvents"
+            :key="de.DamageType"
+            size="x-small"
+            color="core"
+            class="mr-1">
+            RELIABLE {{ de.Reliable }} {{ de.DamageType }} applies on miss
+          </v-chip>
+        </v-col>
         <v-col>
           <v-text-field v-model="s.AttackRolledValue"
             density="compact"
@@ -123,7 +134,10 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
-    }
+    },
+    reliableDamageEvents() {
+      return (this.event.DamageEvents || []).filter((de: any) => de.Reliable > 0);
+    },
   },
   methods: {
     getTargetCoverDifficulty(idx) {

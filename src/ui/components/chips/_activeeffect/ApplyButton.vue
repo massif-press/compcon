@@ -250,7 +250,7 @@ export default {
       if (!this.isFree && (this.isApplied || !this.ready)) return;
       if (!this.isFree) {
         this.owner.actor.CombatController.MarkActionUsed(this.activeEffect.ID);
-        const action = this.action?.Activation || (this.activeEffect as any).Activation || 'free';
+        const action = this.activationOverride || this.action?.Activation || (this.activeEffect as any).Activation || 'free';
         this.owner.actor.CombatController.SetCombatAction(action, false);
       }
       if (this.weaponAttackEvents.length)

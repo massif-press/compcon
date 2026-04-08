@@ -73,7 +73,8 @@
         <v-col>
           <div class="text-cc-overline text-disabled">reserves</div>
         </v-col>
-        <v-col cols="auto"
+        <v-col v-if="orderedReserves.length"
+          cols="auto"
           class="ml-auto">
           <cc-switch v-model="unusedOnly"
             :label="!unusedOnly ? 'Unused Only' : 'All'"

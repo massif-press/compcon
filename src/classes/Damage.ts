@@ -2,6 +2,7 @@ import { DamageType, Mech, MechWeapon, Range, RangeType, Tag } from '@/class'
 import { Bonus, BonusId } from './components/feature/bonus/Bonus'
 import { EffectSave } from './components/feature/active_effects/effect_subtype/EffectSave'
 import { FeatureController } from './components/feature/FeatureController'
+import { resolveTier } from '@/util/tierFormat'
 
 interface IDamageData {
   type: DamageType
@@ -85,10 +86,7 @@ class Damage {
       this.Irreducible = (obj.Tags as Tag[]).some(t => t.ID === 'tg_irreducible')
     if (!this.Reliable && obj.Tags) {
       const reliableRaw = String((obj.Tags as Tag[]).find(t => t.ID === 'tg_reliable')?.Value || 0)
-      const reliableValue = reliableRaw.includes('/')
-        ? reliableRaw.split('/')[Math.min((tier ?? 1) - 1, 2)]
-        : reliableRaw
-      this.Reliable = Number(reliableValue) || 0
+      this.Reliable = Number(resolveTier(reliableRaw, tier ?? 1)) || 0
     }
   }
 

@@ -259,19 +259,6 @@
             </span>
           </div>
           <div v-else>Click to mark {{ item.Used ? 'Unused' : 'Used' }}</div>
-          <div v-if="item.HeatCost > 0">
-            <v-divider class="my-1" />
-            <span v-if="item.Used">Marking this equipment as unused will refund</span>
-            <span v-else>Using this equipment will cost</span>
-            <v-icon
-              icon="cc:heat"
-              color="damage--heat"
-              size="20"
-              class="mr-1"
-            />
-            <b class="text-damage--heat">{{ item.HeatCost }}</b>
-            (self)
-          </div>
         </v-card>
       </v-menu>
     </v-col>
@@ -468,10 +455,6 @@
         )
       },
       onUseToggle() {
-        if (this.item.HeatCost && this.item.HeatCost > 0) {
-          if (!this.item.Used) this.controller.ApplyHeat(this.item.HeatCost)
-          else this.controller.ApplyHeat(-this.item.HeatCost)
-        }
         this.item.Use()
       },
     },

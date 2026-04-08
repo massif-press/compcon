@@ -1,22 +1,22 @@
-import logger from '@/user/logger';
+import logger from '@/user/logger'
 
 export interface INpcClassStats {
-  activations: number[] | number;
-  armor: number[] | number;
-  hp: number[] | number;
-  evade: number[] | number;
-  edef: number[] | number;
-  heatcap: number[] | number;
-  speed: number[] | number;
-  sensor: number[] | number;
-  save: number[] | number;
-  hull: number[] | number;
-  agility: number[] | number;
-  systems: number[] | number;
-  engineering: number[] | number;
-  size: number[][] | number;
-  structure?: number[] | number;
-  stress?: number[] | number;
+  activations: number[] | number
+  armor: number[] | number
+  hp: number[] | number
+  evade: number[] | number
+  edef: number[] | number
+  heatcap: number[] | number
+  speed: number[] | number
+  sensor: number[] | number
+  save: number[] | number
+  hull: number[] | number
+  agility: number[] | number
+  systems: number[] | number
+  engineering: number[] | number
+  size: number[][] | number
+  structure?: number[] | number
+  stress?: number[] | number
 }
 
 const statMap = {
@@ -27,61 +27,64 @@ const statMap = {
   systems: 'sys',
   engineering: 'eng',
   size: 'sizes',
-};
+  heat: 'heatcap',
+}
 
 export class NpcClassStats {
-  private _stats: INpcClassStats;
+  private _stats: INpcClassStats
 
   public constructor(data: INpcClassStats) {
     // transform old stat keys
-    this._transformKeys(data);
-    this._stats = data;
+    this._transformKeys(data)
+    this._stats = data
   }
 
   private _transformKeys(data: INpcClassStats): any {
-    if (!data.structure) data.structure = 1;
-    if (!data.stress) data.stress = 1;
+    if (!data.structure) data.structure = 1
+    if (!data.stress) data.stress = 1
     for (const key in data) {
       if (Object.keys(statMap).includes(key.toLowerCase())) {
-        data[statMap[key]] = data[key];
-        delete data[key];
+        data[statMap[key]] = data[key]
+        delete data[key]
       }
     }
-    for (const key in data) if (!Array.isArray(data[key])) data[key] = new Array(3).fill(data[key]);
+    for (const key in data) if (!Array.isArray(data[key])) data[key] = new Array(3).fill(data[key])
   }
 
   public Stat(key: string, tier: number): number | number[] {
-    return this._getStatVal(this._stats[key], tier);
+    return this._getStatVal(this._stats[key], tier)
   }
 
   public AllStats(tier: number): any {
-    const stats: any = {};
+    const stats: any = {}
     for (const key in this._stats) {
-      stats[key] = this._getStatVal(this._stats[key], tier);
+      stats[key] = this._getStatVal(this._stats[key], tier)
     }
-    return stats;
+    return stats
   }
 
   public StatArr(key: string): number[] {
-    let s = this._stats[key.toLowerCase()];
-    if (!s) s = this._stats[statMap[key.toLowerCase()]];
-    if (!s) return [0, 0, 0];
+    let s = this._stats[key.toLowerCase()]
+    if (!s) s = this._stats[statMap[key.toLowerCase()]]
+    if (!s) return [0, 0, 0]
 
-    return Array.isArray(s) ? s : new Array(3).fill(s);
+    return Array.isArray(s) ? s : new Array(3).fill(s)
   }
 
   private _getStatVal(stat: number | number[] | number[][], tier: number): number | number[] {
-    if (Array.isArray(stat)) return stat[tier - 1];
-    return stat;
+    if (Array.isArray(stat)) return stat[tier - 1]
+    return stat
   }
 
   // for comparitors
   public Average(key: string) {
+    // v2 import data
+    if (key === 'heat') key = 'heatcap'
     if (!this._stats[key]) {
-      if (key !== 'size') logger.warn(`NpcClassStats: ${key} does not exist`, this);
-      return 0;
+      if (key !== 'size') logger.warn(`NpcClassStats: ${key} does not exist`, this)
+      return 0
     }
-    return this._stats[key].reduce((a, b) => a + b, 0) / this._stats[key].length;
+    return this._stats[key].reduce((a, b) => a + b, 0) / this._stats[key].length
   }
 
   // public Sizes(tier: number): number[] {

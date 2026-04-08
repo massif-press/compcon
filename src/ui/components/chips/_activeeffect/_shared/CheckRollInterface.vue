@@ -37,7 +37,7 @@
             <div v-if="isRanged && engagedDifficulty">
               - {{ engagedDifficulty }} (Currently ENGAGED)
             </div>
-            <div v-if="isRanged && getTargetCoverDifficulty">
+            <div v-if="isRanged && targetCoverDifficulty">
               - {{ targetCoverDifficulty }} (Target is in COVER)
             </div>
           </div>
@@ -156,6 +156,9 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
+    },
+    isRanged() {
+      return this.rollData.AttackType === 'ranged';
     },
     targetCoverDifficulty() {
       const target = this.rollData.Combatant?.actor?.CombatController
