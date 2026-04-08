@@ -69,6 +69,12 @@
             v-html-safe="combatant.Base.Detail" />
           <div v-if=combatant.Base.Description
             v-html-safe="combatant.Base.Description" />
+          <cc-combat-action-chip v-for="action in combatant.Base.Actions"
+            :key="action.ID"
+            :action="action"
+            :owner="combatant.Owner"
+            :encounter="encounterInstance" />
+
         </cc-panel>
 
         <panel-base :encounter-instance="encounterInstance"

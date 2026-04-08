@@ -99,7 +99,7 @@ export default defineConfig({
   ],
   build: {
     target: 'esnext',
-    sourcemap: true,
+    sourcemap: process.env.NODE_ENV !== 'production',
   },
   resolve: {
     alias: [

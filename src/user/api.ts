@@ -33,23 +33,8 @@ const get = (id: string) => {
   return createFetchRequest(`user?${queryString}`)
 }
 
-const collectionDataQuery = async itemtype => {
-  const collectionHeaders = {
-    'Content-Type': 'application/json',
-    'x-api-key': import.meta.env.VITE_APP_API_KEY as string,
-  }
-
-  const result = await fetch(`${import.meta.env.VITE_APP_INVOKE_URL}/content`, {
-    method: 'POST',
-    headers: collectionHeaders,
-    body: JSON.stringify({ itemtype }),
-  })
-
-  if (!result.ok) {
-    throw new Error(`HTTP error! status: ${result.status}`)
-  }
-  const data = await result.json()
-  return data
+const collectionDataQuery = async () => {
+  return createFetchRequest('/catalog')
 }
 
 const getItemDownloadLink = async (itch_userid, game_id, item_uri) => {

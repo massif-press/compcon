@@ -97,7 +97,7 @@ export default {
   methods: {
     async refresh() {
       this.loading = true;
-      this.packs = await collectionDataQuery('lcp');
+      this.packs = await collectionDataQuery();
 
       this.loading = false;
     },

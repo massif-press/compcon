@@ -47,10 +47,11 @@ class ActiveEventTarget {
     this.AttackType = event.Attack
     this.Combatant = combatant
     this.AttackAccuracy = event.Accuracy || 0
+    console.log(this.Event.Initiator.actor.CombatController)
+    this.SaveTarget = this.Event.Initiator.actor.CombatController.SaveTarget
 
     if (effect.Save) {
       this.SaveType = event.Save
-      this.SaveTarget = this.Event.Initiator.actor.CombatController.SaveTarget
       this.SaveBonus =
         this.Combatant?.actor.CombatController.GetSavingThrowBonus(effect.Save[0].Stat) || 0
       this.SaveRollString = `1d20+${this.SaveBonus}`

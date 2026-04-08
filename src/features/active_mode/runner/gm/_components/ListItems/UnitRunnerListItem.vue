@@ -1,6 +1,7 @@
 <template>
   <runner-list-item-base :actor="combatant.actor"
-    :portrait="combatant.actor.Portrait"
+    :portrait="getPortrait"
+    :icon="combatant.actor.Icon"
     :deployed="combatant.deployables"
     :collapsed="collapsed"
     :selected="selected"
@@ -46,5 +47,12 @@ export default {
     },
   },
   emits: ['select'],
+  computed: {
+    getPortrait(): string {
+      if (this.combatant.actor.PortraitController.HasImage)
+        return this.combatant.actor.Portrait || '';
+      return '';
+    },
+  },
 };
 </script>

@@ -32,48 +32,6 @@
       v-html-safe="cs.Description"
       class="flavor-text px-3 mb-3" />
 
-    <div v-if="cs.ActiveName"
-      class="mb-2">
-      <v-row dense>
-        <v-col cols="auto">
-          <span class="heading h3 text-accent">
-            <v-chip color="primary"
-              flat
-              tile
-              size="small"
-              variant="elevated"
-              class="mr-1">
-              ACTIVE
-            </v-chip>
-            {{ cs.ActiveName || '' }}
-          </span>
-        </v-col>
-        <v-col cols="auto"
-          class="ml-auto">
-          <cc-chip size="x-small"
-            variant="elevated"
-            :bg-color="`action--${cs.Activation.toLowerCase()}`">
-            {{ cs.Activation.toUpperCase() }}
-          </cc-chip>
-        </v-col>
-      </v-row>
-      <div class="light-panel pa-2 clipped mb-2 mx-3">
-        <div v-html-safe="cs.ActiveEffect"
-          class="text-text mb-1 px-3" />
-        <v-row v-if="cs.ActiveActions.length"
-          dense
-          justify="center">
-          <v-col v-for="(a, i) in cs.ActiveActions"
-            :key="`active-action-${i}`"
-            :cols="i + 1 === cs.ActiveActions.length && i % 2 === 0 ? '12' : '6'">
-            <cc-action :action="a"
-              :panel="$vuetify.display.lgAndUp"
-              style="height: 100%" />
-          </v-col>
-        </v-row>
-      </div>
-    </div>
-
     <v-row v-if="cs.PassiveName"
       dense>
       <v-col cols="auto">
@@ -100,7 +58,7 @@
         justify="center">
         <v-col v-for="(a, i) in cs.PassiveActions"
           :key="`passive-action-${i}`"
-          :cols="i + 1 === cs.PassiveActions.length && i % 2 === 0 ? '12' : '6'">
+          :cols="Number(i) + 1 === cs.PassiveActions.length && i % 2 === 0 ? '12' : '6'">
           <cc-action :action="a"
             :panel="$vuetify.display.lgAndUp"
             style="height: 100%" />
@@ -136,6 +94,48 @@
           class="ma-2" />
       </v-col>
     </v-row>
+
+    <div v-if="cs.ActiveName"
+      class="mb-2">
+      <v-row dense>
+        <v-col cols="auto">
+          <span class="heading h3 text-accent">
+            <v-chip color="primary"
+              flat
+              tile
+              size="small"
+              variant="elevated"
+              class="mr-1">
+              ACTIVE
+            </v-chip>
+            {{ cs.ActiveName || '' }}
+          </span>
+        </v-col>
+        <v-col cols="auto"
+          class="ml-auto">
+          <cc-chip size="x-small"
+            variant="elevated"
+            :bg-color="`action--${cs.Activation.toLowerCase()}`">
+            {{ cs.Activation.toUpperCase() }}
+          </cc-chip>
+        </v-col>
+      </v-row>
+      <div class="light-panel pa-2 clipped mb-2 mx-3">
+        <div v-html-safe="cs.ActiveEffect"
+          class="text-text mb-1 px-3" />
+        <v-row v-if="cs.ActiveActions.length"
+          dense
+          justify="center">
+          <v-col v-for="(a, i) in cs.ActiveActions"
+            :key="`active-action-${i}`"
+            :cols="Number(i) + 1 === cs.ActiveActions.length && i % 2 === 0 ? '12' : '6'">
+            <cc-action :action="a"
+              :panel="$vuetify.display.lgAndUp"
+              style="height: 100%" />
+          </v-col>
+        </v-row>
+      </div>
+    </div>
 
     <cc-tags :tags="cs.Tags" />
   </cc-alert>

@@ -3,12 +3,12 @@
     {
       "name": "Miguel Lopez",
       "website": "https://massifpress.com",
-      "image": "https://pbs.twimg.com/profile_images/1623187647404576768/qStwsDvw_400x400.jpg"
+      "image": "/badges/miguel.webp"
     },
     {
       "name": "Tom Parkinson Morgan",
       "website": "https://killsixbilliondemons.com/",
-      "image": "/badges/tom.png",
+      "image": "/badges/tom.webp",
       "bsky": "https://bsky.app/profile/orbitaldropkick.bsky.social"
     }
   ],
@@ -24,7 +24,7 @@
   "devs1": [
     {
       "name": "Ari K",
-      "image": "/badges/ari.png"
+      "image": "/badges/ari.webp"
     },
     {
       "name": "Matthew Johnston",
@@ -54,7 +54,7 @@
     },
     {
       "name": "Steve",
-      "image": "/badges/steve.jpg"
+      "image": "/badges/steve.webp"
     },
     {
       "name": "Danny Kane"

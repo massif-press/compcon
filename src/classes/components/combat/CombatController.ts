@@ -24,6 +24,7 @@ import { BonusController } from '../feature/bonus/BonusController'
 import { CompendiumStore } from '@/stores'
 import { expiration } from './Expiration'
 import { CombatLogEntry, CombatLog } from './CombatLog'
+import { Bonus } from '../feature/bonus/Bonus'
 
 enum CoverType {
   None = 'none',
@@ -250,7 +251,9 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get SaveTarget(): number {
-    return this.StatController.getCurrent(StatKey.SAVE_TARGET)
+    if ((this.ActiveActor as any).SaveTarget !== undefined)
+      return (this.ActiveActor as any).SaveTarget
+    return this.StatController.getCurrent(StatKey.SAVE_TARGET) //|| 10
   }
 
   public get IsAIControlled(): boolean {

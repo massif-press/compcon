@@ -16,7 +16,6 @@ const V2_STAT_TO_BONUS_ID: Record<string, string> = {
   repaircapacity: 'repcap',
   save: 'save',
   savetarget: 'save',
-  savebonus: 'save',
   sensor: 'sensor',
   sensors: 'sensor',
   sensorrange: 'sensor',

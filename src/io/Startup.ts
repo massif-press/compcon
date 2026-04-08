@@ -109,7 +109,7 @@ export default async function (skipSync = false): Promise<void> {
 
       const subscribedLcps = UserStore().User.LcpSubscriptions
       if (subscribedLcps.length > 0) {
-        const remoteLcps = await collectionDataQuery('lcp')
+        const remoteLcps = await collectionDataQuery()
         for (const lcp of remoteLcps) {
           if (!subscribedLcps.includes(lcp.sortkey)) continue
 

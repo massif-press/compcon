@@ -164,11 +164,10 @@ class Stats {
       case 'repaircapacity':
         k = 'repairCapacity'
         break
-      case 'save':
       case 'savebonus':
         k = 'saveBonus'
         break
-      case 'target':
+      case 'save':
       case 'savetarget':
         k = 'saveTarget'
         break

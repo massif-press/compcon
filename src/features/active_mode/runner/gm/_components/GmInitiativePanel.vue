@@ -124,7 +124,7 @@
   <div style="height: 50px" />
 
   <div style="position: fixed; bottom: 35px; left: 0"
-    :style="{ width: expanded ? '420px' : '116px' }">
+    :style="{ width: expanded ? '420px' : '92px' }">
     <v-menu>
       <template #activator="{ props }">
         <v-btn v-if="expanded"
@@ -272,13 +272,6 @@ export default {
         this.sortAsc = true;
       }
       this.sortableKey = `sk-${Math.floor(Math.random() * 1000)}`;
-    },
-    selectActor(actor) {
-      this.selected = actor;
-      this.panel = null;
-    },
-    selectPanel(panel) {
-      this.panel = panel;
     },
     getItem(combatant) {
       if (combatant.type === 'unit') {

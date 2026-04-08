@@ -95,7 +95,7 @@ class Bond implements ILcpTracked {
   }
 
   public get Image(): string {
-    return `/img/bond/${this.Name.replace(/The /g, '').toLowerCase()}.png`
+    return `/img/bond/${this.Name.replace(/The /g, '').toLowerCase()}.webp`
   }
 }
 

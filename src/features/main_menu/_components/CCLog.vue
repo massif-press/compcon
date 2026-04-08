@@ -1,23 +1,27 @@
 <template>
   <div id="output-container">
     <v-row no-gutters>
-      <v-col cols="auto" class="mr-2">
+      <v-col cols="auto"
+        class="mr-2">
         <div class="sidebar" />
         <div>
           <img src="../../../assets/ui/sb_l.png" />
         </div>
       </v-col>
       <v-col>
-        <p
-          id="completed"
+        <p id="completed"
           ref="completed"
           class="flavor-text text-disabled text--darken-1 py-0 my-0"></p>
-        <p id="output" ref="output" class="flavor-text text-disabled text--darken-1 py-0 my-0"></p>
+        <p id="output"
+          ref="output"
+          class="flavor-text text-disabled text--darken-1 py-0 my-0"></p>
       </v-col>
-      <v-col cols="auto" class="ml-2">
+      <v-col cols="auto"
+        class="ml-2">
         <div class="sidebar" />
         <div>
-          <img class="ml-n2" src="../../../assets/ui/sb_r.png" />
+          <img class="ml-n2"
+            src="../../../assets/ui/sb_r.png" />
         </div>
       </v-col>
     </v-row>

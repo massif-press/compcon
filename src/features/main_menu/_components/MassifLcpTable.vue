@@ -271,7 +271,7 @@ export default {
   methods: {
     async refresh() {
       this.loading = true;
-      this.packs = await collectionDataQuery('lcp');
+      this.packs = await collectionDataQuery();
       this.packs = this.packs.sort((a, b) => a.collection.localeCompare(b.collection));
 
       this.loading = false;

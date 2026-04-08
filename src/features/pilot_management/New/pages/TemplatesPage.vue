@@ -43,7 +43,7 @@
         <b class="heading h3 text-accent">MECH ART COURTESY OF</b>
         <v-img target="_blank"
           href="https://www.retrogrademinis.com/"
-          src="/public/retrograde_logo.png"
+          src="/public/retrograde_logo.webp"
           class="img-select"
           max-height="131px"
           max-width="478px"
@@ -88,7 +88,7 @@ export default {
       return Templates;
     },
     retrogradeLogo() {
-      return getImagePath(ImageTag.Misc, 'retrograde_logo.png');
+      return getImagePath(ImageTag.Misc, 'retrograde_logo.webp');
     },
     selectionComplete(): boolean {
       return this.selected !== null;

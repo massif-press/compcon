@@ -327,13 +327,6 @@ export const UserStore = defineStore('cloud', {
         return
       }
       await this.getUserMetadata()
-
-      // Restore persisted LastQuery so page reloads use delta sync instead of full sync
-      if (this.LastQuery === 0 && this.Cognito.userId) {
-        const stored = localStorage.getItem(`cc_last_query_${this.Cognito.userId}`)
-        if (stored) this.LastQuery = parseInt(stored, 10) || 0
-      }
-
       await this.setMetadataFromDynamo()
     },
     async getUserMetadata(): Promise<void> {
