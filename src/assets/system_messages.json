@@ -1,5 +1,12 @@
 [
   {
+    "id": "launch-date-announce",
+    "title": "v3 Launch Date",
+    "body": "v3 will be deploying to compcon.app on <strong>Wednesday, April 22nd</strong>. compcon.app will go down for a little bit starting around 0900 CST / 1400 UTC during deployment. When complete, v2 will be available at old.compcon.app, and the dev build (campaign access) will be at dev.compcon.app",
+    "level": "info",
+    "created": 1775680270
+  },
+  {
     "id": "stress-test-announce",
     "title": "v3 Stress Test",
     "body": "Hello everyone, I'm excited to announce that v3 feature development is complete and we're starting pre-release stress testing before launch in late April. Please see <a href=\"https://www.patreon.com/posts/comp-con-v3-pre-154024192\" target=\"_blank\">this post</a> for more details. ",
