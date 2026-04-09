@@ -161,6 +161,8 @@ class StatController {
   public CustomStats(itemType: string): { key: string; title: string; type: string }[] {
     const hiddenStats = {
       mech: ['limitedbonus', 'attack', 'sp', 'attackbonus'],
+      Drone: ['resist'],
+      Deployable: ['resist'],
     }
     return this.DisplayKeys.filter(
       x =>

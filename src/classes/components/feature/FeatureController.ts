@@ -14,7 +14,7 @@ import { Parser } from 'expr-eval'
 const strDict = [
   { key: 'll', prop: 'Level', text: 'Pilot License Level' },
   { key: 'tier', prop: 'Tier', text: 'NPC Tier' },
-  { key: 'grit', prop: 'Grit', text: 'Pilot Grid' },
+  { key: 'grit', prop: 'Grit', text: 'Pilot Grit' },
   { key: 'hull', prop: 'Hull', text: 'Hull' },
   { key: 'agi', prop: 'Agi', text: 'Agility' },
   { key: 'sys', prop: 'Sys', text: 'Systems' },

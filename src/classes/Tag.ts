@@ -201,7 +201,10 @@ class Tag implements ILcpTracked {
       let t: Tag
       if (CompendiumStore().TagData.find(t => t.id === x.id || (t as any).ID === x.id)) t = Tag._genTag(x.id)
       else {
-        if (!packTags) throw new Error(`LCP data not provided for tag id: ${x.id}`)
+        if (!packTags) {
+          logger.error(`Tag ${x.id} not found in compendium and no LCP data provided`, this)
+          return
+        }
         const pt = packTags.find(t => t.id === x.id)
         if (!pt) {
           logger.error(

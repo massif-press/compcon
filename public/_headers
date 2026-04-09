@@ -9,6 +9,3 @@
 
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
-
-/maintenance.html
-  Cache-Control: no-store

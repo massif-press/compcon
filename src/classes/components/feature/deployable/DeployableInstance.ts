@@ -142,10 +142,17 @@ class DeployableInstance implements ICombatant {
   }
 
   public SetStats() {
+    const ownerSaveTarget =
+      (this.Owner.actor as any)?.CombatController?.SaveTarget ||
+      (this.Owner.actor as any)?.CombatController?.ActiveActor?.CombatController?.SaveTarget
+    const saveTarget = this.Base.Save
+      ? this.stringEval(this.Base.SaveTarget)
+      : ownerSaveTarget || 10
+
     let kvps = [
       { key: 'size', val: this.stringEval(this.Base.Size) },
       { key: 'armor', val: this.stringEval(this.Base.Armor) },
-      { key: 'save', val: this.stringEval(this.Base.SaveTarget) },
+      { key: 'save', val: saveTarget },
       { key: 'evasion', val: this.stringEval(this.Base.Evasion) || 10 },
       { key: 'speed', val: this.stringEval(this.Base.Speed) },
       { key: 'sensors', val: this.stringEval(this.Base.Sensors) },
@@ -156,7 +163,7 @@ class DeployableInstance implements ICombatant {
       { key: 'ram', val: this.stringEval(this.Base.Ram) },
       { key: 'hp', val: this.stringEval(this.Base.MaxHP) || 5 },
       { key: 'heatcap', val: this.stringEval(this.Base.Heatcap) },
-      { key: 'saveTarget', val: this.stringEval(this.Base.SaveTarget) },
+      { key: 'saveTarget', val: saveTarget },
       { key: 'activations', val: 1 },
     ]
 

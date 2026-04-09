@@ -546,10 +546,13 @@ class Pilot
 
   public getEntityRef(name: string): IFeatureController | null {
     switch (name.toLowerCase()) {
-      case 'mech': return this.ActiveMech ?? null
+      case 'mech':
+        return this.ActiveMech ?? null
       case 'self':
-      case 'pilot': return this
-      default: return null
+      case 'pilot':
+        return this
+      default:
+        return null
     }
   }
 

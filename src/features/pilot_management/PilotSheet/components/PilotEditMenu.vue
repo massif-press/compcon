@@ -118,7 +118,8 @@
                 </v-list-item>
               </template>
               <template #default="{ close }">
-                <cc-confirmation :content="`Lancer, please confirm deletion of Pilot Registration Information for:<br/>
+                <cc-confirmation full-width
+                  :content="`Lancer, please confirm deletion of Pilot Registration Information for:<br/>
           <span class='text-accent'>
             ${pilot.Callsign} (${pilot.Name}, LL${pilot.Level})
           </span>`"

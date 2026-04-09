@@ -135,9 +135,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public AllActions(activation: ActivationType): Action[] {
-    const arr = this.Parent.FeatureController.Actions.filter(a => a.Activation === activation)
-    if (this.Parent instanceof Pilot) return arr.filter(x => x.IsPilotAction)
-    return arr
+    return this.Parent.FeatureController.Actions.filter(a => a.Activation === activation)
   }
 
   public get AllSynergies(): any[] {

@@ -183,6 +183,7 @@ export default {
       'heatcap',
       'repairCapacity',
       'saveBonus',
+      'resist'
     ],
   }),
   computed: {

@@ -2,9 +2,50 @@ import { CompendiumStore, NpcStore } from '@/stores'
 import { GetAll, SetItem, RemoveItem } from './Storage'
 import { ImportEncounter, ImportNpcData, ImportPilot } from './Importer'
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
+const V2_STAT_RENAME: Record<string, string> = {
+  evade: 'evasion',
+  sensor: 'sensorRange',
+  save: 'saveTarget',
+  agility: 'agi',
+  systems: 'sys',
+  engineering: 'eng',
+}
+
+const V2_STAT_KEYS = [
+  'activations',
+  'armor',
+  'structure',
+  'stress',
+  'hp',
+  'evade',
+  'edef',
+  'heatcap',
+  'speed',
+  'sensor',
+  'save',
+  'hull',
+  'agility',
+  'systems',
+  'engineering',
+  'size',
+]
+
+function buildCustomTierCombatData(v2Stats: Record<string, any>): any {
+  const stats: Record<string, any> = {}
+  for (const k of V2_STAT_KEYS) {
+    const val = v2Stats[k]
+    if (val === undefined || val === null) continue
+    const v3Key = V2_STAT_RENAME[k] ?? k
+    stats[v3Key] = Number(Array.isArray(val) ? val[0] : val)
+  }
+  if (v2Stats.sizes !== undefined) stats.sizes = v2Stats.sizes
+  stats.attackBonus = 1
+  stats.grapple = 1
+  stats.ram = 1
+  return {
+    stats: { stat_version: 1, max: { ...stats }, current: { ...stats } },
+  }
+}
 
 interface V2BackupRecord {
   id: string
@@ -41,8 +82,7 @@ export function isV2Encounter(data: any): boolean {
     !data.itemType &&
     data.npcs !== undefined &&
     Array.isArray(data.npcs) &&
-    (data.npcs.length === 0 ||
-      (typeof data.npcs[0] === 'object' && !data.npcs[0]?.npcType))
+    (data.npcs.length === 0 || (typeof data.npcs[0] === 'object' && !data.npcs[0]?.npcType))
   )
 }
 
@@ -76,7 +116,9 @@ export function getV2NpcMissingLcps(data: any): { missingIds: string[]; missingN
   // Also verify each itemID can be resolved
   const items: any[] = data.items || []
   for (const item of items) {
-    if (!CompendiumStore().NpcFeatures.find((f: any) => f.ID === item.itemID || f.id === item.itemID)) {
+    if (
+      !CompendiumStore().NpcFeatures.find((f: any) => f.ID === item.itemID || f.id === item.itemID)
+    ) {
       if (!missingIds.includes(item.itemID)) {
         missingIds.push(item.itemID)
         missingNames.push(item.itemID)
@@ -184,9 +226,20 @@ export function transformV2Npc(data: any): any {
     portrait: data.portrait || data.localImage || '',
     cloud_portrait: data.cloud_portrait || data.cloudImage || '',
   }
-  result.narrative = { textItems: [], labels: data.labels || [], relationships: [], clocks: [], tables: [] }
+  result.narrative = {
+    textItems: [],
+    labels: data.labels || [],
+    relationships: [],
+    clocks: [],
+    tables: [],
+  }
   result.folder = { folder: data.group || '' }
-  result.combat_data = {}
+  if (data.tier === 'custom' && data.stats) {
+    result.combat_data = buildCustomTierCombatData(data.stats)
+    result.tier = 1
+  } else {
+    result.combat_data = {}
+  }
 
   delete result.cc_ver
   delete result.active
@@ -245,9 +298,7 @@ export function transformV2Encounter(rawData: any): any[] {
       })
     }
 
-    const textItems = enc.narrativeNotes
-      ? [{ header: 'Notes', body: enc.narrativeNotes }]
-      : []
+    const textItems = enc.narrativeNotes ? [{ header: 'Notes', body: enc.narrativeNotes }] : []
 
     return {
       itemType: 'Encounter',
@@ -305,7 +356,7 @@ export async function saveV2Backup(
 }
 
 export async function getV2Backups(): Promise<V2BackupRecord[]> {
-  return await GetAll('v2_backup') as V2BackupRecord[]
+  return (await GetAll('v2_backup')) as V2BackupRecord[]
 }
 
 export async function deleteV2Backup(id: string): Promise<void> {
@@ -325,7 +376,9 @@ export async function forceImportV2Pilot(
   cleanedData.mechs = (data.mechs || []).map((mech: any) => {
     const cleanedLoadouts = (mech.loadouts || []).map((loadout: any) => {
       const cleanedSystems = (loadout.systems || []).filter((sys: any) => {
-        const found = CompendiumStore().MechSystems.find((s: any) => s.ID === sys.id || s.id === sys.id)
+        const found = CompendiumStore().MechSystems.find(
+          (s: any) => s.ID === sys.id || s.id === sys.id
+        )
         if (!found) stripped.push(sys.id)
         return !!found
       })
@@ -350,9 +403,7 @@ export async function forceImportV2Pilot(
   return { imported: transformed, stripped }
 }
 
-export async function forceImportV2Npc(
-  data: any
-): Promise<{ imported: any; stripped: string[] }> {
+export async function forceImportV2Npc(data: any): Promise<{ imported: any; stripped: string[] }> {
   const stripped: string[] = []
 
   const cleanedItems = (data.items || []).filter((item: any) => {
@@ -400,7 +451,10 @@ export async function forceImportV2Encounter(
 // Re-import backups
 // ---------------------------------------------------------------------------
 
-export async function reprocessV2Backups(): Promise<{ succeeded: string[]; stillPending: string[] }> {
+export async function reprocessV2Backups(): Promise<{
+  succeeded: string[]
+  stillPending: string[]
+}> {
   const backups = await getV2Backups()
   const succeeded: string[] = []
   const stillPending: string[] = []
@@ -444,7 +498,7 @@ export async function reprocessV2Backups(): Promise<{ succeeded: string[]; still
 }
 
 // ---------------------------------------------------------------------------
-// Top-level preprocessing (called by Importer.ts)
+// op-Tlevel preprocessing (called by Importer.ts)
 // ---------------------------------------------------------------------------
 
 export async function preprocessPilotImport(
@@ -500,7 +554,7 @@ export async function preprocessEncounterImport(
     if (missing.length > 0) {
       await saveV2Backup('encounter', enc, missing, missing)
     } else {
-      // This encounter has all its NPCs — import it now
+      // This encounter has all its NPCs, import it now
       const transformed = transformV2Encounter(enc)
       for (const t of transformed) {
         await ImportEncounter(t)
