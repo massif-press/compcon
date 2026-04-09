@@ -10,7 +10,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%0C%01Z%5B%00%0C%5D_%02G%05%0A_%09%0DV",
@@ -23,7 +25,9 @@
     "goal": "10",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%1E%0D%05R%0A%12%04%04%08%0C%04W%1E%0B%01%0F",
@@ -36,7 +40,9 @@
     "goal": "50",
     "hidden": true,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%0A%1E%09%05%01%10%02%0DT%1CX%1A%17W%5B%0C",
@@ -49,7 +55,9 @@
     "goal": "100",
     "hidden": false,
     "secret": true,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%0D%10Z%07%16%16%01%1FT%07%14%16%06P%5D%1D",
@@ -62,7 +70,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%5EDU%05%1A%0F%08%5E%11F%0FZ%0E%17%15%01",
@@ -75,7 +85,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Mech"]
+    "labels": [
+      "Mech"
+    ]
   },
   {
     "id": "R%12%08VZ%14%02%0D%14E%5E%12%15%5C%1B%02",
@@ -88,7 +100,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Mech"]
+    "labels": [
+      "Mech"
+    ]
   },
   {
     "id": "_%00%0BT%1C%0D%01V%09%0C%06%15%09%09%18%09",
@@ -101,7 +115,9 @@
     "goal": "12",
     "hidden": true,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "TL%09%0AZP%08%17%1D%1B%5B%1A%5C%1CW%0D",
@@ -114,7 +130,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%04C%5BS%0A%0DY%0CVC%0C%11%15%12W%1F",
@@ -127,7 +145,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Mech"]
+    "labels": [
+      "Mech"
+    ]
   },
   {
     "id": "Q%13%5D%13%04Q%1A%0C_%00%05%1B%0BQ%09%16",
@@ -140,7 +160,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%5EM%03T%07%01%0B%0BU%12%06%0A%06%14%18%02",
@@ -153,7 +175,9 @@
     "goal": "3",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%09%02%17%17%1B%11%07P%5E%12%0CZ%09V%0A%1E",
@@ -166,7 +190,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%17%1A%01%17_%15Z%0B%0D%14%1B%14%17%0D%0A%0A",
@@ -179,7 +205,9 @@
     "goal": "3",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%11%18%5C%0C%08%03%07%03U%13%07%12%17%10%1AU",
@@ -192,7 +220,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%0D%40%15Q%0E%09%5CW%0ALU%18%04%05%15%15",
@@ -205,7 +235,9 @@
     "goal": "3",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%0E%0C%04P%05%12%0C%03%17%0DUZ%07%02%1D%09",
@@ -218,7 +250,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%1E%14%1E%0C%5D%17%5BT%06%07%5CQ%5D%5C%1FW",
@@ -231,7 +265,9 @@
     "goal": "3",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%00%05%5D%00Y%0E%05W%0AC%19%0B%00%0E%00%10",
@@ -244,7 +280,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "V%05%09%0A%1C%15%1B%09%12%1C%1B%15%01%00%1B%00",
@@ -257,7 +295,9 @@
     "goal": "3",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "P%1CU%07%03U%1F%00%09%16%17P%1A%06%05%04",
@@ -270,7 +310,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%1E%16%1EW%19%16%09%13%08%11%15%13%1E%00%0E%0D",
@@ -283,7 +325,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%09%11%07%07W%00%07T%0CA%5D%04%05%00YP",
@@ -296,7 +340,9 @@
     "goal": "12",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%08%0D%5C%04%08TX%08%15%07%5DS%1C%15%02%1E",
@@ -309,11 +355,13 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%09%06%09%13%1A%01YTR%11%05T%04%0DV%5E",
-    "name": "%24%14%1F%16%18%16%06%13%00%1D%19BID'%0E%03%10%14%0D%1C%0C%06GAU%20%07",
+    "name": "%24%14%1F%16%18%16%06%00%0F%01MDO%2C%06%03%02%0C%02%11%07%0DOAG8%08",
     "description": "%26%16%1C%17%06%16%0AGVGM1%3C'O%2B%0E%16%08%0C%1C%01O%2B%02%03%08%0E%1CD%18%0E%13%1DM%03O%17%06%09%00%19%08B%3F%0D%03%08%13",
     "rarity": 3,
     "event": "ll_ssc",
@@ -322,7 +370,9 @@
     "goal": "12",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "_%17UT%01R%1AS%04%02%04W%5D%0E%09T",
@@ -335,7 +385,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%17%14%1D%03%03%07%05%02%12%12%03SXV%05_",
@@ -348,7 +400,9 @@
     "goal": "12",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%09%06%0C%12%5EQ%06%14%05%07%5E%0E%1F%5D%1D%0A",
@@ -361,7 +415,9 @@
     "goal": "1",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%0A%03%03%07%06%11%1D%1EPB%5B%05%07%10%1A%0E",
@@ -374,7 +430,9 @@
     "goal": "12",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%16%11_%1BZ%0B%15_%0D%17T%0A_%03%08%1F",
@@ -387,7 +445,9 @@
     "goal": "4",
     "hidden": false,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%0B%1C%0FV%0DQ%06%01%14%12%05%16Z%14%0EV",
@@ -400,7 +460,9 @@
     "goal": "1",
     "hidden": true,
     "secret": false,
-    "labels": ["Pilot"]
+    "labels": [
+      "Pilot"
+    ]
   },
   {
     "id": "%06D%09W%18%5C%08PP%10Y%06Z%1D%1A%0E",
@@ -413,6 +475,8 @@
     "goal": "1",
     "hidden": true,
     "secret": false,
-    "labels": ["Other"]
+    "labels": [
+      "Other"
+    ]
   }
 ]
