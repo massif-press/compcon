@@ -178,7 +178,6 @@ export default {
       return this.invadeActions.find((a) => a.ID === id);
     },
     apply() {
-      this.controller.toggleCombatAction(this.action.Activation);
       this.$emit('activate', this.tab);
     },
     reset() {
