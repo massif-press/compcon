@@ -73,6 +73,10 @@ class NpcClass implements ILcpTracked {
   private _baseFeatureList: string[]
   private _optionalFeatureList: string[]
 
+  private _featuresCache: NpcFeature[] | null = null
+  private _baseFeaturesCache: NpcFeature[] | null = null
+  private _optionalFeaturesCache: NpcFeature[] | null = null
+
   // Additional feature selections
   public readonly OptionalClassMin: number
   public readonly OptionalClassMax: number
@@ -135,17 +139,30 @@ class NpcClass implements ILcpTracked {
   }
 
   public get Features(): NpcFeature[] {
-    return CompendiumStore()
-      .getItemCollection('NpcFeatures')
-      .filter(x => x.Origin.ID === this.ID && !x.Deprecated)
+    if (!this._featuresCache) {
+      this._featuresCache = CompendiumStore()
+        .getItemCollection('NpcFeatures')
+        .filter(x => x.Origin.ID === this.ID && !x.Deprecated)
+    }
+    return this._featuresCache
   }
 
   public get BaseFeatures(): NpcFeature[] {
-    return this.Features.filter(x => x.Base || this._baseFeatureList.includes(x.ID))
+    if (!this._baseFeaturesCache) {
+      this._baseFeaturesCache = this.Features.filter(
+        x => x.Base || this._baseFeatureList.includes(x.ID)
+      )
+    }
+    return this._baseFeaturesCache
   }
 
   public get OptionalFeatures(): NpcFeature[] {
-    return this.Features.filter(x => !x.Base || this._optionalFeatureList.includes(x.ID))
+    if (!this._optionalFeaturesCache) {
+      this._optionalFeaturesCache = this.Features.filter(
+        x => !x.Base || this._optionalFeatureList.includes(x.ID)
+      )
+    }
+    return this._optionalFeaturesCache
   }
 
   public get Stats(): NpcClassStats {

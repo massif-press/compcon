@@ -20,7 +20,7 @@ export default {
     options: {
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'cards',
-      groups: ['source', 'lcp'],
+      groups: ['source', 'lcp', 'none'],
       initialGroup: 'source',
     },
     headers: [

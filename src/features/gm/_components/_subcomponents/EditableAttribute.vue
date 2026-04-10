@@ -1,7 +1,6 @@
 <template>
   <v-card flat
     tile
-    :color="cardColor"
     variant="tonal"
     class="text-center"
     style="height: 100%">
@@ -130,7 +129,6 @@ export default {
   data: () => ({
     model: 0,
     editMode: false,
-    cardColor: '',
     sizeOptions: [0.5, 1, 2, 3, 4],
   }),
   computed: {
@@ -146,10 +144,9 @@ export default {
   watch: {
     val: {
       immediate: true,
-      deep: true,
-      handler(oldval, newval) {
-        this.model = this.val;
-        if (oldval !== newval) this.flashBackground();
+      handler(newval, oldval) {
+        this.model = newval;
+        if (oldval !== undefined && oldval !== newval) this.flashBackground();
       },
     },
   },
@@ -158,16 +155,10 @@ export default {
   },
   methods: {
     flashBackground() {
-      this.cardColor = 'accent-darken-1';
-      setTimeout(() => {
-        this.cardColor = 'accent-lighten-1';
-      }, 50);
-      setTimeout(() => {
-        this.cardColor = 'accent';
-      }, 50);
-      setTimeout(() => {
-        this.cardColor = '';
-      }, 800);
+      const el = this.$el as HTMLElement;
+      el.classList.remove('flash-highlight');
+      void el.offsetWidth; // force reflow to restart animation
+      el.classList.add('flash-highlight');
     },
   },
 };
@@ -179,7 +170,14 @@ export default {
   margin-right: -12px;
 }
 
-.v-card {
-  transition: all 0.3s;
+@keyframes flash-bg {
+  0%   { background-color: rgb(var(--v-theme-accent-darken-1)); }
+  10%  { background-color: rgb(var(--v-theme-accent-lighten-1)); }
+  30%  { background-color: rgb(var(--v-theme-accent)); }
+  100% { background-color: transparent; }
+}
+
+.flash-highlight {
+  animation: flash-bg 0.8s ease-out forwards;
 }
 </style>

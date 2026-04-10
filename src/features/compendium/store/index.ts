@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { markRaw } from 'vue'
 import { defineStore } from 'pinia'
 import * as _ from 'lodash-es'
 import semver from 'semver'
@@ -359,6 +360,7 @@ export const CompendiumStore = defineStore('compendium', {
     async togglePackActive(payload: string): Promise<void> {
       const pack = this.ContentPacks.find(pack => pack.ID === payload)
       if (pack) pack.SetActive(!pack.Active)
+      this.ContentPacks = [...this.ContentPacks]
 
       await this.saveUserData()
     },
@@ -377,7 +379,7 @@ export const CompendiumStore = defineStore('compendium', {
         await this.deleteContentPack(packData.id)
       }
       try {
-        const pack = new ContentPack(packData)
+        const pack = markRaw(new ContentPack(packData))
         this.ContentPacks = [...this.ContentPacks, pack]
       } catch (err) {
         logger.error(`Error installing content pack ${packData?.manifest?.name || packData?.id}: ${err}`, this, err)
@@ -396,7 +398,7 @@ export const CompendiumStore = defineStore('compendium', {
             )
             await this.deleteContentPack(packData.id, true)
           }
-          const pack = new ContentPack(packData)
+          const pack = markRaw(new ContentPack(packData))
           pack.SetActive(true)
           this.ContentPacks.push(pack)
           NavStore().addToIndex(pack.GetIndexItems())
@@ -439,7 +441,7 @@ export const CompendiumStore = defineStore('compendium', {
       const loaded: ContentPack[] = []
       for (const c of content) {
         try {
-          loaded.push(new ContentPack(c))
+          loaded.push(markRaw(new ContentPack(c)))
         } catch (err) {
           logger.error(`Error loading content pack ${c?.manifest?.name || c?.id}: ${err}`, this, err)
         }

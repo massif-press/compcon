@@ -258,7 +258,7 @@
       </v-toolbar>
       <div style="height: calc(100vh - 64px); overflow-y: auto; overflow-x: hidden; padding: 0 8px">
         <component :is="editorComponent"
-          v-if="selected"
+          v-if="editorReady && selected"
           :item="selected.actor"
           :readonly="readonly || !selected.actor.IsLinked"
           hide-toolbar
@@ -297,6 +297,8 @@ export default {
     selected: null as any,
     addDialog: false,
     editDialog: false,
+    editorReady: false,
+    _lastEditorType: null as string | null,
     selectorView: 'list',
     hasChanges: false,
   }),
@@ -341,8 +343,16 @@ export default {
       });
     },
     editUnit(item: any) {
+      const newType = item.actor.ItemType;
       this.selected = item;
       this.editDialog = true;
+
+      if (newType !== this._lastEditorType) {
+        // New editor type — defer mount so dialog shell paints first
+        this.editorReady = false;
+        this._lastEditorType = newType;
+        setTimeout(() => { this.editorReady = true; }, 0);
+      }
     },
     diffUpdate(key) {
       SetDiff(this.selected.actor, key);

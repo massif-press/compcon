@@ -1,6 +1,9 @@
 <template>
-  <v-container v-if="!layers.length" class="px-12">
-    <v-alert icon="cc:monist" title="No Eidolon Data" variant="tonal">
+  <v-container v-if="!layers.length"
+    class="px-12">
+    <v-alert icon="cc:monist"
+      title="No Eidolon Data"
+      variant="tonal">
       <p>
         <strong>Eidolons</strong>
         are complex and otherworldly enemies meant to provide a unique, puzzle-like combat
@@ -19,14 +22,15 @@
       </p>
     </v-alert>
     <br />
-    <v-row align="center" justify="center">
+    <v-row align="center"
+      justify="center">
       <v-col cols="auto">
-        <cc-button color="accent" to="/srd">Return to Compendium</cc-button>
+        <cc-button color="accent"
+          to="/srd">Return to Compendium</cc-button>
       </v-col>
     </v-row>
   </v-container>
-  <cc-compendium-browser
-    v-else
+  <cc-compendium-browser v-else
     ref="browser"
     :items="layers"
     item-type="EidolonLayer"
@@ -47,7 +51,7 @@ export default {
     options: {
       views: ['single', 'table', 'cards'],
       initialView: 'single',
-      groups: ['lcp'],
+      groups: ['lcp', 'none'],
       initialGroup: 'none',
     },
     headers: [

@@ -84,7 +84,7 @@
       </v-row>
     </template>
     <template #item.actions="{ item }">
-      <v-tooltip max-width="300px"
+      <!-- <v-tooltip max-width="300px"
         location="top">
         <template #activator="{ props }">
           <v-btn v-if="canDownload(item)"
@@ -104,15 +104,12 @@
             class="fade-select mr-2"
             icon="mdi-cancel" />
         </template>
-        <div v-if="canDownload(item)"
-          class="text-center">Download and install latest version</div>
-        <div v-else-if="!loggedIn"
-          class="text-center">
-          Direct download requires a COMP/CON account
-        </div>
-        <div v-else
-          class="text-center">Requires linked itch.io purchase</div>
-      </v-tooltip>
+<div v-if="canDownload(item)" class="text-center">Download and install latest version</div>
+<div v-else-if="!loggedIn" class="text-center">
+  Direct download requires a COMP/CON account
+</div>
+<div v-else class="text-center">Requires linked itch.io purchase</div>
+</v-tooltip> -->
       <v-tooltip max-width="300px"
         location="top">
         <template #activator="{ props }">
@@ -221,7 +218,7 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  name: 'MassifLcpTable',
+  name: 'CommunityTable',
   mixins: [useMobile],
   props: {
     packs: { type: Array, default: () => [] },
@@ -231,11 +228,10 @@ export default {
     lcpHeaders: [
       { title: '', key: 'data-table-expand', width: '0' },
       { title: 'LCP', key: 'title' },
-      { title: 'Collection', key: 'collection' },
+      { title: 'Author', key: 'author' },
       { title: 'v3', value: 'v3' },
       { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
       { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
-      { title: 'Auto Update', key: 'auto', align: 'center', sortable: false },
       { title: '', key: 'actions', align: 'end', sortable: false, width: '120px' },
     ],
     expanded: [],

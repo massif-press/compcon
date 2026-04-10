@@ -43,8 +43,8 @@
               :label="mobile && 'Show Unlicensed'"
               color="error"
               :tooltip="!mobile && showUnlicensed
-                  ? 'Unlicensed equipment: SHOWN'
-                  : 'Unlicensed equipment: HIDDEN'
+                ? 'Unlicensed equipment: SHOWN'
+                : 'Unlicensed equipment: HIDDEN'
                 "
               :prepend-icon="!mobile && 'cc:system'"
               on-icon="mdi-lock-open"
@@ -54,8 +54,8 @@
               :label="mobile && 'Show Exceeds SP'"
               color="error"
               :tooltip="!mobile && showOverSP
-                  ? 'Systems exceeding SP Capacity: SHOWN'
-                  : 'Systems exceeding SP Capacity: HIDDEN'
+                ? 'Systems exceeding SP Capacity: SHOWN'
+                : 'Systems exceeding SP Capacity: HIDDEN'
                 "
               :prepend-icon="!mobile && 'cc:system_point'"
               on-icon="mdi-lock-open"
@@ -105,7 +105,7 @@ export default {
     options: {
       views: ['list', 'single', 'table', 'cards'],
       initialView: 'single',
-      groups: ['source', 'lcp', 'license'],
+      groups: ['source', 'lcp', 'license', 'none'],
       initialGroup: 'license',
       showExotics: true,
     },

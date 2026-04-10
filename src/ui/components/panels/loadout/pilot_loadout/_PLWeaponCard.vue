@@ -1,48 +1,34 @@
 <template>
-  <pl-card-base
-    ref="base"
+  <pl-card-base ref="base"
     title="PILOT WEAPON"
     :extended="extended"
     :item="item"
     :readonly="readonly"
     @remove="$emit('remove', item)"
-    @save="$emit('save')"
-  >
-    <div
-      v-if="item"
+    @save="$emit('save')">
+    <div v-if="item"
       class="text-left mt-n4"
       style="cursor: pointer !important"
-      @click="($refs as any).base.openDetail()"
-    >
-      <v-row
-        align="center"
+      @click="($refs as any).base.openDetail()">
+      <v-row align="center"
         justify="space-around"
-        dense
-      >
+        dense>
         <v-col cols="auto">
           <cc-range-element :range="item.Range" />
         </v-col>
         <v-col cols="auto">
-          <cc-damage-element
-            :damage="item.Damage"
-            :type-override="item.DamageTypeOverride"
-          />
+          <cc-damage-element :damage="item.Damage"
+            :type-override="item.DamageTypeOverride" />
         </v-col>
       </v-row>
       <v-row v-if="item.notes">
-        <v-col
-          v-for="(n, i) in item.notes"
-          :key="`note_${i}`"
-        >
-          <cc-tooltip
-            simple
+        <v-col v-for="(n, i) in item.notes"
+          :key="`note_${i}`">
+          <cc-tooltip simple
             inline
-            :content="n"
-          >
-            <v-icon
-              size="small"
-              color="active"
-            >
+            :content="n">
+            <v-icon size="small"
+              color="active">
               mdi-note
             </v-icon>
           </cc-tooltip>
@@ -51,14 +37,12 @@
     </div>
 
     <template #selector>
-      <cc-compendium-browser
-        :items="weapons"
+      <cc-compendium-browser :items="weapons"
         item-type="PilotWeapon"
         :options="options"
         equippable
         :table-headers="headers"
-        @equip="equip($event)"
-      >
+        @equip="equip($event)">
         <template #header>
           <div class="heading h4 text-center text-accent">Select Pilot Weapon</div>
         </template>
@@ -76,10 +60,8 @@
               <cc-slashes />
               {{ item.Name }}
             </div>
-            <div
-              class="flavor-text text-cc-overline mt-n1"
-              style="display: block"
-            >
+            <div class="flavor-text text-cc-overline mt-n1"
+              style="display: block">
               CURRENTLY EQUIPPED
             </div>
           </div>
@@ -88,16 +70,12 @@
               GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 - S3(LTD)
             </span>
             <br />
-            <span
-              class="heading h1 text-disabled text--lighten-1"
-              style="line-height: 20px"
-            >
+            <span class="heading h1 text-disabled text--lighten-1"
+              style="line-height: 20px">
               NO SELECTION
             </span>
-            <span
-              class="flavor-text text-cc-overline mt-n1 text-error"
-              style="display: block"
-            >
+            <span class="flavor-text text-cc-overline mt-n1 text-error"
+              style="display: block">
               [ MATERIEL ID INVALID OR MISSING ]
             </span>
           </div>
@@ -108,92 +86,92 @@
 </template>
 
 <script lang="ts">
-  import PlCardBase from './_PLCardBase.vue'
+import PlCardBase from './_PLCardBase.vue'
 
-  import { CompendiumStore } from '@/stores'
-  import { PilotWeapon, CompendiumItem, ItemType, PilotEquipment } from '@/class'
-  import { flavorID } from '@/io/Generators'
+import { CompendiumStore } from '@/stores'
+import { PilotWeapon, CompendiumItem, ItemType, PilotEquipment } from '@/class'
+import { flavorID } from '@/io/Generators'
 
-  export default {
-    name: 'PlPilotWeaponCard',
-    components: { PlCardBase },
-    props: {
-      item: {
-        type: Object,
-        required: false,
-        default: null,
-      },
-      extended: {
-        type: Boolean,
-        required: false,
-      },
-      readonly: {
-        type: Boolean,
-      },
-      pilot: {
-        type: Object,
-        required: true,
-      },
+export default {
+  name: 'PlPilotWeaponCard',
+  components: { PlCardBase },
+  props: {
+    item: {
+      type: Object,
+      required: false,
+      default: null,
     },
-    emits: ['equip', 'remove', 'save'],
-    data: () => ({
-      headers: [
-        { title: 'Content Pack', key: 'LcpName' },
-        { title: 'Type', key: 'Type' },
-        { title: 'Item', key: 'Name' },
-        { title: 'Range', key: 'Range' },
-        { title: 'Damage', key: 'Damage' },
-        { title: 'Tags', align: 'center', key: 'Tags' },
-      ],
-      options: {
-        views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
-        initialView: 'single',
-        groups: ['lcp', 'type'],
-        initialGroup: 'type',
-        noSource: true,
-        showExotics: true,
-      },
-    }),
-    computed: {
-      exotics(): PilotWeapon[] {
-        return this.pilot.SpecialEquipment.filter(x => x.ItemType === 'PilotWeapon')
-      },
-      allGear(): PilotEquipment[] {
-        if (!this.pilot.LcpConfig) return CompendiumStore().PilotGear as PilotEquipment[]
-        return CompendiumStore().PilotGear.filter(
-          (x: any) =>
-            !x.InLcp ||
-            this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-            this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
-        ) as PilotEquipment[]
-      },
-      weapons(): PilotWeapon[] {
-        let weapon = this.allGear.filter(
-          (x: PilotEquipment) => x.ItemType === ItemType.PilotWeapon && !x.IsHidden && !x.IsExotic
-        ) as PilotWeapon[]
-        if (this.exotics.length) {
-          weapon = weapon.concat(this.exotics)
-        }
-
-        return weapon
-      },
+    extended: {
+      type: Boolean,
+      required: false,
     },
-    methods: {
-      equip(item: PilotWeapon) {
-        this.$emit('equip', CompendiumItem.Clone(item))
-        this.$emit('save')
-
-        ;(this.$refs.base as any).closeSelector()
-        this.$notify({
-          title: 'Pilot Weapon Equipped',
-          text: `${item.Name} equipped to ${this.pilot.Name}.`,
-          data: { icon: 'cc:pilot' },
-        })
-      },
-
-      fID(template: string): string {
-        return flavorID(template)
-      },
+    readonly: {
+      type: Boolean,
     },
-  }
+    pilot: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: ['equip', 'remove', 'save'],
+  data: () => ({
+    headers: [
+      { title: 'Content Pack', key: 'LcpName' },
+      { title: 'Type', key: 'Type' },
+      { title: 'Item', key: 'Name' },
+      { title: 'Range', key: 'Range' },
+      { title: 'Damage', key: 'Damage' },
+      { title: 'Tags', align: 'center', key: 'Tags' },
+    ],
+    options: {
+      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+      initialView: 'single',
+      groups: ['lcp', 'type', 'none'],
+      initialGroup: 'type',
+      noSource: true,
+      showExotics: true,
+    },
+  }),
+  computed: {
+    exotics(): PilotWeapon[] {
+      return this.pilot.SpecialEquipment.filter(x => x.ItemType === 'PilotWeapon')
+    },
+    allGear(): PilotEquipment[] {
+      if (!this.pilot.LcpConfig) return CompendiumStore().PilotGear as PilotEquipment[]
+      return CompendiumStore().PilotGear.filter(
+        (x: any) =>
+          !x.InLcp ||
+          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
+          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+      ) as PilotEquipment[]
+    },
+    weapons(): PilotWeapon[] {
+      let weapon = this.allGear.filter(
+        (x: PilotEquipment) => x.ItemType === ItemType.PilotWeapon && !x.IsHidden && !x.IsExotic
+      ) as PilotWeapon[]
+      if (this.exotics.length) {
+        weapon = weapon.concat(this.exotics)
+      }
+
+      return weapon
+    },
+  },
+  methods: {
+    equip(item: PilotWeapon) {
+      this.$emit('equip', CompendiumItem.Clone(item))
+      this.$emit('save')
+
+        ; (this.$refs.base as any).closeSelector()
+      this.$notify({
+        title: 'Pilot Weapon Equipped',
+        text: `${item.Name} equipped to ${this.pilot.Name}.`,
+        data: { icon: 'cc:pilot' },
+      })
+    },
+
+    fID(template: string): string {
+      return flavorID(template)
+    },
+  },
+}
 </script>

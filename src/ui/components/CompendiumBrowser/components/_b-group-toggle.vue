@@ -1,6 +1,5 @@
 <template>
-  <v-btn-toggle
-    v-model="internalValue"
+  <v-btn-toggle v-model="internalValue"
     mandatory
     divided
     variant="plain"
@@ -10,29 +9,19 @@
     density="compact"
     style="width: 100%; height: 30px"
     class="mb-2">
-    <v-tooltip v-for="g in options.groups" :key="`group-${g}`" :text="groupTooltip(g)" location="top">
+    <v-tooltip v-for="g in options.groups"
+      :key="`group-${g}`"
+      :text="groupTooltip(g)"
+      location="top">
       <template #activator="{ props }">
-        <v-btn
-          v-bind="props"
+        <v-btn v-bind="props"
           :value="g"
           icon
           tile
           size="small"
-          :style="`width: ${100 / (options.groups.length + 1)}%`">
-          <v-icon size="25" :icon="groupIcon(g)" />
-        </v-btn>
-      </template>
-    </v-tooltip>
-    <v-tooltip text="No Grouping" location="top">
-      <template #activator="{ props }">
-        <v-btn
-          v-bind="props"
-          value="none"
-          size="small"
-          icon
-          tile
-          :style="`width: ${100 / (options.groups.length + 1)}%`">
-          <v-icon icon="mdi-cancel" />
+          :style="`width: ${100 / (options.groups.length)}%`">
+          <v-icon size="25"
+            :icon="groupIcon(g)" />
         </v-btn>
       </template>
     </v-tooltip>
@@ -41,7 +30,7 @@
 
 <script lang="ts">
 export default {
-  name: 'browser-group-toggle',
+  name: 'BrowserGroupToggle',
   props: {
     modelValue: {
       type: String,
@@ -52,6 +41,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update:modelValue'],
   computed: {
     internalValue: {
       get() {
@@ -62,7 +52,6 @@ export default {
       },
     },
   },
-  emits: ['update:modelValue'],
   methods: {
     groupIcon(i: string) {
       switch (i) {
@@ -80,6 +69,8 @@ export default {
           return 'cc:npc_feature';
         case 'origin':
           return 'cc:npc_template';
+        case 'none':
+          return 'mdi-off';
         default:
           return '';
       }

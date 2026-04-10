@@ -1,7 +1,9 @@
 <template>
-  <v-card-text v-if="!hasLayerData" class="mt-n4">
+  <v-card-text v-if="!hasLayerData"
+    class="mt-n4">
     <v-container>
-      <div style="min-height: 20vh; width: 700px; margin: auto" class="py-4">
+      <div style="min-height: 20vh; width: 700px; margin: auto"
+        class="py-4">
         <div class="heading h2 mb-2 text-center pb-4">No Eidolon data found!</div>
 
         Eidolon data are included with the No Room for a Wallflower Campaign Book and are therefore
@@ -19,8 +21,7 @@
       </div>
     </v-container>
   </v-card-text>
-  <cc-compendium-browser
-    v-else
+  <cc-compendium-browser v-else
     ref="browser"
     :items="layers"
     item-type="EidolonLayer"
@@ -28,10 +29,11 @@
     :options="options"
     equippable
     @equip="AddLayer($event)">
-    <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
+    <template #header>
+      <div class="heading h3 text-center text-accent">Mech Weapons</div>
+    </template>
     <template #top>
-      <cc-switch
-        v-model="allowDupes"
+      <cc-switch v-model="allowDupes"
         label="Allow Duplicates"
         color="error"
         on-icon="mdi-lock-open"
@@ -54,7 +56,7 @@ export default {
     options: {
       views: ['single', 'table', 'cards'],
       initialView: 'single',
-      groups: ['lcp'],
+      groups: ['lcp', 'none'],
       initialGroup: 'none',
     },
     headers: [
@@ -75,8 +77,8 @@ export default {
       const layers = this.allowDupes
         ? CompendiumStore().EidolonLayers
         : CompendiumStore().EidolonLayers.filter(
-            (x) => !this.item.Layers.some((y) => x.ID === y.ID)
-          );
+          (x) => !this.item.Layers.some((y) => x.ID === y.ID)
+        );
       return layers;
     },
   },

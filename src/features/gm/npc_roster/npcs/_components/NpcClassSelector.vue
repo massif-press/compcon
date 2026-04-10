@@ -61,24 +61,21 @@ const keymap = {
 };
 
 export default {
-  name: 'npc-class-selector',
+  name: 'NpcClassSelector',
   props: {
     item: { type: Object, required: true },
   },
+  emits: ['close'],
   data: () => ({
     selectedTier: 1,
     tieredView: false,
     options: {
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'single',
-      groups: ['lcp', 'role'],
+      groups: ['lcp', 'role', 'none'],
       initialGroup: 'role',
     },
   }),
-  emits: ['close'],
-  created() {
-    this.selectedTier = this.item.NpcClassController?.Tier || 1;
-  },
   computed: {
     classes(): NpcClass[] {
       return _.orderBy(CompendiumStore().NpcClasses, ['Role', 'Name']);
@@ -102,6 +99,9 @@ export default {
       }
       return h;
     },
+  },
+  created() {
+    this.selectedTier = this.item.NpcClassController?.Tier || 1;
   },
   methods: {
     getRoleIcon(role: string) {

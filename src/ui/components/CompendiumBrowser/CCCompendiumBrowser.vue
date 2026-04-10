@@ -62,73 +62,16 @@
               </v-list-item>
             </template>
 
-            <b-list-item v-for="item in itemsByLcp[lcp].filter((i) =>
-              search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
-            )"
-              v-if="options.noSource"
-              :key="item.ID"
-              :selected="!!selectedItem && selectedItem.ID === item.ID"
-              :compare="view === 'compare'"
-              :item="<CompendiumItem>item"
-              :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-              @equip="handleEquip(item)"
-              @clicked="
-                selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-                ">
-              <template #checkbox>
-                <v-checkbox-btn v-model="comparisons"
-                  density="compact"
-                  class="d-inline ml-3"
-                  :value="item"
-                  @click.stop />
-              </template>
-            </b-list-item>
-
-            <b-list-group v-for="role in rolesByLcp[lcp]"
-              v-else-if="itemType === 'NpcClass'"
-              :key="`role-${lcp}-${role}`"
-              :parent="lcp"
-              :collection="role"
-              :role="role">
-              <b-list-item v-for="item in (itemsByLcpByRole[lcp]?.[role] ?? [])"
-                :key="item.ID"
-                :selected="!!selectedItem && selectedItem.ID === item.ID"
-                :compare="view === 'compare'"
-                :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-                :item="<CompendiumItem>item"
-                @equip="handleEquip(item)"
-                @clicked="
-                  selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-                  ">
-                <template #checkbox>
-                  <v-checkbox-btn v-model="comparisons"
-                    density="compact"
-                    class="d-inline ml-3"
-                    :value="item"
-                    @click.stop />
-                </template>
-              </b-list-item>
-            </b-list-group>
-
-            <b-list-group v-for="origin in originsByLcp[lcp]"
-              v-else-if="itemType === 'NpcFeature'"
-              v-show="search
-                ? (itemsByLcpByOrigin[lcp]?.[origin] ?? []).some((i) =>
-                  i.Name.toLowerCase().includes(search.toLowerCase())
-                )
-                : true
-                "
-              :key="`origin-${lcp}-${origin}`"
-              :parent="lcp"
-              :collection="origin">
-              <b-list-item v-for="item in (itemsByLcpByOrigin[lcp]?.[origin] ?? []).filter((i) =>
+            <template v-if="open.includes(lcp)">
+              <b-list-item v-for="item in itemsByLcp[lcp].filter((i) =>
                 search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
               )"
+                v-if="options.noSource"
                 :key="item.ID"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
-                :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
                 :item="<CompendiumItem>item"
+                :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
                 @equip="handleEquip(item)"
                 @clicked="
                   selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
@@ -141,33 +84,92 @@
                     @click.stop />
                 </template>
               </b-list-item>
-            </b-list-group>
 
-            <b-list-group v-for="manufacturer in manufacturersByLcp[lcp]"
-              v-else
-              :key="`mf-${lcp}-${manufacturer}`"
-              :parent="lcp"
-              :collection="manufacturer"
-              :manufacturer="mf(manufacturer)">
-              <b-list-item v-for="item in (itemsByLcpBySource[lcp]?.[manufacturer] ?? [])"
-                :key="item.ID"
-                :selected="!!selectedItem && selectedItem.ID === item.ID"
-                :compare="view === 'compare'"
-                :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
-                :item="<CompendiumItem>item"
-                @equip="handleEquip(item as any)"
-                @clicked="
-                  selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
-                  ">
-                <template #checkbox>
-                  <v-checkbox-btn v-model="comparisons"
-                    density="compact"
-                    class="d-inline ml-3"
-                    :value="item"
-                    @click.stop />
-                </template>
-              </b-list-item>
-            </b-list-group>
+              <b-list-group v-for="role in rolesByLcp[lcp]"
+                v-else-if="itemType === 'NpcClass'"
+                :key="`role-${lcp}-${role}`"
+                :parent="lcp"
+                :collection="role"
+                :role="role">
+                <b-list-item v-for="item in (itemsByLcpByRole[lcp]?.[role] ?? [])"
+                  :key="item.ID"
+                  :selected="!!selectedItem && selectedItem.ID === item.ID"
+                  :compare="view === 'compare'"
+                  :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
+                  :item="<CompendiumItem>item"
+                  @equip="handleEquip(item)"
+                  @clicked="
+                    selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
+                    ">
+                  <template #checkbox>
+                    <v-checkbox-btn v-model="comparisons"
+                      density="compact"
+                      class="d-inline ml-3"
+                      :value="item"
+                      @click.stop />
+                  </template>
+                </b-list-item>
+              </b-list-group>
+
+              <b-list-group v-for="origin in originsByLcp[lcp]"
+                v-else-if="itemType === 'NpcFeature'"
+                v-show="search
+                  ? (itemsByLcpByOrigin[lcp]?.[origin] ?? []).some((i) =>
+                    i.Name.toLowerCase().includes(search.toLowerCase())
+                  )
+                  : true
+                  "
+                :key="`origin-${lcp}-${origin}`"
+                :parent="lcp"
+                :collection="origin">
+                <b-list-item v-for="item in (itemsByLcpByOrigin[lcp]?.[origin] ?? []).filter((i) =>
+                  search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
+                )"
+                  :key="item.ID"
+                  :selected="!!selectedItem && selectedItem.ID === item.ID"
+                  :compare="view === 'compare'"
+                  :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
+                  :item="<CompendiumItem>item"
+                  @equip="handleEquip(item)"
+                  @clicked="
+                    selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
+                    ">
+                  <template #checkbox>
+                    <v-checkbox-btn v-model="comparisons"
+                      density="compact"
+                      class="d-inline ml-3"
+                      :value="item"
+                      @click.stop />
+                  </template>
+                </b-list-item>
+              </b-list-group>
+
+              <b-list-group v-for="manufacturer in manufacturersByLcp[lcp]"
+                v-else
+                :key="`mf-${lcp}-${manufacturer}`"
+                :parent="lcp"
+                :collection="manufacturer"
+                :manufacturer="mf(manufacturer)">
+                <b-list-item v-for="item in (itemsByLcpBySource[lcp]?.[manufacturer] ?? [])"
+                  :key="item.ID"
+                  :selected="!!selectedItem && selectedItem.ID === item.ID"
+                  :compare="view === 'compare'"
+                  :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
+                  :item="<CompendiumItem>item"
+                  @equip="handleEquip(item as any)"
+                  @clicked="
+                    selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
+                    ">
+                  <template #checkbox>
+                    <v-checkbox-btn v-model="comparisons"
+                      density="compact"
+                      class="d-inline ml-3"
+                      :value="item"
+                      @click.stop />
+                  </template>
+                </b-list-item>
+              </b-list-group>
+            </template>
           </v-list-group>
         </div>
 
@@ -750,7 +752,7 @@ export default {
       type: Number,
       required: false,
       default: 1,
-    },
+    }
   },
   emits: ['equip', 'select', 'view-change'],
   data: () => ({
@@ -796,25 +798,28 @@ export default {
     },
     itemsByLcpBySource() {
       const out = {} as Record<string, Record<string, any[]>>;
-      for (const lcp of this.lcps) {
-        out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.IsExotic ? 'exotic' : x.Source);
+      for (const lcp of this.open) {
+        if (this.itemsByLcp[lcp])
+          out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.IsExotic ? 'exotic' : x.Source);
       }
       return out;
     },
     itemsByLcpByRole() {
       const out = {} as Record<string, Record<string, any[]>>;
-      for (const lcp of this.lcps) {
-        out[lcp] = _.groupBy(
-          this.itemsByLcp[lcp].filter((x: any) => x.Role),
-          (x: any) => x.Role
-        );
+      for (const lcp of this.open) {
+        if (this.itemsByLcp[lcp])
+          out[lcp] = _.groupBy(
+            this.itemsByLcp[lcp].filter((x: any) => x.Role),
+            (x: any) => x.Role
+          );
       }
       return out;
     },
     itemsByLcpByOrigin() {
       const out = {} as Record<string, Record<string, any[]>>;
-      for (const lcp of this.lcps) {
-        out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.Origin?.Name);
+      for (const lcp of this.open) {
+        if (this.itemsByLcp[lcp])
+          out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.Origin?.Name);
       }
       return out;
     },
@@ -825,10 +830,11 @@ export default {
     },
     manufacturersByLcp() {
       const m = {} as any;
-      for (const lcp of this.lcps) {
-        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.IsExotic ? 'exotic' : x.Source)).sort((a, b) =>
-          sortFn(a, b)
-        );
+      for (const lcp of this.open) {
+        if (this.itemsByLcp[lcp])
+          m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.IsExotic ? 'exotic' : x.Source)).sort((a, b) =>
+            sortFn(a, b)
+          );
       }
       return m;
     },
@@ -846,8 +852,9 @@ export default {
     },
     rolesByLcp() {
       const m = {} as any;
-      for (const lcp of this.lcps) {
-        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Role)).sort((a, b) => sortFn(a, b));
+      for (const lcp of this.open) {
+        if (this.itemsByLcp[lcp])
+          m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Role)).sort((a, b) => sortFn(a, b));
       }
       return m;
     },
@@ -856,10 +863,11 @@ export default {
     },
     featureTypesByLcp() {
       const m = {} as any;
-      for (const lcp of this.lcps) {
-        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.FeatureType)).sort((a, b) =>
-          sortFn(a, b)
-        );
+      for (const lcp of this.open) {
+        if (this.itemsByLcp[lcp])
+          m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.FeatureType)).sort((a, b) =>
+            sortFn(a, b)
+          );
       }
       return m;
     },
@@ -877,10 +885,11 @@ export default {
     },
     originsByLcp() {
       const m = {} as any;
-      for (const lcp of this.lcps) {
-        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Origin.Name)).sort((a, b) =>
-          sortFn(a, b)
-        );
+      for (const lcp of this.open) {
+        if (this.itemsByLcp[lcp])
+          m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Origin?.Name)).sort((a, b) =>
+            sortFn(a, b)
+          );
       }
       return m;
     },
@@ -954,15 +963,17 @@ export default {
       this.$emit('view-change', val);
       UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_view`, val);
     },
-    search() {
-      this.open = [
-        ...this.lcps,
-        ...this.manufacturers,
-        ...this.subtypes,
-        ...this.licenses,
-        ...this.allOrigins,
-        ...this.allRoles,
-      ];
+    search(val) {
+      if (val) {
+        this.open = [
+          ...this.lcps,
+          ...this.manufacturers,
+          ...this.subtypes,
+          ...this.licenses,
+          ...this.allOrigins,
+          ...this.allRoles,
+        ];
+      }
     },
   },
   created() {

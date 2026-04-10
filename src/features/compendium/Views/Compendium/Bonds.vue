@@ -49,21 +49,21 @@ import { CompendiumStore } from '@/stores';
 import { Bond } from '@/class';
 
 export default {
-  name: 'bonds',
-  computed: {
-    bonds(): Bond[] {
-      return orderBy(CompendiumStore().Bonds, 'Name');
-    },
-  },
+  name: 'Bonds',
   data: () => ({
     options: {
       views: ['single', 'table'],
       initialView: 'single',
-      groups: ['lcp'],
+      groups: ['lcp', 'none'],
       initialGroup: 'lcp',
       noSource: true,
       hideTitle: true,
     },
   }),
+  computed: {
+    bonds(): Bond[] {
+      return orderBy(CompendiumStore().Bonds, 'Name');
+    },
+  },
 };
 </script>

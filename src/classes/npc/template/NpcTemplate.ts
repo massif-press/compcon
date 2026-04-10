@@ -44,6 +44,10 @@ class NpcTemplate implements ILcpTracked {
   public readonly FreeOptions: boolean
   public LcpName: string = ''
 
+  private _featuresCache: NpcFeature[] | null = null
+  private _baseFeaturesCache: NpcFeature[] | null = null
+  private _optionalFeaturesCache: NpcFeature[] | null = null
+
   public constructor(data: INpcTemplateData, pack?: ContentPack) {
     this.Data = data
     this._id = data.id
@@ -125,17 +129,26 @@ class NpcTemplate implements ILcpTracked {
   }
 
   public get Features(): NpcFeature[] {
-    return CompendiumStore()
-      .getItemCollection('NpcFeatures')
-      .filter(x => x.Origin.ID === this.ID)
+    if (!this._featuresCache) {
+      this._featuresCache = CompendiumStore()
+        .getItemCollection('NpcFeatures')
+        .filter(x => x.Origin.ID === this.ID)
+    }
+    return this._featuresCache
   }
 
   public get BaseFeatures(): NpcFeature[] {
-    return this.Features.filter(x => x.Base && !x.Deprecated)
+    if (!this._baseFeaturesCache) {
+      this._baseFeaturesCache = this.Features.filter(x => x.Base && !x.Deprecated)
+    }
+    return this._baseFeaturesCache
   }
 
   public get OptionalFeatures(): NpcFeature[] {
-    return this.Features.filter(x => !x.Base && !x.Deprecated)
+    if (!this._optionalFeaturesCache) {
+      this._optionalFeaturesCache = this.Features.filter(x => !x.Base && !x.Deprecated)
+    }
+    return this._optionalFeaturesCache
   }
 
   public get Icon(): string {

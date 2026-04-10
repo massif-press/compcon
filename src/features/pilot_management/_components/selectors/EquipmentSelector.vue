@@ -47,8 +47,8 @@ export default {
       return {
         views: ['single', 'table', 'cards'],
         initialView: 'single',
-        groups: this.exotic ? ['lcp'] : ['source', 'lcp', 'license'],
-        initialGroup: this.exotic ? 'none' : 'lcp',
+        groups: ['lcp'],
+        initialGroup: 'lcp',
         showExotics: this.exotic,
       }
     },

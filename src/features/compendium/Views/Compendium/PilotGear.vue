@@ -48,7 +48,7 @@ export default {
     options: {
       views: ['single', 'list', 'table', 'cards'],
       initialView: 'list',
-      groups: ['lcp', 'type'],
+      groups: ['lcp', 'type', 'none'],
       initialGroup: 'type',
       noSource: true,
     },

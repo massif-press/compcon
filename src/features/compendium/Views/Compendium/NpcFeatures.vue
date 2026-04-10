@@ -25,7 +25,7 @@ export default {
     options: {
       views: ['single', 'table'],
       initialView: 'single',
-      groups: ['lcp', 'featureType', 'origin'],
+      groups: ['lcp', 'featureType', 'origin', 'none'],
       initialGroup: 'origin',
     },
   }),

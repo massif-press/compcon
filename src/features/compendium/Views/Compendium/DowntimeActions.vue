@@ -27,7 +27,7 @@ export default {
     options: {
       views: ['list', 'table'],
       initialView: 'list',
-      groups: ['lcp', 'type'],
+      groups: ['lcp', 'type', 'none'],
       initialGroup: 'type',
       noSource: true,
     },

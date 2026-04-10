@@ -177,6 +177,7 @@
             </div>
 
             <cc-masonry-grid :items="shownFeatures"
+              :key-mapper="item => item.ID"
               :column-width="400"
               :gap="14"
               :min-columns="1"

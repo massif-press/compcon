@@ -81,7 +81,7 @@
     </v-navigation-drawer>
     <v-main class="mt-2"
       style="overflow-y: scroll">
-      <div v-if="selected"
+      <div v-if="editorReady && selected"
         class="px-3">
         <unit-editor v-if="(selected as any).ItemType.toLowerCase() === 'unit'"
           :item="selected"
@@ -121,10 +121,23 @@ export default {
   },
   data: () => ({
     selected: null,
+    editorReady: false,
+    _lastSelectedType: null as string | null,
     itemTypes: ['unit', 'doodad', 'eidolon'],
     showNav: true,
     search: '',
   }),
+  watch: {
+    selected(newVal: any) {
+      if (!newVal) return;
+      const newType = newVal.ItemType.toLowerCase();
+      if (newType !== this._lastSelectedType) {
+        this.editorReady = false;
+        this._lastSelectedType = newType;
+        setTimeout(() => { this.editorReady = true; }, 0);
+      }
+    },
+  },
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;

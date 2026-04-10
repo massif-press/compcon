@@ -77,7 +77,7 @@ class NpcFeatureController implements IFeatureContainer {
   }
 
   public AddFeature(feat: NpcFeature): void {
-    this._selectedFeatures.push(feat)
+    this._selectedFeatures.push(NpcFeatureFactory.Build(feat.ItemData as INpcFeatureData))
     this.Parent.SaveController.save()
   }
 
@@ -110,12 +110,12 @@ class NpcFeatureController implements IFeatureContainer {
 
     if (this.Parent.NpcClassController.HasClass)
       (this.Parent.NpcClassController.Class as NpcClass).BaseFeatures.forEach(f => {
-        this._selectedFeatures.push(f)
+        this._selectedFeatures.push(NpcFeatureFactory.Build(f.ItemData as INpcFeatureData))
       })
 
     this.Parent.NpcTemplateController.Templates.forEach(t => {
       ;(t as NpcTemplate).BaseFeatures.forEach(f => {
-        this._selectedFeatures.push(f)
+        this._selectedFeatures.push(NpcFeatureFactory.Build(f.ItemData as INpcFeatureData))
       })
     })
     this.Parent.SaveController.save()
@@ -145,9 +145,10 @@ class NpcFeatureController implements IFeatureContainer {
     data.features?.forEach(x => {
       const id = typeof x === 'string' ? x : x.id
       if (CompendiumStore().has('NpcFeatures', id)) {
-        const item = CompendiumStore().referenceByID('NpcFeatures', id) as NpcFeature
-        item.Used = x.data.isUsed || false
-        parent.NpcFeatureController._selectedFeatures.push(item)
+        const ref = CompendiumStore().referenceByID('NpcFeatures', id) as NpcFeature
+        const clone = NpcFeatureFactory.Build<NpcFeature>(ref.ItemData as INpcFeatureData)
+        clone.Used = x.data?.isUsed || false
+        parent.NpcFeatureController._selectedFeatures.push(clone)
       } else if (!!x.data && Object.keys(x.data).length)
         parent.NpcFeatureController._selectedFeatures.push(NpcFeatureFactory.Build(x.data))
     })

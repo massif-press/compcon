@@ -22,10 +22,13 @@ class License {
   public readonly LcpName: string
   public readonly LcpAuthor: string
   public readonly ItemType: string = 'License'
+  private _sourceLC: string = ''
+  private _unlocksCache: LicensedItem[][] | null = null
 
   public constructor(frame: Frame, pack?: ContentPack) {
     this.Name = frame.Name
     this.Source = frame.Source
+    this._sourceLC = frame.Source.toLowerCase()
     this.FrameID = frame.ID
     this.FrameName = frame.Name.toLowerCase()
     this.ID = `${frame.ID}_License`
@@ -73,8 +76,8 @@ class License {
       return (licenseItem as Frame).Variant.toLowerCase() === this.FrameName
     } else {
       return (
-        licenseItem.License.toLowerCase() === this.licenseFrame.Name.toLowerCase() &&
-        licenseItem.Source.toLowerCase() === this.licenseFrame.Source.toLowerCase()
+        licenseItem.License.toLowerCase() === this.FrameName &&
+        licenseItem.Source.toLowerCase() === this._sourceLC
       )
     }
   }
@@ -84,6 +87,7 @@ class License {
   }
 
   public get Unlocks(): LicensedItem[][] {
+    if (this._unlocksCache) return this._unlocksCache
     const items: LicensedItem[] = [
       ...CompendiumStore().getItemCollection('MechWeapons'),
       ...CompendiumStore().getItemCollection('WeaponMods'),
@@ -101,6 +105,7 @@ class License {
       unlocks[i] = items.filter(x => x.LicenseLevel === i + 1)
     }
 
+    this._unlocksCache = unlocks
     return unlocks
   }
 

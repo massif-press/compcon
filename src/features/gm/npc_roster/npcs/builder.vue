@@ -117,7 +117,7 @@ export default {
     options: {
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'single',
-      groups: ['lcp', 'role'],
+      groups: ['lcp', 'role', 'none'],
       initialGroup: 'role',
     },
   }),

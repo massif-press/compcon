@@ -101,9 +101,9 @@ import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {
-  mixins: [useMobile],
   name: 'PacksList',
   components: { PackInfoCard },
+  mixins: [useMobile],
   data: () => ({
     expandedRows: [] as any[],
     initHeaders: [
@@ -122,7 +122,10 @@ export default {
       return this.mobile ? this.initHeaders.slice(1) : this.initHeaders
     },
     contentPacks() {
-      return CompendiumStore().ContentPacks
+      return [...CompendiumStore().ContentPacks].sort((a, b) => {
+        if (a.v3 !== b.v3) return a.v3 ? -1 : 1
+        return a.Name.localeCompare(b.Name)
+      })
     },
   },
   methods: {

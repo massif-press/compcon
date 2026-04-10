@@ -22,7 +22,7 @@ export default {
     options: {
       views: ['single', 'table'],
       initialView: 'single',
-      groups: ['source', 'lcp', 'license'],
+      groups: ['source', 'lcp', 'license', 'none'],
       initialGroup: 'license',
     },
     headers: [

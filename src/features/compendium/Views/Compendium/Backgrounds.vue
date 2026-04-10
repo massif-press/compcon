@@ -16,13 +16,13 @@ import { Background } from '@/class';
 import { CompendiumStore } from '@/stores';
 
 export default {
-  name: 'backgrounds',
+  name: 'Backgrounds',
 
   data: () => ({
     options: {
       views: ['list', 'table'],
       initialView: 'list',
-      groups: ['lcp'],
+      groups: ['lcp', 'none'],
       initialGroup: 'lcp',
       noSource: true,
     },

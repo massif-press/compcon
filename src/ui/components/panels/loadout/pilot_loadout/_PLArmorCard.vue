@@ -158,7 +158,7 @@ export default {
     options: {
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'single',
-      groups: ['lcp', 'type'],
+      groups: ['lcp', 'type', 'none'],
       initialGroup: 'type',
       noSource: true,
       showExotics: true,
