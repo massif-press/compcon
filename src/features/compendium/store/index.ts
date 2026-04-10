@@ -428,11 +428,15 @@ export const CompendiumStore = defineStore('compendium', {
       //   pack.missing_content = true;
       // });
 
-      try {
-        this.ContentPacks = [...this.ContentPacks, ...content.map(c => new ContentPack(c))]
-      } catch (err) {
-        logger.error(`Error loading content packs: ${err}`, this, err)
+      const loaded: ContentPack[] = []
+      for (const c of content) {
+        try {
+          loaded.push(new ContentPack(c))
+        } catch (err) {
+          logger.error(`Error loading content pack ${c?.manifest?.name || c?.id}: ${err}`, this, err)
+        }
       }
+      this.ContentPacks = [...this.ContentPacks, ...loaded]
     },
     async refreshExtraContent(): Promise<void> {
       this.loaded = false
