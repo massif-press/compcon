@@ -58,11 +58,11 @@
                   icon="mdi-arrow-up" />
                 Upgrade from {{ alreadyInstalledVersion(pack) }} to {{ pack.manifest.version }}
               </v-chip>
-              <v-chip color="error"
+              <v-chip v-else-if="gradeType(pack) === 'downgrade'"
+                color="error"
                 size="x-small"
                 variant="elevated"
-                class="elevation-0"
-                v-else-if="gradeType(pack) === 'downgrade'">
+                class="elevation-0">
                 <v-icon start
                   icon="mdi-arrow-down" />
                 Downgrade to {{ pack.manifest.version }}
@@ -135,9 +135,9 @@
       <v-col class="px-3 py-4"
         :style="mobile ? '' : 'height: calc(95vh - 83px)'"
         style="overflow-y: scroll">
-        <v-fade-transition mode="out-in"
-          v-for="contentPack in contentPacks"
-          :key="contentPack ? contentPack.id : 'nopack'">
+        <v-fade-transition v-for="contentPack in contentPacks"
+          :key="contentPack ? contentPack.id : 'nopack'"
+          mode="out-in">
           <div v-if="contentPack"
             class="mb-4">
             <pack-info :pack="contentPack" />
@@ -200,18 +200,17 @@ import { parseContentPack } from '@/io/ContentPackParser';
 import { CompendiumStore } from '@/stores';
 
 import PackInfo from './PackInfo.vue';
-import { ContentPack, IContentPack } from '@/classes/ContentPack';
+import { IContentPack } from '@/classes/ContentPack';
 
 import { compare, coerce } from 'semver';
-import { set } from 'lodash-es';
 import logger from '@/user/logger';
 import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
   name: 'PackInstall',
   components: { PackInfo },
+  mixins: [useMobile],
   data: () => ({
     value: null,
     installing: false,

@@ -376,27 +376,35 @@ export const CompendiumStore = defineStore('compendium', {
         )
         await this.deleteContentPack(packData.id)
       }
-      const pack = new ContentPack(packData)
-      this.ContentPacks = [...this.ContentPacks, pack]
+      try {
+        const pack = new ContentPack(packData)
+        this.ContentPacks = [...this.ContentPacks, pack]
+      } catch (err) {
+        logger.error(`Error installing content pack ${packData?.manifest?.name || packData?.id}: ${err}`, this, err)
+        return
+      }
       await this.saveUserData()
       await this.refreshExtraContent()
     },
     async installContentPacks(packs: IContentPack[]) {
-      const promises = packs.map(async packData => {
-        if (this.packAlreadyInstalled(packData.id)) {
-          logger.info(
-            `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`,
-            this
-          )
-          await this.deleteContentPack(packData.id, true)
+      for (const packData of packs) {
+        try {
+          if (this.packAlreadyInstalled(packData.id)) {
+            logger.info(
+              `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`,
+              this
+            )
+            await this.deleteContentPack(packData.id, true)
+          }
+          const pack = new ContentPack(packData)
+          pack.SetActive(true)
+          this.ContentPacks.push(pack)
+          NavStore().addToIndex(pack.GetIndexItems())
+        } catch (err) {
+          logger.error(`Error installing content pack ${packData?.manifest?.name || packData?.id}: ${err}`, this, err)
         }
-        const pack = new ContentPack(packData)
-        pack.SetActive(true)
-        this.ContentPacks.push(pack)
-        NavStore().addToIndex(pack.GetIndexItems())
-      })
+      }
 
-      await Promise.all(promises)
       await this.saveUserData()
     },
     async deleteContentPack(packID: string, skipSave = false): Promise<void> {

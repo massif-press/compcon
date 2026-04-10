@@ -36,9 +36,9 @@ class Bonus {
 
   public constructor(data: IBonusData, source: string) {
     const entry = getBonusDictionary().find(x => x.id === data.id)
-    this.ID = data.id
+    this.ID = data.id || 'UNKNOWN_BONUS'
     this.Source = source
-    this.PerPc = data.id.includes('_pct') || false
+    this.PerPc = data.id?.includes('_pct') || false
 
     this.Value = data.val
     this.Accuracy = data.accuracy || 0
