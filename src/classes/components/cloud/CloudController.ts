@@ -28,6 +28,7 @@ import logger from '@/user/logger'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
 import PilotSheet from '@/features/pilot_management/store/PilotSheet'
+import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { allSyncableTypes, normalizeItemType } from './ItemTypeMap'
 
 interface ICloudData {
@@ -502,6 +503,8 @@ class CloudController {
     switch (normalizeItemType(itemType)) {
       case 'pilot':
         return new Pilot(data)
+      case 'pilotgroup':
+        return PilotGroup.Deserialize(data)
       case 'unit':
         return Unit.Deserialize(data)
       case 'doodad':
@@ -533,6 +536,9 @@ class CloudController {
     switch (normalizeItemType(itemType)) {
       case 'pilot':
         PilotStore().AddPilot(item)
+        break
+      case 'pilotgroup':
+        await PilotStore().AddGroup(item)
         break
       case 'unit':
         await NpcStore().AddNpc(item)

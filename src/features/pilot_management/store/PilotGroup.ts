@@ -2,8 +2,10 @@ import { v4 as uuid } from 'uuid';
 import {
   ISaveData,
   IPortraitData,
+  ICloudData,
   PortraitController,
   SaveController,
+  CloudController,
   IPortraitContainer,
   ISaveable,
 } from '@/classes/components';
@@ -14,6 +16,7 @@ type PilotGroupData = {
   sortIndex: number;
   save: ISaveData;
   img: IPortraitData;
+  cloud: ICloudData;
   name: string;
   pilots: PilotIndexItem[];
   description: string;
@@ -34,6 +37,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
 
   public SaveController: SaveController;
   public PortraitController: PortraitController;
+  public CloudController: CloudController;
 
   private _id: string;
   private _name: string;
@@ -41,7 +45,8 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   private _description: string;
   private _history: string;
   public readonly ImageTag: ImageTag = ImageTag.Emblem;
-  public readonly ItemType: string = 'pilot_group';
+  public readonly DataType: string = 'savedata';
+  public readonly ItemType: string = 'pilotgroup';
   public readonly StorageType: string = 'pilot_groups';
 
   // controls whether the group is expanded in the UI
@@ -53,6 +58,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
 
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
+    this.CloudController = new CloudController(this);
 
     this._name = data?.name || '';
     this._pilots = data?.pilots || ([] as PilotIndexItem[]);
@@ -137,6 +143,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
 
     SaveController.Serialize(group, data);
     PortraitController.Serialize(group, data);
+    CloudController.Serialize(group, data);
 
     return data as PilotGroupData;
   };
@@ -145,6 +152,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
     const group = new PilotGroup(data);
     PortraitController.Deserialize(group, data.img);
     SaveController.Deserialize(group, data.save);
+    CloudController.Deserialize(group, data.cloud);
 
     return group;
   };

@@ -1,7 +1,11 @@
 <template>
   <cc-share-code-importer ref="importer"
-    :importType="importType"
-    :blockBtn="blockBtn"
+    :import-type="importType"
+    :block-btn="blockBtn"
+    :size="size"
+    :color="color"
+    :full-width="fullWidth"
+    :subtitle="subtitle"
     @set-query-result="queryResult = $event">
     <template #result>
       <div v-if="queryResult === null"
@@ -46,7 +50,7 @@
       <cc-button color="primary"
         class="my-1"
         :loading="dlLoading"
-        :disabled="!($refs as any).importer.canDownload"
+        :disabled="($refs as any).importer.isUserOwned || !($refs as any).importer.canDownload"
         tooltip="Adding this item as a remote resource will create a readonly version of this item linked
             to the author's original data. When the author saves an update to this item to their
             COMP/CON cloud account, your local version can receive those changes."
@@ -74,7 +78,7 @@ import { downloadFromS3 } from '@/io/apis/account';
 import { UserStore } from '@/stores';
 
 export default {
-  name: 'share-code-dialog',
+  name: 'ShareCodeDialog',
   props: {
     importType: {
       type: String,
@@ -83,6 +87,26 @@ export default {
     },
     blockBtn: {
       type: Boolean,
+    },
+    size: {
+      type: String,
+      required: false,
+      default: 'small',
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    fullWidth: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    subtitle: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   emits: ['close'],

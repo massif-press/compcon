@@ -1,5 +1,6 @@
 import { GetAll, SetItem, RemoveItem, SetValue, GetValue } from '@/io/Storage'
 import { defineStore } from 'pinia'
+import { toRaw } from 'vue'
 import * as _ from 'lodash-es'
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter'
 import { IndexItem } from '@/stores'
@@ -113,7 +114,7 @@ export const EncounterStore = defineStore('encounter', {
       }
 
       this.Encounters.push(payload)
-      this.SaveEncounterData()
+      await SetItem('encounters', payload.Serialize())
     },
 
     async SetEncounter(index: number, payload: Encounter): Promise<void> {
@@ -192,9 +193,9 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     async CloneEncounter(payload: Encounter): Promise<void> {
-      this.Encounters.push(payload.Clone())
-
-      this.SaveEncounterData()
+      const clone = toRaw(payload).Clone()
+      this.Encounters.push(clone)
+      await SetItem('encounters', clone.Serialize())
     },
 
     async DeleteEncounterPermanent(payload: Encounter): Promise<void> {
@@ -209,7 +210,9 @@ export const EncounterStore = defineStore('encounter', {
 
     async SaveEncounterData(): Promise<void> {
       try {
-        await Promise.all((this.Encounters as any).map(y => SetItem('encounters', y.Serialize())))
+        await Promise.all(
+          (this.Encounters as any).map(y => SetItem('encounters', toRaw(y).Serialize()))
+        )
         logger.info('Encounter data saved')
       } catch (err) {
         logger.error('Error while saving Encounter data', this, err)
@@ -219,7 +222,7 @@ export const EncounterStore = defineStore('encounter', {
     async SaveActiveEncounterData(): Promise<void> {
       try {
         await Promise.all(
-          (this.ActiveEncounters as any).map(y => SetItem('active_encounters', y.Serialize()))
+          (this.ActiveEncounters as any).map(y => SetItem('active_encounters', toRaw(y).Serialize()))
         )
         logger.info('Active Encounter data saved')
       } catch (err) {

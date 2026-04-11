@@ -41,6 +41,7 @@
       <span v-else-if="item.ItemType === 'EncounterInstance'">Active Encounter</span>
       <span v-else-if="item.ItemType === 'EncounterArchive'">Archived Encounter</span>
       <span v-else-if="item.ItemType === 'PilotSheet'">Pilot Sheet</span>
+      <span v-else-if="item.ItemType === 'pilotgroup'">Pilot Group</span>
       <span v-else
         v-text="item.ItemType" />
     </template>
@@ -527,9 +528,10 @@ export default {
       },
       { title: '', key: 'actions', width: '152px', align: 'end' },
     ],
-    itemTypeFilter: ['pilot', 'npc', 'collectionItem', 'encounter', 'campaign'],
+    itemTypeFilter: ['pilot', 'pilotgroup', 'npc', 'collectionItem', 'encounter', 'campaign'],
     syncableItemTypes: [
       { title: 'Pilot', value: 'pilot' },
+      { title: 'Pilot Groups', value: 'pilotgroup' },
       { title: 'NPC', value: 'npc' },
       { title: 'Narrative Element', value: 'collectionItem' },
       { title: 'Encounter', value: 'encounter' },
@@ -588,6 +590,7 @@ export default {
   created() {
     this.itemTypeFilter = UserStore().User.View('cloudItemFilters', [
       'pilot',
+      'pilotgroup',
       'npc',
       'collectionItem',
       'encounter',

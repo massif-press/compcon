@@ -57,7 +57,6 @@ class Statblock {
         output += '[ GEAR ]\n  '
         for (let i = 0; i < loadout.Items.length; i++) {
           if (loadout.Items[i]) {
-            output += `${loadout.Items[i].TrueName}${linebreak(i, loadout.Items.length)}`
             if (discordEmoji) {
               const weapon = loadout.Items[i] as PilotWeapon
               let str = weapon.TrueName
@@ -76,7 +75,7 @@ class Statblock {
                 str += ` ${damages.join(' ')}`
                 output += `${str}${linebreak(i, loadout.Items.length)}`
               }
-            }
+            } else output += `${loadout.Items[i].TrueName}${linebreak(i, loadout.Items.length)}`
           }
         }
       }

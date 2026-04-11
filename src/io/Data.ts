@@ -111,8 +111,9 @@ const ImportData = async function <T>(file: File): Promise<T> {
   }
 }
 
-const saveFile = function (filename: string, data: object, exportType: string) {
-  const json = JSON.stringify({ EXPORT_TYPE: exportType, data })
+const saveFile = function (filename: string, data: any, exportType: string, legacy = false) {
+  let json = JSON.stringify({ EXPORT_TYPE: exportType, data })
+  if (legacy) json = JSON.stringify(data)
 
   const blob = new Blob([json])
   const elem = window.document.createElement('a')

@@ -70,7 +70,7 @@ class SitrepInstance {
       this.Sitrep = sitrep
     } else {
       this.Sitrep = new Sitrep({
-        name: 'STANDARD COMBAT',
+        name: 'BASIC COMBAT',
         modified: false,
         description:
           'A simple affair, with two sides facing off against each other until one of them is broken or destroyed.',

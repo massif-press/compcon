@@ -141,7 +141,12 @@ export const PilotStore = defineStore('pilot', {
       await this.SavePilotData()
     },
     async AddGroup(group: PilotGroup): Promise<void> {
-      this.PilotGroups.unshift(group)
+      const existing = this.PilotGroups.findIndex(x => x.ID === group.ID)
+      if (existing !== -1) {
+        this.PilotGroups.splice(existing, 1, group)
+      } else {
+        this.PilotGroups.unshift(group)
+      }
       await this.SavePilotData()
     },
     async DeleteGroup(group: PilotGroup, deletePilots: boolean): Promise<void> {
@@ -236,6 +241,7 @@ export const PilotStore = defineStore('pilot', {
         this.PilotGroups[destinationIndex].Pilots.push({ id: p.ID, index: -1 })
       }
 
+      p.SaveController.save()
       await this.SaveGroupData()
     },
     movePilotIndex(group: PilotGroup, from: number, to: number): void {

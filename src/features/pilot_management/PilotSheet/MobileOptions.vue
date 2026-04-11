@@ -45,6 +45,47 @@
         <span class="text-cc-overline">Export this pilot as a JSON file</span>
       </template>
     </cc-button>
+    <cc-button v-if="!pilot.IsRemote"
+      block
+      size="small"
+      color="panel"
+      prepend-icon="mdi-download"
+      @click="exportPilot(true)">
+      Export Legacy JSON
+      <template #subtitle>
+        <span class="text-cc-overline">Export this pilot as a v2 JSON file compatible with VTT
+          systems and v2 apps</span>
+      </template>
+    </cc-button>
+    <br />
+
+    <cc-dialog v-if="!pilot.IsRemote"
+      title="Share Pilot Data"
+      icon="cc:pilot"
+      :close-on-click="false">
+      <template #activator="{ open }">
+        <v-tooltip open-delay="300"
+          location="top"
+          :text="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'">
+          <template #activator="{ props }">
+            <cc-button v-bind="props"
+              block
+              size="large"
+              color="panel"
+              prepend-icon="mdi-code-block-brackets"
+              @click="open()">
+              Share Pilot
+              <template #subtitle>
+                <span class="text-cc-overline">Share this pilot's data with other users via a share
+                  code</span>
+              </template>
+            </cc-button>
+          </template>
+        </v-tooltip>
+      </template>
+      <share-dialog :pilot="pilot" />
+    </cc-dialog>
+
     <br />
 
     <cc-dialog v-if="pilot.IsRemote"
@@ -180,15 +221,17 @@ import StatblockDialog from './components/StatblockDialog.vue'
 import logger from '@/user/logger'
 import LcpConfigSelector from './components/LcpConfigSelector.vue'
 import { useMobile } from '@/mixins/useMobile';
+import ShareDialog from './components/ShareDialog.vue'
 
 export default {
-  mixins: [useMobile],
-  name: 'EditMenu',
+  name: 'MobileOptionsMenu',
   components: {
     StatblockDialog,
     CloneDialog,
     LcpConfigSelector,
+    ShareDialog,
   },
+  mixins: [useMobile],
   props: {
     pilot: {
       type: Pilot,
@@ -207,12 +250,13 @@ export default {
       if (close) close()
       if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
     },
-    exportPilot() {
+    exportPilot(v2 = false) {
       try {
         saveFile(
           this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
           Pilot.Serialize(this.pilot as Pilot),
-          'Save Pilot'
+          'Save Pilot',
+          v2
         )
         this.$notify({
           title: 'Export Success',

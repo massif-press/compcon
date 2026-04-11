@@ -66,8 +66,8 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
+  name: 'StatblockDialog',
   mixins: [useMobile],
-  name: 'statblock-dialog',
   props: {
     pilot: {
       type: Pilot,
@@ -88,12 +88,6 @@ export default {
       { title: 'Mech Only', value: 'mechBuild' },
     ],
   }),
-  created() {
-    if (this.defaultMechID === null) {
-      this.genRadios = 'pilotBuild';
-    }
-    this.selected_mech = this.defaultMechID;
-  },
   computed: {
     defaultMechID() {
       if (this.$route.name === 'mech-sheet') {
@@ -118,6 +112,12 @@ export default {
     mechSelect() {
       this.selected_mech = this.mechSelect;
     },
+  },
+  created() {
+    if (this.defaultMechID === null) {
+      this.genRadios = 'pilotBuild';
+    }
+    this.selected_mech = this.defaultMechID;
   },
   methods: {
     clearSelected() {

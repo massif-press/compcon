@@ -78,7 +78,6 @@
                 <group-menu @close="close" />
               </template>
             </cc-modal>
-            <br />
             <cc-modal title="Import"
               icon="mdi-import"
               max-width="900">
@@ -96,6 +95,8 @@
               </template>
             </cc-modal>
 
+            <group-share-dialog block-btn />
+
           </v-card-text>
         </v-card>
       </v-menu>
@@ -112,11 +113,12 @@ import GroupMenu from './components/GroupMenu.vue';
 import { UserStore, PilotStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
 import GroupFileImport from './components/add_panels/GroupFileImport.vue';
+import GroupShareDialog from './components/GroupShareDialog.vue';
 
 
 export default {
   name: 'RosterView',
-  components: { Organizer, GroupPanel, GroupMenu, GroupFileImport },
+  components: { Organizer, GroupPanel, GroupMenu, GroupFileImport, GroupShareDialog },
   mixins: [useMobile],
   data: () => ({
     sortParams: null,

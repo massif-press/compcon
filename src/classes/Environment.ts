@@ -46,7 +46,7 @@ class EnvironmentInstance {
       this.Environment = environment
     } else {
       this.Environment = new Environment({
-        name: 'Default',
+        name: 'No Environmental Effects',
         modified: false,
         description: 'A standard environment with no special combat conditions',
       })

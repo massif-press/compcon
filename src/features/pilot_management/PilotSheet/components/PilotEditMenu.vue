@@ -44,6 +44,13 @@
               subtitle="Export this pilot as a JSON file"
               @click="exportPilot()" />
 
+            <v-list-item v-if="!pilot.IsRemote"
+              prepend-icon="mdi-export-variant"
+              title="Export v2 JSON"
+              subtitle="Export a legacy format for VTT systems and v2 apps"
+              @click="exportPilot(true)" />
+
+
             <cc-dialog v-if="pilot.IsRemote"
               :close-on-click="false"
               title="convert remote pilot"
@@ -186,12 +193,13 @@ export default {
       if (close) close()
       if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
     },
-    exportPilot() {
+    exportPilot(v2 = false) {
       try {
         saveFile(
           this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
           Pilot.Serialize(this.pilot as Pilot),
-          'Save Pilot'
+          'Save Pilot',
+          v2
         )
         this.$notify({
           title: 'Export Success',

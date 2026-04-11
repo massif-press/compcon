@@ -1,5 +1,6 @@
 export const SyncableItemType = {
   Pilot: 'pilot',
+  PilotGroup: 'pilotgroup',
   Unit: 'unit',
   Doodad: 'doodad',
   Eidolon: 'eidolon',
@@ -20,6 +21,7 @@ export type SyncableItemTypeValue = (typeof SyncableItemType)[keyof typeof Synca
 
 export const allSyncableTypes: readonly string[] = [
   SyncableItemType.Pilot,
+  SyncableItemType.PilotGroup,
   SyncableItemType.Unit,
   SyncableItemType.Doodad,
   SyncableItemType.Eidolon,
@@ -37,7 +39,7 @@ export const FilterGroupExpansion: Record<string, readonly string[]> = {
   npc: [SyncableItemType.Unit, SyncableItemType.Doodad, SyncableItemType.Eidolon],
   collectionitem: [SyncableItemType.Character, SyncableItemType.Faction, SyncableItemType.Location],
   encounter: [SyncableItemType.EncounterInstance, SyncableItemType.EncounterArchive],
-  pilot: [SyncableItemType.PilotSheet],
+  pilot: [SyncableItemType.PilotGroup, SyncableItemType.PilotSheet],
 } as const
 
 export function expandFilterTypes(filters: string[]): string[] {

@@ -70,7 +70,7 @@ export default {
         case 'origin':
           return 'cc:npc_template';
         case 'none':
-          return 'mdi-off';
+          return 'mdi-cancel';
         default:
           return '';
       }
@@ -91,6 +91,8 @@ export default {
           return 'Group by Feature Type';
         case 'origin':
           return 'Group by Origin';
+        case 'none':
+          return 'No Grouping';
         default:
           return '';
       }

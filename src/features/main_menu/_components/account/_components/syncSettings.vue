@@ -215,6 +215,7 @@ export default {
     syncItems() {
       return [
         { title: 'Pilot Data', value: 'pilot' },
+        { title: 'Pilot Groups', value: 'pilotgroup' },
         { title: 'NPC Data', value: 'npc' },
         { title: 'Campaign Data', value: 'campaign' },
         { title: 'Encounter Data', value: 'encounter' },

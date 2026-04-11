@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { toRaw } from 'vue'
 import { GetTotalStorageSize } from '@/io/Storage'
 import { debounce } from 'lodash-es'
 import * as Client from '../index'
@@ -55,6 +56,7 @@ const _debouncedSetUserMetadata = debounce(
         remote_items: [...new Set(store.UserMetadata.RemoteItems)],
         sync_settings: store.UserMetadata.SyncSettings,
         user_setting_data: Client.UserProfile.Serialize(userSettings),
+        lcp_configs: userSettings.LcpConfigs,
         patreon_data: store.UserMetadata.PatreonData,
         itch_data: store.UserMetadata.ItchData,
         v2_cloud_import_status: store.UserMetadata.V2CloudImportStatus,
@@ -73,7 +75,7 @@ const _debouncedSetUserMetadata = debounce(
 
 const DefaultSyncSettings = {
   frequency: 'manual',
-  itemTypes: ['pilot', 'npc', 'campaign', 'encounter', 'collectionitem'],
+  itemTypes: ['pilot', 'pilotgroup', 'npc', 'campaign', 'encounter', 'collectionitem'],
   includeSettings: true,
   includeShared: true,
   resolutionStrategy: 'newest',
@@ -106,6 +108,7 @@ class UserMetadata {
   public V2CloudImportStatus: 'none' | 'pending' | 'complete' | 'error'
   public PatreonData: any
   public ItchData: any
+  public LcpConfigs: Client.LcpConfig[]
 
   public constructor(data: any) {
     this.UserID = data.user_id
@@ -122,6 +125,7 @@ class UserMetadata {
     this.V2CloudImportStatus = data.v2_cloud_import_status || 'none'
     this.PatreonData = data.patreon_data || { hasPatreon: false }
     this.ItchData = data.itch_data || { hasItch: false, user: { id: 1 }, gamedata: [] }
+    this.LcpConfigs = data.lcp_configs || []
   }
 }
 
@@ -196,6 +200,7 @@ export const UserStore = defineStore('cloud', {
     AllItems(): any[] {
       return [
         ...PilotStore().Pilots,
+        ...PilotStore().PilotGroups.filter(x => x.ID !== 'no_group'),
         ...NpcStore().Npcs,
         ...NarrativeStore().CollectionItems,
         ...EncounterStore().Encounters,
@@ -362,6 +367,13 @@ export const UserStore = defineStore('cloud', {
         )
           this.User.AchievementUnlocks = this.UserMetadata.UserSettingData.achievement_unlocks
       }
+      const cloudLcpConfigs = this.UserMetadata.LcpConfigs?.length
+        ? this.UserMetadata.LcpConfigs
+        : (this.UserMetadata.UserSettingData?.lcp_configs ?? [])
+      if (cloudLcpConfigs.length) {
+        this.User.LcpConfigs = cloudLcpConfigs
+        this.User.save()
+      }
     },
     async setUserMetadata(): Promise<void> {
       return new Promise<void>(resolve => {
@@ -411,7 +423,7 @@ export const UserStore = defineStore('cloud', {
           const localItem = this.getLocalItem(item.sortkey)
           if (item.size && !isNaN(item.size)) totalSizeBytes += item.size
           if (localItem) {
-            localItem.CloudController.Metadata = item
+            toRaw(localItem).CloudController.Metadata = item
           } else {
             this.setCloudDataItem(item)
           }
@@ -438,7 +450,7 @@ export const UserStore = defineStore('cloud', {
             const oldSize = localItem.CloudController?.Metadata?.Size || 0
             const newSize = item.size && !isNaN(item.size) ? item.size : 0
             totalSizeBytes += newSize - oldSize
-            localItem.CloudController.Metadata = item
+            toRaw(localItem).CloudController.Metadata = item
           } else {
             if (item.size && !isNaN(item.size)) totalSizeBytes += item.size
             this.setCloudDataItem(item)
@@ -448,6 +460,7 @@ export const UserStore = defineStore('cloud', {
       }
 
       await this.setMetadataForRemotes()
+      this.SyncVersion++
     },
     async setMetadataForRemotes(): Promise<void> {
       const remotes = this.UserMetadata.RemoteItems
@@ -467,7 +480,7 @@ export const UserStore = defineStore('cloud', {
         if (item.deleted) continue
         const localItem = this.getLocalItem(item.sortkey)
         if (localItem) {
-          localItem.CloudController.Metadata = item
+          toRaw(localItem).CloudController.Metadata = item
         } else {
           downloadPromises.push(
             (async () => {
@@ -577,6 +590,9 @@ export const UserStore = defineStore('cloud', {
           return EncounterStore().ArchivedEncounters.find(n => n.ID === id)
         case 'pilotsheet':
           return PilotStore().PilotSheets.find(p => p.ID === id)
+        case 'pilotgroup':
+          return PilotStore().PilotGroups.find(p => p.ID === id)
+
         default:
           logger.error('Get Local Item/Unknown item type:', itemType)
           break
@@ -747,7 +763,6 @@ export const UserStore = defineStore('cloud', {
           }
 
         await this.setMetadataFromDynamo()
-        this.SyncVersion++
         return failures
       })
     },
