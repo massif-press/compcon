@@ -272,10 +272,6 @@ export const convertTov2Pilot = function (input: any): any {
   }
 }
 
-// ---------------------------------------------------------------------------
-// NPC helpers
-// ---------------------------------------------------------------------------
-
 const V3_NPC_STAT_RENAME: Record<string, string> = {
   evasion: 'evade',
   sensorRange: 'sensor',
@@ -327,7 +323,6 @@ function buildV2NpcStats(max: any): any {
 
 function buildV2NpcCurrentStats(current: any, max: any): any {
   const base = remapNpcStatFields(current)
-  // heatcap in currentStats tracks heat taken (not the cap); speed tracks expended movement
   base.heatcap = current.heat ?? 0
   base.speed = 0
   const zeroed = zeroNpcBonuses(remapNpcStatFields(max))
@@ -346,10 +341,6 @@ function transformNpcFeature(feature: any, tier: number): any {
     collapsed: false,
   }
 }
-
-// ---------------------------------------------------------------------------
-// NPC export
-// ---------------------------------------------------------------------------
 
 export const convertTov2Npc = function (input: any): any {
   const cd = input.combat_data ?? {}
