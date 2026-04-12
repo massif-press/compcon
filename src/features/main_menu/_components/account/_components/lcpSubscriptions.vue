@@ -49,7 +49,8 @@
     </v-toolbar>
 
     <v-divider />
-    <massif-lcp-table :ext-loading="loading" />
+    <massif-lcp-table :packs="packs"
+      :loading="loading" />
   </v-card>
 </template>
 
@@ -98,6 +99,8 @@ export default {
     async refresh() {
       this.loading = true;
       this.packs = await collectionDataQuery();
+      this.packs = this.packs.filter(x => x.sortkey.includes('massif'))
+        .sort((a, b) => a.collection.localeCompare(b.collection));
 
       this.loading = false;
     },

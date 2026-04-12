@@ -82,8 +82,13 @@ export default {
     },
   },
   async mounted() {
-    this.catalog = await collectionDataQuery();
-    this.loading = false;
+    try {
+      this.catalog = await collectionDataQuery();
+    } catch {
+      // API unreachable — leave catalog empty, table shows no-data text
+    } finally {
+      this.loading = false;
+    }
   },
 };
 </script>
