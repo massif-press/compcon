@@ -266,6 +266,7 @@ import {
   updatePassword,
   confirmUserAttribute,
   updateUserAttributes,
+  fetchAuthSession,
 } from 'aws-amplify/auth';
 import DeleteAccount from './_components/deleteAccount.vue';
 import PatreonCard from './_components/patreonCard.vue';
@@ -323,9 +324,35 @@ export default {
       return this.$vuetify.display.mdAndDown;
     },
   },
-  created() {
+  mounted() {
+    window.addEventListener('keydown', this._onJwtShortcut)
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this._onJwtShortcut)
   },
   methods: {
+    async _onJwtShortcut(e: KeyboardEvent) {
+      // this is a temporary debug tool for VTT/API development
+      if (e.ctrlKey && e.altKey && e.key === 'j') {
+        try {
+          const session = await fetchAuthSession()
+          const token = session.tokens?.idToken?.toString()
+          if (!token) throw new Error('No token available')
+          await navigator.clipboard.writeText(token)
+          this.$notify({
+            title: 'JWT Copied',
+            text: 'ID token copied to clipboard',
+            data: { icon: 'mdi-key', color: 'success-darken-2' },
+          })
+        } catch (err) {
+          this.$notify({
+            title: 'JWT Copy Failed',
+            text: String(err),
+            data: { icon: 'mdi-alert', color: 'error' },
+          })
+        }
+      }
+    },
     copy(str: string) {
       navigator.clipboard.writeText(str);
       this.$notify({

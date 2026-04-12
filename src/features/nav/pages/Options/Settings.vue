@@ -376,6 +376,7 @@ export default {
       set: function (newVal) {
         this.user.Theme = newVal
         this.$vuetify.theme.global.name = newVal
+        window.location.reload()
       },
     },
     userID() {
