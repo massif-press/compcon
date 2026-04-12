@@ -117,8 +117,7 @@ export default defineConfig({
           if (id.includes('node_modules/@massif/lancer-data')) return 'lancer-data'
           if (id.includes('node_modules/aws-amplify') || id.includes('node_modules/@aws-amplify')) return 'aws'
           if (id.includes('node_modules/@sentry')) return 'sentry'
-          if (id.includes('node_modules/quill') || id.includes('node_modules/@vueup')) return 'editor'
-          if (id.includes('node_modules/')) return 'vendor'
+if (id.includes('node_modules/')) return 'vendor'
         },
       },
     },
