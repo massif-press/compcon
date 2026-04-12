@@ -3,7 +3,6 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'url'
 import { VitePWA } from 'vite-plugin-pwa'
-import PurgeCSS from 'vite-plugin-purgecss'
 import pkg from './package.json' with { type: 'json' }
 
 // https://vitejs.dev/config/
@@ -103,14 +102,6 @@ export default defineConfig({
         }
       },
     },
-    PurgeCSS({
-      content: ['./index.html', './src/**/*.{vue,ts}'],
-      safelist: {
-        deep: [/^v-/, /^vuetify/, /^col-/, /^ql-/],
-        greedy: [/data-v-/],
-      },
-      defaultExtractor: content => content.match(/[\w-/:[\].]+(?<!:)/g) || [],
-    }),
     sentryVitePlugin({
       org: 'massif-press',
       project: 'compcon',

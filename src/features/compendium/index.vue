@@ -1,16 +1,12 @@
 <template>
-  <cc-tabs
-    ref="tabs"
+  <cc-tabs ref="tabs"
     fixed
-    @changed="setTab($event)"
-  >
+    @changed="setTab($event)">
     <template #tabs>
       <v-tab selected-class="bg-accent">Compendium</v-tab>
       <v-tab selected-class="bg-accent">System Reference</v-tab>
-      <v-tab
-        v-if="isDevsite"
-        selected-class="bg-accent"
-      >
+      <v-tab v-if="isDevsite"
+        selected-class="bg-accent">
         Campaign Library
       </v-tab>
     </template>
@@ -29,39 +25,39 @@
 </template>
 
 <script lang="ts">
-  import { UserStore } from '@/stores'
-  import CompendiumView from './Views/Compendium/index.vue'
-  import ReferenceView from './Views/Reference/index.vue'
-  import CampaignLibrary from './Views/CampaignLibrary/index.vue'
+import { UserStore } from '@/stores'
+import CompendiumView from './Views/Compendium/index.vue'
+import ReferenceView from './Views/Reference/index.vue'
+import CampaignLibrary from './Views/CampaignLibrary/index.vue'
 import { useMobile } from '@/mixins/useMobile';
 
-  export default {
+export default {
+  name: 'CompendiumIndex',
+  components: { CompendiumView, ReferenceView, CampaignLibrary },
   mixins: [useMobile],
-    name: 'CompendiumIndex',
-    components: { CompendiumView, ReferenceView, CampaignLibrary },
-    computed: {
-      mobile(): boolean {
-        return this.$vuetify.display.smAndDown
-      },
-      isDevsite() {
-        return (
-          window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
-        )
-      },
+  computed: {
+    mobile(): boolean {
+      return this.$vuetify.display.smAndDown
     },
-    mounted() {
-      if (this.$route.query.tab) {
-        ;(this.$refs.tabs as any).setTab(parseInt(this.$route.query.tab as string))
-      } else {
-        this.setTab(UserStore().User.View('CompendiumTab', 0))
-      }
+    isDevsite() {
+      return (
+        window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
+      )
     },
-    methods: {
-      setTab(tab: number) {
-        if (!this.$refs.tabs) return
-        UserStore().User.SetView('CompendiumTab', tab)
-        ;(this.$refs as any).tabs.setTab(tab)
-      },
+  },
+  mounted() {
+    if (this.$route.query.tab) {
+      ; (this.$refs.tabs as any).setTab(parseInt(this.$route.query.tab as string))
+    } else {
+      this.setTab(UserStore().User.View('CompendiumTab', 0))
+    }
+  },
+  methods: {
+    setTab(tab: number) {
+      if (!this.$refs.tabs) return
+      UserStore().User.SetView('CompendiumTab', tab)
+        ; (this.$refs as any).tabs.setTab(tab)
     },
-  }
+  },
+}
 </script>
