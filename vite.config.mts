@@ -106,7 +106,7 @@ export default defineConfig({
     PurgeCSS({
       content: ['./index.html', './src/**/*.{vue,ts}'],
       safelist: {
-        deep: [/^v-/, /^vuetify/, /^col-/],
+        deep: [/^v-/, /^vuetify/, /^col-/, /^ql-/],
         greedy: [/data-v-/],
       },
       defaultExtractor: content => content.match(/[\w-/:[\].]+(?<!:)/g) || [],
