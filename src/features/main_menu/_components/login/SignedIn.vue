@@ -103,65 +103,6 @@
           </v-card>
         </div>
       </v-alert>
-
-      <v-card v-if="isOnV2" class="mt-3 mb-6" disabled hidden>
-        <v-card-title class="heading h3">Auto-sync settings</v-card-title>
-        <v-card-text class="px-10">
-          <v-row dense align="center">
-            <v-col>
-              <span class="heading h3">
-                On Login
-                <cc-tooltip
-                  inline
-                  content="This will automatically smart sync all item and LCP data whenever the account login process is successful. If you do not log out, this will occur shortly after the application starts. "
-                >
-                  <v-icon left>mdi-information-outline</v-icon>
-                </cc-tooltip>
-              </span>
-            </v-col>
-            <v-col cols="auto" class="mr-n3">
-              <v-switch
-                :value="false"
-                dense
-                hide-details
-                inset
-                color="accent"
-                disabled
-                @change="userUpdate()"
-              />
-            </v-col>
-            <!-- <v-col v-if="userProfile.SyncFrequency.cloudSync_v2" cols="auto"><b>ON</b></v-col> -->
-            <v-col cols="auto"><i>OFF</i></v-col>
-          </v-row>
-          <v-row dense align="center">
-            <v-col>
-              <span class="heading h3">
-                Sync Remote Resources
-                <cc-tooltip
-                  inline
-                  content="This will automatically attempt to sync all remote resources with the latest versions in their authors' cloud accounts. Remote data cannot be saved to your own cloud account."
-                >
-                  <v-icon left>mdi-information-outline</v-icon>
-                </cc-tooltip>
-              </span>
-            </v-col>
-            <v-col cols="auto" class="mr-n3">
-              <v-switch
-                :value="false"
-                dense
-                hide-details
-                inset
-                color="accent"
-                disabled
-                @change="userUpdate()"
-              />
-            </v-col>
-            <!-- <v-col v-if="userProfile.SyncFrequency.remotes" cols="auto"><b>ON</b></v-col> -->
-            <v-col cols="auto"><i>OFF</i></v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-
       <sync-manager ref="sync" />
       <v-divider class="my-6" />
       <cloud-content-manager ref="lcps" />

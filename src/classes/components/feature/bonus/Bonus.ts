@@ -114,8 +114,11 @@ class Bonus {
     valStr = valStr.replace(/{grit}/g, grit)
     valStr = valStr.replace(/{hull}/g, hull)
     valStr = valStr.replace(/{agi}/g, agility)
+    valStr = valStr.replace(/{agility}/g, agility)
     valStr = valStr.replace(/{sys}/g, systems)
+    valStr = valStr.replace(/{systems}/g, systems)
     valStr = valStr.replace(/{eng}/g, engineering)
+    valStr = valStr.replace(/{engineering}/g, engineering)
     valStr = valStr.replace(/[^-()\d/*+.]/g, '')
     return Math.ceil(eval(valStr))
   }
