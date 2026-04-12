@@ -127,7 +127,6 @@ export default defineConfig({
           if (id.includes('node_modules/aws-amplify') || id.includes('node_modules/@aws-amplify')) return 'aws'
           if (id.includes('node_modules/@sentry')) return 'sentry'
           if (id.includes('node_modules/quill') || id.includes('node_modules/@vueup')) return 'editor'
-          if (id.includes('node_modules/chart.js') || id.includes('node_modules/vue-chartjs')) return 'charts'
           if (id.includes('node_modules/')) return 'vendor'
         },
       },
