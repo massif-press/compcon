@@ -22,6 +22,12 @@
         :readonly="readonly" />
     </template>
     <template #footer>
+      <cc-button prepend-icon="mdi-upload"
+        size="small"
+        class="ml-2"
+        @click="exportV2Item(item)">
+        v2 Export
+      </cc-button>
       <cc-modal title="NPC Statblock"
         icon="mdi-text-account"
         shrink
@@ -58,6 +64,7 @@ import Features from './features.vue';
 import Builder from './builder.vue';
 import { Unit } from '@/classes/npc/unit/Unit';
 import exportAsJson from '@/util/jsonExport';
+import { convertTov2Npc } from '@/io/V2Exporter';
 
 export default {
   name: 'GmEditorNpc',
@@ -86,6 +93,11 @@ export default {
     exportItem(item) {
       exportAsJson(Unit.Serialize(item, false), `${item.Name}.json`);
     },
+    exportV2Item(item) {
+      const data = convertTov2Npc(Unit.Serialize(item, true));
+      exportAsJson(data, `${item.Name}-v2.json`);
+    }
+
   },
 };
 </script>

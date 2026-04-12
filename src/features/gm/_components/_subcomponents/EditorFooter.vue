@@ -183,7 +183,7 @@
   </v-footer>
 </template>
 
-<script>
+<script lang="ts">
 import { NpcStore, UserStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
 

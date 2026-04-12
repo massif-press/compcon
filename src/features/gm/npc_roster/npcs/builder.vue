@@ -100,7 +100,7 @@ const keymap = {
 };
 
 export default {
-  name: 'npc-builder-content',
+  name: 'NpcBuilderContent',
   components: {
     NpcClassSelector,
     NpcTemplateSelector,

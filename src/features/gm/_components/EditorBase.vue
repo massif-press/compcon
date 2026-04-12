@@ -92,7 +92,11 @@
     @print="routePrint($event)"
     @export="$emit('export', $event)"
     @exit="$emit('exit')"
-    @convert="convert()" />
+    @convert="convert()">
+    <template #footer>
+      <slot name="footer" />
+    </template>
+  </editor-footer>
 </template>
 
 <script lang="ts">

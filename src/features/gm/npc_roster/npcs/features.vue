@@ -29,8 +29,8 @@
       :max-columns="2">
       <template #default="{ item }">
         <cc-dense-card v-if="item"
-          :item="item"
           :key="item.ID"
+          :item="item"
           :tier="npc.NpcClassController.Tier">
           <template #pre>
             <npc-mod-inset v-for="mod in npc.NpcFeatureController.GetModifiers(item)"
@@ -67,7 +67,7 @@ import NpcModInset from './_components/NpcModInset.vue';
 import * as _ from 'lodash-es';
 
 export default {
-  name: 'npc-builder-content',
+  name: 'NpcBuilderContent',
   components: {
     NpcFeatureSelector,
     NpcFeatureAlerts,
