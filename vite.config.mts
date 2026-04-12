@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'url'
 import { VitePWA } from 'vite-plugin-pwa'
+import PurgeCSS from 'vite-plugin-purgecss'
 import pkg from './package.json' with { type: 'json' }
 
 // https://vitejs.dev/config/
@@ -92,6 +93,24 @@ export default defineConfig({
       },
     }),
     vue(),
+    {
+      name: 'strip-legacy-fonts',
+      generateBundle(_options, bundle) {
+        for (const key of Object.keys(bundle)) {
+          if (/materialdesignicons.*\.(eot|ttf|woff)$/.test(key)) {
+            delete bundle[key]
+          }
+        }
+      },
+    },
+    PurgeCSS({
+      content: ['./index.html', './src/**/*.{vue,ts}'],
+      safelist: {
+        deep: [/^v-/, /^vuetify/, /^col-/],
+        greedy: [/data-v-/],
+      },
+      defaultExtractor: content => content.match(/[\w-/:[\].]+(?<!:)/g) || [],
+    }),
     sentryVitePlugin({
       org: 'massif-press',
       project: 'compcon',
@@ -100,6 +119,19 @@ export default defineConfig({
   build: {
     target: 'esnext',
     sourcemap: process.env.NODE_ENV !== 'production',
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/vuetify')) return 'vuetify'
+          if (id.includes('node_modules/@massif/lancer-data')) return 'lancer-data'
+          if (id.includes('node_modules/aws-amplify') || id.includes('node_modules/@aws-amplify')) return 'aws'
+          if (id.includes('node_modules/@sentry')) return 'sentry'
+          if (id.includes('node_modules/quill') || id.includes('node_modules/@vueup')) return 'editor'
+          if (id.includes('node_modules/chart.js') || id.includes('node_modules/vue-chartjs')) return 'charts'
+          if (id.includes('node_modules/')) return 'vendor'
+        },
+      },
+    },
   },
   resolve: {
     alias: [

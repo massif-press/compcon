@@ -73,6 +73,7 @@
     "typescript": "5.9.3",
     "typescript-eslint": "^8.56.1",
     "vite": "6.4.1",
+    "vite-plugin-purgecss": "^0.2.13",
     "vite-plugin-pwa": "^1.2.0",
     "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "2.2.12"
