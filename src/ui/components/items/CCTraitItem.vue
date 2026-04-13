@@ -1,7 +1,6 @@
 <template>
   <cc-panel :title-color="color"
-    :title="trait.Name"
-    height="100%">
+    :title="trait.Name">
     <template v-if="trait.Use"
       #toolbar-items>
       <v-chip v-if="trait.Use !== 'Mission'"

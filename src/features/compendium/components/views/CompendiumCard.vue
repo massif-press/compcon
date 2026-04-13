@@ -49,7 +49,10 @@ import * as content from './components';
 import ItemCardLink from '@/ui/components/cards/items/_components/ItemCardLink.vue';
 
 export default {
-  name: 'compendium-large-card',
+  name: 'CompendiumLargeCard',
+  components: {
+    ItemCardLink,
+  },
   props: {
     item: {
       type: Object,
@@ -64,9 +67,6 @@ export default {
     selectable: {
       type: Boolean,
     },
-  },
-  components: {
-    ItemCardLink,
   },
   computed: {
     portrait() {

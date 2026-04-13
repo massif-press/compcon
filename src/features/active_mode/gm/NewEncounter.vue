@@ -22,8 +22,8 @@
                 title="select encounter"
                 color="accent"
                 class="mb-1" />
-              <v-row dense
-                v-if="!encounter"
+              <v-row v-if="!encounter"
+                dense
                 align="center">
                 <v-col cols="4">
                   <cc-text-field v-model="search"
@@ -50,15 +50,15 @@
               <div class="pa-1"
                 style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden">
                 <v-row v-for="(encounter, i) in encounters"
+                  v-show="!selectedEncounter || selectedEncounter.ID === encounter.ID"
+                  :key="encounter.ID"
                   no-gutters
                   style="position: relative"
-                  v-show="!selectedEncounter || selectedEncounter.ID === encounter.ID"
-                  @click="selectedEncounter = encounter"
                   class="mb-1 pa-1"
-                  :key="encounter.ID">
+                  @click="selectedEncounter = encounter">
                   <v-slide-x-transition leave-absolute>
-                    <v-col cols="auto"
-                      v-if="selectedEncounter && selectedEncounter.ID === encounter.ID">
+                    <v-col v-if="selectedEncounter && selectedEncounter.ID === encounter.ID"
+                      cols="auto">
                       <div class="mr-1 bg-success"
                         style="width: 10px; height: 100%" />
                     </v-col>
@@ -71,8 +71,8 @@
                   </v-col>
 
                   <v-slide-x-reverse-transition leave-absolute>
-                    <v-col cols="auto"
-                      v-if="selectedEncounter"
+                    <v-col v-if="selectedEncounter"
+                      cols="auto"
                       class="ml-n1">
                       <v-btn color="primary"
                         flat
@@ -124,8 +124,8 @@
             </v-col>
 
             <v-slide-x-reverse-transition>
-              <v-col cols="auto"
-                v-if="!selectedEncounter && !emptyEncounter">
+              <v-col v-if="!selectedEncounter && !emptyEncounter"
+                cols="auto">
                 <cc-button size="small"
                   color="primary"
                   prepend-icon="mdi-card-plus-outline"
@@ -158,10 +158,10 @@
               color="accent" />
             <div>
               <v-row v-for="p in pilots"
+                :key="p.ID"
                 no-gutters
                 class="mb-2 bg-background"
-                style="border: 2px solid; border-color: rgb(var(--v-theme-primary))"
-                :key="p.ID">
+                style="border: 2px solid; border-color: rgb(var(--v-theme-primary))">
                 <v-col cols="auto"
                   class="bg-primary pr-1"
                   style="padding: 2px">
@@ -225,10 +225,10 @@
               </v-row>
 
               <v-row v-for="(p, i) in placeholders"
+                :key="p.ID"
                 no-gutters
                 class="mb-2 bg-background"
-                style="border: 2px solid; border-color: rgb(var(--v-theme-primary))"
-                :key="p.ID">
+                style="border: 2px solid; border-color: rgb(var(--v-theme-primary))">
                 <v-col cols="auto"
                   class="bg-primary pr-1"
                   style="padding: 2px">
@@ -247,16 +247,16 @@
                   <v-row dense
                     class="pa-1 px-2">
                     <v-col>
-                      <cc-text-field color="panel"
+                      <cc-text-field v-model="p.Name"
+                        color="panel"
                         placeholder="Pilot name or Callsign"
-                        prepend-icon="cc:pilot"
-                        v-model="p.Name" />
+                        prepend-icon="cc:pilot" />
                     </v-col>
                     <v-col>
-                      <cc-text-field color="panel"
+                      <cc-text-field v-model="p.Mechname"
+                        color="panel"
                         placeholder="Frame or Mech Name"
-                        prepend-icon="cc:frame"
-                        v-model="p.Mechname" />
+                        prepend-icon="cc:frame" />
                     </v-col>
                   </v-row>
                 </v-col>
@@ -355,12 +355,12 @@
                   </div>
                   <v-divider class="mb-2" />
                   <v-row v-for="(p, i) in pilots.concat(placeholders)"
+                    :key="p.ID"
                     :class="i % 2 === 0 ? 'bg-background' : 'bg-surface'"
                     flat
                     tile
                     dense
-                    class="px-2"
-                    :key="p.ID">
+                    class="px-2">
                     <v-col cols="auto"
                       class="mr-1">
                       <cc-avatar v-if="p.PortraitController && p.PortraitController.Avatar"
@@ -412,12 +412,12 @@
                   <v-row v-for="(n, i) in encounter.Combatants.sort((a, b) =>
                     a.side.localeCompare(b.side)
                   ).filter((c) => c.playerCount <= 1 || c.playerCount <= pilots.length)"
+                    :key="n.ID"
                     :class="Number(i) % 2 === 0 ? 'bg-background' : 'bg-surface'"
                     flat
                     tile
                     dense
-                    class="px-2"
-                    :key="n.ID">
+                    class="px-2">
                     <v-col cols="auto"
                       class="mr-n2">
                       <v-icon size="48"
@@ -532,10 +532,9 @@ import AddFromShare from './_components/AddFromShare.vue';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import FileImport from '@/features/pilot_management/Roster/components/add_panels/FileImport.vue';
 import { Placeholder } from '@/classes/encounter/Placeholder';
-import { Pilot } from '@/class';
 
 export default {
-  name: 'active-new-encounter',
+  name: 'ActiveNewEncounter',
   components: {
     GmEncounterListItem,
     SitrepEditor,
@@ -544,6 +543,7 @@ export default {
     AddFromShare,
     FileImport,
   },
+  emits: ['select', 'close'],
   data: () => ({
     search: '',
     folder: 'All',
@@ -552,7 +552,6 @@ export default {
     pilots: [] as any[],
     placeholders: [] as any[],
   }),
-  emits: ['select', 'close'],
   computed: {
     encounter() {
       return this.selectedEncounter || this.emptyEncounter;

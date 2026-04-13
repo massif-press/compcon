@@ -109,6 +109,7 @@
 import { UserStore } from '@/stores';
 import logger from '@/user/logger';
 import { authPatreon } from '@/user/oauth';
+import { NoPatreonTierError } from '@/user/store/OAuthService';
 
 export default {
   name: 'patreon-card',
@@ -228,11 +229,19 @@ export default {
       } catch (error) {
         logger.error(`Error linking Patreon account: ${error}`, this, error);
         this.loadPatreon = false;
-        this.$notify({
-          title: 'Patreon Link Failed',
-          text: 'There was an error linking your Patreon account',
-          data: { color: 'error' },
-        });
+        if (error instanceof NoPatreonTierError) {
+          this.$notify({
+            title: 'No Subscription Found',
+            text: 'Your Patreon account was linked but no active subscription tier was found. Please subscribe to the COMP/CON Patreon and try again.',
+            data: { color: 'warning' },
+          });
+        } else {
+          this.$notify({
+            title: 'Patreon Link Failed',
+            text: 'There was an error linking your Patreon account',
+            data: { color: 'error' },
+          });
+        }
       }
     },
     async unlinkPatreon() {

@@ -115,9 +115,10 @@ export default defineConfig({
         manualChunks(id) {
           if (id.includes('node_modules/vuetify')) return 'vuetify'
           if (id.includes('node_modules/@massif/lancer-data')) return 'lancer-data'
-          if (id.includes('node_modules/aws-amplify') || id.includes('node_modules/@aws-amplify')) return 'aws'
+          if (id.includes('node_modules/aws-amplify') || id.includes('node_modules/@aws-amplify'))
+            return 'aws'
           if (id.includes('node_modules/@sentry')) return 'sentry'
-if (id.includes('node_modules/')) return 'vendor'
+          if (id.includes('node_modules/')) return 'vendor'
         },
       },
     },

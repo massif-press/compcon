@@ -9,11 +9,23 @@ export interface OAuthContext {
   setUserMetadata: () => Promise<void>
 }
 
+export class NoPatreonTierError extends Error {
+  constructor() {
+    super('Patreon account linked but no active subscription tier found')
+    this.name = 'NoPatreonTierError'
+  }
+}
+
 const PATREON_REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000 // 24 hours
 
 export async function setPatreonData(ctx: OAuthContext, data: any): Promise<void> {
-  ctx.UserMetadata.PatreonData.token = data
   const profile = await getPatronProfile(data.access_token)
+  if (!profile.tierData) {
+    ctx.UserMetadata.PatreonData = { hasPatreon: false }
+    ctx.setUserMetadata()
+    throw new NoPatreonTierError()
+  }
+  ctx.UserMetadata.PatreonData.token = data
   ctx.UserMetadata.PatreonData.profile = profile
   ctx.UserMetadata.PatreonData.hasPatreon = true
   ctx.UserMetadata.PatreonData.lastUpdate = Date.now()
@@ -36,6 +48,11 @@ export async function refreshPatreonData(ctx: OAuthContext): Promise<string> {
 }
 
 export function setItchData(ctx: OAuthContext, accessToken: string, data: any): void {
+  if (!data || !accessToken) {
+    ctx.UserMetadata.ItchData = { hasItch: false, user: { id: 1 }, gamedata: [] }
+    ctx.setUserMetadata()
+    return
+  }
   ctx.UserMetadata.ItchData = data
   ctx.UserMetadata.ItchData.hasItch = true
   ctx.UserMetadata.ItchData.token = accessToken

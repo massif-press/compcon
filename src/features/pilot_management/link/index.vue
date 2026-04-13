@@ -1,6 +1,27 @@
 <template>
-  <v-container class="px-12" style="max-width: 1200px">
-    <v-progress-linear v-if="loading" indeterminate />
+  <v-container class="px-12"
+    style="max-width: 1200px">
+    <v-progress-linear v-if="loading"
+      indeterminate />
+    <cc-alert v-else-if="rateLimitError"
+      icon="mdi-speedometer"
+      title="Server Error - Too Many Requests"
+      color="error"
+      variant="outlined">
+      <p v-if="rateLimitError.isDaily"
+        class="text-center">
+        The daily request limit has been reached. Please try again tomorrow.
+      </p>
+      <p v-else-if="rateLimitError.retryAfter"
+        class="text-center">
+        Too many requests. Please try again in
+        <span class="text-accent">{{ rateLimitRetryLabel }}</span>.
+      </p>
+      <p v-else
+        class="text-center">
+        Too many requests. Please try again shortly.
+      </p>
+    </cc-alert>
     <div v-else-if="!pilot">
       <v-row class="mt-4">
         <v-col>
@@ -32,33 +53,53 @@
       </v-row>
     </div>
     <div v-else-if="pilot">
-      <full-link-sheet v-if="style === 'full'" :pilot="pilot" :mech="mech" />
-      <build-link-sheet v-else :pilot="pilot" :mech="mech" />
+      <full-link-sheet v-if="style === 'full'"
+        :pilot="pilot"
+        :mech="mech" />
+      <build-link-sheet v-else
+        :pilot="pilot"
+        :mech="mech" />
     </div>
     <div style="height: 80px" />
   </v-container>
-  <v-tabs
-    v-if="style === 'full' && pilot"
+  <v-tabs v-if="style === 'full' && pilot"
     style="position: fixed; bottom: 26px; left: 0; right: 0; z-index: 2"
     color="primary"
     fixed
     height="22"
     align-tabs="center"
     bg-color="primary">
-    <v-tab v-for="l in links" :key="l.target" color="accent" style="margin-top: -2px" @click="scrollTo(l.target)">
+    <v-tab v-for="l in links"
+      :key="l.target"
+      color="accent"
+      style="margin-top: -2px"
+      @click="scrollTo(l.target)">
       {{ l.title }}
     </v-tab>
   </v-tabs>
-  <v-footer app density="compact" color="primary" height="30" border="t">
-    <cc-button prepend-icon="mdi-arrow-left" size="small" class="mr-2" @click="$router.go(-1)">
+  <v-footer app
+    density="compact"
+    color="primary"
+    height="30"
+    border="t">
+    <cc-button prepend-icon="mdi-arrow-left"
+      size="small"
+      class="mr-2"
+      @click="$router.go(-1)">
       Back
     </cc-button>
-    <cc-button prepend-icon="mdi-home" size="small" to="/">Main Menu</cc-button>
+    <cc-button prepend-icon="mdi-home"
+      size="small"
+      to="/">Main Menu</cc-button>
 
     <v-spacer />
-    <v-tooltip location="top" open-delay="300">
+    <v-tooltip location="top"
+      open-delay="300">
       <template #activator="{ props }">
-        <v-icon v-bind="props" size="small" icon="mdi-share-variant" @click="copyToClipboard" />
+        <v-icon v-bind="props"
+          size="small"
+          icon="mdi-share-variant"
+          @click="copyToClipboard" />
       </template>
       <span>Copy link</span>
     </v-tooltip>
@@ -68,14 +109,14 @@
 <script lang="ts">
 import { Pilot } from '@/class';
 import { unCamelCase } from '@/classes/utility/accent_fold';
-import { downloadFromS3, GetFromCode } from '@/io/apis/account';
+import { downloadFromS3, GetFromCode, RateLimitError } from '@/io/apis/account';
 import { CompendiumStore } from '@/stores';
 import logger from '@/user/logger';
 import FullLinkSheet from './_views/FullLinkSheet.vue';
 import BuildLinkSheet from './_views/BuildLinkSheet.vue';
 
 export default {
-  name: 'pilot-link',
+  name: 'PilotLink',
   components: {
     FullLinkSheet,
     BuildLinkSheet,
@@ -97,14 +138,8 @@ export default {
     loading: true,
     itemData: null as any,
     pilot: null as Pilot | null,
+    rateLimitError: null as { retryAfter: number | null; isDaily: boolean } | null,
   }),
-  async created() {
-    await this.getFromCode();
-  },
-  mounted() {
-    if (this.pilot) document.title = `${this.pilot.Callsign} // ${this.pilot.Name}`;
-    else document.title = 'Pilot Link';
-  },
   computed: {
     compendiumLoaded() {
       return CompendiumStore().loaded;
@@ -112,13 +147,18 @@ export default {
     incompatible() {
       if (this.itemData) {
         return !this.itemData.originId;
-      }
+      } return false;
     },
     mech() {
       if (this.mechId) {
         return this.pilot?.Mechs.find((m) => m.ID === this.mechId) || undefined;
       }
       return undefined;
+    },
+    rateLimitRetryLabel() {
+      const secs = this.rateLimitError?.retryAfter;
+      if (!secs) return '';
+      return secs >= 60 ? `${Math.ceil(secs / 60)} minute${Math.ceil(secs / 60) !== 1 ? 's' : ''}` : `${secs} second${secs !== 1 ? 's' : ''}`;
     },
     links() {
       if (!this.pilot) return [];
@@ -142,6 +182,13 @@ export default {
 
       return links;
     },
+  },
+  async created() {
+    await this.getFromCode();
+  },
+  mounted() {
+    if (this.pilot) document.title = `${this.pilot.Callsign} // ${this.pilot.Name}`;
+    else document.title = 'Pilot Link';
   },
   methods: {
     unCamelCase(str) {
@@ -167,10 +214,16 @@ export default {
     },
     async getFromCode() {
       this.loading = true;
+      this.rateLimitError = null;
       let row;
       try {
         row = await GetFromCode(this.sharecode);
       } catch (err) {
+        if (err instanceof RateLimitError) {
+          this.rateLimitError = { retryAfter: err.retryAfter, isDaily: err.isDaily };
+          this.loading = false;
+          return;
+        }
         logger.error(`Unable to find pilot at share code ${this.sharecode}`, this, err);
       }
 

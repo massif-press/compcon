@@ -1,6 +1,6 @@
 <template>
-  <div v-if="extended && (!mobile || forceExtended)"
-    v-for="t in filteredTags"
+  <div v-for="t in filteredTags"
+    v-if="extended && (!mobile || forceExtended)"
     :key="t.ID"
     class="mb-1">
     <cc-extended-tag :tag="t"
@@ -36,8 +36,8 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
   name: 'CCTags',
+  mixins: [useMobile],
   props: {
     size: {
       type: String,
@@ -90,11 +90,11 @@ export default {
       return this.$vuetify.display.smAndDown;
     },
     filteredTags(): Tag[] {
-      let tArr: Tag[] = this.tags as Tag[];
+      const tArr: Tag[] = this.tags as Tag[];
       if (!tArr || !tArr.length) return [];
-      tArr = (this.tags as Tag[]).filter(
-        (t: Tag) => !!t && !t.ID.includes('action') && !t.ID.includes('tech')
-      );
+      // tArr = (this.tags as Tag[]).filter(
+      //   (t: Tag) => !!t && !t.ID.includes('action') && !t.ID.includes('tech')
+      // );
       if (!tArr.length) return [];
       if (this.combat) {
         return (tArr as Tag[]).filter((t: Tag) => t.IsCombatTag);

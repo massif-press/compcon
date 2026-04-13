@@ -156,8 +156,9 @@
                   width="auto">
                   <template #activator="{ props }">
                     <cc-button color="error"
-                      icon="mdi-delete"
-                      v-bind="props">
+                      size="small"
+                      prepend-icon="mdi-delete"
+                      v-bind="props">Delete Group
                     </cc-button>
                   </template>
 

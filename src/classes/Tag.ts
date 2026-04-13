@@ -160,24 +160,6 @@ class Tag implements ILcpTracked {
       if (item.Deployables.some(x => x.Type !== 'Drone' && x.Type !== 'Mine'))
         tags.push(Tag._genTag('tg_deployable'))
     }
-    // if (item.Actions) {
-    //   if (item.Actions.some(x => x.Activation === ActivationType.Protocol))
-    //     tags.push(Tag._genTag('tg_protocol'))
-    //   if (item.Actions.some(x => x.Activation === ActivationType.Quick))
-    //     tags.push(Tag._genTag('tg_quick_action'))
-    //   if (item.Actions.some(x => x.Activation === ActivationType.QuickTech))
-    //     tags.push(Tag._genTag('tg_quick_tech'))
-    //   if (item.Actions.some(x => x.Activation === ActivationType.Full))
-    //     tags.push(Tag._genTag('tg_full_action'))
-    //   if (item.Actions.some(x => x.Activation === ActivationType.FullTech))
-    //     tags.push(Tag._genTag('tg_full_tech'))
-    //   if (item.Actions.some(x => x.Activation === ActivationType.Reaction))
-    //     tags.push(Tag._genTag('tg_reaction'))
-    //   if (item.Actions.some(x => x.Activation === ActivationType.Free))
-    //     tags.push(Tag._genTag('tg_free_action'))
-    //   if (item.Actions.some(x => x.Activation === ActivationType.Invade))
-    //     tags.push(Tag._genTag('tg_invade'))
-    // }
     return tags
   }
 
@@ -199,7 +181,8 @@ class Tag implements ILcpTracked {
     if (!data) return output
     data.forEach(x => {
       let t: Tag
-      if (CompendiumStore().TagData.find(t => t.id === x.id || (t as any).ID === x.id)) t = Tag._genTag(x.id)
+      if (CompendiumStore().TagData.find(t => t.id === x.id || (t as any).ID === x.id))
+        t = Tag._genTag(x.id)
       else {
         if (!packTags) {
           logger.error(`Tag ${x.id} not found in compendium and no LCP data provided`, this)
@@ -229,13 +212,13 @@ class Tag implements ILcpTracked {
 
   public get IsCombatTag(): boolean {
     const nonCombatRelevant = [
-      'tg_quick',
-      'tg_full',
-      'tg_free',
-      'tg_full',
-      'tg_tech_quick',
-      'tg_tech_full',
-      'tg_protocol',
+      // 'tg_quick',
+      // 'tg_full',
+      // 'tg_free',
+      // 'tg_full',
+      // 'tg_tech_quick',
+      // 'tg_tech_full',
+      // 'tg_protocol',
       'tg_gear',
       'tg_mod',
       'tg_modded',

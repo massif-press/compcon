@@ -1,10 +1,9 @@
 <template>
-  <component
+  <component :is="componentLoader"
     v-if="componentLoader"
-    :is="componentLoader"
     :item="item"
     :notes="notes"
-    :smallTags="smallTags"
+    :small-tags="smallTags"
     :dense="dense"
     :charts="charts"
     :collapse-actions="collapseActions || mobile"
@@ -18,8 +17,8 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
   name: 'CCItemCard',
+  mixins: [useMobile],
   props: {
     item: Object,
     notes: {

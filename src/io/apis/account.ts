@@ -50,10 +50,18 @@ async function fetchWithRetry(
       if (response.ok) return response
 
       if (response.status === 429) {
-        const retryAfter = response.headers.get('Retry-After')
-        const waitMs = retryAfter
-          ? parseInt(retryAfter, 10) * 1000 || INITIAL_BACKOFF_MS
+        const retryAfterHeader = response.headers.get('Retry-After')
+        const waitMs = retryAfterHeader
+          ? parseInt(retryAfterHeader, 10) * 1000 || INITIAL_BACKOFF_MS
           : INITIAL_BACKOFF_MS * Math.pow(2, attempt)
+
+        if (attempt === retries - 1) {
+          const body = await response.json().catch(() => null)
+          const isDaily = body?.error === 'RateLimitExceeded'
+          const retryAfterSecs = retryAfterHeader ? parseInt(retryAfterHeader, 10) : null
+          throw new RateLimitError(retryAfterSecs, isDaily)
+        }
+
         logger.info(
           `Rate limited (429). Retrying in ${waitMs}ms (attempt ${attempt + 1}/${retries})`
         )
@@ -99,7 +107,7 @@ async function fetchWithRetry(
       clearTimeout(timeoutId)
 
       // Don't retry structured client errors — propagate immediately
-      if (error instanceof UnauthorizedError || error instanceof NotFoundError) {
+      if (error instanceof UnauthorizedError || error instanceof NotFoundError || error instanceof RateLimitError) {
         throw error
       }
 
@@ -260,6 +268,21 @@ export async function updateUser(id: string, payload: any): Promise<any> {
   })
 
   return response
+}
+
+export class RateLimitError extends Error {
+  public readonly retryAfter: number | null
+  public readonly isDaily: boolean
+  constructor(retryAfter: number | null, isDaily: boolean) {
+    super(
+      isDaily
+        ? 'Global daily request limit reached — try again tomorrow'
+        : 'Too many requests — please try again shortly'
+    )
+    this.name = 'RateLimitError'
+    this.retryAfter = retryAfter
+    this.isDaily = isDaily
+  }
 }
 
 export class PresignExpiredError extends Error {

@@ -19,7 +19,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in items" :key="item.ID">
+        <tr v-for="item in items"
+          :key="item.ID">
           <td>{{ item.ItemType.toUpperCase() }}</td>
           <td>{{ item.Name }} {{ (item as any).Callsign ? ` (${(item as any).Callsign})` : '' }}
           </td>
@@ -104,6 +105,7 @@ export default {
           await PilotStore().DeletePilotPermanent(item);
           break;
         case 'pilot_group':
+        case 'pilotgroup':
           const group = PilotStore().PilotGroups.find((x) => x.ID === item.ID) as PilotGroup;
           await PilotStore().DeleteGroupPermanent(group);
           break;

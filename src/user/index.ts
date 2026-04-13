@@ -331,6 +331,7 @@ class UserProfile {
 
   public ClearPatreonData(): void {
     UserStore().UserMetadata.PatreonData = { hasPatreon: false }
+    UserStore().setUserMetadata()
     this.save()
   }
 

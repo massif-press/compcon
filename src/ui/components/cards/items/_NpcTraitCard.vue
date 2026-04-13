@@ -1,12 +1,16 @@
 <template>
-  <equipment-card-base :item="item" :dense="dense" small-tags :footer="dense" :tier="tier" />
+  <equipment-card-base :item="item"
+    :dense="dense"
+    small-tags
+    :footer="dense"
+    :tier="tier" />
 </template>
 
 <script lang="ts">
 import EquipmentCardBase from './_EquipmentCardBase.vue';
 
 export default {
-  name: 'cc-npc-weapon-card',
+  name: 'CcNpcTraitCard',
   components: { EquipmentCardBase },
   props: {
     item: {

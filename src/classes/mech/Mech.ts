@@ -518,6 +518,8 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
       sensors: sc.getMax('sensorRange') ?? 0,
       repcap: sc.getMax('repairCapacity') ?? 0,
       save: sc.getMax('saveTarget') ?? 0,
+      sp: sc.getMax('sp') ?? 0,
+      overshield: sc.getMax('overshield') ?? 0,
     }
   }
 
@@ -530,31 +532,6 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
         return this
       default:
         return null
-    }
-  }
-
-  public getExpressionContext(): Record<string, number> {
-    return {
-      ll: this._pilot.Level,
-      grit: this._pilot.Grit,
-      hull: this.Hull,
-      agi: this.Agi,
-      sys: this.Sys,
-      eng: this.Eng,
-      size: this.Size,
-      structure: this.MaxStructure,
-      stress: this.MaxStress,
-      armor: this.Armor,
-      hp: this.MaxHP,
-      speed: this.Speed,
-      evasion: this.Evasion,
-      edef: this.EDefense,
-      heatcap: this.HeatCapacity,
-      sensors: this.SensorRange,
-      repcap: this.RepairCapacity,
-      save: this.SaveTarget,
-      sp: this.MaxSP,
-      overshield: 0,
     }
   }
 
