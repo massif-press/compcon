@@ -35,8 +35,8 @@ class LicenseController {
       arr = arr.filter(
         x =>
           !x.InLcp ||
-          this.Parent.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-          this.Parent.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+          this.Parent.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
+          this.Parent.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
       )
     }
 

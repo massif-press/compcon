@@ -19,8 +19,8 @@ export const selectorMixin = {
       return items.filter(
         x =>
           !x.InLcp ||
-          this.mech.Parent.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-          this.mech.Parent.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+          this.mech.Parent.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
+          this.mech.Parent.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
       )
     },
     isLicensed(x: any): boolean {

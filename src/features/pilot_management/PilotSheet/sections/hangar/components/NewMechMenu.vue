@@ -120,8 +120,8 @@ export default {
       return CompendiumStore().Frames.filter(
         x =>
           !x.InLcp ||
-          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
+          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
       )
     },
     filteredFrames() {

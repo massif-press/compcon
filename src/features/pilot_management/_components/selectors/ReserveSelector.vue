@@ -99,7 +99,7 @@ export default {
       const packIDs = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packID))
       const packNames = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packName))
       return CompendiumStore().Reserves.filter(
-        (x: any) => !x.InLcp || packIDs.has(x.Brew.LcpId) || packNames.has(x.Brew.LcpName)
+        (x: any) => !x.InLcp || packIDs.has(x.Brew?.LcpId) || packNames.has(x.Brew.LcpName)
       )
     },
     reserves() {

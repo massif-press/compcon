@@ -168,7 +168,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
     }
 
     for (const l of requirements) {
-      if (l.rank !== 0) l.missing = !this._pilot.has('License', l.license_id || '', l.rank)
+      if (l.rank !== 0) l.missing = !this._pilot.has('License', l.license_id || l.name, l.rank)
     }
 
     return requirements.sort((a, b) => {

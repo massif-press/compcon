@@ -129,8 +129,8 @@ export default {
       return CompendiumStore().PilotGear.filter(
         (x: any) =>
           !x.InLcp ||
-          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
+          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
       ) as PilotEquipment[]
     },
     gear(): PilotGear[] {

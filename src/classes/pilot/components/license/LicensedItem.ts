@@ -114,8 +114,8 @@ abstract class LicensedItem extends CompendiumItem {
       arr = arr.filter(
         x =>
           !x.InLcp ||
-          pilot.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-          pilot.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+          pilot.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
+          pilot.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
       )
     }
 

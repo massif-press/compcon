@@ -317,8 +317,8 @@ export default {
       return CompendiumStore().NpcFeatures.filter(
         x =>
           !x.InLcp ||
-          this.npc.LcpConfig?.packList.some(y => y.packID === x.Brew.LcpId) ||
-          this.npc.LcpConfig?.packList.some(y => y.packName === x.Brew.LcpName)
+          this.npc.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
+          this.npc.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
       )
     },
     allClasses() {
