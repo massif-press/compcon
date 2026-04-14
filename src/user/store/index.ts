@@ -208,13 +208,13 @@ export const UserStore = defineStore('cloud', {
         ...EncounterStore().ActiveEncounters,
         ...EncounterStore().ArchivedEncounters,
         ...PilotStore().PilotSheets,
-      ].filter(x => !x.SaveController.IsDeleted)
+      ]
     },
     AllLocalItems(): any[] {
-      return this.AllItems.filter(x => !x.SaveController.IsDeleted && !x.SaveController.IsRemote)
+      return this.AllItems.filter(x => !x.SaveController.IsRemote)
     },
     AllRemoteItems(): any[] {
-      return this.AllItems.filter(x => !x.SaveController.IsDeleted && x.SaveController.IsRemote)
+      return this.AllItems.filter(x => x.SaveController.IsRemote)
     },
     CloudOnlyItems(): any[] {
       const raw = UserStore().CloudItems.filter(x => {
@@ -251,11 +251,13 @@ export const UserStore = defineStore('cloud', {
     },
     AllItemsToSync(): any[] {
       return this.AllSyncableItems.filter(x => {
+        if (x.SaveController?.IsDeleted) return false
         return this.SyncItemTypes.includes(normalizeItemType(x.ItemType))
       }).filter(x => x.CloudController.SyncStatus !== 'Synced')
     },
     AllRemoteItemsToSync(): any[] {
       return this.AllRemoteItems.filter(x => {
+        if (x.SaveController?.IsDeleted) return false
         return this.SyncItemTypes.includes(normalizeItemType(x.ItemType))
       }).filter(x => x.CloudController.SyncStatus !== 'Synced')
     },

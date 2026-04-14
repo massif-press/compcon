@@ -73,7 +73,19 @@
       </i>
     </template>
     <template #item.syncStatus="{ item }">
-      <span v-if="item.CloudController.Metadata.Deleted">
+      <span v-if="item.SaveController?.IsDeleted">
+        <v-tooltip max-width="300px"
+          location="top">
+          <template #activator="{ props }">
+            <v-icon start
+              color="warning"
+              v-bind="props"
+              icon="mdi-delete-outline" />
+          </template>
+          <div class="text-center">This item has been deleted locally and will not sync.</div>
+        </v-tooltip>
+      </span>
+      <span v-else-if="item.CloudController.Metadata.Deleted">
         <v-tooltip max-width="300px"
           location="top">
           <template #activator="{ props }">
@@ -212,7 +224,85 @@
       </span>
     </template>
     <template #item.actions="{ item }">
-      <div v-if="item.CloudController.Metadata.Deleted">
+      <div v-if="item.SaveController?.IsDeleted">
+        <v-tooltip max-width="300px"
+          location="top">
+          <template #activator="{ props }">
+            <v-btn size="small"
+              color="accent"
+              icon
+              variant="text"
+              v-bind="props"
+              @click="restoreLocalItem(item)">
+              <v-icon size="x-large">mdi-restore</v-icon>
+            </v-btn>
+          </template>
+          <div class="text-center">
+            Restore
+            <br />
+            <i class="text-caption">Restore this item locally. It will resume syncing normally.</i>
+          </div>
+        </v-tooltip>
+        <v-dialog max-width="600px">
+          <template #activator="{ props }">
+            <v-btn size="x-small"
+              color="error"
+              class="mx-1"
+              flat
+              icon
+              v-bind="skipDeleteWarningLocal ? '' : props"
+              @click="skipDeleteWarningLocal ? deleteLocalItemPermanent(item) : ''">
+              <v-tooltip max-width="300px"
+                location="top">
+                <template #activator="{ props }">
+                  <v-icon size="24"
+                    v-bind="props">
+                    mdi-delete-forever
+                  </v-icon>
+                </template>
+                <div class="text-center">Delete Permanently</div>
+              </v-tooltip>
+            </v-btn>
+          </template>
+          <template #default="{ isActive }">
+            <v-card>
+              <v-toolbar flat
+                color="error">
+                <v-toolbar-title>
+                  <span class="heading h3">Delete Permanently</span>
+                </v-toolbar-title>
+                <v-spacer />
+                <v-btn icon
+                  @click="isActive.value = false">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </v-toolbar>
+              <v-card-text>
+                This will permanently remove the item from local storage. If the item has been
+                synced to the cloud, it will also be marked as deleted there.
+                <v-checkbox v-model="skipDeleteWarningLocal"
+                  label="Do not show this warning again"
+                  hide-details />
+              </v-card-text>
+              <v-divider />
+              <v-card-actions>
+                <v-btn variant="text"
+                  @click="isActive.value = false">
+                  Cancel
+                </v-btn>
+                <v-spacer />
+                <v-btn variant="elevated"
+                  color="error"
+                  :loading="loading"
+                  @click="!!deleteLocalItemPermanent(item) ? (isActive.value = false) : ''">
+                  Delete
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
+      </div>
+      <div v-else-if="item.CloudController.Metadata.Deleted">
         <v-tooltip max-width="300px"
           location="top">
           <template #activator="{ props }">
@@ -452,7 +542,7 @@
 </template>
 
 <script lang="ts">
-import { UserStore } from '@/stores'
+import { UserStore, PilotStore, NpcStore, EncounterStore, CampaignStore, NarrativeStore } from '@/stores'
 import DiffViewer from './diffViewer.vue'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import { expandFilterTypes, normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
@@ -578,6 +668,14 @@ export default {
       },
       set(val) {
         UserStore().User.SetView('skipDeleteWarningPerm_item', val)
+      },
+    },
+    skipDeleteWarningLocal: {
+      get() {
+        return UserStore().User.View('skipDeleteWarningLocal_item', false)
+      },
+      set(val) {
+        UserStore().User.SetView('skipDeleteWarningLocal_item', val)
       },
     },
   },
@@ -759,6 +857,68 @@ export default {
         text: 'Share code copied to clipboard.',
         data: { icon: 'mdi-content-copy', color: 'success' },
       })
+    },
+    restoreLocalItem(item: any) {
+      item.SaveController.Restore()
+      this.$notify({
+        title: 'Item Restored',
+        text: `Restored ${item.ItemType} ${item.Name}.`,
+        data: { icon: 'mdi-restore', color: 'success' },
+      })
+    },
+    async deleteLocalItemPermanent(item: any) {
+      this.deleteLoading = true
+      try {
+        const type = normalizeItemType(item.ItemType)
+        switch (type) {
+          case 'pilot':
+            await PilotStore().DeletePilotPermanent(item)
+            break
+          case 'pilotgroup':
+            await PilotStore().DeleteGroupPermanent(item)
+            break
+          case 'unit':
+          case 'doodad':
+          case 'eidolon':
+            await NpcStore().DeleteNpcPermanent(item)
+            break
+          case 'character':
+          case 'faction':
+          case 'location':
+            await NarrativeStore().DeleteItemPermanent(item)
+            break
+          case 'encounter':
+            await EncounterStore().DeleteEncounterPermanent(item)
+            break
+          case 'encounterinstance':
+            await EncounterStore().RemoveEncounterInstance(item)
+            break
+          case 'encounterarchive':
+            await EncounterStore().RemoveEncounterArchive(item)
+            break
+          case 'pilotsheet':
+            await PilotStore().RemovePilotSheet(item)
+            break
+          case 'campaign':
+            await CampaignStore().DeleteCampaign(item)
+            break
+        }
+        this.$notify({
+          title: 'Item Deleted',
+          text: `Removed ${item.ItemType} ${item.Name}.`,
+          data: { icon: 'mdi-delete', color: 'success' },
+        })
+        this.deleteLoading = false
+        return true
+      } catch (err) {
+        logger.error(`Error permanently deleting local item: ${err}`, this, err)
+        this.$notify({
+          title: 'Delete Failed',
+          text: `Failed to delete ${item.ItemType} ${item.Name}. ${err}`,
+          data: { icon: 'mdi-alert', color: 'error' },
+        })
+      }
+      this.deleteLoading = false
     },
   },
 }
