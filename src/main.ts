@@ -31,8 +31,6 @@ import Startup from './io/Startup'
 import { reportWebVitals } from '@/util/performance'
 
 import { Amplify } from 'aws-amplify'
-import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito'
-import { sessionStorage } from 'aws-amplify/utils'
 
 Amplify.configure({
   Auth: {
@@ -60,8 +58,6 @@ Amplify.configure({
     },
   },
 })
-
-cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage)
 
 const compcon = createApp(App)
 
@@ -106,8 +102,17 @@ if (import.meta.env.VITE_APP_ENV !== 'localhost') {
     replaysOnErrorSampleRate: 1.0, // 100% of error sessions
     environment: import.meta.env.MODE,
     release: APP_VERSION,
-    beforeSend(event) {
+    beforeSend(event, hint) {
       if (!isErrorReportingEnabled()) return null
+      // Suppress expected Amplify auth errors (user not logged in)
+      const err = hint?.originalException
+      if (
+        err instanceof Error &&
+        (err.name === 'UserUnAuthenticatedException' ||
+          err.message?.includes('User needs to be authenticated'))
+      ) {
+        return null
+      }
       if (!isEnhancedReportingEnabled()) {
         // Strip PII when enhanced reporting is off
         delete event.user

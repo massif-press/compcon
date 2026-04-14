@@ -149,6 +149,9 @@ export function transformV2Pilot(data: any): any {
 
   return {
     ...data,
+    core_bonuses: (data.core_bonuses || []).map((cb: any) =>
+      typeof cb === 'string' ? { id: cb } : cb
+    ),
     itemType: 'pilot',
     is_instance: false,
     instanceId: '',
