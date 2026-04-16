@@ -44,7 +44,7 @@
     </v-toolbar>
     <v-card flat
       tile
-      :variant="!noFrame && 'outlined'"
+      :variant="!noFrame ? 'outlined' : 'plain'"
       :color="color">
       <v-card-text :class="noFrame ? 'pa-0' : mobile ? 'px-0' : ''">
         <slot />
@@ -54,8 +54,8 @@
 </template>
 
 <script lang="ts">
+import { Loadout } from '@/class';
 import { useMobile } from '@/mixins/useMobile';
-
 
 export default {
   name: 'CcLoadoutPanel',
@@ -82,7 +82,7 @@ export default {
       default: false,
     },
   },
-  emits: ['remove-loadout', 'add-loadout'],
+  emits: ['remove-loadout', 'add-loadout', 'set-active'],
   data: () => ({
     confirmMenu: false,
   }),

@@ -47,6 +47,11 @@ export default {
     newStr: '',
     editing: false,
   }),
+  watch: {
+    placeholder(val) {
+      if (!this.editing) this.newStr = val || '';
+    },
+  },
   created() {
     if (this.placeholder) this.newStr = this.placeholder;
   },
