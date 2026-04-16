@@ -229,7 +229,7 @@ export async function migrateV2LocalStorage(): Promise<FullImportResult | null> 
   presentKeys.forEach(k => window.localStorage.removeItem(k))
 
   logger.info(
-    `FullImporter: migration complete — ` +
+    `FullImporter: migration complete - ` +
       `${migrationResult.pilotsImported} pilots imported, ` +
       `${migrationResult.pilotsBackedUp} pilots backed up, ` +
       `${migrationResult.npcsImported} npcs imported, ` +

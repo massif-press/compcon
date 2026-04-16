@@ -61,7 +61,6 @@ const _debouncedSetUserMetadata = debounce(
         itch_data: store.UserMetadata.ItchData,
         v2_cloud_import_status: store.UserMetadata.V2CloudImportStatus,
       }
-      // Use PATCH semantics: only send changed fields to avoid full-replace overwrites
       await patchItem('meta', payload)
     } finally {
       const resolvers = _pendingMetadataResolvers
@@ -245,7 +244,7 @@ export const UserStore = defineStore('cloud', {
     },
     // does not include remote items
     AllSyncableItems(): any[] {
-      // Touch SyncVersion so this getter recomputes after sync completes
+      // touch SyncVersion so this getter recomputes after sync completes
       void this.SyncVersion
       return this.AllLocalItems.concat(this.CloudOnlyItems)
     },
@@ -343,7 +342,7 @@ export const UserStore = defineStore('cloud', {
         data = await getUser(this.Cognito.userId)
       } catch (e) {
         if (e instanceof UnauthorizedError) {
-          logger.warn('Unauthorized response from server — signing out')
+          logger.warn('Unauthorized response from server, signing out')
           try {
             await signOut()
           } catch (_) {
@@ -402,9 +401,8 @@ export const UserStore = defineStore('cloud', {
       await this.setUserMetadata()
     },
     async setMetadataFromDynamo(): Promise<void> {
-      // On first load (LastQuery === 0), do full fetch then switch to delta sync
+      // on first load (LastQuery === 0), do full fetch then switch to delta sync
       if (this.LastQuery === 0) {
-        // Full sync
         this.CloudArchives = []
         this.CloudItems = []
         this.CloudImages = []
@@ -432,7 +430,6 @@ export const UserStore = defineStore('cloud', {
         })
         this.CloudStorageUsed = totalSizeBytes
       } else {
-        // Delta sync: only fetch items changed since last query
         const result = await getUserDataChanged(this.Cognito.userId, this.LastQuery)
         this.LastQuery = result.serverTime
         if (this.Cognito.userId) {
@@ -448,7 +445,6 @@ export const UserStore = defineStore('cloud', {
             return
           }
           if (localItem) {
-            // Update size delta
             const oldSize = localItem.CloudController?.Metadata?.Size || 0
             const newSize = item.size && !isNaN(item.size) ? item.size : 0
             totalSizeBytes += newSize - oldSize
@@ -658,7 +654,6 @@ export const UserStore = defineStore('cloud', {
         const failures = [] as any[]
         const queue = await SyncQueue.getInstance()
 
-        // Determine which items need to be pushed to cloud vs pulled from cloud
         const toCloud: any[] = []
         const toLocal: any[] = []
         const toNewest: any[] = []
@@ -671,7 +666,6 @@ export const UserStore = defineStore('cloud', {
           } else if (overrideTo === 'newest') {
             toNewest.push(item)
           } else {
-            // Use strategy
             switch (strategy) {
               case 'local':
                 if (item.IsCloudOnly) toCloud.push(item)
@@ -687,14 +681,13 @@ export const UserStore = defineStore('cloud', {
           }
         }
 
-        // Separate newest into cloud/local based on status
         for (const item of toNewest) {
           if (item.IsCloudOnly || item.CloudController.SyncStatus === 'CloudNewer')
             toCloud.push(item)
           else toLocal.push(item)
         }
 
-        // Handle items to pull from cloud (can't batch these — each is a separate download)
+        // can't batch these
         for (const item of toCloud) {
           const sortKey = item.CloudController?.Metadata?.sortkey
           try {
@@ -716,9 +709,7 @@ export const UserStore = defineStore('cloud', {
           }
         }
 
-        // Handle items to push to local (cloud) — use batch upload
         if (toLocal.length > 0) {
-          // Enqueue all
           for (const item of toLocal) {
             const sortKey = item.CloudController?.Metadata?.sortkey
             if (sortKey)
@@ -737,7 +728,7 @@ export const UserStore = defineStore('cloud', {
             failures.push(...batchFailures)
           } catch (e) {
             logger.error('AutoSync batch upload error:', e)
-            // If batch fails entirely, record failures for all
+            // if batch fails, record failures for all
             for (const item of toLocal) {
               const sortKey = item.CloudController?.Metadata?.sortkey
               if (sortKey) await queue.recordFailure(sortKey, String(e))
@@ -745,7 +736,7 @@ export const UserStore = defineStore('cloud', {
             }
           }
 
-          // Dequeue successful items
+          // dequeue successful items
           for (const item of toLocal) {
             const sortKey = item.CloudController?.Metadata?.sortkey
             const failed = failures.some(f => f.item === item)
@@ -914,7 +905,7 @@ export const UserStore = defineStore('cloud', {
     async deleteAllCloudData(): Promise<void> {
       const allItems = [...this.CloudItems, ...this.CloudArchives, ...this.CloudImages]
 
-      // Bulk delete in groups of 25 (DynamoDB BatchWriteItem limit)
+      // groups of 25 (dynamoDB BatchWriteItem limit)
       const BULK_SIZE = 25
       for (let i = 0; i < allItems.length; i += BULK_SIZE) {
         const batch = allItems.slice(i, i + BULK_SIZE)
@@ -928,7 +919,7 @@ export const UserStore = defineStore('cloud', {
           }
         } catch (e) {
           logger.error('Bulk delete failed, falling back to individual deletes:', e)
-          // Fallback to individual deletes
+          // fallback to individual deletes
           await Promise.allSettled(
             batch.map(item => cloudDelete(this.UserMetadata.UserID, item.sortkey, item.uri))
           )

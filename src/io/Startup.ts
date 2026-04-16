@@ -76,7 +76,7 @@ export default async function (skipSync = false): Promise<void> {
       logger.info('Auto sync complete!')
     } catch (error: any) {
       if (error instanceof UnauthorizedError) {
-        logger.warn('Authentication expired during startup sync — continuing offline')
+        logger.warn('Authentication expired during startup sync, continuing offline')
       } else {
         logger.error(`Failed to sync: ${error}`, {}, error)
       }
