@@ -189,7 +189,7 @@ class CloudController {
 
   public async UpdateCloud(scope = 'item') {
     const savedata = this.Parent.Serialize(this.Parent)
-    // Check content hash — skip upload if data is unchanged
+    // Check content hash - skip upload if data is unchanged
     const newHash = CloudController.computeContentHash(savedata)
     if (this._lastContentHash && this._lastContentHash === newHash) {
       logger.info('CloudController: content unchanged (hash match), skipping upload')
@@ -278,7 +278,7 @@ class CloudController {
 
     const failures: any[] = []
 
-    // Process in BATCH_SIZE chunks — pipeline batchUpsert for chunk N+1
+    // Process in BATCH_SIZE chunks - pipeline batchUpsert for chunk N+1
     // while S3 uploads for chunk N are in-flight.
     const syncTimestamp = Date.now()
     const userId = UserStore().Cognito.userId
@@ -291,7 +291,7 @@ class CloudController {
       // Deterministic key: same key on retry, unique per chunk
       const idempotencyKey = generateDeterministicKey(userId, `batch-${i}`, syncTimestamp)
 
-      // Resolve presigned URLs — either from pre-fetched promise or fresh call
+      // Resolve presigned URLs - either from pre-fetched promise or fresh call
       const response = await (nextBatchPromise ?? batchUpsert(batchItems, idempotencyKey))
       nextBatchPromise = null
 
@@ -299,7 +299,10 @@ class CloudController {
       const nextOffset = i + BATCH_SIZE
       if (nextOffset < prepared.length) {
         const nextKey = generateDeterministicKey(userId, `batch-${nextOffset}`, syncTimestamp)
-        nextBatchPromise = batchUpsert(prepared.slice(nextOffset, nextOffset + BATCH_SIZE).map(p => p.meta), nextKey)
+        nextBatchPromise = batchUpsert(
+          prepared.slice(nextOffset, nextOffset + BATCH_SIZE).map(p => p.meta),
+          nextKey
+        )
       }
 
       if (!response.results || !Array.isArray(response.results)) {

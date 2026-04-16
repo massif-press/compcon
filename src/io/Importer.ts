@@ -76,7 +76,6 @@ export const StageImport = async (data: any): Promise<StagedObject[]> => {
   let content = [] as any[]
 
   if (Array.isArray(data) && isV2Encounter(data)) {
-    // v2 encounter files are top-level arrays — treat each element as a separate item
     content = data
   } else if (data.type && data.type.includes('collection')) {
     content = data.data

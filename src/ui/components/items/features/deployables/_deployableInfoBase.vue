@@ -115,9 +115,6 @@ export default {
     ByTierArray(str: string) {
       return ByTierArray(str, this.tier);
     },
-    // Resolves a raw stat value to a number.
-    // Handles plain numbers, tier arrays ('[5,8,12]'), and {statKey} expressions.
-    // Returns undefined when the value is an expression that cannot be resolved.
     _resolveBase(raw: number | string | undefined, defaultVal: number): number | undefined {
       if (raw === undefined || raw === null || raw === '') return defaultVal;
       if (typeof raw === 'number') return raw;
@@ -142,7 +139,7 @@ export default {
     // defaultVal: fallback when raw is absent
     effectiveStatValue(raw: number | string | undefined, bonusSuffix: string, defaultVal = 0): number | string {
       const base = this._resolveBase(raw, defaultVal);
-      // If base is undefined the raw value is an unresolvable expression — return it for display as-is
+      // if base is undefined the raw value is an unresolvable expression. return it for display as-is
       if (base === undefined) return raw as string;
 
       const bc = this._bonusController;

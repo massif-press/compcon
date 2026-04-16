@@ -69,17 +69,17 @@ async function fetchWithRetry(
         continue
       }
 
-      // Don't retry 404 Not Found — parse structured error and throw
+      // Don't retry 404
       if (response.status === 404) {
         const body = await parseApiError(response)
         throw new NotFoundError(body.message, body.requestId)
       }
 
-      // On 401, force-refresh the auth session and retry once before giving up
+      // On 401, force-refresh the auth session and retry once
       if (response.status === 401) {
         if (!hasRefreshedToken) {
           hasRefreshedToken = true
-          logger.info('Received 401 — force-refreshing auth session and retrying')
+          logger.info('Received 401 - force-refreshing auth session and retrying')
           const freshHeaders = await getHeaders(true)
           init = { ...init, headers: freshHeaders }
           continue
@@ -88,7 +88,7 @@ async function fetchWithRetry(
         throw new UnauthorizedError(body.message)
       }
 
-      // Don't retry 409 Conflict — surface it for optimistic concurrency handling
+      // Don't retry 409 surface for optimistic handling
       if (response.status === 409) {
         return response
       }
@@ -106,8 +106,12 @@ async function fetchWithRetry(
     } catch (error: any) {
       clearTimeout(timeoutId)
 
-      // Don't retry structured client errors — propagate immediately
-      if (error instanceof UnauthorizedError || error instanceof NotFoundError || error instanceof RateLimitError) {
+      // don't retry structured client errors
+      if (
+        error instanceof UnauthorizedError ||
+        error instanceof NotFoundError ||
+        error instanceof RateLimitError
+      ) {
         throw error
       }
 
@@ -276,8 +280,8 @@ export class RateLimitError extends Error {
   constructor(retryAfter: number | null, isDaily: boolean) {
     super(
       isDaily
-        ? 'Global daily request limit reached — try again tomorrow'
-        : 'Too many requests — please try again shortly'
+        ? 'Global daily request limit reached - try again tomorrow'
+        : 'Too many requests - please try again shortly'
     )
     this.name = 'RateLimitError'
     this.retryAfter = retryAfter
@@ -437,9 +441,10 @@ export async function GetFromCode(codes: string | string[]) {
   url.searchParams.append('scope', isArray ? 'items' : 'item')
   url.searchParams.append('codes', JSON.stringify(isArray ? codes : [codes]))
 
+  // share code lookups are public. send only the API key, not the auth token.
   const response = await fetchWithRetry(url.toString(), {
     method: 'GET',
-    headers: await getHeaders(),
+    headers: { ...baseHeaders },
   })
 
   const data = await response.json()

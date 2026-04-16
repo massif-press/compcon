@@ -197,7 +197,7 @@ class DeployableInstance implements ICombatant {
       const isDrone = this.Base.Type.toLowerCase() === 'drone'
       if (isDrone) bc.applyChildBonuses(this.CombatController.StatController, 'drone_')
       else bc.applyChildBonuses(this.CombatController.StatController, 'deployable_')
-      // Bonuses may have changed max stats — re-sync current stats so current HP
+      // Bonuses may have changed max stats, re-sync current stats so current HP
       // always equals final max HP on fresh deployment.
       this.CombatController.StatController.resetCurrentStats()
     }

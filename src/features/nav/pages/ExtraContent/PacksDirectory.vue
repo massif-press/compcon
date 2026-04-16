@@ -85,7 +85,7 @@ export default {
     try {
       this.catalog = await collectionDataQuery();
     } catch {
-      // API unreachable — leave catalog empty, table shows no-data text
+      // API unreachable
     } finally {
       this.loading = false;
     }

@@ -41,14 +41,12 @@ export async function checkV2CloudData(userId: string): Promise<V2CloudDetectRes
 }
 
 export async function downloadV2CloudData(
-  userId: string,
-  identityId: string
+  userId: string
 ): Promise<Array<{ filename: string; data: string | null }>> {
   const headers = await getHeaders()
   const res = await fetch(`${API_BASE}/v2migration?user_id=${encodeURIComponent(userId)}`, {
     method: 'POST',
     headers,
-    body: JSON.stringify({ identity_id: identityId }),
   })
   if (!res.ok) throw new Error(`V2 download failed: ${res.status}`)
   const { backup } = await res.json()
@@ -57,8 +55,7 @@ export async function downloadV2CloudData(
 
 export async function runV2CloudMigration(userId: string): Promise<V2CloudMigrationResult> {
   try {
-    const identityId = await getCognitoIdentityId()
-    const backup = await downloadV2CloudData(userId, identityId)
+    const backup = await downloadV2CloudData(userId)
 
     if (!backup || backup.length === 0) {
       return { status: 'empty' }

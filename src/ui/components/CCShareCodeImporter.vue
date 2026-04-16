@@ -197,7 +197,7 @@ export default {
       return this.code.some(char => char === '')
     },
     isUserOwned() {
-      return this.queryResult && this.queryResult.user_id === UserStore().Cognito.userId
+      return !!(this.queryResult?.sortkey && UserStore().getLocalItem(this.queryResult.sortkey))
     },
     canDownload() {
       return this.queryResult && this.queryResult.uri

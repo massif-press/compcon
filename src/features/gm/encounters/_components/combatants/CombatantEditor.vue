@@ -348,7 +348,6 @@ export default {
       this.editDialog = true;
 
       if (newType !== this._lastEditorType) {
-        // New editor type — defer mount so dialog shell paints first
         this.editorReady = false;
         this._lastEditorType = newType;
         setTimeout(() => { this.editorReady = true; }, 0);

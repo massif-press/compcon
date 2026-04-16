@@ -9,7 +9,7 @@ export function isSyncLocked(): boolean {
 
 export async function withSyncLock<T>(fn: () => Promise<T>): Promise<T> {
   if (_syncLock) {
-    logger.warn('SyncService: sync already in progress — skipping duplicate request')
+    logger.warn('SyncService: sync already in progress - skipping duplicate request')
     await _syncLock
     return undefined as unknown as T
   }

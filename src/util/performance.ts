@@ -8,10 +8,10 @@ import * as Sentry from '@sentry/vue'
  * In development, metrics are logged to the console for debugging.
  *
  * Tracked metrics:
- *  - CLS  (Cumulative Layout Shift)   — target < 0.1
- *  - INP  (Interaction to Next Paint) — target < 200ms
+ *  - CLS  (Cumulative Layout Shift)   ---- target < 0.1
+ *  - INP  (Interaction to Next Paint) ---- target < 200ms
  *  - FCP  (First Contentful Paint)
- *  - LCP  (Largest Contentful Paint)  — target < 2.5s
+ *  - LCP  (Largest Contentful Paint)  ---- target < 2.5s
  *  - TTFB (Time to First Byte)
  */
 export function reportWebVitals(): void {

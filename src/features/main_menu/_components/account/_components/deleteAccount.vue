@@ -45,7 +45,7 @@
       required
       hide-details />
     <cc-button type="submit"
-      color="red-darken-3"
+      color="red"
       block
       size="x-large"
       class="mt-2"
