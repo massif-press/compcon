@@ -369,8 +369,10 @@
         }
       },
       async removeItem(item) {
+        const code = item.SaveController.RemoteCode
         item.SaveController.Delete()
-        UserStore().deleteRemoteItem(item.SaveController.RemoteCode)
+        item.SaveController.ClearRemote()
+        UserStore().deleteRemoteItem(code)
         this.$notify({
           title: `Item Removed`,
           text: `${item.ItemType} ${item.Name} removed from this device.`,

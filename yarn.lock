@@ -2433,10 +2433,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@massif/lancer-data@npm:^4.0.0-beta.25":
-  version: 4.0.0-beta.25
-  resolution: "@massif/lancer-data@npm:4.0.0-beta.25"
-  checksum: 10c0/565804e2457ce3f625dcc9b5117244639d397177b798daf51e490bbc063c056b45a37a712a38fe7e81e6ab5ec922107151d8dd4a84221d5274e625562e74029b
+"@massif/lancer-data@npm:^4.0.0-beta.26":
+  version: 4.0.0-beta.26
+  resolution: "@massif/lancer-data@npm:4.0.0-beta.26"
+  checksum: 10c0/fa162a376240326a7f20746c3edbe02ec10903cab4667e2cde5ea9153f54ff0b97141fd3647786a2bd86e971d019147a4b13c0bf38ab8a4c6dfacd2f0f9b56b4
   languageName: node
   linkType: hard
 
@@ -4953,7 +4953,7 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^10.0.1"
     "@kyvg/vue3-notification": "npm:3.4.2"
-    "@massif/lancer-data": "npm:^4.0.0-beta.25"
+    "@massif/lancer-data": "npm:^4.0.0-beta.26"
     "@mdi/font": "npm:7.4.47"
     "@sentry/vite-plugin": "npm:^5.1.1"
     "@sentry/vue": "npm:^10.40.0"

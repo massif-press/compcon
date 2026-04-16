@@ -213,7 +213,7 @@ export const UserStore = defineStore('cloud', {
       return this.AllItems.filter(x => !x.SaveController.IsRemote)
     },
     AllRemoteItems(): any[] {
-      return this.AllItems.filter(x => x.SaveController.IsRemote)
+      return this.AllItems.filter(x => x.SaveController.IsRemote && !x.SaveController.IsDeleted)
     },
     CloudOnlyItems(): any[] {
       const raw = UserStore().CloudItems.filter(x => {

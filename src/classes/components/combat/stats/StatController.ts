@@ -131,8 +131,9 @@ class StatController {
   }
 
   public get DisplayKeys(): { key: string; title: string; type: string }[] {
-    return Object.keys(this._currentStats)
+    return Object.keys(this._maxStats)
       .filter(x => x.toLowerCase() !== 'sizes')
+      .filter(x => !!this._maxStats[x])
       .map(key => ({
         key,
         title: Stats.expandKey(key),

@@ -2,8 +2,8 @@
   <div class="heading"> {{ combatant.actor.CombatController.CombatName }}{{ possessive }}
     Deployed Equipment: </div>
   <v-card class="pb-2 px-2">
-    <v-row dense
-      v-if="combatant.deployables.length">
+    <v-row v-if="combatant.deployables.length"
+      dense>
       <v-col v-for="d in combatant.deployables"
         :key="d.id"
         cols="12"
@@ -48,11 +48,9 @@
 
 </template>
 
-<script>
+<script lang="ts">
 import DeployableListItem from '../../gm/_components/ListItems/DeployableListItem.vue';
 import DeployablePanel from '../../gm/EncounterPanels/DeployablePanel.vue';
-
-
 
 export default {
   name: 'PcDeployablesPanel',

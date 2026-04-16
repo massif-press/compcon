@@ -8,8 +8,8 @@
           flat
           tile
           variant="outlined"
-          @click.stop="$emit('click', $event)"
-          :style="`border-color: ${selected ? 'rgb(var(--v-theme-accent))' : isHovering ? 'rgb(var(--v-theme-primary))' : 'rgb(var(--v-theme-panel))'};`">
+          :style="`border-color: ${selected ? 'rgb(var(--v-theme-accent))' : isHovering ? 'rgb(var(--v-theme-primary))' : 'rgb(var(--v-theme-panel))'};`"
+          @click.stop="$emit('click', $event)">
           <v-row :justify="collapsed ? 'center' : 'space-between'"
             dense
             :style="collapsed && !activations ? 'opacity: 0.4' : ''">
@@ -46,21 +46,21 @@
                 </span>
               </div>
 
-              <div style="font-size: 16px"
-                v-if="!destroyed">
+              <div v-if="!destroyed"
+                style="font-size: 16px">
                 <v-row dense
                   justify="space-between"
                   align="center"
                   class="pl-2 pr-6">
-                  <v-col cols="auto"
-                    v-for="stat in deployable.StatController.GetStatCollection([
-                      'hp',
-                      'stress',
-                      'heatcap',
-                      'structure',
-                      'repairCapacity',
-                    ])"
-                    :key="stat.key">
+                  <v-col v-for="stat in deployable.StatController.GetStatCollection([
+                    'hp',
+                    'stress',
+                    'heatcap',
+                    'structure',
+                    'repairCapacity',
+                  ])"
+                    :key="stat.key"
+                    cols="auto">
                     <v-tooltip :text="stat.title"
                       location="top"
                       open-delay="400">
@@ -84,14 +84,14 @@
                   justify="space-between"
                   align="center"
                   class="pl-2 pr-6">
-                  <v-col cols="auto"
-                    v-for="stat in deployable.StatController.GetStatCollection([
-                      'armor',
-                      'evasion',
-                      'edef',
-                      'saveTarget',
-                    ])"
-                    :key="stat.key">
+                  <v-col v-for="stat in deployable.StatController.GetStatCollection([
+                    'armor',
+                    'evasion',
+                    'edef',
+                    'saveTarget',
+                  ])"
+                    :key="stat.key"
+                    cols="auto">
                     <v-tooltip :text="stat.title"
                       location="top"
                       open-delay="400">
@@ -200,33 +200,6 @@
                 </v-progress-linear>
               </div>
             </v-col>
-            <!-- <v-col
-              v-if="!collapsed"
-              class="d-flex align-center"
-              style="padding-left: 2px; padding-right: 2px"
-              :class="
-                destroyed ? 'bg-background' : activations > 0 ? 'bg-success-darken-2' : 'bg-grey'
-              "
-              cols="auto">
-              <div>
-                <v-tooltip location="bottom" open-delay="400">
-                  <template #activator="{ props }">
-                    <v-icon v-if="destroyed" icon="mdi-cancel" size="20" />
-                    <v-icon v-else-if="!activations" icon="cc:activate" size="20" />
-                    <v-icon
-                      v-else
-                      v-bind="props"
-                      v-for="n in activations"
-                      icon="cc:activate"
-                      size="20"
-                      class="d-block" />
-                  </template>
-                  <span class="text-cc-overline">
-                    {{ activations }} Activations remaining this round
-                  </span>
-                </v-tooltip>
-              </div>
-            </v-col> -->
           </v-row>
         </v-card>
       </template>
@@ -234,7 +207,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'DeployableListItem',
   props: {

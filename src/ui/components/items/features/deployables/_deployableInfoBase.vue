@@ -12,16 +12,16 @@
         name="Armor"
         inline
         :value="effectiveStatValue(deployable.Armor, 'armor')" />
-      <cc-statblock-panel v-if="deployable.HP || deployable.Size"
+      <cc-statblock-panel v-if="deployable.MaxHP"
         icon="mdi-heart"
         name="HP"
         inline
-        :value="effectiveStatValue(deployable.HP || parseFloat(deployable.Size || 0.5) * 10, 'hp')" />
-      <cc-statblock-panel v-if="deployable.Size"
+        :value="effectiveStatValue(deployable.MaxHP, 'hp')" />
+      <cc-statblock-panel v-if="deployable.Evasion"
         icon="cc:evasion"
         inline
         name="Evasion"
-        :value="effectiveStatValue(deployable.evasion, 'evasion', 5) || 5" />
+        :value="effectiveStatValue(deployable.Evasion, 'evasion')" />
       <cc-statblock-panel v-if="deployable.EDefense"
         icon="cc:edef"
         inline
