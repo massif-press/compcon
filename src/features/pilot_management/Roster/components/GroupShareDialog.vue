@@ -106,7 +106,8 @@ export default {
       const item = await CloudController.NewByType(itemType, itemData);
       if (remote) {
         item.CloudController.setRemoteMetadata(this.queryResult);
-        UserStore().addRemoteItem(this.queryResult.code);
+        if (UserStore().IsLoggedIn)
+          UserStore().addRemoteItem(this.queryResult.code);
       } else {
         item.CloudController.GenerateMetadata();
       }

@@ -100,8 +100,8 @@ export default async function (skipSync = false): Promise<void> {
         const patreonStatus = await UserStore().refreshPatreonData()
         if (patreonStatus === 'success') {
           logger.info('Patreon data refreshed')
-        } else {
-          logger.error('Failed to refresh Patreon data')
+        } else if (patreonStatus === 'skipped') {
+          // do nothing, data is valid
         }
       } catch (error: any) {
         logger.error(`Failed to refresh Patreon data: ${error}`, {}, error)

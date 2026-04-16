@@ -618,7 +618,7 @@ export const UserStore = defineStore('cloud', {
           if (localOwnedCollection) {
             localOwnedCollection.Metadata = item
           } else {
-            logger.error('Unable to find local collection:', item)
+            logger.info('Unable to find local collection:', item)
           }
           arrType = 'UserPublishedCollections'
           break
