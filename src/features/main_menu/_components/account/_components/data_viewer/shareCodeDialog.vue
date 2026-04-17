@@ -126,6 +126,11 @@ export default {
     async downloadAsCopy(remote = false) {
       this.dlLoading = true;
       const itemData = await downloadFromS3(this.queryResult.uri);
+      if (itemData?.save) {
+        delete itemData.save.remote_code;
+        delete itemData.save.remote_author;
+        delete itemData.save.remote_collection;
+      }
       const itemType = this.queryResult.sortkey.split('_')[1];
       const item = await CloudController.NewByType(itemType, itemData);
       if (remote) {

@@ -15,9 +15,6 @@
         :pilot="pilot" />
       <mobile-options-view v-else-if="page === 5"
         :pilot="pilot" />
-      <v-btn large
-        block
-        @click="debugExport">debug export</v-btn>
     </div>
     <pilot-nav-mobile v-if="mobile"
       :pilot="pilot"
@@ -48,7 +45,6 @@ import BondsView from './sections/bonds/index.vue';
 import { UserStore } from '@/stores';
 import PilotHeaderMobile from './components/PilotHeaderMobile.vue';
 import MobileOptionsView from './MobileOptions.vue';
-import { debug } from 'console';
 
 export default {
   name: 'PilotSheet',
@@ -90,18 +86,5 @@ export default {
     this.page = parseInt(UserStore().User.View('pilotSheetPage', 1));
     if (this.pilot) document.title = `${this.pilot.Callsign} (${this.pilot.Name})`;
   },
-  methods: {
-    debugExport() {
-      // put pilot json in console and copy to clipboard
-      const out = JSON.stringify(this.pilot.Serialize(), null, 2);
-      console.log(out);
-      navigator.clipboard.writeText(out)
-        .catch(err => {
-          console.error('Clipboard copy failed:', err);
-        });
-
-    },
-  },
-
 };
 </script>
