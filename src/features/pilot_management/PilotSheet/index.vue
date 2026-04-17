@@ -15,9 +15,6 @@
         :pilot="pilot" />
       <mobile-options-view v-else-if="page === 5"
         :pilot="pilot" />
-      <v-btn large
-        block
-        @click="debugExport">debug export</v-btn>
     </div>
     <pilot-nav-mobile v-if="mobile"
       :pilot="pilot"

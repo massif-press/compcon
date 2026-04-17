@@ -51,7 +51,7 @@
         justify="space-around">
         <v-col cols="auto">
           <cc-modal title="Cloud Account"
-            icon="mdi-satellite-uplink">
+            icon="mdi-cloud-sync">
             <template #activator="{ open }">
               <cc-button v-if="landscape"
                 :loading="startingUp"
@@ -69,7 +69,7 @@
                 class="mx-2"
                 :variant="isLoggedIn ? '' : 'outlined'"
                 :color="isLoggedIn ? 'success' : ''"
-                :icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
+                :icon="isLoggedIn ? 'mdi-cloud-sync' : 'mdi-cloud-off-outline'"
                 @click="open" />
             </template>
             <sign-in />
