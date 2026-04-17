@@ -141,11 +141,26 @@
           </v-row>
           <v-card-text class="py-0"
             :class="[rosterView.includes('card') ? 'text-center' : '', mobile ? 'px-0' : 'px-2']">
-            <component :is="pilotCardType"
-              v-for="pilot in pilots"
-              :key="pilot.ID"
-              :pilot="pilot"
-              @go-to="toPilotSheet(pilot.ID)" />
+            <template v-if="rosterView === 'list' && pilots.length > 20">
+              <v-virtual-scroll
+                :items="pilots"
+                :item-height="88"
+                :height="Math.min(pilots.length * 88, 600)">
+                <template #default="{ item }">
+                  <pilot-list-item
+                    :key="item.ID"
+                    :pilot="item"
+                    @go-to="toPilotSheet(item.ID)" />
+                </template>
+              </v-virtual-scroll>
+            </template>
+            <template v-else>
+              <component :is="pilotCardType"
+                v-for="pilot in pilots"
+                :key="pilot.ID"
+                :pilot="pilot"
+                @go-to="toPilotSheet(pilot.ID)" />
+            </template>
           </v-card-text>
           <v-expand-transition>
             <v-row v-if="edit"

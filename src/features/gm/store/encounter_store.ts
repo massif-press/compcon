@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
 import * as _ from 'lodash-es'
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter'
-import { IndexItem } from '@/stores'
+import { IndexItem, NavStore } from '@/stores'
 import { CloudController } from '@/classes/components'
 import logger from '@/user/logger'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
@@ -114,6 +114,7 @@ export const EncounterStore = defineStore('encounter', {
       }
 
       this.Encounters.push(payload)
+      NavStore().updateEncounterEntry(payload)
       await SetItem('encounters', payload.Serialize())
     },
 
@@ -201,6 +202,7 @@ export const EncounterStore = defineStore('encounter', {
     async DeleteEncounterPermanent(payload: Encounter): Promise<void> {
       const idx = this.Encounters.findIndex(x => x.ID === payload.ID)
       if (idx >= 0) this.Encounters.splice(idx, 1)
+      NavStore().removeEncounterEntry(payload.ID)
       await RemoveItem('Encounters', payload.ID)
       this.SaveEncounterData()
       if (payload.CloudController.ShareCode) {

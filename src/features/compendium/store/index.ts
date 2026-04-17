@@ -3,7 +3,7 @@ import { markRaw } from 'vue'
 import { defineStore } from 'pinia'
 import * as _ from 'lodash-es'
 import semver from 'semver'
-import lancerData from '@massif/lancer-data'
+import _lancerData from '@massif/lancer-data'
 import {
   License,
   CoreBonus,
@@ -41,6 +41,9 @@ import logger from '@/user/logger'
 import { StatController } from '@/classes/components/combat/stats/StatController'
 import { registerBonus, clearBonusExtensions } from '@/classes/components/feature/bonus/bonus_dictionary'
 import { RollableTable } from '@/classes/narrative/elements/RollableTable'
+
+const lancerData = markRaw(_lancerData)
+const _lancerDataCache = new Map<string, any[]>()
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -105,18 +108,24 @@ const itemTypeMap = {
   downtimeActions: 'DowntimeActions',
 }
 
-function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }): T[] {
-  let lData = []
-  if (lancerData[itemType]) {
-    lData = constructor ? lancerData[itemType].map(x => new constructor(x)) : lancerData[itemType]
-  }
+function getLancerData<T>(itemType: string, constructor?: { new (Y: any): T }): T[] {
+  if (_lancerDataCache.has(itemType)) return _lancerDataCache.get(itemType) as T[]
+  const result: T[] = lancerData[itemType]
+    ? constructor
+      ? lancerData[itemType].map((x: any) => new constructor(x))
+      : lancerData[itemType]
+    : []
+  _lancerDataCache.set(itemType, result)
+  return result
+}
 
-  return [
-    ...lData,
-    ...state.ContentPacks.filter((pack: ContentPack) => pack.Active).flatMap(
-      (pack: ContentPack) => pack[hydratedKeys[itemType]] || []
-    ),
-  ]
+function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }): T[] {
+  const lData = getLancerData<T>(itemType, constructor)
+  const packData = state.ContentPacks.filter((pack: ContentPack) => pack.Active).flatMap(
+    (pack: ContentPack) => pack[hydratedKeys[itemType]] || []
+  )
+  if (packData.length === 0) return lData
+  return [...lData, ...packData]
 }
 
 export const CompendiumStore = defineStore('compendium', {
@@ -169,7 +178,7 @@ export const CompendiumStore = defineStore('compendium', {
     Tables: state => collect<RollableTable>(state, 'tables', RollableTable),
 
     Lists: state => {
-      const lists = lancerData.lists
+      const lists = { ...lancerData.lists }
       state.ContentPacks.filter(pack => pack.Active).forEach(pack => {
         for (const t in pack.Lists) {
           if (lists[t] !== undefined) lists[t] = [...lists[t], ...pack.Lists[t]]
@@ -309,7 +318,7 @@ export const CompendiumStore = defineStore('compendium', {
 
     itemIndexes(): IndexItem[] {
       const index: IndexItem[] = []
-      const keys = _.uniq(Object.values(itemTypeMap))
+      const keys = [...new Set(Object.values(itemTypeMap))]
 
       keys.forEach(key => {
         index.push(
@@ -462,6 +471,7 @@ export const CompendiumStore = defineStore('compendium', {
       }
 
       this.loaded = true
+      NavStore().rebuildCompendiumIndex()
     },
     async loadContentCollections(): Promise<void> {
       const content = await GetAll('content_collection')

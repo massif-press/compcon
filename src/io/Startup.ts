@@ -110,13 +110,16 @@ export default async function (skipSync = false): Promise<void> {
       const subscribedLcps = UserStore().User.LcpSubscriptions
       if (subscribedLcps.length > 0) {
         const remoteLcps = await collectionDataQuery()
-        for (const lcp of remoteLcps) {
-          if (!subscribedLcps.includes(lcp.sortkey)) continue
-
+        const lcpsToUpdate = remoteLcps.filter(lcp => {
+          if (!subscribedLcps.includes(lcp.sortkey)) return false
           const installedPack = CompendiumStore().ContentPacks.find(
             p => p.Manifest.name === lcp.name || p.Manifest.name === lcp.title
           )
-          if (!installedPack || installedPack.Manifest.version < lcp.version) {
+          return !installedPack || installedPack.Manifest.version < lcp.version
+        })
+
+        await Promise.all(
+          lcpsToUpdate.map(async lcp => {
             try {
               await UserStore().downloadLcp(lcp)
               UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`)
@@ -125,8 +128,8 @@ export default async function (skipSync = false): Promise<void> {
               UserStore().addCloudNotification(`Failed to download ${lcp.name}!`, 'error')
               logger.error(`Error downloading LCP: ${error}`, {}, error)
             }
-          }
-        }
+          })
+        )
       }
 
       CompendiumStore().loadContentCollections()

@@ -251,10 +251,19 @@ class CloudController {
     }> = []
 
     for (const item of items) {
+      // Fast path: skip items where timestamps confirm no changes since last upload
+      if (
+        item.CloudController._lastContentHash &&
+        item.CloudController.SyncStatus === SyncStatus.Synced
+      ) {
+        logger.info(`BatchUpdateCloud: skipping synced item ${item.Name}`)
+        continue
+      }
+
       const savedata = item.Serialize(item)
       const hash = CloudController.computeContentHash(savedata)
 
-      // Skip if content hash matches
+      // Secondary check: skip if serialized content is identical to last upload
       if (item.CloudController._lastContentHash && item.CloudController._lastContentHash === hash) {
         logger.info(`BatchUpdateCloud: skipping unchanged item ${item.Name}`)
         continue

@@ -3,7 +3,7 @@ import { CollectionItem } from '@/classes/narrative/CollectionItem'
 import { Faction, FactionData } from '@/classes/narrative/Faction'
 import { Location, LocationData } from '@/classes/narrative/Location'
 import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
-import { IndexItem } from '@/stores'
+import { IndexItem, NavStore } from '@/stores'
 import logger from '@/user/logger'
 import * as _ from 'lodash-es'
 import { defineStore } from 'pinia'
@@ -100,6 +100,7 @@ export const NarrativeStore = defineStore('narrative', {
       }
 
       this.CollectionItems.push(payload)
+      NavStore().updateNarrativeEntry(payload)
 
       await this.SaveItemData()
     },
@@ -119,6 +120,7 @@ export const NarrativeStore = defineStore('narrative', {
     async DeleteItemPermanent(payload: Character | Location | Faction): Promise<void> {
       const idx = this.CollectionItems.findIndex(x => x.ID === payload.ID)
       if (idx >= 0) this.CollectionItems.splice(idx, 1)
+      NavStore().removeNarrativeEntry(payload.ID)
       await RemoveItem('narrative', payload.ID)
       this.SaveItemData()
     },

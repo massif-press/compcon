@@ -4,7 +4,7 @@ import { Pilot } from '@/class'
 import { PilotGroup } from './PilotGroup'
 import { CloudController, PortraitController, SaveController } from '@/classes/components'
 import * as _ from 'lodash-es'
-import { IndexItem } from '@/stores'
+import { IndexItem, NavStore } from '@/stores'
 import logger from '@/user/logger'
 import PilotSheet from './PilotSheet'
 
@@ -131,6 +131,7 @@ export const PilotStore = defineStore('pilot', {
       }
 
       this.Pilots.push(pilot)
+      NavStore().updatePilotEntry(pilot)
 
       await this.TransferPilot(pilot, groupID)
       await this.SavePilotData()
@@ -211,6 +212,7 @@ export const PilotStore = defineStore('pilot', {
       }
 
       this.Pilots.splice(this.Pilots.indexOf(pilot), 1)
+      NavStore().removePilotEntry(pilot.ID)
 
       if (pilot.PortraitController.LocalImage) {
         await RemoveItem('images', pilot.PortraitController.LocalImage)

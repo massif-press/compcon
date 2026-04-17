@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash-es'
 import { ItemType } from '../enums'
 import { CollectionItem, ICollectionItemData } from './CollectionItem'
 import { CloudController, PortraitController, SaveController } from '../components'
@@ -146,7 +145,7 @@ class Character extends CollectionItem {
   }
 
   public Clone<Character>(): Character {
-    const itemData = cloneDeep(Character.Serialize(this))
+    const itemData = structuredClone(Character.Serialize(this))
     const newItem = Character.Deserialize(itemData)
     newItem.RenewID()
     newItem.Name += ' (COPY)'

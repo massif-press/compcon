@@ -5,7 +5,7 @@ import { Doodad, DoodadData } from '@/classes/npc/doodad/Doodad'
 import { Unit, UnitData } from '@/classes/npc/unit/Unit'
 import * as _ from 'lodash-es'
 import { Npc } from '@/classes/npc/Npc'
-import { IndexItem } from '@/stores'
+import { IndexItem, NavStore } from '@/stores'
 import { CloudController } from '@/classes/components'
 import logger from '@/user/logger'
 
@@ -132,6 +132,7 @@ export const NpcStore = defineStore('npc', {
       }
 
       this.Npcs.push(payload)
+      NavStore().updateNpcEntry(payload)
 
       await this.SaveNpc(payload)
     },
@@ -151,6 +152,7 @@ export const NpcStore = defineStore('npc', {
       const idx = this.Npcs.findIndex(x => x.ID === payload.ID)
       logger.info(`Deleting NPC ${payload.ID} (${payload.Name})`, this)
       if (idx >= 0) this.Npcs.splice(idx, 1)
+      NavStore().removeNpcEntry(payload.ID)
       if (payload.PortraitController.LocalImage) {
         await RemoveItem('images', payload.PortraitController.LocalImage)
       }
