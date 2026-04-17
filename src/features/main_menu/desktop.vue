@@ -52,12 +52,12 @@
         <v-col cols="auto"
           class="text-center mr-1">
           <cc-modal title="Cloud Account"
-            icon="mdi-satellite-uplink">
+            icon="mdi-cloud-sync">
             <template #activator="{ open }">
               <cc-button size="small"
                 :color="isLoggedIn ? 'success' : ''"
                 :loading="startingUp"
-                :prepend-icon="isLoggedIn ? 'mdi-satellite-uplink' : 'mdi-account-off-outline'"
+                :prepend-icon="isLoggedIn ? 'mdi-cloud-sync' : 'mdi-cloud-off-outline'"
                 class="mr-2"
                 @click="open">
                 <span>{{ isLoggedIn ? 'Connected' : 'Log In' }}</span>
