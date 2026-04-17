@@ -90,18 +90,5 @@ export default {
     this.page = parseInt(UserStore().User.View('pilotSheetPage', 1));
     if (this.pilot) document.title = `${this.pilot.Callsign} (${this.pilot.Name})`;
   },
-  methods: {
-    debugExport() {
-      // put pilot json in console and copy to clipboard
-      const out = JSON.stringify(this.pilot.Serialize(), null, 2);
-      console.log(out);
-      navigator.clipboard.writeText(out)
-        .catch(err => {
-          console.error('Clipboard copy failed:', err);
-        });
-
-    },
-  },
-
 };
 </script>

@@ -50,10 +50,10 @@
       <cc-button color="primary"
         class="my-1"
         :loading="dlLoading"
-        :disabled="($refs as any).importer.isUserOwned || !($refs as any).importer.canDownload"
-        tooltip="Adding this item as a remote resource will create a readonly version of this item linked
-            to the author's original data. When the author saves an update to this item to their
-            COMP/CON cloud account, your local version can receive those changes."
+        :disabled="!($refs as any).importer.isLoggedIn || ($refs as any).importer.isUserOwned || !($refs as any).importer.canDownload"
+        :tooltip="!($refs as any).importer.isLoggedIn
+          ? 'You must be logged in to add items as remote resources.'
+          : 'Adding this item as a remote resource will create a readonly version of this item linked to the author\'s original data. When the author saves an update to this item to their COMP/CON cloud account, your local version can receive those changes.'"
         @click="downloadAsRemote()">
         add as remote resource
       </cc-button>
@@ -74,7 +74,7 @@
 
 <script lang="ts">
 import { CloudController } from '@/classes/components';
-import { downloadFromS3 } from '@/io/apis/account';
+import { DownloadViaCode } from '@/io/apis/account';
 import { UserStore } from '@/stores';
 
 export default {
@@ -121,11 +121,12 @@ export default {
   },
   methods: {
     async downloadAsRemote() {
+      if (!UserStore().IsLoggedIn) return;
       await this.downloadAsCopy(true);
     },
     async downloadAsCopy(remote = false) {
       this.dlLoading = true;
-      const itemData = await downloadFromS3(this.queryResult.uri);
+      const itemData = await DownloadViaCode(this.queryResult.code);
       const itemType = this.queryResult.sortkey.split('_')[1];
       const item = await CloudController.NewByType(itemType, itemData);
       if (remote) {

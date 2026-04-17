@@ -22,6 +22,7 @@ import {
   bulkDelete,
   patchItem,
   GetFromCode,
+  DownloadViaCode,
   downloadFromS3,
   getFromPresignDirect,
   UnauthorizedError,
@@ -478,11 +479,16 @@ export const UserStore = defineStore('cloud', {
         if (item.deleted) continue
         const localItem = this.getLocalItem(item.sortkey)
         if (localItem) {
-          toRaw(localItem).CloudController.Metadata = item
+          // Guard: if this sortkey belongs to the user's own cloud data, setMetadataFromDynamo
+          // already set the correct URI. Overwriting here would poison it with a foreign user's URI.
+          const isOwnCloudItem = this.CloudItems.some(ci => ci.sortkey === item.sortkey)
+          if (!isOwnCloudItem) {
+            toRaw(localItem).CloudController.Metadata = item
+          }
         } else {
           downloadPromises.push(
             (async () => {
-              const itemData = await downloadFromS3(item.uri)
+              const itemData = await DownloadViaCode(item.code)
               const itemType = item.sortkey.split('_')[1]
               const newItem = CloudController.NewByType(itemType, itemData)
               newItem.CloudController.setRemoteMetadata(item)
