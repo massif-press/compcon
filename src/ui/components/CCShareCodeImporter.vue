@@ -196,6 +196,9 @@ export default {
     hasCode() {
       return this.code.some(char => char === '')
     },
+    isLoggedIn() {
+      return UserStore().IsLoggedIn
+    },
     isUserOwned() {
       return !!(this.queryResult?.sortkey && UserStore().getLocalItem(this.queryResult.sortkey))
     },

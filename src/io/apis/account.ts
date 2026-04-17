@@ -435,6 +435,27 @@ export async function bulkDelete(
   return data
 }
 
+// sends auth token when logged in so the response includes the is_own flag.
+export async function DownloadViaCode(code: string): Promise<any> {
+  const url = new URL(`${invoke}/code`)
+  url.searchParams.append('scope', 'download')
+  url.searchParams.append('codes', JSON.stringify([code]))
+
+  const headers = UserStore().IsLoggedIn ? await getHeaders() : { ...baseHeaders }
+  const response = await fetchWithRetry(url.toString(), { method: 'GET', headers })
+  const json = await response.json()
+
+  const data = await downloadFromS3(json.uri)
+
+  if (data?.save) {
+    delete data.save.remote_code
+    delete data.save.remote_author
+    delete data.save.remote_collection
+  }
+
+  return data
+}
+
 export async function GetFromCode(codes: string | string[]) {
   const url = new URL(`${invoke}/code`)
   const isArray = Array.isArray(codes)

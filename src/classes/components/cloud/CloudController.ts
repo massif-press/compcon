@@ -435,6 +435,11 @@ class CloudController {
     const itemType = normalizeItemType(item.CloudController.Metadata.SortKey.split('_')[1])
     const meta = { ...item.CloudController.Metadata.raw }
     const data = await downloadFromS3(item.CloudController.Metadata.Uri)
+    if (data?.save) {
+      delete data.save.remote_code
+      delete data.save.remote_author
+      delete data.save.remote_collection
+    }
     const updatedItem = CloudController.NewByType(itemType, data)
     updatedItem.CloudController.setRemoteMetadata(meta)
 

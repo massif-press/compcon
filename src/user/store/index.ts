@@ -22,6 +22,7 @@ import {
   bulkDelete,
   patchItem,
   GetFromCode,
+  DownloadViaCode,
   downloadFromS3,
   getFromPresignDirect,
   UnauthorizedError,
@@ -487,12 +488,7 @@ export const UserStore = defineStore('cloud', {
         } else {
           downloadPromises.push(
             (async () => {
-              const itemData = await downloadFromS3(item.uri)
-              if (itemData?.save) {
-                delete itemData.save.remote_code
-                delete itemData.save.remote_author
-                delete itemData.save.remote_collection
-              }
+              const itemData = await DownloadViaCode(item.code)
               const itemType = item.sortkey.split('_')[1]
               const newItem = CloudController.NewByType(itemType, itemData)
               newItem.CloudController.setRemoteMetadata(item)
