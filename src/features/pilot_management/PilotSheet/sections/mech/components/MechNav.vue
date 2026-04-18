@@ -2,49 +2,58 @@
   <div class="nav-body elevation-10">
     <div id="cap" />
     <div class="d-inline">
-      <v-tooltip text="Return to Pilot Sheet" location="top">
+      <v-tooltip text="Return to Pilot Sheet"
+        location="top">
         <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
+          <v-btn v-bind="props"
             size="small"
             icon
             variant="plain"
             class="unskew mt-n2"
             @click="toTacticalProfile()">
-            <v-icon size="25" icon="cc:pilot" />
+            <v-icon size="25"
+              icon="cc:pilot" />
           </v-btn>
         </template>
       </v-tooltip>
     </div>
 
-    <v-menu offset-y top>
+    <v-menu offset-y
+      top>
       <template #activator="{ props }">
-        <v-btn class="unskew mt-n1" icon variant="plain" size="small" v-bind="props">
-          <v-tooltip text="Mech Options" location="top">
+        <v-btn class="unskew mt-n1"
+          icon
+          variant="plain"
+          size="small"
+          v-bind="props">
+          <v-tooltip text="Mech Options"
+            location="top">
             <template #activator="{ props }">
-              <v-icon v-bind="props" size="24" class="mt-n1 ml-4" icon="mdi-cog" />
+              <v-icon v-bind="props"
+                size="24"
+                class="mt-n1 ml-4"
+                icon="mdi-cog" />
             </template>
           </v-tooltip>
         </v-btn>
       </template>
       <div class="heading h2 bg-primary py-0 px-2">Mech Options</div>
-      <v-list lines="two" density="compact" slim>
-        <v-list-item
-          prepend-icon="mdi-printer"
+      <v-list lines="two"
+        density="compact"
+        slim>
+        <v-list-item prepend-icon="mdi-printer"
           title="Print"
           subtitle="Print a tabletop-ready mech sheet"
           @click="$router.push(`/print/${pilot.ID}/${mechID}`)" />
 
-        <v-list-item
-          prepend-icon="mdi-file-document-outline"
+        <v-list-item prepend-icon="mdi-file-document-outline"
           title="Generate Statblock"
           subtitle="Get a plaintext representation of this mech configuration"
           @click="statblockDialog = true" />
 
         <v-divider v-if="!pilot.IsRemote" />
 
-        <v-list-item
-          v-if="!pilot.IsRemote"
+        <v-list-item v-if="!pilot.IsRemote"
           class="text-error"
           prepend-icon="mdi-delete"
           title="Delete Mech"
@@ -55,8 +64,11 @@
 
     <div id="end-cap" />
   </div>
-  <cc-solo-modal v-model="statblockDialog" title="Generate Statblock" icon="mdi-code-block-tags">
-    <statblock-dialog :pilot="<Pilot>pilot" :mechID="mechID" />
+  <cc-solo-modal v-model="statblockDialog"
+    title="Generate Statblock"
+    icon="mdi-code-block-tags">
+    <statblock-dialog :pilot="<Pilot>pilot"
+      :mech-i-d="mechID" />
   </cc-solo-modal>
 </template>
 
@@ -65,11 +77,8 @@ import StatblockDialog from '../../../components/StatblockDialog.vue';
 import { Pilot } from '@/class';
 
 export default {
-  name: 'mech-nav',
+  name: 'MechNav',
   components: { StatblockDialog },
-  data: () => ({
-    statblockDialog: false,
-  }),
   props: {
     pilot: {
       type: Pilot,
@@ -89,6 +98,9 @@ export default {
     },
   },
   emits: ['delete'],
+  data: () => ({
+    statblockDialog: false,
+  }),
   methods: {
     toTacticalProfile() {
       this.$router.push({

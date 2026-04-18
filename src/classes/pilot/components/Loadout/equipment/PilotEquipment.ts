@@ -109,7 +109,8 @@ abstract class PilotEquipment extends CompendiumItem {
     }
     item._note = itemData.note
     item._flavor_name = itemData.flavorName
-    item._flavor_description = itemData.flavorDescription
+    item._flavor_description =
+      itemData.flavorDescription === item._description ? '' : itemData.flavorDescription
     item._custom_damage_type = itemData.customDamageType || null
 
     // combat props

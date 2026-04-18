@@ -1,5 +1,5 @@
 import { PilotEquipment, ItemType, ContentPack } from '@/class'
-import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface'
+import { IPilotEquipmentData } from '@/interface'
 
 class PilotGear extends PilotEquipment {
   public constructor(data: IPilotEquipmentData, pack?: ContentPack) {
