@@ -210,8 +210,8 @@
         </v-row>
 
         <div class="text-overline mb-n3 text-primary">FRAME TRAITS</div>
-        <v-row dense
-          v-if="blank">
+        <v-row v-if="blank"
+          dense>
           <v-col v-for="n in 4"
             :key="`trait-${n}`"
             cols="12">
@@ -222,9 +222,9 @@
           dense
           justify="space-between"
           class="caption mt-n1">
-          <v-col :cols="t.Actions.length + t.Deployables.length > 0 ? '12' : ''"
-            v-for="t in mech.Frame.Traits"
-            :key="t.Name">
+          <v-col v-for="t in mech.Frame.Traits"
+            :key="t.Name"
+            :cols="t.Actions.length + t.Deployables.length > 0 ? '12' : ''">
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
@@ -327,7 +327,8 @@
               class="text-primary">MOUNT</v-col>
           </v-row>
         </legend>
-        <div v-for="n in 2" :key="`slot-${n}`">
+        <div v-for="n in 2"
+          :key="`slot-${n}`">
           <v-row dense>
             <v-col>
               <div class="caption text-grey">WEAPON</div>
@@ -352,8 +353,8 @@
       </fieldset>
     </div>
 
-    <fieldset v-else
-      v-for="m in mounts"
+    <fieldset v-for="m in mounts"
+      v-else
       :key="m.ID"
       style="position: relative"
       class="no-print-break">
@@ -364,8 +365,8 @@
         <br />
         <span class="text-overline">// SUPERHEAVY WEAPON BRACING //</span>
       </div>
-      <div v-else
-        v-for="w in m.Weapons.filter(Boolean)"
+      <div v-for="w in m.Weapons.filter(Boolean)"
+        v-else
         :key="w.ID"
         class="px-1 pb-3">
         <v-row dense
@@ -396,9 +397,9 @@
             class="caption mb-2">{{ w.Profiles[0].Effect }}</div>
           <div v-for="(p, index) in w.Profiles"
             :key="`profile-${index}`"
-            class="mb-n4">
+            class="mb-n2">
             <div class="flavor-text text-black mt-n1"
-              style="font-size: 16px">
+              style="font-size: 15px">
               <span v-if="w.Profiles.length > 1 && p.Name"
                 class="heading">
                 {{ p.Name }}:&nbsp;
@@ -412,7 +413,8 @@
               </b>
               <span v-if="p.Damage && p.Damage.length"
                 class="pl-2 pr-1"><cc-slashes /></span>
-              <b v-for="(d, di) in p.Damage" :key="`damage-${di}`">
+              <b v-for="(d, di) in p.Damage"
+                :key="`damage-${di}`">
                 <v-icon class="mt-n1 mr-n2"
                   :icon="d.Icon"
                   :color="d.Color" />
@@ -495,7 +497,7 @@
 
     <fieldset v-else>
       <legend class="heading h3 ml-1 px-2">Systems</legend>
-      <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)"
+      <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.filter(Boolean)"
         :key="s.ID"
         variant="outlined"
         class="pa-1 my-1 no-print-break"
@@ -525,8 +527,8 @@
         </v-row>
         <div class="pl-7">
           <p v-if="s.Effect"
-            class="caption mb-n1"
-            v-html-safe="s.Effect" />
+            v-html-safe="s.Effect"
+            class="caption mb-n1" />
           <print-action :actions="s.Actions" />
           <print-deployable :deployables="s.Deployables" />
           <tag-block :tags="s.Tags"
@@ -566,8 +568,7 @@ import PrintHpBlock from '../../components/PrintHpBlock.vue';
 import { usePrintOptions } from '../_usePrintOptions';
 
 export default {
-  name: 'mech-print',
-  mixins: [usePrintOptions],
+  name: 'MechPrint',
   components: {
     PrintAction,
     PrintDeployable,
@@ -579,6 +580,7 @@ export default {
     PrintStatRow,
     PrintHpBlock
   },
+  mixins: [usePrintOptions],
   props: {
     mech: {
       type: Object,

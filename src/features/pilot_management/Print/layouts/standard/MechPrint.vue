@@ -461,9 +461,9 @@
             class="caption mb-1">{{ w.Profiles[0].Effect }}</div>
           <div v-for="(p, index) in w.Profiles"
             :key="`profile-${index}`"
-            class="mb-n4">
-            <div class="flavor-text text-black mt-n1"
-              style="font-size: 16px">
+            class="mb-n2">
+            <div class="flavor-text text-black"
+              style="font-size: 15px">
               <span v-if="w.Profiles.length > 1 && p.Name"
                 class="heading">
                 {{ p.Name }}:&nbsp;
@@ -558,7 +558,7 @@
 
     <fieldset v-else>
       <legend class="heading h3 ml-1 px-2">Systems</legend>
-      <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)"
+      <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.filter(Boolean)"
         :key="s.ID"
         variant="outlined"
         class="pa-1 my-1 no-print-break"

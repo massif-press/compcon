@@ -66,6 +66,14 @@
           </v-col>
         </v-row>
       </v-col>
+      <v-col cols="auto"
+        style="width: 50px;">
+        <div v-if="max"
+          class="text-disabled">
+          <span class="text-body px-1">/</span><span class="heading h3">{{ max }}</span>
+        </div>
+      </v-col>
+
       <v-col cols="auto">
         <v-menu>
           <template #activator="{ props }">
@@ -97,7 +105,6 @@
 </template>
 
 <script lang="ts">
-import { max } from 'lodash-es'
 
 export default {
   name: 'StatMiniPanel',
@@ -156,7 +163,7 @@ export default {
       if (this.boolean) {
         val = val > 0 ? 1 : 0
       } else {
-        val = max([val, this.min])
+        val = Math.max(val, this.min)
         if (this.max !== undefined) {
           val = Math.min(val, this.max)
         }

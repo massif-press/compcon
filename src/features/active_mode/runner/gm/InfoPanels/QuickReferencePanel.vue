@@ -227,7 +227,7 @@
             </div>
           </fieldset>
         </v-col>
-        <v-col style="min-width: 200px">
+        <v-col style="min-width: 300px">
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               IMPROVISED ATTACK
@@ -258,7 +258,7 @@
             </div>
           </fieldset>
         </v-col>
-        <v-col style="min-width: 200px">
+        <v-col cols="12">
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               GRAPPLE
@@ -266,10 +266,32 @@
                 color="action--quick" />
             </legend>
             <div>
-              Deal 1d6
-              <v-icon icon="cc:kinetic"
-                color="damage--kinetic"
-                class="mt-n1 mx-n1" />
+              <v-row dense><v-col>
+                  Melee attack vs adjacent target. On hit:
+                  <ul>
+                    <li>Both characters become <b>ENGAGED</b></li>
+                    <li>Neither character can <b>BOOST</b> or take reactions for
+                      the duration of the grapple</li>
+                    <li>The smaller character becomes <b>IMMOBILIZED</b> but
+                      moves when the larger party moves, mirroring
+                      their movement</li>
+                  </ul>
+                </v-col> <v-col>
+                  A GRAPPLE ends when:<br>
+                  <ul>
+                    <li>
+                      Either character breaks adjacency </li>
+                    <li>
+                      The attacker chooses to end the grapple as a free
+                      action </li>
+                    <li>
+                      The defender breaks free by succeeding on a
+                      contested <b>HULL</b> check as a quick action
+                    </li>
+                  </ul>
+                </v-col>
+              </v-row>
+
             </div>
           </fieldset>
         </v-col>

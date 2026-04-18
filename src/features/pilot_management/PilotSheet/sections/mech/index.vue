@@ -72,11 +72,28 @@
       </div>
     </div>
 
-    <mech-nav :selected="0"
-      :pilot="pilot"
-      :mech="mech"
-      :mech-i-d="mech.ID"
-      @delete="($refs as any).deleteDialog.show()" />
+    <cc-dialog :close-on-click="false"
+      title="Delete Mech"
+      color="error"
+      icon="mdi-delete">
+      <template #activator="{ open }">
+        <mech-nav :selected="0"
+          :pilot="pilot"
+          :mech="mech"
+          :mech-i-d="mech.ID"
+          @delete="open()" />
+      </template>
+      <template #default="{ close }">
+        <cc-confirmation full-width
+          :content="`Lancer, please confirm deletion of Mech Configuration:
+          <span class='text-accent'>
+            ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
+          </span>`"
+          @cancel="close()"
+          @confirm="deleteMech" />
+      </template>
+    </cc-dialog>
+
 
     <v-container>
       <v-row align="start">
@@ -205,7 +222,7 @@ export default {
   },
   methods: {
     deleteMech() {
-      this.$router.push({ name: 'mech_hangar' });
+      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID: this.pilot.ID } });
       this.pilot.RemoveMech(this.mech);
     },
   },

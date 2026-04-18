@@ -88,7 +88,6 @@
 </template>
 
 <script lang="ts">
-import DeployButton from './_deployButton.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
@@ -97,7 +96,6 @@ import { useMobile } from '@/mixins/useMobile'
 export default {
   name: 'PilotArmorCombatCard',
   components: {
-    DeployButton,
     EquipmentDestroyedOverlay: DestroyedOverlay,
     EquipmentFlavorDescription: FlavorDescription,
     EquipmentActionsDeployables: ActionsDeployables,

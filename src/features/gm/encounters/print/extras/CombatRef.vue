@@ -185,27 +185,6 @@
         </fieldset>
       </v-col>
     </v-row>
-    <!-- <v-row dense class="mt-n3">
-      <v-col cols="auto">
-        <fieldset class="px-2">
-          <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">
-            RAM <v-icon icon="mdi-hexagon-slice-3" color="action--quick" />
-          </legend>
-          <div class="caption">Target takes <b>PRONE</b> and <b>KNOCKBACK 1</b> (optional)</div>
-        </fieldset>
-      </v-col>
-
-      <v-col>
-        <fieldset class="px-2">
-          <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">
-            GRAPPLE <v-icon icon="mdi-hexagon-slice-3" color="action--quick" />
-          </legend>
-          <div class="caption">
-            Deal 1d6 <v-icon icon="cc:kinetic" color="damage--kinetic" class="mt-n1 mx-n1" />
-          </div>
-        </fieldset>
-      </v-col>
-    </v-row> -->
     <v-row dense
       class="mt-n3">
       <v-col>

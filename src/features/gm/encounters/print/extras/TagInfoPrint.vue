@@ -20,7 +20,7 @@ import { CompendiumStore } from '@/stores';
 import * as _ from 'lodash-es';
 
 export default {
-  name: 'tag-info-print',
+  name: 'TagInfoPrint',
   computed: {
     tags() {
       return _.sortBy(
