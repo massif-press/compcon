@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     gloss(r): any {
+      if (!r?.Type) return null;
       return glossary.find((x) => x.name.toLowerCase() === r.Type.toLowerCase());
     },
   },
