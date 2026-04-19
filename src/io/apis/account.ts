@@ -1,10 +1,10 @@
 import { UserStore } from '@/stores'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import logger from '@/user/logger'
-import { parseApiError, NotFoundError } from './apiErrors'
+import { parseApiError, NotFoundError, BadRequestError } from './apiErrors'
 import { IDEMPOTENCY_HEADER, generateIdempotencyKey } from './idempotency'
 
-export { NotFoundError } from './apiErrors'
+export { NotFoundError, BadRequestError } from './apiErrors'
 export { generateIdempotencyKey, generateDeterministicKey, IDEMPOTENCY_HEADER } from './idempotency'
 
 const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`
@@ -69,7 +69,12 @@ async function fetchWithRetry(
         continue
       }
 
-      // Don't retry 404
+      // Don't retry 400 or 404
+      if (response.status === 400) {
+        const body = await parseApiError(response)
+        throw new BadRequestError(body.message, body.requestId, body.error)
+      }
+
       if (response.status === 404) {
         const body = await parseApiError(response)
         throw new NotFoundError(body.message, body.requestId)
@@ -110,6 +115,7 @@ async function fetchWithRetry(
       if (
         error instanceof UnauthorizedError ||
         error instanceof NotFoundError ||
+        error instanceof BadRequestError ||
         error instanceof RateLimitError
       ) {
         throw error

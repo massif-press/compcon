@@ -142,9 +142,9 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     combatant.deployables.push(deployableInstance)
   }
 
-  public EndRound(): void {
-    this.Combatant.actor.CombatController.EndRound(this)
-    this.Pilot.ActiveMech!.CombatController.EndRound(this)
+  public async EndRound(): Promise<void> {
+    await this.Combatant.actor.CombatController.EndRound(this)
+    await this.Pilot.ActiveMech!.CombatController.EndRound(this)
 
     if (this.Autosave) {
       this.Save()

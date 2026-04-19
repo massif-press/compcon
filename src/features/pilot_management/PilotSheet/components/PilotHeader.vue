@@ -15,10 +15,12 @@
                     read-only and will receive updates from the linked account."
                   max-width="400">
                   <template #activator="{ props }">
-                    <v-icon class="fade-select"
-                      size="40"
-                      icon="mdi-broadcast"
-                      v-bind="props" />
+                    <v-avatar size="40"
+                      v-bind="props">
+                      <v-icon icon="mdi-broadcast"
+                        size="40" />
+                    </v-avatar>
+
                   </template>
                 </v-tooltip>
               </v-col>

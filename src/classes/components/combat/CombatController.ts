@@ -916,7 +916,8 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
-  public EndRound(encounter): void {
+  public async EndRound(encounter): Promise<void> {
+    await new Promise<void>(r => setTimeout(r, 100))
     this.Turn = 1
     if (this.Braced) {
       this.Braced = false

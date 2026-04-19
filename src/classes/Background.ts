@@ -61,7 +61,6 @@ class Background implements ILcpTracked {
   }
 }
 
-// Compile-time check: Background satisfies ISerializableStatic
 const _checkSerializable: ISerializableStatic<IBackgroundData, Background> = Background
 void _checkSerializable
 

@@ -83,7 +83,7 @@ class DbItemMetadata {
     this.UserId = data.user_id
     this.SortKey = data.sortkey
     this.Name = data.name
-    this.Author = data.author
+    this.Author = data.author || ''
     this.Uri = data.uri
     this.ItemModified = data.item_modified
     if (data.size) this.Size = data.size
@@ -100,7 +100,7 @@ class DbItemMetadata {
       user_id: this.UserId || UserStore().Cognito.userId,
       sortkey: this.SortKey,
       name: this.Name,
-      author: this.Author,
+      author: this.Author || '',
       item_modified: this.ItemModified,
       uri: this.Uri,
       size: this.Size,
@@ -179,7 +179,7 @@ class CloudController {
   public static GenerateMetadata(controller: CloudController) {
     return {
       user_id: UserStore().Cognito.userId,
-      author: UserStore().UserMetadata.Username,
+      author: UserStore().UserMetadata.Username || '',
       sortkey: controller.GenerateSortKey(),
       name: controller.Parent.Name,
       uri: `${UserStore().Cognito.userId}/${controller.GenerateSortKey()}.json`,
@@ -189,7 +189,6 @@ class CloudController {
 
   public async UpdateCloud(scope = 'item') {
     const savedata = this.Parent.Serialize(this.Parent)
-    // Check content hash - skip upload if data is unchanged
     const newHash = CloudController.computeContentHash(savedata)
     if (this._lastContentHash && this._lastContentHash === newHash) {
       logger.info('CloudController: content unchanged (hash match), skipping upload')
@@ -242,7 +241,11 @@ class CloudController {
     const UPLOAD_CONCURRENCY = 5
     const BATCH_SIZE = 25
 
-    // Prepare items, filtering out unchanged content
+    // items constructed before we get a userid (v2/no login) can have bad metadata
+    for (const item of items) {
+      await item.CloudController.repairMetadata()
+    }
+
     const prepared: Array<{
       item: ICloudSyncable
       savedata: any
@@ -254,7 +257,7 @@ class CloudController {
       const savedata = item.Serialize(item)
       const hash = CloudController.computeContentHash(savedata)
 
-      // Skip if content hash matches
+      // skip if content hash matches
       if (item.CloudController._lastContentHash && item.CloudController._lastContentHash === hash) {
         logger.info(`BatchUpdateCloud: skipping unchanged item ${item.Name}`)
         continue
@@ -278,8 +281,6 @@ class CloudController {
 
     const failures: any[] = []
 
-    // Process in BATCH_SIZE chunks - pipeline batchUpsert for chunk N+1
-    // while S3 uploads for chunk N are in-flight.
     const syncTimestamp = Date.now()
     const userId = UserStore().Cognito.userId
     let nextBatchPromise: Promise<any> | null = null
@@ -288,14 +289,11 @@ class CloudController {
       const chunk = prepared.slice(i, i + BATCH_SIZE)
       const batchItems = chunk.map(p => p.meta)
 
-      // Deterministic key: same key on retry, unique per chunk
       const idempotencyKey = generateDeterministicKey(userId, `batch-${i}`, syncTimestamp)
 
-      // Resolve presigned URLs - either from pre-fetched promise or fresh call
       const response = await (nextBatchPromise ?? batchUpsert(batchItems, idempotencyKey))
       nextBatchPromise = null
 
-      // Pre-fetch next chunk's presigned URLs while we upload this chunk
       const nextOffset = i + BATCH_SIZE
       if (nextOffset < prepared.length) {
         const nextKey = generateDeterministicKey(userId, `batch-${nextOffset}`, syncTimestamp)
@@ -311,7 +309,6 @@ class CloudController {
         continue
       }
 
-      // Parallel S3 uploads with concurrency cap
       const uploadTasks = chunk.map((p, idx) => ({
         ...p,
         result: response.results[idx],
@@ -328,7 +325,6 @@ class CloudController {
             const uploadOk = await uploadToS3(task.savedata, task.result.presign.upload)
             if (!uploadOk) throw new Error(`S3 upload failed for ${task.item.Name}`)
 
-            // Commit metadata + hash on success
             if (task.result.data) {
               task.item.CloudController.Metadata = {
                 ...task.item.CloudController.Metadata.raw,
@@ -374,6 +370,32 @@ class CloudController {
     return await downloadFromS3(this.Metadata.Uri)
   }
 
+  public async repairMetadata(): Promise<void> {
+    const uri = this.Metadata?.Uri
+    if (!uri || !uri.startsWith('undefined/')) return
+
+    const correctUserId = UserStore().Cognito.userId
+    if (!correctUserId) return
+
+    const sortkey = this.GenerateSortKey()
+    const correctUri = `${correctUserId}/${sortkey}.json`
+
+    let hasCloudData = false
+    try {
+      const data = await downloadFromS3(correctUri)
+      hasCloudData = !!data
+    } catch {
+      hasCloudData = false
+    }
+
+    if (hasCloudData) {
+      this.Metadata = { ...this.Metadata.raw, user_id: correctUserId, uri: correctUri }
+    } else {
+      this.GenerateMetadata()
+    }
+    this.Parent.SaveController.saveSilent()
+  }
+
   public get UserID(): string {
     return this.Metadata?.UserId || ''
   }
@@ -388,9 +410,6 @@ class CloudController {
 
   public static Serialize(parent: ICloudSyncable, target: any) {
     if (!target.cloud) target.cloud = {}
-    // if (target.cloud.metadata && target.cloud.metadata.is_remote)
-    // target.cloud.metadata = parent.CloudController.Metadata.raw;
-    // target.cloud.cloud_data = JSON.stringify(parent.CloudController.CloudData);
   }
 
   public static Deserialize(parent: ICloudSyncable, data: ICloudData) {
@@ -398,8 +417,6 @@ class CloudController {
       throw new Error(
         `CloudController not found on parent (${typeof parent}). New CloudControllers must be instantiated in the parent's constructor method.`
       )
-    // if (data.metadata) parent.CloudController.Metadata = data.metadata;
-    // if (data?.cloud_data) parent.CloudController.CloudData = JSON.parse(data.cloud_data);
   }
 
   public static async AutoSync(item: any): Promise<void> {
@@ -470,7 +487,7 @@ class CloudController {
     }
     const itemType = normalizeItemType(item.CloudController.Metadata.SortKey.split('_')[1])
 
-    // Capture the original cloud metadata before creating the new local item
+    // capture the original cloud metadata before creating the new local item
     const originalMeta = item.CloudController?.Metadata?.raw
       ? { ...item.CloudController.Metadata.raw }
       : item.IsCloudOnly && item.raw
@@ -494,11 +511,11 @@ class CloudController {
 
     const newItem = this.NewByType(itemType, data)
 
-    // Transfer original cloud metadata so the item appears synced
+    // transfer original cloud metadata so the item appears synced
     if (originalMeta) {
       const now = Date.now()
       newItem.CloudController.Metadata = { ...originalMeta, updated: now }
-      // Align local LastModified to cloud's item_modified so SyncStatus = Synced
+      // align local LastModified to cloud's item_modified so SyncStatus = Synced
       if (originalMeta.item_modified) {
         newItem.SaveController.LastModified = originalMeta.item_modified
       }

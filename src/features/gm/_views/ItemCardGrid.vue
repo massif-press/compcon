@@ -191,13 +191,13 @@ export default {
     },
     searchedItems() {
       if (!this.search) return this.sort(this.items);
-      return this.sort(this.items.filter((x: any) => (x as any).Name.includes(this.search)));
+      return this.sort(this.items.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search.toLowerCase())));
     },
   },
   methods: {
     groupedItems(group) {
       if (this.grouping === 'None') return this.sort(this.searchedItems);
-      return group.filter((x: any) => (x as any).Name.includes(this.search));
+      return group.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search.toLowerCase()));
     },
     sort(items) {
       return _.orderBy(items, (x: any) => {

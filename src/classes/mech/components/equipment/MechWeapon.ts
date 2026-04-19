@@ -422,6 +422,7 @@ class MechWeapon extends MechEquipment {
     return ''
   }
 
+  // these are for the engineer weapon and only reference core data, not LCP content
   public get CustomTags(): Tag[] {
     if (this._custom_tags) return Tag.Deserialize(this._custom_tags)
     return []
