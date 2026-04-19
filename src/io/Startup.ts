@@ -109,23 +109,28 @@ export default async function (skipSync = false): Promise<void> {
 
       const subscribedLcps = UserStore().User.LcpSubscriptions
       if (subscribedLcps.length > 0) {
-        const remoteLcps = await collectionDataQuery()
-        for (const lcp of remoteLcps) {
-          if (!subscribedLcps.includes(lcp.sortkey)) continue
+        try {
+          const remoteLcps = await collectionDataQuery()
+          for (const lcp of remoteLcps) {
+            if (!subscribedLcps.includes(lcp.sortkey)) continue
 
-          const installedPack = CompendiumStore().ContentPacks.find(
-            p => p.Manifest.name === lcp.name || p.Manifest.name === lcp.title
-          )
-          if (!installedPack || installedPack.Manifest.version < lcp.version) {
-            try {
-              await UserStore().downloadLcp(lcp)
-              UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`)
-            } catch (error: any) {
-              logger.error('Failed to download lcp:', lcp.name, error)
-              UserStore().addCloudNotification(`Failed to download ${lcp.name}!`, 'error')
-              logger.error(`Error downloading LCP: ${error}`, {}, error)
+            const installedPack = CompendiumStore().ContentPacks.find(
+              p => p.Manifest.name === lcp.name || p.Manifest.name === lcp.title
+            )
+            if (!installedPack || installedPack.Manifest.version < lcp.version) {
+              try {
+                await UserStore().downloadLcp(lcp)
+                UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`)
+              } catch (error: any) {
+                logger.error('Failed to download lcp:', lcp.name, error)
+                UserStore().addCloudNotification(`Failed to download ${lcp.name}!`, 'error')
+                logger.error(`Error downloading LCP: ${error}`, {}, error)
+              }
             }
           }
+        } catch (error: any) {
+          logger.error(`Failed to fetch LCP catalog: ${error}`, {}, error)
+          UserStore().addCloudNotification('Failed to check for LCP updates. Check your connection.', 'warning')
         }
       }
 

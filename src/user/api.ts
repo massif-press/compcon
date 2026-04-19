@@ -8,13 +8,18 @@ const createFetchRequest = async (endpoint: string, options: RequestInit = {}) =
     'x-api-key': import.meta.env.VITE_APP_API_KEY,
   }
 
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      ...defaultHeaders,
-      ...options.headers,
-    },
-  })
+  let response: Response
+  try {
+    response = await fetch(url, {
+      ...options,
+      headers: {
+        ...defaultHeaders,
+        ...options.headers,
+      },
+    })
+  } catch {
+    throw new Error(`Network error fetching ${url}`)
+  }
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`)
