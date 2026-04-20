@@ -112,6 +112,8 @@ class WeaponMod extends MechEquipment {
     if (CompendiumStore().has('WeaponMods', data.id))
       item = CompendiumStore().instantiate('WeaponMods', data.id) as WeaponMod
     else {
+      if (!data.data)
+        throw new Error(`LCP item "${data.id}" is not installed and no instance data was saved`)
       item = new WeaponMod(data.data, data.data.pack)
       item.FromInstance = true
     }

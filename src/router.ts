@@ -4,8 +4,7 @@ import gmRoutes from './features/gm/routes'
 import pilotRoutes from './features/pilot_management/routes'
 import compendiumRoutes from './features/compendium/routes'
 import activeModeRoutes from './features/active_mode/routes'
-
-const MainMenu = () => import('./features/main_menu/index.vue')
+import MainMenu from './features/main_menu/index.vue'
 const UITest = () => import('./features/ui_test/old.vue')
 const UITestv3 = () => import('./features/ui_test/index.vue')
 

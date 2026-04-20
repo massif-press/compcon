@@ -37,6 +37,18 @@
           @hover="ccLog('content')"
           @clicked="extraContentModal = true">
           Content Manager
+          <v-tooltip v-if="hasV2Backups"
+            text="v2 imports awaiting resolution">
+            <template #activator="{ props }">
+              <v-icon v-bind="props"
+                icon="mdi-alert"
+                size="24"
+                color="warning"
+                class="ml-1 mt-n2" />
+            </template>
+          </v-tooltip>
+
+
           <extra-content v-model="extraContentModal" />
         </main-btn>
       </v-row>
@@ -167,6 +179,7 @@ import HelpPage from '../nav/pages/Help.vue';
 import OptionsPage from '../nav/pages/Options/index.vue';
 import { UserStore } from '@/stores';
 import CloudNotifications from '../nav/CloudNotifications.vue';
+import { getV2Backups } from '@/io/V2Importer';
 
 export default {
   name: 'LandingPageDesktop',
@@ -186,7 +199,16 @@ export default {
     importDialog: false,
     fileValue: undefined,
     extraContentModal: false,
+    v2BackupCount: 0,
   }),
+  async created() {
+    await this.loadV2BackupCount();
+  },
+  watch: {
+    async extraContentModal(val) {
+      if (!val) await this.loadV2BackupCount();
+    },
+  },
   computed: {
     isLoggedIn() {
       return UserStore().IsLoggedIn;
@@ -194,8 +216,14 @@ export default {
     startingUp() {
       return UserStore().IsLoading;
     },
+    hasV2Backups() {
+      return this.v2BackupCount > 0;
+    },
   },
   methods: {
+    async loadV2BackupCount() {
+      this.v2BackupCount = (await getV2Backups()).length;
+    },
     ccLog(btn: string) {
       switch (btn) {
         case 'compendium':

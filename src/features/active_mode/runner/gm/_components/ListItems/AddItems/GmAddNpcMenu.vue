@@ -49,10 +49,10 @@
                 item-title="Name" />
             </v-col>
           </v-row>
-          <v-card flat
-            tile
-            v-for="npc in npcs"
+          <v-card v-for="npc in npcs"
             :key="npc.ID"
+            flat
+            tile
             class="border-sm mb-1"
             @click="add(npc)">
             <v-row>
@@ -82,17 +82,17 @@ import * as _ from 'lodash-es';
 
 export default {
   name: 'GmAddNpcMenu',
-  data: () => ({
-    tab: 'Roster',
-    search: '',
-    folder: null,
-  }),
   props: {
     encounterInstance: {
       type: Object,
       required: true,
     },
   },
+  data: () => ({
+    tab: 'Roster',
+    search: '',
+    folder: null,
+  }),
   computed: {
     npcs() {
       return NpcStore()

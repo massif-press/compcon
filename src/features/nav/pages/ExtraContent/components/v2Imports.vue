@@ -191,6 +191,7 @@ import {
   getV2EncounterMissingNpcs,
 } from '@/io/V2Importer'
 import { ImportPilot, ImportNpcData, ImportEncounter } from '@/io/Importer'
+import { UserStore } from '@/stores'
 
 export default {
   name: 'V2Imports',
@@ -232,6 +233,7 @@ export default {
       this.loading = true
       try {
         const result = await reprocessV2Backups()
+        await UserStore().refreshV2BackupIds()
         await this.loadBackups()
         if (result.succeeded.length > 0) {
           this.$notify({ color: 'success', text: `${result.succeeded.length} item(s) imported successfully.` })
@@ -276,6 +278,7 @@ export default {
         }
 
         await deleteV2Backup(backup.id)
+        await UserStore().refreshV2BackupIds()
         await this.loadBackups()
         this.$notify({ color: 'success', text: 'Imported successfully.' })
       } catch (e) {
@@ -295,6 +298,7 @@ export default {
           result = await forceImportV2Encounter(backup.originalData)
         }
         await deleteV2Backup(backup.id)
+        await UserStore().refreshV2BackupIds()
         await this.loadBackups()
         this.$notify({ color: 'success', text: 'Force import complete.' })
         if (result.stripped?.length > 0) {
@@ -315,6 +319,7 @@ export default {
     },
     async doDelete(backup: any) {
       await deleteV2Backup(backup.id)
+      await UserStore().refreshV2BackupIds()
       await this.loadBackups()
     },
   },

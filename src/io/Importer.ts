@@ -164,21 +164,28 @@ export const ImportStagedData = async (
   return errors
 }
 
+function claimOwnership(item: any, collection?: any): void {
+  item.SaveController.RemoteCode = ''
+  item.SaveController.RemoteAuthor = ''
+  item.SaveController.RemoteCollection = collection || ''
+  item.CloudController.GenerateMetadata()
+}
+
 export const ImportNpcData = async (data: any, collection?: any): Promise<void> => {
   switch (data.npcType.toLowerCase()) {
     case 'unit':
       const unit = Unit.Deserialize(data)
-      if (collection) unit.SaveController.SetRemoteCollection(collection)
+      claimOwnership(unit, collection)
       await NpcStore().AddNpc(unit)
       break
     case 'doodad':
       const doodad = Doodad.Deserialize(data)
-      if (collection) doodad.SaveController.SetRemoteCollection(collection)
+      claimOwnership(doodad, collection)
       await NpcStore().AddNpc(doodad)
       break
     case 'eidolon':
       const eidolon = Eidolon.Deserialize(data)
-      if (collection) eidolon.SaveController.SetRemoteCollection(collection)
+      claimOwnership(eidolon, collection)
       await NpcStore().AddNpc(eidolon)
       break
     default:
@@ -203,26 +210,26 @@ export const ImportNarrativeData = async (data: any, collection?: any): Promise<
       throw new Error('Unknown item type: ' + data.collectionItemType)
   }
   if (item) {
-    if (collection) item.SaveController.SetRemoteCollection(collection)
+    claimOwnership(item, collection)
     await NarrativeStore().AddItem(item)
   } else throw new Error('Failed to import narrative item')
 }
 
 export const ImportEncounter = async (data: any, collection?: any): Promise<void> => {
   const item = Encounter.Deserialize(data)
-  if (collection) item.SaveController.SetRemoteCollection(collection)
+  claimOwnership(item, collection)
   await EncounterStore().AddEncounter(item)
 }
 
 export const ImportPilot = async (data: any, collection?: any): Promise<void> => {
   const item = new Pilot(data)
-  if (collection) item.SaveController.SetRemoteCollection(collection)
+  claimOwnership(item, collection)
   await PilotStore().AddPilot(item)
 }
 
 export const ImportCampaign = async (data: any, collection?: any): Promise<void> => {
   const item = Campaign.Deserialize(data)
-  if (collection) item.SaveController.SetRemoteCollection(collection)
+  claimOwnership(item, collection)
   await CampaignStore().AddCampaign(item)
 }
 

@@ -54,6 +54,8 @@ class MechSystem extends MechEquipment {
     if (CompendiumStore().has('MechSystems', data.id))
       item = CompendiumStore().instantiate('MechSystems', data.id) as MechSystem
     else {
+      if (!data.data)
+        throw new Error(`LCP item "${data.id}" is not installed and no instance data was saved`)
       item = new MechSystem(data.data, data.data.pack)
       item.FromInstance = true
     }

@@ -23,10 +23,15 @@
           </div>
           <v-spacer />
           <v-btn icon
+            :disabled="loading"
             @click="isActive.value = false">
             <v-icon icon="mdi-close" />
           </v-btn>
         </v-toolbar>
+        <v-progress-linear v-if="loading"
+          indeterminate
+          color="accent"
+          height="4" />
         <v-card-text>
           <div class="text-cc-overline">unused actions:</div>
           <div v-if="hasRemainingActions.length">
@@ -39,8 +44,8 @@
                   {{ c.CombatName }}
                 </span>
               </v-col>
-              <v-col cols="auto"
-                v-if="c.CanActivate('protocol')">
+              <v-col v-if="c.CanActivate('protocol')"
+                cols="auto">
                 <v-chip color="protocol"
                   class="ml-2"
                   size="small"
@@ -49,8 +54,8 @@
                   Protocol
                 </v-chip>
               </v-col>
-              <v-col cols="auto"
-                v-if="c.CanActivate('full')">
+              <v-col v-if="c.CanActivate('full')"
+                cols="auto">
                 <v-chip color="action--full"
                   prepend-icon="mdi-hexagon-slice-6"
                   class="ml-2"
@@ -59,8 +64,8 @@
                   Full Action
                 </v-chip>
               </v-col>
-              <v-col cols="auto"
-                v-else-if="c.CanActivate('quick')">
+              <v-col v-else-if="c.CanActivate('quick')"
+                cols="auto">
                 <v-chip color="action--quick"
                   prepend-icon="mdi-hexagon-slice-3"
                   class="ml-2"
@@ -151,6 +156,8 @@
           <v-divider class="my-4" />
           <cc-button color="primary"
             block
+            :loading="loading"
+            :disabled="loading"
             prepend-icon="mdi-check-all"
             @click="endRound(isActive)">
             End Round
@@ -161,10 +168,7 @@
   </v-dialog>
 </template>
 
-<script>
-import * as _ from 'lodash-es';
-import { CompendiumStore } from '@/stores';
-import { Statblock } from '@/class';
+<script lang="ts">
 
 export default {
   name: 'GmEndRoundPanel',
@@ -174,6 +178,9 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    loading: false,
+  }),
   computed: {
     nextRoundAlerts() {
       return this.braced.length || this.activeActors.some(c => this.getTimeoutStatuses(c).length || this.getTimeoutStatuses(c, true).length);
@@ -216,8 +223,11 @@ export default {
       }
       return name;
     },
-    endRound(isActive) {
-      this.encounterInstance.EndRound();
+    async endRound(isActive) {
+      this.loading = true;
+      await this.$nextTick();
+      await this.encounterInstance.EndRound();
+      this.loading = false;
       isActive.value = false;
     },
   },

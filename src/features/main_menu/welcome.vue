@@ -35,16 +35,16 @@
                 grow
                 center-active
                 show-arrows
-                density="compact"
                 bg-color="primary"
                 slider-color="secondary"
                 height="26">
                 <v-tab v-for="(m, mIdx) in systemMessages"
-                  :key="`tab-${mIdx}`">
+                  :key="`tab-${mIdx}`"
+                  :class="mIdx === tab ? 'bg-accent' : ''">
                   <v-badge v-if="isUnread(m)"
                     dot
                     floating
-                    class="mt-1"
+                    class="my-2"
                     color="warning">
                     {{ new Date(m.created * 1000).toLocaleDateString() }}
                   </v-badge>

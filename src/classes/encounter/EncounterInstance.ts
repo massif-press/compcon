@@ -150,19 +150,20 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     combatant.deployables.push(deployableInstance)
   }
 
-  public EndRound(): void {
-    this.Combatants.forEach(c => {
-      c.actor.CombatController.EndRound(this)
-      if ((c.actor as any).ActiveMech) (c.actor as any).ActiveMech.CombatController.EndRound(this)
-    })
+  public async EndRound(): Promise<void> {
+    await new Promise<void>(r => setTimeout(r, 100))
+    for (const c of this.Combatants) {
+      await c.actor.CombatController.EndRound(this)
+      if ((c.actor as any).ActiveMech) await (c.actor as any).ActiveMech.CombatController.EndRound(this)
+    }
     this._round += 1
     if (this.Autosave) {
-      this.Save()
+      await this.Save()
     }
   }
 
-  public Save(): void {
-    this.SaveController.save()
+  public async Save(): Promise<void> {
+    await this.SaveController.save()
   }
 
   public get Created(): number {

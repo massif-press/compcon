@@ -91,7 +91,10 @@ function isEnhancedReportingEnabled(): boolean {
   return false
 }
 
-if (import.meta.env.VITE_APP_ENV !== 'localhost') {
+if (
+  import.meta.env.VITE_APP_ENV !== 'localhost' &&
+  window.location.hostname !== 'cc-dev-preview.netlify.app'
+) {
   Sentry.init({
     app: compcon,
     dsn: import.meta.env.VITE_APP_SENTRY_DSN,

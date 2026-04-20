@@ -34,6 +34,7 @@
     :items-per-page="50">
     <template #item.Name="{ item }">
       {{ item.Name }}
+      <span v-if="item.Callsign">{{ item.Callsign }}</span>
     </template>
     <template #item.ItemType="{ item }">
       <span v-if="item.ItemType === 'Encounter'">Encounter Data</span>

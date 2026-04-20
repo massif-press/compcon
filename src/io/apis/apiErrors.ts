@@ -32,3 +32,14 @@ export class NotFoundError extends Error {
     this.requestId = requestId || ''
   }
 }
+
+export class BadRequestError extends Error {
+  public readonly requestId: string
+  public readonly serverError: string
+  constructor(message?: string, requestId?: string, serverError?: string) {
+    super(message || 'Bad request')
+    this.name = 'BadRequestError'
+    this.requestId = requestId || ''
+    this.serverError = serverError || ''
+  }
+}

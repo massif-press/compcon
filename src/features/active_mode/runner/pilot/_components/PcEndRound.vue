@@ -181,9 +181,9 @@ export default {
             s.expires.RoundEndNumber === this.sheet.Round + 1)
       );
     },
-    endRound(isActive) {
+    async endRound(isActive) {
       isActive.value = false;
-      this.sheet.EndRound();
+      await this.sheet.EndRound();
     },
   },
 };

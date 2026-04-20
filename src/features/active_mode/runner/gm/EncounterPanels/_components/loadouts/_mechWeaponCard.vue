@@ -48,32 +48,15 @@
             </div>
 
             <div v-if="item.Profiles && item.Profiles.length > 1">
-              <v-tabs v-if="!mobile"
-                v-model="item.ProfileIndex"
+              <v-tabs v-model="item.ProfileIndex"
                 density="compact"
                 height="20"
+                stacked
                 align="center"
                 center-active>
                 <v-tab v-for="p in item.Profiles"
                   :key="p.ID">{{ p.Name }}</v-tab>
               </v-tabs>
-
-              <v-chip-group v-else
-                v-model="item.ProfileIndex"
-                column
-                class="mb-2">
-                <cc-chip v-for="(p, i) in item.Profiles"
-                  :key="i"
-                  :value="i"
-                  :color="item.ProfileIndex === i ? 'accent' : undefined"
-                  size="small"
-                  tile
-                  class="text-cc-overline"
-                  @click.stop="item.ProfileIndex = i">
-                  {{ p.Name }}
-                </cc-chip>
-              </v-chip-group>
-
               <div>
                 <div v-if="item.Profiles[item.ProfileIndex].Effect"
                   class="panel clipped pa-2">
@@ -222,7 +205,6 @@
 
 <script lang="ts">
 import { ItemType } from '@/class'
-import DeployButton from './_deployButton.vue'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import EngWeaponSettings from '@/ui/components/panels/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
@@ -236,7 +218,6 @@ import { useEquipmentActions } from '@/mixins/useEquipmentActions'
 export default {
   name: 'MechWeaponCombatCard',
   components: {
-    DeployButton,
     EquipCommandPanel,
     OnElement,
     EngWeaponSettings,
