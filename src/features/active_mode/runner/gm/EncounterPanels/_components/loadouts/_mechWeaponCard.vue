@@ -205,7 +205,6 @@
 
 <script lang="ts">
 import { ItemType } from '@/class'
-import DeployButton from './_deployButton.vue'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import EngWeaponSettings from '@/ui/components/panels/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
@@ -219,7 +218,6 @@ import { useEquipmentActions } from '@/mixins/useEquipmentActions'
 export default {
   name: 'MechWeaponCombatCard',
   components: {
-    DeployButton,
     EquipCommandPanel,
     OnElement,
     EngWeaponSettings,
