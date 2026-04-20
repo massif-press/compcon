@@ -63,6 +63,8 @@ export default async function (skipSync = false): Promise<void> {
 
   await NavStore().CreateIndex()
 
+  await UserStore().refreshV2BackupIds()
+
   if (UserStore().Cognito.userId) {
     UserStore().IsSyncing = true
     try {

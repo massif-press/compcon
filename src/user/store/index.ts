@@ -41,6 +41,7 @@ import { pruneBackups, autoBackup } from './BackupService'
 import * as OAuthService from './OAuthService'
 import { SyncQueue } from './SyncQueue'
 import { checkV2CloudData, type V2CloudDetectResult } from '@/io/V2CloudImporter'
+import { getV2Backups } from '@/io/V2Importer'
 
 let _pendingMetadataResolvers: Array<() => void> = []
 let _lastUserMetadataFetch = 0
@@ -149,6 +150,7 @@ export const UserStore = defineStore('cloud', {
     IsSyncing: false,
     CloudNotifications: [] as any[],
     V2CloudDetectData: null as V2CloudDetectResult | null,
+    V2BackupIds: [] as string[],
   }),
   getters: {
     MaxCloudStorage: state => {
@@ -252,12 +254,14 @@ export const UserStore = defineStore('cloud', {
     AllItemsToSync(): any[] {
       return this.AllSyncableItems.filter(x => {
         if (x.SaveController?.IsDeleted) return false
+        if (this.V2BackupIds.includes(x.ID)) return false
         return this.SyncItemTypes.includes(normalizeItemType(x.ItemType))
       }).filter(x => x.CloudController.SyncStatus !== 'Synced')
     },
     AllRemoteItemsToSync(): any[] {
       return this.AllRemoteItems.filter(x => {
         if (x.SaveController?.IsDeleted) return false
+        if (this.V2BackupIds.includes(x.ID)) return false
         return this.SyncItemTypes.includes(normalizeItemType(x.ItemType))
       }).filter(x => x.CloudController.SyncStatus !== 'Synced')
     },
@@ -294,6 +298,10 @@ export const UserStore = defineStore('cloud', {
     },
   },
   actions: {
+    async refreshV2BackupIds(): Promise<void> {
+      const backups = await getV2Backups()
+      this.V2BackupIds = backups.map(b => b.id)
+    },
     async loadUser(): Promise<void> {
       this.User = await Client.getLocalProfile()
 
@@ -536,6 +544,7 @@ export const UserStore = defineStore('cloud', {
       const data = await downloadFromS3(uri)
       const staged = await StageImport(data)
       const errors = await ImportStagedData(staged, collection)
+      await this.refreshV2BackupIds()
       const settingsIndex = this.UserMetadata.CollectionSubscriptionSettings.items.findIndex(
         item => item.code === collection.code
       )

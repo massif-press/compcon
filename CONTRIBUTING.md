@@ -27,10 +27,10 @@ This project follows the [Contributor Covenant v1.4](CODE_OF_CONDUCT.md).
 
 ## What We're Looking For
 
-- **Bug fixes**: especially regressions, data-loss issues, and edge cases in the pilot/mech/NPC/encounter systems
-- **Feature work**: tied to open issues or discussed in advance in the [Massif Press discussion board](https://github.com/orgs/massif-press/discussions)
-- **UI/UX improvements**: especially accessibility and mobile usability
-- **Documentation**: corrections and clarifications to ARCHITECTURE.md or inline code comments where logic is non-obvious
+- **Bug fixes** especially regressions, data-loss issues, and edge cases in the pilot/mech/NPC/encounter systems
+- **Feature work** tied to open issues or discussed in advance in the [Massif Press discussion board](https://github.com/orgs/massif-press/discussions)
+- **UI/UX improvements** especially accessibility and mobile usability
+- **Documentation** repo wiki contributions
 
 We are **not** currently looking for:
 

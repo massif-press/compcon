@@ -13,23 +13,6 @@ COMP/CON is the official digital companion for the [LANCER](https://massif-press
 
 ---
 
-## Tech Stack
-
-| Layer            | Technology              |
-| ---------------- | ----------------------- |
-| Framework        | Vue 3                   |
-| Language         | TypeScript              |
-| Build Tool       | Vite                    |
-| UI Library       | Vuetify 3               |
-| State Management | Pinia                   |
-| Routing          | Vue Router 4            |
-| Local Storage    | localforage (IndexedDB) |
-| Cloud / Auth     | AWS / AWS Cognito       |
-| Game Data        | @massif/lancer-data     |
-| PWA              | vite-plugin-pwa         |
-
----
-
 ## Getting Started
 
 ### Prerequisites
@@ -76,33 +59,6 @@ yarn build && yarn preview
 
 ## Project Structure
 
-```
-compcon/
-├── src/
-│   ├── classes/          # Domain model - Pilot, Mech, NPC, Encounter, Campaign
-│   │   ├── pilot/        # Pilot class and controller hierarchy
-│   │   ├── mech/         # Mech, loadout, and frame management
-│   │   ├── npc/          # Unit, Doodad, Eidolon definitions
-│   │   ├── encounter/    # Encounter and active combat state
-│   │   └── campaign/     # Campaign, narratives, and world data
-│   ├── features/         # Feature modules (views, routes, stores)
-│   │   ├── pilot_management/
-│   │   ├── gm/
-│   │   ├── compendium/
-│   │   ├── active_mode/
-│   │   └── nav/
-│   ├── ui/               # Shared component library (CC* prefix)
-│   ├── io/               # Data persistence, storage, cloud APIs
-│   ├── user/             # Auth, cloud sync, achievements
-│   ├── router.ts
-│   ├── stores.ts
-│   └── main.ts
-├── public/               # Static assets
-├── ARCHITECTURE.md       # Technical architecture reference
-├── CONTRIBUTING.md       # Contribution guide
-└── CODE_OF_CONDUCT.md
-```
-
 See [ARCHITECTURE.md](ARCHITECTURE.md) for a detailed breakdown of the domain model, controller pattern, state management, cloud sync, and UI conventions.
 
 ---
@@ -110,14 +66,6 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for a detailed breakdown of the domain mo
 ## Contributing
 
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request - it covers branching conventions, commit format, code standards, and what kinds of PRs are in scope.
-
-For larger features or architectural changes, open a discussion first before writing code.
-
-- All commits must be signed (SSH Ed25519 or GPG)
-- Follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `refactor:`, etc.)
-- No new dependencies without maintainer discussion
-
-**Contact:** `compcon@massifpress.com` / Discord: Beeftime
 
 ---
 

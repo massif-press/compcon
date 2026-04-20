@@ -38,7 +38,7 @@
 ## Top Level Source Layout
 
 ```ts
-src/
+src
 ├── classes/ // Domain model (Pilot, Mech, NPC, Encounter)
 ├── features/ // Feature modules (routing, views, stores per feature)
 ├── ui/ // Shared component library
@@ -73,10 +73,10 @@ All stores are registered and re-exported from `src/stores.ts`.
 ### NavStore (defined in stores.ts)
 
 - Navigation state: SRD tab, language
-- Global search index (`IndexItem[]`) — built from all other stores + route metadata
+- Global search index (`IndexItem[]`) built from all other stores + route metadata
 - Search history (persisted to localStorage)
-- `CreateIndex()` — aggregates index entries from all stores
-- `addToIndex()` — push new items (e.g. after LCP load)
+- `CreateIndex()` aggregates index entries from all stores
+- `addToIndex()` push new items (e.g. after LCP load)
 
 ### CompendiumStore
 
@@ -269,10 +269,10 @@ All components are registered globally in `src/ui/globals.ts` and prefixed `CC`.
 
 ## Achievement System (`src/user/achievements/`)
 
-- `achievementsDict.json` — achievement definitions (encrypted in prod)
-- `eventParameterMap.json` — maps game events to achievement checks
-- `AchievementEventSystem` — event emitter used throughout domain classes
-- `AchievementManager` — singleton. Listens to events, tracks unlock state, syncs to cloud
+- `achievementsDict.json` achievement definitions (encrypted in prod)
+- `eventParameterMap.json` maps game events to achievement checks
+- `AchievementEventSystem` event emitter used throughout domain classes
+- `AchievementManager` singleton. Listens to events, tracks unlock state, syncs to cloud
 - Pattern: `AchievementEventSystem.emit('event_name', value)` manager checks thresholds, unlocks if met
 
 ---
@@ -300,16 +300,16 @@ Routes that should appear in global search declare a `searchData` meta property:
 ## Conventions
 
 - No logic in Vue components
-  — controllers and stores own business logic
+  - controllers and stores own business logic
 - Controller composition
-  — never inherit domain behavior, always compose controllers
+  - never inherit domain behavior, always compose controllers
 - Serialize/Deserialize symmetry
-  — every class that persists implements both, controllers serialize independently
+  - every class that persists implements both, controllers serialize independently
 - Brew tracking
-  — every compendium item carries `BrewController` to detect missing LCPs
+  - every compendium item carries `BrewController` to detect missing LCPs
 - LCP extensibility
-  — all content lookups go through `CompendiumStore` getters, never direct imports
+  - all content lookups go through `CompendiumStore` getters, never direct imports
 - Debounced saves
-  — `SaveController` throttles writes, never write directly to Storage from components
+  - `SaveController` throttles writes, never write directly to Storage from components
 - Achievement events
-  — emit at the point of state change in the controller, not in the UI
+  - emit at the point of state change in the controller, not in the UI
