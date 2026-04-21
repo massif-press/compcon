@@ -26,7 +26,7 @@
                         @click="markAllAsRead" />
                     </span>
                   </template>
-                  <span>Mark all messages as Read</span>
+                  <span>Mark all messages as read</span>
                 </v-tooltip>
               </template>
             </cc-toolbar>

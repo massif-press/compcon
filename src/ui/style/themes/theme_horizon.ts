@@ -8,9 +8,9 @@ const theme = {
   colors: {
     ...themeDefaults,
     primary: '#233943',
-    active: '#ff9b00',
-    accent: '#fc8901',
-    secondary: '#32ba89',
+    active: '#ca7f0d',
+    accent: '#ce7100',
+    secondary: '#1d8d64',
     tertiary: '#99941e',
     highlight: '#E4E5D1',
 

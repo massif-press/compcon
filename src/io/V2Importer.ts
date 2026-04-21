@@ -103,9 +103,14 @@ export function getV2PilotMissingLcps(data: any): { missingIds: string[]; missin
   return { missingIds, missingNames }
 }
 
-export function getV2NpcMissingLcps(data: any): { missingIds: string[]; missingNames: string[] } {
+export function getV2NpcMissingLcps(data: any): {
+  missingIds: string[]
+  missingNames: string[]
+  unresolvableFeatures: string[]
+} {
   const missingIds: string[] = []
   const missingNames: string[] = []
+  const unresolvableFeatures: string[] = []
   const brews: any[] = data.brews || []
   for (const brew of brews) {
     if (!CompendiumStore().ContentPacks.find(p => p.ID === brew.LcpId && p.Active)) {
@@ -113,19 +118,17 @@ export function getV2NpcMissingLcps(data: any): { missingIds: string[]; missingN
       missingNames.push(brew.LcpName || brew.LcpId)
     }
   }
-  // Also verify each itemID can be resolved
   const items: any[] = data.items || []
   for (const item of items) {
     if (
       !CompendiumStore().NpcFeatures.find((f: any) => f.ID === item.itemID || f.id === item.itemID)
     ) {
-      if (!missingIds.includes(item.itemID)) {
-        missingIds.push(item.itemID)
-        missingNames.push(item.itemID)
+      if (!unresolvableFeatures.includes(item.itemID)) {
+        unresolvableFeatures.push(item.itemID)
       }
     }
   }
-  return { missingIds, missingNames }
+  return { missingIds, missingNames, unresolvableFeatures }
 }
 
 export function getV2EncounterMissingNpcs(data: any): string[] {
@@ -185,13 +188,29 @@ export function transformV2Pilot(data: any): any {
       bondAnswers: data.bondAnswers || ['', ''],
       force: false,
     },
-    mechs: (data.mechs || []).map((mech: any) => ({
-      ...mech,
-      img: mech.img || {
-        portrait: mech.portrait || '',
-        cloud_portrait: mech.cloud_portrait || '',
-      },
-    })),
+    mechs: (data.mechs || []).map((mech: any) => {
+      const cleanedLoadouts = (mech.loadouts || []).map((loadout: any) => {
+        const cleanedSystems = (loadout.systems || []).filter((sys: any) =>
+          !!CompendiumStore().MechSystems.find((s: any) => s.ID === sys.id || s.id === sys.id)
+        )
+        const cleanedMounts = (loadout.mounts || []).map((mount: any) => ({
+          ...mount,
+          slots: (mount.slots || []).map((slot: any) => {
+            if (!slot.weapon) return slot
+            const found = CompendiumStore().MechWeapons.find(
+              (w: any) => w.ID === slot.weapon.id || w.id === slot.weapon.id
+            )
+            return { ...slot, weapon: found ? slot.weapon : null }
+          }),
+        }))
+        return { ...loadout, systems: cleanedSystems, mounts: cleanedMounts }
+      })
+      return {
+        ...mech,
+        img: mech.img || { portrait: mech.portrait || '', cloud_portrait: mech.cloud_portrait || '' },
+        loadouts: cleanedLoadouts,
+      }
+    }),
   }
 }
 
@@ -237,8 +256,8 @@ export function transformV2Npc(data: any): any {
     tables: [],
   }
   result.folder = { folder: data.group || '' }
-  if (data.tier === 'custom' && data.stats) {
-    result.combat_data = buildCustomTierCombatData(data.stats)
+  if (data.tier === 'custom') {
+    result.combat_data = data.stats ? buildCustomTierCombatData(data.stats) : {}
     result.tier = 1
   } else {
     result.combat_data = {}
@@ -305,7 +324,7 @@ export function transformV2Encounter(rawData: any): any[] {
 
     return {
       itemType: 'Encounter',
-      id: enc.id,
+      id: enc.id || crypto.randomUUID(),
       name: enc.name || 'New Encounter',
       note: enc.gmNotes || '',
       description: '',
@@ -346,7 +365,7 @@ export async function saveV2Backup(
   missingIds: string[],
   missingNames: string[]
 ): Promise<void> {
-  const id = originalData.id || `v2_backup_${Date.now()}`
+  const id = originalData.id || crypto.randomUUID()
   const record: V2BackupRecord = {
     id,
     type,
@@ -382,7 +401,7 @@ export async function forceImportV2Pilot(
         const found = CompendiumStore().MechSystems.find(
           (s: any) => s.ID === sys.id || s.id === sys.id
         )
-        if (!found) stripped.push(sys.id)
+        if (!found) stripped.push(sys.id || '(unknown)')
         return !!found
       })
       const cleanedMounts = (loadout.mounts || []).map((mount: any) => ({
@@ -392,7 +411,7 @@ export async function forceImportV2Pilot(
           const found = CompendiumStore().MechWeapons.find(
             (w: any) => w.ID === slot.weapon.id || w.id === slot.weapon.id
           )
-          if (!found) stripped.push(slot.weapon.id)
+          if (!found) stripped.push(slot.weapon.id || '(unknown)')
           return { ...slot, weapon: found ? slot.weapon : null }
         }),
       }))
@@ -413,7 +432,7 @@ export async function forceImportV2Npc(data: any): Promise<{ imported: any; stri
     const found = CompendiumStore().NpcFeatures.find(
       (f: any) => f.ID === item.itemID || f.id === item.itemID
     )
-    if (!found) stripped.push(item.itemID)
+    if (!found) stripped.push(item.itemID || '(unknown)')
     return !!found
   })
 
@@ -468,7 +487,8 @@ export async function reprocessV2Backups(): Promise<{
     if (backup.type === 'pilot') {
       missing = getV2PilotMissingLcps(backup.originalData).missingIds
     } else if (backup.type === 'npc') {
-      missing = getV2NpcMissingLcps(backup.originalData).missingIds
+      const npcMissing = getV2NpcMissingLcps(backup.originalData)
+      missing = [...npcMissing.missingIds, ...npcMissing.unresolvableFeatures]
     } else if (backup.type === 'encounter') {
       missing = getV2EncounterMissingNpcs(backup.originalData)
     }
@@ -523,8 +543,8 @@ export async function preprocessNpcImport(
 ): Promise<{ action: 'import' | 'backup'; transformed?: any; missingLcps?: string[] }> {
   if (!isV2Npc(data)) return { action: 'import', transformed: data }
 
-  const { missingIds, missingNames } = getV2NpcMissingLcps(data)
-  if (missingIds.length === 0) {
+  const { missingIds, missingNames, unresolvableFeatures } = getV2NpcMissingLcps(data)
+  if (missingIds.length === 0 && unresolvableFeatures.length === 0) {
     return { action: 'import', transformed: transformV2Npc(data) }
   }
 
