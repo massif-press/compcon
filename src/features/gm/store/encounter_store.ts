@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
 import * as _ from 'lodash-es'
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter'
-import { IndexItem, NavStore } from '@/stores'
+import { NavStore } from '@/stores/nav'
+import type { IndexItem } from '@/stores/nav'
 import { CloudController } from '@/classes/components'
 import logger from '@/user/logger'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
@@ -18,16 +19,16 @@ export const EncounterStore = defineStore('encounter', {
     CurrentActiveID: '' as string,
   }),
   getters: {
-    getEncounterByID: (state: any) => (id: string) => {
+    getEncounterByID: state => (id: string) => {
       return state.Encounters.find(x => x.ID === id)
     },
-    getAllLabels: (state: any) => {
+    getAllLabels: state => {
       return _.uniqBy(
         state.Encounters.flatMap((x: any) => x.NarrativeController.Labels),
         'title'
       )
     },
-    getFolders: (state: any): string[] =>
+    getFolders: (state): string[] =>
       _.uniq(
         state.Folders.concat(
           state.Encounters.filter(x => !x.SaveController.IsDeleted).flatMap(
@@ -35,7 +36,7 @@ export const EncounterStore = defineStore('encounter', {
           )
         ).filter(x => !!x)
       ) as string[],
-    encounterIndexes: (state: any): IndexItem[] => {
+    encounterIndexes: (state): IndexItem[] => {
       const encounters = state.Encounters.filter((x: any) => x && !x.SaveController.IsDeleted)
       return encounters.map((x: any) => ({
         id: x.ID,

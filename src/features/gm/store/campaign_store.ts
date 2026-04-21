@@ -3,7 +3,8 @@ import { SetItem, RemoveItem, GetAll } from '@/io/Storage'
 
 import { Campaign, ICampaignData } from '@/classes/campaign/Campaign'
 import { cloudDelete } from '@/io/apis/account'
-import { UserStore, NavStore } from '@/stores'
+import { UserStore } from '@/stores'
+import { NavStore } from '@/stores/nav'
 import { CloudController } from '@/classes/components'
 import logger from '@/user/logger'
 
@@ -13,8 +14,8 @@ export const CampaignStore = defineStore('campaign', {
     CampaignCollection: [] as ICampaignData[],
   }),
   getters: {
-    editableCampaignIndexes: (state: any) => {
-      return state.Campaigns.map((x: Campaign) => ({
+    editableCampaignIndexes: state => {
+      return state.Campaigns.map(x => ({
         id: x.ID,
         title: x.Title,
         type: 'Campaign (Unpublished)',
@@ -23,8 +24,8 @@ export const CampaignStore = defineStore('campaign', {
         icon: 'mdi-pencil-circle-outline',
       }))
     },
-    publishedCampaignIndexes: (state: any) => {
-      return state.CampaignCollection.map((x: ICampaignData) => ({
+    publishedCampaignIndexes: state => {
+      return state.CampaignCollection.map(x => ({
         id: x.id,
         title: x.title,
         type: 'Campaign (Published)',

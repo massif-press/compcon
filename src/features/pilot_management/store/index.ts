@@ -4,7 +4,8 @@ import { Pilot } from '@/class'
 import { PilotGroup } from './PilotGroup'
 import { CloudController, PortraitController, SaveController } from '@/classes/components'
 import * as _ from 'lodash-es'
-import { IndexItem, NavStore } from '@/stores'
+import { NavStore } from '@/stores/nav'
+import type { IndexItem } from '@/stores/nav'
 import logger from '@/user/logger'
 import PilotSheet from './PilotSheet'
 
@@ -16,44 +17,44 @@ export const PilotStore = defineStore('pilot', {
     CurrentActiveID: '' as string,
   }),
   getters: {
-    getPilotGroups: (state: any) => (showDeleted?: boolean) => {
+    getPilotGroups: state => (showDeleted?: boolean) => {
       let out = _.orderBy(state.PilotGroups, 'SortIndex', 'asc')
-      if (!showDeleted) out = out.filter((x: PilotGroup) => !x.SaveController.IsDeleted)
+      if (!showDeleted) out = out.filter(x => !x.SaveController.IsDeleted)
       return out
     },
-    getPilotByID: (state: any) => (id: string) => {
-      return state.Pilots.find((p: Pilot) => p.ID === id)
+    getPilotByID: state => (id: string) => {
+      return state.Pilots.find(p => p.ID === id)
     },
-    getPilotSheetByID: (state: any) => (id: string) => {
-      return state.PilotSheets.find((ps: PilotSheet) => ps.Combatant.id === id)
+    getPilotSheetByID: state => (id: string) => {
+      return state.PilotSheets.find(ps => ps.Combatant.id === id)
     },
-    getGroupByID: (state: any) => (id: string) => {
-      return state.PilotGroups.find((p: PilotGroup) => p.ID === id)
+    getGroupByID: state => (id: string) => {
+      return state.PilotGroups.find(p => p.ID === id)
     },
-    getPilots: (state: any) => (groupID: string, showDeleted?: boolean) => {
+    getPilots: state => (groupID: string, showDeleted?: boolean) => {
       if (!state.Pilots.length) return []
-      const group = state.PilotGroups.find((x: PilotGroup) => x.ID === groupID)
-      let out = state.Pilots.filter(p => group.Pilots.some(x => x.id === p.ID))
-      if (!showDeleted) out = out.filter((x: Pilot) => !x.SaveController.IsDeleted)
+      const group = state.PilotGroups.find(x => x.ID === groupID)
+      let out = state.Pilots.filter(p => group?.Pilots.some(x => x.id === p.ID))
+      if (!showDeleted) out = out.filter(x => !x.SaveController.IsDeleted)
       return out
     },
-    getUngroupedPilots: (state: any) => {
-      const groupedIds = state.PilotGroups.flatMap((x: PilotGroup) => x.Pilots)
-      return state.Pilots.filter((p: Pilot) => !groupedIds.includes(p.ID))
+    getUngroupedPilots: state => {
+      const groupedIds = state.PilotGroups.flatMap(x => x.Pilots)
+      return state.Pilots.filter(p => !groupedIds.some(g => g.id === p.ID))
     },
-    getGroupByPilotID: (state: any) => (pilotID: string) => {
-      return state.PilotGroups.find((x: PilotGroup) => x.Pilots.map(x => x.id).includes(pilotID))
+    getGroupByPilotID: state => (pilotID: string) => {
+      return state.PilotGroups.find(x => x.Pilots.map(x => x.id).includes(pilotID))
     },
-    getPilotSheets: (state: any) => {
+    getPilotSheets: state => {
       if (!state.PilotSheets.length) return []
       return state.PilotSheets
     },
-    getMissingDataPilots: (state: any) => {
-      return state.Pilots.filter((x: Pilot) => x.BrewController.MissingContent)
+    getMissingDataPilots: state => {
+      return state.Pilots.filter(x => x.BrewController.MissingContent)
     },
-    pilotIndexes: (state: any): IndexItem[] => {
-      const pilots = state.Pilots.filter((x: Pilot) => !x.SaveController.IsDeleted)
-      return pilots.map((x: Pilot) => ({
+    pilotIndexes: (state): IndexItem[] => {
+      const pilots = state.Pilots.filter(x => !x.SaveController.IsDeleted)
+      return pilots.map(x => ({
         id: x.ID,
         title: `${x.Callsign} (${x.Name})`,
         type: 'Pilot',
@@ -62,9 +63,9 @@ export const PilotStore = defineStore('pilot', {
         icon: 'cc:pilot',
       }))
     },
-    mechIndexes: (state: any): IndexItem[] => {
-      const pilots = state.Pilots.filter((x: Pilot) => !x.SaveController.IsDeleted)
-      return pilots.flatMap((x: Pilot) =>
+    mechIndexes: (state): IndexItem[] => {
+      const pilots = state.Pilots.filter(x => !x.SaveController.IsDeleted)
+      return pilots.flatMap(x =>
         x.Mechs.map(m => ({
           id: m.ID,
           title: m.Name,
@@ -154,12 +155,13 @@ export const PilotStore = defineStore('pilot', {
       const pilotIDs = group.Pilots.map(p => p.id)
 
       for (const id of pilotIDs) {
-        await this.TransferPilot(this.getPilotByID(id))
+        const pilot = this.getPilotByID(id)
+        if (pilot) await this.TransferPilot(pilot as Pilot)
       }
 
       if (deletePilots) {
         for (const id of pilotIDs) {
-          this.getPilotByID(id).SaveController.Delete()
+          this.getPilotByID(id)?.SaveController.Delete()
         }
       }
 
@@ -199,7 +201,7 @@ export const PilotStore = defineStore('pilot', {
     },
 
     async ClonePilot(payload: Pilot): Promise<void> {
-      await this.AddPilot(payload.Clone(), this.getGroupByPilotID(payload.ID))
+      await this.AddPilot(payload.Clone(), this.getGroupByPilotID(payload.ID)?.ID)
     },
     async DeletePilotPermanent(pilot: Pilot): Promise<void> {
       const groupIndex = this.PilotGroups.findIndex(x => x.Pilots.map(x => x.id).includes(pilot.ID))
@@ -259,15 +261,16 @@ export const PilotStore = defineStore('pilot', {
     },
     ReorderPilot(pilot: Pilot, dir: 'top' | 'up' | 'down' | 'bottom'): void {
       const group = this.getGroupByPilotID(pilot.ID)
+      if (!group) return
 
       if (dir === 'top') {
-        this.movePilotIndex(group, pilot.SortIndex, 0)
+        this.movePilotIndex(group as PilotGroup, pilot.SortIndex, 0)
       } else if (dir === 'up') {
-        this.movePilotIndex(group, pilot.SortIndex, pilot.SortIndex - 1)
+        this.movePilotIndex(group as PilotGroup, pilot.SortIndex, pilot.SortIndex - 1)
       } else if (dir === 'down') {
-        this.movePilotIndex(group, pilot.SortIndex, pilot.SortIndex + 1)
+        this.movePilotIndex(group as PilotGroup, pilot.SortIndex, pilot.SortIndex + 1)
       } else if (dir === 'bottom') {
-        this.movePilotIndex(group, pilot.SortIndex, group.Pilots.length - 1)
+        this.movePilotIndex(group as PilotGroup, pilot.SortIndex, group.Pilots.length - 1)
       }
 
       group.Pilots.forEach((pItem, idx) => {

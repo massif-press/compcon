@@ -1,6 +1,6 @@
 <template>
   <div v-if="contentPacks.length === 0">
-    <cc-alert color="primary">No content packs installed.</cc-alert>
+    <cc-alert color="primary">{{ CM.noPacksInstalled }}</cc-alert>
   </div>
   <div v-else>
     <v-data-table v-model:expanded="expandedRows"
@@ -59,17 +59,16 @@
           </template>
           <v-card>
             <v-card-text>
-              This will remove this pack and all of its contents from COMP/CON. User data that
-              relies on this content will remain available. Are you sure you want to continue?
+              {{ CM.deletePackConfirm }}
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn size="small">CANCEL</v-btn>
+              <v-btn size="small">{{ CM.cancel }}</v-btn>
               <v-btn size="small"
                 color="error"
                 class="ml-auto"
                 @click="deletePack(item.ID)">
-                CONFIRM
+                {{ CM.confirm }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -88,7 +87,7 @@
         size="small"
         color="error"
         @click="deleteAll">
-        Delete All
+        {{ CM.deleteAll }}
       </cc-button>
     </div>
   </div>
@@ -99,9 +98,13 @@ import { ContentPack } from '@/class'
 import PackInfoCard from './components/PackInfoCard.vue'
 import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/mixins/useMobile';
+import { NAV_STRINGS } from '@/features/nav/strings'
 
 export default {
   name: 'PacksList',
+  setup() {
+    return { CM: NAV_STRINGS.contentManager }
+  },
   components: { PackInfoCard },
   mixins: [useMobile],
   data: () => ({

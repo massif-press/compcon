@@ -5,7 +5,8 @@ import { Doodad, DoodadData } from '@/classes/npc/doodad/Doodad'
 import { Unit, UnitData } from '@/classes/npc/unit/Unit'
 import * as _ from 'lodash-es'
 import { Npc } from '@/classes/npc/Npc'
-import { IndexItem, NavStore } from '@/stores'
+import { NavStore } from '@/stores/nav'
+import type { IndexItem } from '@/stores/nav'
 import { CloudController } from '@/classes/components'
 import logger from '@/user/logger'
 
@@ -15,19 +16,19 @@ export const NpcStore = defineStore('npc', {
     Folders: [] as string[],
   }),
   getters: {
-    getNpcByID: (state: any) => (id: string) => {
+    getNpcByID: state => (id: string) => {
       return state.Npcs.find(x => x.ID === id)
     },
-    getUnits: (state: any) => state.Npcs.filter(x => x instanceof Unit),
-    getDoodads: (state: any) => state.Npcs.filter(x => x instanceof Doodad),
-    getEidolons: (state: any) => state.Npcs.filter(x => x instanceof Eidolon),
-    getAllLabels: (state: any) => {
+    getUnits: state => state.Npcs.filter(x => x instanceof Unit),
+    getDoodads: state => state.Npcs.filter(x => x instanceof Doodad),
+    getEidolons: state => state.Npcs.filter(x => x instanceof Eidolon),
+    getAllLabels: state => {
       return _.uniqBy(
         state.Npcs.flatMap((x: any) => x.NarrativeController.Labels),
         'title'
       )
     },
-    getFolders: (state: any): string[] =>
+    getFolders: (state): string[] =>
       _.uniq(
         [
           ...state.Folders,
@@ -36,12 +37,12 @@ export const NpcStore = defineStore('npc', {
           ),
         ].filter(x => !!x)
       ) as string[],
-    getMissingDataNpcs: (state: any) => {
-      return state.Npcs.filter((x: Npc) => x.BrewController.MissingContent)
+    getMissingDataNpcs: state => {
+      return state.Npcs.filter(x => x.BrewController.MissingContent)
     },
-    unitIndexes: (state: any): IndexItem[] => {
-      const units = state.Npcs.filter((x: any) => x instanceof Unit && !x.SaveController.IsDeleted)
-      return units.map((x: Unit) => ({
+    unitIndexes: (state): IndexItem[] => {
+      const units = state.Npcs.filter((x): x is Unit => x instanceof Unit && !x.SaveController.IsDeleted)
+      return units.map(x => ({
         id: x.ID,
         title: `${x.Name} ${
           x.NpcClassController.HasClass
@@ -54,11 +55,11 @@ export const NpcStore = defineStore('npc', {
         icon: x.Icon || 'cc:encounter',
       }))
     },
-    doodadIndexes: (state: any): IndexItem[] => {
+    doodadIndexes: (state): IndexItem[] => {
       const doodads = state.Npcs.filter(
-        (x: any) => x instanceof Doodad && !x.SaveController.IsDeleted
+        (x): x is Doodad => x instanceof Doodad && !x.SaveController.IsDeleted
       )
-      return doodads.map((x: Doodad) => ({
+      return doodads.map(x => ({
         id: x.ID,
         title: x.Name,
         type: 'Doodad',
@@ -67,11 +68,11 @@ export const NpcStore = defineStore('npc', {
         icon: x.Icon || 'cc:generic_item',
       }))
     },
-    eidolonIndexes: (state: any): IndexItem[] => {
+    eidolonIndexes: (state): IndexItem[] => {
       const eidolons = state.Npcs.filter(
-        (x: any) => x instanceof Eidolon && !x.SaveController.IsDeleted
+        (x): x is Eidolon => x instanceof Eidolon && !x.SaveController.IsDeleted
       )
-      return eidolons.map((x: Eidolon) => ({
+      return eidolons.map(x => ({
         id: x.ID,
         title: x.Name,
         type: 'Eidolon',

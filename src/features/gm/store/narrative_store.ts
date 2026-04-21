@@ -3,7 +3,8 @@ import { CollectionItem } from '@/classes/narrative/CollectionItem'
 import { Faction, FactionData } from '@/classes/narrative/Faction'
 import { Location, LocationData } from '@/classes/narrative/Location'
 import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
-import { IndexItem, NavStore } from '@/stores'
+import { NavStore } from '@/stores/nav'
+import type { IndexItem } from '@/stores/nav'
 import logger from '@/user/logger'
 import * as _ from 'lodash-es'
 import { defineStore } from 'pinia'
@@ -14,30 +15,30 @@ export const NarrativeStore = defineStore('narrative', {
     Folders: [] as string[],
   }),
   getters: {
-    getItemByID: (state: any) => (id: string) => {
+    getItemByID: state => (id: string) => {
       return state.CollectionItems.find(x => x.ID === id)
     },
-    getCharacters: (state: any) => state.CollectionItems.filter(x => x instanceof Character),
-    getLocations: (state: any) => state.CollectionItems.filter(x => x instanceof Location),
-    getFactions: (state: any) => state.CollectionItems.filter(x => x instanceof Faction),
-    getItemRelationships: (state: any) => (id: string) => {
+    getCharacters: state => state.CollectionItems.filter(x => x instanceof Character),
+    getLocations: state => state.CollectionItems.filter(x => x instanceof Location),
+    getFactions: state => state.CollectionItems.filter(x => x instanceof Faction),
+    getItemRelationships: state => (id: string) => {
       return state.CollectionItems.filter(x =>
         x.NarrativeController.Relationships.some(y => id === y.id)
       )
     },
-    getAllLabels: (state: any) => {
+    getAllLabels: state => {
       return _.uniqBy(
         state.CollectionItems.flatMap((x: any) => x.NarrativeController.Labels),
         'title'
       )
     },
-    getFolders: (state: any): string[] =>
+    getFolders: (state): string[] =>
       _.uniq(
         state.Folders.concat(
           state.CollectionItems.flatMap((x: any) => x.FolderController.Folder)
         ).filter(x => !!x)
       ),
-    narrativeIndexes: (state: any): IndexItem[] => {
+    narrativeIndexes: (state): IndexItem[] => {
       const units = state.CollectionItems.filter((x: any) => x && !x.SaveController.IsDeleted)
       return units.map((x: any) => ({
         id: x.ID,

@@ -1,6 +1,6 @@
 <template>
   <cc-solo-modal v-model="modal"
-    title="Content Pack Management"
+    :title="CM.packManagement"
     icon="cc:content_manager">
     <cc-tabs modal
       fixed>
@@ -8,22 +8,22 @@
         <v-tab>
           <v-icon start
             icon="mdi-list-box" />
-          Content Packs
+          {{ CM.contentPacks }}
         </v-tab>
         <v-tab>
           <v-icon start
             icon="mdi-download" />
-          Install .LCP File
+          {{ CM.installLcp }}
         </v-tab>
         <v-tab>
           <v-icon start
             icon="mdi-format-list-text" />
-          LCP Directory
+          {{ CM.lcpDirectory }}
         </v-tab>
         <v-tab>
           <v-icon start
             icon="mdi-list-status" />
-          Content Config.
+          {{ CM.contentConfig }}
         </v-tab>
       </template>
       <v-window-item>
@@ -52,6 +52,7 @@ import PacksDirectory from './PacksDirectory.vue'
 import PackConfig from './PackConfig.vue'
 import { useMobile } from '@/mixins/useMobile';
 import V2Imports from './components/v2Imports.vue';
+import { NAV_STRINGS } from '@/features/nav/strings'
 
 export default {
   name: 'ExtraContent',
@@ -61,6 +62,9 @@ export default {
     modelValue: Boolean,
   },
   emits: ['update:modelValue'],
+  setup() {
+    return { CM: NAV_STRINGS.contentManager }
+  },
   data: () => ({
     tabs: 0,
     modal: false,
