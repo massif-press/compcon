@@ -23,9 +23,9 @@ const theme = {
     pilot: '#424242',
     exotic: '#673AB7',
 
-    weapon: '#212121',
-    'mech-weapon': '#212121',
-    'pilot-weapon': '#212121',
+    weapon: '#233943',
+    'mech-weapon': '#233943',
+    'pilot-weapon': '#233943',
 
     'core-bonus': '#991E2A',
 

@@ -1,23 +1,9 @@
 [
   {
-    "id": "launch-date-announce",
-    "title": "v3 Launch Date",
-    "body": "v3 will be deploying to compcon.app on <strong>Wednesday, April 22nd</strong>. compcon.app will go down for a little bit starting around 0900 CST / 1400 UTC during deployment. When complete, v2 will be available at old.compcon.app, and the dev build (campaign access) will be at dev.compcon.app",
+    "id": "3-0-launch",
+    "title": "COMP/CON v3 Launch",
+    "body": "<p class='px-2'>v3.0.0 is live! Your data should have been migrated automatically. <a href=\"https://github.com/orgs/massif-press/discussions/172\" target=\"blank\">A full migration guide can be found here</a>.</p> <h3 class='mt-2'>CHANGELOG:</h3>  <p class='px-2'>Too many changes to list. <a href=\"https://github.com/orgs/massif-press/discussions/64\" target=\"blank\">Major details can be found here</a>. <br> Please report any bugs after checking the task list to see if it has already been reported or is resolved and pending deployment.</p> <p class='my-2'><b>v3.0.x task list</b>: <a href=\"https://github.com/orgs/massif-press/projects/4/views/7\" target=\"blank\">https://github.com/orgs/massif-press/projects/4/views/7</a> </p> <p class='my-2'><b>v2.3.21a is available at</b> <a href=\"https://old.compcon.app\" target=\"blank\">https://old.compcon.app</a></p> <h3>KNOWN ISSUES:</h3> <ul> <li class='my-2'><p>The <b>Waterfox</b> browser automatically generates an idempotency key by default that breaks many cc-backend functions. Consider using another browser or disabling experimental setting <code class='bg-background'>network.http.idempotencyKey</code>. If you've enabled this on Firefox it will have to be disabled as well (but it shouldn't be on by default)</p> </li> <li class='my-2'><p>Certain data-heavy operations might lag on slower devices, especially with many LCPs loaded. Expect performance improvements over the coming weeks.</p> </li> <li class='my-2'><p>v3 data Foundry imports and other VTTs/external tools should work if you use the v2 legacy export options. The Lancer Foundry Module team is currently working on incorporating new v3 formats and backend changes. Currently v3 cloud data won't sync to external tools.</p> </li> <li class='my-2'><p>Automated Stress/Structure rolls are not yet implemented in v3.</p> </li> <li class='my-2'><p><strong>All v2 LCPs should work</strong> but will not be furnished with the new v3 active mode features. If a v2 LCP is broken or missing data after migration, try removing and reinstalling it. If that still doesn't work.</p> </li> <li class='my-2'><p>There are a few COMP/CON-isms in terms of how v3 &quot;renders&quot; certain Lancer rules and edge cases that may be odd/inaccurate/less than ideal. These are all still very valid candidates for edits and adjustments and if you notice something that doesn't sit right please consider opening a bug ticket or feature request.</p> </li> </ul>",
     "level": "info",
-    "created": 1775680270
-  },
-  {
-    "id": "stress-test-announce",
-    "title": "v3 Stress Test",
-    "body": "Hello everyone, I'm excited to announce that v3 feature development is complete and we're starting pre-release stress testing before launch in late April. Please see <a href=\"https://www.patreon.com/posts/comp-con-v3-pre-154024192\" target=\"_blank\">this post</a> for more details. ",
-    "level": "info",
-    "created": 1774554350
-  },
-  {
-    "id": "0c35ff16-742c-482d-95f3-6abbc6754bf2",
-    "title": "v3 Feedback II",
-    "body": "Hello everyone, I'm excited to announce that the mobile development phase is now complete and a new feedback phase is starting. Please check out <a href=\"https://www.patreon.com/posts/126572661\" target=\"_blank\">this post</a> for more details. Any and all feedback is greatly appreciated!",
-    "level": "info",
-    "created": 1744563849
+    "created": 1776866400
   }
 ]

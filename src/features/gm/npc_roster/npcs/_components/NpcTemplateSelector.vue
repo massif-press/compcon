@@ -1,5 +1,6 @@
 <template>
-  <div v-if="readonly && item.NpcTemplateController.Templates.length === 0" class="mb-6">
+  <div v-if="readonly && item.NpcTemplateController.Templates.length === 0"
+    class="mb-6">
     <v-card flat>
       <div class="text-disabled text-caption pl-2">
         <i>No Templates</i>
@@ -7,55 +8,66 @@
     </v-card>
   </div>
   <v-row align="center">
-    <v-col v-if="item.NpcTemplateController.Templates.length" cols="auto" dense align="center">
-      <cc-chip v-for="t in item.NpcTemplateController.Templates" :key="t.ID" size="large" class="mr-4">
-        <v-tooltip :text="t.Description || t.Tactics" max-width="350px">
+    <v-col v-if="item.NpcTemplateController.Templates.length"
+      cols="auto"
+      dense
+      align="center">
+      <cc-chip v-for="t in item.NpcTemplateController.Templates"
+        :key="t.ID"
+        size="large"
+        class="mr-4">
+        <v-tooltip :text="t.Description || t.Tactics"
+          max-width="350px">
           <template #activator="{ props }">
-            <span v-bind="props" class="heading h4 pr-2">
-              <v-icon icon="cc:npc_template" class="mt-n1" />
+            <span v-bind="props"
+              class="heading h4 pr-2">
+              <v-icon icon="cc:npc_template"
+                class="mt-n1" />
               {{ t.Name }}
             </span>
           </template>
         </v-tooltip>
       </cc-chip>
     </v-col>
-    <v-col
-      v-if="!readonly"
+    <v-col v-if="!readonly"
       cols="auto"
       :class="item.NpcTemplateController.Templates.length ? 'ml-auto' : ''">
-      <cc-button color="primary" size="small" @click="dialog = true">
+      <cc-button color="primary"
+        size="small"
+        @click="dialog = true">
         {{ item.NpcTemplateController.Templates.length ? 'Edit' : 'Assign' }} NPC Templates
       </cc-button>
     </v-col>
   </v-row>
 
-  <cc-solo-modal v-model="dialog" title="select template" icon="cc:npc_template">
+  <cc-solo-modal v-model="dialog"
+    title="select template"
+    icon="cc:npc_template">
     <v-card-text v-if="!templates.length">
       <v-container class="mt-n4">
         <cc-missing-gm-lcp-text />
       </v-container>
     </v-card-text>
-    <v-layout v-else style="height: 90vh; overflow-y: scroll">
-      <div
-        style="position: absolute; z-index: 999"
+    <v-layout v-else
+      style="height: 90vh; overflow-y: scroll">
+      <div style="position: absolute; z-index: 999"
         :style="`left: ${showNav ? (mobile ? '322' : '352') : '3'}px; top: 6px`">
-        <cc-button
-          :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
+        <cc-button :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
           size="small"
           color="primary"
           @click="(showNav as any) = !showNav" />
       </div>
-      <v-navigation-drawer v-model="showNav" :width="mobile ? 320 : 350">
-        <v-text-field
-          v-model="search"
+      <v-navigation-drawer v-model="showNav"
+        :width="mobile ? 320 : 350">
+        <v-text-field v-model="search"
           prepend-inner-icon="mdi-magnify"
           density="compact"
           hide-details
           variant="outlined"
           clearable />
-        <v-list density="compact" slim>
-          <v-list-item
-            v-for="item in templates"
+        <v-list density="compact"
+          slim>
+          <v-list-item v-for="item in filteredTemplates"
             :key="item.ID"
             :color="selected === item ? '' : 'accent'"
             :class="isAssigned(item) ? 'bg-primary' : ''"
@@ -65,10 +77,10 @@
               <span class="heading">{{ item.Name }}</span>
             </template>
             <template #append>
-              <v-tooltip v-if="isAssigned(item)" location="top">
+              <v-tooltip v-if="isAssigned(item)"
+                location="top">
                 <template #activator="{ props }">
-                  <cc-button
-                    v-bind="props"
+                  <cc-button v-bind="props"
                     size="small"
                     variant="outlined"
                     icon="mdi-minus"
@@ -78,16 +90,14 @@
                 Remove Template
               </v-tooltip>
 
-              <v-icon
-                v-else-if="templateConflict(item).length"
+              <v-icon v-else-if="templateConflict(item).length"
                 icon="mdi-cancel"
                 size="large"
                 disabled></v-icon>
 
               <v-tooltip v-else>
                 <template #activator="{ props }">
-                  <cc-button
-                    v-bind="props"
+                  <cc-button v-bind="props"
                     size="small"
                     variant="outlined"
                     icon="mdi-plus"
@@ -101,22 +111,26 @@
         </v-list>
       </v-navigation-drawer>
       <v-main class="py-3">
-        <v-container v-if="selected" class="py-2 px-6">
-          <v-row dense align="center" class="mt-n8">
+        <v-container v-if="selected"
+          class="py-2 px-6">
+          <v-row dense
+            align="center"
+            class="mt-n8">
             <v-col cols="auto">
               <span class="heading mech">
                 {{ selected.Name }}
               </span>
             </v-col>
-            <v-col v-if="selected.InLcp" cols="auto" class="ml-auto">
+            <v-col v-if="selected.InLcp"
+              cols="auto"
+              class="ml-auto">
               <div class="heading h3 text-text">
                 {{ selected.LcpName }}
               </div>
             </v-col>
           </v-row>
           <cc-item-card :item="selected" />
-          <cc-button
-            v-if="isAssigned(selected)"
+          <cc-button v-if="isAssigned(selected)"
             size="small"
             block
             color="error"
@@ -125,17 +139,28 @@
             Remove Template
           </cc-button>
 
-          <cc-button v-else-if="templateConflict(selected).length" size="small" block disabled>
-            <v-icon start icon="mdi-cancel" />
+          <cc-button v-else-if="templateConflict(selected).length"
+            size="small"
+            block
+            disabled>
+            <v-icon start
+              icon="mdi-cancel" />
             Cannot assign (conflicts with {{ templateConflict(selected) }})
           </cc-button>
 
-          <cc-button v-else size="small" block color="secondary" @click="addTemplate(selected)">
+          <cc-button v-else
+            size="small"
+            block
+            color="secondary"
+            @click="addTemplate(selected)">
             <v-icon start>mdi-plus</v-icon>
             Assign Template
           </cc-button>
         </v-container>
-        <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
+        <v-row v-else
+          align="center"
+          justify="center"
+          style="width: 100%; height: 100%">
           <v-col cols="auto">
             <span class="heading h1 text-disabled text--lighten-2">select npc template</span>
           </v-col>
@@ -168,6 +193,10 @@ export default {
     },
     mobile() {
       return this.$vuetify.display.mdAndDown;
+    },
+    filteredTemplates() {
+      const search = this.search?.toLowerCase() || '';
+      return this.templates.filter((t) => t.Name.toLowerCase().includes(search));
     },
   },
   methods: {

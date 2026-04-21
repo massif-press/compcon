@@ -380,7 +380,7 @@ class CloudController {
     const sortkey = this.GenerateSortKey()
     const correctUri = `${correctUserId}/${sortkey}.json`
 
-    let hasCloudData = false
+    let hasCloudData
     try {
       const data = await downloadFromS3(correctUri)
       hasCloudData = !!data

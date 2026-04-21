@@ -1,19 +1,4 @@
 <template>
-  <cc-alert prominent
-    icon="mdi-alert"
-    title="Active Mode Alpha Preview"
-    class="ma-4"
-    color="warning">
-    Active mode is a currently in
-    <b class="text-error">alpha</b>
-    development. Expect breaking bugs!<br> To follow the development of this feature, please
-    check out the
-    <a href="https://www.patreon.com/c/compcon"
-      target="_blank">
-      public devlogs on the COMP/CON Patreon
-    </a>
-    .
-  </cc-alert>
   <v-container fluid>
     <v-row justify="space-around"
       align="center">
