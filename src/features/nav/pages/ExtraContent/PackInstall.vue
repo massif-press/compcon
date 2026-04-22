@@ -291,7 +291,7 @@ export default {
             logger.error(`Error comparing versions: ${e} (likely bad semver)`, this, e);
             return false;
           }
-          if (c === -1) {
+          if (c === 1) {
             logger.warn(
               `A newer version of ${pack.manifest.name} is already installed. Skipping.`,
               this

@@ -9,6 +9,7 @@ import {
   CampaignStore,
 } from '@/stores'
 import { collectionDataQuery } from '@/user/api'
+import { lt, coerce } from 'semver'
 
 import { Initialize } from './Storage'
 import { AchievementManager } from '@/user/achievements/AchievementManager'
@@ -119,7 +120,7 @@ export default async function (skipSync = false): Promise<void> {
             const installedPack = CompendiumStore().ContentPacks.find(
               p => p.Manifest.name === lcp.name || p.Manifest.name === lcp.title
             )
-            if (!installedPack || installedPack.Manifest.version < lcp.version) {
+            if (!installedPack || lt(coerce(installedPack.Manifest.version), coerce(lcp.version))) {
               try {
                 await UserStore().downloadLcp(lcp)
                 UserStore().addCloudNotification(`Updated ${lcp.name} to ${lcp.version}.`)
