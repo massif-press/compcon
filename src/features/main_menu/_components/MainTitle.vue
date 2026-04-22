@@ -33,7 +33,7 @@
                 style="font-family: 'Consolas', monospace"
                 target="_blank"
                 color="white"
-                href="https://github.com/massif-press/compcon/blob/master/CHANGELOG.md"
+                href="https://github.com/orgs/massif-press/projects/4"
                 @mouseenter="$emit('logupdate')">
                 v.{{ version }}
               </cc-button>

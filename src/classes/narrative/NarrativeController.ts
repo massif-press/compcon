@@ -156,11 +156,13 @@ class NarrativeController {
         `NarrativeController not found on parent (${typeof parent}). New NarrativeControllers must be instantiated in the parent's constructor method.`
       );
 
-    parent.NarrativeController._textItems = data.textItems;
-    parent.NarrativeController._labels = data.labels;
-    parent.NarrativeController._relationships = data.relationships;
-    parent.NarrativeController._clocks = data.clocks.map((x) => Clock.Deserialize(x));
-    parent.NarrativeController._tables = data.tables.map((x) => RollableTable.Deserialize(x));
+    parent.NarrativeController._textItems = data.textItems || [];
+    parent.NarrativeController._labels = (data.labels || []).map((x) =>
+      typeof x === 'string' ? { title: x, value: '' } : x
+    );
+    parent.NarrativeController._relationships = data.relationships || [];
+    parent.NarrativeController._clocks = (data.clocks || []).map((x) => Clock.Deserialize(x));
+    parent.NarrativeController._tables = (data.tables || []).map((x) => RollableTable.Deserialize(x));
   }
 }
 
