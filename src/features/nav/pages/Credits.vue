@@ -109,7 +109,6 @@ export default {
   async mounted() {
     try {
       const data = await getPatreonSubscribers();
-      console.log(data)
       this.patrons = data;
     } catch (e) {
       // subscriber list unavailable (e.g. not logged in)
