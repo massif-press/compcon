@@ -7,69 +7,61 @@
           <v-col><v-divider /></v-col>
           <v-col cols="auto">{{ items.length }} items</v-col>
         </v-row>
-        <v-table>
-          <thead class="heading">
-            <tr>
-              <th width="1px">
-                <v-btn icon
-                  flat
-                  size="small"
-                  :value="selected.length === items.length"
-                  hide-details
-                  @click="
-                    selected.length ? (selected = []) : (selected = items.map((x: any) => x.ID))
-                    ">
-                  <v-icon size="x-large"
-                    :icon="selected.length === items.length
-                      ? 'mdi-checkbox-outline'
-                      : selected.length > 0
-                        ? 'mdi-minus-box-outline'
-                        : 'mdi-checkbox-blank-outline'
-                      " />
-                </v-btn>
-              </th>
-              <th>Name</th>
-              <th>Callsign</th>
-              <th>License Level</th>
-              <th>Group</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in items" :key="item.ID">
-              <td>
-                <v-checkbox v-model="selected"
-                  multiple
-                  :value="(item as any).ID"
-                  hide-details />
-              </td>
-              <td :class="item.SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''
-                ">
-                {{ (item as any).Name }}
-              </td>
-              <th>
-                {{ item.Callsign }}
-              </th>
-              <th>
-                {{ item.Level }}
-              </th>
-              <th>
-                <v-chip size="small"
-                  label
-                  prepend-icon="mdi-account-group">
-                  {{ getPilotGroup(item) }}
-                </v-chip>
-              </th>
-            </tr>
-          </tbody>
-        </v-table>
-        <v-row dense
-          justify="end">
-          <v-col cols="auto">
-            <v-checkbox density="compact"
-              label="Show Deleted"
-              v-model="showDeleted" />
-          </v-col>
-        </v-row>
+        <v-data-table
+          :headers="headers"
+          :items="items"
+          item-value="ID"
+          :sort-by="[{ key: 'Name', order: 'asc' }]"
+          :items-per-page="-1"
+          density="compact">
+          <template #header.select>
+            <v-btn icon
+              flat
+              size="small"
+              @click="selected.length ? (selected = []) : (selected = items.map((x: any) => x.ID))">
+              <v-icon size="x-large"
+                :icon="selected.length === items.length
+                  ? 'mdi-checkbox-outline'
+                  : selected.length > 0
+                    ? 'mdi-minus-box-outline'
+                    : 'mdi-checkbox-blank-outline'" />
+            </v-btn>
+          </template>
+          <template #item.select="{ item }">
+            <v-checkbox v-model="selected"
+              multiple
+              :value="(item as any).ID"
+              hide-details />
+          </template>
+          <template #item.Name="{ item }">
+            <span :class="(item as any).SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''">
+              {{ (item as any).Name }}
+            </span>
+          </template>
+          <template #item.Callsign="{ item }">
+            {{ (item as any).Callsign }}
+          </template>
+          <template #item.Level="{ item }">
+            {{ (item as any).Level }}
+          </template>
+          <template #item.group="{ item }">
+            <v-chip size="small"
+              label
+              prepend-icon="mdi-account-group">
+              {{ getPilotGroup(item) }}
+            </v-chip>
+          </template>
+          <template #bottom>
+            <v-row dense
+              justify="end">
+              <v-col cols="auto">
+                <v-checkbox density="compact"
+                  label="Show Deleted"
+                  v-model="showDeleted" />
+              </v-col>
+            </v-row>
+          </template>
+        </v-data-table>
       </v-col>
       <v-col cols="auto"
         style="width: 350px">
@@ -199,6 +191,15 @@ export default {
     showDeleteConfirm: false,
   }),
   computed: {
+    headers() {
+      return [
+        { key: 'select', sortable: false, width: '40px' },
+        { title: 'Name', key: 'Name', sortable: true },
+        { title: 'Callsign', key: 'Callsign', sortable: true },
+        { title: 'License Level', key: 'Level', sortable: true },
+        { title: 'Group', key: 'group', sortable: true, value: (item: any) => this.getPilotGroup(item) },
+      ];
+    },
     items() {
       return PilotStore().Pilots.filter(
         (x: any) => this.showDeleted || !x.SaveController.IsDeleted

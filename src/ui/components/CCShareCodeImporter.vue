@@ -177,7 +177,7 @@ export default {
 
 
   },
-  emits: ['set-query-result', 'set-data'],
+  emits: ['set-query-result', 'set-data', 'set-share-code'],
   data: () => ({
     codeLength: 12,
     codeSearch: '',
@@ -200,7 +200,11 @@ export default {
       return UserStore().IsLoggedIn
     },
     isUserOwned() {
-      return !!(this.queryResult?.sortkey && UserStore().getLocalItem(this.queryResult.sortkey))
+      return !!(
+        this.queryResult?.user_id &&
+        UserStore().Cognito?.userId &&
+        this.queryResult.user_id === UserStore().Cognito.userId
+      )
     },
     canDownload() {
       return this.queryResult && this.queryResult.uri
@@ -209,7 +213,9 @@ export default {
       return (
         this.queryResult &&
         UserStore().UserMetadata.RemoteItems &&
-        UserStore().UserMetadata.RemoteItems.some(ri => ri === this.queryResult.code)
+        UserStore().UserMetadata.RemoteItems.some(
+          ri => ri === this.queryResult.code || ri === this.code.join('')
+        )
       )
     },
     wrongType() {
@@ -268,6 +274,7 @@ export default {
       try {
         this.queryResult = await GetFromCode(this.code.join(''))
         this.$emit('set-query-result', this.queryResult)
+        this.$emit('set-share-code', this.code.join(''))
         if (this.importType === 'campaign') {
           const campaign = await downloadFromS3(this.queryResult.uri)
           this.$emit('set-data', campaign)

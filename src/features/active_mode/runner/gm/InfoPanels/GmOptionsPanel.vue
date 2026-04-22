@@ -46,7 +46,7 @@
             color="primary"
             :label="encounterInstance.SimpleTickbars ? 'Simple' : 'Standard'"
             tooltip="Replace the thematic stat trackers for HP, Heat, etc. with straightforward number inputs." />
-          <cc-switch v-model="encounterInstance.layoutColumns"
+          <cc-switch v-model="encounterInstance.LayoutColumns"
             size="large"
             label="Layout Columns"
             color="primary"

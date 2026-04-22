@@ -66,7 +66,8 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     this.IsActive = data?.isActive || false
     this.SimpleTickbars = data?.simple_tickbars || false
     this.ForceComplexTickbars = data?.force_complex_tickbars || false
-    this.LayoutColumns = data?.layout_columns || true
+    console.log(data?.layout_columns)
+    this.LayoutColumns = !!data?.layout_columns || true
     this.MaxMasonryColumns = data?.max_masonry_columns || 2
 
     if (data) {
@@ -155,7 +156,8 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     await new Promise<void>(r => setTimeout(r, 100))
     for (const c of this.Combatants) {
       await c.actor.CombatController.EndRound(this)
-      if ((c.actor as any).ActiveMech) await (c.actor as any).ActiveMech.CombatController.EndRound(this)
+      if ((c.actor as any).ActiveMech)
+        await (c.actor as any).ActiveMech.CombatController.EndRound(this)
     }
     this._round += 1
     if (this.Autosave) {

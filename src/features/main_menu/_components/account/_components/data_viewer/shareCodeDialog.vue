@@ -6,7 +6,8 @@
     :color="color"
     :full-width="fullWidth"
     :subtitle="subtitle"
-    @set-query-result="queryResult = $event">
+    @set-query-result="queryResult = $event"
+    @set-share-code="shareCode = $event">
     <template #result>
       <div v-if="queryResult === null"
         class="text-center">
@@ -112,6 +113,7 @@ export default {
   emits: ['close'],
   data: () => ({
     queryResult: null as any,
+    shareCode: '',
     dlLoading: false,
   }),
   computed: {
@@ -130,11 +132,14 @@ export default {
       const itemType = this.queryResult.sortkey.split('_')[1];
       const item = await CloudController.NewByType(itemType, itemData);
       if (remote) {
+        const codeToTrack = this.shareCode || this.queryResult.code;
         item.CloudController.setRemoteMetadata(this.queryResult);
+        item.SaveController.RemoteCode = codeToTrack;
         if (UserStore().IsLoggedIn)
-          UserStore().addRemoteItem(this.queryResult.code);
+          UserStore().addRemoteItem(codeToTrack);
       } else {
         item.CloudController.GenerateMetadata();
+        item.SaveController.ClearRemote();
       }
       await CloudController.AddByType(itemType, item);
 

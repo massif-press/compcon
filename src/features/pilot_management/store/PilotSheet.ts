@@ -25,7 +25,7 @@ type PilotSheetData = {
   campaign?: string
   simple_tickbars?: boolean
   force_complex_tickbars?: boolean
-  layout_columns?: number
+  layout_columns?: boolean
   max_masonry_columns?: number
   autosave?: boolean
 }
@@ -44,7 +44,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
 
   public SimpleTickbars: boolean = false
   public ForceComplexTickbars: boolean = false
-  public LayoutColumns: number = 2
+  public LayoutColumns: boolean = true
   public MaxMasonryColumns: number = 2
   public Autosave: boolean = true
 
@@ -62,7 +62,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
 
     this.SimpleTickbars = data.simple_tickbars || false
     this.ForceComplexTickbars = data.force_complex_tickbars || false
-    this.LayoutColumns = data.layout_columns || true
+    this.LayoutColumns = !!data.layout_columns || true
     this.MaxMasonryColumns = data.max_masonry_columns || 2
     this.Autosave = data.autosave || true
 

@@ -2,7 +2,8 @@
   <cc-share-code-importer ref="importer"
     :import-type="importType"
     :block-btn="blockBtn"
-    @set-query-result="queryResult = $event">
+    @set-query-result="queryResult = $event"
+    @set-share-code="shareCode = $event">
     <template #result>
       <div v-if="queryResult === null"
         class="text-center">
@@ -70,7 +71,7 @@
 
 <script lang="ts">
 import { CloudController } from '@/classes/components';
-import { downloadFromS3 } from '@/io/apis/account';
+import { DownloadViaCode } from '@/io/apis/account';
 import { UserStore } from '@/stores';
 
 export default {
@@ -88,6 +89,7 @@ export default {
   emits: ['close'],
   data: () => ({
     queryResult: null as any,
+    shareCode: '',
     dlLoading: false,
   }),
   computed: {
@@ -101,15 +103,18 @@ export default {
     },
     async downloadAsCopy(remote = false) {
       this.dlLoading = true;
-      const itemData = await downloadFromS3(this.queryResult.uri);
+      const itemData = await DownloadViaCode(this.queryResult.code);
       const itemType = this.queryResult.sortkey.split('_')[1];
       const item = await CloudController.NewByType(itemType, itemData);
       if (remote) {
+        const codeToTrack = this.shareCode || this.queryResult.code;
         item.CloudController.setRemoteMetadata(this.queryResult);
+        item.SaveController.RemoteCode = codeToTrack;
         if (UserStore().IsLoggedIn)
-          UserStore().addRemoteItem(this.queryResult.code);
+          UserStore().addRemoteItem(codeToTrack);
       } else {
         item.CloudController.GenerateMetadata();
+        item.SaveController.ClearRemote();
       }
       await CloudController.AddByType(itemType, item);
 

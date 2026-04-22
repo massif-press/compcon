@@ -24,71 +24,63 @@
             </v-row>
           </v-col>
         </v-row>
-        <v-table>
-          <thead class="heading">
-            <tr>
-              <th width="1px">
-                <v-btn icon
-                  flat
-                  size="small"
-                  :value="selected.length === items.length"
-                  hide-details
-                  @click="
-                    selected.length ? (selected = []) : (selected = items.map((x: any) => x.ID))
-                    ">
-                  <v-icon size="x-large"
-                    :icon="selected.length === items.length
-                      ? 'mdi-checkbox-outline'
-                      : selected.length > 0
-                        ? 'mdi-minus-box-outline'
-                        : 'mdi-checkbox-blank-outline'
-                      " />
-                </v-btn>
-              </th>
-              <th>Name</th>
-              <th>Folder</th>
-              <th>GM Labels</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in items"
-              :key="(item as any).ID">
-              <td>
-                <v-checkbox v-model="selected"
-                  multiple
-                  :value="(item as any).ID"
-                  hide-details />
-              </td>
-              <td :class="item.SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''
-                ">
-                <cc-missing-content-hover :item="item" />
-                {{ (item as any).Name }}
-              </td>
-              <th>
-                <v-chip v-if="(item as any).FolderController.Folder"
-                  size="x-small"
-                  label
-                  prepend-icon="mdi-folder">
-                  {{ (item as any).FolderController.Folder }}
-                </v-chip>
-              </th>
-              <td>
-                <cc-split-chip v-for="(label, li) in (item as any).NarrativeController.Labels"
-                  :key="`label-${li}`"
-                  :label="label"
-                  class="mr-1 mb-1" />
-              </td>
-            </tr>
-          </tbody>
-        </v-table>
-        <v-row dense
-          justify="end">
-          <v-col cols="auto">
-            <v-checkbox density="compact"
-              label="Show Deleted"
-              v-model="showDeleted" />
-          </v-col>
-        </v-row>
+        <v-data-table
+          :headers="headers"
+          :items="items"
+          item-value="ID"
+          :sort-by="[{ key: 'Name', order: 'asc' }]"
+          :items-per-page="-1"
+          density="compact">
+          <template #header.select>
+            <v-btn icon
+              flat
+              size="small"
+              @click="selected.length ? (selected = []) : (selected = items.map((x: any) => x.ID))">
+              <v-icon size="x-large"
+                :icon="selected.length === items.length
+                  ? 'mdi-checkbox-outline'
+                  : selected.length > 0
+                    ? 'mdi-minus-box-outline'
+                    : 'mdi-checkbox-blank-outline'" />
+            </v-btn>
+          </template>
+          <template #item.select="{ item }">
+            <v-checkbox v-model="selected"
+              multiple
+              :value="(item as any).ID"
+              hide-details />
+          </template>
+          <template #item.Name="{ item }">
+            <span :class="(item as any).SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''">
+              <cc-missing-content-hover :item="item" />
+              {{ (item as any).Name }}
+            </span>
+          </template>
+          <template #item.folder="{ item }">
+            <v-chip v-if="(item as any).FolderController.Folder"
+              size="x-small"
+              label
+              prepend-icon="mdi-folder">
+              {{ (item as any).FolderController.Folder }}
+            </v-chip>
+          </template>
+          <template #item.labels="{ item }">
+            <cc-split-chip v-for="(label, li) in (item as any).NarrativeController.Labels"
+              :key="`label-${li}`"
+              :label="label"
+              class="mr-1 mb-1" />
+          </template>
+          <template #bottom>
+            <v-row dense
+              justify="end">
+              <v-col cols="auto">
+                <v-checkbox density="compact"
+                  label="Show Deleted"
+                  v-model="showDeleted" />
+              </v-col>
+            </v-row>
+          </template>
+        </v-data-table>
       </v-col>
       <v-col cols="auto"
         style="width: 350px">
@@ -191,6 +183,12 @@ export default {
   },
   emits: ['exit'],
   data: () => ({
+    headers: [
+      { key: 'select', sortable: false, width: '40px' },
+      { title: 'Name', key: 'Name', sortable: true },
+      { title: 'Folder', key: 'folder', sortable: true, value: (item: any) => item.FolderController?.Folder || '' },
+      { title: 'GM Labels', key: 'labels', sortable: true, value: (item: any) => item.NarrativeController?.Labels?.map((l: any) => l.title).join(', ') || '' },
+    ],
     selected: [] as any[],
     printDialog: false,
     deleteDialog: false,
@@ -220,8 +218,6 @@ export default {
             this.shownTypes.includes(x.ItemType.toLowerCase()) &&
             (this.showDeleted || !x.SaveController.IsDeleted)
         );
-
-      items = items.sort((a: any, b: any) => a.Name.localeCompare(b.Name));
 
       return items;
     },

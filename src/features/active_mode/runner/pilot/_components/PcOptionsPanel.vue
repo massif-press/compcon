@@ -40,20 +40,13 @@
             tooltip="Autosave Character Sheet data on the end of every round. Defaults to ON." />
         </v-col>
         <v-col>
-          <div class="text-cc-overline mt-1 text-disabled">Tracker Style</div>
-          <cc-switch v-model="sheet.SimpleTickbars"
-            size="large"
-            :label="sheet.SimpleTickbars ? 'Simple' : 'Standard'"
-            tooltip="Replace the thematic stat trackers for HP, Heat, etc. with straightforward number inputs." />
-        </v-col>
-        <v-col>
           <div class="text-cc-overline mt-1 text-disabled">Layout Options</div>
           <cc-switch v-model="sheet.SimpleTickbars"
             size="large"
             color="primary"
             :label="sheet.SimpleTickbars ? 'Simple' : 'Standard'"
             tooltip="Replace the thematic stat trackers for HP, Heat, etc. with straightforward number inputs." />
-          <cc-switch v-model="sheet.layoutColumns"
+          <cc-switch v-model="sheet.LayoutColumns"
             size="large"
             label="Layout Columns"
             color="primary"

@@ -212,11 +212,13 @@ abstract class CompendiumItem {
 
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return []
-    const map = this._integrated.map(x => {
-      const w = CompendiumStore().MechWeapons.find(item => item.ID === x)
-      if (w) return w as MechEquipment
-      return CompendiumStore().MechSystems.find(item => item.ID === x) as MechEquipment
-    }) as MechEquipment[]
+    const map = this._integrated
+      .map(x => {
+        const w = CompendiumStore().MechWeapons.find(item => item.ID === x)
+        if (w) return w as MechEquipment
+        return CompendiumStore().MechSystems.find(item => item.ID === x) as MechEquipment
+      })
+      .filter(x => x != null) as MechEquipment[]
 
     map.forEach(x => {
       x.IsIntegrated = true

@@ -473,13 +473,23 @@ export const UserStore = defineStore('cloud', {
       const remotes = this.UserMetadata.RemoteItems
       if (!remotes || remotes.length === 0) return
 
-      let data
+      let data: any[] = []
       try {
         const result = await GetFromCode(remotes)
         data = Array.isArray(result) ? result : [result]
       } catch (e) {
         logger.error('Failed to batch-fetch remote item metadata:', e)
-        return
+        // Batch 404: fall back to individual fetches to identify and detach dead codes
+        for (const code of [...remotes]) {
+          try {
+            await GetFromCode(code)
+          } catch {
+            logger.info(`Remote code ${code} no longer valid, detaching`)
+            const localItem = this.AllItems.find((x: any) => x.SaveController?.RemoteCode === code)
+            if (localItem) toRaw(localItem).SaveController.RemoteCode = ''
+            this.deleteRemoteItem(code)
+          }
+        }
       }
 
       const toDownload: typeof data = []
@@ -508,6 +518,17 @@ export const UserStore = defineStore('cloud', {
         } catch (e) {
           logger.error(`Failed to download remote item ${item.code}:`, e)
         }
+      }
+
+      // evict orphaned codes in RemoteItems that no local item is tracking.
+      // this cleans up codes left behind when items are permanently deleted without
+      // calling deleteRemoteItem, or from prior import bugs that stored internal codes.
+      const trackedCodes = new Set(
+        this.AllItems.map((x: any) => x.SaveController?.RemoteCode).filter(Boolean)
+      )
+      const orphaned = this.UserMetadata.RemoteItems.filter(code => !trackedCodes.has(code))
+      if (orphaned.length > 0) {
+        orphaned.forEach(code => this.deleteRemoteItem(code))
       }
     },
     async getRemoteCollectionMetadata(startup = false): Promise<void> {

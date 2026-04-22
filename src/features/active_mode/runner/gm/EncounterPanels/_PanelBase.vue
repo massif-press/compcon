@@ -389,6 +389,7 @@ export default {
   },
   computed: {
     xlPanels() {
+      if (!this.encounterInstance.LayoutColumns) return 12;
       if (this.onePanel) return 12;
       if (this.mobile) return 12;
       return ''

@@ -27,6 +27,7 @@ import {
   preprocessEncounterImport,
 } from './V2Importer'
 import { isFullBackup, processFullBackup } from './FullImporter'
+import { UserStore } from '@/stores'
 
 class StagedObject {
   collection: string
@@ -236,6 +237,10 @@ export const ImportCampaign = async (data: any, collection?: any): Promise<void>
 export const DeleteItemPermanent = async (item: any): Promise<void> => {
   const type = item.ItemType
   if (!type) throw new Error('No item type provided to delete')
+
+  if (item.SaveController?.RemoteCode) {
+    UserStore().deleteRemoteItem(item.SaveController.RemoteCode)
+  }
 
   switch (type.toLowerCase()) {
     case 'npc':
