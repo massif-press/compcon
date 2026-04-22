@@ -319,11 +319,12 @@ export class VersionConflictError extends Error {
 }
 
 export async function uploadToS3(data, presignedUrl, type = 'application/json') {
-  logger.info('Uploading data to S3:', data)
+  const isPreSerialized = typeof data === 'string'
+  logger.info(`Uploading data to S3, size=${isPreSerialized ? data.length : 'object'}`)
 
-  if (data.cloud?.cloud_data) delete data.cloud.cloud_data
+  if (!isPreSerialized && data.cloud?.cloud_data) delete data.cloud.cloud_data
 
-  const body = type === 'application/json' ? JSON.stringify(data) : data
+  const body = isPreSerialized ? data : (type === 'application/json' ? JSON.stringify(data) : data)
 
   try {
     const response = await fetch(presignedUrl, {
@@ -350,8 +351,9 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
   }
 }
 
-// In-memory ETag cache: uri → { etag, data }
+// In-memory ETag cache: uri → { etag, data }. Capped to avoid unbounded growth.
 const _etagCache = new Map<string, { etag: string; data: any }>()
+const ETAG_CACHE_MAX = 100
 
 export async function downloadFromS3(s3Url: string) {
   if (!s3Url) throw new Error(`downloadFromS3: missing url`)
@@ -374,6 +376,9 @@ export async function downloadFromS3(s3Url: string) {
       const jsonData = await response.json()
       const etag = response.headers.get('ETag')
       if (etag) {
+        if (_etagCache.size >= ETAG_CACHE_MAX) {
+          _etagCache.delete(_etagCache.keys().next().value!)
+        }
         _etagCache.set(s3Url, { etag, data: jsonData })
       }
       return jsonData

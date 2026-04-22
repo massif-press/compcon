@@ -85,7 +85,8 @@
           @click="$router.push({ path: '/gm/narrative' })">
           Narrative Elements
         </v-list-item>
-        <v-list-item slim
+        <v-list-item v-if=isDevsite
+          slim
           @click="$router.push({ path: '/gm/campaigns' })">
           Campaign Manager
         </v-list-item>
@@ -415,6 +416,11 @@ export default {
     },
     UserStoreLoading(): boolean {
       return UserStore().IsLoading
+    },
+    isDevsite() {
+      return (
+        window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
+      )
     },
   },
   created() {

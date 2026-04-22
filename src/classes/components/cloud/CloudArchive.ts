@@ -13,7 +13,7 @@ import { exportAll, importAll } from '@/io/BulkData'
 
 const generateCloudArchive = async (
   source: 'Automatic' | 'Manual'
-): Promise<{ meta: dbItemMeta; archive: any }> => {
+): Promise<{ meta: dbItemMeta; archiveBody: string }> => {
   const sortkey = `archive_${Date.now()}`
   const user_id = UserStore().Cognito.userId
   const meta = {
@@ -27,18 +27,18 @@ const generateCloudArchive = async (
     preserve: false,
   } as dbItemMeta
   const archive = await exportAll()
+  const archiveBody = JSON.stringify(archive)
+  meta.size = archiveBody.length
 
-  meta.size = JSON.stringify(archive).length
-
-  return { meta, archive }
+  return { meta, archiveBody }
 }
 
 export const PostCloudArchive = async (source: 'Automatic' | 'Manual') => {
-  const { meta, archive } = await generateCloudArchive(source)
+  const { meta, archiveBody } = await generateCloudArchive(source)
 
   const res = await updateItem(meta)
   if (res.presign?.upload) {
-    const uploadResult = await uploadToS3(archive, res.presign.upload)
+    const uploadResult = await uploadToS3(archiveBody, res.presign.upload)
     UserStore().addCloudNotification(`Archive ${new Date().toLocaleString()} uploaded to cloud.`)
     return uploadResult
   } else {

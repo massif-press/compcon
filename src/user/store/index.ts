@@ -482,7 +482,7 @@ export const UserStore = defineStore('cloud', {
         return
       }
 
-      const downloadPromises: Promise<void>[] = []
+      const toDownload: typeof data = []
       for (const item of data) {
         if (item.deleted) continue
         const localItem = this.getLocalItem(item.sortkey)
@@ -494,19 +494,21 @@ export const UserStore = defineStore('cloud', {
             toRaw(localItem).CloudController.Metadata = item
           }
         } else {
-          downloadPromises.push(
-            (async () => {
-              const itemData = await DownloadViaCode(item.code)
-              const itemType = item.sortkey.split('_')[1]
-              const newItem = CloudController.NewByType(itemType, itemData)
-              newItem.CloudController.setRemoteMetadata(item)
-              await CloudController.AddByType(itemType, newItem)
-            })()
-          )
+          toDownload.push(item)
         }
       }
 
-      await Promise.allSettled(downloadPromises)
+      for (const item of toDownload) {
+        try {
+          const itemData = await DownloadViaCode(item.code)
+          const itemType = item.sortkey.split('_')[1]
+          const newItem = CloudController.NewByType(itemType, itemData)
+          newItem.CloudController.setRemoteMetadata(item)
+          await CloudController.AddByType(itemType, newItem)
+        } catch (e) {
+          logger.error(`Failed to download remote item ${item.code}:`, e)
+        }
+      }
     },
     async getRemoteCollectionMetadata(startup = false): Promise<void> {
       const collectionSettings = this.UserMetadata.CollectionSubscriptionSettings
