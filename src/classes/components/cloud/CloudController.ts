@@ -291,7 +291,18 @@ class CloudController {
 
       const idempotencyKey = generateDeterministicKey(userId, `batch-${i}`, syncTimestamp)
 
-      const response = await (nextBatchPromise ?? batchUpsert(batchItems, idempotencyKey))
+      let response: any
+      try {
+        response = await (nextBatchPromise ?? batchUpsert(batchItems, idempotencyKey))
+      } catch (e: any) {
+        logger.error(
+          `BatchUpdateCloud: chunk failed (${e?.message})`,
+          batchItems.map((m: any) => m.sortkey)
+        )
+        chunk.forEach(p => failures.push({ item: p.item, error: e }))
+        nextBatchPromise = null
+        continue
+      }
       nextBatchPromise = null
 
       const nextOffset = i + BATCH_SIZE
@@ -451,7 +462,16 @@ class CloudController {
 
     const itemType = normalizeItemType(item.CloudController.Metadata.SortKey.split('_')[1])
     const meta = { ...item.CloudController.Metadata.raw }
-    const data = await downloadFromS3(item.CloudController.Metadata.Uri)
+    let data: any
+    try {
+      data = await downloadFromS3(item.CloudController.Metadata.Uri)
+    } catch (e: any) {
+      if (e?.message?.includes('404')) {
+        logger.warn(`UpdateRemote: cloud file not found for ${item.Name}, skipping`)
+        return
+      }
+      throw e
+    }
     if (data?.save) {
       delete data.save.remote_code
       delete data.save.remote_author

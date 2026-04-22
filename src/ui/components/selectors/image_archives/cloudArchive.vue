@@ -176,7 +176,7 @@ export default {
       return Math.ceil(this.userImages.length / this.itemsPerPage);
     },
     userImages() {
-      return UserStore().CloudImages;
+      return UserStore().CloudImages.filter((x) => x.uri);
     },
     selectedImageUri() {
       return this.selectedImage ? this.selectedImage.uri : '';

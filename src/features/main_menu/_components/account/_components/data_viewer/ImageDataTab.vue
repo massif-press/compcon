@@ -151,6 +151,7 @@ export default {
     },
     images() {
       return this.allImages.filter((item) => {
+        if (!item.uri) return false;
         if (this.search && !item.Name.toLowerCase().includes(this.search.toLowerCase()))
           return false;
         return true;

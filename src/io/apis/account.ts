@@ -353,7 +353,8 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
 // In-memory ETag cache: uri → { etag, data }
 const _etagCache = new Map<string, { etag: string; data: any }>()
 
-export async function downloadFromS3(s3Url) {
+export async function downloadFromS3(s3Url: string) {
+  if (!s3Url) throw new Error(`downloadFromS3: missing url`)
   const url = `${import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || ''}/${s3Url}`
 
   try {
@@ -380,7 +381,6 @@ export async function downloadFromS3(s3Url) {
       throw new Error(`Download failed: ${response.status} ${response.statusText}`)
     }
   } catch (error) {
-    logger.error('Error downloading JSON:', {}, error)
     throw error
   }
 }
