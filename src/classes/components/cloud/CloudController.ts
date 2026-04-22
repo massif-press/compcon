@@ -239,7 +239,7 @@ class CloudController {
 
   public static async BatchUpdateCloud(items: ICloudSyncable[]): Promise<any[]> {
     const UPLOAD_CONCURRENCY = 5
-    const BATCH_SIZE = 25
+    const BATCH_SIZE = 5
 
     // items constructed before we get a userid (v2/no login) can have bad metadata
     for (const item of items) {
