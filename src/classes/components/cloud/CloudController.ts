@@ -200,7 +200,7 @@ class CloudController {
     this.Metadata.Name = this.Parent.Name
     this.Metadata.Size = CloudController.stringifySafe(savedata).length
 
-    // Save previous metadata so we can roll back if upload fails
+    // roll back if upload fails
     const previousMetadata = this.Metadata.raw ? { ...this.Metadata.raw } : null
 
     const doUpload = async (retried = false): Promise<any> => {
@@ -246,84 +246,67 @@ class CloudController {
       await item.CloudController.repairMetadata()
     }
 
-    const prepared: Array<{
-      item: ICloudSyncable
-      savedata: any
-      hash: string
-      meta: dbItemMeta
-    }> = []
-
+    // lightweight index of only the items that need uploading
+    // serialization is deferred to each chunk so we never hold all save-data in memory at once
+    // large user data libraries and small devices can cause OOM if we serialize everything at once before uploading
+    const toUpload: ICloudSyncable[] = []
     for (const item of items) {
       const savedata = item.Serialize(item)
       const hash = CloudController.computeContentHash(savedata)
-
-      // skip if content hash matches
       if (item.CloudController._lastContentHash && item.CloudController._lastContentHash === hash) {
         logger.info(`BatchUpdateCloud: skipping unchanged item ${item.Name}`)
         continue
       }
-
-      item.CloudController.Metadata.ItemModified = item.SaveController.LastModified
-      item.CloudController.Metadata.Name = item.Name
-      item.CloudController.Metadata.Size = CloudController.stringifySafe(savedata).length
-
-      const meta = item.CloudController.Metadata.Serialize()
-      // itemScope controls share code length on the backend
-      ;(meta as any).itemScope = 'item'
-
-      prepared.push({ item, savedata, hash, meta })
+      ;(item as any).__pendingHash = hash
+      toUpload.push(item)
     }
 
-    if (prepared.length === 0) {
+    if (toUpload.length === 0) {
       logger.info('BatchUpdateCloud: no items to sync (all unchanged)')
       return []
     }
 
     const failures: any[] = []
-
     const syncTimestamp = Date.now()
     const userId = UserStore().Cognito.userId
-    let nextBatchPromise: Promise<any> | null = null
 
-    for (let i = 0; i < prepared.length; i += BATCH_SIZE) {
-      const chunk = prepared.slice(i, i + BATCH_SIZE)
-      const batchItems = chunk.map(p => p.meta)
+    for (let i = 0; i < toUpload.length; i += BATCH_SIZE) {
+      const chunk = toUpload.slice(i, i + BATCH_SIZE)
+
+      // serialize only this chunk. prior chunk data can now be garbage collected
+      const chunkData = chunk.map(item => {
+        const savedata = item.Serialize(item)
+        item.CloudController.Metadata.ItemModified = item.SaveController.LastModified
+        item.CloudController.Metadata.Name = item.Name
+        item.CloudController.Metadata.Size = CloudController.stringifySafe(savedata).length
+        const meta = item.CloudController.Metadata.Serialize()
+        ;(meta as any).itemScope = 'item'
+        return { item, savedata, meta }
+      })
 
       const idempotencyKey = generateDeterministicKey(userId, `batch-${i}`, syncTimestamp)
-
       let response: any
       try {
-        response = await (nextBatchPromise ?? batchUpsert(batchItems, idempotencyKey))
+        response = await batchUpsert(
+          chunkData.map(p => p.meta),
+          idempotencyKey
+        )
       } catch (e: any) {
         logger.error(
           `BatchUpdateCloud: chunk failed (${e?.message})`,
-          batchItems.map((m: any) => m.sortkey)
+          chunkData.map(p => (p.meta as any).sortkey)
         )
-        chunk.forEach(p => failures.push({ item: p.item, error: e }))
-        nextBatchPromise = null
+        chunk.forEach(item => failures.push({ item, error: e }))
         continue
-      }
-      nextBatchPromise = null
-
-      const nextOffset = i + BATCH_SIZE
-      if (nextOffset < prepared.length) {
-        const nextKey = generateDeterministicKey(userId, `batch-${nextOffset}`, syncTimestamp)
-        nextBatchPromise = batchUpsert(
-          prepared.slice(nextOffset, nextOffset + BATCH_SIZE).map(p => p.meta),
-          nextKey
-        )
       }
 
       if (!response.results || !Array.isArray(response.results)) {
         logger.error('BatchUpdateCloud: unexpected batch response', response)
-        chunk.forEach(p => failures.push({ item: p.item, error: 'Bad batch response' }))
+        chunk.forEach(item => failures.push({ item, error: 'Bad batch response' }))
         continue
       }
 
-      const uploadTasks = chunk.map((p, idx) => ({
-        ...p,
-        result: response.results[idx],
-      }))
+      const uploadTasks = chunkData.map((p, idx) => ({ ...p, result: response.results[idx] }))
 
       for (let j = 0; j < uploadTasks.length; j += UPLOAD_CONCURRENCY) {
         const uploadBatch = uploadTasks.slice(j, j + UPLOAD_CONCURRENCY)
@@ -342,7 +325,7 @@ class CloudController {
                 ...task.result.data,
                 updated: Date.now(),
               }
-              task.item.CloudController._lastContentHash = task.hash
+              task.item.CloudController._lastContentHash = (task.item as any).__pendingHash
               task.item.SaveController.saveSilent()
             }
           })
@@ -356,6 +339,14 @@ class CloudController {
           }
         })
       }
+
+      // release serialized data for this chunk
+      chunkData.length = 0
+    }
+
+    // destroy pending hashes
+    for (const item of toUpload) {
+      delete (item as any).__pendingHash
     }
 
     return failures
