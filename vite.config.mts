@@ -18,7 +18,7 @@ export default defineConfig({
   plugins: [
     VitePWA({
       disable: process.env.NODE_ENV === 'development',
-      registerType: 'prompt',
+      registerType: 'autoUpdate',
       manifest: {
         name: 'COMP/CON',
         short_name: 'COMP/CON',
