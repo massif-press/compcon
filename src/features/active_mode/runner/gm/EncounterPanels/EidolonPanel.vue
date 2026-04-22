@@ -43,9 +43,9 @@
         <cc-button block
           size="small"
           color="primary"
-          :disabled="!layer.Layer.Shards.Count"
+          :disabled="!layer.Layer.Shards?.Count"
           @click="genShards()">
-          <span v-if="layer.Layer.Shards.Count">
+          <span v-if="layer.Layer.Shards?.Count">
             Generate {{ layer.Layer.Shards.Count }}
             <span>{{ layer.Layer.Shards.Count > 1 ? 'Shards' : 'Shard' }}</span>
           </span>
@@ -148,6 +148,7 @@ export default {
     UnitFeatureCard,
   },
   mixins: [useMobile],
+  emits: ['deselect'],
   props: {
     combatant: {
       type: Object,

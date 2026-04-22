@@ -212,7 +212,7 @@ export default {
   }),
   computed: {
     mods() {
-      return this.unit.NpcFeatureController.GetModifiers(this.item)
+      return this.unit.NpcFeatureController?.GetModifiers(this.item) || []
     },
     tier() {
       return this.unit.NpcClassController?.Tier || 1

@@ -40,23 +40,15 @@ export default async function (skipSync = false): Promise<void> {
   logger.info('extra content refreshed')
 
   logger.info('loading user data...')
-  await Promise.all([
-    PilotStore()
-      .LoadPilots()
-      .then(() => logger.info('pilots loaded')),
-    NpcStore()
-      .LoadNpcs()
-      .then(() => logger.info('npcs loaded')),
-    NarrativeStore()
-      .LoadCollectionItems()
-      .then(() => logger.info('narrative collection items loaded')),
-    EncounterStore()
-      .LoadEncounters()
-      .then(() => logger.info('encounters loaded')),
-    CampaignStore()
-      .LoadCampaigns()
-      .then(() => logger.info('campaigns loaded')),
-  ])
+  await PilotStore().LoadPilots()
+  logger.info('pilots loaded')
+  await NpcStore().LoadNpcs()
+  logger.info('npcs loaded')
+  await NarrativeStore().LoadCollectionItems()
+  logger.info('narrative collection items loaded')
+  await EncounterStore().LoadEncounters()
+  logger.info('encounters loaded')
+  await CampaignStore().LoadCampaigns()
   logger.info('data loaded')
 
   logger.info('removing old data')

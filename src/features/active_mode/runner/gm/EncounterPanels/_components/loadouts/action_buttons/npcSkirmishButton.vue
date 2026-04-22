@@ -228,7 +228,7 @@ export default {
     skirmishWeapons() {
       const npc = this.controller.ActiveActor;
 
-      let arr = npc.NpcFeatureController.Features.filter(
+      let arr = (npc.NpcFeatureController?.Features || []).filter(
         (x) => !x.IsSuperheavy
       );
 

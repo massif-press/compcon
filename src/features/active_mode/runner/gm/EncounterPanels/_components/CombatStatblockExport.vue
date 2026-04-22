@@ -271,17 +271,17 @@ export default {
     npcLoadout() {
       if (!this.showLoadout) return '';
       let out = '';
-      const features = this.actor.NpcFeatureController.Features;
+      const features = this.actor.NpcFeatureController?.Features || [];
       features.forEach((feature: any) => {
         const arr = [feature.Name];
         if (feature.RangeData) {
-          const mods = this.actor.NpcFeatureController.GetModifiers(feature);
+          const mods = this.actor.NpcFeatureController?.GetModifiers(feature) || [];
           arr.push(feature.Range(this.controller.Tier, mods).map((r: any) => r.Text).join(', '));
         } else {
           arr.push('');
         }
         if (feature.DamageData) {
-          const mods = this.actor.NpcFeatureController.GetModifiers(feature);
+          const mods = this.actor.NpcFeatureController?.GetModifiers(feature) || [];
           arr.push(feature.Damage(this.controller.Tier, mods).map((r: any) => r.Text).join(', '));
         } else {
           arr.push('');

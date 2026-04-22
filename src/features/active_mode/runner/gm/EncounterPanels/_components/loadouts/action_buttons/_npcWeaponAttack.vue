@@ -68,7 +68,7 @@ export default {
   computed: {
     mods() {
       if (!this.weapon) return null;
-      return this.owner.actor.NpcFeatureController.GetModifiers(this.weapon);
+      return this.owner.actor.NpcFeatureController?.GetModifiers(this.weapon) || [];
     },
     ordnanceWarning() {
       if (!this.weapon) return false;

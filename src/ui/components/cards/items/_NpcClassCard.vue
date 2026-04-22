@@ -28,8 +28,8 @@
           </cc-panel>
         </div>
       </v-col>
-      <v-col cols="4"
-        v-if="!mobile">
+      <v-col v-if="!mobile"
+        cols="4">
         <class-combat-chart :npc-class="item" />
       </v-col>
     </v-row>
@@ -44,7 +44,8 @@
 
     <v-row dense
       justify="space-around">
-      <cc-tiered-attribute v-for="i in statArr" :key="i"
+      <cc-tiered-attribute v-for="i in statArr"
+        :key="i"
         :title="i"
         :arr="item.Stats.StatArr(i)" />
     </v-row>
@@ -93,11 +94,11 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
-  name: 'cc-frame-card',
+  name: 'CcFrameCard',
   components: {
     ClassCombatChart,
   },
+  mixins: [useMobile],
   props: {
     item: { type: Object, required: true },
     notes: { type: Boolean },

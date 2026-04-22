@@ -221,7 +221,7 @@ export default {
     barrageWeapons() {
       const npc = this.controller.ActiveActor;
 
-      let arr = npc.NpcFeatureController.Features.filter(x => x.FeatureType === NpcFeatureType.Weapon)
+      let arr = (npc.NpcFeatureController?.Features || []).filter(x => x.FeatureType === NpcFeatureType.Weapon)
 
       if (this.presetWeapon) {
         arr = arr.filter(w => w.InstanceID !== this.presetWeapon!.InstanceID);
