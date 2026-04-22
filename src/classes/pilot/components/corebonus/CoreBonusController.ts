@@ -104,16 +104,16 @@ class CoreBonusController implements IFeatureContainer {
         `CoreBonusController not found on parent (${typeof parent}). New CoreBonusControllers must be instantiated in the parent's constructor method.`
       )
 
-    parent.CoreBonusController._core_bonuses = (data.core_bonuses as ICoreBonusData[]).map(
-      (x: ICoreBonusData) => {
+    parent.CoreBonusController._core_bonuses = (data.core_bonuses as ICoreBonusData[])
+      .filter(Boolean)
+      .map((x: ICoreBonusData) => {
         if (CompendiumStore().has('CoreBonuses', x.id))
           return CompendiumStore().referenceByID('CoreBonuses', x.id)
 
         const c = new CoreBonus(x)
         c.FromInstance = true
         return c
-      }
-    )
+      })
   }
 }
 

@@ -2,31 +2,37 @@
   <v-container>
     <div class="heading h2 mb-1">LANCER by:</div>
     <v-row>
-      <dev-badge v-for="(c, cIdx) in credits.writers" :key="`writer-${cIdx}`"
+      <dev-badge v-for="(c, cIdx) in credits.writers"
+        :key="`writer-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">COMP/CON by:</div>
     <v-row>
-      <dev-badge v-for="(c, cIdx) in credits.lead_devs" :key="`lead-${cIdx}`"
+      <dev-badge v-for="(c, cIdx) in credits.lead_devs"
+        :key="`lead-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="heading h3 mt-4 mb-1">With:</div>
     <v-row dense>
-      <dev-badge v-for="(c, cIdx) in credits.devs1" :key="`dev1-${cIdx}`"
+      <dev-badge v-for="(c, cIdx) in credits.devs1"
+        :key="`dev1-${cIdx}`"
         :info="c" />
     </v-row>
     <v-row dense>
-      <dev-badge v-for="(c, cIdx) in credits.devs2" :key="`dev2-${cIdx}`"
+      <dev-badge v-for="(c, cIdx) in credits.devs2"
+        :key="`dev2-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">Graphic design by:</div>
     <v-row dense>
-      <dev-badge v-for="(c, cIdx) in credits.graphics" :key="`graphic-${cIdx}`"
+      <dev-badge v-for="(c, cIdx) in credits.graphics"
+        :key="`graphic-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">Additional art by:</div>
     <v-row dense>
-      <dev-badge v-for="(c, cIdx) in credits.art" :key="`art-${cIdx}`"
+      <dev-badge v-for="(c, cIdx) in credits.art"
+        :key="`art-${cIdx}`"
         :info="c" />
     </v-row>
     <div class="text-center mt-8">
@@ -47,14 +53,17 @@
         indeterminate />
     </div>
     <div v-else>
-      <div v-for="t in tiers" :key="t"
+      <div v-for="t in tiers"
+        :key="t"
         class="mb-6">
         <cc-title small
           class="my-2">{{ t.toUpperCase() }} TIER</cc-title>
         <v-row align="center"
           justify="space-around"
           dense>
-          <v-col v-for="(p, pIdx) in patrons.filter((x) => x.tier.toLowerCase().includes(t.toLowerCase()))" :key="`patron-${pIdx}`"
+          <v-col
+            v-for="(p, pIdx) in patrons.filter((x) => x.tier.toLowerCase().includes(t.toLowerCase()))"
+            :key="`patron-${pIdx}`"
             cols="12"
             :md="getCols(t)">
             <v-chip border
@@ -87,9 +96,9 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
   name: 'Credits',
   components: { DevBadge },
+  mixins: [useMobile],
   data: () => ({
     credits: credits,
     patrons: [] as any[],
@@ -98,14 +107,19 @@ export default {
     loading: true,
   }),
   async mounted() {
-    const data = await getPatreonSubscribers();
-    this.patrons = data;
-
+    try {
+      const data = await getPatreonSubscribers();
+      console.log(data)
+      this.patrons = data;
+    } catch (e) {
+      // subscriber list unavailable (e.g. not logged in)
+    }
     this.loading = false;
   },
   methods: {
     cleanName(patron: any) {
       if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim();
+      if (!patron.name) return 'Anonymous Patron';
 
       const name = patron.name.trim();
       if (name.includes(' ')) {

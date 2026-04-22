@@ -1121,10 +1121,12 @@ class CombatController implements ICounterContainer, IStatContainer {
       )
 
     controller.Resistances = data?.resistances || []
-    controller.Statuses = (data?.statuses || []).map(s => ({
-      status: CompendiumStore().Statuses.find(st => st.ID === s.status)!,
-      expires: expiration.Deserialize(s.expires),
-    }))
+    controller.Statuses = (data?.statuses || [])
+      .map(s => ({
+        status: CompendiumStore().Statuses.find(st => st.ID === s.status),
+        expires: expiration.Deserialize(s.expires),
+      }))
+      .filter(s => s.status != null) as { status: Status; expires: expiration }[]
     controller.CustomStatuses = (data?.customStatuses || []).map(s => ({
       status: EffectSpecial.Deserialize(s.status),
       expires: expiration.Deserialize(s.expires),

@@ -47,7 +47,7 @@ class NpcClassController {
       const fallback = tieredDef
         ? StatController.resolveDefault(tieredDef, this.Tier - 1)
         : (Stats.DefaultStats[key] ?? 0)
-      let statVal = c?.Stats.Stat(key, this.Tier) || fallback
+      let statVal = c?.Stats.Stat(key, this.Tier) ?? fallback
       if (key === 'size') {
         const sizeVal = c?.Stats.Stat('sizes', this.Tier) || c?.Stats.Stat('size', this.Tier) || 1
         statVal = Array.isArray(sizeVal) ? sizeVal[0] : sizeVal
