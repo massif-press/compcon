@@ -46,6 +46,7 @@ const importAll = async function (data: any, overwrite: boolean): Promise<void> 
     const collectionData = data.data.find((d: any) => d.collection.toLowerCase() === collection)
     if (collectionData) {
       await SetAll(collection, collectionData.items)
+      collectionData.items = null
     }
   }
 

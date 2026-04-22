@@ -414,21 +414,9 @@ export default {
     },
     async bulkExport() {
       const result = await exportAll()
-      const seen = new WeakSet()
-      const serialized = JSON.stringify(
-        result,
-        (_key, value) => {
-          if (typeof value === 'object' && value !== null) {
-            if (seen.has(value)) return '[Circular]'
-            seen.add(value)
-          }
-          return value
-        },
-        2
-      )
       await saveFile(
         `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
-        serialized,
+        result,
         'Save COMP/CON Archive'
       )
     },
@@ -442,10 +430,10 @@ export default {
           this.isV2File = true
           this.stagedImportData = outer
         } else {
-          // v3 format: {EXPORT_TYPE, data: "<JSON string>"}
-          // .data is itself a serialized string and requires a second parse
           this.isV2File = false
-          this.stagedImportData = JSON.parse(outer.data)
+          this.stagedImportData = typeof outer.data === 'string'
+            ? JSON.parse(outer.data)
+            : outer.data
         }
       } catch (err) {
         this.stagedImportData = null

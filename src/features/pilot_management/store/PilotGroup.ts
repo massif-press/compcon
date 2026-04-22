@@ -61,7 +61,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
     this.CloudController = new CloudController(this);
 
     this._name = data?.name || '';
-    this._pilots = data?.pilots || ([] as PilotIndexItem[]);
+    this._pilots = (data?.pilots || []).filter(Boolean) as PilotIndexItem[];
     this._description = data?.description || '';
     this._history = data?.history || '';
     this._expanded = data?.expanded || false;

@@ -33,7 +33,8 @@ export const PilotStore = defineStore('pilot', {
     getPilots: (state: any) => (groupID: string, showDeleted?: boolean) => {
       if (!state.Pilots.length) return []
       const group = state.PilotGroups.find((x: PilotGroup) => x.ID === groupID)
-      let out = state.Pilots.filter(p => group.Pilots.some(x => x.id === p.ID))
+      if (!group) return []
+      let out = state.Pilots.filter(p => group.Pilots.some(x => x?.id === p.ID))
       if (!showDeleted) out = out.filter((x: Pilot) => !x.SaveController.IsDeleted)
       return out
     },

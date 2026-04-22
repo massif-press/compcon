@@ -143,12 +143,15 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get AllEquipment(): any[] {
+    let items: any[]
     if (this.Parent instanceof Mech)
-      return this.Parent.MechLoadoutController.ActiveLoadout.Equipment
-    if (this.Parent instanceof Pilot) return this.Parent.PilotLoadoutController.ActiveLoadout.Items
-    if ((this.Parent as any).NpcFeatureController)
-      return (this.Parent as any).NpcFeatureController.Features
-    return []
+      items = this.Parent.MechLoadoutController.ActiveLoadout.Equipment
+    else if (this.Parent instanceof Pilot)
+      items = this.Parent.PilotLoadoutController.ActiveLoadout.Items
+    else if ((this.Parent as any).NpcFeatureController)
+      items = (this.Parent as any).NpcFeatureController.Features
+    else return []
+    return items.filter(Boolean)
   }
 
   public get RootActor(): any {
