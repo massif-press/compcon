@@ -416,7 +416,7 @@ export default {
       this.loading = true;
       const data = await downloadFromS3(item.uri);
 
-      await importAll(data);
+      await importAll(data, true);
 
       this.loading = false;
     },

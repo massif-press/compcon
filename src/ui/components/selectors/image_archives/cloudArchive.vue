@@ -91,7 +91,7 @@
 
           <v-progress-linear :value="(accountUsage / accountMax) * 100"
             height="20px">
-            <template #default="{ value }">
+            <template #default>
               <strong>
                 {{ accountUsage.toFixed(2) }}
                 <span class="text-caption">MB</span>
