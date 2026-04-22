@@ -371,7 +371,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       type: data.type,
       number: 1,
       actor,
-      side: data.side || 'enemy',
+      side: (data.side?.toLowerCase() as 'enemy' | 'ally' | 'neutral') || 'enemy',
       playerCount: data.playerCount || 1,
       reinforcement: data.reinforcement || false,
       reinforcementTurn: Number(data.reinforcementTurn) || 0,
