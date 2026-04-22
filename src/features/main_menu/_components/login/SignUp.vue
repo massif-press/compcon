@@ -120,7 +120,7 @@ export default {
     async createAccount() {
       this.loading = true;
       try {
-        const userEmail = this.email;
+        const userEmail = this.email.trim().toLowerCase();
         this.email = userEmail;
 
         await signUp({

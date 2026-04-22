@@ -135,15 +135,23 @@ export default {
       await this.addLoginLog('Connecting to COMP/CON authentication service...');
 
       this.loading = true;
-      const userEmail = this.email.trim();
+      const emailTrimmed = this.email.trim();
+      const userEmail = emailTrimmed.toLowerCase();
       this.email = userEmail;
 
       let signInResult;
       si_attempt: try {
-        signInResult = await signIn({
-          username: userEmail,
-          password: this.password,
-        });
+        try {
+          signInResult = await signIn({ username: userEmail, password: this.password });
+        } catch (firstError: any) {
+          if (firstError.name === 'UserAlreadyAuthenticatedException') throw firstError;
+          // fall back to original casing for accounts registered before email normalization
+          if (userEmail !== emailTrimmed) {
+            signInResult = await signIn({ username: emailTrimmed, password: this.password });
+          } else {
+            throw firstError;
+          }
+        }
       } catch (error: any) {
         if (error.name === 'UserAlreadyAuthenticatedException') {
           await this.addLoginLog('Auth service reports user is already signed in', true);

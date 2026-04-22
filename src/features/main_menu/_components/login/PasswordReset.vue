@@ -113,7 +113,13 @@ export default {
   methods: {
     reset() {
       this.loading = true;
-      handleResetPassword(this.email)
+      const emailTrimmed = this.email.trim();
+      const emailLower = emailTrimmed.toLowerCase();
+      handleResetPassword(emailLower)
+        .catch((err) => {
+          if (emailLower !== emailTrimmed) return handleResetPassword(emailTrimmed);
+          throw err;
+        })
         .then((data) => {
           this.loading = false;
           this.sent = true;
@@ -128,7 +134,7 @@ export default {
     setNewPassword() {
       this.loading = true;
       handleConfirmResetPassword({
-        username: this.email,
+        username: this.email.trim().toLowerCase(),
         confirmationCode: this.code,
         newPassword: this.newPass,
       })

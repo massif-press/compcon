@@ -15,7 +15,9 @@ const exportAll = async function (): Promise<exportArchive> {
   let data = { data: [] as { collection: string; items: any[] }[] }
   const promises = [] as Promise<any>[]
 
+  const skipCollections = ['settings', 'v2_backup']
   Object.keys(storeRegistry).forEach(store => {
+    if (skipCollections.includes(store)) return
     promises.push(GetAll(store).then(items => data.data.push({ collection: store, items })))
   })
 
@@ -38,7 +40,9 @@ const importAll = async function (data: any, overwrite: boolean): Promise<void> 
     logger.info('Merging imported data with existing data')
   }
 
+  const skipCollections = ['settings', 'v2_backup']
   for (const collection in storeRegistry) {
+    if (skipCollections.includes(collection)) continue
     const collectionData = data.data.find((d: any) => d.collection.toLowerCase() === collection)
     if (collectionData) {
       await SetAll(collection, collectionData.items)

@@ -118,6 +118,10 @@ const SetItem = async function (collection: string, item: any) {
   }
 
   if (!save) return
+  if (!id) {
+    logger.warn(`SetItem: skipping item with no key in collection "${collection}"`)
+    return
+  }
 
   storeRegistry[collection.toLowerCase()].setItem(id, JSON.stringify(item))
 }
