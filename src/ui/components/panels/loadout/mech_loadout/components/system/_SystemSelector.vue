@@ -129,8 +129,6 @@ export default {
         x => x.Source && !x.IsHidden && !x.IsExotic
       )
 
-      if (this.isAICapacityFull()) i = i.filter(x => !x.IsAI)
-
       if (!this.showUnlicensed) i = i.filter(x => this.isLicensed(x))
 
       i = i
@@ -143,6 +141,8 @@ export default {
         )
 
       if (!this.showOverSP) i = i.filter(x => x.SP <= this.freeSP)
+
+      if (this.isAICapacityFull()) i = i.filter(x => !x.IsAI)
 
       i = uniqBy(i, 'ID')
       return sortBy(i, ['Source', 'Name'])

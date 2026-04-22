@@ -91,8 +91,8 @@
               :label="mobile && 'Show Unlicensed'"
               color="error"
               :tooltip="!mobile && showUnlicensed
-                  ? 'Unlicensed equipment: SHOWN'
-                  : 'Unlicensed equipment: HIDDEN'
+                ? 'Unlicensed equipment: SHOWN'
+                : 'Unlicensed equipment: HIDDEN'
                 "
               :prepend-icon="!mobile && 'cc:system'"
               on-icon="mdi-lock-open"
@@ -102,8 +102,8 @@
               :label="mobile && 'Show Exceeds SP'"
               color="error"
               :tooltip="!mobile && showOverSP
-                  ? 'Systems exceeding SP Capacity: SHOWN'
-                  : 'Systems exceeding SP Capacity: HIDDEN'
+                ? 'Systems exceeding SP Capacity: SHOWN'
+                : 'Systems exceeding SP Capacity: HIDDEN'
                 "
               :prepend-icon="!mobile && 'cc:system_point'"
               on-icon="mdi-lock-open"
@@ -170,8 +170,6 @@ export default {
 
       if (this.weaponSlot.Weapon) i = i.filter(x => x.ID !== this.weaponSlot.Weapon.ID)
 
-      if (this.isAICapacityFull()) i = i.filter(x => !x.IsAI)
-
       if (!this.showUnlicensed) i = i.filter(x => this.isLicensed(x))
 
       i = i.concat(
@@ -186,6 +184,8 @@ export default {
             x.ID
           )
       )
+
+      if (this.isAICapacityFull()) i = i.filter(x => !x.IsAI)
 
       return i
     },
