@@ -520,6 +520,12 @@ class CloudController {
     if (item.IsCloudOnly)
       UserStore().addCloudNotification(`Added ${item.ItemType} "${item.Name}" from cloud data.`)
 
+    if (data?.save) {
+      delete data.save.remote_code
+      delete data.save.remote_author
+      delete data.save.remote_collection
+    }
+
     const newItem = this.NewByType(itemType, data)
 
     // transfer original cloud metadata so the item appears synced

@@ -69,11 +69,11 @@ function transformPilotLoadout(loadout: any): any {
   return {
     id: loadout.id,
     name: loadout.name,
-    armor: (loadout.armor ?? []).map(transformPilotItem),
-    weapons: (loadout.weapons ?? []).map(transformPilotItem),
-    gear: (loadout.gear ?? []).map(transformPilotItem),
-    extendedWeapons: [null],
-    extendedGear: [null, null],
+    armor: (loadout.armor ?? []).map(transformPilotItem).filter(x => x),
+    weapons: (loadout.weapons ?? []).map(transformPilotItem).filter(x => x),
+    gear: (loadout.gear ?? []).map(transformPilotItem).filter(x => x),
+    extendedWeapons: [],
+    extendedGear: [],
   }
 }
 

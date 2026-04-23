@@ -473,21 +473,44 @@ export const UserStore = defineStore('cloud', {
       const remotes = this.UserMetadata.RemoteItems
       if (!remotes || remotes.length === 0) return
 
+      const requestedCodes = new Set(remotes)
       let data: any[] = []
-      try {
-        const result = await GetFromCode(remotes)
-        data = Array.isArray(result) ? result : [result]
-      } catch (e) {
-        logger.error('Failed to batch-fetch remote item metadata:', e)
-        // Batch 404: fall back to individual fetches to identify and detach dead codes
-        for (const code of [...remotes]) {
-          try {
-            await GetFromCode(code)
-          } catch {
-            logger.info(`Remote code ${code} no longer valid, detaching`)
-            const localItem = this.AllItems.find((x: any) => x.SaveController?.RemoteCode === code)
-            if (localItem) toRaw(localItem).SaveController.RemoteCode = ''
-            this.deleteRemoteItem(code)
+
+      // Batch into chunks of 50 (API limit)
+      const BATCH_SIZE = 50
+      const chunks: string[][] = []
+      for (let i = 0; i < remotes.length; i += BATCH_SIZE) {
+        chunks.push(remotes.slice(i, i + BATCH_SIZE))
+      }
+
+      for (const chunk of chunks) {
+        try {
+          const result = await GetFromCode(chunk)
+          const items = (Array.isArray(result) ? result : [result]).filter(item => {
+            if (!requestedCodes.has(item.code)) {
+              logger.warn(`setMetadataForRemotes: received unrequested code ${item.code}, skipping`)
+              return false
+            }
+            return true
+          })
+          data = data.concat(items)
+        } catch (e) {
+          logger.error('Failed to batch-fetch remote item metadata:', e)
+          // fall back to individual fetches to identify dead codes
+          for (const code of chunk) {
+            try {
+              const item = await GetFromCode(code)
+              if (item && requestedCodes.has(item.code)) {
+                data.push(item)
+              }
+            } catch {
+              logger.info(`Remote code ${code} no longer valid, detaching`)
+              const localItem = this.AllItems.find(
+                (x: any) => x.SaveController?.RemoteCode === code
+              )
+              if (localItem) toRaw(localItem).SaveController.RemoteCode = ''
+              this.deleteRemoteItem(code)
+            }
           }
         }
       }
@@ -497,7 +520,7 @@ export const UserStore = defineStore('cloud', {
         if (item.deleted) continue
         const localItem = this.getLocalItem(item.sortkey)
         if (localItem) {
-          // Guard: if this sortkey belongs to the user's own cloud data, setMetadataFromDynamo
+          // if this sortkey belongs to the user's own cloud data, setMetadataFromDynamo
           // already set the correct URI. Overwriting here would poison it with a foreign user's URI.
           const isOwnCloudItem = this.CloudItems.some(ci => ci.sortkey === item.sortkey)
           if (!isOwnCloudItem) {
@@ -520,9 +543,27 @@ export const UserStore = defineStore('cloud', {
         }
       }
 
-      // evict orphaned codes in RemoteItems that no local item is tracking.
-      // this cleans up codes left behind when items are permanently deleted without
-      // calling deleteRemoteItem, or from prior import bugs that stored internal codes.
+      // detach items that have a RemoteCode matching a fetched code but whose ID doesn't
+      // match what the server returned. These are extra pilots imported by the old
+      // getItems
+      const codeToExpectedId = new Map<string, string>()
+      for (const item of data) {
+        codeToExpectedId.set(item.code, item.sortkey.split('_')[2])
+      }
+      for (const localItem of this.AllItems as any[]) {
+        const rc = localItem.SaveController?.RemoteCode
+        if (!rc) continue
+        const expectedId = codeToExpectedId.get(rc)
+        if (!expectedId) continue
+        if (localItem.ID !== expectedId) {
+          logger.warn(
+            `Detaching orphaned extra import: ${localItem.Name} (${localItem.ID}) was tracking code ${rc}, expected ID ${expectedId}`
+          )
+          toRaw(localItem).SaveController.ClearRemote()
+        }
+      }
+
+      // clean up codes left behind when items are permanently deleted without calling deleteRemoteItem
       const trackedCodes = new Set(
         this.AllItems.map((x: any) => x.SaveController?.RemoteCode).filter(Boolean)
       )
@@ -820,6 +861,7 @@ export const UserStore = defineStore('cloud', {
       this.StorageFull = full
     },
     addRemoteItem(code: string) {
+      logger.info(`addRemoteItem: tracking code ${code}`, new Error().stack)
       this.UserMetadata.RemoteItems.push(code)
       this.setUserMetadata()
     },

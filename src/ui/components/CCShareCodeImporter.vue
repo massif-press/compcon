@@ -271,16 +271,17 @@ export default {
     },
     async getFromCode() {
       this.loading = true
+      const normalizedCode = this.code.join('').toUpperCase()
       try {
-        this.queryResult = await GetFromCode(this.code.join(''))
+        this.queryResult = await GetFromCode(normalizedCode)
         this.$emit('set-query-result', this.queryResult)
-        this.$emit('set-share-code', this.code.join(''))
+        this.$emit('set-share-code', normalizedCode)
         if (this.importType === 'campaign') {
           const campaign = await downloadFromS3(this.queryResult.uri)
           this.$emit('set-data', campaign)
         }
       } catch (err) {
-        this.badCode = this.code.join('')
+        this.badCode = normalizedCode
         this.queryResult = null
         logger.error(`Error getting code: ${err}`, this, err)
       } finally {

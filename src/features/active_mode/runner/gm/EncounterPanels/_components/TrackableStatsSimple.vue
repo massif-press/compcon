@@ -30,6 +30,11 @@
   <v-row v-if="item.StatController.MaxStats['heatcap']"
     dense>
     <v-col>
+      <simple-mini-panel v-model.number="item.StatController.CurrentStats['overcharge']"
+        :max="3"
+        title="Overcharge"
+        color=overcharge
+        icon="cc:overcharge" />
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['heatcap']"
         :max="item.StatController.MaxStats['heatcap']"
         title="Heat"
