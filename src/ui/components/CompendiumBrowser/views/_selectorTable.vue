@@ -21,7 +21,7 @@
               <v-icon v-else-if="item.Manufacturer"
                 size="x-large"
                 :icon="item.Manufacturer.Icon"
-                :color="item.Manufacturer.GetColor($vuetify.theme.current.dark)" />
+                :color="item.Manufacturer?.GetColor($vuetify.theme.current.dark) || 'panel'" />
               <span v-if="!mobile"
                 class="px-1">{{ item.Source }}</span>
             </span>

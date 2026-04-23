@@ -84,12 +84,15 @@
   </cc-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { CompendiumStore } from '@/stores';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
 export default {
   name: 'BasicActionButton',
+  components: {
+    MenuInput,
+  },
   props: {
     action: {
       type: Object,
@@ -104,9 +107,7 @@ export default {
       required: true,
     },
   },
-  components: {
-    MenuInput,
-  },
+  emits: ['activate'],
   emits: ['activate'],
   computed: {
     controller() {
@@ -122,7 +123,6 @@ export default {
       return this.canActivate && this.canUse;
     },
   },
-  emits: ['activate'],
   methods: {
     apply(close) {
       this.$emit('activate', this.action.ID);

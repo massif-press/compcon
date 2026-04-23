@@ -199,7 +199,6 @@ import WeaponSlotToolbarItems from './_WeaponSlotToolbarItems.vue'
 import { MechWeapon, WeaponMod, WeaponSize, EquippableMount, Range, Damage, Mech } from '@/class'
 import EngWeaponSettings from './_EngWeaponSettings.vue'
 import { useMobile } from '@/mixins/useMobile'
-import { manufacturerColor } from '../../_utils'
 
 export default {
   name: 'WeaponSlotCard',
@@ -253,7 +252,7 @@ export default {
       return this.item.Mod
     },
     color() {
-      return manufacturerColor(this.mech, this.$vuetify.theme.current.dark)
+      return this.mech.Frame.ManufacturerColor;
     },
     // armoryLevel() {
     //   if (!this.item) return 0

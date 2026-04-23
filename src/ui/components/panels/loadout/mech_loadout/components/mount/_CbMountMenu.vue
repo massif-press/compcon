@@ -1,10 +1,10 @@
 <template>
   <v-menu>
     <template #activator="{ props }">
-      <div v-if="visible" style="position: relative">
+      <div v-if="visible"
+        style="position: relative">
         <div class="side-legend">
-          <cc-button
-            size="x-small"
+          <cc-button size="x-small"
             :color="isAvailable ? 'accent' : 'panel'"
             prepend-icon="cc:corebonus"
             :class="isAvailable && 'pulse'"
@@ -15,15 +15,19 @@
       </div>
     </template>
     <template #default="{ isActive }">
-      <v-card tile border>
-        <v-toolbar :color="color" tile height="24" class="px-1">
-          <v-icon start icon="cc:corebonus" />
+      <v-card tile
+        border>
+        <v-toolbar :color="color"
+          tile
+          height="24"
+          class="px-1">
+          <v-icon start
+            icon="cc:corebonus" />
           <span class="heading h3">Mount CORE Bonuses</span>
         </v-toolbar>
         <v-card-text class="text-center">
           <v-row dense>
-            <cc-button
-              v-for="(b, index) in mech.AvailableBonuses"
+            <cc-button v-for="(b, index) in mech.AvailableBonuses"
               :key="`available-${index}`"
               size="small"
               block
@@ -33,12 +37,11 @@
               append-icon="mdi-plus"
               @click="
                 mount.AddCoreBonus(b);
-                isActive.value = false;
+              isActive.value = false;
               ">
               Install {{ b.Name }}
             </cc-button>
-            <cc-button
-              v-for="(b, index) in mount.Bonuses"
+            <cc-button v-for="(b, index) in mount.Bonuses"
               :key="`bonus-${index}`"
               size="small"
               block
@@ -49,7 +52,7 @@
               variant="outlined"
               @click="
                 mount.RemoveCoreBonus(b);
-                isActive.value = false;
+              isActive.value = false;
               ">
               Uninstall {{ b.Name }}
             </cc-button>
@@ -62,10 +65,9 @@
 
 <script lang="ts">
 import { useMobile } from '@/mixins/useMobile'
-import { manufacturerColor } from '../_utils'
 
 export default {
-  name: 'cb-mount-menu',
+  name: 'CbMountMenu',
   mixins: [useMobile],
   props: {
     mech: {
@@ -82,7 +84,7 @@ export default {
       return this.mount.Bonuses.length;
     },
     color(): string {
-      return manufacturerColor(this.mech, this.$vuetify.theme.current.dark)
+      return this.mech.Frame.ManufacturerColor;
     },
     visible(): boolean {
       return this.mech.AvailableBonuses.length || this.mount.Bonuses.length;
@@ -115,6 +117,7 @@ export default {
   0% {
     box-shadow: 0 0 0 0px rgb(var(--v-theme-accent));
   }
+
   100% {
     box-shadow: 0 0 0 6px rgba(0, 0, 0, 0);
   }

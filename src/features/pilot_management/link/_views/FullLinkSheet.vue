@@ -209,7 +209,7 @@
           style="font-size: 22px; line-height: 22px">
           <v-icon size="x-small"
             class="mb-1"
-            :icon="mech.Frame.Manufacturer.Icon" />
+            :icon="mech.Frame.ManufacturerIcon" />
           {{ mech.Frame.Source }} {{ mech.Frame.Name }}
         </div>
       </v-col>

@@ -20,9 +20,9 @@
       <v-icon start
         size="small"
         class="mb-1"
-        :icon="mech.Frame.Manufacturer.Icon" />
+        :icon="mech.Frame.ManufacturerIcon" />
       <span :style="`color: ${color}`">
-        {{ mech.Frame.Manufacturer.Name }}
+        {{ mech.Frame.Manufacturer?.Name || '' }}
       </span>
       <br v-if="mobile" />
       <span class="text-text pl-2">{{ mech.Frame.Name }}</span>
@@ -31,7 +31,7 @@
         :color="color"
         no-actions
         large
-        :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`">
+        :title="`${mech.Frame.Manufacturer?.Name || ''} ${mech.Frame.Name}`">
         <template #activator="{ open }">
           <v-btn icon
             size="x-small"
@@ -210,7 +210,7 @@ export default {
       return this.pilot.Mechs.find((m: Mech) => m.ID === this.mechID) as Mech;
     },
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
+      return this.mech.Frame.ManufacturerColor;
     },
     reqLicenses() {
       return this.mech.RequiredLicenses;

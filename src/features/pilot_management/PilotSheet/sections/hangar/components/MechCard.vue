@@ -5,14 +5,10 @@
     <v-hover>
       <template #default="{ isHovering, props }">
         <div style="position: relative">
-          <div :style="`background-color: ${mech.Frame.Manufacturer.GetColor(
-            $vuetify.theme.current.dark
-          )}`"
+          <div :style="`background-color: ${mech.Frame.ManufacturerColor}`"
             :class="`pip bg-${isHovering ? 'success' : ''}`" />
           <div style="clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px)"
-            :style="`border: 2px solid ${mech.Frame.Manufacturer.GetColor(
-              $vuetify.theme.current.dark
-            )}; border-radius: 2px`">
+            :style="`border: 2px solid ${mech.Frame.ManufacturerColor}; border-radius: 2px`">
             <v-card height="40vh"
               tile
               flat
@@ -21,7 +17,7 @@
               @click="$emit('go', mech)">
               <v-toolbar density="compact"
                 height="50"
-                :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
+                :color="mech.Frame.ManufacturerColor"
                 class="pl-6 pr-2 heading"
                 :class="mobile ? 'mb-n3' : 'mb-n8 h3'">
                 <span style="letter-spacing: 3px; line-height: 23px">

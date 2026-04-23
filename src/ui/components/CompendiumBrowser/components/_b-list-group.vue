@@ -15,7 +15,7 @@
             <v-icon v-else
               size="30"
               :icon="manufacturer.Icon"
-              :color="manufacturer.GetColor($vuetify.theme.current.dark)"
+              :color="manufacturer?.GetColor($vuetify.theme.current.dark) || 'panel'"
               start />
             <span class="text-button">
               <b>

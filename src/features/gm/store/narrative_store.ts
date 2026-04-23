@@ -1,5 +1,4 @@
 import { Character, CharacterData } from '@/classes/narrative/Character'
-import { CollectionItem } from '@/classes/narrative/CollectionItem'
 import { Faction, FactionData } from '@/classes/narrative/Faction'
 import { Location, LocationData } from '@/classes/narrative/Location'
 import { GetAll, RemoveItem, SetItem } from '@/io/Storage'

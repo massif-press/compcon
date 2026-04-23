@@ -139,6 +139,7 @@ class Character extends CollectionItem {
   public static Deserialize(data: CharacterData): Character {
     const character = new Character(data)
     SaveController.Deserialize(character, data.save)
+    CloudController.Deserialize(character, data.cloud)
     PortraitController.Deserialize(character, data.img)
     NarrativeController.Deserialize(character, data.narrative)
     FolderController.Deserialize(character, data.folder)

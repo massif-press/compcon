@@ -96,6 +96,7 @@ class Location extends CollectionItem {
   public static Deserialize(data: LocationData): Location {
     const location = new Location(data)
     SaveController.Deserialize(location, data.save)
+    CloudController.Deserialize(location, data.cloud)
     PortraitController.Deserialize(location, data.img)
     NarrativeController.Deserialize(location, data.narrative)
     FolderController.Deserialize(location, data.folder)

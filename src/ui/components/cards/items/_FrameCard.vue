@@ -105,7 +105,7 @@ export default {
       return this.$vuetify.display.smAndDown;
     },
     mColor() {
-      this.item.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
+      return this.item.ManufacturerColor;
     },
   },
   methods: {

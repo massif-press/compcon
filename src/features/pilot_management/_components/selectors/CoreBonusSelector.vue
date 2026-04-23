@@ -67,7 +67,7 @@
                 {{ manufacturer.Name }}
               </div>
               <v-card variant="outlined"
-                :color="manufacturer.GetColor($vuetify.theme.current.dark)"
+                :color="manufacturer?.GetColor($vuetify.theme.current.dark) || 'panel'"
                 class="my-1 pa-3">
                 <div v-html-safe="requirement(manufacturer)"
                   class="flavor-text text-text text-center" />
@@ -82,7 +82,7 @@
               :bonus="b"
               :is-selectable="isSelectable(b)"
               :is-selected="isSelected(b)"
-              :color="manufacturer.GetColor($vuetify.theme.current.dark)"
+              :color="manufacturer?.GetColor($vuetify.theme.current.dark) || 'panel'"
               @add="pilot.CoreBonusController.AddCoreBonus(b)"
               @remove="pilot.CoreBonusController.RemoveCoreBonus(b)" />
           </v-expansion-panel-text>

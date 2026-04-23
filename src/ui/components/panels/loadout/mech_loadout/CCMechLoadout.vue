@@ -36,7 +36,6 @@
 <script lang="ts">
 import MountBlock from './components/mount/_MountBlock.vue'
 import SystemsBlock from './components/system/_SystemsBlock.vue'
-import { manufacturerColor } from './components/_utils'
 
 export default {
   name: 'MechLoadoutBlock',
@@ -59,7 +58,7 @@ export default {
   },
   computed: {
     color() {
-      return manufacturerColor(this.mech, this.$vuetify.theme.current.dark)
+      return this.mech.Frame.ManufacturerColor;
     },
     mounts(): {
       mount: any

@@ -67,7 +67,11 @@ abstract class LicensedItem extends CompendiumItem {
   }
 
   public get ManufacturerColor(): string {
-    return this.Manufacturer.Color
+    return this.Manufacturer?.Color || 'panel'
+  }
+
+  public get ManufacturerIcon(): string {
+    return this.Manufacturer?.Icon || 'cc:manufacturer'
   }
 
   public get RequiredLicense(): ILicenseRequirement {

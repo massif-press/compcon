@@ -1,17 +1,15 @@
 <template>
-  <div class="top-element" style="position: relative">
-    <div
-      :style="`background-color: ${mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)}`"
+  <div class="top-element"
+    style="position: relative">
+    <div :style="`background-color: ${mech.Frame.ManufacturerColor}`"
       class="pip" />
-    <v-card
-      id="pc-wrapper"
+    <v-card id="pc-wrapper"
       variant="outlined"
       style="clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%, 0 18px)"
-      :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
+      :color="mech.Frame.ManufacturerColor"
       @click="$emit('go', mech)">
-      <v-card
-        tile
-        :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
+      <v-card tile
+        :color="mech.Frame.ManufacturerColor"
         style="
           position: absolute;
           z-index: 5;
@@ -20,17 +18,21 @@
         class="clipped-square-invert"
         min-width="138px"
         min-height="100%">
-        <div id="interior" class="clipped-square-invert">
-          <cc-img :src="mech.Portrait" position="top center" height="100%" cover />
+        <div id="interior"
+          class="clipped-square-invert">
+          <cc-img :src="mech.Portrait"
+            position="top center"
+            height="100%"
+            cover />
         </div>
       </v-card>
 
       <div style="width: 100%">
-        <v-toolbar
-          class="px-1"
+        <v-toolbar class="px-1"
           height="26"
-          :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)">
-          <span class="heading h3" style="margin-left: 138px">
+          :color="mech.Frame.ManufacturerColor">
+          <span class="heading h3"
+            style="margin-left: 138px">
             {{ mech.Name }}
           </span>
           <span class="text-cc-overline px-2">
@@ -38,13 +40,15 @@
             {{ mech.Frame.Source }} {{ mech.Frame.Name }}
           </span>
           <v-spacer />
-          <v-icon :icon="mech.Frame.Manufacturer.Icon" />
+          <v-icon :icon="mech.Frame.ManufacturerIcon" />
         </v-toolbar>
 
-        <div style="border-top: 0" class="light-panel">
+        <div style="border-top: 0"
+          class="light-panel">
           <div style="margin-left: 137px; margin-top: -1px; padding-left: 8px; min-height: 100px">
             <div class="flavor-text text-text">
-              <v-row align="center" dense>
+              <v-row align="center"
+                dense>
                 <v-col>
                   <fieldset class="px-3">
                     <legend class="px-2">
@@ -54,47 +58,56 @@
                           : 'ERR'
                       }}
                     </legend>
-                    <div v-if="mech.MechLoadoutController.ActiveLoadout" class="pb-3">
-                      <span v-for="(item, i) in loadoutWeapons" :key="`weapon-${i}`">
+                    <div v-if="mech.MechLoadoutController.ActiveLoadout"
+                      class="pb-3">
+                      <span v-for="(item, i) in loadoutWeapons"
+                        :key="`weapon-${i}`">
                         <span v-html-safe="item" />
-                        <cc-slashes v-if="i + 1 < loadoutWeapons.length" class="px-2" />
+                        <cc-slashes v-if="i + 1 < loadoutWeapons.length"
+                          class="px-2" />
                       </span>
                       <br />
-                      <span v-for="(item, i) in loadoutSystems" :key="`system-${i}`">
+                      <span v-for="(item, i) in loadoutSystems"
+                        :key="`system-${i}`">
                         {{ i > 0 ? ' - ' : '' }}
                         <span v-html-safe="item" />
                       </span>
                     </div>
                   </fieldset>
-                  <v-row no-gutters justify="space-around">
+                  <v-row no-gutters
+                    justify="space-around">
                     <v-col cols="auto">
                       <span class="text-overline">
                         STR
                         <b>{{ mech.MaxStructure }}</b>
                       </span>
                     </v-col>
-                    <v-divider vertical class="mx-2" />
+                    <v-divider vertical
+                      class="mx-2" />
                     <v-col cols="auto">
                       <span class="text-overline">
                         HP
                         <b>{{ mech.MaxHP }}</b>
                       </span>
                     </v-col>
-                    <v-divider vertical class="mx-2" />
+                    <v-divider vertical
+                      class="mx-2" />
                     <v-col cols="auto">
                       <span class="text-overline">
                         Stress
                         <b>{{ mech.MaxStress }}</b>
                       </span>
                     </v-col>
-                    <v-divider vertical class="mx-2" />
+                    <v-divider vertical
+                      class="mx-2" />
                     <v-col cols="auto">
                       <span class="text-overline">
                         Heat
                         <b>{{ mech.HeatCapacity }}</b>
                       </span>
                     </v-col>
-                    <v-divider vertical class="mx-2" />
+                    <v-divider vertical
+                      class="mx-2" />
                     <v-col cols="auto">
                       <span class="text-overline">
                         RepCap
@@ -103,17 +116,16 @@
                     </v-col>
                   </v-row>
                 </v-col>
-                <v-col cols="auto" class="pr-4">
-                  <cc-dialog
-                    :close-on-click="false"
+                <v-col cols="auto"
+                  class="pr-4">
+                  <cc-dialog :close-on-click="false"
                     title="Delete Mech"
                     color="error"
                     icon="mdi-delete">
                     <template #activator="{ open }">
                       <v-tooltip text="Delete Mech">
                         <template #activator="{ props }">
-                          <v-btn
-                            size="small"
+                          <v-btn size="small"
                             variant="text"
                             tile
                             v-bind="props"
@@ -124,19 +136,19 @@
                         </template>
                       </v-tooltip>
                     </template>
-                    <cc-confirmation
-                      :content="`Lancer, please confirm deletion of Mech Configuration:
+                    <cc-confirmation :content="`Lancer, please confirm deletion of Mech Configuration:
           <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"
                       @confirm="$emit('delete', mech)" />
                   </cc-dialog>
-                  <cc-dialog :close-on-click="false" title="Duplicate Mech" icon="mdi-content-copy">
+                  <cc-dialog :close-on-click="false"
+                    title="Duplicate Mech"
+                    icon="mdi-content-copy">
                     <template #activator="{ open }">
                       <v-tooltip text="Duplicate Mech">
                         <template #activator="{ props }">
-                          <v-btn
-                            size="small"
+                          <v-btn size="small"
                             variant="text"
                             tile
                             v-bind="props"
@@ -146,8 +158,7 @@
                         </template>
                       </v-tooltip>
                     </template>
-                    <cc-confirmation
-                      :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:
+                    <cc-confirmation :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:
           <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"
@@ -155,8 +166,7 @@
                   </cc-dialog>
                   <v-tooltip text="Print Mech Sheet">
                     <template #activator="{ props }">
-                      <v-btn
-                        size="small"
+                      <v-btn size="small"
                         variant="text"
                         tile
                         v-bind="props"

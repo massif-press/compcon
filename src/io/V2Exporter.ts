@@ -253,7 +253,7 @@ export const convertTov2Pilot = function (input: any): any {
       MechSystems: [],
       SystemMods: [],
     },
-    bondId: '',
+    bondId: d.bond?.bondId ?? '',
     xp: d.bond?.xp ?? 0,
     stress: d.bond?.stress ?? 0,
     isBroken: d.bond?.isBroken ?? false,

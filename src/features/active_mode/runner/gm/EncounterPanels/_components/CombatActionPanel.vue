@@ -83,8 +83,7 @@
   </div>
 </template>
 
-<script>
-import * as _ from 'lodash-es';
+<script lang="ts">
 
 export default {
   name: 'CombatActionPanel',

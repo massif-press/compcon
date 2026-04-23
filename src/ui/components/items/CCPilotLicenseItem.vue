@@ -1,12 +1,10 @@
 <template>
-  <cc-modal
-    shrink
+  <cc-modal shrink
     :title="`${pilotLicense.License.Source} ${pilotLicense.License.Name}`"
     :icon="`cc:rank_${pilotLicense.Rank}`"
     :color="pilotLicense.License.Manufacturer.Color">
     <template #activator="{ open }">
-      <cc-button
-        :size="mobile ? 'x-small' : 'small'"
+      <cc-button :size="mobile ? 'x-small' : 'small'"
         :prepend-icon="`cc:rank_${pilotLicense.Rank}`"
         color="panel"
         class="text-center"
@@ -18,16 +16,18 @@
           {{ 'I'.repeat(pilotLicense.Rank) }}
         </span>
         <template #info>
-          <v-icon
-            size="x-large"
-            :icon="pilotLicense.License.Manufacturer.Icon"
-            :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.current.dark)" />
+          <v-icon size="x-large"
+            :icon="pilotLicense.License.Manufacturer?.Icon || 'cc:manufacturer'"
+            :color="pilotLicense.License.Manufacturer?.GetColor($vuetify.theme.current.dark) || 'panel'" />
         </template>
       </cc-button>
     </template>
-    <v-card class="pb-2" flat>
+    <v-card class="pb-2"
+      flat>
       <v-card-text>
-        <cc-license-panel :license="pilotLicense.License" ranked :rank="pilotLicense.Rank" />
+        <cc-license-panel :license="pilotLicense.License"
+          ranked
+          :rank="pilotLicense.Rank" />
       </v-card-text>
     </v-card>
   </cc-modal>

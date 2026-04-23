@@ -137,6 +137,7 @@ class Faction extends CollectionItem {
   public static Deserialize(data: FactionData): Faction {
     const faction = new Faction(data)
     SaveController.Deserialize(faction, data.save)
+    CloudController.Deserialize(faction, data.cloud)
     PortraitController.Deserialize(faction, data.img)
     NarrativeController.Deserialize(faction, data.narrative)
     FolderController.Deserialize(faction, data.folder)

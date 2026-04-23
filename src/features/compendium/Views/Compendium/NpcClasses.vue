@@ -86,7 +86,7 @@ export default {
           align: 'center',
         });
       }
-      console.log(h)
+      (h)
       return h;
     },
   },
