@@ -88,7 +88,7 @@ class NpcClass implements ILcpTracked {
     this.Data = data
     this._id = data.id
     this._name = data.name
-    this._role = data.role
+    this._role = data.role || ''
     this._info = data.info
     this._stats = new NpcClassStats(data.stats)
     this.ForceTag = data.forceTag || ''
@@ -113,16 +113,17 @@ class NpcClass implements ILcpTracked {
   }
 
   public get Role(): string {
-    return this._role.toUpperCase()
+    return this._role ? this._role.toUpperCase() : ''
   }
 
   public get Icon(): string {
+    if (!this._role) return 'cc:npc'
     if (this._role.toLowerCase() === 'biological') return 'mdi-heart-pulse'
     return `cc:role_${this._role}`
   }
 
   public get Color(): string {
-    return `role--${this._role}`
+    return this._role ? `role--${this._role}` : ''
   }
 
   public get Flavor(): string {
@@ -135,7 +136,7 @@ class NpcClass implements ILcpTracked {
 
   public get Terse(): string {
     if (this._info.terse) return this._info.terse
-    return this._role
+    return this._role || ''
   }
 
   public get Features(): NpcFeature[] {

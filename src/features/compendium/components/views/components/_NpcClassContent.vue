@@ -1,13 +1,18 @@
 <template>
-  <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
+  <c-card-base :item="item"
+    :small="small"
+    :highlighted="highlighted"
+    :hover="hover">
     <template #top>
       <div class="text-text mt-2 px-1">
-        <v-icon start class="mt-n1">{{ item.Icon }}</v-icon>
+        <v-icon start
+          class="mt-n1">{{ item.Icon }}</v-icon>
         <span class="heading h4">{{ item.Role }}</span>
       </div>
-      <div class="pa-1">
-        <cc-item-modal v-for="(f, index) in item.Features" :key="`feature-${index}`" size="x-small" :item="f" density="compact" />
-      </div>
+      <cc-panel variant="tonal">
+        <p v-html-safe="item.Terse"
+          class="pa-1 text-text" />
+      </cc-panel>
     </template>
     <template #overline>&mdash; NPC Class</template>
   </c-card-base>
@@ -33,7 +38,7 @@ const keymap = {
 };
 
 export default {
-  name: 'frame-card-content',
+  name: 'FrameCardContent',
   components: { CCardBase },
   props: {
     item: { type: Object, required: true },

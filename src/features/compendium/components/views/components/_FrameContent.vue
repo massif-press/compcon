@@ -1,8 +1,10 @@
 <template>
-  <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
+  <c-card-base :item="item"
+    :small="small"
+    :highlighted="highlighted"
+    :hover="hover">
     <template #top>
-      <v-img
-        v-if="item.DefaultImage"
+      <v-img v-if="item.DefaultImage"
         :src="item.DefaultImage"
         contain
         lazy
@@ -17,7 +19,7 @@
 import CCardBase from './_cCardBase.vue';
 
 export default {
-  name: 'frame-card-content',
+  name: 'FrameCardContent',
   components: { CCardBase },
   props: {
     item: { type: Object, required: true },

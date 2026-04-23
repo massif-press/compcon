@@ -20,7 +20,7 @@ const generateCloudArchive = async (
     user_id,
     sortkey,
     source,
-    author: UserStore().Cognito.username,
+    author: UserStore().UserMetadata.Username || '',
     name: `COMP/CON Backup - ${new Date().toLocaleString()}`,
     item_modified: Date.now(),
     uri: `${user_id}/archives/${sortkey}.json`,

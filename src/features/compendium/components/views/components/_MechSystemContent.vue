@@ -1,20 +1,24 @@
 <template>
-  <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
-    <p
-      v-if="item.Effect && item.Effect.length"
-      slot="top"
-      v-html-safe="item.Effect"
-      class="card-effect pa-2 mb-1"
-      style="font-size: 15px"
-    />
-    <span slot="overline">{{ item.Type }}</span>
+  <c-card-base :item="item"
+    :small="small"
+    :highlighted="highlighted"
+    :hover="hover">
+    <template #top>
+      <p v-if="item.Effect && item.Effect.length"
+        v-html-safe="item.Effect"
+        class="card-effect pa-2 mb-1"
+        style="font-size: 15px" />
+    </template>
+    <template #overline>
+      <span>{{ item.Type }}</span>
+    </template>
   </c-card-base>
 </template>
 
 <script lang="ts">
 import CCardBase from './_cCardBase.vue';
 export default {
-  name: 'frame-card-content',
+  name: 'FrameCardContent',
   components: { CCardBase },
   props: {
     item: { type: Object, required: true },

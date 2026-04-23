@@ -42,7 +42,7 @@ const keymap = {
   eng: 'Eng',
   armor: 'Armor',
   hp: 'HP',
-  heat: 'HeatCap',
+  heatcap: 'HeatCap',
   evasion: 'Evade',
   edef: 'E-Def',
   speed: 'Speed',
@@ -86,6 +86,7 @@ export default {
           align: 'center',
         });
       }
+      console.log(h)
       return h;
     },
   },

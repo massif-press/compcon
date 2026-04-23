@@ -201,6 +201,7 @@ export default {
     async exchangeItchToken(access_token) {
       this.loadItch = true;
       try {
+        await UserStore().getUserMetadata();
         const data = await authItch(access_token);
         await UserStore().setItchData(access_token, data);
         this.loadItch = false;

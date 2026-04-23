@@ -1,7 +1,8 @@
 <template>
   <div v-if="group === 'lcp'">
     <div class="text-center">
-      <v-btn v-for="(lcp, i) in lcpFilter" :key="`lcp-btn-${i}`"
+      <v-btn v-for="(lcp, i) in lcpFilter"
+        :key="`lcp-btn-${i}`"
         :active="lcpTab === i"
         :color="lcpTab === i ? 'accent' : ''"
         variant="tonal"
@@ -28,7 +29,8 @@
 
   <div v-else-if="group === 'source'">
     <div class="text-center">
-      <v-btn v-for="(m, i) in manufacturers" :key="`mf-btn-${i}`"
+      <v-btn v-for="(m, i) in manufacturers"
+        :key="`mf-btn-${i}`"
         :active="mfTab === i"
         :color="mfTab === i ? 'primary' : ''"
         variant="tonal"
@@ -84,7 +86,8 @@
 
   <div v-else-if="group === 'license'">
     <div class="text-center">
-      <v-btn v-for="(l, i) in licenses" :key="`lic-btn-${i}`"
+      <v-btn v-for="(l, i) in licenses"
+        :key="`lic-btn-${i}`"
         :active="licenseTab === i"
         :color="licenseTab === i ? 'primary' : ''"
         variant="tonal"
@@ -193,6 +196,7 @@ ChartJS.register(
 
 export default {
   name: 'SelectorScatter',
+  components: { Bar },
   props: {
     items: {
       type: Array,
@@ -230,7 +234,6 @@ export default {
       default: 1,
     },
   },
-  components: { Bar },
   data: () => ({
     xAxis: { title: '', value: '' },
     mfTab: 0,
@@ -238,9 +241,6 @@ export default {
     licenseTab: 0,
     sort: '',
   }),
-  created() {
-    this.xAxis = this.axes[0];
-  },
   computed: {
     axes() {
       switch ((this.items[0] as CompendiumItem).ItemType) {
@@ -279,7 +279,7 @@ export default {
             { title: 'Engineering', value: 'eng' },
             { title: 'Armor', value: 'armor' },
             { title: 'HP', value: 'hp' },
-            { title: 'HeatCap', value: 'heat' },
+            { title: 'HeatCap', value: 'heatcap' },
             { title: 'Evade', value: 'evasion' },
             { title: 'E-Defense', value: 'edef' },
             { title: 'Speed', value: 'speed' },
@@ -311,7 +311,7 @@ export default {
       return _.groupBy(this.items, 'LcpName');
     },
     options(): any {
-      let o = {
+      const o = {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
@@ -384,6 +384,9 @@ export default {
 
       return o;
     },
+  },
+  created() {
+    this.xAxis = this.axes[0];
   },
   methods: {
     sortItems(items) {

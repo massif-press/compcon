@@ -52,15 +52,15 @@
 
 <script lang="ts">
 import { flatten, values, pick } from 'lodash-es';
-import { CompendiumItem, LicensedItem, Frame } from '@/class';
+import { CompendiumItem } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
 import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
   name: 'SearchResults',
+  mixins: [useMobile],
   data: () => ({
     selected: null as any,
     searchText: '',
@@ -83,6 +83,9 @@ export default {
             'Reserves',
             'Actions',
             'CoreBonuses',
+            'NpcFeatures',
+            'NpcClasses',
+            'NpcTemplates',
           ])
         )
       ) as CompendiumItem[];

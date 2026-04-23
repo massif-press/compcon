@@ -5,9 +5,10 @@
     :items-per-page="-1"
     hide-default-footer
     style="width: 100%">
-    <template v-slot:item="{ item }">
+    <template #item="{ item }">
       <tr :id="item.ID">
-        <td v-for="h in <any[]>headers" :key="h.key"
+        <td v-for="h in <any[]>headers"
+          :key="h.key"
           class="text-left px-2"
           :class="`text-${h.align} ${selected && (selected as any).ID === item.ID ? 'bg-light-panel' : ''
             }`">
@@ -108,24 +109,27 @@
           </div>
 
           <div v-else-if="h.key === 'T1'">
-            <div v-for="e in (item as License).Unlocks[0]" :key="e.ID" style="padding: 2px">
+            <div v-for="e in (item as License).Unlocks[0]"
+              :key="e.ID"
+              style="padding: 2px">
               <cc-item-modal :item="e" />
             </div>
           </div>
           <div v-else-if="h.key === 'T2'">
-            <div v-for="e in (item as License).Unlocks[1]" :key="e.ID" style="padding: 2px">
+            <div v-for="e in (item as License).Unlocks[1]"
+              :key="e.ID"
+              style="padding: 2px">
               <cc-item-modal :item="e" />
             </div>
           </div>
           <div v-else-if="h.key === 'T3'">
-            <div v-for="e in (item as License).Unlocks[2]" :key="e.ID" style="padding: 2px">
+            <div v-for="e in (item as License).Unlocks[2]"
+              :key="e.ID"
+              style="padding: 2px">
               <cc-item-modal :item="e" />
             </div>
           </div>
-          <div v-else-if="h.tier"
-            class="text-center">
-            {{ (item as NpcClass).Stats.Stat(h.key, h.tier) }}
-          </div>
+
           <div v-else-if="h.key === 'Tags'">
             <cc-tags :tags="item[h.key]"
               small />
@@ -145,7 +149,7 @@ import { License } from '@/class';
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 
 export default {
-  name: 'selector-table',
+  name: 'SelectorTable',
   props: {
     headers: {
       type: Array,
@@ -154,11 +158,11 @@ export default {
     items: {
       type: Array,
       required: true,
-      default: () => [],
     },
     selected: {
       type: Object,
       required: false,
+      default: null,
     },
     selectable: {
       type: Boolean,

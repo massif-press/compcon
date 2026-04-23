@@ -161,7 +161,7 @@ class BondController {
 
   public AddPower(p: BondPower) {
     this.BondPowers.push(p)
-    if (this.BondPowers.filter(x => x.origin !== this.Bond?.ID).length) {
+    if (this.BondPowers.filter(x => x.origin !== this.Bond?.ID).length === 1) {
       this.BondPowers.push(this.Bond?.Powers.find(x => x.veteran) as BondPower)
     }
     this.Parent.SaveController.save()

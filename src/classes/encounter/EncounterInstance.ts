@@ -66,7 +66,6 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     this.IsActive = data?.isActive || false
     this.SimpleTickbars = data?.simple_tickbars || false
     this.ForceComplexTickbars = data?.force_complex_tickbars || false
-    console.log(data?.layout_columns)
     this.LayoutColumns = !!data?.layout_columns || true
     this.MaxMasonryColumns = data?.max_masonry_columns || 2
 

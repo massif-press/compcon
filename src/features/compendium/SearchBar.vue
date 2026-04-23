@@ -36,7 +36,7 @@
 
 <script lang="ts">
 export default {
-  name: 'compendium-search-bar',
+  name: 'CompendiumSearchBar',
   props: {
     reference: {
       type: Boolean,

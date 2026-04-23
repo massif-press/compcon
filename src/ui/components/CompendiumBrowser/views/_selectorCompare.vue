@@ -1,53 +1,75 @@
 <template>
   <v-card :style="`max-width: ${mobile ? '100vw' : 'calc(100vw - 390px)'} !important`">
-    <v-card-text v-if="!selected" class="heading h2 py-12 my-12 text-center text-disabled">
+    <v-card-text v-if="!selected"
+      class="heading h2 py-12 my-12 text-center text-disabled">
       NO SELECTION
     </v-card-text>
     <v-card-text v-else>
       <v-table>
         <thead>
           <tr>
-            <th class="text-left side-border" width="160px">Metric</th>
+            <th class="text-left side-border"
+              width="160px">Metric</th>
             <th class="text-center font-weight-bold text-primary side-border">
-              <cc-item-modal small-btn hide-type :item="selected" />
+              <cc-item-modal small-btn
+                hide-type
+                :item="selected" />
             </th>
-            <th v-for="item in items" :key="(item as any).ID" class="text-center side-border">
-              <cc-item-modal small-btn hide-type :item="item" />
+            <th v-for="item in items"
+              :key="(item as any).ID"
+              class="text-center side-border">
+              <cc-item-modal small-btn
+                hide-type
+                :item="item" />
             </th>
           </tr>
         </thead>
         <tbody v-if="!isNpcClass">
-          <tr v-for="metric in relevantMetrics" :key="metric.value">
-            <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
+          <tr v-for="metric in relevantMetrics"
+            :key="metric.value">
+            <td class="text-left side-border"
+              :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
             </td>
             <td class="text-center heading h3 side-border font-weight-bold bg-primary">
               {{ selected.Stats[metric.value] }}
             </td>
-            <td v-for="item in items" :key="(item as any).ID" class="text-center heading h3 font-weight-bold side-border">
+            <td v-for="item in items"
+              :key="(item as any).ID"
+              class="text-center heading h3 font-weight-bold side-border">
               {{ (item as any).Stats[metric.value] }}
-              <div class="mt-n3" v-html-safe="diff(metric.value, item)" />
+              <div v-html-safe="diff(metric.value, item)"
+                class="mt-n3" />
             </td>
           </tr>
         </tbody>
         <tbody v-else>
-          <tr v-for="metric in metrics" :key="metric.value">
-            <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
+          <tr v-for="metric in metrics"
+            :key="metric.value">
+            <td class="text-left side-border"
+              :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
             </td>
             <td class="text-center heading h3 side-border font-weight-bold text-accent">
               {{ selected.Stats.Stat(metric.value, tier) }}
             </td>
-            <td v-for="item in items" :key="(item as any).ID" class="text-center heading h3 side-border">
+            <td v-for="item in items"
+              :key="(item as any).ID"
+              class="text-center heading h3 side-border">
               {{ (item as any).Stats.Stat(metric.value, tier) }}
-              <div class="mt-n3" v-html-safe="npcDiff(metric.value, item)" />
+              <div v-html-safe="npcDiff(metric.value, item)"
+                class="mt-n3" />
             </td>
           </tr>
         </tbody>
       </v-table>
     </v-card-text>
-    <div v-show="!!selected" class="text-right px-4 pb-2">
-      <v-btn size="x-small" variant="outlined" color="primary" @click="$emit('clear')">
+    <div v-show="!!selected"
+      class="text-right px-4 pb-2">
+      <v-btn size="x-small"
+        variant="outlined"
+        color="primary"
+        @click="$emit('clear')">
         Clear All
       </v-btn>
     </div>
@@ -60,17 +82,17 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
+  name: 'SelectorTable',
   mixins: [useMobile],
-  name: 'selector-table',
   props: {
     items: {
       type: Array,
       required: true,
-      default: () => [],
     },
     selected: {
       type: Object,
       required: false,
+      default: null,
     },
     tier: {
       type: Number,
@@ -120,7 +142,7 @@ export default {
             { title: 'Engineering', value: 'eng' },
             { title: 'Armor', value: 'armor' },
             { title: 'HP', value: 'hp' },
-            { title: 'HeatCap', value: 'heat' },
+            { title: 'HeatCap', value: 'heatcap' },
             { title: 'Evade', value: 'evasion' },
             { title: 'E-Defense', value: 'edef' },
             { title: 'Speed', value: 'speed' },
@@ -151,7 +173,6 @@ export default {
         );
       });
     },
-    npcMetrics() {},
   },
   methods: {
     diff(metric: string, item: any) {
@@ -159,18 +180,16 @@ export default {
       const itemValue = item.Stats[metric];
       if (selectedValue === itemValue) return '<i class="text-caption text-disabled">(&mdash;)</i>';
 
-      return `<i class="text-caption font-weight-bold  ${
-        selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'
-      }${itemValue - selectedValue})</i>`;
+      return `<i class="text-caption font-weight-bold  ${selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'
+        }${itemValue - selectedValue})</i>`;
     },
     npcDiff(metric: string, item: any) {
       const selectedValue = (this.selected as any).Stats.Stat(metric, this.tier);
       const itemValue = item.Stats.Stat(metric, this.tier);
       if (selectedValue === itemValue) return '';
 
-      return `<i class="text-caption font-weight-bold  ${
-        selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'
-      }${itemValue - selectedValue})</i>`;
+      return `<i class="text-caption font-weight-bold  ${selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'
+        }${itemValue - selectedValue})</i>`;
     },
   },
 };
