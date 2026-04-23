@@ -172,6 +172,7 @@ export default {
       try {
         const importGroup = PilotGroup.Deserialize(this.stagedData);
         newID = importGroup.RenewID();
+        importGroup.Pilots = [];
         PilotStore().AddGroup(importGroup);
         this.$notify({
           title: 'Import Successful',
@@ -188,6 +189,7 @@ export default {
 
       this.stagedPilots.forEach((stagedPilot) => {
         try {
+          if (PilotStore().Pilots.some((x) => x.ID === (stagedPilot as any).id)) return;
           const importPilot = Pilot.Deserialize(stagedPilot as PilotData);
           importPilot.RenewID();
           if (PilotStore().Pilots.some((x) => x.Name === importPilot.Name)) {

@@ -101,8 +101,29 @@ export const PilotStore = defineStore('pilot', {
         )
       }
 
+      await this.RebuildGroups()
       await this.ImportUngroupedPilots()
       await this.LoadPilotSheets()
+    },
+    async RebuildGroups(): Promise<void> {
+      const seen = new Set<string>()
+      let dirty = false
+
+      const ordered = [
+        ...this.PilotGroups.filter((g: PilotGroup) => g.ID !== 'no_group'),
+        ...this.PilotGroups.filter((g: PilotGroup) => g.ID === 'no_group'),
+      ]
+
+      for (const group of ordered) {
+        const deduped = group.Pilots.filter(p => !seen.has(p.id))
+        if (deduped.length !== group.Pilots.length) {
+          group.Pilots = deduped
+          dirty = true
+        }
+        deduped.forEach(p => seen.add(p.id))
+      }
+
+      if (dirty) await this.SaveGroupData()
     },
     async ImportUngroupedPilots(): Promise<void> {
       // import v2 pilots
@@ -133,6 +154,15 @@ export const PilotStore = defineStore('pilot', {
 
       this.Pilots.push(pilot)
 
+      // If no destination specified, check if an existing group already references this pilot
+      // (can happen when groups sync before pilots during cloud sync)
+      if (!groupID) {
+        const existingGroup = this.PilotGroups.find(
+          g => g.ID !== 'no_group' && g.Pilots.some(x => x.id === pilot.ID)
+        )
+        if (existingGroup) groupID = existingGroup.ID
+      }
+
       await this.TransferPilot(pilot, groupID)
       await this.SavePilotData()
     },
@@ -142,6 +172,14 @@ export const PilotStore = defineStore('pilot', {
       await this.SavePilotData()
     },
     async AddGroup(group: PilotGroup): Promise<void> {
+      // Remove this group's pilots from no_group to avoid duplication
+      // (can happen when pilots sync before groups during cloud sync)
+      const noGroup = this.PilotGroups.find(x => x.ID === 'no_group')
+      if (noGroup && group.Pilots.length) {
+        const groupPilotIds = new Set(group.Pilots.map(p => p.id))
+        noGroup.Pilots = noGroup.Pilots.filter(p => !groupPilotIds.has(p.id))
+      }
+
       const existing = this.PilotGroups.findIndex(x => x.ID === group.ID)
       if (existing !== -1) {
         this.PilotGroups.splice(existing, 1, group)

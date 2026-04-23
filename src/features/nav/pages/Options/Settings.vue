@@ -275,7 +275,17 @@
       </v-col>
     </v-row>
 
-    <div class="text-right">
+
+    <v-row justify="end">
+      <cc-button v-if="v2MigrationComplete"
+        size="small"
+        color="panel"
+        tooltip="Resets the v2 migration status, allowing the V2 Data button to appear again if it was dismissed."
+        @click="resetV2Migration">
+        Reset V2 Migration Status
+      </cc-button>
+    </v-row>
+    <v-row justify="end">
       <v-btn size="x-small"
         variant="text"
         to="/ui-test">
@@ -286,7 +296,7 @@
         to="/ui-test-new">
         UI Test II
       </v-btn>
-    </div>
+    </v-row>
   </v-container>
 </template>
 
@@ -298,7 +308,7 @@ import { exportAll, importAll } from '@/io/BulkData'
 import { saveFile } from '@/io/Data'
 import { ClearAllData } from '@/io/Storage'
 import { isFullBackup, processFullBackup, downloadFullBackup } from '@/io/FullImporter'
-import { GetValue } from '@/io/Storage'
+import { GetValue, SetValue } from '@/io/Storage'
 
 export default {
   name: 'OptionsSettings',
@@ -312,6 +322,7 @@ export default {
     isV2File: false,
     importLoading: false,
     v2BackupData: null as any,
+    v2MigrationComplete: false,
     logLevel: {
       name: 'Warning',
       level: 3,
@@ -396,6 +407,7 @@ export default {
   },
   async mounted() {
     this.v2BackupData = await GetValue('v2_backup_download')
+    this.v2MigrationComplete = !!(await GetValue('v2_migration_complete'))
   },
   methods: {
     reload() {
@@ -412,6 +424,12 @@ export default {
     downloadV2Backup() {
       downloadFullBackup(this.v2BackupData)
     },
+    async resetV2Migration() {
+      await SetValue('v2_migration_complete', null)
+      await SetValue('v2_migration_dismissed', null)
+      this.v2MigrationComplete = false
+      this.reload()
+    },
     async bulkExport() {
       const result = await exportAll()
       await saveFile(
@@ -426,7 +444,7 @@ export default {
       try {
         const outer = JSON.parse(await file.text())
         if (isFullBackup(outer)) {
-          // v2 format: top-level array of {filename, data} entries
+          // v2 format: top level array of {filename, data} entries
           this.isV2File = true
           this.stagedImportData = outer
         } else {

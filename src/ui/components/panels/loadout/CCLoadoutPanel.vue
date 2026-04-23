@@ -44,7 +44,7 @@
     </v-toolbar>
     <v-card flat
       tile
-      :variant="!noFrame ? 'outlined' : 'plain'"
+      :variant="!noFrame ? 'outlined' : 'text'"
       :color="color">
       <v-card-text :class="noFrame ? 'pa-0' : mobile ? 'px-0' : ''">
         <slot />

@@ -243,3 +243,7 @@ a {
   color: rgb(var(--v-theme-text));
   text-shadow: none;
 }
+
+.ql-editor ol li:is([data-list='bullet'])::before {
+  content: '•';
+}

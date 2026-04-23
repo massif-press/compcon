@@ -113,6 +113,8 @@ export default {
     backupData: null as any,
   }),
   async mounted() {
+    const dismissed = await GetValue('v2_migration_dismissed')
+    if (dismissed) return
     const backup = await GetValue('v2_backup_download')
     if (backup !== null) {
       this.hasMigrationData = true
@@ -125,8 +127,7 @@ export default {
       if (this.backupData) downloadFullBackup(this.backupData)
     },
     async dismiss(close) {
-      await SetValue('v2_backup_download', null)
-      await SetValue('v2_migration_result', null)
+      await SetValue('v2_migration_dismissed', true)
       this.hasMigrationData = false
       close()
     },

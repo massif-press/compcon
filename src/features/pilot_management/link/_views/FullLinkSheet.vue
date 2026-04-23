@@ -126,10 +126,10 @@
               {{ pilot.BondController.MinorIdeal }}
             </div>
           </v-col>
-          <v-col md="6"
-            cols="12"
-            v-for="(q, i) in pilot.BondController.Bond.Questions"
-            :key="`question-${i}`">
+          <v-col v-for="(q, i) in pilot.BondController.Bond.Questions"
+            :key="`question-${i}`"
+            md="6"
+            cols="12">
             <cc-heading line>{{ q.question }}</cc-heading>
             <div class="text-cc-body">
               {{ pilot.BondController.Answers[i] }}
@@ -140,23 +140,23 @@
     </v-row>
   </div>
 
-  <cc-title class="mt-4 mb-2"
-    id="skills">Skills</cc-title>
+  <cc-title id="skills"
+    class="mt-4 mb-2">Skills</cc-title>
   <cc-skill-item v-for="s in pilot.SkillsController.Skills"
+    :key="s.ID"
     :bonus="s.Bonus"
-    :skill="s.Skill"
-    :key="s.ID" />
+    :skill="s.Skill" />
 
-  <cc-title class="mt-4 mb-2"
-    id="reserves">Reserves</cc-title>
+  <cc-title id="reserves"
+    class="mt-4 mb-2">Reserves</cc-title>
   <div v-for="(r, index) in pilot.ReservesController.Reserves"
     :key="`reserve-${index}`"
     class="mb-1">
     <cc-reserve-item :reserve="r" />
   </div>
 
-  <cc-title class="mt-4 mb-2"
-    id="loadout">Pilot Loadout</cc-title>
+  <cc-title id="loadout"
+    class="mt-4 mb-2">Pilot Loadout</cc-title>
   <cc-pilot-loadout :pilot="pilot"
     readonly
     no-frame />
@@ -312,7 +312,8 @@
         <v-row dense
           class="mb-2">
           <v-col v-for="t in mech.Frame.Traits"
-            :key="t.Name">
+            :key="t.Name"
+            style="min-width: 22vw;">
             <cc-trait-item :trait="t" />
           </v-col>
         </v-row>
@@ -342,12 +343,14 @@
 <script lang="ts">
 import CcPilotLicenseStub from '@/ui/components/items/CCPilotLicenseStub.vue';
 import MechStatItem from '../_components/MechStatItem.vue';
+import CloneBlock from '../../PilotSheet/sections/narrative/components/CloneBlock.vue';
 
 export default {
-  name: 'pilot-link-full',
+  name: 'PilotLinkFull',
   components: {
     CcPilotLicenseStub,
     MechStatItem,
+    CloneBlock,
   },
   props: {
     pilot: {

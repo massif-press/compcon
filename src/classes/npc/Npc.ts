@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { debounce } from 'lodash-es'
 import { ImageTag } from '@/io/ImageManagement'
 import {
   CloudController,
@@ -146,7 +147,6 @@ abstract class Npc
 
   public set Name(val: string) {
     this._name = val
-    this.save()
   }
 
   public get Note(): string {

@@ -81,20 +81,21 @@ class PilotLoadout {
   }
 
   public Add(item: PilotEquipment, index: number): void {
+    // undefined checks here deal with bad v2 imports, this can likely be removed in the near future
     switch (item.ItemType) {
       case ItemType.PilotArmor:
         if (index + 1 > this.Parent.MaxArmorSlots) return
-        if (this._armor[index]) this._armor[index] = item as PilotArmor
+        if (this._armor[index] !== undefined) this._armor[index] = item as PilotArmor
         else this._armor.push(item as PilotArmor)
         break
       case ItemType.PilotWeapon:
         if (index + 1 > this.Parent.MaxWeaponSlots) return
-        if (this._weapons[index]) this._weapons[index] = item as PilotWeapon
+        if (this._weapons[index] !== undefined) this._weapons[index] = item as PilotWeapon
         else this._weapons.push(item as PilotWeapon)
         break
       case ItemType.PilotGear:
         if (index + 1 > this.Parent.MaxGearSlots) return
-        if (this._gear[index]) this._gear[index] = item as PilotGear
+        if (this._gear[index] !== undefined) this._gear[index] = item as PilotGear
         else this._gear.push(item as PilotGear)
         break
       default:

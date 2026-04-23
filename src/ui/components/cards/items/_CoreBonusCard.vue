@@ -1,12 +1,14 @@
 <template>
-  <info-card-base :item="item" :notes="notes" :charts="charts" />
+  <info-card-base :item="item"
+    :notes="notes"
+    :charts="charts" />
 </template>
 
 <script lang="ts">
 import InfoCardBase from './_InfoCardBase.vue';
 
 export default {
-  name: 'cc-core-bonus-card',
+  name: 'CcCoreBonusCard',
   components: { InfoCardBase },
   props: {
     item: {

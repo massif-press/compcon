@@ -1,42 +1,63 @@
 <template>
   <div class="mt-n4">
-    <v-tooltip location="top" open-delay="300">
+    <v-tooltip location="top"
+      open-delay="300">
       <template #activator="{ props }">
-        <v-btn v-bind="props" color="panel" flat tile size="x-small" @click="setSort('Name')">
-          <v-icon icon="mdi-format-text-variant" class="mb-n1" color="accent" />
-          <v-icon
-            v-if="sort === 'Name'"
+        <v-btn v-bind="props"
+          color="panel"
+          flat
+          tile
+          size="small"
+          @click="setSort('Name')">
+          <v-icon icon="mdi-format-text-variant"
+            size="21"
+            color="accent" />
+          <v-icon v-if="sort === 'Name'"
             :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-            class="mb-n1"
+            size="21"
             color="accent" />
         </v-btn>
       </template>
       <span>Sort by Name</span>
     </v-tooltip>
 
-    <v-tooltip location="top" open-delay="300">
+    <v-tooltip location="top"
+      open-delay="300">
       <template #activator="{ props }">
-        <v-btn v-bind="props" color="panel" flat tile size="x-small" @click="setSort('Source')">
-          <v-icon icon="cc:manufacturer" color="accent" />
-          <v-icon
-            v-if="sort === 'Source'"
+        <v-btn v-bind="props"
+          color="panel"
+          flat
+          tile
+          size="small"
+          @click="setSort('Source')">
+          <v-icon icon="cc:manufacturer"
+            size="21"
+            color="accent" />
+          <v-icon v-if="sort === 'Source'"
             color="accent"
             :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-            class="mb-n1" />
+            size="21" />
         </v-btn>
       </template>
       <span>Sort by Manufacturer</span>
     </v-tooltip>
 
-    <v-tooltip location="top" open-delay="300">
+    <v-tooltip location="top"
+      open-delay="300">
       <template #activator="{ props }">
-        <v-btn v-bind="props" color="panel" flat tile size="x-small" @click="setSort('Created')">
-          <v-icon icon="mdi-clock-outline" class="mb-n1" color="accent" />
-          <v-icon
-            v-if="sort === 'Created'"
+        <v-btn v-bind="props"
+          color="panel"
+          flat
+          tile
+          size="small"
+          @click="setSort('Created')">
+          <v-icon icon="mdi-clock-outline"
+            size="21"
+            color="accent" />
+          <v-icon v-if="sort === 'Created'"
             color="accent"
             :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-            class="mb-n1" />
+            size="21" />
         </v-btn>
       </template>
       <span>Sort by created timestamp</span>

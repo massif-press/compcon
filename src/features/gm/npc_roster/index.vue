@@ -1,17 +1,13 @@
 <template>
-  <div
-    style="position: absolute; top: 0; right: 0; left: 0; height: 50px"
-    class="bg-primary"
-  />
-  <v-tabs
-    v-model="tab"
+  <div style="position: absolute; top: 0; right: 0; left: 0; height: 50px"
+    class="bg-primary" />
+  <v-tabs v-model="tab"
     grow
     slider-color="secondary"
     :height="mobile ? '24px' : '28px'"
     density="compact"
     mandatory
-    bg-color="primary"
-  >
+    bg-color="primary">
     <v-tab selected-class="bg-accent">
       <b>NPCs</b>
     </v-tab>
@@ -25,43 +21,33 @@
 
   <v-window v-model="tab">
     <v-window-item>
-      <npc-index
-        :id="id"
+      <npc-index :id="id"
         @open-import="importModal = true"
-        @open-organizer="orgModal = true"
-      />
+        @open-organizer="orgModal = true" />
     </v-window-item>
     <v-window-item>
-      <doodad-index
-        :id="id"
+      <doodad-index :id="id"
         @open-import="importModal = true"
-        @open-organizer="orgModal = true"
-      />
+        @open-organizer="orgModal = true" />
     </v-window-item>
     <v-window-item>
-      <eidolon-index
-        :id="id"
+      <eidolon-index :id="id"
         @open-import="importModal = true"
-        @open-organizer="orgModal = true"
-      />
+        @open-organizer="orgModal = true" />
     </v-window-item>
   </v-window>
 
-  <cc-solo-modal
-    v-model="importModal"
+  <cc-solo-modal v-model="importModal"
     icon="mdi-download-multiple"
     title="Import"
-    shrink
-  >
+    shrink>
     <importer @complete="importModal = false" />
   </cc-solo-modal>
 
-  <cc-solo-modal
-    v-model="orgModal"
+  <cc-solo-modal v-model="orgModal"
     icon="mdi-queue-first-in-last-out"
     shrink
-    title="Organize"
-  >
+    title="Organize">
     <organizer type="npc" />
   </cc-solo-modal>
 </template>
@@ -76,9 +62,9 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
-  name: 'npc-roster',
+  name: 'NpcRoster',
   components: { NpcIndex, DoodadIndex, EidolonIndex, Organizer, Importer },
+  mixins: [useMobile],
   props: {
     type: {
       type: String,
