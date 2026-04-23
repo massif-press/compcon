@@ -1,21 +1,28 @@
 <template>
-  <cc-dialog :title="`${action.Name}${exclusive}`" :icon="action.Icon" :color="action.Color">
+  <cc-dialog :title="`${action.Name}${exclusive}`"
+    :icon="action.Icon"
+    :color="action.Color">
     <template #activator="{ open }">
-      <component
-        :is="component"
+      <component :is="component"
         :title="action.Name"
         :icon="action.Icon"
         :title-color="action.Color"
         clickable
         @click="open">
-        <p v-if="clickable" v-html-safe="action.Terse" />
+        <p v-if="clickable"
+          v-html-safe="action.Terse" />
         <div v-else>
           <p v-html-safe="action.Detail" />
           <div v-if="action.SubActions && action.SubActions.length">
             <div class="text-overline text-disabled">OPTIONS</div>
-            <v-row no-gutters justify="center">
-              <v-col v-for="(a, index) in action.SubActions" :key="`sub-${index}`" cols="auto">
-                <cc-action :action="a" :panel="false" class="ma-2" />
+            <v-row no-gutters
+              justify="center">
+              <v-col v-for="(a, index) in action.SubActions"
+                :key="`sub-${index}`"
+                cols="auto">
+                <cc-action :action="a"
+                  :panel="false"
+                  class="ma-2" />
               </v-col>
             </v-row>
           </div>
@@ -26,9 +33,14 @@
       <p v-html-safe="action.Detail" />
       <div v-if="action.SubActions && action.SubActions.length">
         <div class="text-overline text-disabled">OPTIONS</div>
-        <v-row no-gutters justify="center">
-          <v-col v-for="(a, index) in action.SubActions" :key="`dialog-sub-${index}`" cols="auto">
-            <cc-action :action="a" :panel="false" class="ma-2" />
+        <v-row no-gutters
+          justify="center">
+          <v-col v-for="(a, index) in action.SubActions"
+            :key="`dialog-sub-${index}`"
+            cols="auto">
+            <cc-action :action="a"
+              :panel="false"
+              class="ma-2" />
           </v-col>
         </v-row>
       </div>

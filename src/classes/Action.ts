@@ -210,7 +210,8 @@ class Action {
       if (!Array.isArray(data.range)) data.range = [data.range]
       this.Range = data.range ? data.range.map(x => new Range(x)) : []
     }
-    this.IsPilotAction = data.pilot || data.id === 'act_free_action' || false
+    this.IsPilotAction =
+      data.pilot || data.id === 'act_free_action' || data.id?.includes('jockey') || false
     this.IsMechAction = data.mech || !data.pilot
     this.IsActiveHidden = data.hide_active || false
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'

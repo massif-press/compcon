@@ -26,8 +26,8 @@
                 color="grey-darken-2"
                 class="mt-n1" />
             </legend>
-            <div class="caption"
-              v-html-safe="item.Terse" />
+            <div v-html-safe="item.Terse"
+              class="caption" />
           </fieldset>
         </v-card>
       </template>
@@ -39,7 +39,7 @@
 import { CompendiumStore } from '@/stores';
 
 export default {
-  name: 'action-ref-print',
+  name: 'ActionRefPrint',
   computed: {
     actions() {
       return CompendiumStore()

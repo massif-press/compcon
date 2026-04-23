@@ -582,7 +582,7 @@ import { CompendiumStore } from '@/stores';
 import { Status } from '@/classes/Status';
 
 export default {
-  name: 'combat-ref-encounter',
+  name: 'CombatRefEncounter',
   computed: {
     statuses(): Status[] {
       return CompendiumStore().Statuses;

@@ -111,6 +111,7 @@ export default {
       return CompendiumStore().Actions.filter(a => a && !a.Hidden)
     },
     actions() {
+      console.log(this.allActions)
       return this.allActions.filter(a => a && !a.IsDowntimeAction && !a.IsPilotAction)
     },
     pilotActions() {
