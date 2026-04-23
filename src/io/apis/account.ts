@@ -366,7 +366,7 @@ export async function downloadFromS3(s3Url: string) {
       fetchHeaders['If-None-Match'] = cached.etag
     }
 
-    const response = await fetch(url, { headers: fetchHeaders })
+    const response = await fetch(url, { headers: fetchHeaders, cache: 'no-cache' })
 
     if (response.status === 304 && cached) {
       return cached.data

@@ -2,40 +2,18 @@
   <div v-show="allFolders.length">
     <fieldset class="pb-2 px-3"
       style="position: relative">
-      <legend class="text-caption text-left ml-2 px-2">COLLECTION FOLDER</legend>
-      <v-menu width="250px"
-        :close-on-content-click="false"
-        :disabled="readonly">
-        <template #activator="{ props }">
-          <v-chip size="small"
-            label
-            prepend-icon="mdi-folder-outline"
-            :class="!item.FolderController.Folder ? 'fade-select' : ''"
-            v-bind="props">
-            {{ item.FolderController.Folder || 'No Folder' }}
-          </v-chip>
-        </template>
-        <v-card>
-          <v-card-text>
-            <v-combobox v-model="stagedName"
-              :items="allFolders"
-              label="Folder"
-              outlined
-              dense
-              clearable
-              hide-details />
-          </v-card-text>
-          <v-divider />
-          <v-card-actions>
-            <v-btn text
-              @click="menu = false">Cancel</v-btn>
-            <v-spacer />
-            <v-btn text
-              color="accent"
-              @click="set">Set</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
+      <legend class="text-caption text-left ml-2 px-2">COLLECTION FOLDER
+        <folder-menu v-if="allFolders && allFolders.length > 0"
+          :item="item.FolderController"
+          :all-folders="allFolders" />
+      </legend>
+      <v-chip size="small"
+        label
+        prepend-icon="mdi-folder-outline"
+        :class="!item.FolderController.Folder ? 'fade-select' : ''">
+        {{ item.FolderController.Folder || 'No Folder' }}
+      </v-chip>
+
     </fieldset>
   </div>
 </template>
@@ -43,9 +21,14 @@
 <script lang="ts">
 import { EncounterStore, NarrativeStore } from '@/stores';
 import { NpcStore } from '../../store/npc_store';
+import FolderMenu from '../../_views/_components/FolderMenu.vue';
+import { uniq } from 'lodash-es';
 
 export default {
   name: 'GmFolderEditor',
+  components: {
+    FolderMenu,
+  },
   props: {
     item: {
       type: Object,
@@ -61,7 +44,7 @@ export default {
   }),
   computed: {
     allFolders() {
-      return [...NpcStore().getFolders, EncounterStore().getFolders, ...NarrativeStore().getFolders];
+      return uniq([...NpcStore().getFolders, ...EncounterStore().getFolders, ...NarrativeStore().getFolders]);
     },
   },
   created() {

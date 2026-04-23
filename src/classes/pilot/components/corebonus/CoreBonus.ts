@@ -16,7 +16,7 @@ class CoreBonus extends CompendiumItem {
   public constructor(data?: ICoreBonusData, pack?: ContentPack) {
     super(data, pack);
     this.ItemType = ItemType.CoreBonus;
-    this.Source = data?.source || '';
+    this.Source = data?.source ? data.source.toUpperCase() : '';
     this.Effect = data?.effect || '';
     this.MountedEffect = data?.mounted_effect || '';
   }

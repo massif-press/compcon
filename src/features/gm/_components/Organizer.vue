@@ -222,7 +222,7 @@ export default {
       return items;
     },
     allFolders() {
-      return [...NpcStore().getFolders, EncounterStore().getFolders, ...NarrativeStore().getFolders];
+      return [...NpcStore().getFolders, ...EncounterStore().getFolders, ...NarrativeStore().getFolders];
     },
     allLabels() {
       return NarrativeStore().getAllLabels;
