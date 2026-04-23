@@ -1,17 +1,27 @@
 <template>
-  <div v-for="r in <Range[]>range" :key="r.Type" class="text-center d-inline-block mr-4">
+  <div v-for="r in <Range[]>range"
+    :key="r.Type"
+    class="text-center d-inline-block mr-4">
     <v-tooltip max-width="600">
       <template #activator="{ props }">
-        <span v-if="small" v-bind="props">
+        <span v-if="small"
+          v-bind="props">
           <v-icon :icon="r.Icon" />
-          <v-icon v-if="r.Override" icon="mdi-information-outline" />
-          <b v-else v-text="`${added ? '+' : ''}${r.Value}`" />
+          <v-icon v-if="r.Override"
+            icon="mdi-information-outline" />
+          <b v-else
+            v-text="`${added ? '+' : ''}${r.Value}`" />
         </span>
-        <v-row v-else align="center" no-gutters v-bind="props">
+        <v-row v-else
+          align="center"
+          no-gutters
+          v-bind="props">
           <v-col cols="auto">
-            <v-icon :size="dense ? 25 : 35" :icon="r.Icon" />
+            <v-icon :size="dense ? 25 : 35"
+              :icon="r.Icon" />
           </v-col>
-          <v-col class="heading" :style="`font-size: ${dense ? '20' : '24'}pt`">
+          <v-col class="heading"
+            :style="`font-size: ${dense ? '20' : '24'}pt`">
             {{ `${added ? '+' : ''}${r.Value}` }}
           </v-col>
         </v-row>
@@ -24,7 +34,8 @@
         <div v-html-safe="gloss(r)!.description" />
       </div>
     </v-tooltip>
-    <div v-if="!small" class="text-cc-overline mt-n1">
+    <div v-if="!small"
+      class="text-cc-overline mt-n1">
       {{ r.Type }}
     </div>
   </div>
@@ -54,7 +65,7 @@ export default {
   methods: {
     gloss(r): any {
       if (!r?.Type) return null;
-      return glossary.find((x) => x.name.toLowerCase() === r.Type.toLowerCase());
+      return glossary.find((x) => x.name.toLowerCase() === r.Type.toLowerCase()) || null;
     },
   },
 };

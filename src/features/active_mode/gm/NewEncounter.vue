@@ -612,7 +612,6 @@ export default {
         this.placeholders
       );
 
-
       instance.Combatants.forEach(c => {
         c.actor.CombatController.Reset()
         c.actor.CombatController.StartEncounter()

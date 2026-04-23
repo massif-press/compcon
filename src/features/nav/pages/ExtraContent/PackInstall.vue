@@ -297,12 +297,6 @@ export default {
               this
             );
             return false;
-          } else if (c === 0) {
-            logger.warn(
-              `A duplicate version of ${pack.manifest.name} is already installed. Skipping.`,
-              this
-            );
-            return false;
           }
         }
         return true;

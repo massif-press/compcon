@@ -71,6 +71,8 @@ export class NpcWeapon extends NpcFeature {
     this._accuracy = this._expand(data.accuracy)
     this._attack_bonus = this._expand(data.attack_bonus)
     this.FeatureType = NpcFeatureType.Weapon
+
+    if (data.origin === 'npcc_specter') console.log(this, data)
   }
 
   private _expand(x: any) {

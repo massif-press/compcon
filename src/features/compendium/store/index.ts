@@ -29,7 +29,7 @@ import {
 } from '@/class'
 import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface'
 import { Status } from '@/classes/Status'
-import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
+import { GetAll, GetItem, GetKeys, RemoveItem, SetItem } from '@/io/Storage'
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
 import { NpcClass } from '@/classes/npc/class/NpcClass'
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate'
@@ -425,28 +425,35 @@ export const CompendiumStore = defineStore('compendium', {
       await this.refreshExtraContent()
     },
     async loadExtraContent(): Promise<void> {
-      const content = await GetAll('content')
-
-      // content.forEach((pack) => {
-      //   if (!pack.manifest.dependencies) pack.manifest.dependencies = [];
-      // });
-
-      // content = sortByDependencies(content);
-
-      // const packsMissingContent = findMissingDependencies(content);
-      // packsMissingContent.forEach((pack) => {
-      //   pack.missing_content = true;
-      // });
-
-      const loaded: ContentPack[] = []
-      for (const c of content) {
+      const keys = await GetKeys('content')
+      for (const key of keys) {
+        let c: IContentPack | null = null
         try {
-          loaded.push(markRaw(new ContentPack(c)))
+          c = await GetItem('content', key as string)
         } catch (err) {
-          logger.error(`Error loading content pack ${c?.manifest?.name || c?.id}: ${err}`, this, err)
+          logger.error(`Error reading content pack key ${key}: ${err}`, this, err)
+          await new Promise(r => setTimeout(r, 0))
+          continue
         }
+
+        if (!c) {
+          await new Promise(r => setTimeout(r, 0))
+          continue
+        }
+
+        try {
+          this.ContentPacks.push(markRaw(new ContentPack(c)))
+        } catch (err) {
+          logger.error(
+            `Error loading content pack ${c?.manifest?.name || c?.id}: ${err}`,
+            this,
+            err
+          )
+        }
+
+        // yield between packs so GC can collect the previous pack's raw data
+        await new Promise(r => setTimeout(r, 0))
       }
-      this.ContentPacks = [...this.ContentPacks, ...loaded]
     },
     async refreshExtraContent(): Promise<void> {
       this.loaded = false

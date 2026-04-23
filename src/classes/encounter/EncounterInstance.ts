@@ -119,9 +119,10 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
       this.Combatants.sort((a, b) => a.index - b.index)
 
-      // filter our combatants to remove any with a playercount greater than the number of pilots provided
+      // filter our combatants to remove any with a playercount greater than the number of player-side actors
+      const playerCount = pilots.length + placeholders.length
       this.Combatants = this.Combatants.filter(
-        c => !c.playerCount || c.playerCount <= pilots.length
+        c => !c.playerCount || c.playerCount <= playerCount
       )
 
       this.Combatants.forEach((combatant, index) => {

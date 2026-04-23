@@ -252,7 +252,6 @@ export default {
         this.owner.actor.CombatController.MarkActionUsed(this.activeEffect.ID);
         const action = this.activationOverride || this.action?.Activation || (this.activeEffect as any).Activation || 'free';
         // reactions are multiple use/round
-        console.log(action)
         if (action !== 'Reaction') this.owner.actor.CombatController.SetCombatAction(action, false);
       }
       if (this.weaponAttackEvents.length)

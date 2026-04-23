@@ -24,7 +24,7 @@ class Range {
   private _min: number
 
   public constructor(range: IRangeData) {
-    this._range_type = range.type as RangeType
+    this._range_type = (range.type as RangeType) || ('' as RangeType)
     this._value = range.val || range.value || ''
     this._override = range.override || false
     this._bonus = range.bonus || 0
@@ -63,10 +63,12 @@ class Range {
   }
 
   public get Icon(): string {
+    if (!this._range_type) return 'cc:range'
     return `cc:${this._range_type.toLowerCase()}`
   }
 
   public get DiscordEmoji(): string {
+    if (!this._range_type) return ''
     switch (this._range_type) {
       case RangeType.Range:
       case RangeType.Threat:
