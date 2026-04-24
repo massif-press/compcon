@@ -159,10 +159,8 @@
 </template>
 
 <script lang="ts">
-import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
-import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
 import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import StagedPanel from './_stagedPanel.vue';
@@ -171,6 +169,11 @@ import NpcWeaponAttack from './_npcWeaponAttack.vue';
 
 export default {
   name: 'NpcSkirmishButton',
+  components: {
+    ApplyButton,
+    StagedPanel,
+    NpcWeaponAttack
+  },
   props: {
     action: {
       type: Object,
@@ -189,19 +192,10 @@ export default {
       required: false,
     },
   },
-  components: {
-    MenuInput,
-    ApplyButton,
-    StagedPanel,
-    NpcWeaponAttack
-  },
   data: () => ({
     event: null as WeaponAttackEvent | null,
     selectedWeapon: null as NpcWeapon | null,
   }),
-  created() {
-    this.reset();
-  },
   computed: {
     available() {
       return this.canActivate && this.canUse;
@@ -242,6 +236,9 @@ export default {
       return [this.event]
     },
 
+  },
+  created() {
+    this.reset();
   },
   methods: {
     reset(clearAction = false) {

@@ -249,7 +249,11 @@ export const PilotStore = defineStore('pilot', {
         )
       }
 
-      this.Pilots.splice(this.Pilots.indexOf(pilot), 1)
+      const pilotIndex = this.Pilots.findIndex(x => x.ID === pilot.ID)
+
+      if (pilotIndex === -1) return
+
+      this.Pilots.splice(pilotIndex, 1)
 
       if (pilot.PortraitController.LocalImage) {
         await RemoveItem('images', pilot.PortraitController.LocalImage)
@@ -276,7 +280,10 @@ export const PilotStore = defineStore('pilot', {
         }
       }
 
-      if (destinationIndex > -1 && !this.PilotGroups[destinationIndex].Pilots.some(x => x.id === p.ID)) {
+      if (
+        destinationIndex > -1 &&
+        !this.PilotGroups[destinationIndex].Pilots.some(x => x.id === p.ID)
+      ) {
         this.PilotGroups[destinationIndex].Pilots.push({ id: p.ID, index: -1 })
       }
 

@@ -117,14 +117,14 @@ class D20RollResult implements Id20RollResult {
 
       for (let i = 0; i < this.rawAccuracyRolls.length; i++) {
         if (i > 0) accstr += ', '
-        let rr = this.rawAccuracyRolls[i]
+        const rr = this.rawAccuracyRolls[i]
         if (Math.abs(rr) === Math.abs(this.accuracyResult) && !kept) {
           accstr += `<b>${rr}</b><sub>k</sub> `
           kept = true
         } else accstr += `<i class="text-disabled">${rr}</i><sub>d</sub> `
       }
 
-      out += `+ [${accstr}]`
+      out += `${this.accuracyDiceCount < 0 ? '-' : '+'} [${accstr}]`
     }
 
     out += ` = <b class="text-accent">${this.total}</b>`
@@ -210,7 +210,7 @@ class DamageRollResult implements IDamageRollResult {
     let out = this._critical ? 'Critical Damage Roll: ' : 'Damage Roll: '
     for (let i = 0; i < this.rawDieRolls.length; i++) {
       if (i > 0) out += '+ '
-      let rc = this.rollClassifications[i]
+      const rc = this.rollClassifications[i]
       if (this._critical && rc === 'high') out += `<b>${this.rawDieRolls[i]}</b><sub>k</sub> `
       else if (this._critical && rc === 'low')
         out += `<i class="text-disabled">${this.rawDieRolls[i]}</i><sub>d</sub> `
@@ -274,6 +274,11 @@ class DiceRoller {
   ): D20RollResult {
     const d20Result: number = DiceRoller.rollDie(20)
 
+    if (totalAccuracy < 0) {
+      totalDifficulty = Math.abs(totalAccuracy)
+      totalAccuracy = 0
+    }
+
     const netAccuracyDice: number = totalAccuracy - totalDifficulty
     const accuracyResults = DiceRoller.rollAccuracyDice(netAccuracyDice)
     const total = d20Result + staticBonus + accuracyResults.result
@@ -322,9 +327,8 @@ class DiceRoller {
       const rawRolls: number[] = []
       const rollClass: string[] = []
       let okRerolls = 0
-      let staticBonus = 0
 
-      staticBonus = parsedRoll.modifier
+      const staticBonus = parsedRoll.modifier
       total = staticBonus
 
       parsedRoll.dice.forEach(dieSet => {
@@ -458,6 +462,7 @@ class DiceRoller {
     const rawResults = DiceRoller.rollDieSet(new DieSet(Math.abs(numberOfDice), 6))
 
     let total: number = Math.max(...rawResults.rolls)
+
     if (numberOfDice < 0) {
       total = -total
       rawResults.rolls.forEach((value, index) => {

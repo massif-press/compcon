@@ -31,6 +31,7 @@ interface IActiveEffectData {
   attack?: 'melee' | 'ranged' | 'tech'
   applied?: boolean
   accuracy?: number
+  attack_bonus?: number
   pilot?: boolean
   mech?: boolean
 }
@@ -49,6 +50,7 @@ class ActiveEffect {
   public readonly BonusDamage?: BonusDamage
   public readonly CanCrit: boolean
   public readonly Accuracy: number
+  public readonly AttackBonus: number
 
   public readonly Attack?: 'melee' | 'ranged' | 'tech'
   public readonly Save?: EffectSave
@@ -85,6 +87,7 @@ class ActiveEffect {
     this.Detail = data.detail || ''
     this.Condition = data.condition || ''
     this.Accuracy = data.accuracy || 0
+    this.AttackBonus = data.attack_bonus || 0
 
     this.Damage = []
     if (data.damage) {

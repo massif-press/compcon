@@ -44,7 +44,7 @@ export default {
   created() {
     this.emitUpdate = debounce(function (this: any) {
       this.$emit('update:modelValue', this.quill.root.innerHTML);
-    }, 300);
+    }, 100);
   },
   beforeUnmount() {
     this.emitUpdate.flush();

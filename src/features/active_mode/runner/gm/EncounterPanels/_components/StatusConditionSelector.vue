@@ -17,6 +17,8 @@
               @click="setStatus(status)">
               <v-icon :icon="status.Icon"
                 size="35" />
+              <div v-if="mobile"
+                class="text-cc-overline">{{ status.Name }}</div>
             </v-card>
           </template>
           <div class="heading h3">{{ status.Name }}</div>
@@ -41,6 +43,8 @@
               @click="setStatus(status)">
               <v-icon :icon="status.Icon"
                 size="35" />
+              <div v-if="mobile"
+                class="text-cc-overline">{{ status.Name }}</div>
             </v-card>
           </template>
           <div class="heading h3">{{ status.Name }}</div>
@@ -132,14 +136,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
-import { EffectDurationText } from '@/classes/components/feature/active_effects/effect_subtype/EffectDuration';
-import BaseTargetSelector from '@/ui/components/chips/_activeeffect/_shared/BaseTargetSelector.vue';
+import { useMobile } from '@/mixins/useMobile';
 
 export default {
   name: 'StatusConditionSelector',
+  mixins: [useMobile],
   props: {
     controller: {
       type: Object,
@@ -149,9 +153,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  components: {
-    BaseTargetSelector,
   },
   data: () => ({
     customInflict: '',
@@ -169,7 +170,7 @@ export default {
       return _.orderBy(CompendiumStore().Statuses, 'StatusType');
     },
     applicableStatuses() {
-      let exclude = [];
+      let exclude = [] as string[];
       if (this.isPilot) {
         exclude = [`dangerzone`, 'shut-down'];
       } else exclude = [`dangerzone`, `downandout`];
@@ -179,11 +180,9 @@ export default {
       return this.controller.CustomStatuses;
     },
     targets() {
-      let out = [];
-
       const target = self.side === 'enemy' ? 'ally' : 'enemy';
 
-      out = [...this.encounter.Combatants]
+      const out = [...this.encounter.Combatants]
         .filter(
           (c) =>
             c.actor.CombatController.ActiveActor.ID !== this.owner.CombatController.ActiveActor.ID

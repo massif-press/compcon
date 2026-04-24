@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-hover #default="{ isHovering, props }">
+    <v-hover v-slot="{ isHovering, props }">
       <div class="top-element"
         v-bind="props">
         <v-textarea :model-value="modelValue"
@@ -61,7 +61,7 @@
             <v-tooltip v-if="tooltip"
               location="top"
               max-width="300px">
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <v-icon v-bind="props"
                   class="fade-select mx-1"
                   :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
@@ -76,7 +76,7 @@
         </v-textarea>
         <v-menu v-if="$slots.options"
           offset-y>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <div :class="`bg-${color}`"
               style="width: 25px; height: 100%" />
             <v-btn block
@@ -109,7 +109,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-text-area',
+  name: 'CcTextArea',
   props: {
     modelValue: { type: [String, Number] },
     color: { type: String, default: 'panel' },

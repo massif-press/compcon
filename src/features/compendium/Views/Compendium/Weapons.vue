@@ -33,19 +33,35 @@ export default {
         align: 'left',
         key: 'WeaponTypes',
         sortRaw(a, b) {
-          if (a.SizeInt < b.SizeInt) return -1;
-          if (a.SizeInt > b.SizeInt) return 1;
+          const typeA = a.WeaponTypes.join(',');
+          const typeB = b.WeaponTypes.join(',');
+          if (typeA < typeB) return -1;
+          if (typeA > typeB) return 1;
+          return 0;
         },
       },
       { title: 'Tags', align: 'center', key: 'Tags' },
-
-      { title: 'Range', align: 'left', key: 'Range' },
-      { title: 'Damage', align: 'left', key: 'Damage' },
+      {
+        title: 'Range',
+        align: 'left',
+        key: 'Range',
+        sortRaw(a, b) {
+          return a.SelectedProfile.RangeSum() - b.SelectedProfile.RangeSum();
+        },
+      },
+      {
+        title: 'Damage',
+        align: 'left',
+        key: 'Damage',
+        sortRaw(a, b) {
+          return a.MaxDamage - b.MaxDamage;
+        },
+      },
     ],
   }),
   computed: {
     weapons() {
-      let items = CompendiumStore().MechWeapons;
+      const items = CompendiumStore().MechWeapons;
 
       return orderBy(
         items.filter((x) => !x.IsHidden),

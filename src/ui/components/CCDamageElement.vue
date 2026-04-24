@@ -1,26 +1,40 @@
 <template>
-  <div v-for="(d, index) in <Damage[]>damage" :key="`damage-${index}`" class="text-center d-inline-block">
+  <div v-for="(d, index) in <Damage[]>damage"
+    :key="`damage-${index}`"
+    class="text-center d-inline-block">
     <v-tooltip max-width="600">
       <template #activator="{ props }">
-        <span v-if="small" v-bind="props">
-          <v-icon :color="damageColor(d)" :icon="damageIcon(d)" />
-          <v-icon v-if="d.Override" icon="mdi-information-outline" color="text" />
-          <b v-else v-text="`${added ? '+' : ''}${displayValue(d.Value)}`" />
+        <span v-if="small"
+          v-bind="props">
+          <v-icon :color="damageColor(d)"
+            :icon="damageIcon(d)" />
+          <v-icon v-if="d.Override"
+            icon="mdi-information-outline"
+            color="text" />
+          <b v-else
+            v-text="`${added ? '+' : ''}${displayValue(d.Value)}`" />
         </span>
-        <v-row v-else align="center" no-gutters v-bind="props">
+        <v-row v-else
+          align="center"
+          no-gutters
+          v-bind="props">
           <v-col cols="auto">
-            <v-icon :size="dense ? 25 : 35" :color="damageColor(d)" :icon="damageIcon(d)" />
+            <v-icon :size="dense ? 25 : 35"
+              class="mt-n1"
+              :color="damageColor(d)"
+              :icon="damageIcon(d)" />
           </v-col>
-          <v-col class="heading" :style="`font-size: ${dense ? '20' : '24'}pt`">
+          <v-col class="heading"
+            :style="`font-size: ${dense ? '20' : '24'}pt`">
             {{ `${added ? '+' : ''}${displayValue(d.Value)}` }}
           </v-col>
         </v-row>
       </template>
       <div class="heading h3">{{ displayValue(d.Value) }} {{ typeOverride || d.Type }} Damage</div>
-      <v-divider class="my-2" />
       <div v-html-safe="gloss(d)" />
     </v-tooltip>
-    <div v-if="!small" class="text-cc-overline mt-n1">
+    <div v-if="!small"
+      class="text-cc-overline mt-n4">
       {{ typeOverride ? typeOverride : d.Type }}
     </div>
   </div>
@@ -30,7 +44,7 @@
 import { Damage } from '@/class';
 
 export default {
-  name: 'cc-damage-element',
+  name: 'CcDamageElement',
   props: {
     damage: {
       type: Array,

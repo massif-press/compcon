@@ -12,8 +12,6 @@ import { StatusEvent } from './effect_events/statusEvent'
 import { OtherEvent } from './effect_events/otherEvent'
 import { SpecialEvent } from './effect_events/specialEvent'
 import { ActionSummary } from './EffectActionSummary'
-import { CombatController, CombatData } from '../../combat/CombatController'
-import { ICombatant } from '../../combat/ICombatant'
 
 class ActiveEffectEvent {
   public ID: string
@@ -34,6 +32,7 @@ class ActiveEffectEvent {
   public Staged: boolean = false
 
   public Accuracy: number = 0
+  public AttackBonus: number = 0
 
   // pc-side local only, so no target data will be available
   public IsPcLocal: boolean = false
@@ -53,6 +52,11 @@ class ActiveEffectEvent {
     this._aoe = effect.IsAoE
 
     this.Accuracy = effect.Accuracy || 0
+    this.AttackBonus = effect.AttackBonus || 0
+
+    if (initiator.actor.CombatController?.Grit) {
+      this.AttackBonus += initiator.actor.CombatController?.Grit
+    }
 
     this.RemoveSpecialStatus = effect.RemoveSpecial
 

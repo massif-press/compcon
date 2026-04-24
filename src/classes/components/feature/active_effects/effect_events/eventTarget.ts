@@ -24,6 +24,7 @@ class ActiveEventTarget {
   public AttackRollResult?: D20RollResult // after roll
   private _attackRolledValue?: number // save roll
   public AttackAccuracy: number = 0 // accuracy bonus
+  public AttackBonus: number = 0
   public AttackType?: 'melee' | 'ranged' | 'tech'
 
   // damage info
@@ -47,6 +48,7 @@ class ActiveEventTarget {
     this.AttackType = event.Attack
     this.Combatant = combatant
     this.AttackAccuracy = event.Accuracy || 0
+    this.AttackBonus = event.AttackBonus || 0
     this.SaveTarget = this.Event.Initiator.actor.CombatController.SaveTarget
 
     if (effect.Save) {

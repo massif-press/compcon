@@ -69,9 +69,10 @@ const getPatronProfile = async (access_token: string) => {
 
 async function getPatreonSubscribers() {
   const url = `${import.meta.env.VITE_APP_INVOKE_URL}/${import.meta.env.VITE_APP_SUBSCRIBERS_ENDPOINT}`
+  const headers = await getHeaders()
   const response = await fetch(url, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_APP_API_KEY },
+    headers,
   })
 
   if (!response.ok) throw new Error(`Patreon subscribers fetch failed: ${response.status}`)

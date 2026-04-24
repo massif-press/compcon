@@ -10,15 +10,13 @@
     </v-card-text>
     <v-card-text>
       <div class="text-cc-overline text-disabled">Encounter Clocks</div>
-      <cc-clock
-        v-for="(clock, index) in encounter.NarrativeController.Clocks"
+      <cc-clock v-for="(clock, index) in encounter.NarrativeController.Clocks"
         :key="`clock-${index}`"
         :clock="clock"
         density="compact"
         class="my-1" />
       <div class="text-right">
-        <v-btn
-          size="x-small"
+        <v-btn size="x-small"
           color="primary"
           flat
           tile
@@ -31,8 +29,7 @@
   </v-card>
 </template>
 
-<script>
-import { Clock } from '@/classes/narrative/elements/Clock';
+<script lang="ts">
 
 export default {
   name: 'GmNotesPanel',

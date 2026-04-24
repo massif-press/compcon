@@ -45,6 +45,7 @@ function buildDefaultState(activeMechId: string): any {
 }
 
 function transformPilotItem(item: any): any {
+  if (!item) return null
   const { data: _, type: __, isUsed: ___, maxUses: ____, currentUses, ...rest } = item
   return {
     ...rest,
@@ -349,6 +350,8 @@ export const convertTov2Npc = function (input: any): any {
   const lastModifiedStr = new Date(input.save?.lastModified ?? Date.now()).toString()
   const deleteTimeStr = input.save?.deleteTime > 0 ? new Date(input.save.deleteTime).toString() : ''
 
+  console.log(input)
+
   return {
     active: false,
     id: input.id,
@@ -357,7 +360,9 @@ export const convertTov2Npc = function (input: any): any {
     name: input.name,
     subtitle: '',
     campaign: '',
-    labels: [],
+    labels: input.narrative.labels
+      ? input.narrative.labels.map((l: any) => l.title || l.value || l.toString() || l)
+      : [],
     tag: input.tag ?? '',
     templates: input.templates ?? [],
     items: (input.features ?? []).map((f: any) => transformNpcFeature(f, input.tier)),

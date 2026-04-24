@@ -94,9 +94,9 @@ import logger from '@/user/logger'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {
-  mixins: [useMobile],
   name: 'SkillSelector',
   components: { Selector, SkillSelectItem, AddCustomSkill },
+  mixins: [useMobile],
   props: {
     pilot: { type: Pilot, required: true },
     levelUp: Boolean,

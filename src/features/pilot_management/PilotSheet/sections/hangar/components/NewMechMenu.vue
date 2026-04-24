@@ -118,10 +118,17 @@ export default {
     allFrames() {
       if (!this.pilot.LcpConfig) return CompendiumStore().Frames
       return CompendiumStore().Frames.filter(
-        x =>
-          !x.InLcp ||
-          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
-          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
+        x => {
+          if (!x.InLcp) return true
+          let target = x
+          if (x.Variant) {
+            const baseFrame = CompendiumStore().Frames.find(y => y.Name === x.Variant)
+            if (baseFrame) target = baseFrame
+          }
+          return this.pilot.LcpConfig?.packList.some(y => y.packID === target.Brew?.LcpId) ||
+            this.pilot.LcpConfig?.packList.some(y => y.packName === target.Brew?.LcpName)
+        }
+
       )
     },
     filteredFrames() {

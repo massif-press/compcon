@@ -34,7 +34,9 @@ export function extractFullBackupEntries(
     extraContent: any[]
   }
 
-  const SKIP_ALWAYS = new Set(['active_missions_v2.json', 'missions_v2.json'])
+  // added extra_content, some mobile imports break (circular ref?) if we try to parse it, and
+  // it's almost impossible to find exactly which LCPs, so skip and let them import separately after the fact
+  const SKIP_ALWAYS = new Set(['active_missions_v2.json', 'missions_v2.json', 'extra_content.json'])
 
   for (const entry of backup) {
     if (SKIP_ALWAYS.has(entry.filename)) continue
@@ -58,9 +60,9 @@ export function extractFullBackupEntries(
       case 'encounters_v2.json':
         if (Array.isArray(parsed)) result.encounters = parsed
         break
-      case 'extra_content.json':
-        if (Array.isArray(parsed)) result.extraContent = parsed
-        break
+      // case 'extra_content.json':
+      //   if (Array.isArray(parsed)) result.extraContent = parsed
+      //   break
       // pilot_groups_v2.json, user.config, and any future keys: ignored
     }
   }
@@ -97,7 +99,9 @@ export async function processFullBackup(
 
   const { pilots, npcs, encounters, extraContent } = extractFullBackupEntries(backup)
   // raw JSON strings are now parsed — release them so GC can reclaim the heap
-  backup.forEach(e => { e.data = null })
+  backup.forEach(e => {
+    e.data = null
+  })
 
   // load LCPs first
   if (extraContent.length > 0) {

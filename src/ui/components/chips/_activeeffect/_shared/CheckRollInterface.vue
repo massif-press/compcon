@@ -24,7 +24,7 @@
 
 
           <div class="text-center">
-            1d20 + {{ rollData.Event.Grit }} (Attacker GRIT)
+            1d20 + {{ rollData.AttackBonus }}
             <br />
             {{ rollData.AttackAccuracy }} {{ rollData.AttackAccuracy > 0 ? 'Accuracy' : 'Difficulty'
             }}
@@ -49,7 +49,7 @@
             <v-col cols="auto"
               class="mx-2">+</v-col>
             <v-col cols="auto">
-              <v-text-field v-model="plus"
+              <v-text-field v-model="rollData.AttackBonus"
                 density="compact"
                 variant="outlined"
                 type="number"
@@ -150,7 +150,6 @@ export default {
   },
   emits: ['rolled'],
   data: () => ({
-    plus: 0,
     dice: [2, 3, 4, 6, 8, 10, 12, 20, 100],
   }),
   computed: {
@@ -176,14 +175,14 @@ export default {
   },
   methods: {
     reset() {
-      this.plus = 0;
+      this.rollData.AttackBonus = this.rollData.Event.AttackBonus || 0;
       this.rollData.AttackAccuracy = this.rollData.Event.Accuracy || 0;
       this.rollData.AttackRollResult = null;
       this.$emit('rolled', 0);
     },
     rollAttack() {
       const rollResult = DiceRoller.rollSkillCheck(
-        Number(this.plus), this.rollData.AttackAccuracy
+        Number(this.rollData.AttackBonus), this.rollData.AttackAccuracy
       );
       this.rollData.AttackRollResult = rollResult;
       this.rollData.AttackRolledValue = rollResult.total;

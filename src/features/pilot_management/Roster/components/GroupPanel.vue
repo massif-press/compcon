@@ -79,7 +79,7 @@
             <v-col>
               <v-expand-transition>
                 <fieldset v-if="group.Description || edit"
-                  class="pa-1 my-1"
+                  class="py-1 px-2 my-1"
                   style="border-radius: 4px">
                   <legend class="text-overline px-2"
                     style="line-height: 0">Description</legend>
@@ -87,14 +87,14 @@
                     <cc-text-editor-inline v-if="edit"
                       :original="group.Description"
                       @save="group.Description = $event" />
-                    <p v-else
+                    <div v-else
                       v-html-safe="group.Description" />
                   </div>
                 </fieldset>
               </v-expand-transition>
               <v-expand-transition>
                 <fieldset v-if="group.History || edit"
-                  class="pa-1 my-4"
+                  class="py-1 px-2 my-4"
                   style="border-radius: 4px">
                   <legend class="text-overline px-2"
                     style="line-height: 0">History</legend>
@@ -102,7 +102,7 @@
                     <cc-text-editor-inline v-if="edit"
                       :original="group.History"
                       @save="group.History = $event" />
-                    <p v-else
+                    <div v-else
                       v-html-safe="group.History" />
                   </div>
                 </fieldset>

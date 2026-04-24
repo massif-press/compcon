@@ -122,7 +122,7 @@
             color="accent"
             v-bind="props"
             target="_blank"
-            :href="item.website || ''">
+            :href="item.link || ''">
             <v-icon size="large"
               icon="mdi-open-in-new" />
           </v-btn>
@@ -183,7 +183,7 @@
 
             <v-divider class="ma-1" />
             <cc-button target="_blank"
-              :href="item.website"
+              :href="item.link"
               flat
               size="small"
               class="ma-1"

@@ -1,20 +1,20 @@
 <template>
-  <v-tooltip
-    :open-on-hover="!mobile"
+  <v-tooltip :open-on-hover="!mobile"
     :open-on-click="mobile"
     max-width="350px"
     :location="location">
     <template #activator="{ props }">
-      <v-icon
-        v-bind="showTooltip ? props : ''"
+      <v-icon v-bind="showTooltip ? props : ''"
         :icon="getIcon"
         :start="start"
         :end="end"
+        :color="color"
         style="align-self: center; margin-top: -3px"
         :size="size" />
     </template>
     <template #default>
-      <span v-if="text" v-html-safe="text" />
+      <span v-if="text"
+        v-html-safe="text" />
       <slot v-else />
     </template>
   </v-tooltip>
@@ -44,6 +44,10 @@ export default {
     location: {
       type: String,
       default: 'top',
+    },
+    color: {
+      type: String,
+      default: '',
     },
   },
   computed: {

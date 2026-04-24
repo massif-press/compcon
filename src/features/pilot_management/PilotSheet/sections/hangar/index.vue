@@ -78,9 +78,9 @@ import { Pilot } from '@/class'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {
-  mixins: [useMobile],
   name: 'MechHangarView',
   components: { MechCard, MechListItem, MechListItemMobile, NewMechMenu, MechSort },
+  mixins: [useMobile],
   props: {
     pilot: {
       type: Pilot,

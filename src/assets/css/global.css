@@ -10,7 +10,8 @@
   page-break-inside: avoid !important;
 }
 
-ul {
+ul,
+ol {
   padding-left: 16px;
 }
 
@@ -246,4 +247,8 @@ a {
 
 .ql-editor ol li:is([data-list='bullet'])::before {
   content: '•';
+}
+
+ol li[data-list='bullet'] {
+  list-style-type: disc;
 }

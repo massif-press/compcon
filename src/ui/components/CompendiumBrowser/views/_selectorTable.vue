@@ -3,6 +3,7 @@
     :headers="<any[]>headers"
     :items="<any[]>items"
     :items-per-page="-1"
+    multi-sort
     hide-default-footer
     style="width: 100%">
     <template #item="{ item }">

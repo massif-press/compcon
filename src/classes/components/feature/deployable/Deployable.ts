@@ -173,6 +173,9 @@ class Deployable {
     if (this.Type.toLowerCase() === 'mine') return 'cc:mine'
     if (this.Type.toLowerCase() === 'drone') return 'cc:drone'
     if (this.Type.toLowerCase() === 'shard') return 'mdi-cards-diamond-outline'
+    if (this.Type.toLowerCase() === 'rocket') return 'mdi-rocket-launch-outline'
+    if (this.Type.toLowerCase() === 'marker') return 'mdi-map-marker-outline'
+    if (this.Type.toLowerCase() === 'bomb') return 'mdi-bomb'
     return 'cc:deployable'
   }
 

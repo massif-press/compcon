@@ -15,19 +15,16 @@
         </cc-alert>
         <div style="position: absolute; right: -5px; bottom: -4px"
           class="fade-select">
-          <v-tooltip max-width="300"
+          <cc-tooltip max-width="300"
+            icon="mdi-alert-outline"
+            size="16"
+            color="warning"
             location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                icon="mdi-alert-outline"
-                size="16"
-                color="warning" />
-            </template>
             The rules in these synergy hints are
             <strong class="text-accent"><u>NOT</u></strong>
             automatically enforced by COMP/CON. Please ensure you manually apply any relevant
             effects during gameplay.
-          </v-tooltip>
+          </cc-tooltip>
         </div>
       </div>
     </div>
@@ -37,23 +34,19 @@
         style="opacity: 0.5">
         <i>None</i>
       </div>
-      <v-tooltip v-for="(s, index) in synergies"
+      <cc-tooltip v-for="(s, index) in synergies"
         :key="`synergy-${index}`"
         max-width="350"
-        location="top">
-        <template #activator="{ props }">
-          <v-icon v-bind="props"
-            :size="small ? 'small' : large ? 'large' : ''"
-            color="accent">
-            cc:talent
-          </v-icon>
-        </template>
+        location="top"
+        :size="small ? 'small' : large ? 'large' : ''"
+        color="accent"
+        icon="cc:talent">
         <div class="heading h5"
           v-text="s.Origin" />
         <v-divider />
-        <p class="py-2"
-          v-html-safe="s.Detail" />
-      </v-tooltip>
+        <p v-html-safe="s.Detail"
+          class="py-2" />
+      </cc-tooltip>
     </div>
   </div>
 </template>
@@ -64,8 +57,8 @@ import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
+  name: 'CcSynergyDisplay',
   mixins: [useMobile],
-  name: 'cc-synergy-display',
   props: {
     item: {
       type: Object,

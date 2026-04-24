@@ -190,7 +190,7 @@ export class NpcWeapon extends NpcFeature {
   }
 
   public get HasAccuracy(): boolean {
-    return this._accuracy.some(x => x > 0)
+    return this._accuracy.some(x => x !== undefined)
   }
 
   public Accuracy(tier: number): number {
@@ -220,6 +220,7 @@ export class NpcWeapon extends NpcFeature {
   }
 
   public toActiveEffectData(actor: Unit | Eidolon): IActiveEffectData {
+    console.log(this.AttackBonus(actor.Tier))
     return {
       name: this.Name,
       detail: `Attack with ${this.Name}`,
@@ -231,6 +232,8 @@ export class NpcWeapon extends NpcFeature {
           ? 'tech'
           : 'melee',
       can_crit: true,
+      accuracy: this.HasAccuracy ? this.Accuracy(actor.Tier) : undefined,
+      attack_bonus: this.AttackBonus(actor.Tier) || undefined,
     }
   }
 }
