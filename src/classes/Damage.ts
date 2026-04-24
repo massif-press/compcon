@@ -50,7 +50,7 @@ class Damage {
       else this.Value = `${damage.val} + ${damage.bonus}`
     } else {
       const str = FeatureController.RenderSpecialString(String(damage.val))
-      if (damage.bonus) this.Value = str + damage.bonus ? ` + ${damage.bonus.toString()}` : ''
+      if (damage.bonus) this.Value = `${str} + ${damage.bonus.toString()}`
       else this.Value = str
     }
     this.Bonus = damage.bonus
@@ -150,7 +150,9 @@ class Damage {
       })
       const val =
         typeof d._raw_value === 'string'
-          ? mech.FeatureController.EvaluateSpecial(d._raw_value)
+          ? d._raw_value.includes('{')
+            ? mech.FeatureController.EvaluateSpecial(d._raw_value)
+            : d._raw_value
           : d._raw_value
       output.push(
         new Damage({
