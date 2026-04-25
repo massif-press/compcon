@@ -1,5 +1,5 @@
 <template>
-  <editor-base
+  <editor-base :key="item.ID"
     :item="item"
     :readonly="isRemote"
     @exit="$emit('exit')"
@@ -8,12 +8,13 @@
     @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
-      <v-row dense class="my-n4" align="center">
+      <v-row dense
+        class="my-n4"
+        align="center">
         <cc-remote-hover :item="item" />
 
         <v-col class="heading h1">
-          <cc-short-string-editor
-            large
+          <cc-short-string-editor large
             justify="start"
             :readonly="isRemote"
             :placeholder="item.Name"
@@ -24,8 +25,7 @@
           </cc-short-string-editor>
         </v-col>
         <v-col cols="auto">
-          <v-combobox
-            v-model="item.FactionType"
+          <v-combobox v-model="item.FactionType"
             :readonly="isRemote"
             density="compact"
             :items="item.TypeSuggestions"
@@ -38,8 +38,10 @@
     </template>
     <template v-slot:stats>
       <v-divider class="mt-4 mb-1" />
-      <relationship-editor :readonly="isRemote" :item="item" />
-      <narrative-block :readonly="isRemote" :item="item" />
+      <relationship-editor :readonly="isRemote"
+        :item="item" />
+      <narrative-block :readonly="isRemote"
+        :item="item" />
     </template>
   </editor-base>
 </template>

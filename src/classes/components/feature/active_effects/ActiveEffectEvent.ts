@@ -127,6 +127,12 @@ class ActiveEffectEvent {
     }
   }
 
+  public UnsetCrit() {
+    if (this.DamageEvents.length) {
+      this.DamageEvents[0].IsCrit = false
+    }
+  }
+
   public get Grit(): number {
     return this.Initiator.actor.CombatController.RootActor.StatController.getMax('grit') || 0
   }

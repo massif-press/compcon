@@ -154,6 +154,7 @@ export default {
       if (!s.HitResult) return;
       if (s.HitResult === 'crit') {
         s.AttackRolledValue = 1;
+        this.event.UnsetCrit();
       } else if (s.HitResult === 'miss') {
         s.AttackRolledValue = s.TargetDefenseValue;
       } else {
@@ -164,9 +165,11 @@ export default {
     handleAttackRoll(s, val) {
       s.AttackRolledValue = Number(val);
       if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
+      else this.event.UnsetCrit();
     },
     onAttackRolled(val) {
       if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
+      else this.event.UnsetCrit();
     },
   },
 };
