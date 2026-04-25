@@ -1,34 +1,28 @@
 <template>
-  <v-card
-    flat
+  <v-card flat
     tile>
-    <v-row
-      align="center"
+    <v-row align="center"
       no-gutters
       justify="end"
       :style="item.Used ? 'opacity: 0.4' : ''">
       <v-col :class="mobile ? 'text-cc-overline line-short' : 'heading h3 text-uppercase'">
         <div>
-          <v-tooltip
-            v-if="item.ActiveEffects.length > 0"
+          <v-tooltip v-if="item.ActiveEffects.length > 0"
             location="top"
             text="Active Effect">
             <template #activator="{ props }">
-              <v-icon
-                v-bind="props"
+              <v-icon v-bind="props"
                 icon="cc:trait"
                 color="accent"
                 size="x-small"
                 class="mt-n1" />
             </template>
           </v-tooltip>
-          <v-tooltip
-            v-if="item.Bonuses.length > 0"
+          <v-tooltip v-if="item.Bonuses.length > 0"
             location="top"
             text="Passive Bonus">
             <template #activator="{ props }">
-              <v-icon
-                v-bind="props"
+              <v-icon v-bind="props"
                 icon="cc:accuracy"
                 color="accent"
                 size="x-small"
@@ -36,14 +30,12 @@
             </template>
           </v-tooltip>
           {{ item.Name }}
-          <span
-            v-if="item.WeaponType"
+          <span v-if="item.WeaponType"
             class="text-cc-overline px-1">
             <cc-slashes class="mx-1" />
             {{ item.WeaponType }}
           </span>
-          <span
-            v-else
+          <span v-else
             class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />
             {{ item.FeatureType }}
@@ -51,58 +43,69 @@
         </div>
       </v-col>
 
+      <v-col v-if="item.WeaponType"
+        cols="auto">
+        <v-icon v-if="item.Accuracy && item.Accuracy(tier)"
+          class="mt-n1"
+          size="small"
+          v-bind="props"
+          :icon="item.Accuracy(tier) < 0 ? 'cc:difficulty' : 'cc:accuracy'" />
+        <b>{{ `${sign(item.Accuracy(tier))}${item.Accuracy(tier)}` }}</b>
+
+        <v-icon class="mt-n1 ml-2"
+          icon="cc:reticle"
+          size="small"
+          v-bind="props">
+        </v-icon>
+        <b>{{ `${sign(item.AttackBonus(tier))}${item.AttackBonus(tier)}` }}</b>
+      </v-col>
+
+      <cc-slashes v-if="item.Accuracy || item.AttackBonus"
+        class="pl-2 pr-1" />
+
+
       <v-col cols="auto">
-        <cc-range-element
-          v-if="item.Range"
+        <cc-range-element v-if="item.Range"
           small
           :range="item.Range(tier, mods)" />
-        <cc-slashes
-          v-if="item.Range && item.Damage"
+        <cc-slashes v-if="item.Range && item.Damage"
           class="pr-1" />
-        <cc-damage-element
-          v-if="item.Damage"
+        <cc-damage-element v-if="item.Damage"
           small
           :damage="item.Damage(tier, mods)" />
       </v-col>
 
-      <v-col
-        v-if="!showCommandPanel"
+      <v-col v-if="!showCommandPanel"
         cols="auto">
-        <v-btn
-          icon
+        <v-btn icon
           flat
           tile
           size="x-small"
           variant="text"
           @click="collapsed = !collapsed">
-          <v-icon
-            size="30"
+          <v-icon size="30"
             :icon="collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
         </v-btn>
       </v-col>
     </v-row>
 
     <v-slide-y-transition>
-      <div
-        v-if="!collapsed"
+      <div v-if="!collapsed"
         class="pb-1"
         style="position: relative"
         :style="item.Used ? 'opacity: 0.4' : ''">
         <v-card-text class="pa-0">
           <equipment-flavor-description :description="item.FlavorDescription" />
 
-          <div
-            v-if="item"
+          <div v-if="item"
             class="pt-1">
-            <on-element
-              v-for="action in ['hit', 'crit', 'attack']"
+            <on-element v-for="action in ['hit', 'crit', 'attack']"
               :key="action"
               :profile="item"
               :action="action" />
 
             <div v-if="mods">
-              <npc-mod-inset
-                v-for="mod in mods"
+              <npc-mod-inset v-for="mod in mods"
                 :key="mod.ID"
                 :mod="mod"
                 :tier="tier" />
@@ -111,43 +114,36 @@
 
           <div v-if="item">
             <div v-if="item.Effect">
-              <p
-                v-html-safe="item.EffectByTier(tier)"
+              <p v-html-safe="item.EffectByTier(tier)"
                 class="mb-1 px-2" />
             </div>
 
-            <equipment-actions-deployables
-              :item="item"
+            <equipment-actions-deployables :item="item"
               :actor="unit"
               :owner="owner"
               :encounter="encounter"
               :action-icon="item.Icon"
               @deploy="$emit('deploy', $event)" />
 
-            <v-row
-              dense
+            <v-row dense
               align="center">
               <v-col cols="auto">
-                <cc-tags
-                  v-if="item.Tags"
+                <cc-tags v-if="item.Tags"
                   :tags="item.Tags"
                   color="pilot"
                   :bonus="limitedBonus"
                   combat />
               </v-col>
               <v-col cols="auto">
-                <cc-tags
-                  v-if="item.Mod"
+                <cc-tags v-if="item.Mod"
                   :tags="item.Mod.AddedTags"
                   color="mod"
                   :bonus="limitedBonus"
                   combat />
               </v-col>
-              <v-col
-                cols="auto"
+              <v-col cols="auto"
                 class="ml-auto mr-4">
-                <cc-bonus
-                  v-for="(b, index) in item.Bonuses"
+                <cc-bonus v-for="(b, index) in item.Bonuses"
                   :key="`bonus-${index}`"
                   :bonus="b"
                   chip
@@ -159,8 +155,7 @@
       </div>
     </v-slide-y-transition>
 
-    <equip-command-panel
-      v-if="showCommandPanel"
+    <equip-command-panel v-if="showCommandPanel"
       :owner="owner"
       class="mb-2"
       :controller="unit.CombatController"
@@ -223,6 +218,11 @@ export default {
   },
   mounted() {
     this.collapsed = !this.showCommandPanel
+  },
+  methods: {
+    sign(num: number) {
+      return num > 0 ? '+' : '';
+    },
   },
 }
 </script>

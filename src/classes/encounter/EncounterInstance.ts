@@ -42,7 +42,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   public SimpleTickbars: boolean = false
   public ForceComplexTickbars: boolean = false
   public LayoutColumns: boolean = true
-  public MaxMasonryColumns: number = 2
+  public MaxMasonryColumns: number = 1
 
   private _id: string
   private _round: number = 0

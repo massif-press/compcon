@@ -18,7 +18,7 @@
       <v-row v-else
         no-gutters>
         <v-col>
-          <v-text-field v-model="s.AttackRolledValue"
+          <v-text-field :model-value="s.AttackRolledValue"
             density="compact"
             variant="outlined"
             :class="mobile ? 'short' : 'mb-1'"
@@ -29,9 +29,10 @@
             :error="!s.AttackRolledValue"
             hide-details
             tile
-            @update:model-value="s.AttackRolledValue = Number($event)">
+            @update:model-value="handleAttackRoll(s, $event)">
             <template #prepend>
-              <check-roll-interface :roll-data="s" />
+              <check-roll-interface :roll-data="s"
+                @rolled="onAttackRolled($event)" />
             </template>
           </v-text-field>
         </v-col>
@@ -154,10 +155,18 @@ export default {
       if (s.HitResult === 'crit') {
         s.AttackRolledValue = 1;
       } else if (s.HitResult === 'miss') {
-        s.AttackRolledValue = s.TargetDefenseValue
+        s.AttackRolledValue = s.TargetDefenseValue;
       } else {
         s.AttackRolledValue = 20;
+        if (this.event.Effect?.CanCrit) this.event.SetCrit();
       }
+    },
+    handleAttackRoll(s, val) {
+      s.AttackRolledValue = Number(val);
+      if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
+    },
+    onAttackRolled(val) {
+      if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
     },
   },
 };
