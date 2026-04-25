@@ -150,7 +150,7 @@ export default {
   data: () => ({
     result: 0,
     hiddenFeatureCount: 0,
-    hidePassives: true,
+    hidePassives: false,
   }),
   computed: {
     xlColumns() {
