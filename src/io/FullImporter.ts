@@ -34,9 +34,7 @@ export function extractFullBackupEntries(
     extraContent: any[]
   }
 
-  // added extra_content, some mobile imports break (circular ref?) if we try to parse it, and
-  // it's almost impossible to find exactly which LCPs, so skip and let them import separately after the fact
-  const SKIP_ALWAYS = new Set(['active_missions_v2.json', 'missions_v2.json', 'extra_content.json'])
+  const SKIP_ALWAYS = new Set(['active_missions_v2.json', 'missions_v2.json'])
 
   for (const entry of backup) {
     if (SKIP_ALWAYS.has(entry.filename)) continue
@@ -60,9 +58,9 @@ export function extractFullBackupEntries(
       case 'encounters_v2.json':
         if (Array.isArray(parsed)) result.encounters = parsed
         break
-      // case 'extra_content.json':
-      //   if (Array.isArray(parsed)) result.extraContent = parsed
-      //   break
+      case 'extra_content.json':
+        if (Array.isArray(parsed)) result.extraContent = parsed
+        break
       // pilot_groups_v2.json, user.config, and any future keys: ignored
     }
   }
