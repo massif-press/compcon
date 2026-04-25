@@ -22,7 +22,7 @@
       <v-col cols="12"
         :xl="xlPanels">
         <v-row class="pr-4">
-          <v-col v-if="item.Portrait && !mobile"
+          <v-col v-if="item.PortraitController?.HasImage && !mobile"
             cols="auto">
             <cc-img width="155px"
               height="100%"
@@ -392,7 +392,7 @@ export default {
       if (!this.encounterInstance.LayoutColumns) return 12;
       if (this.onePanel) return 12;
       if (this.mobile) return 12;
-      return ''
+      return 6
     },
 
     extraStatSet() {

@@ -443,9 +443,10 @@ class DiceRoller {
       if (overkill && result === 1) {
         rerolls += 1
         x -= 1
+      } else {
+        total += result
+        rolls.push(result)
       }
-      total += result
-      rolls.push(result)
     }
 
     return {

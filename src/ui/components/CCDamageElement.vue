@@ -34,7 +34,7 @@
       <div v-html-safe="gloss(d)" />
     </v-tooltip>
     <div v-if="!small"
-      class="text-cc-overline mt-n4">
+      class="text-cc-overline mt-n2">
       {{ typeOverride ? typeOverride : d.Type }}
     </div>
   </div>

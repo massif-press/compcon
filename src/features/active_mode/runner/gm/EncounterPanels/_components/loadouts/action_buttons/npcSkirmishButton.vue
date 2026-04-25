@@ -100,8 +100,43 @@
         </v-col>
         <v-col v-if="selectedWeapon"
           cols="auto">
+          <v-tooltip location="top">
+            <template #activator="{ props }">
+              <v-icon v-bind="props"
+                class="mt-n1"
+                icon="cc:reticle" />
+              {{ selectedWeapon.AttackBonus(tier) }}
+            </template>
+            <span>Attack Bonus</span>
+          </v-tooltip>
+        </v-col>
+        <v-col v-if="selectedWeapon"
+          cols="auto">
+          <v-tooltip location="top">
+            <template #activator="{ props }">
+              <v-icon v-bind="props"
+                class="mt-n1"
+                :icon="selectedWeapon.Accuracy(tier) < 0 ? 'cc:difficulty' : 'cc:accuracy'" />
+              {{ selectedWeapon.Accuracy(tier) }}
+            </template>
+            <span>{{ selectedWeapon.Accuracy(tier) < 0
+              ? 'Difficulty'
+              : 'Accuracy'
+                }}</span>
+          </v-tooltip>
+        </v-col>
+        <v-divider v-if="selectedWeapon"
+          class="ml-2"
+          inset
+          vertical />
+        <v-col v-if="selectedWeapon"
+          cols="auto">
           <cc-tags :tags="selectedWeapon.Tags" />
         </v-col>
+        <v-divider v-if="selectedWeapon && selectedWeapon.Tags.length > 0"
+          class="mx-1"
+          inset
+          vertical />
         <v-col v-if="selectedWeapon"
           cols="auto">
           <v-menu open-on-hover
@@ -162,7 +197,6 @@
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
-import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import StagedPanel from './_stagedPanel.vue';
 import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
 import NpcWeaponAttack from './_npcWeaponAttack.vue';
@@ -234,6 +268,9 @@ export default {
     },
     eventArray() {
       return [this.event]
+    },
+    tier() {
+      return this.controller.ActiveActor.Tier;
     },
 
   },

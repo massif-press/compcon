@@ -3,7 +3,7 @@
     align="start">
     <v-col v-if="pc"
       cols="12"
-      sm="auto">
+      sm="">
       <local-target-selector :event="event" />
     </v-col>
     <base-target-selector v-else

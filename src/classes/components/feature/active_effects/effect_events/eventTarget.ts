@@ -1,4 +1,4 @@
-import { D20RollResult } from '@/class'
+import { D20RollResult, DamageType } from '@/class'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import { ActiveEffect } from '../ActiveEffect'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
@@ -88,6 +88,7 @@ class ActiveEventTarget {
   public set AttackRolledValue(value: number | undefined) {
     this._attackRolledValue = value
     if (this.Event.SaveHalf) this.SavedHalf = this.HitResult !== 'miss'
+    console.log(this.Event.Effect.CanCrit)
     if (value && value >= 20 && this.Event.Effect.CanCrit) this.Event.SetCrit()
   }
 
@@ -154,6 +155,8 @@ class ActiveEventTarget {
       this.FinalDamageValue,
       damageEvent.DamageType
     )
+    if (damageEvent.OverkillHeat)
+      this.Event.Initiator.actor.CombatController.ApplyHeat(damageEvent.OverkillHeat || 0)
   }
 
   public ApplyStatus(statusEvent: StatusEvent) {

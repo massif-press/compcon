@@ -19,7 +19,7 @@
       <p class="px-2">
         COMP/CON is currently using {{ bytesToSize(size.usage) }} of {{ bytesToSize(size.quota) }},
         or
-        <b class="text-accent">{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</b>
+        <b class="text-accent">{{ ((size.usage / size.quota || 1) * 100).toFixed(3) }}%</b>
         of your available storage. This includes space reserved by COMP/CON for app management.
       </p>
 
@@ -40,7 +40,26 @@
           @end="updateUserStorage" />
         <v-row dense
           class="mt-2">
-          <v-col>
+          <v-col cols="auto">
+            <v-btn-toggle v-model="thresholdType"
+              flat
+              tile
+              density="compact">
+              <v-btn value="pct"
+                :color="thresholdType === 'pct' ? 'primary' : 'panel'"
+                size="x-small">
+                <v-icon size="large"
+                  icon="mdi-percent" />
+              </v-btn>
+              <v-btn value="abs"
+                :color="thresholdType === 'abs' ? 'primary' : 'panel'"
+                size="x-small">
+                <v-icon size="large"
+                  icon="mdi-database" />
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+          <v-col v-if="thresholdType === 'pct'">
             <v-text-field v-model.number="storageRange[0]"
               label="Warning threshold (%)"
               type="number"
@@ -52,7 +71,18 @@
               density="compact"
               @change="updateUserStorage" />
           </v-col>
-          <v-col>
+          <v-col v-else>
+            <v-text-field v-model.number="warnMb"
+              label="Warning threshold (MB)"
+              type="number"
+              min="0"
+              :max="maxMb"
+              variant="outlined"
+              tile
+              hide-details
+              density="compact" />
+          </v-col>
+          <v-col v-if="thresholdType === 'pct'">
             <v-text-field v-model.number="storageRange[1]"
               label="Max threshold (%)"
               type="number"
@@ -63,6 +93,16 @@
               hide-details
               density="compact"
               @change="updateUserStorage" />
+          </v-col>
+          <v-col v-else>
+            <v-text-field v-model.number="maxMb"
+              label="Max threshold (MB)"
+              type="number"
+              :min="warnMb"
+              variant="outlined"
+              tile
+              hide-details
+              density="compact" />
           </v-col>
         </v-row>
         <div class="text-caption text-right text-stark">
@@ -228,6 +268,7 @@ export default {
       { title: '6 Months', value: 180 },
       { title: '1 Year', value: 365 },
     ],
+    thresholdType: 'pct',
   }),
   computed: {
     user() {
@@ -235,6 +276,38 @@ export default {
     },
     mobile() {
       return this.$vuetify.display.mdAndDown;
+    },
+    warnMb: {
+      get() {
+        if (!this.size.quota) return 0;
+        return Number(((this.storageRange[0] / 100) * this.size.quota / (1024 * 1024)).toFixed(1));
+      },
+      set(val: number) {
+        if (!this.size.quota) return;
+        const pct = (Number(val) * 1024 * 1024 / this.size.quota) * 100;
+        this.storageRange[0] = Math.max(0, Math.min(pct, this.storageRange[1]));
+        this.updateUserStorage();
+      },
+    },
+    maxMb: {
+      get() {
+        if (!this.size.quota) return 0;
+        return Number(((this.storageRange[1] / 100) * this.size.quota / (1024 * 1024)).toFixed(1));
+      },
+      set(val: number) {
+        if (!this.size.quota) return;
+        const pct = (Number(val) * 1024 * 1024 / this.size.quota) * 100;
+        this.storageRange[1] = Math.max(this.storageRange[0], Math.min(pct, 100));
+        this.updateUserStorage();
+      },
+    },
+  },
+  watch: {
+    thresholdType(val: string) {
+      if (val === 'pct') {
+        this.storageRange[0] = Math.round(this.storageRange[0] * 100) / 100;
+        this.storageRange[1] = Math.round(this.storageRange[1] * 100) / 100;
+      }
     },
   },
   async created() {
@@ -284,9 +357,14 @@ export default {
       if (isNaN(warn)) return;
       const max = Number(this.storageRange[1]);
       if (isNaN(max)) return;
-      if (warn < 0) this.storageRange[0] = 0;
+      if (!warn || warn < 0) this.storageRange[0] = 1;
       if (max > 100) this.storageRange[1] = 100;
       if (warn > max) this.storageRange[0] = max;
+
+      if (this.thresholdType === 'pct') {
+        this.storageRange[0] = Math.round(this.storageRange[0] * 100) / 100;
+        this.storageRange[1] = Math.round(this.storageRange[1] * 100) / 100;
+      }
 
       this.user.StorageWarning = this.storageRange[0];
       this.user.StorageMax = this.storageRange[1];

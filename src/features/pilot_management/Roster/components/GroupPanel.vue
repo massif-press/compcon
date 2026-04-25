@@ -254,13 +254,28 @@
               prepend-icon="mdi-transfer"
               :disabled="!transferrable.length">
               {{ mobile ? 'Transfer' : 'Transfer Pilots' }}
-              <v-menu activator="parent">
-                <v-list max-height="400px">
-                  <v-list-item v-for="pilot in transferrable"
-                    :key="`transfer_${pilot.ID}`"
-                    :title="pilot.Name"
-                    @click="transferPilot(pilot as Pilot)" />
-                </v-list>
+              <v-menu activator="parent"
+                :close-on-content-click="false">
+                <v-card flat
+                  tile
+                  border>
+                  <v-text-field v-model="search"
+                    variant="outlined"
+                    density="compact"
+                    clearable
+                    hide-details
+                    prepend-inner-icon="mdi-magnify" />
+                  <v-divider class="mt-2" />
+                  <v-list max-height="400px"
+                    density="compact">
+                    <v-list-item v-for="pilot in transferrable"
+                      :key="`transfer_${pilot.ID}`"
+                      :title="pilot.Callsign"
+                      :subtitle="pilot.Name"
+                      slim
+                      @click="transferPilot(pilot as Pilot)" />
+                  </v-list>
+                </v-card>
               </v-menu>
             </cc-button>
           </v-col>
@@ -366,6 +381,7 @@ export default {
     edit: false,
     deleteDialog: false,
     deletePilotsToggle: false,
+    search: '',
   }),
   computed: {
     noGroup(): boolean {
@@ -393,7 +409,7 @@ export default {
     transferrable() {
       return PilotStore().Pilots.filter(
         (pilot) =>
-          !pilot.SaveController.IsDeleted && !this.group.Pilots.map((x) => x.id).includes(pilot.ID)
+          !pilot.SaveController.IsDeleted && !this.group.Pilots.map((x) => x.id).includes(pilot.ID) && (!this.search || (pilot.Name + pilot.Callsign).toLowerCase().includes(this.search.toLowerCase()))
       );
     },
   },

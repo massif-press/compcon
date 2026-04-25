@@ -1,5 +1,5 @@
 import { Mech } from '@/class'
-import { getImagePath, ImageTag } from '@/io/ImageManagement'
+import { ImageTag } from '@/io/ImageManagement'
 import { IPortraitContainer } from '..'
 
 interface IPortraitData {

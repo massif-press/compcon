@@ -72,6 +72,14 @@
         </div>
         <damage-effect-options :damage-effect="d"
           class="ml-5" />
+        <div v-if="d.OverkillHeat"
+          class="text-right">
+          <cc-chip bg-color="damage--heat"
+            class="mr-4">
+            <v-icon icon="cc:heat" />
+            +{{ d.OverkillHeat }} Heat (Self) [Overkill]
+          </cc-chip>
+        </div>
 
       </v-col>
     </v-row>

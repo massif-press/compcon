@@ -8,34 +8,21 @@
     :height="mobile ? '40' : '58'"
     style="z-index: 998">
     <div v-if="standalone">
-      <v-tooltip location="bottom"
-        open-delay="500ms">
-        <template #activator="{ props }">
-          <v-btn icon
-            :size="mobile ? 'large' : 'x-large'"
-            v-bind="props"
-            @click="$router.go(-1)">
-            <v-icon icon="mdi-arrow-left" />
-          </v-btn>
-        </template>
-        <span>Navigate Back</span>
-      </v-tooltip>
 
-      <v-tooltip location="bottom"
-        open-delay="500ms">
-        <template #activator="{ props }">
-          <v-btn icon
-            :size="mobile ? 'large' : 'x-large'"
-            v-bind="props"
-            @click="$router.go(1)">
-            <v-icon icon="mdi-arrow-right" />
-          </v-btn>
-        </template>
-        <span>Navigate Forward</span>
-      </v-tooltip>
-      <v-divider v-if="!mobile"
-        vertical
-        class="mx-1" />
+      <cc-button :size="mobile ? 'large' : 'x-large'"
+        icon="mdi-arrow-left"
+        tooltip="Navigate Back"
+        tooltip-location="bottom"
+        @click="$router.go(-1)" />
+      &nbsp;
+
+      <cc-button :size="mobile ? 'large' : 'x-large'"
+        icon="mdi-arrow-right"
+        tooltip="Navigate Forward"
+        tooltip-location="bottom"
+        @click="$router.go(1)" />
+      &nbsp;
+
     </div>
 
     <cc-button :size="mobile ? 'large' : 'x-large'"

@@ -1,10 +1,10 @@
 <template>
-  <div :class="mobile ? 'px-2 pt-1' : 'py-5'">
+  <div :class="mobile ? 'px-2 pt-1' : 'py-5 pr-3'">
     <v-row v-for="(t, idx) in event.Targets"
       :key="`target-${idx}`"
       no-gutters>
       <v-col cols="auto"
-        class="mt-1 mr-1">
+        class="mt-1 mr-2">
         <div v-if="idx === 0"
           class="d-inline"
           style="position: relative;">
@@ -68,7 +68,7 @@
           flat
           tile
           color="primary"
-          class="ma-1"
+          class="mt-1"
           @click="event.AddTarget()">
           Add Target
         </v-btn>
@@ -81,8 +81,8 @@
 import { useMobile } from '@/mixins/useMobile';
 
 export default {
-  mixins: [useMobile],
   name: 'LocalTargetSelector',
+  mixins: [useMobile],
   props: {
     event: { type: Object, required: true },
   },

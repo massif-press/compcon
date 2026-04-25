@@ -49,10 +49,10 @@
                 item-title="Name" />
             </v-col>
           </v-row>
-          <v-card flat
-            tile
-            v-for="pc in pilots"
+          <v-card v-for="pc in pilots"
             :key="pc.ID"
+            flat
+            tile
             class="border-sm mb-1">
             <v-row>
               <v-col cols="auto">
@@ -90,15 +90,12 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { PilotStore } from '@/stores';
 import * as _ from 'lodash-es';
 
 export default {
   name: 'GmAddPcMenu',
-  data: () => ({
-    tab: 'Roster',
-  }),
   props: {
     encounterInstance: {
       type: Object,
@@ -108,13 +105,14 @@ export default {
   data: () => ({
     tab: 'Roster',
     search: '',
-    group: null,
+    group: null as any,
   }),
   computed: {
     pilots() {
       return PilotStore()
         .Pilots.filter(
           (p) =>
+            !p.SaveController.IsDeleted && p.Mechs.length > 0 &&
             !this.encounterInstance.Combatants.filter((x) => x.type === 'pilot').some(
               (c) => c.actor.Name === p.Name
             ) &&

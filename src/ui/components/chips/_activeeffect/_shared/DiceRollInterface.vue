@@ -97,7 +97,7 @@
   </v-menu>
 </template>
 
-<script>
+<script lang="ts">
 import { DiceRoller } from '@/class';
 
 export default {
@@ -114,26 +114,45 @@ export default {
       if (!this.rollData.DamageRollString.includes('d')) return [];
       return this.rollData.DamageRollString.split('d');
     },
-    count() {
-      if (this.parts.length === 0) return 0;
-      return this.parts[0] ? parseInt(this.parts[0]) : 1;
+    count: {
+      get() {
+        if (this.parts.length === 0) return 0;
+        return this.parts[0] ? parseInt(this.parts[0]) : 1;
+      },
+      set(val: number) {
+        this.rollData.DamageRollString = `${val}d${this.die || 6}+${this.plus}`;
+      },
     },
-    die() {
-      if (this.parts.length === 0) return 0;
-      const diePart = this.parts[1];
-      const plusParts = diePart.split('+');
-      return parseInt(plusParts[0]);
+    die: {
+      get() {
+        if (this.parts.length === 0) return 0;
+        const diePart = this.parts[1];
+        const plusParts = diePart.split('+');
+        return parseInt(plusParts[0]);
+      },
+      set(val: number) {
+        this.rollData.DamageRollString = `${this.count || 1}d${val}+${this.plus}`;
+      },
     },
-    plus() {
-      if (this.parts.length === 0) {
-        return Number(this.rollData.DamageRollString || 0);
-      }
-      const diePart = this.parts[1];
-      const plusParts = diePart.split('+');
-      if (plusParts.length === 2) {
-        return parseInt(plusParts[1]);
-      }
-      return 0;
+    plus: {
+      get() {
+        if (this.parts.length === 0) {
+          return Number(this.rollData.DamageRollString || 0);
+        }
+        const diePart = this.parts[1];
+        const plusParts = diePart.split('+');
+        if (plusParts.length === 2) {
+          return parseInt(plusParts[1]);
+        }
+        return 0;
+      },
+      set(val: number) {
+        if (this.parts.length === 0) {
+          this.rollData.DamageRollString = String(val);
+        } else {
+          this.rollData.DamageRollString = `${this.count}d${this.die}+${val}`;
+        }
+      },
     },
   },
   methods: {
@@ -152,6 +171,7 @@ export default {
       }
       this.rollData.DamageRollResult = this.rollResult;
       this.rollData.DamageRolledValue = this.rollResult.total;
+      this.rollData.OverkillHeat = this.rollResult._overkillRerolls;
     },
   },
 };

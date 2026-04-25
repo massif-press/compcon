@@ -17,17 +17,6 @@
       </v-row>
       <v-row v-else
         no-gutters>
-        <v-col v-if="s.HitResult === 'miss' && reliableDamageEvents.length"
-          cols="12"
-          class="text-center mt-1 mb-n1">
-          <v-chip v-for="de in reliableDamageEvents"
-            :key="de.DamageType"
-            size="x-small"
-            color="core"
-            class="mr-1">
-            RELIABLE {{ de.Reliable }} {{ de.DamageType }} applies on miss
-          </v-chip>
-        </v-col>
         <v-col>
           <v-text-field v-model="s.AttackRolledValue"
             density="compact"
@@ -115,6 +104,16 @@
           </v-text-field>
         </v-col>
       </v-row>
+      <div v-if="s && s.HitResult === 'miss' && reliableDamageEvents.length"
+        class="text-center">
+        <v-chip v-for="de in reliableDamageEvents"
+          :key="de.DamageType"
+          size="x-small"
+          color="core"
+          class="mr-1">
+          RELIABLE {{ de.Reliable }} {{ de.DamageType }} applies on miss
+        </v-chip>
+      </div>
     </div>
   </v-col>
 </template>

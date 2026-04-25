@@ -121,9 +121,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
       // filter our combatants to remove any with a playercount greater than the number of player-side actors
       const playerCount = pilots.length + placeholders.length
-      this.Combatants = this.Combatants.filter(
-        c => !c.playerCount || c.playerCount <= playerCount
-      )
+      this.Combatants = this.Combatants.filter(c => !c.playerCount || c.playerCount <= playerCount)
 
       this.Combatants.forEach((combatant, index) => {
         combatant.index = index
@@ -150,6 +148,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     const deployableInstance = new DeployableInstance(deployable.ItemData, combatant)
     deployableInstance.SetStats()
     combatant.deployables.push(deployableInstance)
+    combatant.actor.CombatController.toggleCombatAction(deployable.DeployAction.Activation)
   }
 
   public async EndRound(): Promise<void> {

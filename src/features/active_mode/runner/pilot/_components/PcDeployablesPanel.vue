@@ -11,7 +11,7 @@
         lg="4"
         xl="2">
         <deployable-list-item :key="d.id"
-          :selected="selected && selected.ID === d.ID"
+          :selected="!!selected && selected.ID === d.ID"
           :parent="combatant"
           :deployable="d"
           :encounter="encounter"
@@ -26,6 +26,7 @@
   </v-card>
   <v-scroll-x-reverse-transition>
     <v-card v-if="selected"
+      :key="`${selected.ID}-panel`"
       class="mt-4 pa-2"
       flat
       tile>
@@ -34,7 +35,8 @@
       <deployable-panel :combatant="selected"
         :encounter="encounter"
         :encounter-instance="sheet"
-        :parent="combatant" />
+        :parent="combatant"
+        @deselect="selected = null" />
     </v-card>
     <v-card v-else
       class="mt-4"
@@ -72,6 +74,7 @@ export default {
       required: true,
     },
   },
+  emits: ['activate'],
   data: () => ({
     selected: null,
   }),

@@ -1,5 +1,5 @@
 <template>
-  <editor-base
+  <editor-base :key="item.ID"
     :item="item"
     :readonly="isRemote"
     @exit="$emit('exit')"
@@ -7,13 +7,14 @@
     @delete="deleteItem()"
     @export="exportItem($event)"
     @copy="dupe()">
-    <template v-slot:builder>
-      <v-row dense class="my-n4" align="center">
+    <template #builder>
+      <v-row dense
+        class="my-n4"
+        align="center">
         <cc-remote-hover :item="item" />
 
         <v-col class="heading h1">
-          <cc-short-string-editor
-            large
+          <cc-short-string-editor large
             justify="start"
             :readonly="isRemote"
             :placeholder="item.Name"
@@ -24,8 +25,7 @@
           </cc-short-string-editor>
         </v-col>
         <v-col cols="auto">
-          <v-combobox
-            v-model="item.Pronouns"
+          <v-combobox v-model="item.Pronouns"
             :readonly="isRemote"
             density="compact"
             :items="['He/Him', 'She/Her', 'They/Them']"
@@ -37,27 +37,27 @@
       </v-row>
       <v-row class="mb-4">
         <v-col>
-          <cc-text-field
+          <cc-text-field v-model="item.Title"
             :readonly="isRemote"
             color="primary"
             variant="outlined"
-            label="Title"
-            v-model="item.Title" />
+            label="Title" />
         </v-col>
         <v-col>
-          <cc-text-field
+          <cc-text-field v-model="item.Alias"
             :readonly="isRemote"
             color="primary"
             variant="outlined"
-            label="Alias"
-            v-model="item.Alias" />
+            label="Alias" />
         </v-col>
       </v-row>
     </template>
-    <template v-slot:stats>
+    <template #stats>
       <v-divider class="mt-4 mb-1" />
-      <relationship-editor :readonly="isRemote" :item="item" />
-      <narrative-block :readonly="isRemote" :item="item" />
+      <relationship-editor :readonly="isRemote"
+        :item="item" />
+      <narrative-block :readonly="isRemote"
+        :item="item" />
     </template>
   </editor-base>
 </template>
@@ -71,7 +71,7 @@ import RelationshipEditor from '../../_components/RelationshipEditor.vue';
 import exportAsJson from '@/util/jsonExport';
 
 export default {
-  name: 'gm-character-editor-base',
+  name: 'GmCharacterEditorBase',
   components: { EditorBase, RelationshipEditor, NarrativeBlock },
   props: {
     item: { type: Object, required: true },

@@ -25,7 +25,12 @@
                 class="text-center">
                 {{ customDisabledText }}
               </div>
-              <div v-else>
+              <div v-else-if="controller.IsActionUsed(action.ID)"
+                class="text-center">
+                Action already used.
+              </div>
+              <div v-else-if="!controller.CanActivate(action.Activation)"
+                class="text-center">
                 Insufficient
                 <v-chip :color="action.Color"
                   size="small"
@@ -34,6 +39,10 @@
                   {{ action.Activation }}
                 </v-chip>
                 actions remaining this turn.
+              </div>
+              <div v-else
+                class="text-center">
+                Cannot activate.
               </div>
             </v-tooltip>
           </span>
@@ -103,12 +112,12 @@ export default {
       return this.owner.actor.CombatController;
     },
     canActivate(): boolean {
-      return !this.disabled && this.controller.CanActivate(this.action.Activation);
+      return !this.disabled && this.controller.CanActivate(this.action.Activation) && !this.controller.IsActionUsed(this.action.ID);
     },
   },
   methods: {
     apply() {
-      this.controller.toggleCombatAction(this.action.Activation);
+      this.controller.MarkActionUsed(this.action.ID);
       this.controller.ApplyHeat(this.action.HeatCost || 0);
       this.$emit('activate', this.action.Cost);
     },

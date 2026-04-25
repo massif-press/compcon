@@ -115,6 +115,7 @@
 
 <script lang="ts">
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
+import { PilotStore } from '@/stores';
 import * as _ from 'lodash-es';
 
 export default {
@@ -177,6 +178,7 @@ export default {
   methods: {
     end() {
       this.sheet.Archive();
+      PilotStore().SetActiveSheet('');
       this.$router.replace('/active-mode/sheet-manager');
     },
   },
