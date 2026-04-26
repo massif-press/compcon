@@ -1,3 +1,4 @@
+import { markRaw } from 'vue'
 import { ActivationType, Counter, DamageType, DiceRoller, Mech, Pilot, Rules } from '@/class'
 import { ICombatant } from './ICombatant'
 import { IStatData, StatController } from './stats/StatController'
@@ -90,6 +91,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public CounterController: CounterController
 
   public CombatLog: CombatLog
+  public CombatLogVersion: number = 0
   public Round: number = 1
   public Turn: number = 1
   public Action: number = 1
@@ -122,7 +124,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.Parent = parent
     this.StatController = new StatController(this, parent.IsEncounterInstance)
     this.CounterController = new CounterController(this)
-    this.CombatLog = new CombatLog(this.RootActor)
+    this.CombatLog = markRaw(new CombatLog(this.RootActor))
   }
 
   // passthroughs ------------------------------------
@@ -897,13 +899,13 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (ae.AddSpecial.length) apply.status = ae.AddStatus.map(x => x.Status.ID)
 
     this.TimedEffects.push(
-      new TimedEffect({
+      markRaw(new TimedEffect({
         name: ae.Name,
         origin: ae.Origin.Name,
         detail: ae.Detail,
         round: this.Round,
         apply,
-      })
+      }))
     )
   }
 
@@ -919,8 +921,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
-  public async EndRound(encounter): Promise<void> {
-    await new Promise<void>(r => setTimeout(r, 100))
+  public EndRound(encounter): void {
     this.Turn = 1
     if (this.Braced) {
       this.Braced = false
@@ -957,15 +958,17 @@ class CombatController implements ICounterContainer, IStatContainer {
       this.StatController.getMax(StatKey.ACTIVATIONS)
     )
     this._usedActions = []
-    this.AllEquipment.forEach(eq => {
+    const equipment = this.AllEquipment
+    equipment.forEach(eq => {
       if (!eq.IsReloading) return
       if (eq.Recharge < 0) return
       eq.IsUsed = false
     })
 
-    //create burn events
+    const newEffects: TimedEffect[] = []
+
     if (this.StatController.getCurrent(StatKey.BURN) > 0) {
-      this.TimedEffects.push(
+      newEffects.push(
         new TimedEffect({
           name: 'Burn Damage',
           detail: `Take ${this.StatController.getCurrent(StatKey.BURN)} burn damage at the start of this round.`,
@@ -989,7 +992,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     statusExpires.forEach(s => {
       this.log(`Status expired: ${s.status.Name}`)
-      this.TimedEffects.push(
+      newEffects.push(
         new TimedEffect({
           name: `Status/Condition Expired`,
           detail: `${s.status.Name} status has expired.`,
@@ -1001,7 +1004,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     specialStatusExpires.forEach(s => {
       this.log(`Special status expired: ${s.status.Attribute}`)
-      this.TimedEffects.push(
+      newEffects.push(
         new TimedEffect({
           name: `Special Status Expired`,
           detail: `${s.status.Attribute} special status has expired.`,
@@ -1010,6 +1013,8 @@ class CombatController implements ICounterContainer, IStatContainer {
         })
       )
     })
+
+    if (newEffects.length) this.TimedEffects.push(...newEffects.map(markRaw))
 
     this.Round++
     this.CombatLog.EndRound()
@@ -1044,12 +1049,12 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (this.IsInSelfDestruct) return
     this.IsInSelfDestruct = true
     this.TimedEffects.push(
-      new TimedEffect({
+      markRaw(new TimedEffect({
         name: 'Self Destruct',
         detail: `This mech will explode as though it suffered a reactor meltdown. The explosion will annihilate this mech, killing everyone inside and dealing 4d6 explosive damage to all targets in a burst 2 area around it.`,
         round: this.Round + 3,
         apply: { other: 'self_destruct' },
-      })
+      }))
     )
     this.log('Self Destruct sequence initiated!')
   }

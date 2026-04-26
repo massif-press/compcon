@@ -84,6 +84,7 @@ export default {
   },
   computed: {
     summary() {
+      void this.actor.CombatController.CombatLogVersion
       let out = [] as { title: string; text: string }[];
       this.actor.CombatController.CombatLog.History.forEach((log, index) => {
         let stringSummary = log.action ? new ActionSummary(log.action).Summarize(this.actor.ID) : log.event || 'No summary available.';

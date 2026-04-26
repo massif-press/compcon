@@ -1,6 +1,6 @@
 import { GetAll, SetItem, RemoveItem, SetValue, GetValue } from '@/io/Storage'
 import { defineStore } from 'pinia'
-import { toRaw } from 'vue'
+import { markRaw, toRaw } from 'vue'
 import * as _ from 'lodash-es'
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter'
 import { IndexItem } from '@/stores'
@@ -53,7 +53,11 @@ export const EncounterStore = defineStore('encounter', {
     },
     async LoadEncounters(): Promise<void> {
       const all = await GetAll('encounters')
-      this.Encounters = all.map(x => Encounter.Deserialize(x as IEncounterData))
+      this.Encounters = all.map(x => {
+        const enc = Encounter.Deserialize(x as IEncounterData)
+        enc.Combatants.forEach(c => markRaw(c.actor))
+        return enc
+      })
       await this.LoadActiveEncounters()
       await this.LoadArchivedEncounters()
     },
@@ -104,6 +108,7 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     async AddEncounter(payload: Encounter): Promise<void> {
+      payload.Combatants.forEach(c => markRaw(c.actor))
       if (this.Encounters.some(x => x.ID === payload.ID)) {
         logger.warn(`Encounter with ID ${payload.ID} already exists, updating instead.`, this)
         this.SetEncounter(
@@ -194,6 +199,7 @@ export const EncounterStore = defineStore('encounter', {
 
     async CloneEncounter(payload: Encounter): Promise<void> {
       const clone = toRaw(payload).Clone()
+      clone.Combatants.forEach(c => markRaw(c.actor))
       this.Encounters.push(clone)
       await SetItem('encounters', clone.Serialize())
     },

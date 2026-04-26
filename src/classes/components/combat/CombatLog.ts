@@ -239,6 +239,7 @@ class CombatLog {
     // add cached telemetry to main telemetry
     this.mergeTelemetryData(this.Telemetry, this._telemetryCache)
     this._telemetryCache = getBlankTelemetry()
+    this.CombatController.CombatLogVersion++
   }
 
   public static FormatTelemetry(t: TelemetryData, justify: boolean, lineWidth: number): string {

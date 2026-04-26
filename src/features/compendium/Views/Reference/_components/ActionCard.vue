@@ -12,6 +12,15 @@
         <p v-if="clickable"
           v-html-safe="action.Terse" />
         <div v-else>
+          <div v-if="action.Trigger">
+            <div class="text-cc-overline text-disabled">
+              Trigger
+            </div>
+            <p v-html-safe="action.Trigger" />
+            <div class="text-cc-overline text-disabled mt-2">
+              Action
+            </div>
+          </div>
           <p v-html-safe="action.Detail" />
           <div v-if="action.SubActions && action.SubActions.length">
             <div class="text-overline text-disabled">OPTIONS</div>
@@ -50,7 +59,7 @@
 
 <script lang="ts">
 export default {
-  name: 'action-card',
+  name: 'ActionCard',
   props: {
     action: {
       type: Object,

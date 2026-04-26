@@ -1,3 +1,4 @@
+import { markRaw } from 'vue'
 import { v4 as uuid } from 'uuid'
 import { cloneDeep } from 'lodash-es'
 import {
@@ -46,6 +47,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
   private _id: string
   private _round: number = 0
+  private _cachedEncounterData: IEncounterData | null = null
 
   public IsActive: boolean = false
   public IsArchived: boolean = false
@@ -135,13 +137,37 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       })
     }
 
+    this._cachedEncounterData = markRaw(Encounter.Serialize(this.Encounter))
+    markRaw(this.Encounter)
+
     // prevent saveControllers from creating new entries
     this.Combatants.forEach(c => {
       c.actor.IsEncounterInstance = true
+      this._markStaticControllers(c.actor)
     })
 
     this.SaveController = new SaveController(this)
     this.CloudController = new CloudController(this)
+  }
+
+  private _markStaticControllers(actor: any): void {
+    // These controllers are read-only during combat. Marking them raw removes
+    // them from Pinia's sync deep watcher traversal on every reactive mutation.
+    const staticKeys = [
+      'SkillsController', 'TalentsController', 'MechSkillsController',
+      'LicenseController', 'BondController', 'CoreBonusController',
+      'PortraitController', 'BrewController', 'CloudController',
+      'ReservesController', 'NarrativeController', 'FolderController',
+    ]
+    for (const key of staticKeys) {
+      if (actor[key]) markRaw(actor[key])
+    }
+    // Mark static controllers on any loaded mechs
+    if (actor.Mechs) {
+      for (const mech of actor.Mechs) {
+        if (mech?.PortraitController) markRaw(mech.PortraitController)
+      }
+    }
   }
 
   public Deploy(deployable: Deployable, combatant: CombatantData): void {
@@ -154,9 +180,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   public async EndRound(): Promise<void> {
     await new Promise<void>(r => setTimeout(r, 100))
     for (const c of this.Combatants) {
-      await c.actor.CombatController.EndRound(this)
+      c.actor.CombatController.EndRound(this)
       if ((c.actor as any).ActiveMech)
-        await (c.actor as any).ActiveMech.CombatController.EndRound(this)
+        (c.actor as any).ActiveMech.CombatController.EndRound(this)
     }
     this._round += 1
     if (this.Autosave) {
@@ -251,7 +277,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       id: instance.ID,
       combatants: instance.Combatants.map(c => Encounter.SerializeCombatant(c)),
       round: instance._round,
-      encounter: Encounter.Serialize(instance.Encounter),
+      encounter: instance._cachedEncounterData ?? Encounter.Serialize(instance.Encounter),
       isActive: instance.IsActive,
       autosave: instance.Autosave,
       simple_tickbars: instance.SimpleTickbars,

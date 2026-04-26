@@ -140,6 +140,7 @@ export default {
   },
   computed: {
     summary() {
+      void this.actor.CombatController.CombatLogVersion
       const t = this.actor.CombatController.CombatLog.Telemetry;
       let out = `${this.actor.CombatController.CombatName} - Round ${this.encounter.Round - 1}\n\n`;
       out += CombatLog.FormatTelemetry(t, this.enableJustify, this.lineWidth);

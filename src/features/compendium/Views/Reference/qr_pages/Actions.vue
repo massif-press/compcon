@@ -85,9 +85,9 @@ import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {
-  mixins: [useMobile],
   name: 'ActionEconomy',
   components: { ActionCard },
+  mixins: [useMobile],
   props: {
     isModal: {
       type: Boolean,

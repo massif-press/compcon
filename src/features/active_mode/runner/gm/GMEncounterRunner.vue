@@ -235,7 +235,6 @@ export default {
         this.setEidolonHp();
         this.actors.forEach(a => a.CombatController.Round = this.instance.Round);
       },
-      deep: true,
     },
     actorCount(newval, oldval) {
       if (this.instance && newval > 0 && newval !== oldval) this.setEidolonHp();
