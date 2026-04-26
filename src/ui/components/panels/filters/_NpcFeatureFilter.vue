@@ -46,11 +46,18 @@ const nameSort = function (a, b): number {
 
 export default {
   name: 'npc-class-filter',
+  props: { activeFilters: { type: Object, default: () => ({}) } },
   data: () => ({
     originFilter: [],
     typeFilter: [],
   }),
   emits: ['set-filters'],
+  created() {
+    const f = this.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Origin) this.originFilter = f.Origin;
+    if (f.FeatureType) this.typeFilter = f.FeatureType;
+  },
   computed: {
     origins() {
       return _.uniqBy(CompendiumStore().NpcFeatures, 'Origin').map((x) => ({

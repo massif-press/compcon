@@ -350,8 +350,6 @@ export const convertTov2Npc = function (input: any): any {
   const lastModifiedStr = new Date(input.save?.lastModified ?? Date.now()).toString()
   const deleteTimeStr = input.save?.deleteTime > 0 ? new Date(input.save.deleteTime).toString() : ''
 
-  console.log(input)
-
   return {
     active: false,
     id: input.id,

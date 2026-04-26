@@ -241,7 +241,7 @@ export default {
       );
     },
     apply(close) {
-      this.controller.toggleCombatAction(this.action.Activation);
+      // this.controller.toggleCombatAction(this.action.Activation);
 
       if (this.firstChoice === 'cool') {
         this.controller.Stabilize('cool');

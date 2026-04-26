@@ -138,13 +138,17 @@ class NpcTemplateController {
         classReq.optionalMax += t.OptionalClassPerTier * this.Parent.NpcClassController.Tier
       }
       req.complete = req.selected >= req.min
-      req.optional_complete = !req.optionalMax || req.selected >= req.optionalMax
+      req.optional_complete = req.optionalMax
+        ? req.selected >= req.optionalMax
+        : req.selected >= req.optionalMin
 
       out.push(req)
     })
 
     classReq.complete = classReq.selected >= classReq.min
-    classReq.optional_complete = classReq.selected >= classReq.optionalMax
+    classReq.optional_complete = classReq.optionalMax
+      ? classReq.selected >= classReq.optionalMax
+      : classReq.selected >= classReq.optionalMin
 
     out.unshift(classReq)
 

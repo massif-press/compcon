@@ -188,10 +188,21 @@ export function transformV2Pilot(data: any): any {
       bondAnswers: data.bondAnswers || ['', ''],
       force: false,
     },
+    skills: (data.skills || []).map((skill: any) => {
+      if (!skill.custom) return skill
+      return {
+        id: skill.id,
+        rank: skill.rank || 1,
+        custom: true,
+        custom_desc: skill.custom_desc || '',
+        custom_detail: skill.custom_detail || '',
+      }
+    }),
     mechs: (data.mechs || []).map((mech: any) => {
       const cleanedLoadouts = (mech.loadouts || []).map((loadout: any) => {
-        const cleanedSystems = (loadout.systems || []).filter((sys: any) =>
-          !!CompendiumStore().MechSystems.find((s: any) => s.ID === sys.id || s.id === sys.id)
+        const cleanedSystems = (loadout.systems || []).filter(
+          (sys: any) =>
+            !!CompendiumStore().MechSystems.find((s: any) => s.ID === sys.id || s.id === sys.id)
         )
         const cleanedMounts = (loadout.mounts || []).map((mount: any) => ({
           ...mount,
@@ -207,7 +218,10 @@ export function transformV2Pilot(data: any): any {
       })
       return {
         ...mech,
-        img: mech.img || { portrait: mech.portrait || '', cloud_portrait: mech.cloud_portrait || '' },
+        img: mech.img || {
+          portrait: mech.portrait || '',
+          cloud_portrait: mech.cloud_portrait || '',
+        },
         loadouts: cleanedLoadouts,
       }
     }),
@@ -521,7 +535,7 @@ export async function reprocessV2Backups(): Promise<{
 }
 
 // ---------------------------------------------------------------------------
-// op-Tlevel preprocessing (called by Importer.ts)
+// top level preprocessing (called by Importer.ts)
 // ---------------------------------------------------------------------------
 
 export async function preprocessPilotImport(

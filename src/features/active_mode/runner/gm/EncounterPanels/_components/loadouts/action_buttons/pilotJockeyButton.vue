@@ -85,8 +85,8 @@
             class="px-2">
             <div v-if="tab === 'jockey'">
               <div class="heading h4">{{ action.Name }}</div>
-              <p class="text-text pl-2"
-                v-html-safe="action.Detail" />
+              <p v-html-safe="action.Detail"
+                class="text-text pl-2" />
               <v-row dense
                 align="center"
                 class="my-2">
@@ -119,6 +119,9 @@ import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
 export default {
   name: 'PilotJockeyButton',
+  components: {
+    MenuInput,
+  },
   props: {
     action: {
       type: Object,
@@ -133,9 +136,7 @@ export default {
       required: true,
     },
   },
-  components: {
-    MenuInput,
-  },
+  emits: ['activate'],
   data: () => ({
     tab: 'jockey',
   }),
@@ -158,13 +159,12 @@ export default {
         .sort((a, b) => a.Name.localeCompare(b.Name));
     },
   },
-  emits: ['activate'],
   methods: {
     selectedAction(id) {
       return CompendiumStore().Actions.find((a) => a.ID === id);
     },
     apply(close) {
-      this.controller.toggleCombatAction(this.action.Activation);
+      // this.controller.toggleCombatAction(this.action.Activation);
       this.$emit('activate', this.action.ID);
       // close();
     },

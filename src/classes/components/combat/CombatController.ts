@@ -224,7 +224,9 @@ class CombatController implements ICounterContainer, IStatContainer {
       StatKey.ACTIVATIONS,
       this.StatController.getCurrent(StatKey.ACTIVATIONS) - 1
     )
-    if (this.StatController.getCurrent(StatKey.ACTIVATIONS) < 0) {
+    console.log(this.StatController.getCurrent(StatKey.ACTIVATIONS))
+    if (this.StatController.getCurrent(StatKey.ACTIVATIONS) >= 1) {
+      console.log(this.StatController.getCurrent(StatKey.ACTIVATIONS))
       this.Reset()
       this.Turn++
       this.CombatLog.AddTurn()
@@ -421,17 +423,16 @@ class CombatController implements ICounterContainer, IStatContainer {
     return this.Parent.FeatureController.BonusController
   }
 
-  public SetResistance(type: string, condition?: string): void {
+  public SetResistance(type: string, condition?: string, thisActor = false): void {
     condition = condition?.toLowerCase() || 'off'
+    const target = thisActor ? this : this.ActiveActor.CombatController
 
-    const existingIndex = this.ActiveActor.CombatController.Resistances.findIndex(
-      s => s.type === type
-    )
+    const existingIndex = target.Resistances.findIndex(s => s.type === type)
     if (existingIndex === -1) {
-      this.ActiveActor.CombatController.Resistances.push({ type, condition })
+      target.Resistances.push({ type, condition })
       this.log(`Gained ${type} ${condition}`)
     } else if (condition && condition !== 'off') {
-      this.ActiveActor.CombatController.Resistances[existingIndex].condition = condition
+      target.Resistances[existingIndex].condition = condition
     } else {
       this.Resistances.splice(existingIndex, 1)
       this.log(`Lost ${type} ${condition}`)
@@ -493,9 +494,9 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
-  public ToggleStatus(status: Status, expires?: any): void {
+  public ToggleStatus(status: Status, expires?: any, thisController = false): void {
     if (!status) return
-    const target = this.ActiveActor.CombatController
+    const target = thisController ? this : this.ActiveActor.CombatController
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
       target.Statuses.push({ status, expires })
@@ -679,6 +680,22 @@ class CombatController implements ICounterContainer, IStatContainer {
         StatKey.BURN,
         target.StatController.getCurrent(StatKey.BURN) + value
       )
+    }
+
+    // if we have overshield, remove it before hp
+    if (target.StatController.getCurrent(StatKey.OVERSHIELD) > 0) {
+      const overshield = target.StatController.getCurrent(StatKey.OVERSHIELD) || 0
+      if (value <= overshield) {
+        target.StatController.setCurrentStat(StatKey.OVERSHIELD, overshield - value)
+        this.log(`Overshield absorbed ${value} damage`)
+        this.CombatLog.StatChange(-value, 'overshield')
+        return
+      } else {
+        target.StatController.setCurrentStat(StatKey.OVERSHIELD, 0)
+        value -= overshield
+        this.log(`Overshield absorbed ${overshield} damage before breaking`)
+        this.CombatLog.StatChange(-overshield, 'overshield')
+      }
     }
 
     // subtract this damage from current hp
@@ -899,13 +916,15 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (ae.AddSpecial.length) apply.status = ae.AddStatus.map(x => x.Status.ID)
 
     this.TimedEffects.push(
-      markRaw(new TimedEffect({
-        name: ae.Name,
-        origin: ae.Origin.Name,
-        detail: ae.Detail,
-        round: this.Round,
-        apply,
-      }))
+      markRaw(
+        new TimedEffect({
+          name: ae.Name,
+          origin: ae.Origin.Name,
+          detail: ae.Detail,
+          round: this.Round,
+          apply,
+        })
+      )
     )
   }
 
@@ -1049,12 +1068,14 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (this.IsInSelfDestruct) return
     this.IsInSelfDestruct = true
     this.TimedEffects.push(
-      markRaw(new TimedEffect({
-        name: 'Self Destruct',
-        detail: `This mech will explode as though it suffered a reactor meltdown. The explosion will annihilate this mech, killing everyone inside and dealing 4d6 explosive damage to all targets in a burst 2 area around it.`,
-        round: this.Round + 3,
-        apply: { other: 'self_destruct' },
-      }))
+      markRaw(
+        new TimedEffect({
+          name: 'Self Destruct',
+          detail: `This mech will explode as though it suffered a reactor meltdown. The explosion will annihilate this mech, killing everyone inside and dealing 4d6 explosive damage to all targets in a burst 2 area around it.`,
+          round: this.Round + 3,
+          apply: { other: 'self_destruct' },
+        })
+      )
     )
     this.log('Self Destruct sequence initiated!')
   }

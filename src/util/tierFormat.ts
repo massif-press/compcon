@@ -22,7 +22,13 @@ const ByTierArray = (arr: string, tier?: number): string => {
   if (!arr) return ''
   let fmt = arr
   if (!tier) return arr
-  if (typeof arr === 'string') fmt = JSON.parse(arr)
+  if (typeof arr === 'string') {
+    try {
+      fmt = JSON.parse(arr)
+    } catch (e) {
+      fmt = arr.split(',') as any
+    }
+  }
   if (!Array.isArray(fmt)) return arr
   return fmt[tier - 1]
 }

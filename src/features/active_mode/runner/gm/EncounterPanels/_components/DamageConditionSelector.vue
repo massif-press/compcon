@@ -128,7 +128,7 @@ export default {
         condition = 'resistance';
       }
 
-      this.controller.SetResistance(name, condition);
+      this.controller.SetResistance(name, condition, true);
     },
     hasResistance(resist) {
       return this.resistances.includes(resist.Name.toLowerCase());

@@ -100,8 +100,24 @@
           </v-col>
           <v-col v-if="selectedWeapon"
             cols="auto">
+            <cc-npc-attack-bonus :attack-bonus="selectedWeapon.AttackBonus(tier)" />
+          </v-col>
+          <v-col v-if="selectedWeapon"
+            cols="auto">
+            <cc-npc-accuracy-element :accuracy="selectedWeapon.Accuracy(tier)" />
+          </v-col>
+          <v-divider v-if="selectedWeapon"
+            class="ml-2"
+            inset
+            vertical />
+          <v-col v-if="selectedWeapon"
+            cols="auto">
             <cc-tags :tags="selectedWeapon.Tags" />
           </v-col>
+          <v-divider v-if="selectedWeapon && selectedWeapon.Tags.length > 0"
+            class="mx-1"
+            inset
+            vertical />
           <v-col v-if="selectedWeapon"
             cols="auto">
             <v-menu open-on-hover
@@ -242,6 +258,9 @@ export default {
     allEventsStaged() {
       if (!this.eventArray.length) return false;
       return this.eventArray.every((e) => e.BaseEvent.Staged);
+    },
+    tier() {
+      return this.owner.actor.CombatController.Tier;
     }
   },
   created() {

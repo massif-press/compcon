@@ -152,12 +152,12 @@ export default {
     handleEquip(sys: MechSystem) {
       if (this.equipped) {
         this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(
-          this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.indexOf(this.equipped),
+          this.mech.MechLoadoutController.ActiveLoadout.Systems.findIndex(x => x.InstanceID === this.equipped.InstanceID),
           sys
         )
       } else if (this.swapSystem) {
         this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(
-          this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.indexOf(this.swapSystem),
+          this.mech.MechLoadoutController.ActiveLoadout.Systems.findIndex(x => x.InstanceID === this.swapSystem.InstanceID),
           sys
         )
       } else {

@@ -9,6 +9,7 @@
           color="warning"
           :block="block"
           prepend-icon="mdi-alert-circle"
+          style="z-index: 999!important;"
           @click="open">
           V2 Data
         </cc-button>
@@ -96,7 +97,6 @@
 <script lang="ts">
 import { GetValue, SetValue } from '@/io/Storage'
 import { downloadFullBackup } from '@/io/FullImporter'
-import { block } from 'vuetify/lib/util/anchor.mjs';
 
 export default {
   name: 'V2Auto',

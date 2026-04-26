@@ -100,30 +100,11 @@
         </v-col>
         <v-col v-if="selectedWeapon"
           cols="auto">
-          <v-tooltip location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                class="mt-n1"
-                icon="cc:reticle" />
-              {{ selectedWeapon.AttackBonus(tier) }}
-            </template>
-            <span>Attack Bonus</span>
-          </v-tooltip>
+          <cc-npc-attack-bonus :attack-bonus="selectedWeapon.AttackBonus(tier)" />
         </v-col>
         <v-col v-if="selectedWeapon"
           cols="auto">
-          <v-tooltip location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                class="mt-n1"
-                :icon="selectedWeapon.Accuracy(tier) < 0 ? 'cc:difficulty' : 'cc:accuracy'" />
-              {{ selectedWeapon.Accuracy(tier) }}
-            </template>
-            <span>{{ selectedWeapon.Accuracy(tier) < 0
-              ? 'Difficulty'
-              : 'Accuracy'
-                }}</span>
-          </v-tooltip>
+          <cc-npc-accuracy-element :accuracy="selectedWeapon.Accuracy(tier)" />
         </v-col>
         <v-divider v-if="selectedWeapon"
           class="ml-2"

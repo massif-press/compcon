@@ -1,6 +1,5 @@
 <template>
-  <v-container class="px-12"
-    style="max-width: 1200px">
+  <v-container>
     <v-progress-linear v-if="loading"
       indeterminate />
     <cc-alert v-else-if="rateLimitError"

@@ -22,8 +22,8 @@
       {{ item.SP }}
       <span style="font-size: 13px; margin-left: -4px">SP</span>
     </v-col>
-    <v-col cols="auto"
-      v-if="!readonly">
+    <v-col v-if="!readonly"
+      cols="auto">
       <div class="ml-2"
         style="border-left: 1px solid rgba(155, 155, 155, 0.3)">
         <v-btn v-if="item"
@@ -52,8 +52,8 @@
 <script lang="ts">
 import { useMobile } from '@/mixins/useMobile';
 export default {
+  name: 'WeaponSlotCard',
   mixins: [useMobile],
-  name: 'weapon-slot-card',
   props: {
     item: {
       type: Object,

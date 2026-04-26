@@ -178,6 +178,7 @@ const nameSort = function (a, b): number {
 
 export default {
   name: 'frame-filter',
+  props: { activeFilters: { type: Object, default: () => ({}) } },
   data: () => ({
     sourceFilter: [] as any[],
     tagFilter: [],
@@ -190,6 +191,19 @@ export default {
     spType: '',
   }),
   emits: ['set-filters'],
+  created() {
+    const f = this.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Source) this.sourceFilter = f.Source;
+    if (f.Tags) this.tagFilter = f.Tags;
+    if (f.WeaponType) this.weaponTypeFilter = f.WeaponType[0];
+    if (f.Size) this.weaponSizeFilter = f.Size[0];
+    if (f.RangeType) this.attackTypeFilter = f.RangeType;
+    if (f.DamageType) this.damageTypeFilter = f.DamageType;
+    if (f.LicenseLevel) this.llFilter = f.LicenseLevel;
+    const spKey = Object.keys(f).find(k => k.startsWith('SP_'));
+    if (spKey) { this.spType = spKey.slice(3); this.sp = f[spKey]; }
+  },
   computed: {
     manufacturers(): any[] {
       return CompendiumStore()

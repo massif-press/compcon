@@ -27,6 +27,7 @@
       <v-card-text>
         <cc-item-filter ref="controls"
           :item-type="itemType"
+          :active-filters="activeFilters"
           @set-filters="applyFilters($event)" />
       </v-card-text>
       <v-divider />
@@ -44,18 +45,19 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-filter-panel',
+  name: 'CcFilterPanel',
   props: {
     itemType: {
       type: String,
       required: true,
     },
   },
+  emits: ['set-filters'],
   data: () => ({
     filterCount: 0,
     panel: false,
+    activeFilters: {} as Record<string, any>,
   }),
-  emits: ['set-filters'],
   methods: {
     clearFilters() {
       (this.$refs.controls as any).clear();
@@ -63,6 +65,7 @@ export default {
     },
     applyFilters(newFilters) {
       this.filterCount = Object.keys(newFilters).length;
+      this.activeFilters = newFilters;
       this.$emit('set-filters', newFilters);
     },
   },

@@ -6,7 +6,7 @@
       <cc-button block
         size="small"
         color="primary"
-        class="mt-2"
+        class="mt-1"
         prepend-icon="cc:eclipse"
         @click="props.onClick($event)">
         Take damage
@@ -102,6 +102,20 @@
               md="">
               <div class="text-cc-overline text-disabled">Defender Status</div>
               <v-divider class="mb-2" />
+              <v-row v-if="controller.StatController.CurrentStats['armor']"
+                no-gutters
+                justify="center"
+                :class="damageMods.includes('ap') ? 'bg-grey' : 'bg-info'"
+                class="text-center my-1 px-2">
+                <v-col cols="auto">
+                  <v-icon v-bind="props"
+                    :icon="damageMods.includes('ap') ? 'mdi-shield-off-outline' : 'mdi-shield'" />
+                </v-col>
+                <v-col class="text-cc-overline mt-1"
+                  :style="damageMods.includes('ap') ? 'text-decoration: line-through' : ''">
+                  {{ controller.StatController.CurrentStats['armor'] || 0 }} Armor
+                </v-col>
+              </v-row>
               <v-row v-for="damage in controller.Resistances"
                 :key="`${damage.type}-${damage.condition}`"
                 no-gutters
@@ -187,15 +201,14 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import * as _ from 'lodash-es';
-import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
 
 
 export default {
-  mixins: [useMobile],
   name: 'DamageMenu',
+  mixins: [useMobile],
   props: {
     controller: {
       type: Object,
@@ -210,7 +223,7 @@ export default {
     incomingDamageValue: 0,
     totalDamage: 0,
     incomingDamageType: { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
-    damageMods: [],
+    damageMods: [] as string[],
     damageTypes: [
       { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
       { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },

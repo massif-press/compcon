@@ -10,9 +10,14 @@
         :color="getColor(item)"
         :icon="getIcon(item)"
         class="mb-4">
-        <div v-if="!item.complete">Select {{ item.max - item.selected }} additional features</div>
+
+        <div v-if="!item.optional_complete && item.optionalMin && !item.optionalMax">
+          You may select up to {{ item.optionalMin - item.selected }} additional feature(s)
+        </div>
         <div v-else-if="!item.optional_complete">
-          You may select up to {{ item.optionalMax - item.selected }} additional features
+          You may select up to {{ item.optionalMax - item.selected }} additional feature(s)
+        </div>
+        <div v-else-if="!item.complete">Select {{ item.max - item.selected }} additional feature(s)
         </div>
       </cc-alert>
     </div>
@@ -41,9 +46,10 @@
           </div>
         </v-toolbar>
         <v-card-text>
-          <div v-if="!item.complete">Select {{ item.max - item.selected }} additional features</div>
+          <div v-if="!item.complete">Select {{ item.max - item.selected }} additional feature(s)
+          </div>
           <div v-else-if="!item.optional_complete">
-            You may select up to {{ item.optionalMax - item.selected }} additional features
+            You may select up to {{ item.optionalMax - item.selected }} additional feature(s)
           </div>
           <div v-else>{{ item.source }} selections complete</div>
         </v-card-text>
@@ -73,6 +79,7 @@ export default {
     color: {
       type: String,
       required: false,
+      default: '',
     },
     hide: {
       type: Boolean,
@@ -84,13 +91,13 @@ export default {
       return item.min + item.max + item.optionalMin + item.optionalMax > 0;
     },
     getColor(item) {
-      if (!item.complete) return 'error';
       if (!item.optional_complete) return 'secondary';
+      if (!item.complete) return 'error';
       return 'success';
     },
     getIcon(item) {
-      if (!item.complete) return 'mdi-alert';
       if (!item.optional_complete) return 'cc:npc_feature';
+      if (!item.complete) return 'mdi-alert';
       return 'mdi-check';
     },
   },

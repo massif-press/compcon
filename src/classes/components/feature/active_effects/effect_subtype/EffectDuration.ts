@@ -12,22 +12,22 @@ export enum EffectDuration {
 export const EffectDurationText = function (duration: EffectDuration): string {
   switch (duration) {
     case EffectDuration.StartTurnSelf:
-      return 'Start of Your Turn';
+      return 'Start of Your Turn'
     case EffectDuration.StartTurnTarget:
-      return "Start of Target's Turn";
+      return "Start of Target's Turn"
     case EffectDuration.EndTurnSelf:
-      return 'End of Your Turn';
+      return 'End of Your Turn'
     case EffectDuration.EndTurnTarget:
-      return "End of Target's Turn";
+      return "End of Target's Turn"
     case EffectDuration.NextTurnEndSelf:
-      return 'End of Your Next Turn';
+      return 'End of Your Next Turn'
     case EffectDuration.NextTurnEndTarget:
-      return "End of Target's Next Turn";
+      return "End of Target's Next Turn"
     case EffectDuration.NextTurnStartSelf:
-      return 'Start of Your Next Turn';
+      return 'Start of Your Next Turn'
     case EffectDuration.NextTurnStartTarget:
-      return "Start of Target's Next Turn";
+      return "Start of Target's Next Turn"
     default:
-      return '';
+      return 'the end of the Encounter'
   }
-};
+}

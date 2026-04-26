@@ -45,19 +45,10 @@
 
       <v-col v-if="item.WeaponType"
         cols="auto">
-        <v-icon v-if="item.Accuracy && item.Accuracy(tier)"
-          class="mt-n1"
-          size="small"
-          v-bind="props"
-          :icon="item.Accuracy(tier) < 0 ? 'cc:difficulty' : 'cc:accuracy'" />
-        <b>{{ `${sign(item.Accuracy(tier))}${item.Accuracy(tier)}` }}</b>
-
-        <v-icon class="mt-n1 ml-2"
-          icon="cc:reticle"
-          size="small"
-          v-bind="props">
-        </v-icon>
-        <b>{{ `${sign(item.AttackBonus(tier))}${item.AttackBonus(tier)}` }}</b>
+        <cc-npc-attack-bonus :attack-bonus="item.AttackBonus(tier)"
+          small />
+        <cc-npc-accuracy-element :accuracy="item.Accuracy(tier)"
+          small />
       </v-col>
 
       <cc-slashes v-if="item.Accuracy || item.AttackBonus"

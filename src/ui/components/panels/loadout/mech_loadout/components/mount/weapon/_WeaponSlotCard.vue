@@ -265,9 +265,7 @@ export default {
     // },
     getRange() {
       if (!this.item) return []
-      const mod = this.weaponSlot.Mod
-      const ar = mod && mod.AddedRange ? mod.AddedRange : null
-      return Range.CalculateRange(this.item, this.mech as Mech, ar)
+      return Range.CalculateRange(this.item, this.mech as Mech)
     },
     getDamage() {
       if (!this.item) return []

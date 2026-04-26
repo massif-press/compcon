@@ -1,10 +1,11 @@
 <template>
-  <component
-    :is="componentLoader"
+  <component :is="componentLoader"
     v-if="componentLoader"
     ref="c"
+    :active-filters="activeFilters"
     @set-filters="$emit('set-filters', $event)" />
-  <v-card v-else variant="outlined">
+  <v-card v-else
+    variant="outlined">
     <v-card-text class="text center">
       <i>No filters available</i>
     </v-card-text>
@@ -16,11 +17,15 @@ import logger from '@/user/logger';
 import * as filters from './';
 
 export default {
-  name: 'cc-item-filter',
+  name: 'CcItemFilter',
   props: {
     itemType: {
       type: String,
       required: true,
+    },
+    activeFilters: {
+      type: Object,
+      default: () => ({}),
     },
   },
   emits: ['set-filters'],

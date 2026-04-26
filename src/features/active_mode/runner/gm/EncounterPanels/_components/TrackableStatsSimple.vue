@@ -26,6 +26,7 @@
         :base-value="item.StatController.MaxStats['armor']" />
     </v-col>
   </v-row>
+  <slot name="dmg" />
 
   <v-row v-if="item.StatController.MaxStats['heatcap']"
     dense>

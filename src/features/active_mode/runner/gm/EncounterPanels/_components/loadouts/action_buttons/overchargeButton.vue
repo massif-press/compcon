@@ -192,7 +192,7 @@ export default {
       this.heatCost = result
     },
     apply() {
-      this.controller.toggleCombatAction(this.action.Activation)
+      this.controller.toggleCombatAction('Overcharge')
 
       this.controller.TakeDamage(DamageType.Heat, Number(this.heatCost))
       this.controller.IncreaseOverchargeLevel()

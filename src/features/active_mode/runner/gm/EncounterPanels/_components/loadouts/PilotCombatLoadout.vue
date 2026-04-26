@@ -73,7 +73,7 @@ export default {
       return this.pilot.Loadout.Gear
     },
     equipment() {
-      return this.armor.concat(this.weapons).concat(this.gear)
+      return this.armor.concat(this.weapons).concat(this.gear).filter(Boolean)
     },
   },
 }

@@ -342,6 +342,7 @@ export const PilotStore = defineStore('pilot', {
     },
     async AddPilotSheet(pilot: Pilot, campaign?: string): Promise<void> {
       const newSheet = PilotSheet.FromPilot(pilot, campaign)
+      newSheet.Combatants[0].actor.CombatController.Reset()
       this.PilotSheets.push(newSheet)
       await SetItem('pilot_sheets', PilotSheet.Serialize(newSheet))
       await this.SetActiveSheet(newSheet.ID)

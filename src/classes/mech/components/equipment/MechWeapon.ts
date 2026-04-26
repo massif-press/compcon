@@ -314,7 +314,7 @@ class MechWeapon extends MechEquipment {
 
     if (!this.Mod?.AddedRange) return this.SelectedProfile.Range || []
 
-    let ranges = [...(this.SelectedProfile.Range || []), ...(this.Mod?.AddedRange || [])]
+    const ranges = [...(this.SelectedProfile.Range || []), ...(this.Mod?.AddedRange || [])]
     // add ranges of same type together
     const combined: Range[] = []
     ranges.forEach(r => {

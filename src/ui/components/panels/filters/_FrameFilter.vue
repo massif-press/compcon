@@ -88,6 +88,7 @@ const nameSort = function (a, b): number {
 
 export default {
   name: 'frame-filter',
+  props: { activeFilters: { type: Object, default: () => ({}) } },
   data: () => ({
     sourceFilter: [],
     typeFilter: [],
@@ -96,6 +97,15 @@ export default {
     licenseFilter: [],
   }),
   emits: ['set-filters'],
+  created() {
+    const f = this.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Source) this.sourceFilter = f.Source;
+    if (f.MechType) this.typeFilter = f.MechType;
+    if (f.Mounts) this.mountFilter = f.Mounts;
+    if (f.MechSize) this.sizeFilter = f.MechSize;
+    if (f.License) this.licenseFilter = f.License;
+  },
   computed: {
     manufacturers(): Manufacturer[] {
       return CompendiumStore()

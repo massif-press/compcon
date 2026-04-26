@@ -48,11 +48,18 @@ const nameSort = function (a, b): number {
 
 export default {
   name: 'pilot-gear-filter',
+  props: { activeFilters: { type: Object, default: () => ({}) } },
   data: () => ({
     tagFilter: [],
     typeFilter: [],
   }),
   emits: ['set-filters'],
+  created() {
+    const f = this.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Tags) this.tagFilter = f.Tags;
+    if (f.ItemType) this.typeFilter = f.ItemType;
+  },
   computed: {
     tags(): Tag[] {
       return _.uniqBy(

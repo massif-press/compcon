@@ -260,11 +260,18 @@
             </v-row>
 
             <div class="mb-2">
+
               <component :is="trackableStatsComponent"
-                :item="item" />
+                :item="item">
+                <template #dmg>
+                  <damage-menu v-if="item.CombatController.StatController.MaxStats['hp']"
+                    :encounter="encounterInstance.Encounter"
+                    :controller="item.CombatController" />
+                </template>
+              </component>
+              <custom-stat-editor :item="item" />
             </div>
 
-            <custom-stat-editor :item="item" />
 
             <slot name="stat-block" />
             <div v-if="!noActions && item.CombatController.StatController.MaxStats['activations']">
@@ -312,10 +319,6 @@
               </v-expansion-panels>
             </div>
 
-
-            <damage-menu v-if="item.CombatController.StatController.MaxStats['hp']"
-              :encounter="encounterInstance.Encounter"
-              :controller="item.CombatController" />
           </v-col>
         </v-row>
 

@@ -39,6 +39,8 @@ import CCClock from './components/CCClock.vue'
 import CCConfirmation from './components/CCConfirmation.vue'
 import CCDamageElement from './components/CCDamageElement.vue'
 import CCDamageTypePicker from './components/CCDamageTypePicker.vue'
+import CCNpcAccuracyElement from './components/CCNpcAccuracyElement.vue'
+import CCNpcAttackBonus from './components/CCNpcAttackBonus.vue'
 
 import CCCounterSet from './components/items/features/counters/CCCounterSet.vue'
 
@@ -163,6 +165,8 @@ export {
   CCConfirmation,
   CCDamageElement,
   CCDamageTypePicker,
+  CCNpcAccuracyElement,
+  CCNpcAttackBonus,
   // CCDialog,
   CCDiceMenu,
   CCExtendedTag,

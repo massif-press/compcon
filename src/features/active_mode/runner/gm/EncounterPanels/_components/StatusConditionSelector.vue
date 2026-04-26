@@ -203,7 +203,7 @@ export default {
   },
   methods: {
     setStatus(status) {
-      this.controller.ToggleStatus(status);
+      this.controller.ToggleStatus(status, undefined, true);
     },
     addCustomStatus(name) {
       if (!name || !name.trim().length) return;

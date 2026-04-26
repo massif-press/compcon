@@ -32,10 +32,16 @@ const nameSort = function (a, b): number {
 
 export default {
   name: 'npc-class-filter',
+  props: { activeFilters: { type: Object, default: () => ({}) } },
   data: () => ({
     roleFilter: [],
   }),
   emits: ['set-filters'],
+  created() {
+    const f = this.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Role) this.roleFilter = f.Role;
+  },
   computed: {
     roles() {
       return _.uniqBy(CompendiumStore().NpcClasses, 'Role')

@@ -63,6 +63,7 @@ const nameSort = function (a, b): number {
 
 export default {
   name: 'frame-filter',
+  props: { activeFilters: { type: Object, default: () => ({}) } },
   data: () => ({
     sourceFilter: [],
     tagFilter: [],
@@ -70,6 +71,13 @@ export default {
     weaponTypeFilter: [],
   }),
   emits: ['set-filters'],
+  created() {
+    const f = this.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Source) this.sourceFilter = f.Source[0] ?? [];
+    if (f.Tags) this.tagFilter = f.Tags;
+    if (f.LcpName) this.lcpFilter = f.LcpName[0] ?? [];
+  },
   computed: {
     manufacturers(): Manufacturer[] {
       return CompendiumStore()

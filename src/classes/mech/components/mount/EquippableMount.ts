@@ -36,6 +36,7 @@ class EquippableMount extends Mount {
   }
 
   public AddCoreBonus(cb: CoreBonus): void {
+    if (this._bonuses.some(x => x.ID === cb.ID)) return
     this._bonuses.push(cb)
     if (cb.ID === 'cb_mount_retrofitting') {
       this._name_override = 'Retrofitted Mount'
@@ -83,12 +84,11 @@ class EquippableMount extends Mount {
     const m = new EquippableMount(mountData.mount_type as MountType, parent)
     m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(x, m))
     m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x, m))
-    m._bonuses = mountData.bonus_effects.map(x => {
-      if (typeof x === 'string') {
-        return CompendiumStore().referenceByID('CoreBonuses', x)
-      } else {
-        return new CoreBonus(x)
-      }
+    m._bonuses = (mountData.bonus_effects || []).map(x => {
+      const id = typeof x === 'string' ? x : x.id
+      if (id && CompendiumStore().has('CoreBonuses', id))
+        return CompendiumStore().referenceByID('CoreBonuses', id)
+      return new CoreBonus(x as ICoreBonusData)
     })
     m.lock = mountData.lock
     return m

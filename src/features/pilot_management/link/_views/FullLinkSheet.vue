@@ -280,31 +280,31 @@
                 icon="cc:repair" />
 
               <mech-stat-item attr="Attack Bonus"
-                :val="mech.MaxStress"
+                :val="mech.AttackBonus"
                 icon="cc:weapon" />
               <mech-stat-item attr="Tech Attack"
-                :val="mech.HeatCapacity"
+                :val="mech.TechAttack"
                 icon="cc:full_tech" />
               <mech-stat-item attr="Limited Bonus"
-                :val="mech.RepairCapacity"
+                :val="mech.LimitedBonus"
                 icon="cc:ammo" />
 
               <mech-stat-item attr="Speed"
-                :val="mech.MaxStress"
+                :val="mech.Speed"
                 icon="mdi-arrow-right-bold-hexagon-outline" />
               <mech-stat-item attr="Evasion"
-                :val="mech.HeatCapacity"
+                :val="mech.Evasion"
                 icon="cc:evasion" />
               <mech-stat-item attr="E-Defense"
-                :val="mech.RepairCapacity"
+                :val="mech.EDefense"
                 icon="cc:edef" />
               <mech-stat-item cols="6"
                 attr="Sensor Range"
-                :val="mech.RepairCapacity"
+                :val="mech.SensorRange"
                 icon="cc:sensor" />
               <mech-stat-item cols="6"
                 attr="Save"
-                :val="mech.RepairCapacity"
+                :val="mech.SaveTarget"
                 icon="cc:save" />
             </v-row>
           </v-col>

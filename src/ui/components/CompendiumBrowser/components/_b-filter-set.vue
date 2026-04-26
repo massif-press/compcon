@@ -1,18 +1,24 @@
 <template>
-  <v-btn-toggle
-    divided
+  <v-btn-toggle divided
     variant="plain"
     border
     density="compact"
     tile
     style="width: 100%; height: 30px">
-    <v-menu offset-y :close-on-content-click="false" max-width="500px">
-      <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" size="small" style="width: 50%">
-          <v-tooltip text="Content Packs" location="top">
-            <template v-slot:activator="{ props }">
+    <v-menu offset-y
+      :close-on-content-click="false"
+      max-width="500px">
+      <template #activator="{ props }">
+        <v-btn v-bind="props"
+          size="small"
+          style="width: 50%">
+          <v-tooltip text="Content Packs"
+            location="top">
+            <template #activator="{ props }">
               <span v-bind="props">
-                <v-icon size="x-large" icon="cc:content_manager" start />
+                <v-icon size="x-large"
+                  icon="cc:content_manager"
+                  start />
                 <v-chip size="x-small">
                   <b>{{ lcpFilter.length }}</b>
                 </v-chip>
@@ -24,21 +30,23 @@
       <v-card>
         <v-card-text>
           <v-list>
-            <v-list-item tile title="Select All">
-              <template v-slot:prepend>
-                <v-checkbox-btn
-                  :model-value="lcpFilter.length === lcps.length"
+            <v-list-item tile
+              title="Select All">
+              <template #prepend>
+                <v-checkbox-btn :model-value="lcpFilter.length === lcps.length"
                   :indeterminate="lcpFilter.length > 0 && lcpFilter.length < lcps.length"
                   @click="$emit('set-all')" />
               </template>
             </v-list-item>
             <v-divider />
-            <v-list-item tile v-for="lcp in lcps" :key="`lcp-${lcp}`" :title="<any>lcp">
-              <template v-slot:prepend>
-                <v-checkbox-btn
-                  :value="lcp"
+            <v-list-item v-for="lcp in lcps"
+              :key="`lcp-${lcp}`"
+              tile
+              :title="<any>lcp">
+              <template #prepend>
+                <v-checkbox-btn :value="lcp"
                   :model-value="modelValue"
-                  @update:modelValue="$emit('update:modelValue', $event)" />
+                  @update:model-value="$emit('update:modelValue', $event)" />
               </template>
             </v-list-item>
           </v-list>
@@ -46,13 +54,20 @@
       </v-card>
     </v-menu>
 
-    <v-menu offset-y :close-on-content-click="false" width="500px">
-      <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" size="small" style="width: 50%">
-          <v-tooltip text="Item Filters" location="top">
-            <template v-slot:activator="{ props }">
+    <v-menu offset-y
+      :close-on-content-click="false"
+      width="500px">
+      <template #activator="{ props }">
+        <v-btn v-bind="props"
+          size="small"
+          style="width: 50%">
+          <v-tooltip text="Item Filters"
+            location="top">
+            <template #activator="{ props }">
               <span v-bind="props">
-                <v-icon size="large" icon="mdi-filter" start />
+                <v-icon size="large"
+                  icon="mdi-filter"
+                  start />
                 <v-chip size="x-small">
                   <b>{{ otherFilterCount }}</b>
                 </v-chip>
@@ -63,8 +78,7 @@
       </template>
       <v-card>
         <v-card-text>
-          <cc-item-filter
-            ref="itemFilter"
+          <cc-item-filter ref="itemFilter"
             :item-type="itemType"
             @set-filters="setFilters($event)" />
         </v-card-text>
@@ -80,7 +94,7 @@
 
 <script lang="ts">
 export default {
-  name: 'browser-view-toggle',
+  name: 'BrowserViewToggle',
   props: {
     modelValue: {
       type: Array,

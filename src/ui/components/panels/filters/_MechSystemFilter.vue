@@ -113,6 +113,7 @@ const nameSort = function (a, b): number {
 
 export default {
   name: 'frame-filter',
+  props: { activeFilters: { type: Object, default: () => ({}) } },
   data: () => ({
     tagFilter: [],
     systemTypeFilter: [] as SystemType[],
@@ -121,6 +122,15 @@ export default {
     spType: '',
   }),
   emits: ['set-filters'],
+  created() {
+    const f = this.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Tags) this.tagFilter = f.Tags;
+    if (f.Type) this.systemTypeFilter = f.Type[0] ?? [];
+    if (f.LicenseLevel) this.llFilter = f.LicenseLevel;
+    const spKey = Object.keys(f).find(k => k.startsWith('SP_'));
+    if (spKey) { this.spType = spKey.slice(3); this.sp = f[spKey]; }
+  },
   computed: {
     manufacturers(): Manufacturer[] {
       return CompendiumStore()

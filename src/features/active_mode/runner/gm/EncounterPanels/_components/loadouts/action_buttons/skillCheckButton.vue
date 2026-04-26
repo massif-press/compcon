@@ -384,7 +384,7 @@ export default {
     },
 
     apply(close) {
-      this.controller.toggleCombatAction(this.action.Activation);
+      // this.controller.toggleCombatAction(this.action.Activation);
 
       this.$emit('activate', this.action.ID);
       // close();
