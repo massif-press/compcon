@@ -16,7 +16,7 @@
       </template>
       <v-card-text>
         <cc-confirmation
-          content="This will reset delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
+          content="This will delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
           @confirm="deleteItem()" />
       </v-card-text>
     </v-menu>

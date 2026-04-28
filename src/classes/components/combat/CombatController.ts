@@ -136,6 +136,18 @@ class CombatController implements ICounterContainer, IStatContainer {
     return this.RootActor.Grit || 0
   }
 
+  public get AttackBonus(): number {
+    if (this.Parent instanceof Pilot || this.Parent instanceof Mech)
+      return this.Parent.AttackBonus || 0
+    else return this.StatController.getCurrent(StatKey.ATTACK_BONUS) || 0
+  }
+
+  public get TechAttackBonus(): number {
+    if (this.Parent instanceof Pilot || this.Parent instanceof Mech)
+      return this.Parent.TechAttack || 0
+    else return this.StatController.getCurrent(StatKey.TECH_ATTACK) || 0
+  }
+
   public AllActions(activation: ActivationType): Action[] {
     return this.Parent.FeatureController.Actions.filter(a => a.Activation === activation)
   }

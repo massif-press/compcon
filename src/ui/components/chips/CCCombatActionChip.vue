@@ -64,6 +64,7 @@
           </cc-button>
         </template>
         <template #default="{ close }">
+
           <menu-input :key="owner.ID"
             :active-effect="<any>action"
             :encounter="encounter"

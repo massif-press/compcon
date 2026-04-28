@@ -127,8 +127,14 @@ export default {
           this.owner.CombatController?.StatController?.MaxStats ??
           {};
         const resolved = str.replace(/\{([^}]+)\}/gi, (_, key) => ctx[key] ?? ctx[key.toLowerCase()] ?? 0);
-        const num = parseFloat(resolved);
-        return isNaN(num) ? undefined : Math.floor(num);
+        try {
+          // eslint-disable-next-line no-new-func
+          const num = Function('return (' + resolved + ')')()
+          return isNaN(num) ? undefined : Math.floor(num)
+        } catch {
+          const num = parseFloat(resolved)
+          return isNaN(num) ? undefined : Math.floor(num)
+        }
       }
       const tierResult = ByTierArray(str, this.tier);
       const num = parseFloat(tierResult as string);
@@ -139,14 +145,17 @@ export default {
     // defaultVal: fallback when raw is absent
     effectiveStatValue(raw: number | string | undefined, bonusSuffix: string, defaultVal = 0): number | string {
       const base = this._resolveBase(raw, defaultVal);
-      // if base is undefined the raw value is an unresolvable expression. return it for display as-is
-      if (base === undefined) return raw as string;
+      if (base === undefined) {
+        const stripped = String(raw).replace(/[{}]/g, '');
+        return /\d/.test(stripped) ? stripped : `mech's ${stripped}`;
+      }
 
       const bc = this._bonusController;
       if (!bc) return base;
 
-      let val: number = bc.sum(`deployable_${bonusSuffix}`, base);
+      let val: number | string = base;
       if (this.isDrone) val = bc.sum(`drone_${bonusSuffix}`, val);
+      else val = bc.sum(`deployable_${bonusSuffix}`, base);
       return val;
     },
   },

@@ -17,7 +17,13 @@
               class="mb-n2" />
             <div>
               <span>{{ name }}</span>
-              <span class="pl-2 heading text-accent"
+              <div v-if="isNaN(Number(value)) && value !== '½'"
+                class="text-accent"
+                style="font-size: 16px;">
+                {{ value }}
+              </div>
+              <span v-else
+                class="pl-2 heading text-accent"
                 :class="!portrait && 'h2'">
                 {{ value }}
               </span>

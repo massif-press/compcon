@@ -194,6 +194,27 @@
                   :bonus="getBonus(stat.key)" />
               </v-col>
 
+              <v-col cols="auto">
+                <v-tooltip v-if="item.ItemType === 'mech' || item.ItemType === 'pilot'"
+                  text="Attack Bonus"
+                  location="top"
+                  open-delay="400">
+                  <template #activator="{ props }">
+                    <v-icon v-bind="props"
+                      icon="cc:weapon"
+                      :size="mobile ? '20' : 'x-large'"
+                      :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
+                    <span :class="mobile ? '' : 'h2'"
+                      class="heading text-accent">
+                      {{ item.AttackBonus }}
+                    </span>
+                  </template>
+                </v-tooltip>
+                <cc-bonus v-if="getBonus('attackBonus')"
+                  :bonus="getBonus('attackBonus')" />
+
+              </v-col>
+
               <v-col v-for="stat in item.StatController.CustomStats(item.ItemType)"
                 :key="stat"
                 cols="auto">

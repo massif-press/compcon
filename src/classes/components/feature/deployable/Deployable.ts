@@ -204,7 +204,7 @@ class Deployable {
       repcap: deployable.Repcap,
       sensor_range: deployable.Sensors,
       tech_attack: deployable.TechAttack,
-      save: deployable.Save,
+      save: deployable.SaveTarget,
       speed: deployable.Speed,
       actions: deployable.Actions.map(x => Action.Serialize(x)),
       pilot: deployable.IsPilotDeployable,

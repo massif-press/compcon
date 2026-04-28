@@ -509,6 +509,14 @@ class Pilot
     )
   }
 
+  public get AttackBonus(): number {
+    return Bonus.Int(this.Grit, BonusId.ATTACK, this)
+  }
+
+  public get TechAttack(): number {
+    return Bonus.Int(this.Grit, BonusId.TECH_ATTACK, this)
+  }
+
   public get ActiveMech(): Mech | null {
     if (!this.Mechs.length) {
       console.error('No mechs found for pilot', this)
@@ -528,7 +536,6 @@ class Pilot
   }
 
   public getExpressionContext(): Record<string, number> {
-    const sc = this.CombatController.StatController
     return {
       ll: this.Level,
       grit: this.Grit,
@@ -536,11 +543,11 @@ class Pilot
       agi: this.MechSkillsController.Agi,
       sys: this.MechSkillsController.Sys,
       eng: this.MechSkillsController.Eng,
-      hp: sc.getMax('hp') ?? 0,
-      armor: sc.getMax('armor') ?? 0,
-      speed: sc.getMax('speed') ?? 0,
-      evasion: sc.getMax('evasion') ?? 0,
-      edef: sc.getMax('edef') ?? 0,
+      hp: this.MaxHP,
+      armor: this.Armor,
+      speed: this.Speed,
+      evasion: this.Evasion,
+      edef: this.EDefense,
     }
   }
 

@@ -14,19 +14,33 @@
     </i>
   </div>
 
+  <v-row dense
+    align="center"
+    class="bg-panel heading h3 pb-1 px-3">
+    <v-col v-if="event.AttackBonus"
+      cols="auto">
+      <cc-npc-attack-bonus :attack-bonus="event.AttackBonus" />
+    </v-col>
+    <v-col v-if="event.Accuracy"
+      cols="auto">
+      <cc-npc-accuracy-element :accuracy="event.Accuracy" />
+    </v-col>
+  </v-row>
+
   <div v-if="!hideInput">
     <cc-alert v-if="activeEffect.Condition"
       color="primary">
       <b class="text-accent">IF:&nbsp;</b>
-      <b>{{ activeEffect.Condition }}</b>
+      <b v-html-safe="activeEffect.getCondition(owner.actor.CombatController.Tier)" />
     </cc-alert>
     <cc-alert v-if="(activeEffect as any).Trigger"
       color="primary">
       <b class="text-accent">Trigger:&nbsp;</b>
-      <b>{{ (activeEffect as any).Trigger }}</b>
+      <b v-html-safe="activeEffect.getTrigger(owner.actor.CombatController.Tier)" />
     </cc-alert>
-    <div class="text-text pa-1 mb-3"
-      v-html-safe="byTier(activeEffect.Detail)" />
+
+    <div v-html-safe="activeEffect.getDetail(owner.actor.CombatController.Tier)"
+      class="text-text pa-1 mb-3" />
 
     <v-card flat
       tile
@@ -79,22 +93,24 @@
 
 <script lang="ts">
 import { CombatantData } from '@/classes/encounter/Encounter';
-import { ByTier } from '@/util/tierFormat';
 
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import EffectApplicator from './EffectApplicator.vue';
 import ApplyButton from './ApplyButton.vue'
+import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
+import { Action } from '@/interface';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
 
 export default {
-  name: 'ae-menu-input',
+  name: 'AeMenuInput',
   components: {
     EffectApplicator,
     ApplyButton,
   },
   props: {
-    activeEffect: { type: Object, required: true },
-    encounter: { type: Object, required: true },
+    activeEffect: { type: [ActiveEffect, Action] as any, required: true },
+    encounter: { type: EncounterInstance, required: true },
     owner: { type: Object, required: true },
     close: { type: Function, required: true },
     hideInput: { type: Boolean, default: false },
@@ -104,15 +120,12 @@ export default {
     initialTargets: { type: Array, default: () => [] },
     action: { type: Object, required: false },
   },
+  emits: ['apply', 'reset'],
   data: () => ({
     event: {} as ActiveEffectEvent,
     ready: false,
     isFree: false,
   }),
-  emits: ['apply', 'reset'],
-  created() {
-    this.reset();
-  },
   computed: {
     isPilotSheet() {
       return this.encounter.ItemType === 'PilotSheet';
@@ -160,10 +173,10 @@ export default {
       return '';
     },
   },
+  created() {
+    this.reset();
+  },
   methods: {
-    byTier(detail: string) {
-      return ByTier(detail, this.owner.actor.CombatController.Tier);
-    },
     reset(clearAction = false) {
       if (clearAction) this.owner.actor.CombatController.ClearActionUsed(this.activeEffect.ID);
       const self = this.encounter.Combatants.find(

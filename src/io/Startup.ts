@@ -131,6 +131,7 @@ export default async function (skipSync = false): Promise<void> {
 
       CompendiumStore().loadContentCollections()
       UserStore().setSyncTimer()
+      window.addEventListener('pagehide', () => UserStore().OnUnload())
       UserStore().IsSyncing = false
     }
   }

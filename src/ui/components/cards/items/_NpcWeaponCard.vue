@@ -126,7 +126,7 @@
           {{ item.Accuracy(1) < 0
             ? 'Difficulty'
             : 'Accuracy'
-          }}
+            }}
             </div>
       </v-col>
     </v-row>

@@ -54,8 +54,28 @@ class ActiveEffectEvent {
     this.Accuracy = effect.Accuracy || 0
     this.AttackBonus = effect.AttackBonus || 0
 
-    if (initiator.actor.CombatController?.Grit) {
-      this.AttackBonus += initiator.actor.CombatController?.Grit
+    if (this.Attack === 'ranged' || this.Attack === 'melee') {
+      // this contains grit for pcs already
+      this.AttackBonus += initiator.actor.CombatController?.AttackBonus || 0
+    } else if (this.Attack === 'tech') {
+      this.AttackBonus += initiator.actor.CombatController?.TechAttackBonus || 0
+    }
+
+    // For NPC actors, add the feature-level tier accuracy/attack_bonus (e.g. NpcTech arrays).
+    // NpcWeapon already bakes these into the ActiveEffectData via toActiveEffectData(), so the
+    // lookup will find no match and is a no-op for weapon attacks.
+    const npcFeatures = (initiator.actor as any).NpcFeatureController?.Features
+    if (npcFeatures?.length) {
+      const tier = initiator.actor.CombatController.Tier
+      const matchingFeature = npcFeatures.find(
+        (f: any) => f.ID === effect.ID || f.Actions?.some((a: any) => a.ID === effect.ID)
+      )
+      if (matchingFeature) {
+        if (typeof matchingFeature.Accuracy === 'function')
+          this.Accuracy += matchingFeature.Accuracy(tier) || 0
+        if (typeof matchingFeature.AttackBonus === 'function')
+          this.AttackBonus += matchingFeature.AttackBonus(tier) || 0
+      }
     }
 
     this.RemoveSpecialStatus = effect.RemoveSpecial
@@ -114,7 +134,7 @@ class ActiveEffectEvent {
   }
 
   public get IsPassive(): boolean {
-    return !this._allEvents.length
+    return !this._allEvents.length && !this.Save && !this.Attack
   }
 
   public SetCrit() {

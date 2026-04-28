@@ -175,41 +175,15 @@ export default {
         {
           title: 'On App Close',
           value: 'close',
-          disabled: this.patreonTier < 1,
           subtitle:
             'Data is synced when you close the app. May not be supported on all browsers.',
         },
         {
           title: 'On App Start and Close',
           value: 'startAndClose',
-          disabled: this.patreonTier < 1,
           subtitle:
             'Data is synced when you open and close the app. Syncing on close may not be supported on all browsers.',
-        },
-        {
-          title: 'Every Hour',
-          value: 'start_minutes_60',
-          disabled: this.patreonTier < 2,
-          subtitle: 'Data is synced on startup, then every 60 minutes thereafter.',
-        },
-        {
-          title: 'Every 30 Minutes',
-          value: 'start_minutes_30',
-          disabled: this.patreonTier < 2,
-          subtitle: 'Data is synced on startup, then every 30 minutes thereafter.',
-        },
-        {
-          title: 'Every 10 Minutes',
-          value: 'start_minutes_10',
-          disabled: this.patreonTier < 3,
-          subtitle: 'Data is synced on startup, then every 10 minutes thereafter.',
-        },
-        {
-          title: 'Every 5 Minutes',
-          value: 'start_minutes_5',
-          disabled: this.patreonTier < 3,
-          subtitle: 'Data is synced on startup, then every 5 minutes thereafter.',
-        },
+        }
       ]
     },
     syncItems() {

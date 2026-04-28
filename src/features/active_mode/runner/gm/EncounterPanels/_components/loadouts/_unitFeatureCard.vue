@@ -43,7 +43,7 @@
         </div>
       </v-col>
 
-      <v-col v-if="item.WeaponType"
+      <v-col v-if="item.HasAccuracy || item.HasAttackBonus"
         cols="auto">
         <cc-npc-attack-bonus :attack-bonus="item.AttackBonus(tier)"
           small />
@@ -51,7 +51,7 @@
           small />
       </v-col>
 
-      <cc-slashes v-if="item.Accuracy || item.AttackBonus"
+      <cc-slashes v-if="item.WeaponType"
         class="pl-2 pr-1" />
 
 

@@ -197,7 +197,7 @@ class BondController {
   }
 
   public get MaxPowerSelections(): number {
-    return this.PowerSelections + this.MinPowerSelections
+    return this.PowerSelections + this.MinPowerSelections + (this.HasVeteranPower ? 1 : 0)
   }
 
   public get MinPowerSelections(): number {

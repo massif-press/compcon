@@ -9,6 +9,7 @@ import { IEffectOtherData, EffectOther } from './effect_subtype/EffectOther'
 import { IEffectStatusData, EffectStatus } from './effect_subtype/EffectStatus'
 import { EffectSave } from './effect_subtype/EffectSave'
 import { BonusDamage, IBonusDamageData } from './BonusDamage'
+import { ByTier } from '@/util/tierFormat'
 
 interface IActiveEffectData {
   id?: string
@@ -29,11 +30,13 @@ interface IActiveEffectData {
   add_status?: IEffectStatusData[] | string[]
   can_crit?: boolean
   attack?: 'melee' | 'ranged' | 'tech'
-  applied?: boolean
   accuracy?: number
+  tech_accuracy?: number
   attack_bonus?: number
+  tech_attack_bonus?: number
   pilot?: boolean
   mech?: boolean
+  applied?: boolean
 }
 
 class ActiveEffect {
@@ -86,8 +89,10 @@ class ActiveEffect {
     this.Name = data.name || fallbackName || 'Unnamed Effect'
     this.Detail = data.detail || ''
     this.Condition = data.condition || ''
-    this.Accuracy = data.accuracy || 0
-    this.AttackBonus = data.attack_bonus || 0
+    this.Accuracy =
+      (data.attack === 'tech' ? data.tech_accuracy : undefined) ?? data.accuracy ?? 0
+    this.AttackBonus =
+      (data.attack === 'tech' ? data.tech_attack_bonus : undefined) ?? data.attack_bonus ?? 0
 
     this.Damage = []
     if (data.damage) {
@@ -167,6 +172,16 @@ class ActiveEffect {
       ...this.AddStatus,
     ].filter(s => s.Target && s.Target === 'self')
     return targetedSubtypes.length > 0
+  }
+
+  public getDetail(tier?: number): string {
+    return ByTier(this.Detail, tier)
+  }
+  public getCondition(tier?: number): string {
+    return ByTier(this.Condition, tier)
+  }
+  public getTrigger(tier?: number): string {
+    return ByTier((this as any).Trigger || '', tier)
   }
 }
 export { ActiveEffect }
