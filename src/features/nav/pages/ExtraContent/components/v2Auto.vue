@@ -111,7 +111,7 @@ export default {
     },
   },
   data: () => ({
-    hasMigrationData: true,
+    hasMigrationData: false,
     dialog: false,
     migrationResult: null as any,
     backupData: null as any,

@@ -4,6 +4,15 @@ function stripBrew(brew: any): any {
 }
 
 function transformSkill(s: any): any {
+  if (s.custom) {
+    return {
+      id: s.id,
+      rank: s.rank,
+      custom: true,
+      custom_desc: s.custom_desc ?? '',
+      custom_detail: s.custom_detail ?? '',
+    }
+  }
   return { id: s.id, rank: s.rank }
 }
 
@@ -240,7 +249,7 @@ export const convertTov2Pilot = function (input: any): any {
     skills: (d.skills ?? []).map(transformSkill),
     talents: (d.talents ?? []).map(transformTalent),
     mechSkills: d.mechSkills ?? [0, 0, 0, 0],
-    core_bonuses: d.core_bonuses ?? [],
+    core_bonuses: (d.core_bonuses ?? []).map((cb: any) => (typeof cb === 'string' ? cb : cb.id)),
     licenses: d.licenses ?? [],
     reserves: d.reserves ?? [],
     orgs: d.orgs ?? [],
