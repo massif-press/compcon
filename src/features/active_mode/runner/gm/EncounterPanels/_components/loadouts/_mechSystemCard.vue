@@ -77,6 +77,9 @@
               :key="`bonus-${index}`"
               :bonus="b"
               chip />
+            <cc-bonus v-for="(b, index) in externalItemBonuses"
+              :key="`ext-bonus-${index}`"
+              :bonus="b" />
             <cc-synergy-display :item="item"
               :location="synergyLocation"
               :mech="mech"
@@ -99,6 +102,7 @@ import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { useMobile } from '@/mixins/useMobile'
+import { externalItemBonuses } from '@/mixins/useExternalItemBonuses'
 
 export default {
   name: 'MechSystemCombatCard',
@@ -137,6 +141,7 @@ export default {
       if (!this.item) return 'none'
       return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
     },
+    externalItemBonuses,
   },
 }
 </script>

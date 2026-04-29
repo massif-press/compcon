@@ -95,20 +95,7 @@
 
 <script lang="ts">
 import { useMobile } from '@/mixins/useMobile'
-
-// Bonus IDs that are meaningful at the equipment level (not mech-wide stats like hp/armor/speed)
-const ITEM_BONUS_IDS = new Set([
-  'range', 'damage', 'limited_bonus', 'knockback', 'threat',
-  'attack', 'melee', 'accuracy', 'min_range', 'min_damage', 'no_mods',
-  'deployable_hp', 'deployable_size', 'deployable_charges', 'deployable_armor',
-  'deployable_evasion', 'deployable_edef', 'deployable_heatcap', 'deployable_repcap',
-  'deployable_sensor_range', 'deployable_tech_attack', 'deployable_save', 'deployable_speed',
-  'deployable_resist',
-  'drone_hp', 'drone_size', 'drone_charges', 'drone_armor',
-  'drone_evasion', 'drone_edef', 'drone_heatcap', 'drone_repcap',
-  'drone_sensor_range', 'drone_tech_attack', 'drone_save', 'drone_speed',
-  'drone_resist',
-])
+import { externalItemBonuses } from '@/mixins/useExternalItemBonuses'
 
 export default {
   name: 'EquipmentDetails',
@@ -132,26 +119,7 @@ export default {
     },
   },
   computed: {
-    externalItemBonuses() {
-      if (!this.mech?.FeatureController) return []
-
-      const itemBonuses = new Set(this.item.Bonuses)
-      const hasWeaponTypes = Array.isArray(this.item.WeaponTypes) && this.item.WeaponTypes.length > 0
-
-      const deployables: any[] = this.item.Deployables ?? []
-      const hasDrones = deployables.some(d => d.Type?.toLowerCase() === 'drone')
-      const hasDeployables = deployables.some(d => d.Type?.toLowerCase() !== 'drone')
-
-      return this.mech.FeatureController.Bonuses.filter(b => {
-        if (itemBonuses.has(b)) return false
-        if (!ITEM_BONUS_IDS.has(b.ID)) return false
-        if (b.ID.startsWith('drone_') && !hasDrones) return false
-        if (b.ID.startsWith('deployable_') && !hasDeployables) return false
-        if (b.WeaponTypes.length && (!hasWeaponTypes || !b.WeaponTypes.some(wt => this.item.WeaponTypes.includes(wt)))) return false
-        if (b.WeaponSizes.length && (!this.item.Size || !b.WeaponSizes.some(ws => this.item.Size === ws))) return false
-        return true
-      })
-    },
+    externalItemBonuses,
   },
 }
 </script>

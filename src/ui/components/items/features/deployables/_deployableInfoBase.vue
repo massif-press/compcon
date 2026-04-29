@@ -3,7 +3,7 @@
     <v-row justify="center"
       dense>
       <cc-statblock-panel v-if="deployable.Size"
-        :icon="`cc:size_${deployable.Size === 0.5 ? 'half' : deployable.Size}`"
+        :icon="deployable.SizeIcon"
         name="Size"
         inline
         :value="`${deployable.Size === 0.5 ? '½' : deployable.Size}`" />

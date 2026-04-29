@@ -121,13 +121,11 @@ enum SystemType {
   Deployable = 'Deployable',
   Drone = 'Drone',
   Tech = 'Tech',
-  Armor = 'Armor',
   FlightSystem = 'Flight System',
   Integrated = 'Integrated',
   Mod = 'Mod',
   Mine = 'Mine',
   Grenade = 'Grenade',
-  Charge = 'Charge',
 }
 
 enum SkillFamily {

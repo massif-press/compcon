@@ -46,7 +46,7 @@
         <v-divider class="mt-2" />
 
         <div v-if="group === 'lcp'">
-          <v-list-group v-for="lcp in lcps.filter((l) => lcpFilter.includes(l))"
+          <v-list-group v-for="lcp in filteredLcps"
             :key="`lcp-${lcp}`"
             :value="lcp"
             color="accent"
@@ -87,11 +87,19 @@
 
               <b-list-group v-for="role in rolesByLcp[lcp]"
                 v-else-if="itemType === 'NpcClass'"
+                v-show="search
+                  ? (itemsByLcpByRole[lcp]?.[role] ?? []).some((i) =>
+                    i.Name.toLowerCase().includes(search.toLowerCase())
+                  )
+                  : true
+                  "
                 :key="`role-${lcp}-${role}`"
                 :parent="lcp"
                 :collection="role"
                 :role="role">
-                <b-list-item v-for="item in (itemsByLcpByRole[lcp]?.[role] ?? [])"
+                <b-list-item v-for="item in (itemsByLcpByRole[lcp]?.[role] ?? []).filter((i) =>
+                  search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
+                )"
                   :key="item.ID"
                   :selected="!!selectedItem && selectedItem.ID === item.ID"
                   :compare="view === 'compare'"
@@ -146,11 +154,19 @@
 
               <b-list-group v-for="manufacturer in manufacturersByLcp[lcp]"
                 v-else
+                v-show="search
+                  ? (itemsByLcpBySource[lcp]?.[manufacturer] ?? []).some((i) =>
+                    i.Name.toLowerCase().includes(search.toLowerCase())
+                  )
+                  : true
+                  "
                 :key="`mf-${lcp}-${manufacturer}`"
                 :parent="lcp"
                 :collection="manufacturer"
                 :manufacturer="mf(manufacturer)">
-                <b-list-item v-for="item in (itemsByLcpBySource[lcp]?.[manufacturer] ?? [])"
+                <b-list-item v-for="item in (itemsByLcpBySource[lcp]?.[manufacturer] ?? []).filter((i) =>
+                  search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
+                )"
                   :key="item.ID"
                   :selected="!!selectedItem && selectedItem.ID === item.ID"
                   :compare="view === 'compare'"
@@ -872,7 +888,7 @@ export default {
       return m;
     },
     origins() {
-      return _.uniq(this.shownItems.map((x: any) => x.Origin.Name)).sort((a, b) => sortFn(a, b));
+      return _.uniq(this.shownItems.map((x: any) => x.Origin?.Name).filter(Boolean)).sort((a, b) => sortFn(a, b));
     },
     allOrigins() {
       if (this.itemType === 'NpcFeature')
@@ -895,6 +911,14 @@ export default {
     },
     lcps() {
       return Object.keys(this.itemsByLcp).sort((a, b) => sortFn(a, b));
+    },
+    filteredLcps() {
+      const base = this.lcps.filter((l: string) => this.lcpFilter.includes(l));
+      if (!this.search) return base;
+      const s = this.search.toLowerCase();
+      return base.filter((lcp: string) =>
+        (this.itemsByLcp[lcp] || []).some((i: any) => i.Name.toLowerCase().includes(s))
+      );
     },
     licenses() {
       return _.uniq(this.shownItems.map((x: any) => x.License)).sort((a, b) => sortFn(a, b));
@@ -965,13 +989,26 @@ export default {
     },
     search(val) {
       if (val) {
+        const lcps = this.filteredLcps;
+        const subGroups: string[] = [];
+        for (const lcp of lcps) {
+          const items: any[] = this.itemsByLcp[lcp] || [];
+          _.uniq(items.map((x: any) => x.IsExotic ? 'exotic' : x.Source).filter(Boolean))
+            .forEach((mf: string) => subGroups.push(`${lcp}_${mf}`));
+          _.uniq(items.filter((x: any) => x.Role).map((x: any) => x.Role))
+            .forEach((role: string) => subGroups.push(`${lcp}_${role}`));
+          _.uniq(items.filter((x: any) => x.Origin?.Name).map((x: any) => x.Origin.Name))
+            .forEach((origin: string) => subGroups.push(`${lcp}_${origin}`));
+        }
         this.open = [
-          ...this.lcps,
+          ...lcps,
+          ...subGroups,
           ...this.manufacturers,
           ...this.subtypes,
           ...this.licenses,
-          ...this.allOrigins,
-          ...this.allRoles,
+          ...this.roles,
+          ...this.origins,
+          ...this.featureTypes,
         ];
       }
     },

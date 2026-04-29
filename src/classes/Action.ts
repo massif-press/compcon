@@ -254,10 +254,10 @@ class Action {
     return ByTier(this._detail, tier)
   }
   public getCondition(tier?: number): string {
-    return ByTier((this as any)._condition || '', tier)
+    return ByTier((this as any)._condition || (this as any).Condition || '', tier)
   }
   public getTrigger(tier?: number): string {
-    return ByTier((this as any)._trigger || '', tier)
+    return ByTier((this as any)._trigger || this.Trigger || '', tier)
   }
 
   public get Uses(): number {

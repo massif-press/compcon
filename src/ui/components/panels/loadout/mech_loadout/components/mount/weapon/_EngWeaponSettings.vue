@@ -83,30 +83,32 @@
                 <cc-slashes />
                 {{ level < 3
                   ?
-                  `1d6+2`
+                  `1d6+${2
+                  +
+                  limitedBonus}`
                   :
-                  `2d6`
-                  }}
-                  </div>
+                  limitedBonus > 0 ? `2d6+${limitedBonus}` : `2d6`
+                }}
+              </div>
 
-                  <v-row dense
-                    align="center"
-                    justify="space-between">
-                    <v-col cols="auto">
-                      <v-btn size="x-small"
-                        icon
-                        variant="text"
-                        @click="rollUses">
-                        <v-icon size="x-large">mdi-dice-multiple-outline</v-icon>
-                      </v-btn>
-                    </v-col>
-                    <v-col>
-                      <cc-number-field v-model="uses"
-                        :min="0"
-                        :max="level < 3 ? 8 : 12"
-                        size="x-small" />
-                    </v-col>
-                  </v-row>
+              <v-row dense
+                align="center"
+                justify="space-between">
+                <v-col cols="auto">
+                  <v-btn size="x-small"
+                    icon
+                    variant="text"
+                    @click="rollUses">
+                    <v-icon size="x-large">mdi-dice-multiple-outline</v-icon>
+                  </v-btn>
+                </v-col>
+                <v-col>
+                  <cc-number-field v-model="uses"
+                    :min="0"
+                    :max="(level < 3 ? 8 : 12) + limitedBonus"
+                    size="x-small" />
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
         </v-menu>
@@ -223,6 +225,9 @@ export default {
     itemName() {
       return ['Prototype', 'Revision', 'Final Draft'][this.level - 1];
     },
+    limitedBonus() {
+      return this.mech.LimitedBonus || 0
+    },
     selectedRevisionTitles() {
       return this.selectedRevisions
         .map((rev) => {
@@ -272,7 +277,7 @@ export default {
       this.mech.SaveController.save();
     },
     rollUses() {
-      const max = this.level < 3 ? 8 : 12;
+      const max = (this.level < 3 ? 8 : 12) + this.limitedBonus;
       this.uses = Math.floor(Math.random() * max) + 1;
     },
     setRevision(revision) {

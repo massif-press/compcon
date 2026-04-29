@@ -37,7 +37,7 @@
             <v-col cols="auto"
               align-self="center">
               <v-icon icon="mdi-folder"
-                class="ml-2 mr-n4" />
+                class="ml-2 mr-n4 mt-n4" />
             </v-col>
             <v-col>
               <cc-select v-model="group"

@@ -10,6 +10,7 @@ import { INpcTemplateSaveData, NpcTemplateController } from '../template/NpcTemp
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer'
 import { FolderController } from '@/classes/components/folder/FolderController'
 import { IInstanceable } from '@/classes/components/instance/IInstanceable'
+import { Rules } from '@/classes/utility/Rules'
 import { CompendiumStore, NpcStore } from '@/stores'
 import { INpcFeatureData } from '../feature/NpcFeature'
 import { INpcTemplateData } from '../template/NpcTemplate'
@@ -239,8 +240,9 @@ class Unit extends Npc implements ICombatant, IInstanceable {
   }
 
   public get SizeIcon(): string {
-    if (!this.StatController.getMax('size')) return 'cc:size_1'
-    return `cc:size_${this.StatController.getMax('size') === 0.5 ? 'half' : this.StatController.getMax('size')}`
+    const size = this.StatController.getMax('size')
+    if (!size) return 'cc:size_1'
+    return Rules.SizeIcon(size)
   }
 }
 

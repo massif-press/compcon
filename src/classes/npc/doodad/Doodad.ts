@@ -13,6 +13,7 @@ import { ICombatant } from '@/classes/components/combat/ICombatant'
 import { StatController } from '@/classes/components/combat/stats/StatController'
 import { Stats } from '@/classes/components/combat/stats/Stats'
 import { ItemType } from '@/class'
+import { Rules } from '@/classes/utility/Rules'
 
 class DoodadData extends NpcData implements IInstanceableData {
   npcType: string = 'unit'
@@ -138,7 +139,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   }
 
   public get SizeIcon(): string {
-    return `cc:size_${this.StatController.getMax('size') || 1}`
+    return Rules.SizeIcon(this.StatController.getMax('size') || 1)
   }
 }
 

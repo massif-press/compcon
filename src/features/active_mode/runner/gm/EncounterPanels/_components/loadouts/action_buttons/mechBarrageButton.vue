@@ -123,8 +123,8 @@
           </v-col>
         </v-row>
 
-        <mech-mount-bonus-card v-if="selectedMount(selectedWeapon)"
-          v-for="b in selectedMount(selectedWeapon).Bonuses"
+        <mech-mount-bonus-card v-for="b in selectedMount(selectedWeapon).Bonuses"
+          v-if="selectedMount(selectedWeapon)"
           :key="b.ID"
           expanded
           :bonus="b"
@@ -242,6 +242,13 @@ import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/A
 
 export default {
   name: 'MechBarrageButton',
+  components: {
+    MenuInput,
+    MechMountBonusCard,
+    MechWeaponAttack,
+    ApplyButton,
+    StagedPanel
+  },
   props: {
     action: {
       type: Object,
@@ -260,13 +267,6 @@ export default {
       required: false,
     },
   },
-  components: {
-    MenuInput,
-    MechMountBonusCard,
-    MechWeaponAttack,
-    ApplyButton,
-    StagedPanel
-  },
   data: () => ({
     events: [] as {
       weaponEvent: WeaponAttackEvent,
@@ -276,9 +276,6 @@ export default {
     }[],
     selectedWeapons: [] as MechWeapon[],
   }),
-  created() {
-    this.reset();
-  },
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
@@ -325,6 +322,9 @@ export default {
       if (!this.eventArray.length) return false;
       return this.eventArray.every((e) => e.BaseEvent.Staged);
     }
+  },
+  created() {
+    this.reset();
   },
   methods: {
     ordnanceWarning(selectedWeapon) {

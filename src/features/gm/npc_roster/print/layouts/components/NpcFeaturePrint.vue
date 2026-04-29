@@ -1,40 +1,65 @@
 <template>
-  <v-row no-gutters align="center" class="no-print-break">
+  <v-row no-gutters
+    align="center"
+    class="no-print-break">
     <v-col cols="auto">
-      <v-icon :icon="feature.Icon" class="mr-1" />
+      <v-icon :icon="feature.Icon"
+        class="mr-1" />
       <b v-text="feature.Name" />
     </v-col>
-    <v-col v-if="feature.WeaponType" cols="auto" class="px-1">
+    <v-col v-if="feature.WeaponType"
+      cols="auto"
+      class="px-1">
       <cc-slashes />
       <span class="text-grey pl-1">{{ feature.WeaponType }}</span>
     </v-col>
-    <v-col v-else="feature.FeatureType" cols="auto" class="px-1">
+    <v-col v-else="feature.FeatureType"
+      cols="auto"
+      class="px-1">
       <cc-slashes />
       <span class="text-grey pl-1">{{ feature.FeatureType }}</span>
     </v-col>
-    <v-col v-if="feature.WeaponType" class="px-1 text-center">
-      <span class="pl-1" v-for="(r, ri) in feature.Range" :key="`range-${ri}`">
-        <v-icon :icon="r.Icon" class="mt-n1" />
+    <v-col v-if="feature.WeaponType"
+      class="px-1 text-center">
+      <span v-for="(r, ri) in feature.Range(tier)"
+        :key="`range-${ri}`"
+        class="pl-1">
+        <v-icon :icon="r.Icon"
+          class="mt-n1" />
         {{ r.Value }}
       </span>
-      <cc-slashes class="pl-2" v-if="feature.Damage(tier).length" />
-      <span class="pl-1" v-for="(d, di) in feature.Damage(tier)" :key="`damage-${di}`">
-        <v-icon :icon="d.Icon" class="mt-n1" />
+      <cc-slashes v-if="feature.Damage(tier).length"
+        class="pl-2" />
+      <span v-for="(d, di) in feature.Damage(tier)"
+        :key="`damage-${di}`"
+        class="pl-1">
+        <v-icon :icon="d.Icon"
+          class="mt-n1" />
         {{ d.Value }}
       </span>
-      <span class="pl-1" v-if="feature.Accuracy(tier)">
+      <span v-if="feature.Accuracy(tier)"
+        class="pl-1">
         <cc-slashes class="pl-1" />
-        <v-icon icon="cc:accuracy" class="mt-n1" />
+        <v-icon icon="cc:accuracy"
+          class="mt-n1" />
         {{ feature.Accuracy(tier) }}
       </span>
-      <span class="pl-1" v-if="feature.AttackBonus(tier)">
+      <span v-if="feature.AttackBonus(tier)"
+        class="pl-1">
         <cc-slashes class="pl-1 pr-2" />
-        <v-icon icon="cc:reticle" class="mt-n1" size="small" />
+        <v-icon icon="cc:reticle"
+          class="mt-n1"
+          size="small" />
         {{ feature.AttackBonus(tier) }}
       </span>
     </v-col>
-    <v-col cols="auto" class="ml-auto">
-      <v-chip v-for="tag in feature.Tags" :key="tag.ID" label size="x-small" class="ml-1">
+    <v-col cols="auto"
+      class="ml-auto">
+      <v-chip v-for="tag in feature.Tags"
+        :key="tag.ID"
+        label
+        size="x-small"
+        class="ml-1">
         <span>{{ tag.GetName(0, tier).toUpperCase() }}</span>
       </v-chip>
     </v-col>
@@ -66,9 +91,10 @@
 
   <div v-html-safe="feature.EffectByTier(tier)" />
 
-  <print-action v-if="feature.Actions.length" :actions="feature.Actions" :tier="tier" />
-  <print-deployable
-    v-if="feature.Deployables.length"
+  <print-action v-if="feature.Actions.length"
+    :actions="feature.Actions"
+    :tier="tier" />
+  <print-deployable v-if="feature.Deployables.length"
     :deployables="feature.Deployables"
     :tier="tier" />
 </template>
@@ -78,7 +104,7 @@ import PrintDeployable from './PrintDeployable.vue';
 import PrintAction from './PrintAction.vue';
 
 export default {
-  name: 'print-npc-feature',
+  name: 'PrintNpcFeature',
   components: {
     PrintAction,
     PrintDeployable,

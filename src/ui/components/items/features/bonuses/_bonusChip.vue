@@ -45,7 +45,7 @@
 import bonusBase from './_bonusBase.vue';
 
 export default {
-  name: 'bonus-popup',
+  name: 'BonusPopup',
   components: { bonusBase },
   props: {
     bonus: {

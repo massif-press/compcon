@@ -255,7 +255,8 @@ class Statblock {
   ).join('')}${mechLoadout
     .AllEquippableMounts(
       pilot.has('CoreBonus', 'cb_improved_armament'),
-      pilot.has('CoreBonus', 'cb_integrated_weapon')
+      pilot.has('CoreBonus', 'cb_integrated_weapon'),
+      pilot.has('CoreBonus', 'cb_superheavy_mounting')
     )
     .map(mount => {
       let out = `${mount.Name}: `

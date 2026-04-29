@@ -21,12 +21,12 @@
       <v-col cols="auto">
         <cc-range-element v-if="item.Range"
           small
-          :range="item.Range" />
+          :range="getRange" />
         <cc-slashes v-if="item.Range && item.Damage"
           class="pr-1" />
         <cc-damage-element v-if="item.Damage"
           small
-          :damage="item.Damage"
+          :damage="getDamage"
           :type-override="item.DamageTypeOverride" />
       </v-col>
     </v-row>
@@ -187,6 +187,9 @@
                 :key="`bonus-${index}`"
                 :bonus="b"
                 chip />
+              <cc-bonus v-for="(b, index) in externalItemBonuses"
+                :key="`ext-bonus-${index}`"
+                :bonus="b" />
               <cc-synergy-display :item="item"
                 :location="synergyLocation"
                 :mech="mech"
@@ -204,7 +207,7 @@
 </template>
 
 <script lang="ts">
-import { ItemType } from '@/class'
+import { Damage, ItemType, Mech, MechWeapon } from '@/class'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import EngWeaponSettings from '@/ui/components/panels/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
@@ -214,6 +217,8 @@ import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { useMobile } from '@/mixins/useMobile'
 import { useEquipmentActions } from '@/mixins/useEquipmentActions'
+import { externalItemBonuses } from '@/mixins/useExternalItemBonuses'
+import { Range } from '@/classes/Range'
 
 export default {
   name: 'MechWeaponCombatCard',
@@ -260,6 +265,13 @@ export default {
     },
     mod() {
       return this.item.Mod
+    },
+    externalItemBonuses,
+    getRange() {
+      return Range.CalculateRange(this.item as MechWeapon, this.mech as Mech)
+    },
+    getDamage() {
+      return Damage.CalculateDamage(this.item as MechWeapon, this.mech as Mech)
     },
   },
 }

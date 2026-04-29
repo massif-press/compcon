@@ -121,7 +121,7 @@
         <v-expansion-panel-text>
           <cc-masonry-grid :items="mech.Frame.Traits"
             :xl-columns="xlColumns">
-            <template #default="{ item, index }">
+            <template #default="{ item }">
               <cc-trait-item :trait="item"
                 color="primary"
                 style="height: 100%"
@@ -162,7 +162,7 @@
         <v-expansion-panel-text>
           <cc-masonry-grid :items="mech.Parent.CoreBonusController.CoreBonuses"
             :xl-columns="xlColumns">
-            <template #default="{ item, index }">
+            <template #default="{ item }">
               <cc-core-bonus-item :key="item.ID"
                 terse
                 :bonus="item"

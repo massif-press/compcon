@@ -17,7 +17,8 @@
       class="text-cc-overline text-disabled">//ACTIONS</div>
     <v-row no-gutters
       justify="center">
-      <v-col v-for="(a, index) in item.Actions" :key="`action-${index}`"
+      <v-col v-for="(a, index) in item.Actions"
+        :key="`action-${index}`"
         cols="auto">
         <cc-action :action="a"
           :panel="$vuetify.display.lgAndUp"
@@ -31,7 +32,8 @@
       class="text-cc-overline text-disabled">//DEPLOYABLES</div>
     <v-row no-gutters
       justify="center">
-      <v-col v-for="(d, index) in item.Deployables" :key="`deployable-${index}`"
+      <v-col v-for="(d, index) in item.Deployables"
+        :key="`deployable-${index}`"
         cols="auto">
         <cc-deployable-info :deployable="d"
           :panel="$vuetify.display.lgAndUp"
@@ -46,7 +48,8 @@
       class="text-cc-overline text-disabled">//INTEGRATIONS</div>
     <v-row no-gutters
       justify="center">
-      <v-col v-for="(x, index) in item.IntegratedEquipment" :key="`integrated-${index}`"
+      <v-col v-for="(x, index) in item.IntegratedEquipment"
+        :key="`integrated-${index}`"
         cols="auto">
         <cc-integrated-info :item="x"
           :panel="$vuetify.display.lgAndUp" />

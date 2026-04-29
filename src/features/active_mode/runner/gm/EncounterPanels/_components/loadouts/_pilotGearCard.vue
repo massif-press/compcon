@@ -40,6 +40,17 @@
               :bonus="pilot.LimitedBonus"
               combat />
           </v-col>
+          <v-col cols="auto"
+            class="ml-auto mr-4">
+            <cc-bonus v-for="(b, index) in item.Bonuses"
+              :key="`bonus-${index}`"
+              :bonus="b"
+              chip />
+            <cc-bonus v-for="(b, index) in externalPilotItemBonuses"
+              :key="`ext-bonus-${index}`"
+              :bonus="b"
+              chip />
+          </v-col>
         </v-row>
       </div>
     </v-card-text>
@@ -52,6 +63,7 @@ import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { useMobile } from '@/mixins/useMobile'
+import { externalPilotItemBonuses } from '@/mixins/useExternalItemBonuses'
 
 export default {
   name: 'PilotGearCombatCard',
@@ -85,6 +97,9 @@ export default {
     },
   },
   emits: ['deploy'],
+  computed: {
+    externalPilotItemBonuses,
+  },
 }
 </script>
 

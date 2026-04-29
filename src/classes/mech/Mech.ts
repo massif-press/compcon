@@ -179,7 +179,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
 
   // -- Attributes --------------------------------------------------------------------------------
   public get SizeIcon(): string {
-    return `cc:size_${this.Size === 0.5 ? 'half' : this.Size}`
+    return Rules.SizeIcon(this.Size)
   }
 
   public get Size(): number {

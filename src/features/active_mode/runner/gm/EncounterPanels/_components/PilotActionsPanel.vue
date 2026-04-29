@@ -10,14 +10,26 @@
         <v-row dense>
           <v-col v-for="pa in controller.AllActions('Protocol')"
             :key="pa.ID">
-            <basic-action-button :action="pa"
+            <deploy-button v-if="pa.Deployable"
+              action-only
+              :deployable="toDeployable(pa)"
+              :actor="owner.actor"
+              @deploy="$emit('deploy', $event)" />
+            <basic-action-button v-else
+              :action="pa"
               :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
           </v-col>
           <v-col v-for="fa in controller.AllActions('Free')"
             :key="fa.ID">
-            <basic-action-button :action="fa"
+            <deploy-button v-if="fa.Deployable"
+              action-only
+              :deployable="toDeployable(fa)"
+              :actor="owner.actor"
+              @deploy="$emit('deploy', $event)" />
+            <basic-action-button v-else
+              :action="fa"
               :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
@@ -59,14 +71,26 @@
               <v-divider class="my-1" />
               <v-col v-for="qa in controller.AllActions('Quick')"
                 :key="qa.ID">
-                <basic-action-button :action="qa"
+                <deploy-button v-if="qa.Deployable"
+                  action-only
+                  :deployable="toDeployable(qa)"
+                  :actor="owner.actor"
+                  @deploy="$emit('deploy', $event)" />
+                <basic-action-button v-else
+                  :action="qa"
                   :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-col v-for="qta in controller.AllActions('Quick Tech')"
                 :key="qta.ID">
-                <basic-action-button :action="qta"
+                <deploy-button v-if="qta.Deployable"
+                  action-only
+                  :deployable="toDeployable(qta)"
+                  :actor="owner.actor"
+                  @deploy="$emit('deploy', $event)" />
+                <basic-action-button v-else
+                  :action="qta"
                   :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
@@ -96,14 +120,26 @@
               <v-divider class="my-1" />
               <v-col v-for="fa in controller.AllActions('Full')"
                 :key="fa.ID">
-                <basic-action-button :action="fa"
+                <deploy-button v-if="fa.Deployable"
+                  action-only
+                  :deployable="toDeployable(fa)"
+                  :actor="owner.actor"
+                  @deploy="$emit('deploy', $event)" />
+                <basic-action-button v-else
+                  :action="fa"
                   :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
               </v-col>
               <v-col v-for="fta in controller.AllActions('Full Tech')"
                 :key="fta.ID">
-                <basic-action-button :action="fta"
+                <deploy-button v-if="fta.Deployable"
+                  action-only
+                  :deployable="toDeployable(fta)"
+                  :actor="owner.actor"
+                  @deploy="$emit('deploy', $event)" />
+                <basic-action-button v-else
+                  :action="fta"
                   :owner="owner"
                   :encounter="encounter"
                   @activate="activate($event)" />
@@ -121,7 +157,13 @@
           </v-col>
           <v-col v-for="ra in controller.AllActions('Reaction')"
             :key="ra.ID">
-            <basic-action-button :action="ra"
+            <deploy-button v-if="ra.Deployable"
+              action-only
+              :deployable="toDeployable(ra)"
+              :actor="owner.actor"
+              @deploy="$emit('deploy', $event)" />
+            <basic-action-button v-else
+              :action="ra"
               :owner="owner"
               :encounter="encounter"
               @activate="activate($event)" />
@@ -134,7 +176,9 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores'
+import { Deployable } from '@/classes/components/feature/deployable/Deployable'
 import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
+import DeployButton from './loadouts/_deployButton.vue'
 import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue'
 import PilotReloadButton from './loadouts/action_buttons/pilotReloadButton.vue'
 import PilotJockeyButton from './loadouts/action_buttons/pilotJockeyButton.vue'
@@ -145,12 +189,14 @@ export default {
   name: 'PilotActionsPanel',
   components: {
     BasicActionButton,
+    DeployButton,
     SkillCheckButton,
     PilotReloadButton,
     PilotJockeyButton,
     PilotFightButton,
     InvadeButton,
   },
+  emits: ['deploy'],
   props: {
     owner: {
       type: Object,
@@ -181,6 +227,9 @@ export default {
   methods: {
     getBaseAction(actionId) {
       return CompendiumStore().Actions.find(a => a.ID === actionId)
+    },
+    toDeployable(action) {
+      return new Deployable(action.Deployable)
     },
     activate(event) {
       this.controller.MarkActionUsed(event)

@@ -20,6 +20,10 @@
       </cc-button>
     </template>
 
+    <div style="position: absolute; top: 43px; right: 5px;">
+      <cc-lcp-info :item="item" />
+    </div>
+
     <template v-if="!mobile"
       #toolbar-items>
       <cc-chip v-if="item.Source"

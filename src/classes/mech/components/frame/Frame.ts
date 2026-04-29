@@ -6,6 +6,7 @@ import { MechType, MountType, ItemType } from '../../../enums';
 import { ICoreData, CoreSystem } from './CoreSystem';
 import { FrameTrait, IFrameTraitData } from './FrameTrait';
 import { CompendiumStore } from '@/stores';
+import { Rules } from '@/classes/utility/Rules';
 
 interface IFrameStats {
   size: number;
@@ -96,7 +97,7 @@ class Frame extends LicensedItem implements IFeatureContainer {
   }
 
   public get SizeIcon(): string {
-    return `cc:size_${this.Size === 0.5 ? 'half' : this.Size}`;
+    return Rules.SizeIcon(this.Size);
   }
 
   public get Icon(): string {

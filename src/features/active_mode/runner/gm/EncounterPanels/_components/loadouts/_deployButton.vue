@@ -1,7 +1,8 @@
 <template>
   <v-row dense
     align="center">
-    <v-col cols="auto">
+    <v-col v-if="!actionOnly"
+      cols="auto">
       <v-tooltip location="top"
         text="Equipment Deployable (Instance)">
         <template #activator="{ props }">
@@ -49,11 +50,12 @@
     <v-col>
       <v-row no-gutters
         align="center">
-        <v-col cols="auto"
+        <v-col v-if=!actionOnly
+          cols="auto"
           style="margin-right: 2px">
           <cc-deployable-info :deployable="deployable" />
         </v-col>
-        <v-col>
+        <v-col :cols="actionOnly ? '' : 'auto'">
           <v-menu v-model="menu"
             :close-on-content-click="false"
             offset-y>
@@ -67,7 +69,7 @@
                 height="26px"
                 class="ml-n1"
                 :prepend-icon="deployable.DeployAction.Icon">
-                Deploy Instance
+                {{ `Deploy${actionOnly ? ` ${deployable.Name}` : ''}` }}
               </v-btn>
             </template>
             <v-card border>
@@ -138,6 +140,10 @@ export default {
     customDisabledText: {
       type: String,
       default: '',
+    },
+    actionOnly: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['deploy'],

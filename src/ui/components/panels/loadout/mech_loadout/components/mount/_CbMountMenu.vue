@@ -7,7 +7,7 @@
           <cc-button size="x-small"
             :color="isAvailable ? 'accent' : 'panel'"
             prepend-icon="cc:corebonus"
-            :class="isAvailable && 'pulse'"
+            :class="isAvailable && 'pulse mb-n1'"
             v-bind="props">
             <span v-if="!hasEffect && !portrait">Core Bonus Available</span>
           </cc-button>
@@ -23,7 +23,7 @@
           class="px-1">
           <v-icon start
             icon="cc:corebonus" />
-          <span class="heading h3">Mount CORE Bonuses</span>
+          <span class="heading h3">Mount CORE Bonus</span>
         </v-toolbar>
         <v-card-text class="text-center">
           <v-row dense>
@@ -34,7 +34,6 @@
               color="primary"
               class="my-1"
               prepend-icon="cc:corebonus"
-              append-icon="mdi-plus"
               @click="
                 mount.AddCoreBonus(b);
               isActive.value = false;
@@ -45,16 +44,14 @@
               :key="`bonus-${index}`"
               size="small"
               block
-              color="secondary"
+              color="error"
               class="my-1"
-              prepend-icon="cc:corebonus"
-              append-icon="mdi-cancel"
-              variant="outlined"
+              prepend-icon="mdi-cancel"
               @click="
                 mount.RemoveCoreBonus(b);
               isActive.value = false;
               ">
-              Uninstall {{ b.Name }}
+              Remove {{ b.Name }}
             </cc-button>
           </v-row>
         </v-card-text>

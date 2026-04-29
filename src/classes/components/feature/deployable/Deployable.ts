@@ -1,4 +1,5 @@
 import { ActivationType, Tag } from '@/class'
+import { Rules } from '@/classes/utility/Rules'
 import { ICounterData, IDamageData, IRangeData, ISynergyData, ITagData } from '@/interface'
 import { IActionData, Action } from '../../../Action'
 import { IBonusData } from '../bonus/Bonus'
@@ -180,7 +181,7 @@ class Deployable {
   }
 
   public get SizeIcon(): string {
-    return `cc:size_${this.Size === 0.5 ? 'half' : this.Size}`
+    return Rules.SizeIcon(this.Size)
   }
 
   public get Color(): string {

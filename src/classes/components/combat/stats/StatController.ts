@@ -1,6 +1,7 @@
 import * as _ from 'lodash-es'
 import { IStatContainer } from './IStatContainer'
 import { Stats, StatKey } from './Stats'
+import { Rules } from '@/classes/utility/Rules'
 
 interface ICustomStatData {
   key: string
@@ -276,8 +277,9 @@ class StatController {
   }
 
   public get SizeIcon(): string {
-    if (!this.getMax(StatKey.SIZE)) return 'cc:size_1'
-    return `cc:size_${this.getMax(StatKey.SIZE) === 0.5 ? 'half' : this.getMax(StatKey.SIZE)}`
+    const size = this.getMax(StatKey.SIZE)
+    if (!size) return 'cc:size_1'
+    return Rules.SizeIcon(size)
   }
 
   public static Serialize(parent: IStatContainer, target: any) {

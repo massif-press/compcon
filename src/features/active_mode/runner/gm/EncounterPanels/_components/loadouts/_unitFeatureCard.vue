@@ -139,6 +139,11 @@
                   :bonus="b"
                   chip
                   :tier="tier" />
+                <cc-bonus v-for="(b, index) in externalUnitItemBonuses"
+                  :key="`ext-bonus-${index}`"
+                  :bonus="b"
+                  chip
+                  :tier="tier" />
               </v-col>
             </v-row>
           </div>
@@ -162,6 +167,7 @@ import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { useMobile } from '@/mixins/useMobile'
+import { externalUnitItemBonuses } from '@/mixins/useExternalItemBonuses'
 
 export default {
   name: 'UnitFeatureCombatCard',
@@ -197,6 +203,7 @@ export default {
     collapsed: false,
   }),
   computed: {
+    externalUnitItemBonuses,
     mods() {
       return this.unit.NpcFeatureController?.GetModifiers(this.item) || []
     },

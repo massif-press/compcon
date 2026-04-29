@@ -27,49 +27,56 @@
           style="height: 100%; min-height: calc(100vh - 86px); overflow-y: scroll">
           <v-list-item v-for="group in Object.keys(pilotsByGroup)"
             :key="group">
-            <v-list-item-subtitle>
+            <div class="d-flex align-center"
+              style="cursor: pointer"
+              @click="toggleGroup(group)">
               <v-icon icon="mdi-folder"
                 start
                 size="small"
                 class="mt-n1" />
-              {{ group || 'No Group' }}
-            </v-list-item-subtitle>
+              <span class="text-cc-overline text-disabled flex-grow-1">{{ group || 'No Group'
+                }}</span>
+              <v-icon :icon="collapsedGroups[group] ? 'mdi-chevron-right' : 'mdi-chevron-down'"
+                size="small" />
+            </div>
             <v-divider />
-            <v-list-item v-for="p in pilotsByGroup[group]"
-              :key="p.ID"
-              @click="selected = p">
-              <div class="heading h3">{{ p.Callsign }}</div>
-              <v-divider class="mb-1 mr-4" />
-              <div class="text-cc-overline text-disabled">{{ p.Name }}</div>
-              <div class="text-cc-overline text-disabled">LL {{ p.Level }}</div>
-              <template #prepend>
-                <v-avatar size="64"
-                  flat
-                  tile
-                  class="clipped">
-                  <cc-avatar v-if="p.PortraitController.Avatar"
-                    :avatar="p.PortraitController.Avatar"
-                    size="64" />
-                  <cc-img v-else-if="p.Portrait"
-                    :src="p.Portrait"
-                    height="64"
-                    width="64" />
-                </v-avatar>
-              </template>
-              <template #append>
-                <v-tooltip>
-                  <template #activator="{ props }">
-                    <cc-button v-bind="props"
-                      variant="outlined"
-                      :icon="!isInEncounter(p) ? 'mdi-plus' : 'mdi-check-bold'"
-                      size="small"
-                      :color="!isInEncounter(p) ? 'secondary' : 'success'"
-                      @click.stop="addPilot(p)"></cc-button>
-                  </template>
-                  <span>Add to Encounter</span>
-                </v-tooltip>
-              </template>
-            </v-list-item>
+            <template v-if="!collapsedGroups[group]">
+              <v-list-item v-for="p in pilotsByGroup[group]"
+                :key="p.ID"
+                @click="selected = p">
+                <div class="heading h3">{{ p.Callsign }}</div>
+                <v-divider class="mb-1 mr-4" />
+                <div class="text-cc-overline text-disabled">{{ p.Name }}</div>
+                <div class="text-cc-overline text-disabled">LL {{ p.Level }}</div>
+                <template #prepend>
+                  <v-avatar size="64"
+                    flat
+                    tile
+                    class="clipped">
+                    <cc-avatar v-if="p.PortraitController.Avatar"
+                      :avatar="p.PortraitController.Avatar"
+                      size="64" />
+                    <cc-img v-else-if="p.Portrait"
+                      :src="p.Portrait"
+                      height="64"
+                      width="64" />
+                  </v-avatar>
+                </template>
+                <template #append>
+                  <v-tooltip>
+                    <template #activator="{ props }">
+                      <cc-button v-bind="props"
+                        variant="outlined"
+                        :icon="!isInEncounter(p) ? 'mdi-plus' : 'mdi-check-bold'"
+                        size="small"
+                        :color="!isInEncounter(p) ? 'secondary' : 'success'"
+                        @click.stop="addPilot(p)"></cc-button>
+                    </template>
+                    <span>Add to Encounter</span>
+                  </v-tooltip>
+                </template>
+              </v-list-item>
+            </template>
           </v-list-item>
         </v-list>
       </template>
@@ -405,32 +412,38 @@ export default {
   },
   data: () => ({
     showNav: true,
-    selected: null,
+    selected: null as any,
     search: '',
+    collapsedGroups: {} as Record<string, boolean>,
   }),
   computed: {
     addedPilots() {
       return this.pilots.map((p) => p.ID);
     },
     pilotsByGroup() {
-      let pilots = PilotStore().Pilots.filter((p) => !p.SaveController.IsDeleted);
-      if (this.search) {
-        const searchLower = this.search.toLowerCase();
-        pilots = pilots.filter(
-          (p) =>
-            p.Callsign.toLowerCase().includes(searchLower) ||
-            p.Name.toLowerCase().includes(searchLower)
-        );
-      }
-
-      return pilots.reduce((acc, pilot) => {
-        const group = pilot.Group || 'No Group';
-        if (!acc[group]) {
-          acc[group] = [];
+      const store = PilotStore();
+      const searchLower = this.search ? this.search.toLowerCase() : '';
+      const result = {};
+      for (const group of store.getPilotGroups()) {
+        let pilots = store.getPilots(group.ID);
+        if (searchLower) {
+          pilots = pilots.filter(
+            (p) =>
+              p.Callsign.toLowerCase().includes(searchLower) ||
+              p.Name.toLowerCase().includes(searchLower)
+          );
         }
-        acc[group].push(pilot);
-        return acc;
-      }, {});
+        if (pilots.length) result[group.Name] = pilots;
+      }
+      return result;
+    },
+  },
+  watch: {
+    search(val) {
+      if (!val) return;
+      for (const group of Object.keys(this.pilotsByGroup)) {
+        this.collapsedGroups[group] = false;
+      }
     },
   },
   methods: {
@@ -456,6 +469,9 @@ export default {
     },
     isInEncounter(pilot) {
       return this.addedPilots.includes(pilot.ID);
+    },
+    toggleGroup(group: string) {
+      this.collapsedGroups[group] = !this.collapsedGroups[group];
     },
   },
 };

@@ -72,6 +72,10 @@
                 :key="`bonus-${index}`"
                 :bonus="b"
                 chip />
+              <cc-bonus v-for="(b, index) in externalPilotItemBonuses"
+                :key="`ext-bonus-${index}`"
+                :bonus="b"
+                chip />
             </v-col>
           </v-row>
         </div>
@@ -91,6 +95,7 @@ import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { useMobile } from '@/mixins/useMobile'
+import { externalPilotItemBonuses } from '@/mixins/useExternalItemBonuses'
 
 export default {
   name: 'PilotWeaponCombatCard',
@@ -121,6 +126,9 @@ export default {
     },
   },
   emits: ['deploy'],
+  computed: {
+    externalPilotItemBonuses,
+  },
 }
 </script>
 
