@@ -77,18 +77,22 @@
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
+          <v-divider class="my-2" />
         </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <cc-button color="primary"
-            prepend-icon="mdi-download"
-            tooltip="This .compcon file can be used in a v2 environment at https://old.compcon.app. This can be downloaded at any time from the Options menu"
-            @click="downloadBackup">
-            Download .compcon Backup
-          </cc-button>
-          <v-spacer />
-          <v-btn @click="dismiss(close)">Dismiss</v-btn>
-        </v-card-actions>
+        <v-row justify="space-between">
+          <v-col>
+            <cc-button color="primary"
+              prepend-icon="mdi-download"
+              tooltip="This .compcon file can be used in a v2 environment at https://old.compcon.app. This can be downloaded at any time from the Options menu"
+              @click="downloadBackup">
+              Download v2 Backup
+            </cc-button>
+          </v-col>
+          <v-col cols="auto">
+            <v-btn variant="text"
+              @click="dismiss(close)">Dismiss</v-btn>
+          </v-col>
+        </v-row>
       </template>
     </cc-dialog>
   </div>
@@ -107,7 +111,7 @@ export default {
     },
   },
   data: () => ({
-    hasMigrationData: false,
+    hasMigrationData: true,
     dialog: false,
     migrationResult: null as any,
     backupData: null as any,

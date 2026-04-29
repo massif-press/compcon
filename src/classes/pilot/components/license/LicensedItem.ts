@@ -8,7 +8,6 @@ import {
   Pilot,
 } from '../../../../class'
 import { ICompendiumItemData } from '../../../../interface'
-import logger from '@/user/logger'
 
 interface ILicenseRequirement {
   source: string
@@ -44,13 +43,9 @@ abstract class LicensedItem extends CompendiumItem {
   }
 
   public get Manufacturer(): Manufacturer {
-    try {
-      if (this.Source === 'EXOTIC') return undefined as any
-      return CompendiumStore().referenceByID('Manufacturers', this.Source)
-    } catch (e) {
-      logger.error(`Error getting manufacturer for item ${this.Name}: ${e}`, this, e)
-      return undefined as any
-    }
+    if (this.Source === 'EXOTIC') return undefined as any
+    if (!CompendiumStore().has('Manufacturers', this.Source)) return undefined as any
+    return CompendiumStore().referenceByID('Manufacturers', this.Source)
   }
 
   public get License(): string {
