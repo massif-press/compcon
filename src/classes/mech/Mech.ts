@@ -499,28 +499,34 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public getExpressionContext(): Record<string, number> {
-    const sc = this.CombatController.StatController
+    // can't call Bonus.Int (directly or via stat getters like MaxHP, Evasion, etc)
+    // because Bonus.Int → EvaluateSpecial → getExpressionContext loops
+    const grit = this._pilot?.Grit ?? 0
+    const hull = this.Hull
+    const agi = this.Agi
+    const sys = this.Sys
+    const eng = this.Eng
     return {
-      grit: this._pilot?.Grit ?? 0,
+      grit,
       ll: this._pilot?.Level ?? 0,
-      hull: this.Hull,
-      agi: this.Agi,
-      sys: this.Sys,
-      eng: this.Eng,
-      size: this.Size,
-      structure: this.MaxStructure,
-      stress: this.MaxStress,
-      hp: this.MaxHP,
-      armor: this.Armor,
-      speed: this.Speed,
-      evasion: this.Evasion,
-      edef: this.EDefense,
-      heatcap: this.HeatCapacity,
-      sensors: this.SensorRange,
-      repcap: this.RepairCapacity,
-      save: this.SaveTarget,
-      sp: this.MaxSP,
-      overshield: sc.getMax('overshield') ?? 0,
+      hull,
+      agi,
+      sys,
+      eng,
+      size: this._frame.Size,
+      structure: this._frame.Structure,
+      stress: this._frame.HeatStress,
+      hp: this._frame.HP + grit + hull * 2,
+      armor: this._frame.Armor,
+      speed: this._frame.Speed + Math.floor(agi / 2),
+      evasion: this._frame.Evasion + agi,
+      edef: this._frame.EDefense + sys,
+      heatcap: this._frame.HeatCap + eng,
+      sensors: this._frame.SensorRange,
+      repcap: this._frame.RepCap + Math.floor(hull / 2),
+      save: this._frame.SaveTarget + grit,
+      sp: this._frame.SP + grit + Math.floor(sys / 2),
+      overshield: 0,
     }
   }
 

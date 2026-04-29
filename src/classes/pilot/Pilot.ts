@@ -536,6 +536,8 @@ class Pilot
   }
 
   public getExpressionContext(): Record<string, number> {
+    // can't call Bonus.Int (directly or via stat getters like MaxHP, Evasion, etc)
+    // because Bonus.Int → EvaluateSpecial → getExpressionContext loops
     return {
       ll: this.Level,
       grit: this.Grit,
@@ -543,11 +545,11 @@ class Pilot
       agi: this.MechSkillsController.Agi,
       sys: this.MechSkillsController.Sys,
       eng: this.MechSkillsController.Eng,
-      hp: this.MaxHP,
-      armor: this.Armor,
-      speed: this.Speed,
-      evasion: this.Evasion,
-      edef: this.EDefense,
+      hp: Rules.BasePilotHP + this.Grit,
+      armor: 0,
+      speed: Rules.BasePilotSpeed,
+      evasion: Rules.BasePilotEvasion,
+      edef: Rules.BasePilotEdef,
     }
   }
 
