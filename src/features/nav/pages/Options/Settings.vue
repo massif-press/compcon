@@ -11,6 +11,8 @@
           @click="showUpdates">
           Show Update Messages
         </cc-button>
+        <migration-repair-dialog />
+
       </v-col>
       <v-col cols="auto">
         <cc-switch v-model="userViewExotics"
@@ -275,7 +277,6 @@
       </v-col>
     </v-row>
 
-
     <v-row justify="end">
       <cc-button v-if="v2MigrationComplete"
         size="small"
@@ -309,9 +310,11 @@ import { saveFile } from '@/io/Data'
 import { ClearAllData } from '@/io/Storage'
 import { isFullBackup, processFullBackup, downloadFullBackup } from '@/io/FullImporter'
 import { GetValue, SetValue } from '@/io/Storage'
+import MigrationRepairDialog from './components/MigrationRepairDialog.vue'
 
 export default {
   name: 'OptionsSettings',
+  components: { MigrationRepairDialog },
   emits: ['show-message'],
   data: () => ({
     importDialog: false,

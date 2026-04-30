@@ -217,7 +217,6 @@ export default {
     MechSkirmishButton,
     MechBarrageButton,
   },
-  emits: ['deploy'],
   props: {
     owner: {
       type: Object,
@@ -228,6 +227,7 @@ export default {
       required: true,
     },
   },
+  emits: ['deploy'],
   data: () => ({
     quickMechActions: [
       'act_boost',
@@ -238,6 +238,7 @@ export default {
       'act_lockon',
       'act_hide',
       'act_search',
+      'act_scan',
       'act_prepare',
       'act_eject',
     ],
@@ -257,7 +258,7 @@ export default {
   },
   methods: {
     getBaseAction(actionId) {
-      return CompendiumStore().Actions.find(a => a.ID === actionId)
+      return CompendiumStore().Actions.find(a => a.ID === actionId) || null
     },
     toDeployable(action) {
       return new Deployable(action.Deployable)

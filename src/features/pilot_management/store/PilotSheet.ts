@@ -45,7 +45,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
   public SimpleTickbars: boolean = false
   public ForceComplexTickbars: boolean = false
   public LayoutColumns: boolean = true
-  public MaxMasonryColumns: number = 2
+  public MaxMasonryColumns: number = 1
   public Autosave: boolean = true
 
   public SaveController: SaveController
@@ -63,7 +63,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     this.SimpleTickbars = data.simple_tickbars || false
     this.ForceComplexTickbars = data.force_complex_tickbars || false
     this.LayoutColumns = !!data.layout_columns || true
-    this.MaxMasonryColumns = data.max_masonry_columns || 2
+    this.MaxMasonryColumns = data.max_masonry_columns || 1
     this.Autosave = data.autosave || true
 
     this.Combatant = Encounter.DeserializeCombatant(data.combatant)

@@ -221,17 +221,6 @@ export default {
       )
     },
     isSelectable(b: CoreBonus): boolean {
-      if (
-        b.ID === 'cb_superheavy_mounting' &&
-        this.pilot.has('CoreBonus', 'cb_improved_armament')
-      )
-        return false
-      if (
-        b.ID === 'cb_improved_armament' &&
-        this.pilot.has('CoreBonus', 'cb_superheavy_mounting')
-      )
-        return false
-
       return this.availableCount(b.Source) > 0 && this.pilot.CoreBonusController.IsMissingCBs
     },
     isSelected(b: CoreBonus): boolean {

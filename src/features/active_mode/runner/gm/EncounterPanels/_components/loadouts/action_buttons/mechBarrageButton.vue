@@ -211,14 +211,14 @@
       <v-divider />
       <div class="pa-4">
 
-        <apply-button v-if="events.length"
-          :event="<ActiveEffectEvent[]>events.map(e => e.weaponEvent.BaseEvent)"
-          :weapon-event="<WeaponAttackEvent[]>events.map(e => e.weaponEvent)"
+        <apply-button v-if="events.some(e => e?.weaponEvent)"
+          :event="<ActiveEffectEvent[]>events.filter(e => e?.weaponEvent).map(e => e.weaponEvent.BaseEvent)"
+          :weapon-event="<WeaponAttackEvent[]>events.filter(e => e?.weaponEvent).map(e => e.weaponEvent)"
           :encounter="encounter"
           :owner="owner"
           :close="close"
           :action="action"
-          :action-id="selectedWeapons.length ? selectedWeapons.map(w => w.InstanceID) : []"
+          :action-id="selectedWeapons.filter(Boolean).map(w => w.InstanceID)"
           activation-override="full"
           @reset="reset($event)"
           @apply="apply" />
@@ -302,7 +302,7 @@ export default {
         (x) => x.Barrage
       );
 
-      arr = arr.filter(w => !this.selectedWeapons.map(x => x.InstanceID).some(y => y === w.InstanceID));
+      arr = arr.filter(w => !this.selectedWeapons.filter(Boolean).map(x => x.InstanceID).some(y => y === w.InstanceID));
 
       return arr;
     },

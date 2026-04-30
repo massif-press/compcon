@@ -72,7 +72,8 @@
 
     <template #actions>
       <pilot-actions-panel :owner="combatant"
-        :encounter="encounterInstance" />
+        :encounter="encounterInstance"
+        @deploy="deploy($event)" />
     </template>
 
     <v-expansion-panels class="mt-2"

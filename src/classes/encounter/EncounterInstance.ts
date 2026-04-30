@@ -69,7 +69,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     this.SimpleTickbars = data?.simple_tickbars || false
     this.ForceComplexTickbars = data?.force_complex_tickbars || false
     this.LayoutColumns = !!data?.layout_columns || true
-    this.MaxMasonryColumns = data?.max_masonry_columns || 2
+    this.MaxMasonryColumns = data?.max_masonry_columns || 1
 
     if (data) {
       if (data.combatants)
@@ -154,10 +154,18 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     // These controllers are read-only during combat. Marking them raw removes
     // them from Pinia's sync deep watcher traversal on every reactive mutation.
     const staticKeys = [
-      'SkillsController', 'TalentsController', 'MechSkillsController',
-      'LicenseController', 'BondController', 'CoreBonusController',
-      'PortraitController', 'BrewController', 'CloudController',
-      'ReservesController', 'NarrativeController', 'FolderController',
+      'SkillsController',
+      'TalentsController',
+      'MechSkillsController',
+      'LicenseController',
+      'BondController',
+      'CoreBonusController',
+      'PortraitController',
+      'BrewController',
+      'CloudController',
+      'ReservesController',
+      'NarrativeController',
+      'FolderController',
     ]
     for (const key of staticKeys) {
       if (actor[key]) markRaw(actor[key])
@@ -181,8 +189,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     await new Promise<void>(r => setTimeout(r, 100))
     for (const c of this.Combatants) {
       c.actor.CombatController.EndRound(this)
-      if ((c.actor as any).ActiveMech)
-        (c.actor as any).ActiveMech.CombatController.EndRound(this)
+      if ((c.actor as any).ActiveMech) (c.actor as any).ActiveMech.CombatController.EndRound(this)
     }
     this._round += 1
     if (this.Autosave) {

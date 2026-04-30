@@ -686,6 +686,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     if (type.toLowerCase() === DamageType.Heat.toLowerCase()) {
       target.ApplyHeat(value)
+      return
     }
     if (type.toLowerCase() === DamageType.Burn.toLowerCase()) {
       target.StatController.setCurrentStat(

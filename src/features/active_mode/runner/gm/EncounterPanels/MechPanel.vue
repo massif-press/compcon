@@ -100,7 +100,8 @@
     <template #actions>
       <mech-actions-panel :owner=combatant
         :controller="mech.CombatController"
-        :encounter="encounterInstance" />
+        :encounter="encounterInstance"
+        @deploy="deploy($event)" />
     </template>
 
     <v-expansion-panels class="mt-2"
@@ -258,6 +259,7 @@ import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 import MechActionsPanel from './_components/MechActionsPanel.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
 import { useMobile } from '@/mixins/useMobile';
+import { orderBy, sampleSize } from 'lodash-es';
 
 export default {
   name: 'MechPanel',
@@ -279,6 +281,12 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      usedActions: [] as string[],
+      movement: 0,
+    };
+  },
   computed: {
     xlColumns() {
       if (this.mobile) return 1
@@ -287,11 +295,14 @@ export default {
     mech() {
       return this.combatant.actor.ActiveMech;
     },
+    pilot() {
+      return this.combatant.actor;
+    },
     statuses() {
-      return _.orderBy(CompendiumStore().Statuses, 'StatusType');
+      return orderBy(CompendiumStore().Statuses, 'StatusType');
     },
     randomTalents() {
-      return _.sampleSize(CompendiumStore().Talents, 3);
+      return sampleSize(CompendiumStore().Talents, 3);
     },
     applicableStatuses() {
       const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
@@ -380,6 +391,7 @@ export default {
         } else {
           this.usedActions.push('quick');
         }
+        return;
       }
       if (this.usedActions.includes(action)) {
         const index = this.usedActions.indexOf(action);

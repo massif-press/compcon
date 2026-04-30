@@ -263,7 +263,7 @@ export default {
     featureSet: 'all',
     ignoreLimit: false,
     allowDupes: false,
-    shownOrigins: [],
+    shownOrigins: [] as any[],
     showNav: true,
   }),
   computed: {

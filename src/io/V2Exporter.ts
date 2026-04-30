@@ -131,17 +131,6 @@ function transformMount(mount: any): any {
   }
 }
 
-function transformIntegratedMount(entry: any): any {
-  return {
-    mount_type: 'Integrated',
-    lock: false,
-    slots: [{ size: 'Main', weapon: transformMechWeapon(entry.weapon) }],
-    extra: [],
-    bonus_effects: [],
-    modifiable: false,
-  }
-}
-
 function transformMechLoadout(loadout: any): any {
   return {
     id: loadout.id,
@@ -149,7 +138,9 @@ function transformMechLoadout(loadout: any): any {
     systems: (loadout.systems ?? []).map(transformMechSystem),
     integratedSystems: loadout.integratedSystems ?? [],
     mounts: (loadout.mounts ?? []).map(transformMount),
-    integratedMounts: (loadout.integratedMounts ?? []).map(transformIntegratedMount),
+    integratedMounts: (loadout.integratedMounts ?? [])
+      .map((entry: any) => ({ weapon: transformMechWeapon(entry.weapon) }))
+      .filter((entry: any) => entry.weapon !== null),
     improved_armament: loadout.improved_armament
       ? transformMount(loadout.improved_armament)
       : undefined,
