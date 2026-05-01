@@ -125,7 +125,10 @@ export default async function (skipSync = false): Promise<void> {
           }
         } catch (error: any) {
           logger.error(`Failed to fetch LCP catalog: ${error}`, {}, error)
-          UserStore().addCloudNotification('Failed to check for LCP updates. Check your connection.', 'warning')
+          UserStore().addCloudNotification(
+            'Failed to check for LCP updates. Check your connection.',
+            'warning'
+          )
         }
       }
 

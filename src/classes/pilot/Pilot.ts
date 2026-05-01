@@ -625,7 +625,7 @@ class Pilot
   }
 
   public CloneMech(mech: Mech): void {
-    const mechData = _.cloneDeep(Mech.Serialize(mech))
+    const mechData = structuredClone(Mech.Serialize(mech))
     const clone = Mech.Deserialize(mechData, this)
     clone.RenewID()
     clone.Name += '*'
@@ -758,7 +758,7 @@ class Pilot
   }
 
   public Clone(): Pilot {
-    const newPilot = Pilot.Deserialize(_.cloneDeep(Pilot.Serialize(this)))
+    const newPilot = Pilot.Deserialize(structuredClone(Pilot.Serialize(this)))
     newPilot.RenewID()
     newPilot.Name += ' (CLONE)'
     newPilot.Callsign += '*'

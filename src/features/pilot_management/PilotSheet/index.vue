@@ -45,6 +45,7 @@ import BondsView from './sections/bonds/index.vue';
 import { UserStore } from '@/stores';
 import PilotHeaderMobile from './components/PilotHeaderMobile.vue';
 import MobileOptionsView from './MobileOptions.vue';
+import { debug } from 'console';
 
 export default {
   name: 'PilotSheet',

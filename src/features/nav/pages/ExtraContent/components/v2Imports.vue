@@ -1,6 +1,6 @@
 <template>
   <cc-panel v-if="backups.length > 0"
-    :title="`Pending V2 Imports (${backups.length})`"
+    :title="`${s.panelTitle} (${backups.length})`"
     icon="mdi-database-import"
     class="mt-4">
     <div class="d-flex align-center mb-2">
@@ -54,7 +54,7 @@
           @click="reprocessSingle(item)">
           <v-icon icon="mdi-import" />
           <v-tooltip location="top"
-            activator="parent">Attempt Re-import</v-tooltip>
+            activator="parent">{{ s.attemptReimport }}</v-tooltip>
         </v-btn>
         <v-menu width="400px">
           <template #activator="{ props }">
@@ -67,10 +67,10 @@
               v-bind="props">
               <v-icon icon="mdi-alert-circle" />
               <v-tooltip location="top"
-                activator="parent">Force Import (strips missing items)</v-tooltip>
+                activator="parent">{{ s.forceImport }}</v-tooltip>
             </v-btn>
           </template>
-          <cc-panel title="Force Import">
+          <cc-panel :title="s.forceImportPanelTitle">
             <v-card-text class="pa-1">
               This will import the {{ item.type }} with all unresolvable items removed. The
               following dependencies cannot be found and will be stripped:
@@ -86,13 +86,13 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn size="small">CANCEL</v-btn>
+              <v-btn size="small">{{ s.cancel }}</v-btn>
               <cc-button size="small"
                 color="warning"
                 class="ml-auto"
                 :loading="loading"
                 @click="doForceImport(item)">
-                FORCE IMPORT
+                {{ s.confirmForceImport }}
               </cc-button>
             </v-card-actions>
           </cc-panel>
@@ -109,19 +109,18 @@
               <v-icon icon="mdi-delete" />
             </v-btn>
           </template>
-          <cc-panel title="Delete Backup">
+          <cc-panel :title="s.deleteTitle">
             <v-card-text class="pa-2">
-              Delete this pending v2 backup? This action cannot be undone.
+              {{ s.deleteConfirm }}
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn size="
-              small">CANCEL</v-btn>
+              <v-btn size="small">{{ s.cancel }}</v-btn>
               <cc-button size="small"
                 color="error"
                 class="ml-auto"
                 @click="doDelete(item)">
-                DELETE
+                {{ s.delete }}
               </cc-button>
             </v-card-actions>
           </cc-panel>
@@ -134,9 +133,9 @@
         <cc-button size="small"
           color="primary"
           :loading="loading"
-          tooltip="Attempt to import all pending items. Items that are still missing dependencies will remain in a pending state."
+          :tooltip="s.importAllTooltip"
           @click="reprocessAll">
-          Import All
+          {{ s.importAll }}
         </cc-button>
       </v-col>
 
@@ -144,18 +143,18 @@
         <cc-button size="small"
           color="primary"
           :loading="loading"
-          tooltip="Force import all pending items, stripping any unresolvable dependencies. Use this if you want to get everything imported regardless of missing content, but be aware that the imported items will be stripped of missing data and may need to be manually fixed up after import."
+          :tooltip="s.forceImportAllTooltip"
           @click="forceImportAll()">
-          Force Import All
+          {{ s.forceImportAll }}
         </cc-button>
       </v-col>
     </v-row>
     <v-dialog v-model="showStripped"
       max-width="400px">
       <v-card>
-        <v-card-title class="text-subtitle-2">Items Stripped on Force Import</v-card-title>
+        <v-card-title class="text-subtitle-2">{{ s.strippedTitle }}</v-card-title>
         <v-card-text>
-          The following items were removed because they could not be resolved:
+          {{ s.strippedBody }}
           <div class="mt-2">
             <div v-for="id in strippedItems"
               :key="id"
@@ -167,7 +166,7 @@
         <v-card-actions>
           <cc-button class="ml-auto"
             @click="showStripped = false">
-            OK
+            {{ c.ok }}
           </cc-button>
         </v-card-actions>
       </v-card>
@@ -192,9 +191,13 @@ import {
 } from '@/io/V2Importer'
 import { ImportPilot, ImportNpcData, ImportEncounter } from '@/io/Importer'
 import { UserStore } from '@/stores'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
 export default {
   name: 'V2Imports',
+  setup() {
+    return { s: NAV_STRINGS.v2Import, c: NAV_STRINGS.common }
+  },
   data: () => ({
     backups: [] as any[],
     loading: false,

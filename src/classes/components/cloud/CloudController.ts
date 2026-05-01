@@ -251,6 +251,15 @@ class CloudController {
     // large user data libraries and small devices can cause OOM if we serialize everything at once before uploading
     const toUpload: ICloudSyncable[] = []
     for (const item of items) {
+      // Fast path: skip items where timestamps confirm no changes since last upload
+      if (
+        item.CloudController._lastContentHash &&
+        item.CloudController.SyncStatus === SyncStatus.Synced
+      ) {
+        logger.info(`BatchUpdateCloud: skipping synced item ${item.Name}`)
+        continue
+      }
+
       const savedata = item.Serialize(item)
       const hash = CloudController.computeContentHash(savedata)
       if (item.CloudController._lastContentHash && item.CloudController._lastContentHash === hash) {

@@ -4,6 +4,7 @@ import { SetItem, RemoveItem, GetAll } from '@/io/Storage'
 import { Campaign, ICampaignData } from '@/classes/campaign/Campaign'
 import { cloudDelete } from '@/io/apis/account'
 import { UserStore } from '@/stores'
+import { NavStore } from '@/stores/nav'
 import { CloudController } from '@/classes/components'
 import logger from '@/user/logger'
 
@@ -13,8 +14,8 @@ export const CampaignStore = defineStore('campaign', {
     CampaignCollection: [] as ICampaignData[],
   }),
   getters: {
-    editableCampaignIndexes: (state: any) => {
-      return state.Campaigns.map((x: Campaign) => ({
+    editableCampaignIndexes: state => {
+      return state.Campaigns.map(x => ({
         id: x.ID,
         title: x.Title,
         type: 'Campaign (Unpublished)',
@@ -23,8 +24,8 @@ export const CampaignStore = defineStore('campaign', {
         icon: 'mdi-pencil-circle-outline',
       }))
     },
-    publishedCampaignIndexes: (state: any) => {
-      return state.CampaignCollection.map((x: ICampaignData) => ({
+    publishedCampaignIndexes: state => {
+      return state.CampaignCollection.map(x => ({
         id: x.id,
         title: x.title,
         type: 'Campaign (Published)',
@@ -61,6 +62,7 @@ export const CampaignStore = defineStore('campaign', {
       } else {
         this.Campaigns.push(payload)
       }
+      NavStore().updateCampaignEntry(payload)
       await this.SaveCampaigns()
     },
     async AddCollectionCampaign(payload: ICampaignData): Promise<void> {
@@ -78,6 +80,7 @@ export const CampaignStore = defineStore('campaign', {
     async DeleteCampaign(payload: Campaign): Promise<void> {
       const idx = this.Campaigns.findIndex(x => x.ID === payload.ID)
       if (idx >= 0) this.Campaigns.splice(idx, 1)
+      NavStore().removeCampaignEntry(payload.ID)
       await RemoveItem('Campaigns', payload.ID)
       this.SaveCampaigns()
       if (payload.CloudController.ShareCode) {

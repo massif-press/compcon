@@ -1,6 +1,5 @@
 import { markRaw } from 'vue'
 import { v4 as uuid } from 'uuid'
-import { cloneDeep } from 'lodash-es'
 import {
   CloudController,
   ICloudData,
@@ -304,7 +303,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   }
 
   public Clone(): EncounterInstance {
-    const data = cloneDeep(EncounterInstance.Serialize(this))
+    const data = structuredClone(EncounterInstance.Serialize(this))
     data.id = uuid()
     return EncounterInstance.Deserialize(data)
   }
