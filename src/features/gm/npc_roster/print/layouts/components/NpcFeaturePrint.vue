@@ -19,7 +19,7 @@
       <cc-slashes />
       <span class="text-grey pl-1">{{ feature.FeatureType }}</span>
     </v-col>
-    <v-col v-if="feature.WeaponType"
+    <v-col v-if="feature.WeaponType || feature.Range(tier).length || feature.Damage(tier).length"
       class="px-1 text-center">
       <span v-for="(r, ri) in feature.Range(tier)"
         :key="`range-${ri}`"
