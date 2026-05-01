@@ -5,10 +5,10 @@
         <p class="body-text text-text light-panel pa-2 mb-1">
           <span v-if="manifest.description"
             v-html-safe="manifest.description" />
-          <span v-else>No description given.</span>
+          <span v-else>{{ pf.noDescription }}</span>
         </p>
         <div>
-          <cc-heading line>CONTENT</cc-heading>
+          <cc-heading line>{{ pf.contentHeading }}</cc-heading>
           <div>
             <v-chip v-for="(item, itemIdx) in packContents"
               :key="`content-${itemIdx}`"
@@ -25,12 +25,11 @@
         </div>
         <div class="pt-2">
           <cc-heading line>
-            DEPENDENCIES
-            <cc-tooltip text="Dependencies are other content packs that this pack requires to function properly.
-              They must be installed and activated for this pack to load correctly." />
+            {{ pf.dependencies }}
+            <cc-tooltip :text="pf.dependenciesTooltip" />
           </cc-heading>
           <i v-if="packDependencies.length === 0"
-            class="pl-2">None</i>
+            class="pl-2">{{ pf.none }}</i>
           <div v-else>
             <v-card v-for="(item, itemIdx) in packDependencies"
               :key="`dep-${itemIdx}`"
@@ -45,7 +44,7 @@
               </div>
               <div class="text-caption px-2"
                 v-html-safe="d(item).installed
-                  ? 'Dependency installed'
+                  ? pf.dependencyInstalled
                   : `${manifest.name} requires Lancer Content Pack <b>${d(item).name
                   } at version ${d(item).version}</b> to be installed before it can be loaded.`
                   " />
@@ -67,7 +66,7 @@
         </div>
         <div class="pt-2">
           <cc-heading line>
-            Changelog
+            {{ pf.changelog }}
           </cc-heading>
           <i v-if="!manifest.version_history || manifest.version_history.length === 0"
             class="pl-2">None</i>
@@ -101,7 +100,7 @@
             :href="manifest.website"
             color="primary"
             size="small">
-            Author's Website
+            {{ pf.authorsWebsite }}
           </cc-button>
           <v-spacer />
         </div>
@@ -117,12 +116,16 @@ import * as _ from 'lodash-es';
 import { PropType } from 'vue';
 import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 
 export default {
   mixins: [useMobile],
   props: {
     pack: { type: Object as PropType<IContentPack | ContentPack>, required: true },
+  },
+  setup() {
+    return { pf: NAV_STRINGS.packInfo }
   },
   data: () => ({
     humanReadableMap: {
@@ -151,6 +154,7 @@ export default {
       eidolonLayers: ['Eidolon Layer', 'Eidolon Layers'],
       downtimeActions: ['Downtime Action', 'Downtime Actions'],
       bondPowers: ['Bond Power', 'Bond Powers'],
+      extraNpcFeatures: ['Extra Npc Feature', 'Extra Npc Features'],
     },
   }),
 

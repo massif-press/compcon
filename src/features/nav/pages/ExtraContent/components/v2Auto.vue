@@ -11,54 +11,53 @@
           prepend-icon="mdi-alert-circle"
           style="z-index: 999!important;"
           @click="open">
-          V2 Data
+          {{ va.v2Data }}
         </cc-button>
       </template>
       <template #default="{ close }">
         <v-card-text>
-          <div>Your v2 data was automatically migrated to v3 on startup.</div>
+          <div>{{ va.autoMigrated }}</div>
           <div v-if="migrationResult">
             <v-list-item v-if="migrationResult.pilotsImported"
               class="bg-background my-1"
               prepend-icon="cc:pilot">
-              {{ migrationResult.pilotsImported }} pilot(s) imported
+              {{ migrationResult.pilotsImported }} {{ va.pilotsImported }}
             </v-list-item>
             <v-list-item v-if="migrationResult.pilotsBackedUp"
               class="bg-background my-1"
               prepend-icon="mdi-account-clock">
-              {{ migrationResult.pilotsBackedUp }} pilot(s) pending (missing LCPs)
+              {{ migrationResult.pilotsBackedUp }} {{ va.pilotsPending }}
             </v-list-item>
             <v-list-item v-if="migrationResult.npcsImported"
               class="bg-background my-1"
               prepend-icon="cc:frame">
-              {{ migrationResult.npcsImported }} NPC(s) imported
+              {{ migrationResult.npcsImported }} {{ va.npcsImported }}
             </v-list-item>
             <v-list-item v-if="migrationResult.npcsBackedUp"
               class="bg-background my-1"
               prepend-icon="cc:destroyed">
-              {{ migrationResult.npcsBackedUp }} NPC(s) pending (missing LCPs)
+              {{ migrationResult.npcsBackedUp }} {{ va.npcsPending }}
             </v-list-item>
             <v-list-item v-if="migrationResult.encountersImported"
               class="bg-background my-1"
               prepend-icon="cc:encounter">
-              {{ migrationResult.encountersImported }} encounter(s) imported
+              {{ migrationResult.encountersImported }} {{ va.encountersImported }}
             </v-list-item>
             <v-list-item v-if="migrationResult.encountersBackedUp"
               class="bg-background my-1"
               prepend-icon="mdi-sword-cross">
-              {{ migrationResult.encountersBackedUp }} encounter(s) pending (missing NPCs)
+              {{ migrationResult.encountersBackedUp }} {{ va.encountersPending }}
             </v-list-item>
             <v-list-item v-if="migrationResult.lcpsImported"
               class="bg-background my-1"
               prepend-icon="mdi-package-variant">
-              {{ migrationResult.lcpsImported }} content pack(s) imported
+              {{ migrationResult.lcpsImported }} {{ va.lcpsImported }}
             </v-list-item>
           </div>
           <div
             v-if="migrationResult && (migrationResult.pilotsBackedUp || migrationResult.npcsBackedUp || migrationResult.encountersBackedUp)"
             class="mt-2 text-caption text-warning">
-            Pending items can be re-imported from the Content Packs panel after installing the
-            required LCPs.
+            {{ va.pendingNote }}
           </div>
 
           <v-expansion-panels
@@ -66,7 +65,7 @@
             class="mt-2">
             <v-expansion-panel>
               <v-expansion-panel-title class="text-error">
-                {{ migrationResult.errors.length }} error(s) during migration
+                {{ migrationResult.errors.length }} {{ va.errorsDuringMigration }}
               </v-expansion-panel-title>
               <v-expansion-panel-text>
                 <div v-for="err in migrationResult.errors"
@@ -83,9 +82,9 @@
           <v-col>
             <cc-button color="primary"
               prepend-icon="mdi-download"
-              tooltip="This .compcon file can be used in a v2 environment at https://old.compcon.app. This can be downloaded at any time from the Options menu"
+              :tooltip="va.downloadBackupTooltip"
               @click="downloadBackup">
-              Download v2 Backup
+              {{ va.downloadBackup }}
             </cc-button>
           </v-col>
           <v-col cols="auto">
@@ -101,9 +100,13 @@
 <script lang="ts">
 import { GetValue, SetValue } from '@/io/Storage'
 import { downloadFullBackup } from '@/io/FullImporter'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
 export default {
   name: 'V2Auto',
+  setup() {
+    return { va: NAV_STRINGS.v2Auto }
+  },
   props: {
     block: {
       type: Boolean,

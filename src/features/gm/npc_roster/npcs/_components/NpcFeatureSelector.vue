@@ -68,7 +68,8 @@
                 <span class="text-button">{{ npc.NpcClassController.Class.Name }} Features</span>
               </template>
             </v-list-item>
-            <v-list-subheader class="mb-n3">
+            <v-list-subheader v-if="npc.NpcTemplateController.Templates.length > 0"
+              class="mb-n3">
               SELECTED TEMPLATE{{ npc.NpcTemplateController.Templates.length > 1 ? 'S' : '' }}
             </v-list-subheader>
             <v-list-item v-for="t in npc.NpcTemplateController.Templates"
@@ -129,6 +130,13 @@
                 </template>
               </v-list-item>
             </v-list-group>
+            <v-list-item key="no-origin-items"
+              color="accent"
+              @click="featureSet = 'no-origin'">
+              <template #title>
+                <b class="text-button">Other Features</b>
+              </template>
+            </v-list-item>
           </v-list>
           <div style="height: 20px" />
         </v-navigation-drawer>
@@ -273,6 +281,8 @@ export default {
           return 'All Available'
         case 'assigned':
           return 'All Assigned'
+        case 'no-origin':
+          return 'Other'
         default:
           const selClass = this.allClasses.find(x => x.ID === this.featureSet)
           const selTemp = this.allTemplates.find(x => x.ID === this.featureSet)
@@ -285,7 +295,21 @@ export default {
     availableOrigins() {
       return _.uniq(this.npc.NpcFeatureController.AvailableFeatures.map(x => x.Origin))
     },
+    hasNoOriginFeatures() {
+      return CompendiumStore().NpcFeatures.some(x => !x._originID)
+    },
     shownFeatures() {
+      if (this.featureSet === 'no-origin') {
+        console.log(CompendiumStore().NpcFeatures.filter(
+          x =>
+            x._originID === 'no-origin'
+        ))
+        return CompendiumStore().NpcFeatures.filter(
+          x =>
+            x._originID === 'no-origin'
+        )
+      }
+
       if (this.featureSet === 'all') {
         const selectionsRemaining = this.npc.NpcTemplateController.FeatureRequirements.some(
           x => !x.complete || !x.optional_complete
@@ -296,9 +320,7 @@ export default {
           this.npc.NpcTemplateController.FeatureRequirements.forEach(x => {
             if (x.complete && x.optional_complete && !this.ignoreLimit) return
             out = out.concat(
-              this.npc.NpcFeatureController.AvailableFeatures.filter(
-                y => y.Origin.ID === x.source_id
-              )
+              this.npc.NpcFeatureController.AvailableFeatures
             )
           })
 

@@ -208,6 +208,20 @@ export const CompendiumStore = defineStore('compendium', {
       return powers
     },
 
+    ExtraNpcFeatureMap: state => {
+      const map: Record<string, { base: string[]; optional: string[] }> = {}
+      state.ContentPacks.filter(pack => pack.Active).forEach(pack => {
+        pack.ExtraNpcFeatures.forEach(entry => {
+          const key = entry.class_id ?? entry.template_id
+          if (!key) return
+          if (!map[key]) map[key] = { base: [], optional: [] }
+          if (entry.base_features) map[key].base.push(...entry.base_features)
+          if (entry.optional_features) map[key].optional.push(...entry.optional_features)
+        })
+      })
+      return map
+    },
+
     Licenses() {
       function variantLicenseMatch(variantFrame: Frame, licenseFrame: Frame): boolean {
         if (!!variantFrame.Variant && !!variantFrame.LicenseID) {

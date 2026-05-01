@@ -36,13 +36,12 @@
 
     <cc-alert v-if="!pack.manifest.v3"
       color="warning"
-      title="v2 Content"
+      :title="pf.v2ContentTitle"
       icon="mdi-alert"
       variant="outlined"
       class="my-3">
       <span class="text-text">
-        This content pack has not been registered as v3 compatible. This pack will still work
-        correctly, but will not be able to take advantage of v3 features.
+        {{ pf.v2ContentDescription }}
       </span>
     </cc-alert>
 
@@ -56,6 +55,7 @@ import { IContentPack } from '@/classes/ContentPack';
 import * as _ from 'lodash-es';
 import { PropType } from 'vue';
 import { useMobile } from '@/mixins/useMobile';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 
 export default {
@@ -65,5 +65,8 @@ export default {
     pack: { type: Object as PropType<IContentPack>, required: true },
   },
   components: { PackInfoCard },
+  setup() {
+    return { pf: NAV_STRINGS.packInfo }
+  },
 };
 </script>

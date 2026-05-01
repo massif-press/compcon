@@ -3,17 +3,17 @@
     <div class="packsList"
       style="min-height: 300px">
       <div class="heading h2 text-stark mt-3 px-2">
-        Official
+        {{ pd.officialContent }}
         <a href="https://massifpress.com/shop"
-          target="_blank">MASSIF PRESS</a>
-        Content
+          target="_blank">{{ pd.massifPress }}</a>
+        {{ pd.content }}
       </div>
       <massif-lcp-table :packs="massifPacks"
         :loading="loading" />
       <v-divider class="my-6" />
       <div class="heading h2 text-stark mt-3 px-2">
-        LANCER Community Content
-        <cc-dialog title="LANCER Community Content Packs">
+        {{ pd.communityContent }}
+        <cc-dialog :title="pd.communityContentTitle">
           <template #activator="{ open }">
             <v-icon size="x-small"
               class="mt-n1 fade-select"
@@ -22,14 +22,12 @@
             </v-icon>
           </template>
           <v-card-text>
-            COMP/CON is proud to collaborate with the LANCER community in making these unofficial
-            content packs available. They are offered as-is at the discretion of the author.
+            {{ pd.communityAbout }}
             <br />
-            If you are interested in creating your own homebrew LANCER content, or submitting your
-            content to be featured in this directory, please
+            {{ pd.communityContribute }}
             <a href="https://github.com/massif-press/lancer-data#lancer-community-content-packs"
               target="_blank">
-              click here.
+              {{ pd.clickHere }}
             </a>
           </v-card-text>
         </cc-dialog>
@@ -56,6 +54,7 @@ import CommunityTable from './components/CommunityTable.vue';
 import MassifLcpTable from '@/features/main_menu/_components/MassifLcpTable.vue';
 import { useMobile } from '@/mixins/useMobile';
 import { collectionDataQuery } from '@/user/api';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 
 export default {
@@ -65,6 +64,9 @@ export default {
     MassifLcpTable,
   },
   mixins: [useMobile],
+  setup() {
+    return { pd: NAV_STRINGS.packsDirectory }
+  },
   data: () => ({
     catalog: [] as any[],
     loading: true,

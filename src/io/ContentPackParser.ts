@@ -22,6 +22,7 @@ import {
 import { INpcClassData } from '@/classes/npc/class/NpcClass'
 import { INpcFeatureData } from '@/classes/npc/feature/NpcFeature'
 import { INpcTemplateData } from '@/classes/npc/template/NpcTemplate'
+import { IExtraNpcFeatureEntry } from '@/classes/ContentPack'
 import CoreLayerData from '@/classes/npc/eidolon/core_layer.json'
 import { IEnvironmentData } from '@/classes/Environment'
 import { IDowntimeActionData } from '@/classes/DowntimeAction'
@@ -53,7 +54,7 @@ const getPackID = async function (manifest: IContentPackManifest): Promise<strin
 }
 
 async function getZipFiles(zip: JSZip): Promise<string[]> {
-  let out = [] as string[]
+  const out = [] as string[]
   zip.forEach(function (relativePath) {
     out.push(relativePath)
   })
@@ -80,7 +81,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
 
   const generateItemID = (type: string, name: string): string => {
     const sanitizedName = name
-      .replace(/[ \/-]/g, '_')
+      .replace(/[ /-]/g, '_')
       .replace(/[^A-Za-z0-9_]/g, '')
       .toLowerCase()
     return `${manifest.item_prefix}__${type}_${sanitizedName}`
@@ -147,12 +148,13 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   // library style data for NPCs
   const npcClasses = (await readZipJSON<INpcClassData[]>(zip, 'npc_classes.json')) || []
   const npcTemplates = (await readZipJSON<INpcTemplateData[]>(zip, 'npc_templates.json')) || []
+  const extraNpcFeatures = (await readZipJSON<IExtraNpcFeatureEntry[]>(zip, 'extra_features.json')) || []
 
   const npcFeaturePromises: Promise<INpcFeatureData[]>[] = files
     .filter(x => x.startsWith('npc_') && !x.includes('classes') && !x.includes('templates'))
     .map(async x => (await readZipJSON<INpcFeatureData[]>(zip, x)) || [])
 
-  let npcFeatures = (await Promise.all(npcFeaturePromises)).flat()
+  const npcFeatures = (await Promise.all(npcFeaturePromises)).flat()
 
   // collection style data for NPCs
   if (files.some(x => x.toLowerCase().startsWith('npcc_'))) {
@@ -193,9 +195,8 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
     })
   }
 
-  const failedFeatures = [] as any[]
   // assign library and v2 features to classes and template origins
-  // v2 style data will not contain origins, and so must be assigned backwards from the class/template
+  // new to v3 - missing origins will be assigned to a no-origin group
   npcFeatures
     .filter(x => !x.origin || typeof x.origin !== 'string')
     .forEach((item: any) => {
@@ -234,14 +235,8 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
         return
       }
 
-      logger.error(`Failed to assign origin to NPC feature ${item.name}`)
-      failedFeatures.push(item)
+      item.origin = 'no-origin'
     })
-
-  if (failedFeatures.length) {
-    logger.error(`Failed to assign origin to ${failedFeatures.length} items`, failedFeatures)
-    npcFeatures = npcFeatures.filter(x => !failedFeatures.includes(x))
-  }
 
   const eidolonLayers = (await readZipJSON<any[]>(zip, 'eidolon_layers.json')) || []
   if (eidolonLayers.length) {
@@ -272,6 +267,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
       npcClasses,
       npcFeatures,
       npcTemplates,
+      extraNpcFeatures,
       actions,
       statuses,
       environments,

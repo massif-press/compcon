@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <div class="heading mech" style="line-height: 30px">COMP/CON</div>
+    <div class="heading mech" style="line-height: 30px">{{ a.title }}</div>
     <div class="text-caption ml-1 my-2">
-      C/C version:
+      {{ a.ccVersion }}
       <b class="text-accent">{{ $appVersion }}</b>
       <cc-slashes class="pl-1" />
-      LANCER CORE version:
+      {{ a.lancerCoreVersion }}
       <b class="text-accent">{{ $lancerVersion }}</b>
     </div>
     <v-row dense align="center" justify="center" class="my-2">
@@ -36,11 +36,10 @@
 
     <div class="d-flex justify-center align-center my-6" style="width: 100%">
       <p style="max-width: 80vw; text-align: center">
-        COMP/CON is a free, open-source digital toolkit and gameplay assistant for building and
-        playing LANCER TTRPG games.
+        {{ a.description }}
         <br />
         <br />
-        The LANCER CORE Book, COMP/CON, and associated content can be found at
+        {{ a.coreBookInfo }}
         <a target="_blank" href="http://www.massifpress.com">massifpress.com</a>
       </p>
     </div>
@@ -48,7 +47,12 @@
 </template>
 
 <script lang="ts">
+import { NAV_STRINGS } from '@/features/nav/strings'
+
 export default {
   name: 'about',
+  setup() {
+    return { a: NAV_STRINGS.about }
+  },
 };
 </script>

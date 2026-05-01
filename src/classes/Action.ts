@@ -298,6 +298,16 @@ class Action {
         return 'mdi-arrow-right-bold-hexagon-outline'
       case ActivationType.Jockey:
         return 'cc:activation_full'
+      case ActivationType.Invade:
+        return 'cc:quick_tech'
+      case ActivationType.Reaction:
+        return 'cc:reaction'
+      case ActivationType.FullTech:
+        return 'cc:full_tech'
+      case ActivationType.QuickTech:
+        return 'cc:quick_tech'
+      case ActivationType.None:
+        return 'mdi-rhombus-outline'
       default:
         return `cc:${activation.toLowerCase().replace(' ', '_')}`
     }

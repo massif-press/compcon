@@ -9,7 +9,7 @@
           href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
           color="info"
         >
-          Frequently Asked Questions
+          {{ h.faq }}
         </cc-button>
       </v-col>
       <v-col>
@@ -20,7 +20,7 @@
           href="https://github.com/massif-press/compcon/wiki/FAQ%3A-Troubleshooting"
           color="info"
         >
-          Troubleshooting FAQ
+          {{ h.troubleshootingFaq }}
         </cc-button>
       </v-col>
     </v-row>
@@ -33,7 +33,7 @@
           href="https://github.com/massif-press/compcon/issues/new/choose"
           color="primary"
         >
-          Report a Bug
+          {{ h.reportBug }}
         </cc-button>
       </v-col>
 
@@ -45,7 +45,7 @@
           href="https://github.com/massif-press/compcon/issues/new/choose"
           color="primary"
         >
-          Suggest a Feature
+          {{ h.suggestFeature }}
         </cc-button>
       </v-col>
       <v-col>
@@ -57,7 +57,7 @@
           color="primary"
           class="text-white"
         >
-          Discussion Forum
+          {{ h.discussionForum }}
         </cc-button>
       </v-col>
       <v-col>
@@ -69,7 +69,7 @@
           color="primary"
           class="text-white"
         >
-          Project Wiki
+          {{ h.projectWiki }}
         </cc-button>
       </v-col>
     </v-row>
@@ -79,10 +79,10 @@
       <br />
       // FEATURE IN DEVELOPMENT //
     </p> -->
-    <cc-heading is-title text="Quick FAQ" />
+    <cc-heading is-title :text="h.quickFaq" />
     <v-row class="body-text text-text">
       <v-col cols="12" md="6">
-        <cc-panel title="Where are the NPCs?">
+        <cc-panel :title="h.whereAreNpcs">
           If you bought the Lancer Core Book, you'll find a downloadable data
           package that contains all Core NPC data on the Lancer Core Book's
           itch.io page, which you can access through the Content Manager. You
@@ -93,7 +93,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <cc-panel
-          title="How do I add content from Lancer expansions to COMP/CON?"
+          :title="h.howToAddContent"
         >
           Official LANCER content can be found on
           <a target="_blank" href="https://massif-press.itch.io/"
@@ -112,7 +112,7 @@
     </v-row>
     <v-row class="body-text text-text">
       <v-col cols="12" md="6">
-        <cc-panel title="How do I see Exotic Items in the Compendium?">
+        <cc-panel :title="h.howToSeeExotics">
           To prevent spoilers for players, COMP/CON defaults to hiding Exotic
           Items. To change their visibility, you can use COMP/CON's
           <b>Options</b>
@@ -122,7 +122,7 @@
         </cc-panel>
       </v-col>
       <v-col cols="12" md="6">
-        <cc-panel title="Do I need to pay to make a COMP/CON cloud account?">
+        <cc-panel :title="h.cloudAccountFaq">
           COMP/CON Cloud Accounts are free for all users. For Patreon
           supporters, cloud accounts gain access to additional features, such as
           the expanded cloud storage and additional active table instances.
@@ -130,7 +130,7 @@
       </v-col>
     </v-row>
     <br />
-    <cc-heading is-title text="Additional Help" />
+    <cc-heading is-title :text="h.additionalHelp" />
     <p class="body-text">
       The
       <a
@@ -161,8 +161,13 @@
 </template>
 
 <script lang="ts">
+import { NAV_STRINGS } from '@/features/nav/strings'
+
 export default {
   name: 'help-page',
+  setup() {
+    return { h: NAV_STRINGS.help }
+  },
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;

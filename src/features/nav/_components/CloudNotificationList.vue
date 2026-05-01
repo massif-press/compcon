@@ -28,20 +28,24 @@
         block
         tile
         @click="store.clearCloudNotifications()">
-        Dismiss All Notifications
+        {{ cn.dismissAll }}
       </v-btn>
     </v-list>
     <v-card-text v-else>
-      <i class="text-disabled">No recent cloud updates</i>
+      <i class="text-disabled">{{ cn.noRecentUpdates }}</i>
     </v-card-text>
   </v-card>
 </template>
 
 <script lang="ts">
 import { UserStore } from '@/stores';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 export default {
   name: 'CloudNotificationsList',
+  setup() {
+    return { cn: NAV_STRINGS.cloudNotifications }
+  },
   computed: {
     store() {
       return UserStore();

@@ -72,6 +72,13 @@ interface IContentPackManifest {
   version_history?: ContentPackChangelogEntry[]
 }
 
+interface IExtraNpcFeatureEntry {
+  class_id?: string
+  template_id?: string
+  base_features?: string[]
+  optional_features?: string[]
+}
+
 interface IContentPackData {
   manufacturers: IManufacturerData[]
   backgrounds: IBackgroundData[]
@@ -89,6 +96,7 @@ interface IContentPackData {
   npcClasses: INpcClassData[]
   npcFeatures: INpcFeatureData[]
   npcTemplates: INpcTemplateData[]
+  extraNpcFeatures?: IExtraNpcFeatureEntry[]
 
   eidolonLayers: IEidolonLayerData[]
 
@@ -387,6 +395,10 @@ class ContentPack {
     return this._data.bonusDictionary || []
   }
 
+  public get ExtraNpcFeatures(): IExtraNpcFeatureEntry[] {
+    return this._data.extraNpcFeatures || []
+  }
+
   public get Missing(): boolean {
     return this._missing
   }
@@ -450,4 +462,4 @@ class ContentPack {
 }
 
 export { ContentPack }
-export type { IContentPack, IContentPackManifest, IContentPackData, ContentPackDependency }
+export type { IContentPack, IContentPackManifest, IContentPackData, IExtraNpcFeatureEntry, ContentPackDependency }

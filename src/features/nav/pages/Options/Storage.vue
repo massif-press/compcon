@@ -17,18 +17,18 @@
       </v-progress-linear>
 
       <p class="px-2">
-        COMP/CON is currently using {{ bytesToSize(size.usage) }} of {{ bytesToSize(size.quota) }},
+        {{ st.storageUsagePrefix }} {{ bytesToSize(size.usage) }} of {{ bytesToSize(size.quota) }},
         or
         <b class="text-accent">{{ ((size.usage / size.quota || 1) * 100).toFixed(3) }}%</b>
-        of your available storage. This includes space reserved by COMP/CON for app management.
+        {{ st.storageUsageSuffix }}
       </p>
 
       <div class="mb-4">
         <cc-heading is-title
-          text="Storage Settings" />
+          :text="st.storageSettings" />
         <cc-heading is-title
           small
-          text="Storage Thresholds" />
+          :text="st.storageThresholds" />
         <v-range-slider v-model="storageRange"
           thumb-label
           hide-details
@@ -61,7 +61,7 @@
           </v-col>
           <v-col v-if="thresholdType === 'pct'">
             <v-text-field v-model.number="storageRange[0]"
-              label="Warning threshold (%)"
+              :label="st.warningThresholdPct"
               type="number"
               min="0"
               :max="storageRange[1]"
@@ -73,7 +73,7 @@
           </v-col>
           <v-col v-else>
             <v-text-field v-model.number="warnMb"
-              label="Warning threshold (MB)"
+              :label="st.warningThresholdMb"
               type="number"
               min="0"
               :max="maxMb"
@@ -84,7 +84,7 @@
           </v-col>
           <v-col v-if="thresholdType === 'pct'">
             <v-text-field v-model.number="storageRange[1]"
-              label="Max threshold (%)"
+              :label="st.maxThresholdPct"
               type="number"
               :min="storageRange[0]"
               max="100"
@@ -96,7 +96,7 @@
           </v-col>
           <v-col v-else>
             <v-text-field v-model.number="maxMb"
-              label="Max threshold (MB)"
+              :label="st.maxThresholdMb"
               type="number"
               :min="warnMb"
               variant="outlined"
@@ -106,23 +106,21 @@
           </v-col>
         </v-row>
         <div class="text-caption text-right text-stark">
-          COMP/CON will display a warning message when {{ storageRange[0].toFixed(2) }}% of
-          available system storage (
+          {{ st.warningDescription }} {{ storageRange[0].toFixed(2) }}{{ st.ofAvailableStorage }}
           <b class="text-accent">{{ bytesToSize((storageRange[0] / 100) * size.quota) }}</b>
-          ) has been used
+          {{ st.hasBeenUsed }}
         </div>
         <div class="text-caption text-right text-stark">
-          COMP/CON will prevent the creation of new data after {{ storageRange[1].toFixed(2) }}% of
-          available system storage (
+          {{ st.maxDescription }} {{ storageRange[1].toFixed(2) }}{{ st.ofAvailableStorage }}
           <b class="text-accent">{{ bytesToSize((storageRange[1] / 100) * size.quota) }}</b>
-          ) has been used
+          {{ st.hasBeenUsed }}
         </div>
       </div>
 
       <div class="mb-8">
         <cc-heading is-title
           small
-          text="Auto-delete" />
+          :text="st.autoDelete" />
 
         <cc-select v-model="deleteDays"
           :items="deleteDaySelections"
@@ -144,18 +142,13 @@
     </v-card-text>
     <v-card-text v-else
       class="flavor-text">
-      COMP/CON is unable to access device storage. This may be due to a browser setting or
-      extension. COMP/CON will fall back to using local storage, which is limited to 5MB. This may
-      result in COMP/CON being unable to save data. Please check your browser settings, or allow
-      COMP/CON to access "Persistent Storage" if prompted. If you are using a browser extension that
-      blocks storage access, please disable it for COMP/CON. If neither of these options work,
-      please consider downloading COMP/CON as a PWA.
+      {{ st.noStorageAccess }}
     </v-card-text>
 
     <v-divider class="my-4" />
 
     <cc-heading is-title
-      text="Deleted Items (local data only)" />
+      :text="st.deletedItems" />
     <v-card-text>
       <deleted-items />
     </v-card-text>
@@ -163,7 +156,7 @@
     <v-divider class="my-4" />
 
     <cc-heading is-title
-      text="User Data" />
+      :text="st.userData" />
     <user-data-viewer />
 
     <v-dialog v-model="deleteDialog"
@@ -177,7 +170,7 @@
             append-icon="mdi-alert-outline"
             prepend-icon="mdi-alert-outline"
             v-bind="props">
-            Clear All Data
+            {{ st.clearAllData }}
           </cc-button>
         </div>
       </template>
@@ -190,19 +183,18 @@
             icon="mdi-alert-circle"
             border="bottom"
             class="my-3">
-            <span class="heading h2">WARNING // WARNING // WARNING</span>
+            <span class="heading h2">{{ st.deleteWarningBanner }}</span>
           </v-alert>
           <p class="text-center heading h2 text-text">
             This will delete
-            <b class="text-accent">ALL</b>
-            local COMP/CON data.
+            <b class="text-accent">{{ st.deleteAllConfirm }}</b>
+            {{ st.deleteLocalData }}
             <br />
             This
-            <b class="text-accent">cannot</b>
-            be undone.
+            <b class="text-accent">{{ st.cannotBeUndone }}</b>
             <br />
             <br />
-            <b class="text-accent">Are you sure you want to continue?</b>
+            <b class="text-accent">{{ st.areYouSure }}</b>
           </p>
         </v-card-text>
         <v-divider />
@@ -220,7 +212,7 @@
             <v-icon start
               size="x-large"
               icon="mdi-alert-outline" />
-            Delete All User Data
+            {{ st.deleteAllUserData }}
             <v-icon end
               size="x-large"
               icon="mdi-alert-outline" />
@@ -237,10 +229,14 @@ import UserDataViewer from './components/UserDataViewer.vue';
 import { ClearAllData, GetLength, GetTotalStorageSize } from '@/io/Storage';
 import logger from '@/user/logger';
 import { UserStore } from '@/stores';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 export default {
   name: 'OptionsStorage',
   components: { DeletedItems, UserDataViewer },
+  setup() {
+    return { st: NAV_STRINGS.storage }
+  },
   data: () => ({
     importDialog: false,
     fileValue: null,

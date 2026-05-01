@@ -58,5 +58,332 @@ export const NAV_STRINGS = {
     save: 'Save',
     delete: 'Delete',
     loading: 'Loading...',
+    dismiss: 'Dismiss',
+    confirm: 'Confirm',
+  },
+  nav: {
+    navigateBack: 'Navigate Back',
+    navigateForward: 'Navigate Forward',
+    mainMenu: 'Main Menu',
+    compendium: 'Compendium',
+    pilotManagement: 'Pilot Management',
+    npcRoster: 'NPC Roster',
+    encounters: 'Encounters',
+    narrativeElements: 'Narrative Elements',
+    campaignManager: 'Campaign Manager',
+    activeMode: 'Active Mode',
+    quickReference: 'Quick Reference',
+    storageWarning: 'WARNING',
+    storageAlert: 'ALERT',
+    storageLimitExceeded: 'STORAGE LIMIT EXCEEDED',
+    noNewItemsSaved:
+      'NO NEW ITEMS WILL BE SAVED UNTIL THE LIMIT IS INCREASED OR DATA IS DELETED.',
+    storageWarningTooltip:
+      'COMP/CON has exceeded the storage warning threshold. More details are available in the Storage tab of the Options Menu.',
+    storageAlertTooltip: 'COMP/CON has exceeded the maximum storage threshold.',
+    storageDetailsPrefix: 'More details are available in the',
+    storageTab: 'Storage',
+    storageDetailsSuffix: 'tab of the Options Menu.',
+    appName: 'COMP/CON',
+    offline: 'Offline',
+    cloudAccount: 'Cloud Account',
+    achievements: 'Achievements',
+    manageContent: 'Manage Content',
+    options: 'Options',
+    about: 'About',
+    credits: 'Credits',
+    help: 'Help',
+    supportCompcon: 'Support COMP/CON',
+  },
+  about: {
+    title: 'COMP/CON',
+    ccVersion: 'C/C version:',
+    lancerCoreVersion: 'LANCER CORE version:',
+    description:
+      'COMP/CON is a free, open-source digital toolkit and gameplay assistant for building and playing LANCER TTRPG games.',
+    coreBookInfo:
+      'The LANCER CORE Book, COMP/CON, and associated content can be found at',
+  },
+  help: {
+    faq: 'Frequently Asked Questions',
+    troubleshootingFaq: 'Troubleshooting FAQ',
+    reportBug: 'Report a Bug',
+    suggestFeature: 'Suggest a Feature',
+    discussionForum: 'Discussion Forum',
+    projectWiki: 'Project Wiki',
+    quickFaq: 'Quick FAQ',
+    whereAreNpcs: 'Where are the NPCs?',
+    howToAddContent: 'How do I add content from Lancer expansions to COMP/CON?',
+    howToSeeExotics: 'How do I see Exotic Items in the Compendium?',
+    cloudAccountFaq: 'Do I need to pay to make a COMP/CON cloud account?',
+    additionalHelp: 'Additional Help',
+  },
+  credits: {
+    lancerBy: 'LANCER by:',
+    compconBy: 'COMP/CON by:',
+    with: 'With:',
+    graphicDesignBy: 'Graphic design by:',
+    additionalArtBy: 'Additional art by:',
+    patronThanks:
+      'The continued development of COMP/CON would not be possible without the generous',
+    supportOf: 'of:',
+    tier: 'TIER',
+    anonymousPatron: 'Anonymous Patron',
+  },
+  achievements: {
+    unlocked: 'unlocked',
+    byRarity: 'By Rarity:',
+    byLabel: 'By Label:',
+    secretAchievements: 'Secret Achievements',
+    discovered: 'Discovered',
+    display: 'DISPLAY:',
+    common: 'Common',
+    epic: 'Epic',
+    legendary: 'Legendary',
+    mythic: 'Mythic',
+    locked: 'Locked',
+    selectAll: 'Select All',
+    sort: 'SORT:',
+    none: 'None',
+    name: 'Name',
+    rarity: 'Rarity',
+    dateUnlocked: 'Date Unlocked',
+    hidden: 'Hidden',
+    notShown: 'not shown',
+    createBackup: 'Create Achievement Backup',
+    loadBackup: 'Load Achievement Backup',
+    overwriteAllWarning: 'OVERWRITE ALL',
+    eraseAllWarning: 'ERASE ALL',
+    achievementDataSuffix: 'user achievement data.',
+    cannotBeUndone: 'be undone. It is strongly recommended to create a backup first.',
+    selectExportFile: 'Select COMP/CON Achievement Export File',
+    resetAchievements: 'Reset Achievements',
+    cannotAddTitle: 'Cannot Add Achievement',
+    cannotAddText: 'Code Invalid or already unlocked',
+  },
+  settingsPage: {
+    showUpdateMessages: 'Show Update Messages',
+    showExoticsLabel: 'Show Exotic items in the Compendium',
+    showExoticsTooltip:
+      'Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED if you are not the GM',
+    theme: 'Theme',
+    font: 'Font',
+    logLevel: 'Log Level',
+    logLevelLabel: 'Log level:',
+    errorReporting: 'Error Reporting',
+    errorReportingPrefix: 'Error reporting',
+    enhancedReportingPrefix: 'Enhanced error reporting',
+    enabled: 'enabled',
+    disabled: 'disabled',
+    errorReportingTooltip:
+      'Error reporting allows anonymous error data to be sent to the developer to help identify and resolve bugs and other issues.',
+    errorReportingPiiNote:
+      'No personally identifiable information is collected at this level.',
+    enhancedReportingTooltip:
+      'Enhanced error reporting sends the developer additional data, including',
+    enhancedReportingPiiNote:
+      'non-anonymous information, specifically IP address and user ID',
+    enhancedReportingNotNecessary: 'not necessary',
+    enhancedReportingDisclaimer:
+      '. All other PII is scrubbed before transmission. This is',
+    enhancedReportingUsage:
+      'unless you are actively working with the developer to resolve a specific issue and have been asked to enable this setting.',
+    createBackup: 'Create Data Backup',
+    createBackupTooltip:
+      "COMP/CON relies on your browser's secure storage to save and load its data. Generally, this data is safe from deletion, but certain browser settings and utilities can sometimes clear this data, resulting in the loss of your COMP/CON data. It's good practice to back up your data from time to time.",
+    downloadV2Backup: 'Download Stored v2 Backup',
+    downloadV2Tooltip:
+      'COMP/CON has saved a complete backup of your v2 COMP/CON data. This can be imported into the v2 app at old.compcon.app.',
+    loadBackup: 'Load Data Backup',
+    loadBackupTooltip:
+      ".compcon files are COMP/CON bulk export files that contain all of your local data in a single file. You can create a .compcon backup file using the 'Create Data Backup' button. Use this option to load .compcon backup files that you have created or obtained from another source. It is recommended to create a backup before loading a .compcon file, especially if the file came from another source.",
+    importStrategy: '// Import Strategy',
+    mergeStrategy: 'Merge with existing data',
+    overwriteStrategy: 'Overwrite all existing data',
+    mergeWarning:
+      'COMP/CON will attempt to merge import data with your existing data.',
+    overwriteWarning:
+      'The overwrite strategy will replace all of your existing local data with the data from the imported file and cannot be undone. It is strongly recommended to create a backup before using this option.',
+    selectBulkFile: 'Select .compcon Bulk Export File',
+    v2BackupDetected: 'v2 Backup Detected',
+    v2BackupDescription:
+      'This is a v2 COMP/CON backup file. It will be processed using the v2 import system: content packs will be installed first, followed by pilots, NPCs, and encounters. Items that require LCPs not present in this backup will be saved to pending v2 imports in the Content Manager.',
+    v2AppendNote:
+      'v2 backup imports are always processed using the "append" strategy.',
+    importV2Backup: 'Import v2 Backup',
+    confirmImport: 'Confirm Import',
+    resetV2Migration: 'Reset V2 Migration Status',
+    resetV2Tooltip:
+      'Resets the v2 migration status, allowing the V2 Data button to appear again if it was dismissed.',
+  },
+  storage: {
+    storageUsagePrefix: 'COMP/CON is currently using',
+    storageUsageSuffix:
+      'of your available storage. This includes space reserved by COMP/CON for app management.',
+    storageSettings: 'Storage Settings',
+    storageThresholds: 'Storage Thresholds',
+    warningThresholdPct: 'Warning threshold (%)',
+    maxThresholdPct: 'Max threshold (%)',
+    warningThresholdMb: 'Warning threshold (MB)',
+    maxThresholdMb: 'Max threshold (MB)',
+    warningDescription:
+      'COMP/CON will display a warning message when',
+    maxDescription:
+      'COMP/CON will prevent the creation of new data after',
+    ofAvailableStorage: '% of available system storage (',
+    hasBeenUsed: ') has been used',
+    autoDelete: 'Auto-delete',
+    neverAutoDelete: 'automatically delete data marked for deletion.',
+    autoDeletePrefix:
+      'COMP/CON will permanently delete data after it has been marked as deleted for at least',
+    autoDeleteNote:
+      'This will not affect items not already marked for deletion.',
+    noStorageAccess:
+      'COMP/CON is unable to access device storage. This may be due to a browser setting or extension. COMP/CON will fall back to using local storage, which is limited to 5MB. This may result in COMP/CON being unable to save data. Please check your browser settings, or allow COMP/CON to access "Persistent Storage" if prompted. If you are using a browser extension that blocks storage access, please disable it for COMP/CON. If neither of these options work, please consider downloading COMP/CON as a PWA.',
+    deletedItems: 'Deleted Items (local data only)',
+    userData: 'User Data',
+    clearAllData: 'Clear All Data',
+    deleteWarningBanner: 'WARNING // WARNING // WARNING',
+    deleteAllConfirm: 'ALL',
+    deleteLocalData: 'local COMP/CON data.',
+    cannotBeUndone: 'be undone.',
+    areYouSure: 'Are you sure you want to continue?',
+    deleteAllUserData: 'Delete All User Data',
+  },
+  log: {
+    logLevel: 'Log level:',
+    trace: 'TRACE',
+    caller: 'CALLER',
+    noData: 'no data',
+    exportLog: 'Export Log',
+    copiedToClipboard: 'Log entry copied to clipboard',
+  },
+  deletedItems: {
+    noItemsFound: 'No items found',
+    itemType: 'Item Type',
+    itemName: 'Item Name',
+    deletedOn: 'Deleted On',
+    restore: 'Restore',
+    permanentlyDelete: 'Permanently Delete',
+    restoreAll: 'Restore All',
+    permanentlyDeleteAll: 'Permanently Delete All',
+  },
+  userDataViewer: {
+    description:
+      'This is the locally-saved user data. These items should generally not have to be reset, but may be useful in debugging or clearing a persistent loading issue.',
+    achievementNote:
+      'Resetting User Data will not reset achievement unlocks (this can be done in the Achievement Browser).',
+    item: 'Item',
+    value: 'Value',
+    resetUserData: 'Reset User Data',
+  },
+  packInstall: {
+    selectFile: 'Select an .LCP file',
+    install: 'Install',
+    alreadyInstalledWarning:
+      'The following content pack(s) are already installed and will be replaced:',
+    v3Warning:
+      'The following content has not been registered as v3 compatible. These packs will still work, but will not be able to take advantage of v3 features, especially in active mode.',
+    dependencyError:
+      'The following content pack(s) have uninstalled dependencies and cannot be installed yet. They will be skipped:',
+    noPackSelected: 'No content pack selected',
+    alreadyInstalledNote:
+      'A pack with this same name and author is already installed.',
+    willReplace: 'It will be replaced by this copy.',
+    requiresContent:
+      'This LCP requires the following content to be installed before it can be added:',
+    success: 'Success',
+    successText: 'Content packs installed successfully',
+  },
+  packsDirectory: {
+    officialContent: 'Official',
+    massifPress: 'MASSIF PRESS',
+    content: 'Content',
+    communityContent: 'LANCER Community Content',
+    communityContentTitle: 'LANCER Community Content Packs',
+    communityAbout:
+      'COMP/CON is proud to collaborate with the LANCER community in making these unofficial content packs available. They are offered as-is at the discretion of the author.',
+    communityContribute:
+      'If you are interested in creating your own homebrew LANCER content, or submitting your content to be featured in this directory, please',
+    clickHere: 'click here.',
+  },
+  packConfig: {
+    title: 'Content Configurations',
+    description:
+      'Content configurations allow you to create and manage sets of LCPs that can be applied to Pilots and NPCs that allow or limit selections to specific content. Pilots and NPCs without configurations set will have access to all installed and activated LCPs',
+    applyNote:
+      'These configurations can be applied to Pilots and NPCs in their options menus.',
+    noConfigs: 'No configurations found.',
+    lcpsInConfig: 'LCPs in this configuration:',
+    noLcpsPrefix: 'No LCPs added. Only content from the',
+    lancerCoreBook: 'Lancer Core Book',
+    willBeAvailable: 'will be available.',
+    coreBookOnly: 'Lancer Core Book content only',
+    addLcp: 'Add LCP',
+    createConfig: 'Create Configuration',
+    deleteConfig: 'Delete this configuration',
+    removeFromConfig: 'Remove this pack from the configuration',
+    editConfig: 'Edit this configuration',
+  },
+  packInfo: {
+    v2ContentTitle: 'v2 Content',
+    v2ContentDescription:
+      'This content pack has not been registered as v3 compatible. This pack will still work correctly, but will not be able to take advantage of v3 features.',
+    noDescription: 'No description given.',
+    contentHeading: 'CONTENT',
+    dependencies: 'DEPENDENCIES',
+    dependenciesTooltip:
+      'Dependencies are other content packs that this pack requires to function properly. They must be installed and activated for this pack to load correctly.',
+    none: 'None',
+    changelog: 'Changelog',
+    authorsWebsite: "Author's Website",
+    dependencyInstalled: 'Dependency installed',
+    version: 'VERSION',
+  },
+  communityTable: {
+    noData: 'No content packs available.',
+    v3Compatible:
+      'This content pack is compatible with the latest version of COMP/CON and supports v3 features.',
+    v3Incompatible:
+      'This content pack uses the v2 content format. It will function correctly but will lack features of v3-compatible packs. COMP/CON will not be able to manage effects or statuses from this pack in Active Mode.',
+    notInstalled: 'Not Installed',
+    openWebsite: 'Open Website',
+    subscribedTooltip:
+      'Currently subscribed to latest updates. Click to unsubscribe.',
+    subscribeTooltip:
+      'Click to allow COMP/CON to update this LCP whenever a new version is published',
+    payWhatYouWant: 'Pay What You Want',
+    free: 'Free',
+    currentVersion: 'Current version:',
+    itchStorePage: 'itch.io Store Page',
+    authorsWebsite: "Author's Website",
+  },
+  v2Auto: {
+    v2Data: 'V2 Data',
+    migrationTitle: 'V2 Data Migration',
+    autoMigrated:
+      'Your v2 data was automatically migrated to v3 on startup.',
+    pilotsImported: 'pilot(s) imported',
+    pilotsPending: 'pilot(s) pending (missing LCPs)',
+    npcsImported: 'NPC(s) imported',
+    npcsPending: 'NPC(s) pending (missing LCPs)',
+    encountersImported: 'encounter(s) imported',
+    encountersPending: 'encounter(s) pending (missing NPCs)',
+    lcpsImported: 'content pack(s) imported',
+    pendingNote:
+      'Pending items can be re-imported from the Content Packs panel after installing the required LCPs.',
+    errorsDuringMigration: 'error(s) during migration',
+    downloadBackup: 'Download v2 Backup',
+    downloadBackupTooltip:
+      'This .compcon file can be used in a v2 environment at https://old.compcon.app. This can be downloaded at any time from the Options menu',
+  },
+  cloudNotifications: {
+    dismissAll: 'Dismiss All Notifications',
+    noRecentUpdates: 'No recent cloud updates',
+  },
+  search: {
+    search: 'Search',
+    searchResults: 'search results',
+    recentSearches: 'recent searches',
   },
 } as const

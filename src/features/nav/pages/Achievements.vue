@@ -20,7 +20,7 @@
         </v-progress-linear>
 
         <div class="text-cc-overline text-right text-disabled">
-          {{ allUnlocked.length }} of {{ nsAchievements.length }} unlocked
+            {{ allUnlocked.length }} of {{ nsAchievements.length }} {{ ac.unlocked }}
           <v-btn icon
             size="x-small"
             variant="plain"
@@ -34,7 +34,7 @@
               flat
               tile>
               <v-card-text>
-                <div class="text-cc-overline text-center font-weight-bold">By Rarity:</div>
+                <div class="text-cc-overline text-center font-weight-bold">{{ ac.byRarity }}</div>
                 <div v-for="(r, i) in rarities" :key="`rarity-${i}`">
                   <v-progress-linear
                     :model-value="(byRarity(i + 1).has / byRarity(i + 1).total) * 100"
@@ -52,7 +52,7 @@
                   </div>
                 </div>
                 <v-divider class="my-2" />
-                <div class="text-cc-overline text-center font-weight-bold">By Label:</div>
+                <div class="text-cc-overline text-center font-weight-bold">{{ ac.byLabel }}</div>
                 <v-row dense>
                   <v-col v-for="(l, lIdx) in labels" :key="`label-${lIdx}`"
                     cols="6">
@@ -73,10 +73,10 @@
                     <v-progress-linear :model-value="100"
                       height="20px"
                       color="deep-purple">
-                      Secret Achievements
+                      {{ ac.secretAchievements }}
                     </v-progress-linear>
                     <div class="text-caption font-italic">
-                      {{ allUnlockedSecret.length }} Discovered
+                      {{ allUnlockedSecret.length }} {{ ac.discovered }}
                     </div>
                   </v-col>
                 </v-row>
@@ -88,7 +88,7 @@
     </v-row>
     <v-row dense>
       <v-col cols="12">
-        <div class="text-cc-overline ml-n2">DISPLAY:</div>
+        <div class="text-cc-overline ml-n2">{{ ac.display }}</div>
         <v-row justify="space-between"
           dense>
           <v-col>
@@ -99,10 +99,10 @@
               tile
               density="compact"
               class="py-1">
-              <v-btn size="small">Common</v-btn>
-              <v-btn size="small">Epic</v-btn>
-              <v-btn size="small">Legendary</v-btn>
-              <v-btn size="small">Mythic</v-btn>
+              <v-btn size="small">{{ ac.common }}</v-btn>
+              <v-btn size="small">{{ ac.epic }}</v-btn>
+              <v-btn size="small">{{ ac.legendary }}</v-btn>
+              <v-btn size="small">{{ ac.mythic }}</v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col>
@@ -113,8 +113,8 @@
               multiple
               density="compact"
               class="py-1">
-              <v-btn size="small">Locked</v-btn>
-              <v-btn size="small">Unlocked</v-btn>
+              <v-btn size="small">{{ ac.locked }}</v-btn>
+              <v-btn size="small">{{ ac.unlocked }}</v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="auto">
@@ -125,7 +125,7 @@
               tile
               density="compact"
               class="py-1">
-              <v-btn size="small">Hidden</v-btn>
+              <v-btn size="small">{{ ac.hidden }}</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -164,32 +164,32 @@
     <v-row align="end">
       <v-col cols="12"
         md="8">
-        <div class="text-cc-overline ml-n2">SORT:</div>
+        <div class="text-cc-overline ml-n2">{{ ac.sort }}</div>
         <v-btn color="primary"
           size="x-small"
           flat
           tile
-          @click="sort = 'none'">None</v-btn>
+          @click="sort = 'none'">{{ ac.none }}</v-btn>
         <v-btn color="primary"
           size="x-small"
           flat
           tile
           @click="sort = sort === 'name_asc' ? 'name_desc' : 'name_asc'">
-          Name
+          {{ ac.name }}
         </v-btn>
         <v-btn color="primary"
           size="x-small"
           flat
           tile
           @click="sort = sort === 'rarity_asc' ? 'rarity_desc' : 'rarity_asc'">
-          Rarity
+          {{ ac.rarity }}
         </v-btn>
         <v-btn color="primary"
           size="x-small"
           flat
           tile
           @click="sort = sort === 'date_asc' ? 'date_desc' : 'date_asc'">
-          Date Unlocked
+          {{ ac.dateUnlocked }}
         </v-btn>
         <div class="pt-2">
           <cc-text-field v-model="search"
@@ -218,7 +218,7 @@
       <div v-if="hiddenAchievements > 0"
         class="text-right text-caption px-4">
         <i>
-          {{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} not shown
+          {{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} {{ ac.notShown }}
         </i>
       </div>
     </v-container>
@@ -229,7 +229,7 @@
           color="primary"
           variant="elevated"
           @click="exportBackup()">
-          Create Achievement Backup
+          {{ ac.createBackup }}
         </cc-button>
       </v-col>
       <v-spacer />
@@ -241,14 +241,14 @@
               color="primary"
               class="mx-3"
               @click="open">
-              Load Achievement Backup
+              {{ ac.loadBackup }}
             </cc-button>
           </template>
           <v-card-text class="pa-6">
             <p class="text-center">
               This will
-              <b class="text-accent">OVERWRITE ALL</b>
-              user achievement data.
+              <b class="text-accent">{{ ac.overwriteAllWarning }}</b>
+              {{ ac.achievementDataSuffix }}
               <br />
               <br />
               This
@@ -262,7 +262,7 @@
               density="compact"
               hide-details
               autofocus
-              label="Select COMP/CON Achievement Export File"
+              :label="ac.selectExportFile"
               prepend-icon="mdi-paperclip"
               @change="importBackup()" />
           </v-card-text>
@@ -276,15 +276,15 @@
               color="error"
               variant="outlined"
               @click="open()">
-              Reset Achievements
+              {{ ac.resetAchievements }}
             </cc-button>
           </template>
           <template #default="{ close }">
             <v-card-text class="pa-6">
               <p class="text-center">
                 This will
-                <b class="text-accent">ERASE ALL</b>
-                user achievement data.
+                <b class="text-accent">{{ ac.eraseAllWarning }}</b>
+                {{ ac.achievementDataSuffix }}
                 <br />
                 This
                 <b class="text-accent">cannot</b>
@@ -294,7 +294,7 @@
                 block
                 class="mt-4"
                 @click="clearAchievements(close)">
-                Reset Achievements
+                {{ ac.resetAchievements }}
                 <template #info>
                   <v-icon icon="mdi-alert" />
                 </template>
@@ -317,12 +317,16 @@ import { GetAchievement } from '@/io/apis/account';
 import logger from '@/user/logger';
 import { useMobile } from '@/mixins/useMobile';
 
+import { NAV_STRINGS } from '@/features/nav/strings'
 
 export default {
   mixins: [useMobile],
   name: 'AchievementsViewer',
   components: {
     AchievementItem,
+  },
+  setup() {
+    return { ac: NAV_STRINGS.achievements }
   },
   data: () => ({
     showRarity: [0, 1, 2, 3],
@@ -485,8 +489,8 @@ export default {
       } catch (e) {
         logger.error(`Error adding achievement: ${e}`, this, e);
         this.$notify({
-          title: `Cannot Add Achievement`,
-          text: `Code Invalid or already unlocked`,
+          title: this.ac.cannotAddTitle,
+          text: this.ac.cannotAddText,
           data: { icon: 'mdi-star-off', color: 'error' },
         });
       }

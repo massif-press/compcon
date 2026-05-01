@@ -1,18 +1,18 @@
 <template>
   <v-container>
-    <div class="heading h2 mb-1">LANCER by:</div>
+    <div class="heading h2 mb-1">{{ cr.lancerBy }}</div>
     <v-row>
       <dev-badge v-for="(c, cIdx) in credits.writers"
         :key="`writer-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h2 mt-4 mb-1">COMP/CON by:</div>
+    <div class="heading h2 mt-4 mb-1">{{ cr.compconBy }}</div>
     <v-row>
       <dev-badge v-for="(c, cIdx) in credits.lead_devs"
         :key="`lead-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h3 mt-4 mb-1">With:</div>
+    <div class="heading h3 mt-4 mb-1">{{ cr.with }}</div>
     <v-row dense>
       <dev-badge v-for="(c, cIdx) in credits.devs1"
         :key="`dev1-${cIdx}`"
@@ -23,13 +23,13 @@
         :key="`dev2-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h2 mt-4 mb-1">Graphic design by:</div>
+    <div class="heading h2 mt-4 mb-1">{{ cr.graphicDesignBy }}</div>
     <v-row dense>
       <dev-badge v-for="(c, cIdx) in credits.graphics"
         :key="`graphic-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h2 mt-4 mb-1">Additional art by:</div>
+    <div class="heading h2 mt-4 mb-1">{{ cr.additionalArtBy }}</div>
     <v-row dense>
       <dev-badge v-for="(c, cIdx) in credits.art"
         :key="`art-${cIdx}`"
@@ -37,11 +37,11 @@
     </v-row>
     <div class="text-center mt-8">
       <span class="heading h3">
-        The continued development of COMP/CON would not be possible without the generous
+        {{ cr.patronThanks }}
         <a v-html-safe="'support'"
           target="_blank"
           href="https://www.patreon.com/compcon" />
-        of:
+        {{ cr.supportOf }}
       </span>
     </div>
 
@@ -57,7 +57,7 @@
         :key="t"
         class="mb-6">
         <cc-title small
-          class="my-2">{{ t.toUpperCase() }} TIER</cc-title>
+          class="my-2">{{ t.toUpperCase() }} {{ cr.tier }}</cc-title>
         <v-row align="center"
           justify="space-around"
           dense>
@@ -94,11 +94,16 @@ import DevBadge from './SupporterBadges/Dev.vue';
 import { getPatreonSubscribers } from '@/user/oauth';
 import { useMobile } from '@/mixins/useMobile';
 
+import { NAV_STRINGS } from '@/features/nav/strings'
+
 
 export default {
   name: 'Credits',
   components: { DevBadge },
   mixins: [useMobile],
+  setup() {
+    return { cr: NAV_STRINGS.credits }
+  },
   data: () => ({
     credits: credits,
     patrons: [] as any[],
@@ -118,7 +123,7 @@ export default {
   methods: {
     cleanName(patron: any) {
       if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim();
-      if (!patron.name) return 'Anonymous Patron';
+      if (!patron.name) return this.cr.anonymousPatron;
 
       const name = patron.name.trim();
       if (name.includes(' ')) {

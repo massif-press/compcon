@@ -86,6 +86,7 @@ abstract class NpcFeature extends CompendiumItem {
   private getActivationFromTags(tags: ITagData[]): ActivationType | null {
     if (!tags || !tags.length) return null
     const ids = tags.map(t => t.id?.replace('tg_', '')).filter(Boolean)
+    if (ids.includes('none')) return ActivationType.None
     if (ids.includes('free')) return ActivationType.Free
     if (ids.includes('protocol')) return ActivationType.Protocol
     if (ids.includes('quick_tech')) return ActivationType.QuickTech

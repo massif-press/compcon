@@ -28,6 +28,7 @@ import {
   UnauthorizedError,
 } from '@/io/apis/account'
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
+import type { dbItemMeta } from '@/classes/components/cloud/CloudController'
 import { expandFilterTypes, normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
 import { ImportStagedData, StageImport } from '@/io/Importer'
 import { getItemDownloadLink } from '../api'
@@ -42,6 +43,52 @@ import * as OAuthService from './OAuthService'
 import { SyncQueue } from './SyncQueue'
 import { checkV2CloudData, type V2CloudDetectResult } from '@/io/V2CloudImporter'
 import { getV2Backups } from '@/io/V2Importer'
+
+import type { PatreonData } from '../index'
+
+export type SyncSettings = {
+  frequency: string
+  itemTypes: string[]
+  includeSettings: boolean
+  includeShared: boolean
+  resolutionStrategy: string
+  autoBackupFrequency: string
+  autoBackupLimit: number
+  autoBackupPrunePct: number
+  lastBackupTime: number
+}
+
+export type ItchData = {
+  hasItch: boolean
+  user: { id: number }
+  gamedata: Array<{ game_id: number; [key: string]: unknown }>
+  token?: string
+  lastUpdate?: number
+}
+
+export type CloudNotification = {
+  text: string
+  type: string
+}
+
+/**
+ * Lightweight type for items that participate in cloud sync.
+ * Every domain entity in AllItems/AllSyncableItems satisfies this shape,
+ * as do the ad-hoc objects constructed in CloudOnlyItems.
+ */
+export interface SyncableItem {
+  ID: string
+  Name: string
+  ItemType: string
+  CloudController: { Metadata: DbItemMetadata; SyncStatus: string }
+  SaveController?: {
+    IsDeleted: boolean
+    IsRemote: boolean
+    RemoteCode?: string
+    DeleteTime?: number
+  }
+  IsCloudOnly?: boolean
+}
 
 let _pendingMetadataResolvers: Array<() => void> = []
 let _lastUserMetadataFetch = 0
@@ -74,7 +121,7 @@ const _debouncedSetUserMetadata = debounce(
   { leading: false, trailing: true }
 )
 
-const DefaultSyncSettings = {
+const DefaultSyncSettings: SyncSettings = {
   frequency: 'manual',
   itemTypes: ['pilot', 'pilotgroup', 'npc', 'campaign', 'encounter', 'collectionitem'],
   includeSettings: true,
@@ -102,13 +149,13 @@ class UserMetadata {
   public Username: string
   public CreatedAt: number
   public UpdatedAt: number
-  public SyncSettings: any
+  public SyncSettings: SyncSettings
   public UserSettingData: Client.IUserProfile
   public CollectionSubscriptionSettings: CollectionSubscriptionSettings
   public RemoteItems: string[]
   public V2CloudImportStatus: 'none' | 'pending' | 'complete' | 'error'
-  public PatreonData: any
-  public ItchData: any
+  public PatreonData: PatreonData & { lastUpdate?: number }
+  public ItchData: ItchData
   public LcpConfigs: Client.LcpConfig[]
 
   public constructor(data: any) {
@@ -135,12 +182,12 @@ export const UserStore = defineStore('cloud', {
     IsLoading: false,
     User: {} as Client.UserProfile,
     UserMetadata: {} as UserMetadata,
-    Cognito: {} as any,
-    CloudItems: [] as any[],
-    CloudArchives: [] as any[],
-    CloudImages: [] as any[],
-    UserPublishedCollections: [] as any[],
-    RemoteCollections: [] as any[],
+    Cognito: {} as { username?: string; userId?: string },
+    CloudItems: [] as dbItemMeta[],
+    CloudArchives: [] as dbItemMeta[],
+    CloudImages: [] as dbItemMeta[],
+    UserPublishedCollections: [] as dbItemMeta[],
+    RemoteCollections: [] as dbItemMeta[],
     LastQuery: 0,
     SyncVersion: 0,
     CloudStorageUsed: 0,
@@ -148,7 +195,7 @@ export const UserStore = defineStore('cloud', {
     StorageFull: false,
     IsLoggedIn: false,
     IsSyncing: false,
-    CloudNotifications: [] as any[],
+    CloudNotifications: [] as CloudNotification[],
     V2CloudDetectData: null as V2CloudDetectResult | null,
     V2BackupIds: [] as string[],
   }),
@@ -192,14 +239,14 @@ export const UserStore = defineStore('cloud', {
     SyncItemTypes: state => {
       return expandFilterTypes(state.UserMetadata.SyncSettings.itemTypes)
     },
-    SyncSettings: state => state.UserMetadata.SyncSettings,
-    ItemsRequiringUpdate(): any[] {
+    SyncSettings: state => state.UserMetadata.SyncSettings as SyncSettings,
+    ItemsRequiringUpdate(): SyncableItem[] {
       return this.AllSyncableItems.filter(item => {
         if (!item.CloudController) return true
         return item.CloudController.SyncStatus !== 'Synced'
       })
     },
-    AllItems(): any[] {
+    AllItems(): SyncableItem[] {
       return [
         ...PilotStore().Pilots,
         ...PilotStore().PilotGroups.filter(x => x.ID !== 'no_group'),
@@ -212,13 +259,13 @@ export const UserStore = defineStore('cloud', {
         ...PilotStore().PilotSheets,
       ]
     },
-    AllLocalItems(): any[] {
-      return this.AllItems.filter(x => !x.SaveController.IsRemote)
+    AllLocalItems(): SyncableItem[] {
+      return this.AllItems.filter(x => !x.SaveController?.IsRemote)
     },
-    AllRemoteItems(): any[] {
-      return this.AllItems.filter(x => x.SaveController.IsRemote && !x.SaveController.IsDeleted)
+    AllRemoteItems(): SyncableItem[] {
+      return this.AllItems.filter(x => x.SaveController?.IsRemote && !x.SaveController?.IsDeleted)
     },
-    CloudOnlyItems(): any[] {
+    CloudOnlyItems(): SyncableItem[] {
       const raw = UserStore().CloudItems.filter(x => {
         if (x.deleted) return false
         const itemId = x.sortkey.split('_')[2]
@@ -241,24 +288,24 @@ export const UserStore = defineStore('cloud', {
       const data = CompendiumStore().ContentCollections
       data.forEach(c => {
         const meta = this.UserPublishedCollections.find(x => x.sortkey.split('_')[1] === c.ID)
-        if (meta) c.Metadata = meta
+        if (meta) c.Metadata = meta as any
       })
       return data
     },
     // does not include remote items
-    AllSyncableItems(): any[] {
+    AllSyncableItems(): SyncableItem[] {
       // touch SyncVersion so this getter recomputes after sync completes
       void this.SyncVersion
       return this.AllLocalItems.concat(this.CloudOnlyItems)
     },
-    AllItemsToSync(): any[] {
+    AllItemsToSync(): SyncableItem[] {
       return this.AllSyncableItems.filter(x => {
         if (x.SaveController?.IsDeleted) return false
         if (this.V2BackupIds.includes(x.ID)) return false
         return this.SyncItemTypes.includes(normalizeItemType(x.ItemType))
       }).filter(x => x.CloudController.SyncStatus !== 'Synced')
     },
-    AllRemoteItemsToSync(): any[] {
+    AllRemoteItemsToSync(): SyncableItem[] {
       return this.AllRemoteItems.filter(x => {
         if (x.SaveController?.IsDeleted) return false
         if (this.V2BackupIds.includes(x.ID)) return false
@@ -268,28 +315,28 @@ export const UserStore = defineStore('cloud', {
     BackupSpaceExceeded(): boolean {
       if (this.CloudStorageFull) return true
       const backups = this.CloudArchives
-      const sizeTotal = backups.reduce((acc, obj) => acc + obj.size, 0)
+      const sizeTotal = backups.reduce((acc, obj) => acc + (obj.size ?? 0), 0)
       return sizeTotal > this.MaxCloudStorage * (this.SyncSettings.autoBackupPrunePct / 100)
     },
     BackupLimitExceeded(): boolean {
       if (this.CloudStorageFull) return true
       return this.CloudArchives.length > this.SyncSettings.autoBackupLimit
     },
-    PrunableBackups(): any[] {
+    PrunableBackups(): dbItemMeta[] {
       const backups = this.CloudArchives.filter(x => !x.preserve)
-      const sizeTotal = backups.reduce((acc, obj) => acc + obj.size, 0)
+      const sizeTotal = backups.reduce((acc, obj) => acc + (obj.size ?? 0), 0)
       const pruneSize = this.MaxCloudStorage * (this.SyncSettings.autoBackupPrunePct / 100)
       const pruneCount = this.SyncSettings.autoBackupLimit
       if (sizeTotal < pruneSize && backups.length < pruneCount) return []
 
-      const sorted = backups.sort((a, b) => a.created - b.created)
+      const sorted = backups.sort((a, b) => (a.created ?? 0) - (b.created ?? 0))
 
-      const toDelete = [] as any[]
+      const toDelete = [] as dbItemMeta[]
       let totalSize = 0
       let count = 0
       for (const idx in sorted) {
         const item = sorted[idx]
-        totalSize += item.size
+        totalSize += item.size ?? 0
         count++
         if (totalSize > pruneSize || count > pruneCount) toDelete.push(item)
       }
@@ -348,7 +395,7 @@ export const UserStore = defineStore('cloud', {
       if (Date.now() - _lastUserMetadataFetch < USER_METADATA_TTL_MS) return
       let data: any
       try {
-        data = await getUser(this.Cognito.userId)
+        data = await getUser(this.Cognito.userId!)
       } catch (e) {
         if (e instanceof UnauthorizedError) {
           logger.warn('Unauthorized response from server, signing out')
@@ -395,7 +442,7 @@ export const UserStore = defineStore('cloud', {
       if (!this.IsLoggedIn) return
       if (this.UserMetadata.V2CloudImportStatus === 'complete') return
       try {
-        const detect = await checkV2CloudData(this.Cognito.userId)
+        const detect = await checkV2CloudData(this.Cognito.userId!)
         this.V2CloudDetectData = detect
         if (this.UserMetadata.V2CloudImportStatus === 'none') {
           this.UserMetadata.V2CloudImportStatus = detect.hasV2Data ? 'pending' : 'complete'
@@ -417,7 +464,7 @@ export const UserStore = defineStore('cloud', {
         this.CloudImages = []
         this.UserPublishedCollections = []
 
-        const rawData = await getUserData(this.Cognito.userId)
+        const rawData = await getUserData(this.Cognito.userId!)
         const data = Array.isArray(rawData) ? rawData : []
         if (!Array.isArray(rawData)) {
           logger.warn('getUserData returned unexpected non-array response', { rawData })
@@ -439,7 +486,7 @@ export const UserStore = defineStore('cloud', {
         })
         this.CloudStorageUsed = totalSizeBytes
       } else {
-        const result = await getUserDataChanged(this.Cognito.userId, this.LastQuery)
+        const result = await getUserDataChanged(this.Cognito.userId!, this.LastQuery)
         this.LastQuery = result.serverTime
         if (this.Cognito.userId) {
           localStorage.setItem(`cc_last_query_${this.Cognito.userId}`, String(this.LastQuery))
@@ -508,7 +555,7 @@ export const UserStore = defineStore('cloud', {
               const localItem = this.AllItems.find(
                 (x: any) => x.SaveController?.RemoteCode === code
               )
-              if (localItem) toRaw(localItem).SaveController.RemoteCode = ''
+              if (localItem?.SaveController) toRaw(localItem).SaveController!.RemoteCode = ''
               this.deleteRemoteItem(code)
             }
           }
@@ -634,7 +681,7 @@ export const UserStore = defineStore('cloud', {
         }
       }
     },
-    getLocalItem(sortkey: string): any {
+    getLocalItem(sortkey: string): SyncableItem | undefined {
       const datatype = sortkey.split('_')[0]
       if (datatype.includes('meta')) return
       if (datatype.includes('archive')) return

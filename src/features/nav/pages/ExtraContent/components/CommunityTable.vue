@@ -1,7 +1,7 @@
 <template>
   <v-data-table v-model:expanded="expanded"
     density="compact"
-    no-data-text="No content packs available."
+    :no-data-text="ct.noData"
     :mobile="mobile"
     :headers="<any>tableHeaders"
     :items="packs"
@@ -22,8 +22,7 @@
           <v-icon v-bind="props"
             color="success">mdi-check</v-icon>
         </template>
-        This content pack is compatible with the latest version of COMP/CON and supports v3
-        features.
+        {{ ct.v3Compatible }}
       </v-tooltip>
       <v-tooltip v-else
         max-width="300px">
@@ -31,9 +30,7 @@
           <v-icon v-bind="props"
             color="error">mdi-cancel</v-icon>
         </template>
-        This content pack uses the v2 content format. It will function correctly but will lack
-        features of v3-compatible packs. COMP/CON will not be able to manage effects or statuses
-        from this pack in Active Mode.
+        {{ ct.v3Incompatible }}
       </v-tooltip>
     </template>
     <template #item.local_version="{ item }">
@@ -48,7 +45,7 @@
           icon="mdi-clock-alert-outline" />
       </span>
       <i v-else
-        class="text-disabled">Not Installed</i>
+        class="text-disabled">{{ ct.notInstalled }}</i>
     </template>
     <template #item.auto="{ item }">
       <v-row v-if="canDownload(item) && getInstalledPack(item)"
@@ -74,11 +71,11 @@
           </template>
           <div v-if="hasSubscription(item)"
             class="text-center">
-            Currently subscribed to latest updates. Click to unsubscribe.
+            {{ ct.subscribedTooltip }}
           </div>
           <div v-else
             class="text-center">
-            Click to allow COMP/CON to update this LCP whenever a new version is published
+            {{ ct.subscribeTooltip }}
           </div>
         </v-tooltip>
       </v-row>
@@ -124,7 +121,7 @@
               icon="mdi-open-in-new" />
           </v-btn>
         </template>
-        <div class="text-center">Open Website</div>
+        <div class="text-center">{{ ct.openWebsite }}</div>
       </v-tooltip>
     </template>
     <template #expanded-row="{ columns, item }">
@@ -140,8 +137,8 @@
                     tile
                     size="small">
                     <span v-if="item.paid">{{ item.cost }}</span>
-                    <span v-else-if="item.pwyw">Pay What You Want</span>
-                    <span v-else>Free</span>
+                    <span v-else-if="item.pwyw">{{ ct.payWhatYouWant }}</span>
+                    <span v-else>{{ ct.free }}</span>
                   </v-chip>
                 </v-col>
                 <v-col cols="auto"
@@ -167,7 +164,7 @@
                 }}
               </div>
               <div class="my-1">
-                Current version:
+                {{ ct.currentVersion }}
                 <b>v{{ item.version }}</b>
                 <span class="text-caption">
                   ({{ new Date(item.updated * 1000).toLocaleDateString() }})
@@ -187,7 +184,7 @@
               color="itch">
               <v-icon prepend
                 start>mdi-open-in-new</v-icon>
-              itch.io Store Page
+              {{ ct.itchStorePage }}
             </cc-button>
             <cc-button target="_blank"
               :href="item.website"
@@ -197,7 +194,7 @@
               color="primary">
               <v-icon prepend
                 start>mdi-open-in-new</v-icon>
-              Author's Website
+              {{ ct.authorsWebsite }}
             </cc-button>
           </v-col>
           <v-col v-if="(item as any).img && !mobile"
@@ -215,11 +212,15 @@
 import { CompendiumStore, UserStore } from '@/stores';
 import logger from '@/user/logger';
 import { useMobile } from '@/mixins/useMobile';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 
 export default {
   name: 'CommunityTable',
   mixins: [useMobile],
+  setup() {
+    return { ct: NAV_STRINGS.communityTable }
+  },
   props: {
     packs: { type: Array, default: () => [] },
     loading: { type: Boolean, default: true },

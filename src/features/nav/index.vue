@@ -11,14 +11,14 @@
 
       <cc-button :size="mobile ? 'large' : 'x-large'"
         icon="mdi-arrow-left"
-        tooltip="Navigate Back"
+        :tooltip="n.navigateBack"
         tooltip-location="bottom"
         @click="$router.go(-1)" />
       &nbsp;
 
       <cc-button :size="mobile ? 'large' : 'x-large'"
         icon="mdi-arrow-right"
-        tooltip="Navigate Forward"
+        :tooltip="n.navigateForward"
         tooltip-location="bottom"
         @click="$router.go(1)" />
       &nbsp;
@@ -27,7 +27,7 @@
 
     <cc-button :size="mobile ? 'large' : 'x-large'"
       icon="mdi-home"
-      tooltip="Main Menu"
+      :tooltip="n.mainMenu"
       tooltip-location="bottom"
       @click="$router.push({ name: 'main-menu' })" />
 
@@ -35,7 +35,7 @@
 
     <cc-button :size="mobile ? 'large' : 'x-large'"
       icon="mdi-book"
-      tooltip="Compendium"
+      :tooltip="n.compendium"
       tooltip-location="bottom"
       @click="$router.push({ path: '/srd' })" />
 
@@ -43,7 +43,7 @@
 
     <cc-button :size="mobile ? 'large' : 'x-large'"
       icon="cc:pilot"
-      tooltip="Pilot Management"
+      :tooltip="n.pilotManagement"
       tooltip-location="bottom"
       @click="$router.push({ path: '/pilot_management' })" />
 
@@ -62,20 +62,20 @@
         class="text-caption pa-0">
         <v-list-item slim
           @click="$router.push({ path: '/gm/npcs' })">
-          NPC Roster
+          {{ n.npcRoster }}
         </v-list-item>
         <v-list-item slim
           @click="$router.push({ path: '/gm/encounters' })">
-          Encounters
+          {{ n.encounters }}
         </v-list-item>
         <v-list-item slim
           @click="$router.push({ path: '/gm/narrative' })">
-          Narrative Elements
+          {{ n.narrativeElements }}
         </v-list-item>
         <v-list-item v-if=isDevsite
           slim
           @click="$router.push({ path: '/gm/campaigns' })">
-          Campaign Manager
+          {{ n.campaignManager }}
         </v-list-item>
       </v-list>
     </v-menu>
@@ -84,7 +84,7 @@
 
     <cc-button :size="mobile ? 'large' : 'x-large'"
       icon="cc:campaign"
-      tooltip="Active Mode"
+      :tooltip="n.activeMode"
       tooltip-location="bottom"
       @click="$router.push({ path: '/active-mode' })" />
 
@@ -99,13 +99,13 @@
             @click="refModal = true"></cc-button>
         </span>
       </template>
-      <span>Quick Reference</span>
+      <span>{{ n.quickReference }}</span>
     </v-tooltip>
 
     &nbsp;
 
     <cc-solo-modal v-model="refModal"
-      title="Quick Reference">
+      :title="n.quickReference">
       <reference is-modal />
     </cc-solo-modal>
 
@@ -127,11 +127,9 @@
             <v-chip color="warning"
               variant="elevated"
               size="x-small">
-              WARNING
+              {{ n.storageWarning }}
             </v-chip>
-            COMP/CON has exceeded the storage warning threshold. More details are available in the
-            <b>Storage</b>
-            tab of the Options Menu.
+            {{ n.storageWarningTooltip }}
           </span>
         </v-tooltip>
       </span>
@@ -148,16 +146,16 @@
             <v-chip color="error"
               variant="elevated"
               size="x-small">
-              ALERT
+              {{ n.storageAlert }}
             </v-chip>
-            COMP/CON has exceeded the maximum storage threshold.
+            {{ n.storageAlertTooltip }}
 
             <v-alert color="error">
-              <b>NO NEW ITEMS WILL BE SAVED UNTIL THE LIMIT IS INCREASED OR DATA IS DELETED.</b>
+              <b>{{ n.noNewItemsSaved }}</b>
             </v-alert>
-            More details are available in the
-            <b>Storage</b>
-            tab of the Options Menu.
+            {{ n.storageDetailsPrefix }}
+            <b>{{ n.storageTab }}</b>
+            {{ n.storageDetailsSuffix }}
           </span>
         </v-tooltip>
         <v-dialog v-model="storageFullDialog"
@@ -168,7 +166,7 @@
               <v-toolbar-title>
                 <v-icon icon="mdi-database-off"
                   start />
-                STORAGE LIMIT EXCEEDED
+                {{ n.storageLimitExceeded }}
               </v-toolbar-title>
               <v-spacer />
               <v-btn icon
@@ -178,24 +176,24 @@
             </v-toolbar>
             <v-card-text>
               <p>
-                COMP/CON has exceeded the maximum storage threshold.
+                {{ n.storageAlertTooltip }}
                 <br />
                 <br />
                 <b class="text-accent">
-                  NO NEW ITEMS WILL BE SAVED UNTIL THE LIMIT IS INCREASED OR DATA IS DELETED.
+                  {{ n.noNewItemsSaved }}
                 </b>
                 <br />
                 <br />
-                More details are available in the
-                <b>Storage</b>
-                tab of the Options Menu.
+                {{ n.storageDetailsPrefix }}
+                <b>{{ n.storageTab }}</b>
+                {{ n.storageDetailsSuffix }}
               </p>
             </v-card-text>
           </v-card>
         </v-dialog>
       </span>
       <span v-if="!mobile">
-        <span class="heading">COMP/CON</span>
+        <span class="heading">{{ n.appName }}</span>
         <span class="flavor-text text-white"
           style="opacity: 0.4">
           &nbsp;{{ appVersion }}
@@ -210,7 +208,7 @@
       size="small"
       prepend-icon="mdi-wifi-off"
       class="mr-2">
-      Offline
+      {{ n.offline }}
     </v-chip>
 
     <v2-auto />
@@ -223,7 +221,7 @@
 
     <v-tooltip location="bottom">
       <template #activator="{ props }">
-        <cc-modal title="Cloud Account"
+        <cc-modal :title="n.cloudAccount"
           icon="mdi-cloud-sync-outline">
           <template #activator="{ open }">
             <cc-button v-bind="props"
@@ -239,7 +237,7 @@
           <cloud-page />
         </cc-modal>
       </template>
-      Cloud Account
+      {{ n.cloudAccount }}
     </v-tooltip>
 
     <v-divider v-if="!mobile"
@@ -248,7 +246,7 @@
 
     <v-tooltip location="bottom">
       <template #activator="{ props }">
-        <cc-modal title="Achievements"
+        <cc-modal :title="n.achievements"
           icon="cc:achievement_1">
           <template #activator="{ open }">
             <cc-button v-bind="props"
@@ -263,7 +261,7 @@
           </template>
         </cc-modal>
       </template>
-      Achievements
+      {{ n.achievements }}
     </v-tooltip>
 
     <v-divider v-if="!mobile"
@@ -279,40 +277,40 @@
       </template>
 
       <v-list density="compact">
-        <v-list-item @click.stop="contentModal = true">Manage Content</v-list-item>
+        <v-list-item @click.stop="contentModal = true">{{ n.manageContent }}</v-list-item>
         <content-page v-model="contentModal" />
         <cc-modal title="options"
           icon="mdi-cog">
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">Options</v-list-item>
+            <v-list-item @click.stop="open">{{ n.options }}</v-list-item>
           </template>
           <options-page />
         </cc-modal>
         <cc-modal title="about"
           icon="mdi-information-outline">
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">About</v-list-item>
+            <v-list-item @click.stop="open">{{ n.about }}</v-list-item>
           </template>
           <about-page />
         </cc-modal>
         <cc-modal title="title"
           icon="cc:gms">
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">Credits</v-list-item>
+            <v-list-item @click.stop="open">{{ n.credits }}</v-list-item>
           </template>
           <credits-page />
         </cc-modal>
         <cc-modal title="title"
           icon="mdi-help-circle-outline">
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">Help</v-list-item>
+            <v-list-item @click.stop="open">{{ n.help }}</v-list-item>
           </template>
           <help-page />
         </cc-modal>
         <v-divider />
         <v-list-item target="_blank"
           href="https://www.patreon.com/compcon">
-          Support COMP/CON
+          {{ n.supportCompcon }}
         </v-list-item>
       </v-list>
     </v-menu>
@@ -335,6 +333,7 @@ import Reference from '../compendium/Views/Reference/Reference.vue'
 
 import { UserStore } from '@/stores'
 import { useOnlineStatus } from '@/composables/useOnlineStatus'
+import { NAV_STRINGS } from './strings'
 
 import SearchComponent from './search/index.vue'
 import V2Auto from './pages/ExtraContent/components/v2Auto.vue'
@@ -359,7 +358,7 @@ export default {
   },
   setup() {
     const { isOnline } = useOnlineStatus()
-    return { isOnline }
+    return { isOnline, n: NAV_STRINGS.nav }
   },
   data: () => ({
     aboutDialog: false,

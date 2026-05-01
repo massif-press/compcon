@@ -5,15 +5,15 @@
       class="text-center"
       color="subtle"
       density="compact">
-      <span>No items found</span>
+      <span>{{ di.noItemsFound }}</span>
     </v-alert>
     <v-table v-if="items.length"
       class="text-left pa-2">
       <thead>
         <tr>
-          <th>Item Type</th>
-          <th>Item Name</th>
-          <th>Deleted On</th>
+          <th>{{ di.itemType }}</th>
+          <th>{{ di.itemName }}</th>
+          <th>{{ di.deletedOn }}</th>
           <th />
           <th />
         </tr>
@@ -30,7 +30,7 @@
               variant="plain"
               size="small"
               @click="item.SaveController.Restore()">
-              Restore
+              {{ di.restore }}
             </v-btn>
           </td>
           <td class="text-right">
@@ -38,7 +38,7 @@
               variant="plain"
               size="small"
               @click="permanentlyDelete(item)">
-              Permanently Delete
+              {{ di.permanentlyDelete }}
             </v-btn>
           </td>
         </tr>
@@ -53,7 +53,7 @@
               :loading="loading"
               color="accent"
               @click="restoreAll()">
-              Restore All
+              {{ di.restoreAll }}
             </v-btn>
           </td>
           <td>
@@ -62,7 +62,7 @@
               :loading="loading"
               color="error"
               @click="deleteAll()">
-              Permanently Delete All
+              {{ di.permanentlyDeleteAll }}
             </v-btn>
           </td>
         </tr>
@@ -74,9 +74,13 @@
 <script lang="ts">
 import { CampaignStore, EncounterStore, NpcStore, PilotStore } from '@/stores';
 import { Pilot, PilotGroup } from '@/class';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 export default {
   name: 'deleted-items',
+  setup() {
+    return { di: NAV_STRINGS.deletedItems }
+  },
   data: () => ({
     loading: false,
   }),

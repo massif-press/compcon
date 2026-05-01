@@ -1,19 +1,17 @@
 <template>
   <v-card-text class="pa-2">
     <i class="text-cc-subtle">
-      This is the locally-saved user data. These items should generally not have to be reset, but
-      may be useful in debugging or clearing a persistent loading issue.
+      {{ ud.description }}
       <br />
-      Resetting User Data will not reset achievement unlocks (this can be done in the Achievement
-      Browser).
+      {{ ud.achievementNote }}
     </i>
 
     <v-table class="text-left mt-2"
       density="compact">
       <thead>
         <tr>
-          <th>Item</th>
-          <th>Value</th>
+          <th>{{ ud.item }}</th>
+          <th>{{ ud.value }}</th>
         </tr>
       </thead>
       <tbody>
@@ -42,7 +40,7 @@
         variant="tonal"
         color="error"
         @click="resetUserData()">
-        Reset User Data
+        {{ ud.resetUserData }}
       </cc-button>
     </div>
   </v-card-text>
@@ -51,11 +49,15 @@
 <script lang="ts">
 import { UserStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 
 export default {
   mixins: [useMobile],
   name: 'deleted-items',
+  setup() {
+    return { ud: NAV_STRINGS.userDataViewer }
+  },
   data: () => ({
     resetDialog: false,
   }),

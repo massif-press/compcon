@@ -8,7 +8,7 @@
         md="4"
         class="px-3 py-4">
         <v-file-input v-model="value"
-          placeholder="Select an .LCP file"
+          :placeholder="pi.selectFile"
           variant="outlined"
           type="file"
           accept=".lcp"
@@ -31,7 +31,7 @@
             <v-icon icon="mdi-tray-arrow-down" />
           </template>
 
-          <span>Install</span>
+          <span>{{ pi.install }}</span>
         </cc-button>
         <v-progress-linear v-if="installing"
           indeterminate
@@ -40,7 +40,7 @@
           color="warning"
           class="my-3">
           <span class="text-caption">
-            The following content pack(s) are already installed and will be replaced:
+            {{ pi.alreadyInstalledWarning }}
           </span>
           <div v-for="pack in contentPacks.filter((x) => packAlreadyInstalled(x))"
             :key="pack.id"
@@ -80,9 +80,7 @@
           color="warning"
           class="my-3">
           <span class="text-caption">
-            The following content has not been registered as v3 compatible. These packs will still
-            work, but
-            will not be able to take advantage of v3 features, especially in active mode.
+            {{ pi.v3Warning }}
           </span>
           <div v-for="pack in contentPacks.filter((x) => !x.manifest.v3)"
             :key="pack.id"
@@ -97,8 +95,7 @@
           color="error"
           class="my-3">
           <span class="text-caption">
-            The following content pack(s) have uninstalled dependencies and cannot be installed yet.
-            They will be skipped:
+            {{ pi.dependencyError }}
           </span>
           <div v-for="pack in contentPacks.filter((x) => uninstalledDependencies(x).length > 0)"
             :key="pack.id"
@@ -152,14 +149,14 @@
                 "
               class="transition-swing"
               transition="slide-y-reverse-transition">
-              A pack with this same name and author is already installed.
+              {{ pi.alreadyInstalledNote }}
               <span v-if="gradeType(contentPack) === 'upgrade'">
                 It will be upgraded to v.{{ contentPack.manifest.version }}
               </span>
               <span v-else-if="gradeType(contentPack) === 'downgrade'">
                 It will be downgraded to {{ contentPack.manifest.version }}
               </span>
-              <span v-else>It will be replaced by this copy.</span>
+              <span v-else>{{ pi.willReplace }}</span>
             </v-alert>
             <v-alert v-show="uninstalledDependencies(contentPack).length > 0 && !installing"
               flat
@@ -167,7 +164,7 @@
               color="error"
               class="transition-swing"
               transition="slide-y-reverse-transition">
-              This LCP requires the following content to be installed before it can be added:
+              {{ pi.requiresContent }}
               <div v-for="dep in uninstalledDependencies(contentPack)"
                 :key="dep.id"
                 class="text-caption">
@@ -186,7 +183,7 @@
           <div v-else
             key="nopack"
             class="text-center my-6">
-            <div class="heading h3 font-italic text-disabled">No content pack selected</div>
+            <div class="heading h3 font-italic text-disabled">{{ pi.noPackSelected }}</div>
           </div>
         </v-fade-transition>
       </v-col>
@@ -205,12 +202,16 @@ import { IContentPack } from '@/classes/ContentPack';
 import { compare, coerce } from 'semver';
 import logger from '@/user/logger';
 import { useMobile } from '@/mixins/useMobile';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 
 export default {
   name: 'PackInstall',
   components: { PackInfo },
   mixins: [useMobile],
+  setup() {
+    return { pi: NAV_STRINGS.packInstall }
+  },
   data: () => ({
     value: null,
     installing: false,
@@ -334,8 +335,8 @@ export default {
       this.value = null;
 
       this.$notify({
-        title: 'Success',
-        text: 'Content packs installed successfully',
+        title: this.pi.success,
+        text: this.pi.successText,
         data: { color: 'success' },
       });
     },

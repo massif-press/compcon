@@ -1,24 +1,22 @@
 <template>
   <v-card-text :style="mobile ? 'margin-top: 14px' : 'margin-top: 16px'">
-    <div class="heading h2">Content Configurations</div>
+    <div class="heading h2">{{ pc.title }}</div>
     <cc-alert class="mt-4 bg-panel pr-12 mb-4"
       color="info"
       prominent
       variant="text">
       <p class="text-text">
-        Content configurations allow you to create and manage sets of LCPs that can be applied to
-        Pilots and NPCs that allow or limit selections to specific content. Pilots and NPCs without
-        configurations set will have access to all installed and activated LCPs
+        {{ pc.description }}
       </p>
 
       <p class="text-text mt-2">
-        These configurations can be applied to Pilots and NPCs in their options menus.
+        {{ pc.applyNote }}
       </p>
     </cc-alert>
 
     <div v-if="!user.LcpConfigs.length"
       class="text-disabled text-center">
-      <i>No configurations found.</i>
+      <i>{{ pc.noConfigs }}</i>
     </div>
     <v-card v-for="(config, index) in user.LcpConfigs"
       v-else
@@ -44,7 +42,7 @@
           </v-col>
           <v-col cols="auto">
             <v-tooltip location="top"
-              text="Delete this configuration">
+              :text="pc.deleteConfig">
               <template #activator="{ props }">
                 <v-btn color="error"
                   size="40"
@@ -60,7 +58,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-text text-cc-overline">LCPs in this configuration:</div>
+        <div class="text-text text-cc-overline">{{ pc.lcpsInConfig }}</div>
 
         <v-card v-if="!config.packList.length"
           flat
@@ -68,9 +66,9 @@
           color="background"
           class="text-center pa-4">
           <i>
-            No LCPs added. Only content from the
-            <b class="text-accent">Lancer Core Book</b>
-            will be available.
+            {{ pc.noLcpsPrefix }}
+            <b class="text-accent">{{ pc.lancerCoreBook }}</b>
+            {{ pc.willBeAvailable }}
           </i>
         </v-card>
 
@@ -91,7 +89,7 @@
             </v-col>
             <v-col cols="auto">
               <v-tooltip location="top"
-                text="Remove this pack from the configuration">
+                :text="pc.removeFromConfig">
                 <template #activator="{ props }">
                   <v-btn color="error"
                     size="30"
@@ -121,7 +119,7 @@
               item-title="Name"
               min-width="300px"
               max-width="400px"
-              label="Add LCP"
+              :label="pc.addLcp"
               @update:model-value="AddPack(config)" />
           </v-col>
           <v-col cols="auto"
@@ -149,13 +147,13 @@
             <span v-if="config.packList.length">
               {{config.packList.map(x => x.packName).join(' // ')}} LCPs
             </span>
-            <span v-else>Lancer Core Book content only</span>
+            <span v-else>{{ pc.coreBookOnly }}</span>
           </div>
         </v-col>
         <v-col cols="auto"
           class="ml-auto">
           <v-tooltip location="top"
-            text="Edit this configuration">
+            :text="pc.editConfig">
             <template #activator="{ props }">
               <v-btn color="primary"
                 size="40"
@@ -178,7 +176,7 @@
       block
       @click="user.AddConfig()">
       <v-icon left>mdi-plus</v-icon>
-      Create Configuration
+      {{ pc.createConfig }}
     </cc-button>
   </v-card-text>
 </template>
@@ -188,10 +186,14 @@ import { CompendiumStore, UserStore } from '@/stores'
 import { LcpConfig, LcpConfigData } from '@/user'
 import _ from 'lodash'
 import { useMobile } from '@/mixins/useMobile';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 export default {
   mixins: [useMobile],
   name: 'PackConfig',
+  setup() {
+    return { pc: NAV_STRINGS.packConfig }
+  },
   data: () => ({
     selection: null as any,
     editingIndex: null as number | null,

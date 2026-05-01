@@ -9,7 +9,7 @@
           size="small"
           prepend-icon="mdi-bell-ring-outline"
           @click="showUpdates">
-          Show Update Messages
+          {{ sp.showUpdateMessages }}
         </cc-button>
         <migration-repair-dialog />
 
@@ -20,8 +20,8 @@
           density="compact"
           off-icon="mdi-star-off-outline"
           on-icon="mdi-star"
-          tooltip="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED if you are not the GM"
-          label="Show Exotic items in the Compendium"></cc-switch>
+          :tooltip="sp.showExoticsTooltip"
+          :label="sp.showExoticsLabel"></cc-switch>
       </v-col>
     </v-row>
 
@@ -30,7 +30,7 @@
         sm="6">
         <div>
           <cc-heading is-title
-            text="Theme" />
+            :text="sp.theme" />
           <cc-select v-model="theme"
             :items="themes.sort((a, b) => a.community - b.community)"
             :item-title="item => `${item.name}${item.community ? ' (Community)' : ''}`" />
@@ -56,7 +56,7 @@
         </div>
         <div>
           <cc-heading is-title
-            text="Font" />
+            :text="sp.font" />
           <cc-select v-model="font"
             :items="fonts"
             item-title="label"
@@ -67,13 +67,13 @@
             12"
         sm="6">
         <cc-heading is-title
-          text="Log Level" />
+          :text="sp.logLevel" />
         <v-menu>
           <template #activator="{ props }">
             <v-list-item v-bind="props"
               three-line
               border>
-              <v-list-item-title>Log level:</v-list-item-title>
+              <v-list-item-title>{{ sp.logLevelLabel }}</v-list-item-title>
               <v-list-item-subtitle>
                 <b class="text-uppercase">{{ logLevel.name }}</b>
               </v-list-item-subtitle>
@@ -92,7 +92,7 @@
         </v-menu>
 
         <cc-heading is-title
-          text="Error Reporting"
+          :text="sp.errorReporting"
           class="mt-3 mb-1" />
         <v-row>
           <v-col cols="auto">
@@ -102,7 +102,7 @@
           </v-col>
           <v-col cols="auto"
             :class="`text-${user.ErrorReporting ? 'success' : 'disabled'}`">
-            Error reporting {{ user.ErrorReporting ? 'enabled' : 'disabled' }}
+            {{ sp.errorReportingPrefix }} {{ user.ErrorReporting ? sp.enabled : sp.disabled }}
           </v-col>
           <v-col cols="auto">
             <v-tooltip location="top"
@@ -112,10 +112,9 @@
                   class="fade-select mx-1"
                   icon="mdi-information-slab-box-outline" />
               </template>
-              Error reporting allows anonymous error data to be sent to the developer to help
-              identify and resolve bugs and other issues.
+              {{ sp.errorReportingTooltip }}
               <strong class="text-accent">
-                No personally identifiable information is collected at this level.
+                {{ sp.errorReportingPiiNote }}
               </strong>
             </v-tooltip>
           </v-col>
@@ -128,7 +127,7 @@
             </v-col>
             <v-col cols="auto"
               :class="`text-${user.EnhancedReporting ? 'success' : 'disabled'}`">
-              Enhanced error reporting {{ user.EnhancedReporting ? 'enabled' : 'disabled' }}
+              Enhanced error reporting {{ user.EnhancedReporting ? sp.enabled : sp.disabled }}
             </v-col>
             <v-col cols="auto">
               <v-tooltip location="top"
@@ -161,33 +160,33 @@
           size="large"
           color="primary"
           prepend-icon="mdi-database"
-          tooltip="COMP/CON relies on your browser's secure storage to save and load its data. Generally, this data is safe from deletion, but certain browser settings and utilities can sometimes clear this data, resulting in the loss of your COMP/CON data. It's good practice to back up your data from time to time."
+          :tooltip="sp.createBackupTooltip"
           @click="bulkExport">
-          Create Data Backup
+          {{ sp.createBackup }}
         </cc-button>
         <cc-button v-if="v2BackupData"
           block
           size="x-small"
           color="primary"
           prepend-icon="mdi-database"
-          tooltip="COMP/CON has saved a complete backup of your v2 COMP/CON data. This can be imported into the v2 app at old.compcon.app."
+          :tooltip="sp.downloadV2Tooltip"
           @click="downloadV2Backup">
-          Download Stored v2 Backup
+          {{ sp.downloadV2Backup }}
         </cc-button>
       </v-col>
 
       <v-col cols="12"
         md="6">
-        <cc-dialog title="Load Data Backup"
+        <cc-dialog :title="sp.loadBackup"
           :close-on-click="false">
           <template #activator="{ open }">
             <cc-button block
               size="large"
               color="primary"
-              tooltip=".compcon files are COMP/CON bulk export files that contain all of your local data in a single file. You can create a .compcon backup file using the 'Create Data Backup' button. Use this option to load .compcon backup files that you have created or obtained from another source. It is recommended to create a backup before loading a .compcon file, especially if the file came from another source."
+              :tooltip="sp.loadBackupTooltip"
               prepend-icon="mdi-database"
               @click="open()">
-              Load Data Backup
+              {{ sp.loadBackup }}
             </cc-button>
           </template>
           <template #default="{ close }">
@@ -205,10 +204,10 @@
                   density="compact"
                   class="mb-4">
                   <v-btn value="append">
-                    Merge with existing data
+                    {{ sp.mergeStrategy }}
                   </v-btn>
                   <v-btn value="overwrite">
-                    Overwrite all existing data
+                    {{ sp.overwriteStrategy }}
                   </v-btn>
                 </v-btn-toggle>
                 <cc-alert v-if="strategy === 'append'"
@@ -216,7 +215,7 @@
                   variant="outlined"
                   class="mb-4">
                   <p class="text-text">
-                    COMP/CON will attempt to merge import data with your existing data.
+                    {{ sp.mergeWarning }}
                   </p>
                 </cc-alert>
                 <cc-alert v-else-if="strategy === 'overwrite'"
@@ -225,9 +224,7 @@
                   title="Warning"
                   icon="mdi-alert"
                   class="mb-4">
-                  The overwrite strategy will replace all of your existing local data with the data
-                  from the imported file and cannot be undone. It is strongly recommended to
-                  create a backup before using this option.
+                  {{ sp.overwriteWarning }}
                 </cc-alert>
               </div>
 
@@ -237,7 +234,7 @@
                 density="compact"
                 hide-details
                 autofocus
-                label="Select .compcon Bulk Export File"
+                :label="sp.selectBulkFile"
                 prepend-icon="mdi-paperclip"
                 @change="onFileSelect" />
 
@@ -245,16 +242,13 @@
                 color="warning"
                 icon="mdi-alert"
                 variant="outlined"
-                title="v2 Backup Detected"
+                :title="sp.v2BackupDetected"
                 class="mt-4">
                 <p class="text-text">
-                  This is a v2 COMP/CON backup file. It will be processed using the v2 import
-                  system: content packs will be installed first, followed by pilots, NPCs, and
-                  encounters. Items that require LCPs not present in this backup will be saved to
-                  pending v2 imports in the Content Manager.
+                    {{ sp.v2BackupDescription }}
                 </p>
                 <p class="mt-2">
-                  v2 backup imports are always processed using the "append" strategy.
+                  {{ sp.v2AppendNote }}
                 </p>
               </cc-alert>
 
@@ -266,7 +260,7 @@
                     :loading="importLoading"
                     prepend-icon="mdi-database-arrow-left-outline"
                     @click="doImport(close)">
-                    {{ isV2File ? 'Import v2 Backup' : 'Confirm Import' }}
+                    {{ isV2File ? sp.importV2Backup : sp.confirmImport }}
                   </cc-button>
                 </v-col>
               </v-row>
@@ -281,9 +275,9 @@
       <cc-button v-if="v2MigrationComplete"
         size="small"
         color="panel"
-        tooltip="Resets the v2 migration status, allowing the V2 Data button to appear again if it was dismissed."
+        :tooltip="sp.resetV2Tooltip"
         @click="resetV2Migration">
-        Reset V2 Migration Status
+        {{ sp.resetV2Migration }}
       </cc-button>
     </v-row>
     <v-row justify="end">
@@ -311,11 +305,15 @@ import { ClearAllData } from '@/io/Storage'
 import { isFullBackup, processFullBackup, downloadFullBackup } from '@/io/FullImporter'
 import { GetValue, SetValue } from '@/io/Storage'
 import MigrationRepairDialog from './components/MigrationRepairDialog.vue'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
 export default {
   name: 'OptionsSettings',
   components: { MigrationRepairDialog },
   emits: ['show-message'],
+  setup() {
+    return { sp: NAV_STRINGS.settingsPage }
+  },
   data: () => ({
     importDialog: false,
     fileValue: null as any,

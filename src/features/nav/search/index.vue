@@ -25,7 +25,7 @@
     <v-card border
       tile>
       <v-text-field v-model="search"
-        label="Search"
+        :label="sr.search"
         prepend-inner-icon="mdi-magnify"
         outlined
         autofocus
@@ -47,7 +47,7 @@
       <v-card-text :class="mobile && 'py-0 px-2'">
         <div v-if="search">
           <v-list density="compact">
-            <div class="text-caption font-weight-bold text-uppercase">search results</div>
+            <div class="text-caption font-weight-bold text-uppercase">{{ sr.searchResults }}</div>
             <v-scroll-y-transition group>
               <search-result-item v-for="r in searchResults"
                 :key="r.path"
@@ -62,7 +62,7 @@
         </div>
 
         <div v-else>
-          <div class="text-caption font-weight-bold text-uppercase">recent searches</div>
+          <div class="text-caption font-weight-bold text-uppercase">{{ sr.recentSearches }}</div>
           <v-scroll-y-transition group>
             <search-result-item v-for="r in recent"
               :key="r.path"
@@ -83,6 +83,7 @@ import { unCamelCase } from '@/classes/utility/accent_fold';
 import { NavStore } from '@/stores';
 import SearchResultItem from './searchResultItem.vue';
 import { useMobile } from '@/mixins/useMobile';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 
 export default {
@@ -91,6 +92,9 @@ export default {
     SearchResultItem,
   },
   mixins: [useMobile],
+  setup() {
+    return { sr: NAV_STRINGS.search }
+  },
   data: () => ({
     search: '',
     searchDialog: false,

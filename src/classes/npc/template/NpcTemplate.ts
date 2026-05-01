@@ -12,6 +12,9 @@ interface INpcTemplateData {
   forceTag?: string
   prohibitTemplates?: string[]
 
+  base_features?: string[]
+  optional_features?: string[]
+
   optionalMin?: number
   optionalMax?: number
   optionalPerTier?: number
@@ -44,6 +47,9 @@ class NpcTemplate implements ILcpTracked {
   public readonly FreeOptions: boolean
   public LcpName: string = ''
 
+  private _baseFeatureList: string[]
+  private _optionalFeatureList: string[]
+
   private _featuresCache: NpcFeature[] | null = null
   private _baseFeaturesCache: NpcFeature[] | null = null
   private _optionalFeaturesCache: NpcFeature[] | null = null
@@ -57,6 +63,8 @@ class NpcTemplate implements ILcpTracked {
 
     this.ForceTag = data.forceTag || ''
     this.ProhibitTemplates = data.prohibitTemplates || []
+    this._baseFeatureList = data.base_features || []
+    this._optionalFeatureList = data.optional_features || []
 
     applyLcpTracking(this, pack, 'LANCER Core NPCs')
     this.InLcp = true
@@ -134,21 +142,43 @@ class NpcTemplate implements ILcpTracked {
         .getItemCollection('NpcFeatures')
         .filter(x => x.Origin.ID === this.ID)
     }
-    return this._featuresCache
+    return this._featuresCache!
   }
 
   public get BaseFeatures(): NpcFeature[] {
     if (!this._baseFeaturesCache) {
-      this._baseFeaturesCache = this.Features.filter(x => x.Base && !x.Deprecated)
+      const extra = CompendiumStore().ExtraNpcFeatureMap[this.ID]
+      const ownBase = this.Features.filter(
+        x => !x.Deprecated && (x.Base || this._baseFeatureList.includes(x.ID))
+      )
+      if (extra?.base.length) {
+        const injected = CompendiumStore()
+          .getItemCollection('NpcFeatures')
+          .filter(x => extra.base.includes(x.ID) && x.Origin.ID !== this.ID && !x.Deprecated)
+        this._baseFeaturesCache = [...ownBase, ...injected]
+      } else {
+        this._baseFeaturesCache = ownBase
+      }
     }
-    return this._baseFeaturesCache
+    return this._baseFeaturesCache!
   }
 
   public get OptionalFeatures(): NpcFeature[] {
     if (!this._optionalFeaturesCache) {
-      this._optionalFeaturesCache = this.Features.filter(x => !x.Base && !x.Deprecated)
+      const extra = CompendiumStore().ExtraNpcFeatureMap[this.ID]
+      const ownOptional = this.Features.filter(
+        x => !x.Deprecated && (!x.Base || this._optionalFeatureList.includes(x.ID))
+      )
+      if (extra?.optional.length) {
+        const injected = CompendiumStore()
+          .getItemCollection('NpcFeatures')
+          .filter(x => extra.optional.includes(x.ID) && x.Origin.ID !== this.ID && !x.Deprecated)
+        this._optionalFeaturesCache = [...ownOptional, ...injected]
+      } else {
+        this._optionalFeaturesCache = ownOptional
+      }
     }
-    return this._optionalFeaturesCache
+    return this._optionalFeaturesCache!
   }
 
   public get Icon(): string {
