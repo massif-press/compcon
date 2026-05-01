@@ -289,10 +289,10 @@ export default {
         if (!self) {
           throw new Error('Owner combatant not found in encounter');
         }
-        const auxes = this.selectedMount.Weapons.filter(
+        const auxes = this.selectedMount?.Weapons.filter(
           (x) =>
             x.InstanceID !== this.selectedWeapon!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-        );
+        ) ?? [];
 
         this.auxEvents = []
 
@@ -329,7 +329,7 @@ export default {
       const aa = this.owner.actor.CombatController.RootActor;
       if (!aa.ActiveMech) return null;
 
-      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.includes(this.selectedWeapon));
+      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.some((w) => w.InstanceID === this.selectedWeapon!.InstanceID));
     },
     ordnanceWarning() {
       if (!this.selectedWeapon) return false;
@@ -372,10 +372,10 @@ export default {
 
 
       this.event = new WeaponAttackEvent(this.selectedWeapon?.SelectedProfile as WeaponProfile, self, this.encounter, 'Skirmish');
-      const auxes = this.selectedMount.Weapons.filter(
+      const auxes = this.selectedMount?.Weapons.filter(
         (x) =>
           x.InstanceID !== this.selectedWeapon!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      );
+      ) ?? [];
 
       this.auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack'));
 

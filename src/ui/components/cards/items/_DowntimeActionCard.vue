@@ -1,22 +1,31 @@
 <template>
-  <i v-html-safe="item.Terse" class="text-accent" />
+  <i v-html-safe="item.Terse"
+    class="text-accent" />
   <br />
-  <p v-html-safe="item.Detail" class="my-1" />
+  <p v-html-safe="item.Detail"
+    class="my-1" />
 
   <v-table v-if="item.Table">
     <thead>
       <tr>
         <th class="text-center">
-          <v-icon v-for="(n, index) in diceQuantity" :key="`dice-${index}`" size="35" :icon="diceIcon" />
+          <v-icon v-for="(n, index) in diceQuantity"
+            :key="`dice-${index}`"
+            size="35"
+            :icon="diceIcon" />
         </th>
         <th class="text-overline">Result</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(result, index) in item.Table.results" :key="`result-${index}`">
-        <td v-if="result.min === result.max" class="text-center">{{ result.min }}</td>
-        <td v-else class="text-center">{{ result.min }}&ndash;{{ result.max }}</td>
-        <td v-html-safe="result.text" class="text-text" />
+      <tr v-for="(result, index) in item.Table.results"
+        :key="`result-${index}`">
+        <td v-if="result.min === result.max"
+          class="text-center">{{ result.min }}</td>
+        <td v-else
+          class="text-center">{{ result.min }}&ndash;{{ result.max }}</td>
+        <td v-html-safe="result.text"
+          class="text-text" />
       </tr>
     </tbody>
   </v-table>
@@ -24,7 +33,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-downtime-action-card',
+  name: 'CcDowntimeActionCard',
   props: {
     item: {
       type: Object,

@@ -349,7 +349,7 @@ export default {
         return;
       }
       EncounterStore().AddEncounterInstance(EncounterInstance.Deserialize(this.importObj));
-      this.$router.go();
+      // this.$router.go();
     },
     stageImport() {
       if (!this.fileValue) {

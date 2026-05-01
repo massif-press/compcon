@@ -339,7 +339,7 @@ export default {
       const aa = this.owner.actor.CombatController.RootActor;
       if (!aa.ActiveMech) return null;
 
-      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.includes(selectedWeapon));
+      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.some((w) => w.InstanceID === selectedWeapon.InstanceID));
     },
     setSelected(index: number, weapon: MechWeapon) {
       if (!weapon) return;
@@ -352,10 +352,10 @@ export default {
       }
 
       this.selectedWeapons[index] = weapon;
-      const auxes = this.selectedMount(weapon).Weapons.filter(
+      const auxes = this.selectedMount(weapon)?.Weapons.filter(
         (x) =>
           x.InstanceID !== weapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      );
+      ) ?? [];
 
       const auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack'))
 
@@ -382,10 +382,10 @@ export default {
         throw new Error('Owner combatant not found in encounter');
       }
 
-      const auxes = this.selectedMount(selectedWeapon).Weapons.filter(
+      const auxes = this.selectedMount(selectedWeapon)?.Weapons.filter(
         (x) =>
           x.InstanceID !== selectedWeapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      );
+      ) ?? [];
 
       this.events[index].auxEvents = []
 

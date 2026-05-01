@@ -1,6 +1,6 @@
 <template>
   <cc-compendium-browser :items="downtimeActions"
-    item-type="Reserve"
+    item-type="DowntimeAction"
     :table-headers="headers"
     :options="options">
     <template #header>
@@ -11,24 +11,22 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import lancerdata from '@massif/lancer-data';
 
 import { orderBy } from 'lodash-es';
 
 export default {
-  name: 'downtimeActions',
+  name: 'DowntimeActions',
 
   data: () => ({
     headers: [
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
-      { title: 'Type', key: 'Type' },
     ],
     options: {
       views: ['list', 'table'],
       initialView: 'list',
-      groups: ['lcp', 'type', 'none'],
-      initialGroup: 'type',
+      groups: ['lcp', 'none'],
+      initialGroup: 'none',
       noSource: true,
     },
   }),
