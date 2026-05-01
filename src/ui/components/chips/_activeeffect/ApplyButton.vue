@@ -30,7 +30,7 @@
           <span v-if="activation">Activate</span>
           <span v-else>{{ canOverride ? 'Apply All' : 'Confirm' }}</span>
           <div class="text-disabled">
-            <span v-if="activation"
+            <span v-if="activation && (activeEffect as any).Activation !== 'None'"
               style="letter-spacing: 1px">
               {{ isFree ? 'Free*' : (activeEffect as any).Activation }}
 

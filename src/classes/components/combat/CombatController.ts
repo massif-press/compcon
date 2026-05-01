@@ -1,5 +1,5 @@
 import { markRaw } from 'vue'
-import { ActivationType, Counter, DamageType, DiceRoller, Mech, Pilot, Rules } from '@/class'
+import { ActivationType, Counter, DamageType, Mech, Pilot, Rules } from '@/class'
 import { ICombatant } from './ICombatant'
 import { IStatData, StatController } from './stats/StatController'
 import { StatKey } from './stats/Stats'
@@ -296,6 +296,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     const str = action.toLowerCase().replace(' ', '')
     switch (str) {
       case 'free':
+      case 'none':
         return true
       case 'protocol':
         return (
@@ -1204,7 +1205,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     return new Action({
       id: 'self_destruct_internal',
       name: 'Deal Meltdown Damage',
-      activation: ActivationType.Free,
+      activation: ActivationType.None,
       detail:
         'The reactor explosion deals 4d6 explosive damage to all targets in a burst 2 area around this mech.',
       damage: [

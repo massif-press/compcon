@@ -265,6 +265,7 @@ class Action {
   }
 
   public get Color(): string {
+    if (this.Activation === ActivationType.None) return 'primary'
     if (this.ID === 'act_overcharge') return 'action--overcharge'
     if (this.ID === 'act_self_destruct') return 'error'
     return `action--${this.Activation.toLowerCase()}`
@@ -274,18 +275,7 @@ class Action {
     if (this.ID === 'act_overcharge') return 'cc:overcharge'
     if (this.ID === 'act_full_tech') return 'cc:full_tech'
     if (this.ID === 'act_self_destruct') return 'mdi-alert-rhombus'
-    switch (this.Activation) {
-      case ActivationType.Full:
-        return 'mdi-hexagon-slice-6'
-      case ActivationType.Quick:
-        return 'mdi-hexagon-slice-3'
-      case ActivationType.Move:
-        return 'mdi-arrow-right-bold-hexagon-outline'
-      case ActivationType.Jockey:
-        return 'cc:activation_full'
-      default:
-        return `cc:${this.Activation.toLowerCase().replace(' ', '_')}`
-    }
+    return Action.getIcon(this.Activation)
   }
 
   public static getIcon(activation: ActivationType): string {

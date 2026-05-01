@@ -2,12 +2,9 @@ import { StatController } from '@/classes/components/combat/stats/StatController
 import { NpcClassStats } from '../class/NpcClassStats'
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature'
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory'
-import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer'
-import { ActivationType, ContentPack, Deployable, ItemType } from '@/class'
+import { ActivationType, ContentPack, ItemType } from '@/class'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 import { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
-import { ICombatant } from '@/classes/components/combat/ICombatant'
-import Activate from '@/assets/icons/svg/activate.vue'
 import { CombatantData } from '@/classes/encounter/Encounter'
 
 interface IEidolonShardData {
@@ -101,7 +98,7 @@ class EidolonShard implements ILcpTracked {
       name: `${layerName} Shard`,
       type: 'shard',
       detail: this.Detail,
-      activation: ActivationType.Free,
+      activation: ActivationType.None,
       size: 1,
       id: `${layerName} Shard`,
       description: this.Detail,

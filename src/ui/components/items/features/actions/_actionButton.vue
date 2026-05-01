@@ -1,17 +1,24 @@
 <template>
   <div class="text-center">
-    <v-btn
-      :color="usable ? 'grey darken-2' : action.Color"
+    <v-btn :color="usable ? 'grey darken-2' : action.Color"
       block
       :small="$vuetify.display.mdAndDown"
       :disabled="disabled"
       @click="($refs.dialog as any).show()">
-      <v-icon v-if="!noAction || hideIcon" dark left :icon="action.Icon" />
+      <v-icon v-if="!noAction || hideIcon"
+        dark
+        left
+        :icon="action.Icon" />
       {{ action.Name }}
-      <v-menu v-if="!noAction" offset-y max-width="700px">
+      <v-menu v-if="!noAction"
+        offset-y
+        max-width="700px">
         <template #activator="{ props }">
-          <v-btn right icon v-bind="props">
-            <v-icon variant="plain" icon="mdi-information-outline" />
+          <v-btn right
+            icon
+            v-bind="props">
+            <v-icon variant="plain"
+              icon="mdi-information-outline" />
           </v-btn>
         </template>
         <v-card>
@@ -19,12 +26,10 @@
             {{ action.Name.toUpperCase() }} &mdash; {{ action.Activation.toUpperCase() }} ACTION
           </div>
           <v-divider v-if="action.Detail || displayFreq" />
-          <v-card-text
-            v-if="displayFreq"
+          <v-card-text v-if="displayFreq"
             v-html-safe="action.Frequency.ToString()"
             class="body-text text-text mt-0 pt-1" />
-          <v-card-text
-            v-if="action.Detail"
+          <v-card-text v-if="action.Detail"
             v-html-safe="byTier(action.Detail)"
             class="body-text text-text mt-0 pt-1" />
         </v-card>
@@ -40,9 +45,8 @@ import { ActivationType } from '@/classes/enums';
 import ActionBase from './_actionBase.vue';
 
 export default {
-  name: 'action-button',
+  name: 'ActionButton',
   components: { ActionBase },
-  emits: ['use', 'undo'],
   props: {
     action: {
       type: Object,
@@ -65,6 +69,7 @@ export default {
       type: Boolean,
     },
   },
+  emits: ['use', 'undo'],
   computed: {
     cost() {
       if (this.action.Activation === ActivationType.Quick) return 1;

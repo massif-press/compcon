@@ -1,6 +1,5 @@
 <template>
-  <component
-    :is="cType"
+  <component :is="cType"
     :action="action"
     :no-action="noAction"
     :activations="activations"
@@ -18,7 +17,7 @@ import ActionHover from './_actionHover.vue';
 import ActionButton from './_actionButton.vue';
 
 export default {
-  name: 'cc-action',
+  name: 'CcAction',
   components: { ActionPanel, ActionPopup, ActionHover, ActionButton },
   props: {
     action: {

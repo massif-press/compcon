@@ -156,7 +156,6 @@ export default {
       );
     },
     activation(): boolean {
-
       return (this.activeEffect as any).Activation != null;
     },
     frequencyText(): string {
