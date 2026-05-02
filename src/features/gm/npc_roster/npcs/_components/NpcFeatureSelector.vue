@@ -300,10 +300,6 @@ export default {
     },
     shownFeatures() {
       if (this.featureSet === 'no-origin') {
-        console.log(CompendiumStore().NpcFeatures.filter(
-          x =>
-            x._originID === 'no-origin'
-        ))
         return CompendiumStore().NpcFeatures.filter(
           x =>
             x._originID === 'no-origin'

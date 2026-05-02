@@ -74,6 +74,11 @@
         :mech="controller.Parent"
         alert />
 
+      <cc-synergy-display v-if="isTechAttack"
+        location="tech_attack"
+        :mech="controller.Parent"
+        alert />
+
       <menu-input :active-effect="action"
         :encounter="encounter"
         :owner="owner"
@@ -85,7 +90,8 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/stores';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { Action } from '@/interface';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
 export default {
@@ -95,7 +101,7 @@ export default {
   },
   props: {
     action: {
-      type: Object,
+      type: Action,
       required: true,
     },
     owner: {
@@ -103,11 +109,10 @@ export default {
       required: true,
     },
     encounter: {
-      type: Object,
+      type: EncounterInstance,
       required: true,
     },
   },
-  emits: ['activate'],
   emits: ['activate'],
   computed: {
     controller() {
@@ -121,6 +126,10 @@ export default {
     },
     available() {
       return this.canActivate && this.canUse;
+    },
+    isTechAttack() {
+      if (this.action.ID.includes('tech_attack')) return true;
+      return (this.action.ActiveEffects.some(ae => ae.Attack && ae.Attack === 'tech'))
     },
   },
   methods: {

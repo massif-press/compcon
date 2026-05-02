@@ -141,11 +141,11 @@
           </v-row>
           <v-card-text class="py-0"
             :class="[rosterView.includes('card') ? 'text-center' : '', mobile ? 'px-0' : 'px-2']">
-            <template v-if="rosterView === 'list' && pilots.length > 20">
+            <template v-if="rosterView === 'list' && filteredPilots.length > 20">
               <v-virtual-scroll
-                :items="pilots"
+                :items="filteredPilots"
                 :item-height="88"
-                :height="Math.min(pilots.length * 88, 600)">
+                :height="Math.min(filteredPilots.length * 88, 600)">
                 <template #default="{ item }">
                   <pilot-list-item
                     :key="item.ID"
@@ -156,7 +156,7 @@
             </template>
             <template v-else>
               <component :is="pilotCardType"
-                v-for="pilot in pilots"
+                v-for="pilot in filteredPilots"
                 :key="pilot.ID"
                 :pilot="pilot"
                 @go-to="toPilotSheet(pilot.ID)" />
@@ -391,6 +391,10 @@ export default {
       type: Object,
       required: true,
     },
+    rosterSearch: {
+      type: String,
+      default: '',
+    },
   },
   data: () => ({
     edit: false,
@@ -398,12 +402,24 @@ export default {
     deletePilotsToggle: false,
     search: '',
   }),
+  watch: {
+    rosterSearch(val: string) {
+      this.group.Expanded = val ? this.filteredPilots.length > 0 : true;
+    },
+  },
   computed: {
     noGroup(): boolean {
       return this.group.ID === 'no_group';
     },
     pilots(): Pilot[] {
       return _.orderBy(PilotStore().getPilots(this.group.ID), 'SortIndex', 'asc');
+    },
+    filteredPilots(): Pilot[] {
+      if (!this.rosterSearch) return this.pilots;
+      const s = this.rosterSearch.toLowerCase();
+      return this.pilots.filter(
+        (p) => p.Name.toLowerCase().includes(s) || p.Callsign.toLowerCase().includes(s)
+      );
     },
     profile() {
       return UserStore().User;

@@ -63,7 +63,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-broken-reference',
+  name: 'CcBrokenReference',
   props: {
     item: {
       type: Object,

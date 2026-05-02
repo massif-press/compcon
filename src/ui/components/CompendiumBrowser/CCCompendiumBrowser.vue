@@ -474,7 +474,7 @@
             </v-row>
           </div>
 
-          <div v-for="item in <any[]>items"
+          <div v-for="item in <any[]>navOrderedItems"
             v-else-if="view === 'list'"
             :id="item.ID"
             :key="item.ID"
@@ -488,12 +488,12 @@
 
           <div v-else-if="view === 'table'">
             <div v-if="group === 'lcp'">
-              <div v-for="lcp in lcpFilter"
+              <div v-for="lcp in filteredLcps"
                 :key="`lcp-table-${lcp}`">
                 <div class="heading mech"
                   v-text="lcp" />
                 <selector-table :headers="tableHeaders"
-                  :items="itemsByLcp[lcp]"
+                  :items="searchFilter(itemsByLcp[lcp])"
                   :selectable="equippable"
                   :selected="<CompendiumItem>selectedItem"
                   @select="$emit('equip', $event)" />
@@ -610,9 +610,9 @@
           <div v-else-if="view === 'cards'">
             <v-pagination v-model="page"
               total-visible="8"
-              :length="Math.ceil(shownItems.length / itemsPerPage)" />
+              :length="Math.ceil(navOrderedItems.length / itemsPerPage)" />
             <v-row>
-              <selector-card-item v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
+              <selector-card-item v-for="item in navOrderedItems.slice(minSliceIndex, maxSliceIndex)"
                 :id="item.ID"
                 :key="item.ID"
                 :item="item"
@@ -623,7 +623,7 @@
             <v-pagination v-model="page"
               total-visible="8"
               class="mt-8"
-              :length="Math.ceil(shownItems.length / itemsPerPage)" />
+              :length="Math.ceil(navOrderedItems.length / itemsPerPage)" />
           </div>
 
           <div v-else-if="view === 'compare'">
@@ -929,6 +929,26 @@ export default {
     showExotics() {
       return this.options.showExotics || UserStore().User.Option('showExotics');
     },
+    navOrderedItems(): any[] {
+      switch (this.group) {
+        case 'source':
+          return this.manufacturers.flatMap((m: string) => this.itemsBySourceGroup[m] || []);
+        case 'role':
+          return this.roles.flatMap((r: string) => this.itemsByRoleGroup[r] || []);
+        case 'featureType':
+          return this.featureTypes.flatMap((f: string) => this.itemsByFeatureTypeGroup[f] || []);
+        case 'origin':
+          return this.origins.flatMap((o: string) => this.itemsByOriginGroup[o] || []);
+        case 'license':
+          return this.licenses.flatMap((l: string) => this.itemsByLicenseGroup[l] || []);
+        case 'type':
+          return this.subtypes.flatMap((s: string) => this.itemsByType[s] || []);
+        case 'lcp':
+          return this.filteredLcps.flatMap((lcp: string) => this.searchFilter(this.itemsByLcp[lcp] || []));
+        default:
+          return this.shownItems;
+      }
+    },
     shownItems() {
       let shown = this.items as CompendiumItem[];
       shown = shown.filter((i: any) => this.lcpFilter.includes(i.LcpName));
@@ -1058,7 +1078,7 @@ export default {
       this.selectedItem = item;
       if (item) {
         this.page = Math.ceil(
-          (this.shownItems.findIndex((x: any) => x.ID === item.ID) + 1) / this.itemsPerPage
+          (this.navOrderedItems.findIndex((x: any) => x.ID === item.ID) + 1) / this.itemsPerPage
         );
         this.scrollTo(item.ID);
       }
@@ -1107,6 +1127,11 @@ export default {
       return this.multiHeaders && this.multiHeaders[subtype.replace(/\s/g, '')]
         ? this.multiHeaders[subtype.replace(/\s/g, '')]
         : this.tableHeaders;
+    },
+    searchFilter(items: any[]) {
+      if (!this.search) return items;
+      const s = this.search.toLowerCase();
+      return items.filter((i: any) => i.Name.toLowerCase().includes(s));
     },
     handleEquip(item: CompendiumItem) {
       this.$emit('equip', item);

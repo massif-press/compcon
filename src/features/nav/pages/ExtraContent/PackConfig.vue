@@ -189,8 +189,8 @@ import { useMobile } from '@/mixins/useMobile';
 import { NAV_STRINGS } from '@/features/nav/strings';
 
 export default {
-  mixins: [useMobile],
   name: 'PackConfig',
+  mixins: [useMobile],
   setup() {
     return { pc: NAV_STRINGS.packConfig }
   },

@@ -22,7 +22,7 @@
       </v-col>
       <v-col cols="auto">
         <v-icon size="small">{{ collapsed.includes(key) ? 'mdi-chevron-right' : 'mdi-chevron-down'
-        }}</v-icon>
+          }}</v-icon>
       </v-col>
     </v-row>
     <div v-if="!items.length"
@@ -199,7 +199,7 @@ export default {
     },
     searchedItems() {
       if (!this.search) return this.sort(this.items);
-      return this.sort(this.items.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search.toLowerCase())));
+      return this.sort(this.items.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search?.toLowerCase() || '')));
     },
   },
   methods: {
@@ -210,7 +210,7 @@ export default {
     },
     groupedItems(group) {
       if (this.grouping === 'None') return this.sort(this.searchedItems);
-      return this.sort(group.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search.toLowerCase())));
+      return this.sort(group.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search?.toLowerCase() || '')));
     },
     sort(items) {
       return _.orderBy(items, (x: any) => {

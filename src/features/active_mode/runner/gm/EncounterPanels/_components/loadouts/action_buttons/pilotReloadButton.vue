@@ -145,7 +145,6 @@ export default {
       // this.controller.toggleCombatAction(this.action.Activation);
 
       if (this.selection) {
-        console.log(this.selection)
         this.selection.Used = false;
       }
       // this.$emit('activate', this.action.ID);

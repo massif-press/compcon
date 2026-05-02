@@ -209,6 +209,7 @@ export default {
   name: 'PackInstall',
   components: { PackInfo },
   mixins: [useMobile],
+  emits: ['start-load'],
   setup() {
     return { pi: NAV_STRINGS.packInstall }
   },

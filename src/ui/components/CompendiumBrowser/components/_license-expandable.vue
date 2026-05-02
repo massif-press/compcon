@@ -40,6 +40,8 @@
       </template>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
+      <v-lazy min-height="200">
+      <div>
       <v-alert v-if="item && item.Prerequisite"
         variant="outlined"
         density="compact"
@@ -101,6 +103,8 @@
           </cc-button>
         </v-col>
       </v-row>
+      </div>
+      </v-lazy>
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>

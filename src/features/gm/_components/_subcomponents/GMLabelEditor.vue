@@ -92,7 +92,7 @@
                   v-bind="props"
                   @click="labelExpand = !labelExpand" />
               </template>
-              <span>{{ labelExpand ? 'Hide' : 'Show' }} Label Palette</span>
+              <div>{{ labelExpand ? 'Hide' : 'Show' }} Label Palette</div>
             </v-tooltip>
           </v-col>
           <v-col v-if="labelExpand"
@@ -101,13 +101,39 @@
               class="rounded-0 pa-1"
               height="100%"
               style="position: relative">
-              <div class="text-caption text-text">LABEL PALETTE</div>
+              <div class="d-flex align-center">
+                <div class="text-caption text-text flex-grow-1">LABEL PALETTE</div>
+                <v-tooltip location="bottom">
+                  <template #activator="{ props }">
+                    <v-btn icon
+                      variant="text"
+                      size="x-small"
+                      v-bind="props"
+                      @click="cycleAlphaSort">
+                      <v-icon :color="alphaSortDir ? 'accent' : ''">{{ alphaSortIcon }}</v-icon>
+                    </v-btn>
+                  </template>
+                  <div>Sort Alphabetically</div>
+                </v-tooltip>
+                <v-tooltip location="bottom">
+                  <template #activator="{ props }">
+                    <v-btn icon
+                      variant="text"
+                      size="x-small"
+                      v-bind="props"
+                      @click="cycleFreqSort">
+                      <v-icon :color="freqSortDir ? 'accent' : ''">{{ freqSortIcon }}</v-icon>
+                    </v-btn>
+                  </template>
+                  <div>Sort by Usage</div>
+                </v-tooltip>
+              </div>
               <v-divider class="text-text" />
-              <div style="position: absolute; top: 24px; bottom: 0">
+              <div style="position: absolute; top: 32px; bottom: 0">
                 <v-chip-group v-if="availableLabels.length"
                   column
                   class="pa-1">
-                  <v-chip v-for="label in availableLabels"
+                  <v-chip v-for="label in sortedAvailableLabels"
                     :key="label.title"
                     size="small"
                     color="accent"
@@ -165,6 +191,8 @@ export default {
   data: () => ({
     dialog: false,
     labelExpand: false,
+    alphaSortDir: 0,
+    freqSortDir: 0,
   }),
   computed: {
     availableLabels() {
@@ -176,7 +204,38 @@ export default {
       return uniqBy([...NarrativeStore().getAllLabels, ...NpcStore().getAllLabels].filter(
         x => x.title && x.title.length > 0
       ), 'title');
-    }
+    },
+    labelFrequency() {
+      const counts: Record<string, number> = {}
+      NpcStore().Npcs.forEach((npc: any) => {
+        const seen = new Set<string>()
+        npc.NarrativeController.Labels.forEach((label: any) => {
+          if (label.title && !seen.has(label.title)) {
+            seen.add(label.title)
+            counts[label.title] = (counts[label.title] || 0) + 1
+          }
+        })
+      })
+      return counts
+    },
+    sortedAvailableLabels() {
+      const labels = [...this.availableLabels]
+      if (this.alphaSortDir === 1) labels.sort((a, b) => a.title.localeCompare(b.title))
+      else if (this.alphaSortDir === 2) labels.sort((a, b) => b.title.localeCompare(a.title))
+      else if (this.freqSortDir === 1) labels.sort((a, b) => (this.labelFrequency[b.title] || 0) - (this.labelFrequency[a.title] || 0))
+      else if (this.freqSortDir === 2) labels.sort((a, b) => (this.labelFrequency[a.title] || 0) - (this.labelFrequency[b.title] || 0))
+      return labels
+    },
+    alphaSortIcon() {
+      if (this.alphaSortDir === 1) return 'mdi-sort-alphabetical-ascending'
+      if (this.alphaSortDir === 2) return 'mdi-sort-alphabetical-descending'
+      return 'mdi-sort-alphabetical-variant'
+    },
+    freqSortIcon() {
+      if (this.freqSortDir === 1) return 'mdi-sort-numeric-descending'
+      if (this.freqSortDir === 2) return 'mdi-sort-numeric-ascending'
+      return 'mdi-chart-bar'
+    },
   },
   watch: {
     dialog(val) {
@@ -205,6 +264,14 @@ export default {
     },
     addLabel() {
       this.item.NarrativeController.Labels.push({ title: '', value: '' })
+    },
+    cycleAlphaSort() {
+      this.alphaSortDir = (this.alphaSortDir + 1) % 3
+      if (this.alphaSortDir !== 0) this.freqSortDir = 0
+    },
+    cycleFreqSort() {
+      this.freqSortDir = (this.freqSortDir + 1) % 3
+      if (this.freqSortDir !== 0) this.alphaSortDir = 0
     },
     labelExists(label) {
       return this.item.NarrativeController.Labels.filter(x => x.title === label.title && x.value === label.value).length > 1

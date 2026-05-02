@@ -11,7 +11,7 @@
       <template #activator="{ props }">
         <v-btn v-bind="props"
           size="small"
-          style="width: 50%">
+          :style="lcpConfigs.length ? 'flex: 1; border-right: none !important' : 'flex: 1'">
           <v-tooltip text="Content Packs"
             location="top">
             <template #activator="{ props }">
@@ -54,13 +54,50 @@
       </v-card>
     </v-menu>
 
+    <v-menu v-if="lcpConfigs.length"
+      :close-on-content-click="true"
+      location="bottom end">
+      <template #activator="{ props }">
+        <v-btn v-bind="props"
+          size="small"
+          icon
+          style="border-left: none !important">
+          <v-tooltip text="Saved Configurations"
+            location="top">
+            <template #activator="{ props }">
+              <v-icon v-bind="props"
+                icon="mdi-list-status"
+                size="small" />
+            </template>
+          </v-tooltip>
+        </v-btn>
+      </template>
+      <v-card min-width="200px">
+        <v-list density="compact">
+          <v-list-subheader>Saved Configurations</v-list-subheader>
+          <v-divider />
+          <v-list-item v-for="config in lcpConfigs"
+            :key="config.id"
+            :title="config.name"
+            @click="applyLcpConfig(config)">
+            <template #append>
+              <v-chip size="x-small"
+                class="ml-2">
+                {{ configMatchCount(config) }}
+              </v-chip>
+            </template>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-menu>
+
     <v-menu offset-y
       :close-on-content-click="false"
       width="500px">
       <template #activator="{ props }">
         <v-btn v-bind="props"
           size="small"
-          style="width: 50%">
+          style="flex: 1">
           <v-tooltip text="Item Filters"
             location="top">
             <template #activator="{ props }">
@@ -93,6 +130,8 @@
 </template>
 
 <script lang="ts">
+import { UserStore } from '@/stores';
+
 export default {
   name: 'BrowserViewToggle',
   props: {
@@ -119,6 +158,9 @@ export default {
   },
   emits: ['update:modelValue', 'set-all', 'set-filters'],
   computed: {
+    lcpConfigs() {
+      return UserStore().User.LcpConfigs || [];
+    },
     otherFilterCount() {
       let count = 0;
       for (const filter of Object.keys(this.otherFilter)) {
@@ -128,6 +170,19 @@ export default {
     },
   },
   methods: {
+    applyLcpConfig(config: any) {
+      const allowed = new Set(
+        config.packList.filter((p: any) => p.allowed).map((p: any) => p.packName)
+      );
+      allowed.add('Lancer Core Book');
+      this.$emit('update:modelValue', (this.lcps as string[]).filter(lcp => allowed.has(lcp)));
+    },
+    configMatchCount(config: any) {
+      const allowed = new Set(
+        config.packList.filter((p: any) => p.allowed).map((p: any) => p.packName)
+      );
+      return (this.lcps as string[]).filter(lcp => allowed.has(lcp)).length;
+    },
     setFilters(filters: any) {
       this.$emit('set-filters', filters);
     },

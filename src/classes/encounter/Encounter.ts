@@ -68,6 +68,7 @@ type CombatantSaveData = {
   reinforcement?: boolean
   reinforcementTurn?: number
   deployables?: IDeployableInstanceData[]
+  number?: number
 }
 
 class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
@@ -318,6 +319,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       reinforcement: combatant.reinforcement,
       reinforcementTurn: Number(combatant.reinforcementTurn),
       deployables: combatant.deployables.map(d => DeployableInstance.Serialize(d)),
+      number: combatant.number,
     }
   }
 
@@ -337,6 +339,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     PortraitController.Deserialize(encounter, data.img)
     NarrativeController.Deserialize(encounter, data.narrative)
     FolderController.Deserialize(encounter, data.folder)
+
     return encounter
   }
 
@@ -368,7 +371,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       id: data.id || uuid(),
       index: data.index,
       type: data.type,
-      number: 1,
+      number: data.number || 1,
       actor,
       side: (data.side?.toLowerCase() as 'enemy' | 'ally' | 'neutral') || 'enemy',
       playerCount: data.playerCount || 1,

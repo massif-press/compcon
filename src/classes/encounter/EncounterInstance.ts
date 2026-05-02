@@ -145,6 +145,15 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       this._markStaticControllers(c.actor)
     })
 
+    // TODO: this is a fix for previously missed .number property on combatants, can be removed soon
+    const seen = [] as string[]
+    console.log(this.Combatants)
+    this.Combatants.filter(x => !x.number || x.number === 1).forEach((c: any) => {
+      seen.push(c.actor.Name)
+      console.log(seen)
+      c.number = seen.filter(x => x === c.actor.Name).length
+    })
+
     this.SaveController = new SaveController(this)
     this.CloudController = new CloudController(this)
   }

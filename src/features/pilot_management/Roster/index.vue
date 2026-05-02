@@ -4,8 +4,15 @@
     <v-row align="center">
       <v-col cols="12"
         md="auto">
-        <div class="heading h1"
-          style="line-height: 0">Pilot Roster</div>
+        <div>
+          <div class="heading h1"
+            style="line-height: 0">Pilot Roster <span v-if="rosterSearch"
+              class="text-caption text-italic text-disabled">
+              <br v-if="mobile" />
+              {{ hiddenPilotCount }} pilot{{ hiddenPilotCount === 1 ? '' : 's' }} hidden
+            </span></div>
+        </div>
+
       </v-col>
       <v-spacer />
       <v-col cols="auto">
@@ -30,7 +37,8 @@
     <div class="my-3">
       <group-panel v-for="group in pilotGroups"
         :key="group.ID"
-        :group="group" />
+        :group="group"
+        :roster-search="rosterSearch" />
     </div>
     <v-divider />
     <v-footer app
@@ -49,6 +57,42 @@
         </template>
         <organizer type="pilot" />
       </cc-modal>
+      <v-spacer />
+
+      <cc-text-field v-if="!mobile"
+        v-model="rosterSearch"
+        density="compact"
+        variant="outlined"
+        color="primary"
+        bg-color="background"
+        hide-details
+        clearable
+        icon="mdi-magnify"
+        style="min-width: 300px; max-width: 350px; " />
+
+      <v-menu v-else
+        :close-on-content-click="false"
+        location="top">
+        <template #activator="{ props }">
+          <v-btn icon
+            size="small"
+            v-bind="props">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </template>
+        <v-card min-width="260px">
+          <v-card-text class="pa-2">
+            <v-text-field v-model="rosterSearch"
+              density="compact"
+              variant="outlined"
+              hide-details
+              clearable
+              autofocus
+              prepend-inner-icon="mdi-magnify"
+              placeholder="Name or callsign..." />
+          </v-card-text>
+        </v-card>
+      </v-menu>
       <v-spacer />
 
       <v-menu offset-y>
@@ -125,6 +169,7 @@ export default {
     newGroupMenu: false,
     newGroupName: '',
     rosterView: 'list',
+    rosterSearch: '',
   }),
   computed: {
     pilotGroups() {
@@ -132,6 +177,15 @@ export default {
     },
     profile() {
       return UserStore().User;
+    },
+    hiddenPilotCount() {
+      if (!this.rosterSearch) return 0;
+      const s = this.rosterSearch.toLowerCase();
+      const all = PilotStore().Pilots.filter((p: any) => !p.SaveController.IsDeleted);
+      const matching = all.filter((p: any) =>
+        p.Name.toLowerCase().includes(s) || p.Callsign.toLowerCase().includes(s)
+      );
+      return all.length - matching.length;
     },
   },
   created() {

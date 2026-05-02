@@ -199,6 +199,17 @@ class Pilot
     this.SortIndex = data && !isNaN(data?.sortIndex) ? data?.sortIndex : -1
     this._lcpConfig = data?.config || ({} as LcpConfig)
 
+    this._level = data?.level || 0
+    this._callsign = data?.callsign || ''
+    this._name = data?.name || ''
+    this._player_name = data?.player_name || ''
+    this._status = data?.status || 'ACTIVE'
+    this._text_appearance = data?.text_appearance || ''
+    this._notes = data?.notes || ''
+    this._history = typeof data?.history === 'string' ? data.history : ''
+    this._quirks = data?.quirks || []
+    this._background = data?.background || ''
+
     if (data) {
       SaveController.Deserialize(this, data.save)
       CloudController.Deserialize(this, data.cloud)
@@ -250,16 +261,6 @@ class Pilot
       CombatController.Deserialize(this.CombatController, data.combat_data)
     }
 
-    this._level = data?.level || 0
-    this._callsign = data?.callsign || ''
-    this._name = data?.name || ''
-    this._player_name = data?.player_name || ''
-    this._status = data?.status || 'ACTIVE'
-    this._text_appearance = data?.text_appearance || ''
-    this._notes = data?.notes || ''
-    this._history = typeof data?.history === 'string' ? data.history : ''
-    this._quirks = data?.quirks || []
-    this._background = data?.background || ''
     try {
       this._mechs = data?.mechs.length
         ? data?.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
