@@ -9,24 +9,26 @@
         <v-hover>
           <template #default="{ props, isHovering }">
             <cc-panel v-bind="props"
-              :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
+              :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name + ` (${sanitize(item.ItemType)})`"
               :icon="item.Icon"
               :title-color="item.Color"
               :color="isHovering ? 'panel' : 'surface'"
               class="item-description">
-              <div
-                v-html-safe="item.Terse ||
-                  item.Effect ||
-                  item.Description ||
-                  item.Activation ||
-                  `${item.Source || ''} ${sanitize(item.ItemType)} ${`(${item.Origin?.Name})` || ''}`"
-                style="
+              <div style="
                 max-height:
                 40vh;
                 overflow:
                 hidden;
                 text-overflow:
-                ellipsis" />
+                ellipsis">
+                <p v-html-safe="item.Terse ||
+                  item.Effect ||
+                  item.Description ||
+                  item.Activation || ''"
+                  class="mb-0" />
+                <div class="text-caption text-disabled text-right"><i>{{ item.Brew?.LcpName ||
+                    'Lancer Core Book' }}</i></div>
+              </div>
             </cc-panel>
           </template>
         </v-hover>

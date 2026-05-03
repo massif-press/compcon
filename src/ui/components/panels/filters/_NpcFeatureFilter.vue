@@ -52,7 +52,7 @@ export default {
     typeFilter: [],
   }),
   emits: ['set-filters'],
-  created() {
+  mounted() {
     const f = this.activeFilters;
     if (!f || !Object.keys(f).length) return;
     if (f.Origin) this.originFilter = f.Origin;

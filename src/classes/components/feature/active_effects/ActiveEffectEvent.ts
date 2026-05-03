@@ -56,9 +56,11 @@ class ActiveEffectEvent {
 
     if (this.Attack === 'ranged' || this.Attack === 'melee') {
       // this contains grit for pcs already
-      this.AttackBonus += initiator.actor.CombatController?.AttackBonus || 0
+      this.AttackBonus +=
+        initiator.actor.CombatController?.ActiveActor.CombatController?.AttackBonus || 0
     } else if (this.Attack === 'tech') {
-      this.AttackBonus += initiator.actor.CombatController?.TechAttackBonus || 0
+      this.AttackBonus +=
+        initiator.actor.CombatController?.ActiveActor.CombatController?.TechAttackBonus || 0
     }
 
     // For NPC actors, add the feature-level tier accuracy/attack_bonus (e.g. NpcTech arrays).

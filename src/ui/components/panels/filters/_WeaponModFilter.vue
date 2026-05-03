@@ -71,7 +71,7 @@ export default {
     weaponTypeFilter: [],
   }),
   emits: ['set-filters'],
-  created() {
+  mounted() {
     const f = this.activeFilters;
     if (!f || !Object.keys(f).length) return;
     if (f.Source) this.sourceFilter = f.Source[0] ?? [];

@@ -117,6 +117,7 @@
         <v-card-text>
           <cc-item-filter ref="itemFilter"
             :item-type="itemType"
+            :active-filters="otherFilter"
             @set-filters="setFilters($event)" />
         </v-card-text>
         <v-divider />

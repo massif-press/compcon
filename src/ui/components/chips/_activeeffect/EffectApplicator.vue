@@ -9,7 +9,10 @@
     <base-target-selector v-else
       :event="event" />
 
-    <base-attack-roller :event="event" />
+    <local-attack-roller v-if="pc"
+      :event="event" />
+    <base-attack-roller v-else
+      :event="event" />
     <base-save-roller :event="event" />
     <status-applicator :event="event" />
     <damage-applicator :event="event" />
@@ -31,6 +34,7 @@ import ResistanceApplicator from './_shared/ResistanceApplicator.vue';
 import SpecialConditionApplicator from './_shared/SpecialConditionApplicator.vue';
 import SpecialConditionRemover from './_shared/SpecialConditionRemover.vue';
 import LocalTargetSelector from './_shared/LocalTargetSelector.vue';
+import LocalAttackRoller from './_shared/LocalAttackRoller.vue';
 
 export default {
   name: 'EffectApplicator',
@@ -45,6 +49,7 @@ export default {
     SpecialConditionApplicator,
     SpecialConditionRemover,
     LocalTargetSelector,
+    LocalAttackRoller
   },
   props: {
     event: {

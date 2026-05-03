@@ -1,0 +1,170 @@
+<template>
+  <v-col v-if="event.Attack"
+    cols="auto">
+    <div v-if="!mobile"
+      class="text-cc-overline text-disabled">vs {{ event.AttackStat }}</div>
+    <v-row v-for="(s, idx) in event.Targets"
+      :key="`target-${idx}`"
+      dense
+      align="center">
+
+      <v-col cols="auto"
+        class="mt-1">
+
+        <v-row v-if="!s"
+          no-gutters
+          align="center"
+          justify="center">
+          <v-col cols="auto"
+            class="mt-1">
+            <i class="text-caption text-disabled">No Target Selected</i>
+          </v-col>
+        </v-row>
+        <v-row v-else
+          no-gutters>
+          <v-col>
+            <v-text-field :model-value="s.AttackRolledValue"
+              density="compact"
+              variant="outlined"
+              :class="mobile ? 'short' : 'mb-1'"
+              type="number"
+              :width="mobile ? 60 : 85"
+              hide-spin-buttons
+              flat
+              :error="!s.AttackRolledValue"
+              hide-details
+              tile
+              @update:model-value="handleAttackRoll(s, $event)">
+              <template #prepend>
+                <check-roll-interface :roll-data="s"
+                  @rolled="onAttackRolled($event)" />
+              </template>
+            </v-text-field>
+          </v-col>
+        </v-row>
+        <div v-if="s && s.HitResult === 'miss' && reliableDamageEvents.length"
+          class="text-center">
+          <v-chip v-for="de in reliableDamageEvents"
+            :key="de.DamageType"
+            size="x-small"
+            color="core"
+            class="mr-1">
+            RELIABLE {{ de.Reliable }} {{ de.DamageType }} applies on miss
+          </v-chip>
+        </div>
+      </v-col>
+
+      <v-col cols="auto">
+        <v-menu open-on-hover>
+          <template #activator="{ props }">
+            <v-btn stacked
+              :color="!s.HitResult
+                ? ''
+                : s.HitResult === 'crit'
+                  ? 'exotic'
+                  : s.HitResult === 'hit'
+                    ? 'success'
+                    : 'error'
+                "
+              flat
+              :disabled="!s.HitResult"
+              tile
+              height="45"
+              v-bind="s.HitResult === 'crit' ? {} : props">
+              <v-icon size="25"
+                :icon="!s.HitResult
+                  ? 'mdi-circle-outline'
+                  : s.HitResult === 'crit'
+                    ? 'mdi-check-decagram'
+                    : s.HitResult === 'hit'
+                      ? 'mdi-check-circle'
+                      : 'mdi-cancel'
+                  " />
+              {{ !s.HitResult
+                ? ''
+                : s.HitResult === 'crit'
+                  ? 'Crit'
+                  : s.HitResult === 'hit'
+                    ? 'Hit'
+                    : 'Miss' }}
+            </v-btn>
+          </template>
+          <v-card class="pa-2">
+
+            <v-list-item class="text-center"
+              :title="s.HitResult !== 'crit'
+                ? 'No Attack Rolled'
+                : s.HitResult === 'crit'
+                  ? 'Critical Hit'
+                  : s.HitResult === 'hit'
+                    ? 'Successful Attack'
+                    : 'Miss'
+                "
+              subtitle="Select result" />
+            <v-divider class="my-2" />
+            <v-list-item title="Successful Hit"
+              prepend-icon="mdi-check-circle"
+              class="bg-success"
+              @click="setHitResult(s, 'hit')" />
+            <v-list-item title="Miss"
+              prepend-icon="mdi-cancel"
+              class="bg-error"
+              @click="setHitResult(s, 'miss')" />
+          </v-card>
+        </v-menu>
+      </v-col>
+    </v-row>
+  </v-col>
+
+</template>
+
+<script lang="ts">
+import CheckRollInterface from './CheckRollInterface.vue';
+
+export default {
+  name: 'LocalAttackRoller',
+  components: {
+    CheckRollInterface
+  },
+  props: {
+    event: { type: Object, required: true },
+    crits: { type: Boolean, default: false },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.display.mdAndDown;
+    },
+    reliableDamageEvents() {
+      return (this.event.DamageEvents || []).filter((de: any) => de.Reliable > 0);
+    },
+  },
+  methods: {
+    setHitResult(s, val: string) {
+      s.HitResult = val;
+      if (val === 'crit' && this.event.Effect?.CanCrit) this.event.SetCrit();
+      else this.event.UnsetCrit();
+    },
+    handleAttackRoll(s, val) {
+      s.AttackRolledValue = Number(val);
+      if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
+      else this.event.UnsetCrit();
+    },
+    onAttackRolled(val) {
+      if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
+      else this.event.UnsetCrit();
+    },
+  },
+};
+</script>
+
+<style scoped>
+::v-deep(.short .v-field__input) {
+  min-height: 28px !important;
+  padding: 4px !important;
+  padding-left: 8px !important;
+}
+
+::v-deep(.short .v-field) {
+  height: 28px !important;
+}
+</style>

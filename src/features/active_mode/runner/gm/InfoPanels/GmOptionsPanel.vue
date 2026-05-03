@@ -44,7 +44,7 @@
           <cc-switch v-model="encounterInstance.SimpleTickbars"
             size="large"
             color="primary"
-            :label="encounterInstance.SimpleTickbars ? 'Simple' : 'Standard'"
+            :label="encounterInstance.SimpleTickbars ? 'Simple Tickbars' : 'Standard Tickbars'"
             tooltip="Replace the thematic stat trackers for HP, Heat, etc. with straightforward number inputs." />
           <cc-switch v-model="encounterInstance.LayoutColumns"
             size="large"

@@ -86,7 +86,6 @@ class Character extends CollectionItem {
           'Family',
           'Friend',
           'Enemy',
-          'Family',
           'Romantic Partner',
           'Colleague',
           'Mentor',

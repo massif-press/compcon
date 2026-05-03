@@ -44,7 +44,7 @@
           <cc-switch v-model="sheet.SimpleTickbars"
             size="large"
             color="primary"
-            :label="sheet.SimpleTickbars ? 'Simple' : 'Standard'"
+            :label="sheet.SimpleTickbars ? 'Simple Tickbars' : 'Standard Tickbars'"
             tooltip="Replace the thematic stat trackers for HP, Heat, etc. with straightforward number inputs." />
           <cc-switch v-model="sheet.LayoutColumns"
             size="large"

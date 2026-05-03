@@ -14,9 +14,11 @@
     </i>
   </div>
 
-  <v-row dense
+  <v-row v-if="event.AttackBonus || event.Accuracy"
+    dense
     align="center"
-    class="bg-panel heading h3 pb-1 px-3">
+    justify="end"
+    class="bg-panel heading h3 pb-1 mb-1 px-3">
     <v-col v-if="event.AttackBonus"
       cols="auto">
       <cc-npc-attack-bonus :attack-bonus="event.AttackBonus" />

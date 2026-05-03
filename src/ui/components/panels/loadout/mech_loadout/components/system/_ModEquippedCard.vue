@@ -52,7 +52,7 @@ export default {
     SlotCardBase,
     EquipmentOptions,
   },
-  emits: ['remove'],
+  emits: ['remove', 'switch'],
   props: {
     mech: {
       type: Object,
@@ -74,6 +74,7 @@ export default {
       default: 'primary',
     },
     readonly: { type: Boolean },
+    integrated: { type: Boolean, default: false },
   },
   data: () => ({
     hide: false,

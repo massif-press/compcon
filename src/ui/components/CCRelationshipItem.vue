@@ -86,23 +86,13 @@
                 variant="solo"
                 label="Relationship" />
             </v-col>
-            <v-col>
+            <v-col align-self="center">
               <v-menu v-if="item.id.length && linkedItem"
                 location="right">
                 <template #activator="{ props }">
-                  <v-btn size="small"
-                    icon
-                    color="secondary"
-                    variant="plain"
-                    v-bind="props">
-                    <v-tooltip bottom>
-                      <template #activator="{ props }">
-                        <v-icon v-bind="props"
-                          icon="mdi-lightbulb" />
-                      </template>
-                      <span>Suggestions</span>
-                    </v-tooltip>
-                  </v-btn>
+                  <cc-button icon="mdi-lightbulb"
+                    color="primary"
+                    v-bind="props" />
                 </template>
                 <v-card>
                   <v-list>

@@ -11,7 +11,10 @@
       <v-col v-if="item.Manufacturer"
         cols="auto"
         class="px-2">
-        <v-icon v-if="item.Manufacturer.Icon"
+        <cc-logo v-if="item.Manufacturer.LogoIsExternal"
+          :source="item.Manufacturer"
+          size="large" />
+        <v-icon v-else-if="item.Manufacturer.Icon"
           :icon="item.Manufacturer.Icon"
           :color="item.Manufacturer.Color" />
       </v-col>

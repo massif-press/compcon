@@ -26,34 +26,32 @@
           <span class="heading h3">Mount CORE Bonus</span>
         </v-toolbar>
         <v-card-text class="text-center">
-          <v-row dense>
-            <cc-button v-for="(b, index) in mech.AvailableBonuses"
-              :key="`available-${index}`"
-              size="small"
-              block
-              color="primary"
-              class="my-1"
-              prepend-icon="cc:corebonus"
-              @click="
-                mount.AddCoreBonus(b);
-              isActive.value = false;
-              ">
-              Install {{ b.Name }}
-            </cc-button>
-            <cc-button v-for="(b, index) in mount.Bonuses"
-              :key="`bonus-${index}`"
-              size="small"
-              block
-              color="error"
-              class="my-1"
-              prepend-icon="mdi-cancel"
-              @click="
-                mount.RemoveCoreBonus(b);
-              isActive.value = false;
-              ">
-              Remove {{ b.Name }}
-            </cc-button>
-          </v-row>
+          <cc-button v-for="(b, index) in mech.AvailableBonuses"
+            :key="`available-${index}`"
+            size="small"
+            block
+            color="primary"
+            class="my-1"
+            prepend-icon="cc:corebonus"
+            @click="
+              mount.AddCoreBonus(b);
+            isActive.value = false;
+            ">
+            Install {{ b.Name }}
+          </cc-button>
+          <cc-button v-for="(b, index) in mount.Bonuses"
+            :key="`bonus-${index}`"
+            size="small"
+            block
+            color="error"
+            class="my-1"
+            prepend-icon="mdi-cancel"
+            @click="
+              mount.RemoveCoreBonus(b);
+            isActive.value = false;
+            ">
+            Remove {{ b.Name }}
+          </cc-button>
         </v-card-text>
       </v-card>
     </template>

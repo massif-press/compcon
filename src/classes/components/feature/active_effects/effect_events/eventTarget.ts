@@ -98,6 +98,11 @@ class ActiveEventTarget {
     return 'miss'
   }
 
+  public set HitResult(value: string) {
+    if (value === 'miss') this.TargetDefenseValue = 999
+    else this.TargetDefenseValue = 1
+  }
+
   public get SaveRolledValue(): number | undefined {
     return this._saveRolledValue
   }

@@ -86,6 +86,9 @@ export default {
             'NpcFeatures',
             'NpcClasses',
             'NpcTemplates',
+            'Backgrounds',
+            'Bonds',
+            'Skills',
           ])
         )
       ) as CompendiumItem[];

@@ -1,3 +1,4 @@
+import { NarrativeStore } from '@/stores'
 import { ImageTag } from '@/io/ImageManagement'
 import { v4 as uuid } from 'uuid'
 import {
@@ -102,6 +103,24 @@ abstract class CollectionItem
 
   public set Name(val: string) {
     this._name = val
+    // update NarrativeController.Relationships with this new name
+    if (this.NarrativeController) {
+      this.NarrativeController.Relationships.forEach(rel => {
+        if (rel.id === this.ID) {
+          rel.name = val
+        }
+      })
+      // update any relationships in other NarrativeControllers that reference this item
+      NarrativeStore().CollectionItems.forEach((item: any) => {
+        if (item.ID === this.ID) return
+        item.NarrativeController.Relationships.forEach((rel: any) => {
+          if (rel.id === this.ID) {
+            rel.name = val
+            item.SaveController.save()
+          }
+        })
+      })
+    }
     this.SaveController.save()
   }
 

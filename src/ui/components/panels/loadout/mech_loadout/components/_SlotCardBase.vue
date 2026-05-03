@@ -117,6 +117,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['selector-close', 'selector-open'],
   data: () => ({

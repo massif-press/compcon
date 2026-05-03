@@ -35,7 +35,7 @@
                 size="small"
                 class="mt-n1" />
               <span class="text-cc-overline text-disabled flex-grow-1">{{ group || 'No Group'
-                }}</span>
+              }}</span>
               <v-icon :icon="collapsedGroups[group] ? 'mdi-chevron-right' : 'mdi-chevron-down'"
                 size="small" />
             </div>
@@ -200,7 +200,8 @@
               Pilot Loadout
             </div>
             <div class="bg-background pa-2 text-center">
-              <cc-item-chip v-for="item in selected.PilotLoadoutController.ActiveLoadout.Items"
+              <cc-item-chip
+                v-for="item in selected.PilotLoadoutController.ActiveLoadout.Items.filter(x => x)"
                 :key="item.ID"
                 :item="item"
                 class="" />
@@ -282,7 +283,7 @@
           </cc-alert>
         </div>
         <div v-if="selected && selected.Mechs.length"
-          :key="selected?.ActiveMech?.ID"
+          :key="selected.ActiveMech?.ID"
           class="border-s-sm border-e-sm border-b-sm pa-2">
           <v-row dense>
             <v-col cols="auto"

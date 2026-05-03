@@ -148,9 +148,9 @@ class FeatureController {
   }
 
   public get Actions(): Action[] {
-    return this.collectAll('Actions').concat(
-      this.isCoreActive ? this.collectAll('ActiveActions') : []
-    ) as Action[]
+    return this.collectAll('Actions')
+      .concat(this.collectAll('PassiveActions'))
+      .concat(this.isCoreActive ? this.collectAll('ActiveActions') : []) as Action[]
   }
 
   public get ActiveEffects(): ActiveEffect[] {
