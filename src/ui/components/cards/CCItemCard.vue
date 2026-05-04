@@ -49,6 +49,10 @@ export default {
       }
 
       if (!this.item.ItemType && !this.item.type) {
+        console.log(this.item)
+        if (this.item.id.startsWith('tg_')) {
+          return cards.TagCard;
+        }
         logger.error('No item type provided to CCItemCard', this);
         return null;
       }

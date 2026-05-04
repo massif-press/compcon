@@ -1,5 +1,9 @@
 <template>
-  <component :is="component" v-if="component" :item="item" :odd="odd" :readonly="readonly" />
+  <component :is="component"
+    v-if="component"
+    :item="item"
+    :odd="odd"
+    :readonly="readonly" />
 </template>
 
 <script lang="ts">
@@ -9,7 +13,7 @@ import cEidolonListItem from './cEidolonListItem.vue';
 import logger from '@/user/logger';
 
 export default {
-  name: 'gm-combatant-list-item',
+  name: 'GmCombatantListItem',
   props: {
     item: { type: Object, required: true },
     odd: { type: Boolean },
@@ -27,7 +31,7 @@ export default {
         return null;
       }
 
-      let t = (this.item.ItemType ? this.item.ItemType : this.item.type).toLowerCase();
+      const t = (this.item.ItemType ? this.item.ItemType : this.item.type).toLowerCase();
 
       if (t === 'doodad') return cDoodadListItem;
       else if (t === 'unit') return cUnitListItem;
