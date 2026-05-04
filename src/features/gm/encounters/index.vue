@@ -76,6 +76,7 @@
         :grouping="grouping"
         :sorting="sorting"
         :all-folders="folders"
+        folder-drag
         @set-folder-name="setFolderName(folder, $event)"
         @remove-folder="removeFolder($event)"
         @open="openItem($event)" />
@@ -109,6 +110,7 @@
               :grouping="grouping"
               :sorting="sorting"
               :all-folders="folders"
+              folder-drag
               @open="openItem($event)" />
           </v-card-text>
         </v-expand-transition>

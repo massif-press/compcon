@@ -4,7 +4,7 @@
   <v-card flat
     tile>
     <v-card-text class="py-2 px-4">
-      <div v-if="encounter.Combatants.filter((x) => x.side === 'enemy').length > 0">
+      <div v-if="enemyCombatants.length > 0">
         <v-row dense
           align="center">
           <v-col cols="auto"
@@ -14,14 +14,56 @@
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
-      <combatant-list-item v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'enemy')"
-        :key="c.id"
-        :item="c"
-        :odd="i % 2 === 0"
-        :readonly="readonly"
-        @open="editUnit"
-        @remove="encounter.RemoveCombatant(i)" />
-      <div v-if="encounter.Combatants.filter((x) => x.side === 'ally').length > 0"
+      <template v-if="!reorderMode">
+        <combatant-list-item v-for="(c, i) in enemyCombatants"
+          :key="c.id"
+          :item="c"
+          :odd="i % 2 === 0"
+          :readonly="readonly"
+          @open="editUnit"
+          @remove="encounter.RemoveCombatant(i)" />
+      </template>
+      <sortable v-else
+        :list="enemyCombatants"
+        item-key="id"
+        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: true, scrollSpeed: 300 }"
+        @end="event => onCombatantReorder('enemy', event)">
+        <template #item="{ element, index }">
+          <div style="display: flex; align-items: center; gap: 4px">
+            <div class="d-flex flex-column align-center">
+              <v-icon class="combatant-drag-handle"
+                icon="mdi-drag"
+                size="20"
+                aria-label="Drag to reorder"
+                tabindex="0"
+                style="cursor: move; opacity: 0.5" />
+              <v-btn icon
+                size="x-small"
+                variant="text"
+                :disabled="index === 0"
+                @click="moveCombatant('enemy', index, index - 1)">
+                <v-icon size="small">mdi-arrow-up</v-icon>
+              </v-btn>
+              <v-btn icon
+                size="x-small"
+                variant="text"
+                :disabled="index === enemyCombatants.length - 1"
+                @click="moveCombatant('enemy', index, index + 1)">
+                <v-icon size="small">mdi-arrow-down</v-icon>
+              </v-btn>
+            </div>
+            <div style="flex: 1; min-width: 0">
+              <combatant-list-item :item="element"
+                :odd="index % 2 === 0"
+                :readonly="readonly"
+                @open="editUnit"
+                @remove="encounter.RemoveCombatant(index)" />
+            </div>
+          </div>
+        </template>
+      </sortable>
+
+      <div v-if="allyCombatants.length > 0"
         class="mt-3">
         <v-row dense
           align="center">
@@ -32,14 +74,56 @@
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
-      <combatant-list-item v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'ally')"
-        :key="c.id"
-        :item="c"
-        :odd="i % 2 === 0"
-        :readonly="readonly"
-        @open="editUnit"
-        @remove="encounter.RemoveCombatant(i)" />
-      <div v-if="encounter.Combatants.filter((x) => x.side === 'neutral').length > 0"
+      <template v-if="!reorderMode">
+        <combatant-list-item v-for="(c, i) in allyCombatants"
+          :key="c.id"
+          :item="c"
+          :odd="i % 2 === 0"
+          :readonly="readonly"
+          @open="editUnit"
+          @remove="encounter.RemoveCombatant(i)" />
+      </template>
+      <sortable v-else
+        :list="allyCombatants"
+        item-key="id"
+        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: true, scrollSpeed: 300 }"
+        @end="event => onCombatantReorder('ally', event)">
+        <template #item="{ element, index }">
+          <div style="display: flex; align-items: center; gap: 4px">
+            <div class="d-flex flex-column align-center">
+              <v-icon class="combatant-drag-handle"
+                icon="mdi-drag"
+                size="20"
+                aria-label="Drag to reorder"
+                tabindex="0"
+                style="cursor: move; opacity: 0.5" />
+              <v-btn icon
+                size="x-small"
+                variant="text"
+                :disabled="index === 0"
+                @click="moveCombatant('ally', index, index - 1)">
+                <v-icon size="small">mdi-arrow-up</v-icon>
+              </v-btn>
+              <v-btn icon
+                size="x-small"
+                variant="text"
+                :disabled="index === allyCombatants.length - 1"
+                @click="moveCombatant('ally', index, index + 1)">
+                <v-icon size="small">mdi-arrow-down</v-icon>
+              </v-btn>
+            </div>
+            <div style="flex: 1; min-width: 0">
+              <combatant-list-item :item="element"
+                :odd="index % 2 === 0"
+                :readonly="readonly"
+                @open="editUnit"
+                @remove="encounter.RemoveCombatant(index)" />
+            </div>
+          </div>
+        </template>
+      </sortable>
+
+      <div v-if="neutralCombatants.length > 0"
         class="mt-3">
         <v-row dense
           align="center">
@@ -50,14 +134,55 @@
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
-      <combatant-list-item
-        v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'neutral')"
-        :key="c.id"
-        :item="c"
-        :odd="i % 2 === 0"
-        :readonly="readonly"
-        @open="editUnit"
-        @remove="encounter.RemoveCombatant(i)" />
+      <template v-if="!reorderMode">
+        <combatant-list-item
+          v-for="(c, i) in neutralCombatants"
+          :key="c.id"
+          :item="c"
+          :odd="i % 2 === 0"
+          :readonly="readonly"
+          @open="editUnit"
+          @remove="encounter.RemoveCombatant(i)" />
+      </template>
+      <sortable v-else
+        :list="neutralCombatants"
+        item-key="id"
+        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: true, scrollSpeed: 300 }"
+        @end="event => onCombatantReorder('neutral', event)">
+        <template #item="{ element, index }">
+          <div style="display: flex; align-items: center; gap: 4px">
+            <div class="d-flex flex-column align-center">
+              <v-icon class="combatant-drag-handle"
+                icon="mdi-drag"
+                size="20"
+                aria-label="Drag to reorder"
+                tabindex="0"
+                style="cursor: move; opacity: 0.5" />
+              <v-btn icon
+                size="x-small"
+                variant="text"
+                :disabled="index === 0"
+                @click="moveCombatant('neutral', index, index - 1)">
+                <v-icon size="small">mdi-arrow-up</v-icon>
+              </v-btn>
+              <v-btn icon
+                size="x-small"
+                variant="text"
+                :disabled="index === neutralCombatants.length - 1"
+                @click="moveCombatant('neutral', index, index + 1)">
+                <v-icon size="small">mdi-arrow-down</v-icon>
+              </v-btn>
+            </div>
+            <div style="flex: 1; min-width: 0">
+              <combatant-list-item :item="element"
+                :odd="index % 2 === 0"
+                :readonly="readonly"
+                @open="editUnit"
+                @remove="encounter.RemoveCombatant(index)" />
+            </div>
+          </div>
+        </template>
+      </sortable>
     </v-card-text>
     <v-toolbar density="compact"
       color="panel">
@@ -65,18 +190,25 @@
         <v-icon icon="cc:mech"
           class="mt-n1"
           color="error" />
-        {{encounter.Combatants.filter((x) => x.side === 'enemy').length}}
+        {{enemyCombatants.length}}
         <cc-slashes class="mx-2" />
         <v-icon icon="cc:mech"
           class="mt-n1"
           color="success" />
-        {{encounter.Combatants.filter((x) => x.side === 'ally').length}}
+        {{allyCombatants.length}}
         <cc-slashes class="mx-2" />
         <v-icon icon="cc:mech"
           class="mt-n1" />
-        {{encounter.Combatants.filter((x) => x.side === 'neutral').length}}
+        {{neutralCombatants.length}}
       </v-toolbar-title>
       <v-spacer />
+      <v-btn v-if="!readonly && encounter.Combatants.length > 1"
+        :icon="reorderMode ? 'mdi-check' : 'mdi-sort'"
+        size="small"
+        variant="text"
+        :color="reorderMode ? 'success' : 'grey'"
+        class="mr-1"
+        @click="reorderMode = !reorderMode" />
       <cc-button v-if="!readonly"
         color="accent"
         prepend-icon="mdi-plus"
@@ -278,6 +410,7 @@ import DoodadEditor from '../../../npc_roster/doodads/editor.vue';
 import EidolonEditor from '../../../npc_roster/eidolons/editor.vue';
 import CombatantSettingsMenu from './_components/combatantSettingsMenu.vue';
 import { GenerateItemDiff, SetDiff } from '@/classes/npc/NpcDiff';
+import { Sortable } from 'sortablejs-vue3';
 
 export default {
   name: 'CombatantEditor',
@@ -288,6 +421,7 @@ export default {
     DoodadEditor,
     EidolonEditor,
     CombatantSettingsMenu,
+    Sortable,
   },
   props: {
     encounter: { type: Object, required: true },
@@ -301,8 +435,18 @@ export default {
     _lastEditorType: null as string | null,
     selectorView: 'list',
     hasChanges: false,
+    reorderMode: false,
   }),
   computed: {
+    enemyCombatants() {
+      return (this.encounter.Combatants as any[]).filter(x => x.side === 'enemy');
+    },
+    allyCombatants() {
+      return (this.encounter.Combatants as any[]).filter(x => x.side === 'ally');
+    },
+    neutralCombatants() {
+      return (this.encounter.Combatants as any[]).filter(x => x.side === 'neutral');
+    },
     editorComponent() {
       if (!this.selected) return null;
       switch ((this.selected as any).actor.ItemType.toLowerCase()) {
@@ -352,6 +496,27 @@ export default {
         this._lastEditorType = newType;
         setTimeout(() => { this.editorReady = true; }, 0);
       }
+    },
+    onCombatantReorder(side: string, event: any) {
+      if (event.oldIndex === event.newIndex) return;
+      const all = [...(this.encounter.Combatants as any[])];
+      const sideItems = all.filter(c => c.side === side);
+      const [movedItem] = sideItems.splice(event.oldIndex, 1);
+      sideItems.splice(event.newIndex, 0, movedItem);
+      let sideIdx = 0;
+      const result = all.map(c => (c.side === side ? sideItems[sideIdx++] : c));
+      this.encounter.Combatants = result;
+      this.encounter.save();
+    },
+    moveCombatant(side: string, from: number, to: number) {
+      const all = [...(this.encounter.Combatants as any[])];
+      const sideItems = all.filter(c => c.side === side);
+      const [movedItem] = sideItems.splice(from, 1);
+      sideItems.splice(to, 0, movedItem);
+      let sideIdx = 0;
+      const result = all.map(c => (c.side === side ? sideItems[sideIdx++] : c));
+      this.encounter.Combatants = result;
+      this.encounter.save();
     },
     diffUpdate(key) {
       SetDiff(this.selected.actor, key);

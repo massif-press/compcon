@@ -213,6 +213,14 @@ export const PilotStore = defineStore('pilot', {
     },
     async SavePilotData(pilotIds?: string[]): Promise<void> {
       try {
+        // Sync SortIndex from group position before serializing
+        this.PilotGroups.forEach(group => {
+          group.Pilots.forEach((pi, idx) => {
+            const p = this.Pilots.find(p => p.ID === pi.id)
+            if (p) p.SortIndex = idx
+          })
+        })
+
         const pilotsToSave = pilotIds
           ? this.Pilots.filter(p => pilotIds.includes(p.ID))
           : this.Pilots
@@ -302,27 +310,24 @@ export const PilotStore = defineStore('pilot', {
     _moveItemInArray<T>(array: T[], from: number, to: number): void {
       const item = array.splice(from, 1)[0]
       array.splice(to, 0, item)
-      array.forEach((x: any, i) => (x.SortIndex = i))
     },
     ReorderPilot(pilot: Pilot, dir: 'top' | 'up' | 'down' | 'bottom'): void {
       const group = this.getGroupByPilotID(pilot.ID)
       if (!group) return
+      const fromIdx = (group as PilotGroup).Pilots.findIndex(p => p.id === pilot.ID)
+      if (fromIdx === -1) return
 
       if (dir === 'top') {
-        this.movePilotIndex(group as PilotGroup, pilot.SortIndex, 0)
+        this.movePilotIndex(group as PilotGroup, fromIdx, 0)
       } else if (dir === 'up') {
-        this.movePilotIndex(group as PilotGroup, pilot.SortIndex, pilot.SortIndex - 1)
+        this.movePilotIndex(group as PilotGroup, fromIdx, fromIdx - 1)
       } else if (dir === 'down') {
-        this.movePilotIndex(group as PilotGroup, pilot.SortIndex, pilot.SortIndex + 1)
+        this.movePilotIndex(group as PilotGroup, fromIdx, fromIdx + 1)
       } else if (dir === 'bottom') {
-        this.movePilotIndex(group as PilotGroup, pilot.SortIndex, group.Pilots.length - 1)
+        this.movePilotIndex(group as PilotGroup, fromIdx, (group as PilotGroup).Pilots.length - 1)
       }
 
-      group.Pilots.forEach((pItem, idx) => {
-        const pilot = this.getPilotByID(pItem.id)
-        if (pilot) pilot.SortIndex = idx
-      })
-      this.SavePilotData()
+      this.SaveGroupData()
     },
     ReorderGroup(group: PilotGroup, dir: 'top' | 'up' | 'down' | 'bottom'): void {
       const index = this.PilotGroups.findIndex(x => x.ID === group.ID)
@@ -336,7 +341,21 @@ export const PilotStore = defineStore('pilot', {
       } else if (dir === 'bottom') {
         this.moveGroupIndex(index, this.PilotGroups.length - 1)
       }
-      this.SavePilotData()
+      this.SaveGroupData()
+    },
+    ReorderPilotByIndex(pilot: Pilot, toIndex: number): void {
+      const group = this.getGroupByPilotID(pilot.ID)
+      if (!group) return
+      const fromIdx = (group as PilotGroup).Pilots.findIndex(p => p.id === pilot.ID)
+      if (fromIdx === -1) return
+      this.movePilotIndex(group as PilotGroup, fromIdx, toIndex)
+      this.SaveGroupData()
+    },
+    ReorderGroupByIndex(group: PilotGroup, toIndex: number): void {
+      const fromIndex = this.PilotGroups.findIndex(x => x.ID === group.ID)
+      if (fromIndex === -1) return
+      this.moveGroupIndex(fromIndex, toIndex)
+      this.SaveGroupData()
     },
     async LoadPilotSheets(): Promise<void> {
       this.PilotSheets = await GetAll('pilot_sheets').then(data =>

@@ -45,6 +45,19 @@
             align="center"
             class="px-2"
           >
+            <v-col v-if="!mobile"
+              cols="auto"
+              class="d-flex align-center pr-1">
+              <v-icon
+                icon="mdi-drag"
+                size="18"
+                class="drag-handle"
+                aria-label="Drag to reorder"
+                tabindex="0"
+                style="cursor: move; opacity: 0.4; transition: opacity 0.2s"
+                @click.stop
+              />
+            </v-col>
             <v-menu location="left">
               <template #activator="{ props }">
                 <v-icon
@@ -298,5 +311,9 @@ import { useMobile } from '@/mixins/useMobile';
 
   .li-top-element:hover .light {
     background-color: rgb(var(--v-theme-success));
+  }
+
+  .li-top-element:hover .drag-handle {
+    opacity: 0.8 !important;
   }
 </style>

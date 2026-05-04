@@ -2,9 +2,19 @@
   <v-row dense
     class="text-overline pt-2">
     <v-col>
-      <div>FEATURES</div>
+      <div class="d-flex align-center">
+        FEATURES
+        <v-btn v-if="!readonly && npc.NpcClassController?.HasClass && allFeatures.length > 1"
+          :icon="reorderMode ? 'mdi-check' : 'mdi-sort'"
+          size="x-small"
+          variant="text"
+          :color="reorderMode ? 'success' : 'grey'"
+          class="ml-2"
+          style="margin-top: -2px"
+          @click="reorderMode = !reorderMode" />
+      </div>
     </v-col>
-    <v-col v-if="passiveCount"
+    <v-col v-if="passiveCount && !reorderMode"
       cols="auto">
       <cc-switch v-model="showPassives"
         color="error"
@@ -21,7 +31,9 @@
       :template-controller="npc.NpcTemplateController"
       expanded />
 
-    <cc-masonry-grid :items="shownFeatures"
+    <!-- View mode: masonry grid -->
+    <cc-masonry-grid v-if="!reorderMode"
+      :items="shownFeatures"
       :key-mapper="item => item.ID"
       :column-width="400"
       :gap="14"
@@ -40,6 +52,53 @@
         </cc-dense-card>
       </template>
     </cc-masonry-grid>
+
+    <!-- Reorder mode: linear sortable -->
+    <sortable v-else
+      :list="allFeatures"
+      item-key="ID"
+      :options="{ animation: 200, handle: '.feature-drag-handle', scroll: true, scrollSpeed: 300 }"
+      @end="onFeatureReorder">
+      <template #item="{ element, index }">
+        <div class="feature-reorder-row mb-2"
+          style="display: flex; align-items: flex-start; gap: 4px">
+          <div class="d-flex flex-column align-center"
+            style="padding-top: 6px">
+            <v-icon class="feature-drag-handle"
+              icon="mdi-drag"
+              size="20"
+              aria-label="Drag to reorder"
+              tabindex="0"
+              style="cursor: move; opacity: 0.5" />
+            <v-btn icon
+              size="x-small"
+              variant="text"
+              :disabled="index === 0"
+              @click="moveFeature(index, index - 1)">
+              <v-icon size="small">mdi-arrow-up</v-icon>
+            </v-btn>
+            <v-btn icon
+              size="x-small"
+              variant="text"
+              :disabled="index === allFeatures.length - 1"
+              @click="moveFeature(index, index + 1)">
+              <v-icon size="small">mdi-arrow-down</v-icon>
+            </v-btn>
+          </div>
+          <div style="flex: 1; min-width: 0">
+            <cc-dense-card v-if="element"
+              :item="element"
+              :tier="npc.NpcClassController.Tier">
+              <template #pre>
+                <npc-mod-inset v-for="mod in npc.NpcFeatureController.GetModifiers(element)"
+                  :key="mod.ID"
+                  :mod="mod" />
+              </template>
+            </cc-dense-card>
+          </div>
+        </div>
+      </template>
+    </sortable>
 
     <npc-feature-selector v-if="!readonly"
       :npc="npc" />
@@ -64,6 +123,7 @@ import { UserStore } from '@/stores';
 import { NpcFeatureSelector } from './_components';
 import NpcFeatureAlerts from './_components/NpcFeatureAlerts.vue';
 import NpcModInset from './_components/NpcModInset.vue';
+import { Sortable } from 'sortablejs-vue3';
 import * as _ from 'lodash-es';
 
 export default {
@@ -72,11 +132,15 @@ export default {
     NpcFeatureSelector,
     NpcFeatureAlerts,
     NpcModInset,
+    Sortable,
   },
   props: {
     npc: { type: Object, required: true },
     readonly: { type: Boolean, default: false },
   },
+  data: () => ({
+    reorderMode: false,
+  }),
   computed: {
     showPassives: {
       get: function () {
@@ -89,11 +153,23 @@ export default {
     passiveCount() {
       return this.npc.NpcFeatureController.Passives.length;
     },
+    allFeatures() {
+      return this.npc.NpcFeatureController.Features.filter((f: any) => !!f);
+    },
     shownFeatures() {
       const arr = this.showPassives
         ? this.npc.NpcFeatureController.Features.filter((f: any) => !!f)
         : this.npc.NpcFeatureController.Features.filter((f: any) => !!f && !f.Passive);
       return _.orderBy(arr, 'FeatureType', 'desc');
+    },
+  },
+  methods: {
+    onFeatureReorder(event: any) {
+      if (event.oldIndex === event.newIndex) return;
+      this.npc.NpcFeatureController.ReorderFeature(event.oldIndex, event.newIndex);
+    },
+    moveFeature(from: number, to: number) {
+      this.npc.NpcFeatureController.ReorderFeature(from, to);
     },
   },
 };

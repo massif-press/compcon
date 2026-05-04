@@ -7,7 +7,17 @@
       :class="mobile && 'border-0'"
       style="border-color: rgba(155, 155, 155, 0.6)">
       <legend :style="`color: ${color}`"
-        class="heading h3">Systems</legend>
+        class="heading h3 d-flex align-center">
+        Systems
+        <v-btn v-if="!readonly && activeSystems.length > 1"
+          :icon="reorderMode ? 'mdi-check' : 'mdi-sort'"
+          size="x-small"
+          variant="text"
+          :color="reorderMode ? 'success' : 'grey'"
+          class="ml-2"
+          style="margin-top: -2px"
+          @click="reorderMode = !reorderMode" />
+      </legend>
       <div style="position: relative">
         <div class="side-legend">
           <span :class="`heading h3 ${mech.FreeSP < 0 ? 'text-error' : 'text-disabled text--darken-3'
@@ -20,7 +30,10 @@
           </span>
         </div>
       </div>
-      <div style="position: relative; overflow-anchor: none">
+
+      <!-- View mode: masonry grid -->
+      <div v-if="!reorderMode"
+        style="position: relative; overflow-anchor: none">
         <cc-masonry-grid :items="systemItems"
           :column-width="400"
           :gap="16"
@@ -40,6 +53,80 @@
               @switch="switchSystem($event)" />
           </template>
         </cc-masonry-grid>
+      </div>
+
+      <!-- Reorder mode: linear layout with drag handles -->
+      <div v-else
+        style="position: relative; overflow-anchor: none">
+        <!-- Static top items (integrated + modded weapons) -->
+        <div v-for="item in staticTopItems"
+          :key="item.id"
+          class="mb-2 opacity-60">
+          <component :is="item.component"
+            :item="item.item"
+            :mech="item.props.mech"
+            :color="item.props.color"
+            :readonly="true"
+            :weapon="item.weapon"
+            :integrated="item.props.integrated"
+            :empty="item.props.empty" />
+        </div>
+
+        <!-- Draggable active systems -->
+        <sortable :list="activeSystems"
+          item-key="ID"
+          :options="{ animation: 200, handle: '.system-drag-handle', scroll: true, scrollSpeed: 300 }"
+          @end="onSystemReorder">
+          <template #item="{ element, index }">
+            <div class="system-reorder-row mb-2"
+              style="display: flex; align-items: flex-start; gap: 4px">
+              <div class="d-flex flex-column align-center system-drag-controls"
+                style="padding-top: 8px">
+                <v-icon class="system-drag-handle"
+                  icon="mdi-drag"
+                  size="20"
+                  aria-label="Drag to reorder"
+                  tabindex="0"
+                  style="cursor: move; opacity: 0.5" />
+                <v-btn icon
+                  size="x-small"
+                  variant="text"
+                  :disabled="index === 0"
+                  @click="moveSystem(index, index - 1)">
+                  <v-icon size="small">mdi-arrow-up</v-icon>
+                </v-btn>
+                <v-btn icon
+                  size="x-small"
+                  variant="text"
+                  :disabled="index === activeSystems.length - 1"
+                  @click="moveSystem(index, index + 1)">
+                  <v-icon size="small">mdi-arrow-down</v-icon>
+                </v-btn>
+              </div>
+              <div style="flex: 1; min-width: 0">
+                <component :is="_SystemSlotCard"
+                  :item="element"
+                  :mech="mech"
+                  :color="color"
+                  :readonly="readonly"
+                  @switch="switchSystem($event)" />
+              </div>
+            </div>
+          </template>
+        </sortable>
+
+        <!-- Static bottom items (empty slot) -->
+        <div v-for="item in staticBottomItems"
+          :key="item.id"
+          class="mb-2">
+          <component :is="item.component"
+            :item="item.item"
+            :mech="item.props.mech"
+            :color="item.props.color"
+            :readonly="item.props.readonly"
+            :empty="item.props.empty"
+            @selector-open="selector = true" />
+        </div>
       </div>
 
       <v-row v-if="!readonly && mech.FreeSP <= 0"
@@ -71,6 +158,7 @@
 <script lang="ts">
 import * as _ from 'lodash-es';
 import { markRaw } from 'vue';
+import { Sortable } from 'sortablejs-vue3';
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
 import SystemSelector from './_SystemSelector.vue';
@@ -83,7 +171,7 @@ const _ModEquippedCard = markRaw(ModEquippedCard);
 export default {
   mixins: [useMobile],
   name: 'systems-block',
-  components: { SystemSlotCard, ModEquippedCard, SystemSelector },
+  components: { SystemSlotCard, ModEquippedCard, SystemSelector, Sortable },
   props: {
     mech: {
       type: Object,
@@ -102,6 +190,8 @@ export default {
     swapSystem: null as any,
     additionalSystem: false,
     systemItems: [] as any[],
+    reorderMode: false,
+    _SystemSlotCard,
   }),
   watch: {
     mech: {
@@ -121,6 +211,38 @@ export default {
     },
     integratedSystems() {
       return this.mech.MechLoadoutController.ActiveLoadout.IntegratedSystems;
+    },
+    staticTopItems(): any[] {
+      const arr: any[] = [];
+      this.integratedSystems.forEach((s) => {
+        arr.push({
+          component: _SystemSlotCard,
+          id: s.ID,
+          props: { mech: this.mech, item: s, color: this.color, readonly: this.readonly, integrated: true },
+          item: s,
+        });
+      });
+      this.moddedWeapons.forEach((w) => {
+        arr.push({
+          component: _ModEquippedCard,
+          id: w.ID,
+          props: { mech: this.mech, color: this.color, readonly: this.readonly },
+          item: w.Mod,
+          weapon: w,
+        });
+      });
+      return arr;
+    },
+    staticBottomItems(): any[] {
+      if (this.mech.FreeSP > 0 && !this.readonly) {
+        return [{
+          component: _SystemSlotCard,
+          id: 'add-system',
+          props: { mech: this.mech, item: null, color: this.color, readonly: this.readonly, empty: true },
+          item: null,
+        }];
+      }
+      return [];
     },
   },
   methods: {
@@ -186,6 +308,13 @@ export default {
       }
 
       this.systemItems = arr;
+    },
+    onSystemReorder(event: any) {
+      if (event.oldIndex === event.newIndex) return;
+      this.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(event.oldIndex, event.newIndex);
+    },
+    moveSystem(from: number, to: number) {
+      this.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(from, to);
     },
     switchSystem(item: any) {
       this.swapSystem = item;

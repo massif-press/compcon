@@ -287,6 +287,12 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     this.save()
   }
 
+  public ReorderCombatant(fromAbsolute: number, toAbsolute: number): void {
+    const item = this._combatants.splice(fromAbsolute, 1)[0]
+    this._combatants.splice(toAbsolute, 0, item)
+    this.save()
+  }
+
   public static Serialize(enc: Encounter): IEncounterData {
     const data = {
       itemType: 'Encounter',

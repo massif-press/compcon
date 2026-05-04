@@ -101,6 +101,12 @@ class NpcFeatureController implements IFeatureContainer {
     }
   }
 
+  public ReorderFeature(from: number, to: number): void {
+    const item = this._selectedFeatures.splice(from, 1)[0]
+    this._selectedFeatures.splice(to, 0, item)
+    this.Parent.SaveController.save()
+  }
+
   public ClearFeatures(): void {
     this._selectedFeatures = []
   }

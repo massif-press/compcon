@@ -15,6 +15,14 @@
       <div v-else
         class="mr-2"
         style="width: 30px; height: 30px;" />
+      <v-icon v-if="!mobile"
+        icon="mdi-drag"
+        size="20"
+        class="group-drag-handle mr-1"
+        aria-label="Drag to reorder group"
+        tabindex="0"
+        style="cursor: move; opacity: 0.5; transition: opacity 0.2s"
+        @click.stop />
       <v-menu location="left">
         <template #activator="{ props }">
           <v-icon v-bind="props"
@@ -164,11 +172,37 @@
               </v-virtual-scroll>
             </template>
             <template v-else>
-              <component :is="pilotCardType"
-                v-for="pilot in filteredPilots"
-                :key="pilot.ID"
-                :pilot="pilot"
-                @go-to="toPilotSheet(pilot.ID)" />
+              <div v-if="mobile && dragModeActive"
+                class="text-center mb-2">
+                <v-btn size="small"
+                  color="success"
+                  variant="tonal"
+                  prepend-icon="mdi-check"
+                  @click="exitDragMode">
+                  Done Reordering
+                </v-btn>
+              </div>
+              <sortable
+                :key="groupSortableKey"
+                :list="filteredPilots"
+                item-key="ID"
+                :options="sortableOptions"
+                @end="onPilotReorder"
+                @add="onPilotAdded"
+              >
+                <template #item="{ element }">
+                  <div :data-pilot-id="element.ID"
+                    @pointerdown="mobile ? onPointerDown() : undefined"
+                    @pointerup="mobile ? onPointerUp() : undefined"
+                    @pointercancel="mobile ? onPointerCancel() : undefined">
+                    <component
+                      :is="pilotCardType"
+                      :pilot="element"
+                      @go-to="toPilotSheet(element.ID)"
+                    />
+                  </div>
+                </template>
+              </sortable>
             </template>
           </v-card-text>
           <v-expand-transition>
@@ -380,21 +414,25 @@
 </template>
 
 <script lang="ts">
+import { Sortable } from 'sortablejs-vue3';
 import { PilotStore, UserStore } from '@/stores';
 import PilotCard from './PilotCard.vue';
 import PilotListItem from './PilotListItem.vue';
 import { Pilot, PilotGroup } from '@/class';
 import { saveFile } from '@/io/Data';
-import * as _ from 'lodash-es';
 import FileImport from './add_panels/FileImport.vue';
 import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
 import { useMobile } from '@/mixins/useMobile';
+import { useLongPressDragMode } from '@/mixins/useLongPressDragMode';
 
 
 export default {
   name: 'GroupPanel',
-  components: { PilotCard, PilotListItem, FileImport, ShareCodeDialog },
+  components: { Sortable, PilotCard, PilotListItem, FileImport, ShareCodeDialog },
   mixins: [useMobile],
+  setup() {
+    return useLongPressDragMode(600);
+  },
   props: {
     group: {
       type: Object,
@@ -404,24 +442,42 @@ export default {
       type: String,
       default: '',
     },
+    transferKey: {
+      type: Number,
+      default: 0,
+    },
   },
+  emits: ['pilot-transferred'],
   data: () => ({
     edit: false,
     deleteDialog: false,
     deletePilotsToggle: false,
     search: '',
   }),
-  watch: {
-    rosterSearch(val: string) {
-      this.group.Expanded = val ? this.filteredPilots.length > 0 : true;
-    },
-  },
   computed: {
     noGroup(): boolean {
       return this.group.ID === 'no_group';
     },
+    groupSortableKey(): string {
+      return `${this.group.ID}-${this.transferKey}-${this.dragModeActive}`;
+    },
+    sortableOptions() {
+      const needsHandle = !this.mobile || !this.dragModeActive;
+      return {
+        animation: 250,
+        easing: 'cubic-bezier(1, 0, 0, 1)',
+        handle: needsHandle ? '.drag-handle' : undefined,
+        group: { name: 'pilots', pull: true, put: true },
+        scroll: true,
+        scrollSpeed: 300,
+        disabled: !!this.rosterSearch,
+      };
+    },
     pilots(): Pilot[] {
-      return _.orderBy(PilotStore().getPilots(this.group.ID), 'SortIndex', 'asc');
+      const store = PilotStore();
+      return (this.group.Pilots as any[])
+        .map((pi: any) => store.getPilotByID(pi.id))
+        .filter((p: any): p is Pilot => !!p && !p.SaveController.IsDeleted);
     },
     filteredPilots(): Pilot[] {
       if (!this.rosterSearch) return this.pilots;
@@ -453,9 +509,38 @@ export default {
       );
     },
   },
+  watch: {
+    rosterSearch(val: string) {
+      this.group.Expanded = val ? this.filteredPilots.length > 0 : true;
+    },
+  },
   methods: {
     toPilotSheet(pilotID: string) {
       this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID } });
+    },
+    onPilotReorder(event: any) {
+      if (event.from !== event.to) return;
+      if (event.oldIndex === event.newIndex) return;
+      if (this.rosterSearch) return;
+
+      const fromPilot = this.filteredPilots[event.oldIndex];
+      const toPilot = this.filteredPilots[event.newIndex];
+      if (!fromPilot || !toPilot) return;
+
+      const fromIdx = this.group.Pilots.findIndex((p: any) => p.id === fromPilot.ID);
+      const toIdx = this.group.Pilots.findIndex((p: any) => p.id === toPilot.ID);
+      if (fromIdx === -1 || toIdx === -1) return;
+
+      PilotStore().movePilotIndex(this.group as PilotGroup, fromIdx, toIdx);
+      PilotStore().SaveGroupData();
+    },
+    async onPilotAdded(event: any) {
+      const pilotId = event.item.dataset.pilotId;
+      if (!pilotId) return;
+      const pilot = PilotStore().getPilotByID(pilotId) as any;
+      if (!pilot) return;
+      await PilotStore().TransferPilot(pilot, this.group.ID);
+      this.$emit('pilot-transferred');
     },
     async transferPilot(pilot: Pilot) {
       await PilotStore().TransferPilot(pilot, this.group.ID);
@@ -512,5 +597,9 @@ export default {
 
 .top-element:hover .light {
   filter: brightness(2) saturate(200%) hue-rotate(20deg);
+}
+
+.top-element:hover .group-drag-handle {
+  opacity: 1;
 }
 </style>

@@ -32,7 +32,9 @@
         <v-col v-for="(item, i) in groupedItems(groupings[key])"
           :key="(item as any).ID"
           :cols="list ? 12 : big ? 3 : 2"
-          style="position: relative">
+          style="position: relative"
+          :draggable="folderDrag"
+          @dragstart="folderDrag ? onDragStart($event, item) : undefined">
           <folder-menu v-if="allFolders && allFolders.length > 0"
             :item="item.FolderController"
             :all-folders="allFolders" />
@@ -71,6 +73,7 @@ export default {
     sorting: { type: String, required: false, default: 'Name' },
     sortDir: { type: String, required: false, default: 'asc' },
     allFolders: { type: Array, required: false, default: () => [] },
+    folderDrag: { type: Boolean, default: false },
   },
   computed: {
     groupings() {
@@ -195,6 +198,10 @@ export default {
     },
   },
   methods: {
+    onDragStart(event: DragEvent, item: any) {
+      event.dataTransfer!.setData('text/encounter-id', (item as any).ID);
+      event.dataTransfer!.effectAllowed = 'move';
+    },
     groupedItems(group) {
       if (this.grouping === 'None') return this.sort(this.searchedItems);
       return group.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search.toLowerCase()));

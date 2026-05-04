@@ -9,8 +9,18 @@
           :min-width="minWidth"
           tile
           flat
+          style="position: relative"
           v-bind="props"
           @click="toPilotSheet()">
+          <v-icon v-if="!small"
+            icon="mdi-drag"
+            size="18"
+            class="drag-handle"
+            aria-label="Drag to reorder"
+            tabindex="0"
+            :style="`position: absolute; top: 36px; left: 4px; cursor: move; z-index: 3; opacity: ${isHovering ? 0.8 : 0.3}; transition: opacity 0.2s;`"
+            @click.stop
+          />
           <div v-show="!small"
             class="clipped-large background-standard"
             :style="`

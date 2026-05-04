@@ -235,6 +235,12 @@ class MechLoadout extends Loadout {
     this.saveMechLoadout()
   }
 
+  public ReorderSystem(from: number, to: number): void {
+    const item = this._systems.splice(from, 1)[0]
+    this._systems.splice(to, 0, item)
+    this.saveMechLoadout()
+  }
+
   public get RequiredLicenses(): ILicenseRequirement[] {
     const requirements = [] as ILicenseRequirement[]
     const equippedWeapons = this.Weapons as LicensedItem[]

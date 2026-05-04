@@ -35,10 +35,27 @@
       </v-col>
     </v-row>
     <div class="my-3">
-      <group-panel v-for="group in pilotGroups"
-        :key="group.ID"
-        :group="group"
-        :roster-search="rosterSearch" />
+      <sortable
+        :list="pilotGroups"
+        item-key="ID"
+        :options="{
+          animation: 250,
+          easing: 'cubic-bezier(1, 0, 0, 1)',
+          handle: '.group-drag-handle',
+          scroll: true,
+          scrollSpeed: 300,
+        }"
+        @end="onGroupReorder"
+      >
+        <template #item="{ element }">
+          <group-panel
+            :group="element"
+            :roster-search="rosterSearch"
+            :transfer-key="rosterTransferKey"
+            @pilot-transferred="rosterTransferKey++"
+          />
+        </template>
+      </sortable>
     </div>
     <v-divider />
     <v-footer app
@@ -150,6 +167,7 @@
 </template>
 
 <script lang="ts">
+import { Sortable } from 'sortablejs-vue3';
 import Organizer from './components/Organizer.vue';
 import GroupPanel from './components/GroupPanel.vue';
 import GroupMenu from './components/GroupMenu.vue';
@@ -162,7 +180,7 @@ import GroupShareDialog from './components/GroupShareDialog.vue';
 
 export default {
   name: 'RosterView',
-  components: { Organizer, GroupPanel, GroupMenu, GroupFileImport, GroupShareDialog },
+  components: { Sortable, Organizer, GroupPanel, GroupMenu, GroupFileImport, GroupShareDialog },
   mixins: [useMobile],
   data: () => ({
     sortParams: null,
@@ -170,6 +188,7 @@ export default {
     newGroupName: '',
     rosterView: 'list',
     rosterSearch: '',
+    rosterTransferKey: 0,
   }),
   computed: {
     pilotGroups() {
@@ -190,6 +209,13 @@ export default {
   },
   created() {
     this.rosterView = this.profile.View('roster', 'list');
+  },
+  methods: {
+    onGroupReorder(event: any) {
+      if (event.oldIndex === event.newIndex) return;
+      const group = this.pilotGroups[event.oldIndex] as any;
+      PilotStore().ReorderGroupByIndex(group, event.newIndex);
+    },
   },
 };
 </script>

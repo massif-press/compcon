@@ -2,10 +2,13 @@
   <v-card class="my-1"
     tile>
     <v-toolbar density="compact"
-      color="primary"
+      :color="dropActive ? 'success' : 'primary'"
       style="height: 40px"
       class="mt-n3"
-      tile>
+      tile
+      @dragover.prevent="dropActive = true"
+      @dragleave="dropActive = false"
+      @drop="onDrop">
       <v-btn size="x-small"
         icon>
         <v-icon size="30"
@@ -56,6 +59,7 @@
           :grouping="grouping"
           :sorting="sorting"
           :all-folders="allFolders"
+          :folder-drag="folderDrag"
           @open="$emit('open', $event)" />
       </v-card-text>
     </v-expand-transition>
@@ -78,11 +82,13 @@ export default {
     view: { type: String, required: true },
     grouping: { type: String, required: true },
     sorting: { type: String, required: true },
+    folderDrag: { type: Boolean, default: false },
   },
   emits: ['open', 'add-new', 'set-folder-name', 'remove-folder'],
   data: () => ({
     open: true,
     deleteMenu: false,
+    dropActive: false,
   }),
   computed: {
     folderItems() {
@@ -91,6 +97,18 @@ export default {
   },
   created() {
     this.open = this.folderItems.length > 0;
+  },
+  methods: {
+    onDrop(event: DragEvent) {
+      this.dropActive = false;
+      const id = event.dataTransfer?.getData('text/encounter-id');
+      if (!id) return;
+      const item = (this.items as any[]).find(x => x.ID === id);
+      if (item && item.FolderController) {
+        item.FolderController.Folder = this.folder;
+        this.open = true;
+      }
+    },
   },
 };
 </script>
