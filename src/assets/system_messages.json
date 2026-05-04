@@ -1,5 +1,12 @@
 [
   {
+    "id": "3-0-32",
+    "title": "v3.0.3 Patch Notes",
+    "body": "<h3>CHANGELOG:</h3> <ul> <li>Fixed some remaining damage calculation issues</li> <li>Added a &quot;None&quot; activation proxy to better comport to Lancer rules</li> <li>Added LCPs the ability to assign NPC Classes and Templates features from other sources</li> <li>Corrected multiple data errors in CRB and other first-party LCP data</li> <li>Fixed various display, rendering, and alignment bugs</li> <li>Added sort functions to the GM Label interface</li> <li>Improved performance in many views (more of this to come)</li> <li>Added the ability to select LCP display in the compendium and other cc-browser elements by LCP Configurations</li> <li>Added missing item types to the Compendium search</li> <li>Updated Local PC Active Mode attack interface to no longer require an enemy defense target value</li> <li>Fixed the missing group rename interface</li> </ul><br/> <p><strong>v2.3.21a is available at</strong> <a href='https://old.compcon.app'>https://old.compcon.app</a> </p> <br/> <p><strong>Please submit bug tickets and feature requests at</strong> <a href='https://github.com/massif-press/compcon/issues'>the COMP/CON GitHub repo</a> </p> <br/> <h3 id='known-issues-'>KNOWN ISSUES:</h3> <ul> <li>The Safari browser, at certain resolutions, will prevent interaction will the right side of the C/C interface. This is still being investigated.</li> <li>The <strong>Waterfox</strong> browser automatically generates an idempotency key by default that breaks many cc-backend functions. Consider using another browser or disabling experimental setting <code>network.http.idempotencyKey</code>. If you&#39;ve enabled this on Firefox it will have to be disabled as well (but it shouldn&#39;t be on by default)</li> </ul>",
+    "level": "info",
+    "created": 1777912443
+  },
+  {
     "id": "theta-tool",
     "title": "Migration Repair Tool Available",
     "body": "<p class='px-2'>An <b>experimental</b> migration repair tool is now available in the options menu. This tool can automatically fix certain common issues with v2 data migration, but has not yet been thoroughly tested. It is <strong>strongly recommended</strong> to make a backup before applying fixes.</p><p class='pa-2'>If you encounter any issues with the tool or have suggestions for additional fixes to add, please submit an issue at the <a href='https://github.com/massif-press/compcon/issues' target='blank'>GitHub repo</a>.</p>",
