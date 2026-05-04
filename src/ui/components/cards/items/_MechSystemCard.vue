@@ -20,14 +20,8 @@
         class="ml-auto text-right">
         <div class="heading h3">
           {{ item.Type }}
-          <span class="flavor-text text-disabled">
-            <cc-slashes />
-            {{ item.LicenseString }}
-          </span>
-        </div>
-        <div v-if="item.InLcp"
-          class="flavor-text text-disabled">
-          {{ item.LcpName }}
+          <div v-if="item.Source"
+            class="flavor-text text-disabled">{{ item.LicenseString }}</div>
         </div>
       </v-col>
     </v-row>

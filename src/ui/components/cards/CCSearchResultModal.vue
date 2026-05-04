@@ -27,7 +27,7 @@
                   item.Activation || ''"
                   class="mb-0" />
                 <div class="text-caption text-disabled text-right"><i>{{ item.Brew?.LcpName ||
-                    'Lancer Core Book' }}</i></div>
+                  'Lancer Core Book' }}</i></div>
               </div>
             </cc-panel>
           </template>
@@ -35,7 +35,10 @@
       </div>
     </template>
     <v-card-text>
-      <cc-item-card :item="item" />
+      <cc-lcp-info :item="item"
+        style="position: absolute; right: 8px; top: 44px;" />
+      <cc-item-card :item="item"
+        hide-title />
     </v-card-text>
   </cc-modal>
 </template>

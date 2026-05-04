@@ -78,6 +78,17 @@
             align="start">
             <v-col>
               <v-expand-transition>
+                <cc-text-field v-if="edit"
+                  v-model="group.Name"
+                  label="Group Name"
+                  variant="outlined"
+                  color="primary"
+                  density="compact"
+                  hide-details
+                  class="mb-2" />
+              </v-expand-transition>
+              <v-expand-transition>
+
                 <fieldset v-if="group.Description || edit"
                   class="py-1 px-2 my-1"
                   style="border-radius: 4px">
@@ -142,13 +153,11 @@
           <v-card-text class="py-0"
             :class="[rosterView.includes('card') ? 'text-center' : '', mobile ? 'px-0' : 'px-2']">
             <template v-if="rosterView === 'list' && filteredPilots.length > 20">
-              <v-virtual-scroll
-                :items="filteredPilots"
+              <v-virtual-scroll :items="filteredPilots"
                 :item-height="88"
                 :height="Math.min(filteredPilots.length * 88, 600)">
                 <template #default="{ item }">
-                  <pilot-list-item
-                    :key="item.ID"
+                  <pilot-list-item :key="item.ID"
                     :pilot="item"
                     @go-to="toPilotSheet(item.ID)" />
                 </template>

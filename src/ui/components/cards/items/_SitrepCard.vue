@@ -1,8 +1,10 @@
 <template>
   <v-card-text class="text-text pt-1">
-    <p v-html-safe="item.Description" class="flavor-text" />
+    <p v-html-safe="item.Description"
+      class="flavor-text" />
     <v-row class="pb-2 pt-6">
-      <v-col v-for="(c, index) in item.Conditions" :key="`condition-${index}`">
+      <v-col v-for="(c, index) in item.Conditions"
+        :key="`condition-${index}`">
         <div class="heading h2 text-primary mb-2">{{ c.title }}</div>
         <p v-html-safe="c.condition" />
       </v-col>
@@ -31,19 +33,11 @@
 </template>
 
 <script lang="ts">
-import InfoCardBase from './_InfoCardBase.vue';
 
 export default {
-  name: 'cc-sitrep-card',
-  components: { InfoCardBase },
+  name: 'CcSitrepCard',
   props: {
     item: { type: Object, required: true },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    charts: { type: Boolean },
-    collapseActions: { type: Boolean },
-    tier: { type: Number },
   },
 };
 </script>

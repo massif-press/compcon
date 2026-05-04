@@ -15,31 +15,31 @@
       </v-tabs>
     </div>
 
-    <v-row dense
-      align="center"
+    <v-row align="center"
       justify="space-around">
       <v-col cols="auto">
         <cc-range-element :range="item.Profiles[tab].Range" />
       </v-col>
-      <v-col cols="auto"
-        :offset="portrait && item.Range.length && item.Damage.length ? 0 : 1">
+      <v-col cols="auto">
         <cc-damage-element :damage="item.Profiles[tab].Damage"
           :type-override="item.Profiles[tab].DamageTypeOverride" />
       </v-col>
       <v-col v-if="item.SP"
         cols="auto">
         <v-divider vertical
-          class="px-4 py-8" />
+          class="mx-4 py-8" />
       </v-col>
       <v-col v-if="item.SP"
         cols="auto"
         class="text-center">
-        <div class="heading h2 mb-n2">
+        <div class="heading"
+          style="font-size: 24pt">
           {{ item.SP }}
           <v-icon icon="cc:system_point"
-            class="mt-n2 ml-n2" />
+            size="30"
+            class="mt-n2 ml-n1" />
         </div>
-        <span class="text-overline">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</span>
+        <div class="text-cc-overline mt-n2">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</div>
       </v-col>
 
       <v-col cols="12"
@@ -47,11 +47,8 @@
         :class="portrait ? 'text-center' : 'ml-auto text-right'">
         <div class="heading h2">{{ item.Size }} {{ item.WeaponTypes.join('/') }}</div>
         <div v-if="item.Source"
-          class="flavor-text text-disabled">// {{ item.LicenseString }}</div>
-        <div v-if="item.InLcp"
-          class="flavor-text text-disabled">
-          {{ item.LcpName }}
-        </div>
+          class="flavor-text text-disabled">{{ item.LicenseString }}</div>
+
       </v-col>
     </v-row>
 

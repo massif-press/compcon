@@ -1,58 +1,59 @@
 <template>
   <v-row justify="center"
     dense>
-    <cc-statblock-panel icon="cc:structure"
+    <frame-statblock-item icon="cc:structure"
       name="Structure"
       :value="frame.Structure"
       cols="5" />
-    <cc-statblock-panel icon="mdi-heart-outline"
+    <frame-statblock-item icon="mdi-heart-outline"
       name="HP"
       :value="frame.HP"
       cols="3" />
-    <cc-statblock-panel icon="mdi-shield-outline"
+    <frame-statblock-item icon="mdi-shield-outline"
       name="Armor"
       :value="frame.Armor"
       cols="4" />
-    <cc-statblock-panel icon="cc:reactor"
+
+    <frame-statblock-item icon="cc:reactor"
       name="Stress"
       :value="frame.HeatStress"
-      cols="4" />
-    <cc-statblock-panel icon="cc:heat"
+      cols="6" />
+    <frame-statblock-item icon="cc:heat"
       name="Heat Capacity"
       :value="frame.HeatCap"
-      cols="8" />
-    <cc-statblock-panel icon="cc:evasion"
+      cols="6" />
+
+    <frame-statblock-item icon="cc:evasion"
       name="Evasion"
       :value="frame.Evasion"
       cols="6" />
-    <cc-statblock-panel icon="mdi-arrow-right-bold-hexagon-outline"
+    <frame-statblock-item icon="mdi-arrow-right-bold-hexagon-outline"
       name="Speed"
       :value="frame.Speed"
       cols="6" />
-    <cc-statblock-panel icon="cc:edef"
+
+    <frame-statblock-item icon="cc:edef"
       name="E-Defense"
       :value="frame.EDefense"
-      cols="5" />
-    <cc-statblock-panel icon="cc:full_tech"
+      cols="6" />
+    <frame-statblock-item icon="cc:full_tech"
       name="Tech Attack"
       :value="frame.TechAttack"
-      cols="7" />
+      cols="6" />
 
-    <cc-statblock-panel icon="cc:sensor"
+    <frame-statblock-item icon="cc:sensor"
       name="Sensors"
-      :value="frame.SensorRange"
-      cols="4" />
-
-    <cc-statblock-panel icon="cc:repair"
+      :value="frame.SensorRange" />
+    <frame-statblock-item icon="cc:repair"
       name="Repair Capacity"
       :value="frame.RepCap"
-      cols="8" />
-    <cc-statblock-panel icon="cc:save"
+      cols="6" />
+
+    <frame-statblock-item icon="cc:save"
       name="Save Target"
       :value="frame.SaveTarget"
       cols="6" />
-
-    <cc-statblock-panel icon="cc:system_point"
+    <frame-statblock-item icon="cc:system_point"
       name="System Points"
       :value="frame.SP"
       cols="6" />
@@ -60,8 +61,13 @@
 </template>
 
 <script lang="ts">
+import FrameStatblockItem from './_FrameStatblockItem.vue';
+
 export default {
   name: 'CcFrameStatblock',
+  components: {
+    FrameStatblockItem
+  },
   props: {
     frame: {
       type: Object,

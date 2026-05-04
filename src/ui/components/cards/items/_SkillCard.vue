@@ -3,11 +3,9 @@
 </template>
 
 <script lang="ts">
-import InfoCardBase from './_InfoCardBase.vue';
 
 export default {
-  name: 'cc-background-card',
-  components: { InfoCardBase },
+  name: 'CcSkillCard',
   props: {
     item: {
       type: Object,
