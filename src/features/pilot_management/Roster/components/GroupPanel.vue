@@ -482,6 +482,7 @@ export default {
       this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID } });
     },
     onPilotReorder(event: any) {
+      this.dropActive = false;
       if (event.from !== event.to) return;
       if (event.oldIndex === event.newIndex) return;
       if (this.rosterSearch) return;
