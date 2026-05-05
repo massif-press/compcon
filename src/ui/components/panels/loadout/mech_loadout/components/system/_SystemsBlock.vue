@@ -13,6 +13,8 @@
           :icon="reorderMode ? 'mdi-check' : 'mdi-sort'"
           size="x-small"
           variant="text"
+          flat
+          tile
           :color="reorderMode ? 'success' : 'grey'"
           class="ml-2"
           style="margin-top: -2px"
@@ -31,7 +33,6 @@
         </div>
       </div>
 
-      <!-- View mode: masonry grid -->
       <div v-if="!reorderMode"
         style="position: relative; overflow-anchor: none">
         <cc-masonry-grid :items="systemItems"
@@ -55,10 +56,8 @@
         </cc-masonry-grid>
       </div>
 
-      <!-- Reorder mode: linear layout with drag handles -->
       <div v-else
         style="position: relative; overflow-anchor: none">
-        <!-- Static top items (integrated + modded weapons) -->
         <div v-for="item in staticTopItems"
           :key="item.id"
           class="mb-2 opacity-60">
@@ -72,7 +71,6 @@
             :empty="item.props.empty" />
         </div>
 
-        <!-- Draggable active systems -->
         <sortable :list="activeSystems"
           item-key="ID"
           :options="{ animation: 200, handle: '.system-drag-handle', scroll: true, scrollSpeed: 300 }"
@@ -115,7 +113,6 @@
           </template>
         </sortable>
 
-        <!-- Static bottom items (empty slot) -->
         <div v-for="item in staticBottomItems"
           :key="item.id"
           class="mb-2">
@@ -169,9 +166,9 @@ const _ModEquippedCard = markRaw(ModEquippedCard);
 
 
 export default {
-  mixins: [useMobile],
-  name: 'systems-block',
+  name: 'SystemsBlock',
   components: { SystemSlotCard, ModEquippedCard, SystemSelector, Sortable },
+  mixins: [useMobile],
   props: {
     mech: {
       type: Object,
@@ -193,15 +190,6 @@ export default {
     reorderMode: false,
     _SystemSlotCard,
   }),
-  watch: {
-    mech: {
-      immediate: true,
-      deep: true,
-      handler() {
-        this.updateSystemItems();
-      },
-    },
-  },
   computed: {
     moddedWeapons() {
       return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod);
@@ -243,6 +231,15 @@ export default {
         }];
       }
       return [];
+    },
+  },
+  watch: {
+    mech: {
+      immediate: true,
+      deep: true,
+      handler() {
+        this.updateSystemItems();
+      },
     },
   },
   methods: {
@@ -329,10 +326,11 @@ export default {
 
       this.updateSystemItems(); // triggers list update
 
-      await this.$nextTick(); // wait for DOM to update
-      await new Promise((r) => setTimeout(r, 0)); // ensure Vue has flushed
+      // wait for DOM
+      await this.$nextTick();
+      await new Promise((r) => setTimeout(r, 0));
 
-      this.selector = false; // close modal AFTER layout settles
+      this.selector = false;
     },
   },
 };

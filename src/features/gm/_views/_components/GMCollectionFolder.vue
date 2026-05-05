@@ -6,8 +6,7 @@
       style="height: 40px"
       class="mt-n3"
       tile
-      @dragover.prevent="dropActive = true"
-      @dragleave="dropActive = false"
+      @dragover.prevent
       @drop="onDrop">
       <v-btn size="x-small"
         icon>
@@ -19,7 +18,7 @@
       </v-btn>
       <v-toolbar-title class="heading h3">
         <cc-short-string-editor justify="start"
-          @set="$emit('set-folder-name', $event)">
+          @set="setFolderName">
           {{ folder }}
         </cc-short-string-editor>
       </v-toolbar-title>
@@ -51,27 +50,39 @@
       </v-menu>
     </v-toolbar>
     <v-expand-transition>
-      <v-card-text v-if="open">
-        <item-card-grid :item-type="itemType"
-          :items="folderItems"
-          :search="search"
-          list
-          :grouping="grouping"
-          :sorting="sorting"
-          :all-folders="allFolders"
-          :folder-drag="folderDrag"
-          @open="$emit('open', $event)" />
+      <v-card-text v-if="open"
+        @dragenter.prevent="onSortableAreaDragEnter"
+        @dragleave="onSortableAreaDragLeave">
+        <sortable :key="`${folder}-${transferKey}`"
+          :list="sortedFolderItems"
+          item-key="ID"
+          :options="{ animation: 200, easing: 'cubic-bezier(1, 0, 0, 1)', handle: '.folder-drag-handle', group: { name: 'gm-folder-items', pull: true, put: true } }"
+          @start="onItemDragStart"
+          @end="onItemReorder"
+          @add="onItemAdded">
+          <template #item="{ element }">
+            <div style="position: relative"
+              :data-item-id="(element as any).ID">
+              <item-card :item="(element as any)"
+                list
+                :grouping="grouping"
+                :sorting="sorting"
+                @open="$emit('open', $event)" />
+            </div>
+          </template>
+        </sortable>
       </v-card-text>
     </v-expand-transition>
   </v-card>
 </template>
 
 <script lang="ts">
-import ItemCardGrid from '../ItemCardGrid.vue';
+import { Sortable } from 'sortablejs-vue3';
+import ItemCard from '../_components/GMItemCard.vue';
 
 export default {
   name: 'GmCollectionFolder',
-  components: { ItemCardGrid },
+  components: { Sortable, ItemCard },
   props: {
     folder: { type: String, required: true },
     allFolders: { type: Array, required: true },
@@ -83,8 +94,9 @@ export default {
     grouping: { type: String, required: true },
     sorting: { type: String, required: true },
     folderDrag: { type: Boolean, default: false },
+    transferKey: { type: Number, default: 0 },
   },
-  emits: ['open', 'add-new', 'set-folder-name', 'remove-folder'],
+  emits: ['open', 'add-new', 'set-folder-name', 'remove-folder', 'item-transferred'],
   data: () => ({
     open: true,
     deleteMenu: false,
@@ -94,11 +106,70 @@ export default {
     folderItems() {
       return this.filteredItems.filter((x: any) => x.FolderController.Folder === this.folder);
     },
+    sortedFolderItems() {
+      return [...(this.folderItems as any[])].sort(
+        (a, b) => a.FolderController.SortIndex - b.FolderController.SortIndex
+      );
+    },
   },
   created() {
     this.open = this.folderItems.length > 0;
   },
   methods: {
+    setFolderName(name: string) {
+      if (name === this.folder) return;
+      if (!name || name.trim() === '') {
+        return
+      }
+      this.$emit('set-folder-name', name);
+    },
+    onItemDragStart(event: any) {
+      const itemId = event.item.dataset.itemId;
+      if (event.originalEvent?.dataTransfer && itemId) {
+        event.originalEvent.dataTransfer.setData('text/encounter-id', itemId);
+      }
+    },
+    onItemReorder(event: any) {
+      if (event.from !== event.to) return;
+      if (event.oldIndex === event.newIndex) return;
+      const items = [...this.sortedFolderItems] as any[];
+      const [moved] = items.splice(event.oldIndex, 1);
+      items.splice(event.newIndex, 0, moved);
+      items.forEach((item, idx) => {
+        item.FolderController.SortIndex = idx;
+      });
+    },
+    onSortableAreaDragEnter(event: DragEvent) {
+      const chosen = document.querySelector('.sortable-chosen[data-item-id]') as HTMLElement | null;
+      if (!chosen) return;
+      const itemId = chosen.dataset.itemId;
+      if ((this.sortedFolderItems as any[]).some((x: any) => x.ID === itemId)) return;
+      this.dropActive = true;
+    },
+    onSortableAreaDragLeave(event: DragEvent) {
+      const el = event.currentTarget as HTMLElement;
+      if (el.contains(event.relatedTarget as Node)) return;
+      this.dropActive = false;
+    },
+    async onItemAdded(event: any) {
+      this.dropActive = false;
+      const itemId = event.item.dataset.itemId;
+      const item = (this.items as any[]).find((x: any) => x.ID === itemId);
+      if (!item) return;
+      item.FolderController.Folder = this.folder;
+      this.open = true;
+      await this.$nextTick();
+      const items = [...this.sortedFolderItems] as any[];
+      const movedIdx = items.findIndex((x: any) => x.ID === itemId);
+      if (movedIdx !== -1 && movedIdx !== event.newIndex) {
+        const [moved] = items.splice(movedIdx, 1);
+        items.splice(Math.min(event.newIndex, items.length), 0, moved);
+      }
+      items.forEach((item: any, idx: number) => {
+        item.FolderController.SortIndex = idx;
+      });
+      this.$emit('item-transferred');
+    },
     onDrop(event: DragEvent) {
       this.dropActive = false;
       const id = event.dataTransfer?.getData('text/encounter-id');

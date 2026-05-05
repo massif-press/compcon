@@ -3,6 +3,7 @@
     <template #default="{ isHovering, props }">
       <v-row v-bind="props"
         dense
+        class="mb-2"
         style="transition: border 0.2s ease"
         :style="`position: relative; cursor: pointer; border-radius: 2px; border:
         ${isSelected
@@ -12,6 +13,14 @@
               : '1px solid transparent'
           }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`"
         @click="$emit('open', item)">
+        <v-col cols="auto"
+          class="d-flex align-center px-1">
+          <v-icon class="folder-drag-handle"
+            icon="mdi-drag"
+            size="18"
+            style="cursor: move; opacity: 0.4"
+            @click.stop />
+        </v-col>
         <v-col cols="auto">
           <v-card variant="tonal"
             class="rounded-0">

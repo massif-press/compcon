@@ -32,9 +32,9 @@
             density="compact"
             slim>
             <div class="text-cc-overline">Encounter Tables</div>
-            <v-list-item :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
-              v-for="t in tables"
+            <v-list-item v-for="t in tables"
               :key="t.ID"
+              :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
               :title="t.Title"
               :subtitle="t.LcpName"
               :append-icon="t.InLcp ? 'cc:compendium' : ''"
@@ -42,9 +42,9 @@
             <div v-if="otherTables.length">
               <v-divider class="my-2" />
               <div class="text-cc-overline">Other Tables</div>
-              <v-list-item :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
-                v-for="t in otherTables"
+              <v-list-item v-for="t in otherTables"
                 :key="t.ID"
+                :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
                 :title="t.Title"
                 @click="selectedTable = t" />
             </div>
@@ -67,6 +67,7 @@
 
             <div v-if="selectedTable">
               <cc-rollable-table :table="selectedTable"
+                show-description
                 readonly />
               <cc-button size="small"
                 block
@@ -123,13 +124,6 @@ export default {
     selectedTable: null,
     results: [],
   }),
-  created() {
-    this.selectedTable = this.tables[0] || this.otherTables[0] || null;
-    this.results = this.allTables.reduce((acc, t) => {
-      acc[t.ID] = { roll: null, result: null };
-      return acc;
-    }, {});
-  },
   computed: {
     portrait() {
       return !this.$vuetify.display.mdAndUp
@@ -150,6 +144,13 @@ export default {
     actor() {
       return this.selected ? this.selected.actor : null;
     },
+  },
+  created() {
+    this.selectedTable = this.tables[0] || this.otherTables[0] || null;
+    this.results = this.allTables.reduce((acc, t) => {
+      acc[t.ID] = { roll: null, result: null };
+      return acc;
+    }, {});
   },
   methods: {
     roll(t) {

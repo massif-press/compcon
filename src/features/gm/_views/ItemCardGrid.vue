@@ -35,9 +35,6 @@
           style="position: relative"
           :draggable="folderDrag"
           @dragstart="folderDrag ? onDragStart($event, item) : undefined">
-          <folder-menu v-if="allFolders && allFolders.length > 0"
-            :item="item.FolderController"
-            :all-folders="allFolders" />
           <item-card :item="<any>item"
             :big="big"
             :odd="i % 2 > 0"
@@ -54,14 +51,13 @@
 <script lang="ts">
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import ItemCard from './_components/GMItemCard.vue';
-import FolderMenu from './_components/FolderMenu.vue';
 import GmItemTable from './GMItemTable.vue';
 import * as _ from 'lodash-es';
 import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {
-  name: 'item-card-grid',
-  components: { ItemCard, GmItemTable, FolderMenu },
+  name: 'ItemCardGrid',
+  components: { ItemCard, GmItemTable },
   props: {
     itemType: { type: String, required: true },
     items: { type: Array, required: true },

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="allFolders.length">
+  <div>
     <fieldset class="pb-2 px-3"
       style="position: relative">
       <legend class="text-caption text-left ml-2 px-2">COLLECTION FOLDER

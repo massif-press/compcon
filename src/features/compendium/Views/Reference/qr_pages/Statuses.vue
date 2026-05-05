@@ -1,7 +1,7 @@
 <template>
   <v-container class="pb-12">
-    <h1 class="heading"
-      id="statuses">Statuses</h1>
+    <h1 id="statuses"
+      class="heading">Statuses</h1>
     <cc-masonry-grid :items="statuses"
       :column-width="400"
       :gap="16"
@@ -12,8 +12,8 @@
       </template>
     </cc-masonry-grid>
 
-    <h1 class="heading"
-      id="conditions">Conditions</h1>
+    <h1 id="conditions"
+      class="heading">Conditions</h1>
     <cc-masonry-grid :items="conditions"
       :column-width="400"
       :gap="16"
@@ -32,8 +32,8 @@
       grow>
       <v-tab v-for="item in content"
         :key="item"
-        v-text="item"
-        @click="scrollTo(item)" />
+        @click="scrollTo(item)"
+        v-text="item" />
     </v-tabs>
   </v-footer>
 
@@ -56,7 +56,7 @@ import { Status } from '@/classes/Status';
 import StatusCard from '../_components/StatusCard.vue';
 
 export default {
-  name: 'action-economy',
+  name: 'ActionEconomy',
   components: { StatusCard },
   props: {
     isModal: {

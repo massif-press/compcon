@@ -81,12 +81,7 @@
                               class="mx-1 mt-n1"
                               :icon="stat.icon" />
                             <b class="text-accent">{{ actor.StatController.CurrentStats[stat.key]
-                            }}</b>
-                            <!-- <span
-                          v-if="actor.StatController.MaxStats[stat.key]"
-                          class="text-disabled text-caption">
-                          /{{ actor.StatController.MaxStats[stat.key] }}
-                        </span> -->
+                              }}</b>
                           </template>
                           <div class="text-cc-overline text-center">
                             {{ stat.title }}

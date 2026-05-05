@@ -76,10 +76,12 @@
         :grouping="grouping"
         :sorting="sorting"
         :all-folders="folders"
+        :transfer-key="folderTransferKey"
         folder-drag
         @set-folder-name="setFolderName(folder, $event)"
         @remove-folder="removeFolder($event)"
-        @open="openItem($event)" />
+        @open="openItem($event)"
+        @item-transferred="folderTransferKey++" />
 
       <v-card v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0"
         flat
@@ -103,15 +105,24 @@
         </v-toolbar>
         <v-expand-transition>
           <v-card-text v-if="showNoFolder">
-            <item-card-grid item-type="Encounter"
-              :items="filteredItems.filter((x: any) => !x.FolderController?.Folder)"
-              :search="search"
-              :list="view === 'list'"
-              :grouping="grouping"
-              :sorting="sorting"
-              :all-folders="folders"
-              folder-drag
-              @open="openItem($event)" />
+            <sortable :key="`no-folder-${folderTransferKey}`"
+              :list="sortedNoFolderItems"
+              item-key="ID"
+              :options="{ animation: 200, easing: 'cubic-bezier(1, 0, 0, 1)', handle: '.folder-drag-handle', group: { name: 'gm-folder-items', pull: true, put: true } }"
+              @start="onNoFolderItemDragStart"
+              @end="onNoFolderItemReorder"
+              @add="onNoFolderItemAdded">
+              <template #item="{ element }">
+                <div style="position: relative"
+                  :data-item-id="(element as any).ID">
+                  <item-card :item="element"
+                    list
+                    :grouping="grouping"
+                    :sorting="sorting"
+                    @open="openItem($event)" />
+                </div>
+              </template>
+            </sortable>
           </v-card-text>
         </v-expand-transition>
       </v-card>
@@ -167,9 +178,11 @@
 </template>
 
 <script lang="ts">
-import ItemCardGrid from '../_views/ItemCardGrid.vue';
+import { Sortable } from 'sortablejs-vue3';
 import GmCollectionFilter from '../_views/_components/GMCollectionFilter.vue';
 import GmCollectionFolder from '../_views/_components/GMCollectionFolder.vue';
+import ItemCard from '../_views/_components/GMItemCard.vue';
+import FolderMenu from '../_views/_components/FolderMenu.vue';
 import { EncounterStore, UserStore } from '@/stores';
 import { Encounter } from '@/classes/encounter/Encounter';
 import EncounterEditor from './_components/EncounterEditor.vue';
@@ -180,10 +193,12 @@ import ShareCodeDialog from '@/features/main_menu/_components/account/_component
 export default {
   name: 'GmEncounterView',
   components: {
-    ItemCardGrid,
+    Sortable,
     Organizer,
     GmCollectionFilter,
     GmCollectionFolder,
+    ItemCard,
+    FolderMenu,
     EncounterEditor,
     Importer,
     ShareCodeDialog,
@@ -204,6 +219,7 @@ export default {
     openFolders: [] as string[],
     showNoFolder: true,
     hideFolders: false,
+    folderTransferKey: 0,
     selected: null as any,
     editDialog: false,
   }),
@@ -256,6 +272,12 @@ export default {
       const baseSortings = ['Name', 'Created', 'Updated', 'Sitrep', 'Environment'];
 
       return [...baseSortings, ...allLabelTitles];
+    },
+    sortedNoFolderItems() {
+      return this.filteredItems
+        .filter((x: any) => !x.FolderController?.Folder)
+        .slice()
+        .sort((a: any, b: any) => a.FolderController.SortIndex - b.FolderController.SortIndex);
     },
   },
   watch: {
@@ -322,6 +344,39 @@ export default {
     openItem(item) {
       this.selected = item;
       this.editDialog = true;
+    },
+    onNoFolderItemDragStart(event: any) {
+      const itemId = event.item.dataset.itemId;
+      if (event.originalEvent?.dataTransfer && itemId) {
+        event.originalEvent.dataTransfer.setData('text/encounter-id', itemId);
+      }
+    },
+    onNoFolderItemReorder(event: any) {
+      if (event.from !== event.to) return;
+      if (event.oldIndex === event.newIndex) return;
+      const items = [...this.sortedNoFolderItems] as any[];
+      const [moved] = items.splice(event.oldIndex, 1);
+      items.splice(event.newIndex, 0, moved);
+      items.forEach((item, idx) => {
+        item.FolderController.SortIndex = idx;
+      });
+    },
+    async onNoFolderItemAdded(event: any) {
+      const itemId = event.item.dataset.itemId;
+      const item = (this.items as any[]).find((x: any) => x.ID === itemId);
+      if (!item) return;
+      item.FolderController.Folder = '';
+      await this.$nextTick();
+      const items = [...this.sortedNoFolderItems] as any[];
+      const movedIdx = items.findIndex((x: any) => x.ID === itemId);
+      if (movedIdx !== -1 && movedIdx !== event.newIndex) {
+        const [moved] = items.splice(movedIdx, 1);
+        items.splice(Math.min(event.newIndex, items.length), 0, moved);
+      }
+      items.forEach((item: any, idx: number) => {
+        item.FolderController.SortIndex = idx;
+      });
+      this.folderTransferKey++;
     },
     addNew() {
       const e = new Encounter();

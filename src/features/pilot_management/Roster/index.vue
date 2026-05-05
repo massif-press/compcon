@@ -1,6 +1,16 @@
 <template>
   <v-container class="pb-12"
     :class="mobile && 'mt-2'">
+    <div v-if="mobile && dragModeActive"
+      style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000"
+      class="bg-success d-flex justify-center align-center pa-2">
+      <cc-button size="small"
+        color="success"
+        prepend-icon="mdi-check"
+        @click="exitDragMode">
+        Done Reordering
+      </cc-button>
+    </div>
     <v-row align="center">
       <v-col cols="12"
         md="auto">
@@ -35,27 +45,31 @@
       </v-col>
     </v-row>
     <div class="my-3">
-      <sortable
+      <sortable :key="groupSortableKey"
         :list="pilotGroups"
         item-key="ID"
         :options="{
           animation: 250,
           easing: 'cubic-bezier(1, 0, 0, 1)',
           handle: '.group-drag-handle',
+          group: { name: 'groups', pull: false, put: false },
           scroll: true,
           scrollSpeed: 300,
         }"
-        @end="onGroupReorder"
-      >
+        @end="onGroupReorder">
         <template #item="{ element }">
-          <group-panel
-            :group="element"
+          <group-panel :group="element"
             :roster-search="rosterSearch"
             :transfer-key="rosterTransferKey"
-            @pilot-transferred="rosterTransferKey++"
-          />
+            :drag-mode-active="dragModeActive"
+            @pilot-transferred="rosterTransferKey++" />
         </template>
       </sortable>
+      <group-panel v-if="noGroup"
+        :group="noGroup"
+        :roster-search="rosterSearch"
+        :transfer-key="rosterTransferKey"
+        @pilot-transferred="rosterTransferKey++" />
     </div>
     <v-divider />
     <v-footer app
@@ -174,6 +188,7 @@ import GroupMenu from './components/GroupMenu.vue';
 
 import { UserStore, PilotStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
+import { useRosterDragMode } from '@/mixins/useRosterDragMode';
 import GroupFileImport from './components/add_panels/GroupFileImport.vue';
 import GroupShareDialog from './components/GroupShareDialog.vue';
 
@@ -182,6 +197,9 @@ export default {
   name: 'RosterView',
   components: { Sortable, Organizer, GroupPanel, GroupMenu, GroupFileImport, GroupShareDialog },
   mixins: [useMobile],
+  setup() {
+    return useRosterDragMode(600);
+  },
   data: () => ({
     sortParams: null,
     newGroupMenu: false,
@@ -192,7 +210,13 @@ export default {
   }),
   computed: {
     pilotGroups() {
-      return PilotStore().getPilotGroups();
+      return PilotStore().getPilotGroups().filter((g: any) => g.ID !== 'no_group');
+    },
+    groupSortableKey(): string {
+      return `groups-${this.dragModeActive}`;
+    },
+    noGroup() {
+      return PilotStore().getPilotGroups().find((g: any) => g.ID === 'no_group') ?? null;
     },
     profile() {
       return UserStore().User;

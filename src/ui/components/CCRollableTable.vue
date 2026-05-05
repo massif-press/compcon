@@ -1,7 +1,11 @@
 <template>
-  <v-card variant="tonal">
+  <v-card variant="tonal"
+    flat
+    tile>
     <v-toolbar v-if="!hideTitle"
       density="compact"
+      height="50"
+      color="primary"
       class="pl-3">
       <div style="min-width: 200px">
         <cc-short-string-editor v-if="!readonly"
@@ -35,11 +39,11 @@
         </v-checkbox-btn>
       </div>
       <v-spacer />
-      <v-row no-gutters
-        v-if="!readonly"
+      <v-row v-if="!readonly"
+        no-gutters
         align="center">
-        <v-col cols="auto"
-          v-if="!dense"
+        <v-col v-if="!dense"
+          cols="auto"
           class="heading pl-3 pr-3">Roll</v-col>
         <v-col cols="auto">
           <v-menu>
@@ -140,8 +144,8 @@
             </v-card>
           </v-menu>
         </v-col>
-        <v-col cols="auto"
-          v-if="!noDelete">
+        <v-col v-if="!noDelete"
+          cols="auto">
           <v-menu offset-x
             left>
             <template #activator="{ props }">
@@ -170,15 +174,20 @@
       </v-row>
     </v-toolbar>
 
+    <v-card-text v-if="showDescription"
+      v-html-safe="table.Description"
+      class="text-text py-3" />
+
     <v-table class="pr-3 py-1 rounded-0">
-      <tr v-for="(r, i) in table.Results" :key="i"
+      <tr v-for="(r, i) in table.Results"
+        :key="i"
         :class="`${print ? 'py-2' : ''} ${(i as number) % 2 !== 0 ? 'light-panel' : ''}`">
         <td v-if="!mobile"
-          class="text-center heading h4 px-3"
-          style="width: 75px">
+          class="text-center heading h3 px-3"
+          style="width: 75px; line-height: 18px;">
           <span v-if="r.max === -1">
             Multiple 1
-            <span class="text-caption">s</span>
+            <span style="font-size: small; ">s</span>
           </span>
           <span v-else-if="r.min === r.max">{{ r.max }}</span>
           <span v-else>{{ r.min }} - {{ r.max }}</span>
@@ -194,7 +203,7 @@
             class="my-1" />
           <v-card v-else
             class="mb-1"
-            :class="dense ? 'pa-1' : 'pa-2'">
+            :class="dense ? 'pa-2' : 'pa-3'">
             <v-card v-if="mobile"
               class="text-center text-text"
               flat
@@ -217,7 +226,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-rollable-table',
+  name: 'CcRollableTable',
   props: {
     table: { type: Object, required: true },
     color: { type: String, required: false, default: 'primary' },
@@ -226,6 +235,7 @@ export default {
     readonly: { type: Boolean },
     density: { type: String, default: '' },
     hideTitle: { type: Boolean, default: false },
+    showDescription: { type: Boolean, default: false },
   },
   data: () => ({
     editDialog: false,
