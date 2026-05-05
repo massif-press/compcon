@@ -9,16 +9,26 @@
       <legend :style="`color: ${color}`"
         class="heading h3 d-flex align-center">
         Systems
-        <v-btn v-if="!readonly && activeSystems.length > 1"
-          :icon="reorderMode ? 'mdi-check' : 'mdi-sort'"
-          size="x-small"
-          variant="text"
-          flat
-          tile
-          :color="reorderMode ? 'success' : 'grey'"
-          class="ml-2"
-          style="margin-top: -2px"
-          @click="reorderMode = !reorderMode" />
+        <v-tooltip v-if="!readonly && activeSystems.length > 1"
+          location="top">
+          <template #activator="{ props }">
+            <v-btn size="26"
+              variant="outlined"
+              icon
+              flat
+              tile
+              :color="reorderMode ? 'success' : 'accent'"
+              class="ml-2"
+              style="margin-top: -2px"
+              v-bind="props"
+              @click="reorderMode = !reorderMode">
+              <v-icon size="small">
+                {{ reorderMode ? 'mdi-check' : 'mdi-swap-vertical' }}
+              </v-icon>
+            </v-btn>
+          </template>
+          <span> {{ reorderMode ? 'Save Configuration' : 'Reorder Systems' }}</span>
+        </v-tooltip>
       </legend>
       <div style="position: relative">
         <div class="side-legend">
@@ -75,31 +85,17 @@
           item-key="ID"
           :options="{ animation: 200, handle: '.system-drag-handle', scroll: true, scrollSpeed: 300 }"
           @end="onSystemReorder">
-          <template #item="{ element, index }">
+          <template #item="{ element }">
             <div class="system-reorder-row mb-2"
               style="display: flex; align-items: flex-start; gap: 4px">
               <div class="d-flex flex-column align-center system-drag-controls"
                 style="padding-top: 8px">
                 <v-icon class="system-drag-handle"
                   icon="mdi-drag"
-                  size="20"
                   aria-label="Drag to reorder"
                   tabindex="0"
+                  color="stark"
                   style="cursor: move; opacity: 0.5" />
-                <v-btn icon
-                  size="x-small"
-                  variant="text"
-                  :disabled="index === 0"
-                  @click="moveSystem(index, index - 1)">
-                  <v-icon size="small">mdi-arrow-up</v-icon>
-                </v-btn>
-                <v-btn icon
-                  size="x-small"
-                  variant="text"
-                  :disabled="index === activeSystems.length - 1"
-                  @click="moveSystem(index, index + 1)">
-                  <v-icon size="small">mdi-arrow-down</v-icon>
-                </v-btn>
               </div>
               <div style="flex: 1; min-width: 0">
                 <component :is="_SystemSlotCard"

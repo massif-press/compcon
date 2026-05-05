@@ -1,4 +1,8 @@
 import { Pilot, Mech, PilotWeapon, MechWeapon } from '../class'
+import { Action } from './Action'
+import { NpcFeature } from './npc/feature/NpcFeature'
+import { NpcWeapon } from './npc/feature/NpcItem/NpcWeapon'
+import { Npc } from './npc/Npc'
 import { Unit } from './npc/unit/Unit'
 
 function linebreak(i: number, length: number): string {
@@ -343,12 +347,11 @@ class Statblock {
     return output
   }
 
-  public static ScanNpc(npc: Unit): string {
+  public static ScanNpc(npc: Unit, includeFeatures = false): string {
     let output = `[ ${npc.Name} ]\n`
+    if (npc.NpcClassController.HasClass) output += `${npc.NpcClassController.Class!.Name}`
     if (npc.NpcTemplateController.Templates)
-      output += `${npc.NpcTemplateController.Templates.map(t => t.Name).join(' ')}`
-    if (npc.NpcClassController.HasClass)
-      output += `${npc.NpcClassController.Class!.Name.toUpperCase()}`
+      output += ` ${npc.NpcTemplateController.Templates.map(t => t.Name).join(' ')}`
     output +=
       typeof npc.NpcClassController.Tier === 'number'
         ? `, Tier ${npc.NpcClassController.Tier} `
@@ -371,10 +374,18 @@ class Statblock {
       'SensorRange'
     )} | TECH_ATK: ${npc.StatController.getMax('Tech Attack')} | SIZE: ${npc.StatController.getMax('Size')} \n\n`
 
-    output += '[ FEATURES ]\n  '
-    output += npc.NpcFeatureController.Features.map(
-      (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`
-    ).join('')
+    output += '[ FEATURES ]\n'
+    if (includeFeatures) {
+      output += npc.NpcFeatureController.Features.map(
+        (item, index) =>
+          `${item.Name}\n  ${(item.Description || item.EffectByTier(npc.Tier) || '')?.replace(/<[^>]*>/gi, '') || ''}${item.Actions ? mapNpcActions(item.Actions, npc.Tier) : ''}${mapNpcWeaponStats(item as NpcWeapon, npc.Tier)}`
+      ).join('\n')
+    } else {
+      output += ' '
+      output += npc.NpcFeatureController.Features.map(
+        (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`
+      ).join('\n')
+    }
 
     return output
   }
@@ -409,6 +420,41 @@ class Statblock {
     }
     return output
   }
+}
+
+function mapNpcActions(actions: Action[], tier: number): string {
+  let output = ''
+  actions.forEach(action => {
+    output += `\n    [ ${action.Name} - ${action.Activation} ]\n`
+    if (action.Trigger) output += `    Trigger: ${action.getTrigger(tier)}\n`
+    output += `    ${action.getDetail(tier).replace(/<[^>]*>/gi, '')}\n`
+  })
+  return output
+}
+
+function mapNpcWeaponStats(feature: NpcWeapon, tier: number): string {
+  let output = ''
+  if (feature.DamageData) {
+    feature.Damage(tier).forEach(d => {
+      output += `${d.Value} ${d.Type}, `
+    })
+  }
+  if (feature.RangeData) {
+    feature.Range(tier).forEach(r => {
+      output += `${r.Value} ${r.Type}, `
+    })
+  }
+  if (feature.Accuracy && feature.Accuracy(tier)) {
+    output += `${feature.Accuracy(tier)} Accuracy `
+  }
+  if (feature.AttackBonus && feature.AttackBonus(tier)) {
+    output += `${feature.AttackBonus(tier)} Attack Bonus `
+  }
+  if (feature.Attacks && feature.Attacks[tier]) {
+    output += `${feature.Attacks[tier]} Attacks/Activation `
+  }
+
+  return output
 }
 
 export default Statblock

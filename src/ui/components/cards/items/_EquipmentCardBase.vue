@@ -124,13 +124,6 @@
       class="flavor-text" />
   </div>
 
-  <div v-if="item.FlavorDescription?.length">
-    <div v-show="!dense"
-      class="text-cc-overline text-disabled">//FIELD DATA</div>
-    <div v-html-safe="item.FlavorDescription"
-      class="flavor-text" />
-  </div>
-
   <div v-if="notes">
     <v-textarea v-model="item.Note"
       variant="outlined"

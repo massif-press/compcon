@@ -130,8 +130,10 @@ class NpcFeatureController implements IFeatureContainer {
   public static Serialize(parent: Unit, target: any) {
     const features = [] as { id: string; data: INpcFeatureData }[]
     parent.NpcFeatureController.Features.forEach(x => {
-      const combatModifiedData = x.ItemData
+      const combatModifiedData = x.ItemData as any
       combatModifiedData.isUsed = x.Used
+      combatModifiedData.flavorName = x.FlavorName || undefined
+      combatModifiedData.flavorDescription = x.FlavorDescription || undefined
 
       features.push({
         id: x.ID,
@@ -154,9 +156,14 @@ class NpcFeatureController implements IFeatureContainer {
         const ref = CompendiumStore().referenceByID('NpcFeatures', id) as NpcFeature
         const clone = NpcFeatureFactory.Build<NpcFeature>(ref.ItemData as INpcFeatureData)
         clone.Used = x.data?.isUsed || false
+        if ((x.data as any)?.flavorName) clone.Name = (x.data as any).flavorName
+        if ((x.data as any)?.flavorDescription) clone.FlavorDescription = (x.data as any).flavorDescription
         parent.NpcFeatureController._selectedFeatures.push(clone)
-      } else if (!!x.data && Object.keys(x.data).length)
-        parent.NpcFeatureController._selectedFeatures.push(NpcFeatureFactory.Build(x.data))
+      } else if (!!x.data && Object.keys(x.data).length) {
+        const built = NpcFeatureFactory.Build<NpcFeature>(x.data)
+        if ((x.data as any)?.flavorName) built.Name = (x.data as any).flavorName
+        parent.NpcFeatureController._selectedFeatures.push(built)
+      }
     })
   }
 }

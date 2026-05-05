@@ -18,10 +18,10 @@
     <v-row align="center"
       justify="space-around">
       <v-col cols="auto">
-        <cc-range-element :range="item.Profiles[tab].Range" />
+        <cc-range-element :range="item.Profiles[tab].Range || []" />
       </v-col>
       <v-col cols="auto">
-        <cc-damage-element :damage="item.Profiles[tab].Damage"
+        <cc-damage-element :damage="item.Profiles[tab].Damage || []"
           :type-override="item.Profiles[tab].DamageTypeOverride" />
       </v-col>
       <v-col v-if="item.SP"

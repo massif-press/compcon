@@ -14,6 +14,7 @@ type BrewInfo = {
   LcpVersion: string
   Website: string
   Status: 'OK' | 'OLD' | 'MISSING' | 'OFF' | 'ERR'
+  V3: boolean
 }
 
 class BrewController {

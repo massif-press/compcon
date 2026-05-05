@@ -181,7 +181,11 @@ class Action {
         ? data.synergy_locations
         : [data.synergy_locations]
     else this.SynergyLocations = []
-    this.Activation = data.activation || ActivationType.Quick
+    this.Activation = data.activation
+      ? (Object.values(ActivationType).find(
+          v => v.toLowerCase() === (data.activation as string).toLowerCase().replace(/_/g, ' ')
+        ) as ActivationType) ?? data.activation
+      : ActivationType.Quick
     this.Attack = data.attack
 
     if (this.Activation === ActivationType.Invade && !this.Attack) {
@@ -298,6 +302,8 @@ class Action {
         return 'cc:quick_tech'
       case ActivationType.None:
         return 'mdi-rhombus-outline'
+      case ActivationType.Other:
+        return 'cc:activate'
       default:
         return `cc:${activation.toLowerCase().replace(' ', '_')}`
     }

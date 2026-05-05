@@ -86,7 +86,12 @@ export default {
       required: false,
     },
   },
-  emits: ['activate'],
+  emits: ['activate', 'close'],
+  watch: {
+    dialog(val) {
+      if (!val) this.$emit('close');
+    },
+  },
   methods: {
     open() {
       this.dialog = true;

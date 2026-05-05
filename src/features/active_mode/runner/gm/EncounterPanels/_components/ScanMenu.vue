@@ -28,6 +28,9 @@
           </v-btn>
         </v-toolbar>
         <v-card-text>
+          <cc-switch v-model="includeFeatureDetails"
+            label="include Feature Details"
+            color="primary" />
           <v-textarea :value="statblock"
             auto-grow
             readonly
@@ -48,10 +51,10 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import * as _ from 'lodash-es';
-import { CompendiumStore } from '@/stores';
 import { Statblock } from '@/class';
+import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {
   name: 'DamageMenu',
@@ -61,9 +64,12 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    includeFeatureDetails: false,
+  }),
   computed: {
     statblock() {
-      return Statblock.ScanNpc(this.item, this.narrativeElements);
+      return Statblock.ScanNpc(this.item as Unit, this.includeFeatureDetails);
     },
   },
 

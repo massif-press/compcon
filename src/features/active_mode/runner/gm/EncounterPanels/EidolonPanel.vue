@@ -148,7 +148,6 @@ export default {
     UnitFeatureCard,
   },
   mixins: [useMobile],
-  emits: ['deselect'],
   props: {
     combatant: {
       type: Object,
@@ -159,6 +158,7 @@ export default {
       required: true,
     },
   },
+  emits: ['deselect'],
   computed: {
     xlColumns() {
       if (this.mobile) return 1

@@ -17,6 +17,7 @@
       class="ma-0 pa-0">
       <div class="mt-n1 px-2 pt-2 pb-1">
         <div class="text-cc-overline">
+          <slot name="title-prepend" />
           <v-icon v-if="icon"
             :icon="icon"
             start

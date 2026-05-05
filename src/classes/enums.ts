@@ -21,6 +21,7 @@ enum ActivationType {
   QuickTech = 'Quick Tech',
   Reaction = 'Reaction',
   Move = 'Move',
+  Other = 'Other',
 }
 
 enum MountType {

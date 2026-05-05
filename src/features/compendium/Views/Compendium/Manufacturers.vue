@@ -94,5 +94,6 @@ export default {
   border-radius: 0px;
   padding-left: 12px;
   font-size: 1.15rem;
+  font-style: italic;
 }
 </style>

@@ -215,7 +215,10 @@ export default {
     },
   },
   mounted() {
-    this.collapsed = !this.showCommandPanel
+    if (this.item.IsV2 || this.item.FlavorName || this.item.FlavorDescription)
+      this.collapsed = false
+    else
+      this.collapsed = !this.showCommandPanel
   },
   methods: {
     sign(num: number) {

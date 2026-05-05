@@ -175,10 +175,11 @@ export default {
     getTimeoutStatuses(custom = false): any[] {
       return this.controller[custom ? 'CustomStatuses' : 'Statuses'].filter(
         (s) =>
-          s.expires.Period === 'turn' ||
+          s.expires &&
+          (s.expires.Period === 'turn' ||
           (s.expires.Period === 'round' &&
             s.expires.RoundEndNumber &&
-            s.expires.RoundEndNumber === this.sheet.Round + 1)
+            s.expires.RoundEndNumber === this.sheet.Round + 1))
       );
     },
     async endRound(isActive) {

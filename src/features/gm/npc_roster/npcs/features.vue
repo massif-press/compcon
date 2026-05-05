@@ -4,14 +4,26 @@
     <v-col>
       <div class="d-flex align-center">
         FEATURES
-        <v-btn v-if="!readonly && npc.NpcClassController?.HasClass && allFeatures.length > 1"
-          :icon="reorderMode ? 'mdi-check' : 'mdi-sort'"
-          size="x-small"
-          variant="text"
-          :color="reorderMode ? 'success' : 'grey'"
-          class="ml-2"
-          style="margin-top: -2px"
-          @click="reorderMode = !reorderMode" />
+        <v-tooltip v-if="!readonly && npc.NpcClassController?.HasClass && allFeatures.length > 1"
+          location="top">
+          <template #activator="{ props }">
+            <v-btn size="26"
+              variant="outlined"
+              icon
+              flat
+              tile
+              :color="reorderMode ? 'success' : 'accent'"
+              class="ml-2"
+              style="margin-top: -2px"
+              v-bind="props"
+              @click="reorderMode = !reorderMode">
+              <v-icon size="22">
+                {{ reorderMode ? 'mdi-check' : 'mdi-swap-vertical' }}
+              </v-icon>
+            </v-btn>
+          </template>
+          <span> {{ reorderMode ? 'Save Configuration' : 'Reorder Features' }}</span>
+        </v-tooltip>
       </div>
     </v-col>
     <v-col v-if="passiveCount && !reorderMode"
@@ -44,6 +56,63 @@
           :key="item.ID"
           :item="item"
           :tier="npc.NpcClassController.Tier">
+          <template #title-prepend>
+            <v-menu :close-on-content-click="false">
+              <template #activator="{ props }">
+                <v-btn v-if="!readonly"
+                  size="20"
+                  icon
+                  flat
+                  tile
+                  class="mt-n1 ml-n1 mr-1"
+                  variant="plain"
+                  v-bind="props">
+                  <v-icon icon="mdi-cog" />
+                </v-btn>
+              </template>
+              <v-list density="compact"
+                slim
+                border
+                tile
+                class="pa-0">
+                <cc-dialog :close-on-click="false"
+                  title="Set Custom Name"
+                  @close="npc.SaveController.save()">
+                  <template #activator="{ open }">
+                    <v-list-item prepend-icon="mdi-circle-edit-outline"
+                      title="Set Custom Name"
+                      @click="open" />
+                  </template>
+                  <cc-text-field v-model="item.FlavorName"
+                    label="Custom Item Name"
+                    :placeholder="item.TrueName"
+                    variant="outlined"
+                    hide-details
+                    autofocus
+                    class="pa-4"
+                    @focus="$event.target.select()" />
+                </cc-dialog>
+                <cc-dialog :close-on-click="false"
+                  title="Set Custom Description"
+                  @close="npc.SaveController.save()">
+                  <template #activator="{ open }">
+                    <v-list-item prepend-icon="mdi-circle-edit-outline"
+                      title="Set Custom Description"
+                      @click="open" />
+                  </template>
+                  <cc-text-area v-model="item.FlavorDescription"
+                    label="Custom Item Description"
+                    :placeholder="item.FlavorDescription || item.Description"
+                    variant="outlined"
+                    hide-details
+                    auto-grow
+                    class="pa-4"
+                    @focus="$event.target.select()" />
+                </cc-dialog>
+
+              </v-list>
+            </v-menu>
+          </template>
           <template #pre>
             <npc-mod-inset v-for="mod in npc.NpcFeatureController.GetModifiers(item)"
               :key="mod.ID"
@@ -59,31 +128,15 @@
       item-key="ID"
       :options="{ animation: 200, handle: '.feature-drag-handle', scroll: true, scrollSpeed: 300 }"
       @end="onFeatureReorder">
-      <template #item="{ element, index }">
+      <template #item="{ element }">
         <div class="feature-reorder-row mb-2"
           style="display: flex; align-items: flex-start; gap: 4px">
-          <div class="d-flex flex-column align-center"
-            style="padding-top: 6px">
+          <div class="d-flex flex-column align-center">
             <v-icon class="feature-drag-handle"
               icon="mdi-drag"
-              size="20"
               aria-label="Drag to reorder"
               tabindex="0"
               style="cursor: move; opacity: 0.5" />
-            <v-btn icon
-              size="x-small"
-              variant="text"
-              :disabled="index === 0"
-              @click="moveFeature(index, index - 1)">
-              <v-icon size="small">mdi-arrow-up</v-icon>
-            </v-btn>
-            <v-btn icon
-              size="x-small"
-              variant="text"
-              :disabled="index === allFeatures.length - 1"
-              @click="moveFeature(index, index + 1)">
-              <v-icon size="small">mdi-arrow-down</v-icon>
-            </v-btn>
           </div>
           <div style="flex: 1; min-width: 0">
             <cc-dense-card v-if="element"

@@ -39,8 +39,8 @@
 import { useMobile } from '@/mixins/useMobile';
 
 export default {
-  mixins: [useMobile],
   name: 'CCStringEditDialog',
+  mixins: [useMobile],
   props: {
     label: {
       type: String,

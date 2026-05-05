@@ -139,6 +139,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     const deployableInstance = new DeployableInstance(deployable.ItemData, combatant)
     deployableInstance.SetStats()
     combatant.deployables.push(deployableInstance)
+    combatant.actor.CombatController.toggleCombatAction(deployable.DeployAction.Activation)
   }
 
   public async EndRound(): Promise<void> {

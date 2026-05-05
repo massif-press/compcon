@@ -274,7 +274,8 @@
 
         <section-header title="Burdens" />
         <div>
-          <div v-for="(b, i) in pilot.BondController.Burdens" :key="`burden-${i}`">
+          <div v-for="(b, i) in pilot.BondController.Burdens"
+            :key="`burden-${i}`">
             <cc-clock :clock="b"
               class="mx-1 my-2"
               color="overcharge"
@@ -295,7 +296,8 @@
         <section-header title="Other Clocks" />
 
         <div>
-          <div v-for="(b, i) in pilot.BondController.Clocks" :key="`clock-${i}`">
+          <div v-for="(b, i) in pilot.BondController.Clocks"
+            :key="`clock-${i}`">
             <cc-clock :clock="b"
               class="mx-1 my-2"
               color="overcharge"
@@ -325,6 +327,28 @@
           @set="setBond($event)" />
       </cc-solo-modal>
     </div>
+    <v-row justify="end"
+      class="mt-12">
+      <v-col cols="auto">
+        <v-menu v-model=removeDialog
+          max-width="500px">
+          <template #activator="{ props }">
+            <cc-button size="small"
+              color="primary"
+              variant="text"
+              v-bind="props">
+              Remove Bond
+            </cc-button>
+          </template>
+          <v-card-text>
+            <cc-confirmation
+              content="This will remove this bond from the pilot and reset all related selections. This cannot be undone. Continue?"
+              @confirm="removeBond()" />
+          </v-card-text>
+        </v-menu>
+
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -336,6 +360,7 @@ import SectionEditChip from '../components/SectionEditChip.vue'
 
 import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/mixins/useMobile';
+import { remove } from 'jszip'
 
 export default {
   mixins: [useMobile],
@@ -352,6 +377,7 @@ export default {
     addBondMenu: false,
     masonryBondItems: [] as any[],
     bondModal: false,
+    removeDialog: false,
   }),
   computed: {
     bonds() {
@@ -395,6 +421,14 @@ export default {
     confirmBurden() {
       this.addBondMenu = false
       this.pilot.BondController.AddNewBurden()
+    },
+    removeBond() {
+      this.pilot.BondController.Bond = null
+      this.pilot.BondController.PowerSelections = 0
+      this.pilot.BondController.XP = 0
+      this.pilot.BondController.Stress = 0
+      this.pilot.BondController.MaxStress = 8
+      this.removeDialog = false
     },
   },
 }

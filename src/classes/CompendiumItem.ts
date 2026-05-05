@@ -92,6 +92,7 @@ abstract class CompendiumItem {
         LcpVersion: '',
         Website: '',
         Status: 'OK',
+        V3: true,
       }
       if (data.brew) {
         this.Brew = data.brew
@@ -103,6 +104,7 @@ abstract class CompendiumItem {
           LcpVersion: lcp.Version,
           Website: lcp.Website || '',
           Status: 'OK',
+          V3: lcp.v3 || false,
         }
         this.ItemData.brew = this.Brew
       }
@@ -171,6 +173,10 @@ abstract class CompendiumItem {
   }
 
   public set Name(val: string) {
+    this._flavor_name = val
+  }
+
+  public set FlavorName(val: string) {
     this._flavor_name = val
   }
 
@@ -253,6 +259,10 @@ abstract class CompendiumItem {
 
   public get Color(): string {
     return kebabCase(this.ItemType)
+  }
+
+  public get IsV2(): boolean {
+    return !this.Brew.V3
   }
 }
 

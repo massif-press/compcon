@@ -209,10 +209,11 @@ export default {
     getTimeoutStatuses(combatant, custom = false) {
       return combatant[custom ? 'CustomStatuses' : 'Statuses'].filter(
         (s) =>
-          s.expires.Period === 'turn' ||
+          s.expires &&
+          (s.expires.Period === 'turn' ||
           (s.expires.Period === 'round' &&
             s.expires.RoundEndNumber &&
-            s.expires.RoundEndNumber === this.encounterInstance.Round + 1)
+            s.expires.RoundEndNumber === this.encounterInstance.Round + 1))
       );
     },
     getStatusTarget(actorID, testName) {
