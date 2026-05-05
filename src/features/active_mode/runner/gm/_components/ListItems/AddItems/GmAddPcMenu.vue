@@ -69,7 +69,7 @@
                     align="center">
                     <v-col>
                       <cc-select v-model="pc.ActiveMech"
-                        :items="pc.Mechs"
+                        :items="sortedMechs(pc)"
                         :item-title="(x) => `${x.Name} (${x.Frame.Source} ${x.Frame.Name})`"
                         return-object
                         icon="cc:frame" />
@@ -150,6 +150,12 @@ export default {
         actor: pc,
         deployables: [],
       });
+    },
+    sortedMechs(pc) {
+      return _.orderBy(
+        pc.Mechs,
+        (m) => m.ID === pc.FavoriteMech?.ID ? 0 : 1
+      );
     },
   },
 };

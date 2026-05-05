@@ -7,8 +7,7 @@
           <v-col><v-divider /></v-col>
           <v-col cols="auto">{{ items.length }} items</v-col>
         </v-row>
-        <v-data-table
-          :headers="headers"
+        <v-data-table :headers="headers"
           :items="items"
           item-value="ID"
           :sort-by="[{ key: 'Name', order: 'asc' }]"
@@ -34,7 +33,8 @@
               hide-details />
           </template>
           <template #item.Name="{ item }">
-            <span :class="(item as any).SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''">
+            <span
+              :class="(item as any).SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''">
               {{ (item as any).Name }}
             </span>
           </template>
@@ -44,12 +44,19 @@
           <template #item.Level="{ item }">
             {{ (item as any).Level }}
           </template>
+          <template #item.Mech="{ item }">
+            {{ (item as any).FavoriteMech ? (item as any).FavoriteMech.Name : (item as
+              any).ActiveMech ? (item as any).ActiveMech.Name : 'None' }}
+          </template>
           <template #item.group="{ item }">
             <v-chip size="small"
               label
               prepend-icon="mdi-account-group">
               {{ getPilotGroup(item) }}
             </v-chip>
+          </template>
+          <template #item.LastUpdate="{ item }">
+            {{ timeAgo((item as any).SaveController.LastModified) }}
           </template>
           <template #bottom>
             <v-row dense
@@ -196,8 +203,10 @@ export default {
         { key: 'select', sortable: false, width: '40px' },
         { title: 'Name', key: 'Name', sortable: true },
         { title: 'Callsign', key: 'Callsign', sortable: true },
-        { title: 'License Level', key: 'Level', sortable: true },
+        { title: 'LL', key: 'Level', sortable: true },
+        { title: 'Mech', key: 'Mech', sortable: true },
         { title: 'Group', key: 'group', sortable: true, value: (item: any) => this.getPilotGroup(item) },
+        { title: 'Updated', key: 'LastUpdate', sortable: true },
       ];
     },
     items() {
@@ -272,6 +281,17 @@ export default {
     getPilotGroup(item: any) {
       const group = PilotStore().PilotGroups.find((x) => x.Pilots.some((y) => y.id === item.ID));
       return group ? group.Name : 'None';
+    },
+    timeAgo(timestamp: number | string) {
+      const now = Date.now();
+      const diff = now - new Date(timestamp).getTime();
+      const minutes = Math.floor(diff / 60000);
+      if (minutes < 1) return 'just now';
+      if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+      const days = Math.floor(hours / 24);
+      return `${days} day${days === 1 ? '' : 's'} ago`;
     },
   },
 };

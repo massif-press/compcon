@@ -235,7 +235,7 @@
             The active mech will be instantiated for use in this encounter. Once the encounter is
             started, the active mech cannot be changed without resetting the mech's stats
           </cc-tooltip>
-          <v-menu v-if="selected.Mechs.length"
+          <v-menu v-if="sortedMechs(selected).length"
             :close-on-content-click="true"
             transition="slide-y-transition">
             <template #activator="{ props, isActive }">
@@ -370,7 +370,7 @@
             left: 18px;
             padding: 12px;
           "
-          :style="`left: ${$refs.sidebar.showNav ? 380 : 20}px`">
+          :style="`left: ${$refs.sidebar?.showNav ? 380 : 20}px`">
           <cc-button :color="isInEncounter(selected) ? 'error' : 'success'"
             size="small"
             class="border-lg"
@@ -473,6 +473,9 @@ export default {
     },
     toggleGroup(group: string) {
       this.collapsedGroups[group] = !this.collapsedGroups[group];
+    },
+    sortedMechs(pilot) {
+      return pilot.Mechs.slice().sort((a, b) => pilot.FavoriteMech?.ID === a.ID ? -1 : pilot.FavoriteMech?.ID === b.ID ? 1 : 0)
     },
   },
 };

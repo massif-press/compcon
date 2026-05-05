@@ -109,6 +109,7 @@ class PilotData
 
   special_equipment: IUnlockData = {} as IUnlockData
   mechs: IMechData[] = []
+  favorite_mech: string = ''
   loadout: IPilotLoadoutData = {} as IPilotLoadoutData
   bond: IPilotBondData = {} as IPilotBondData
   skills: IRankedData[] = []
@@ -174,6 +175,7 @@ class Pilot
   private _special_equipment: CompendiumItem[] = []
   private _mechs: Mech[] = []
   private _lcpConfig: LcpConfig
+  private _favoriteMech: string = ''
 
   public IsLevelEdit = false
   public IsEncounterInstance = false
@@ -209,6 +211,7 @@ class Pilot
     this._history = typeof data?.history === 'string' ? data.history : ''
     this._quirks = data?.quirks || []
     this._background = data?.background || ''
+    this._favoriteMech = data?.favorite_mech || ''
 
     if (data) {
       SaveController.Deserialize(this, data.save)
@@ -536,6 +539,25 @@ class Pilot
     this.SaveController.save()
   }
 
+  public get FavoriteMech(): Mech | null {
+    if (!this._favoriteMech) return null
+    return this.Mechs.find(m => m.ID === this._favoriteMech) || null
+  }
+
+  public set FavoriteMech(mech: Mech | null) {
+    if (!mech) {
+      this._favoriteMech = ''
+      this.SaveController.save()
+      return
+    }
+    if (!this.Mechs.find(m => m.ID === mech.ID)) {
+      logger.warn(`Mech "${mech.Name}" does not exist on Pilot ${this.Callsign}`, this)
+      return
+    }
+    this._favoriteMech = mech.ID
+    this.SaveController.save()
+  }
+
   public getExpressionContext(): Record<string, number> {
     // can't call Bonus.Int (directly or via stat getters like MaxHP, Evasion, etc)
     // because Bonus.Int → EvaluateSpecial → getExpressionContext loops
@@ -725,6 +747,7 @@ class Pilot
       special_equipment: this.serializeSE(p._special_equipment),
       sortIndex: p.SortIndex,
       config: p.LcpConfig,
+      favorite_mech: p._favoriteMech,
     }
 
     SaveController.Serialize(p, data)

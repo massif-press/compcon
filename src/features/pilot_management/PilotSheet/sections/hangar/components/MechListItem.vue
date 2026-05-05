@@ -118,6 +118,20 @@
                 </v-col>
                 <v-col cols="auto"
                   class="pr-4">
+                  <v-tooltip location="top"
+                    :text="mech.Parent.FavoriteMech?.ID === mech.ID ? 'Favorite Mech' : 'Unfavorite Mech'">
+                    <template #activator="{ props }">
+                      <v-btn v-bind="props"
+                        size="x-small"
+                        icon
+                        :color="mech.Parent.FavoriteMech?.ID === mech.ID ? 'amber' : ''"
+                        variant="plain"
+                        @click.stop="mech.Parent.FavoriteMech?.ID === mech.ID ? mech.Parent.FavoriteMech = null : mech.Parent.FavoriteMech = mech">
+                        <v-icon size="22"
+                          :icon="mech.Parent.FavoriteMech?.ID === mech.ID ? 'mdi-star' : 'mdi-star-outline'" />
+                      </v-btn>
+                    </template>
+                  </v-tooltip>
                   <cc-dialog :close-on-click="false"
                     title="Delete Mech"
                     color="error"
@@ -125,14 +139,18 @@
                     <template #activator="{ open }">
                       <v-tooltip text="Delete Mech">
                         <template #activator="{ props }">
-                          <v-btn size="small"
+                          <v-btn size="x-small"
                             variant="text"
                             tile
+                            icon
                             v-bind="props"
                             class="d-block"
-                            icon="mdi-delete"
                             color="error"
-                            @click.stop="open" />
+                            @click.stop="open">
+                            <v-icon size="22">
+                              mdi-delete
+                            </v-icon>
+                          </v-btn>
                         </template>
                       </v-tooltip>
                     </template>
@@ -148,13 +166,17 @@
                     <template #activator="{ open }">
                       <v-tooltip text="Duplicate Mech">
                         <template #activator="{ props }">
-                          <v-btn size="small"
+                          <v-btn size="x-small"
                             variant="text"
+                            icon
                             tile
                             v-bind="props"
                             class="d-block"
-                            icon="mdi-content-copy"
-                            @click.stop="open" />
+                            @click.stop="open">
+                            <v-icon size="22">
+                              mdi-content-copy
+                            </v-icon>
+                          </v-btn>
                         </template>
                       </v-tooltip>
                     </template>
@@ -166,13 +188,17 @@
                   </cc-dialog>
                   <v-tooltip text="Print Mech Sheet">
                     <template #activator="{ props }">
-                      <v-btn size="small"
+                      <v-btn size="x-small"
                         variant="text"
+                        icon
                         tile
                         v-bind="props"
                         class="d-block"
-                        icon="mdi-printer"
-                        @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)" />
+                        @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)">
+                        <v-icon size="22">
+                          mdi-printer
+                        </v-icon>
+                      </v-btn>
                     </template>
                   </v-tooltip>
                 </v-col>

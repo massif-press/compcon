@@ -15,11 +15,9 @@
             :size="mobile ? 75 : 150" />
           <cc-img v-else-if="pilot.PortraitController.Portrait"
             :src="pilot.PortraitController.Portrait"
-            aspect-ratio="1"
             cover
             position="top center"
-            :height="mobile ? '75px' : '150px'"
-            :width="mobile ? '75px' : '150px'" />
+            :min-width="mobile ? '75px' : '150px'" />
         </v-card>
       </v-col>
       <v-col style="position: relative">
@@ -128,12 +126,12 @@ import PilotListItemDetails from './_pilotListItemDetails.vue'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {
-  mixins: [useMobile],
   name: 'PilotListItem',
   components: {
     EditMenu,
     PilotListItemDetails,
   },
+  mixins: [useMobile],
   props: {
     pilot: {
       type: Pilot,

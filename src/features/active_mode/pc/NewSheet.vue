@@ -140,7 +140,8 @@
             </cc-titled-divider>
 
             <div style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden">
-              <v-hover v-for="mech in mechs">
+              <v-hover v-for="mech in sortedMechs"
+                :key="mech.ID + '_hover'">
                 <template #default="{ isHovering, props }">
                   <v-slide-y-transition>
                     <v-row v-if="!selectedMech || mech.ID === selectedMech.ID"
@@ -164,7 +165,11 @@
                           cover />
                       </v-col>
                       <v-col :class="!mobile ? 'ml-5' : ''">
-                        <div class="heading">{{ mech.Name }}</div>
+                        <div class="heading">
+                          <v-icon v-if="selectedPilot.FavoriteMech.ID === mech.ID"
+                            icon=mdi-star
+                            start />{{ mech.Name }}
+                        </div>
                         <div class="text-cc-overline">
                           {{ mech.Frame.Source }} {{ mech.Frame.Name }}
                         </div>
@@ -340,6 +345,12 @@ export default {
       return this.selectedPilot
         ? this.selectedPilot.Mechs.filter((m) => !m.SaveController.IsDeleted)
         : [];
+    },
+    sortedMechs(): Mech[] {
+      if (!this.selectedPilot) return [];
+      return this.selectedPilot.Mechs
+        .filter((m) => !m.SaveController.IsDeleted)
+        .sort((a, b) => (a.ID === this.selectedPilot?.FavoriteMech?.ID ? -1 : 0) + (b.ID === this.selectedPilot?.FavoriteMech?.ID ? 1 : 0));
     },
   },
   methods: {
