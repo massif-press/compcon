@@ -125,6 +125,7 @@
 import { useMobile } from '@/mixins/useMobile';
 import UnitFeatureCard from './_unitFeatureCard.vue';
 import * as _ from 'lodash-es';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'MechCombatLoadout',
@@ -150,9 +151,16 @@ export default {
   data: () => ({
     result: 0,
     hiddenFeatureCount: 0,
-    hidePassives: false,
   }),
   computed: {
+    hidePassives: {
+      get() {
+        return UserStore().User.View('npcCombatHidePassives', false);
+      },
+      set(val: boolean) {
+        UserStore().User.SetView('npcCombatHidePassives', val);
+      },
+    },
     xlColumns() {
       if (this.mobile) return 1
       else return this.encounterInstance.MaxMasonryColumns

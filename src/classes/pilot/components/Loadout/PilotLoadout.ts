@@ -74,9 +74,9 @@ class PilotLoadout {
 
   public get AllTags(): Tag[] {
     return [
-      ...this.Armor.flatMap(x => x.Tags),
-      ...this.Weapons.flatMap(x => x.Tags),
-      ...this.Gear.flatMap(x => x.Tags),
+      ...this.Armor.flatMap(x => x && x.Tags),
+      ...this.Weapons.flatMap(x => x && x.Tags),
+      ...this.Gear.flatMap(x => x && x.Tags),
     ]
   }
 

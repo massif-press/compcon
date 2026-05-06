@@ -31,7 +31,7 @@
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 size="24"
-                class="mt-n1 ml-4"
+                class="mt-n1 mx-4"
                 icon="mdi-cog" />
             </template>
           </v-tooltip>
@@ -44,7 +44,7 @@
         <v-list-item prepend-icon="mdi-printer"
           title="Print"
           subtitle="Print a tabletop-ready mech sheet"
-          @click="$router.push(`/print/${pilot.ID}/${mechID}`)" />
+          @click="$router.push(`/print/${pilot.ID}/${mech.ID}`)" />
 
         <v-list-item prepend-icon="mdi-file-document-outline"
           title="Generate Statblock"
@@ -62,13 +62,30 @@
       </v-list>
     </v-menu>
 
+    <div class="d-inline">
+      <v-tooltip :text="pilot.FavoriteMech?.ID === mech.ID ? 'Unfavorite Mech' : 'Favorite Mech'"
+        location="top">
+        <template #activator="{ props }">
+          <v-btn v-bind="props"
+            size="small"
+            icon
+            variant="plain"
+            class="unskew mt-n2"
+            @click.stop="mech.Parent.FavoriteMech?.ID === mech.ID ? mech.Parent.FavoriteMech = null : mech.Parent.FavoriteMech = mech">
+            <v-icon size="25"
+              :icon="mech.Parent.FavoriteMech?.ID === mech.ID ? 'mdi-star' : 'mdi-star-outline'" />
+          </v-btn>
+        </template>
+      </v-tooltip>
+    </div>
+
     <div id="end-cap" />
   </div>
   <cc-solo-modal v-model="statblockDialog"
     title="Generate Statblock"
     icon="mdi-code-block-tags">
     <statblock-dialog :pilot="<Pilot>pilot"
-      :mech-i-d="mechID" />
+      :mech-i-d="mech.ID" />
   </cc-solo-modal>
 </template>
 
@@ -88,13 +105,9 @@ export default {
       type: Number,
       required: true,
     },
-    mechID: {
-      type: String,
-      required: false,
-    },
     mech: {
       type: Object,
-      required: false,
+      required: true,
     },
   },
   emits: ['delete'],
@@ -133,7 +146,7 @@ export default {
   position: absolute;
   width: 5px;
   height: 30px;
-  right: 178px;
+  right: 220px;
   top: 0;
   z-index: 9;
   transition: filter 0.2s ease-in-out;

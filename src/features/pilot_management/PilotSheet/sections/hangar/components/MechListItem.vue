@@ -119,7 +119,7 @@
                 <v-col cols="auto"
                   class="pr-4">
                   <v-tooltip location="top"
-                    :text="mech.Parent.FavoriteMech?.ID === mech.ID ? 'Favorite Mech' : 'Unfavorite Mech'">
+                    :text="mech.Parent.FavoriteMech?.ID === mech.ID ? 'Unfavorite Mech' : 'Favorite Mech'">
                     <template #activator="{ props }">
                       <v-btn v-bind="props"
                         size="x-small"

@@ -237,7 +237,9 @@ class CombatController implements ICounterContainer, IStatContainer {
       this.StatController.getCurrent(StatKey.ACTIVATIONS) - 1
     )
     if (this.StatController.getCurrent(StatKey.ACTIVATIONS) >= 1) {
+      const remaining = this.StatController.getCurrent(StatKey.ACTIVATIONS)
       this.Reset()
+      this.StatController.setCurrentStat(StatKey.ACTIVATIONS, remaining)
       this.Turn++
       this.CombatLog.AddTurn()
       this.CombatLog.LogSimpleEvent(

@@ -123,6 +123,20 @@
                           </v-btn>
                         </template>
                       </v-tooltip>
+                      <v-tooltip location="top"
+                        :text="mech.Parent.FavoriteMech?.ID === mech.ID ? 'Unfavorite Mech' : 'Favorite Mech'">
+                        <template #activator="{ props }">
+                          <v-btn v-bind="props"
+                            size="x-small"
+                            icon
+                            :color="mech.Parent.FavoriteMech?.ID === mech.ID ? 'amber' : ''"
+                            variant="plain"
+                            @click.stop="mech.Parent.FavoriteMech?.ID === mech.ID ? mech.Parent.FavoriteMech = null : mech.Parent.FavoriteMech = mech">
+                            <v-icon size="22"
+                              :icon="mech.Parent.FavoriteMech?.ID === mech.ID ? 'mdi-star' : 'mdi-star-outline'" />
+                          </v-btn>
+                        </template>
+                      </v-tooltip>
                     </v-card-actions>
                   </v-card>
                 </v-expand-transition>

@@ -157,7 +157,6 @@ export default {
   emits: ['select-panel', 'open-dice-roller', 'open-table-index'],
   methods: {
     selectPanel(panel) {
-      if (this.selected === panel) return;
       this.$emit('select-panel', panel);
     },
     getBgClass(panel) {

@@ -104,10 +104,20 @@
           </div>
 
           <div v-if="item">
+            <cc-panel v-if="item.Trigger"
+              variant="outlined"
+              density="no-gutters"
+              class="mx-2 pa-1 mb-1">
+              <div class="text-cc-overline text-disabled">Trigger</div>
+              <p v-html-safe="item.TriggerByTier(tier)"
+                class="text-text" />
+            </cc-panel>
+
             <div v-if="item.Effect">
               <p v-html-safe="item.EffectByTier(tier)"
                 class="mb-1 px-2" />
             </div>
+
 
             <equipment-actions-deployables :item="item"
               :actor="unit"

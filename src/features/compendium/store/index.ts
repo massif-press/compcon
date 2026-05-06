@@ -110,13 +110,14 @@ const itemTypeMap = {
 }
 
 function getLancerData<T>(itemType: string, constructor?: { new (Y: any): T }): T[] {
-  if (_lancerDataCache.has(itemType)) return _lancerDataCache.get(itemType) as T[]
+  const cacheKey = constructor ? `${itemType}:hydrated` : itemType
+  if (_lancerDataCache.has(cacheKey)) return _lancerDataCache.get(cacheKey) as T[]
   const result: T[] = lancerData[itemType]
     ? constructor
       ? lancerData[itemType].map((x: any) => new constructor(x))
       : lancerData[itemType]
     : []
-  _lancerDataCache.set(itemType, result)
+  _lancerDataCache.set(cacheKey, result)
   return result
 }
 

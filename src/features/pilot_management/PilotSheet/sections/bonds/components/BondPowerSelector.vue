@@ -104,7 +104,7 @@
               <template #default="{ item }">
                 <div v-if="item">
                   <cc-bond-power-card :power="item" />
-                  <cc-button v-if="!item.veteran && (!hasPower(item) || allowDupes)"
+                  <cc-button v-if="allowAdd(item)"
                     color="success"
                     block
                     size="x-small"
@@ -164,8 +164,8 @@ import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {
-  mixins: [useMobile],
   name: 'BondPowerSelectMenu',
+  mixins: [useMobile],
   props: {
     pilot: { type: Object, required: true },
   },
@@ -218,8 +218,23 @@ export default {
     this.showNav = !this.mobile
   },
   methods: {
-    hasPower(bond) {
-      return this.pilot.BondController.BondPowers.some(y => y.name === bond.name)
+    allowAdd(power) {
+      if (this.hasPower(power)) return false
+      if (this.ignoreLimit) return true
+      if (power.veteran) return false
+      if (power.master) {
+        let bond;
+        if (this.featureSet === 'all')
+          bond = this.pilot.BondController.Bond.ID
+        else bond = this.featureSet
+        if (bond && (this.pilot.BondController.BondPowers.filter(x => x.origin === bond).length >= 4)) return true
+        return false
+      }
+      if (!this.pilot.BondController.TotalPowerSelections) return true
+      return this.pilot.BondController.TotalPowerSelections > 0
+    },
+    hasPower(power) {
+      return this.pilot.BondController.BondPowers.some(y => y.name === power.name)
     },
     resetPowers() {
       this.pilot.BondController.BondPowers.splice(0, this.pilot.BondController.BondPowers.length)

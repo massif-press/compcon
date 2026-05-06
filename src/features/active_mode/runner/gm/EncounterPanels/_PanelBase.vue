@@ -55,6 +55,7 @@
                       flat
                       variant=outlined
                       class="mx-1"
+                      :disabled="item.CombatController.StatController.CurrentStats['activations'] < i"
                       :class="item.CombatController.StatController.CurrentStats['activations'] >= i ? 'bg-success' : ''"
                       style="corner-shape: bevel; border-radius: 10px 0px !important;"
                       :color="item.CombatController.StatController.CurrentStats['activations'] >= i

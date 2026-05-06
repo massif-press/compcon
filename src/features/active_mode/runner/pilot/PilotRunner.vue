@@ -226,7 +226,7 @@
     },
     methods: {
       selectPanel(panel) {
-        this.panel = this.panel === panel ? null : panel
+        this.panel = this.panel === panel ? 'pc' : panel
       },
     },
   }

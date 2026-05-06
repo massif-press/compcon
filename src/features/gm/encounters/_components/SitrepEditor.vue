@@ -29,7 +29,7 @@
         variant="tonal"
         color="secondary"
         class="px-1">
-        <v-chip-group>
+        <v-chip-group show-arrows>
           <v-chip v-for="sitrep in sitreps"
             :key="sitrep.Name"
             size="small"
@@ -39,6 +39,24 @@
             {{ sitrep.Name }}
           </v-chip>
         </v-chip-group>
+        <template v-if="userPresets.length > 0">
+          <v-divider class="my-1" />
+          <div class="text-cc-overline text-disabled px-2">MY PRESETS</div>
+          <v-chip-group>
+            <v-chip v-for="(preset, i) in userPresets"
+              :key="preset.id"
+              size="small"
+              class="rounded-0"
+              label
+              @click="loadUserPreset(preset)">
+              {{ preset.name }}
+              <v-icon size="14"
+                class="ml-1"
+                icon="mdi-close"
+                @click.stop="stagedDeleteIndex = i; deleteConfirmDialog = true" />
+            </v-chip>
+          </v-chip-group>
+        </template>
       </v-card>
     </v-slide-y-transition>
 
@@ -167,6 +185,17 @@
           Condition
         </cc-button>
       </v-col>
+      <v-col cols="auto"
+        class="ml-auto">
+        <cc-button v-if="!readonly"
+          color="info"
+          size="small"
+          prepend-icon="mdi-content-save-outline"
+          :disabled="!item.Sitrep.modified"
+          @click="savePreset">
+          Save Preset
+        </cc-button>
+      </v-col>
     </v-row>
 
     <cc-solo-dialog v-model="confirmDialog"
@@ -185,16 +214,41 @@
         <v-spacer />
         <cc-button color="success"
           size="small"
-          @click="confirm(item.Sitrep)">confirm</cc-button>
+          @click="confirm()">confirm</cc-button>
+      </div>
+    </cc-solo-dialog>
+
+    <cc-solo-dialog v-model="deleteConfirmDialog"
+      title="delete preset"
+      icon="mdi-delete"
+      :close-on-click="false"
+      color="error">
+      <v-card-text class="text-center">
+        Delete preset
+        <b>{{ stagedDeleteIndex >= 0 ? userPresets[stagedDeleteIndex]?.name : '' }}</b>?
+        This cannot be undone.
+      </v-card-text>
+      <div class="d-flex justify-between px-6">
+        <cc-button color="primary"
+          size="small"
+          @click="deleteConfirmDialog = false">cancel</cc-button>
+        <v-spacer />
+        <cc-button color="error"
+          size="small"
+          @click="confirmDeletePreset">delete</cc-button>
       </div>
     </cc-solo-dialog>
   </v-card>
 </template>
 
 <script lang="ts">
+import { v4 as uuid } from 'uuid';
 import { Encounter } from '@/classes/encounter/Encounter';
-import { Sitrep, SitrepInstance } from '@/classes/encounter/Sitrep';
+import { Sitrep, SitrepInstance, type ISitrepData } from '@/classes/encounter/Sitrep';
 import { CompendiumStore } from '@/stores';
+import { GetValue, SetValue } from '@/io/Storage';
+
+const STORAGE_KEY = 'user_sitrep_presets';
 
 export default {
   name: 'gm-sitrep-editor',
@@ -207,14 +261,19 @@ export default {
     shownKeys: [] as string[],
     confirmDialog: false,
     showPresets: false,
+    stagedSitrep: null as Sitrep | null,
+    userPresets: [] as ISitrepData[],
+    deleteConfirmDialog: false,
+    stagedDeleteIndex: -1,
   }),
   computed: {
     sitreps() {
       return CompendiumStore().Sitreps;
     },
   },
-  created() {
+  async created() {
     this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
+    this.userPresets = (await GetValue(STORAGE_KEY)) || [];
   },
   methods: {
     showKey(key: string) {
@@ -226,18 +285,55 @@ export default {
     },
     setSitrep(sitrep: Sitrep) {
       if (this.item.Sitrep.modified) {
+        this.stagedSitrep = sitrep;
         this.confirmDialog = true;
         return;
       }
       this._setSitrep(sitrep);
     },
-    confirm(sitrep: Sitrep) {
+    confirm() {
       this.confirmDialog = false;
-      this._setSitrep(sitrep);
+      this._setSitrep(this.stagedSitrep);
+      this.stagedSitrep = null;
     },
     _setSitrep(sitrep) {
       this.item.Sitrep = new SitrepInstance(this.item as Encounter, sitrep);
       this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
+    },
+    loadUserPreset(preset: ISitrepData) {
+      this.setSitrep(new Sitrep(preset));
+    },
+    async savePreset() {
+      const base = this.item.Sitrep.Name.replace(/ \(\d+\)$/, '');
+      const existing = [
+        ...this.sitreps.map((s) => s.Name),
+        ...this.userPresets.map((p) => p.name),
+      ];
+      let name = base;
+      if (existing.includes(name)) {
+        let i = 2;
+        while (existing.includes(`${base} (${i})`)) i++;
+        name = `${base} (${i})`;
+      }
+      const preset: ISitrepData = {
+        id: uuid(),
+        name,
+        modified: false,
+        description: this.item.Sitrep.Description,
+        deployment: this.item.Sitrep.Deployment,
+        objective: this.item.Sitrep.Objective,
+        controlZone: this.item.Sitrep.ControlZone,
+        extraction: this.item.Sitrep.Extraction,
+        conditions: [...this.item.Sitrep.Conditions],
+      };
+      this.userPresets.push(preset);
+      await SetValue(STORAGE_KEY, this.userPresets);
+    },
+    async confirmDeletePreset() {
+      this.userPresets.splice(this.stagedDeleteIndex, 1);
+      await SetValue(STORAGE_KEY, this.userPresets);
+      this.deleteConfirmDialog = false;
+      this.stagedDeleteIndex = -1;
     },
   },
 };

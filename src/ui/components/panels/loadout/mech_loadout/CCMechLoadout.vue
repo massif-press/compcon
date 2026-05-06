@@ -103,7 +103,7 @@ export default {
             isImpArm: false,
             isSuperheavy: true,
           })
-        else if (this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'))
+        if (this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'))
           items.push({
             mount: this.mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
             isIntegrated: false,

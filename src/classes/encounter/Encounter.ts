@@ -19,7 +19,7 @@ import { Npc } from '../npc/Npc'
 import { Unit, UnitData } from '../npc/unit/Unit'
 import { Doodad, DoodadData } from '../npc/doodad/Doodad'
 import { Eidolon, EidolonData } from '../npc/eidolon/Eidolon'
-import { Deployable, ItemType, Pilot } from '@/class'
+import { ItemType, Pilot } from '@/class'
 import { PilotData } from '@/interface'
 import { ICombatant } from '../components/combat/ICombatant'
 import {

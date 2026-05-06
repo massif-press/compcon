@@ -80,7 +80,6 @@
         <mech-nav :selected="0"
           :pilot="pilot"
           :mech="mech"
-          :mech-i-d="mech.ID"
           @delete="open()" />
       </template>
       <template #default="{ close }">

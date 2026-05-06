@@ -270,7 +270,11 @@ export default {
       this.panel = null;
     },
     selectPanel(panel) {
-      this.panel = panel;
+      if (panel === this.panel && this.selected) {
+        this.panel = null;
+      } else {
+        this.panel = panel;
+      }
     },
   },
 };

@@ -193,7 +193,13 @@
               <template #default="{ item }">
                 <div v-if="item"
                   :key="item.ID">
-                  <cc-dense-card :item="item" />
+                  <cc-dense-card :item="item">
+                    <template #pre>
+                      <div class="text-disabled text-cc-overline mt-n1">
+                        {{ item.Base ? 'Base' : 'Optional' }} Feature
+                      </div>
+                    </template>
+                  </cc-dense-card>
                   <div class="mt-n2">
                     <cc-button v-if="hasItem(item)"
                       color="warning"

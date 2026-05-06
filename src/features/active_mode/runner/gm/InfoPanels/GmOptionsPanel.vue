@@ -198,20 +198,20 @@
               label="Side" />
             <br />
             <div v-if="combatant.actor.StatController">
-              <v-row v-for="key in combatant.actor.StatController.MaxStats"
-                :key="key"
+              <v-row v-for="stat in combatant.actor.StatController.DisplayKeys"
+                :key="stat.key"
                 dense
                 class="border-sm mb-1 px-2"
                 align="center">
-                <v-col class="heading">{{ key }}</v-col>
+                <v-col class="heading">{{ stat.title }}</v-col>
                 <v-col class="mx-6">
                   <div class="text-cc-overline ml-4 text-disabled">Current</div>
-                  <cc-number-field v-model="combatant.actor.StatController.CurrentStats[key]"
+                  <cc-number-field v-model="combatant.actor.StatController.CurrentStats[stat.key]"
                     color="primary" />
                 </v-col>
                 <v-col>
                   <div class="text-cc-overline ml-4 text-disabled">Max</div>
-                  <cc-number-field v-model="combatant.actor.StatController.MaxStats[key]"
+                  <cc-number-field v-model="combatant.actor.StatController.MaxStats[stat.key]"
                     color="exotic" />
                 </v-col>
               </v-row>
