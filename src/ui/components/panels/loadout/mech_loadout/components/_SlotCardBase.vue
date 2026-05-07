@@ -8,6 +8,7 @@
       extension-height="10"
       @click="empty ? '' : (detailDialog = true)">
       <div class="d-inline-flex ml-0"
+        style="min-width: 0; overflow: hidden"
         :class="mobile ? 'text-cc-overline' : 'heading h3 text-uppercase'">
         <slot name="header" />
       </div>

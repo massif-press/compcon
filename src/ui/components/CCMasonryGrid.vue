@@ -66,7 +66,8 @@ export default {
   }
 
   .cc-masonry-item {
-    break-inside: avoid;
+    display: inline-block;
+    width: 100%;
     margin-bottom: var(--masonry-gap);
   }
 }

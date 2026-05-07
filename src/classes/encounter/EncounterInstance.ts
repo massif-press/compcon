@@ -62,6 +62,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     pilots: Pilot[] = [],
     placeholders: Placeholder[] = []
   ) {
+    this.Name = 'New Encounter'
     this._id = data?.id || uuid()
     this._round = data?.round || 1
     this.IsActive = data?.isActive || false
@@ -75,6 +76,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
         this.Combatants = data.combatants.map(c => Encounter.DeserializeCombatant(c))
       else this.Combatants = []
       this.Encounter = Encounter.Deserialize(data.encounter)
+      this.Name = this.Encounter.Name
       this.Autosave = data.autosave || true
     } else {
       if (!encounter) {

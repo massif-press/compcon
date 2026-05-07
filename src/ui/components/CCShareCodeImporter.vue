@@ -32,7 +32,7 @@
             ref="codeInputs"
             v-model="code[index]"
             maxlength="1"
-            @input="onInput(index)"
+            @input="onInput($event, index)"
             @paste="onPaste($event, index)"
             @keydown.backspace="onBackspace(index)" />
           <span v-if="codeLength === 10 && index === 4"
@@ -244,24 +244,53 @@ export default {
     this.code = Array(this.codeLength).fill('')
   },
   methods: {
-    onInput(index: number) {
+    onInput(event: Event, index: number) {
+      const input = event.target as HTMLInputElement
+      const value = input.value
+      if (value.length > 1) {
+        this.code[index] = value[0]
+        input.value = value[0]
+      }
       if (this.code[index].length === 1 && index < this.codeLength - 1) {
-        ; (this.$refs.codeInputs as HTMLElement[])[index + 1].focus()
+        ;(this.$refs.codeInputs as HTMLElement[])[index + 1].focus()
       }
     },
     onPaste(event: ClipboardEvent, index: number) {
       let pastedData = event.clipboardData?.getData('Text') || ''
-      pastedData = pastedData.replace(/-/g, '')
-      const pasteArray = pastedData.slice(0, this.codeLength).split('')
-      pasteArray.forEach((char, i) => {
-        if (index + i < 12) {
-          this.code[index + i] = char
-        }
-      })
-      this.$nextTick(() => {
-        const nextIndex = Math.min(index + pasteArray.length, this.codeLength - 1)
-          ; (this.$refs.codeInputs as HTMLElement[])[nextIndex].focus()
-      })
+      if (pastedData) {
+        event.preventDefault()
+        pastedData = pastedData.replace(/-/g, '')
+        const pasteArray = pastedData.slice(0, this.codeLength).split('')
+        pasteArray.forEach((char, i) => {
+          if (index + i < this.codeLength) {
+            this.code[index + i] = char
+          }
+        })
+        this.$nextTick(() => {
+          const nextIndex = Math.min(index + pasteArray.length, this.codeLength - 1)
+          ;(this.$refs.codeInputs as HTMLElement[])[nextIndex].focus()
+        })
+      } else {
+        // iOS: clipboardData unavailable; let browser paste into the focused input, then redistribute
+        this.$nextTick(() => {
+          const target = event.target as HTMLInputElement
+          const value = target.value.replace(/-/g, '')
+          if (value.length > 1) {
+            const pasteArray = value.slice(0, this.codeLength - index).split('')
+            this.code[index] = ''
+            target.value = ''
+            pasteArray.forEach((char, i) => {
+              if (index + i < this.codeLength) {
+                this.code[index + i] = char
+              }
+            })
+            this.$nextTick(() => {
+              const nextIndex = Math.min(index + pasteArray.length, this.codeLength - 1)
+              ;(this.$refs.codeInputs as HTMLElement[])[nextIndex].focus()
+            })
+          }
+        })
+      }
     },
     onBackspace(index: number) {
       if (this.code[index] === '' && index > 0) {

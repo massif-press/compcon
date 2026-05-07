@@ -1,7 +1,8 @@
 <template>
   <v-dialog :fullscreen="mobile"
     :min-width="mobile ? '' : '1200px'"
-    :max-width="mobile ? '' : '60vw'">
+    :max-width="mobile ? '' : '60vw'"
+    @after-enter="($refs.damageInput as any)?.$el?.querySelector('input')?.select()">
     <template #activator="{ props }">
       <cc-button block
         size="small"
@@ -36,7 +37,8 @@
               :style="mobile ? '' : 'max-width: 300px'">
               <div class="text-cc-overline text-disabled">Incoming Damage Value</div>
               <v-divider />
-              <v-text-field v-model="incomingDamageValue"
+              <v-text-field ref="damageInput"
+                v-model="incomingDamageValue"
                 type="number"
                 min="0"
                 max="100"
@@ -93,7 +95,6 @@
                       </v-card>
                     </template>
                     <div class="heading h3">{{ dmg.Name }}</div>
-                    {{ dmg.Terse || dmg.Effects }}
                   </v-tooltip>
                 </v-col>
               </v-row>
