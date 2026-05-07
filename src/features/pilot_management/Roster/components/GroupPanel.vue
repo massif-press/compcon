@@ -42,7 +42,8 @@
       <v-icon :icon="group.Expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
     </v-toolbar>
     <v-expand-transition>
-      <v-card v-if="group.Expanded">
+      <v-card v-if="group.Expanded"
+        style="overflow: visible">
         <div class="pa-2">
           <v-row v-if="!noGroup"
             align="start">
