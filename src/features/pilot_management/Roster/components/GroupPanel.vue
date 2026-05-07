@@ -138,39 +138,26 @@
             </v-col>
           </v-row>
           <v-card-text class="py-0"
-            style="overflow: visible"
+            style="overflow:visible"
             :class="[rosterView.includes('card') ? 'text-center' : '', mobile ? 'px-0' : 'px-2']">
-            <template v-if="rosterView === 'list' && filteredPilots.length > 20">
-              <v-virtual-scroll :items="filteredPilots"
-                :item-height="88"
-                :height="Math.min(filteredPilots.length * 88, 600)">
-                <template #default="{ item }">
-                  <pilot-list-item :key="item.ID"
-                    :pilot="item"
-                    @go-to="toPilotSheet(item.ID)" />
-                </template>
-              </v-virtual-scroll>
-            </template>
-            <template v-else>
-              <sortable :key="groupSortableKey"
-                :list="filteredPilots"
-                item-key="ID"
-                :class="rosterView === 'cards' ? 'd-flex flex-wrap' : ''"
-                :options="sortableOptions"
-                @end="onPilotReorder"
-                @add="onPilotAdded">
-                <template #item="{ element }">
-                  <div :data-pilot-id="element.ID"
-                    @pointerdown="mobile ? onPointerDown() : undefined"
-                    @pointerup="mobile ? onPointerUp() : undefined"
-                    @pointercancel="mobile ? onPointerCancel() : undefined">
-                    <component :is="pilotCardType"
-                      :pilot="element"
-                      @go-to="toPilotSheet(element.ID)" />
-                  </div>
-                </template>
-              </sortable>
-            </template>
+            <sortable :key="groupSortableKey"
+              :list="filteredPilots"
+              item-key="ID"
+              :class="rosterView === 'cards' ? 'd-flex flex-wrap' : ''"
+              :options="sortableOptions"
+              @end="onPilotReorder"
+              @add="onPilotAdded">
+              <template #item="{ element }">
+                <div :data-pilot-id="element.ID"
+                  @pointerdown="mobile ? onPointerDown() : undefined"
+                  @pointerup="mobile ? onPointerUp() : undefined"
+                  @pointercancel="mobile ? onPointerCancel() : undefined">
+                  <component :is="pilotCardType"
+                    :pilot="element"
+                    @go-to="toPilotSheet(element.ID)" />
+                </div>
+              </template>
+            </sortable>
           </v-card-text>
           <v-expand-transition>
             <v-row v-if="edit"
