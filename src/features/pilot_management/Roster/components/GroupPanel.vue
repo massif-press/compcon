@@ -138,6 +138,7 @@
             </v-col>
           </v-row>
           <v-card-text class="py-0"
+            style="overflow: visible"
             :class="[rosterView.includes('card') ? 'text-center' : '', mobile ? 'px-0' : 'px-2']">
             <template v-if="rosterView === 'list' && filteredPilots.length > 20">
               <v-virtual-scroll :items="filteredPilots"
