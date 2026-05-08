@@ -17,10 +17,11 @@
             :src="pilot.PortraitController.Portrait"
             cover
             position="top center"
-            :min-width="mobile ? '75px' : '150px'" />
+            :min-width="mobile ? '75px' : '150px'"
+            :height="mobile ? '75px' : '150px'" />
         </v-card>
       </v-col>
-      <v-col style="position: relative">
+      <v-col style="position: relative; ">
         <v-toolbar density="compact"
           class="cToolbar"
           :height="mobile ? '40' : '46'">

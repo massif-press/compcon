@@ -8,7 +8,9 @@
       :class="['mt-2', 'title-hover', { 'title-drag-active': dropActive }, { 'pl-4': mobile && !noGroup }]"
       height="48"
       style="position: relative; clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px)"
-      @click="setGroupExpand()">
+      @click="setGroupExpand()"
+      @dragover.prevent
+      @drop.prevent="onDropOnTitle">
       <v-icon v-if="!noGroup && (!mobile || dragModeActive)"
         icon="mdi-drag"
         class="group-drag-handle mr-1 ml-2"
@@ -145,6 +147,7 @@
               item-key="ID"
               :class="rosterView === 'cards' ? 'd-flex flex-wrap' : ''"
               :options="sortableOptions"
+              @start="startDragScroll"
               @end="onPilotReorder"
               @add="onPilotAdded">
               <template #item="{ element }">
@@ -371,6 +374,7 @@ import FileImport from './add_panels/FileImport.vue';
 import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
 import { useMobile } from '@/mixins/useMobile';
 import { useRosterDragMode } from '@/mixins/useRosterDragMode';
+import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
 
 
 export default {
@@ -420,8 +424,7 @@ export default {
         easing: 'cubic-bezier(1, 0, 0, 1)',
         handle: needsHandle ? '.drag-handle' : undefined,
         group: { name: 'pilots', pull: true, put: ['pilots'] },
-        scroll: true,
-        scrollSpeed: 300,
+        scroll: false,
         disabled: !!this.rosterSearch,
       };
     },
@@ -467,10 +470,12 @@ export default {
     },
   },
   methods: {
+    startDragScroll,
     toPilotSheet(pilotID: string) {
       this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID } });
     },
     onPilotReorder(event: any) {
+      stopDragScroll();
       this.dropActive = false;
       if (event.from !== event.to) return;
       if (event.oldIndex === event.newIndex) return;
@@ -487,6 +492,22 @@ export default {
       PilotStore().movePilotIndex(this.group as PilotGroup, fromIdx, toIdx);
       PilotStore().SaveGroupData();
     },
+    onDropOnTitle() {
+      if (!this.dropActive) return;
+      const dragEl = document.querySelector('[data-pilot-id].sortable-chosen') ||
+        document.querySelector('[data-pilot-id].sortable-ghost');
+      const pilotId = (dragEl as HTMLElement)?.dataset?.pilotId;
+      if (!pilotId) return;
+      if (this.group.Pilots.some((p: any) => p.id === pilotId)) {
+        this.dropActive = false;
+        return;
+      }
+      const pilot = PilotStore().getPilotByID(pilotId) as any;
+      if (!pilot) return;
+      PilotStore().TransferPilot(pilot, this.group.ID);
+      this.$emit('pilot-transferred');
+      this.dropActive = false;
+    },
     onDragEnter() {
       if (document.querySelector('.sortable-chosen .group-drag-handle')) return;
       this.dropActive = true;
@@ -497,6 +518,7 @@ export default {
       this.dropActive = false;
     },
     async onPilotAdded(event: any) {
+      stopDragScroll();
       this.dropActive = false;
       const pilotId = event.item.dataset.pilotId;
       if (!pilotId) return;

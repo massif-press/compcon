@@ -48,14 +48,8 @@
       <sortable :key="groupSortableKey"
         :list="pilotGroups"
         item-key="ID"
-        :options="{
-          animation: 250,
-          easing: 'cubic-bezier(1, 0, 0, 1)',
-          handle: '.group-drag-handle',
-          group: { name: 'groups', pull: false, put: false },
-          scroll: true,
-          scrollSpeed: 300,
-        }"
+        :options="groupSortableOptions"
+        @start="startDragScroll"
         @end="onGroupReorder">
         <template #item="{ element }">
           <group-panel :group="element"
@@ -189,6 +183,7 @@ import GroupMenu from './components/GroupMenu.vue';
 import { UserStore, PilotStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
 import { useRosterDragMode } from '@/mixins/useRosterDragMode';
+import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
 import GroupFileImport from './components/add_panels/GroupFileImport.vue';
 import GroupShareDialog from './components/GroupShareDialog.vue';
 
@@ -209,6 +204,15 @@ export default {
     rosterTransferKey: 0,
   }),
   computed: {
+    groupSortableOptions() {
+      return {
+        animation: 250,
+        easing: 'cubic-bezier(1, 0, 0, 1)',
+        handle: '.group-drag-handle',
+        group: { name: 'groups', pull: false, put: false },
+        scroll: false,
+      };
+    },
     pilotGroups() {
       return PilotStore().getPilotGroups().filter((g: any) => g.ID !== 'no_group');
     },
@@ -235,7 +239,9 @@ export default {
     this.rosterView = this.profile.View('roster', 'list');
   },
   methods: {
+    startDragScroll,
     onGroupReorder(event: any) {
+      stopDragScroll();
       if (event.oldIndex === event.newIndex) return;
       const group = this.pilotGroups[event.oldIndex] as any;
       PilotStore().ReorderGroupByIndex(group, event.newIndex);
