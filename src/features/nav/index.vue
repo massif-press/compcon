@@ -7,23 +7,23 @@
     density="compact"
     :height="mobile ? '40' : '58'"
     style="z-index: 998">
-    <div v-if="standalone">
 
-      <cc-button :size="mobile ? 'large' : 'x-large'"
-        icon="mdi-arrow-left"
-        :tooltip="n.navigateBack"
-        tooltip-location="bottom"
-        @click="$router.go(-1)" />
-      &nbsp;
+    <cc-button v-if="standalone"
+      :size="mobile ? 'large' : 'x-large'"
+      icon="mdi-arrow-left"
+      :tooltip="n.navigateBack"
+      tooltip-location="bottom"
+      @click="$router.go(-1)" />
+    &nbsp;
 
-      <cc-button :size="mobile ? 'large' : 'x-large'"
-        icon="mdi-arrow-right"
-        :tooltip="n.navigateForward"
-        tooltip-location="bottom"
-        @click="$router.go(1)" />
-      &nbsp;
+    <cc-button v-if="standalone"
+      :size="mobile ? 'large' : 'x-large'"
+      icon="mdi-arrow-right"
+      :tooltip="n.navigateForward"
+      tooltip-location="bottom"
+      @click="$router.go(1)" />
+    &nbsp;
 
-    </div>
 
     <cc-button :size="mobile ? 'large' : 'x-large'"
       icon="mdi-home"

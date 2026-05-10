@@ -1,7 +1,7 @@
 <template>
   <v-tooltip :disabled="!tooltip"
     :text="tooltip"
-    :location="<any>tooltipLocation"
+    :location="getTooltipLocation"
     style="position: relative">
     <template #activator="{ props }">
       <div class="top-element"
@@ -33,8 +33,12 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/mixins/useMobile';
+import { Anchor } from 'vuetify';
+
 export default {
   name: 'CcBtnIcon',
+  mixins: [useMobile],
   props: {
     color: { type: String },
     disabled: { type: Boolean },
@@ -80,6 +84,10 @@ export default {
           return '36px';
       }
     },
+    getTooltipLocation() {
+      if (!this.mobile && this.tooltipLocation) return this.tooltipLocation as Anchor;
+      return 'top' as Anchor;
+    }
   },
 };
 </script>

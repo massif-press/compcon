@@ -3,6 +3,7 @@
     :headers="<any[]>headers"
     :items="<any[]>items"
     :items-per-page="-1"
+    :custom-key-sort="customKeySort"
     multi-sort
     hide-default-footer
     style="width: 100%">
@@ -173,6 +174,17 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
+    },
+    customKeySort() {
+      const weaponSizeOrder: Record<string, number> = { Auxiliary: 0, Main: 1, Heavy: 2, Superheavy: 3 };
+      return {
+        Size: (a: any, b: any) => {
+          if (typeof a === 'string' && typeof b === 'string') {
+            return (weaponSizeOrder[a] ?? 99) - (weaponSizeOrder[b] ?? 99);
+          }
+          return a - b;
+        },
+      };
     },
   },
   methods: {

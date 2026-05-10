@@ -22,6 +22,7 @@ class License {
   public readonly LcpName: string
   public readonly LcpAuthor: string
   public readonly ItemType: string = 'License'
+  public readonly LcpID: string | null
   private _sourceLC: string = ''
   private _unlocksCache: LicensedItem[][] | null = null
 
@@ -34,6 +35,7 @@ class License {
     this.ID = `${frame.ID}_License`
     this.LcpName = frame.LcpName
     this.LcpAuthor = frame.LcpAuthor
+    this.LcpID = frame.Brew?.LcpId || null
 
     this.Specialty = !!frame.Specialty
     if (typeof frame.Specialty !== 'boolean') {
