@@ -48,15 +48,17 @@
             </div>
 
             <div v-if="item.Profiles && item.Profiles.length > 1">
-              <v-tabs v-model="item.ProfileIndex"
-                density="compact"
-                height="20"
-                stacked
-                align="center"
-                center-active>
-                <v-tab v-for="p in item.Profiles"
-                  :key="p.ID">{{ p.Name }}</v-tab>
-              </v-tabs>
+              <v-chip-group v-model="item.ProfileIndex"
+                mandatory
+                column>
+                <v-chip v-for="(p, i) in item.Profiles"
+                  :key="p.ID"
+                  :value="i"
+                  size="small"
+                  filter>
+                  {{ p.Name }}
+                </v-chip>
+              </v-chip-group>
               <div>
                 <div v-if="item.Profiles[item.ProfileIndex].Effect"
                   class="panel clipped pa-2">

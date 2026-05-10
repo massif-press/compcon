@@ -147,7 +147,7 @@ class Statblock {
         output += ` HP:${mech.MaxHP}`
         output += ` ARMOR:${mech.Armor}\n`
         output += `  STRESS:${mech.MaxStress}`
-        output += ` HEAT:${mech.HeatCapacity}}`
+        output += ` HEAT:${mech.HeatCapacity}`
         output += ` REPAIR:${mech.RepairCapacity}\n`
         output += `  ATK BONUS:${mech.AttackBonus} TECH ATK:${mech.TechAttack} LTD BONUS:${mech.LimitedBonus}\n`
         output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`

@@ -103,7 +103,7 @@
         <statblock-item cols="3"
           sm="4"
           md="3"
-          :attr="portrait ? '+ LTD SYS' : widescreen ? 'Limited System Bonus' : 'Limited Sys Bonus'"
+          :attr="portrait ? '+ LTD' : widescreen ? 'Limited System Bonus' : 'Limited Sys Bonus'"
           signed
           icon="cc:ammo"
           :val="mech.LimitedBonus"

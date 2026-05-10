@@ -16,7 +16,7 @@
       </div>
       <sortable :key="`enemy-${transferKey}`"
         :list="enemyCombatants"
-        item-key="id"
+        item-key="instanceId"
         :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: true, scrollSpeed: 300, group: { name: 'combatants', pull: true, put: true } }"
         @end="event => onCombatantReorder('enemy', event)"
         @add="event => onCombatantAdded('enemy', event)">
@@ -52,7 +52,7 @@
       </div>
       <sortable :key="`ally-${transferKey}`"
         :list="allyCombatants"
-        item-key="id"
+        item-key="instanceId"
         :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: true, scrollSpeed: 300, group: { name: 'combatants', pull: true, put: true } }"
         @end="event => onCombatantReorder('ally', event)"
         @add="event => onCombatantAdded('ally', event)">
@@ -88,7 +88,7 @@
       </div>
       <sortable :key="`neutral-${transferKey}`"
         :list="neutralCombatants"
-        item-key="id"
+        item-key="instanceId"
         :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: true, scrollSpeed: 300, group: { name: 'combatants', pull: true, put: true } }"
         @end="event => onCombatantReorder('neutral', event)"
         @add="event => onCombatantAdded('neutral', event)">

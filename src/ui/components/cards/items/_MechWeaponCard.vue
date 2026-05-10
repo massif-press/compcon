@@ -2,17 +2,18 @@
   <equipment-card-base :item="item"
     :notes="notes">
     <div v-show="item.Profiles.length > 1">
-      <v-tabs bg-color="primary"
-        grow
-        height="24px"
-        density="compact"
+      <v-chip-group v-model="tab"
+        mandatory
+        column
         class="my-2">
-        <v-tab v-for="(p, index) in item.Profiles"
+        <v-chip v-for="(p, index) in item.Profiles"
           :key="p.Name"
-          @click.stop="tab = index">
+          :value="index"
+          size="small"
+          filter>
           <b>{{ p.Name }}</b>
-        </v-tab>
-      </v-tabs>
+        </v-chip>
+      </v-chip-group>
     </div>
 
     <v-row align="center"
