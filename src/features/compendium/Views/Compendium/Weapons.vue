@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="weapons"
     item-type="MechWeapon"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    :manufacturers="manufacturers">
     <template #header>
       <div class="heading h3 text-center text-accent">Mech Weapons</div>
     </template>
@@ -60,6 +61,9 @@ export default {
     ],
   }),
   computed: {
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
     weapons() {
       const items = CompendiumStore().MechWeapons;
 

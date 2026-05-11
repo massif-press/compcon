@@ -20,6 +20,7 @@
   </v-tooltip>
 </template>
 
+<<<<<<< Updated upstream
 <script lang="ts">
 export default {
   props: {
@@ -62,4 +63,33 @@ export default {
     },
   },
 };
+=======
+<script setup lang="ts">
+import { computed, useSlots } from 'vue'
+import type { Anchor } from 'vuetify'
+
+const slots = useSlots()
+
+interface Props {
+  text?: string
+  icon?: string
+  start?: boolean
+  end?: boolean
+  size?: string | number
+  location?: string
+  color?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  start: false,
+  end: false,
+  location: 'top',
+  color: '',
+})
+
+const getIcon = computed(() => props.icon || 'mdi-information-slab-box-outline')
+const showTooltip = computed(() => props.text || slots.default)
+const mobile = computed(() => 'ontouchstart' in window || navigator.maxTouchPoints > 0)
+const getLocation = computed(() => (mobile.value ? 'top' : props.location) as Anchor)
+>>>>>>> Stashed changes
 </script>

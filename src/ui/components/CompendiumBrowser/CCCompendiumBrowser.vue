@@ -658,8 +658,8 @@ import bListGroup from './components/_b-list-group.vue';
 
 import LicenseExpandable from './components/_license-expandable.vue';
 
-import { CompendiumItem, License } from '@/class';
-import { CompendiumStore, UserStore } from '@/stores';
+import { CompendiumItem, License, Manufacturer } from '@/class';
+import { UserStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
 
 
@@ -768,7 +768,12 @@ export default {
       type: Number,
       required: false,
       default: 1,
-    }
+    },
+    manufacturers: {
+      type: Array as () => Manufacturer[],
+      required: false,
+      default: () => [],
+    },
   },
   emits: ['equip', 'select', 'view-change'],
   data: () => ({
@@ -1108,7 +1113,7 @@ export default {
     },
     mf(id: string) {
       return (
-        CompendiumStore().Manufacturers.find((x) => x.ID === id) || {
+        (this.manufacturers as Manufacturer[]).find((x) => x.ID === id) || {
           GetColor: () => 'black',
           Name: 'err',
           LogoIsExternal: false,

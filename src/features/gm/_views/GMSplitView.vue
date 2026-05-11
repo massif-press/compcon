@@ -156,7 +156,7 @@ import GmCollectionFilter from './_components/GMCollectionFilter.vue';
 import { NpcStore } from '../store/npc_store';
 import { NarrativeStore } from '../store/narrative_store';
 import { CompendiumStore, UserStore } from '@/stores';
-import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
+import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
 import { Npc } from '@/classes/npc/Npc';
 import { useMobile } from '@/mixins/useMobile';
 

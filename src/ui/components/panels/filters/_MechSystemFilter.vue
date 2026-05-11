@@ -12,7 +12,7 @@
         clearable
         variant="outlined"
         label="Tags"
-        :items="tags"
+        :items="systemTags"
         multiple
         item-title="Name"
         item-value="ID"
@@ -100,22 +100,16 @@
 </template>
 
 <script lang="ts">
-import { Tag, SystemType, Manufacturer } from '@/class';
-
-import { CompendiumStore } from '@/stores';
-import * as _ from 'lodash-es';
-
-const nameSort = function (a, b): number {
-  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
-  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
-  return 0;
-};
+import { SystemType } from '@/class';
 
 export default {
-  name: 'frame-filter',
-  props: { activeFilters: { type: Object, default: () => ({}) } },
+  name: 'mech-system-filter',
+  props: {
+    activeFilters: { type: Object, default: () => ({}) },
+    systemTags: { type: Array, default: () => [] },
+  },
   data: () => ({
-    tagFilter: [],
+    tagFilter: [] as string[],
     systemTypeFilter: [] as SystemType[],
     llFilter: [] as number[],
     sp: 0,
@@ -132,31 +126,8 @@ export default {
     if (spKey) { this.spType = spKey.slice(3); this.sp = f[spKey]; }
   },
   computed: {
-    manufacturers(): Manufacturer[] {
-      return CompendiumStore()
-        .getItemCollection('Manufacturers')
-        .map((x) => ({ title: x.Name, value: x.ID }))
-        .sort(nameSort);
-    },
-    systemTypes(): SystemType[] {
-      return Object.keys(SystemType)
-        .map((k) => SystemType[k as any])
-        .filter((k) => k !== 'Integrated')
-        .sort() as SystemType[];
-    },
-    tags(): Tag[] {
-      return _.uniqBy(
-        [].concat(
-          CompendiumStore()
-            .getItemCollection('MechSystems')
-            .flatMap((x) => x.Tags)
-            .filter((x) => !x.FilterIgnore && !x.IsHidden)
-        ),
-        'ID'
-      );
-    },
-    lcps(): string[] {
-      return CompendiumStore().lcpNames;
+    systemTypes(): string[] {
+      return Object.keys(SystemType).map((k) => SystemType[k as any]).filter((k) => k !== 'Integrated').sort() as string[];
     },
   },
   methods: {
@@ -170,11 +141,8 @@ export default {
       const fObj = {} as any;
       if (this.spType && !Number.isNaN(this.sp)) fObj[`SP_${this.spType}`] = this.sp;
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
-      if (this.systemTypeFilter && this.systemTypeFilter.length)
-        fObj.Type = [this.systemTypeFilter];
-      if (this.llFilter && this.llFilter.length) {
-        fObj.LicenseLevel = this.llFilter.map((x) => Number(x));
-      }
+      if (this.systemTypeFilter && this.systemTypeFilter.length) fObj.Type = [this.systemTypeFilter];
+      if (this.llFilter && this.llFilter.length) fObj.LicenseLevel = this.llFilter.map((x) => Number(x));
       this.$emit('set-filters', fObj);
     },
   },

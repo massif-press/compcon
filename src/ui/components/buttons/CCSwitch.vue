@@ -60,74 +60,47 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-switch',
-  inheritAttrs: false,
-  props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-    value: {
-      type: Boolean,
-    },
-    size: {
-      type: String,
-      default: 'default',
-    },
-    bgColor: {
-      type: String,
-      default: 'panel',
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    activeColor: {
-      type: String,
-      default: 'success',
-    },
-    prependIcon: {
-      type: String,
-    },
-    onIcon: {
-      type: String,
-    },
-    offIcon: {
-      type: String,
-    },
-    tooltip: {
-      type: String,
-    },
-    tooltipIcon: {
-      type: String,
-    },
-    label: {
-      type: [String, Boolean],
-    },
-    topLabel: {
-      type: String,
-      required: false,
-      default: '',
-    },
-  },
-  computed: {
-    isOn() {
-      return this.value || this.modelValue;
-    },
-  },
-  methods: {
-    toggle() {
-      this.$emit('update:modelValue', !this.isOn);
-    },
+<script setup lang="ts">
+import { computed } from 'vue'
 
-    getLightColor(isHovering: null | boolean) {
-      if (isHovering && !this.isOn) return this.activeColor;
-      return this.isOn ? this.activeColor : this.color;
-    },
-  },
-};
+defineOptions({ inheritAttrs: false })
+
+interface Props {
+  modelValue: boolean
+  value?: boolean
+  size?: string
+  bgColor?: string
+  color?: string
+  activeColor?: string
+  prependIcon?: string
+  onIcon?: string
+  offIcon?: string
+  tooltip?: string
+  tooltipIcon?: string
+  label?: string | boolean
+  topLabel?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 'default',
+  bgColor: 'panel',
+  color: 'primary',
+  activeColor: 'success',
+  topLabel: '',
+})
+
+const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
+
+const isOn = computed(() => props.value || props.modelValue)
+
+function toggle() {
+  emit('update:modelValue', !isOn.value)
+}
+
+function getLightColor(isHovering: boolean | null) {
+  if (isHovering && !isOn.value) return props.activeColor
+  return isOn.value ? props.activeColor : props.color
+}
 </script>
 
 <style scoped>

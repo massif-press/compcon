@@ -2,6 +2,7 @@
   <cc-compendium-browser :items="filteredFrames"
     item-type="Frame"
     :options="options"
+    :manufacturers="manufacturers"
     equippable
     @equip="select($event)">
     <template #header>
@@ -115,6 +116,9 @@ export default {
     ],
   }),
   computed: {
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
     allFrames() {
       if (!this.pilot.LcpConfig) return CompendiumStore().Frames
       return CompendiumStore().Frames.filter(

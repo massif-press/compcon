@@ -3,6 +3,7 @@
     item-type="MechSystem"
     :table-headers="headers"
     :options="options"
+    :manufacturers="manufacturers"
     equippable
     @equip="handleEquip($event)">
     <template #header>
@@ -119,6 +120,9 @@ export default {
     ],
   }),
   computed: {
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
     freeSP(): number {
       if (this.equipped) return this.mech.FreeSP + this.equipped.SP
       else if (this.swapSystem) return this.mech.FreeSP + this.swapSystem.SP

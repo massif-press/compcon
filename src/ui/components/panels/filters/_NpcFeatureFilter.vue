@@ -12,7 +12,7 @@
         clearable
         variant="outlined"
         label="Item Type"
-        :items="types"
+        :items="featureTypes"
         multiple
         @update:modelValue="updateFilters()" />
     </v-col>
@@ -34,22 +34,16 @@
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash-es';
-
-import { CompendiumStore } from '@/stores';
-
-const nameSort = function (a, b): number {
-  if (a.toUpperCase() < b.toUpperCase()) return -1;
-  if (a.toUpperCase() > b.toUpperCase()) return 1;
-  return 0;
-};
-
 export default {
-  name: 'npc-class-filter',
-  props: { activeFilters: { type: Object, default: () => ({}) } },
+  name: 'npc-feature-filter',
+  props: {
+    activeFilters: { type: Object, default: () => ({}) },
+    origins: { type: Array, default: () => [] },
+    featureTypes: { type: Array, default: () => [] },
+  },
   data: () => ({
-    originFilter: [],
-    typeFilter: [],
+    originFilter: [] as string[],
+    typeFilter: [] as string[],
   }),
   emits: ['set-filters'],
   mounted() {
@@ -57,19 +51,6 @@ export default {
     if (!f || !Object.keys(f).length) return;
     if (f.Origin) this.originFilter = f.Origin;
     if (f.FeatureType) this.typeFilter = f.FeatureType;
-  },
-  computed: {
-    origins() {
-      return _.uniqBy(CompendiumStore().NpcFeatures, 'Origin').map((x) => ({
-        title: x.Origin.Name,
-        value: x.Origin.ID,
-      }));
-    },
-    types() {
-      return _.uniqBy(CompendiumStore().NpcFeatures, 'FeatureType')
-        .map((x) => x.FeatureType)
-        .sort(nameSort);
-    },
   },
   methods: {
     clear() {
@@ -81,7 +62,6 @@ export default {
       const fObj = {} as any;
       if (this.originFilter && this.originFilter.length > 0) fObj.Origin = this.originFilter;
       if (this.typeFilter && this.typeFilter.length > 0) fObj.FeatureType = this.typeFilter;
-
       this.$emit('set-filters', fObj);
     },
   },

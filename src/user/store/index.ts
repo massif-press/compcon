@@ -284,7 +284,7 @@ export const UserStore = defineStore('cloud', {
         },
       }))
     },
-    UserCollections(): any[] {
+    UserCollections(): ReturnType<typeof CompendiumStore>['ContentCollections'] {
       const data = CompendiumStore().ContentCollections
       data.forEach(c => {
         const meta = this.UserPublishedCollections.find(x => x.sortkey.split('_')[1] === c.ID)

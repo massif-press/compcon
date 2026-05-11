@@ -1,9 +1,9 @@
 <template>
   <cc-tabs fixed modal>
     <template #tabs>
-      <v-tab>Settings</v-tab>
-      <v-tab>Storage</v-tab>
-      <v-tab>Log</v-tab>
+      <v-tab>{{ strings.tabSettings }}</v-tab>
+      <v-tab>{{ strings.tabStorage }}</v-tab>
+      <v-tab>{{ strings.tabLog }}</v-tab>
     </template>
     <v-window-item>
       <settings />
@@ -21,9 +21,11 @@
 import Settings from './Settings.vue';
 import Storage from './Storage.vue';
 import Log from './Log.vue';
+import { NAV_STRINGS } from '@/features/nav/strings';
 
 export default {
   name: 'options',
   components: { Settings, Storage, Log },
+  setup: () => ({ strings: NAV_STRINGS.optionsPage }),
 };
 </script>

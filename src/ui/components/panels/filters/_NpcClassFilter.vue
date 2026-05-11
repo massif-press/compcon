@@ -20,34 +20,20 @@
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash-es';
-
-import { CompendiumStore } from '@/stores';
-
-const nameSort = function (a, b): number {
-  if (a.toUpperCase() < b.toUpperCase()) return -1;
-  if (a.toUpperCase() > b.toUpperCase()) return 1;
-  return 0;
-};
-
 export default {
   name: 'npc-class-filter',
-  props: { activeFilters: { type: Object, default: () => ({}) } },
+  props: {
+    activeFilters: { type: Object, default: () => ({}) },
+    roles: { type: Array, default: () => [] },
+  },
   data: () => ({
-    roleFilter: [],
+    roleFilter: [] as string[],
   }),
   emits: ['set-filters'],
   mounted() {
     const f = this.activeFilters;
     if (!f || !Object.keys(f).length) return;
     if (f.Role) this.roleFilter = f.Role;
-  },
-  computed: {
-    roles() {
-      return _.uniqBy(CompendiumStore().NpcClasses, 'Role')
-        .map((x) => x.Role)
-        .sort(nameSort);
-    },
   },
   methods: {
     clear() {
@@ -56,7 +42,6 @@ export default {
     updateFilters() {
       const fObj = {} as any;
       if (this.roleFilter && this.roleFilter.length > 0) fObj.Role = this.roleFilter;
-
       this.$emit('set-filters', fObj);
     },
   },

@@ -26,7 +26,7 @@
         clearable
         variant="outlined"
         label="Tags"
-        :items="tags"
+        :items="gearTags"
         item-value="ID"
         multiple
         item-title="Name"
@@ -36,22 +36,15 @@
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash-es';
-import { Tag, Manufacturer } from '@/class';
-import { CompendiumStore } from '@/stores';
-
-const nameSort = function (a, b): number {
-  if (a.toUpperCase() < b.toUpperCase()) return -1;
-  if (a.toUpperCase() > b.toUpperCase()) return 1;
-  return 0;
-};
-
 export default {
   name: 'pilot-gear-filter',
-  props: { activeFilters: { type: Object, default: () => ({}) } },
+  props: {
+    activeFilters: { type: Object, default: () => ({}) },
+    gearTags: { type: Array, default: () => [] },
+  },
   data: () => ({
-    tagFilter: [],
-    typeFilter: [],
+    tagFilter: [] as string[],
+    typeFilter: [] as string[],
   }),
   emits: ['set-filters'],
   mounted() {
@@ -61,17 +54,6 @@ export default {
     if (f.ItemType) this.typeFilter = f.ItemType;
   },
   computed: {
-    tags(): Tag[] {
-      return _.uniqBy(
-        [].concat(
-          CompendiumStore()
-            .getItemCollection('PilotGear')
-            .flatMap((x) => x.Tags)
-            .filter((x) => !x.FilterIgnore && !x.IsHidden)
-        ),
-        'ID'
-      );
-    },
     types() {
       return [
         { title: 'Armor', value: 'PilotArmor' },
@@ -90,7 +72,6 @@ export default {
       const fObj = {} as any;
       if (this.tagFilter && this.tagFilter.length > 0) fObj.Tags = this.tagFilter;
       if (this.typeFilter && this.typeFilter.length > 0) fObj.ItemType = this.typeFilter;
-
       this.$emit('set-filters', fObj);
     },
   },

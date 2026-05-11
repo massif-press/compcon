@@ -46,51 +46,33 @@
   </v-card>
 </template>
 
-<script>
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-panel',
-  props: {
-    color: {
-      type: String,
-      default: 'panel',
-    },
-    title: {
-      type: [String, Boolean],
-      default: '',
-    },
-    icon: {
-      type: [String, Boolean],
-      default: '',
-    },
-    prominent: {
-      type: Boolean,
-      default: false,
-    },
-    closeable: {
-      type: Boolean,
-    },
-    iconColor: {
-      type: String,
-      default: '',
-    },
-    density: {
-      type: String,
-      default: '',
-    },
-    borderColor: {
-      type: String,
-      default: '',
-    },
-  },
-  data: () => ({
-    closed: false,
-  }),
-  computed: {
-    compact() {
-      return this.density === 'compact';
-    },
-  },
-};
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const { smAndDown: mobile } = useDisplay()
+
+interface Props {
+  color?: string
+  title?: string | boolean
+  icon?: string | boolean
+  prominent?: boolean
+  closeable?: boolean
+  iconColor?: string
+  density?: string
+  borderColor?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  color: 'panel',
+  title: '',
+  icon: '',
+  prominent: false,
+  iconColor: '',
+  density: '',
+  borderColor: '',
+})
+
+const closed = ref(false)
+const compact = computed(() => props.density === 'compact')
 </script>

@@ -3,6 +3,7 @@
     item-type="MechWeapon"
     :table-headers="headers"
     :options="options"
+    :manufacturers="manufacturers"
     equippable
     @select="stageSelect($event)"
     @equip="handleEquip($event)">
@@ -157,6 +158,9 @@ export default {
     selected: null as unknown as MechWeapon | null,
   }),
   computed: {
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
     freeSP(): number {
       return this.weaponSlot.Weapon
         ? this.mech.FreeSP + this.weaponSlot.Weapon.SP

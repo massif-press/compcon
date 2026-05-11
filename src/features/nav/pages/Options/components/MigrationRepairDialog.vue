@@ -1,5 +1,5 @@
 <template>
-  <cc-dialog title="Migration Data Repair"
+  <cc-dialog :title="strings.dialogTitle"
     icon="mdi-wrench"
     :close-on-click="false"
     min-width="60vw"
@@ -10,9 +10,9 @@
         size="small"
         color="primary"
         prepend-icon="mdi-wrench"
-        tooltip="Scan for and repair common issues with v2-migrated data. "
+        :tooltip="strings.buttonTooltip"
         @click="startScan(open)">
-        Migration Repair Tool
+        {{ strings.buttonLabel }}
       </cc-button>
     </template>
     <template #default="{ close }">
@@ -32,7 +32,7 @@
             class="mb-4"
             style="width: 300px" />
           <div class="text-cc-overline text-disabled">
-            {{ scanning ? 'Scanning data...' : `Applying fixes (${progress} / ${progressTotal})...`
+            {{ scanning ? strings.scanning : `Applying fixes (${progress} / ${progressTotal})...`
             }}
           </div>
         </div>
@@ -44,18 +44,16 @@
               color="success"
               size="48"
               class="mb-2" />
-            <div class="text-cc-overline">No migration issues found.</div>
+            <div class="text-cc-overline">{{ strings.noIssues }}</div>
           </div>
 
           <template v-else>
             <cc-alert color="warning"
               variant="outlined"
-              title="Experimental Feature"
+              :title="strings.experimentalTitle"
               icon="mdi-atom"
               class="mb-4">
-              This is an experimental tool that can automatically fix certain common issues with
-              data migrated from v2, but has not yet been thoroughly tested. It is <strong>strongly
-                recommended</strong> to make a backup before applying fixes.
+              {{ strings.experimentalBody }}<strong>{{ strings.experimentalBodyStrong }}</strong>{{ strings.experimentalBodySuffix }}
             </cc-alert>
 
             <cc-panel class="mb-4">
@@ -69,10 +67,10 @@
               style="max-height: 60vh;">
               <thead>
                 <tr class="heading">
-                  <th>Category</th>
-                  <th>Item</th>
-                  <th>Issue</th>
-                  <th class="text-center">Fixable</th>
+                  <th>{{ strings.colCategory }}</th>
+                  <th>{{ strings.colItem }}</th>
+                  <th>{{ strings.colIssue }}</th>
+                  <th class="text-center">{{ strings.colFixable }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -101,7 +99,7 @@
                           color="warning"
                           size="small" />
                       </template>
-                      Manual action required
+                      {{ strings.manualActionRequired }}
                     </v-tooltip>
                   </td>
                 </tr>
@@ -115,7 +113,7 @@
       <v-card-actions class="pa-4">
         <cc-button variant="text"
           @click="close">
-          Cancel
+          {{ strings.cancel }}
         </cc-button>
         <v-spacer />
         <cc-button v-if="fixableCount > 0 && !applying"
@@ -131,9 +129,11 @@
 
 <script lang="ts">
 import { runMigrationScan, applyAllFixes, MigrationFinding } from '@/io/MigrationRepair'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
 export default {
   name: 'MigrationFixerDialog',
+  setup: () => ({ strings: NAV_STRINGS.migrationRepair }),
   data: () => ({
     scanning: false,
     applying: false,
@@ -183,10 +183,11 @@ export default {
       this.progressTotal = 0
     },
     categoryLabel(cat: string): string {
+      const s = NAV_STRINGS.migrationRepair
       switch (cat) {
-        case 'flavor_description': return 'Flavor Text'
-        case 'lcp_origin': return 'LCP Origin'
-        case 'npc_stats': return 'NPC Stats'
+        case 'flavor_description': return s.catFlavorText
+        case 'lcp_origin': return s.catLcpOrigin
+        case 'npc_stats': return s.catNpcStats
         default: return cat
       }
     },

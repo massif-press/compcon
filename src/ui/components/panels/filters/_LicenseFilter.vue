@@ -19,29 +19,22 @@
     clearable
     variant="outlined"
     label="From Content Pack"
-    :items="lcps"
+    :items="lcpNames"
     multiple
     @update:modelValue="updateFilters()" />
 </template>
 
 <script lang="ts">
-import { Manufacturer } from '@/class';
-
-import { CompendiumStore } from '@/stores';
-import * as _ from 'lodash-es';
-
-const nameSort = function (a, b): number {
-  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
-  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
-  return 0;
-};
-
 export default {
   name: 'license-filter',
-  props: { activeFilters: { type: Object, default: () => ({}) } },
+  props: {
+    activeFilters: { type: Object, default: () => ({}) },
+    manufacturers: { type: Array, default: () => [] },
+    lcpNames: { type: Array, default: () => [] },
+  },
   data: () => ({
-    sourceFilter: [],
-    lcpFilter: [],
+    sourceFilter: [] as string[],
+    lcpFilter: [] as string[],
   }),
   emits: ['set-filters'],
   mounted() {
@@ -49,17 +42,6 @@ export default {
     if (!f || !Object.keys(f).length) return;
     if (f.Source) this.sourceFilter = f.Source[0] ?? [];
     if (f.LcpName) this.lcpFilter = f.LcpName[0] ?? [];
-  },
-  computed: {
-    manufacturers(): Manufacturer[] {
-      return CompendiumStore()
-        .getItemCollection('Manufacturers')
-        .map((x) => ({ title: x.Name, value: x.ID }))
-        .sort(nameSort);
-    },
-    lcps(): string[] {
-      return _.uniq(CompendiumStore().Frames.map((x) => x.LcpName));
-    },
   },
   methods: {
     clear() {

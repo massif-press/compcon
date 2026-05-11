@@ -3,6 +3,7 @@
     item-type="MechSystem"
     :table-headers="headers"
     :options="options"
+    :manufacturers="manufacturers"
     equippable>
     <template #header>
       <div class="heading h3 text-center text-accent">Weapon Mods</div>
@@ -114,6 +115,9 @@ export default {
     showIncompatible: false,
   }),
   computed: {
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
     freeSP(): number {
       return this.weapon.Mod ? this.mech.FreeSP + this.weapon.Mod.SP : this.mech.FreeSP
     },

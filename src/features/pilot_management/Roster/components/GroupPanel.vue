@@ -371,7 +371,7 @@ import PilotListItem from './PilotListItem.vue';
 import { Pilot, PilotGroup } from '@/class';
 import { saveFile } from '@/io/Data';
 import FileImport from './add_panels/FileImport.vue';
-import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
+import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
 import { useMobile } from '@/mixins/useMobile';
 import { useRosterDragMode } from '@/mixins/useRosterDragMode';
 import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';

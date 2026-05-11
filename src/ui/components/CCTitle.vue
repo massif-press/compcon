@@ -9,37 +9,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'CCTitle',
-  props: {
-    block: {
-      type: Boolean,
-    },
-    size: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    offset: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.breakpoint.smAndDown;
-    },
-  },
-};
+<script setup lang="ts">
+interface Props {
+  block?: boolean
+  size?: string
+  color?: string
+  offset?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  size: '',
+  color: 'primary',
+  offset: false,
+})
 </script>
 
 <style scoped>

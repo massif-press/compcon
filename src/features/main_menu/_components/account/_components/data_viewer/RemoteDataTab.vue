@@ -231,7 +231,7 @@
   import { UserStore } from '@/stores'
   import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
   import { expandFilterTypes, normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
-  import ShareCodeDialog from './shareCodeDialog.vue'
+  import ShareCodeDialog from '@/shared/ShareCodeDialog.vue'
   import logger from '@/user/logger'
 
   export default {

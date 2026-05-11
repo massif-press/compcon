@@ -53,7 +53,7 @@
         prepend-icon="cc:size_1"
         variant="outlined"
         label="Size"
-        :items="sizes"
+        :items="frameSizes"
         multiple
         @update:modelValue="updateFilters()" />
     </v-col>
@@ -67,7 +67,7 @@
         prepend-icon="cc:license"
         variant="outlined"
         label="License"
-        :items="licenses"
+        :items="frameLicenses"
         multiple
         @update:modelValue="updateFilters()" />
     </v-col>
@@ -75,26 +75,22 @@
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash-es';
-import { MechType, MountType, Manufacturer, Frame } from '@/class';
-
-import { CompendiumStore } from '@/stores';
-
-const nameSort = function (a, b): number {
-  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
-  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
-  return 0;
-};
+import { MechType, MountType } from '@/class';
 
 export default {
   name: 'frame-filter',
-  props: { activeFilters: { type: Object, default: () => ({}) } },
+  props: {
+    activeFilters: { type: Object, default: () => ({}) },
+    manufacturers: { type: Array, default: () => [] },
+    frameSizes: { type: Array, default: () => [] },
+    frameLicenses: { type: Array, default: () => [] },
+  },
   data: () => ({
-    sourceFilter: [],
-    typeFilter: [],
-    mountFilter: [],
-    sizeFilter: [],
-    licenseFilter: [],
+    sourceFilter: [] as string[],
+    typeFilter: [] as string[],
+    mountFilter: [] as string[],
+    sizeFilter: [] as string[],
+    licenseFilter: [] as string[],
   }),
   emits: ['set-filters'],
   mounted() {
@@ -107,37 +103,11 @@ export default {
     if (f.License) this.licenseFilter = f.License;
   },
   computed: {
-    manufacturers(): Manufacturer[] {
-      return CompendiumStore()
-        .getItemCollection('Manufacturers')
-        .map((x) => ({ title: x.Name, value: x.ID }))
-        .sort(nameSort);
+    mechTypes(): string[] {
+      return Object.keys(MechType).map((k) => MechType[k as any]).sort() as string[];
     },
-    mechTypes(): MechType[] {
-      return Object.keys(MechType)
-        .map((k) => MechType[k as any])
-        .sort() as MechType[];
-    },
-    mountTypes(): MountType[] {
-      return Object.keys(MountType)
-        .map((k) => MountType[k as any])
-        .filter((x) => x !== 'Integrated')
-        .sort() as MountType[];
-    },
-    sizes(): { title: string; value: string }[] {
-      const sizes = CompendiumStore()
-        .getItemCollection('Frames')
-        .map((x: Frame) => x.Size)
-        .sort();
-      return _.uniq(sizes).map((y: any) => ({ title: 'Size ' + y, value: y }));
-    },
-    lcps(): string[] {
-      return CompendiumStore().lcpNames;
-    },
-    licenses(): { title: string; value: string }[] {
-      const frames = CompendiumStore().getItemCollection('Frames') as Frame[];
-      const licenses = frames.filter(x => !x.Variant).map((x) => x.License).filter((x) => !!x);
-      return _.uniq(licenses).map((y: any) => ({ title: y, value: y }));
+    mountTypes(): string[] {
+      return Object.keys(MountType).map((k) => MountType[k as any]).filter((x) => x !== 'Integrated').sort() as string[];
     },
   },
   methods: {

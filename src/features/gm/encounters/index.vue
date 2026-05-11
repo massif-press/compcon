@@ -188,7 +188,7 @@ import { Encounter } from '@/classes/encounter/Encounter';
 import EncounterEditor from './_components/EncounterEditor.vue';
 import Organizer from '../_components/Organizer.vue';
 import Importer from './_components/EncounterImporter.vue';
-import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
+import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
 
 export default {
   name: 'GmEncounterView',

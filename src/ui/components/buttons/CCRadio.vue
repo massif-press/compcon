@@ -45,89 +45,54 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-switch',
-  props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-    size: {
-      type: String,
-      default: 'default',
-    },
-    bgColor: {
-      type: String,
-      default: 'panel',
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    activeColor: {
-      type: String,
-      default: 'success',
-    },
-    prependIcon: {
-      type: String,
-    },
-    tooltip: {
-      type: String,
-    },
-    tooltipIcon: {
-      type: String,
-    },
-    label: {
-      type: String,
-    },
-  },
-  computed: {
-    isOn() {
-      return this.modelValue;
-    },
-  },
-  methods: {
-    toggle() {
-      this.$emit('update:modelValue', !this.isOn);
-    },
-    iconSize(icon: string) {
-      let size = 24;
-      if (icon === 'btn') size += 8;
+<script setup lang="ts">
+import { computed } from 'vue'
 
-      switch (this.size) {
-        case 'x-small':
-          size = 10;
-          if (icon === 'btn') size += 6;
-          break;
-        case 'small':
-          size = 16;
-          if (icon === 'btn') size += 6;
-          break;
-        case 'large':
-          size = 28;
-          if (icon === 'btn') size += 8;
-          break;
-        case 'x-large':
-          size = 32;
-          if (icon === 'btn') size += 12;
+interface Props {
+  modelValue: boolean
+  size?: string
+  bgColor?: string
+  color?: string
+  activeColor?: string
+  prependIcon?: string
+  tooltip?: string
+  tooltipIcon?: string
+  label?: string
+}
 
-          break;
-        case 'xx-large':
-          size = 40;
-          if (icon === 'btn') size += 16;
+const props = withDefaults(defineProps<Props>(), {
+  size: 'default',
+  bgColor: 'panel',
+  color: 'primary',
+  activeColor: 'success',
+})
 
-          break;
-      }
-      if (icon.includes('cc:')) size += 4;
-      return `${size}px`;
-    },
-    getLightColor(isHovering: null | boolean) {
-      if (isHovering && !this.isOn) return this.activeColor;
-      return this.isOn ? this.activeColor : this.color;
-    },
-  },
-};
+const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
+
+const isOn = computed(() => props.modelValue)
+
+function toggle() {
+  emit('update:modelValue', !isOn.value)
+}
+
+function iconSize(icon: string) {
+  let size = 24
+  if (icon === 'btn') size += 8
+  switch (props.size) {
+    case 'x-small': size = 10; if (icon === 'btn') size += 6; break
+    case 'small': size = 16; if (icon === 'btn') size += 6; break
+    case 'large': size = 28; if (icon === 'btn') size += 8; break
+    case 'x-large': size = 32; if (icon === 'btn') size += 12; break
+    case 'xx-large': size = 40; if (icon === 'btn') size += 16; break
+  }
+  if (icon.includes('cc:')) size += 4
+  return `${size}px`
+}
+
+function getLightColor(isHovering: boolean | null) {
+  if (isHovering && !isOn.value) return props.activeColor
+  return isOn.value ? props.activeColor : props.color
+}
 </script>
 
 <style scoped>
