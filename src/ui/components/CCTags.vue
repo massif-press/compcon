@@ -91,7 +91,6 @@ export default {
     },
     filteredTags(): Tag[] {
       const tArr: Tag[] = this.tags.filter(x => x) as Tag[];
-      console.log(tArr)
       if (!tArr || !tArr.length) return [];
       // tArr = (this.tags as Tag[]).filter(
       //   (t: Tag) => !!t && !t.ID.includes('action') && !t.ID.includes('tech')

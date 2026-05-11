@@ -131,8 +131,8 @@ export default {
       return CompendiumStore().Licenses.filter(
         x =>
           !x.InLcp ||
-          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
-          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
+          this.pilot.LcpConfig?.packList.some(y => y.packID === x.LcpId) ||
+          this.pilot.LcpConfig?.packList.some(y => y.packName === x.LcpName)
       )
     },
     licenses() {
@@ -148,8 +148,7 @@ export default {
           value: x.License!.FrameID,
           subtitle: `// Pilot Rank: ${x.Rank}`,
         })),
-        ...CompendiumStore()
-          .Licenses.filter(x => !x.Hidden)
+        ...this.allLicenses.filter(x => !x.Hidden)
           .filter(x => !this.pilot.LicenseController.Licenses.some(y => y.License && y.License.ID === x.ID))
           .map(x => ({
             title: x.Name,

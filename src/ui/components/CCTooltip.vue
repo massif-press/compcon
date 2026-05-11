@@ -2,7 +2,7 @@
   <v-tooltip :open-on-hover="!mobile"
     :open-on-click="mobile"
     max-width="350px"
-    :location="location">
+    :location="getLocation">
     <template #activator="{ props }">
       <v-icon v-bind="showTooltip ? props : ''"
         :icon="getIcon"
@@ -22,6 +22,9 @@
 
 <<<<<<< Updated upstream
 <script lang="ts">
+import { Anchor } from 'vuetify';
+
+
 export default {
   props: {
     text: {
@@ -60,6 +63,10 @@ export default {
     },
     mobile(): boolean {
       return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    },
+    getLocation() {
+      if (this.mobile) return 'top' as Anchor;
+      return this.location as Anchor;
     },
   },
 };
