@@ -1,126 +1,126 @@
-import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
-import { Mech } from '../../Mech';
-import { MechLoadout } from './MechLoadout';
-import { IMechLoadoutData } from './MechLoadout';
-import { MechEquipment } from '../equipment/MechEquipment';
-import { MechSystem } from '../equipment/MechSystem';
-import { MechWeapon } from '../equipment/MechWeapon';
-import logger from '@/user/logger';
+import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
+import { Mech } from '../../Mech'
+import { MechLoadout } from './MechLoadout'
+import { IMechLoadoutData } from './MechLoadout'
+import { MechEquipment } from '../equipment/MechEquipment'
+import { MechSystem } from '../equipment/MechSystem'
+import { MechWeapon } from '../equipment/MechWeapon'
+import logger from '@/user/logger'
 
 interface IMechLoadoutSaveData {
-  loadouts: IMechLoadoutData[];
-  active_loadout_index: number;
+  loadouts: IMechLoadoutData[]
+  active_loadout_index: number
 }
 
 class MechLoadoutController implements IFeatureContainer {
-  public readonly Parent: Mech;
-  private _loadouts!: MechLoadout[];
-  private _active_loadout!: MechLoadout;
+  public readonly Parent: Mech
+  private _loadouts!: MechLoadout[]
+  private _active_loadout!: MechLoadout
 
   constructor(parent: Mech) {
-    this.Parent = parent;
-    this._init();
+    this.Parent = parent
+    this._init()
   }
 
   private _init() {
-    this._loadouts = [new MechLoadout(this.Parent)];
-    this._active_loadout = this._loadouts[0];
+    this._loadouts = [new MechLoadout(this.Parent)]
+    this._active_loadout = this._loadouts[0]
   }
 
   public get FeatureSource(): any[] {
-    return this.ActiveLoadout.Equipment.filter((i) => !!i);
+    return this.ActiveLoadout.Equipment.filter(i => !!i)
   }
 
   public get Loadouts(): MechLoadout[] {
-    return this._loadouts;
+    return this._loadouts
   }
 
   public set Loadouts(loadouts: MechLoadout[]) {
-    this._loadouts = loadouts;
-    this.Parent.SaveController.save();
+    this._loadouts = loadouts
+    this.Parent.SaveController.save()
   }
 
   public get ActiveLoadout(): MechLoadout {
-    if (!this._active_loadout) this._init();
-    return this._active_loadout;
+    if (!this._active_loadout) this._init()
+    return this._active_loadout
   }
 
   public set ActiveLoadout(loadout: MechLoadout) {
-    this._active_loadout = loadout;
-    this.Parent.SaveController.save();
+    this._active_loadout = loadout
+    this.Parent.SaveController.save()
   }
 
   public RemoveBrewable(item: MechEquipment): void {
-    this.Loadouts.forEach((loadout) => {
+    this.Loadouts.forEach(loadout => {
       if (item instanceof MechWeapon) {
-        loadout.AllMounts(true, true).forEach((mount) => {
-          mount.Slots.forEach((slot) => {
-            if (slot.Weapon?.ID === item.ID) slot.UnequipWeapon();
-          });
-        });
+        loadout.AllMounts(true, true).forEach(mount => {
+          mount.Slots.forEach(slot => {
+            if (slot.Weapon?.ID === item.ID) slot.UnequipWeapon()
+          })
+        })
       } else if (item instanceof MechSystem) {
-        loadout.RemoveSystem(item);
+        loadout.RemoveSystem(item)
       }
-    });
+    })
   }
 
   public AddLoadout(): void {
-    this._loadouts.push(new MechLoadout(this.Parent));
-    this.ActiveLoadout = this._loadouts[this._loadouts.length - 1];
-    this.UpdateLoadouts();
+    this._loadouts.push(new MechLoadout(this.Parent))
+    this.ActiveLoadout = this._loadouts[this._loadouts.length - 1]
+    this.UpdateLoadouts()
 
-    this.Parent.SaveController.save();
+    this.Parent.SaveController.save()
   }
 
   public RemoveLoadout(): void {
     if (this._loadouts.length === 1) {
-      logger.error(`Cannot remove last Mech Loadout`, this);
+      logger.error(`Cannot remove last Mech Loadout`, this)
     } else {
-      const index = this._loadouts.findIndex((x) => x.ID === this.ActiveLoadout.ID);
-      this._active_loadout = this._loadouts[index + (index === 0 ? 1 : -1)];
-      this._loadouts.splice(index, 1);
-      this.Parent.SaveController.save();
+      const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
+      this._active_loadout = this._loadouts[index + (index === 0 ? 1 : -1)]
+      this._loadouts.splice(index, 1)
+      this.Parent.SaveController.save()
     }
   }
 
   public CloneLoadout(): void {
-    const index = this._loadouts.findIndex((x) => x.ID === this.ActiveLoadout.ID);
+    const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
     const newLoadout = MechLoadout.Deserialize(
       structuredClone(MechLoadout.Serialize(this.ActiveLoadout)),
       this.Parent
-    );
-    newLoadout.RenewID();
-    newLoadout.Name += ' (Copy)';
-    this._loadouts.splice(index + 1, 0, newLoadout);
-    this._active_loadout = this._loadouts[index + 1];
-    this.Parent.SaveController.save();
+    )
+    newLoadout.RenewID()
+    newLoadout.Name += ' (Copy)'
+    this._loadouts.splice(index + 1, 0, newLoadout)
+    this._active_loadout = this._loadouts[index + 1]
+    this.Parent.SaveController.save()
   }
 
   public UpdateLoadouts(): void {
-    this._loadouts.forEach((x) => {
-      x.SetAllIntegrated();
-    });
+    this._loadouts.forEach(x => {
+      x.SetAllIntegrated()
+    })
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this.ActiveLoadout.IntegratedSystems;
+    return this.ActiveLoadout.AllActiveSystems
   }
 
   public getMount(weapon: MechWeapon) {
-    return this.ActiveLoadout.AllMounts(true, true).find((x) =>
-      x.Slots.some((s) => s.Weapon?.InstanceID === weapon.InstanceID)
-    );
+    return this.ActiveLoadout.AllMounts(true, true).find(x =>
+      x.Slots.some(s => s.Weapon?.InstanceID === weapon.InstanceID)
+    )
   }
 
   public static Serialize(parent: Mech, target: any, asInstance = false) {
     if (asInstance) {
-      target.loadouts = [MechLoadout.Serialize(parent.MechLoadoutController.ActiveLoadout)];
-      target.active_loadout_index = 0;
+      target.loadouts = [MechLoadout.Serialize(parent.MechLoadoutController.ActiveLoadout)]
+      target.active_loadout_index = 0
     } else {
-      target.loadouts = parent.MechLoadoutController.Loadouts.map((x) => MechLoadout.Serialize(x));
+      target.loadouts = parent.MechLoadoutController.Loadouts.map(x => MechLoadout.Serialize(x))
       target.active_loadout_index = parent.MechLoadoutController.Loadouts.findIndex(
-        (x) => x.ID === parent.MechLoadoutController.ActiveLoadout.ID
-      );
+        x => x.ID === parent.MechLoadoutController.ActiveLoadout.ID
+      )
     }
   }
 
@@ -128,24 +128,24 @@ class MechLoadoutController implements IFeatureContainer {
     if (!parent.MechLoadoutController)
       throw new Error(
         `MechLoadoutController not found on parent (${typeof parent}). New MechLoadoutControllers must be instantiated in the parent's constructor method.`
-      );
+      )
     if (
       data.active_loadout_index === null ||
       data.active_loadout_index === undefined ||
       !data.loadouts.length
     ) {
-      parent.MechLoadoutController._loadouts = [new MechLoadout(parent)];
-      parent.MechLoadoutController._active_loadout = parent.MechLoadoutController._loadouts[0];
+      parent.MechLoadoutController._loadouts = [new MechLoadout(parent)]
+      parent.MechLoadoutController._active_loadout = parent.MechLoadoutController._loadouts[0]
     } else {
       parent.MechLoadoutController._loadouts = data.loadouts.map((x: IMechLoadoutData) =>
         MechLoadout.Deserialize(x, parent)
-      );
+      )
       parent.MechLoadoutController._active_loadout = data.active_loadout_index
         ? parent.MechLoadoutController._loadouts[data.active_loadout_index]
-        : parent.MechLoadoutController._loadouts[0];
+        : parent.MechLoadoutController._loadouts[0]
     }
   }
 }
 
-export { MechLoadoutController };
-export type { IMechLoadoutSaveData };
+export { MechLoadoutController }
+export type { IMechLoadoutSaveData }

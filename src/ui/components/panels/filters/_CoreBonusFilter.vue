@@ -9,7 +9,7 @@
     :items="manufacturers"
     chips
     clearable
-    @update:modelValue="updateFilters()" />
+    @update:model-value="updateFilters()" />
   <v-select v-model="lcpFilter"
     class="px-2"
     hide-details
@@ -21,22 +21,33 @@
     label="From Content Pack"
     :items="lcpNames"
     multiple
-    @update:modelValue="updateFilters()" />
+    @update:model-value="updateFilters()" />
 </template>
 
 <script lang="ts">
+import { Manufacturer } from '@/class';
+import { CompendiumStore } from '@/stores';
+import _ from 'lodash';
+
 export default {
-  name: 'core-bonus-filter',
-  props: {
-    activeFilters: { type: Object, default: () => ({}) },
-    manufacturers: { type: Array, default: () => [] },
-    lcpNames: { type: Array, default: () => [] },
-  },
+  name: 'CoreBonusFilter',
+  props: { activeFilters: { type: Object, default: () => ({}) } },
+  emits: ['set-filters'],
   data: () => ({
     sourceFilter: [] as string[],
     lcpFilter: [] as string[],
   }),
-  emits: ['set-filters'],
+  computed: {
+    manufacturers(): Manufacturer[] {
+      return CompendiumStore()
+        .getItemCollection('Manufacturers')
+        .map((x) => ({ title: x.Name, value: x.ID }))
+        .sort(nameSort);
+    },
+    lcps(): string[] {
+      return _.uniq(CompendiumStore().Frames.map((x) => x.LcpName));
+    },
+  },
   mounted() {
     const f = this.activeFilters;
     if (!f || !Object.keys(f).length) return;

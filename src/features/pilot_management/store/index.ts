@@ -192,10 +192,19 @@ export const PilotStore = defineStore('pilot', {
     },
     async DeleteGroup(group: PilotGroup, deletePilots: boolean): Promise<void> {
       const pilotIDs = group.Pilots.map(p => p.id)
+      const noGroup = this.PilotGroups.find(x => x.ID === 'no_group')
 
+      // Move all pilots to no_group in memory without saving on each transfer
       for (const id of pilotIDs) {
-        const pilot = this.getPilotByID(id)
-        if (pilot) await this.TransferPilot(pilot as Pilot)
+        for (const g of this.PilotGroups) {
+          if (g.ID === 'no_group') continue
+          if (g.Pilots.some(x => x.id === id)) {
+            g.Pilots = g.Pilots.filter(x => x.id !== id)
+          }
+        }
+        if (noGroup && !deletePilots && !noGroup.Pilots.some(x => x.id === id)) {
+          noGroup.Pilots.push({ id, index: -1 })
+        }
       }
 
       if (deletePilots) {
@@ -238,6 +247,9 @@ export const PilotStore = defineStore('pilot', {
     },
     async SaveGroupData(): Promise<void> {
       try {
+        this.PilotGroups.forEach((group, idx) => {
+          group.SortIndex = idx
+        })
         await Promise.all(
           this.PilotGroups.map(x => SetItem('pilot_groups', PilotGroup.Serialize(x as PilotGroup)))
         )

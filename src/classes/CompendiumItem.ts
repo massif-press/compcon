@@ -254,7 +254,8 @@ abstract class CompendiumItem {
   }
 
   public get Icon(): string {
-    return 'cc:' + snakeCase(this.ItemType.toLowerCase().replace(/mech|pilot/gm, ''))
+    const name = snakeCase(this.ItemType.toLowerCase().replace(/mech|pilot/gm, ''))
+    return 'cc:' + (name || 'generic_item')
   }
 
   public get Color(): string {

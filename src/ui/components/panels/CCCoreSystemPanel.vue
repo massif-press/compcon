@@ -71,6 +71,7 @@
       CORE INTEGRATED EQUIPMENT
       <v-divider class="mb-1" />
     </div>
+
     <v-row v-if="cs.IntegratedEquipment.length"
       no-gutters
       justify="center">
@@ -78,6 +79,21 @@
         :key="`integrated-${index}`">
         <cc-integrated-info :item="x"
           :panel="!isTerse && !mobile" />
+      </v-col>
+    </v-row>
+
+    <div v-if="cs.SpecialEquipment.length"
+      class="text-cc-overline text-accent">
+      CORE SPECIAL EQUIPMENT
+      <v-divider class="mb-1" />
+    </div>
+
+    <v-row v-if="cs.SpecialEquipment.length"
+      no-gutters
+      justify="center">
+      <v-col v-for="(x, index) in cs.SpecialEquipment"
+        :key="`integrated-${index}`">
+        <cc-item-chip :item="x" />
       </v-col>
     </v-row>
 

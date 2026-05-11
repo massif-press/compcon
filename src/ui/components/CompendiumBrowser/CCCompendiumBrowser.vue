@@ -63,9 +63,7 @@
             </template>
 
             <template v-if="open.includes(lcp)">
-              <b-list-item v-for="item in itemsByLcp[lcp].filter((i) =>
-                search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
-              )"
+              <b-list-item v-for="item in filteredItemsByLcp[lcp]"
                 v-if="options.noSource"
                 :key="item.ID"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
@@ -493,7 +491,7 @@
                 <div class="heading mech"
                   v-text="lcp" />
                 <selector-table :headers="tableHeaders"
-                  :items="searchFilter(itemsByLcp[lcp])"
+                  :items="filteredItemsByLcp[lcp]"
                   :selectable="equippable"
                   :selected="<CompendiumItem>selectedItem"
                   @select="$emit('equip', $event)" />
@@ -799,6 +797,9 @@ export default {
     itemsByLcp() {
       return _.groupBy(this.items as CompendiumItem[], 'LcpName');
     },
+    filteredItemsByLcp() {
+      return _.groupBy(this.shownItems, 'LcpName');
+    },
     itemsByType() {
       return _.groupBy(this.shownItems, (x: any) => x.Type);
     },
@@ -820,17 +821,17 @@ export default {
     itemsByLcpBySource() {
       const out = {} as Record<string, Record<string, any[]>>;
       for (const lcp of this.open) {
-        if (this.itemsByLcp[lcp])
-          out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.IsExotic ? 'exotic' : x.Source);
+        if (this.filteredItemsByLcp[lcp])
+          out[lcp] = _.groupBy(this.filteredItemsByLcp[lcp], (x: any) => x.IsExotic ? 'exotic' : x.Source);
       }
       return out;
     },
     itemsByLcpByRole() {
       const out = {} as Record<string, Record<string, any[]>>;
       for (const lcp of this.open) {
-        if (this.itemsByLcp[lcp])
+        if (this.filteredItemsByLcp[lcp])
           out[lcp] = _.groupBy(
-            this.itemsByLcp[lcp].filter((x: any) => x.Role),
+            this.filteredItemsByLcp[lcp].filter((x: any) => x.Role),
             (x: any) => x.Role
           );
       }
@@ -839,8 +840,8 @@ export default {
     itemsByLcpByOrigin() {
       const out = {} as Record<string, Record<string, any[]>>;
       for (const lcp of this.open) {
-        if (this.itemsByLcp[lcp])
-          out[lcp] = _.groupBy(this.itemsByLcp[lcp], (x: any) => x.Origin?.Name);
+        if (this.filteredItemsByLcp[lcp])
+          out[lcp] = _.groupBy(this.filteredItemsByLcp[lcp], (x: any) => x.Origin?.Name);
       }
       return out;
     },
@@ -852,8 +853,8 @@ export default {
     manufacturersByLcp() {
       const m = {} as any;
       for (const lcp of this.open) {
-        if (this.itemsByLcp[lcp])
-          m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.IsExotic ? 'exotic' : x.Source)).sort((a, b) =>
+        if (this.filteredItemsByLcp[lcp])
+          m[lcp] = _.uniq(this.filteredItemsByLcp[lcp].map((x: any) => x.IsExotic ? 'exotic' : x.Source)).sort((a, b) =>
             sortFn(a, b)
           );
       }
@@ -874,8 +875,8 @@ export default {
     rolesByLcp() {
       const m = {} as any;
       for (const lcp of this.open) {
-        if (this.itemsByLcp[lcp])
-          m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Role)).sort((a, b) => sortFn(a, b));
+        if (this.filteredItemsByLcp[lcp])
+          m[lcp] = _.uniq(this.filteredItemsByLcp[lcp].map((x: any) => x.Role)).sort((a, b) => sortFn(a, b));
       }
       return m;
     },
@@ -907,8 +908,8 @@ export default {
     originsByLcp() {
       const m = {} as any;
       for (const lcp of this.open) {
-        if (this.itemsByLcp[lcp])
-          m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Origin?.Name)).sort((a, b) =>
+        if (this.filteredItemsByLcp[lcp])
+          m[lcp] = _.uniq(this.filteredItemsByLcp[lcp].map((x: any) => x.Origin?.Name)).sort((a, b) =>
             sortFn(a, b)
           );
       }
@@ -918,12 +919,7 @@ export default {
       return Object.keys(this.itemsByLcp).sort((a, b) => sortFn(a, b));
     },
     filteredLcps() {
-      const base = this.lcps.filter((l: string) => this.lcpFilter.includes(l));
-      if (!this.search) return base;
-      const s = this.search.toLowerCase();
-      return base.filter((lcp: string) =>
-        (this.itemsByLcp[lcp] || []).some((i: any) => i.Name.toLowerCase().includes(s))
-      );
+      return Object.keys(this.filteredItemsByLcp).sort((a, b) => sortFn(a, b));
     },
     licenses() {
       return _.uniq(this.shownItems.map((x: any) => x.License)).sort((a, b) => sortFn(a, b));
@@ -949,7 +945,7 @@ export default {
         case 'type':
           return this.subtypes.flatMap((s: string) => this.itemsByType[s] || []);
         case 'lcp':
-          return this.filteredLcps.flatMap((lcp: string) => this.searchFilter(this.itemsByLcp[lcp] || []));
+          return this.filteredLcps.flatMap((lcp: string) => this.filteredItemsByLcp[lcp] || []);
         default:
           return this.shownItems;
       }

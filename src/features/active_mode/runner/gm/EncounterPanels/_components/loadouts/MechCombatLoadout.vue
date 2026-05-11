@@ -97,7 +97,7 @@ export default {
       return this.$vuetify.display.mdAndDown;
     },
     systems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.Systems;
+      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems;
     },
     mounts() {
       const items = [] as {

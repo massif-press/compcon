@@ -166,7 +166,7 @@
                       </v-col>
                       <v-col :class="!mobile ? 'ml-5' : ''">
                         <div class="heading">
-                          <v-icon v-if="selectedPilot.FavoriteMech.ID === mech.ID"
+                          <v-icon v-if="selectedPilot.FavoriteMech?.ID === mech.ID"
                             icon=mdi-star
                             start />{{ mech.Name }}
                         </div>
