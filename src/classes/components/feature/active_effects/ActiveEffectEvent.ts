@@ -287,9 +287,7 @@ class ActiveEffectEvent {
     this.RemoveSpecialStatus?.forEach(status => {
       target.RemoveSpecialStatus(status)
     })
-    // target.Combatant.actor.CombatController.AddLogEvent(this.EncounterInstance.Round, this.Summary)
-    this.Initiator.actor.CombatController.RootActor.CombatController.LogEventAction()
-    // this.EncounterInstance.AddLogEvent()
+    this.Initiator.actor.CombatController.CombatLog.LogAction(ActionSummary.fromActiveEffectEvent(this))
   }
 
   public ApplyAll() {

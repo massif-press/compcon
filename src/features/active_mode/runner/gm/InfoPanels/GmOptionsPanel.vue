@@ -155,7 +155,7 @@
                 <cc-button text
                   color="primary"
                   :disabled="!importOk"
-                  @click="importState()">
+                  @click="importState(close)">
                   Confirm Import
                 </cc-button>
               </v-card-actions>
@@ -344,12 +344,13 @@ export default {
       link.click();
       URL.revokeObjectURL(link.href);
     },
-    importState() {
-      if (!this.importOk || !this.importObj) {
-        return;
-      }
-      EncounterStore().AddEncounterInstance(EncounterInstance.Deserialize(this.importObj));
-      // this.$router.go();
+    async importState(close: () => void) {
+      if (!this.importOk || !this.importObj) return;
+      await EncounterStore().AddEncounterInstance(EncounterInstance.Deserialize(this.importObj));
+      await EncounterStore().SaveActiveEncounterData();
+      this.reset();
+      close();
+      this.$router.go(0);
     },
     stageImport() {
       if (!this.fileValue) {

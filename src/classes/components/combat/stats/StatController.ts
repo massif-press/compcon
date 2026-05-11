@@ -1,4 +1,5 @@
 import * as _ from 'lodash-es'
+import { markRaw } from 'vue'
 import { IStatContainer } from './IStatContainer'
 import { Stats, StatKey } from './Stats'
 import { Rules } from '@/classes/utility/Rules'
@@ -62,7 +63,7 @@ class StatController {
 
   private _maxStats: Record<string, any> = {}
   private _currentStats: Record<string, any> = {}
-  private _statFloors: Record<string, number> = {}
+  private _statFloors: Record<string, number> = markRaw({})
   private _customTrackable = new Set<string>()
 
   private static _customStatRegistry: Map<string, ICustomStatData> = new Map()

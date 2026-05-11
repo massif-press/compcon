@@ -106,7 +106,7 @@ const GetValue = async function (key: string): Promise<any> {
 const SetItem = async function (collection: string, item: any) {
   if (typeof item === 'string') {
     const sr = await storeRegistry[collection.toLowerCase()]
-    sr.setItem(item, item)
+    await sr.setItem(item, item)
     return
   }
 
@@ -123,7 +123,7 @@ const SetItem = async function (collection: string, item: any) {
     return
   }
 
-  storeRegistry[collection.toLowerCase()].setItem(id, JSON.stringify(item))
+  await storeRegistry[collection.toLowerCase()].setItem(id, JSON.stringify(item))
 }
 
 const GetItem = async function (collection: string, id: string) {

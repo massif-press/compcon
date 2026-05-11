@@ -500,10 +500,10 @@ class CombatController implements ICounterContainer, IStatContainer {
     const target = this.ActiveActor.CombatController
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
-      target.Statuses.push({ status, expires })
+      target.Statuses.push({ status, expires: expires ? markRaw(expires) : expires })
       this.log(`Gained ${status.Name}`)
     } else if (expires) {
-      target.Statuses[existingIndex].expires = expires
+      target.Statuses[existingIndex].expires = markRaw(expires)
     }
   }
 
@@ -512,7 +512,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     const target = thisController ? this : this.ActiveActor.CombatController
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
-      target.Statuses.push({ status, expires })
+      target.Statuses.push({ status, expires: expires ? markRaw(expires) : expires })
       this.log(`Gained ${status.Name}`)
     } else {
       target.Statuses.splice(existingIndex, 1)
@@ -542,10 +542,10 @@ class CombatController implements ICounterContainer, IStatContainer {
       s => s.status.Attribute === special.Attribute
     )
     if (existingIndex === -1) {
-      this.CustomStatuses.push({ status: special, expires })
+      this.CustomStatuses.push({ status: special, expires: expires ? markRaw(expires) : expires })
       this.log(`Gained special status: ${special.Attribute}`)
     } else if (expires) {
-      this.CustomStatuses[existingIndex].expires = expires
+      this.CustomStatuses[existingIndex].expires = markRaw(expires)
     } else {
       this.CustomStatuses.splice(existingIndex, 1)
       this.log(`Lost special status: ${special.Attribute}`)
@@ -812,7 +812,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   ): void {
     if (this.SaveLock) return
     if (!customStatus) return
-    const expirationObj = new expiration(expires, owner, target, encounter)
+    const expirationObj = markRaw(new expiration(expires, owner, target, encounter))
     const existingIndex = this.ActiveActor.CombatController.CustomStatuses.findIndex(
       s => s.status.Attribute === customStatus.Attribute
     )
@@ -906,7 +906,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     currentRound: number,
     currentActorID: string
   ): { status: Status; expires: expiration }[] {
-    return this.Statuses.filter(s => s.expires.HasExpired(currentRound, currentActorID, this.Turn))
+    return this.Statuses.filter(s => s.expires?.HasExpired(currentRound, currentActorID, this.Turn))
   }
 
   public StartEncounter(): void {
@@ -964,7 +964,7 @@ class CombatController implements ICounterContainer, IStatContainer {
           detail:
             'Due to the stress of bracing, until the end of this turn you can only take one quick action – you cannot take reactions, overcharge, move normally, take full actions, or take free actions.',
         }),
-        expires: new expiration('end_turn_self', this.Parent.CombatController, this, encounter),
+        expires: markRaw(new expiration('end_turn_self', this.Parent.CombatController, this, encounter)),
       })
       this.log('Brace ended; entered Brace Cooldown period')
       this.CombatActions = {
@@ -1016,11 +1016,11 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
 
     const statusExpires = this.Statuses.filter(s =>
-      s.expires.HasExpired(this.Round, this.Parent.ID, this.Turn)
+      s.expires?.HasExpired(this.Round, this.Parent.ID, this.Turn)
     )
 
     const specialStatusExpires = this.CustomStatuses.filter(s =>
-      s.expires.HasExpired(this.Round, this.Parent.ID, this.Turn)
+      s.expires?.HasExpired(this.Round, this.Parent.ID, this.Turn)
     )
 
     statusExpires.forEach(s => {
@@ -1123,7 +1123,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     }))
     target.customStatuses = controller.CustomStatuses.map(s => ({
       status: EffectSpecial.Serialize(s.status),
-      expires: s.expires.Raw,
+      expires: s.expires?.Raw,
     }))
     target.resistances = controller.Resistances
     target.cover = controller.Cover
@@ -1164,12 +1164,12 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller.Statuses = (data?.statuses || [])
       .map(s => ({
         status: CompendiumStore().Statuses.find(st => st.ID === s.status),
-        expires: expiration.Deserialize(s.expires),
+        expires: markRaw(expiration.Deserialize(s.expires)),
       }))
       .filter(s => s.status != null) as { status: Status; expires: expiration }[]
     controller.CustomStatuses = (data?.customStatuses || []).map(s => ({
       status: EffectSpecial.Deserialize(s.status),
-      expires: expiration.Deserialize(s.expires),
+      expires: markRaw(expiration.Deserialize(s.expires)),
     }))
 
     controller.Cover = data?.cover || CoverType.None

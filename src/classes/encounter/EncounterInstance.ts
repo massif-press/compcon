@@ -174,6 +174,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       'ReservesController',
       'NarrativeController',
       'FolderController',
+      'NpcClassController',
     ]
     for (const key of staticKeys) {
       if (actor[key]) markRaw(actor[key])
