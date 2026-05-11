@@ -1,7 +1,7 @@
 {
   "name": "compcon",
   "private": true,
-  "version": "3.0.4γ",
+  "version": "3.0.5",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
