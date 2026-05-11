@@ -131,8 +131,6 @@
 </template>
 
 <script lang="ts">
-import { UserStore } from '@/stores';
-
 export default {
   name: 'BrowserViewToggle',
   props: {
@@ -156,12 +154,14 @@ export default {
       type: Object,
       required: true,
     },
+    lcpConfigs: {
+      type: Array as () => any[],
+      required: false,
+      default: () => [],
+    },
   },
   emits: ['update:modelValue', 'set-all', 'set-filters'],
   computed: {
-    lcpConfigs() {
-      return UserStore().User.LcpConfigs || [];
-    },
     otherFilterCount() {
       let count = 0;
       for (const filter of Object.keys(this.otherFilter)) {

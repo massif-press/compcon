@@ -131,204 +131,165 @@
   </cc-modal>
 </template>
 
-<script lang="ts">
-import { downloadFromS3, GetFromCode } from '@/io/apis/account'
-import { UserStore } from '@/stores'
-import logger from '@/user/logger'
-import { useMobile } from '@/mixins/useMobile';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
+import { useDisplay } from 'vuetify';
+import { downloadFromS3, GetFromCode } from '@/io/apis/account';
+import { UserStore } from '@/stores';
+import logger from '@/user/logger';
 
-export default {
-  name: 'ShareCodeImporter',
-  mixins: [useMobile],
-  props: {
-    importType: {
-      type: String,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: false,
-      default: 'Add from Share Code',
-    },
-    blockBtn: {
-      type: Boolean,
+const { smAndDown: mobile } = useDisplay();
 
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    fullWidth: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    subtitle: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    size: {
-      type: String,
-      required: false,
-      default: 'small',
-    },
+const props = withDefaults(defineProps<{
+  importType: string;
+  title?: string;
+  blockBtn?: boolean;
+  color?: string;
+  fullWidth?: boolean;
+  subtitle?: string;
+  size?: string;
+}>(), {
+  title: 'Add from Share Code',
+  color: 'primary',
+  fullWidth: false,
+  subtitle: '',
+  size: 'small',
+});
 
+const emit = defineEmits<{
+  'set-query-result': [result: unknown];
+  'set-data': [data: unknown];
+  'set-share-code': [code: string];
+}>();
 
-  },
-  emits: ['set-query-result', 'set-data', 'set-share-code'],
-  data: () => ({
-    codeLength: 12,
-    codeSearch: '',
-    code: [] as string[],
-    queryResult: null as any,
-    badCode: '',
-    loading: false,
-    dlLoading: false,
-  }),
-  computed: {
-    qrImportType() {
-      if (!this.queryResult || !this.queryResult.sortkey) return null
-      const qr = this.queryResult && this.queryResult.sortkey.split('_')[1].toLowerCase()
-      return qr === 'pilotgroup' ? 'Pilot Group' : qr
-    },
-    hasCode() {
-      return this.code.some(char => char === '')
-    },
-    isLoggedIn() {
-      return UserStore().IsLoggedIn
-    },
-    isUserOwned() {
-      return !!(
-        this.queryResult?.user_id &&
-        UserStore().Cognito?.userId &&
-        this.queryResult.user_id === UserStore().Cognito.userId
-      )
-    },
-    canDownload() {
-      return this.queryResult && this.queryResult.uri
-    },
-    remoteItemExists() {
-      return (
-        this.queryResult &&
-        UserStore().UserMetadata.RemoteItems &&
-        UserStore().UserMetadata.RemoteItems.some(
-          ri => ri === this.queryResult.code || ri === this.code.join('')
-        )
-      )
-    },
-    wrongType() {
-      const skipTypes = ['item', 'campaign', 'collection']
-      if (skipTypes.includes(this.importType)) return false
-      const npcTypes = ['npc', 'unit', 'eidolon', 'doodad']
-      if (this.importType === 'npc' && npcTypes.includes(this.qrImportType)) return false
-      const narrativeTypes = ['narrative', 'character', 'location', 'faction']
-      if (this.importType === 'narrative' && narrativeTypes.includes(this.qrImportType))
-        return false
-      return this.queryResult && this.qrImportType !== this.importType
-    },
-  },
-  created() {
-    switch (this.importType.toLowerCase()) {
-      case 'campaign':
-        this.codeLength = 8
-        break
-      case 'collection':
-        this.codeLength = 10
-        break
-      default:
-        this.codeLength = 12
-        break
-    }
-    this.code = Array(this.codeLength).fill('')
-  },
-  methods: {
-    onInput(event: Event, index: number) {
-      const input = event.target as HTMLInputElement
-      const value = input.value
+const codeLength = ref(12);
+const code = ref<string[]>([]);
+const queryResult = ref<any>(null);
+const badCode = ref('');
+const loading = ref(false);
+const codeInputs = ref<HTMLElement[]>([]);
+
+const qrImportType = computed(() => {
+  if (!queryResult.value?.sortkey) return null;
+  const qr = queryResult.value.sortkey.split('_')[1].toLowerCase();
+  return qr === 'pilotgroup' ? 'Pilot Group' : qr;
+});
+
+const hasCode = computed(() => code.value.some(char => char === ''));
+
+const isUserOwned = computed(() =>
+  !!(queryResult.value?.user_id &&
+    UserStore().Cognito?.userId &&
+    queryResult.value.user_id === UserStore().Cognito.userId)
+);
+
+const remoteItemExists = computed(() =>
+  !!(queryResult.value &&
+    UserStore().UserMetadata.RemoteItems?.some(
+      (ri: string) => ri === queryResult.value.code || ri === code.value.join('')
+    ))
+);
+
+const wrongType = computed(() => {
+  const skipTypes = ['item', 'campaign', 'collection'];
+  if (skipTypes.includes(props.importType)) return false;
+  const npcTypes = ['npc', 'unit', 'eidolon', 'doodad'];
+  if (props.importType === 'npc' && npcTypes.includes(qrImportType.value ?? '')) return false;
+  const narrativeTypes = ['narrative', 'character', 'location', 'faction'];
+  if (props.importType === 'narrative' && narrativeTypes.includes(qrImportType.value ?? '')) return false;
+  return queryResult.value && qrImportType.value !== props.importType;
+});
+
+function initCode() {
+  switch (props.importType.toLowerCase()) {
+    case 'campaign': codeLength.value = 8; break;
+    case 'collection': codeLength.value = 10; break;
+    default: codeLength.value = 12;
+  }
+  code.value = Array(codeLength.value).fill('');
+}
+
+initCode();
+
+function onInput(event: Event, index: number) {
+  const input = event.target as HTMLInputElement;
+  const value = input.value;
+  if (value.length > 1) {
+    code.value[index] = value[0];
+    input.value = value[0];
+  }
+  if (code.value[index].length === 1 && index < codeLength.value - 1) {
+    codeInputs.value[index + 1].focus();
+  }
+}
+
+function onPaste(event: ClipboardEvent, index: number) {
+  let pastedData = event.clipboardData?.getData('Text') || '';
+  if (pastedData) {
+    event.preventDefault();
+    pastedData = pastedData.replace(/-/g, '');
+    const pasteArray = pastedData.slice(0, codeLength.value).split('');
+    pasteArray.forEach((char, i) => {
+      if (index + i < codeLength.value) code.value[index + i] = char;
+    });
+    const nextIndex = Math.min(index + pasteArray.length, codeLength.value - 1);
+    codeInputs.value[nextIndex]?.focus();
+  } else {
+    setTimeout(() => {
+      const target = event.target as HTMLInputElement;
+      const value = target.value.replace(/-/g, '');
       if (value.length > 1) {
-        this.code[index] = value[0]
-        input.value = value[0]
-      }
-      if (this.code[index].length === 1 && index < this.codeLength - 1) {
-        ;(this.$refs.codeInputs as HTMLElement[])[index + 1].focus()
-      }
-    },
-    onPaste(event: ClipboardEvent, index: number) {
-      let pastedData = event.clipboardData?.getData('Text') || ''
-      if (pastedData) {
-        event.preventDefault()
-        pastedData = pastedData.replace(/-/g, '')
-        const pasteArray = pastedData.slice(0, this.codeLength).split('')
+        const pasteArray = value.slice(0, codeLength.value - index).split('');
+        code.value[index] = '';
+        target.value = '';
         pasteArray.forEach((char, i) => {
-          if (index + i < this.codeLength) {
-            this.code[index + i] = char
-          }
-        })
-        this.$nextTick(() => {
-          const nextIndex = Math.min(index + pasteArray.length, this.codeLength - 1)
-          ;(this.$refs.codeInputs as HTMLElement[])[nextIndex].focus()
-        })
-      } else {
-        // iOS: clipboardData unavailable; let browser paste into the focused input, then redistribute
-        this.$nextTick(() => {
-          const target = event.target as HTMLInputElement
-          const value = target.value.replace(/-/g, '')
-          if (value.length > 1) {
-            const pasteArray = value.slice(0, this.codeLength - index).split('')
-            this.code[index] = ''
-            target.value = ''
-            pasteArray.forEach((char, i) => {
-              if (index + i < this.codeLength) {
-                this.code[index + i] = char
-              }
-            })
-            this.$nextTick(() => {
-              const nextIndex = Math.min(index + pasteArray.length, this.codeLength - 1)
-              ;(this.$refs.codeInputs as HTMLElement[])[nextIndex].focus()
-            })
-          }
-        })
+          if (index + i < codeLength.value) code.value[index + i] = char;
+        });
+        const nextIndex = Math.min(index + pasteArray.length, codeLength.value - 1);
+        codeInputs.value[nextIndex]?.focus();
       }
-    },
-    onBackspace(index: number) {
-      if (this.code[index] === '' && index > 0) {
-        this.code[index - 1] = ''
-          ; (this.$refs.codeInputs as HTMLElement[])[index - 1].focus()
-      }
-    },
-    async getFromCode() {
-      this.loading = true
-      const normalizedCode = this.code.join('').toUpperCase()
-      try {
-        this.queryResult = await GetFromCode(normalizedCode)
-        this.$emit('set-query-result', this.queryResult)
-        this.$emit('set-share-code', normalizedCode)
-        if (this.importType === 'campaign') {
-          const campaign = await downloadFromS3(this.queryResult.uri)
-          this.$emit('set-data', campaign)
-        }
-      } catch (err) {
-        this.badCode = normalizedCode
-        this.queryResult = null
-        logger.error(`Error getting code: ${err}`, this, err)
-      } finally {
-        this.loading = false
-      }
-    },
-    reset() {
-      this.code = Array(this.codeLength).fill('')
-      this.queryResult = null
-      this.badCode = ''
-    },
-    formatCode(code: string) {
-      if (code.length === 12)
-        return code.slice(0, 4) + '-' + code.slice(4, 8) + '-' + code.slice(8, 12)
-      if (code.length === 10) return code.slice(0, 5) + '-' + code.slice(5, 10)
-      if (code.length === 8) return code.slice(0, 4) + '-' + code.slice(4, 8)
-    },
-  },
+    });
+  }
+}
+
+function onBackspace(index: number) {
+  if (code.value[index] === '' && index > 0) {
+    code.value[index - 1] = '';
+    codeInputs.value[index - 1].focus();
+  }
+}
+
+async function getFromCode() {
+  loading.value = true;
+  const normalizedCode = code.value.join('').toUpperCase();
+  try {
+    queryResult.value = await GetFromCode(normalizedCode);
+    emit('set-query-result', queryResult.value);
+    emit('set-share-code', normalizedCode);
+    if (props.importType === 'campaign') {
+      const campaign = await downloadFromS3(queryResult.value.uri);
+      emit('set-data', campaign);
+    }
+  } catch (err) {
+    badCode.value = normalizedCode;
+    queryResult.value = null;
+    logger.error(`Error getting code: ${err}`, null, err);
+  } finally {
+    loading.value = false;
+  }
+}
+
+function reset() {
+  code.value = Array(codeLength.value).fill('');
+  queryResult.value = null;
+  badCode.value = '';
+}
+
+function formatCode(c: string) {
+  if (c.length === 12) return c.slice(0, 4) + '-' + c.slice(4, 8) + '-' + c.slice(8, 12);
+  if (c.length === 10) return c.slice(0, 5) + '-' + c.slice(5, 10);
+  if (c.length === 8) return c.slice(0, 4) + '-' + c.slice(4, 8);
+  return c;
 }
 </script>
 

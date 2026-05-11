@@ -419,135 +419,141 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useDisplay } from 'vuetify';
+import { useRouter } from 'vue-router';
 import { CombatLog } from '@/classes/components/combat/CombatLog';
 import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary';
 import { Encounter } from '@/classes/encounter/Encounter';
 import { EncounterArchive } from '@/classes/encounter/EncounterArchive';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { EncounterStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
 
+const { smAndDown: mobile } = useDisplay();
+const router = useRouter();
 
-export default {
-  name: 'EncounterManager',
-  mixins: [useMobile],
-  data: () => ({
-    search: '',
-    sort: '',
-    asc: true,
-  }),
-  computed: {
-    encounters() {
-      if (this.sort) {
-        const sorted = [...EncounterStore().ActiveEncounters].filter(
-          (e) => !e.SaveController.IsDeleted
-        );
-        sorted.sort((a, b) => {
-          let aValue, bValue;
-          switch (this.sort) {
-            case 'Name':
-              aValue = a.Name.toLowerCase();
-              bValue = b.Name.toLowerCase();
-              break;
-            case 'Created':
-              aValue = new Date(a.SaveController.Created).getTime();
-              bValue = new Date(b.SaveController.Created).getTime();
-              break;
-            case 'Updated':
-              aValue = new Date(a.SaveController.LastModified || a.SaveController.Created).getTime();
-              bValue = new Date(b.SaveController.LastModified || b.SaveController.Created).getTime();
-              break;
-            default:
-              return 0;
-          }
-          if (aValue < bValue) return this.asc ? -1 : 1;
-          if (aValue > bValue) return this.asc ? 1 : -1;
+const search = ref('');
+const sort = ref('');
+const asc = ref(true);
+
+const encounters = computed(() => {
+  if (sort.value) {
+    const sorted = [...EncounterStore().ActiveEncounters].filter(
+      (e) => !e.SaveController.IsDeleted
+    );
+    sorted.sort((a, b) => {
+      let aValue: any, bValue: any;
+      switch (sort.value) {
+        case 'Name':
+          aValue = a.Name.toLowerCase();
+          bValue = b.Name.toLowerCase();
+          break;
+        case 'Created':
+          aValue = new Date(a.SaveController.Created).getTime();
+          bValue = new Date(b.SaveController.Created).getTime();
+          break;
+        case 'Updated':
+          aValue = new Date(a.SaveController.LastModified || a.SaveController.Created).getTime();
+          bValue = new Date(b.SaveController.LastModified || b.SaveController.Created).getTime();
+          break;
+        default:
           return 0;
-        });
-        return sorted;
-      } else {
-        return EncounterStore().ActiveEncounters.filter(
-          (e) => !e.SaveController.IsDeleted
-        );
       }
-    },
-    archived() {
-      let arr = EncounterStore().ArchivedEncounters.filter((e) => !e.SaveController.IsDeleted);
-      if (this.search && this.search.trim() !== '') {
-        arr = arr.filter((e) =>
-          e.Name.toLowerCase().includes(this.search.toLowerCase())
-        );
-      }
-      return arr;
-    },
-    deleted() {
-      return EncounterStore().ActiveEncounters.filter((e) => e.SaveController.IsDeleted);
-    },
-  },
-  methods: {
-    setSort(field) {
-      if (this.sort === field) {
-        this.asc = !this.asc;
-      } else {
-        this.sort = field;
-        this.asc = true;
-      }
-    },
-    async launch(encounter) {
-      await EncounterStore().AssignActiveEncounter(encounter);
-      this.$router.push(`gm-encounter-runner/${encounter.ID}`);
-    },
-    deleteEncounter(encounter) {
-      encounter.SaveController.Delete();
-    },
-    async RemoveEncounter(encounter) {
-      await EncounterStore().RemoveEncounterInstance(encounter);
-    },
-    async unarchive(archive: EncounterArchive) {
-      const e = new Encounter(archive.EncounterData);
-      await EncounterStore().AddEncounterInstance(new EncounterInstance(undefined, e));
-    },
-    reportText(archive) {
-      let str = `      ${archive.Name}: ${archive.Result}\n`;
-      str += `------------------------------------------------\n`;
-      const report = JSON.parse(archive.AfterActionReport);
-      report.forEach(e => {
-        str += `${e.name}: ${e.pilotStatus || ''}${e.mechStatus ? ` // ${e.mechStatus}` : ''}${e.status || ''}\n`;
-      });
+      if (aValue < bValue) return asc.value ? -1 : 1;
+      if (aValue > bValue) return asc.value ? 1 : -1;
+      return 0;
+    });
+    return sorted;
+  } else {
+    return EncounterStore().ActiveEncounters.filter(
+      (e) => !e.SaveController.IsDeleted
+    );
+  }
+});
 
-      return str;
-    },
-    copyText(text) {
-      navigator.clipboard.writeText(text);
-    },
-    exportJson(archive, type: 'logs' | 'report') {
-      const data = {
-        name: archive.Name,
-        result: archive.Result,
-        details: type === 'report' ? JSON.parse(archive.AfterActionReport) : archive.History,
-      }
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${archive.Name}_${type === 'report' ? 'report' : 'logs'}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-    },
-    formatTelemetry(t) {
-      return CombatLog.FormatTelemetry(t, true, 40);
-    },
-    formatLogEntry(log) {
-      let out = `Round ${log.round} (${new Date(log.timestamp).toLocaleTimeString()})\n`;
-      if (log.action)
-        out += new ActionSummary(log.action).Summarize(log.action.initiatorID || '')
-      else if (log.event)
-        out += log.event;
-      return out;
-    }
-  },
-};
+const archived = computed(() => {
+  let arr = EncounterStore().ArchivedEncounters.filter((e) => !e.SaveController.IsDeleted);
+  if (search.value && search.value.trim() !== '') {
+    arr = arr.filter((e) =>
+      e.Name.toLowerCase().includes(search.value.toLowerCase())
+    );
+  }
+  return arr;
+});
+
+const deleted = computed(() =>
+  EncounterStore().ActiveEncounters.filter((e) => e.SaveController.IsDeleted)
+);
+
+function setSort(field: string) {
+  if (sort.value === field) {
+    asc.value = !asc.value;
+  } else {
+    sort.value = field;
+    asc.value = true;
+  }
+}
+
+async function launch(encounter: any) {
+  await EncounterStore().AssignActiveEncounter(encounter);
+  router.push(`gm-encounter-runner/${encounter.ID}`);
+}
+
+function deleteEncounter(encounter: any) {
+  encounter.SaveController.Delete();
+}
+
+async function RemoveEncounter(encounter: any) {
+  await EncounterStore().RemoveEncounterInstance(encounter);
+}
+
+async function unarchive(archive: EncounterArchive) {
+  const e = new Encounter(archive.EncounterData);
+  await EncounterStore().AddEncounterInstance(new EncounterInstance(undefined, e));
+}
+
+function reportText(archive: any) {
+  let str = `      ${archive.Name}: ${archive.Result}\n`;
+  str += `------------------------------------------------\n`;
+  const report = JSON.parse(archive.AfterActionReport);
+  report.forEach((e: any) => {
+    str += `${e.name}: ${e.pilotStatus || ''}${e.mechStatus ? ` // ${e.mechStatus}` : ''}${e.status || ''}\n`;
+  });
+  return str;
+}
+
+function copyText(text: string) {
+  navigator.clipboard.writeText(text);
+}
+
+function exportJson(archive: any, type: 'logs' | 'report') {
+  const data = {
+    name: archive.Name,
+    result: archive.Result,
+    details: type === 'report' ? JSON.parse(archive.AfterActionReport) : archive.History,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${archive.Name}_${type === 'report' ? 'report' : 'logs'}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function formatTelemetry(t: any) {
+  return CombatLog.FormatTelemetry(t, true, 40);
+}
+
+function formatLogEntry(log: any) {
+  let out = `Round ${log.round} (${new Date(log.timestamp).toLocaleTimeString()})\n`;
+  if (log.action)
+    out += new ActionSummary(log.action).Summarize(log.action.initiatorID || '');
+  else if (log.event)
+    out += log.event;
+  return out;
+}
 </script>
 
 <style scoped>

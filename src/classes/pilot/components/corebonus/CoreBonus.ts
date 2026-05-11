@@ -22,7 +22,7 @@ class CoreBonus extends CompendiumItem {
   }
 
   public get Manufacturer(): Manufacturer {
-    return CompendiumStore().referenceByID('Manufacturers', this.Source);
+    return CompendiumStore().referenceByID('Manufacturers', this.Source) as unknown as Manufacturer;
   }
 
   public get IsMountable(): boolean {

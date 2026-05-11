@@ -103,7 +103,7 @@ import Selector from './components/_SelectorBase.vue'
 import LicenseExpandable from '@/ui/components/CompendiumBrowser/components/_license-expandable.vue'
 
 import { CompendiumStore } from '@/stores'
-import { Pilot, License } from '@/class'
+import { Manufacturer, Pilot, License } from '@/class'
 import logger from '@/user/logger'
 import MissingItemAlert from './components/_MissingItemAlert.vue'
 import { useMobile } from '@/mixins/useMobile';
@@ -175,7 +175,7 @@ export default {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' })
     },
     mf(id: string) {
-      return CompendiumStore().referenceByID('Manufacturers', id.toUpperCase())
+      return CompendiumStore().referenceByID('Manufacturers', id.toUpperCase()) as Manufacturer
     },
     mfSort(keys: string[]) {
       const mfOrder = ['gms', 'ips-n', 'ssc', 'horus', 'ha']

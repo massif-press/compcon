@@ -64,11 +64,11 @@ class License {
   }
 
   public get Manufacturer(): Manufacturer {
-    return CompendiumStore().referenceByID('Manufacturers', this.Source)
+    return CompendiumStore().referenceByID('Manufacturers', this.Source) as unknown as Manufacturer
   }
 
   public get Frame(): Frame {
-    return CompendiumStore().referenceByID('Frames', this.FrameID)
+    return CompendiumStore().referenceByID('Frames', this.FrameID) as Frame
   }
 
   private licenseMatch(licenseItem: LicensedItem): boolean {
@@ -85,17 +85,17 @@ class License {
   }
 
   private get licenseFrame(): Frame {
-    return CompendiumStore().referenceByID('Frames', this.FrameID)
+    return CompendiumStore().referenceByID('Frames', this.FrameID) as Frame
   }
 
   public get Unlocks(): LicensedItem[][] {
     if (this._unlocksCache) return this._unlocksCache
     const items: LicensedItem[] = [
-      ...CompendiumStore().getItemCollection('MechWeapons'),
-      ...CompendiumStore().getItemCollection('WeaponMods'),
-      ...CompendiumStore().getItemCollection('MechSystems'),
-      ...CompendiumStore().getItemCollection('Frames'),
-    ].filter((x: LicensedItem) => this.licenseMatch(x))
+      ...CompendiumStore().getItemCollection('MechWeapons') as LicensedItem[],
+      ...CompendiumStore().getItemCollection('WeaponMods') as LicensedItem[],
+      ...CompendiumStore().getItemCollection('MechSystems') as LicensedItem[],
+      ...CompendiumStore().getItemCollection('Frames') as LicensedItem[],
+    ].filter(x => this.licenseMatch(x))
 
     const lls = [...items].map(i => i.LicenseLevel)
 
@@ -134,7 +134,7 @@ class License {
   }
 
   public static Deserialize(frameId: string): License {
-    return new License(CompendiumStore().referenceByID('Frames', frameId))
+    return new License(CompendiumStore().referenceByID('Frames', frameId) as Frame)
   }
 
   public get InLcp(): boolean {

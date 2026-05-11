@@ -178,8 +178,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import annotationPlugin from 'chartjs-plugin-annotation';
 
 import * as _ from 'lodash-es';
-import { CompendiumItem, MechWeapon } from '@/class';
-import { CompendiumStore } from '@/stores';
+import { CompendiumItem, Manufacturer, MechWeapon } from '@/class';
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 
 ChartJS.register(
@@ -418,7 +417,7 @@ export default {
     },
     mf(id: string) {
       return (
-        CompendiumStore().Manufacturers.find((x) => x.ID === id) || {
+        (this.manufacturers as Manufacturer[]).find((x) => x.ID === id) || {
           GetColor: () => 'black',
           Name: 'err',
           LogoIsExternal: false,

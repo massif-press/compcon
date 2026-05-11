@@ -156,8 +156,7 @@ export default {
   },
   methods: {
     item(type: string, id: string) {
-      const compendium = CompendiumStore();
-      return compendium.referenceByID(type, id);
+      return CompendiumStore().referenceByID(type, id) as any;
     },
   },
 };

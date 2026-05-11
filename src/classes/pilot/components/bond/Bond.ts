@@ -87,7 +87,7 @@ class Bond implements ILcpTracked {
   }
 
   public static Deserialize(id: string): Bond {
-    return CompendiumStore().referenceByID('Bonds', id)
+    return CompendiumStore().referenceByID('Bonds', id) as unknown as Bond
   }
 
   public get Icon(): string {

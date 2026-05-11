@@ -79,7 +79,7 @@ class Talent extends CompendiumItem {
   }
 
   public static Deserialize(id: string): Talent {
-    return CompendiumStore().referenceByID('Talents', id)
+    return CompendiumStore().referenceByID('Talents', id) as Talent
   }
 }
 

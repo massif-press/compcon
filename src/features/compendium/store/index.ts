@@ -242,14 +242,15 @@ export const CompendiumStore = defineStore('compendium', {
         })
     },
 
-    instantiate(): any {
+    instantiate(): (itemType: string, id: string) => CompendiumItem | null {
       return (itemType: string, id: string) => {
-        if (this[itemType] && this[itemType] instanceof Array) {
-          const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
+        const col = (this as any)[itemType]
+        if (col && col instanceof Array) {
+          const i = col.find((x: any) => x.ID === id || x.id === id)
           if (i) {
-            const cl = _.cloneDeep(i)
+            const cl = _.cloneDeep(i) as any
             cl.InstanceID = uuid()
-            return cl
+            return cl as CompendiumItem
           }
           return null
         }
@@ -258,11 +259,12 @@ export const CompendiumStore = defineStore('compendium', {
       }
     },
 
-    referenceByID(): any {
+    referenceByID(): (itemType: string, id: string) => CompendiumItem {
       return (itemType: string, id: string) => {
-        if (this[itemType] && this[itemType] instanceof Array) {
-          const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
-          if (i) return i
+        const col = (this as any)[itemType]
+        if (col && col instanceof Array) {
+          const i = col.find((x: any) => x.ID === id || x.id === id)
+          if (i) return i as CompendiumItem
           throw new Error(`ID not found: ${id}`)
         }
         throw new Error(`Invalid item type: ${itemType}`)
@@ -279,35 +281,36 @@ export const CompendiumStore = defineStore('compendium', {
       }
     },
 
-    referenceFromID(): any {
+    referenceFromID(): (itemType: string, id: string) => CompendiumItem {
       return (itemType: string, id: string) => {
         const mappedType = itemTypeMap[itemType]
-
-        if (this[mappedType] && this[mappedType] instanceof Array) {
-          const i = this[mappedType].find((x: any) => x.ID === id || x.id === id)
-          if (i) return i
+        const col = (this as any)[mappedType]
+        if (col && col instanceof Array) {
+          const i = col.find((x: any) => x.ID === id || x.id === id)
+          if (i) return i as CompendiumItem
           throw new Error(`ID not found: ${id}`)
         }
         throw new Error(`Invalid item type: ${mappedType}`)
       }
     },
 
-    getItemCollection(): any {
+    getItemCollection(): (itemType: string) => CompendiumItem[] {
       return (itemType: string) => {
-        return this[itemType].filter(x => x && !x.IsHidden && !x.Specialty)
+        return ((this as any)[itemType] as CompendiumItem[]).filter(x => x && !x.IsHidden && !(x as any).Specialty)
       }
     },
 
-    lcpNames(): any {
+    lcpNames(): string[] {
       const frame_packs = this.Frames.map(x => x.LcpName)
       const lcp_packs = this.ContentPacks.map(x => x.Name)
       return _.unionWith(frame_packs, lcp_packs, _.isEqual)
     },
 
-    itemsByLcp: (state): any => {
+    itemsByLcp: (state): (key: string) => Record<string, CompendiumItem[]> => {
       return (key: string) => {
-        if (!state[key]) throw new Error(`Invalid LCP key: ${key}`)
-        return _.groupBy(state[key], 'LcpName')
+        const col = (state as any)[key] as CompendiumItem[] | undefined
+        if (!col) throw new Error(`Invalid LCP key: ${key}`)
+        return _.groupBy(col, 'LcpName') as Record<string, CompendiumItem[]>
       }
     },
 
@@ -319,8 +322,8 @@ export const CompendiumStore = defineStore('compendium', {
         .filter(x => !x.IsHidden)
     },
 
-    referenceLink(): any {
-      return (item: CompendiumItem, internal: boolean = false) => {
+    referenceLink(): (item: CompendiumItem, internal?: boolean) => string {
+      return (item: CompendiumItem, internal: boolean = false): string => {
         const prepend = internal
           ? ''
           : import.meta.env.DEV

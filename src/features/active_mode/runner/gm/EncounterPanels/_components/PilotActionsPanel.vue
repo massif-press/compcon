@@ -174,126 +174,76 @@
   </v-expansion-panels>
 </template>
 
-<script lang="ts">
-import { CompendiumStore } from '@/stores'
-import { Deployable } from '@/classes/components/feature/deployable/Deployable'
-import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
-import DeployButton from './loadouts/_deployButton.vue'
-import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue'
-import PilotReloadButton from './loadouts/action_buttons/pilotReloadButton.vue'
-import PilotJockeyButton from './loadouts/action_buttons/pilotJockeyButton.vue'
-import PilotFightButton from './loadouts/action_buttons/pilotFightButton.vue'
-import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
+<script setup lang="ts">
+import { computed } from 'vue';
+import { CompendiumStore } from '@/stores';
+import { Deployable } from '@/classes/components/feature/deployable/Deployable';
+import { notify } from '@/util/notify';
+import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
+import DeployButton from './loadouts/_deployButton.vue';
+import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue';
+import PilotReloadButton from './loadouts/action_buttons/pilotReloadButton.vue';
+import PilotJockeyButton from './loadouts/action_buttons/pilotJockeyButton.vue';
+import PilotFightButton from './loadouts/action_buttons/pilotFightButton.vue';
+import InvadeButton from './loadouts/action_buttons/invadeButton.vue';
 
-export default {
-  name: 'PilotActionsPanel',
-  components: {
-    BasicActionButton,
-    DeployButton,
-    SkillCheckButton,
-    PilotReloadButton,
-    PilotJockeyButton,
-    PilotFightButton,
-    InvadeButton,
-  },
-  emits: ['deploy'],
-  props: {
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    quickPilotActions: [
-      'act_boost',
-      'act_hide',
-      'act_search',
-      'act_lockon',
-      'act_prepare',
-      'act_reload',
-      'act_invade',
-    ],
-    fullPilotActions: ['act_skill_check', 'act_mount', 'act_disengage', 'act_jockey'],
-  }),
-  computed: {
-    controller() {
-      return this.owner.actor.CombatController
-    },
-  },
-  methods: {
-    getBaseAction(actionId) {
-      return CompendiumStore().Actions.find(a => a.ID === actionId)
-    },
-    toDeployable(action) {
-      return new Deployable(action.Deployable)
-    },
-    activate(event) {
-      this.controller.MarkActionUsed(event)
-      switch (event) {
-        case 'act_prepare':
-          this.controller.Prepared = true
-          this.$notify({
-            type: 'success',
-            title: 'Pilot Prepared',
-            text: `${this.controller.CombatName} has been marked as PREPARED.`,
-          })
-          break
-        case 'act_mount':
-          if (this.controller.Mounted) {
-            this.$notify({
-              type: 'warning',
-              title: 'Mount Failed',
-              text: `${this.controller.CombatName} is already mounted.`,
-            })
-            this.controller.ResetActivation('full')
-            this.controller.ClearActionUsed('mount')
-            return
-          }
-          this.controller.ToggleMounted()
-          this.$notify({
-            type: 'success',
-            title: 'Pilot Mountd',
-            text: `${this.controller.CombatName} has mounted their Mech.`,
-          })
-          break
-        case 'act_hide':
-          this.controller.AddStatus('hidden')
-          this.$notify({
-            type: 'success',
-            title: 'Pilot Hidden',
-            text: `${this.controller.CombatName} is now HIDDEN.`,
-          })
-          break
-        case 'act_disengage':
-          if (!this.controller.HasStatus('engaged')) {
-            this.$notify({
-              type: 'warning',
-              title: 'Disengage Failed',
-              text: `${this.controller.CombatName} is not ENGAGED.`,
-            })
-            this.controller.ResetActivation('full')
-            this.controller.ClearActionUsed('act_disengage')
-            break
-          } else {
-            this.controller.RemoveStatus('engaged')
-            this.$notify({
-              type: 'success',
-              title: 'Pilot Disengaged',
-              text: `${this.controller.CombatName} has DISENGAGED.`,
-            })
-          }
-          break
-        default:
-          console.warn('uncaught event:', event)
+const props = defineProps<{
+  owner: any;
+  encounter: any;
+}>();
 
-          break
+defineEmits<{ deploy: [event: any] }>();
+
+const quickPilotActions = [
+  'act_boost', 'act_hide', 'act_search', 'act_lockon',
+  'act_prepare', 'act_reload', 'act_invade',
+];
+const fullPilotActions = ['act_skill_check', 'act_mount', 'act_disengage', 'act_jockey'];
+
+const controller = computed(() => props.owner.actor.CombatController);
+
+function getBaseAction(actionId: string) {
+  return CompendiumStore().Actions.find((a: any) => a.ID === actionId);
+}
+
+function toDeployable(action: any) {
+  return new Deployable(action.Deployable);
+}
+
+function activate(event: string) {
+  controller.value.MarkActionUsed(event);
+  switch (event) {
+    case 'act_prepare':
+      controller.value.Prepared = true;
+      notify({ type: 'success', title: 'Pilot Prepared', text: `${controller.value.CombatName} has been marked as PREPARED.` });
+      break;
+    case 'act_mount':
+      if (controller.value.Mounted) {
+        notify({ type: 'warning', title: 'Mount Failed', text: `${controller.value.CombatName} is already mounted.` });
+        controller.value.ResetActivation('full');
+        controller.value.ClearActionUsed('mount');
+        return;
       }
-    },
-  },
+      controller.value.ToggleMounted();
+      notify({ type: 'success', title: 'Pilot Mountd', text: `${controller.value.CombatName} has mounted their Mech.` });
+      break;
+    case 'act_hide':
+      controller.value.AddStatus('hidden');
+      notify({ type: 'success', title: 'Pilot Hidden', text: `${controller.value.CombatName} is now HIDDEN.` });
+      break;
+    case 'act_disengage':
+      if (!controller.value.HasStatus('engaged')) {
+        notify({ type: 'warning', title: 'Disengage Failed', text: `${controller.value.CombatName} is not ENGAGED.` });
+        controller.value.ResetActivation('full');
+        controller.value.ClearActionUsed('act_disengage');
+      } else {
+        controller.value.RemoveStatus('engaged');
+        notify({ type: 'success', title: 'Pilot Disengaged', text: `${controller.value.CombatName} has DISENGAGED.` });
+      }
+      break;
+    default:
+      console.warn('uncaught event:', event);
+  }
 }
 </script>
 <style scoped>

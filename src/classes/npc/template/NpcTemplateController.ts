@@ -174,7 +174,7 @@ class NpcTemplateController {
       const id = typeof x === 'string' ? x : x.id
       if (CompendiumStore().has('NpcTemplates', id))
         parent.NpcTemplateController._templates.push(
-          CompendiumStore().referenceByID('NpcTemplates', id)
+          CompendiumStore().referenceByID('NpcTemplates', id) as unknown as NpcTemplate
         )
       else if (x.data && Object.keys(x.data).length)
         parent.NpcTemplateController._templates.push(new NpcTemplate(x.data))

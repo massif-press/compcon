@@ -87,7 +87,7 @@ class EquippableMount extends Mount {
     m._bonuses = (mountData.bonus_effects || []).map(x => {
       const id = typeof x === 'string' ? x : x.id
       if (id && CompendiumStore().has('CoreBonuses', id))
-        return CompendiumStore().referenceByID('CoreBonuses', id)
+        return CompendiumStore().referenceByID('CoreBonuses', id) as CoreBonus
       return new CoreBonus(x as ICoreBonusData)
     })
     m.lock = mountData.lock

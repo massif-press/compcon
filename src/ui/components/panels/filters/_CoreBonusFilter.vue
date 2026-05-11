@@ -38,7 +38,7 @@ export default {
     lcpFilter: [] as string[],
   }),
   computed: {
-    manufacturers(): Manufacturer[] {
+    manufacturers() {
       return CompendiumStore()
         .getItemCollection('Manufacturers')
         .map((x) => ({ title: x.Name, value: x.ID }))

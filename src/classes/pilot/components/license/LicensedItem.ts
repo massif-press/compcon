@@ -45,7 +45,7 @@ abstract class LicensedItem extends CompendiumItem {
   public get Manufacturer(): Manufacturer {
     if (this.Source === 'EXOTIC') return undefined as any
     if (!CompendiumStore().has('Manufacturers', this.Source)) return undefined as any
-    return CompendiumStore().referenceByID('Manufacturers', this.Source)
+    return CompendiumStore().referenceByID('Manufacturers', this.Source) as unknown as Manufacturer
   }
 
   public get License(): string {

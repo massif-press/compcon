@@ -88,7 +88,7 @@ export default {
       handler(val) {
         if (val) {
           try {
-            this.item = CompendiumStore().referenceFromID(this.type, this.id);
+            this.item = CompendiumStore().referenceFromID(this.type, this.id) as any;
           } catch (e) {
             logger.error(`Error loading item with ID ${this.id}: ${e}`, this, e);
           }

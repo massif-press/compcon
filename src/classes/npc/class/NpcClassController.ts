@@ -129,7 +129,7 @@ class NpcClassController {
     }
 
     parent.NpcClassController._class = CompendiumStore().has('NpcClasses', id)
-      ? CompendiumStore().referenceByID('NpcClasses', id)
+      ? CompendiumStore().referenceByID('NpcClasses', id) as unknown as NpcClass
       : data?.class?.data && Object.keys(data.class.data).length
         ? new NpcClass(data.class.data)
         : null

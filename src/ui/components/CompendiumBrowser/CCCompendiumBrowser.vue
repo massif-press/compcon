@@ -32,6 +32,7 @@
           :lcps="lcps"
           :other-filter="otherFilter"
           :item-type="itemType"
+          :lcp-configs="lcpConfigs"
           @set-all="setAllLcps()"
           @set-filters="otherFilter = $event" />
 
@@ -188,7 +189,7 @@
         </div>
 
         <div v-else-if="group === 'source'">
-          <v-list-group v-for="manufacturer in manufacturers"
+          <v-list-group v-for="manufacturer in manufacturerSources"
             :key="`mf-${manufacturer}`"
             :value="manufacturer"
             color="accent"
@@ -431,6 +432,7 @@
               :selected="<CompendiumItem>selectedItem"
               :group="group"
               :tier="tier"
+              :manufacturers="manufacturers"
               :short="!!$slots.top" />
           </div>
 
@@ -446,7 +448,7 @@
           </div>
 
           <div v-if="view === 'list' && itemType === 'License'">
-            <v-row v-for="m in manufacturers"
+            <v-row v-for="m in manufacturerSources"
               :key="`mf-list-${m}`">
               <v-col v-if="!!mf(m)"
                 class="text-center pa-3">
@@ -499,7 +501,7 @@
             </div>
 
             <div v-else-if="group === 'source'">
-              <div v-for="manufacturer in manufacturers"
+              <div v-for="manufacturer in manufacturerSources"
                 :key="`mf-table-${manufacturer}`">
                 <v-row align="center">
                   <v-col cols="auto">
@@ -657,7 +659,6 @@ import bListGroup from './components/_b-list-group.vue';
 import LicenseExpandable from './components/_license-expandable.vue';
 
 import { CompendiumItem, License, Manufacturer } from '@/class';
-import { UserStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';
 
 
@@ -732,7 +733,7 @@ export default {
   mixins: [useMobile],
   props: {
     items: {
-      type: Array,
+      type: Array as () => CompendiumItem[],
       required: true,
     },
     itemType: {
@@ -769,6 +770,11 @@ export default {
     },
     manufacturers: {
       type: Array as () => Manufacturer[],
+      required: false,
+      default: () => [],
+    },
+    lcpConfigs: {
+      type: Array as () => any[],
       required: false,
       default: () => [],
     },
@@ -845,7 +851,7 @@ export default {
       }
       return out;
     },
-    manufacturers() {
+    manufacturerSources() {
       return _.uniq(this.shownItems.map((x: any) => x.Source)).sort((a, b) =>
         manufacturerSortFn(a, b)
       );
@@ -928,12 +934,12 @@ export default {
       return _.uniq(this.shownItems.map((x: any) => x.Type)).sort((a, b) => sortFn(a, b));
     },
     showExotics() {
-      return this.options.showExotics || UserStore().User.Option('showExotics');
+      return this.options.showExotics ?? false;
     },
     navOrderedItems(): any[] {
       switch (this.group) {
         case 'source':
-          return this.manufacturers.flatMap((m: string) => this.itemsBySourceGroup[m] || []);
+          return this.manufacturerSources.flatMap((m: string) => this.itemsBySourceGroup[m] || []);
         case 'role':
           return this.roles.flatMap((r: string) => this.itemsByRoleGroup[r] || []);
         case 'featureType':
@@ -993,9 +999,8 @@ export default {
     },
   },
   watch: {
-    group(val) {
+    group() {
       this.open = [];
-      UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_group`, val);
     },
     comparisons() {
       const idx = this.comparisons.findIndex((x) => x.ID === this.selectedItem?.ID);
@@ -1006,7 +1011,6 @@ export default {
     },
     view(val) {
       this.$emit('view-change', val);
-      UserStore().User.SetView(`compendium_${this.itemType.toLowerCase()}_view`, val);
     },
     search(val) {
       if (val) {
@@ -1024,7 +1028,7 @@ export default {
         this.open = [
           ...lcps,
           ...subGroups,
-          ...this.manufacturers,
+          ...this.manufacturerSources,
           ...this.subtypes,
           ...this.licenses,
           ...this.roles,
@@ -1036,17 +1040,8 @@ export default {
   },
   created() {
     this.lcpFilter = this.lcps;
-
-    const user = UserStore().User;
-    this.view = user.View(
-      `compendium_${this.itemType.toLowerCase()}_view`,
-      this.options.initialView
-    );
-
-    this.group = user.View(
-      `compendium_${this.itemType.toLowerCase()}_group`,
-      this.options.initialGroup
-    );
+    this.view = this.options.initialView;
+    this.group = this.options.initialGroup;
   },
   methods: {
     getItems(manufacturer: string, lcp?: string): CompendiumItem[] | License[] {

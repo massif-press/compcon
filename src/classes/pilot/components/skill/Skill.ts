@@ -33,7 +33,7 @@ class Skill extends CompendiumItem {
       s.FromInstance = true;
       return s;
     }
-    return CompendiumStore().referenceByID('Skills', id);
+    return CompendiumStore().referenceByID('Skills', id) as Skill;
   }
 }
 

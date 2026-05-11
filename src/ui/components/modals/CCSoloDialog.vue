@@ -37,57 +37,40 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  props: {
-    modelValue: Boolean,
-    title: {
-      type: String,
-      default: 'Default Title',
-    },
-    icon: {
-      type: String,
-      default: '',
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    closeOnClick: {
-      type: Boolean,
-      default: true,
-    },
-    maxWidth: {
-      type: [String, Number],
-      default: '500px',
-    },
-  },
-  emits: ['update:modelValue'],
-  data: () => ({
-    dialog: false,
-  }),
-  watch: {
-    modelValue: {
-      handler(val) {
-        this.dialog = val;
-      },
-      immediate: true,
-    },
-    dialog(val) {
-      this.$emit('update:modelValue', val);
-    },
-  },
-  methods: {
-    open() {
-      this.dialog = true;
-    },
-    close() {
-      this.dialog = false;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import { useDisplay } from 'vuetify';
+
+const { smAndDown: mobile } = useDisplay();
+
+const props = withDefaults(defineProps<{
+  modelValue?: boolean;
+  title?: string;
+  icon?: string;
+  color?: string;
+  closeOnClick?: boolean;
+  maxWidth?: string | number;
+}>(), {
+  title: 'Default Title',
+  icon: '',
+  color: 'primary',
+  closeOnClick: true,
+  maxWidth: '500px',
+});
+
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean];
+}>();
+
+const dialog = ref(false);
+
+watch(() => props.modelValue, val => { dialog.value = !!val; }, { immediate: true });
+watch(dialog, val => { emit('update:modelValue', val); });
+
+function open() { dialog.value = true; }
+function close() { dialog.value = false; }
+
+defineExpose({ open, close });
 </script>
 
 <style scoped>

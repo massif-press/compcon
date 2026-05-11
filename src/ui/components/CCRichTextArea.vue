@@ -8,7 +8,7 @@
     </v-card>
     <quill-editor v-else
       :content="modelValue"
-      :options="editorOptions"
+      :options="options"
       content-type="html"
       @ready="quill = $event"
       @blur="set()"
@@ -16,46 +16,34 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onBeforeUnmount } from 'vue';
 import { options } from '@/ui/style/quillSetup';
 import { debounce } from 'lodash-es';
 
-export default {
-  name: 'CcRichTextArea',
-  props: {
-    modelValue: {
-      type: String,
-      default: '',
-    },
-    readonly: {
-      type: Boolean,
-    },
-  },
-  emits: ['update:modelValue'],
-  data: () => ({
-    quill: null as any,
-    emitUpdate: null as any,
-  }),
-  computed: {
-    editorOptions() {
-      return options;
-    },
-  },
-  created() {
-    this.emitUpdate = debounce(function (this: any) {
-      this.$emit('update:modelValue', this.quill.root.innerHTML);
-    }, 100);
-  },
-  beforeUnmount() {
-    this.emitUpdate.flush();
-  },
-  methods: {
-    set() {
-      if (!this.quill) return;
-      this.emitUpdate();
-    },
-  },
-};
+withDefaults(defineProps<{
+  modelValue?: string;
+  readonly?: boolean;
+}>(), {
+  modelValue: '',
+});
+
+const emit = defineEmits<{
+  'update:modelValue': [value: string];
+}>();
+
+const quill = ref<{ root: { innerHTML: string } } | null>(null);
+
+const emitUpdate = debounce(() => {
+  if (quill.value) emit('update:modelValue', quill.value.root.innerHTML);
+}, 100);
+
+onBeforeUnmount(() => { emitUpdate.flush(); });
+
+function set() {
+  if (!quill.value) return;
+  emitUpdate();
+}
 </script>
 
 <style>

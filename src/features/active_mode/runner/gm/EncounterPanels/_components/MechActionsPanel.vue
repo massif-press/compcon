@@ -193,203 +193,115 @@
   </v-expansion-panels>
 </template>
 
-<script lang="ts">
-import { CompendiumStore } from '@/stores'
-import { Deployable } from '@/classes/components/feature/deployable/Deployable'
-import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
-import DeployButton from './loadouts/_deployButton.vue'
-import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
-import StabilizeButton from './loadouts/action_buttons/stabilizeButton.vue'
-import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue'
-import OverchargeButton from './loadouts/action_buttons/overchargeButton.vue'
-import MechSkirmishButton from './loadouts/action_buttons/mechSkirmishButton.vue'
-import MechBarrageButton from './loadouts/action_buttons/mechBarrageButton.vue'
+<script setup lang="ts">
+import { computed } from 'vue';
+import { CompendiumStore } from '@/stores';
+import { Deployable } from '@/classes/components/feature/deployable/Deployable';
+import { notify } from '@/util/notify';
+import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
+import DeployButton from './loadouts/_deployButton.vue';
+import InvadeButton from './loadouts/action_buttons/invadeButton.vue';
+import StabilizeButton from './loadouts/action_buttons/stabilizeButton.vue';
+import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue';
+import OverchargeButton from './loadouts/action_buttons/overchargeButton.vue';
+import MechSkirmishButton from './loadouts/action_buttons/mechSkirmishButton.vue';
+import MechBarrageButton from './loadouts/action_buttons/mechBarrageButton.vue';
 
-export default {
-  name: 'MechActionsPanel',
-  components: {
-    BasicActionButton,
-    DeployButton,
-    InvadeButton,
-    StabilizeButton,
-    SkillCheckButton,
-    OverchargeButton,
-    MechSkirmishButton,
-    MechBarrageButton,
-  },
-  props: {
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['deploy'],
-  data: () => ({
-    quickMechActions: [
-      'act_boost',
-      'act_grapple',
-      'act_ram',
-      'act_invade',
-      'act_bolster',
-      'act_lockon',
-      'act_hide',
-      'act_search',
-      'act_scan',
-      'act_prepare',
-      'act_eject',
-    ],
-    fullMechActions: [
-      'act_disengage',
-      'act_stabilize',
-      'act_improvised_attack',
-      'act_skill_check',
-      'act_dismount',
-      'act_boot_up',
-    ],
-  }),
-  computed: {
-    controller() {
-      return this.owner.actor.ActiveMech.CombatController
-    },
-  },
-  methods: {
-    getBaseAction(actionId) {
-      return CompendiumStore().Actions.find(a => a.ID === actionId) || null
-    },
-    toDeployable(action) {
-      return new Deployable(action.Deployable)
-    },
-    activate(event) {
-      this.controller.MarkActionUsed(event)
-      switch (event) {
-        case 'act_prepare':
-          this.controller.Prepared = true
-          this.$notify({
-            type: 'success',
-            title: 'Mech Prepared',
-            text: `${this.controller.CombatName} has been marked as PREPARED.`,
-          })
-          break
-        case 'act_eject':
-          if (!this.controller.Mounted) {
-            this.$notify({
-              type: 'warning',
-              title: 'Eject Failed',
-              text: `${this.controller.CombatName} is not mounted.`,
-            })
-            this.controller.ResetActivation('quick')
-            this.controller.ClearActionUsed('eject')
-            return
-          }
-          this.controller.ToggleMounted()
-          this.controller.AddStatus('impaired')
-          this.$notify({
-            type: 'success',
-            title: 'Pilot Ejected',
-            text: `${this.controller.CombatName}'s has ejected from the mech and is now IMPAIRED.`,
-          })
-          break
-        case 'act_dismount':
-          if (!this.controller.Mounted) {
-            this.$notify({
-              type: 'warning',
-              title: 'Dismount Failed',
-              text: `${this.controller.CombatName} is not mounted.`,
-            })
-            this.controller.ResetActivation('full')
-            this.controller.ClearActionUsed('act_dismount')
-            return
-          }
-          this.controller.ToggleMounted()
-          this.$notify({
-            type: 'success',
-            title: 'Pilot Dismounted',
-            text: `${this.controller.CombatName}'s has dismounted from the mech.`,
-          })
-          break
-        case 'act_hide':
-          this.controller.AddStatus('hidden')
-          this.$notify({
-            type: 'success',
-            title: 'Mech Hidden',
-            text: `${this.controller.CombatName} is now HIDDEN.`,
-          })
-          break
-        case 'act_disengage':
-          if (!this.controller.HasStatus('engaged')) {
-            this.$notify({
-              type: 'warning',
-              title: 'Disengage Failed',
-              text: `${this.controller.CombatName} is not ENGAGED.`,
-            })
-            this.controller.ResetActivation('full')
-            this.controller.ClearActionUsed('act_disengage')
-            break
-          } else {
-            this.controller.RemoveStatus('engaged')
-            this.$notify({
-              type: 'success',
-              title: 'Mech Disengaged',
-              text: `${this.controller.CombatName} has DISENGAGED.`,
-            })
-          }
-          break
-        case 'act_boot_up':
-          if (!this.controller.Statuses.some(x => x.status.ID === 'shut-down')) {
-            this.$notify({
-              type: 'warning',
-              title: 'Boot Up Failed',
-              text: `${this.controller.CombatName} is not SHUT DOWN.`,
-            })
-            this.controller.ResetActivation('full')
-            this.controller.ClearActionUsed('act_boot_up')
-            return
-          } else {
-            this.controller.RemoveStatus('shut-down')
-            this.$notify({
-              type: 'success',
-              title: 'Mech Booted Up',
-              text: `${this.controller.CombatName} has BOOTED UP.`,
-            })
-          }
-          break
-        case 'act_self_destruct':
-          if (this.controller.IsInSelfDestruct) {
-            this.$notify({
-              type: 'warning',
-              title: 'Self Destruct Failed',
-              text: `${this.controller.CombatName} is already in SELF DESTRUCT.`,
-            })
-            this.controller.ResetActivation('quick')
-            this.controller.ClearActionUsed('act_self_destruct')
-            return
-          } else {
-            this.controller.StartSelfDestruct()
-            this.$notify({
-              type: 'success',
-              title: 'Mech Self-Destruct Initiated',
-              text: `${this.controller.CombatName} is about to SELF DESTRUCT.`,
-            })
-          }
-          break
-        case 'act_brace':
-          this.controller.Braced = true
-          this.$notify({
-            type: 'success',
-            title: 'Mech Braced',
-            text: `${this.controller.CombatName} is now BRACED.`,
-          })
-          break
-        default:
-          console.warn('uncaught event:', event)
-          break
+const props = defineProps<{
+  owner: any;
+  encounter: any;
+}>();
+
+defineEmits<{ deploy: [event: any] }>();
+
+const quickMechActions = [
+  'act_boost', 'act_grapple', 'act_ram', 'act_invade', 'act_bolster',
+  'act_lockon', 'act_hide', 'act_search', 'act_scan', 'act_prepare', 'act_eject',
+];
+const fullMechActions = [
+  'act_disengage', 'act_stabilize', 'act_improvised_attack',
+  'act_skill_check', 'act_dismount', 'act_boot_up',
+];
+
+const controller = computed(() => props.owner.actor.ActiveMech.CombatController);
+
+function getBaseAction(actionId: string) {
+  return CompendiumStore().Actions.find((a: any) => a.ID === actionId) || null;
+}
+
+function toDeployable(action: any) {
+  return new Deployable(action.Deployable);
+}
+
+function activate(event: string) {
+  controller.value.MarkActionUsed(event);
+  switch (event) {
+    case 'act_prepare':
+      controller.value.Prepared = true;
+      notify({ type: 'success', title: 'Mech Prepared', text: `${controller.value.CombatName} has been marked as PREPARED.` });
+      break;
+    case 'act_eject':
+      if (!controller.value.Mounted) {
+        notify({ type: 'warning', title: 'Eject Failed', text: `${controller.value.CombatName} is not mounted.` });
+        controller.value.ResetActivation('quick');
+        controller.value.ClearActionUsed('eject');
+        return;
       }
-    },
-  },
+      controller.value.ToggleMounted();
+      controller.value.AddStatus('impaired');
+      notify({ type: 'success', title: 'Pilot Ejected', text: `${controller.value.CombatName}'s has ejected from the mech and is now IMPAIRED.` });
+      break;
+    case 'act_dismount':
+      if (!controller.value.Mounted) {
+        notify({ type: 'warning', title: 'Dismount Failed', text: `${controller.value.CombatName} is not mounted.` });
+        controller.value.ResetActivation('full');
+        controller.value.ClearActionUsed('act_dismount');
+        return;
+      }
+      controller.value.ToggleMounted();
+      notify({ type: 'success', title: 'Pilot Dismounted', text: `${controller.value.CombatName}'s has dismounted from the mech.` });
+      break;
+    case 'act_hide':
+      controller.value.AddStatus('hidden');
+      notify({ type: 'success', title: 'Mech Hidden', text: `${controller.value.CombatName} is now HIDDEN.` });
+      break;
+    case 'act_disengage':
+      if (!controller.value.HasStatus('engaged')) {
+        notify({ type: 'warning', title: 'Disengage Failed', text: `${controller.value.CombatName} is not ENGAGED.` });
+        controller.value.ResetActivation('full');
+        controller.value.ClearActionUsed('act_disengage');
+      } else {
+        controller.value.RemoveStatus('engaged');
+        notify({ type: 'success', title: 'Mech Disengaged', text: `${controller.value.CombatName} has DISENGAGED.` });
+      }
+      break;
+    case 'act_boot_up':
+      if (!controller.value.Statuses.some((x: any) => x.status.ID === 'shut-down')) {
+        notify({ type: 'warning', title: 'Boot Up Failed', text: `${controller.value.CombatName} is not SHUT DOWN.` });
+        controller.value.ResetActivation('full');
+        controller.value.ClearActionUsed('act_boot_up');
+        return;
+      }
+      controller.value.RemoveStatus('shut-down');
+      notify({ type: 'success', title: 'Mech Booted Up', text: `${controller.value.CombatName} has BOOTED UP.` });
+      break;
+    case 'act_self_destruct':
+      if (controller.value.IsInSelfDestruct) {
+        notify({ type: 'warning', title: 'Self Destruct Failed', text: `${controller.value.CombatName} is already in SELF DESTRUCT.` });
+        controller.value.ResetActivation('quick');
+        controller.value.ClearActionUsed('act_self_destruct');
+        return;
+      }
+      controller.value.StartSelfDestruct();
+      notify({ type: 'success', title: 'Mech Self-Destruct Initiated', text: `${controller.value.CombatName} is about to SELF DESTRUCT.` });
+      break;
+    case 'act_brace':
+      controller.value.Braced = true;
+      notify({ type: 'success', title: 'Mech Braced', text: `${controller.value.CombatName} is now BRACED.` });
+      break;
+    default:
+      console.warn('uncaught event:', event);
+  }
 }
 </script>
 <style scoped>

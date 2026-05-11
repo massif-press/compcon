@@ -41,10 +41,7 @@
         <v-card-actions style="min-height: 36px !important; height: 36px !important">
           <v-btn
             v-if="cancelAction"
-            @click="
-              $emit('cancel');
-              modal = false;
-            "
+            @click="emit('cancel'); modal = false"
             color="error"
             text>
             Cancel
@@ -52,10 +49,7 @@
           <v-spacer />
           <v-btn
             v-if="confirmAction"
-            @click="
-              $emit('confirm');
-              modal = false;
-            "
+            @click="emit('confirm'); modal = false"
             color="primary"
             text>
             Confirm
@@ -66,71 +60,45 @@
   </v-dialog>
 </template>
 
-<script>
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-modal',
-  data: () => ({
-    modal: false,
-  }),
-  props: {
-    title: {
-      type: String,
-      default: 'Default Title',
-    },
-    icon: {
-      type: String,
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    maxWidth: {
-      type: [String, Number],
-      default: '90vw',
-    },
-    cancelAction: {
-      type: Boolean,
-    },
-    confirmAction: {
-      type: Boolean,
-    },
-    extended: {
-      type: Boolean,
-      default: false,
-    },
-    shrink: {
-      type: Boolean,
-      default: false,
-    },
-    persistent: {
-      type: Boolean,
-      default: false,
-    },
-    clip: {
-      type: Boolean,
-      default: false,
-    },
-    tabs: {
-      type: Boolean,
-      default: false,
-    },
-    id: { type: String },
-    fullscreen: { type: Boolean, default: false },
-    noConfirm: { type: Boolean, default: false },
-    class: { type: [String, Array, Object] },
-    modelValue: { type: Boolean },
-    minWidth: { type: [String, Number] },
-  },
-  emits: ['cancel', 'confirm'],
-  methods: {
-    open() {
-      this.modal = true;
-    },
-    close() {
-      this.modal = false;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useDisplay } from 'vuetify';
+
+const { smAndDown: mobile } = useDisplay();
+
+withDefaults(defineProps<{
+  title?: string;
+  icon?: string;
+  color?: string;
+  maxWidth?: string | number;
+  cancelAction?: boolean;
+  confirmAction?: boolean;
+  extended?: boolean;
+  shrink?: boolean;
+  persistent?: boolean;
+  clip?: boolean;
+  tabs?: boolean;
+  id?: string;
+  fullscreen?: boolean;
+  noConfirm?: boolean;
+  class?: string | unknown[] | Record<string, unknown>;
+  modelValue?: boolean;
+  minWidth?: string | number;
+}>(), {
+  title: 'Default Title',
+  color: 'primary',
+  maxWidth: '90vw',
+});
+
+const emit = defineEmits<{
+  cancel: [];
+  confirm: [];
+}>();
+
+const modal = ref(false);
+
+function open() { modal.value = true; }
+function close() { modal.value = false; }
+
+defineExpose({ open, close });
 </script>

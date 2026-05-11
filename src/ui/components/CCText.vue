@@ -17,47 +17,40 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useDisplay } from 'vuetify';
 import dictionary from '@/assets/srd/lib/dictionary.json';
 
-export default {
-  props: {
-    text: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      sheet: false,
-      selectedWord: '',
-      selectedDefinition: '',
-      selectedIcon: '',
-    };
-  },
-  computed: {
-    highlightedText() {
-      let words = dictionary.flatMap((entry) => entry.keys.map((key) => key.toLowerCase()));
-      let regex = new RegExp(`\\b(${words.join('|')})\\b`, 'gi');
-      return this.text.replace(regex, (match) => {
-        return `<span class='cc-dictionary-word' data-word='${match.toLowerCase()}'>${match}</span>`;
-      });
-    },
-  },
-  methods: {
-    handleClick(event) {
-      if (event.target.classList.contains('cc-dictionary-word')) {
-        this.selectedWord = event.target.dataset.word;
-        let entry = dictionary.find((entry) =>
-          entry.keys.some((key) => key.toLowerCase() === this.selectedWord)
-        );
-        this.selectedDefinition = entry ? entry.definition : 'Definition not found.';
-        this.selectedIcon = entry ? entry.icon : '';
-        this.sheet = true;
-      }
-    },
-  },
-};
+const { smAndDown: mobile } = useDisplay();
+
+const props = defineProps<{
+  text: string;
+}>();
+
+const sheet = ref(false);
+const selectedWord = ref('');
+const selectedDefinition = ref('');
+const selectedIcon = ref('');
+
+const highlightedText = computed(() => {
+  const words = dictionary.flatMap(entry => entry.keys.map(key => key.toLowerCase()));
+  const regex = new RegExp(`\\b(${words.join('|')})\\b`, 'gi');
+  return props.text.replace(regex, match =>
+    `<span class='cc-dictionary-word' data-word='${match.toLowerCase()}'>${match}</span>`
+  );
+});
+
+function handleClick(event: MouseEvent) {
+  const target = event.target as HTMLElement;
+  if (target.classList.contains('cc-dictionary-word')) {
+    selectedWord.value = target.dataset.word ?? '';
+    const entry = dictionary.find(e => e.keys.some(k => k.toLowerCase() === selectedWord.value));
+    selectedDefinition.value = entry ? entry.definition : 'Definition not found.';
+    selectedIcon.value = entry?.icon ?? '';
+    sheet.value = true;
+  }
+}
 </script>
 
 <style>

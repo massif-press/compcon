@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     link() {
-      return CompendiumStore().referenceLink(this.item);
+      return CompendiumStore().referenceLink(this.item as any);
     },
   },
   methods: {

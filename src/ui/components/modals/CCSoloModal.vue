@@ -36,74 +36,50 @@
   </v-dialog>
 </template>
 
-<script>
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-modal',
-  data: () => ({
-    modal: false,
-    _savedScrollY: 0,
-  }),
-  props: {
-    modelValue: Boolean,
-    title: {
-      type: String,
-      default: 'Default Title',
-    },
-    icon: {
-      type: String,
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    maxWidth: {
-      type: [String, Number],
-      default: '90vw',
-    },
-    extended: {
-      type: Boolean,
-      default: false,
-    },
-    shrink: {
-      type: Boolean,
-      default: false,
-    },
-    persistent: {
-      type: Boolean,
-      default: false,
-    },
-    clip: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['update:modelValue', 'close'],
-  watch: {
-    modelValue: {
-      handler(val) {
-        this.modal = val;
-      },
-      immediate: true,
-    },
-    modal(val) {
-      if (val) {
-        this._savedScrollY = window.scrollY;
-      } else {
-        this.$nextTick(() => window.scrollTo({ top: this._savedScrollY, behavior: 'instant' }));
-      }
-      this.$emit('update:modelValue', val);
-      if (!val) this.$emit('close');
-    },
-  },
-  methods: {
-    open() {
-      this.modal = true;
-    },
-    close() {
-      this.modal = false;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref, watch, nextTick } from 'vue';
+import { useDisplay } from 'vuetify';
+
+const { smAndDown: mobile } = useDisplay();
+
+const props = withDefaults(defineProps<{
+  modelValue?: boolean;
+  title?: string;
+  icon?: string;
+  color?: string;
+  maxWidth?: string | number;
+  extended?: boolean;
+  shrink?: boolean;
+  persistent?: boolean;
+  clip?: boolean;
+}>(), {
+  title: 'Default Title',
+  color: 'primary',
+  maxWidth: '90vw',
+});
+
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean];
+  close: [];
+}>();
+
+const modal = ref(false);
+const savedScrollY = ref(0);
+
+watch(() => props.modelValue, val => { modal.value = !!val; }, { immediate: true });
+
+watch(modal, val => {
+  if (val) {
+    savedScrollY.value = window.scrollY;
+  } else {
+    nextTick(() => window.scrollTo({ top: savedScrollY.value, behavior: 'instant' }));
+  }
+  emit('update:modelValue', val);
+  if (!val) emit('close');
+});
+
+function open() { modal.value = true; }
+function close() { modal.value = false; }
+
+defineExpose({ open, close });
 </script>

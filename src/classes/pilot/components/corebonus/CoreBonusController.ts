@@ -108,7 +108,7 @@ class CoreBonusController implements IFeatureContainer {
       .filter(Boolean)
       .map((x: ICoreBonusData) => {
         if (CompendiumStore().has('CoreBonuses', x.id))
-          return CompendiumStore().referenceByID('CoreBonuses', x.id)
+          return CompendiumStore().referenceByID('CoreBonuses', x.id) as CoreBonus
 
         const c = new CoreBonus(x)
         c.FromInstance = true
