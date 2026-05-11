@@ -49,12 +49,15 @@ function filterBonuses(actor: any, item: any): any[] {
   const deployables: any[] = item.Deployables ?? []
   const hasDrones = deployables.some((d: any) => d.Type?.toLowerCase() === 'drone')
   const hasDeployables = deployables.some((d: any) => d.Type?.toLowerCase() !== 'drone')
+  const isIntegrated = item.IsIntegrated
 
   return actor.FeatureController.Bonuses.filter((b: any) => {
     if (itemBonuses.has(b)) return false
     if (!ITEM_BONUS_IDS.has(b.ID)) return false
     if (b.ID.startsWith('drone_') && !hasDrones) return false
     if (b.ID.startsWith('deployable_') && !hasDeployables) return false
+    if (b.ID === 'no_mods' && isIntegrated) return true
+    else if (b.ID === 'no_mods' && !isIntegrated) return false
     if (b.WeaponTypes.length || b.WeaponSizes.length || b.DamageTypes.length) {
       if (!hasWeaponTypes || !item.Size) return false
       if (

@@ -259,7 +259,9 @@ export default {
   emits: ['deploy'],
   computed: {
     synergyLocation() {
+      console.log(this.item)
       if (!this.item) return 'none'
+      if (this.item.IsIntegrated) return 'integrated'
       return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
     },
     isEngineerWeapon() {
