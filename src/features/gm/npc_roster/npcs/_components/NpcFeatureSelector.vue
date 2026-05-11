@@ -263,6 +263,7 @@
 import * as _ from 'lodash-es'
 import { CompendiumStore } from '@/stores'
 import NpcFeatureAlerts from './NpcFeatureAlerts.vue'
+import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
 
 export default {
   name: 'NpcFeatureSelectMenu',
@@ -292,7 +293,7 @@ export default {
         default:
           const selClass = this.allClasses.find(x => x.ID === this.featureSet)
           const selTemp = this.allTemplates.find(x => x.ID === this.featureSet)
-          return selClass ? selClass.Name : selTemp.Name
+          return selClass ? selClass.Name : selTemp?.Name || 'all'
       }
     },
     featureOrigins() {
@@ -318,21 +319,14 @@ export default {
         )
 
         if (selectionsRemaining || this.ignoreLimit) {
-          let out = []
-          this.npc.NpcTemplateController.FeatureRequirements.forEach(x => {
-            if (x.complete && x.optional_complete && !this.ignoreLimit) return
-            out = out.concat(
-              this.npc.NpcFeatureController.AvailableFeatures
-            )
-          })
-
-          out = out.filter(x => this.shownOrigins.includes(x.Origin.ID))
-
-          return out
-        } else return []
+          return this.npc.NpcFeatureController.AvailableFeatures.filter(
+            (x: NpcFeature) => this.shownOrigins.includes(x.Origin.ID)
+          )
+        } else return [] as NpcFeature[]
       }
 
       if (this.featureSet === 'assigned') return this.npc.NpcFeatureController.Features
+
 
       return this.allFeatures.filter(x => x.Origin.ID === this.featureSet)
     },

@@ -17,7 +17,8 @@
       <sortable :key="`enemy-${transferKey}`"
         :list="enemyCombatants"
         item-key="instanceId"
-        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: true, scrollSpeed: 300, group: { name: 'combatants', pull: true, put: true } }"
+        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: false, group: { name: 'combatants', pull: true, put: true } }"
+        @start="startDragScroll"
         @end="event => onCombatantReorder('enemy', event)"
         @add="event => onCombatantAdded('enemy', event)">
         <template #item="{ element, index }">
@@ -53,7 +54,8 @@
       <sortable :key="`ally-${transferKey}`"
         :list="allyCombatants"
         item-key="instanceId"
-        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: true, scrollSpeed: 300, group: { name: 'combatants', pull: true, put: true } }"
+        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: false, group: { name: 'combatants', pull: true, put: true } }"
+        @start="startDragScroll"
         @end="event => onCombatantReorder('ally', event)"
         @add="event => onCombatantAdded('ally', event)">
         <template #item="{ element, index }">
@@ -89,7 +91,8 @@
       <sortable :key="`neutral-${transferKey}`"
         :list="neutralCombatants"
         item-key="instanceId"
-        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: true, scrollSpeed: 300, group: { name: 'combatants', pull: true, put: true } }"
+        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: false, group: { name: 'combatants', pull: true, put: true } }"
+        @start="startDragScroll"
         @end="event => onCombatantReorder('neutral', event)"
         @add="event => onCombatantAdded('neutral', event)">
         <template #item="{ element, index }">
@@ -331,6 +334,7 @@ import EidolonEditor from '../../../npc_roster/eidolons/editor.vue';
 import CombatantSettingsMenu from './_components/combatantSettingsMenu.vue';
 import { GenerateItemDiff, SetDiff } from '@/classes/npc/NpcDiff';
 import { Sortable } from 'sortablejs-vue3';
+import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
 
 export default {
   name: 'CombatantEditor',
@@ -418,7 +422,9 @@ export default {
         setTimeout(() => { this.editorReady = true; }, 0);
       }
     },
+    startDragScroll,
     onCombatantReorder(side: string, event: any) {
+      stopDragScroll();
       if (event.from !== event.to) return;
       if (event.oldIndex === event.newIndex) return;
       const all = [...(this.encounter.Combatants as any[])];

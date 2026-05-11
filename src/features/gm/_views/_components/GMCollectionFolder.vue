@@ -78,6 +78,7 @@
 
 <script lang="ts">
 import { Sortable } from 'sortablejs-vue3';
+import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
 import ItemCard from '../_components/GMItemCard.vue';
 
 export default {
@@ -124,12 +125,14 @@ export default {
       this.$emit('set-folder-name', name);
     },
     onItemDragStart(event: any) {
+      startDragScroll();
       const itemId = event.item.dataset.itemId;
       if (event.originalEvent?.dataTransfer && itemId) {
         event.originalEvent.dataTransfer.setData('text/encounter-id', itemId);
       }
     },
     onItemReorder(event: any) {
+      stopDragScroll();
       if (event.from !== event.to) return;
       if (event.oldIndex === event.newIndex) return;
       const items = [...this.sortedFolderItems] as any[];

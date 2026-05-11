@@ -83,7 +83,8 @@
 
         <sortable :list="activeSystems"
           item-key="ID"
-          :options="{ animation: 200, handle: '.system-drag-handle', scroll: true, scrollSpeed: 300 }"
+          :options="{ animation: 200, handle: '.system-drag-handle', scroll: false }"
+          @start="startDragScroll"
           @end="onSystemReorder">
           <template #item="{ element }">
             <div class="system-reorder-row mb-2"
@@ -152,6 +153,7 @@
 import * as _ from 'lodash-es';
 import { markRaw } from 'vue';
 import { Sortable } from 'sortablejs-vue3';
+import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
 import SystemSelector from './_SystemSelector.vue';
@@ -302,7 +304,9 @@ export default {
 
       this.systemItems = arr;
     },
+    startDragScroll,
     onSystemReorder(event: any) {
+      stopDragScroll();
       if (event.oldIndex === event.newIndex) return;
       this.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(event.oldIndex, event.newIndex);
     },

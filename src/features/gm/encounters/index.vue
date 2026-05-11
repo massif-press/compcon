@@ -179,6 +179,7 @@
 
 <script lang="ts">
 import { Sortable } from 'sortablejs-vue3';
+import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
 import GmCollectionFilter from '../_views/_components/GMCollectionFilter.vue';
 import GmCollectionFolder from '../_views/_components/GMCollectionFolder.vue';
 import ItemCard from '../_views/_components/GMItemCard.vue';
@@ -346,12 +347,14 @@ export default {
       this.editDialog = true;
     },
     onNoFolderItemDragStart(event: any) {
+      startDragScroll();
       const itemId = event.item.dataset.itemId;
       if (event.originalEvent?.dataTransfer && itemId) {
         event.originalEvent.dataTransfer.setData('text/encounter-id', itemId);
       }
     },
     onNoFolderItemReorder(event: any) {
+      stopDragScroll();
       if (event.from !== event.to) return;
       if (event.oldIndex === event.newIndex) return;
       const items = [...this.sortedNoFolderItems] as any[];

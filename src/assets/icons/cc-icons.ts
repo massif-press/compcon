@@ -278,7 +278,7 @@ const svgs: any = {
 const ccIcons: IconSet = {
   component: (props: IconProps) =>
     h(props.tag, [
-      h(svgs[props.icon as string], {
+      h(svgs[props.icon as string] ?? svgs['generic_item'], {
         class: 'v-icon__svg',
       }),
     ]),

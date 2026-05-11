@@ -9,7 +9,7 @@
     :items="manufacturers"
     chips
     clearable
-    @update:modelValue="updateFilters()" />
+    @update:model-value="updateFilters()" />
   <v-select v-model="lcpFilter"
     class="px-2"
     hide-details
@@ -21,7 +21,7 @@
     label="From Content Pack"
     :items="lcps"
     multiple
-    @update:modelValue="updateFilters()" />
+    @update:model-value="updateFilters()" />
 </template>
 
 <script lang="ts">
@@ -37,19 +37,13 @@ const nameSort = function (a, b): number {
 };
 
 export default {
-  name: 'core-bonus-filter',
+  name: 'CoreBonusFilter',
   props: { activeFilters: { type: Object, default: () => ({}) } },
+  emits: ['set-filters'],
   data: () => ({
     sourceFilter: [],
     lcpFilter: [],
   }),
-  emits: ['set-filters'],
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Source) this.sourceFilter = f.Source[0] ?? [];
-    if (f.LcpName) this.lcpFilter = f.LcpName[0] ?? [];
-  },
   computed: {
     manufacturers(): Manufacturer[] {
       return CompendiumStore()
@@ -60,6 +54,12 @@ export default {
     lcps(): string[] {
       return _.uniq(CompendiumStore().Frames.map((x) => x.LcpName));
     },
+  },
+  mounted() {
+    const f = this.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Source) this.sourceFilter = f.Source[0] ?? [];
+    if (f.LcpName) this.lcpFilter = f.LcpName[0] ?? [];
   },
   methods: {
     clear() {

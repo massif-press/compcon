@@ -126,7 +126,8 @@
     <sortable v-else
       :list="allFeatures"
       item-key="ID"
-      :options="{ animation: 200, handle: '.feature-drag-handle', scroll: true, scrollSpeed: 300 }"
+      :options="{ animation: 200, handle: '.feature-drag-handle', scroll: false }"
+      @start="startDragScroll"
       @end="onFeatureReorder">
       <template #item="{ element }">
         <div class="feature-reorder-row mb-2"
@@ -177,6 +178,7 @@ import { NpcFeatureSelector } from './_components';
 import NpcFeatureAlerts from './_components/NpcFeatureAlerts.vue';
 import NpcModInset from './_components/NpcModInset.vue';
 import { Sortable } from 'sortablejs-vue3';
+import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
 import * as _ from 'lodash-es';
 
 export default {
@@ -217,7 +219,9 @@ export default {
     },
   },
   methods: {
+    startDragScroll,
     onFeatureReorder(event: any) {
+      stopDragScroll();
       if (event.oldIndex === event.newIndex) return;
       this.npc.NpcFeatureController.ReorderFeature(event.oldIndex, event.newIndex);
     },
