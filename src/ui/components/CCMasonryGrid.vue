@@ -63,6 +63,7 @@ export default {
     display: block;
     column-gap: var(--masonry-gap);
     columns: var(--masonry-max-columns);
+    overflow: hidden;
   }
 
   .cc-masonry-item {

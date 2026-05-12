@@ -324,7 +324,7 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
 
   if (!isPreSerialized && data.cloud?.cloud_data) delete data.cloud.cloud_data
 
-  const body = isPreSerialized ? data : (type === 'application/json' ? JSON.stringify(data) : data)
+  const body = isPreSerialized ? data : type === 'application/json' ? JSON.stringify(data) : data
 
   try {
     const response = await fetch(presignedUrl, {
@@ -449,7 +449,7 @@ export async function bulkDelete(
 // sends auth token when logged in so the response includes the is_own flag.
 export async function DownloadViaCode(code: string): Promise<any> {
   const url = new URL(`${invoke}/code`)
-  url.searchParams.append('scope', 'download')
+  url.searchParams.append('scope', 'item')
   url.searchParams.append('codes', JSON.stringify([code]))
 
   const headers = UserStore().IsLoggedIn ? await getHeaders() : { ...baseHeaders }
