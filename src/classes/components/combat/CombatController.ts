@@ -498,12 +498,15 @@ class CombatController implements ICounterContainer, IStatContainer {
     const status = CompendiumStore().Statuses.find(s => s.ID === statusID)
     if (!status) return
     const target = this.ActiveActor.CombatController
+    const resolvedExpires = typeof expires === 'string'
+      ? markRaw(new expiration(expires, this, target))
+      : expires ? markRaw(expires) : expires
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
-      target.Statuses.push({ status, expires: expires ? markRaw(expires) : expires })
+      target.Statuses.push({ status, expires: resolvedExpires })
       this.log(`Gained ${status.Name}`)
-    } else if (expires) {
-      target.Statuses[existingIndex].expires = markRaw(expires)
+    } else if (resolvedExpires) {
+      target.Statuses[existingIndex].expires = resolvedExpires
     }
   }
 
