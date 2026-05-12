@@ -21,11 +21,7 @@
         title="Features"
         :subtitle="`(${item.Features.length})`"
         class="mt-2" />
-      <cc-masonry-grid :items="item.Features"
-        :column-width="400"
-        :gap="16"
-        :min-columns="1"
-        :max-columns="widescreen ? 3 : 2">
+      <cc-masonry-grid :items="item.Features">
         <template #default="{ item }">
           <cc-dense-card :item="item"
             class="my-1"
@@ -47,7 +43,8 @@
           title="Shard Features"
           :subtitle="`(${item.Shards.Features.length})`"
           class="mt-2" />
-        <cc-dense-card v-for="b in item.Shards.Features" :key="b.ID"
+        <cc-dense-card v-for="b in item.Shards.Features"
+          :key="b.ID"
           :item="b"
           class="my-1"
           :tier="tier" />

@@ -1,18 +1,27 @@
 <template>
-  <v-card v-if="!item?.Data" variant="outlined" color="panel" class="pa-6 ma-2">
+  <v-card v-if="!item?.Data"
+    variant="outlined"
+    color="panel"
+    class="pa-6 ma-2">
     <div class="text-center text-caption text-disabled"><i>No Encounter Selected</i></div>
   </v-card>
 
-  <v-card v-else class="pa-2 ma-2" variant="outlined" color="panel">
+  <v-card v-else
+    class="pa-2 ma-2"
+    variant="outlined"
+    color="panel">
     <encounter-content :data="item.Data" />
   </v-card>
 
   <v-footer height="35">
-    <v-menu v-if="item && item.Data" width="40vw">
+    <v-menu v-if="item && item.Data"
+      width="40vw">
       <template #activator="{ props }">
-        <v-btn v-bind="props" size="x-small" icon class="mt-n1 ml-n3 elevation-0">
-          <v-icon
-            size="x-large"
+        <v-btn v-bind="props"
+          size="x-small"
+          icon
+          class="mt-n1 ml-n3 elevation-0">
+          <v-icon size="x-large"
             icon="mdi-link-variant"
             :color="isItemLinked ? 'success' : 'rgba(155,155,155,0.5)'" />
         </v-btn>
@@ -28,8 +37,7 @@
           <div class="my-4">
             To re-link this item, select it in the "Set Narrative Element" menu.
           </div>
-          <v-btn
-            block
+          <v-btn block
             color="error"
             variant="tonal"
             prepend-icon="mdi-link-off"
@@ -50,8 +58,7 @@
     </v-menu>
 
     <v-spacer />
-    <v-btn
-      color="accent"
+    <v-btn color="accent"
       size="small"
       variant="tonal"
       prepend-icon="cc:encounter"
@@ -60,12 +67,12 @@
       Set Encounter
     </v-btn>
 
-    <v-dialog v-model="encounterDialog" width="80vw">
-      <encounter-selector
-        @select="
-          addEncounter($event);
-          encounterDialog = false;
-        "
+    <v-dialog v-model="encounterDialog"
+      width="80vw">
+      <encounter-selector @select="
+        addEncounter($event);
+      encounterDialog = false;
+      "
         @close="encounterDialog = false" />
     </v-dialog>
   </v-footer>
@@ -77,7 +84,7 @@ import EncounterSelector from './EncounterSelector.vue';
 import EncounterContent from './EncounterContent.vue';
 
 export default {
-  name: 'encounter-content-container',
+  name: 'EncounterContentContainer',
   components: { EncounterSelector, EncounterContent },
   props: {
     item: { type: Object, required: true },

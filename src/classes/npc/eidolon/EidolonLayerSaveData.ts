@@ -59,13 +59,16 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
     this.SaveController = parent.SaveController;
     this.CombatController = new CombatController(this);
 
-    if (data.stats) StatController.Deserialize(this, data.stats);
     this._description = data.description;
 
     this.Layer =
       CompendiumStore().EidolonLayers.find((x) => x.ID === data.id) || new EidolonLayer(data.data);
 
-    if (!data.stats) this._setStats(parent.Tier);
+    if (data.stats?.stat_version) {
+      StatController.Deserialize(this, data.stats);
+    } else {
+      this._setStats(parent.Tier);
+    }
 
     if (this.Layer.Shards) this.Layer.Shards.Tier = parent.Tier;
 
@@ -158,9 +161,10 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
       data: layerSave.Layer.Data,
       description: layerSave.Description,
       shard: undefined,
+      stats: {} as IStatData,
     };
 
-    StatController.Serialize(layerSave, data);
+    StatController.Serialize(layerSave, data.stats!);
 
     // if (layerSave.Layer.Shards) StatController.Serialize(this as any, data.shard);
 

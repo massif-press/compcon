@@ -315,7 +315,7 @@
         <component :is="editorComponent"
           v-if="editorReady && selected"
           :item="selected.actor"
-          :readonly="readonly || !selected.actor.IsLinked"
+          :readonly="readonly"
           hide-toolbar
           hide-footer />
       </div>
@@ -356,7 +356,7 @@ export default {
     addDialog: false,
     editDialog: false,
     editorReady: false,
-    _lastEditorType: null as string | null,
+    lastEditorType: null as string | null,
     selectorView: 'list',
     hasChanges: false,
     transferKey: 0,
@@ -395,6 +395,11 @@ export default {
       if (!val) return;
       UserStore().User.SetView('combatantSelectorView', val);
     },
+    editDialog(val) {
+      if (!val && this.selected) {
+        this.encounter.save();
+      }
+    },
   },
   created() {
     const user = UserStore().User;
@@ -416,9 +421,9 @@ export default {
       this.selected = item;
       this.editDialog = true;
 
-      if (newType !== this._lastEditorType) {
+      if (newType !== this.lastEditorType) {
         this.editorReady = false;
-        this._lastEditorType = newType;
+        this.lastEditorType = newType;
         setTimeout(() => { this.editorReady = true; }, 0);
       }
     },

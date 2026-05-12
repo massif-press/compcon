@@ -17,6 +17,7 @@ interface IStatData {
   max: any
   current: any
   stat_version?: number
+  user_added_keys?: string[]
 }
 
 const CURRENT_STAT_VERSION = 1
@@ -65,6 +66,7 @@ class StatController {
   private _currentStats: Record<string, any> = {}
   private _statFloors: Record<string, number> = markRaw({})
   private _customTrackable = new Set<string>()
+  private _userAddedKeys = new Set<string>()
 
   private static _customStatRegistry: Map<string, ICustomStatData> = new Map()
 
@@ -135,7 +137,7 @@ class StatController {
   public get DisplayKeys(): { key: string; title: string; type: string }[] {
     return Object.keys(this._maxStats)
       .filter(x => x.toLowerCase() !== 'sizes')
-      .filter(x => this._maxStats[x] !== undefined && this._maxStats[x] !== null && (this._maxStats[x] !== 0 || MandatoryStats.includes(x)))
+      .filter(x => this._maxStats[x] !== undefined && this._maxStats[x] !== null && (this._maxStats[x] !== 0 || MandatoryStats.includes(x) || this._userAddedKeys.has(x) || this.Parent.AdditionalStats?.includes(x)))
       .map(key => ({
         key,
         title: Stats.expandKey(key),
@@ -204,6 +206,7 @@ class StatController {
   public AddCoreStat(key: string): void {
     this._maxStats[key] = Stats.DefaultStats[key]
     this._currentStats[key] = Stats.DefaultStats[key]
+    this._userAddedKeys.add(key)
     this.save()
   }
 
@@ -212,6 +215,7 @@ class StatController {
     this._maxStats[key] = 0
     this._currentStats[key] = 0
     if (isTrackable) this._customTrackable.add(key)
+    this._userAddedKeys.add(key)
     this.save()
   }
 
@@ -219,6 +223,7 @@ class StatController {
     if (MandatoryStats.includes(key) || this.Parent.AdditionalStats?.includes(key)) return
     delete this._maxStats[key]
     this._customTrackable.delete(key)
+    this._userAddedKeys.delete(key)
     this.save()
   }
 
@@ -288,6 +293,7 @@ class StatController {
     target.max = parent.StatController._maxStats
     target.current = parent.StatController._currentStats
     target.stat_version = CURRENT_STAT_VERSION
+    target.user_added_keys = [...parent.StatController._userAddedKeys]
   }
 
   public static Deserialize(parent: IStatContainer, data: IStatData) {
@@ -304,6 +310,7 @@ class StatController {
     }
 
     if (data.max) parent.StatController._maxStats = data.max
+    if (data.user_added_keys) parent.StatController._userAddedKeys = new Set(data.user_added_keys)
     if (data.current && Object.keys(data.current).length) {
       parent.StatController._currentStats = data.current
       for (const key of MandatoryStats) {

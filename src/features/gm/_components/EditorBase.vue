@@ -27,10 +27,12 @@
             <v-row dense>
               <v-col cols="6"
                 md="12">
-                <gm-folder-editor :readonly="readonly"
+                <gm-folder-editor v-if="!item.IsInstance"
+                  :readonly="readonly"
                   :item="item"
                   class="mb-1" />
-                <gm-label-editor :readonly="readonly"
+                <gm-label-editor v-if="!item.IsInstance"
+                  :readonly="readonly"
                   :item="item"
                   class="mb-1" />
                 <cc-dialog v-if="!isNarrativeItem"

@@ -261,10 +261,6 @@
         <div v-if="hasBond"
           class="my-4">
           <cc-masonry-grid :items="masonryBondItems"
-            :column-width="400"
-            :gap="16"
-            :min-columns="1"
-            :max-columns="2"
             class="my-4">
             <template #default="{ item }">
               <cc-bond-power-card :power="item" />

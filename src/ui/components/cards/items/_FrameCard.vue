@@ -38,11 +38,7 @@
   </div>
 
   <div class="text-cc-overline text-text">FRAME TRAITS</div>
-  <cc-masonry-grid :items="item.Traits"
-    :column-width="500"
-    :gap="16"
-    :min-columns="1"
-    :max-columns="2">
+  <cc-masonry-grid :items="item.Traits">
     <template #default="{ item, index }">
       <cc-trait-item :trait="item"
         :color="mColor"

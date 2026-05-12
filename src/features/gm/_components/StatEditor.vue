@@ -232,8 +232,8 @@ export default {
           const icon = b.Overwrite || b.Replace
             ? 'mdi-tooltip-edit-outline'
             : resolved > 0 ? 'mdi-tooltip-plus-outline'
-            : resolved < 0 ? 'mdi-tooltip-minus-outline'
-            : 'mdi-tooltip-check-outline';
+              : resolved < 0 ? 'mdi-tooltip-minus-outline'
+                : 'mdi-tooltip-check-outline';
           const originalValStr = Array.isArray(b.Value) ? b.Value.join(', ') : String(b.Value);
           const detail = String(b.Detail).replace(originalValStr, String(resolved));
           return { ...b, Value: resolved, Icon: icon, Detail: detail };
@@ -242,6 +242,7 @@ export default {
     addCoreStats() {
       this.statsToAdd.forEach((x) => this.item.StatController.AddCoreStat(x));
       this.statsToAdd = [];
+      console.log(this.item.StatController)
     },
     addCustomStat() {
       this.item.StatController.AddCustomStat(this.customTitle);

@@ -56,7 +56,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     this._name = data?.name || ''
     this._tag = data?.tag || 'Mech'
 
-    this.IsInstance = data?.instance || false
+    this.IsInstance = !!(data?.instance && data?.instanceId)
     this.InstanceID = data?.instanceId || ''
     this.OriginId = data?.originId || ''
 

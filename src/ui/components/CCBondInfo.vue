@@ -48,11 +48,7 @@
         </v-col>
       </v-row>
       <cc-heading line><span class="heading h3">Bond Powers</span></cc-heading>
-      <cc-masonry-grid :items="bond.Powers"
-        :column-width="400"
-        :gap="16"
-        :min-columns="1"
-        :max-columns="2">
+      <cc-masonry-grid :items="bond.Powers">
         <template #default="{ item }">
           <cc-bond-power-card :power="item" />
         </template>

@@ -35,7 +35,7 @@
                 size="small"
                 class="mt-n1" />
               <span class="text-cc-overline text-disabled flex-grow-1">{{ group || 'No Group'
-              }}</span>
+                }}</span>
               <v-icon :icon="collapsedGroups[group] ? 'mdi-chevron-right' : 'mdi-chevron-down'"
                 size="small" />
             </div>
@@ -310,11 +310,7 @@
                   <cc-slashes />
                   Frame Traits
                 </div>
-                <cc-masonry-grid :items="selected.ActiveMech.Frame.Traits"
-                  :column-width="500"
-                  :gap="16"
-                  :min-columns="1"
-                  :max-columns="2">
+                <cc-masonry-grid :items="selected.ActiveMech.Frame.Traits">
                   <template #default="{ item, index }">
                     <cc-trait-item :trait="item"
                       class="mb-2" />
@@ -327,7 +323,6 @@
                     Core Bonuses
                   </div>
                   <cc-masonry-grid :items="selected.CoreBonusController.CoreBonuses"
-                    :column-width="500"
                     :gap="16"
                     :min-columns="1"
                     :max-columns="2">

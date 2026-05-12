@@ -36,11 +36,7 @@
     <v-card-text :style="!mobile && 'height: calc(100vh - 198px); overflow-y: scroll'">
       <v-slide-y-reverse-transition mode="out-in">
         <cc-masonry-grid :key="searchText"
-          :items="searchResults"
-          :column-width="400"
-          :gap="16"
-          :min-columns="1"
-          :max-columns="widescreen ? 3 : 2">
+          :items="searchResults">
           <template #default="{ item }">
             <cc-search-result-modal :item="item" />
           </template>

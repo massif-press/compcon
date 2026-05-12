@@ -13,11 +13,7 @@
           label="Show Full" />
       </v-col>
     </v-row>
-    <cc-masonry-grid :items="actions"
-      :column-width="400"
-      :gap="16"
-      :min-columns="1"
-      :max-columns="widescreen ? 3 : 2">
+    <cc-masonry-grid :items="actions">
       <template #default="{ item }">
         <action-card :action="item"
           :clickable="!expanded" />
@@ -28,11 +24,7 @@
       class="heading">
       Pilot Actions
     </h1>
-    <cc-masonry-grid :items="pilotActions"
-      :column-width="400"
-      :gap="16"
-      :min-columns="1"
-      :max-columns="widescreen ? 3 : 2">
+    <cc-masonry-grid :items="pilotActions">
       <template #default="{ item }">
         <action-card :action="item"
           :clickable="!expanded" />
@@ -43,11 +35,7 @@
       class="heading">
       Downtime Actions
     </h1>
-    <cc-masonry-grid :items="downtimeActions"
-      :column-width="400"
-      :gap="16"
-      :min-columns="1"
-      :max-columns="widescreen ? 3 : 2">
+    <cc-masonry-grid :items="downtimeActions">
       <template #default="{ item }">
         <cc-dense-card :item="item" />
       </template>
