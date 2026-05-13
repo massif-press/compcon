@@ -32,7 +32,7 @@
         :icon="edit ? 'mdi-pencil-off' : 'mdi-pencil'"
         size="x-small"
         v-bind="props"
-        @click.stop="edit = !edit" />
+        @click.stop="setEdit()" />
       <span class="pl-4 text-caption">
         ({{ pilots.length }} Pilot{{ pilots.length === 1 ? '' : 's' }})
       </span>
@@ -554,6 +554,13 @@ export default {
     },
     move(direction: 'top' | 'up' | 'down' | 'bottom') {
       PilotStore().ReorderGroup(this.group as PilotGroup, direction);
+    },
+    setEdit() {
+      if (!this.group.Expanded) this.setGroupExpand();
+      this.edit = !this.edit;
+      if (!this.edit) {
+        PilotStore().SaveGroupData();
+      }
     },
   },
 };

@@ -2,11 +2,7 @@
   <v-container class="pb-12">
     <h1 id="statuses"
       class="heading">Statuses</h1>
-    <cc-masonry-grid :items="statuses"
-      :column-width="400"
-      :gap="16"
-      :min-columns="1"
-      :max-columns="widescreen ? 3 : 2">
+    <cc-masonry-grid :items="statuses">
       <template #default="{ item }">
         <status-card :status="item" />
       </template>
@@ -14,11 +10,7 @@
 
     <h1 id="conditions"
       class="heading">Conditions</h1>
-    <cc-masonry-grid :items="conditions"
-      :column-width="400"
-      :gap="16"
-      :min-columns="1"
-      :max-columns="widescreen ? 3 : 2">
+    <cc-masonry-grid :items="conditions">
       <template #default="{ item }">
         <status-card :status="item" />
       </template>

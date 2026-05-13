@@ -9,9 +9,15 @@
     <div v-if="item"
       style="cursor: pointer !important"
       @click="($refs as any).base.openDetail()">
+
+      <v-card-text v-if="item.Effect"
+        class="mt-1">
+        <div v-html-safe="item.Effect" />
+      </v-card-text>
+
       <v-row align="center"
         justify="space-around"
-        class="my-1">
+        class="mb-1">
         <v-col class="my-auto">
           <v-tooltip text="Armor Bonus">
             <template #activator="{ props }">

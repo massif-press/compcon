@@ -3,11 +3,7 @@
     <div class="text-cc-overline text-primary mb-3"
       style="line-height: 15px">ACTION REFERENCE</div>
 
-    <cc-masonry-grid :items="actions"
-      :column-width="450"
-      :gap="6"
-      :min-columns="3"
-      :max-columns="4">
+    <cc-masonry-grid :items="actions">
       <template #default="{ item }">
         <v-card flat
           tile

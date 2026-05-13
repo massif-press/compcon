@@ -1,5 +1,6 @@
 import { DamageType } from '@/class'
 import { v4 as uuid } from 'uuid'
+import { markRaw } from 'vue'
 
 interface ITimedEffectAction {
   status?: string[]
@@ -57,7 +58,7 @@ class TimedEffect {
   }
 
   public static Deserialize(data: ITimedEffectData): TimedEffect {
-    return new TimedEffect(data)
+    return markRaw(new TimedEffect(data))
   }
 }
 export { TimedEffect }

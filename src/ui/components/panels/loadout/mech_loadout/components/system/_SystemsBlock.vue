@@ -46,10 +46,9 @@
       <div v-if="!reorderMode"
         style="position: relative; overflow-anchor: none">
         <cc-masonry-grid :items="systemItems"
-          :column-width="400"
           :gap="16"
           :min-columns="1"
-          :max-columns="2">
+          :max-columns="3">
           <template #default="{ item, index }">
             <component :is="item.component"
               :key="item.id"

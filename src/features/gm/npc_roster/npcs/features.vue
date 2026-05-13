@@ -46,11 +46,7 @@
     <!-- View mode: masonry grid -->
     <cc-masonry-grid v-if="!reorderMode"
       :items="shownFeatures"
-      :key-mapper="item => item.ID"
-      :column-width="400"
-      :gap="14"
-      :min-columns="1"
-      :max-columns="2">
+      :key-mapper="item => item.ID">
       <template #default="{ item }">
         <cc-dense-card v-if="item"
           :key="item.ID"

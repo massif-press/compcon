@@ -71,6 +71,7 @@ class Eidolon extends Npc implements IInstanceable {
   public CreateInstance<EidolonData>(): EidolonData {
     const data = this.Serialize() as EidolonData
     ;(data as any).instanceId = uuid()
+    ;(data as any).instance = true
 
     return data
   }
@@ -161,6 +162,7 @@ class Eidolon extends Npc implements IInstanceable {
     const data = {
       npcType: 'eidolon',
       id: eidolon.ID,
+      instance: eidolon.IsInstance,
       instanceId: eidolon.InstanceID,
       name: eidolon.Name,
       note: eidolon.Note,

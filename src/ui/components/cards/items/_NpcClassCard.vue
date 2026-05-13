@@ -57,11 +57,7 @@
       <span class="text-caption text-disabled">({{ item.BaseFeatures.length }})</span>
     </cc-heading>
 
-    <cc-masonry-grid :items="item.BaseFeatures"
-      :column-width="400"
-      :gap="16"
-      :min-columns="1"
-      :max-columns="widescreen ? 3 : 2">
+    <cc-masonry-grid :items="item.BaseFeatures">
       <template #default="{ item }">
         <cc-dense-card :item="item" />
       </template>
@@ -74,11 +70,7 @@
       <span class="text-caption text-disabled">({{ item.OptionalFeatures.length }})</span>
     </cc-heading>
 
-    <cc-masonry-grid :items="item.OptionalFeatures"
-      :column-width="400"
-      :gap="16"
-      :min-columns="1"
-      :max-columns="widescreen ? 3 : 2">
+    <cc-masonry-grid :items="item.OptionalFeatures">
       <template #default="{ item }">
         <cc-dense-card :item="item"
           class="my-1"

@@ -24,7 +24,7 @@
                   {{ mech.Name }}
                 </span>
                 <v-spacer />
-                <v-icon :icon="mech.Frame.Manufacturer.Icon"
+                <v-icon :icon="mech.Frame.Manufacturer?.Icon || 'cc:manufacturer'"
                   color="white" />
               </v-toolbar>
 

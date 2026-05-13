@@ -77,7 +77,9 @@ abstract class Npc
   private _lcpConfig: LcpConfigData
 
   public constructor(data?: NpcData) {
-    if ((data as any)?.is_instance) this.IsInstance = true
+    if ((data as any)?.is_instance || ((data as any)?.instance && (data as any)?.instanceId)) {
+      this.IsInstance = true
+    }
 
     this._id = data ? data.id : uuid()
     this._note = data ? data.note : ''

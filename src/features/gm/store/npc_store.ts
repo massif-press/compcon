@@ -1,6 +1,7 @@
 import { Eidolon, EidolonData } from '@/classes/npc/eidolon/Eidolon'
 import { GetAll, SetItem, RemoveItem } from '@/io/Storage'
 import { defineStore } from 'pinia'
+import { toRaw } from 'vue'
 import { Doodad, DoodadData } from '@/classes/npc/doodad/Doodad'
 import { Unit, UnitData } from '@/classes/npc/unit/Unit'
 import * as _ from 'lodash-es'
@@ -85,7 +86,7 @@ export const NpcStore = defineStore('npc', {
   actions: {
     async LoadNpcs(): Promise<void> {
       const all = await GetAll('npcs')
-      this.Npcs = all
+      const npcs = (all
         .filter(x => x.npcType === 'unit')
         .map(x => Unit.Deserialize(x as UnitData))
         .concat(
@@ -97,7 +98,17 @@ export const NpcStore = defineStore('npc', {
           all
             .filter(x => x.npcType === 'eidolon')
             .map(x => Eidolon.Deserialize(x as EidolonData)) as any[]
-        )
+        )) as Npc[]
+      for (const npc of npcs) {
+        if ((npc as any).IsInstance) {
+          logger.warn(`LoadNpcs: converting instanced NPC ${npc.ID} (${npc.Name}) to roster item`)
+          ;(npc as any).IsInstance = false
+          ;(npc as any).InstanceID = ''
+          ;(npc as any).OriginId = ''
+          await SetItem('npcs', npc.Serialize())
+        }
+      }
+      this.Npcs = npcs
     },
 
     AddFolder(payload: string): void {
@@ -123,6 +134,13 @@ export const NpcStore = defineStore('npc', {
     },
 
     async AddNpc(payload: Unit | Doodad | Eidolon): Promise<void> {
+      if ((payload as any).IsInstance) {
+        logger.warn(`AddNpc: converting instanced NPC ${payload.ID} (${payload.Name}) to roster item`)
+        ;(payload as any).IsInstance = false
+        ;(payload as any).InstanceID = ''
+        ;(payload as any).OriginId = ''
+      }
+
       if (this.Npcs.some(x => x.ID === payload.ID)) {
         logger.info(`NPC with ID ${payload.ID} already exists, updating instead.`, this)
         this.SetNpc(
@@ -165,7 +183,7 @@ export const NpcStore = defineStore('npc', {
     },
     async SaveNpc(npc: Unit | Doodad | Eidolon): Promise<void> {
       try {
-        await SetItem('npcs', npc.Serialize())
+        await SetItem('npcs', toRaw(npc).Serialize())
         logger.info(`NPC ${npc.ID} (${npc.Name}) saved`, this)
       } catch (err) {
         console.error(err)
@@ -174,7 +192,7 @@ export const NpcStore = defineStore('npc', {
     },
     async SaveNpcData(): Promise<void> {
       try {
-        await Promise.all((this.Npcs as any).map(y => SetItem('npcs', y.Serialize())))
+        await Promise.all((this.Npcs as any).map(y => SetItem('npcs', toRaw(y).Serialize())))
         logger.info('NPC data saved')
       } catch (err) {
         logger.error('Error while saving NPC data', this, err)

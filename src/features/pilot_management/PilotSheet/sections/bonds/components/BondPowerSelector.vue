@@ -96,12 +96,11 @@
           </v-row>
           <v-divider class="mt-2 mb-4" />
           <v-row>
-            <cc-masonry-grid :items="shownPowers"
-              :column-width="400"
-              :gap="16"
-              :min-columns="1"
-              :max-columns="widescreen ? 3 : 2">
-              <template #default="{ item }">
+            <cc-masonry-grid :items="shownPowers">
+              <template #default="
+                {
+                  item
+                }">
                 <div v-if="item">
                   <cc-bond-power-card :power="item" />
                   <cc-button v-if="allowAdd(item)"

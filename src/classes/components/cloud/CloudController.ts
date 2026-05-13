@@ -188,7 +188,7 @@ class CloudController {
   }
 
   public async UpdateCloud(scope = 'item') {
-    const savedata = this.Parent.Serialize(this.Parent)
+    const savedata = this.Parent.Serialize(false)
     const newHash = CloudController.computeContentHash(savedata)
     if (this._lastContentHash && this._lastContentHash === newHash) {
       logger.info('CloudController: content unchanged (hash match), skipping upload')
@@ -260,7 +260,7 @@ class CloudController {
         continue
       }
 
-      const savedata = item.Serialize(item)
+      const savedata = item.Serialize(false)
       const hash = CloudController.computeContentHash(savedata)
       if (item.CloudController._lastContentHash && item.CloudController._lastContentHash === hash) {
         logger.info(`BatchUpdateCloud: skipping unchanged item ${item.Name}`)
@@ -284,7 +284,7 @@ class CloudController {
 
       // serialize only this chunk. prior chunk data can now be garbage collected
       const chunkData = chunk.map(item => {
-        const savedata = item.Serialize(item)
+        const savedata = item.Serialize(false)
         item.CloudController.Metadata.ItemModified = item.SaveController.LastModified
         item.CloudController.Metadata.Name = item.Name
         item.CloudController.Metadata.Size = CloudController.stringifySafe(savedata).length
