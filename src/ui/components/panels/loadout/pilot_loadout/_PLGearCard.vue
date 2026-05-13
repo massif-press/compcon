@@ -19,10 +19,14 @@
       class="text-left"
       style="cursor: pointer !important"
       @click="($refs as any).base.openDetail()">
-      <v-card-text v-if="item.Description"
+      <v-card-text v-if="item.Effect"
+        class="py-0 mb-2">
+        <div v-html-safe="item.Effect" />
+      </v-card-text>
+      <!-- <v-card-text v-if="item.Description"
         class="py-0 mb-2">
         <div v-html-safe="item.Description" />
-      </v-card-text>
+      </v-card-text> -->
     </div>
 
     <template #selector>

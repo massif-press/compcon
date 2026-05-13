@@ -10,6 +10,13 @@
       class="text-left mt-n4"
       style="cursor: pointer !important"
       @click="($refs as any).base.openDetail()">
+
+      <v-card-text v-if="item.Effect"
+        class="mt-1">
+        <div v-html-safe="item.Effect" />
+      </v-card-text>
+
+
       <v-row align="center"
         justify="space-around"
         dense>
