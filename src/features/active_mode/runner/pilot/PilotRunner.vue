@@ -19,7 +19,7 @@
             <div>
               <div v-if="panel && sheet">
                 <component
-                  :is="`${panel}-panel`"
+                  :is="panelMap[panel]"
                   :key="panel"
                   :combatant="combatant"
                   :encounter="encounterInstance.Encounter"
@@ -171,6 +171,15 @@ import OptionsPanel from './_components/PcOptionsPanel.vue';
 import DeployablesPanel from './_components/PcDeployablesPanel.vue';
 import PcEndRound from './_components/PcEndRound.vue';
 import PcEndEncounter from './_components/PcEndEncounter.vue';
+
+const panelMap: Record<string, any> = {
+  'pc': PcPanel,
+  'deployables': DeployablesPanel,
+  'notes': NotesPanel,
+  'reference-tag': ReferenceTagPanel,
+  'quick-reference': QuickReferencePanel,
+  'options': OptionsPanel,
+};
 
 const props = withDefaults(defineProps<{ id?: string | null }>(), { id: null });
 

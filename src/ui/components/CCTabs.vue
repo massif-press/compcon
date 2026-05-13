@@ -59,6 +59,8 @@ watch(tab, (newTab) => {
 function setTab(newTab: number) {
   tab.value = newTab
 }
+
+defineExpose({ setTab })
 </script>
 
 <style scoped>

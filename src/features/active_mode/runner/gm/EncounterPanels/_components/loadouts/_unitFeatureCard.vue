@@ -1,6 +1,8 @@
 <template>
   <v-card flat
     tile>
+    <equipment-destroyed-overlay :destroyed="item.Destroyed" />
+
     <v-row align="center"
       no-gutters
       justify="end"
@@ -178,6 +180,7 @@ import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { useMobile } from '@/mixins/useMobile'
 import { externalUnitItemBonuses } from '@/mixins/useExternalItemBonuses'
+import EquipmentDestroyedOverlay from './_DestroyedOverlay.vue'
 
 export default {
   name: 'UnitFeatureCombatCard',
@@ -187,6 +190,7 @@ export default {
     OnElement,
     EquipmentFlavorDescription: FlavorDescription,
     EquipmentActionsDeployables: ActionsDeployables,
+    EquipmentDestroyedOverlay,
   },
   mixins: [useMobile],
   props: {

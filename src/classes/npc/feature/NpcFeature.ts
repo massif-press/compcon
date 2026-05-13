@@ -111,7 +111,10 @@ abstract class NpcFeature extends CompendiumItem {
     if (CompendiumStore().has('NpcClasses', this._originID))
       return CompendiumStore().referenceByID('NpcClasses', this._originID) as unknown as NpcClass
     if (CompendiumStore().has('NpcTemplates', this._originID))
-      return CompendiumStore().referenceByID('NpcTemplates', this._originID) as unknown as NpcTemplate
+      return CompendiumStore().referenceByID(
+        'NpcTemplates',
+        this._originID
+      ) as unknown as NpcTemplate
     return { ID: 'not_loaded' }
   }
 
@@ -153,12 +156,15 @@ abstract class NpcFeature extends CompendiumItem {
   }
 
   public get IsCombatPassive(): boolean {
-    return !(
-      this.Actions.length > 0 ||
-      this.Deployables.length > 0 ||
-      this.Recharge > 0 ||
-      this.Tags.some(x => x.UsageCost > 0) ||
-      !!(this as any).Damage
+    return (
+      (this.FeatureType === NpcFeatureType.Trait || this.FeatureType === NpcFeatureType.Reaction) &&
+      !(
+        this.Actions.length > 0 ||
+        this.Deployables.length > 0 ||
+        this.Recharge > 0 ||
+        this.Tags.some(x => x.UsageCost > 0) ||
+        !!(this as any).Damage
+      )
     )
   }
 

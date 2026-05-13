@@ -357,6 +357,7 @@ import SectionEditChip from '../components/SectionEditChip.vue'
 import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/mixins/useMobile';
 import { remove } from 'jszip'
+import { sortBy } from 'lodash-es'
 
 export default {
   mixins: [useMobile],
@@ -395,14 +396,14 @@ export default {
   watch: {
     'pilot.BondController.BondPowers': {
       handler(val) {
-        this.masonryBondItems = [...this.pilot.BondController.BondPowers]
+        this.masonryBondItems = sortBy([...this.pilot.BondController.BondPowers], ['master', 'veteran', 'origin', 'name'])
       },
       immediate: true,
       deep: true,
     },
   },
   mounted() {
-    this.masonryBondItems = [...this.pilot.BondController.BondPowers]
+    this.masonryBondItems = sortBy([...this.pilot.BondController.BondPowers], ['master', 'veteran', 'origin', 'name'])
   },
   methods: {
     async setBond(bond) {

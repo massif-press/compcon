@@ -70,7 +70,7 @@ export default {
     sortedActiveEffects() {
       let out = this.item.CombatController.SortedActiveEffects(this.sortMode, this.sortDir);
       if (this.hideUsed) {
-        out = out.filter((ae) => !ae.Applied);
+        out = out.filter((ae) => !ae.Applied && !ae.Origin?.Used && !ae.Origin?.Destroyed);
       }
 
       return out;
