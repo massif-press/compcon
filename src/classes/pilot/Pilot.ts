@@ -648,7 +648,7 @@ class Pilot
   }
 
   public CloneMech(mech: Mech): void {
-    const mechData = structuredClone(Mech.Serialize(mech))
+    const mechData = JSON.parse(JSON.stringify(Mech.Serialize(mech)))
     const clone = Mech.Deserialize(mechData, this)
     clone.RenewID()
     clone.Name += '*'

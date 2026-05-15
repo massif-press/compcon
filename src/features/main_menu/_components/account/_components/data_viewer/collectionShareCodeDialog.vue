@@ -1,7 +1,6 @@
 <template>
-  <cc-share-code-importer
-    ref="importer"
-    importType="collection"
+  <cc-share-code-importer ref="importer"
+    import-type="collection"
     title="Add New Subscription"
     @set-query-result="queryResult = $event">
     <template #result>
@@ -9,12 +8,10 @@
     </template>
 
     <template #actions>
-      <cc-button
-        flat
+      <cc-button flat
         color="accent"
         class="mb-1"
         :loading="dlLoading"
-        :disabled="!($refs as any).importer.canDownload"
         @click="subscribe()">
         subscribe
       </cc-button>
@@ -27,7 +24,7 @@ import { UserStore } from '@/stores';
 import CollectionInfo from './collectionInfo.vue';
 
 export default {
-  name: 'share-code-dialog',
+  name: 'ShareCodeDialog',
   components: { CollectionInfo },
   data: () => ({
     queryResult: null as any,

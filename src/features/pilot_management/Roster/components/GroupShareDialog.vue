@@ -47,7 +47,7 @@
       <cc-button color="primary"
         class="my-1"
         :loading="dlLoading"
-        :disabled="($refs as any).importer.isUserOwned || !($refs as any).importer.canDownload"
+        :disabled="isUserOwned"
         tooltip="Adding this item as a remote resource will create a readonly version of this item linked
             to the author's original data. When the author saves an update to this item to their
             COMP/CON cloud account, your local version can receive those changes."
@@ -58,7 +58,6 @@
       <cc-button size="small"
         color="primary"
         :loading="dlLoading"
-        :disabled="!($refs as any).importer.canDownload"
         tooltip="Adding this item as a local copy will create a new, editable version of this item saved
             to your local COMP/CON data. Changes made to this item will not affect the author's
             original data, and you will not receive updates from the author."
@@ -95,6 +94,11 @@ export default {
   computed: {
     mobile() {
       return this.$vuetify.display.mdAndDown;
+    },
+    isUserOwned() {
+      return !!(this.queryResult?.user_id &&
+        UserStore().Cognito?.userId &&
+        this.queryResult.user_id === UserStore().Cognito.userId);
     },
   },
   methods: {

@@ -48,7 +48,6 @@
         class="mb-1 mt-4 text-left"
         block
         :loading="dlLoading"
-        :disabled="!($refs as any).importer.canDownload"
         tooltip="This will add a copy of this pilot to your encounter. If the author updates their original data, you will not receive those changes."
         @click="addToEncounter">
         add to encounter

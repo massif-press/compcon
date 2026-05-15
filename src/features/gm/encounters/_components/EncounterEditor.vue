@@ -297,7 +297,7 @@
       <v-tooltip v-if="isRemote">
         <template #activator="{ props }">
           <cc-button size="small"
-            :disabled="item.CloudController.SyncStatus === 'Synced'"
+            :disabled="item.CloudController.isSynced"
             class="mx-3"
             v-bind="props">
             <v-icon start>mdi-cloud-sync</v-icon>
@@ -306,7 +306,7 @@
         </template>
         {{
           isAuthed
-            ? item.CloudController.SyncStatus === 'Synced'
+            ? item.CloudController.isSynced
               ? 'Item is up to date with remote changes'
               : 'Download all remote changes to this item, overwriting local data.'
             : 'Must be logged in to update'

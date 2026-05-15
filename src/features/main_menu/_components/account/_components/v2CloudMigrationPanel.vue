@@ -214,12 +214,8 @@ export default {
     },
     async dismiss() {
       const store = UserStore()
-      if (this.migrationResult) {
-        // Set final status based on migration outcome
-        store.UserMetadata.V2CloudImportStatus =
-          this.migrationResult.status === 'error' ? 'error' : 'complete'
-      }
-      // If no migration was run (Later), leave status as 'pending' so the panel reappears
+      store.UserMetadata.V2CloudImportStatus =
+        this.migrationResult?.status === 'error' ? 'error' : 'complete'
       await store.setUserMetadata()
     },
   },

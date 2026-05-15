@@ -37,9 +37,25 @@
           variant="outlined"
           color="primary"
           icon="mdi-magnify"
+          bg-color="background"
           placeholder="Search"
-          width="350px"
+          width="250px"
           clearable />
+        <cc-select v-if="!mobile && tab === 0"
+          v-model="itemTypeFilter"
+          :items="syncableItemTypes"
+          multiple
+          small
+          chip-variant="elevated"
+          color="primary"
+          density="compact"
+          hide-details
+          max="4"
+          select-all
+          icon="mdi-filter-variant"
+          all-text="All Item Types"
+          none-text="No Item Types"
+          class="mx-2 mb-1" />
         <v-spacer />
         <v-tabs v-model="tab">
           <v-tab>
@@ -63,44 +79,38 @@
               </div>
             </v-tooltip>
           </v-tab>
-          <v-divider vertical />
-          <v-tab>
-            <v-tooltip max-width="300px"
-              location="top">
-              <template #activator="{ props }">
-                <span v-bind="props">Remote Items</span>
-              </template>
-              <div class="text-center">
-                Remote Items are items imported from other users via share codes.
-              </div>
-            </v-tooltip>
-          </v-tab>
-          <v-divider vertical />
-          <v-tab>
-            <v-tooltip max-width="300px"
-              location="top">
-              <template #activator="{ props }">
-                <span v-bind="props">Campaigns</span>
-              </template>
-              <div class="text-center">Published campaigns imported from via share codes.</div>
-            </v-tooltip>
-          </v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
-    <v-text-field v-if="mobile"
-      v-model="search"
-      variant="outlined"
-      prepend-inner-icon="mdi-magnify"
-      label="Search"
-      single-line
-      density="compact"
-      class="mx-1"
-      clearable
-      hide-details />
+    <v-row v-if="mobile"
+      no-gutters
+      class="mx-1 mt-1">
+      <v-col>
+        <v-text-field v-model="search"
+          variant="outlined"
+          prepend-inner-icon="mdi-magnify"
+          label="Search"
+          single-line
+          density="compact"
+          clearable
+          hide-details />
+      </v-col>
+      <v-col v-if="tab === 0"
+        cols="5"
+        class="ml-1">
+        <v-select v-model="itemTypeFilter"
+          :items="syncableItemTypes"
+          multiple
+          density="compact"
+          variant="outlined"
+          hide-details
+          placeholder="Filter" />
+      </v-col>
+    </v-row>
     <v-window v-model="tab">
       <v-window-item :value="0">
         <item-data-tab :search="search"
+          :item-type-filter="itemTypeFilter"
           :loading="loading"
           @refresh="refresh" />
       </v-window-item>
@@ -109,63 +119,52 @@
           :loading="loading"
           @refresh="refresh" />
       </v-window-item>
-      <v-window-item :value="2">
-        <remote-data-tab :search="search"
-          :loading="loading"
-          @refresh="refresh" />
-      </v-window-item>
-      <v-window-item :value="3">
-        <cc-alert color="secondary"
-          class="ma-4"
-          dense>
-          Published campaigns are managed in the
-          <cc-button size="x-small"
-            class="mx-1"
-            to="/srd?tab=2">
-            Campaign Library
-          </cc-button>
-        </cc-alert>
-      </v-window-item>
     </v-window>
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, watch, onMounted, computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores'
 import ItemDataTab from './data_viewer/ItemDataTab.vue'
-import RemoteDataTab from './data_viewer/RemoteDataTab.vue'
 import ImageDataTab from './data_viewer/ImageDataTab.vue'
 
-export default {
-  name: 'CloudDataViewer',
-  components: {
-    ItemDataTab,
-    RemoteDataTab,
-    ImageDataTab,
-  },
-  data: () => ({
-    tab: 'Data',
-    search: '',
-    loading: false,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown
-    },
-  },
-  async mounted() {
-    if (UserStore().IsLoggedIn) {
-      await this.refresh()
-    }
-  },
-  methods: {
-    async refresh() {
-      this.loading = true
-      await UserStore().refreshDbData()
-      this.loading = false
-    },
-  },
+const display = useDisplay()
+const mobile = computed(() => display.mdAndDown.value)
+
+const tab = ref(0)
+const search = ref('')
+const loading = ref(false)
+const itemTypeFilter = ref<string[]>(['pilot', 'pilotgroup', 'npc', 'collectionItem', 'encounter', 'campaign'])
+
+const syncableItemTypes = [
+  { title: 'Pilot', value: 'pilot' },
+  { title: 'Pilot Groups', value: 'pilotgroup' },
+  { title: 'NPC', value: 'npc' },
+  { title: 'Narrative Element', value: 'collectionItem' },
+  { title: 'Encounter', value: 'encounter' },
+  // { title: 'Campaign', value: 'campaign' },
+]
+
+watch(itemTypeFilter, (val) => {
+  if (val) UserStore().User.SetView('cloudItemFilters', val)
+})
+
+async function refresh() {
+  loading.value = true
+  await UserStore().refreshDbData()
+  loading.value = false
 }
+
+onMounted(async () => {
+  itemTypeFilter.value = UserStore().User.View('cloudItemFilters', [
+    'pilot', 'pilotgroup', 'npc', 'collectionItem', 'encounter', 'campaign',
+  ])
+  if (UserStore().IsLoggedIn) {
+    await refresh()
+  }
+})
 </script>
 
 <style>

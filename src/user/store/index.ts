@@ -16,7 +16,6 @@ import { Encounter } from '@/classes/encounter/Encounter'
 import { getCurrentUser, fetchAuthSession, signOut } from 'aws-amplify/auth'
 import {
   getUser,
-  getUserData,
   getUserDataChanged,
   cloudDelete,
   bulkDelete,
@@ -26,9 +25,11 @@ import {
   downloadFromS3,
   getFromPresignDirect,
   UnauthorizedError,
+  NotFoundError,
 } from '@/io/apis/account'
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
 import type { dbItemMeta } from '@/classes/components/cloud/CloudController'
+import type { ICloudSyncable } from '@/classes/components/cloud/ICloudSyncable'
 import { expandFilterTypes, normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
 import { ImportStagedData, StageImport } from '@/io/Importer'
 import { getItemDownloadLink } from '../api'
@@ -37,10 +38,9 @@ import logger from '../logger'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
 import PilotSheet from '@/features/pilot_management/store/PilotSheet'
-import { withSyncLock, setSyncTimer as setSyncTimerService } from './SyncService'
+import { setSyncTimer as setSyncTimerService } from './SyncService'
 import { pruneBackups, autoBackup } from './BackupService'
 import * as OAuthService from './OAuthService'
-import { SyncQueue } from './SyncQueue'
 import { checkV2CloudData, type V2CloudDetectResult } from '@/io/V2CloudImporter'
 import { getV2Backups } from '@/io/V2Importer'
 
@@ -51,11 +51,11 @@ export type SyncSettings = {
   itemTypes: string[]
   includeSettings: boolean
   includeShared: boolean
-  resolutionStrategy: string
   autoBackupFrequency: string
   autoBackupLimit: number
   autoBackupPrunePct: number
   lastBackupTime: number
+  lastSyncTime: number
 }
 
 export type ItchData = {
@@ -71,16 +71,15 @@ export type CloudNotification = {
   type: string
 }
 
-/**
- * Lightweight type for items that participate in cloud sync.
- * Every domain entity in AllItems/AllSyncableItems satisfies this shape,
- * as do the ad-hoc objects constructed in CloudOnlyItems.
- */
 export interface SyncableItem {
   ID: string
   Name: string
   ItemType: string
-  CloudController: { Metadata: DbItemMetadata; SyncStatus: string }
+  CloudController: {
+    Metadata: DbItemMetadata
+    isSynced: boolean
+    syncFromCloud(): Promise<void>
+  }
   SaveController?: {
     IsDeleted: boolean
     IsRemote: boolean
@@ -126,11 +125,11 @@ const DefaultSyncSettings: SyncSettings = {
   itemTypes: ['pilot', 'pilotgroup', 'npc', 'campaign', 'encounter', 'collectionitem'],
   includeSettings: true,
   includeShared: true,
-  resolutionStrategy: 'newest',
   autoBackupFrequency: 'none',
   autoBackupLimit: 30,
   autoBackupPrunePct: 30,
   lastBackupTime: 0,
+  lastSyncTime: 0,
 }
 
 type CollectionSubscriptionSettings = {
@@ -181,7 +180,7 @@ export const UserStore = defineStore('cloud', {
   state: () => ({
     IsLoading: false,
     User: {} as Client.UserProfile,
-    UserMetadata: {} as UserMetadata,
+    UserMetadata: new UserMetadata({}) as UserMetadata,
     Cognito: {} as { username?: string; userId?: string },
     CloudItems: [] as dbItemMeta[],
     CloudArchives: [] as dbItemMeta[],
@@ -198,6 +197,7 @@ export const UserStore = defineStore('cloud', {
     CloudNotifications: [] as CloudNotification[],
     V2CloudDetectData: null as V2CloudDetectResult | null,
     V2BackupIds: [] as string[],
+    BrokenRemoteCodes: [] as string[],
   }),
   getters: {
     MaxCloudStorage: state => {
@@ -243,7 +243,7 @@ export const UserStore = defineStore('cloud', {
     ItemsRequiringUpdate(): SyncableItem[] {
       return this.AllSyncableItems.filter(item => {
         if (!item.CloudController) return true
-        return item.CloudController.SyncStatus !== 'Synced'
+        return !item.CloudController.isSynced
       })
     },
     AllItems(): SyncableItem[] {
@@ -280,7 +280,10 @@ export const UserStore = defineStore('cloud', {
         ItemType: x.sortkey.split('_')[1],
         CloudController: {
           Metadata: new DbItemMetadata(x),
-          SyncStatus: 'CloudOnly',
+          isSynced: false,
+          syncFromCloud: async () => {
+            throw new Error('CloudOnly items cannot syncFromCloud')
+          },
         },
       }))
     },
@@ -302,15 +305,17 @@ export const UserStore = defineStore('cloud', {
       return this.AllSyncableItems.filter(x => {
         if (x.SaveController?.IsDeleted) return false
         if (this.V2BackupIds.includes(x.ID)) return false
-        return this.SyncItemTypes.includes(normalizeItemType(x.ItemType))
-      }).filter(x => x.CloudController.SyncStatus !== 'Synced')
+        const t = normalizeItemType(x.ItemType)
+        if (t === 'encounterarchive' || t === 'pilotsheet') return false
+        return this.SyncItemTypes.includes(t)
+      }).filter(x => !x.CloudController.isSynced)
     },
     AllRemoteItemsToSync(): SyncableItem[] {
       return this.AllRemoteItems.filter(x => {
         if (x.SaveController?.IsDeleted) return false
         if (this.V2BackupIds.includes(x.ID)) return false
         return this.SyncItemTypes.includes(normalizeItemType(x.ItemType))
-      }).filter(x => x.CloudController.SyncStatus !== 'Synced')
+      }).filter(x => !x.CloudController.isSynced)
     },
     BackupSpaceExceeded(): boolean {
       if (this.CloudStorageFull) return true
@@ -391,8 +396,8 @@ export const UserStore = defineStore('cloud', {
       await this.getUserMetadata()
       await this.setMetadataFromDynamo()
     },
-    async getUserMetadata(): Promise<void> {
-      if (Date.now() - _lastUserMetadataFetch < USER_METADATA_TTL_MS) return
+    async getUserMetadata(force = false): Promise<void> {
+      if (!force && Date.now() - _lastUserMetadataFetch < USER_METADATA_TTL_MS) return
       let data: any
       try {
         data = await getUser(this.Cognito.userId!)
@@ -464,17 +469,13 @@ export const UserStore = defineStore('cloud', {
         this.CloudImages = []
         this.UserPublishedCollections = []
 
-        const rawData = await getUserData(this.Cognito.userId!)
-        const data = Array.isArray(rawData) ? rawData : []
-        if (!Array.isArray(rawData)) {
-          logger.warn('getUserData returned unexpected non-array response', { rawData })
-        }
-        this.LastQuery = Date.now()
+        const result = await getUserDataChanged(this.Cognito.userId!, 0)
+        this.LastQuery = result.serverTime
         if (this.Cognito.userId) {
           localStorage.setItem(`cc_last_query_${this.Cognito.userId}`, String(this.LastQuery))
         }
         let totalSizeBytes = 0
-        data.forEach(item => {
+        result.items.forEach(item => {
           if (item.deleted) return
           const localItem = this.getLocalItem(item.sortkey)
           if (item.size && !isNaN(item.size)) totalSizeBytes += item.size
@@ -498,6 +499,17 @@ export const UserStore = defineStore('cloud', {
           if (item.deleted) {
             // evict from CloudItems cache if present
             this.CloudItems = this.CloudItems.filter(x => x.sortkey !== item.sortkey)
+            if (localItem) {
+              const raw = toRaw(localItem) as any
+              if (raw.SaveController && !raw.SaveController.IsDeleted) {
+                raw.SaveController.DeleteTime = item.deleted
+                raw.SaveController.saveSilent?.()
+                this.addCloudNotification(
+                  `"${item.name}" was deleted on another device.`,
+                  'warning'
+                )
+              }
+            }
             return
           }
           if (localItem) {
@@ -519,6 +531,17 @@ export const UserStore = defineStore('cloud', {
     async setMetadataForRemotes(): Promise<void> {
       const remotes = this.UserMetadata.RemoteItems
       if (!remotes || remotes.length === 0) return
+
+      // Reload persisted broken codes (24h TTL)
+      const storedBroken = this.User.View('brokenRemoteCodes', null) as {
+        codes: string[]
+        expires: number
+      } | null
+      if (storedBroken && storedBroken.expires > Date.now()) {
+        for (const code of storedBroken.codes) {
+          if (!this.BrokenRemoteCodes.includes(code)) this.BrokenRemoteCodes.push(code)
+        }
+      }
 
       const requestedCodes = new Set(remotes)
       let data: any[] = []
@@ -550,13 +573,17 @@ export const UserStore = defineStore('cloud', {
               if (item && requestedCodes.has(item.code)) {
                 data.push(item)
               }
-            } catch {
-              logger.info(`Remote code ${code} no longer valid, detaching`)
-              const localItem = this.AllItems.find(
-                (x: any) => x.SaveController?.RemoteCode === code
-              )
-              if (localItem?.SaveController) toRaw(localItem).SaveController!.RemoteCode = ''
-              this.deleteRemoteItem(code)
+            } catch (e) {
+              if (e instanceof NotFoundError) {
+                logger.info(`Remote code ${code} not found (404), marking as broken link`)
+                if (!this.BrokenRemoteCodes.includes(code)) {
+                  this.BrokenRemoteCodes.push(code)
+                }
+              } else {
+                logger.warn(
+                  `Remote code ${code} temporarily unreachable (${e}), will retry next session`
+                )
+              }
             }
           }
         }
@@ -585,6 +612,10 @@ export const UserStore = defineStore('cloud', {
           const newItem = CloudController.NewByType(itemType, itemData)
           newItem.CloudController.setRemoteMetadata(item)
           await CloudController.AddByType(itemType, newItem)
+          if (item.item_modified) {
+            toRaw(newItem).SaveController.LastModified = item.item_modified
+            toRaw(newItem).SaveController.saveSilent?.()
+          }
         } catch (e) {
           logger.error(`Failed to download remote item ${item.code}:`, e)
         }
@@ -617,6 +648,14 @@ export const UserStore = defineStore('cloud', {
       const orphaned = this.UserMetadata.RemoteItems.filter(code => !trackedCodes.has(code))
       if (orphaned.length > 0) {
         orphaned.forEach(code => this.deleteRemoteItem(code))
+      }
+
+      // Persist broken codes with a 24h TTL so they survive page reload
+      if (this.BrokenRemoteCodes.length > 0) {
+        this.User.SetView('brokenRemoteCodes', {
+          codes: this.BrokenRemoteCodes,
+          expires: Date.now() + 24 * 60 * 60 * 1000,
+        })
       }
     },
     async getRemoteCollectionMetadata(startup = false): Promise<void> {
@@ -756,134 +795,140 @@ export const UserStore = defineStore('cloud', {
       else this[arrType].push(item)
     },
     async AutoSync(
-      overrideTo?: 'cloud' | 'local' | 'newest',
+      overrideTo?: 'upload' | 'download',
       isStartup = false,
       skipSync = false
     ): Promise<any[]> {
-      return withSyncLock(async () => {
-        await this.refreshDbData()
-        if (skipSync) return []
-        if (!this.SyncSettings) return []
-        if (isStartup) {
-          const frequency = this.SyncSettings?.frequency?.toLowerCase() ?? ''
-          if (!frequency.includes('start')) return []
-        }
-        if (this.SyncSettings.includeSettings) {
-          const cloudLatestChange = this.UserMetadata?.UserSettingData?.latest_change ?? 0
-          if (this.User.latest_change >= cloudLatestChange) {
-            await this.setUserMetadata()
-          }
-        }
-        const strategy = this.SyncSettings.resolutionStrategy
-        if (strategy === 'manual') return []
-        const items = this.AllItemsToSync
-        const failures = [] as any[]
-        const queue = await SyncQueue.getInstance()
+      if (this.IsSyncing) return []
+      this.IsSyncing = true
+      try {
+        return await this._autoSyncImpl(overrideTo, isStartup, skipSync)
+      } finally {
+        this.IsSyncing = false
+      }
+    },
+    async _autoSyncImpl(
+      overrideTo?: 'upload' | 'download',
+      isStartup = false,
+      skipSync = false
+    ): Promise<any[]> {
+      await this.refreshDbData()
+      if (skipSync) return []
+      if (!this.SyncSettings) return []
+      if (isStartup) {
+        const frequency = this.SyncSettings?.frequency?.toLowerCase() ?? ''
+        if (!frequency.includes('start')) return []
+      }
+      const cloudLatestChange = this.UserMetadata?.UserSettingData?.latest_change ?? 0
+      if (this.User.latest_change >= cloudLatestChange) {
+        await this.setUserMetadata()
+      }
 
-        const toCloud: any[] = []
-        const toLocal: any[] = []
-        const toNewest: any[] = []
+      const items = this.AllItemsToSync
+      const failures = [] as any[]
 
+      if (overrideTo === 'download') {
+        // Force download: fetch each item from cloud, merge into local, upload merged result
         for (const item of items) {
-          if (overrideTo === 'cloud') {
-            toCloud.push(item)
-          } else if (overrideTo === 'local') {
-            toLocal.push(item)
-          } else if (overrideTo === 'newest') {
-            toNewest.push(item)
-          } else {
-            switch (strategy) {
-              case 'local':
-                if (item.IsCloudOnly) toCloud.push(item)
-                else toLocal.push(item)
-                break
-              case 'cloud':
-                toCloud.push(item)
-                break
-              case 'newest':
-                toNewest.push(item)
-                break
+          try {
+            if (item.IsCloudOnly) {
+              await CloudController.ForceDownload(item)
+            } else {
+              await item.CloudController.syncFromCloud()
             }
+          } catch (e) {
+            logger.error('AutoSync force-download error:', e)
+            failures.push({ item, error: e })
           }
         }
-
-        for (const item of toNewest) {
-          if (item.IsCloudOnly || item.CloudController.SyncStatus === 'CloudNewer')
-            toCloud.push(item)
-          else toLocal.push(item)
+      } else if (overrideTo === 'upload') {
+        // Force upload: push all local data to cloud unconditionally
+        const localItems = items.filter(x => !x.IsCloudOnly)
+        try {
+          const batchFailures = await CloudController.BatchUpdateCloud(
+            localItems as unknown as ICloudSyncable[]
+          )
+          failures.push(...batchFailures)
+        } catch (e) {
+          logger.error('AutoSync force-upload batch error:', e)
+          localItems.forEach(item => failures.push({ item, error: e }))
         }
+      } else {
+        // Default LWW sync:
+        // Cloud-only items → download and add to local store
+        // Local items with cloud data → LWW merge (syncFromCloud) for items where cloud has
+        //   changed since last known server time; batch-upload for locally-newer items
+        const cloudOnly = items.filter(x => x.IsCloudOnly)
+        const localItems = items.filter(x => !x.IsCloudOnly)
 
-        // can't batch these
-        for (const item of toCloud) {
-          const sortKey = item.CloudController?.Metadata?.sortkey
+        for (const item of cloudOnly) {
           try {
-            if (sortKey)
-              await queue.enqueue({
-                id: sortKey,
-                itemType: sortKey.split('_')[1] || 'unknown',
-                name: item.Name || item.CloudController?.Metadata?.name || '',
-                direction: 'download',
-                enqueuedAt: Date.now(),
-                retries: 0,
-              })
-            await CloudController.SyncToCloud(item)
-            if (sortKey) await queue.dequeue(sortKey)
+            await CloudController.ForceDownload(item)
           } catch (e) {
-            logger.error('AutoSync SyncToCloud Error:', e)
-            if (sortKey) await queue.recordFailure(sortKey, String(e))
+            logger.error('AutoSync cloud-only download error:', e)
             failures.push({ item, error: e })
           }
         }
 
-        if (toLocal.length > 0) {
-          for (const item of toLocal) {
-            const sortKey = item.CloudController?.Metadata?.sortkey
-            if (sortKey)
-              await queue.enqueue({
-                id: sortKey,
-                itemType: sortKey.split('_')[1] || 'unknown',
-                name: item.Name || item.CloudController?.Metadata?.name || '',
-                direction: 'upload',
-                enqueuedAt: Date.now(),
-                retries: 0,
-              })
-          }
+        // Items with existing cloud data: upload local changes.
+        // If the server has a record newer than our last fetch (Updated > LastQuery),
+        // another device has written since — merge first to preserve their changes.
+        const toMerge: any[] = []
+        const toUpload: any[] = []
 
-          try {
-            const batchFailures = await CloudController.BatchUpdateCloud(toLocal)
-            failures.push(...batchFailures)
-          } catch (e) {
-            logger.error('AutoSync batch upload error:', e)
-            // if batch fails, record failures for all
-            for (const item of toLocal) {
-              const sortKey = item.CloudController?.Metadata?.sortkey
-              if (sortKey) await queue.recordFailure(sortKey, String(e))
-              failures.push({ item, error: e })
-            }
-          }
-
-          // dequeue successful items
-          for (const item of toLocal) {
-            const sortKey = item.CloudController?.Metadata?.sortkey
-            const failed = failures.some(f => f.item === item)
-            if (sortKey && !failed) await queue.dequeue(sortKey)
+        for (const item of localItems) {
+          const cloudUpdated = item.CloudController.Metadata?.Updated ?? 0
+          if (cloudUpdated > this.LastQuery) {
+            toMerge.push(item)
+          } else {
+            toUpload.push(item)
           }
         }
 
-        if (this.SyncSettings.includeShared)
-          for (const idx in this.AllRemoteItems) {
-            const item = this.AllRemoteItems[idx]
-            try {
-              await CloudController.UpdateRemote(item)
-            } catch (e) {
-              logger.error('AutoSync Error:', e)
-              failures.push({ item, error: e })
-            }
+        for (const item of toMerge) {
+          try {
+            await item.CloudController.syncFromCloud()
+          } catch (e) {
+            logger.error('AutoSync merge error:', e)
+            failures.push({ item, error: e })
           }
+        }
 
-        await this.setMetadataFromDynamo()
-        return failures
-      })
+        if (toUpload.length > 0) {
+          try {
+            const batchFailures = await CloudController.BatchUpdateCloud(
+              toUpload as unknown as ICloudSyncable[]
+            )
+            failures.push(...batchFailures)
+          } catch (e) {
+            logger.error('AutoSync batch upload error:', e)
+            toUpload.forEach(item => failures.push({ item, error: e }))
+          }
+        }
+      }
+
+      for (const item of this.AllRemoteItems) {
+        const code = (item as any).SaveController?.RemoteCode
+        if (code && this.BrokenRemoteCodes.includes(code)) continue
+        try {
+          await CloudController.UpdateRemote(item)
+        } catch (e) {
+          logger.error('AutoSync remote update error:', e)
+          failures.push({ item, error: e })
+        }
+      }
+
+      await this.setMetadataFromDynamo()
+
+      if (this.SyncSettings) this.SyncSettings.lastSyncTime = Date.now()
+
+      if (failures.length === 0) {
+        this.addCloudNotification(
+          `Synced ${items.length} item${items.length !== 1 ? 's' : ''} successfully.`
+        )
+      }
+
+      return failures
     },
     async OnUnload(): Promise<void> {
       if (!this.SyncSettings?.frequency?.toLowerCase().includes('close')) return
@@ -917,6 +962,33 @@ export const UserStore = defineStore('cloud', {
       if (idx === -1) return
       this.UserMetadata.RemoteItems.splice(idx, 1)
       this.setUserMetadata()
+    },
+    addBrokenRemote(code: string) {
+      if (!this.BrokenRemoteCodes.includes(code)) this.BrokenRemoteCodes.push(code)
+    },
+    removeBrokenRemote(code: string) {
+      const idx = this.BrokenRemoteCodes.indexOf(code)
+      if (idx > -1) this.BrokenRemoteCodes.splice(idx, 1)
+    },
+    async retryBrokenRemote(code: string): Promise<boolean> {
+      try {
+        const item = await GetFromCode(code)
+        if (!item || !item.code) return false
+        this.removeBrokenRemote(code)
+        await this.setMetadataForRemotes()
+        return true
+      } catch {
+        return false
+      }
+    },
+    convertBrokenRemoteToLocal(code: string) {
+      const localItem = this.AllItems.find((x: any) => x.SaveController?.RemoteCode === code)
+      if (localItem) {
+        const raw = toRaw(localItem) as any
+        raw.SaveController?.ClearRemote()
+      }
+      this.removeBrokenRemote(code)
+      this.deleteRemoteItem(code)
     },
     async addContentSubscription(metadata: any) {
       this.UserMetadata.CollectionSubscriptionSettings.items.push({

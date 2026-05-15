@@ -132,7 +132,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { downloadFromS3, GetFromCode } from '@/io/apis/account';
 import { UserStore } from '@/stores';
@@ -167,6 +167,7 @@ const code = ref<string[]>([]);
 const queryResult = ref<any>(null);
 const badCode = ref('');
 const loading = ref(false);
+const modal = ref<any>(null);
 const codeInputs = ref<HTMLElement[]>([]);
 
 const qrImportType = computed(() => {
@@ -284,6 +285,8 @@ function reset() {
   queryResult.value = null;
   badCode.value = '';
 }
+
+defineExpose({ reset, close: () => modal.value?.close?.() });
 
 function formatCode(c: string) {
   if (c.length === 12) return c.slice(0, 4) + '-' + c.slice(4, 8) + '-' + c.slice(8, 12);

@@ -20,7 +20,7 @@
         </v-progress-linear>
 
         <div class="text-cc-overline text-right text-disabled">
-            {{ allUnlocked.length }} of {{ nsAchievements.length }} {{ ac.unlocked }}
+          {{ allUnlocked.length }} of {{ nsAchievements.length }} {{ ac.unlocked }}
           <v-btn icon
             size="x-small"
             variant="plain"
@@ -35,7 +35,8 @@
               tile>
               <v-card-text>
                 <div class="text-cc-overline text-center font-weight-bold">{{ ac.byRarity }}</div>
-                <div v-for="(r, i) in rarities" :key="`rarity-${i}`">
+                <div v-for="(r, i) in rarities"
+                  :key="`rarity-${i}`">
                   <v-progress-linear
                     :model-value="(byRarity(i + 1).has / byRarity(i + 1).total) * 100"
                     height="25px"
@@ -54,7 +55,8 @@
                 <v-divider class="my-2" />
                 <div class="text-cc-overline text-center font-weight-bold">{{ ac.byLabel }}</div>
                 <v-row dense>
-                  <v-col v-for="(l, lIdx) in labels" :key="`label-${lIdx}`"
+                  <v-col v-for="(l, lIdx) in labels"
+                    :key="`label-${lIdx}`"
                     cols="6">
                     <v-progress-linear :model-value="(byLabel(l).has / byLabel(l).total) * 100"
                       height="20px"
@@ -138,8 +140,8 @@
           variant="outlined"
           class="mt-2">
           <template #selection="{ item, index }">
-            <v-chip size="small"
-              v-if="index < (mobile ? 7 : 11)">
+            <v-chip v-if="index < (mobile ? 7 : 11)"
+              size="small">
               <span>{{ item.title }}</span>
             </v-chip>
             <span v-if="index === (mobile ? 7 : 11)"
@@ -150,7 +152,7 @@
 
           <template #prepend-item>
             <v-list-item title="Select All">
-              <template v-slot:prepend>
+              <template #prepend>
                 <v-checkbox-btn :model-value="showLabels.length === labels.length"
                   :indeterminate="showLabels.length > 0 && showLabels.length < labels.length"
                   @click="setAllLabels()" />
@@ -207,18 +209,21 @@
           color="exotic"
           variant="outlined"
           append-inner-icon="mdi-plus"
-          @click-append-inner="addAchievement()"
-          icon="mdi-barcode-scan" />
+          icon="mdi-barcode-scan"
+          @click-append-inner="addAchievement()" />
       </v-col>
     </v-row>
     <v-container class="pt-1"
       :class="mobile && 'px-0'">
-      <achievement-item v-for="(a, aIdx) in shownAchievements" :key="`achievement-${aIdx}`"
+      <achievement-item v-for="(a, aIdx) in shownAchievements"
+        :key="`achievement-${aIdx}`"
         :item="a" />
       <div v-if="hiddenAchievements > 0"
         class="text-right text-caption px-4">
         <i>
-          {{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} {{ ac.notShown }}
+          {{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} {{
+            ac.notShown
+          }}
         </i>
       </div>
     </v-container>
@@ -320,11 +325,12 @@ import { useMobile } from '@/mixins/useMobile';
 import { NAV_STRINGS } from '@/features/nav/strings'
 
 export default {
-  mixins: [useMobile],
   name: 'AchievementsViewer',
   components: {
     AchievementItem,
   },
+  mixins: [useMobile],
+  emits: ['close'],
   setup() {
     return { ac: NAV_STRINGS.achievements }
   },
@@ -349,10 +355,6 @@ export default {
     addCode: '',
     achLoading: false,
   }),
-  emits: ['close'],
-  mounted() {
-    this.showLabels = this.labels;
-  },
   computed: {
     user() {
       return UserStore().User;
@@ -426,6 +428,9 @@ export default {
     allUnlockedSecret() {
       return this.achievements.filter((x) => x.Unlocked && x.Secret);
     },
+  },
+  mounted() {
+    this.showLabels = this.labels;
   },
   methods: {
     setAllLabels() {

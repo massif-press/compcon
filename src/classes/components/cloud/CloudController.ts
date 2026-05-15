@@ -1,3 +1,4 @@
+import { toRaw } from 'vue'
 import { ICloudSyncable } from './ICloudSyncable'
 import {
   CampaignStore,
@@ -12,8 +13,10 @@ import {
   updateItem,
   uploadToS3,
   PresignExpiredError,
+  ConflictError,
   batchUpsert,
   generateDeterministicKey,
+  getUserDataChanged,
 } from '@/io/apis/account'
 import { Pilot } from '@/class'
 import { Doodad } from '@/classes/npc/doodad/Doodad'
@@ -30,36 +33,30 @@ import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
 import PilotSheet from '@/features/pilot_management/store/PilotSheet'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { allSyncableTypes, normalizeItemType } from './ItemTypeMap'
+import { mergeFields, stampChangedFields, type FieldTimestamps } from './fieldMerge'
 
 interface ICloudData {
   metadata: dbItemMeta
   cloud_data: string
+  _ts?: FieldTimestamps
 }
 
-enum SyncStatus {
-  LocalOnly = 'LocalOnly',
-  LocalNewer = 'LocalNewer',
-  CloudOnly = 'CloudOnly',
-  CloudNewer = 'CloudNewer',
-  Synced = 'Synced',
-}
-
-type dbItemMeta = {
+export type dbItemMeta = {
   user_id: string
   sortkey: string
   name: string
   author: string
-  item_modified: number // latest saveController lastModified
+  item_modified: number
   uri: string
   size?: number
   created?: number
-  updated?: number // latest db update. do not test against this. this may drift from item_modified
+  updated?: number
   deleted?: number
+  version?: number
   code?: string
-  ttl?: number // update on local delete/perm delete
-  version?: number // optimistic concurrency counter
-
-  preserve?: boolean // archive only
+  ttl?: number
+  preserve?: boolean
+  _ts?: FieldTimestamps
 }
 
 class DbItemMetadata {
@@ -74,9 +71,9 @@ class DbItemMetadata {
   public Created?: number
   public Updated?: number
   public Deleted?: number
+  public Version?: number
   public Code?: string
   public TTL?: number
-  public Version?: number
 
   public constructor(data: dbItemMeta) {
     this.raw = data
@@ -90,14 +87,14 @@ class DbItemMetadata {
     if (data.created) this.Created = data.created
     if (data.updated) this.Updated = data.updated
     if (data.deleted) this.Deleted = data.deleted
+    if (data.version !== undefined) this.Version = data.version
     if (data.code) this.Code = data.code
     if (data.ttl) this.TTL = data.ttl
-    if (data.version != null) this.Version = data.version
   }
 
   public Serialize(): dbItemMeta {
     return {
-      user_id: this.UserId || UserStore().Cognito.userId,
+      user_id: this.UserId || UserStore().Cognito.userId || '',
       sortkey: this.SortKey,
       name: this.Name,
       author: this.Author || '',
@@ -107,9 +104,9 @@ class DbItemMetadata {
       created: this.Created,
       updated: this.Updated,
       deleted: this.Deleted,
+      version: this.Version,
       code: this.Code,
       ttl: this.TTL,
-      version: this.Version,
     }
   }
 }
@@ -119,6 +116,8 @@ class CloudController {
 
   private _metadata!: DbItemMetadata
   private _lastContentHash: string | null = null
+  private _lastSyncedSnapshot: Record<string, any> | null = null
+  private _fieldTs: FieldTimestamps = {}
 
   public constructor(parent: ICloudSyncable) {
     this.Parent = parent
@@ -139,12 +138,34 @@ class CloudController {
   }
 
   public static computeContentHash(data: any): string {
-    const str = CloudController.stringifySafe(data)
+    let target = data
+    if (target && typeof target === 'object') {
+      const { _ts, ...rest } = target
+      target = rest
+    }
+    const str = CloudController.stringifySafe(target)
     let hash = 5381
     for (let i = 0; i < str.length; i++) {
       hash = (((hash << 5) + hash) ^ str.charCodeAt(i)) >>> 0
     }
     return `${str.length}:${hash}`
+  }
+
+  private static readonly SIZE_WARN_BYTES = 280 * 1024
+  private static readonly SIZE_LIMIT_BYTES = 340 * 1024
+
+  private static checkSize(data: any, name: string): void {
+    const size = CloudController.stringifySafe(data).length
+    if (size > CloudController.SIZE_LIMIT_BYTES) {
+      throw new Error(
+        `"${name}" exceeds the 340 KB upload limit (${Math.round(size / 1024)} KB). Reduce item data before syncing.`
+      )
+    }
+    if (size > CloudController.SIZE_WARN_BYTES) {
+      logger.warn(
+        `CloudController: "${name}" is large (${Math.round(size / 1024)} KB). Consider reducing data.`
+      )
+    }
   }
 
   public GenerateSortKey(): string {
@@ -155,13 +176,13 @@ class CloudController {
     if (this.Metadata) this.Metadata.Size = CloudController.stringifySafe(data).length
   }
 
-  public get SyncStatus(): SyncStatus {
-    if (!this.Metadata || this.Metadata.ItemModified == null) return SyncStatus.LocalOnly
-    if (this.Metadata.ItemModified < this.Parent.SaveController.LastModified)
-      return SyncStatus.LocalNewer
-    if (this.Metadata.ItemModified > this.Parent.SaveController.LastModified)
-      return SyncStatus.CloudNewer
-    return SyncStatus.Synced
+  public get isSynced(): boolean {
+    if (!this._metadata?.ItemModified) return false
+    // Updated is only set after a successful upload or by setMetadataFromDynamo.
+    // GenerateMetadata never sets it, so a missing Updated means the item has no server record
+    // and must be uploaded regardless of whether the timestamps happen to match.
+    if (!this._metadata.Updated) return false
+    return this.Metadata.ItemModified === this.Parent.SaveController.LastModified
   }
 
   public get Metadata(): DbItemMetadata {
@@ -177,34 +198,61 @@ class CloudController {
   }
 
   public static GenerateMetadata(controller: CloudController) {
+    const userId = UserStore().Cognito.userId ?? ''
     return {
-      user_id: UserStore().Cognito.userId,
+      user_id: userId,
       author: UserStore().UserMetadata.Username || '',
       sortkey: controller.GenerateSortKey(),
       name: controller.Parent.Name,
-      uri: `${UserStore().Cognito.userId}/${controller.GenerateSortKey()}.json`,
+      uri: `${userId}/${controller.GenerateSortKey()}.json`,
       item_modified: controller.Parent.SaveController.LastModified,
     }
   }
 
   public async UpdateCloud(scope = 'item') {
-    const savedata = this.Parent.Serialize(false)
+    const rawParent = toRaw(this.Parent)
+    const savedata = rawParent.Serialize(false)
+
+    CloudController.checkSize(savedata, rawParent.Name)
+
+    // Stamp changed fields before checking hash so _ts is part of the payload.
+    // Use _fieldTs (persisted across sessions) as the base so only genuinely changed
+    // fields get new timestamps — not all fields.
+    const newTs = stampChangedFields(
+      savedata,
+      this._lastSyncedSnapshot,
+      this._fieldTs,
+      rawParent.SaveController.LastModified
+    )
+    ;(savedata as any)._ts = newTs
+
     const newHash = CloudController.computeContentHash(savedata)
     if (this._lastContentHash && this._lastContentHash === newHash) {
       logger.info('CloudController: content unchanged (hash match), skipping upload')
       return true
     }
 
-    // called after we're sure cloud needs to be updated
-    this.Metadata.ItemModified = this.Parent.SaveController.LastModified
-    this.Metadata.Name = this.Parent.Name
+    this.Metadata.ItemModified = rawParent.SaveController.LastModified
+    this.Metadata.Name = rawParent.Name
     this.Metadata.Size = CloudController.stringifySafe(savedata).length
 
-    // roll back if upload fails
     const previousMetadata = this.Metadata.raw ? { ...this.Metadata.raw } : null
 
-    const doUpload = async (retried = false): Promise<any> => {
-      const res = await updateItem(this.Metadata.Serialize(), scope)
+    const doUpload = async (retried = false, conflictRetried = false): Promise<any> => {
+      let res: any
+      try {
+        res = await updateItem(this.Metadata.Serialize(), scope)
+      } catch (e) {
+        if (e instanceof ConflictError && !conflictRetried && e.currentItem?.version != null) {
+          logger.info(
+            `CloudController: 409 conflict in UpdateCloud for "${rawParent.Name}", updating version and retrying`
+          )
+          this.Metadata = { ...this.Metadata.raw, version: e.currentItem.version }
+          return doUpload(retried, true)
+        }
+        throw e
+      }
+
       if (res.error) return res.error
 
       if (!res.presign?.upload) throw new Error('No presign returned.')
@@ -216,10 +264,11 @@ class CloudController {
           throw new Error('S3 upload failed. Metadata not committed.')
         }
 
-        // Only commit metadata and persist after confirmed upload
         if (res.data) {
           this.Metadata = { ...this.Metadata.raw, ...res.data, updated: Date.now() }
           this._lastContentHash = newHash
+          this._fieldTs = newTs
+          this._lastSyncedSnapshot = JSON.parse(CloudController.stringifySafe(savedata))
           this.Parent.SaveController.saveSilent()
         }
 
@@ -227,7 +276,7 @@ class CloudController {
       } catch (e) {
         if (e instanceof PresignExpiredError && !retried) {
           logger.info('Presigned URL expired, requesting fresh URL and retrying...')
-          return doUpload(true)
+          return doUpload(true, conflictRetried)
         }
         if (previousMetadata) this.Metadata = previousMetadata
         throw e
@@ -237,125 +286,258 @@ class CloudController {
     return doUpload()
   }
 
+  public async syncFromCloud(): Promise<void> {
+    if (UserStore().StorageFull) throw new Error('Storage full! Unable to download.')
+
+    const itemType = normalizeItemType(this.Metadata.SortKey.split('_')[1])
+    const remoteData = await downloadFromS3(this.Metadata.Uri)
+    if (!remoteData) {
+      logger.warn(
+        `CloudController.syncFromCloud: no remote data for ${this.Parent.Name}, uploading local`
+      )
+      await this.UpdateCloud()
+      return
+    }
+
+    const localData = toRaw(this.Parent).Serialize(false)
+
+    // serialize() never includes _ts, so we must inject per-field timestamps for the merge
+    const remoteTs: FieldTimestamps = remoteData._ts ?? {}
+    const localTs: FieldTimestamps = {}
+    const stampNow = Date.now()
+    const localBase = this.Parent.SaveController.LastModified
+
+    for (const key of Object.keys(localData)) {
+      if (key === '_ts') continue
+      const localFieldTs = this._fieldTs[key] ?? localBase
+      const localChangedSinceLastSync =
+        this._lastSyncedSnapshot !== null
+          ? JSON.stringify(localData[key]) !== JSON.stringify(this._lastSyncedSnapshot[key])
+          : false
+      if (localChangedSinceLastSync && (remoteTs[key] ?? 0) <= localFieldTs) {
+        localTs[key] = Math.max(stampNow, localFieldTs + 1)
+      } else {
+        localTs[key] = localFieldTs
+      }
+    }
+    ;(localData as any)._ts = localTs
+
+    const merged = mergeFields(localData, remoteData)
+
+    if (merged?.save) {
+      delete merged.save.remote_code
+      delete merged.save.remote_author
+      delete merged.save.remote_collection
+    }
+
+    const newItem = CloudController.NewByType(itemType, merged)
+    const originalMeta = { ...this.Metadata.raw }
+    // use a fresh timestamp for item_modified so the upload isn't rejected for being stale
+    // overriding this persistent 409s because backend checks that incoming updated === stored updated before accepting the write.
+    const mergeTime = Date.now()
+    newItem.SaveController.LastModified = mergeTime
+    newItem.CloudController.Metadata = { ...originalMeta, item_modified: mergeTime }
+    newItem.CloudController._lastSyncedSnapshot = JSON.parse(CloudController.stringifySafe(merged))
+    newItem.CloudController._fieldTs = merged._ts ?? {}
+
+    await CloudController.AddByType(itemType, newItem)
+    // persist so it survives a reload even if the upload fails
+    // some store update paths (e.g. AddEncounter) skip the SetItem call
+    toRaw(newItem).SaveController.saveSilent()
+
+    try {
+      await newItem.CloudController.UpdateCloud()
+    } catch (e) {
+      if (e instanceof ConflictError) {
+        let retried = false
+        try {
+          const since = newItem.CloudController.Metadata.Updated ?? 0
+          const { items } = await getUserDataChanged(UserStore().Cognito.userId!, since)
+          const freshMeta = items.find(i => i.sortkey === newItem.CloudController.Metadata.SortKey)
+          if (freshMeta?.updated) {
+            newItem.CloudController.Metadata = {
+              ...newItem.CloudController.Metadata.raw,
+              updated: freshMeta.updated,
+            }
+            await newItem.CloudController.UpdateCloud()
+            retried = true
+          }
+        } catch (retryErr) {
+          logger.warn(
+            `CloudController: syncFromCloud metadata refresh failed for "${newItem.Name}": ${retryErr}`
+          )
+        }
+        if (!retried) {
+          // mark as needing a full sync next time so it isn't treated as already uploaded
+          newItem.CloudController.Metadata = {
+            ...newItem.CloudController.Metadata.raw,
+            updated: undefined,
+          }
+          logger.warn(
+            `CloudController: upload of merged "${newItem.Name}" rejected — will retry on next sync`
+          )
+        }
+        return
+      }
+      throw e
+    }
+  }
+
   public static async BatchUpdateCloud(items: ICloudSyncable[]): Promise<any[]> {
     const UPLOAD_CONCURRENCY = 5
     const BATCH_SIZE = 5
 
-    // items constructed before we get a userid (v2/no login) can have bad metadata
-    for (const item of items) {
-      await item.CloudController.repairMetadata()
-    }
-
-    // lightweight index of only the items that need uploading
-    // serialization is deferred to each chunk so we never hold all save-data in memory at once
-    // large user data libraries and small devices can cause OOM if we serialize everything at once before uploading
     const toUpload: ICloudSyncable[] = []
+    const failures: any[] = []
+
     for (const item of items) {
-      // Fast path: skip items where timestamps confirm no changes since last upload
-      if (
-        item.CloudController._lastContentHash &&
-        item.CloudController.SyncStatus === SyncStatus.Synced
-      ) {
+      if (item.CloudController._lastContentHash && item.CloudController.isSynced) {
         logger.info(`BatchUpdateCloud: skipping synced item ${item.Name}`)
         continue
       }
 
-      const savedata = item.Serialize(false)
+      // if we have no sync snapshot but the item has prior cloud state (stored field timestamps or an existing server record), we cannot know which fields changed locally
+      if (!item.CloudController._lastSyncedSnapshot) {
+        const hasPriorSync = Object.keys(item.CloudController._fieldTs).length > 0
+        const hasServerRecord = !!item.CloudController._metadata?.Updated
+        if (hasPriorSync || hasServerRecord) {
+          try {
+            await item.CloudController.syncFromCloud()
+          } catch (syncErr) {
+            failures.push({ item, error: syncErr })
+          }
+          continue
+        }
+      }
+
+      const rawItem = toRaw(item)
+      const savedata = rawItem.Serialize(false)
+      const newTs = stampChangedFields(
+        savedata,
+        item.CloudController._lastSyncedSnapshot,
+        item.CloudController._fieldTs,
+        rawItem.SaveController.LastModified
+      )
+      ;(savedata as any)._ts = newTs
+
       const hash = CloudController.computeContentHash(savedata)
       if (item.CloudController._lastContentHash && item.CloudController._lastContentHash === hash) {
         logger.info(`BatchUpdateCloud: skipping unchanged item ${item.Name}`)
         continue
       }
       ;(item as any).__pendingHash = hash
+      ;(item as any).__pendingTs = newTs
       toUpload.push(item)
     }
 
     if (toUpload.length === 0) {
       logger.info('BatchUpdateCloud: no items to sync (all unchanged)')
-      return []
+      return failures
     }
 
-    const failures: any[] = []
     const syncTimestamp = Date.now()
     const userId = UserStore().Cognito.userId
 
-    for (let i = 0; i < toUpload.length; i += BATCH_SIZE) {
-      const chunk = toUpload.slice(i, i + BATCH_SIZE)
+    try {
+      for (let i = 0; i < toUpload.length; i += BATCH_SIZE) {
+        const chunk = toUpload.slice(i, i + BATCH_SIZE)
 
-      // serialize only this chunk. prior chunk data can now be garbage collected
-      const chunkData = chunk.map(item => {
-        const savedata = item.Serialize(false)
-        item.CloudController.Metadata.ItemModified = item.SaveController.LastModified
-        item.CloudController.Metadata.Name = item.Name
-        item.CloudController.Metadata.Size = CloudController.stringifySafe(savedata).length
-        const meta = item.CloudController.Metadata.Serialize()
-        ;(meta as any).itemScope = 'item'
-        return { item, savedata, meta }
-      })
+        const chunkData = chunk.map(item => {
+          const rawItem = toRaw(item)
+          const savedata = rawItem.Serialize(false)
+          ;(savedata as any)._ts = (item as any).__pendingTs
+          CloudController.checkSize(savedata, rawItem.Name)
+          const meta: dbItemMeta = {
+            ...item.CloudController.Metadata.Serialize(),
+            item_modified: rawItem.SaveController.LastModified,
+            name: rawItem.Name,
+            size: CloudController.stringifySafe(savedata).length,
+          }
+          ;(meta as any).itemScope = 'item'
+          return { item, savedata, meta }
+        })
 
-      const idempotencyKey = generateDeterministicKey(userId, `batch-${i}`, syncTimestamp)
-      let response: any
-      try {
-        response = await batchUpsert(
-          chunkData.map(p => p.meta),
-          idempotencyKey
-        )
-      } catch (e: any) {
-        logger.error(
-          `BatchUpdateCloud: chunk failed (${e?.message})`,
-          chunkData.map(p => (p.meta as any).sortkey)
-        )
-        chunk.forEach(item => failures.push({ item, error: e }))
-        continue
-      }
-
-      if (!response.results || !Array.isArray(response.results)) {
-        logger.error('BatchUpdateCloud: unexpected batch response', response)
-        chunk.forEach(item => failures.push({ item, error: 'Bad batch response' }))
-        continue
-      }
-
-      const uploadTasks = chunkData.map((p, idx) => ({ ...p, result: response.results[idx] }))
-
-      for (let j = 0; j < uploadTasks.length; j += UPLOAD_CONCURRENCY) {
-        const uploadBatch = uploadTasks.slice(j, j + UPLOAD_CONCURRENCY)
-        const results = await Promise.allSettled(
-          uploadBatch.map(async task => {
-            if (!task.result?.presign?.upload) {
-              throw new Error(`No presign URL for ${task.item.Name}`)
-            }
-
-            const uploadOk = await uploadToS3(task.savedata, task.result.presign.upload)
-            if (!uploadOk) throw new Error(`S3 upload failed for ${task.item.Name}`)
-
-            if (task.result.data) {
-              task.item.CloudController.Metadata = {
-                ...task.item.CloudController.Metadata.raw,
-                ...task.result.data,
-                updated: Date.now(),
+        const idempotencyKey = generateDeterministicKey(userId ?? '', `batch-${i}`, syncTimestamp)
+        let response: any
+        try {
+          response = await batchUpsert(
+            chunkData.map(p => p.meta),
+            idempotencyKey
+          )
+        } catch (e: any) {
+          if (e instanceof ConflictError) {
+            logger.warn(
+              `BatchUpdateCloud: 409 conflict in chunk, falling back to per-item sync`,
+              chunkData.map(p => (p.meta as any).sortkey)
+            )
+            for (const { item } of chunkData) {
+              try {
+                await item.CloudController.syncFromCloud()
+              } catch (syncErr) {
+                failures.push({ item, error: syncErr })
               }
-              task.item.CloudController._lastContentHash = (task.item as any).__pendingHash
-              task.item.SaveController.saveSilent()
+            }
+          } else {
+            logger.error(
+              `BatchUpdateCloud: chunk failed (${e?.message})`,
+              chunkData.map(p => (p.meta as any).sortkey)
+            )
+            chunk.forEach(item => failures.push({ item, error: e }))
+          }
+          continue
+        }
+
+        if (!response.results || !Array.isArray(response.results)) {
+          logger.error('BatchUpdateCloud: unexpected batch response', response)
+          chunk.forEach(item => failures.push({ item, error: 'Bad batch response' }))
+          continue
+        }
+
+        const uploadTasks = chunkData.map((p, idx) => ({ ...p, result: response.results[idx] }))
+
+        for (let j = 0; j < uploadTasks.length; j += UPLOAD_CONCURRENCY) {
+          const uploadBatch = uploadTasks.slice(j, j + UPLOAD_CONCURRENCY)
+          const results = await Promise.allSettled(
+            uploadBatch.map(async task => {
+              if (!task.result?.presign?.upload) {
+                throw new Error(`No presign URL for ${task.item.Name}`)
+              }
+
+              const uploadOk = await uploadToS3(task.savedata, task.result.presign.upload)
+              if (!uploadOk) throw new Error(`S3 upload failed for ${task.item.Name}`)
+
+              if (task.result.data) {
+                task.item.CloudController.Metadata = {
+                  ...task.item.CloudController.Metadata.raw,
+                  ...task.result.data,
+                  updated: Date.now(),
+                }
+                task.item.CloudController._lastContentHash = (task.item as any).__pendingHash
+                task.item.CloudController._fieldTs = (task.item as any).__pendingTs
+                task.item.CloudController._lastSyncedSnapshot = JSON.parse(
+                  CloudController.stringifySafe(task.savedata)
+                )
+                task.item.SaveController.saveSilent()
+              }
+            })
+          )
+
+          results.forEach((r, rIdx) => {
+            if (r.status === 'rejected') {
+              const task = uploadBatch[rIdx]
+              logger.error(`BatchUpdateCloud upload failed: ${task.item.Name}`, r.reason)
+              failures.push({ item: task.item, error: r.reason })
             }
           })
-        )
+        }
 
-        results.forEach((r, rIdx) => {
-          if (r.status === 'rejected') {
-            const task = uploadBatch[rIdx]
-            logger.error(`BatchUpdateCloud upload failed: ${task.item.Name}`, r.reason)
-            failures.push({ item: task.item, error: r.reason })
-          }
-        })
+        chunkData.length = 0
       }
-
-      // release serialized data for this chunk
-      chunkData.length = 0
-    }
-
-    // destroy pending hashes
-    for (const item of toUpload) {
-      delete (item as any).__pendingHash
+    } finally {
+      for (const item of toUpload) {
+        delete (item as any).__pendingHash
+        delete (item as any).__pendingTs
+      }
     }
 
     return failures
@@ -381,32 +563,6 @@ class CloudController {
     return await downloadFromS3(this.Metadata.Uri)
   }
 
-  public async repairMetadata(): Promise<void> {
-    const uri = this.Metadata?.Uri
-    if (!uri || !uri.startsWith('undefined/')) return
-
-    const correctUserId = UserStore().Cognito.userId
-    if (!correctUserId) return
-
-    const sortkey = this.GenerateSortKey()
-    const correctUri = `${correctUserId}/${sortkey}.json`
-
-    let hasCloudData
-    try {
-      const data = await downloadFromS3(correctUri)
-      hasCloudData = !!data
-    } catch {
-      hasCloudData = false
-    }
-
-    if (hasCloudData) {
-      this.Metadata = { ...this.Metadata.raw, user_id: correctUserId, uri: correctUri }
-    } else {
-      this.GenerateMetadata()
-    }
-    this.Parent.SaveController.saveSilent()
-  }
-
   public get UserID(): string {
     return this.Metadata?.UserId || ''
   }
@@ -421,44 +577,34 @@ class CloudController {
 
   public static Serialize(parent: ICloudSyncable, target: any) {
     if (!target.cloud) target.cloud = {}
+    const ts = parent.CloudController._fieldTs
+    if (ts && Object.keys(ts).length > 0) target.cloud._ts = ts
+    if (parent.CloudController._lastContentHash) {
+      target.cloud._lastHash = parent.CloudController._lastContentHash
+    }
   }
 
-  public static Deserialize(parent: ICloudSyncable, data: ICloudData) {
+  public static Deserialize(parent: ICloudSyncable, data: any) {
     if (!parent.CloudController)
       throw new Error(
         `CloudController not found on parent (${typeof parent}). New CloudControllers must be instantiated in the parent's constructor method.`
       )
+    if (data?._ts) parent.CloudController._fieldTs = data._ts
+    if (data?._lastHash) parent.CloudController._lastContentHash = data._lastHash
   }
 
-  public static async AutoSync(item: any): Promise<void> {
-    if (item.CloudController.SyncStatus === 'Synced') return
-    const strategy = UserStore().SyncSettings.resolutionStrategy
-    if (strategy === 'manual') return
-    switch (strategy) {
-      case 'local':
-        if (item.IsCloudOnly) await CloudController.SyncToCloud(item)
-        else await CloudController.SyncToLocal(item)
-        break
-      case 'cloud':
-        await CloudController.SyncToCloud(item)
-        break
-      case 'newest':
-        await CloudController.SyncToNewest(item)
-        break
-      default:
-        logger.error('Unknown sync strategy:', this)
-        break
-    }
-  }
-
-  public static async SyncToNewest(item: any) {
-    if (item.IsCloudOnly || item.CloudController.SyncStatus === 'CloudNewer')
-      await CloudController.SyncToCloud(item)
-    else await CloudController.SyncToLocal(item)
+  public setRemoteMetadata(meta: any) {
+    this.Metadata = meta
+    this.Parent.SaveController.SetRemote(
+      meta.code,
+      meta.author || '',
+      meta.collection || '',
+      meta.item_modified
+    )
   }
 
   public static async UpdateRemote(item: any) {
-    if (item.CloudController.SyncStatus === 'Synced') return
+    if (item.CloudController.isSynced) return
 
     const itemType = normalizeItemType(item.CloudController.Metadata.SortKey.split('_')[1])
     const meta = { ...item.CloudController.Metadata.raw }
@@ -481,73 +627,11 @@ class CloudController {
     updatedItem.CloudController.setRemoteMetadata(meta)
 
     await CloudController.AddByType(itemType, updatedItem)
-  }
 
-  public setRemoteMetadata(meta: any) {
-    this.Metadata = meta
-    this.Parent.SaveController.SetRemote(
-      meta.code,
-      meta.author || '',
-      meta.collection || '',
-      meta.item_modified
-    )
-  }
-
-  // download latest cloud data and sync local
-  public static async SyncToCloud(item: any) {
-    if (UserStore().StorageFull) throw new Error('Storage full! Unable to download.')
-
-    if (
-      !item.CloudController?.Metadata?.SortKey ||
-      !allSyncableTypes.includes(normalizeItemType(item.ItemType))
-    ) {
-      UserStore().addCloudNotification(`Unable to sync ${item.ItemType} ${item.Name}.`, 'error')
-      logger.error(`CloudController: Unable to sync ${item.ItemType} ${item.Name}.`, this)
-      return
+    if (meta.item_modified) {
+      toRaw(updatedItem).SaveController.LastModified = meta.item_modified
+      toRaw(updatedItem).SaveController.saveSilent?.()
     }
-    const itemType = normalizeItemType(item.CloudController.Metadata.SortKey.split('_')[1])
-
-    // capture the original cloud metadata before creating the new local item
-    const originalMeta = item.CloudController?.Metadata?.raw
-      ? { ...item.CloudController.Metadata.raw }
-      : item.IsCloudOnly && item.raw
-        ? { ...item.raw }
-        : null
-
-    const data = item.IsCloudOnly
-      ? await downloadFromS3(item.raw.uri)
-      : await item.CloudController.Download()
-
-    if (!data) {
-      UserStore().addCloudNotification(
-        `Unable to sync "${item.Name}": no cloud data found. Upload the item first.`,
-        'error'
-      )
-      return
-    }
-
-    if (item.IsCloudOnly)
-      UserStore().addCloudNotification(`Added ${item.ItemType} "${item.Name}" from cloud data.`)
-
-    if (data?.save) {
-      delete data.save.remote_code
-      delete data.save.remote_author
-      delete data.save.remote_collection
-    }
-
-    const newItem = this.NewByType(itemType, data)
-
-    // transfer original cloud metadata so the item appears synced
-    if (originalMeta) {
-      const now = Date.now()
-      newItem.CloudController.Metadata = { ...originalMeta, updated: now }
-      // align local LastModified to cloud's item_modified so SyncStatus = Synced
-      if (originalMeta.item_modified) {
-        newItem.SaveController.LastModified = originalMeta.item_modified
-      }
-    }
-
-    await CloudController.AddByType(itemType, newItem)
   }
 
   public static NewByType(itemType: string, data: any): ICloudSyncable {
@@ -626,8 +710,68 @@ class CloudController {
     }
   }
 
-  // upload local data to cloud
-  public static async SyncToLocal(item: ICloudSyncable) {
+  // Download cloud data and replace the local item (force overwrite, no merge)
+  public static async ForceDownload(item: any) {
+    if (UserStore().StorageFull) throw new Error('Storage full! Unable to download.')
+
+    if (
+      !item.CloudController?.Metadata?.SortKey ||
+      !allSyncableTypes.includes(normalizeItemType(item.ItemType))
+    ) {
+      UserStore().addCloudNotification(`Unable to sync ${item.ItemType} ${item.Name}.`, 'error')
+      logger.error(`CloudController: Unable to sync ${item.ItemType} ${item.Name}.`, this)
+      return
+    }
+    const itemType = normalizeItemType(item.CloudController.Metadata.SortKey.split('_')[1])
+
+    const originalMeta = item.CloudController?.Metadata?.raw
+      ? { ...item.CloudController.Metadata.raw }
+      : item.IsCloudOnly && item.raw
+        ? { ...item.raw }
+        : null
+
+    const data = item.IsCloudOnly
+      ? await downloadFromS3(item.raw.uri)
+      : await item.CloudController.Download()
+
+    if (!data) {
+      UserStore().addCloudNotification(
+        `Unable to sync "${item.Name}": no cloud data found. Upload the item first.`,
+        'error'
+      )
+      return
+    }
+
+    if (item.IsCloudOnly)
+      UserStore().addCloudNotification(`Added ${item.ItemType} "${item.Name}" from cloud data.`)
+
+    if (data?.save) {
+      delete data.save.remote_code
+      delete data.save.remote_author
+      delete data.save.remote_collection
+    }
+
+    const newItem = this.NewByType(itemType, data)
+
+    if (originalMeta) {
+      const now = Date.now()
+      newItem.CloudController.Metadata = { ...originalMeta, updated: now }
+      if (originalMeta.item_modified) {
+        newItem.SaveController.LastModified = originalMeta.item_modified
+      }
+    }
+
+    await CloudController.AddByType(itemType, newItem)
+
+    if (originalMeta?.item_modified) {
+      toRaw(newItem).SaveController.LastModified = originalMeta.item_modified
+      toRaw(newItem).SaveController.saveSilent?.()
+    }
+  }
+
+  // Upload local data to cloud unconditionally (force overwrite)
+  public static async ForceUpload(item: ICloudSyncable) {
+    if ((item.SaveController as any)?.IsRemote) return
     if (UserStore().CloudStorageFull) throw new Error('Cloud storage full! Unable to sync.')
 
     if (!item.SaveController) {
@@ -651,4 +795,4 @@ class CloudController {
 }
 
 export { CloudController, DbItemMetadata }
-export type { ICloudData, dbItemMeta }
+export type { ICloudData }

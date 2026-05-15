@@ -5,6 +5,14 @@ import { parseApiError, NotFoundError, BadRequestError } from './apiErrors'
 import { IDEMPOTENCY_HEADER, generateIdempotencyKey } from './idempotency'
 
 export { NotFoundError, BadRequestError } from './apiErrors'
+export class ConflictError extends Error {
+  public readonly currentItem?: any
+  constructor(message?: string, currentItem?: any) {
+    super(message || 'Version conflict — item modified since last sync')
+    this.name = 'ConflictError'
+    this.currentItem = currentItem
+  }
+}
 export { generateIdempotencyKey, generateDeterministicKey, IDEMPOTENCY_HEADER } from './idempotency'
 
 const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`
@@ -80,6 +88,11 @@ async function fetchWithRetry(
         throw new NotFoundError(body.message, body.requestId)
       }
 
+      if (response.status === 409) {
+        const body = await parseApiError(response)
+        throw new ConflictError(body.message, body.currentItem)
+      }
+
       // On 401, force-refresh the auth session and retry once
       if (response.status === 401) {
         if (!hasRefreshedToken) {
@@ -93,10 +106,6 @@ async function fetchWithRetry(
         throw new UnauthorizedError(body.message)
       }
 
-      // Don't retry 409 surface for optimistic handling
-      if (response.status === 409) {
-        return response
-      }
 
       if (response.status >= 500 && attempt < retries - 1) {
         const waitMs = INITIAL_BACKOFF_MS * Math.pow(2, attempt)
@@ -116,7 +125,8 @@ async function fetchWithRetry(
         error instanceof UnauthorizedError ||
         error instanceof NotFoundError ||
         error instanceof BadRequestError ||
-        error instanceof RateLimitError
+        error instanceof RateLimitError ||
+        error instanceof ConflictError
       ) {
         throw error
       }
@@ -187,11 +197,6 @@ export async function getUserDataChanged(
   })
 
   const data = await response.json()
-
-  // When since=0, backend returns flat array (scope=all behavior)
-  if (Array.isArray(data)) {
-    return { items: data, serverTime: Date.now() }
-  }
   return data
 }
 
@@ -210,12 +215,6 @@ export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
     headers,
     body,
   })
-
-  // Handle 409 Conflict for optimistic concurrency
-  if (response.status === 409) {
-    const conflict = await parseApiError(response)
-    throw new VersionConflictError(conflict.currentItem, conflict.message)
-  }
 
   const data = await response.json()
 
@@ -253,11 +252,6 @@ export async function patchItem(sortkey: string, fields: Record<string, any>): P
     headers,
     body: JSON.stringify({ sortkey, ...fields }),
   })
-
-  if (response.status === 409) {
-    const conflict = await parseApiError(response)
-    throw new VersionConflictError(conflict.currentItem, conflict.message)
-  }
 
   const data = await response.json()
   return data
@@ -306,15 +300,6 @@ export class UnauthorizedError extends Error {
   constructor(message?: string) {
     super(message || 'Valid authentication token required')
     this.name = 'UnauthorizedError'
-  }
-}
-
-export class VersionConflictError extends Error {
-  public readonly currentItem: any
-  constructor(currentItem: any, message?: string) {
-    super(message || 'Item was modified by another client')
-    this.name = 'VersionConflictError'
-    this.currentItem = currentItem
   }
 }
 

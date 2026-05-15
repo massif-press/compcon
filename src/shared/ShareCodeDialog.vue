@@ -51,8 +51,8 @@
       <cc-button color="primary"
         class="my-1"
         :loading="dlLoading"
-        :disabled="!($refs as any).importer.isLoggedIn || ($refs as any).importer.isUserOwned || !($refs as any).importer.canDownload"
-        :tooltip="!($refs as any).importer.isLoggedIn
+        :disabled="!isLoggedIn || isUserOwned"
+        :tooltip="isLoggedIn
           ? 'You must be logged in to add items as remote resources.'
           : 'Adding this item as a remote resource will create a readonly version of this item linked to the author\'s original data. When the author saves an update to this item to their COMP/CON cloud account, your local version can receive those changes.'"
         @click="downloadAsRemote()">
@@ -62,7 +62,6 @@
       <cc-button size="small"
         color="primary"
         :loading="dlLoading"
-        :disabled="!($refs as any).importer.canDownload"
         tooltip="Adding this item as a local copy will create a new, editable version of this item saved
             to your local COMP/CON data. Changes made to this item will not affect the author's
             original data, and you will not receive updates from the author."
@@ -73,80 +72,70 @@
   </cc-share-code-importer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, useTemplateRef } from 'vue';
+import { useDisplay } from 'vuetify';
 import { CloudController } from '@/classes/components';
 import { DownloadViaCode } from '@/io/apis/account';
 import { UserStore } from '@/stores';
 
-export default {
-  name: 'ShareCodeDialog',
-  props: {
-    importType: {
-      type: String,
-      required: false,
-      default: 'item',
-    },
-    blockBtn: {
-      type: Boolean,
-    },
-    size: {
-      type: String,
-      required: false,
-      default: 'small',
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    fullWidth: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    subtitle: {
-      type: String,
-      required: false,
-      default: '',
-    },
-  },
-  emits: ['close'],
-  data: () => ({
-    queryResult: null as any,
-    shareCode: '',
-    dlLoading: false,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-  methods: {
-    async downloadAsRemote() {
-      if (!UserStore().IsLoggedIn) return;
-      await this.downloadAsCopy(true);
-    },
-    async downloadAsCopy(remote = false) {
-      this.dlLoading = true;
-      const itemData = await DownloadViaCode(this.queryResult.code);
-      const itemType = this.queryResult.sortkey.split('_')[1];
-      const item = await CloudController.NewByType(itemType, itemData);
-      if (remote) {
-        const codeToTrack = this.shareCode || this.queryResult.code;
-        item.CloudController.setRemoteMetadata(this.queryResult);
-        item.SaveController.RemoteCode = codeToTrack;
-        if (UserStore().IsLoggedIn)
-          UserStore().addRemoteItem(codeToTrack);
-      } else {
-        item.CloudController.GenerateMetadata();
-        item.SaveController.ClearRemote();
-      }
-      await CloudController.AddByType(itemType, item);
+withDefaults(defineProps<{
+  importType?: string
+  blockBtn?: boolean
+  size?: string
+  color?: string
+  fullWidth?: boolean
+  subtitle?: string
+}>(), {
+  importType: 'item',
+  size: 'small',
+  color: 'primary',
+  fullWidth: false,
+  subtitle: '',
+});
 
-      this.dlLoading = false;
-      (this.$refs as any).importer.reset();
-      ((this.$refs as any).importer as any).$refs.modal.close();
-    },
-  },
-};
+defineEmits<{
+  (e: 'close'): void
+}>();
+
+const display = useDisplay();
+
+const importer = useTemplateRef<any>('importer');
+const queryResult = ref<any>(null);
+const shareCode = ref('');
+const dlLoading = ref(false);
+
+const isLoggedIn = computed(() => UserStore().IsLoggedIn);
+const isUserOwned = computed(() =>
+  !!(queryResult.value?.user_id &&
+    UserStore().Cognito?.userId &&
+    queryResult.value.user_id === UserStore().Cognito.userId)
+);
+
+async function downloadAsRemote() {
+  if (!UserStore().IsLoggedIn) return;
+  await downloadAsCopy(true);
+}
+
+async function downloadAsCopy(remote = false) {
+  dlLoading.value = true;
+  const itemData = await DownloadViaCode(queryResult.value.code);
+  const itemType = queryResult.value.sortkey.split('_')[1];
+  const item = await CloudController.NewByType(itemType, itemData);
+  if (remote) {
+    const codeToTrack = shareCode.value || queryResult.value.code;
+    item.CloudController.setRemoteMetadata(queryResult.value);
+    item.SaveController.RemoteCode = codeToTrack;
+    if (UserStore().IsLoggedIn)
+      UserStore().addRemoteItem(codeToTrack);
+  } else {
+    item.CloudController.GenerateMetadata();
+    item.SaveController.ClearRemote();
+  }
+  await CloudController.AddByType(itemType, item);
+
+  dlLoading.value = false;
+  importer.value?.reset();
+  importer.value?.close();
+}
 </script>

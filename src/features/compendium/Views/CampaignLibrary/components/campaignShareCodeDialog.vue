@@ -1,17 +1,15 @@
 <template>
-  <cc-share-code-importer
-    ref="importer"
-    importType="campaign"
+  <cc-share-code-importer ref="importer"
+    import-type="campaign"
     @set-query-result="queryResult = $event"
     @set-data="campaign = $event">
     <template #result>
-      <campaign-detail-panel v-if="campaign" :campaign="campaign" />
+      <campaign-detail-panel v-if="campaign"
+        :campaign="campaign" />
     </template>
 
     <template #actions>
-      <cc-button
-        color="primary"
-        :disabled="!($refs as any).importer.canDownload"
+      <cc-button color="primary"
         @click="addCampaign()">
         Add Campaign
       </cc-button>
@@ -24,7 +22,7 @@ import { CampaignStore } from '@/stores';
 import CampaignDetailPanel from './CampaignDetailPanel.vue';
 
 export default {
-  name: 'share-code-dialog',
+  name: 'ShareCodeDialog',
   components: { CampaignDetailPanel },
   data: () => ({
     queryResult: null as any,

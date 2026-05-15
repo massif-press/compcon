@@ -1,31 +1,46 @@
 <template>
-  <v-btn-toggle
-    v-model="itemSize"
+  <v-btn-toggle v-model="itemSize"
     color="primary"
     mandatory
     style="height: 20px; margin-top: -6px; width: 100%">
-    <v-btn value="100" key="100" size="small" style="width: 25%">
-      <v-icon size="x-large" icon="mdi-size-s" />
+    <v-btn key="100"
+      value="100"
+      size="small"
+      style="width: 25%">
+      <v-icon size="x-large"
+        icon="mdi-size-s" />
     </v-btn>
-    <v-btn value="200" key="200" size="small" style="width: 25%">
-      <v-icon size="x-large" icon="mdi-size-m" />
+    <v-btn key="200"
+      value="200"
+      size="small"
+      style="width: 25%">
+      <v-icon size="x-large"
+        icon="mdi-size-m" />
     </v-btn>
-    <v-btn value="300" key="300" size="small" style="width: 25%">
-      <v-icon size="x-large" icon="mdi-size-l" />
+    <v-btn key="300"
+      value="300"
+      size="small"
+      style="width: 25%">
+      <v-icon size="x-large"
+        icon="mdi-size-l" />
     </v-btn>
-    <v-btn value="450" key="450" size="small" style="width: 25%">
-      <v-icon size="x-large" icon="mdi-size-xl" />
+    <v-btn key="450"
+      value="450"
+      size="small"
+      style="width: 25%">
+      <v-icon size="x-large"
+        icon="mdi-size-xl" />
     </v-btn>
   </v-btn-toggle>
-  <v-data-table
-    density="compact"
+  <v-data-table density="compact"
     :mobile="mobile"
     :headers="headers"
     :items="images"
     item-key="name"
     :items-per-page="25">
     <template #item.image="{ item }">
-      <v-img :width="itemSize" :src="`${distributor}/${item.uri}`" />
+      <v-img :width="itemSize"
+        :src="`${distributor}/${item.uri}`" />
     </template>
     <template #item.name="{ item }">
       <span>{{ item.uri.split('/').pop() }}</span>
@@ -38,8 +53,13 @@
     <template #item.actions="{ item }">
       <v-dialog>
         <template #activator="{ props }">
-          <v-btn size="small" color="accent" icon variant="text" v-bind="props">
-            <v-tooltip max-width="300px" location="top">
+          <v-btn size="small"
+            color="accent"
+            icon
+            variant="text"
+            v-bind="props">
+            <v-tooltip max-width="300px"
+              location="top">
               <template #activator="{ props }">
                 <v-icon size="x-large">mdi-magnify</v-icon>
               </template>
@@ -49,11 +69,10 @@
         </template>
         <template #default="{ isActive }">
           <v-card style="position: relative">
-            <v-btn
-              @click="isActive.value = false"
-              icon
+            <v-btn icon
               color="primary"
-              style="position: fixed; top: 8px; right: 8px; z-index: 9">
+              style="position: fixed; top: 8px; right: 8px; z-index: 9"
+              @click="isActive.value = false">
               <v-icon>mdi-close</v-icon>
             </v-btn>
             <v-img :src="`${distributor}/${item.uri}`" />
@@ -61,10 +80,10 @@
         </template>
       </v-dialog>
 
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip max-width="300px"
+        location="top">
         <template #activator="{ props }">
-          <v-btn
-            size="small"
+          <v-btn size="small"
             color="accent"
             icon
             variant="text"
@@ -76,10 +95,10 @@
         <div class="text-center">Download Copy</div>
       </v-tooltip>
 
-      <v-tooltip max-width="300px" location="top">
+      <v-tooltip max-width="300px"
+        location="top">
         <template #activator="{ props }">
-          <v-btn
-            size="small"
+          <v-btn size="small"
             color="accent"
             variant="text"
             icon
@@ -103,18 +122,13 @@
 
 <script lang="ts">
 import { UserStore } from '@/stores';
-import DiffViewer from './diffViewer.vue';
-import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController';
-import { cloudDelete, downloadFromS3 } from '@/io/apis/account';
+import { cloudDelete, } from '@/io/apis/account';
 import logger from '@/user/logger';
 
 const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
 
 export default {
-  name: 'cloud-item-data-tab',
-  components: {
-    DiffViewer,
-  },
+  name: 'CloudItemDataTab',
   props: {
     search: {
       type: String,
@@ -125,6 +139,7 @@ export default {
       default: false,
     },
   },
+  emits: ['refresh'],
   data: () => ({
     tab: 'Images',
     itemSize: '200',
@@ -166,7 +181,6 @@ export default {
       },
     },
   },
-  emits: ['refresh'],
   methods: {
     async downloadImage(url) {
       const filename = url.split('/').pop();

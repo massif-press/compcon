@@ -40,6 +40,7 @@ export const PostCloudArchive = async (source: 'Automatic' | 'Manual') => {
   if (res.presign?.upload) {
     const uploadResult = await uploadToS3(archiveBody, res.presign.upload)
     UserStore().addCloudNotification(`Archive ${new Date().toLocaleString()} uploaded to cloud.`)
+    if (res.data) UserStore().setCloudDataItem(res.data)
     return uploadResult
   } else {
     throw new Error('No presign returned.')
@@ -53,7 +54,7 @@ export const DownloadCloudArchive = async (uri: string) => {
 }
 
 export const SetCloudArchive = async (data: any, overwriteCloud: boolean) => {
-  await importAll(data.data)
+  await importAll(data.data, false)
 
   await PilotStore().LoadPilots()
   await NpcStore().LoadNpcs()
@@ -63,6 +64,6 @@ export const SetCloudArchive = async (data: any, overwriteCloud: boolean) => {
   await NavStore().CreateIndex()
 
   if (overwriteCloud) {
-    UserStore().AutoSync('local')
+    await UserStore().AutoSync('upload')
   }
 }

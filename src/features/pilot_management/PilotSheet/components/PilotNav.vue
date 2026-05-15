@@ -50,7 +50,7 @@
     <v-tooltip v-if="pilot.IsRemote"
       open-delay="300"
       :text="isAuthed
-        ? pilot.CloudController.SyncStatus === 'Synced'
+        ? pilot.CloudController.isSynced
           ? 'Pilot is up to date with remote data'
           : 'Download all remote changes to this pilot, overwriting local data.'
         : 'Must be logged in to update'
@@ -60,7 +60,7 @@
           variant="text"
           size="x-small"
           class="unskew ml-3"
-          :disabled="!isAuthed || pilot.CloudController.SyncStatus === 'Synced'"
+          :disabled="!isAuthed || pilot.CloudController.isSynced"
           :loading="loading"
           v-bind="props"
           @click="remoteUpdate()">

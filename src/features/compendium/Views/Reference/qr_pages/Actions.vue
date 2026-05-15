@@ -1,5 +1,13 @@
 <template>
   <v-container class="pb-12">
+
+    <cc-masonry-grid :items="bothActions">
+      <template #default="{ item }">
+        <action-card :action="item"
+          :clickable="!expanded" />
+      </template>
+    </cc-masonry-grid>
+
     <v-row dense>
       <v-col>
         <h1 id="mechactions"
@@ -13,7 +21,7 @@
           label="Show Full" />
       </v-col>
     </v-row>
-    <cc-masonry-grid :items="actions">
+    <cc-masonry-grid :items="mechActions">
       <template #default="{ item }">
         <action-card :action="item"
           :clickable="!expanded" />
@@ -96,13 +104,17 @@ export default {
       return this.$vuetify.display.lgAndUp
     },
     allActions() {
-      return CompendiumStore().Actions.filter(a => a && !a.Hidden)
+      return CompendiumStore().Actions.filter(a => a && !a.Hidden && !a.ID.includes('npc_'))
     },
-    actions() {
-      return this.allActions.filter(a => a && !a.IsDowntimeAction && !a.IsPilotAction)
+    bothActions() {
+      console.log(this.allActions)
+      return this.allActions.filter(a => a && !a.IsDowntimeAction && a.IsPilotAction && a.IsMechAction)
+    },
+    mechActions() {
+      return this.allActions.filter(a => a && !a.IsDowntimeAction && a.IsMechAction)
     },
     pilotActions() {
-      return this.allActions.filter(a => a && a.IsPilotAction)
+      return this.allActions.filter(a => a && a.IsPilotAction && !a.IsMechAction)
     },
     downtimeActions() {
       return CompendiumStore().DowntimeActions

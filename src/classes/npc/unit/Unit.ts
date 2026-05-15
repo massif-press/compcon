@@ -84,7 +84,11 @@ class Unit extends Npc implements ICombatant, IInstanceable {
   }
 
   public get DefaultName(): string {
-    return `T${this.NpcClassController.Tier} ${this.NpcTemplateController.Templates.map(x => x.Name).join(' ')} ${this.NpcClassController.Class?.Name || 'NPC'} ${this.Tag}`
+    return Unit.GetDefaultName(this)
+  }
+
+  public static GetDefaultName(unit: Unit): string {
+    return `T${unit.NpcClassController.Tier} ${unit.NpcTemplateController.Templates.map(x => x.Name).join(' ')} ${unit.NpcClassController.Class?.Name || 'NPC'} ${unit.Tag || unit._tag || ''}`.trim()
   }
 
   public get IsNameless(): boolean {

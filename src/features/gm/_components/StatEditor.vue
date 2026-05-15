@@ -242,7 +242,6 @@ export default {
     addCoreStats() {
       this.statsToAdd.forEach((x) => this.item.StatController.AddCoreStat(x));
       this.statsToAdd = [];
-      console.log(this.item.StatController)
     },
     addCustomStat() {
       this.item.StatController.AddCustomStat(this.customTitle);

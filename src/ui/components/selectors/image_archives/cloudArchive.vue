@@ -127,7 +127,7 @@
 // import { UserStore } from '@/store';
 import * as _ from 'lodash-es';
 import { UserStore } from '@/stores';
-import { cloudDelete, updateItem, uploadToS3, VersionConflictError } from '@/io/apis/account';
+import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account';
 import { CloudController } from '@/classes/components';
 import logger from '@/user/logger';
 import { file } from 'jszip';
@@ -209,29 +209,14 @@ export default {
       const type = this.stagedImage.type;
       const size = this.stagedImage.size;
 
-      let res;
-      let overwritten = false;
-      try {
-        res = await updateItem(CloudController.ImageMetadata(filename, ext, size));
-      } catch (err) {
-        if (err instanceof VersionConflictError) {
-          overwritten = true;
-          const metadata = CloudController.ImageMetadata(filename, ext, size);
-          metadata.version = err.currentItem?.version;
-          res = await updateItem(metadata);
-        } else {
-          throw err;
-        }
-      }
+      const res = await updateItem(CloudController.ImageMetadata(filename, ext, size));
       if (!res.presign.upload) throw new Error('Failed to get presigned uri');
 
       await uploadToS3(this.stagedImage, res.presign.upload, type);
       await UserStore().refreshDbData();
       this.$notify({
-        title: overwritten ? `Image Replaced` : `Image Uploaded`,
-        text: overwritten
-          ? `Replaced existing ${filename}.${ext} with new upload`
-          : `Uploaded ${filename}.${ext} (${(size / 1024 / 1024).toFixed(2)}MB)`,
+        title: `Image Uploaded`,
+        text: `Uploaded ${filename}.${ext} (${(size / 1024 / 1024).toFixed(2)}MB)`,
         data: { icon: 'mdi-check', color: 'success' },
       });
       this.stagedImage = null;

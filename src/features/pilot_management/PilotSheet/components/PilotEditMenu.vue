@@ -102,10 +102,10 @@
 
             <v-list-item v-if="pilot.IsRemote"
               :loading="loading"
-              :disabled="pilot.CloudController.SyncStatus === 'Synced'"
+              :disabled="pilot.CloudController.isSynced"
               prepend-icon="mdi-cloud-sync"
               title="Download Latest Data"
-              :subtitle="pilot.CloudController.SyncStatus === 'Synced'
+              :subtitle="pilot.CloudController.isSynced
                 ? 'Pilot is up to date with remote data'
                 : 'Download all remote changes to this pilot, overwriting local data.'
                 "

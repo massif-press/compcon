@@ -28,6 +28,20 @@ export default async function (skipSync = false): Promise<void> {
   logger.info('loading user')
   await UserStore().loadUser()
 
+  if (UserStore().Cognito.userId) {
+    try {
+      logger.info('fetching cloud user metadata')
+      await UserStore().getUserMetadata(true)
+      logger.info('cloud user metadata loaded')
+    } catch (error: any) {
+      if (error instanceof UnauthorizedError) {
+        logger.warn('Authentication expired during metadata fetch, continuing offline')
+      } else {
+        logger.warn(`Failed to load cloud user metadata: ${error}`)
+      }
+    }
+  }
+
   // Migrate v2 localStorage data before loading compendium content
   const migrationResult = await migrateV2LocalStorage()
   if (migrationResult) {
@@ -58,7 +72,13 @@ export default async function (skipSync = false): Promise<void> {
 
   await UserStore().refreshV2BackupIds()
 
-  if (UserStore().Cognito.userId) {
+  if (UserStore().IsLoggedIn) {
+    try {
+      await UserStore().refreshDbData()
+    } catch (error: any) {
+      logger.warn(`Failed to refresh cloud data on startup: ${error}`)
+    }
+
     UserStore().IsSyncing = true
     try {
       await UserStore().AutoSync(undefined, true, skipSync)

@@ -165,14 +165,14 @@
       size="large"
       color="panel"
       :loading="loading"
-      :disabled="pilot.CloudController.SyncStatus === 'Synced'"
+      :disabled="pilot.CloudController.isSynced"
       prepend-icon="mdi-cloud-sync"
       @click="remoteUpdate()">
       Download Latest Data
       <template #subtitle>
         <span class="text-cc-overline">
           {{
-            pilot.CloudController.SyncStatus === 'Synced'
+            pilot.CloudController.isSynced
               ? 'Pilot is up to date with remote data'
               : 'Download all remote changes to this pilot, overwriting local data.'
           }}

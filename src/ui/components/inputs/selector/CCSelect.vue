@@ -43,7 +43,7 @@
           style="	display:flex; align-items:center;'">
           <v-icon v-if="icon"
             :icon="icon"
-            :class="label && 'ml-2'"
+            :class="label ? 'ml-2' : 'ml-1'"
             class="mt-1" />
           <div v-if="label && !mobile && !small"
             class="d-inline-block text-cc-overline ml-3">
@@ -52,9 +52,23 @@
           </div>
         </div>
       </template>
-      <template v-if="prependInnerIcon"
+      <template v-if="prependInnerIcon || noneSelected"
         #prepend-inner>
-        <v-icon :icon="prependInnerIcon" />
+        <v-icon v-if="prependInnerIcon"
+          :icon="prependInnerIcon" />
+        <v-chip v-if="noneSelected"
+          size="small"
+          variant="text"
+          class="pl-1 pr-3 mx-1 text-disabled">
+          <span>{{ noneText }}</span>
+        </v-chip>
+      </template>
+      <template v-if="selectAll"
+        #prepend-item>
+        <v-list-item :title="allSelected ? 'Deselect All' : 'Select All'"
+          :prepend-icon="allSelected ? 'mdi-checkbox-marked' : (Array.isArray(modelValue) && modelValue.length > 0 ? 'mdi-minus-box' : 'mdi-checkbox-blank-outline')"
+          @click="toggleAll" />
+        <v-divider />
       </template>
       <template v-if="items && typeof items[0] === 'object'"
         #item="{ props, item }">
@@ -63,17 +77,35 @@
           :prepend-icon="item.raw.icon"
           :disabled="item.raw.disabled" />
       </template>
-      <template #chip="{ item }">
-        <v-chip size="large"
+      <template #chip="{ item, index }">
+        <template v-if="allText && allSelected">
+          <v-chip v-if="index === 0"
+            size="large"
+            rounded="sm"
+            class="chip-clip pl-1 pr-3 mx-1"
+            :variant="<any>chipVariant">
+            <span>{{ allText }}</span>
+          </v-chip>
+        </template>
+        <template v-else-if="!max || index < Number(max)">
+          <v-chip flat
+            size="large"
+            tile
+            class="chip-clip pl-1 pr-3 mx-1"
+            :variant="<any>chipVariant">
+            <v-icon v-if="(item as any).icon"
+              :icon="(item as any).icon" />
+            <span>{{ item.title }}</span>
+            <div v-if="chipVariant === 'outlined'"
+              class="chip-diagonal"
+              :class="getChipClass" />
+          </v-chip>
+        </template>
+        <v-chip v-else-if="index === Number(max)"
+          size="small"
           rounded="sm"
-          class="chip-clip pl-1 pr-3 mx-1"
-          :variant="<any>chipVariant">
-          <v-icon v-if="(item as any).icon"
-            :icon="(item as any).icon" />
-          <span>{{ item.title }}</span>
-          <div v-if="chipVariant === 'outlined'"
-            class="chip-diagonal"
-            :class="getChipClass" />
+          class="mx-1">
+          +{{ (modelValue as any[]).length - Number(max) }}
         </v-chip>
       </template>
       <template #append>
@@ -157,6 +189,10 @@ export default {
     returnObject: { type: Boolean },
     small: { type: Boolean },
     bgColor: { type: String, default: 'background' },
+    max: { type: [String, Number], required: false },
+    allText: { type: String },
+    noneText: { type: String },
+    selectAll: { type: Boolean },
   },
   emits: ['update:model-value'],
   data: () => ({
@@ -169,8 +205,27 @@ export default {
     isSelect() {
       return !this.combobox && !this.autocomplete;
     },
+    allSelected() {
+      return this.multiple && Array.isArray(this.modelValue) && this.modelValue.length === this.items.length;
+    },
+    noneSelected() {
+      return this.noneText && (!this.modelValue || (Array.isArray(this.modelValue) && this.modelValue.length === 0));
+    },
     component() {
       return this.combobox ? VCombobox : this.autocomplete ? VAutocomplete : VSelect;
+    },
+  },
+  methods: {
+    toggleAll() {
+      if (this.allSelected) {
+        this.$emit('update:model-value', []);
+      } else {
+        const key = this.itemValue || 'value';
+        const allValues = this.items.map((item: any) =>
+          this.returnObject ? item : (typeof item === 'object' ? item[key] : item)
+        );
+        this.$emit('update:model-value', allValues);
+      }
     },
   },
 };
@@ -179,6 +234,8 @@ export default {
 <style scoped>
 .top-element :deep(.v-field__input) {
   padding-left: 4px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
 }
 
 .top-element :deep(.v-input--horizontal .v-input__prepend) {

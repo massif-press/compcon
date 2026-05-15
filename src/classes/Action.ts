@@ -182,9 +182,9 @@ class Action {
         : [data.synergy_locations]
     else this.SynergyLocations = []
     this.Activation = data.activation
-      ? (Object.values(ActivationType).find(
+      ? ((Object.values(ActivationType).find(
           v => v.toLowerCase() === (data.activation as string).toLowerCase().replace(/_/g, ' ')
-        ) as ActivationType) ?? data.activation
+        ) as ActivationType) ?? data.activation)
       : ActivationType.Quick
     this.Attack = data.attack
 
@@ -215,8 +215,13 @@ class Action {
       this.Range = data.range ? data.range.map(x => new Range(x)) : []
     }
     this.IsPilotAction =
-      data.pilot || data.id === 'act_free_action' || data.id?.includes('jockey') || false
+      data.pilot ||
+      data.id?.includes('jockey') ||
+      data.name?.toLowerCase().includes('jockey') ||
+      false
+
     this.IsMechAction = data.mech || !data.pilot
+
     this.IsActiveHidden = data.hide_active || false
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'
     this.ActiveEffects = data.active_effects
