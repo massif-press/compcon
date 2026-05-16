@@ -393,6 +393,7 @@ export const UserStore = defineStore('cloud', {
         logger.error('User is not logged in')
         return
       }
+      if (this.IsSyncing) return
       await this.getUserMetadata()
       await this.setMetadataFromDynamo()
     },
@@ -812,7 +813,8 @@ export const UserStore = defineStore('cloud', {
       isStartup = false,
       skipSync = false
     ): Promise<any[]> {
-      await this.refreshDbData()
+      await this.getUserMetadata()
+      await this.setMetadataFromDynamo()
       if (skipSync) return []
       if (!this.SyncSettings) return []
       if (isStartup) {
@@ -828,7 +830,6 @@ export const UserStore = defineStore('cloud', {
       const failures = [] as any[]
 
       if (overrideTo === 'download') {
-        // Force download: fetch each item from cloud, merge into local, upload merged result
         for (const item of items) {
           try {
             if (item.IsCloudOnly) {
@@ -842,7 +843,6 @@ export const UserStore = defineStore('cloud', {
           }
         }
       } else if (overrideTo === 'upload') {
-        // Force upload: push all local data to cloud unconditionally
         const localItems = items.filter(x => !x.IsCloudOnly)
         try {
           const batchFailures = await CloudController.BatchUpdateCloud(
@@ -854,10 +854,6 @@ export const UserStore = defineStore('cloud', {
           localItems.forEach(item => failures.push({ item, error: e }))
         }
       } else {
-        // Default LWW sync:
-        // Cloud-only items → download and add to local store
-        // Local items with cloud data → LWW merge (syncFromCloud) for items where cloud has
-        //   changed since last known server time; batch-upload for locally-newer items
         const cloudOnly = items.filter(x => x.IsCloudOnly)
         const localItems = items.filter(x => !x.IsCloudOnly)
 
@@ -870,9 +866,6 @@ export const UserStore = defineStore('cloud', {
           }
         }
 
-        // Items with existing cloud data: upload local changes.
-        // If the server has a record newer than our last fetch (Updated > LastQuery),
-        // another device has written since — merge first to preserve their changes.
         const toMerge: any[] = []
         const toUpload: any[] = []
 

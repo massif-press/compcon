@@ -96,7 +96,7 @@ export async function processFullBackup(
   }
 
   const { pilots, npcs, encounters, extraContent } = extractFullBackupEntries(backup)
-  // raw JSON strings are now parsed — release them so GC can reclaim the heap
+  // release for GC
   backup.forEach(e => {
     e.data = null
   })
@@ -107,7 +107,6 @@ export async function processFullBackup(
     result.lcpsImported = extraContent.length
   }
 
-  // import pilots
   for (const pilot of pilots) {
     try {
       const r = await preprocessPilotImport(pilot)
@@ -122,7 +121,6 @@ export async function processFullBackup(
     }
   }
 
-  // import NPCs
   for (const npc of npcs) {
     try {
       const r = await preprocessNpcImport(npc)
@@ -216,17 +214,10 @@ export async function migrateV2LocalStorage(): Promise<FullImportResult | null> 
 
   // compile into full backup format
   const backup = serializeToFullBackup(rawEntries)
-  // rawEntries strings are now duplicated in backup — release them
   for (const key of Object.keys(rawEntries)) rawEntries[key] = null
 
-  // process the backup (import LCPs → pilots → NPCs → encounters)
-  // processFullBackup stores backup to v2_backup_download internally
   const migrationResult = await processFullBackup(backup)
-
-  // persist result so UI can display summary after page reload
   await SetValue('v2_migration_result', migrationResult)
-
-  // mark migration complete
   await SetValue('v2_migration_complete', true)
 
   // clear v2 localStorage keys

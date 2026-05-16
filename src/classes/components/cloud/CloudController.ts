@@ -215,15 +215,13 @@ class CloudController {
 
     CloudController.checkSize(savedata, rawParent.Name)
 
-    // Stamp changed fields before checking hash so _ts is part of the payload.
-    // Use _fieldTs (persisted across sessions) as the base so only genuinely changed
-    // fields get new timestamps — not all fields.
     const newTs = stampChangedFields(
       savedata,
       this._lastSyncedSnapshot,
       this._fieldTs,
       rawParent.SaveController.LastModified
     )
+
     ;(savedata as any)._ts = newTs
 
     const newHash = CloudController.computeContentHash(savedata)
