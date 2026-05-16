@@ -121,11 +121,11 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
     return doodad
   }
 
-  public Clone<Doodad>(): Doodad {
+  public Clone<Doodad>(setName = true): Doodad {
     const itemData = structuredClone(Doodad.Serialize(this, false))
     const newItem = Doodad.Deserialize(itemData)
     newItem.RenewID()
-    newItem.Name += ' (COPY)'
+    if (setName) newItem.Name += ' (COPY)'
     return newItem as Doodad
   }
 

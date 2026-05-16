@@ -109,9 +109,9 @@
 </template>
 
 <script lang="ts">
-import { Npc } from '@/classes/npc/Npc';
 import { NpcStore } from '@/stores';
 import * as _ from 'lodash-es';
+import { v4 as uuid } from 'uuid';
 
 export default {
   name: 'GmAddNpcMenu',
@@ -147,12 +147,14 @@ export default {
   },
 
   methods: {
-    add(doodad) {
+    add(rosterItem) {
+      const doodad = rosterItem.Clone(false);
+
       const number =
         this.encounterInstance.Combatants.filter((c) => c.actor.Name === doodad.Name).length + 1;
 
       this.encounterInstance.Combatants.push({
-        id: doodad.ID,
+        id: uuid(),
         index: this.encounterInstance.Combatants.length,
         number: number,
         side: 'neutral',
@@ -166,12 +168,14 @@ export default {
         text: `${doodad.Name} has been added to the encounter.`,
       });
     },
-    addEidolon(eidolon) {
+    addEidolon(rosterItem) {
+      const eidolon = rosterItem.Clone(false);
+
       const number =
         this.encounterInstance.Combatants.filter((c) => c.actor.Name === eidolon.Name).length + 1;
 
       this.encounterInstance.Combatants.push({
-        id: eidolon.ID,
+        id: uuid(),
         index: this.encounterInstance.Combatants.length,
         number: number,
         side: 'enemy',

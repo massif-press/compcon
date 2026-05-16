@@ -221,11 +221,11 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     return unit
   }
 
-  public Clone<Unit>(): Unit {
+  public Clone<Unit>(setName = true): Unit {
     const itemData = JSON.parse(JSON.stringify(Unit.Serialize(this, false)))
     const newItem = Unit.Deserialize(itemData)
     newItem.RenewID()
-    if (newItem._name) newItem._name += ' (COPY)'
+    if (setName && newItem._name) newItem._name += ' (COPY)'
     return newItem as Unit
   }
 

@@ -76,9 +76,10 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { NpcStore } from '@/stores';
 import * as _ from 'lodash-es';
+import { v4 as uuid } from 'uuid';
 
 export default {
   name: 'GmAddNpcMenu',
@@ -110,7 +111,9 @@ export default {
   },
 
   methods: {
-    add(npc) {
+    add(rosterItem) {
+      const npc = rosterItem.Clone(false);
+
       const number =
         this.encounterInstance.Combatants.filter((c) => c.actor.Name === npc.Name).length + 1;
 
@@ -120,7 +123,7 @@ export default {
       npc.CombatController.Reset();
 
       this.encounterInstance.Combatants.push({
-        id: npc.ID,
+        id: uuid(),
         index: this.encounterInstance.Combatants.length,
         number: number,
         side: 'enemy',
