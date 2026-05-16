@@ -317,6 +317,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public static SerializeCombatant(combatant: CombatantData): CombatantSaveData {
     return {
+      id: combatant.id,
       index: combatant.index,
       type: combatant.type,
       actor: (combatant.actor as any).Serialize(true),
