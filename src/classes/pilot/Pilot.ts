@@ -781,10 +781,10 @@ class Pilot
     return new Pilot(pilotData)
   }
 
-  public Clone(): Pilot {
+  public Clone(setName = true): Pilot {
     const newPilot = Pilot.Deserialize(structuredClone(Pilot.Serialize(this)))
     newPilot.RenewID()
-    newPilot.Name += ' (CLONE)'
+    if (setName) newPilot.Name += ' (CLONE)'
     newPilot.Callsign += '*'
     for (const mech of newPilot.Mechs) {
       mech.RenewID()
