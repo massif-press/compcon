@@ -212,7 +212,7 @@ export default {
     },
     setInflictStatus(status) {
       const idx = this.statusesToInflict.indexOf(status.ID);
-      if (idx >= 0) {
+      if (idx >= -1) {
         this.statusesToInflict.splice(idx, 1);
       } else {
         this.statusesToInflict.push(status.ID);

@@ -218,7 +218,7 @@ export const PilotStore = defineStore('pilot', {
     },
     async DeleteGroupPermanent(group: PilotGroup): Promise<void> {
       this.PilotGroups.splice(this.PilotGroups.indexOf(group), 1)
-      await RemoveItem('pilot_groups', group.ID)
+      await RemoveItem('pilot_groups', group.ID || (group as any)._id)
     },
     async SavePilotData(pilotIds?: string[]): Promise<void> {
       try {
@@ -263,16 +263,17 @@ export const PilotStore = defineStore('pilot', {
       await this.AddPilot(payload.Clone(), this.getGroupByPilotID(payload.ID)?.ID)
     },
     async DeletePilotPermanent(pilot: Pilot): Promise<void> {
-      const groupIndex = this.PilotGroups.findIndex(x => x.Pilots.map(x => x.id).includes(pilot.ID))
+      const id = pilot.ID || (pilot as any)._id
+      const groupIndex = this.PilotGroups.findIndex(x => x.Pilots.map(x => x.id).includes(id))
 
       if (groupIndex > -1) {
         this.PilotGroups[groupIndex].Pilots.splice(
-          this.PilotGroups[groupIndex].Pilots.findIndex(p => p.id === pilot.ID),
+          this.PilotGroups[groupIndex].Pilots.findIndex(p => p.id === id),
           1
         )
       }
 
-      const pilotIndex = this.Pilots.findIndex(x => x.ID === pilot.ID)
+      const pilotIndex = this.Pilots.findIndex(x => x.ID === id)
 
       if (pilotIndex === -1) return
 
@@ -282,7 +283,7 @@ export const PilotStore = defineStore('pilot', {
         await RemoveItem('images', pilot.PortraitController.LocalImage)
       }
 
-      await RemoveItem('pilots', pilot.ID)
+      await RemoveItem('pilots', id)
 
       if (pilot.CloudController.ShareCode) {
         await CloudController.MarkCloudDeleted(pilot.CloudController.Metadata)

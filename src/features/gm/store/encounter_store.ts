@@ -95,7 +95,7 @@ export const EncounterStore = defineStore('encounter', {
       )
 
       const idx = this.Folders.findIndex(x => x === payload.old)
-      if (idx >= 0) this.Folders[idx] = payload.newName
+      if (idx >= -1) this.Folders[idx] = payload.newName
     },
 
     RemoveFolder(payload: string): void {
@@ -104,7 +104,7 @@ export const EncounterStore = defineStore('encounter', {
       )
 
       const idx = this.Folders.findIndex(x => x === payload)
-      if (idx >= 0) this.Folders.splice(idx, 1)
+      if (idx >= -1) this.Folders.splice(idx, 1)
     },
 
     async AddEncounter(payload: Encounter): Promise<void> {
@@ -143,10 +143,11 @@ export const EncounterStore = defineStore('encounter', {
 
     async RemoveEncounterInstance(payload: EncounterInstance): Promise<void> {
       this.ActiveEncounters.forEach(x => (x.IsActive = false))
-      const idx = this.ActiveEncounters.findIndex(x => x.ID === payload.ID)
-      if (idx >= 0) {
+      const id = payload.ID || (payload as any)._id
+      const idx = this.ActiveEncounters.findIndex(x => x.ID === id)
+      if (idx >= -1) {
         this.ActiveEncounters.splice(idx, 1)
-        await RemoveItem('active_encounters', payload.ID)
+        await RemoveItem('active_encounters', id)
         this.SaveActiveEncounterData()
       }
     },
@@ -180,10 +181,11 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     async RemoveEncounterArchive(payload: EncounterArchive): Promise<void> {
-      const idx = this.ArchivedEncounters.findIndex(x => x.ID === payload.ID)
-      if (idx >= 0) {
+      const id = payload.ID || (payload as any)._id
+      const idx = this.ArchivedEncounters.findIndex(x => x.ID === id)
+      if (idx >= -1) {
         this.ArchivedEncounters.splice(idx, 1)
-        await RemoveItem('encounter_archives', payload.ID)
+        await RemoveItem('encounter_archives', id)
       }
     },
 
@@ -204,10 +206,11 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     async DeleteEncounterPermanent(payload: Encounter): Promise<void> {
-      const idx = this.Encounters.findIndex(x => x.ID === payload.ID)
-      if (idx >= 0) this.Encounters.splice(idx, 1)
-      NavStore().removeEncounterEntry(payload.ID)
-      await RemoveItem('Encounters', payload.ID)
+      const id = payload.ID || (payload as any)._id
+      const idx = this.Encounters.findIndex(x => x.ID === id)
+      if (idx >= -1) this.Encounters.splice(idx, 1)
+      NavStore().removeEncounterEntry(id)
+      await RemoveItem('Encounters', id)
       this.SaveEncounterData()
       if (payload.CloudController.ShareCode) {
         await CloudController.MarkCloudDeleted(payload.CloudController.Metadata)
@@ -228,7 +231,9 @@ export const EncounterStore = defineStore('encounter', {
     async SaveActiveEncounterData(): Promise<void> {
       try {
         await Promise.all(
-          (this.ActiveEncounters as any).map(y => SetItem('active_encounters', toRaw(y).Serialize()))
+          (this.ActiveEncounters as any).map(y =>
+            SetItem('active_encounters', toRaw(y).Serialize())
+          )
         )
         logger.info('Active Encounter data saved')
       } catch (err) {

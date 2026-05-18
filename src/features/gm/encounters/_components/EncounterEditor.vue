@@ -60,50 +60,15 @@
                 :item="item"
                 class="mb-4" />
               <v-card flat
-                tile>
-                <v-tabs v-model="mapTab"
-                  grow
-                  color="secondary"
-                  bg-color="panel"
-                  density="compact"
-                  height="20">
-                  <v-tab>Map</v-tab>
-                  <v-tab>Image</v-tab>
-                </v-tabs>
-                <v-window v-model="mapTab">
+                tile
+                border>
+                <v-window>
                   <v-window-item>
-                    <v-card style="height: 100%"
-                      variant="outlined">
-                      <map-preview v-if="item.Map"
-                        ref="mapPreview"
-                        :map="item.Map" />
-                      <v-row v-else
-                        style="min-height: 22vw; max-width: 100%"
-                        align="center"
-                        justify="center">
-                        <v-col>
-                          <i class="text-disabled text-caption">No Map Data</i>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                    <cc-modal title="Map Editor">
-                      <template #activator="{ open }">
-                        <cc-button v-if="!isRemote"
-                          size="x-small"
-                          block
-                          color="primary"
-                          @click="open">
-                          Edit Map
-                        </cc-button>
-                      </template>
-                      <template #default="{ close }">
-                        <map-editor :encounter="item"
-                          @exit="close" />
-                      </template>
-                    </cc-modal>
-                  </v-window-item>
-                  <v-window-item>
-                    <cc-img :src="item.PortraitController.Image" />
+                    <div v-if="!item.PortraitController.HasImage"
+                      class="text-cc-overline text-disabled"
+                      style="padding-top:125px; padding-bottom: 125px;">NO MAP DATA</div>
+                    <cc-img v-else
+                      :src="item.PortraitController.Image" />
                     <cc-modal title="Set Map Image">
                       <template #activator="{ open }">
                         <cc-button v-if="!isRemote"

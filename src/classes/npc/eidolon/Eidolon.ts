@@ -200,11 +200,11 @@ class Eidolon extends Npc implements IInstanceable {
     return eidolon
   }
 
-  public Clone<Eidolon>(): Eidolon {
+  public Clone<Eidolon>(setName = true): Eidolon {
     const itemData = structuredClone(Eidolon.Serialize(this))
     const newItem = Eidolon.Deserialize(itemData)
     newItem.RenewID()
-    newItem.Name += ' (COPY)'
+    if (setName) newItem.Name += ' (COPY)'
     return newItem as Eidolon
   }
 

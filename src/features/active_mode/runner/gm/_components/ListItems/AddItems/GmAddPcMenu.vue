@@ -133,7 +133,9 @@ export default {
   },
 
   methods: {
-    addPc(pc) {
+    addPc(rosterItem) {
+      const pc = rosterItem.Clone(false);
+
       if (this.encounterInstance.Combatants.some((p) => p.ID === pc.ID)) return;
 
       pc.SetStats();

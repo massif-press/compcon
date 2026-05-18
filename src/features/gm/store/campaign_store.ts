@@ -79,7 +79,7 @@ export const CampaignStore = defineStore('campaign', {
     },
     async DeleteCampaign(payload: Campaign): Promise<void> {
       const idx = this.Campaigns.findIndex(x => x.ID === payload.ID)
-      if (idx >= 0) this.Campaigns.splice(idx, 1)
+      if (idx >= -1) this.Campaigns.splice(idx, 1)
       NavStore().removeCampaignEntry(payload.ID)
       await RemoveItem('Campaigns', payload.ID)
       this.SaveCampaigns()
@@ -89,7 +89,7 @@ export const CampaignStore = defineStore('campaign', {
     },
     async DeleteCollectionCampaign(payload: ICampaignData): Promise<void> {
       const idx = this.CampaignCollection.findIndex(x => x.id === payload.id)
-      if (idx >= 0) this.CampaignCollection.splice(idx, 1)
+      if (idx >= -1) this.CampaignCollection.splice(idx, 1)
       await RemoveItem('campaign_collection', payload.id)
     },
   },

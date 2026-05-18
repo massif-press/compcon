@@ -513,7 +513,7 @@
 
           <v-dialog max-width="600px">
             <template #activator="{ props }">
-              <v-tooltip v-if="!item.CloudController.Metadata?.ItemModified || item._isRemote"
+              <v-tooltip v-if="!item.IsCloudOnly && (!item.CloudController.Metadata?.ItemModified || item._isRemote)"
                 max-width="300px"
                 location="top">
                 <template #activator="{ props }">
@@ -872,27 +872,47 @@ function toggleBulkDelete() {
 
 async function executeBulkDelete() {
   bulkDeleteLoading.value = true
+  const failures: string[] = []
   try {
     for (const item of selectedForDelete.value) {
-      if (bulkDeleteScope.value === 'cloud' || bulkDeleteScope.value === 'both' || bulkDeleteScope.value === 'permanent') {
-        if (item.CloudController?.Metadata?.ItemModified) {
-          try { await CloudController.MarkCloudDeleted(item.CloudController.Metadata) } catch (e) {
-            logger.warn(`Bulk delete: failed to mark ${item.Name} as deleted in cloud`, e)
+      try {
+        if (bulkDeleteScope.value === 'cloud' || bulkDeleteScope.value === 'both') {
+          if (item.CloudController?.Metadata?.ItemModified) {
+            try { await CloudController.MarkCloudDeleted(item.CloudController.Metadata) } catch (e) {
+              logger.warn(`Bulk delete: failed to mark ${item.Name} as deleted in cloud`, e)
+            }
           }
         }
-      }
-      if (bulkDeleteScope.value === 'both') {
-        item.SaveController?.Delete()
-      }
-      if (bulkDeleteScope.value === 'permanent') {
-        await deleteLocalItemPermanent(item)
+        if (bulkDeleteScope.value === 'both') {
+          const t = normalizeItemType(item.ItemType)
+          if (t === 'encounterinstance' || t === 'encounterarchive') {
+            await deleteLocalItemPermanent(item, true)
+          } else {
+            item.SaveController?.Delete()
+          }
+        }
+        if (bulkDeleteScope.value === 'permanent') {
+          await deleteLocalItemPermanent(item, true)
+        }
+      } catch (e) {
+        logger.error(`Bulk delete: failed to delete ${item.Name}`, e)
+        failures.push(item.Name)
       }
     }
-    vueNotify({
-      title: `${selectedForDelete.value.length} Item${selectedForDelete.value.length !== 1 ? 's' : ''} Deleted`,
-      text: 'Selected items have been deleted.',
-      data: { icon: 'mdi-delete', color: 'success' },
-    })
+    const succeeded = selectedForDelete.value.length - failures.length
+    if (failures.length === 0) {
+      vueNotify({
+        title: `${succeeded} Item${succeeded !== 1 ? 's' : ''} Deleted`,
+        text: 'Selected items have been deleted.',
+        data: { icon: 'mdi-delete', color: 'success' },
+      })
+    } else {
+      vueNotify({
+        title: `${succeeded} Deleted, ${failures.length} Failed`,
+        text: `Could not delete: ${failures.join(', ')}`,
+        data: { icon: 'mdi-alert', color: 'warning' },
+      })
+    }
     emit('refresh')
   } catch (e) {
     logger.error('Bulk delete failed:', e)
@@ -1088,7 +1108,7 @@ function restoreLocalItem(item: any) {
   })
 }
 
-async function deleteLocalItemPermanent(item: any) {
+async function deleteLocalItemPermanent(item: any, silent = false) {
   deleteLoading.value = true
   try {
     const type = normalizeItemType(item.ItemType)
@@ -1102,17 +1122,21 @@ async function deleteLocalItemPermanent(item: any) {
       case 'unit':
       case 'doodad':
       case 'eidolon':
+      case 'npc':
         await NpcStore().DeleteNpcPermanent(item)
         break
       case 'character':
       case 'faction':
       case 'location':
+      case 'collectionitem':
         await NarrativeStore().DeleteItemPermanent(item)
         break
       case 'encounter':
+      case 'encounterdata':
         await EncounterStore().DeleteEncounterPermanent(item)
         break
       case 'encounterinstance':
+      case 'activeencounter':
         await EncounterStore().RemoveEncounterInstance(item)
         break
       case 'encounterarchive':
@@ -1125,20 +1149,25 @@ async function deleteLocalItemPermanent(item: any) {
         await CampaignStore().DeleteCampaign(item)
         break
     }
-    vueNotify({
-      title: 'Item Deleted',
-      text: `Removed ${item.ItemType} ${item.Name}.`,
-      data: { icon: 'mdi-delete', color: 'success' },
-    })
+    if (!silent) {
+      vueNotify({
+        title: 'Item Deleted',
+        text: `Removed ${item.ItemType} ${item.Name}.`,
+        data: { icon: 'mdi-delete', color: 'success' },
+      })
+    }
     deleteLoading.value = false
     return true
   } catch (err) {
     logger.error(`Error permanently deleting local item: ${err}`, {}, err)
-    vueNotify({
-      title: 'Delete Failed',
-      text: `Failed to delete ${item.ItemType} ${item.Name}. ${err}`,
-      data: { icon: 'mdi-alert', color: 'error' },
-    })
+    if (!silent) {
+      vueNotify({
+        title: 'Delete Failed',
+        text: `Failed to delete ${item.ItemType} ${item.Name}. ${err}`,
+        data: { icon: 'mdi-alert', color: 'error' },
+      })
+    }
+    throw err
   }
   deleteLoading.value = false
 }
