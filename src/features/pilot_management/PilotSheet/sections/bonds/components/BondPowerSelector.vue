@@ -161,6 +161,7 @@
 <script lang="ts">
 import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/mixins/useMobile';
+import { sortBy } from 'lodash-es';
 
 export default {
   name: 'BondPowerSelectMenu',
@@ -190,21 +191,24 @@ export default {
       }
     },
     shownPowers() {
+      let out;
       if (!this.pilot.BondController.TotalPowerSelections && !this.ignoreLimit) {
         if (this.featureSet === 'all')
-          return this.pilot.BondController.Bond.Powers.filter(x =>
+          out = this.pilot.BondController.Bond.Powers.filter(x =>
             this.pilot.BondController.BondPowers.some(y => y.name === x.name)
           )
-        if (this.featureSet === 'assigned') return this.pilot.BondController.BondPowers
-        return CompendiumStore()
+        else if (this.featureSet === 'assigned') out = this.pilot.BondController.BondPowers
+        else out = CompendiumStore()
           .Bonds.find(x => x.ID === this.featureSet)
           ?.Powers.filter(x => this.pilot.BondController.BondPowers.some(y => y.name === x.name))
       }
 
-      if (this.featureSet === 'all') return this.pilot.BondController.Bond.Powers
-      if (this.featureSet === 'assigned') return this.pilot.BondController.BondPowers
+      else if (this.featureSet === 'all') out = this.pilot.BondController.Bond.Powers
+      else if (this.featureSet === 'assigned') out = this.pilot.BondController.BondPowers
 
-      return CompendiumStore().Bonds.find(x => x.ID === this.featureSet)?.Powers
+      else out = CompendiumStore().Bonds.find(x => x.ID === this.featureSet)?.Powers
+
+      return sortBy(out, ['master', 'veteran', 'origin', 'name']).reverse()
     },
     Bonds() {
       return CompendiumStore().Bonds.map(x => ({

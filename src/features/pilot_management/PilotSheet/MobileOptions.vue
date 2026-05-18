@@ -83,7 +83,7 @@
           </template>
         </v-tooltip>
       </template>
-      <share-dialog :pilot="pilot" />
+      <share-dialog :item="pilot" />
     </cc-dialog>
 
     <br />
@@ -221,7 +221,7 @@ import StatblockDialog from './components/StatblockDialog.vue'
 import logger from '@/user/logger'
 import LcpConfigSelector from './components/LcpConfigSelector.vue'
 import { useMobile } from '@/mixins/useMobile';
-import ShareDialog from './components/ShareDialog.vue'
+import ShareDialog from '@/shared/ShareDialog.vue'
 
 export default {
   name: 'MobileOptionsMenu',

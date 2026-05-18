@@ -396,14 +396,14 @@ export default {
   watch: {
     'pilot.BondController.BondPowers': {
       handler(val) {
-        this.masonryBondItems = sortBy([...this.pilot.BondController.BondPowers], ['master', 'veteran', 'origin', 'name'])
+        this.masonryBondItems = sortBy([...this.pilot.BondController.BondPowers], ['master', 'veteran', 'origin', 'name']).reverse()
       },
       immediate: true,
       deep: true,
     },
   },
   mounted() {
-    this.masonryBondItems = sortBy([...this.pilot.BondController.BondPowers], ['master', 'veteran', 'origin', 'name'])
+    this.masonryBondItems = sortBy([...this.pilot.BondController.BondPowers], ['master', 'veteran', 'origin', 'name']).reverse()
   },
   methods: {
     async setBond(bond) {

@@ -91,7 +91,7 @@
           </template>
         </v-tooltip>
       </template>
-      <share-dialog :pilot="pilot" />
+      <share-dialog :item="pilot" />
     </cc-dialog>
 
     <v-tooltip open-delay="300"
@@ -113,7 +113,7 @@
 
 <script lang="ts">
 import EditMenu from './PilotEditMenu.vue'
-import ShareDialog from './ShareDialog.vue'
+import ShareDialog from '@/shared/ShareDialog.vue'
 import { Pilot } from '@/class'
 import { CompendiumStore, UserStore } from '@/stores'
 import NavItem from '../../_components/NavItem.vue'
