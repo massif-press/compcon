@@ -79,73 +79,71 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, reactive, onMounted, toRef } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
-import { WeaponMod } from '@/class'
-import { useMobile } from '@/mixins/useMobile'
-import { selectorMixin } from '../../_mixins/selectorMixin'
+import { WeaponMod, Mech } from '@/class'
+import { useLcpFilter } from '../../_composables/useLcpFilter'
 
-export default {
-  name: 'ModSelector',
-  mixins: [useMobile, selectorMixin],
-  props: {
-    weapon: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    options: {
-      views: ['list', 'single', 'table', 'cards'],
-      initialView: 'single',
-      groups: ['source', 'lcp', 'license'],
-      initialGroup: 'none',
-    },
-    headers: [
-      { title: 'Manufacturer', align: 'left', key: 'Source' },
-      { title: 'System', align: 'left', key: 'Name' },
-      { title: 'License', align: 'left', key: 'License' },
-      { title: 'License Level', align: 'left', key: 'LicenseLevel' },
-      { title: 'SP Cost', align: 'left', key: 'SP' },
-    ],
-    showIncompatible: false,
-  }),
-  computed: {
-    manufacturers() {
-      return CompendiumStore().Manufacturers;
-    },
-    freeSP(): number {
-      return this.weapon.Mod ? this.mech.FreeSP + this.weapon.Mod.SP : this.mech.FreeSP
-    },
-    availableMods(): WeaponMod[] {
-      let i = this.filterByLcp(CompendiumStore().WeaponMods).filter(x => !x.IsHidden && !x.IsExotic)
+const props = defineProps<{
+  weapon: any
+  mech: Mech
+}>()
 
-      if (!this.showIncompatible) {
-        i = i.filter(x => x.AllowedTypes && x.AllowedTypes.includes(this.weapon.ModType))
-        i = i.filter(x => x.AllowedSizes && x.AllowedSizes.includes(this.weapon.ModSize))
-      }
+const { smAndDown: mobile } = useDisplay()
+const { showUnlicensed, showOverSP, fID, filterByLcp, isLicensed, isAICapacityFull } =
+  useLcpFilter(toRef(props, 'mech'))
 
-      if (this.weapon.Mod) i = i.filter(x => x.ID !== this.weapon.Mod.ID)
+const options = reactive({
+  views: ['list', 'single', 'table', 'cards'],
+  initialView: 'single',
+  groups: ['source', 'lcp', 'license'],
+  initialGroup: 'none',
+})
 
-      i = i.filter(
-        x =>
-          !this.mech.MechLoadoutController.ActiveLoadout.UniqueMods.map(y => y.ID).includes(x.ID)
-      )
+const headers = [
+  { title: 'Manufacturer', align: 'left', key: 'Source' },
+  { title: 'System', align: 'left', key: 'Name' },
+  { title: 'License', align: 'left', key: 'License' },
+  { title: 'License Level', align: 'left', key: 'LicenseLevel' },
+  { title: 'SP Cost', align: 'left', key: 'SP' },
+]
 
-      if (!this.showUnlicensed) i = i.filter(x => this.isLicensed(x))
+const showIncompatible = ref(false)
 
-      if (!this.showOverSP) i = i.filter(x => x.SP <= this.freeSP)
+const manufacturers = computed(() => CompendiumStore().Manufacturers)
 
-      i = i.concat(this.mech.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
+const freeSP = computed(() =>
+  props.weapon.Mod ? props.mech.FreeSP + props.weapon.Mod.SP : props.mech.FreeSP
+)
 
-      if (this.isAICapacityFull()) i = i.filter(x => !x.IsAI)
+const availableMods = computed((): WeaponMod[] => {
+  let i = filterByLcp(CompendiumStore().WeaponMods).filter(x => !x.IsHidden && !x.IsExotic)
 
-      return i
-    },
-  },
-}
+  if (!showIncompatible.value) {
+    i = i.filter(x => x.AllowedTypes && x.AllowedTypes.includes(props.weapon.ModType))
+    i = i.filter(x => x.AllowedSizes && x.AllowedSizes.includes(props.weapon.ModSize))
+  }
+
+  if (props.weapon.Mod) i = i.filter(x => x.ID !== props.weapon.Mod.ID)
+
+  i = i.filter(
+    x =>
+      !props.mech.MechLoadoutController.ActiveLoadout.UniqueMods.map(y => y.ID).includes(x.ID)
+  )
+
+  if (!showUnlicensed.value) i = i.filter(x => isLicensed(x))
+  if (!showOverSP.value) i = i.filter(x => x.SP <= freeSP.value)
+
+  i = i.concat(props.mech.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
+
+  if (isAICapacityFull()) i = i.filter(x => !x.IsAI)
+
+  return i
+})
+
+onMounted(() => {
+  options.initialView = mobile.value ? 'list' : 'single'
+})
 </script>

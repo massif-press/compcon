@@ -284,6 +284,8 @@ import MechBarrageButton from './action_buttons/mechBarrageButton.vue'
 import NpcSkirmishButton from './action_buttons/npcSkirmishButton.vue'
 import NpcBarrageButton from './action_buttons/npcBarrageButton.vue'
 import PilotFightButton from './action_buttons/pilotFightButton.vue'
+import { CombatController } from '@/classes/components/combat/CombatController'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 
 export default {
   name: 'EquipCommandPanel',
@@ -304,11 +306,11 @@ export default {
       required: true,
     },
     controller: {
-      type: Object,
+      type: CombatController,
       required: true,
     },
     encounter: {
-      type: Object,
+      type: EncounterInstance,
       required: true,
     },
   },

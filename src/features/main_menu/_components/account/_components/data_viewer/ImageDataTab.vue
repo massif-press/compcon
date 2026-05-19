@@ -39,8 +39,9 @@
     item-key="name"
     :items-per-page="25">
     <template #item.image="{ item }">
-      <v-img :width="itemSize"
-        :src="`${distributor}/${item.uri}`" />
+      <div :style="{ width: itemSize + 'px' }">
+        <v-img :src="`${distributor}/${item.uri}`" />
+      </div>
     </template>
     <template #item.name="{ item }">
       <span>{{ item.uri.split('/').pop() }}</span>

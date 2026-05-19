@@ -35,7 +35,7 @@
                 size="small"
                 class="mt-n1" />
               <span class="text-cc-overline text-disabled flex-grow-1">{{ group || 'No Group'
-                }}</span>
+              }}</span>
               <v-icon :icon="collapsedGroups[group] ? 'mdi-chevron-right' : 'mdi-chevron-down'"
                 size="small" />
             </div>
@@ -222,6 +222,7 @@
                   :rank="talent.Rank"
                   micro
                   hide-locked
+                  :dark="!$vuetify.theme.current.dark"
                   hide-change />
               </v-col>
             </v-row>
@@ -390,6 +391,7 @@
 <script lang="ts">
 import MechStatblock from '@/features/pilot_management/PilotSheet/sections/mech/sections/attributes/MechStatblock.vue';
 import { PilotStore } from '@/stores';
+import vuetify from '@/ui/style';
 
 export default {
   name: 'AddFromRoster',

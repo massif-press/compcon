@@ -194,7 +194,7 @@ class Action {
 
     this.Terse = data.terse || ''
     this._detail = data.detail || data.effect || ''
-    this.Cost = data.cost || 1
+    this.Cost = Object.hasOwn(data, 'cost') ? data.cost || 0 : 1
     this.HeatCost = heat && isNumber(heat) ? heat : 0
     // heat cost override
     if (data.heat_cost || data.heat_cost === 0)
@@ -320,7 +320,7 @@ class Action {
         id: `deploy_${d.name}_${uuid()}`,
         name: `Deploy ${d.name}`,
         activation: d.activation || ActivationType.Quick,
-        cost: d.cost || 1,
+        cost: Object.hasOwn(d, 'cost') ? d.cost : 1,
         detail: '',
         synergy_locations:
           d.type?.toLowerCase() === 'drone' ? ['deployable', 'drone'] : ['deployable'],

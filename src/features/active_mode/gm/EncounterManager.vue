@@ -2,80 +2,85 @@
   <v-container>
     <div class="heading h2">Local Active Encounters</div>
 
-    <div class="my-1">
-      <v-tooltip location="top"
-        open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            @click="setSort('Updated')">
-            <v-icon icon="mdi-clock-outline"
-              size="20"
-              color="accent" />
-            <v-icon v-if="sort === 'Updated'"
-              color="accent"
-              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              class="mb-n1" />
-          </v-btn>
-        </template>
-        <span>Sort by Recent</span>
-      </v-tooltip>
+    <v-row dense>
+      <v-col>
+        <div class="my-1 d-flex align-center">
+          <v-tooltip location="top"
+            open-delay="300">
+            <template #activator="{ props }">
+              <v-btn v-bind="props"
+                color="panel"
+                flat
+                tile
+                size="small"
+                @click="setSort('Updated')">
+                <v-icon icon="mdi-clock-outline"
+                  size="20"
+                  color="accent" />
+                <v-icon v-if="sort === 'Updated'"
+                  color="accent"
+                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+                  class="mb-n1" />
+              </v-btn>
+            </template>
+            <span>Sort by Recent</span>
+          </v-tooltip>
 
-      <v-tooltip location="top"
-        open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            @click="setSort('Name')">
-            <v-icon icon="mdi-format-text-variant"
-              size="24"
-              color="accent" />
-            <v-icon v-if="sort === 'Name'"
-              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              class="mb-n1"
-              color="accent" />
-          </v-btn>
-        </template>
-        <span>Sort by Name</span>
-      </v-tooltip>
+          <v-tooltip location="top"
+            open-delay="300">
+            <template #activator="{ props }">
+              <v-btn v-bind="props"
+                color="panel"
+                flat
+                tile
+                size="small"
+                @click="setSort('Name')">
+                <v-icon icon="mdi-format-text-variant"
+                  size="24"
+                  color="accent" />
+                <v-icon v-if="sort === 'Name'"
+                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+                  class="mb-n1"
+                  color="accent" />
+              </v-btn>
+            </template>
+            <span>Sort by Name</span>
+          </v-tooltip>
 
-      <v-tooltip location="top"
-        open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            @click="setSort('Created')">
-            <v-icon icon="mdi-calendar"
-              size="21"
-              color="accent" />
-            <v-icon v-if="sort === 'Created'"
-              color="accent"
-              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              class="mb-n1" />
-          </v-btn>
-        </template>
-        <span>Sort by created timestamp</span>
-      </v-tooltip>
-    </div>
+          <v-tooltip location="top"
+            open-delay="300">
+            <template #activator="{ props }">
+              <v-btn v-bind="props"
+                color="panel"
+                flat
+                tile
+                size="small"
+                @click="setSort('Created')">
+                <v-icon icon="mdi-calendar"
+                  size="21"
+                  color="accent" />
+                <v-icon v-if="sort === 'Created'"
+                  color="accent"
+                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+                  class="mb-n1" />
+              </v-btn>
+            </template>
+            <span>Sort by created timestamp</span>
+          </v-tooltip>
+        </div>
+      </v-col>
+      <v-col cols="auto">
+        <active-mode-organizer :items="encounters"
+          :columns="encounterOrganizerColumns"
+          noun="encounter"
+          title="Encounters"
+          @archive="organizeArchive"
+          @delete="organizeDelete" />
+      </v-col>
+    </v-row>
 
-    <!-- <cc-alert>
-      <v-icon icon="mdi-information-outline"
-        class="mr-2" />
-      These encounters will only be accessible on this device. Pilot data can be loaded from remote
-      sources, but will not push any updates to their owners. For cloud-based and simultaneous
-      multiplayer, create a
-      <a>Table</a>
-      instead.
-    </cc-alert> -->
+
+
     <div v-for="e in encounters"
       :key="e.ID"
       style="position: relative"
@@ -189,7 +194,7 @@
                     {{ item.actor.CombatController.CombatName }}
                     <span v-if="(item.actor as any).PlayerName">&nbsp;({{ (item.actor as
                       any).PlayerName
-                    }})</span>
+                      }})</span>
                   </v-chip>
                 </div>
                 <br />
@@ -423,6 +428,7 @@
 import { ref, computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { useRouter } from 'vue-router';
+import ActiveModeOrganizer from '@/features/active_mode/_components/ActiveModeOrganizer.vue';
 import { CombatLog } from '@/classes/components/combat/CombatLog';
 import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary';
 import { Encounter } from '@/classes/encounter/Encounter';
@@ -436,6 +442,14 @@ const router = useRouter();
 const search = ref('');
 const sort = ref('');
 const asc = ref(true);
+
+const encounterOrganizerColumns = [
+  { key: 'Name', title: 'Name', sortable: true, value: (e: any) => e.Name },
+  { key: 'Environment', title: 'Environment', value: (e: any) => e.Encounter.Environment.Name },
+  { key: 'Sitrep', title: 'Sitrep', value: (e: any) => e.Encounter.Sitrep.Name },
+  { key: 'Round', title: 'Round', sortable: true, value: (e: any) => e.Round },
+  { key: 'Created', title: 'Created', sortable: true, value: (e: any) => new Date(e.SaveController.Created).toLocaleDateString() },
+];
 
 const encounters = computed(() => {
   if (sort.value) {
@@ -506,6 +520,20 @@ function deleteEncounter(encounter: any) {
 
 async function RemoveEncounter(encounter: any) {
   await EncounterStore().RemoveEncounterInstance(encounter);
+}
+
+async function organizeArchive(ids: string[]) {
+  const targets = encounters.value.filter(e => ids.includes(e.ID));
+  for (const e of targets) {
+    await EncounterStore().ArchiveEncounterInstance(e, '', 'Archived');
+  }
+}
+
+async function organizeDelete(ids: string[]) {
+  const targets = encounters.value.filter(e => ids.includes(e.ID));
+  for (const e of targets) {
+    await EncounterStore().RemoveEncounterInstance(e);
+  }
 }
 
 async function unarchive(archive: EncounterArchive) {

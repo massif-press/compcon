@@ -34,7 +34,7 @@
                 :odd="index % 2 === 0"
                 :readonly="readonly"
                 @open="editUnit"
-                @remove="encounter.RemoveCombatant(index)" />
+                @remove="removeCombatantById(element.id)" />
             </div>
           </div>
         </template>
@@ -71,7 +71,7 @@
                 :odd="index % 2 === 0"
                 :readonly="readonly"
                 @open="editUnit"
-                @remove="encounter.RemoveCombatant(index)" />
+                @remove="removeCombatantById(element.id)" />
             </div>
           </div>
         </template>
@@ -108,7 +108,7 @@
                 :odd="index % 2 === 0"
                 :readonly="readonly"
                 @open="editUnit"
-                @remove="encounter.RemoveCombatant(index)" />
+                @remove="removeCombatantById(element.id)" />
             </div>
           </div>
         </template>
@@ -447,6 +447,10 @@ export default {
       item.side = side;
       this.encounter.save();
       this.transferKey++;
+    },
+    removeCombatantById(id: string) {
+      const idx = (this.encounter.Combatants as any[]).findIndex(c => c.id === id);
+      if (idx !== -1) this.encounter.RemoveCombatant(idx);
     },
     diffUpdate(key) {
       SetDiff(this.selected.actor, key);

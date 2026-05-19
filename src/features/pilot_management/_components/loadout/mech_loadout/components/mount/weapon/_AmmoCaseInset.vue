@@ -1,13 +1,15 @@
 <template>
-  <div v-show="level > 0" class="light-panel clipped" @click.stop>
+  <div v-show="level > 0"
+    class="light-panel clipped"
+    @click.stop>
     <div class="caption text-stark px-2 py-1">
       WALKING ARMORY//
       <b>SELECTED AMMUNITION</b>
     </div>
-    <v-row no-gutters class="px-2 mr-4">
+    <v-row no-gutters
+      class="px-2 mr-4">
       <v-col cols="3">
-        <v-select
-          v-model="selected"
+        <v-select v-model="selected"
           color="accent"
           item-color="accent"
           :item-disabled="(item) => !readonly && item.cost > uses"
@@ -20,14 +22,17 @@
           class="mb-1"
           @change="setSelection($event)" />
       </v-col>
-      <v-col v-if="selected.cost" class="ml-auto pl-4 pr-3 text-left">
+      <v-col v-if="selected.cost"
+        class="ml-auto pl-4 pr-3 text-left">
         <div class="text-overline my-n2">COST::AMMO CASE</div>
         <div>
-          <v-icon v-for="(n, index) in selected.cost" :key="`ammo-${index}`">mdi-hexagon-slice-6</v-icon>
+          <v-icon v-for="(n, index) in selected.cost"
+            :key="`ammo-${index}`">mdi-hexagon-slice-6</v-icon>
         </div>
       </v-col>
     </v-row>
-    <div v-if="selected.effect" class="mb-1 py-1">
+    <div v-if="selected.effect"
+      class="mb-1 py-1">
       <div class="caption px-2 font-weight-bold">EFFECT</div>
       <div class="body-text px-4">{{ selected.effect }}</div>
     </div>
@@ -36,7 +41,7 @@
 
 <script lang="ts">
 export default {
-  name: 'ammo-case-inset',
+  name: 'AmmoCaseInset',
   props: {
     level: { type: Number, required: true, default: 0 },
     uses: { type: Number, required: false, default: 0 },

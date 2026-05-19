@@ -116,120 +116,110 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash-es'
-
+import { ref, computed, reactive, onMounted, toRef } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
 import { Rules, MechWeapon, Mech, Range, Damage, Tag } from '@/class'
-import { useMobile } from '@/mixins/useMobile'
-import { selectorMixin } from '../../_mixins/selectorMixin'
+import { useLcpFilter } from '../../_composables/useLcpFilter'
 
-export default {
-  name: 'WeaponSelector',
-  mixins: [useMobile, selectorMixin],
-  props: {
-    weaponSlot: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    options: {
-      views: ['list', 'single', 'table', 'cards', 'scatter', 'bar', 'compare'],
-      initialView: 'single',
-      groups: ['source', 'lcp', 'license', 'none'],
-      initialGroup: 'license',
-      showExotics: true,
-    },
-    headers: [
-      { title: 'Manufacturer', align: 'left', key: 'Source' },
-      { title: 'Weapon', align: 'left', key: 'Name' },
-      { title: 'License', align: 'left', key: 'LicenseString' },
-      { title: 'Size', align: 'left', key: 'Size' },
-      { title: 'Type', align: 'left', key: 'WeaponTypes' },
-      { title: 'Tags', align: 'center', key: 'Tags' },
-      { title: 'Range', align: 'left', key: 'Range' },
-      { title: 'Damage', align: 'left', key: 'Damage' },
-    ],
-    selected: null as unknown as MechWeapon | null,
-  }),
-  computed: {
-    manufacturers() {
-      return CompendiumStore().Manufacturers;
-    },
-    freeSP(): number {
-      return this.weaponSlot.Weapon
-        ? this.mech.FreeSP + this.weaponSlot.Weapon.SP
-        : this.mech.FreeSP
-    },
-    availableWeapons(): MechWeapon[] {
-      const fittings = Rules.MountFittings[this.weaponSlot.Size]
-      let i = this.filterByLcp(CompendiumStore().MechWeapons).filter(
-        x => x.Source && fittings.includes(x.Size) && !x.IsHidden && !x.IsExotic
-      )
+const props = defineProps<{
+  weaponSlot: any
+  mech: Mech
+}>()
 
-      if (this.weaponSlot.Weapon) i = i.filter(x => x.ID !== this.weaponSlot.Weapon.ID)
+const emit = defineEmits<{
+  equip: [event: any]
+}>()
 
-      if (!this.showUnlicensed) i = i.filter(x => this.isLicensed(x))
+const { smAndDown: mobile } = useDisplay()
+const { showUnlicensed, showOverSP, fID, filterByLcp, isLicensed, isAICapacityFull } =
+  useLcpFilter(toRef(props, 'mech'))
 
-      i = i.concat(
-        this.mech.Pilot.SpecialEquipment.filter(
-          x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
-        )
-      )
+const options = reactive({
+  views: ['list', 'single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+  initialView: 'single',
+  groups: ['source', 'lcp', 'license', 'none'],
+  initialGroup: 'license',
+  showExotics: true,
+})
 
-      i = i.filter(
-        x =>
-          !this.mech.MechLoadoutController.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(
-            x.ID
-          )
-      )
+const headers = [
+  { title: 'Manufacturer', align: 'left', key: 'Source' },
+  { title: 'Weapon', align: 'left', key: 'Name' },
+  { title: 'License', align: 'left', key: 'LicenseString' },
+  { title: 'Size', align: 'left', key: 'Size' },
+  { title: 'Type', align: 'left', key: 'WeaponTypes' },
+  { title: 'Tags', align: 'center', key: 'Tags' },
+  { title: 'Range', align: 'left', key: 'Range' },
+  { title: 'Damage', align: 'left', key: 'Damage' },
+]
 
-      if (this.isAICapacityFull()) i = i.filter(x => !x.IsAI)
+const selected = ref<MechWeapon | null>(null)
 
-      return i
-    },
-  },
-  methods: {
-    handleEquip(event) {
-      this.$emit('equip', event)
-    },
-    stageSelect(event) {
-      if (event) {
-        this.selected = event
-      } else {
-        this.selected = null
-      }
-    },
-    getRangeDisplay(item: MechWeapon): string {
-      if (!item.Range) return '---'
-      const rangeStrs = [] as string[]
-      item.Range.forEach(r => {
-        rangeStrs.push(`${r.Type} ${r.Value}`)
-      })
-      return rangeStrs.join('/')
-    },
-    getDamageDisplay(item: MechWeapon): string {
-      if (!item.Damage) return '---'
-      const damageStrs = [] as string[]
-      item.Damage.forEach(d => {
-        damageStrs.push(`${d.Type} ${d.Value}`)
-      })
-      return damageStrs.join('/')
-    },
-    eq(a: Range[] | Damage[] | Tag[], b: Range[] | Damage[] | Tag[]): boolean {
-      if (!a || !b) return false
-      if (a.length !== b.length) return false
+const manufacturers = computed(() => CompendiumStore().Manufacturers)
 
-      const aIDs = a.map(x => (x as any).ID || x.Value || x.Type)
-      const bIDs = b.map(x => (x as any).ID || x.Value || x.Type)
+const freeSP = computed(() =>
+  props.weaponSlot.Weapon ? props.mech.FreeSP + props.weaponSlot.Weapon.SP : props.mech.FreeSP
+)
 
-      return _.isEqual(_.sortBy(aIDs), _.sortBy(bIDs))
-    },
-  },
+const availableWeapons = computed((): MechWeapon[] => {
+  const fittings = Rules.MountFittings[props.weaponSlot.Size]
+  let i = filterByLcp(CompendiumStore().MechWeapons).filter(
+    x => x.Source && fittings.includes(x.Size) && !x.IsHidden && !x.IsExotic
+  )
+
+  if (props.weaponSlot.Weapon) i = i.filter(x => x.ID !== props.weaponSlot.Weapon.ID)
+  if (!showUnlicensed.value) i = i.filter(x => isLicensed(x))
+
+  i = i.concat(
+    props.mech.Pilot.SpecialEquipment.filter(
+      x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
+    )
+  )
+
+  i = i.filter(
+    x =>
+      !props.mech.MechLoadoutController.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(x.ID)
+  )
+
+  if (isAICapacityFull()) i = i.filter(x => !x.IsAI)
+
+  return i
+})
+
+function handleEquip(event: any) {
+  emit('equip', event)
 }
+
+function stageSelect(event: any) {
+  selected.value = event || null
+}
+
+function getRangeDisplay(item: MechWeapon): string {
+  if (!item.Range) return '---'
+  const rangeStrs: string[] = []
+  item.Range.forEach(r => rangeStrs.push(`${r.Type} ${r.Value}`))
+  return rangeStrs.join('/')
+}
+
+function getDamageDisplay(item: MechWeapon): string {
+  if (!item.Damage) return '---'
+  const damageStrs: string[] = []
+  item.Damage.forEach(d => damageStrs.push(`${d.Type} ${d.Value}`))
+  return damageStrs.join('/')
+}
+
+function eq(a: Range[] | Damage[] | Tag[], b: Range[] | Damage[] | Tag[]): boolean {
+  if (!a || !b) return false
+  if (a.length !== b.length) return false
+  const aIDs = a.map(x => (x as any).ID || x.Value || x.Type)
+  const bIDs = b.map(x => (x as any).ID || x.Value || x.Type)
+  return _.isEqual(_.sortBy(aIDs), _.sortBy(bIDs))
+}
+
+onMounted(() => {
+  options.initialView = mobile.value ? 'list' : 'single'
+})
 </script>

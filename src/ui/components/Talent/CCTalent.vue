@@ -8,6 +8,7 @@
     :in-column="inColumn"
     :hide-change="hideChange"
     :hide-title="hideTitle"
+    :dark="dark"
     @expand="expand = <string>$event"
     @clicked="$emit('clicked')"
     @add="$emit('add')"
@@ -47,6 +48,7 @@ export default {
     hideChange: { type: Boolean },
     hideTitle: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
+    dark: { type: Boolean, default: false },
   },
   emits: ['expand', 'clicked', 'add', 'remove'],
   data: () => ({

@@ -26,7 +26,7 @@
         This mech has taken non-Protocol actions this turn. This ordnance weapon cannot be
         activated.
       </cc-alert>
-      <cc-alert v-if="weapon.IsLimited && weapon.Uses === 0 && !weapon.CanSetUses"
+      <cc-alert v-if="weapon.IsLimited && weapon.Uses >= weapon.MaxUses && !weapon.CanSetUses"
         color="warning"
         class="my-2">
         <v-icon start

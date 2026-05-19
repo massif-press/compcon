@@ -110,7 +110,7 @@ class WeaponProfile extends CompendiumItem {
     data.id += `_profile_${idx || 0}`
     super(data, pack)
     this.Parent = container
-    this.Cost = parseInt(pData.cost as any) || 1
+    this.Cost = Object.hasOwn(pData, 'cost') ? pData.cost || 0 : 1
     this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage
     this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish
     if (pData.range) this.Range = pData.range.map(x => new Range(x))

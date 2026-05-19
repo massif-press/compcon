@@ -1,11 +1,15 @@
 <template>
   <div class="cc-masonry-grid"
     :style="gridStyle">
-    <div v-for="(item, index) in items"
-      :key="keyMapper ? keyMapper(item, index) : index"
-      class="cc-masonry-item">
-      <slot :item="item"
-        :index="index" />
+    <div v-for="(col, colIndex) in columnItems"
+      :key="colIndex"
+      class="cc-masonry-column">
+      <div v-for="entry in col"
+        :key="keyMapper ? keyMapper(entry.item, entry.index) : entry.index"
+        class="cc-masonry-item">
+        <slot :item="entry.item"
+          :index="entry.index" />
+      </div>
     </div>
   </div>
 </template>
@@ -39,11 +43,16 @@ export default {
       if (this.$vuetify.display.xl) return this.xlColumns
       return 3
     },
+    columnItems() {
+      const cols: { item: unknown; index: number }[][] = Array.from({ length: this.columns }, () => [])
+      this.items.forEach((item, i) => {
+        cols[i % this.columns].push({ item, index: i })
+      })
+      return cols
+    },
     gridStyle() {
       return {
         '--masonry-gap': `${this.gap}px`,
-        '--masonry-columns': `repeat(${this.columns}, 1fr)`,
-        '--masonry-max-columns': this.columns,
       }
     },
   },
@@ -52,23 +61,17 @@ export default {
 
 <style scoped>
 .cc-masonry-grid {
-  display: grid;
-  grid-template-columns: var(--masonry-columns);
-  grid-template-rows: masonry;
+  display: flex;
   gap: var(--masonry-gap);
+  align-items: flex-start;
+  overflow: hidden;
 }
 
-@supports not (grid-template-rows: masonry) {
-  .cc-masonry-grid {
-    display: block;
-    column-gap: var(--masonry-gap);
-    columns: var(--masonry-max-columns);
-  }
-
-  .cc-masonry-item {
-    display: inline-block;
-    width: 100%;
-    margin-bottom: var(--masonry-gap);
-  }
+.cc-masonry-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--masonry-gap);
 }
 </style>

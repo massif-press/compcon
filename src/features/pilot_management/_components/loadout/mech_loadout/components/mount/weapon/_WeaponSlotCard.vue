@@ -222,7 +222,7 @@ export default {
       required: true,
     },
     mech: {
-      type: Object,
+      type: Mech,
       required: true,
     },
     mount: {

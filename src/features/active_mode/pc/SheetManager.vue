@@ -2,7 +2,7 @@
   <v-container>
     <div class="heading h2"> Character Sheets</div>
 
-    <div class="my-1">
+    <div class="my-1 d-flex align-center">
       <v-tooltip location="top"
         open-delay="300">
         <template #activator="{ props }">
@@ -65,6 +65,12 @@
         </template>
         <span>Sort by created timestamp</span>
       </v-tooltip>
+      <active-mode-organizer :items="activeSheets"
+        :columns="sheetOrganizerColumns"
+        noun="sheet"
+        title="Character Sheets"
+        @archive="organizeArchive"
+        @delete="organizeDelete" />
     </div>
 
     <sheet-item v-for="sheet in activeSheets"
@@ -253,18 +259,27 @@ import { PilotStore } from '@/stores';
 import SheetItem from './_components/SheetItem.vue';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import { useMobile } from '@/mixins/useMobile';
+import ActiveModeOrganizer from '@/features/active_mode/_components/ActiveModeOrganizer.vue';
 
+const sheetOrganizerColumns = [
+  { key: 'Name', title: 'Name', sortable: true, value: (s: any) => s.Name },
+  { key: 'Pilot', title: 'Pilot', value: (s: any) => s.Pilot.Callsign },
+  { key: 'Created', title: 'Created', sortable: true, value: (s: any) => new Date(s.Created).toLocaleDateString() },
+  { key: 'Updated', title: 'Updated', sortable: true, value: (s: any) => new Date(s.Updated).toLocaleDateString() },
+];
 
 export default {
   mixins: [useMobile],
   name: 'SheetManager',
   components: {
     SheetItem,
+    ActiveModeOrganizer,
   },
   data: () => ({
     sort: 'Updated',
     asc: true,
     search: '',
+    sheetOrganizerColumns,
   }),
   computed: {
     activeSheets() {
@@ -324,6 +339,14 @@ export default {
       a.download = `${sheet.Name}_sheet.json`;
       a.click();
       URL.revokeObjectURL(url);
+    },
+    organizeArchive(ids: string[]) {
+      const targets = this.activeSheets.filter((s: any) => ids.includes(s.ID));
+      targets.forEach((s: any) => s.Archive());
+    },
+    async organizeDelete(ids: string[]) {
+      const targets = this.activeSheets.filter((s: any) => ids.includes(s.ID));
+      for (const s of targets) await PilotStore().RemovePilotSheet(s);
     },
     importSelect() {
       const input = document.createElement('input');

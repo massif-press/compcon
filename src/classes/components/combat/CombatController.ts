@@ -498,9 +498,12 @@ class CombatController implements ICounterContainer, IStatContainer {
     const status = CompendiumStore().Statuses.find(s => s.ID === statusID)
     if (!status) return
     const target = this.ActiveActor.CombatController
-    const resolvedExpires = typeof expires === 'string'
-      ? markRaw(new expiration(expires, this, target))
-      : expires ? markRaw(expires) : expires
+    const resolvedExpires =
+      typeof expires === 'string'
+        ? markRaw(new expiration(expires, this, target))
+        : expires
+          ? markRaw(expires)
+          : expires
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
       target.Statuses.push({ status, expires: resolvedExpires })
@@ -967,7 +970,9 @@ class CombatController implements ICounterContainer, IStatContainer {
           detail:
             'Due to the stress of bracing, until the end of this turn you can only take one quick action – you cannot take reactions, overcharge, move normally, take full actions, or take free actions.',
         }),
-        expires: markRaw(new expiration('end_turn_self', this.Parent.CombatController, this, encounter)),
+        expires: markRaw(
+          new expiration('end_turn_self', this.Parent.CombatController, this, encounter)
+        ),
       })
       this.log('Brace ended; entered Brace Cooldown period')
       this.CombatActions = {

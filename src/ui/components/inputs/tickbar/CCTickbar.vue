@@ -17,7 +17,7 @@
         </v-btn>
       </v-col>
       <v-col>
-        <div :class="`${reverse ? 'reverse-light' : 'light'} ${`bg-${color}`}`" />
+        <div :class="`${readonly ? '' : reverse ? 'reverse-light' : 'light'} ${`bg-${color}`}`" />
         <top-bar v-if="tertiaryLabel"
           :label="tertiaryLabel"
           :icon="tertiaryIcon"

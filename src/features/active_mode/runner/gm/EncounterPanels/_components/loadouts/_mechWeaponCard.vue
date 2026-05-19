@@ -212,7 +212,7 @@
 import { Damage, ItemType, Mech, MechWeapon } from '@/class'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
-import EngWeaponSettings from '@/ui/components/panels/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
+import EngWeaponSettings from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
 import MechModCard from './_mechModCard.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'

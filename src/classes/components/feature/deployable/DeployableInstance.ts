@@ -190,14 +190,13 @@ class DeployableInstance implements ICombatant {
     this.CombatController.setStats(kvps)
 
     const ownerActor = this.Owner.actor as any
-    // Use ActiveActor so that a mounted pilot resolves to the mech (where frame traits live)
     const activeActor = ownerActor?.CombatController?.ActiveActor ?? ownerActor
     if (activeActor?.FeatureController?.BonusController) {
       const bc = activeActor.FeatureController.BonusController
       const isDrone = this.Base.Type.toLowerCase() === 'drone'
       if (isDrone) bc.applyChildBonuses(this.CombatController.StatController, 'drone_')
       else bc.applyChildBonuses(this.CombatController.StatController, 'deployable_')
-      // Bonuses may have changed max stats, re-sync current stats so current HP
+      // bonuses may have changed max stats, re-sync current stats so current HP
       // always equals final max HP on fresh deployment.
       this.CombatController.StatController.resetCurrentStats()
     }

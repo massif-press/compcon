@@ -123,8 +123,11 @@
           </v-row>
 
           <v-card v-if="item && item.FlavorDescription"
-            variant="tonal"
-            class="mx-1 px-2 py-1 mt-3">
+            color="panel"
+            flat
+            tile
+            style="position: relative;"
+            class="mx-1 px-2 py-1 mt-3 mb-2">
             <p v-if="item.FlavorDescription.length < 600"
               v-html-safe="item.FlavorDescription"
               class="text-cc-overline" />
@@ -133,9 +136,11 @@
                 <p v-html-safe="item.FlavorDescription"
                   style="white-space: pre-wrap" />
               </div>
-              <div class="text-right">
+              <div style="position: absolute; bottom: 0;  right: 0">
                 <v-btn icon
                   color="accent"
+                  flat
+                  tile
                   class="fade-select"
                   size="x-small"
                   @click.stop="showAllFlavor = !showAllFlavor">

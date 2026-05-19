@@ -39,6 +39,19 @@
     <slot name="statblock" />
   </div>
 
+  <div v-if="item.Trigger"
+    class="mb-2">
+    <div class="text-cc-overline text-disabled">
+      TRIGGER
+    </div>
+    <p v-if="tier"
+      v-html-safe="item.TriggerByTier(tier)"
+      class="text-text" />
+    <p v-else
+      v-html-safe="item.Trigger"
+      class="text-text" />
+  </div>
+
   <div v-if="item.Effect"
     class="mb-2">
     <p v-if="tier"

@@ -201,9 +201,9 @@ function transformMech(mech: any): any {
   }
 }
 
-export const convertTov2Pilot = function (input: any): any {
+export const convertTov2Pilot = function (input: any): Record<string, unknown> {
   // Unwrap export envelope if present
-  const d = input?.EXPORT_TYPE ? input.data : input
+  const d: any = input?.EXPORT_TYPE ? input.data : input
 
   const activeLoadoutIndex = d.active_index ?? 0
   const activeLoadout = d.loadouts?.[activeLoadoutIndex]
@@ -343,35 +343,36 @@ function transformNpcFeature(feature: any, tier: number): any {
   }
 }
 
-export const convertTov2Npc = function (input: any): any {
-  const cd = input.combat_data ?? {}
+export const convertTov2Npc = function (input: any): Record<string, unknown> {
+  const i: any = input
+  const cd = i.combat_data ?? {}
   const cur = cd.stats?.current ?? {}
   const max = cd.stats?.max ?? {}
-  const lastModifiedStr = new Date(input.save?.lastModified ?? Date.now()).toString()
-  const deleteTimeStr = input.save?.deleteTime > 0 ? new Date(input.save.deleteTime).toString() : ''
+  const lastModifiedStr = new Date(i.save?.lastModified ?? Date.now()).toString()
+  const deleteTimeStr = i.save?.deleteTime > 0 ? new Date(i.save.deleteTime).toString() : ''
 
   return {
     active: false,
-    id: input.id,
-    class: input.class?.id ?? input.class,
-    tier: input.tier,
-    name: input.name,
+    id: i.id,
+    class: i.class?.id ?? i.class,
+    tier: i.tier,
+    name: i.name,
     subtitle: '',
     campaign: '',
-    labels: input.narrative.labels
-      ? input.narrative.labels.map((l: any) => l.title || l.value || l.toString() || l)
+    labels: i.narrative.labels
+      ? i.narrative.labels.map((l: any) => l.title || l.value || l.toString() || l)
       : [],
-    tag: input.tag ?? '',
-    templates: input.templates ?? [],
-    items: (input.features ?? []).map((f: any) => transformNpcFeature(f, input.tier)),
+    tag: i.tag ?? '',
+    templates: i.templates ?? [],
+    items: (i.features ?? []).map((f: any) => transformNpcFeature(f, i.tier)),
     stats: buildV2NpcStats(max),
     currentStats: buildV2NpcCurrentStats(cur, max),
-    note: input.note ?? '',
+    note: i.note ?? '',
     side: 'Enemy',
     cloudImage: '',
     localImage: '',
-    portrait: input.img?.portrait ?? '',
-    cloud_portrait: input.img?.cloud_portrait ?? '',
+    portrait: i.img?.portrait ?? '',
+    cloud_portrait: i.img?.cloud_portrait ?? '',
     statuses: cd.statuses ?? [],
     conditions: [],
     resistances: cd.resistances ?? [],
@@ -387,7 +388,7 @@ export const convertTov2Npc = function (input: any): any {
     deleteTime: deleteTimeStr,
     lastUpdate_cloud: '',
     lastSync: '',
-    brews: (input.brews ?? []).map(stripBrew),
+    brews: (i.brews ?? []).map(stripBrew),
     counter_data: cd.counters?.counter_data ?? [],
     custom_counters: cd.counters?.custom_counters ?? [],
   }
