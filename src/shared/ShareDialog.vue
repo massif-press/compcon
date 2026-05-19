@@ -19,8 +19,12 @@
       </v-col>
       <v-col cols="auto">
         <div class="text-cc-overline text-disabled">LAST SYNCED</div>
-        <div class="font-weight-bold pt-1">
-          {{ lastSyncLabel }}
+        <div class="font-weight-bold pt-1 d-flex align-center ga-1">
+          <v-progress-circular v-if="metaRefreshing"
+            indeterminate
+            size="14"
+            width="2" />
+          <span>{{ lastSyncLabel }}</span>
         </div>
       </v-col>
       <v-col cols="auto">
@@ -51,7 +55,7 @@
         cols="auto">
         <cc-button size="small"
           color="primary"
-          class="ml-2"
+          class="ml-2 mt-3"
           :loading="syncing"
           prepend-icon="mdi-sync"
           @click="syncItem">
@@ -161,9 +165,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CloudController } from '@/classes/components/cloud/CloudController'
+import { getUserDataChanged } from '@/io/apis/account'
+import { UserStore } from '@/stores'
 import { notify } from '@kyvg/vue3-notification'
 import logger from '@/user/logger'
 
@@ -174,7 +180,26 @@ const { smAndDown: mobile } = useDisplay()
 const linkStyle = ref('full')
 const shareMech = ref('')
 const syncing = ref(false)
+const metaRefreshing = ref(false)
 const postSyncTime = ref<number | null>(null)
+
+async function refreshCloudMetadata() {
+  const sortkey = props.item.CloudController?.Metadata?.SortKey
+  const updated = props.item.CloudController?.Metadata?.Updated
+  if (!UserStore().IsLoggedIn || !sortkey || !updated) return
+  metaRefreshing.value = true
+  try {
+    const { items } = await getUserDataChanged(UserStore().Cognito.userId!, updated)
+    const fresh = items.find((i: any) => i.sortkey === sortkey)
+    if (fresh) props.item.CloudController.Metadata = fresh
+  } catch (e) {
+    logger.warn('ShareDialog: failed to refresh cloud metadata', e)
+  } finally {
+    metaRefreshing.value = false
+  }
+}
+
+onMounted(refreshCloudMetadata)
 
 const isPilot = computed(() => Array.isArray(props.item.Mechs))
 

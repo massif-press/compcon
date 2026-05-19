@@ -18,14 +18,13 @@ function isEntityArr(val: any): val is Array<Record<string, any>> {
   return Array.isArray(val) && val.length > 0 && typeof val[0]?.id === 'string'
 }
 
-// max timestamp across all _ts keys at or under `prefix`
 function entityMaxTs(prefix: string, ts: FieldTimestamps, fallback: number): number {
-  let max = fallback
   const dot = prefix + '.'
+  let max = -1
   for (const [k, v] of Object.entries(ts)) {
-    if (k === prefix || k.startsWith(dot)) max = Math.max(max, v)
+    if (k.startsWith(dot)) max = max < 0 ? v : Math.max(max, v)
   }
-  return max
+  return max >= 0 ? max : fallback
 }
 
 function stampObj(

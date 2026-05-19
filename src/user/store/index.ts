@@ -78,6 +78,7 @@ export interface SyncableItem {
   CloudController: {
     Metadata: DbItemMetadata
     isSynced: boolean
+    serverVersionChanged: boolean
     syncFromCloud(): Promise<void>
   }
   SaveController?: {
@@ -92,6 +93,7 @@ export interface SyncableItem {
 let _pendingMetadataResolvers: Array<() => void> = []
 let _lastUserMetadataFetch = 0
 const USER_METADATA_TTL_MS = 30_000
+let _isFirstMetadataLoad = true
 
 const _debouncedSetUserMetadata = debounce(
   async (store: any) => {
@@ -463,8 +465,13 @@ export const UserStore = defineStore('cloud', {
       await this.setUserMetadata()
     },
     async setMetadataFromDynamo(): Promise<void> {
-      // on first load (LastQuery === 0), do full fetch then switch to delta sync
-      if (this.LastQuery === 0) {
+      if (this.LastQuery === 0 && this.Cognito.userId) {
+        const stored = localStorage.getItem(`cc_last_query_${this.Cognito.userId}`)
+        if (stored) this.LastQuery = parseInt(stored, 10) || 0
+      }
+      const doFullFetch = this.LastQuery === 0 || _isFirstMetadataLoad
+      _isFirstMetadataLoad = false
+      if (doFullFetch) {
         this.CloudArchives = []
         this.CloudItems = []
         this.CloudImages = []
@@ -870,8 +877,7 @@ export const UserStore = defineStore('cloud', {
         const toUpload: any[] = []
 
         for (const item of localItems) {
-          const cloudUpdated = item.CloudController.Metadata?.Updated ?? 0
-          if (cloudUpdated > this.LastQuery) {
+          if (item.CloudController.serverVersionChanged) {
             toMerge.push(item)
           } else {
             toUpload.push(item)

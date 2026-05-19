@@ -154,7 +154,8 @@
                         </template>
                       </v-tooltip>
                     </template>
-                    <cc-confirmation :content="`Lancer, please confirm deletion of Mech Configuration:
+                    <cc-confirmation full-width
+                      :content="`Lancer, please confirm deletion of Mech Configuration:
           <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"

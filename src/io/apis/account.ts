@@ -5,14 +5,6 @@ import { parseApiError, NotFoundError, BadRequestError } from './apiErrors'
 import { IDEMPOTENCY_HEADER, generateIdempotencyKey } from './idempotency'
 
 export { NotFoundError, BadRequestError } from './apiErrors'
-export class ConflictError extends Error {
-  public readonly currentItem?: any
-  constructor(message?: string, currentItem?: any) {
-    super(message || 'Version conflict — item modified since last sync')
-    this.name = 'ConflictError'
-    this.currentItem = currentItem
-  }
-}
 export { generateIdempotencyKey, generateDeterministicKey, IDEMPOTENCY_HEADER } from './idempotency'
 
 const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`
@@ -88,11 +80,6 @@ async function fetchWithRetry(
         throw new NotFoundError(body.message, body.requestId)
       }
 
-      if (response.status === 409) {
-        const body = await parseApiError(response)
-        throw new ConflictError(body.message, body.currentItem)
-      }
-
       // On 401, force-refresh the auth session and retry once
       if (response.status === 401) {
         if (!hasRefreshedToken) {
@@ -105,7 +92,6 @@ async function fetchWithRetry(
         const body = await parseApiError(response)
         throw new UnauthorizedError(body.message)
       }
-
 
       if (response.status >= 500 && attempt < retries - 1) {
         const waitMs = INITIAL_BACKOFF_MS * Math.pow(2, attempt)
@@ -125,8 +111,7 @@ async function fetchWithRetry(
         error instanceof UnauthorizedError ||
         error instanceof NotFoundError ||
         error instanceof BadRequestError ||
-        error instanceof RateLimitError ||
-        error instanceof ConflictError
+        error instanceof RateLimitError
       ) {
         throw error
       }
@@ -336,42 +321,41 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
   }
 }
 
-// In-memory ETag cache: uri → { etag, data }. Capped to avoid unbounded growth.
 const _etagCache = new Map<string, { etag: string; data: any }>()
 const ETAG_CACHE_MAX = 100
+
+export function invalidateETagCache(s3Url: string) {
+  _etagCache.delete(s3Url)
+}
 
 export async function downloadFromS3(s3Url: string) {
   if (!s3Url) throw new Error(`downloadFromS3: missing url`)
   const url = `${import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || ''}/${s3Url}`
 
-  try {
-    const fetchHeaders: Record<string, string> = {}
-    const cached = _etagCache.get(s3Url)
-    if (cached?.etag) {
-      fetchHeaders['If-None-Match'] = cached.etag
-    }
+  const fetchHeaders: Record<string, string> = {}
+  const cached = _etagCache.get(s3Url)
+  if (cached?.etag) {
+    fetchHeaders['If-None-Match'] = cached.etag
+  }
 
-    const response = await fetch(url, { headers: fetchHeaders, cache: 'no-cache' })
+  const response = await fetch(url, { headers: fetchHeaders, cache: 'no-cache' })
 
-    if (response.status === 304 && cached) {
-      return cached.data
-    }
+  if (response.status === 304 && cached) {
+    return cached.data
+  }
 
-    if (response.ok) {
-      const jsonData = await response.json()
-      const etag = response.headers.get('ETag')
-      if (etag) {
-        if (_etagCache.size >= ETAG_CACHE_MAX) {
-          _etagCache.delete(_etagCache.keys().next().value!)
-        }
-        _etagCache.set(s3Url, { etag, data: jsonData })
+  if (response.ok) {
+    const jsonData = await response.json()
+    const etag = response.headers.get('ETag')
+    if (etag) {
+      if (_etagCache.size >= ETAG_CACHE_MAX) {
+        _etagCache.delete(_etagCache.keys().next().value!)
       }
-      return jsonData
-    } else {
-      throw new Error(`Download failed: ${response.status} ${response.statusText}`)
+      _etagCache.set(s3Url, { etag, data: jsonData })
     }
-  } catch (error) {
-    throw error
+    return jsonData
+  } else {
+    throw new Error(`Download failed: ${response.status} ${response.statusText}`)
   }
 }
 
