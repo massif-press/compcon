@@ -1,77 +1,82 @@
 <template>
   <v-container>
     <div class="heading h2"> Character Sheets</div>
+    <v-row dense>
+      <v-col>
+        <div class="my-1 d-flex align-center">
+          <v-tooltip location="top"
+            open-delay="300">
+            <template #activator="{ props }">
+              <v-btn v-bind="props"
+                color="panel"
+                flat
+                tile
+                size="small"
+                @click="setSort('Updated')">
+                <v-icon icon="mdi-clock-outline"
+                  size="20"
+                  color="accent" />
+                <v-icon v-if="sort === 'Updated'"
+                  color="accent"
+                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+                  class="mb-n1" />
+              </v-btn>
+            </template>
+            <span>Sort by Recent</span>
+          </v-tooltip>
 
-    <div class="my-1 d-flex align-center">
-      <v-tooltip location="top"
-        open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            @click="setSort('Updated')">
-            <v-icon icon="mdi-clock-outline"
-              size="20"
-              color="accent" />
-            <v-icon v-if="sort === 'Updated'"
-              color="accent"
-              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              class="mb-n1" />
-          </v-btn>
-        </template>
-        <span>Sort by Recent</span>
-      </v-tooltip>
+          <v-tooltip location="top"
+            open-delay="300">
+            <template #activator="{ props }">
+              <v-btn v-bind="props"
+                color="panel"
+                flat
+                tile
+                size="small"
+                @click="setSort('Name')">
+                <v-icon icon="mdi-format-text-variant"
+                  size="24"
+                  color="accent" />
+                <v-icon v-if="sort === 'Name'"
+                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+                  class="mb-n1"
+                  color="accent" />
+              </v-btn>
+            </template>
+            <span>Sort by Name</span>
+          </v-tooltip>
 
-      <v-tooltip location="top"
-        open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            @click="setSort('Name')">
-            <v-icon icon="mdi-format-text-variant"
-              size="24"
-              color="accent" />
-            <v-icon v-if="sort === 'Name'"
-              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              class="mb-n1"
-              color="accent" />
-          </v-btn>
-        </template>
-        <span>Sort by Name</span>
-      </v-tooltip>
-
-      <v-tooltip location="top"
-        open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            @click="setSort('Created')">
-            <v-icon icon="mdi-calendar"
-              size="21"
-              color="accent" />
-            <v-icon v-if="sort === 'Created'"
-              color="accent"
-              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              class="mb-n1" />
-          </v-btn>
-        </template>
-        <span>Sort by created timestamp</span>
-      </v-tooltip>
-      <active-mode-organizer :items="activeSheets"
-        :columns="sheetOrganizerColumns"
-        noun="sheet"
-        title="Character Sheets"
-        @archive="organizeArchive"
-        @delete="organizeDelete" />
-    </div>
+          <v-tooltip location="top"
+            open-delay="300">
+            <template #activator="{ props }">
+              <v-btn v-bind="props"
+                color="panel"
+                flat
+                tile
+                size="small"
+                @click="setSort('Created')">
+                <v-icon icon="mdi-calendar"
+                  size="21"
+                  color="accent" />
+                <v-icon v-if="sort === 'Created'"
+                  color="accent"
+                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+                  class="mb-n1" />
+              </v-btn>
+            </template>
+            <span>Sort by created timestamp</span>
+          </v-tooltip>
+        </div>
+      </v-col>
+      <v-col cols="auto">
+        <active-mode-organizer :items="activeSheets"
+          :columns="sheetOrganizerColumns"
+          noun="sheet"
+          title="Character Sheets"
+          @archive="organizeArchive"
+          @delete="organizeDelete" />
+      </v-col>
+    </v-row>
 
     <sheet-item v-for="sheet in activeSheets"
       :key="sheet.ID"

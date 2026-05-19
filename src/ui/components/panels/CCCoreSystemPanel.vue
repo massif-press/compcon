@@ -131,13 +131,13 @@
           class="ml-auto">
           <cc-chip size="x-small"
             variant="elevated"
-            :bg-color="`action--${cs.Activation.toLowerCase()}`">
-            {{ cs.Activation.toUpperCase() }}
+            :bg-color="`action--${cs.Activation?.toLowerCase()}`">
+            {{ cs.Activation?.toUpperCase() || '' }}
           </cc-chip>
         </v-col>
       </v-row>
       <div class="light-panel pa-2 clipped mb-2 mx-3">
-        <div v-html-safe="cs.ActiveEffect"
+        <div v-html-safe="cs.ActiveEffect || ''"
           class="text-text mb-1 px-3" />
         <v-row v-if="cs.ActiveActions.length"
           dense
