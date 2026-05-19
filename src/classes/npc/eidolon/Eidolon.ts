@@ -151,7 +151,13 @@ class Eidolon extends Npc implements IInstanceable {
   }
 
   public RemoveLayer(index: number) {
-    if (index > -1) this._layers.splice(index, 1)
+    if (index > -1) {
+      const removed = this._layers[index]
+      this._layers.splice(index, 1)
+      if (removed?.ID) {
+        this.CloudController.stampTombstone(`layer_data.${removed.ID}`)
+      }
+    }
   }
 
   public MoveLayer(from: number, to: number) {

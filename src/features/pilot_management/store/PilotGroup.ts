@@ -99,6 +99,12 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   }
 
   public set Pilots(val: PilotIndexItem[]) {
+    const now = Date.now();
+    const currentIds = new Set(this._pilots.map(p => p.id));
+    const newIds = new Set(val.map(p => p.id));
+    for (const id of currentIds) {
+      if (!newIds.has(id)) this.CloudController.stampTombstone(`pilots.${id}`);
+    }
     this._pilots = val;
     this.Save();
   }

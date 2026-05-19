@@ -643,6 +643,7 @@ class Pilot
       logger.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`, this)
     } else {
       this._mechs.splice(index, 1)
+      this.CloudController.stampTombstone(`mechs.${mech.ID}`)
     }
     this.SaveController.save()
   }

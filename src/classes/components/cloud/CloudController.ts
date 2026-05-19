@@ -141,7 +141,7 @@ class CloudController {
   public static computeContentHash(data: any): string {
     let target = data
     if (target && typeof target === 'object') {
-      const { _ts, ...rest } = target
+      const { _ts, cloud, ...rest } = target
       target = rest
     }
     const str = CloudController.stringifySafe(target)
@@ -158,6 +158,10 @@ class CloudController {
 
   public SetItemSize(data: any) {
     if (this.Metadata) this.Metadata.Size = CloudController.stringifySafe(data).length
+  }
+
+  public stampTombstone(key: string): void {
+    this._fieldTs[key] = Date.now()
   }
 
   public get isSynced(): boolean {
@@ -261,6 +265,12 @@ class CloudController {
     return doUpload()
   }
 
+  private static readonly ITEM_LEVEL_SYNC_TYPES = new Set([
+    'encounterinstance',
+    'encounterarchive',
+    'pilotsheet',
+  ])
+
   public async syncFromCloud(): Promise<void> {
     if (UserStore().StorageFull) throw new Error('Storage full! Unable to download.')
 
@@ -272,6 +282,32 @@ class CloudController {
         `CloudController.syncFromCloud: no remote data for ${this.Parent.Name}, uploading local`
       )
       await this.UpdateCloud()
+      return
+    }
+
+    if (CloudController.ITEM_LEVEL_SYNC_TYPES.has(itemType)) {
+      const localModified = this.Parent.SaveController.LastModified
+      const remoteModified = remoteData.item_modified ?? 0
+
+      if (remoteModified > localModified) {
+        const newItem = CloudController.NewByType(itemType, remoteData)
+        toRaw(newItem).SaveController.LastModified = remoteModified
+        newItem.CloudController.Metadata = { ...this.Metadata.raw, item_modified: remoteModified }
+        newItem.CloudController._lastContentHash = CloudController.computeContentHash(remoteData)
+        newItem.CloudController._lastUploadedItemModified = remoteModified
+        await CloudController.AddByType(itemType, newItem)
+        toRaw(newItem).SaveController.saveSilent()
+      } else {
+        const localData = toRaw(this.Parent).Serialize(false)
+        const localHash = CloudController.computeContentHash(localData)
+        const remoteHash = CloudController.computeContentHash(remoteData)
+        if (localHash !== remoteHash) {
+          await this.UpdateCloud()
+        } else {
+          this._lastContentHash = localHash
+          this._lastUploadedItemModified = localModified
+        }
+      }
       return
     }
 
@@ -298,22 +334,31 @@ class CloudController {
       delete merged.save.remote_collection
     }
 
+    const remoteHash = CloudController.computeContentHash(remoteData)
+
     const newItem = CloudController.NewByType(itemType, merged)
     const originalMeta = { ...this.Metadata.raw }
-    // use a fresh timestamp for item_modified so the upload isn't rejected for being stale
-    // overriding this persistent 409s because backend checks that incoming updated === stored updated before accepting the write.
-    const mergeTime = Date.now()
-    newItem.SaveController.LastModified = mergeTime
-    newItem.CloudController.Metadata = { ...originalMeta, item_modified: mergeTime }
     newItem.CloudController._lastSyncedSnapshot = JSON.parse(CloudController.stringifySafe(merged))
     newItem.CloudController._fieldTs = merged._ts ?? {}
 
-    await CloudController.AddByType(itemType, newItem)
-    // persist so it survives a reload even if the upload fails
-    // some store update paths (e.g. AddEncounter) skip the SetItem call
-    toRaw(newItem).SaveController.saveSilent()
+    const mergedHash = CloudController.computeContentHash(toRaw(newItem).Serialize(false))
 
-    await newItem.CloudController.UpdateCloud()
+    if (mergedHash === remoteHash) {
+      const serverItemModified = originalMeta.item_modified ?? 0
+      toRaw(newItem).SaveController.LastModified = serverItemModified
+      newItem.CloudController.Metadata = originalMeta
+      newItem.CloudController._lastContentHash = remoteHash
+      newItem.CloudController._lastUploadedItemModified = serverItemModified
+      await CloudController.AddByType(itemType, newItem)
+      toRaw(newItem).SaveController.saveSilent()
+    } else {
+      const mergeTime = Date.now()
+      toRaw(newItem).SaveController.LastModified = mergeTime
+      newItem.CloudController.Metadata = { ...originalMeta, item_modified: mergeTime }
+      await CloudController.AddByType(itemType, newItem)
+      toRaw(newItem).SaveController.saveSilent()
+      await newItem.CloudController.UpdateCloud()
+    }
   }
 
   public static async BatchUpdateCloud(items: ICloudSyncable[]): Promise<any[]> {

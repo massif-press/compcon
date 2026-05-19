@@ -42,7 +42,11 @@ class ReservesController implements IFeatureContainer {
   }
 
   public RemoveReserve(index: number): void {
+    const removed = this._reserves[index]
     this._reserves.splice(index, 1)
+    if (removed?.ID) {
+      this.Parent.CloudController.stampTombstone(`reserves.${removed.ID}`)
+    }
     this.Parent.SaveController.save()
   }
 

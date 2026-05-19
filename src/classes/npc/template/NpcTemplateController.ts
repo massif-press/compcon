@@ -48,6 +48,7 @@ class NpcTemplateController {
     const idx = this._templates.findIndex(x => x.ID === temp.ID)
     if (idx > -1) {
       this._templates.splice(idx, 1)
+      this.Parent.CloudController.stampTombstone(`templates.${temp.ID}`)
       temp.BaseFeatures.forEach(f => this.Parent.NpcFeatureController.RemoveFeature(f))
       temp.OptionalFeatures.forEach(f => this.Parent.NpcFeatureController.RemoveFeature(f))
     }

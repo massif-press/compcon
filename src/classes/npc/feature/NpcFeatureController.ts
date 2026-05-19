@@ -97,6 +97,7 @@ class NpcFeatureController implements IFeatureContainer {
     const idx = this._selectedFeatures.findIndex(x => x.ID === feat.ID)
     if (idx > -1) {
       this._selectedFeatures.splice(idx, 1)
+      this.Parent.CloudController.stampTombstone(`features.${feat.ID}`)
       this.Parent.SaveController.save()
     }
   }
