@@ -1,19 +1,19 @@
 <template>
   <v-row justify="center">
     <v-col>
-      <cc-titled-panel title="New Organization" icon="mdi-account-group" color="reserve">
+      <cc-titled-panel title="New Organization"
+        icon="mdi-account-group"
+        color="reserve">
         <v-row>
           <v-col cols="6">
-            <v-text-field
-              v-model="orgName"
+            <v-text-field v-model="orgName"
               color="accent"
               label="Name"
               variant="outlined"
               hide-details />
           </v-col>
           <v-col cols="6">
-            <v-select
-              v-model="orgType"
+            <v-select v-model="orgType"
               label="Type"
               color="accent"
               :items="orgTypes"
@@ -21,8 +21,7 @@
               hide-details />
           </v-col>
         </v-row>
-        <v-textarea
-          v-model="orgDetails"
+        <v-textarea v-model="orgDetails"
           label="Purpose, goal, and organization details"
           color="accent"
           auto-grow
@@ -32,24 +31,24 @@
           class="mt-2" />
         <br />
         <span class="heading h4">Start with:</span>
-        <v-row justify="center" class="mx-4 py-1">
+        <v-row justify="center"
+          class="mx-4 py-1">
           <v-col class="text-center">
-            <v-btn
-              v-if="!orgStart"
+            <v-btn v-if="!orgStart"
               block
               variant="outlined"
               color="secondary"
               @click="orgStart = 'efficiency'">
               Efficiency
-              <cc-tooltip
-                simple
+              <cc-tooltip simple
                 inline
                 content="How directly effective your organization is at what it does (a military
                 organization with high efficiency would be good at combat, for example).
                 <br />Efficiency can be used to perform activities related to your organization’s
                 purpose (science, military, etc). You can use these advantages as
                 <strong>reserves.</strong>">
-                <v-icon size="small" end>mdi-help-circle-outline</v-icon>
+                <v-icon size="small"
+                  end>mdi-help-circle-outline</v-icon>
               </cc-tooltip>
             </v-btn>
             <div v-else>
@@ -58,22 +57,25 @@
               <span>Organization Efficiency</span>
             </div>
           </v-col>
-          <v-divider v-show="!$vuetify.display.mdAndDown" vertical class="mx-5" />
-          <v-col cols="12" md="" class="text-center">
-            <v-btn
-              v-if="!orgStart"
+          <v-divider v-show="!$vuetify.display.mdAndDown"
+            vertical
+            class="mx-5" />
+          <v-col cols="12"
+            md=""
+            class="text-center">
+            <v-btn v-if="!orgStart"
               block
               variant="outlined"
               color="secondary"
               @click="orgStart = 'influence'">
               Influence
-              <cc-tooltip
-                simple
+              <cc-tooltip simple
                 inline
                 content="Influence is your organization’s size, reach, wealth, and reputation.
                 Influence be used to acquire assets, create opportunities, or sway public
                 opinion.">
-                <v-icon size="small" end>mdi-help-circle-outline</v-icon>
+                <v-icon size="small"
+                  end>mdi-help-circle-outline</v-icon>
               </cc-tooltip>
             </v-btn>
             <div v-else>
@@ -84,8 +86,7 @@
           </v-col>
         </v-row>
         <br />
-        <v-btn
-          block
+        <v-btn block
           tile
           large
           class="mb-2 mt-n2"
@@ -101,10 +102,11 @@
 </template>
 
 <script lang="ts">
-import { Organization, OrgType } from '@/class';
+import { OrgType } from '@/classes/enums'
+import Organization from '@/classes/pilot/components/reserves/Organization';
 
 export default {
-  name: 'custom-reserve-panel',
+  name: 'CustomReservePanel',
   data: () => ({
     orgName: '',
     orgType: '' as any,

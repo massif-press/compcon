@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import { License } from '@/class';
+import License from '@/classes/pilot/components/license/License'
 
 export default {
   name: 'licenses',

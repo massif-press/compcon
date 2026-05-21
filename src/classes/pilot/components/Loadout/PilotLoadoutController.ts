@@ -1,8 +1,10 @@
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
-import { Rules, Pilot, PilotLoadout, PilotEquipment } from '@/class'
-
+import { PilotEquipment } from './equipment/PilotEquipment'
+import { PilotLoadout } from './PilotLoadout'
+import { Pilot } from '../../Pilot'
+import { Rules } from '../../../utility/Rules'
 import { IPilotLoadoutData } from './PilotLoadout'
-import { Bonus, BonusId } from '@/classes/components'
+import { Bonus, BonusId } from '@/classes/components/feature/bonus/Bonus'
 import logger from '@/user/logger'
 
 interface IPilotLoadoutSaveData {

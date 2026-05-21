@@ -1,8 +1,7 @@
 import * as _ from 'lodash-es'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
-import { IOrganizationData } from '../../../../interface'
 import { Pilot } from '../../Pilot'
-import Organization from './Organization'
+import Organization, { IOrganizationData } from './Organization'
 import { IReserveData, Reserve } from './Reserve'
 
 interface IReservesSaveData {

@@ -1,6 +1,8 @@
-import { IRangeData } from '@/interface'
 import { INpcFeatureData, NpcFeature, NpcFeatureType } from '../NpcFeature'
-import { ContentPack, Damage, DamageType, ItemType, Range } from '@/class'
+import { ContentPack } from '../../../ContentPack'
+import { Damage } from '../../../Damage'
+import { DamageType, ItemType } from '../../../enums'
+import { IRangeData, Range } from '../../../Range'
 import {
   ActiveEffect,
   IActiveEffectData,

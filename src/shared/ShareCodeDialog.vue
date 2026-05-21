@@ -75,7 +75,7 @@
 <script setup lang="ts">
 import { ref, computed, useTemplateRef } from 'vue';
 import { useDisplay } from 'vuetify';
-import { CloudController } from '@/classes/components';
+import { CloudController } from '@/classes/components/cloud/CloudController';
 import { DownloadViaCode } from '@/io/apis/account';
 import { UserStore } from '@/stores';
 

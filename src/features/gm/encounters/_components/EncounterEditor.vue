@@ -287,7 +287,7 @@ import { Encounter } from '@/classes/encounter/Encounter';
 import exportAsJson from '@/util/jsonExport';
 
 import CombatantEditor from './combatants/CombatantEditor.vue';
-import { CloudController } from '@/classes/components';
+import { CloudController } from '@/classes/components/cloud/CloudController';
 
 export default {
   name: 'GmEncounterEditor',

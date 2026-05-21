@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { Loadout } from '@/class';
+import Loadout from '@/classes/Loadout'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {

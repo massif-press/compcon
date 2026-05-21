@@ -1,8 +1,9 @@
-import { Pilot, Mech, PilotWeapon, MechWeapon } from '../class'
+import { MechWeapon } from './mech/components/equipment/MechWeapon'
+import { Mech } from './mech/Mech'
+import { PilotWeapon } from './pilot/components/Loadout/equipment/PilotWeapon'
+import { Pilot } from './pilot/Pilot'
 import { Action } from './Action'
-import { NpcFeature } from './npc/feature/NpcFeature'
 import { NpcWeapon } from './npc/feature/NpcItem/NpcWeapon'
-import { Npc } from './npc/Npc'
 import { Unit } from './npc/unit/Unit'
 
 function linebreak(i: number, length: number): string {

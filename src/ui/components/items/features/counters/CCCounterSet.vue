@@ -25,7 +25,7 @@
 <script lang="ts">
 import CounterComponent from './_Counter.vue';
 import NewCounter from './_NewCounter.vue';
-import { Counter } from '@/class';
+import { Counter } from '@/classes/components/combat/counters/Counter'
 
 export default {
   name: 'cc-counter-set',

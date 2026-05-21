@@ -1,4 +1,4 @@
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
 import { NpcTemplate } from './NpcTemplate'
 import { NpcClass } from '../class/NpcClass'

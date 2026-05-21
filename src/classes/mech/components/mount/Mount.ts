@@ -1,4 +1,21 @@
-import { MechWeapon, WeaponSlot, MountType, FittingSize, WeaponSize, MechLoadout } from '@/class'
+import { ICoreBonusData } from '@/classes/pilot/components'
+import { MountType, FittingSize, WeaponSize } from '../../../enums'
+import { IMechWeaponSaveData, MechWeapon } from '../equipment/MechWeapon'
+import { MechLoadout } from '../loadout/MechLoadout'
+import WeaponSlot from './WeaponSlot'
+
+export interface IMountData {
+  mount_type: string
+  lock: boolean
+  slots: IWeaponSlotData[]
+  extra: IWeaponSlotData[]
+  bonus_effects: string[] | ICoreBonusData[]
+}
+
+export interface IWeaponSlotData {
+  size: string
+  weapon: IMechWeaponSaveData | null
+}
 
 abstract class Mount {
   private _mount_type: MountType

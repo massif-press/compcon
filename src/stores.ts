@@ -9,6 +9,15 @@ import { CampaignStore } from './features/gm/store/campaign_store'
 export { NavStore } from '@/stores/nav'
 export type { IndexItem } from '@/stores/nav'
 
+export { AuthStore } from './user/store/AuthStore'
+export { UserMetadataStore } from './user/store/UserMetadataStore'
+export { CloudDataStore } from './user/store/CloudDataStore'
+export { NotificationStore } from './user/store/NotificationStore'
+export { RemoteItemStore } from './user/store/RemoteItemStore'
+export { CollectionStore } from './user/store/CollectionStore'
+export { BackupStore } from './user/store/BackupStore'
+export { SyncStore } from './user/store/SyncStore'
+
 export {
   UserStore,
   CompendiumStore,

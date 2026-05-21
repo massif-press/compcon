@@ -131,7 +131,8 @@
 </template>
 
 <script lang="ts">
-import { Organization, OrgType } from '@/class';
+import Organization from '@/classes/pilot/components/reserves/Organization'
+import { OrgType } from '@/classes/enums'
 import { useMobile } from '@/mixins/useMobile';
 
 

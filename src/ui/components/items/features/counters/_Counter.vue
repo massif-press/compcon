@@ -87,8 +87,7 @@
 </template>
 
 <script lang="ts">
-import { Counter } from '@/class';
-import { ICounterData } from '@/interface';
+import { Counter, ICounterData } from '@/classes/components/combat/counters/Counter'
 
 export default {
   name: 'Counter',

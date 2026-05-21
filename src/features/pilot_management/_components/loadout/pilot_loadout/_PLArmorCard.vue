@@ -124,7 +124,10 @@
 import PlCardBase from './_PLCardBase.vue'
 
 import { CompendiumStore } from '@/stores'
-import { PilotArmor, CompendiumItem, ItemType, PilotEquipment } from '@/class'
+import { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
+import { CompendiumItem } from '@/classes/CompendiumItem'
+import { ItemType } from '@/classes/enums'
+import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
 import { flavorID } from '@/io/Generators'
 
 export default {

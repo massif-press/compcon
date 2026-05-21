@@ -12,7 +12,7 @@
 <script lang="ts">
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
-import { Talent } from '@/class';
+import { Talent } from '@/classes/pilot/components/talent/Talent'
 
 export default {
   name: 'Talents',

@@ -5,7 +5,7 @@ import { Pilot } from '../../Pilot'
 import { CoreBonus, ICoreBonusData } from './CoreBonus'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 import logger from '@/user/logger'
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 
 interface ICoreBonusSaveData {
   core_bonuses: string[] | ICoreBonusData[]

@@ -121,7 +121,12 @@ import * as _ from 'lodash-es'
 import { ref, computed, reactive, onMounted, toRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
-import { Rules, MechWeapon, Mech, Range, Damage, Tag } from '@/class'
+import { Rules } from '@/classes/utility/Rules'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
+import { Mech } from '@/classes/mech/Mech'
+import { Range } from '@/classes/Range'
+import { Damage } from '@/classes/Damage'
+import Tag from '@/classes/Tag'
 import { useLcpFilter } from '../../_composables/useLcpFilter'
 
 const props = defineProps<{

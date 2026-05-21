@@ -88,8 +88,9 @@
 </template>
 
 <script lang="ts">
-import { Action } from '@/interface';
+import { Action } from '@/classes/Action';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
 export default {
   name: 'CcCombatActionChip',
@@ -99,7 +100,7 @@ export default {
   props: {
     action: { type: Action, required: true },
     tier: { type: Number, required: false, default: 1 },
-    encounter: { type: Object, required: true },
+    encounter: { type: EncounterInstance, required: true },
     owner: { type: Object, required: true },
     disabled: { type: Boolean, required: false, default: false },
     customDisabledText: { type: String, required: false, default: '' },

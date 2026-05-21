@@ -141,7 +141,7 @@
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import { Stats } from '@/classes/components/combat/stats/Stats';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
-import { Bonus } from '@/classes/components';
+import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { useMobile } from '@/mixins/useMobile';
 
 

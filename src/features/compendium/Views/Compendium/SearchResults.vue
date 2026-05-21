@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import { flatten, values, pick } from 'lodash-es';
-import { CompendiumItem } from '@/class';
+import { CompendiumItem } from '@/classes/CompendiumItem'
 import { accentInclude } from '@/classes/utility/accent_fold';
 import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/mixins/useMobile';

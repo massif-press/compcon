@@ -163,7 +163,7 @@ import QuickReferencePanel from '../gm/InfoPanels/QuickReferencePanel.vue';
 import ReferenceTagPanel from '../gm/InfoPanels/ReferenceTagPanel.vue';
 import RollableTableIndex from '../gm/_components/RollableTableIndex.vue';
 import GmDiceRoller from '../gm/_components/GmDiceRoller.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import GmToolPalette from '../gm/_components/GmToolPalette.vue';
 import PcPanel from '../gm/EncounterPanels/PcPanel.vue';
 import NotesPanel from './_components/PcNotesPanel.vue';

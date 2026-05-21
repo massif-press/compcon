@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { Tag } from '@/class';
+import Tag from '@/classes/Tag'
 import { useMobile } from '@/mixins/useMobile';
 
 

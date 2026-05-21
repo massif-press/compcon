@@ -14,6 +14,13 @@ const severityMap = {
   error: 4,
 }
 
+export interface IErrorReport {
+  time: Date
+  message: string
+  component?: string
+  stack: string
+}
+
 class Logger {
   private static instance: Logger
   private _level = LEVELS.WARN

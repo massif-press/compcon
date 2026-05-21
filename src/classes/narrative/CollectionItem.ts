@@ -1,4 +1,4 @@
-import { NarrativeStore } from '@/stores'
+import { NarrativeStore } from '@/features/gm/store/narrative_store'
 import { ImageTag } from '@/io/ImageManagement'
 import { v4 as uuid } from 'uuid'
 import {
@@ -16,8 +16,7 @@ import { NarrativeController, NarrativeElementData } from './NarrativeController
 import { INarrativeElement } from './INarrativeElement'
 import { FolderController, IFolderData } from '../components/folder/FolderController'
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable'
-import { ItemType } from '@/class'
-
+import { ItemType } from '../enums'
 interface ISectionData {
   header: string
   body: string

@@ -1,40 +1,42 @@
-import { CompendiumStore } from '@/stores';
-import { Rules, Skill, CustomSkill } from '../../../../class';
-import { IRankedData, ISkillData } from '../../../../interface';
+import { CompendiumStore } from '@/features/compendium/store'
+import CustomSkill from './CustomSkill'
+import { ISkillData, Skill } from './Skill'
+import { Rules } from '../../../utility/Rules'
+import { IRankedData } from '../license/License'
 
 class PilotSkill {
-  public readonly Skill: Skill | CustomSkill;
-  public readonly IsCustom: boolean;
-  private _rank: number;
+  public readonly Skill: Skill | CustomSkill
+  public readonly IsCustom: boolean
+  private _rank: number
 
   public constructor(skill: Skill | CustomSkill, rank?: number) {
-    this.Skill = skill;
-    this._rank = rank ? rank : 1;
-    this.IsCustom = skill instanceof CustomSkill;
+    this.Skill = skill
+    this._rank = rank ? rank : 1
+    this.IsCustom = skill instanceof CustomSkill
   }
 
   public get Title(): string {
-    return this.Skill.Name;
+    return this.Skill.Name
   }
 
   public get Rank(): number {
-    return this._rank;
+    return this._rank
   }
 
   public get Bonus(): number {
-    return this._rank * Rules.TriggerBonusPerRank;
+    return this._rank * Rules.TriggerBonusPerRank
   }
 
   public Increment(): boolean {
-    if (this._rank >= Rules.MaxTriggerRank) return false;
-    this._rank += 1;
-    return true;
+    if (this._rank >= Rules.MaxTriggerRank) return false
+    this._rank += 1
+    return true
   }
 
   public Decrement(): boolean {
-    if (this._rank <= 1) return false;
-    this._rank -= 1;
-    return false;
+    if (this._rank <= 1) return false
+    this._rank -= 1
+    return false
   }
 
   public static Serialize(item: PilotSkill): IRankedData {
@@ -45,12 +47,12 @@ class PilotSkill {
         custom: true,
         custom_desc: item.Skill.Description,
         custom_detail: item.Skill.Detail,
-      };
+      }
     return {
       id: item.Skill.ID,
       data: (item.Skill as Skill).ItemData as ISkillData,
       rank: item.Rank,
-    };
+    }
   }
 
   public static Deserialize(itemData: IRankedData): PilotSkill {
@@ -58,15 +60,15 @@ class PilotSkill {
       return new PilotSkill(
         new CustomSkill(itemData.id, itemData.custom_desc || '', itemData.custom_detail || ''),
         itemData.rank
-      );
+      )
     if (CompendiumStore().has('Skills', itemData.id))
-      return new PilotSkill(Skill.Deserialize(itemData.id), itemData.rank);
+      return new PilotSkill(Skill.Deserialize(itemData.id), itemData.rank)
     else
       return new PilotSkill(
         Skill.Deserialize(itemData.id, itemData.data as ISkillData),
         itemData.rank
-      );
+      )
   }
 }
 
-export default PilotSkill;
+export default PilotSkill

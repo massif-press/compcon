@@ -144,9 +144,9 @@
 
 <script lang="ts">
 import { saveFile } from '@/io/Data'
-import { Pilot } from '@/class'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { UserStore } from '@/stores'
-import { CloudController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import logger from '@/user/logger'

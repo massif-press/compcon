@@ -82,7 +82,10 @@
 import PlCardBase from './_PLCardBase.vue'
 
 import { CompendiumStore } from '@/stores'
-import { PilotGear, CompendiumItem, ItemType, PilotEquipment } from '@/class'
+import { PilotGear } from '@/classes/pilot/components/Loadout/equipment/PilotGear'
+import { CompendiumItem } from '@/classes/CompendiumItem'
+import { ItemType } from '@/classes/enums'
+import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
 import { flavorID } from '@/io/Generators'
 
 export default {

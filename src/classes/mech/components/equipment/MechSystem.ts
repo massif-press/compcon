@@ -1,6 +1,7 @@
-import { CompendiumStore } from '@/stores'
-import { MechEquipment, SystemType, ItemType, ContentPack } from '@/class'
-import { IEquipmentData, IMechEquipmentData } from '@/interface'
+import { CompendiumStore } from '@/features/compendium/store'
+import { ContentPack } from '../../../ContentPack'
+import { SystemType, ItemType } from '../../../enums'
+import { IEquipmentData, IMechEquipmentData, MechEquipment } from './MechEquipment'
 
 interface IMechSystemData extends IMechEquipmentData {
   type: SystemType

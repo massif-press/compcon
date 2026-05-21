@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { PilotWeapon } from '@/class';
+import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon'
 import { CompendiumStore } from '@/stores';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 

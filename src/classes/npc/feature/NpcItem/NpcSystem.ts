@@ -1,6 +1,6 @@
 import { ItemType } from '@/classes/enums';
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature';
-import { ContentPack } from '@/class';
+import { ContentPack } from '../../../ContentPack'
 
 export interface INpcSystemData extends INpcFeatureData {
   type: NpcFeatureType.System;

@@ -1,8 +1,12 @@
-import { ActivationType, CompendiumItem, ContentPack } from '@/class'
-import { Action, ICompendiumItemData, ITagData } from '@/interface'
-import { NpcClass } from '../class/NpcClass'
+import { CompendiumItem, type ICompendiumItemData } from '../../CompendiumItem'
+import { ActivationType } from '../../enums'
+import type { ContentPack } from '../../ContentPack'
+import { Action } from '../../Action'
 import { NpcTemplate } from '../template/NpcTemplate'
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
+import { ITagData } from '@/classes/Tag'
+// eslint-disable-next-line no-restricted-imports
+import { NpcClass } from '../class/NpcClass'
 
 export enum NpcFeatureType {
   Trait = 'Trait',

@@ -141,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import { DiceRoller } from '@/class';
+import { DiceRoller } from '@/classes/dice/DiceRoller'
 
 export default {
   name: 'CheckRollInterface',

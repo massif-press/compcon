@@ -86,7 +86,8 @@ import AddCustomSkill from './components/_AddCustomSkill.vue'
 import Selector from './components/_SelectorBase.vue'
 
 import { CompendiumStore } from '@/stores'
-import { Rules, Pilot } from '@/class'
+import { Rules } from '@/classes/utility/Rules'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { rules } from '@massif/lancer-data'
 
 import * as _ from 'lodash-es'

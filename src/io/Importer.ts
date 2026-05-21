@@ -1,14 +1,12 @@
-import {
-  CampaignStore,
-  CompendiumStore,
-  EncounterStore,
-  NarrativeStore,
-  NpcStore,
-  PilotStore,
-} from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
+import { PilotStore } from '@/features/pilot_management/store'
+import { NpcStore } from '@/features/gm/store/npc_store'
+import { NarrativeStore } from '@/features/gm/store/narrative_store'
+import { EncounterStore } from '@/features/gm/store/encounter_store'
+import { CampaignStore } from '@/features/gm/store/campaign_store'
 import { ImportData } from './Data'
 import { BrewInfo } from '@/classes/components/brew/BrewController'
-import { Pilot } from '@/class'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { Encounter } from '@/classes/encounter/Encounter'
 import { Campaign } from '@/classes/campaign/Campaign'
 import { Character } from '@/classes/narrative/Character'

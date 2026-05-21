@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { ItemType } from '@/class'
+import { ItemType } from '@/classes/enums'
 import { useMobile } from '@/mixins/useMobile'
 import EquipmentDetails from './_EquipmentDetails.vue'
 

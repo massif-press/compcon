@@ -32,16 +32,30 @@
         </v-col>
         <v-col cols="12"
           md="6">
-          <cc-select v-model="settings.itemTypes"
+          <div class="text-caption text-medium-emphasis mb-1">Sync Items</div>
+          <v-btn-toggle :model-value="itemTypePreset"
+            density="compact"
+            variant="outlined"
+            class="mb-2"
+            @update:model-value="applyItemTypePreset">
+            <v-btn value="all"
+              size="small">All</v-btn>
+            <v-btn value="pilots"
+              size="small">Pilots Only</v-btn>
+            <v-btn value="custom"
+              size="small">Custom</v-btn>
+          </v-btn-toggle>
+          <cc-select v-if="itemTypePreset === 'custom'"
+            v-model="settings.itemTypes"
             multiple
             clearable
             chip-variant="tonal"
-            label="Items"
+            label="Item Types"
             all-text="All Item Types"
             none-text="None"
             select-all
             :max="$vuetify.display.lgAndUp ? 3 : 2"
-            tooltip="Controls which data is synced with the cloud. By default, all data is synced."
+            tooltip="Controls which data is synced with the cloud."
             :items="syncItems" />
         </v-col>
       </v-row>
@@ -164,35 +178,23 @@ export default {
         {
           title: 'Manual Only',
           value: 'manual',
-          subtitle: 'Data is only synced when you click the sync or quick sync button.',
+          subtitle: 'Data is only synced when you click Sync.',
         },
         {
-          title: 'On App Start',
-          value: 'start',
-          subtitle: 'Data is synced when you open the app.',
-        },
-        {
-          title: 'On App Close',
-          value: 'close',
-          subtitle:
-            'Data is synced when you close the app. May not be supported on all browsers.',
-        },
-        {
-          title: 'On App Start and Close',
+          title: 'On Open & Close',
           value: 'startAndClose',
-          subtitle:
-            'Data is synced when you open and close the app. Syncing on close may not be supported on all browsers.',
+          subtitle: 'Syncs when you open and close the app. Close sync may not be supported on all browsers.',
         },
         {
           title: 'Every 30 Minutes',
           value: 'minutes_30',
-          subtitle: 'Syncs automatically every 30 minutes. Requires Patreon supporter status.',
+          subtitle: 'Syncs automatically every 30 minutes. Requires Patreon supporter.',
           disabled: this.patreonTier < 1,
         },
         {
           title: 'Every 60 Minutes',
           value: 'minutes_60',
-          subtitle: 'Syncs automatically every 60 minutes. Requires Patreon supporter status.',
+          subtitle: 'Syncs automatically every 60 minutes. Requires Patreon supporter.',
           disabled: this.patreonTier < 1,
         },
       ]
@@ -202,10 +204,16 @@ export default {
         { title: 'Pilot Data', value: 'pilot' },
         { title: 'Pilot Groups', value: 'pilotgroup' },
         { title: 'NPC Data', value: 'npc' },
-        // { title: 'Campaign Data', value: 'campaign' },
         { title: 'Encounter Data', value: 'encounter' },
         { title: 'Narrative Data', value: 'collectionitem' },
       ]
+    },
+    itemTypePreset() {
+      const all = this.syncItems.map((i: any) => i.value)
+      const current = this.settings.itemTypes ?? []
+      if (!current.length || all.every((v: string) => current.includes(v))) return 'all'
+      if (current.length === 1 && current[0] === 'pilot') return 'pilots'
+      return 'custom'
     },
   },
   watch: {
@@ -217,6 +225,11 @@ export default {
     },
   },
   methods: {
+    applyItemTypePreset(preset: string) {
+      const all = this.syncItems.map((i: any) => i.value)
+      if (preset === 'all') this.settings.itemTypes = all
+      else if (preset === 'pilots') this.settings.itemTypes = ['pilot']
+    },
     async updateSyncSettings() {
       this.loadingSync = true
       await UserStore().setUserMetadata()

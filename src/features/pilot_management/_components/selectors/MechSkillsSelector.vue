@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {

@@ -9,8 +9,9 @@ import {
   SaveController,
 } from '../components'
 import { CombatantData, Encounter, IEncounterData } from './Encounter'
-import { PilotData } from '@/interface'
-import { Deployable, ItemType, Pilot } from '@/class'
+import { Deployable } from '../components/feature/deployable/Deployable'
+import { ItemType } from '../enums'
+import { Pilot, PilotData } from '../pilot/Pilot'
 import { Placeholder } from './Placeholder'
 import { DeployableInstance } from '../components/feature/deployable/DeployableInstance'
 

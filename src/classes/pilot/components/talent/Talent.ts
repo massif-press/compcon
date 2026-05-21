@@ -1,6 +1,9 @@
+import { Action } from '@/classes/Action'
 import { CompendiumStore } from '../../../../stores'
-import { CompendiumItem, ContentPack, Deployable, ItemType } from '../../../../class'
-import { Action, ICompendiumItemData } from '../../../../interface'
+import { CompendiumItem, ICompendiumItemData } from '../../../CompendiumItem'
+import { Deployable } from '../../../components/feature/deployable/Deployable'
+import { ContentPack } from '../../../ContentPack'
+import { ItemType } from '../../../enums'
 import DOMPurify from 'dompurify'
 
 interface ITalentRankData extends ICompendiumItemData {

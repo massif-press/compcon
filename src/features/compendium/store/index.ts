@@ -4,30 +4,27 @@ import { defineStore } from 'pinia'
 import * as _ from 'lodash-es'
 import semver from 'semver'
 import _lancerData from '@massif/lancer-data'
-import {
-  License,
-  CoreBonus,
-  Skill,
-  Frame,
-  MechWeapon,
-  WeaponMod,
-  MechSystem,
-  Tag,
-  Talent,
-  Reserve,
-  Manufacturer,
-  ContentPack,
-  PilotEquipment,
-  Background,
-  PlayerAction,
-  Bond,
-  Environment,
-  Sitrep,
-  LicensedItem,
-  DowntimeAction,
-  CompendiumItem,
-} from '@/class'
-import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface'
+import License from '@/classes/pilot/components/license/License'
+import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
+import { Skill } from '@/classes/pilot/components/skill/Skill'
+import { Frame } from '@/classes/mech/components/frame/Frame'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
+import { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
+import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
+import Tag, { ITagCompendiumData } from '@/classes/Tag'
+import { Talent } from '@/classes/pilot/components/talent/Talent'
+import { Reserve } from '@/classes/pilot/components/reserves/Reserve'
+import { Manufacturer } from '@/classes/Manufacturer'
+import { ContentPack, IContentPack } from '@/classes/ContentPack'
+import { PilotEquipmentFactory } from '@/classes/pilot/components/Loadout/equipment/PilotEquipmentFactory'
+import { Background } from '@/classes/Background'
+import * as PlayerAction from '@/classes/Action'
+import { Bond } from '@/classes/pilot/components/bond/Bond'
+import { Environment } from '@/classes/Environment'
+import { Sitrep } from '@/classes/encounter/Sitrep'
+import { LicensedItem } from '@/classes/pilot/components/license/LicensedItem'
+import { DowntimeAction } from '@/classes/DowntimeAction'
+import { CompendiumItem } from '@/classes/CompendiumItem'
 import { Status } from '@/classes/Status'
 import { GetAll, GetItem, GetKeys, RemoveItem, SetItem } from '@/io/Storage'
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
@@ -40,8 +37,12 @@ import { ContentCollection } from '@/classes/components/cloud/ContentCollection'
 import { BondPower } from '@/classes/pilot/components/bond/Bond'
 import logger from '@/user/logger'
 import { StatController } from '@/classes/components/combat/stats/StatController'
-import { registerBonus, clearBonusExtensions } from '@/classes/components/feature/bonus/bonus_dictionary'
+import {
+  registerBonus,
+  clearBonusExtensions,
+} from '@/classes/components/feature/bonus/bonus_dictionary'
 import { RollableTable } from '@/classes/narrative/elements/RollableTable'
+import { IPilotEquipmentData } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
 
 const lancerData = markRaw(_lancerData)
 const _lancerDataCache = new Map<string, any[]>()
@@ -175,7 +176,7 @@ export const CompendiumStore = defineStore('compendium', {
     Environments: state => collect<Environment>(state, 'environments', Environment),
     Sitreps: state => collect<Sitrep>(state, 'sitreps', Sitrep),
     PilotGear: state =>
-      collect<IPilotEquipmentData>(state, 'pilot_gear').map(x => PilotEquipment.Factory(x)),
+      collect<IPilotEquipmentData>(state, 'pilot_gear').map(x => PilotEquipmentFactory(x)),
     DowntimeActions: state => collect<DowntimeAction>(state, 'downtime_actions', DowntimeAction),
     Tables: state => collect<RollableTable>(state, 'tables', RollableTable),
 
@@ -296,7 +297,9 @@ export const CompendiumStore = defineStore('compendium', {
 
     getItemCollection(): (itemType: string) => CompendiumItem[] {
       return (itemType: string) => {
-        return ((this as any)[itemType] as CompendiumItem[]).filter(x => x && !x.IsHidden && !(x as any).Specialty)
+        return ((this as any)[itemType] as CompendiumItem[]).filter(
+          x => x && !x.IsHidden && !(x as any).Specialty
+        )
       }
     },
 
@@ -306,7 +309,7 @@ export const CompendiumStore = defineStore('compendium', {
       return _.unionWith(frame_packs, lcp_packs, _.isEqual)
     },
 
-    itemsByLcp: (state): (key: string) => Record<string, CompendiumItem[]> => {
+    itemsByLcp: (state): ((key: string) => Record<string, CompendiumItem[]>) => {
       return (key: string) => {
         const col = (state as any)[key] as CompendiumItem[] | undefined
         if (!col) throw new Error(`Invalid LCP key: ${key}`)
@@ -410,7 +413,11 @@ export const CompendiumStore = defineStore('compendium', {
         const pack = markRaw(new ContentPack(packData))
         this.ContentPacks = [...this.ContentPacks, pack]
       } catch (err) {
-        logger.error(`Error installing content pack ${packData?.manifest?.name || packData?.id}: ${err}`, this, err)
+        logger.error(
+          `Error installing content pack ${packData?.manifest?.name || packData?.id}: ${err}`,
+          this,
+          err
+        )
         return
       }
       await this.saveUserData()
@@ -431,7 +438,11 @@ export const CompendiumStore = defineStore('compendium', {
           this.ContentPacks.push(pack)
           NavStore().addToIndex(pack.GetIndexItems())
         } catch (err) {
-          logger.error(`Error installing content pack ${packData?.manifest?.name || packData?.id}: ${err}`, this, err)
+          logger.error(
+            `Error installing content pack ${packData?.manifest?.name || packData?.id}: ${err}`,
+            this,
+            err
+          )
         }
       }
 
@@ -455,7 +466,7 @@ export const CompendiumStore = defineStore('compendium', {
     async loadExtraContent(): Promise<void> {
       const keys = await GetKeys('content')
       for (const key of keys) {
-        let c: IContentPack | null = null
+        let c: IContentPack | null
         try {
           c = await GetItem('content', key as string)
         } catch (err) {

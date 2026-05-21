@@ -1,5 +1,5 @@
 import { Status } from '@/classes/Status';
-import { CompendiumStore } from '@/stores';
+import { CompendiumStore } from '@/features/compendium/store';
 import logger from '@/user/logger';
 import { EffectSave } from './EffectSave';
 

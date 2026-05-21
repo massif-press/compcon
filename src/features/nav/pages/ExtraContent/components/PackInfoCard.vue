@@ -110,8 +110,7 @@
 </template>
 
 <script lang="ts">
-import { ContentPack } from '@/class';
-import { IContentPack, IContentPackManifest, ContentPackDependency } from '@/interface';
+import { ContentPack, ContentPackDependency, IContentPack, IContentPackManifest } from '@/classes/ContentPack'
 import * as _ from 'lodash-es';
 import { PropType } from 'vue';
 import { CompendiumStore } from '@/stores';

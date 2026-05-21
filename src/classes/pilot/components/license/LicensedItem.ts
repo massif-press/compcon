@@ -1,13 +1,10 @@
 import { CompendiumStore } from '../../../../stores'
-import {
-  CompendiumItem,
-  ContentPack,
-  Frame,
-  ItemType,
-  Manufacturer,
-  Pilot,
-} from '../../../../class'
-import { ICompendiumItemData } from '../../../../interface'
+import { CompendiumItem, ICompendiumItemData } from '../../../CompendiumItem'
+import { ContentPack } from '../../../ContentPack'
+import { ItemType } from '../../../enums'
+import { Manufacturer } from '../../../Manufacturer'
+import { Frame } from '../../../mech/components/frame/Frame'
+import { Pilot } from '../../Pilot'
 
 interface ILicenseRequirement {
   source: string

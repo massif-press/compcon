@@ -1,7 +1,7 @@
 import * as _ from 'lodash-es'
 import { coerce, gte } from 'semver'
 import { IBrewable } from './IBrewable'
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 import logger from '@/user/logger'
 
 interface IBrewData {

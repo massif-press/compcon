@@ -36,7 +36,7 @@
 
 <script lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { CompendiumItem } from '@/class';
+import { CompendiumItem } from '@/classes/CompendiumItem'
 
 export default {
   name: 'BrowserListItem',

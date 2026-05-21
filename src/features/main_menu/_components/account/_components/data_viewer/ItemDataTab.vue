@@ -108,114 +108,52 @@
         </i>
       </template>
       <template #item.syncStatus="{ item }">
-        <span v-if="item._isBrokenRemote">
-          <v-tooltip max-width="300px"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                color="error"
-                icon="mdi-link-variant-off" />
-            </template>
-            <div class="text-center">
-              Remote Link Broken
-              <br />
-              <i class="text-caption">
-                The owner's cloud data could not be found. Retry or convert to local.
-              </i>
-            </div>
-          </v-tooltip>
-        </span>
-        <span v-else-if="item.SaveController?.IsDeleted">
-          <v-tooltip max-width="300px"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon start
-                color="warning"
-                v-bind="props"
-                icon="mdi-delete-outline" />
-            </template>
-            <div class="text-center">This item has been deleted locally and will not sync.</div>
-          </v-tooltip>
-        </span>
-        <span v-else-if="item.CloudController.Metadata.Deleted">
-          <v-tooltip max-width="300px"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon start
-                color="error"
-                v-bind="props"
-                icon="mdi-delete-clock" />
-            </template>
-            <div class="text-center">This item has been marked as deleted.</div>
-          </v-tooltip>
-        </span>
-        <span v-else-if="item.IsCloudOnly">
-          <v-tooltip max-width="300px"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                color="warning"
-                icon="mdi-cloud-outline" />
-            </template>
-            <div class="text-center">
-              Cloud Only
-              <br />
-              <i class="text-caption">
-                This item is stored in your cloud account but has not been downloaded to this
-                device.
-              </i>
-            </div>
-          </v-tooltip>
-        </span>
-        <span v-else-if="!item.CloudController.Metadata?.ItemModified">
-          <v-tooltip max-width="300px"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                color="warning"
-                icon="mdi-desktop-classic" />
-            </template>
-            <div class="text-center">
-              Local Only
-              <br />
-              <i class="text-caption">
-                This item has not been uploaded to the cloud and is only stored on this device.
-              </i>
-            </div>
-          </v-tooltip>
-        </span>
-        <span v-else-if="isItemSynced(item)">
-          <v-tooltip max-width="300px"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                color="success"
-                icon="mdi-cloud-check-variant-outline" />
-            </template>
-            <div class="text-center">
-              Synced
-              <br />
-              <i class="text-caption">This item is up to date with the cloud.</i>
-            </div>
-          </v-tooltip>
-        </span>
-        <span v-else>
-          <v-tooltip max-width="300px"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                color="warning"
-                icon="mdi-cloud-sync" />
-            </template>
-            <div class="text-center">
-              Needs Sync
-              <br />
-              <i class="text-caption">
-                This item has unsynchronized changes. It will merge automatically on next sync.
-              </i>
-            </div>
-          </v-tooltip>
-        </span>
+        <v-tooltip v-if="item._isBrokenRemote"
+          max-width="300px"
+          location="top">
+          <template #activator="{ props }">
+            <v-icon v-bind="props"
+              color="error"
+              icon="mdi-link-variant-off" />
+          </template>
+          <div class="text-center">
+            Remote link broken — owner's data not found. Retry or convert to local.
+          </div>
+        </v-tooltip>
+        <v-tooltip v-else-if="item.SaveController?.IsDeleted || item.CloudController.Metadata.Deleted"
+          max-width="300px"
+          location="top">
+          <template #activator="{ props }">
+            <v-icon v-bind="props"
+              color="warning"
+              icon="mdi-delete-clock" />
+          </template>
+          <div class="text-center">
+            {{ item.SaveController?.IsDeleted ? 'Deleted locally — will not sync.' : 'Marked as deleted in cloud.' }}
+          </div>
+        </v-tooltip>
+        <v-tooltip v-else-if="isItemSynced(item)"
+          max-width="300px"
+          location="top">
+          <template #activator="{ props }">
+            <v-icon v-bind="props"
+              color="success"
+              icon="mdi-cloud-check-variant-outline" />
+          </template>
+          <div class="text-center">Up to date</div>
+        </v-tooltip>
+        <v-tooltip v-else
+          max-width="300px"
+          location="top">
+          <template #activator="{ props }">
+            <v-icon v-bind="props"
+              color="warning"
+              icon="mdi-cloud-sync" />
+          </template>
+          <div class="text-center">
+            {{ item.IsCloudOnly ? 'Cloud only — not yet downloaded.' : !item.CloudController.Metadata?.ItemModified ? 'Local only — not yet synced.' : 'Pending sync.' }}
+          </div>
+        </v-tooltip>
       </template>
       <template #item.code="{ item }">
         <span v-if="item.ItemType === 'Campaign'">
@@ -613,9 +551,7 @@
         <v-radio value="cloud"
           label="Delete cloud data only (keep local data)" />
         <v-radio value="both"
-          label="Delete cloud and local data" />
-        <v-radio value="permanent"
-          label="Delete cloud and permanently remove local data" />
+          label="Delete cloud and mark local as deleted" />
       </v-radio-group>
       <v-divider />
       <v-card-actions class="pa-0">
@@ -636,13 +572,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, markRaw, toRaw } from 'vue'
+import { ref, computed, toRaw } from 'vue'
 import { useDisplay } from 'vuetify'
 import { notify as vueNotify } from '@kyvg/vue3-notification'
-import { UserStore, PilotStore, NpcStore, EncounterStore, CampaignStore, NarrativeStore } from '@/stores'
+import { UserStore } from '@/stores'
 import { CloudController } from '@/classes/components/cloud/CloudController'
+import { getItemRegistration } from '@/classes/components/cloud/ItemRegistry'
 import { expandFilterTypes, normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
-import { cloudDelete, downloadFromS3 } from '@/io/apis/account'
+import { cloudDelete } from '@/io/apis/account'
 import logger from '@/user/logger'
 import { Unit } from '@/classes/npc/unit/Unit'
 
@@ -665,7 +602,7 @@ const mobile = computed(() => display.mdAndDown.value)
 
 const bulkDeleteMode = ref(false)
 const bulkDeleteDialog = ref(false)
-const bulkDeleteScope = ref<'cloud' | 'both' | 'permanent'>('cloud')
+const bulkDeleteScope = ref<'cloud' | 'both'>('cloud')
 const bulkDeleteLoading = ref(false)
 const selectedForDelete = ref<any[]>([])
 const deleteLoading = ref(false)
@@ -782,8 +719,8 @@ function sortWithChildren(items: any[]): any[] {
   for (const pilot of pilots) {
     result.push(pilot)
     for (const sheet of sheets) {
-      const combatantName = (sheet as any).Combatant?.Actor?.name || sheet.Name
-      if (combatantName === pilot.Name || combatantName === pilot.Callsign) {
+      const pilotId = (sheet as any).Combatant?.id || (sheet as any).Combatant?.actor?.id
+      if (pilotId && pilotId === pilot.ID) {
         result.push({ ...sheet, _isChild: true })
       }
     }
@@ -791,8 +728,8 @@ function sortWithChildren(items: any[]): any[] {
 
   const pairedSheets = new Set(
     sheets.filter(sheet => {
-      const combatantName = (sheet as any).Combatant?.Actor?.name || sheet.Name
-      return pilots.some((p: any) => combatantName === p.Name || combatantName === p.Callsign)
+      const pilotId = (sheet as any).Combatant?.id || (sheet as any).Combatant?.actor?.id
+      return pilotId && pilots.some((p: any) => pilotId === p.ID)
     }).map(s => s.ID)
   )
   for (const sheet of sheets) {
@@ -876,23 +813,13 @@ async function executeBulkDelete() {
   try {
     for (const item of selectedForDelete.value) {
       try {
-        if (bulkDeleteScope.value === 'cloud' || bulkDeleteScope.value === 'both') {
-          if (item.CloudController?.Metadata?.ItemModified) {
-            try { await CloudController.MarkCloudDeleted(item.CloudController.Metadata) } catch (e) {
-              logger.warn(`Bulk delete: failed to mark ${item.Name} as deleted in cloud`, e)
-            }
-          }
+        if (item.CloudController?.Metadata?.ItemModified) {
+          await CloudController.MarkCloudDeleted(item.CloudController.Metadata).catch(e =>
+            logger.warn(`Bulk delete: failed to mark ${item.Name} as deleted in cloud`, e)
+          )
         }
         if (bulkDeleteScope.value === 'both') {
-          const t = normalizeItemType(item.ItemType)
-          if (t === 'encounterinstance' || t === 'encounterarchive') {
-            await deleteLocalItemPermanent(item, true)
-          } else {
-            item.SaveController?.Delete()
-          }
-        }
-        if (bulkDeleteScope.value === 'permanent') {
-          await deleteLocalItemPermanent(item, true)
+          item.SaveController?.Delete()
         }
       } catch (e) {
         logger.error(`Bulk delete: failed to delete ${item.Name}`, e)
@@ -1066,7 +993,7 @@ async function deleteItemPermanent(item: any) {
     await cloudDelete(user_id, sortkey, uri)
     if (item.SaveController) {
       item.CloudController.Metadata = CloudController.GenerateMetadata(item.CloudController)
-      delete item.CloudController.Metadata.ItemModified
+      item.CloudController.Metadata.ItemModified = 0
     }
     const store = UserStore()
     const cidx = store.CloudItems.findIndex((x: any) => x.sortkey === sortkey)
@@ -1111,44 +1038,9 @@ function restoreLocalItem(item: any) {
 async function deleteLocalItemPermanent(item: any, silent = false) {
   deleteLoading.value = true
   try {
-    const type = normalizeItemType(item.ItemType)
-    switch (type) {
-      case 'pilot':
-        await PilotStore().DeletePilotPermanent(item)
-        break
-      case 'pilotgroup':
-        await PilotStore().DeleteGroupPermanent(item)
-        break
-      case 'unit':
-      case 'doodad':
-      case 'eidolon':
-      case 'npc':
-        await NpcStore().DeleteNpcPermanent(item)
-        break
-      case 'character':
-      case 'faction':
-      case 'location':
-      case 'collectionitem':
-        await NarrativeStore().DeleteItemPermanent(item)
-        break
-      case 'encounter':
-      case 'encounterdata':
-        await EncounterStore().DeleteEncounterPermanent(item)
-        break
-      case 'encounterinstance':
-      case 'activeencounter':
-        await EncounterStore().RemoveEncounterInstance(item)
-        break
-      case 'encounterarchive':
-        await EncounterStore().RemoveEncounterArchive(item)
-        break
-      case 'pilotsheet':
-        await PilotStore().RemovePilotSheet(item)
-        break
-      case 'campaign':
-        await CampaignStore().DeleteCampaign(item)
-        break
-    }
+    const reg = getItemRegistration(item.ItemType)
+    if (!reg) throw new Error(`Unknown item type: ${item.ItemType}`)
+    await reg.deleteLocal(item)
     if (!silent) {
       vueNotify({
         title: 'Item Deleted',
@@ -1169,7 +1061,6 @@ async function deleteLocalItemPermanent(item: any, silent = false) {
     }
     throw err
   }
-  deleteLoading.value = false
 }
 </script>
 

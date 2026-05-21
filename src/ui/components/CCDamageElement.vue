@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { Damage } from '@/class';
+import { Damage } from '@/classes/Damage'
 
 export default {
   name: 'CcDamageElement',

@@ -91,7 +91,7 @@
 
 <script lang="ts">
 import StatblockDialog from '../../../components/StatblockDialog.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export default {
   name: 'MechNav',

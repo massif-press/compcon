@@ -1,42 +1,31 @@
 import { v4 as uuid } from 'uuid'
 
+import { Sitrep } from './encounter/Sitrep'
+import { ItemType } from './enums'
+import { Environment } from './Environment'
+import { IManufacturerData, Manufacturer } from './Manufacturer'
+import { IMechSystemData, MechSystem } from './mech/components/equipment/MechSystem'
+import { IMechWeaponData, MechWeapon } from './mech/components/equipment/MechWeapon'
+import { IWeaponModData, WeaponMod } from './mech/components/equipment/WeaponMod'
+import { Frame, IFrameData } from './mech/components/frame/Frame'
+import { CoreBonus } from './pilot/components/corebonus/CoreBonus'
+import { IPilotArmorData, PilotArmor } from './pilot/components/Loadout/equipment/PilotArmor'
 import {
-  Manufacturer,
-  CoreBonus,
-  Frame,
-  MechWeapon,
-  MechSystem,
-  WeaponMod,
-  PilotEquipment,
-  PilotWeapon,
-  PilotArmor,
-  PilotGear,
-  Talent,
-  Tag,
-  Reserve,
-  Environment,
-  ItemType,
-  Sitrep,
-} from '@/class'
-import * as PlayerAction from '@/classes/Action'
-import {
-  IManufacturerData,
-  ICoreBonusData,
-  IFrameData,
-  IMechWeaponData,
-  IMechSystemData,
-  IWeaponModData,
   IPilotEquipmentData,
-  IPilotWeaponData,
-  IPilotArmorData,
-  ITalentData,
-  ITagCompendiumData,
-} from '@/interface'
+  PilotEquipment,
+} from './pilot/components/Loadout/equipment/PilotEquipment'
+import { PilotGear } from './pilot/components/Loadout/equipment/PilotGear'
+import { IPilotWeaponData, PilotWeapon } from './pilot/components/Loadout/equipment/PilotWeapon'
+import { Reserve } from './pilot/components/reserves/Reserve'
+import { Talent } from './pilot/components/talent/Talent'
+import Tag, { ITagCompendiumData } from './Tag'
+import * as PlayerAction from '@/classes/Action'
 import { Action } from './Action'
 import { Background, IBackgroundData } from './Background'
 import { Status, IStatusData } from './Status'
 import { Bond, BondPower, IBondData } from './pilot/components/bond/Bond'
-import { IReserveData, ISkillData, Skill } from './pilot/components'
+import { Skill } from './pilot/components/skill/Skill'
+import type { ICoreBonusData, IReserveData, ISkillData, ITalentData } from './pilot/components'
 import { IEnvironmentData } from './Environment'
 import { ISitrepData } from './encounter/Sitrep'
 import { INpcClassData, NpcClass } from './npc/class/NpcClass'
@@ -45,7 +34,7 @@ import { INpcTemplateData, NpcTemplate } from './npc/template/NpcTemplate'
 import { NpcFeatureFactory } from './npc/feature/NpcFeatureFactory'
 import { EidolonLayer, IEidolonLayerData } from './npc/eidolon/EidolonLayer'
 import { DowntimeAction, IDowntimeActionData } from './DowntimeAction'
-import { IndexItem } from '@/stores'
+import type { IndexItem } from '@/stores/nav'
 
 type ContentPackDependency = {
   name: string
@@ -462,4 +451,10 @@ class ContentPack {
 }
 
 export { ContentPack }
-export type { IContentPack, IContentPackManifest, IContentPackData, IExtraNpcFeatureEntry, ContentPackDependency }
+export type {
+  IContentPack,
+  IContentPackManifest,
+  IContentPackData,
+  IExtraNpcFeatureEntry,
+  ContentPackDependency,
+}

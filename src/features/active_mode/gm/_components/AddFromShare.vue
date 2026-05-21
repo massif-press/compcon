@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { CloudController } from '@/classes/components';
+import { CloudController } from '@/classes/components/cloud/CloudController';
 import { downloadFromS3 } from '@/io/apis/account';
 
 export default {

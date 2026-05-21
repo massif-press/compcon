@@ -1,14 +1,12 @@
 import { downloadFromS3, updateItem, uploadToS3 } from '@/io/apis/account'
 import { dbItemMeta } from './CloudController'
-import {
-  CampaignStore,
-  EncounterStore,
-  NarrativeStore,
-  NavStore,
-  NpcStore,
-  PilotStore,
-  UserStore,
-} from '@/stores'
+import { UserStore } from '@/user/store'
+import { PilotStore } from '@/features/pilot_management/store'
+import { NpcStore } from '@/features/gm/store/npc_store'
+import { NarrativeStore } from '@/features/gm/store/narrative_store'
+import { EncounterStore } from '@/features/gm/store/encounter_store'
+import { CampaignStore } from '@/features/gm/store/campaign_store'
+import { NavStore } from '@/stores/nav'
 import { exportAll, importAll } from '@/io/BulkData'
 
 const generateCloudArchive = async (

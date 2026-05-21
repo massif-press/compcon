@@ -147,7 +147,7 @@
 </template>
 
 <script lang="ts">
-import { License } from '@/class';
+import License from '@/classes/pilot/components/license/License'
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 
 export default {

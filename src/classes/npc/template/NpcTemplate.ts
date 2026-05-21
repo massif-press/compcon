@@ -1,7 +1,8 @@
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 import { NpcFeature } from '../feature/NpcFeature'
 import * as _ from 'lodash-es'
-import { ContentPack, ItemType } from '@/class'
+import { ContentPack } from '../../ContentPack'
+import { ItemType } from '../../enums'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 
 interface INpcTemplateData {

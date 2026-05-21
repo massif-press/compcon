@@ -1,9 +1,15 @@
-import { CompendiumItem, ContentPack, ItemType } from '@/class'
-import { CompendiumStore } from '@/stores'
-import { ITagData } from '@/interface'
+import { CompendiumItem } from './CompendiumItem'
+import { ContentPack } from './ContentPack'
+import { ItemType } from './enums'
+import { CompendiumStore } from '@/features/compendium/store'
 import logger from '@/user/logger'
 import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
 import { ByTier, replaceVal, resolveTier } from '@/util/tierFormat'
+
+export interface ITagData {
+  id: string
+  val?: string | number
+}
 
 export interface ITagCompendiumData {
   id: string

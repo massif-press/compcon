@@ -1,18 +1,16 @@
 import * as _ from 'lodash-es'
 import { v4 as uuid } from 'uuid'
-import {
-  Rules,
-  Mech,
-  CompendiumItem,
-  PilotLoadout,
-  MechEquipment,
-  PilotEquipment,
-  Frame,
-  MechSystem,
-  MechWeapon,
-  WeaponMod,
-} from '../../class'
-import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface'
+import { CompendiumItem } from '../CompendiumItem'
+import { MechEquipment } from '../mech/components/equipment/MechEquipment'
+import { MechSystem } from '../mech/components/equipment/MechSystem'
+import { MechWeapon } from '../mech/components/equipment/MechWeapon'
+import { WeaponMod } from '../mech/components/equipment/WeaponMod'
+import { Frame } from '../mech/components/frame/Frame'
+import { Mech } from '../mech/Mech'
+import { PilotEquipment } from './components/Loadout/equipment/PilotEquipment'
+import { PilotEquipmentFactory } from './components/Loadout/equipment/PilotEquipmentFactory'
+import { IPilotLoadoutData, PilotLoadout } from './components/Loadout/PilotLoadout'
+import { Rules } from '../utility/Rules'
 import { Bonus, BonusId } from '../components/feature/bonus/Bonus'
 import {
   CoreBonusController,
@@ -58,6 +56,8 @@ import { StatController } from '../components/combat/stats/StatController'
 import { ICombatant } from '../components/combat/ICombatant'
 import { CombatController, CombatData } from '../components/combat/CombatController'
 import { LcpConfig } from '@/user'
+import { IRankedData } from './components/license/License'
+import { IOrganizationData } from './components/reserves/Organization'
 
 interface IUnlockData {
   PilotGear: any[]
@@ -680,8 +680,8 @@ class Pilot
     )
   }
 
-  public GetLinkedItem<Npc>(): Npc {
-    return PilotStore().getPilotByID(this.OriginId)
+  public GetLinkedItem<Pilot>(): Pilot {
+    return PilotStore().getPilotByID(this.OriginId) as Pilot
   }
 
   // -- I/O ---------------------------------------------------------------------------------------
@@ -710,7 +710,7 @@ class Pilot
         if (CompendiumStore().has(key, item.id))
           items.push(CompendiumStore().referenceByID(key, item.id))
         else {
-          if (key === 'PilotGear') items.push(PilotEquipment.Factory(item))
+          if (key === 'PilotGear') items.push(PilotEquipmentFactory(item))
           if (key === 'Frames') items.push(new Frame(item))
           if (key === 'MechWeapons') items.push(new MechWeapon(item))
           if (key === 'WeaponMods') items.push(new WeaponMod(item))

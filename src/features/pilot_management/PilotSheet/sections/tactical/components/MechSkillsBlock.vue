@@ -59,7 +59,7 @@ import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import MechSkillsSelector from '@/features/pilot_management/_components/selectors/MechSkillsSelector.vue';
 import { useDisplay } from 'vuetify';
-import type { Pilot } from '@/class';
+import type { Pilot } from '@/classes/pilot/Pilot'
 
 defineProps<{ pilot: Pilot }>();
 

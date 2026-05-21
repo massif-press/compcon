@@ -58,7 +58,9 @@ import {
 import { Scatter } from 'vue-chartjs';
 import * as _ from 'lodash-es';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { CompendiumItem, Manufacturer, MechWeapon } from '@/class';
+import { CompendiumItem } from '@/classes/CompendiumItem'
+import { Manufacturer } from '@/classes/Manufacturer'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartDataLabels);

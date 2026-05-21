@@ -57,9 +57,11 @@
 import CustomReservePanel from './components/_CustomReservePanel.vue'
 import DowntimeProjectPanel from './components/_DowntimeProjectPanel.vue'
 import OrganizationPanel from './components/_OrganizationPanel.vue'
-import { Reserve, Organization, Pilot, CompendiumItem } from '@/class'
+import { Reserve } from '@/classes/pilot/components/reserves/Reserve'
+import { CompendiumItem } from '@/classes/CompendiumItem'
 import * as _ from 'lodash-es'
 import { CompendiumStore } from '@/stores'
+import { Organization } from '@/classes/pilot/components'
 
 export default {
   name: 'CCReserveSelector',

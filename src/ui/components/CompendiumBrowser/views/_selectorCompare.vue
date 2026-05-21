@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumItem } from '@/class';
+import { CompendiumItem } from '@/classes/CompendiumItem'
 import { useMobile } from '@/mixins/useMobile';
 
 

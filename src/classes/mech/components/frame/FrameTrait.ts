@@ -1,5 +1,8 @@
-import { CompendiumStore } from '@/stores';
-import { MechWeapon, Duration, MechSystem, CompendiumItem } from '@/class';
+import { CompendiumStore } from '@/features/compendium/store';
+import { CompendiumItem } from '../../../CompendiumItem'
+import { Duration } from '../../../enums'
+import { MechSystem } from '../equipment/MechSystem'
+import { MechWeapon } from '../equipment/MechWeapon'
 import { IActionData, Action } from '../../../Action';
 import { IBonusData, Bonus } from '../../../components/feature/bonus/Bonus';
 import { ISynergyData, Synergy } from '../../../components/feature/synergy/Synergy';

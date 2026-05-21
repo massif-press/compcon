@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { MechType, MountType } from '@/class';
+import { MechType, MountType } from '@/classes/enums'
 
 export default {
   name: 'frame-filter',

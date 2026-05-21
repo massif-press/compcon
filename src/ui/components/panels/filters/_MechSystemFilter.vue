@@ -100,7 +100,7 @@
 </template>
 
 <script lang="ts">
-import { SystemType } from '@/class';
+import { SystemType } from '@/classes/enums'
 
 export default {
   name: 'mech-system-filter',

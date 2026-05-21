@@ -120,7 +120,7 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class'
+import { Pilot } from '@/classes/pilot/Pilot'
 import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue'
 import { PilotStore } from '@/stores'
 import PilotListItemDetails from './_pilotListItemDetails.vue'

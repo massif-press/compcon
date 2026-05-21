@@ -1,4 +1,4 @@
-import { CompendiumStore } from '@/stores';
+import { CompendiumStore } from '@/features/compendium/store';
 import { v4 as uuid } from 'uuid';
 
 const ordArr = [

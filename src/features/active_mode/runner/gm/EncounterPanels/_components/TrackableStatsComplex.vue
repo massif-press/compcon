@@ -125,7 +125,7 @@
 </template>
 
 <script lang="ts">
-import { Rules } from '@/class';
+import { Rules } from '@/classes/utility/Rules'
 import StatMiniPanel from './StatMiniPanel.vue';
 
 

@@ -1,6 +1,7 @@
-import { CompendiumStore } from '@/stores'
-import { CompendiumItem, ContentPack, PilotArmor, PilotGear, PilotWeapon } from '@/class'
-import { ICompendiumItemData, IEquipmentData, IPilotWeaponData, ITagData } from '@/interface'
+import { IEquipmentData } from '@/classes/mech/components/equipment/MechEquipment'
+import { ITagData } from '@/classes/Tag'
+import { CompendiumItem, ICompendiumItemData } from '../../../../CompendiumItem'
+import { ContentPack } from '../../../../ContentPack'
 
 interface IPilotEquipmentData extends ICompendiumItemData {
   type?: string
@@ -62,14 +63,6 @@ abstract class PilotEquipment extends CompendiumItem {
     this._missing_uses = 0
   }
 
-  public static Factory<T>(data: IPilotEquipmentData, pack?: ContentPack): T {
-    if ((data as any).InstanceID) return data as T
-    if (data.type?.toLowerCase() === 'armor') return new PilotArmor(data, pack) as T
-    if (data.type?.toLowerCase() === 'weapon')
-      return new PilotWeapon(data as IPilotWeaponData, pack) as T
-    return new PilotGear(data) as T
-  }
-
   public getTotalUses(bonus?: number): number {
     const b = bonus ? bonus : 0
     return this.max_use_override !== null ? this.max_use_override : this._max_uses + b
@@ -96,30 +89,6 @@ abstract class PilotEquipment extends CompendiumItem {
       destroyed: item.Destroyed,
       isUsed: item.Used,
     } as IEquipmentData
-  }
-
-  public static Deserialize(itemData: IEquipmentData): PilotEquipment | null {
-    if (!itemData) return null
-    let item
-    if (CompendiumStore().has('PilotGear', itemData.id))
-      item = CompendiumStore().instantiate('PilotGear', itemData.id)
-    else {
-      item = PilotEquipment.Factory(itemData.data) as PilotEquipment
-      item.FromInstance = true
-    }
-    item._note = itemData.note
-    item._flavor_name = itemData.flavorName
-    item._flavor_description =
-      itemData.flavorDescription === item._description ? '' : itemData.flavorDescription
-    item._custom_damage_type = itemData.customDamageType || null
-
-    // combat props
-    if (itemData.maxUses) item.max_use_override = itemData.maxUses
-    if (itemData.currentUses) item.Uses = itemData.currentUses
-    if (itemData.destroyed) item.Destroyed = itemData.destroyed
-    if (itemData.isUsed) item.Used = itemData.isUsed
-
-    return item
   }
 }
 

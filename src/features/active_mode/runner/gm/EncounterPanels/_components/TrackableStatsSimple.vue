@@ -156,7 +156,7 @@
 </template>
 
 <script lang="ts">
-import { Rules } from '@/class';
+import { Rules } from '@/classes/utility/Rules'
 import SimpleMiniPanel from './SimpleMiniPanel.vue';
 
 

@@ -143,7 +143,8 @@
 </template>
 
 <script lang="ts">
-import { DamageType, DiceRoller } from '@/class'
+import { DamageType } from '@/classes/enums'
+import { DiceRoller } from '@/classes/dice/DiceRoller'
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
 
 export default {

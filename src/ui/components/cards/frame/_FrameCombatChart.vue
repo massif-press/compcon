@@ -39,7 +39,7 @@ import {
   Legend,
   Tooltip,
 } from 'chart.js';
-import { Frame } from '@/class';
+import { Frame } from '@/classes/mech/components/frame/Frame'
 import FrameStatblock from './_FrameStatblock.vue';
 import { useMobile } from '@/mixins/useMobile';
 

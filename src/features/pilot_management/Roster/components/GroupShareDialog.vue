@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import { CloudController } from '@/classes/components';
+import { CloudController } from '@/classes/components/cloud/CloudController';
 import { DownloadViaCode } from '@/io/apis/account';
 import { UserStore } from '@/stores';
 

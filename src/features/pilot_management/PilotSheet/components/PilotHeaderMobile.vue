@@ -128,7 +128,7 @@
 import PilotRegistrationCard from './PilotRegistrationCard.vue';
 import LevelEditDialog from './LevelEditDialog.vue';
 
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export default {
   name: 'pilot-header',

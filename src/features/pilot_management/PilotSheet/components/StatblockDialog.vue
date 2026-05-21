@@ -61,7 +61,9 @@
 </template>
 
 <script lang="ts">
-import { Mech, Pilot, Statblock } from '@/class';
+import { Mech } from '@/classes/mech/Mech'
+import { Pilot } from '@/classes/pilot/Pilot'
+import Statblock from '@/classes/Statblock';
 import { useMobile } from '@/mixins/useMobile';
 
 

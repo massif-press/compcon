@@ -100,8 +100,8 @@ import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/A
 import EffectApplicator from './EffectApplicator.vue';
 import ApplyButton from './ApplyButton.vue'
 import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
-import { Action } from '@/interface';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { Action } from '@/classes/Action';
 
 
 export default {

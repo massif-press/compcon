@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import { CombatantData } from '@/classes/encounter/Encounter'
-import { SaveController } from '../..'
+import type { SaveController } from '../../save/SaveController'
 import { CombatController } from '../../combat/CombatController'
 import { Deployable, IDeployableData } from './Deployable'
 import { ICombatant } from '../../combat/ICombatant'

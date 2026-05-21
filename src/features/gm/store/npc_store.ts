@@ -8,7 +8,7 @@ import * as _ from 'lodash-es'
 import { Npc } from '@/classes/npc/Npc'
 import { NavStore } from '@/stores/nav'
 import type { IndexItem } from '@/stores/nav'
-import { CloudController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 import logger from '@/user/logger'
 
 export const NpcStore = defineStore('npc', {

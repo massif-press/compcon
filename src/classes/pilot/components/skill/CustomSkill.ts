@@ -1,4 +1,4 @@
-import { ItemType } from '../../../../class';
+import { ItemType } from '../../../enums'
 
 class CustomSkill {
   public readonly ItemType: ItemType;

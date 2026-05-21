@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Mech } from '@/class';
+import { Mech } from '@/classes/mech/Mech'
 
 export default {
   name: 'status-alerts',

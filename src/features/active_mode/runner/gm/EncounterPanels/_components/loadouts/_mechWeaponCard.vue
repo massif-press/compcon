@@ -209,7 +209,10 @@
 </template>
 
 <script lang="ts">
-import { Damage, ItemType, Mech, MechWeapon } from '@/class'
+import { Damage } from '@/classes/Damage'
+import { ItemType } from '@/classes/enums'
+import { Mech } from '@/classes/mech/Mech'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import EngWeaponSettings from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'

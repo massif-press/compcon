@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { Rules } from '@/class';
+import { Rules } from '@/classes/utility/Rules'
 
 export default {
   name: 'level-edit-dialog',

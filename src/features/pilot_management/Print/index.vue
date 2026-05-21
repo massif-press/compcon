@@ -106,7 +106,8 @@ import DowntimeRef from './extras/DowntimeRef.vue';
 import OptionsDialog from './OptionsDialog.vue';
 
 import { PilotStore, CompendiumStore } from '@/stores';
-import { Pilot, Mech } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
+import { Mech } from '@/classes/mech/Mech'
 import PageBreak from './components/PageBreak.vue';
 
 export default {

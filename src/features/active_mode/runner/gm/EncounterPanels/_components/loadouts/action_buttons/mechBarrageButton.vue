@@ -231,7 +231,7 @@
 <script lang="ts">
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import MechMountBonusCard from '../_mechMountBonusCard.vue';
-import { MechWeapon } from '@/class';
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';

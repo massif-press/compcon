@@ -1,5 +1,7 @@
 import { v4 as uuid } from 'uuid'
-import { ActivationType, Damage, ItemType, Range } from '@/class'
+import { Damage } from './Damage'
+import { ActivationType, ItemType } from './enums'
+import { Range } from './Range'
 import { IDeployableData } from './components/feature/deployable/Deployable'
 import { isNumber } from 'lodash-es'
 import { IDamageData } from './Damage'

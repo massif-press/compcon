@@ -90,8 +90,8 @@
 </template>
 
 <script lang="ts">
+import { Action } from '@/classes/Action';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { Action } from '@/interface';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
 export default {

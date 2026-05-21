@@ -4,7 +4,20 @@ import { Manufacturer } from '../../../Manufacturer'
 import { Frame } from '../../../mech/components/frame/Frame'
 import { Pilot } from '../../Pilot'
 import { LicensedItem } from './LicensedItem'
-import { ContentPack } from '@/class'
+import { ContentPack } from '../../../ContentPack'
+import { ISkillData } from '../skill/Skill'
+import { ITalentData } from '../talent/Talent'
+import { ILicenseSaveData } from './LicenseController'
+
+export interface IRankedData {
+  id: string
+  rank: number
+  custom?: boolean
+  custom_desc?: string
+  custom_detail?: string
+  data?: ISkillData | ITalentData | ILicenseSaveData
+  stub?: any // LicenseStub or similar
+}
 
 class License {
   public readonly ID: string
@@ -91,10 +104,10 @@ class License {
   public get Unlocks(): LicensedItem[][] {
     if (this._unlocksCache) return this._unlocksCache
     const items: LicensedItem[] = [
-      ...CompendiumStore().getItemCollection('MechWeapons') as LicensedItem[],
-      ...CompendiumStore().getItemCollection('WeaponMods') as LicensedItem[],
-      ...CompendiumStore().getItemCollection('MechSystems') as LicensedItem[],
-      ...CompendiumStore().getItemCollection('Frames') as LicensedItem[],
+      ...(CompendiumStore().getItemCollection('MechWeapons') as LicensedItem[]),
+      ...(CompendiumStore().getItemCollection('WeaponMods') as LicensedItem[]),
+      ...(CompendiumStore().getItemCollection('MechSystems') as LicensedItem[]),
+      ...(CompendiumStore().getItemCollection('Frames') as LicensedItem[]),
     ].filter(x => this.licenseMatch(x))
 
     const lls = [...items].map(i => i.LicenseLevel)

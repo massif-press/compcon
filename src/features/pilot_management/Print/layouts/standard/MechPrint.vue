@@ -617,7 +617,8 @@
 </template>
 
 <script lang="ts">
-import { Synergy, Mech } from '@/class';
+import { Synergy } from '@/classes/components/feature/synergy/Synergy'
+import { Mech } from '@/classes/mech/Mech'
 import PrintAction from '../../components/PrintAction.vue';
 import PrintDeployable from '../../components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';

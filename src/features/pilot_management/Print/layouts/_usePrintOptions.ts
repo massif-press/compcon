@@ -1,10 +1,16 @@
+export interface PrintOptions {
+  mech_id: string
+  loadout_index: number
+  combo: boolean
+}
+
 export const usePrintOptions = {
   methods: {
     hasPilotOption(this: any, title: string): boolean {
-      return this.options.pilotInclude.some((x: any) => x.title === title);
+      return this.options.pilotInclude.some((x: any) => x.title === title)
     },
     hasMechOption(this: any, title: string): boolean {
-      return this.options.mechInclude.some((x: any) => x.title === title);
+      return this.options.mechInclude.some((x: any) => x.title === title)
     },
   },
-};
+}

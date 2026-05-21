@@ -389,7 +389,7 @@ export default {
       return UserStore().StorageWarning
     },
     StorageMax(): boolean {
-      return UserStore().StorageFull
+      return UserStore().LocalStorageFull
     },
     appVersion(): string {
       return APP_VERSION || 'dev'

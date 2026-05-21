@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash-es';
-import { Statblock } from '@/class';
+import Statblock from '@/classes/Statblock'
 import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {

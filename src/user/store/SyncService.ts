@@ -1,7 +1,15 @@
 import logger from '@/user/logger'
-import { UserStore } from '@/stores'
+import { UserMetadataStore } from './UserMetadataStore'
 
 let _syncTimerId: ReturnType<typeof setInterval> | null = null
+
+function _getPatreonTierValue(): number {
+  const title =
+    UserMetadataStore().UserMetadata?.PatreonData?.profile?.tierData?.title?.toLowerCase() ?? ''
+  const tiers = ['diasporan', 'cosmopolitan', 'lancer', 'nhp', 'monist']
+  const idx = tiers.indexOf(title)
+  return idx === -1 ? 0 : idx + 1
+}
 
 export function setSyncTimer(frequencyStr: string, callback: () => Promise<void>): void {
   if (_syncTimerId !== null) {
@@ -19,10 +27,11 @@ export function setSyncTimer(frequencyStr: string, callback: () => Promise<void>
   const ms = minutes * 60 * 1000
 
   _syncTimerId = setInterval(async () => {
-    if (UserStore().User.PatreonTierValue < 1) {
+    if (_getPatreonTierValue() < 1) {
       logger.info('SyncService: Patreon tier insufficient, clearing timer and resetting frequency')
       clearSyncTimer()
-      if (UserStore().SyncSettings) UserStore().SyncSettings.frequency = 'manual'
+      const settings = UserMetadataStore().SyncSettings
+      if (settings) settings.frequency = 'manual'
       return
     }
     logger.info('SyncService: AutoSync timer triggered')

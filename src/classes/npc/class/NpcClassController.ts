@@ -1,5 +1,5 @@
 import { INpcClassData, NpcClass } from './NpcClass'
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
 import { Stats } from '@/classes/components/combat/stats/Stats'
 import { StatController } from '@/classes/components/combat/stats/StatController'

@@ -13,7 +13,7 @@
 <script lang="ts">
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
-import { CoreBonus } from '@/class';
+import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 
 export default {
   name: 'CoreBonuses',

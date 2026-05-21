@@ -165,7 +165,7 @@
 </template>
 
 <script lang="ts">
-import { WeaponType, WeaponSize, RangeType, DamageType } from '@/class';
+import { WeaponType, WeaponSize, RangeType, DamageType } from '@/classes/enums'
 
 export default {
   name: 'mech-weapon-filter',

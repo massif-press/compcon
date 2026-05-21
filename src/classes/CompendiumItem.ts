@@ -1,16 +1,20 @@
 import { v4 as uuid } from 'uuid'
 import { snakeCase, kebabCase, cloneDeep } from 'lodash-es'
-import { CompendiumStore } from '../stores'
-import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '../class'
-import { ICounterData, ITagData } from '../interface'
+import { getActivePinia } from 'pinia'
+import { ItemType } from './enums'
+import type { MechEquipment } from './mech/components/equipment/MechEquipment'
+import type { MechSystem } from './mech/components/equipment/MechSystem'
+import type { MechWeapon } from './mech/components/equipment/MechWeapon'
+import Tag, { ITagData } from './Tag'
 import { IActionData, Action } from './Action'
 import { IBonusData, Bonus } from './components/feature/bonus/Bonus'
 import { ISynergyData, Synergy } from './components/feature/synergy/Synergy'
 import { Deployable, IDeployableData } from './components/feature/deployable/Deployable'
 import { BrewInfo } from './components/brew/BrewController'
-import { ContentPack } from './ContentPack'
+import type { ContentPack } from './ContentPack'
 import { DEFAULT_LCP_NAME } from './LcpItemMixin'
 import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect'
+import { ICounterData } from './components'
 
 interface ICompendiumItemData {
   id: string
@@ -202,14 +206,18 @@ abstract class CompendiumItem {
 
   public get SpecialEquipment(): CompendiumItem[] {
     if (!this._special_equipment) return []
+    // HACK get compendium store without causing circular dependencies
+    const cs: any = getActivePinia()?._s?.get('compendium')
+
+    if (!cs) return []
     const res = this._special_equipment.map(x => {
-      const w = CompendiumStore().MechWeapons.find(item => item.ID === x)
+      const w = cs.MechWeapons.find((item: any) => item.ID === x)
       if (w) return w
-      const s = CompendiumStore().MechSystems.find(item => item.ID === x)
+      const s = cs.MechSystems.find((item: any) => item.ID === x)
       if (s) return s
-      const wm = CompendiumStore().WeaponMods.find(item => item.ID === x)
+      const wm = cs.WeaponMods.find((item: any) => item.ID === x)
       if (wm) return wm
-      const pg = CompendiumStore().PilotGear.find((item: any) => item.ID === x)
+      const pg = cs.PilotGear.find((item: any) => item.ID === x)
       if (pg) return pg
       return false
     })
@@ -218,11 +226,15 @@ abstract class CompendiumItem {
 
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return []
+    // HACK get compendium store without causing circular dependencies
+    const cs: any = getActivePinia()?._s?.get('compendium')
+
+    if (!cs) return []
     const map = this._integrated
       .map(x => {
-        const w = CompendiumStore().MechWeapons.find(item => item.ID === x)
+        const w = cs.MechWeapons.find((item: any) => item.ID === x)
         if (w) return w as MechEquipment
-        return CompendiumStore().MechSystems.find(item => item.ID === x) as MechEquipment
+        return cs.MechSystems.find((item: any) => item.ID === x) as MechEquipment
       })
       .filter(x => x != null) as MechEquipment[]
 
@@ -234,11 +246,11 @@ abstract class CompendiumItem {
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
-    return this.IntegratedEquipment.filter(x => x instanceof MechWeapon) as MechWeapon[]
+    return this.IntegratedEquipment.filter(x => x.ItemType === ItemType.MechWeapon) as MechWeapon[]
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this.IntegratedEquipment.filter(x => x instanceof MechSystem) as MechSystem[]
+    return this.IntegratedEquipment.filter(x => x.ItemType === ItemType.MechSystem) as MechSystem[]
   }
 
   public get Tags(): Tag[] {

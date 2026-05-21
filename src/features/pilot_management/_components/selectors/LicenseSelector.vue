@@ -103,10 +103,12 @@ import Selector from './components/_SelectorBase.vue'
 import LicenseExpandable from '@/ui/components/CompendiumBrowser/components/_license-expandable.vue'
 
 import { CompendiumStore } from '@/stores'
-import { Manufacturer, Pilot, License } from '@/class'
+import { Manufacturer } from '@/classes/Manufacturer'
+import { Pilot } from '@/classes/pilot/Pilot'
 import logger from '@/user/logger'
 import MissingItemAlert from './components/_MissingItemAlert.vue'
 import { useMobile } from '@/mixins/useMobile';
+import License from '@/classes/pilot/components/license/License'
 
 export default {
   name: 'LicenseSelector',

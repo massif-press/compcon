@@ -1,8 +1,8 @@
-import { MechWeapon, FittingSize, Mount } from '@/class'
+import { FittingSize } from '../../../enums'
+import { MechWeapon } from '../equipment/MechWeapon'
+import { WeaponMod } from '../equipment/WeaponMod'
+import Mount, { IWeaponSlotData } from './Mount'
 import * as _ from 'lodash-es'
-import { CompendiumStore } from '@/stores'
-import { WeaponMod } from '@/class'
-import { IWeaponSlotData } from '@/interface'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 
 class WeaponSlot {

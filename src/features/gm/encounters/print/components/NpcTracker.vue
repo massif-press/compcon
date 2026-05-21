@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { Bonus } from '@/classes/components';
+import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import BlankLine from './blank/line.vue';
 import { CompendiumStore } from '@/stores';
 

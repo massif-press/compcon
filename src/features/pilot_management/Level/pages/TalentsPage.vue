@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import TalentSelector from '../../_components/selectors/TalentSelector.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import StepperContent from '../../_components/StepperContent.vue';
 
 export default {

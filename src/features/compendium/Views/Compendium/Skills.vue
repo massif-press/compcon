@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { orderBy } from 'lodash-es';
-import { Skill } from '@/class';
+import { Skill } from '@/classes/pilot/components/skill/Skill'
 
 import { CompendiumStore } from '@/stores';
 

@@ -1,4 +1,8 @@
-import { MechEquipment, CompendiumItem, MechWeapon, Frame, LicensedItem } from '@/class'
+import { CompendiumItem } from '../CompendiumItem'
+import { MechEquipment } from '../mech/components/equipment/MechEquipment'
+import { MechWeapon } from '../mech/components/equipment/MechWeapon'
+import { Frame } from '../mech/components/frame/Frame'
+import { LicensedItem } from '../pilot/components/license/LicensedItem'
 import { NpcClass } from '../npc/class/NpcClass'
 import { NpcFeature } from '../npc/feature/NpcFeature'
 

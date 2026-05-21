@@ -2,10 +2,8 @@ import { UserStore } from '@/stores'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import logger from '@/user/logger'
 import { parseApiError, NotFoundError, BadRequestError } from './apiErrors'
-import { IDEMPOTENCY_HEADER, generateIdempotencyKey } from './idempotency'
 
 export { NotFoundError, BadRequestError } from './apiErrors'
-export { generateIdempotencyKey, generateDeterministicKey, IDEMPOTENCY_HEADER } from './idempotency'
 
 const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`
 
@@ -193,7 +191,6 @@ export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
 
   const body = typeof metadata === 'string' ? metadata : JSON.stringify(metadata)
   const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
 
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
@@ -206,17 +203,14 @@ export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
   return data
 }
 
-export async function batchUpsert(items: any[], idempotencyKey?: string): Promise<any> {
+export async function batchUpsert(items: any[]): Promise<any> {
   const url = new URL(`${invoke}/user`)
   url.searchParams.append('user_id', UserStore().Cognito.userId)
   url.searchParams.append('scope', 'batch')
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = idempotencyKey || generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers,
+    headers: await getHeaders(),
     body: JSON.stringify({ items }),
   })
 
@@ -229,12 +223,9 @@ export async function patchItem(sortkey: string, fields: Record<string, any>): P
   url.searchParams.append('user_id', UserStore().Cognito.userId)
   url.searchParams.append('scope', 'patch')
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers,
+    headers: await getHeaders(),
     body: JSON.stringify({ sortkey, ...fields }),
   })
 
@@ -247,12 +238,9 @@ export async function updateUser(id: string, payload: any): Promise<any> {
   url.searchParams.append('user_id', id)
   url.searchParams.append('scope', 'meta')
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers,
+    headers: await getHeaders(),
     body: JSON.stringify(payload),
   })
 
@@ -341,6 +329,8 @@ export async function downloadFromS3(s3Url: string) {
   const response = await fetch(url, { headers: fetchHeaders, cache: 'no-cache' })
 
   if (response.status === 304 && cached) {
+    _etagCache.delete(s3Url)
+    _etagCache.set(s3Url, cached)
     return cached.data
   }
 
@@ -379,12 +369,9 @@ export async function cloudDelete(user_id: string, sortkey: string, uri?: string
   url.searchParams.append('sortkey', sortkey)
   if (uri) url.searchParams.append('uri', uri)
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'DELETE',
-    headers,
+    headers: await getHeaders(),
   })
 
   return response
@@ -402,12 +389,9 @@ export async function bulkDelete(
   const body: any = { sortkeys }
   if (uris && uris.length > 0) body.uris = uris
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'DELETE',
-    headers,
+    headers: await getHeaders(),
     body: JSON.stringify(body),
   })
 

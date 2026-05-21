@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import { ReserveType } from '@/class';
+import { ReserveType } from '@/classes/enums'
 import MechPanel from './MechPanel.vue';
 import PilotPanel from './PilotPanel.vue';
 import { useMobile } from '@/mixins/useMobile';

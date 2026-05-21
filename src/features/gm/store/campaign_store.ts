@@ -5,7 +5,7 @@ import { Campaign, ICampaignData } from '@/classes/campaign/Campaign'
 import { cloudDelete } from '@/io/apis/account'
 import { UserStore } from '@/stores'
 import { NavStore } from '@/stores/nav'
-import { CloudController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 import logger from '@/user/logger'
 
 export const CampaignStore = defineStore('campaign', {

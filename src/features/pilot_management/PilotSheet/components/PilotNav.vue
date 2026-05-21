@@ -114,10 +114,10 @@
 <script lang="ts">
 import EditMenu from './PilotEditMenu.vue'
 import ShareDialog from '@/shared/ShareDialog.vue'
-import { Pilot } from '@/class'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore, UserStore } from '@/stores'
 import NavItem from '../../_components/NavItem.vue'
-import { CloudController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 
 export default {
   name: 'PilotNav',

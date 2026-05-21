@@ -52,7 +52,8 @@
 </template>
 
 <script lang="ts">
-import { Mech, Synergy } from '@/class';
+import { Mech } from '@/classes/mech/Mech'
+import { Synergy } from '@/classes/components/feature/synergy/Synergy'
 import { useMobile } from '@/mixins/useMobile';
 
 

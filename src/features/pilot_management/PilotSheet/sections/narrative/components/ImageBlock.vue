@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 export default {
   name: 'image-block',
   props: {

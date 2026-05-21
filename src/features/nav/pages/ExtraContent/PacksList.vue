@@ -94,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { ContentPack } from '@/class'
+import { ContentPack } from '@/classes/ContentPack'
 import PackInfoCard from './components/PackInfoCard.vue'
 import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/mixins/useMobile';

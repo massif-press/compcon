@@ -1,16 +1,10 @@
-import { CompendiumStore } from '@/stores'
-import {
-  Tag,
-  WeaponType,
-  WeaponSize,
-  ItemType,
-  Damage,
-  Range,
-  MechEquipment,
-  SystemType,
-  ContentPack,
-} from '@/class'
-import { IDamageData, IRangeData, IMechEquipmentData, ITagData, IEquipmentData } from '@/interface'
+import { CompendiumStore } from '@/features/compendium/store'
+import { ContentPack } from '../../../ContentPack'
+import { Damage, IDamageData } from '../../../Damage'
+import { WeaponType, WeaponSize, ItemType, SystemType } from '../../../enums'
+import { IEquipmentData, IMechEquipmentData, MechEquipment } from './MechEquipment'
+import { IRangeData, Range } from '../../../Range'
+import Tag, { ITagData } from '../../../Tag'
 import {
   ActiveEffect,
   IActiveEffectData,

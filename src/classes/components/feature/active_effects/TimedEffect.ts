@@ -1,4 +1,4 @@
-import { DamageType } from '@/class'
+import { DamageType } from '../../../enums'
 import { v4 as uuid } from 'uuid'
 import { markRaw } from 'vue'
 

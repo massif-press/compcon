@@ -1,5 +1,21 @@
-import { ContentPack, LicensedItem } from '../../../../class'
-import { ILicensedItemData, ITagData } from '../../../../interface'
+import { ITagData } from '@/classes/Tag'
+import { ContentPack } from '../../../ContentPack'
+import { ILicensedItemData, LicensedItem } from '../../../pilot/components/license/LicensedItem'
+
+export interface IEquipmentData {
+  id: string
+  note: string
+  flavorName?: string
+  flavorDescription?: string
+  customDamageType?: string
+  data?: any
+
+  // combat props
+  maxUses?: number
+  currentUses?: number
+  destroyed?: boolean
+  isUsed?: boolean
+}
 
 interface IMechEquipmentData extends ILicensedItemData {
   sp: number

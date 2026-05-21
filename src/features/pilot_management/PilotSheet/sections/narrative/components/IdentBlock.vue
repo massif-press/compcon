@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import BackgroundSelector from '../../../../_components/selectors/BackgroundSelector.vue';
 import { useMobile } from '@/mixins/useMobile';
 

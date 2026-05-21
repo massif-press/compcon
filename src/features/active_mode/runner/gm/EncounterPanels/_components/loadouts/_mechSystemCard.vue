@@ -96,7 +96,7 @@
 </template>
 
 <script lang="ts">
-import { ItemType } from '@/class'
+import { ItemType } from '@/classes/enums'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'

@@ -109,7 +109,7 @@ import LicensesPage from './pages/LicensesPage.vue';
 import CoreBonusesPage from './pages/CoreBonusesPage.vue';
 import ConfirmPage from './pages/ConfirmPage.vue';
 import TemplatesPage from './pages/TemplatesPage.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import CcConfirm from '@/ui/notification/CCConfirm.vue';
 import logger from '@/user/logger';
 import { PilotStore } from '../store';

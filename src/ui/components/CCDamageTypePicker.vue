@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { DamageType } from '@/class';
+import { DamageType } from '@/classes/enums'
 
 export default {
   name: 'cc-damage-type-picker',

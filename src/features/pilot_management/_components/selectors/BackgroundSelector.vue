@@ -1,31 +1,25 @@
 <template>
-  <cc-modal
-    id="bs-dialog"
+  <cc-modal id="bs-dialog"
     ref="dialog"
     fullscreen
     no-confirm
     title="Select Pilot Background"
-    clip
-  >
+    clip>
     <template #activator="{ open }">
-      <v-icon
-        :small="small"
+      <v-icon :small="small"
         color="accent"
         variant="plain"
         class="ml-1"
-        @click="open"
-      >
+        @click="open">
         cc:orbit
       </v-icon>
     </template>
     <template #default="{ close }">
-      <cc-compendium-browser
-        :items="backgrounds"
+      <cc-compendium-browser :items="backgrounds"
         item-type="Background"
         :options="options"
         equippable
-        @equip="setBg($event.Name, close)"
-      >
+        @equip="setBg($event.Name, close)">
         <template #header>
           <div class="heading h4 text-center text-accent">Select Pilot Background</div>
         </template>
@@ -35,38 +29,37 @@
 </template>
 
 <script lang="ts">
-  import { Background } from '@/class'
+import { Background } from '@/classes/Background'
+import { CompendiumStore } from '@/stores'
 
-  import { CompendiumStore } from '@/stores'
-
-  export default {
-    name: 'BackgroundSelector',
-    props: {
-      small: {
-        type: Boolean,
-        required: false,
-      },
+export default {
+  name: 'BackgroundSelector',
+  props: {
+    small: {
+      type: Boolean,
+      required: false,
     },
-    emits: ['select'],
-    data: () => ({
-      options: {
-        views: ['list', 'table'],
-        initialView: 'list',
-        groups: ['lcp'],
-        initialGroup: 'lcp',
-        noSource: true,
-      },
-    }),
-    computed: {
-      backgrounds(): Background[] {
-        return CompendiumStore().Backgrounds
-      },
+  },
+  emits: ['select'],
+  data: () => ({
+    options: {
+      views: ['list', 'table'],
+      initialView: 'list',
+      groups: ['lcp'],
+      initialGroup: 'lcp',
+      noSource: true,
     },
-    methods: {
-      setBg(name: string, close: () => void) {
-        this.$emit('select', name)
-        close()
-      },
+  }),
+  computed: {
+    backgrounds(): Background[] {
+      return CompendiumStore().Backgrounds
     },
-  }
+  },
+  methods: {
+    setBg(name: string, close: () => void) {
+      this.$emit('select', name)
+      close()
+    },
+  },
+}
 </script>

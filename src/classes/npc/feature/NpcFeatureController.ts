@@ -1,12 +1,11 @@
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
 import { INpcFeatureData, NpcFeature } from './NpcFeature'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import { NpcClass } from '../class/NpcClass'
 import { NpcTemplate } from '../template/NpcTemplate'
 import { NpcFeatureFactory } from './NpcFeatureFactory'
-import { Tag } from '@/class'
-
+import Tag from '../../Tag'
 interface INpcFeatureSaveData {
   instance: boolean
   features: { id: string; data: INpcFeatureData }[]

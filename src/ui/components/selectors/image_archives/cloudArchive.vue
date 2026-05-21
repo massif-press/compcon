@@ -128,7 +128,7 @@
 import * as _ from 'lodash-es';
 import { UserStore } from '@/stores';
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account';
-import { CloudController } from '@/classes/components';
+import { CloudController } from '@/classes/components/cloud/CloudController';
 import logger from '@/user/logger';
 import { file } from 'jszip';
 // import { Auth } from '@aws-amplify/auth';

@@ -132,7 +132,7 @@
 <script lang="ts">
 import { CompendiumStore, PilotStore } from '@/stores';
 import * as _ from 'lodash-es';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import { useMobile } from '@/mixins/useMobile';
 
 

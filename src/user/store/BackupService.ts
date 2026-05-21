@@ -1,39 +1,33 @@
 import { PostCloudArchive } from '@/classes/components/cloud/CloudArchive'
 import { cloudDelete } from '@/io/apis/account'
+import { CloudDataStore } from './CloudDataStore'
+import { UserMetadataStore } from './UserMetadataStore'
+import { NotificationStore } from './NotificationStore'
+import type { BackupStore as BackupStoreType } from './BackupStore'
 
-export interface BackupContext {
-  BackupSpaceExceeded: boolean
-  BackupLimitExceeded: boolean
-  PrunableBackups: any[]
-  SyncSettings: any
-  UserMetadata: { UserID: string }
-  CloudStorageFull: boolean
-  addCloudNotification: (text: string, type?: string) => void
-  setMetadataFromDynamo: () => Promise<void>
-  setUserMetadata: () => Promise<void>
-}
-
-export async function pruneBackups(ctx: BackupContext): Promise<void> {
-  const toDelete = ctx.PrunableBackups
+export async function pruneBackups(
+  backupStore: ReturnType<typeof BackupStoreType>
+): Promise<void> {
+  const toDelete = backupStore.PrunableBackups
   if (!toDelete.length) return
 
-  const promises: Promise<any>[] = []
-  toDelete.forEach(b => {
-    promises.push(cloudDelete(ctx.UserMetadata.UserID, b.sortkey, b.uri))
-    ctx.addCloudNotification(`Pruned cloud backup "${b.name}".`)
-  })
-
+  const userID = UserMetadataStore().UserMetadata.UserID
+  const promises = toDelete.map((b: any) => cloudDelete(userID, b.sortkey, b.uri))
   await Promise.all(promises)
-  await ctx.setMetadataFromDynamo()
+  await CloudDataStore().setMetadataFromDynamo()
 }
 
-export async function autoBackup(ctx: BackupContext, startup = false): Promise<void> {
-  if (ctx.BackupSpaceExceeded) return
-  if (ctx.BackupLimitExceeded) return
+export async function autoBackup(
+  backupStore: ReturnType<typeof BackupStoreType>,
+  startup = false
+): Promise<void> {
+  if (backupStore.BackupSpaceExceeded) return
+  if (backupStore.BackupLimitExceeded) return
 
+  const syncSettings = UserMetadataStore().SyncSettings
   let shouldRun = false
-  const backupFrequency = ctx.SyncSettings?.autoBackupFrequency
-  const lastBackup = ctx.SyncSettings?.lastBackupTime
+  const backupFrequency = syncSettings?.autoBackupFrequency
+  const lastBackup = syncSettings?.lastBackupTime
 
   switch (backupFrequency) {
     case 'appstart':
@@ -52,8 +46,8 @@ export async function autoBackup(ctx: BackupContext, startup = false): Promise<v
   if (!shouldRun) return
 
   await PostCloudArchive('Automatic')
-  ctx.addCloudNotification('Uploaded new cloud backup.')
+  NotificationStore().addCloudNotification('Uploaded new cloud backup.')
 
-  ctx.SyncSettings.lastBackupTime = Date.now()
-  await ctx.setUserMetadata()
+  UserMetadataStore().SyncSettings.lastBackupTime = Date.now()
+  await UserMetadataStore().setUserMetadata()
 }

@@ -152,7 +152,7 @@ import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/W
 import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import StagedPanel from './_stagedPanel.vue';
-import { PilotWeapon } from '@/class';
+import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon'
 import PilotWeaponAttack from './_pilotWeaponAttack.vue';
 
 export default {

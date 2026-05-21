@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Manufacturer } from '@/class';
+import { Manufacturer } from '@/classes/Manufacturer'
 import { CompendiumStore } from '@/stores';
 import _ from 'lodash';
 

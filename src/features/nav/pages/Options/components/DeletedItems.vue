@@ -73,7 +73,8 @@
 
 <script lang="ts">
 import { CampaignStore, EncounterStore, NpcStore, PilotStore } from '@/stores';
-import { Pilot, PilotGroup } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
+import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { NAV_STRINGS } from '@/features/nav/strings';
 
 export default {

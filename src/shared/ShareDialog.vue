@@ -242,6 +242,14 @@ function copyShareLink() {
 }
 
 async function syncItem() {
+  if (UserStore().IsSyncing) {
+    notify({
+      title: 'Sync in Progress',
+      text: 'Please wait for the current sync to complete.',
+      data: { icon: 'mdi-sync', color: 'info' },
+    })
+    return
+  }
   syncing.value = true
   const name = props.item.Callsign || props.item.Name
   try {

@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import MechSkillsSelector from '../../_components/selectors/MechSkillsSelector.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import StepperContent from '../../_components/StepperContent.vue';
 
 export default {

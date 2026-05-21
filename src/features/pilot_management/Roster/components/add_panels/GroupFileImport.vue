@@ -102,11 +102,11 @@
 </template>
 
 <script lang="ts">
-import { Pilot, PilotGroup } from '@/class';
+import { Pilot, PilotData } from '@/classes/pilot/Pilot'
+import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { ImportData } from '@/io/Data';
 
 import { PilotStore } from '@/stores';
-import { PilotData } from '@/interface';
 
 import { logger } from '@sentry/vue';
 

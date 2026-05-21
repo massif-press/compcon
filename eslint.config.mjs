@@ -31,6 +31,23 @@ export default [
     },
   },
   {
+    files: ['src/classes/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/class', '**/class'],
+              message:
+                "Import directly from the source module — not the @/class barrel — inside src/classes/. Run 'grep' to find the canonical path.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     ignores: ['dist/', 'node_modules/', 'amplify/', 'public/', 'src/assets/srd/**'],
   },
   prettierConfig,

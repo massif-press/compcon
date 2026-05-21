@@ -23,8 +23,8 @@
 </template>
 
 <script lang="ts">
-import { Statblock } from '@/class';
 import { Unit } from '@/classes/npc/unit/Unit';
+import Statblock from '@/classes/Statblock';
 
 export default {
   name: 'StatblockDialog',

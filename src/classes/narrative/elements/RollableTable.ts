@@ -1,5 +1,5 @@
 import { ContentPack } from '@/classes/ContentPack'
-import { ItemType } from '@/class'
+import { ItemType } from '../../enums'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 import { v4 as uuid } from 'uuid'
 

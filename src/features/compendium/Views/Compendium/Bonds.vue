@@ -46,7 +46,7 @@
 <script lang="ts">
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
-import { Bond } from '@/class';
+import { Bond } from '@/classes/pilot/components/bond/Bond'
 
 export default {
   name: 'Bonds',

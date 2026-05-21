@@ -37,7 +37,7 @@
 <script lang="ts">
 import StepperContent from '../../_components/StepperContent.vue';
 import CoreBonusSelector from '../../_components/selectors/CoreBonusSelector.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export default {
   name: 'talents-page',

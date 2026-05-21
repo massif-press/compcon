@@ -1,14 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import {
-  ISaveData,
-  IPortraitData,
-  ICloudData,
-  PortraitController,
-  SaveController,
-  CloudController,
-  IPortraitContainer,
-  ISaveable,
-} from '@/classes/components';
+import { CloudController, ICloudData } from '@/classes/components/cloud/CloudController'
+import { IPortraitContainer } from '@/classes/components/portrait/IPortraitContainer'
+import { IPortraitData, PortraitController } from '@/classes/components/portrait/PortraitController'
+import { ISaveable } from '@/classes/components/save/ISaveable'
+import { ISaveData, SaveController } from '@/classes/components/save/SaveController'
 import { ImageTag } from '@/classes/enums';
 
 type PilotGroupData = {

@@ -1,7 +1,7 @@
 import { IClockData, Clock } from '@/classes/narrative/elements/Clock'
 import { Pilot } from '../../Pilot'
 import { BondPower, Bond, IBondData } from './Bond'
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 
 interface IPilotBondData {
   bondId?: string

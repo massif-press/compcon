@@ -368,7 +368,8 @@ import { Sortable } from 'sortablejs-vue3';
 import { PilotStore, UserStore } from '@/stores';
 import PilotCard from './PilotCard.vue';
 import PilotListItem from './PilotListItem.vue';
-import { Pilot, PilotGroup } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
+import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { saveFile } from '@/io/Data';
 import FileImport from './add_panels/FileImport.vue';
 import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';

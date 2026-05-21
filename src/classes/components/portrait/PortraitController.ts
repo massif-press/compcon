@@ -1,11 +1,17 @@
-import { Mech } from '@/class'
+import type { Mech } from '../../mech/Mech'
 import { ImageTag } from '@/io/ImageManagement'
-import { IPortraitContainer } from '..'
+import type { IPortraitContainer } from './IPortraitContainer'
 
 interface IPortraitData {
   portrait: string
   avatar?: any
   cloud_portrait: string
+}
+
+interface IImageContainer {
+  SetLocalImage(): any
+  SetCloudImage(): any
+  Image: string
 }
 
 class PortraitController {
@@ -114,4 +120,4 @@ class PortraitController {
 }
 
 export { PortraitController }
-export type { IPortraitData }
+export type { IPortraitData, IImageContainer }

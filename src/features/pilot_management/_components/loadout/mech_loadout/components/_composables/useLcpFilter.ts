@@ -1,7 +1,7 @@
 import { ref, Ref } from 'vue'
 import { flavorID } from '@/io/Generators'
 import { Bonus, BonusId } from '@/classes/components/feature/bonus/Bonus'
-import { Mech } from '@/class'
+import { Mech } from '@/classes/mech/Mech'
 
 export function useLcpFilter(mech: Ref<Mech>) {
   const showUnlicensed = ref(false)

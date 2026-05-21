@@ -14,7 +14,7 @@
 import { orderBy } from 'lodash-es';
 
 import { CompendiumStore, UserStore } from '@/stores';
-import { MechEquipment } from '@/class';
+import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
 
 export default {
   name: 'Systems',

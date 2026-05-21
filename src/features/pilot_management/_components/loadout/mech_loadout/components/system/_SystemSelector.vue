@@ -80,7 +80,8 @@ import { uniqBy, sortBy } from 'lodash'
 import { computed, reactive, onMounted, toRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
-import { MechSystem, Mech } from '@/class'
+import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
+import { Mech } from '@/classes/mech/Mech'
 import { useLcpFilter } from '../_composables/useLcpFilter'
 
 const props = defineProps<{

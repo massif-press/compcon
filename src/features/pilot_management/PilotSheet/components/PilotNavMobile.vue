@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore } from '@/stores';
 
 export default {

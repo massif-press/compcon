@@ -1,4 +1,15 @@
 export type FieldTimestamps = Record<string, number>
+export type FieldHashMap = Record<string, string>
+
+let _serverTimeOffset = 0
+
+export function setServerTimeOffset(serverTime: number): void {
+  _serverTimeOffset = serverTime - Date.now()
+}
+
+function syncedNow(): number {
+  return Date.now() + _serverTimeOffset
+}
 
 export function mergeTs(a: FieldTimestamps, b: FieldTimestamps): FieldTimestamps {
   const result: FieldTimestamps = { ...a }
@@ -15,7 +26,7 @@ function isEntity(val: any): val is Record<string, any> {
 }
 
 function isEntityArr(val: any): val is Array<Record<string, any>> {
-  return Array.isArray(val) && val.length > 0 && typeof val[0]?.id === 'string'
+  return Array.isArray(val) && val.length > 0 && val.some((e: any) => typeof e?.id === 'string')
 }
 
 function entityMaxTs(prefix: string, ts: FieldTimestamps, fallback: number): number {
@@ -27,10 +38,48 @@ function entityMaxTs(prefix: string, ts: FieldTimestamps, fallback: number): num
   return max >= 0 ? max : fallback
 }
 
-function stampObj(
+function stableHashValue(val: any): string {
+  const s = val === undefined ? '\x00' : JSON.stringify(val)
+  let h = 5381
+  for (let i = 0; i < s.length; i++) {
+    h = (((h << 5) + h) ^ s.charCodeAt(i)) >>> 0
+  }
+  return h.toString(36)
+}
+
+function buildHashMapInto(prefix: string, obj: any, result: FieldHashMap): void {
+  if (!obj || typeof obj !== 'object') return
+  for (const key of Object.keys(obj)) {
+    if (key === '_ts') continue
+    const tsKey = prefix ? `${prefix}.${key}` : key
+    const val = obj[key]
+    if (isEntityArr(val)) {
+      result[`${tsKey}.__ids`] = val
+        .filter((e: any) => e?.id)
+        .map((e: any) => e.id)
+        .sort()
+        .join(',')
+      for (const e of val) {
+        if (e?.id) buildHashMapInto(`${tsKey}.${e.id}`, e, result)
+      }
+    } else if (isEntity(val)) {
+      buildHashMapInto(tsKey, val, result)
+    } else {
+      result[tsKey] = stableHashValue(val)
+    }
+  }
+}
+
+export function buildFieldHashMap(data: Record<string, any>): FieldHashMap {
+  const result: FieldHashMap = {}
+  buildHashMapInto('', data, result)
+  return result
+}
+
+function stampObjHashed(
   prefix: string,
   current: Record<string, any>,
-  synced: Record<string, any> | null,
+  hashes: FieldHashMap | null,
   result: FieldTimestamps,
   base: number,
   now: number
@@ -39,74 +88,43 @@ function stampObj(
     if (key === '_ts') continue
     const tsKey = prefix ? `${prefix}.${key}` : key
     const cv = current[key]
-    const sv = synced?.[key]
 
-    if (isEntityArr(cv) || isEntityArr(sv)) {
-      const syncedById: Record<string, any> = {}
-      if (Array.isArray(sv))
-        for (const e of sv) {
-          if (e?.id) syncedById[e.id] = e
-        }
-
-      if (Array.isArray(cv)) {
-        for (const e of cv) {
-          if (e?.id) stampObj(`${tsKey}.${e.id}`, e, syncedById[e.id] ?? null, result, base, now)
-        }
+    if (isEntityArr(cv)) {
+      const prevIdsStr = hashes ? hashes[`${tsKey}.__ids`] : undefined
+      const prevIds = prevIdsStr
+        ? new Set(prevIdsStr.split(',').filter(Boolean))
+        : new Set<string>()
+      for (const e of cv) {
+        if (e?.id) stampObjHashed(`${tsKey}.${e.id}`, e, hashes, result, base, now)
       }
-      // tombstone entities removed since last sync
-      const curIds = new Set(
-        Array.isArray(cv) ? cv.filter((e: any) => e?.id).map((e: any) => e.id) : []
-      )
-      for (const id of Object.keys(syncedById)) {
+      const curIds = new Set(cv.filter((e: any) => e?.id).map((e: any) => e.id))
+      for (const id of prevIds) {
         if (!curIds.has(id)) {
           const tombKey = `${tsKey}.${id}`
           result[tombKey] = Math.max(now, (result[tombKey] ?? base) + 1)
         }
       }
-    } else if (isEntity(cv) || isEntity(sv)) {
-      stampObj(tsKey, isEntity(cv) ? cv : {}, isEntity(sv) ? sv : null, result, base, now)
+    } else if (isEntity(cv)) {
+      stampObjHashed(tsKey, cv, hashes, result, base, now)
     } else {
-      const cs = JSON.stringify(cv)
-      const ss = synced !== null ? JSON.stringify(sv) : null
-      if (ss === null || cs !== ss) {
-        result[tsKey] = Math.max(now, (result[tsKey] ?? base) + 1)
-      }
-    }
-  }
-
-  // tombstone keys removed from current since last sync
-  if (synced) {
-    for (const key of Object.keys(synced)) {
-      if (key === '_ts' || key in current) continue
-      const tsKey = prefix ? `${prefix}.${key}` : key
-      const sv = synced[key]
-      if (isEntityArr(sv)) {
-        for (const e of sv) {
-          if (e?.id) {
-            const tombKey = `${tsKey}.${e.id}`
-            result[tombKey] = Math.max(now, (result[tombKey] ?? base) + 1)
-          }
-        }
-      } else {
+      const prevHash = hashes ? hashes[tsKey] : undefined
+      if (prevHash === undefined || stableHashValue(cv) !== prevHash) {
         result[tsKey] = Math.max(now, (result[tsKey] ?? base) + 1)
       }
     }
   }
 }
 
-// diff current serialized item against last-synced snapshot.
-// On first sync (lastSynced === null), all fields are stamped with itemModified.
-// entity arrays (`id` string) are recursed into so that each subfield carries its
-// own timestamp instead of the whole array being one LWW unit.
+// diff current serialized item against last-synced hash map
 export function stampChangedFields(
   current: Record<string, any>,
-  lastSynced: Record<string, any> | null,
+  lastHashes: FieldHashMap | null,
   existingTs: FieldTimestamps,
   itemModified: number
 ): FieldTimestamps {
   const result: FieldTimestamps = { ...existingTs }
-  const now = Date.now()
-  stampObj('', current, lastSynced, result, itemModified, now)
+  const now = syncedNow()
+  stampObjHashed('', current, lastHashes, result, itemModified, now)
   return result
 }
 
@@ -161,7 +179,6 @@ function mergeEntityArrField(
   const result: any[] = []
   const seen = new Set<string>()
 
-  // local order first to preserve ordering
   for (const [id, le] of localMap) {
     seen.add(id)
     const re = remoteMap.get(id)
@@ -169,13 +186,11 @@ function mergeEntityArrField(
     if (re) {
       result.push(mergeEntityFields(ek, le, re, localTs, remoteTs, localBase, remoteBase))
     } else {
-      // entity missing on remote = keep unless remote has a newer tombstone
       const remoteTomb = remoteTs[ek] ?? remoteBase
       if (remoteTomb <= entityMaxTs(ek, localTs, localBase)) result.push(le)
     }
   }
 
-  // append remote-only entities, skip if local has a newer tombstone
   for (const [id, re] of remoteMap) {
     if (seen.has(id)) continue
     const ek = `${prefix}.${id}`
@@ -207,8 +222,6 @@ function mergeEntityObjField(
   return mergeEntityFields(prefix, local, remote, localTs, remoteTs, localBase, remoteBase)
 }
 
-// later timestamp wins per field. Falls back to item_modified when a field has no _ts entry.
-// entity arrays are merged element-by-element so a change to one entity never overwrites another.
 export function mergeFields(
   local: Record<string, any>,
   remote: Record<string, any>

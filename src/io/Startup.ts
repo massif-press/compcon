@@ -28,25 +28,26 @@ export default async function (skipSync = false): Promise<void> {
   logger.info('loading user')
   await UserStore().loadUser()
 
-  if (UserStore().Cognito.userId) {
-    try {
-      logger.info('fetching cloud user metadata')
-      await UserStore().getUserMetadata(true)
-      logger.info('cloud user metadata loaded')
-    } catch (error: any) {
-      if (error instanceof UnauthorizedError) {
-        logger.warn('Authentication expired during metadata fetch, continuing offline')
-      } else {
-        logger.warn(`Failed to load cloud user metadata: ${error}`)
-      }
-    }
-  }
+  let migrationResult: any = null
+  await Promise.all([
+    UserStore().IsLoggedIn
+      ? UserStore()
+          .getUserMetadata(true)
+          .catch((error: any) => {
+            if (error instanceof UnauthorizedError) {
+              logger.warn('Authentication expired during metadata fetch, continuing offline')
+            } else {
+              logger.warn(`Failed to load cloud user metadata: ${error}`)
+            }
+          })
+      : Promise.resolve(),
+    migrateV2LocalStorage().then(r => {
+      migrationResult = r
+    }),
+  ])
 
-  // Migrate v2 localStorage data before loading compendium content
-  const migrationResult = await migrateV2LocalStorage()
   if (migrationResult) {
     logger.info('v2 localStorage migration complete', migrationResult)
-    // TODO: expose migrationResult to UI for summary display and .compcon download offer
   }
 
   logger.info('refreshing extra content')
@@ -54,23 +55,20 @@ export default async function (skipSync = false): Promise<void> {
   logger.info('extra content refreshed')
 
   logger.info('loading user data...')
-  await PilotStore().LoadPilots()
-  logger.info('pilots loaded')
-  await NpcStore().LoadNpcs()
-  logger.info('npcs loaded')
-  await NarrativeStore().LoadCollectionItems()
-  logger.info('narrative collection items loaded')
-  await EncounterStore().LoadEncounters()
-  logger.info('encounters loaded')
-  await CampaignStore().LoadCampaigns()
+  await Promise.all([
+    PilotStore().LoadPilots(),
+    NpcStore().LoadNpcs(),
+    NarrativeStore().LoadCollectionItems(),
+    EncounterStore().LoadEncounters(),
+    CampaignStore().LoadCampaigns(),
+  ])
   logger.info('data loaded')
 
-  logger.info('removing old data')
-  await UserStore().removeOldItems()
-
-  await NavStore().CreateIndex()
-
-  await UserStore().refreshV2BackupIds()
+  await Promise.all([
+    UserStore().removeOldItems(),
+    NavStore().CreateIndex(),
+    UserStore().refreshV2BackupIds(),
+  ])
 
   if (UserStore().IsLoggedIn) {
     try {
@@ -79,7 +77,6 @@ export default async function (skipSync = false): Promise<void> {
       logger.warn(`Failed to refresh cloud data on startup: ${error}`)
     }
 
-    UserStore().IsSyncing = true
     try {
       await UserStore().AutoSync(undefined, true, skipSync)
       await UserStore().getRemoteCollectionMetadata(true)
@@ -95,32 +92,24 @@ export default async function (skipSync = false): Promise<void> {
       } else {
         logger.error(`Failed to sync: ${error}`, {}, error)
       }
-      UserStore().IsSyncing = false
     }
 
-    // Skip remaining cloud operations if the user was signed out
     if (UserStore().IsLoggedIn) {
-      logger.info('checking v2 cloud migration status')
-      await UserStore().checkV2CloudMigration()
+      UserStore()
+        .checkV2CloudMigration()
+        .catch((e: any) => logger.warn('V2 migration check skipped:', e))
 
-      logger.info('checking auto backups')
-      try {
-        await UserStore().PruneBackups()
-        await UserStore().AutoBackup()
-      } catch (error: any) {
-        logger.error(`Failed to backup: ${error}`, {}, error)
-      }
+      UserStore()
+        .PruneBackups()
+        .then(() => UserStore().AutoBackup())
+        .catch((error: any) => logger.error(`Failed to backup: ${error}`, {}, error))
 
-      try {
-        const patreonStatus = await UserStore().refreshPatreonData()
-        if (patreonStatus === 'success') {
-          logger.info('Patreon data refreshed')
-        } else if (patreonStatus === 'skipped') {
-          // do nothing, data is valid
-        }
-      } catch (error: any) {
-        logger.error(`Failed to refresh Patreon data: ${error}`, {}, error)
-      }
+      UserStore()
+        .refreshPatreonData()
+        .then(status => {
+          if (status === 'success') logger.info('Patreon data refreshed')
+        })
+        .catch((error: any) => logger.error(`Failed to refresh Patreon data: ${error}`, {}, error))
 
       const subscribedLcps = UserStore().User.LcpSubscriptions
       if (subscribedLcps.length > 0) {
@@ -155,7 +144,6 @@ export default async function (skipSync = false): Promise<void> {
       CompendiumStore().loadContentCollections()
       UserStore().setSyncTimer()
       window.addEventListener('pagehide', () => UserStore().OnUnload())
-      UserStore().IsSyncing = false
     }
   }
 

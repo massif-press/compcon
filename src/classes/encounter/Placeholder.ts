@@ -1,8 +1,7 @@
 import { v4 as uuid } from 'uuid'
 import { CombatController } from '../components/combat/CombatController'
 import { SaveController } from '../components/save/SaveController'
-import { ItemType } from '@/class'
-
+import { ItemType } from '../enums'
 interface IPlaceholderData {
   id: string
   name: string

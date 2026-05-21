@@ -1,4 +1,5 @@
-import { ContentPack, ItemType } from '@/class'
+import { ContentPack } from '../../../ContentPack'
+import { ItemType } from '../../../enums'
 import { CompendiumStore } from '../../../../stores'
 import { BrewInfo } from '@/classes/components/brew/BrewController'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'

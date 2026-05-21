@@ -37,7 +37,8 @@
 </template>
 
 <script lang="ts">
-import { EquippableMount, MountType } from '@/class';
+import EquippableMount from '@/classes/mech/components/mount/EquippableMount'
+import { MountType } from '@/classes/enums'
 
 export default {
   name: 'sh-lock-dialog',

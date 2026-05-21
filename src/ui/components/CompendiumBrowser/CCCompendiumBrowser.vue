@@ -658,7 +658,9 @@ import bListGroup from './components/_b-list-group.vue';
 
 import LicenseExpandable from './components/_license-expandable.vue';
 
-import { CompendiumItem, License, Manufacturer } from '@/class';
+import { CompendiumItem } from '@/classes/CompendiumItem'
+import License from '@/classes/pilot/components/license/License'
+import { Manufacturer } from '@/classes/Manufacturer'
 import { useMobile } from '@/mixins/useMobile';
 
 

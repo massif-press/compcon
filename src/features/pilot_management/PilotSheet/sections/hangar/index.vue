@@ -74,7 +74,7 @@ import MechListItemMobile from './components/MechListItemMobile.vue'
 import NewMechMenu from './components/NewMechMenu.vue'
 import MechSort from './components/MechSort.vue'
 import { UserStore } from '@/stores'
-import { Pilot } from '@/class'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { useMobile } from '@/mixins/useMobile';
 
 export default {

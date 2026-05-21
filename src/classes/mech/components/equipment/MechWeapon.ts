@@ -1,37 +1,23 @@
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 import * as _ from 'lodash-es'
-import {
-  CompendiumItem,
-  ContentPack,
-  Damage,
-  DamageType,
-  ItemType,
-  Mech,
-  MechEquipment,
-  Range,
-  RangeType,
-  Tag,
-  WeaponMod,
-  WeaponSize,
-  WeaponType,
-} from '@/class'
-import {
-  IDamageData,
-  IMechEquipmentData,
-  IRangeData,
-  ISynergyData,
-  ICounterData,
-  ITagCompendiumData,
-  ICompendiumItemData,
-  IEquipmentData,
-} from '@/interface'
+import { CompendiumItem, ICompendiumItemData } from '../../../CompendiumItem'
+import { ContentPack } from '../../../ContentPack'
+import { Damage, IDamageData } from '../../../Damage'
+import { DamageType, ItemType, RangeType, WeaponSize, WeaponType } from '../../../enums'
+import { IEquipmentData, IMechEquipmentData, MechEquipment } from './MechEquipment'
+import { WeaponMod } from './WeaponMod'
+import { Mech } from '../../Mech'
+import { IRangeData, Range } from '../../../Range'
+import Tag, { ITagCompendiumData } from '../../../Tag'
 import { IActionData } from '@/classes/Action'
-import { IBonusData } from '@/classes/components'
+import { IBonusData } from '@/classes/components/feature/bonus/Bonus'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 import {
   ActiveEffect,
   IActiveEffectData,
 } from '@/classes/components/feature/active_effects/ActiveEffect'
+import { ICounterData } from '@/classes/components'
+import { ISynergyData } from '@/classes/components/feature/synergy/Synergy'
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize
@@ -331,7 +317,7 @@ class MechWeapon extends MechEquipment {
   public get Damage(): Damage[] {
     if (!this.Mod?.AddedDamage) return this.SelectedProfile.Damage || []
 
-    let damages = [...(this.SelectedProfile.Damage || []), ...(this.Mod?.AddedDamage || [])]
+    const damages = [...(this.SelectedProfile.Damage || []), ...(this.Mod?.AddedDamage || [])]
     // add Damages of same type together
     const combined: Damage[] = []
     damages.forEach(r => {

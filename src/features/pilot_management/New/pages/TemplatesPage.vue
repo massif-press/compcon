@@ -67,7 +67,11 @@ import { getImagePath, ImageTag } from '@/io/ImageManagement';
 
 import { CompendiumStore } from '@/stores';
 import Templates from '../pregens.json';
-import { CompendiumItem, MechSkills, Mech, Pilot, Frame } from '@/class';
+import { CompendiumItem } from '@/classes/CompendiumItem'
+import MechSkills from '@/classes/components/mechskills/MechSkills'
+import { Mech } from '@/classes/mech/Mech'
+import { Pilot } from '@/classes/pilot/Pilot'
+import { Frame } from '@/classes/mech/components/frame/Frame'
 import { mechname } from '@/io/Generators';
 
 export default {

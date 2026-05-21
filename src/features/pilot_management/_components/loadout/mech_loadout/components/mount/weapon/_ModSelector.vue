@@ -44,8 +44,8 @@
               :label="mobile && 'Show Unlicensed'"
               color="error"
               :tooltip="!mobile && showUnlicensed
-                  ? 'Unlicensed equipment: SHOWN'
-                  : 'Unlicensed equipment: HIDDEN'
+                ? 'Unlicensed equipment: SHOWN'
+                : 'Unlicensed equipment: HIDDEN'
                 "
               :prepend-icon="!mobile && 'cc:system'"
               on-icon="mdi-lock-open"
@@ -55,8 +55,8 @@
               :label="mobile && 'Show Exceeds SP'"
               color="error"
               :tooltip="!mobile && showOverSP
-                  ? 'Systems exceeding SP Capacity: SHOWN'
-                  : 'Systems exceeding SP Capacity: HIDDEN'
+                ? 'Systems exceeding SP Capacity: SHOWN'
+                : 'Systems exceeding SP Capacity: HIDDEN'
                 "
               :prepend-icon="!mobile && 'cc:system_point'"
               on-icon="mdi-lock-open"
@@ -66,8 +66,8 @@
               :label="mobile && 'Show Exceeds SP'"
               color="error"
               :tooltip="!mobile && showIncompatible
-                  ? 'Incompatible Mods: SHOWN'
-                  : 'Incompatible Mods: HIDDEN'
+                ? 'Incompatible Mods: SHOWN'
+                : 'Incompatible Mods: HIDDEN'
                 "
               :prepend-icon="!mobile && 'cc:status_downandout'"
               on-icon="mdi-lock-open"
@@ -83,7 +83,8 @@
 import { ref, computed, reactive, onMounted, toRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
-import { WeaponMod, Mech } from '@/class'
+import { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
+import { Mech } from '@/classes/mech/Mech'
 import { useLcpFilter } from '../../_composables/useLcpFilter'
 
 const props = defineProps<{

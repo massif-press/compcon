@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import line from '../../components/blank/line.vue';
-import { Bonus } from '@/classes/components';
+import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
 export default {
   name: 'npc-stat-print',

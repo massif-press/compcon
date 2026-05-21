@@ -120,11 +120,10 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class';
+import { Pilot, PilotData } from '@/classes/pilot/Pilot'
 import { ImportData } from '@/io/Data';
 
 import { CompendiumStore, PilotStore } from '@/stores';
-import { PilotData } from '@/interface';
 
 import * as _ from 'lodash-es';
 import logger from '@/user/logger';

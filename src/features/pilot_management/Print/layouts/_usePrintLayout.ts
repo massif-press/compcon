@@ -1,4 +1,5 @@
-import { Pilot, Mech } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
+import { Mech } from '@/classes/mech/Mech'
 
 export const usePrintLayout = {
   props: {
