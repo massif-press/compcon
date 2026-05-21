@@ -1,10 +1,6 @@
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
-import {
-  getUserDataChanged,
-  bulkDelete,
-  cloudDelete,
-} from '@/io/apis/account'
+import { getUserDataChanged, bulkDelete, cloudDelete } from '@/io/apis/account'
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
 import type { dbItemMeta } from '@/classes/components/cloud/CloudController'
 import { getItemRegistration } from '@/classes/components/cloud/ItemRegistry'
@@ -53,8 +49,7 @@ export const CloudDataStore = defineStore('cloudData', {
   getters: {
     MaxCloudStorage(): number {
       const tier =
-        UserMetadataStore().UserMetadata?.PatreonData?.profile?.tierData?.title?.toLowerCase() ??
-        ''
+        UserMetadataStore().UserMetadata?.PatreonData?.profile?.tierData?.title?.toLowerCase() ?? ''
       let baseMbVal = 100
       if (tier === 'diasporan') baseMbVal = 1000
       else if (tier === 'cosmopolitan') baseMbVal = 5000
@@ -63,15 +58,9 @@ export const CloudDataStore = defineStore('cloudData', {
     },
     CollectionPublishLimit(): number {
       const tier =
-        UserMetadataStore().UserMetadata?.PatreonData?.profile?.tierData?.title?.toLowerCase() ??
-        ''
+        UserMetadataStore().UserMetadata?.PatreonData?.profile?.tierData?.title?.toLowerCase() ?? ''
       if (tier === 'diasporan') return 3
-      if (
-        tier === 'cosmopolitan' ||
-        tier === 'lancer' ||
-        tier === 'nhp' ||
-        tier === 'monist'
-      )
+      if (tier === 'cosmopolitan' || tier === 'lancer' || tier === 'nhp' || tier === 'monist')
         return -1
       return 0
     },
@@ -122,7 +111,9 @@ export const CloudDataStore = defineStore('cloudData', {
         return NpcStore().Npcs.find((n: any) => n.ID === id) as SyncableItem | undefined
       }
       if (normalized === 'collectionitem' || normalized === 'narrative') {
-        return NarrativeStore().CollectionItems.find((n: any) => n.ID === id) as SyncableItem | undefined
+        return NarrativeStore().CollectionItems.find((n: any) => n.ID === id) as
+          | SyncableItem
+          | undefined
       }
 
       logger.error('getLocalItem / unknown item type:', rawType)
@@ -183,10 +174,7 @@ export const CloudDataStore = defineStore('cloudData', {
         this.LastQuery = result.serverTime
         setServerTimeOffset(result.serverTime)
         if (authStore.Cognito.userId) {
-          localStorage.setItem(
-            `cc_last_query_${authStore.Cognito.userId}`,
-            String(this.LastQuery)
-          )
+          localStorage.setItem(`cc_last_query_${authStore.Cognito.userId}`, String(this.LastQuery))
         }
         let totalSizeBytes = 0
         result.items.forEach((item: any) => {
@@ -205,10 +193,7 @@ export const CloudDataStore = defineStore('cloudData', {
         this.LastQuery = result.serverTime
         setServerTimeOffset(result.serverTime)
         if (authStore.Cognito.userId) {
-          localStorage.setItem(
-            `cc_last_query_${authStore.Cognito.userId}`,
-            String(this.LastQuery)
-          )
+          localStorage.setItem(`cc_last_query_${authStore.Cognito.userId}`, String(this.LastQuery))
         }
 
         let totalSizeBytes = this.CloudStorageUsed
@@ -245,7 +230,9 @@ export const CloudDataStore = defineStore('cloudData', {
       const { RemoteItemStore } = await import('./RemoteItemStore')
       await RemoteItemStore().setMetadataForRemotes()
 
-      umStore.UserMetadata  // touch to keep reactive
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      umStore.UserMetadata // touch to keep reactive
+
       this.SyncVersion++
     },
     async permDeleteFlaggedItems(): Promise<number> {
