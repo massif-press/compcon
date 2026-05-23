@@ -14,61 +14,51 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores'
 import { CompendiumItem } from '@/classes/CompendiumItem'
 
-export default {
-  name: 'EquipmentSelector',
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    exotic: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['select'],
-  data: () => ({
-    headers: [
-      { title: 'Manufacturer', align: 'left', key: 'Source' },
-      { title: 'Weapon', align: 'left', key: 'Name' },
-      { title: 'License', align: 'left', key: 'LicenseString' },
-      { title: 'Size', align: 'left', key: 'SizeInt' },
-      { title: 'Type', align: 'left', key: 'WeaponTypes' },
-      { title: 'Range', align: 'left', key: 'Range' },
-      { title: 'Damage', align: 'left', key: 'Damage' },
-    ],
-  }),
-  computed: {
-    options() {
-      return {
-        views: ['single', 'table', 'cards'],
-        initialView: 'single',
-        groups: this.exotic ? ['none', 'lcp'] : ['lcp'],
-        initialGroup: this.exotic ? 'none' : 'lcp',
-        showExotics: this.exotic,
-      }
-    },
-    allEquipment() {
-      if (!this.pilot.LcpConfig) return CompendiumStore().allEquipment
-      const packIDs = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packID))
-      const packNames = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packName))
-      return CompendiumStore().allEquipment.filter(
-        (x: any) => !x.InLcp || packIDs.has(x.Brew?.LcpId) || packNames.has(x.Brew.LcpName)
-      )
-    },
-    availableItems(): CompendiumItem[] {
-      if (this.exotic)
-        return (this.allEquipment.filter((x: any) => x.IsExotic) as CompendiumItem[]).concat(
-          CompendiumStore().PilotGear.filter((x: any) => x.IsExotic) as CompendiumItem[]
-        )
+const props = withDefaults(defineProps<{
+  pilot: Record<string, any>
+  exotic?: boolean
+}>(), { exotic: false })
 
-      const licensedIDs = new Set(this.pilot.LicenseController.LicensedItems.map((y: any) => y.ID))
-      return this.allEquipment.filter((x: any) => !licensedIDs.has(x.ID))
-    },
-  },
-}
+defineEmits<{ select: [item: any] }>()
+
+const headers = [
+  { title: 'Manufacturer', align: 'left', key: 'Source' },
+  { title: 'Weapon', align: 'left', key: 'Name' },
+  { title: 'License', align: 'left', key: 'LicenseString' },
+  { title: 'Size', align: 'left', key: 'SizeInt' },
+  { title: 'Type', align: 'left', key: 'WeaponTypes' },
+  { title: 'Range', align: 'left', key: 'Range' },
+  { title: 'Damage', align: 'left', key: 'Damage' },
+]
+
+const options = computed(() => ({
+  views: ['single', 'table', 'cards'],
+  initialView: 'single',
+  groups: props.exotic ? ['none', 'lcp'] : ['lcp'],
+  initialGroup: props.exotic ? 'none' : 'lcp',
+  showExotics: props.exotic,
+}))
+
+const allEquipment = computed(() => {
+  if (!props.pilot.LcpConfig) return CompendiumStore().allEquipment
+  const packIDs = new Set(props.pilot.LcpConfig.packList.map((y: any) => y.packID))
+  const packNames = new Set(props.pilot.LcpConfig.packList.map((y: any) => y.packName))
+  return CompendiumStore().allEquipment.filter(
+    (x: any) => !x.InLcp || packIDs.has(x.Brew?.LcpId) || packNames.has(x.Brew.LcpName)
+  )
+})
+
+const availableItems = computed<CompendiumItem[]>(() => {
+  if (props.exotic)
+    return (allEquipment.value.filter((x: any) => x.IsExotic) as CompendiumItem[]).concat(
+      CompendiumStore().PilotGear.filter((x: any) => x.IsExotic) as CompendiumItem[]
+    )
+  const licensedIDs = new Set(props.pilot.LicenseController.LicensedItems.map((y: any) => y.ID))
+  return allEquipment.value.filter((x: any) => !licensedIDs.has(x.ID))
+})
 </script>

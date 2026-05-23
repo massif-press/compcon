@@ -263,7 +263,7 @@
 import { PilotStore } from '@/stores';
 import SheetItem from './_components/SheetItem.vue';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import ActiveModeOrganizer from '@/features/active_mode/_components/ActiveModeOrganizer.vue';
 
 const sheetOrganizerColumns = [

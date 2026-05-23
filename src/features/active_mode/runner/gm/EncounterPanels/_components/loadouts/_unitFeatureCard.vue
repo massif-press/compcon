@@ -178,8 +178,8 @@ import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
-import { useMobile } from '@/mixins/useMobile'
-import { externalUnitItemBonuses } from '@/mixins/useExternalItemBonuses'
+import { useMobile } from '@/composables/useMobile'
+import { externalUnitItemBonuses } from '@/composables/useExternalItemBonuses'
 import EquipmentDestroyedOverlay from './_DestroyedOverlay.vue'
 
 export default {

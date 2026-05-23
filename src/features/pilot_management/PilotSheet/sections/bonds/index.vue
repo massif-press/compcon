@@ -355,7 +355,7 @@ import SectionHeader from '../components/SectionHeader.vue'
 import SectionEditChip from '../components/SectionEditChip.vue'
 
 import { CompendiumStore } from '@/stores'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import { remove } from 'jszip'
 import { sortBy } from 'lodash-es'
 

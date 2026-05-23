@@ -174,7 +174,7 @@ import { PilotStore } from '@/stores';
 import LoadoutBlock from './sections/LoadoutBlock.vue';
 import SectionHeader from '../components/SectionHeader.vue';
 import StatusAlerts from './components/StatusAlerts.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

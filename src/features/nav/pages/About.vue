@@ -46,13 +46,8 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'about',
-  setup() {
-    return { a: NAV_STRINGS.about }
-  },
-};
+const a = NAV_STRINGS.about
 </script>

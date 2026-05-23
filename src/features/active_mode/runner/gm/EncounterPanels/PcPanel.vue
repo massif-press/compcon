@@ -108,7 +108,7 @@
 import { ReserveType } from '@/classes/enums'
 import MechPanel from './MechPanel.vue';
 import PilotPanel from './PilotPanel.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

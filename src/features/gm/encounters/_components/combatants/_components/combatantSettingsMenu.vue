@@ -96,17 +96,15 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CombatantSettingsMenu',
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  computed: {
-    sideColor() {
-      return this.item.side === 'enemy' ? 'error' : this.item.side === 'ally' ? 'success' : '';
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+  item: Record<string, any>
+  readonly?: boolean
+}>(), { readonly: false })
+
+const sideColor = computed(() =>
+  props.item.side === 'enemy' ? 'error' : props.item.side === 'ally' ? 'success' : ''
+)
 </script>

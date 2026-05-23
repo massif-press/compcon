@@ -42,7 +42,7 @@
 <script lang="ts">
 import SlotCardBase from '../_SlotCardBase.vue';
 import EquipmentOptions from '../_EquipmentOptions.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

@@ -4,21 +4,14 @@
     :charts="charts" />
 </template>
 
-<script lang="ts">
-import InfoCardBase from './_InfoCardBase.vue';
+<script setup lang="ts">
+import InfoCardBase from './_InfoCardBase.vue'
 
-export default {
-  name: 'CcCoreBonusCard',
-  components: { InfoCardBase },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    notes: { type: Boolean },
-    charts: { type: Boolean },
-    collapseActions: { type: Boolean },
-    tier: { type: Number },
-  },
-};
+defineProps<{
+  item: object
+  notes?: boolean
+  charts?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
 </script>

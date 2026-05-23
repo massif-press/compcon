@@ -24,26 +24,17 @@
   </v-col>
 </template>
 
-<script>
-import { CompendiumStore } from '@/stores';
-import BaseDurationDisplay from './BaseDurationDisplay.vue';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { CompendiumStore } from '@/stores'
+import BaseDurationDisplay from './BaseDurationDisplay.vue'
 
-export default {
-  name: 'StatusApplicator',
-  components: {
-    BaseDurationDisplay
-  },
-  props: {
-    event: { type: Object, required: true },
-    cols: { type: [Number, String], default: 'auto' }
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown
-    },
-    statusOptions() {
-      return CompendiumStore().Statuses
-    },
-  },
-};
+withDefaults(defineProps<{
+  event: Record<string, any>
+  cols?: number | string
+}>(), { cols: 'auto' })
+
+const { mdAndDown: mobile } = useDisplay()
+const statusOptions = computed(() => CompendiumStore().Statuses)
 </script>

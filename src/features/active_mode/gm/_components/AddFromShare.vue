@@ -3,6 +3,8 @@
     import-type="pilot"
     block-btn
     title="Add from Share Code"
+    :user-id="userId"
+    :remote-items="remoteItems"
     @set-query-result="queryResult = $event">
     <template #result>
       <div v-if="queryResult === null"
@@ -59,6 +61,7 @@
 <script lang="ts">
 import { CloudController } from '@/classes/components/cloud/CloudController';
 import { downloadFromS3 } from '@/io/apis/account';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'ShareCodeDialog',
@@ -74,9 +77,9 @@ export default {
     dlLoading: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
+    mobile() { return this.$vuetify.display.mdAndDown },
+    userId() { return UserStore().Cognito?.userId },
+    remoteItems() { return UserStore().UserMetadata?.RemoteItems ?? [] },
   },
   methods: {
     async addToEncounter() {

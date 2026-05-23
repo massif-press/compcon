@@ -198,6 +198,7 @@ import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
 import { Deployable } from '@/classes/components/feature/deployable/Deployable';
 import { notify } from '@/util/notify';
+import { ACTIVE_STRINGS } from '@/features/active_mode/strings'
 import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
 import DeployButton from './loadouts/_deployButton.vue';
 import InvadeButton from './loadouts/action_buttons/invadeButton.vue';
@@ -238,66 +239,66 @@ function activate(event: string) {
   switch (event) {
     case 'act_prepare':
       controller.value.Prepared = true;
-      notify({ type: 'success', title: 'Mech Prepared', text: `${controller.value.CombatName} has been marked as PREPARED.` });
+      notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.preparedTitle, text: ACTIVE_STRINGS.mechActions.preparedText(controller.value.CombatName) });
       break;
     case 'act_eject':
       if (!controller.value.Mounted) {
-        notify({ type: 'warning', title: 'Eject Failed', text: `${controller.value.CombatName} is not mounted.` });
+        notify({ type: 'warning', title: ACTIVE_STRINGS.mechActions.ejectFailedTitle, text: ACTIVE_STRINGS.mechActions.ejectFailedText(controller.value.CombatName) });
         controller.value.ResetActivation('quick');
         controller.value.ClearActionUsed('eject');
         return;
       }
       controller.value.ToggleMounted();
       controller.value.AddStatus('impaired');
-      notify({ type: 'success', title: 'Pilot Ejected', text: `${controller.value.CombatName}'s has ejected from the mech and is now IMPAIRED.` });
+      notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.pilotEjectedTitle, text: ACTIVE_STRINGS.mechActions.pilotEjectedText(controller.value.CombatName) });
       break;
     case 'act_dismount':
       if (!controller.value.Mounted) {
-        notify({ type: 'warning', title: 'Dismount Failed', text: `${controller.value.CombatName} is not mounted.` });
+        notify({ type: 'warning', title: ACTIVE_STRINGS.mechActions.dismountFailedTitle, text: ACTIVE_STRINGS.mechActions.dismountFailedText(controller.value.CombatName) });
         controller.value.ResetActivation('full');
         controller.value.ClearActionUsed('act_dismount');
         return;
       }
       controller.value.ToggleMounted();
-      notify({ type: 'success', title: 'Pilot Dismounted', text: `${controller.value.CombatName}'s has dismounted from the mech.` });
+      notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.pilotDismountedTitle, text: ACTIVE_STRINGS.mechActions.pilotDismountedText(controller.value.CombatName) });
       break;
     case 'act_hide':
       controller.value.AddStatus('hidden');
-      notify({ type: 'success', title: 'Mech Hidden', text: `${controller.value.CombatName} is now HIDDEN.` });
+      notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.mechHiddenTitle, text: ACTIVE_STRINGS.mechActions.mechHiddenText(controller.value.CombatName) });
       break;
     case 'act_disengage':
       if (!controller.value.HasStatus('engaged')) {
-        notify({ type: 'warning', title: 'Disengage Failed', text: `${controller.value.CombatName} is not ENGAGED.` });
+        notify({ type: 'warning', title: ACTIVE_STRINGS.mechActions.disengageFailedTitle, text: ACTIVE_STRINGS.mechActions.disengageFailedText(controller.value.CombatName) });
         controller.value.ResetActivation('full');
         controller.value.ClearActionUsed('act_disengage');
       } else {
         controller.value.RemoveStatus('engaged');
-        notify({ type: 'success', title: 'Mech Disengaged', text: `${controller.value.CombatName} has DISENGAGED.` });
+        notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.mechDisengagedTitle, text: ACTIVE_STRINGS.mechActions.mechDisengagedText(controller.value.CombatName) });
       }
       break;
     case 'act_boot_up':
       if (!controller.value.Statuses.some((x: any) => x.status.ID === 'shut-down')) {
-        notify({ type: 'warning', title: 'Boot Up Failed', text: `${controller.value.CombatName} is not SHUT DOWN.` });
+        notify({ type: 'warning', title: ACTIVE_STRINGS.mechActions.bootUpFailedTitle, text: ACTIVE_STRINGS.mechActions.bootUpFailedText(controller.value.CombatName) });
         controller.value.ResetActivation('full');
         controller.value.ClearActionUsed('act_boot_up');
         return;
       }
       controller.value.RemoveStatus('shut-down');
-      notify({ type: 'success', title: 'Mech Booted Up', text: `${controller.value.CombatName} has BOOTED UP.` });
+      notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.mechBootedUpTitle, text: ACTIVE_STRINGS.mechActions.mechBootedUpText(controller.value.CombatName) });
       break;
     case 'act_self_destruct':
       if (controller.value.IsInSelfDestruct) {
-        notify({ type: 'warning', title: 'Self Destruct Failed', text: `${controller.value.CombatName} is already in SELF DESTRUCT.` });
+        notify({ type: 'warning', title: ACTIVE_STRINGS.mechActions.selfDestructFailedTitle, text: ACTIVE_STRINGS.mechActions.selfDestructFailedText(controller.value.CombatName) });
         controller.value.ResetActivation('quick');
         controller.value.ClearActionUsed('act_self_destruct');
         return;
       }
       controller.value.StartSelfDestruct();
-      notify({ type: 'success', title: 'Mech Self-Destruct Initiated', text: `${controller.value.CombatName} is about to SELF DESTRUCT.` });
+      notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.selfDestructInitiatedTitle, text: ACTIVE_STRINGS.mechActions.selfDestructInitiatedText(controller.value.CombatName) });
       break;
     case 'act_brace':
       controller.value.Braced = true;
-      notify({ type: 'success', title: 'Mech Braced', text: `${controller.value.CombatName} is now BRACED.` });
+      notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.mechBracedTitle, text: ACTIVE_STRINGS.mechActions.mechBracedText(controller.value.CombatName) });
       break;
     default:
       console.warn('uncaught event:', event);

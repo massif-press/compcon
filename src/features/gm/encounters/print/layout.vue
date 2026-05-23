@@ -214,56 +214,33 @@
   </div>
 </template>
 
-<script lang="ts">
-import UnitPrint from '@/features/gm/npc_roster/print/layouts/UnitPrint.vue';
-import EidolonPrint from '@/features/gm/npc_roster/print/layouts/EidolonPrint.vue';
-import DoodadPrint from '@/features/gm/npc_roster/print/layouts/DoodadPrint.vue';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { sortBy } from 'lodash-es'
+import UnitPrint from '@/features/gm/npc_roster/print/layouts/UnitPrint.vue'
+import EidolonPrint from '@/features/gm/npc_roster/print/layouts/EidolonPrint.vue'
+import DoodadPrint from '@/features/gm/npc_roster/print/layouts/DoodadPrint.vue'
+import Notes from './components/blank/notes.vue'
+import BlankLine from './components/blank/line.vue'
+import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue'
 
-import Notes from './components/blank/notes.vue';
-import BlankLine from './components/blank/line.vue';
-import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
-import { Npc } from '@/classes/npc/Npc';
-import * as _ from 'lodash-es';
+const props = defineProps<{
+  encounter: Record<string, any>
+  options: Record<string, any>
+}>()
 
-export default {
-  name: 'combined-print',
-  components: {
-    Notes,
-    BlankLine,
-    PageBreak,
-  },
+const SortedCombatants = computed(() => sortBy(props.encounter.Combatants, (x: any) => x.playerCount))
+const UnitOptions = computed(() => {
+  const options = { ...props.options }
+  options.include = []
+  return options
+})
 
-  props: {
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    SortedCombatants() {
-      return _.sortBy(this.encounter.Combatants, (x) => x.playerCount);
-    },
-    UnitOptions() {
-      const options = { ...this.options };
-      options.include = [];
-      return options;
-    },
-  },
-  methods: {
-    getComponentByType(npc) {
-      switch (npc) {
-        case 'unit':
-          return UnitPrint;
-        case 'eidolon':
-          return EidolonPrint;
-        default:
-          return DoodadPrint;
-      }
-    },
-  },
-};
+function getComponentByType(npc: string) {
+  switch (npc) {
+    case 'unit': return UnitPrint
+    case 'eidolon': return EidolonPrint
+    default: return DoodadPrint
+  }
+}
 </script>

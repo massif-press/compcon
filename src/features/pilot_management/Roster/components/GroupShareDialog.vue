@@ -2,6 +2,8 @@
   <cc-share-code-importer ref="importer"
     :import-type="importType"
     :block-btn="blockBtn"
+    :user-id="UserStore().Cognito?.userId"
+    :remote-items="UserStore().UserMetadata?.RemoteItems ?? []"
     @set-query-result="queryResult = $event"
     @set-share-code="shareCode = $event">
     <template #result>
@@ -68,64 +70,52 @@
   </cc-share-code-importer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue'
 import { CloudController } from '@/classes/components/cloud/CloudController';
 import { DownloadViaCode } from '@/io/apis/account';
 import { UserStore } from '@/stores';
 
-export default {
-  name: 'ShareCodeDialog',
-  props: {
-    importType: {
-      type: String,
-      required: false,
-      default: 'item',
-    },
-    blockBtn: {
-      type: Boolean,
-    },
-  },
-  emits: ['close'],
-  data: () => ({
-    queryResult: null as any,
-    shareCode: '',
-    dlLoading: false,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    isUserOwned() {
-      return !!(this.queryResult?.user_id &&
-        UserStore().Cognito?.userId &&
-        this.queryResult.user_id === UserStore().Cognito.userId);
-    },
-  },
-  methods: {
-    async downloadAsRemote() {
-      await this.downloadAsCopy(true);
-    },
-    async downloadAsCopy(remote = false) {
-      this.dlLoading = true;
-      const itemData = await DownloadViaCode(this.queryResult.code);
-      const itemType = this.queryResult.sortkey.split('_')[1];
-      const item = await CloudController.NewByType(itemType, itemData);
-      if (remote) {
-        const codeToTrack = this.shareCode || this.queryResult.code;
-        item.CloudController.setRemoteMetadata(this.queryResult);
-        item.SaveController.RemoteCode = codeToTrack;
-        if (UserStore().IsLoggedIn)
-          UserStore().addRemoteItem(codeToTrack);
-      } else {
-        item.CloudController.GenerateMetadata();
-        item.SaveController.ClearRemote();
-      }
-      await CloudController.AddByType(itemType, item);
+const props = withDefaults(defineProps<{ importType?: string; blockBtn?: boolean }>(), {
+  importType: 'item',
+})
 
-      this.dlLoading = false;
-      (this.$refs as any).importer.reset();
-      ((this.$refs as any).importer as any).$refs.modal.close();
-    },
-  },
-};
+const emit = defineEmits<{ close: [] }>()
+
+const importer = ref<any>(null)
+const queryResult = ref<any>(null)
+const shareCode = ref('')
+const dlLoading = ref(false)
+
+const isUserOwned = computed(() =>
+  !!(queryResult.value?.user_id &&
+    UserStore().Cognito?.userId &&
+    queryResult.value.user_id === UserStore().Cognito.userId)
+)
+
+async function downloadAsRemote() {
+  await downloadAsCopy(true)
+}
+
+async function downloadAsCopy(remote = false) {
+  dlLoading.value = true
+  const itemData = await DownloadViaCode(queryResult.value.code)
+  const itemType = queryResult.value.sortkey.split('_')[1]
+  const item = await CloudController.NewByType(itemType, itemData)
+  if (remote) {
+    const codeToTrack = shareCode.value || queryResult.value.code
+    item.CloudController.setRemoteMetadata(queryResult.value)
+    item.SaveController.RemoteCode = codeToTrack
+    if (UserStore().IsLoggedIn)
+      UserStore().addRemoteItem(codeToTrack)
+  } else {
+    item.CloudController.GenerateMetadata()
+    item.SaveController.ClearRemote()
+  }
+  await CloudController.AddByType(itemType, item)
+
+  dlLoading.value = false
+  importer.value.reset()
+  importer.value.$refs.modal.close()
+}
 </script>

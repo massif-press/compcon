@@ -62,17 +62,14 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 
-export default {
-  name: 'PilotListItemDetails',
-  props: {
-    pilot: { type: Object, required: true }
-  },
-  computed: {
-    sortedMechs(): any[] {
-      return this.pilot.Mechs.slice().sort((a, b) => this.pilot.FavoriteMech?.ID === a.ID ? -1 : this.pilot.FavoriteMech?.ID === b.ID ? 1 : 0)
-    }
-  }
-}
+const props = defineProps<{ pilot: any }>()
+
+const sortedMechs = computed<any[]>(() =>
+  props.pilot.Mechs.slice().sort((a, b) =>
+    props.pilot.FavoriteMech?.ID === a.ID ? -1 : props.pilot.FavoriteMech?.ID === b.ID ? 1 : 0
+  )
+)
 </script>

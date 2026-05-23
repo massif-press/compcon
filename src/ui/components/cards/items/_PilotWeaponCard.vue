@@ -32,20 +32,12 @@
   </equipment-card-base>
 </template>
 
-<script lang="ts">
-import EquipmentCardBase from './_EquipmentCardBase.vue';
+<script setup lang="ts">
+import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon';
+import EquipmentCardBase from './_EquipmentCardBase.vue'
 
-export default {
-  name: 'CcPilotWeaponCard',
-  components: { EquipmentCardBase },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    dense: {
-      type: Boolean,
-    },
-  },
-};
+defineProps<{
+  item: PilotWeapon
+  dense?: boolean
+}>()
 </script>

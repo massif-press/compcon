@@ -30,34 +30,27 @@
   </v-col>
 </template>
 
-<script>
-import { CompendiumStore } from '@/stores';
-import BaseDurationDisplay from './BaseDurationDisplay.vue';
+<script setup lang="ts">
+import BaseDurationDisplay from './BaseDurationDisplay.vue'
 
-export default {
-  name: 'StatusApplicator',
-  components: {
-    BaseDurationDisplay
-  },
-  props: {
-    event: { type: Object, required: true },
-    cols: { type: [Number, String], default: 'auto' }
-  },
-  data: () => ({
-    resistanceOptions: [
-      { title: 'Kinetic', value: 'kinetic' },
-      { title: 'Energy', value: 'energy' },
-      { title: 'Explosive', value: 'explosive' },
-      { title: 'Heat', value: 'heat' },
-      { title: 'Burn', value: 'burn' },
-      { title: 'Area of Effect', value: 'aoe' },
-      { title: 'All', value: 'all' },
-    ],
-    resistTypes: [
-      { title: 'Resistance', value: 'Resistance' },
-      { title: 'Immunity', value: 'Immunity' },
-      { title: 'Vulnerability', value: 'Vulnerability' },
-    ],
-  }),
-};
+withDefaults(defineProps<{
+  event: Record<string, any>
+  cols?: number | string
+}>(), { cols: 'auto' })
+
+const resistanceOptions = [
+  { title: 'Kinetic', value: 'kinetic' },
+  { title: 'Energy', value: 'energy' },
+  { title: 'Explosive', value: 'explosive' },
+  { title: 'Heat', value: 'heat' },
+  { title: 'Burn', value: 'burn' },
+  { title: 'Area of Effect', value: 'aoe' },
+  { title: 'All', value: 'all' },
+]
+
+const resistTypes = [
+  { title: 'Resistance', value: 'Resistance' },
+  { title: 'Immunity', value: 'Immunity' },
+  { title: 'Vulnerability', value: 'Vulnerability' },
+]
 </script>

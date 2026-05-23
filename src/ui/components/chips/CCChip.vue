@@ -5,51 +5,28 @@
   </component>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import split from './_subcomponents/cc_split_chip.vue';
 import std from './_subcomponents/cc_std_chip.vue';
 
-export default {
-  name: 'CCChip',
-  props: {
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    bgColor: {
-      type: String,
-      required: false,
-    },
-    title: {
-      type: String,
-    },
-    label: {
-      type: [String, Number],
-    },
-    icon: {
-      type: String,
-    },
-    outlined: {
-      type: Boolean,
-    },
-    size: {
-      type: String,
-      required: false,
-      default: 'small',
-    },
-    variant: {
-      type: String,
-    },
-    tooltip: {
-      type: String,
-    },
-  },
-  computed: {
-    component() {
-      if ((this.title || this.icon) && this.label) return split;
-      return std;
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  color?: string
+  bgColor?: string
+  title?: string
+  label?: string | number
+  icon?: string
+  outlined?: boolean
+  size?: string
+  variant?: string
+  tooltip?: string
+}>(), {
+  color: 'primary',
+  size: 'small',
+})
+
+const component = computed(() => {
+  if ((props.title || props.icon) && props.label) return split;
+  return std;
+})
 </script>

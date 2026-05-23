@@ -9,26 +9,14 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'ProfileOnElement',
-  props: {
-    profile: {
-      type: Object,
-      required: true,
-    },
-    action: {
-      type: String,
-      required: true,
-    },
-  },
-  computed: {
-    capitalizeAction() {
-      return this.action.charAt(0).toUpperCase() + this.action.slice(1);
-    },
-    namedAction() {
-      return this.action === 'crit' ? 'critical hit' : this.action;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  profile: object
+  action: string
+}>()
+
+const capitalizeAction = computed(() => props.action.charAt(0).toUpperCase() + props.action.slice(1))
+const namedAction = computed(() => props.action === 'crit' ? 'critical hit' : props.action)
 </script>

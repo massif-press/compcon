@@ -36,7 +36,7 @@
 <script lang="ts">
 import EquipmentHeader from '../../_EquipmentHeader.vue';
 import EquipmentDetails from '../../_EquipmentDetails.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'mod-inset',

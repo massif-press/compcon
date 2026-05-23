@@ -87,11 +87,8 @@
   </v-col>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'BaseTargetSelector',
-  props: {
-    event: { type: Object, required: true },
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  event: object
+}>()
 </script>

@@ -6,6 +6,8 @@
     :color="color"
     :full-width="fullWidth"
     :subtitle="subtitle"
+    :user-id="UserStore().Cognito?.userId"
+    :remote-items="UserStore().UserMetadata?.RemoteItems ?? []"
     @set-query-result="queryResult = $event"
     @set-share-code="shareCode = $event">
     <template #result>

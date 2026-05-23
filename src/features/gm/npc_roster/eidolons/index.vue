@@ -51,7 +51,7 @@ import Builder from './builder.vue';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 import { CompendiumStore, NpcStore } from '@/stores';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import { ref, onUnmounted } from 'vue';
 
 

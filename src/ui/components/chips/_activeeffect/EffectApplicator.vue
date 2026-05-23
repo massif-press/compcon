@@ -23,48 +23,21 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import StatusApplicator from './_shared/StatusApplicator.vue';
-import BaseAttackRoller from './_shared/BaseAttackRoller.vue';
-import BaseSaveRoller from './_shared/BaseSaveRoller.vue';
-import BaseTargetSelector from './_shared/BaseTargetSelector.vue';
-import DamageApplicator from './_shared/DamageApplicator.vue';
-import OtherApplicator from './_shared/OtherApplicator.vue';
-import ResistanceApplicator from './_shared/ResistanceApplicator.vue';
-import SpecialConditionApplicator from './_shared/SpecialConditionApplicator.vue';
-import SpecialConditionRemover from './_shared/SpecialConditionRemover.vue';
-import LocalTargetSelector from './_shared/LocalTargetSelector.vue';
-import LocalAttackRoller from './_shared/LocalAttackRoller.vue';
+<script setup lang="ts">
+import StatusApplicator from './_shared/StatusApplicator.vue'
+import BaseAttackRoller from './_shared/BaseAttackRoller.vue'
+import BaseSaveRoller from './_shared/BaseSaveRoller.vue'
+import BaseTargetSelector from './_shared/BaseTargetSelector.vue'
+import DamageApplicator from './_shared/DamageApplicator.vue'
+import OtherApplicator from './_shared/OtherApplicator.vue'
+import ResistanceApplicator from './_shared/ResistanceApplicator.vue'
+import SpecialConditionApplicator from './_shared/SpecialConditionApplicator.vue'
+import SpecialConditionRemover from './_shared/SpecialConditionRemover.vue'
+import LocalTargetSelector from './_shared/LocalTargetSelector.vue'
+import LocalAttackRoller from './_shared/LocalAttackRoller.vue'
 
-export default {
-  name: 'EffectApplicator',
-  components: {
-    BaseAttackRoller,
-    BaseSaveRoller,
-    BaseTargetSelector,
-    DamageApplicator,
-    OtherApplicator,
-    StatusApplicator,
-    ResistanceApplicator,
-    SpecialConditionApplicator,
-    SpecialConditionRemover,
-    LocalTargetSelector,
-    LocalAttackRoller
-  },
-  props: {
-    event: {
-      type: Object,
-      required: true,
-    },
-    pc: {
-      type: Boolean,
-      default: false,
-    }
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown
-    }
-  }
-}
+withDefaults(defineProps<{
+  event: Record<string, any>
+  pc?: boolean
+}>(), { pc: false })
 </script>

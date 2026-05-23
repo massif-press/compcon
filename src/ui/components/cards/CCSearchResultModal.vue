@@ -43,20 +43,11 @@
   </cc-modal>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCSearchResultModal',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    sanitize(type: string) {
-      if (!type) return ''
-      return type.replace('Npc', 'NPC ')
-    },
-  },
-};
+<script setup lang="ts">
+defineProps<{ item: Record<string, any> }>()
+
+function sanitize(type: string) {
+  if (!type) return ''
+  return type.replace('Npc', 'NPC ')
+}
 </script>

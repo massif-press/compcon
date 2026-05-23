@@ -78,7 +78,7 @@
 
 <script lang="ts">
 import { CompendiumItem } from '@/classes/CompendiumItem'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

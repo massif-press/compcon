@@ -142,7 +142,7 @@ import { MandatoryStats, StatController } from '@/classes/components/combat/stat
 import { Stats } from '@/classes/components/combat/stats/Stats';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 const npcStatOrder = [

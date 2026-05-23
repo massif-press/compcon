@@ -69,6 +69,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.8.0",
     "husky": "^9.1.7",
+    "jscpd": "^4.2.3",
     "lint-staged": "^16.2.7",
     "madge": "^8.0.0",
     "prettier": "^3.8.1",

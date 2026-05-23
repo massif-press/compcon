@@ -93,84 +93,58 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { notify } from '@/util/notify'
 import { ContentPack } from '@/classes/ContentPack'
 import PackInfoCard from './components/PackInfoCard.vue'
 import { CompendiumStore } from '@/stores'
-import { useMobile } from '@/mixins/useMobile';
 import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'PacksList',
-  setup() {
-    return { CM: NAV_STRINGS.contentManager }
-  },
-  components: { PackInfoCard },
-  mixins: [useMobile],
-  data: () => ({
-    expandedRows: [] as any[],
-    initHeaders: [
-      { title: '', key: 'data-table-expand' },
-      { title: 'Active', value: 'toggleActive', sortable: false },
-      { title: 'Name', value: 'Name' },
-      { title: 'Author', value: 'Author' },
-      { title: 'Version', value: 'Version' },
-      { title: 'v3', value: 'v3' },
-      { title: '', value: 'deleteAction', sortable: false },
-    ],
-    loading: false,
-  }),
-  computed: {
-    headers() {
-      return this.mobile ? this.initHeaders.slice(1) : this.initHeaders
-    },
-    contentPacks() {
-      return [...CompendiumStore().ContentPacks].sort((a, b) => {
-        if (a.v3 !== b.v3) return a.v3 ? -1 : 1
-        return a.Name.localeCompare(b.Name)
-      })
-    },
-  },
-  methods: {
-    async toggleActive(packID: string, state: boolean): Promise<void> {
-      try {
-        await CompendiumStore().togglePackActive(packID)
-        this.$notify({
-          color: 'success',
-          text: `Successfully ${!state ? 'activated' : 'deactivated'} pack.`,
-        })
-      } catch (e) {
-        this.$notify({
-          color: 'error',
-          text: `Unable to activate LCP: ${e}`,
-        })
-      }
-    },
-    async deletePack(id: string): Promise<void> {
-      await CompendiumStore().deleteContentPack(id)
-    },
-    async deleteAll() {
-      this.loading = true
-      await CompendiumStore().deleteAllContentPacks()
-      this.$notify({
-        color: 'success',
-        text: 'Successfully deleted all content packs.',
-      })
-      this.loading = false
-    },
-    async reload() {
-      // this.$emit('start-load');
-      // const pilotStore =PilotStore();
-      // const npcStore =NpcStore();
-      // const missing = { pilots: [], npcs: [] };
-      // await pilotStore.loadPilots();
-      // missing.pilots = pilotStore.MissingPilots;
-      // await npcStore.loadNpcs();
-      // missing.npcs = npcStore.MissingNpcs;
-      // await CompendiumStore().setMissingContent(missing);
-      // this.$emit('end-load');
-    },
-  },
+const { smAndDown: mobile } = useDisplay()
+const CM = NAV_STRINGS.contentManager
+
+const expandedRows = ref<any[]>([])
+const loading = ref(false)
+
+const initHeaders = [
+  { title: '', key: 'data-table-expand' },
+  { title: 'Active', value: 'toggleActive', sortable: false },
+  { title: 'Name', value: 'Name' },
+  { title: 'Author', value: 'Author' },
+  { title: 'Version', value: 'Version' },
+  { title: 'v3', value: 'v3' },
+  { title: '', value: 'deleteAction', sortable: false },
+]
+
+const headers = computed(() => mobile.value ? initHeaders.slice(1) : initHeaders)
+
+const contentPacks = computed(() =>
+  [...CompendiumStore().ContentPacks].sort((a, b) => {
+    if (a.v3 !== b.v3) return a.v3 ? -1 : 1
+    return a.Name.localeCompare(b.Name)
+  })
+)
+
+async function toggleActive(packID: string, state: boolean): Promise<void> {
+  try {
+    await CompendiumStore().togglePackActive(packID)
+    notify({ color: 'success', text: NAV_STRINGS.packsList.toggleSuccessText(state) })
+  } catch (e) {
+    notify({ color: 'error', text: NAV_STRINGS.packsList.toggleErrorText(String(e)) })
+  }
+}
+
+async function deletePack(id: string): Promise<void> {
+  await CompendiumStore().deleteContentPack(id)
+}
+
+async function deleteAll() {
+  loading.value = true
+  await CompendiumStore().deleteAllContentPacks()
+  notify({ color: 'success', text: NAV_STRINGS.packsList.deleteAllSuccess })
+  loading.value = false
 }
 </script>
 

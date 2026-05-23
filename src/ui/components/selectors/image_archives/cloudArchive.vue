@@ -123,131 +123,108 @@
   </v-card>
 </template>
 
-<script lang="ts">
-// import { UserStore } from '@/store';
-import * as _ from 'lodash-es';
-import { UserStore } from '@/stores';
-import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account';
-import { CloudController } from '@/classes/components/cloud/CloudController';
-import logger from '@/user/logger';
-import { file } from 'jszip';
-// import { Auth } from '@aws-amplify/auth';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { UserStore } from '@/stores'
+import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account'
+import { CloudController } from '@/classes/components/cloud/CloudController'
+import logger from '@/user/logger'
+import { notify } from '@/util/notify'
 
-const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
+const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || ''
 
-export default {
-  name: 'CloudImageArchive',
-  emits: ['set-staged'],
-  data: () => ({
-    currentUserPage: 1,
-    currentArtistPage: 1,
-    itemsPerPage: 12,
-    selectedImage: null as unknown as any,
-    loading: false,
-    imageSelectTab: 0,
-    remoteInput: '',
-    remoteError: '',
-    iid: '',
-    userStorageData: null as unknown as any,
-    stagedImage: null as unknown as any,
-    showAll: false,
-    imageuri: '',
-    file: null as unknown as any,
-  }),
-  computed: {
-    store() {
-      return UserStore();
-    },
-    distributor() {
-      return distributor;
-    },
-    accountUsage() {
-      return this.store.CloudStorageUsed / 1024 / 1024;
-    },
-    accountMax() {
-      return this.store.MaxCloudStorage / 1024 / 1024;
-    },
-    displayedUserImages() {
-      const startIndex = (this.currentUserPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.userImages.slice(startIndex, endIndex);
-    },
-    totalUserPages() {
-      return Math.ceil(this.userImages.length / this.itemsPerPage);
-    },
-    userImages() {
-      return UserStore().CloudImages.filter((x) => x.uri);
-    },
-    selectedImageUri() {
-      return this.selectedImage ? this.selectedImage.uri : '';
-    },
-  },
-  methods: {
-    async handleImageClick(image) {
-      if (this.isSelected(image.uri)) {
-        this.selectedImage = null;
-      } else {
-        this.selectedImage = image;
-      }
-      if (this.selectedImage) this.$emit('set-staged', this.selectedImage);
-    },
-    onFileChange(e) {
-      this.stagedImage = e.target.files[0];
-    },
-    isSelected(uri) {
-      return this.selectedImageUri === uri;
-    },
-    async uploadImage() {
-      if (!this.stagedImage) return;
-      this.loading = true;
+const emit = defineEmits<{ 'set-staged': [image: any] }>()
 
-      const filename = this.stagedImage.name
-        .split('.')
-        .shift()
-        .replace(/[^a-zA-Z0-9]/g, '');
-      const ext = this.stagedImage.type.split('/').pop();
-      const type = this.stagedImage.type;
-      const size = this.stagedImage.size;
+const currentUserPage = ref(1)
+const itemsPerPage = 12
+const selectedImage = ref<any>(null)
+const loading = ref(false)
+const stagedImage = ref<any>(null)
+const file = ref<any>(null)
 
-      const res = await updateItem(CloudController.ImageMetadata(filename, ext, size));
-      if (!res.presign.upload) throw new Error('Failed to get presigned uri');
+const store = computed(() => UserStore())
 
-      await uploadToS3(this.stagedImage, res.presign.upload, type);
-      await UserStore().refreshDbData();
-      this.$notify({
-        title: `Image Uploaded`,
-        text: `Uploaded ${filename}.${ext} (${(size / 1024 / 1024).toFixed(2)}MB)`,
-        data: { icon: 'mdi-check', color: 'success' },
-      });
-      this.stagedImage = null;
-      this.selectedImage = null;
-      this.loading = false;
-      this.file = null;
-    },
-    async deleteCloudImage(item) {
-      this.loading = true;
-      try {
-        const { user_id, sortkey, uri } = item;
-        await cloudDelete(user_id, sortkey, uri);
+const accountUsage = computed(() => store.value.CloudStorageUsed / 1024 / 1024)
+const accountMax = computed(() => store.value.MaxCloudStorage / 1024 / 1024)
 
-        await UserStore().refreshDbData();
-        this.$notify({
-          title: `Image Deleted`,
-          text: `Removed ${item.ItemType} ${item.Name}.`,
-          data: { icon: 'mdi-delete', color: 'success' },
-        });
-        this.loading = false;
-        return true;
-      } catch (err) {
-        logger.error(`Error deleting image: ${err}`, this, err);
-        this.$notify({
-          title: `Deletion Failed`,
-          text: `Unable to communicate with server. ${err}`,
-          data: { icon: 'mdi-alert', color: 'error' },
-        });
-      }
-      this.loading = false;
-    },
-  },
-};
+const userImages = computed(() => UserStore().CloudImages.filter((x: any) => x.uri))
+
+const totalUserPages = computed(() => Math.ceil(userImages.value.length / itemsPerPage))
+
+const displayedUserImages = computed(() => {
+  const startIndex = (currentUserPage.value - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  return userImages.value.slice(startIndex, endIndex)
+})
+
+const selectedImageUri = computed(() => selectedImage.value ? selectedImage.value.uri : '')
+
+function isSelected(uri: string) {
+  return selectedImageUri.value === uri
+}
+
+async function handleImageClick(image: any) {
+  if (isSelected(image.uri)) {
+    selectedImage.value = null
+  } else {
+    selectedImage.value = image
+  }
+  if (selectedImage.value) emit('set-staged', selectedImage.value)
+}
+
+function onFileChange(e: any) {
+  stagedImage.value = e.target.files[0]
+}
+
+async function uploadImage() {
+  if (!stagedImage.value) return
+  loading.value = true
+
+  const filename = stagedImage.value.name
+    .split('.')
+    .shift()
+    .replace(/[^a-zA-Z0-9]/g, '')
+  const ext = stagedImage.value.type.split('/').pop()
+  const type = stagedImage.value.type
+  const size = stagedImage.value.size
+
+  const res = await updateItem(CloudController.ImageMetadata(filename, ext, size))
+  if (!res.presign.upload) throw new Error('Failed to get presigned uri')
+
+  await uploadToS3(stagedImage.value, res.presign.upload, type)
+  await UserStore().refreshDbData()
+  notify({
+    type: 'success',
+    title: 'Image Uploaded',
+    text: `Uploaded ${filename}.${ext} (${(size / 1024 / 1024).toFixed(2)}MB)`,
+  })
+  stagedImage.value = null
+  selectedImage.value = null
+  loading.value = false
+  file.value = null
+}
+
+async function deleteCloudImage(item: any) {
+  loading.value = true
+  try {
+    const { user_id, sortkey, uri } = item
+    await cloudDelete(user_id, sortkey, uri)
+    await UserStore().refreshDbData()
+    notify({
+      type: 'success',
+      title: 'Image Deleted',
+      text: `Removed ${item.ItemType} ${item.Name}.`,
+    })
+    loading.value = false
+    return true
+  } catch (err) {
+    logger.error(`Error deleting image: ${err}`, null, err)
+    notify({
+      type: 'error',
+      title: 'Deletion Failed',
+      text: `Unable to communicate with server. ${err}`,
+    })
+  }
+  loading.value = false
+}
 </script>

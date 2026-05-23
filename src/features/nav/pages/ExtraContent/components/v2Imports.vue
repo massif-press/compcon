@@ -174,7 +174,9 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { notify } from '@/util/notify'
 import {
   getV2Backups,
   deleteV2Backup,
@@ -193,138 +195,142 @@ import { ImportPilot, ImportNpcData, ImportEncounter } from '@/io/Importer'
 import { UserStore } from '@/stores'
 import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'V2Imports',
-  setup() {
-    return { s: NAV_STRINGS.v2Import, c: NAV_STRINGS.common }
-  },
-  data: () => ({
-    backups: [] as any[],
-    loading: false,
-    strippedItems: [] as string[],
-    showStripped: false,
-    headers: [
-      { title: 'Type', key: 'type', sortable: true },
-      { title: 'Name', key: 'name', sortable: true },
-      { title: 'Missing', key: 'missing', sortable: false },
-      { title: 'Backed Up', key: 'date', sortable: true },
-      { title: '', key: 'actions', sortable: false },
-    ],
-  }),
-  async mounted() {
-    await this.loadBackups()
-  },
-  methods: {
-    async loadBackups() {
-      this.backups = await getV2Backups()
-    },
-    isReady(item: any): boolean {
-      if (item.type === 'pilot') return getV2PilotMissingLcps(item.originalData).missingIds.length === 0
-      if (item.type === 'npc') return getV2NpcMissingLcps(item.originalData).missingIds.length === 0
-      if (item.type === 'encounter') return getV2EncounterMissingNpcs(item.originalData).length === 0
-      return false
-    },
-    typeIcon(type: string) {
-      if (type === 'pilot') return 'cc:pilot'
-      if (type === 'npc') return 'cc:frame'
-      return 'cc:encounter'
-    },
-    formatDate(ts: number) {
-      return new Date(ts).toLocaleDateString()
-    },
-    async reprocessAll() {
-      this.loading = true
-      try {
-        const result = await reprocessV2Backups()
-        await UserStore().refreshV2BackupIds()
-        await this.loadBackups()
-        if (result.succeeded.length > 0) {
-          this.$notify({ color: 'success', text: `${result.succeeded.length} item(s) imported successfully.` })
-        }
-        if (result.stillPending.length > 0) {
-          this.$notify({ color: 'warning', text: `${result.stillPending.length} item(s) still pending missing content.` })
-        }
-        if (result.succeeded.length === 0 && result.stillPending.length === 0) {
-          this.$notify({ color: 'info', text: 'No items to re-import.' })
-        }
-      } catch (e) {
-        this.$notify({ color: 'error', text: `Re-import failed: ${e}` })
-      }
-      this.loading = false
-    },
-    async reprocessSingle(backup: any) {
-      this.loading = true
-      try {
-        let missing: string[] = []
-        if (backup.type === 'pilot') {
-          missing = getV2PilotMissingLcps(backup.originalData).missingIds
-        } else if (backup.type === 'npc') {
-          missing = getV2NpcMissingLcps(backup.originalData).missingIds
-        } else if (backup.type === 'encounter') {
-          missing = getV2EncounterMissingNpcs(backup.originalData)
-        }
+const s = NAV_STRINGS.v2Import
+const c = NAV_STRINGS.common
 
-        if (missing.length > 0) {
-          this.$notify({ color: 'warning', text: 'Missing dependencies are not yet available.' })
-          this.loading = false
-          return
-        }
+const backups = ref<any[]>([])
+const loading = ref(false)
+const strippedItems = ref<string[]>([])
+const showStripped = ref(false)
 
-        if (backup.type === 'pilot') {
-          await ImportPilot(transformV2Pilot(backup.originalData))
-        } else if (backup.type === 'npc') {
-          await ImportNpcData(transformV2Npc(backup.originalData))
-        } else if (backup.type === 'encounter') {
-          for (const enc of transformV2Encounter(backup.originalData)) {
-            await ImportEncounter(enc)
-          }
-        }
+const headers = [
+  { title: 'Type', key: 'type', sortable: true },
+  { title: 'Name', key: 'name', sortable: true },
+  { title: 'Missing', key: 'missing', sortable: false },
+  { title: 'Backed Up', key: 'date', sortable: true },
+  { title: '', key: 'actions', sortable: false },
+]
 
-        await deleteV2Backup(backup.id)
-        await UserStore().refreshV2BackupIds()
-        await this.loadBackups()
-        this.$notify({ color: 'success', text: 'Imported successfully.' })
-      } catch (e) {
-        this.$notify({ color: 'error', text: `Import failed: ${e}` })
+onMounted(async () => {
+  await loadBackups()
+})
+
+async function loadBackups() {
+  backups.value = await getV2Backups()
+}
+
+function isReady(item: any): boolean {
+  if (item.type === 'pilot') return getV2PilotMissingLcps(item.originalData).missingIds.length === 0
+  if (item.type === 'npc') return getV2NpcMissingLcps(item.originalData).missingIds.length === 0
+  if (item.type === 'encounter') return getV2EncounterMissingNpcs(item.originalData).length === 0
+  return false
+}
+
+function typeIcon(type: string) {
+  if (type === 'pilot') return 'cc:pilot'
+  if (type === 'npc') return 'cc:frame'
+  return 'cc:encounter'
+}
+
+function formatDate(ts: number) {
+  return new Date(ts).toLocaleDateString()
+}
+
+async function reprocessAll() {
+  loading.value = true
+  try {
+    const result = await reprocessV2Backups()
+    await UserStore().refreshV2BackupIds()
+    await loadBackups()
+    if (result.succeeded.length > 0) {
+      notify({ color: 'success', text: NAV_STRINGS.v2ImportNotify.reimportSuccessText(result.succeeded.length) })
+    }
+    if (result.stillPending.length > 0) {
+      notify({ color: 'warning', text: NAV_STRINGS.v2ImportNotify.reimportPendingText(result.stillPending.length) })
+    }
+    if (result.succeeded.length === 0 && result.stillPending.length === 0) {
+      notify({ color: 'info', text: NAV_STRINGS.v2ImportNotify.noItemsToReimport })
+    }
+  } catch (e) {
+    notify({ color: 'error', text: NAV_STRINGS.v2ImportNotify.reimportFailedText(String(e)) })
+  }
+  loading.value = false
+}
+
+async function reprocessSingle(backup: any) {
+  loading.value = true
+  try {
+    let missing: string[] = []
+    if (backup.type === 'pilot') {
+      missing = getV2PilotMissingLcps(backup.originalData).missingIds
+    } else if (backup.type === 'npc') {
+      missing = getV2NpcMissingLcps(backup.originalData).missingIds
+    } else if (backup.type === 'encounter') {
+      missing = getV2EncounterMissingNpcs(backup.originalData)
+    }
+
+    if (missing.length > 0) {
+      notify({ color: 'warning', text: NAV_STRINGS.v2ImportNotify.missingDependencies })
+      loading.value = false
+      return
+    }
+
+    if (backup.type === 'pilot') {
+      await ImportPilot(transformV2Pilot(backup.originalData))
+    } else if (backup.type === 'npc') {
+      await ImportNpcData(transformV2Npc(backup.originalData))
+    } else if (backup.type === 'encounter') {
+      for (const enc of transformV2Encounter(backup.originalData)) {
+        await ImportEncounter(enc)
       }
-      this.loading = false
-    },
-    async doForceImport(backup: any) {
-      this.loading = true
-      try {
-        let result: any
-        if (backup.type === 'pilot') {
-          result = await forceImportV2Pilot(backup.originalData)
-        } else if (backup.type === 'npc') {
-          result = await forceImportV2Npc(backup.originalData)
-        } else {
-          result = await forceImportV2Encounter(backup.originalData)
-        }
-        await deleteV2Backup(backup.id)
-        await UserStore().refreshV2BackupIds()
-        await this.loadBackups()
-        this.$notify({ color: 'success', text: 'Force import complete.' })
-        if (result.stripped?.length > 0) {
-          this.strippedItems = result.stripped
-          this.showStripped = true
-        }
-      } catch (e) {
-        this.$notify({ color: 'error', text: `Force import failed: ${e}` })
-      }
-      this.loading = false
-    },
-    async forceImportAll() {
-      this.loading = true
-      for (const backup of this.backups) {
-        await this.doForceImport(backup)
-      }
-      this.loading = false
-    },
-    async doDelete(backup: any) {
-      await deleteV2Backup(backup.id)
-      await UserStore().refreshV2BackupIds()
-      await this.loadBackups()
-    },
-  },
+    }
+
+    await deleteV2Backup(backup.id)
+    await UserStore().refreshV2BackupIds()
+    await loadBackups()
+    notify({ color: 'success', text: NAV_STRINGS.v2ImportNotify.importedSuccessfully })
+  } catch (e) {
+    notify({ color: 'error', text: NAV_STRINGS.v2ImportNotify.importFailedText(String(e)) })
+  }
+  loading.value = false
+}
+
+async function doForceImport(backup: any) {
+  loading.value = true
+  try {
+    let result: any
+    if (backup.type === 'pilot') {
+      result = await forceImportV2Pilot(backup.originalData)
+    } else if (backup.type === 'npc') {
+      result = await forceImportV2Npc(backup.originalData)
+    } else {
+      result = await forceImportV2Encounter(backup.originalData)
+    }
+    await deleteV2Backup(backup.id)
+    await UserStore().refreshV2BackupIds()
+    await loadBackups()
+    notify({ color: 'success', text: NAV_STRINGS.v2ImportNotify.forceImportComplete })
+    if (result.stripped?.length > 0) {
+      strippedItems.value = result.stripped
+      showStripped.value = true
+    }
+  } catch (e) {
+    notify({ color: 'error', text: NAV_STRINGS.v2ImportNotify.forceImportFailedText(String(e)) })
+  }
+  loading.value = false
+}
+
+async function forceImportAll() {
+  loading.value = true
+  for (const backup of backups.value) {
+    await doForceImport(backup)
+  }
+  loading.value = false
+}
+
+async function doDelete(backup: any) {
+  await deleteV2Backup(backup.id)
+  await UserStore().refreshV2BackupIds()
+  await loadBackups()
 }
 </script>

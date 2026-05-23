@@ -116,7 +116,7 @@ import SlotCardBase from '../_SlotCardBase.vue';
 import EquipmentOptions from '../_EquipmentOptions.vue';
 import { Mech } from '@/classes/mech/Mech'
 import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'SystemSlotCard',

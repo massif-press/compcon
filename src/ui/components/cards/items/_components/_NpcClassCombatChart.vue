@@ -15,10 +15,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { CompendiumStore } from '@/stores';
-import { NpcClass } from '@/classes/npc/class/NpcClass';
-import { Radar } from 'vue-chartjs';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useTheme } from 'vuetify'
+import { NpcClass } from '@/classes/npc/class/NpcClass'
+import { Radar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -27,126 +28,69 @@ import {
   Filler,
   Legend,
   Tooltip,
-} from 'chart.js';
+} from 'chart.js'
 
-ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend)
 
-export default {
-  name: 'NpcCombatChart',
-  components: { Radar },
-  props: {
-    npcClass: {
-      type: Object,
-      required: true,
+const props = defineProps<{ npcClass: Record<string, any>; npcClasses: NpcClass[] }>()
+
+const theme = useTheme()
+const compareClasses = ref<NpcClass[]>([])
+
+const labels = ['Hull', 'Armor', 'HP', 'Agi', 'Speed', 'Evasion', 'Sys', 'EDefense', 'Sensors', 'Eng', 'HeatCap', 'SaveTarget']
+const colors = ['#328E6E', '#ff00fa', '#4F1C51', '#F7374F']
+
+const isDark = computed(() => theme.current.value.dark)
+
+const getComparableClasses = computed(() => {
+  if (compareClasses.value.length >= 4) return compareClasses.value
+  return props.npcClasses.filter(x => x.ID !== props.npcClass.ID)
+})
+
+const chartOptions = computed(() => ({
+  plugins: {
+    datalabels: { display: false },
+    tooltip: {
+      callbacks: {
+        label: (tooltipItem: any) => {
+          const label = tooltipItem.dataset.label || ''
+          const npc = props.npcClasses.find(x => x.ID === tooltipItem.dataset.id)
+          if (!npc) return label
+          const value = npc.Comparator[labels[tooltipItem.dataIndex]]
+          return `${label}: ${value}`
+        },
+      },
     },
   },
-  data: () => ({
-    compareClasses: [] as NpcClass[],
-    labels: [
-      'Hull',
-      'Armor',
-      'HP',
-      'Agi',
-      'Speed',
-      'Evasion',
-      'Sys',
-      'EDefense',
-      'Sensors',
-      'Eng',
-      'HeatCap',
-      'SaveTarget',
-    ],
-  }),
-
-  computed: {
-    getComparableClasses() {
-      if (this.compareClasses.length >= 4) return this.compareClasses;
-      return this.npcClasses.filter((x) => x.ID !== this.npcClass.ID);
-    },
-    colors() {
-      return ['#328E6E', '#ff00fa', '#4F1C51', '#F7374F'];
-    },
-    npcClasses() {
-      return CompendiumStore().NpcClasses;
-    },
-    isDark() {
-      return this.$vuetify.theme.current.dark;
-    },
-    chartOptions() {
-      return {
-        plugins: {
-          datalabels: {
-            display: false,
-          },
-          tooltip: {
-            callbacks: {
-              label: (tooltipItem) => {
-                const label = tooltipItem.dataset.label || '';
-                const npc = CompendiumStore().NpcClasses.find(
-                  (x) => x.ID === tooltipItem.dataset.id
-                );
-                if (!npc) return label;
-                const value = npc.Comparator[this.labels[tooltipItem.dataIndex]];
-                return `${label}: ${value}`;
-              },
-            },
-          },
-        },
-        layout: {
-          padding: 0,
-        },
-
-        scales: {
-          r: {
-            beginAtZero: true,
-
-            angleLines: {
-              display: false,
-            },
-            ticks: {
-              display: false,
-            },
-            grid: {
-              color: this.isDark ? '#FFFFFF33' : '#00000033',
-            },
-            pointLabels: {
-              color: this.isDark ? '#FFFFFF66' : '#00000066',
-            },
-          },
-        },
-      };
-    },
-    chartData() {
-      return {
-        labels: this.labels,
-        datasets: this.compareClasses.length
-          ? [
-              this.getDataset(this.npcClass),
-              ...this.compareClasses.map((x, i) => this.getDataset(x, i, true)),
-            ]
-          : [this.getDataset(this.npcClass)],
-      };
+  layout: { padding: 0 },
+  scales: {
+    r: {
+      beginAtZero: true,
+      angleLines: { display: false },
+      ticks: { display: false },
+      grid: { color: isDark.value ? '#FFFFFF33' : '#00000033' },
+      pointLabels: { color: isDark.value ? '#FFFFFF66' : '#00000066' },
     },
   },
-  methods: {
-    getDataset(npcClass, idx?: number, compare?: boolean) {
-      const dataset = {
-        label: npcClass.Name,
-        id: npcClass.ID,
-        backgroundColor: compare
-          ? this.colors[idx as number] + '1A'
-          : this.$vuetify.theme.current.colors.accent + '33',
-        borderColor: compare
-          ? this.colors[idx as number] + 'CC'
-          : this.$vuetify.theme.current.colors.accent + 'B7',
-        data: [] as any[],
-      };
+}))
 
-      const compStats = npcClass.NormalizedStats();
+const chartData = computed(() => ({
+  labels,
+  datasets: compareClasses.value.length
+    ? [getDataset(props.npcClass), ...compareClasses.value.map((x, i) => getDataset(x, i, true))]
+    : [getDataset(props.npcClass)],
+}))
 
-      dataset.data = Object.values(compStats);
-      return dataset;
-    },
-  },
-};
+function getDataset(npcClass: any, idx?: number, compare?: boolean) {
+  const accent = theme.current.value.colors.accent
+  const dataset = {
+    label: npcClass.Name,
+    id: npcClass.ID,
+    backgroundColor: compare ? colors[idx as number] + '1A' : accent + '33',
+    borderColor: compare ? colors[idx as number] + 'CC' : accent + 'B7',
+    data: [] as any[],
+  }
+  dataset.data = Object.values(npcClass.NormalizedStats())
+  return dataset
+}
 </script>

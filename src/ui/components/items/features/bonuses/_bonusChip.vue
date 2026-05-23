@@ -41,21 +41,11 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-import bonusBase from './_bonusBase.vue';
-
-export default {
-  name: 'BonusPopup',
-  components: { bonusBase },
-  props: {
-    bonus: {
-      type: Object,
-      required: true,
-    },
-    icon: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  bonus: object
+  icon?: boolean
+}>(), {
+  icon: false,
+})
 </script>

@@ -36,40 +36,20 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  name: 'CCDenseCard',
-  mixins: [useMobile],
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    fullHeight: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    collapseActions: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    minWidth: {
-      type: String,
-      required: false,
-      default: '20vw',
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-  },
-  computed: {
-    hexColor(): string {
-      return this.item.Color;
-    },
-  },
-};
+<script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
+const { smAndDown: mobile } = useDisplay()
+
+withDefaults(defineProps<{
+  item: Record<string, any>
+  fullHeight?: boolean
+  collapseActions?: boolean
+  minWidth?: string
+  tier?: number
+}>(), {
+  fullHeight: false,
+  collapseActions: false,
+  minWidth: '20vw',
+})
 </script>

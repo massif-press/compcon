@@ -220,7 +220,7 @@ import CloneDialog from './components/CloneDialog.vue'
 import StatblockDialog from './components/StatblockDialog.vue'
 import logger from '@/user/logger'
 import LcpConfigSelector from './components/LcpConfigSelector.vue'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import ShareDialog from '@/shared/ShareDialog.vue'
 
 export default {

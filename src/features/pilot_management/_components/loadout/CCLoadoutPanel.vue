@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import Loadout from '@/classes/Loadout'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'CcLoadoutPanel',

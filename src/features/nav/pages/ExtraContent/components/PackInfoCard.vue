@@ -109,102 +109,94 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import * as _ from 'lodash-es'
 import { ContentPack, ContentPackDependency, IContentPack, IContentPackManifest } from '@/classes/ContentPack'
-import * as _ from 'lodash-es';
-import { PropType } from 'vue';
-import { CompendiumStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
-import { NAV_STRINGS } from '@/features/nav/strings';
+import { CompendiumStore } from '@/stores'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
+const props = defineProps<{ pack: IContentPack | ContentPack }>()
 
-export default {
-  mixins: [useMobile],
-  props: {
-    pack: { type: Object as PropType<IContentPack | ContentPack>, required: true },
-  },
-  setup() {
-    return { pf: NAV_STRINGS.packInfo }
-  },
-  data: () => ({
-    humanReadableMap: {
-      manufacturers: ['manufacturer', 'manufacturers'],
-      coreBonuses: ['core bonus', 'core bonuses'],
-      frames: ['frame', 'frames'],
-      weapons: ['weapon', 'weapons'],
-      systems: ['system', 'systems'],
-      skills: ['skill', 'skills'],
-      mods: ['weapon mod', 'weapon mods'],
-      pilotGear: ['pilot gear item', 'pilot gear items'],
-      backgrounds: ['background', 'backgrounds'],
-      bonds: ['bond', 'bonds'],
-      reserves: ['reserve', 'reserves'],
-      talents: ['pilot talent', 'pilot talents'],
-      tags: ['equipment tag', 'equipment tags'],
-      npcClasses: ['NPC class', 'NPC classes'],
-      npcFeatures: ['NPC feature', 'NPC features'],
-      npcTemplates: ['NPC template', 'NPC templates'],
-      actions: ['Player action', 'Player actions'],
-      statuses: ['Status/Condition', 'Statuses/Conditions'],
-      environments: ['Combat Environment', 'Combat Environments'],
-      factions: ['faction', 'factions'],
-      sitreps: ['sitrep', 'sitreps'],
-      tables: ['Data Table', 'Data Tables'],
-      eidolonLayers: ['Eidolon Layer', 'Eidolon Layers'],
-      downtimeActions: ['Downtime Action', 'Downtime Actions'],
-      bondPowers: ['Bond Power', 'Bond Powers'],
-      extraNpcFeatures: ['Extra Npc Feature', 'Extra Npc Features'],
-    },
-  }),
+const { smAndDown: mobile } = useDisplay()
+const pf = NAV_STRINGS.packInfo
 
-  computed: {
-    manifest() {
-      return (this.pack as IContentPack).manifest
-        ? (this.pack as IContentPack).manifest
-        : (this.pack as ContentPack).Manifest;
-    },
-    packContents() {
-      const data = (this.pack as IContentPack).data
-        ? (this.pack as IContentPack).data
-        : (this.pack as ContentPack).Data;
+const humanReadableMap: Record<string, [string, string]> = {
+  manufacturers: ['manufacturer', 'manufacturers'],
+  coreBonuses: ['core bonus', 'core bonuses'],
+  frames: ['frame', 'frames'],
+  weapons: ['weapon', 'weapons'],
+  systems: ['system', 'systems'],
+  skills: ['skill', 'skills'],
+  mods: ['weapon mod', 'weapon mods'],
+  pilotGear: ['pilot gear item', 'pilot gear items'],
+  backgrounds: ['background', 'backgrounds'],
+  bonds: ['bond', 'bonds'],
+  reserves: ['reserve', 'reserves'],
+  talents: ['pilot talent', 'pilot talents'],
+  tags: ['equipment tag', 'equipment tags'],
+  npcClasses: ['NPC class', 'NPC classes'],
+  npcFeatures: ['NPC feature', 'NPC features'],
+  npcTemplates: ['NPC template', 'NPC templates'],
+  actions: ['Player action', 'Player actions'],
+  statuses: ['Status/Condition', 'Statuses/Conditions'],
+  environments: ['Combat Environment', 'Combat Environments'],
+  factions: ['faction', 'factions'],
+  sitreps: ['sitrep', 'sitreps'],
+  tables: ['Data Table', 'Data Tables'],
+  eidolonLayers: ['Eidolon Layer', 'Eidolon Layers'],
+  downtimeActions: ['Downtime Action', 'Downtime Actions'],
+  bondPowers: ['Bond Power', 'Bond Powers'],
+  extraNpcFeatures: ['Extra Npc Feature', 'Extra Npc Features'],
+}
 
-      return _.toPairs(data)
-        .map(([key, value]: [string, object[]]) => {
-          const count = value.length;
-          return [key, count];
-        })
-        .filter(([, count]) => Number(count) > 0)
-        .map(([key, count]) => {
-          const pair = this.humanReadableMap[key];
-          if (!pair) return { count, name: `${key}--NOT--HUMANIZED` };
-          const [singular, plural]: [string, string] = pair;
-          return { count, name: Number(count) > 1 ? plural : singular };
-        });
-    },
-    packDependencies() {
-      const manifest = (
-        (this.pack as any).manifest
-          ? (this.pack as IContentPack).manifest
-          : (this.pack as ContentPack).Manifest
-      ) as IContentPackManifest;
+const manifest = computed(() =>
+  (props.pack as IContentPack).manifest
+    ? (props.pack as IContentPack).manifest
+    : (props.pack as ContentPack).Manifest
+)
 
-      return manifest.dependencies ? manifest.dependencies : [];
-    },
-  },
-  methods: {
-    parseVersion(version) {
-      if (version.includes('*')) return 'any version';
-      if (version.includes('=')) return version.replace('=', '');
-      return version + ' or later';
-    },
-    d(dep: ContentPackDependency) {
-      return {
-        name: dep.name,
-        version: this.parseVersion(dep.version),
-        link: dep.link,
-        installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true),
-      };
-    },
-  },
-};
+const packContents = computed(() => {
+  const data = (props.pack as IContentPack).data
+    ? (props.pack as IContentPack).data
+    : (props.pack as ContentPack).Data
+
+  return _.toPairs(data)
+    .map(([key, value]: [string, object[]]) => {
+      const count = value.length
+      return [key, count]
+    })
+    .filter(([, count]) => Number(count) > 0)
+    .map(([key, count]) => {
+      const pair = humanReadableMap[key as string]
+      if (!pair) return { count, name: `${key}--NOT--HUMANIZED` }
+      const [singular, plural]: [string, string] = pair
+      return { count, name: Number(count) > 1 ? plural : singular }
+    })
+})
+
+const packDependencies = computed(() => {
+  const mf = (
+    (props.pack as any).manifest
+      ? (props.pack as IContentPack).manifest
+      : (props.pack as ContentPack).Manifest
+  ) as IContentPackManifest
+  return mf.dependencies ? mf.dependencies : []
+})
+
+function parseVersion(version: string) {
+  if (version.includes('*')) return 'any version'
+  if (version.includes('=')) return version.replace('=', '')
+  return version + ' or later'
+}
+
+function d(dep: ContentPackDependency) {
+  return {
+    name: dep.name,
+    version: parseVersion(dep.version),
+    link: dep.link,
+    installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true),
+  }
+}
 </script>

@@ -261,7 +261,7 @@
   import CampaignShareCodeDialog from './campaignShareCodeDialog.vue'
   import { GetFromCode } from '@/io/apis/account'
   import logger from '@/user/logger'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
   export default {
   mixins: [useMobile],

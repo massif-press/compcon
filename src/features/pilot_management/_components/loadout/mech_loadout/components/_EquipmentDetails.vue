@@ -94,8 +94,8 @@
 </template>
 
 <script lang="ts">
-import { useMobile } from '@/mixins/useMobile'
-import { externalItemBonuses } from '@/mixins/useExternalItemBonuses'
+import { useMobile } from '@/composables/useMobile'
+import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
 
 export default {
   name: 'EquipmentDetails',

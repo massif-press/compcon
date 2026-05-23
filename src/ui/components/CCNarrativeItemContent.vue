@@ -27,27 +27,12 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import { CollectionItem } from '@/classes/narrative/CollectionItem';
-import { NarrativeStore } from '@/stores';
+<script setup lang="ts">
+import { CollectionItem } from '@/classes/narrative/CollectionItem'
 
-export default {
-  name: 'cc-narrative-item-content',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    originItem: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  },
-  computed: {
-    linkedItem(): CollectionItem | null {
-      return NarrativeStore().getItemByID(this.item.id);
-    },
-  },
-};
+withDefaults(defineProps<{
+  item: Record<string, any>
+  originItem?: Record<string, any> | null
+  linkedItem?: CollectionItem | null
+}>(), { originItem: null, linkedItem: null })
 </script>

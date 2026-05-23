@@ -27,7 +27,9 @@
     role="img" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useTheme } from 'vuetify'
 import DOMPurify from 'dompurify';
 
 enum sizeMap {
@@ -39,85 +41,66 @@ enum sizeMap {
   xLarge = '56px',
 }
 
-export default {
-  name: 'CcLogo',
-  props: {
-    source: {
-      type: Object,
-      required: true,
-    },
-    size: {
-      type: String,
-      required: false,
-      default: 'default',
-    },
-    width: {
-      type: String,
-      required: false,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    stroke: {
-      type: String,
-      required: false,
-      default: '',
-    },
-  },
-  data: () => ({
-    corsSafe: false,
-    svgContent: '',
-  }),
-  computed: {
-    iconSize(): string {
-      if (this.width) {
-        return this.width;
-      }
-      return sizeMap[this.size] ? sizeMap[this.size] : sizeMap.default;
-    },
-    iconColor(): string {
-      return this.color || this.source.Color;
-    },
-    getFilter(): string {
-      if (this.$vuetify.theme.current.dark) return 'brightness(0) invert(1)';
-      return 'brightness(0)';
-    },
-    isLinkedSvg(): boolean {
-      return this.source.Logo && this.source.Logo.endsWith('svg');
-    },
-  },
-  watch: {
-    'source.Logo': {
-      immediate: true,
-      handler(newLogo) {
-        if (newLogo) {
-          fetch(newLogo)
-            .then((res) => res.text())
-            .then((text) => {
-              text = text.replace(/fill:#/g, ``);
-              this.svgContent = this.sizeSvg(text);
-            })
-            .catch(() => {
-              this.svgContent = '';
-            });
-        }
-      },
-    },
-  },
-  methods: {
-    cleanSvg(svg: string): string {
-      return this.sizeSvg(
-        DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } })
-      );
-    },
-    sizeSvg(svg: string): string {
-      const size = this.width ? this.width : this.iconSize.replace(/px|vw/g, '');
-      return svg
-        .replace(/width="[^"]*"/, `width="${size}"`)
-        .replace(/height="[^"]*"/, `height="${size}"`);
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  source: object
+  size?: string
+  width?: string
+  color?: string
+  stroke?: string
+}>(), {
+  size: 'default',
+  color: '',
+  stroke: '',
+})
+
+const theme = useTheme()
+
+const svgContent = ref('')
+
+const iconSize = computed((): string => {
+  if (props.width) {
+    return props.width;
+  }
+  return sizeMap[props.size] ? sizeMap[props.size] : sizeMap.default;
+})
+
+const iconColor = computed((): string => {
+  return props.color || props.source.Color;
+})
+
+const getFilter = computed((): string => {
+  if (theme.current.value.dark) return 'brightness(0) invert(1)';
+  return 'brightness(0)';
+})
+
+const isLinkedSvg = computed((): boolean => {
+  return props.source.Logo && props.source.Logo.endsWith('svg');
+})
+
+function cleanSvg(svg: string): string {
+  return sizeSvg(
+    DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } })
+  );
+}
+
+function sizeSvg(svg: string): string {
+  const size = props.width ? props.width : iconSize.value.replace(/px|vw/g, '');
+  return svg
+    .replace(/width="[^"]*"/, `width="${size}"`)
+    .replace(/height="[^"]*"/, `height="${size}"`);
+}
+
+watch(() => props.source.Logo, (newLogo) => {
+  if (newLogo) {
+    fetch(newLogo)
+      .then((res) => res.text())
+      .then((text) => {
+        text = text.replace(/fill:#/g, ``);
+        svgContent.value = sizeSvg(text);
+      })
+      .catch(() => {
+        svgContent.value = '';
+      });
+  }
+}, { immediate: true })
 </script>

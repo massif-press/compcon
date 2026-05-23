@@ -174,78 +174,66 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import { Sortable } from 'sortablejs-vue3';
 import Organizer from './components/Organizer.vue';
 import GroupPanel from './components/GroupPanel.vue';
 import GroupMenu from './components/GroupMenu.vue';
-
 import { UserStore, PilotStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
-import { useRosterDragMode } from '@/mixins/useRosterDragMode';
-import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
+import { useRosterDragMode } from '@/composables/useRosterDragMode';
+import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
 import GroupFileImport from './components/add_panels/GroupFileImport.vue';
 import GroupShareDialog from './components/GroupShareDialog.vue';
 
+const mobile = useDisplay().smAndDown
 
-export default {
-  name: 'RosterView',
-  components: { Sortable, Organizer, GroupPanel, GroupMenu, GroupFileImport, GroupShareDialog },
-  mixins: [useMobile],
-  setup() {
-    return useRosterDragMode(600);
-  },
-  data: () => ({
-    sortParams: null,
-    newGroupMenu: false,
-    newGroupName: '',
-    rosterView: 'list',
-    rosterSearch: '',
-    rosterTransferKey: 0,
-  }),
-  computed: {
-    groupSortableOptions() {
-      return {
-        animation: 250,
-        easing: 'cubic-bezier(1, 0, 0, 1)',
-        handle: '.group-drag-handle',
-        group: { name: 'groups', pull: false, put: false },
-        scroll: false,
-      };
-    },
-    pilotGroups() {
-      return PilotStore().getPilotGroups().filter((g: any) => g.ID !== 'no_group');
-    },
-    groupSortableKey(): string {
-      return `groups-${this.dragModeActive}`;
-    },
-    noGroup() {
-      return PilotStore().getPilotGroups().find((g: any) => g.ID === 'no_group') ?? null;
-    },
-    profile() {
-      return UserStore().User;
-    },
-    hiddenPilotCount() {
-      if (!this.rosterSearch) return 0;
-      const s = this.rosterSearch.toLowerCase();
-      const all = PilotStore().Pilots.filter((p: any) => !p.SaveController.IsDeleted);
-      const matching = all.filter((p: any) =>
-        p.Name.toLowerCase().includes(s) || p.Callsign.toLowerCase().includes(s)
-      );
-      return all.length - matching.length;
-    },
-  },
-  created() {
-    this.rosterView = this.profile.View('roster', 'list');
-  },
-  methods: {
-    startDragScroll,
-    onGroupReorder(event: any) {
-      stopDragScroll();
-      if (event.oldIndex === event.newIndex) return;
-      const group = this.pilotGroups[event.oldIndex] as any;
-      PilotStore().ReorderGroupByIndex(group, event.newIndex);
-    },
-  },
-};
+const { dragModeActive, exitDragMode } = useRosterDragMode(600)
+
+// const sortParams = ref(null)
+// const newGroupMenu = ref(false)
+// const newGroupName = ref('')
+const rosterView = ref('list')
+const rosterSearch = ref('')
+const rosterTransferKey = ref(0)
+
+const profile = computed(() => UserStore().User)
+
+rosterView.value = profile.value.View('roster', 'list')
+
+const groupSortableOptions = computed(() => ({
+  animation: 250,
+  easing: 'cubic-bezier(1, 0, 0, 1)',
+  handle: '.group-drag-handle',
+  group: { name: 'groups', pull: false, put: false },
+  scroll: false,
+}))
+
+const pilotGroups = computed(() =>
+  PilotStore().getPilotGroups().filter((g: any) => g.ID !== 'no_group')
+)
+
+const groupSortableKey = computed<string>(() => `groups-${dragModeActive.value}`)
+
+const noGroup = computed(() =>
+  PilotStore().getPilotGroups().find((g: any) => g.ID === 'no_group') ?? null
+)
+
+const hiddenPilotCount = computed(() => {
+  if (!rosterSearch.value) return 0
+  const s = rosterSearch.value.toLowerCase()
+  const all = PilotStore().Pilots.filter((p: any) => !p.SaveController.IsDeleted)
+  const matching = all.filter((p: any) =>
+    p.Name.toLowerCase().includes(s) || p.Callsign.toLowerCase().includes(s)
+  )
+  return all.length - matching.length
+})
+
+function onGroupReorder(event: any) {
+  stopDragScroll()
+  if (event.oldIndex === event.newIndex) return
+  const group = pilotGroups.value[event.oldIndex] as any
+  PilotStore().ReorderGroupByIndex(group, event.newIndex)
+}
 </script>

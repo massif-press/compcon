@@ -38,55 +38,41 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { ByTier } from '@/util/tierFormat';
 import { ActivationType } from '@/classes/enums';
 
-import ActionBase from './_actionBase.vue';
+const props = withDefaults(defineProps<{
+  action: object
+  activations?: number
+  disabled?: boolean
+  unusable?: boolean
+  noAction?: boolean
+  pilot?: object
+  tier?: number
+  hideIcon?: boolean
+}>(), {
+  activations: 2,
+})
 
-export default {
-  name: 'ActionButton',
-  components: { ActionBase },
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    activations: {
-      type: Number,
-      required: false,
-      default: 2,
-    },
-    disabled: { type: Boolean },
-    unusable: { type: Boolean },
-    noAction: { type: Boolean },
-    pilot: { type: Object },
-    tier: {
-      type: Number,
-      required: false,
-    },
-    hideIcon: {
-      type: Boolean,
-    },
-  },
-  emits: ['use', 'undo'],
-  computed: {
-    cost() {
-      if (this.action.Activation === ActivationType.Quick) return 1;
-      else if (this.action.Activation === ActivationType.Full) return 2;
-      return 0;
-    },
-    usable() {
-      return this.unusable || this.action.Used || this.activations < this.cost;
-    },
-    displayFreq() {
-      return this.action.Frequency.ToString() !== 'Unlimited';
-    },
-  },
-  methods: {
-    byTier(value: string) {
-      return ByTier(value, this.tier);
-    },
-  },
-};
+const emit = defineEmits<{ use: []; undo: [] }>()
+
+const cost = computed(() => {
+  if (props.action.Activation === ActivationType.Quick) return 1;
+  else if (props.action.Activation === ActivationType.Full) return 2;
+  return 0;
+})
+
+const usable = computed(() => {
+  return props.unusable || props.action.Used || props.activations < cost.value;
+})
+
+const displayFreq = computed(() => {
+  return props.action.Frequency.ToString() !== 'Unlimited';
+})
+
+function byTier(value: string) {
+  return ByTier(value, props.tier);
+}
 </script>

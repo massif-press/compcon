@@ -38,7 +38,7 @@ import NoDataBlock from '../../components/NoDataBlock.vue';
 import LicenseSelector from '@/features/pilot_management/_components/selectors/LicenseSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

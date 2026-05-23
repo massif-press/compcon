@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import { ItemType } from '@/classes/enums'
-import { useMobile } from '@/mixins/useMobile'
+import { useMobile } from '@/composables/useMobile'
 import EquipmentDetails from './_EquipmentDetails.vue'
 
 export default {

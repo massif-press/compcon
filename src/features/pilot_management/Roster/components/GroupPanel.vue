@@ -1,5 +1,6 @@
 <template>
-  <div style="position: relative"
+  <div ref="rootEl"
+    style="position: relative"
     class="top-element"
     @dragenter.prevent="onDragEnter"
     @dragleave="onDragLeave">
@@ -294,7 +295,7 @@
                 <cc-button color="success"
                   block
                   prepend-icon="mdi-plus"
-                  @click="$router.push({ name: 'new', params: { groupID: group.ID } })">
+                  @click="router.push({ name: 'new', params: { groupID: group.ID } })">
                   Create New Pilot
                   <template #info>
                     <v-icon size="small"
@@ -363,7 +364,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { useDisplay } from 'vuetify'
 import { Sortable } from 'sortablejs-vue3';
 import { PilotStore, UserStore } from '@/stores';
 import PilotCard from './PilotCard.vue';
@@ -373,198 +377,196 @@ import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { saveFile } from '@/io/Data';
 import FileImport from './add_panels/FileImport.vue';
 import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
-import { useMobile } from '@/mixins/useMobile';
-import { useRosterDragMode } from '@/mixins/useRosterDragMode';
-import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
+import { useRosterDragMode } from '@/composables/useRosterDragMode';
+import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
 
+const props = withDefaults(defineProps<{
+  group: any;
+  rosterSearch?: string;
+  transferKey?: number;
+  dragModeActive?: boolean;
+}>(), {
+  rosterSearch: '',
+  transferKey: 0,
+  dragModeActive: false,
+})
 
-export default {
-  name: 'GroupPanel',
-  components: { Sortable, PilotCard, PilotListItem, FileImport, ShareCodeDialog },
-  mixins: [useMobile],
-  props: {
-    group: {
-      type: Object,
-      required: true,
-    },
-    rosterSearch: {
-      type: String,
-      default: '',
-    },
-    transferKey: {
-      type: Number,
-      default: 0,
-    },
-    dragModeActive: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['pilot-transferred'],
-  setup() {
-    return useRosterDragMode(600);
-  },
-  data: () => ({
-    edit: false,
-    deleteDialog: false,
-    deletePilotsToggle: false,
-    search: '',
-    dropActive: false,
-  }),
-  computed: {
-    noGroup(): boolean {
-      return this.group.ID === 'no_group';
-    },
-    groupSortableKey(): string {
-      return `${this.group.ID}-${this.transferKey}-${this.dragModeActive}`;
-    },
-    sortableOptions() {
-      const needsHandle = !this.mobile || !this.dragModeActive;
-      return {
-        animation: 250,
-        easing: 'cubic-bezier(1, 0, 0, 1)',
-        handle: needsHandle ? '.drag-handle' : undefined,
-        group: { name: 'pilots', pull: true, put: ['pilots'] },
-        scroll: false,
-        disabled: !!this.rosterSearch,
-      };
-    },
-    pilots(): Pilot[] {
-      const store = PilotStore();
-      return (this.group.Pilots as any[])
-        .map((pi: any) => store.getPilotByID(pi.id))
-        .filter((p: any): p is Pilot => !!p && !p.SaveController.IsDeleted);
-    },
-    filteredPilots(): Pilot[] {
-      if (!this.rosterSearch) return this.pilots;
-      const s = this.rosterSearch.toLowerCase();
-      return this.pilots.filter(
-        (p) => p.Name.toLowerCase().includes(s) || p.Callsign.toLowerCase().includes(s)
-      );
-    },
-    profile() {
-      return UserStore().User;
-    },
-    rosterView(): string {
-      if (!this.profile || !this.profile.View) return 'list';
-      return this.profile.View('roster', 'list');
-    },
-    pilotCardType(): string {
-      switch (this.rosterView) {
-        case 'cards':
-          return 'pilot-card';
-        case 'list':
-        default:
-          return 'pilot-list-item';
-      }
-    },
-    transferrable() {
-      return PilotStore().Pilots.filter(
-        (pilot) =>
-          !pilot.SaveController.IsDeleted && !this.group.Pilots.map((x) => x.id).includes(pilot.ID) && (!this.search || (pilot.Name + pilot.Callsign).toLowerCase().includes(this.search.toLowerCase()))
-      );
-    },
-  },
-  watch: {
-    rosterSearch(val: string) {
-      this.group.Expanded = val ? this.filteredPilots.length > 0 : true;
-    },
-  },
-  methods: {
-    startDragScroll,
-    toPilotSheet(pilotID: string) {
-      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID } });
-    },
-    onPilotReorder(event: any) {
-      stopDragScroll();
-      this.dropActive = false;
-      if (event.from !== event.to) return;
-      if (event.oldIndex === event.newIndex) return;
-      if (this.rosterSearch) return;
+const emit = defineEmits<{ 'pilot-transferred': [] }>()
 
-      const fromPilot = this.filteredPilots[event.oldIndex];
-      const toPilot = this.filteredPilots[event.newIndex];
-      if (!fromPilot || !toPilot) return;
+const router = useRouter()
+const mobile = useDisplay().smAndDown
 
-      const fromIdx = this.group.Pilots.findIndex((p: any) => p.id === fromPilot.ID);
-      const toIdx = this.group.Pilots.findIndex((p: any) => p.id === toPilot.ID);
-      if (fromIdx === -1 || toIdx === -1) return;
+const { onPointerDown, onPointerUp, onPointerCancel } = useRosterDragMode(600)
 
-      PilotStore().movePilotIndex(this.group as PilotGroup, fromIdx, toIdx);
-      PilotStore().SaveGroupData();
-    },
-    onDropOnTitle() {
-      if (!this.dropActive) return;
-      const dragEl = document.querySelector('[data-pilot-id].sortable-chosen') ||
-        document.querySelector('[data-pilot-id].sortable-ghost');
-      const pilotId = (dragEl as HTMLElement)?.dataset?.pilotId;
-      if (!pilotId) return;
-      if (this.group.Pilots.some((p: any) => p.id === pilotId)) {
-        this.dropActive = false;
-        return;
-      }
-      const pilot = PilotStore().getPilotByID(pilotId) as any;
-      if (!pilot) return;
-      PilotStore().TransferPilot(pilot, this.group.ID);
-      this.$emit('pilot-transferred');
-      this.dropActive = false;
-    },
-    onDragEnter() {
-      if (document.querySelector('.sortable-chosen .group-drag-handle')) return;
-      this.dropActive = true;
-    },
-    onDragLeave(event: DragEvent) {
-      const el = this.$el as HTMLElement;
-      if (el.contains(event.relatedTarget as Node)) return;
-      this.dropActive = false;
-    },
-    async onPilotAdded(event: any) {
-      stopDragScroll();
-      this.dropActive = false;
-      const pilotId = event.item.dataset.pilotId;
-      if (!pilotId) return;
-      const pilot = PilotStore().getPilotByID(pilotId) as any;
-      if (!pilot) return;
-      await PilotStore().TransferPilot(pilot, this.group.ID);
-      this.$emit('pilot-transferred');
-    },
-    async transferPilot(pilot: Pilot) {
-      await PilotStore().TransferPilot(pilot, this.group.ID);
-    },
-    deleteGroup() {
-      PilotStore().DeleteGroup(this.group as PilotGroup, this.deletePilotsToggle);
-      this.deleteDialog = false;
-    },
-    setGroupExpand() {
-      this.group.Expanded = !this.group.Expanded;
-      PilotStore().SaveGroupData();
-    },
-    exportGroup() {
-      const pilots = PilotStore().getPilots(this.group.ID);
+const rootEl = ref<HTMLElement | null>(null)
+const edit = ref(false)
+const deleteDialog = ref(false)
+const deletePilotsToggle = ref(false)
+const search = ref('')
+const dropActive = ref(false)
 
-      const exportObj = {
-        groupData: PilotGroup.Serialize(this.group as PilotGroup),
-        pilotData: pilots.map((x) => Pilot.Serialize(x)),
-      };
+const noGroup = computed(() => props.group.ID === 'no_group')
 
-      saveFile(
-        this.group.Name.toUpperCase().replace(/\W/g, '') + '.json',
-        JSON.stringify(exportObj, null, 2) as any,
-        'Pilot Group'
-      );
-    },
-    move(direction: 'top' | 'up' | 'down' | 'bottom') {
-      PilotStore().ReorderGroup(this.group as PilotGroup, direction);
-    },
-    setEdit() {
-      if (!this.group.Expanded) this.setGroupExpand();
-      this.edit = !this.edit;
-      if (!this.edit) {
-        PilotStore().SaveGroupData();
-      }
-    },
-  },
-};
+const groupSortableKey = computed(() => `${props.group.ID}-${props.transferKey}-${props.dragModeActive}`)
+
+const sortableOptions = computed(() => {
+  const needsHandle = !mobile.value || !props.dragModeActive
+  return {
+    animation: 250,
+    easing: 'cubic-bezier(1, 0, 0, 1)',
+    handle: needsHandle ? '.drag-handle' : undefined,
+    group: { name: 'pilots', pull: true, put: ['pilots'] },
+    scroll: false,
+    disabled: !!props.rosterSearch,
+  }
+})
+
+const pilots = computed<Pilot[]>(() => {
+  const store = PilotStore()
+  return (props.group.Pilots as any[])
+    .map((pi: any) => store.getPilotByID(pi.id))
+    .filter((p: any): p is Pilot => !!p && !p.SaveController.IsDeleted)
+})
+
+const filteredPilots = computed<Pilot[]>(() => {
+  if (!props.rosterSearch) return pilots.value
+  const s = props.rosterSearch.toLowerCase()
+  return pilots.value.filter(
+    (p) => p.Name.toLowerCase().includes(s) || p.Callsign.toLowerCase().includes(s)
+  )
+})
+
+const profile = computed(() => UserStore().User)
+
+const rosterView = computed<string>(() => {
+  if (!profile.value || !profile.value.View) return 'list'
+  return profile.value.View('roster', 'list')
+})
+
+const pilotCardType = computed<any>(() => {
+  switch (rosterView.value) {
+    case 'cards':
+      return PilotCard;
+    case 'list':
+    default:
+      return PilotListItem;
+  }
+})
+
+const transferrable = computed(() =>
+  PilotStore().Pilots.filter(
+    (pilot) =>
+      !pilot.SaveController.IsDeleted &&
+      !props.group.Pilots.map((x) => x.id).includes(pilot.ID) &&
+      (!search.value || (pilot.Name + pilot.Callsign).toLowerCase().includes(search.value.toLowerCase()))
+  )
+)
+
+watch(() => props.rosterSearch, (val: string) => {
+  props.group.Expanded = val ? filteredPilots.value.length > 0 : true
+})
+
+function toPilotSheet(pilotID: string) {
+  router.push({ name: 'pilot_sheet_redirect', params: { pilotID } })
+}
+
+function onPilotReorder(event: any) {
+  stopDragScroll()
+  dropActive.value = false
+  if (event.from !== event.to) return
+  if (event.oldIndex === event.newIndex) return
+  if (props.rosterSearch) return
+
+  const fromPilot = filteredPilots.value[event.oldIndex]
+  const toPilot = filteredPilots.value[event.newIndex]
+  if (!fromPilot || !toPilot) return
+
+  const fromIdx = props.group.Pilots.findIndex((p: any) => p.id === fromPilot.ID)
+  const toIdx = props.group.Pilots.findIndex((p: any) => p.id === toPilot.ID)
+  if (fromIdx === -1 || toIdx === -1) return
+
+  PilotStore().movePilotIndex(props.group as PilotGroup, fromIdx, toIdx)
+  PilotStore().SaveGroupData()
+}
+
+function onDropOnTitle() {
+  if (!dropActive.value) return
+  const dragEl = document.querySelector('[data-pilot-id].sortable-chosen') ||
+    document.querySelector('[data-pilot-id].sortable-ghost')
+  const pilotId = (dragEl as HTMLElement)?.dataset?.pilotId
+  if (!pilotId) return
+  if (props.group.Pilots.some((p: any) => p.id === pilotId)) {
+    dropActive.value = false
+    return
+  }
+  const pilot = PilotStore().getPilotByID(pilotId) as any
+  if (!pilot) return
+  PilotStore().TransferPilot(pilot, props.group.ID)
+  emit('pilot-transferred')
+  dropActive.value = false
+}
+
+function onDragEnter() {
+  if (document.querySelector('.sortable-chosen .group-drag-handle')) return
+  dropActive.value = true
+}
+
+function onDragLeave(event: DragEvent) {
+  if (rootEl.value && rootEl.value.contains(event.relatedTarget as Node)) return
+  dropActive.value = false
+}
+
+async function onPilotAdded(event: any) {
+  stopDragScroll()
+  dropActive.value = false
+  const pilotId = event.item.dataset.pilotId
+  if (!pilotId) return
+  const pilot = PilotStore().getPilotByID(pilotId) as any
+  if (!pilot) return
+  await PilotStore().TransferPilot(pilot, props.group.ID)
+  emit('pilot-transferred')
+}
+
+async function transferPilot(pilot: Pilot) {
+  await PilotStore().TransferPilot(pilot, props.group.ID)
+}
+
+function deleteGroup() {
+  PilotStore().DeleteGroup(props.group as PilotGroup, deletePilotsToggle.value)
+  deleteDialog.value = false
+}
+
+function setGroupExpand() {
+  props.group.Expanded = !props.group.Expanded
+  PilotStore().SaveGroupData()
+}
+
+function exportGroup() {
+  const pilots = PilotStore().getPilots(props.group.ID)
+
+  const exportObj = {
+    groupData: PilotGroup.Serialize(props.group as PilotGroup),
+    pilotData: pilots.map((x: Pilot) => Pilot.Serialize(x)),
+  }
+
+  saveFile(
+    props.group.Name.toUpperCase().replace(/\W/g, '') + '.json',
+    JSON.stringify(exportObj, null, 2) as any,
+    'Pilot Group'
+  )
+}
+
+function move(direction: 'top' | 'up' | 'down' | 'bottom') {
+  PilotStore().ReorderGroup(props.group as PilotGroup, direction)
+}
+
+function setEdit() {
+  if (!props.group.Expanded) setGroupExpand()
+  edit.value = !edit.value
+  if (!edit.value) {
+    PilotStore().SaveGroupData()
+  }
+}
 </script>
 
 <style scoped>

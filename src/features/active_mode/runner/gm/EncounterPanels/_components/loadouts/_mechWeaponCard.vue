@@ -220,9 +220,9 @@ import MechModCard from './_mechModCard.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
-import { useMobile } from '@/mixins/useMobile'
-import { useEquipmentActions } from '@/mixins/useEquipmentActions'
-import { externalItemBonuses } from '@/mixins/useExternalItemBonuses'
+import { useMobile } from '@/composables/useMobile'
+import { useEquipmentActions } from '@/composables/useEquipmentActions'
+import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
 import { Range } from '@/classes/Range'
 
 export default {

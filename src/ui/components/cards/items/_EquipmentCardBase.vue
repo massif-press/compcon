@@ -175,33 +175,21 @@
   </v-footer>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'EquipmentCardBase',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    hideTags: { type: Boolean },
-    hideBonuses: { type: Boolean },
-    charts: { type: Boolean },
-    footer: { type: Boolean },
-    collapseActions: {
-      type: Boolean,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-  },
-  computed: {
-    showFooter() {
-      return this.item.Tags.length > 0 || this.item.Bonuses.length > 0;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  item: Record<string, any>
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  hideTags?: boolean
+  hideBonuses?: boolean
+  charts?: boolean
+  footer?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
+
+const showFooter = computed(() => props.item.Tags.length > 0 || props.item.Bonuses.length > 0)
 </script>

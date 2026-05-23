@@ -118,43 +118,40 @@
 
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useDisplay } from 'vuetify';
 import CheckRollInterface from './CheckRollInterface.vue';
 
-export default {
-  name: 'LocalAttackRoller',
-  components: {
-    CheckRollInterface
-  },
-  props: {
-    event: { type: Object, required: true },
-    crits: { type: Boolean, default: false },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    reliableDamageEvents() {
-      return (this.event.DamageEvents || []).filter((de: any) => de.Reliable > 0);
-    },
-  },
-  methods: {
-    setHitResult(s, val: string) {
-      s.HitResult = val;
-      if (val === 'crit' && this.event.Effect?.CanCrit) this.event.SetCrit();
-      else this.event.UnsetCrit();
-    },
-    handleAttackRoll(s, val) {
-      s.AttackRolledValue = Number(val);
-      if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
-      else this.event.UnsetCrit();
-    },
-    onAttackRolled(val) {
-      if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
-      else this.event.UnsetCrit();
-    },
-  },
-};
+const { mdAndDown: mobile } = useDisplay()
+
+const props = withDefaults(defineProps<{
+  event: object
+  crits?: boolean
+}>(), {
+  crits: false,
+})
+
+const reliableDamageEvents = computed(() =>
+  (props.event.DamageEvents || []).filter((de: any) => de.Reliable > 0)
+)
+
+function setHitResult(s, val: string) {
+  s.HitResult = val;
+  if (val === 'crit' && props.event.Effect?.CanCrit) props.event.SetCrit();
+  else props.event.UnsetCrit();
+}
+
+function handleAttackRoll(s, val) {
+  s.AttackRolledValue = Number(val);
+  if (Number(val) >= 20 && props.event.Effect?.CanCrit) props.event.SetCrit();
+  else props.event.UnsetCrit();
+}
+
+function onAttackRolled(val) {
+  if (Number(val) >= 20 && props.event.Effect?.CanCrit) props.event.SetCrit();
+  else props.event.UnsetCrit();
+}
 </script>
 
 <style scoped>

@@ -14,18 +14,13 @@
 </template>
 
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import { EffectDuration, EffectDurationText } from '@/classes/components/feature/active_effects/effect_subtype/EffectDuration';
 
-export default {
-  name: 'BaseDurationDisplay',
-  props: {
-    duration: { type: String, required: true }
-  },
-  computed: {
-    displayDuration(): string {
-      return EffectDurationText(this.duration as EffectDuration);
-    }
-  }
-};
+const props = defineProps<{
+  duration: string
+}>()
+
+const displayDuration = computed((): string => EffectDurationText(props.duration as EffectDuration))
 </script>

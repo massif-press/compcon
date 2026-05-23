@@ -100,7 +100,7 @@
 <script lang="ts">
 import SearchBar from '../../SearchBar.vue';
 import CompendiumPageButton from '../../components/CompendiumPageButton.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

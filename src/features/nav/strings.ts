@@ -419,4 +419,21 @@ export const NAV_STRINGS = {
     tabStorage: 'Storage',
     tabLog: 'Log',
   },
+  packsList: {
+    toggleSuccessText: (state: boolean) =>
+      `Successfully ${!state ? 'activated' : 'deactivated'} pack.`,
+    toggleErrorText: (error: string) => `Unable to activate LCP: ${error}`,
+    deleteAllSuccess: 'Successfully deleted all content packs.',
+  },
+  v2ImportNotify: {
+    reimportSuccessText: (count: number) => `${count} item(s) imported successfully.`,
+    reimportPendingText: (count: number) => `${count} item(s) still pending missing content.`,
+    noItemsToReimport: 'No items to re-import.',
+    reimportFailedText: (error: string) => `Re-import failed: ${error}`,
+    missingDependencies: 'Missing dependencies are not yet available.',
+    importedSuccessfully: 'Imported successfully.',
+    importFailedText: (error: string) => `Import failed: ${error}`,
+    forceImportComplete: 'Force import complete.',
+    forceImportFailedText: (error: string) => `Force import failed: ${error}`,
+  },
 } as const

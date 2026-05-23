@@ -191,195 +191,176 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import { parseContentPack } from '@/io/ContentPackParser';
+<script setup lang="ts">
+import { ref, computed, nextTick } from 'vue'
+import { useDisplay } from 'vuetify'
+import { parseContentPack } from '@/io/ContentPackParser'
+import { CompendiumStore } from '@/stores'
+import PackInfo from './PackInfo.vue'
+import { IContentPack } from '@/classes/ContentPack'
+import { compare, coerce } from 'semver'
+import logger from '@/user/logger'
+import { notify } from '@/util/notify'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
-import { CompendiumStore } from '@/stores';
+const { smAndDown: mobile } = useDisplay()
+const pi = NAV_STRINGS.packInstall
 
-import PackInfo from './PackInfo.vue';
-import { IContentPack } from '@/classes/ContentPack';
+const emit = defineEmits<{ 'start-load': [] }>()
 
-import { compare, coerce } from 'semver';
-import logger from '@/user/logger';
-import { useMobile } from '@/mixins/useMobile';
-import { NAV_STRINGS } from '@/features/nav/strings';
+const value = ref<any>(null)
+const installing = ref(false)
+const contentPacks = ref<IContentPack[]>([])
+const error = ref('')
 
+const hasAlreadyInstalled = computed(() =>
+  contentPacks.value.some(pack => packAlreadyInstalled(pack))
+)
 
-export default {
-  name: 'PackInstall',
-  components: { PackInfo },
-  mixins: [useMobile],
-  emits: ['start-load'],
-  setup() {
-    return { pi: NAV_STRINGS.packInstall }
-  },
-  data: () => ({
-    value: null,
-    installing: false,
-    contentPacks: [] as IContentPack[],
-    error: '',
-  }),
-  computed: {
-    hasAlreadyInstalled() {
-      return this.contentPacks.some((pack) => this.packAlreadyInstalled(pack));
-    },
-    hasUninstalledDependencies() {
-      if (!this.contentPacks.length) return false;
-      return this.contentPacks.some((pack) => this.uninstalledDependencies(pack).length > 0);
-    },
-    disableInstall() {
-      return (
-        this.installing ||
-        this.contentPacks.length === 0 ||
-        this.contentPacks.filter((pack) => this.uninstalledDependencies(pack).length > 0).length ===
-        this.contentPacks.length
-      );
-    },
-  },
-  methods: {
-    async reset() {
-      this.contentPacks = [];
-      this.error = '';
-      this.value = null;
-      await this.$nextTick();
-    },
-    openLink(link) {
-      window.open(link, '_blank');
-    },
-    parseVersion(version) {
-      if (version.includes('*')) return 'any version';
-      if (version.includes('=')) return version.replace('=', '');
-      return version + ' or later';
-    },
-    async fileChange(event) {
-      const files = event.target.files;
-      if (files?.length) {
-        for (let i = 0; i < files.length; i++) {
-          await this.readFileAsBinaryString(files[i]);
-        }
-      }
-    },
-    async readFileAsBinaryString(file) {
+const hasUninstalledDependencies = computed(() => {
+  if (!contentPacks.value.length) return false
+  return contentPacks.value.some(pack => uninstalledDependencies(pack).length > 0)
+})
+
+const disableInstall = computed(() =>
+  installing.value ||
+  contentPacks.value.length === 0 ||
+  contentPacks.value.filter(pack => uninstalledDependencies(pack).length > 0).length === contentPacks.value.length
+)
+
+async function reset() {
+  contentPacks.value = []
+  error.value = ''
+  value.value = null
+  await nextTick()
+}
+
+function openLink(link: string) {
+  window.open(link, '_blank')
+}
+
+function parseVersion(version: string) {
+  if (version.includes('*')) return 'any version'
+  if (version.includes('=')) return version.replace('=', '')
+  return version + ' or later'
+}
+
+async function fileChange(event: Event) {
+  const files = (event.target as HTMLInputElement).files
+  if (files?.length) {
+    for (let i = 0; i < files.length; i++) {
+      await readFileAsBinaryString(files[i])
+    }
+  }
+}
+
+async function readFileAsBinaryString(file: File) {
+  try {
+    const fileData = await readAsBinaryStringAsync(file)
+    const pack = await parseContentPack(fileData as string)
+    contentPacks.value.push(pack)
+  } catch (err) {
+    logger.error(`Error reading file: ${err}`, null, err)
+  }
+}
+
+function readAsBinaryStringAsync(file: File): Promise<string | ArrayBuffer | null> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = () => reject(reader.error)
+    reader.readAsBinaryString(file)
+  })
+}
+
+async function install(): Promise<void> {
+  if (installing.value) return
+  emit('start-load')
+  installing.value = true
+
+  await new Promise(resolve => setTimeout(resolve, 500))
+
+  contentPacks.value = contentPacks.value.filter(pack => {
+    const installed = CompendiumStore().ContentPacks.find(x => x.ID === pack.id)
+    if (installed) {
+      let c
       try {
-        const fileData = await this.readAsBinaryStringAsync(file);
-        const pack = await parseContentPack(fileData as string);
-        this.contentPacks.push(pack);
-      } catch (error) {
-        logger.error(`Error reading file: ${error}`, this, error);
-      }
-    },
-    readAsBinaryStringAsync(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(reader.error);
-        reader.readAsBinaryString(file);
-      });
-    },
-    async install(): Promise<void> {
-      if (this.installing) return;
-      this.$emit('start-load');
-      this.installing = true;
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      this.contentPacks = this.contentPacks.filter((pack) => {
-        const installed = CompendiumStore().ContentPacks.find((x) => x.ID === pack.id);
-        if (installed) {
-          let c;
-          try {
-            c = compare(coerce(installed.Version), coerce(pack.manifest.version));
-          } catch (e) {
-            logger.error(`Error comparing versions: ${e} (likely bad semver)`, this, e);
-            return false;
-          }
-          if (c === 1) {
-            logger.warn(
-              `A newer version of ${pack.manifest.name} is already installed. Skipping.`,
-              this
-            );
-            return false;
-          }
-        }
-        return true;
-      });
-
-      // remove any duplicates in this.contentPacks array, taking only the latest version
-      const uniquePacks = new Map<string, IContentPack>();
-      this.contentPacks.forEach((pack) => {
-        const existingPack = uniquePacks.get(pack.manifest.name);
-        if (
-          !existingPack ||
-          compare(coerce(existingPack.manifest.version), coerce(pack.manifest.version)) === -1
-        ) {
-          uniquePacks.set(pack.manifest.name, pack);
-        }
-      });
-      this.contentPacks = Array.from(uniquePacks.values());
-
-      // remove any packs with uninstalled dependencies
-      this.contentPacks = this.contentPacks.filter((pack) => {
-        const deps = pack.manifest ? pack.manifest.dependencies : [];
-        if (!deps) return true;
-        return deps.every((dep) =>
-          CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true)
-        );
-      });
-
-      CompendiumStore().installContentPacks(this.contentPacks);
-
-      this.contentPacks = [];
-
-      this.installing = false;
-
-      this.error = '';
-      this.value = null;
-
-      this.$notify({
-        title: this.pi.success,
-        text: this.pi.successText,
-        data: { color: 'success' },
-      });
-    },
-    packAlreadyInstalled(pack) {
-      return CompendiumStore().packAlreadyInstalled(pack.id);
-    },
-    alreadyInstalledVersion(pack) {
-      return CompendiumStore().ContentPacks.find((x) => x.ID === pack.id)?.Version || '0.0.0';
-    },
-    uninstalledDependencies(pack) {
-      const deps = pack.manifest ? pack.manifest.dependencies : [];
-      if (!deps) return [];
-      return deps.filter(
-        (dep) => !CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true)
-      );
-    },
-    gradeType(pack) {
-      const installed = this.alreadyInstalledVersion(pack);
-      const staged = pack.manifest.version || '0.0.0';
-      try {
-        const c = compare(coerce(String(installed)), coerce(String(staged)));
-        if (c === -1) return 'upgrade';
-        if (c === 0) return 'same';
-        if (c === 1) return 'downgrade';
+        c = compare(coerce(installed.Version), coerce(pack.manifest.version))
       } catch (e) {
-        logger.error(`grade: Error comparing versions: ${e} (likely bad version number)`, this, e);
-        this.contentPacks = this.contentPacks.filter((x) => x.id !== pack.id);
-        logger.error(
-          `Removed ${pack.manifest.name || pack.manifest.title || 'unknown LCP'} from import -- invalid version string breaks semver`,
-          this,
-          e
-        );
-        this.$notify({
-          title: 'Error',
-          text: `Removed ${pack.manifest.name || pack.manifest.title || 'unknown LCP'} from import -- invalid version string breaks semver`,
-          data: { color: 'error' },
-        });
-        return 'error';
+        logger.error(`Error comparing versions: ${e} (likely bad semver)`, null, e)
+        return false
       }
-    },
-  },
-};
+      if (c === 1) {
+        logger.warn(`A newer version of ${pack.manifest.name} is already installed. Skipping.`, null)
+        return false
+      }
+    }
+    return true
+  })
+
+  const uniquePacks = new Map<string, IContentPack>()
+  contentPacks.value.forEach(pack => {
+    const existingPack = uniquePacks.get(pack.manifest.name)
+    if (!existingPack || compare(coerce(existingPack.manifest.version), coerce(pack.manifest.version)) === -1) {
+      uniquePacks.set(pack.manifest.name, pack)
+    }
+  })
+  contentPacks.value = Array.from(uniquePacks.values())
+
+  contentPacks.value = contentPacks.value.filter(pack => {
+    const deps = pack.manifest ? pack.manifest.dependencies : []
+    if (!deps) return true
+    return deps.every(dep => CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true))
+  })
+
+  CompendiumStore().installContentPacks(contentPacks.value)
+
+  contentPacks.value = []
+  installing.value = false
+  error.value = ''
+  value.value = null
+
+  notify({
+    title: pi.success,
+    text: pi.successText,
+    data: { color: 'success' },
+  })
+}
+
+function packAlreadyInstalled(pack: IContentPack) {
+  return CompendiumStore().packAlreadyInstalled(pack.id)
+}
+
+function alreadyInstalledVersion(pack: IContentPack) {
+  return CompendiumStore().ContentPacks.find(x => x.ID === pack.id)?.Version || '0.0.0'
+}
+
+function uninstalledDependencies(pack: IContentPack) {
+  const deps = pack.manifest ? pack.manifest.dependencies : []
+  if (!deps) return []
+  return deps.filter(dep => !CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true))
+}
+
+function gradeType(pack: IContentPack) {
+  const installed = alreadyInstalledVersion(pack)
+  const staged = pack.manifest.version || '0.0.0'
+  try {
+    const c = compare(coerce(String(installed)), coerce(String(staged)))
+    if (c === -1) return 'upgrade'
+    if (c === 0) return 'same'
+    if (c === 1) return 'downgrade'
+  } catch (e) {
+    logger.error(`grade: Error comparing versions: ${e} (likely bad version number)`, null, e)
+    contentPacks.value = contentPacks.value.filter(x => x.id !== pack.id)
+    logger.error(`Removed ${pack.manifest.name || (pack.manifest as any).title || 'unknown LCP'} from import -- invalid version string breaks semver`, null, e)
+    notify({
+      title: 'Error',
+      text: `Removed ${pack.manifest.name || (pack.manifest as any).title || 'unknown LCP'} from import -- invalid version string breaks semver`,
+      data: { color: 'error' },
+    })
+    return 'error'
+  }
+}
 </script>
 
 <style scoped>

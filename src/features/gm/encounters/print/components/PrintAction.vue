@@ -40,19 +40,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Action } from '@/classes/Action';
+<script setup lang="ts">
+import { Action } from '@/classes/Action'
 
-
-export default {
-  name: 'PrintAction',
-  props: {
-    actions: {
-      type: Array,
-      required: true,
-    },
-  },
-};
+defineProps<{ actions: any[] }>()
 </script>
 
 <style scoped>

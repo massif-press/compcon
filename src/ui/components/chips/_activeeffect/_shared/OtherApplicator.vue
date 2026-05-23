@@ -25,34 +25,17 @@
   </v-col>
 </template>
 
-<script>
-import { CompendiumStore } from '@/stores';
-import BaseDurationDisplay from './BaseDurationDisplay.vue';
+<script setup lang="ts">
+import BaseDurationDisplay from './BaseDurationDisplay.vue'
 
-export default {
-  name: 'StatusApplicator',
-  components: {
-    BaseDurationDisplay
-  },
-  props: {
-    event: { type: Object, required: true },
-    cols: { type: [Number, String], default: 'auto' }
-  },
-  data: () => ({
-    cover: [
-      {
-        title: 'Soft Cover',
-        value: 'soft',
-      },
-      {
-        title: 'Hard Cover',
-        value: 'hard',
-      },
-      {
-        title: 'No Cover',
-        value: 'none',
-      },
-    ],
-  }),
-};
+withDefaults(defineProps<{
+  event: Record<string, any>
+  cols?: number | string
+}>(), { cols: 'auto' })
+
+const cover = [
+  { title: 'Soft Cover', value: 'soft' },
+  { title: 'Hard Cover', value: 'hard' },
+  { title: 'No Cover', value: 'none' },
+]
 </script>

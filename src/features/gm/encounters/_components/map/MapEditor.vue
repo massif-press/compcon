@@ -298,131 +298,98 @@
   </v-footer>
 </template>
 
-<script>
-import SquareMapEditor from './SquareMap.vue';
-import HexMapHorizontalEditor from './HexMapHorizontal.vue';
-import HexMapVerticalEditor from './HexMapVertical.vue';
-import { EncounterMap } from '@/classes/encounter/EncounterMap';
-import { UserStore } from '@/stores';
-import { ImportData } from '@/io/Data';
-import logger from '@/user/logger';
+<script setup lang="ts">
+import { ref, computed, watch, onMounted } from 'vue'
+import SquareMapEditor from './SquareMap.vue'
+import HexMapHorizontalEditor from './HexMapHorizontal.vue'
+import HexMapVerticalEditor from './HexMapVertical.vue'
+import { EncounterMap } from '@/classes/encounter/EncounterMap'
+import { UserStore } from '@/stores'
+import { ImportData } from '@/io/Data'
+import logger from '@/user/logger'
 
-export default {
-  name: 'MapEditor',
-  components: { SquareMapEditor, HexMapHorizontalEditor, HexMapVerticalEditor },
-  props: {
-    encounter: { type: Object },
-  },
-  emits: ['exit'],
-  data: () => ({
-    sizeX: 30,
-    sizeY: 12,
-    gridType: 'Square',
-    spaceType: 'deployment',
-    subtype: [],
-    showEditorDialog: false,
-    showEditor: false,
-    stagedMap: null,
-  }),
-  computed: {
-    mapData() {
-      return this.$refs.mapCanvas.mapData;
-    },
-    disableSubtype() {
-      const disabled = ['obstruction', 'difficult', 'dangerous'].includes(this.spaceType);
-      if (disabled) {
-        this.subtype = [];
-      }
-      return disabled;
-    },
-  },
-  watch: {
-    showEditor(val) {
-      if (!val) return;
-      UserStore().User.SetView('ShowMapEditor', val);
-    },
-    sizeX(val) {
-      if (val && this.mapData) this.mapData.SizeX = val;
-    },
-    sizeY(val) {
-      if (val && this.mapData) this.mapData.SizeY = val;
-    },
-    gridType(val) {
-      if (val && this.mapData) this.mapData.MapType = val;
-    },
-  },
-  mounted() {
-    const user = UserStore().User;
-    if (!user || !user.View) return;
-    this.showEditor = user.View('ShowMapEditor', false);
+const props = withDefaults(defineProps<{ encounter?: Record<string, any> }>(), {})
+const emit = defineEmits<{ exit: [] }>()
 
-    if (this.encounter.Map) {
-      this.sizeX = this.encounter.Map.SizeX;
-      this.sizeY = this.encounter.Map.SizeY;
-      this.gridType = this.encounter.Map.MapType;
-    }
-  },
-  methods: {
-    clear() {
-      this.mapData.Clear();
-      this.$refs.mapCanvas.DrawGrid();
-    },
-    allowEditor() {
-      this.showEditorDialog = false;
-      this.showEditor = true;
-    },
-    saveAsImage() {
-      const canvas = document.getElementById('canvas');
-      const imageName = `${this.encounter.Name}_map`;
+const mapCanvas = ref<any>(null)
 
-      const link = document.createElement('a');
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.setAttribute('download', imageName + '.png');
-      link.setAttribute('href', canvas.toDataURL().replace('image/png', 'image/octet-stream'));
-      link.click();
-    },
+const sizeX = ref(30)
+const sizeY = ref(12)
+const gridType = ref('Square')
+const spaceType = ref('deployment')
+const subtype = ref<any[]>([])
+const showEditorDialog = ref(false)
+const showEditor = ref(false)
+const stagedMap = ref<any>(null)
 
-    exportMap() {
-      const mapData = this.$refs.mapCanvas.mapData;
-      const map = EncounterMap.Serialize(mapData);
+const mapData = computed(() => mapCanvas.value?.mapData)
+const disableSubtype = computed(() => ['obstruction', 'difficult', 'dangerous'].includes(spaceType.value))
 
-      const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(map))}`;
-      const link = document.createElement('a');
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.setAttribute('download', `${this.encounter.Name}_map.json`);
-      link.setAttribute('href', dataStr);
-      link.click();
-    },
+watch(disableSubtype, (disabled) => { if (disabled) subtype.value = [] })
+watch(showEditor, (val) => { if (!val) return; UserStore().User.SetView('ShowMapEditor', val) })
+watch(sizeX, (val) => { if (val && mapData.value) mapData.value.SizeX = val })
+watch(sizeY, (val) => { if (val && mapData.value) mapData.value.SizeY = val })
+watch(gridType, (val) => { if (val && mapData.value) mapData.value.MapType = val })
 
-    async stageImport(file) {
-      if (!file) return;
-      const data = await ImportData(file.target.files[0]);
+onMounted(() => {
+  const user = UserStore().User
+  if (user?.View) showEditor.value = user.View('ShowMapEditor', false)
+  if (props.encounter?.Map) {
+    sizeX.value = props.encounter.Map.SizeX
+    sizeY.value = props.encounter.Map.SizeY
+    gridType.value = props.encounter.Map.MapType
+  }
+})
 
-      try {
-        const map = EncounterMap.Deserialize(data);
-        this.stagedMap = map;
-      } catch (e) {
-        logger.error(`Error parsing map data: ${e}`, this);
-        return;
-      }
-    },
-
-    importStagedMap() {
-      this.spaceType = this.stagedMap.MapType;
-      this.sizeX = this.stagedMap.SizeX;
-      this.sizeY = this.stagedMap.SizeY;
-      this.$refs.mapCanvas.mapData = this.stagedMap;
-      this.$refs.mapCanvas.DrawGrid();
-      this.showImportDialog = false;
-    },
-
-    saveAndExit() {
-      this.encounter.Map = this.$refs.mapCanvas.mapData;
-      this.encounter.save();
-      this.$emit('exit');
-    },
-  },
-};
+function clear() {
+  mapData.value?.Clear()
+  mapCanvas.value?.DrawGrid()
+}
+function allowEditor() {
+  showEditorDialog.value = false
+  showEditor.value = true
+}
+function saveAsImage() {
+  const canvas = document.getElementById('canvas') as HTMLCanvasElement
+  const imageName = `${props.encounter?.Name}_map`
+  const link = document.createElement('a')
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.setAttribute('download', imageName + '.png')
+  link.setAttribute('href', canvas.toDataURL().replace('image/png', 'image/octet-stream'))
+  link.click()
+}
+function exportMap() {
+  const map = EncounterMap.Serialize(mapCanvas.value?.mapData)
+  const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(map))}`
+  const link = document.createElement('a')
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.setAttribute('download', `${props.encounter?.Name}_map.json`)
+  link.setAttribute('href', dataStr)
+  link.click()
+}
+async function stageImport(file: any) {
+  if (!file) return
+  const data = await ImportData(file.target.files[0])
+  try {
+    stagedMap.value = EncounterMap.Deserialize(data)
+  } catch (e) {
+    logger.error(`Error parsing map data: ${e}`, null)
+  }
+}
+function importStagedMap() {
+  spaceType.value = stagedMap.value.MapType
+  sizeX.value = stagedMap.value.SizeX
+  sizeY.value = stagedMap.value.SizeY
+  mapCanvas.value.mapData = stagedMap.value
+  mapCanvas.value?.DrawGrid()
+}
+function saveAndExit() {
+  if (props.encounter) {
+    props.encounter.Map = mapCanvas.value?.mapData
+    props.encounter.save()
+  }
+  emit('exit')
+}
 </script>

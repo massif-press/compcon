@@ -15,176 +15,133 @@
   </div>
 </template>
 
-<script>
-import { EncounterMap } from '@/classes/encounter/EncounterMap';
-import InfiniteCanvas from 'ef-infinite-canvas';
+<script setup lang="ts">
+import { onMounted, watch, nextTick } from 'vue'
+import { EncounterMap } from '@/classes/encounter/EncounterMap'
+import InfiniteCanvas from 'ef-infinite-canvas'
 
-export default {
-  name: 'square-map-editor',
-  data: () => ({
-    cellSize: 40,
-    extentsX: 0,
-    extentsY: 0,
-    canvas: null,
-    context: null,
-    mapData: {},
-    hoverTile: { row: -1, col: -1 },
-  }),
-  props: {
-    sizeX: {
-      type: Number,
-      default: 30,
-    },
-    sizeY: {
-      type: Number,
-      default: 12,
-    },
-    cellType: {
-      type: String,
-      default: '',
-    },
-    cellSubtype: {
-      type: Array,
-      default: () => [],
-    },
-    map: {
-      type: Object,
-      required: false,
-    },
-    preview: {
-      type: Boolean,
-    },
-  },
-  watch: {
-    sizeX() {
-      this.DrawGrid();
-    },
-    sizeY() {
-      this.DrawGrid();
-    },
-  },
-  async mounted() {
-    this.init();
-    await this.DrawGrid();
-  },
-  methods: {
-    init() {
-      if (this.map) {
-        this.mapData = this.map;
-        this.extentsX = this.mapData.SizeX;
-        this.extentsY = this.mapData.SizeX;
-      } else {
-        this.mapData = new EncounterMap({
-          type: 'Square',
-          x: this.sizeX,
-          y: this.sizeY,
-          tiles: [],
-        });
-        this.extentsX = this.sizeX;
-        this.extentsY = this.sizeY;
-      }
+const props = withDefaults(defineProps<{
+  sizeX?: number
+  sizeY?: number
+  cellType?: string
+  cellSubtype?: any[]
+  map?: Record<string, any>
+  preview?: boolean
+}>(), { sizeX: 30, sizeY: 12, cellType: '', cellSubtype: () => [] })
 
-      this.canvas = new InfiniteCanvas(document.getElementById('canvas'), {
-        rotationEnabled: false,
-        greedyGestureHandling: true,
-      });
+const cellSize = 40
+let extentsX = 0
+let extentsY = 0
+let canvas: any = null
+let context: any = null
+let mapData: any = {}
 
-      this.context = this.canvas.getContext('2d');
-      this.context.font = '8px Arial';
+function init() {
+  if (props.map) {
+    mapData = props.map
+    extentsX = mapData.SizeX
+    extentsY = mapData.SizeX
+  } else {
+    mapData = new EncounterMap({ type: 'Square', x: props.sizeX, y: props.sizeY, tiles: [] })
+    extentsX = props.sizeX!
+    extentsY = props.sizeY!
+  }
+  canvas = new InfiniteCanvas(document.getElementById('canvas'), { rotationEnabled: false, greedyGestureHandling: true })
+  context = canvas.getContext('2d')
+  context.font = '8px Arial'
+  const container = document.getElementById('container')
+  const canvasEl = document.getElementById('canvas') as HTMLCanvasElement
+  canvasEl.width = container!.offsetWidth
+  canvasEl.height = container!.offsetHeight
+}
 
-      const container = document.getElementById('container');
-      canvas.width = container.offsetWidth;
-      canvas.height = container.offsetHeight;
-    },
-    resetView() {
-      this.init();
-      this.DrawGrid();
-    },
+function resetView() {
+  init()
+  DrawGrid()
+}
 
-    async DrawGrid() {
-      const s = this.cellSize;
-
-      this.context.clearRect(-Infinity, -Infinity, Infinity, Infinity);
-      await this.$nextTick();
-
-      this.context.strokeStyle = 'rgba(135, 135, 135, 0.3)';
-
-      //draw grid
-      for (let row = 0; row < this.extentsY; row++) {
-        for (let col = 0; col < this.extentsX; col++) {
-          const x = col * s;
-          const y = row * s;
-
-          this.context.beginPath();
-          this.context.moveTo(x, y);
-          this.context.lineTo(x + s, y);
-          this.context.lineTo(x + s, y + s);
-          this.context.lineTo(x, y + s);
-          this.context.lineTo(x, y);
-          this.context.stroke();
-          if (this.mapData.HasTile(col, row)) {
-            const tile = this.mapData.GetTile(col, row);
-            const flags = this.mapData.FromBitmask(tile.Flags);
-
-            this.context.fillStyle = this.getColor(flags);
-            this.context.fill();
-
-            this.context.fillStyle = 'rgba(255, 255, 255, 0.5)';
-
-            if (flags.length > 2) {
-              this.context.fillText('ALL', x + 1, y + 8);
-            } else if (flags.includes('Player')) {
-              this.context.fillText('PC', x + 1, y + 8);
-            } else if (flags.includes('Enemy')) {
-              this.context.fillText('NPC', x + 1, y + 8);
-            }
-          } else {
-            this.context.fillStyle = 'rgba(135, 135, 135, 0.5)';
-          }
-
-          const coord = `${col + 1},${row + 1}`;
-          const xOffset = s - coord.length * 4 - 2;
-
-          this.context.fillText(coord, x + xOffset, y + s - 3);
+async function DrawGrid() {
+  const s = cellSize
+  context.clearRect(-Infinity, -Infinity, Infinity, Infinity)
+  await nextTick()
+  context.strokeStyle = 'rgba(135, 135, 135, 0.3)'
+  for (let row = 0; row < extentsY; row++) {
+    for (let col = 0; col < extentsX; col++) {
+      const x = col * s
+      const y = row * s
+      context.beginPath()
+      context.moveTo(x, y)
+      context.lineTo(x + s, y)
+      context.lineTo(x + s, y + s)
+      context.lineTo(x, y + s)
+      context.lineTo(x, y)
+      context.stroke()
+      if (mapData.HasTile(col, row)) {
+        const tile = mapData.GetTile(col, row)
+        const flags = mapData.FromBitmask(tile.Flags)
+        context.fillStyle = getColor(flags)
+        context.fill()
+        context.fillStyle = 'rgba(255, 255, 255, 0.5)'
+        if (flags.length > 2) {
+          context.fillText('ALL', x + 1, y + 8)
+        } else if (flags.includes('Player')) {
+          context.fillText('PC', x + 1, y + 8)
+        } else if (flags.includes('Enemy')) {
+          context.fillText('NPC', x + 1, y + 8)
         }
-      }
-    },
-
-    HandleClick(event) {
-      const canvasTransform = this.canvas.transformation;
-
-      const mouseX = event.offsetX * canvasTransform.a + canvasTransform.e;
-      const mouseY = event.offsetY * canvasTransform.a + canvasTransform.f;
-
-      const col = Math.floor(mouseX / this.cellSize);
-
-      const row = Math.floor(mouseY / this.cellSize);
-
-      if (col < 0 || col >= this.extentsX || row < 0 || row >= this.extentsY) {
-        return;
-      }
-
-      if (this.mapData.GetTile(col, row)) {
-        this.mapData.ClearTile(col, row);
       } else {
-        this.mapData.SetTile(col, row, [this.cellType].concat(this.cellSubtype));
+        context.fillStyle = 'rgba(135, 135, 135, 0.5)'
       }
+      const coord = `${col + 1},${row + 1}`
+      const xOffset = s - coord.length * 4 - 2
+      context.fillText(coord, x + xOffset, y + s - 3)
+    }
+  }
+}
 
-      this.DrawGrid();
-    },
+function HandleClick(event: MouseEvent) {
+  const canvasTransform = canvas.transformation
+  const mouseX = event.offsetX * canvasTransform.a + canvasTransform.e
+  const mouseY = event.offsetY * canvasTransform.a + canvasTransform.f
+  const col = Math.floor(mouseX / cellSize)
+  const row = Math.floor(mouseY / cellSize)
+  if (col < 0 || col >= extentsX || row < 0 || row >= extentsY) return
+  if (mapData.GetTile(col, row)) {
+    mapData.ClearTile(col, row)
+  } else {
+    mapData.SetTile(col, row, [props.cellType].concat(props.cellSubtype!))
+  }
+  DrawGrid()
+}
 
-    getColor(flags) {
-      if (flags.includes('Deployment')) return '#B71C1C';
-      if (flags.includes('Ingress')) return '#0277BD';
-      if (flags.includes('Egress')) return '#00C853';
-      if (flags.includes('Objective')) return '#F57F17';
-      if (flags.includes('Obstruction')) return '#546E7A';
-      return 'rgba(0, 0, 0, 0)';
-    },
+function wheel(_event: WheelEvent) {}
 
-    getCanvas() {
-      return this.canvas;
-    },
-  },
-};
+function getColor(flags: string[]) {
+  if (flags.includes('Deployment')) return '#B71C1C'
+  if (flags.includes('Ingress')) return '#0277BD'
+  if (flags.includes('Egress')) return '#00C853'
+  if (flags.includes('Objective')) return '#F57F17'
+  if (flags.includes('Obstruction')) return '#546E7A'
+  return 'rgba(0, 0, 0, 0)'
+}
+
+function getCanvas() {
+  return canvas
+}
+
+watch(() => props.sizeX, () => DrawGrid())
+watch(() => props.sizeY, () => DrawGrid())
+
+onMounted(async () => {
+  init()
+  await DrawGrid()
+})
+
+defineExpose({
+  get mapData() { return mapData },
+  set mapData(val: any) { mapData = val },
+  getCanvas,
+  resetView,
+  DrawGrid,
+})
 </script>

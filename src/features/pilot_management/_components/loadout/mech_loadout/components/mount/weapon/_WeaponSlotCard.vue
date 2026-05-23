@@ -204,7 +204,7 @@ import { Range } from '@/classes/Range'
 import { Damage } from '@/classes/Damage'
 import { Mech } from '@/classes/mech/Mech'
 import EngWeaponSettings from './_EngWeaponSettings.vue'
-import { useMobile } from '@/mixins/useMobile'
+import { useMobile } from '@/composables/useMobile'
 
 export default {
   name: 'WeaponSlotCard',

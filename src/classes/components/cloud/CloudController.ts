@@ -199,7 +199,12 @@ class CloudController {
   public get isSynced(): boolean {
     if (!this._metadata?.Updated) return false
     if (!this._lastUploadedItemModified) return false
-    return this._lastUploadedItemModified >= this._metadata.ItemModified
+    const localModified =
+      this.Parent.SaveController.LastModified || this.Parent.SaveController.Created
+    return (
+      this._lastUploadedItemModified >= this._metadata.ItemModified &&
+      this._lastUploadedItemModified >= localModified
+    )
   }
 
   public get serverVersionChanged(): boolean {
@@ -284,7 +289,6 @@ class CloudController {
     'encounterinstance',
     'encounterarchive',
     'pilotsheet',
-    'pilotgroup',
   ])
 
   public async syncFromCloud(): Promise<void> {

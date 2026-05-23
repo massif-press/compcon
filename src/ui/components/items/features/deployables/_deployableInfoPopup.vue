@@ -1,8 +1,9 @@
 <template>
-  <cc-dialog :color="deployable.Color" :icon="deployable.Icon" :title="deployable.Name">
+  <cc-dialog :color="deployable.Color"
+    :icon="deployable.Icon"
+    :title="deployable.Name">
     <template #activator="{ open }">
-      <cc-button
-        size="small"
+      <cc-button size="small"
         :color="deployable.Color"
         :prepend-icon="deployable.Icon"
         class="ma-1 d-inline-block"
@@ -12,47 +13,43 @@
     </template>
 
     <template #title>
-      <v-icon start large dark>cc:drone</v-icon>
+      <v-icon start
+        large
+        dark>cc:drone</v-icon>
       {{ deployable.Name }}
     </template>
     <template #title-items>
-      <v-chip slot="title-items" size="small" class="stat-text pr-0 mb-2" label>
+      <v-chip size="small"
+        class="stat-text pr-0 mb-2"
+        label>
         DEPLOY&nbsp;
-        <v-chip label class="text-uppercase">
+        <v-chip label
+          class="text-uppercase">
           {{ activation }}
         </v-chip>
       </v-chip>
     </template>
 
-    <deployable-info-base :deployable="deployable" :tier="tier" :owner="owner" />
+    <deployable-info-base :deployable="deployable"
+      :tier="tier"
+      :owner="owner" />
   </cc-dialog>
 </template>
 
-<script lang="ts">
-import deployableInfoBase from './_deployableInfoBase.vue';
+<script setup lang="ts">
+import { computed } from 'vue'
+import DeployableInfoBase from './_deployableInfoBase.vue'
+import { Deployable } from '@/classes/components/feature/deployable/Deployable';
 
-export default {
-  name: 'deployable-popup',
-  components: { deployableInfoBase },
-  props: {
-    deployable: {
-      type: Object,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-    owner: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  },
-  computed: {
-    activation() {
-      return this.deployable.Activation ? this.deployable.Activation.toLowerCase() : 'Quick';
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  deployable: Deployable
+  tier?: number
+  owner?: object | null
+}>(), {
+  owner: null,
+})
+
+const activation = computed(() => {
+  return props.deployable.Activation ? props.deployable.Activation.toLowerCase() : 'Quick';
+})
 </script>

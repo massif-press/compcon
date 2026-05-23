@@ -34,16 +34,11 @@
   </c-list-item-base>
 </template>
 
-<script lang="ts">
-import cListItemBase from './cListItemBase.vue';
-import StatChips from '../../../../_views/_components/gmItemCards/_subcomponents/statChips.vue';
+<script setup lang="ts">
+import cListItemBase from './cListItemBase.vue'
 
-export default {
-  name: 'gm-combatant-unit-list-item',
-  components: { StatChips, cListItemBase },
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-};
+withDefaults(defineProps<{
+  item: Record<string, any>
+  readonly?: boolean
+}>(), { readonly: false })
 </script>

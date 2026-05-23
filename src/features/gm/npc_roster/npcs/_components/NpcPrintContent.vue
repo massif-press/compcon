@@ -22,16 +22,16 @@
             </span>
           </v-col>
           <v-col cols="auto">
-            <v-chip small
-              variant="outlined"
-              v-html-safe="item.Tag" />
+            <v-chip v-html-safe="item.Tag"
+              small
+              variant="outlined" />
             <cc-divider v-if="item.NarrativeController.Labels.length" />
             <v-chip v-for="(l, i) in item.Labels"
               :key="`label-${i}`"
+              v-html-safe="l"
               small
               variant="outlined"
-              label
-              v-html-safe="l" />
+              label />
           </v-col>
           <v-col v-if="hasClass"
             cols="auto"
@@ -46,26 +46,26 @@
           <v-col cols="auto"
             class="text-center">
             <div class="small-header overline">HULL</div>
-            <div class="heading h3"
-              v-html-safe="item.Stats.Hull" />
+            <div v-html-safe="item.Stats.Hull"
+              class="heading h3" />
           </v-col>
           <v-col cols="auto"
             class="text-center">
             <div class="small-header overline">AGI</div>
-            <div class="heading h3"
-              v-html-safe="item.Stats.Agility" />
+            <div v-html-safe="item.Stats.Agility"
+              class="heading h3" />
           </v-col>
           <v-col cols="auto"
             class="text-center">
             <div class="small-header overline">SYS</div>
-            <div class="heading h3"
-              v-html-safe="item.Stats.Systems" />
+            <div v-html-safe="item.Stats.Systems"
+              class="heading h3" />
           </v-col>
           <v-col cols="auto"
             class="text-center">
             <div class="small-header overline">ENG</div>
-            <div class="heading h3"
-              v-html-safe="item.Stats.Engineering" />
+            <div v-html-safe="item.Stats.Engineering"
+              class="heading h3" />
           </v-col>
 
           <v-spacer />
@@ -78,8 +78,8 @@
               <v-chip variant="outlined"
                 label
                 class="px-7" />
-              <b class="d-inline-block mb-n2"
-                v-html-safe="`/${item.Stats.Structure}`" />
+              <b v-html-safe="`/${item.Stats.Structure}`"
+                class="d-inline-block mb-n2" />
             </div>
           </v-col>
           <v-col cols="auto">
@@ -93,8 +93,8 @@
                   <v-chip variant="outlined"
                     label
                     class="px-7" />
-                  <b class="d-inline-block mb-n2"
-                    v-html-safe="`/${item.Stats.HP}`" />
+                  <b v-html-safe="`/${item.Stats.HP}`"
+                    class="d-inline-block mb-n2" />
                 </div>
               </v-col>
               <v-col v-if="item.Stats.Armor"
@@ -116,8 +116,8 @@
               <v-chip variant="outlined"
                 label
                 class="px-7" />
-              <b class="d-inline-block flavor-text font-weight-bold mb-n2"
-                v-html-safe="`/${item.Stats.Stress}`" />
+              <b v-html-safe="`/${item.Stats.Stress}`"
+                class="d-inline-block flavor-text font-weight-bold mb-n2" />
             </div>
           </v-col>
           <v-col cols="auto"
@@ -127,8 +127,8 @@
               <v-chip variant="outlined"
                 label
                 class="px-7" />
-              <b class="d-inline-block flavor-text font-weight-bold mb-n2"
-                v-html-safe="`/${item.Stats.HeatCapacity}`" />
+              <b v-html-safe="`/${item.Stats.HeatCapacity}`"
+                class="d-inline-block flavor-text font-weight-bold mb-n2" />
             </div>
           </v-col>
         </v-row>
@@ -243,20 +243,20 @@
 
 <script lang="ts">
 export default {
-  name: 'npc-print-content',
+  name: 'NpcPrintContent',
   props: { item: { type: Object, required: true } },
-  methods: {
-    signed(val: number) {
-      return val > -1 ? `+${val}` : `${val}`;
-    },
-  },
   computed: {
     hasClass() {
       return !!this.item && !!this.item.NpcClassController.Class;
     },
 
     items() {
-      return this.item.Items.sort((x) => x.IsVisible);
+      return [...this.item.Items].sort((x: any) => x.IsVisible ? 1 : -1);
+    },
+  },
+  methods: {
+    signed(val: number) {
+      return val > -1 ? `+${val}` : `${val}`;
     },
   },
 };

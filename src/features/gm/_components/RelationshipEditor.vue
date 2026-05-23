@@ -4,8 +4,9 @@
     v-for="(r, idx) in item.NarrativeController.Relationships"
     :key="`relationship-${idx}`"
     :item="r"
-    :ref="'relationship' + idx"
+    :ref="(el) => { if (el) relationshipRefs[idx] = el }"
     :origin-item="item"
+    :collection-items="allCollectionItems"
     editable
     @delete="removeRelationship(idx)" />
 
@@ -24,66 +25,50 @@
   <cc-relationship-item v-for="(l, index) in linkedRelationships"
     :key="`linked-${index}`"
     :item="l.item"
-    :origin-item="l.origin" />
+    :origin-item="l.origin"
+    :collection-items="allCollectionItems" />
 </template>
 
-<script lang="ts">
-import { NarrativeStore } from '../store/narrative_store';
+<script setup lang="ts">
+import { ref, computed, nextTick } from 'vue'
+import { NarrativeStore } from '../store/narrative_store'
 
-export default {
-  name: 'relationship-editor',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    allCollectionItems() {
-      return NarrativeStore().CollectionItems.filter((i) => i.ID !== this.item.ID);
-    },
-    linkedRelationships() {
-      const linkedItems = NarrativeStore().getItemRelationships(this.item.ID);
-      let relationships: any[] = [];
-      linkedItems.forEach((l) => {
-        const links = l.NarrativeController.Relationships.filter(
-          (r: any) => r.id === this.item.ID
-        ).map((r: any) => ({
-          item: r,
-          origin: l,
-        }));
-        relationships = relationships.concat(links);
-      });
+const props = withDefaults(defineProps<{
+  item: Record<string, any>
+  readonly?: boolean
+}>(), { readonly: false })
 
-      return relationships;
-    },
-  },
-  methods: {
-    addRelationship() {
-      this.item.NarrativeController.Relationships.push({
-        id: '',
-        name: 'New Relationship',
-        relationship: '',
-        notes: '',
-      });
-      this.$nextTick(() => {
-        const idx = this.item.NarrativeController.Relationships.length - 1;
-        (this.$refs['relationship' + idx] as any)[0].openDialog();
-      });
-    },
-    removeRelationship(index: number) {
-      this.item.NarrativeController.Relationships.splice(index, 1);
-    },
-    setName(r: any) {
-      const item = this.allCollectionItems.find((i) => i.ID === r.id);
-      if (item) {
-        r.name = item.Name;
-      }
-    },
-  },
-};
+const relationshipRefs = ref<any[]>([])
+
+const allCollectionItems = computed(() =>
+  NarrativeStore().CollectionItems.filter((i: any) => i.ID !== props.item.ID)
+)
+
+const linkedRelationships = computed(() => {
+  const linkedItems = NarrativeStore().getItemRelationships(props.item.ID)
+  let relationships: any[] = []
+  linkedItems.forEach((l: any) => {
+    const links = l.NarrativeController.Relationships.filter(
+      (r: any) => r.id === props.item.ID
+    ).map((r: any) => ({ item: r, origin: l }))
+    relationships = relationships.concat(links)
+  })
+  return relationships
+})
+
+async function addRelationship() {
+  props.item.NarrativeController.Relationships.push({
+    id: '',
+    name: 'New Relationship',
+    relationship: '',
+    notes: '',
+  })
+  await nextTick()
+  const idx = props.item.NarrativeController.Relationships.length - 1
+  relationshipRefs.value[idx]?.openDialog()
+}
+
+function removeRelationship(index: number) {
+  props.item.NarrativeController.Relationships.splice(index, 1)
+}
 </script>

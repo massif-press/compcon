@@ -126,7 +126,7 @@
           {{ item.Accuracy(1) < 0
             ? 'Difficulty'
             : 'Accuracy'
-            }}
+          }}
             </div>
       </v-col>
     </v-row>
@@ -140,49 +140,33 @@
       <b class="text-accent">{{ tier ? item.Attacks[tier - 1] : item.Attacks.join(' / ') }}</b>
       attacks at a time. Multiple attacks may be made against the same or different targets.
     </v-alert>
-    <p v-if="item.OnMiss"
-      slot="statblock"
-      v-html-safe="`<b>On Miss:&nbsp;</b>${item.OnMiss.Detail}`"
-      class="panel text-text py-1" />
-    <p v-if="item.OnHit"
-      slot="statblock"
-      v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit.Detail}`"
-      class="panel text-text py-1" />
-    <p v-if="item.OnCrit"
-      slot="statblock"
-      v-html-safe="`<b>On Crit:&nbsp;</b>${item.OnCrit.Detail}`"
-      class="panel text-text py-1" />
+    <template #statblock>
+      <p v-if="item.OnMiss"
+        v-html-safe="`<b>On Miss:&nbsp;</b>${item.OnMiss.Detail}`"
+        class="panel text-text py-1" />
+      <p v-if="item.OnHit"
+        v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit.Detail}`"
+        class="panel text-text py-1" />
+      <p v-if="item.OnCrit"
+        v-html-safe="`<b>On Crit:&nbsp;</b>${item.OnCrit.Detail}`"
+        class="panel text-text py-1" />
+    </template>
   </equipment-card-base>
 </template>
 
-<script lang="ts">
-import EquipmentCardBase from './_EquipmentCardBase.vue';
+<script setup lang="ts">
+import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
+import EquipmentCardBase from './_EquipmentCardBase.vue'
+withDefaults(defineProps<{
+  item: NpcWeapon
+  dense?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>(), {
+  dense: false,
+})
 
-export default {
-  name: 'CcNpcWeaponCard',
-  components: { EquipmentCardBase },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    dense: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    collapseActions: {
-      type: Boolean,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-  },
-  methods: {
-    sign(n: number): string {
-      return n > 0 ? '+' : '';
-    },
-  },
-};
+function sign(n: number): string {
+  return n > 0 ? '+' : ''
+}
 </script>

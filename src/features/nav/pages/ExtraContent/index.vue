@@ -45,40 +45,24 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import PacksList from './PacksList.vue'
 import PackInstall from './PackInstall.vue'
 import PacksDirectory from './PacksDirectory.vue'
 import PackConfig from './PackConfig.vue'
-import { useMobile } from '@/mixins/useMobile';
-import V2Imports from './components/v2Imports.vue';
+import V2Imports from './components/v2Imports.vue'
 import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'ExtraContent',
-  components: { PacksList, PackInstall, PacksDirectory, PackConfig, V2Imports },
-  mixins: [useMobile],
-  props: {
-    modelValue: Boolean,
-  },
-  emits: ['update:modelValue'],
-  setup() {
-    return { CM: NAV_STRINGS.contentManager }
-  },
-  data: () => ({
-    tabs: 0,
-    modal: false,
-  }),
-  watch: {
-    modelValue: {
-      handler(val) {
-        this.modal = val
-      },
-      immediate: true,
-    },
-    modal(val) {
-      this.$emit('update:modelValue', val)
-    },
-  },
-}
+const props = defineProps<{ modelValue?: boolean }>()
+const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
+
+const { smAndDown: mobile } = useDisplay()
+const CM = NAV_STRINGS.contentManager
+
+const modal = ref(props.modelValue ?? false)
+
+watch(() => props.modelValue, val => { modal.value = val ?? false })
+watch(modal, val => { emit('update:modelValue', val) })
 </script>

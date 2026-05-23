@@ -78,7 +78,7 @@ import ActionCard from '../_components/ActionCard.vue'
 import scrollTo from '@/util/scrollTo'
 
 import { CompendiumStore } from '@/stores'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'ActionEconomy',

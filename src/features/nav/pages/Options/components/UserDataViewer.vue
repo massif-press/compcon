@@ -46,40 +46,26 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import { UserStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
-import { NAV_STRINGS } from '@/features/nav/strings';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay, useTheme } from 'vuetify'
+import { UserStore } from '@/stores'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
+const { smAndDown: mobile } = useDisplay()
+const theme = useTheme()
+const ud = NAV_STRINGS.userDataViewer
 
-export default {
-  mixins: [useMobile],
-  name: 'deleted-items',
-  setup() {
-    return { ud: NAV_STRINGS.userDataViewer }
-  },
-  data: () => ({
-    resetDialog: false,
-  }),
-  computed: {
-    user() {
-      return UserStore().User;
-    },
-    userDataKeys() {
-      const skipKeys = ['LcpSubscriptionData', '_patreonData', '_itchData'];
-      if (this.mobile) {
-        skipKeys.push('_options');
-      }
-      const data = [...Object.keys(UserStore().User)];
-      return data.filter((key) => !skipKeys.includes(key));
-    },
-  },
-  methods: {
-    resetUserData() {
-      this.user.Reset();
-      this.$vuetify.theme.global.name = this.user.Theme;
-      this.resetDialog = false;
-    },
-  },
-};
+const user = computed(() => UserStore().User)
+
+const userDataKeys = computed(() => {
+  const skipKeys = ['LcpSubscriptionData', '_patreonData', '_itchData']
+  if (mobile.value) skipKeys.push('_options')
+  return Object.keys(UserStore().User).filter(key => !skipKeys.includes(key))
+})
+
+function resetUserData() {
+  user.value.Reset()
+  theme.global.name.value = user.value.Theme
+}
 </script>

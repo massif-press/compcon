@@ -152,11 +152,11 @@
 import * as _ from 'lodash-es';
 import { markRaw } from 'vue';
 import { Sortable } from 'sortablejs-vue3';
-import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
+import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
 import SystemSelector from './_SystemSelector.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 const _SystemSlotCard = markRaw(SystemSlotCard);
 const _ModEquippedCard = markRaw(ModEquippedCard);

@@ -36,7 +36,7 @@ import { Unit } from '@/classes/npc/unit/Unit';
 
 import { NpcStore } from '@/stores';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import { ref, onUnmounted } from 'vue';
 
 

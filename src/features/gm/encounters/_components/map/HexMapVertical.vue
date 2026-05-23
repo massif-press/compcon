@@ -13,206 +13,143 @@
   </div>
 </template>
 
-<script>
-import { EncounterMap } from '@/classes/encounter/EncounterMap';
-import InfiniteCanvas from 'ef-infinite-canvas';
+<script setup lang="ts">
+import { onMounted, watch, nextTick } from 'vue'
+import { EncounterMap } from '@/classes/encounter/EncounterMap'
+import InfiniteCanvas from 'ef-infinite-canvas'
 
-const findNearest = (target, arr) => {
-  let nearestPoint = null;
-  let minDistance = Infinity;
+const props = withDefaults(defineProps<{
+  sizeX?: number
+  sizeY?: number
+  cellType?: string
+  cellSubtype?: any[]
+  map?: Record<string, any>
+  preview?: boolean
+}>(), { sizeX: 45, sizeY: 20, cellType: '', cellSubtype: () => [] })
 
+const cellSize = 30
+let canvas: any = null
+let context: any = null
+let centers: any[] = []
+let mapData: any = null
+
+function findNearest(target: { x: number; y: number }, arr: any[]) {
+  let nearestPoint = null
+  let minDistance = Infinity
   for (let i = 0; i < arr.length; i++) {
-    const point = arr[i];
-    const distance = Math.sqrt(Math.pow(target.x - point.x, 2) + Math.pow(target.y - point.y, 2));
+    const point = arr[i]
+    const distance = Math.sqrt(Math.pow(target.x - point.x, 2) + Math.pow(target.y - point.y, 2))
+    if (distance < minDistance) { nearestPoint = point; minDistance = distance }
+  }
+  return nearestPoint
+}
 
-    if (distance < minDistance) {
-      nearestPoint = point;
-      minDistance = distance;
+function init() {
+  if (props.map) {
+    mapData = props.map
+  } else {
+    mapData = new EncounterMap({ type: 'HexV', x: props.sizeX, y: props.sizeY, tiles: [] })
+  }
+  canvas = new InfiniteCanvas(document.getElementById('canvas'), { rotationEnabled: false, greedyGestureHandling: true })
+  context = canvas.getContext('2d')
+  context.font = '8px Arial'
+  const container = document.getElementById('container')
+  const canvasEl = document.getElementById('canvas') as HTMLCanvasElement
+  canvasEl.width = container!.offsetWidth
+  canvasEl.height = container!.offsetHeight
+}
+
+function resetView() {
+  init()
+  DrawGrid()
+}
+
+async function DrawGrid() {
+  const s = cellSize
+  context.clearRect(-Infinity, -Infinity, Infinity, Infinity)
+  await nextTick()
+  centers = []
+  context.strokeStyle = 'rgba(135, 135, 135, 0.3)'
+  for (let row = 0; row < props.sizeY!; row++) {
+    for (let col = 0; col < props.sizeX!; col++) {
+      const w = Math.sqrt(3) * s
+      const h = 2 * s
+      let y = row * s * 1.5
+      let x = col * w
+      const coord = `${col + 1},${row + 1}`
+      const xOffset = coord.length * 2
+      if (row % 2 === 1) x += 0.5 * w
+      context.beginPath()
+      context.moveTo(x, y)
+      context.lineTo(x + 0.5 * w, y - h * 0.25)
+      context.lineTo(x + 0.5 * w, y - h * 0.75)
+      context.lineTo(x, y - h)
+      context.lineTo(x - 0.5 * w, y - h * 0.75)
+      context.lineTo(x - 0.5 * w, y - h * 0.25)
+      context.lineTo(x, y)
+      context.stroke()
+      if (mapData.HasTile(col, row)) {
+        const tile = mapData.GetTile(col, row)
+        const flags = mapData.FromBitmask(tile.Flags)
+        context.fillStyle = getColor(flags)
+        context.fill()
+        context.fillStyle = 'rgba(255, 255, 255, 0.5)'
+        if (flags.length > 2) { context.fillText('ALL', x - xOffset + 1, y - 13) }
+        else if (flags.includes('Player')) { context.fillText('PC', x - xOffset + 1, y - 13) }
+        else if (flags.includes('Enemy')) { context.fillText('NPC', x - xOffset + 1, y - 13) }
+      } else {
+        context.fillStyle = 'rgba(135, 135, 135, 0.5)'
+      }
+      context.fillText(coord, x - xOffset, y - s - 13)
+      centers.push({ x, y: y - s, row, col })
     }
   }
+}
 
-  return nearestPoint;
-};
+async function HandleClick(event: MouseEvent) {
+  const canvasTransform = canvas.transformation
+  const mouseX = event.offsetX * canvasTransform.a + canvasTransform.e
+  const mouseY = event.offsetY * canvasTransform.a + canvasTransform.f
+  const extentsX = props.sizeX! * cellSize * Math.sqrt(3)
+  const extentsY = props.sizeY! * cellSize * (4 / 3)
+  if (mouseX < -cellSize || mouseX > extentsX) return
+  if (mouseY < -2 * cellSize || mouseY > extentsY) return
+  const hex = findNearest({ x: mouseX, y: mouseY }, centers)
+  if (!hex) return
+  if (mapData.HasTile(hex.col, hex.row)) {
+    mapData.ClearTile(hex.col, hex.row)
+  } else {
+    mapData.SetTile(hex.col, hex.row, [props.cellType].concat(props.cellSubtype!))
+  }
+  await DrawGrid()
+}
 
-export default {
-  name: 'hex-map-vertical-editor',
-  props: {
-    sizeX: {
-      type: Number,
-      default: 45,
-    },
-    sizeY: {
-      type: Number,
-      default: 20,
-    },
-    cellType: {
-      type: String,
-      default: '',
-    },
-    cellSubtype: {
-      type: Array,
-      default: () => [],
-    },
-    map: {
-      type: Object,
-      required: false,
-    },
-    preview: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    cellSize: 30,
-    canvas: null,
-    context: null,
-    centers: [],
-  }),
-  watch: {
-    sizeX() {
-      this.DrawGrid();
-    },
-    sizeY() {
-      this.DrawGrid();
-    },
-  },
-  async mounted() {
-    this.init();
-    await this.DrawGrid();
-  },
-  methods: {
-    init() {
-      if (this.map) {
-        this.mapData = this.map;
-        this.extentsX = this.mapData.SizeX;
-        this.extentsY = this.mapData.SizeX;
-      } else {
-        this.mapData = new EncounterMap({
-          type: 'HexV',
-          x: this.sizeX,
-          y: this.sizeY,
-          tiles: [],
-        });
-        this.extentsX = this.sizeX;
-        this.extentsY = this.sizeY;
-      }
+function getColor(flags: string[]) {
+  if (flags.includes('Deployment')) return '#B71C1C'
+  if (flags.includes('Ingress')) return '#0277BD'
+  if (flags.includes('Egress')) return '#00C853'
+  if (flags.includes('Objective')) return '#F57F17'
+  if (flags.includes('Obstruction')) return '#546E7A'
+  return 'rgba(0, 0, 0, 0)'
+}
 
-      this.canvas = new InfiniteCanvas(document.getElementById('canvas'), {
-        rotationEnabled: false,
-        greedyGestureHandling: true,
-      });
+function getCanvas() {
+  return canvas
+}
 
-      this.context = this.canvas.getContext('2d');
-      this.context.font = '8px Arial';
+watch(() => props.sizeX, () => DrawGrid())
+watch(() => props.sizeY, () => DrawGrid())
 
-      const container = document.getElementById('container');
-      canvas.width = container.offsetWidth;
-      canvas.height = container.offsetHeight;
-    },
-    resetView() {
-      this.init();
-      this.DrawGrid();
-    },
+onMounted(async () => {
+  init()
+  await DrawGrid()
+})
 
-    async DrawGrid() {
-      const s = this.cellSize;
-
-      this.context.clearRect(-Infinity, -Infinity, Infinity, Infinity);
-      await this.$nextTick();
-      this.centers = [];
-
-      this.context.strokeStyle = 'rgba(135, 135, 135, 0.3)';
-
-      for (let row = 0; row < this.sizeY; row++) {
-        for (let col = 0; col < this.sizeX; col++) {
-          const w = Math.sqrt(3) * s;
-          const h = 2 * s;
-
-          let y = row * s * 1.5;
-          let x = col * w;
-
-          const coord = `${col + 1},${row + 1}`;
-          const xOffset = coord.length * 2;
-
-          if (row % 2 === 1) x += 0.5 * w;
-
-          this.context.beginPath();
-          this.context.moveTo(x, y);
-          this.context.lineTo(x + 0.5 * w, y - h * 0.25);
-          this.context.lineTo(x + 0.5 * w, y - h * 0.75);
-          this.context.lineTo(x, y - h);
-          this.context.lineTo(x - 0.5 * w, y - h * 0.75);
-          this.context.lineTo(x - 0.5 * w, y - h * 0.25);
-          this.context.lineTo(x, y);
-          this.context.stroke();
-
-          if (this.mapData.HasTile(col, row)) {
-            const tile = this.mapData.GetTile(col, row);
-            const flags = this.mapData.FromBitmask(tile.Flags);
-
-            this.context.fillStyle = this.getColor(flags);
-            this.context.fill();
-
-            this.context.fillStyle = 'rgba(255, 255, 255, 0.5)';
-
-            if (flags.length > 2) {
-              this.context.fillText('ALL', x - xOffset + 1, y - 13);
-            } else if (flags.includes('Player')) {
-              this.context.fillText('PC', x - xOffset + 1, y - 13);
-            } else if (flags.includes('Enemy')) {
-              this.context.fillText('NPC', x - xOffset + 1, y - 13);
-            }
-          } else {
-            this.context.fillStyle = 'rgba(135, 135, 135, 0.5)';
-          }
-
-          this.context.fillText(coord, x - xOffset, y - s - 13);
-
-          this.centers.push({ x, y: y - s, row, col });
-        }
-      }
-    },
-
-    async HandleClick(event) {
-      const canvasTransform = this.canvas.transformation;
-
-      const mouseX = event.offsetX * canvasTransform.a + canvasTransform.e;
-      const mouseY = event.offsetY * canvasTransform.a + canvasTransform.f;
-
-      const extentsX = this.sizeX * this.cellSize * Math.sqrt(3);
-      const extentsY = this.sizeY * this.cellSize * (4 / 3);
-
-      if (mouseX < -this.cellSize || mouseX > extentsX) {
-        return;
-      }
-      if (mouseY < -2 * this.cellSize || mouseY > extentsY) {
-        return;
-      }
-
-      const hex = findNearest({ x: mouseX, y: mouseY }, this.centers);
-
-      if (!hex) return;
-
-      if (this.mapData.HasTile(hex.col, hex.row)) {
-        this.mapData.ClearTile(hex.col, hex.row);
-      } else {
-        this.mapData.SetTile(hex.col, hex.row, [this.cellType].concat(this.cellSubtype));
-      }
-
-      await this.DrawGrid();
-    },
-
-    getColor(flags) {
-      if (flags.includes('Deployment')) return '#B71C1C';
-      if (flags.includes('Ingress')) return '#0277BD';
-      if (flags.includes('Egress')) return '#00C853';
-      if (flags.includes('Objective')) return '#F57F17';
-      if (flags.includes('Obstruction')) return '#546E7A';
-      return 'rgba(0, 0, 0, 0)';
-    },
-
-    getCanvas() {
-      return this.canvas;
-    },
-  },
-};
+defineExpose({
+  get mapData() { return mapData },
+  set mapData(val: any) { mapData = val },
+  getCanvas,
+  resetView,
+  DrawGrid,
+})
 </script>

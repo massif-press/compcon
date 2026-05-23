@@ -1,6 +1,8 @@
 <template>
   <cc-share-code-importer ref="importer"
     import-type="campaign"
+    :user-id="userId"
+    :remote-items="remoteItems"
     @set-query-result="queryResult = $event"
     @set-data="campaign = $event">
     <template #result>
@@ -18,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { CampaignStore } from '@/stores';
+import { CampaignStore, UserStore } from '@/stores';
 import CampaignDetailPanel from './CampaignDetailPanel.vue';
 
 export default {
@@ -28,6 +30,10 @@ export default {
     queryResult: null as any,
     campaign: null as any,
   }),
+  computed: {
+    userId() { return UserStore().Cognito?.userId },
+    remoteItems() { return UserStore().UserMetadata?.RemoteItems ?? [] },
+  },
   methods: {
     async addCampaign() {
       CampaignStore().AddCollectionCampaign(this.campaign);

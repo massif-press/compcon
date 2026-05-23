@@ -263,7 +263,7 @@ import StepperContent from '../../_components/StepperContent.vue';
 import BackgroundSelector from '../../_components/selectors/BackgroundSelector.vue';
 import { name, callsign } from '@/io/Generators';
 import { Pilot } from '@/classes/pilot/Pilot'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

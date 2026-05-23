@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import DeployButton from './_deployButton.vue'
-import { useEquipmentActions } from '@/mixins/useEquipmentActions'
+import { useEquipmentActions } from '@/composables/useEquipmentActions'
 
 export default {
   name: 'EquipmentActionsDeployables',

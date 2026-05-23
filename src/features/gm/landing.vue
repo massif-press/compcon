@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import LandingCard from './_components/LandingCard.vue'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'Home',

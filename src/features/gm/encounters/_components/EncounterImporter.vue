@@ -116,140 +116,112 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import { ImportData } from '@/io/Data';
-import { EncounterStore } from '@/stores';
-import { v4 as uuid } from 'uuid';
-import { Encounter } from '@/classes/encounter/Encounter';
-import {
-  isV2Encounter,
-  getV2EncounterMissingNpcs,
-  preprocessEncounterImport,
-} from '@/io/V2Importer';
-import { ImportEncounter } from '@/io/Importer';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { ImportData } from '@/io/Data'
+import { EncounterStore } from '@/stores'
+import { v4 as uuid } from 'uuid'
+import { Encounter } from '@/classes/encounter/Encounter'
+import { isV2Encounter, getV2EncounterMissingNpcs, preprocessEncounterImport } from '@/io/V2Importer'
+import { ImportEncounter } from '@/io/Importer'
+import { notify } from '@/util/notify'
+import { GM_STRINGS } from '@/features/gm/strings'
 
-export default {
-  name: 'EncounterImporter',
-  emits: ['complete'],
-  data: () => ({
-    selected: [] as string[],
-    fileValue: null,
-    stagedData: [] as any[],
-    stagedItems: [] as any[],
-    notEncounterFile: false,
-  }),
-  computed: {
-    missingContent() {
-      const missing = new Set<string>();
-      this.stagedItems.forEach((item) => {
-        if (item.status === 'missing_content') {
-          (item.missingInfo as string[]).forEach((m) => missing.add(m));
+const emit = defineEmits<{ complete: [] }>()
+
+const selected = ref<string[]>([])
+const fileValue = ref<any>(null)
+const stagedData = ref<any[]>([])
+const stagedItems = ref<any[]>([])
+const notEncounterFile = ref(false)
+
+const missingContent = computed(() => {
+  const missing = new Set<string>()
+  stagedItems.value.forEach((item) => {
+    if (item.status === 'missing_content') {
+      (item.missingInfo as string[]).forEach((m) => missing.add(m))
+    }
+  })
+  return Array.from(missing).join('<br>')
+})
+
+function reset() {
+  fileValue.value = null
+  stagedData.value = []
+  stagedItems.value = []
+  selected.value = []
+  notEncounterFile.value = false
+}
+
+async function stageImport(file: any) {
+  if (!file) return
+  notEncounterFile.value = false
+  const data = await ImportData<any>(file.target.files[0])
+  if (isV2Encounter(data)) {
+    const encounters = Array.isArray(data) ? data : [data]
+    stagedData.value = encounters
+    stagedItems.value = encounters.map((enc: any) => {
+      const missingNpcs = getV2EncounterMissingNpcs(enc)
+      return {
+        id: enc.id,
+        name: (enc.name || 'Unnamed Encounter') + ' (v2)',
+        sitrepName: enc.sitrep.name || '—',
+        combatantCount: (enc.npcs?.length || 0) + (enc.reinforcements?.length || 0),
+        status: missingNpcs.length === 0 ? 'ok' : 'missing_content',
+        missingInfo: missingNpcs.map((id: string) => `NPC: ${id}`),
+      }
+    })
+  } else {
+    let content: any[]
+    if (data.type && data.type.includes('collection')) {
+      content = data.data
+    } else {
+      content = [data]
+    }
+    const encounters = content.filter((x: any) => x.itemType?.toLowerCase() === 'encounter')
+    stagedData.value = encounters
+    stagedItems.value = encounters.map((item: any) => ({
+      id: item.id,
+      name: item.name || 'Unnamed Encounter',
+      sitrepName: item.sitrep?.name || '—',
+      combatantCount: item.combatants?.length ?? 0,
+      status: 'ok',
+      missingInfo: [],
+    }))
+  }
+  if (!stagedItems.value.length) {
+    notEncounterFile.value = true
+    return
+  }
+  selected.value = stagedItems.value.map((x: any) => x.id)
+}
+
+async function importFile() {
+  const staged = stagedData.value.filter((x: any) => selected.value.includes(x.id))
+  let backedUp = 0
+  for (const item of staged) {
+    try {
+      if (isV2Encounter(item)) {
+        const result = await preprocessEncounterImport(item)
+        if (result.action === 'import' && result.transformed) {
+          const encs = Array.isArray(result.transformed) ? result.transformed : [result.transformed]
+          for (const enc of encs) await ImportEncounter(enc)
+        } else if (result.action === 'backup') {
+          backedUp++
         }
-      });
-      return Array.from(missing).join('<br>');
-    },
-  },
-  methods: {
-    reset() {
-      this.fileValue = null;
-      this.stagedData = [];
-      this.stagedItems = [];
-      this.selected = [];
-      this.notEncounterFile = false;
-    },
-    async stageImport(file) {
-      if (!file) return;
-      this.notEncounterFile = false;
-
-      const data = await ImportData<any>(file.target.files[0]);
-
-      if (isV2Encounter(data)) {
-        const encounters = Array.isArray(data) ? data : [data];
-
-        this.stagedData = encounters;
-        this.stagedItems = encounters.map((enc) => {
-          const missingNpcs = getV2EncounterMissingNpcs(enc);
-          return {
-            id: enc.id,
-            name: (enc.name || 'Unnamed Encounter') + ' (v2)',
-            sitrepName: enc.sitrep.name || '—',
-            combatantCount: (enc.npcs?.length || 0) + (enc.reinforcements?.length || 0),
-            status: missingNpcs.length === 0 ? 'ok' : 'missing_content',
-            missingInfo: missingNpcs.map((id) => `NPC: ${id}`),
-          };
-        });
       } else {
-        let content;
-        if (data.type && data.type.includes('collection')) {
-          content = data.data;
-        } else {
-          content = [data];
-        }
-
-        const encounters = content.filter(
-          (x) => x.itemType?.toLowerCase() === 'encounter'
-        );
-
-        this.stagedData = encounters;
-        this.stagedItems = encounters.map((item) => ({
-          id: item.id,
-          name: item.name || 'Unnamed Encounter',
-          sitrepName: item.sitrep?.name || '—',
-          combatantCount: item.combatants?.length ?? 0,
-          status: 'ok',
-          missingInfo: [],
-        }));
+        item.id = uuid()
+        EncounterStore().AddEncounter(Encounter.Deserialize(item))
       }
-
-      if (!this.stagedItems.length) {
-        this.notEncounterFile = true;
-        return;
-      }
-
-      this.selected = this.stagedItems.map((x) => x.id);
-    },
-    async importFile() {
-      const staged = this.stagedData.filter((x) => this.selected.includes(x.id));
-
-      let backedUp = 0;
-
-      for (const item of staged) {
-        try {
-          if (isV2Encounter(item)) {
-            const result = await preprocessEncounterImport(item);
-            if (result.action === 'import' && result.transformed) {
-              const encs = Array.isArray(result.transformed)
-                ? result.transformed
-                : [result.transformed];
-              for (const enc of encs) await ImportEncounter(enc);
-            } else if (result.action === 'backup') {
-              backedUp++;
-            }
-          } else {
-            item.id = uuid();
-            EncounterStore().AddEncounter(Encounter.Deserialize(item));
-          }
-        } catch (error) {
-          console.error(error);
-          this.$notify({
-            title: 'Import Error',
-            text: `Unable to import encounter: ${error}`,
-            data: { icon: 'cc:compendium', color: 'error' },
-          });
-        }
-      }
-
-      if (backedUp > 0) {
-        this.$notify({
-          title: 'v2 Import Backup',
-          text: `${backedUp} item(s) saved to pending v2 imports in the Content Manager/`,
-          data: { icon: 'mdi-information-box-outline', color: 'info' },
-        });
-      }
-
-      this.reset();
-      this.$emit('complete');
-    },
-  },
-};
+    } catch (error) {
+      console.error(error)
+      notify({ title: GM_STRINGS.import.importErrorTitle, text: GM_STRINGS.import.encounterImportErrorText(String(error)), data: { icon: 'cc:compendium', color: 'error' } })
+    }
+  }
+  if (backedUp > 0) {
+    notify({ title: GM_STRINGS.import.v2BackupTitle, text: GM_STRINGS.import.v2BackupText(backedUp), data: { icon: 'mdi-information-box-outline', color: 'info' } })
+  }
+  reset()
+  emit('complete')
+}
 </script>

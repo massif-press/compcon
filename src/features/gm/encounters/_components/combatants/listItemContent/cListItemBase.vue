@@ -83,31 +83,25 @@
   </v-hover>
 </template>
 
-<script lang="ts">
-import CombatantSettingsMenu from '../_components/combatantSettingsMenu.vue';
-import StatChips from '../../../../_views/_components/gmItemCards/_subcomponents/statChips.vue';
+<script setup lang="ts">
+import { ref } from 'vue'
+import CombatantSettingsMenu from '../_components/combatantSettingsMenu.vue'
 
-export default {
-  name: 'gm-unit-list-item',
-  components: { StatChips, CombatantSettingsMenu },
-  props: {
-    item: { type: Object, required: true },
-    odd: { type: Boolean },
-    readonly: { type: Boolean, default: false },
-  },
-  data: () => ({
-    deleteMenu: false,
-  }),
+const props = withDefaults(defineProps<{
+  item: Record<string, any>
+  odd?: boolean
+  readonly?: boolean
+}>(), { readonly: false })
 
-  methods: {
-    editUnit() {
-      this.$emit('open', this.item);
-    },
-    removeItem() {
-      this.deleteMenu = false;
-      this.$emit('remove', this.item);
-    },
-  },
-  emits: ['remove', 'open'],
-};
+const emit = defineEmits<{ remove: [item: any]; open: [item: any] }>()
+
+const deleteMenu = ref(false)
+
+function editUnit() {
+  emit('open', props.item)
+}
+function removeItem() {
+  deleteMenu.value = false
+  emit('remove', props.item)
+}
 </script>

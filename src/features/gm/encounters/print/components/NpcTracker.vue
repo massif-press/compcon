@@ -61,52 +61,34 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { Bonus } from '@/classes/components/feature/bonus/Bonus';
-import BlankLine from './blank/line.vue';
-import { CompendiumStore } from '@/stores';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus'
+import BlankLine from './blank/line.vue'
+import { CompendiumStore } from '@/stores'
 
-export default {
-  name: 'print-action',
-  components: { BlankLine },
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    npc() {
-      return this.combatant.npc;
-    },
-    statuses() {
-      return CompendiumStore().Statuses;
-    },
-    borderColor() {
-      return this.combatant.side === 'enemy'
-        ? 'red'
-        : this.combatant.side === 'ally'
-          ? 'green'
-          : 'lightgrey';
-    },
-  },
-  methods: {
-    getBonusVal(key: string) {
-      const baseVal = this.npc.StatController.getMax(key);
-      const bonuses = (this.npc.FeatureController.Bonuses as Bonus[]).filter((x) => x.ID === key);
-      if (bonuses.some((b) => b.Overwrite)) return bonuses.find((b) => b.Overwrite)!.Value;
-      let bonusVal = 0;
-      bonuses.forEach((b) => {
-        if (Array.isArray(b.Value)) {
-          bonusVal += Number(b.Value[this.npc.tier]);
-        } else {
-          bonusVal += Number(b.Value);
-        }
-      });
-      return (baseVal || 0) + bonusVal;
-    },
-  },
-};
+const props = defineProps<{ combatant: Record<string, any> }>()
+
+const npc = computed(() => props.combatant.npc)
+const statuses = computed(() => CompendiumStore().Statuses)
+const borderColor = computed(() =>
+  props.combatant.side === 'enemy' ? 'red' : props.combatant.side === 'ally' ? 'green' : 'lightgrey'
+)
+
+function getBonusVal(key: string) {
+  const baseVal = npc.value.StatController.getMax(key)
+  const bonuses = (npc.value.FeatureController.Bonuses as Bonus[]).filter((x) => x.ID === key)
+  if (bonuses.some((b) => b.Overwrite)) return bonuses.find((b) => b.Overwrite)!.Value
+  let bonusVal = 0
+  bonuses.forEach((b) => {
+    if (Array.isArray(b.Value)) {
+      bonusVal += Number(b.Value[npc.value.tier])
+    } else {
+      bonusVal += Number(b.Value)
+    }
+  })
+  return (baseVal || 0) + bonusVal
+}
 </script>
 
 <style scoped>

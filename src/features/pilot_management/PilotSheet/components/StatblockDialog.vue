@@ -64,7 +64,7 @@
 import { Mech } from '@/classes/mech/Mech'
 import { Pilot } from '@/classes/pilot/Pilot'
 import Statblock from '@/classes/Statblock';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

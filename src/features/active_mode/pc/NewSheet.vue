@@ -304,7 +304,7 @@ import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import MechCardLoadoutField from '@/features/pilot_management/PilotSheet/sections/hangar/components/MechCardLoadoutField.vue';
 import PilotListItemDetails from '@/features/pilot_management/Roster/components/_pilotListItemDetails.vue';
 import { PilotStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

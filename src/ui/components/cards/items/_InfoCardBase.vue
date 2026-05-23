@@ -91,19 +91,13 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'equipment-card-base',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    hideTags: { type: Boolean },
-    charts: { type: Boolean },
-  },
-};
+<script setup lang="ts">
+defineProps<{
+  item: object
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  hideTags?: boolean
+  charts?: boolean
+}>()
 </script>

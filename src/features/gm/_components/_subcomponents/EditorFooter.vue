@@ -128,7 +128,7 @@
 
 <script lang="ts">
 import { NpcStore, UserStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import ShareDialog from '@/shared/ShareDialog.vue';
 
 export default {

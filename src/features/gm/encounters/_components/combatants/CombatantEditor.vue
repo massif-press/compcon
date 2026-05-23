@@ -323,143 +323,105 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import { Npc } from '@/classes/npc/Npc';
-import CombatantSelector from './CombatantSelector.vue';
-import { UserStore } from '@/stores';
-import CombatantListItem from './listItemContent/CombatantListItem.vue';
-import UnitEditor from '../../../npc_roster/npcs/editor.vue';
-import DoodadEditor from '../../../npc_roster/doodads/editor.vue';
-import EidolonEditor from '../../../npc_roster/eidolons/editor.vue';
-import CombatantSettingsMenu from './_components/combatantSettingsMenu.vue';
-import { GenerateItemDiff, SetDiff } from '@/classes/npc/NpcDiff';
-import { Sortable } from 'sortablejs-vue3';
-import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { Npc } from '@/classes/npc/Npc'
+import CombatantSelector from './CombatantSelector.vue'
+import { UserStore } from '@/stores'
+import { notify } from '@/util/notify'
+import { GM_STRINGS } from '@/features/gm/strings'
+import CombatantListItem from './listItemContent/CombatantListItem.vue'
+import UnitEditor from '../../../npc_roster/npcs/editor.vue'
+import DoodadEditor from '../../../npc_roster/doodads/editor.vue'
+import EidolonEditor from '../../../npc_roster/eidolons/editor.vue'
+import CombatantSettingsMenu from './_components/combatantSettingsMenu.vue'
+import { GenerateItemDiff, SetDiff } from '@/classes/npc/NpcDiff'
+import { Sortable } from 'sortablejs-vue3'
+import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag'
 
-export default {
-  name: 'CombatantEditor',
-  components: {
-    CombatantSelector,
-    CombatantListItem,
-    UnitEditor,
-    DoodadEditor,
-    EidolonEditor,
-    CombatantSettingsMenu,
-    Sortable,
-  },
-  props: {
-    encounter: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  data: () => ({
-    selected: null as any,
-    addDialog: false,
-    editDialog: false,
-    editorReady: false,
-    lastEditorType: null as string | null,
-    selectorView: 'list',
-    hasChanges: false,
-    transferKey: 0,
-  }),
-  computed: {
-    enemyCombatants() {
-      return (this.encounter.Combatants as any[]).filter(x => x.side === 'enemy');
-    },
-    allyCombatants() {
-      return (this.encounter.Combatants as any[]).filter(x => x.side === 'ally');
-    },
-    neutralCombatants() {
-      return (this.encounter.Combatants as any[]).filter(x => x.side === 'neutral');
-    },
-    editorComponent() {
-      if (!this.selected) return null;
-      switch ((this.selected as any).actor.ItemType.toLowerCase()) {
-        case 'eidolon':
-          return EidolonEditor;
-        case 'doodad':
-          return DoodadEditor;
-        case 'unit':
-          return UnitEditor;
-        default:
-          return null;
-      }
-    },
-    itemDiff() {
-      if (this.selected && this.selected.actor.IsLinked)
-        return GenerateItemDiff(this.selected.actor, this.selected.actor.GetLinkedItem());
-      return null;
-    },
-  },
-  watch: {
-    selectorView(val) {
-      if (!val) return;
-      UserStore().User.SetView('combatantSelectorView', val);
-    },
-    editDialog(val) {
-      if (!val && this.selected) {
-        this.encounter.save();
-      }
-    },
-  },
-  created() {
-    const user = UserStore().User;
-    if (!user || !user.View) return;
-    this.selectorView = user.View('combatantSelectorView', 'list');
-  },
-  methods: {
-    addUnit(item: Npc) {
-      this.encounter.AddCombatant(item);
+const props = withDefaults(defineProps<{
+  encounter: Record<string, any>
+  readonly?: boolean
+}>(), { readonly: false })
 
-      this.$notify({
-        title: `${item.Name} Added`,
-        text: `An instance of ${item.Name} was added to ${this.encounter.Name}.`,
-        data: { icon: 'cc:encounter' },
-      });
-    },
-    editUnit(item: any) {
-      const newType = item.actor.ItemType;
-      this.selected = item;
-      this.editDialog = true;
+const selected = ref<any>(null)
+const addDialog = ref(false)
+const editDialog = ref(false)
+const editorReady = ref(false)
+const lastEditorType = ref<string | null>(null)
+const selectorView = ref('list')
+const transferKey = ref(0)
 
-      if (newType !== this.lastEditorType) {
-        this.editorReady = false;
-        this.lastEditorType = newType;
-        setTimeout(() => { this.editorReady = true; }, 0);
-      }
-    },
-    startDragScroll,
-    onCombatantReorder(side: string, event: any) {
-      stopDragScroll();
-      if (event.from !== event.to) return;
-      if (event.oldIndex === event.newIndex) return;
-      const all = [...(this.encounter.Combatants as any[])];
-      const sideItems = all.filter(c => c.side === side);
-      const [movedItem] = sideItems.splice(event.oldIndex, 1);
-      sideItems.splice(event.newIndex, 0, movedItem);
-      let sideIdx = 0;
-      this.encounter.Combatants = all.map(c => (c.side === side ? sideItems[sideIdx++] : c));
-      this.encounter.save();
-    },
-    onCombatantAdded(side: string, event: any) {
-      const itemId = event.item.dataset.combatantId;
-      const item = (this.encounter.Combatants as any[]).find(x => x.id === itemId);
-      if (!item) return;
-      item.side = side;
-      this.encounter.save();
-      this.transferKey++;
-    },
-    removeCombatantById(id: string) {
-      const idx = (this.encounter.Combatants as any[]).findIndex(c => c.id === id);
-      if (idx !== -1) this.encounter.RemoveCombatant(idx);
-    },
-    diffUpdate(key) {
-      SetDiff(this.selected.actor, key);
-    },
-    diffUpdateAll(allDiffs) {
-      Object.keys(allDiffs).forEach((key) => {
-        SetDiff(this.selected.actor, key);
-      });
-    },
-  },
-};
+const enemyCombatants = computed(() => (props.encounter.Combatants as any[]).filter((x) => x.side === 'enemy'))
+const allyCombatants = computed(() => (props.encounter.Combatants as any[]).filter((x) => x.side === 'ally'))
+const neutralCombatants = computed(() => (props.encounter.Combatants as any[]).filter((x) => x.side === 'neutral'))
+
+const editorComponent = computed(() => {
+  if (!selected.value) return null
+  switch (selected.value.actor.ItemType.toLowerCase()) {
+    case 'eidolon': return EidolonEditor
+    case 'doodad': return DoodadEditor
+    case 'unit': return UnitEditor
+    default: return null
+  }
+})
+
+const itemDiff = computed(() => {
+  if (selected.value && selected.value.actor.IsLinked)
+    return GenerateItemDiff(selected.value.actor, selected.value.actor.GetLinkedItem())
+  return null
+})
+
+watch(selectorView, (val) => { if (!val) return; UserStore().User.SetView('combatantSelectorView', val) })
+watch(editDialog, (val) => { if (!val && selected.value) props.encounter.save() })
+
+const user = UserStore().User
+if (user?.View) {
+  selectorView.value = user.View('combatantSelectorView', 'list')
+}
+
+function addUnit(item: Npc) {
+  props.encounter.AddCombatant(item)
+  notify({ title: GM_STRINGS.encounter.combatantAddedTitle(item.Name), text: GM_STRINGS.encounter.combatantAddedText(item.Name, props.encounter.Name), data: { icon: 'cc:encounter' } })
+}
+function editUnit(item: any) {
+  const newType = item.actor.ItemType
+  selected.value = item
+  editDialog.value = true
+  if (newType !== lastEditorType.value) {
+    editorReady.value = false
+    lastEditorType.value = newType
+    setTimeout(() => { editorReady.value = true }, 0)
+  }
+}
+function onCombatantReorder(side: string, event: any) {
+  stopDragScroll()
+  if (event.from !== event.to) return
+  if (event.oldIndex === event.newIndex) return
+  const all = [...(props.encounter.Combatants as any[])]
+  const sideItems = all.filter((c) => c.side === side)
+  const [movedItem] = sideItems.splice(event.oldIndex, 1)
+  sideItems.splice(event.newIndex, 0, movedItem)
+  let sideIdx = 0
+  props.encounter.Combatants = all.map((c) => (c.side === side ? sideItems[sideIdx++] : c))
+  props.encounter.save()
+}
+function onCombatantAdded(side: string, event: any) {
+  const itemId = event.item.dataset.combatantId
+  const item = (props.encounter.Combatants as any[]).find((x) => x.id === itemId)
+  if (!item) return
+  item.side = side
+  props.encounter.save()
+  transferKey.value++
+}
+function removeCombatantById(id: string) {
+  const idx = (props.encounter.Combatants as any[]).findIndex((c) => c.id === id)
+  if (idx !== -1) props.encounter.RemoveCombatant(idx)
+}
+function diffUpdate(key: string) {
+  SetDiff(selected.value.actor, key)
+}
+function diffUpdateAll(allDiffs: Record<string, any>) {
+  Object.keys(allDiffs).forEach((key) => { SetDiff(selected.value.actor, key) })
+}
 </script>

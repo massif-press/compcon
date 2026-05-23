@@ -43,59 +43,35 @@
   </v-col>
 </template>
 
-<script lang="ts">
-import { glossary } from '@massif/lancer-data';
-import { isArray } from 'lodash-es';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { glossary as glossaryData } from '@massif/lancer-data'
+import { isArray } from 'lodash-es'
 
-export default {
-  name: 'CCStatblockPanel',
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    icon: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: [String, Number, Array],
-      required: true,
-    },
-    cols: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    inline: {
-      type: Boolean,
-      required: false,
-    },
-    color: {
-      type: String,
-      default: 'light-panel',
-    },
-    variant: {
-      type: String,
-      default: 'elevated',
-    },
-  },
-  computed: {
-    portrait(): boolean {
-      return this.$vuetify.display.xs;
-    },
-    isInline(): boolean {
-      return this.inline || this.$vuetify.display.smAndDown;
-    },
-    isArray(): boolean {
-      return isArray(this.value);
-    },
-    glossary() {
-      let name = this.name.toLowerCase();
-      if (name === 'e-def') name = 'e-defense'
-      const n = glossary.find((x) => x.name.toLowerCase() === name.toLowerCase());
-      return n ? n.description : 'MISSING ' + this.name;
-    },
-  },
-};
+const { xs, smAndDown } = useDisplay()
+
+const props = withDefaults(defineProps<{
+  name: string
+  icon: string
+  value: string | number | any[]
+  cols?: string | number
+  inline?: boolean
+  color?: string
+  variant?: string
+}>(), {
+  cols: '',
+  color: 'light-panel',
+  variant: 'elevated',
+})
+
+const portrait = computed(() => xs.value)
+const isInline = computed(() => props.inline || smAndDown.value)
+const isArrayVal = computed(() => isArray(props.value))
+const glossary = computed(() => {
+  let name = props.name.toLowerCase()
+  if (name === 'e-def') name = 'e-defense'
+  const n = glossaryData.find((x) => x.name.toLowerCase() === name.toLowerCase())
+  return n ? n.description : 'MISSING ' + props.name
+})
 </script>

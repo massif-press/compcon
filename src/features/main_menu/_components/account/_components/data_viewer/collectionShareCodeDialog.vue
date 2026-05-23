@@ -2,6 +2,8 @@
   <cc-share-code-importer ref="importer"
     import-type="collection"
     title="Add New Subscription"
+    :user-id="userId"
+    :remote-items="remoteItems"
     @set-query-result="queryResult = $event">
     <template #result>
       <collection-info :collection="queryResult" />
@@ -30,6 +32,10 @@ export default {
     queryResult: null as any,
     dlLoading: false,
   }),
+  computed: {
+    userId() { return UserStore().Cognito?.userId },
+    remoteItems() { return UserStore().UserMetadata?.RemoteItems ?? [] },
+  },
   methods: {
     async subscribe() {
       this.dlLoading = true;

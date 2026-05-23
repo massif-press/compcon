@@ -160,18 +160,8 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'help-page',
-  setup() {
-    return { h: NAV_STRINGS.help }
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-};
+const h = NAV_STRINGS.help
 </script>

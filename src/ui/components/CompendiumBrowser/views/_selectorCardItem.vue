@@ -5,24 +5,14 @@
     @select="$emit('select')" />
 </template>
 
-<script lang="ts">
-import CompendiumCard from '@/features/compendium/components/views/CompendiumCard.vue';
+<script setup lang="ts">
+import CompendiumCard from '@/features/compendium/components/views/CompendiumCard.vue'
 
-export default {
-  name: 'SelectorCardsView',
-  components: { CompendiumCard },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    highlighted: {
-      type: Boolean,
-    },
-    selectable: {
-      type: Boolean,
-    },
-  },
-  emits: ['select'],
-};
+defineProps<{
+  item: Record<string, any>
+  highlighted?: boolean
+  selectable?: boolean
+}>()
+
+defineEmits<{ select: [] }>()
 </script>

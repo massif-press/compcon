@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 export default {
   mixins: [useMobile],
   name: 'cc-notify',

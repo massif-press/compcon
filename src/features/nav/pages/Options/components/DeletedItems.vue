@@ -71,74 +71,63 @@
   </div>
 </template>
 
-<script lang="ts">
-import { CampaignStore, EncounterStore, NpcStore, PilotStore } from '@/stores';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { CampaignStore, EncounterStore, NpcStore, PilotStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
-import { NAV_STRINGS } from '@/features/nav/strings';
+import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'deleted-items',
-  setup() {
-    return { di: NAV_STRINGS.deletedItems }
-  },
-  data: () => ({
-    loading: false,
-  }),
-  computed: {
-    items() {
-      return [
-        ...NpcStore().Npcs.filter((x) => x.SaveController.IsDeleted),
-        ...PilotStore().Pilots.filter((x) => x.SaveController.IsDeleted),
-        ...PilotStore().PilotGroups.filter((x) => x.SaveController.IsDeleted),
-        ...EncounterStore().Encounters.filter((x) => x.SaveController.IsDeleted),
-        ...EncounterStore().ArchivedEncounters.filter((x) => x.SaveController.IsDeleted),
-        ...CampaignStore().Campaigns.filter((x) => x.SaveController.IsDeleted),
-      ];
-    },
-  },
-  methods: {
-    async permanentlyDelete(item) {
-      switch (item.ItemType.toLowerCase()) {
-        case 'npc':
-        case 'unit':
-        case 'doodad':
-        case 'eidolon':
-          await NpcStore().DeleteNpcPermanent(item);
-          break;
-        case 'pilot':
-          await PilotStore().DeletePilotPermanent(item);
-          break;
-        case 'pilot_group':
-        case 'pilotgroup':
-          const group = PilotStore().PilotGroups.find((x) => x.ID === item.ID) as PilotGroup;
-          await PilotStore().DeleteGroupPermanent(group);
-          break;
-        case 'encounter':
-          await EncounterStore().DeleteEncounterPermanent(item);
-          break;
-        case 'encounterarchive':
-          await EncounterStore().RemoveEncounterArchive(item);
-          break;
-        case 'campaign':
-          await CampaignStore().DeleteCampaign(item);
-          break;
-        default:
-          break;
-      }
-    },
-    restoreAll() {
-      this.items.forEach((item) => {
-        item.SaveController.Restore();
-      });
-    },
-    async deleteAll() {
-      this.loading = true;
-      for (const item of this.items) {
-        await this.permanentlyDelete(item);
-      }
-      this.loading = false;
-    },
-  },
-};
+const di = NAV_STRINGS.deletedItems
+const loading = ref(false)
+
+const items = computed(() => [
+  ...NpcStore().Npcs.filter(x => x.SaveController.IsDeleted),
+  ...PilotStore().Pilots.filter(x => x.SaveController.IsDeleted),
+  ...PilotStore().PilotGroups.filter(x => x.SaveController.IsDeleted),
+  ...EncounterStore().Encounters.filter(x => x.SaveController.IsDeleted),
+  ...EncounterStore().ArchivedEncounters.filter(x => x.SaveController.IsDeleted),
+  ...CampaignStore().Campaigns.filter(x => x.SaveController.IsDeleted),
+])
+
+async function permanentlyDelete(item: any) {
+  switch (item.ItemType.toLowerCase()) {
+    case 'npc':
+    case 'unit':
+    case 'doodad':
+    case 'eidolon':
+      await NpcStore().DeleteNpcPermanent(item)
+      break
+    case 'pilot':
+      await PilotStore().DeletePilotPermanent(item)
+      break
+    case 'pilot_group':
+    case 'pilotgroup': {
+      const group = PilotStore().PilotGroups.find(x => x.ID === item.ID) as PilotGroup
+      await PilotStore().DeleteGroupPermanent(group)
+      break
+    }
+    case 'encounter':
+      await EncounterStore().DeleteEncounterPermanent(item)
+      break
+    case 'encounterarchive':
+      await EncounterStore().RemoveEncounterArchive(item)
+      break
+    case 'campaign':
+      await CampaignStore().DeleteCampaign(item)
+      break
+  }
+}
+
+function restoreAll() {
+  items.value.forEach(item => item.SaveController.Restore())
+}
+
+async function deleteAll() {
+  loading.value = true
+  for (const item of items.value) {
+    await permanentlyDelete(item)
+  }
+  loading.value = false
+}
 </script>

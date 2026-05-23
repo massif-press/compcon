@@ -69,7 +69,7 @@
                 inline
                 content="How directly effective your organization is at what it does (a military
                 organization with high efficiency would be good at combat, for example).
-                <br />Efficiency can be used to perform activities related to your organization’s
+                <br />Efficiency can be used to perform activities related to your organization's
                 purpose (science, military, etc). You can use these advantages as
                 <strong>reserves.</strong>">
                 <v-icon size="small">mdi-help-circle-outline</v-icon>
@@ -107,7 +107,7 @@
               Organization Influence
               <cc-tooltip simple
                 inline
-                content="Influence is your organization’s size, reach, wealth, and reputation.
+                content="Influence is your organization's size, reach, wealth, and reputation.
                 Influence be used to acquire assets, create opportunities, or sway public
                 opinion.">
                 <v-icon size="small">mdi-help-circle-outline</v-icon>
@@ -130,47 +130,39 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import Organization from '@/classes/pilot/components/reserves/Organization'
 import { OrgType } from '@/classes/enums'
-import { useMobile } from '@/mixins/useMobile';
 
+const { smAndDown: mobile } = useDisplay()
 
-export default {
-  mixins: [useMobile],
-  name: 'CcOrgItem',
-  props: {
-    org: {
-      type: Object,
-      required: true,
-    },
-    small: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  emits: ['remove', 'update'],
-  data: () => ({
-    dialog: false,
-  }),
-  computed: {
-    orgTypes() {
-      return Object.keys(OrgType)
-        .map((k) => OrgType[k as string])
-        .sort() as OrgType[];
-    },
-  },
-  methods: {
-    remove(close: () => void) {
-      this.$emit('remove');
-      this.dialog = false;
-      close();
-    },
-    saveAndClose(close: () => void) {
-      this.$emit('update', this.org);
-      close();
-    }
-  },
-};
+const props = withDefaults(defineProps<{
+  org: object
+  small?: boolean
+}>(), {
+  small: false,
+})
+
+const emit = defineEmits<{ remove: []; update: [org: any] }>()
+
+const dialog = ref(false)
+
+const orgTypes = computed(() => {
+  return Object.keys(OrgType)
+    .map((k) => OrgType[k as string])
+    .sort() as OrgType[];
+})
+
+function remove(close: () => void) {
+  emit('remove');
+  dialog.value = false;
+  close();
+}
+
+function saveAndClose(close: () => void) {
+  emit('update', props.org);
+  close();
+}
 </script>

@@ -49,48 +49,39 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import CommunityTable from './components/CommunityTable.vue';
-import MassifLcpTable from '@/features/main_menu/_components/MassifLcpTable.vue';
-import { useMobile } from '@/mixins/useMobile';
-import { collectionDataQuery } from '@/user/api';
-import { NAV_STRINGS } from '@/features/nav/strings';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
+import CommunityTable from './components/CommunityTable.vue'
+import MassifLcpTable from '@/features/main_menu/_components/MassifLcpTable.vue'
+import { collectionDataQuery } from '@/user/api'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
+const { smAndDown: mobile } = useDisplay()
+const pd = NAV_STRINGS.packsDirectory
 
-export default {
-  name: 'PacksDirectory',
-  components: {
-    CommunityTable,
-    MassifLcpTable,
-  },
-  mixins: [useMobile],
-  setup() {
-    return { pd: NAV_STRINGS.packsDirectory }
-  },
-  data: () => ({
-    catalog: [] as any[],
-    loading: true,
-  }),
-  computed: {
-    massifPacks() {
-      return this.catalog
-        .filter(x => x.sortkey.includes('massif'))
-        .sort((a, b) => a.collection.localeCompare(b.collection));
-    },
-    communityPacks() {
-      return this.catalog
-        .filter(x => !x.sortkey.includes('massif'))
-        .sort((a, b) => a.author.localeCompare(b.author));
-    },
-  },
-  async mounted() {
-    try {
-      this.catalog = await collectionDataQuery();
-    } catch {
-      // API unreachable
-    } finally {
-      this.loading = false;
-    }
-  },
-};
+const catalog = ref<any[]>([])
+const loading = ref(true)
+
+const massifPacks = computed(() =>
+  catalog.value
+    .filter(x => x.sortkey.includes('massif'))
+    .sort((a, b) => a.collection.localeCompare(b.collection))
+)
+
+const communityPacks = computed(() =>
+  catalog.value
+    .filter(x => !x.sortkey.includes('massif'))
+    .sort((a, b) => a.author.localeCompare(b.author))
+)
+
+onMounted(async () => {
+  try {
+    catalog.value = await collectionDataQuery()
+  } catch {
+    // API unreachable
+  } finally {
+    loading.value = false
+  }
+})
 </script>

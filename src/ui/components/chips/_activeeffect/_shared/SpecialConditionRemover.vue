@@ -15,13 +15,11 @@
 
 
 
-<script lang="ts">
-
-export default {
-  name: 'SpecialConditionRemover',
-  props: {
-    event: { type: Object, required: true },
-    cols: { type: [Number, String], default: 'auto' }
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  event: object
+  cols?: number | string
+}>(), {
+  cols: 'auto',
+})
 </script>

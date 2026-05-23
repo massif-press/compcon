@@ -158,7 +158,7 @@ import { NarrativeStore } from '../store/narrative_store';
 import { CompendiumStore, UserStore } from '@/stores';
 import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
 import { Npc } from '@/classes/npc/Npc';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

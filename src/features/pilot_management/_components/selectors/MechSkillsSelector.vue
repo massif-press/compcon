@@ -58,99 +58,73 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import { Pilot } from '@/classes/pilot/Pilot'
-import { useMobile } from '@/mixins/useMobile';
 
-export default {
-  mixins: [useMobile],
-  name: 'MechSkillsSelector',
-  props: {
-    pilot: { type: Pilot, required: true },
+const props = defineProps<{ pilot: Pilot }>()
+
+const { smAndDown: mobile } = useDisplay()
+
+const skills = computed(() => [
+  {
+    val: 'Hull',
+    icon: 'mdi-alpha-h-box-outline',
+    text: 'Hull',
+    description: 'Your HULL skill describes your ability to build and pilot durable, heavy mechs that can take punches and keep going',
+    bonuses: [
+      { text: 'MECH HP', value: props.pilot.MechSkillsController.MechSkills.Hull * 2 },
+      { text: 'REPAIR CAPACITY', value: Math.floor(props.pilot.MechSkillsController.MechSkills.Hull / 2) },
+    ],
   },
-  computed: {
-    skills() {
-      return [
-        {
-          val: 'Hull',
-          icon: 'mdi-alpha-h-box-outline',
-          text: 'Hull',
-          description:
-            'Your HULL skill describes your ability to build and pilot durable, heavy mechs that can take punches and keep going',
-          bonuses: [
-            { text: 'MECH HP', value: this.pilot.MechSkillsController.MechSkills.Hull * 2 },
-            {
-              text: 'REPAIR CAPACITY',
-              value: Math.floor(this.pilot.MechSkillsController.MechSkills.Hull / 2),
-            },
-          ],
-        },
-        {
-          val: 'Agi',
-          icon: 'mdi-alpha-a-box-outline',
-          text: 'Agility',
-          description:
-            'Your AGILITY skill describes your ability to build and pilot fast, evasive mechs',
-          bonuses: [
-            { text: 'EVASION', value: this.pilot.MechSkillsController.MechSkills.Agi },
-            {
-              text: 'SPEED',
-              value: Math.floor(this.pilot.MechSkillsController.MechSkills.Agi / 2),
-            },
-          ],
-        },
-        {
-          val: 'Sys',
-          icon: 'mdi-alpha-s-box-outline',
-          text: 'Systems',
-          description:
-            'Your SYSTEMS skill describes your ability to build and pilot technical mechs with powerful electronic warfare tools',
-          bonuses: [
-            { text: 'ELECTRONIC DEFENSE', value: this.pilot.MechSkillsController.MechSkills.Sys },
-            {
-              text: 'TECH ATTACK',
-              value: this.pilot.MechSkillsController.MechSkills.Sys,
-            },
-            {
-              text: 'SP',
-              value: Math.floor(this.pilot.MechSkillsController.MechSkills.Sys / 2),
-            },
-          ],
-        },
-        {
-          val: 'Eng',
-          icon: 'mdi-alpha-e-box-outline',
-          text: 'Engineering',
-          description:
-            'Your ENGINEERING skill describes your ability to build and pilot mechs with powerful reactors, supplies and support systems',
-          bonuses: [
-            { text: 'HEAT CAPACITY', value: this.pilot.MechSkillsController.MechSkills.Eng },
-            {
-              text: 'LIMITED SYSTEMS BONUS',
-              value: Math.floor(this.pilot.MechSkillsController.MechSkills.Eng / 2),
-            },
-          ],
-        },
-      ]
-    },
+  {
+    val: 'Agi',
+    icon: 'mdi-alpha-a-box-outline',
+    text: 'Agility',
+    description: 'Your AGILITY skill describes your ability to build and pilot fast, evasive mechs',
+    bonuses: [
+      { text: 'EVASION', value: props.pilot.MechSkillsController.MechSkills.Agi },
+      { text: 'SPEED', value: Math.floor(props.pilot.MechSkillsController.MechSkills.Agi / 2) },
+    ],
   },
-  watch: {
-    'pilot.MechSkillsController.IsMissingHASE': function (newVal) {
-      if (newVal === false) window.scrollTo(0, document.body.scrollHeight)
-    },
-    'pilot.MechSkillsController.CurrentHASEPoints': function () {
-      this.pilot.SaveController.save()
-    },
+  {
+    val: 'Sys',
+    icon: 'mdi-alpha-s-box-outline',
+    text: 'Systems',
+    description: 'Your SYSTEMS skill describes your ability to build and pilot technical mechs with powerful electronic warfare tools',
+    bonuses: [
+      { text: 'ELECTRONIC DEFENSE', value: props.pilot.MechSkillsController.MechSkills.Sys },
+      { text: 'TECH ATTACK', value: props.pilot.MechSkillsController.MechSkills.Sys },
+      { text: 'SP', value: Math.floor(props.pilot.MechSkillsController.MechSkills.Sys / 2) },
+    ],
   },
-  methods: {
-    calcMax(skill: any) {
-      return (
-        this.pilot.MechSkillsController.MaxHASEPoints -
-        this.pilot.MechSkillsController.CurrentHASEPoints +
-        this.pilot.MechSkillsController.MechSkills[skill.val]
-      )
-    },
+  {
+    val: 'Eng',
+    icon: 'mdi-alpha-e-box-outline',
+    text: 'Engineering',
+    description: 'Your ENGINEERING skill describes your ability to build and pilot mechs with powerful reactors, supplies and support systems',
+    bonuses: [
+      { text: 'HEAT CAPACITY', value: props.pilot.MechSkillsController.MechSkills.Eng },
+      { text: 'LIMITED SYSTEMS BONUS', value: Math.floor(props.pilot.MechSkillsController.MechSkills.Eng / 2) },
+    ],
   },
+])
+
+watch(() => props.pilot.MechSkillsController.IsMissingHASE, (newVal) => {
+  if (newVal === false) window.scrollTo(0, document.body.scrollHeight)
+})
+
+watch(() => props.pilot.MechSkillsController.CurrentHASEPoints, () => {
+  props.pilot.SaveController.save()
+})
+
+function calcMax(skill: any) {
+  return (
+    props.pilot.MechSkillsController.MaxHASEPoints -
+    props.pilot.MechSkillsController.CurrentHASEPoints +
+    props.pilot.MechSkillsController.MechSkills[skill.val]
+  )
 }
 </script>
 

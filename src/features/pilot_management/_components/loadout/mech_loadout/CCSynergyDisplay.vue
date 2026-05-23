@@ -54,7 +54,7 @@
 <script lang="ts">
 import { Mech } from '@/classes/mech/Mech'
 import { Synergy } from '@/classes/components/feature/synergy/Synergy'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

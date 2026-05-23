@@ -11,11 +11,8 @@
   </cc-titled-panel>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcReserveCard',
-  props: {
-    item: { type: Object, required: true },
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  item: object
+}>()
 </script>

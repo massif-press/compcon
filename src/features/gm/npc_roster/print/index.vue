@@ -1,91 +1,65 @@
 <template>
-  <div class="printable">
-    <v-card
-      tile
-      flat
-      :class="options.orientation.title"
-      class="print-card"
-      style="margin-left: auto; margin-right: auto">
-      <div v-if="selectedNpcs.length">
-        <layout :options="options" :npcs="selectedNpcs" />
-        <div v-if="options && options.extras">
-          <page-break v-if="options.extras.some((x) => x.title === 'Relevant Tag Reference')" />
-          <tag-info-print
-            v-if="options.extras.some((x) => x.title === 'Relevant Tag Reference')"
-            :npcs="selectedNpcs" />
-        </div>
+  <print-page-shell :orientation="options.orientation.title">
+    <div v-if="selectedNpcs.length">
+      <layout :options="options" :npcs="selectedNpcs" />
+      <div v-if="options && options.extras">
+        <page-break v-if="options.extras.some((x) => x.title === 'Relevant Tag Reference')" />
+        <tag-info-print
+          v-if="options.extras.some((x) => x.title === 'Relevant Tag Reference')"
+          :npcs="selectedNpcs" />
       </div>
+    </div>
 
-      <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
-        <v-btn stacked @click="$router.go(-1)">
-          <span>Close Preview</span>
-          <v-icon icon="mdi-close" />
-        </v-btn>
-        <v-select
-          v-model="selectedNpcs"
-          multiple
-          :items="allNpcs"
-          item-title="Name"
-          return-object
-          density="compact"
-          hide-details
-          variant="outlined"
-          label="Npc"
-          class="mx-3"
-          clearable>
-          <template #selection="{ item, index }">
-            <v-chip v-if="index < 4">
-              <span>{{ item.title }}</span>
-            </v-chip>
-            <span v-if="index === 4" class="text-grey text-caption align-self-center">
-              (+{{ selectedNpcs.length - 4 }} others)
-            </span>
-          </template>
-          <template #prepend-item>
-            <v-list-item ripple @click="toggle">
-              <v-icon :icon="selectIcon" class="ml-2 mr-1" />
-              Select All
-            </v-list-item>
-            <v-divider class="mt-2" />
-          </template>
-        </v-select>
+    <template #selector>
+      <v-select
+        v-model="selectedNpcs"
+        multiple
+        :items="allNpcs"
+        item-title="Name"
+        return-object
+        density="compact"
+        hide-details
+        variant="outlined"
+        label="Npc"
+        class="mx-3"
+        clearable>
+        <template #selection="{ item, index }">
+          <v-chip v-if="index < 4">
+            <span>{{ item.title }}</span>
+          </v-chip>
+          <span v-if="index === 4" class="text-grey text-caption align-self-center">
+            (+{{ selectedNpcs.length - 4 }} others)
+          </span>
+        </template>
+        <template #prepend-item>
+          <v-list-item ripple @click="toggle">
+            <v-icon :icon="selectIcon" class="ml-2 mr-1" />
+            Select All
+          </v-list-item>
+          <v-divider class="mt-2" />
+        </template>
+      </v-select>
+    </template>
 
-        <v-spacer />
-
-        <cc-modal title="Print Options" icon="mdi-cog">
-          <template #activator="{ open }">
-            <v-btn @click="open">
-              <span>Options</span>
-              <v-icon icon="mdi-cog" />
-            </v-btn>
-          </template>
-          <options-dialog ref="options" :options="options" />
-        </cc-modal>
-        <v-btn @click="print()">
-          <span>Print</span>
-          <v-icon icon="mdi-printer" />
-        </v-btn>
-      </v-bottom-navigation>
-    </v-card>
-    <div class="no-print" style="min-height: 70px !important" />
-  </div>
+    <template #options-dialog>
+      <options-dialog :options="options" />
+    </template>
+  </print-page-shell>
 </template>
 
 <script lang="ts">
+import PrintPageShell from '@/ui/components/print/PrintPageShell.vue';
 import Layout from './layouts/index.vue';
-
 import TagInfoPrint from './extras/TagInfoPrint.vue';
-
 import OptionsDialog from './OptionsDialog.vue';
-
 import { NpcStore } from '@/stores';
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { Npc } from '@/classes/npc/Npc';
-import { options } from 'marked';
 
 export default {
   name: 'combined-print',
   components: {
+    PrintPageShell,
     Layout,
     OptionsDialog,
     PageBreak,
@@ -127,86 +101,10 @@ export default {
     },
   },
   methods: {
-    print() {
-      window.print();
-    },
     toggle() {
       if (this.selectedNpcs.length === this.allNpcs.length) this.selectedNpcs = [];
       else this.selectedNpcs = this.allNpcs.slice();
     },
-    setOptions(options) {
-      let out = {};
-      for (const key in options) {
-        if (Array.isArray(options[key])) {
-          out[key] = options[key].map((x) => x.title.toLowerCase());
-        } else {
-          out[key] = options[key].title.toLowerCase();
-        }
-      }
-      this.options = out;
-    },
   },
 };
 </script>
-
-<style>
-.v-application .caption {
-  line-height: normal !important;
-}
-</style>
-
-<style scoped>
-.Portrait {
-  background-color: white !important;
-  width: 210mm;
-}
-
-.Landscape {
-  background-color: white !important;
-  width: 297mm;
-}
-
-.print-card {
-  background-color: white;
-  color: black;
-  margin-top: 16px;
-}
-
-@page {
-  margin: 0;
-  padding: 0;
-}
-
-@media print {
-  @page {
-    size: portrait;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0;
-    padding: 0;
-    color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
-    background-color: white !important;
-    overflow: visible;
-  }
-
-  .print-card {
-    margin: 0;
-    padding: 0;
-    width: 100% !important;
-    overflow: visible;
-  }
-
-  .printable {
-    /* zoom: 75%; */
-    width: 100% !important;
-    max-width: 100% !important;
-    background-color: white;
-    margin: 0 !important;
-    padding: 0 !important;
-    print-color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
-    overflow: visible;
-  }
-}
-</style>

@@ -86,48 +86,38 @@
   </v-col>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useDisplay } from 'vuetify';
 import DiceRollInterface from './DiceRollInterface.vue';
 import DamageEffectOptions from './DamageEffectOptions.vue';
 import { DamageEvent } from '@/classes/components/feature/active_effects/effect_events/damageEvent';
 
-export default {
-  name: 'DamageApplicator',
-  components: {
-    DiceRollInterface,
-    DamageEffectOptions,
-  },
-  props: {
-    event: { type: Object, required: true },
-    aoe: { type: Boolean },
-    cols: { type: [Number, String], default: 'auto' }
-  },
-  data: () => ({
-    damageOptions: [
-      { title: 'Kinetic', value: 'kinetic' },
-      { title: 'Energy', value: 'energy' },
-      { title: 'Explosive', value: 'explosive' },
-      { title: 'Heat', value: 'heat' },
-      { title: 'Burn', value: 'burn' },
-    ],
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
+const { mdAndDown: mobile } = useDisplay()
 
-  },
-  methods: {
-    damageHints(d: DamageEvent) {
-      const hints = [] as string[];
-      if (d.AP) hints.push(`AP`);
-      if (d.IsCrit) hints.push(`Critical Hit`);
-      if (d.Irreducible) hints.push(`Irreducible`);
-      if (d.Overkill) hints.push(`Overkill`);
-      if (d.Reliable) hints.push(`Reliable ${d.Reliable}`);
+const props = withDefaults(defineProps<{
+  event: object
+  aoe?: boolean
+  cols?: number | string
+}>(), {
+  cols: 'auto',
+})
 
-      return hints.join(' // ');
-    },
-  }
-};
+const damageOptions = [
+  { title: 'Kinetic', value: 'kinetic' },
+  { title: 'Energy', value: 'energy' },
+  { title: 'Explosive', value: 'explosive' },
+  { title: 'Heat', value: 'heat' },
+  { title: 'Burn', value: 'burn' },
+]
+
+function damageHints(d: DamageEvent) {
+  const hints = [] as string[];
+  if (d.AP) hints.push(`AP`);
+  if (d.IsCrit) hints.push(`Critical Hit`);
+  if (d.Irreducible) hints.push(`Irreducible`);
+  if (d.Overkill) hints.push(`Overkill`);
+  if (d.Reliable) hints.push(`Reliable ${d.Reliable}`);
+
+  return hints.join(' // ');
+}
 </script>

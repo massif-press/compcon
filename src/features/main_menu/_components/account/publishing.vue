@@ -393,7 +393,7 @@ import { ContentCollection } from '@/classes/components/cloud/ContentCollection'
 import { CompendiumStore, UserStore } from '@/stores';
 import CollectionItemSelector from './_components/collectionItemSelector.vue';
 import logger from '@/user/logger';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

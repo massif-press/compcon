@@ -34,34 +34,18 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  name: 'CcTraitItem',
-  mixins: [useMobile],
-  props: {
-    trait: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    combat: {
-      type: Boolean,
-    },
-    mech: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  },
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
-};
+<script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
+const { smAndDown: mobile } = useDisplay()
+
+const props = withDefaults(defineProps<{
+  trait: object
+  color?: string
+  combat?: boolean
+  mech?: object | null
+}>(), {
+  color: 'primary',
+  mech: null,
+})
 </script>

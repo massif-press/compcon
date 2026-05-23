@@ -88,26 +88,14 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-core-bonus-item',
-  props: {
-    bonus: {
-      type: Object,
-      required: true,
-    },
-    terse: {
-      type: Boolean,
-      default: false,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
-    combat: {
-      type: Boolean,
-      required: false,
-    },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  bonus: object
+  terse?: boolean
+  readonly?: boolean
+  combat?: boolean
+}>(), {
+  terse: false,
+  readonly: false,
+})
 </script>

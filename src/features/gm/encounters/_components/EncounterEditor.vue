@@ -272,119 +272,78 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { CompendiumStore, EncounterStore, UserStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
-import SectionEditor from '../../_components/SectionEditor.vue';
-import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue';
-import GmFolderEditor from '../../_components/_subcomponents/GMFolderEditor.vue';
-import ShareDialog from '@/shared/ShareDialog.vue';
-import SitrepEditor from './SitrepEditor.vue';
-import EnvironmentEditor from './EnvironmentEditor.vue';
-import MapEditor from './map/MapEditor.vue';
-import MapPreview from './map/MapPreview.vue';
-import { Encounter } from '@/classes/encounter/Encounter';
-import exportAsJson from '@/util/jsonExport';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { EncounterStore, UserStore } from '@/stores'
+import { notify } from '@/util/notify'
+import { GM_STRINGS } from '@/features/gm/strings'
+import SectionEditor from '../../_components/SectionEditor.vue'
+import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue'
+import GmFolderEditor from '../../_components/_subcomponents/GMFolderEditor.vue'
+import ShareDialog from '@/shared/ShareDialog.vue'
+import SitrepEditor from './SitrepEditor.vue'
+import EnvironmentEditor from './EnvironmentEditor.vue'
+import MapEditor from './map/MapEditor.vue'
+import MapPreview from './map/MapPreview.vue'
+import { Encounter } from '@/classes/encounter/Encounter'
+import exportAsJson from '@/util/jsonExport'
+import CombatantEditor from './combatants/CombatantEditor.vue'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 
-import CombatantEditor from './combatants/CombatantEditor.vue';
-import { CloudController } from '@/classes/components/cloud/CloudController';
+const props = withDefaults(defineProps<{
+  isNew?: boolean
+  showDescription?: boolean
+  item: Record<string, any>
+}>(), {})
 
-export default {
-  name: 'GmEncounterEditor',
-  components: {
-    SectionEditor,
-    GmLabelEditor,
-    GmFolderEditor,
-    ShareDialog,
-    MapEditor,
-    SitrepEditor,
-    EnvironmentEditor,
-    MapPreview,
-    CombatantEditor,
-  },
-  mixins: [useMobile],
-  props: {
-    isNew: { type: Boolean },
-    showDescription: { type: Boolean },
-    item: { type: Object, required: true },
-  },
-  emits: ['exit'],
-  data: () => ({
-    printDialog: false,
-    dupeMenu: false,
-    deleteMenu: false,
-    convertMenu: false,
-    mapTab: 0,
-    loading: false,
-  }),
-  computed: {
-    typeText() {
-      if (!this.item) return 'ERR';
-      return this.item.ItemType.toUpperCase();
-    },
-    sitreps() {
-      return CompendiumStore().Sitreps;
-    },
-    isRemote() {
-      return (this.item as any).SaveController.IsRemote;
-    },
-    isAuthed() {
-      return UserStore().IsLoggedIn;
-    },
-  },
-  methods: {
-    exitMapEditor() {
-      (this.$refs as any).mapEditor.hide();
+const emit = defineEmits<{ exit: [] }>()
 
-      (this.$refs as any).mapPreview.update();
-    },
-    exit() {
-      this.$emit('exit');
-    },
-    saveAsNew() {
-      EncounterStore().AddEncounter(this.item as Encounter);
-      this.exit();
-    },
-    save() {
-      EncounterStore().SaveEncounterData();
-      this.$emit('exit');
-    },
-    deleteItem() {
-      (this.item as Encounter).SaveController.Delete();
-      this.$emit('exit');
-    },
-    dupe() {
-      EncounterStore().CloneEncounter(this.item as Encounter);
-      this.$emit('exit');
-    },
-    exportItem(item) {
-      exportAsJson(Encounter.Serialize(item), `${item.Name}.json`);
-    },
-    async remoteUpdate() {
-      try {
-        await CloudController.UpdateRemote(this.item);
-        await UserStore().refreshDbData();
-        this.$notify({
-          title: `Sync Complete`,
-          text: `${this.item.ItemType} ${this.item.Name} synced.`,
-          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
-        });
-      } catch (err) {
-        this.$notify({
-          title: `Sync Failed`,
-          text: `Failed to sync ${this.item.ItemType} ${this.item.Name}. ${err}`,
-          data: { icon: 'mdi-alert', color: 'error' },
-        });
-      }
-    },
-    async convert() {
-      this.loading = true;
-      UserStore().deleteRemoteItem(this.item.SaveController.RemoteCode);
-      this.item.CloudController.GenerateMetadata();
-      this.item.SaveController.ClearRemote();
-      await UserStore().refreshDbData();
-      this.loading = false;
-    },
-  },
-};
+const dupeMenu = ref(false)
+const deleteMenu = ref(false)
+const convertMenu = ref(false)
+const loading = ref(false)
+
+const typeText = computed(() => props.item ? props.item.ItemType.toUpperCase() : 'ERR')
+const isRemote = computed(() => props.item.SaveController.IsRemote)
+const isAuthed = computed(() => UserStore().IsLoggedIn)
+
+function exit() {
+  emit('exit')
+}
+function saveAsNew() {
+  EncounterStore().AddEncounter(props.item as Encounter)
+  exit()
+}
+function save() {
+  EncounterStore().SaveEncounterData()
+  emit('exit')
+}
+function deleteItem() {
+  (props.item as Encounter).SaveController.Delete()
+  emit('exit')
+}
+function dupe() {
+  EncounterStore().CloneEncounter(props.item as Encounter)
+  emit('exit')
+}
+function exportItem(item: any) {
+  exportAsJson(Encounter.Serialize(item), `${item.Name}.json`)
+}
+async function remoteUpdate() {
+  try {
+    await CloudController.UpdateRemote(props.item)
+    await UserStore().refreshDbData()
+    notify({ title: GM_STRINGS.sync.syncCompleteTitle, text: GM_STRINGS.sync.syncCompleteText(props.item.ItemType, props.item.Name), data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' } })
+  } catch (err) {
+    notify({ title: GM_STRINGS.sync.syncFailedTitle, text: GM_STRINGS.sync.syncFailedText(props.item.ItemType, props.item.Name, String(err)), data: { icon: 'mdi-alert', color: 'error' } })
+  }
+}
+async function convert() {
+  loading.value = true
+  UserStore().deleteRemoteItem(props.item.SaveController.RemoteCode)
+  props.item.CloudController.GenerateMetadata()
+  props.item.SaveController.ClearRemote()
+  await UserStore().refreshDbData()
+  loading.value = false
+}
 </script>

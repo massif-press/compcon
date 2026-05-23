@@ -47,11 +47,11 @@
         inline
         name="Repair Capacity"
         :value="effectiveStatValue(deployable.Repcap, 'repcap')" />
-      <cc-statblock-panel v-if="deployable.Save"
+      <cc-statblock-panel v-if="deployable.SaveTarget"
         icon="cc:save"
         inline
         name="Save Target"
-        :value="effectiveStatValue(deployable.Save, 'save')" />
+        :value="effectiveStatValue(deployable.SaveTarget, 'save')" />
       <cc-statblock-panel v-if="deployable.Speed"
         icon="mdi-arrow-right-bold-hexagon-outline"
         inline
@@ -80,84 +80,69 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ByTier, ByTierArray } from '@/util/tierFormat';
+<script setup lang="ts">
+import { Deployable } from '@/classes/components/feature/deployable/Deployable';
+import { computed } from 'vue'
+import { ByTier, ByTierArray as byTierArray } from '@/util/tierFormat';
 
-export default {
-  name: 'DeployableInfoBase',
-  props: {
-    deployable: {
-      type: Object,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-    owner: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  },
-  computed: {
-    isDrone(): boolean {
-      return this.deployable.Type?.toLowerCase() === 'drone';
-    },
-    _bonusController(): any {
-      return this.owner?.FeatureController?.BonusController ?? null;
-    },
-  },
-  methods: {
-    byTier(str: string) {
-      return ByTier(str, this.tier);
-    },
-    ByTierArray(str: string) {
-      return ByTierArray(str, this.tier);
-    },
-    _resolveBase(raw: number | string | undefined, defaultVal: number): number | undefined {
-      if (raw === undefined || raw === null || raw === '') return defaultVal;
-      if (typeof raw === 'number') return raw;
-      const str = String(raw).trim();
-      if (str.includes('{')) {
-        if (!this.owner) return undefined;
-        // prefer getExpressionContext() (always current) over MaxStats (only populated post-SetStats)
-        const ctx: Record<string, number> =
-          this.owner.getExpressionContext?.() ??
-          this.owner.CombatController?.StatController?.MaxStats ??
-          {};
-        const resolved = str.replace(/\{([^}]+)\}/gi, (_, key) => ctx[key] ?? ctx[key.toLowerCase()] ?? 0);
-        try {
-          // eslint-disable-next-line no-new-func
-          const num = Function('return (' + resolved + ')')()
-          return isNaN(num) ? undefined : Math.floor(num)
-        } catch {
-          const num = parseFloat(resolved)
-          return isNaN(num) ? undefined : Math.floor(num)
-        }
-      }
-      const tierResult = ByTierArray(str, this.tier);
-      const num = parseFloat(tierResult as string);
-      return isNaN(num) ? defaultVal : num;
-    },
-    // raw: the raw deployable stat (number, tier string, expression, or undefined)
-    // bonusSuffix: the part after 'deployable_' / 'drone_' in the bonus ID (e.g. 'hp', 'edef')
-    // defaultVal: fallback when raw is absent
-    effectiveStatValue(raw: number | string | undefined, bonusSuffix: string, defaultVal = 0): number | string {
-      const base = this._resolveBase(raw, defaultVal);
-      if (base === undefined) {
-        const stripped = String(raw).replace(/[{}]/g, '');
-        return /\d/.test(stripped) ? stripped : `mech's ${stripped}`;
-      }
+const props = withDefaults(defineProps<{
+  deployable: Deployable
+  tier?: number
+  owner?: object | null
+}>(), {
+  owner: null,
+})
 
-      const bc = this._bonusController;
-      if (!bc) return base;
+const isDrone = computed((): boolean => {
+  return props.deployable.Type?.toLowerCase() === 'drone';
+})
 
-      let val: number | string = base;
-      if (this.isDrone) val = bc.sum(`drone_${bonusSuffix}`, val);
-      else val = bc.sum(`deployable_${bonusSuffix}`, base);
-      return val;
-    },
-  },
-};
+const _bonusController = computed((): any => {
+  return props.owner?.FeatureController?.BonusController ?? null;
+})
+
+function byTier(str: string) {
+  return ByTier(str, props.tier);
+}
+
+function _resolveBase(raw: number | string | undefined, defaultVal: number): number | undefined {
+  if (raw === undefined || raw === null || raw === '') return defaultVal;
+  if (typeof raw === 'number') return raw;
+  const str = String(raw).trim();
+  if (str.includes('{')) {
+    if (!props.owner) return undefined;
+    const ctx: Record<string, number> =
+      props.owner.getExpressionContext?.() ??
+      props.owner.CombatController?.StatController?.MaxStats ??
+      {};
+    const resolved = str.replace(/\{([^}]+)\}/gi, (_, key) => ctx[key] ?? ctx[key.toLowerCase()] ?? 0);
+    try {
+      // eslint-disable-next-line no-new-func
+      const num = Function('return (' + resolved + ')')()
+      return isNaN(num) ? undefined : Math.floor(num)
+    } catch {
+      const num = parseFloat(resolved)
+      return isNaN(num) ? undefined : Math.floor(num)
+    }
+  }
+  const tierResult = byTierArray(str, props.tier);
+  const num = parseFloat(tierResult as string);
+  return isNaN(num) ? defaultVal : num;
+}
+
+function effectiveStatValue(raw: number | string | undefined, bonusSuffix: string, defaultVal = 0): number | string {
+  const base = _resolveBase(raw, defaultVal);
+  if (base === undefined) {
+    const stripped = String(raw).replace(/[{}]/g, '');
+    return /\d/.test(stripped) ? stripped : `mech's ${stripped}`;
+  }
+
+  const bc = _bonusController.value;
+  if (!bc) return base;
+
+  let val: number | string = base;
+  if (isDrone.value) val = bc.sum(`drone_${bonusSuffix}`, val);
+  else val = bc.sum(`deployable_${bonusSuffix}`, base);
+  return val;
+}
 </script>

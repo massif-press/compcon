@@ -47,27 +47,13 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'SkillItem',
-  props: {
-    bonus: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-    skill: {
-      type: Object,
-      required: true,
-    },
-    noBorder: {
-      type: Boolean,
-      required: false,
-    },
-    pilot: {
-      type: Boolean,
-      required: false,
-    },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  bonus?: number
+  skill: object
+  noBorder?: boolean
+  pilot?: boolean
+}>(), {
+  bonus: 0,
+})
 </script>

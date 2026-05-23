@@ -26,17 +26,13 @@
 
 
 
-<script lang="ts">
+<script setup lang="ts">
 import BaseDurationDisplay from './BaseDurationDisplay.vue';
 
-export default {
-  name: 'StatusApplicator',
-  components: {
-    BaseDurationDisplay
-  },
-  props: {
-    event: { type: Object, required: true },
-    cols: { type: [Number, String], default: 'auto' }
-  }
-};
+const props = withDefaults(defineProps<{
+  event: object
+  cols?: number | string
+}>(), {
+  cols: 'auto',
+})
 </script>

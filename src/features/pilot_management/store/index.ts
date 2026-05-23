@@ -33,14 +33,16 @@ export const PilotStore = defineStore('pilot', {
     getGroupByID: state => (id: string) => {
       return state.PilotGroups.find(p => p.ID === id)
     },
-    getPilots: state => (groupID: string, showDeleted?: boolean) => {
-      if (!state.Pilots.length) return []
-      const group = state.PilotGroups.find((x: PilotGroup) => x.ID === groupID)
-      if (!group) return []
-      let out = state.Pilots.filter(p => group.Pilots.some(x => x?.id === p.ID))
-      if (!showDeleted) out = out.filter((x: Pilot) => !x.SaveController.IsDeleted)
-      return out
-    },
+    getPilots:
+      state =>
+      (groupID: string, showDeleted?: boolean): Pilot[] => {
+        if (!state.Pilots.length) return []
+        const group = state.PilotGroups.find(x => x.ID === groupID)
+        if (!group) return []
+        let out = state.Pilots.filter(p => group.Pilots.some(x => x?.id === p.ID))
+        if (!showDeleted) out = out.filter(x => !x.SaveController.IsDeleted)
+        return out
+      },
     getUngroupedPilots: state => {
       const groupedIds = state.PilotGroups.flatMap(x => x.Pilots)
       return state.Pilots.filter(p => !groupedIds.some(g => g.id === p.ID))

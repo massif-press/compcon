@@ -99,7 +99,7 @@
 
 <script lang="ts">
 import ItemCardLink from '../../cards/items/_components/ItemCardLink.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

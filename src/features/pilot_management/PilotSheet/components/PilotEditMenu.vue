@@ -151,7 +151,7 @@ import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import logger from '@/user/logger'
 import LcpConfigSelector from './LcpConfigSelector.vue'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 // import { RemoteSyncItem } from '@/cloud/item_sync';
 

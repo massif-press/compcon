@@ -127,26 +127,23 @@
   </v-menu>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 
-export default {
-  name: 'SaveRollInterface',
-  props: {
-    rollData: { type: Object, required: true },
-  },
-  methods: {
-    reset() {
-      this.rollData.AttackAccuracy = 0;
-      this.rollData.SaveRollResult = null;
-    },
-    rollSave() {
-      const rollResult = DiceRoller.rollSkillCheck(
-        this.rollData.SaveBonus, this.rollData.AttackAccuracy
-      );
-      this.rollData.SaveRollResult = rollResult;
-      this.rollData.SaveRolledValue = rollResult.total;
-    },
-  },
-};
+const props = defineProps<{
+  rollData: object
+}>()
+
+function reset() {
+  props.rollData.AttackAccuracy = 0;
+  props.rollData.SaveRollResult = null;
+}
+
+function rollSave() {
+  const rollResult = DiceRoller.rollSkillCheck(
+    props.rollData.SaveBonus, props.rollData.AttackAccuracy
+  );
+  props.rollData.SaveRollResult = rollResult;
+  props.rollData.SaveRolledValue = rollResult.total;
+}
 </script>

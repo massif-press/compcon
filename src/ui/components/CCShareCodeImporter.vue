@@ -135,7 +135,6 @@
 import { ref, computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { downloadFromS3, GetFromCode } from '@/io/apis/account';
-import { UserStore } from '@/stores';
 import logger from '@/user/logger';
 
 const { smAndDown: mobile } = useDisplay();
@@ -148,12 +147,15 @@ const props = withDefaults(defineProps<{
   fullWidth?: boolean;
   subtitle?: string;
   size?: string;
+  userId?: string;
+  remoteItems?: string[];
 }>(), {
   title: 'Add from Share Code',
   color: 'primary',
   fullWidth: false,
   subtitle: '',
   size: 'small',
+  remoteItems: () => [],
 });
 
 const emit = defineEmits<{
@@ -180,13 +182,13 @@ const hasCode = computed(() => code.value.some(char => char === ''));
 
 const isUserOwned = computed(() =>
   !!(queryResult.value?.user_id &&
-    UserStore().Cognito?.userId &&
-    queryResult.value.user_id === UserStore().Cognito.userId)
+    props.userId &&
+    queryResult.value.user_id === props.userId)
 );
 
 const remoteItemExists = computed(() =>
   !!(queryResult.value &&
-    UserStore().UserMetadata.RemoteItems?.some(
+    props.remoteItems?.some(
       (ri: string) => ri === queryResult.value.code || ri === code.value.join('')
     ))
 );

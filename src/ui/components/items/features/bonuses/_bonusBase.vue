@@ -7,18 +7,9 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'BonusBase',
-  props: {
-    bonus: {
-      type: Object,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  bonus: object
+  tier?: number
+}>()
 </script>

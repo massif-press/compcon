@@ -17,15 +17,11 @@
   </cc-tabs>
 </template>
 
-<script lang="ts">
-import Settings from './Settings.vue';
-import Storage from './Storage.vue';
-import Log from './Log.vue';
-import { NAV_STRINGS } from '@/features/nav/strings';
+<script setup lang="ts">
+import Settings from './Settings.vue'
+import Storage from './Storage.vue'
+import Log from './Log.vue'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'options',
-  components: { Settings, Storage, Log },
-  setup: () => ({ strings: NAV_STRINGS.optionsPage }),
-};
+const strings = NAV_STRINGS.optionsPage
 </script>

@@ -59,7 +59,7 @@
 <script lang="ts">
 import SearchBar from '../../SearchBar.vue';
 import CampaignBookshelf from './components/CampaignBookshelf.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

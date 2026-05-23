@@ -1,17 +1,28 @@
 <template>
-  <v-menu open-on-hover bottom offset-y>
+  <v-menu open-on-hover
+    bottom
+    offset-y>
     <template #activator="{ props }">
-      <cc-chip :bg-color="item.Color" v-bind="props" variant="flat">
+      <cc-chip :bg-color="item.Color"
+        v-bind="props"
+        variant="flat">
         <span class="text-white">
-          <v-icon start dark>{{ item.Icon }}</v-icon>
+          <v-icon start
+            dark>{{ item.Icon }}</v-icon>
           {{ item.Name }}
         </span>
       </cc-chip>
     </template>
-    <v-card flat tile>
-      <v-toolbar density="compact" flat :color="item.Color" class="text-white">
+    <v-card flat
+      tile>
+      <v-toolbar density="compact"
+        flat
+        :color="item.Color"
+        class="text-white">
         <v-toolbar-title>
-          <v-icon start large dark>{{ item.Icon }}</v-icon>
+          <v-icon start
+            large
+            dark>{{ item.Icon }}</v-icon>
           <span class="heading h3">{{ item.Name }}</span>
         </v-toolbar-title>
       </v-toolbar>
@@ -22,17 +33,11 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-import integratedInfoBase from './_integratedInfoBase.vue';
+<script setup lang="ts">
+import IntegratedInfoBase from './_integratedInfoBase.vue'
+import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment';
 
-export default {
-  name: 'integrated-info-hover',
-  components: { integratedInfoBase },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+const props = defineProps<{
+  item: MechEquipment
+}>()
 </script>

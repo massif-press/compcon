@@ -86,36 +86,31 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  name: 'CcReserveItem',
-  mixins: [useMobile],
-  props: {
-    reserve: {
-      type: Object,
-      required: true,
-    },
-    small: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  emits: ['remove', 'update'],
-  data: () => ({
-    dialog: false,
-  }),
-  methods: {
-    remove(close: () => void) {
-      this.$emit('remove');
-      this.dialog = false;
-      close();
-    },
-    saveAndClose(close: () => void) {
-      this.$emit('update', this.reserve);
-      close();
-    }
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const { smAndDown: mobile } = useDisplay()
+
+const props = withDefaults(defineProps<{
+  reserve: object
+  small?: boolean
+}>(), {
+  small: false,
+})
+
+const emit = defineEmits<{ remove: []; update: [reserve: any] }>()
+
+const dialog = ref(false)
+
+function remove(close: () => void) {
+  emit('remove');
+  dialog.value = false;
+  close();
+}
+
+function saveAndClose(close: () => void) {
+  emit('update', props.reserve);
+  close();
+}
 </script>

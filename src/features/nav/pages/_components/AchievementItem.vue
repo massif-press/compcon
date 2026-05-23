@@ -63,53 +63,39 @@
     </div>
   </v-card>
 </template>
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-import { NAV_STRINGS } from '@/features/nav/strings';
-export default {
-  mixins: [useMobile],
-  name: 'AchievementItem',
-  setup: () => ({ strings: NAV_STRINGS.achievementItem }),
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    getColor(a: any) {
-      if (!this.item.Unlocked) {
-        return 'grey-darken-2';
-      }
-      if (this.item.Secret) {
-        return '#FFDF00';
-      }
-      switch (this.item.Rarity) {
-        case 1:
-          return '#205781';
-        case 2:
-          return '#4F1C51';
-        case 3:
-          return '#A31D1D';
-        case 4:
-          return '#d4af37';
 
-        default:
-          return 'primary';
-      }
-    },
-    formatDate() {
-      if (!this.item.Date) return '';
-      const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true,
-      };
-      return new Date(this.item.Date).toLocaleString(undefined, options as any);
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { NAV_STRINGS } from '@/features/nav/strings'
+
+const props = defineProps<{ item: Record<string, any> }>()
+
+const { smAndDown: mobile } = useDisplay()
+const strings = NAV_STRINGS.achievementItem
+
+const getColor = computed(() => {
+  if (!props.item.Unlocked) return 'grey-darken-2'
+  if (props.item.Secret) return '#FFDF00'
+  switch (props.item.Rarity) {
+    case 1: return '#205781'
+    case 2: return '#4F1C51'
+    case 3: return '#A31D1D'
+    case 4: return '#d4af37'
+    default: return 'primary'
+  }
+})
+
+const formatDate = computed(() => {
+  if (!props.item.Date) return ''
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  }
+  return new Date(props.item.Date).toLocaleString(undefined, options as any)
+})
 </script>

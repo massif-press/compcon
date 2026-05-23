@@ -267,7 +267,7 @@
 </template>
 
 <script>
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 export default {
   name: 'SheetListItem',
   mixins: [useMobile],

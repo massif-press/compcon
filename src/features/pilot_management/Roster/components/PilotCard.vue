@@ -100,34 +100,28 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'PilotCard',
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['goTo'],
-  computed: {
-    small() {
-      return this.$vuetify.display.smAndDown;
-    },
-    remoteResource() {
-      return this.pilot.SaveController.IsRemote;
-    },
-    minWidth() {
-      if (this.$vuetify.display.xs) return '26vw';
-      return this.small ? '22vw' : '17vw';
-    },
-  },
-  methods: {
-    toPilotSheet() {
-      this.$emit('goTo', this.pilot.ID);
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const props = defineProps<{ pilot: any }>()
+
+const emit = defineEmits<{ goTo: [id: string] }>()
+
+const { smAndDown, xs } = useDisplay()
+
+const small = computed(() => smAndDown.value)
+
+const remoteResource = computed(() => props.pilot.SaveController.IsRemote)
+
+const minWidth = computed(() => {
+  if (xs.value) return '26vw'
+  return small.value ? '22vw' : '17vw'
+})
+
+function toPilotSheet() {
+  emit('goTo', props.pilot.ID)
+}
 </script>
 
 <style scoped>

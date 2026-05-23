@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import DeployButton from './_deployButton.vue';
 export default {
   mixins: [useMobile],

@@ -10,66 +10,36 @@
     :close-on-click="closeOnClick"></component>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import ActionPanel from './_actionPanel.vue';
 import ActionPopup from './_actionPopup.vue';
 import ActionHover from './_actionHover.vue';
 import ActionButton from './_actionButton.vue';
 
-export default {
-  name: 'CcAction',
-  components: { ActionPanel, ActionPopup, ActionHover, ActionButton },
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    hover: { type: Boolean },
-    popup: {
-      type: Boolean,
-      default: true,
-    },
-    panel: {
-      type: Boolean,
-    },
-    noAction: {
-      type: Boolean,
-    },
-    active: {
-      type: Boolean,
-    },
-    disabled: {
-      type: Boolean,
-    },
-    unusable: {
-      type: Boolean,
-    },
-    activations: {
-      type: Number,
-      required: false,
-      default: 2,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-    hideIcon: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    closeOnClick: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
-  },
-  computed: {
-    cType() {
-      if (this.active) return ActionButton;
-      if (this.hover) return ActionHover;
-      return this.panel ? ActionPanel : ActionPopup;
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  action: object
+  hover?: boolean
+  popup?: boolean
+  panel?: boolean
+  noAction?: boolean
+  active?: boolean
+  disabled?: boolean
+  unusable?: boolean
+  activations?: number
+  tier?: number
+  hideIcon?: boolean
+  closeOnClick?: boolean
+}>(), {
+  popup: true,
+  activations: 2,
+  hideIcon: false,
+  closeOnClick: true,
+})
+
+const cType = computed(() => {
+  if (props.active) return ActionButton;
+  if (props.hover) return ActionHover;
+  return props.panel ? ActionPanel : ActionPopup;
+})
 </script>

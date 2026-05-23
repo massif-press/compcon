@@ -217,7 +217,7 @@
 <script lang="ts">
 import { CompendiumStore, UserStore } from '@/stores';
 import logger from '@/user/logger';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

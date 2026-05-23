@@ -6,29 +6,15 @@
     :tier="tier" />
 </template>
 
-<script lang="ts">
-import EquipmentCardBase from './_EquipmentCardBase.vue';
-
-export default {
-  name: 'CcNpcTraitCard',
-  components: { EquipmentCardBase },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    dense: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    collapseActions: {
-      type: Boolean,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-  },
-};
+<script setup lang="ts">
+import NpcTrait from '@/classes/npc/feature/NpcItem/NpcTrait';
+import EquipmentCardBase from './_EquipmentCardBase.vue'
+withDefaults(defineProps<{
+  item: NpcTrait
+  dense?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>(), {
+  dense: false,
+})
 </script>

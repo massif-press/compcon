@@ -661,7 +661,7 @@ import LicenseExpandable from './components/_license-expandable.vue';
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import License from '@/classes/pilot/components/license/License'
 import { Manufacturer } from '@/classes/Manufacturer'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 type BrowserOptions = {

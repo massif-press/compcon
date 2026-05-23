@@ -206,83 +206,75 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { ByTier } from '@/util/tierFormat';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
 
-export default {
-  name: 'CcActiveEffectChip',
-  components: {
-    MenuInput,
-  },
-  props: {
-    activeEffect: { type: ActiveEffect, required: true },
-    tier: { type: Number, required: false, default: 1 },
-    encounter: { type: Object, required: true },
-    owner: { type: Object, required: true },
-  },
-  computed: {
-    getCombatant(): CombatantData | undefined {
-      return this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.ID === this.owner.ID || c.actor.CombatController.ActiveActor.ID === this.owner.ID || c.actor.CombatController.RootActor.ID === this.owner.ID
-      );
-    },
-    isUsed() {
-      return !!this.activeEffect.Origin?.Used;
-    },
-    isDestroyed() {
-      return !!this.activeEffect.Origin?.Destroyed;
-    },
-    isGreyed() {
-      return this.activeEffect.Applied || this.isUsed || this.isDestroyed;
-    },
-    lightColor() {
-      return this.activeEffect.Origin.Color || 'orange';
-    },
-    icon() {
-      return this.activeEffect.Origin.Icon || 'mdi-rhombus-outline';
-    },
-  },
-  methods: {
-    byTier(detail: string) {
-      return ByTier(detail, this.tier);
-    },
-    frequencyIcon(frequency: string): string {
-      const str = frequency.toLowerCase();
-      switch (str) {
-        case '1/round':
-          return 'mdi-alpha-r-circle';
-        case '1/turn':
-          return 'mdi-alpha-t-circle';
-        case '1/scene':
-        case '1/encounter':
-          return 'mdi-alpha-e-circle';
-        case '1/mission':
-          return 'mdi-alpha-m-circle';
-        default:
-          return 'mdi-timer-sand';
-      }
-    },
-    frequencyText(frequency: string): string {
-      const str = frequency.toLowerCase();
-      switch (str) {
-        case '1/round':
-          return 'Usable once per Round';
-        case '1/turn':
-          return 'Usable once per Turn';
-        case '1/scene':
-        case '1/encounter':
-          return 'Usable once per Encounter';
-        case '1/mission':
-          return 'Usable once per Mission';
-        default:
-          return frequency;
-      }
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  activeEffect: ActiveEffect
+  tier?: number
+  encounter: object
+  owner: object
+}>(), {
+  tier: 1,
+})
+
+const getCombatant = computed((): CombatantData | undefined =>
+  props.encounter.Combatants.find(
+    (c: CombatantData) => c.actor.ID === props.owner.ID || c.actor.CombatController.ActiveActor.ID === props.owner.ID || c.actor.CombatController.RootActor.ID === props.owner.ID
+  )
+)
+
+const isUsed = computed(() => !!props.activeEffect.Origin?.Used)
+
+const isDestroyed = computed(() => !!props.activeEffect.Origin?.Destroyed)
+
+const isGreyed = computed(() => props.activeEffect.Applied || isUsed.value || isDestroyed.value)
+
+const lightColor = computed(() => props.activeEffect.Origin.Color || 'orange')
+
+const icon = computed(() => props.activeEffect.Origin.Icon || 'mdi-rhombus-outline')
+
+function byTier(detail: string) {
+  return ByTier(detail, props.tier);
+}
+
+function frequencyIcon(frequency: string): string {
+  const str = frequency.toLowerCase();
+  switch (str) {
+    case '1/round':
+      return 'mdi-alpha-r-circle';
+    case '1/turn':
+      return 'mdi-alpha-t-circle';
+    case '1/scene':
+    case '1/encounter':
+      return 'mdi-alpha-e-circle';
+    case '1/mission':
+      return 'mdi-alpha-m-circle';
+    default:
+      return 'mdi-timer-sand';
+  }
+}
+
+function frequencyText(frequency: string): string {
+  const str = frequency.toLowerCase();
+  switch (str) {
+    case '1/round':
+      return 'Usable once per Round';
+    case '1/turn':
+      return 'Usable once per Turn';
+    case '1/scene':
+    case '1/encounter':
+      return 'Usable once per Encounter';
+    case '1/mission':
+      return 'Usable once per Mission';
+    default:
+      return frequency;
+  }
+}
 </script>
 
 <style scoped>

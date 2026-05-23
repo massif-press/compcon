@@ -151,7 +151,7 @@
 
 <script lang="ts">
 import { VSelect, VAutocomplete, VCombobox } from 'vuetify/components';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

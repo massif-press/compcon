@@ -35,7 +35,7 @@ import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import SkillSelector from '@/features/pilot_management/_components/selectors/SkillSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

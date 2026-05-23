@@ -3,11 +3,8 @@
     hide-title />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcBondCard',
-  props: {
-    item: { type: Object, required: true },
-  },
-};
+<script setup lang="ts">
+defineProps<{
+  item: object
+}>()
 </script>

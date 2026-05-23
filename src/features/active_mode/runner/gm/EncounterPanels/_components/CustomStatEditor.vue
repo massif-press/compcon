@@ -105,7 +105,7 @@
 <script>
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 const npcStatOrder = [

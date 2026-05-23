@@ -1,60 +1,63 @@
 <template>
-  <v-menu :open-on-hover="!mobile" :open-on-click="mobile" bottom offset-y max-width="700px">
+  <v-menu :open-on-hover="!mobile"
+    :open-on-click="mobile"
+    bottom
+    offset-y
+    max-width="700px">
     <template #activator="{ props }">
-      <cc-chip
-        :bg-color="action.Color"
+      <cc-chip :bg-color="action.Color"
         v-bind="props"
         variant="flat"
         tile
         class="chip-interactive"
         size="small">
         <span>
-          <v-icon start dark>{{ action.Icon }}</v-icon>
+          <v-icon start
+            dark>{{ action.Icon }}</v-icon>
           {{ action.Name }}
         </span>
       </cc-chip>
     </template>
-    <v-card flat tile border>
-      <v-toolbar density="compact" :color="action.Color" height="44">
-        <v-icon v-if="!hideIcon" dark class="mx-2">{{ action.Icon }}</v-icon>
+    <v-card flat
+      tile
+      border>
+      <v-toolbar density="compact"
+        :color="action.Color"
+        height="44">
+        <v-icon v-if="!hideIcon"
+          dark
+          class="mx-2">{{ action.Icon }}</v-icon>
         <span class="heading h3 pr-6">{{ action.Name }}</span>
         <v-spacer />
-        <v-chip v-if="!action.Frequency.Unlimited" class="text-caption" label tile>
+        <v-chip v-if="!action.Frequency.Unlimited"
+          class="text-caption"
+          label
+          tile>
           {{ action.Frequency.ToString() }}
         </v-chip>
       </v-toolbar>
       <div class="px-2 pt-1 pb-2">
-        <action-base :action="action" :tier="tier" />
+        <action-base :action="action"
+          :tier="tier" />
       </div>
     </v-card>
   </v-menu>
 </template>
 
-<script lang="ts">
-import ActionBase from './_actionBase.vue';
-import { useMobile } from '@/mixins/useMobile';
+<script setup lang="ts">
+import { useDisplay } from 'vuetify'
+import ActionBase from './_actionBase.vue'
+import { Action } from '@/classes/Action';
 
+const { smAndDown: mobile } = useDisplay()
 
-export default {
-  mixins: [useMobile],
-  name: 'action-hover',
-  components: { ActionBase },
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-    hideIcon: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  action: Action
+  tier?: number
+  hideIcon?: boolean
+}>(), {
+  hideIcon: false,
+})
 </script>
 
 <style scoped>

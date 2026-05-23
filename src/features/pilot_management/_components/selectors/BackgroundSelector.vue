@@ -28,38 +28,26 @@
   </cc-modal>
 </template>
 
-<script lang="ts">
-import { Background } from '@/classes/Background'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores'
 
-export default {
-  name: 'BackgroundSelector',
-  props: {
-    small: {
-      type: Boolean,
-      required: false,
-    },
-  },
-  emits: ['select'],
-  data: () => ({
-    options: {
-      views: ['list', 'table'],
-      initialView: 'list',
-      groups: ['lcp'],
-      initialGroup: 'lcp',
-      noSource: true,
-    },
-  }),
-  computed: {
-    backgrounds(): Background[] {
-      return CompendiumStore().Backgrounds
-    },
-  },
-  methods: {
-    setBg(name: string, close: () => void) {
-      this.$emit('select', name)
-      close()
-    },
-  },
+defineProps<{ small?: boolean }>()
+
+const emit = defineEmits<{ select: [name: string] }>()
+
+const options = {
+  views: ['list', 'table'],
+  initialView: 'list',
+  groups: ['lcp'],
+  initialGroup: 'lcp',
+  noSource: true,
+}
+
+const backgrounds = computed(() => CompendiumStore().Backgrounds)
+
+function setBg(name: string, close: () => void) {
+  emit('select', name)
+  close()
 }
 </script>

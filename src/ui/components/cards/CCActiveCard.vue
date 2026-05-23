@@ -38,57 +38,27 @@
   </v-col>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCActiveCard',
-  props: {
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    header: {
-      type: String,
-      required: true,
-    },
-    subheader: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    content: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    cols: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    collapsible: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    startClosed: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    prominent: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      collapsed: false,
-    };
-  },
-  created(): void {
-    this.collapsed = this.startClosed;
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = withDefaults(defineProps<{
+  color?: string
+  header: string
+  subheader?: string
+  content?: string | number
+  cols?: string | number
+  collapsible?: boolean
+  startClosed?: boolean
+  prominent?: boolean
+}>(), {
+  color: 'primary',
+  subheader: '',
+  content: '',
+  cols: '',
+  collapsible: false,
+  startClosed: false,
+  prominent: false,
+})
+
+const collapsed = ref(props.startClosed)
 </script>

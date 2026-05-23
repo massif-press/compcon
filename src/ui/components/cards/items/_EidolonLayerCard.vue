@@ -53,25 +53,14 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-eidolon-layer-card',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    charts: { type: Boolean },
-    collapseActions: { type: Boolean },
-    tier: { type: Number },
-  },
-  computed: {
-    widescreen() {
-      return this.$vuetify.display.lgAndUp;
-    },
-  },
-};
+<script setup lang="ts">
+defineProps<{
+  item: object
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  charts?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
 </script>

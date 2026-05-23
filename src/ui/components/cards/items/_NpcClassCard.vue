@@ -30,7 +30,7 @@
       </v-col>
       <v-col v-if="!mobile"
         cols="4">
-        <class-combat-chart :npc-class="item" />
+        <class-combat-chart :npc-class="item" :npc-classes="npcClasses" />
       </v-col>
     </v-row>
 
@@ -80,47 +80,39 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import ClassCombatChart from './_components/_NpcClassCombatChart.vue';
-import { useMobile } from '@/mixins/useMobile';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { CompendiumStore } from '@/stores'
+import ClassCombatChart from './_components/_NpcClassCombatChart.vue'
 
+const npcClasses = computed(() => CompendiumStore().NpcClasses)
 
-export default {
-  name: 'CcFrameCard',
-  components: {
-    ClassCombatChart,
-  },
-  mixins: [useMobile],
-  props: {
-    item: { type: Object, required: true },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    charts: { type: Boolean },
-    collapseActions: { type: Boolean },
-    tier: { type: Number },
-  },
-  data: () => ({
-    statArr: [
-      'Hull',
-      'Agility',
-      'Systems',
-      'Engineering',
-      'Size',
-      'Armor',
-      'HP',
-      'Heat',
-      'Evasion',
-      'Edef',
-      'Speed',
-      'Sensor',
-      'Save',
-    ],
-  }),
-  computed: {
-    widescreen() {
-      return this.$vuetify.display.lgAndUp;
-    },
-  },
-};
+const { smAndDown: mobile } = useDisplay()
+
+defineProps<{
+  item: object
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  charts?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
+
+const statArr = ref([
+  'Hull',
+  'Agility',
+  'Systems',
+  'Engineering',
+  'Size',
+  'Armor',
+  'HP',
+  'Heat',
+  'Evasion',
+  'Edef',
+  'Speed',
+  'Sensor',
+  'Save',
+])
 </script>
