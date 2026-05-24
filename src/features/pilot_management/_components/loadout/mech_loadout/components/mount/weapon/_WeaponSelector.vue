@@ -4,6 +4,7 @@
     :table-headers="headers"
     :options="options"
     :manufacturers="manufacturers"
+    view-key="sel-mech-weapon"
     equippable
     @select="stageSelect($event)"
     @equip="handleEquip($event)">

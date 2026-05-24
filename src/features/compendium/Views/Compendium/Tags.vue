@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="tags"
     item-type="Tag"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-tags">
     <template #header>
       <div class="heading h3 text-center text-accent">Equipment Tags</div>
     </template>

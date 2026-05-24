@@ -3,7 +3,8 @@
     item-type="Frame"
     :table-headers="headers"
     :options="options"
-    :manufacturers="manufacturers">
+    :manufacturers="manufacturers"
+    view-key="cb-frames">
     <template #header>
       <div class="heading h3 text-center text-accent">Frames</div>
     </template>

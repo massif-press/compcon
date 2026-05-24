@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="talents"
     item-type="Skill"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-talents">
     <template #header>
       <div class="heading h3 text-center text-accent">Pilot Talents</div>
     </template>

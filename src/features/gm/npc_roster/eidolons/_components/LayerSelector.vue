@@ -27,6 +27,7 @@
     item-type="EidolonLayer"
     :table-headers="headers"
     :options="options"
+    view-key="sel-eidolon-layer"
     equippable
     @equip="AddLayer($event)">
     <template #header>

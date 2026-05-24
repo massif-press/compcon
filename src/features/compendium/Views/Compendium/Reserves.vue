@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="reserves"
     item-type="Reserve"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-reserves">
     <template #header>
       <div class="heading h3 text-center text-accent">Reserves</div>
     </template>

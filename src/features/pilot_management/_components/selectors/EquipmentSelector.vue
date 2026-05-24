@@ -2,6 +2,7 @@
   <cc-compendium-browser :items="availableItems"
     item-type="Equipment"
     :options="options"
+    view-key="sel-equipment"
     equippable
     @equip="$emit('select', $event)">
     <template #header>

@@ -4,6 +4,7 @@
     :table-headers="headers"
     :options="options"
     :manufacturers="manufacturers"
+    view-key="sel-mech-mod"
     equippable>
     <template #header>
       <div class="heading h3 text-center text-accent">Weapon Mods</div>

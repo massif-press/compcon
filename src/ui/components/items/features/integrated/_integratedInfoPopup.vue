@@ -2,7 +2,7 @@
   <cc-dialog :color="item.Color"
     :icon="item.Icon"
     :title="item.Name"
-    :width="600">
+    max-width="800">
     <template #activator="{ open }">
       <cc-button :color="item.Color"
         :prepend-icon="item.Icon"

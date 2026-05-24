@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="sitreps"
     item-type="Sitrep"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-sitreps">
     <template #header>
       <div class="heading h3 text-center text-accent">Sitreps</div>
     </template>

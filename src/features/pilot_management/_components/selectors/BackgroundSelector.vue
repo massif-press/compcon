@@ -18,6 +18,7 @@
       <cc-compendium-browser :items="backgrounds"
         item-type="Background"
         :options="options"
+        view-key="sel-background"
         equippable
         @equip="setBg($event.Name, close)">
         <template #header>

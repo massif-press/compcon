@@ -3,6 +3,7 @@
     item-type="Frame"
     :options="options"
     :manufacturers="manufacturers"
+    view-key="sel-new-mech-frame"
     equippable
     @equip="select($event)">
     <template #header>

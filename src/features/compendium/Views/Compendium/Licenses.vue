@@ -3,7 +3,8 @@
     item-type="License"
     :table-headers="headers"
     :options="options"
-    :manufacturers="manufacturers">
+    :manufacturers="manufacturers"
+    view-key="cb-licenses">
     <template #header>
       <div class="heading h3 text-center text-accent">Licenses</div>
     </template>

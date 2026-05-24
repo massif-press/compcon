@@ -5,6 +5,7 @@
     :table-headers="headers"
     :tier="selectedTier"
     :options="options"
+    view-key="cb-npc-classes"
     @view-change="toggleTieredView">
     <template #header>
       <div class="heading h3 text-center text-accent">NPC Classes</div>

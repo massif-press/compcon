@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="environments"
     item-type="Environment"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-environments">
     <template #header>
       <div class="heading h3 text-center text-accent">Environments</div>
     </template>

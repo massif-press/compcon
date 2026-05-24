@@ -662,6 +662,7 @@ import { CompendiumItem } from '@/classes/CompendiumItem'
 import License from '@/classes/pilot/components/license/License'
 import { Manufacturer } from '@/classes/Manufacturer'
 import { useMobile } from '@/composables/useMobile';
+import { UserStore } from '@/stores';
 
 
 type BrowserOptions = {
@@ -779,6 +780,11 @@ export default {
       type: Array as () => any[],
       required: false,
       default: () => [],
+    },
+    viewKey: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   emits: ['equip', 'select', 'view-change'],
@@ -1003,16 +1009,35 @@ export default {
   watch: {
     group() {
       this.open = [];
+      this.saveView();
     },
     comparisons() {
       const idx = this.comparisons.findIndex((x) => x.ID === this.selectedItem?.ID);
       if (idx > -1) this.comparisons.splice(idx, 1);
     },
     items() {
-      this.lcpFilter = this.lcps;
+      if (this.viewKey) {
+        const saved = UserStore().User.View(this.viewKey, null);
+        this.lcpFilter = saved?.lcpFilter ?? this.lcps;
+      } else {
+        this.lcpFilter = this.lcps;
+      }
     },
     view(val) {
       this.$emit('view-change', val);
+      this.saveView();
+    },
+    showNav() {
+      this.saveView();
+    },
+    lcpFilter() {
+      this.saveView();
+    },
+    otherFilter: {
+      deep: true,
+      handler() {
+        this.saveView();
+      },
     },
     search(val) {
       if (val) {
@@ -1044,8 +1069,29 @@ export default {
     this.lcpFilter = this.lcps;
     this.view = this.options.initialView;
     this.group = this.options.initialGroup;
+    this.loadView();
   },
   methods: {
+    saveView() {
+      if (!this.viewKey) return;
+      UserStore().User.SetView(this.viewKey, {
+        view: this.view,
+        group: this.group,
+        showNav: this.showNav,
+        lcpFilter: this.lcpFilter,
+        otherFilter: this.otherFilter,
+      });
+    },
+    loadView() {
+      if (!this.viewKey) return;
+      const saved = UserStore().User.View(this.viewKey, null);
+      if (!saved) return;
+      if (saved.view !== undefined) this.view = saved.view;
+      if (saved.group !== undefined) this.group = saved.group;
+      if (saved.showNav !== undefined) this.showNav = saved.showNav;
+      if (saved.lcpFilter !== undefined) this.lcpFilter = saved.lcpFilter;
+      if (saved.otherFilter !== undefined) this.otherFilter = saved.otherFilter;
+    },
     getItems(manufacturer: string, lcp?: string): CompendiumItem[] | License[] {
       if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.Source === manufacturer);
 

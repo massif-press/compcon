@@ -2,6 +2,7 @@
   <cc-compendium-browser :items="bonds"
     item-type="Bond"
     :options="options"
+    view-key="sel-bond"
     equippable
     @equip="$emit('set', $event)">
     <template #header>

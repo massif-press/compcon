@@ -65,9 +65,9 @@
       </v-card-text>
       <v-card-text class="px-0">
         <v-row v-for="n in 3"
+          v-show="showFull || (!showFull && rank && Number(rank) >= n)"
           :key="`rank-${n}`"
           dense
-          v-show="showFull || (!showFull && rank && Number(rank) >= n)"
           :style="!isUnlocked(n) && 'opacity: 0.35'">
           <v-col v-if="!mobile"
             cols="auto"
@@ -149,10 +149,9 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
-  mixins: [useMobile],
-  name: 'talent-full',
+  name: 'TalentFull',
   components: { TalentEmblem, TalentRankContents },
-  emits: ['expand', 'add', 'remove'],
+  mixins: [useMobile],
   props: {
     hideLocked: { type: Boolean },
     talent: { type: Object, required: true },
@@ -163,6 +162,7 @@ export default {
     inColumn: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
+  emits: ['expand', 'add', 'remove'],
   data: () => ({
     showAll: false,
   }),

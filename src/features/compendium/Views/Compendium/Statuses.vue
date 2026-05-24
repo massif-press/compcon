@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="statuses"
     item-type="Status"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-statuses">
     <template #header>
       <div class="heading h3 text-center text-accent">Statuses & Conditions</div>
     </template>

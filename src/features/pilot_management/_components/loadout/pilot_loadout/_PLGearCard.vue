@@ -33,6 +33,7 @@
       <cc-compendium-browser :items="gear"
         item-type="PilotGear"
         :options="options"
+        view-key="sel-pl-gear"
         equippable
         :table-headers="headers"
         @equip="equip($event)">

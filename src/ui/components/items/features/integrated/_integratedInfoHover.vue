@@ -1,6 +1,7 @@
 <template>
   <v-menu open-on-hover
     bottom
+    max-width="800"
     offset-y>
     <template #activator="{ props }">
       <cc-chip :bg-color="item.Color"

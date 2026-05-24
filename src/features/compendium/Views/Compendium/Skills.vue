@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="skills"
     item-type="Skill"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-skills">
     <template #header>
       <div class="heading h3 text-center text-accent">Pilot Skill Triggers</div>
     </template>

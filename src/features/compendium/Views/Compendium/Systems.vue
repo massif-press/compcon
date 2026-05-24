@@ -3,7 +3,8 @@
     item-type="MechSystem"
     :table-headers="headers"
     :options="options"
-    :manufacturers="manufacturers">
+    :manufacturers="manufacturers"
+    view-key="cb-systems">
     <template #header>
       <div class="heading h3 text-center text-accent">Mech Systems</div>
     </template>

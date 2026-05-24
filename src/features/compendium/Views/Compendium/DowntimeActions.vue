@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="downtimeActions"
     item-type="DowntimeAction"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-downtime-actions">
     <template #header>
       <div class="heading h3 text-center text-accent">Downtime Actions</div>
     </template>

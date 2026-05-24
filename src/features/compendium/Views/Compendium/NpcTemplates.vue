@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="templates"
     :itemType="'NpcTemplate'"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-npc-templates">
     <template #header>
       <div class="heading h3 text-center text-accent">NPC Templates</div>
     </template>

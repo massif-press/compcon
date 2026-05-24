@@ -3,7 +3,8 @@
     :itemType="'CoreBonus'"
     :table-headers="headers"
     :options="options"
-    :manufacturers="manufacturers">
+    :manufacturers="manufacturers"
+    view-key="cb-core-bonuses">
     <template #header>
       <div class="heading h3 text-center text-accent">Core Bonuses</div>
     </template>

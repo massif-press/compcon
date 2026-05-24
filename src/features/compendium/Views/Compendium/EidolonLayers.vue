@@ -35,7 +35,8 @@
     :items="layers"
     item-type="EidolonLayer"
     :table-headers="headers"
-    :options="options" />
+    :options="options"
+    view-key="cb-eidolon-layers" />
 </template>
 
 <script lang="ts">

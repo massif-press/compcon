@@ -75,6 +75,7 @@
       <cc-compendium-browser :items="armor"
         item-type="PilotArmor"
         :options="options"
+        view-key="sel-pl-armor"
         equippable
         :table-headers="headers"
         @equip="equip($event)">

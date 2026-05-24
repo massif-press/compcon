@@ -69,7 +69,7 @@
 import { UserStore } from '@/stores';
 
 export default {
-  name: 'hangar-sort',
+  name: 'HangarSort',
   data: () => ({
     sort: 'Name',
     asc: true,

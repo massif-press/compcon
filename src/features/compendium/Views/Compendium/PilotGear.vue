@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="gear"
     item-type="PilotGear"
     :multi-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-pilot-gear">
     <template #header>
       <div class="heading h3 text-center text-accent">Pilot Gear</div>
     </template>

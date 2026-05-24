@@ -3,7 +3,8 @@
     item-type="MechWeapon"
     :table-headers="headers"
     :options="options"
-    :manufacturers="manufacturers">
+    :manufacturers="manufacturers"
+    view-key="cb-weapons">
     <template #header>
       <div class="heading h3 text-center text-accent">Mech Weapons</div>
     </template>

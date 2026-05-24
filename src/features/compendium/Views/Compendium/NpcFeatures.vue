@@ -3,7 +3,8 @@
     :items="features"
     item-type="NpcFeature"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    view-key="cb-npc-features">
     <template #header>
       <div class="heading h3 text-center text-accent">NPC Features</div>
     </template>

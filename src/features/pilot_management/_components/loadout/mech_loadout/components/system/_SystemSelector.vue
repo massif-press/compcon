@@ -4,6 +4,7 @@
     :table-headers="headers"
     :options="options"
     :manufacturers="manufacturers"
+    view-key="sel-mech-system"
     equippable
     @equip="handleEquip($event)">
     <template #header>

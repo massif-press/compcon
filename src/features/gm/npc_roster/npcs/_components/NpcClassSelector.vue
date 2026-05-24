@@ -13,6 +13,7 @@
       :table-headers="headers"
       :tier="selectedTier"
       :options="options"
+      view-key="sel-npc-class"
       equippable
       @equip="SetClass($event)"
       @view-change="toggleTieredView">

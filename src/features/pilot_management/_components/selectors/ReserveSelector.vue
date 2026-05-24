@@ -3,6 +3,7 @@
     item-type="Reserve"
     :table-headers="headers"
     :options="options"
+    view-key="sel-reserve"
     equippable
     @equip="add($event)">
     <template #header>

@@ -36,7 +36,8 @@
   <cc-compendium-browser v-else
     :items="bonds"
     item-type="Bond"
-    :options="options">
+    :options="options"
+    view-key="cb-bonds">
     <template #header>
       <div class="heading h3 text-center text-accent">Pilot Bonds</div>
     </template>
