@@ -261,6 +261,8 @@ export default {
     },
     setStat(key: string, event: { value: any }) {
       this.item.StatController.setMax(key, event.value)
+      this.item.SaveController.markModified()
+      this.item.SaveController.save()
     },
     toggleEditing() {
       this.editing = !this.editing;

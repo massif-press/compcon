@@ -1,67 +1,8 @@
 <template>
-  <cc-dialog :color="available ? action.Color : 'panel'"
-    :icon="action.Icon"
-    :title="action.Name"
-    :close-on-click="false"
-    min-width="70vw"
-    max-width="80vw">
-    <template #activator="{ open }">
-      <v-btn block
-        flat
-        tile
-        size="small"
-        :color="available ? action.Color : 'panel'"
-        @click="open">
-        <span class="ml-1">
-          <v-icon :icon="action.Icon"
-            :color="available ? '' : 'error'"
-            start />
-          <v-tooltip v-if="!available"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                icon="mdi-exclamation-thick"
-                color="error"
-                class="ml-n2" />
-            </template>
-            <div class="text-center text-cc-overline">Cannot activate</div>
-            <v-divider class="my-1" />
-            <div v-if="!canActivate">
-              Insufficient
-              <v-chip :color="action.Color"
-                size="small"
-                variant="elevated"
-                :prepend-icon="action.Icon || ''">
-                {{ action.Activation }}
-              </v-chip>
-              actions remaining this turn.
-            </div>
-            <div v-else-if="!canUse">This action has already been used this turn.</div>
-          </v-tooltip>
-        </span>
-        <v-tooltip location="top"
-          width="300">
-          <template #activator="{ props }">
-            <span v-bind="props">
-              {{ action.Name }}
-            </span>
-          </template>
-          <div class="d-flex">
-            <div class="heading h4 d-flex">{{ action.Name }}</div>
-            <v-spacer />
-            <v-chip size="x-small"
-              :color="action.Color"
-              :prepend-icon="action.Icon"
-              variant="elevated"
-              elevation="0">
-              {{ action.Activation }} Action
-            </v-chip>
-          </div>
-          <v-divider class="my-1" />
-          {{ action.Terse }}
-        </v-tooltip>
-      </v-btn>
-    </template>
+  <combat-action-button
+    :action="action"
+    :owner="owner"
+    :encounter="encounter">
     <template #default="{ close }">
       <v-card color="panel"
         flat
@@ -96,11 +37,10 @@
                 label="Clear any burn currently affecting your mech."
                 value="clear_burn" />
               <v-radio class="mt-1"
-                label="Clear a
-          condition that wasn’t caused by one of your own systems, talents, etc"
+                label="Clear a condition that wasn't caused by one of your own systems, talents, etc"
                 value="clear_self" />
               <v-radio class="mt-1"
-                label="Clear an adjacent allied character’s condition that wasn’t caused by one of their own systems, talents, etc."
+                label="Clear an adjacent allied character's condition that wasn't caused by one of their own systems, talents, etc."
                 value="clear_ally" />
             </v-radio-group>
           </v-col>
@@ -162,32 +102,22 @@
         @apply="apply"
         @reset="reset" />
     </template>
-  </cc-dialog>
+  </combat-action-button>
 </template>
 
 <script>
-import { CompendiumStore } from '@/stores';
+import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
 export default {
-  name: 'InvadeButton',
+  name: 'StabilizeButton',
+  components: { CombatActionButton, MenuInput },
   props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
+    action: { type: Object, required: true },
+    owner: { type: Object, required: true },
+    encounter: { type: Object, required: true },
   },
-  components: {
-    MenuInput,
-  },
+  emits: ['activate'],
   data: () => ({
     firstChoice: 'cool',
     secondChoice: 'reload',
@@ -199,29 +129,6 @@ export default {
     controller() {
       return this.owner.actor.CombatController;
     },
-    allActions() {
-      return CompendiumStore()
-        .Actions.filter((x) => x.Activation === 'Invade')
-        .concat(this.controller.AllActions('Invade'));
-    },
-
-    selectedAction() {
-      return this.allActions.find((a) => a.ID === this.tab);
-    },
-    canActivate() {
-      return this.controller.CanActivate(this.action.Activation);
-    },
-    canUse() {
-      return !this.controller.IsActionUsed(this.action.ID);
-    },
-    available() {
-      return this.canActivate && this.canUse;
-    },
-    invadeActions() {
-      return CompendiumStore()
-        .Actions.filter((a) => a.Activation === 'Invade')
-        .sort((a, b) => a.Name.localeCompare(b.Name));
-    },
     alliedTargets() {
       const thisCombatant = this.encounter.Combatants.find(
         (c) => c.actor.ID === this.controller.RootActor.ID
@@ -232,7 +139,6 @@ export default {
       );
     },
   },
-  emits: ['activate'],
   methods: {
     clearableConditions(target) {
       if (!target) return [];
@@ -241,8 +147,6 @@ export default {
       );
     },
     apply(close) {
-      // this.controller.toggleCombatAction(this.action.Activation);
-
       if (this.firstChoice === 'cool') {
         this.controller.Stabilize('cool');
       } else if (this.firstChoice === 'repair') {
@@ -262,7 +166,6 @@ export default {
       }
 
       this.$emit('activate', this.action.ID);
-      // close();
     },
     reset() {
       this.controller.ResetActivation(this.action.Activation);

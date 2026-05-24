@@ -94,7 +94,5 @@ export default {
 </script>
 
 <style scoped>
-.caption {
-  font-size: 12px;
-}
+@import '@/ui/style/print-common.css';
 </style>

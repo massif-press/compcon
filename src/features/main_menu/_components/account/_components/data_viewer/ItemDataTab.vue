@@ -99,8 +99,8 @@
         </i>
       </template>
       <template #item.localLastModified="{ item }">
-        <span v-if="item.SaveController?.LastModified">
-          {{ new Date(item.SaveController.LastModified).toLocaleString() }}
+        <span v-if="item.SaveController?.LastModified || item.SaveController?.Created">
+          {{ new Date(item.SaveController.LastModified || item.SaveController.Created).toLocaleString() }}
         </span>
         <i v-else
           class="text-disabled">
@@ -120,7 +120,8 @@
             Remote link broken — owner's data not found. Retry or convert to local.
           </div>
         </v-tooltip>
-        <v-tooltip v-else-if="item.SaveController?.IsDeleted || item.CloudController.Metadata.Deleted"
+        <v-tooltip
+          v-else-if="item.SaveController?.IsDeleted || item.CloudController.Metadata.Deleted"
           max-width="300px"
           location="top">
           <template #activator="{ props }">
@@ -129,7 +130,9 @@
               icon="mdi-delete-clock" />
           </template>
           <div class="text-center">
-            {{ item.SaveController?.IsDeleted ? 'Deleted locally — will not sync.' : 'Marked as deleted in cloud.' }}
+            {{ item.SaveController?.IsDeleted ?
+              'Deleted locally — will not sync.'
+              : 'Marked as deleted in cloud.' }}
           </div>
         </v-tooltip>
         <v-tooltip v-else-if="isItemSynced(item)"
@@ -151,7 +154,12 @@
               icon="mdi-cloud-sync" />
           </template>
           <div class="text-center">
-            {{ item.IsCloudOnly ? 'Cloud only — not yet downloaded.' : !item.CloudController.Metadata?.ItemModified ? 'Local only — not yet synced.' : 'Pending sync.' }}
+            {{ item.IsCloudOnly
+              ? 'Cloud only — not yet downloaded.'
+              : !item.CloudController.Metadata?.ItemModified
+                ? 'Local only — not yet synced.'
+                : 'Pending sync.'
+            }}
           </div>
         </v-tooltip>
       </template>
@@ -451,7 +459,8 @@
 
           <v-dialog max-width="600px">
             <template #activator="{ props }">
-              <v-tooltip v-if="!item.IsCloudOnly && (!item.CloudController.Metadata?.ItemModified || item._isRemote)"
+              <v-tooltip
+                v-if="!item.IsCloudOnly && (!item.CloudController.Metadata?.ItemModified || item._isRemote)"
                 max-width="300px"
                 location="top">
                 <template #activator="{ props }">
@@ -612,7 +621,12 @@ function isItemSynced(item: any): boolean {
   if (item._isRemote) {
     return (item.CloudController?.Metadata?.Updated ?? 0) >= (item.SaveController?.LastModified ?? 0)
   }
-  return item.CloudController.isSynced
+  if (item.CloudController.isSynced) return true
+  const updated = item.CloudController?.Metadata?.Updated ?? 0
+  const lastModified = item.SaveController?.LastModified ?? 0
+  const created = item.SaveController?.Created ?? 0
+  if (updated && !lastModified && created && updated >= created) return true
+  return false
 }
 
 const dataHeaders = [

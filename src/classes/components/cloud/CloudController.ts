@@ -138,7 +138,7 @@ class CloudController {
   public static computeContentHash(data: any): string {
     let target = data
     if (target && typeof target === 'object') {
-      const { _ts, cloud, ...rest } = target
+      const { _ts, cloud, save, ...rest } = target
       target = rest
     }
     const str = CloudController.stringifySafe(CloudController.sortKeys(target))
@@ -241,6 +241,8 @@ class CloudController {
     const prepared = CloudController.prepareUpload(this.Parent)
     if (!prepared) {
       logger.info('CloudController: content unchanged (hash match), skipping upload')
+      this._lastUploadedItemModified = toRaw(this.Parent).SaveController.LastModified
+      this.Parent.SaveController.saveSilent()
       return true
     }
     const { savedata, newTs, hash } = prepared
@@ -415,6 +417,9 @@ class CloudController {
           } catch (syncErr) {
             failures.push({ item, error: syncErr })
           }
+        } else {
+          item.CloudController._lastUploadedItemModified = toRaw(item).SaveController.LastModified
+          toRaw(item).SaveController.saveSilent()
         }
         continue
       }

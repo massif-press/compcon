@@ -55,7 +55,7 @@
             none-text="None"
             select-all
             :max="$vuetify.display.lgAndUp ? 3 : 2"
-            tooltip="Controls which data is synced with the cloud."
+            tooltip="Controls which data types are synced with the cloud."
             :items="syncItems" />
         </v-col>
       </v-row>
@@ -134,6 +134,7 @@ export default {
     loadingSync: false,
     syncing: false,
     selectedItems: [] as string[],
+    forceCustom: false,
   }),
   computed: {
     metadata() {
@@ -209,6 +210,7 @@ export default {
       ]
     },
     itemTypePreset() {
+      if (this.forceCustom) return 'custom'
       const all = this.syncItems.map((i: any) => i.value)
       const current = this.settings.itemTypes ?? []
       if (!current.length || all.every((v: string) => current.includes(v))) return 'all'
@@ -227,8 +229,9 @@ export default {
   methods: {
     applyItemTypePreset(preset: string) {
       const all = this.syncItems.map((i: any) => i.value)
-      if (preset === 'all') this.settings.itemTypes = all
-      else if (preset === 'pilots') this.settings.itemTypes = ['pilot']
+      if (preset === 'all') { this.settings.itemTypes = all; this.forceCustom = false }
+      else if (preset === 'pilots') { this.settings.itemTypes = ['pilot']; this.forceCustom = false }
+      else if (preset === 'custom') { this.forceCustom = true }
     },
     async updateSyncSettings() {
       this.loadingSync = true

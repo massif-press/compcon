@@ -74,20 +74,5 @@ defineExpose({ open, close });
 </script>
 
 <style scoped>
-.cc-panel-clip {
-  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0% 100%);
-}
-
-.panel-footer {
-  position: fixed;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  height: 13px;
-  letter-spacing: 4px;
-  font-size: 8px;
-  line-height: 15px;
-  opacity: 0.6;
-}
+@import '@/ui/style/panel.css';
 </style>

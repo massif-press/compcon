@@ -19,14 +19,12 @@ export function mergeTs(a: FieldTimestamps, b: FieldTimestamps): FieldTimestamps
   return result
 }
 
-function isEntity(val: any): val is Record<string, any> {
-  return (
-    val !== null && typeof val === 'object' && !Array.isArray(val) && typeof val.id === 'string'
-  )
-}
-
 function isEntityArr(val: any): val is Array<Record<string, any>> {
   return Array.isArray(val) && val.length > 0 && val.some((e: any) => typeof e?.id === 'string')
+}
+
+function isPlainRecord(val: any): val is Record<string, any> {
+  return val !== null && typeof val === 'object' && !Array.isArray(val)
 }
 
 function entityMaxTs(prefix: string, ts: FieldTimestamps, fallback: number): number {
@@ -50,7 +48,7 @@ function stableHashValue(val: any): string {
 function buildHashMapInto(prefix: string, obj: any, result: FieldHashMap): void {
   if (!obj || typeof obj !== 'object') return
   for (const key of Object.keys(obj)) {
-    if (key === '_ts') continue
+    if (key === '_ts' || key === 'save' || key === 'cloud') continue
     const tsKey = prefix ? `${prefix}.${key}` : key
     const val = obj[key]
     if (isEntityArr(val)) {
@@ -62,7 +60,7 @@ function buildHashMapInto(prefix: string, obj: any, result: FieldHashMap): void 
       for (const e of val) {
         if (e?.id) buildHashMapInto(`${tsKey}.${e.id}`, e, result)
       }
-    } else if (isEntity(val)) {
+    } else if (isPlainRecord(val)) {
       buildHashMapInto(tsKey, val, result)
     } else {
       result[tsKey] = stableHashValue(val)
@@ -85,7 +83,7 @@ function stampObjHashed(
   now: number
 ): void {
   for (const key of Object.keys(current)) {
-    if (key === '_ts') continue
+    if (key === '_ts' || key === 'save' || key === 'cloud') continue
     const tsKey = prefix ? `${prefix}.${key}` : key
     const cv = current[key]
 
@@ -104,7 +102,7 @@ function stampObjHashed(
           result[tombKey] = Math.max(now, (result[tombKey] ?? base) + 1)
         }
       }
-    } else if (isEntity(cv)) {
+    } else if (isPlainRecord(cv)) {
       stampObjHashed(tsKey, cv, hashes, result, base, now)
     } else {
       const prevHash = hashes ? hashes[tsKey] : undefined
@@ -139,13 +137,13 @@ function mergeEntityFields(
 ): Record<string, any> {
   const merged: Record<string, any> = { ...local }
   for (const key of Object.keys(remote)) {
-    if (key === '_ts') continue
+    if (key === '_ts' || key === 'save' || key === 'cloud') continue
     const fk = `${prefix}.${key}`
     const lv = local[key]
     const rv = remote[key]
     if (isEntityArr(rv) || isEntityArr(lv)) {
       merged[key] = mergeEntityArrField(fk, lv, rv, localTs, remoteTs, localBase, remoteBase)
-    } else if (isEntity(rv) || isEntity(lv)) {
+    } else if (isPlainRecord(rv) || isPlainRecord(lv)) {
       merged[key] = mergeEntityObjField(fk, lv, rv, localTs, remoteTs, localBase, remoteBase)
     } else {
       const lt = localTs[fk] ?? localBase
@@ -210,12 +208,12 @@ function mergeEntityObjField(
   localBase: number,
   remoteBase: number
 ): any {
-  if (!isEntity(local) && !isEntity(remote)) return local ?? remote
-  if (!isEntity(local)) {
+  if (!isPlainRecord(local) && !isPlainRecord(remote)) return local ?? remote
+  if (!isPlainRecord(local)) {
     const localTomb = localTs[prefix] ?? localBase
     return localTomb > entityMaxTs(prefix, remoteTs, remoteBase) ? local : remote
   }
-  if (!isEntity(remote)) {
+  if (!isPlainRecord(remote)) {
     const remoteTomb = remoteTs[prefix] ?? remoteBase
     return remoteTomb > entityMaxTs(prefix, localTs, localBase) ? remote : local
   }
@@ -234,12 +232,12 @@ export function mergeFields(
   const merged: Record<string, any> = { ...local }
 
   for (const key of Object.keys(remote)) {
-    if (key === '_ts') continue
+    if (key === '_ts' || key === 'save' || key === 'cloud') continue
     const lv = local[key]
     const rv = remote[key]
     if (isEntityArr(rv) || isEntityArr(lv)) {
       merged[key] = mergeEntityArrField(key, lv, rv, localTs, remoteTs, localBase, remoteBase)
-    } else if (isEntity(rv) || isEntity(lv)) {
+    } else if (isPlainRecord(rv) || isPlainRecord(lv)) {
       merged[key] = mergeEntityObjField(key, lv, rv, localTs, remoteTs, localBase, remoteBase)
     } else {
       const lt = localTs[key] ?? localBase

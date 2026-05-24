@@ -1,73 +1,10 @@
 <template>
-  <cc-dialog :color="available ? action.Color : 'panel'"
-    :icon="action.Icon"
-    :title="action.Name"
-    :close-on-click="false"
-    min-width="70vw"
-    max-width="80vw"
-    no-gutters>
-    <template #activator="{ open }">
-      <v-btn block
-        flat
-        tile
-        :size="mobile ? 'x-small' : 'small'"
-        height="28"
-        :color="available ? action.Color : 'panel'"
-        @click="open">
-        <span class="ml-1">
-          <v-icon :icon="action.Icon"
-            :color="available ? '' : 'error'"
-            start />
-          <v-tooltip v-if="!available"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                icon="mdi-exclamation-thick"
-                color="error"
-                class="ml-n2" />
-            </template>
-            <div class="text-center text-cc-overline">Cannot activate</div>
-            <v-divider class="my-1" />
-            <div v-if="!canActivate">
-              <div v-if="!canUse">This action has already been used this turn.</div>
-              <div v-else>
-                Insufficient
-                <v-chip :color="action.Color"
-                  size="small"
-                  variant="elevated"
-                  :prepend-icon="action.Icon || ''">
-                  {{ action.Activation }}
-                </v-chip>
-                actions remaining this turn.
-              </div>
-            </div>
-            <div v-else-if="!canUse">This action has already been used this turn.</div>
-          </v-tooltip>
-        </span>
-        <v-tooltip location="top"
-          width="300">
-          <template #activator="{ props }">
-            <span v-bind="props">
-              {{ action.Name }}
-            </span>
-          </template>
-          <div class="d-flex">
-            <div class="heading h4 d-flex">{{ action.Name }}</div>
-            <v-spacer />
-            <v-chip size="x-small"
-              :color="action.Color"
-              :prepend-icon="action.Icon"
-              variant="elevated"
-              elevation="0">
-              {{ action.Activation }} Action
-            </v-chip>
-          </div>
-          <v-divider class="my-1" />
-          {{ action.Terse }}
-        </v-tooltip>
-      </v-btn>
-    </template>
-
+  <combat-action-button
+    :action="action"
+    :owner="owner"
+    :encounter="encounter"
+    :preset-weapon="presetWeapon"
+    :mobile="mobile">
     <template #default="{ close }">
       <div :class="mobile ? 'px-1 pb-1' : 'px-3'">
         <cc-synergy-display v-if="selectedWeapon"
@@ -229,7 +166,7 @@
       </div>
 
     </template>
-  </cc-dialog>
+  </combat-action-button>
 </template>
 
 <script lang="ts">
@@ -243,6 +180,7 @@ import MechWeaponAttack from './_mechWeaponAttack.vue';
 import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import StagedPanel from './_stagedPanel.vue';
+import CombatActionButton from './CombatActionButton.vue';
 
 export default {
   name: 'MechSkirmishButton',
@@ -269,7 +207,8 @@ export default {
     MechMountBonusCard,
     MechWeaponAttack,
     ApplyButton,
-    StagedPanel
+    StagedPanel,
+    CombatActionButton,
   },
   data: () => ({
     event: null as WeaponAttackEvent | null,
@@ -309,20 +248,8 @@ export default {
     mobile() {
       return this.$vuetify.display.mdAndDown;
     },
-    available() {
-      return this.canActivate && this.canUse;
-    },
     controller() {
       return this.owner.actor.CombatController.ActiveActor.CombatController;
-    },
-    canActivate() {
-      return this.controller.CanActivate(this.action.Activation);
-    },
-    canUse() {
-      if (this.presetWeapon) {
-        return !this.controller.IsActionUsed(this.presetWeapon.InstanceID);
-      }
-      return !this.controller.IsActionUsed(this.action.ID);
     },
     selectedMount() {
       if (!this.selectedWeapon) return null;

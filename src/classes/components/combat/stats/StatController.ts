@@ -124,9 +124,8 @@ class StatController {
   }
 
   public save() {
-    // instances within encounters should only be saved as part of the encounterInstance serialization process
-    // falling back to saveController will create duplicate parents
     if (this.IsEncounterInstance || (this.Parent as any).IsEncounterInstance) return
+    this.Parent.SaveController.markModified()
     this.Parent.SaveController.save()
   }
 

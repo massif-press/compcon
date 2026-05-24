@@ -8,6 +8,13 @@ import * as themes from './themes';
 const preload = JSON.parse(localStorage.getItem('cc_theme') as string) || 'gms';
 
 const vuetify = createVuetify({
+  defaults: {
+    VTextField: { density: 'compact', hideDetails: true },
+    VSelect: { density: 'compact', hideDetails: true },
+    VCombobox: { density: 'compact', hideDetails: true },
+    VAutocomplete: { density: 'compact', hideDetails: true },
+    VBtn: { rounded: 0 },
+  },
   theme: {
     defaultTheme: preload,
     variations: {

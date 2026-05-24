@@ -53,16 +53,18 @@ export default {
   },
   setup() {
     const npcStore = NpcStore();
+    const selected = ref<Unit | null>(null);
     const npcs = ref(npcStore.getUnits.filter((x) => !x.SaveController.IsDeleted));
     const unsub = npcStore.$subscribe(() => {
       npcs.value = npcStore.getUnits.filter((x) => !x.SaveController.IsDeleted);
+      if (selected.value) {
+        const updated = npcStore.getNpcByID(selected.value.ID);
+        if (updated) selected.value = updated as Unit;
+      }
     });
     onUnmounted(unsub);
-    return { npcStore, npcs };
+    return { npcStore, npcs, selected };
   },
-  data: () => ({
-    selected: null as Unit | null,
-  }),
   computed: {
     groupings() {
       const allLabelTitles = new Set(
