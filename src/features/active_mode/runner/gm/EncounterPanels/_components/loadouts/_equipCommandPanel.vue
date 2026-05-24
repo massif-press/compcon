@@ -310,7 +310,7 @@ export default {
       required: true,
     },
     encounter: {
-      type: EncounterInstance,
+      type: Object,
       required: true,
     },
   },

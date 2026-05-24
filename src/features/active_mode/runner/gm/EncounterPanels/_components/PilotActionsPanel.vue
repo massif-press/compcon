@@ -242,7 +242,7 @@ function activate(event: string) {
       }
       break;
     default:
-      console.warn('uncaught event:', event);
+      break;
   }
 }
 </script>

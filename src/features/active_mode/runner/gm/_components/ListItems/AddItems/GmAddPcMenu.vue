@@ -91,6 +91,8 @@
 </template>
 
 <script lang="ts">
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { Pilot } from '@/classes/pilot/Pilot';
 import { PilotStore } from '@/stores';
 import * as _ from 'lodash-es';
 
@@ -98,7 +100,7 @@ export default {
   name: 'GmAddPcMenu',
   props: {
     encounterInstance: {
-      type: Object,
+      type: EncounterInstance,
       required: true,
     },
   },
@@ -134,9 +136,10 @@ export default {
 
   methods: {
     addPc(rosterItem) {
-      const pc = rosterItem.Clone(false);
+      if (this.encounterInstance.Combatants.some((p) => p.actor.ID === rosterItem.ID)) return;
 
-      if (this.encounterInstance.Combatants.some((p) => p.ID === pc.ID)) return;
+      const pc = Pilot.Deserialize(JSON.parse(JSON.stringify(Pilot.Serialize(rosterItem))));
+
 
       pc.SetStats();
       pc.FeatureController.BonusController.applyToStats(pc.CombatController.StatController, this.encounterInstance)

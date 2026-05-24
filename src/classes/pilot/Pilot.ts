@@ -783,7 +783,7 @@ class Pilot
   }
 
   public Clone(setName = true): Pilot {
-    const newPilot = Pilot.Deserialize(structuredClone(Pilot.Serialize(this)))
+    const newPilot = Pilot.Deserialize(JSON.parse(JSON.stringify(Pilot.Serialize(this))))
     newPilot.RenewID()
     if (setName) newPilot.Name += ' (CLONE)'
     newPilot.Callsign += '*'

@@ -87,6 +87,8 @@ const items = computed(() => [
   ...PilotStore().PilotGroups.filter(x => x.SaveController.IsDeleted),
   ...EncounterStore().Encounters.filter(x => x.SaveController.IsDeleted),
   ...EncounterStore().ArchivedEncounters.filter(x => x.SaveController.IsDeleted),
+  ...EncounterStore().ActiveEncounters.filter(x => x.SaveController.IsDeleted),
+  ...PilotStore().PilotSheets.filter(x => x.SaveController.IsDeleted),
   ...CampaignStore().Campaigns.filter(x => x.SaveController.IsDeleted),
 ])
 
@@ -112,6 +114,13 @@ async function permanentlyDelete(item: any) {
       break
     case 'encounterarchive':
       await EncounterStore().RemoveEncounterArchive(item)
+      break
+    case 'activeencounter':
+    case 'encounterinstance':
+      await EncounterStore().RemoveEncounterInstance(item)
+      break
+    case 'pilotsheet':
+      await PilotStore().RemovePilotSheet(item)
       break
     case 'campaign':
       await CampaignStore().DeleteCampaign(item)

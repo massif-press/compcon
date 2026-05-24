@@ -1,5 +1,5 @@
 <template>
-  <v-col v-if="event.SpecialEvents.length"
+  <v-col v-if="event.SpecialEvents?.length"
     :cols="cols">
     <div v-for="(s, index) in event.SpecialEvents"
       :key="`special-${index}`">

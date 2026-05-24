@@ -356,13 +356,13 @@ class CombatController implements ICounterContainer, IStatContainer {
     const str = action.toLowerCase()
     switch (str) {
       case 'protocol':
-        this.CombatActions.Protocol = value
         break
       case 'full':
       case 'full tech':
         this.CombatActions.Full = value
         this.CombatActions.Quick1 = this.CombatActions.Full
         this.CombatActions.Quick2 = this.CombatActions.Full
+        if (!value) this.CombatActions.Protocol = !value
         break
       case 'quick':
       case 'quicktech':
@@ -372,6 +372,7 @@ class CombatController implements ICounterContainer, IStatContainer {
         else if (this.CombatActions.Quick2 && !value) this.CombatActions.Quick2 = false
         else if (!this.CombatActions.Quick1 && value) this.CombatActions.Quick1 = true
         else if (!this.CombatActions.Quick2 && value) this.CombatActions.Quick2 = true
+        if (!value) this.CombatActions.Protocol = !value
         break
       case 'overcharge':
         this.CombatActions.Overcharge = value
@@ -384,7 +385,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
-  public ResetActivation(action: string): void {
+  public ResetActivation(action: string, propagate = true): void {
     const str = action.toLowerCase()
     switch (str) {
       case 'protocol':
@@ -408,11 +409,12 @@ class CombatController implements ICounterContainer, IStatContainer {
       default:
         break
     }
-    // pilot and mech action pool is shared
-    if (this.Parent instanceof Pilot) {
-      this.Parent.ActiveMech?.CombatController.ResetActivation(action)
-    } else if (this.Parent instanceof Mech)
-      this.Parent.Pilot?.CombatController.ResetActivation(action)
+    if (propagate) {
+      if (this.Parent instanceof Pilot) {
+        this.Parent.ActiveMech?.CombatController.ResetActivation(action, false)
+      } else if (this.Parent instanceof Mech)
+        this.Parent.Pilot?.CombatController.ResetActivation(action, false)
+    }
   }
 
   public MarkActionUsed(actionId: string): void {
@@ -520,9 +522,15 @@ class CombatController implements ICounterContainer, IStatContainer {
   public ToggleStatus(status: Status, expires?: any, thisController = false): void {
     if (!status) return
     const target = thisController ? this : this.ActiveActor.CombatController
+    const resolvedExpires =
+      typeof expires === 'string'
+        ? markRaw(new expiration(expires, this, target))
+        : expires
+          ? markRaw(expires)
+          : expires
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
-      target.Statuses.push({ status, expires: expires ? markRaw(expires) : expires })
+      target.Statuses.push({ status, expires: resolvedExpires })
       this.log(`Gained ${status.Name}`)
     } else {
       target.Statuses.splice(existingIndex, 1)
@@ -548,14 +556,20 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public SetCustomStatus(special: EffectSpecial, expires?: any): void {
     if (!special) return
+    const resolvedExpires =
+      typeof expires === 'string'
+        ? markRaw(new expiration(expires, this))
+        : expires
+          ? markRaw(expires)
+          : expires
     const existingIndex = this.CustomStatuses.findIndex(
       s => s.status.Attribute === special.Attribute
     )
     if (existingIndex === -1) {
-      this.CustomStatuses.push({ status: special, expires: expires ? markRaw(expires) : expires })
+      this.CustomStatuses.push({ status: special, expires: resolvedExpires })
       this.log(`Gained special status: ${special.Attribute}`)
     } else if (expires) {
-      this.CustomStatuses[existingIndex].expires = markRaw(expires)
+      this.CustomStatuses[existingIndex].expires = resolvedExpires
     } else {
       this.CustomStatuses.splice(existingIndex, 1)
       this.log(`Lost special status: ${special.Attribute}`)

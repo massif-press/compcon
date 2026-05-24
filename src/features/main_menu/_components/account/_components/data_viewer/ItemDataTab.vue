@@ -14,6 +14,12 @@
         @click="bulkDeleteDialog = true">
         Delete Selected ({{ selectedForDelete.length }})
       </cc-button>
+      <v-spacer />
+      <cc-switch v-model="showLocalDeleted"
+        label="Show Locally Deleted"
+        hide-details
+        class="ml-auto" />
+
     </div>
 
     <v-data-table v-model="selectedForDelete"
@@ -100,7 +106,8 @@
       </template>
       <template #item.localLastModified="{ item }">
         <span v-if="item.SaveController?.LastModified || item.SaveController?.Created">
-          {{ new Date(item.SaveController.LastModified || item.SaveController.Created).toLocaleString() }}
+          {{ new Date(item.SaveController.LastModified ||
+            item.SaveController.Created).toLocaleString() }}
         </span>
         <i v-else
           class="text-disabled">
@@ -609,6 +616,8 @@ const emit = defineEmits<{
 const display = useDisplay()
 const mobile = computed(() => display.mdAndDown.value)
 
+const showLocalDeleted = ref(false)
+
 const bulkDeleteMode = ref(false)
 const bulkDeleteDialog = ref(false)
 const bulkDeleteScope = ref<'cloud' | 'both'>('cloud')
@@ -761,6 +770,7 @@ const shownItems = computed(() => {
     const t = normalizeItemType(item.ItemType)
     if (t === 'encounterarchive' || t === 'pilotsheet') return false
     if (typeFilter.length && !typeFilter.includes(t)) return false
+    if (!showLocalDeleted.value && item.SaveController?.IsDeleted) return false
     if (props.search && !item.Name.toLowerCase().includes(props.search.toLowerCase())) return false
     return true
   }).map((item: any) => ({ ...item, _isRemote: false, _isBrokenRemote: false, _isChild: false, _parentId: null }))

@@ -1,11 +1,9 @@
 <template>
-  <v-expansion-panels
-    focusable
+  <v-expansion-panels focusable
     tile
     color="panel"
     flat
-    class="mt-1"
-  >
+    class="mt-1">
     <v-expansion-panel>
       <v-expansion-panel-title class="heading h4 py-0">All Actions</v-expansion-panel-title>
       <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
@@ -21,8 +19,7 @@
               :action="pa"
               :owner="owner"
               :encounter="encounter"
-              @activate="activate($event)"
-            />
+              @activate="activate($event)" />
           </v-col>
           <v-col v-for="fa in controller.AllActions('Free')"
             :key="fa.ID">
@@ -35,34 +32,27 @@
               :action="fa"
               :owner="owner"
               :encounter="encounter"
-              @activate="activate($event)"
-            />
+              @activate="activate($event)" />
           </v-col>
         </v-row>
         <v-divider class="my-2" />
 
-        <v-row
-          align="start"
-          dense
-        >
+        <v-row align="start"
+          dense>
           <v-col>
             <v-row dense>
               <v-col v-for="(action, index) in quickNpcActions"
                 :key="`quick-${index}`">
-                <invade-button
-                  v-if="action === 'act_invade'"
+                <invade-button v-if="action === 'act_invade'"
                   :action="getBaseAction(action)"
                   :owner="owner"
                   :encounter="encounter"
-                  @activate="activate($event)"
-                />
-                <basic-action-button
-                  v-else
+                  @activate="activate($event)" />
+                <basic-action-button v-else
                   :action="getBaseAction(action)"
                   :owner="owner"
                   :encounter="encounter"
-                  @activate="activate($event)"
-                />
+                  @activate="activate($event)" />
               </v-col>
               <v-divider class="my-1" />
               <v-col v-for="qa in controller.AllActions('Quick')"
@@ -76,8 +66,7 @@
                   :action="qa"
                   :owner="owner"
                   :encounter="encounter"
-                  @activate="activate($event)"
-                />
+                  @activate="activate($event)" />
               </v-col>
               <v-col v-for="qta in controller.AllActions('Quick Tech')"
                 :key="qta.ID">
@@ -90,8 +79,7 @@
                   :action="qta"
                   :owner="owner"
                   :encounter="encounter"
-                  @activate="activate($event)"
-                />
+                  @activate="activate($event)" />
               </v-col>
             </v-row>
           </v-col>
@@ -99,12 +87,10 @@
             <v-row dense>
               <v-col v-for="(action, index) in fullNpcActions"
                 :key="`full-${index}`">
-                <basic-action-button
-                  :action="getBaseAction(action)"
+                <basic-action-button :action="getBaseAction(action)"
                   :owner="owner"
                   :encounter="encounter"
-                  @activate="activate($event)"
-                />
+                  @activate="activate($event)" />
               </v-col>
               <v-divider class="my-1" />
               <v-col v-for="fa in controller.AllActions('Full')"
@@ -118,8 +104,7 @@
                   :action="fa"
                   :owner="owner"
                   :encounter="encounter"
-                  @activate="activate($event)"
-                />
+                  @activate="activate($event)" />
               </v-col>
               <v-col v-for="fta in controller.AllActions('Full Tech')"
                 :key="fta.ID">
@@ -132,8 +117,7 @@
                   :action="fta"
                   :owner="owner"
                   :encounter="encounter"
-                  @activate="activate($event)"
-                />
+                  @activate="activate($event)" />
               </v-col>
             </v-row>
           </v-col>
@@ -142,11 +126,9 @@
 
         <v-row dense>
           <v-col>
-            <basic-action-button
-              :action="getBaseAction('act_overwatch')"
+            <basic-action-button :action="getBaseAction('act_overwatch')"
               :owner="owner"
-              :encounter="encounter"
-            />
+              :encounter="encounter" />
           </v-col>
           <v-col v-for="ra in controller.AllActions('Reaction')"
             :key="ra.ID">
@@ -159,8 +141,7 @@
               :action="ra"
               :owner="owner"
               :encounter="encounter"
-              @activate="activate($event)"
-            />
+              @activate="activate($event)" />
           </v-col>
         </v-row>
       </v-expansion-panel-text>
@@ -202,6 +183,7 @@ function toDeployable(action: any) {
 
 function activate(event: string) {
   controller.value.MarkActionUsed(event);
+
   switch (event) {
     case 'act_prepare':
       controller.value.Prepared = true;
@@ -226,13 +208,13 @@ function activate(event: string) {
       }
       break;
     default:
-      console.warn('uncaught event:', event);
+      break;
   }
 }
 </script>
 
 <style scoped>
-  .v-expansion-panel-text >>> .v-expansion-panel-text__wrapper {
-    padding: 8px;
-  }
+.v-expansion-panel-text>>>.v-expansion-panel-text__wrapper {
+  padding: 8px;
+}
 </style>

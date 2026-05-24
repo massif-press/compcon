@@ -24,26 +24,30 @@
         class="mt-1">
         <v-col cols="12"
           md="6">
+          <div class="text-cc-overline text-disabled">// Frequency</div>
           <cc-select v-model="settings.frequency"
-            label="frequency"
             :items="syncOptions"
             tooltip="Controls how often your data is synchronized with the cloud. Due to server costs,
                   certain options are only available to Patreon subscribers." />
         </v-col>
         <v-col cols="12"
           md="6">
-          <div class="text-caption text-medium-emphasis mb-1">Sync Items</div>
+          <div class="text-cc-overline text-disabled">// Sync Items</div>
           <v-btn-toggle :model-value="itemTypePreset"
             density="compact"
             variant="outlined"
-            class="mb-2"
+            flat
+            tile
             @update:model-value="applyItemTypePreset">
             <v-btn value="all"
-              size="small">All</v-btn>
+              size="small"
+              height="30">All</v-btn>
             <v-btn value="pilots"
-              size="small">Pilots Only</v-btn>
+              size="small"
+              height="30">Pilots Only</v-btn>
             <v-btn value="custom"
-              size="small">Custom</v-btn>
+              size="small"
+              height="30">Custom</v-btn>
           </v-btn-toggle>
           <cc-select v-if="itemTypePreset === 'custom'"
             v-model="settings.itemTypes"

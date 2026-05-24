@@ -1,5 +1,6 @@
 <template>
 
+  <template v-if="activeEffect">
   <cc-button v-if="activeEffect.IsPassive && !embedded"
     block
     size="x-small"
@@ -133,25 +134,32 @@
     </div>
   </div>
 
+  </template>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
-import { ByTier } from '@/util/tierFormat';
+import { Action } from '@/classes/Action';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { CombatantData } from '@/classes/encounter/Encounter';
 
 const props = withDefaults(defineProps<{
   event: ActiveEffectEvent | ActiveEffectEvent[]
   weaponEvent?: WeaponAttackEvent | WeaponAttackEvent[]
-  action?: object
+  action?: Action
   actionId?: string | string[]
   activationOverride?: string
-  encounter: object
-  owner: object
-  close: Function
+  encounter: EncounterInstance
+  owner: CombatantData
+  close: () => void
   embedded?: boolean
 }>(), {
+  weaponEvent: undefined,
+  action: undefined,
+  actionId: undefined,
+  activationOverride: undefined,
   embedded: false,
 })
 
@@ -184,7 +192,7 @@ const actionIds = computed((): string[] =>
     : []
 )
 
-const activeEffect = computed(() => events.value[0].Effect)
+const activeEffect = computed(() => events.value[0]?.Effect)
 
 const icon = computed(() =>
   props.action?.Icon || (activeEffect.value as any).Icon || activeEffect.value.Origin.Icon || ''
@@ -242,10 +250,6 @@ const frequencyText = computed((): string => {
 
 const mandatoryRemaining = computed((): boolean => !events.value.every(x => x.Ready))
 
-function byTier(detail: string) {
-  return ByTier(detail, props.owner.actor.CombatController.Tier);
-}
-
 function stage(asFree) {
   events.value.forEach(e => e.Staged = true)
   isFree.value = asFree || false;
@@ -254,7 +258,7 @@ function stage(asFree) {
   emit('stage');
 }
 
-function apply(close: Function) {
+function apply(close: () => void) {
   if (!isFree.value && (isApplied.value || !ready.value)) return;
   if (!isFree.value) {
     props.owner.actor.CombatController.MarkActionUsed(activeEffect.value.ID);

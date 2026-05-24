@@ -235,7 +235,9 @@ function toDeployable(action: any) {
 }
 
 function activate(event: string) {
+  console.log('Activating', event);
   controller.value.MarkActionUsed(event);
+
   switch (event) {
     case 'act_prepare':
       controller.value.Prepared = true;
@@ -300,8 +302,12 @@ function activate(event: string) {
       controller.value.Braced = true;
       notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.mechBracedTitle, text: ACTIVE_STRINGS.mechActions.mechBracedText(controller.value.CombatName) });
       break;
+    case 'act_overwatch':
+      controller.value.Overwatch = true;
+      notify({ type: 'success', title: ACTIVE_STRINGS.mechActions.overwatchTitle, text: ACTIVE_STRINGS.mechActions.overwatchText(controller.value.CombatName) });
+      break;
     default:
-      console.warn('uncaught event:', event);
+      break;
   }
 }
 </script>

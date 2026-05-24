@@ -1,5 +1,15 @@
 <template>
   <v-container class="pb-12">
+    <v-row dense>
+      <v-col>
+        <div class="heading h1">Actions</div>
+      </v-col>
+      <v-col v-if="!mobile"
+        cols="auto">
+        <cc-switch v-model="expanded"
+          label="Show Full" />
+      </v-col>
+    </v-row>
 
     <cc-masonry-grid :items="bothActions">
       <template #default="{ item }">
@@ -8,19 +18,11 @@
       </template>
     </cc-masonry-grid>
 
-    <v-row dense>
-      <v-col>
-        <h1 id="mechactions"
-          class="heading">
-          Mech Actions
-        </h1>
-      </v-col>
-      <v-col v-if="!mobile"
-        cols="auto">
-        <cc-switch v-model="expanded"
-          label="Show Full" />
-      </v-col>
-    </v-row>
+    <h1 id="mechactions"
+      class="heading mt-3">
+      Mech Actions
+    </h1>
+
     <cc-masonry-grid :items="mechActions">
       <template #default="{ item }">
         <action-card :action="item"
@@ -29,7 +31,7 @@
     </cc-masonry-grid>
 
     <h1 id="pilotactions"
-      class="heading">
+      class="heading mt-3">
       Pilot Actions
     </h1>
     <cc-masonry-grid :items="pilotActions">
@@ -40,7 +42,7 @@
     </cc-masonry-grid>
 
     <h1 id="downtimeactions"
-      class="heading">
+      class="heading mt-3">
       Downtime Actions
     </h1>
     <cc-masonry-grid :items="downtimeActions">
@@ -97,6 +99,8 @@ export default {
       { action: 'reaction', icon: 'cc:reaction' },
       { action: 'free', icon: 'cc:free' },
     ],
+    pilotOnlyActions: ['act_fight', 'act_jockey', 'act_reload', 'act_mount', 'act_search_pilot'],
+    mechOnlyActions: ['act_grapple', 'act_ram', 'act_skirmish', 'act_barrage', 'act_improvised_attack', 'act_stabilize', 'act_boot_up', 'act_stabilize', 'act_dismount', 'act_eject', 'act_self_destruct', 'act_shut_down', 'act_overcharge', 'act_brace', 'act_quick_tech', 'act_full_tech', 'act_lock_on', 'act_bolster', 'act_scan', 'act_search'],
     expanded: false,
   }),
   computed: {
@@ -104,17 +108,16 @@ export default {
       return this.$vuetify.display.lgAndUp
     },
     allActions() {
-      return CompendiumStore().Actions.filter(a => a && !a.Hidden && !a.ID.includes('npc_'))
+      return CompendiumStore().Actions.filter(a => a && !a.Hidden && !a.ID.includes('_npc'))
     },
     bothActions() {
-      console.log(this.allActions)
-      return this.allActions.filter(a => a && !a.IsDowntimeAction && a.IsPilotAction && a.IsMechAction)
+      return this.allActions.filter(a => a && !a.IsDowntimeAction && !this.pilotOnlyActions.includes(a.ID) && !this.mechOnlyActions.includes(a.ID) && !a.ID.includes('jockey_') && !a.ID.includes('_inv_'))
     },
     mechActions() {
-      return this.allActions.filter(a => a && !a.IsDowntimeAction && a.IsMechAction)
+      return this.allActions.filter(a => a && this.mechOnlyActions.includes(a.ID))
     },
     pilotActions() {
-      return this.allActions.filter(a => a && a.IsPilotAction && !a.IsMechAction)
+      return this.allActions.filter(a => a && this.pilotOnlyActions.includes(a.ID))
     },
     downtimeActions() {
       return CompendiumStore().DowntimeActions

@@ -150,6 +150,7 @@ export default {
             { title: 'Save', value: 'save' },
             { title: 'Speed', value: 'speed' },
             { title: 'System Points', value: 'sp' },
+            { title: 'Size', value: 'size' },
           ];
         case 'PilotArmor':
           return [

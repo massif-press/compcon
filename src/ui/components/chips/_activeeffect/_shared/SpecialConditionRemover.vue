@@ -1,5 +1,5 @@
 <template>
-  <v-col v-if="event.RemoveSpecialStatus.length"
+  <v-col v-if="event.RemoveSpecialStatus?.length"
     :cols="cols">
     <div class="text-cc-overline text-disabled">remove special condition</div>
     <v-card v-for="(s, index) in event.RemoveSpecialStatus"

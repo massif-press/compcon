@@ -50,7 +50,7 @@
           flat
           tile>
           {{ event.AoE ? getOrdinal(Number(idx) + 1) : '' }} Target
-          <v-btn v-if="event.Targets.length > 1"
+          <v-btn v-if="event.Targets?.length > 1"
             icon
             size="20"
             variant="text"
@@ -62,7 +62,7 @@
               @click="event.Targets.splice(idx, 1)" />
           </v-btn>
         </v-card>
-        <v-btn v-if="event.AoE && idx === event.Targets.length - 1"
+        <v-btn v-if="event.AoE && idx === event.Targets?.length - 1"
           size="x-small"
           block
           flat

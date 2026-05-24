@@ -1,6 +1,6 @@
 <template>
   <v-col :cols="cols"
-    v-if="event.StatusEvents.length">
+    v-if="event.StatusEvents?.length">
     <div v-if="!mobile"
       class="text-cc-overline text-disabled">
       Status

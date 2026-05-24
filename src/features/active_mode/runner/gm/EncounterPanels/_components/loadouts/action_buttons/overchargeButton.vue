@@ -1,6 +1,5 @@
 <template>
-  <combat-action-button
-    :action="action"
+  <combat-action-button :action="action"
     :owner="owner"
     :encounter="encounter">
     <template #default="{ close }">
@@ -12,8 +11,6 @@
           :mech="controller.Parent"
           alert />
         <div class="text-center text-cc-overline text-disabled my-2">OVERCHARGE cost</div>
-        {{ currentOvercharge }}
-
         <v-row no-gutters>
           <v-col v-for="(t, n) in controller.OverchargeTrack"
             :key="`overcharge-${n}`"
@@ -115,6 +112,7 @@ export default {
     },
     apply() {
       this.controller.toggleCombatAction('Overcharge');
+      this.controller.ResetActivation('quick')
       this.controller.TakeDamage(DamageType.Heat, Number(this.heatCost));
       this.controller.IncreaseOverchargeLevel();
       this.$emit('activate', this.action.ID);

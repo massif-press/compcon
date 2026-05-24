@@ -1,5 +1,5 @@
 <template>
-  <v-col v-if="event.DamageEvents.length"
+  <v-col v-if="event.DamageEvents?.length"
     :cols="mobile ? 12 : cols">
     <v-row v-for="(d, d_idx) in event.DamageEvents"
       :key="`damageEvent_${event.ID}_${d_idx}`"
