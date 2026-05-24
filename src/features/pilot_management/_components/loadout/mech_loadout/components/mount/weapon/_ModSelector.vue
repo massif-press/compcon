@@ -102,6 +102,7 @@ const options = reactive({
   initialView: 'single',
   groups: ['source', 'lcp', 'license'],
   initialGroup: 'none',
+  showExotics: true,
 })
 
 const headers = [
@@ -138,7 +139,7 @@ const availableMods = computed((): WeaponMod[] => {
   if (!showUnlicensed.value) i = i.filter(x => isLicensed(x))
   if (!showOverSP.value) i = i.filter(x => x.SP <= freeSP.value)
 
-  i = i.concat(props.mech.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
+  i = i.concat(props.mech.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod') as WeaponMod[])
 
   if (isAICapacityFull()) i = i.filter(x => !x.IsAI)
 

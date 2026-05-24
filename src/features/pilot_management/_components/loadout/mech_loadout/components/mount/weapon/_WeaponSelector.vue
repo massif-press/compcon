@@ -166,10 +166,6 @@ const selected = ref<MechWeapon | null>(null)
 
 const manufacturers = computed(() => CompendiumStore().Manufacturers)
 
-const freeSP = computed(() =>
-  props.weaponSlot.Weapon ? props.mech.FreeSP + props.weaponSlot.Weapon.SP : props.mech.FreeSP
-)
-
 const availableWeapons = computed((): MechWeapon[] => {
   const fittings = Rules.MountFittings[props.weaponSlot.Size]
   let i = filterByLcp(CompendiumStore().MechWeapons).filter(
@@ -182,7 +178,7 @@ const availableWeapons = computed((): MechWeapon[] => {
   i = i.concat(
     props.mech.Pilot.SpecialEquipment.filter(
       x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
-    )
+    ) as MechWeapon[]
   )
 
   i = i.filter(
