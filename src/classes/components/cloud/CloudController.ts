@@ -179,7 +179,8 @@ class CloudController {
     controller._lastContentHash = hash
     controller._fieldTs = newTs
     controller._lastFieldHashes = buildFieldHashMap(savedata)
-    controller._lastUploadedItemModified = toRaw(controller.Parent).SaveController.LastModified
+    const _sc = toRaw(controller.Parent).SaveController
+    controller._lastUploadedItemModified = _sc.LastModified || _sc.Created
     CloudController.pruneOldFieldTimestamps(controller)
     controller.Parent.SaveController.saveSilent()
   }
@@ -241,7 +242,8 @@ class CloudController {
     const prepared = CloudController.prepareUpload(this.Parent)
     if (!prepared) {
       logger.info('CloudController: content unchanged (hash match), skipping upload')
-      this._lastUploadedItemModified = toRaw(this.Parent).SaveController.LastModified
+      const _sc0 = toRaw(this.Parent).SaveController
+      this._lastUploadedItemModified = _sc0.LastModified || _sc0.Created
       this.Parent.SaveController.saveSilent()
       return true
     }
@@ -308,7 +310,7 @@ class CloudController {
     }
 
     if (CloudController.ITEM_LEVEL_SYNC_TYPES.has(itemType)) {
-      const localModified = this.Parent.SaveController.LastModified
+      const localModified = this.Parent.SaveController.LastModified || this.Parent.SaveController.Created
       const remoteModified = remoteData.item_modified ?? 0
 
       if (remoteModified > localModified) {
@@ -418,8 +420,9 @@ class CloudController {
             failures.push({ item, error: syncErr })
           }
         } else {
-          item.CloudController._lastUploadedItemModified = toRaw(item).SaveController.LastModified
-          toRaw(item).SaveController.saveSilent()
+          const _sc1 = toRaw(item).SaveController
+          item.CloudController._lastUploadedItemModified = _sc1.LastModified || _sc1.Created
+          _sc1.saveSilent()
         }
         continue
       }

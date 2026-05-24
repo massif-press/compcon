@@ -41,9 +41,7 @@ export const SyncStore = defineStore('sync', {
       return this.AllItems.filter(x => !x.SaveController?.IsRemote)
     },
     AllRemoteItems(): SyncableItem[] {
-      return this.AllItems.filter(
-        x => x.SaveController?.IsRemote && !x.SaveController?.IsDeleted
-      )
+      return this.AllItems.filter(x => x.SaveController?.IsRemote && !x.SaveController?.IsDeleted)
     },
     CloudOnlyItems(): SyncableItem[] {
       const cdStore = CloudDataStore()
