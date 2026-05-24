@@ -6,6 +6,7 @@
     :manufacturers="manufacturers"
     view-key="sel-mech-system"
     equippable
+    selector
     @equip="handleEquip($event)">
     <template #header>
       <div class="heading h3 text-center text-accent">Mech SYSTEMS</div>
@@ -132,9 +133,8 @@ const availableSystems = computed((): MechSystem[] => {
   )
 
   if (!showUnlicensed.value) i = i.filter(x => isLicensed(x))
-
   i = i
-    .concat(props.mech.SpecialEquipment.filter(x => x.ItemType === 'MechSystem'))
+    .concat(props.mech.SpecialEquipment.filter(x => x.ItemType === 'MechSystem') as MechSystem[])
     .filter(
       x =>
         !props.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(x.ID)
@@ -144,6 +144,7 @@ const availableSystems = computed((): MechSystem[] => {
   if (isAICapacityFull()) i = i.filter(x => !x.IsAI)
 
   i = uniqBy(i, 'ID')
+
   return sortBy(i, ['Source', 'Name'])
 })
 

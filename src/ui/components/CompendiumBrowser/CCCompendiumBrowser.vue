@@ -612,7 +612,8 @@
               total-visible="8"
               :length="Math.ceil(navOrderedItems.length / itemsPerPage)" />
             <v-row>
-              <selector-card-item v-for="item in navOrderedItems.slice(minSliceIndex, maxSliceIndex)"
+              <selector-card-item
+                v-for="item in navOrderedItems.slice(minSliceIndex, maxSliceIndex)"
                 :id="item.ID"
                 :key="item.ID"
                 :item="item"
@@ -966,6 +967,7 @@ export default {
     },
     shownItems() {
       let shown = this.items as CompendiumItem[];
+
       shown = shown.filter((i: any) => this.lcpFilter.includes(i.LcpName));
 
       if (this.search) {
@@ -1016,21 +1018,13 @@ export default {
       if (idx > -1) this.comparisons.splice(idx, 1);
     },
     items() {
-      if (this.viewKey) {
-        const saved = UserStore().User.View(this.viewKey, null);
-        this.lcpFilter = saved?.lcpFilter ?? this.lcps;
-      } else {
-        this.lcpFilter = this.lcps;
-      }
+      this.lcpFilter = this.lcps;
     },
     view(val) {
       this.$emit('view-change', val);
       this.saveView();
     },
     showNav() {
-      this.saveView();
-    },
-    lcpFilter() {
       this.saveView();
     },
     otherFilter: {
@@ -1078,7 +1072,6 @@ export default {
         view: this.view,
         group: this.group,
         showNav: this.showNav,
-        lcpFilter: this.lcpFilter,
         otherFilter: this.otherFilter,
       });
     },
@@ -1089,7 +1082,6 @@ export default {
       if (saved.view !== undefined) this.view = saved.view;
       if (saved.group !== undefined) this.group = saved.group;
       if (saved.showNav !== undefined) this.showNav = saved.showNav;
-      if (saved.lcpFilter !== undefined) this.lcpFilter = saved.lcpFilter;
       if (saved.otherFilter !== undefined) this.otherFilter = saved.otherFilter;
     },
     getItems(manufacturer: string, lcp?: string): CompendiumItem[] | License[] {

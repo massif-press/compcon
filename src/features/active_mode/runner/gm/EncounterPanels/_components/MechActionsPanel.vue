@@ -235,7 +235,6 @@ function toDeployable(action: any) {
 }
 
 function activate(event: string) {
-  console.log('Activating', event);
   controller.value.MarkActionUsed(event);
 
   switch (event) {

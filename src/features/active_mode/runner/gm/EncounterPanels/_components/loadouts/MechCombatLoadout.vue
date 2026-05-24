@@ -100,7 +100,6 @@ export default {
       return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems;
     },
     mounts() {
-      console.log(this.mech.MechLoadoutController.ActiveLoadout);
       const items = [] as {
         mount: any;
         isIntegrated: boolean;
