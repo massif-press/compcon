@@ -77,6 +77,7 @@
       justify="center">
       <v-col v-for="(x, index) in cs.IntegratedEquipment"
         :key="`integrated-${index}`">
+        aaa
         <cc-integrated-info :item="x"
           :panel="!isTerse && !mobile" />
       </v-col>
