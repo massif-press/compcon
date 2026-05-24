@@ -78,7 +78,7 @@
 
 <script lang="ts">
 import { Sortable } from 'sortablejs-vue3';
-import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
+import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
 import ItemCard from '../_components/GMItemCard.vue';
 
 export default {

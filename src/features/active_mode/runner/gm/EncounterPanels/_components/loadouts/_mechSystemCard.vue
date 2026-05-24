@@ -96,13 +96,13 @@
 </template>
 
 <script lang="ts">
-import { ItemType } from '@/class'
+import { ItemType } from '@/classes/enums'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
-import { useMobile } from '@/mixins/useMobile'
-import { externalItemBonuses } from '@/mixins/useExternalItemBonuses'
+import { useMobile } from '@/composables/useMobile'
+import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
 
 export default {
   name: 'MechSystemCombatCard',

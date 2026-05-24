@@ -49,24 +49,15 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-import PackInfoCard from './components/PackInfoCard.vue';
-import { IContentPack } from '@/classes/ContentPack';
-import * as _ from 'lodash-es';
-import { PropType } from 'vue';
-import { useMobile } from '@/mixins/useMobile';
-import { NAV_STRINGS } from '@/features/nav/strings';
+<script setup lang="ts">
+import { useDisplay } from 'vuetify'
+import { PropType } from 'vue'
+import { IContentPack } from '@/classes/ContentPack'
+import PackInfoCard from './components/PackInfoCard.vue'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
+defineProps<{ pack: IContentPack }>()
 
-export default {
-  mixins: [useMobile],
-  name: 'PackInfo',
-  props: {
-    pack: { type: Object as PropType<IContentPack>, required: true },
-  },
-  components: { PackInfoCard },
-  setup() {
-    return { pf: NAV_STRINGS.packInfo }
-  },
-};
+const { smAndDown: mobile } = useDisplay()
+const pf = NAV_STRINGS.packInfo
 </script>

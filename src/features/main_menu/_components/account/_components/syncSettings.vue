@@ -24,50 +24,42 @@
         class="mt-1">
         <v-col cols="12"
           md="6">
+          <div class="text-cc-overline text-disabled">// Frequency</div>
           <cc-select v-model="settings.frequency"
-            label="sync frequency"
             :items="syncOptions"
             tooltip="Controls how often your data is synchronized with the cloud. Due to server costs,
                   certain options are only available to Patreon subscribers." />
         </v-col>
         <v-col cols="12"
           md="6">
-          <cc-select v-model="settings.includeSettings"
-            label="sync user settings"
-            tooltip="On sync events, COMP/CON will also update all shared items to the latest version."
-            :items="[
-              { title: 'On', value: true },
-              { title: 'Off', value: false },
-            ]" />
-        </v-col>
-        <v-col cols="12"
-          md="6">
-          <cc-select v-model="settings.includeShared"
-            label="Sync Shared Items"
-            tooltip="On sync events, COMP/CON will also update all shared items to the latest version."
-            :items="[
-              { title: 'On', value: true },
-              { title: 'Off', value: false },
-            ]" />
-        </v-col>
-        <v-col cols="12"
-          md="6">
-          <cc-select v-model="settings.resolutionStrategy"
-            label="Resolution Strategy"
-            tooltip="This setting controls how conflicts between local and cloud data are resolved. By
-                  default, the most recently modified data is kept. If 'Manual' is selected, you can
-                  use the Cloud Data Viewer to determine which data to keep."
-            :items="resolutionOptions" />
-        </v-col>
-        <v-col cols="12">
-          <cc-select v-model="settings.itemTypes"
+          <div class="text-cc-overline text-disabled">// Sync Items</div>
+          <v-btn-toggle :model-value="itemTypePreset"
+            density="compact"
+            variant="outlined"
+            flat
+            tile
+            @update:model-value="applyItemTypePreset">
+            <v-btn value="all"
+              size="small"
+              height="30">All</v-btn>
+            <v-btn value="pilots"
+              size="small"
+              height="30">Pilots Only</v-btn>
+            <v-btn value="custom"
+              size="small"
+              height="30">Custom</v-btn>
+          </v-btn-toggle>
+          <cc-select v-if="itemTypePreset === 'custom'"
+            v-model="settings.itemTypes"
             multiple
             clearable
             chip-variant="tonal"
-            label="Sync Items"
-            tooltip="Controls which data is synced with the cloud. By default, all data is synced. If
-                  no item types are selected, only marked items are synced. You can mark items in
-                  the Cloud Data Viewer."
+            label="Item Types"
+            all-text="All Item Types"
+            none-text="None"
+            select-all
+            :max="$vuetify.display.lgAndUp ? 3 : 2"
+            tooltip="Controls which data types are synced with the cloud."
             :items="syncItems" />
         </v-col>
       </v-row>
@@ -85,21 +77,24 @@
       </v-fade-transition>
     </div>
 
+    <div class="text-center text-caption mt-1 mb-4 px-6">
+      <span v-if="cloudStorageFull"
+        class="text-error">Cloud storage is full! Unable to sync new data.</span>
+
+    </div>
+    <div v-if="lastSyncTime"
+      class="text-center text-caption text-disabled mt-1">
+      Last synced: {{ lastSyncLabel }}
+    </div>
+
     <cc-button block
       color="primary"
-      class="my-4 mx-6"
+      class="mt-4 mx-6"
       :loading="syncing"
       :disabled="!itemsPendingSync || cloudStorageFull"
       prepend-icon="mdi-sync"
       @click="runSync()">
       sync with current settings
-      <template #info>
-        <span class="text-cc-overline">{{ itemsPendingSync }} items</span>
-      </template>
-      <template v-if="cloudStorageFull"
-        #subtitle>
-        <span class="text-cc-overline">Cloud storage is full! Unable to create new archives</span>
-      </template>
       <template #options>
         <v-list max-width="500"
           lines="two"
@@ -111,15 +106,12 @@
             </div>
           </div>
           <v-divider />
-          <v-list-item title="Force to Newest"
-            subtitle="Overwrites all local and cloud items with their most recently modified versions."
-            @click="runSync('newest')" />
-          <v-list-item title="Force to Local"
-            subtitle="Overwrites all cloud items with the current locally-saved data, regardless of when the items were last modified."
-            @click="runSync('local')" />
-          <v-list-item title="Overwite to Cloud"
-            subtitle="Overwrites all local items with cloud data, regardless of when the items were last modified."
-            @click="runSync('cloud')" />
+          <v-list-item title="Force Upload"
+            subtitle="Pushes all local data to the cloud unconditionally, resetting field timestamps to now. Use after a restore or import."
+            @click="runSync('upload')" />
+          <v-list-item title="Force Download"
+            subtitle="Pulls all cloud data and merges it with local data. Local fields with newer timestamps are preserved."
+            @click="runSync('download')" />
           <v-divider />
           <v-list-item title="Remove Deleted Items"
             subtitle="Permanently removes items flagged for deletion."
@@ -127,6 +119,12 @@
         </v-list>
       </template>
     </cc-button>
+
+    <div v-if="syncCountLabel"
+      class="text-disabled text-center text-cc-overline pb-1">{{ syncCountLabel
+      }}
+    </div>
+
   </v-card>
 </template>
 
@@ -140,6 +138,7 @@ export default {
     loadingSync: false,
     syncing: false,
     selectedItems: [] as string[],
+    forceCustom: false,
   }),
   computed: {
     metadata() {
@@ -149,10 +148,29 @@ export default {
       return UserStore().UserMetadata.SyncSettings
     },
     itemsPendingSync() {
-      const userItems = UserStore().AllItemsToSync.length
-      const remoteItems = UserStore().AllRemoteItemsToSync.length
-      if (!UserStore().SyncSettings.includeShared) return userItems
-      return userItems + remoteItems
+      return UserStore().AllItemsToSync.length + UserStore().AllRemoteItemsToSync.length
+    },
+    syncCountLabel() {
+      const items = UserStore().AllItemsToSync
+      if (!items.length) return '0 items'
+      const counts: Record<string, number> = {}
+      for (const item of items) {
+        const t = item.ItemType?.toLowerCase() ?? 'item'
+        counts[t] = (counts[t] ?? 0) + 1
+      }
+      const parts = Object.entries(counts).map(([t, n]) => `${n} ${t}${n > 1 ? 's' : ''}`)
+      return parts.join(' · ')
+    },
+    lastSyncTime() {
+      return UserStore().SyncSettings?.lastSyncTime ?? 0
+    },
+    lastSyncLabel() {
+      if (!this.lastSyncTime) return null
+      const diff = Date.now() - this.lastSyncTime
+      if (diff < 60_000) return 'just now'
+      if (diff < 3_600_000) return `${Math.floor(diff / 60_000)} min ago`
+      if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)} hr ago`
+      return new Date(this.lastSyncTime).toLocaleDateString()
     },
     cloudStorageFull() {
       return UserStore().CloudStorageFull
@@ -165,25 +183,25 @@ export default {
         {
           title: 'Manual Only',
           value: 'manual',
-          subtitle: 'Data is only synced when you click the sync or quick sync button.',
+          subtitle: 'Data is only synced when you click Sync.',
         },
         {
-          title: 'On App Start',
-          value: 'start',
-          subtitle: 'Data is synced when you open the app.',
-        },
-        {
-          title: 'On App Close',
-          value: 'close',
-          subtitle:
-            'Data is synced when you close the app. May not be supported on all browsers.',
-        },
-        {
-          title: 'On App Start and Close',
+          title: 'On Open & Close',
           value: 'startAndClose',
-          subtitle:
-            'Data is synced when you open and close the app. Syncing on close may not be supported on all browsers.',
-        }
+          subtitle: 'Syncs when you open and close the app. Close sync may not be supported on all browsers.',
+        },
+        {
+          title: 'Every 30 Minutes',
+          value: 'minutes_30',
+          subtitle: 'Syncs automatically every 30 minutes. Requires Patreon supporter.',
+          disabled: this.patreonTier < 1,
+        },
+        {
+          title: 'Every 60 Minutes',
+          value: 'minutes_60',
+          subtitle: 'Syncs automatically every 60 minutes. Requires Patreon supporter.',
+          disabled: this.patreonTier < 1,
+        },
       ]
     },
     syncItems() {
@@ -191,29 +209,17 @@ export default {
         { title: 'Pilot Data', value: 'pilot' },
         { title: 'Pilot Groups', value: 'pilotgroup' },
         { title: 'NPC Data', value: 'npc' },
-        { title: 'Campaign Data', value: 'campaign' },
         { title: 'Encounter Data', value: 'encounter' },
         { title: 'Narrative Data', value: 'collectionitem' },
       ]
     },
-    resolutionOptions() {
-      return [
-        { title: 'Keep Newest', value: 'newest' },
-        { title: 'Local Wins', value: 'local' },
-        { title: 'Cloud Wins', value: 'cloud' },
-        { title: 'Manual', value: 'manual' },
-      ]
-    },
-    deletionOptions() {
-      const arr = [
-        { title: 'None', value: '0' },
-        { title: '7 Days', value: '7' },
-        { title: '30 Days', value: '30' },
-        { title: '90 Days', value: '90' },
-        { title: '1 Year', value: '365' },
-      ]
-      if (this.patreonTier > 1) arr.push({ title: 'Forever', value: '-1' })
-      return arr
+    itemTypePreset() {
+      if (this.forceCustom) return 'custom'
+      const all = this.syncItems.map((i: any) => i.value)
+      const current = this.settings.itemTypes ?? []
+      if (!current.length || all.every((v: string) => current.includes(v))) return 'all'
+      if (current.length === 1 && current[0] === 'pilot') return 'pilots'
+      return 'custom'
     },
   },
   watch: {
@@ -225,6 +231,12 @@ export default {
     },
   },
   methods: {
+    applyItemTypePreset(preset: string) {
+      const all = this.syncItems.map((i: any) => i.value)
+      if (preset === 'all') { this.settings.itemTypes = all; this.forceCustom = false }
+      else if (preset === 'pilots') { this.settings.itemTypes = ['pilot']; this.forceCustom = false }
+      else if (preset === 'custom') { this.forceCustom = true }
+    },
     async updateSyncSettings() {
       this.loadingSync = true
       await UserStore().setUserMetadata()
@@ -232,7 +244,7 @@ export default {
       this.settingsDirty = false
       this.loadingSync = false
     },
-    async runSync(override?: 'cloud' | 'local' | 'newest') {
+    async runSync(override?: 'upload' | 'download') {
       const total = UserStore().AllItemsToSync.length
       this.syncing = true
       const failures = await UserStore().AutoSync(override)
@@ -259,7 +271,10 @@ export default {
         const count = await UserStore().permDeleteFlaggedItems()
         this.$notify({
           title: `${count} Item${count !== 1 ? 's' : ''} Permanently Deleted`,
-          text: count > 0 ? 'All flagged items have been removed from the cloud.' : 'No items were flagged for deletion.',
+          text:
+            count > 0
+              ? 'All flagged items have been removed from the cloud.'
+              : 'No items were flagged for deletion.',
           type: count > 0 ? 'success' : 'info',
         })
       } catch (e) {
@@ -271,7 +286,7 @@ export default {
       } finally {
         this.syncing = false
       }
-    }
+    },
   },
 }
 </script>

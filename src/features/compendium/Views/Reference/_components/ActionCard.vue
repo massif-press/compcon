@@ -38,22 +38,20 @@
         </div>
       </component>
     </template>
-    <v-card-text class="pa-2">
-      <p v-html-safe="action.Detail" />
-      <div v-if="action.SubActions && action.SubActions.length">
-        <div class="text-overline text-disabled">OPTIONS</div>
-        <v-row no-gutters
-          justify="center">
-          <v-col v-for="(a, index) in action.SubActions"
-            :key="`dialog-sub-${index}`"
-            cols="auto">
-            <cc-action :action="a"
-              :panel="false"
-              class="ma-2" />
-          </v-col>
-        </v-row>
-      </div>
-    </v-card-text>
+    <p v-html-safe="action.Detail" />
+    <div v-if="action.SubActions && action.SubActions.length">
+      <div class="text-overline text-disabled">OPTIONS</div>
+      <v-row no-gutters
+        justify="center">
+        <v-col v-for="(a, index) in action.SubActions"
+          :key="`dialog-sub-${index}`"
+          cols="auto">
+          <cc-action :action="a"
+            :panel="false"
+            class="ma-2" />
+        </v-col>
+      </v-row>
+    </div>
   </cc-dialog>
 </template>
 

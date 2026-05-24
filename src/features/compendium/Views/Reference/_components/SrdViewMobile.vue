@@ -82,7 +82,7 @@
 
 <script lang="ts">
 import { NavStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

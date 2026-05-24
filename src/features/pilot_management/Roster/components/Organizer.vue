@@ -170,129 +170,119 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue'
 import * as _ from 'lodash-es';
 import { PilotStore } from '../../store';
 import exportAsJson from '@/util/jsonExport';
 import { PilotGroup } from '../../store/PilotGroup';
 
-export default {
-  name: 'Organizer',
-  props: {
-    type: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    selected: [] as any[],
-    addKvp: {
-      key: '',
-      value: '',
-    },
-    printDialog: false,
-    deleteDialog: false,
-    showDeleted: false,
-    setGroupDialog: false,
-    stagedGroup: null,
-    showDeleteConfirm: false,
-  }),
-  computed: {
-    headers() {
-      return [
-        { key: 'select', sortable: false, width: '40px' },
-        { title: 'Name', key: 'Name', sortable: true },
-        { title: 'Callsign', key: 'Callsign', sortable: true },
-        { title: 'LL', key: 'Level', sortable: true },
-        { title: 'Mech', key: 'Mech', sortable: true },
-        { title: 'Group', key: 'group', sortable: true, value: (item: any) => this.getPilotGroup(item) },
-        { title: 'Updated', key: 'LastUpdate', sortable: true },
-      ];
-    },
-    items() {
-      return PilotStore().Pilots.filter(
-        (x: any) => this.showDeleted || !x.SaveController.IsDeleted
-      );
-    },
-    allGroups() {
-      return PilotStore().getPilotGroups();
-    },
-  },
-  methods: {
-    async setGroup() {
-      for (const id of this.selected) {
-        const item = this.items.find((x: any) => x.ID === id) as any;
-        if (item) {
-          await PilotStore().TransferPilot(item, this.stagedGroup ? (this.stagedGroup as PilotGroup).ID : undefined);
-        }
-      }
+defineProps<{ type: string }>()
 
-      this.stagedGroup = null;
-      this.setGroupDialog = false;
-      await PilotStore().SaveGroupData();
-      await PilotStore().SavePilotData();
-    },
-    exportItems() {
-      let json = {} as any;
-      let filename = '';
-      if (this.selected.length === 1) {
-        const item = this.items.find((x: any) => x.ID === this.selected[0]);
-        if (item) {
-          json = (item as any).Serialize();
-          filename = (item as any).Name + '.json';
-        }
-      } else {
-        const data = this.items.filter((x: any) => this.selected.includes(x.ID));
-        json = {
-          type: `pilot_collection`,
-          item_count: data.length,
-          data: data.map((x: any) => x.Serialize()),
-        };
-        filename = `roster_export_${new Date().toLocaleDateString().replaceAll('/', '-')}.json`;
-      }
+const selected = ref<any[]>([])
+const addKvp = ref({ key: '', value: '' })
+const printDialog = ref(false)
+const deleteDialog = ref(false)
+const showDeleted = ref(false)
+const setGroupDialog = ref(false)
+const stagedGroup = ref<any>(null)
+const showDeleteConfirm = ref(false)
 
-      exportAsJson(json, filename);
-    },
-    deleteItems(undelete: boolean = false) {
-      this.selected.forEach((id) => {
-        const item = this.items.find((x: any) => x.ID === id) as any;
-        if (item) {
-          if (undelete) item.SaveController.Restore();
-          else item.SaveController.Delete();
-        }
-      });
-      this.selected = [];
-      PilotStore().SavePilotData();
-      PilotStore().SaveGroupData();
-    },
-    async deleteItemsPermanent() {
-      const promises = [] as Promise<any>[];
-      this.selected.forEach((id) => {
-        const item = this.items.find((x: any) => x.ID === id) as any;
-        if (item && item.SaveController.IsDeleted) {
-          promises.push(PilotStore().DeletePilotPermanent(item));
-        }
-      });
-      await Promise.all(promises);
+const headers = computed(() => [
+  { key: 'select', sortable: false, width: '40px' },
+  { title: 'Name', key: 'Name', sortable: true },
+  { title: 'Callsign', key: 'Callsign', sortable: true },
+  { title: 'LL', key: 'Level', sortable: true },
+  { title: 'Mech', key: 'Mech', sortable: true },
+  { title: 'Group', key: 'group', sortable: true, value: (item: any) => getPilotGroup(item) },
+  { title: 'Updated', key: 'LastUpdate', sortable: true },
+])
 
-      this.selected = [];
-      this.showDeleteConfirm = false;
-    },
-    getPilotGroup(item: any) {
-      const group = PilotStore().PilotGroups.find((x) => x.Pilots.some((y) => y.id === item.ID));
-      return group ? group.Name : 'None';
-    },
-    timeAgo(timestamp: number | string) {
-      const now = Date.now();
-      const diff = now - new Date(timestamp).getTime();
-      const minutes = Math.floor(diff / 60000);
-      if (minutes < 1) return 'just now';
-      if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
-      const hours = Math.floor(minutes / 60);
-      if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
-      const days = Math.floor(hours / 24);
-      return `${days} day${days === 1 ? '' : 's'} ago`;
-    },
-  },
-};
+const items = computed(() =>
+  PilotStore().Pilots.filter(
+    (x: any) => showDeleted.value || !x.SaveController.IsDeleted
+  )
+)
+
+const allGroups = computed(() => PilotStore().getPilotGroups())
+
+async function setGroup() {
+  for (const id of selected.value) {
+    const item = items.value.find((x: any) => x.ID === id) as any;
+    if (item) {
+      await PilotStore().TransferPilot(item, stagedGroup.value ? (stagedGroup.value as PilotGroup).ID : undefined);
+    }
+  }
+
+  stagedGroup.value = null;
+  setGroupDialog.value = false;
+  await PilotStore().SaveGroupData();
+  await PilotStore().SavePilotData();
+}
+
+function exportItems() {
+  let json = {} as any;
+  let filename = '';
+  if (selected.value.length === 1) {
+    const item = items.value.find((x: any) => x.ID === selected.value[0]);
+    if (item) {
+      json = (item as any).Serialize();
+      filename = (item as any).Name + '.json';
+    }
+  } else {
+    const data = items.value.filter((x: any) => selected.value.includes(x.ID));
+    json = {
+      type: `pilot_collection`,
+      item_count: data.length,
+      data: data.map((x: any) => x.Serialize()),
+    };
+    filename = `roster_export_${new Date().toLocaleDateString().replaceAll('/', '-')}.json`;
+  }
+
+  exportAsJson(json, filename);
+}
+
+function deleteItems(undelete: boolean = false) {
+  selected.value.forEach((id) => {
+    const item = items.value.find((x: any) => x.ID === id) as any;
+    if (item) {
+      if (undelete) item.SaveController.Restore();
+      else item.SaveController.Delete();
+    }
+  });
+  selected.value = [];
+  PilotStore().SavePilotData();
+  PilotStore().SaveGroupData();
+}
+
+async function deleteItemsPermanent() {
+  const promises = [] as Promise<any>[];
+  selected.value.forEach((id) => {
+    const item = items.value.find((x: any) => x.ID === id) as any;
+    if (item && item.SaveController.IsDeleted) {
+      promises.push(PilotStore().DeletePilotPermanent(item));
+    }
+  });
+  await Promise.all(promises);
+
+  selected.value = [];
+  showDeleteConfirm.value = false;
+}
+
+function getPilotGroup(item: any) {
+  const group = PilotStore().PilotGroups.find((x) => x.Pilots.some((y) => y.id === item.ID));
+  return group ? group.Name : 'None';
+}
+
+function timeAgo(timestamp: number | string) {
+  const now = Date.now();
+  const diff = now - new Date(timestamp).getTime();
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 1) return 'just now';
+  if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+  const days = Math.floor(hours / 24);
+  return `${days} day${days === 1 ? '' : 's'} ago`;
+}
 </script>

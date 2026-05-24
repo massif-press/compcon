@@ -28,9 +28,14 @@
   </v-col>
 </template>
 
-<script>
+<script lang="ts">
+import BlankLine from './blank/line.vue'
+
 export default {
   name: 'PrintHpBlock',
+  components: {
+    BlankLine
+  },
   props: {
     title: {
       type: String,

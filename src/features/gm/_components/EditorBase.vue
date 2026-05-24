@@ -105,10 +105,10 @@
 import GmLabelEditor from './_subcomponents/GMLabelEditor.vue'
 import GmFolderEditor from './_subcomponents/GMFolderEditor.vue'
 import EditorFooter from './_subcomponents/EditorFooter.vue'
-import { CloudController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 import { UserStore } from '@/stores'
 import LcpConfigSelector from '@/features/pilot_management/PilotSheet/components/LcpConfigSelector.vue'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'GmEditorBase',

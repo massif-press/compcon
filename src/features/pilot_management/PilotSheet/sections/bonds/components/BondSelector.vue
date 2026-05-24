@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { Bond } from '@/class'
+import { Bond } from '@/classes/pilot/components/bond/Bond'
 import { CompendiumStore } from '@/stores'
 
 export default {

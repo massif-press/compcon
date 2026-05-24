@@ -1,7 +1,6 @@
 <template>
   <cc-core-bonus-item :bonus="bonus" />
-  <cc-button
-    size="small"
+  <cc-button size="small"
     block
     :color="isSelected ? 'error' : 'success'"
     class="mb-6"
@@ -26,7 +25,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cb-item',
+  name: 'CbItem',
   props: {
     bonus: {
       type: Object,

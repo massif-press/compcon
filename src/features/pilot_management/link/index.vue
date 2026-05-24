@@ -106,7 +106,7 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import { unCamelCase } from '@/classes/utility/accent_fold';
 import { downloadFromS3, GetFromCode, RateLimitError } from '@/io/apis/account';
 import { CompendiumStore } from '@/stores';

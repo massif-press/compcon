@@ -136,7 +136,7 @@
 </template>
 
 <script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import UnitFeatureCard from './_components/loadouts/_unitFeatureCard.vue';
 import PanelBase from './_PanelBase.vue';
 import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json';

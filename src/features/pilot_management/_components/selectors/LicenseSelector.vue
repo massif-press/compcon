@@ -97,96 +97,83 @@
   </selector>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash-es'
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useDisplay } from 'vuetify'
+import { groupBy } from 'lodash-es'
+import { CompendiumStore } from '@/stores'
+import { Manufacturer } from '@/classes/Manufacturer'
+import { Pilot } from '@/classes/pilot/Pilot'
+import License from '@/classes/pilot/components/license/License'
+import logger from '@/user/logger'
 import Selector from './components/_SelectorBase.vue'
 import LicenseExpandable from '@/ui/components/CompendiumBrowser/components/_license-expandable.vue'
-
-import { CompendiumStore } from '@/stores'
-import { Pilot, License } from '@/class'
-import logger from '@/user/logger'
 import MissingItemAlert from './components/_MissingItemAlert.vue'
-import { useMobile } from '@/mixins/useMobile';
 
-export default {
-  name: 'LicenseSelector',
-  components: { Selector, LicenseExpandable, MissingItemAlert },
-  mixins: [useMobile],
-  props: {
-    pilot: { type: Pilot, required: true },
-    levelUp: Boolean,
-    modal: Boolean,
-    flat: Boolean,
-  },
-  data: () => ({
-    search: '',
-    jump: '',
-  }),
-  computed: {
-    selectionComplete(): boolean {
-      return this.levelUp && !this.pilot.LicenseController.IsMissingLicenses
-    },
-    allLicenses() {
-      if (!this.pilot.LcpConfig) return CompendiumStore().Licenses
-      return CompendiumStore().Licenses.filter(
-        x =>
-          !x.InLcp ||
-          this.pilot.LcpConfig?.packList.some(y => y.packID === x.LcpId) ||
-          this.pilot.LcpConfig?.packList.some(y => y.packName === x.LcpName)
-      )
-    },
-    licenses() {
-      return _.groupBy(
-        this.allLicenses.filter(x => !x.Hidden).sort((a, b) => License.LicenseSort(a, b)),
-        'Source'
-      )
-    },
-    jumpItems() {
-      return [
-        ...this.pilot.LicenseController.Licenses.filter(l => l.License).map(x => ({
-          title: x.License!.Name,
-          value: x.License!.FrameID,
-          subtitle: `// Pilot Rank: ${x.Rank}`,
-        })),
-        ...this.allLicenses.filter(x => !x.Hidden)
-          .filter(x => !this.pilot.LicenseController.Licenses.some(y => y.License && y.License.ID === x.ID))
-          .map(x => ({
-            title: x.Name,
-            value: x.FrameID,
-          })),
-      ]
-    },
-  },
-  watch: {
-    jump(val) {
-      this.scroll(val + '_License')
-    },
-  },
-  methods: {
-    scroll(id) {
-      this.scrollTo(id)
-    },
-    scrollTo(e: any): void {
-      const el = document.getElementById(e)
-      if (!el) {
-        logger.warn(`Element with ID ${e} not found`, this)
-        return
-      }
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    },
-    mf(id: string) {
-      return CompendiumStore().referenceByID('Manufacturers', id.toUpperCase())
-    },
-    mfSort(keys: string[]) {
-      const mfOrder = ['gms', 'ips-n', 'ssc', 'horus', 'ha']
+const props = withDefaults(defineProps<{
+  pilot: Pilot
+  levelUp?: boolean
+  modal?: boolean
+  flat?: boolean
+}>(), { levelUp: false, modal: false, flat: false })
 
-      const mfOrderMap = new Map(mfOrder.map((mf, index) => [mf, index]))
-      return keys.sort((a, b) => {
-        const aIndex = mfOrderMap.get(a.toLowerCase()) ?? mfOrder.length
-        const bIndex = mfOrderMap.get(b.toLowerCase()) ?? mfOrder.length
-        return aIndex - bIndex
-      })
-    },
-  },
+const { smAndDown: mobile } = useDisplay()
+
+const search = ref('')
+const jump = ref('')
+
+const selectionComplete = computed(() => props.levelUp && !props.pilot.LicenseController.IsMissingLicenses)
+
+const allLicenses = computed(() => {
+  if (!props.pilot.LcpConfig) return CompendiumStore().Licenses
+  return CompendiumStore().Licenses.filter(
+    (x: any) =>
+      !x.InLcp ||
+      props.pilot.LcpConfig?.packList.some((y: any) => y.packID === x.LcpId) ||
+      props.pilot.LcpConfig?.packList.some((y: any) => y.packName === x.LcpName)
+  )
+})
+
+const licenses = computed(() =>
+  groupBy(
+    allLicenses.value.filter((x: any) => !x.Hidden).sort((a: any, b: any) => License.LicenseSort(a, b)),
+    'Source'
+  )
+)
+
+const jumpItems = computed(() => [
+  ...props.pilot.LicenseController.Licenses.filter((l: any) => l.License).map((x: any) => ({
+    title: x.License!.Name,
+    value: x.License!.FrameID,
+    subtitle: `// Pilot Rank: ${x.Rank}`,
+  })),
+  ...allLicenses.value.filter((x: any) => !x.Hidden)
+    .filter((x: any) => !props.pilot.LicenseController.Licenses.some((y: any) => y.License && y.License.ID === x.ID))
+    .map((x: any) => ({ title: x.Name, value: x.FrameID })),
+])
+
+watch(jump, (val) => scrollTo(val + '_License'))
+
+function scrollTo(e: string): void {
+  const el = document.getElementById(e)
+  if (!el) {
+    logger.warn(`Element with ID ${e} not found`, null)
+    return
+  }
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
+
+function mf(id: string) {
+  return CompendiumStore().referenceByID('Manufacturers', id.toUpperCase()) as Manufacturer
+}
+
+function mfSort(keys: string[]) {
+  const mfOrder = ['gms', 'ips-n', 'ssc', 'horus', 'ha']
+  const mfOrderMap = new Map(mfOrder.map((mf, index) => [mf, index]))
+  return keys.sort((a, b) => {
+    const aIndex = mfOrderMap.get(a.toLowerCase()) ?? mfOrder.length
+    const bIndex = mfOrderMap.get(b.toLowerCase()) ?? mfOrder.length
+    return aIndex - bIndex
+  })
 }
 </script>

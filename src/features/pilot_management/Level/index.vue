@@ -103,7 +103,7 @@ import CoreBonusPage from './pages/CoreBonusPage.vue';
 import ConfirmPage from './pages/ConfirmPage.vue';
 
 import { PilotStore } from '@/stores';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export default {
   name: 'level-wizard',

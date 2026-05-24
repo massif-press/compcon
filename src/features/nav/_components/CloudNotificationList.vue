@@ -37,19 +37,10 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { UserStore } from '@/stores';
-import { NAV_STRINGS } from '@/features/nav/strings';
+<script setup lang="ts">
+import { UserStore } from '@/stores'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'CloudNotificationsList',
-  setup() {
-    return { cn: NAV_STRINGS.cloudNotifications }
-  },
-  computed: {
-    store() {
-      return UserStore();
-    },
-  },
-};
+const store = UserStore()
+const cn = NAV_STRINGS.cloudNotifications
 </script>

@@ -24,33 +24,43 @@
   </v-window>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  name: 'CcTabs',
-  mixins: [useMobile],
-  props: {
-    color: { type: String, default: 'primary' },
-    sliderColor: { type: String, default: 'secondary' },
-    fixed: { type: Boolean, default: false },
-    modal: { type: Boolean, default: false },
-    fixedTabs: { type: Boolean, default: false },
-  },
-  emits: ['changed'],
-  data: () => ({
-    tab: 0,
-  }),
-  watch: {
-    tab() {
-      this.$emit('changed', this.tab);
-    },
-  },
-  methods: {
-    setTab(tab: number) {
-      this.tab = tab;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const { smAndDown, xs } = useDisplay()
+const mobile = smAndDown
+const portrait = xs
+
+interface Props {
+  color?: string
+  sliderColor?: string
+  fixed?: boolean
+  modal?: boolean
+  fixedTabs?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  color: 'primary',
+  sliderColor: 'secondary',
+  fixed: false,
+  modal: false,
+  fixedTabs: false,
+})
+
+const emit = defineEmits<{ changed: [tab: number] }>()
+
+const tab = ref(0)
+
+watch(tab, (newTab) => {
+  emit('changed', newTab)
+})
+
+function setTab(newTab: number) {
+  tab.value = newTab
+}
+
+defineExpose({ setTab })
 </script>
 
 <style scoped>

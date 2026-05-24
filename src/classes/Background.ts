@@ -1,6 +1,6 @@
-import { Skill } from '@/class'
+import { Skill } from './pilot/components/skill/Skill'
 import { ContentPack } from './ContentPack'
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 import { ItemType } from './enums'
 import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
 import type { ISerializableStatic } from './ISerializable'

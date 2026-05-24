@@ -1,15 +1,14 @@
 // container for pilot-as-combatant data
 import { v4 as uuid } from 'uuid'
-import { Deployable, ItemType, Mech, Pilot } from '@/class'
+import { Deployable } from '@/classes/components/feature/deployable/Deployable'
+import { ItemType } from '@/classes/enums'
+import { Mech } from '@/classes/mech/Mech'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { CombatantData, Encounter } from '@/classes/encounter/Encounter'
-import {
-  CloudController,
-  ICloudData,
-  ICloudSyncable,
-  ISaveable,
-  ISaveData,
-  SaveController,
-} from '@/classes/components'
+import { CloudController, ICloudData } from '@/classes/components/cloud/CloudController'
+import { ICloudSyncable } from '@/classes/components/cloud/ICloudSyncable'
+import { ISaveable } from '@/classes/components/save/ISaveable'
+import { ISaveData, SaveController } from '@/classes/components/save/SaveController'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
 
@@ -175,6 +174,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     }
 
     SaveController.Serialize(pilotSheet, data)
+    CloudController.Serialize(pilotSheet, data)
 
     return data
   }

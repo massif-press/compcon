@@ -249,8 +249,8 @@
             Delete Cloud Account
           </cc-button>
         </template>
-        <template #default="{ isActive }">
-          <delete-account @close="isActive.value = false" />
+        <template #default="{ close }">
+          <delete-account @close="close()" />
         </template>
       </cc-modal>
     </div>

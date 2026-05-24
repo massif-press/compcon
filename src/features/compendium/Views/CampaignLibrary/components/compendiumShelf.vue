@@ -125,7 +125,7 @@ import { orderBy } from 'lodash-es';
 import CampaignDetailPanel from './CampaignDetailPanel.vue';
 import { downloadFromS3, GetFromCode } from '@/io/apis/account';
 import logger from '@/user/logger';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

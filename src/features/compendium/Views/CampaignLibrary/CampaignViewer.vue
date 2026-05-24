@@ -39,7 +39,7 @@ import Page from './pages/contentPage.vue';
 import Indices from './pages/indices.vue';
 
 import { CampaignStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

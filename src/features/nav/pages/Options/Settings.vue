@@ -295,221 +295,186 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { useDisplay, useTheme } from 'vuetify'
 import * as allThemes from '@/ui/style/themes'
-
 import { UserStore } from '@/stores'
 import { exportAll, importAll } from '@/io/BulkData'
 import { saveFile } from '@/io/Data'
 import { ClearAllData } from '@/io/Storage'
 import { isFullBackup, processFullBackup, downloadFullBackup } from '@/io/FullImporter'
 import { GetValue, SetValue } from '@/io/Storage'
+import { notify } from '@/util/notify'
 import MigrationRepairDialog from './components/MigrationRepairDialog.vue'
 import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'OptionsSettings',
-  components: { MigrationRepairDialog },
-  emits: ['show-message'],
-  setup() {
-    return { sp: NAV_STRINGS.settingsPage }
+const { mdAndDown: mobile } = useDisplay()
+const themeObj = useTheme()
+const sp = NAV_STRINGS.settingsPage
+
+const user = computed(() => UserStore().User)
+
+const logLevels = [
+  { name: 'Debug', key: 'debug', level: 1, detail: 'Record all log messages (very slow)' },
+  { name: 'Info', key: 'info', level: 2, detail: 'Record info, warning, and error messages' },
+  { name: 'Warning', key: 'warn', level: 3, detail: 'Record warning and error messages (recommended)' },
+  { name: 'Error', key: 'error', level: 4, detail: 'Record only error messages' },
+]
+
+const fonts = [
+  { label: 'Inter (v3 default)', value: 'inter' },
+  { label: 'Noto Sans (v3 alt)', value: 'noto' },
+  { label: 'Helvetica (v2 default)', value: 'helvetica' },
+  { label: 'OpenDyslexic (experimental)', value: 'opendyslexic' },
+]
+
+const themes = Object.keys(allThemes).map(x => ({
+  name: (allThemes as any)[x].name,
+  value: x,
+  community: (allThemes as any)[x].community,
+}))
+
+const fileValue = ref<any>(null)
+const strategy = ref('append')
+const stagedImportData = ref<any>(null)
+const isV2File = ref(false)
+const importLoading = ref(false)
+const v2BackupData = ref<any>(null)
+const v2MigrationComplete = ref(false)
+const logLevel = ref(logLevels.find(x => x.key === UserStore().User.LogLevel) || logLevels[2])
+
+const userViewExotics = computed({
+  get: () => user.value.Option('showExotics'),
+  set: (newVal: boolean) => user.value.SetOption('showExotics', newVal),
+})
+
+const font = computed({
+  get: () => user.value.Font,
+  set: (newVal: string) => {
+    user.value.Font = newVal
+    document.documentElement.setAttribute('data-font', newVal)
   },
-  data: () => ({
-    importDialog: false,
-    fileValue: null as any,
-    deleteDialog: false,
-    strategy: 'append',
-    stagedImportData: null as any,
-    isV2File: false,
-    importLoading: false,
-    v2BackupData: null as any,
-    v2MigrationComplete: false,
-    logLevel: {
-      name: 'Warning',
-      level: 3,
-      detail: 'Record warning and error messages (recommended)',
-    },
-    logLevels: [
-      {
-        name: 'Debug',
-        key: 'debug',
-        level: 1,
-        detail: 'Record all log messages (very slow)',
-      },
-      {
-        name: 'Info',
-        key: 'info',
-        level: 2,
-        detail: 'Record info, warning, and error messages',
-      },
-      {
-        name: 'Warning',
-        key: 'warn',
-        level: 3,
-        detail: 'Record warning and error messages (recommended)',
-      },
-      { name: 'Error', key: 'error', level: 4, detail: 'Record only error messages' },
-    ],
-    fonts: [
-      { label: 'Inter (v3 default)', value: 'inter' },
-      { label: 'Noto Sans (v3 alt)', value: 'noto' },
-      { label: 'Helvetica (v2 default)', value: 'helvetica' },
-      { label: 'OpenDyslexic (experimental)', value: 'opendyslexic' },
-    ],
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown
-    },
-    user() {
-      return UserStore().User
-    },
-    userViewExotics: {
-      get: function () {
-        return this.user.Option('showExotics')
-      },
-      set: function (newVal) {
-        this.user.SetOption('showExotics', newVal)
-      },
-    },
-    font: {
-      get: function () {
-        return this.user.Font
-      },
-      set: function (newVal) {
-        this.user.Font = newVal
-        document.documentElement.setAttribute('data-font', newVal)
-      },
-    },
-    theme: {
-      get: function () {
-        return this.user.Theme
-      },
-      set: function (newVal) {
-        this.user.Theme = newVal
-        this.$vuetify.theme.global.name = newVal
-        window.location.reload()
-      },
-    },
-    userID() {
-      return this.user.ID
-    },
-    themes() {
-      return Object.keys(allThemes).map(x => ({
-        name: allThemes[x].name,
-        value: x,
-        community: allThemes[x].community,
-      }))
-    },
+})
+
+const theme = computed({
+  get: () => user.value.Theme,
+  set: (newVal: string) => {
+    user.value.Theme = newVal
+    themeObj.global.name.value = newVal
+    window.location.reload()
   },
-  created() {
-    this.logLevel =
-      this.logLevels.find(x => x.key === this.user.LogLevel) || this.logLevels[2]
-  },
-  async mounted() {
-    this.v2BackupData = await GetValue('v2_backup_download')
-    this.v2MigrationComplete = !!(await GetValue('v2_migration_complete'))
-  },
-  methods: {
-    reload() {
-      location.reload()
-    },
-    showUpdates() {
-      this.user.ReadMessages = []
-      this.reload()
-    },
-    setLogLevel(item) {
-      this.logLevel = item
-      this.user.LogLevel = item.key
-    },
-    downloadV2Backup() {
-      downloadFullBackup(this.v2BackupData)
-    },
-    async resetV2Migration() {
-      await SetValue('v2_migration_complete', null)
-      await SetValue('v2_migration_dismissed', null)
-      this.v2MigrationComplete = false
-      this.reload()
-    },
-    async bulkExport() {
-      const result = await exportAll()
-      await saveFile(
-        `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
-        result,
-        'Save COMP/CON Archive'
-      )
-    },
-    async onFileSelect(event) {
-      const file = event?.target?.files?.[0]
-      if (!(file instanceof File)) return
-      try {
-        const outer = JSON.parse(await file.text())
-        if (isFullBackup(outer)) {
-          // v2 format: top level array of {filename, data} entries
-          this.isV2File = true
-          this.stagedImportData = outer
-        } else {
-          this.isV2File = false
-          this.stagedImportData = typeof outer.data === 'string'
-            ? JSON.parse(outer.data)
-            : outer.data
-        }
-      } catch (err) {
-        this.stagedImportData = null
-        this.isV2File = false
-        this.$notify({
-          title: 'Unable to read file',
-          text: `ERROR: ${err}`,
-          data: { color: 'error', icon: 'mdi-database-off-outline' },
-        })
-      }
-    },
-    async doImport(close) {
-      this.importLoading = true
-      try {
-        if (this.isV2File) {
-          const result = await processFullBackup(this.stagedImportData)
-          const parts = [] as string[]
-          if (result.pilotsImported) parts.push(`${result.pilotsImported} pilot(s) imported`)
-          if (result.pilotsBackedUp) parts.push(`${result.pilotsBackedUp} pilot(s) pending LCPs`)
-          if (result.npcsImported) parts.push(`${result.npcsImported} NPC(s) imported`)
-          if (result.npcsBackedUp) parts.push(`${result.npcsBackedUp} NPC(s) pending LCPs`)
-          if (result.encountersImported) parts.push(`${result.encountersImported} encounter(s) imported`)
-          if (result.encountersBackedUp) parts.push(`${result.encountersBackedUp} encounter(s) pending NPCs`)
-          if (result.lcpsImported) parts.push(`${result.lcpsImported} content pack(s) installed`)
-          this.$notify({
-            title: 'v2 backup imported',
-            text: parts.length ? parts.join(', ') + '.' : 'No data found.',
-            data: { icon: 'mdi-database-arrow-left-outline' },
-          })
-        } else {
-          await importAll(this.stagedImportData, this.strategy === 'overwrite')
-          this.$notify({
-            title: 'Data import successful',
-            text: this.strategy === 'overwrite'
-              ? 'All existing data has been replaced with imported data.'
-              : 'Imported data has been merged with existing data.',
-            data: { icon: 'mdi-database-arrow-left-outline' },
-          })
-        }
-        this.stagedImportData = null
-        this.isV2File = false
-        this.fileValue = null
-        close()
-      } catch (err) {
-        this.$notify({
-          title: 'Unable to import data',
-          text: `ERROR: ${err}`,
-          data: { color: 'error', icon: 'mdi-database-off-outline' },
-        })
-      }
-      this.importLoading = false
-    },
-    async deleteAll() {
-      this.user.Reset();
-      await ClearAllData();
-      window.location.reload();
-    },
-  },
+})
+
+onMounted(async () => {
+  v2BackupData.value = await GetValue('v2_backup_download')
+  v2MigrationComplete.value = !!(await GetValue('v2_migration_complete'))
+})
+
+function reload() {
+  location.reload()
+}
+
+function showUpdates() {
+  user.value.ReadMessages = []
+  reload()
+}
+
+function setLogLevel(item: typeof logLevels[number]) {
+  logLevel.value = item
+  user.value.LogLevel = item.key
+}
+
+function downloadV2Backup() {
+  downloadFullBackup(v2BackupData.value)
+}
+
+async function resetV2Migration() {
+  await SetValue('v2_migration_complete', null)
+  await SetValue('v2_migration_dismissed', null)
+  v2MigrationComplete.value = false
+  reload()
+}
+
+async function bulkExport() {
+  const result = await exportAll()
+  await saveFile(
+    `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
+    result,
+    'Save COMP/CON Archive'
+  )
+}
+
+async function onFileSelect(event: Event) {
+  const file = (event?.target as HTMLInputElement)?.files?.[0]
+  if (!(file instanceof File)) return
+  try {
+    const outer = JSON.parse(await file.text())
+    if (isFullBackup(outer)) {
+      isV2File.value = true
+      stagedImportData.value = outer
+    } else {
+      isV2File.value = false
+      stagedImportData.value = typeof outer.data === 'string'
+        ? JSON.parse(outer.data)
+        : outer.data
+    }
+  } catch (err) {
+    stagedImportData.value = null
+    isV2File.value = false
+    notify({
+      title: 'Unable to read file',
+      text: `ERROR: ${err}`,
+      data: { color: 'error', icon: 'mdi-database-off-outline' },
+    })
+  }
+}
+
+async function doImport(close: () => void) {
+  importLoading.value = true
+  try {
+    if (isV2File.value) {
+      const result = await processFullBackup(stagedImportData.value)
+      const parts: string[] = []
+      if (result.pilotsImported) parts.push(`${result.pilotsImported} pilot(s) imported`)
+      if (result.pilotsBackedUp) parts.push(`${result.pilotsBackedUp} pilot(s) pending LCPs`)
+      if (result.npcsImported) parts.push(`${result.npcsImported} NPC(s) imported`)
+      if (result.npcsBackedUp) parts.push(`${result.npcsBackedUp} NPC(s) pending LCPs`)
+      if (result.encountersImported) parts.push(`${result.encountersImported} encounter(s) imported`)
+      if (result.encountersBackedUp) parts.push(`${result.encountersBackedUp} encounter(s) pending NPCs`)
+      if (result.lcpsImported) parts.push(`${result.lcpsImported} content pack(s) installed`)
+      notify({
+        title: 'v2 backup imported',
+        text: parts.length ? parts.join(', ') + '.' : 'No data found.',
+        data: { icon: 'mdi-database-arrow-left-outline' },
+      })
+    } else {
+      await importAll(stagedImportData.value, strategy.value === 'overwrite')
+      notify({
+        title: 'Data import successful',
+        text: strategy.value === 'overwrite'
+          ? 'All existing data has been replaced with imported data.'
+          : 'Imported data has been merged with existing data.',
+        data: { icon: 'mdi-database-arrow-left-outline' },
+      })
+    }
+    stagedImportData.value = null
+    isV2File.value = false
+    fileValue.value = null
+    close()
+  } catch (err) {
+    notify({
+      title: 'Unable to import data',
+      text: `ERROR: ${err}`,
+      data: { color: 'error', icon: 'mdi-database-off-outline' },
+    })
+  }
+  importLoading.value = false
+}
+
+async function deleteAll() {
+  user.value.Reset()
+  await ClearAllData()
+  window.location.reload()
 }
 </script>

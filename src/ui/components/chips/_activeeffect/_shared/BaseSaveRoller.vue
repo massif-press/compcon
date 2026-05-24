@@ -111,27 +111,19 @@
 
 </template>
 
-<script>
+<script setup lang="ts">
 import SaveRollInterface from './SaveRollInterface.vue';
 
-export default {
-  name: 'BaseSaveRoller',
-  components: {
-    SaveRollInterface
-  },
-  props: {
-    event: { type: Object, required: true },
-  },
-  methods: {
-    overrideSave(s) {
-      if (!s.SaveResult) return;
-      if (s.SaveResult === 'success') {
-        s.SaveRolledValue = 1;
-      } else {
-        s.SaveRolledValue = s.SaveTarget
-      }
-    },
+const props = defineProps<{
+  event: object
+}>()
 
-  },
-};
+function overrideSave(s) {
+  if (!s.SaveResult) return;
+  if (s.SaveResult === 'success') {
+    s.SaveRolledValue = 1;
+  } else {
+    s.SaveRolledValue = s.SaveTarget
+  }
+}
 </script>

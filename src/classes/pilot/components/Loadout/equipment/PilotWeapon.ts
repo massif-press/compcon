@@ -1,18 +1,13 @@
-import {
-  PilotEquipment,
-  Range,
-  Damage,
-  ItemType,
-  DamageType,
-  RangeType,
-  ContentPack,
-  Pilot,
-} from '@/class'
+import { ContentPack } from '../../../../ContentPack'
+import { Damage, IDamageData } from '../../../../Damage'
+import { ItemType, DamageType, RangeType } from '../../../../enums'
+import { IPilotEquipmentData, PilotEquipment } from './PilotEquipment'
+import { Pilot } from '../../../Pilot'
+import { IRangeData, Range } from '../../../../Range'
 import {
   ActiveEffect,
   IActiveEffectData,
 } from '@/classes/components/feature/active_effects/ActiveEffect'
-import { IPilotEquipmentData, IRangeData, IDamageData } from '@/interface'
 
 interface IPilotWeaponData extends IPilotEquipmentData {
   range: IRangeData[]

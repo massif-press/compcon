@@ -174,7 +174,7 @@ import { NpcFeatureSelector } from './_components';
 import NpcFeatureAlerts from './_components/NpcFeatureAlerts.vue';
 import NpcModInset from './_components/NpcModInset.vue';
 import { Sortable } from 'sortablejs-vue3';
-import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
+import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
 import * as _ from 'lodash-es';
 
 export default {

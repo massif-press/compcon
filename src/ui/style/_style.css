@@ -5,6 +5,11 @@
 /* body {
   font-family: 'Helvetica Regular', sans-serif;
 } */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 6px;

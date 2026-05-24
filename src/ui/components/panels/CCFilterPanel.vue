@@ -1,6 +1,5 @@
 <template>
-  <div :style="$vuetify.display.mdAndDown ? 'z-index:2; position: fixed; bottom: 28px; right: 28px' : ''
-    ">
+  <div :style="display.mdAndDown.value ? 'z-index:2; position: fixed; bottom: 28px; right: 28px' : ''">
     <v-badge :value="filterCount"
       overlap
       right
@@ -43,31 +42,33 @@
   </v-navigation-drawer>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcFilterPanel',
-  props: {
-    itemType: {
-      type: String,
-      required: true,
-    },
-  },
-  emits: ['set-filters'],
-  data: () => ({
-    filterCount: 0,
-    panel: false,
-    activeFilters: {} as Record<string, any>,
-  }),
-  methods: {
-    clearFilters() {
-      (this.$refs.controls as any).clear();
-      this.applyFilters({});
-    },
-    applyFilters(newFilters) {
-      this.filterCount = Object.keys(newFilters).length;
-      this.activeFilters = newFilters;
-      this.$emit('set-filters', newFilters);
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useDisplay } from 'vuetify';
+
+const display = useDisplay();
+
+defineProps<{
+  itemType: string;
+}>();
+
+const emit = defineEmits<{
+  'set-filters': [filters: Record<string, unknown>];
+}>();
+
+const filterCount = ref(0);
+const panel = ref(false);
+const activeFilters = ref<Record<string, unknown>>({});
+const controls = ref<{ clear(): void } | null>(null);
+
+function clearFilters() {
+  controls.value?.clear();
+  applyFilters({});
+}
+
+function applyFilters(newFilters: Record<string, unknown>) {
+  filterCount.value = Object.keys(newFilters).length;
+  activeFilters.value = newFilters;
+  emit('set-filters', newFilters);
+}
 </script>

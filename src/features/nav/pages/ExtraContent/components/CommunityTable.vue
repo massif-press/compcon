@@ -81,32 +81,6 @@
       </v-row>
     </template>
     <template #item.actions="{ item }">
-      <!-- <v-tooltip max-width="300px"
-        location="top">
-        <template #activator="{ props }">
-          <v-btn v-if="canDownload(item)"
-            icon
-            variant="text"
-            size="small"
-            color="accent"
-            :disabled="isLatest(item)"
-            :loading="downloadingPacks.includes(item.sortkey)"
-            v-bind="props"
-            @click="installLatest(item)">
-            <v-icon size="large"
-              icon="mdi-download" />
-          </v-btn>
-          <v-icon v-else
-            v-bind="props"
-            class="fade-select mr-2"
-            icon="mdi-cancel" />
-        </template>
-<div v-if="canDownload(item)" class="text-center">Download and install latest version</div>
-<div v-else-if="!loggedIn" class="text-center">
-  Direct download requires a COMP/CON account
-</div>
-<div v-else class="text-center">Requires linked itch.io purchase</div>
-</v-tooltip> -->
       <v-tooltip max-width="300px"
         location="top">
         <template #activator="{ props }">
@@ -208,115 +182,95 @@
   </v-data-table>
 </template>
 
-<script lang="ts">
-import { CompendiumStore, UserStore } from '@/stores';
-import logger from '@/user/logger';
-import { useMobile } from '@/mixins/useMobile';
-import { NAV_STRINGS } from '@/features/nav/strings';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { notify } from '@/util/notify'
+import { CompendiumStore, UserStore } from '@/stores'
+import logger from '@/user/logger'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
+const props = defineProps<{
+  packs: any[]
+  loading?: boolean
+}>()
 
-export default {
-  name: 'CommunityTable',
-  mixins: [useMobile],
-  setup() {
-    return { ct: NAV_STRINGS.communityTable }
-  },
-  props: {
-    packs: { type: Array, default: () => [] },
-    loading: { type: Boolean, default: true },
-  },
-  data: () => ({
-    lcpHeaders: [
-      { title: '', key: 'data-table-expand', width: '0' },
-      { title: 'LCP', key: 'title' },
-      { title: 'Author', key: 'author' },
-      { title: 'v3', value: 'v3' },
-      { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
-      { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
-      { title: '', key: 'actions', align: 'end', sortable: false, width: '120px' },
-    ],
-    expanded: [],
-    downloadingPacks: [] as string[],
-  }),
-  computed: {
-    tableHeaders() {
-      return this.mobile ? this.lcpHeaders.slice(1) : this.lcpHeaders;
-    },
-    contentPacks() {
-      return CompendiumStore().ContentPacks;
-    },
-    lcpSubscriptions() {
-      return UserStore().User.LcpSubscriptions;
-    },
-    installedPacks() {
-      return CompendiumStore().ContentPacks;
-    },
-    user() {
-      return UserStore().User;
-    },
-    loggedIn() {
-      return UserStore().IsLoggedIn;
-    },
-  },
-  methods: {
-    packDataItem(save) {
-      return this.contentPacks.find((pack) => pack.ID === save.packId);
-    },
-    getInstalledPack(pack) {
-      return this.contentPacks.find(({ Manifest }) =>
-        [pack.name, pack.title].some((p) => Manifest.name?.toLowerCase().includes(p?.toLowerCase()))
-      );
-    },
-    canDownload(pack) {
-      if (!this.loggedIn) return false;
-      if (!pack.paid) return true;
-      if (!this.user.Itch || !this.user.Itch.gamedata?.length) return false;
+const { smAndDown: mobile } = useDisplay()
+const ct = NAV_STRINGS.communityTable
 
-      return this.user.Itch.gamedata.some((purchase) => purchase.game_id === pack.game_id);
-    },
-    isLatest(pack) {
-      const installed = this.getInstalledPack(pack);
-      return !!installed && installed.Manifest.version === pack.version;
-    },
-    hasSubscription(pack) {
-      return this.lcpSubscriptions.includes(pack.sortkey);
-    },
-    async toggleSubscription(pack) {
-      if (this.hasSubscription(pack)) {
-        this.lcpSubscriptions.splice(this.lcpSubscriptions.indexOf(pack.sortkey), 1);
-        this.user.save();
-      } else {
-        this.lcpSubscriptions.push(pack.sortkey);
-        this.user.save();
-        if (
-          !this.getInstalledPack(pack) ||
-          this.getInstalledPack(pack)?.Manifest.version !== pack.version
-        ) {
-          await this.installLatest(pack);
-        }
-      }
-    },
-    async installLatest(pack) {
-      if (this.isLatest(pack) || this.downloadingPacks.includes(pack.sortkey)) return;
-      this.downloadingPacks.push(pack.sortkey);
-      try {
-        await UserStore().downloadLcp(pack);
-        this.$notify({
-          title: 'LCP Updated',
-          text: `The latest version of ${pack.title} has been downloaded and installed.`,
-          data: { color: 'success', icon: 'mdi-check-bold' },
-        });
-      } catch (err) {
-        logger.error(`Error downloading LCP: ${err}`, this, err);
-        this.$notify({
-          title: 'Error Updating LCP',
-          text: `An error occurred while attempting to download ${pack.title}.`,
-          data: { color: 'error', icon: 'mdi-alert-circle-outline' },
-        });
-      } finally {
-        this.downloadingPacks = this.downloadingPacks.filter((k) => k !== pack.sortkey);
-      }
-    },
-  },
-};
+const expanded = ref<any[]>([])
+const downloadingPacks = ref<string[]>([])
+
+const lcpHeaders = [
+  { title: '', key: 'data-table-expand', width: '0' },
+  { title: 'LCP', key: 'title' },
+  { title: 'Author', key: 'author' },
+  { title: 'v3', value: 'v3' },
+  { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
+  { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
+  { title: '', key: 'actions', align: 'end', sortable: false, width: '120px' },
+]
+
+const tableHeaders = computed(() => mobile.value ? lcpHeaders.slice(1) : lcpHeaders)
+const contentPacks = computed(() => CompendiumStore().ContentPacks)
+const lcpSubscriptions = computed(() => UserStore().User.LcpSubscriptions)
+const user = computed(() => UserStore().User)
+const loggedIn = computed(() => UserStore().IsLoggedIn)
+
+function getInstalledPack(pack: any) {
+  return contentPacks.value.find(({ Manifest }) =>
+    [pack.name, pack.title].some((p: string) => Manifest.name?.toLowerCase().includes(p?.toLowerCase()))
+  )
+}
+
+function canDownload(pack: any) {
+  if (!loggedIn.value) return false
+  if (!pack.paid) return true
+  if (!user.value.Itch || !user.value.Itch.gamedata?.length) return false
+  return user.value.Itch.gamedata.some((purchase: any) => purchase.game_id === pack.game_id)
+}
+
+function isLatest(pack: any) {
+  const installed = getInstalledPack(pack)
+  return !!installed && installed.Manifest.version === pack.version
+}
+
+function hasSubscription(pack: any) {
+  return lcpSubscriptions.value.includes(pack.sortkey)
+}
+
+async function toggleSubscription(pack: any) {
+  if (hasSubscription(pack)) {
+    lcpSubscriptions.value.splice(lcpSubscriptions.value.indexOf(pack.sortkey), 1)
+    user.value.save()
+  } else {
+    lcpSubscriptions.value.push(pack.sortkey)
+    user.value.save()
+    if (!getInstalledPack(pack) || getInstalledPack(pack)?.Manifest.version !== pack.version) {
+      await installLatest(pack)
+    }
+  }
+}
+
+async function installLatest(pack: any) {
+  if (isLatest(pack) || downloadingPacks.value.includes(pack.sortkey)) return
+  downloadingPacks.value.push(pack.sortkey)
+  try {
+    await UserStore().downloadLcp(pack)
+    notify({
+      title: 'LCP Updated',
+      text: `The latest version of ${pack.title} has been downloaded and installed.`,
+      data: { color: 'success', icon: 'mdi-check-bold' },
+    })
+  } catch (err) {
+    logger.error(`Error downloading LCP: ${err}`, null, err)
+    notify({
+      title: 'Error Updating LCP',
+      text: `An error occurred while attempting to download ${pack.title}.`,
+      data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+    })
+  } finally {
+    downloadingPacks.value = downloadingPacks.value.filter(k => k !== pack.sortkey)
+  }
+}
 </script>

@@ -57,19 +57,12 @@
   </v-col>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  name: 'DevBadge',
-  mixins: [useMobile],
-  props: {
-    info: {
-      type: Object,
-      required: true,
-    },
-    cols: { type: Number, default: 6 },
-  },
-};
+<script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
+defineProps<{ info: Record<string, any>; cols?: number }>()
+
+const { smAndDown: mobile } = useDisplay()
 </script>
 
 <style scoped>

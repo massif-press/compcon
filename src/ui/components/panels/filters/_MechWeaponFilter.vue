@@ -26,7 +26,7 @@
         clearable
         variant="outlined"
         label="Tags"
-        :items="tags"
+        :items="weaponTags"
         item-value="ID"
         multiple
         item-title="Name"
@@ -165,23 +165,19 @@
 </template>
 
 <script lang="ts">
-import { Tag, WeaponType, WeaponSize, RangeType, DamageType, Manufacturer } from '@/class';
-import * as _ from 'lodash-es';
-
-import { CompendiumStore } from '@/stores';
-
-const nameSort = function (a, b): number {
-  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
-  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
-  return 0;
-};
+import { WeaponType, WeaponSize, RangeType, DamageType } from '@/classes/enums'
 
 export default {
-  name: 'frame-filter',
-  props: { activeFilters: { type: Object, default: () => ({}) } },
+  name: 'mech-weapon-filter',
+  props: {
+    activeFilters: { type: Object, default: () => ({}) },
+    manufacturers: { type: Array, default: () => [] },
+    weaponTags: { type: Array, default: () => [] },
+    lcpNames: { type: Array, default: () => [] },
+  },
   data: () => ({
     sourceFilter: [] as any[],
-    tagFilter: [],
+    tagFilter: [] as string[],
     weaponTypeFilter: [] as WeaponType[],
     weaponSizeFilter: [] as WeaponSize[],
     attackTypeFilter: [] as RangeType[],
@@ -205,51 +201,22 @@ export default {
     if (spKey) { this.spType = spKey.slice(3); this.sp = f[spKey]; }
   },
   computed: {
-    manufacturers(): any[] {
-      return CompendiumStore()
-        .getItemCollection('Manufacturers')
-        .map((x) => ({ title: x.Name, value: x.ID }))
-        .sort(nameSort);
+    weaponTypes(): string[] {
+      return Object.keys(WeaponType).map((k) => WeaponType[k as any]).filter((k) => k !== 'Integrated').sort() as string[];
     },
-    weaponTypes(): any[] {
-      return Object.keys(WeaponType)
-        .map((k) => WeaponType[k as any])
-        .filter((k) => k !== 'Integrated')
-        .sort();
+    weaponSizes(): string[] {
+      return Object.keys(WeaponSize).map((k) => WeaponSize[k as any]).sort() as string[];
     },
-    weaponSizes(): any[] {
-      return Object.keys(WeaponSize)
-        .map((k) => WeaponSize[k as any])
-        .sort();
+    attackTypes(): string[] {
+      return Object.keys(RangeType).map((k) => RangeType[k as any]).sort() as string[];
     },
-    attackTypes(): any[] {
-      return Object.keys(RangeType)
-        .map((k) => RangeType[k as any])
-        .sort();
-    },
-    damageTypes(): any[] {
-      return Object.keys(DamageType)
-        .map((k) => DamageType[k as any])
-        .sort();
-    },
-    tags(): Tag[] {
-      return _.uniqBy(
-        [].concat(
-          CompendiumStore()
-            .getItemCollection('MechWeapons')
-            .flatMap((x) => x.Tags)
-            .filter((x) => !x.FilterIgnore && !x.IsHidden)
-        ),
-        'ID'
-      );
-    },
-    lcps(): string[] {
-      return CompendiumStore().lcpNames;
+    damageTypes(): string[] {
+      return Object.keys(DamageType).map((k) => DamageType[k as any]).sort() as string[];
     },
   },
   methods: {
     clear() {
-      this.sourceFilter = this.manufacturers.map((x) => x.value);
+      this.sourceFilter = (this.manufacturers as any[]).map((x) => x.value);
       this.tagFilter = [];
       this.weaponTypeFilter = [];
       this.weaponSizeFilter = [];
@@ -264,17 +231,11 @@ export default {
       if (this.spType && this.sp) fObj[`SP_${this.spType}`] = this.sp;
       fObj[`SP_${this.spType}`] = this.sp;
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
-      if (this.weaponTypeFilter && this.weaponTypeFilter.length)
-        fObj.WeaponType = [this.weaponTypeFilter];
-      if (this.weaponSizeFilter && this.weaponSizeFilter.length)
-        fObj.Size = [this.weaponSizeFilter];
-      if (this.attackTypeFilter && this.attackTypeFilter.length)
-        fObj.RangeType = this.attackTypeFilter;
-      if (this.damageTypeFilter && this.damageTypeFilter.length)
-        fObj.DamageType = this.damageTypeFilter;
-      if (this.llFilter && this.llFilter.length) {
-        fObj.LicenseLevel = this.llFilter.map((x) => Number(x));
-      }
+      if (this.weaponTypeFilter && this.weaponTypeFilter.length) fObj.WeaponType = [this.weaponTypeFilter];
+      if (this.weaponSizeFilter && this.weaponSizeFilter.length) fObj.Size = [this.weaponSizeFilter];
+      if (this.attackTypeFilter && this.attackTypeFilter.length) fObj.RangeType = this.attackTypeFilter;
+      if (this.damageTypeFilter && this.damageTypeFilter.length) fObj.DamageType = this.damageTypeFilter;
+      if (this.llFilter && this.llFilter.length) fObj.LicenseLevel = this.llFilter.map((x) => Number(x));
       this.$emit('set-filters', fObj);
     },
   },

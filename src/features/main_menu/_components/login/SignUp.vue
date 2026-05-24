@@ -86,7 +86,7 @@
 <script lang="ts">
 import logger from '@/user/logger';
 import { signUp } from 'aws-amplify/auth';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

@@ -19,31 +19,21 @@
   </div>
 </template>
 
-<script lang="ts">
-import { CompendiumStore } from '@/stores';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { CompendiumStore } from '@/stores'
+import { notify } from '@/util/notify'
 
-export default {
-  name: 'ItemCardLink',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    link() {
-      return CompendiumStore().referenceLink(this.item);
-    },
-  },
-  methods: {
-    copyToClipboard() {
-      navigator.clipboard.writeText(encodeURI(this.link));
-      this.$notify({
-        type: 'success',
-        title: 'Link Copied',
-        text: `${this.item.Name} static link has been copied to the clipboard.`,
-      });
-    },
-  },
-};
+const props = defineProps<{ item: Record<string, any> }>()
+
+const link = computed(() => CompendiumStore().referenceLink(props.item as any))
+
+function copyToClipboard() {
+  navigator.clipboard.writeText(encodeURI(link.value))
+  notify({
+    type: 'success',
+    title: 'Link Copied',
+    text: `${props.item.Name} static link has been copied to the clipboard.`,
+  })
+}
 </script>

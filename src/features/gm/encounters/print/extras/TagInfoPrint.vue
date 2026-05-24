@@ -15,36 +15,16 @@
   </div>
 </template>
 
-<script lang="ts">
-import { CompendiumStore } from '@/stores';
-import * as _ from 'lodash-es';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { sortBy } from 'lodash-es'
+import { CompendiumStore } from '@/stores'
 
-export default {
-  name: 'TagInfoPrint',
-  computed: {
-    tags() {
-      return _.sortBy(
-        CompendiumStore().Tags.filter((x) => !x.IsHidden),
-        (obj) => obj.Name
-      );
-    },
-  },
-};
+const tags = computed(() =>
+  sortBy(CompendiumStore().Tags.filter((x: any) => !x.IsHidden), (obj: any) => obj.Name)
+)
 </script>
 
 <style scoped>
-.caption {
-  font-size: 12px;
-}
-
-.p-stat {
-  font-size: 34px;
-}
-
-fieldset {
-  padding: 0 4px;
-  height: 100%;
-  border-radius: 3px;
-  border-color: rgb(var(--v-theme-grey-lighten2));
-}
+@import '@/ui/style/print-common.css';
 </style>

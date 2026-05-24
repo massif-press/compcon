@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { PilotWeapon } from '@/class';
+import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon'
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import EffectApplicator from '@/ui/components/chips/_activeeffect/EffectApplicator.vue';
 

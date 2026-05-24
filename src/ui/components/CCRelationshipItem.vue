@@ -154,7 +154,8 @@
       </v-card>
       <v-card v-else>
         <cc-narrative-item-content :item="item"
-          :origin-item="originItem" />
+          :origin-item="originItem"
+          :linked-item="linkedItem" />
         <v-card-actions>
           <v-spacer />
           <v-btn color="blue darken-1"
@@ -166,53 +167,40 @@
   </v-chip>
 </template>
 
-<script lang="ts">
-import { CollectionItem } from '@/classes/narrative/CollectionItem';
-import { NarrativeStore } from '@/stores';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { CollectionItem } from '@/classes/narrative/CollectionItem'
 
-export default {
-  name: 'CcRelationshipItem',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    editable: {
-      type: Boolean,
-      default: false,
-    },
-    originItem: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    dialog: false,
-  }),
-  computed: {
-    allCollectionItems() {
-      return NarrativeStore().CollectionItems.filter(
-        (i) => !i.SaveController.IsDeleted && i.ID !== this.item.ID && i.ID !== this.originItem.ID
-      );
-    },
-    linkedItem(): CollectionItem | null {
-      return NarrativeStore().getItemByID(this.item.id);
-    },
-  },
-  methods: {
-    openDialog() {
-      this.dialog = true;
-    },
-    setName(r: any) {
-      const item = this.allCollectionItems.find((i) => i.ID === r.id);
-      if (item) {
-        r.name = item.Name;
-      }
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  item: Record<string, any>
+  collectionItems?: any[]
+  color?: string
+  editable?: boolean
+  originItem: Record<string, any>
+}>(), { collectionItems: () => [], color: 'primary', editable: false })
+
+defineEmits<{ delete: [id: string] }>()
+
+const dialog = ref(false)
+
+const allCollectionItems = computed(() =>
+  props.collectionItems.filter(
+    (i: any) => !i.SaveController.IsDeleted && i.ID !== props.item.ID && i.ID !== props.originItem.ID
+  )
+)
+
+const linkedItem = computed<CollectionItem | null>(() =>
+  props.collectionItems.find((i: any) => i.ID === props.item.id) ?? null
+)
+
+function setName(r: any) {
+  const item = allCollectionItems.value.find((i: any) => i.ID === r.id)
+  if (item) r.name = item.Name
+}
+
+function openDialog() {
+  dialog.value = true
+}
+
+defineExpose({ openDialog })
 </script>

@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 import { get } from 'lodash-es'
 
 import logger from './logger'
-import { UserStore } from '@/stores'
+import { UserMetadataStore } from './store/UserMetadataStore'
 import itchMap from '@/assets/itchMap.json'
 import { AchievementSaveData } from './achievements/Achievement'
 
@@ -232,7 +232,7 @@ class UserProfile {
   }
 
   public get Patreon(): PatreonData {
-    return UserStore().UserMetadata.PatreonData
+    return UserMetadataStore().UserMetadata.PatreonData
   }
 
   public get PatreonTier(): string {
@@ -257,7 +257,7 @@ class UserProfile {
   }
 
   public get Itch(): any {
-    return UserStore().UserMetadata.ItchData
+    return UserMetadataStore().UserMetadata.ItchData
   }
 
   public get ItchMap(): any {
@@ -330,8 +330,8 @@ class UserProfile {
   }
 
   public ClearPatreonData(): void {
-    UserStore().UserMetadata.PatreonData = { hasPatreon: false }
-    UserStore().setUserMetadata()
+    UserMetadataStore().UserMetadata.PatreonData = { hasPatreon: false }
+    UserMetadataStore().setUserMetadata()
     this.save()
   }
 

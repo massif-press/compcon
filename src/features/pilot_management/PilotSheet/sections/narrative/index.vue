@@ -46,7 +46,7 @@ import PilotLoadoutBlock from './components/PilotLoadoutBlock.vue';
 import IdentBlock from './components/IdentBlock.vue';
 import CloneBlock from './components/CloneBlock.vue';
 import ImageBlock from './components/ImageBlock.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export default {
   name: 'narrative-view',

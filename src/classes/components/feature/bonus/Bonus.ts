@@ -1,4 +1,4 @@
-import { DamageType, RangeType, WeaponSize, WeaponType } from '@/class'
+import { DamageType, RangeType, WeaponSize, WeaponType } from '../../../enums'
 import { IFeatureController } from '../IFeatureController'
 import { getBonusDictionary } from './bonus_dictionary'
 import { IBonusDataContainer } from './IBonusDataContainer'

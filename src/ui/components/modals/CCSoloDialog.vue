@@ -37,74 +37,42 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  props: {
-    modelValue: Boolean,
-    title: {
-      type: String,
-      default: 'Default Title',
-    },
-    icon: {
-      type: String,
-      default: '',
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    closeOnClick: {
-      type: Boolean,
-      default: true,
-    },
-    maxWidth: {
-      type: [String, Number],
-      default: '500px',
-    },
-  },
-  emits: ['update:modelValue'],
-  data: () => ({
-    dialog: false,
-  }),
-  watch: {
-    modelValue: {
-      handler(val) {
-        this.dialog = val;
-      },
-      immediate: true,
-    },
-    dialog(val) {
-      this.$emit('update:modelValue', val);
-    },
-  },
-  methods: {
-    open() {
-      this.dialog = true;
-    },
-    close() {
-      this.dialog = false;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import { useDisplay } from 'vuetify';
+
+const { smAndDown: mobile } = useDisplay();
+
+const props = withDefaults(defineProps<{
+  modelValue?: boolean;
+  title?: string;
+  icon?: string;
+  color?: string;
+  closeOnClick?: boolean;
+  maxWidth?: string | number;
+}>(), {
+  title: 'Default Title',
+  icon: '',
+  color: 'primary',
+  closeOnClick: true,
+  maxWidth: '500px',
+});
+
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean];
+}>();
+
+const dialog = ref(false);
+
+watch(() => props.modelValue, val => { dialog.value = !!val; }, { immediate: true });
+watch(dialog, val => { emit('update:modelValue', val); });
+
+function open() { dialog.value = true; }
+function close() { dialog.value = false; }
+
+defineExpose({ open, close });
 </script>
 
 <style scoped>
-.cc-panel-clip {
-  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0% 100%);
-}
-
-.panel-footer {
-  position: fixed;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  height: 13px;
-  letter-spacing: 4px;
-  font-size: 8px;
-  line-height: 15px;
-  opacity: 0.6;
-}
+@import '@/ui/style/panel.css';
 </style>

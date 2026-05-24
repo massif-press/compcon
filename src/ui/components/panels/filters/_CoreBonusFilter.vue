@@ -19,59 +19,57 @@
     clearable
     variant="outlined"
     label="From Content Pack"
-    :items="lcps"
+    :items="lcpNames"
     multiple
     @update:model-value="updateFilters()" />
 </template>
 
-<script lang="ts">
-import { Manufacturer } from '@/class';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { uniq } from 'lodash-es'
+import { CompendiumStore } from '@/stores'
 
-import { CompendiumStore } from '@/stores';
-import * as _ from 'lodash-es';
+const props = withDefaults(defineProps<{
+  activeFilters?: Record<string, any>
+}>(), { activeFilters: () => ({}) })
 
-const nameSort = function (a, b): number {
-  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
-  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
-  return 0;
-};
+const emit = defineEmits<{ 'set-filters': [filters: Record<string, any>] }>()
 
-export default {
-  name: 'CoreBonusFilter',
-  props: { activeFilters: { type: Object, default: () => ({}) } },
-  emits: ['set-filters'],
-  data: () => ({
-    sourceFilter: [],
-    lcpFilter: [],
-  }),
-  computed: {
-    manufacturers(): Manufacturer[] {
-      return CompendiumStore()
-        .getItemCollection('Manufacturers')
-        .map((x) => ({ title: x.Name, value: x.ID }))
-        .sort(nameSort);
-    },
-    lcps(): string[] {
-      return _.uniq(CompendiumStore().Frames.map((x) => x.LcpName));
-    },
-  },
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Source) this.sourceFilter = f.Source[0] ?? [];
-    if (f.LcpName) this.lcpFilter = f.LcpName[0] ?? [];
-  },
-  methods: {
-    clear() {
-      this.sourceFilter = [];
-      this.lcpFilter = [];
-    },
-    updateFilters() {
-      const fObj = {} as any;
-      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter];
-      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter];
-      this.$emit('set-filters', fObj);
-    },
-  },
-};
+const sourceFilter = ref<string[]>([])
+const lcpFilter = ref<string[]>([])
+
+const nameSort = (a: { title: string }, b: { title: string }) =>
+  a.title.toUpperCase() < b.title.toUpperCase() ? -1 : a.title.toUpperCase() > b.title.toUpperCase() ? 1 : 0
+
+const manufacturers = computed(() =>
+  CompendiumStore()
+    .getItemCollection('Manufacturers')
+    .map((x: any) => ({ title: x.Name, value: x.ID }))
+    .sort(nameSort)
+)
+
+const lcpNames = computed(() =>
+  uniq(CompendiumStore().Frames.map((x: any) => x.LcpName))
+)
+
+onMounted(() => {
+  const f = props.activeFilters
+  if (!f || !Object.keys(f).length) return
+  if (f.Source) sourceFilter.value = f.Source[0] ?? []
+  if (f.LcpName) lcpFilter.value = f.LcpName[0] ?? []
+})
+
+function clear() {
+  sourceFilter.value = []
+  lcpFilter.value = []
+}
+
+function updateFilters() {
+  const fObj = {} as any
+  if (lcpFilter.value && lcpFilter.value.length) fObj.LcpName = [lcpFilter.value]
+  if (sourceFilter.value && sourceFilter.value.length) fObj.Source = [sourceFilter.value]
+  emit('set-filters', fObj)
+}
+
+defineExpose({ clear })
 </script>

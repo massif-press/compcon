@@ -17,23 +17,12 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-import { UserStore } from '@/stores';
-import CloudNotificationList from './_components/CloudNotificationList.vue';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { UserStore } from '@/stores'
+import CloudNotificationList from './_components/CloudNotificationList.vue'
 
-export default {
-  name: 'CloudNotifications',
-  components: { CloudNotificationList },
-  data: () => ({
-    menu: false,
-  }),
-  computed: {
-    store() {
-      return UserStore();
-    },
-    itemCount() {
-      return this.store.CloudNotifications.length;
-    },
-  },
-};
+const menu = ref(false)
+const store = UserStore()
+const itemCount = computed(() => store.CloudNotifications.length)
 </script>

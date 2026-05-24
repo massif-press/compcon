@@ -177,216 +177,157 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { Sortable } from 'sortablejs-vue3';
-import { startDragScroll, stopDragScroll } from '@/mixins/useScrollOnDrag';
-import GmCollectionFilter from '../_views/_components/GMCollectionFilter.vue';
-import GmCollectionFolder from '../_views/_components/GMCollectionFolder.vue';
-import ItemCard from '../_views/_components/GMItemCard.vue';
-import FolderMenu from '../_views/_components/FolderMenu.vue';
-import { EncounterStore, UserStore } from '@/stores';
-import { Encounter } from '@/classes/encounter/Encounter';
-import EncounterEditor from './_components/EncounterEditor.vue';
-import Organizer from '../_components/Organizer.vue';
-import Importer from './_components/EncounterImporter.vue';
-import ShareCodeDialog from '@/features/main_menu/_components/account/_components/data_viewer/shareCodeDialog.vue';
+<script setup lang="ts">
+import { ref, computed, watch, nextTick } from 'vue'
+import { Sortable } from 'sortablejs-vue3'
+import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag'
+import GmCollectionFilter from '../_views/_components/GMCollectionFilter.vue'
+import GmCollectionFolder from '../_views/_components/GMCollectionFolder.vue'
+import ItemCard from '../_views/_components/GMItemCard.vue'
+import FolderMenu from '../_views/_components/FolderMenu.vue'
+import { EncounterStore, UserStore } from '@/stores'
+import { Encounter } from '@/classes/encounter/Encounter'
+import EncounterEditor from './_components/EncounterEditor.vue'
+import Organizer from '../_components/Organizer.vue'
+import Importer from './_components/EncounterImporter.vue'
+import ShareCodeDialog from '@/shared/ShareCodeDialog.vue'
 
-export default {
-  name: 'GmEncounterView',
-  components: {
-    Sortable,
-    Organizer,
-    GmCollectionFilter,
-    GmCollectionFolder,
-    ItemCard,
-    FolderMenu,
-    EncounterEditor,
-    Importer,
-    ShareCodeDialog,
-  },
-  props: {
-    id: {
-      type: String,
-      required: false,
-    },
-  },
-  emits: ['open', 'add-new'],
-  data: () => ({
-    search: '',
-    view: 'list',
-    sorting: 'Name',
-    grouping: 'None',
-    filters: [] as any[],
-    openFolders: [] as string[],
-    showNoFolder: true,
-    hideFolders: false,
-    folderTransferKey: 0,
-    selected: null as any,
-    editDialog: false,
-  }),
-  computed: {
-    folders(): string[] {
-      return EncounterStore().getFolders;
-    },
-    items(): any[] {
-      return EncounterStore().Encounters.filter((x) => !x.SaveController.IsDeleted);
-    },
-    filteredItems() {
-      let out = this.items;
+const props = withDefaults(defineProps<{ id?: string }>(), {})
+defineEmits<{ open: [item: any]; 'add-new': [] }>()
 
-      if (this.filters.length) {
-        out = out.filter((x: any) => {
-          if (x.StatController) {
-            const stats = x.StatController.DisplayKeys.map((x: any) => x.title);
-            if (this.filters.some((f) => stats.some((s) => s === f))) return false;
-          }
-          if (x.NarrativeController) {
-            const labels = x.NarrativeController.Labels.map((x: any) => x.title);
-            if (this.filters.some((f) => labels.some((s) => s === f))) return false;
-          }
-          return true;
-        });
+const search = ref('')
+const view = ref('list')
+const sorting = ref('Name')
+const grouping = ref('None')
+const filters = ref<any[]>([])
+const openFolders = ref<string[]>([])
+const showNoFolder = ref(true)
+const hideFolders = ref(false)
+const folderTransferKey = ref(0)
+const selected = ref<any>(null)
+const editDialog = ref(false)
+
+const folders = computed<string[]>(() => EncounterStore().getFolders)
+const items = computed<any[]>(() => EncounterStore().Encounters.filter((x) => !x.SaveController.IsDeleted))
+
+const filteredItems = computed(() => {
+  let out = items.value
+  if (filters.value.length) {
+    out = out.filter((x: any) => {
+      if (x.StatController) {
+        const stats = x.StatController.DisplayKeys.map((x: any) => x.title)
+        if (filters.value.some((f) => stats.some((s: any) => s === f))) return false
       }
-      return out;
-    },
-    hidden() {
-      return this.items.length - this.filteredItems.length;
-    },
-    groupings() {
-      const allLabelTitles = new Set(
-        EncounterStore()
-          .getAllLabels.filter((x: any) => x.title.length > 0)
-          .map((x: any) => x.title)
-      );
-
-      const baseGroupings = ['Sitrep', 'Environment'];
-
-      return ['None', ...baseGroupings, ...allLabelTitles];
-    },
-    sortings() {
-      const allLabelTitles = new Set(
-        EncounterStore()
-          .getAllLabels.filter((x: any) => x.title.length > 0)
-          .map((x: any) => x.title)
-      );
-
-      const baseSortings = ['Name', 'Created', 'Updated', 'Sitrep', 'Environment'];
-
-      return [...baseSortings, ...allLabelTitles];
-    },
-    sortedNoFolderItems() {
-      return this.filteredItems
-        .filter((x: any) => !x.FolderController?.Folder)
-        .slice()
-        .sort((a: any, b: any) => a.FolderController.SortIndex - b.FolderController.SortIndex);
-    },
-  },
-  watch: {
-    view(val) {
-      if (!val) return;
-      UserStore().User.SetView('encountersView', val);
-    },
-    sorting(val) {
-      if (!val) return;
-      UserStore().User.SetView('encountersSorting', val);
-    },
-    grouping(val) {
-      if (!val) return;
-      UserStore().User.SetView('encountersGrouping', val);
-    },
-    filters(val) {
-      UserStore().User.SetView('encountersFilters', val);
-    },
-    hideFolders(val) {
-      UserStore().User.SetView('encountersHideFolders', val);
-    },
-  },
-  created() {
-    const user = UserStore().User;
-    if (!user || !user.View) return;
-    this.view = user.View('encountersView', 'list');
-    this.sorting = user.View('encountersSorting', 'Name');
-    this.grouping = user.View('encountersGrouping', 'None');
-    this.filters = user.View('encountersFilters', []) as any[];
-    this.hideFolders = user.View('encountersHideFolders', false);
-
-    if (this.id) {
-      const item = EncounterStore().getEncounterByID(this.id);
-      if (item) {
-        this.selected = item;
-        this.editDialog = true;
+      if (x.NarrativeController) {
+        const labels = x.NarrativeController.Labels.map((x: any) => x.title)
+        if (filters.value.some((f) => labels.some((s: any) => s === f))) return false
       }
-    }
-  },
-  methods: {
-    addFolder() {
-      let folderName = 'New Folder';
-      if (this.folders.some((x) => x === folderName)) {
-        let i = 1;
-        while (this.folders.some((x) => x === `${folderName} ${i}`)) i++;
-        folderName = `${folderName} ${i}`;
-      }
-      EncounterStore().AddFolder(folderName);
-      this.hideFolders = false;
-    },
-    toggleFolder(folder: string) {
-      if (this.openFolders.includes(folder)) {
-        this.openFolders.splice(this.openFolders.indexOf(folder), 1);
-      } else {
-        this.openFolders.push(folder);
-      }
-    },
-    setFolderName(old: string, newName: string) {
-      EncounterStore().EditFolder({ old, newName });
-    },
-    removeFolder(folder: string) {
-      EncounterStore().RemoveFolder(folder);
-    },
-    openItem(item) {
-      this.selected = item;
-      this.editDialog = true;
-    },
-    onNoFolderItemDragStart(event: any) {
-      startDragScroll();
-      const itemId = event.item.dataset.itemId;
-      if (event.originalEvent?.dataTransfer && itemId) {
-        event.originalEvent.dataTransfer.setData('text/encounter-id', itemId);
-      }
-    },
-    onNoFolderItemReorder(event: any) {
-      stopDragScroll();
-      if (event.from !== event.to) return;
-      if (event.oldIndex === event.newIndex) return;
-      const items = [...this.sortedNoFolderItems] as any[];
-      const [moved] = items.splice(event.oldIndex, 1);
-      items.splice(event.newIndex, 0, moved);
-      items.forEach((item, idx) => {
-        item.FolderController.SortIndex = idx;
-      });
-    },
-    async onNoFolderItemAdded(event: any) {
-      const itemId = event.item.dataset.itemId;
-      const item = (this.items as any[]).find((x: any) => x.ID === itemId);
-      if (!item) return;
-      item.FolderController.Folder = '';
-      await this.$nextTick();
-      const items = [...this.sortedNoFolderItems] as any[];
-      const movedIdx = items.findIndex((x: any) => x.ID === itemId);
-      if (movedIdx !== -1 && movedIdx !== event.newIndex) {
-        const [moved] = items.splice(movedIdx, 1);
-        items.splice(Math.min(event.newIndex, items.length), 0, moved);
-      }
-      items.forEach((item: any, idx: number) => {
-        item.FolderController.SortIndex = idx;
-      });
-      this.folderTransferKey++;
-    },
-    addNew() {
-      const e = new Encounter();
-      EncounterStore().AddEncounter(e);
-      this.selected = e;
-      this.editDialog = true;
-    },
-  },
-};
+      return true
+    })
+  }
+  return out
+})
+
+const hidden = computed(() => items.value.length - filteredItems.value.length)
+
+const groupings = computed(() => {
+  const allLabelTitles = new Set(
+    EncounterStore().getAllLabels.filter((x: any) => x.title.length > 0).map((x: any) => x.title)
+  )
+  return ['None', 'Sitrep', 'Environment', ...allLabelTitles]
+})
+
+const sortings = computed(() => {
+  const allLabelTitles = new Set(
+    EncounterStore().getAllLabels.filter((x: any) => x.title.length > 0).map((x: any) => x.title)
+  )
+  return ['Name', 'Created', 'Updated', 'Sitrep', 'Environment', ...allLabelTitles]
+})
+
+const sortedNoFolderItems = computed(() =>
+  filteredItems.value
+    .filter((x: any) => !x.FolderController?.Folder)
+    .slice()
+    .sort((a: any, b: any) => a.FolderController.SortIndex - b.FolderController.SortIndex)
+)
+
+watch(view, (val) => { if (!val) return; UserStore().User.SetView('encountersView', val) })
+watch(sorting, (val) => { if (!val) return; UserStore().User.SetView('encountersSorting', val) })
+watch(grouping, (val) => { if (!val) return; UserStore().User.SetView('encountersGrouping', val) })
+watch(filters, (val) => { UserStore().User.SetView('encountersFilters', val) })
+watch(hideFolders, (val) => { UserStore().User.SetView('encountersHideFolders', val) })
+
+const user = UserStore().User
+if (user?.View) {
+  view.value = user.View('encountersView', 'list')
+  sorting.value = user.View('encountersSorting', 'Name')
+  grouping.value = user.View('encountersGrouping', 'None')
+  filters.value = user.View('encountersFilters', []) as any[]
+  hideFolders.value = user.View('encountersHideFolders', false)
+}
+if (props.id) {
+  const item = EncounterStore().getEncounterByID(props.id)
+  if (item) {
+    selected.value = item
+    editDialog.value = true
+  }
+}
+
+function addFolder() {
+  let folderName = 'New Folder'
+  if (folders.value.some((x) => x === folderName)) {
+    let i = 1
+    while (folders.value.some((x) => x === `${folderName} ${i}`)) i++
+    folderName = `${folderName} ${i}`
+  }
+  EncounterStore().AddFolder(folderName)
+  hideFolders.value = false
+}
+function setFolderName(old: string, newName: string) {
+  EncounterStore().EditFolder({ old, newName })
+}
+function removeFolder(folder: string) {
+  EncounterStore().RemoveFolder(folder)
+}
+function openItem(item: any) {
+  selected.value = item
+  editDialog.value = true
+}
+function onNoFolderItemDragStart(event: any) {
+  startDragScroll()
+  const itemId = event.item.dataset.itemId
+  if (event.originalEvent?.dataTransfer && itemId) {
+    event.originalEvent.dataTransfer.setData('text/encounter-id', itemId)
+  }
+}
+function onNoFolderItemReorder(event: any) {
+  stopDragScroll()
+  if (event.from !== event.to) return
+  if (event.oldIndex === event.newIndex) return
+  const itemsList = [...sortedNoFolderItems.value] as any[]
+  const [moved] = itemsList.splice(event.oldIndex, 1)
+  itemsList.splice(event.newIndex, 0, moved)
+  itemsList.forEach((item: any, idx: number) => { item.FolderController.SortIndex = idx })
+}
+async function onNoFolderItemAdded(event: any) {
+  const itemId = event.item.dataset.itemId
+  const item = items.value.find((x: any) => x.ID === itemId)
+  if (!item) return
+  item.FolderController.Folder = ''
+  await nextTick()
+  const itemsList = [...sortedNoFolderItems.value] as any[]
+  const movedIdx = itemsList.findIndex((x: any) => x.ID === itemId)
+  if (movedIdx !== -1 && movedIdx !== event.newIndex) {
+    const [moved] = itemsList.splice(movedIdx, 1)
+    itemsList.splice(Math.min(event.newIndex, itemsList.length), 0, moved)
+  }
+  itemsList.forEach((item: any, idx: number) => { item.FolderController.SortIndex = idx })
+  folderTransferKey.value++
+}
+function addNew() {
+  const e = new Encounter()
+  EncounterStore().AddEncounter(e)
+  selected.value = e
+  editDialog.value = true
+}
 </script>

@@ -1,20 +1,17 @@
-import { CompendiumStore } from '@/stores'
-import {
-  ReserveType,
-  Synergy,
-  MechEquipment,
-  MechWeapon,
-  MechSystem,
-  CompendiumItem,
-  ItemType,
-  ContentPack,
-  Pilot,
-} from '@/class'
+import { CompendiumStore } from '@/features/compendium/store'
+import { CompendiumItem } from '../../../CompendiumItem'
+import { ISynergyData, Synergy } from '../../../components/feature/synergy/Synergy'
+import { ContentPack } from '../../../ContentPack'
+import { ReserveType, ItemType } from '../../../enums'
+import { MechEquipment } from '../../../mech/components/equipment/MechEquipment'
+import { MechSystem } from '../../../mech/components/equipment/MechSystem'
+import { MechWeapon } from '../../../mech/components/equipment/MechWeapon'
+import { Pilot } from '../../Pilot'
 import { IActionData, Action } from '@/classes/Action'
 import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus'
-import { ISynergyData, ICounterData } from '@/interface'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 import { IActiveEffectData } from '@/classes/components/feature/active_effects/ActiveEffect'
+import { ICounterData } from '@/classes/components'
 
 declare interface IReserveData {
   id: string

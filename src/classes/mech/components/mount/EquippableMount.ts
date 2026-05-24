@@ -1,7 +1,10 @@
 import * as _ from 'lodash-es'
-import { Mount, WeaponSlot, CoreBonus, MountType, FittingSize, MechLoadout } from '@/class'
-import { ICoreBonusData, IMountData } from '@/interface'
-import { CompendiumStore } from '@/stores'
+import { MountType, FittingSize } from '../../../enums'
+import { MechLoadout } from '../loadout/MechLoadout'
+import Mount, { IMountData } from './Mount'
+import WeaponSlot from './WeaponSlot'
+import { CoreBonus, ICoreBonusData } from '../../../pilot/components/corebonus/CoreBonus'
+import { CompendiumStore } from '@/features/compendium/store'
 
 class EquippableMount extends Mount {
   private _bonuses: CoreBonus[]
@@ -87,7 +90,7 @@ class EquippableMount extends Mount {
     m._bonuses = (mountData.bonus_effects || []).map(x => {
       const id = typeof x === 'string' ? x : x.id
       if (id && CompendiumStore().has('CoreBonuses', id))
-        return CompendiumStore().referenceByID('CoreBonuses', id)
+        return CompendiumStore().referenceByID('CoreBonuses', id) as CoreBonus
       return new CoreBonus(x as ICoreBonusData)
     })
     m.lock = mountData.lock

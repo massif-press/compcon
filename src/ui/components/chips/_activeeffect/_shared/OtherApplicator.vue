@@ -1,6 +1,6 @@
 <template>
   <v-col :cols="cols"
-    v-if="event.OtherEvents.length">
+    v-if="event.OtherEvents?.length">
     <div v-for="(o, index) in event.OtherEvents" :key="`other-${index}`">
       <div class="text-cc-overline text-disabled">{{ o.Type }}</div>
       <v-text-field v-if="['overshield', 'hp', 'repair'].includes(o.Type)"
@@ -25,34 +25,17 @@
   </v-col>
 </template>
 
-<script>
-import { CompendiumStore } from '@/stores';
-import BaseDurationDisplay from './BaseDurationDisplay.vue';
+<script setup lang="ts">
+import BaseDurationDisplay from './BaseDurationDisplay.vue'
 
-export default {
-  name: 'StatusApplicator',
-  components: {
-    BaseDurationDisplay
-  },
-  props: {
-    event: { type: Object, required: true },
-    cols: { type: [Number, String], default: 'auto' }
-  },
-  data: () => ({
-    cover: [
-      {
-        title: 'Soft Cover',
-        value: 'soft',
-      },
-      {
-        title: 'Hard Cover',
-        value: 'hard',
-      },
-      {
-        title: 'No Cover',
-        value: 'none',
-      },
-    ],
-  }),
-};
+withDefaults(defineProps<{
+  event: Record<string, any>
+  cols?: number | string
+}>(), { cols: 'auto' })
+
+const cover = [
+  { title: 'Soft Cover', value: 'soft' },
+  { title: 'Hard Cover', value: 'hard' },
+  { title: 'No Cover', value: 'none' },
+]
 </script>

@@ -3,6 +3,8 @@
     import-type="pilot"
     block-btn
     title="Add from Share Code"
+    :user-id="userId"
+    :remote-items="remoteItems"
     @set-query-result="queryResult = $event">
     <template #result>
       <div v-if="queryResult === null"
@@ -48,7 +50,6 @@
         class="mb-1 mt-4 text-left"
         block
         :loading="dlLoading"
-        :disabled="!($refs as any).importer.canDownload"
         tooltip="This will add a copy of this pilot to your encounter. If the author updates their original data, you will not receive those changes."
         @click="addToEncounter">
         add to encounter
@@ -58,8 +59,9 @@
 </template>
 
 <script lang="ts">
-import { CloudController } from '@/classes/components';
+import { CloudController } from '@/classes/components/cloud/CloudController';
 import { downloadFromS3 } from '@/io/apis/account';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'ShareCodeDialog',
@@ -75,9 +77,9 @@ export default {
     dlLoading: false,
   }),
   computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
+    mobile() { return this.$vuetify.display.mdAndDown },
+    userId() { return UserStore().Cognito?.userId },
+    remoteItems() { return UserStore().UserMetadata?.RemoteItems ?? [] },
   },
   methods: {
     async addToEncounter() {

@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import { Anchor } from 'vuetify';
 
 export default {

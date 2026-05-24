@@ -229,9 +229,7 @@ export default {
 </script>
 
 <style scoped>
-.caption {
-  font-size: 12px;
-}
+@import "@/ui/style/print-common.css";
 
 .icon-overlap {
   position: absolute;
@@ -241,16 +239,5 @@ export default {
   width: -webkit-fill-available;
   width: -moz-available;
   text-align: center;
-}
-
-.p-stat {
-  font-size: 34px;
-}
-
-fieldset {
-  padding: 0 4px;
-  height: 100%;
-  border-radius: 3px;
-  border-color: rgb(var(--v-theme-grey-lighten2));
 }
 </style>

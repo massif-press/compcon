@@ -23,7 +23,7 @@
       </v-col>
       <v-col cols="auto">
         <cc-damage-element :damage="item.Profiles[tab].Damage || []"
-          :type-override="item.Profiles[tab].DamageTypeOverride" />
+          :type-override="item.DamageTypeOverride" />
       </v-col>
       <v-col v-if="item.SP"
         cols="auto">
@@ -113,30 +113,26 @@
   </equipment-card-base>
 </template>
 
-<script lang="ts">
-import EquipmentCardBase from './_EquipmentCardBase.vue';
-import OnElement from './_components/OnElement.vue';
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useDisplay } from 'vuetify'
+import EquipmentCardBase from './_EquipmentCardBase.vue'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
+import OnElement from './_components/OnElement.vue'
 
-export default {
-  name: 'MechWeaponCard',
-  components: { EquipmentCardBase, OnElement },
-  props: {
-    item: { type: Object, required: true },
-    notes: Boolean,
-    charts: Boolean,
-  },
-  data: () => ({
-    tab: 0,
-  }),
-  computed: {
-    portrait(): boolean {
-      return this.$vuetify.display.xs;
-    },
-  },
-  watch: {
-    item() {
-      this.tab = 0;
-    },
-  },
-};
+const { xs } = useDisplay()
+
+const props = defineProps<{
+  item: MechWeapon
+  notes?: boolean
+  charts?: boolean
+}>()
+
+const tab = ref(0)
+
+const portrait = computed(() => xs.value)
+
+watch(() => props.item, () => {
+  tab.value = 0
+})
 </script>

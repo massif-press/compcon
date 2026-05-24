@@ -9,7 +9,7 @@
   </div>
   <div v-else>
     <div style="overflow-y: hidden">
-      <v-layout :style="`height: calc(100vh - ${$vuetify.display.xs ? '23px' : '41px'})`">
+      <v-layout :style="`height: calc(100vh - ${xs ? '23px' : '41px'})`">
         <div style="position: absolute; z-index: 999"
           :style="`left: ${showLeft ? '430' : '122'}px; top: 5px`">
           <cc-button :icon="showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
@@ -44,14 +44,14 @@
           </div>
           <v-container>
             <div v-if="panel && instance">
-              <component :is="`${panel}-panel`"
+              <component :is="panelMap[panel]"
                 :key="panel"
                 :encounter="instance.Encounter"
                 :selected="selected"
                 :encounter-instance="instance" />
             </div>
             <div v-else>
-              <component :is="`${selected.type}-panel`"
+              <component :is="typeMap[selected.type]"
                 :key="selected.id"
                 :combatant="selected"
                 :encounter-instance="instance"
@@ -132,10 +132,11 @@
   </div>
 </template>
 
-<script>
-import * as _ from 'lodash-es';
-
-import { Sortable } from 'sortablejs-vue3';
+<script setup lang="ts">
+import { ref, computed, watch, onMounted } from 'vue';
+import { useDisplay } from 'vuetify';
+import { useRoute } from 'vue-router';
+import { orderBy } from 'lodash-es';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
 import DoodadPanel from './EncounterPanels/DoodadPanel.vue';
 import UnitPanel from './EncounterPanels/UnitPanel.vue';
@@ -145,10 +146,8 @@ import GmDiceRoller from './_components/GmDiceRoller.vue';
 import ReferenceTagPanel from './InfoPanels/ReferenceTagPanel.vue';
 import RollableTableIndex from './_components/RollableTableIndex.vue';
 import QuickReferencePanel from './InfoPanels/QuickReferencePanel.vue';
-import { CompendiumStore, EncounterStore } from '@/stores';
+import { EncounterStore } from '@/stores';
 import NotesPanel from './InfoPanels/GmNotesPanel.vue';
-import { Encounter } from '@/classes/encounter/Encounter';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import GmInitiativePanel from './_components/GmInitiativePanel.vue';
 import GmToolPalette from './_components/GmToolPalette.vue';
 import GmEndRoundPanel from './EncounterPanels/_components/GmEndRoundPanel.vue';
@@ -160,122 +159,95 @@ import ActorLogs from './EncounterPanels/_components/ActorLogs.vue';
 import CombatStatblockExport from './EncounterPanels/_components/CombatStatblockExport.vue';
 import ActorTelemetry from './EncounterPanels/_components/ActorTelemetry.vue';
 
-export default {
-  name: 'GmEncounterRunner',
-  components: {
-    GmInitiativePanel,
-    Sortable,
-    DeployablePanel,
-    DoodadPanel,
-    EidolonPanel,
-    UnitPanel,
-    PilotPanel,
-    PlaceholderPanel,
-    EncounterInfoPanel,
-    GmDiceRoller,
-    ReferenceTagPanel,
-    RollableTableIndex,
-    QuickReferencePanel,
-    NotesPanel,
-    GmToolPalette,
-    GmEndRoundPanel,
-    GmEndEncounterPanel,
-    OptionsPanel,
-    ActorLogs,
-    CombatStatblockExport,
-    ActorTelemetry,
-  },
-  props: {
-    id: {
-      type: String,
-      required: false,
-      default: null,
-    },
-  },
-  data: () => ({
-    selected: null,
-    diceDialog: false,
-    tableDialog: false,
-    panel: 'encounter-info',
-    sort: '',
-    showLeft: true,
-    showRight: false,
-    sortableKey: `sk-0`,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    instance() {
-      return EncounterStore().getActiveEncounter(
-        this.id || this.$route.params.id || EncounterStore().CurrentActiveID
-      );
-    },
-    instanceID() {
-      return this.instance ? this.instance.ID : null;
-    },
-    actors() {
-      if (!this.instance) return [];
-      return this.instance.Combatants.map((c) => c.actor);
-    },
-    actorCount() {
-      return this.actors.length;
-    },
-    mainLeftOffset() {
-      // '485px' : '72px'
-      if (!this.mobile && this.showLeft) return '430px';
-      return '155px';
-    },
-  },
-  watch: {
-    instanceID: {
-      immediate: true,
-      handler(oldval, newval) {
-        if (!newval) return;
-        this.setEidolonHp();
-        this.actors.forEach(a => a.CombatController.Round = this.instance.Round);
-      },
-    },
-    actorCount(newval, oldval) {
-      if (this.instance && newval > 0 && newval !== oldval) this.setEidolonHp();
-    },
-  },
-  mounted() {
-    if (this.mobile) {
-      this.showLeft = false;
-      this.showRight = false;
-    }
-  },
-  methods: {
-    setEidolonHp() {
-      this.playerCount = this.instance.Combatants.filter((c) => c.type === 'pilot').length;
-      this.instance.Combatants.filter((c) => c.type === 'eidolon').forEach((e) =>
-        e.actor.SetLayerHp(
-          this.playerCount,
-          e.actor.StatController.CurrentStats.hp === e.actor.StatController.MaxStats.hp
-        )
-      );
-    },
-    async sortBy(key) {
-      const sorted = _.orderBy(this.actors, key, this.sort === key ? 'desc' : 'asc');
-      if (this.sort === key) sorted.reverse();
-      this.sort = key;
-
-      this.actors = sorted;
-      this.sortableKey = `sk-${Math.floor(Math.random() * 1000)}`;
-      await this.$forceUpdate();
-    },
-    selectActor(actor) {
-      this.selected = actor;
-      this.panel = null;
-    },
-    selectPanel(panel) {
-      if (panel === this.panel && this.selected) {
-        this.panel = null;
-      } else {
-        this.panel = panel;
-      }
-    },
-  },
+const panelMap: Record<string, any> = {
+  'encounter-info': EncounterInfoPanel,
+  'notes': NotesPanel,
+  'reference-tag': ReferenceTagPanel,
+  'quick-reference': QuickReferencePanel,
+  'options': OptionsPanel,
 };
+
+const typeMap: Record<string, any> = {
+  'pilot': PilotPanel,
+  'deployable': DeployablePanel,
+  'doodad': DoodadPanel,
+  'unit': UnitPanel,
+  'placeholder': PlaceholderPanel,
+  'eidolon': EidolonPanel,
+};
+
+const props = withDefaults(defineProps<{ id?: string | null }>(), { id: null });
+
+const { mdAndDown: mobile, xs } = useDisplay();
+const route = useRoute();
+
+const selected = ref<any>(null);
+const diceDialog = ref(false);
+const tableDialog = ref(false);
+const panel = ref<string | undefined>('encounter-info');
+const sort = ref('');
+const showLeft = ref(true);
+const showRight = ref(false);
+
+const instance = computed(() =>
+  EncounterStore().getActiveEncounter(
+    props.id || route.params.id as string || EncounterStore().CurrentActiveID
+  )
+);
+const instanceID = computed(() => instance.value?.ID ?? undefined);
+const actors = computed(() => {
+  if (!instance.value) return [];
+  return instance.value.Combatants.map((c: any) => c.actor);
+});
+const actorCount = computed(() => actors.value.length);
+const mainLeftOffset = computed(() => {
+  if (!mobile.value && showLeft.value) return '430px';
+  return '155px';
+});
+
+watch(instanceID, (oldval, newval) => {
+  if (!newval) return;
+  setEidolonHp();
+  actors.value.forEach((a: any) => a.CombatController.Round = instance.value!.Round);
+}, { immediate: true });
+
+watch(actorCount, (newval, oldval) => {
+  if (instance.value && newval > 0 && newval !== oldval) setEidolonHp();
+});
+
+onMounted(() => {
+  if (mobile.value) {
+    showLeft.value = false;
+    showRight.value = false;
+  }
+});
+
+function setEidolonHp() {
+  const playerCount = instance.value!.Combatants.filter((c: any) => c.type === 'pilot').length;
+  instance.value!.Combatants.filter((c: any) => c.type === 'eidolon').forEach((e: any) =>
+    e.actor.SetLayerHp(
+      playerCount,
+      e.actor.StatController.CurrentStats.hp === e.actor.StatController.MaxStats.hp
+    )
+  );
+}
+
+async function sortBy(key: string) {
+  const sorted = orderBy(actors.value, key, sort.value === key ? 'desc' : 'asc');
+  if (sort.value === key) sorted.reverse();
+  sort.value = key;
+}
+
+function selectActor(actor: any) {
+  selected.value = actor;
+  panel.value = undefined;
+}
+
+function selectPanel(p: string) {
+  if (p === panel.value && selected.value) {
+    panel.value = undefined;
+  } else {
+    panel.value = p;
+  }
+}
 </script>

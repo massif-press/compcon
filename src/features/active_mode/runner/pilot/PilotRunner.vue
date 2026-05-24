@@ -19,7 +19,7 @@
             <div>
               <div v-if="panel && sheet">
                 <component
-                  :is="`${panel}-panel`"
+                  :is="panelMap[panel]"
                   :key="panel"
                   :combatant="combatant"
                   :encounter="encounterInstance.Encounter"
@@ -151,83 +151,55 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { PilotStore } from '@/stores'
-  import ActorTelemetry from '../gm/EncounterPanels/_components/ActorTelemetry.vue'
-  import ActorLogs from '../gm/EncounterPanels/_components/ActorLogs.vue'
-  import CombatStatblockExport from '../gm/EncounterPanels/_components/CombatStatblockExport.vue'
-  import QuickReferencePanel from '../gm/InfoPanels/QuickReferencePanel.vue'
-  import ReferenceTagPanel from '../gm/InfoPanels/ReferenceTagPanel.vue'
-  import RollableTableIndex from '../gm/_components/RollableTableIndex.vue'
-  import GmDiceRoller from '../gm/_components/GmDiceRoller.vue'
-  import { Pilot } from '@/class'
-  import GmToolPalette from '../gm/_components/GmToolPalette.vue'
-  import PcPanel from '../gm/EncounterPanels/PcPanel.vue'
-  import NotesPanel from './_components/PcNotesPanel.vue'
-  import OptionsPanel from './_components/PcOptionsPanel.vue'
-  import DeployablesPanel from './_components/PcDeployablesPanel.vue'
-  import PcEndRound from './_components/PcEndRound.vue'
-  import PcEndEncounter from './_components/PcEndEncounter.vue'
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useDisplay } from 'vuetify';
+import { useRoute } from 'vue-router';
+import { PilotStore } from '@/stores';
+import ActorTelemetry from '../gm/EncounterPanels/_components/ActorTelemetry.vue';
+import ActorLogs from '../gm/EncounterPanels/_components/ActorLogs.vue';
+import CombatStatblockExport from '../gm/EncounterPanels/_components/CombatStatblockExport.vue';
+import QuickReferencePanel from '../gm/InfoPanels/QuickReferencePanel.vue';
+import ReferenceTagPanel from '../gm/InfoPanels/ReferenceTagPanel.vue';
+import RollableTableIndex from '../gm/_components/RollableTableIndex.vue';
+import GmDiceRoller from '../gm/_components/GmDiceRoller.vue';
+import { Pilot } from '@/classes/pilot/Pilot'
+import GmToolPalette from '../gm/_components/GmToolPalette.vue';
+import PcPanel from '../gm/EncounterPanels/PcPanel.vue';
+import NotesPanel from './_components/PcNotesPanel.vue';
+import OptionsPanel from './_components/PcOptionsPanel.vue';
+import DeployablesPanel from './_components/PcDeployablesPanel.vue';
+import PcEndRound from './_components/PcEndRound.vue';
+import PcEndEncounter from './_components/PcEndEncounter.vue';
 
-  export default {
-    name: 'PilotRunner',
-    components: {
-      ActorTelemetry,
-      ActorLogs,
-      CombatStatblockExport,
-      QuickReferencePanel,
-      ReferenceTagPanel,
-      RollableTableIndex,
-      GmToolPalette,
-      GmDiceRoller,
-      PcPanel,
-      DeployablesPanel,
-      NotesPanel,
-      OptionsPanel,
-      PcEndRound,
-      PcEndEncounter,
-    },
-    props: {
-      id: {
-        type: String,
-        required: false,
-        default: null,
-      },
-    },
-    data: () => ({
-      loading: false,
-      err: false,
-      showRight: false,
-      panel: 'pc',
-      diceDialog: false,
-      tableDialog: false,
-    }),
-    computed: {
-      combatant() {
-        return this.sheet!.Combatant
-      },
-      pilot() {
-        return this.sheet!.Combatant.actor as Pilot
-      },
-      mobile() {
-        return this.$vuetify.display.mdAndDown
-      },
-      sheet() {
-        return PilotStore().GetSheet(
-          this.id || this.$route.params.id || PilotStore().CurrentActiveID
-        )
-      },
-      sheetID() {
-        return this.sheet ? this.sheet.ID : 0
-      },
-      encounterInstance() {
-        return this.sheet!.EncounterInstance
-      },
-    },
-    methods: {
-      selectPanel(panel) {
-        this.panel = this.panel === panel ? 'pc' : panel
-      },
-    },
-  }
+const panelMap: Record<string, any> = {
+  'pc': PcPanel,
+  'deployables': DeployablesPanel,
+  'notes': NotesPanel,
+  'reference-tag': ReferenceTagPanel,
+  'quick-reference': QuickReferencePanel,
+  'options': OptionsPanel,
+};
+
+const props = withDefaults(defineProps<{ id?: string | null }>(), { id: null });
+
+const { mdAndDown: mobile } = useDisplay();
+const route = useRoute();
+
+const showRight = ref(false);
+const panel = ref('pc');
+const diceDialog = ref(false);
+const tableDialog = ref(false);
+
+const sheet = computed(() =>
+  PilotStore().GetSheet(props.id || route.params.id as string || PilotStore().CurrentActiveID)
+);
+const sheetID = computed(() => sheet.value ? sheet.value.ID : 0);
+const combatant = computed(() => sheet.value!.Combatant);
+const pilot = computed(() => sheet.value!.Combatant.actor as Pilot);
+const encounterInstance = computed(() => sheet.value!.EncounterInstance);
+
+function selectPanel(p: string) {
+  panel.value = panel.value === p ? 'pc' : p;
+}
 </script>

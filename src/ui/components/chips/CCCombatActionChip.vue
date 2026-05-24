@@ -64,7 +64,6 @@
           </cc-button>
         </template>
         <template #default="{ close }">
-
           <menu-input :key="owner.ID"
             :active-effect="<any>action"
             :encounter="encounter"
@@ -87,46 +86,47 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import { Action } from '@/interface';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { Action } from '@/classes/Action';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
-export default {
-  name: 'CcCombatActionChip',
-  components: {
-    MenuInput,
-  },
-  props: {
-    action: { type: Action, required: true },
-    tier: { type: Number, required: false, default: 1 },
-    encounter: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    disabled: { type: Boolean, required: false, default: false },
-    customDisabledText: { type: String, required: false, default: '' },
-  },
-  emits: ['activate', 'reset'],
-  computed: {
-    isDeployable(): boolean {
-      return !!this.action.Deployable;
-    },
-    controller() {
-      return this.owner.actor.CombatController;
-    },
-    canActivate(): boolean {
-      return !this.disabled && this.controller.CanActivate(this.action.Activation) && !this.controller.IsActionUsed(this.action.ID);
-    },
-  },
-  methods: {
-    apply() {
-      this.controller.MarkActionUsed(this.action.ID);
-      this.controller.ApplyHeat(this.action.HeatCost || 0);
-      this.$emit('activate', this.action.Cost);
-    },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
-      this.controller.ApplyHeat(-this.action.HeatCost || 0);
-      this.$emit('reset', this.action.Cost);
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  action: Action
+  tier?: number
+  encounter: EncounterInstance
+  owner: object
+  disabled?: boolean
+  customDisabledText?: string
+}>(), {
+  tier: 1,
+  disabled: false,
+  customDisabledText: '',
+})
+
+const emit = defineEmits<{
+  activate: [...args: any[]]
+  reset: [...args: any[]]
+}>()
+
+const isDeployable = computed((): boolean => !!props.action.Deployable)
+
+const controller = computed(() => props.owner.actor.CombatController)
+
+const canActivate = computed((): boolean =>
+  !props.disabled && controller.value.CanActivate(props.action.Activation) && !controller.value.IsActionUsed(props.action.ID)
+)
+
+function apply() {
+  controller.value.MarkActionUsed(props.action.ID);
+  controller.value.ApplyHeat(props.action.HeatCost || 0);
+  emit('activate', props.action.Cost);
+}
+
+function reset() {
+  controller.value.ResetActivation(props.action.Activation);
+  controller.value.ApplyHeat(-props.action.HeatCost || 0);
+  emit('reset', props.action.Cost);
+}
 </script>

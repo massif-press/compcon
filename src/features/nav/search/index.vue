@@ -78,76 +78,55 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import { unCamelCase } from '@/classes/utility/accent_fold';
-import { NavStore } from '@/stores';
-import SearchResultItem from './searchResultItem.vue';
-import { useMobile } from '@/mixins/useMobile';
-import { NAV_STRINGS } from '@/features/nav/strings';
+<script setup lang="ts">
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { useDisplay } from 'vuetify'
+import { NavStore } from '@/stores'
+import SearchResultItem from './searchResultItem.vue'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
+const { smAndDown: mobile } = useDisplay()
+const router = useRouter()
+const sr = NAV_STRINGS.search
 
-export default {
-  name: 'CcGlobalSearch',
-  components: {
-    SearchResultItem,
-  },
-  mixins: [useMobile],
-  setup() {
-    return { sr: NAV_STRINGS.search }
-  },
-  data: () => ({
-    search: '',
-    searchDialog: false,
-    hasCmdKey: false,
-  }),
-  computed: {
-    searchResults() {
-      if (!this.search || this.search.length < 3) return [];
+const search = ref('')
+const searchDialog = ref(false)
+const hasCmdKey = ref(false)
 
-      return NavStore()
-        .Index.filter((item) => {
-          return item.title.toLowerCase().includes(this.search.toLowerCase());
-        })
-        .slice(0, 5);
-    },
-    recent() {
-      return NavStore().SearchHistory;
-    },
-  },
-  created() {
-    this.hasCmdKey = navigator.userAgent.includes('Mac');
-  },
-  mounted() {
-    window.addEventListener('keydown', this.handleSearch);
-  },
-  beforeUnmount() {
-    window.removeEventListener('keydown', this.handleSearch);
-  },
-  methods: {
-    handleSearch(event) {
-      if ((event.ctrlKey || event.metaKey) && event.key === '/') {
-        this.search = '';
-        this.searchDialog = !this.searchDialog;
-      }
-      if (event.key === 'Escape') {
-        this.searchDialog = false;
-      }
-      if (event.key === 'Enter') {
-        if (this.searchResults.length > 0) {
-          this.navTo(this.searchResults[0].path);
-        } else {
-          this.searchDialog = false;
-        }
-      }
-    },
-    navTo(path) {
-      //save nav to store
-      this.$router.push(path);
-      this.searchDialog = false;
-    },
-    unCamelCase(str) {
-      return unCamelCase(str);
-    },
-  },
-};
+const searchResults = computed(() => {
+  if (!search.value || search.value.length < 3) return []
+  return NavStore()
+    .Index.filter(item => item.title.toLowerCase().includes(search.value.toLowerCase()))
+    .slice(0, 5)
+})
+
+const recent = computed(() => NavStore().SearchHistory)
+
+function handleSearch(event: KeyboardEvent) {
+  if ((event.ctrlKey || event.metaKey) && event.key === '/') {
+    search.value = ''
+    searchDialog.value = !searchDialog.value
+  }
+  if (event.key === 'Escape') {
+    searchDialog.value = false
+  }
+  if (event.key === 'Enter') {
+    if (searchResults.value.length > 0) {
+      router.push(searchResults.value[0].path)
+      searchDialog.value = false
+    } else {
+      searchDialog.value = false
+    }
+  }
+}
+
+onMounted(() => {
+  hasCmdKey.value = navigator.userAgent.includes('Mac')
+  window.addEventListener('keydown', handleSearch)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleSearch)
+})
 </script>

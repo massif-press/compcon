@@ -7,8 +7,8 @@
       <div class="top-element mr-6 mb-1"
         style="position: relative; display: inline-block">
         <div v-if="!activeEffect.IsPassive"
-          :class="`light bg-${activeEffect.Applied ? 'panel-border' : lightColor}`" />
-        <v-chip :color="activeEffect.Applied ? 'panel-border' : 'primary'"
+          :class="`light bg-${isGreyed ? 'panel-border' : lightColor}`" />
+        <v-chip :color="isGreyed ? 'panel-border' : 'primary'"
           variant="elevated"
           :ripple="false"
           size="small"
@@ -24,94 +24,101 @@
           `"
           @click="open">
           <template #prepend>
-            <v-avatar v-if="activeEffect.Frequency"
-              color="background"
-              class="mr-1">
-              <v-tooltip location="top">
+            <v-icon v-if="isDestroyed"
+              icon="mdi-cancel"
+              size="18"
+              class="mr-1" />
+            <template v-else>
+              <v-avatar v-if="activeEffect.Frequency"
+                color="background"
+                class="mr-1">
+                <v-tooltip location="top">
+                  <template #activator="{ props }">
+                    <v-icon v-bind="props"
+                      :icon="frequencyIcon(activeEffect.Frequency)"
+                      size="18" />
+                  </template>
+                  {{ frequencyText(activeEffect.Frequency) }}
+                </v-tooltip>
+              </v-avatar>
+              <v-tooltip v-if="activeEffect.IsPassive"
+                location="top">
                 <template #activator="{ props }">
                   <v-icon v-bind="props"
-                    :icon="frequencyIcon(activeEffect.Frequency)"
-                    size="18" />
+                    icon="cc:trait"
+                    size="18"
+                    class="mr-1" />
                 </template>
-                {{ frequencyText(activeEffect.Frequency) }}
+                Passive Effect
               </v-tooltip>
-            </v-avatar>
-            <v-tooltip v-if="activeEffect.IsPassive"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="cc:trait"
-                  size="18"
-                  class="mr-1" />
-              </template>
-              Passive Effect
-            </v-tooltip>
-            <v-tooltip v-if="activeEffect.Damage.length"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="cc:eclipse"
-                  size="18"
-                  class="mr-1" />
-              </template>
-              Damage Assignment Available
-            </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddStatus.length"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="cc:status_exposed"
-                  size="18"
-                  class="mr-1" />
-              </template>
-              Status Effect Available
-            </v-tooltip>
-            <v-tooltip v-if="activeEffect.Save"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="mdi-dice-d20"
-                  size="18"
-                  class="mr-1" />
-              </template>
-              Save Available
-            </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddResist.length"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="mdi-shield-half-full"
-                  size="18"
-                  class="mr-1" />
-              </template>
-              Resistance/Immunity Available
-            </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddOther.length"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="mdi-hexagon-multiple"
-                  size="18"
-                  class="mr-1" />
-              </template>
-              Other Effect Available
-            </v-tooltip>
-            <v-tooltip v-if="activeEffect.AddSpecial.length"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="mdi-star-four-points-circle"
-                  size="18"
-                  class="mr-1" />
-              </template>
-              Special Effect Available
-            </v-tooltip>
+              <v-tooltip v-if="activeEffect.Damage.length"
+                location="top">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props"
+                    icon="cc:eclipse"
+                    size="18"
+                    class="mr-1" />
+                </template>
+                Damage Assignment Available
+              </v-tooltip>
+              <v-tooltip v-if="activeEffect.AddStatus.length"
+                location="top">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props"
+                    icon="cc:status_exposed"
+                    size="18"
+                    class="mr-1" />
+                </template>
+                Status Effect Available
+              </v-tooltip>
+              <v-tooltip v-if="activeEffect.Save"
+                location="top">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props"
+                    icon="mdi-dice-d20"
+                    size="18"
+                    class="mr-1" />
+                </template>
+                Save Available
+              </v-tooltip>
+              <v-tooltip v-if="activeEffect.AddResist.length"
+                location="top">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props"
+                    icon="mdi-shield-half-full"
+                    size="18"
+                    class="mr-1" />
+                </template>
+                Resistance/Immunity Available
+              </v-tooltip>
+              <v-tooltip v-if="activeEffect.AddOther.length"
+                location="top">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props"
+                    icon="mdi-hexagon-multiple"
+                    size="18"
+                    class="mr-1" />
+                </template>
+                Other Effect Available
+              </v-tooltip>
+              <v-tooltip v-if="activeEffect.AddSpecial.length"
+                location="top">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props"
+                    icon="mdi-star-four-points-circle"
+                    size="18"
+                    class="mr-1" />
+                </template>
+                Special Effect Available
+              </v-tooltip>
+            </template>
           </template>
           <v-tooltip location="top"
             max-width="600px">
             <template #activator="{ props }">
               <div v-bind="props"
-                class="font-weight-bold pl-2">
+                class="font-weight-bold pl-2"
+                :style="isDestroyed ? 'text-decoration: line-through' : ''">
                 {{ activeEffect.Name }}
               </div>
             </template>
@@ -126,6 +133,18 @@
                 </i>
               </div>
               <v-divider class="my-1" />
+              <cc-alert v-if="isDestroyed"
+                variant="tonal"
+                color="error">
+                Origin {{ activeEffect.Origin.Type || 'equipment' }} has been destroyed
+              </cc-alert>
+
+              <cc-alert v-else-if="isUsed"
+                color="panel-border">
+                Origin {{ activeEffect.Origin.Type || 'equipment' }} has been used
+              </cc-alert>
+
+
               <cc-alert v-if="activeEffect.Condition"
                 color="primary">
                 <b class="text-accent">IF:&nbsp;</b>
@@ -161,12 +180,22 @@
           </template>
         </v-chip>
         <div class="end"
-          :class="`bg-${activeEffect.Applied ? 'panel-border' : 'primary'}`" />
+          :class="`bg-${isGreyed ? 'panel-border' : 'primary'}`" />
         <div class="end-light"
-          :class="`bg-${activeEffect.Applied ? 'panel-border' : lightColor}`" />
+          :class="`bg-${isGreyed ? 'panel-border' : lightColor}`" />
       </div>
     </template>
     <template #default="{ close }">
+      <cc-alert v-if="isDestroyed"
+        variant="tonal"
+        color="error">
+        Origin {{ activeEffect.Origin.Type || 'equipment' }} has been destroyed
+      </cc-alert>
+
+      <cc-alert v-else-if="isUsed"
+        color="panel-border">
+        Origin {{ activeEffect.Origin.Type || 'equipment' }} has been used
+      </cc-alert>
       <menu-input v-if="getCombatant"
         :key="owner.ID"
         :active-effect="activeEffect"
@@ -177,74 +206,75 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { ByTier } from '@/util/tierFormat';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
 
-export default {
-  name: 'CcActiveEffectChip',
-  components: {
-    MenuInput,
-  },
-  props: {
-    activeEffect: { type: ActiveEffect, required: true },
-    tier: { type: Number, required: false, default: 1 },
-    encounter: { type: Object, required: true },
-    owner: { type: Object, required: true },
-  },
-  computed: {
-    getCombatant(): CombatantData | undefined {
-      return this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.ID === this.owner.ID || c.actor.CombatController.ActiveActor.ID === this.owner.ID || c.actor.CombatController.RootActor.ID === this.owner.ID
-      );
-    },
-    lightColor() {
-      return this.activeEffect.Origin.Color || 'orange';
-    },
-    icon() {
-      return this.activeEffect.Origin.Icon || 'mdi-rhombus-outline';
-    },
-  },
-  methods: {
-    byTier(detail: string) {
-      return ByTier(detail, this.tier);
-    },
-    frequencyIcon(frequency: string): string {
-      const str = frequency.toLowerCase();
-      switch (str) {
-        case '1/round':
-          return 'mdi-alpha-r-circle';
-        case '1/turn':
-          return 'mdi-alpha-t-circle';
-        case '1/scene':
-        case '1/encounter':
-          return 'mdi-alpha-e-circle';
-        case '1/mission':
-          return 'mdi-alpha-m-circle';
-        default:
-          return 'mdi-timer-sand';
-      }
-    },
-    frequencyText(frequency: string): string {
-      const str = frequency.toLowerCase();
-      switch (str) {
-        case '1/round':
-          return 'Usable once per Round';
-        case '1/turn':
-          return 'Usable once per Turn';
-        case '1/scene':
-        case '1/encounter':
-          return 'Usable once per Encounter';
-        case '1/mission':
-          return 'Usable once per Mission';
-        default:
-          return frequency;
-      }
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  activeEffect: ActiveEffect
+  tier?: number
+  encounter: object
+  owner: object
+}>(), {
+  tier: 1,
+})
+
+const getCombatant = computed((): CombatantData | undefined =>
+  props.encounter.Combatants.find(
+    (c: CombatantData) => c.actor.ID === props.owner.ID || c.actor.CombatController.ActiveActor.ID === props.owner.ID || c.actor.CombatController.RootActor.ID === props.owner.ID
+  )
+)
+
+const isUsed = computed(() => !!props.activeEffect.Origin?.Used)
+
+const isDestroyed = computed(() => !!props.activeEffect.Origin?.Destroyed)
+
+const isGreyed = computed(() => props.activeEffect.Applied || isUsed.value || isDestroyed.value)
+
+const lightColor = computed(() => props.activeEffect.Origin.Color || 'orange')
+
+const icon = computed(() => props.activeEffect.Origin.Icon || 'mdi-rhombus-outline')
+
+function byTier(detail: string) {
+  return ByTier(detail, props.tier);
+}
+
+function frequencyIcon(frequency: string): string {
+  const str = frequency.toLowerCase();
+  switch (str) {
+    case '1/round':
+      return 'mdi-alpha-r-circle';
+    case '1/turn':
+      return 'mdi-alpha-t-circle';
+    case '1/scene':
+    case '1/encounter':
+      return 'mdi-alpha-e-circle';
+    case '1/mission':
+      return 'mdi-alpha-m-circle';
+    default:
+      return 'mdi-timer-sand';
+  }
+}
+
+function frequencyText(frequency: string): string {
+  const str = frequency.toLowerCase();
+  switch (str) {
+    case '1/round':
+      return 'Usable once per Round';
+    case '1/turn':
+      return 'Usable once per Turn';
+    case '1/scene':
+    case '1/encounter':
+      return 'Usable once per Encounter';
+    case '1/mission':
+      return 'Usable once per Mission';
+    default:
+      return frequency;
+  }
+}
 </script>
 
 <style scoped>

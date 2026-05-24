@@ -1,5 +1,5 @@
 <template>
-  <v-col v-if="event.SpecialEvents.length"
+  <v-col v-if="event.SpecialEvents?.length"
     :cols="cols">
     <div v-for="(s, index) in event.SpecialEvents"
       :key="`special-${index}`">
@@ -26,17 +26,13 @@
 
 
 
-<script lang="ts">
+<script setup lang="ts">
 import BaseDurationDisplay from './BaseDurationDisplay.vue';
 
-export default {
-  name: 'StatusApplicator',
-  components: {
-    BaseDurationDisplay
-  },
-  props: {
-    event: { type: Object, required: true },
-    cols: { type: [Number, String], default: 'auto' }
-  }
-};
+const props = withDefaults(defineProps<{
+  event: object
+  cols?: number | string
+}>(), {
+  cols: 'auto',
+})
 </script>

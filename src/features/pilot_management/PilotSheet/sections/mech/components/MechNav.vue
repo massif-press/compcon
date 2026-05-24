@@ -62,6 +62,33 @@
       </v-list>
     </v-menu>
 
+    <div v-if="!pilot.IsRemote"
+      class="d-inline">
+      <cc-dialog title="Share Pilot Data"
+        icon="cc:pilot"
+        :close-on-click="false">
+        <template #activator="{ open }">
+          <v-tooltip open-delay="300"
+            location="top"
+            :text="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'">
+            <template #activator="{ props }">
+              <span v-bind="props">
+                <v-btn icon
+                  size="small"
+                  variant="plain"
+                  class="unskew mt-n2"
+                  :disabled="!isAuthed"
+                  @click="open">
+                  <v-icon color="white">mdi-broadcast</v-icon>
+                </v-btn>
+              </span>
+            </template>
+          </v-tooltip>
+        </template>
+        <share-dialog :item="pilot" />
+      </cc-dialog>
+    </div>
+
     <div class="d-inline">
       <v-tooltip :text="pilot.FavoriteMech?.ID === mech.ID ? 'Unfavorite Mech' : 'Favorite Mech'"
         location="top">
@@ -90,12 +117,14 @@
 </template>
 
 <script lang="ts">
+import { UserStore } from '@/user/store';
 import StatblockDialog from '../../../components/StatblockDialog.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
+import ShareDialog from '@/shared/ShareDialog.vue';
 
 export default {
   name: 'MechNav',
-  components: { StatblockDialog },
+  components: { StatblockDialog, ShareDialog },
   props: {
     pilot: {
       type: Pilot,
@@ -114,6 +143,12 @@ export default {
   data: () => ({
     statblockDialog: false,
   }),
+  computed: {
+    isAuthed(): boolean {
+      return UserStore().IsLoggedIn
+    },
+
+  },
   methods: {
     toTacticalProfile() {
       this.$router.push({
@@ -146,7 +181,7 @@ export default {
   position: absolute;
   width: 5px;
   height: 30px;
-  right: 220px;
+  right: 260px;
   top: 0;
   z-index: 9;
   transition: filter 0.2s ease-in-out;

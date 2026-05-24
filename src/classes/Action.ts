@@ -1,5 +1,7 @@
 import { v4 as uuid } from 'uuid'
-import { ActivationType, Damage, ItemType, Range } from '@/class'
+import { Damage } from './Damage'
+import { ActivationType, ItemType } from './enums'
+import { Range } from './Range'
 import { IDeployableData } from './components/feature/deployable/Deployable'
 import { isNumber } from 'lodash-es'
 import { IDamageData } from './Damage'
@@ -182,9 +184,9 @@ class Action {
         : [data.synergy_locations]
     else this.SynergyLocations = []
     this.Activation = data.activation
-      ? (Object.values(ActivationType).find(
+      ? ((Object.values(ActivationType).find(
           v => v.toLowerCase() === (data.activation as string).toLowerCase().replace(/_/g, ' ')
-        ) as ActivationType) ?? data.activation
+        ) as ActivationType) ?? data.activation)
       : ActivationType.Quick
     this.Attack = data.attack
 
@@ -194,7 +196,7 @@ class Action {
 
     this.Terse = data.terse || ''
     this._detail = data.detail || data.effect || ''
-    this.Cost = data.cost || 1
+    this.Cost = Object.hasOwn(data, 'cost') ? data.cost || 0 : 1
     this.HeatCost = heat && isNumber(heat) ? heat : 0
     // heat cost override
     if (data.heat_cost || data.heat_cost === 0)
@@ -215,8 +217,13 @@ class Action {
       this.Range = data.range ? data.range.map(x => new Range(x)) : []
     }
     this.IsPilotAction =
-      data.pilot || data.id === 'act_free_action' || data.id?.includes('jockey') || false
+      data.pilot ||
+      data.id?.includes('jockey') ||
+      data.name?.toLowerCase().includes('jockey') ||
+      false
+
     this.IsMechAction = data.mech || !data.pilot
+
     this.IsActiveHidden = data.hide_active || false
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'
     this.ActiveEffects = data.active_effects
@@ -315,7 +322,7 @@ class Action {
         id: `deploy_${d.name}_${uuid()}`,
         name: `Deploy ${d.name}`,
         activation: d.activation || ActivationType.Quick,
-        cost: d.cost || 1,
+        cost: Object.hasOwn(d, 'cost') ? d.cost : 1,
         detail: '',
         synergy_locations:
           d.type?.toLowerCase() === 'drone' ? ['deployable', 'drone'] : ['deployable'],

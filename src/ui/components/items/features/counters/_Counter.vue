@@ -86,55 +86,40 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-import { Counter } from '@/class';
-import { ICounterData } from '@/interface';
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { Counter, ICounterData } from '@/classes/components/combat/counters/Counter'
 
-export default {
-  name: 'Counter',
-  props: {
-    counterData: {
-      type: Object,
-      required: true,
-    },
-    saveData: {
-      type: Array,
-      required: true,
-    },
-  },
-  data: () => ({
-    counter: null as any,
-    dirty: false,
-  }),
-  watch: {
-    counter: {
-      handler(val: Counter) {
-        this.$emit('update', val);
-      },
-      deep: true,
-    },
-  },
-  created(): void {
-    this.counter = new Counter(this.counterData as ICounterData);
+const props = defineProps<{
+  counterData: object
+  saveData: any[]
+}>()
 
-    const data = this.saveData.find((data: any) => data.id === this.counter.ID);
-    if (data) this.counter.LoadData(data);
-  },
-  methods: {
-    onInput(): void {
-      this.dirty = true;
-    },
+const emit = defineEmits<{ update: [val: Counter]; delete: [] }>()
 
-    onInputEnterOrLeave(e: FocusEvent | InputEvent): void {
-      const element = e.target as HTMLInputElement;
+const counter = ref<any>(null)
+const dirty = ref(false)
 
-      const val = parseInt(element.value);
-      this.counter.Set(val);
-      element.value = this.counter.Value.toString();
-      this.dirty = false;
-    },
-  },
-};
+counter.value = new Counter(props.counterData as ICounterData);
+const data = props.saveData.find((data: any) => data.id === counter.value.ID);
+if (data) counter.value.LoadData(data);
+
+watch(counter, (val: Counter) => {
+  emit('update', val);
+}, { deep: true })
+
+function onInput(): void {
+  dirty.value = true;
+}
+
+function onInputEnterOrLeave(e: FocusEvent | InputEvent): void {
+  const element = e.target as HTMLInputElement;
+
+  const val = parseInt(element.value);
+  counter.value.Set(val);
+  element.value = counter.value.Value.toString();
+  dirty.value = false;
+}
 </script>
 
 <style scoped>

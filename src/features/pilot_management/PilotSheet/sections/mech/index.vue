@@ -168,12 +168,13 @@
 import MechNav from './components/MechNav.vue';
 import RequirementItem from './components/RequirementItem.vue';
 import AttributesBlock from './sections/attributes/index.vue';
-import { Pilot, Mech } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
+import { Mech } from '@/classes/mech/Mech'
 import { PilotStore } from '@/stores';
 import LoadoutBlock from './sections/LoadoutBlock.vue';
 import SectionHeader from '../components/SectionHeader.vue';
 import StatusAlerts from './components/StatusAlerts.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

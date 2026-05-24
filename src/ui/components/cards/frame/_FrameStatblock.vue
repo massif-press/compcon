@@ -60,19 +60,11 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import FrameStatblockItem from './_FrameStatblockItem.vue';
+<script setup lang="ts">
+import { Frame } from '@/classes/mech/components/frame/Frame'
+import FrameStatblockItem from './_FrameStatblockItem.vue'
 
-export default {
-  name: 'CcFrameStatblock',
-  components: {
-    FrameStatblockItem
-  },
-  props: {
-    frame: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+defineProps<{
+  frame: Frame
+}>()
 </script>

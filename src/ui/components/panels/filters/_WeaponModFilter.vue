@@ -26,7 +26,7 @@
         clearable
         variant="outlined"
         label="From Content Pack"
-        :items="lcps"
+        :items="lcpNames"
         multiple
         @update:modelValue="updateFilters()" />
     </v-col>
@@ -40,7 +40,7 @@
         clearable
         variant="outlined"
         label="Tags"
-        :items="tags"
+        :items="modTags"
         item-value="ID"
         multiple
         item-text="Name"
@@ -50,25 +50,19 @@
 </template>
 
 <script lang="ts">
-import { Tag, Manufacturer } from '@/class';
-
-import { CompendiumStore } from '@/stores';
-import * as _ from 'lodash-es';
-
-const nameSort = function (a, b): number {
-  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
-  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
-  return 0;
-};
-
 export default {
-  name: 'frame-filter',
-  props: { activeFilters: { type: Object, default: () => ({}) } },
+  name: 'weapon-mod-filter',
+  props: {
+    activeFilters: { type: Object, default: () => ({}) },
+    manufacturers: { type: Array, default: () => [] },
+    modTags: { type: Array, default: () => [] },
+    lcpNames: { type: Array, default: () => [] },
+  },
   data: () => ({
-    sourceFilter: [],
-    tagFilter: [],
-    lcpFilter: [],
-    weaponTypeFilter: [],
+    sourceFilter: [] as string[],
+    tagFilter: [] as string[],
+    lcpFilter: [] as string[],
+    weaponTypeFilter: [] as string[],
   }),
   emits: ['set-filters'],
   mounted() {
@@ -77,28 +71,6 @@ export default {
     if (f.Source) this.sourceFilter = f.Source[0] ?? [];
     if (f.Tags) this.tagFilter = f.Tags;
     if (f.LcpName) this.lcpFilter = f.LcpName[0] ?? [];
-  },
-  computed: {
-    manufacturers(): Manufacturer[] {
-      return CompendiumStore()
-        .getItemCollection('Manufacturers')
-        .map((x) => ({ title: x.Name, value: x.ID }))
-        .sort(nameSort);
-    },
-    tags(): Tag[] {
-      return _.uniqBy(
-        [].concat(
-          CompendiumStore()
-            .getItemCollection('WeaponMods')
-            .flatMap((x) => x.Tags)
-            .filter((x) => !x.FilterIgnore && !x.IsHidden)
-        ),
-        'ID'
-      );
-    },
-    lcps(): string[] {
-      return _.uniq(CompendiumStore().Frames.map((x) => x.LcpName));
-    },
   },
   methods: {
     clear() {
@@ -109,10 +81,8 @@ export default {
     },
     updateFilters() {
       const fObj = {} as any;
-      if (this.lcpFilter && this.lcpFilter.length)
-        fObj.LcpName = [this.lcpFilter];
-      if (this.sourceFilter && this.sourceFilter.length)
-        fObj.Source = [this.sourceFilter];
+      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter];
+      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter];
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
       this.$emit('set-filters', fObj);
     },

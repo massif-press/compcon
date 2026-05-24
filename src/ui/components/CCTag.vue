@@ -21,51 +21,32 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'CCTag',
-  props: {
-    size: {
-      type: String,
-      required: false,
-    },
-    outlined: {
-      type: Boolean,
-      required: false,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    tag: {
-      type: Object,
-      required: true,
-    },
-    pilot: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    bonus: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-    tier: {
-      type: Number,
-      required: false,
-      default: 1,
-    },
-  },
-  computed: {
-    getColor(): string {
-      return this.tag.err ? 'error' : this.tag.IsExotic ? 'exotic' : this.color;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const { smAndDown: mobile } = useDisplay()
+
+interface Props {
+  size?: string
+  outlined?: boolean
+  color?: string
+  tag: Record<string, any>
+  pilot?: object | null
+  bonus?: number
+  tier?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  color: 'primary',
+  pilot: null,
+  bonus: 0,
+  tier: 1,
+})
+
+const getColor = computed(() => {
+  return props.tag.err ? 'error' : props.tag.IsExotic ? 'exotic' : props.color
+})
 </script>
 
 <style scoped>

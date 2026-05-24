@@ -93,104 +93,102 @@
 
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
 import { CombatantData } from '@/classes/encounter/Encounter';
 
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import EffectApplicator from './EffectApplicator.vue';
 import ApplyButton from './ApplyButton.vue'
 import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
-import { Action } from '@/interface';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { Action } from '@/classes/Action';
 
+const props = withDefaults(defineProps<{
+  activeEffect: any
+  encounter: EncounterInstance
+  owner: object
+  close: Function
+  hideInput?: boolean
+  embedded?: boolean
+  color?: string
+  overrideMissingInputs?: boolean
+  initialTargets?: any[]
+  action?: object
+}>(), {
+  hideInput: false,
+  embedded: false,
+  color: 'panel',
+  overrideMissingInputs: null,
+  initialTargets: () => [],
+})
 
-export default {
-  name: 'AeMenuInput',
-  components: {
-    EffectApplicator,
-    ApplyButton,
-  },
-  props: {
-    activeEffect: { type: [ActiveEffect, Action] as any, required: true },
-    encounter: { type: EncounterInstance, required: true },
-    owner: { type: Object, required: true },
-    close: { type: Function, required: true },
-    hideInput: { type: Boolean, default: false },
-    embedded: { type: Boolean, default: false },
-    color: { type: String, default: 'panel' },
-    overrideMissingInputs: { type: Boolean, default: null },
-    initialTargets: { type: Array, default: () => [] },
-    action: { type: Object, required: false },
-  },
-  emits: ['apply', 'reset'],
-  data: () => ({
-    event: {} as ActiveEffectEvent,
-    ready: false,
-    isFree: false,
-  }),
-  computed: {
-    isPilotSheet() {
-      return this.encounter.ItemType === 'PilotSheet';
-    },
-    isApplied(): boolean {
-      return this.owner.actor.CombatController.IsActionUsed(this.activeEffect.ID);
-    },
-    isRam(): boolean {
-      return this.activeEffect.ID === 'act_ram';
-    },
-    canOverride() {
-      return (
-        this.activeEffect.AddOther?.length ||
-        this.activeEffect.AddResist?.length ||
-        this.activeEffect.AddStatus?.length ||
-        this.activeEffect.AddSpecial?.length ||
-        this.activeEffect.Damage.length > 0
-      );
-    },
-    hasAction() {
-      return (
-        this.activeEffect.AddOther ||
-        this.activeEffect.AddResist ||
-        this.activeEffect.AddStatus ||
-        this.activeEffect.AddSpecial ||
-        this.activeEffect.Damage.length ||
-        this.activeEffect.Save
-      );
-    },
-    activation(): boolean {
-      return (this.activeEffect as any).Activation != null;
-    },
-    frequencyText(): string {
-      if (this.activeEffect.Frequency) {
-        if (
-          typeof this.activeEffect.Frequency === 'object' &&
-          (this.activeEffect.Frequency as any).FreqText
-        ) {
-          return (this.activeEffect.Frequency as any).FreqText;
-        } else if (typeof this.activeEffect.Frequency === 'string') {
-          return this.activeEffect.Frequency;
-        }
-      }
-      return '';
-    },
-  },
-  created() {
-    this.reset();
-  },
-  methods: {
-    reset(clearAction = false) {
-      if (clearAction) this.owner.actor.CombatController.ClearActionUsed(this.activeEffect.ID);
-      const self = this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
-      );
-      if (!self) {
-        throw new Error('Owner combatant not found in encounter');
-      }
-      this.event = new ActiveEffectEvent(self, this.activeEffect, this.encounter);
-    },
-    copyText(text: string) {
-      navigator.clipboard.writeText(text);
-    },
-  },
-};
+const emit = defineEmits<{
+  apply: []
+  reset: [...args: any[]]
+}>()
+
+const event = ref({} as ActiveEffectEvent)
+const ready = ref(false)
+const isFree = ref(false)
+
+const isPilotSheet = computed(() => props.encounter.ItemType === 'PilotSheet')
+
+const isApplied = computed((): boolean =>
+  props.owner.actor.CombatController.IsActionUsed(props.activeEffect.ID)
+)
+
+const isRam = computed((): boolean => props.activeEffect.ID === 'act_ram')
+
+const canOverride = computed(() =>
+  props.activeEffect.AddOther?.length ||
+  props.activeEffect.AddResist?.length ||
+  props.activeEffect.AddStatus?.length ||
+  props.activeEffect.AddSpecial?.length ||
+  props.activeEffect.Damage.length > 0
+)
+
+const hasAction = computed(() =>
+  props.activeEffect.AddOther ||
+  props.activeEffect.AddResist ||
+  props.activeEffect.AddStatus ||
+  props.activeEffect.AddSpecial ||
+  props.activeEffect.Damage.length ||
+  props.activeEffect.Save
+)
+
+const activation = computed((): boolean => (props.activeEffect as any).Activation != null)
+
+const frequencyText = computed((): string => {
+  if (props.activeEffect.Frequency) {
+    if (
+      typeof props.activeEffect.Frequency === 'object' &&
+      (props.activeEffect.Frequency as any).FreqText
+    ) {
+      return (props.activeEffect.Frequency as any).FreqText;
+    } else if (typeof props.activeEffect.Frequency === 'string') {
+      return props.activeEffect.Frequency;
+    }
+  }
+  return '';
+})
+
+function reset(clearAction = false) {
+  if (clearAction) props.owner.actor.CombatController.ClearActionUsed(props.activeEffect.ID);
+  const self = props.encounter.Combatants.find(
+    (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
+  );
+  if (!self) {
+    throw new Error('Owner combatant not found in encounter');
+  }
+  event.value = new ActiveEffectEvent(self, props.activeEffect, props.encounter);
+}
+
+function copyText(text: string) {
+  navigator.clipboard.writeText(text);
+}
+
+onMounted(() => {
+  reset();
+})
 </script>

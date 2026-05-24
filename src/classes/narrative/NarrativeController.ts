@@ -106,6 +106,8 @@ class NarrativeController {
     const idx = this.Clocks.findIndex((x) => x.ID === c.ID);
     if (idx === -1) return;
     this.Clocks.splice(idx, 1);
+    const cc = (this.Parent as any).CloudController;
+    if (cc) cc.stampTombstone(`narrative.clocks.${c.ID}`);
     this.Parent.SaveController.save();
   }
 
@@ -127,6 +129,8 @@ class NarrativeController {
     const idx = this.Tables.findIndex((x) => x.ID === t.ID);
     if (idx === -1) return;
     this.Tables.splice(idx, 1);
+    const cc = (this.Parent as any).CloudController;
+    if (cc) cc.stampTombstone(`narrative.tables.${t.ID}`);
     this.Parent.SaveController.save();
   }
 
@@ -135,6 +139,15 @@ class NarrativeController {
   }
 
   public set Relationships(val: Relationship[]) {
+    const cc = (this.Parent as any).CloudController;
+    if (cc) {
+      const now = Date.now();
+      const currentIds = new Set(this._relationships.map(r => r.id));
+      const newIds = new Set(val.map(r => r.id));
+      for (const id of currentIds) {
+        if (!newIds.has(id)) cc.stampTombstone(`narrative.relationships.${id}`);
+      }
+    }
     this._relationships = val;
     this.Parent.SaveController.save();
   }

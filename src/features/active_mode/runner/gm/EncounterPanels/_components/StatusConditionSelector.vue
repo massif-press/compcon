@@ -139,7 +139,7 @@
 <script lang="ts">
 import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'StatusConditionSelector',
@@ -212,7 +212,7 @@ export default {
     },
     setInflictStatus(status) {
       const idx = this.statusesToInflict.indexOf(status.ID);
-      if (idx >= 0) {
+      if (idx >= -1) {
         this.statusesToInflict.splice(idx, 1);
       } else {
         this.statusesToInflict.push(status.ID);

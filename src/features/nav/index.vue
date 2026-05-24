@@ -320,7 +320,10 @@
   </v-app-bar>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { useRoute } from 'vue-router'
 import HelpPage from './pages/Help.vue'
 import AboutPage from './pages/About.vue'
 import CreditsPage from './pages/Credits.vue'
@@ -328,90 +331,33 @@ import OptionsPage from './pages/Options/index.vue'
 import ContentPage from './pages/ExtraContent/index.vue'
 import CloudPage from './pages/Cloud.vue'
 import AchievementsPage from './pages/Achievements.vue'
-
 import Reference from '../compendium/Views/Reference/Reference.vue'
-
+import SearchComponent from './search/index.vue'
+import V2Auto from './pages/ExtraContent/components/v2Auto.vue'
 import { UserStore } from '@/stores'
 import { useOnlineStatus } from '@/composables/useOnlineStatus'
 import { NAV_STRINGS } from './strings'
 
-import SearchComponent from './search/index.vue'
-import V2Auto from './pages/ExtraContent/components/v2Auto.vue'
+defineProps<{ pilotManagement?: boolean; encounter?: boolean }>()
 
-export default {
-  name: 'CcNav',
-  components: {
-    HelpPage,
-    AboutPage,
-    CreditsPage,
-    OptionsPage,
-    ContentPage,
-    CloudPage,
-    AchievementsPage,
-    Reference,
-    SearchComponent,
-    V2Auto,
-  },
-  props: {
-    pilotManagement: { type: Boolean },
-    encounter: { type: Boolean },
-  },
-  setup() {
-    const { isOnline } = useOnlineStatus()
-    return { isOnline, n: NAV_STRINGS.nav }
-  },
-  data: () => ({
-    aboutDialog: false,
-    helpDialog: false,
-    optionsDialog: false,
-    contentModal: false,
-    storageWarningDialog: false,
-    storageFullDialog: false,
-    qrDialog: false,
-    hasCmdKey: false,
-    refModal: false,
-  }),
-  computed: {
-    hide(): boolean {
-      if (this.$route.path === '/') return true
-      return false
-    },
-    landscape(): boolean {
-      return this.$vuetify.display.mdAndDown
-    },
-    portrait(): boolean {
-      return this.$vuetify.display.xs
-    },
-    mobile() {
-      return this.portrait
-    },
-    StorageWarning(): boolean {
-      return UserStore().StorageWarning
-    },
-    StorageMax(): boolean {
-      return UserStore().StorageFull
-    },
-    appVersion(): string {
-      return APP_VERSION || 'dev'
-    },
-    notifications() {
-      return UserStore().CloudNotifications
-    },
-    standalone(): boolean {
-      return window.matchMedia('(display-mode: standalone)').matches
-    },
-    UserStoreLoading(): boolean {
-      return UserStore().IsLoading
-    },
-    isDevsite() {
-      return (
-        window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
-      )
-    },
-  },
-  created() {
-    this.hasCmdKey = navigator.userAgent.includes('Mac')
-    this.storageFullDialog = this.StorageMax
-  },
-}
+const route = useRoute()
+const { xs: portrait, mdAndDown: landscape } = useDisplay()
+const mobile = portrait
+const { isOnline } = useOnlineStatus()
+const n = NAV_STRINGS.nav
+
+const userStore = UserStore()
+
+const contentModal = ref(false)
+const storageFullDialog = ref(userStore.LocalStorageFull)
+const refModal = ref(false)
+
+const hide = computed(() => route.path === '/')
+const StorageWarning = computed(() => userStore.StorageWarning)
+const StorageMax = computed(() => userStore.LocalStorageFull)
+const appVersion = APP_VERSION || 'dev'
+const notifications = computed(() => userStore.CloudNotifications)
+const standalone = window.matchMedia('(display-mode: standalone)').matches
+const UserStoreLoading = computed(() => userStore.IsLoading)
+const isDevsite = window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
 </script>

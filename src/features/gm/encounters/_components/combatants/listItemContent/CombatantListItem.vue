@@ -6,37 +6,31 @@
     :readonly="readonly" />
 </template>
 
-<script lang="ts">
-import cDoodadListItem from './cDoodadListItem.vue';
-import cUnitListItem from './cUnitListItem.vue';
-import cEidolonListItem from './cEidolonListItem.vue';
-import logger from '@/user/logger';
+<script setup lang="ts">
+import { computed } from 'vue'
+import cDoodadListItem from './cDoodadListItem.vue'
+import cUnitListItem from './cUnitListItem.vue'
+import cEidolonListItem from './cEidolonListItem.vue'
+import logger from '@/user/logger'
 
-export default {
-  name: 'GmCombatantListItem',
-  props: {
-    item: { type: Object, required: true },
-    odd: { type: Boolean },
-    readonly: { type: Boolean, default: false },
-  },
-  computed: {
-    component() {
-      if (!this.item) {
-        logger.error('No item provided to CombatantListItem', this);
-        return null;
-      }
+const props = withDefaults(defineProps<{
+  item: Record<string, any>
+  odd?: boolean
+  readonly?: boolean
+}>(), { readonly: false })
 
-      if (!this.item.ItemType && !this.item.type) {
-        logger.error('No item type provided to CompendiumCard', this);
-        return null;
-      }
-
-      const t = (this.item.ItemType ? this.item.ItemType : this.item.type).toLowerCase();
-
-      if (t === 'doodad') return cDoodadListItem;
-      else if (t === 'unit') return cUnitListItem;
-      else return cEidolonListItem;
-    },
-  },
-};
+const component = computed(() => {
+  if (!props.item) {
+    logger.error('No item provided to CombatantListItem', null)
+    return null
+  }
+  if (!props.item.ItemType && !props.item.type) {
+    logger.error('No item type provided to CompendiumCard', null)
+    return null
+  }
+  const t = (props.item.ItemType ? props.item.ItemType : props.item.type).toLowerCase()
+  if (t === 'doodad') return cDoodadListItem
+  else if (t === 'unit') return cUnitListItem
+  else return cEidolonListItem
+})
 </script>

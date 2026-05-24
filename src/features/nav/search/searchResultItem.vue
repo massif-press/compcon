@@ -13,32 +13,22 @@
   </v-list-item>
 </template>
 
-<script lang="ts">
-import { unCamelCase } from '@/classes/utility/accent_fold';
-import { IndexItem, NavStore } from '@/stores';
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { unCamelCase } from '@/classes/utility/accent_fold'
+import { IndexItem, NavStore } from '@/stores'
 
-export default {
-  name: 'search-result-item',
-  props: {
-    indexItem: {
-      type: Object,
-      required: true,
-    },
-    mobile: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  methods: {
-    navTo(path) {
-      this.$router.push(path);
-      // this.$router.go(0);
-      NavStore().setSearchHistory(this.indexItem as IndexItem);
-      this.$emit('onNav');
-    },
-    unCamelCase(str) {
-      return unCamelCase(str);
-    },
-  },
-};
+const props = defineProps<{
+  indexItem: Record<string, any>
+  mobile?: boolean
+}>()
+
+const emit = defineEmits<{ onNav: [] }>()
+const router = useRouter()
+
+function navTo(path: string) {
+  router.push(path)
+  NavStore().setSearchHistory(props.indexItem as IndexItem)
+  emit('onNav')
+}
 </script>

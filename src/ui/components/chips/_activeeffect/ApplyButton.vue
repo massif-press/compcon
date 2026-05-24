@@ -1,5 +1,6 @@
 <template>
 
+  <template v-if="activeEffect">
   <cc-button v-if="activeEffect.IsPassive && !embedded"
     block
     size="x-small"
@@ -133,135 +134,143 @@
     </div>
   </div>
 
+  </template>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
-import { ByTier } from '@/util/tierFormat';
+import { Action } from '@/classes/Action';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { CombatantData } from '@/classes/encounter/Encounter';
 
-export default {
-  name: 'ActiveEventApplyButton',
-  props: {
-    event: { type: [ActiveEffectEvent, Array], required: true },
-    weaponEvent: { type: [WeaponAttackEvent, Array], required: false },
-    action: { type: Object, required: false },
-    actionId: { type: [String, Array], required: false },
-    activationOverride: { type: String, required: false },
-    encounter: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    close: { type: Function, required: true },
-    embedded: { type: Boolean, default: false },
-  },
-  emits: ['stage', 'apply', 'reset'],
-  data: () => ({
-    ready: false,
-    isFree: false,
-  }),
-  computed: {
-    events(): ActiveEffectEvent[] {
-      return Array.isArray(this.event) ? this.event as ActiveEffectEvent[] : [this.event];
-    },
-    weaponAttackEvents(): WeaponAttackEvent[] {
-      return this.weaponEvent
-        ? Array.isArray(this.weaponEvent)
-          ? this.weaponEvent as WeaponAttackEvent[]
-          : [this.weaponEvent]
-        : [];
-    },
-    actionIds(): string[] {
-      return this.actionId
-        ? Array.isArray(this.actionId)
-          ? this.actionId as string[]
-          : [this.actionId]
-        : [];
-    },
-    activeEffect() {
-      return this.events[0].Effect;
-    },
-    icon() {
-      return this.action?.Icon || (this.activeEffect as any).Icon || this.activeEffect.Origin.Icon || '';
-    },
-    color() {
-      if (this.isFree) return 'action--free';
-      return this.action?.Color || (this.activeEffect as any).Color || this.activeEffect.Origin.Color || 'primary';
-    },
-    isApplied(): boolean {
-      if (this.actionIds.length) {
-        return this.actionIds.every(id =>
-          this.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(id));
-      }
-      return this.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(this.activeEffect.ID);
-    },
-    noAction(): boolean {
-      return !this.owner.actor.CombatController.ActiveActor.CombatController.CanActivate(this.activationOverride || this.action?.Activation || (this.activeEffect as any).Activation || 'free');
-    },
-    canOverride() {
-      return (
-        this.activeEffect.AddOther?.length ||
-        this.activeEffect.AddResist?.length ||
-        this.activeEffect.AddStatus?.length ||
-        this.activeEffect.AddSpecial?.length ||
-        this.activeEffect.Damage.length > 0
-      );
-    },
-    hasAction() {
-      return (
-        this.activeEffect.AddOther ||
-        this.activeEffect.AddResist ||
-        this.activeEffect.AddStatus ||
-        this.activeEffect.AddSpecial ||
-        this.activeEffect.Damage.length ||
-        this.activeEffect.Save
-      );
-    },
-    activation(): boolean {
-      return (this.activeEffect as any).Activation != null;
-    },
-    frequencyText(): string {
-      if (this.activeEffect.Frequency) {
-        if (
-          typeof this.activeEffect.Frequency === 'object' &&
-          (this.activeEffect.Frequency as any).FreqText
-        ) {
-          return (this.activeEffect.Frequency as any).FreqText;
-        } else if (typeof this.activeEffect.Frequency === 'string') {
-          return this.activeEffect.Frequency;
-        }
-      }
-      return '';
-    },
-    mandatoryRemaining(): boolean {
-      return !this.events.every(x => x.Ready)
-    },
-  },
-  methods: {
-    byTier(detail: string) {
-      return ByTier(detail, this.owner.actor.CombatController.Tier);
-    },
-    stage(asFree) {
-      this.events.forEach(e => e.Staged = true)
-      this.isFree = asFree || false;
-      if (!this.isFree && this.isApplied) return;
-      this.ready = true;
-      this.$emit('stage');
-    },
-    apply(close: Function) {
-      if (!this.isFree && (this.isApplied || !this.ready)) return;
-      if (!this.isFree) {
-        this.owner.actor.CombatController.MarkActionUsed(this.activeEffect.ID);
-        const action = this.activationOverride || this.action?.Activation || (this.activeEffect as any).Activation || 'free';
-        // reactions are multiple use/round
-        if (action !== 'Reaction') this.owner.actor.CombatController.SetCombatAction(action, false);
-      }
-      if (this.weaponAttackEvents.length)
-        this.weaponAttackEvents.forEach(we => we.ApplyAll());
-      else
-        this.events.forEach(e => e.ApplyAll());
-      this.isFree = false;
-      this.$emit('apply');
-      close();
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  event: ActiveEffectEvent | ActiveEffectEvent[]
+  weaponEvent?: WeaponAttackEvent | WeaponAttackEvent[]
+  action?: Action
+  actionId?: string | string[]
+  activationOverride?: string
+  encounter: EncounterInstance
+  owner: CombatantData
+  close: () => void
+  embedded?: boolean
+}>(), {
+  weaponEvent: undefined,
+  action: undefined,
+  actionId: undefined,
+  activationOverride: undefined,
+  embedded: false,
+})
+
+const emit = defineEmits<{
+  stage: []
+  apply: []
+  reset: [...args: any[]]
+}>()
+
+const ready = ref(false)
+const isFree = ref(false)
+
+const events = computed((): ActiveEffectEvent[] =>
+  Array.isArray(props.event) ? props.event as ActiveEffectEvent[] : [props.event]
+)
+
+const weaponAttackEvents = computed((): WeaponAttackEvent[] =>
+  props.weaponEvent
+    ? Array.isArray(props.weaponEvent)
+      ? props.weaponEvent as WeaponAttackEvent[]
+      : [props.weaponEvent]
+    : []
+)
+
+const actionIds = computed((): string[] =>
+  props.actionId
+    ? Array.isArray(props.actionId)
+      ? props.actionId as string[]
+      : [props.actionId]
+    : []
+)
+
+const activeEffect = computed(() => events.value[0]?.Effect)
+
+const icon = computed(() =>
+  props.action?.Icon || (activeEffect.value as any).Icon || activeEffect.value.Origin.Icon || ''
+)
+
+const color = computed(() => {
+  if (isFree.value) return 'action--free';
+  return props.action?.Color || (activeEffect.value as any).Color || activeEffect.value.Origin.Color || 'primary';
+})
+
+const isApplied = computed((): boolean => {
+  if (actionIds.value.length) {
+    return actionIds.value.every(id =>
+      props.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(id));
+  }
+  return props.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(activeEffect.value.ID);
+})
+
+const noAction = computed((): boolean =>
+  !props.owner.actor.CombatController.ActiveActor.CombatController.CanActivate(props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free')
+)
+
+const canOverride = computed(() =>
+  activeEffect.value.AddOther?.length ||
+  activeEffect.value.AddResist?.length ||
+  activeEffect.value.AddStatus?.length ||
+  activeEffect.value.AddSpecial?.length ||
+  activeEffect.value.Damage.length > 0
+)
+
+const hasAction = computed(() =>
+  activeEffect.value.AddOther ||
+  activeEffect.value.AddResist ||
+  activeEffect.value.AddStatus ||
+  activeEffect.value.AddSpecial ||
+  activeEffect.value.Damage.length ||
+  activeEffect.value.Save
+)
+
+const activation = computed((): boolean => (activeEffect.value as any).Activation != null)
+
+const frequencyText = computed((): string => {
+  if (activeEffect.value.Frequency) {
+    if (
+      typeof activeEffect.value.Frequency === 'object' &&
+      (activeEffect.value.Frequency as any).FreqText
+    ) {
+      return (activeEffect.value.Frequency as any).FreqText;
+    } else if (typeof activeEffect.value.Frequency === 'string') {
+      return activeEffect.value.Frequency;
+    }
+  }
+  return '';
+})
+
+const mandatoryRemaining = computed((): boolean => !events.value.every(x => x.Ready))
+
+function stage(asFree) {
+  events.value.forEach(e => e.Staged = true)
+  isFree.value = asFree || false;
+  if (!isFree.value && isApplied.value) return;
+  ready.value = true;
+  emit('stage');
+}
+
+function apply(close: () => void) {
+  if (!isFree.value && (isApplied.value || !ready.value)) return;
+  if (!isFree.value) {
+    props.owner.actor.CombatController.MarkActionUsed(activeEffect.value.ID);
+    const action = props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free';
+    if (action !== 'Reaction') props.owner.actor.CombatController.SetCombatAction(action, false);
+  }
+  if (weaponAttackEvents.value.length)
+    weaponAttackEvents.value.forEach(we => we.ApplyAll());
+  else
+    events.value.forEach(e => e.ApplyAll());
+  isFree.value = false;
+  emit('apply');
+  close();
+}
 </script>

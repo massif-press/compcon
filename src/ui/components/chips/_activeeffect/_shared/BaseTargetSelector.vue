@@ -1,11 +1,11 @@
 <template>
-  <v-col>
+  <v-col v-if="event.Targets">
     <div class="text-cc-overline text-disabled">
       <span>{{ `Target${event.AoE ? 's' : ''}` }}</span>
     </div>
     <v-select v-for="(idx) in !event.AoE ? 1 : event.Targets.length"
-      :key="event.Targets[idx - 1]?.Combatant?.id || `empty-selector-${idx}`"
-      :value="event.Targets[idx - 1]?.Combatant?.actor.CombatController.CombatName || ''"
+      :key="event.Targets?.[idx - 1]?.Combatant?.id || `empty-selector-${idx}`"
+      :value="event.Targets?.[idx - 1]?.Combatant?.actor.CombatController.CombatName || ''"
       placeholder="Select Target"
       density="compact"
       variant="outlined"
@@ -14,7 +14,7 @@
       :item-title="t => t.actor.CombatController.CombatName"
       :items="event.AvailableTargets"
       flat
-      :error="!event.Targets[idx - 1]?.Combatant.id"
+      :error="!event.Targets?.[idx - 1]?.Combatant?.id"
       hide-details
       tile
       @update:model-value="event.SetTarget($event, idx - 1)">
@@ -73,25 +73,24 @@
       </template>
     </v-select>
     <v-btn v-if="event.AoE"
-      :key="`targetSel_${event.AvailableTargets.length}`"
+      :key="`targetSel_${event.AvailableTargets?.length}`"
       size="x-small"
       block
       flat
       tile
-      :color="event.AvailableTargets.length ? 'primary' : ''"
+      :color="event.AvailableTargets?.length ? 'primary' : ''"
       class="ma-1"
-      :disabled="!event.AvailableTargets.length"
+      :disabled="!event.AvailableTargets?.length"
       @click="event.AddTarget()">
       Add Target
     </v-btn>
   </v-col>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'BaseTargetSelector',
-  props: {
-    event: { type: Object, required: true },
-  },
-};
+<script setup lang="ts">
+import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
+
+const props = defineProps<{
+  event: ActiveEffectEvent
+}>()
 </script>

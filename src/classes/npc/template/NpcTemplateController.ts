@@ -1,4 +1,4 @@
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
 import { NpcTemplate } from './NpcTemplate'
 import { NpcClass } from '../class/NpcClass'
@@ -48,6 +48,7 @@ class NpcTemplateController {
     const idx = this._templates.findIndex(x => x.ID === temp.ID)
     if (idx > -1) {
       this._templates.splice(idx, 1)
+      this.Parent.CloudController.stampTombstone(`templates.${temp.ID}`)
       temp.BaseFeatures.forEach(f => this.Parent.NpcFeatureController.RemoveFeature(f))
       temp.OptionalFeatures.forEach(f => this.Parent.NpcFeatureController.RemoveFeature(f))
     }
@@ -174,7 +175,7 @@ class NpcTemplateController {
       const id = typeof x === 'string' ? x : x.id
       if (CompendiumStore().has('NpcTemplates', id))
         parent.NpcTemplateController._templates.push(
-          CompendiumStore().referenceByID('NpcTemplates', id)
+          CompendiumStore().referenceByID('NpcTemplates', id) as unknown as NpcTemplate
         )
       else if (x.data && Object.keys(x.data).length)
         parent.NpcTemplateController._templates.push(new NpcTemplate(x.data))

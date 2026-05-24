@@ -181,7 +181,7 @@ import { UserStore } from '@/stores';
 import CollectionShareCodeDialog from './data_viewer/collectionShareCodeDialog.vue';
 import CollectionInfo from './data_viewer/collectionInfo.vue';
 import logger from '@/user/logger';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

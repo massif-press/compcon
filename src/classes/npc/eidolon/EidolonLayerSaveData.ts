@@ -1,7 +1,7 @@
-import { SaveController } from '@/classes/components';
+import { SaveController } from '@/classes/components/save/SaveController';
 import { StatKey } from '@/classes/components/combat/stats/Stats';
 import { IStatData, StatController } from '@/classes/components/combat/stats/StatController';
-import { CompendiumStore } from '@/stores';
+import { CompendiumStore } from '@/features/compendium/store';
 import { Eidolon } from './Eidolon';
 import { EidolonLayer, IEidolonLayerData } from './EidolonLayer';
 import { FeatureController } from '@/classes/components/feature/FeatureController';

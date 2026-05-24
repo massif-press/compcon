@@ -22,40 +22,31 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import CounterComponent from './_Counter.vue';
 import NewCounter from './_NewCounter.vue';
-import { Counter } from '@/class';
+import { Counter } from '@/classes/components/combat/counters/Counter'
 
-export default {
-  name: 'cc-counter-set',
-  components: { CounterComponent, NewCounter },
-  props: {
-    actor: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    controller() {
-      return this.actor.CombatController.ActiveActor.CombatController.CounterController;
-    },
-    // parentController() {
-    //   return this.actor.Parent?.CombatController.CounterController;
-    // },
-  },
-  methods: {
-    onCustomCounterCreate(name: string) {
-      this.controller.createCustomCounter(name);
-    },
-    updateCounter(val: Counter) {
-      this.controller.saveCounter(val.Serialize());
-    },
-    deleteCustom(id: string) {
-      this.controller.deleteCustomCounter(id);
-    },
-  },
-};
+const props = defineProps<{
+  actor: object
+}>()
+
+const controller = computed(() => {
+  return props.actor.CombatController.ActiveActor.CombatController.CounterController;
+})
+
+function onCustomCounterCreate(name: string) {
+  controller.value.createCustomCounter(name);
+}
+
+function updateCounter(val: Counter) {
+  controller.value.saveCounter(val.Serialize());
+}
+
+function deleteCustom(id: string) {
+  controller.value.deleteCustomCounter(id);
+}
 </script>
 
 <style scoped>

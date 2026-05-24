@@ -134,7 +134,7 @@
 </template>
 
 <script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import PanelBase from './_PanelBase.vue';
 import PilotActionsPanel from './_components/PilotActionsPanel.vue';
 import PilotCombatLoadout from './_components/loadouts/PilotCombatLoadout.vue';

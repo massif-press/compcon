@@ -223,151 +223,119 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import DeletedItems from './components/DeletedItems.vue';
-import UserDataViewer from './components/UserDataViewer.vue';
-import { ClearAllData, GetLength, GetTotalStorageSize } from '@/io/Storage';
-import logger from '@/user/logger';
-import { UserStore } from '@/stores';
-import { NAV_STRINGS } from '@/features/nav/strings';
+<script setup lang="ts">
+import { ref, computed, watch, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
+import DeletedItems from './components/DeletedItems.vue'
+import UserDataViewer from './components/UserDataViewer.vue'
+import { ClearAllData, GetLength, GetTotalStorageSize } from '@/io/Storage'
+import logger from '@/user/logger'
+import { UserStore } from '@/stores'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'OptionsStorage',
-  components: { DeletedItems, UserDataViewer },
-  setup() {
-    return { st: NAV_STRINGS.storage }
+const { mdAndDown: mobile } = useDisplay()
+const st = NAV_STRINGS.storage
+
+const user = computed(() => UserStore().User)
+
+const deleteDaySelections = [
+  { title: 'Never', value: 0 },
+  { title: '1 Week', value: 7 },
+  { title: '2 Weeks', value: 14 },
+  { title: '1 Month', value: 30 },
+  { title: '3 Months', value: 90 },
+  { title: '6 Months', value: 180 },
+  { title: '1 Year', value: 365 },
+]
+
+const deleteDialog = ref(false)
+const storageRange = ref([0, 0])
+const deleteDays = ref(0)
+const size = ref<StorageEstimate>({})
+const thresholdType = ref('pct')
+
+const warnMb = computed({
+  get: () => {
+    if (!size.value.quota) return 0
+    return Number(((storageRange.value[0] / 100) * size.value.quota / (1024 * 1024)).toFixed(1))
   },
-  data: () => ({
-    importDialog: false,
-    fileValue: null,
-    deleteDialog: false,
-    storageRange: [0, 0],
-    deleteDays: 0,
-    size: {} as StorageEstimate,
-    data: {
-      pilots: { title: 'Pilots', length: 0 },
-      npcs: { title: 'NPCs', length: 0 },
-      encounters: { title: 'Encounters', length: 0 },
-      campaigns: { title: 'Campaigns', length: 0 },
-      characters: { title: 'Characters', length: 0 },
-      locations: { title: 'Locations', length: 0 },
-      factions: { title: 'Factions', length: 0 },
-      content: { title: 'LCPs', length: 0 },
-      images: { title: 'Local Images', length: 0 },
-    },
-    deleteDaySelections: [
-      { title: 'Never', value: 0 },
-      { title: '1 Week', value: 7 },
-      { title: '2 Weeks', value: 14 },
-      { title: '1 Month', value: 30 },
-      { title: '3 Months', value: 90 },
-      { title: '6 Months', value: 180 },
-      { title: '1 Year', value: 365 },
-    ],
-    thresholdType: 'pct',
-  }),
-  computed: {
-    user() {
-      return UserStore().User;
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    warnMb: {
-      get() {
-        if (!this.size.quota) return 0;
-        return Number(((this.storageRange[0] / 100) * this.size.quota / (1024 * 1024)).toFixed(1));
-      },
-      set(val: number) {
-        if (!this.size.quota) return;
-        const pct = (Number(val) * 1024 * 1024 / this.size.quota) * 100;
-        this.storageRange[0] = Math.max(0, Math.min(pct, this.storageRange[1]));
-        this.updateUserStorage();
-      },
-    },
-    maxMb: {
-      get() {
-        if (!this.size.quota) return 0;
-        return Number(((this.storageRange[1] / 100) * this.size.quota / (1024 * 1024)).toFixed(1));
-      },
-      set(val: number) {
-        if (!this.size.quota) return;
-        const pct = (Number(val) * 1024 * 1024 / this.size.quota) * 100;
-        this.storageRange[1] = Math.max(this.storageRange[0], Math.min(pct, 100));
-        this.updateUserStorage();
-      },
-    },
+  set: (val: number) => {
+    if (!size.value.quota) return
+    const pct = (Number(val) * 1024 * 1024 / size.value.quota) * 100
+    storageRange.value[0] = Math.max(0, Math.min(pct, storageRange.value[1]))
+    updateUserStorage()
   },
-  watch: {
-    thresholdType(val: string) {
-      if (val === 'pct') {
-        this.storageRange[0] = Math.round(this.storageRange[0] * 100) / 100;
-        this.storageRange[1] = Math.round(this.storageRange[1] * 100) / 100;
-      }
-    },
+})
+
+const maxMb = computed({
+  get: () => {
+    if (!size.value.quota) return 0
+    return Number(((storageRange.value[1] / 100) * size.value.quota / (1024 * 1024)).toFixed(1))
   },
-  async created() {
-    this.storageRange[0] = this.user.StorageWarning;
-    this.storageRange[1] = this.user.StorageMax;
-    this.deleteDays = this.user.AutoDeleteDays;
-
-    const est = await navigator.storage.estimate();
-    const actualUsage = await GetTotalStorageSize();
-
-    this.size = { usage: actualUsage, quota: est.quota };
-
-    for (const db of Object.keys(this.data)) {
-      const len = await this.GetLength(db);
-      if (len) {
-        this.data[db].length = len;
-      }
-    }
-
-    if (!est.usage || !est.quota) {
-      logger.info(`navigator storage estimate: ${est.usage} / ${est.quota}`, this);
-    } else
-      logger.info(
-        `navigator storage estimate: ${this.bytesToSize(est.usage)} / ${this.bytesToSize(est.quota)}`,
-        this
-      );
+  set: (val: number) => {
+    if (!size.value.quota) return
+    const pct = (Number(val) * 1024 * 1024 / size.value.quota) * 100
+    storageRange.value[1] = Math.max(storageRange.value[0], Math.min(pct, 100))
+    updateUserStorage()
   },
-  methods: {
-    bytesToSize(bytes: number) {
-      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-      if (bytes === 0) return '0 Bytes';
-      const i = Math.floor(Math.log(bytes) / Math.log(1024));
-      if (i === 0) return `${bytes} ${sizes[i]})`;
-      return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`;
-    },
-    async deleteAll() {
-      await ClearAllData();
-      this.deleteDialog = false;
-      window.location.reload();
-    },
-    async GetLength(db: string): Promise<any> {
-      const len = await GetLength(db);
-      if (len) return len;
-    },
-    updateUserStorage() {
-      const warn = Number(this.storageRange[0]);
-      if (isNaN(warn)) return;
-      const max = Number(this.storageRange[1]);
-      if (isNaN(max)) return;
-      if (!warn || warn < 0) this.storageRange[0] = 1;
-      if (max > 100) this.storageRange[1] = 100;
-      if (warn > max) this.storageRange[0] = max;
+})
 
-      if (this.thresholdType === 'pct') {
-        this.storageRange[0] = Math.round(this.storageRange[0] * 100) / 100;
-        this.storageRange[1] = Math.round(this.storageRange[1] * 100) / 100;
-      }
+watch(thresholdType, (val) => {
+  if (val === 'pct') {
+    storageRange.value[0] = Math.round(storageRange.value[0] * 100) / 100
+    storageRange.value[1] = Math.round(storageRange.value[1] * 100) / 100
+  }
+})
 
-      this.user.StorageWarning = this.storageRange[0];
-      this.user.StorageMax = this.storageRange[1];
-    },
-    updateDeleteDays() {
-      this.user.AutoDeleteDays = this.deleteDays;
-    },
-  },
-};
+onMounted(async () => {
+  storageRange.value[0] = user.value.StorageWarning
+  storageRange.value[1] = user.value.StorageMax
+  deleteDays.value = user.value.AutoDeleteDays
+
+  const est = await navigator.storage.estimate()
+  const actualUsage = await GetTotalStorageSize()
+  size.value = { usage: actualUsage, quota: est.quota }
+
+  if (!est.usage || !est.quota) {
+    logger.info(`navigator storage estimate: ${est.usage} / ${est.quota}`, null)
+  } else {
+    logger.info(`navigator storage estimate: ${bytesToSize(est.usage)} / ${bytesToSize(est.quota)}`, null)
+  }
+})
+
+function bytesToSize(bytes: number) {
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+  if (bytes === 0) return '0 Bytes'
+  const i = Math.floor(Math.log(bytes) / Math.log(1024))
+  if (i === 0) return `${bytes} ${sizes[i]})`
+  return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`
+}
+
+async function deleteAll() {
+  await ClearAllData()
+  deleteDialog.value = false
+  window.location.reload()
+}
+
+function updateUserStorage() {
+  const warn = Number(storageRange.value[0])
+  if (isNaN(warn)) return
+  const max = Number(storageRange.value[1])
+  if (isNaN(max)) return
+  if (!warn || warn < 0) storageRange.value[0] = 1
+  if (max > 100) storageRange.value[1] = 100
+  if (warn > max) storageRange.value[0] = max
+
+  if (thresholdType.value === 'pct') {
+    storageRange.value[0] = Math.round(storageRange.value[0] * 100) / 100
+    storageRange.value[1] = Math.round(storageRange.value[1] * 100) / 100
+  }
+
+  user.value.StorageWarning = storageRange.value[0]
+  user.value.StorageMax = storageRange.value[1]
+}
+
+function updateDeleteDays() {
+  user.value.AutoDeleteDays = deleteDays.value
+}
 </script>

@@ -1,5 +1,14 @@
-import { OrgType, Pilot } from '@/class'
-import { IOrganizationData } from '@/interface'
+import { OrgType } from '../../../enums'
+import { Pilot } from '../../Pilot'
+
+export interface IOrganizationData {
+  name: string
+  purpose: string
+  description: string
+  efficiency: number
+  influence: number
+  actions: string
+}
 
 class Organization {
   private _pilot = null as Pilot | null

@@ -45,7 +45,8 @@
     </div>
 
     <v-bottom-navigation density="compact"
-      class="bg-primary">
+      class="bg-primary"
+      style="border-radius: 12px; left: 12px; right: 12px; width: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 8px); box-shadow: 0 4px 16px rgba(0,0,0,0.4);">
       <v-row no-gutters
         align="center"
         justify="space-around">

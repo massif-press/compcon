@@ -27,50 +27,41 @@
   </div>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-base-chip',
-  props: {
-    color: {
-      type: String,
-      required: false,
-    },
-    bgColor: {
-      type: String,
-      required: false,
-    },
-    size: {
-      type: String,
-      required: false,
-      default: 'small',
-    },
-    variant: {
-      type: String,
-    },
-    icon: {
-      type: String,
-    },
-  },
-  emits: ['click'],
-  computed: {
-    hasTooltipContent() {
-      const slot = this.$slots['tooltip'];
-      if (slot && slot()[0] && slot()[0].children) {
-        return (slot()[0].children as any).length > 0;
-      }
-      return false;
-    },
-  },
-  methods: {
-    hexColor(color) {
-      if (!color) return '';
-      if (color[0] === '#') return color;
-      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name][color];
-    },
-  },
-};
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
+import { useDisplay, useTheme } from 'vuetify';
+
+const { smAndDown: mobile } = useDisplay()
+const theme = useTheme()
+const slots = useSlots()
+
+const props = withDefaults(defineProps<{
+  color?: string
+  bgColor?: string
+  size?: string
+  variant?: string
+  icon?: string
+}>(), {
+  size: 'small',
+})
+
+const emit = defineEmits<{
+  click: [...args: any[]]
+}>()
+
+const hasTooltipContent = computed(() => {
+  const slot = slots['tooltip'];
+  if (slot && slot()[0] && slot()[0].children) {
+    return (slot()[0].children as any).length > 0;
+  }
+  return false;
+})
+
+function hexColor(color) {
+  if (!color) return '';
+  if (color[0] === '#') return color;
+  return theme.current.value.colors[color];
+}
 </script>
 
 <style scoped>

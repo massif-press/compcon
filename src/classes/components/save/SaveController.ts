@@ -38,6 +38,11 @@ class SaveController {
     }
   }
 
+  public markModified(): void {
+    this.LastModified = new Date().getTime()
+    this.IsDirty = true
+  }
+
   public save(silent = false) {
     if (!this.Parent) {
       throw new Error(

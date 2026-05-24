@@ -49,11 +49,10 @@
 </template>
 
 <script lang="ts">
-import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
+import { computeItemGroupings } from '@/composables/useItemGrouping';
 import ItemCard from './_components/GMItemCard.vue';
 import GmItemTable from './GMItemTable.vue';
 import * as _ from 'lodash-es';
-import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {
   name: 'ItemCardGrid',
@@ -73,120 +72,7 @@ export default {
   },
   computed: {
     groupings() {
-      if (this.grouping === 'None') return [`All`];
-
-      if (this.grouping === 'Sitrep') {
-        const sitreps = this.items
-          .map((x) => (x as any).Sitrep.Name)
-          .filter((x, i, a) => a.indexOf(x) === i);
-
-        const out = {} as any;
-        sitreps.forEach((sitrep) => {
-          out[sitrep] = this.items.filter((x) => (x as any).Sitrep.Name === sitrep);
-        });
-
-        return out;
-      }
-
-      if (this.grouping === 'Environment') {
-        const environments = this.items
-          .map((x) => (x as any).Environment.Name)
-          .filter((x, i, a) => a.indexOf(x) === i);
-
-        const out = {} as any;
-        environments.forEach((environment) => {
-          out[environment] = this.items.filter((x) => (x as any).Environment.Name === environment);
-        });
-
-        return out;
-      }
-
-      const stats = {} as any;
-
-      //check stats
-      if (this.items.length > 0 && (this.items[0] as IStatContainer).StatController) {
-        this.items.forEach((item) => {
-          const sc = item as IStatContainer;
-          const stat = sc.StatController.DisplayKeys.find(
-            (x) => x.key === this.grouping || x.title === this.grouping
-          );
-          if (stat) {
-            if (!stats[`${this.grouping} ${sc.StatController.MaxStats[stat.key]}`]) {
-              stats[`${this.grouping} ${sc.StatController.MaxStats[stat.key]}`] = [];
-            }
-            stats[`${this.grouping} ${sc.StatController.MaxStats[stat.key]}`].push(item);
-          }
-        });
-      }
-
-      const labels = {} as any;
-
-      // check labels
-      if (this.items.length > 0 && (this.items[0] as any).NarrativeController) {
-        this.items.forEach((item) => {
-          const nc = item as any;
-          const label = nc.NarrativeController.Labels.find((x) => x.title === this.grouping);
-          if (label) {
-            if (!labels[`${label.title}${label.value ? ` ${label.value}` : ''}`]) {
-              labels[`${label.title}${label.value ? ` ${label.value}` : ''}`] = [];
-            }
-            labels[`${label.title}${label.value ? ` ${label.value}` : ''}`].push(item);
-          }
-        });
-      }
-
-      const classGrp = {} as any;
-
-      if (this.items.length > 0 && (this.items[0] as any).NpcClassController) {
-        this.items.forEach((item) => {
-          const nc = item as Unit;
-          if (this.grouping === 'Role') {
-            let role = nc.NpcClassController.Class?.Role;
-            if (!role) role = 'N/A';
-            if (!classGrp[role]) classGrp[role] = [];
-            classGrp[role].push(item);
-          }
-          if (this.grouping === 'Tier') {
-            const tier = nc.NpcClassController.Tier;
-            if (!classGrp[`T${tier}`]) classGrp[`T${tier}`] = [];
-            classGrp[`T${tier}`].push(item);
-          }
-          if (this.grouping === 'Tag') {
-            const tag = nc.Tag;
-            if (!classGrp[tag]) classGrp[tag] = [];
-            classGrp[tag].push(item);
-          }
-        });
-      }
-
-      const eidolonGrp = {} as any;
-      if (this.items.length > 0 && (this.items[0] as any).Layers) {
-        this.items.forEach((item) => {
-          const ec = item as any;
-          if (this.grouping === 'Tier') {
-            const tier = ec.Tier;
-            if (!eidolonGrp[`T${tier}`]) eidolonGrp[`T${tier}`] = [];
-            eidolonGrp[`T${tier}`].push(item);
-          }
-          if (this.grouping === 'Class') {
-            const c = `Class ${ec.Class}`;
-            if (!eidolonGrp[c]) eidolonGrp[c] = [];
-            eidolonGrp[c].push(item);
-          }
-        });
-      }
-
-      const out = { ...stats, ...labels, ...classGrp, ...eidolonGrp };
-
-      const ids = Object.values(out)
-        .flat()
-        .map((x: any) => x.ID);
-
-      const nas = this.items.filter((x: any) => !ids.includes(x.ID));
-
-      if (nas.length > 0) out['N/A'] = nas;
-
-      return out;
+      return computeItemGroupings(this.items as any[], this.grouping, this.allFolders as string[]);
     },
     searchedItems() {
       if (!this.search) return this.sort(this.items);

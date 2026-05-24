@@ -176,7 +176,7 @@
 
 <script lang="ts">
 import MechCardLoadoutField from './MechCardLoadoutField.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

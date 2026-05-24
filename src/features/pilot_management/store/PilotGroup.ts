@@ -1,14 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import {
-  ISaveData,
-  IPortraitData,
-  ICloudData,
-  PortraitController,
-  SaveController,
-  CloudController,
-  IPortraitContainer,
-  ISaveable,
-} from '@/classes/components';
+import { CloudController, ICloudData } from '@/classes/components/cloud/CloudController'
+import { IPortraitContainer } from '@/classes/components/portrait/IPortraitContainer'
+import { IPortraitData, PortraitController } from '@/classes/components/portrait/PortraitController'
+import { ISaveable } from '@/classes/components/save/ISaveable'
+import { ISaveData, SaveController } from '@/classes/components/save/SaveController'
 import { ImageTag } from '@/classes/enums';
 
 type PilotGroupData = {
@@ -99,6 +94,12 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   }
 
   public set Pilots(val: PilotIndexItem[]) {
+    const now = Date.now();
+    const currentIds = new Set(this._pilots.map(p => p.id));
+    const newIds = new Set(val.map(p => p.id));
+    for (const id of currentIds) {
+      if (!newIds.has(id)) this.CloudController.stampTombstone(`pilots.${id}`);
+    }
     this._pilots = val;
     this.Save();
   }

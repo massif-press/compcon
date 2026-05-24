@@ -173,10 +173,10 @@
             @click="onUseToggle">
             <v-icon size="x-large"
               :icon="item.Used
-                  ? 'mdi-checkbox-marked-circle-outline'
-                  : item.IsLoading
-                    ? 'cc:ammo'
-                    : 'cc:reticle'
+                ? 'mdi-checkbox-marked-circle-outline'
+                : item.IsLoading
+                  ? 'cc:ammo'
+                  : 'cc:reticle'
                 " />
           </v-btn>
         </template>
@@ -231,7 +231,7 @@
       </v-tooltip>
     </v-col>
 
-    <v-col v-if="!isFeature"
+    <v-col v-if="isDestroyable"
       cols="auto"
       class="ml-1"
       style="z-index: 4">
@@ -245,7 +245,6 @@
             height="26"
             variant="text"
             :class="item.Destroyed ? 'bg-success' : 'bg-primary'"
-            :disabled="item.IsIndestructible"
             @click="item.Destroyed = !item.Destroyed">
             <v-icon size="x-large"
               :icon="item.Destroyed ? 'mdi-wrench' : 'mdi-cube-off'" />
@@ -285,6 +284,8 @@ import MechBarrageButton from './action_buttons/mechBarrageButton.vue'
 import NpcSkirmishButton from './action_buttons/npcSkirmishButton.vue'
 import NpcBarrageButton from './action_buttons/npcBarrageButton.vue'
 import PilotFightButton from './action_buttons/pilotFightButton.vue'
+import { CombatController } from '@/classes/components/combat/CombatController'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 
 export default {
   name: 'EquipCommandPanel',
@@ -305,7 +306,7 @@ export default {
       required: true,
     },
     controller: {
-      type: Object,
+      type: CombatController,
       required: true,
     },
     encounter: {
@@ -320,6 +321,11 @@ export default {
     isFeature() {
       if (!this.item?.ItemType) return false
       return this.item.ItemType.toLowerCase().includes('npc')
+    },
+    isDestroyable() {
+      if (this.item.IsIndestructible || this.item.Tags?.some(x => x.IsIndestructible)) return false
+      if (this.item.ItemType === 'NpcFeature') return false
+      return true
     },
     canDealDamage() {
       return !!this.item.Damage

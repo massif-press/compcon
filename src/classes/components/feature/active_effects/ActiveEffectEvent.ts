@@ -3,8 +3,7 @@ import { v4 as uuid } from 'uuid'
 import { ActiveEffect } from './ActiveEffect'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { CombatantData } from '@/classes/encounter/Encounter'
-import { Damage } from '@/class'
-
+import { Damage } from '../../../Damage'
 import { DamageEvent } from './effect_events/damageEvent'
 import { ActiveEventTarget } from './effect_events/eventTarget'
 import { ResistEvent } from './effect_events/resistEvent'
@@ -193,9 +192,8 @@ class ActiveEffectEvent {
       this.Initiator.id
     )
 
-    return availableTargets
-      .filter(x => !x.actor.CombatController.IsDestroyed && !x.reinforcement)
-      .filter(x => !this._targets.some(y => y && y.Combatant && y.Combatant.id === x.id))
+    return availableTargets.filter(x => !x.actor.CombatController.IsDestroyed && !x.reinforcement)
+    // .filter(x => !this._targets.some(y => y && y.Combatant && y.Combatant.id === x.id))
   }
 
   public get AttackStat() {
@@ -287,7 +285,9 @@ class ActiveEffectEvent {
     this.RemoveSpecialStatus?.forEach(status => {
       target.RemoveSpecialStatus(status)
     })
-    this.Initiator.actor.CombatController.CombatLog.LogAction(ActionSummary.fromActiveEffectEvent(this))
+    this.Initiator.actor.CombatController.CombatLog.LogAction(
+      ActionSummary.fromActiveEffectEvent(this)
+    )
   }
 
   public ApplyAll() {

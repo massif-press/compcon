@@ -181,59 +181,54 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore, UserStore } from '@/stores'
 import { LcpConfig, LcpConfigData } from '@/user'
-import _ from 'lodash'
-import { useMobile } from '@/mixins/useMobile';
-import { NAV_STRINGS } from '@/features/nav/strings';
+import { debounce } from 'lodash-es'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'PackConfig',
-  mixins: [useMobile],
-  setup() {
-    return { pc: NAV_STRINGS.packConfig }
-  },
-  data: () => ({
-    selection: null as any,
-    editingIndex: null as number | null,
-  }),
-  computed: {
-    user() {
-      return UserStore().User
-    },
-  },
-  methods: {
-    getEligiblePacks(config: LcpConfig) {
-      return CompendiumStore().ContentPacks.filter(
-        p => !config.packList.some(x => x.packID === p.ID)
-      )
-    },
-    AddPack(config: LcpConfig) {
-      if (!this.selection) return
-      if (!config) return
-      config.packList.push({
-        packID: this.selection.ID,
-        packName: this.selection.Manifest.name,
-        packAuthor: this.selection.Manifest.author,
-        packVersion: this.selection.Manifest.version,
-        allowed: true,
-      } as LcpConfigData)
-      this.user.updateConfig(config.id, config)
-      this.selection = null
-    },
-    removePack(config: LcpConfig, pack: LcpConfigData) {
-      const index = config.packList.findIndex(p => p.packID === pack.packID)
-      if (index === -1) return
-      config.packList.splice(index, 1)
-      this.user.updateConfig(config.id, config)
-    },
-    removeConfig(id: string) {
-      this.user.RemoveConfig(id)
-    },
-    debouncedSave: _.debounce(function (config: LcpConfig) {
-      UserStore().User.updateConfig(config.id, config)
-    }, 500),
-  },
+const { smAndDown: mobile } = useDisplay()
+const pc = NAV_STRINGS.packConfig
+
+const selection = ref<any>(null)
+const editingIndex = ref<number | null>(null)
+
+const user = computed(() => UserStore().User)
+
+function getEligiblePacks(config: LcpConfig) {
+  return CompendiumStore().ContentPacks.filter(
+    p => !config.packList.some(x => x.packID === p.ID)
+  )
 }
+
+function AddPack(config: LcpConfig) {
+  if (!selection.value) return
+  if (!config) return
+  config.packList.push({
+    packID: selection.value.ID,
+    packName: selection.value.Manifest.name,
+    packAuthor: selection.value.Manifest.author,
+    packVersion: selection.value.Manifest.version,
+    allowed: true,
+  } as LcpConfigData)
+  user.value.updateConfig(config.id, config)
+  selection.value = null
+}
+
+function removePack(config: LcpConfig, pack: LcpConfigData) {
+  const index = config.packList.findIndex(p => p.packID === pack.packID)
+  if (index === -1) return
+  config.packList.splice(index, 1)
+  user.value.updateConfig(config.id, config)
+}
+
+function removeConfig(id: string) {
+  user.value.RemoveConfig(id)
+}
+
+const debouncedSave = debounce((config: LcpConfig) => {
+  UserStore().User.updateConfig(config.id, config)
+}, 500)
 </script>

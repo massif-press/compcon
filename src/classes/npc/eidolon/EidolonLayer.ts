@@ -1,4 +1,6 @@
-import { ContentPack, Deployable, ItemType } from '@/class'
+import { Deployable } from '../../components/feature/deployable/Deployable'
+import { ContentPack } from '../../ContentPack'
+import { ItemType } from '../../enums'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 import { NpcClassStats } from '../class/NpcClassStats'
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature'

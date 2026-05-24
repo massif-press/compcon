@@ -1,4 +1,5 @@
-import { ContentPack, ItemType } from '@/class'
+import { ContentPack } from '../../../ContentPack'
+import { ItemType } from '../../../enums'
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature'
 
 interface INpcReactionData extends INpcFeatureData {

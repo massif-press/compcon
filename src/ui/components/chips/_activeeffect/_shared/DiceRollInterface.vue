@@ -97,82 +97,84 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-import { DiceRoller } from '@/class';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { DiceRoller } from '@/classes/dice/DiceRoller'
 
-export default {
-  name: 'DiceRollInterface',
-  props: {
-    rollData: { type: Object, required: true },
+const props = defineProps<{
+  rollData: object
+}>()
+
+const emit = defineEmits<{
+  'roll-damage': []
+  'update:damage-value': [...args: any[]]
+}>()
+
+const dice = [2, 3, 4, 6, 8, 10, 12, 20, 100]
+
+const parts = computed(() => {
+  if (!props.rollData.DamageRollString.includes('d')) return [];
+  return props.rollData.DamageRollString.split('d');
+})
+
+const count = computed({
+  get() {
+    if (parts.value.length === 0) return 0;
+    return parts.value[0] ? parseInt(parts.value[0]) : 1;
   },
-  emits: ['roll-damage', 'update:damage-value'],
-  data: () => ({
-    dice: [2, 3, 4, 6, 8, 10, 12, 20, 100],
-  }),
-  computed: {
-    parts() {
-      if (!this.rollData.DamageRollString.includes('d')) return [];
-      return this.rollData.DamageRollString.split('d');
-    },
-    count: {
-      get() {
-        if (this.parts.length === 0) return 0;
-        return this.parts[0] ? parseInt(this.parts[0]) : 1;
-      },
-      set(val: number) {
-        this.rollData.DamageRollString = `${val}d${this.die || 6}+${this.plus}`;
-      },
-    },
-    die: {
-      get() {
-        if (this.parts.length === 0) return 0;
-        const diePart = this.parts[1];
-        const plusParts = diePart.split('+');
-        return parseInt(plusParts[0]);
-      },
-      set(val: number) {
-        this.rollData.DamageRollString = `${this.count || 1}d${val}+${this.plus}`;
-      },
-    },
-    plus: {
-      get() {
-        if (this.parts.length === 0) {
-          return Number(this.rollData.DamageRollString || 0);
-        }
-        const diePart = this.parts[1];
-        const plusParts = diePart.split('+');
-        if (plusParts.length === 2) {
-          return parseInt(plusParts[1]);
-        }
-        return 0;
-      },
-      set(val: number) {
-        if (this.parts.length === 0) {
-          this.rollData.DamageRollString = String(val);
-        } else {
-          this.rollData.DamageRollString = `${this.count}d${this.die}+${val}`;
-        }
-      },
-    },
+  set(val: number) {
+    props.rollData.DamageRollString = `${val}d${die.value || 6}+${plus.value}`;
   },
-  methods: {
-    rollDamage() {
-      const diceValue = this.count && this.die ? `${this.count}d${this.die}+${this.plus || 0}` : 0;
-      try {
-        this.rollResult = DiceRoller.rollDamage(
-          diceValue,
-          this.rollData.IsCrit,
-          this.rollData.Overkill,
-          this.rollData.Reliable,
-        );
-      } catch {
-        // static roll
-        this.rollResult = { total: Number(this.plus), toString: () => this.plus.toString() };
-      }
-      this.rollData.DamageRollResult = this.rollResult;
-      this.rollData.DamageRolledValue = this.rollResult.total;
-      this.rollData.OverkillHeat = this.rollResult._overkillRerolls;
-    },
+})
+
+const die = computed({
+  get() {
+    if (parts.value.length === 0) return 0;
+    const diePart = parts.value[1];
+    const plusParts = diePart.split('+');
+    return parseInt(plusParts[0]);
   },
-};
+  set(val: number) {
+    props.rollData.DamageRollString = `${count.value || 1}d${val}+${plus.value}`;
+  },
+})
+
+const plus = computed({
+  get() {
+    if (parts.value.length === 0) {
+      return Number(props.rollData.DamageRollString || 0);
+    }
+    const diePart = parts.value[1];
+    const plusParts = diePart.split('+');
+    if (plusParts.length === 2) {
+      return parseInt(plusParts[1]);
+    }
+    return 0;
+  },
+  set(val: number) {
+    if (parts.value.length === 0) {
+      props.rollData.DamageRollString = String(val);
+    } else {
+      props.rollData.DamageRollString = `${count.value}d${die.value}+${val}`;
+    }
+  },
+})
+
+function rollDamage() {
+  const diceValue = count.value && die.value ? `${count.value}d${die.value}+${plus.value || 0}` : 0;
+  let rollResult: any;
+  try {
+    rollResult = DiceRoller.rollDamage(
+      diceValue,
+      props.rollData.IsCrit,
+      props.rollData.Overkill,
+      props.rollData.Reliable,
+    );
+  } catch {
+    rollResult = { total: Number(plus.value), toString: () => plus.value.toString() };
+  }
+  props.rollData.DamageRollResult = rollResult;
+  props.rollData.DamageRolledValue = rollResult.total;
+  props.rollData.OverkillHeat = rollResult._overkillRerolls;
+}
 </script>

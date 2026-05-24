@@ -1,19 +1,16 @@
 import * as _ from 'lodash-es'
-import {
-  LicensedItem,
-  MechSystem,
-  Mount,
-  Mech,
-  Loadout,
-  MountType,
-  IntegratedMount,
-  EquippableMount,
-  MechEquipment,
-  MechWeapon,
-  WeaponMod,
-  Tag,
-} from '@/class'
-import { IEquipmentData, IMechWeaponSaveData, IMountData } from '@/interface'
+import { MountType } from '../../../enums'
+import Loadout from '../../../Loadout'
+import { IEquipmentData, MechEquipment } from '../equipment/MechEquipment'
+import { MechSystem } from '../equipment/MechSystem'
+import { IMechWeaponSaveData, MechWeapon } from '../equipment/MechWeapon'
+import { WeaponMod } from '../equipment/WeaponMod'
+import EquippableMount from '../mount/EquippableMount'
+import IntegratedMount from '../mount/IntegratedMount'
+import Mount, { IMountData } from '../mount/Mount'
+import { Mech } from '../../Mech'
+import { LicensedItem } from '../../../pilot/components/license/LicensedItem'
+import Tag from '../../../Tag'
 import { ILicenseRequirement } from '@/classes/pilot/components/license/LicensedItem'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 
@@ -281,11 +278,11 @@ class MechLoadout extends Loadout {
     ]
       .flatMap(x => x.Weapons)
       .reduce(function (a, b) {
-        return a + (!!b ? b.TotalSP : 0)
+        return a + (b ? b.TotalSP : 0)
       }, 0)
 
     const systemSP = this._systems.reduce(function (a, b) {
-      return a + (!!b ? b.SP : 0)
+      return a + (b ? b.SP : 0)
     }, 0)
     return mountSP + systemSP
   }

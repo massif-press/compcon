@@ -2,6 +2,7 @@
   <cc-compendium-browser :items="filteredFrames"
     item-type="Frame"
     :options="options"
+    :manufacturers="manufacturers"
     equippable
     @equip="select($event)">
     <template #header>
@@ -76,7 +77,10 @@
 import * as _ from 'lodash-es'
 
 import { CompendiumStore } from '@/stores'
-import { Pilot, Frame, Mech, ItemType } from '@/class'
+import { Pilot } from '@/classes/pilot/Pilot'
+import { Frame } from '@/classes/mech/components/frame/Frame'
+import { Mech } from '@/classes/mech/Mech'
+import { ItemType } from '@/classes/enums'
 import { mechname } from '@/io/Generators'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 
@@ -115,6 +119,9 @@ export default {
     ],
   }),
   computed: {
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
     allFrames() {
       if (!this.pilot.LcpConfig) return CompendiumStore().Frames
       return CompendiumStore().Frames.filter(

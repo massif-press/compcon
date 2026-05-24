@@ -92,82 +92,39 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { TimedEffect } from '@/classes/components/feature/active_effects/TimedEffect';
 
-export default {
-  name: 'timed-effect-panel',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    getRoundsRemaining(effect: TimedEffect) {
-      const currentRound = this.encounter.Round
-      return Math.max(effect.Round - currentRound, 0)
-    },
-    apply(effect: TimedEffect, index: number) {
-      const e = effect.Apply
-      if (e) {
-        if (e.damage) {
-          e.damage.forEach(d => {
-            this.item.CombatController.TakeDamage(d.type, d.value)
-          })
-        }
-        if (e.status) {
-          e.status.forEach(s => {
-            this.item.CombatController.AddStatus(s)
-          })
-        }
-        if (e.special) {
-          e.special.forEach(s => {
-            this.item.CombatController.ApplySpecial(s.attribute, s.detail)
-          })
-        }
-        if (e.resist) {
-          e.resist.forEach(r => {
-            this.item.CombatController.AddResist(r.type, r.value)
-          })
-        }
-        if (e.other) {
-          if (e.other === 'self_destruct') {
-            this.item.CombatController.CommitSelfDestruct()
-          }
-        }
-      }
+const props = defineProps<{
+  item: any;
+  encounter: any;
+}>();
 
-      const r = effect.Remove
-      if (r) {
-        if (r.status) {
-          r.status.forEach(s => {
-            this.item.CombatController.RemoveStatus(s)
-          })
-        }
-        if (r.resist) {
-          r.resist.forEach(s => {
-            this.item.CombatController.RemoveResist(s)
-          })
-        }
-        if (r.special) {
-          r.special.forEach(s => {
-            this.item.CombatController.RemoveCustomStatus(s.attribute)
-          })
-        }
-      }
+function getRoundsRemaining(effect: TimedEffect) {
+  return Math.max(effect.Round - props.encounter.Round, 0);
+}
 
-      this.dismiss(index)
-    },
-    dismiss(index) {
-      this.item.CombatController.TimedEffects.splice(index, 1)
-    },
-  },
-};
+function apply(effect: TimedEffect, index: number) {
+  const e = effect.Apply;
+  if (e) {
+    if (e.damage) e.damage.forEach((d: any) => props.item.CombatController.TakeDamage(d.type, d.value));
+    if (e.status) e.status.forEach((s: any) => props.item.CombatController.AddStatus(s));
+    if (e.special) e.special.forEach((s: any) => props.item.CombatController.ApplySpecial(s.attribute, s.detail));
+    if (e.resist) e.resist.forEach((r: any) => props.item.CombatController.AddResist(r.type, r.value));
+    if (e.other === 'self_destruct') props.item.CombatController.CommitSelfDestruct();
+  }
+  const r = effect.Remove;
+  if (r) {
+    if (r.status) r.status.forEach((s: any) => props.item.CombatController.RemoveStatus(s));
+    if (r.resist) r.resist.forEach((s: any) => props.item.CombatController.RemoveResist(s));
+    if (r.special) r.special.forEach((s: any) => props.item.CombatController.RemoveCustomStatus(s.attribute));
+  }
+  dismiss(index);
+}
+
+function dismiss(index: number) {
+  props.item.CombatController.TimedEffects.splice(index, 1);
+}
 </script>
 
 <style scoped>

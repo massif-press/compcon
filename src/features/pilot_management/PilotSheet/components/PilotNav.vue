@@ -49,8 +49,9 @@
 
     <v-tooltip v-if="pilot.IsRemote"
       open-delay="300"
+      location="top"
       :text="isAuthed
-        ? pilot.CloudController.SyncStatus === 'Synced'
+        ? pilot.CloudController.isSynced
           ? 'Pilot is up to date with remote data'
           : 'Download all remote changes to this pilot, overwriting local data.'
         : 'Must be logged in to update'
@@ -60,11 +61,12 @@
           variant="text"
           size="x-small"
           class="unskew ml-3"
-          :disabled="!isAuthed || pilot.CloudController.SyncStatus === 'Synced'"
+          :disabled="!isAuthed"
           :loading="loading"
           v-bind="props"
           @click="remoteUpdate()">
-          <v-icon>mdi-cloud-sync</v-icon>
+          <v-icon
+            :icon="pilot.CloudController.isSynced ? 'mdi-cloud-check-variant' : 'mdi-cloud-refresh'" />
         </v-btn>
       </template>
     </v-tooltip>
@@ -91,7 +93,7 @@
           </template>
         </v-tooltip>
       </template>
-      <share-dialog :pilot="pilot" />
+      <share-dialog :item="pilot" />
     </cc-dialog>
 
     <v-tooltip open-delay="300"
@@ -113,11 +115,11 @@
 
 <script lang="ts">
 import EditMenu from './PilotEditMenu.vue'
-import ShareDialog from './ShareDialog.vue'
-import { Pilot } from '@/class'
+import ShareDialog from '@/shared/ShareDialog.vue'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore, UserStore } from '@/stores'
 import NavItem from '../../_components/NavItem.vue'
-import { CloudController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 
 export default {
   name: 'PilotNav',
@@ -158,20 +160,29 @@ export default {
       this.$router.push('/pilot_management')
     },
     async remoteUpdate() {
-      try {
-        await CloudController.UpdateRemote(this.pilot)
-        await UserStore().refreshDbData()
+      if (!this.isAuthed) return;
+      if (!this.pilot.CloudController.isSynced) {
         this.$notify({
-          title: `Sync Complete`,
-          text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
+          title: `Pilot Up-to-date`,
+          text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} already has the most recent cloud data. No update needed.`,
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         })
-      } catch (err) {
-        this.$notify({
-          title: `Sync Failed`,
-          text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
-          data: { icon: 'mdi-alert', color: 'error' },
-        })
+      } else {
+        try {
+          await CloudController.UpdateRemote(this.pilot)
+          await UserStore().refreshDbData()
+          this.$notify({
+            title: `Sync Complete`,
+            text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
+            data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+          })
+        } catch (err) {
+          this.$notify({
+            title: `Sync Failed`,
+            text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
+            data: { icon: 'mdi-alert', color: 'error' },
+          })
+        }
       }
     },
   },

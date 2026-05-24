@@ -34,7 +34,7 @@
 import PilotGearCard from './_pilotGearCard.vue'
 import PilotWeaponCard from './_pilotWeaponCard.vue'
 import PilotArmorCard from './_pilotArmorCard.vue'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'PilotCombatLoadout',

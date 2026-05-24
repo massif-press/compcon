@@ -1,8 +1,7 @@
 import { v4 as uuid } from 'uuid'
-import { IRangeData } from '@/interface'
-import { Bonus, IBonusData } from '../..'
+import { Bonus, IBonusData } from '../bonus/Bonus'
 import { Damage, IDamageData } from '../../../Damage'
-import { Range } from '../../../Range'
+import { IRangeData, Range } from '../../../Range'
 import { IEffectResistData, EffectResist } from './effect_subtype/EffectResist'
 import { IEffectSpecialData, EffectSpecial } from './effect_subtype/EffectSpecial'
 import { IEffectOtherData, EffectOther } from './effect_subtype/EffectOther'
@@ -89,8 +88,7 @@ class ActiveEffect {
     this.Name = data.name || fallbackName || 'Unnamed Effect'
     this.Detail = data.detail || ''
     this.Condition = data.condition || ''
-    this.Accuracy =
-      (data.attack === 'tech' ? data.tech_accuracy : undefined) ?? data.accuracy ?? 0
+    this.Accuracy = (data.attack === 'tech' ? data.tech_accuracy : undefined) ?? data.accuracy ?? 0
     this.AttackBonus =
       (data.attack === 'tech' ? data.tech_attack_bonus : undefined) ?? data.attack_bonus ?? 0
 

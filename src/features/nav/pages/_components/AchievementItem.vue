@@ -34,13 +34,13 @@
         </v-progress-linear>
       </v-col>
       <v-col v-else>
-        <div class="heading h3">[ DATA REDACTED ]</div>
-        <div>This achievement is hidden and will be revealed once unlocked</div>
+        <div class="heading h3">{{ strings.dataRedacted }}</div>
+        <div>{{ strings.hiddenNote }}</div>
       </v-col>
       <v-col v-if="item.Unlocked" cols="12" md="auto" class="text-right py-1 mx-2">
         <div class="text-caption">
-          <span v-if="item.Secret">SECRET ACHIEVEMENT</span>
-          UNLOCKED
+          <span v-if="item.Secret">{{ strings.secretLabel }}</span>
+          {{ strings.unlockedLabel }}
         </div>
         <div :class="mobile ? 'text-cc-overline' : 'heading'">
           {{ formatDate }}
@@ -59,55 +59,43 @@
         opacity: 0.75;
       ">
       <cc-slashes />
-      Created By: {{ item.Author }}
+      {{ strings.createdBy }} {{ item.Author }}
     </div>
   </v-card>
 </template>
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'AchievementItem',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    getColor(a: any) {
-      if (!this.item.Unlocked) {
-        return 'grey-darken-2';
-      }
-      if (this.item.Secret) {
-        return '#FFDF00';
-      }
-      switch (this.item.Rarity) {
-        case 1:
-          return '#205781';
-        case 2:
-          return '#4F1C51';
-        case 3:
-          return '#A31D1D';
-        case 4:
-          return '#d4af37';
 
-        default:
-          return 'primary';
-      }
-    },
-    formatDate() {
-      if (!this.item.Date) return '';
-      const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true,
-      };
-      return new Date(this.item.Date).toLocaleString(undefined, options as any);
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { NAV_STRINGS } from '@/features/nav/strings'
+
+const props = defineProps<{ item: Record<string, any> }>()
+
+const { smAndDown: mobile } = useDisplay()
+const strings = NAV_STRINGS.achievementItem
+
+const getColor = computed(() => {
+  if (!props.item.Unlocked) return 'grey-darken-2'
+  if (props.item.Secret) return '#FFDF00'
+  switch (props.item.Rarity) {
+    case 1: return '#205781'
+    case 2: return '#4F1C51'
+    case 3: return '#A31D1D'
+    case 4: return '#d4af37'
+    default: return 'primary'
+  }
+})
+
+const formatDate = computed(() => {
+  if (!props.item.Date) return ''
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  }
+  return new Date(props.item.Date).toLocaleString(undefined, options as any)
+})
 </script>

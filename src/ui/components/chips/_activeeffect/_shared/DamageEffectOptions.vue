@@ -207,11 +207,8 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'DamageEffectOptions',
-  props: {
-    damageEffect: { type: Object, required: true },
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  damageEffect: object
+}>()
 </script>

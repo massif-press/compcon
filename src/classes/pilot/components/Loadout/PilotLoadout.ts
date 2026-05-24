@@ -1,6 +1,12 @@
-import { PilotEquipment, PilotArmor, PilotWeapon, PilotGear, ItemType, Tag } from '@/class'
+import { ItemType } from '../../../enums'
+import { PilotArmor } from './equipment/PilotArmor'
+import { PilotEquipment } from './equipment/PilotEquipment'
+import { DeserializePilotEquipment } from './equipment/PilotEquipmentFactory'
+import { PilotGear } from './equipment/PilotGear'
+import { PilotWeapon } from './equipment/PilotWeapon'
+import Tag from '../../../Tag'
 import { PilotLoadoutController } from './PilotLoadoutController'
-import { IEquipmentData } from '@/interface'
+import { IEquipmentData } from '@/classes/mech/components/equipment/MechEquipment'
 
 declare interface IPilotLoadoutData {
   name: string
@@ -142,9 +148,9 @@ class PilotLoadout {
   ): PilotLoadout {
     const loadout = new PilotLoadout(parent)
     loadout._name = loadoutData.name
-    loadout._armor = loadoutData.armor.map(x => PilotEquipment.Deserialize(x) as PilotArmor)
-    loadout._weapons = loadoutData.weapons.map(x => PilotEquipment.Deserialize(x) as PilotWeapon)
-    loadout._gear = loadoutData.gear.map(x => PilotEquipment.Deserialize(x) as PilotGear)
+    loadout._armor = loadoutData.armor.map(x => DeserializePilotEquipment(x) as PilotArmor)
+    loadout._weapons = loadoutData.weapons.map(x => DeserializePilotEquipment(x) as PilotWeapon)
+    loadout._gear = loadoutData.gear.map(x => DeserializePilotEquipment(x) as PilotGear)
     return loadout
   }
 }

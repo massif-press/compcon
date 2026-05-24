@@ -6,7 +6,7 @@
     style="height: 100%">
     <v-toolbar density="compact"
       height="38"
-      color="primary">
+      :color="edited ? 'exotic' : 'primary'">
       <div class="heading h4 text-center"
         style="font-size: 18px; width: 100%">
         {{ stat.title }}
@@ -124,6 +124,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    edited: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['set', 'remove'],
   data: () => ({
@@ -171,10 +175,21 @@ export default {
 }
 
 @keyframes flash-bg {
-  0%   { background-color: rgb(var(--v-theme-accent-darken-1)); }
-  10%  { background-color: rgb(var(--v-theme-accent-lighten-1)); }
-  30%  { background-color: rgb(var(--v-theme-accent)); }
-  100% { background-color: transparent; }
+  0% {
+    background-color: rgb(var(--v-theme-accent-darken-1));
+  }
+
+  10% {
+    background-color: rgb(var(--v-theme-accent-lighten-1));
+  }
+
+  30% {
+    background-color: rgb(var(--v-theme-accent));
+  }
+
+  100% {
+    background-color: transparent;
+  }
 }
 
 .flash-highlight {

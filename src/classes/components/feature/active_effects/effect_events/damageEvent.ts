@@ -1,4 +1,6 @@
-import { DamageType, DamageRollResult, Damage } from '@/class'
+import { Damage } from '../../../../Damage'
+import { DamageRollResult } from '../../../../dice/DiceRoller'
+import { DamageType } from '../../../../enums'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
 import { ActiveEventTarget } from './eventTarget'
 

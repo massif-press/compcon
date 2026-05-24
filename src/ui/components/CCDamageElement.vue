@@ -41,7 +41,8 @@
 </template>
 
 <script lang="ts">
-import { Damage } from '@/class';
+import { Damage } from '@/classes/Damage'
+import { DamageType } from '@/classes/enums';
 
 export default {
   name: 'CcDamageElement',
@@ -51,8 +52,9 @@ export default {
       required: true,
     },
     typeOverride: {
-      type: String,
+      type: [String, DamageType],
       required: false,
+      default: undefined,
     },
     small: {
       type: Boolean,

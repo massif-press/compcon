@@ -1,5 +1,5 @@
-import { Rules, HASE } from '../../../class'
-
+import { HASE } from '../../enums'
+import { Rules } from '../../utility/Rules'
 class MechSkills {
   public Hull: number
   public Agi: number

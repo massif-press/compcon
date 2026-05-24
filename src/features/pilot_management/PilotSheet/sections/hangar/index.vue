@@ -74,8 +74,8 @@ import MechListItemMobile from './components/MechListItemMobile.vue'
 import NewMechMenu from './components/NewMechMenu.vue'
 import MechSort from './components/MechSort.vue'
 import { UserStore } from '@/stores'
-import { Pilot } from '@/class'
-import { useMobile } from '@/mixins/useMobile';
+import { Pilot } from '@/classes/pilot/Pilot'
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'MechHangarView',

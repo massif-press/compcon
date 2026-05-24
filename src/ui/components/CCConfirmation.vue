@@ -14,30 +14,28 @@
           size="small"
           variant="text"
           color="error"
-          @click="$emit('cancel')">
+          @click="emit('cancel')">
           CANCEL
         </cc-button>
         <v-spacer />
         <cc-button size="small"
           color="primary"
-          @click="$emit('confirm')">CONFIRM</cc-button>
+          @click="emit('confirm')">CONFIRM</cc-button>
       </v-card-actions>
     </v-card-text>
   </v-card>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcConfirmation',
-  props: {
-    content: {
-      type: String,
-      required: true,
-    },
-    noCc: { type: Boolean },
-    cancellable: { type: Boolean },
-    fullWidth: { type: Boolean },
-  },
-  emits: ['confirm', 'cancel'],
-};
+<script setup lang="ts">
+defineProps<{
+  content: string;
+  noCc?: boolean;
+  cancellable?: boolean;
+  fullWidth?: boolean;
+}>();
+
+const emit = defineEmits<{
+  confirm: [];
+  cancel: [];
+}>();
 </script>

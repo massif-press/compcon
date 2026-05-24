@@ -1,17 +1,19 @@
 import { v4 as uuid } from 'uuid'
-import { CloudController, SaveController, PortraitController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
+import { PortraitController } from '@/classes/components/portrait/PortraitController'
+import { SaveController } from '@/classes/components/save/SaveController'
 import { BrewController } from '@/classes/components/brew/BrewController'
 import { NarrativeController } from '@/classes/narrative/NarrativeController'
 import { Npc, NpcData } from '../Npc'
-import { CompendiumStore, NpcStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
+import { NpcStore } from '@/features/gm/store/npc_store'
 import { IStatData } from '@/classes/components/combat/stats/StatController'
 import { EidolonLayerSaveData } from './EidolonLayerSaveData'
 import { FolderController } from '@/classes/components/folder/FolderController'
 import { IInstanceableData } from '@/classes/components/instance/IInstancableData'
 import { IInstanceable } from '@/classes/components/instance/IInstanceable'
 import { EidolonLayer, IEidolonLayerData } from './EidolonLayer'
-import { ItemType } from '@/class'
-
+import { ItemType } from '../../enums'
 class EidolonData extends NpcData implements IInstanceableData {
   npcType: string = 'eidolon'
   instanceId: string = ''
@@ -151,7 +153,13 @@ class Eidolon extends Npc implements IInstanceable {
   }
 
   public RemoveLayer(index: number) {
-    if (index > -1) this._layers.splice(index, 1)
+    if (index > -1) {
+      const removed = this._layers[index]
+      this._layers.splice(index, 1)
+      if (removed?.ID) {
+        this.CloudController.stampTombstone(`layer_data.${removed.ID}`)
+      }
+    }
   }
 
   public MoveLayer(from: number, to: number) {
@@ -193,6 +201,7 @@ class Eidolon extends Npc implements IInstanceable {
     const eidolon = new Eidolon(data)
 
     SaveController.Deserialize(eidolon, data.save)
+    CloudController.Deserialize(eidolon, (data as any).cloud)
     BrewController.Deserialize(eidolon, data)
     PortraitController.Deserialize(eidolon, data.img)
     NarrativeController.Deserialize(eidolon, data.narrative)

@@ -33,6 +33,9 @@ export const allSyncableTypes: readonly string[] = [
   SyncableItemType.EncounterArchive,
   SyncableItemType.PilotSheet,
   SyncableItemType.Campaign,
+  SyncableItemType.Npc,
+  SyncableItemType.CollectionItem,
+  SyncableItemType.Narrative,
 ] as const
 
 export const FilterGroupExpansion: Record<string, readonly string[]> = {
@@ -43,12 +46,12 @@ export const FilterGroupExpansion: Record<string, readonly string[]> = {
 } as const
 
 export function expandFilterTypes(filters: string[]): string[] {
-  const types = [...filters]
+  const types = new Set(filters)
   for (const filter of filters) {
-    const expansion = FilterGroupExpansion[filter]
-    if (expansion) types.push(...expansion)
+    const expansion = FilterGroupExpansion[normalizeItemType(filter)]
+    if (expansion) expansion.forEach(t => types.add(t))
   }
-  return types
+  return [...types]
 }
 
 export function normalizeItemType(raw: string): string {

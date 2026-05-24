@@ -16,49 +16,24 @@
   </v-toolbar>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCTitlebar',
-  props: {
-    fixed: {
-      type: Boolean,
-      required: false,
-    },
-    dark: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
-    clipped: {
-      type: Boolean,
-      default: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    icon: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    large: {
-      type: Boolean,
-      required: false,
-    },
-    density: {
-      type: String,
-      required: false,
-      default: 'default',
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-};
+<script setup lang="ts">
+interface Props {
+  fixed?: boolean
+  dark?: boolean
+  clipped?: boolean
+  color?: string
+  icon?: string
+  large?: boolean
+  density?: string
+}
+
+withDefaults(defineProps<Props>(), {
+  dark: true,
+  clipped: true,
+  color: 'primary',
+  icon: '',
+  density: 'default',
+})
 </script>
 
 <style>

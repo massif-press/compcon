@@ -87,91 +87,62 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash-es';
-import credits from './credits.json';
-import DevBadge from './SupporterBadges/Dev.vue';
-import { getPatreonSubscribers } from '@/user/oauth';
-import { useMobile } from '@/mixins/useMobile';
-
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
+import creditsData from './credits.json'
+import DevBadge from './SupporterBadges/Dev.vue'
+import { getPatreonSubscribers } from '@/user/oauth'
 import { NAV_STRINGS } from '@/features/nav/strings'
 
+const { smAndDown: mobile } = useDisplay()
+const cr = NAV_STRINGS.credits
 
-export default {
-  name: 'Credits',
-  components: { DevBadge },
-  mixins: [useMobile],
-  setup() {
-    return { cr: NAV_STRINGS.credits }
-  },
-  data: () => ({
-    credits: credits,
-    patrons: [] as any[],
-    tiers: ['MONIST', 'NHP', 'Lancer', 'Cosmopolitan', 'Diasporan'],
-    cols: [12, 6, 4, 4, 4],
-    loading: true,
-  }),
-  async mounted() {
-    try {
-      const data = await getPatreonSubscribers();
-      this.patrons = data;
-    } catch (e) {
-      // subscriber list unavailable (e.g. not logged in)
-    }
-    this.loading = false;
-  },
-  methods: {
-    cleanName(patron: any) {
-      if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim();
-      if (!patron.name) return this.cr.anonymousPatron;
+const credits = creditsData
+const patrons = ref<any[]>([])
+const tiers = ['MONIST', 'NHP', 'Lancer', 'Cosmopolitan', 'Diasporan']
+const loading = ref(true)
 
-      const name = patron.name.trim();
-      if (name.includes(' ')) {
-        const arr = name.split(' ');
-        return arr
-          .map((x, i) => {
-            if (i === arr.length - 1) {
-              return x.substring(0, 1) + '.';
-            } else {
-              return x;
-            }
-          })
-          .join(' ');
-      } else {
-        return name;
-      }
-    },
-    getColor(tier: string) {
-      switch (tier) {
-        case 'MONIST':
-          return 'exotic';
-        case 'NHP':
-          return 'secondary';
-        case 'Lancer':
-          return 'primary';
-        case 'Cosmopolitan':
-          return 'info';
-        case 'Diasporan':
-          return 'success';
-        default:
-          return 'grey';
-      }
-    },
-    getCols(tier: string) {
-      switch (tier) {
-        case 'MONIST':
-          return 12;
-        case 'NHP':
-        case 'Lancer':
-          return 6;
-        case 'Cosmopolitan':
-          return 4;
-        default:
-          return 4;
-      }
-    },
-  },
-};
+onMounted(async () => {
+  try {
+    patrons.value = await getPatreonSubscribers()
+  } catch {
+    // subscriber list unavailable (e.g. not logged in)
+  }
+  loading.value = false
+})
+
+function cleanName(patron: any) {
+  if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim()
+  if (!patron.name) return cr.anonymousPatron
+  const name = patron.name.trim()
+  if (name.includes(' ')) {
+    const arr = name.split(' ')
+    return arr.map((x: string, i: number) => i === arr.length - 1 ? x.substring(0, 1) + '.' : x).join(' ')
+  }
+  return name
+}
+
+function getColor(tier: string) {
+  switch (tier) {
+    case 'MONIST': return 'exotic'
+    case 'NHP': return 'secondary'
+    case 'Lancer': return 'primary'
+    case 'Cosmopolitan': return 'info'
+    case 'Diasporan': return 'success'
+    default: return 'grey'
+  }
+}
+
+function getCols(tier: string) {
+  switch (tier) {
+    case 'MONIST': return 12
+    case 'NHP':
+    case 'Lancer': return 6
+    case 'Cosmopolitan': return 4
+    default: return 4
+  }
+}
 </script>
 
 <style scoped>

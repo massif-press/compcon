@@ -136,7 +136,7 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {
@@ -156,8 +156,7 @@ export default {
   },
   methods: {
     item(type: string, id: string) {
-      const compendium = CompendiumStore();
-      return compendium.referenceByID(type, id);
+      return CompendiumStore().referenceByID(type, id) as any;
     },
   },
 };

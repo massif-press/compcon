@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { Range } from '@/class';
+import { Range } from '@/classes/Range'
 import { glossary } from '@massif/lancer-data';
 
 export default {

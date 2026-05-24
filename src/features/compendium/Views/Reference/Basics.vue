@@ -7,7 +7,7 @@
 import basics from '@/assets/srd/lib/basics.json';
 import SrdView from './_components/SrdView.vue';
 import SwitchLangTemp from './_components/SwitchLangTEMP.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

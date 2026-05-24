@@ -104,65 +104,49 @@
   </v-layout>
 </template>
 
-<script lang="ts">
-import { NpcStore } from '@/stores';
-import UnitEditor from '@/features/gm/npc_roster/npcs/editor.vue';
-import DoodadEditor from '@/features/gm/npc_roster/doodads/editor.vue';
-import EidolonEditor from '@/features/gm/npc_roster/eidolons/editor.vue';
-import * as _ from 'lodash-es';
-import { Npc } from '@/classes/npc/Npc';
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useDisplay } from 'vuetify'
+import { groupBy } from 'lodash-es'
+import { NpcStore } from '@/stores'
+import UnitEditor from '@/features/gm/npc_roster/npcs/editor.vue'
+import DoodadEditor from '@/features/gm/npc_roster/doodads/editor.vue'
+import EidolonEditor from '@/features/gm/npc_roster/eidolons/editor.vue'
+import { Npc } from '@/classes/npc/Npc'
 
-export default {
-  name: 'combatant-selector-list-view',
-  components: { UnitEditor, DoodadEditor, EidolonEditor },
-  emits: ['select'],
-  props: {
-    encounter: { type: Object, required: true },
-  },
-  data: () => ({
-    selected: null,
-    editorReady: false,
-    _lastSelectedType: null as string | null,
-    itemTypes: ['unit', 'doodad', 'eidolon'],
-    showNav: true,
-    search: '',
-  }),
-  watch: {
-    selected(newVal: any) {
-      if (!newVal) return;
-      const newType = newVal.ItemType.toLowerCase();
-      if (newType !== this._lastSelectedType) {
-        this.editorReady = false;
-        this._lastSelectedType = newType;
-        setTimeout(() => { this.editorReady = true; }, 0);
-      }
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    npcs() {
-      return NpcStore().Npcs.filter((x) => !x.SaveController.IsDeleted);
-    },
-    filteredNpcs() {
-      let out = this.npcs.filter((n) => this.itemTypes.includes(n.ItemType.toLowerCase()));
-      if (this.search) {
-        out = out.filter((x) => x.Name.toLowerCase().includes(this.search.toLowerCase()));
-      }
-      return out;
-    },
-    npcsByFolder() {
-      return _.groupBy(this.filteredNpcs, 'FolderController.Folder');
-    },
-  },
-  methods: {
-    addUnit() {
-      throw new Error('Method not implemented.');
-    },
-    itemCount(item) {
-      return this.encounter.Combatants.filter((x) => x.actor.ID === item.ID).length;
-    },
-  },
-};
+const props = defineProps<{ encounter: Record<string, any> }>()
+defineEmits<{ select: [value: any] }>()
+
+const { mdAndDown: mobile } = useDisplay()
+
+const selected = ref<any>(null)
+const editorReady = ref(false)
+const lastSelectedType = ref<string | null>(null)
+const itemTypes = ref(['unit', 'doodad', 'eidolon'])
+const showNav = ref(true)
+const search = ref('')
+
+const npcs = computed(() => NpcStore().Npcs.filter((x: any) => !x.SaveController.IsDeleted))
+const filteredNpcs = computed(() => {
+  let out = npcs.value.filter((n: any) => itemTypes.value.includes(n.ItemType.toLowerCase()))
+  if (search.value) {
+    out = out.filter((x: any) => x.Name.toLowerCase().includes(search.value.toLowerCase()))
+  }
+  return out
+})
+const npcsByFolder = computed(() => groupBy(filteredNpcs.value, 'FolderController.Folder'))
+
+watch(selected, (newVal: any) => {
+  if (!newVal) return
+  const newType = newVal.ItemType.toLowerCase()
+  if (newType !== lastSelectedType.value) {
+    editorReady.value = false
+    lastSelectedType.value = newType
+    setTimeout(() => { editorReady.value = true }, 0)
+  }
+})
+
+function itemCount(item: any) {
+  return props.encounter.Combatants.filter((x: any) => x.actor.ID === item.ID).length
+}
 </script>

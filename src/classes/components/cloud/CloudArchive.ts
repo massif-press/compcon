@@ -1,14 +1,12 @@
 import { downloadFromS3, updateItem, uploadToS3 } from '@/io/apis/account'
 import { dbItemMeta } from './CloudController'
-import {
-  CampaignStore,
-  EncounterStore,
-  NarrativeStore,
-  NavStore,
-  NpcStore,
-  PilotStore,
-  UserStore,
-} from '@/stores'
+import { UserStore } from '@/user/store'
+import { PilotStore } from '@/features/pilot_management/store'
+import { NpcStore } from '@/features/gm/store/npc_store'
+import { NarrativeStore } from '@/features/gm/store/narrative_store'
+import { EncounterStore } from '@/features/gm/store/encounter_store'
+import { CampaignStore } from '@/features/gm/store/campaign_store'
+import { NavStore } from '@/stores/nav'
 import { exportAll, importAll } from '@/io/BulkData'
 
 const generateCloudArchive = async (
@@ -40,6 +38,7 @@ export const PostCloudArchive = async (source: 'Automatic' | 'Manual') => {
   if (res.presign?.upload) {
     const uploadResult = await uploadToS3(archiveBody, res.presign.upload)
     UserStore().addCloudNotification(`Archive ${new Date().toLocaleString()} uploaded to cloud.`)
+    if (res.data) UserStore().setCloudDataItem(res.data)
     return uploadResult
   } else {
     throw new Error('No presign returned.')
@@ -53,7 +52,7 @@ export const DownloadCloudArchive = async (uri: string) => {
 }
 
 export const SetCloudArchive = async (data: any, overwriteCloud: boolean) => {
-  await importAll(data.data)
+  await importAll(data.data, false)
 
   await PilotStore().LoadPilots()
   await NpcStore().LoadNpcs()
@@ -63,6 +62,6 @@ export const SetCloudArchive = async (data: any, overwriteCloud: boolean) => {
   await NavStore().CreateIndex()
 
   if (overwriteCloud) {
-    UserStore().AutoSync('local')
+    await UserStore().AutoSync('upload')
   }
 }

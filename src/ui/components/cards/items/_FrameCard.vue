@@ -72,58 +72,43 @@
   <cc-core-system-panel :frame="item" />
 </template>
 
-<script lang="ts">
-import { FrameCombatChart } from '../frame';
-import { glossary } from '@massif/lancer-data';
-import { useMobile } from '@/mixins/useMobile';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { FrameCombatChart } from '../frame'
+import { glossary as glossaryData } from '@massif/lancer-data'
 
+const { smAndDown: mobile } = useDisplay()
 
-export default {
-  name: 'CcFrameCard',
-  components: {
-    FrameCombatChart,
-  },
-  mixins: [useMobile],
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    charts: { type: Boolean },
-    collapseActions: { type: Boolean },
-    tier: { type: Number },
-  },
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown;
-    },
-    mColor() {
-      return this.item.ManufacturerColor;
-    },
-  },
-  methods: {
-    glossary(name: string) {
-      return glossary.find((x) => x.name.toLowerCase() === name.toLowerCase()).description;
-    },
+const props = defineProps<{
+  item: Record<string, any>
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  charts?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
 
-    get_mount_tooltip(mount_type: string) {
-      const mount_tooltips = {
-        Heavy: 'Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon',
-        Main: 'Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon',
-        'Aux/Aux': 'Holds up to two <b>AUXILIARY</b> weapons',
-        Aux: 'Holds one <b>AUXILIARY</b> weapon',
-        'Main/Aux':
-          'Holds one <b>MAIN</b> weapon and one <b>AUXILIARY</b> weapon, or two <b>AUXILIARY</b> weapons',
-        Flex: 'Holds either one <b>MAIN</b> weapon or up to two <b>AUXILIARY</b> weapons',
-      };
-      if (mount_type in mount_tooltips) {
-        return mount_tooltips[mount_type];
-      }
-      return 'Error: Unknown Mount Type';
-    },
-  },
-};
+const mColor = computed(() => props.item.ManufacturerColor)
+
+function glossary(name: string) {
+  return glossaryData.find((x) => x.name.toLowerCase() === name.toLowerCase())!.description
+}
+
+function get_mount_tooltip(mount_type: string) {
+  const mount_tooltips: Record<string, string> = {
+    Heavy: 'Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon',
+    Main: 'Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon',
+    'Aux/Aux': 'Holds up to two <b>AUXILIARY</b> weapons',
+    Aux: 'Holds one <b>AUXILIARY</b> weapon',
+    'Main/Aux':
+      'Holds one <b>MAIN</b> weapon and one <b>AUXILIARY</b> weapon, or two <b>AUXILIARY</b> weapons',
+    Flex: 'Holds either one <b>MAIN</b> weapon or up to two <b>AUXILIARY</b> weapons',
+  }
+  if (mount_type in mount_tooltips) {
+    return mount_tooltips[mount_type]
+  }
+  return 'Error: Unknown Mount Type'
+}
 </script>

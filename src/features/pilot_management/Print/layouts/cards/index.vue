@@ -15,7 +15,8 @@ import MechPrint from './MechPrint.vue';
 import StdActionPrint from './StdActionPrint.vue';
 import StatusCards from './StatusCards.vue';
 
-import { Pilot, Mech } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
+import { Mech } from '@/classes/mech/Mech'
 
 export default {
   name: 'standard-print',

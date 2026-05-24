@@ -13,13 +13,13 @@
   </v-col>
 </template>
 
-<script>
-export default {
-  name: 'SaveHalfToggle',
-  props: {
-    saveHalf: { type: Boolean, required: true },
-    hasSave: { type: Boolean, required: true },
-  },
-  emits: ['update:save-half'],
-};
+<script setup lang="ts">
+const props = defineProps<{
+  saveHalf: boolean
+  hasSave: boolean
+}>()
+
+const emit = defineEmits<{
+  'update:save-half': [...args: any[]]
+}>()
 </script>

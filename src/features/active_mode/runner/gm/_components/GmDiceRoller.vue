@@ -229,7 +229,7 @@
 </template>
 
 <script>
-import { DiceRoller } from '@/class';
+import { DiceRoller } from '@/classes/dice/DiceRoller'
 import DiceRollInterface from '@/ui/components/chips/_activeeffect/_shared/DiceRollInterface.vue';
 import { last, set } from 'lodash-es';
 

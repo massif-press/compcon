@@ -58,7 +58,7 @@
             </template>
             <span>{{ item.Accuracy(1) < 0
               ? 'Difficulty'
-                : 'Accuracy'
+              : 'Accuracy'
                 }}</span>
           </v-tooltip>
           <span v-if="tier">
@@ -89,29 +89,17 @@
   </equipment-card-base>
 </template>
 
-    <script lang="ts">
-    import EquipmentCardBase from './_EquipmentCardBase.vue';
+    <script setup lang="ts">
+    import { NpcTech } from '@/classes/npc/feature/NpcItem/NpcTech';
+    import EquipmentCardBase from './_EquipmentCardBase.vue'
 
-    export default {
-      name: 'CcNpcTechCard',
-      components: { EquipmentCardBase },
-      props: {
-        item: {
-          type: Object,
-          required: true,
-        },
-        dense: {
-          type: Boolean,
-          required: false,
-          default: false,
-        },
-        collapseActions: {
-          type: Boolean,
-        },
-        tier: {
-          type: Number,
-          required: false,
-        },
-      },
-    };
+    withDefaults(defineProps<{
+      item: NpcTech
+      notes?: boolean
+      dense?: boolean
+      collapseActions?: boolean
+      tier?: number
+    }>(), {
+      dense: false,
+    })
 </script>

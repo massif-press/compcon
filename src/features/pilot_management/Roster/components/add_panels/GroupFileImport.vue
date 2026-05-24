@@ -101,125 +101,122 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import { Pilot, PilotGroup } from '@/class';
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Pilot, PilotData } from '@/classes/pilot/Pilot'
+import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { ImportData } from '@/io/Data';
-
 import { PilotStore } from '@/stores';
-import { PilotData } from '@/interface';
-
 import { logger } from '@sentry/vue';
+import { notify } from '@/util/notify';
 
-export default {
-  name: 'FileImport',
-  emits: ['toggle-import', 'done'],
-  data: () => ({
-    // fileValue is just used to clear the file input
-    fileValue: null,
-    stagedData: null as any,
-    stagedPilots: [] as PilotData[],
-    importPilots: true,
-    alreadyPresent: '',
-  }),
-  methods: {
-    reset() {
-      this.fileValue = null;
-      this.stagedData = null;
-      this.stagedPilots = [];
-      this.importPilots = true;
-      this.alreadyPresent = '';
-      this.$emit('toggle-import', false);
-    },
-    async stageImport(file) {
-      if (!file) return;
-      this.$emit('toggle-import', true);
-      let data;
-      let pilotData;
-      try {
-        let importedData = await ImportData<any>(file.target.files[0]);
-        importedData = JSON.parse(importedData);
-        data = importedData.groupData;
-        pilotData = importedData.pilotData;
-      } catch (error) {
-        this.$notify({
-          title: 'Import Error',
-          text: `Unable to read file: ${error}`,
-          data: { icon: 'mdi-account-multiple', color: 'error' },
-        });
-        logger.error('File Import Error', { error, fileName: file.target.files[0].name });
-        this.reset();
-        return;
+const emit = defineEmits<{ 'toggle-import': [val: boolean]; done: [] }>()
+
+const fileValue = ref<any>(null)
+const stagedData = ref<any>(null)
+const stagedPilots = ref<PilotData[]>([])
+const importPilots = ref(true)
+const alreadyPresent = ref('')
+
+function reset() {
+  fileValue.value = null
+  stagedData.value = null
+  stagedPilots.value = []
+  importPilots.value = true
+  alreadyPresent.value = ''
+  emit('toggle-import', false)
+}
+
+async function stageImport(file) {
+  if (!file) return
+  emit('toggle-import', true)
+  let data
+  let pilotData
+  try {
+    let importedData = await ImportData<any>(file.target.files[0])
+    importedData = JSON.parse(importedData)
+    data = importedData.groupData
+    pilotData = importedData.pilotData
+  } catch (error) {
+    notify({
+      title: 'Import Error',
+      text: `Unable to read file: ${error}`,
+      data: { icon: 'mdi-account-multiple', color: 'error' },
+    })
+    logger.error('File Import Error', { error, fileName: file.target.files[0].name })
+    reset()
+    return
+  }
+
+  const exists = PilotStore().PilotGroups.find(
+    (x) => x.Name === data.name
+  )
+
+  if (exists && !exists.SaveController.IsDeleted) {
+    alreadyPresent.value =
+      'A pilot group with this name already exists in the roster. Importing will create a unique copy of this group.'
+    const num = PilotStore().PilotGroups.filter(
+      (x) => x.Name === data.name
+    ).length
+    data.name += ` (${num})`
+  }
+
+  stagedData.value = data
+  stagedPilots.value = pilotData || []
+}
+
+function importFile() {
+  let newID = ''
+  try {
+    const importGroup = PilotGroup.Deserialize(stagedData.value)
+    newID = importGroup.RenewID()
+    importGroup.Pilots = []
+    PilotStore().AddGroup(importGroup)
+    notify({
+      title: 'Import Successful',
+      text: `${importGroup.Name} successfully added.`,
+      data: { icon: 'mdi-account-multiple' },
+    })
+  } catch (error) {
+    notify({
+      title: 'Import Error',
+      text: `Unable to import pilot group: ${error}`,
+      data: { icon: 'mdi-account-multiple', color: 'error' },
+    })
+  }
+
+  stagedPilots.value.forEach((stagedPilot) => {
+    try {
+      if (PilotStore().Pilots.some((x) => x.ID === (stagedPilot as any).id)) return
+      const importPilot = Pilot.Deserialize(stagedPilot as PilotData)
+      importPilot.RenewID()
+      if (PilotStore().Pilots.some((x) => x.Name === importPilot.Name)) {
+        const num = PilotStore().Pilots.filter((x) => x.Name === importPilot.Name).length
+        importPilot.Name += ` (${num})`
       }
+      PilotStore().AddPilot(importPilot, newID)
+      reset()
+      notify({
+        title: 'Import Successful',
+        text: `${importPilot.Name} // ${importPilot.Callsign} successfully added to roster.`,
+        data: { icon: 'cc:pilot' },
+      })
+    } catch (error) {
+      notify({
+        title: 'Import Error',
+        text: `Unable to import Pilot: ${error}`,
+        data: { icon: 'cc:pilot', color: 'error' },
+      })
+    }
+  })
 
-      const exists = PilotStore().PilotGroups.find(
-        (x) => x.Name === data.name
-      );
+  reset()
+  emit('done')
+}
 
-      if (exists && !exists.SaveController.IsDeleted) {
-        this.alreadyPresent =
-          'A pilot group with this name already exists in the roster. Importing will create a unique copy of this group.';
-        const num = PilotStore().PilotGroups.filter(
-          (x) => x.Name === data.name
-        ).length;
-        data.name += ` (${num})`;
-      }
-
-      this.stagedData = data;
-      this.stagedPilots = pilotData || [];
-    },
-    importFile() {
-      let newID = '';
-      try {
-        const importGroup = PilotGroup.Deserialize(this.stagedData);
-        newID = importGroup.RenewID();
-        importGroup.Pilots = [];
-        PilotStore().AddGroup(importGroup);
-        this.$notify({
-          title: 'Import Successful',
-          text: `${importGroup.Name} successfully added.`,
-          data: { icon: 'mdi-account-multiple' },
-        });
-      } catch (error) {
-        this.$notify({
-          title: 'Import Error',
-          text: `Unable to import pilot group: ${error}`,
-          data: { icon: 'mdi-account-multiple', color: 'error' },
-        });
-      }
-
-      this.stagedPilots.forEach((stagedPilot) => {
-        try {
-          if (PilotStore().Pilots.some((x) => x.ID === (stagedPilot as any).id)) return;
-          const importPilot = Pilot.Deserialize(stagedPilot as PilotData);
-          importPilot.RenewID();
-          if (PilotStore().Pilots.some((x) => x.Name === importPilot.Name)) {
-            const num = PilotStore().Pilots.filter((x) => x.Name === importPilot.Name).length;
-            importPilot.Name += ` (${num})`;
-          }
-          PilotStore().AddPilot(importPilot, newID);
-          this.reset();
-          this.$notify({
-            title: 'Import Successful',
-            text: `${importPilot.Name} // ${importPilot.Callsign} successfully added to roster.`,
-            data: { icon: 'cc:pilot' },
-          });
-        } catch (error) {
-          this.$notify({
-            title: 'Import Error',
-            text: `Unable to import Pilot: ${error}`,
-            data: { icon: 'cc:pilot', color: 'error' },
-          });
-        }
-      });
-
-      this.reset();
-      this.$emit('done');
-    },
-    cancelImport() {
-      this.reset();
-    },
-  },
-};
+function cancelImport() {
+  reset()
+}
 </script>
 
 <style scoped>

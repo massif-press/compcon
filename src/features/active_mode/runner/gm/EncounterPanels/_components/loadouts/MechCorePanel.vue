@@ -120,7 +120,7 @@
 
 <script lang="ts">
 import DeployButton from './_deployButton.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

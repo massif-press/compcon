@@ -404,42 +404,10 @@
 
     <div class="text-overline mb-n3 mt-1 text-primary">LOADOUT</div>
 
-    <div v-if="blank">
-      <fieldset
-        v-for="n in hasMechOption('Extra Mount Panel') ? 5 : 4"
-        :key="`mount-${n}`"
-        class="my-1 pb-1">
-        <legend class="heading h4 ml-1 px-2">
-          <v-row dense align="center">
-            <v-col cols="auto">
-              <blank-line :width="160" :height="20" />
-            </v-col>
-            <v-col cols="auto" class="text-primary">MOUNT</v-col>
-          </v-row>
-        </legend>
-        <div v-for="n in 2" :key="`slot-${n}`">
-          <v-row dense>
-            <v-col>
-              <div class="caption text-grey">WEAPON</div>
-              <blank-line :height="20" />
-            </v-col>
-            <v-col cols="2">
-              <div class="caption text-grey">TYPE</div>
-              <blank-line :height="20" />
-            </v-col>
-            <v-col cols="1">
-              <div class="caption text-grey">RANGE</div>
-              <blank-line :height="20" />
-            </v-col>
-            <v-col cols="1">
-              <div class="caption text-grey">DAMAGE</div>
-              <blank-line :height="20" />
-            </v-col>
-          </v-row>
-          <blank-line :height="landscape ? 40 : 64" class="mt-1" />
-        </div>
-      </fieldset>
-    </div>
+    <print-blank-loadout v-if="blank"
+      :extra-mounts="hasMechOption('Extra Mount Panel')"
+      :line-height="20"
+      :slot-height="landscape ? 40 : 64" />
 
     <fieldset
       v-else
@@ -521,68 +489,14 @@
       </div>
     </fieldset>
 
-    <div v-if="blank">
-      <fieldset>
-        <legend class="heading h4 ml-1 px-2 py-1 text-primary">SYSTEMS</legend>
-        <div v-for="n in hasMechOption('Extra System Space') ? 8 : 6" :key="`sys-${n}`">
-          <v-row dense>
-            <v-col>
-              <div class="caption text-grey">SYSTEM</div>
-              <blank-line :height="20" />
-            </v-col>
-            <v-col cols="1">
-              <div class="caption text-grey">USES</div>
-              <blank-line :height="20" />
-            </v-col>
-            <v-col cols="1">
-              <div class="caption text-grey">SP COST</div>
-              <blank-line :height="20" />
-            </v-col>
-          </v-row>
-          <blank-line :height="landscape ? 40 : 64" class="my-2" />
-        </div>
-      </fieldset>
-    </div>
+    <print-blank-systems v-if="blank"
+      :extra-system-space="hasMechOption('Extra System Space')"
+      :line-height="20"
+      :slot-height="landscape ? 40 : 64" />
 
-    <fieldset v-else>
-      <legend class="heading h4 ml-1 px-2">Systems</legend>
-      <v-card
-        v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)"
-        :key="s.ID"
-        variant="outlined"
-        class="px-1 no-print-break"
-        :class="s.Tags ? 'pb-2 mb-1' : ''"
-        style="position: relative; border-color: rgba(0, 0, 0, 0.2)">
-        <v-row>
-          <v-col cols="auto">
-            <b class="text-overline font-weight-black" style="line-height: 0">{{ s.Name }}</b>
-          </v-col>
-          <v-col>
-            <span class="text-overline" style="line-height: 0">{{ s.Source }} {{ s.Type }}</span>
-          </v-col>
-          <v-col v-if="s.Uses" cols="auto">
-            <v-icon v-for="n in s.getTotalUses(mech.LimitedBonus)" :key="`use-${n}`" size="small" color="primary">
-              mdi-hexagon-outline
-            </v-icon>
-          </v-col>
-        </v-row>
-        <p v-if="s.Effect" class="caption mb-n1" v-html-safe="s.Effect" />
-        <print-action :compact="true" :actions="s.Actions" />
-        <print-deployable :compact="true" :deployables="s.Deployables" />
-        <div class="text-right mb-n2">
-          <v-chip
-            v-for="t in s.Tags"
-            :key="t.ID"
-            v-show="showTag(t.ID)"
-            size="x-small"
-            label
-            variant="outlined"
-            class="mx-1 bg-white">
-            {{ t.GetName() }}
-          </v-chip>
-        </div>
-      </v-card>
-    </fieldset>
+    <print-systems-list v-else
+      :mech="mech"
+      :options="options" />
 
     <fieldset
       v-if="hasMechOption('Append Lined Section')"
@@ -604,12 +518,15 @@ import PrintDeployable from '../../components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 import PageBreak from '../../components/PageBreak.vue';
+import PrintBlankLoadout from '../../components/PrintBlankLoadout.vue';
+import PrintBlankSystems from '../../components/PrintBlankSystems.vue';
+import PrintSystemsList from '../../components/PrintSystemsList.vue';
 import { usePrintOptions } from '../_usePrintOptions';
 
 export default {
   name: 'mech-print',
   mixins: [usePrintOptions],
-  components: { PrintAction, PrintDeployable, blankLine, notes, PageBreak },
+  components: { PrintAction, PrintDeployable, blankLine, notes, PageBreak, PrintBlankLoadout, PrintBlankSystems, PrintSystemsList },
   props: {
     mech: {
       type: Object,
@@ -642,10 +559,6 @@ export default {
     signed(val: number) {
       return val > -1 ? `+${val}` : `${val}`;
     },
-    showTag(id) {
-      const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
-      return !hiddenTags.includes(id);
-    },
     showCollectedEffect(w) {
       if (!w.Profiles[0].Effect) return false;
       return w.Profiles.every((x) => x.Effect === w.Profiles[0].Effect);
@@ -655,18 +568,5 @@ export default {
 </script>
 
 <style scoped>
-.caption {
-  font-size: 12px;
-}
-
-.p-stat {
-  font-size: 34px;
-}
-
-fieldset {
-  padding: 0 4px;
-  height: 100%;
-  border-radius: 3px;
-  border-color: rgb(var(--v-theme-grey-lighten2));
-}
+@import '@/ui/style/print-mech.css';
 </style>

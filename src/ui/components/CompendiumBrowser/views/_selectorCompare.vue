@@ -77,8 +77,8 @@
 </template>
 
 <script lang="ts">
-import { CompendiumItem } from '@/class';
-import { useMobile } from '@/mixins/useMobile';
+import { CompendiumItem } from '@/classes/CompendiumItem'
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

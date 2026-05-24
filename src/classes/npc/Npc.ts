@@ -21,7 +21,7 @@ import { INarrativeElement } from '../narrative/INarrativeElement'
 import { FolderController, IFolderData } from '../components/folder/FolderController'
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable'
 import logger from '@/user/logger'
-import { ItemType } from '@/class'
+import { ItemType } from '../enums'
 import { IInstanceableData } from '../components/instance/IInstancableData'
 import { LcpConfigData } from '@/user'
 

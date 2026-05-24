@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="licenses"
     item-type="License"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    :manufacturers="manufacturers">
     <template #header>
       <div class="heading h3 text-center text-accent">Licenses</div>
     </template>
@@ -11,7 +12,7 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import { License } from '@/class';
+import License from '@/classes/pilot/components/license/License'
 
 export default {
   name: 'licenses',
@@ -33,6 +34,9 @@ export default {
     },
   }),
   computed: {
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
     licenses() {
       return CompendiumStore()
         .Licenses.filter((x) => !x.Hidden)

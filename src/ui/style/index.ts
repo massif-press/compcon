@@ -1,7 +1,5 @@
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
 import { ccIcons } from '@/assets/icons/cc-icons';
 import '@mdi/font/css/materialdesignicons.css';
 
@@ -10,10 +8,13 @@ import * as themes from './themes';
 const preload = JSON.parse(localStorage.getItem('cc_theme') as string) || 'gms';
 
 const vuetify = createVuetify({
-  components: {
-    ...components,
+  defaults: {
+    VTextField: { density: 'compact', hideDetails: true },
+    VSelect: { density: 'compact', hideDetails: true },
+    VCombobox: { density: 'compact', hideDetails: true },
+    VAutocomplete: { density: 'compact', hideDetails: true },
+    VBtn: { rounded: 0 },
   },
-  directives,
   theme: {
     defaultTheme: preload,
     variations: {

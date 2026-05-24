@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { Bonus } from '@/classes/components';
+import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
 export default {
   name: 'gm-stat-chip-display',

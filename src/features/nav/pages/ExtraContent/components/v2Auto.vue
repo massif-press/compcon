@@ -97,47 +97,38 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { GetValue, SetValue } from '@/io/Storage'
 import { downloadFullBackup } from '@/io/FullImporter'
 import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'V2Auto',
-  setup() {
-    return { va: NAV_STRINGS.v2Auto }
-  },
-  props: {
-    block: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data: () => ({
-    hasMigrationData: false,
-    dialog: false,
-    migrationResult: null as any,
-    backupData: null as any,
-  }),
-  async mounted() {
-    const dismissed = await GetValue('v2_migration_dismissed')
-    if (dismissed) return
-    const backup = await GetValue('v2_backup_download')
-    if (backup !== null) {
-      this.hasMigrationData = true
-      this.backupData = backup
-      this.migrationResult = await GetValue('v2_migration_result')
-    }
-  },
-  methods: {
-    downloadBackup() {
-      if (this.backupData) downloadFullBackup(this.backupData)
-    },
-    async dismiss(close) {
-      await SetValue('v2_migration_dismissed', true)
-      this.hasMigrationData = false
-      close()
-    },
-  },
+defineProps<{ block?: boolean }>()
+
+const va = NAV_STRINGS.v2Auto
+
+const hasMigrationData = ref(false)
+const migrationResult = ref<any>(null)
+const backupData = ref<any>(null)
+
+onMounted(async () => {
+  const dismissed = await GetValue('v2_migration_dismissed')
+  if (dismissed) return
+  const backup = await GetValue('v2_backup_download')
+  if (backup !== null) {
+    hasMigrationData.value = true
+    backupData.value = backup
+    migrationResult.value = await GetValue('v2_migration_result')
+  }
+})
+
+function downloadBackup() {
+  if (backupData.value) downloadFullBackup(backupData.value)
+}
+
+async function dismiss(close: () => void) {
+  await SetValue('v2_migration_dismissed', true)
+  hasMigrationData.value = false
+  close()
 }
 </script>

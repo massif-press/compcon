@@ -41,30 +41,23 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'ActionBase',
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-  },
-  emits: ['close'],
-  computed: {
-    show() {
-      return (
-        this.action.Damage?.length ||
-        this.action.Range?.length ||
-        !this.action.Frequency.Unlimited ||
-        this.action.Trigger ||
-        this.action.Detail
-      );
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  action: object
+  tier?: number
+}>()
+
+const emit = defineEmits<{ close: [] }>()
+
+const show = computed(() => {
+  return (
+    props.action.Damage?.length ||
+    props.action.Range?.length ||
+    !props.action.Frequency.Unlimited ||
+    props.action.Trigger ||
+    props.action.Detail
+  );
+})
 </script>

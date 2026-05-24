@@ -83,7 +83,7 @@
           </template>
         </v-tooltip>
       </template>
-      <share-dialog :pilot="pilot" />
+      <share-dialog :item="pilot" />
     </cc-dialog>
 
     <br />
@@ -165,14 +165,14 @@
       size="large"
       color="panel"
       :loading="loading"
-      :disabled="pilot.CloudController.SyncStatus === 'Synced'"
+      :disabled="pilot.CloudController.isSynced"
       prepend-icon="mdi-cloud-sync"
       @click="remoteUpdate()">
       Download Latest Data
       <template #subtitle>
         <span class="text-cc-overline">
           {{
-            pilot.CloudController.SyncStatus === 'Synced'
+            pilot.CloudController.isSynced
               ? 'Pilot is up to date with remote data'
               : 'Download all remote changes to this pilot, overwriting local data.'
           }}
@@ -213,15 +213,15 @@
 
 <script lang="ts">
 import { saveFile } from '@/io/Data'
-import { Pilot } from '@/class'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { UserStore } from '@/stores'
-import { CloudController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 import CloneDialog from './components/CloneDialog.vue'
 import StatblockDialog from './components/StatblockDialog.vue'
 import logger from '@/user/logger'
 import LcpConfigSelector from './components/LcpConfigSelector.vue'
-import { useMobile } from '@/mixins/useMobile';
-import ShareDialog from './components/ShareDialog.vue'
+import { useMobile } from '@/composables/useMobile';
+import ShareDialog from '@/shared/ShareDialog.vue'
 
 export default {
   name: 'MobileOptionsMenu',

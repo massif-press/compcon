@@ -1,15 +1,13 @@
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account'
 import { GenerateExportCollection } from '@/io/Importer'
 import { RemoveItem, SetItem } from '@/io/Storage'
-import {
-  CampaignStore,
-  CompendiumStore,
-  EncounterStore,
-  NarrativeStore,
-  NpcStore,
-  PilotStore,
-  UserStore,
-} from '@/stores'
+import { UserStore } from '@/user/store'
+import { CompendiumStore } from '@/features/compendium/store'
+import { PilotStore } from '@/features/pilot_management/store'
+import { NpcStore } from '@/features/gm/store/npc_store'
+import { NarrativeStore } from '@/features/gm/store/narrative_store'
+import { EncounterStore } from '@/features/gm/store/encounter_store'
+import { CampaignStore } from '@/features/gm/store/campaign_store'
 import { v4 as uuid } from 'uuid'
 
 type CollectionContentItem = {

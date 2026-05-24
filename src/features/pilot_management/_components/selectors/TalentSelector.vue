@@ -67,105 +67,91 @@
   </selector>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash-es'
-import Selector from './components/_SelectorBase.vue'
-
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
-import { Rules, Pilot, Talent } from '@/class'
+import { Rules } from '@/classes/utility/Rules'
+import { Pilot } from '@/classes/pilot/Pilot'
+import { Talent } from '@/classes/pilot/components/talent/Talent'
 import { accentInclude } from '@/classes/utility/accent_fold'
 import logger from '@/user/logger'
+import Selector from './components/_SelectorBase.vue'
 import MissingItemAlert from './components/_MissingItemAlert.vue'
-import { useMobile } from '@/mixins/useMobile';
 
-export default {
-  mixins: [useMobile],
-  name: 'TalentSelector',
-  components: { Selector, MissingItemAlert },
-  props: {
-    pilot: { type: Pilot, required: true },
-    levelUp: Boolean,
-    modal: Boolean,
-    flat: Boolean,
-  },
-  data: () => ({
-    search: '',
-    ctype: 'full',
-    jump: '',
-  }),
-  computed: {
-    newPilot(): boolean {
-      return this.pilot.Level === 0
-    },
-    selectedMin(): number {
-      return Rules.MinimumPilotTalents
-    },
-    enoughSelections(): boolean {
-      return (
-        this.pilot.Level === 0 ||
-        !(this.pilot.TalentsController.Talents.length < this.selectedMin)
-      )
-    },
-    selectionComplete(): boolean {
-      return (this.newPilot || this.levelUp) && this.pilot.TalentsController.HasFullTalents
-    },
-    allTalents() {
-      if (!this.pilot.LcpConfig) return CompendiumStore().Talents
-      return CompendiumStore().Talents.filter(
-        x =>
-          !x.InLcp ||
-          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
-          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
-      )
-    },
-    talents(): Talent[] {
-      const talents = this.allTalents.filter(x => !x.IsHidden)
-      if (this.search) return talents.filter(x => accentInclude(x.Name, this.search))
+const props = withDefaults(defineProps<{
+  pilot: Pilot
+  levelUp?: boolean
+  modal?: boolean
+  flat?: boolean
+}>(), { levelUp: false, modal: false, flat: false })
 
-      return talents
-    },
-    jumpItems() {
-      return [
-        ...this.pilot.TalentsController.Talents.map(x => ({
-          title: x.Talent.Name,
-          value: x.Talent.ID,
-          subtitle: `// Pilot Rank ${x.Rank}`,
-        })),
-        ...this.talents
-          .filter(x => !this.pilot.TalentsController.Talents.some(y => y.Talent.ID === x.ID))
-          .map(x => ({
-            title: x.Name,
-            value: x.ID,
-          })),
-      ]
-    },
-  },
-  watch: {
-    jump(val) {
-      this.scroll(val)
-    },
-  },
-  methods: {
-    canAdd(id) {
-      if (this.newPilot) {
-        return (
-          this.pilot.TalentsController.getTalentRank(id) === 0 &&
-          !this.pilot.TalentsController.HasFullTalents
-        )
-      }
-      return !this.pilot.TalentsController.HasFullTalents
-    },
-    scroll(id) {
-      this.scrollTo(`talent_${id}`)
-    },
-    scrollTo(e: any): void {
-      const el = document.getElementById(e)
-      if (!el) {
-        logger.warn(`Element with ID ${e} not found`, this)
-        return
-      }
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    },
-  },
+const { smAndDown: mobile } = useDisplay()
+
+const search = ref('')
+const jump = ref('')
+
+const newPilot = computed(() => props.pilot.Level === 0)
+const selectedMin = computed(() => Rules.MinimumPilotTalents)
+
+const enoughSelections = computed(() =>
+  props.pilot.Level === 0 ||
+  !(props.pilot.TalentsController.Talents.length < selectedMin.value)
+)
+
+const selectionComplete = computed(() =>
+  (newPilot.value || props.levelUp) && props.pilot.TalentsController.HasFullTalents
+)
+
+const allTalents = computed(() => {
+  if (!props.pilot.LcpConfig) return CompendiumStore().Talents
+  return CompendiumStore().Talents.filter(
+    (x: any) =>
+      !x.InLcp ||
+      props.pilot.LcpConfig?.packList.some((y: any) => y.packID === x.Brew?.LcpId) ||
+      props.pilot.LcpConfig?.packList.some((y: any) => y.packName === x.Brew?.LcpName)
+  )
+})
+
+const talents = computed<Talent[]>(() => {
+  const ts = allTalents.value.filter((x: any) => !x.IsHidden)
+  if (search.value) return ts.filter((x: any) => accentInclude(x.Name, search.value))
+  return ts
+})
+
+const jumpItems = computed(() => [
+  ...props.pilot.TalentsController.Talents.map((x: any) => ({
+    title: x.Talent.Name,
+    value: x.Talent.ID,
+    subtitle: `// Pilot Rank ${x.Rank}`,
+  })),
+  ...talents.value
+    .filter((x: any) => !props.pilot.TalentsController.Talents.some((y: any) => y.Talent.ID === x.ID))
+    .map((x: any) => ({ title: x.Name, value: x.ID })),
+])
+
+watch(jump, (val) => scroll(val))
+
+function scrollTo(e: string): void {
+  const el = document.getElementById(e)
+  if (!el) {
+    logger.warn(`Element with ID ${e} not found`, null)
+    return
+  }
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
+
+function scroll(id: string) {
+  scrollTo(`talent_${id}`)
+}
+
+function canAdd(id: string) {
+  if (newPilot.value) {
+    return (
+      props.pilot.TalentsController.getTalentRank(id) === 0 &&
+      !props.pilot.TalentsController.HasFullTalents
+    )
+  }
+  return !props.pilot.TalentsController.HasFullTalents
 }
 </script>

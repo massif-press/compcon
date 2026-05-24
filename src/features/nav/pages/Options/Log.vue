@@ -70,84 +70,75 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import logger from '@/user/logger';
-import { NAV_STRINGS } from '@/features/nav/strings';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { notify } from '@/util/notify'
+import logger from '@/user/logger'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'Log',
-  setup() {
-    return { lg: NAV_STRINGS.log }
-  },
-  computed: {
-    history() {
-      const severityMap = { debug: 1, info: 2, warn: 3, error: 4 };
-      const minLevel = severityMap[logger.level] ?? 0;
-      return logger.History.filter(item => (severityMap[item.type] ?? 0) >= minLevel).reverse();
-    },
-    logger() {
-      return logger;
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-  methods: {
-    timestamp(t: number) {
-      const date = new Date(t);
-      const hours = date.getHours();
-      const minutes = date.getMinutes();
-      const seconds = date.getSeconds();
-      const milliseconds = date.getMilliseconds();
+const { mdAndDown: mobile } = useDisplay()
+const lg = NAV_STRINGS.log
 
-      const period = hours >= 12 ? 'PM' : 'AM';
-      const formattedHours = String(hours % 12 || 12).padStart(2, '0');
-      const formattedMinutes = String(minutes).padStart(2, '0');
-      const formattedSeconds = String(seconds).padStart(2, '0');
-      const formattedMilliseconds = String(milliseconds).padStart(3, '0');
+const history = computed(() => {
+  const severityMap: Record<string, number> = { debug: 1, info: 2, warn: 3, error: 4 }
+  const minLevel = severityMap[logger.level] ?? 0
+  return logger.History.filter(item => (severityMap[item.type] ?? 0) >= minLevel).reverse()
+})
 
-      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds} ${period}`;
-    },
-    formatTrace(t: string) {
-      if (!t) return 'no data';
-      return (
-        t
-          .replace('(', '')
-          .replace('/', '<div style="font-size:13px; margin-top: -4px; margin-left: 6px">/') +
-        '</div>'
-      );
-    },
-    sendToClipboard(item: any) {
-      const trace = Array.isArray(item.trace) ? item.trace.join('\n') : item.trace;
-      const text = `${item.message} (${item.type})\n------\ntrace:\n${trace}\n------\n${item.caller ? 'caller:\n' + JSON.stringify(item.caller, null, 2) : 'no caller'
-        }`;
-      navigator.clipboard.writeText(text);
-      this.$notify({
-        type: 'success',
-        text: this.lg.copiedToClipboard,
-      });
-    },
-    exportLog() {
-      const data = logger.export();
-      const blob = new Blob([data], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `compcon-log-${new Date(Date.now()).toLocaleDateString()}.txt`;
-      a.click();
-    },
-    safeStringify(obj) {
-      return logger.SafeStringify(obj);
-    },
-    sanitizeCaller(caller: any) {
-      if (!caller || typeof caller !== 'object') return caller;
-      const out: Record<string, any> = {};
-      for (const key of Object.keys(caller)) {
-        if (key.startsWith('$')) continue;
-        out[key] = key.toLowerCase() === 'password' ? '[REDACTED]' : caller[key];
-      }
-      return out;
-    },
-  },
-};
+function timestamp(t: number) {
+  const date = new Date(t)
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
+  const seconds = date.getSeconds()
+  const milliseconds = date.getMilliseconds()
+  const period = hours >= 12 ? 'PM' : 'AM'
+  const formattedHours = String(hours % 12 || 12).padStart(2, '0')
+  const formattedMinutes = String(minutes).padStart(2, '0')
+  const formattedSeconds = String(seconds).padStart(2, '0')
+  const formattedMilliseconds = String(milliseconds).padStart(3, '0')
+  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds} ${period}`
+}
+
+function formatTrace(t: string) {
+  if (!t) return 'no data'
+  return (
+    t
+      .replace('(', '')
+      .replace('/', '<div style="font-size:13px; margin-top: -4px; margin-left: 6px">/') +
+    '</div>'
+  )
+}
+
+function sendToClipboard(item: any) {
+  const trace = Array.isArray(item.trace) ? item.trace.join('\n') : item.trace
+  const text = `${item.message} (${item.type})\n------\ntrace:\n${trace}\n------\n${item.caller ? 'caller:\n' + JSON.stringify(item.caller, null, 2) : 'no caller'
+    }`
+  navigator.clipboard.writeText(text)
+  notify({ type: 'success', text: lg.copiedToClipboard })
+}
+
+function exportLog() {
+  const data = logger.export()
+  const blob = new Blob([data], { type: 'text/plain' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `compcon-log-${new Date(Date.now()).toLocaleDateString()}.txt`
+  a.click()
+}
+
+function safeStringify(obj: any) {
+  return logger.SafeStringify(obj)
+}
+
+function sanitizeCaller(caller: any) {
+  if (!caller || typeof caller !== 'object') return caller
+  const out: Record<string, any> = {}
+  for (const key of Object.keys(caller)) {
+    if (key.startsWith('$')) continue
+    out[key] = key.toLowerCase() === 'password' ? '[REDACTED]' : caller[key]
+  }
+  return out
+}
 </script>

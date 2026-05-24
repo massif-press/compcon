@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { orderBy } from 'lodash-es';
-import { Background } from '@/class';
+import { Background } from '@/classes/Background'
 
 import { CompendiumStore } from '@/stores';
 

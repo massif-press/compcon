@@ -119,57 +119,38 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Pilot } from '@/class'
+<script setup lang="ts">
+import { useDisplay } from 'vuetify'
+import { Pilot } from '@/classes/pilot/Pilot'
 import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue'
 import { PilotStore } from '@/stores'
 import PilotListItemDetails from './_pilotListItemDetails.vue'
-import { useMobile } from '@/mixins/useMobile';
 
-export default {
-  name: 'PilotListItem',
-  components: {
-    EditMenu,
-    PilotListItemDetails,
-  },
-  mixins: [useMobile],
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-    selectable: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    missingContent() {
-      return this.pilot.BrewController.IsUnableToLoad
-    },
-    remoteResource() {
-      return this.pilot.SaveController.IsRemote
-    },
-  },
-  methods: {
-    toPilotSheet() {
-      this.$emit('goTo', this.pilot.ID)
-    },
-    statusColor(status: string): string {
-      switch (status.toLowerCase()) {
-        case 'active':
-          return 'success'
-        case 'mia':
-        case 'kia':
-        case 'err':
-          return 'error'
-        default:
-          return 'text'
-      }
-    },
-    move(direction: 'top' | 'up' | 'down' | 'bottom') {
-      PilotStore().ReorderPilot(this.pilot as Pilot, direction)
-    },
-  },
+const props = defineProps<{ pilot: Pilot; selectable?: boolean }>()
+
+const emit = defineEmits<{ goTo: [id: string] }>()
+
+const { smAndDown: mobile } = useDisplay()
+
+function toPilotSheet() {
+  emit('goTo', props.pilot.ID)
+}
+
+function statusColor(status: string): string {
+  switch (status.toLowerCase()) {
+    case 'active':
+      return 'success'
+    case 'mia':
+    case 'kia':
+    case 'err':
+      return 'error'
+    default:
+      return 'text'
+  }
+}
+
+function move(direction: 'top' | 'up' | 'down' | 'bottom') {
+  PilotStore().ReorderPilot(props.pilot as Pilot, direction)
 }
 </script>
 

@@ -122,7 +122,7 @@
 </template>
 
 <script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import UnitFeatureCard from './_unitFeatureCard.vue';
 import * as _ from 'lodash-es';
 import { UserStore } from '@/stores';

@@ -1,7 +1,7 @@
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
 import { Eidolon } from './Eidolon';
 import { NpcFeature } from '../feature/NpcFeature';
-import { Bonus } from '@/classes/components';
+import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
 class EidolonFeatureController implements IFeatureContainer {
   public readonly Parent: Eidolon;

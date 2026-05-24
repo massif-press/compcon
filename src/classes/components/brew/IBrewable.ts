@@ -1,4 +1,4 @@
-import { CompendiumItem } from '@/class';
+import { CompendiumItem } from '../../CompendiumItem'
 import { BrewController } from './BrewController';
 import { SaveController } from '../save/SaveController';
 

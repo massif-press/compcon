@@ -140,55 +140,54 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-import { DiceRoller } from '@/class';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useDisplay } from 'vuetify';
+import { DiceRoller } from '@/classes/dice/DiceRoller'
 
-export default {
-  name: 'CheckRollInterface',
-  props: {
-    rollData: { type: Object, required: true },
-  },
-  emits: ['rolled'],
-  data: () => ({
-    dice: [2, 3, 4, 6, 8, 10, 12, 20, 100],
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    isRanged() {
-      return this.rollData.AttackType === 'ranged';
-    },
-    targetCoverDifficulty() {
-      const target = this.rollData.Combatant?.actor?.CombatController
-      if (!target) return 0;
+const { mdAndDown: mobile } = useDisplay()
 
-      return target.Cover === 'none'
-        ? 0
-        : target.Cover === 'soft'
-          ? 1
-          : 2;
-    },
-    engagedDifficulty() {
-      return this.rollData.Event.Initiator.actor.CombatController.HasStatus('engaged') ? 1 : 0;
-    },
-  },
-  methods: {
-    reset() {
-      this.rollData.AttackBonus = this.rollData.Event.AttackBonus || 0;
-      this.rollData.AttackAccuracy = this.rollData.Event.Accuracy || 0;
-      this.rollData.AttackRollResult = null;
-      this.$emit('rolled', 0);
-    },
-    rollAttack() {
-      const rollResult = DiceRoller.rollSkillCheck(
-        Number(this.rollData.AttackBonus), this.rollData.AttackAccuracy
-      );
-      this.rollData.AttackRollResult = rollResult;
-      this.rollData.AttackRolledValue = rollResult.total;
+const props = defineProps<{
+  rollData: object
+}>()
 
-      this.$emit('rolled', this.rollData.AttackRolledValue);
-    },
-  },
-};
+const emit = defineEmits<{
+  rolled: [value: number]
+}>()
+
+const dice = [2, 3, 4, 6, 8, 10, 12, 20, 100]
+
+const isRanged = computed(() => props.rollData.AttackType === 'ranged')
+
+const targetCoverDifficulty = computed(() => {
+  const target = props.rollData.Combatant?.actor?.CombatController
+  if (!target) return 0;
+
+  return target.Cover === 'none'
+    ? 0
+    : target.Cover === 'soft'
+      ? 1
+      : 2;
+})
+
+const engagedDifficulty = computed(() =>
+  props.rollData.Event.Initiator.actor.CombatController.HasStatus('engaged') ? 1 : 0
+)
+
+function reset() {
+  props.rollData.AttackBonus = props.rollData.Event.AttackBonus || 0;
+  props.rollData.AttackAccuracy = props.rollData.Event.Accuracy || 0;
+  props.rollData.AttackRollResult = null;
+  emit('rolled', 0);
+}
+
+function rollAttack() {
+  const rollResult = DiceRoller.rollSkillCheck(
+    Number(props.rollData.AttackBonus), props.rollData.AttackAccuracy
+  );
+  props.rollData.AttackRollResult = rollResult;
+  props.rollData.AttackRolledValue = rollResult.total;
+
+  emit('rolled', props.rollData.AttackRolledValue);
+}
 </script>

@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { Reserve } from '@/class';
+import { Reserve } from '@/classes/pilot/components/reserves/Reserve'
 
 export default {
   name: 'CustomReservePanel',

@@ -83,27 +83,15 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 
-export default {
-  name: 'CombatActionPanel',
-  props: {
-    controller: {
-      type: Object,
-      required: true,
-    },
-    hideOvercharge: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data: () => ({
-    usedActions: [],
-  }),
-  computed: {
-    movement() {
-      return this.controller.StatController.CurrentStats['speed'] || 0;
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  controller: any;
+  hideOvercharge?: boolean;
+}>(), {
+  hideOvercharge: false,
+});
+
+const movement = computed(() => props.controller.StatController?.CurrentStats['speed'] || 0);
 </script>

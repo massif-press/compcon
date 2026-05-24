@@ -119,60 +119,58 @@
   </v-col>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useDisplay } from 'vuetify';
 import CheckRollInterface from './CheckRollInterface.vue';
 
-export default {
-  name: 'BaseAttackRoller',
-  components: {
-    CheckRollInterface
-  },
-  props: {
-    event: { type: Object, required: true },
-    crits: { type: Boolean, default: false },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    reliableDamageEvents() {
-      return (this.event.DamageEvents || []).filter((de: any) => de.Reliable > 0);
-    },
-  },
-  methods: {
-    getTargetCoverDifficulty(idx) {
-      const target = this.selectedTargets[idx];
-      if (!target) return 0;
+const { mdAndDown: mobile } = useDisplay()
 
-      return target.actor.CombatController.Cover === 'none'
-        ? 0
-        : target.actor.CombatController.Cover === 'soft'
-          ? 1
-          : 2;
-    },
-    overrideSave(s) {
-      if (!s.HitResult) return;
-      if (s.HitResult === 'crit') {
-        s.AttackRolledValue = 1;
-        this.event.UnsetCrit();
-      } else if (s.HitResult === 'miss') {
-        s.AttackRolledValue = s.TargetDefenseValue;
-      } else {
-        s.AttackRolledValue = 20;
-        if (this.event.Effect?.CanCrit) this.event.SetCrit();
-      }
-    },
-    handleAttackRoll(s, val) {
-      s.AttackRolledValue = Number(val);
-      if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
-      else this.event.UnsetCrit();
-    },
-    onAttackRolled(val) {
-      if (Number(val) >= 20 && this.event.Effect?.CanCrit) this.event.SetCrit();
-      else this.event.UnsetCrit();
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  event: object
+  crits?: boolean
+}>(), {
+  crits: false,
+})
+
+const reliableDamageEvents = computed(() =>
+  (props.event.DamageEvents || []).filter((de: any) => de.Reliable > 0)
+)
+
+function getTargetCoverDifficulty(idx) {
+  const target = props.selectedTargets[idx];
+  if (!target) return 0;
+
+  return target.actor.CombatController.Cover === 'none'
+    ? 0
+    : target.actor.CombatController.Cover === 'soft'
+      ? 1
+      : 2;
+}
+
+function overrideSave(s) {
+  if (!s.HitResult) return;
+  if (s.HitResult === 'crit') {
+    s.AttackRolledValue = 1;
+    props.event.UnsetCrit();
+  } else if (s.HitResult === 'miss') {
+    s.AttackRolledValue = s.TargetDefenseValue;
+  } else {
+    s.AttackRolledValue = 20;
+    if (props.event.Effect?.CanCrit) props.event.SetCrit();
+  }
+}
+
+function handleAttackRoll(s, val) {
+  s.AttackRolledValue = Number(val);
+  if (Number(val) >= 20 && props.event.Effect?.CanCrit) props.event.SetCrit();
+  else props.event.UnsetCrit();
+}
+
+function onAttackRolled(val) {
+  if (Number(val) >= 20 && props.event.Effect?.CanCrit) props.event.SetCrit();
+  else props.event.UnsetCrit();
+}
 </script>
 
 <style scoped>

@@ -1,10 +1,13 @@
 <template>
-  <v-bottom-navigation :height="xs ? 20 : 40">
+  <v-bottom-navigation :height="xs ? 20 : 40"
+    style="border-radius: 12px; left: 12px; right: 12px; width: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 8px); box-shadow: 0 4px 16px rgba(0,0,0,0.4);">
     <v-tabs grow
       center
       density="compact"
       :height="xs ? 20 : 40"
       bg-color="primary"
+      show-arrows
+      center-active
       hide-slider>
       <v-tab variant="text"
         :class="selected === 1 ? 'bg-white' : ''"
@@ -47,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore } from '@/stores';
 
 export default {

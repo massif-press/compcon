@@ -1,6 +1,6 @@
-import { ActivationType, Tag } from '@/class'
+import { ActivationType } from '../../../enums'
+import Tag, { ITagData } from '../../../Tag'
 import { Rules } from '@/classes/utility/Rules'
-import { ICounterData, IDamageData, IRangeData, ISynergyData, ITagData } from '@/interface'
 import { IActionData, Action } from '../../../Action'
 import { IBonusData } from '../bonus/Bonus'
 import { ICompendiumItemData } from '../../../CompendiumItem'
@@ -10,6 +10,10 @@ import { EffectStatus, IEffectStatusData } from '../active_effects/effect_subtyp
 import { EffectSpecial, IEffectSpecialData } from '../active_effects/effect_subtype/EffectSpecial'
 import { EffectOther, IEffectOtherData } from '../active_effects/effect_subtype/EffectOther'
 import { EffectResist, IEffectResistData } from '../active_effects/effect_subtype/EffectResist'
+import { IDamageData } from '@/classes/Damage'
+import { IRangeData } from '@/classes/Range'
+import { ICounterData } from '../../combat/counters/Counter'
+import { ISynergyData } from '../synergy/Synergy'
 
 interface IDeployableData extends ICompendiumItemData {
   name: string

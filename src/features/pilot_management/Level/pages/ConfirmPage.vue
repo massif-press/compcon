@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotStore } from '@/stores';
 import PilotRegistrationCard from '../../PilotSheet/components/PilotRegistrationCard.vue';
 import StepperContent from '../../_components/StepperContent.vue';

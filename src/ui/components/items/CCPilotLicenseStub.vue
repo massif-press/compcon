@@ -17,28 +17,23 @@
   </cc-button>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-pilot-license-stub',
-  props: {
-    pilotLicense: {
-      type: Object,
-      required: true,
-    },
-    readonly: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    dialog: false,
-    color: 'primary',
-  }),
-  methods: {
-    remove() {
-      this.$emit('remove');
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const { smAndDown: mobile } = useDisplay()
+
+const props = defineProps<{
+  pilotLicense: object
+  readonly?: boolean
+}>()
+
+const emit = defineEmits<{ remove: [] }>()
+
+const dialog = ref(false)
+const color = ref('primary')
+
+function remove() {
+  emit('remove');
+}
 </script>

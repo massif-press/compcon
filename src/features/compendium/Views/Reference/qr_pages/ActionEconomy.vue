@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import ActionCard from '../_components/ActionCard.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

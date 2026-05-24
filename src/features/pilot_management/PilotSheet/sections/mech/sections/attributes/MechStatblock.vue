@@ -178,8 +178,8 @@
 
 <script lang="ts">
 import StatblockItem from './StatblockItem.vue';
-import { useMobile } from '@/mixins/useMobile';
-import { Mech } from '@/class';
+import { useMobile } from '@/composables/useMobile';
+import { Mech } from '@/classes/mech/Mech'
 import Pilot from '@/assets/icons/svg/pilot.vue';
 
 

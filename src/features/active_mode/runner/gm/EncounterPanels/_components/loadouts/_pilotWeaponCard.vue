@@ -94,8 +94,8 @@ import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
-import { useMobile } from '@/mixins/useMobile'
-import { externalPilotItemBonuses } from '@/mixins/useExternalItemBonuses'
+import { useMobile } from '@/composables/useMobile'
+import { externalPilotItemBonuses } from '@/composables/useExternalItemBonuses'
 
 export default {
   name: 'PilotWeaponCombatCard',

@@ -29,21 +29,9 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-import bonusBase from './_bonusBase.vue';
-
-export default {
-  name: 'BonusPopup',
-  components: { bonusBase },
-  props: {
-    bonus: {
-      type: Object,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  bonus: object
+  tier?: number
+}>()
 </script>

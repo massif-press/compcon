@@ -119,149 +119,138 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import { Pilot } from '@/class';
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { Pilot, PilotData } from '@/classes/pilot/Pilot'
 import { ImportData } from '@/io/Data';
-
 import { CompendiumStore, PilotStore } from '@/stores';
-import { PilotData } from '@/interface';
-
 import * as _ from 'lodash-es';
 import logger from '@/user/logger';
+import { notify } from '@/util/notify';
 import {
   isV2Pilot,
   getV2PilotMissingLcps,
   preprocessPilotImport,
 } from '@/io/V2Importer';
 
-export default {
-  name: 'FileImport',
-  props: {
-    groupId: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    skipRosterSave: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['done', 'import-complete'],
-  data: () => ({
-    // fileValue is just used to clear the file input
-    fileValue: null,
-    missingContent: '',
-    stagedData: null as PilotData | null,
-    alreadyPresent: '',
-  }),
-  computed: {
-    isV2() {
-      return isV2Pilot(this.stagedData);
-    },
-  },
-  watch: {
-    stagedData(newVal) {
-      if (!newVal) {
-        this.reset();
+const props = withDefaults(defineProps<{
+  groupId?: string | null;
+  skipRosterSave?: boolean;
+}>(), {
+  groupId: null,
+  skipRosterSave: false,
+})
+
+const emit = defineEmits<{ done: []; 'import-complete': [pilot: Pilot] }>()
+
+const fileValue = ref<any>(null)
+const missingContent = ref('')
+const stagedData = ref<PilotData | null>(null)
+const alreadyPresent = ref('')
+
+const isV2 = computed(() => isV2Pilot(stagedData.value))
+
+watch(stagedData, (newVal) => {
+  if (!newVal) {
+    reset()
+  }
+})
+
+function reset() {
+  fileValue.value = null
+  missingContent.value = ''
+  stagedData.value = null
+  alreadyPresent.value = ''
+}
+
+function getFrame(frame) {
+  const frameData = CompendiumStore().Frames.find((x) => x.ID === frame)
+  if (frameData) return frameData.Name
+  return `UNKNOWN FRAME (${frame})`
+}
+
+async function stageImport(file) {
+  if (!file) return
+  const pilotData = await ImportData<PilotData>(file.target.files[0])
+
+  if (!pilotData.brews) pilotData.brews = []
+
+  if (isV2Pilot(pilotData)) {
+    const { missingNames } = getV2PilotMissingLcps(pilotData)
+    if (missingNames.length) missingContent.value = missingNames.join('<br />')
+  } else if (pilotData.brews.length && !(pilotData.brews[0] as any).LcpId) {
+    const installedPacks = CompendiumStore()
+      .ContentPacks.filter((x) => x.Active)
+      .map((x) => `${x.Name} @ ${x.Version}`)
+    const missingPacks = _.pullAll(pilotData.brews, installedPacks as any)
+    if (missingPacks.length) missingContent.value = missingPacks.join('<br />')
+  } else {
+    const installedPacks = CompendiumStore()
+      .ContentPacks.filter((x) => x.Active)
+      .map((x) => x.ID)
+    const missing = [] as string[]
+    pilotData.brews.forEach((b) => {
+      if (!installedPacks.includes((b as any).LcpId)) {
+        missing.push(`${(b as any).LcpName} @ ${(b as any).LcpVersion}`)
       }
-    },
-  },
-  methods: {
-    reset() {
-      this.fileValue = null;
-      this.missingContent = '';
-      this.stagedData = null;
-      this.alreadyPresent = '';
-    },
-    getFrame(frame) {
-      const frameData = CompendiumStore().Frames.find((x) => x.ID === frame);
-      if (frameData) return frameData.Name;
-      return `UNKNOWN FRAME (${frame})`;
-    },
-    async stageImport(file) {
-      if (!file) return;
-      const pilotData = await ImportData<PilotData>(file.target.files[0]);
+    })
+    if (missing.length) missingContent.value = missing.join('<br />')
+  }
 
-      if (!pilotData.brews) pilotData.brews = [];
+  const exists = PilotStore().Pilots.find((x) => x.ID === pilotData.id)
+  if (exists && !exists.SaveController.IsDeleted) {
+    alreadyPresent.value =
+      'A Pilot with this ID already exists in the roster. Importing will create a unique copy of this pilot.'
+    const num = PilotStore().Pilots.filter((x) => x.Name === pilotData.name).length
+    pilotData.name += ` (${num})`
+  }
+  stagedData.value = pilotData
+}
 
-      if (isV2Pilot(pilotData)) {
-        const { missingNames } = getV2PilotMissingLcps(pilotData);
-        if (missingNames.length) this.missingContent = missingNames.join('<br />');
-      } else if (pilotData.brews.length && !(pilotData.brews[0] as any).LcpId) {
-        // old-style brews (array of strings)
-        const installedPacks = CompendiumStore()
-          .ContentPacks.filter((x) => x.Active)
-          .map((x) => `${x.Name} @ ${x.Version}`);
-        const missingPacks = _.pullAll(pilotData.brews, installedPacks as any);
-        if (missingPacks.length) this.missingContent = missingPacks.join('<br />');
-      } else {
-        const installedPacks = CompendiumStore()
-          .ContentPacks.filter((x) => x.Active)
-          .map((x) => x.ID);
-        const missing = [] as string[];
-        pilotData.brews.forEach((b) => {
-          if (!installedPacks.includes((b as any).LcpId)) {
-            missing.push(`${(b as any).LcpName} @ ${(b as any).LcpVersion}`);
-          }
-        });
-        if (missing.length) this.missingContent = missing.join('<br />');
-      }
+async function importFile() {
+  try {
+    const result = await preprocessPilotImport(stagedData.value)
 
-      const exists = PilotStore().Pilots.find((x) => x.ID === pilotData.id);
-      if (exists && !exists.SaveController.IsDeleted) {
-        this.alreadyPresent =
-          'A Pilot with this ID already exists in the roster. Importing will create a unique copy of this pilot.';
-        const num = PilotStore().Pilots.filter((x) => x.Name === pilotData.name).length;
-        pilotData.name += ` (${num})`;
-      }
-      this.stagedData = pilotData;
-    },
-    async importFile() {
-      try {
-        const result = await preprocessPilotImport(this.stagedData);
+    if (result.action === 'backup') {
+      notify({
+        title: 'v2 Import Backup',
+        text: `${(stagedData.value as any).callsign} saved to pending v2 imports in the Content Manager.`,
+        data: { icon: 'mdi-information-box-outline', color: 'info' },
+      })
+      reset()
+      emit('done')
+      return
+    }
 
-        if (result.action === 'backup') {
-          this.$notify({
-            title: 'v2 Import Backup',
-            text: `${(this.stagedData as any).callsign} saved to pending v2 imports in the Content Manager.`,
-            data: { icon: 'mdi-information-box-outline', color: 'info' },
-          });
-          this.reset();
-          this.$emit('done');
-          return;
-        }
+    const importPilot = new Pilot(result.transformed as PilotData)
+    importPilot.RenewID()
 
-        const importPilot = new Pilot(result.transformed as PilotData);
-        importPilot.RenewID();
+    if (!props.skipRosterSave) {
+      await PilotStore().AddPilot(importPilot, props.groupId)
+      reset()
+      notify({
+        title: 'Import Successful',
+        text: `${importPilot.Name} // ${importPilot.Callsign} successfully added to roster.`,
+        data: { icon: 'cc:pilot' },
+      })
+      emit('done')
+    } else {
+      emit('import-complete', importPilot)
+      emit('done')
+    }
+  } catch (error) {
+    logger.error(`Pilot import error: ${error}`, error)
+    notify({
+      title: 'Import Error',
+      text: `Unable to import Pilot: ${error}`,
+      data: { icon: 'cc:pilot', color: 'error' },
+    })
+  }
+}
 
-        if (!this.skipRosterSave) {
-          await PilotStore().AddPilot(importPilot, this.groupId);
-          this.reset();
-          this.$notify({
-            title: 'Import Successful',
-            text: `${importPilot.Name} // ${importPilot.Callsign} successfully added to roster.`,
-            data: { icon: 'cc:pilot' },
-          });
-          this.$emit('done');
-        } else {
-          this.$emit('import-complete', importPilot);
-          this.$emit('done');
-        }
-      } catch (error) {
-        logger.error(`Pilot import error: ${error}`, this, error);
-        this.$notify({
-          title: 'Import Error',
-          text: `Unable to import Pilot: ${error}`,
-          data: { icon: 'cc:pilot', color: 'error' },
-        });
-      }
-    },
-    cancelImport() {
-      this.reset();
-    },
-  },
-};
+function cancelImport() {
+  reset()
+}
 </script>
 
 <style scoped>

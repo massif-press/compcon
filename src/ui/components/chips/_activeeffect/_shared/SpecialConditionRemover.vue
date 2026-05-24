@@ -1,5 +1,5 @@
 <template>
-  <v-col v-if="event.RemoveSpecialStatus.length"
+  <v-col v-if="event.RemoveSpecialStatus?.length"
     :cols="cols">
     <div class="text-cc-overline text-disabled">remove special condition</div>
     <v-card v-for="(s, index) in event.RemoveSpecialStatus"
@@ -15,13 +15,11 @@
 
 
 
-<script lang="ts">
-
-export default {
-  name: 'SpecialConditionRemover',
-  props: {
-    event: { type: Object, required: true },
-    cols: { type: [Number, String], default: 'auto' }
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  event: object
+  cols?: number | string
+}>(), {
+  cols: 'auto',
+})
 </script>

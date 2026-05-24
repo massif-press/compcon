@@ -36,7 +36,7 @@ import { Unit } from '@/classes/npc/unit/Unit';
 
 import { NpcStore } from '@/stores';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 import { ref, onUnmounted } from 'vue';
 
 
@@ -53,16 +53,18 @@ export default {
   },
   setup() {
     const npcStore = NpcStore();
+    const selected = ref<Unit | null>(null);
     const npcs = ref(npcStore.getUnits.filter((x) => !x.SaveController.IsDeleted));
     const unsub = npcStore.$subscribe(() => {
       npcs.value = npcStore.getUnits.filter((x) => !x.SaveController.IsDeleted);
+      if (selected.value) {
+        const updated = npcStore.getNpcByID(selected.value.ID);
+        if (updated) selected.value = updated as Unit;
+      }
     });
     onUnmounted(unsub);
-    return { npcStore, npcs };
+    return { npcStore, npcs, selected };
   },
-  data: () => ({
-    selected: null as Unit | null,
-  }),
   computed: {
     groupings() {
       const allLabelTitles = new Set(

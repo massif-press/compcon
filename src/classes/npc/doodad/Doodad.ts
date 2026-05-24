@@ -6,12 +6,12 @@ import { NarrativeController } from '@/classes/narrative/NarrativeController'
 import { FolderController } from '@/classes/components/folder/FolderController'
 import { IInstanceableData } from '@/classes/components/instance/IInstancableData'
 import { IInstanceable } from '@/classes/components/instance/IInstanceable'
-import { NpcStore } from '@/stores'
+import { NpcStore } from '@/features/gm/store/npc_store'
 import { CombatController } from '@/classes/components/combat/CombatController'
 import { ICombatant } from '@/classes/components/combat/ICombatant'
 import { StatController } from '@/classes/components/combat/stats/StatController'
 import { Stats } from '@/classes/components/combat/stats/Stats'
-import { ItemType } from '@/class'
+import { ItemType } from '../../enums'
 import { Rules } from '@/classes/utility/Rules'
 
 class DoodadData extends NpcData implements IInstanceableData {
@@ -78,7 +78,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   }
 
   public GetLinkedItem<Npc>(): Npc {
-    return NpcStore().getNpcByID(this.ID)
+    return NpcStore().getNpcByID(this.ID) as Npc
   }
 
   public static Serialize(doodad: Doodad, asInstance: boolean): DoodadData {
@@ -113,6 +113,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   public static Deserialize(data: DoodadData): Doodad {
     const doodad = new Doodad(data)
     SaveController.Deserialize(doodad, data.save || {})
+    CloudController.Deserialize(doodad, (data as any).cloud)
     BrewController.Deserialize(doodad, data)
     PortraitController.Deserialize(doodad, data.img || {})
     NarrativeController.Deserialize(doodad, data.narrative || {})

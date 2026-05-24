@@ -12,7 +12,7 @@
             :label="`Edit Pilot Mech Skills (${pilot.MechSkillsController.CurrentHASEPoints}/${pilot.MechSkillsController.MaxHASEPoints})`"
             @open-selector="open" />
         </template>
-        <mech-skills-selector :pilot="<Pilot>pilot" />
+        <mech-skills-selector :pilot="pilot" />
       </cc-modal>
     </section-header>
 
@@ -54,22 +54,14 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import MechSkillsSelector from '@/features/pilot_management/_components/selectors/MechSkillsSelector.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useDisplay } from 'vuetify';
+import type { Pilot } from '@/classes/pilot/Pilot'
 
+defineProps<{ pilot: Pilot }>();
 
-export default {
-  name: 'SkillBlock',
-  components: { SectionHeader, SectionEditChip, MechSkillsSelector },
-  mixins: [useMobile],
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+const { smAndDown: mobile } = useDisplay();
 </script>

@@ -2,32 +2,23 @@
   <preview :width="Number(size)" :height="Number(size)" :image="avatar.image" :coordinates="avatar.coordinates" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { onMounted } from 'vue'
 import { GetBlob } from '@/io/Storage';
 import { Preview } from 'vue-advanced-cropper';
 
-export default {
-  name: 'cc-avatar',
-  components: {
-    Preview,
-  },
-  props: {
-    avatar: {
-      type: Object,
-      required: true,
-    },
-    size: {
-      type: [Number, String],
-      required: false,
-      default: 200,
-    },
-  },
-  async mounted() {
-    if (this.avatar.image.src.startsWith('http')) return;
-    if (!this.avatar.image.src.startsWith('blob')) {
-      const blob = await GetBlob('images', this.avatar.image.src);
-      this.avatar.image.src = URL.createObjectURL(blob);
-    }
-  },
-};
+const props = withDefaults(defineProps<{
+  avatar: object
+  size?: number | string
+}>(), {
+  size: 200,
+})
+
+onMounted(async () => {
+  if (props.avatar.image.src.startsWith('http')) return;
+  if (!props.avatar.image.src.startsWith('blob')) {
+    const blob = await GetBlob('images', props.avatar.image.src);
+    props.avatar.image.src = URL.createObjectURL(blob);
+  }
+})
 </script>

@@ -58,7 +58,7 @@ import DoodadIndex from './doodads/index.vue';
 import EidolonIndex from './eidolons/index.vue';
 import Organizer from '../_components/Organizer.vue';
 import Importer from '../_components/NpcImporter.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

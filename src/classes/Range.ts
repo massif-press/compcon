@@ -1,4 +1,6 @@
-import { Mech, MechWeapon, RangeType } from '@/class'
+import { RangeType } from './enums'
+import type { MechWeapon } from './mech/components/equipment/MechWeapon'
+import type { Mech } from './mech/Mech'
 import { Bonus, BonusId } from './components/feature/bonus/Bonus'
 import { FeatureController } from './components/feature/FeatureController'
 

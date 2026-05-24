@@ -66,7 +66,7 @@
 import { CompendiumStore } from '@/stores';
 import StepperContent from '../../_components/StepperContent.vue';
 import SkillSelector from '../../_components/selectors/SkillSelector.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export default {
   name: 'skills-page',

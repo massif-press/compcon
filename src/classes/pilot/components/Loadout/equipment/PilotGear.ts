@@ -1,5 +1,6 @@
-import { PilotEquipment, ItemType, ContentPack } from '@/class'
-import { IPilotEquipmentData } from '@/interface'
+import { ContentPack } from '../../../../ContentPack'
+import { ItemType } from '../../../../enums'
+import { IPilotEquipmentData, PilotEquipment } from './PilotEquipment'
 
 class PilotGear extends PilotEquipment {
   public constructor(data: IPilotEquipmentData, pack?: ContentPack) {

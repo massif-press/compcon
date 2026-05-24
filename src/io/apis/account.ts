@@ -2,10 +2,8 @@ import { UserStore } from '@/stores'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import logger from '@/user/logger'
 import { parseApiError, NotFoundError, BadRequestError } from './apiErrors'
-import { IDEMPOTENCY_HEADER, generateIdempotencyKey } from './idempotency'
 
 export { NotFoundError, BadRequestError } from './apiErrors'
-export { generateIdempotencyKey, generateDeterministicKey, IDEMPOTENCY_HEADER } from './idempotency'
 
 const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`
 
@@ -91,11 +89,6 @@ async function fetchWithRetry(
         }
         const body = await parseApiError(response)
         throw new UnauthorizedError(body.message)
-      }
-
-      // Don't retry 409 surface for optimistic handling
-      if (response.status === 409) {
-        return response
       }
 
       if (response.status >= 500 && attempt < retries - 1) {
@@ -187,11 +180,6 @@ export async function getUserDataChanged(
   })
 
   const data = await response.json()
-
-  // When since=0, backend returns flat array (scope=all behavior)
-  if (Array.isArray(data)) {
-    return { items: data, serverTime: Date.now() }
-  }
   return data
 }
 
@@ -203,7 +191,6 @@ export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
 
   const body = typeof metadata === 'string' ? metadata : JSON.stringify(metadata)
   const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
 
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
@@ -211,28 +198,19 @@ export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
     body,
   })
 
-  // Handle 409 Conflict for optimistic concurrency
-  if (response.status === 409) {
-    const conflict = await parseApiError(response)
-    throw new VersionConflictError(conflict.currentItem, conflict.message)
-  }
-
   const data = await response.json()
 
   return data
 }
 
-export async function batchUpsert(items: any[], idempotencyKey?: string): Promise<any> {
+export async function batchUpsert(items: any[]): Promise<any> {
   const url = new URL(`${invoke}/user`)
   url.searchParams.append('user_id', UserStore().Cognito.userId)
   url.searchParams.append('scope', 'batch')
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = idempotencyKey || generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers,
+    headers: await getHeaders(),
     body: JSON.stringify({ items }),
   })
 
@@ -245,19 +223,11 @@ export async function patchItem(sortkey: string, fields: Record<string, any>): P
   url.searchParams.append('user_id', UserStore().Cognito.userId)
   url.searchParams.append('scope', 'patch')
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers,
+    headers: await getHeaders(),
     body: JSON.stringify({ sortkey, ...fields }),
   })
-
-  if (response.status === 409) {
-    const conflict = await parseApiError(response)
-    throw new VersionConflictError(conflict.currentItem, conflict.message)
-  }
 
   const data = await response.json()
   return data
@@ -268,12 +238,9 @@ export async function updateUser(id: string, payload: any): Promise<any> {
   url.searchParams.append('user_id', id)
   url.searchParams.append('scope', 'meta')
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'POST',
-    headers,
+    headers: await getHeaders(),
     body: JSON.stringify(payload),
   })
 
@@ -306,15 +273,6 @@ export class UnauthorizedError extends Error {
   constructor(message?: string) {
     super(message || 'Valid authentication token required')
     this.name = 'UnauthorizedError'
-  }
-}
-
-export class VersionConflictError extends Error {
-  public readonly currentItem: any
-  constructor(currentItem: any, message?: string) {
-    super(message || 'Item was modified by another client')
-    this.name = 'VersionConflictError'
-    this.currentItem = currentItem
   }
 }
 
@@ -351,42 +309,43 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
   }
 }
 
-// In-memory ETag cache: uri → { etag, data }. Capped to avoid unbounded growth.
 const _etagCache = new Map<string, { etag: string; data: any }>()
 const ETAG_CACHE_MAX = 100
+
+export function invalidateETagCache(s3Url: string) {
+  _etagCache.delete(s3Url)
+}
 
 export async function downloadFromS3(s3Url: string) {
   if (!s3Url) throw new Error(`downloadFromS3: missing url`)
   const url = `${import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || ''}/${s3Url}`
 
-  try {
-    const fetchHeaders: Record<string, string> = {}
-    const cached = _etagCache.get(s3Url)
-    if (cached?.etag) {
-      fetchHeaders['If-None-Match'] = cached.etag
-    }
+  const fetchHeaders: Record<string, string> = {}
+  const cached = _etagCache.get(s3Url)
+  if (cached?.etag) {
+    fetchHeaders['If-None-Match'] = cached.etag
+  }
 
-    const response = await fetch(url, { headers: fetchHeaders, cache: 'no-cache' })
+  const response = await fetch(url, { headers: fetchHeaders, cache: 'no-cache' })
 
-    if (response.status === 304 && cached) {
-      return cached.data
-    }
+  if (response.status === 304 && cached) {
+    _etagCache.delete(s3Url)
+    _etagCache.set(s3Url, cached)
+    return cached.data
+  }
 
-    if (response.ok) {
-      const jsonData = await response.json()
-      const etag = response.headers.get('ETag')
-      if (etag) {
-        if (_etagCache.size >= ETAG_CACHE_MAX) {
-          _etagCache.delete(_etagCache.keys().next().value!)
-        }
-        _etagCache.set(s3Url, { etag, data: jsonData })
+  if (response.ok) {
+    const jsonData = await response.json()
+    const etag = response.headers.get('ETag')
+    if (etag) {
+      if (_etagCache.size >= ETAG_CACHE_MAX) {
+        _etagCache.delete(_etagCache.keys().next().value!)
       }
-      return jsonData
-    } else {
-      throw new Error(`Download failed: ${response.status} ${response.statusText}`)
+      _etagCache.set(s3Url, { etag, data: jsonData })
     }
-  } catch (error) {
-    throw error
+    return jsonData
+  } else {
+    throw new Error(`Download failed: ${response.status} ${response.statusText}`)
   }
 }
 
@@ -410,12 +369,9 @@ export async function cloudDelete(user_id: string, sortkey: string, uri?: string
   url.searchParams.append('sortkey', sortkey)
   if (uri) url.searchParams.append('uri', uri)
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'DELETE',
-    headers,
+    headers: await getHeaders(),
   })
 
   return response
@@ -433,12 +389,9 @@ export async function bulkDelete(
   const body: any = { sortkeys }
   if (uris && uris.length > 0) body.uris = uris
 
-  const headers = await getHeaders()
-  headers[IDEMPOTENCY_HEADER] = generateIdempotencyKey()
-
   const response = await fetchWithRetry(url.toString(), {
     method: 'DELETE',
-    headers,
+    headers: await getHeaders(),
     body: JSON.stringify(body),
   })
 

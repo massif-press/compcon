@@ -205,7 +205,8 @@
 <script lang="ts">
 import TableWindowItem from './_TableWindowItem.vue';
 import CascadeCheck from './_CascadeCheck.vue';
-import { MechLoadout, MechSystem } from '@/class';
+import { MechLoadout } from '@/classes/mech/components/loadout/MechLoadout'
+import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
 import { MechInstance } from '@/classes/components/combat/MechInstance';
 
 export default {

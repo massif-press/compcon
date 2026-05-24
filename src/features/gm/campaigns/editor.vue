@@ -65,7 +65,7 @@ import ContentPage from '@/features/compendium/Views/CampaignLibrary/pages/conte
 import Page from './pages/CampaignPage.vue';
 
 import { CampaignStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

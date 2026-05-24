@@ -77,7 +77,7 @@ export const NarrativeStore = defineStore('narrative', {
       )
 
       const idx = this.Folders.findIndex(x => x === payload.old)
-      if (idx >= 0) this.Folders[idx] = payload.newName
+      if (idx >= -1) this.Folders[idx] = payload.newName
     },
 
     RemoveFolder(payload: string): void {
@@ -86,7 +86,7 @@ export const NarrativeStore = defineStore('narrative', {
       )
 
       const idx = this.Folders.findIndex(x => x === payload)
-      if (idx >= 0) this.Folders.splice(idx, 1)
+      if (idx >= -1) this.Folders.splice(idx, 1)
     },
 
     async AddItem(payload: Character | Location | Faction): Promise<void> {
@@ -118,10 +118,11 @@ export const NarrativeStore = defineStore('narrative', {
     },
 
     async DeleteItemPermanent(payload: Character | Location | Faction): Promise<void> {
-      const idx = this.CollectionItems.findIndex(x => x.ID === payload.ID)
-      if (idx >= 0) this.CollectionItems.splice(idx, 1)
-      NavStore().removeNarrativeEntry(payload.ID)
-      await RemoveItem('narrative', payload.ID)
+      const id = payload.ID || (payload as any)._id
+      const idx = this.CollectionItems.findIndex(x => x.ID === id)
+      if (idx >= -1) this.CollectionItems.splice(idx, 1)
+      NavStore().removeNarrativeEntry(id)
+      await RemoveItem('narrative', id)
       this.SaveItemData()
     },
 

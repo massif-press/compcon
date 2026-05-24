@@ -28,18 +28,12 @@
   </equipment-card-base>
 </template>
 
-<script lang="ts">
-import EquipmentCardBase from './_EquipmentCardBase.vue';
+<script setup lang="ts">
+import { MechSystem } from '@/classes/mech/components/equipment/MechSystem';
+import EquipmentCardBase from './_EquipmentCardBase.vue'
 
-export default {
-  name: 'CcMechSystemCard',
-  components: { EquipmentCardBase },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    notes: { type: Boolean },
-  },
-};
+defineProps<{
+  item: MechSystem
+  notes?: boolean
+}>()
 </script>

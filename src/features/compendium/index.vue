@@ -29,7 +29,7 @@ import { UserStore } from '@/stores'
 import CompendiumView from './Views/Compendium/index.vue'
 import ReferenceView from './Views/Reference/index.vue'
 import CampaignLibrary from './Views/CampaignLibrary/index.vue'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 export default {
   name: 'CompendiumIndex',

@@ -2,14 +2,10 @@
   <cc-item-card :item="item" />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'integrated-info-base',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+<script setup lang="ts">
+import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment';
+
+const props = defineProps<{
+  item: MechEquipment
+}>()
 </script>

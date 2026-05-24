@@ -58,8 +58,9 @@ import {
 import { Scatter } from 'vue-chartjs';
 import * as _ from 'lodash-es';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { CompendiumItem, MechWeapon } from '@/class';
-import { CompendiumStore } from '@/stores';
+import { CompendiumItem } from '@/classes/CompendiumItem'
+import { Manufacturer } from '@/classes/Manufacturer'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartDataLabels);
@@ -90,6 +91,11 @@ export default {
       type: Number,
       required: false,
       default: 1,
+    },
+    manufacturers: {
+      type: Array as () => Manufacturer[],
+      required: false,
+      default: () => [],
     },
   },
   data: () => ({
@@ -144,6 +150,7 @@ export default {
             { title: 'Save', value: 'save' },
             { title: 'Speed', value: 'speed' },
             { title: 'System Points', value: 'sp' },
+            { title: 'Size', value: 'size' },
           ];
         case 'PilotArmor':
           return [
@@ -348,7 +355,7 @@ export default {
     },
     mf(id: string) {
       return (
-        CompendiumStore().Manufacturers.find((x) => x.ID === id) || {
+        (this.manufacturers as Manufacturer[]).find((x) => x.ID === id) || {
           GetColor: () => 'black',
           Name: 'err',
           LogoIsExternal: false,

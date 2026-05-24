@@ -1,24 +1,29 @@
 <template>
-  <v-row dense align="center">
+  <v-row dense
+    align="center">
     <v-col>
       <div>
-        <cc-text-field
-          v-model="newSkill"
+        <cc-text-field v-model="newSkill"
           variant="outlined"
           color="primary"
           density="compact"
           hide-details
           label="New Skill Trigger" />
-        <cc-text-area v-model="newDesc" class="my-2" label="Description" />
-        <cc-text-area v-model="newDetail" class="my-2" label="Detail" />
+        <cc-text-area v-model="newDesc"
+          class="my-2"
+          label="Description" />
+        <cc-text-area v-model="newDetail"
+          class="my-2"
+          label="Detail" />
       </div>
     </v-col>
-    <v-col cols="auto" md="1" class="text-center">
+    <v-col cols="auto"
+      md="1"
+      class="text-center">
       <div class="mt-2 ml-auto mr-auto">
         <v-tooltip text="Add Skill">
           <template #activator="{ props }">
-            <cc-button
-              v-bind="props"
+            <cc-button v-bind="props"
               size="large"
               icon="mdi-plus"
               variant="outlined"
@@ -33,19 +38,20 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class';
-import { CustomSkill } from '@/class';
+import CustomSkill from '@/classes/pilot/components/skill/CustomSkill';
+import { Pilot } from '@/classes/pilot/Pilot'
+
 export default {
-  name: 'add-custom-skill',
+  name: 'AddCustomSkill',
   props: {
     pilot: { type: Pilot, required: true },
   },
+  emits: ['add-custom'],
   data: () => ({
     newSkill: '',
     newDesc: '',
     newDetail: '',
   }),
-  emits: ['add-custom'],
   computed: {
     canAdd(): boolean {
       const custSkill = new CustomSkill(this.newSkill, this.newDesc, this.newDetail);

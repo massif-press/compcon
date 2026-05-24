@@ -102,10 +102,10 @@
 
             <v-list-item v-if="pilot.IsRemote"
               :loading="loading"
-              :disabled="pilot.CloudController.SyncStatus === 'Synced'"
+              :disabled="pilot.CloudController.isSynced"
               prepend-icon="mdi-cloud-sync"
               title="Download Latest Data"
-              :subtitle="pilot.CloudController.SyncStatus === 'Synced'
+              :subtitle="pilot.CloudController.isSynced
                 ? 'Pilot is up to date with remote data'
                 : 'Download all remote changes to this pilot, overwriting local data.'
                 "
@@ -144,14 +144,14 @@
 
 <script lang="ts">
 import { saveFile } from '@/io/Data'
-import { Pilot } from '@/class'
+import { Pilot } from '@/classes/pilot/Pilot'
 import { UserStore } from '@/stores'
-import { CloudController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import logger from '@/user/logger'
 import LcpConfigSelector from './LcpConfigSelector.vue'
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 // import { RemoteSyncItem } from '@/cloud/item_sync';
 

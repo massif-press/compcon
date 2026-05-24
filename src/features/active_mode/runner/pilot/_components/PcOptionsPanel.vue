@@ -198,7 +198,7 @@
 </template>
 
 <script lang="ts">
-import { Mech } from '@/class';
+import { Mech } from '@/classes/mech/Mech'
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import { PilotStore } from '@/stores';
 

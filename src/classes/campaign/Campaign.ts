@@ -355,6 +355,7 @@ class Campaign implements ISaveable, ICloudSyncable {
     }
 
     SaveController.Serialize(c, data)
+    CloudController.Serialize(c, data)
 
     return data as ICampaignData
   }
@@ -367,6 +368,7 @@ class Campaign implements ISaveable, ICloudSyncable {
     const c = new Campaign(data)
 
     SaveController.Deserialize(c, data.save)
+    CloudController.Deserialize(c, (data as any).cloud)
 
     return c
   }

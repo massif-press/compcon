@@ -163,79 +163,22 @@
         Export
       </cc-button>
       <v-spacer />
-      <v-dialog max-width="800px">
-        <template #activator="{ props }">
-          <cc-button v-if="!isRemote && isAuthed"
-            color="panel"
+      <cc-dialog v-if="!isRemote && isAuthed"
+        title="Share Code"
+        icon="mdi-broadcast"
+        :close-on-click="false">
+        <template #activator="{ open }">
+          <cc-button color="panel"
             class="mx-2"
-            :size="mobile ? 'x-small' : 'small'"
-            @click="props.onClick($event)">
+            size="small"
+            @click="open">
             <v-icon start
               icon="mdi-broadcast" />
             Share Code
           </cc-button>
         </template>
-        <template #default="{ isActive }">
-          <v-card>
-            <v-toolbar color="primary"
-              density="compact">
-              <v-toolbar-title>Share Code</v-toolbar-title>
-              <v-spacer />
-              <v-btn icon
-                @click="isActive.value = false">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </v-toolbar>
-            <v-card-text>
-              <cc-alert variant="tonal"
-                density="compact"
-                border
-                prominent
-                color="text"
-                icon="mdi-alert">
-                A share code will allow other users with COMP/CON cloud accounts to download a copy
-                of
-                this item and subscribe to updates you make. Please be conscientious when updating
-                data that is shared with others.
-              </cc-alert>
-              <div v-if="item.CloudController.ShareCode">
-                <v-row justify="center">
-                  <v-col cols="auto">
-                    <div class="text-overline mb-n6">item SHARE CODE</div>
-                    <b class="text-accent"
-                      style="font-size: 50px; letter-spacing: 15px"
-                      v-text="`${item.CloudController.ShareCode.substring(
-                        0,
-                        4
-                      )}&ndash;${item.CloudController.ShareCode.substring(4, 8)}&ndash;${item.CloudController.ShareCode.substring(8, 12)}`
-                        " />
-                    <v-tooltip text="Copy share code to clipboard">
-                      <template #activator="{ props }">
-                        <v-btn v-bind="props"
-                          icon
-                          :size="mobile ? 'x-small' : 'small'"
-                          variant="text"
-                          class="ml-n3"
-                          @click="copyCode()">
-                          <v-icon>mdi-clipboard-text-outline</v-icon>
-                        </v-btn>
-                      </template>
-                    </v-tooltip>
-                  </v-col>
-                </v-row>
-              </div>
-              <cc-alert v-else
-                prominent
-                icon="mdi-sync-off"
-                title="No Cloud Save"
-                class="my-4">
-                This item not saved in your cloud account and so cannot be shared. Cloud sync this
-                item to generate a share code.
-              </cc-alert>
-            </v-card-text>
-          </v-card>
-        </template>
-      </v-dialog>
+        <share-dialog :item="item" />
+      </cc-dialog>
       <v-spacer v-if="!isRemote && isAuthed" />
 
       <v-menu v-if="isRemote"
@@ -262,7 +205,7 @@
       <v-tooltip v-if="isRemote">
         <template #activator="{ props }">
           <cc-button size="small"
-            :disabled="item.CloudController.SyncStatus === 'Synced'"
+            :disabled="item.CloudController.isSynced"
             class="mx-3"
             v-bind="props">
             <v-icon start>mdi-cloud-sync</v-icon>
@@ -271,7 +214,7 @@
         </template>
         {{
           isAuthed
-            ? item.CloudController.SyncStatus === 'Synced'
+            ? item.CloudController.isSynced
               ? 'Item is up to date with remote changes'
               : 'Download all remote changes to this item, overwriting local data.'
             : 'Must be logged in to update'
@@ -329,125 +272,78 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { CompendiumStore, EncounterStore, UserStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
-import SectionEditor from '../../_components/SectionEditor.vue';
-import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue';
-import GmFolderEditor from '../../_components/_subcomponents/GMFolderEditor.vue';
-import SitrepEditor from './SitrepEditor.vue';
-import EnvironmentEditor from './EnvironmentEditor.vue';
-import MapEditor from './map/MapEditor.vue';
-import MapPreview from './map/MapPreview.vue';
-import { Encounter } from '@/classes/encounter/Encounter';
-import exportAsJson from '@/util/jsonExport';
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { EncounterStore, UserStore } from '@/stores'
+import { notify } from '@/util/notify'
+import { GM_STRINGS } from '@/features/gm/strings'
+import SectionEditor from '../../_components/SectionEditor.vue'
+import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue'
+import GmFolderEditor from '../../_components/_subcomponents/GMFolderEditor.vue'
+import ShareDialog from '@/shared/ShareDialog.vue'
+import SitrepEditor from './SitrepEditor.vue'
+import EnvironmentEditor from './EnvironmentEditor.vue'
+import MapEditor from './map/MapEditor.vue'
+import MapPreview from './map/MapPreview.vue'
+import { Encounter } from '@/classes/encounter/Encounter'
+import exportAsJson from '@/util/jsonExport'
+import CombatantEditor from './combatants/CombatantEditor.vue'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 
-import CombatantEditor from './combatants/CombatantEditor.vue';
-import { CloudController } from '@/classes/components';
+const props = withDefaults(defineProps<{
+  isNew?: boolean
+  showDescription?: boolean
+  item: Record<string, any>
+}>(), {})
 
-export default {
-  name: 'GmEncounterEditor',
-  components: {
-    SectionEditor,
-    GmLabelEditor,
-    GmFolderEditor,
-    MapEditor,
-    SitrepEditor,
-    EnvironmentEditor,
-    MapPreview,
-    CombatantEditor,
-  },
-  mixins: [useMobile],
-  props: {
-    isNew: { type: Boolean },
-    showDescription: { type: Boolean },
-    item: { type: Object, required: true },
-  },
-  emits: ['exit'],
-  data: () => ({
-    printDialog: false,
-    dupeMenu: false,
-    deleteMenu: false,
-    convertMenu: false,
-    mapTab: 0,
-    loading: false,
-  }),
-  computed: {
-    typeText() {
-      if (!this.item) return 'ERR';
-      return this.item.ItemType.toUpperCase();
-    },
-    sitreps() {
-      return CompendiumStore().Sitreps;
-    },
-    isRemote() {
-      return (this.item as any).SaveController.IsRemote;
-    },
-    isAuthed() {
-      return UserStore().IsLoggedIn;
-    },
-  },
-  methods: {
-    exitMapEditor() {
-      (this.$refs as any).mapEditor.hide();
+const emit = defineEmits<{ exit: [] }>()
 
-      (this.$refs as any).mapPreview.update();
-    },
-    exit() {
-      this.$emit('exit');
-    },
-    saveAsNew() {
-      EncounterStore().AddEncounter(this.item as Encounter);
-      this.exit();
-    },
-    save() {
-      EncounterStore().SaveEncounterData();
-      this.$emit('exit');
-    },
-    deleteItem() {
-      (this.item as Encounter).SaveController.Delete();
-      this.$emit('exit');
-    },
-    dupe() {
-      EncounterStore().CloneEncounter(this.item as Encounter);
-      this.$emit('exit');
-    },
-    exportItem(item) {
-      exportAsJson(Encounter.Serialize(item), `${item.Name}.json`);
-    },
-    async remoteUpdate() {
-      try {
-        await CloudController.UpdateRemote(this.item);
-        await UserStore().refreshDbData();
-        this.$notify({
-          title: `Sync Complete`,
-          text: `${this.item.ItemType} ${this.item.Name} synced.`,
-          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
-        });
-      } catch (err) {
-        this.$notify({
-          title: `Sync Failed`,
-          text: `Failed to sync ${this.item.ItemType} ${this.item.Name}. ${err}`,
-          data: { icon: 'mdi-alert', color: 'error' },
-        });
-      }
-    },
-    async convert() {
-      this.loading = true;
-      UserStore().deleteRemoteItem(this.item.SaveController.RemoteCode);
-      this.item.CloudController.GenerateMetadata();
-      this.item.SaveController.ClearRemote();
-      await UserStore().refreshDbData();
-      this.loading = false;
-    },
-    copyCode() {
-      navigator.clipboard.writeText(this.item.CloudController.ShareCode);
-      this.$notify({
-        title: 'Copied',
-        text: 'Share code copied to clipboard',
-        data: { icon: 'mdi-clipboard-check', color: 'success' },
-      });
-    },
-  },
-};
+const dupeMenu = ref(false)
+const deleteMenu = ref(false)
+const convertMenu = ref(false)
+const loading = ref(false)
+
+const typeText = computed(() => props.item ? props.item.ItemType.toUpperCase() : 'ERR')
+const isRemote = computed(() => props.item.SaveController.IsRemote)
+const isAuthed = computed(() => UserStore().IsLoggedIn)
+
+function exit() {
+  emit('exit')
+}
+function saveAsNew() {
+  EncounterStore().AddEncounter(props.item as Encounter)
+  exit()
+}
+function save() {
+  EncounterStore().SaveEncounterData()
+  emit('exit')
+}
+function deleteItem() {
+  (props.item as Encounter).SaveController.Delete()
+  emit('exit')
+}
+function dupe() {
+  EncounterStore().CloneEncounter(props.item as Encounter)
+  emit('exit')
+}
+function exportItem(item: any) {
+  exportAsJson(Encounter.Serialize(item), `${item.Name}.json`)
+}
+async function remoteUpdate() {
+  try {
+    await CloudController.UpdateRemote(props.item)
+    await UserStore().refreshDbData()
+    notify({ title: GM_STRINGS.sync.syncCompleteTitle, text: GM_STRINGS.sync.syncCompleteText(props.item.ItemType, props.item.Name), data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' } })
+  } catch (err) {
+    notify({ title: GM_STRINGS.sync.syncFailedTitle, text: GM_STRINGS.sync.syncFailedText(props.item.ItemType, props.item.Name, String(err)), data: { icon: 'mdi-alert', color: 'error' } })
+  }
+}
+async function convert() {
+  loading.value = true
+  UserStore().deleteRemoteItem(props.item.SaveController.RemoteCode)
+  props.item.CloudController.GenerateMetadata()
+  props.item.SaveController.ClearRemote()
+  await UserStore().refreshDbData()
+  loading.value = false
+}
 </script>

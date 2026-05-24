@@ -1,71 +1,82 @@
 <template>
   <v-container>
     <div class="heading h2"> Character Sheets</div>
+    <v-row dense>
+      <v-col>
+        <div class="my-1 d-flex align-center">
+          <v-tooltip location="top"
+            open-delay="300">
+            <template #activator="{ props }">
+              <v-btn v-bind="props"
+                color="panel"
+                flat
+                tile
+                size="small"
+                @click="setSort('Updated')">
+                <v-icon icon="mdi-clock-outline"
+                  size="20"
+                  color="accent" />
+                <v-icon v-if="sort === 'Updated'"
+                  color="accent"
+                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+                  class="mb-n1" />
+              </v-btn>
+            </template>
+            <span>Sort by Recent</span>
+          </v-tooltip>
 
-    <div class="my-1">
-      <v-tooltip location="top"
-        open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            @click="setSort('Updated')">
-            <v-icon icon="mdi-clock-outline"
-              size="20"
-              color="accent" />
-            <v-icon v-if="sort === 'Updated'"
-              color="accent"
-              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              class="mb-n1" />
-          </v-btn>
-        </template>
-        <span>Sort by Recent</span>
-      </v-tooltip>
+          <v-tooltip location="top"
+            open-delay="300">
+            <template #activator="{ props }">
+              <v-btn v-bind="props"
+                color="panel"
+                flat
+                tile
+                size="small"
+                @click="setSort('Name')">
+                <v-icon icon="mdi-format-text-variant"
+                  size="24"
+                  color="accent" />
+                <v-icon v-if="sort === 'Name'"
+                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+                  class="mb-n1"
+                  color="accent" />
+              </v-btn>
+            </template>
+            <span>Sort by Name</span>
+          </v-tooltip>
 
-      <v-tooltip location="top"
-        open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            @click="setSort('Name')">
-            <v-icon icon="mdi-format-text-variant"
-              size="24"
-              color="accent" />
-            <v-icon v-if="sort === 'Name'"
-              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              class="mb-n1"
-              color="accent" />
-          </v-btn>
-        </template>
-        <span>Sort by Name</span>
-      </v-tooltip>
-
-      <v-tooltip location="top"
-        open-delay="300">
-        <template #activator="{ props }">
-          <v-btn v-bind="props"
-            color="panel"
-            flat
-            tile
-            size="small"
-            @click="setSort('Created')">
-            <v-icon icon="mdi-calendar"
-              size="21"
-              color="accent" />
-            <v-icon v-if="sort === 'Created'"
-              color="accent"
-              :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              class="mb-n1" />
-          </v-btn>
-        </template>
-        <span>Sort by created timestamp</span>
-      </v-tooltip>
-    </div>
+          <v-tooltip location="top"
+            open-delay="300">
+            <template #activator="{ props }">
+              <v-btn v-bind="props"
+                color="panel"
+                flat
+                tile
+                size="small"
+                @click="setSort('Created')">
+                <v-icon icon="mdi-calendar"
+                  size="21"
+                  color="accent" />
+                <v-icon v-if="sort === 'Created'"
+                  color="accent"
+                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
+                  class="mb-n1" />
+              </v-btn>
+            </template>
+            <span>Sort by created timestamp</span>
+          </v-tooltip>
+        </div>
+      </v-col>
+      <v-col cols="auto">
+        <active-mode-organizer :items="activeSheets"
+          :columns="sheetOrganizerColumns"
+          noun="sheet"
+          title="Character Sheets"
+          @archive="organizeArchive"
+          @delete="organizeDelete" />
+      </v-col>
+    </v-row>
 
     <sheet-item v-for="sheet in activeSheets"
       :key="sheet.ID"
@@ -252,19 +263,28 @@
 import { PilotStore } from '@/stores';
 import SheetItem from './_components/SheetItem.vue';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
+import ActiveModeOrganizer from '@/features/active_mode/_components/ActiveModeOrganizer.vue';
 
+const sheetOrganizerColumns = [
+  { key: 'Name', title: 'Name', sortable: true, value: (s: any) => s.Name },
+  { key: 'Pilot', title: 'Pilot', value: (s: any) => s.Pilot.Callsign },
+  { key: 'Created', title: 'Created', sortable: true, value: (s: any) => new Date(s.Created).toLocaleDateString() },
+  { key: 'Updated', title: 'Updated', sortable: true, value: (s: any) => new Date(s.Updated).toLocaleDateString() },
+];
 
 export default {
   mixins: [useMobile],
   name: 'SheetManager',
   components: {
     SheetItem,
+    ActiveModeOrganizer,
   },
   data: () => ({
     sort: 'Updated',
     asc: true,
     search: '',
+    sheetOrganizerColumns,
   }),
   computed: {
     activeSheets() {
@@ -324,6 +344,14 @@ export default {
       a.download = `${sheet.Name}_sheet.json`;
       a.click();
       URL.revokeObjectURL(url);
+    },
+    organizeArchive(ids: string[]) {
+      const targets = this.activeSheets.filter((s: any) => ids.includes(s.ID));
+      targets.forEach((s: any) => s.Archive());
+    },
+    async organizeDelete(ids: string[]) {
+      const targets = this.activeSheets.filter((s: any) => ids.includes(s.ID));
+      for (const s of targets) await PilotStore().RemovePilotSheet(s);
     },
     importSelect() {
       const input = document.createElement('input');

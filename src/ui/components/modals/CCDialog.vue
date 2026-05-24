@@ -37,89 +37,50 @@
   </v-dialog>
 </template>
 
-<script>
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  inheritAttrs: false,
-  mixins: [useMobile],
-  data: () => ({
-    dialog: false,
-  }),
-  props: {
-    title: {
-      type: String,
-      default: 'Default Title',
-    },
-    icon: {
-      type: String,
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    closeOnClick: {
-      type: Boolean,
-      default: true,
-    },
-    maxWidth: {
-      type: [String, Number],
-      default: '60vw',
-    },
-    minWidth: {
-      type: [String, Number],
-      default: '40vw',
-    },
-    noGutters: {
-      type: Boolean,
-      default: false,
-    },
-    noActions: {
-      type: Boolean,
-      default: false,
-    },
-    large: {
-      type: Boolean,
-      default: false,
-    },
-    controller: {
-      type: Object,
-      required: false,
-    },
-  },
-  emits: ['activate', 'close'],
-  watch: {
-    dialog(val) {
-      if (!val) this.$emit('close');
-    },
-  },
-  methods: {
-    open() {
-      this.dialog = true;
-    },
-    close() {
-      this.dialog = false;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import { useDisplay } from 'vuetify';
+
+defineOptions({ inheritAttrs: false });
+
+const { smAndDown: mobile } = useDisplay();
+
+withDefaults(defineProps<{
+  title?: string;
+  icon?: string;
+  color?: string;
+  closeOnClick?: boolean;
+  maxWidth?: string | number;
+  minWidth?: string | number;
+  noGutters?: boolean;
+  noActions?: boolean;
+  large?: boolean;
+  controller?: object;
+}>(), {
+  title: 'Default Title',
+  color: 'primary',
+  closeOnClick: true,
+  maxWidth: '60vw',
+  minWidth: '40vw',
+});
+
+const emit = defineEmits<{
+  activate: [];
+  close: [];
+}>();
+
+const dialog = ref(false);
+
+watch(dialog, val => { if (!val) emit('close'); });
+
+function open() { dialog.value = true; }
+function close() { dialog.value = false; }
+
+defineExpose({ open, close });
 </script>
 
 <style scoped>
-.cc-panel-clip {
-  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0% 100%);
-}
-
-.panel-footer {
-  position: fixed;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  height: 13px;
-  letter-spacing: 4px;
-  font-size: 8px;
-  line-height: 15px;
-  opacity: 0.6;
-}
+@import '@/ui/style/panel.css';
 
 .hoverClose:hover {
   cursor: pointer;

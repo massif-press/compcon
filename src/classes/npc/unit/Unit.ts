@@ -1,5 +1,7 @@
 import { v4 as uuid } from 'uuid'
-import { SaveController, CloudController, PortraitController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
+import { PortraitController } from '@/classes/components/portrait/PortraitController'
+import { SaveController } from '@/classes/components/save/SaveController'
 import { BrewController } from '@/classes/components/brew/BrewController'
 import { NarrativeController } from '@/classes/narrative/NarrativeController'
 import { NpcData, Npc } from '../Npc'
@@ -10,7 +12,8 @@ import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer
 import { FolderController } from '@/classes/components/folder/FolderController'
 import { IInstanceable } from '@/classes/components/instance/IInstanceable'
 import { Rules } from '@/classes/utility/Rules'
-import { CompendiumStore, NpcStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
+import { NpcStore } from '@/features/gm/store/npc_store'
 import { INpcFeatureData } from '../feature/NpcFeature'
 import { INpcTemplateData } from '../template/NpcTemplate'
 import { INpcClassData } from '../class/NpcClass'
@@ -18,8 +21,7 @@ import { CombatController, CombatData } from '@/classes/components/combat/Combat
 import { ICombatant } from '@/classes/components/combat/ICombatant'
 import { StatController } from '@/classes/components/combat/stats/StatController'
 import { IFeatureController } from '@/classes/components/feature/IFeatureController'
-import { ItemType } from '@/class'
-
+import { ItemType } from '../../enums'
 class UnitData
   extends NpcData
   implements INpcClassSaveData, INpcFeatureSaveData, INpcTemplateSaveData
@@ -84,7 +86,11 @@ class Unit extends Npc implements ICombatant, IInstanceable {
   }
 
   public get DefaultName(): string {
-    return `T${this.NpcClassController.Tier} ${this.NpcTemplateController.Templates.map(x => x.Name).join(' ')} ${this.NpcClassController.Class?.Name || 'NPC'} ${this.Tag}`
+    return Unit.GetDefaultName(this)
+  }
+
+  public static GetDefaultName(unit: Unit): string {
+    return `T${unit.NpcClassController.Tier} ${unit.NpcTemplateController.Templates.map(x => x.Name).join(' ')} ${unit.NpcClassController.Class?.Name || 'NPC'} ${unit.Tag || unit._tag || ''}`.trim()
   }
 
   public get IsNameless(): boolean {
@@ -156,7 +162,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
   }
 
   public GetLinkedItem<Npc>(): Npc {
-    return NpcStore().getNpcByID(this.OriginId)
+    return NpcStore().getNpcByID(this.OriginId) as Npc
   }
 
   public static Serialize(unit: Unit, asInstance: boolean): UnitData {
@@ -197,6 +203,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     const unit = new Unit(data)
 
     SaveController.Deserialize(unit, data.save)
+    CloudController.Deserialize(unit, (data as any).cloud)
     BrewController.Deserialize(unit, data)
     PortraitController.Deserialize(unit, data.img)
     if (!CompendiumStore().hasNpcAccess) unit.BrewController.MissingContent = true

@@ -2,17 +2,14 @@
   <cc-action :action="item" panel />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-action-card',
-  props: {
-    item: { type: Object, required: true },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    charts: { type: Boolean },
-    collapseActions: { type: Boolean },
-    tier: { type: Number },
-  },
-};
+<script setup lang="ts">
+defineProps<{
+  item: object
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  charts?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
 </script>

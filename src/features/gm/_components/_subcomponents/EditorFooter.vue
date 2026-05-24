@@ -36,79 +36,22 @@
     </cc-button>
     <slot name="footer" />
 
-    <v-dialog max-width="800px">
-      <template #activator="{ props }">
-        <cc-button v-if="!isRemote && isAuthed"
-          color="panel"
+    <cc-dialog v-if="!isRemote && isAuthed"
+      title="Share Code"
+      icon="mdi-broadcast"
+      :close-on-click="false">
+      <template #activator="{ open }">
+        <cc-button color="panel"
           class="mx-2"
           :size="mobile ? 'x-small' : 'small'"
-          @click="props.onClick($event)">
+          @click="open">
           <v-icon start
             icon="mdi-broadcast" />
           Share Code
         </cc-button>
       </template>
-      <template #default="{ isActive }">
-        <v-card>
-          <v-toolbar color="primary"
-            density="compact">
-            <v-toolbar-title>Share Code</v-toolbar-title>
-            <v-spacer />
-            <v-btn icon
-              @click="isActive.value = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-toolbar>
-          <v-card-text>
-            <cc-alert variant="tonal"
-              density="compact"
-              border
-              prominent
-              color="text"
-              icon="mdi-alert">
-              A share code will allow other users with COMP/CON cloud accounts to download a copy
-              of
-              this item and subscribe to updates you make. Please be conscientious when updating
-              data that is shared with others.
-            </cc-alert>
-            <div v-if="item.CloudController.ShareCode">
-              <v-row justify="center">
-                <v-col cols="auto">
-                  <div class="text-overline mb-n6">item SHARE CODE</div>
-                  <b class="text-accent"
-                    style="font-size: 50px; letter-spacing: 15px"
-                    v-text="`${item.CloudController.ShareCode.substring(
-                      0,
-                      4
-                    )}&ndash;${item.CloudController.ShareCode.substring(4, 8)}&ndash;${item.CloudController.ShareCode.substring(8, 12)}`
-                      " />
-                  <v-tooltip text="Copy share code to clipboard">
-                    <template #activator="{ props }">
-                      <v-btn v-bind="props"
-                        icon
-                        :size="mobile ? 'x-small' : 'small'"
-                        variant="text"
-                        class="ml-n3"
-                        @click="copyCode()">
-                        <v-icon>mdi-clipboard-text-outline</v-icon>
-                      </v-btn>
-                    </template>
-                  </v-tooltip>
-                </v-col>
-              </v-row>
-            </div>
-            <cc-alert v-else
-              prominent
-              icon="mdi-sync-off"
-              title="No Cloud Save"
-              class="my-4">
-              This item not saved in your cloud account and so cannot be shared. Cloud sync this
-              item to generate a share code.
-            </cc-alert>
-          </v-card-text>
-        </v-card>
-      </template>
-    </v-dialog>
+      <share-dialog :item="item" />
+    </cc-dialog>
     <v-spacer v-if="!isRemote && isAuthed" />
 
     <v-menu v-if="isRemote"
@@ -135,7 +78,7 @@
     <v-tooltip v-if="isRemote">
       <template #activator="{ props }">
         <cc-button :size="mobile ? 'x-small' : 'small'"
-          :disabled="item.CloudController.SyncStatus === 'Synced'"
+          :disabled="item.CloudController.isSynced"
           class="mx-3"
           v-bind="props">
           <v-icon start>mdi-cloud-sync</v-icon>
@@ -144,7 +87,7 @@
       </template>
       {{
         isAuthed
-          ? item.CloudController.SyncStatus === 'Synced'
+          ? item.CloudController.isSynced
             ? 'Item is up to date with remote changes'
             : 'Download all remote changes to this item, overwriting local data.'
           : 'Must be logged in to update'
@@ -185,11 +128,12 @@
 
 <script lang="ts">
 import { NpcStore, UserStore } from '@/stores';
-import { useMobile } from '@/mixins/useMobile';
-
+import { useMobile } from '@/composables/useMobile';
+import ShareDialog from '@/shared/ShareDialog.vue';
 
 export default {
   name: 'GmEditorFooter',
+  components: { ShareDialog },
   mixins: [useMobile],
   props: {
     item: { type: Object, required: true },
@@ -223,9 +167,6 @@ export default {
       const dupe = this.item.Clone();
       NpcStore().AddNpc(dupe);
       this.dupeMenu = false;
-    },
-    copyCode() {
-      navigator.clipboard.writeText(this.item.CloudController.ShareCode);
     },
   },
 };

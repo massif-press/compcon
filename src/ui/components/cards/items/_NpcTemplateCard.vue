@@ -55,24 +55,18 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-frame-card',
-  props: {
-    item: { type: Object, required: true },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    charts: { type: Boolean },
-    collapseActions: { type: Boolean },
-    tier: { type: Number },
-  },
-  computed: {
-    widescreen() {
-      return this.$vuetify.display.lgAndUp;
-    },
-  },
-};
+<script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
+const { smAndDown: mobile } = useDisplay()
+
+defineProps<{
+  item: object
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  charts?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
 </script>

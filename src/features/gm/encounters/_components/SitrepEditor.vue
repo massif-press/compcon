@@ -241,100 +241,94 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { v4 as uuid } from 'uuid';
-import { Encounter } from '@/classes/encounter/Encounter';
-import { Sitrep, SitrepInstance, type ISitrepData } from '@/classes/encounter/Sitrep';
-import { CompendiumStore } from '@/stores';
-import { GetValue, SetValue } from '@/io/Storage';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { v4 as uuid } from 'uuid'
+import { Encounter } from '@/classes/encounter/Encounter'
+import { Sitrep, SitrepInstance, type ISitrepData } from '@/classes/encounter/Sitrep'
+import { CompendiumStore } from '@/stores'
+import { GetValue, SetValue } from '@/io/Storage'
 
-const STORAGE_KEY = 'user_sitrep_presets';
+const STORAGE_KEY = 'user_sitrep_presets'
 
-export default {
-  name: 'gm-sitrep-editor',
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  data: () => ({
-    keys: ['Deployment', 'Objective', 'ControlZone', 'Extraction'],
-    shownKeys: [] as string[],
-    confirmDialog: false,
-    showPresets: false,
-    stagedSitrep: null as Sitrep | null,
-    userPresets: [] as ISitrepData[],
-    deleteConfirmDialog: false,
-    stagedDeleteIndex: -1,
-  }),
-  computed: {
-    sitreps() {
-      return CompendiumStore().Sitreps;
-    },
-  },
-  async created() {
-    this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
-    this.userPresets = (await GetValue(STORAGE_KEY)) || [];
-  },
-  methods: {
-    showKey(key: string) {
-      if (!this.shownKeys.includes(key)) this.shownKeys.push(key);
-    },
-    removeKey(key: string) {
-      this.item.Sitrep[key] = '';
-      this.shownKeys = this.shownKeys.filter((x) => x !== key);
-    },
-    setSitrep(sitrep: Sitrep) {
-      if (this.item.Sitrep.modified) {
-        this.stagedSitrep = sitrep;
-        this.confirmDialog = true;
-        return;
-      }
-      this._setSitrep(sitrep);
-    },
-    confirm() {
-      this.confirmDialog = false;
-      this._setSitrep(this.stagedSitrep);
-      this.stagedSitrep = null;
-    },
-    _setSitrep(sitrep) {
-      this.item.Sitrep = new SitrepInstance(this.item as Encounter, sitrep);
-      this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
-    },
-    loadUserPreset(preset: ISitrepData) {
-      this.setSitrep(new Sitrep(preset));
-    },
-    async savePreset() {
-      const base = this.item.Sitrep.Name.replace(/ \(\d+\)$/, '');
-      const existing = [
-        ...this.sitreps.map((s) => s.Name),
-        ...this.userPresets.map((p) => p.name),
-      ];
-      let name = base;
-      if (existing.includes(name)) {
-        let i = 2;
-        while (existing.includes(`${base} (${i})`)) i++;
-        name = `${base} (${i})`;
-      }
-      const preset: ISitrepData = {
-        id: uuid(),
-        name,
-        modified: false,
-        description: this.item.Sitrep.Description,
-        deployment: this.item.Sitrep.Deployment,
-        objective: this.item.Sitrep.Objective,
-        controlZone: this.item.Sitrep.ControlZone,
-        extraction: this.item.Sitrep.Extraction,
-        conditions: [...this.item.Sitrep.Conditions],
-      };
-      this.userPresets.push(preset);
-      await SetValue(STORAGE_KEY, this.userPresets);
-    },
-    async confirmDeletePreset() {
-      this.userPresets.splice(this.stagedDeleteIndex, 1);
-      await SetValue(STORAGE_KEY, this.userPresets);
-      this.deleteConfirmDialog = false;
-      this.stagedDeleteIndex = -1;
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  item: Record<string, any>
+  readonly?: boolean
+}>(), { readonly: false })
+
+const keys = ['Deployment', 'Objective', 'ControlZone', 'Extraction']
+const shownKeys = ref<string[]>([])
+const confirmDialog = ref(false)
+const showPresets = ref(false)
+const stagedSitrep = ref<Sitrep | null>(null)
+const userPresets = ref<ISitrepData[]>([])
+const deleteConfirmDialog = ref(false)
+const stagedDeleteIndex = ref(-1)
+
+const sitreps = computed(() => CompendiumStore().Sitreps)
+
+onMounted(async () => {
+  shownKeys.value = keys.filter((x) => props.item.Sitrep[x].length)
+  userPresets.value = (await GetValue(STORAGE_KEY)) || []
+})
+
+function showKey(key: string) {
+  if (!shownKeys.value.includes(key)) shownKeys.value.push(key)
+}
+function removeKey(key: string) {
+  props.item.Sitrep[key] = ''
+  shownKeys.value = shownKeys.value.filter((x) => x !== key)
+}
+function setSitrep(sitrep: Sitrep) {
+  if (props.item.Sitrep.modified) {
+    stagedSitrep.value = sitrep
+    confirmDialog.value = true
+    return
+  }
+  _setSitrep(sitrep)
+}
+function confirm() {
+  confirmDialog.value = false
+  _setSitrep(stagedSitrep.value)
+  stagedSitrep.value = null
+}
+function _setSitrep(sitrep: any) {
+  props.item.Sitrep = new SitrepInstance(props.item as Encounter, sitrep)
+  shownKeys.value = keys.filter((x) => props.item.Sitrep[x].length)
+}
+function loadUserPreset(preset: ISitrepData) {
+  setSitrep(new Sitrep(preset))
+}
+async function savePreset() {
+  const base = props.item.Sitrep.Name.replace(/ \(\d+\)$/, '')
+  const existing = [
+    ...sitreps.value.map((s: any) => s.Name),
+    ...userPresets.value.map((p) => p.name),
+  ]
+  let name = base
+  if (existing.includes(name)) {
+    let i = 2
+    while (existing.includes(`${base} (${i})`)) i++
+    name = `${base} (${i})`
+  }
+  const preset: ISitrepData = {
+    id: uuid(),
+    name,
+    modified: false,
+    description: props.item.Sitrep.Description,
+    deployment: props.item.Sitrep.Deployment,
+    objective: props.item.Sitrep.Objective,
+    controlZone: props.item.Sitrep.ControlZone,
+    extraction: props.item.Sitrep.Extraction,
+    conditions: [...props.item.Sitrep.Conditions],
+  }
+  userPresets.value.push(preset)
+  await SetValue(STORAGE_KEY, userPresets.value)
+}
+async function confirmDeletePreset() {
+  userPresets.value.splice(stagedDeleteIndex.value, 1)
+  await SetValue(STORAGE_KEY, userPresets.value)
+  deleteConfirmDialog.value = false
+  stagedDeleteIndex.value = -1
+}
 </script>

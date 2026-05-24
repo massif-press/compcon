@@ -12,49 +12,29 @@
   </base-chip>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useTheme } from 'vuetify';
 import baseChip from './cc_base_chip.vue';
 
-export default {
-  name: 'CCChip',
-  components: { baseChip },
-  props: {
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    bgColor: {
-      type: String,
-      required: false,
-    },
-    title: {
-      type: String,
-    },
-    label: {
-      type: [String, Number],
-    },
-    icon: {
-      type: String,
-    },
-    outlined: {
-      type: Boolean,
-    },
-    size: {
-      type: String,
-      required: false,
-      default: 'small',
-    },
-    variant: {
-      type: String,
-    },
-  },
-  methods: {
-    hexColor(color) {
-      if (!color) return '';
-      if (color[0] === '#') return color;
-      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name][color];
-    },
-  },
-};
+const theme = useTheme()
+
+const props = withDefaults(defineProps<{
+  color?: string
+  bgColor?: string
+  title?: string
+  label?: string | number
+  icon?: string
+  outlined?: boolean
+  size?: string
+  variant?: string
+}>(), {
+  color: 'primary',
+  size: 'small',
+})
+
+function hexColor(color) {
+  if (!color) return '';
+  if (color[0] === '#') return color;
+  return theme.current.value.colors[color];
+}
 </script>

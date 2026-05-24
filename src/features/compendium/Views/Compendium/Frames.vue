@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="frames"
     item-type="Frame"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    :manufacturers="manufacturers">
     <template #header>
       <div class="heading h3 text-center text-accent">Frames</div>
     </template>
@@ -42,6 +43,9 @@ export default {
     ],
   }),
   computed: {
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
     frames() {
       let items = CompendiumStore().Frames;
       return orderBy(

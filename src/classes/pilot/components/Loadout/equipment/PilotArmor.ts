@@ -1,6 +1,8 @@
-import { PilotEquipment, ItemType, Pilot, ContentPack } from '@/class'
+import { ContentPack } from '../../../../ContentPack'
+import { ItemType } from '../../../../enums'
+import { IPilotEquipmentData, PilotEquipment } from './PilotEquipment'
+import { Pilot } from '../../../Pilot'
 import { IBonusDataContainer } from '@/classes/components/feature/bonus/IBonusDataContainer'
-import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface'
 import { Bonus } from '../../../../components/feature/bonus/Bonus'
 
 interface IPilotArmorData extends IPilotEquipmentData {

@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 import LicenseSelector from '../../_components/selectors/LicenseSelector.vue';
 import StepperContent from '../../_components/StepperContent.vue';
 

@@ -6,7 +6,7 @@
 import { NavStore } from '@/stores';
 import SrdViewMobile from './SrdViewMobile.vue';
 import SrdViewDesktop from './SrdViewDesktop.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

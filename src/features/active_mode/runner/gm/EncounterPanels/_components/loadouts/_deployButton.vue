@@ -121,48 +121,32 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'DeployButton',
-  props: {
-    deployable: {
-      type: Object,
-      required: true,
-    },
-    actor: {
-      type: Object,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    customDisabledText: {
-      type: String,
-      default: '',
-    },
-    actionOnly: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['deploy'],
-  data: () => ({
-    menu: false,
-  }),
-  computed: {
-    canActivate() {
-      return (
-        !this.disabled &&
-        this.actor.CombatController.CanActivate(this.deployable.DeployAction.Activation)
-      );
-    },
-  },
-  methods: {
-    deploy() {
-      this.$emit('deploy', this.deployable);
-      this.menu = false;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+
+const props = withDefaults(defineProps<{
+  deployable: any;
+  actor: any;
+  disabled?: boolean;
+  customDisabledText?: string;
+  actionOnly?: boolean;
+}>(), {
+  disabled: false,
+  customDisabledText: '',
+  actionOnly: false,
+});
+
+const emit = defineEmits<{ deploy: [deployable: any] }>();
+
+const menu = ref(false);
+
+const canActivate = computed(() =>
+  !props.disabled &&
+  props.actor.CombatController.CanActivate(props.deployable.DeployAction.Activation)
+);
+
+function deploy() {
+  emit('deploy', props.deployable);
+  menu.value = false;
+}
 </script>

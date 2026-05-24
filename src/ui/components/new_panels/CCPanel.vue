@@ -43,91 +43,62 @@
   </v-card>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcPanel',
-  props: {
-    color: {
-      type: String,
-      default: 'light-panel',
-    },
-    titleColor: {
-      type: String,
-      default: 'panel',
-    },
-    border: {
-      type: Boolean,
-      default: false,
-    },
-    density: {
-      type: String,
-      default: '',
-    },
-    variant: {
-      type: String,
-      default: 'elevated',
-    },
-    title: {
-      type: [String, Boolean],
-      default: '',
-    },
-    icon: {
-      type: [String, Boolean],
-      default: '',
-    },
-    height: {
-      type: String,
-    },
-    clickable: {
-      type: Boolean,
-      default: false,
-    },
-    stark: {
-      type: Boolean,
-      default: false,
-    },
-    small: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['click'],
-  computed: {
-    hasTitle() {
-      return this.$slots.title || this.title || this.icon || this.$slots['toolbar-items'];
-    },
-    densityClass() {
-      switch (this.density) {
-        case 'no-gutters':
-          return 'pa-0';
-        case 'compact':
-          return 'pa-2';
-        case 'comfortable':
-          return 'py-3 px-8';
-        default:
-          return 'py-2 px-5';
-      }
-    },
-    variantClass() {
-      switch (this.variant) {
-        case 'flavor':
-          return 'text-cc-flavor';
-        case 'fluff':
-          return 'text-cc-fluff';
-        case 'admin':
-          return 'text-cc-overline';
-        case 'emphasis':
-          return 'text-cc-emphasis';
-        case 'subtle':
-          return 'text-cc-subtle';
-        case 'effect':
-          return 'text-cc-effect';
-        default:
-          return '';
-      }
-    },
-  },
-};
+<script setup lang="ts">
+import { computed, useSlots } from 'vue'
+
+const slots = useSlots()
+
+interface Props {
+  color?: string
+  titleColor?: string
+  border?: boolean
+  density?: string
+  variant?: string
+  title?: string | boolean
+  icon?: string | boolean
+  height?: string
+  clickable?: boolean
+  stark?: boolean
+  small?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  color: 'light-panel',
+  titleColor: 'panel',
+  border: false,
+  density: '',
+  variant: 'elevated',
+  title: '',
+  icon: '',
+  clickable: false,
+  stark: false,
+  small: false,
+})
+
+defineEmits<{ click: [] }>()
+
+const hasTitle = computed(() => slots.title || props.title || props.icon || slots['toolbar-items'])
+
+const densityClass = computed(() => {
+  switch (props.density) {
+    case 'no-gutters': return 'pa-0'
+    case 'compact': return 'pa-2'
+    case 'comfortable': return 'py-3 px-8'
+    default: return 'py-2 px-5'
+  }
+})
+
+const variantClass = computed(() => {
+  switch (props.variant) {
+    case 'flavor': return 'text-cc-flavor'
+    case 'fluff': return 'text-cc-fluff'
+    case 'admin': return 'text-cc-overline'
+    case 'emphasis': return 'text-cc-emphasis'
+    case 'subtle': return 'text-cc-subtle'
+    case 'effect': return 'text-cc-effect'
+    default: return ''
+  }
+})
 </script>
 
 <style scoped>

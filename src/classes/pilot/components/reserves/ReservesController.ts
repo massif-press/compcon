@@ -1,8 +1,7 @@
 import * as _ from 'lodash-es'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
-import { IOrganizationData } from '../../../../interface'
 import { Pilot } from '../../Pilot'
-import Organization from './Organization'
+import Organization, { IOrganizationData } from './Organization'
 import { IReserveData, Reserve } from './Reserve'
 
 interface IReservesSaveData {
@@ -42,7 +41,11 @@ class ReservesController implements IFeatureContainer {
   }
 
   public RemoveReserve(index: number): void {
+    const removed = this._reserves[index]
     this._reserves.splice(index, 1)
+    if (removed?.ID) {
+      this.Parent.CloudController.stampTombstone(`reserves.${removed.ID}`)
+    }
     this.Parent.SaveController.save()
   }
 

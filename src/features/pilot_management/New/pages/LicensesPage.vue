@@ -38,7 +38,7 @@
 <script lang="ts">
 import StepperContent from '../../_components/StepperContent.vue';
 import LicenseSelector from '../../_components/selectors/LicenseSelector.vue';
-import { Pilot } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export default {
   name: 'talents-page',

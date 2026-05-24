@@ -1,13 +1,10 @@
 import { CompendiumStore } from '../../../../stores'
-import {
-  CompendiumItem,
-  ContentPack,
-  Frame,
-  ItemType,
-  Manufacturer,
-  Pilot,
-} from '../../../../class'
-import { ICompendiumItemData } from '../../../../interface'
+import { CompendiumItem, ICompendiumItemData } from '../../../CompendiumItem'
+import { ContentPack } from '../../../ContentPack'
+import { ItemType } from '../../../enums'
+import { Manufacturer } from '../../../Manufacturer'
+import { Frame } from '../../../mech/components/frame/Frame'
+import { Pilot } from '../../Pilot'
 
 interface ILicenseRequirement {
   source: string
@@ -45,7 +42,7 @@ abstract class LicensedItem extends CompendiumItem {
   public get Manufacturer(): Manufacturer {
     if (this.Source === 'EXOTIC') return undefined as any
     if (!CompendiumStore().has('Manufacturers', this.Source)) return undefined as any
-    return CompendiumStore().referenceByID('Manufacturers', this.Source)
+    return CompendiumStore().referenceByID('Manufacturers', this.Source) as unknown as Manufacturer
   }
 
   public get License(): string {

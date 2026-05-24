@@ -1,0 +1,19 @@
+.border-fade {
+  transition: all 0.2s ease-in-out;
+}
+
+.bg-stripes {
+  background: repeating-linear-gradient(-45deg,
+      rgba(249, 219, 78, 0.5),
+      rgba(249, 219, 78, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 10px,
+      rgba(100, 100, 100, 0.5) 20px);
+}
+
+.bg-stripes-dangerzone {
+  background: repeating-linear-gradient(-45deg,
+      rgba(255, 23, 68, 1),
+      rgba(255, 23, 68, 1) 10px,
+      rgba(255, 112, 67, 0.5) 10px,
+      rgba(255, 112, 67, 0.5) 20px);
+}

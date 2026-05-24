@@ -13,7 +13,8 @@
           <p class="pt-1 mb-1">
             <span class="stat-text text-disabled text--darken-1"> RANK {{ 'I'.repeat(n) }} </span>
           </p>
-          <div v-for="i in item.Unlocks[n - 1]" :key="i.ID">
+          <div v-for="i in item.Unlocks[n - 1]"
+            :key="i.ID">
             <cc-item-modal :item="i"
               class="ma-1" />
           </div>
@@ -23,23 +24,17 @@
   </info-card-base>
 </template>
 
-<script lang="ts">
-import InfoCardBase from './_InfoCardBase.vue';
+<script setup lang="ts">
+import { License } from '@/classes/pilot/components';
+import InfoCardBase from './_InfoCardBase.vue'
 
-export default {
-  name: 'license-card',
-  components: { InfoCardBase },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    charts: { type: Boolean },
-    collapseActions: { type: Boolean },
-    tier: { type: Number },
-  },
-};
+defineProps<{
+  item: License
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  charts?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
 </script>

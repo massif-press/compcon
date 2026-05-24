@@ -19,8 +19,8 @@ import { Npc } from '../npc/Npc'
 import { Unit, UnitData } from '../npc/unit/Unit'
 import { Doodad, DoodadData } from '../npc/doodad/Doodad'
 import { Eidolon, EidolonData } from '../npc/eidolon/Eidolon'
-import { ItemType, Pilot } from '@/class'
-import { PilotData } from '@/interface'
+import { ItemType } from '../enums'
+import { Pilot, PilotData } from '../pilot/Pilot'
 import { ICombatant } from '../components/combat/ICombatant'
 import {
   DeployableInstance,
@@ -283,7 +283,11 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public RemoveCombatant(index: number): void {
+    const removed = this.Combatants[index]
     this.Combatants.splice(index, 1)
+    if (removed?.id) {
+      this.CloudController.stampTombstone(`combatants.${removed.id}`)
+    }
     this.save()
   }
 
@@ -308,6 +312,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     } as IEncounterData
 
     SaveController.Serialize(enc, data)
+    CloudController.Serialize(enc, data)
     PortraitController.Serialize(enc, data)
     NarrativeController.Serialize(enc, data)
     FolderController.Serialize(enc, data)
@@ -317,6 +322,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public static SerializeCombatant(combatant: CombatantData): CombatantSaveData {
     return {
+      id: combatant.id,
       index: combatant.index,
       type: combatant.type,
       actor: (combatant.actor as any).Serialize(true),
@@ -342,6 +348,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   public static Deserialize(data: IEncounterData): Encounter {
     const encounter = new Encounter(data)
     SaveController.Deserialize(encounter, data.save)
+    CloudController.Deserialize(encounter, (data as any).cloud)
     PortraitController.Deserialize(encounter, data.img)
     NarrativeController.Deserialize(encounter, data.narrative)
     FolderController.Deserialize(encounter, data.folder)

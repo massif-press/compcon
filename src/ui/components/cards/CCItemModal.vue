@@ -44,61 +44,36 @@
   </cc-modal>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash-es';
-import ItemCardLink from './items/_components/ItemCardLink.vue';
-import { useMobile } from '@/mixins/useMobile';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { startCase } from 'lodash-es'
+import ItemCardLink from './items/_components/ItemCardLink.vue'
 
+const { smAndDown: mobile, lgAndUp: wide } = useDisplay()
 
-export default {
-  mixins: [useMobile],
-  name: 'CCItemModal',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    hideType: {
-      type: Boolean,
-    },
-    hideLink: {
-      type: Boolean,
-    },
-    block: {
-      type: Boolean,
-    },
-    size: {
-      type: String,
-      default: 'small',
-    },
-    density: {
-      type: String,
-      default: '',
-    },
-    smallBtn: { type: Boolean },
-  },
-  components: {
-    ItemCardLink,
-  },
-  computed: {
-    wide() {
-      return this.$vuetify.display.lgAndUp;
-    },
-    itemIcon() {
-      if (this.item.IsExotic) return 'mdi-star';
-      if (this.hideType) return undefined;
-      return this.item.Icon;
-    },
-  },
-  methods: {
-    startCase(str: string): string {
-      return _.startCase(str);
-    },
-    truncate(str): string {
-      if (this.block) return str;
-      if (str.length > 26) return str.substring(0, 24) + '…';
-      return str;
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  item: Record<string, any>
+  hideType?: boolean
+  hideLink?: boolean
+  block?: boolean
+  size?: string
+  density?: string
+  smallBtn?: boolean
+}>(), {
+  size: 'small',
+  density: '',
+})
+
+const itemIcon = computed(() => {
+  if (props.item.IsExotic) return 'mdi-star'
+  if (props.hideType) return undefined
+  return props.item.Icon
+})
+
+function truncate(str: string): string {
+  if (props.block) return str
+  if (str.length > 26) return str.substring(0, 24) + '…'
+  return str
+}
 </script>

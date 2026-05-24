@@ -38,35 +38,14 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'print-option-select',
-  emits: ['update:model-value'],
-  props: {
-    modelValue: {
-      type: [Object, Array],
-      required: true,
-    },
-    title: {
-      type: String,
-      required: false,
-    },
-    items: {
-      type: Array,
-      required: true,
-    },
-    mandatory: {
-      type: Boolean,
-      required: false,
-    },
-    multiple: {
-      type: Boolean,
-      required: false,
-    },
-    widen: {
-      type: Boolean,
-      required: false,
-    },
-  },
-};
+<script setup lang="ts">
+defineProps<{
+  modelValue: object | any[]
+  title?: string
+  items: any[]
+  mandatory?: boolean
+  multiple?: boolean
+  widen?: boolean
+}>()
+defineEmits<{ 'update:model-value': [value: any] }>()
 </script>

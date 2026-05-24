@@ -1,9 +1,9 @@
 import * as _ from 'lodash-es'
-import { IRankedData } from '../../../../interface'
 import { Pilot } from '../../Pilot'
-import License from './License'
+import License, { IRankedData } from './License'
 import { PilotLicense } from './PilotLicense'
-import { ItemType, LicensedItem } from '@/class'
+import { ItemType } from '../../../enums'
+import { LicensedItem } from './LicensedItem'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 import logger from '@/user/logger'
 

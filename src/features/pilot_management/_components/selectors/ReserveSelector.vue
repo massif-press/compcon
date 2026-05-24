@@ -53,71 +53,59 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { orderBy } from 'lodash-es'
+import { CompendiumStore } from '@/stores'
+import { Reserve } from '@/classes/pilot/components/reserves/Reserve'
+import { CompendiumItem } from '@/classes/CompendiumItem'
+import { Organization } from '@/classes/pilot/components'
 import CustomReservePanel from './components/_CustomReservePanel.vue'
 import DowntimeProjectPanel from './components/_DowntimeProjectPanel.vue'
 import OrganizationPanel from './components/_OrganizationPanel.vue'
-import { Reserve, Organization, Pilot, CompendiumItem } from '@/class'
-import * as _ from 'lodash-es'
-import { CompendiumStore } from '@/stores'
 
-export default {
-  name: 'CCReserveSelector',
-  components: {
-    CustomReservePanel,
-    DowntimeProjectPanel,
-    OrganizationPanel,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['close'],
-  data: () => ({
-    tab: 0,
-    headers: [
-      { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Name', key: 'Name' },
-      { title: 'Type', key: 'Type' },
-    ],
-    options: {
-      views: ['list', 'cards', 'table'],
-      initialView: 'cards',
-      groups: ['lcp', 'type', 'none'],
-      initialGroup: 'type',
-      noSource: true,
-    },
-    CustomDialog: false,
-    ProjectDialog: false,
-    OrgDialog: false,
-  }),
-  computed: {
-    allReserves() {
-      if (!this.pilot.LcpConfig) return CompendiumStore().Reserves
-      const packIDs = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packID))
-      const packNames = new Set(this.pilot.LcpConfig.packList.map((y: any) => y.packName))
-      return CompendiumStore().Reserves.filter(
-        (x: any) => !x.InLcp || packIDs.has(x.Brew?.LcpId) || packNames.has(x.Brew.LcpName)
-      )
-    },
-    reserves() {
-      return _.orderBy(
-        this.allReserves.filter(x => !x.IsHidden),
-        'Name'
-      )
-    },
-  },
-  methods: {
-    add(reserve: Reserve): void {
-      this.pilot.ReservesController.AddReserve(CompendiumItem.Clone(reserve))
-      this.$emit('close')
-    },
-    addOrg(org: Organization): void {
-      this.pilot.ReservesController.AddOrganization(Organization.Clone(org))
-      this.$emit('close')
-    },
-  },
+const props = defineProps<{ pilot: Record<string, any> }>()
+
+const emit = defineEmits<{ close: [] }>()
+
+const CustomDialog = ref(false)
+const ProjectDialog = ref(false)
+const OrgDialog = ref(false)
+
+const headers = [
+  { title: 'Content Pack', key: 'LcpName' },
+  { title: 'Name', key: 'Name' },
+  { title: 'Type', key: 'Type' },
+]
+
+const options = {
+  views: ['list', 'cards', 'table'],
+  initialView: 'cards',
+  groups: ['lcp', 'type', 'none'],
+  initialGroup: 'type',
+  noSource: true,
+}
+
+const allReserves = computed(() => {
+  if (!props.pilot.LcpConfig) return CompendiumStore().Reserves
+  const packIDs = new Set(props.pilot.LcpConfig.packList.map((y: any) => y.packID))
+  const packNames = new Set(props.pilot.LcpConfig.packList.map((y: any) => y.packName))
+  return CompendiumStore().Reserves.filter(
+    (x: any) => !x.InLcp || packIDs.has(x.Brew?.LcpId) || packNames.has(x.Brew.LcpName)
+  )
+})
+
+const reserves = computed(() =>
+  orderBy(allReserves.value.filter((x: any) => !x.IsHidden), 'Name')
+)
+
+function add(reserve: Reserve): void {
+  props.pilot.ReservesController.AddReserve(CompendiumItem.Clone(reserve))
+  emit('close')
+}
+
+function addOrg(org: Organization): void {
+  props.pilot.ReservesController.AddOrganization(Organization.Clone(org))
+  emit('close')
 }
 </script>

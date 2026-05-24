@@ -251,163 +251,103 @@
   </panel-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useDisplay } from 'vuetify';
 import { CompendiumStore } from '@/stores';
 import PanelBase from './_PanelBase.vue';
 import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
 import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 import MechActionsPanel from './_components/MechActionsPanel.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
-import { useMobile } from '@/mixins/useMobile';
 import { orderBy, sampleSize } from 'lodash-es';
 
-export default {
-  name: 'MechPanel',
-  components: {
-    PanelBase,
-    DeployButton,
-    MechCombatLoadout,
-    MechCorePanel,
-    MechActionsPanel,
-  },
-  mixins: [useMobile],
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      usedActions: [] as string[],
-      movement: 0,
-    };
-  },
-  computed: {
-    xlColumns() {
-      if (this.mobile) return 1
-      else return this.encounterInstance.MaxMasonryColumns
-    },
-    mech() {
-      return this.combatant.actor.ActiveMech;
-    },
-    pilot() {
-      return this.combatant.actor;
-    },
-    statuses() {
-      return orderBy(CompendiumStore().Statuses, 'StatusType');
-    },
-    randomTalents() {
-      return sampleSize(CompendiumStore().Talents, 3);
-    },
-    applicableStatuses() {
-      const exclude = [`dangerzone`, `downandout`, `engaged`, `hidden`, `invisible`];
-      return this.statuses.filter((s) => !exclude.includes(s.ID));
-    },
-    aiSystems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AISystems;
-    },
-  },
-  methods: {
-    deploy(deployable) {
-      this.encounterInstance.Deploy(deployable, this.combatant);
-    },
-    getIcon(stat) {
-      const icons = {
-        structure: 'cc:structure',
-        armor: 'mdi-shield-outline',
-        hp: 'mdi-heart-outline',
-        reactor: 'cc:reactor',
-        heat: 'cc:heat',
-        repair: 'cc:repair',
-      };
-      return icons[stat];
-    },
-    addStatus(status) {
-      if (this.pilot.statuses.includes(status)) {
-        const index = this.pilot.statuses.indexOf(status);
-        this.pilot.statuses.splice(index, 1);
-      } else {
-        this.pilot.statuses.push(status);
-      }
-    },
-    addCustomStatus(status) {
-      if (this.pilot.special.includes(status.Name)) {
-        const index = this.pilot.special.indexOf(status.Name);
-        this.pilot.special.splice(index, 1);
-        return;
-      }
-      this.pilot.special.push(status.Name);
-    },
-    addResistance(resist) {
-      if (this.pilot.vulnerabilities.includes(resist.Name)) {
-        const index = this.pilot.vulnerabilities.indexOf(resist.Name);
-        this.pilot.vulnerabilities.splice(index, 1);
-        return;
-      }
-      if (this.pilot.immunities.includes(resist.Name)) {
-        const index = this.pilot.immunities.indexOf(resist.Name);
-        this.pilot.immunities.splice(index, 1);
-        this.pilot.vulnerabilities.push(resist.Name);
-        return;
-      }
-      if (this.pilot.resistances.includes(resist.Name)) {
-        const index = this.pilot.resistances.indexOf(resist.Name);
-        this.pilot.resistances.splice(index, 1);
-        this.pilot.immunities.push(resist.Name);
-      } else {
-        this.pilot.resistances.push(resist.Name);
-      }
-    },
-    hasResistance(resist) {
-      return this.pilot.resistances.includes(resist.Name);
-    },
-    hasImmunity(resist) {
-      return this.pilot.immunities.includes(resist.Name);
-    },
-    hasVulnerability(resist) {
-      return this.pilot.vulnerabilities.includes(resist.Name);
-    },
-    actionStatus(action) {
-      if (action === 'full')
-        return this.usedActions.includes('full') || this.usedActions.includes('quick');
-      if (action === 'quick')
-        return (
-          this.usedActions.includes('full') ||
-          this.usedActions.filter((x) => x === 'quick').length === 2
-        );
-      if (action === 'protocol') return this.usedActions.length;
-      if (action === 'move') return this.usedActions.includes('move') || this.movement === 0;
-      return this.usedActions.includes(action);
-    },
-    setAction(action) {
-      if (action === 'quick') {
-        if (this.usedActions.filter((x) => x === 'quick').length === 2) {
-          this.usedActions = this.usedActions.filter((x) => x !== 'quick');
-        } else {
-          this.usedActions.push('quick');
-        }
-        return;
-      }
-      if (this.usedActions.includes(action)) {
-        const index = this.usedActions.indexOf(action);
-        this.usedActions.splice(index, 1);
-      } else {
-        this.usedActions.push(action);
-      }
-    },
-    setMounted() {
-      this.mech.CombatController.ToggleMounted();
-    },
-    turnDiff(targetRound) {
-      return targetRound - this.encounterInstance.Round;
-    },
-  },
-};
+const props = defineProps<{
+  combatant: any;
+  encounterInstance: any;
+}>();
+
+const { smAndDown: mobile } = useDisplay();
+
+const usedActions = ref<string[]>([]);
+const movement = ref(0);
+
+const xlColumns = computed(() => mobile.value ? 1 : props.encounterInstance.MaxMasonryColumns);
+const mech = computed(() => props.combatant.actor.ActiveMech);
+const pilot = computed(() => props.combatant.actor);
+const statuses = computed(() => orderBy(CompendiumStore().Statuses, 'StatusType'));
+const randomTalents = computed(() => sampleSize(CompendiumStore().Talents, 3));
+const applicableStatuses = computed(() => {
+  const exclude = ['dangerzone', 'downandout', 'engaged', 'hidden', 'invisible'];
+  return statuses.value.filter((s: any) => !exclude.includes(s.ID));
+});
+const aiSystems = computed(() => mech.value.MechLoadoutController.ActiveLoadout.AISystems);
+
+function deploy(deployable: any) {
+  props.encounterInstance.Deploy(deployable, props.combatant);
+}
+
+function getIcon(stat: string) {
+  const icons: Record<string, string> = {
+    structure: 'cc:structure', armor: 'mdi-shield-outline', hp: 'mdi-heart-outline',
+    reactor: 'cc:reactor', heat: 'cc:heat', repair: 'cc:repair',
+  };
+  return icons[stat];
+}
+
+function addStatus(status: any) {
+  const idx = pilot.value.statuses.indexOf(status);
+  if (idx > -1) pilot.value.statuses.splice(idx, 1);
+  else pilot.value.statuses.push(status);
+}
+
+function addCustomStatus(status: any) {
+  const idx = pilot.value.special.indexOf(status.Name);
+  if (idx > -1) { pilot.value.special.splice(idx, 1); return; }
+  pilot.value.special.push(status.Name);
+}
+
+function addResistance(resist: any) {
+  const vuln = pilot.value.vulnerabilities;
+  const imm = pilot.value.immunities;
+  const res = pilot.value.resistances;
+  const vi = vuln.indexOf(resist.Name);
+  if (vi > -1) { vuln.splice(vi, 1); return; }
+  const ii = imm.indexOf(resist.Name);
+  if (ii > -1) { imm.splice(ii, 1); vuln.push(resist.Name); return; }
+  const ri = res.indexOf(resist.Name);
+  if (ri > -1) { res.splice(ri, 1); imm.push(resist.Name); }
+  else res.push(resist.Name);
+}
+
+function hasResistance(resist: any) { return pilot.value.resistances.includes(resist.Name); }
+function hasImmunity(resist: any) { return pilot.value.immunities.includes(resist.Name); }
+function hasVulnerability(resist: any) { return pilot.value.vulnerabilities.includes(resist.Name); }
+
+function actionStatus(action: string) {
+  if (action === 'full') return usedActions.value.includes('full') || usedActions.value.includes('quick');
+  if (action === 'quick') return usedActions.value.includes('full') || usedActions.value.filter(x => x === 'quick').length === 2;
+  if (action === 'protocol') return usedActions.value.length;
+  if (action === 'move') return usedActions.value.includes('move') || movement.value === 0;
+  return usedActions.value.includes(action);
+}
+
+function setAction(action: string) {
+  if (action === 'quick') {
+    if (usedActions.value.filter(x => x === 'quick').length === 2) {
+      usedActions.value = usedActions.value.filter(x => x !== 'quick');
+    } else {
+      usedActions.value.push('quick');
+    }
+    return;
+  }
+  const idx = usedActions.value.indexOf(action);
+  if (idx > -1) usedActions.value.splice(idx, 1);
+  else usedActions.value.push(action);
+}
+
+function setMounted() { mech.value.CombatController.ToggleMounted(); }
+function turnDiff(targetRound: number) { return targetRound - props.encounterInstance.Round; }
 </script>
 
 <style scoped>

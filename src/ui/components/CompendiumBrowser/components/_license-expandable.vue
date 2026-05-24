@@ -111,7 +111,7 @@
 
 <script lang="ts">
 import { LicenseController } from '@/classes/pilot/components';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

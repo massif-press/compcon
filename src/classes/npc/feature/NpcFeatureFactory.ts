@@ -1,4 +1,4 @@
-import { ContentPack } from '@/class'
+import { ContentPack } from '../../ContentPack'
 import { INpcFeatureData, NpcFeature } from './NpcFeature'
 import { NpcReaction, INpcReactionData } from './NpcItem/NpcReaction'
 import { NpcSystem, INpcSystemData } from './NpcItem/NpcSystem'

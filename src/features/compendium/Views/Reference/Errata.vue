@@ -99,7 +99,7 @@
 <script>
 import logger from '@/user/logger';
 import { marked } from 'marked';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

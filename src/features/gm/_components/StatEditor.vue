@@ -15,7 +15,8 @@
             :val="item.StatController.MaxStats[kvp.key]"
             :deletable="!mandatoryStats.includes(kvp.key)"
             :bonuses="getBonuses(kvp.key)"
-            @set="item.StatController.setMax(kvp.key, $event.value, $event.tier)"
+            :edited="!!editedKeys[kvp.key]"
+            @set="setStat(kvp.key, $event)"
             @remove="item.StatController.RemoveStat($event)" />
         </v-col>
       </v-row>
@@ -140,8 +141,8 @@
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import { Stats } from '@/classes/components/combat/stats/Stats';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
-import { Bonus } from '@/classes/components';
-import { useMobile } from '@/mixins/useMobile';
+import { Bonus } from '@/classes/components/feature/bonus/Bonus';
+import { useMobile } from '@/composables/useMobile';
 
 
 const npcStatOrder = [
@@ -214,6 +215,17 @@ export default {
     mandatoryStats() {
       return MandatoryStats;
     },
+    editedKeys(): Record<string, boolean> {
+      if (!this.controller?.getClassStats) return {}
+      const maxStats = this.item.StatController.MaxStats
+      const result: Record<string, boolean> = {}
+      this.controller.getClassStats().forEach(({ key, val }) => {
+        if (maxStats[key] !== undefined && maxStats[key] !== val) {
+          result[key] = true
+        }
+      })
+      return result
+    },
   },
   methods: {
     getBonuses(key: string) {
@@ -242,11 +254,15 @@ export default {
     addCoreStats() {
       this.statsToAdd.forEach((x) => this.item.StatController.AddCoreStat(x));
       this.statsToAdd = [];
-      console.log(this.item.StatController)
     },
     addCustomStat() {
       this.item.StatController.AddCustomStat(this.customTitle);
       this.customTitle = '';
+    },
+    setStat(key: string, event: { value: any }) {
+      this.item.StatController.setMax(key, event.value)
+      this.item.SaveController.markModified()
+      this.item.SaveController.save()
     },
     toggleEditing() {
       this.editing = !this.editing;

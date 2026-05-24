@@ -26,26 +26,14 @@
   </cc-alert>
 </template>
 
-<script lang="ts">
-import ActionBase from './_actionBase.vue';
-
-export default {
-  name: 'action-panel',
-  components: { ActionBase },
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-    hideIcon: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-};
+<script setup lang="ts">
+import { Action } from '@/classes/Action';
+import ActionBase from './_actionBase.vue'
+const props = withDefaults(defineProps<{
+  action: Action
+  tier?: number
+  hideIcon?: boolean
+}>(), {
+  hideIcon: false,
+})
 </script>

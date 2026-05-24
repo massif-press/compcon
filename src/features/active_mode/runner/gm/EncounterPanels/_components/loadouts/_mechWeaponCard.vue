@@ -209,17 +209,20 @@
 </template>
 
 <script lang="ts">
-import { Damage, ItemType, Mech, MechWeapon } from '@/class'
+import { Damage } from '@/classes/Damage'
+import { ItemType } from '@/classes/enums'
+import { Mech } from '@/classes/mech/Mech'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
-import EngWeaponSettings from '@/ui/components/panels/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
+import EngWeaponSettings from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
 import MechModCard from './_mechModCard.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
-import { useMobile } from '@/mixins/useMobile'
-import { useEquipmentActions } from '@/mixins/useEquipmentActions'
-import { externalItemBonuses } from '@/mixins/useExternalItemBonuses'
+import { useMobile } from '@/composables/useMobile'
+import { useEquipmentActions } from '@/composables/useEquipmentActions'
+import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
 import { Range } from '@/classes/Range'
 
 export default {
@@ -259,7 +262,6 @@ export default {
   emits: ['deploy'],
   computed: {
     synergyLocation() {
-      console.log(this.item)
       if (!this.item) return 'none'
       if (this.item.IsIntegrated) return 'integrated'
       return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'

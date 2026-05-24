@@ -50,7 +50,7 @@
           flat
           tile>
           {{ event.AoE ? getOrdinal(Number(idx) + 1) : '' }} Target
-          <v-btn v-if="event.Targets.length > 1"
+          <v-btn v-if="event.Targets?.length > 1"
             icon
             size="20"
             variant="text"
@@ -62,7 +62,7 @@
               @click="event.Targets.splice(idx, 1)" />
           </v-btn>
         </v-card>
-        <v-btn v-if="event.AoE && idx === event.Targets.length - 1"
+        <v-btn v-if="event.AoE && idx === event.Targets?.length - 1"
           size="x-small"
           block
           flat
@@ -77,21 +77,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
+<script setup lang="ts">
+import { useDisplay } from 'vuetify';
 
-export default {
-  name: 'LocalTargetSelector',
-  mixins: [useMobile],
-  props: {
-    event: { type: Object, required: true },
-  },
-  methods: {
-    getOrdinal(n) {
-      const s = ["th", "st", "nd", "rd"],
-        v = n % 100;
-      return `${n + (s[(v - 20) % 10] || s[v] || s[0])} `;
-    },
-  }
-};
+const { smAndDown: mobile } = useDisplay()
+
+const props = defineProps<{
+  event: object
+}>()
+
+function getOrdinal(n) {
+  const s = ["th", "st", "nd", "rd"],
+    v = n % 100;
+  return `${n + (s[(v - 20) % 10] || s[v] || s[0])} `;
+}
 </script>

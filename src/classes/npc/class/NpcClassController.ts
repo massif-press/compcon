@@ -1,5 +1,5 @@
 import { INpcClassData, NpcClass } from './NpcClass'
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
 import { Stats } from '@/classes/components/combat/stats/Stats'
 import { StatController } from '@/classes/components/combat/stats/StatController'
@@ -129,7 +129,7 @@ class NpcClassController {
     }
 
     parent.NpcClassController._class = CompendiumStore().has('NpcClasses', id)
-      ? CompendiumStore().referenceByID('NpcClasses', id)
+      ? CompendiumStore().referenceByID('NpcClasses', id) as unknown as NpcClass
       : data?.class?.data && Object.keys(data.class.data).length
         ? new NpcClass(data.class.data)
         : null

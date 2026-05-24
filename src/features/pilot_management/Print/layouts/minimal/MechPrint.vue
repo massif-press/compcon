@@ -737,18 +737,5 @@ export default {
 </script>
 
 <style scoped>
-.caption {
-  font-size: 12px;
-}
-
-.p-stat {
-  font-size: 34px;
-}
-
-fieldset {
-  padding: 0 4px;
-  height: 100%;
-  border-radius: 3px;
-  border-color: rgb(var(--v-theme-grey-lighten2));
-}
+@import '@/ui/style/print-mech.css';
 </style>

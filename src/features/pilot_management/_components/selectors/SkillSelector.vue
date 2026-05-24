@@ -80,107 +80,87 @@
   </selector>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useDisplay } from 'vuetify'
+import { groupBy } from 'lodash-es'
+import { CompendiumStore } from '@/stores'
+import { Rules } from '@/classes/utility/Rules'
+import { Pilot } from '@/classes/pilot/Pilot'
+import { rules } from '@massif/lancer-data'
+import logger from '@/user/logger'
 import SkillSelectItem from './components/_SkillSelectItem.vue'
 import AddCustomSkill from './components/_AddCustomSkill.vue'
 import Selector from './components/_SelectorBase.vue'
 
-import { CompendiumStore } from '@/stores'
-import { Rules, Pilot } from '@/class'
-import { rules } from '@massif/lancer-data'
+const props = withDefaults(defineProps<{
+  pilot: Pilot
+  levelUp?: boolean
+  modal?: boolean
+  flat?: boolean
+}>(), { levelUp: false, modal: false, flat: false })
 
-import * as _ from 'lodash-es'
-import logger from '@/user/logger'
-import { useMobile } from '@/mixins/useMobile';
+const emit = defineEmits<{ reset: [] }>()
 
-export default {
-  name: 'SkillSelector',
-  components: { Selector, SkillSelectItem, AddCustomSkill },
-  mixins: [useMobile],
-  props: {
-    pilot: { type: Pilot, required: true },
-    levelUp: Boolean,
-    modal: Boolean,
-    flat: Boolean,
-  },
-  emits: ['reset'],
-  data: () => ({
-    search: '',
-    jump: '',
-  }),
-  computed: {
-    staticSkills() {
-      return _.groupBy(this.baseSkills, 'Family')
-    },
-    flatSkills() {
-      return this.baseSkills
-    },
-    baseSkills() {
-      if (!this.pilot.LcpConfig) return CompendiumStore().Skills
-      return CompendiumStore().Skills.filter(
-        x =>
-          !x.InLcp ||
-          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
-          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
-      )
-    },
-    headers() {
-      return rules.skill_headers
-    },
-    skills() {
-      const cs = this.pilot.SkillsController.Skills.filter(x => x.IsCustom)
-      if (cs.length) return { ...this.staticSkills, Custom: cs.map(x => x.Skill) }
-      return this.staticSkills
-    },
-    newPilot(): boolean {
-      return this.pilot.Level === 0
-    },
-    selectedMin(): number {
-      return Rules.MinimumPilotSkills
-    },
-    enoughSelections(): boolean {
-      return !(this.pilot.SkillsController.Skills.length < this.selectedMin)
-    },
-    selectionComplete(): boolean {
-      return (this.newPilot || this.levelUp) && !this.pilot.SkillsController.IsMissingSkills
-    },
-    jumpItems() {
-      return [
-        ...this.pilot.SkillsController.Skills.map(x => ({
-          title: x.Skill.Trigger,
-          value: x.Skill.ID,
-          subtitle: `// Pilot Rank: ${x.Rank} (+${x.Bonus})`,
-        })),
-        ...this.flatSkills
-          .filter(x => !this.pilot.SkillsController.Skills.find(y => y.Skill.ID === x.ID))
-          .map(x => ({
-            title: x.Trigger,
-            value: x.ID,
-          })),
-      ]
-    },
-  },
-  watch: {
-    jump(val) {
-      this.scroll(val)
-    },
-  },
-  methods: {
-    scroll(id) {
-      this.scrollTo(`skill_${id}`)
-    },
-    scrollTo(e: any): void {
-      const el = document.getElementById(e)
-      if (!el) {
-        logger.warn(`Element with ID ${e} not found`, this)
-        return
-      }
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    },
-    resetSkills() {
-      this.pilot.SkillsController.ClearSkills()
-      this.$emit('reset')
-    },
-  },
+const { smAndDown: mobile } = useDisplay()
+
+const search = ref('')
+const jump = ref('')
+
+const headers = computed(() => rules.skill_headers)
+
+const baseSkills = computed(() => {
+  if (!props.pilot.LcpConfig) return CompendiumStore().Skills
+  return CompendiumStore().Skills.filter(
+    (x: any) =>
+      !x.InLcp ||
+      props.pilot.LcpConfig?.packList.some((y: any) => y.packID === x.Brew?.LcpId) ||
+      props.pilot.LcpConfig?.packList.some((y: any) => y.packName === x.Brew?.LcpName)
+  )
+})
+
+const staticSkills = computed(() => groupBy(baseSkills.value, 'Family'))
+const flatSkills = computed(() => baseSkills.value)
+
+const skills = computed(() => {
+  const cs = props.pilot.SkillsController.Skills.filter((x: any) => x.IsCustom)
+  if (cs.length) return { ...staticSkills.value, Custom: cs.map((x: any) => x.Skill) }
+  return staticSkills.value
+})
+
+const newPilot = computed(() => props.pilot.Level === 0)
+const selectedMin = computed(() => Rules.MinimumPilotSkills)
+const enoughSelections = computed(() => !(props.pilot.SkillsController.Skills.length < selectedMin.value))
+const selectionComplete = computed(() => (newPilot.value || props.levelUp) && !props.pilot.SkillsController.IsMissingSkills)
+
+const jumpItems = computed(() => [
+  ...props.pilot.SkillsController.Skills.map((x: any) => ({
+    title: x.Skill.Trigger,
+    value: x.Skill.ID,
+    subtitle: `// Pilot Rank: ${x.Rank} (+${x.Bonus})`,
+  })),
+  ...flatSkills.value
+    .filter((x: any) => !props.pilot.SkillsController.Skills.find((y: any) => y.Skill.ID === x.ID))
+    .map((x: any) => ({ title: x.Trigger, value: x.ID })),
+])
+
+watch(jump, (val) => scroll(val))
+
+function scrollTo(e: string): void {
+  const el = document.getElementById(e)
+  if (!el) {
+    logger.warn(`Element with ID ${e} not found`, null)
+    return
+  }
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
+
+function scroll(id: string) {
+  scrollTo(`skill_${id}`)
+}
+
+function resetSkills() {
+  props.pilot.SkillsController.ClearSkills()
+  emit('reset')
 }
 </script>

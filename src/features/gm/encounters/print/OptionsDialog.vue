@@ -47,55 +47,41 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
-import PrintOptionSelect from './PrintOptionSelect.vue';
+<script setup lang="ts">
+import { computed } from 'vue'
+import PrintOptionSelect from './PrintOptionSelect.vue'
 
-export default {
-  name: 'print-options-dialog',
-  components: { PrintOptionSelect },
-  props: {
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    orientationOptions: [
-      { title: 'Portrait', icon: 'mdi-file' },
-      { title: 'Landscape', icon: 'mdi-note' },
-    ],
-    paperOptions: [
-      { title: 'Letter', icon: 'mdi-text-box-check-outline' },
-      { title: 'A4', icon: 'mdi-file-star-four-points-outline' },
-    ],
-  }),
-  computed: {
-    includeOptions() {
-      switch (this.options.layout.title) {
-        case 'Minimal':
-          return [];
-        default:
-          return [
-            { title: 'Include Image' },
-            { title: 'Include Map' },
-            { title: 'Append Lined Section' },
-            { title: 'Append Unlined Section' },
-          ];
-      }
-    },
-    extraOptions() {
-      switch (this.options.layout.title) {
-        default:
-          return [
-            { title: 'GM Tracker' },
-            { title: 'Tag Reference' },
-            { title: 'Combat Quick Reference' },
-            { title: 'Action Reference' },
-          ];
-      }
-    },
-  },
-};
+const props = defineProps<{ options: Record<string, any> }>()
+
+const orientationOptions = [
+  { title: 'Portrait', icon: 'mdi-file' },
+  { title: 'Landscape', icon: 'mdi-note' },
+]
+const paperOptions = [
+  { title: 'Letter', icon: 'mdi-text-box-check-outline' },
+  { title: 'A4', icon: 'mdi-file-star-four-points-outline' },
+]
+
+const includeOptions = computed(() => {
+  switch (props.options.layout.title) {
+    case 'Minimal':
+      return []
+    default:
+      return [
+        { title: 'Include Image' },
+        { title: 'Include Map' },
+        { title: 'Append Lined Section' },
+        { title: 'Append Unlined Section' },
+      ]
+  }
+})
+
+const extraOptions = computed(() => [
+  { title: 'GM Tracker' },
+  { title: 'Tag Reference' },
+  { title: 'Combat Quick Reference' },
+  { title: 'Action Reference' },
+])
 </script>
 
 <style scoped>

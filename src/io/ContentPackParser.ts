@@ -1,32 +1,25 @@
 import JSZip, { JSZipObject } from 'jszip'
-import {
-  IMechWeaponData,
-  IManufacturerData,
-  ICoreBonusData,
-  IFrameData,
-  IMechSystemData,
-  IWeaponModData,
-  ITalentData,
-  IPilotEquipmentData,
-  IContentPackManifest,
-  ITagCompendiumData,
-  IContentPack,
-  ICompendiumItemData,
-  IActionData,
-  IBackgroundData,
-  IReserveData,
-  ISitrepData,
-  IStatusData,
-  ISkillData,
-} from '@/interface'
 import { INpcClassData } from '@/classes/npc/class/NpcClass'
 import { INpcFeatureData } from '@/classes/npc/feature/NpcFeature'
 import { INpcTemplateData } from '@/classes/npc/template/NpcTemplate'
-import { IExtraNpcFeatureEntry } from '@/classes/ContentPack'
+import { IContentPack, IContentPackManifest, IExtraNpcFeatureEntry } from '@/classes/ContentPack'
 import CoreLayerData from '@/classes/npc/eidolon/core_layer.json'
 import { IEnvironmentData } from '@/classes/Environment'
 import { IDowntimeActionData } from '@/classes/DowntimeAction'
 import logger from '@/user/logger'
+import { IActionData } from '@/classes/Action'
+import { IBackgroundData } from '@/classes/Background'
+import { ICompendiumItemData } from '@/classes/CompendiumItem'
+import { ISitrepData } from '@/classes/encounter/Sitrep'
+import { IManufacturerData } from '@/classes/Manufacturer'
+import { IMechSystemData } from '@/classes/mech/components/equipment/MechSystem'
+import { IMechWeaponData } from '@/classes/mech/components/equipment/MechWeapon'
+import { IWeaponModData } from '@/classes/mech/components/equipment/WeaponMod'
+import { IFrameData } from '@/classes/mech/components/frame/Frame'
+import { ISkillData, ICoreBonusData, ITalentData, IReserveData } from '@/classes/pilot/components'
+import { IPilotEquipmentData } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
+import { IStatusData } from '@/classes/Status'
+import { ITagCompendiumData } from '@/classes/Tag'
 
 const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
@@ -148,7 +141,8 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   // library style data for NPCs
   const npcClasses = (await readZipJSON<INpcClassData[]>(zip, 'npc_classes.json')) || []
   const npcTemplates = (await readZipJSON<INpcTemplateData[]>(zip, 'npc_templates.json')) || []
-  const extraNpcFeatures = (await readZipJSON<IExtraNpcFeatureEntry[]>(zip, 'extra_features.json')) || []
+  const extraNpcFeatures =
+    (await readZipJSON<IExtraNpcFeatureEntry[]>(zip, 'extra_features.json')) || []
 
   const npcFeaturePromises: Promise<INpcFeatureData[]>[] = files
     .filter(x => x.startsWith('npc_') && !x.includes('classes') && !x.includes('templates'))

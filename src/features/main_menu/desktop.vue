@@ -201,14 +201,6 @@ export default {
     extraContentModal: false,
     v2BackupCount: 0,
   }),
-  async created() {
-    await this.loadV2BackupCount();
-  },
-  watch: {
-    async extraContentModal(val) {
-      if (!val) await this.loadV2BackupCount();
-    },
-  },
   computed: {
     isLoggedIn() {
       return UserStore().IsLoggedIn;
@@ -219,6 +211,14 @@ export default {
     hasV2Backups() {
       return this.v2BackupCount > 0;
     },
+  },
+  watch: {
+    async extraContentModal(val) {
+      if (!val) await this.loadV2BackupCount();
+    },
+  },
+  async created() {
+    await this.loadV2BackupCount();
   },
   methods: {
     async loadV2BackupCount() {

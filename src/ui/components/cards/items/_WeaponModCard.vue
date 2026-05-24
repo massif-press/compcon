@@ -72,17 +72,11 @@
   </equipment-card-base>
 </template>
 
-<script lang="ts">
-import EquipmentCardBase from './_EquipmentCardBase.vue';
+<script setup lang="ts">
+import { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod';
+import EquipmentCardBase from './_EquipmentCardBase.vue'
 
-export default {
-  name: 'WeaponModCard',
-  components: { EquipmentCardBase },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+defineProps<{
+  item: WeaponMod
+}>()
 </script>

@@ -1,6 +1,7 @@
 import { CompendiumStore, NpcStore } from '@/stores'
 import { GetAll, SetItem, RemoveItem } from './Storage'
 import { ImportEncounter, ImportNpcData, ImportPilot } from './Importer'
+import type { V2Pilot, V2Npc, V2Encounter } from './v2-types'
 
 const V2_STAT_RENAME: Record<string, string> = {
   evade: 'evasion',
@@ -50,7 +51,7 @@ function buildCustomTierCombatData(v2Stats: Record<string, any>): any {
 interface V2BackupRecord {
   id: string
   type: 'pilot' | 'npc' | 'encounter'
-  originalData: any
+  originalData: V2Pilot | V2Npc | V2Encounter
   missingLcps: string[]
   missingLcpNames: string[]
   timestamp: number
@@ -60,29 +61,33 @@ interface V2BackupRecord {
 // Detection
 // ---------------------------------------------------------------------------
 
-export function isV2Pilot(data: any): boolean {
+export function isV2Pilot(data: unknown): boolean {
   if (!data || typeof data !== 'object' || Array.isArray(data)) return false
-  if (data.itemType === 'pilot') return false
-  return data.callsign !== undefined
+  const d = data as Record<string, unknown>
+  if (d.itemType === 'pilot') return false
+  return d.callsign !== undefined
 }
 
-export function isV2Npc(data: any): boolean {
+export function isV2Npc(data: unknown): boolean {
   if (!data || typeof data !== 'object' || Array.isArray(data)) return false
-  if (data.npcType) return false
-  return data.cc_ver !== undefined || (typeof data.class === 'string' && data.items !== undefined)
+  const d = data as Record<string, unknown>
+  if (d.npcType) return false
+  return d.cc_ver !== undefined || (typeof d.class === 'string' && d.items !== undefined)
 }
 
-export function isV2Encounter(data: any): boolean {
+export function isV2Encounter(data: unknown): boolean {
   if (!data) return false
   if (Array.isArray(data)) {
-    return data.length > 0 && data[0]?.npcs !== undefined && !data[0]?.itemType
+    return data.length > 0 && (data[0] as any)?.npcs !== undefined && !(data[0] as any)?.itemType
   }
-  if (data.itemType === 'Encounter') return false
+  if (typeof data !== 'object') return false
+  const d = data as Record<string, unknown>
+  if (d.itemType === 'Encounter') return false
   return (
-    !data.itemType &&
-    data.npcs !== undefined &&
-    Array.isArray(data.npcs) &&
-    (data.npcs.length === 0 || (typeof data.npcs[0] === 'object' && !data.npcs[0]?.npcType))
+    !d.itemType &&
+    d.npcs !== undefined &&
+    Array.isArray(d.npcs) &&
+    (d.npcs.length === 0 || (typeof d.npcs[0] === 'object' && !(d.npcs[0] as any)?.npcType))
   )
 }
 
@@ -90,7 +95,7 @@ export function isV2Encounter(data: any): boolean {
 // LCP requirement analysis
 // ---------------------------------------------------------------------------
 
-export function getV2PilotMissingLcps(data: any): { missingIds: string[]; missingNames: string[] } {
+export function getV2PilotMissingLcps(data: V2Pilot): { missingIds: string[]; missingNames: string[] } {
   const missingIds: string[] = []
   const missingNames: string[] = []
   const brews: any[] = data.brews || []
@@ -103,7 +108,7 @@ export function getV2PilotMissingLcps(data: any): { missingIds: string[]; missin
   return { missingIds, missingNames }
 }
 
-export function getV2NpcMissingLcps(data: any): {
+export function getV2NpcMissingLcps(data: V2Npc): {
   missingIds: string[]
   missingNames: string[]
   unresolvableFeatures: string[]
@@ -131,7 +136,7 @@ export function getV2NpcMissingLcps(data: any): {
   return { missingIds, missingNames, unresolvableFeatures }
 }
 
-export function getV2EncounterMissingNpcs(data: any): string[] {
+export function getV2EncounterMissingNpcs(data: V2Encounter): string[] {
   const missing: string[] = []
   const entries = [...(data.npcs || []), ...(data.reinforcements || [])]
   for (const entry of entries) {
@@ -146,7 +151,7 @@ export function getV2EncounterMissingNpcs(data: any): string[] {
 // Transformation
 // ---------------------------------------------------------------------------
 
-export function transformV2Pilot(data: any): any {
+export function transformV2Pilot(data: V2Pilot): Record<string, unknown> {
   const now = Date.now()
   const brews = (data.brews || []).map((b: any) => ({ ...b, Status: 'OK' }))
 
@@ -228,7 +233,7 @@ export function transformV2Pilot(data: any): any {
   }
 }
 
-export function transformV2Npc(data: any): any {
+export function transformV2Npc(data: V2Npc): Record<string, unknown> {
   const now = Date.now()
 
   const features = (data.items || []).map((item: any) => ({
@@ -296,8 +301,8 @@ export function transformV2Npc(data: any): any {
   return result
 }
 
-export function transformV2Encounter(rawData: any): any[] {
-  const encounters = Array.isArray(rawData) ? rawData : [rawData]
+export function transformV2Encounter(rawData: V2Encounter | V2Encounter[]): Record<string, unknown>[] {
+  const encounters: V2Encounter[] = Array.isArray(rawData) ? rawData : [rawData]
   const now = Date.now()
 
   return encounters.map(enc => {
@@ -375,7 +380,7 @@ export function transformV2Encounter(rawData: any): any[] {
 
 export async function saveV2Backup(
   type: 'pilot' | 'npc' | 'encounter',
-  originalData: any,
+  originalData: V2Pilot | V2Npc | V2Encounter,
   missingIds: string[],
   missingNames: string[]
 ): Promise<void> {
@@ -404,8 +409,8 @@ export async function deleteV2Backup(id: string): Promise<void> {
 // ---------------------------------------------------------------------------
 
 export async function forceImportV2Pilot(
-  data: any
-): Promise<{ imported: any; stripped: string[] }> {
+  data: V2Pilot
+): Promise<{ imported: Record<string, unknown>; stripped: string[] }> {
   const stripped: string[] = []
 
   const cleanedData = { ...data }
@@ -439,7 +444,9 @@ export async function forceImportV2Pilot(
   return { imported: transformed, stripped }
 }
 
-export async function forceImportV2Npc(data: any): Promise<{ imported: any; stripped: string[] }> {
+export async function forceImportV2Npc(
+  data: V2Npc
+): Promise<{ imported: Record<string, unknown>; stripped: string[] }> {
   const stripped: string[] = []
 
   const cleanedItems = (data.items || []).filter((item: any) => {
@@ -457,8 +464,8 @@ export async function forceImportV2Npc(data: any): Promise<{ imported: any; stri
 }
 
 export async function forceImportV2Encounter(
-  data: any
-): Promise<{ imported: any[]; stripped: string[] }> {
+  data: V2Encounter | V2Encounter[]
+): Promise<{ imported: Record<string, unknown>[]; stripped: string[] }> {
   const stripped: string[] = []
 
   const cleanEnc = (enc: any) => ({
@@ -499,24 +506,24 @@ export async function reprocessV2Backups(): Promise<{
     let missing: string[] = []
 
     if (backup.type === 'pilot') {
-      missing = getV2PilotMissingLcps(backup.originalData).missingIds
+      missing = getV2PilotMissingLcps(backup.originalData as V2Pilot).missingIds
     } else if (backup.type === 'npc') {
-      const npcMissing = getV2NpcMissingLcps(backup.originalData)
+      const npcMissing = getV2NpcMissingLcps(backup.originalData as V2Npc)
       missing = [...npcMissing.missingIds, ...npcMissing.unresolvableFeatures]
     } else if (backup.type === 'encounter') {
-      missing = getV2EncounterMissingNpcs(backup.originalData)
+      missing = getV2EncounterMissingNpcs(backup.originalData as V2Encounter)
     }
 
     if (missing.length === 0) {
       try {
         if (backup.type === 'pilot') {
-          const transformed = transformV2Pilot(backup.originalData)
+          const transformed = transformV2Pilot(backup.originalData as V2Pilot)
           await ImportPilot(transformed)
         } else if (backup.type === 'npc') {
-          const transformed = transformV2Npc(backup.originalData)
+          const transformed = transformV2Npc(backup.originalData as V2Npc)
           await ImportNpcData(transformed)
         } else if (backup.type === 'encounter') {
-          const transformed = transformV2Encounter(backup.originalData)
+          const transformed = transformV2Encounter(backup.originalData as V2Encounter)
           for (const enc of transformed) {
             await ImportEncounter(enc)
           }
@@ -539,40 +546,42 @@ export async function reprocessV2Backups(): Promise<{
 // ---------------------------------------------------------------------------
 
 export async function preprocessPilotImport(
-  data: any
-): Promise<{ action: 'import' | 'backup'; transformed?: any; missingLcps?: string[] }> {
-  if (!isV2Pilot(data)) return { action: 'import', transformed: data }
+  data: unknown
+): Promise<{ action: 'import' | 'backup'; transformed?: Record<string, unknown>; missingLcps?: string[] }> {
+  if (!isV2Pilot(data)) return { action: 'import', transformed: data as Record<string, unknown> }
 
-  const { missingIds, missingNames } = getV2PilotMissingLcps(data)
+  const v2 = data as V2Pilot
+  const { missingIds, missingNames } = getV2PilotMissingLcps(v2)
   if (missingIds.length === 0) {
-    return { action: 'import', transformed: transformV2Pilot(data) }
+    return { action: 'import', transformed: transformV2Pilot(v2) }
   }
 
-  await saveV2Backup('pilot', data, missingIds, missingNames)
+  await saveV2Backup('pilot', v2, missingIds, missingNames)
   return { action: 'backup', missingLcps: missingIds }
 }
 
 export async function preprocessNpcImport(
-  data: any
-): Promise<{ action: 'import' | 'backup'; transformed?: any; missingLcps?: string[] }> {
-  if (!isV2Npc(data)) return { action: 'import', transformed: data }
+  data: unknown
+): Promise<{ action: 'import' | 'backup'; transformed?: Record<string, unknown>; missingLcps?: string[] }> {
+  if (!isV2Npc(data)) return { action: 'import', transformed: data as Record<string, unknown> }
 
-  const { missingIds, missingNames, unresolvableFeatures } = getV2NpcMissingLcps(data)
+  const v2 = data as V2Npc
+  const { missingIds, missingNames, unresolvableFeatures } = getV2NpcMissingLcps(v2)
   if (missingIds.length === 0 && unresolvableFeatures.length === 0) {
-    return { action: 'import', transformed: transformV2Npc(data) }
+    return { action: 'import', transformed: transformV2Npc(v2) }
   }
 
-  await saveV2Backup('npc', data, missingIds, missingNames)
+  await saveV2Backup('npc', v2, missingIds, missingNames)
   return { action: 'backup', missingLcps: missingIds }
 }
 
 export async function preprocessEncounterImport(
-  data: any
-): Promise<{ action: 'import' | 'backup'; transformed?: any; missingNpcs?: string[] }> {
-  if (!isV2Encounter(data)) return { action: 'import', transformed: data }
+  data: unknown
+): Promise<{ action: 'import' | 'backup'; transformed?: Record<string, unknown>[]; missingNpcs?: string[] }> {
+  if (!isV2Encounter(data)) return { action: 'import', transformed: data as Record<string, unknown>[] }
 
-  // Handle array: check all encounters for missing NPCs
-  const encounters = Array.isArray(data) ? data : [data]
+  const v2 = data as V2Encounter | V2Encounter[]
+  const encounters: V2Encounter[] = Array.isArray(v2) ? v2 : [v2]
   const allMissing: string[] = []
   for (const enc of encounters) {
     const missing = getV2EncounterMissingNpcs(enc)
@@ -582,16 +591,14 @@ export async function preprocessEncounterImport(
   }
 
   if (allMissing.length === 0) {
-    return { action: 'import', transformed: transformV2Encounter(data) }
+    return { action: 'import', transformed: transformV2Encounter(v2) }
   }
 
-  // Back up each encounter individually
   for (const enc of encounters) {
     const missing = getV2EncounterMissingNpcs(enc)
     if (missing.length > 0) {
       await saveV2Backup('encounter', enc, missing, missing)
     } else {
-      // This encounter has all its NPCs, import it now
       const transformed = transformV2Encounter(enc)
       for (const t of transformed) {
         await ImportEncounter(t)

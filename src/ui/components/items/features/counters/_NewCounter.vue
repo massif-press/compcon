@@ -59,38 +59,35 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'NewCounter',
-  data: () => ({
-    creating: false,
-    name: '',
-  }),
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-  methods: {
-    async startCreating(): Promise<void> {
-      this.creating = true;
-      await this.$nextTick();
-      (this.$refs.nameField as any as any).focus();
-    },
+<script setup lang="ts">
+import { ref, nextTick } from 'vue'
+import { useDisplay } from 'vuetify'
 
-    cancel(): void {
-      this.name = '';
-      this.creating = false;
-    },
+const { mdAndDown: mobile } = useDisplay()
 
-    create(): void {
-      if (!this.name) return;
-      this.$emit('create', this.name);
-      this.name = '';
-      this.creating = false;
-    },
-  },
-};
+const emit = defineEmits<{ create: [name: string] }>()
+
+const creating = ref(false)
+const name = ref('')
+const nameField = ref<any>(null)
+
+async function startCreating(): Promise<void> {
+  creating.value = true;
+  await nextTick();
+  nameField.value?.focus();
+}
+
+function cancel(): void {
+  name.value = '';
+  creating.value = false;
+}
+
+function create(): void {
+  if (!name.value) return;
+  emit('create', name.value);
+  name.value = '';
+  creating.value = false;
+}
 </script>
 
 <style scoped>

@@ -1,4 +1,5 @@
-import { ContentPack, ItemType } from '@/class'
+import { ContentPack } from '../../../ContentPack'
+import { ItemType } from '../../../enums'
 import { CompendiumStore } from '../../../../stores'
 import { BrewInfo } from '@/classes/components/brew/BrewController'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
@@ -87,7 +88,7 @@ class Bond implements ILcpTracked {
   }
 
   public static Deserialize(id: string): Bond {
-    return CompendiumStore().referenceByID('Bonds', id)
+    return CompendiumStore().referenceByID('Bonds', id) as unknown as Bond
   }
 
   public get Icon(): string {

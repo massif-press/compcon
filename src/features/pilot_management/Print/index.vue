@@ -99,14 +99,15 @@ import Cards from './layouts/cards/index.vue';
 
 import TagInfoPrint from './extras/TagInfoPrint.vue';
 import TriggerInfoPrint from './extras/TriggerInfoPrint.vue';
-import CombatRef from './extras/CombatRef.vue';
+import CombatRef from '@/ui/components/print/CombatRef.vue';
 import ActionRef from './extras/ActionRef.vue';
 import DowntimeRef from './extras/DowntimeRef.vue';
 
 import OptionsDialog from './OptionsDialog.vue';
 
 import { PilotStore, CompendiumStore } from '@/stores';
-import { Pilot, Mech } from '@/class';
+import { Pilot } from '@/classes/pilot/Pilot'
+import { Mech } from '@/classes/mech/Mech'
 import PageBreak from './components/PageBreak.vue';
 
 export default {

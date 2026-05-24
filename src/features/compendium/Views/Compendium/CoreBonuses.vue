@@ -2,7 +2,8 @@
   <cc-compendium-browser :items="bonuses"
     :itemType="'CoreBonus'"
     :table-headers="headers"
-    :options="options">
+    :options="options"
+    :manufacturers="manufacturers">
     <template #header>
       <div class="heading h3 text-center text-accent">Core Bonuses</div>
     </template>
@@ -12,7 +13,7 @@
 <script lang="ts">
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
-import { CoreBonus } from '@/class';
+import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 
 export default {
   name: 'CoreBonuses',
@@ -32,6 +33,9 @@ export default {
     },
   }),
   computed: {
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
     bonuses(): CoreBonus[] {
       return orderBy(
         CompendiumStore().CoreBonuses.filter((x: CoreBonus) => !x.IsHidden),

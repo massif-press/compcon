@@ -75,10 +75,11 @@
 </template>
 
 <script lang="ts">
-import { Project } from '@/class';
+import Project from '@/classes/pilot/components/reserves/Project';
+
 
 export default {
-  name: 'custom-reserve-panel',
+  name: 'CustomReservePanel',
   data: () => ({
     projectName: '',
     details: '',

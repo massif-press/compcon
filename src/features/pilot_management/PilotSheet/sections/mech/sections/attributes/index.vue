@@ -43,7 +43,7 @@
 <script lang="ts">
 import HasePips from './HasePips.vue';
 import MechStatblock from './MechStatblock.vue';
-import { useMobile } from '@/mixins/useMobile';
+import { useMobile } from '@/composables/useMobile';
 
 
 export default {

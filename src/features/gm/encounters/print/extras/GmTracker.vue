@@ -34,55 +34,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import NpcTracker from '../components/NpcTracker.vue';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { sortBy } from 'lodash-es'
+import NpcTracker from '../components/NpcTracker.vue'
 
-import * as _ from 'lodash-es';
+const props = defineProps<{ encounter: Record<string, any> }>()
 
-export default {
-  name: 'gm-tracker-print',
-  components: {
-    NpcTracker,
-  },
-
-  props: {
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    SortedCombatants() {
-      return _.sortBy(this.encounter.Combatants, (x) => x.playerCount).filter(
-        (x) => x.npc && x.actor.ItemType.toLowerCase() !== 'eidolon'
-      );
-    },
-    Enemies() {
-      return this.SortedCombatants.filter((x) => x.side === 'enemy');
-    },
-    Allies() {
-      return this.SortedCombatants.filter((x) => x.side === 'ally');
-    },
-    Neutral() {
-      return this.SortedCombatants.filter((x) => x.side === 'neutral');
-    },
-  },
-};
+const SortedCombatants = computed(() =>
+  sortBy(props.encounter.Combatants, (x: any) => x.playerCount).filter(
+    (x: any) => x.npc && x.actor.ItemType.toLowerCase() !== 'eidolon'
+  )
+)
+const Enemies = computed(() => SortedCombatants.value.filter((x: any) => x.side === 'enemy'))
+const Allies = computed(() => SortedCombatants.value.filter((x: any) => x.side === 'ally'))
+const Neutral = computed(() => SortedCombatants.value.filter((x: any) => x.side === 'neutral'))
 </script>
 
 <style scoped>
-.caption {
-  font-size: 12px;
-}
-
-.p-stat {
-  font-size: 34px;
-}
-
-fieldset {
-  padding: 0 4px;
-  height: 100%;
-  border-radius: 3px;
-  border-color: rgb(var(--v-theme-grey-lighten2));
-}
+@import '@/ui/style/print-common.css';
 </style>

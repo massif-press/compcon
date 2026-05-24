@@ -1,5 +1,5 @@
 <template>
-  <cc-dialog title="Migration Data Repair"
+  <cc-dialog :title="strings.dialogTitle"
     icon="mdi-wrench"
     :close-on-click="false"
     min-width="60vw"
@@ -10,9 +10,9 @@
         size="small"
         color="primary"
         prepend-icon="mdi-wrench"
-        tooltip="Scan for and repair common issues with v2-migrated data. "
+        :tooltip="strings.buttonTooltip"
         @click="startScan(open)">
-        Migration Repair Tool
+        {{ strings.buttonLabel }}
       </cc-button>
     </template>
     <template #default="{ close }">
@@ -32,7 +32,7 @@
             class="mb-4"
             style="width: 300px" />
           <div class="text-cc-overline text-disabled">
-            {{ scanning ? 'Scanning data...' : `Applying fixes (${progress} / ${progressTotal})...`
+            {{ scanning ? strings.scanning : `Applying fixes (${progress} / ${progressTotal})...`
             }}
           </div>
         </div>
@@ -44,18 +44,16 @@
               color="success"
               size="48"
               class="mb-2" />
-            <div class="text-cc-overline">No migration issues found.</div>
+            <div class="text-cc-overline">{{ strings.noIssues }}</div>
           </div>
 
           <template v-else>
             <cc-alert color="warning"
               variant="outlined"
-              title="Experimental Feature"
+              :title="strings.experimentalTitle"
               icon="mdi-atom"
               class="mb-4">
-              This is an experimental tool that can automatically fix certain common issues with
-              data migrated from v2, but has not yet been thoroughly tested. It is <strong>strongly
-                recommended</strong> to make a backup before applying fixes.
+              {{ strings.experimentalBody }}<strong>{{ strings.experimentalBodyStrong }}</strong>{{ strings.experimentalBodySuffix }}
             </cc-alert>
 
             <cc-panel class="mb-4">
@@ -69,10 +67,10 @@
               style="max-height: 60vh;">
               <thead>
                 <tr class="heading">
-                  <th>Category</th>
-                  <th>Item</th>
-                  <th>Issue</th>
-                  <th class="text-center">Fixable</th>
+                  <th>{{ strings.colCategory }}</th>
+                  <th>{{ strings.colItem }}</th>
+                  <th>{{ strings.colIssue }}</th>
+                  <th class="text-center">{{ strings.colFixable }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -101,7 +99,7 @@
                           color="warning"
                           size="small" />
                       </template>
-                      Manual action required
+                      {{ strings.manualActionRequired }}
                     </v-tooltip>
                   </td>
                 </tr>
@@ -115,7 +113,7 @@
       <v-card-actions class="pa-4">
         <cc-button variant="text"
           @click="close">
-          Cancel
+          {{ strings.cancel }}
         </cc-button>
         <v-spacer />
         <cc-button v-if="fixableCount > 0 && !applying"
@@ -129,75 +127,72 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue'
 import { runMigrationScan, applyAllFixes, MigrationFinding } from '@/io/MigrationRepair'
+import { NAV_STRINGS } from '@/features/nav/strings'
 
-export default {
-  name: 'MigrationFixerDialog',
-  data: () => ({
-    scanning: false,
-    applying: false,
-    progress: 0,
-    progressTotal: 0,
-    findings: [] as MigrationFinding[],
-  }),
-  computed: {
-    fixableCount(): number {
-      return this.findings.filter(f => f.canFix).length
-    },
-    reportOnlyCount(): number {
-      return this.findings.filter(f => !f.canFix).length
-    },
-  },
-  methods: {
-    async startScan(open: () => void) {
-      this.findings = []
-      this.scanning = true
-      open()
-      try {
-        this.findings = await runMigrationScan()
-      } finally {
-        this.scanning = false
-      }
-    },
-    async applyFixes(close: () => void) {
-      this.applying = true
-      this.progress = 0
-      this.progressTotal = 0
-      await new Promise<void>(resolve => setTimeout(resolve, 0))
-      try {
-        await applyAllFixes(this.findings, (done, total) => {
-          this.progress = done
-          this.progressTotal = total
-        })
-        close()
-      } finally {
-        this.applying = false
-      }
-    },
-    reset() {
-      this.findings = []
-      this.scanning = false
-      this.applying = false
-      this.progress = 0
-      this.progressTotal = 0
-    },
-    categoryLabel(cat: string): string {
-      switch (cat) {
-        case 'flavor_description': return 'Flavor Text'
-        case 'lcp_origin': return 'LCP Origin'
-        case 'npc_stats': return 'NPC Stats'
-        default: return cat
-      }
-    },
-    categoryColor(cat: string): string {
-      switch (cat) {
-        case 'flavor_description': return 'primary'
-        case 'lcp_origin': return 'warning'
-        case 'npc_stats': return 'info'
-        default: return 'subtle'
-      }
-    },
-  },
+const strings = NAV_STRINGS.migrationRepair
+
+const scanning = ref(false)
+const applying = ref(false)
+const progress = ref(0)
+const progressTotal = ref(0)
+const findings = ref<MigrationFinding[]>([])
+
+const fixableCount = computed(() => findings.value.filter(f => f.canFix).length)
+const reportOnlyCount = computed(() => findings.value.filter(f => !f.canFix).length)
+
+async function startScan(open: () => void) {
+  findings.value = []
+  scanning.value = true
+  open()
+  try {
+    findings.value = await runMigrationScan()
+  } finally {
+    scanning.value = false
+  }
+}
+
+async function applyFixes(close: () => void) {
+  applying.value = true
+  progress.value = 0
+  progressTotal.value = 0
+  await new Promise<void>(resolve => setTimeout(resolve, 0))
+  try {
+    await applyAllFixes(findings.value, (done, total) => {
+      progress.value = done
+      progressTotal.value = total
+    })
+    close()
+  } finally {
+    applying.value = false
+  }
+}
+
+function reset() {
+  findings.value = []
+  scanning.value = false
+  applying.value = false
+  progress.value = 0
+  progressTotal.value = 0
+}
+
+function categoryLabel(cat: string): string {
+  switch (cat) {
+    case 'flavor_description': return strings.catFlavorText
+    case 'lcp_origin': return strings.catLcpOrigin
+    case 'npc_stats': return strings.catNpcStats
+    default: return cat
+  }
+}
+
+function categoryColor(cat: string): string {
+  switch (cat) {
+    case 'flavor_description': return 'primary'
+    case 'lcp_origin': return 'warning'
+    case 'npc_stats': return 'info'
+    default: return 'subtle'
+  }
 }
 </script>

@@ -33,22 +33,19 @@
   </cc-modal>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/mixins/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-pilot-license-item',
-  props: {
-    pilotLicense: {
-      type: Object,
-      required: true,
-    },
-    title: { type: Boolean },
-  },
-  emits: ['close'],
-  data: () => ({
-    dialog: false,
-    color: 'primary',
-  }),
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const { smAndDown: mobile } = useDisplay()
+
+const props = defineProps<{
+  pilotLicense: object
+  title?: boolean
+}>()
+
+const emit = defineEmits<{ close: [] }>()
+
+const dialog = ref(false)
+const color = ref('primary')
 </script>

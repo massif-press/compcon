@@ -127,85 +127,78 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { v4 as uuid } from 'uuid';
-import { Environment, EnvironmentInstance, type IEnvironmentData } from '@/classes/Environment';
-import { Encounter } from '@/classes/encounter/Encounter';
-import { CompendiumStore } from '@/stores';
-import { GetValue, SetValue } from '@/io/Storage';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { v4 as uuid } from 'uuid'
+import { Environment, EnvironmentInstance, type IEnvironmentData } from '@/classes/Environment'
+import { Encounter } from '@/classes/encounter/Encounter'
+import { CompendiumStore } from '@/stores'
+import { GetValue, SetValue } from '@/io/Storage'
 
-const STORAGE_KEY = 'user_environment_presets';
+const STORAGE_KEY = 'user_environment_presets'
 
-export default {
-  name: 'GmEnvironmentEditor',
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  data: () => ({
-    dialog: false,
-    showPresets: false,
-    confirmDialog: false,
-    stagedEnvironment: null as EnvironmentInstance | null,
-    userPresets: [] as IEnvironmentData[],
-    deleteConfirmDialog: false,
-    stagedDeleteIndex: -1,
-  }),
-  computed: {
-    environments() {
-      return CompendiumStore().Environments;
-    },
-  },
-  async created() {
-    this.userPresets = (await GetValue(STORAGE_KEY)) || [];
-  },
-  methods: {
-    setEnvironment(environment) {
-      if (this.item.Environment.modified) {
-        this.stagedEnvironment = environment;
-        this.confirmDialog = true;
-        return;
-      }
-      this._setEnvironment(environment);
-    },
-    confirm() {
-      this.confirmDialog = false;
-      this._setEnvironment(this.stagedEnvironment);
-      this.stagedEnvironment = null;
-    },
-    _setEnvironment(environment) {
-      this.item.Environment = new EnvironmentInstance(this.item as Encounter, environment);
-    },
-    loadUserPreset(preset: IEnvironmentData) {
-      this.setEnvironment(new Environment(preset));
-    },
-    async savePreset() {
-      const base = this.item.Environment.Name.replace(/ \(\d+\)$/, '');
-      const existing = [
-        ...this.environments.map((e) => e.Name),
-        ...this.userPresets.map((p) => p.name),
-      ];
-      let name = base;
-      if (existing.includes(name)) {
-        let i = 2;
-        while (existing.includes(`${base} (${i})`)) i++;
-        name = `${base} (${i})`;
-      }
-      const preset: IEnvironmentData = {
-        id: uuid(),
-        name,
-        modified: false,
-        description: this.item.Environment.Description,
-      };
-      this.userPresets.push(preset);
-      await SetValue(STORAGE_KEY, this.userPresets);
-    },
-    async confirmDeletePreset() {
-      this.userPresets.splice(this.stagedDeleteIndex, 1);
-      await SetValue(STORAGE_KEY, this.userPresets);
-      this.deleteConfirmDialog = false;
-      this.stagedDeleteIndex = -1;
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  item: Record<string, any>
+  readonly?: boolean
+}>(), { readonly: false })
+
+const showPresets = ref(false)
+const confirmDialog = ref(false)
+const stagedEnvironment = ref<EnvironmentInstance | null>(null)
+const userPresets = ref<IEnvironmentData[]>([])
+const deleteConfirmDialog = ref(false)
+const stagedDeleteIndex = ref(-1)
+
+const environments = computed(() => CompendiumStore().Environments)
+
+onMounted(async () => {
+  userPresets.value = (await GetValue(STORAGE_KEY)) || []
+})
+
+function setEnvironment(environment: any) {
+  if (props.item.Environment.modified) {
+    stagedEnvironment.value = environment
+    confirmDialog.value = true
+    return
+  }
+  _setEnvironment(environment)
+}
+function confirm() {
+  confirmDialog.value = false
+  _setEnvironment(stagedEnvironment.value)
+  stagedEnvironment.value = null
+}
+function _setEnvironment(environment: any) {
+  props.item.Environment = new EnvironmentInstance(props.item as Encounter, environment)
+}
+function loadUserPreset(preset: IEnvironmentData) {
+  setEnvironment(new Environment(preset))
+}
+async function savePreset() {
+  const base = props.item.Environment.Name.replace(/ \(\d+\)$/, '')
+  const existing = [
+    ...environments.value.map((e: any) => e.Name),
+    ...userPresets.value.map((p) => p.name),
+  ]
+  let name = base
+  if (existing.includes(name)) {
+    let i = 2
+    while (existing.includes(`${base} (${i})`)) i++
+    name = `${base} (${i})`
+  }
+  const preset: IEnvironmentData = {
+    id: uuid(),
+    name,
+    modified: false,
+    description: props.item.Environment.Description,
+  }
+  userPresets.value.push(preset)
+  await SetValue(STORAGE_KEY, userPresets.value)
+}
+async function confirmDeletePreset() {
+  userPresets.value.splice(stagedDeleteIndex.value, 1)
+  await SetValue(STORAGE_KEY, userPresets.value)
+  deleteConfirmDialog.value = false
+  stagedDeleteIndex.value = -1
+}
 </script>

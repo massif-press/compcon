@@ -203,35 +203,28 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import { PilotStore } from '../../store';
 import { PilotGroup } from '../../store/PilotGroup';
 import { teamName } from '@/io/Generators';
 import GroupFileImport from './add_panels/GroupFileImport.vue';
-import { useMobile } from '@/mixins/useMobile';
 
+const emit = defineEmits<{ close: [] }>()
 
-export default {
-  mixins: [useMobile],
-  name: 'GroupMenu',
-  components: { GroupFileImport },
-  emits: ['close'],
-  data: () => ({
-    group: {} as PilotGroup,
-    fileValue: null,
-    importHide: false,
-  }),
-  created: function () {
-    this.group = new PilotGroup();
-  },
-  methods: {
-    async randomName() {
-      this.group.Name = await teamName();
-    },
-    submit() {
-      PilotStore().AddGroup(this.group as PilotGroup);
-      this.$emit('close');
-    },
-  },
-};
+const { smAndDown: mobile } = useDisplay()
+
+const group = ref(new PilotGroup())
+const fileValue = ref(null)
+const importHide = ref(false)
+
+async function randomName() {
+  group.value.Name = await teamName()
+}
+
+function submit() {
+  PilotStore().AddGroup(group.value as PilotGroup)
+  emit('close')
+}
 </script>

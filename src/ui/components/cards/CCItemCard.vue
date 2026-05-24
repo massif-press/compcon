@@ -10,65 +10,44 @@
     :tier="tier" />
 </template>
 
-<script lang="ts">
-import logger from '@/user/logger';
-import * as cards from './items';
-import { useMobile } from '@/mixins/useMobile';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import * as cards from './items'
 
+const { smAndDown: mobile } = useDisplay()
 
-export default {
-  name: 'CCItemCard',
-  mixins: [useMobile],
-  props: {
-    item: Object,
-    notes: {
-      type: Boolean,
-    },
-    smallTags: {
-      type: Boolean,
-    },
-    dense: {
-      type: Boolean,
-    },
-    charts: {
-      type: Boolean,
-    },
-    collapseActions: {
-      type: Boolean,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-  },
-  computed: {
-    componentLoader(): any {
-      if (!this.item) {
-        logger.error('No item provided to CCItemCard', this);
-        return null;
-      }
+const props = defineProps<{
+  item?: Record<string, any>
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  charts?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
 
-      if (!this.item.ItemType && !this.item.type) {
-        if (this.item.id.startsWith('tg_')) {
-          return cards.TagCard;
-        }
-        logger.error('No item type provided to CCItemCard', this);
-        return null;
-      }
+const componentLoader = computed((): any => {
+  if (!props.item) {
+    if (import.meta.env.DEV) console.warn('No item provided to CCItemCard')
+    return null
+  }
 
-      let t = this.item.ItemType;
+  if (!props.item.ItemType && !props.item.type) {
+    if (props.item.id?.startsWith('tg_')) return (cards as any).TagCard
+    if (import.meta.env.DEV) console.warn('No item type provided to CCItemCard')
+    return null
+  }
 
-      if (t === 'NpcReaction' || t === 'NpcSystem') t = 'NpcTrait';
+  let t = props.item.ItemType
+  if (t === 'NpcReaction' || t === 'NpcSystem') t = 'NpcTrait'
+  t += 'Card'
 
-      t += 'Card';
+  if (!(cards as any)[t]) {
+    if (import.meta.env.DEV) console.warn(`No card found for item type ${t}`)
+    return null
+  }
 
-      if (!cards[t]) {
-        logger.error(`No card found for item type ${t}`, this);
-        return null;
-      }
-
-      return cards[t];
-    },
-  },
-};
+  return (cards as any)[t]
+})
 </script>

@@ -8,7 +8,7 @@ import * as _ from 'lodash-es'
 import { Npc } from '@/classes/npc/Npc'
 import { NavStore } from '@/stores/nav'
 import type { IndexItem } from '@/stores/nav'
-import { CloudController } from '@/classes/components'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 import logger from '@/user/logger'
 
 export const NpcStore = defineStore('npc', {
@@ -42,7 +42,9 @@ export const NpcStore = defineStore('npc', {
       return state.Npcs.filter(x => x.BrewController.MissingContent)
     },
     unitIndexes: (state): IndexItem[] => {
-      const units = state.Npcs.filter((x): x is Unit => x instanceof Unit && !x.SaveController.IsDeleted)
+      const units = state.Npcs.filter(
+        (x): x is Unit => x instanceof Unit && !x.SaveController.IsDeleted
+      )
       return units.map(x => ({
         id: x.ID,
         title: `${x.Name} ${
@@ -86,7 +88,7 @@ export const NpcStore = defineStore('npc', {
   actions: {
     async LoadNpcs(): Promise<void> {
       const all = await GetAll('npcs')
-      const npcs = (all
+      const npcs = all
         .filter(x => x.npcType === 'unit')
         .map(x => Unit.Deserialize(x as UnitData))
         .concat(
@@ -98,7 +100,7 @@ export const NpcStore = defineStore('npc', {
           all
             .filter(x => x.npcType === 'eidolon')
             .map(x => Eidolon.Deserialize(x as EidolonData)) as any[]
-        )) as Npc[]
+        ) as Npc[]
       for (const npc of npcs) {
         if ((npc as any).IsInstance) {
           logger.warn(`LoadNpcs: converting instanced NPC ${npc.ID} (${npc.Name}) to roster item`)
@@ -121,7 +123,7 @@ export const NpcStore = defineStore('npc', {
       )
 
       const idx = this.Folders.findIndex(x => x === payload.old)
-      if (idx >= 0) this.Folders[idx] = payload.newName
+      if (idx >= -1) this.Folders[idx] = payload.newName
     },
 
     RemoveFolder(payload: string): void {
@@ -130,12 +132,14 @@ export const NpcStore = defineStore('npc', {
       )
 
       const idx = this.Folders.findIndex(x => x === payload)
-      if (idx >= 0) this.Folders.splice(idx, 1)
+      if (idx >= -1) this.Folders.splice(idx, 1)
     },
 
     async AddNpc(payload: Unit | Doodad | Eidolon): Promise<void> {
       if ((payload as any).IsInstance) {
-        logger.warn(`AddNpc: converting instanced NPC ${payload.ID} (${payload.Name}) to roster item`)
+        logger.warn(
+          `AddNpc: converting instanced NPC ${payload.ID} (${payload.Name}) to roster item`
+        )
         ;(payload as any).IsInstance = false
         ;(payload as any).InstanceID = ''
         ;(payload as any).OriginId = ''
@@ -168,14 +172,16 @@ export const NpcStore = defineStore('npc', {
     },
 
     async DeleteNpcPermanent(payload: Unit | Doodad | Eidolon): Promise<void> {
-      const idx = this.Npcs.findIndex(x => x.ID === payload.ID)
-      logger.info(`Deleting NPC ${payload.ID} (${payload.Name})`, this)
-      if (idx >= 0) this.Npcs.splice(idx, 1)
-      NavStore().removeNpcEntry(payload.ID)
+      const id = payload.ID || (payload as any)._id
+      const idx = this.Npcs.findIndex(x => x.ID === id)
+      console.log(idx)
+      logger.info(`Deleting NPC ${id} (${payload.Name})`, this)
+      if (idx >= -1) this.Npcs.splice(idx, 1)
+      NavStore().removeNpcEntry(id)
       if (payload.PortraitController.LocalImage) {
         await RemoveItem('images', payload.PortraitController.LocalImage)
       }
-      await RemoveItem('npcs', payload.ID)
+      await RemoveItem('npcs', id)
       await this.SaveNpcData()
       if (payload.CloudController.ShareCode) {
         await CloudController.MarkCloudDeleted(payload.CloudController.Metadata)

@@ -1,71 +1,11 @@
 <template>
-  <cc-dialog :color="available ? fightColor : 'panel'"
-    :icon="fightIcon"
-    :title="action.Name"
-    :close-on-click="false"
-    min-width="70vw"
-    max-width="80vw"
-    no-gutters>
-    <template #activator="{ open }">
-      <v-btn block
-        flat
-        tile
-        size="small"
-        :color="available ? fightColor : 'panel'"
-        @click="open">
-        <span class="ml-1">
-          <v-icon :icon="fightIcon"
-            :color="available ? '' : 'error'"
-            start />
-          <v-tooltip v-if="!available"
-            location="top">
-            <template #activator="{ props }">
-              <v-icon v-bind="props"
-                icon="mdi-exclamation-thick"
-                color="error"
-                class="ml-n2" />
-            </template>
-            <div class="text-center text-cc-overline">Cannot activate</div>
-            <v-divider class="my-1" />
-            <div v-if="!canActivate">
-              <div v-if="!canUse">This action has already been used this turn.</div>
-              <div v-else>
-                Insufficient
-                <v-chip :color="fightColor"
-                  size="small"
-                  variant="elevated"
-                  :prepend-icon="fightIcon || ''">
-                  {{ action.Activation }}
-                </v-chip>
-                actions remaining this turn.
-              </div>
-            </div>
-            <div v-else-if="!canUse">This action has already been used this turn.</div>
-          </v-tooltip>
-        </span>
-        <v-tooltip location="top"
-          width="300">
-          <template #activator="{ props }">
-            <span v-bind="props">
-              {{ action.Name }}
-            </span>
-          </template>
-          <div class="d-flex">
-            <div class="heading h4 d-flex">{{ action.Name }}</div>
-            <v-spacer />
-            <v-chip size="x-small"
-              :color="fightColor"
-              :prepend-icon="fightIcon"
-              variant="elevated"
-              elevation="0">
-              {{ action.Activation }} Action
-            </v-chip>
-          </div>
-          <v-divider class="my-1" />
-          {{ action.Terse }}
-        </v-tooltip>
-      </v-btn>
-    </template>
+  <combat-action-button
+    :action="action"
+    :owner="owner"
+    :encounter="encounter"
+    :preset-weapon="presetWeapon"
+    :action-color="fightColor"
+    :action-icon="fightIcon">
     <template #default="{ close }">
       <div v-if="!presetWeapon"
         class="text-cc-overline text-disabled pl-3 py-2">
@@ -111,23 +51,19 @@
       </v-row>
 
       <div class="px-6">
-
         <pilot-weapon-attack v-if="selectedWeapon && event"
           :event="<WeaponAttackEvent>event"
           :owner="owner"
           :encounter="encounter"
           :weapon="<PilotWeapon>event.Weapon" />
-
       </div>
       <v-slide-y-transition>
         <staged-panel v-if="event && event.BaseEvent.Staged"
           :events=eventArray />
-
       </v-slide-y-transition>
 
       <v-divider />
       <div class="pa-4">
-
         <apply-button v-if="event"
           :event="<ActiveEffectEvent>event.BaseEvent"
           :weapon-event="<WeaponAttackEvent>event"
@@ -140,46 +76,28 @@
           @reset="reset($event)"
           @apply="apply" />
       </div>
-
     </template>
-  </cc-dialog>
+  </combat-action-button>
 </template>
 
 <script lang="ts">
-import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
-import { CombatantData } from '@/classes/encounter/Encounter';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
-import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
+import { CombatantData } from '@/classes/encounter/Encounter';
+import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon';
+import CombatActionButton from './CombatActionButton.vue';
+import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import StagedPanel from './_stagedPanel.vue';
-import { PilotWeapon } from '@/class';
 import PilotWeaponAttack from './_pilotWeaponAttack.vue';
 
 export default {
   name: 'PilotFightButton',
+  components: { CombatActionButton, ApplyButton, StagedPanel, PilotWeaponAttack },
   props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    presetWeapon: {
-      type: PilotWeapon,
-      required: false,
-    },
-  },
-  components: {
-    MenuInput,
-    ApplyButton,
-    StagedPanel,
-    PilotWeaponAttack
+    action: { type: Object, required: true },
+    owner: { type: Object, required: true },
+    encounter: { type: Object, required: true },
+    presetWeapon: { type: PilotWeapon, required: false },
   },
   data: () => ({
     event: null as WeaponAttackEvent | null,
@@ -189,20 +107,18 @@ export default {
     this.reset();
   },
   computed: {
-    available() {
-      return this.canActivate && this.canUse;
-    },
     controller() {
       return this.owner.actor.CombatController.ActiveActor.CombatController;
     },
-    canActivate() {
-      return this.controller.CanActivate(this.action.Activation);
+    fightIcon() {
+      if (this.presetWeapon && this.presetWeapon.IsSidearm) return 'mdi-hexagon-slice-3';
+      if (this.selectedWeapon && this.selectedWeapon.IsSidearm) return 'mdi-hexagon-slice-3';
+      return 'mdi-hexagon-slice-6';
     },
-    canUse() {
-      if (this.presetWeapon) {
-        return !this.controller.IsActionUsed(this.presetWeapon.InstanceID);
-      }
-      return !this.controller.IsActionUsed(this.action.ID);
+    fightColor() {
+      if (this.presetWeapon && this.presetWeapon.IsSidearm) return 'action--quick';
+      if (this.selectedWeapon && this.selectedWeapon.IsSidearm) return 'action--quick';
+      return 'action--full';
     },
     ordnanceWarning() {
       if (!this.selectedWeapon) return false;
@@ -213,27 +129,14 @@ export default {
     },
     fightWeapons() {
       const pilot = this.controller.RootActor;
-
       let arr = pilot.Loadout.Weapons;
-
       if (this.presetWeapon) {
-        arr = arr.filter(w => w.InstanceID === this.presetWeapon!.InstanceID);
+        arr = arr.filter((w) => w.InstanceID === this.presetWeapon!.InstanceID);
       }
-
       return arr;
     },
-    fightIcon() {
-      if (this.presetWeapon && this.presetWeapon.IsSidearm) return 'mdi-hexagon-slice-3'
-      else if (this.selectedWeapon && this.selectedWeapon.IsSidearm) return 'mdi-hexagon-slice-3'
-      return 'mdi-hexagon-slice-6'
-    },
-    fightColor() {
-      if (this.presetWeapon && this.presetWeapon.IsSidearm) return 'action--quick'
-      else if (this.selectedWeapon && this.selectedWeapon.IsSidearm) return 'action--quick'
-      return 'action--full'
-    },
     eventArray() {
-      return [this.event]
+      return [this.event];
     },
   },
   methods: {
@@ -242,18 +145,10 @@ export default {
       const self = this.encounter.Combatants.find(
         (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
       );
-      if (!self) {
-        throw new Error('Owner combatant not found in encounter');
-      }
-      if (!this.selectedWeapon && this.presetWeapon) {
-        this.selectedWeapon = this.presetWeapon;
-      }
-
-      if (!this.selectedWeapon)
-        return;
-
-      if (this.selectedWeapon)
-        this.event = new WeaponAttackEvent(this.selectedWeapon as PilotWeapon, self, this.encounter, 'Skirmish');
+      if (!self) throw new Error('Owner combatant not found in encounter');
+      if (!this.selectedWeapon && this.presetWeapon) this.selectedWeapon = this.presetWeapon;
+      if (!this.selectedWeapon) return;
+      this.event = new WeaponAttackEvent(this.selectedWeapon as PilotWeapon, self, this.encounter, 'Skirmish');
     },
     apply() {
       const actor = this.owner.actor.CombatController.ActiveActor.CombatController;

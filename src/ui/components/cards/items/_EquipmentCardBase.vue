@@ -39,6 +39,19 @@
     <slot name="statblock" />
   </div>
 
+  <div v-if="item.Trigger"
+    class="mb-2">
+    <div class="text-cc-overline text-disabled">
+      TRIGGER
+    </div>
+    <p v-if="tier"
+      v-html-safe="item.TriggerByTier(tier)"
+      class="text-text" />
+    <p v-else
+      v-html-safe="item.Trigger"
+      class="text-text" />
+  </div>
+
   <div v-if="item.Effect"
     class="mb-2">
     <p v-if="tier"
@@ -162,33 +175,21 @@
   </v-footer>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'EquipmentCardBase',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    hideTags: { type: Boolean },
-    hideBonuses: { type: Boolean },
-    charts: { type: Boolean },
-    footer: { type: Boolean },
-    collapseActions: {
-      type: Boolean,
-    },
-    tier: {
-      type: Number,
-      required: false,
-    },
-  },
-  computed: {
-    showFooter() {
-      return this.item.Tags.length > 0 || this.item.Bonuses.length > 0;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  item: Record<string, any>
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  hideTags?: boolean
+  hideBonuses?: boolean
+  charts?: boolean
+  footer?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
+
+const showFooter = computed(() => props.item.Tags.length > 0 || props.item.Bonuses.length > 0)
 </script>

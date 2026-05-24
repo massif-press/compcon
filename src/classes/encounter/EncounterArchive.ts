@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid'
-import { ItemType } from '@/class'
+import { ItemType } from '../enums'
 import {
   CloudController,
   ICloudData,

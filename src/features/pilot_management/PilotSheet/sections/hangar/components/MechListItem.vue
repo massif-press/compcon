@@ -1,225 +1,200 @@
 <template>
-  <div class="top-element"
-    style="position: relative">
-    <div :style="`background-color: ${mech.Frame.ManufacturerColor}`"
-      class="pip" />
-    <v-card id="pc-wrapper"
-      variant="outlined"
-      style="clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%, 0 18px)"
-      :color="mech.Frame.ManufacturerColor"
-      @click="$emit('go', mech)">
-      <v-card tile
-        :color="mech.Frame.ManufacturerColor"
-        style="
-          position: absolute;
-          z-index: 5;
-          clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
-        "
-        class="clipped-square-invert"
-        min-width="138px"
-        min-height="100%">
-        <div id="interior"
-          class="clipped-square-invert">
-          <cc-img :src="mech.Portrait"
-            position="top center"
-            height="100%"
-            cover />
-        </div>
-      </v-card>
+  <mech-list-item-base :mech="mech"
+    @go="$emit('go', $event)">
+    <template #default="{ contentMargin }">
+      <v-toolbar class="px-1"
+        height="26"
+        :color="mech.Frame.ManufacturerColor">
+        <span class="heading h3"
+          :style="`margin-left: ${contentMargin}px`">
+          {{ mech.Name }}
+        </span>
+        <span class="text-cc-overline px-2">
+          <cc-slashes />
+          {{ mech.Frame.Source }} {{ mech.Frame.Name }}
+        </span>
+        <v-spacer />
+        <v-icon :icon="mech.Frame.ManufacturerIcon" />
+      </v-toolbar>
 
-      <div style="width: 100%">
-        <v-toolbar class="px-1"
-          height="26"
-          :color="mech.Frame.ManufacturerColor">
-          <span class="heading h3"
-            style="margin-left: 138px">
-            {{ mech.Name }}
-          </span>
-          <span class="text-cc-overline px-2">
-            <cc-slashes />
-            {{ mech.Frame.Source }} {{ mech.Frame.Name }}
-          </span>
-          <v-spacer />
-          <v-icon :icon="mech.Frame.ManufacturerIcon" />
-        </v-toolbar>
-
-        <div style="border-top: 0"
-          class="light-panel">
-          <div style="margin-left: 137px; margin-top: -1px; padding-left: 8px; min-height: 100px">
-            <div class="flavor-text text-text">
-              <v-row align="center"
-                dense>
-                <v-col>
-                  <fieldset class="px-3">
-                    <legend class="px-2">
-                      Loadout//{{
-                        mech.MechLoadoutController.ActiveLoadout
-                          ? mech.MechLoadoutController.ActiveLoadout.Name
-                          : 'ERR'
-                      }}
-                    </legend>
-                    <div v-if="mech.MechLoadoutController.ActiveLoadout"
-                      class="pb-3">
-                      <span v-for="(item, i) in loadoutWeapons"
-                        :key="`weapon-${i}`">
-                        <span v-html-safe="item" />
-                        <cc-slashes v-if="i + 1 < loadoutWeapons.length"
-                          class="px-2" />
-                      </span>
-                      <br />
-                      <span v-for="(item, i) in loadoutSystems"
-                        :key="`system-${i}`">
-                        {{ i > 0 ? ' - ' : '' }}
-                        <span v-html-safe="item" />
-                      </span>
-                    </div>
-                  </fieldset>
-                  <v-row no-gutters
-                    justify="space-around">
-                    <v-col cols="auto">
-                      <span class="text-overline">
-                        STR
-                        <b>{{ mech.MaxStructure }}</b>
-                      </span>
-                    </v-col>
-                    <v-divider vertical
-                      class="mx-2" />
-                    <v-col cols="auto">
-                      <span class="text-overline">
-                        HP
-                        <b>{{ mech.MaxHP }}</b>
-                      </span>
-                    </v-col>
-                    <v-divider vertical
-                      class="mx-2" />
-                    <v-col cols="auto">
-                      <span class="text-overline">
-                        Stress
-                        <b>{{ mech.MaxStress }}</b>
-                      </span>
-                    </v-col>
-                    <v-divider vertical
-                      class="mx-2" />
-                    <v-col cols="auto">
-                      <span class="text-overline">
-                        Heat
-                        <b>{{ mech.HeatCapacity }}</b>
-                      </span>
-                    </v-col>
-                    <v-divider vertical
-                      class="mx-2" />
-                    <v-col cols="auto">
-                      <span class="text-overline">
-                        RepCap
-                        <b>{{ mech.RepairCapacity }}</b>
-                      </span>
-                    </v-col>
-                  </v-row>
-                </v-col>
-                <v-col cols="auto"
-                  class="pr-4">
-                  <v-tooltip location="top"
-                    :text="mech.Parent.FavoriteMech?.ID === mech.ID ? 'Unfavorite Mech' : 'Favorite Mech'">
-                    <template #activator="{ props }">
-                      <v-btn v-bind="props"
-                        size="x-small"
-                        icon
-                        :color="mech.Parent.FavoriteMech?.ID === mech.ID ? 'amber' : ''"
-                        variant="plain"
-                        @click.stop="mech.Parent.FavoriteMech?.ID === mech.ID ? mech.Parent.FavoriteMech = null : mech.Parent.FavoriteMech = mech">
-                        <v-icon size="22"
-                          :icon="mech.Parent.FavoriteMech?.ID === mech.ID ? 'mdi-star' : 'mdi-star-outline'" />
-                      </v-btn>
-                    </template>
-                  </v-tooltip>
-                  <cc-dialog :close-on-click="false"
-                    title="Delete Mech"
-                    color="error"
-                    icon="mdi-delete">
-                    <template #activator="{ open }">
-                      <v-tooltip text="Delete Mech">
-                        <template #activator="{ props }">
-                          <v-btn size="x-small"
-                            variant="text"
-                            tile
-                            icon
-                            v-bind="props"
-                            class="d-block"
-                            color="error"
-                            @click.stop="open">
-                            <v-icon size="22">
-                              mdi-delete
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                      </v-tooltip>
-                    </template>
-                    <cc-confirmation :content="`Lancer, please confirm deletion of Mech Configuration:
+      <div style="border-top: 0"
+        class="light-panel">
+        <div :style="`margin-left: ${contentMargin}px; margin-top: -1px; padding-left: 8px; min-height: 100px`">
+          <div class="flavor-text text-text">
+            <v-row align="center"
+              dense>
+              <v-col>
+                <fieldset class="px-3">
+                  <legend class="px-2">
+                    Loadout//{{
+                      mech.MechLoadoutController.ActiveLoadout
+                        ? mech.MechLoadoutController.ActiveLoadout.Name
+                        : 'ERR'
+                    }}
+                  </legend>
+                  <div v-if="mech.MechLoadoutController.ActiveLoadout"
+                    class="pb-3">
+                    <span v-for="(item, i) in loadoutWeapons"
+                      :key="`weapon-${i}`">
+                      <span v-html-safe="item" />
+                      <cc-slashes v-if="i + 1 < loadoutWeapons.length"
+                        class="px-2" />
+                    </span>
+                    <br />
+                    <span v-for="(item, i) in loadoutSystems"
+                      :key="`system-${i}`">
+                      {{ i > 0 ? ' - ' : '' }}
+                      <span v-html-safe="item" />
+                    </span>
+                  </div>
+                </fieldset>
+                <v-row no-gutters
+                  justify="space-around">
+                  <v-col cols="auto">
+                    <span class="text-overline">
+                      STR
+                      <b>{{ mech.MaxStructure }}</b>
+                    </span>
+                  </v-col>
+                  <v-divider vertical
+                    class="mx-2" />
+                  <v-col cols="auto">
+                    <span class="text-overline">
+                      HP
+                      <b>{{ mech.MaxHP }}</b>
+                    </span>
+                  </v-col>
+                  <v-divider vertical
+                    class="mx-2" />
+                  <v-col cols="auto">
+                    <span class="text-overline">
+                      Stress
+                      <b>{{ mech.MaxStress }}</b>
+                    </span>
+                  </v-col>
+                  <v-divider vertical
+                    class="mx-2" />
+                  <v-col cols="auto">
+                    <span class="text-overline">
+                      Heat
+                      <b>{{ mech.HeatCapacity }}</b>
+                    </span>
+                  </v-col>
+                  <v-divider vertical
+                    class="mx-2" />
+                  <v-col cols="auto">
+                    <span class="text-overline">
+                      RepCap
+                      <b>{{ mech.RepairCapacity }}</b>
+                    </span>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col cols="auto"
+                class="pr-4">
+                <v-tooltip location="top"
+                  :text="mech.Parent.FavoriteMech?.ID === mech.ID ? 'Unfavorite Mech' : 'Favorite Mech'">
+                  <template #activator="{ props }">
+                    <v-btn v-bind="props"
+                      size="x-small"
+                      icon
+                      :color="mech.Parent.FavoriteMech?.ID === mech.ID ? 'amber' : ''"
+                      variant="plain"
+                      @click.stop="mech.Parent.FavoriteMech?.ID === mech.ID ? mech.Parent.FavoriteMech = null : mech.Parent.FavoriteMech = mech">
+                      <v-icon size="22"
+                        :icon="mech.Parent.FavoriteMech?.ID === mech.ID ? 'mdi-star' : 'mdi-star-outline'" />
+                    </v-btn>
+                  </template>
+                </v-tooltip>
+                <cc-dialog :close-on-click="false"
+                  title="Delete Mech"
+                  color="error"
+                  icon="mdi-delete">
+                  <template #activator="{ open }">
+                    <v-tooltip text="Delete Mech">
+                      <template #activator="{ props }">
+                        <v-btn size="x-small"
+                          variant="text"
+                          tile
+                          icon
+                          v-bind="props"
+                          class="d-block"
+                          color="error"
+                          @click.stop="open">
+                          <v-icon size="22">
+                            mdi-delete
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                  </template>
+                  <cc-confirmation full-width
+                    :content="`Lancer, please confirm deletion of Mech Configuration:
           <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"
-                      @confirm="$emit('delete', mech)" />
-                  </cc-dialog>
-                  <cc-dialog :close-on-click="false"
-                    title="Duplicate Mech"
-                    icon="mdi-content-copy">
-                    <template #activator="{ open }">
-                      <v-tooltip text="Duplicate Mech">
-                        <template #activator="{ props }">
-                          <v-btn size="x-small"
-                            variant="text"
-                            icon
-                            tile
-                            v-bind="props"
-                            class="d-block"
-                            @click.stop="open">
-                            <v-icon size="22">
-                              mdi-content-copy
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                      </v-tooltip>
-                    </template>
-                    <cc-confirmation :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:
+                    @confirm="$emit('delete', mech)" />
+                </cc-dialog>
+                <cc-dialog :close-on-click="false"
+                  title="Duplicate Mech"
+                  icon="mdi-content-copy">
+                  <template #activator="{ open }">
+                    <v-tooltip text="Duplicate Mech">
+                      <template #activator="{ props }">
+                        <v-btn size="x-small"
+                          variant="text"
+                          icon
+                          tile
+                          v-bind="props"
+                          class="d-block"
+                          @click.stop="open">
+                          <v-icon size="22">
+                            mdi-content-copy
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                  </template>
+                  <cc-confirmation :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:
           <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"
-                      @confirm="$emit('copy', mech)" />
-                  </cc-dialog>
-                  <v-tooltip text="Print Mech Sheet">
-                    <template #activator="{ props }">
-                      <v-btn size="x-small"
-                        variant="text"
-                        icon
-                        tile
-                        v-bind="props"
-                        class="d-block"
-                        @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)">
-                        <v-icon size="22">
-                          mdi-printer
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                  </v-tooltip>
-                </v-col>
-              </v-row>
-            </div>
+                    @confirm="$emit('copy', mech)" />
+                </cc-dialog>
+                <v-tooltip text="Print Mech Sheet">
+                  <template #activator="{ props }">
+                    <v-btn size="x-small"
+                      variant="text"
+                      icon
+                      tile
+                      v-bind="props"
+                      class="d-block"
+                      @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)">
+                      <v-icon size="22">
+                        mdi-printer
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                </v-tooltip>
+              </v-col>
+            </v-row>
           </div>
         </div>
       </div>
-    </v-card>
-  </div>
+    </template>
+  </mech-list-item-base>
 </template>
 
 <script lang="ts">
+import MechListItemBase from './MechListItemBase.vue';
+
 export default {
   name: 'mech-list-item',
+  components: { MechListItemBase },
   props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
+    mech: { type: Object, required: true },
   },
+  emits: ['go', 'delete', 'copy'],
   computed: {
     loadoutWeapons() {
       const output = [] as string[];
@@ -241,7 +216,6 @@ export default {
           output.push(str);
         }
       }
-
       return output;
     },
     loadoutSystems() {
@@ -250,39 +224,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#pc-wrapper {
-  position: relative;
-  min-height: 138px;
-  min-width: 100%;
-  cursor: pointer;
-  margin-bottom: 12px;
-  border-radius: 0;
-}
-
-#interior {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  bottom: 2px;
-  right: 2px;
-  background-color: rgb(var(--v-theme-light-panel));
-}
-
-.pip {
-  width: 15px;
-  height: 15px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  opacity: 1;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-  transition: all 0.2s ease-in-out;
-}
-
-.top-element:hover .pip {
-  filter: brightness(1.2) saturate(150%) hue-rotate(20deg);
-  background-color: rgb(var(--v-theme-success)) !important;
-}
-</style>

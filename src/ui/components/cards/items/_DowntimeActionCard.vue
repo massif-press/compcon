@@ -31,30 +31,26 @@
   </v-table>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcDowntimeActionCard',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    notes: { type: Boolean },
-    smallTags: { type: Boolean },
-    dense: { type: Boolean },
-    charts: { type: Boolean },
-    collapseActions: { type: Boolean },
-    tier: { type: Number },
-  },
-  computed: {
-    diceQuantity(): number {
-      if (!this.item.Table) return 0;
-      return this.item.Table.die.split('d')[0] || 1;
-    },
-    diceIcon(): string {
-      if (!this.item.Table) return 'mdi-dice-d6';
-      return `mdi-dice-d${this.item.Table.die.split('d')[1]}`;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  item: object & { Table?: { die: string, results: any[] } }
+  notes?: boolean
+  smallTags?: boolean
+  dense?: boolean
+  charts?: boolean
+  collapseActions?: boolean
+  tier?: number
+}>()
+
+const diceQuantity = computed<number>(() => {
+  if (!(props.item as any).Table) return 0
+  return (props.item as any).Table.die.split('d')[0] || 1
+})
+
+const diceIcon = computed<string>(() => {
+  if (!(props.item as any).Table) return 'mdi-dice-d6'
+  return `mdi-dice-d${(props.item as any).Table.die.split('d')[1]}`
+})
 </script>
