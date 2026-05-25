@@ -6,6 +6,7 @@ import {
   NotFoundError,
 } from '@/io/apis/account'
 import { CloudController } from '@/classes/components/cloud/CloudController'
+import { AuthStore } from './AuthStore'
 import { UserMetadataStore } from './UserMetadataStore'
 import { CloudDataStore } from './CloudDataStore'
 import { NotificationStore } from './NotificationStore'
@@ -139,8 +140,8 @@ export const RemoteItemStore = defineStore('remoteItems', {
         if (item.deleted) continue
         const localItem = cloudDataStore.getLocalItem(item.sortkey)
         if (localItem) {
-          const isOwnCloudItem = cloudDataStore.CloudItems.some(ci => ci.sortkey === item.sortkey)
-          if (!isOwnCloudItem) {
+          const isOwned = item.user_id === AuthStore().Cognito?.userId
+          if (!isOwned) {
             toRaw(localItem).CloudController.Metadata = item
           }
         } else {
@@ -166,7 +167,7 @@ export const RemoteItemStore = defineStore('remoteItems', {
 
       const codeToExpectedId = new Map<string, string>()
       for (const item of data) {
-        codeToExpectedId.set(item.code, item.sortkey.split('_')[2])
+        codeToExpectedId.set(item.code, item.sortkey.split('_').slice(2).join('_'))
       }
 
       const { SyncStore } = await import('./SyncStore')

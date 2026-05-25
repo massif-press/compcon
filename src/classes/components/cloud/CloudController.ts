@@ -201,8 +201,8 @@ class CloudController {
     if (!this._metadata?.Updated) return false
     if (!this._lastUploadedItemModified) return false
     if (this.Parent.SaveController?.IsDeleted && !this._metadata.Deleted) return false
-    const localModified =
-      this.Parent.SaveController.LastModified || this.Parent.SaveController.Created
+    const sc = this.Parent.SaveController
+    const localModified = sc?.LastModified || sc?.Created || 0
     return (
       this._lastUploadedItemModified >= this._metadata.ItemModified &&
       this._lastUploadedItemModified >= localModified
@@ -400,14 +400,36 @@ class CloudController {
         continue
       }
 
+      if (toRaw(item).SaveController?.IsDeleted && !item.CloudController._metadata?.Deleted) {
+        const sc = toRaw(item).SaveController
+        const deletedMeta: dbItemMeta = {
+          ...item.CloudController.Metadata.Serialize(),
+          item_modified: sc.LastModified,
+          deleted: sc.DeleteTime,
+        }
+        try {
+          const res = await updateItem(deletedMeta, 'item')
+          if (res.data) {
+            item.CloudController.Metadata = { ...deletedMeta, ...res.data }
+          }
+          item.CloudController._lastUploadedItemModified = sc.LastModified
+          toRaw(item).SaveController.saveSilent()
+        } catch (e) {
+          failures.push({ item, error: e })
+        }
+        continue
+      }
+
       if (!item.CloudController._lastFieldHashes) {
         const hasPriorSync = Object.keys(item.CloudController._fieldTs).length > 0
         const hasServerRecord = !!item.CloudController._metadata?.Updated
         if (hasPriorSync || hasServerRecord) {
-          try {
-            await item.CloudController.syncFromCloud()
-          } catch (syncErr) {
-            failures.push({ item, error: syncErr })
+          if (!toRaw(item).SaveController?.IsDeleted) {
+            try {
+              await item.CloudController.syncFromCloud()
+            } catch (syncErr) {
+              failures.push({ item, error: syncErr })
+            }
           }
           continue
         }
@@ -415,7 +437,7 @@ class CloudController {
 
       const prepared = CloudController.prepareUpload(item)
       if (!prepared) {
-        if (item.CloudController.serverVersionChanged) {
+        if (item.CloudController.serverVersionChanged && !toRaw(item).SaveController?.IsDeleted) {
           try {
             await item.CloudController.syncFromCloud()
           } catch (syncErr) {
@@ -510,7 +532,7 @@ class CloudController {
               logger.error(`BatchUpdateCloud upload failed: ${task.item.Name}`, r.reason)
               failures.push({ item: task.item, error: r.reason })
               compensations.push(
-                updateItem(task.previousMeta).catch(err =>
+                updateItem(toRaw(task.item).SaveController?.IsDeleted ? task.meta : task.previousMeta).catch(err =>
                   logger.warn(
                     `BatchUpdateCloud: DynamoDB compensation failed for ${task.item.Name}`,
                     err

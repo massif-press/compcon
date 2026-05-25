@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { toRaw } from 'vue'
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
 import type { ICloudSyncable } from '@/classes/components/cloud/ICloudSyncable'
 import { normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
@@ -48,7 +47,7 @@ export const SyncStore = defineStore('sync', {
       const localIds = new Set(this.AllLocalItems.map(y => y.ID))
       const raw = cdStore.CloudItems.filter(x => {
         if (x.deleted) return false
-        const itemId = x.sortkey.split('_')[2]
+        const itemId = x.sortkey.split('_').slice(2).join('_')
         return !localIds.has(itemId)
       })
 
@@ -56,7 +55,7 @@ export const SyncStore = defineStore('sync', {
         raw: x,
         IsCloudOnly: true,
         Name: x.name,
-        ID: x.sortkey.split('_')[2],
+        ID: x.sortkey.split('_').slice(2).join('_'),
         ItemType: x.sortkey.split('_')[1],
         CloudController: {
           Metadata: new DbItemMetadata(x),
@@ -86,7 +85,7 @@ export const SyncStore = defineStore('sync', {
         const t = normalizeItemType(x.ItemType)
         if (t === 'encounterarchive') return false
         if (t === 'pilotsheet' && (x as any).Archived) {
-          return cdStore.CloudItems.some(ci => ci.sortkey === x.CloudController.Metadata.SortKey)
+          return !!x.CloudController.Metadata?.Updated
         }
         return cdStore.SyncItemTypes.includes(t)
       }).filter(x => !x.CloudController.isSynced)
@@ -285,7 +284,11 @@ export const SyncStore = defineStore('sync', {
       for (const [type, reg] of allRegistrations()) {
         if (type === 'campaign' || type === 'pilotgroup') continue
         for (const item of reg.getAll() as any[]) {
-          if (item.SaveController?.IsDeleted && item.SaveController.DeleteTime < threshold) {
+          if (
+            item.SaveController?.IsDeleted &&
+            item.SaveController.DeleteTime < threshold &&
+            !!item.CloudController?.Metadata?.Deleted
+          ) {
             promises.push(
               reg.deleteLocal(item).then(() => {
                 deleted.push(`Permanently Deleted ${type}: ${item.Name ?? item.Title ?? item.ID}`)
