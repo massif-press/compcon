@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog"
     :width="mobile ? '100vw' : '50vw'">
     <v-card tile>
-      <component :is="multiline ? 'v-textarea' : 'v-text-field'"
+      <component :is="getComponent"
         v-model="newString"
         :label="label"
         :placeholder="placeholder"
@@ -37,6 +37,7 @@
 
 <script lang="ts">
 import { useMobile } from '@/composables/useMobile';
+import { VTextarea, VTextField } from 'vuetify/components';
 
 export default {
   name: 'CCStringEditDialog',
@@ -68,6 +69,13 @@ export default {
     newString: '',
     dialog: false,
   }),
+  computed: {
+    getComponent() {
+      if (this.multiline) return VTextarea;
+      if (this.number) return VTextField;
+      return VTextField;
+    },
+  },
   methods: {
     save() {
       if (this.newString) this.$emit('save', this.newString);
