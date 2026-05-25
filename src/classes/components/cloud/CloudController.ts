@@ -200,6 +200,7 @@ class CloudController {
   public get isSynced(): boolean {
     if (!this._metadata?.Updated) return false
     if (!this._lastUploadedItemModified) return false
+    if (this.Parent.SaveController?.IsDeleted && !this._metadata.Deleted) return false
     const localModified =
       this.Parent.SaveController.LastModified || this.Parent.SaveController.Created
     return (
@@ -253,6 +254,7 @@ class CloudController {
     this.Metadata.ItemModified = rawParent.SaveController.LastModified
     this.Metadata.Name = rawParent.Name
     this.Metadata.Size = CloudController.stringifySafe(savedata).length
+    if (rawParent.SaveController?.IsDeleted) this.Metadata.Deleted = rawParent.SaveController.DeleteTime
 
     const previousMetadata = this.Metadata.raw ? { ...this.Metadata.raw } : null
 
@@ -446,11 +448,13 @@ class CloudController {
         const chunkData = chunk.map(item => {
           const previousMeta = item.CloudController.Metadata.Serialize()
           const savedata = (item as any).__pendingSavedata
+          const sc = toRaw(item).SaveController
           const meta: dbItemMeta = {
             ...previousMeta,
-            item_modified: toRaw(item).SaveController.LastModified,
+            item_modified: sc.LastModified,
             name: item.Name,
             size: CloudController.stringifySafe(savedata).length,
+            ...(sc?.IsDeleted ? { deleted: sc.DeleteTime } : {}),
           }
           ;(meta as any).itemScope = 'item'
           return { item, previousMeta, savedata, meta }

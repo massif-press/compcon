@@ -323,7 +323,7 @@ class Statblock {
     )} | ARMOR: ${npc.StatController.getMax('Armor')} | HP: ${npc.StatController.getMax('hp')}\n`
     output += `  STRESS: ${npc.StatController.getMax(
       'Stress'
-    )} | HEATCAP: ${npc.StatController.getMax('heat')} | SPD: ${npc.StatController.getMax(
+    )} | HEATCAP: ${npc.StatController.getMax('heatcap')} | SPD: ${npc.StatController.getMax(
       'Speed'
     )}\n`
     output += `  SAVE: ${npc.StatController.getMax(
@@ -361,7 +361,7 @@ class Statblock {
     output += `ACTIVATIONS: ${npc.StatController.getCurrent('activations')} / ${npc.StatController.getMax('activations')}\n`
 
     output += `STRUCT: ${npc.StatController.getCurrent('structure')} / ${npc.StatController.getMax('structure')} | ARMOR: ${npc.StatController.getMax('armor')} | HP: ${npc.StatController.getCurrent('hp')} / ${npc.StatController.getMax('hp')}\n`
-    output += `STRESS: ${npc.StatController.getCurrent('stress')} / ${npc.StatController.getMax('stress')} | HEATCAP: ${npc.StatController.getCurrent('heat')} / ${npc.StatController.getMax('heat')} | SPD: ${npc.StatController.getCurrent('speed')} / ${npc.StatController.getMax('speed')}\n\n`
+    output += `STRESS: ${npc.StatController.getCurrent('stress')} / ${npc.StatController.getMax('stress')} | HEAT: ${npc.StatController.getCurrent('heatcap')} / ${npc.StatController.getMax('heatcap')} | SPD: ${npc.StatController.getCurrent('speed')} / ${npc.StatController.getMax('speed')}\n\n`
 
     output += `H: ${npc.StatController.getMax('Hull')} | A: ${npc.StatController.getMax(
       'Agi'

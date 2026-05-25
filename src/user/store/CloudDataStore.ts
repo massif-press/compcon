@@ -182,7 +182,22 @@ export const CloudDataStore = defineStore('cloudData', {
         }
         const newSizeMap: Record<string, number> = {}
         result.items.forEach((item: any) => {
-          if (item.deleted) return
+          if (item.deleted) {
+            const localItem = this.getLocalItem(item.sortkey)
+            if (localItem) {
+              toRaw(localItem).CloudController.Metadata = item
+              const raw = toRaw(localItem) as any
+              if (raw.SaveController && !raw.SaveController.IsDeleted) {
+                raw.SaveController.DeleteTime = item.deleted
+                raw.SaveController.saveSilent?.()
+                notifStore.addCloudNotification(
+                  `"${item.name}" was deleted on another device.`,
+                  'warning'
+                )
+              }
+            }
+            return
+          }
           const localItem = this.getLocalItem(item.sortkey)
           if (item.size && !isNaN(item.size)) newSizeMap[item.sortkey] = item.size
           if (localItem) {
@@ -206,6 +221,7 @@ export const CloudDataStore = defineStore('cloudData', {
             delete this.CloudSizeMap[item.sortkey]
             this.CloudItems = this.CloudItems.filter(x => x.sortkey !== item.sortkey)
             if (localItem) {
+              toRaw(localItem).CloudController.Metadata = item
               const raw = toRaw(localItem) as any
               if (raw.SaveController && !raw.SaveController.IsDeleted) {
                 raw.SaveController.DeleteTime = item.deleted

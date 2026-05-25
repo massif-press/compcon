@@ -129,7 +129,11 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
       this.Combatants.forEach((combatant, index) => {
         combatant.index = index
-        combatant.actor.SetStats()
+        if (combatant.type === 'pilot') {
+          combatant.actor.SetStats()
+        } else {
+          combatant.actor.CombatController.StatController.applyRegisteredCustomStats()
+        }
         if (combatant.actor.FeatureController?.BonusController)
           combatant.actor.FeatureController.BonusController.applyToStats(
             combatant.actor.CombatController.StatController,

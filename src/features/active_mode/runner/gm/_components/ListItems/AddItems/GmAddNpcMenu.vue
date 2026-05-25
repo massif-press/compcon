@@ -117,7 +117,7 @@ export default {
       const number =
         this.encounterInstance.Combatants.filter((c) => c.actor.Name === npc.Name).length + 1;
 
-      npc.SetStats();
+      npc.CombatController.StatController.applyRegisteredCustomStats()
       npc.FeatureController.BonusController.applyToStats(npc.CombatController.StatController, this.encounterInstance)
       npc.CombatController.StatController.resetCurrentStats()
       npc.CombatController.Reset();

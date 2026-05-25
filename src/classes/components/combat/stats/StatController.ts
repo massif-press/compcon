@@ -319,7 +319,6 @@ class StatController {
         }
       }
     } else {
-      parent.Parent.SetStats()
       parent.StatController.resetCurrentStats()
     }
   }

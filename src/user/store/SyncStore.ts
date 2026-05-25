@@ -79,10 +79,15 @@ export const SyncStore = defineStore('sync', {
       const cdStore = CloudDataStore()
       const umStore = UserMetadataStore()
       return this.AllSyncableItems.filter(x => {
-        if (x.SaveController?.IsDeleted) return false
+        if (x.SaveController?.IsDeleted) {
+          return !!x.CloudController.Metadata?.Updated && !x.CloudController.Metadata?.Deleted
+        }
         if (umStore.V2BackupIds.includes(x.ID)) return false
         const t = normalizeItemType(x.ItemType)
         if (t === 'encounterarchive') return false
+        if (t === 'pilotsheet' && (x as any).Archived) {
+          return cdStore.CloudItems.some(ci => ci.sortkey === x.CloudController.Metadata.SortKey)
+        }
         return cdStore.SyncItemTypes.includes(t)
       }).filter(x => !x.CloudController.isSynced)
     },

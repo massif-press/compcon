@@ -138,8 +138,8 @@
           </template>
           <div class="text-center">
             {{ item.SaveController?.IsDeleted ?
-              'Deleted locally — will not sync.'
-              : 'Marked as deleted in cloud.' }}
+              `Deleted locally`
+              : `Marked as deleted in cloud.` }}
           </div>
         </v-tooltip>
         <v-tooltip v-else-if="isItemSynced(item)"
@@ -276,10 +276,45 @@
             <div class="text-center">
               Restore
               <br />
-              <i class="text-caption">Restore this item locally. It will resume syncing
-                normally.</i>
+              <i class="text-caption">Restore this item locally.</i>
             </div>
           </v-tooltip>
+          <v-menu offset-y>
+            <template #activator="{ props }">
+              <v-btn size="small"
+                color="accent"
+                icon
+                variant="text"
+                :disabled="cloudStorageFull"
+                v-bind="props">
+                <v-tooltip max-width="300px"
+                  location="top">
+                  <template #activator="{ props }">
+                    <v-icon size="x-large"
+                      v-bind="props">
+                      mdi-cloud-braces
+                    </v-icon>
+                  </template>
+                  <div class="text-center">Manual Controls</div>
+                </v-tooltip>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item title="Sync Now"
+                subtitle="Merge and sync this item immediately."
+                @click="sync(item)" />
+              <v-list-item v-if="!item._isRemote"
+                title="Force Upload"
+                subtitle="Push local data to cloud unconditionally, overwriting remote."
+                :disabled="!item.SaveController"
+                @click="forceSyncLocal(item)" />
+              <v-list-item v-if="!item._isRemote"
+                title="Force Download"
+                subtitle="Merge latest cloud data into this item, preserving any newer local fields."
+                :disabled="!item.CloudController?.Metadata?.Updated"
+                @click="forceSyncCloud(item)" />
+            </v-list>
+          </v-menu>
           <v-dialog max-width="600px">
             <template #activator="{ props }">
               <v-btn size="x-small"
@@ -524,9 +559,6 @@
                 <v-card-text>
                   Deleting this item will mark it as deleted in the cloud. It will not delete this
                   item locally, but will prevent it from syncing to the cloud or to other devices.
-                  Deleted items can be recovered via the "Deleted Items" tab. Recoverable items
-                  still
-                  count towards your storage limit.
                   <v-checkbox v-model="skipDeleteWarning"
                     label="Do not show this warning again"
                     hide-details />
@@ -768,7 +800,8 @@ const shownItems = computed(() => {
 
   const baseItems = allSyncableItems.value.filter((item: any) => {
     const t = normalizeItemType(item.ItemType)
-    if (t === 'encounterarchive' || t === 'pilotsheet') return false
+    if (t === 'encounterarchive') return false
+    if (t === 'pilotsheet' && item.Archived) return false
     if (typeFilter.length && !typeFilter.includes(t)) return false
     if (!showLocalDeleted.value && item.SaveController?.IsDeleted) return false
     if (props.search && !item.Name.toLowerCase().includes(props.search.toLowerCase())) return false
@@ -791,9 +824,7 @@ const shownItems = computed(() => {
     }
   })
 
-  const combined = [...baseItems, ...remoteItems]
-
-  return sortWithChildren(combined)
+  return sortWithChildren([...baseItems, ...remoteItems])
 })
 
 function itemLine1(item: any): string {
@@ -820,8 +851,11 @@ function itemLine2(item: any): string | null {
     if (sitrep || env) return [env, sitrep].filter(Boolean).join(' // ')
     return null
   }
-  else if (t === 'encounterinstance') {
-    return `Active Encounter // Round ${(item as any)._round || '?'}`
+  else if (t === 'encounterinstance' || t === 'pilotsheet') {
+    return `Active Encounter // Round ${(item as any)._round || (item as any)._round || '?'}`
+  }
+  else if (t === 'encounterarchive' || t === 'pilotsheetarchive') {
+    return `Archive`
   }
   return null
 }

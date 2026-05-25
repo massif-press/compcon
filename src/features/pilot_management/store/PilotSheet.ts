@@ -72,6 +72,10 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     CloudController.Deserialize(this, data.cloud)
   }
 
+  public get PilotID(): string {
+    return this.Combatant.actor.ID
+  }
+
   public static FromPilot(pilot: Pilot, campaign?: string) {
     pilot.SetStats()
     pilot.FeatureController.BonusController.applyToStats(pilot.CombatController.StatController)

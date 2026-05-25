@@ -85,6 +85,7 @@ class SaveController {
 
   public Delete() {
     this.DeleteTime = new Date().getTime()
+    this.LastModified = this.DeleteTime
     this.save()
   }
 
