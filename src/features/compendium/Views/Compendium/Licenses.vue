@@ -12,11 +12,11 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/stores';
+import { CompendiumStore, UserStore } from '@/stores';
 import License from '@/classes/pilot/components/license/License'
 
 export default {
-  name: 'licenses',
+  name: 'Licenses',
 
   data: () => ({
     headers: [
@@ -32,6 +32,7 @@ export default {
       groups: ['source', 'lcp', 'none'],
       initialGroup: 'source',
       noSource: true,
+      showExotics: UserStore().User.Option('showExotics') as boolean,
     },
   }),
   computed: {

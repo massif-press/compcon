@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
 import { getUserDataChanged, bulkDelete, cloudDelete } from '@/io/apis/account'
-import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
+import { DbItemMetadata } from '@/classes/components/cloud/CloudController'
 import type { dbItemMeta } from '@/classes/components/cloud/CloudController'
 import { getItemRegistration } from '@/classes/components/cloud/ItemRegistry'
 import { normalizeItemType, expandFilterTypes } from '@/classes/components/cloud/ItemTypeMap'
@@ -43,10 +43,13 @@ export const CloudDataStore = defineStore('cloudData', {
     UserPublishedCollections: [] as dbItemMeta[],
     RemoteCollections: [] as dbItemMeta[],
     LastQuery: 0,
-    CloudStorageUsed: 0,
+    CloudSizeMap: {} as Record<string, number>,
     SyncVersion: 0,
   }),
   getters: {
+    CloudStorageUsed(): number {
+      return Object.values(this.CloudSizeMap).reduce((a: number, b: number) => a + b, 0)
+    },
     MaxCloudStorage(): number {
       const tier =
         UserMetadataStore().UserMetadata?.PatreonData?.profile?.tierData?.title?.toLowerCase() ?? ''
@@ -86,6 +89,7 @@ export const CloudDataStore = defineStore('cloudData', {
       this.CloudArchives = []
       this.CloudImages = []
       this.UserPublishedCollections = []
+      this.CloudSizeMap = {}
       _isFirstMetadataLoad = true
     },
     getLocalItem(sortkey: string): SyncableItem | undefined {
@@ -176,18 +180,18 @@ export const CloudDataStore = defineStore('cloudData', {
         if (authStore.Cognito.userId) {
           localStorage.setItem(`cc_last_query_${authStore.Cognito.userId}`, String(this.LastQuery))
         }
-        let totalSizeBytes = 0
+        const newSizeMap: Record<string, number> = {}
         result.items.forEach((item: any) => {
           if (item.deleted) return
           const localItem = this.getLocalItem(item.sortkey)
-          if (item.size && !isNaN(item.size)) totalSizeBytes += item.size
+          if (item.size && !isNaN(item.size)) newSizeMap[item.sortkey] = item.size
           if (localItem) {
             toRaw(localItem).CloudController.Metadata = item
           } else {
             this.setCloudDataItem(item)
           }
         })
-        this.CloudStorageUsed = totalSizeBytes
+        this.CloudSizeMap = newSizeMap
       } else {
         const result = await getUserDataChanged(authStore.Cognito.userId!, this.LastQuery)
         this.LastQuery = result.serverTime
@@ -196,10 +200,10 @@ export const CloudDataStore = defineStore('cloudData', {
           localStorage.setItem(`cc_last_query_${authStore.Cognito.userId}`, String(this.LastQuery))
         }
 
-        let totalSizeBytes = this.CloudStorageUsed
         result.items.forEach((item: any) => {
           const localItem = this.getLocalItem(item.sortkey)
           if (item.deleted) {
+            delete this.CloudSizeMap[item.sortkey]
             this.CloudItems = this.CloudItems.filter(x => x.sortkey !== item.sortkey)
             if (localItem) {
               const raw = toRaw(localItem) as any
@@ -214,17 +218,17 @@ export const CloudDataStore = defineStore('cloudData', {
             }
             return
           }
+          if (item.size && !isNaN(item.size)) {
+            this.CloudSizeMap[item.sortkey] = item.size
+          } else {
+            delete this.CloudSizeMap[item.sortkey]
+          }
           if (localItem) {
-            const oldSize = localItem.CloudController?.Metadata?.Size || 0
-            const newSize = item.size && !isNaN(item.size) ? item.size : 0
-            totalSizeBytes += newSize - oldSize
             toRaw(localItem).CloudController.Metadata = item
           } else {
-            if (item.size && !isNaN(item.size)) totalSizeBytes += item.size
             this.setCloudDataItem(item)
           }
         })
-        this.CloudStorageUsed = totalSizeBytes
       }
 
       const { RemoteItemStore } = await import('./RemoteItemStore')

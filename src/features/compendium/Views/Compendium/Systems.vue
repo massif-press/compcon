@@ -26,6 +26,7 @@ export default {
       initialView: 'single',
       groups: ['source', 'lcp', 'license', 'none'],
       initialGroup: 'license',
+      showExotics: UserStore().User.Option('showExotics') as boolean,
     },
     headers: [
       { title: '', align: 'left', key: 'Source' },
@@ -33,7 +34,6 @@ export default {
       { title: 'License', key: 'License' },
       { title: 'License Level', align: 'center', key: 'LicenseLevel' },
       { title: 'Tags', align: 'center', key: 'Tags' },
-
       { title: 'SP Cost', align: 'center', key: 'SP' },
     ],
   }),

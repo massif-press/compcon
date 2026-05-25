@@ -82,7 +82,7 @@ export const SyncStore = defineStore('sync', {
         if (x.SaveController?.IsDeleted) return false
         if (umStore.V2BackupIds.includes(x.ID)) return false
         const t = normalizeItemType(x.ItemType)
-        if (t === 'encounterarchive' || t === 'pilotsheet') return false
+        if (t === 'encounterarchive') return false
         return cdStore.SyncItemTypes.includes(t)
       }).filter(x => !x.CloudController.isSynced)
     },

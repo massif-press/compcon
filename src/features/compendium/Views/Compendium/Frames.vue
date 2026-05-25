@@ -14,6 +14,7 @@
 <script lang="ts">
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '../../store';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'Frames',
@@ -24,6 +25,7 @@ export default {
       initialView: 'cards',
       groups: ['source', 'lcp', 'none'],
       initialGroup: 'source',
+      showExotics: UserStore().User.Option('showExotics') as boolean,
     },
     headers: [
       { title: '', key: 'Source' },
@@ -48,7 +50,7 @@ export default {
       return CompendiumStore().Manufacturers;
     },
     frames() {
-      let items = CompendiumStore().Frames;
+      const items = CompendiumStore().Frames;
       return orderBy(
         items.filter((x) => !x.IsHidden),
         'Name'

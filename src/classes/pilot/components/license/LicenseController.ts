@@ -98,7 +98,6 @@ class LicenseController {
         x => x.License && x.License.FrameID === license.FrameID
       )
       const source = this._licenses[index].License!.Source.toLowerCase()
-      AchievementEventSystem.emit(`ll_${source}`, 1)
 
       // the following are all per-pilot, so cannot use increments
       const level = this._licenses[index].Rank

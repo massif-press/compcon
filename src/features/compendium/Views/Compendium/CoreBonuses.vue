@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { orderBy } from 'lodash-es';
-import { CompendiumStore } from '@/stores';
+import { CompendiumStore, UserStore } from '@/stores';
 import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 
 export default {
@@ -31,6 +31,7 @@ export default {
       initialView: 'list',
       groups: ['source', 'lcp', 'none'],
       initialGroup: 'source',
+      showExotics: UserStore().User.Option('showExotics') as boolean,
     },
   }),
   computed: {

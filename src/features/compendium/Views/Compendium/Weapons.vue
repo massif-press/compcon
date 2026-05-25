@@ -14,6 +14,7 @@
 <script lang="ts">
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '../../store';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'Weapons',
@@ -24,6 +25,7 @@ export default {
       initialView: 'single',
       groups: ['source', 'lcp', 'license', 'none'],
       initialGroup: 'license',
+      showExotics: UserStore().User.Option('showExotics') as boolean,
     },
     headers: [
       { title: '', align: 'left', key: 'Source' },

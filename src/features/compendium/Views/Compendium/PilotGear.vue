@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { orderBy } from 'lodash-es';
-import { CompendiumStore } from '@/stores';
+import { CompendiumStore, UserStore } from '@/stores';
 
 export default {
   name: 'PilotGear',
@@ -52,6 +52,7 @@ export default {
       groups: ['lcp', 'type', 'none'],
       initialGroup: 'type',
       noSource: true,
+      showExotics: UserStore().User.Option('showExotics') as boolean,
     },
   }),
   computed: {

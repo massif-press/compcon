@@ -216,7 +216,7 @@ class UserProfile {
     this.save()
   }
 
-  public Option(option: string): string {
+  public Option(option: string): string | boolean {
     if (Object.hasOwn(this._options, option)) return this._options[option]
     return defaultOptions()[option]
   }
