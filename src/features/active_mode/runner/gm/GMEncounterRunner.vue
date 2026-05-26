@@ -129,13 +129,40 @@
         :selected="selected"
         @close="tableDialog = false" />
     </v-dialog>
+
+    <cc-solo-dialog v-model="leaveDialog"
+      :close-on-click="false"
+      title="Exit Active Mode?"
+      :z-index="9999">
+      <v-card flat
+        tile>
+
+        <div class="text-center text-text ma-2">
+          Do you want to save this encounter before exiting?</div>
+        <v-divider class="my-3" />
+        <v-card-actions class="pa-0">
+          <cc-button variant="text"
+            size="small"
+            @click="handleLeave('cancel')">Cancel</cc-button>
+          <v-spacer />
+          <cc-button color="warning"
+            size="small"
+            variant="text"
+            @click="handleLeave('exit')">Exit Without Saving</cc-button>
+          <v-spacer />
+          <cc-button color="accent"
+            size="small"
+            @click="handleLeave('save')">Save and Exit</cc-button>
+        </v-card-actions>
+      </v-card>
+    </cc-solo-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import { useDisplay } from 'vuetify';
-import { useRoute } from 'vue-router';
+import { useRoute, onBeforeRouteLeave } from 'vue-router';
 import { orderBy } from 'lodash-es';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
 import DoodadPanel from './EncounterPanels/DoodadPanel.vue';
@@ -184,6 +211,8 @@ const route = useRoute();
 const selected = ref<any>(null);
 const diceDialog = ref(false);
 const tableDialog = ref(false);
+const leaveDialog = ref(false);
+let resolveLeaveDialog: ((value: string) => void) | null = null;
 const panel = ref<string | undefined>('encounter-info');
 const sort = ref('');
 const showLeft = ref(true);
@@ -250,4 +279,28 @@ function selectPanel(p: string) {
     panel.value = p;
   }
 }
+
+function openLeaveDialog(): Promise<string> {
+  leaveDialog.value = true;
+  return new Promise((resolve) => {
+    resolveLeaveDialog = resolve;
+  });
+}
+
+function handleLeave(choice: 'save' | 'exit' | 'cancel') {
+  leaveDialog.value = false;
+  resolveLeaveDialog?.(choice);
+  resolveLeaveDialog = null;
+}
+
+onBeforeRouteLeave(async () => {
+  const choice = await openLeaveDialog();
+  if (choice === 'save') {
+    instance.value?.Save();
+    return true;
+  } else if (choice === 'exit') {
+    return true;
+  }
+  return false;
+});
 </script>
