@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-dialog v-model="modelValue"
+  <cc-solo-dialog :model-value="modelValue"
     :close-on-click="false"
     title="Exit Active Mode?"
     :z-index="9999"

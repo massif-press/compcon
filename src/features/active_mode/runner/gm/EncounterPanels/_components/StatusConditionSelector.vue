@@ -117,6 +117,7 @@ export default {
     },
   },
   data: () => ({
+    customStatus: '',
     customInflict: '',
     statusesToInflict: [],
     selectedTargets: [],

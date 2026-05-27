@@ -56,6 +56,7 @@ import DeployablePanel from '../../gm/EncounterPanels/DeployablePanel.vue';
 
 export default {
   name: 'PcDeployablesPanel',
+  inheritAttrs: false,
   components: {
     DeployableListItem,
     DeployablePanel,

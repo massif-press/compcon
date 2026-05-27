@@ -137,7 +137,7 @@
 </template>
 
 <script lang="ts">
-import EndRoundDialog from '../../../../_shared/_EndRoundDialog.vue';
+import EndRoundDialog from '../../../_shared/_EndRoundDialog.vue';
 
 export default {
   name: 'GmEndRoundPanel',
