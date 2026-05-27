@@ -42,65 +42,15 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/stores';
-import { NpcClass } from '@/classes/npc/class/NpcClass';
-import * as _ from 'lodash-es';
-
-const keymap = {
-  hull: 'Hull',
-  agi: 'Agi',
-  sys: 'Sys',
-  eng: 'Eng',
-  armor: 'Armor',
-  hp: 'HP',
-  heat: 'HeatCap',
-  evasion: 'Evade',
-  edef: 'E-Def',
-  speed: 'Speed',
-  sensorRange: 'Sensor',
-  saveTarget: 'Save',
-};
+import { npcClassSelectorMixin } from './_npcClassSelectorMixin';
 
 export default {
   name: 'NpcClassSelector',
+  mixins: [npcClassSelectorMixin],
   props: {
     item: { type: Object, required: true },
   },
   emits: ['close'],
-  data: () => ({
-    selectedTier: 1,
-    tieredView: false,
-    options: {
-      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
-      initialView: 'single',
-      groups: ['lcp', 'role', 'none'],
-      initialGroup: 'role',
-    },
-  }),
-  computed: {
-    classes(): NpcClass[] {
-      return _.orderBy(CompendiumStore().NpcClasses, ['Role', 'Name']);
-    },
-    headers() {
-      const h = [
-        { title: 'Content Pack', key: 'LcpName' },
-        { title: 'Role', key: 'Icon' },
-        { title: 'Name', key: 'Name' },
-      ] as any[];
-      for (const key in keymap) {
-        h.push({
-          title: keymap[key],
-          key,
-          tier: this.selectedTier,
-          sortRaw: (a: NpcClass, b: NpcClass) =>
-            Number(a.Stats.Stat(key, this.selectedTier)) -
-            Number(b.Stats.Stat(key, this.selectedTier)),
-          align: 'center',
-        });
-      }
-      return h;
-    },
-  },
   created() {
     this.selectedTier = this.item.NpcClassController?.Tier || 1;
   },
@@ -108,10 +58,6 @@ export default {
     getRoleIcon(role: string) {
       if (role.toLowerCase() === 'biological') return 'mdi-heart-pulse';
       return `cc:role_${role.toLowerCase()}`;
-    },
-
-    toggleTieredView(evt) {
-      this.tieredView = evt === 'table' || evt === 'scatter' || evt === 'bar' || evt === 'compare';
     },
     SetClass(c) {
       this.item.NpcClassController.SetClass(c, this.item.NpcClassController.Tier);

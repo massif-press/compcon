@@ -7,6 +7,7 @@ import {
   ActiveEffect,
   IActiveEffectData,
 } from '@/classes/components/feature/active_effects/ActiveEffect'
+import { initActiveEffectCallbacks } from '@/classes/components/feature/active_effects/_activeEffectUtils'
 import { Eidolon } from '../../eidolon/Eidolon'
 import { Unit } from '../../unit/Unit'
 
@@ -49,26 +50,7 @@ export class NpcWeapon extends NpcFeature {
 
     this._range = data.range.map(x => new Range(x))
     this._weapon_type = data.weapon_type
-    if (data.on_miss) {
-      if (typeof data.on_miss === 'string')
-        this.OnMiss = new ActiveEffect({ name: 'On Miss Effect', detail: data.on_miss }, this)
-      else this.OnMiss = new ActiveEffect(data.on_miss, this)
-    }
-    if (data.on_attack) {
-      if (typeof data.on_attack === 'string')
-        this.OnAttack = new ActiveEffect({ name: 'On Attack Effect', detail: data.on_attack }, this)
-      else this.OnAttack = new ActiveEffect(data.on_attack, this)
-    }
-    if (data.on_hit) {
-      if (typeof data.on_hit === 'string')
-        this.OnHit = new ActiveEffect({ name: 'On Hit Effect', detail: data.on_hit }, this)
-      else this.OnHit = new ActiveEffect(data.on_hit, this)
-    }
-    if (data.on_crit) {
-      if (typeof data.on_crit === 'string')
-        this.OnCrit = new ActiveEffect({ name: 'On Crit Effect', detail: data.on_crit }, this)
-      else this.OnCrit = new ActiveEffect(data.on_crit, this)
-    }
+    initActiveEffectCallbacks(data, this, this)
     this.Attacks = this._expand(data.attacks)
     this._accuracy = this._expand(data.accuracy)
     this._attack_bonus = this._expand(data.attack_bonus)

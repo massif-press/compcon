@@ -4,115 +4,39 @@
   <v-card flat
     tile>
     <v-card-text class="py-2 px-4">
-      <div v-if="enemyCombatants.length > 0">
-        <v-row dense
-          align="center">
-          <v-col cols="auto"
-            style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto"
-            class="text-caption text-disabled">ENEMY FORCES</v-col>
-          <v-col><v-divider /></v-col>
-        </v-row>
-      </div>
-      <sortable :key="`enemy-${transferKey}`"
+      <combatant-group type="enemy"
         :list="enemyCombatants"
-        item-key="instanceId"
-        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: false, group: { name: 'combatants', pull: true, put: true } }"
-        @start="startDragScroll"
-        @end="event => onCombatantReorder('enemy', event)"
-        @add="event => onCombatantAdded('enemy', event)">
-        <template #item="{ element, index }">
-          <div :data-combatant-id="element.id"
-            style="display: flex;  gap: 4px">
-            <v-icon class="combatant-drag-handle"
-              icon="mdi-drag"
-              size="24"
-              style="cursor: move; opacity: 0.5"
-              @click.stop />
-            <div style="flex: 1; min-width: 0">
-              <combatant-list-item :item="element"
-                :odd="index % 2 === 0"
-                :readonly="readonly"
-                @open="editUnit"
-                @remove="removeCombatantById(element.id)" />
-            </div>
-          </div>
-        </template>
-      </sortable>
+        label="ENEMY FORCES"
+        :transfer-key="transferKey"
+        :readonly="readonly"
+        is-first
+        @drag-start="startDragScroll"
+        @reorder="onCombatantReorder"
+        @add="onCombatantAdded"
+        @open="editUnit"
+        @remove="removeCombatantById" />
 
-      <div v-if="allyCombatants.length > 0"
-        class="mt-3">
-        <v-row dense
-          align="center">
-          <v-col cols="auto"
-            style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto"
-            class="text-caption text-disabled">ALLIED FORCES</v-col>
-          <v-col><v-divider /></v-col>
-        </v-row>
-      </div>
-      <sortable :key="`ally-${transferKey}`"
+      <combatant-group type="ally"
         :list="allyCombatants"
-        item-key="instanceId"
-        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: false, group: { name: 'combatants', pull: true, put: true } }"
-        @start="startDragScroll"
-        @end="event => onCombatantReorder('ally', event)"
-        @add="event => onCombatantAdded('ally', event)">
-        <template #item="{ element, index }">
-          <div :data-combatant-id="element.id"
-            style="display: flex; align-items: center; gap: 4px">
-            <v-icon class="combatant-drag-handle"
-              icon="mdi-drag"
-              size="20"
-              style="cursor: move; opacity: 0.5"
-              @click.stop />
-            <div style="flex: 1; min-width: 0">
-              <combatant-list-item :item="element"
-                :odd="index % 2 === 0"
-                :readonly="readonly"
-                @open="editUnit"
-                @remove="removeCombatantById(element.id)" />
-            </div>
-          </div>
-        </template>
-      </sortable>
+        label="ALLIED FORCES"
+        :transfer-key="transferKey"
+        :readonly="readonly"
+        @drag-start="startDragScroll"
+        @reorder="onCombatantReorder"
+        @add="onCombatantAdded"
+        @open="editUnit"
+        @remove="removeCombatantById" />
 
-      <div v-if="neutralCombatants.length > 0"
-        class="mt-3">
-        <v-row dense
-          align="center">
-          <v-col cols="auto"
-            style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto"
-            class="text-caption text-disabled">NEUTRAL</v-col>
-          <v-col><v-divider /></v-col>
-        </v-row>
-      </div>
-      <sortable :key="`neutral-${transferKey}`"
+      <combatant-group type="neutral"
         :list="neutralCombatants"
-        item-key="instanceId"
-        :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: false, group: { name: 'combatants', pull: true, put: true } }"
-        @start="startDragScroll"
-        @end="event => onCombatantReorder('neutral', event)"
-        @add="event => onCombatantAdded('neutral', event)">
-        <template #item="{ element, index }">
-          <div :data-combatant-id="element.id"
-            style="display: flex; align-items: center; gap: 4px">
-            <v-icon class="combatant-drag-handle"
-              icon="mdi-drag"
-              size="20"
-              style="cursor: move; opacity: 0.5"
-              @click.stop />
-            <div style="flex: 1; min-width: 0">
-              <combatant-list-item :item="element"
-                :odd="index % 2 === 0"
-                :readonly="readonly"
-                @open="editUnit"
-                @remove="removeCombatantById(element.id)" />
-            </div>
-          </div>
-        </template>
-      </sortable>
+        label="NEUTRAL"
+        :transfer-key="transferKey"
+        :readonly="readonly"
+        @drag-start="startDragScroll"
+        @reorder="onCombatantReorder"
+        @add="onCombatantAdded"
+        @open="editUnit"
+        @remove="removeCombatantById" />
     </v-card-text>
     <v-toolbar density="compact"
       color="panel">
@@ -330,13 +254,12 @@ import CombatantSelector from './CombatantSelector.vue'
 import { UserStore } from '@/stores'
 import { notify } from '@/util/notify'
 import { GM_STRINGS } from '@/features/gm/strings'
-import CombatantListItem from './listItemContent/CombatantListItem.vue'
+import CombatantGroup from './CombatantGroup.vue'
 import UnitEditor from '../../../npc_roster/npcs/editor.vue'
 import DoodadEditor from '../../../npc_roster/doodads/editor.vue'
 import EidolonEditor from '../../../npc_roster/eidolons/editor.vue'
 import CombatantSettingsMenu from './_components/combatantSettingsMenu.vue'
 import { GenerateItemDiff, SetDiff } from '@/classes/npc/NpcDiff'
-import { Sortable } from 'sortablejs-vue3'
 import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag'
 
 const props = withDefaults(defineProps<{

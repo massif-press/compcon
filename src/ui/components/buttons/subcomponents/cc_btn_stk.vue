@@ -49,98 +49,48 @@
 </template>
 
 <script lang="ts">
+import { btnSubMixin, calcIconSize } from './_btnSubMixin';
+
 export default {
   name: 'cc-btn-std',
+  mixins: [btnSubMixin],
   props: {
-    color: { type: String },
-    disabled: { type: Boolean },
-    block: { type: Boolean },
-    loading: { type: Boolean },
-    size: { type: String },
-    variant: { type: String },
-    prependIcon: { type: String },
-    appendIcon: { type: String },
     optionsIcon: { type: String, default: 'mdi-chevron-down' },
-    tooltip: { type: String },
-    tooltipIcon: { type: String },
     optionsText: { type: String },
-    href: { type: String },
-    to: { type: [String, Object] },
-    target: { type: String },
   },
-  emits: ['click'],
   computed: {
-    sizeStyle() {
-      return this.size ? `size-${this.size}` : 'size-default';
-    },
-    optionsSize() {
+    optionsSize(this: any): number {
       switch (this.size) {
-        case 'x-small':
-          return 24;
-        case 'small':
-          return 30;
-        case 'large':
-          return 36;
-        case 'x-large':
-          return 42;
-        case 'xx-large':
-          return 60;
-        default:
-          return 30;
+        case 'x-small': return 24;
+        case 'small': return 30;
+        case 'large': return 36;
+        case 'x-large': return 42;
+        case 'xx-large': return 60;
+        default: return 30;
       }
     },
-    colorClass() {
-      if (this.outlined || this.text || this.tonal) {
-        return '';
-      }
+    colorClass(this: any) {
+      if (this.outlined || this.text || this.tonal) return '';
       return this.bgColor;
     },
-    bgColor() {
-      return `bg-${this.color}`;
-    },
-    outlined() {
-      return this.variant === 'outlined';
-    },
-    text() {
+    text(this: any) {
       return this.variant === 'text';
     },
-    tonal() {
+    tonal(this: any) {
       return this.variant === 'tonal';
-    },
-    borderColor() {
-      if (!this.color) return '';
-      if (this.color[0] === '#') return this.color;
-      return `rgb(var(--v-theme-${this.color})`;
     },
   },
   methods: {
-    iconSize(icon: string) {
-      let size = 24;
-      switch (this.size) {
-        case 'x-small':
-          size = 11;
-          break;
-        case 'small':
-          size = 16;
-          break;
-        case 'large':
-          size = 20;
-          break;
-        case 'x-large':
-          size = 32;
-          break;
-        case 'xx-large':
-          size = 40;
-          break;
-      }
-      if (icon.includes('cc:')) size += 2;
-      return `${size}px`;
+    iconSize(this: any, icon: string) {
+      return calcIconSize(this.size, icon, 2);
     },
   },
 };
 </script>
 
 <style scoped>
+@import './cc_btn_base.css';
+
 .disabled {
   filter: grayscale(100%);
   opacity: 0.5;
@@ -166,10 +116,6 @@ export default {
 
 .light-tonal {
   opacity: 0.35;
-}
-
-.top-element:hover .light {
-  filter: brightness(2) saturate(200%) hue-rotate(20deg);
 }
 
 .light.x-small {

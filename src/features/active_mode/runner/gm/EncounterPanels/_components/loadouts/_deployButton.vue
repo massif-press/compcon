@@ -11,41 +11,24 @@
         </template>
       </v-tooltip>
 
-      <v-tooltip location="top"
-        :text="deployable.DeployAction.Activation">
-        <template #activator="{ props }">
-          <span v-bind="props"
-            class="ml-1 mr-n1">
-            <v-icon v-bind="props"
-              :icon="deployable.DeployAction.Icon"
-              :color="canActivate ? 'success' : 'error'" />
-            <v-tooltip v-if="!canActivate"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="mdi-exclamation-thick"
-                  color="error" />
-              </template>
-              <div class="text-center text-cc-overline">Cannot activate</div>
-              <v-divider class="my-1" />
-              <div v-if="customDisabledText"
-                class="text-center">
-                {{ customDisabledText }}
-              </div>
-              <div v-else>
-                Insufficient
-                <v-chip :color="deployable.DeployAction.Color"
-                  size="small"
-                  variant="elevated"
-                  :prepend-icon="deployable.DeployAction.Icon || ''">
-                  {{ deployable.DeployAction.Activation }}
-                </v-chip>
-                actions remaining this turn.
-              </div>
-            </v-tooltip>
-          </span>
+      <combat-action-indicator :icon="deployable.DeployAction.Icon"
+        :activation="deployable.DeployAction.Activation"
+        :can-activate="canActivate"
+        :custom-disabled-text="customDisabledText"
+        span-class="ml-1 mr-n1">
+        <template #reason>
+          <div>
+            Insufficient
+            <v-chip :color="deployable.DeployAction.Color"
+              size="small"
+              variant="elevated"
+              :prepend-icon="deployable.DeployAction.Icon || ''">
+              {{ deployable.DeployAction.Activation }}
+            </v-chip>
+            actions remaining this turn.
+          </div>
         </template>
-      </v-tooltip>
+      </combat-action-indicator>
     </v-col>
     <v-col>
       <v-row no-gutters
@@ -123,6 +106,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import CombatActionIndicator from '@/ui/components/chips/_CombatActionIndicator.vue';
 
 const props = withDefaults(defineProps<{
   deployable: any;

@@ -1,0 +1,57 @@
+<template>
+  <v-btn :color="controller.CanActivate('protocol') ? 'protocol' : 'panel'"
+    :size="size"
+    flat
+    tile
+    height="25"
+    @click="$emit('action')">
+    <v-tooltip v-if="!controller.CanActivate('protocol')"
+      location="top">
+      <template #activator="{ props }">
+        <v-avatar v-bind="props"
+          size="x-small"
+          class="mr-2">
+          <v-icon icon="mdi-exclamation-thick"
+            color="error" />
+        </v-avatar>
+      </template>
+      <div class="text-center text-cc-overline">Cannot activate</div>
+      <v-divider class="my-1" />
+      <div>
+        Insufficient
+        <v-chip color="protocol"
+          size="small"
+          variant="elevated"
+          prepend-icon="cc:protocol">
+          Protocol
+        </v-chip>
+        actions remaining this turn.
+      </div>
+    </v-tooltip>
+    <v-tooltip location="top"
+      max-width="300"
+      :text="tooltipText">
+      <template #activator="{ props }">
+        <span v-bind="props">
+          <v-icon icon="cc:protocol"
+            class="mr-1"
+            size="19" />
+          {{ label }}
+        </span>
+      </template>
+    </v-tooltip>
+  </v-btn>
+</template>
+
+<script lang="ts">
+export default {
+  name: 'AiControlButton',
+  props: {
+    controller: { type: Object, required: true },
+    label: { type: String, required: true },
+    tooltipText: { type: String, required: true },
+    size: { type: String, default: 'small' },
+  },
+  emits: ['action'],
+};
+</script>

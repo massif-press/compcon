@@ -130,32 +130,10 @@
         @close="tableDialog = false" />
     </v-dialog>
 
-    <cc-solo-dialog v-model="leaveDialog"
-      :close-on-click="false"
-      title="Exit Active Mode?"
-      :z-index="9999">
-      <v-card flat
-        tile>
-
-        <div class="text-center text-text ma-2">
-          Do you want to save this encounter before exiting?</div>
-        <v-divider class="my-3" />
-        <v-card-actions class="pa-0">
-          <cc-button variant="text"
-            size="small"
-            @click="handleLeave('cancel')">Cancel</cc-button>
-          <v-spacer />
-          <cc-button color="warning"
-            size="small"
-            variant="text"
-            @click="handleLeave('exit')">Exit Without Saving</cc-button>
-          <v-spacer />
-          <cc-button color="accent"
-            size="small"
-            @click="handleLeave('save')">Save and Exit</cc-button>
-        </v-card-actions>
-      </v-card>
-    </cc-solo-dialog>
+    <runner-leave-dialog v-model="leaveDialog"
+      @save="handleLeave('save')"
+      @exit="handleLeave('exit')"
+      @cancel="handleLeave('cancel')" />
   </div>
 </template>
 
@@ -185,6 +163,7 @@ import EidolonPanel from './EncounterPanels/EidolonPanel.vue';
 import ActorLogs from './EncounterPanels/_components/ActorLogs.vue';
 import CombatStatblockExport from './EncounterPanels/_components/CombatStatblockExport.vue';
 import ActorTelemetry from './EncounterPanels/_components/ActorTelemetry.vue';
+import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue';
 
 const panelMap: Record<string, any> = {
   'encounter-info': EncounterInfoPanel,

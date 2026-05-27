@@ -1,271 +1,25 @@
 <template>
   <div class="text-black px-2">
-    <v-row align="center">
-      <v-col>
-        <v-row dense
-          align="center">
-          <v-col cols="auto">
-            <div class="text-overline mb-n4 text-primary">MECH</div>
-            <blank-line v-if="blank"
-              :height="46"
-              :width="500"
-              class="my-2" />
-            <div v-else
-              class="heading h2">
-              {{ mech.Name }}
-            </div>
-            <div v-if="!blank"
-              class="heading h3 my-n2"
-              style="opacity: 0.7">
-              <v-icon :icon="`cc:${mech.Frame.Source.toLowerCase()}`"
-                size="small"
-                class="mt-n1" />
-              {{ mech.Frame.Source }}
-              {{ mech.Frame.Name }}
-            </div>
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <print-overcharge />
-    </v-row>
-
-    <print-stat-row :mech="mech"
+    <print-mech-name-block :mech="mech"
       :blank="blank" />
 
-    <v-row dense
-      class="mt-n1">
-      <v-col cols="4">
-        <fieldset>
-          <legend class="font-weight-bold caption text-primary px-2 text-center">HP</legend>
-          <div style="min-width: 12vw">
-            <blank-line :height="60" />
-          </div>
-          <v-row dense
-            align="center"
-            class="mb-n2">
-            <v-col><v-divider /></v-col>
-            <v-col cols="auto"><span class="text-primary caption">MAX HP</span></v-col>
-            <v-col><v-divider /></v-col>
-          </v-row>
-          <div v-if="!blank"
-            class="text-center heading h3"
-            v-text="mech.MaxHP" />
-          <blank-line v-else
-            :height="26" />
-        </fieldset>
-      </v-col>
-
-      <v-col cols="3">
-        <fieldset>
-          <legend class="font-weight-bold caption text-primary px-2 text-center">STRUCTURE</legend>
-          <blank-line :height="60" />
-          <v-row dense
-            align="center"
-            class="mb-n2">
-            <v-col><v-divider /></v-col>
-            <v-col cols="auto"><span class="text-primary caption">MAX STRUCTURE</span></v-col>
-            <v-col><v-divider /></v-col>
-          </v-row>
-          <div v-if="!blank"
-            class="text-center heading h3"
-            v-text="mech.MaxStructure" />
-          <blank-line v-else
-            :height="26" />
-        </fieldset>
-      </v-col>
-
-      <v-col cols="3">
-        <fieldset>
-          <legend class="font-weight-bold caption text-primary px-2 text-center">OVERSHIELD</legend>
-          <blank-line :height="102" />
-        </fieldset>
-      </v-col>
-
-      <v-col v-if="mech.Armor"
-        class="text-center">
-        <fieldset>
-          <legend class="font-weight-bold caption text-primary px-2 text-center">ARMOR</legend>
-
-          <blank-line v-if="blank"
-            :height="102" />
-
-          <v-row v-else
-            style="height: 100%"
-            class="mt-0"
-            align="center">
-            <v-col class="text-primary">
-              <v-icon v-for="n in mech.Armor"
-                :key="`armor-${n}`"
-                size="40"
-                style="opacity: 0.6"
-                icon="mdi-shield-outline" />
-            </v-col>
-          </v-row>
-        </fieldset>
-      </v-col>
-    </v-row>
-
-    <v-row dense>
-      <v-col cols="4">
-        <fieldset>
-          <legend class="font-weight-bold caption text-primary px-2 text-center">HEAT</legend>
-          <blank-line :height="60" />
-          <v-row dense
-            align="center"
-            class="mb-n2">
-            <v-col><v-divider /></v-col>
-            <v-col cols="auto"><span class="text-primary caption">HEAT CAPACITY</span></v-col>
-            <v-col><v-divider /></v-col>
-          </v-row>
-          <div v-if="!blank"
-            class="text-center heading h3"
-            v-text="mech.HeatCapacity" />
-          <blank-line v-else
-            :height="26" />
-        </fieldset>
-      </v-col>
-
-      <v-col cols="3">
-        <fieldset>
-          <legend class="font-weight-bold caption text-primary px-2 text-center">STRESS</legend>
-          <blank-line :height="60" />
-          <v-row dense
-            align="center"
-            class="mb-n2">
-            <v-col><v-divider /></v-col>
-            <v-col cols="auto"><span class="text-primary caption">MAX STRESS</span></v-col>
-            <v-col><v-divider /></v-col>
-          </v-row>
-          <div v-if="!blank"
-            class="text-center heading h3"
-            v-text="mech.MaxStress" />
-          <blank-line v-else
-            :height="26" />
-        </fieldset>
-      </v-col>
-
-      <v-col cols="3">
-        <fieldset>
-          <legend class="font-weight-bold caption text-primary px-2 text-center">REPAIRS</legend>
-          <blank-line :height="60" />
-          <v-row dense
-            align="center"
-            class="mb-n2">
-            <v-col><v-divider /></v-col>
-            <v-col cols="auto"><span class="text-primary caption">REPAIR CAPACITY</span></v-col>
-            <v-col><v-divider /></v-col>
-          </v-row>
-          <div v-if="!blank"
-            class="text-center heading h3"
-            v-text="mech.RepairCapacity" />
-          <blank-line v-else
-            :height="26" />
-        </fieldset>
-      </v-col>
-
-      <v-col class="text-center">
-        <fieldset>
-          <legend class="font-weight-bold caption text-primary px-2 text-center">CORE POWER</legend>
-
-          <blank-line v-if="blank"
-            :height="102" />
-
-          <v-row v-else
-            style="height: 100%"
-            class="mt-0"
-            align="center">
-            <v-col class="text-primary">
-              <v-icon size="40"
-                style="opacity: 0.6"
-                icon="mdi-battery-outline" />
-            </v-col>
-          </v-row>
-        </fieldset>
-      </v-col>
-    </v-row>
+    <print-mech-hp-rows :mech="mech"
+      :blank="blank"
+      compact />
 
     <v-row dense>
       <v-col cols="8">
         <v-row dense
           :class="blank ? 'mt-n3' : ''">
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 11vw">
-            <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">ATTACK BONUS</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">
-                {{ signed(mech.AttackBonus) }}
-              </div>
-            </fieldset>
-          </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 11vw">
-            <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">TECH ATTACK</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">
-                {{ signed(mech.TechAttack) }}
-              </div>
-            </fieldset>
-          </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 11vw">
-            <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">SAVE</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.SaveTarget }}</div>
-            </fieldset>
-          </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 11vw">
-            <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">SPEED</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.Speed }}</div>
-            </fieldset>
-          </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 12vw">
-            <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">E-DEFENSE</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.EDefense }}</div>
-            </fieldset>
-          </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 11vw">
-            <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">EVASION</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.Evasion }}</div>
-            </fieldset>
-          </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 11vw">
-            <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">SENSOR RANGE</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.SensorRange }}</div>
-            </fieldset>
-          </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 11vw">
-            <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">LIMITED BONUS</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">
-                {{ signed(mech.LimitedBonus) }}
-              </div>
-            </fieldset>
-          </v-col>
-          <v-col v-if="blank"
-            :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 11vw">
-            <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">SYSTEM POINTS</legend>
-            </fieldset>
-          </v-col>
+          <print-stat-box label="ATTACK BONUS" :value="signed(mech.AttackBonus)" :blank="blank" min-width="11vw" />
+          <print-stat-box label="TECH ATTACK" :value="signed(mech.TechAttack)" :blank="blank" min-width="11vw" />
+          <print-stat-box label="SAVE" :value="mech.SaveTarget" :blank="blank" min-width="11vw" />
+          <print-stat-box label="SPEED" :value="mech.Speed" :blank="blank" min-width="11vw" />
+          <print-stat-box label="E-DEFENSE" :value="mech.EDefense" :blank="blank" min-width="12vw" />
+          <print-stat-box label="EVASION" :value="mech.Evasion" :blank="blank" min-width="11vw" />
+          <print-stat-box label="SENSOR RANGE" :value="mech.SensorRange" :blank="blank" min-width="11vw" />
+          <print-stat-box label="LIMITED BONUS" :value="signed(mech.LimitedBonus)" :blank="blank" min-width="11vw" />
+          <print-stat-box v-if="blank" label="SYSTEM POINTS" :blank="blank" min-width="11vw" />
         </v-row>
 
         <div class="text-overline mb-n3 text-primary">FRAME TRAITS</div>
@@ -525,12 +279,14 @@ import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 import tagBlock from '../../components/TagBlock.vue';
 import PageBreak from '../../components/PageBreak.vue';
-import PrintOvercharge from '../../components/PrintOvercharge.vue';
-import PrintStatRow from '../../components/PrintStatRow.vue';
+import PrintMechNameBlock from '../../components/PrintMechNameBlock.vue';
+import PrintHpBlock from '../../components/PrintHpBlock.vue';
+import PrintStatBox from '../../components/PrintStatBox.vue';
 import PrintBlankLoadout from '../../components/PrintBlankLoadout.vue';
 import PrintBlankSystems from '../../components/PrintBlankSystems.vue';
 import PrintSystemsList from '../../components/PrintSystemsList.vue';
 import { usePrintOptions } from '../_usePrintOptions';
+import PrintMechHpRows from '../../components/_PrintMechHpRows.vue';
 
 export default {
   name: 'mech-print',
@@ -542,11 +298,13 @@ export default {
     notes,
     tagBlock,
     PageBreak,
-    PrintOvercharge,
-    PrintStatRow,
+    PrintMechNameBlock,
+    PrintHpBlock,
+    PrintStatBox,
     PrintBlankLoadout,
     PrintBlankSystems,
     PrintSystemsList,
+    PrintMechHpRows,
   },
   props: {
     mech: {
@@ -566,29 +324,12 @@ export default {
         this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       );
     },
-    blank() {
-      return this.options.content.title === 'Blank';
-    },
-    landscape() {
-      return this.options.orientation === 'landscape';
-    },
 
     getHpCols() {
       return 'auto';
     },
   },
   methods: {
-    signed(val: number) {
-      return val > -1 ? `+${val}` : `${val}`;
-    },
-    showTag(id) {
-      const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
-      return !hiddenTags.includes(id);
-    },
-    showCollectedEffect(w) {
-      if (!w.Profiles[0].Effect) return false;
-      return w.Profiles.every((x) => x.Effect === w.Profiles[0].Effect);
-    },
     synergies(location: 'weapon' | 'system', item: any) {
       return Synergy.Collect(location, this.mech as Mech, item);
     },

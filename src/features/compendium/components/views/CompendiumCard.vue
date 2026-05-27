@@ -106,27 +106,10 @@ export default {
 </script>
 
 <style scoped>
-.v-card {
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
+@import '../compendium-card-base.css';
 
 .v-card:hover {
   filter: brightness(1.1) saturate(110%);
-}
-
-.icn {
-  opacity: 0.7;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.pip {
-  width: 17px;
-  height: 17px;
-  position: absolute;
-  opacity: 0.5;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-  transition: filter 0.2s ease-in-out;
 }
 
 .top-element:hover .pip {

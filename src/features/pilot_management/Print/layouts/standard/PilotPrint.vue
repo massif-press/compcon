@@ -682,18 +682,6 @@ export default {
     },
   },
   computed: {
-    blank() {
-      return this.options.content.title === 'Blank';
-    },
-    landscape() {
-      return this.options.orientation === 'landscape';
-    },
-  },
-  methods: {
-    showTag(id) {
-      const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
-      return !hiddenTags.includes(id);
-    },
   },
 };
 </script>

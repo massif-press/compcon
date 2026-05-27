@@ -178,6 +178,7 @@ import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import StagedPanel from './_stagedPanel.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import CombatActionButton from './CombatActionButton.vue';
+import { barrageButtonMixin } from './_barrageButtonMixin';
 
 export default {
   name: 'MechBarrageButton',
@@ -189,6 +190,7 @@ export default {
     StagedPanel,
     CombatActionButton,
   },
+  mixins: [barrageButtonMixin],
   props: {
     action: {
       type: Object,
@@ -250,9 +252,6 @@ export default {
       if (!this.eventArray.length) return false;
       return this.eventArray.every((e) => e.BaseEvent.Staged);
     }
-  },
-  created() {
-    this.reset();
   },
   methods: {
     ordnanceWarning(selectedWeapon) {
@@ -322,24 +321,6 @@ export default {
           new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack')
         );
       }
-    },
-    reset(clearAction = false) {
-      if (clearAction) this.owner.CombatController.ClearActionUsed(this.action.ID);
-
-      this.selectedWeapons = new Array(2);
-      this.events = new Array(2);
-
-      if (!this.selectedWeapons[0] && this.presetWeapon) {
-        this.setSelected(0, this.presetWeapon);
-      }
-    },
-    apply() {
-      const actor = this.owner.actor.CombatController.ActiveActor.CombatController;
-      this.selectedWeapons.forEach((w) => {
-        actor.MarkActionUsed(w.InstanceID);
-        if (w.IsLoading) w.Used = true;
-      });
-      this.reset();
     },
   },
 };

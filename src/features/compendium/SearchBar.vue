@@ -72,36 +72,5 @@ export default {
 </script>
 
 <style scoped>
-.top-element :deep(.v-input--horizontal .v-input__prepend) {
-  margin-inline-end: 0px !important;
-}
-
-.top-element :deep(.v-input--horizontal .v-input__append) {
-  margin-inline-start: 0px !important;
-}
-
-.top-element :deep(.v-field__input) {
-  min-height: auto !important;
-}
-
-.top-element :deep(.v-field) {
-  transition: all 0.1s ease-in-out;
-}
-
-.color-rotate {
-  filter: brightness(1.5) saturate(200%) hue-rotate(40deg);
-}
-
-.prepend {
-  height: 100%;
-  margin-right: -1px;
-  min-width: 16px;
-  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-  z-index: 1;
-  transition: all 0.1s ease-in-out;
-}
-
-.offset {
-  margin-top: -5px;
-}
+@import './search-bar.css';
 </style>

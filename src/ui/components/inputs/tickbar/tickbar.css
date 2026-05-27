@@ -1,0 +1,13 @@
+.tick {
+  opacity: 0.3;
+  transform: opacity 0.2s ease-in-out;
+}
+
+.hovered {
+  opacity: 0.5;
+}
+
+.highlighted {
+  opacity: 1;
+  filter: saturate(200%);
+}

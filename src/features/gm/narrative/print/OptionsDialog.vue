@@ -1,110 +1,28 @@
 <template>
-  <v-card-text class="flavor-text">
-    <v-card flat
-      tile>
-      <fieldset class="pa-2">
-        <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
-        <v-row v-if="options.layout.title !== 'Cards'">
-          <v-col>
-            <print-option-select v-model="options.paper"
-              mandatory
-              title="Paper"
-              :items="paperOptions" />
-          </v-col>
-          <v-col>
-            <print-option-select v-model="options.orientation"
-              mandatory
-              title="Orientation"
-              :items="orientationOptions" />
-          </v-col>
-        </v-row>
-        <v-row v-else>
-          <v-col>
-            <print-option-select v-model="options.paper"
-              mandatory
-              title="Paper"
-              :items="paperOptions" />
-          </v-col>
-        </v-row>
-      </fieldset>
-    </v-card>
-    <v-scroll-y-transition>
-      <v-card v-if="includeOptions.length > 0"
-        flat
-        tile>
-        <fieldset class="pa-2">
-          <legend class="clipped-small heading h3">Options&emsp;</legend>
-          <print-option-select v-model="options.include"
-            multiple
-            widen
-            :items="includeOptions" />
-        </fieldset>
-      </v-card>
-    </v-scroll-y-transition>
-  </v-card-text>
+  <print-options-base
+    :options="options"
+    :include-options="includeOptions" />
 </template>
 
-<script lang="ts">
-import PrintOptionSelect from './PrintOptionSelect.vue';
+<script setup lang="ts">
+import { computed } from 'vue'
+import PrintOptionsBase from '@/shared/print/PrintOptionsBase.vue'
 
-export default {
-  name: 'PrintOptionsDialog',
-  components: { PrintOptionSelect },
-  props: {
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    orientationOptions: [
-      { title: 'Portrait', icon: 'mdi-file' },
-      { title: 'Landscape', icon: 'mdi-note' },
-    ],
-    paperOptions: [
-      { title: 'Letter', icon: 'mdi-text-box-check-outline' },
-      { title: 'A4', icon: 'mdi-file-star-four-points-outline' },
-    ],
-  }),
-  computed: {
-    includeOptions() {
-      switch (this.options.layout.title) {
-        case 'Minimal':
-          return [];
-        default:
-          return [
-            { title: 'Include Image' },
-            { title: 'Additional Detail' },
-            { title: 'Clocks' },
-            { title: 'Tables' },
-            { title: 'Append Lined Section' },
-            { title: 'Append Unlined Section' },
-          ];
-      }
-    },
-  },
-  methods: {
-    show() {
-      (this.$refs.dialog as any).show();
-    },
-    hide() {
-      (this.$refs.dialog as any).hide();
-    },
-  },
-};
+const props = defineProps<{ options: Record<string, any> }>()
+
+const includeOptions = computed(() => {
+  switch (props.options.layout.title) {
+    case 'Minimal':
+      return []
+    default:
+      return [
+        { title: 'Include Image' },
+        { title: 'Additional Detail' },
+        { title: 'Clocks' },
+        { title: 'Tables' },
+        { title: 'Append Lined Section' },
+        { title: 'Append Unlined Section' },
+      ]
+  }
+})
 </script>
-
-<style scoped>
-fieldset {
-  border-color: rgb(var(--v-theme-primary));
-  border-radius: 2px;
-  margin-bottom: 12px;
-  padding: 4px;
-}
-
-legend {
-  background-color: rgb(var(--v-theme-primary));
-  color: #fff;
-  padding: 3px 6px;
-}
-</style>

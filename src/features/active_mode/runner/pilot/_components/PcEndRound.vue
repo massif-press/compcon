@@ -1,33 +1,7 @@
 <template>
-  <v-dialog max-width="900px">
-    <template #activator="{ props }">
-      <v-btn flat
-        block
-        variant="text"
-        color="accent"
-        prepend-icon="mdi-clock-end"
-        @click="props.onClick($event)">
-        End Round
-      </v-btn>
-    </template>
+  <end-round-dialog>
     <template #default="{ isActive }">
-      <v-card>
-        <v-toolbar height="40"
-          color="primary"
-          class="text-center">
-          <div class="heading h3 mt-1">
-            <v-icon icon="mdi-clock-end"
-              class="mt-n1 ml-2"
-              start />
-            Confirm End Round
-          </div>
-          <v-spacer />
-          <v-btn icon
-            @click="isActive.value = false">
-            <v-icon icon="mdi-close" />
-          </v-btn>
-        </v-toolbar>
-        <v-card-text>
+      <v-card-text>
           <cc-alert v-if="hasRemainingActions"
             color="error"
             icon="mdi-alert"
@@ -137,17 +111,18 @@
             End Round
           </cc-button>
         </v-card-text>
-      </v-card>
     </template>
-  </v-dialog>
+  </end-round-dialog>
 </template>
 
 <script lang="ts">
 import * as _ from 'lodash-es';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
+import EndRoundDialog from '../../_shared/_EndRoundDialog.vue';
 
 export default {
   name: 'PcEndRoundPanel',
+  components: { EndRoundDialog },
   props: {
     sheet: {
       type: PilotSheet,

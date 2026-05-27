@@ -1,82 +1,16 @@
 <template>
   <v-container>
     <div class="heading h2"> Character Sheets</div>
-    <v-row dense>
-      <v-col>
-        <div class="my-1 d-flex align-center">
-          <v-tooltip location="top"
-            open-delay="300">
-            <template #activator="{ props }">
-              <v-btn v-bind="props"
-                color="panel"
-                flat
-                tile
-                size="small"
-                @click="setSort('Updated')">
-                <v-icon icon="mdi-clock-outline"
-                  size="20"
-                  color="accent" />
-                <v-icon v-if="sort === 'Updated'"
-                  color="accent"
-                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-                  class="mb-n1" />
-              </v-btn>
-            </template>
-            <span>Sort by Recent</span>
-          </v-tooltip>
-
-          <v-tooltip location="top"
-            open-delay="300">
-            <template #activator="{ props }">
-              <v-btn v-bind="props"
-                color="panel"
-                flat
-                tile
-                size="small"
-                @click="setSort('Name')">
-                <v-icon icon="mdi-format-text-variant"
-                  size="24"
-                  color="accent" />
-                <v-icon v-if="sort === 'Name'"
-                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-                  class="mb-n1"
-                  color="accent" />
-              </v-btn>
-            </template>
-            <span>Sort by Name</span>
-          </v-tooltip>
-
-          <v-tooltip location="top"
-            open-delay="300">
-            <template #activator="{ props }">
-              <v-btn v-bind="props"
-                color="panel"
-                flat
-                tile
-                size="small"
-                @click="setSort('Created')">
-                <v-icon icon="mdi-calendar"
-                  size="21"
-                  color="accent" />
-                <v-icon v-if="sort === 'Created'"
-                  color="accent"
-                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-                  class="mb-n1" />
-              </v-btn>
-            </template>
-            <span>Sort by created timestamp</span>
-          </v-tooltip>
-        </div>
-      </v-col>
-      <v-col cols="auto">
-        <active-mode-organizer :items="activeSheets"
-          :columns="sheetOrganizerColumns"
-          noun="sheet"
-          title="Character Sheets"
-          @archive="organizeArchive"
-          @delete="organizeDelete" />
-      </v-col>
-    </v-row>
+    <active-mode-sort-bar :sort="sort"
+      :asc="asc"
+      :items="activeSheets"
+      :columns="sheetOrganizerColumns"
+      noun="sheet"
+      title="Character Sheets"
+      @update:sort="sort = $event"
+      @update:asc="asc = $event"
+      @archive="organizeArchive"
+      @delete="organizeDelete" />
 
     <sheet-item v-for="sheet in activeSheets"
       :key="sheet.ID"
@@ -264,7 +198,7 @@ import { PilotStore } from '@/stores';
 import SheetItem from './_components/SheetItem.vue';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import { useMobile } from '@/composables/useMobile';
-import ActiveModeOrganizer from '@/features/active_mode/_components/ActiveModeOrganizer.vue';
+import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue';
 
 const sheetOrganizerColumns = [
   { key: 'Name', title: 'Name', sortable: true, value: (s: any) => s.Name },
@@ -278,7 +212,7 @@ export default {
   name: 'SheetManager',
   components: {
     SheetItem,
-    ActiveModeOrganizer,
+    ActiveModeSortBar,
   },
   data: () => ({
     sort: 'Updated',
@@ -322,14 +256,6 @@ export default {
 
   },
   methods: {
-    setSort(sort) {
-      if (this.sort === sort) {
-        this.asc = !this.asc;
-      } else {
-        this.sort = sort;
-        this.asc = true;
-      }
-    },
     launch(sheet) {
       PilotStore().SetActiveSheet(sheet.ID);
       this.$router.push(`pilot-runner/${sheet.ID}`);

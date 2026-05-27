@@ -23,30 +23,8 @@
         forthcoming. <b class="text-accent">Telemetry data is collected at the end of every
           round</b>
       </v-alert>
-      <v-row dense
-        class="mb-2">
-        <v-col>
-          <cc-switch v-model="enableJustify"
-            label="Justify" />
-        </v-col>
-        <v-col cols="auto">
-          <v-slide-x-reverse-transition>
-            <div v-if="enableJustify"
-              style="width: 300px;">
-              <cc-number-field v-model.number="lineWidth"
-                label="Line Width"
-                color="primary"
-                density="compact"
-                size="small"
-                type="number"
-                variant="outlined"
-                max="99999"
-                dense
-                hide-details />
-            </div>
-          </v-slide-x-reverse-transition>
-        </v-col>
-      </v-row>
+      <statblock-justify-options v-model:enable-justify="enableJustify"
+        v-model:line-width="lineWidth" />
       <v-row dense>
         <v-col>
           <v-btn flat
@@ -115,9 +93,11 @@
 
 <script lang="ts">
 import { CombatLog } from '@/classes/components/combat/CombatLog';
+import StatblockJustifyOptions from './_StatblockJustifyOptions.vue';
 
 export default {
   name: 'ActorLogs',
+  components: { StatblockJustifyOptions },
   props: {
     actor: {
       type: Object,

@@ -60,17 +60,5 @@ export default {
 </script>
 
 <style scoped>
-.cc-panel-clip {
-  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%);
-}
-
-.cc-panel-slice {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 0%, calc(100% - 24px) 100%, 0% 100%);
-
-  /* clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 24px), 0% calc(100% - 24px)); */
-}
-
-.cc-panel-clip-comfortable {
-  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0% 100%);
-}
+@import './cc_heading_base.css';
 </style>

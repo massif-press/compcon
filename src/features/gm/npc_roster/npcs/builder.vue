@@ -75,32 +75,16 @@
 </template>
 
 <script lang="ts">
-import { NpcClass } from '@/classes/npc/class/NpcClass';
-import { CompendiumStore } from '@/stores';
-import * as _ from 'lodash-es';
 import {
   NpcClassSelector,
   NpcTemplateSelector,
   NpcTagSelector,
 } from './_components';
-
-const keymap = {
-  hull: 'Hull',
-  agi: 'Agi',
-  sys: 'Sys',
-  eng: 'Eng',
-  armor: 'Armor',
-  hp: 'HP',
-  heat: 'HeatCap',
-  evasion: 'Evade',
-  edef: 'E-Def',
-  speed: 'Speed',
-  sensorRange: 'Sensor',
-  saveTarget: 'Save',
-};
+import { npcClassSelectorMixin } from './_components/_npcClassSelectorMixin';
 
 export default {
   name: 'NpcBuilderContent',
+  mixins: [npcClassSelectorMixin],
   components: {
     NpcClassSelector,
     NpcTemplateSelector,
@@ -110,45 +94,7 @@ export default {
     item: { type: Object, required: true },
     readonly: { type: Boolean, default: false },
   },
-
-  data: () => ({
-    selectedTier: 1,
-    tieredView: false,
-    options: {
-      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
-      initialView: 'single',
-      groups: ['lcp', 'role', 'none'],
-      initialGroup: 'role',
-    },
-  }),
-  computed: {
-    classes(): NpcClass[] {
-      return _.orderBy(CompendiumStore().NpcClasses, ['Role', 'Name']);
-    },
-    headers() {
-      const h = [
-        { title: 'Content Pack', key: 'LcpName' },
-        { title: 'Role', key: 'Icon' },
-        { title: 'Name', key: 'Name' },
-      ] as any[];
-      for (const key in keymap) {
-        h.push({
-          title: keymap[key],
-          key,
-          tier: this.selectedTier,
-          sortRaw: (a: NpcClass, b: NpcClass) =>
-            Number(a.Stats.Stat(key, this.selectedTier)) -
-            Number(b.Stats.Stat(key, this.selectedTier)),
-          align: 'center',
-        });
-      }
-      return h;
-    },
-  },
   methods: {
-    toggleTieredView(evt) {
-      this.tieredView = evt === 'table' || evt === 'scatter' || evt === 'bar' || evt === 'compare';
-    },
     equip(item) {
       this.item.NpcClassController.SetClass(item, this.item.NpcClassController.Tier);
       (this.$refs.classSelector as any).hide();

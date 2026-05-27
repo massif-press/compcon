@@ -19,6 +19,7 @@
 import { onMounted, watch, nextTick } from 'vue'
 import { EncounterMap } from '@/classes/encounter/EncounterMap'
 import InfiniteCanvas from 'ef-infinite-canvas'
+import { getColor } from './mapUtils'
 
 const props = withDefaults(defineProps<{
   sizeX?: number
@@ -116,14 +117,6 @@ function HandleClick(event: MouseEvent) {
 
 function wheel(_event: WheelEvent) {}
 
-function getColor(flags: string[]) {
-  if (flags.includes('Deployment')) return '#B71C1C'
-  if (flags.includes('Ingress')) return '#0277BD'
-  if (flags.includes('Egress')) return '#00C853'
-  if (flags.includes('Objective')) return '#F57F17'
-  if (flags.includes('Obstruction')) return '#546E7A'
-  return 'rgba(0, 0, 0, 0)'
-}
 
 function getCanvas() {
   return canvas

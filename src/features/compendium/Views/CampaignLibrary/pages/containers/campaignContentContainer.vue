@@ -42,6 +42,7 @@
 <script lang="ts">
 import NarrativeContent from '@/features/gm/campaigns/pages/_components/NarrativeContent.vue';
 import EncounterContent from '@/features/gm/campaigns/pages/_components/EncounterContent.vue';
+import { campaignColorSelections, campaignColorPalette } from '@/shared/campaignColorOptions';
 
 export default {
   name: 'campaign-page-content-container',
@@ -49,56 +50,8 @@ export default {
   props: { item: { type: Object, required: true } },
   data: () => ({
     colorTab: 0,
-    colorSelections: [
-      'primary',
-      'secondary',
-      'accent',
-      'error',
-      'warning',
-      'info',
-      'success',
-      'background',
-      'text',
-      'subtle',
-      'stark',
-      'anti',
-      'frame',
-      'system',
-      'pilot',
-      'protocol',
-      'mod',
-      'weapon',
-      'structure',
-      'hp',
-      'armor',
-      'heat',
-      'stress',
-      'overcharge',
-    ],
-    colorPalette: [
-      'red',
-      'pink',
-      'purple ',
-      'deep-purple ',
-      'indigo ',
-      'blue ',
-      'light-blue ',
-      'cyan ',
-      'teal ',
-      'green ',
-      'light-green ',
-      'core ',
-      'yellow ',
-      'amber ',
-      'orange ',
-      'deep-orange ',
-      'brown ',
-      'blue-grey ',
-      'grey ',
-      'black',
-      'white',
-      'transparent',
-    ],
+    colorSelections: campaignColorSelections,
+    colorPalette: campaignColorPalette,
   }),
   computed: {
     titleStyle() {

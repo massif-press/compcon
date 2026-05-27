@@ -144,11 +144,5 @@ export default {
 </script>
 
 <style scoped>
-.bg-stripes {
-  background: repeating-linear-gradient(-45deg,
-      rgba(249, 219, 78, 0.5),
-      rgba(249, 219, 78, 0.5) 10px,
-      rgba(100, 100, 100, 0.5) 10px,
-      rgba(100, 100, 100, 0.5) 20px);
-}
+@import '../encounter-panels.css';
 </style>

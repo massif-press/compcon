@@ -166,28 +166,7 @@
                 :src="group.Portrait"
                 aspect-ratio="1" />
               <div class="mt-3 text-center">
-                <cc-modal title="Set Group Emblem"
-                  icon="mdi-image">
-                  <template #activator="{ open }">
-                    <div class="d-flex justify-center">
-                      <cc-button size="small"
-                        color="secondary"
-                        @click="open">
-                        <div v-if="!group.Portrait">
-                          <v-icon start>mdi-plus</v-icon>
-                          Add group emblem
-                        </div>
-                        <div v-else>
-                          <v-icon start>mdi-circle-edit-outline</v-icon>
-                          Edit group emblem
-                        </div>
-                      </cc-button>
-                    </div>
-                  </template>
-                  <cc-image-selector ref="imageSelector"
-                    :item="group"
-                    type="emblem" />
-                </cc-modal>
+                <group-emblem-modal :group="group" />
               </div>
             </div>
           </v-col>
@@ -210,6 +189,7 @@ import { PilotStore } from '../../store';
 import { PilotGroup } from '../../store/PilotGroup';
 import { teamName } from '@/io/Generators';
 import GroupFileImport from './add_panels/GroupFileImport.vue';
+import GroupEmblemModal from './_GroupEmblemModal.vue';
 
 const emit = defineEmits<{ close: [] }>()
 

@@ -156,6 +156,8 @@ export default {
 </script>
 
 <style scoped>
+@import './cc_btn_base.css';
+
 .disabled {
   filter: grayscale(100%);
   opacity: 0.5;
@@ -174,10 +176,6 @@ export default {
   clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
   border-top-left-radius: 1px;
   transition: filter 0.2s ease-in-out;
-}
-
-.top-element:hover .light {
-  filter: brightness(2) saturate(200%) hue-rotate(20deg);
 }
 
 .light.x-small {

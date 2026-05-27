@@ -81,54 +81,12 @@
 </template>
 
 <script lang="ts">
-import { NavStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
-
+import { srdViewMixin } from './_srdViewMixin';
 
 export default {
-  mixins: [useMobile],
   name: 'using-compcon',
-  inheritAttrs: false,
-  props: {
-    title: {
-      type: String,
-    },
-    content: {
-      type: Array,
-      default: () => [],
-    },
-    preScroll: {
-      type: String,
-      default: '',
-    },
-  },
-  mounted() {
-    if (this.preScroll) {
-      this.scrollTo(this.preScroll);
-    } else window.scrollTo({ top: 0 });
-  },
-  computed: {
-    lang() {
-      return NavStore().Language;
-    },
-  },
-
-  methods: {
-    getLangItem(item: any, type: string) {
-      if (typeof item === 'string') return item;
-      return item[type][this.lang] ? item[type][this.lang] : item[type].en;
-    },
-    scrollTo(item: any): void {
-      const title = this.getLangItem(item, 'title');
-      const el = document.getElementById(`e_${title.replace(/\W/g, '')}`);
-      if (el) {
-        const yOffset = -60;
-        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    },
-  },
+  mixins: [useMobile, srdViewMixin],
 };
 </script>
 

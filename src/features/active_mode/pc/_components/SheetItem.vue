@@ -293,44 +293,7 @@ export default {
 </script>
 
 <style scoped>
-.detail-row {
-  background-color: rgb(var(--v-theme-light-panel));
-  border-bottom: 1px rgb(var(--v-theme-primary)) solid;
-  border-right: 1px rgb(var(--v-theme-primary)) solid;
-  border-left: 1px rgb(var(--v-theme-primary)) solid;
-  margin-left: -13px;
-  min-height: 138px;
-}
-
-.detail-row-mobile {
-  background-color: rgb(var(--v-theme-light-panel));
-  border-bottom: 1px rgb(var(--v-theme-primary)) solid;
-  border-right: 1px rgb(var(--v-theme-primary)) solid;
-  border-left: 1px rgb(var(--v-theme-primary)) solid;
-  margin-left: -1px;
-  min-height: 57px;
-}
-
-.cToolbar {
-  background-color: rgb(var(--v-theme-primary));
-}
-
-.cToolbar-missing {
-  background: repeating-linear-gradient(45deg,
-      rgb(var(--v-theme-error-darken-2)),
-      rgb(var(--v-theme-error-darken-2)) 10px,
-      rgb(var(--v-theme-error-darken-3)) 10px,
-      rgb(var(--v-theme-error-darken-3)) 20px);
-}
-
-.light {
-  transition: background-color 0.2s ease-in-out;
-  background-color: rgb(var(--v-theme-primary));
-}
-
-.li-top-element:hover .light {
-  background-color: rgb(var(--v-theme-success));
-}
+@import '@/ui/style/pilot-list-item.css';
 
 .success-pulse {
   animation: success-pulse 1.8s infinite;

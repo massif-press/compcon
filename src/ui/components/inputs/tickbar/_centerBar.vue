@@ -181,6 +181,8 @@ export default {
 </script>
 
 <style scoped>
+@import './tickbar.css';
+
 .light {
   width: 13.5px;
   height: 13.5px;
@@ -239,17 +241,4 @@ export default {
   margin-left: -16px !important;
 }
 
-.tick {
-  opacity: 0.3;
-  transform: opacity 0.2s ease-in-out;
-}
-
-.hovered {
-  opacity: 0.5;
-}
-
-.highlighted {
-  opacity: 1;
-  filter: saturate(200%);
-}
 </style>

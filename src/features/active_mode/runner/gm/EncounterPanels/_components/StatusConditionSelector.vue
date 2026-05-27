@@ -4,59 +4,19 @@
     <v-row dense>
       <v-col v-for="status in applicableStatuses.filter((x) => x.StatusType === 'Status')"
         :key="`${isPilot}_${status.ID}`">
-        <v-tooltip :open-delay="400"
-          location="top"
-          max-width="300">
-          <template #activator="{ props }">
-            <v-card v-bind="props"
-              :color="controller.Statuses.some((s) => s.status.ID === status.ID) ? 'primary' : 'panel'
-                "
-              class="px-2 py-1 text-center"
-              flat
-              tile
-              @click="setStatus(status)">
-              <v-icon :icon="status.Icon"
-                size="35" />
-              <div v-if="mobile"
-                class="text-cc-overline">{{ status.Name }}</div>
-            </v-card>
-          </template>
-          <div class="heading h3">{{ status.Name }}</div>
-          {{ status.Terse || status.Effects }}
-        </v-tooltip>
+        <status-condition-item :status="status"
+          :active="controller.Statuses.some((s) => s.status.ID === status.ID)"
+          @click="setStatus(status)" />
       </v-col>
     </v-row>
 
     <v-row dense>
       <v-col v-for="status in applicableStatuses.filter((x) => x.StatusType === 'Condition')"
         :key="`${isPilot}_${status.ID}`">
-        <v-tooltip :open-delay="400"
-          location="top"
-          max-width="300">
-          <template #activator="{ props }">
-            <v-card v-bind="props"
-              :color="controller.Statuses.some((s) => s.status.ID === status.ID) ? 'primary' : 'panel'
-                "
-              class="px-2 py-1 text-center"
-              flat
-              tile
-              @click="setStatus(status)">
-              <v-icon :icon="status.Icon"
-                size="35" />
-              <div v-if="mobile"
-                class="text-cc-overline">{{ status.Name }}</div>
-            </v-card>
-          </template>
-          <div class="heading h3">{{ status.Name }}</div>
-          <v-card v-if="appliedStatus(status)"
-            flat
-            tile
-            class="pa-1 text-center text-cc-overline"
-            color="primary">
-            {{ appliedStatus(status) }}
-          </v-card>
-          {{ status.Terse || status.Effects }}
-        </v-tooltip>
+        <status-condition-item :status="status"
+          :active="controller.Statuses.some((s) => s.status.ID === status.ID)"
+          :applied-detail="appliedStatus(status)"
+          @click="setStatus(status)" />
       </v-col>
     </v-row>
 
@@ -140,9 +100,11 @@
 import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
+import StatusConditionItem from './StatusConditionItem.vue';
 
 export default {
   name: 'StatusConditionSelector',
+  components: { StatusConditionItem },
   mixins: [useMobile],
   props: {
     controller: {

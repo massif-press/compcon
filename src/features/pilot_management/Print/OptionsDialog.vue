@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-import PrintOptionSelect from './PrintOptionSelect.vue';
+import PrintOptionSelect from '@/shared/print/PrintOptionSelect.vue';
 
 export default {
   name: 'print-options-dialog',

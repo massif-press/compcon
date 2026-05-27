@@ -124,9 +124,10 @@ import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/A
 import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
 import { NpcFeatureType } from '@/classes/npc/feature/NpcFeature';
 import CombatActionButton from './CombatActionButton.vue';
+import { barrageButtonMixin } from './_barrageButtonMixin';
 
 export default {
-  name: 'MechBarrageButton',
+  name: 'NpcBarrageButton',
   components: {
     MenuInput,
     NpcWeaponAttack,
@@ -134,6 +135,7 @@ export default {
     StagedPanel,
     CombatActionButton,
   },
+  mixins: [barrageButtonMixin],
   props: {
     action: {
       type: Object,
@@ -191,9 +193,6 @@ export default {
       return this.owner.actor.CombatController.Tier;
     }
   },
-  created() {
-    this.reset();
-  },
   methods: {
     ordnanceWarning(selectedWeapon) {
       if (!selectedWeapon) return false;
@@ -225,24 +224,6 @@ export default {
         this.selectedWeapons.push(undefined as any);
         this.events.push(undefined as any);
       }
-    },
-    reset(clearAction = false) {
-      if (clearAction) this.owner.CombatController.ClearActionUsed(this.action.ID);
-
-      this.selectedWeapons = new Array(2);
-      this.events = new Array(2);
-
-      if (!this.selectedWeapons[0] && this.presetWeapon) {
-        this.setSelected(0, this.presetWeapon);
-      }
-    },
-    apply() {
-      const actor = this.owner.actor.CombatController.ActiveActor.CombatController;
-      this.selectedWeapons.forEach((w) => {
-        actor.MarkActionUsed(w.InstanceID);
-        if (w.IsLoading) w.Used = true;
-      });
-      this.reset();
     },
   },
 };

@@ -1,36 +1,14 @@
 <template>
-  <div class="pa-2 mt-3">
-    <div class="text-overline text-primary"
-      style="line-height: 0">EQUIPMENT TAG DETAIL</div>
-    <div v-for="t in tags"
-      :key="t.ID"
-      class="ma-2 no-print-break">
-      <v-card variant="outlined"
-        class="pa-2"
-        color="grey">
-        <v-row dense>
-          <v-col cols="auto">
-            <v-icon icon="mdi-tag-outline" />
-          </v-col>
-          <v-col>
-            <div class="heading text-black">
-              {{ t.Name }}
-            </div>
-            <div class="caption text-black">
-              {{ t.Description }}
-            </div>
-          </v-col>
-        </v-row>
-      </v-card>
-    </div>
-  </div>
+  <tag-info-display :tags="tags" />
 </template>
 
 <script lang="ts">
 import * as _ from 'lodash-es';
+import TagInfoDisplay from '@/ui/components/print/TagInfoDisplay.vue';
 
 export default {
   name: 'tag-info-print',
+  components: { TagInfoDisplay },
   props: {
     pilot: {
       type: Object,
@@ -54,15 +32,5 @@ export default {
       return _.uniqBy(arr, 'ID');
     },
   },
-  methods: {
-    showTag(id) {
-      const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
-      return !hiddenTags.includes(id);
-    },
-  },
 };
 </script>
-
-<style scoped>
-@import '@/ui/style/print-common.css';
-</style>

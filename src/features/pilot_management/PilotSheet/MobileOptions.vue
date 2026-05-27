@@ -212,16 +212,13 @@
 </template>
 
 <script lang="ts">
-import { saveFile } from '@/io/Data'
 import { Pilot } from '@/classes/pilot/Pilot'
-import { UserStore } from '@/stores'
-import { CloudController } from '@/classes/components/cloud/CloudController'
 import CloneDialog from './components/CloneDialog.vue'
 import StatblockDialog from './components/StatblockDialog.vue'
-import logger from '@/user/logger'
 import LcpConfigSelector from './components/LcpConfigSelector.vue'
 import { useMobile } from '@/composables/useMobile';
 import ShareDialog from '@/shared/ShareDialog.vue'
+import { pilotActionsMixin } from './pilotActionsMixin'
 
 export default {
   name: 'MobileOptionsMenu',
@@ -231,7 +228,7 @@ export default {
     LcpConfigSelector,
     ShareDialog,
   },
-  mixins: [useMobile],
+  mixins: [useMobile, pilotActionsMixin],
   props: {
     pilot: {
       type: Pilot,
@@ -249,57 +246,6 @@ export default {
       this.pilot.SaveController.Delete()
       if (close) close()
       if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
-    },
-    exportPilot(v2 = false) {
-      try {
-        saveFile(
-          this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
-          Pilot.Serialize(this.pilot as Pilot),
-          'Save Pilot',
-          v2
-        )
-        this.$notify({
-          title: 'Export Success',
-          text: `Pilot data saved as "${this.pilot.Callsign.toUpperCase().replace(
-            /\W/g,
-            ''
-          )}.json"`,
-          data: { type: 'success', icon: 'mdi-check' },
-        })
-      } catch (error) {
-        logger.error(`Pilot export failed: ${error}`, this, error)
-        this.$notify({
-          title: 'Export Error',
-          text: 'COMP/CON was unable to export pilot data',
-          data: { type: 'error', icon: 'mdi-alert' },
-        })
-      }
-    },
-    async remoteUpdate() {
-      try {
-        await CloudController.UpdateRemote(this.pilot)
-        await UserStore().refreshDbData()
-        this.$notify({
-          title: `Sync Complete`,
-          text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
-          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
-        })
-      } catch (err) {
-        this.$notify({
-          title: `Sync Failed`,
-          text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
-          data: { icon: 'mdi-alert', color: 'error' },
-        })
-      }
-    },
-    async convert() {
-      this.loading = true
-      UserStore().deleteRemoteItem(this.pilot.SaveController.RemoteCode)
-      this.pilot.CloudController.GenerateMetadata()
-      this.pilot.SaveController.ClearRemote()
-      await UserStore().refreshDbData()
-      this.loading = false
-      this.$emit('close')
     },
   },
 }

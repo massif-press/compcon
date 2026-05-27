@@ -93,6 +93,8 @@ export default {
 </script>
 
 <style scoped>
+@import './cc_btn_base.css';
+
 .hex {
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   outline: 4px solid #2c3e50;
@@ -146,10 +148,6 @@ export default {
 
 .top-element {
   position: relative;
-}
-
-.top-element:hover .light {
-  filter: brightness(2) saturate(200%) hue-rotate(20deg);
 }
 
 .light.x-small {

@@ -42,34 +42,9 @@
         <v-col cols="12"
           md="auto">
           <div class="text-right">
-            <cc-switch v-model="showUnlicensed"
-              :label="mobile && 'Show Unlicensed'"
-              color="error"
-              :tooltip="!mobile && showUnlicensed
-                ? 'Unlicensed equipment: SHOWN'
-                : 'Unlicensed equipment: HIDDEN'
-                "
-              :prepend-icon="!mobile && 'cc:system'"
-              on-icon="mdi-lock-open"
-              off-icon="mdi-lock" />
-            <br />
-            <cc-switch v-model="showOverSP"
-              :label="mobile && 'Show Exceeds SP'"
-              color="error"
-              :tooltip="!mobile && showOverSP
-                ? 'Systems exceeding SP Capacity: SHOWN'
-                : 'Systems exceeding SP Capacity: HIDDEN'
-                "
-              :prepend-icon="!mobile && 'cc:system_point'"
-              on-icon="mdi-lock-open"
-              off-icon="mdi-lock">
-              <template #label>
-                <v-tooltip>
-                  <v-icon :color="showOverSP ? 'warning' : 'success'"
-                    icon="cc:system_point" />
-                </v-tooltip>
-              </template>
-            </cc-switch>
+            <selector-filter-switches v-model:unlicensed="showUnlicensed"
+              v-model:over-sp="showOverSP"
+              :mobile="mobile" />
           </div>
         </v-col>
       </v-row>
@@ -85,6 +60,7 @@ import { CompendiumStore } from '@/stores'
 import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
 import { Mech } from '@/classes/mech/Mech'
 import { useLcpFilter } from '../_composables/useLcpFilter'
+import SelectorFilterSwitches from '../_SelectorFilterSwitches.vue'
 
 const props = defineProps<{
   equipped?: any

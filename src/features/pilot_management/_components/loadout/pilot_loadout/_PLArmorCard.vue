@@ -123,35 +123,16 @@
 
 <script lang="ts">
 import PlCardBase from './_PLCardBase.vue'
-
-import { CompendiumStore } from '@/stores'
 import { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import { ItemType } from '@/classes/enums'
 import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
-import { flavorID } from '@/io/Generators'
+import { PLCardMixin } from './_PLCardMixin'
 
 export default {
   name: 'PlPilotArmorCard',
   components: { PlCardBase },
-  props: {
-    item: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    extended: {
-      type: Boolean,
-      required: false,
-    },
-    readonly: {
-      type: Boolean,
-    },
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
+  mixins: [PLCardMixin],
   emits: ['equip', 'remove', 'save'],
   data: () => ({
     headers: [
@@ -176,16 +157,7 @@ export default {
   }),
   computed: {
     exotics(): PilotArmor[] {
-      return this.pilot.SpecialEquipment.filter(x => x.ItemType === 'PilotArmor')
-    },
-    allGear(): PilotEquipment[] {
-      if (!this.pilot.LcpConfig) return CompendiumStore().PilotGear as PilotEquipment[]
-      return CompendiumStore().PilotGear.filter(
-        (x: any) =>
-          !x.InLcp ||
-          this.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
-          this.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
-      ) as PilotEquipment[]
+      return this.pilot.SpecialEquipment.filter((x: any) => x.ItemType === 'PilotArmor')
     },
     armor(): PilotArmor[] {
       let armor = this.allGear.filter(
@@ -208,10 +180,6 @@ export default {
         text: `${item.Name} equipped to ${this.pilot.Name}.`,
         data: { icon: 'cc:pilot' },
       })
-    },
-
-    fID(template: string): string {
-      return flavorID(template)
     },
   },
 }

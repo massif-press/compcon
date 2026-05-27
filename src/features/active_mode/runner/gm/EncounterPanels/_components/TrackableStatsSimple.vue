@@ -156,63 +156,22 @@
 </template>
 
 <script lang="ts">
-import { Rules } from '@/classes/utility/Rules'
 import SimpleMiniPanel from './SimpleMiniPanel.vue';
-
+import { trackableStatsMixin } from './_trackableStatsMixin';
 
 export default {
-  name: 'TrackableStatsComplex',
-  components: {
-    SimpleMiniPanel,
-  },
+  name: 'TrackableStatsSimple',
+  components: { SimpleMiniPanel },
+  mixins: [trackableStatsMixin],
   props: {
     item: {
       type: Object,
       required: true,
     },
   },
-  data: () => ({
-    batteryIcons: [
-      'mdi-battery-outline',
-      'mdi-battery-low',
-      'mdi-battery-medium',
-      'mdi-battery-high',
-    ],
-    batteryIndex: 3,
-  }),
   computed: {
     currentIcon() {
       return this.batteryIcons[this.batteryIndex];
-    },
-    overchargeTrack() {
-      return this.item.OverchangeTrack ? this.item.OverchangeTrack : Rules.Overcharge;
-    },
-  },
-  methods: {
-    getIcon(stat) {
-      const icons = {
-        structure: 'cc:structure',
-        armor: 'mdi-shield-outline',
-        hp: 'mdi-heart-outline',
-        reactor: 'cc:reactor',
-        heat: 'cc:heat',
-        repair: 'cc:repair',
-        techAttack: 'cc:quick_tech',
-      };
-      return icons[stat];
-    },
-
-    drainBattery() {
-      if (this.batteryIndex > 0) {
-        this.item.CombatController.CorePower = false;
-        const interval = setInterval(() => {
-          this.batteryIndex--;
-          if (this.batteryIndex === 0) clearInterval(interval);
-        }, 60);
-      } else {
-        this.item.CombatController.CorePower = true;
-        this.batteryIndex = 3;
-      }
     },
   },
 };

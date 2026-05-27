@@ -4,50 +4,32 @@
     align="center">
     <v-col cols="auto">
       <slot name="icon" />
-      <v-tooltip location="top"
-        :text="action.Activation">
-        <template #activator="{ props }">
-          <span v-bind="props"
-            class="ml-1">
-            <v-icon v-bind="props"
-              :icon="action.Icon"
-              :color="canActivate ? 'success' : 'error'" />
-            <v-tooltip v-if="!canActivate"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="mdi-exclamation-thick"
-                  color="error" />
-              </template>
-              <div class="text-center text-cc-overline">Cannot activate</div>
-              <v-divider class="my-1" />
-              <div v-if="customDisabledText"
-                class="text-center">
-                {{ customDisabledText }}
-              </div>
-              <div v-else-if="controller.IsActionUsed(action.ID)"
-                class="text-center">
-                Action already used.
-              </div>
-              <div v-else-if="!controller.CanActivate(action.Activation)"
-                class="text-center">
-                Insufficient
-                <v-chip :color="action.Color"
-                  size="small"
-                  variant="elevated"
-                  :prepend-icon="action.Icon || ''">
-                  {{ action.Activation }}
-                </v-chip>
-                actions remaining this turn.
-              </div>
-              <div v-else
-                class="text-center">
-                Cannot activate.
-              </div>
-            </v-tooltip>
-          </span>
+      <combat-action-indicator :icon="action.Icon"
+        :activation="action.Activation"
+        :can-activate="canActivate"
+        :custom-disabled-text="customDisabledText">
+        <template #reason>
+          <div v-if="controller.IsActionUsed(action.ID)"
+            class="text-center">
+            Action already used.
+          </div>
+          <div v-else-if="!controller.CanActivate(action.Activation)"
+            class="text-center">
+            Insufficient
+            <v-chip :color="action.Color"
+              size="small"
+              variant="elevated"
+              :prepend-icon="action.Icon || ''">
+              {{ action.Activation }}
+            </v-chip>
+            actions remaining this turn.
+          </div>
+          <div v-else
+            class="text-center">
+            Cannot activate.
+          </div>
         </template>
-      </v-tooltip>
+      </combat-action-indicator>
     </v-col>
     <v-col>
       <cc-dialog :color="canActivate ? action.Color : 'panel'"
@@ -90,6 +72,7 @@
 import { computed } from 'vue';
 import { Action } from '@/classes/Action';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
+import CombatActionIndicator from './_CombatActionIndicator.vue';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
 const props = withDefaults(defineProps<{

@@ -119,81 +119,30 @@
                   </template>
                 </v-tooltip>
               </v-col>
-              <v-col v-for="stat in item.StatController.GetStatCollection([
-                'hull',
-                'agi',
-                'sys',
-                'eng',
-              ])"
-                :key="stat"
-                cols="auto">
-                <v-tooltip :text="stat.title"
-                  location="top"
-                  open-delay="400">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props"
-                      :icon="stat.icon"
-                      :size="mobile ? '20' : 'x-large'"
-                      :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
-                    <span :class="mobile ? '' : 'h2'"
-                      class="heading text-accent">
-                      {{ item.StatController.MaxStats[stat.key] || 0 }}
-                    </span>
-                  </template>
-                </v-tooltip>
-                <cc-bonus v-if="getBonus(stat.key)"
-                  :bonus="getBonus(stat.key)" />
-              </v-col>
-              <v-col cols="1" />
-
-              <v-col v-for="stat in item.StatController.GetStatCollection([
-                'evasion',
-                'edef',
-                'techAttack',
-                'sensorRange',
-                'saveTarget',
-              ])"
-                :key="stat"
-                cols="auto">
-                <v-tooltip :text="stat.title"
-                  location="top"
-                  open-delay="400">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props"
-                      :icon="stat.icon"
-                      :size="mobile ? '20' : 'x-large'"
-                      :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
-                    <span :class="mobile ? '' : 'h2'"
-                      class="heading text-accent">
-                      {{ item.StatController.MaxStats[stat.key] || 0 }}
-                    </span>
-                  </template>
-                </v-tooltip>
-                <cc-bonus v-if="getBonus(stat.key)"
-                  :bonus="getBonus(stat.key)" />
-              </v-col>
-
-              <v-col
-                v-for="stat in item.StatController.GetStatCollection(extraStatSet).filter(x => item.StatController.MaxStats[x.key])"
-                :key="stat"
-                cols="auto">
-                <v-tooltip :text="stat.title"
-                  location="top"
-                  open-delay="400">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props"
-                      :icon="stat.icon"
-                      :size="mobile ? '20' : 'x-large'"
-                      :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
-                    <span :class="mobile ? '' : 'h2'"
-                      class="heading text-accent">
-                      {{ item.StatController.MaxStats[stat.key] || 0 }}
-                    </span>
-                  </template>
-                </v-tooltip>
-                <cc-bonus v-if="getBonus(stat.key)"
-                  :bonus="getBonus(stat.key)" />
-              </v-col>
+              <template v-for="stat in statColumns"
+                :key="stat.key">
+                <v-col v-if="stat.key === '__spacer__'"
+                  cols="1" />
+                <v-col v-else
+                  cols="auto">
+                  <v-tooltip :text="stat.title"
+                    location="top"
+                    open-delay="400">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props"
+                        :icon="stat.icon"
+                        :size="mobile ? '20' : 'x-large'"
+                        :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
+                      <span :class="mobile ? '' : 'h2'"
+                        class="heading text-accent">
+                        {{ item.StatController.MaxStats[stat.key] || 0 }}
+                      </span>
+                    </template>
+                  </v-tooltip>
+                  <cc-bonus v-if="getBonus(stat.key)"
+                    :bonus="getBonus(stat.key)" />
+                </v-col>
+              </template>
 
               <v-col cols="auto">
                 <v-tooltip v-if="item.ItemType === 'mech' || item.ItemType === 'pilot'"
@@ -213,28 +162,6 @@
                 </v-tooltip>
                 <cc-bonus v-if="getBonus('attackBonus')"
                   :bonus="getBonus('attackBonus')" />
-
-              </v-col>
-
-              <v-col v-for="stat in item.StatController.CustomStats(item.ItemType)"
-                :key="stat"
-                cols="auto">
-                <v-tooltip :text="stat.title"
-                  location="top"
-                  open-delay="400">
-                  <template #activator="{ props }">
-                    <v-icon v-bind="props"
-                      :icon="stat.icon"
-                      :size="mobile ? '20' : 'x-large'"
-                      :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
-                    <span :class="mobile ? '' : 'h2'"
-                      class="heading text-accent">
-                      {{ item.StatController.MaxStats[stat.key] || 0 }}
-                    </span>
-                  </template>
-                </v-tooltip>
-                <cc-bonus v-if="getBonus(stat.key)"
-                  :bonus="getBonus(stat.key)" />
               </v-col>
 
               <v-col cols="auto">
@@ -425,6 +352,15 @@ export default {
       return ['attackBonus', 'grapple', 'ram']
     },
 
+    statColumns() {
+      const spacer = { key: '__spacer__' }
+      const g1 = this.item.StatController.GetStatCollection(['hull', 'agi', 'sys', 'eng'])
+      const g2 = this.item.StatController.GetStatCollection(['evasion', 'edef', 'techAttack', 'sensorRange', 'saveTarget'])
+      const g3 = this.item.StatController.GetStatCollection(this.extraStatSet).filter((x: any) => this.item.StatController.MaxStats[x.key])
+      const g4 = this.item.StatController.CustomStats(this.item.ItemType)
+      return [...g1, spacer, ...g2, ...g3, ...g4]
+    },
+
 
     mobile() {
       return this.$vuetify.display.mdAndDown;
@@ -477,11 +413,5 @@ export default {
 </script>
 
 <style scoped>
-.bg-stripes {
-  background: repeating-linear-gradient(-45deg,
-      rgba(249, 219, 78, 0.5),
-      rgba(249, 219, 78, 0.5) 10px,
-      rgba(100, 100, 100, 0.5) 10px,
-      rgba(100, 100, 100, 0.5) 20px);
-}
+@import './encounter-panels.css';
 </style>

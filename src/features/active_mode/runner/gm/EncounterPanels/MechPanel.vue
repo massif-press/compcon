@@ -128,22 +128,11 @@
                 style="height: 100%"
                 combat>
                 <template #combat>
-                  <div v-if="item.Actions?.length"
-                    class="mb-2 mt-1">
-                    <cc-combat-action-chip v-for="a in item.Actions"
-                      :key="a.ID"
-                      :action="a"
-                      :owner="combatant"
-                      :encounter="encounterInstance" />
-                  </div>
-                  <div v-if="item.Deployables?.length"
-                    class="mb-2">
-                    <deploy-button v-for="d in item.Deployables"
-                      :key="d.ID"
-                      :deployable="d"
-                      :actor="mech"
-                      @deploy="deploy($event)" />
-                  </div>
+                  <combat-actions-block :item="item"
+                    :combatant="combatant"
+                    :encounter-instance="encounterInstance"
+                    :actor="mech"
+                    @deploy="deploy($event)" />
                 </template>
               </cc-trait-item>
             </template>
@@ -169,22 +158,11 @@
                 :bonus="item"
                 combat>
                 <template #combat>
-                  <div v-if="item.Actions?.length"
-                    class="mb-2 mt-1">
-                    <cc-combat-action-chip v-for="a in item.Actions"
-                      :key="a.ID"
-                      :action="a"
-                      :owner="combatant"
-                      :encounter="encounterInstance" />
-                  </div>
-                  <div v-if="item.Deployables?.length"
-                    class="mb-2">
-                    <deploy-button v-for="d in item.Deployables"
-                      :key="d.ID"
-                      :deployable="d"
-                      :actor="mech"
-                      @deploy="deploy($event)" />
-                  </div>
+                  <combat-actions-block :item="item"
+                    :combatant="combatant"
+                    :encounter-instance="encounterInstance"
+                    :actor="mech"
+                    @deploy="deploy($event)" />
                 </template>
               </cc-core-bonus-item>
             </template>
@@ -260,6 +238,7 @@ import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
 import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 import MechActionsPanel from './_components/MechActionsPanel.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
+import CombatActionsBlock from './_CombatActionsBlock.vue';
 import { orderBy, sampleSize } from 'lodash-es';
 
 const props = defineProps<{
@@ -351,11 +330,5 @@ function turnDiff(targetRound: number) { return targetRound - props.encounterIns
 </script>
 
 <style scoped>
-.bg-stripes {
-  background: repeating-linear-gradient(-45deg,
-      rgba(249, 219, 78, 0.5),
-      rgba(249, 219, 78, 0.5) 10px,
-      rgba(100, 100, 100, 0.5) 10px,
-      rgba(100, 100, 100, 0.5) 20px);
-}
+@import './encounter-panels.css';
 </style>

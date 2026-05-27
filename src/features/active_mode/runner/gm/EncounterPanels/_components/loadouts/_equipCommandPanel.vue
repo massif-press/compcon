@@ -49,93 +49,18 @@
     </v-col>
     <v-col v-if="item.IsAI"
       cols="auto">
-      <v-btn v-if="!controller.AIControl"
-        :color="controller.CanActivate('protocol') ? 'protocol' : 'panel'"
+      <ai-control-button v-if="!controller.AIControl"
+        :controller="controller"
         :size="mobile ? 'x-small' : 'small'"
-        flat
-        tile
-        height="25"
-        @click="enableAI">
-        <v-tooltip v-if="!controller.CanActivate('protocol')"
-          location="top">
-          <template #activator="{ props }">
-            <v-avatar v-bind="props"
-              size="x-small"
-              class="mr-2">
-              <v-icon icon="mdi-exclamation-thick"
-                color="error" />
-            </v-avatar>
-          </template>
-          <div class="text-center text-cc-overline">Cannot activate</div>
-          <v-divider class="my-1" />
-          <div>
-            Insufficient
-            <v-chip color="protocol"
-              size="small"
-              variant="elevated"
-              prepend-icon="cc:protocol">
-              Protocol
-            </v-chip>
-            actions remaining this turn.
-          </div>
-        </v-tooltip>
-        <v-tooltip location="top"
-          max-width="300"
-          text="Cede control of your mech to the NHP as a Protocol Action.">
-          <template #activator="{ props }">
-            <span v-bind="props">
-              <v-icon icon="cc:protocol"
-                class="mr-1"
-                size="19" />
-              Cede Control
-            </span>
-          </template>
-        </v-tooltip>
-      </v-btn>
+        label="Cede Control"
+        tooltip-text="Cede control of your mech to the NHP as a Protocol Action."
+        @action="enableAI" />
 
-      <v-btn v-if="controller.AIControl"
-        :color="controller.CanActivate('protocol') ? 'protocol' : 'panel'"
-        size="small"
-        flat
-        tile
-        height="25"
-        @click="disableAI">
-        <v-tooltip v-if="!controller.CanActivate('protocol')"
-          location="top">
-          <template #activator="{ props }">
-            <v-avatar v-bind="props"
-              size="x-small"
-              class="mr-2">
-              <v-icon icon="mdi-exclamation-thick"
-                color="error" />
-            </v-avatar>
-          </template>
-          <div class="text-center text-cc-overline">Cannot activate</div>
-          <v-divider class="my-1" />
-          <div>
-            Insufficient
-            <v-chip color="protocol"
-              size="small"
-              variant="elevated"
-              prepend-icon="cc:protocol">
-              Protocol
-            </v-chip>
-            actions remaining this turn.
-          </div>
-        </v-tooltip>
-        <v-tooltip location="top"
-          max-width="300"
-          text="Reclaim control of your mech from the NHP as a Protocol Action.">
-          <template #activator="{ props }">
-            <span v-bind="props">
-              <v-icon icon="cc:protocol"
-                class="mr-1"
-                size="19" />
-              Reclaim Control
-            </span>
-          </template>
-        </v-tooltip>
-      </v-btn>
+      <ai-control-button v-if="controller.AIControl"
+        :controller="controller"
+        label="Reclaim Control"
+        tooltip-text="Reclaim control of your mech from the NHP as a Protocol Action."
+        @action="disableAI" />
 
       <v-tooltip location="top"
         max-width="300"
@@ -284,6 +209,7 @@ import MechBarrageButton from './action_buttons/mechBarrageButton.vue'
 import NpcSkirmishButton from './action_buttons/npcSkirmishButton.vue'
 import NpcBarrageButton from './action_buttons/npcBarrageButton.vue'
 import PilotFightButton from './action_buttons/pilotFightButton.vue'
+import AiControlButton from './_aiControlButton.vue'
 import { CombatController } from '@/classes/components/combat/CombatController'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 
@@ -295,6 +221,7 @@ export default {
     NpcSkirmishButton,
     NpcBarrageButton,
     PilotFightButton,
+    AiControlButton,
   },
   props: {
     item: {

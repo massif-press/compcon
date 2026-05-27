@@ -115,28 +115,7 @@
               </div>
               <div v-if="edit"
                 class="text-right mb-2">
-                <cc-modal title="Set Group Emblem"
-                  icon="mdi-image">
-                  <template #activator="{ open }">
-                    <div class="d-flex justify-center">
-                      <cc-button size="small"
-                        color="secondary"
-                        @click="open">
-                        <div v-if="!group.Portrait">
-                          <v-icon start>mdi-plus</v-icon>
-                          Add group emblem
-                        </div>
-                        <div v-else>
-                          <v-icon start>mdi-circle-edit-outline</v-icon>
-                          Edit group emblem
-                        </div>
-                      </cc-button>
-                    </div>
-                  </template>
-                  <cc-image-selector ref="imageSelector"
-                    :item="group"
-                    type="emblem" />
-                </cc-modal>
+                <group-emblem-modal :group="group" />
               </div>
             </v-col>
           </v-row>
@@ -379,6 +358,7 @@ import FileImport from './add_panels/FileImport.vue';
 import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
 import { useRosterDragMode } from '@/composables/useRosterDragMode';
 import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
+import GroupEmblemModal from './_GroupEmblemModal.vue';
 
 const props = withDefaults(defineProps<{
   group: any;

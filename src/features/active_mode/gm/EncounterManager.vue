@@ -2,82 +2,14 @@
   <v-container>
     <div class="heading h2">Local Active Encounters</div>
 
-    <v-row dense>
-      <v-col>
-        <div class="my-1 d-flex align-center">
-          <v-tooltip location="top"
-            open-delay="300">
-            <template #activator="{ props }">
-              <v-btn v-bind="props"
-                color="panel"
-                flat
-                tile
-                size="small"
-                @click="setSort('Updated')">
-                <v-icon icon="mdi-clock-outline"
-                  size="20"
-                  color="accent" />
-                <v-icon v-if="sort === 'Updated'"
-                  color="accent"
-                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-                  class="mb-n1" />
-              </v-btn>
-            </template>
-            <span>Sort by Recent</span>
-          </v-tooltip>
-
-          <v-tooltip location="top"
-            open-delay="300">
-            <template #activator="{ props }">
-              <v-btn v-bind="props"
-                color="panel"
-                flat
-                tile
-                size="small"
-                @click="setSort('Name')">
-                <v-icon icon="mdi-format-text-variant"
-                  size="24"
-                  color="accent" />
-                <v-icon v-if="sort === 'Name'"
-                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-                  class="mb-n1"
-                  color="accent" />
-              </v-btn>
-            </template>
-            <span>Sort by Name</span>
-          </v-tooltip>
-
-          <v-tooltip location="top"
-            open-delay="300">
-            <template #activator="{ props }">
-              <v-btn v-bind="props"
-                color="panel"
-                flat
-                tile
-                size="small"
-                @click="setSort('Created')">
-                <v-icon icon="mdi-calendar"
-                  size="21"
-                  color="accent" />
-                <v-icon v-if="sort === 'Created'"
-                  color="accent"
-                  :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-                  class="mb-n1" />
-              </v-btn>
-            </template>
-            <span>Sort by created timestamp</span>
-          </v-tooltip>
-        </div>
-      </v-col>
-      <v-col cols="auto">
-        <active-mode-organizer :items="encounters"
-          :columns="encounterOrganizerColumns"
-          noun="encounter"
-          title="Encounters"
-          @archive="organizeArchive"
-          @delete="organizeDelete" />
-      </v-col>
-    </v-row>
+    <active-mode-sort-bar v-model:sort="sort"
+      v-model:asc="asc"
+      :items="encounters"
+      :columns="encounterOrganizerColumns"
+      noun="encounter"
+      title="Encounters"
+      @archive="organizeArchive"
+      @delete="organizeDelete" />
 
 
 
@@ -428,7 +360,7 @@
 import { ref, computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { useRouter } from 'vue-router';
-import ActiveModeOrganizer from '@/features/active_mode/_components/ActiveModeOrganizer.vue';
+import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue';
 import { CombatLog } from '@/classes/components/combat/CombatLog';
 import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary';
 import { Encounter } from '@/classes/encounter/Encounter';
@@ -499,15 +431,6 @@ const archived = computed(() => {
 const deleted = computed(() =>
   EncounterStore().ActiveEncounters.filter((e) => e.SaveController.IsDeleted)
 );
-
-function setSort(field: string) {
-  if (sort.value === field) {
-    asc.value = !asc.value;
-  } else {
-    sort.value = field;
-    asc.value = true;
-  }
-}
 
 async function launch(encounter: any) {
   await EncounterStore().AssignActiveEncounter(encounter);

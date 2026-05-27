@@ -428,12 +428,6 @@ export default {
     },
   },
   computed: {
-    blank() {
-      return this.options.content.title === 'Blank';
-    },
-    landscape() {
-      return this.options.orientation === 'landscape';
-    },
     talentActions() {
       return this.pilot.TalentsController.Talents.flatMap((t) => t.Talent.Ranks)
         .filter((r) => r.Actions.length > 0)

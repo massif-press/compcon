@@ -182,6 +182,7 @@ import { CompendiumItem } from '@/classes/CompendiumItem'
 import { Manufacturer } from '@/classes/Manufacturer'
 import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import { NpcClass } from '@/classes/npc/class/NpcClass';
+import { getChartAxes, findManufacturer } from './_selectorUtils';
 
 ChartJS.register(
   LinearScale,
@@ -244,66 +245,7 @@ export default {
   }),
   computed: {
     axes() {
-      switch ((this.items[0] as CompendiumItem).ItemType) {
-        case 'Frame':
-          return [
-            { title: 'HP', value: 'hp' },
-            { title: 'Evasion', value: 'evasion' },
-            { title: 'Armor', value: 'armor' },
-            { title: 'E-Defense', value: 'edef' },
-            { title: 'Heat Capacity', value: 'heatcap' },
-            { title: 'Repair Capacity', value: 'repcap' },
-            { title: 'Sensors', value: 'sensor_range' },
-            { title: 'Tech Attack', value: 'tech_attack' },
-            { title: 'Save', value: 'save' },
-            { title: 'Speed', value: 'speed' },
-            { title: 'System Points', value: 'sp' },
-          ];
-        case 'PilotArmor':
-          return [
-            { title: 'Armor', value: 'armor' },
-            { title: 'HP Bonus', value: 'hp' },
-            { title: 'E-Defense', value: 'edef' },
-            { title: 'Evasion', value: 'evasion' },
-            { title: 'Speed', value: 'speed' },
-          ];
-        case 'PilotWeapon':
-          return [
-            { title: 'Range', value: 'range' },
-            { title: 'Total Damage', value: 'damage' },
-          ];
-        case 'NpcClass':
-          return [
-            { title: 'Hull', value: 'hull' },
-            { title: 'Agility', value: 'agi' },
-            { title: 'Systems', value: 'sys' },
-            { title: 'Engineering', value: 'eng' },
-            { title: 'Armor', value: 'armor' },
-            { title: 'HP', value: 'hp' },
-            { title: 'HeatCap', value: 'heatcap' },
-            { title: 'Evade', value: 'evasion' },
-            { title: 'E-Defense', value: 'edef' },
-            { title: 'Speed', value: 'speed' },
-            { title: 'Sensor Range', value: 'sensorRange' },
-            { title: 'Save Target', value: 'saveTarget' },
-          ];
-        default:
-          return [
-            { title: 'Range', value: 'range' },
-            { title: 'Total Damage', value: 'damage' },
-            { title: 'Threat', value: 'threat' },
-            { title: 'Thrown', value: 'thrown' },
-            { title: 'Line', value: 'line' },
-            { title: 'Blast', value: 'blast' },
-            { title: 'Burst', value: 'burst' },
-            { title: 'Cone', value: 'cone' },
-            { title: 'Kinetic Damage', value: 'kineticDamage' },
-            { title: 'Energy Damage', value: 'energyDamage' },
-            { title: 'Heat Damage', value: 'heatDamage' },
-            { title: 'Explosive Damage', value: 'explosiveDamage' },
-            { title: 'Variable Damage', value: 'variableDamage' },
-          ];
-      }
+      return getChartAxes((this.items[0] as CompendiumItem).ItemType);
     },
     subtypes() {
       return _.uniq(this.items.map((x: any) => x.Type));
@@ -418,14 +360,7 @@ export default {
       };
     },
     mf(id: string) {
-      return (
-        (this.manufacturers as Manufacturer[]).find((x) => x.ID === id) || {
-          GetColor: () => 'black',
-          Name: 'err',
-          LogoIsExternal: false,
-          Icon: 'gms',
-        }
-      );
+      return findManufacturer(this.manufacturers as Manufacturer[], id);
     },
     mapItems(items) {
       let arr = [] as any[];

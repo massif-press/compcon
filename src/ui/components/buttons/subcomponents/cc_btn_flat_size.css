@@ -1,0 +1,36 @@
+.v-btn {
+  position: relative;
+}
+
+.size-x-small {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  height: 16px !important;
+}
+
+.size-default {
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  height: 34px !important;
+}
+
+.size-large {
+  font-size: 1.2rem;
+  letter-spacing: 4px;
+  font-weight: 500;
+  height: 40px !important;
+}
+
+.size-x-large {
+  font-size: 1.6rem;
+  letter-spacing: 6px;
+  font-weight: 600;
+  height: 50px !important;
+}
+
+.size-xx-large {
+  font-size: 2.3rem;
+  letter-spacing: 10px;
+  font-weight: 600;
+  height: 64px !important;
+}

@@ -2,6 +2,7 @@ import { CompendiumStore } from '@/features/compendium/store'
 import { ActivationType, Duration } from '../../../enums'
 import { MechSystem } from '../equipment/MechSystem'
 import { MechWeapon } from '../equipment/MechWeapon'
+import { resolveSpecialEquipment, resolveIntegratedEquipment } from '../../../components/_equipmentUtils'
 import Tag, { ITagData } from '../../../Tag'
 import { IActionData, Action } from '../../../Action'
 import { IBonusData, Bonus } from '../../../components/feature/bonus/Bonus'
@@ -161,28 +162,11 @@ class CoreSystem {
   }
 
   public get SpecialEquipment(): CompendiumItem[] {
-    if (!this._special_equipment) return []
-    const res = this._special_equipment.map(x => {
-      const w = CompendiumStore().MechWeapons.find(item => item.ID === x)
-      if (w) return w
-      const s = CompendiumStore().MechSystems.find(item => item.ID === x)
-      if (s) return s
-      const wm = CompendiumStore().WeaponMods.find(item => item.ID === x)
-      if (wm) return wm
-      const pg = CompendiumStore().PilotGear.find((item: any) => item.ID === x)
-      if (pg) return pg
-      return false
-    })
-    return res as CompendiumItem[]
+    return resolveSpecialEquipment(this._special_equipment)
   }
 
   public get IntegratedEquipment(): MechEquipment[] {
-    if (!this._integrated) return []
-    return this._integrated.map(x => {
-      const w = CompendiumStore().MechWeapons.find(item => item.ID === x)
-      if (w) return w as MechEquipment
-      return CompendiumStore().MechSystems.find(item => item.ID === x) as MechEquipment
-    }) as MechEquipment[]
+    return resolveIntegratedEquipment(this._integrated)
   }
 
   public get PassiveIntegratedWeapons(): MechWeapon[] {

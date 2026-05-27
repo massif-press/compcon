@@ -16,30 +16,8 @@
     </template>
     <template #default>
       <div class="text-cc-overline text-disabled mt-2">// Options</div>
-      <v-row dense
-        class="mb-2">
-        <v-col>
-          <cc-switch v-model="enableJustify"
-            label="Justify" />
-        </v-col>
-        <v-col cols="auto">
-          <v-slide-x-reverse-transition>
-            <div v-if="enableJustify"
-              style="width: 300px;">
-              <cc-number-field v-model.number="lineWidth"
-                label="Line Width"
-                color="primary"
-                density="compact"
-                size="small"
-                type="number"
-                variant="outlined"
-                max="99999"
-                dense
-                hide-details />
-            </div>
-          </v-slide-x-reverse-transition>
-        </v-col>
-      </v-row>
+      <statblock-justify-options v-model:enable-justify="enableJustify"
+        v-model:line-width="lineWidth" />
       <div class="text-cc-overline text-disabled">// Include</div>
       <v-row dense
         justify="space-around">
@@ -96,9 +74,11 @@
 </template>
 
 <script lang="ts">
+import StatblockJustifyOptions from './_StatblockJustifyOptions.vue';
 
 export default {
   name: 'ActorLogs',
+  components: { StatblockJustifyOptions },
   props: {
     actor: {
       type: Object,

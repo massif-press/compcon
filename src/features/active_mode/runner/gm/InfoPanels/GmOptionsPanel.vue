@@ -1,68 +1,10 @@
 <template>
   <v-card>
-    <v-card-text>
-      <v-row dense
-        align="center"
-        justify="space-between">
-        <v-col cols="auto"
-          class="heading">
-          Last Saved:
-          <b v-if="encounterInstance.SaveController.LastModified > 0"
-            :key="saveUpdate"
-            class="text-accent ml-1">
-            {{
-              new Date(encounterInstance.SaveController.LastModified).toLocaleString(undefined, {
-                dateStyle: 'long',
-                timeStyle: 'long',
-              })
-            }}
-          </b>
-          <i v-else
-            class="text-disabled ml-1">Never</i>
-        </v-col>
-        <v-col cols="auto">
-          <cc-button flat
-            tile
-            color="primary"
-            prepend-icon="mdi-content-save"
-            size="small"
-            @click="manualSave()">
-            Manual Save
-          </cc-button>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <div class="text-cc-overline mt-1 text-disabled">Autosave</div>
-          <cc-switch v-model="encounterInstance.Autosave"
-            size="large"
-            :label="encounterInstance.Autosave ? 'On Round End' : 'Off (Manual Saves Only)'"
-            tooltip="Autosave encounter data data on the end of every round. Defaults to ON." />
-        </v-col>
-        <v-col>
-          <div class="text-cc-overline mt-1 text-disabled">Layout Options</div>
-          <cc-switch v-model="encounterInstance.SimpleTickbars"
-            size="large"
-            color="primary"
-            :label="encounterInstance.SimpleTickbars ? 'Simple Tickbars' : 'Standard Tickbars'"
-            tooltip="Replace the thematic stat trackers for HP, Heat, etc. with straightforward number inputs." />
-          <cc-switch v-model="encounterInstance.LayoutColumns"
-            size="large"
-            label="Layout Columns"
-            color="primary"
-            tooltip="This controls if columns will be used when rendering a combatant's information in the encounter panel. This will only work on wide resolution screens." />
-          <cc-checkbox v-model="encounterInstance.ForceComplexTickbars"
-            label="Force Standard Tickbars"
-            class="my-1"
-            tooltip="Simple tickbars are shown on mobile (tablet and lower) resolutions. Enabling this will force the standard tickbars to display regardless of screen size. This may cause layout issues on smaller screens." />
-          <cc-number-field v-model="encounterInstance.MaxMasonryColumns"
-            size="large"
-            label="Max Loadout / Feature Set Columns"
-            color="primary"
-            tooltip="This controls how many columns will be used when rendering a combatant's loadouts or feature sets in the encounter panel. Higher values may cause layout issues on smaller screens." />
-        </v-col>
-      </v-row>
-    </v-card-text>
+    <runner-options-header
+      :context="encounterInstance"
+      :save-key="saveUpdate"
+      autosave-tooltip="Autosave encounter data on the end of every round. Defaults to ON."
+      @manual-save="manualSave()" />
     <v-divider class="my-2" />
     <v-card-text>
       <v-row dense
@@ -275,23 +217,18 @@
 <script lang="ts">
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { EncounterStore } from '@/stores';
+import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue';
+import { runnerOptionsMixin } from '../../_shared/_runnerOptionsMixin';
 
 export default {
   name: 'GmOptionsPanel',
+  components: { RunnerOptionsHeader },
+  mixins: [runnerOptionsMixin],
   props: {
     encounterInstance: {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      fileValue: null,
-      importObj: null,
-      importOk: false,
-      importError: '',
-      saveUpdate: Date.now(),
-    };
   },
   computed: {
     reinforcements() {
@@ -302,12 +239,6 @@ export default {
     this.reset();
   },
   methods: {
-    reset() {
-      this.fileValue = null;
-      this.importObj = null;
-      this.importOk = false;
-      this.importError = '';
-    },
     removeActor(actor) {
       const combatantIndex = this.encounterInstance.Combatants.findIndex(
         (c) => c.actor.ID === actor.ID
@@ -335,14 +266,10 @@ export default {
       }
     },
     exportState() {
-      const data = this.encounterInstance.Serialize();
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const filename = `encounter_${this.encounterInstance.Encounter.Name || 'unknown'}_${Date.now()}.json`;
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = filename;
-      link.click();
-      URL.revokeObjectURL(link.href);
+      this.exportStateFile(
+        this.encounterInstance.Serialize(),
+        `encounter_${this.encounterInstance.Encounter.Name || 'unknown'}_${Date.now()}.json`
+      );
     },
     async importState(close: () => void) {
       if (!this.importOk || !this.importObj) return;
@@ -353,35 +280,7 @@ export default {
       this.$router.go(0);
     },
     stageImport() {
-      if (!this.fileValue) {
-        this.importOk = false;
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        try {
-          const result = e.target.result;
-          this.importObj = JSON.parse(result);
-          if (!this.importObj) {
-            this.importOk = false;
-            return;
-          }
-          if (
-            !(this.importObj as any).itemType ||
-            (this.importObj as any).itemType !== 'EncounterInstance'
-          ) {
-            this.importError = 'Invalid Encounter Instance file.';
-            this.importOk = false;
-            return;
-          }
-          this.importOk = true;
-        } catch (error) {
-          console.error('Failed to parse import file:', error);
-          this.importError = 'Invalid JSON file.';
-          this.importOk = false;
-        }
-      };
-      reader.readAsText(this.fileValue);
+      this.stageImportFile('EncounterInstance', 'Invalid Encounter Instance file.');
     },
   },
 };

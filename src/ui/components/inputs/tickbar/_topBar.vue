@@ -2,69 +2,22 @@
   <div>
     <v-row no-gutters>
       <v-col cols="auto">
-        <v-tooltip location="top"
-          :text="label"
-          :open-delay="400">
-          <template #activator="{ props }">
-            <div v-bind="props">
-              <v-menu :close-on-content-click="false">
-                <template #activator="{ props }">
-                  <!-- activator button -->
-                  <v-btn v-bind="props"
-                    size="small"
-                    tile
-                    flat
-                    :readonly="readonly"
-                    class="d-block modelValue-clip pl-5"
-                    height="24px"
-                    width="125px"
-                    :class="`bg-${bgColor}`">
-                    <v-icon start
-                      :icon="icon"
-                      size="20" />
-                    <span v-if="valueAtlas?.length"
-                      class="heading"
-                      style="font-size: 14px">
-                      {{ valueAtlas[modelValue] }}
-                    </span>
-                    <span v-else
-                      class="heading"
-                      style="font-size: 14px">{{ modelValue }}</span>
-                  </v-btn>
-                </template>
-
-                <!-- menu content -->
-                <tickbar-menu :icon="icon"
-                  :label="label"
-                  :editable="editable"
-                  @set="setVal($event)"
-                  @reset="$emit('reset')">
-                  <v-text-field v-model.number="internalValue"
-                    variant="outlined"
-                    type="number"
-                    tile
-                    hide-details
-                    autofocus
-                    density="compact"
-                    @focus="$event.target.select()"
-                    @update:model-value="setVal(Number($event))" />
-                  <slot name="menu-content" />
-                  <template #edit-max-value>
-                    <v-text-field :model-value.number="internalValue"
-                      variant="outlined"
-                      type="number"
-                      tile
-                      hide-details
-                      autofocus
-                      density="compact"
-                      @focus="$event.target.select()"
-                      @update:model-value="setVal(Number($event))" />
-                  </template>
-                </tickbar-menu>
-              </v-menu>
-            </div>
+        <tickbar-activator :label="label"
+          :icon="icon"
+          :readonly="readonly"
+          :bg-color="bgColor"
+          :editable="editable"
+          :model-value="modelValue"
+          :internal-value="internalValue"
+          :value-atlas="valueAtlas"
+          width="125px"
+          clip
+          @set="setVal($event)"
+          @reset="$emit('reset')">
+          <template #menu-content>
+            <slot name="menu-content" />
           </template>
-        </v-tooltip>
+        </tickbar-activator>
       </v-col>
 
       <!-- bar content -->
@@ -159,11 +112,13 @@
 </template>
 
 <script lang="ts">
-import TickbarMenu from './_tickbarMenu.vue';
+import TickbarActivator from './_TickbarActivator.vue';
+import { tickbarMixin } from './_tickbarMixin';
 
 export default {
   name: 'CcTickbarTop',
-  components: { TickbarMenu },
+  components: { TickbarActivator },
+  mixins: [tickbarMixin],
   props: {
     modelValue: { type: Number, default: 0 },
     label: { type: String, required: true },
@@ -179,75 +134,13 @@ export default {
     valueAtlas: { type: Array, required: false },
   },
   emits: ['update:modelValue', 'reset'],
-  data() {
-    return {
-      hover: null as number | null,
-      internalValue: this.modelValue,
-    };
-  },
-  computed: {
-    tickThreshold() {
-      if (this.$vuetify.display.mdAndDown) return 1;
-      if (this.$vuetify.display.lgAndDown) return 4;
-      return 6;
-    },
-    pctBackground() {
-      if (!this.ticks || this.ticks <= 0) return '';
-
-      const pct = Math.round((this.modelValue / this.ticks) * 100);
-
-      return `background: linear-gradient(45deg, rgb(var(--v-theme-${this.color})) ${pct}%, rgb(var(--v-theme-${this.bgColor})) ${pct}%)`;
-    },
-  },
-  watch: {
-    modelValue(val) {
-      this.internalValue = val;
-    },
-    internalValue(val) {
-      this.$emit('update:modelValue', val);
-    },
-  },
-  methods: {
-    isHovered(i: number) {
-      return this.hover && this.hover >= i;
-    },
-    isMouseovered(i: number) {
-      return this.hover === i;
-    },
-    isActive(i: number) {
-      return this.modelValue && this.modelValue >= i;
-    },
-    setVal(val: number) {
-      if (this.stopAdd && val > this.modelValue) return;
-      if (this.ticks && val > this.ticks) val = this.ticks;
-      if (val < 0) val = 0;
-      if (this.modelValue === 1 && val === 1) val = 0;
-      this.$emit('update:modelValue', val);
-    },
-  },
 };
 </script>
 
 <style scoped>
-.modelValue-clip {
-  clip-path: polygon(17px 0, 100% 0, 100% 100%, 0 100%, 0 17px);
-}
+@import './tickbar.css';
 
 .top-element:hover .light {
   filter: brightness(2) saturate(200%) hue-rotate(20deg);
-}
-
-.tick {
-  opacity: 0.3;
-  transform: opacity 0.2s ease-in-out;
-}
-
-.hovered {
-  opacity: 0.5;
-}
-
-.highlighted {
-  opacity: 1;
-  filter: saturate(200%);
 }
 </style>

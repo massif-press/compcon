@@ -710,30 +710,12 @@ export default {
         this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       );
     },
-    blank() {
-      return this.options.content.title === 'Blank';
-    },
-    landscape() {
-      return this.options.orientation === 'landscape';
-    },
     getHpCols() {
       return 'auto';
     },
   },
-  methods: {
-    signed(val: number) {
-      return val > -1 ? `+${val}` : `${val}`;
-    },
-    showTag(id) {
-      const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
-      return !hiddenTags.includes(id);
-    },
-    showCollectedEffect(w) {
-      if (!w.Profiles[0].Effect) return false;
-      return w.Profiles.every((x) => x.Effect === w.Profiles[0].Effect);
-    },
-  },
 };
+
 </script>
 
 <style scoped>

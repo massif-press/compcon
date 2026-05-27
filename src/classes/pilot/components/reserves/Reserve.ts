@@ -1,5 +1,6 @@
 import { CompendiumStore } from '@/features/compendium/store'
 import { CompendiumItem } from '../../../CompendiumItem'
+import { resolveSpecialEquipment, resolveIntegratedEquipment } from '../../../components/_equipmentUtils'
 import { ISynergyData, Synergy } from '../../../components/feature/synergy/Synergy'
 import { ContentPack } from '../../../ContentPack'
 import { ReserveType, ItemType } from '../../../enums'
@@ -82,28 +83,11 @@ class Reserve extends CompendiumItem {
   }
 
   public get SpecialEquipment(): CompendiumItem[] {
-    if (!this._special_equipment) return []
-    const res = this._special_equipment.map(x => {
-      const w = CompendiumStore().MechWeapons.find(item => item.ID === x)
-      if (w) return w
-      const s = CompendiumStore().MechSystems.find(item => item.ID === x)
-      if (s) return s
-      const wm = CompendiumStore().WeaponMods.find(item => item.ID === x)
-      if (wm) return wm
-      const pg = CompendiumStore().PilotGear.find((item: any) => item.ID === x)
-      if (pg) return pg
-      return false
-    })
-    return res as CompendiumItem[]
+    return resolveSpecialEquipment(this._special_equipment)
   }
 
   public get IntegratedEquipment(): MechEquipment[] {
-    if (!this._integrated) return []
-    return this._integrated.map(x => {
-      const w = CompendiumStore().MechWeapons.find(item => item.ID === x)
-      if (w) return w as MechEquipment
-      return CompendiumStore().MechSystems.find(item => item.ID === x) as MechEquipment
-    }) as MechEquipment[]
+    return resolveIntegratedEquipment(this._integrated)
   }
 
   public get IntegratedWeapons(): MechWeapon[] {

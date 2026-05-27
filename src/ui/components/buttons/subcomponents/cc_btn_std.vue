@@ -48,82 +48,36 @@
 </template>
 
 <script lang="ts">
+import { btnSubMixin, calcIconSize } from './_btnSubMixin';
+
 export default {
   name: 'CcBtnStd',
+  mixins: [btnSubMixin],
   props: {
     pipColor: { type: String },
     color: { type: String, default: 'panel' },
-    disabled: { type: Boolean },
-    block: { type: Boolean },
-    loading: { type: Boolean },
-    size: { type: String },
-    variant: { type: String },
-    prependIcon: { type: String },
-    appendIcon: { type: String },
-    optionsIcon: { type: String },
-    tooltip: { type: String },
-    tooltipIcon: { type: String },
-    to: { type: [String, Object] },
-    href: { type: String },
-    target: { type: String },
   },
-  emits: ['click'],
   computed: {
-    sizeStyle() {
-      return this.size ? `size-${this.size}` : 'size-default';
-    },
-    optionsSize() {
-      return this.size ? `options-${this.size}` : 'options-default';
-    },
-    colorClass() {
-      if (this.outlined) {
-        return '';
-      }
+    colorClass(this: any) {
+      if (this.outlined) return '';
       return this.bgColor;
     },
-    bgColor() {
-      return `bg-${this.color}`;
-    },
-    lightColor() {
+    lightColor(this: any) {
       if (this.pipColor) return `bg-${this.pipColor}`;
       return `bg-${this.color}`;
     },
-    outlined() {
-      return this.variant === 'outlined';
-    },
-    borderColor() {
-      if (this.color[0] === '#') return this.color;
-      return `rgb(var(--v-theme-${this.color})`;
-    },
   },
   methods: {
-    iconSize(icon: string) {
-      let size = 24;
-      switch (this.size) {
-        case 'x-small':
-          size = 11;
-          break;
-        case 'small':
-          size = 16;
-          break;
-        case 'large':
-          size = 20;
-          break;
-        case 'x-large':
-          size = 32;
-          break;
-        case 'xx-large':
-          size = 40;
-          break;
-      }
-      if (icon.includes('cc:')) size += 4;
-      return `${size}px`;
+    iconSize(this: any, icon: string) {
+      return calcIconSize(this.size, icon, 4);
     },
   },
 };
 </script>
 
 <style scoped>
+@import './cc_btn_base.css';
+
 .offset {
   margin-top: -5px;
 }
@@ -139,10 +93,6 @@ export default {
   height: 13.5px;
   clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
   transition: filter 0.2s ease-in-out;
-}
-
-.top-element:hover .light {
-  filter: brightness(2) saturate(200%) hue-rotate(20deg);
 }
 
 .light.x-small {
@@ -239,47 +189,5 @@ export default {
   height: 56px !important;
   padding-left: 26px !important;
   padding-right: 10px !important;
-}
-
-.options-x-small {
-  font-size: 0.6rem;
-  height: 16px !important;
-  width: 16px !important;
-  filter: saturate(0);
-}
-
-.options-small {
-  font-size: 0.75rem;
-  height: 22px !important;
-  width: 22px !important;
-  filter: saturate(0);
-}
-
-.options-default {
-  font-size: 0.85rem;
-  height: 34px !important;
-  width: 34px !important;
-  filter: saturate(0);
-}
-
-.options-large {
-  font-size: 1.2rem;
-  height: 40px !important;
-  width: 40px !important;
-  filter: saturate(0);
-}
-
-.options-x-large {
-  font-size: 1.6rem;
-  height: 50px !important;
-  width: 50px !important;
-  filter: saturate(0);
-}
-
-.options-xx-large {
-  font-size: 2.3rem;
-  height: 64px !important;
-  width: 64px !important;
-  filter: saturate(0);
 }
 </style>
