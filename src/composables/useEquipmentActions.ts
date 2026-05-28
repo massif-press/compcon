@@ -1,6 +1,9 @@
 import type { Ref } from 'vue'
 
-export function useEquipmentActions(item: Ref<any>, emit: (event: 'deploy', deployable: any) => void) {
+export function useEquipmentActions(
+  item: Ref<any>,
+  emit: (event: 'deploy', deployable: any) => void
+) {
   function handleActivation(cost: number) {
     if (cost && item.value.MaxUses) {
       item.value.Uses = (item.value.Uses || 0) + cost

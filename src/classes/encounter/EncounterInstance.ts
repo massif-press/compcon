@@ -14,6 +14,7 @@ import { ItemType } from '../enums'
 import { Pilot, PilotData } from '../pilot/Pilot'
 import { Placeholder } from './Placeholder'
 import { DeployableInstance } from '../components/feature/deployable/DeployableInstance'
+import { Eidolon } from '../npc/eidolon/Eidolon'
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance'
@@ -131,6 +132,20 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
         combatant.index = index
         if (combatant.type === 'pilot') {
           combatant.actor.SetStats()
+        } else if ((combatant.actor as any).Layers) {
+          const eidolon = combatant.actor as unknown as Eidolon
+          eidolon.CombatController.StatController.applyRegisteredCustomStats()
+          eidolon.Layers.forEach(l => {
+            l.CombatController.StatController.applyRegisteredCustomStats()
+            l.FeatureController.BonusController.applyToStats(
+              l.CombatController.StatController,
+              this
+            )
+            l.ResetHp(playerCount, true)
+            l.SetActivations(playerCount)
+            l.CombatController.StatController.resetCurrentStats()
+            l.CombatController.Reset()
+          })
         } else {
           combatant.actor.CombatController.StatController.applyRegisteredCustomStats()
         }

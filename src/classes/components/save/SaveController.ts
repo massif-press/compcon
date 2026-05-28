@@ -73,11 +73,12 @@ class SaveController {
 
   public Restore() {
     this.DeleteTime = 0
+    this.LastModified = new Date().getTime()
     this.save()
   }
 
   public get IsDeleted(): boolean {
-    return this.DeleteTime > 0
+    return this.DeleteTime > 0 && !this.IsRemote
   }
 
   public get DeleteTimeFormatted(): string {

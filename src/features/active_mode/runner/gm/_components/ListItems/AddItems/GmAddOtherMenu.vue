@@ -174,6 +174,23 @@ export default {
       const number =
         this.encounterInstance.Combatants.filter((c) => c.actor.Name === eidolon.Name).length + 1;
 
+      const playerCount = this.encounterInstance.Combatants.filter(c => c.side === 'ally').length
+
+      eidolon.CombatController.StatController.applyRegisteredCustomStats()
+      eidolon.FeatureController.BonusController.applyToStats(eidolon.CombatController.StatController, this.encounterInstance)
+      eidolon.ApplyEidolonBonuses(playerCount)
+      eidolon.CombatController.StatController.resetCurrentStats()
+      eidolon.CombatController.Reset();
+
+      eidolon.Layers.forEach((l) => {
+        l.CombatController.StatController.applyRegisteredCustomStats()
+        l.FeatureController.BonusController.applyToStats(l.CombatController.StatController, this.encounterInstance)
+        l.ResetHp(playerCount, true)
+        l.SetActivations(playerCount)
+        l.CombatController.StatController.resetCurrentStats()
+        l.CombatController.Reset()
+      });
+
       this.encounterInstance.Combatants.push({
         id: uuid(),
         index: this.encounterInstance.Combatants.length,

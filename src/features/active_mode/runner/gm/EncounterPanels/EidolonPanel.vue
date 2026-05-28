@@ -46,8 +46,8 @@
           :disabled="!layer.Layer.Shards?.Count"
           @click="genShards()">
           <span v-if="layer.Layer.Shards?.Count">
-            Generate {{ layer.Layer.Shards.Count }}
-            <span>{{ layer.Layer.Shards.Count > 1 ? 'Shards' : 'Shard' }}</span>
+            Generate {{ shardCount }}
+            <span>{{ shardCount > 1 ? 'Shards' : 'Shard' }}</span>
           </span>
           <span v-else>Layer has no Shards</span>
         </cc-button>
@@ -143,15 +143,15 @@ import PanelBase from './_PanelBase.vue';
 import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json';
 
 const props = defineProps({
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  })
+  combatant: {
+    type: Object,
+    required: true,
+  },
+  encounterInstance: {
+    type: Object,
+    required: true,
+  },
+})
 
 const emit = defineEmits(['deselect'])
 
@@ -164,12 +164,27 @@ const xlColumns = computed(() => {
 const traits = computed(() => PersistentTraits)
 const layer = computed(() => (props.combatant as any).actor.ActiveLayer)
 const features = computed(() => layer.value?.Layer?.Features || [])
+const shardCount = computed(() => {
+  const shardCount = layer.value.Layer.Shards?.Count || 0;
+  if (!shardCount) return 0;
+  if (typeof layer.value.Layer.Shards?.Count === 'string') {
+    const str = (layer.value.Layer.Shards.Count as string).toLowerCase().trim();
+    if (str === 'hostile_characters') {
+      return props.encounterInstance.Combatants.filter((c) => c.side === 'ally').length;
+    } else if (str === 'characters') {
+      return props.encounterInstance.Combatants.length;
+    } else {
+      return isNaN(Number(str)) ? 0 : Number(str);
+    }
+  }
+  return shardCount;
+})
 
 function deploy(deployable) { (props.encounterInstance as any).Deploy(deployable, props.combatant) }
 function clip(text) { navigator.clipboard.writeText(text) }
 function genShards() {
-  if (!layer.value?.Layer?.Shards?.Count) return
-  for (let i = 0; i < layer.value.Layer.Shards.Count; i += 1) {
+  if (!shardCount.value) return
+  for (let i = 0; i < shardCount.value; i += 1) {
     (props.combatant as any).deployables.push(
       layer.value.Layer.Shards.Create(props.combatant, layer.value.Name)
     )

@@ -1,7 +1,7 @@
 {
   "name": "compcon",
   "private": true,
-  "version": "3.0.6",
+  "version": "3.0.6α",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@kyvg/vue3-notification": "3.4.2",
-    "@massif/lancer-data": "^4.0.4",
+    "@massif/lancer-data": "^4.0.5",
     "@mdi/font": "7.4.47",
     "@sentry/vite-plugin": "^5.1.1",
     "@sentry/vue": "^10.40.0",

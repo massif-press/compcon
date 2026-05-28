@@ -137,10 +137,12 @@ class Eidolon extends Npc implements IInstanceable {
     this._layers.push(
       new EidolonLayerSaveData({ id: layer.ID, data: layer.Data, description: '' }, this)
     )
+    this.save()
   }
 
   public ClearLayers() {
     this._layers = []
+    this.save()
   }
 
   public AddRandomLayer() {
@@ -150,6 +152,7 @@ class Eidolon extends Npc implements IInstanceable {
     const l = availableLayers[Math.floor(Math.random() * availableLayers.length)]
     if (l)
       this._layers.push(new EidolonLayerSaveData({ id: l.ID, data: l.Data, description: '' }, this))
+    this.save()
   }
 
   public RemoveLayer(index: number) {
@@ -160,10 +163,12 @@ class Eidolon extends Npc implements IInstanceable {
         this.CloudController.stampTombstone(`layer_data.${removed.ID}`)
       }
     }
+    this.save()
   }
 
   public MoveLayer(from: number, to: number) {
     this._layers.splice(to, 0, this._layers.splice(from, 1)[0])
+    this.save()
   }
 
   public static Serialize(eidolon: Eidolon): EidolonData {
@@ -210,7 +215,7 @@ class Eidolon extends Npc implements IInstanceable {
   }
 
   public Clone<Eidolon>(setName = true): Eidolon {
-    const itemData = structuredClone(Eidolon.Serialize(this))
+    const itemData = JSON.parse(JSON.stringify(Eidolon.Serialize(this)))
     const newItem = Eidolon.Deserialize(itemData)
     newItem.RenewID()
     if (setName) newItem.Name += ' (COPY)'

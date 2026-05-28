@@ -3,45 +3,57 @@
     <v-col>
       <div class="text-overline">LAYERS</div>
     </v-col>
-    <v-col v-if="!readonly" cols="auto">
-      <cc-button color="primary" prepend-icon="mdi-plus" @click="layerSelector = true">
+    <v-col v-if="!readonly"
+      cols="auto">
+      <cc-button color="primary"
+        prepend-icon="mdi-plus"
+        @click="layerSelector = true">
         add layer
       </cc-button>
     </v-col>
-    <v-col v-if="!readonly" cols="auto">
+    <v-col v-if="!readonly"
+      cols="auto">
       <v-tooltip location="top">
         <template #activator="{ props }">
-          <v-btn
-            icon
+          <v-btn icon
             v-bind="props"
             size="x-small"
             flat
             class="fade-select"
             @click="addRandomLayer()">
-            <v-icon size="30" color="accent" icon="mdi-dice-d20-outline" />
+            <v-icon size="30"
+              color="accent"
+              icon="mdi-dice-d20-outline" />
           </v-btn>
         </template>
         <span>Add random layer</span>
       </v-tooltip>
     </v-col>
   </v-row>
-  <v-card v-if="!item.Layers.length" variant="outlined" color="primary" class="pa-2">
+  <v-card v-if="!item.Layers.length"
+    variant="outlined"
+    color="primary"
+    class="pa-2">
     no layers
   </v-card>
-  <v-card
-    v-else-if="!item.Layers.some((x) => x.Layer)"
+  <v-card v-else-if="!item.Layers.some((x) => x.Layer)"
     variant="outlined"
     color="primary"
     class="pa-2">
     no layers
   </v-card>
   <div v-else>
-    <v-tabs v-model="tab" density="compact" class="mt-2" fixed-tabs bg-color="primary">
-      <v-tab v-for="(layer, idx) in item.Layers" :key="layer.ID">
-        <v-tooltip v-if="idx > 1" location="top">
+    <v-tabs v-model="tab"
+      density="compact"
+      class="mt-2"
+      fixed-tabs
+      bg-color="primary">
+      <v-tab v-for="(layer, idx) in item.Layers"
+        :key="layer.ID">
+        <v-tooltip v-if="idx > 1"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
+            <v-icon v-bind="props"
               size="small"
               icon="mdi-chevron-left"
               class="mx-1 fade-select"
@@ -49,12 +61,13 @@
           </template>
           <span>Order Lower</span>
         </v-tooltip>
-        <span v-else class="mx-3" />
+        <span v-else
+          class="mx-3" />
         {{ layer.Layer?.Name }}
-        <v-tooltip v-if="idx && idx < item.Layers.length - 1" location="top">
+        <v-tooltip v-if="idx && idx < item.Layers.length - 1"
+          location="top">
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
+            <v-icon v-bind="props"
               size="small"
               icon="mdi-chevron-right"
               class="mx-1 fade-select"
@@ -62,28 +75,32 @@
           </template>
           <span>Order Higher</span>
         </v-tooltip>
-        <span v-else class="mx-3" />
+        <span v-else
+          class="mx-3" />
       </v-tab>
     </v-tabs>
     <v-window v-model="tab">
-      <v-window-item v-for="(layer, index) in item.Layers" :key="layer.ID">
-        <v-card
-          variant="outlined"
+      <v-window-item v-for="(layer, index) in item.Layers"
+        :key="layer.ID">
+        <v-card variant="outlined"
           class="rounded-0 rounded-b bg-transparent"
           style="border-color: rgb(var(--v-theme-primary))">
           <v-card-text class="my-0 py-0">
             <div class="text-overline">Layer Description</div>
-            <cc-rich-text-area v-model="layer.Description" :readonly="readonly" />
+            <cc-rich-text-area v-model="layer.Description"
+              :readonly="readonly" />
           </v-card-text>
           <v-card-text class="pt-0 mt-2">
-            <stat-editor
-              :item="layer"
+            <stat-editor :item="layer"
               :controller="layer"
               :bonuses="layer.FeatureController.Bonuses"
               :readonly="readonly"
               prefix="layer" />
-            <cc-dense-card v-if="layer.Layer" :item="layer.Layer" :tier="item.Tier">
-              <template v-if="layer.Layer?.Shards?.Count !== 0" #extra>
+            <cc-dense-card v-if="layer.Layer"
+              :item="layer.Layer"
+              :tier="item.Tier">
+              <template v-if="layer.Layer?.Shards?.Count !== 0"
+                #extra>
                 <v-card-text class="mt-n2 pt-0">
                   <!-- <stat-editor
                     :item="layer.Layer.Shards"
@@ -97,8 +114,7 @@
           <v-divider />
           <v-card-actions class="my-n2">
             <v-spacer />
-            <cc-button
-              size="small"
+            <cc-button size="small"
               variant="outlined"
               color="error"
               prepend-icon="mdi-delete"
@@ -114,8 +130,11 @@
 
   <div class="my-4" />
 
-  <cc-solo-modal v-model="layerSelector" title="Select Layer" icon="mdi-layers-triple">
-    <layer-selector :item="item" @add-layer="addLayer($event)" />
+  <cc-solo-modal v-model="layerSelector"
+    title="Select Layer"
+    icon="mdi-layers-triple">
+    <layer-selector :item="item"
+      @add-layer="addLayer($event)" />
   </cc-solo-modal>
 </template>
 
@@ -124,7 +143,7 @@ import StatEditor from '@/features/gm/_components/StatEditor.vue';
 import LayerSelector from './LayerSelector.vue';
 
 export default {
-  name: 'eidolon-layers',
+  name: 'EidolonLayers',
   components: { LayerSelector, StatEditor },
   props: {
     item: { type: Object, required: true },
