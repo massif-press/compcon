@@ -37,15 +37,15 @@
         size="small"
         rounded="0"
         @click="mfTab = i">
-        <cc-logo v-if="m && mf(m as string).LogoIsExternal"
+        <cc-logo v-if="m && m.LogoIsExternal"
           size="small"
-          :source="mf(m as string)"
+          :source="m"
           :color="mfTab === i ? 'white' : 'black'" />
         <v-icon v-else-if="!!m"
           size="20"
-          :icon="mf(m as string).Icon" />
-
-        {{ !m ? 'None' : mf(m as string).Name }}
+          :icon="m.Icon" />
+        &nbsp;
+        {{ !m ? 'None' : m.Name }}
       </v-btn>
     </div>
 
@@ -56,18 +56,18 @@
         <v-row v-if="manufacturer"
           align="center">
           <v-col cols="auto">
-            <cc-logo v-if="mf(manufacturer as string).LogoIsExternal"
-              :source="mf(manufacturer as string)"
+            <cc-logo v-if="manufacturer.LogoIsExternal"
+              :source="manufacturer"
               size="x-large"
               class="pt-3 mb-n1" />
             <v-icon v-else
               size="60"
-              :icon="mf(manufacturer as string).Icon"
-              :color="mf(manufacturer as string).GetColor($vuetify.theme.current.dark)" />
+              :icon="manufacturer.Icon"
+              :color="manufacturer.GetColor($vuetify.theme.current.dark)" />
           </v-col>
           <v-col>
             <div class="heading mech"
-              v-text="manufacturer" />
+              v-text="manufacturer.Name" />
           </v-col>
         </v-row>
         <div v-else>
@@ -76,7 +76,7 @@
         </div>
         <v-row class="mt-n8">
           <v-col style="height: calc(100vh - 225px)">
-            <bar :data="getChartData(getItems(manufacturer as string))"
+            <bar :data="getChartData(getItems(manufacturer))"
               :options="options" />
           </v-col>
         </v-row>
@@ -429,11 +429,13 @@ export default {
     },
     mapItems(items) {
       let arr = [] as any[];
-      if (items && (items[0] as any).StatsByProfile)
+      if (items && items.length > 0 && (items[0] as any).StatsByProfile)
         arr = (items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
       else if (
+        this.items.length > 0 &&
         (this.items[0] as any).ItemType === 'NpcClass' &&
         items &&
+        items.length > 0 &&
         (items[0] as NpcClass).Stats
       ) {
         arr = items.map((x) => ({
@@ -463,10 +465,10 @@ export default {
       );
     },
 
-    getItems(manufacturer?: string, lcp?: string) {
+    getItems(manufacturer?: Manufacturer, lcp?: string) {
       if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.LcpName === lcp);
 
-      return this.items.filter((i: any) => i.Source === manufacturer);
+      return this.items.filter((i: any) => i.Source === manufacturer?.ID);
     },
     getSubtypeItems(t: string) {
       return this.items.filter((i: any) => i.Type === t);
