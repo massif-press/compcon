@@ -140,7 +140,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import { useDisplay } from 'vuetify';
-import { useRoute, onBeforeRouteLeave } from 'vue-router';
+import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
 import { orderBy } from 'lodash-es';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
 import DoodadPanel from './EncounterPanels/DoodadPanel.vue';
@@ -186,6 +186,7 @@ const props = withDefaults(defineProps<{ id?: string | null }>(), { id: null });
 
 const { mdAndDown: mobile, xs } = useDisplay();
 const route = useRoute();
+const router = useRouter();
 
 const selected = ref<any>(null);
 const diceDialog = ref(false);
@@ -213,7 +214,7 @@ const mainLeftOffset = computed(() => {
   return '155px';
 });
 
-watch(instanceID, (oldval, newval) => {
+watch(instanceID, (newval) => {
   if (!newval) return;
   setEidolonHp();
   actors.value.forEach((a: any) => a.CombatController.Round = instance.value!.Round);
@@ -221,6 +222,10 @@ watch(instanceID, (oldval, newval) => {
 
 watch(actorCount, (newval, oldval) => {
   if (instance.value && newval > 0 && newval !== oldval) setEidolonHp();
+});
+
+watch(instance, (newVal, oldVal) => {
+  if (oldVal && !newVal) router.replace('/active-mode/manage-encounters');
 });
 
 onMounted(() => {
@@ -273,6 +278,7 @@ function handleLeave(choice: 'save' | 'exit' | 'cancel') {
 }
 
 onBeforeRouteLeave(async () => {
+  if (!instance.value) return true;
   const choice = await openLeaveDialog();
   if (choice === 'save') {
     instance.value?.Save();

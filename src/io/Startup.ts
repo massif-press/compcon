@@ -1,6 +1,7 @@
 import {
   NavStore,
   CompendiumStore,
+  ContentCollectionStore,
   PilotStore,
   NpcStore,
   UserStore,
@@ -141,7 +142,7 @@ export default async function (skipSync = false): Promise<void> {
         }
       }
 
-      CompendiumStore().loadContentCollections()
+      ContentCollectionStore().loadContentCollections()
       UserStore().setSyncTimer()
       window.addEventListener('pagehide', () => UserStore().OnUnload())
     }

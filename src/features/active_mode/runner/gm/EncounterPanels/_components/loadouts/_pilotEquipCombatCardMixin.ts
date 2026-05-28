@@ -9,7 +9,9 @@ export const pilotEquipCombatCardMixin = {
     EquipmentFlavorDescription: FlavorDescription,
     PilotEquipCardBody,
   },
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   props: {
     item: {
       type: Object,

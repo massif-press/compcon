@@ -62,9 +62,11 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'NpcRoster',
   components: { NpcIndex, DoodadIndex, EidolonIndex, Organizer, Importer },
-  mixins: [useMobile],
   props: {
     type: {
       type: String,

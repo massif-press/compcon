@@ -84,12 +84,11 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  name: 'CcBtnBlock',
-  mixins: [useMobile],
-  props: {
+<script setup lang="ts">
+import { computed, useSlots } from 'vue'
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     color: { type: String },
     disabled: { type: Boolean },
     block: { type: Boolean },
@@ -104,55 +103,40 @@ export default {
     to: { type: [String, Object] },
     href: { type: String },
     target: { type: String },
-  },
-  emits: ['click'],
-  computed: {
-    sizeStyle() {
-      return this.size ? `size-${this.size}` : 'size-default';
-    },
-    iconSize() {
-      if (this.size === 'xx-large') return '42';
-      return this.size;
-    },
-    colorClass() {
-      if (this.outlined) {
-        return 'bg-transparent';
-      }
-      return this.bgColor;
-    },
-    bgColor() {
-      return `bg-${this.color}`;
-    },
-    outlined() {
-      return this.variant === 'outlined';
-    },
-    borderColor() {
-      if (!this.color) return '';
-      if (this.color[0] === '#') return this.color;
-      return `var(--v-${this.color}-base)`;
-    },
-    alignment() {
-      if (this.size === 'x-small' || this.size === 'small')
-        return this.$slots.subtitle ? 'center' : 'start';
-      return 'center';
-    },
-    hasInfoContent() {
-      return this._hasContent('info');
-    },
-    hasTooltipContent() {
-      return this._hasContent('tooltip');
-    },
-  },
-  methods: {
-    _hasContent(prop) {
-      const slot = this.$slots[prop];
-      if (slot && slot()[0] && slot()[0].children) {
-        return (slot()[0].children as any).length > 0;
-      }
-      return false;
-    },
-  },
-};
+  })
+
+const emit = defineEmits(['click'])
+
+const { mobile, portrait } = useMobile()
+const slots = useSlots()
+
+function _hasContent(prop: string) {
+  const slot = slots[prop]
+  if (slot && slot()[0] && slot()[0].children) {
+    return (slot()[0].children as any).length > 0
+  }
+  return false
+}
+
+const sizeStyle = computed(() => props.size ? `size-${props.size}` : 'size-default')
+const iconSize = computed(() => {
+  if (props.size === 'xx-large') return '42'
+  return typeof props.size === 'string' ? props.size : undefined
+})
+const bgColor = computed(() => `bg-${props.color}`)
+const outlined = computed(() => props.variant === 'outlined')
+const colorClass = computed(() => outlined.value ? 'bg-transparent' : bgColor.value)
+const borderColor = computed(() => {
+  if (!props.color) return ''
+  if (props.color[0] === '#') return props.color
+  return `var(--v-${props.color}-base)`
+})
+const alignment = computed(() => {
+  if (props.size === 'x-small' || props.size === 'small') return slots.subtitle ? 'center' : 'start'
+  return 'center'
+})
+const hasInfoContent = computed(() => _hasContent('info'))
+const hasTooltipContent = computed(() => _hasContent('tooltip'))
 </script>
 
 <style scoped>

@@ -111,6 +111,9 @@ import LcpConfigSelector from '@/features/pilot_management/PilotSheet/components
 import { useMobile } from '@/composables/useMobile';
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'GmEditorBase',
   components: {
     GmLabelEditor,
@@ -118,7 +121,6 @@ export default {
     EditorFooter,
     LcpConfigSelector,
   },
-  mixins: [useMobile],
   props: {
     showDescription: { type: Boolean },
     item: { type: Object, required: true },

@@ -5,10 +5,12 @@
     <active-mode-sort-bar v-model:sort="sort"
       v-model:asc="asc"
       :items="encounters"
+      :archived-items="archived"
       :columns="encounterOrganizerColumns"
       noun="encounter"
       title="Encounters"
       @archive="organizeArchive"
+      @restore="organizeRestore"
       @delete="organizeDelete" />
 
 
@@ -297,35 +299,6 @@
                     tile
                     v-bind="props"
                     variant="text">
-                    <v-icon icon="mdi-archive-plus" />
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-text>
-                    <b>Re-instance this encounter?</b>
-                    <br>
-                    <p class="text-caption text--text mb-2">
-                      This will create a new active encounter with the same initial configuration as
-                      the
-                      archived one, starting from round 1.
-                    </p>
-                    <cc-button size="small"
-                      block
-                      color="primary"
-                      @click="unarchive(e as EncounterArchive)">
-                      Create New Instance
-                    </cc-button>
-                  </v-card-text>
-                </v-card>
-              </v-menu>
-              <v-menu max-width="350">
-                <template #activator="{ props }">
-
-                  <v-btn icon
-                    flat
-                    tile
-                    v-bind="props"
-                    variant="text">
                     <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>
@@ -363,9 +336,6 @@ import { useRouter } from 'vue-router';
 import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue';
 import { CombatLog } from '@/classes/components/combat/CombatLog';
 import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary';
-import { Encounter } from '@/classes/encounter/Encounter';
-import { EncounterArchive } from '@/classes/encounter/EncounterArchive';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { EncounterStore } from '@/stores';
 
 const { smAndDown: mobile } = useDisplay();
@@ -377,8 +347,8 @@ const asc = ref(true);
 
 const encounterOrganizerColumns = [
   { key: 'Name', title: 'Name', sortable: true, value: (e: any) => e.Name },
-  { key: 'Environment', title: 'Environment', value: (e: any) => e.Encounter.Environment.Name },
-  { key: 'Sitrep', title: 'Sitrep', value: (e: any) => e.Encounter.Sitrep.Name },
+  { key: 'Environment', title: 'Environment', value: (e: any) => e.Encounter?.Environment?.Name || '' },
+  { key: 'Sitrep', title: 'Sitrep', value: (e: any) => e.Encounter?.Sitrep?.Name || '' },
   { key: 'Round', title: 'Round', sortable: true, value: (e: any) => e.Round },
   { key: 'Created', title: 'Created', sortable: true, value: (e: any) => new Date(e.SaveController.Created).toLocaleDateString() },
 ];
@@ -419,7 +389,7 @@ const encounters = computed(() => {
 });
 
 const archived = computed(() => {
-  let arr = EncounterStore().ArchivedEncounters.filter((e) => !e.SaveController.IsDeleted);
+  let arr = EncounterStore().ArchivedEncounters;
   if (search.value && search.value.trim() !== '') {
     arr = arr.filter((e) =>
       e.Name.toLowerCase().includes(search.value.toLowerCase())
@@ -457,11 +427,15 @@ async function organizeDelete(ids: string[]) {
   for (const e of targets) {
     await EncounterStore().RemoveEncounterInstance(e);
   }
+  const archives = archived.value.filter(e => ids.includes(e.ID));
+  for (const a of archives) {
+    await EncounterStore().RemoveEncounterArchive(a);
+  }
 }
 
-async function unarchive(archive: EncounterArchive) {
-  const e = new Encounter(archive.EncounterData);
-  await EncounterStore().AddEncounterInstance(new EncounterInstance(undefined, e));
+function organizeRestore(ids: string[]) {
+  const targets = deleted.value.filter((e: any) => ids.includes(e.ID));
+  for (const e of targets) e.SaveController.Restore();
 }
 
 function reportText(archive: any) {

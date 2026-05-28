@@ -43,7 +43,6 @@ import { ref, onUnmounted } from 'vue';
 export default {
   name: 'NpcRoster',
   components: { GmSplitView, NoGmItem, Editor, Builder, Features },
-  mixins: [useMobile],
   props: {
     id: {
       type: String,
@@ -63,7 +62,7 @@ export default {
       }
     });
     onUnmounted(unsub);
-    return { npcStore, npcs, selected };
+    return { ...useMobile(), npcStore, npcs, selected };
   },
   computed: {
     groupings() {

@@ -119,9 +119,11 @@ import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
 import { useMobile } from '@/composables/useMobile';
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'SystemSlotCard',
   components: { SlotCardBase, EquipmentOptions },
-  mixins: [useMobile],
   props: {
     mech: {
       type: Mech,

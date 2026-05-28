@@ -129,7 +129,9 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'campaign-library-compendium',
   components: { CampaignDetailPanel },
   props: {

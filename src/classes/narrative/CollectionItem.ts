@@ -1,4 +1,4 @@
-import { NarrativeStore } from '@/features/gm/store/narrative_store'
+import { getActivePinia } from 'pinia'
 import { ImageTag } from '@/io/ImageManagement'
 import { v4 as uuid } from 'uuid'
 import {
@@ -110,7 +110,9 @@ abstract class CollectionItem
         }
       })
       // update any relationships in other NarrativeControllers that reference this item
-      NarrativeStore().CollectionItems.forEach((item: any) => {
+      const pinia = getActivePinia()
+      const narrativeStore = pinia ? (pinia as any)._s.get('narrative') : null
+      if (narrativeStore) narrativeStore.CollectionItems.forEach((item: any) => {
         if (item.ID === this.ID) return
         item.NarrativeController.Relationships.forEach((rel: any) => {
           if (rel.id === this.ID) {

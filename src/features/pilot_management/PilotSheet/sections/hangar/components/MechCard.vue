@@ -174,30 +174,28 @@
   </v-col>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import MechCardLoadoutField from './MechCardLoadoutField.vue';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  name: 'MechCard',
-  components: {
-    MechCardLoadoutField,
-  },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     mech: {
       type: Object,
       required: true,
     },
-  },
-  methods: {
-    copyAndClose() {
-      this.$emit('copy', this.mech);
-      (this.$refs as any).copy.close();
-    },
-  },
-};
+  })
+
+const emit = defineEmits(['go', 'delete', 'copy'])
+
+const { mobile, portrait } = useMobile()
+
+const copy = ref<any>(null)
+
+function copyAndClose() {
+  emit('copy', props.mech)
+  copy.value?.close()
+}
 </script>
 
 <style scoped>

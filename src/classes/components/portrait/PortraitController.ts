@@ -1,6 +1,7 @@
 import type { Mech } from '../../mech/Mech'
 import { ImageTag } from '@/io/ImageManagement'
 import type { IPortraitContainer } from './IPortraitContainer'
+import { assertController } from '../../utility/assertController'
 
 interface IPortraitData {
   portrait: string
@@ -106,10 +107,7 @@ class PortraitController {
   }
 
   public static Deserialize(parent: IPortraitContainer, data: IPortraitData) {
-    if (!parent.PortraitController)
-      throw new Error(
-        `PortraitController not found on parent (${typeof parent}). New PortraitControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.PortraitController, 'PortraitController')
 
     if (!data) return
 

@@ -118,18 +118,12 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import DeployButton from './_deployButton.vue';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  mixins: [useMobile],
-  name: 'mech-core-panel',
-  components: {
-    DeployButton
-  },
-  props: {
+const props = defineProps({
     mech: {
       type: Object,
       required: true,
@@ -142,14 +136,10 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  computed: {
-    cs() {
-      return this.mech.Frame.CoreSystem;
-    },
-    active() {
-      return this.mech.CombatController.CoreActive;
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
+const cs = computed(() => {return props.mech.Frame.CoreSystem;})
+const active = computed(() => {return props.mech.CombatController.CoreActive;})
 </script>

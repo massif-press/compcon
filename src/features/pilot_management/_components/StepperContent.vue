@@ -30,12 +30,10 @@
   </v-footer>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'stepper-content',
-  props: {
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     noConfirm: {
       type: Boolean,
       required: false,
@@ -56,9 +54,11 @@ export default {
       type: String,
       required: true,
     },
-  },
-  emits: ['complete', 'next', 'back'],
-};
+  })
+
+const emit = defineEmits(['complete', 'next', 'back', 'done'])
+
+const { mobile, portrait } = useMobile()
 </script>
 
 <style scoped>

@@ -6,6 +6,7 @@ import { NpcClass } from '../class/NpcClass'
 import { NpcTemplate } from '../template/NpcTemplate'
 import { NpcFeatureFactory } from './NpcFeatureFactory'
 import Tag from '../../Tag'
+import { assertController } from '../../utility/assertController'
 interface INpcFeatureSaveData {
   instance: boolean
   features: { id: string; data: INpcFeatureData }[]
@@ -144,10 +145,7 @@ class NpcFeatureController implements IFeatureContainer {
   }
 
   public static Deserialize(parent: Unit, data: INpcFeatureSaveData) {
-    if (!parent.NpcFeatureController)
-      throw new Error(
-        `NpcClassController not found on parent (${typeof parent}). New NpcFeatureController must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.NpcFeatureController, 'NpcFeatureController')
 
     parent.NpcFeatureController._selectedFeatures = []
     data.features?.forEach(x => {

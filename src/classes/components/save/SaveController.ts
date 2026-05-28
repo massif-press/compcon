@@ -1,6 +1,7 @@
 import { ISaveable } from './ISaveable'
 import { SetItem } from '@/io/Storage'
 import * as _ from 'lodash-es'
+import { assertController } from '../../utility/assertController'
 
 interface ISaveData {
   lastModified: number
@@ -126,10 +127,7 @@ class SaveController {
   }
 
   public static Deserialize(parent: ISaveable, data: ISaveData) {
-    if (!parent.SaveController)
-      throw new Error(
-        `SaveController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.SaveController, 'SaveController')
 
     if (!data) return
 

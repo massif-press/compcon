@@ -719,6 +719,9 @@ const manufacturerSortFn = (a: string, b: string): number => {
 };
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'CCCompendiumBrowser',
   components: {
     SelectorListItem,
@@ -734,7 +737,6 @@ export default {
     bListGroup,
     LicenseExpandable,
   },
-  mixins: [useMobile],
   props: {
     items: {
       type: Array as () => CompendiumItem[],

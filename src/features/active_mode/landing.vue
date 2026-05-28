@@ -103,7 +103,7 @@
 </template>
 
 <script lang="ts">
-import { EncounterStore, PilotStore } from '@/stores';
+import { EncounterStore, PilotSheetStore } from '@/stores';
 
 export default {
   name: 'home',
@@ -208,7 +208,7 @@ export default {
       return EncounterStore().getActiveEncounter(EncounterStore().CurrentActiveID);
     },
     lastLocalSheet() {
-      return PilotStore().GetSheet(PilotStore().CurrentActiveID);
+      return PilotSheetStore().GetSheet(PilotSheetStore().CurrentActiveID);
     },
   },
   methods: {

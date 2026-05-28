@@ -221,6 +221,9 @@ import ShareDialog from '@/shared/ShareDialog.vue'
 import { pilotActionsMixin } from './pilotActionsMixin'
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'MobileOptionsMenu',
   components: {
     StatblockDialog,
@@ -228,7 +231,7 @@ export default {
     LcpConfigSelector,
     ShareDialog,
   },
-  mixins: [useMobile, pilotActionsMixin],
+  mixins: [pilotActionsMixin],
   props: {
     pilot: {
       type: Pilot,

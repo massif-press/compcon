@@ -1,6 +1,6 @@
 import { UserStore } from './user/store'
-import { CompendiumStore } from './features/compendium/store'
-import { PilotStore } from './features/pilot_management/store'
+import { CompendiumStore, ContentPackStore, ContentCollectionStore } from './features/compendium/store'
+import { PilotStore, PilotSheetStore } from './features/pilot_management/store'
 import { NpcStore } from './features/gm/store/npc_store'
 import { EncounterStore } from './features/gm/store/encounter_store'
 import { NarrativeStore } from './features/gm/store/narrative_store'
@@ -21,8 +21,11 @@ export { SyncStore } from './user/store/SyncStore'
 export {
   UserStore,
   CompendiumStore,
+  ContentPackStore,
+  ContentCollectionStore,
   CampaignStore,
   PilotStore,
+  PilotSheetStore,
   NpcStore,
   NarrativeStore,
   EncounterStore,

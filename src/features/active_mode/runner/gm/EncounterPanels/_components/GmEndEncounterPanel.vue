@@ -46,9 +46,8 @@ export default {
     this.actionReport = report;
   },
   methods: {
-    end(result: string) {
-      EncounterStore().ArchiveEncounterInstance(this.encounterInstance, JSON.stringify(this.actionReport, null, 2), result);
-      this.$router.replace('/active-mode/manage-encounters');
+    async end(result: string) {
+      await EncounterStore().ArchiveEncounterInstance(this.encounterInstance, JSON.stringify(this.actionReport, null, 2), result);
     },
   },
 };

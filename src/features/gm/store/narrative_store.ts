@@ -1,12 +1,13 @@
 import { Character, CharacterData } from '@/classes/narrative/Character'
 import { Faction, FactionData } from '@/classes/narrative/Faction'
 import { Location, LocationData } from '@/classes/narrative/Location'
-import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
+import { GetAll, RemoveItem, saveAll } from '@/io/Storage'
 import { NavStore } from '@/stores/nav'
 import type { IndexItem } from '@/stores/nav'
 import logger from '@/user/logger'
 import * as _ from 'lodash-es'
 import { defineStore } from 'pinia'
+import { useFolderManagement } from '@/composables/useFolderManagement'
 
 export const NarrativeStore = defineStore('narrative', {
   state: () => ({
@@ -68,25 +69,15 @@ export const NarrativeStore = defineStore('narrative', {
     },
 
     AddFolder(payload: string): void {
-      this.Folders.push(payload)
+      useFolderManagement(this.CollectionItems, this.Folders).AddFolder(payload)
     },
 
     EditFolder(payload: { old: string; newName: string }): void {
-      this.CollectionItems.filter(x => x.FolderController.Folder === payload.old).forEach(
-        x => (x.FolderController.Folder = payload.newName)
-      )
-
-      const idx = this.Folders.findIndex(x => x === payload.old)
-      if (idx >= -1) this.Folders[idx] = payload.newName
+      useFolderManagement(this.CollectionItems, this.Folders).EditFolder(payload)
     },
 
     RemoveFolder(payload: string): void {
-      this.CollectionItems.filter(x => x.FolderController.Folder === payload).forEach(
-        x => (x.FolderController.Folder = '')
-      )
-
-      const idx = this.Folders.findIndex(x => x === payload)
-      if (idx >= -1) this.Folders.splice(idx, 1)
+      useFolderManagement(this.CollectionItems, this.Folders).RemoveFolder(payload)
     },
 
     async AddItem(payload: Character | Location | Faction): Promise<void> {
@@ -127,14 +118,7 @@ export const NarrativeStore = defineStore('narrative', {
     },
 
     async SaveItemData(): Promise<void> {
-      try {
-        await Promise.all(
-          (this.CollectionItems as any).map(y => SetItem('narrative', y.Serialize()))
-        )
-        logger.info('Narrative data saved')
-      } catch (err) {
-        logger.error('Error while saving Narrative data', this, err)
-      }
+      await saveAll('narrative', this.CollectionItems, y => y.Serialize(), 'Narrative data')
     },
   },
 })

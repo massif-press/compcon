@@ -6,9 +6,9 @@
       class="pa-0"
       style="position: relative"
       :style="item.Used ? 'opacity: 0.4' : ''">
-      <equipment-destroyed-overlay :destroyed="item.Destroyed" />
+      <DestroyedOverlay :destroyed="item.Destroyed" />
 
-      <equipment-flavor-description :description="item.FlavorDescription" />
+      <FlavorDescription :description="item.FlavorDescription" />
 
       <div v-if="item">
         <div v-if="item.Effect">
@@ -21,7 +21,7 @@
           v-html-safe="item.Description"
           class="mb-1 px-2" />
 
-        <equipment-actions-deployables
+        <ActionsDeployables
           :item="item"
           :actor="pilot"
           :owner="owner"
@@ -57,24 +57,16 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import DeployButton from './_deployButton.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
-import { useMobile } from '@/composables/useMobile'
 import { externalPilotItemBonuses } from '@/composables/useExternalItemBonuses'
 
-export default {
-  name: 'PilotGearCombatCard',
-  components: {
-    DeployButton,
-    EquipmentDestroyedOverlay: DestroyedOverlay,
-    EquipmentFlavorDescription: FlavorDescription,
-    EquipmentActionsDeployables: ActionsDeployables,
-  },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     item: {
       type: Object,
       required: true,
@@ -95,12 +87,12 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  emits: ['deploy'],
-  computed: {
-    externalPilotItemBonuses,
-  },
-}
+  })
+
+const emit = defineEmits(['deploy'])
+
+const { mobile, portrait } = useMobile()
+
 </script>
 
 <style scoped>

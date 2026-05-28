@@ -4,7 +4,7 @@ import * as Client from '../index'
 import { getFromPresignDirect } from '@/io/apis/account'
 import { parseContentPack } from '@/io/ContentPackParser'
 import { getItemDownloadLink } from '../api'
-import { CompendiumStore } from '@/features/compendium/store'
+import { ContentPackStore } from '@/features/compendium/store'
 import * as OAuthService from './OAuthService'
 import { AuthStore } from './AuthStore'
 import { UserMetadataStore, setSaveUserProfileCallback } from './UserMetadataStore'
@@ -236,7 +236,7 @@ export const UserStore = defineStore('cloud', {
     },
     async downloadLcp(dbItem: any): Promise<void> {
       const lcp = await this.fetchLcp(dbItem)
-      await CompendiumStore().installContentPack(lcp)
+      await ContentPackStore().installContentPack(lcp)
     },
     readAsBinaryStringAsync(file: Blob): Promise<string | ArrayBuffer | null> {
       return new Promise((resolve, reject) => {

@@ -178,6 +178,9 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'MechSheet',
   components: {
     MechNav,
@@ -187,7 +190,6 @@ export default {
     SectionHeader,
     StatusAlerts,
   },
-  mixins: [useMobile],
   props: {
     pilotID: {
       type: String,

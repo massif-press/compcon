@@ -93,14 +93,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { useMobile } from '@/composables/useMobile'
 import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
 
-export default {
-  name: 'EquipmentDetails',
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     item: {
       type: Object,
       required: true,
@@ -117,9 +115,8 @@ export default {
       type: String,
       required: true,
     },
-  },
-  computed: {
-    externalItemBonuses,
-  },
-}
+  })
+
+const { mobile, portrait } = useMobile()
+
 </script>

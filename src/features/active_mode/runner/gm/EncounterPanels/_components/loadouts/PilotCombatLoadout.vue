@@ -30,21 +30,14 @@
   </cc-masonry-grid>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import PilotGearCard from './_pilotGearCard.vue'
 import PilotWeaponCard from './_pilotWeaponCard.vue'
 import PilotArmorCard from './_pilotArmorCard.vue'
-import { useMobile } from '@/composables/useMobile';
 
-export default {
-  name: 'PilotCombatLoadout',
-  components: {
-    PilotWeaponCard,
-    PilotGearCard,
-    PilotArmorCard,
-  },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     owner: {
       type: Object,
       required: true,
@@ -53,28 +46,16 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  emits: ['deploy'],
-  computed: {
-    xlColumns() {
-      if (this.mobile) return 1
-      else return this.encounterInstance.MaxMasonryColumns
-    },
-    pilot() {
-      return this.owner.actor
-    },
-    armor() {
-      return this.pilot.Loadout.Armor
-    },
-    weapons() {
-      return this.pilot.Loadout.Weapons
-    },
-    gear() {
-      return this.pilot.Loadout.Gear
-    },
-    equipment() {
-      return this.armor.concat(this.weapons).concat(this.gear).filter(Boolean)
-    },
-  },
-}
+  })
+
+const emit = defineEmits(['deploy'])
+
+const { mobile, portrait } = useMobile()
+
+const xlColumns = computed(() => mobile.value ? 1 : props.encounterInstance.MaxMasonryColumns)
+const pilot = computed(() => props.owner.actor)
+const armor = computed(() => pilot.value.Loadout.Armor)
+const weapons = computed(() => pilot.value.Loadout.Weapons)
+const gear = computed(() => pilot.value.Loadout.Gear)
+const equipment = computed(() => armor.value.concat(weapons.value).concat(gear.value).filter(Boolean))
 </script>

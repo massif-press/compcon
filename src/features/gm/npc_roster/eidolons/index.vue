@@ -56,7 +56,6 @@ import { ref, onUnmounted } from 'vue';
 
 
 export default {
-  mixins: [useMobile],
   name: 'eidolon-roster',
   components: { GmSplitView, Editor, Builder, NoGmItem },
   setup() {
@@ -66,7 +65,7 @@ export default {
       eidolons.value = npcStore.getEidolons.filter((x) => !x.SaveController.IsDeleted);
     });
     onUnmounted(unsub);
-    return { npcStore, eidolons };
+    return { ...useMobile(), npcStore, eidolons };
   },
   props: {
     id: {

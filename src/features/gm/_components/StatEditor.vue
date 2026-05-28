@@ -170,9 +170,11 @@ const npcStatOrder = [
 ];
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'StatEditor',
   components: { EditableAttribute },
-  mixins: [useMobile],
   props: {
     item: { type: Object, required: true },
     controller: { type: Object, required: false },

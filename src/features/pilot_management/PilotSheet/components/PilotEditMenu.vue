@@ -143,7 +143,6 @@
 </template>
 
 <script lang="ts">
-import { Pilot } from '@/classes/pilot/Pilot'
 import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import LcpConfigSelector from './LcpConfigSelector.vue'
@@ -151,7 +150,10 @@ import { useMobile } from '@/composables/useMobile';
 import { pilotActionsMixin } from '../pilotActionsMixin'
 
 export default {
-  mixins: [useMobile, pilotActionsMixin],
+  setup() {
+    return useMobile()
+  },
+  mixins: [pilotActionsMixin],
   name: 'EditMenu',
   components: {
     StatblockDialog,
@@ -160,7 +162,7 @@ export default {
   },
   props: {
     pilot: {
-      type: Pilot,
+      type: Object,
       required: true,
     },
     light: {

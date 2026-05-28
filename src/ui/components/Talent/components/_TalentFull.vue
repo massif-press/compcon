@@ -149,9 +149,11 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'TalentFull',
   components: { TalentEmblem, TalentRankContents },
-  mixins: [useMobile],
   props: {
     hideLocked: { type: Boolean },
     talent: { type: Object, required: true },

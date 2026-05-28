@@ -74,14 +74,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import DeployButton from './_deployButton.vue';
-export default {
-  mixins: [useMobile],
-  name: 'mech-mount-bonus-card',
-  components: { DeployButton },
-  props: {
+
+const props = defineProps({
     bonus: {
       type: Object,
       required: true,
@@ -101,12 +99,10 @@ export default {
     expanded: {
       type: Boolean,
     },
-  },
-  emits: ['deploy'],
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
-};
+  })
+
+const emit = defineEmits(['deploy'])
+
+const { mobile, portrait } = useMobile()
+
 </script>

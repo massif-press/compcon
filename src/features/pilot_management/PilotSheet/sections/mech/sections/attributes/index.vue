@@ -40,17 +40,13 @@
   </mech-statblock>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import HasePips from './HasePips.vue';
 import MechStatblock from './MechStatblock.vue';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  name: 'AttributesBlock',
-  components: { HasePips, MechStatblock },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     mech: {
       type: Object,
       required: true,
@@ -64,19 +60,10 @@ export default {
       required: false,
       default: 'primary',
     },
-  },
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown;
-    },
-    portrait(): boolean {
-      return this.$vuetify.display.xs;
-    },
-    widescreen(): boolean {
-      return this.$vuetify.display.lgAndUp;
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
 </script>
 
 <style scoped>

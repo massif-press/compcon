@@ -4,9 +4,9 @@
     <v-card-text class="pa-0"
       style="position: relative"
       :style="item.Used ? 'opacity: 0.4' : ''">
-      <equipment-destroyed-overlay :destroyed="item.Destroyed" />
+      <DestroyedOverlay :destroyed="item.Destroyed" />
 
-      <equipment-flavor-description :description="item.FlavorDescription" />
+      <FlavorDescription :description="item.FlavorDescription" />
 
       <cc-alert v-if="integrated"
         class="mt-2"
@@ -55,7 +55,7 @@
             class="mb-1 px-2" />
         </div>
 
-        <equipment-actions-deployables :item="item"
+        <ActionsDeployables :item="item"
           :actor="mech"
           :owner="owner"
           :encounter="encounter"
@@ -95,25 +95,17 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import { ItemType } from '@/classes/enums'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
-import { useMobile } from '@/composables/useMobile'
 import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
 
-export default {
-  name: 'MechSystemCombatCard',
-  components: {
-    EquipCommandPanel,
-    EquipmentDestroyedOverlay: DestroyedOverlay,
-    EquipmentFlavorDescription: FlavorDescription,
-    EquipmentActionsDeployables: ActionsDeployables,
-  },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     item: {
       type: Object,
       required: true,
@@ -134,16 +126,14 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  emits: ['deploy'],
-  computed: {
-    synergyLocation() {
-      if (!this.item) return 'none'
-      return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
-    },
-    externalItemBonuses,
-  },
-}
+  })
+
+const emit = defineEmits(['deploy'])
+
+const { mobile, portrait } = useMobile()
+
+const synergyLocation = computed(() => {if (!props.item) return 'none'
+      return props.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'})
 </script>
 
 <style scoped>

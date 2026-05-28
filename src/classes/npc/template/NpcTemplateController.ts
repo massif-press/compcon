@@ -2,6 +2,7 @@ import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
 import { NpcTemplate } from './NpcTemplate'
 import { NpcClass } from '../class/NpcClass'
+import { assertController } from '../../utility/assertController'
 
 interface INpcTemplateSaveData {
   templates: { id: string; data: any }[]
@@ -164,10 +165,7 @@ class NpcTemplateController {
   }
 
   public static Deserialize(parent: Unit, data: INpcTemplateSaveData) {
-    if (!parent.NpcClassController)
-      throw new Error(
-        `NpcClassController not found on parent (${typeof parent}). New NpcClassControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.NpcClassController, 'NpcClassController')
 
     parent.NpcTemplateController._templates = []
 

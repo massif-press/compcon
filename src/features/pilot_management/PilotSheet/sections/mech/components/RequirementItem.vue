@@ -34,16 +34,15 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'requirement-item',
-  props: {
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     license: {
       type: Object,
       required: true,
     },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
 </script>

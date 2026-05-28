@@ -128,11 +128,13 @@ import * as _ from 'lodash-es';
 import { UserStore } from '@/stores';
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'MechCombatLoadout',
   components: {
     UnitFeatureCard,
   },
-  mixins: [useMobile],
   props: {
     owner: {
       type: Object,

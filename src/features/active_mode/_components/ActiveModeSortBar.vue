@@ -68,6 +68,7 @@
     </v-col>
     <v-col cols="auto">
       <active-mode-organizer :items="items"
+        :archived-items="archivedItems"
         :columns="columns"
         :noun="noun"
         :title="title"
@@ -84,6 +85,7 @@ const props = defineProps<{
   sort: string;
   asc: boolean;
   items: any[];
+  archivedItems?: any[];
   columns: any[];
   noun: string;
   title: string;

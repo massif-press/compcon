@@ -40,8 +40,10 @@ import { useMobile } from '@/composables/useMobile';
 import { VTextarea, VTextField } from 'vuetify/components';
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'CCStringEditDialog',
-  mixins: [useMobile],
   props: {
     label: {
       type: String,

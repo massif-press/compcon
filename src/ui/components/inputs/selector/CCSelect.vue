@@ -155,8 +155,10 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'CCSelect',
-  mixins: [useMobile],
   props: {
     modelValue: { type: [String, Number, Boolean, Array, Object] },
     items: { type: Array, default: () => [] },

@@ -55,8 +55,10 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'SearchResults',
-  mixins: [useMobile],
   data: () => ({
     selected: null as any,
     searchText: '',

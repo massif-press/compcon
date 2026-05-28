@@ -27,6 +27,7 @@ import { ILicenseRequirement } from '../pilot/components/license/LicensedItem'
 import { CombatController, CombatData } from '../components/combat/CombatController'
 import { ICombatant } from '../components/combat/ICombatant'
 import { StatController } from '../components/combat/stats/StatController'
+import { ExpressionContext } from '../utility/ExpressionContext'
 
 class IMechData implements IMechLoadoutSaveData {
   img: IPortraitData = {} as IPortraitData
@@ -501,7 +502,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
     return b.length ? b[0].Value : Rules.Overcharge
   }
 
-  public getExpressionContext(): Record<string, number> {
+  public getExpressionContext(): ExpressionContext {
     // can't call Bonus.Int (directly or via stat getters like MaxHP, Evasion, etc)
     // because Bonus.Int → EvaluateSpecial → getExpressionContext loops
     const grit = this._pilot?.Grit ?? 0

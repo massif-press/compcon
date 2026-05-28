@@ -2,6 +2,7 @@ import { IClockData, Clock } from '@/classes/narrative/elements/Clock'
 import { Pilot } from '../../Pilot'
 import { BondPower, Bond, IBondData } from './Bond'
 import { CompendiumStore } from '@/features/compendium/store'
+import { assertController } from '../../../utility/assertController'
 
 interface IPilotBondData {
   bondId?: string
@@ -272,10 +273,7 @@ class BondController {
   }
 
   public static Deserialize(parent: Pilot, data: IPilotBondData) {
-    if (!parent.BondController)
-      throw new Error(
-        `BondController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.BondController, 'BondController')
 
     if (!data) return
 

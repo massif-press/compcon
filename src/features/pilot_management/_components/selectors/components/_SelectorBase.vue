@@ -93,7 +93,9 @@
 <script lang="ts">
 import { useMobile } from '@/composables/useMobile';
   export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
     name: 'Selector',
     props: {
       title: {

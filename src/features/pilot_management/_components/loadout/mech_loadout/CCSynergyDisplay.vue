@@ -51,16 +51,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import { Mech } from '@/classes/mech/Mech'
 import { Synergy } from '@/classes/components/feature/synergy/Synergy'
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  name: 'CcSynergyDisplay',
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     item: {
       type: Object,
       required: false,
@@ -78,11 +75,9 @@ export default {
     inline: { type: Boolean },
     showNone: { type: Boolean },
     alert: { type: Boolean },
-  },
-  computed: {
-    synergies() {
-      return Synergy.Collect(this.location, this.mech as Mech, this.item as any);
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
+const synergies = computed(() => {return Synergy.Collect(props.location, props.mech as Mech, props.item as any);})
 </script>

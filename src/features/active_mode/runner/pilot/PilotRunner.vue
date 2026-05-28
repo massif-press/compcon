@@ -123,7 +123,7 @@
 import { ref, computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { useRoute, onBeforeRouteLeave } from 'vue-router';
-import { PilotStore } from '@/stores';
+import { PilotSheetStore } from '@/stores';
 import ActorTelemetry from '../gm/EncounterPanels/_components/ActorTelemetry.vue';
 import ActorLogs from '../gm/EncounterPanels/_components/ActorLogs.vue';
 import CombatStatblockExport from '../gm/EncounterPanels/_components/CombatStatblockExport.vue';
@@ -163,7 +163,7 @@ const leaveDialog = ref(false);
 let resolveLeaveDialog: ((value: string) => void) | null = null;
 
 const sheet = computed(() =>
-  PilotStore().GetSheet(props.id || route.params.id as string || PilotStore().CurrentActiveID)
+  PilotSheetStore().GetSheet(props.id || route.params.id as string || PilotSheetStore().CurrentActiveID)
 );
 const sheetID = computed(() => sheet.value ? sheet.value.ID : 0);
 const combatant = computed(() => sheet.value!.Combatant);

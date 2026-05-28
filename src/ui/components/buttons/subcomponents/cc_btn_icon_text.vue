@@ -34,14 +34,12 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import { Anchor } from 'vuetify';
 
-export default {
-  name: 'CcBtnIcon',
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     color: { type: String },
     loading: { type: Boolean },
     disabled: { type: Boolean },
@@ -53,20 +51,16 @@ export default {
     target: { type: String },
     tooltip: { type: String },
     tooltipLocation: { type: String },
-  },
-  emits: ['click'],
-  computed: {
-    getColor() {
-      return this.disabled ? 'grey' : this.color;
-    },
-    outlined() {
-      return this.variant === 'outlined';
-    },
-    colorClass() {
-      return `bg-${this.color}`;
-    },
-    iconSize() {
-      switch (this.size) {
+  })
+
+const emit = defineEmits(['click'])
+
+const { mobile, portrait } = useMobile()
+
+const getColor = computed(() => {return props.disabled ? 'grey' : props.color;})
+const outlined = computed(() => {return props.variant === 'outlined';})
+const colorClass = computed(() => {return `bg-${props.color}`;})
+const iconSize = computed(() => {switch (props.size) {
         case 'x-small':
           return 17;
         case 'small':
@@ -79,14 +73,11 @@ export default {
           return 51;
         default:
           return 29;
-      }
-    },
-    getTooltipLocation() {
-      if (!this.mobile && this.tooltipLocation) return this.tooltipLocation as Anchor;
-      return 'top' as Anchor;
-    }
-  },
-};
+      }})
+const getTooltipLocation = computed(() => {
+  if (!mobile.value && props.tooltipLocation) return props.tooltipLocation as Anchor
+  return 'top' as Anchor
+})
 </script>
 
 <style scoped>

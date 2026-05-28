@@ -44,36 +44,25 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { toRef } from 'vue'
 import DeployButton from './_deployButton.vue'
 import { useEquipmentActions } from '@/composables/useEquipmentActions'
 
-export default {
-  name: 'EquipmentActionsDeployables',
-  components: { DeployButton },
-  mixins: [useEquipmentActions],
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    actor: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    actionIcon: {
-      type: String,
-      default: 'cc:system',
-    },
-  },
-  emits: ['deploy'],
-}
+const props = withDefaults(defineProps<{
+  item: any
+  actor: any
+  owner: any
+  encounter: any
+  actionIcon?: string
+}>(), {
+  actionIcon: 'cc:system',
+})
+
+const emit = defineEmits<{ (e: 'deploy', deployable: any): void }>()
+
+const { handleActivation, handleRefund, handleDeploy } = useEquipmentActions(
+  toRef(props, 'item'),
+  (_event, deployable) => emit('deploy', deployable)
+)
 </script>

@@ -9,7 +9,7 @@ import { setServerTimeOffset } from '@/classes/components/cloud/fieldMerge'
 import { AuthStore } from './AuthStore'
 import { UserMetadataStore } from './UserMetadataStore'
 import { NotificationStore } from './NotificationStore'
-import { CompendiumStore } from '@/features/compendium/store'
+import { ContentCollectionStore } from '@/features/compendium/store'
 import { NpcStore } from '@/features/gm/store/npc_store'
 import { NarrativeStore } from '@/features/gm/store/narrative_store'
 import logger from '../logger'
@@ -70,8 +70,8 @@ export const CloudDataStore = defineStore('cloudData', {
     CloudStorageFull(): boolean {
       return this.CloudStorageUsed > this.MaxCloudStorage
     },
-    UserCollections(): ReturnType<typeof CompendiumStore>['ContentCollections'] {
-      const data = CompendiumStore().ContentCollections
+    UserCollections() {
+      const data = ContentCollectionStore().ContentCollections
       data.forEach(c => {
         const meta = this.UserPublishedCollections.find(x => x.sortkey.split('_')[1] === c.ID)
         if (meta) c.Metadata = meta as any
@@ -139,7 +139,7 @@ export const CloudDataStore = defineStore('cloudData', {
           arrType = 'CloudImages'
           break
         case 'collection': {
-          const localOwnedCollection = CompendiumStore().ContentCollections.find(
+          const localOwnedCollection = ContentCollectionStore().ContentCollections.find(
             x => x.ID === item.sortkey.split('_')[1]
           )
           if (localOwnedCollection) {

@@ -132,9 +132,11 @@ import { useMobile } from '@/composables/useMobile';
 import ShareDialog from '@/shared/ShareDialog.vue';
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'GmEditorFooter',
   components: { ShareDialog },
-  mixins: [useMobile],
   props: {
     item: { type: Object, required: true },
     readonly: { type: Boolean, default: false },

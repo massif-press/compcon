@@ -360,7 +360,9 @@ import { remove } from 'jszip'
 import { sortBy } from 'lodash-es'
 
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'BondsView',
   components: { BondSelector, BondPowerSelector, SectionHeader, SectionEditChip },
   props: {

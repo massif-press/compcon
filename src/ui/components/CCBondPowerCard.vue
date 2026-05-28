@@ -48,22 +48,19 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-  export default {
-  mixins: [useMobile],
-    name: 'CcBondInfo',
-    props: {
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
       power: { type: Object, required: true },
       flexHeight: { type: Boolean },
       disabled: { type: Boolean },
-    },
-    computed: {
-      headerColor() {
-        if (this.power.veteran) return 'indigo-lighten-1'
-        if (this.power.master) return 'deep-purple-darken-3'
-        return 'primary'
-      },
-    },
-  }
+    })
+
+const { mobile, portrait } = useMobile()
+
+const headerColor = computed(() => {if (props.power.veteran) return 'indigo-lighten-1'
+        if (props.power.master) return 'deep-purple-darken-3'
+        return 'primary'})
 </script>

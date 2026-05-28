@@ -38,12 +38,10 @@
   </v-col>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  name: 'GmLandingCard',
-  mixins: [useMobile],
-  props: {
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     to: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -51,8 +49,9 @@ export default {
     img: { type: String, required: true },
     maxHeight: { type: [String, Number], required: false, default: '' },
     disabled: { type: Boolean, required: false, default: false },
-  },
-}
+  })
+
+const { mobile, portrait } = useMobile()
 </script>
 
 <style scoped>

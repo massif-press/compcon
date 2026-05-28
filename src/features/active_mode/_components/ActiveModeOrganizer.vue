@@ -13,10 +13,11 @@
       <v-row>
         <v-col>
           <v-data-table :headers="allHeaders"
-            :items="items"
+            :items="displayItems"
             item-value="ID"
             :sort-by="[{ key: columns[0]?.key ?? 'Name', order: 'asc' }]"
             :items-per-page="-1"
+            :row-props="getRowProps"
             density="compact">
             <template #header.select>
               <v-btn icon
@@ -33,7 +34,16 @@
                 :value="(item as any).ID"
                 hide-details />
             </template>
-            <template #bottom />
+            <template #bottom>
+              <v-row dense
+                justify="end">
+                <v-col cols="auto">
+                  <v-checkbox v-model="showArchived"
+                    density="compact"
+                    label="Show Archived" />
+                </v-col>
+              </v-row>
+            </template>
           </v-data-table>
         </v-col>
         <v-col cols="auto"
@@ -75,12 +85,14 @@ interface OrganizerColumn {
 
 const props = withDefaults(defineProps<{
   items: any[];
+  archivedItems?: any[];
   columns: OrganizerColumn[];
   noun?: string;
   title?: string;
 }>(), {
   noun: 'item',
   title: 'Items',
+  archivedItems: () => [],
 });
 
 const emit = defineEmits<{
@@ -89,6 +101,13 @@ const emit = defineEmits<{
 }>();
 
 const selected = ref<string[]>([]);
+const showArchived = ref(false);
+
+const archivedIds = computed(() => new Set(props.archivedItems.map((i: any) => i.ID)));
+
+const displayItems = computed(() =>
+  showArchived.value ? [...props.items, ...props.archivedItems] : props.items
+);
 
 const allHeaders = computed(() => [
   { key: 'select', sortable: false, width: '40px' },
@@ -101,18 +120,24 @@ const allHeaders = computed(() => [
 ]);
 
 const selectAllIcon = computed(() => {
-  if (selected.value.length === props.items.length && props.items.length > 0)
+  if (selected.value.length === displayItems.value.length && displayItems.value.length > 0)
     return 'mdi-checkbox-outline';
   if (selected.value.length > 0)
     return 'mdi-minus-box-outline';
   return 'mdi-checkbox-blank-outline';
 });
 
+function getRowProps({ item }: { item: any }) {
+  return archivedIds.value.has(item.ID)
+    ? { class: 'text-disabled text-decoration-line-through' }
+    : {};
+}
+
 function toggleAll() {
   if (selected.value.length) {
     selected.value = [];
   } else {
-    selected.value = props.items.map(e => e.ID);
+    selected.value = displayItems.value.map((e: any) => e.ID);
   }
 }
 

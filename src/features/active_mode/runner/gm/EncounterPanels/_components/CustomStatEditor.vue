@@ -160,8 +160,10 @@ const statics = [
 ];
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'StatEditor',
-  mixins: [useMobile],
   props: {
     item: { type: Object, required: true },
     bonuses: { type: Array, default: () => [] },

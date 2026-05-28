@@ -23,8 +23,10 @@
 import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'Lists',
-  mixins: [useMobile],
   computed: {
     lists() {
       const out = [] as { name: string; data: any[]; type: string }[];

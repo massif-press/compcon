@@ -65,7 +65,6 @@ import CCTitle from './components/CCTitle.vue'
 import CCTitlebar from './components/CCTitlebar.vue'
 import CCTitledPanel from './components/CCTitledPanel.vue'
 import CCTooltip from './components/CCTooltip.vue'
-import CCActiveCard from './components/cards/CCActiveCard.vue'
 import CCDenseCard from './components/cards/CCDenseCard.vue'
 import CCItemCard from './components/cards/CCItemCard.vue'
 import CCItemChip from './components/cards/CCItemChip.vue'
@@ -81,7 +80,6 @@ import CCReserveItem from './components/items/CCReserveItem.vue'
 import CCSkillItem from './components/items/CCSkillItem.vue'
 import CCTraitItem from './components/items/CCTraitItem.vue'
 import CCAction from './components/items/features/actions/CCAction.vue'
-import CCFilterPanel from './components/panels/CCFilterPanel.vue'
 import CCLicensePanel from './components/panels/CCLicensePanel.vue'
 import CCItemFilter from './components/panels/filters/CCItemFilter.vue'
 import CCLoadoutPanel from '@/features/pilot_management/_components/loadout/CCLoadoutPanel.vue'
@@ -89,15 +87,10 @@ import CCMechLoadout from '@/features/pilot_management/_components/loadout/mech_
 import CCSynergyDisplay from '@/features/pilot_management/_components/loadout/mech_loadout/CCSynergyDisplay.vue'
 import CCPilotLoadout from '@/features/pilot_management/_components/loadout/pilot_loadout/CCPilotLoadout.vue'
 import CCImageSelector from './components/selectors/CCImageSelector.vue'
-import CCRefStressTable from './components/tables/CCRefStressTable.vue'
-import CCRefStructureTable from './components/tables/CCRefStructureTable.vue'
-import CCStressTable from './components/tables/CCStressTable.vue'
-import CCStructureTable from './components/tables/CCStructureTable.vue'
 import CCTalent from './components/Talent/CCTalent.vue'
 import CCIconDivider from './components/CCIconDivider.vue'
 import CCDeployableInfo from './components/items/features/deployables/CCDeployableInfo.vue'
 import CCIntegratedInfo from './components/items/features/integrated/CCIntegratedInfo.vue'
-import CCReserveCard from './components/items/features/reserves/CCReserveCard.vue'
 import CCAvatar from './components/items/CCAvatar.vue'
 import CCImg from './components/CCImg.vue'
 import PrintImg from '../features/pilot_management/Print/components/PrintImg.vue'
@@ -156,7 +149,6 @@ export {
   PrintImg,
   CCCompendiumBrowser,
   CCAvatar,
-  CCReserveCard,
   CCIntegratedInfo,
   CCDeployableInfo,
   CCBondInfo,
@@ -185,7 +177,6 @@ export {
   CCTitlebar,
   CCTitledPanel,
   CCTooltip,
-  CCActiveCard,
   CCDenseCard,
   CCItemCard,
   CCItemChip,
@@ -200,7 +191,6 @@ export {
   CCSkillItem,
   CCTraitItem,
   CCAction,
-  CCFilterPanel,
   CCLicensePanel,
   CCItemFilter,
   CCLoadoutPanel,
@@ -208,10 +198,6 @@ export {
   CCSynergyDisplay,
   CCPilotLoadout,
   CCImageSelector,
-  CCRefStressTable,
-  CCRefStructureTable,
-  CCStressTable,
-  CCStructureTable,
   CCTalent,
   CCIconDivider,
   CCRelationshipItem,

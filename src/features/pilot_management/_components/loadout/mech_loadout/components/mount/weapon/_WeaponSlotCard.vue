@@ -207,6 +207,9 @@ import EngWeaponSettings from './_EngWeaponSettings.vue'
 import { useMobile } from '@/composables/useMobile'
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'WeaponSlotCard',
   components: {
     SlotCardBase,
@@ -221,7 +224,6 @@ export default {
     WeaponSlotToolbarItems,
     EngWeaponSettings,
   },
-  mixins: [useMobile],
   props: {
     weaponSlot: {
       type: Object,

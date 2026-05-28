@@ -157,12 +157,11 @@
   </cc-alert>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  name: 'CoreSystemPanel',
-  mixins: [useMobile],
-  props: {
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     frame: {
       type: Object,
       required: true,
@@ -183,14 +182,10 @@ export default {
       required: false,
       default: null,
     },
-  },
-  computed: {
-    cs() {
-      return this.frame.CoreSystem;
-    },
-    isTerse() {
-      return this.terse || this.small;
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
+const cs = computed(() => {return props.frame.CoreSystem;})
+const isTerse = computed(() => {return props.terse || props.small;})
 </script>

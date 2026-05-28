@@ -257,8 +257,10 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'PlPilotCardBase',
-  mixins: [useMobile],
   props: {
     title: {
       type: String,

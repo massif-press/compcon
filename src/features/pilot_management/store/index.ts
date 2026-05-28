@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { SetItem, RemoveItem, GetAll, SetValue, GetValue } from '@/io/Storage'
+import { SetItem, RemoveItem, GetAll, saveAll } from '@/io/Storage'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from './PilotGroup'
 import { CloudController } from '@/classes/components/cloud/CloudController'
@@ -9,14 +9,14 @@ import * as _ from 'lodash-es'
 import { NavStore } from '@/stores/nav'
 import type { IndexItem } from '@/stores/nav'
 import logger from '@/user/logger'
-import PilotSheet from './PilotSheet'
+import { PilotSheetStore } from './PilotSheetStore'
+
+export { PilotSheetStore } from './PilotSheetStore'
 
 export const PilotStore = defineStore('pilot', {
   state: () => ({
     PilotGroups: [] as PilotGroup[],
     Pilots: [] as Pilot[],
-    PilotSheets: [] as PilotSheet[],
-    CurrentActiveID: '' as string,
   }),
   getters: {
     getPilotGroups: state => (showDeleted?: boolean) => {
@@ -26,9 +26,6 @@ export const PilotStore = defineStore('pilot', {
     },
     getPilotByID: state => (id: string) => {
       return state.Pilots.find(p => p.ID === id)
-    },
-    getPilotSheetByID: state => (id: string) => {
-      return state.PilotSheets.find(ps => ps.Combatant.id === id)
     },
     getGroupByID: state => (id: string) => {
       return state.PilotGroups.find(p => p.ID === id)
@@ -49,10 +46,6 @@ export const PilotStore = defineStore('pilot', {
     },
     getGroupByPilotID: state => (pilotID: string) => {
       return state.PilotGroups.find(x => x.Pilots.map(x => x.id).includes(pilotID))
-    },
-    getPilotSheets: state => {
-      if (!state.PilotSheets.length) return []
-      return state.PilotSheets
     },
     getMissingDataPilots: state => {
       return state.Pilots.filter(x => x.BrewController.MissingContent)
@@ -108,7 +101,7 @@ export const PilotStore = defineStore('pilot', {
 
       await this.RebuildGroups()
       await this.ImportUngroupedPilots()
-      await this.LoadPilotSheets()
+      await PilotSheetStore().LoadPilotSheets()
     },
     async RebuildGroups(): Promise<void> {
       const seen = new Set<string>()
@@ -131,12 +124,6 @@ export const PilotStore = defineStore('pilot', {
       if (dirty) await this.SaveGroupData()
     },
     async ImportUngroupedPilots(): Promise<void> {
-      // import v2 pilots
-      // const localData = localStorage.getItem('pilots_v2');
-      // if (localData) {
-      //   const localPilots = JSON.parse(localData);
-      // }
-
       const groupedIds = this.PilotGroups.flatMap(x => x.Pilots).map(x => x.id)
       const ungroupedPilots = (this.Pilots as Pilot[]).filter(
         (p: Pilot) => !groupedIds.includes(p.ID)
@@ -148,8 +135,7 @@ export const PilotStore = defineStore('pilot', {
     },
     async AddPilot(pilot: Pilot, groupID?: string): Promise<void> {
       if (this.Pilots.some(x => x.ID === pilot.ID)) {
-        logger.info(`Pilot ${pilot.Callsign} already exists`, this)
-        // also saves
+        logger.info(`Pilot ${pilot.Callsign} already exists`)
         this.SetPilot(
           this.Pilots.findIndex(x => x.ID === pilot.ID),
           pilot
@@ -160,8 +146,6 @@ export const PilotStore = defineStore('pilot', {
       this.Pilots.push(pilot)
       NavStore().updatePilotEntry(pilot)
 
-      // If no destination specified, check if an existing group already references this pilot
-      // (can happen when groups sync before pilots during cloud sync)
       if (!groupID) {
         const existingGroup = this.PilotGroups.find(
           g => g.ID !== 'no_group' && g.Pilots.some(x => x.id === pilot.ID)
@@ -178,8 +162,6 @@ export const PilotStore = defineStore('pilot', {
       await this.SavePilotData()
     },
     async AddGroup(group: PilotGroup): Promise<void> {
-      // Remove this group's pilots from no_group to avoid duplication
-      // (can happen when pilots sync before groups during cloud sync)
       const noGroup = this.PilotGroups.find(x => x.ID === 'no_group')
       if (noGroup && group.Pilots.length) {
         const groupPilotIds = new Set(group.Pilots.map(p => p.id))
@@ -198,7 +180,6 @@ export const PilotStore = defineStore('pilot', {
       const pilotIDs = group.Pilots.map(p => p.id)
       const noGroup = this.PilotGroups.find(x => x.ID === 'no_group')
 
-      // Move all pilots to no_group in memory without saving on each transfer
       for (const id of pilotIDs) {
         for (const g of this.PilotGroups) {
           if (g.ID === 'no_group') continue
@@ -226,7 +207,6 @@ export const PilotStore = defineStore('pilot', {
     },
     async SavePilotData(pilotIds?: string[]): Promise<void> {
       try {
-        // Sync SortIndex from group position before serializing
         this.PilotGroups.forEach(group => {
           group.Pilots.forEach((pi, idx) => {
             const p = this.Pilots.find(p => p.ID === pi.id)
@@ -250,17 +230,10 @@ export const PilotStore = defineStore('pilot', {
       }
     },
     async SaveGroupData(): Promise<void> {
-      try {
-        this.PilotGroups.forEach((group, idx) => {
-          group.SortIndex = idx
-        })
-        await Promise.all(
-          this.PilotGroups.map(x => SetItem('pilot_groups', PilotGroup.Serialize(x as PilotGroup)))
-        )
-        logger.info('Pilot group data saved')
-      } catch (err) {
-        logger.error('Error while saving Pilot group data', this, err)
-      }
+      this.PilotGroups.forEach((group, idx) => {
+        group.SortIndex = idx
+      })
+      await saveAll('pilot_groups', this.PilotGroups, x => PilotGroup.Serialize(x as PilotGroup), 'Pilot group data')
     },
 
     async ClonePilot(payload: Pilot): Promise<void> {
@@ -297,10 +270,6 @@ export const PilotStore = defineStore('pilot', {
       const dest = destinationID ?? 'no_group'
       const destinationIndex = this.PilotGroups.findIndex(x => x.ID === dest)
 
-      // Remove from every group except the destination. Iterating all groups (rather
-      // than finding a single source) handles corrupted data where a pilot may have
-      // been registered in multiple groups by previous code bugs.
-      // Use the Pilots setter (not splice) so Vue 3's reactive set trap fires correctly.
       for (const group of this.PilotGroups) {
         if (group.ID === dest) continue
         if (group.Pilots.some(x => x.id === p.ID)) {
@@ -373,64 +342,6 @@ export const PilotStore = defineStore('pilot', {
       if (fromIndex === -1) return
       this.moveGroupIndex(fromIndex, toIndex)
       this.SaveGroupData()
-    },
-    async LoadPilotSheets(): Promise<void> {
-      this.PilotSheets = await GetAll('pilot_sheets').then(data =>
-        data.map(x => PilotSheet.Deserialize(x))
-      )
-      this.LoadSheetId()
-    },
-    async AddPilotSheet(pilot: Pilot, campaign?: string): Promise<void> {
-      const newSheet = PilotSheet.FromPilot(pilot, campaign)
-      newSheet.Combatants[0].actor.CombatController.Reset()
-      this.PilotSheets.push(newSheet)
-      await SetItem('pilot_sheets', PilotSheet.Serialize(newSheet))
-      await this.SetActiveSheet(newSheet.ID)
-    },
-    async ImportPilotSheet(pilotSheet: PilotSheet): Promise<void> {
-      const idx = this.PilotSheets.findIndex(x => x.ID === pilotSheet.ID)
-      if (idx !== -1) {
-        logger.info(`Pilot sheet ${pilotSheet.Name} already exists`, this)
-        this.PilotSheets.splice(idx, 1, pilotSheet)
-      } else {
-        this.PilotSheets.push(pilotSheet)
-      }
-      await SetItem('pilot_sheets', PilotSheet.Serialize(pilotSheet))
-      await this.SetActiveSheet(pilotSheet.ID)
-    },
-
-    async RemovePilotSheet(pilotSheet: PilotSheet): Promise<void> {
-      const idx = this.PilotSheets.findIndex(ps => ps.ID === pilotSheet.ID)
-      if (idx === -1) return
-      this.PilotSheets.splice(idx)
-      await RemoveItem('pilot_sheets', pilotSheet.ID)
-      if (this.CurrentActiveID === pilotSheet.ID) {
-        await this.SetActiveSheet('')
-      }
-    },
-    async SetActiveSheet(id: string): Promise<void> {
-      this.CurrentActiveID = id
-      await SetValue('current_active_sheet', id)
-    },
-    async LoadSheetId(): Promise<void> {
-      const id = await GetValue('current_active_sheet')
-      if (id) this.CurrentActiveID = id
-    },
-    GetSheet(id: string): PilotSheet | null {
-      const sheet = this.PilotSheets.find((ps: any) => ps.ID === id)
-      if (sheet) return sheet as PilotSheet
-      logger.error('No pilot sheet found with ID ' + id)
-      return null
-    },
-    GetActiveSheet(): PilotSheet | null {
-      const activeSheet = this.PilotSheets.find((ps: any) => ps.ID === this.CurrentActiveID)
-      if (activeSheet) return activeSheet as PilotSheet
-      logger.error('No active pilot sheet found')
-      return null
-    },
-    async AssignActiveSheet(payload: PilotSheet): Promise<void> {
-      this.CurrentActiveID = payload.ID
-      await SetValue('current_active_sheet', payload.ID)
     },
   },
 })

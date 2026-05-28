@@ -50,7 +50,7 @@ import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewCont
 import { IBrewable } from '../components/brew/IBrewable'
 import { BondController, IPilotBondData } from './components/bond/BondController'
 import logger from '@/user/logger'
-import { IInstanceableData } from '../components/instance/IInstancableData'
+import { IInstanceableData } from '../components/instance/IInstanceable'
 import { IInstanceable } from '../components/instance/IInstanceable'
 import { StatController } from '../components/combat/stats/StatController'
 import { ICombatant } from '../components/combat/ICombatant'
@@ -58,6 +58,7 @@ import { CombatController, CombatData } from '../components/combat/CombatControl
 import { LcpConfig } from '@/user'
 import { IRankedData } from './components/license/License'
 import { IOrganizationData } from './components/reserves/Organization'
+import { ExpressionContext } from '../utility/ExpressionContext'
 
 interface IUnlockData {
   PilotGear: any[]
@@ -558,7 +559,7 @@ class Pilot
     this.SaveController.save()
   }
 
-  public getExpressionContext(): Record<string, number> {
+  public getExpressionContext(): ExpressionContext {
     // can't call Bonus.Int (directly or via stat getters like MaxHP, Evasion, etc)
     // because Bonus.Int → EvaluateSpecial → getExpressionContext loops
     return {

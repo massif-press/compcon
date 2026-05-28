@@ -20,7 +20,7 @@
               class="text-center side-border">
               <cc-item-modal small-btn
                 hide-type
-                :item="item" />
+                :item="(item as any)" />
             </th>
           </tr>
         </thead>
@@ -76,15 +76,12 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import { CompendiumItem } from '@/classes/CompendiumItem'
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  name: 'SelectorTable',
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     items: {
       type: Array,
       required: true,
@@ -99,100 +96,97 @@ export default {
       required: false,
       default: 1,
     },
-  },
-  emits: ['clear'],
-  computed: {
-    isNpcClass() {
-      return (this.selected as CompendiumItem).ItemType === 'NpcClass';
-    },
-    metrics() {
-      switch ((this.selected as CompendiumItem).ItemType) {
-        case 'Frame':
-          return [
-            { title: 'HP', value: 'hp' },
-            { title: 'Evasion', value: 'evasion' },
-            { title: 'Armor', value: 'armor' },
-            { title: 'E-Defense', value: 'edef' },
-            { title: 'Heat Capacity', value: 'heatcap' },
-            { title: 'Repair Capacity', value: 'repcap' },
-            { title: 'Sensors', value: 'sensor_range' },
-            { title: 'Tech Attack', value: 'tech_attack' },
-            { title: 'Save', value: 'save' },
-            { title: 'Speed', value: 'speed' },
-            { title: 'System Points', value: 'sp' },
-          ];
-        case 'PilotArmor':
-          return [
-            { title: 'Armor', value: 'armor' },
-            { title: 'HP Bonus', value: 'hp' },
-            { title: 'E-Defense', value: 'edef' },
-            { title: 'Evasion', value: 'evasion' },
-            { title: 'Speed', value: 'speed' },
-          ];
-        case 'PilotWeapon':
-          return [
-            { title: 'Range', value: 'range' },
-            { title: 'Total Damage', value: 'damage' },
-          ];
-        case 'NpcClass':
-          return [
-            { title: 'Hull', value: 'hull' },
-            { title: 'Agility', value: 'agi' },
-            { title: 'Systems', value: 'sys' },
-            { title: 'Engineering', value: 'eng' },
-            { title: 'Armor', value: 'armor' },
-            { title: 'HP', value: 'hp' },
-            { title: 'HeatCap', value: 'heatcap' },
-            { title: 'Evade', value: 'evasion' },
-            { title: 'E-Defense', value: 'edef' },
-            { title: 'Speed', value: 'speed' },
-            { title: 'Sensor Range', value: 'sensorRange' },
-            { title: 'Save Target', value: 'saveTarget' },
-          ];
-        default:
-          return [
-            { title: 'Range', value: 'range', bold: true },
-            { title: 'Line', value: 'line' },
-            { title: 'Blast', value: 'blast' },
-            { title: 'Burst', value: 'burst' },
-            { title: 'Cone', value: 'cone' },
-            { title: 'Total Damage', value: 'damage', bold: true },
-            { title: 'Kinetic Damage', value: 'kineticDamage' },
-            { title: 'Energy Damage', value: 'energyDamage' },
-            { title: 'Heat Damage', value: 'heatDamage' },
-            { title: 'Explosive Damage', value: 'explosiveDamage' },
-            { title: 'Variable Damage', value: 'variableDamage' },
-          ];
-      }
-    },
-    relevantMetrics() {
-      return this.metrics.filter((m) => {
-        return (
-          this.items.some((i) => (i as any).Stats[m.value] > 0) ||
-          (this.selected as any).Stats[m.value] > 0
-        );
-      });
-    },
-  },
-  methods: {
-    diff(metric: string, item: any) {
-      const selectedValue = (this.selected as any).Stats[metric];
-      const itemValue = item.Stats[metric];
-      if (selectedValue === itemValue) return '<i class="text-caption text-disabled">(&mdash;)</i>';
+  })
 
-      return `<i class="text-caption font-weight-bold  ${selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'
-        }${itemValue - selectedValue})</i>`;
-    },
-    npcDiff(metric: string, item: any) {
-      const selectedValue = (this.selected as any).Stats.Stat(metric, this.tier);
-      const itemValue = item.Stats.Stat(metric, this.tier);
-      if (selectedValue === itemValue) return '';
+const emit = defineEmits(['clear'])
 
-      return `<i class="text-caption font-weight-bold  ${selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'
-        }${itemValue - selectedValue})</i>`;
-    },
-  },
-};
+const { mobile, portrait } = useMobile()
+
+const isNpcClass = computed(() => (props.selected as CompendiumItem)?.ItemType === 'NpcClass')
+
+const metrics = computed(() => {
+  switch ((props.selected as CompendiumItem)?.ItemType) {
+    case 'Frame':
+      return [
+        { title: 'HP', value: 'hp' },
+        { title: 'Evasion', value: 'evasion' },
+        { title: 'Armor', value: 'armor' },
+        { title: 'E-Defense', value: 'edef' },
+        { title: 'Heat Capacity', value: 'heatcap' },
+        { title: 'Repair Capacity', value: 'repcap' },
+        { title: 'Sensors', value: 'sensor_range' },
+        { title: 'Tech Attack', value: 'tech_attack' },
+        { title: 'Save', value: 'save' },
+        { title: 'Speed', value: 'speed' },
+        { title: 'System Points', value: 'sp' },
+      ]
+    case 'PilotArmor':
+      return [
+        { title: 'Armor', value: 'armor' },
+        { title: 'HP Bonus', value: 'hp' },
+        { title: 'E-Defense', value: 'edef' },
+        { title: 'Evasion', value: 'evasion' },
+        { title: 'Speed', value: 'speed' },
+      ]
+    case 'PilotWeapon':
+      return [
+        { title: 'Range', value: 'range' },
+        { title: 'Total Damage', value: 'damage' },
+      ]
+    case 'NpcClass':
+      return [
+        { title: 'Hull', value: 'hull' },
+        { title: 'Agility', value: 'agi' },
+        { title: 'Systems', value: 'sys' },
+        { title: 'Engineering', value: 'eng' },
+        { title: 'Armor', value: 'armor' },
+        { title: 'HP', value: 'hp' },
+        { title: 'HeatCap', value: 'heatcap' },
+        { title: 'Evade', value: 'evasion' },
+        { title: 'E-Defense', value: 'edef' },
+        { title: 'Speed', value: 'speed' },
+        { title: 'Sensor Range', value: 'sensorRange' },
+        { title: 'Save Target', value: 'saveTarget' },
+      ]
+    default:
+      return [
+        { title: 'Range', value: 'range', bold: true },
+        { title: 'Line', value: 'line' },
+        { title: 'Blast', value: 'blast' },
+        { title: 'Burst', value: 'burst' },
+        { title: 'Cone', value: 'cone' },
+        { title: 'Total Damage', value: 'damage', bold: true },
+        { title: 'Kinetic Damage', value: 'kineticDamage' },
+        { title: 'Energy Damage', value: 'energyDamage' },
+        { title: 'Heat Damage', value: 'heatDamage' },
+        { title: 'Explosive Damage', value: 'explosiveDamage' },
+        { title: 'Variable Damage', value: 'variableDamage' },
+      ]
+  }
+})
+
+const relevantMetrics = computed(() => {
+  return metrics.value.filter((m) => {
+    return (
+      (props.items as any[]).some((i) => i.Stats[m.value] > 0) ||
+      (props.selected as any)?.Stats[m.value] > 0
+    )
+  })
+})
+
+function diff(metric: string, item: any) {
+  const selectedValue = (props.selected as any).Stats[metric]
+  const itemValue = item.Stats[metric]
+  if (selectedValue === itemValue) return '<i class="text-caption text-disabled">(&mdash;)</i>'
+  return `<i class="text-caption font-weight-bold  ${selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'}${itemValue - selectedValue})</i>`
+}
+
+function npcDiff(metric: string, item: any) {
+  const selectedValue = (props.selected as any).Stats.Stat(metric, props.tier)
+  const itemValue = item.Stats.Stat(metric, props.tier)
+  if (selectedValue === itemValue) return ''
+  return `<i class="text-caption font-weight-bold  ${selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'}${itemValue - selectedValue})</i>`
+}
 </script>
 
 <style scoped>

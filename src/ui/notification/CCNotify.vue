@@ -33,23 +33,21 @@
   </notifications>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-notify',
-  methods: {
-    color(item) {
-      if (item.type) {
-        return item.type;
-      }
-      return item.data?.color || 'info';
-    },
-    closePopup(close: () => void) {
-      close();
-    },
-  },
-};
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+
+const { mobile, portrait } = useMobile()
+
+function color(item) {
+  if (item.type) {
+    return item.type
+  }
+  return item.data?.color || 'info'
+}
+
+function closePopup(close: () => void) {
+  close()
+}
 </script>
 
 <style scoped>

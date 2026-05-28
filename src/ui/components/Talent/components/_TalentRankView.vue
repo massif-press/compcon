@@ -19,7 +19,9 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'talent-full',
   components: { TalentEmblem, TalentRankContents },
   emits: ['expand', 'add', 'remove'],

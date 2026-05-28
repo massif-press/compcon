@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { CampaignStore, EncounterStore, NpcStore, PilotStore } from '@/stores'
+import { CampaignStore, EncounterStore, NpcStore, PilotStore, PilotSheetStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { NAV_STRINGS } from '@/features/nav/strings'
@@ -88,7 +88,7 @@ const items = computed(() => [
   ...EncounterStore().Encounters.filter(x => x.SaveController.IsDeleted),
   ...EncounterStore().ArchivedEncounters.filter(x => x.SaveController.IsDeleted),
   ...EncounterStore().ActiveEncounters.filter(x => x.SaveController.IsDeleted),
-  ...PilotStore().PilotSheets.filter(x => x.SaveController.IsDeleted),
+  ...PilotSheetStore().PilotSheets.filter(x => x.SaveController.IsDeleted),
   ...CampaignStore().Campaigns.filter(x => x.SaveController.IsDeleted),
 ])
 
@@ -120,7 +120,7 @@ async function permanentlyDelete(item: any) {
       await EncounterStore().RemoveEncounterInstance(item)
       break
     case 'pilotsheet':
-      await PilotStore().RemovePilotSheet(item)
+      await PilotSheetStore().RemovePilotSheet(item)
       break
     case 'campaign':
       await CampaignStore().DeleteCampaign(item)

@@ -49,12 +49,10 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  name: 'WeaponSlotCard',
-  mixins: [useMobile],
-  props: {
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     item: {
       type: Object,
       required: true,
@@ -62,15 +60,19 @@ export default {
     range: {
       type: Array,
       required: false,
+      default: () => [],
     },
     damage: {
       type: Array,
       required: false,
+      default: () => [],
     },
     readonly: {
       type: Boolean,
     },
-  },
-  emits: ['remove', 'swap'],
-};
+  })
+
+const emit = defineEmits(['remove', 'swap'])
+
+const { mobile, portrait } = useMobile()
 </script>

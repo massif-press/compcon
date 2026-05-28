@@ -3,6 +3,7 @@ import { markRaw } from 'vue'
 import { IStatContainer } from './IStatContainer'
 import { Stats, StatKey } from './Stats'
 import { Rules } from '@/classes/utility/Rules'
+import { assertController } from '../../../utility/assertController'
 
 interface ICustomStatData {
   key: string
@@ -296,10 +297,7 @@ class StatController {
   }
 
   public static Deserialize(parent: IStatContainer, data: IStatData) {
-    if (!parent.StatController)
-      throw new Error(
-        `StatController not found on parent (${typeof parent}). New StatControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.StatController, 'StatController')
 
     // Recompute max from SetStats() and reset rather than trusting the saved max.
     if (!data.stat_version) {

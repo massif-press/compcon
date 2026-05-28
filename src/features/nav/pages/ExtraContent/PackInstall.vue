@@ -195,7 +195,7 @@
 import { ref, computed, nextTick } from 'vue'
 import { useDisplay } from 'vuetify'
 import { parseContentPack } from '@/io/ContentPackParser'
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore, ContentPackStore } from '@/stores'
 import PackInfo from './PackInfo.vue'
 import { IContentPack } from '@/classes/ContentPack'
 import { compare, coerce } from 'semver'
@@ -310,10 +310,10 @@ async function install(): Promise<void> {
   contentPacks.value = contentPacks.value.filter(pack => {
     const deps = pack.manifest ? pack.manifest.dependencies : []
     if (!deps) return true
-    return deps.every(dep => CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true))
+    return deps.every(dep => ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true))
   })
 
-  CompendiumStore().installContentPacks(contentPacks.value)
+  ContentPackStore().installContentPacks(contentPacks.value)
 
   contentPacks.value = []
   installing.value = false
@@ -328,7 +328,7 @@ async function install(): Promise<void> {
 }
 
 function packAlreadyInstalled(pack: IContentPack) {
-  return CompendiumStore().packAlreadyInstalled(pack.id)
+  return ContentPackStore().packAlreadyInstalled(pack.id)
 }
 
 function alreadyInstalledVersion(pack: IContentPack) {
@@ -338,7 +338,7 @@ function alreadyInstalledVersion(pack: IContentPack) {
 function uninstalledDependencies(pack: IContentPack) {
   const deps = pack.manifest ? pack.manifest.dependencies : []
   if (!deps) return []
-  return deps.filter(dep => !CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true))
+  return deps.filter(dep => !ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true))
 }
 
 function gradeType(pack: IContentPack) {

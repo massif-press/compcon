@@ -6,6 +6,7 @@ import { MechEquipment } from '../equipment/MechEquipment'
 import { MechSystem } from '../equipment/MechSystem'
 import { MechWeapon } from '../equipment/MechWeapon'
 import logger from '@/user/logger'
+import { assertController } from '../../../utility/assertController'
 
 interface IMechLoadoutSaveData {
   loadouts: IMechLoadoutData[]
@@ -125,10 +126,7 @@ class MechLoadoutController implements IFeatureContainer {
   }
 
   public static Deserialize(parent: Mech, data: IMechLoadoutSaveData) {
-    if (!parent.MechLoadoutController)
-      throw new Error(
-        `MechLoadoutController not found on parent (${typeof parent}). New MechLoadoutControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.MechLoadoutController, 'MechLoadoutController')
     if (
       data.active_loadout_index === null ||
       data.active_loadout_index === undefined ||

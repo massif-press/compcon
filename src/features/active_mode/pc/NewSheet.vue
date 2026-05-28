@@ -303,12 +303,14 @@ import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import MechCardLoadoutField from '@/features/pilot_management/PilotSheet/sections/hangar/components/MechCardLoadoutField.vue';
 import PilotListItemDetails from '@/features/pilot_management/Roster/components/_pilotListItemDetails.vue';
-import { PilotStore } from '@/stores';
+import { PilotStore, PilotSheetStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
 
 
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'NewSheet',
   components: {
     PilotListItemDetails,
@@ -378,8 +380,8 @@ export default {
       if (!this.selectedPilot || !this.selectedMech) return;
       this.selectedPilot.ActiveMech = this.selectedMech;
 
-      await PilotStore().AddPilotSheet(this.selectedPilot as Pilot, this.campaign);
-      if (launch) this.$router.push(`pilot-runner/${PilotStore().CurrentActiveID}`);
+      await PilotSheetStore().AddPilotSheet(this.selectedPilot as Pilot, this.campaign);
+      if (launch) this.$router.push(`pilot-runner/${PilotSheetStore().CurrentActiveID}`);
       else this.$router.push('sheet-manager');
     },
     reset() {

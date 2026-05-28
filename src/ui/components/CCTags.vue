@@ -30,15 +30,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import Tag from '@/classes/Tag'
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  name: 'CCTags',
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     size: {
       type: String,
       required: false,
@@ -84,28 +81,21 @@ export default {
     forceExtended: {
       type: Boolean,
     },
-  },
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown;
-    },
-    filteredTags(): Tag[] {
-      const tArr: Tag[] = this.tags.filter(x => x) as Tag[];
-      if (!tArr || !tArr.length) return [];
-      // tArr = (this.tags as Tag[]).filter(
-      //   (t: Tag) => !!t && !t.ID.includes('action') && !t.ID.includes('tech')
-      // );
-      if (!tArr.length) return [];
-      if (this.combat) {
-        return (tArr as Tag[]).filter((t: Tag) => t.IsCombatTag);
-      }
-      // sort tags by name, bringing exotic tags to the front
-      return (tArr as Tag[]).sort((a: Tag, b: Tag) => {
-        if (a.IsExotic && !b.IsExotic) return -1;
-        if (!a.IsExotic && b.IsExotic) return 1;
-        return a.GetName().localeCompare(b.GetName());
-      });
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
+const filteredTags = computed(() => {
+  const tArr: Tag[] = (props.tags as any[]).filter(x => x) as Tag[]
+  if (!tArr || !tArr.length) return []
+  if (!tArr.length) return []
+  if (props.combat) {
+    return (tArr as Tag[]).filter((t: Tag) => t.IsCombatTag)
+  }
+  return (tArr as Tag[]).sort((a: Tag, b: Tag) => {
+    if (a.IsExotic && !b.IsExotic) return -1
+    if (!a.IsExotic && b.IsExotic) return 1
+    return a.GetName().localeCompare(b.GetName())
+  })
+})
 </script>

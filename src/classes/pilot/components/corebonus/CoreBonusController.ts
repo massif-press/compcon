@@ -6,6 +6,7 @@ import { CoreBonus, ICoreBonusData } from './CoreBonus'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 import logger from '@/user/logger'
 import { CompendiumStore } from '@/features/compendium/store'
+import { assertController } from '../../../utility/assertController'
 
 interface ICoreBonusSaveData {
   core_bonuses: string[] | ICoreBonusData[]
@@ -99,10 +100,7 @@ class CoreBonusController implements IFeatureContainer {
   }
 
   public static Deserialize(parent: Pilot, data: ICoreBonusSaveData) {
-    if (!parent.CoreBonusController)
-      throw new Error(
-        `CoreBonusController not found on parent (${typeof parent}). New CoreBonusControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.CoreBonusController, 'CoreBonusController')
 
     parent.CoreBonusController._core_bonuses = (data.core_bonuses as ICoreBonusData[])
       .filter(Boolean)

@@ -103,9 +103,11 @@ import { useMobile } from '@/composables/useMobile';
 import StatusConditionItem from './StatusConditionItem.vue';
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'StatusConditionSelector',
   components: { StatusConditionItem },
-  mixins: [useMobile],
   props: {
     controller: {
       type: Object,

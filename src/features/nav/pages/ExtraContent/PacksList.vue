@@ -99,7 +99,7 @@ import { useDisplay } from 'vuetify'
 import { notify } from '@/util/notify'
 import { ContentPack } from '@/classes/ContentPack'
 import PackInfoCard from './components/PackInfoCard.vue'
-import { CompendiumStore } from '@/stores'
+import { CompendiumStore, ContentPackStore } from '@/stores'
 import { NAV_STRINGS } from '@/features/nav/strings'
 
 const { smAndDown: mobile } = useDisplay()
@@ -129,7 +129,7 @@ const contentPacks = computed(() =>
 
 async function toggleActive(packID: string, state: boolean): Promise<void> {
   try {
-    await CompendiumStore().togglePackActive(packID)
+    await ContentPackStore().togglePackActive(packID)
     notify({ color: 'success', text: NAV_STRINGS.packsList.toggleSuccessText(state) })
   } catch (e) {
     notify({ color: 'error', text: NAV_STRINGS.packsList.toggleErrorText(String(e)) })
@@ -137,12 +137,12 @@ async function toggleActive(packID: string, state: boolean): Promise<void> {
 }
 
 async function deletePack(id: string): Promise<void> {
-  await CompendiumStore().deleteContentPack(id)
+  await ContentPackStore().deleteContentPack(id)
 }
 
 async function deleteAll() {
   loading.value = true
-  await CompendiumStore().deleteAllContentPacks()
+  await ContentPackStore().deleteAllContentPacks()
   notify({ color: 'success', text: NAV_STRINGS.packsList.deleteAllSuccess })
   loading.value = false
 }

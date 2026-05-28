@@ -140,7 +140,9 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'template-item',
   props: {
     template: { type: Object, required: true },

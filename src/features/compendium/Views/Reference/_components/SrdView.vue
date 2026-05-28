@@ -2,17 +2,14 @@
   <component :is="component" v-bind="$props" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import { NavStore } from '@/stores';
 import SrdViewMobile from './SrdViewMobile.vue';
 import SrdViewDesktop from './SrdViewDesktop.vue';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  mixins: [useMobile],
-  name: 'using-compcon',
-  props: {
+const props = defineProps({
     title: {
       type: String,
     },
@@ -24,11 +21,9 @@ export default {
       type: String,
       default: '',
     },
-  },
-  computed: {
-    component() {
-      return this.mobile ? SrdViewMobile : SrdViewDesktop;
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
+const component = computed(() => {return (this as any).mobile ? SrdViewMobile : SrdViewDesktop;})
 </script>

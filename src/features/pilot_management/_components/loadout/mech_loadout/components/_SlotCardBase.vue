@@ -83,9 +83,11 @@ import { useMobile } from '@/composables/useMobile'
 import EquipmentDetails from './_EquipmentDetails.vue'
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'SlotCardBase',
   components: { EquipmentDetails },
-  mixins: [useMobile],
   props: {
     item: {
       type: Object,

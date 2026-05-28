@@ -9,16 +9,15 @@
   </component>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-title',
-  props: {
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     textColor: { type: String, default: 'accent' },
     text: { type: String, default: '' },
     small: { type: Boolean, default: false },
     tooltip: { type: String, default: '' },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
 </script>

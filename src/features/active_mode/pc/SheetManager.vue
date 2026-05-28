@@ -4,12 +4,14 @@
     <active-mode-sort-bar :sort="sort"
       :asc="asc"
       :items="activeSheets"
+      :archived-items="archived"
       :columns="sheetOrganizerColumns"
       noun="sheet"
       title="Character Sheets"
       @update:sort="sort = $event"
       @update:asc="asc = $event"
       @archive="organizeArchive"
+      @restore="organizeRestore"
       @delete="organizeDelete" />
 
     <sheet-item v-for="sheet in activeSheets"
@@ -194,7 +196,7 @@
 </template>
 
 <script lang="ts">
-import { PilotStore } from '@/stores';
+import { PilotSheetStore } from '@/stores';
 import SheetItem from './_components/SheetItem.vue';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import { useMobile } from '@/composables/useMobile';
@@ -208,7 +210,9 @@ const sheetOrganizerColumns = [
 ];
 
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'SheetManager',
   components: {
     SheetItem,
@@ -222,7 +226,7 @@ export default {
   }),
   computed: {
     activeSheets() {
-      let sheets = PilotStore().PilotSheets.filter(x => !x.Archived && !x.SaveController.IsDeleted);
+      let sheets = PilotSheetStore().PilotSheets.filter(x => !x.Archived && !x.SaveController.IsDeleted);
 
       switch (this.sort) {
         case 'Name':
@@ -244,7 +248,7 @@ export default {
       return sheets;
     },
     archived() {
-      let archives = PilotStore().PilotSheets.filter(x => x.Archived && !x.SaveController.IsDeleted);
+      let archives = PilotSheetStore().PilotSheets.filter(x => x.Archived && !x.SaveController.IsDeleted);
 
       if (this.search) {
         const searchLower = this.search.toLowerCase();
@@ -257,7 +261,7 @@ export default {
   },
   methods: {
     launch(sheet) {
-      PilotStore().SetActiveSheet(sheet.ID);
+      PilotSheetStore().SetActiveSheet(sheet.ID);
       this.$router.push(`pilot-runner/${sheet.ID}`);
     },
     exportSheet(sheet) {
@@ -277,7 +281,11 @@ export default {
     },
     async organizeDelete(ids: string[]) {
       const targets = this.activeSheets.filter((s: any) => ids.includes(s.ID));
-      for (const s of targets) await PilotStore().RemovePilotSheet(s);
+      for (const s of targets) await PilotSheetStore().RemovePilotSheet(s);
+    },
+    organizeRestore(ids: string[]) {
+      const targets = this.archived.filter((s: any) => ids.includes(s.ID));
+      targets.forEach((s: any) => s.Unarchive());
     },
     importSelect() {
       const input = document.createElement('input');
@@ -292,8 +300,8 @@ export default {
           try {
             const json = JSON.parse(event.target?.result as string);
             const sheet = PilotSheet.Deserialize(json);
-            PilotStore().PilotSheets.push(sheet);
-            PilotStore().SetActiveSheet(sheet.ID);
+            PilotSheetStore().PilotSheets.push(sheet);
+            PilotSheetStore().SetActiveSheet(sheet.ID);
             this.$router.push(`pilot-runner/${sheet.ID}`);
           } catch (error) {
             alert('Failed to import sheet: Invalid file format.');

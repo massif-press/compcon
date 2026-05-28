@@ -32,9 +32,11 @@ import CampaignLibrary from './Views/CampaignLibrary/index.vue'
 import { useMobile } from '@/composables/useMobile';
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'CompendiumIndex',
   components: { CompendiumView, ReferenceView, CampaignLibrary },
-  mixins: [useMobile],
   computed: {
     mobile(): boolean {
       return this.$vuetify.display.smAndDown

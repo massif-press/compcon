@@ -41,7 +41,9 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'action-economy',
   components: { ActionCard },
 

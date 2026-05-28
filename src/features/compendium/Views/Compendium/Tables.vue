@@ -21,18 +21,13 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import { CompendiumStore } from '@/stores';
 import { sortBy } from 'lodash-es';
 
-export default {
-  name: 'Tables',
-  mixins: [useMobile],
-  computed: {
-    tables() {
-      return sortBy(CompendiumStore().Tables, 'LcpName', 'Title');
-    },
-  },
-};
+const { mobile, portrait } = useMobile()
+
+const tables = computed(() => {return sortBy(CompendiumStore().Tables, 'LcpName', 'Title');})
 </script>

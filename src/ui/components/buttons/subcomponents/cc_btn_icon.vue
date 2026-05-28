@@ -32,14 +32,12 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import { Anchor } from 'vuetify';
 
-export default {
-  name: 'CcBtnIcon',
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     color: { type: String },
     disabled: { type: Boolean },
     loading: { type: Boolean },
@@ -54,42 +52,35 @@ export default {
     target: { type: String },
     tooltip: { type: String },
     tooltipLocation: { type: String },
-  },
-  emits: ['click'],
-  computed: {
-    getColor() {
-      if (!this.color) return '';
-      return this.tonal ? this.color : 'transparent';
-    },
-    tonal() {
-      return this.variant === 'tonal';
-    },
-    colorClass() {
-      if (this.tonal || !this.color) return '';
-      return `bg-${this.color}`;
-    },
-    buttonSize() {
-      switch (this.size) {
-        case 'x-small':
-          return '22px';
-        case 'small':
-          return '27px';
-        case 'large':
-          return '38px';
-        case 'x-large':
-          return '48px';
-        case 'xx-large':
-          return '60px';
-        default:
-          return '36px';
-      }
-    },
-    getTooltipLocation() {
-      if (!this.mobile && this.tooltipLocation) return this.tooltipLocation as Anchor;
-      return 'top' as Anchor;
-    }
-  },
-};
+  })
+
+const emit = defineEmits(['click'])
+
+const { mobile, portrait } = useMobile()
+
+const tonal = computed(() => props.variant === 'tonal')
+const getColor = computed(() => {
+  if (!props.color) return ''
+  return tonal.value ? props.color : 'transparent'
+})
+const colorClass = computed(() => {
+  if (tonal.value || !props.color) return ''
+  return `bg-${props.color}`
+})
+const buttonSize = computed(() => {
+  switch (props.size) {
+    case 'x-small': return '22px'
+    case 'small': return '27px'
+    case 'large': return '38px'
+    case 'x-large': return '48px'
+    case 'xx-large': return '60px'
+    default: return '36px'
+  }
+})
+const getTooltipLocation = computed(() => {
+  if (!mobile.value && props.tooltipLocation) return props.tooltipLocation as Anchor
+  return 'top' as Anchor
+})
 </script>
 
 <style scoped>

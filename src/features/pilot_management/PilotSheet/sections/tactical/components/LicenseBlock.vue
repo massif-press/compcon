@@ -31,30 +31,23 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
 import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import LicenseSelector from '@/features/pilot_management/_components/selectors/LicenseSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore } from '@/stores';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  mixins: [useMobile],
-  name: 'license-block',
-  components: { SectionHeader, SectionEditChip, NoDataBlock, LicenseSelector },
-  props: {
+const props = defineProps({
     pilot: {
       type: Object,
       required: true,
     },
-  },
-  methods: {
-    inCompendium(license) {
-      return CompendiumStore().has('Frames', license.Stub.ID);
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
+function inCompendium(license) {return CompendiumStore().has('Frames', license.Stub.ID);}
 </script>

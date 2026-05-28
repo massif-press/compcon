@@ -137,8 +137,10 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'CloneDialog',
-  mixins: [useMobile],
   props: {
     pilot: {
       type: Object,

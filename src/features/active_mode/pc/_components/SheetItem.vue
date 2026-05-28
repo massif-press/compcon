@@ -269,8 +269,10 @@
 <script>
 import { useMobile } from '@/composables/useMobile';
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'SheetListItem',
-  mixins: [useMobile],
   props: {
     sheet: {
       type: Object,

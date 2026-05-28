@@ -59,6 +59,7 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/composables/useMobile'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import { pilotEquipCombatCardMixin } from './_pilotEquipCombatCardMixin'
@@ -67,6 +68,9 @@ export default {
   name: 'PilotWeaponCombatCard',
   components: { EquipCommandPanel, OnElement },
   mixins: [pilotEquipCombatCardMixin],
+  setup() {
+    return useMobile()
+  },
 }
 </script>
 

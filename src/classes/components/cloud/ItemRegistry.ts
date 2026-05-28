@@ -11,7 +11,7 @@ import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
 import PilotSheet from '@/features/pilot_management/store/PilotSheet'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
-import { PilotStore } from '@/features/pilot_management/store'
+import { PilotStore, PilotSheetStore } from '@/features/pilot_management/store'
 import { NpcStore } from '@/features/gm/store/npc_store'
 import { NarrativeStore } from '@/features/gm/store/narrative_store'
 import { EncounterStore } from '@/features/gm/store/encounter_store'
@@ -139,9 +139,9 @@ const _registry = new Map<string, ItemRegistration>(([
     'pilotsheet',
     {
       construct: data => PilotSheet.Deserialize(data),
-      add: item => PilotStore().ImportPilotSheet(item as any),
-      deleteLocal: item => PilotStore().RemovePilotSheet(item as any),
-      getAll: () => PilotStore().PilotSheets as any[],
+      add: item => PilotSheetStore().ImportPilotSheet(item as any),
+      deleteLocal: item => PilotSheetStore().RemovePilotSheet(item as any),
+      getAll: () => PilotSheetStore().PilotSheets as any[],
     },
   ],
   [

@@ -176,18 +176,15 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import StatblockItem from './StatblockItem.vue';
-import { useMobile } from '@/composables/useMobile';
 import { Mech } from '@/classes/mech/Mech'
 import Pilot from '@/assets/icons/svg/pilot.vue';
 
-
-export default {
-  name: 'AttributesBlock',
-  components: { StatblockItem },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     mech: {
       type: Mech,
       required: true,
@@ -201,24 +198,14 @@ export default {
       required: false,
       default: 'primary',
     },
-  },
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown;
-    },
-    portrait(): boolean {
-      return this.$vuetify.display.xs;
-    },
-    widescreen(): boolean {
-      return this.$vuetify.display.lgAndUp;
-    },
-  },
-  methods: {
-    getBonuses(key: string): any[] {
-      return this.mech.FeatureController.Bonuses.filter((x) => x.ID === key);
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+const { lgAndUp: widescreen } = useDisplay()
+
+function getBonuses(key: string): any[] {
+  return (props.mech as Mech).FeatureController.Bonuses.filter((x) => x.ID === key)
+}
 </script>
 
 <style scoped>

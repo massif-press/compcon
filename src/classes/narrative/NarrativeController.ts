@@ -1,6 +1,7 @@
 import { Clock, IClockData } from './elements/Clock';
 import { IRollableTableData, RollableTable } from './elements/RollableTable';
 import { INarrativeElement } from './INarrativeElement';
+import { assertController } from '../utility/assertController'
 
 type TextItem = {
   title: string;
@@ -164,10 +165,7 @@ class NarrativeController {
   }
 
   public static Deserialize(parent: INarrativeElement, data: NarrativeElementData) {
-    if (!parent.NarrativeController)
-      throw new Error(
-        `NarrativeController not found on parent (${typeof parent}). New NarrativeControllers must be instantiated in the parent's constructor method.`
-      );
+    assertController(parent.NarrativeController, 'NarrativeController');
 
     parent.NarrativeController._textItems = data.textItems || [];
     parent.NarrativeController._labels = (data.labels || []).map((x) =>

@@ -114,6 +114,11 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     this.Save()
   }
 
+  public Unarchive() {
+    this.Archived = false
+    this.Save()
+  }
+
   public get Created(): number {
     return this.SaveController.Created
   }

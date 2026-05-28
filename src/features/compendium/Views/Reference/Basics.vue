@@ -3,33 +3,21 @@
   <srd-view title="Lancer Basics" :content="basics" :pre-scroll="preScroll" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
 import basics from '@/assets/srd/lib/basics.json';
 import SrdView from './_components/SrdView.vue';
 import SwitchLangTemp from './_components/SwitchLangTEMP.vue';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  mixins: [useMobile],
-  name: 'basics',
-  inheritAttrs: false,
-  components: {
-    SrdView,
-    SwitchLangTemp,
-  },
-  props: {
+const props = defineProps({
     preScroll: {
       type: String,
       default: '',
     },
-  },
-  computed: {
-    basics() {
-      return basics;
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
 </script>
 
 <style scoped>

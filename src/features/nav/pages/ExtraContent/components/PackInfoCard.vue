@@ -114,7 +114,7 @@ import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import * as _ from 'lodash-es'
 import { ContentPack, ContentPackDependency, IContentPack, IContentPackManifest } from '@/classes/ContentPack'
-import { CompendiumStore } from '@/stores'
+import { ContentPackStore } from '@/stores'
 import { NAV_STRINGS } from '@/features/nav/strings'
 
 const props = defineProps<{ pack: IContentPack | ContentPack }>()
@@ -196,7 +196,7 @@ function d(dep: ContentPackDependency) {
     name: dep.name,
     version: parseVersion(dep.version),
     link: dep.link,
-    installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version, true),
+    installed: ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true),
   }
 }
 </script>

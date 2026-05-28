@@ -22,6 +22,7 @@ import { ICombatant } from '@/classes/components/combat/ICombatant'
 import { StatController } from '@/classes/components/combat/stats/StatController'
 import { IFeatureController } from '@/classes/components/feature/IFeatureController'
 import { ItemType } from '../../enums'
+import { ExpressionContext } from '../../utility/ExpressionContext'
 class UnitData
   extends NpcData
   implements INpcClassSaveData, INpcFeatureSaveData, INpcTemplateSaveData
@@ -118,7 +119,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     return this.CombatController.StatController
   }
 
-  public getExpressionContext(): Record<string, number> {
+  public getExpressionContext(): ExpressionContext {
     const sc = this.CombatController.StatController
     return {
       tier: this.Tier,

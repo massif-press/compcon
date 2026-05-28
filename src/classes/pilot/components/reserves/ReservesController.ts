@@ -3,6 +3,7 @@ import { IFeatureContainer } from '@/classes/components/feature/IFeatureContaine
 import { Pilot } from '../../Pilot'
 import Organization, { IOrganizationData } from './Organization'
 import { IReserveData, Reserve } from './Reserve'
+import { assertController } from '../../../utility/assertController'
 
 interface IReservesSaveData {
   reserves: IReserveData[]
@@ -80,10 +81,7 @@ class ReservesController implements IFeatureContainer {
   }
 
   public static Deserialize(parent: Pilot, data: IReservesSaveData) {
-    if (!parent.ReservesController)
-      throw new Error(
-        `ReservesController not found on parent (${typeof parent}). New ReservesControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.ReservesController, 'ReservesController')
 
     parent.ReservesController._reserves = data.reserves
       ? data.reserves.map((x: IReserveData) => {

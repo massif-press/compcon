@@ -3,6 +3,7 @@ import { coerce, gte } from 'semver'
 import { IBrewable } from './IBrewable'
 import { CompendiumStore } from '@/features/compendium/store'
 import logger from '@/user/logger'
+import { assertController } from '../../utility/assertController'
 
 interface IBrewData {
   brews: BrewInfo[]
@@ -112,10 +113,7 @@ class BrewController {
   }
 
   public static Deserialize(parent: IBrewable, data: IBrewData) {
-    if (!parent.BrewController)
-      throw new Error(
-        `BrewController not found on parent (${typeof parent}). New BrewControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.BrewController, 'BrewController')
 
     parent.BrewController._savedBrewData = data.brews
   }

@@ -356,7 +356,7 @@ import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { saveFile } from '@/io/Data';
 import FileImport from './add_panels/FileImport.vue';
 import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
-import { useRosterDragMode } from '@/composables/useRosterDragMode';
+import { useDragMode } from '@/composables/useDragMode';
 import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
 import GroupEmblemModal from './_GroupEmblemModal.vue';
 
@@ -376,7 +376,7 @@ const emit = defineEmits<{ 'pilot-transferred': [] }>()
 const router = useRouter()
 const mobile = useDisplay().smAndDown
 
-const { onPointerDown, onPointerUp, onPointerCancel } = useRosterDragMode(600)
+const { onPointerDown, onPointerUp, onPointerCancel } = useDragMode(600, { shared: true })
 
 const rootEl = ref<HTMLElement | null>(null)
 const edit = ref(false)

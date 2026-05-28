@@ -46,6 +46,7 @@ class ItemFilter {
             filter[p].includes(i.License) || filter[p].includes((i as Frame).Variant)
         )
       } else if (filter[p].length) items = items.filter(x => filter[p].some(e => x[p].includes(e)))
+      else console.warn(`ItemFilter: unrecognized filter key "${p}"`)
     })
     return items
   }

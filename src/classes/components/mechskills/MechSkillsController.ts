@@ -3,6 +3,7 @@ import { HASE } from '../../enums'
 import { Pilot } from '../../pilot/Pilot'
 import { Rules } from '../../utility/Rules'
 import MechSkills from './MechSkills'
+import { assertController } from '../../utility/assertController'
 
 interface IMechSkillsData {
   mechSkills: number[]
@@ -104,10 +105,7 @@ class MechSkillsController {
   }
 
   public static Deserialize(parent: Pilot, data: IMechSkillsData) {
-    if (!parent.MechSkillsController)
-      throw new Error(
-        `MechSkillsController not found on parent (${typeof parent}). New MechSkillsControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.MechSkillsController, 'MechSkillsController')
 
     parent.MechSkillsController._mechSkills = MechSkills.Deserialize(data.mechSkills)
   }

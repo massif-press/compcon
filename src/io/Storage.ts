@@ -213,6 +213,20 @@ const ClearAllData = async function (): Promise<void> {
   logger.info('All data cleared!')
 }
 
+async function saveAll<T>(
+  storageKey: string,
+  items: T[],
+  serializer: (item: T) => unknown,
+  label: string
+): Promise<void> {
+  try {
+    await Promise.all(items.map(y => SetItem(storageKey, serializer(y))))
+    logger.info(`${label} saved`)
+  } catch (err) {
+    logger.error(`Error saving ${label}`, err)
+  }
+}
+
 export {
   storeRegistry,
   Initialize,
@@ -230,4 +244,5 @@ export {
   GetValue,
   ClearAllData,
   GetTotalStorageSize,
+  saveAll,
 }

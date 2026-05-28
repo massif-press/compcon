@@ -2,7 +2,7 @@ import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account'
 import { GenerateExportCollection } from '@/io/Importer'
 import { RemoveItem, SetItem } from '@/io/Storage'
 import { UserStore } from '@/user/store'
-import { CompendiumStore } from '@/features/compendium/store'
+import { CompendiumStore, ContentCollectionStore, ContentPackStore } from '@/features/compendium/store'
 import { PilotStore } from '@/features/pilot_management/store'
 import { NpcStore } from '@/features/gm/store/npc_store'
 import { NarrativeStore } from '@/features/gm/store/narrative_store'
@@ -101,7 +101,7 @@ class ContentCollection {
             data = CampaignStore().Campaigns.find(x => x.ID === item.id)
             break
           case 'lcps':
-            data = CompendiumStore().ContentPacks.find(x => x.ID === item.id)
+            data = ContentPackStore().ContentPacks.find(x => x.ID === item.id)
             break
         }
         if (data) e.data = data
@@ -110,7 +110,7 @@ class ContentCollection {
   }
 
   public Save() {
-    CompendiumStore().saveContentCollection(this)
+    ContentCollectionStore().saveContentCollection(this)
   }
 
   public Delete() {
@@ -241,7 +241,7 @@ class ContentCollection {
   }
 
   public static async Delete(collection: ContentCollection) {
-    await CompendiumStore().deleteContentCollection(collection)
+    await ContentCollectionStore().deleteContentCollection(collection)
     if (collection.Metadata)
       await cloudDelete(
         collection.Metadata.user_id || UserStore().Cognito.userId,

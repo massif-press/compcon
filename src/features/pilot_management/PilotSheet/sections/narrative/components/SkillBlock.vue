@@ -29,24 +29,20 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
 import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import SkillSelector from '@/features/pilot_management/_components/selectors/SkillSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  name: 'SkillBlock',
-  components: { SectionEditChip, SectionHeader, NoDataBlock, SkillSelector },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     pilot: {
       type: Object,
       required: true,
     },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
 </script>

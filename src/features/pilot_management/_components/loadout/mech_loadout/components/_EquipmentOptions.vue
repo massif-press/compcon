@@ -69,28 +69,24 @@
   </span>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  name: 'EquipmentOptionsMenu',
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     item: {
       type: Object,
       required: true,
     },
-  },
-  emits: ['update', 'swap', 'remove'],
-  methods: {
-    save(prop, newName) {
-      AchievementEventSystem.emit('add_equipment_description');
+  })
 
-      this.item[prop] = newName;
-      this.$emit('update');
-    },
-  },
-};
+const emit = defineEmits(['update', 'swap', 'remove'])
+
+const { mobile, portrait } = useMobile()
+
+function save(prop, newName) {
+  AchievementEventSystem.emit('add_equipment_description')
+  ;(props.item as any)[prop] = newName
+  emit('update')
+}
 </script>

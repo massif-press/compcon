@@ -22,7 +22,7 @@ import { FolderController, IFolderData } from '../components/folder/FolderContro
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable'
 import logger from '@/user/logger'
 import { ItemType } from '../enums'
-import { IInstanceableData } from '../components/instance/IInstancableData'
+import { IInstanceableData } from '../components/instance/IInstanceable'
 import { LcpConfigData } from '@/user'
 
 class NpcData implements IInstanceableData {

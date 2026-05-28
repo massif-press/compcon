@@ -27,12 +27,10 @@
   </v-col>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'CompendiumPageButton',
-  props: {
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     name: {
       type: String,
       required: true,
@@ -59,8 +57,9 @@ export default {
     disabled: {
       type: Boolean,
     },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
 </script>
 
 <style scoped>

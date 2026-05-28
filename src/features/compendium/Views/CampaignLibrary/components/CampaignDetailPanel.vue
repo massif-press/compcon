@@ -56,7 +56,9 @@
 <script lang="ts">
 import { useMobile } from '@/composables/useMobile';
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'campaign-detail-panel',
   props: {
     campaign: Object,

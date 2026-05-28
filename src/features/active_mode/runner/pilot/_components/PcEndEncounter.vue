@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
-import { PilotStore } from '@/stores';
+import { PilotSheetStore } from '@/stores';
 import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue';
 
 export default {
@@ -45,7 +45,7 @@ export default {
   methods: {
     end() {
       this.sheet.Archive();
-      PilotStore().SetActiveSheet('');
+      PilotSheetStore().SetActiveSheet('');
       this.$router.replace('/active-mode/sheet-manager');
     },
   },

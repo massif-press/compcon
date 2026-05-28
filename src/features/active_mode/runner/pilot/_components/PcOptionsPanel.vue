@@ -142,7 +142,7 @@
 <script lang="ts">
 import { Mech } from '@/classes/mech/Mech'
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
-import { PilotStore } from '@/stores';
+import { PilotSheetStore } from '@/stores';
 import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue';
 import { runnerOptionsMixin } from '../../_shared/_runnerOptionsMixin';
 
@@ -202,7 +202,7 @@ export default {
     },
     importState() {
       if (!this.importOk || !this.importObj) return;
-      PilotStore().ImportPilotSheet(PilotSheet.Deserialize(this.importObj as any));
+      PilotSheetStore().ImportPilotSheet(PilotSheet.Deserialize(this.importObj as any));
       this.$router.go();
     },
     stageImport() {

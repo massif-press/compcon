@@ -23,38 +23,37 @@
   </v-toolbar>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cc-title',
-  props: {
+<script setup lang="ts">
+import { computed, useSlots } from 'vue'
+import { useMobile } from '@/composables/useMobile'
+import { useTheme } from 'vuetify'
+
+const props = defineProps({
     color: { type: String, default: 'primary' },
     title: { type: String, default: '' },
     icon: { type: String },
     extended: { type: Boolean },
     hideClose: { type: Boolean, default: false },
     extensionHeight: { type: String, default: 'auto' },
-  },
-  computed: {
-    hasExtensionContent() {
-      return this._hasContent('extension');
-    },
-    hexColor() {
-      if (this.color[0] === '#') return this.color;
-      return this.$vuetify.theme.themes[this.$vuetify.theme.global.name][this.color];
-    },
-  },
-  methods: {
-    _hasContent(prop) {
-      const slot = this.$slots[prop];
-      if (slot && slot()[0] && slot()[0].children) {
-        return (slot()[0].children as any).length > 0;
-      }
-      return false;
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+const slots = useSlots()
+const theme = useTheme()
+
+function _hasContent(prop: string) {
+  const slot = slots[prop]
+  if (slot && slot()[0] && slot()[0].children) {
+    return (slot()[0].children as any).length > 0
+  }
+  return false
+}
+
+const hasExtensionContent = computed(() => _hasContent('extension'))
+const hexColor = computed(() => {
+  if (props.color[0] === '#') return props.color
+  return (theme.themes.value[theme.global.name.value] as any).colors?.[props.color] || props.color
+})
 </script>
 
 <style scoped>

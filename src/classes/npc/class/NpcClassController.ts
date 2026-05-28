@@ -3,6 +3,7 @@ import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
 import { Stats } from '@/classes/components/combat/stats/Stats'
 import { StatController } from '@/classes/components/combat/stats/StatController'
+import { assertController } from '../../utility/assertController'
 
 interface INpcClassSaveData {
   class: { id: string; data: INpcClassData }
@@ -116,10 +117,7 @@ class NpcClassController {
   }
 
   public static Deserialize(parent: Unit, data: INpcClassSaveData) {
-    if (!parent.NpcClassController)
-      throw new Error(
-        `NpcClassController not found on parent (${typeof parent}). New NpcClassControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.NpcClassController, 'NpcClassController')
 
     let id
     try {

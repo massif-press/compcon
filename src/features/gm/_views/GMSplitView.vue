@@ -168,7 +168,6 @@ export default {
     GmCollectionFilter,
     ShareCodeDialog,
   },
-  mixins: [useMobile],
   props: {
     items: { type: Array, required: true },
     itemType: { type: String, required: true },
@@ -179,7 +178,8 @@ export default {
   },
   emits: ['open', 'add-new', 'open-import', 'open-organizer'],
   setup() {
-    return { npcStore: NpcStore(), narrativeStore: NarrativeStore() };
+    return {
+      ...useMobile(), npcStore: NpcStore(), narrativeStore: NarrativeStore() };
   },
   data: () => ({
     search: '',

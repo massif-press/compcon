@@ -40,17 +40,14 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import PilotArmorCard from './_PLArmorCard.vue'
 import PilotWeaponCard from './_PLWeaponCard.vue'
 import PilotGearCard from './_PLGearCard.vue'
-import { useMobile } from '@/composables/useMobile';
 
-export default {
-  name: 'CcPilotLoadout',
-  components: { PilotArmorCard, PilotWeaponCard, PilotGearCard },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     pilot: {
       type: Object,
       required: true,
@@ -62,16 +59,11 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  computed: {
-    controller() {
-      return this.pilot.PilotLoadoutController
-    },
-  },
-  methods: {
-    exotics(type: string) {
-      return this.pilot.SpecialEquipment.filter(x => x.ItemType === type)
-    },
-  },
-}
+  })
+
+const { mobile, portrait } = useMobile()
+
+const controller = computed(() => {return props.pilot.PilotLoadoutController})
+
+function exotics(type: string) {return props.pilot.SpecialEquipment.filter(x => x.ItemType === type)}
 </script>

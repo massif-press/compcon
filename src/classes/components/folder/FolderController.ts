@@ -1,5 +1,6 @@
 import * as _ from 'lodash-es'
 import { IFolderPlaceable } from './IFolderPlaceable'
+import { assertController } from '../../utility/assertController'
 
 interface IFolderData {
   folder: string
@@ -43,10 +44,7 @@ class FolderController {
   }
 
   public static Deserialize(parent: IFolderPlaceable, data: IFolderData) {
-    if (!parent.FolderController)
-      throw new Error(
-        `FolderController not found on parent (${typeof parent}). New FolderControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.FolderController, 'FolderController')
 
     parent.FolderController._folder = data?.folder || ''
     parent.FolderController._sortIndex = data?.sortIndex ?? 0

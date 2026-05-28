@@ -6,16 +6,15 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'cb-card',
-  props: {
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     bonus: {
       type: Object,
       required: true,
     },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
 </script>

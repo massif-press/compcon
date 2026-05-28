@@ -267,7 +267,9 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'identification-page',
   components: { StepperContent, BackgroundSelector },
   props: {

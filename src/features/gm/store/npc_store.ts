@@ -1,7 +1,8 @@
 import { Eidolon, EidolonData } from '@/classes/npc/eidolon/Eidolon'
-import { GetAll, SetItem, RemoveItem } from '@/io/Storage'
+import { GetAll, SetItem, RemoveItem, saveAll } from '@/io/Storage'
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
+import { useFolderManagement } from '@/composables/useFolderManagement'
 import { Doodad, DoodadData } from '@/classes/npc/doodad/Doodad'
 import { Unit, UnitData } from '@/classes/npc/unit/Unit'
 import * as _ from 'lodash-es'
@@ -114,25 +115,15 @@ export const NpcStore = defineStore('npc', {
     },
 
     AddFolder(payload: string): void {
-      this.Folders.push(payload)
+      useFolderManagement(this.Npcs as any[], this.Folders).AddFolder(payload)
     },
 
     EditFolder(payload: { old: string; newName: string }): void {
-      this.Npcs.filter(x => x.FolderController.Folder === payload.old).forEach(
-        x => (x.FolderController.Folder = payload.newName)
-      )
-
-      const idx = this.Folders.findIndex(x => x === payload.old)
-      if (idx >= -1) this.Folders[idx] = payload.newName
+      useFolderManagement(this.Npcs as any[], this.Folders).EditFolder(payload)
     },
 
     RemoveFolder(payload: string): void {
-      this.Npcs.filter(x => x.FolderController.Folder === payload).forEach(
-        x => (x.FolderController.Folder = '')
-      )
-
-      const idx = this.Folders.findIndex(x => x === payload)
-      if (idx >= -1) this.Folders.splice(idx, 1)
+      useFolderManagement(this.Npcs as any[], this.Folders).RemoveFolder(payload)
     },
 
     async AddNpc(payload: Unit | Doodad | Eidolon): Promise<void> {
@@ -196,12 +187,7 @@ export const NpcStore = defineStore('npc', {
       }
     },
     async SaveNpcData(): Promise<void> {
-      try {
-        await Promise.all((this.Npcs as any).map(y => SetItem('npcs', toRaw(y).Serialize())))
-        logger.info('NPC data saved')
-      } catch (err) {
-        logger.error('Error while saving NPC data', this, err)
-      }
+      await saveAll('npcs', this.Npcs as any[], y => toRaw(y).Serialize(), 'NPC data')
     },
   },
 })

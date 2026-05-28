@@ -62,11 +62,15 @@
 </template>
 
 <script lang="ts">
+import { useMobile } from '@/composables/useMobile'
 import { pilotEquipCombatCardMixin } from './_pilotEquipCombatCardMixin'
 
 export default {
   name: 'PilotArmorCombatCard',
   mixins: [pilotEquipCombatCardMixin],
+  setup() {
+    return useMobile()
+  },
 }
 </script>
 

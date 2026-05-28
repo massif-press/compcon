@@ -133,23 +133,15 @@
   </panel-base>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import PanelBase from './_PanelBase.vue';
 import PilotActionsPanel from './_components/PilotActionsPanel.vue';
 import PilotCombatLoadout from './_components/loadouts/PilotCombatLoadout.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
 
-export default {
-  name: 'PcPanel',
-  components: {
-    PanelBase,
-    PilotActionsPanel,
-    PilotCombatLoadout,
-    DeployButton,
-  },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     combatant: {
       type: Object,
       required: true,
@@ -158,24 +150,18 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  emits: ['deselect'],
-  computed: {
-    xlColumns() {
-      if (this.mobile) return 1
-      else return this.encounterInstance.MaxMasonryColumns
-    },
-    pilot() {
-      return this.combatant.actor;
-    },
-  },
-  methods: {
-    deploy(deployable) {
-      this.encounterInstance.Deploy(deployable, this.combatant);
-    },
-    setMounted() {
-      this.pilot.ActiveMech.CombatController.ToggleMounted();
-    },
-  },
-};
+  })
+
+const emit = defineEmits(['deselect'])
+
+const { mobile, portrait } = useMobile()
+
+const xlColumns = computed(() => {
+  if (mobile.value) return 1
+  else return (props.encounterInstance as any).MaxMasonryColumns
+})
+const pilot = computed(() => (props.combatant as any).actor)
+
+function deploy(deployable) { (props.encounterInstance as any).Deploy(deployable, props.combatant) }
+function setMounted() { pilot.value?.ActiveMech?.CombatController?.ToggleMounted() }
 </script>

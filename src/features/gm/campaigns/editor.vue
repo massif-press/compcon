@@ -69,7 +69,9 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
-  mixins: [useMobile],
+  setup() {
+    return useMobile()
+  },
   name: 'campaign-editor',
   components: { campaignEditorSidebar, Overview, Page, Credits, ContentPage },
   props: {

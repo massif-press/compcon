@@ -1,9 +1,6 @@
 import { v4 as uuid } from 'uuid'
-import { markRaw } from 'vue'
 import { defineStore } from 'pinia'
 import * as _ from 'lodash-es'
-import semver from 'semver'
-import _lancerData from '@massif/lancer-data'
 import License from '@/classes/pilot/components/license/License'
 import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 import { Skill } from '@/classes/pilot/components/skill/Skill'
@@ -15,7 +12,6 @@ import Tag, { ITagCompendiumData } from '@/classes/Tag'
 import { Talent } from '@/classes/pilot/components/talent/Talent'
 import { Reserve } from '@/classes/pilot/components/reserves/Reserve'
 import { Manufacturer } from '@/classes/Manufacturer'
-import { ContentPack, IContentPack } from '@/classes/ContentPack'
 import { PilotEquipmentFactory } from '@/classes/pilot/components/Loadout/equipment/PilotEquipmentFactory'
 import { Background } from '@/classes/Background'
 import * as PlayerAction from '@/classes/Action'
@@ -26,14 +22,12 @@ import { LicensedItem } from '@/classes/pilot/components/license/LicensedItem'
 import { DowntimeAction } from '@/classes/DowntimeAction'
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import { Status } from '@/classes/Status'
-import { GetAll, GetItem, GetKeys, RemoveItem, SetItem } from '@/io/Storage'
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
 import { NpcClass } from '@/classes/npc/class/NpcClass'
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate'
 import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
 import { NavStore } from '@/stores/nav'
 import type { IndexItem } from '@/stores/nav'
-import { ContentCollection } from '@/classes/components/cloud/ContentCollection'
 import { BondPower } from '@/classes/pilot/components/bond/Bond'
 import logger from '@/user/logger'
 import { StatController } from '@/classes/components/combat/stats/StatController'
@@ -43,105 +37,32 @@ import {
 } from '@/classes/components/feature/bonus/bonus_dictionary'
 import { RollableTable } from '@/classes/narrative/elements/RollableTable'
 import { IPilotEquipmentData } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
+import { ContentPackStore } from './ContentPackStore'
+import { ContentCollectionStore } from './ContentCollectionStore'
+import { collect, itemTypeMap, lancerData } from './compendiumUtils'
+import type { ContentPack } from '@/classes/ContentPack'
+import type { ContentCollection } from '@/classes/components/cloud/ContentCollection'
 
-const lancerData = markRaw(_lancerData)
-const _lancerDataCache = new Map<string, any[]>()
-
-const hydratedKeys = {
-  npc_classes: 'NpcClasses',
-  npc_templates: 'NpcTemplates',
-  npc_features: 'NpcFeatures',
-  bonds: 'Bonds',
-  backgrounds: 'Backgrounds',
-  talents: 'Talents',
-  core_bonuses: 'CoreBonuses',
-  frames: 'Frames',
-  manufacturers: 'Manufacturers',
-  weapons: 'MechWeapons',
-  mods: 'WeaponMods',
-  systems: 'MechSystems',
-  skills: 'Skills',
-  actions: 'Actions',
-  tags: 'Tags',
-  reserves: 'Reserves',
-  statuses: 'Statuses',
-  environments: 'Environments',
-  sitreps: 'Sitreps',
-  pilot_gear: 'PilotGear',
-  eidolon_layers: 'EidolonLayers',
-  downtime_actions: 'DowntimeActions',
-}
-
-const itemTypeMap = {
-  actions: 'Actions',
-  npcclass: 'NpcClasses',
-  npctemplate: 'NpcTemplates',
-  npcfeature: 'NpcFeatures',
-  npctrait: 'NpcFeatures',
-  npcreaction: 'NpcFeatures',
-  npcweapon: 'NpcFeatures',
-  npcsystem: 'NpcFeatures',
-  npctech: 'NpcFeatures',
-  bond: 'Bonds',
-  bondpowers: 'ExtraBondPowers',
-  background: 'Backgrounds',
-  talent: 'Talents',
-  corebonus: 'CoreBonuses',
-  frame: 'Frames',
-  manufacturer: 'Manufacturers',
-  weapon: 'MechWeapons',
-  mechweapon: 'MechWeapons',
-  mod: 'WeaponMods',
-  weaponmod: 'WeaponMods',
-  system: 'MechSystems',
-  mechsystem: 'MechSystems',
-  skill: 'Skills',
-  action: 'Actions',
-  tag: 'Tags',
-  reserve: 'Reserves',
-  statuses: 'Statuses',
-  status: 'Statuses',
-  environment: 'Environments',
-  sitrep: 'Sitreps',
-  pilotarmor: 'PilotGear',
-  pilotweapon: 'PilotGear',
-  pilotgear: 'PilotGear',
-  eidolonlayer: 'EidolonLayers',
-  downtimeActions: 'DowntimeActions',
-}
-
-function getLancerData<T>(itemType: string, constructor?: { new (Y: any): T }): T[] {
-  const cacheKey = constructor ? `${itemType}:hydrated` : itemType
-  if (_lancerDataCache.has(cacheKey)) return _lancerDataCache.get(cacheKey) as T[]
-  const result: T[] = lancerData[itemType]
-    ? constructor
-      ? lancerData[itemType].map((x: any) => new constructor(x))
-      : lancerData[itemType]
-    : []
-  _lancerDataCache.set(cacheKey, result)
-  return result
-}
-
-function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }): T[] {
-  const lData = getLancerData<T>(itemType, constructor)
-  const packData = state.ContentPacks.filter((pack: ContentPack) => pack.Active).flatMap(
-    (pack: ContentPack) => pack[hydratedKeys[itemType]] || []
-  )
-  if (packData.length === 0) return lData
-  return [...lData, ...packData]
-}
+export { ContentPackStore } from './ContentPackStore'
+export { ContentCollectionStore } from './ContentCollectionStore'
 
 export const CompendiumStore = defineStore('compendium', {
   state: () => ({
     LancerVersion: '',
     CCVersion: '',
-    ContentPacks: [] as ContentPack[],
-    ContentCollections: [] as ContentCollection[],
     nfErr: { err: 'ID not found' },
-    packData: [] as IContentPack[],
     loaded: false,
   }),
   getters: {
+    _packs(): ContentPack[] {
+      return ContentPackStore().ContentPacks as unknown as ContentPack[]
+    },
+    ContentPacks(): ContentPack[] {
+      return this._packs
+    },
+    ContentCollections(): ContentCollection[] {
+      return ContentCollectionStore().ContentCollections as unknown as ContentCollection[]
+    },
     hasNpcAccess(): boolean {
       if (!this.loaded) return false
       return this.NpcClasses.length > 0
@@ -154,93 +75,124 @@ export const CompendiumStore = defineStore('compendium', {
       if (!this.loaded) return false
       return this.EidolonLayers.length > 0
     },
-    NpcClasses: state => collect<NpcClass>(state, 'npc_classes', NpcClass),
-    NpcTemplates: state => collect<NpcTemplate>(state, 'npc_templates', NpcTemplate),
-    NpcFeatures: state => collect<NpcFeature>(state, 'npc_features'),
-    EidolonLayers: state => collect<EidolonLayer>(state, 'eidolon_layers'),
-    Bonds: state => collect<Bond>(state, 'bonds', Bond),
-    Backgrounds: state => collect<Background>(state, 'backgrounds', Background),
-    Talents: state => collect<Talent>(state, 'talents', Talent),
-    CoreBonuses: state => collect<CoreBonus>(state, 'core_bonuses', CoreBonus),
-    Frames: state => collect<Frame>(state, 'frames', Frame),
-    Manufacturers: state => collect<Manufacturer>(state, 'manufacturers', Manufacturer),
-    MechWeapons: state => collect<MechWeapon>(state, 'weapons', MechWeapon),
-    WeaponMods: state => collect<WeaponMod>(state, 'mods', WeaponMod),
-    MechSystems: state => collect<MechSystem>(state, 'systems', MechSystem),
-    Skills: state => collect<Skill>(state, 'skills', Skill),
-    Actions: state => collect<PlayerAction.Action>(state, 'actions', PlayerAction.Action),
-    Tags: state => collect<Tag>(state, 'tags', Tag),
-    TagData: state => collect<ITagCompendiumData>(state, 'tags'),
-    Reserves: state => collect<Reserve>(state, 'reserves', Reserve),
-    Statuses: state => collect<Status>(state, 'statuses', Status),
-    Environments: state => collect<Environment>(state, 'environments', Environment),
-    Sitreps: state => collect<Sitrep>(state, 'sitreps', Sitrep),
-    PilotGear: state =>
-      collect<IPilotEquipmentData>(state, 'pilot_gear').map(x => PilotEquipmentFactory(x)),
-    DowntimeActions: state => collect<DowntimeAction>(state, 'downtime_actions', DowntimeAction),
-    Tables: state => collect<RollableTable>(state, 'tables', RollableTable),
+    NpcClasses(): NpcClass[] {
+      return collect<NpcClass>(this._packs, 'npc_classes', NpcClass)
+    },
+    NpcTemplates(): NpcTemplate[] {
+      return collect<NpcTemplate>(this._packs, 'npc_templates', NpcTemplate)
+    },
+    NpcFeatures(): NpcFeature[] {
+      return collect<NpcFeature>(this._packs, 'npc_features')
+    },
+    EidolonLayers(): EidolonLayer[] {
+      return collect<EidolonLayer>(this._packs, 'eidolon_layers')
+    },
+    Bonds(): Bond[] {
+      return collect<Bond>(this._packs, 'bonds', Bond)
+    },
+    Backgrounds(): Background[] {
+      return collect<Background>(this._packs, 'backgrounds', Background)
+    },
+    Talents(): Talent[] {
+      return collect<Talent>(this._packs, 'talents', Talent)
+    },
+    CoreBonuses(): CoreBonus[] {
+      return collect<CoreBonus>(this._packs, 'core_bonuses', CoreBonus)
+    },
+    Frames(): Frame[] {
+      return collect<Frame>(this._packs, 'frames', Frame)
+    },
+    Manufacturers(): Manufacturer[] {
+      return collect<Manufacturer>(this._packs, 'manufacturers', Manufacturer)
+    },
+    MechWeapons(): MechWeapon[] {
+      return collect<MechWeapon>(this._packs, 'weapons', MechWeapon)
+    },
+    WeaponMods(): WeaponMod[] {
+      return collect<WeaponMod>(this._packs, 'mods', WeaponMod)
+    },
+    MechSystems(): MechSystem[] {
+      return collect<MechSystem>(this._packs, 'systems', MechSystem)
+    },
+    Skills(): Skill[] {
+      return collect<Skill>(this._packs, 'skills', Skill)
+    },
+    Actions(): PlayerAction.Action[] {
+      return collect<PlayerAction.Action>(this._packs, 'actions', PlayerAction.Action)
+    },
+    Tags(): Tag[] {
+      return collect<Tag>(this._packs, 'tags', Tag)
+    },
+    TagData(): ITagCompendiumData[] {
+      return collect<ITagCompendiumData>(this._packs, 'tags')
+    },
+    Reserves(): Reserve[] {
+      return collect<Reserve>(this._packs, 'reserves', Reserve)
+    },
+    Statuses(): Status[] {
+      return collect<Status>(this._packs, 'statuses', Status)
+    },
+    Environments(): Environment[] {
+      return collect<Environment>(this._packs, 'environments', Environment)
+    },
+    Sitreps(): Sitrep[] {
+      return collect<Sitrep>(this._packs, 'sitreps', Sitrep)
+    },
+    PilotGear(): any[] {
+      return collect<IPilotEquipmentData>(this._packs, 'pilot_gear').map(x =>
+        PilotEquipmentFactory(x)
+      )
+    },
+    DowntimeActions(): DowntimeAction[] {
+      return collect<DowntimeAction>(this._packs, 'downtime_actions', DowntimeAction)
+    },
+    Tables(): RollableTable[] {
+      return collect<RollableTable>(this._packs, 'tables', RollableTable)
+    },
 
-    Lists: state => {
+    Lists(): Record<string, any[]> {
       const lists = { ...lancerData.lists }
-      state.ContentPacks.filter(pack => pack.Active).forEach(pack => {
-        for (const t in pack.Lists) {
-          if (lists[t] !== undefined) lists[t] = [...lists[t], ...pack.Lists[t]]
-          else lists[t] = pack.Lists[t]
-        }
-      })
+      this._packs
+        .filter(pack => pack.Active)
+        .forEach(pack => {
+          for (const t in (pack as any).Lists) {
+            if (lists[t] !== undefined) lists[t] = [...lists[t], ...(pack as any).Lists[t]]
+            else lists[t] = (pack as any).Lists[t]
+          }
+        })
       return lists
     },
 
-    // Tables: (state) => {
-    //   const tables = lancerData.tables;
-    //   state.ContentPacks.filter((pack) => pack.Active).forEach((pack) => {
-    //     for (const t in pack.Tables) {
-    //       if (tables[t] !== undefined) tables[t] = [...tables[t], ...pack.Tables[t]];
-    //       else tables[t] = pack.Tables[t];
-    //     }
-    //   });
-    //   return tables;
-    // },
-
-    ExtraBondPowers: state => {
+    ExtraBondPowers(): BondPower[] {
       const powers = [] as BondPower[]
-      state.ContentPacks.filter(pack => pack.Active).forEach(pack => {
-        powers.push(...pack.BondPowers)
-      })
+      this._packs
+        .filter(pack => pack.Active)
+        .forEach(pack => {
+          powers.push(...(pack as any).BondPowers)
+        })
       return powers
     },
 
-    ExtraNpcFeatureMap: state => {
+    ExtraNpcFeatureMap(): Record<string, { base: string[]; optional: string[] }> {
       const map: Record<string, { base: string[]; optional: string[] }> = {}
-      state.ContentPacks.filter(pack => pack.Active).forEach(pack => {
-        pack.ExtraNpcFeatures.forEach(entry => {
-          const key = entry.class_id ?? entry.template_id
-          if (!key) return
-          if (!map[key]) map[key] = { base: [], optional: [] }
-          if (entry.base_features) map[key].base.push(...entry.base_features)
-          if (entry.optional_features) map[key].optional.push(...entry.optional_features)
+      this._packs
+        .filter(pack => pack.Active)
+        .forEach(pack => {
+          ;(pack as any).ExtraNpcFeatures.forEach((entry: any) => {
+            const key = entry.class_id ?? entry.template_id
+            if (!key) return
+            if (!map[key]) map[key] = { base: [], optional: [] }
+            if (entry.base_features) map[key].base.push(...entry.base_features)
+            if (entry.optional_features) map[key].optional.push(...entry.optional_features)
+          })
         })
-      })
       return map
     },
 
-    Licenses() {
-      function variantLicenseMatch(variantFrame: Frame, licenseFrame: Frame): boolean {
-        if (!!variantFrame.Variant && !!variantFrame.LicenseID) {
-          return variantFrame.LicenseID === licenseFrame.ID
-        } else {
-          return (
-            variantFrame.Variant.toUpperCase() === licenseFrame.Name.toUpperCase() &&
-            variantFrame.Source.toUpperCase() === licenseFrame.Source.toUpperCase()
-          )
-        }
-      }
-
+    Licenses(): License[] {
       return (this.Frames as any)
-        .filter(x => x.LicenseLevel !== 0 && !x.IsHidden)
-        .map(frame => {
-          return new License(frame)
-        })
+        .filter((x: any) => x.LicenseLevel !== 0 && !x.IsHidden)
+        .map((frame: Frame) => new License(frame))
     },
 
     instantiate(): (itemType: string, id: string) => CompendiumItem | null {
@@ -274,8 +226,8 @@ export const CompendiumStore = defineStore('compendium', {
 
     has(): (itemType: string, id: string) => boolean {
       return (itemType: string, id: string): boolean => {
-        if (this[itemType] && this[itemType] instanceof Array) {
-          return this[itemType].some((x: any) => x.ID === id || x.id === id)
+        if ((this as any)[itemType] && (this as any)[itemType] instanceof Array) {
+          return (this as any)[itemType].some((x: any) => x.ID === id || x.id === id)
         }
         logger.error(`Invalid item type: ${itemType}`)
         return false
@@ -305,13 +257,13 @@ export const CompendiumStore = defineStore('compendium', {
 
     lcpNames(): string[] {
       const frame_packs = this.Frames.map(x => x.LcpName)
-      const lcp_packs = this.ContentPacks.map(x => x.Name)
+      const lcp_packs = this._packs.map(x => x.Name)
       return _.unionWith(frame_packs, lcp_packs, _.isEqual)
     },
 
-    itemsByLcp: (state): ((key: string) => Record<string, CompendiumItem[]>) => {
+    itemsByLcp(): (key: string) => Record<string, CompendiumItem[]> {
       return (key: string) => {
-        const col = (state as any)[key] as CompendiumItem[] | undefined
+        const col = (this as any)[key] as CompendiumItem[] | undefined
         if (!col) throw new Error(`Invalid LCP key: ${key}`)
         return _.groupBy(col, 'LcpName') as Record<string, CompendiumItem[]>
       }
@@ -344,18 +296,16 @@ export const CompendiumStore = defineStore('compendium', {
 
       keys.forEach(key => {
         index.push(
-          ...this[key]
-            .filter(x => x.ItemType)
-            .map(item => {
-              return {
-                id: item.ID,
-                title: item.Name,
-                type: item.ItemType,
-                pack: item.Brew?.LcpName || 'Lancer Core Book',
-                path: this.referenceLink(item, true),
-                icon: item.Icon,
-              }
-            })
+          ...(this as any)[key]
+            .filter((x: any) => x.ItemType)
+            .map((item: any) => ({
+              id: item.ID,
+              title: item.Name,
+              type: item.ItemType,
+              pack: item.Brew?.LcpName || 'Lancer Core Book',
+              path: this.referenceLink(item, true),
+              icon: item.Icon,
+            }))
         )
       })
 
@@ -363,175 +313,28 @@ export const CompendiumStore = defineStore('compendium', {
     },
   },
   actions: {
-    async saveUserData(): Promise<void> {
-      try {
-        await Promise.all(this.ContentPacks.map(y => SetItem('content', y.Serialize())))
-        logger.info('LCP data saved')
-      } catch (err) {
-        logger.error('Error while saving LCP data', err)
-      }
-    },
-    async saveContentCollection(collection: ContentCollection): Promise<void> {
-      const index = this.ContentCollections.findIndex(x => x.ID === collection.ID)
-      if (index === -1) {
-        this.ContentCollections.push(collection)
-      } else {
-        this.ContentCollections[index] = collection
-      }
-      await SetItem('content_collection', ContentCollection.Serialize(collection))
-    },
-    async installCollectionContent(collection: ContentCollection): Promise<void> {
-      // TODO
-    },
-    async deleteContentCollection(collection: ContentCollection): Promise<void> {
-      this.ContentCollections = this.ContentCollections.filter(x => x.ID !== collection.ID)
-      await RemoveItem('content_collection', collection.ID)
-      await this.saveUserData()
-    },
-    async togglePackActive(payload: string): Promise<void> {
-      const pack = this.ContentPacks.find(pack => pack.ID === payload)
-      if (pack) pack.SetActive(!pack.Active)
-      this.ContentPacks = [...this.ContentPacks]
-
-      await this.saveUserData()
-    },
-    async setPackActive(payload: { packID: string; active: boolean }): Promise<void> {
-      const pack = this.ContentPacks.find(pack => pack.ID === payload.packID)
-      if (pack) pack.SetActive(payload.active)
-
-      await this.saveUserData()
-    },
-    async installContentPack(packData: IContentPack): Promise<void> {
-      if (this.packAlreadyInstalled(packData.id)) {
-        logger.info(
-          `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`,
-          this
-        )
-        await this.deleteContentPack(packData.id)
-      }
-      try {
-        const pack = markRaw(new ContentPack(packData))
-        this.ContentPacks = [...this.ContentPacks, pack]
-      } catch (err) {
-        logger.error(
-          `Error installing content pack ${packData?.manifest?.name || packData?.id}: ${err}`,
-          this,
-          err
-        )
-        return
-      }
-      await this.saveUserData()
-      await this.refreshExtraContent()
-    },
-    async installContentPacks(packs: IContentPack[]) {
-      for (const packData of packs) {
-        try {
-          if (this.packAlreadyInstalled(packData.id)) {
-            logger.info(
-              `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`,
-              this
-            )
-            await this.deleteContentPack(packData.id, true)
-          }
-          const pack = markRaw(new ContentPack(packData))
-          pack.SetActive(true)
-          this.ContentPacks.push(pack)
-          NavStore().addToIndex(pack.GetIndexItems())
-        } catch (err) {
-          logger.error(
-            `Error installing content pack ${packData?.manifest?.name || packData?.id}: ${err}`,
-            this,
-            err
-          )
-        }
-      }
-
-      await this.saveUserData()
-    },
-    async deleteContentPack(packID: string, skipSave = false): Promise<void> {
-      this.ContentPacks = this.ContentPacks.filter(pack => pack.ID !== packID)
-      await RemoveItem('content', packID)
-      if (skipSave) return
-      await this.saveUserData()
-      await this.refreshExtraContent()
-    },
-    async deleteAllContentPacks(): Promise<void> {
-      for (const pack of this.ContentPacks) {
-        await RemoveItem('content', pack.ID)
-      }
-      this.ContentPacks = []
-      await this.saveUserData()
-      await this.refreshExtraContent()
-    },
-    async loadExtraContent(): Promise<void> {
-      const keys = await GetKeys('content')
-      for (const key of keys) {
-        let c: IContentPack | null
-        try {
-          c = await GetItem('content', key as string)
-        } catch (err) {
-          logger.error(`Error reading content pack key ${key}: ${err}`, this, err)
-          await new Promise(r => setTimeout(r, 0))
-          continue
-        }
-
-        if (!c) {
-          await new Promise(r => setTimeout(r, 0))
-          continue
-        }
-
-        try {
-          this.ContentPacks.push(markRaw(new ContentPack(c)))
-        } catch (err) {
-          logger.error(
-            `Error loading content pack ${c?.manifest?.name || c?.id}: ${err}`,
-            this,
-            err
-          )
-        }
-
-        // yield between packs so GC can collect the previous pack's raw data
-        await new Promise(r => setTimeout(r, 0))
-      }
-    },
     async refreshExtraContent(): Promise<void> {
+      const packStore = ContentPackStore()
+      const collStore = ContentCollectionStore()
       this.loaded = false
-      this.ContentPacks = []
-      await this.loadExtraContent()
-      await this.loadContentCollections()
+      packStore.ContentPacks = []
+      await packStore.loadExtraContent()
+      await collStore.loadContentCollections()
 
       StatController.ClearCustomStats()
       clearBonusExtensions()
-      for (const pack of this.ContentPacks.filter(p => p.Active)) {
-        for (const stat of pack.CustomStats) StatController.RegisterCustomStat(stat)
-        for (const entry of pack.BonusDictionary) registerBonus(entry)
+      for (const pack of packStore.ContentPacks.filter(p => p.Active)) {
+        for (const stat of (pack as any).CustomStats)
+          StatController.RegisterCustomStat(stat)
+        for (const entry of (pack as any).BonusDictionary) registerBonus(entry)
       }
 
       this.loaded = true
       NavStore().rebuildCompendiumIndex()
     },
-    async loadContentCollections(): Promise<void> {
-      const content = await GetAll('content_collection')
-      this.ContentCollections = content.map(x => ContentCollection.Deserialize(x))
-    },
-    packAlreadyInstalled(packId: string, version?: string, searchOnName = false): boolean {
-      let candidate
-
-      if (searchOnName)
-        candidate = this.ContentPacks.find(pack => pack.Name.toLowerCase() === packId.toLowerCase())
-      else candidate = this.ContentPacks.find(pack => pack.ID === packId)
-
-      if (!candidate) return false
-
-      if (!version || version === '*') return !!candidate
-
-      if (version.startsWith('=')) return candidate.Version === version.slice(1)
-
-      return semver.gte(semver.coerce(candidate.Version), semver.coerce(version))
-    },
     find(itemType: string, id: string): any {
-      if (this[itemType] && this[itemType] instanceof Array) {
-        const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
+      if ((this as any)[itemType] && (this as any)[itemType] instanceof Array) {
+        const i = (this as any)[itemType].find((x: any) => x.ID === id || x.id === id)
         if (i) return i
         return this.nfErr
       }

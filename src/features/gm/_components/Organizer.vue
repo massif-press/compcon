@@ -24,8 +24,7 @@
             </v-row>
           </v-col>
         </v-row>
-        <v-data-table
-          :headers="headers"
+        <v-data-table :headers="headers"
           :items="items"
           item-value="ID"
           :sort-by="[{ key: 'Name', order: 'asc' }]"
@@ -51,7 +50,8 @@
               hide-details />
           </template>
           <template #item.Name="{ item }">
-            <span :class="(item as any).SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''">
+            <span
+              :class="(item as any).SaveController.IsDeleted ? 'text-error text-decoration-line-through' : ''">
               <cc-missing-content-hover :item="item" />
               {{ (item as any).Name }}
             </span>

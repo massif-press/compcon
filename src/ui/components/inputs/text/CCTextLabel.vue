@@ -124,8 +124,10 @@
 <script lang="ts">
 import { useMobile } from '@/composables/useMobile';
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'CcTextLabel',
-  mixins: [useMobile],
   props: {
     modelValue: { type: String },
     label: { type: String },

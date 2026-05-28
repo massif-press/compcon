@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { SetItem, RemoveItem, GetAll } from '@/io/Storage'
+import { SetItem, RemoveItem, GetAll, saveAll } from '@/io/Storage'
 
 import { Campaign, ICampaignData } from '@/classes/campaign/Campaign'
 import { cloudDelete } from '@/io/apis/account'
@@ -42,14 +42,7 @@ export const CampaignStore = defineStore('campaign', {
       this.CampaignCollection = await GetAll('campaign_collection')
     },
     async SaveCampaigns(): Promise<void> {
-      try {
-        await Promise.all(
-          this.Campaigns.map(y => SetItem('campaigns', Campaign.Serialize(y as Campaign)))
-        )
-        logger.info('Campaign data saved')
-      } catch (err) {
-        logger.error('Error while saving Campaign data', this, err)
-      }
+      await saveAll('campaigns', this.Campaigns, y => Campaign.Serialize(y as Campaign), 'Campaign data')
     },
     async SaveCampaign(payload: Campaign): Promise<void> {
       await SetItem('campaigns', Campaign.Serialize(payload))

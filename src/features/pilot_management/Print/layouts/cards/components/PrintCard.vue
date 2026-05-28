@@ -12,9 +12,3 @@
     </v-card>
   </v-col>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'print-card',
-};
-</script>

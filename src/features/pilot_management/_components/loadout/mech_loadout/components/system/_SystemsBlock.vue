@@ -163,9 +163,11 @@ const _ModEquippedCard = markRaw(ModEquippedCard);
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'SystemsBlock',
   components: { SystemSlotCard, ModEquippedCard, SystemSelector, Sortable },
-  mixins: [useMobile],
   props: {
     mech: {
       type: Object,

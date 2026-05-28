@@ -1,3 +1,9 @@
+import { v4 as uuid } from 'uuid'
+
+interface IInstanceableData {
+  instanceId: string | undefined;
+}
+
 interface IInstanceable {
   ID: string;
   IsInstance: boolean;
@@ -10,4 +16,9 @@ interface IInstanceable {
   GetLinkedItem<T>(): T;
 }
 
-export type { IInstanceable };
+function buildInstanceData(): IInstanceableData {
+  return { instanceId: uuid() }
+}
+
+export type { IInstanceableData, IInstanceable }
+export { buildInstanceData }

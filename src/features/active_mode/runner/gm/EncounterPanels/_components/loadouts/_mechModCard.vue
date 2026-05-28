@@ -70,15 +70,12 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-import DeployButton from './_deployButton.vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { useMobile } from '@/composables/useMobile'
+import DeployButton from './_deployButton.vue'
 
-export default {
-  name: 'MechModCard',
-  components: { DeployButton },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     mod: {
       type: Object,
       required: true,
@@ -95,32 +92,26 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  emits: ['deploy'],
-  computed: {
-    totalUses() {
-      return Number(this.mod.MaxUses || 0) + Number(this.owner.actor.CombatController.LimitedBonus || 0)
-    },
-  },
-  methods: {
-    setUses(n) {
-      if (this.mod.Uses === 1 && n === 1) {
-        this.mod.Uses = 0
-      } else if (this.totalUses && n <= this.totalUses) {
-        this.mod.Uses = n
-      }
-    },
-    handleActivation(cost: number) {
-      if (cost && this.mod.MaxUses) {
-        this.mod.Uses = (this.mod.Uses || 0) + cost
-      }
-    },
-    handleRefund(cost: number) {
-      if (cost && this.mod.MaxUses) {
-        this.mod.Uses = (this.mod.Uses || 0) - cost
-      }
-      if (this.mod.Uses < 0) this.mod.Uses = 0
-    },
-  },
+  })
+
+const emit = defineEmits(['deploy'])
+
+const { mobile, portrait } = useMobile()
+
+const totalUses = computed(() => {return Number(props.mod.MaxUses || 0) + Number(props.owner.actor.CombatController.LimitedBonus || 0)})
+
+function setUses(n) {
+  if ((props.mod as any).Uses === 1 && n === 1) {
+    ;(props.mod as any).Uses = 0
+  } else if (totalUses.value && n <= totalUses.value) {
+    ;(props.mod as any).Uses = n
+  }
 }
+function handleActivation(cost: number) {if (cost && props.mod.MaxUses) {
+        props.mod.Uses = (props.mod.Uses || 0) + cost
+      }}
+function handleRefund(cost: number) {if (cost && props.mod.MaxUses) {
+        props.mod.Uses = (props.mod.Uses || 0) - cost
+      }
+      if (props.mod.Uses < 0) props.mod.Uses = 0}
 </script>

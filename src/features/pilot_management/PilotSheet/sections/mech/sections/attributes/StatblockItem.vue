@@ -43,12 +43,11 @@
   </v-col>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  name: 'StatblockItem',
-  mixins: [useMobile],
-  props: {
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     attr: { type: String, required: true },
     val: { type: Number, required: true },
     signed: { type: Boolean, required: false },
@@ -78,22 +77,16 @@ export default {
       type: Array,
       required: false,
     },
-  },
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown;
-    },
-    portrait(): boolean {
-      return this.$vuetify.display.xs;
-    },
-    title(): string {
-      const value = this.signed ? (this.val > -1 ? '+' : '') + this.val : this.val;
-      return `${value} ${this.attr}`;
-    },
-    content(): string {
-      if (!this.contributors || this.contributors.length === 0) return '';
-      return this.contributors.join('<br />');
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
+const title = computed(() => {
+  const value = props.signed ? (props.val > -1 ? '+' : '') + props.val : props.val
+  return `${value} ${props.attr}`
+})
+const content = computed(() => {
+  if (!props.contributors || props.contributors.length === 0) return ''
+  return (props.contributors as string[]).join('<br />')
+})
 </script>

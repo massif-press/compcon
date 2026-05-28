@@ -109,15 +109,12 @@
   </v-expansion-panel>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import { LicenseController } from '@/classes/pilot/components';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  name: 'CcLicenseExpandable',
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     items: {
       type: Array,
       required: true,
@@ -135,28 +132,24 @@ export default {
       required: false,
       default: null,
     },
-  },
-  emits: ['add', 'remove'],
-  computed: {
-    isRanked() {
-      return !!this.controller;
-    },
-  },
-  methods: {
-    getBgStyle(item) {
-      let style = `background-image: url('${item.Frame.DefaultImage}');`;
-      if (this.mobile)
-        style += `height:50px; width:100%; background-position: top ${item.Frame.YPosition}% left calc(50% + 8vw);`;
-      else
-        style += `height:80px; width:100%; background-position: top ${item.Frame.YPosition}% left calc(50% + 8vw)`;
-      return style;
-    },
-    getControllerRank(item) {
-      if (!this.controller) return 0;
-      return this.controller.getLicenseRank(item.Name);
-    },
-  },
-};
+  })
+
+const emit = defineEmits(['add', 'remove'])
+
+const { mobile, portrait } = useMobile()
+
+const isRanked = computed(() => {return !!props.controller;})
+
+function getBgStyle(item) {
+  let style = `background-image: url('${item.Frame.DefaultImage}');`
+  if (mobile.value)
+    style += `height:50px; width:100%; background-position: top ${item.Frame.YPosition}% left calc(50% + 8vw);`
+  else
+    style += `height:80px; width:100%; background-position: top ${item.Frame.YPosition}% left calc(50% + 8vw)`
+  return style
+}
+function getControllerRank(item) {if (!props.controller) return 0;
+      return props.controller.getLicenseRank(item.Name);}
 </script>
 
 <style scoped>

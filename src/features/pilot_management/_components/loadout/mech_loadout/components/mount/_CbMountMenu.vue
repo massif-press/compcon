@@ -58,13 +58,11 @@
   </v-menu>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { useMobile } from '@/composables/useMobile'
 
-export default {
-  name: 'CbMountMenu',
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     mech: {
       type: Object,
       required: true,
@@ -73,22 +71,14 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  computed: {
-    hasEffect(): boolean {
-      return this.mount.Bonuses.length;
-    },
-    color(): string {
-      return this.mech.Frame.ManufacturerColor;
-    },
-    visible(): boolean {
-      return this.mech.AvailableBonuses.length || this.mount.Bonuses.length;
-    },
-    isAvailable(): boolean {
-      return this.mech.AvailableBonuses.length > 0;
-    },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
+
+const hasEffect = computed(() => (props.mount as any).Bonuses.length)
+const color = computed(() => (props.mech as any).Frame.ManufacturerColor)
+const visible = computed(() => (props.mech as any).AvailableBonuses.length || (props.mount as any).Bonuses.length)
+const isAvailable = computed(() => (props.mech as any).AvailableBonuses.length > 0)
 </script>
 
 <style scoped>

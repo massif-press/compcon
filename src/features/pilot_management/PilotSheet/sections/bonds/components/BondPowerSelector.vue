@@ -164,8 +164,10 @@ import { useMobile } from '@/composables/useMobile';
 import { sortBy } from 'lodash-es';
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'BondPowerSelectMenu',
-  mixins: [useMobile],
   props: {
     pilot: { type: Object, required: true },
   },

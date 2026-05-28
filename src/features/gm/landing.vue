@@ -49,20 +49,14 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import LandingCard from './_components/LandingCard.vue'
-import { useMobile } from '@/composables/useMobile';
 
-export default {
-  name: 'Home',
-  components: { LandingCard },
-  mixins: [useMobile],
-  computed: {
-    isDevsite() {
-      return (
+const { mobile, portrait } = useMobile()
+
+const isDevsite = computed(() => {return (
         window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
-      )
-    },
-  },
-}
+      )})
 </script>

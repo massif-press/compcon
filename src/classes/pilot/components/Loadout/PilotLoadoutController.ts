@@ -6,6 +6,7 @@ import { Rules } from '../../../utility/Rules'
 import { IPilotLoadoutData } from './PilotLoadout'
 import { Bonus, BonusId } from '@/classes/components/feature/bonus/Bonus'
 import logger from '@/user/logger'
+import { assertController } from '../../../utility/assertController'
 
 interface IPilotLoadoutSaveData {
   loadouts?: IPilotLoadoutData[]
@@ -106,10 +107,7 @@ class PilotLoadoutController implements IFeatureContainer {
   }
 
   public static Deserialize(parent: Pilot, data: IPilotLoadoutSaveData) {
-    if (!parent.PilotLoadoutController)
-      throw new Error(
-        `PilotLoadoutController not found on parent (${typeof parent}). New PilotLoadoutControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.PilotLoadoutController, 'PilotLoadoutController')
 
     if (data.loadouts) {
       parent.PilotLoadoutController._loadouts = data.loadouts.map(x =>

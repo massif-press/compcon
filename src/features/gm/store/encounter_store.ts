@@ -1,6 +1,7 @@
-import { GetAll, SetItem, RemoveItem, SetValue, GetValue } from '@/io/Storage'
+import { GetAll, SetItem, RemoveItem, SetValue, GetValue, saveAll } from '@/io/Storage'
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
+import { useFolderManagement } from '@/composables/useFolderManagement'
 import * as _ from 'lodash-es'
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter'
 import { NavStore } from '@/stores/nav'
@@ -86,25 +87,15 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     AddFolder(payload: string): void {
-      this.Folders.push(payload)
+      useFolderManagement(this.Encounters, this.Folders).AddFolder(payload)
     },
 
     EditFolder(payload: { old: string; newName: string }): void {
-      this.Encounters.filter(x => x.FolderController.Folder === payload.old).forEach(
-        x => (x.FolderController.Folder = payload.newName)
-      )
-
-      const idx = this.Folders.findIndex(x => x === payload.old)
-      if (idx >= -1) this.Folders[idx] = payload.newName
+      useFolderManagement(this.Encounters, this.Folders).EditFolder(payload)
     },
 
     RemoveFolder(payload: string): void {
-      this.Encounters.filter(x => x.FolderController.Folder === payload).forEach(
-        x => (x.FolderController.Folder = '')
-      )
-
-      const idx = this.Folders.findIndex(x => x === payload)
-      if (idx >= -1) this.Folders.splice(idx, 1)
+      useFolderManagement(this.Encounters, this.Folders).RemoveFolder(payload)
     },
 
     async AddEncounter(payload: Encounter): Promise<void> {
@@ -218,27 +209,11 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     async SaveEncounterData(): Promise<void> {
-      try {
-        await Promise.all(
-          (this.Encounters as any).map(y => SetItem('encounters', toRaw(y).Serialize()))
-        )
-        logger.info('Encounter data saved')
-      } catch (err) {
-        logger.error('Error while saving Encounter data', this, err)
-      }
+      await saveAll('encounters', this.Encounters, y => toRaw(y).Serialize(), 'Encounter data')
     },
 
     async SaveActiveEncounterData(): Promise<void> {
-      try {
-        await Promise.all(
-          (this.ActiveEncounters as any).map(y =>
-            SetItem('active_encounters', toRaw(y).Serialize())
-          )
-        )
-        logger.info('Active Encounter data saved')
-      } catch (err) {
-        logger.error('Error while saving Active Encounter data', this, err)
-      }
+      await saveAll('active_encounters', this.ActiveEncounters, y => toRaw(y).Serialize(), 'Active Encounter data')
     },
   },
 })

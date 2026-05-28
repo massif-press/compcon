@@ -22,9 +22,3 @@
     .
   </div>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'cc-missing-gm-lcp-text',
-};
-</script>

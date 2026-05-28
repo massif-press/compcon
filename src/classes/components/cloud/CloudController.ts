@@ -19,6 +19,7 @@ import {
   type FieldHashMap,
 } from './fieldMerge'
 import { getItemRegistration } from './ItemRegistry'
+import { assertController } from '../../utility/assertController'
 
 interface ICloudData {
   metadata: dbItemMeta
@@ -612,10 +613,7 @@ class CloudController {
   }
 
   public static Deserialize(parent: ICloudSyncable, data: any) {
-    if (!parent.CloudController)
-      throw new Error(
-        `CloudController not found on parent (${typeof parent}). New CloudControllers must be instantiated in the parent's constructor method.`
-      )
+    assertController(parent.CloudController, 'CloudController')
     if (data?._ts) parent.CloudController._fieldTs = data._ts
     if (data?._lastHash) parent.CloudController._lastContentHash = data._lastHash
     if (data?._lastUploadedItemModified)

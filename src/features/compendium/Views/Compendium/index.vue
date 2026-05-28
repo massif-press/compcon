@@ -97,15 +97,10 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
 import SearchBar from '../../SearchBar.vue';
 import CompendiumPageButton from '../../components/CompendiumPageButton.vue';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  mixins: [useMobile],
-  name: 'compendium-home',
-  components: { SearchBar, CompendiumPageButton },
-};
+const { mobile, portrait } = useMobile()
 </script>

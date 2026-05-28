@@ -36,9 +36,3 @@
     </v-chip>
   </v-col>
 </template>
-
-<script>
-export default {
-  name: 'PrintOvercharge'
-}
-</script>

@@ -220,6 +220,7 @@ import MechModCard from './_mechModCard.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
+import { toRef } from 'vue'
 import { useMobile } from '@/composables/useMobile'
 import { useEquipmentActions } from '@/composables/useEquipmentActions'
 import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
@@ -236,7 +237,6 @@ export default {
     EquipmentFlavorDescription: FlavorDescription,
     EquipmentActionsDeployables: ActionsDeployables,
   },
-  mixins: [useMobile, useEquipmentActions],
   props: {
     item: {
       type: Object,
@@ -260,6 +260,12 @@ export default {
     },
   },
   emits: ['deploy'],
+  setup(props, { emit }) {
+    return {
+      ...useMobile(),
+      ...useEquipmentActions(toRef(props, 'item'), (_, d) => emit('deploy', d)),
+    }
+  },
   computed: {
     synergyLocation() {
       if (!this.item) return 'none'

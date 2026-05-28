@@ -112,12 +112,14 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'PcPanel',
   components: {
     MechPanel,
     PilotPanel,
   },
-  mixins: [useMobile],
   props: {
     combatant: {
       type: Object,

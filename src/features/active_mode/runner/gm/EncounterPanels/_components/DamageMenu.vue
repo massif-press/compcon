@@ -109,7 +109,7 @@
                 :class="damageMods.includes('ap') ? 'bg-grey' : 'bg-info'"
                 class="text-center my-1 px-2">
                 <v-col cols="auto">
-                  <v-icon v-bind="props"
+                  <v-icon
                     :icon="damageMods.includes('ap') ? 'mdi-shield-off-outline' : 'mdi-shield'" />
                 </v-col>
                 <v-col class="text-cc-overline mt-1"
@@ -124,7 +124,7 @@
                 :class="damageClass(damage)"
                 class="text-center my-1 px-2">
                 <v-col cols="auto">
-                  <v-icon v-bind="props"
+                  <v-icon
                     :icon="`cc:${damage.type.toLowerCase()}`" />
                 </v-col>
                 <v-col class="text-cc-overline mt-1">
@@ -208,8 +208,10 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'DamageMenu',
-  mixins: [useMobile],
   props: {
     controller: {
       type: Object,

@@ -160,8 +160,10 @@ function extract(str) {
 }
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'SearchResults',
-  mixins: [useMobile],
   data: () => ({
     lang: 'en',
     searchText: '',

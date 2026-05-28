@@ -135,20 +135,14 @@
   </panel-base>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import UnitFeatureCard from './_components/loadouts/_unitFeatureCard.vue';
 import PanelBase from './_PanelBase.vue';
 import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json';
 
-export default {
-  name: 'EidolonPanel',
-  components: {
-    PanelBase,
-    UnitFeatureCard,
-  },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     combatant: {
       type: Object,
       required: true,
@@ -157,38 +151,28 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  emits: ['deselect'],
-  computed: {
-    xlColumns() {
-      if (this.mobile) return 1
-      else return this.encounterInstance.MaxMasonryColumns
-    },
-    traits() {
-      return PersistentTraits;
-    },
-    layer() {
-      return this.combatant.actor.ActiveLayer;
-    },
-    features() {
-      return this.layer.Layer.Features || [];
-    },
-  },
-  methods: {
-    deploy(deployable) {
-      this.encounterInstance.Deploy(deployable, this.combatant);
-    },
-    clip(text) {
-      navigator.clipboard.writeText(text);
-    },
-    genShards() {
-      if (!this.layer.Layer.Shards.Count) return;
-      for (let i = 0; i < this.layer.Layer.Shards.Count; i += 1) {
-        this.combatant.deployables.push(
-          this.layer.Layer.Shards.Create(this.combatant, this.layer.Name)
-        );
-      }
-    },
-  },
-};
+  })
+
+const emit = defineEmits(['deselect'])
+
+const { mobile, portrait } = useMobile()
+
+const xlColumns = computed(() => {
+  if (mobile.value) return 1
+  else return (props.encounterInstance as any).MaxMasonryColumns
+})
+const traits = computed(() => PersistentTraits)
+const layer = computed(() => (props.combatant as any).actor.ActiveLayer)
+const features = computed(() => layer.value?.Layer?.Features || [])
+
+function deploy(deployable) { (props.encounterInstance as any).Deploy(deployable, props.combatant) }
+function clip(text) { navigator.clipboard.writeText(text) }
+function genShards() {
+  if (!layer.value?.Layer?.Shards?.Count) return
+  for (let i = 0; i < layer.value.Layer.Shards.Count; i += 1) {
+    (props.combatant as any).deployables.push(
+      layer.value.Layer.Shards.Create(props.combatant, layer.value.Name)
+    )
+  }
+}
 </script>

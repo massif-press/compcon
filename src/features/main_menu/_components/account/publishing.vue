@@ -390,16 +390,18 @@
 
 <script lang="ts">
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
-import { CompendiumStore, UserStore } from '@/stores';
+import { ContentCollectionStore, UserStore } from '@/stores';
 import CollectionItemSelector from './_components/collectionItemSelector.vue';
 import logger from '@/user/logger';
 import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'CloudPublish',
   components: { CollectionItemSelector },
-  mixins: [useMobile],
   data: () => ({
     loading: false,
     colIdx: 0,
@@ -430,7 +432,7 @@ export default {
       if (UserStore().UserMetadata.Username) {
         col.Author = UserStore().UserMetadata.Username;
       }
-      CompendiumStore().ContentCollections.push(col);
+      ContentCollectionStore().ContentCollections.push(col);
     },
     hasLocalData(item: any) {
       return !!item.data;

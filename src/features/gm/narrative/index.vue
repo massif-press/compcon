@@ -49,6 +49,9 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'NarrativeRoster',
   components: {
     NarrativeCollection,
@@ -56,7 +59,6 @@ export default {
     Importer,
     ShareCodeDialog,
   },
-  mixins: [useMobile],
   props: {
     type: {
       type: String,

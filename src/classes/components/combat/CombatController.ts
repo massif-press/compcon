@@ -30,6 +30,7 @@ import { CompendiumStore } from '@/features/compendium/store'
 import { expiration } from './Expiration'
 import { CombatLogEntry, CombatLog } from './CombatLog'
 import { Bonus } from '../feature/bonus/Bonus'
+import { assertController } from '../../utility/assertController'
 
 enum CoverType {
   None = 'none',
@@ -458,18 +459,8 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
-  public AddResist(type: string, condition?: string): void {
-    condition = condition?.toLowerCase() || 'vulnerable'
-
-    const existingIndex = this.ActiveActor.CombatController.Resistances.findIndex(
-      s => s.type === type
-    )
-    if (existingIndex === -1) {
-      this.ActiveActor.CombatController.Resistances.push({ type, condition })
-      this.log(`Gained ${type} ${condition}`)
-    } else if (condition) {
-      this.ActiveActor.CombatController.Resistances[existingIndex].condition = condition
-    }
+  public AddResist(type: string, condition = 'vulnerable'): void {
+    this.SetResistance(type, condition)
   }
 
   public RemoveResist(type: string): void {
@@ -500,16 +491,17 @@ class CombatController implements ICounterContainer, IStatContainer {
     return this.ActiveActor.CombatController.Statuses.some(s => s.status.ID === statusID)
   }
 
+  private _resolveExpiration(expires: any, target?: CombatController): expiration {
+    if (typeof expires === 'string') return markRaw(new expiration(expires, this, target))
+    if (expires) return markRaw(expires) as expiration
+    return expires as expiration
+  }
+
   public AddStatus(statusID: string, expires?: any): void {
     const status = CompendiumStore().Statuses.find(s => s.ID === statusID)
     if (!status) return
     const target = this.ActiveActor.CombatController
-    const resolvedExpires =
-      typeof expires === 'string'
-        ? markRaw(new expiration(expires, this, target))
-        : expires
-          ? markRaw(expires)
-          : expires
+    const resolvedExpires = this._resolveExpiration(expires, target)
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
       target.Statuses.push({ status, expires: resolvedExpires })
@@ -522,12 +514,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public ToggleStatus(status: Status, expires?: any, thisController = false): void {
     if (!status) return
     const target = thisController ? this : this.ActiveActor.CombatController
-    const resolvedExpires =
-      typeof expires === 'string'
-        ? markRaw(new expiration(expires, this, target))
-        : expires
-          ? markRaw(expires)
-          : expires
+    const resolvedExpires = this._resolveExpiration(expires, target)
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
       target.Statuses.push({ status, expires: resolvedExpires })
@@ -556,12 +543,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public SetCustomStatus(special: EffectSpecial, expires?: any): void {
     if (!special) return
-    const resolvedExpires =
-      typeof expires === 'string'
-        ? markRaw(new expiration(expires, this))
-        : expires
-          ? markRaw(expires)
-          : expires
+    const resolvedExpires = this._resolveExpiration(expires)
     const existingIndex = this.CustomStatuses.findIndex(
       s => s.status.Attribute === special.Attribute
     )
@@ -1181,10 +1163,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public static Deserialize(controller: CombatController, data: CombatData) {
-    if (!controller.StatController)
-      throw new Error(
-        `StatController not found on CombatController. New StatControllers must be instantiated in the CombatController's constructor method.`
-      )
+    assertController(controller.StatController, 'StatController')
 
     controller.Resistances = data?.resistances || []
     controller.Statuses = (data?.statuses || [])

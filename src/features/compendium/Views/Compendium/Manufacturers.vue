@@ -74,8 +74,10 @@ import { useMobile } from '@/composables/useMobile';
 
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'Manufacturers',
-  mixins: [useMobile],
   data: () => ({
     tabModel: 0,
     loading: false,

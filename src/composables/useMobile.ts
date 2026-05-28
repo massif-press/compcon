@@ -1,10 +1,6 @@
-export const useMobile = {
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown
-    },
-    portrait(): boolean {
-      return this.$vuetify.display.xs
-    },
-  },
+import { useDisplay } from 'vuetify'
+
+export function useMobile() {
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
+  return { mobile, portrait }
 }

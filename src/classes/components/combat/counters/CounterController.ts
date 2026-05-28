@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { ICounterData } from './Counter';
 import { ICounterContainer } from './ICounterContainer';
 import { CombatController } from '../CombatController';
+import { assertController } from '../../../utility/assertController'
 
 interface ICounterCollection {
   counter_data: ICounterSaveData[];
@@ -78,10 +79,7 @@ class CounterController {
   }
 
   public static Deserialize(parent: ICounterContainer, data: ICounterCollection) {
-    if (!parent.CounterController)
-      throw new Error(
-        `CounterController not found on parent (${typeof parent}). New CounterControllers must be instantiated in the parent's constructor method.`
-      );
+    assertController(parent.CounterController, 'CounterController');
 
     parent.CounterController._counterSaveData = data.counter_data || [];
     parent.CounterController._customCounters = (data.custom_counters as ICounterData[]) || [];

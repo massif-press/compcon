@@ -58,8 +58,10 @@ import Loadout from '@/classes/Loadout'
 import { useMobile } from '@/composables/useMobile';
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'CcLoadoutPanel',
-  mixins: [useMobile],
   props: {
     loadouts: {
       type: Array,

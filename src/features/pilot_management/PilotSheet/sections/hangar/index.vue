@@ -67,7 +67,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import MechCard from './components/MechCard.vue'
 import MechListItem from './components/MechListItem.vue'
 import MechListItemMobile from './components/MechListItemMobile.vue'
@@ -75,45 +77,38 @@ import NewMechMenu from './components/NewMechMenu.vue'
 import MechSort from './components/MechSort.vue'
 import { UserStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
-import { useMobile } from '@/composables/useMobile';
 
-export default {
-  name: 'MechHangarView',
-  components: { MechCard, MechListItem, MechListItemMobile, NewMechMenu, MechSort },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     pilot: {
       type: Pilot,
       required: true,
     },
-  },
-  computed: {
-    profile() {
-      return UserStore().User
-    },
-    view() {
-      return this.profile.View('hangar', 'cards')
-    },
-    sortedMechs() {
-      const sort = this.profile.View('hangarSort', 'Created')
-      const asc = this.profile.View('hangarAsc', false)
+  })
 
-      const mechs = [...this.pilot.Mechs]
-      if (sort === 'Name') {
-        mechs.sort((a, b) => a.Name.localeCompare(b.Name))
-      } else if (sort === 'Source') {
-        mechs.sort((a, b) => a.Frame.Source.localeCompare(b.Frame.Source))
-      } else if (sort === 'Created') {
-        mechs.sort((a, b) => a.Created - b.Created)
-      }
-      return asc ? mechs : mechs.reverse()
-    },
-  },
-  methods: {
-    toMechSheet(mech) {
-      this.$router.push({ name: `mech-sheet`, params: { mechID: mech.ID } })
-    },
-  },
+const { mobile, portrait } = useMobile()
+
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const profile = computed(() => UserStore().User)
+const view = computed(() => profile.value.View('hangar', 'cards'))
+const sortedMechs = computed(() => {
+  const sort = profile.value.View('hangarSort', 'Created')
+  const asc = profile.value.View('hangarAsc', false)
+  const mechs = [...(props.pilot as any).Mechs]
+  if (sort === 'Name') {
+    mechs.sort((a, b) => a.Name.localeCompare(b.Name))
+  } else if (sort === 'Source') {
+    mechs.sort((a, b) => a.Frame.Source.localeCompare(b.Frame.Source))
+  } else if (sort === 'Created') {
+    mechs.sort((a, b) => a.Created - b.Created)
+  }
+  return asc ? mechs : mechs.reverse()
+})
+
+function toMechSheet(mech) {
+  router.push({ name: 'mech-sheet', params: { mechID: mech.ID } })
 }
 </script>
 

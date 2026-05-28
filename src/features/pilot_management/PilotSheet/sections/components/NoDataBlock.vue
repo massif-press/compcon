@@ -7,9 +7,3 @@
     </v-card-text>
   </v-card>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'no-data-block',
-};
-</script>

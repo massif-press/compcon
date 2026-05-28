@@ -8,18 +8,49 @@ import { CompendiumItem } from '../../../CompendiumItem'
 import logger from '@/user/logger'
 import { CompendiumStore } from '@/features/compendium/store'
 import { IRankedData } from '../license/License'
+import { assertController } from '../../../utility/assertController'
+import { RankedCollectionController } from '../RankedCollectionController'
 
 interface ITalentsData {
   talents: IRankedData[]
 }
 
-class TalentsController implements IFeatureContainer {
-  public readonly Parent: Pilot
-  private _talents: PilotTalent[]
+class TalentsController
+  extends RankedCollectionController<Talent, PilotTalent>
+  implements IFeatureContainer
+{
+  protected _findIndex(raw: Talent): number {
+    return this._collection.findIndex(x => x.Talent.ID === raw.ID)
+  }
 
-  public constructor(parent: Pilot) {
-    this.Parent = parent
-    this._talents = []
+  protected _createWrapper(raw: Talent): PilotTalent {
+    return new PilotTalent(raw)
+  }
+
+  protected _getRaw(wrapper: PilotTalent): Talent {
+    return wrapper.Talent
+  }
+
+  protected _sort(): void {
+    this._collection = this._collection.sort((a, b) =>
+      a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
+    )
+  }
+
+  protected _afterAdd(_raw: Talent): void {
+    this.updateIntegratedTalents()
+  }
+
+  protected _afterRemove(_raw: Talent): void {
+    this.updateIntegratedTalents()
+  }
+
+  public get MaxPoints(): number {
+    return Bonus.Int(
+      Rules.MinimumPilotTalents + this.Parent.Level,
+      BonusId.TALENT_POINT,
+      this.Parent
+    )
   }
 
   get FeatureSource(): any[] {
@@ -38,75 +69,51 @@ class TalentsController implements IFeatureContainer {
   }
 
   public get Talents(): PilotTalent[] {
-    return this._talents
+    return this._collection
   }
 
   public get MissingTalents(): Talent[] {
-    return this._talents
+    return this._collection
       .filter(x => !CompendiumStore().has('Talents', x.Talent.ID))
       .map(t => t.Talent)
   }
 
   public set Talents(talents: PilotTalent[]) {
-    this._talents = talents
-    this.talentSort()
+    this._collection = talents
+    this._sort()
     this.Parent.SaveController.save()
   }
 
   public get CurrentTalentPoints(): number {
-    return this._talents.reduce((sum, talent) => sum + talent.Rank, 0)
+    return this.CurrentPoints
   }
 
   public get MaxTalentPoints(): number {
-    return Bonus.Int(
-      Rules.MinimumPilotTalents + this.Parent.Level,
-      BonusId.TALENT_POINT,
-      this.Parent
-    )
+    return this.MaxPoints
   }
 
   public get HasFullTalents(): boolean {
-    return this.CurrentTalentPoints === this.MaxTalentPoints
+    return this.HasFull
   }
 
   public getTalentRank(id: string): number {
-    const index = this._talents.findIndex(x => x.Talent.ID === id)
-    return index > -1 ? this._talents[index].Rank : 0
+    const index = this._collection.findIndex(x => x.Talent.ID === id)
+    return index > -1 ? this._collection[index].Rank : 0
   }
 
   public AddTalent(talent: Talent): void {
-    const index = this._talents.findIndex(x => x.Talent.ID === talent.ID)
-
-    if (index === -1) {
-      this._talents.push(new PilotTalent(talent))
-    } else {
-      this._talents[index].Increment()
-    }
-
-    this.talentSort()
-    this.updateIntegratedTalents()
-
-    this.Parent.SaveController.save()
+    this._addItem(talent)
   }
 
   public RemoveTalent(talent: Talent): void {
-    const index = this._talents.findIndex(x => x.Talent.ID === talent.ID)
-    if (index === -1) {
+    if (this._findIndex(talent) === -1) {
       logger.error(`Talent "${talent.Name}" does not exist on Pilot ${this.Parent.Callsign}`, this)
-    } else {
-      if (this._talents[index].Rank > 1) {
-        this._talents[index].Decrement()
-      } else {
-        this._talents.splice(index, 1)
-      }
     }
-    this.talentSort()
-    this.updateIntegratedTalents()
-    this.Parent.SaveController.save()
+    this._removeItem(talent)
   }
 
   public RemovePilotTalent(pTalent: PilotTalent): void {
-    const index = this._talents.findIndex(
+    const index = this._collection.findIndex(
       x => x.Talent.ID === pTalent.Talent.ID || (x.Talent as CompendiumItem).Err
     )
     if (index === -1) {
@@ -115,22 +122,12 @@ class TalentsController implements IFeatureContainer {
         this
       )
     } else {
-      this._talents.splice(index, 1)
+      this._collection.splice(index, 1)
     }
   }
 
   public ClearTalents(): void {
-    for (let i = this._talents.length - 1; i >= 0; i--) {
-      while (this._talents[i]) {
-        this.RemoveTalent(this._talents[i].Talent)
-      }
-    }
-  }
-
-  private talentSort(): void {
-    this._talents = this._talents.sort(function (a, b) {
-      return a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
-    })
+    this._clearCollection()
   }
 
   private updateIntegratedTalents(): void {
@@ -144,12 +141,8 @@ class TalentsController implements IFeatureContainer {
   }
 
   public static Deserialize(parent: Pilot, data: ITalentsData) {
-    if (!parent.TalentsController)
-      throw new Error(
-        `TalentsController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`
-      )
-
-    parent.TalentsController._talents = data.talents.map((x: IRankedData) =>
+    assertController(parent.TalentsController, 'TalentsController')
+    parent.TalentsController._collection = data.talents.map((x: IRankedData) =>
       PilotTalent.Deserialize(x)
     )
   }

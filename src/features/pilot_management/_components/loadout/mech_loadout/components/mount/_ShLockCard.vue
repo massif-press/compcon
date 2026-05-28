@@ -6,9 +6,3 @@
     </div>
   </v-card>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'sh-lock-card',
-};
-</script>

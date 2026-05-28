@@ -97,18 +97,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useMobile } from '@/composables/useMobile'
 import ItemCardLink from '../../cards/items/_components/ItemCardLink.vue';
-import { useMobile } from '@/composables/useMobile';
 
-
-export default {
-  name: 'SelectorListItem',
-  components: {
-    ItemCardLink,
-  },
-  mixins: [useMobile],
-  props: {
+const props = defineProps({
     item: {
       type: Object,
       required: false,
@@ -122,18 +116,19 @@ export default {
     selectable: {
       type: Boolean,
     },
-  },
-  emits: ['select'],
-  computed: {
-    useCard(): boolean {
-      switch (this.item && this.item.ItemType) {
-        case 'Skill':
-        case 'Tag':
-          return true;
-        default:
-          return false;
-      }
-    },
-  },
-};
+  })
+
+const emit = defineEmits(['select'])
+
+const { mobile, portrait } = useMobile()
+
+const useCard = computed(() => {
+  switch (props.item && (props.item as any).ItemType) {
+    case 'Skill':
+    case 'Tag':
+      return true
+    default:
+      return false
+  }
+})
 </script>

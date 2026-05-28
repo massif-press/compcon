@@ -12,6 +12,7 @@ import type { MechSystem } from '../../mech/components/equipment/MechSystem'
 import type { MechWeapon } from '../../mech/components/equipment/MechWeapon'
 import { ActiveEffect } from './active_effects/ActiveEffect'
 import { Parser } from 'expr-eval'
+import { ExpressionContext } from '@/classes/utility/ExpressionContext'
 
 const strDict = [
   { key: 'll', prop: 'Level', text: 'Pilot License Level' },
@@ -125,8 +126,8 @@ class FeatureController {
     }
   }
 
-  private _buildLegacyContext(): Record<string, number> {
-    const ctx: Record<string, number> = {}
+  private _buildLegacyContext(): ExpressionContext {
+    const ctx: ExpressionContext = {}
     strDict.forEach(p => {
       ctx[p.key] = Number(this.getRootProperty<number>(p.prop) ?? 0)
     })

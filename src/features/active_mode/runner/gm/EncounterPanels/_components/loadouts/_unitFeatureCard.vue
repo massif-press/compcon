@@ -183,6 +183,9 @@ import { externalUnitItemBonuses } from '@/composables/useExternalItemBonuses'
 import EquipmentDestroyedOverlay from './_DestroyedOverlay.vue'
 
 export default {
+  setup() {
+    return useMobile()
+  },
   name: 'UnitFeatureCombatCard',
   components: {
     NpcModInset,
@@ -192,7 +195,6 @@ export default {
     EquipmentActionsDeployables: ActionsDeployables,
     EquipmentDestroyedOverlay,
   },
-  mixins: [useMobile],
   props: {
     item: {
       type: Object,

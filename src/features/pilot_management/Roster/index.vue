@@ -182,14 +182,14 @@ import Organizer from './components/Organizer.vue';
 import GroupPanel from './components/GroupPanel.vue';
 import GroupMenu from './components/GroupMenu.vue';
 import { UserStore, PilotStore } from '@/stores';
-import { useRosterDragMode } from '@/composables/useRosterDragMode';
+import { useDragMode } from '@/composables/useDragMode';
 import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
 import GroupFileImport from './components/add_panels/GroupFileImport.vue';
 import GroupShareDialog from './components/GroupShareDialog.vue';
 
 const mobile = useDisplay().smAndDown
 
-const { dragModeActive, exitDragMode } = useRosterDragMode(600)
+const { dragModeActive, exitDragMode } = useDragMode(600, { shared: true })
 
 // const sortParams = ref(null)
 // const newGroupMenu = ref(false)

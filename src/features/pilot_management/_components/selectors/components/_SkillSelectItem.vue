@@ -37,12 +37,10 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-export default {
-  mixins: [useMobile],
-  name: 'skill-select-item',
-  props: {
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+
+const props = defineProps({
     skill: {
       type: Object,
       required: true,
@@ -60,6 +58,7 @@ export default {
       required: false,
       default: 0,
     },
-  },
-};
+  })
+
+const { mobile, portrait } = useMobile()
 </script>
