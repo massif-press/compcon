@@ -46,8 +46,8 @@
           :disabled="!layer.Layer.Shards?.Count"
           @click="genShards()">
           <span v-if="layer.Layer.Shards?.Count">
-            Generate {{ layer.Layer.Shards.Count }}
-            <span>{{ layer.Layer.Shards.Count > 1 ? 'Shards' : 'Shard' }}</span>
+            Generate {{ shardCount }}
+            <span>{{ shardCount > 1 ? 'Shards' : 'Shard' }}</span>
           </span>
           <span v-else>Layer has no Shards</span>
         </cc-button>
@@ -173,6 +173,21 @@ export default {
     features() {
       return this.layer.Layer.Features || [];
     },
+    shardCount() {
+      const shardCount = this.layer.Layer.Shards?.Count || 0;
+      if (!shardCount) return 0;
+      if (typeof this.layer.Layer.Shards?.Count === 'string') {
+        const str = (this.layer.Layer.Shards.Count as string).toLowerCase().trim();
+        if (str === 'hostile_characters') {
+          return this.encounterInstance.Combatants.filter((c) => c.side === 'ally').length;
+        } else if (str === 'characters') {
+          return this.encounterInstance.Combatants.length;
+        } else {
+          return isNaN(Number(str)) ? 0 : Number(str);
+        }
+      }
+      return shardCount;
+    },
   },
   methods: {
     deploy(deployable) {
@@ -181,9 +196,10 @@ export default {
     clip(text) {
       navigator.clipboard.writeText(text);
     },
+
     genShards() {
-      if (!this.layer.Layer.Shards.Count) return;
-      for (let i = 0; i < this.layer.Layer.Shards.Count; i += 1) {
+      if (!this.shardCount) return;
+      for (let i = 0; i < this.shardCount; i += 1) {
         this.combatant.deployables.push(
           this.layer.Layer.Shards.Create(this.combatant, this.layer.Name)
         );

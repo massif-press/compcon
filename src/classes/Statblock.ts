@@ -336,6 +336,10 @@ class Statblock {
     )} | SIZE: ${npc.StatController.getMax('Size')} | ACT: ${npc.StatController.getMax(
       'Activations'
     )}\n`
+    const customStats = npc.StatController.CustomStats(npc.ItemType)
+    if (customStats.length) {
+      output += `  ${customStats.map(s => `${s.title.toUpperCase()}: ${npc.StatController.getMax(s.key)}`).join(' | ')}\n`
+    }
     output += '[ FEATURES ]\n  '
     output += npc.NpcFeatureController.Features.map(
       (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`

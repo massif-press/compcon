@@ -15,7 +15,7 @@ export const useEquipmentActions = {
     },
     handleDeploy(this: any, deployable: any) {
       if (this.item.MaxUses) {
-        this.item.Uses = (this.item.Uses || 0) + deployable.Cost || 1
+        this.item.Uses = (this.item.Uses || 0) + (deployable.Cost || 1)
       }
       const inst = deployable.Instances || 1
       for (let index = 0; index < inst; index++) {
