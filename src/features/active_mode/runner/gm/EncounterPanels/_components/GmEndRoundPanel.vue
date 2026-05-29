@@ -188,6 +188,7 @@ export default {
     },
     getStatusTarget(actorID, testName) {
       const target = this.activeActors.find((c) => c.Parent.ID === actorID);
+      if (!target) return 'Unknown';
       let name = target.CombatName || 'Unknown';
       if (testName && target.CombatName === testName) {
         name = 'their';

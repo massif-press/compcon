@@ -116,6 +116,8 @@ function cleanName(patron: any) {
   if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim()
   if (!patron.name) return cr.anonymousPatron
   const name = patron.name.trim()
+  if (name === 'John Barker') return 'The Upgrade Factory'
+
   if (name.includes(' ')) {
     const arr = name.split(' ')
     return arr.map((x: string, i: number) => i === arr.length - 1 ? x.substring(0, 1) + '.' : x).join(' ')
